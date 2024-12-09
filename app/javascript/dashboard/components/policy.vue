@@ -1,23 +1,31 @@
 <script setup>
-import { useStoreGetters } from 'dashboard/composables/store';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 import { computed } from 'vue';
-import { hasPermissions } from '../helper/permissionsHelper';
+
 const props = defineProps({
+  as: {
+    type: String,
+    default: 'div',
+  },
   permissions: {
     type: Array,
     required: true,
   },
+  featureFlag: {
+    type: String,
+    default: null,
+  },
 });
 
-const getters = useStoreGetters();
-const user = getters.getCurrentUser.value;
-const hasPermission = computed(() =>
-  hasPermissions(props.permissions, user.permissions)
-);
+const { checkFeatureAllowed, checkPermissions } = usePolicy();
+
+const isFeatureAllowed = computed(() => checkFeatureAllowed(props.featureFlag));
+const hasPermission = computed(() => checkPermissions(props.permissions));
 </script>
 
+<!-- eslint-disable vue/no-root-v-if -->
 <template>
-  <div v-if="hasPermission">
+  <component :is="as" v-if="isFeatureAllowed && hasPermission">
     <slot />
-  </div>
+  </component>
 </template>

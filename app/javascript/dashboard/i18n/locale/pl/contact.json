@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Podsumowanie",
-      "DELETE_WARNING": "Kontakt <strong>%{primaryContactName}</strong> zostanie usunięty.",
-      "ATTRIBUTE_WARNING": "Dane kontaktowe z <strong>%{primaryContactName}</strong> zostaną skopiowane do <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Kontakt <strong>{primaryContactName}</strong> zostanie usunięty.",
+      "ATTRIBUTE_WARNING": "Dane kontaktowe z <strong>{primaryContactName}</strong> zostaną skopiowane do <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "Błąd"
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Kontakty zostały pomyślnie połączone",
       "ERROR_MESSAGE": "Nie można połączyć kontaktów. Spróbuj ponownie!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

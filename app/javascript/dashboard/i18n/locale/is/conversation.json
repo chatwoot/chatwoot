@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Enginn",
         "INPUT_PLACEHOLDER": "Select priority",
         "NO_RESULTS": "Engar niðurstöður fundust",
-        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
         "FAILED": "Couldn't change priority. Please try again."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Assign team",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Samtalsauðkenni %{conversationId} úthlutað á „%{agentName}“",
+          "SUCCESFUL": "Samtalsauðkenni {conversationId} úthlutað á „{agentName}“",
           "FAILED": "Couldn't assign agent. Please try again."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Úthlutaði flokki #%{labelName} á samtalsauðkenni %{conversationId}",
+          "SUCCESFUL": "Úthlutaði flokki #{labelName} á samtalsauðkenni {conversationId}",
           "FAILED": "Couldn't assign label. Please try again."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Úthlutaði teymi #%{team} á samtalsauðkenni %{conversationId}",
+          "SUCCESFUL": "Úthlutaði teymi #{team} á samtalsauðkenni {conversationId}",
           "FAILED": "Couldn't assign team. Please try again."
         }
       }
@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + enter fyrir nýja línu. Byrjaðu á '/' til að velja tilbúið svar.",
       "PRIVATE_MSG_INPUT": "Shift + enter fyrir nýja línu. Þetta verður aðeins sýnilegt fyrir þjónustufulltrúa",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Skilaboðundirskrift er ekki stillt, vinsamlegast stilltu hana í prófílstillingum.",
-      "CLICK_HERE": "Click here to update"
+      "CLICK_HERE": "Click here to update",
+      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
     "REPLYBOX": {
       "REPLY": "Reply",
@@ -238,27 +239,31 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Velkomin/n á %{installationName}!",
-    "DESCRIPTION": "Takk fyrir að skrá þig. Við viljum að þú fáir sem mest út úr %{installationName}. Hér eru nokkur atriði sem þú getur gert í %{installationName} til að gera upplifunina ánægjulega.",
+    "TITLE": "Velkomin/n á {installationName}!",
+    "DESCRIPTION": "Takk fyrir að skrá þig. Við viljum að þú fáir sem mest út úr {installationName}. Hér eru nokkur atriði sem þú getur gert í {installationName} til að gera upplifunina ánægjulega.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Sjáðu nýjustu uppfærslurnar okkar",
     "ALL_CONVERSATION": {
       "TITLE": "Öll samtölin þin á einum stað",
-      "DESCRIPTION": "Skoðaðu öll samtöl viðskiptavina þinna á einu mælaborði. Þú getur síað samtölin eftir innkominni rás, merkingu og stöðu."
+      "DESCRIPTION": "Skoðaðu öll samtöl viðskiptavina þinna á einu mælaborði. Þú getur síað samtölin eftir innkominni rás, merkingu og stöðu.",
+      "NEW_LINK": "Smelltu hér til að bæta við innhólfi"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Bjóða í teymið",
       "DESCRIPTION": "Þar sem þú ert að búa þig undir að tala við viðskiptavini þína skaltu fá samstarfsfélaga þína til að aðstoða þig. Þú getur boðið samstarfsfélögum þínum með því að bæta netföngum þeirra við þjónustufulltrúalistann.",
       "NEW_LINK": "Smelltu hér til að bjóða meðlim í teymið"
     },
-    "INBOXES": {
-      "TITLE": "Tengja Innhólf",
-      "DESCRIPTION": "Tengdu ýmsar rásir þar sem viðskiptavinir þínir myndu tala við þig. Það getur verið netspjall á vefsíðu, Facebook eða Twitter síðan þín eða jafnvel WhatsApp númerið þitt.",
-      "NEW_LINK": "Smelltu hér til að bæta við innhólfi"
-    },
     "LABELS": {
       "TITLE": "Flokkaðu samtöl með merkjum",
       "DESCRIPTION": "Merkingar eru auðveldari leið til að flokka samtalið þitt. Búðu til merki eins og #support-enquiry, #billing-question o.s.frv., svo þú getir notað þau í samtali síðar.",
       "NEW_LINK": "Smelltu hér til að búa til merki"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -312,10 +317,10 @@
     "SIDEBAR_TITLE": "Conversation participants",
     "NO_RECORDS_FOUND": "Engar niðurstöður fundust",
     "ADD_PARTICIPANTS": "Select participants",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
     "NO_PARTICIPANTS_TEXT": "No one is participating!.",
     "WATCH_CONVERSATION": "Join conversation",
     "YOU_ARE_WATCHING": "You are participating",

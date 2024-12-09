@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{primaryContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{primaryContactName}</strong> will be copied to <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Contact of <strong>{primaryContactName}</strong> will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>{primaryContactName}</strong> will be copied to <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Contact merged successfully",
       "ERROR_MESSAGE": "Could not merge contacts, try again!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

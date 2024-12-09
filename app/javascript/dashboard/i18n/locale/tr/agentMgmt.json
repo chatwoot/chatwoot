@@ -3,7 +3,8 @@
     "HEADER": "Kullanıcılar",
     "HEADER_BTN_TXT": "Kullanıcı Ekle",
     "LOADING": "Kullanıcı Listesi Alınıyor",
-    "SIDEBAR_TXT": "<p><b>Alanlar</b> </p> <p> Bir <b> Temsilci </b>, Müşteri Destek ekibinizin bir üyesidir. </p> <p> Temsilciler, kullanıcılarınızdan gelen mesajları görüntüleyebilecek ve yanıtlayabilecek. Liste, şu anda hesabınızda bulunan tüm aracıları gösterir. </p> <p> Yeni bir temsilci eklemek için <b> Temsilci Ekle </b> 'yi tıklayın. Eklediğiniz temsilci, hesabını etkinleştirmek için bir onay bağlantısı içeren bir e-posta alacak ve ardından Chatwoot'a erişebilecek ve mesajlara yanıt verebilecek. </p> <p> Chatwoot'un özelliklerine erişim aşağıdaki rollere bağlıdır. </p> <p> <b> Temsilci </b> - Bu role sahip temsilciler yalnızca gelen kutularına, raporlara ve konuşmalara erişebilir. Görüşmeleri başka aracılara veya kendilerine atayabilir ve görüşmeleri çözebilirler. </p> <p> <b> Yönetici </b> - Yönetici, ayarlar da dahil olmak üzere hesabınız için etkinleştirilmiş tüm Chatwoot özelliklerine ve tüm normal temsilcilerin ayrıcalıkları. </p>",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Yönetici",
       "AGENT": "Kullanıcı"
@@ -17,7 +18,8 @@
       "STATUS": "Durum",
       "ACTIONS": "Hareketler",
       "VERIFIED": "Doğrulandı",
-      "VERIFICATION_PENDING": "Doğrulama Bekleniyor"
+      "VERIFICATION_PENDING": "Doğrulama Bekleniyor",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Ekibinize temsilci ekleyin",

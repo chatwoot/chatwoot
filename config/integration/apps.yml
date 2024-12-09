@@ -29,29 +29,11 @@ captain:
   }
   settings_form_schema: [
     {
-      "label": "Access Token",
+      "label": "Inbox Ids",
       "type": "text",
-      "name": "access_token",
-      "validation": "required",
+      "name": "inbox_ids",
+      "validation": "",
     },
-    {
-      "label": "Account ID",
-      "type": "text",
-      "name": "account_id",
-      "validation": "required",
-    },
-    {
-      "label": "Account Email",
-      "type": "text",
-      "name": "account_email",
-      "validation": "required",
-    },
-    {
-      "label": "Assistant Id",
-      "type": "text",
-      "name": "assistant_id",
-      "validation": "required",
-    }
   ]
   visible_properties: []
 webhooks:

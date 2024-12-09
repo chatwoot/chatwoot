@@ -18,6 +18,7 @@
       "AND": "DAN",
       "OR": "ATAU"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Sama dengan",
       "not_equal_to": "Tidak sama dengan",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Kotak centang",
       "CREATED_AT": "Dibuat pada",
       "LAST_ACTIVITY": "Aktivitas terakhir"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Nilai dibutuhkan"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",

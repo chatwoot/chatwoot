@@ -34,6 +34,7 @@ export default {
       default: true,
     },
   },
+  emits: ['contactPanelToggle'],
   data() {
     return { activeIndex: 0 };
   },
@@ -46,10 +47,12 @@ export default {
       return [
         {
           key: 'messages',
+          index: 0,
           name: this.$t('CONVERSATION.DASHBOARD_APP_TAB_MESSAGES'),
         },
-        ...this.dashboardApps.map(dashboardApp => ({
+        ...this.dashboardApps.map((dashboardApp, index) => ({
           key: `dashboard-${dashboardApp.id}`,
+          index: index + 1,
           name: dashboardApp.title,
         })),
       ];
@@ -59,10 +62,13 @@ export default {
     },
   },
   watch: {
-    'currentChat.inbox_id'(inboxId) {
-      if (inboxId) {
-        this.$store.dispatch('inboxAssignableAgents/fetch', [inboxId]);
-      }
+    'currentChat.inbox_id': {
+      immediate: true,
+      handler(inboxId) {
+        if (inboxId) {
+          this.$store.dispatch('inboxAssignableAgents/fetch', [inboxId]);
+        }
+      },
     },
     'currentChat.id'() {
       this.fetchLabels();
@@ -101,7 +107,7 @@ export default {
       :is-inbox-view="isInboxView"
       :is-contact-panel-open="isContactPanelOpen"
       :show-back-button="isOnExpandedLayout && !isInboxView"
-      @contactPanelToggle="onToggleContactPanel"
+      @contact-panel-toggle="onToggleContactPanel"
     />
     <woot-tabs
       v-if="dashboardApps.length && currentChat.id"
@@ -112,6 +118,7 @@ export default {
       <woot-tabs-item
         v-for="tab in dashboardAppTabs"
         :key="tab.key"
+        :index="tab.index"
         :name="tab.name"
         :show-badge="false"
       />
@@ -125,7 +132,7 @@ export default {
         :inbox-id="inboxId"
         :is-inbox-view="isInboxView"
         :is-contact-panel-open="isContactPanelOpen"
-        @contactPanelToggle="onToggleContactPanel"
+        @contact-panel-toggle="onToggleContactPanel"
       />
       <EmptyState
         v-if="!currentChat.id && !isInboxView"

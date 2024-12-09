@@ -23,13 +23,13 @@
         "NAME": "Eerste reactietijd",
         "DESC": "(Gem. )",
         "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
-        "TOOLTIP_TEXT": "Eerste Reactie Tijd is %{metricValue} (gebaseerd op %{conversationCount} gesprekken)"
+        "TOOLTIP_TEXT": "Eerste Reactie Tijd is {metricValue} (gebaseerd op {conversationCount} gesprekken)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolutie Tijd",
         "DESC": "(Gem. )",
         "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Aantal Resoluties",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -167,13 +167,13 @@
         "NAME": "Eerste reactietijd",
         "DESC": "(Gem. )",
         "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
-        "TOOLTIP_TEXT": "Eerste Reactie Tijd is %{metricValue} (gebaseerd op %{conversationCount} gesprekken)"
+        "TOOLTIP_TEXT": "Eerste Reactie Tijd is {metricValue} (gebaseerd op {conversationCount} gesprekken)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolutie Tijd",
         "DESC": "(Gem. )",
         "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Aantal Resoluties",
@@ -234,13 +234,13 @@
         "NAME": "Eerste reactietijd",
         "DESC": "(Gem. )",
         "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
-        "TOOLTIP_TEXT": "Eerste Reactie Tijd is %{metricValue} (gebaseerd op %{conversationCount} gesprekken)"
+        "TOOLTIP_TEXT": "Eerste Reactie Tijd is {metricValue} (gebaseerd op {conversationCount} gesprekken)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolutie Tijd",
         "DESC": "(Gem. )",
         "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Aantal Resoluties",
@@ -301,13 +301,13 @@
         "NAME": "Eerste reactietijd",
         "DESC": "(Gem. )",
         "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
-        "TOOLTIP_TEXT": "Eerste Reactie Tijd is %{metricValue} (gebaseerd op %{conversationCount} gesprekken)"
+        "TOOLTIP_TEXT": "Eerste Reactie Tijd is {metricValue} (gebaseerd op {conversationCount} gesprekken)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolutie Tijd",
         "DESC": "(Gem. )",
         "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Aantal Resoluties",
@@ -368,13 +368,13 @@
         "NAME": "Eerste reactietijd",
         "DESC": "(Gem. )",
         "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
-        "TOOLTIP_TEXT": "Eerste Reactie Tijd is %{metricValue} (gebaseerd op %{conversationCount} gesprekken)"
+        "TOOLTIP_TEXT": "Eerste Reactie Tijd is {metricValue} (gebaseerd op {conversationCount} gesprekken)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolutie Tijd",
         "DESC": "(Gem. )",
         "INFO_TEXT": "Totaal aantal conversaties gebruikt voor berekening:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Aantal Resoluties",
@@ -480,8 +480,9 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
       "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversations by agents",
@@ -536,6 +537,7 @@
       "LABELS": "Label",
       "TEAMS": "Team"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

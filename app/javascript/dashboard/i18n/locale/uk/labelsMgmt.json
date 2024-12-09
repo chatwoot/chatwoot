@@ -3,8 +3,9 @@
     "HEADER": "Мітки",
     "HEADER_BTN_TXT": "Додати мітку",
     "LOADING": "Отримання міток",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "Немає елементів, що відповідають запиту",
-    "SIDEBAR_TXT": "<p><b>Мітки</b> <p>Мітки допомагають вам розділити розмови та визначити пріоритети. Ви можете призначати мітку до розмови з панелі завдань. <br /><br />Мітки зв'язані з обліковим записом і можуть бути використані для створення користувацьких робочих процесів у вашій організації. Ви можете призначати користувацький колір до мітки, це полегшує визначення мітки. Ви зможете відображати мітку на бічній панелі, щоб легко відфільтрувати розмови.</p>",
     "LIST": {
       "404": "У цьому акаунті немає міток.",
       "TITLE": "Керувати мітками",
@@ -49,7 +50,8 @@
       "DISMISS": "Відхилити",
       "ADD_SELECTED_LABELS": "Додати вибрані мітки",
       "ADD_SELECTED_LABEL": "Додати вибрану мітку",
-      "ADD_ALL_LABELS": "Додати всі мітки"
+      "ADD_ALL_LABELS": "Додати всі мітки",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Додати мітку",

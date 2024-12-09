@@ -41,14 +41,14 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "عدد الأيام للتذكرة التي يجب أن يتم حلها تلقائياً إذا لم يكن هناك أي نشاط",
         "PLACEHOLDER": "30",
-        "ERROR": "الرجاء إدخال مدة حل تلقائي صالحة (حد أدنى 1 يوم والحد الأقصى 999 يوما)"
+        "ERROR": "الرجاء إدخال مدة صالحة للحل تلقائي (حد أدنى 1 يوم والحد الأقصى 999 يوما)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "الاستمرار في المحادثة عبر رسائل البريد الإلكتروني مفعّل لحسابك.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "يمكنك تلقي رسائل البريد الإلكتروني في النطاق المخصص الخاص بك الآن."
       }
     },
-    "UPDATE_CHATWOOT": "يتوفر تحديث %{latestChatwootVersion} لـ Chatwoot. الرجاء التحديث.",
+    "UPDATE_CHATWOOT": "يتوفر تحديث {latestChatwootVersion} لـ Chatwoot. الرجاء التحديث.",
     "LEARN_MORE": "اعرف المزيد",
     "PAYMENT_PENDING": "الدفعة الخاصة بك معلقة. الرجاء تحديث معلومات الدفع الخاصة بك للاستمرار في استخدام Chatwoot",
     "LIMITS_UPGRADE": "لقد تجاوز حسابك حدود الاستخدام، يرجى ترقية خطتك للاستمرار في استخدام Chatwoot",
@@ -64,16 +64,16 @@
   },
   "NOTIFICATIONS_PAGE": {
     "HEADER": "الإشعارات",
-    "MARK_ALL_DONE": "وضع علامة على جميع المنجز",
+    "MARK_ALL_DONE": "وضع علامة منجز على الجميع",
     "DELETE_TITLE": "تم الحذف",
     "UNREAD_NOTIFICATION": {
       "TITLE": "إشعارات غير مقروءة",
       "ALL_NOTIFICATIONS": "عرض جميع الإشعارات",
-      "LOADING_UNREAD_MESSAGE": "تحميل الإشعارات الغير مقروءة...",
+      "LOADING_UNREAD_MESSAGE": "جار جلب الإشعارات الغير مقروءة...",
       "EMPTY_MESSAGE": "ليس لديك إشعارات غير مقروءة"
     },
     "LIST": {
-      "LOADING_MESSAGE": "جاري تحميل الإشعارات...",
+      "LOADING_MESSAGE": "جاري جلب الإشعارات...",
       "404": "لا يوجد إشعارات",
       "TABLE_HEADER": [
         "الاسم",
@@ -114,8 +114,8 @@
       "CHANGE_PRIORITY": "تغيير الأولوية",
       "CHANGE_TEAM": "تغيير الفريق",
       "SNOOZE_CONVERSATION": "تأجيل المحادثة",
-      "ADD_LABEL": "إضافة تسمية إلى المحادثة",
-      "REMOVE_LABEL": "إزالة التسمية من المحادثة",
+      "ADD_LABEL": "إضافة وسم إلى المحادثة",
+      "REMOVE_LABEL": "إزالة الوسم من المحادثة",
       "SETTINGS": "الإعدادات",
       "AI_ASSIST": "مساعدة AI",
       "APPEARANCE": "المظهر",
@@ -127,26 +127,26 @@
       "GO_TO_REPORTS_OVERVIEW": "الذهاب إلى نظرة التقارير العامة",
       "GO_TO_CONVERSATION_REPORTS": "الذهاب إلى تقارير المحادثات",
       "GO_TO_AGENT_REPORTS": "الذهاب إلى تقارير الوكيل",
-      "GO_TO_LABEL_REPORTS": "انتقل إلى تقارير التسمية",
+      "GO_TO_LABEL_REPORTS": "انتقل إلى تقارير الوسم",
       "GO_TO_INBOX_REPORTS": "الذهاب إلى تقارير صندوق الوارد",
       "GO_TO_TEAM_REPORTS": "الذهاب إلى تقارير الفريق",
       "GO_TO_SETTINGS_AGENTS": "الذهاب إلى إعدادات الوكيل",
       "GO_TO_SETTINGS_TEAMS": "الذهاب إلى إعدادات الفريق",
       "GO_TO_SETTINGS_INBOXES": "الذهاب إلى إعدادات الصندوق الوارد",
-      "GO_TO_SETTINGS_LABELS": "الذهاب إلى إعدادات التسمية",
+      "GO_TO_SETTINGS_LABELS": "الذهاب إلى إعدادات الوسم",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "انتقل إلى إعدادات الردود الجاهزة",
       "GO_TO_SETTINGS_APPLICATIONS": "الذهاب إلى إعدادات التطبيق",
       "GO_TO_SETTINGS_ACCOUNT": "الذهاب إلى إعدادات الحساب",
       "GO_TO_SETTINGS_PROFILE": "الذهاب إلى إعدادات الملف الشخصي",
       "GO_TO_NOTIFICATIONS": "الذهاب إلى الإشعارات",
-      "ADD_LABELS_TO_CONVERSATION": "إضافة تسمية إلى المحادثة",
+      "ADD_LABELS_TO_CONVERSATION": "إضافة وسم إلى المحادثة",
       "ASSIGN_AN_AGENT": "تعيين وكيل",
       "AI_ASSIST": "مساعدة AI",
       "ASSIGN_PRIORITY": "تعيين الأولوية",
       "ASSIGN_A_TEAM": "تعيين فريق",
       "MUTE_CONVERSATION": "كتم المحادثة",
       "UNMUTE_CONVERSATION": "إلغاء كتم المحادثة",
-      "REMOVE_LABEL_FROM_CONVERSATION": "إزالة التسمية من المحادثة",
+      "REMOVE_LABEL_FROM_CONVERSATION": "إزالة الوسم من المحادثة",
       "REOPEN_CONVERSATION": "إعادة فتح المحادثة",
       "RESOLVE_CONVERSATION": "حل المحادثة",
       "SEND_TRANSCRIPT": "إرسال نسخة نصية للبريد الإلكتروني",
@@ -160,12 +160,12 @@
       "CHANGE_APPEARANCE": "تغيير المظهر",
       "LIGHT_MODE": "فاتح",
       "DARK_MODE": "مظلم",
-      "SYSTEM_MODE": "نظام",
+      "SYSTEM_MODE": "النظام",
       "SNOOZE_NOTIFICATION": "تأجيل الإشعارات"
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "تحميل تطبيق لوحة التحكم..."
+    "LOADING_MESSAGE": "جاري جلب تطبيق لوحة التحكم..."
   },
   "COMMON": {
     "OR": "أو",

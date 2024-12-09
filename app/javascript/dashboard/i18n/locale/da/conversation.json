@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Ingen",
         "INPUT_PLACEHOLDER": "Select priority",
         "NO_RESULTS": "Ingen resultater fundet",
-        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
         "FAILED": "Couldn't change priority. Please try again."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Tildel team",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Samtale id %{conversationId} tildelt \"%{agentName}\"",
+          "SUCCESFUL": "Samtale id {conversationId} tildelt \"{agentName}\"",
           "FAILED": "Kunne ikke tildele agent. Prøv venligst igen."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Tildelt etiket #%{labelName} til samtale-id %{conversationId}",
+          "SUCCESFUL": "Tildelt etiket #{labelName} til samtale-id {conversationId}",
           "FAILED": "Kunne ikke tildele etiket. Prøv venligst igen."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Tildelt team \"%{team}\" til samtale-id %{conversationId}",
+          "SUCCESFUL": "Tildelt team \"{team}\" til samtale-id {conversationId}",
           "FAILED": "Kunne ikke tildele team. Prøv venligst igen."
         }
       }
@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + enter for ny linje. Start med '/' for at vælge et standardsvar.",
       "PRIVATE_MSG_INPUT": "Shift + enter for ny linje. Dette vil kun være synligt for Agenter",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Beskedsignatur er ikke konfigureret, konfigurer den i profilindstillinger.",
-      "CLICK_HERE": "Klik her for at opdatere"
+      "CLICK_HERE": "Klik her for at opdatere",
+      "WHATSAPP_TEMPLATES": "Whatsapp Skabeloner"
     },
     "REPLYBOX": {
       "REPLY": "Svar",
@@ -238,27 +239,31 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hej 👋, Velkommen til %{installationName}!",
-    "DESCRIPTION": "Tak for din tilmelding. Vi vil have dig til at få mest muligt ud af %{installationName}. Her er et par ting, du kan gøre i %{installationName} for at gøre oplevelsen dejlig.",
+    "TITLE": "Hej 👋, Velkommen til {installationName}!",
+    "DESCRIPTION": "Tak for din tilmelding. Vi vil have dig til at få mest muligt ud af {installationName}. Her er et par ting, du kan gøre i {installationName} for at gøre oplevelsen dejlig.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Læs vores seneste opdateringer",
     "ALL_CONVERSATION": {
       "TITLE": "Alle dine samtaler på ét sted",
-      "DESCRIPTION": "Se alle samtaler fra dine kunder på et enkelt betjeningspanel. Du kan filtrere samtaler efter indgående kanal, etiket og status."
+      "DESCRIPTION": "Se alle samtaler fra dine kunder på et enkelt betjeningspanel. Du kan filtrere samtaler efter indgående kanal, etiket og status.",
+      "NEW_LINK": "Klik her for at oprette en indbakke"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Inviter dine teammedlemmer",
       "DESCRIPTION": "Da du er ved at blive klar til at tale med din kunde, skal du medbringe dine holdkammerater for at hjælpe dig. Du kan invitere dine holdkammerater ved at tilføje deres e-mailadresser til agentlisten.",
       "NEW_LINK": "Klik her for at invitere et teammedlem"
     },
-    "INBOXES": {
-      "TITLE": "Forbind Indbakker",
-      "DESCRIPTION": "Tilslut forskellige kanaler, hvorigennem dine kunder ville tale med dig. Det kan være en hjemmeside live-chat, din Facebook eller Twitter side eller endda dit WhatsApp nummer.",
-      "NEW_LINK": "Klik her for at oprette en indbakke"
-    },
     "LABELS": {
       "TITLE": "Organiser samtaler med etiketter",
       "DESCRIPTION": "Etiketter giver en lettere måde at kategorisere din samtale. Opret nogle etiketter som #support-forespørgsel, #billing-spørgsmål osv., så du kan bruge dem i en samtale senere.",
       "NEW_LINK": "Klik her for at oprette tags"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -312,10 +317,10 @@
     "SIDEBAR_TITLE": "Conversation participants",
     "NO_RECORDS_FOUND": "Ingen resultater fundet",
     "ADD_PARTICIPANTS": "Select participants",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
     "NO_PARTICIPANTS_TEXT": "No one is participating!.",
     "WATCH_CONVERSATION": "Join conversation",
     "YOU_ARE_WATCHING": "You are participating",

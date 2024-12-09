@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import { useAlert } from 'dashboard/composables';
 import { useToggle } from '@vueuse/core';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
@@ -13,13 +13,12 @@ import wootConstants from 'dashboard/constants/globals';
 import {
   CMD_REOPEN_CONVERSATION,
   CMD_RESOLVE_CONVERSATION,
-} from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
+} from 'dashboard/helper/commandbar/events';
 
 const store = useStore();
 const getters = useStoreGetters();
 const { t } = useI18n();
 
-const resolveActionsRef = ref(null);
 const arrowDownButtonRef = ref(null);
 const isLoading = ref(false);
 
@@ -131,17 +130,14 @@ const keyboardEvents = {
   },
 };
 
-useKeyboardEvents(keyboardEvents, resolveActionsRef);
+useKeyboardEvents(keyboardEvents);
 
 useEmitter(CMD_REOPEN_CONVERSATION, onCmdOpenConversation);
 useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
 </script>
 
 <template>
-  <div
-    ref="resolveActionsRef"
-    class="relative flex items-center justify-end resolve-actions"
-  >
+  <div class="relative flex items-center justify-end resolve-actions">
     <div class="button-group">
       <woot-button
         v-if="isOpen"

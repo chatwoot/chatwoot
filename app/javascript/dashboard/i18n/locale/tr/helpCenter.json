@@ -41,7 +41,8 @@
         "UPLOADING": "Yükleniyor...",
         "SUCCESS": "Resim başarıyla yüklendi",
         "ERROR": "Resim yüklenirken hata oluştu",
-        "ERROR_FILE_SIZE": "Resim boyutu %{size}MB'dan küçük olmalıdır",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
+        "ERROR_FILE_SIZE": "Resim boyutu {size}MB'dan küçük olmalıdır",
         "ERROR_FILE_FORMAT": "Resim formatı jpg, jpeg veya png olmalıdır",
         "ERROR_FILE_DIMENSIONS": "Resim boyutları 2000 x 2000'den küçük olmalıdır"
       }
@@ -83,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Kategorize Edilmemiş",
-      "SEARCH_RESULTS": "%{query} için arama sonuçları",
+      "SEARCH_RESULTS": "{query} için arama sonuçları",
       "EMPTY_TEXT": "Cevaplarına eklemek için makale arayın.",
       "SEARCH_LOADER": "Aranıyor...",
       "INSERT_ARTICLE": "Ekle",
@@ -481,6 +482,7 @@
           "DESCRIPTION": "API'larımızı kullanarak portali başsız bir CMS olarak üçüncü taraf ön yüz çerçeveleriyle kullanın."
         }
       }
-    }
+    },
+    "LOADING": "Loading..."
   }
 }

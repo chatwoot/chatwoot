@@ -18,6 +18,7 @@
       "AND": "VÀ",
       "OR": "HOẶC"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Bằng",
       "not_equal_to": "Không bằng",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Hộp kiểm",
       "CREATED_AT": "Tạo vào lúc",
       "LAST_ACTIVITY": "Hành động cuối cùng"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Giá trị bắt buộc có"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Bộ lọc tiêu chuẩn",

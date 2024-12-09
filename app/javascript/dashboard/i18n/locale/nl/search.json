@@ -11,8 +11,9 @@
       "CONVERSATIONS": "Gesprekken",
       "MESSAGES": "Berichten"
     },
-    "EMPTY_STATE": "Geen %{item} gevonden voor query '%{query}'",
-    "EMPTY_STATE_FULL": "Geen resultaten gevonden voor query '%{query}'",
+    "SEARCHING_DATA": "Zoeken",
+    "EMPTY_STATE": "Geen {item} gevonden voor query '{query}'",
+    "EMPTY_STATE_FULL": "Geen resultaten gevonden voor query '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ om te focussen",
     "INPUT_PLACEHOLDER": "Voer 3 of meer tekens in om te zoeken",
     "EMPTY_STATE_DEFAULT": "Zoeken op gesprek id, e-mail, telefoonnummer, berichten voor betere zoekresultaten. ",

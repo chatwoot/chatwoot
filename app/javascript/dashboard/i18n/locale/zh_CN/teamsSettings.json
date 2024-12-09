@@ -2,10 +2,13 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "创建新团队",
     "HEADER": "团队",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "编辑团队"
+      "EDIT_TEAM": "编辑团队",
+      "NONE": "啥都没有"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -14,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "添加客服至您的团队",
-        "TITLE": "添加客服至您的团队 - %{teamName}",
+        "TITLE": "添加客服至您的团队 - {teamName}",
         "DESC": "添加客服到您新创建的团队。这让您能够作为一个团队在对话中进行合作，在同一对话中获得新事件的通知。"
       },
       "WIZARD": [
@@ -43,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "团队中更新客服",
-        "TITLE": "添加客服至您的团队 - %{teamName}",
+        "TITLE": "添加客服至您的团队 - {teamName}",
         "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
       },
       "WIZARD": [
@@ -74,14 +77,14 @@
       "ADD_AGENTS": "正在向收件箱添加客服...",
       "SELECT": "选择",
       "SELECT_ALL": "选择全部客服",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "SELECTED_COUNT": "{selected} out of {total} agents selected."
     },
     "ADD": {
-      "TITLE": "添加客服至您的团队 - %{teamName}",
+      "TITLE": "添加客服至您的团队 - {teamName}",
       "DESC": "添加客服到您新创建的团队。这让您能够作为一个团队在对话中进行合作，在同一对话中获得新事件的通知。",
       "SELECT": "选择",
       "SELECT_ALL": "选择全部客服",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "SELECTED_COUNT": "{selected} out of {total} agents selected.",
       "BUTTON_TEXT": "添加客服代理",
       "AGENT_VALIDATION_ERROR": "至少选择一个客服。"
     },
@@ -97,7 +100,7 @@
         "ERROR_MESSAGE": "无法删除团队，请重试！"
       },
       "CONFIRM": {
-        "TITLE": "您确定要删除 - %{teamName}",
+        "TITLE": "Are you sure you want to delete the team?",
         "PLACE_HOLDER": "请输入 {teamName} 以确认",
         "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
         "YES": "删除 ",

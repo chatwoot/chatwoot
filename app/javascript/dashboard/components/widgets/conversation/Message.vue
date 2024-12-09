@@ -1,5 +1,5 @@
 <script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import BubbleActions from './bubble/Actions.vue';
 import BubbleContact from './bubble/Contact.vue';
 import BubbleFile from './bubble/File.vue';
@@ -21,7 +21,9 @@ import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { getDayDifferenceFromNow } from 'shared/helpers/DateHelper';
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/vue';
+import { useTrack } from 'dashboard/composables';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
@@ -39,7 +41,6 @@ export default {
     InstagramStoryReply,
     Spinner,
   },
-  mixins: [messageFormatterMixin],
   props: {
     data: {
       type: Object,
@@ -73,6 +74,12 @@ export default {
       type: Object,
       default: () => ({}),
     },
+  },
+  setup() {
+    const { formatMessage } = useMessageFormatter();
+    return {
+      formatMessage,
+    };
   },
   data() {
     return {
@@ -344,11 +351,11 @@ export default {
   },
   mounted() {
     this.hasMediaLoadError = false;
-    this.$emitter.on(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
+    emitter.on(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
     this.setupHighlightTimer();
   },
-  beforeDestroy() {
-    this.$emitter.off(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
+  unmounted() {
+    emitter.off(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
     clearTimeout(this.higlightTimeout);
   },
   methods: {
@@ -360,9 +367,6 @@ export default {
     hasMediaAttachment(type) {
       if (this.hasAttachments && this.data.attachments.length > 0) {
         return this.compareMessageFileType(this.data, type);
-      }
-      if (this.storyReply) {
-        return true;
       }
       return false;
     },
@@ -401,7 +405,7 @@ export default {
 
       e.preventDefault();
       if (e.type === 'contextmenu') {
-        this.$track(ACCOUNT_EVENTS.OPEN_MESSAGE_CONTEXT_MENU);
+        useTrack(ACCOUNT_EVENTS.OPEN_MESSAGE_CONTEXT_MENU);
       }
       this.contextMenuPosition = {
         x: e.pageX || e.clientX,
@@ -418,7 +422,7 @@ export default {
       const { conversation_id: conversationId, id: replyTo } = this.data;
 
       LocalStorage.updateJsonStore(replyStorageKey, conversationId, replyTo);
-      this.$emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.data);
+      emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.data);
     },
     setupHighlightTimer() {
       if (Number(this.$route.query.messageId) !== Number(this.data.id)) {
@@ -435,11 +439,12 @@ export default {
 };
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <li
     v-if="shouldRenderMessage"
     :id="`message${data.id}`"
-    class="group"
+    class="group/context-menu"
     :class="[alignBubble]"
   >
     <div :class="wrapClass">
@@ -563,10 +568,7 @@ export default {
         </a>
       </div>
     </div>
-    <div
-      v-if="shouldShowContextMenu"
-      class="invisible context-menu-wrap group-hover:visible"
-    >
+    <div v-if="shouldShowContextMenu" class="context-menu-wrap">
       <ContextMenu
         v-if="isBubble && !isMessageDeleted"
         :context-menu-position="contextMenuPosition"
@@ -575,7 +577,7 @@ export default {
         :message="data"
         @open="openContextMenu"
         @close="closeContextMenu"
-        @replyTo="handleReplyTo"
+        @reply-to="handleReplyTo"
       />
     </div>
   </li>

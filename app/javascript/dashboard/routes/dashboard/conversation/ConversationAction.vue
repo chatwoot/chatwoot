@@ -2,12 +2,13 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import { useAgentsList } from 'dashboard/composables/useAgentsList';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import ConversationLabels from './labels/LabelBox.vue';
-import agentMixin from 'dashboard/mixins/agentMixin';
 import { CONVERSATION_PRIORITY } from '../../../../shared/constants/messages';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import { useTrack } from 'dashboard/composables';
 
 export default {
   components: {
@@ -15,19 +16,17 @@ export default {
     MultiselectDropdown,
     ConversationLabels,
   },
-  mixins: [agentMixin],
   props: {
     conversationId: {
       type: [Number, String],
       required: true,
     },
-    // inboxId prop is used in /mixins/agentMixin,
-    // remove this props when refactoring to composable if not needed
-    // eslint-disable-next-line vue/no-unused-properties
-    inboxId: {
-      type: Number,
-      default: undefined,
-    },
+  },
+  setup() {
+    const { agentsList } = useAgentsList();
+    return {
+      agentsList,
+    };
   },
   data() {
     return {
@@ -130,7 +129,7 @@ export default {
         this.$store
           .dispatch('assignPriority', { conversationId, priority })
           .then(() => {
-            this.$track(CONVERSATION_EVENTS.CHANGE_PRIORITY, {
+            useTrack(CONVERSATION_EVENTS.CHANGE_PRIORITY, {
               oldValue,
               newValue: priority,
               from: 'Conversation Sidebar',
@@ -235,7 +234,7 @@ export default {
         :input-placeholder="
           $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.AGENT')
         "
-        @click="onClickAssignAgent"
+        @select="onClickAssignAgent"
       />
     </div>
     <div class="multiselect-wrap--small">
@@ -254,7 +253,7 @@ export default {
         :input-placeholder="
           $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.INPUT')
         "
-        @click="onClickAssignTeam"
+        @select="onClickAssignTeam"
       />
     </div>
     <div class="multiselect-wrap--small">
@@ -272,7 +271,7 @@ export default {
         :input-placeholder="
           $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.INPUT_PLACEHOLDER')
         "
-        @click="onClickAssignPriority"
+        @select="onClickAssignPriority"
       />
     </div>
     <ContactDetailsItem

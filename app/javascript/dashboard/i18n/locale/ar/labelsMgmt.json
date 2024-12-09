@@ -3,10 +3,11 @@
     "HEADER": "الوسوم",
     "HEADER_BTN_TXT": "إضافة وسم جديد",
     "LOADING": "جار جلب الوسوم",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "معرفة المزيد حول التسميات",
     "SEARCH_404": "لا توجد عناصر مطابقة لهذا الاستعلام",
-    "SIDEBAR_TXT": "<p><b>الوسوم</b> <p>تساعدك الوسو على تصنيف المحادثات وإعطائها الأولوية. يمكنك تعيين وسم إلى محادثة من القائمة الجانبية. <br /><br />الوسوم مرتبطة بالحساب ويمكن استخدامها لإنشاء سير عمل مخصص في مؤسستك. يمكنك تعيين لون مخصص للوسم، مما يسهل التعرف على الوسم. ستتمكن من عرض الوسم على الشريط الجانبي لتصفية المحادثات بسهولة.</p>",
     "LIST": {
-      "404": "لا يوجد وسوم متوفرة في هذا الحساب.",
+      "404": "لا توجد وسوم متوفرة في هذا الحساب.",
       "TITLE": "إدارة الوسوم",
       "DESC": "الوسوم تسمح لك بتجميع المحادثات المتشابهة معاً.",
       "TABLE_HEADER": [
@@ -19,8 +20,8 @@
       "NAME": {
         "LABEL": "اسم الوسم",
         "PLACEHOLDER": "اسم الوسم",
-        "REQUIRED_ERROR": "اسم التسمية مطلوب",
-        "MINIMUM_LENGTH_ERROR": "الحد الأدنى للطول 2 مطلوب",
+        "REQUIRED_ERROR": "اسم الوسم مطلوب",
+        "MINIMUM_LENGTH_ERROR": "الحد الأدنى لطول الإسم هو حرفين",
         "VALID_ERROR": "مسموح فقط بالابجدية,الارقام, -, _"
       },
       "DESCRIPTION": {
@@ -40,16 +41,17 @@
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
-        "SINGLE_SUGGESTION": "إضافة تسمية إلى المحادثة",
-        "MULTIPLE_SUGGESTION": "حدد التسمية",
-        "DESELECT": "إلغاء تحديد التسمية",
+        "SINGLE_SUGGESTION": "إضافة وسم إلى المحادثة",
+        "MULTIPLE_SUGGESTION": "حدد الوسم",
+        "DESELECT": "إلغاء تحديد الوسم",
         "DISMISS": "استبعاد الاقتراح"
       },
       "POWERED_BY": "Chatwoot AI",
-      "DISMISS": "تجاهل",
-      "ADD_SELECTED_LABELS": "إضافة التسميات المحددة",
-      "ADD_SELECTED_LABEL": "إضافة التسمية المحددة",
-      "ADD_ALL_LABELS": "إضافة جميع التسميات"
+      "DISMISS": "استبعاد",
+      "ADD_SELECTED_LABELS": "إضافة الوسوم المحددة",
+      "ADD_SELECTED_LABEL": "إضافة الوسوم المحددة",
+      "ADD_ALL_LABELS": "إضافة جميع الأوسمة",
+      "SUGGESTED_LABELS": "التسميات المقترحة"
     },
     "ADD": {
       "TITLE": "إضافة وسم جديد",

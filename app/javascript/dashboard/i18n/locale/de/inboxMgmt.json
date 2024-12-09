@@ -1,9 +1,10 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Posteingänge",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> Wenn Sie eine Website oder eine Facebook-Seite mit Chatwoot verbinden, wird diese als bInbox</b> bezeichnet. Sie können unbegrenzte Posteingänge in Ihrem Chatwoot-Konto haben. </p><p Klicken Sie auf <b>Posteingang hinzufügen</b>, um eine Website oder eine Facebook-Seite zu verbinden. </p><p> Im Dashboard können Sie alle Konversationen aus all Ihren Posteingängen an einem einzigen Ort sehen und unter der Registerkarte 'Konversationen' darauf antworten. </p><p> Sie können auch zu einem Posteingang spezifische Konversationen anzeigen, indem Sie auf den Namen des Posteingangs im linken Bereich des Dashboards klicken. </p>",
-    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
-    "CLICK_TO_RECONNECT": "Click here to reconnect.",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
+    "RECONNECTION_REQUIRED": "Ihr Posteingang ist nicht verbunden. Sie erhalten keine neuen Nachrichten, bis Sie ihn erneut autorisieren.",
+    "CLICK_TO_RECONNECT": "Klicken Sie hier, um die Verbindung wiederherzustellen.",
     "LIST": {
       "404": "Diesem Konto sind keine Posteingänge zugeordnet."
     },
@@ -45,7 +46,7 @@
         "CHOOSE_PLACEHOLDER": "Wähle eine Seite aus der Liste",
         "INBOX_NAME": "Posteingang-Name",
         "ADD_NAME": "Namen für diesen Posteingang eingeben",
-        "PICK_NAME": "Pick a Name for your Inbox",
+        "PICK_NAME": "Wählen Sie einen Namen für Ihren Posteingang aus",
         "PICK_A_VALUE": "Wählen Sie einen Wert aus"
       },
       "TWITTER": {
@@ -64,7 +65,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook-URL",
-          "PLACEHOLDER": "Please enter your Webhook URL",
+          "PLACEHOLDER": "Bitte geben Sie Ihre Webhook-URL ein",
           "ERROR": "Bitte geben Sie eine gültige URL ein"
         },
         "CHANNEL_DOMAIN": {
@@ -114,14 +115,14 @@
           "ERROR": "Dieses Feld wird benötigt"
         },
         "API_KEY": {
-          "USE_API_KEY": "Use API Key Authentication",
-          "LABEL": "API Key SID",
-          "PLACEHOLDER": "Please enter your API Key SID",
+          "USE_API_KEY": "Verwenden Sie die API-Schlüssel-Authentifizierung",
+          "LABEL": "API-Schlüssel SID",
+          "PLACEHOLDER": "Bitte geben Sie Ihre API-Schlüssel SID ein",
           "ERROR": "Dieses Feld wird benötigt"
         },
         "API_KEY_SECRET": {
-          "LABEL": "API Key Secret",
-          "PLACEHOLDER": "Please enter your API Key Secret",
+          "LABEL": "API-Schlüssel-Geheimnis",
+          "PLACEHOLDER": "Bitte geben Sie Ihr API-Schlüssel-Geheimnis ein",
           "ERROR": "Dieses Feld wird benötigt"
         },
         "MESSAGING_SERVICE_SID": {
@@ -177,12 +178,12 @@
           },
           "API_KEY": {
             "LABEL": "API-Schlüssel",
-            "PLACEHOLDER": "Please enter your Bandwidth API Key",
+            "PLACEHOLDER": "Bitte geben Sie Ihren Bandbreiten-API-Schlüssel ein",
             "ERROR": "Dieses Feld wird benötigt"
           },
           "API_SECRET": {
             "LABEL": "API-Secret",
-            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
+            "PLACEHOLDER": "Bitte geben Sie Ihr Bandbreiten-API-Geheimnis ein",
             "ERROR": "Dieses Feld wird benötigt"
           },
           "APPLICATION_ID": {
@@ -241,7 +242,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook-Verifizierungstoken",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
+          "PLACEHOLDER": "Geben Sie ein Bestätigungstoken ein, das Sie für Facebook-Webhooks konfigurieren möchten.",
           "ERROR": "Bitte geben Sie einen gültigen Wert ein."
         },
         "API_KEY": {
@@ -271,7 +272,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook-URL",
-          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
+          "SUBTITLE": "Konfigurieren Sie die URL, unter der Sie Rückrufe bei Ereignissen empfangen möchten.",
           "PLACEHOLDER": "Webhook-URL"
         },
         "SUBMIT_BUTTON": "API-Kanal erstellen",
@@ -281,7 +282,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "E-Mail-Kanal",
-        "DESC": "Integrate your email inbox.",
+        "DESC": "Integrieren Sie Ihren E-Mail-Posteingang.",
         "CHANNEL_NAME": {
           "LABEL": "Kanal Name",
           "PLACEHOLDER": "Bitte geben Sie einen Kanalnamen ein",
@@ -347,7 +348,7 @@
       "AGENTS": {
         "TITLE": "Agenten",
         "DESC": "Hier können Sie Agenten hinzufügen, um Ihren neu erstellten Posteingang zu verwalten. Nur diese ausgewählten Agenten haben Zugriff auf Ihren Posteingang. Agenten, die nicht Teil dieses Posteingangs sind, können bei der Anmeldung keine Nachrichten in diesem Posteingang sehen oder darauf antworten. <br> <b> PS: </b> Wenn Sie als Administrator Zugriff auf alle Posteingänge benötigen, sollten Sie sich als Agent zu allen von Ihnen erstellten Posteingängen hinzufügen.",
-        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
+        "VALIDATION_ERROR": "Fügen Sie mindestens einen Agenten zu Ihrem neuen Posteingang hinzu",
         "PICK_AGENTS": "Agenten für den Posteingang auswählen"
       },
       "DETAILS": {
@@ -366,16 +367,23 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Klicken Sie auf die Schaltfläche Einloggen mit Microsoft, um loszulegen. Sie werden zur E-Mail-Anmeldeseite weitergeleitet. Sobald Sie die angeforderten Berechtigungen angenommen haben, werden Sie zum Erstellungsschritt für den Posteingang weitergeleitet.",
         "EMAIL_PLACEHOLDER": "E-Mail-Adresse eingeben",
-        "SIGN_IN": "Sign in with Microsoft",
-        "HELP": "Um Ihr Microsoft-Konto als Kanal hinzuzufügen, müssen Sie Ihr Microsoft-Konto authentifizieren, indem Sie auf 'Mit Microsoft anmelden' klicken ",
+        "SIGN_IN": "Mit Microsoft anmelden",
         "ERROR_MESSAGE": "Beim Verbinden mit Microsoft ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "E-Mail-Adresse eingeben",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Authentifizierung mit Facebook ...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Es ist ein Fehler aufgetreten. Bitte Seite aktualisieren ...",
-      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
-      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
+      "ERROR_FB_UNAUTHORIZED": "Sie sind nicht berechtigt, diese Aktion auszuführen. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Bitte stellen Sie sicher, dass Sie vollen Zugriff auf die Facebook-Seite haben. Weitere Informationen zu Facebook-Rollen finden Sie <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
       "CREATING_CHANNEL": "Erstellen Sie Ihren Posteingang ...",
       "TITLE": "Posteingangsdetails konfigurieren",
       "DESC": ""
@@ -408,21 +416,21 @@
         "DISABLED": "Deaktiviert"
       },
       "SENDER_NAME_SECTION": {
-        "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
-        "FOR_EG": "For eg:",
+        "TITLE": "Name des Absenders",
+        "SUB_TEXT": "Wählen Sie den Namen aus, der Ihren Kunden angezeigt wird, wenn sie E-Mails von Ihren Agenten erhalten.",
+        "FOR_EG": "Zum Beispiel:",
         "FRIENDLY": {
           "TITLE": "Freundlich",
           "FROM": "von",
-          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+          "SUBTITLE": "Fügen Sie den Namen des Agenten, der die Antwort gesendet hat, in den Absendernamen ein, um es freundlicher zu gestalten."
         },
         "PROFESSIONAL": {
           "TITLE": "Professionell",
-          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+          "SUBTITLE": "Verwenden Sie nur den konfigurierten Firmennamen als Absendernamen in der E-Mail-Kopfzeile."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Configure your business name",
-          "PLACEHOLDER": "Enter your business name",
+          "BUTTON_TEXT": "+ Konfigurieren Sie Ihren Firmennamen",
+          "PLACEHOLDER": "Geben Sie Ihren Firmennamen ein",
           "SAVE_BUTTON_TEXT": "Speichern"
         }
       },
@@ -489,9 +497,9 @@
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "E-Mail-Sammelbox für neue Konversation aktivieren oder deaktivieren",
       "AUTO_ASSIGNMENT": "Aktivieren Sie die automatische Zuweisung",
       "ENABLE_CSAT": "CSAT aktivieren",
-      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
+      "SENDER_NAME_SECTION": "Aktivieren Sie den Agentennamen in der E-Mail",
       "ENABLE_CSAT_SUB_TEXT": "CSAT(Kundenzufriedenheit) Umfrage aktivieren/deaktivieren nach Abschluss eines Gesprächs",
-      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
+      "SENDER_NAME_SECTION_TEXT": "Aktivieren/Deaktivieren Sie die Anzeige des Agentennamens in der E-Mail. Wenn deaktiviert, wird der Firmenname angezeigt",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Konversationskontinuität per E-Mail aktivieren",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Konversationen werden per E-Mail fortgesetzt, wenn die Kontakt-E-Mail-Adresse verfügbar ist.",
       "LOCK_TO_SINGLE_CONVERSATION": "Merere Konversationen zulassen",
@@ -511,7 +519,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Nachrichten zulassen, nachdem die Konversation gelöst wurde",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Den Endbenutzern erlauben, Nachrichten zu versenden, auch wenn die Unterhaltung abgeschlossen ist.",
       "WHATSAPP_SECTION_SUBHEADER": "Dieser API Key wird für die Integration mit den WhatsApp APIs verwendet.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Geben Sie den neuen API-Schlüssel ein, der für die Integration mit den WhatsApp-APIs verwendet werden soll.",
       "WHATSAPP_SECTION_TITLE": "API-Schlüssel",
       "WHATSAPP_SECTION_UPDATE_TITLE": "API-Schlüssel aktualisieren",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Neuen API-Schlüssel hier eingeben",
@@ -572,7 +580,7 @@
       "UPDATE": "Einstellungen für Geschäftszeiten aktualisieren",
       "TOGGLE_AVAILABILITY": "Geschäftszeiten für diesen Posteingang aktivieren",
       "UNAVAILABLE_MESSAGE_LABEL": "Nachricht für Besucher außerhalb Geschäftszeiten",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
+      "TOGGLE_HELP": "Wenn die Geschäftsverfügbarkeit aktiviert ist, werden die verfügbaren Stunden im Live-Chat-Widget angezeigt, auch wenn alle Agenten offline sind. Außerhalb der verfügbaren Stunden können Besucher mit einer Nachricht und einem Chat-Formular gewarnt werden.",
       "DAY": {
         "ENABLE": "Verfügbarkeit für diesen Tag aktivieren",
         "UNAVAILABLE": "Nicht verfügbar",
@@ -588,7 +596,7 @@
       "NOTE_TEXT": "Um SMTP zu aktivieren, konfigurieren Sie bitte IMAP.",
       "UPDATE": "IMAP-Einstellungen aktualisieren",
       "TOGGLE_AVAILABILITY": "IMAP-Konfiguration für diesen Posteingang aktivieren",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
+      "TOGGLE_HELP": "Wenn IMAP aktiviert ist, kann der Benutzer E-Mails empfangen",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP-Einstellungen erfolgreich aktualisiert",
         "ERROR_MESSAGE": "IMAP-Einstellungen können nicht aktualisiert werden"
@@ -736,7 +744,20 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Andere Anbieter"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Webseite",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "E-Mail",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API-Kanal"
     }
   }
 }

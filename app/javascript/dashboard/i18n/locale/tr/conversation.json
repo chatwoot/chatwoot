@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Hiçbiri",
         "INPUT_PLACEHOLDER": "Öncelik seçin",
         "NO_RESULTS": "Sonuç bulunamadı",
-        "SUCCESSFUL": "Sohbet kimliği %{conversationId} önceliği %{priority} olarak değiştirildi",
+        "SUCCESSFUL": "Sohbet kimliği {conversationId} önceliği {priority} olarak değiştirildi",
         "FAILED": "Öncelik değiştirilemedi. Lütfen tekrar deneyin."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Takım ata",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Sohbet kimliği %{conversationId} \"%{agentName}\" tarafından atanmış",
+          "SUCCESFUL": "Sohbet kimliği {conversationId} \"{agentName}\" tarafından atanmış",
           "FAILED": "Temsilci atanamadı. Lütfen tekrar deneyin."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Sohbet kimliği %{conversationId} için etiket #%{labelName} atanmış",
+          "SUCCESFUL": "Sohbet kimliği {conversationId} için etiket #{labelName} atanmış",
           "FAILED": "Etiket atanamadı. Lütfen tekrar deneyin."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Sohbet kimliği %{conversationId} için \"%{team}\" takımına atanmış",
+          "SUCCESFUL": "Sohbet kimliği {conversationId} için \"{team}\" takımına atanmış",
           "FAILED": "Takım atanamadı. Lütfen tekrar deneyin."
         }
       }
@@ -142,7 +142,8 @@
       "MSG_INPUT": "Yeni satır için Shift + enter. Bir Hazır Yanıt seçmek için \"/\" ile başlayın.",
       "PRIVATE_MSG_INPUT": "Yeni satır için Shift + enter. Bu yalnızca Temsilciler tarafından görülebilir",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Mesaj imzası yapılandırılmamış, lütfen profil ayarlarında yapılandırın.",
-      "CLICK_HERE": "Güncellemek için tıklayın"
+      "CLICK_HERE": "Güncellemek için tıklayın",
+      "WHATSAPP_TEMPLATES": "WhatsApp Şablonları"
     },
     "REPLYBOX": {
       "REPLY": "Cevapla",
@@ -238,27 +239,31 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Merhaba 👋, %{installationName}'a hoş geldiniz!",
-    "DESCRIPTION": "Üyeliğiniz için teşekkür ederiz. %{installationName}'dan en iyi şekilde faydalanmanızı istiyoruz. Deneyimi daha keyifli hale getirmek için %{installationName} içinde yapabileceğiniz birkaç şey var.",
+    "TITLE": "Merhaba 👋, {installationName}'a hoş geldiniz!",
+    "DESCRIPTION": "Üyeliğiniz için teşekkür ederiz. {installationName}'dan en iyi şekilde faydalanmanızı istiyoruz. Deneyimi daha keyifli hale getirmek için {installationName} içinde yapabileceğiniz birkaç şey var.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "En Son Güncellemeleri Okuyun",
     "ALL_CONVERSATION": {
       "TITLE": "Tüm Konuşmalarınız Bir Arada",
-      "DESCRIPTION": "Müşterilerinizden gelen tüm konuşmaları tek bir gösterge panelinde görüntüleyin. Gelen kanala, etikete ve duruma göre konuşmaları filtreleyebilirsiniz."
+      "DESCRIPTION": "Müşterilerinizden gelen tüm konuşmaları tek bir gösterge panelinde görüntüleyin. Gelen kanala, etikete ve duruma göre konuşmaları filtreleyebilirsiniz.",
+      "NEW_LINK": "Bir gelen kutusu oluşturmak için buraya tıklayın"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Ekip Üyelerinizi Davet Edin",
       "DESCRIPTION": "Müşterinizle konuşmaya hazırlanırken, ekibinizi yardıma çağırın. Ekibinizi, temsilci listesine e-posta adreslerini ekleyerek davet edebilirsiniz.",
       "NEW_LINK": "Bir ekip üyesi davet etmek için buraya tıklayın"
     },
-    "INBOXES": {
-      "TITLE": "Gelen Kutularını Bağlayın",
-      "DESCRIPTION": "Müşterilerinizle konuşacağınız çeşitli kanalları bağlayın. Bir web sitesi canlı sohbeti, Facebook veya Twitter sayfanız veya hatta WhatsApp numaranız olabilir.",
-      "NEW_LINK": "Bir gelen kutusu oluşturmak için buraya tıklayın"
-    },
     "LABELS": {
       "TITLE": "Etiketlerle Konuşmaları Düzenleyin",
       "DESCRIPTION": "Etiketler, konuşmalarınızı kategorize etmenin daha kolay bir yolunu sağlar. #destek-soru, #fatura-sorunu vb. gibi etiketler oluşturun, böylece daha sonra bir konuşmada bunları kullanabilirsiniz.",
       "NEW_LINK": "Etiket oluşturmak için buraya tıklayın"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -312,10 +317,10 @@
     "SIDEBAR_TITLE": "Konuşma Katılımcıları",
     "NO_RECORDS_FOUND": "Kayıt bulunamadı",
     "ADD_PARTICIPANTS": "Katılımcıları Seç",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} diğer",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} diğer",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} kişi katılıyor.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} kişi katılıyor.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} diğer",
+    "REMANING_PARTICIPANT_TEXT": "+{count} diğer",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} kişi katılıyor.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} kişi katılıyor.",
     "NO_PARTICIPANTS_TEXT": "Kimse katılmıyor!",
     "WATCH_CONVERSATION": "Konuşmaya Katıl",
     "YOU_ARE_WATCHING": "Katılıyorsunuz",

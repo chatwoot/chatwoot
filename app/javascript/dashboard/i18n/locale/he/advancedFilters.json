@@ -18,6 +18,7 @@
       "AND": "ו/גם",
       "OR": "או"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "שווה ל",
       "not_equal_to": "לא שווה ל",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "תיבת סימון",
       "CREATED_AT": "נוצר בזמן",
       "LAST_ACTIVITY": "פעילות אחרונה"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "חובה ערך"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",

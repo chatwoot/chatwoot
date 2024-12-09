@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Resum",
-      "DELETE_WARNING": "El contacte de <strong>%{primaryContactName}</strong> es suprimirà.",
-      "ATTRIBUTE_WARNING": "Les dades de contacte de <strong>%{primaryContactName}</strong> es copiaran a <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "El contacte de <strong>{primaryContactName}</strong> es suprimirà.",
+      "ATTRIBUTE_WARNING": "Les dades de contacte de <strong>{primaryContactName}</strong> es copiaran a <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Contacte fusionat correctament",
       "ERROR_MESSAGE": "No s'ha pogut fusionar els contactes, torna-ho a provar!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

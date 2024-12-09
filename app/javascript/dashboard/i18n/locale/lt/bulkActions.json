@@ -1,12 +1,13 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "Pasirinkta pokalbių: %{conversationCount}",
+    "CONVERSATIONS_SELECTED": "Pasirinkta pokalbių: {conversationCount}",
     "AGENT_SELECT_LABEL": "Pasirinkti agentą",
-    "ASSIGN_CONFIRMATION_LABEL": "Ar tikrai priskirsite %{conversationCount} %{conversationLabel}",
-    "UNASSIGN_CONFIRMATION_LABEL": "Ar tikrai atšauksite priskyrimą %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "Ar tikrai priskirsite {conversationCount} {conversationLabel}",
+    "UNASSIGN_CONFIRMATION_LABEL": "Ar tikrai atšauksite priskyrimą {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Grįžti",
     "ASSIGN_LABEL": "Priskirti",
     "YES": "Taip",
+    "SEARCH_INPUT_PLACEHOLDER": "Ieškoti",
     "ASSIGN_AGENT_TOOLTIP": "Priskirti Agentą",
     "ASSIGN_TEAM_TOOLTIP": "Priskirti komandą",
     "ASSIGN_SUCCESFUL": "Pokalbis priskirtas sėkmingai.",

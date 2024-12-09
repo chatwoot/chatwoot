@@ -10,7 +10,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['click']);
+const emit = defineEmits(['selectAgent']);
 
 const getters = useStoreGetters();
 const agents = computed(() => getters['agents/getVerifiedAgents'].value);
@@ -36,11 +36,10 @@ const adjustScroll = () => {
 };
 
 const onSelect = () => {
-  emit('click', items.value[selectedIndex.value]);
+  emit('selectAgent', items.value[selectedIndex.value]);
 };
 
 useKeyboardNavigableList({
-  elementRef: tagAgentsRef,
   items,
   onSelect,
   adjustScroll,

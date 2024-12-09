@@ -3,6 +3,8 @@
     "HEADER": "گزارش های حسابرسی",
     "HEADER_BTN_TXT": "اضافه کردن گزارش های حسابرسی",
     "LOADING": "واکشی گزارش های حسابرسی",
+    "DESCRIPTION": "Audit Logs maintain a record of activities in your account, allowing you to track and audit your account, team, or services.",
+    "LEARN_MORE": "Learn more about audit logs",
     "SEARCH_404": "هیچ آیتمی با این مشخصات یافت نشد",
     "SIDEBAR_TXT": "<p><b>گزارش‌های حسابرسی</b> </p><p> گزارش‌های حسابرسی مسیرهایی برای رویدادها و اقدامات در یک سیستم Chatwoot هستند. </p>",
     "LIST": {
@@ -21,51 +23,52 @@
     },
     "DEFAULT_USER": "سیستم",
     "AUTOMATION_RULE": {
-      "ADD": "%{agentName} یک اتوماسیون (%{id}) ایجاد کرد",
-      "EDIT": "%{agentName} یک اتوماسیون (%{id}) را ویرایش کرد",
-      "DELETE": "%{agentName} یک اتوماسیون (%{id}) را حذف کرد"
+      "ADD": "{agentName} یک اتوماسیون ({id}) ایجاد کرد",
+      "EDIT": "{agentName} یک اتوماسیون ({id}) را ویرایش کرد",
+      "DELETE": "{agentName} یک اتوماسیون ({id}) را حذف کرد"
     },
     "ACCOUNT_USER": {
-      "ADD": "%{agentName} از %{invitee} دعوت کرد به عنوان %{role} به سیستم اضافه شود",
+      "ADD": "{agentName} از {invitee} دعوت کرد به عنوان {role} به سیستم اضافه شود",
       "EDIT": {
-        "SELF": "%{agentName} مقدار %{attributes} را به %{values} تغییر داد",
-        "OTHER": "%{agentName} مقدار %{attributes} مربوط به %{user} را به %{values} تغییر داد"
+        "SELF": "{agentName} مقدار {attributes} را به {values} تغییر داد",
+        "OTHER": "{agentName} مقدار {attributes} مربوط به {user} را به {values} تغییر داد",
+        "DELETED": "{agentName} changed {attributes} of a deleted user to {values}"
       }
     },
     "INBOX": {
-      "ADD": "%{agentName} یک صندوق ورودی (%{id}) ایجاد کرد",
-      "EDIT": "%{agentName} یک صندوق ورودی (%{id}) را ویرایش کرد",
-      "DELETE": "%{agentName} یک صندوق ورودی (%{id}) را حذف کرد"
+      "ADD": "{agentName} یک صندوق ورودی ({id}) ایجاد کرد",
+      "EDIT": "{agentName} یک صندوق ورودی ({id}) را ویرایش کرد",
+      "DELETE": "{agentName} یک صندوق ورودی ({id}) را حذف کرد"
     },
     "WEBHOOK": {
-      "ADD": "%{agentName} یک وب هوک (%{id}) ایجاد کرد",
-      "EDIT": "%{agentName} یک وب هوک (%{id}) را ویرایش کرد",
-      "DELETE": "%{agentName} یک وب هوک (%{id}) را حذف کرد"
+      "ADD": "{agentName} یک وب هوک ({id}) ایجاد کرد",
+      "EDIT": "{agentName} یک وب هوک ({id}) را ویرایش کرد",
+      "DELETE": "{agentName} یک وب هوک ({id}) را حذف کرد"
     },
     "USER_ACTION": {
-      "SIGN_IN": "%{agentName} وارد شد",
-      "SIGN_OUT": "%{agentName} خارج شد"
+      "SIGN_IN": "{agentName} وارد شد",
+      "SIGN_OUT": "{agentName} خارج شد"
     },
     "TEAM": {
-      "ADD": "%{agentName} یک تیم (%{id}) ایجاد کرد",
-      "EDIT": "%{agentName} یک تیم (%{id}) را ویرایش کرد",
-      "DELETE": "%{agentName} یک تیم (%{id}) را حذف کرد"
+      "ADD": "{agentName} یک تیم ({id}) ایجاد کرد",
+      "EDIT": "{agentName} یک تیم ({id}) را ویرایش کرد",
+      "DELETE": "{agentName} یک تیم ({id}) را حذف کرد"
     },
     "MACRO": {
-      "ADD": "%{agentName} یک ماکرو (%{id}) ایجاد کرد",
-      "EDIT": "%{agentName} یک ماکرو (%{id}) را ویرایش کرد",
-      "DELETE": "%{agentName} یک ماکرو (%{id}) را حذف کرد"
+      "ADD": "{agentName} یک ماکرو ({id}) ایجاد کرد",
+      "EDIT": "{agentName} یک ماکرو ({id}) را ویرایش کرد",
+      "DELETE": "{agentName} یک ماکرو ({id}) را حذف کرد"
     },
     "INBOX_MEMBER": {
-      "ADD": "%{agentName} اپراتور %{user} را به صندوق ورودی (%{inbox_id}) اضافه کرد",
-      "REMOVE": "%{agentName} اپراتور %{user} را از صندوق ورودی (%{inbox_id}) حذف کرد"
+      "ADD": "{agentName} اپراتور {user} را به صندوق ورودی ({inbox_id}) اضافه کرد",
+      "REMOVE": "{agentName} اپراتور {user} را از صندوق ورودی ({inbox_id}) حذف کرد"
     },
     "TEAM_MEMBER": {
-      "ADD": "%{agentName} اپراتور %{user} را به تیم (%{team_id}) اضافه کرد",
-      "REMOVE": "%{agentName} اپراتور %{user} را از تیم (%{team_id}) حذف کرد"
+      "ADD": "{agentName} اپراتور {user} را به تیم ({team_id}) اضافه کرد",
+      "REMOVE": "{agentName} اپراتور {user} را از تیم ({team_id}) حذف کرد"
     },
     "ACCOUNT": {
-      "EDIT": "%{agentName} تنظیمات مربوط به حساب (%{id}) را ویرایش کرد"
+      "EDIT": "{agentName} تنظیمات مربوط به حساب ({id}) را ویرایش کرد"
     }
   }
 }

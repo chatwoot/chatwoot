@@ -4,8 +4,15 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Esdeveniments subscrits",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Cancel·la",
         "DESC": "Els esdeveniments de Webhook us proporcionen informació en temps real sobre el que passa al vostre compte de Chatwoot. Introduïu una URL vàlid per configurar un callback.",
@@ -69,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Confirma l'esborrat",
-          "MESSAGE": "N'estàs segur que suprimiu el webhook? (%{webhookURL})",
+          "MESSAGE": "N'estàs segur que suprimiu el webhook? ({webhookURL})",
           "YES": "Si, esborra ",
           "NO": "No, mantén-la"
         }
@@ -83,7 +90,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "Com utilitzar la integració de Slack?",
-        "BODY": "Amb aquesta integració, totes les teves converses entrants se sincronitzaran amb el canal ***%{selectedChannelName}*** del teu espai de treball de Slack. Podeu gestionar totes les converses dels vostres clients directament des del canal i no perdreu cap missatge.\n\nAquestes són les principals característiques de la integració:\n\n**Respondre a converses des de Slack:** Per respondre a una conversa al ***%{selectedChannelName}*** canal de Slack, només has d'escriure el teu missatge i enviar-lo com a fil. Això crearà una resposta al client mitjançant Chatwoot. Així de senzill!\n\n  **Crear notes privades:** si vols crear notes privades en lloc de respostes, comença el teu missatge amb ***`nota:`***. Això garanteix que el vostre missatge es mantingui privat i no serà visible per al client.\n\n**Associar un perfil d'agent:** si la persona que va respondre a Slack té un perfil d'agent a Chatwoot amb el mateix correu electrònic, les respostes s'associaran amb aquest perfil d'agent automàticament. Això vol dir que podeu fer un seguiment fàcilment qui va dir què i quan. D'altra banda, quan el contestador no té un perfil d'agent associat, les respostes apareixeran des del perfil del bot al client.",
+        "BODY": "Amb aquesta integració, totes les teves converses entrants se sincronitzaran amb el canal ***{selectedChannelName}*** del teu espai de treball de Slack. Podeu gestionar totes les converses dels vostres clients directament des del canal i no perdreu cap missatge.\n\nAquestes són les principals característiques de la integració:\n\n**Respondre a converses des de Slack:** Per respondre a una conversa al ***{selectedChannelName}*** canal de Slack, només has d'escriure el teu missatge i enviar-lo com a fil. Això crearà una resposta al client mitjançant Chatwoot. Així de senzill!\n\n  **Crear notes privades:** si vols crear notes privades en lloc de respostes, comença el teu missatge amb ***`nota:`***. Això garanteix que el vostre missatge es mantingui privat i no serà visible per al client.\n\n**Associar un perfil d'agent:** si la persona que va respondre a Slack té un perfil d'agent a Chatwoot amb el mateix correu electrònic, les respostes s'associaran amb aquest perfil d'agent automàticament. Això vol dir que podeu fer un seguiment fàcilment qui va dir què i quan. D'altra banda, quan el contestador no té un perfil d'agent associat, les respostes apareixeran des del perfil del bot al client.",
         "SELECTED": "seleccionat"
       },
       "SELECT_CHANNEL": {
@@ -107,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "Assistència IA",
-      "WITH_AI": " %{option} amb IA ",
+      "WITH_AI": " {option} amb IA ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Suggeriment de resposta",
         "SUMMARIZE": "Resumir",
@@ -209,7 +216,7 @@
         "CONFIRM_YES": "Sí, esborra-ho",
         "CONFIRM_NO": "No, mantén-la",
         "TITLE": "Confirma la supressió",
-        "MESSAGE": "N'estàs segur que vols suprimir l'aplicació - %{appName}?",
+        "MESSAGE": "N'estàs segur que vols suprimir l'aplicació - {appName}?",
         "API_SUCCESS": "L'aplicació del tauler de control s'ha esborrat correctament",
         "API_ERROR": "No hem pogut esborrar l'aplicació. Intenta-ho més tard"
       }
@@ -228,7 +235,7 @@
         "ERROR": "S'ha produït un error en obtenir les issues en Linear, torna-ho a provar",
         "LINK_SUCCESS": "S'ha enllaçat la issue correctament",
         "LINK_ERROR": "S'ha produït un error en enllaçar la issue, torna-ho a provar",
-        "LINK_TITLE": "Conversa (#%{conversationId}) amb %{name}"
+        "LINK_TITLE": "Conversa (#{conversationId}) amb {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Crear/enllaçar una issue en Linear",
@@ -287,7 +294,7 @@
         "PRIORITY": "Prioritat",
         "ASSIGNEE": "Cessionari",
         "LABELS": "Etiquetes",
-        "CREATED_AT": "Creat a %{createdAt}"
+        "CREATED_AT": "Creat a {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Desenllaça",

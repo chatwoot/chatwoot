@@ -2,10 +2,13 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Cea un nou equip",
     "HEADER": "Equips",
-    "SIDEBAR_TXT": "<p><b>Equips</b></p> <p>Els equips et permeten organitzar els teus agents en grups en funció de les seves responsabilitats. <br /> Un agent pot formar part de diversos equips. Pots assignar converses a un equip quan treballes en col·laboració. </p>",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "No hi ha cap equip creat en aquest compte.",
-      "EDIT_TEAM": "Edita l'equip"
+      "EDIT_TEAM": "Edita l'equip",
+      "NONE": "Ningú"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -14,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Afegir agents a l'equip",
-        "TITLE": "Afegeix agents a l'equip - %{teamName}",
+        "TITLE": "Afegeix agents a l'equip - {teamName}",
         "DESC": "Afegeix agents al teu equip acabat de crear. Això et permet col·laborar com a equip en converses, rebre notificacions sobre esdeveniments nous a la mateixa conversa."
       },
       "WIZARD": [
@@ -43,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Actualitza els agents de l'equip",
-        "TITLE": "Afegeix agents a l'equip - %{teamName}",
+        "TITLE": "Afegeix agents a l'equip - {teamName}",
         "DESC": "Afegeix agents al teu equip acabat de crear. Tots els agents afegits rebran una notificació quan s'assigni una conversa a aquest equip."
       },
       "WIZARD": [
@@ -74,14 +77,14 @@
       "ADD_AGENTS": "S'estan afegint agents al teu equip...",
       "SELECT": "selecciona",
       "SELECT_ALL": "selecciona tots els agents",
-      "SELECTED_COUNT": "%{selected} de %{total} agents seleccionats."
+      "SELECTED_COUNT": "{selected} de {total} agents seleccionats."
     },
     "ADD": {
-      "TITLE": "Afegeix agents a l'equip - %{teamName}",
+      "TITLE": "Afegeix agents a l'equip - {teamName}",
       "DESC": "Afegeix agents al teu equip acabat de crear. Això et permet col·laborar com a equip en converses, rebre notificacions sobre esdeveniments nous a la mateixa conversa.",
       "SELECT": "selecciona",
       "SELECT_ALL": "selecciona tots els agents",
-      "SELECTED_COUNT": "%{selected} de %{total} agents seleccionats.",
+      "SELECTED_COUNT": "{selected} de {total} agents seleccionats.",
       "BUTTON_TEXT": "Afegir agents",
       "AGENT_VALIDATION_ERROR": "Selecciona almenys un agent."
     },
@@ -97,7 +100,7 @@
         "ERROR_MESSAGE": "No s'ha pogut suprimir l'equip. Torna-ho a provar."
       },
       "CONFIRM": {
-        "TITLE": "Estàs segur que vols suprimir - %{teamName}",
+        "TITLE": "Are you sure you want to delete the team?",
         "PLACE_HOLDER": "Escriu {teamName} per confirmar",
         "MESSAGE": "En suprimir l'equip, se suprimirà l'assignació d'equip de les converses assignades a aquest equip.",
         "YES": "Suprimeix ",

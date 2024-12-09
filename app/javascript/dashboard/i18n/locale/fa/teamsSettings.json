@@ -2,10 +2,13 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "ایجاد تیم جدید",
     "HEADER": "تیم‌ها",
-    "SIDEBAR_TXT": "<p><b>تیم‌ها</b></p> <p>تیم‌ها به شما امکان می‌دهند ایجنت های خود را بر اساس مسئولیت‌هایشان در گروه‌هایی سازماندهی کنید. <br /> یک ایجنت می تواند بخشی از چندین تیم باشد. وقتی به صورت مشترک کار می کنید، می توانید مکالمات را به یک تیم اختصاص دهید. </p>",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "هیچ تیمی در این حساب ایجاد نشده است.",
-      "EDIT_TEAM": "ویرایش تیم"
+      "EDIT_TEAM": "ویرایش تیم",
+      "NONE": "هیچکدام"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -14,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "افزودن ایجنت به تیم",
-        "TITLE": "افزودن اپراتور به تیم - %{teamName}",
+        "TITLE": "افزودن اپراتور به تیم - {teamName}",
         "DESC": "ایجنت ها را به تیم تازه ایجاد شده خود اضافه کنید. این به شما امکان می دهد به عنوان یک تیم در گفتگوها همکاری کنید ، در رویدادهای جدید در همان مکالمه مطلع شوید."
       },
       "WIZARD": [
@@ -43,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "ایجنت ها را در تیم به روز کنید",
-        "TITLE": "افزودن اپراتور به تیم - %{teamName}",
+        "TITLE": "افزودن اپراتور به تیم - {teamName}",
         "DESC": "ایجنت ها را به تیم تازه ایجاد شده خود اضافه کنید. وقتی مکالمه ای به این تیم اختصاص داده شود ، به همه ایجنت ها اضافه شده اطلاع داده می شود."
       },
       "WIZARD": [
@@ -74,14 +77,14 @@
       "ADD_AGENTS": "افزودن ایجنت ها به تیم شما...",
       "SELECT": "انتخاب کنید",
       "SELECT_ALL": "انتخاب تمام ایجنت ها",
-      "SELECTED_COUNT": "%{selected} تا از %{total} ایجنت انتخاب شد."
+      "SELECTED_COUNT": "{selected} تا از {total} ایجنت انتخاب شد."
     },
     "ADD": {
-      "TITLE": "افزودن اپراتور به تیم - %{teamName}",
+      "TITLE": "افزودن اپراتور به تیم - {teamName}",
       "DESC": "ایجنت ها را به تیم تازه ایجاد شده خود اضافه کنید. این به شما امکان می دهد به عنوان یک تیم در گفتگوها همکاری کنید ، در رویدادهای جدید در همان مکالمه مطلع شوید.",
       "SELECT": "انتخاب کنید",
       "SELECT_ALL": "انتخاب تمام ایجنت ها",
-      "SELECTED_COUNT": "%{selected} تا از %{total} ایجنت انتخاب شد.",
+      "SELECTED_COUNT": "{selected} تا از {total} ایجنت انتخاب شد.",
       "BUTTON_TEXT": "اضافه کردن اپراتور",
       "AGENT_VALIDATION_ERROR": "حداقل یک اپراتور را انتخاب کنید."
     },
@@ -97,7 +100,7 @@
         "ERROR_MESSAGE": "تیم حذف نشد. دوباره امتحان کنید."
       },
       "CONFIRM": {
-        "TITLE": "آیا مطمئن هستید که می خواهید حذف کنید - %{teamName}",
+        "TITLE": "Are you sure you want to delete the team?",
         "PLACE_HOLDER": "برای تایید لطفا {teamName} را تایپ کنید",
         "MESSAGE": "با حذف تیم ، وظایف تیم از مکالمات اختصاص داده شده به این تیم حذف می شود.",
         "YES": "حذف ",

@@ -41,6 +41,7 @@
         "UPLOADING": "Notiek Augšupielāde...",
         "SUCCESS": "Attēls ir veiksmīgi augšupielādēts",
         "ERROR": "Augšupielādējot attēlu, radās kļūda",
+        "UN_AUTHORIZED_ERROR": "Jums nav tiesību augšupielādēt attēlus",
         "ERROR_FILE_SIZE": "Attēla izmēram ir jābūt mazākam par {size}MB",
         "ERROR_FILE_FORMAT": "Attēla formātam ir jābūt jpg, jpeg vai png",
         "ERROR_FILE_DIMENSIONS": "Attēla izmēram ir jābūt mazākam par 2000 x 2000"
@@ -83,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Bez kategorijas",
-      "SEARCH_RESULTS": "Meklēšanas rezultāti vaicājumam %{query}",
+      "SEARCH_RESULTS": "Meklēšanas rezultāti vaicājumam {query}",
       "EMPTY_TEXT": "Meklēt rakstus, ko ievietot atbildēs.",
       "SEARCH_LOADER": "Meklēšana...",
       "INSERT_ARTICLE": "Ievietot",
@@ -249,13 +250,13 @@
         "DOMAIN": {
           "LABEL": "Pielāgots domēns",
           "PLACEHOLDER": "Portāla pielāgots domēns",
-          "HELP_TEXT": "Pievienot tikai tad, ja vēlaties saviem portāliem izmantot pielāgotu domēnu. Piemēram: %{exampleURL}",
+          "HELP_TEXT": "Pievienot tikai tad, ja vēlaties saviem portāliem izmantot pielāgotu domēnu. Piemēram: {exampleURL}",
           "ERROR": "Ievadiet derīgu domēna URL"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Mājaslapas saite",
           "PLACEHOLDER": "Portāla mājaslapas saite",
-          "HELP_TEXT": "Saite, ko izmanto lai atgrieztos no portāla uz sākumlapu. Piemēram: %{exampleURL}",
+          "HELP_TEXT": "Saite, ko izmanto lai atgrieztos no portāla uz sākumlapu. Piemēram: {exampleURL}",
           "ERROR": "Ievadiet derīgu sākumlapas URL"
         },
         "THEME_COLOR": {
@@ -481,6 +482,7 @@
           "DESCRIPTION": "Izmantot portālu kā headless satura pārvaldības sistēmu ar trešās puses front-end framework, izmantojot mūsu API."
         }
       }
-    }
+    },
+    "LOADING": "Notiek ielāde..."
   }
 }

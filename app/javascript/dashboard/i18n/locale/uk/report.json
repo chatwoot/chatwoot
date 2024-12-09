@@ -23,13 +23,13 @@
         "NAME": "Час першої відповіді",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час першої відповіді %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час першої відповіді {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Час до вирішення",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час рішення %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час рішення {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Кількість вирішень",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Час очікування клієнта",
-        "TOOLTIP_TEXT": "Час очікування становить %{metricValue} (на основі відповідей %{conversationCount})"
+        "TOOLTIP_TEXT": "Час очікування становить {metricValue} (на основі відповідей {conversationCount})"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -167,13 +167,13 @@
         "NAME": "Час першої відповіді",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час першої відповіді %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час першої відповіді {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Час до вирішення",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час рішення %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час рішення {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Кількість вирішень",
@@ -234,13 +234,13 @@
         "NAME": "Час першої відповіді",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість розмов, що використовуються для обчислень:",
-        "TOOLTIP_TEXT": "Час першої відповіді %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час першої відповіді {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Час до вирішення",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час рішення %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час рішення {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Кількість вирішень",
@@ -301,13 +301,13 @@
         "NAME": "Час першої відповіді",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час першої відповіді %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час першої відповіді {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Час до вирішення",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час рішення %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час рішення {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Кількість вирішень",
@@ -368,13 +368,13 @@
         "NAME": "Час першої відповіді",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час першої відповіді %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час першої відповіді {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Час до вирішення",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час рішення %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час рішення {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Кількість вирішень",
@@ -480,8 +480,9 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Бесіди",
       "NO_CONVERSATIONS": "Немає бесід",
-      "CONVERSATION": "%{count} бесід",
-      "CONVERSATIONS": "%{count} бесід"
+      "CONVERSATION": "{count} бесід",
+      "CONVERSATIONS": "{count} бесід",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Розмови агентів",
@@ -536,6 +537,7 @@
       "LABELS": "Мітка",
       "TEAMS": "Команда"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Рейтинг попадань",

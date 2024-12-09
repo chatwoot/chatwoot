@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Σύνοψη",
-      "DELETE_WARNING": "Η επαφή του <strong>%{primaryContactName}</strong>θα διαγραφεί.",
-      "ATTRIBUTE_WARNING": "Τα στοιχεία επικοινωνίας του <strong>%{primaryContactName}</strong> θα αντιγραφούν στο <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Η επαφή του <strong>{primaryContactName}</strong>θα διαγραφεί.",
+      "ATTRIBUTE_WARNING": "Τα στοιχεία επικοινωνίας του <strong>{primaryContactName}</strong> θα αντιγραφούν στο <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Η επαφή συγχωνεύθηκε επιτυχώς",
       "ERROR_MESSAGE": "Δεν ήταν δυνατή η συγχώνευση επαφών, προσπαθήστε ξανά!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

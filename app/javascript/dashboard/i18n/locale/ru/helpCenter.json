@@ -41,6 +41,7 @@
         "UPLOADING": "Загружаем...",
         "SUCCESS": "Изображение успешно загружено",
         "ERROR": "Ошибка при загрузке изображения",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "Размер изображения должен быть меньше, чем {size}MB",
         "ERROR_FILE_FORMAT": "Формат изображения должен быть jpg, jpeg или png",
         "ERROR_FILE_DIMENSIONS": "Размеры изображения должны быть меньше, чем 2000 x 2000"
@@ -83,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Без категории",
-      "SEARCH_RESULTS": "Результаты поиска %{query}",
+      "SEARCH_RESULTS": "Результаты поиска {query}",
       "EMPTY_TEXT": "Поиск статей для вставки в ответы.",
       "SEARCH_LOADER": "Идёт поиск...",
       "INSERT_ARTICLE": "Вставить",
@@ -481,6 +482,7 @@
           "DESCRIPTION": "Используйте портал в качестве бесконечного CMS с сторонними фронт-фреймворками, используя наши API."
         }
       }
-    }
+    },
+    "LOADING": "Loading..."
   }
 }

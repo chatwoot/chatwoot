@@ -145,11 +145,7 @@
       },
       "AVAILABILITY": {
         "LABEL": "Khả dụng",
-        "STATUSES_LIST": [
-          "Trực Tuyến",
-          "Bận",
-          "Không Trực Tuyến"
-        ],
+        "STATUSES_LIST": ["Trực Tuyến", "Bận", "Không Trực Tuyến"],
         "SET_AVAILABILITY_SUCCESS": "Tính khả dụng đã được thiết lập thành công",
         "SET_AVAILABILITY_ERROR": "Không thể đặt, vui lòng thử lại"
       },
@@ -239,6 +235,7 @@
     "REPORTS": "Báo cáo",
     "SETTINGS": "Cài Đặt",
     "CONTACTS": "Liên hệ",
+    "CAPTAIN": "Captain",
     "HOME": "Trang Chủ",
     "AGENTS": "Đại lý",
     "AGENT_BOTS": "Bots",
@@ -276,6 +273,7 @@
     "REPORTS_TEAM": "Nhóm",
     "SET_AVAILABILITY_TITLE": "Đặt chính mình như",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Tổng quan",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
@@ -299,7 +297,7 @@
     "TITLE": "Phí",
     "CURRENT_PLAN": {
       "TITLE": "Gói hiện tại",
-      "PLAN_NOTE": "Bạn hiện đã đăng ký gói **%{plan}** với **%{quantity}** giấy phép"
+      "PLAN_NOTE": "Bạn hiện đã đăng ký gói **{plan}** với **{quantity}** giấy phép"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Quản lý thuê bao của bạn",

@@ -18,6 +18,7 @@
       "AND": "ഒപ്പം",
       "OR": "അഥവാ"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "തുല്യമാണ്",
       "not_equal_to": "തുല്യമല്ല",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "എന്ന സ്ഥലത്ത് സൃഷ്ടിച്ചു",
       "LAST_ACTIVITY": "Last activity"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Value is required"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",

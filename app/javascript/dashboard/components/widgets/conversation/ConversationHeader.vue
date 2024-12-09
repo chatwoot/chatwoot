@@ -1,8 +1,6 @@
 <script>
-import { ref } from 'vue';
 import { mapGetters } from 'vuex';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-import agentMixin from '../../../mixins/agentMixin.js';
 import BackButton from '../BackButton.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import InboxName from '../InboxName.vue';
@@ -24,7 +22,7 @@ export default {
     SLACardLabel,
     Linear,
   },
-  mixins: [inboxMixin, agentMixin],
+  mixins: [inboxMixin],
   props: {
     chat: {
       type: Object,
@@ -43,19 +41,14 @@ export default {
       default: false,
     },
   },
+  emits: ['contactPanelToggle'],
   setup(props, { emit }) {
-    const conversationHeaderActionsRef = ref(null);
-
     const keyboardEvents = {
       'Alt+KeyO': {
         action: () => emit('contactPanelToggle'),
       },
     };
-    useKeyboardEvents(keyboardEvents, conversationHeaderActionsRef);
-
-    return {
-      conversationHeaderActionsRef,
-    };
+    useKeyboardEvents(keyboardEvents);
   },
   computed: {
     ...mapGetters({
@@ -183,7 +176,6 @@ export default {
           </div>
 
           <div
-            ref="conversationHeaderActionsRef"
             class="flex items-center gap-2 overflow-hidden text-xs conversation--header--actions text-ellipsis whitespace-nowrap"
           >
             <InboxName v-if="hasMultipleInboxes" :inbox="inbox" />

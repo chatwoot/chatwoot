@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Sumar",
-      "DELETE_WARNING": "Contactul <strong>%{primaryContactName}</strong> va fi șters.",
-      "ATTRIBUTE_WARNING": "Datele de contact ale <strong>%{primaryContactName}</strong> vor fi copiate la <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Contactul <strong>{primaryContactName}</strong> va fi șters.",
+      "ATTRIBUTE_WARNING": "Datele de contact ale <strong>{primaryContactName}</strong> vor fi copiate la <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "MESAJ_EROARE"
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Contact unit cu succes",
       "ERROR_MESSAGE": "Contactele nu au putut fi îmbinate, încercați din nou!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

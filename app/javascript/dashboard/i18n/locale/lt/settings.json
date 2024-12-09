@@ -239,6 +239,7 @@
     "REPORTS": "Ataskaitos",
     "SETTINGS": "Nustatymai",
     "CONTACTS": "Kontaktai",
+    "CAPTAIN": "Captain",
     "HOME": "Pagrindinis",
     "AGENTS": "Agentai",
     "AGENT_BOTS": "Botai",
@@ -276,6 +277,7 @@
     "REPORTS_TEAM": "Komanda",
     "SET_AVAILABILITY_TITLE": "Nustatykite save kaip",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Apžvalga",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
@@ -299,7 +301,7 @@
     "TITLE": "Atsiskaitymas",
     "CURRENT_PLAN": {
       "TITLE": "Prenumeratos Dabartinis Planas",
-      "PLAN_NOTE": "Šiuo metu užsiprenumeravote **%{plan}** planą su **%{quantity}** licencijomis"
+      "PLAN_NOTE": "Šiuo metu užsiprenumeravote **{plan}** planą su **{quantity}** licencijomis"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Tvarkykite savo prenumeratą",

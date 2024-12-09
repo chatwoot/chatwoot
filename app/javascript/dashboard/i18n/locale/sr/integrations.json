@@ -4,8 +4,15 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Pretplaćeni događaji",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Otkaži",
         "DESC": "Događaji veb zakački vam omogućavaju informacije u realnom vremenu o onome šta se događa na vašem Chatwoot nalogu. Molim vas unesite ispravnu adresu da bi ste podesili povratni poziv.",
@@ -40,10 +47,7 @@
       "LIST": {
         "404": "Nema veb zakački podešenih za ovaj nalog.",
         "TITLE": "Upravljanje veb zakačkama",
-        "TABLE_HEADER": [
-          "Krajnje tačke veb zakački",
-          "Akcije"
-        ]
+        "TABLE_HEADER": ["Krajnje tačke veb zakački", "Akcije"]
       },
       "EDIT": {
         "BUTTON_TEXT": "Uredi",
@@ -69,7 +73,7 @@
         },
         "CONFIRM": {
           "TITLE": "Potvrdite brisanje",
-          "MESSAGE": "Da li zaista želite da obrišete veb zakačku? (%{webhookURL})",
+          "MESSAGE": "Da li zaista želite da obrišete veb zakačku? ({webhookURL})",
           "YES": "Da, izbriši ",
           "NO": "Ne, zadrži je"
         }
@@ -107,7 +111,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "WITH_AI": " {option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
         "SUMMARIZE": "Summarize",
@@ -176,10 +180,7 @@
       "LIST": {
         "404": "Još uvek nema aplikacija radne table podešenih za ovaj nalog",
         "LOADING": "Prikupljanje aplikacija radne table...",
-        "TABLE_HEADER": [
-          "Ime",
-          "Krajnja tačka"
-        ],
+        "TABLE_HEADER": ["Ime", "Krajnja tačka"],
         "EDIT_TOOLTIP": "Uredi aplikaciju",
         "DELETE_TOOLTIP": "Obriši aplikaciju"
       },
@@ -209,7 +210,7 @@
         "CONFIRM_YES": "Da, obriši je",
         "CONFIRM_NO": "Ne, zadrži je",
         "TITLE": "Potvrdi brisanje",
-        "MESSAGE": "Da li zaista želite da obrišete aplikaciju - %{appName}?",
+        "MESSAGE": "Da li zaista želite da obrišete aplikaciju - {appName}?",
         "API_SUCCESS": "Aplikacija radne table je uspešno obrisana",
         "API_ERROR": "Nismo mogli da obrišemo aplikaciju. Molim vas pokušajte ponovo"
       }
@@ -228,7 +229,7 @@
         "ERROR": "There was an error fetching the linear issues, please try again",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -287,7 +288,7 @@
         "PRIORITY": "Prioritet",
         "ASSIGNEE": "Assignee",
         "LABELS": "Oznake",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Unlink",

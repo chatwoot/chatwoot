@@ -3,8 +3,9 @@
     "HEADER": "Nhãn",
     "HEADER_BTN_TXT": "Thêm nhãn",
     "LOADING": "Tải về các nhãn",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "Không có kết quả nào phù hợp",
-    "SIDEBAR_TXT": "<p><b>Nhãn</b> <p>Nhãn giúp bạn phân loại các cuộc hội thoại và ưu tiên chúng. Bạn có thể gán nhãn cho một cuộc hội thoại từ bảng phụ. <br /><br />Nhãn được liên kết với tài khoản và có thể được sử dụng để tạo quy trình công việc tùy chỉnh trong tổ chức của bạn. Bạn có thể gán màu tùy chỉnh cho nhãn, điều này giúp bạn nhận dạng nhãn dễ dàng hơn. Bạn sẽ có thể hiển thị nhãn trên thanh bên để lọc các cuộc hội thoại một cách dễ dàng.</p>",
     "LIST": {
       "404": "Không có nhãn nào có sẵn trong tài khoản này.",
       "TITLE": "Quản lý nhãn",
@@ -49,7 +50,8 @@
       "DISMISS": "Dismiss",
       "ADD_SELECTED_LABELS": "Add selected labels",
       "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Thêm nhãn",

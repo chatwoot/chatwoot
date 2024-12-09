@@ -3,7 +3,8 @@
     "HEADER": "客服",
     "HEADER_BTN_TXT": "添加客服",
     "LOADING": "正在获取客服列表",
-    "SIDEBAR_TXT": "<p><b>客服</b></p> <p> 客服 <b></b> 是您的客户支持团队成员。 </p><p>客服将能够查看和回复您用户的消息。 列表显示当前帐户中的所有客服代理人。 </p><p> 点击 <b>添加客服</b> 添加新客服。 您添加的客服将收到一封含有确认链接的电子邮件来激活他们的帐户，然后他们可以访问并回复消息。 </p><p> 聊天窗口的功能基于以下角色。 </p><p> <b>客服</b> - 此角色的代理只能访问收件箱、报告和会话。 他们可以将对话分配给其他客服或自己，并解决会话。</p><p> <b>管理员</b> - 管理员将可以访问您账户中所有已启用的聊天功能。 包括设置，以及所有客服的权限。</p>",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "管理员",
       "AGENT": "客服"
@@ -17,7 +18,8 @@
       "STATUS": "状态",
       "ACTIONS": "操作",
       "VERIFIED": "已认证",
-      "VERIFICATION_PENDING": "待验证"
+      "VERIFICATION_PENDING": "待验证",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "添加客服至您的团队",

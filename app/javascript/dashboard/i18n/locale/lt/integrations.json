@@ -4,8 +4,15 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Prenumeruoti įvykiai",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Atšaukti",
         "DESC": "Webhook įvykiai suteikia jums realaus laiko informaciją apie tai, kas vyksta jūsų Chatwoot paskyroje. Norėdami sukonfigūruoti atgalinį skambinimą, įveskite tinkamą URL.",
@@ -69,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Patvirtinti Ištrynimą",
-          "MESSAGE": "Ar tikrai norite ištrinti webhook? (%{webhookURL})",
+          "MESSAGE": "Ar tikrai norite ištrinti webhook? ({webhookURL})",
           "YES": "Taip, Trinti ",
           "NO": "Ne, Išsaugoti"
         }
@@ -107,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI pagalba",
-      "WITH_AI": " %{option} su AI ",
+      "WITH_AI": " {option} su AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Atsakymo pasiūlymas",
         "SUMMARIZE": "Apibendrinti",
@@ -209,7 +216,7 @@
         "CONFIRM_YES": "Taip, Trinti",
         "CONFIRM_NO": "Ne, Išsaugoti",
         "TITLE": "Patvirtinti Ištrynimą",
-        "MESSAGE": "Ar tikrai norite ištrinti programą - %{appName}?",
+        "MESSAGE": "Ar tikrai norite ištrinti programą - {appName}?",
         "API_SUCCESS": "Informacinio skydelio programa ištrinta sėkmingai",
         "API_ERROR": "Nepavyko ištrinti programos. Pabandykite dar kartą vėliau"
       }
@@ -228,7 +235,7 @@
         "ERROR": "There was an error fetching the linear issues, please try again",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -287,7 +294,7 @@
         "PRIORITY": "Prioritetas",
         "ASSIGNEE": "Assignee",
         "LABELS": "Etiketės",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Unlink",

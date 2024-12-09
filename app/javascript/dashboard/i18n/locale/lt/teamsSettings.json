@@ -2,10 +2,13 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Sukurti naują komandą",
     "HEADER": "Komandos",
-    "SIDEBAR_TXT": "<p><b>Komandos</b></p> <p>Komandos leidžia suskirstyti agentus į grupes pagal jų pareigas. <br /> Agentas gali būti kelių komandų narys. Galite priskirti pokalbius komandai, kai dirbate kartu. </p>",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "Šioje paskyroje nėra sukurtų komandų.",
-      "EDIT_TEAM": "Redaguoti komandą"
+      "EDIT_TEAM": "Redaguoti komandą",
+      "NONE": "Nėra"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -14,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Pridėti agentus prie komandos",
-        "TITLE": "Pridėti agentus prie komandos - %{teamName}",
+        "TITLE": "Pridėti agentus prie komandos - {teamName}",
         "DESC": "Į naujai sukurtą komandą įtraukite agentus. Taip galėsite kaip komanda bendradarbiauti pokalbiuose, gauti pranešimus apie naujus įvykius tame pačiame pokalbyje."
       },
       "WIZARD": [
@@ -43,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Atnaujinkite agentus komandoje",
-        "TITLE": "Pridėti agentus prie komandos - %{teamName}",
+        "TITLE": "Pridėti agentus prie komandos - {teamName}",
         "DESC": "Pridėkite agentus į savo naujai sukurtą komandą. Visiems pridėtiems agentams bus pranešta, kai pokalbis bus priskirtas šiai komandai."
       },
       "WIZARD": [
@@ -74,14 +77,14 @@
       "ADD_AGENTS": "Agentai pridedami prie komandos...",
       "SELECT": "pasirinkti",
       "SELECT_ALL": "pasirinkti visus agentus",
-      "SELECTED_COUNT": "Pasirinkta %{selected} iš %{total} agentų."
+      "SELECTED_COUNT": "Pasirinkta {selected} iš {total} agentų."
     },
     "ADD": {
-      "TITLE": "Pridėti agentus prie komandos - %{teamName}",
+      "TITLE": "Pridėti agentus prie komandos - {teamName}",
       "DESC": "Į naujai sukurtą komandą įtraukite agentus. Taip galėsite kaip komanda bendradarbiauti pokalbiuose, gauti pranešimus apie naujus įvykius tame pačiame pokalbyje.",
       "SELECT": "pasirinkti",
       "SELECT_ALL": "pasirinkti visus agentus",
-      "SELECTED_COUNT": "Pasirinkta %{selected} iš %{total} agentų.",
+      "SELECTED_COUNT": "Pasirinkta {selected} iš {total} agentų.",
       "BUTTON_TEXT": "Pridėti agentus",
       "AGENT_VALIDATION_ERROR": "Pasirinkite bent vieną agentą."
     },
@@ -97,7 +100,7 @@
         "ERROR_MESSAGE": "Nepavyko ištrinti komandos. Bandykite dar kartą."
       },
       "CONFIRM": {
-        "TITLE": "Ar tikrai norite ištrinti – %{teamName}",
+        "TITLE": "Are you sure you want to delete the team?",
         "PLACE_HOLDER": "Įveskite {teamName}, kad patvirtintumėte",
         "MESSAGE": "Ištrynus komandą, komandos priskyrimas bus pašalintas iš šiai komandai priskirtų pokalbių.",
         "YES": "Ištrinti ",

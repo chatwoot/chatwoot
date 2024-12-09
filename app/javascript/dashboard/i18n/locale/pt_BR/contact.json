@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Sumário",
-      "DELETE_WARNING": "Contato de <strong>%{primaryContactName}</strong> será excluído.",
-      "ATTRIBUTE_WARNING": "Detalhes de contato de <strong>%{primaryContactName}</strong> serão copiados para <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Contato de <strong>{primaryContactName}</strong> será excluído.",
+      "ATTRIBUTE_WARNING": "Detalhes de contato de <strong>{primaryContactName}</strong> serão copiados para <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "Mensagem de erro"
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Contato mesclado com sucesso",
       "ERROR_MESSAGE": "Não foi possível mesclar contatos, tente novamente!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

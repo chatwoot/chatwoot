@@ -18,6 +18,7 @@
       "AND": "I",
       "OR": "O"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Igual a",
       "not_equal_to": "No és igual a",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Casella de selecció",
       "CREATED_AT": "Creat a",
       "LAST_ACTIVITY": "Última activitat"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "El valor és necessari"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Filtres estàndard",

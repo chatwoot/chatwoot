@@ -3,6 +3,8 @@ import wootConstants from 'dashboard/constants/globals';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 
 export default {
+  emits: ['filter'],
+
   setup() {
     const { uiSettings, updateUISettings } = useUISettings();
 

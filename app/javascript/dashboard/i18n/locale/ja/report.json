@@ -23,13 +23,13 @@
         "NAME": "First Response Time",
         "DESC": "(平均)",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "処理時間",
         "DESC": "(平均)",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "処理件数",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -167,13 +167,13 @@
         "NAME": "First Response Time",
         "DESC": "(平均)",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "処理時間",
         "DESC": "(平均)",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "処理件数",
@@ -234,13 +234,13 @@
         "NAME": "First Response Time",
         "DESC": "(平均)",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "処理時間",
         "DESC": "(平均)",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "処理件数",
@@ -301,13 +301,13 @@
         "NAME": "First Response Time",
         "DESC": "(平均)",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "処理時間",
         "DESC": "(平均)",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "処理件数",
@@ -368,13 +368,13 @@
         "NAME": "First Response Time",
         "DESC": "(平均)",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "処理時間",
         "DESC": "(平均)",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "処理件数",
@@ -480,8 +480,9 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
       "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversations by agents",
@@ -536,6 +537,7 @@
       "LABELS": "Label",
       "TEAMS": "Team"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

@@ -33,3 +33,5 @@ class ArticlePolicy < ApplicationPolicy
     @record.first.portal.members.include?(@user)
   end
 end
+
+ArticlePolicy.prepend_mod_with('Enterprise::ArticlePolicy')

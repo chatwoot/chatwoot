@@ -1,8 +1,8 @@
 <script setup>
-import { computed, ref, onMounted, watch, defineComponent, provide } from 'vue';
+import { computed, ref, onMounted, watch, defineOptions, provide } from 'vue';
 import { useAlert } from 'dashboard/composables';
 import { useStoreGetters } from 'dashboard/composables/store';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import LinearAPI from 'dashboard/api/integrations/linear';
 import CreateOrLinkIssue from './CreateOrLinkIssue.vue';
 import Issue from './Issue.vue';
@@ -15,7 +15,7 @@ const props = defineProps({
   },
 });
 
-defineComponent({
+defineOptions({
   name: 'Linear',
 });
 
@@ -48,11 +48,7 @@ const loadLinkedIssue = async () => {
     const issues = response.data;
     linkedIssue.value = issues && issues.length ? issues[0] : null;
   } catch (error) {
-    const errorMessage = parseLinearAPIErrorResponse(
-      error,
-      t('INTEGRATION_SETTINGS.LINEAR.LOADING_ERROR')
-    );
-    useAlert(errorMessage);
+    // We don't want to show an error message here, as it's not critical. When someone clicks on the Linear icon, we can inform them that the integration is disabled.
   }
 };
 
@@ -123,10 +119,10 @@ onMounted(() => {
       :issue="linkedIssue.issue"
       :link-id="linkedIssue.id"
       class="absolute right-0 top-[40px] invisible group-hover:visible"
-      @unlinkIssue="unlinkIssue"
+      @unlink-issue="unlinkIssue"
     />
     <woot-modal
-      :show.sync="shouldShowPopup"
+      v-model:show="shouldShowPopup"
       :on-close="closePopup"
       :close-on-backdrop-click="false"
       class="!items-start [&>div]:!top-12 [&>div]:sticky"

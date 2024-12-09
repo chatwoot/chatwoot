@@ -145,11 +145,7 @@
       },
       "AVAILABILITY": {
         "LABEL": "有效的",
-        "STATUSES_LIST": [
-          "線上的",
-          "忙碌中",
-          "離線的"
-        ],
+        "STATUSES_LIST": ["線上的", "忙碌中", "離線的"],
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
         "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
@@ -239,6 +235,7 @@
     "REPORTS": "報表",
     "SETTINGS": "設定",
     "CONTACTS": "聯絡人",
+    "CAPTAIN": "Captain",
     "HOME": "首頁",
     "AGENTS": "客服",
     "AGENT_BOTS": "機器人",
@@ -276,6 +273,7 @@
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "總覽",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
@@ -299,7 +297,7 @@
     "TITLE": "Billing",
     "CURRENT_PLAN": {
       "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Manage your subscription",

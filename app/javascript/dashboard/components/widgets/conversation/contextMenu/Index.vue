@@ -1,17 +1,20 @@
 <script>
+import { mapGetters } from 'vuex';
+import {
+  getSortedAgentsByAvailability,
+  getAgentsByUpdatedPresence,
+} from 'dashboard/helper/agentHelper.js';
 import MenuItem from './menuItem.vue';
 import MenuItemWithSubmenu from './menuItemWithSubmenu.vue';
 import wootConstants from 'dashboard/constants/globals';
-import agentMixin from 'dashboard/mixins/agentMixin';
-import { mapGetters } from 'vuex';
 import AgentLoadingPlaceholder from './agentLoadingPlaceholder.vue';
+
 export default {
   components: {
     MenuItem,
     MenuItemWithSubmenu,
     AgentLoadingPlaceholder,
   },
-  mixins: [agentMixin],
   props: {
     chatId: {
       type: Number,
@@ -34,6 +37,14 @@ export default {
       default: null,
     },
   },
+  emits: [
+    'updateConversation',
+    'assignPriority',
+    'markAsUnread',
+    'assignAgent',
+    'assignTeam',
+    'assignLabel',
+  ],
   data() {
     return {
       STATUS_TYPE: wootConstants.STATUS_TYPE,
@@ -112,13 +123,19 @@ export default {
       labels: 'labels/getLabels',
       teams: 'teams/getTeams',
       assignableAgentsUiFlags: 'inboxAssignableAgents/getUIFlags',
+      currentUser: 'getCurrentUser',
+      currentAccountId: 'getCurrentAccountId',
     }),
     filteredAgentOnAvailability() {
       const agents = this.$store.getters[
         'inboxAssignableAgents/getAssignableAgents'
       ](this.inboxId);
-      const agentsByUpdatedPresence = this.getAgentsByUpdatedPresence(agents);
-      const filteredAgents = this.sortedAgentsByAvailability(
+      const agentsByUpdatedPresence = getAgentsByUpdatedPresence(
+        agents,
+        this.currentUser,
+        this.currentAccountId
+      );
+      const filteredAgents = getSortedAgentsByAvailability(
         agentsByUpdatedPresence
       );
       return filteredAgents;
@@ -184,7 +201,7 @@ export default {
       v-if="!hasUnreadMessages"
       :option="unreadOption"
       variant="icon"
-      @click="$emit('markAsUnread')"
+      @click.stop="$emit('markAsUnread')"
     />
     <template v-for="option in statusMenuConfig">
       <MenuItem
@@ -192,14 +209,14 @@ export default {
         :key="option.key"
         :option="option"
         variant="icon"
-        @click="toggleStatus(option.key, null)"
+        @click.stop="toggleStatus(option.key, null)"
       />
     </template>
     <MenuItem
       v-if="showSnooze"
       :option="snoozeOption"
       variant="icon"
-      @click="snoozeConversation()"
+      @click.stop="snoozeConversation()"
     />
 
     <MenuItemWithSubmenu :option="priorityConfig">
@@ -207,7 +224,7 @@ export default {
         v-for="(option, i) in priorityConfig.options"
         :key="i"
         :option="option"
-        @click="assignPriority(option.key)"
+        @click.stop="assignPriority(option.key)"
       />
     </MenuItemWithSubmenu>
     <MenuItemWithSubmenu
@@ -219,7 +236,7 @@ export default {
         :key="label.id"
         :option="generateMenuLabelConfig(label, 'label')"
         variant="label"
-        @click="$emit('assignLabel', label)"
+        @click.stop="$emit('assignLabel', label)"
       />
     </MenuItemWithSubmenu>
     <MenuItemWithSubmenu
@@ -233,7 +250,7 @@ export default {
           :key="agent.id"
           :option="generateMenuLabelConfig(agent, 'agent')"
           variant="agent"
-          @click="$emit('assignAgent', agent)"
+          @click.stop="$emit('assignAgent', agent)"
         />
       </template>
     </MenuItemWithSubmenu>
@@ -245,7 +262,7 @@ export default {
         v-for="team in teams"
         :key="team.id"
         :option="generateMenuLabelConfig(team, 'team')"
-        @click="$emit('assignTeam', team)"
+        @click.stop="$emit('assignTeam', team)"
       />
     </MenuItemWithSubmenu>
   </div>

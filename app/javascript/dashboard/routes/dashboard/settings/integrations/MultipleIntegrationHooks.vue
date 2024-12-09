@@ -1,13 +1,18 @@
 <script>
 import { mapGetters } from 'vuex';
-import hookMixin from './hookMixin';
+import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
 export default {
-  mixins: [hookMixin],
   props: {
-    integration: {
-      type: Object,
-      default: () => ({}),
+    integrationId: {
+      type: String,
+      required: true,
     },
+  },
+  emits: ['delete'],
+  setup(props) {
+    const { integration, isHookTypeInbox, hasConnectedHooks } =
+      useIntegrationHook(props.integrationId);
+    return { integration, isHookTypeInbox, hasConnectedHooks };
   },
   computed: {
     ...mapGetters({

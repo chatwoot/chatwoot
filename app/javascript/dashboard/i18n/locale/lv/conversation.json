@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Nav",
         "INPUT_PLACEHOLDER": "Izvēlieties prioritāti",
         "NO_RESULTS": "Nav atrasts",
-        "SUCCESSFUL": "Sarunas Id %{conversationId} prioritāte nomainīta uz %{priority}",
+        "SUCCESSFUL": "Sarunas Id {conversationId} prioritāte nomainīta uz {priority}",
         "FAILED": "Nevarēja nomainīt prioritāti. Lūdzu, mēģiniet vēlreiz."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Piešķirt komandu",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Sarunas ID %{conversationId} piešķirts \"%{agentName}\"",
+          "SUCCESFUL": "Sarunas ID {conversationId} piešķirts \"{agentName}\"",
           "FAILED": "Nevarēja piešķirt aģentu. Lūdzu, mēģiniet vēlreiz."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Sarunai ar ID %{conversationId} tika piešķirta etiķete #%{labelName}",
+          "SUCCESFUL": "Sarunai ar ID {conversationId} tika piešķirta etiķete #{labelName}",
           "FAILED": "Nevarēja piešķirt etiķeti. Lūdzu, mēģiniet vēlreiz."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Sarunai ar ID %{conversationId} tika piešķirta komanda \"%{team}\"",
+          "SUCCESFUL": "Sarunai ar ID {conversationId} tika piešķirta komanda \"{team}\"",
           "FAILED": "Nevarēja piešķirt komandu. Lūdzu, mēģiniet vēlreiz."
         }
       }
@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + Enter, lai pārietu uz jaunu rindu. Sāciet ar '/' lai izvēlētos sagatavotu atbildi.",
       "PRIVATE_MSG_INPUT": "Shift + Enter, lai pārietu uz jaunu rindu. Ziņojums būs redzams tikai Aģentiem",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Ziņojuma paraksts nav nokonfigurēts. Lūdzu, nokonfigurējiet to profila iestatījumos.",
-      "CLICK_HERE": "Noklikšķiniet šeit, lai atjauninātu"
+      "CLICK_HERE": "Noklikšķiniet šeit, lai atjauninātu",
+      "WHATSAPP_TEMPLATES": "WhatsApp Veidnes"
     },
     "REPLYBOX": {
       "REPLY": "Atbildēt",
@@ -238,27 +239,31 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Sveicināti 👋, Laipni lūdzam %{installationName}!",
-    "DESCRIPTION": "Paldies, ka reģistrējāties. Mēs vēlamies, lai Jūs gūtu maksimālu labumu no %{installationName}. Šeit ir dažas lietas, ko varat darīt %{installationName} lai Jūsu pieredze būtu patīkamāka.",
+    "TITLE": "Sveicināti 👋, Laipni lūdzam {installationName}!",
+    "DESCRIPTION": "Paldies, ka reģistrējāties. Mēs vēlamies, lai Jūs gūtu maksimālu labumu no {installationName}. Šeit ir dažas lietas, ko varat darīt {installationName} lai Jūsu pieredze būtu patīkamāka.",
+    "GREETING_MORNING": "👋 Labrīt, {name}. Laipni lūdzam {installationName}.",
+    "GREETING_AFTERNOON": "👋 Labdien, {name}. Laipni lūdzam {installationName}.",
+    "GREETING_EVENING": "👋 Labvakar, {name}. Laipni lūdzam {installationName}.",
     "READ_LATEST_UPDATES": "Izlasīt mūsu aktuālākos jaunumus",
     "ALL_CONVERSATION": {
       "TITLE": "Visas Jūsu sarunas vienuviet",
-      "DESCRIPTION": "Skatīt visas sarunas ar klientiem vienā informācijas panelī. Jūs varat filtrēt sarunas pēc ienākošā kanāla, etiķetes un statusa."
+      "DESCRIPTION": "Skatīt visas sarunas ar klientiem vienā informācijas panelī. Jūs varat filtrēt sarunas pēc ienākošā kanāla, etiķetes un statusa.",
+      "NEW_LINK": "Noklikšķiniet šeit, lai izveidotu iesūtni"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Uzaicināt savas komandas biedrus",
       "DESCRIPTION": "Tā kā Jūs gatavojaties runāt ar savu klientu, piesaistiet savus komandas biedrus, lai viņi Jums palīdzētu. Jūs varat uzaicināt savus komandas biedrus, pievienojot viņu e-pasta adreses aģentu sarakstam.",
       "NEW_LINK": "Noklikšķiniet šeit, lai uzaicinātu komandas biedru"
     },
-    "INBOXES": {
-      "TITLE": "Pievienot Iesūtnes",
-      "DESCRIPTION": "Pievienot dažādus kanālus, caur kuriem Jūsu klienti ar Jums runās. Tie var būt tīmekļa vietņu tiešraides tērzētavas, Jūsu Facebook vai Twitter lapa, vai pat jūsu WhatsApp numurs.",
-      "NEW_LINK": "Noklikšķiniet šeit, lai izveidotu iesūtni"
-    },
     "LABELS": {
       "TITLE": "Organizēt sarunas ar etiķetēm",
       "DESCRIPTION": "Etiķetes nodrošina vienkāršāku veidu, kā klasificēt sarunu. Izveidojiet dažas etiķetes, piemēram, #atbalsta-pieprasījums, #norēķinu-jautājums utt., lai vēlāk varētu tās izmantot sarunas laikā.",
       "NEW_LINK": "Noklikšķiniet šeit, lai izveidotu atzīmes"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Izveidot sagatavotas atbildes",
+      "DESCRIPTION": "Iepriekš sagatavotas atbildes veidnes palīdz ātri reaģēt uz sarunu. Aģenti var izmantot '/' rakstzīmi, kurai seko kods, lai ievietotu atbildi.",
+      "NEW_LINK": "Noklikšķiniet šeit, lai izveidotu sagatavotu atbildi"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -312,10 +317,10 @@
     "SIDEBAR_TITLE": "Sarunas dalībnieki",
     "NO_RECORDS_FOUND": "Nav atrasts",
     "ADD_PARTICIPANTS": "Izvēlieties dalībniekus",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} citi",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} cits",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} cilvēki piedalās.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} persona piedalās.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} citi",
+    "REMANING_PARTICIPANT_TEXT": "+{count} cits",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} cilvēki piedalās.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} persona piedalās.",
     "NO_PARTICIPANTS_TEXT": "Neviens nepiedalās!",
     "WATCH_CONVERSATION": "Pievienoties sarunai",
     "YOU_ARE_WATCHING": "Jūs piedalāties",

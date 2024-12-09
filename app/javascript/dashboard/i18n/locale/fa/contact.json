@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "خلاصه",
-      "DELETE_WARNING": "اطلاعات مخاطب <strong>%{primaryContactName}</strong> حذف خواهد شد.",
-      "ATTRIBUTE_WARNING": "اطلاعات مخاطب <strong>%{primaryContactName}</strong> کپی شود به <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "اطلاعات مخاطب <strong>{primaryContactName}</strong> حذف خواهد شد.",
+      "ATTRIBUTE_WARNING": "اطلاعات مخاطب <strong>{primaryContactName}</strong> کپی شود به <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "مخاطب با موفقیت ادغام شد",
       "ERROR_MESSAGE": "نمی توان مخاطبین را ادغام کرد، دوباره امتحان کنید!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

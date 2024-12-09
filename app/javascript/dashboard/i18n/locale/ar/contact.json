@@ -142,7 +142,7 @@
         "DUPLICATE": "رقم الهاتف هذا مستخدم لجهة اتصال أخرى."
       },
       "LOCATION": {
-        "PLACEHOLDER": "أدخل موقع جهة الاتصال",
+        "PLACEHOLDER": "أدخل الموقع الجغرافي لجهة الاتصال",
         "LABEL": "الموقع الجغرافي"
       },
       "COMPANY_NAME": {
@@ -199,7 +199,7 @@
       },
       "INBOX": {
         "LABEL": "صندوق الوارد",
-        "PLACEHOLDER": "اختر صندوق المصدر",
+        "PLACEHOLDER": "اختيار مصدر البريد الوارد",
         "ERROR": "حدد صندوق الوارد"
       },
       "SUBJECT": {
@@ -228,9 +228,9 @@
     "FIELDS": "حقول جهات الاتصال",
     "SEARCH_BUTTON": "بحث",
     "SEARCH_INPUT_PLACEHOLDER": "بحث عن جهات الاتصال",
-    "FILTER_CONTACTS": "فلترة",
-    "FILTER_CONTACTS_SAVE": "حفظ الفلتر",
-    "FILTER_CONTACTS_DELETE": "حذف الفلتر",
+    "FILTER_CONTACTS": "تصفية",
+    "FILTER_CONTACTS_SAVE": "حفظ التصفية",
+    "FILTER_CONTACTS_DELETE": "حذف التصفية",
     "FILTER_CONTACTS_EDIT": "تحرير الجزء",
     "LIST": {
       "LOADING_MESSAGE": "جاري جلب جهات الاتصال...",
@@ -313,30 +313,30 @@
       "CREATE": "أضف سمة",
       "CANCEL": "إلغاء",
       "NAME": {
-        "LABEL": "اسم السمة الخاصة",
+        "LABEL": "اسم الصفة الخاصة",
         "PLACEHOLDER": "مثال: shopify id",
-        "ERROR": "اسم السمة المخصصة غير صالح"
+        "ERROR": "اسم الصفة المخصصة غير صالح"
       },
       "VALUE": {
         "LABEL": "قيمة السمة",
         "PLACEHOLDER": "مثلاً: 11901 "
       },
       "ADD": {
-        "TITLE": "إنشاء سمة جديدة ",
-        "SUCCESS": "تمت إضافة السمة بنجاح",
-        "ERROR": "غير قادر على إضافة السمة. الرجاء المحاولة مرة أخرى لاحقاً"
+        "TITLE": "إنشاء صفة جديدة ",
+        "SUCCESS": "تمت إضافة الصفة بنجاح",
+        "ERROR": "غير قادر على إضافة الصفة. الرجاء المحاولة مرة أخرى لاحقاً"
       },
       "UPDATE": {
-        "SUCCESS": "تم تحديث السمة المخصصة بنجاح",
-        "ERROR": "غير قادر على تحديث السمة. الرجاء المحاولة مرة أخرى لاحقاً"
+        "SUCCESS": "تم تحديث الصفة المخصصة بنجاح",
+        "ERROR": "غير قادر على تحديث الصفة. الرجاء المحاولة مرة أخرى لاحقاً"
       },
       "DELETE": {
-        "SUCCESS": "تم حذف السمة المخصصة بنجاح",
-        "ERROR": "غير قادر على حذف السمة. الرجاء المحاولة مرة أخرى لاحقاً"
+        "SUCCESS": "تم حذف الصفة المخصصة بنجاح",
+        "ERROR": "غير قادر على حذف الصفة. الرجاء المحاولة مرة أخرى لاحقاً"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "أضف سمة",
-        "PLACEHOLDER": "البحث عن سمات",
+        "TITLE": "أضف صفة",
+        "PLACEHOLDER": "البحث عن صفات",
         "NO_RESULT": "لم يتم العثور على سمات"
       },
       "ATTRIBUTE_TYPE": {
@@ -349,7 +349,7 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "القيمة الصالحة مطلوبة",
-      "INVALID_URL": "عنوان URL غير صالح",
+      "INVALID_URL": "عنوان الرابط غير صالح",
       "INVALID_INPUT": "مدخلات غير صالح"
     }
   },
@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "ملخص",
-      "DELETE_WARNING": "سيتم حذف جهة الاتصال بـ <strong>%{primaryContactName}</strong>.",
-      "ATTRIBUTE_WARNING": "سيتم نسخ تفاصيل الاتصال بـ <strong>%{primaryContactName}</strong> إلى <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "سيتم حذف جهة الاتصال <strong>{primaryContactName}</strong>.",
+      "ATTRIBUTE_WARNING": "سيتم نسخ تفاصيل الاتصال من <strong>{primaryContactName}</strong> إلى <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "رسالة_خطأ"
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "تم دمج جهة الاتصال بنجاح",
       "ERROR_MESSAGE": "تعذر دمج جهات الاتصال ، حاول مرة أخرى!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

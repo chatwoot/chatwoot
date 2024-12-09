@@ -1,46 +1,47 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automatizações",
-    "HEADER_BTN_TXT": "Adicionar Regra de Automação",
-    "LOADING": "Buscando regras de automação",
-    "SIDEBAR_TXT": "<p><b>Regras de automação</b> <p>A automação pode substituir e agilizar processos existentes que requerem esforço manual. Podem ser feitas muitas coisas com automação, incluindo adicionar etiquetas e atribuir a conversas a agentes. Para que a equipa se concentre no que faz melhor e economize tempo em tarefas manuais.</p>",
+    "HEADER": "Automatização",
+    "DESCRIPTION": "A automação pode substituir e racionalizar os processos existentes que requerem esforço manual, como a adição de etiquetas e a atribuição de conversas ao agente mais adequado. Isto permite que a equipa se foque em tarefas maiores, reduzindo o tempo gasto em tarefas rotineiras.",
+    "LEARN_MORE": "Saber mais sobre automação",
+    "HEADER_BTN_TXT": "Adicionar regra de automação",
+    "LOADING": "A procurar regras de automação",
     "ADD": {
-      "TITLE": "Adicionar Regra de Automação",
+      "TITLE": "Adicionar regra de automação",
       "SUBMIT": "Criar",
-      "CANCEL_BUTTON_TEXT": "cancelar",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
         "NAME": {
-          "LABEL": "Nome da Regra",
-          "PLACEHOLDER": "Insira nome da regra",
+          "LABEL": "Nome da regra",
+          "PLACEHOLDER": "Insira o nome da regra",
           "ERROR": "Nome é obrigatório"
         },
         "DESC": {
           "LABEL": "Descrição",
-          "PLACEHOLDER": "Insera descrição da regra",
+          "PLACEHOLDER": "Insira descrição da regra",
           "ERROR": "Descrição é obrigatória"
         },
         "EVENT": {
           "LABEL": "Evento",
-          "PLACEHOLDER": "Por favor selecione um",
+          "PLACEHOLDER": "Por favor, selecione um",
           "ERROR": "Evento é necessário"
         },
         "CONDITIONS": {
           "LABEL": "Condições"
         },
         "ACTIONS": {
-          "LABEL": "Ações."
+          "LABEL": "Ações"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Adicionar Condição",
-      "ACTION_BUTTON_LABEL": "Adicionar Ação",
+      "CONDITION_BUTTON_LABEL": "Adicionar condição",
+      "ACTION_BUTTON_LABEL": "Adicionar ação",
       "API": {
-        "SUCCESS_MESSAGE": "Regra de automatização adicionada com sucesso",
-        "ERROR_MESSAGE": "Não foi possível criar uma regra de automatização, por favor tente novamente mais tarde"
+        "SUCCESS_MESSAGE": "Regra de automação adicionada com sucesso",
+        "ERROR_MESSAGE": "Não foi possível criar uma regra de automação, por favor, tente novamente mais tarde"
       }
     },
     "LIST": {
       "TABLE_HEADER": [
-        "Nome:",
+        "Nome",
         "Descrição",
         "Ativa",
         "Criado em"
@@ -48,24 +49,24 @@
       "404": "Nenhuma regra de automação encontrada"
     },
     "DELETE": {
-      "TITLE": "Apagar Regra de Automação",
-      "SUBMIT": "excluir",
-      "CANCEL_BUTTON_TEXT": "cancelar",
+      "TITLE": "Apagar regra de automação",
+      "SUBMIT": "Excluir",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
       "CONFIRM": {
-        "TITLE": "Confirmar Exclusão",
-        "MESSAGE": "Tem certeza que deseja excluir ",
+        "TITLE": "Confirmar exclusão",
+        "MESSAGE": "Tem a certeza que pretende excluir a automação ",
         "YES": "Sim, excluir ",
-        "NO": "Não, Manter "
+        "NO": "Não, manter "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Regra de automatização eliminada com sucesso",
+        "SUCCESS_MESSAGE": "Regra de automação excluída com sucesso",
         "ERROR_MESSAGE": "Não foi possível excluir a regra de automação, por favor, tente novamente mais tarde"
       }
     },
     "EDIT": {
-      "TITLE": "Editar Regra de Automação",
+      "TITLE": "Editar regra de automação",
       "SUBMIT": "Atualização",
-      "CANCEL_BUTTON_TEXT": "cancelar",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
         "SUCCESS_MESSAGE": "Regra de automação atualizada com sucesso",
         "ERROR_MESSAGE": "Não foi possível atualizar a regra de automação, por favor, tente novamente mais tarde"
@@ -75,44 +76,55 @@
       "TOOLTIP": "Clone",
       "API": {
         "SUCCESS_MESSAGE": "Automação clonada com sucesso",
-        "ERROR_MESSAGE": "Não foi possível clonar regra de automação, por favor, tente novamente mais tarde"
+        "ERROR_MESSAGE": "Não foi possível clonar a regra de automação, por favor, tente novamente mais tarde"
       }
     },
     "FORM": {
-      "EDIT": "Alterar",
+      "EDIT": "Editar",
       "CREATE": "Criar",
-      "DELETE": "excluir",
-      "CANCEL": "cancelar",
+      "DELETE": "Excluir",
+      "CANCEL": "Cancelar",
       "RESET_MESSAGE": "Alterar o tipo de evento irá redefinir as condições e eventos adicionados abaixo"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "É necessário ter pelo menos uma condição para salvar",
-      "CONTACT_CUSTOM_ATTR_LABEL": "Atributos Personalizados do Contato",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Atributos Personalizados da Conversa"
+      "DELETE_MESSAGE": "É necessário ter, pelo menos, uma condição para guardar",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Atributos personalizados do contacto",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Atributos personalizados da conversa"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "É necessário ter pelo menos uma ação para salvar",
+      "DELETE_MESSAGE": "É necessário ter, pelo menos, uma ação para guardar",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Introduza aqui a sua mensagem",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Selecionar equipas"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Selecionar equipas",
+      "EMAIL_INPUT_PLACEHOLDER": "Inserir e-mail",
+      "URL_INPUT_PLACEHOLDER": "Inserir URL"
     },
     "TOGGLE": {
-      "ACTIVATION_TITLE": "Ativar Regra de Automação",
-      "DEACTIVATION_TITLE": "Desativar Regra de Automação",
-      "ACTIVATION_DESCRIPTION": "Esta ação irá ativar a regra de automação '{automationName}'. Tem a certeza que deseja continuar?",
-      "DEACTIVATION_DESCRIPTION": "Esta ação irá desativar a regra de automação '{automationName}'. Tem a certeza que deseja continuar?",
-      "ACTIVATION_SUCCESFUL": "Regra de Automação Ativada com Sucesso",
-      "DEACTIVATION_SUCCESFUL": "Regra de Automação Desativada com Sucesso",
-      "ACTIVATION_ERROR": "Não foi possível Ativar a Automação, por favor, tente novamente mais tarde",
-      "DEACTIVATION_ERROR": "Não foi possível Desativar a Automação, por favor, tente novamente mais tarde",
+      "ACTIVATION_TITLE": "Ativar regra de automação",
+      "DEACTIVATION_TITLE": "Desativar regra de automação",
+      "ACTIVATION_DESCRIPTION": "Esta ação irá ativar a regra de automação '{automationName}'. Tem a certeza que pretende continuar?",
+      "DEACTIVATION_DESCRIPTION": "Esta ação irá desativar a regra de automação '{automationName}'. Tem a certeza que pretende continuar?",
+      "ACTIVATION_SUCCESFUL": "Regra de automação ativada com sucesso",
+      "DEACTIVATION_SUCCESFUL": "Regra de automação desativada com sucesso",
+      "ACTIVATION_ERROR": "Não foi possível ativar a automação. Por favor, tente novamente mais tarde",
+      "DEACTIVATION_ERROR": "Não foi possível desativar a automação. Por favor, tente novamente mais tarde",
       "CONFIRMATION_LABEL": "Sim",
       "CANCEL_LABEL": "Não"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Não foi possível carregar anexo, por favor tente novamente",
+      "UPLOAD_ERROR": "Não foi possível carregar anexo, por favor, tente novamente",
       "LABEL_IDLE": "Carregar anexo",
       "LABEL_UPLOADING": "A carregar...",
-      "LABEL_UPLOADED": "Carregado com sucesso",
-      "LABEL_UPLOAD_FAILED": "Upload falhou"
+      "LABEL_UPLOADED": "Anexo carregado com sucesso",
+      "LABEL_UPLOAD_FAILED": "Falha ao carregar anexo"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "A chave do atributo é necessária",
+      "FILTER_OPERATOR_REQUIRED": "Operador do filtro é necessário",
+      "VALUE_REQUIRED": "Valor obrigatório",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "O valor deve ser entre 1 e 998",
+      "ACTION_PARAMETERS_REQUIRED": "Os parâmetros de ação são obrigatórios",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "Pelo menos uma condição é obrigatória",
+      "ATLEAST_ONE_ACTION_REQUIRED": "Pelo menos uma ação é obrigatória"
     }
   }
 }

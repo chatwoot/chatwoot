@@ -1,27 +1,26 @@
-import { getCurrentInstance } from 'vue';
 import { emitter } from 'shared/helpers/mitt';
+import analyticsHelper from 'dashboard/helper/AnalyticsHelper';
 import { useTrack, useAlert } from '../index';
 
-vi.mock('vue', () => ({
-  getCurrentInstance: vi.fn(),
-}));
 vi.mock('shared/helpers/mitt', () => ({
   emitter: {
     emit: vi.fn(),
   },
 }));
 
-describe('useTrack', () => {
-  it('should return $track from the current instance proxy', () => {
-    const mockProxy = { $track: vi.fn() };
-    getCurrentInstance.mockReturnValue({ proxy: mockProxy });
-    const track = useTrack();
-    expect(track).toBe(mockProxy.$track);
-  });
+vi.mock('dashboard/helper/AnalyticsHelper/index', async importOriginal => {
+  const actual = await importOriginal();
+  actual.default = {
+    track: vi.fn(),
+  };
+  return actual;
+});
 
-  it('should throw an error if called outside of setup', () => {
-    getCurrentInstance.mockReturnValue(null);
-    expect(useTrack).toThrowError('must be called in setup');
+describe('useTrack', () => {
+  it('should call analyticsHelper.track and return a function', () => {
+    const eventArgs = ['event-name', { some: 'data' }];
+    useTrack(...eventArgs);
+    expect(analyticsHelper.track).toHaveBeenCalledWith(...eventArgs);
   });
 });
 

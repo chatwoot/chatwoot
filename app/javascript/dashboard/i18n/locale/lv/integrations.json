@@ -1,11 +1,18 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrācijas",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
-    "LEARN_MORE": "Learn more about integrations",
-    "LOADING": "Fetching integrations",
+    "DESCRIPTION": "Chatwoot integrējas ar vairākiem rīkiem un pakalpojumiem, lai uzlabotu jūsu komandas efektivitāti. Izpētiet tālāk esošo sarakstu, lai konfigurētu savas iecienītākās lietotnes.",
+    "LEARN_MORE": "Uzzināt vairāk par integrācijām",
+    "LOADING": "Integrāciju iegūšana",
+    "CAPTAIN": {
+      "DISABLED": "Captain jūsu kontā nav iespējots.",
+      "CLICK_HERE_TO_CONFIGURE": "Noklikšķiniet šeit, lai konfigurētu",
+      "LOADING_CONSOLE": "Notiek Captain konsoles ielāde...",
+      "FAILED_TO_LOAD_CONSOLE": "Neizdevās ielādēt Captain konsoli. Lūdzu, mēģiniet vēlreiz."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Abonētie Notikumi",
+      "LEARN_MORE": "Uzzināt vairāk par webhooks",
       "FORM": {
         "CANCEL": "Atcelt",
         "DESC": "Webhook notikumi sniedz Jums reāllaika informāciju par to, kas notiek jūsu Chatwoot kontā. Lūdzu, ievadiet derīgu URL, lai nokonfigurētu atzvanīšanu.",
@@ -24,7 +31,7 @@
         },
         "END_POINT": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Piemēram: %{webhookExampleURL}",
+          "PLACEHOLDER": "Piemēram: {webhookExampleURL}",
           "ERROR": "Lūdzu, ievadiet derīgu URL"
         },
         "EDIT_SUBMIT": "Atjaunināt webhook",
@@ -69,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Apstiprināt Dzēšanu",
-          "MESSAGE": "Vai tiešām vēlaties izdzēst webhook? (%{webhookURL})",
+          "MESSAGE": "Vai tiešām vēlaties izdzēst webhook? ({webhookURL})",
           "YES": "Jā, Dzēst ",
           "NO": "Nē, Paturēt"
         }
@@ -83,7 +90,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "Kā izmantot Slack integrāciju?",
-        "BODY": "Izmantojot šo integrāciju, visas Jūsu ienākošās sarunas tiks sinhronizētas ar Jūsu Slack workspace kanālu ***%{selectedChannelName}***. Jūs varat pārvaldīt visas savas sarunas ar klientiem savā kanālā un nekad nepalaist garām nevienu ziņojumu.\n\nŠeit ir galvenās integrācijas iezīmes:\n\n**Atbildēt uz sarunām no Slack:** Lai atbildētu uz sarunu Slack kanālā ***%{selectedChannelName}***, uzrakstiet savu ziņojumu un nosūtiet to kā pavedienu. Tas nosūtīs atbildi klientam, izmantojot Chatwoot. Tas ir tik vienkārši!\n\n  **Izveidot privātas piezīmes:** Ja vēlaties izveidot privātas piezīmes, nevis atbildes, sāciet ziņojumu ar ***`note:`***. Tas nodrošina, ka jūsu ziņojums ir privāts un nebūs redzams klientam.\n\n**Asociēt aģenta profilu:** Ja personai, kas atbildēja Slack kanālā, ir aģenta profils pakalpojumā Chatwoot, ar tādu pašu e-pasta adresi, atbildes tiks automātiski asociētas ar šo aģenta profilu. Tas nozīmē, ka varat viegli izsekot kurš ko teica un kad. No otras puses, ja atbildētājam nav asociēta aģenta profila, atbildes klientam tiks rādītas no robotprogrammatūras profila.",
+        "BODY": "Izmantojot šo integrāciju, visas Jūsu ienākošās sarunas tiks sinhronizētas ar Jūsu Slack workspace kanālu ***{selectedChannelName}***. Jūs varat pārvaldīt visas savas sarunas ar klientiem savā kanālā un nekad nepalaist garām nevienu ziņojumu.\n\nŠeit ir galvenās integrācijas iezīmes:\n\n**Atbildēt uz sarunām no Slack:** Lai atbildētu uz sarunu Slack kanālā ***{selectedChannelName}***, uzrakstiet savu ziņojumu un nosūtiet to kā pavedienu. Tas nosūtīs atbildi klientam, izmantojot Chatwoot. Tas ir tik vienkārši!\n\n  **Izveidot privātas piezīmes:** Ja vēlaties izveidot privātas piezīmes, nevis atbildes, sāciet ziņojumu ar ***`note:`***. Tas nodrošina, ka jūsu ziņojums ir privāts un nebūs redzams klientam.\n\n**Asociēt aģenta profilu:** Ja personai, kas atbildēja Slack kanālā, ir aģenta profils pakalpojumā Chatwoot, ar tādu pašu e-pasta adresi, atbildes tiks automātiski asociētas ar šo aģenta profilu. Tas nozīmē, ka varat viegli izsekot kurš ko teica un kad. No otras puses, ja atbildētājam nav asociēta aģenta profila, atbildes klientam tiks rādītas no robotprogrammatūras profila.",
         "SELECTED": "izvēlēts"
       },
       "SELECT_CHANNEL": {
@@ -107,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI Palīgs",
-      "WITH_AI": " %{option} ar AI ",
+      "WITH_AI": " {option} ar AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Atbildes Ieteikums",
         "SUMMARIZE": "Apkopot",
@@ -172,7 +179,7 @@
       "HEADER_BTN_TXT": "Pievienot jaunu informācijas paneļa lietotni",
       "SIDEBAR_TXT": "<p><b>Informācijas Paneļa Lietotnes</b></p><p>Informācijas paneļa lietotnes ļauj organizācijām iegult lietojumprogrammu Chatwoot informācijas panelī, lai nodrošinātu kontekstu klientu atbalsta aģentiem. Šī funkcija ļauj Jums izveidot lietojumprogrammu neatkarīgi un iegult to informācijas panelī, lai sniegtu informāciju par lietotāju, viņu pasūtījumiem vai viņu iepriekšējo maksājumu vēsturi.</p><p>Kad iegulsiet lietojumprogrammu, izmantojot Chatwoot informācijas paneli, Jūsu lietojumprogramma iegūs sarunas un kontaktpersonas kontekstu kā loga notikumu. Ieviesiet savā lapā ziņojuma notikuma uztvērēju, lai saņemtu kontekstu.</p><p>Lai pievienotu jaunu informācijas paneļa lietotni, noklikšķiniet uz pogas 'Pievienot jaunu informācijas paneļa lietotni'.</p>",
       "DESCRIPTION": "Informācijas paneļa lietotnes ļauj organizācijām iegult lietojumprogrammu informācijas panelī, lai nodrošinātu kontekstu klientu atbalsta aģentiem. Šī funkcija ļauj Jums neatkarīgi izveidot lietojumprogrammu un iegult to, lai sniegtu informāciju par lietotāju, viņu pasūtījumiem vai iepriekšējo maksājumu vēsturi.",
-      "LEARN_MORE": "Learn more about Dashboard Apps",
+      "LEARN_MORE": "Uzzināt vairāk par Informācijas paneļa Lietotnēm",
       "LIST": {
         "404": "Šajā kontā vēl nav nokonfigurēta neviena informācijas paneļa lietotne",
         "LOADING": "Notiek informācijas paneļa lietotņu iegūšana...",
@@ -209,7 +216,7 @@
         "CONFIRM_YES": "Jā, dzēst",
         "CONFIRM_NO": "Nē, paturēt",
         "TITLE": "Apstipriniet dzēšanu",
-        "MESSAGE": "Vai tiešām vēlaties izdzēst lietotni - %{appName}?",
+        "MESSAGE": "Vai tiešām vēlaties izdzēst lietotni - {appName}?",
         "API_SUCCESS": "Informācijas paneļa lietotne ir veiksmīgi izdzēsta",
         "API_ERROR": "Mēs nevarējām izdzēst lietotni. Lūdzu, vēlāk pamēģiniet vēlreiz"
       }
@@ -228,7 +235,7 @@
         "ERROR": "Lineāru problēmu iegūšanas laikā radās kļūda. Lūdzu, mēģiniet vēlreiz",
         "LINK_SUCCESS": "Problēma ir veiksmīgi sasaistīta",
         "LINK_ERROR": "Sasaistot problēmu radās kļūda. Lūdzu, mēģiniet vēlreiz",
-        "LINK_TITLE": "Saruna (#%{conversationId}) ar %{name}"
+        "LINK_TITLE": "Saruna (#{conversationId}) ar {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Izveidot/saistīt lineāru problēmu",
@@ -287,7 +294,7 @@
         "PRIORITY": "Prioritāte",
         "ASSIGNEE": "Uzdevuma saņēmējs",
         "LABELS": "Etiķetes",
-        "CREATED_AT": "Izveidots %{createdAt}"
+        "CREATED_AT": "Izveidots {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Atsaistīt",

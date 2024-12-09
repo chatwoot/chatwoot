@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Niko",
         "INPUT_PLACEHOLDER": "Select priority",
         "NO_RESULTS": "Ništa nije pronađeno",
-        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
         "FAILED": "Couldn't change priority. Please try again."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Dodeli tim",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Razgovor sa ID %{conversationId} je dodeljen \"%{agentName}\"",
+          "SUCCESFUL": "Razgovor sa ID {conversationId} je dodeljen \"{agentName}\"",
           "FAILED": "Nije bilo moguće dodeliti agenta. Molim vas pokušajte ponovo."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Dodeljena je oznaka # %{labelName} razgovoru sa id %{conversationId}",
+          "SUCCESFUL": "Dodeljena je oznaka # {labelName} razgovoru sa id {conversationId}",
           "FAILED": "Nije bilo moguće dodeliti oznaku. Molim vas pokušajte ponovo."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Dodeljen je tim \"%{team}\" razgovoru sa id %{conversationId}",
+          "SUCCESFUL": "Dodeljen je tim \"{team}\" razgovoru sa id {conversationId}",
           "FAILED": "Nije bilo moguće dodeliti tim. Molim vas pokušajte ponovo."
         }
       }
@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + enter za novi red. Počni sa '/' da bi ste izabrali brzi odgovor.",
       "PRIVATE_MSG_INPUT": "Shift + enter za novi red. Ovo će biti vidljivo samo agentima",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Potpis poruke nije podešen, molim vas podesite ga u podešavanjima profila.",
-      "CLICK_HERE": "Kliknite ovde da izmenite"
+      "CLICK_HERE": "Kliknite ovde da izmenite",
+      "WHATSAPP_TEMPLATES": "Whatsapp šabloni"
     },
     "REPLYBOX": {
       "REPLY": "Odgovor",
@@ -238,27 +239,31 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Zdravo 👋, Dobrodošli u %{installationName}!",
-    "DESCRIPTION": "Hvala vam na registraciji. Želimo da najbolje iskoristite ovu %{installationName}. Evo nekoliko stvari koje možete da uradite u %{installationName} da bi vaše iskustvo bilo izvrsno.",
+    "TITLE": "Zdravo 👋, Dobrodošli u {installationName}!",
+    "DESCRIPTION": "Hvala vam na registraciji. Želimo da najbolje iskoristite ovu {installationName}. Evo nekoliko stvari koje možete da uradite u {installationName} da bi vaše iskustvo bilo izvrsno.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Pročitajte naše najnovije izmene",
     "ALL_CONVERSATION": {
       "TITLE": "Svi vaši razgovori na jednom mestu",
-      "DESCRIPTION": "Pregledajte sve razgovore sa vašim kupcima u jednoj radnoj tabli. Možete filtrirati razgovore prema dolaznom kanalu, oznaci i statusu."
+      "DESCRIPTION": "Pregledajte sve razgovore sa vašim kupcima u jednoj radnoj tabli. Možete filtrirati razgovore prema dolaznom kanalu, oznaci i statusu.",
+      "NEW_LINK": "Kliknite ovde da napravite prijemno sanduče"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Pozovite članove vašeg tima",
       "DESCRIPTION": "Sobzirom da se spremate da razgovarate sa vašim potrošačima, dovedite članove vašeg time da vam pomognu. Možete pozvati članove vašeg time dodavanjem njihove adrese e-pošte u spisak agenata.",
       "NEW_LINK": "Kliknite ovde da pozovete člana tima"
     },
-    "INBOXES": {
-      "TITLE": "Povežite prijemna sandučeta",
-      "DESCRIPTION": "Povežite razne kanale kroz koje bi vaši potrošači mogli da razgovaraju sa vama. To može biti uživo časkanje na sajtu, vaša Fejsbuk ili Tviter stranica ili čak vaš WhatsApp broj.",
-      "NEW_LINK": "Kliknite ovde da napravite prijemno sanduče"
-    },
     "LABELS": {
       "TITLE": "Organizujte razgovore sa oznakama",
       "DESCRIPTION": "Oznake omogućavaju lakši način da se kategorišu razgovori. Napravite oznake poput #upit-podrske, #pitanje-placanja itd., kako bi ste ih koristili u kasnijim razgovorima.",
       "NEW_LINK": "Kliknite ovde da napravite oznake"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -312,10 +317,10 @@
     "SIDEBAR_TITLE": "Conversation participants",
     "NO_RECORDS_FOUND": "Ništa nije pronađeno",
     "ADD_PARTICIPANTS": "Select participants",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
     "NO_PARTICIPANTS_TEXT": "No one is participating!.",
     "WATCH_CONVERSATION": "Join conversation",
     "YOU_ARE_WATCHING": "You are participating",

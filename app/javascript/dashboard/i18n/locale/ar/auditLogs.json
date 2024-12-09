@@ -3,6 +3,8 @@
     "HEADER": "سجلات التدقيق",
     "HEADER_BTN_TXT": "إضافة سجلات التدقيق",
     "LOADING": "جارٍ جلب سجلات التدقيق",
+    "DESCRIPTION": "سجلات مراجعة الحسابات تحتفظ بسجل للأنشطة في حسابك، مما يسمح لك بتتبع ومراجعة حسابك أو فريقك أو خدماتك.",
+    "LEARN_MORE": "معرفة المزيد عن سجلات المراجعة",
     "SEARCH_404": "لا توجد عناصر مطابقة لهذا الاستعلام",
     "SIDEBAR_TXT": "<p><b>سجلات التدقيق</b> </p><p> سجلات التدقيق هي مسارات للأحداث والإجراءات في نظام Chatwoot. </p>",
     "LIST": {
@@ -21,51 +23,52 @@
     },
     "DEFAULT_USER": "النظام",
     "AUTOMATION_RULE": {
-      "ADD": "%{agentName} أنشأ قاعدة أتمتة جديدة (#%{id})",
-      "EDIT": "%{agentName} قام بتحديث قاعدة أتمتة (#%{id})",
-      "DELETE": "%{agentName} حذف قاعدة أتمتة (#%{id})"
+      "ADD": "{agentName} أنشأ قاعدة أتمتة جديدة (#{id})",
+      "EDIT": "{agentName} قام بتحديث قاعدة أتمتة (#{id})",
+      "DELETE": "{agentName} حذف قاعدة أتمتة (#{id})"
     },
     "ACCOUNT_USER": {
-      "ADD": "%{agentName} دعا %{invitee} إلى الحساب كـ %{role}",
+      "ADD": "{agentName} دعا {invitee} إلى الحساب كـ {role}",
       "EDIT": {
-        "SELF": "%{agentName} غير %{attributes} الخاصة به إلى %{values}",
-        "OTHER": "%{agentName} غير %{attributes} لـ %{user} إلى %{values}"
+        "SELF": "{agentName} غير {attributes} الخاصة به إلى {values}",
+        "OTHER": "{agentName} غير {attributes} لـ {user} إلى {values}",
+        "DELETED": "{agentName} غير {attributes} لـ {user} إلى {values}"
       }
     },
     "INBOX": {
-      "ADD": "%{agentName} أنشأ صندوق وارد جديد (#%{id})",
-      "EDIT": "%{agentName} قام بتحديث صندوق الوارد (#%{id})",
-      "DELETE": "%{agentName} حذف صندوق الوارد (#%{id})"
+      "ADD": "{agentName} أنشأ صندوق وارد جديد (#{id})",
+      "EDIT": "{agentName} قام بتحديث صندوق الوارد (#{id})",
+      "DELETE": "{agentName} حذف صندوق الوارد (#{id})"
     },
     "WEBHOOK": {
-      "ADD": "%{agentName} أنشأ Webhook جديد (#%{id})",
-      "EDIT": "%{agentName} قام بتحديث Webhook (#%{id})",
-      "DELETE": "%{agentName} حذف Webhook (#%{id})"
+      "ADD": "{agentName} أنشأ Webhook جديد (#{id})",
+      "EDIT": "{agentName} قام بتحديث Webhook (#{id})",
+      "DELETE": "{agentName} حذف Webhook (#{id})"
     },
     "USER_ACTION": {
-      "SIGN_IN": "%{agentName} قام بتسجيل الدخول",
-      "SIGN_OUT": "%{agentName} قام بتسجيل الخروج"
+      "SIGN_IN": "{agentName} قام بتسجيل الدخول",
+      "SIGN_OUT": "{agentName} قام بتسجيل الخروج"
     },
     "TEAM": {
-      "ADD": "%{agentName} أنشأ فريق جديد (#%{id})",
-      "EDIT": "%{agentName} قام بتحديث الفريق (#%{id})",
-      "DELETE": "%{agentName} حذف الفريق (#%{id})"
+      "ADD": "{agentName} أنشأ فريق جديد (#{id})",
+      "EDIT": "{agentName} قام بتحديث الفريق (#{id})",
+      "DELETE": "{agentName} حذف الفريق (#{id})"
     },
     "MACRO": {
-      "ADD": "%{agentName} أنشأ ماكرو جديد (#%{id})",
-      "EDIT": "%{agentName} قام بتحديث ماكرو (#%{id})",
-      "DELETE": "%{agentName} حذف ماكرو (#%{id})"
+      "ADD": "{agentName} أنشأ ماكرو جديد (#{id})",
+      "EDIT": "{agentName} قام بتحديث ماكرو (#{id})",
+      "DELETE": "{agentName} حذف ماكرو (#{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "%{agentName} أضاف %{user} إلى صندوق الوارد (#%{inbox_id})",
-      "REMOVE": "%{agentName} أزال %{user} من صندوق الوارد (#%{inbox_id})"
+      "ADD": "{agentName} أضاف {user} إلى صندوق الوارد (#{inbox_id})",
+      "REMOVE": "{agentName} أزال {user} من صندوق الوارد (#{inbox_id})"
     },
     "TEAM_MEMBER": {
-      "ADD": "%{agentName} أضاف %{user} إلى الفريق (#%{team_id})",
-      "REMOVE": "%{agentName} أزال %{user} من الفريق (#%{team_id})"
+      "ADD": "{agentName} أضاف {user} إلى الفريق (#{team_id})",
+      "REMOVE": "{agentName} أزال {user} من الفريق (#{team_id})"
     },
     "ACCOUNT": {
-      "EDIT": "%{agentName} قام بتحديث إعدادات الحساب (#%{id})"
+      "EDIT": "{agentName} قام بتحديث إعدادات الحساب (#{id})"
     }
   }
 }

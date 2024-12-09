@@ -4,8 +4,15 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "События с подпиской",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Отменить",
         "DESC": "Вебхуки позволяют получить вам информацию о том, что происходит в вашей учетной записи Chatwoot. Пожалуйста, введите корректный URL.",
@@ -69,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Подтвердите удаление",
-          "MESSAGE": "Вы уверены, что хотите удалить вебхук? (%{webhookURL})",
+          "MESSAGE": "Вы уверены, что хотите удалить вебхук? ({webhookURL})",
           "YES": "Да, удалить ",
           "NO": "Нет, не удалять"
         }
@@ -107,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "Помощь ИИ",
-      "WITH_AI": " %{option} с ИИ ",
+      "WITH_AI": " {option} с ИИ ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Предложить ответ",
         "SUMMARIZE": "Подведем итог",
@@ -209,7 +216,7 @@
         "CONFIRM_YES": "Да, удалить",
         "CONFIRM_NO": "Нет, не удалять",
         "TITLE": "Подтвердите удаление",
-        "MESSAGE": "Вы уверены, что хотите удалить приложение - %{appName}?",
+        "MESSAGE": "Вы уверены, что хотите удалить приложение - {appName}?",
         "API_SUCCESS": "Приложение успешно удалено",
         "API_ERROR": "Не удалось удалить приложение. Повторите попытку позже"
       }
@@ -287,7 +294,7 @@
         "PRIORITY": "Приоритет",
         "ASSIGNEE": "Назначено",
         "LABELS": "Категории",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Unlink",

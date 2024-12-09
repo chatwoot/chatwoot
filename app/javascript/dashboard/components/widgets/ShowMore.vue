@@ -1,38 +1,34 @@
-<script>
-export default {
-  props: {
-    text: {
-      type: String,
-      default: '',
-    },
-    limit: {
-      type: Number,
-      default: 120,
-    },
-  },
-  data() {
-    return {
-      showMore: false,
-    };
-  },
-  computed: {
-    textToBeDisplayed() {
-      if (this.showMore || this.text.length <= this.limit) {
-        return this.text;
-      }
+<script setup>
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-      return this.text.slice(0, this.limit) + '...';
-    },
-    buttonLabel() {
-      const i18nKey = !this.showMore ? 'SHOW_MORE' : 'SHOW_LESS';
-      return this.$t(`COMPONENTS.SHOW_MORE_BLOCK.${i18nKey}`);
-    },
+const props = defineProps({
+  text: {
+    type: String,
+    default: '',
   },
-  methods: {
-    toggleShowMore() {
-      this.showMore = !this.showMore;
-    },
+  limit: {
+    type: Number,
+    default: 120,
   },
+});
+const { t } = useI18n();
+const showMore = ref(false);
+
+const textToBeDisplayed = computed(() => {
+  if (showMore.value || props.text.length <= props.limit) {
+    return props.text;
+  }
+
+  return props.text.slice(0, props.limit) + '...';
+});
+const buttonLabel = computed(() => {
+  const i18nKey = !showMore.value ? 'SHOW_MORE' : 'SHOW_LESS';
+  return t(`COMPONENTS.SHOW_MORE_BLOCK.${i18nKey}`);
+});
+
+const toggleShowMore = () => {
+  showMore.value = !showMore.value;
 };
 </script>
 
@@ -41,16 +37,10 @@ export default {
     {{ textToBeDisplayed }}
     <button
       v-if="text.length > limit"
-      class="show-more--button"
+      class="text-woot-500 !p-0 !border-0 align-top"
       @click="toggleShowMore"
     >
       {{ buttonLabel }}
     </button>
   </span>
 </template>
-
-<style scoped>
-.show-more--button {
-  color: var(--w-500);
-}
-</style>

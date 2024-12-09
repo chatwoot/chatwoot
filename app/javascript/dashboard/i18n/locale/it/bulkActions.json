@@ -1,12 +1,13 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} conversazioni selezionate",
+    "CONVERSATIONS_SELECTED": "{conversationCount} conversazioni selezionate",
     "AGENT_SELECT_LABEL": "Seleziona un'agente",
-    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign %{conversationCount} %{conversationLabel} to",
-    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign {conversationCount} {conversationLabel} to",
+    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Torna indietro",
     "ASSIGN_LABEL": "Assegna",
     "YES": "Sì",
+    "SEARCH_INPUT_PLACEHOLDER": "Cerca",
     "ASSIGN_AGENT_TOOLTIP": "Assegna agente",
     "ASSIGN_TEAM_TOOLTIP": "Assegna team",
     "ASSIGN_SUCCESFUL": "Conversazioni assegnate correttamente.",

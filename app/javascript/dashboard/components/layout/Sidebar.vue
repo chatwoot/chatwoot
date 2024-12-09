@@ -1,14 +1,17 @@
 <script>
-import { ref } from 'vue';
 import { mapGetters } from 'vuex';
 import { getSidebarItems } from './config/default-sidebar';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-import { useRoute, useRouter } from 'dashboard/composables/route';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { useRoute, useRouter } from 'vue-router';
 
 import PrimarySidebar from './sidebarComponents/Primary.vue';
 import SecondarySidebar from './sidebarComponents/Secondary.vue';
 import { routesWithPermissions } from '../../routes';
-import { hasPermissions } from '../../helper/permissionsHelper';
+import {
+  getUserPermissions,
+  hasPermissions,
+} from '../../helper/permissionsHelper';
 
 export default {
   components: {
@@ -20,15 +23,18 @@ export default {
       type: Boolean,
       default: true,
     },
-    sidebarClassName: {
-      type: String,
-      default: '',
-    },
   },
+  emits: [
+    'toggleAccountModal',
+    'showAddLabelPopup',
+    'openNotificationPanel',
+    'closeKeyShortcutModal',
+    'openKeyShortcutModal',
+  ],
   setup(props, { emit }) {
-    const sidebarRef = ref(null);
     const route = useRoute();
     const router = useRouter();
+    const { accountId } = useAccount();
 
     const toggleKeyShortcutModal = () => {
       emit('openKeyShortcutModal');
@@ -64,11 +70,11 @@ export default {
         action: () => navigateToRoute('agent_list'),
       },
     };
-    useKeyboardEvents(keyboardEvents, sidebarRef);
+    useKeyboardEvents(keyboardEvents);
 
     return {
       toggleKeyShortcutModal,
-      sidebarRef,
+      accountId,
     };
   },
   data() {
@@ -79,7 +85,6 @@ export default {
 
   computed: {
     ...mapGetters({
-      accountId: 'getCurrentAccountId',
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
       inboxes: 'inboxes/getInboxes',
@@ -99,6 +104,9 @@ export default {
       return '';
     },
     customViews() {
+      if (!this.activeCustomView) {
+        return [];
+      }
       return this.$store.getters['customViews/getCustomViewsByFilterType'](
         this.activeCustomView
       );
@@ -113,7 +121,10 @@ export default {
       return getSidebarItems(this.accountId);
     },
     primaryMenuItems() {
-      const userPermissions = this.currentUser.permissions;
+      const userPermissions = getUserPermissions(
+        this.currentUser,
+        this.accountId
+      );
       const menuItems = this.sideMenuConfig.primaryMenu;
       return menuItems.filter(menuItem => {
         const isAvailableForTheUser = hasPermissions(
@@ -156,6 +167,17 @@ export default {
         ) || {};
       return activePrimaryMenu;
     },
+    hasSecondaryMenu() {
+      return (
+        this.activeSecondaryMenu.menuItems &&
+        this.activeSecondaryMenu.menuItems.length
+      );
+    },
+    hasSecondarySidebar() {
+      // if it is explicitly stated to show and it has secondary menu items to show
+      // showSecondarySidebar corresponds to the UI settings, indicating if the user has toggled it
+      return this.showSecondarySidebar && this.hasSecondaryMenu;
+    },
   },
 
   watch: {
@@ -195,7 +217,7 @@ export default {
 </script>
 
 <template>
-  <aside ref="sidebarRef" class="flex h-full">
+  <aside class="flex h-full">
     <PrimarySidebar
       :logo-source="globalConfig.logoThumbnail"
       :installation-name="globalConfig.installationName"
@@ -203,13 +225,12 @@ export default {
       :account-id="accountId"
       :menu-items="primaryMenuItems"
       :active-menu-item="activePrimaryMenu.key"
-      @toggleAccounts="toggleAccountModal"
-      @openKeyShortcutModal="toggleKeyShortcutModal"
-      @openNotificationPanel="openNotificationPanel"
+      @toggle-accounts="toggleAccountModal"
+      @open-key-shortcut-modal="toggleKeyShortcutModal"
+      @open-notification-panel="openNotificationPanel"
     />
     <SecondarySidebar
-      v-if="showSecondarySidebar"
-      :class="sidebarClassName"
+      v-if="hasSecondarySidebar"
       :account-id="accountId"
       :inboxes="inboxes"
       :labels="labels"
@@ -218,8 +239,8 @@ export default {
       :menu-config="activeSecondaryMenu"
       :current-user="currentUser"
       :is-on-chatwoot-cloud="isOnChatwootCloud"
-      @addLabel="showAddLabelPopup"
-      @toggleAccounts="toggleAccountModal"
+      @add-label="showAddLabelPopup"
+      @toggle-accounts="toggleAccountModal"
     />
   </aside>
 </template>

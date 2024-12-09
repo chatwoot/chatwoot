@@ -5,16 +5,16 @@ import languages from './advancedFilterItems/languages';
 import countries from 'shared/constants/countries.js';
 import { mapGetters } from 'vuex';
 import { filterAttributeGroups } from './advancedFilterItems';
-import filterMixin from 'shared/mixins/filterMixin';
+import { useFilter } from 'shared/composables/useFilter';
 import * as OPERATORS from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { validateConversationOrContactFilters } from 'dashboard/helper/validations.js';
+import { useTrack } from 'dashboard/composables';
 
 export default {
   components: {
     FilterInputBox,
   },
-  mixins: [filterMixin],
   props: {
     onClose: {
       type: Function,
@@ -36,6 +36,16 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  emits: ['applyFilter', 'updateFolder'],
+  setup() {
+    const { setFilterAttributes } = useFilter({
+      filteri18nKey: 'FILTER',
+      attributeModel: 'conversation_attribute',
+    });
+    return {
+      setFilterAttributes,
+    };
   },
   data() {
     return {
@@ -67,7 +77,11 @@ export default {
     },
   },
   mounted() {
-    this.setFilterAttributes();
+    const { filterGroups, filterTypes } = this.setFilterAttributes();
+
+    this.filterTypes = [...this.filterTypes, ...filterTypes];
+    this.filterGroups = filterGroups;
+
     this.$store.dispatch('campaigns/get');
     if (this.getAppliedConversationFilters.length) {
       this.appliedFilters = [];
@@ -129,8 +143,27 @@ export default {
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
       return type?.filterOperators;
     },
+    statusFilterItems() {
+      return {
+        open: {
+          TEXT: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.open.TEXT'),
+        },
+        resolved: {
+          TEXT: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.resolved.TEXT'),
+        },
+        pending: {
+          TEXT: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.pending.TEXT'),
+        },
+        snoozed: {
+          TEXT: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.snoozed.TEXT'),
+        },
+        all: {
+          TEXT: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.all.TEXT'),
+        },
+      };
+    },
     getDropdownValues(type) {
-      const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
+      const statusFilters = this.statusFilterItems();
       const allCustomAttributes = this.$store.getters[
         'attributes/getAttributesByModel'
       ](this.attributeModel);
@@ -256,7 +289,7 @@ export default {
           JSON.parse(JSON.stringify(this.appliedFilters))
         );
         this.$emit('applyFilter', this.appliedFilters);
-        this.$track(CONVERSATION_EVENTS.APPLY_FILTER, {
+        useTrack(CONVERSATION_EVENTS.APPLY_FILTER, {
           applied_filters: this.appliedFilters.map(filter => ({
             key: filter.attribute_key,
             operator: filter.filter_operator,
@@ -326,9 +359,13 @@ export default {
           :show-query-operator="i !== appliedFilters.length - 1"
           :show-user-input="showUserInput(appliedFilters[i].filter_operator)"
           grouped-filters
-          :error-message="validationErrors[`filter_${i}`]"
-          @resetFilter="resetFilter(i, appliedFilters[i])"
-          @removeFilter="removeFilter(i)"
+          :error-message="
+            validationErrors[`filter_${i}`]
+              ? $t(`CONTACTS_FILTER.ERRORS.VALUE_REQUIRED`)
+              : ''
+          "
+          @reset-filter="resetFilter(i, appliedFilters[i])"
+          @remove-filter="removeFilter(i)"
         />
         <div class="mt-4">
           <woot-button

@@ -1,12 +1,13 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} conversations selected",
+    "CONVERSATIONS_SELECTED": "{conversationCount} conversations selected",
     "AGENT_SELECT_LABEL": "Välj agent",
-    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign %{conversationCount} %{conversationLabel} to",
-    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign {conversationCount} {conversationLabel} to",
+    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Go back",
     "ASSIGN_LABEL": "Tilldela",
     "YES": "Ja",
+    "SEARCH_INPUT_PLACEHOLDER": "Sök",
     "ASSIGN_AGENT_TOOLTIP": "Tilldela agent",
     "ASSIGN_TEAM_TOOLTIP": "Tilldela team",
     "ASSIGN_SUCCESFUL": "Conversations assigned successfully.",

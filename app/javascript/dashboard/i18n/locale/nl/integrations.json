@@ -4,8 +4,15 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Annuleren",
         "DESC": "Webhook events bieden je realtime informatie over wat er gebeurt in je Chatwoot account. Voer een geldige URL in om een callback te configureren.",
@@ -69,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Verwijdering bevestigen",
-          "MESSAGE": "Weet je zeker dat je de webhook wilt verwijderen? (%{webhookURL})",
+          "MESSAGE": "Weet je zeker dat je de webhook wilt verwijderen? ({webhookURL})",
           "YES": "Ja, verwijderen ",
           "NO": "Nee, Bewaar het"
         }
@@ -107,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI Assistent",
-      "WITH_AI": " %{option} met AI ",
+      "WITH_AI": " {option} met AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Antwoord suggestie",
         "SUMMARIZE": "Samenvatten",
@@ -209,7 +216,7 @@
         "CONFIRM_YES": "Ja, verwijderen",
         "CONFIRM_NO": "Nee, behouden",
         "TITLE": "Verwijdering bevestigen",
-        "MESSAGE": "Weet u zeker dat u de app - %{appName} wilt verwijderen?",
+        "MESSAGE": "Weet u zeker dat u de app - {appName} wilt verwijderen?",
         "API_SUCCESS": "Dashboard app deleted successfully",
         "API_ERROR": "We couldn't delete the app. Please try again later"
       }
@@ -228,7 +235,7 @@
         "ERROR": "There was an error fetching the linear issues, please try again",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -287,7 +294,7 @@
         "PRIORITY": "Prioriteit",
         "ASSIGNEE": "Assignee",
         "LABELS": "Labelen",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Unlink",

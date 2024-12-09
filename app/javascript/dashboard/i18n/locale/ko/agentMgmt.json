@@ -3,7 +3,8 @@
     "HEADER": "에이전트",
     "HEADER_BTN_TXT": "에이전트 추가",
     "LOADING": "에이전트 목록을 가져오는 중",
-    "SIDEBAR_TXT": "<p><b></b>에이전트<p><b><p><b>에이전트</b>는 고객 지원 팀의 구성원입니다.</p><p>에이전트는 사용자의 메시지를 보고 답장할 수 있습니다. 목록에 현재 계정에 있는 모든 에이전트가 표시됩니다.</p><p>새 에이전트를 추가하려면 <b>[에이전트 추가]</b>를 클릭하십시오. 사용자가 추가한 에이전트는 계정을 활성화하기 위한 확인 링크가 포함된 이메일을 받게 되며, 이후 챗부팅에 액세스하여 메시지에 응답할 수 있습니다.</p><p>Chatwoot의 기능에 대한 액세스는 다음 역할을 기반으로 한다.</p><p></b>에이전트</b> - 이 역할을 가진 에이전트는 받은 편지함, 보고서 및 대화에만 액세스할 수 있다. 그들은 다른 요원이나 자신들에게 대화를 할당하고 대화를 해결할 수 있습니다.</p><p><b>관리자</b> - 관리자는 일반 에이전트의 모든 권한과 함께 설정을 포함하여 계정에 대해 활성화된 모든 챗부팅 기능에 액세스할 수 있습니다.</p>",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "관리자",
       "AGENT": "에이전트"
@@ -17,7 +18,8 @@
       "STATUS": "상태",
       "ACTIONS": "액션",
       "VERIFIED": "인증됨",
-      "VERIFICATION_PENDING": "인증 보류"
+      "VERIFICATION_PENDING": "인증 보류",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "팀에 에이전트 추가",

@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Keine",
         "INPUT_PLACEHOLDER": "Priorität auswählen",
         "NO_RESULTS": "Keine Ergebnisse gefunden",
-        "SUCCESSFUL": "Priorität der Konversations-ID %{conversationId} zu %{priority} geändert",
+        "SUCCESSFUL": "Priorität der Konversations-ID {conversationId} zu {priority} geändert",
         "FAILED": "Priorität konnte nicht geändert werden. Bitte versuchen Sie es erneut."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Team zuweisen",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Konversations-ID %{conversationId} zugewiesen zu \"%{agentName}\"",
+          "SUCCESFUL": "Konversations-ID {conversationId} zugewiesen zu \"{agentName}\"",
           "FAILED": "Agent konnte nicht zugewiesen werden. Bitte versuche es erneut."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Das Label #%{labelName} wurde der Konversations-ID %{conversationId} zugewiesen",
+          "SUCCESFUL": "Das Label #{labelName} wurde der Konversations-ID {conversationId} zugewiesen",
           "FAILED": "Label konnte nicht zugewiesen werden. Bitte versuche es erneut."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Das Team\"%{team}\" wurde der Konversations-ID %{conversationId} zugewiesen",
+          "SUCCESFUL": "Das Team\"{team}\" wurde der Konversations-ID {conversationId} zugewiesen",
           "FAILED": "Team konnte nicht zugewiesen werden. Bitte versuche es erneut."
         }
       }
@@ -142,7 +142,8 @@
       "MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Beginnen Sie mit '/', um eine vordefinierte Antwort auszuwählen.",
       "PRIVATE_MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Dies ist nur für Agenten sichtbar",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Die Nachrichtensignatur ist nicht konfiguriert, bitte konfigurieren Sie sie in den Profileinstellungen.",
-      "CLICK_HERE": "Klicken Sie hier, um zu aktualisieren"
+      "CLICK_HERE": "Klicken Sie hier, um zu aktualisieren",
+      "WHATSAPP_TEMPLATES": "WhatsApp-Vorlagen"
     },
     "REPLYBOX": {
       "REPLY": "Antworten",
@@ -238,27 +239,31 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hallo 👋, Willkommen bei %{installationName}!",
-    "DESCRIPTION": "Danke für's Registrieren. Wir möchten, dass Sie %{installationName} optimal nutzen. Hier sind ein paar Dinge, die Sie in %{installationName} tun können, um das Erlebnis angenehm zu gestalten.",
+    "TITLE": "Hallo 👋, Willkommen bei {installationName}!",
+    "DESCRIPTION": "Danke für's Registrieren. Wir möchten, dass Sie {installationName} optimal nutzen. Hier sind ein paar Dinge, die Sie in {installationName} tun können, um das Erlebnis angenehm zu gestalten.",
+    "GREETING_MORNING": "👋 Guten Morgen, {name}. Willkommen bei {installationName}.",
+    "GREETING_AFTERNOON": "👋 Guten Nachmittag, {name}. Willkommen bei {installationName}.",
+    "GREETING_EVENING": "👋 Guten Abend, {name}. Willkommen bei {installationName}.",
     "READ_LATEST_UPDATES": "Lesen Sie unsere neuesten Updates",
     "ALL_CONVERSATION": {
       "TITLE": "All Ihre Konversationen an einem Ort",
-      "DESCRIPTION": "Zeigen Sie alle Konversationen Ihrer Kunden in einem einzigen Dashboard an. Sie können die Konversationen nach eingehendem Kanal, Bezeichnung und Status filtern."
+      "DESCRIPTION": "Zeigen Sie alle Konversationen Ihrer Kunden in einem einzigen Dashboard an. Sie können die Konversationen nach eingehendem Kanal, Bezeichnung und Status filtern.",
+      "NEW_LINK": "Hier klicken, um einen Posteingang zu erstellen"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Laden Sie Ihre Teammitglieder ein",
       "DESCRIPTION": "Da Sie sich darauf vorbereiten, mit Ihrem Kunden zu sprechen, ziehen Sie Ihre Teamkollegen hinzu, um Ihnen zu helfen. Sie können Ihre Teamkollegen einladen, indem Sie deren E-Mail-Adressen zur Agentenliste hinzufügen.",
       "NEW_LINK": "Klicken Sie hier, um ein Teammitglied einzuladen"
     },
-    "INBOXES": {
-      "TITLE": "Posteingänge verbinden",
-      "DESCRIPTION": "Verbinden Sie verschiedene Kanäle, über die Ihre Kunden mit Ihnen sprechen würden. Das kann ein Website-Live-Chat, Ihre Facebook- oder Twitter-Seite oder sogar Ihre WhatsApp-Nummer sein.",
-      "NEW_LINK": "Hier klicken, um einen Posteingang zu erstellen"
-    },
     "LABELS": {
       "TITLE": "Organisieren Sie Konversationen mit Labels",
       "DESCRIPTION": "Labels bieten eine einfachere Möglichkeit, Ihre Konversation zu kategorisieren. Erstellen Sie einige Labels wie #support-enquiry, #billing-quest etc., damit Sie sie später in einem Gespräch verwenden können.",
       "NEW_LINK": "Hier klicken, um Tags zu erstellen"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Vorgefertigte Antworten erstellen",
+      "DESCRIPTION": "Vorgefertigte Schnellantwortvorlagen helfen Ihnen, schnell auf eine Konversation zu antworten. Agenten können das Zeichen '/' gefolgt vom Short-Code eingeben, um eine Antwort einzufügen.",
+      "NEW_LINK": "Hier klicken, um eine vorgefertigte Antwort zu erstellen"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -312,10 +317,10 @@
     "SIDEBAR_TITLE": "Konversationsteilnehmer",
     "NO_RECORDS_FOUND": "Keine Ergebnisse gefunden",
     "ADD_PARTICIPANTS": "Teilnehmer wählen",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} andere",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} andere",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} Personen nehmen teil.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} Person nimmt teil.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} andere",
+    "REMANING_PARTICIPANT_TEXT": "+{count} andere",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} Personen nehmen teil.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} Person nimmt teil.",
     "NO_PARTICIPANTS_TEXT": "Niemand nimmt teil!.",
     "WATCH_CONVERSATION": "Konversation beitreten",
     "YOU_ARE_WATCHING": "Sie nehmen teil",

@@ -41,6 +41,7 @@
         "UPLOADING": "در حال آپلود...",
         "SUCCESS": "تصویر با موفقیت آپلود شد",
         "ERROR": "خطا هنگام آپلود تصویر",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "اندازه تصویر باید کمتر از {size} مگابایت باشد",
         "ERROR_FILE_FORMAT": "فرمت تصویر باید jpg، jpeg یا png باشد",
         "ERROR_FILE_DIMENSIONS": "ابعاد تصویر باید کمتر از 2000*2000 باشد"
@@ -83,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "دسته بندی نشده",
-      "SEARCH_RESULTS": "جستجو بر اساس %{query}",
+      "SEARCH_RESULTS": "جستجو بر اساس {query}",
       "EMPTY_TEXT": "جستجو در مقالات برای درج در پاسخ.",
       "SEARCH_LOADER": "در حال جستجو...",
       "INSERT_ARTICLE": "درج",
@@ -481,6 +482,7 @@
           "DESCRIPTION": "از پرتال به عنوان یک CMS می توانید استفاده کنید که از طریق Front آدرس های API را فراخوانی می کنید."
         }
       }
-    }
+    },
+    "LOADING": "Loading..."
   }
 }

@@ -178,7 +178,7 @@ describe Line::IncomingMessageService do
         described_class.new(inbox: line_channel.inbox, params: sticker_params).perform
         expect(line_channel.inbox.conversations).not_to eq(0)
         expect(Contact.all.first.name).to eq('LINE Test')
-        expect(line_channel.inbox.messages.first.content).to eq('![sticker-52002738](https://stickershop.line-scdn.net/stickershop/v1/sticker/52002738/iphone/sticker.png)')
+        expect(line_channel.inbox.messages.first.content).to eq('![sticker-52002738](https://stickershop.line-scdn.net/stickershop/v1/sticker/52002738/android/sticker.png)')
       end
     end
 

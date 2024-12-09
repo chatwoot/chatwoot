@@ -41,6 +41,7 @@
         "UPLOADING": "Încărcare...",
         "SUCCESS": "Imagine încărcată cu succes",
         "ERROR": "Eroare la încărcarea imaginii",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "Dimensiunea imaginii trebuie să fie mai mică de {size}MB",
         "ERROR_FILE_FORMAT": "Formatul imaginii ar trebui să fie jpg, jpeg sau png",
         "ERROR_FILE_DIMENSIONS": "Dimensiunile imaginii ar trebui să fie mai mici de 2000 x 2000"
@@ -83,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Necategorizat",
-      "SEARCH_RESULTS": "Search results for %{query}",
+      "SEARCH_RESULTS": "Search results for {query}",
       "EMPTY_TEXT": "Search for articles to insert into replies.",
       "SEARCH_LOADER": "In căutare...",
       "INSERT_ARTICLE": "Inserați",
@@ -481,6 +482,7 @@
           "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
         }
       }
-    }
+    },
+    "LOADING": "Loading..."
   }
 }

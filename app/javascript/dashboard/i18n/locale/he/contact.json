@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "סיכום",
-      "DELETE_WARNING": "איש הקשר של <strong>%{primaryContactName}</strong> יימחק.",
-      "ATTRIBUTE_WARNING": "פרטי הקשר של <strong>%{primaryContactName}</strong> יועתקו אל <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "איש הקשר של <strong>{primaryContactName}</strong> יימחק.",
+      "ATTRIBUTE_WARNING": "פרטי הקשר של <strong>{primaryContactName}</strong> יועתקו אל <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "הודעת שגיאה"
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "איש הקשר מוזג בהצלחה",
       "ERROR_MESSAGE": "לא ניתן למזג אנשי קשר, נסה שוב!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

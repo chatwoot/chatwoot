@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
-    "HEADER": "Αυτοματισμοί",
+    "HEADER": "Αυτοματισμός",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "Προσθήκη Κανόνα Αυτοματισμού",
     "LOADING": "Λήψη κανόνων αυτοματισμού",
-    "SIDEBAR_TXT": "<p><b>Κανόνες Αυτοματισμού</b> <p>Ο Αυτοματισμός μπορεί να αντικαταστήσει και να αυτοματοποιήσει διαδικασίες που απαιτούν χειροκίνητη προσπάθεια. Μπορείτε να κάνετε πολλά πράγματα με την αυτοματοποίηση, συμπεριλαμβανομένης της προσθήκης ετικετών και την ανάθεση συνομιλίας στον καλύτερο πράκτορα. Έτσι, η ομάδα επικεντρώνεται σε αυτό που κάνουν καλύτερα και ξοδεύει λίγο χρόνο για χειρωνακτικές εργασίες.</p>",
     "ADD": {
       "TITLE": "Προσθήκη Κανόνα Αυτοματισμού",
       "SUBMIT": "Δημιουργία",
@@ -93,7 +94,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "Πρέπει να έχετε τουλάχιστον μία ενέργεια για να αποθηκεύσετε",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Γράψτε το μήνυμά σας εδώ",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Επιλογή ομάδων"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Επιλογή ομάδων",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Ενεργοποίηση Κανόνα Αυτοματισμού",
@@ -113,6 +116,15 @@
       "LABEL_UPLOADING": "Ανέβασμα...",
       "LABEL_UPLOADED": "Επιτυχής Μεταφόρτωση",
       "LABEL_UPLOAD_FAILED": "Αποτυχία Μεταφόρτωσης"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Απαιτείται τιμή",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

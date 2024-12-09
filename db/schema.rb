@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_16_003531) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -37,8 +37,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_16_003531) do
     t.datetime "active_at", precision: nil
     t.integer "availability", default: 0, null: false
     t.boolean "auto_offline", default: true, null: false
+    t.bigint "custom_role_id"
     t.index ["account_id", "user_id"], name: "uniq_user_id_per_account_id", unique: true
     t.index ["account_id"], name: "index_account_users_on_account_id"
+    t.index ["custom_role_id"], name: "index_account_users_on_custom_role_id"
     t.index ["user_id"], name: "index_account_users_on_user_id"
   end
 
@@ -145,6 +147,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_16_003531) do
     t.jsonb "meta", default: {}
     t.string "slug", null: false
     t.integer "position"
+    t.string "locale", default: "en", null: false
     t.index ["associated_article_id"], name: "index_articles_on_associated_article_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
     t.index ["slug"], name: "index_articles_on_slug", unique: true
@@ -536,6 +539,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_16_003531) do
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_custom_filters_on_account_id"
     t.index ["user_id"], name: "index_custom_filters_on_user_id"
+  end
+
+  create_table "custom_roles", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.bigint "account_id", null: false
+    t.text "permissions", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_custom_roles_on_account_id"
   end
 
   create_table "dashboard_apps", force: :cascade do |t|

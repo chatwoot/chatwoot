@@ -18,6 +18,7 @@
       "AND": "UND",
       "OR": "ODER"
     },
+    "INPUT_PLACEHOLDER": "Wert eintragen",
     "OPERATOR_LABELS": {
       "equal_to": "Gleich",
       "not_equal_to": "Nicht gleich",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Erstellt am",
       "LAST_ACTIVITY": "Letzte Aktivität"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Wert ist erforderlich"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard Filter",

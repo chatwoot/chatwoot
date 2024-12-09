@@ -239,6 +239,7 @@
     "REPORTS": "Informes",
     "SETTINGS": "Configuracions",
     "CONTACTS": "Contactes",
+    "CAPTAIN": "Captain",
     "HOME": "Inici",
     "AGENTS": "Agents",
     "AGENT_BOTS": "Bots",
@@ -276,6 +277,7 @@
     "REPORTS_TEAM": "Equip",
     "SET_AVAILABILITY_TITLE": "Posa't com",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Resum",
     "REAUTHORIZE": "La vostra connexió a la safata d'entrada ha caducat, torna a connectar\n per continuar rebent i enviant missatges",
@@ -299,7 +301,7 @@
     "TITLE": "Facturació",
     "CURRENT_PLAN": {
       "TITLE": "Pla actual",
-      "PLAN_NOTE": "Actualment estàs subscrit al pla **%{plan}** amb **%{quantity}** llicències"
+      "PLAN_NOTE": "Actualment estàs subscrit al pla **{plan}** amb **{quantity}** llicències"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Gestiona la teva subscripció",

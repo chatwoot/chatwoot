@@ -4,8 +4,15 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Cancel",
         "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
@@ -24,7 +31,7 @@
         },
         "END_POINT": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Example: %{webhookExampleURL}",
+          "PLACEHOLDER": "Example: {webhookExampleURL}",
           "ERROR": "Please enter a valid URL"
         },
         "EDIT_SUBMIT": "Update webhook",
@@ -69,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
+          "MESSAGE": "Are you sure to delete the webhook? ({webhookURL})",
           "YES": "Yes, Delete ",
           "NO": "No, Keep it"
         }
@@ -83,7 +90,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "How to use the Slack Integration?",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***%{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***%{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
+        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
         "SELECTED": "selected"
       },
       "SELECT_CHANNEL": {
@@ -107,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "WITH_AI": " {option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
         "SUMMARIZE": "Summarize",
@@ -209,7 +216,7 @@
         "CONFIRM_YES": "Yes, delete it",
         "CONFIRM_NO": "No, keep it",
         "TITLE": "Confirm deletion",
-        "MESSAGE": "Are you sure to delete the app - %{appName}?",
+        "MESSAGE": "Are you sure to delete the app - {appName}?",
         "API_SUCCESS": "Dashboard app deleted successfully",
         "API_ERROR": "We couldn't delete the app. Please try again later"
       }
@@ -228,7 +235,7 @@
         "ERROR": "There was an error fetching the linear issues, please try again",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -287,7 +294,7 @@
         "PRIORITY": "Priority",
         "ASSIGNEE": "Assignee",
         "LABELS": "Labels",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Unlink",

@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
-    "HEADER": "אוטומציות",
+    "HEADER": "אוטומציה",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "הוספת אוטומציה",
     "LOADING": "חיבור אוטומציות",
-    "SIDEBAR_TXT": "<p><b>אוטומציות</b> <p>האוטומציות יכולות להחליף פעולות שאתם עושים בדרך כלל בצורה ידנית. ניתן לעשות שלל דברים עם אוטומציה לדוגמא הוספת תויית ושיוך שיחה לסוכן בהתאם לחוקים מוגדרים מראש. זה יאפשר לצוות שלכם להתמקד בדברים החשובים באמת ולתת למערכת לעשות פעולות אוטומיות.</p>",
     "ADD": {
       "TITLE": "הוספת אוטומציה",
       "SUBMIT": "צור",
@@ -93,7 +94,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "נדרשת פעולה אחת לפחות",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "הכנס כאן את ההודעה",
-      "TEAM_DROPDOWN_PLACEHOLDER": "בחר קבוצות"
+      "TEAM_DROPDOWN_PLACEHOLDER": "בחר קבוצות",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "הפעל אוטומציה",
@@ -113,6 +116,15 @@
       "LABEL_UPLOADING": "מעלה...",
       "LABEL_UPLOADED": "קובץ הועלה בהצלחה",
       "LABEL_UPLOAD_FAILED": "העלאה נכשלה"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "חובה ערך",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

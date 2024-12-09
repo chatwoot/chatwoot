@@ -27,11 +27,13 @@ module Enterprise::Integrations::OpenaiProcessorService
 
     response = make_api_call(label_suggestion_body)
 
+    return response if response[:error].present?
+
     # LLMs are not deterministic, so this is bandaid solution
     # To what you ask? Sometimes, the response includes
     # "Labels:" in it's response in some format. This is a hacky way to remove it
     # TODO: Fix with with a better prompt
-    response.present? ? response.gsub(/^(label|labels):/i, '') : ''
+    { message: response[:message] ? response[:message].gsub(/^(label|labels):/i, '') : '' }
   end
 
   private

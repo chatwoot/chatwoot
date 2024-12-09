@@ -4,11 +4,12 @@ import { mapGetters } from 'vuex';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { useAI } from 'dashboard/composables/useAI';
 import AICTAModal from './AICTAModal.vue';
 import AIAssistanceModal from './AIAssistanceModal.vue';
-import aiMixin from 'dashboard/mixins/aiMixin';
-import { CMD_AI_ASSIST } from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
+import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
 import AIAssistanceCTAButton from './AIAssistanceCTAButton.vue';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
@@ -16,17 +17,18 @@ export default {
     AICTAModal,
     AIAssistanceCTAButton,
   },
-  mixins: [aiMixin],
+  emits: ['replaceText'],
   setup(props, { emit }) {
     const { uiSettings, updateUISettings } = useUISettings();
 
+    const { isAIIntegrationEnabled, draftMessage, recordAnalytics } = useAI();
+
     const { isAdmin } = useAdmin();
 
-    const aiAssistanceButtonRef = ref(null);
     const initialMessage = ref('');
 
-    const initializeMessage = draftMessage => {
-      initialMessage.value = draftMessage;
+    const initializeMessage = draftMsg => {
+      initialMessage.value = draftMsg;
     };
     const keyboardEvents = {
       '$mod+KeyZ': {
@@ -39,15 +41,17 @@ export default {
         allowOnFocusedInput: true,
       },
     };
-    useKeyboardEvents(keyboardEvents, aiAssistanceButtonRef);
+    useKeyboardEvents(keyboardEvents);
 
     return {
       uiSettings,
       updateUISettings,
       isAdmin,
-      aiAssistanceButtonRef,
       initialMessage,
       initializeMessage,
+      recordAnalytics,
+      isAIIntegrationEnabled,
+      draftMessage,
     };
   },
   data: () => ({
@@ -78,7 +82,7 @@ export default {
   },
 
   mounted() {
-    this.$emitter.on(CMD_AI_ASSIST, this.onAIAssist);
+    emitter.on(CMD_AI_ASSIST, this.onAIAssist);
     this.initializeMessage(this.draftMessage);
   },
 
@@ -118,11 +122,11 @@ export default {
 </script>
 
 <template>
-  <div ref="aiAssistanceButtonRef">
+  <div>
     <div v-if="isAIIntegrationEnabled" class="relative">
       <AIAssistanceCTAButton
         v-if="shouldShowAIAssistCTAButton"
-        @click="openAIAssist"
+        @open="openAIAssist"
       />
       <woot-button
         v-else
@@ -134,19 +138,19 @@ export default {
         @click="openAIAssist"
       />
       <woot-modal
-        :show.sync="showAIAssistanceModal"
+        v-model:show="showAIAssistanceModal"
         :on-close="hideAIAssistanceModal"
       >
         <AIAssistanceModal
           :ai-option="aiOption"
-          @applyText="insertText"
+          @apply-text="insertText"
           @close="hideAIAssistanceModal"
         />
       </woot-modal>
     </div>
     <div v-else-if="shouldShowAIAssistCTAButtonForAdmin" class="relative">
       <AIAssistanceCTAButton @click="openAICta" />
-      <woot-modal :show.sync="showAICtaModal" :on-close="hideAICtaModal">
+      <woot-modal v-model:show="showAICtaModal" :on-close="hideAICtaModal">
         <AICTAModal @close="hideAICtaModal" />
       </woot-modal>
     </div>

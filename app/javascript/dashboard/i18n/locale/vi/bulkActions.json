@@ -1,12 +1,13 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} cuộc hội thoại đã được chọn",
+    "CONVERSATIONS_SELECTED": "{conversationCount} cuộc hội thoại đã được chọn",
     "AGENT_SELECT_LABEL": "Chọn thành viên",
-    "ASSIGN_CONFIRMATION_LABEL": "Bạn có chắc chắn để chỉ định %{conversationCount} %{conversationLabel} tới",
-    "UNASSIGN_CONFIRMATION_LABEL": "Bạn có chắc chắn hủy chỉ định %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "Bạn có chắc chắn để chỉ định {conversationCount} {conversationLabel} tới",
+    "UNASSIGN_CONFIRMATION_LABEL": "Bạn có chắc chắn hủy chỉ định {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Trở về",
     "ASSIGN_LABEL": "Gán",
     "YES": "Có",
+    "SEARCH_INPUT_PLACEHOLDER": "Tìm kiếm",
     "ASSIGN_AGENT_TOOLTIP": "Gán tổng đài viên",
     "ASSIGN_TEAM_TOOLTIP": "Gán nhóm",
     "ASSIGN_SUCCESFUL": "Cuộc hội thoại đã được phân công thành công.",

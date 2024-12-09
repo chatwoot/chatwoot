@@ -23,13 +23,13 @@
         "NAME": "وقت الاستجابة الأولى",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الرد الأول هو %{metricValue} (على أساس %{conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت الرد الأول هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الحل هو %{metricValue} (على أساس %{conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت الحل هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "وقت انتظار العميل",
-        "TOOLTIP_TEXT": "وقت الانتظار هو %{metricValue} (بناء على ردود %{conversationCount})"
+        "TOOLTIP_TEXT": "وقت الانتظار هو {metricValue} (بناء على ردود {conversationCount})"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -167,13 +167,13 @@
         "NAME": "وقت الاستجابة الأولى",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الرد الأول هو %{metricValue} (على أساس %{conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت الرد الأول هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الحل هو %{metricValue} (على أساس %{conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت الحل هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -234,13 +234,13 @@
         "NAME": "وقت الاستجابة الأولى",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الرد الأول هو %{metricValue} (على أساس %{conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت الرد الأول هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الحل هو %{metricValue} (على أساس %{conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت الحل هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -301,13 +301,13 @@
         "NAME": "وقت الاستجابة الأولى",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الرد الأول هو %{metricValue} (على أساس %{conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت الرد الأول هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الحل هو %{metricValue} (على أساس %{conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت الحل هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -368,13 +368,13 @@
         "NAME": "وقت الاستجابة الأولى",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الرد الأول هو %{metricValue} (على أساس %{conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت الرد الأول هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الحل هو %{metricValue} (على أساس %{conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت الحل هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -480,8 +480,9 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
       "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "المحادثات من قبل الوكلاء",
@@ -536,6 +537,7 @@
       "LABELS": "الوسم",
       "TEAMS": "الفريق"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

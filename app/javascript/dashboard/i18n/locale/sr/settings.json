@@ -145,11 +145,7 @@
       },
       "AVAILABILITY": {
         "LABEL": "Dostupnost",
-        "STATUSES_LIST": [
-          "Dostupan",
-          "Zauzet",
-          "Nedostupan"
-        ],
+        "STATUSES_LIST": ["Dostupan", "Zauzet", "Nedostupan"],
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
         "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
@@ -239,6 +235,7 @@
     "REPORTS": "Izveštaji",
     "SETTINGS": "Podešavanja",
     "CONTACTS": "Kontakti",
+    "CAPTAIN": "Captain",
     "HOME": "Početak",
     "AGENTS": "Agenti",
     "AGENT_BOTS": "Bots",
@@ -276,6 +273,7 @@
     "REPORTS_TEAM": "Tim",
     "SET_AVAILABILITY_TITLE": "Postavite da ste",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Pregled",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
@@ -299,7 +297,7 @@
     "TITLE": "Plaćanje",
     "CURRENT_PLAN": {
       "TITLE": "Trenutni plan",
-      "PLAN_NOTE": "Trenutno ste pretplaćeni na **%{plan}** plan sa **%{quantity}** licenci"
+      "PLAN_NOTE": "Trenutno ste pretplaćeni na **{plan}** plan sa **{quantity}** licenci"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Upravljate vašom pretplatom",

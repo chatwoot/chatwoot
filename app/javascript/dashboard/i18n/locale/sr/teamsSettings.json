@@ -2,10 +2,13 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Napravite novi tim",
     "HEADER": "Timovi",
-    "SIDEBAR_TXT": "<p><b>Timovi</b></p> <p>Timovi vam omogućavaju da organizujete vaše agente u grupe prema njihovim odgovornostima. <br /> Agent može biti član više timova. Možete dodeliti razgovore timu kada radite u saradnji. </p>",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "Nema timova napravljenih na ovom nalogu.",
-      "EDIT_TEAM": "Uredi tim"
+      "EDIT_TEAM": "Uredi tim",
+      "NONE": "Niko"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -14,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Dodajte agente timu",
-        "TITLE": "Dodajte agente timu - %{teamName}",
+        "TITLE": "Dodajte agente timu - {teamName}",
         "DESC": "Dodajte agente vašem novokreiranom timu. Ovo vam omogućava da sarađujete kao tim u razgovorima, budete obavešteni o novim događajima u istim razgovorima."
       },
       "WIZARD": [
@@ -43,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Uredi agente u timu",
-        "TITLE": "Dodajte agente timu - %{teamName}",
+        "TITLE": "Dodajte agente timu - {teamName}",
         "DESC": "Dodajte agente vašem novokreiranom timu. Svi dodati agenti će biti obavešteni kada je razgovor dodeljen ovom timu."
       },
       "WIZARD": [
@@ -74,14 +77,14 @@
       "ADD_AGENTS": "Dodaju se agenti vašem timu...",
       "SELECT": "izaberi",
       "SELECT_ALL": "izaberi sve agente",
-      "SELECTED_COUNT": "%{selected} od %{total} agenata je izabrano."
+      "SELECTED_COUNT": "{selected} od {total} agenata je izabrano."
     },
     "ADD": {
-      "TITLE": "Dodajte agente timu - %{teamName}",
+      "TITLE": "Dodajte agente timu - {teamName}",
       "DESC": "Dodajte agente vašem novokreiranom timu. Ovo vam omogućava da sarađujete kao tim u razgovorima, budete obavešteni o novim događajima u istim razgovorima.",
       "SELECT": "izaberi",
       "SELECT_ALL": "izaberi sve agente",
-      "SELECTED_COUNT": "%{selected} od %{total} agenata je izabrano.",
+      "SELECTED_COUNT": "{selected} od {total} agenata je izabrano.",
       "BUTTON_TEXT": "Dodaj agente",
       "AGENT_VALIDATION_ERROR": "Izaberite barem jednog agenta."
     },
@@ -97,7 +100,7 @@
         "ERROR_MESSAGE": "Nije bilo moguće obrisati tim. Pokušajte ponovo."
       },
       "CONFIRM": {
-        "TITLE": "Da li zaista želite da obrišete - %{teamName}",
+        "TITLE": "Are you sure you want to delete the team?",
         "PLACE_HOLDER": "Molim upišite {teamName} za potvrdu",
         "MESSAGE": "Brisanjem tima će se ukloniti sve dodele timu iz razgovora koje su bile dodeljene ovom timu.",
         "YES": "Obriši ",

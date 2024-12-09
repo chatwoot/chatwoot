@@ -145,11 +145,7 @@
       },
       "AVAILABILITY": {
         "LABEL": "Availability",
-        "STATUSES_LIST": [
-          "Online",
-          "Busy",
-          "Offline"
-        ],
+        "STATUSES_LIST": ["Online", "Busy", "Offline"],
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
         "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
@@ -239,6 +235,7 @@
     "REPORTS": "Reports",
     "SETTINGS": "Settings",
     "CONTACTS": "کانٹیکٹس",
+    "CAPTAIN": "Captain",
     "HOME": "Home",
     "AGENTS": "ایجنٹ",
     "AGENT_BOTS": "Bots",
@@ -276,6 +273,7 @@
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Overview",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
@@ -299,7 +297,7 @@
     "TITLE": "Billing",
     "CURRENT_PLAN": {
       "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Manage your subscription",

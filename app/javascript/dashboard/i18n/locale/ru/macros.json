@@ -1,10 +1,11 @@
 {
   "MACROS": {
     "HEADER": "Макрос",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
     "HEADER_BTN_TXT": "Добавить новый макрос",
     "HEADER_BTN_TXT_SAVE": "Сохранить макрос",
     "LOADING": "Получение макроса",
-    "SIDEBAR_TXT": "<p><b>Макросы</b><p>Макрос - это набор сохраненных действий, которые помогают агентам обслуживания клиентов легко выполнять задачи. Агенты могут определить набор действий, таких как метка разговора с меткой, отправка субтитров электронной почты, обновление пользовательских атрибутов и т.д. и они могут выполнить эти действия одним щелчком. Когда агенты запускают макрос, действия будут выполняться последовательно в порядке их определения. Макросы повышают производительность и последовательность действий. </p><p>Макро может быть полезен двумя способами. </p><p><b>Как помощник агента:</b> Если агент выполняет набор действий несколько раз, они могут сохранить его в виде макроса и выполнить все действия вместе одним щелчком мыши.</p><p><b>Как вариант на борту члена команды:</b> Во время каждого разговора каждый агент должен выполнять много различных чеков/действий. Создание нового участника службы поддержки будет легко, если предварительно заданные макросы будут доступны на аккаунте. Вместо подробного описания каждого шага, менеджер / команда может указывать на макросы, используемые в различных сценариях.</p>",
     "ERROR": "Что-то пошло не так. Попробуйте еще раз",
     "ORDER_INFO": "Макросы будут выполняться в том порядке, в котором вы добавите ваши действия. Вы можете изменить их порядок, перетаскивая их ручкой рядом с каждым узлом.",
     "ADD": {
@@ -73,6 +74,15 @@
       "BUTTON_TOOLTIP": "Выполнение",
       "PREVIEW": "Предпросмотр макроса",
       "EXECUTED_SUCCESSFULLY": "Макрос успешно выполнен"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Необходимо указать значение",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

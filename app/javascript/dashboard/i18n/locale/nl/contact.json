@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Samenvatting",
-      "DELETE_WARNING": "Contact van <strong>%{primaryContactName}</strong> zal worden verwijderd.",
-      "ATTRIBUTE_WARNING": "Contactgegevens van <strong>%{primaryContactName}</strong> worden gekopieerd naar <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Contact van <strong>{primaryContactName}</strong> zal worden verwijderd.",
+      "ATTRIBUTE_WARNING": "Contactgegevens van <strong>{primaryContactName}</strong> worden gekopieerd naar <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "FOUT_BERICHT"
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Contact succesvol samengevoegd",
       "ERROR_MESSAGE": "Contacten zijn niet samengevoegd, probeer het opnieuw!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

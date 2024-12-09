@@ -1,6 +1,5 @@
 <script>
 import { mapGetters } from 'vuex';
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import SwitchLayout from './SwitchLayout.vue';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 export default {
@@ -14,13 +13,13 @@ export default {
       },
     },
   },
-  mixins: [messageFormatterMixin],
   props: {
     isOnExpandedLayout: {
       type: Boolean,
       required: true,
     },
   },
+  emits: ['toggleConversationLayout'],
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',

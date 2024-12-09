@@ -239,6 +239,7 @@
     "REPORTS": "Αναφορές",
     "SETTINGS": "Ρυθμίσεις",
     "CONTACTS": "Επαφές",
+    "CAPTAIN": "Captain",
     "HOME": "Αρχική",
     "AGENTS": "Πράκτορες",
     "AGENT_BOTS": "Bots",
@@ -276,6 +277,7 @@
     "REPORTS_TEAM": "Ομάδα",
     "SET_AVAILABILITY_TITLE": "Ορίστε τον εαυτό σας ως",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Επισκόπηση",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
@@ -299,7 +301,7 @@
     "TITLE": "Χρεώσεις",
     "CURRENT_PLAN": {
       "TITLE": "Τρέχον Πλάνο",
-      "PLAN_NOTE": "Αυτή τη στιγμή έχετε εγγραφεί στο πλάνο **%{plan}** με **%{quantity}** άδειες"
+      "PLAN_NOTE": "Αυτή τη στιγμή έχετε εγγραφεί στο πλάνο **{plan}** με **{quantity}** άδειες"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Διαχειριστείτε τη συνδρομή σας",

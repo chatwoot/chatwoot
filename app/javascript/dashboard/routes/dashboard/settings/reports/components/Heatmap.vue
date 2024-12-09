@@ -7,7 +7,7 @@ import getDay from 'date-fns/getDay';
 import { getQuantileIntervals } from '@chatwoot/utils';
 
 import { groupHeatmapByDay } from 'helpers/ReportsDataHelper';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   heatData: {
@@ -63,8 +63,7 @@ function getDayOfTheWeek(date) {
   return days[dayIndex];
 }
 function getHeatmapLevelClass(value) {
-  if (!value)
-    return 'outline-slate-100 dark:outline-slate-700 dark:bg-slate-700/40 bg-slate-50/50';
+  if (!value) return 'outline-n-container dark:bg-slate-700/40 bg-slate-50/50';
 
   let level = [...quantileRange.value, Infinity].findIndex(
     range => value <= range && value > 0
@@ -73,7 +72,7 @@ function getHeatmapLevelClass(value) {
   if (level > 6) level = 5;
 
   if (level === 0) {
-    return 'outline-slate-100 dark:outline-slate-700 dark:bg-slate-700/40 bg-slate-50/50';
+    return 'outline-n-container dark:bg-slate-700/40 bg-slate-50/50';
   }
 
   const classes = [

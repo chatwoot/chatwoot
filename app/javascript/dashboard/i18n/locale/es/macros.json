@@ -1,10 +1,11 @@
 {
   "MACROS": {
     "HEADER": "Macros",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
     "HEADER_BTN_TXT": "Añadir una nueva macro",
     "HEADER_BTN_TXT_SAVE": "Guardar macro",
     "LOADING": "Obteniendo macros",
-    "SIDEBAR_TXT": "<p><b>Macros</b><p>Una macro es un conjunto de acciones guardadas que ayudan a los agentes de servicio al cliente a completar fácilmente tareas. Los agentes pueden definir un conjunto de acciones como etiquetar una conversación con una etiqueta, enviar una transcripción de correo electrónico, actualizar un atributo personalizado, etc. y pueden ejecutar estas acciones en un solo clic. Cuando los agentes ejecutan la macro, las acciones se realizarían secuencialmente en el orden en que se definen. Las macros mejoran la productividad y aumentan la consistencia en las acciones. </p><p>Una macro puede ser útil de 2 maneras. </p><p><b>Como agente de asistencia:</b> Si un agente realiza un conjunto de acciones múltiples veces, pueden guardarlo como una macro y ejecutar todas las acciones juntas usando un solo clic.</p><p><b>Como opción a bordo de un miembro del equipo:</b> Cada agente tiene que realizar muchas comprobaciones/acciones diferentes durante cada conversación. Incorporar un nuevo miembro del equipo de soporte será fácil si las macros predefinidas están disponibles en la cuenta. En lugar de describir cada paso en detalle, el jefe de equipo puede señalar las macros utilizadas en diferentes escenarios.</p>",
     "ERROR": "Algo salió mal. Por favor, inténtalo de nuevo",
     "ORDER_INFO": "Las macros se ejecutarán en el orden en que añadas sus acciones. Puede reorganizarlas arrastrándolas por el manejador al lado de cada nodo.",
     "ADD": {
@@ -73,6 +74,15 @@
       "BUTTON_TOOLTIP": "Ejecutar",
       "PREVIEW": "Previsualizar macro",
       "EXECUTED_SUCCESSFULLY": "Macro ejecutado correctamente"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Clave de atributo es requerida",
+      "FILTER_OPERATOR_REQUIRED": "El operador de filtro es requerido",
+      "VALUE_REQUIRED": "El valor es requerido",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

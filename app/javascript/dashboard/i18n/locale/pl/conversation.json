@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Brak",
         "INPUT_PLACEHOLDER": "Wybierz priorytet",
         "NO_RESULTS": "Brak wyników",
-        "SUCCESSFUL": "Zmieniono priorytet konwersacji o identyfikatorze %{conversationId} na %{priority}",
+        "SUCCESSFUL": "Zmieniono priorytet konwersacji o identyfikatorze {conversationId} na {priority}",
         "FAILED": "Nie można zmienić priorytetu. Spróbuj ponownie."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Przypisz zespół",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Konwersacja o identyfikatorze %{conversationId} przypisana do \"%{agentName}\"",
+          "SUCCESFUL": "Konwersacja o identyfikatorze {conversationId} przypisana do \"{agentName}\"",
           "FAILED": "Nie można przypisać agenta. Spróbuj ponownie."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Przypisano etykietę #%{labelName} do konwersacji o identyfikatorze %{conversationId}",
+          "SUCCESFUL": "Przypisano etykietę #{labelName} do konwersacji o identyfikatorze {conversationId}",
           "FAILED": "Nie można przypisać etykiety. Spróbuj ponownie."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Przypisano zespół \"%{team}\" do konwersacji o identyfikatorze %{conversationId}",
+          "SUCCESFUL": "Przypisano zespół \"{team}\" do konwersacji o identyfikatorze {conversationId}",
           "FAILED": "Nie można przypisać zespołu. Spróbuj ponownie."
         }
       }
@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + enter dla nowej linii. Zacznij od '/' aby wybrać Gotową odpowiedź.",
       "PRIVATE_MSG_INPUT": "Shift + enter dla nowej linii. Będzie widoczne tylko dla agentów",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Podpis wiadomości nie jest skonfigurowany, należy go skonfigurować w ustawieniach profilu.",
-      "CLICK_HERE": "Kliknij tutaj, aby zaktualizować"
+      "CLICK_HERE": "Kliknij tutaj, aby zaktualizować",
+      "WHATSAPP_TEMPLATES": "Szablony WhatsApp"
     },
     "REPLYBOX": {
       "REPLY": "Odpowiedz",
@@ -193,7 +194,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Etykieta przypisana pomyślnie",
     "ASSIGN_LABEL_FAILED": "Nie udało się przypisać etykiety",
     "CHANGE_TEAM": "Zmieniono przypisany zespół konwersacji",
-    "FILE_SIZE_LIMIT": "Plik przekracza limit rozmiaru załącznika %{MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
+    "FILE_SIZE_LIMIT": "Plik przekracza limit rozmiaru załącznika {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "Nie można wysłać tej wiadomości, spróbuj ponownie później",
     "SENT_BY": "Wysłane przez:",
     "BOT": "Bot",
@@ -238,27 +239,31 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Cześć 👋, Witamy w %{installationName}!",
-    "DESCRIPTION": "Dziękujemy za rejestrację. Chcemy, abyś jak najlepiej skorzystał z %{installationName}. Oto kilka rzeczy, które możesz spróbować, aby zapewnić sobie jak najlepsze doświadczenie z %{installationName}.",
+    "TITLE": "Cześć 👋, Witamy w {installationName}!",
+    "DESCRIPTION": "Dziękujemy za rejestrację. Chcemy, abyś jak najlepiej skorzystał z {installationName}. Oto kilka rzeczy, które możesz spróbować, aby zapewnić sobie jak najlepsze doświadczenie z {installationName}.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Przeczytaj najnowsze aktualizacje",
     "ALL_CONVERSATION": {
       "TITLE": "Wszystkie Twoje konwersacje w jednym miejscu",
-      "DESCRIPTION": "Zobacz wszystkie konwersacje z klientami w jednym miejscu. Możesz filtrować konwersacje według kanału, z którego pochodzą, etykiet lub statusu."
+      "DESCRIPTION": "Zobacz wszystkie konwersacje z klientami w jednym miejscu. Możesz filtrować konwersacje według kanału, z którego pochodzą, etykiet lub statusu.",
+      "NEW_LINK": "Kliknij tutaj, aby utworzyć nową skrzynkę odbiorczą"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Zaproszenie członków zespołu",
       "DESCRIPTION": "Ponieważ przygotowujesz się do rozmowy z klientem, zaproś członków zespołu, aby pomogli Ci. Możesz zaprosić członków zespołu, dodając ich adresy e-mail do listy agentów.",
       "NEW_LINK": "Kliknij tutaj, aby zaprosić nowego członka zespołu"
     },
-    "INBOXES": {
-      "TITLE": "Podłącz skrzynki odbiorcze",
-      "DESCRIPTION": "Połącz różne kanały, za pomocą których klienci będą z Tobą rozmawiać. Może to być czat na żywo, strona Facebook lub Twitter lub nawet Twój numer WhatsApp.",
-      "NEW_LINK": "Kliknij tutaj, aby utworzyć nową skrzynkę odbiorczą"
-    },
     "LABELS": {
       "TITLE": "Organizuj konwersacje za pomocą etykiet",
       "DESCRIPTION": "Etykiety ułatwiają kategoryzację konwersacji. Utwórz etykiety, takie jak #zapytanie-o-wsparcie, #pytanie-o-fakturę itp., aby później łatwo z nich korzystać w trakcie rozmowy.",
       "NEW_LINK": "Kliknij tutaj, aby utworzyć nową etykietę"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -312,10 +317,10 @@
     "SIDEBAR_TITLE": "Uczestnicy konwersacji",
     "NO_RECORDS_FOUND": "Nie znaleziono rekordów",
     "ADD_PARTICIPANTS": "Wybierz uczestników",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} innych",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} inna osoba",
-    "TOTAL_PARTICIPANTS_TEXT": "Bierze w nich udział %{count} osób.",
-    "TOTAL_PARTICIPANT_TEXT": "Bierze w nich udział %{count} osoba.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} innych",
+    "REMANING_PARTICIPANT_TEXT": "+{count} inna osoba",
+    "TOTAL_PARTICIPANTS_TEXT": "Bierze w nich udział {count} osób.",
+    "TOTAL_PARTICIPANT_TEXT": "Bierze w nich udział {count} osoba.",
     "NO_PARTICIPANTS_TEXT": "Nikt nie bierze udziału!",
     "WATCH_CONVERSATION": "Dołącz do konwersacji",
     "YOU_ARE_WATCHING": "Bierzesz udział",

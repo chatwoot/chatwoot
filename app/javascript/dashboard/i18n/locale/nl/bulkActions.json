@@ -1,12 +1,13 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} gesprekken geselecteerd",
+    "CONVERSATIONS_SELECTED": "{conversationCount} gesprekken geselecteerd",
     "AGENT_SELECT_LABEL": "Selecteer agent",
-    "ASSIGN_CONFIRMATION_LABEL": "Weet u zeker dat u %{conversationCount} %{conversationLabel} wilt toewijzen aan",
-    "UNASSIGN_CONFIRMATION_LABEL": "Weet u zeker dat u %{conversationCount} %{conversationLabel} wilt ontkoppelen?",
+    "ASSIGN_CONFIRMATION_LABEL": "Weet u zeker dat u {conversationCount} {conversationLabel} wilt toewijzen aan",
+    "UNASSIGN_CONFIRMATION_LABEL": "Weet u zeker dat u {conversationCount} {conversationLabel} wilt ontkoppelen?",
     "GO_BACK_LABEL": "Ga terug",
     "ASSIGN_LABEL": "Toewijzen",
     "YES": "Ja",
+    "SEARCH_INPUT_PLACEHOLDER": "Zoeken",
     "ASSIGN_AGENT_TOOLTIP": "Agent toewijzen",
     "ASSIGN_TEAM_TOOLTIP": "Team toewijzen",
     "ASSIGN_SUCCESFUL": "Gesprekken succesvol toegewezen.",

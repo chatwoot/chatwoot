@@ -239,6 +239,7 @@
     "REPORTS": "Relatórios",
     "SETTINGS": "Configurações",
     "CONTACTS": "Contato",
+    "CAPTAIN": "Capitain",
     "HOME": "Principal",
     "AGENTS": "Agentes",
     "AGENT_BOTS": "Robôs",
@@ -268,7 +269,7 @@
     "CAMPAIGNS": "Campanhas",
     "ONGOING": "Em andamento",
     "ONE_OFF": "Única",
-    "REPORTS_SLA": "SLA",
+    "REPORTS_SLA": "",
     "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Agentes",
     "REPORTS_LABEL": "Marcadores",
@@ -276,6 +277,7 @@
     "REPORTS_TEAM": "Times",
     "SET_AVAILABILITY_TITLE": "Defina como",
     "SLA": "",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Visão geral",
     "REAUTHORIZE": "A conexão com a sua caixa de entrada expirou. Por favor, reconecte para continuar recebendo e enviando mensagens",
@@ -299,7 +301,7 @@
     "TITLE": "Cobrança",
     "CURRENT_PLAN": {
       "TITLE": "Plano Atual",
-      "PLAN_NOTE": "Você está atualmente inscrito no plano **%{plan}** com **%{quantity}** licenças"
+      "PLAN_NOTE": "Você está atualmente inscrito no plano **{plan}** com **{quantity}** licenças"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Gerencie sua assinatura",

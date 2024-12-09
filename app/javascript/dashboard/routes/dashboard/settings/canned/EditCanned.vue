@@ -89,7 +89,7 @@ export default {
 </script>
 
 <template>
-  <Modal :show.sync="show" :on-close="onClose">
+  <Modal v-model:show="show" :on-close="onClose">
     <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header :header-title="pageTitle" />
       <form class="flex flex-col w-full" @submit.prevent="editCannedResponse()">
@@ -97,7 +97,7 @@ export default {
           <label :class="{ error: v$.shortCode.$error }">
             {{ $t('CANNED_MGMT.EDIT.FORM.SHORT_CODE.LABEL') }}
             <input
-              v-model.trim="shortCode"
+              v-model="shortCode"
               type="text"
               :placeholder="$t('CANNED_MGMT.EDIT.FORM.SHORT_CODE.PLACEHOLDER')"
               @input="v$.shortCode.$touch"

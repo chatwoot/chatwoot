@@ -29,6 +29,7 @@ ar:
       invalid: أحداث غير صالحة
     signup:
       disposable_email: نحن لا نسمح باسخدام عناوين البريد الإلكتروني المؤقتة
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: لقد قمت بإدخال عنوان بريد إلكتروني غير صالح
       email_already_exists: "لقد قمت بالفعل بتسجيل حساب سابقاً بالعنوان %{email}"
       invalid_params: 'غير صالح، الرجاء التحقق من خانات التسجيل وحاول مرة أخرى'
@@ -122,9 +123,9 @@ ar:
       conversation_assignment: "تم تعيين محادثة (#%{display_id}) لك"
       assigned_conversation_new_message: "تم إنشاء رسالة جديدة في المحادثة (#%{display_id})"
       conversation_mention: "تمت الإشارة إليك في المحادثة من قبل (#%{display_id})"
-      sla_missed_first_response: "هدف SLA أول رد مفقود للمحادثة (#%{display_id})"
-      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
-      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
+      sla_missed_first_response: "هدف سياسة خدمة أول رد مفقود للمحادثة (#%{display_id})"
+      sla_missed_next_response: "هدف سياسة خدمة الرد القادم مفقود للمحادثة (#%{display_id})"
+      sla_missed_resolution: "هدف سياسة خدمة أول حل مفقود للمحادثة (#%{display_id})"
     attachment: "المرفقات"
     no_content: "لا يوجد محتوى"
   conversations:
@@ -211,7 +212,7 @@ ar:
       description: "الاستفادة من قوة نماذج اللغات الكبيرة من OpenAI مع ميزات مثل اقتراحات الرد، التلخيص، إعادة صياغة الرسائل، التحقق الإملائي، تصنيف البطاقات."
     linear:
       name: "Linear"
-      description: "إنشاء مشكلات في الخط الخطي مباشرة من نافذة المحادثة الخاصة بك. بدلاً من ذلك، قم بربط المشكلات الخطية القائمة من أجل عملية تتبع أكثر تبسيطاً وكفاءة."
+      description: "إنشاء مشكلات في Linear مباشرة من نافذة المحادثة الخاصة بك. بدلاً من ذلك، قم بربط مشكلات Linear القائمة من أجل عملية تتبع أكثر تبسيطاً وكفاءة."
     captain:
       name: "قائد"
       description: "الكابتن هو مساعد AI أصلي تم بناؤه لمنتجك وتم تدريبه على قاعدة معارف شركتك. يستجيب كإنسان ويحل استفسارات العميل بشكل فعال. قم بتكوينه بسهولة إلى صناديق الوارد الخاصة بك."

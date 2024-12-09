@@ -18,6 +18,7 @@
       "AND": "AND",
       "OR": "OR"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Equal to",
       "not_equal_to": "Not equal to",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Created at",
       "LAST_ACTIVITY": "Last activity"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Value is required"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",

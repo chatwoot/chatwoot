@@ -239,6 +239,7 @@
     "REPORTS": "Pārskati",
     "SETTINGS": "Iestatījumi",
     "CONTACTS": "Kontaktpersonas",
+    "CAPTAIN": "Captain",
     "HOME": "Sākums",
     "AGENTS": "Aģenti",
     "AGENT_BOTS": "Bots",
@@ -276,9 +277,10 @@
     "REPORTS_TEAM": "Komanda",
     "SET_AVAILABILITY_TITLE": "Iestatīt sevi kā",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Pielāgotas lomas",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Pārskats",
-    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "REAUTHORIZE": "Jūsu iesūtnes savienojuma termiņš ir beidzies. Lūdzu, pievienojiet vēlreiz\n lai turpinātu saņemt un sūtīt ziņas",
     "HELP_CENTER": {
       "TITLE": "Palīdzības centrs",
       "ALL_ARTICLES": "Visi Raksti",
@@ -299,7 +301,7 @@
     "TITLE": "Norēķini",
     "CURRENT_PLAN": {
       "TITLE": "Pašreizējais Norēķinu Plāns",
-      "PLAN_NOTE": "Šobrīd Jūs abonējat **%{plan}** plānu ar **%{quantity}** licencēm"
+      "PLAN_NOTE": "Šobrīd Jūs abonējat **{plan}** plānu ar **{quantity}** licencēm"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Pārvaldīt savu abonementu",

@@ -74,6 +74,7 @@ Rails.application.routes.draw do
             post :execute, on: :member
           end
           resources :sla_policies, only: [:index, :create, :show, :update, :destroy]
+          resources :custom_roles, only: [:index, :create, :show, :update, :destroy]
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
@@ -218,7 +219,7 @@ Rails.application.routes.draw do
             resources :apps, only: [:index, :show]
             resource :captain, controller: 'captain', only: [] do
               collection do
-                get :sso_url
+                post :proxy
               end
             end
             resources :hooks, only: [:show, :create, :update, :destroy] do

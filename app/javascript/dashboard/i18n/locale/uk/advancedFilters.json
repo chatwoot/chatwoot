@@ -1,7 +1,7 @@
 {
   "FILTER": {
     "TITLE": "Фільтрувати діалоги",
-    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
+    "SUBTITLE": "Заповніть фільтри нижче, і натисніть \"Застосувати фільтри\" щоб пробратися через усі ваші чати.",
     "EDIT_CUSTOM_FILTER": "Редагувати папку",
     "CUSTOM_VIEWS_SUBTITLE": "Додайте або видаліть фільтри та оновіть папку.",
     "ADD_NEW_FILTER": "Додати фільтр",
@@ -18,6 +18,7 @@
       "AND": "ТА",
       "OR": "АБО"
     },
+    "INPUT_PLACEHOLDER": "Введіть значення",
     "OPERATOR_LABELS": {
       "equal_to": "Дорівнює",
       "not_equal_to": "Не дорівнює",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Прапорець",
       "CREATED_AT": "Створений в",
       "LAST_ACTIVITY": "Остання активність"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Необхідно вказати значення"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Стандартні фільтри",

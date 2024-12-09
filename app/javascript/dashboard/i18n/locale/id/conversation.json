@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Tidak ada",
         "INPUT_PLACEHOLDER": "Pilih prioritas",
         "NO_RESULTS": "Tidak ada hasil ditemukan",
-        "SUCCESSFUL": "Berhasil mengubah prioritas percakapan dengan ID %{conversationId} menjadi %{priority}",
+        "SUCCESSFUL": "Berhasil mengubah prioritas percakapan dengan ID {conversationId} menjadi {priority}",
         "FAILED": "Gagal mengubah prioritas. Silakan coba lagi."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Tugaskan tim",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Id percakapan %{conversationId} ditugaskan ke \"%{agentName}\"",
+          "SUCCESFUL": "Id percakapan {conversationId} ditugaskan ke \"{agentName}\"",
           "FAILED": "Tidak dapat menugaskan agen. Silakan coba lagi."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Label #%{labelName} ditugaskan ke id percakapan %{conversationId}",
+          "SUCCESFUL": "Label #{labelName} ditugaskan ke id percakapan {conversationId}",
           "FAILED": "Tidak dapat menugaskan label. Silakan coba lagi."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Tim \"%{team}\" ditugaskan ke id percakapan %{conversationId}",
+          "SUCCESFUL": "Tim \"{team}\" ditugaskan ke id percakapan {conversationId}",
           "FAILED": "Tidak dapat menugaskan tim. Silakan coba lagi."
         }
       }
@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + enter untuk baris baru. Mulailah dengan '/' untuk memilih Canned Response.",
       "PRIVATE_MSG_INPUT": "Shift + enter untuk baris baru. Ini hanya akan terlihat oleh Agen",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Tanda tangan pesan tidak dikonfigurasi, harap konfigurasikan di pengaturan profil.",
-      "CLICK_HERE": "Klik di sini untuk memperbarui"
+      "CLICK_HERE": "Klik di sini untuk memperbarui",
+      "WHATSAPP_TEMPLATES": "Templat Whatsapp"
     },
     "REPLYBOX": {
       "REPLY": "Balas",
@@ -238,27 +239,31 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hai 👋, Selamat datang di %{installationName}!",
-    "DESCRIPTION": "Terima kasih telah mendaftar. Kami ingin Anda mendapatkan hasil maksimal dari %{installationName}. Berikut beberapa hal yang dapat Anda lakukan di %{installationName} untuk membuat pengalaman menyenangkan.",
+    "TITLE": "Hai 👋, Selamat datang di {installationName}!",
+    "DESCRIPTION": "Terima kasih telah mendaftar. Kami ingin Anda mendapatkan hasil maksimal dari {installationName}. Berikut beberapa hal yang dapat Anda lakukan di {installationName} untuk membuat pengalaman menyenangkan.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Baca pembaruan terbaru kami",
     "ALL_CONVERSATION": {
       "TITLE": "Semua percakapan Anda di satu tempat",
-      "DESCRIPTION": "Lihat semua percakapan dari pelanggan Anda dalam satu dasbor. Anda dapat memfilter percakapan berdasarkan saluran masuk, label, dan status."
+      "DESCRIPTION": "Lihat semua percakapan dari pelanggan Anda dalam satu dasbor. Anda dapat memfilter percakapan berdasarkan saluran masuk, label, dan status.",
+      "NEW_LINK": "Klik di sini untuk membuat kotak masuk"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Undang anggota tim Anda",
       "DESCRIPTION": "Karena Anda bersiap untuk berbicara dengan pelanggan Anda, ajak rekan tim Anda untuk membantu Anda. Anda dapat mengundang rekan tim Anda dengan menambahkan alamat email mereka ke daftar agen.",
       "NEW_LINK": "Klik di sini untuk mengundang anggota tim"
     },
-    "INBOXES": {
-      "TITLE": "Hubungkan Kotak Masuk",
-      "DESCRIPTION": "Hubungkan berbagai saluran yang akan digunakan pelanggan untuk berbicara dengan Anda. Ini bisa berupa obrolan langsung situs web, halaman Facebook atau Twitter Anda atau bahkan nomor WhatsApp Anda.",
-      "NEW_LINK": "Klik di sini untuk membuat kotak masuk"
-    },
     "LABELS": {
       "TITLE": "Atur percakapan dengan label",
       "DESCRIPTION": "Label memberikan cara yang lebih mudah untuk mengkategorikan percakapan Anda. Buat beberapa label seperti #support-inquiry, #billing-question, dll., Sehingga Anda dapat menggunakannya dalam percakapan nanti.",
       "NEW_LINK": "Klik di sini untuk membuat label"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -312,10 +317,10 @@
     "SIDEBAR_TITLE": "Peserta Percakapan",
     "NO_RECORDS_FOUND": "Tidak ada hasil ditemukan",
     "ADD_PARTICIPANTS": "Pilih peserta",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} lainnya",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} lainnya",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} orang berpartisipasi.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} orang berpartisipasi.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} lainnya",
+    "REMANING_PARTICIPANT_TEXT": "+{count} lainnya",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} orang berpartisipasi.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} orang berpartisipasi.",
     "NO_PARTICIPANTS_TEXT": "Tidak ada yang berpartisipasi!.",
     "WATCH_CONVERSATION": "Gabung dalam percakapan",
     "YOU_ARE_WATCHING": "Anda berpartisipasi",

@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Nenhuma",
         "INPUT_PLACEHOLDER": "Selecionar prioridade",
         "NO_RESULTS": "Nenhum resultado encontrado",
-        "SUCCESSFUL": "Alterada a prioridade do ID da conversa %{conversationId} para %{priority}",
+        "SUCCESSFUL": "Alterada a prioridade do ID da conversa {conversationId} para {priority}",
         "FAILED": "Não foi possível alterar a prioridade. Por favor, tente novamente."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Atribuir equipe",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "ID da conversa %{conversationId} atribuído para \"%{agentName}\"",
+          "SUCCESFUL": "ID da conversa {conversationId} atribuído para \"{agentName}\"",
           "FAILED": "Não foi possível atribuir agente. Por favor, tente novamente."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Etiqueta #%{labelName} atribuída para o id de conversa %{conversationId}",
+          "SUCCESFUL": "Etiqueta #{labelName} atribuída para o id de conversa {conversationId}",
           "FAILED": "Não foi possível atribuir etiqueta. Por favor, tente novamente."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Equipe %{team} atribuído para o id de conversa %{conversationId}",
+          "SUCCESFUL": "Equipe {team} atribuído para o id de conversa {conversationId}",
           "FAILED": "Não foi possível atribuir equipe. Por favor, tente novamente."
         }
       }
@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + enter para nova linha. Digite '/' para atalhos.",
       "PRIVATE_MSG_INPUT": "A mensagem será visível apenas para agentes",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "A assinatura da mensagem não está configurada. Por favor, configure-a nas configurações do perfil.",
-      "CLICK_HERE": "Clique aqui para atualizar"
+      "CLICK_HERE": "Clique aqui para atualizar",
+      "WHATSAPP_TEMPLATES": "Templates do Whatsapp"
     },
     "REPLYBOX": {
       "REPLY": "Responder",
@@ -238,27 +239,31 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Olá, 👋. Bem-vindo ao %{installationName}!",
-    "DESCRIPTION": "Obrigado por se inscrever. Queremos que você aproveite o máximo de %{installationName}. Aqui estão algumas coisas que você consegue fazer no(a) %{installationName} para que tenha uma experiência agradável.",
+    "TITLE": "Olá, 👋. Bem-vindo ao {installationName}!",
+    "DESCRIPTION": "Obrigado por se inscrever. Queremos que você aproveite o máximo de {installationName}. Aqui estão algumas coisas que você consegue fazer no(a) {installationName} para que tenha uma experiência agradável.",
+    "GREETING_MORNING": "👋 Bom dia, {name}. Bem-vindo a {installationName}.",
+    "GREETING_AFTERNOON": "👋 Boa tarde, {name}. Bem-vindo a {installationName}.",
+    "GREETING_EVENING": "👋 Boa noite, {name}. Bem-vindo a {installationName}.",
     "READ_LATEST_UPDATES": "Leia as últimas atualizações",
     "ALL_CONVERSATION": {
       "TITLE": "Todas as suas conversas em um só lugar",
-      "DESCRIPTION": "Veja todas as conversas dos seus clientes em um único painel. Você pode filtrar as conversas pelo canal de entrada, rótulo e status."
+      "DESCRIPTION": "Veja todas as conversas dos seus clientes em um único painel. Você pode filtrar as conversas pelo canal de entrada, rótulo e status.",
+      "NEW_LINK": "Clique aqui para criar uma caixa de entrada"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Convidar membros da sua equipe",
       "DESCRIPTION": "Já que você está se preparando para conversar com seu cliente, traga seus colegas para ajudá-lo. Você pode convidar seus colegas de equipe adicionando os endereços de e-mail deles na lista de agentes.",
       "NEW_LINK": "Clique aqui para convidar um membro da equipe"
     },
-    "INBOXES": {
-      "TITLE": "Conectar caixas de entrada",
-      "DESCRIPTION": "Conecte vários canais através dos quais seus clientes estariam conversando com você. Podendo ser a partir de um chat ao vivo no seu website, sua página do Facebook ou Twitter ou até mesmo seu número do WhatsApp.",
-      "NEW_LINK": "Clique aqui para criar uma caixa de entrada"
-    },
     "LABELS": {
       "TITLE": "Organizar conversas com marcadores",
       "DESCRIPTION": "Etiquetas fornecem uma forma mais fácil de organizar a sua conversa. Criar algumas estiquetas como #solicitação-suporte, #fatura-assunto etc., assim você poderá futuramente utiliza-las em uma conversa posteriormente.",
       "NEW_LINK": "Clique aqui para criar marcadores"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Criar respostas prontas",
+      "DESCRIPTION": "Os modelos de resposta rápida ajudam você a responder rapidamente a uma conversa. Os agentes podem digitar o caractere '/' seguido pelo atalho para inserir uma resposta.",
+      "NEW_LINK": "Clique aqui para criar uma resposta pronta"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -312,10 +317,10 @@
     "SIDEBAR_TITLE": "Participantes da conversa",
     "NO_RECORDS_FOUND": "Nenhum resultado encontrado",
     "ADD_PARTICIPANTS": "Selecionar participantes",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} participantes",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} participante",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} pessoas estão participando.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} pessoa está participando.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} participantes",
+    "REMANING_PARTICIPANT_TEXT": "+{count} participante",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} pessoas estão participando.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} pessoa está participando.",
     "NO_PARTICIPANTS_TEXT": "Ninguém está participando!",
     "WATCH_CONVERSATION": "Participar da conversa",
     "YOU_ARE_WATCHING": "Você está participando",
@@ -330,5 +335,10 @@
     "ORIGINAL_CONTENT": "Conteúdo original",
     "TRANSLATED_CONTENT": "Conteúdo traduzido",
     "NO_TRANSLATIONS_AVAILABLE": "Nenhuma tradução está disponível para este conteúdo"
+  },
+  "TYPING": {
+    "ONE": "{user} está digitando",
+    "TWO": "{user} e {secondUser} estão digitando",
+    "MULTIPLE": "{user} e {count} outros estão digitando"
   }
 }

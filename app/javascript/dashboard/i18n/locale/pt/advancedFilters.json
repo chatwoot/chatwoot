@@ -1,23 +1,24 @@
 {
   "FILTER": {
-    "TITLE": "Filtrar Conversas",
-    "SUBTITLE": "Adicione os seus filtros abaixo e clique 'Aplicar filtros' para eliminar a confusão no chat.",
-    "EDIT_CUSTOM_FILTER": "Editar Pasta",
+    "TITLE": "Filtrar conversas",
+    "SUBTITLE": "Adicione os seus filtros abaixo e clique em 'Aplicar filtros' para eliminar a confusão no chat.",
+    "EDIT_CUSTOM_FILTER": "Editar pasta",
     "CUSTOM_VIEWS_SUBTITLE": "Adicione ou remova filtros e atualize sua pasta.",
     "ADD_NEW_FILTER": "Adicionar filtro",
-    "FILTER_DELETE_ERROR": "Ops, parece que não conseguimos salvar nada! Por favor, adicione pelo menos um filtro para salvar.",
+    "FILTER_DELETE_ERROR": "Não foi possível guardar! Por favor, adicione, pelo menos, um filtro para guardar.",
     "SUBMIT_BUTTON_LABEL": "Aplicar filtros",
     "UPDATE_BUTTON_LABEL": "Atualizar pasta",
-    "CANCEL_BUTTON_LABEL": "cancelar",
+    "CANCEL_BUTTON_LABEL": "Cancelar",
     "CLEAR_BUTTON_LABEL": "Limpar filtros",
     "FOLDER_LABEL": "Nome da pasta",
-    "FOLDER_QUERY_LABEL": "Consulta de Pasta",
+    "FOLDER_QUERY_LABEL": "Consulta de pasta",
     "EMPTY_VALUE_ERROR": "Valor obrigatório.",
-    "TOOLTIP_LABEL": "Filtrar Conversas",
+    "TOOLTIP_LABEL": "Filtrar conversas",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "E",
       "OR": "OU"
     },
+    "INPUT_PLACEHOLDER": "Inserir valor",
     "OPERATOR_LABELS": {
       "equal_to": "Igual a",
       "not_equal_to": "Não é igual a",
@@ -35,12 +36,12 @@
       "FALSE": "Falso"
     },
     "ATTRIBUTES": {
-      "STATUS": "SItuação",
+      "STATUS": "Situação",
       "ASSIGNEE_NAME": "Nome do titular",
       "INBOX_NAME": "Nome da caixa de entrada",
       "TEAM_NAME": "Nome da equipa",
       "CONVERSATION_IDENTIFIER": "ID da conversa",
-      "CAMPAIGN_NAME": "Nome da Campanha",
+      "CAMPAIGN_NAME": "Nome da campanha",
       "LABELS": "Etiquetas",
       "BROWSER_LANGUAGE": "Idioma do browser",
       "PRIORITY": "Prioridade",
@@ -50,9 +51,12 @@
       "CUSTOM_ATTRIBUTE_TEXT": "Texto",
       "CUSTOM_ATTRIBUTE_NUMBER": "Número",
       "CUSTOM_ATTRIBUTE_LINK": "Endereço",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Caixa de Seleção",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Caixa de seleção",
       "CREATED_AT": "Criada em",
       "LAST_ACTIVITY": "Última atividade"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Valor obrigatório"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Filtros padrão",
@@ -61,12 +65,12 @@
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Deseja guardar este filtro?",
-        "LABEL": "Nome do Filtro",
-        "PLACEHOLDER": "Dê um nome ao seu filtro para consultá-lo mais tarde.",
+        "TITLE": "Pretende guardar este filtro?",
+        "LABEL": "Nome do filtro",
+        "PLACEHOLDER": "Dê um nome ao filtro, para consultá-lo mais tarde.",
         "ERROR_MESSAGE": "Nome é obrigatório.",
-        "SAVE_BUTTON": "Guardar Filtro",
-        "CANCEL_BUTTON": "cancelar",
+        "SAVE_BUTTON": "Guardar filtro",
+        "CANCEL_BUTTON": "Cancelar",
         "API_FOLDERS": {
           "SUCCESS_MESSAGE": "Pasta criada com sucesso.",
           "ERROR_MESSAGE": "Erro ao criar a pasta."
@@ -77,15 +81,15 @@
         }
       },
       "EDIT": {
-        "EDIT_BUTTON": "Editar Pasta"
+        "EDIT_BUTTON": "Editar pasta"
       },
       "DELETE": {
         "DELETE_BUTTON": "Apagar filtro",
         "MODAL": {
           "CONFIRM": {
-            "TITLE": "Confirmar a eliminação",
-            "MESSAGE": "Tem a certeza que deseja apagar o filtro ",
-            "YES": "Sim, apagar",
+            "TITLE": "Confirmar exclusão",
+            "MESSAGE": "Tem a certeza que deseja excluir o filtro ",
+            "YES": "Sim, excluir",
             "NO": "Não, manter"
           }
         },

@@ -23,13 +23,13 @@
         "NAME": "Thời gian phản hồi đầu tiên",
         "DESC": "( Trung bình )",
         "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
-        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
+        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là {metricValue} (dựa trên {conversationCount} cuộc hội thoại)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Thời gian giải quyết",
         "DESC": "( Trung bình )",
         "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
-        "TOOLTIP_TEXT": "Thời gian giải quyết là %{metricValue} (dựa trên %{conversationCount} hội thoại)"
+        "TOOLTIP_TEXT": "Thời gian giải quyết là {metricValue} (dựa trên {conversationCount} hội thoại)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Số lượng giải quyết",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -167,13 +167,13 @@
         "NAME": "Thời gian phản hồi đầu tiên",
         "DESC": "( Trung bình )",
         "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
-        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
+        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là {metricValue} (dựa trên {conversationCount} cuộc hội thoại)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Thời gian giải quyết",
         "DESC": "( Trung bình )",
         "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
-        "TOOLTIP_TEXT": "Thời gian giải quyết là %{metricValue} (dựa trên %{conversationCount} hội thoại)"
+        "TOOLTIP_TEXT": "Thời gian giải quyết là {metricValue} (dựa trên {conversationCount} hội thoại)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Số lượng giải quyết",
@@ -234,13 +234,13 @@
         "NAME": "Thời gian phản hồi đầu tiên",
         "DESC": "( Trung bình )",
         "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
-        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
+        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là {metricValue} (dựa trên {conversationCount} cuộc hội thoại)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Thời gian giải quyết",
         "DESC": "( Trung bình )",
         "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
-        "TOOLTIP_TEXT": "Thời gian giải quyết là %{metricValue} (dựa trên %{conversationCount} hội thoại)"
+        "TOOLTIP_TEXT": "Thời gian giải quyết là {metricValue} (dựa trên {conversationCount} hội thoại)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Số lượng giải quyết",
@@ -301,13 +301,13 @@
         "NAME": "Thời gian phản hồi đầu tiên",
         "DESC": "( Trung bình )",
         "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
-        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
+        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là {metricValue} (dựa trên {conversationCount} cuộc hội thoại)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Thời gian giải quyết",
         "DESC": "( Trung bình )",
         "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
-        "TOOLTIP_TEXT": "Thời gian giải quyết là %{metricValue} (dựa trên %{conversationCount} hội thoại)"
+        "TOOLTIP_TEXT": "Thời gian giải quyết là {metricValue} (dựa trên {conversationCount} hội thoại)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Số lượng giải quyết",
@@ -368,13 +368,13 @@
         "NAME": "Thời gian phản hồi đầu tiên",
         "DESC": "( Trung bình )",
         "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
-        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
+        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là {metricValue} (dựa trên {conversationCount} cuộc hội thoại)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Thời gian giải quyết",
         "DESC": "( Trung bình )",
         "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
-        "TOOLTIP_TEXT": "Thời gian giải quyết là %{metricValue} (dựa trên %{conversationCount} hội thoại)"
+        "TOOLTIP_TEXT": "Thời gian giải quyết là {metricValue} (dựa trên {conversationCount} hội thoại)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Số lượng giải quyết",
@@ -480,8 +480,9 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
       "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Cuộc hội thoại của các tổng đài viên",
@@ -536,6 +537,7 @@
       "LABELS": "Nhãn",
       "TEAMS": "Nhóm"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

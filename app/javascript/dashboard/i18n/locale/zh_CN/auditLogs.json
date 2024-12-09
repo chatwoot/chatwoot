@@ -3,17 +3,15 @@
     "HEADER": "审计日志",
     "HEADER_BTN_TXT": "添加审计日志",
     "LOADING": "正在获取审计日志",
+    "DESCRIPTION": "Audit Logs maintain a record of activities in your account, allowing you to track and audit your account, team, or services.",
+    "LEARN_MORE": "Learn more about audit logs",
     "SEARCH_404": "没有任何项目符合此查询",
     "SIDEBAR_TXT": "<p><b>审计日志</b></p><p>审计日志是 Chatwoot 系统中事件和操作的痕迹。</p>",
     "LIST": {
       "404": "此账户中没有可用的审计日志。",
       "TITLE": "管理审计日志",
       "DESC": "审计日志是 Chatwoot 系统中事件和操作的痕迹。",
-      "TABLE_HEADER": [
-        "User",
-        "Action",
-        "IP 地址"
-      ]
+      "TABLE_HEADER": ["User", "Action", "IP 地址"]
     },
     "API": {
       "SUCCESS_MESSAGE": "审计日志获取成功",
@@ -21,51 +19,52 @@
     },
     "DEFAULT_USER": "系统",
     "AUTOMATION_RULE": {
-      "ADD": "%{agentName} 创建了一个新的自动化规则 (#%{id})",
-      "EDIT": "%{agentName} 更新了一个自动化规则 (#%{id})",
-      "DELETE": "%{agentName} 删除了一个自动化规则 (#%{id})"
+      "ADD": "{agentName} 创建了一个新的自动化规则 (#{id})",
+      "EDIT": "{agentName} 更新了一个自动化规则 (#{id})",
+      "DELETE": "{agentName} 删除了一个自动化规则 (#{id})"
     },
     "ACCOUNT_USER": {
-      "ADD": "%{agentName} 邀请了 %{invitee} 加入账户作为 %{role}",
+      "ADD": "{agentName} 邀请了 {invitee} 加入账户作为 {role}",
       "EDIT": {
-        "SELF": "%{agentName} 将其 %{attributes} 更改为 %{values}",
-        "OTHER": "%{agentName} 将 %{user} 的 %{attributes} 更改为 %{values}"
+        "SELF": "{agentName} 将其 {attributes} 更改为 {values}",
+        "OTHER": "{agentName} 将 {user} 的 {attributes} 更改为 {values}",
+        "DELETED": "{agentName} changed {attributes} of a deleted user to {values}"
       }
     },
     "INBOX": {
-      "ADD": "%{agentName} 创建了一个新的收件箱 (#%{id})",
-      "EDIT": "%{agentName} 更新了一个收件箱 (#%{id})",
-      "DELETE": "%{agentName} 删除了一个收件箱 (#%{id})"
+      "ADD": "{agentName} 创建了一个新的收件箱 (#{id})",
+      "EDIT": "{agentName} 更新了一个收件箱 (#{id})",
+      "DELETE": "{agentName} 删除了一个收件箱 (#{id})"
     },
     "WEBHOOK": {
-      "ADD": "%{agentName} 创建了一个新的 webhook (#%{id})",
-      "EDIT": "%{agentName} 更新了一个 webhook (#%{id})",
-      "DELETE": "%{agentName} 删除了一个 webhook (#%{id})"
+      "ADD": "{agentName} 创建了一个新的 webhook (#{id})",
+      "EDIT": "{agentName} 更新了一个 webhook (#{id})",
+      "DELETE": "{agentName} 删除了一个 webhook (#{id})"
     },
     "USER_ACTION": {
-      "SIGN_IN": "%{agentName} 登录",
-      "SIGN_OUT": "%{agentName} 登出"
+      "SIGN_IN": "{agentName} 登录",
+      "SIGN_OUT": "{agentName} 登出"
     },
     "TEAM": {
-      "ADD": "%{agentName} 创建了一个新的团队 (#%{id})",
-      "EDIT": "%{agentName} 更新了一个团队 (#%{id})",
-      "DELETE": "%{agentName} 删除了一个团队 (#%{id})"
+      "ADD": "{agentName} 创建了一个新的团队 (#{id})",
+      "EDIT": "{agentName} 更新了一个团队 (#{id})",
+      "DELETE": "{agentName} 删除了一个团队 (#{id})"
     },
     "MACRO": {
-      "ADD": "%{agentName} 创建了一个新的宏 (#%{id})",
-      "EDIT": "%{agentName} 更新了一个宏 (#%{id})",
-      "DELETE": "%{agentName} 删除了一个宏 (#%{id})"
+      "ADD": "{agentName} 创建了一个新的宏 (#{id})",
+      "EDIT": "{agentName} 更新了一个宏 (#{id})",
+      "DELETE": "{agentName} 删除了一个宏 (#{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "%{agentName} 将 %{user} 添加到收件箱 (#%{inbox_id})",
-      "REMOVE": "%{agentName} 将 %{user} 从收件箱 (#%{inbox_id}) 中移除"
+      "ADD": "{agentName} 将 {user} 添加到收件箱 (#{inbox_id})",
+      "REMOVE": "{agentName} 将 {user} 从收件箱 (#{inbox_id}) 中移除"
     },
     "TEAM_MEMBER": {
-      "ADD": "%{agentName} 将 %{user} 添加到团队 (#%{team_id})",
-      "REMOVE": "%{agentName} 将 %{user} 从团队 (#%{team_id}) 中移除"
+      "ADD": "{agentName} 将 {user} 添加到团队 (#{team_id})",
+      "REMOVE": "{agentName} 将 {user} 从团队 (#{team_id}) 中移除"
     },
     "ACCOUNT": {
-      "EDIT": "%{agentName} 更新了账户配置 (#%{id})"
+      "EDIT": "{agentName} 更新了账户配置 (#{id})"
     }
   }
 }

@@ -18,6 +18,7 @@
       "AND": "UN",
       "OR": "VAI"
     },
+    "INPUT_PLACEHOLDER": "Ievadiet vērtību",
     "OPERATOR_LABELS": {
       "equal_to": "Vienāds ar",
       "not_equal_to": "Nav vienāds ar",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Izvēles rūtiņa",
       "CREATED_AT": "Izveidots plkst",
       "LAST_ACTIVITY": "Pēdējā darbība"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Nepieciešama vērtība"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standarta filtri",

@@ -1,17 +1,18 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "سمات مخصصة",
-    "HEADER_BTN_TXT": "إضافة سمة خاصة",
-    "LOADING": "جلب سمات مخصصة",
-    "SIDEBAR_TXT": "<p><b>السمات المخصصة</b> <p>سمة مخصصة تتبع الحقائق حول جهات الاتصال/المحادثة الخاصة بك - مثل خطة الاشتراك. أو عندما يطلبون العنصر الأول وما إلى ذلك. <br /><br />لإنشاء سمة مخصصة، فقط انقر فوق<b>أضف سمة مخصصة.</b> يمكنك أيضا تعديل أو حذف سمة مخصصة موجودة بالنقر على زر التحرير أو الحذف.</p>",
+    "HEADER": "صفات مخصصة",
+    "HEADER_BTN_TXT": "إضافة صفة خاصة",
+    "LOADING": "جلب الصفات المخصصة",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
-      "TITLE": "إضافة سمة خاصة",
+      "TITLE": "إضافة صفة خاصة",
       "SUBMIT": "إنشاء",
       "CANCEL_BUTTON_TEXT": "إلغاء",
       "FORM": {
         "NAME": {
           "LABEL": "اسم العرض",
-          "PLACEHOLDER": "أدخل اسم عرض السمة",
+          "PLACEHOLDER": "أدخل اسم عرض الصفة",
           "ERROR": "الاسم مطلوب"
         },
         "DESC": {
@@ -36,7 +37,7 @@
         },
         "KEY": {
           "LABEL": "المفتاح",
-          "PLACEHOLDER": "أدخل مفتاح السمة المخصصة",
+          "PLACEHOLDER": "أدخل مفتاح الصفة المخصصة",
           "ERROR": "المفتاح مطلوب",
           "IN_VALID": "مفتاح غير صالح"
         },
@@ -53,26 +54,26 @@
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "تم إضافة سمة مخصصة بنجاح!",
-        "ERROR_MESSAGE": "تعذر إنشاء سمة مخصصة، الرجاء المحاولة مرة أخرى لاحقاً."
+        "SUCCESS_MESSAGE": "تم إضافة صفة مخصصة بنجاح!",
+        "ERROR_MESSAGE": "تعذر إنشاء صفة مخصصة، الرجاء المحاولة مرة أخرى لاحقاً."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "حذف",
       "API": {
-        "SUCCESS_MESSAGE": "تم حذف السمة المخصصة بنجاح.",
-        "ERROR_MESSAGE": "تعذر حذف السمة المخصصة. حاول مرة أخرى."
+        "SUCCESS_MESSAGE": "تم حذف الصفة المخصصة بنجاح.",
+        "ERROR_MESSAGE": "تعذر حذف الصفة المخصصة. حاول مرة أخرى."
       },
       "CONFIRM": {
-        "TITLE": "هل أنت متأكد من أنك تريد حذف - %{attributeName}",
+        "TITLE": "هل أنت متأكد من أنك تريد حذف - {attributeName}",
         "PLACE_HOLDER": "الرجاء كتابة {attributeName} للتأكيد",
-        "MESSAGE": "حذف سوف يزيل السمة المخصصة",
+        "MESSAGE": "الحذف سوف يزيل الصفة المخصصة",
         "YES": "حذف ",
         "NO": "إلغاء"
       }
     },
     "EDIT": {
-      "TITLE": "تعديل سمة مخصصة",
+      "TITLE": "تعديل صفة مخصصة",
       "UPDATE_BUTTON_TEXT": "تحديث",
       "TYPE": {
         "LIST": {
@@ -81,12 +82,12 @@
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "تم تحديث السمة المخصصة بنجاح",
-        "ERROR_MESSAGE": "حدث خطأ أثناء تحديث السمة المخصصة، الرجاء المحاولة مرة أخرى"
+        "SUCCESS_MESSAGE": "تم تحديث الصفة المخصصة بنجاح",
+        "ERROR_MESSAGE": "حدث خطأ أثناء تحديث الصفة المخصصة، الرجاء المحاولة مرة أخرى"
       }
     },
     "TABS": {
-      "HEADER": "سمات مخصصة",
+      "HEADER": "صفات مخصصة",
       "CONVERSATION": "المحادثات",
       "CONTACT": "جهات الاتصال"
     },
@@ -107,7 +108,7 @@
       },
       "REGEX_PATTERN": {
         "LABEL": "نمط Regex",
-        "PLACEHOLDER": "الرجاء إدخال سمة مخصصة ريمكس (اختياري)"
+        "PLACEHOLDER": "الرجاء إدخال صفة مخصصة ريمكس (اختياري)"
       },
       "REGEX_CUE": {
         "LABEL": "Regex Cue",

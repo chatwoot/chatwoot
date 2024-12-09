@@ -3,7 +3,8 @@
     "HEADER": "客服",
     "HEADER_BTN_TXT": "新增客服",
     "LOADING": "正在取得客服列表",
-    "SIDEBAR_TXT": "<p><b>客服</b></p> <p> 客服 <b></b> 是您的客戶支持團隊成員。 </p><p>客服將能夠查看和回覆您使用者的訊息。 列表顯示目前帳戶中的所有客服。 </p><p> 點擊 <b>新增客服</b> 以新增新客服。 您新增的客服將收到一封包含確認連結的電子信箱來啟動他們的帳戶，然後他們可以訪問Chatwoot 並回覆訊息。 </p><p> 聊天視窗的功能基於以下角色。 </p><p> <b>客服</b> - 具有此角色的客服只能訪問收件匣、報表和對話。 他們可以將對話分配給其他客服或自己，並封存會話。</p><p> <b>管理員</b> - 管理員將可以訪問您帳戶中所有已啟用的聊天功能。 包括設定，以及所有正常客服的權限。</p>",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "管理員",
       "AGENT": "客服"
@@ -17,7 +18,8 @@
       "STATUS": "狀態",
       "ACTIONS": "操作",
       "VERIFIED": "已認證",
-      "VERIFICATION_PENDING": "待驗證"
+      "VERIFICATION_PENDING": "待驗證",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "新增客服到你的團隊",

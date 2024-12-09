@@ -2,10 +2,13 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Yeni ekip oluştur",
     "HEADER": "Ekipler",
-    "SIDEBAR_TXT": "<p><b>Ekipler</b></p> <p>Ekipler, temsilcilerinizi sorumluluklarına göre gruplayabilmenizi sağlar. <br />Bir temsilci birden çok ekibe dahil olabilir. Ekip olarak çalışıyorsanız, görüşmeleri tüm ekibe atayabilirsiniz. </p>",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "Bu hesap üzerine oluşturulmuş ekip bulunmamaktadır.",
-      "EDIT_TEAM": "Ekibi düzenle"
+      "EDIT_TEAM": "Ekibi düzenle",
+      "NONE": "Hiç"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -14,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Ekibinize temsilciler ekleyin",
-        "TITLE": "Ekibe temsilciler ekleyin - %{teamName}",
+        "TITLE": "Ekibe temsilciler ekleyin - {teamName}",
         "DESC": "Yeni oluşturduğunuz ekibe Temsilciler ekleyin. Bu özellik ekip olarak görüşme yapabilmenizi, aynı görüşmeye gelecek bildirimlerden haberdar olabilmenize olanak sağlar."
       },
       "WIZARD": [
@@ -43,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Ekipteki temsilcileri güncelleyin",
-        "TITLE": "Ekibe temsilciler ekleyin - %{teamName}",
+        "TITLE": "Ekibe temsilciler ekleyin - {teamName}",
         "DESC": "Yeni oluşturduğunuz ekibe Temsilciler ekleyin. Bir görüşme bu ekibe atandığında tüm temsilcilere bildirim gider."
       },
       "WIZARD": [
@@ -74,14 +77,14 @@
       "ADD_AGENTS": "Ekibinize Temsiciler Ekleniyor...",
       "SELECT": "seçiniz",
       "SELECT_ALL": "tüm temsicileri seçin",
-      "SELECTED_COUNT": "%{total} temsilciden %{selected} temsilci seçildi."
+      "SELECTED_COUNT": "{total} temsilciden {selected} temsilci seçildi."
     },
     "ADD": {
-      "TITLE": "Ekibe temsilciler ekleyin - %{teamName}",
+      "TITLE": "Ekibe temsilciler ekleyin - {teamName}",
       "DESC": "Yeni oluşturduğunuz ekibe Temsilciler ekleyin. Bu özellik ekip olarak görüşme yapabilmenizi, aynı görüşmeye gelecek bildirimlerden haberdar olabilmenize olanak sağlar.",
       "SELECT": "seçiniz",
       "SELECT_ALL": "tüm temsicileri seçin",
-      "SELECTED_COUNT": "%{total} temsilciden %{selected} temsilci seçildi.",
+      "SELECTED_COUNT": "{total} temsilciden {selected} temsilci seçildi.",
       "BUTTON_TEXT": "Kullanıcı Ekle",
       "AGENT_VALIDATION_ERROR": "En az bir temsilci seçin."
     },
@@ -97,7 +100,7 @@
         "ERROR_MESSAGE": "Ekip silinemiyor. Tekrar deneyin."
       },
       "CONFIRM": {
-        "TITLE": "Silmek istediğinize emin misiniz - %{teamName}",
+        "TITLE": "Are you sure you want to delete the team?",
         "PLACE_HOLDER": "Onaylamak için lütfen {teamName} yazınız",
         "MESSAGE": "Ekibi silmek aynı zamanda görüşmelere atanmış ekipleri de temizler.",
         "YES": "Sil ",

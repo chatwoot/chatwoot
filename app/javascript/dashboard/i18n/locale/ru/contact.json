@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Краткая информация",
-      "DELETE_WARNING": "Контакт <strong>%{primaryContactName}</strong> будет удален.",
-      "ATTRIBUTE_WARNING": "Контактная информация <strong>%{primaryContactName}</strong> будет скопирована в <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Контакт <strong>{primaryContactName}</strong> будет удален.",
+      "ATTRIBUTE_WARNING": "Контактная информация <strong>{primaryContactName}</strong> будет скопирована в <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Контакт успешно объединён",
       "ERROR_MESSAGE": "Невозможно объединить контакты, попробуйте еще раз!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

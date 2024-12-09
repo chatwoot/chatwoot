@@ -4,16 +4,16 @@ import FilterInputBox from '../../../../components/widgets/FilterInput/Index.vue
 import countries from 'shared/constants/countries.js';
 import { mapGetters } from 'vuex';
 import { filterAttributeGroups } from '../contactFilterItems';
-import filterMixin from 'shared/mixins/filterMixin';
+import { useFilter } from 'shared/composables/useFilter';
 import * as OPERATORS from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
 import { CONTACTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import { validateConversationOrContactFilters } from 'dashboard/helper/validations.js';
+import { useTrack } from 'dashboard/composables';
 
 export default {
   components: {
     FilterInputBox,
   },
-  mixins: [filterMixin],
   props: {
     onClose: {
       type: Function,
@@ -35,6 +35,16 @@ export default {
       type: String,
       default: '',
     },
+  },
+  emits: ['applyFilter', 'clearFilters', 'updateSegment'],
+  setup() {
+    const { setFilterAttributes } = useFilter({
+      filteri18nKey: 'CONTACTS_FILTER',
+      attributeModel: 'contact_attribute',
+    });
+    return {
+      setFilterAttributes,
+    };
   },
   data() {
     return {
@@ -69,8 +79,11 @@ export default {
     },
   },
   mounted() {
-    this.setFilterAttributes();
-    if (this.getAppliedContactFilters.length) {
+    const { filterGroups, filterTypes } = this.setFilterAttributes();
+    this.filterTypes = [...this.filterTypes, ...filterTypes];
+    this.filterGroups = filterGroups;
+
+    if (this.getAppliedContactFilters.length && !this.isSegmentsView) {
       this.appliedFilters = [...this.getAppliedContactFilters];
     } else if (!this.isSegmentsView) {
       this.appliedFilters.push({
@@ -219,7 +232,7 @@ export default {
           JSON.parse(JSON.stringify(this.appliedFilters))
         );
         this.$emit('applyFilter', this.appliedFilters);
-        this.$track(CONTACTS_EVENTS.APPLY_FILTER, {
+        useTrack(CONTACTS_EVENTS.APPLY_FILTER, {
           applied_filters: this.appliedFilters.map(filter => ({
             key: filter.attribute_key,
             operator: filter.filter_operator,
@@ -297,11 +310,15 @@ export default {
           :dropdown-values="getDropdownValues(appliedFilters[i].attribute_key)"
           :show-query-operator="i !== appliedFilters.length - 1"
           :show-user-input="showUserInput(appliedFilters[i].filter_operator)"
-          :error-message="validationErrors[`filter_${i}`]"
-          @resetFilter="resetFilter(i, appliedFilters[i])"
-          @removeFilter="removeFilter(i)"
+          :error-message="
+            validationErrors[`filter_${i}`]
+              ? $t(`CONTACTS_FILTER.ERRORS.VALUE_REQUIRED`)
+              : ''
+          "
+          @reset-filter="resetFilter(i, appliedFilters[i])"
+          @remove-filter="removeFilter(i)"
         />
-        <div class="mt-4">
+        <div class="flex items-center gap-2 mt-4">
           <woot-button
             icon="add"
             color-scheme="success"

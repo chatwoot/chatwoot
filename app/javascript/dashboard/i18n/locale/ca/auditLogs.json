@@ -3,6 +3,8 @@
     "HEADER": "Registres d'auditoria",
     "HEADER_BTN_TXT": "Afegeix registres d'auditoria",
     "LOADING": "S'estan recollint registres d'auditoria",
+    "DESCRIPTION": "Audit Logs maintain a record of activities in your account, allowing you to track and audit your account, team, or services.",
+    "LEARN_MORE": "Learn more about audit logs",
     "SEARCH_404": "No hi ha cap resposta que coincideixi amb aquesta consulta",
     "SIDEBAR_TXT": "<p><b>Registres d'auditoria</b> </p><p> Els registres d'auditoria són pistes d'esdeveniments i accions en un sistema de Chatwoot. </p>",
     "LIST": {
@@ -21,51 +23,52 @@
     },
     "DEFAULT_USER": "Sistema",
     "AUTOMATION_RULE": {
-      "ADD": "%{agentName} ha creat una nova regla d'automatització (#%{id})",
-      "EDIT": "%{agentName} ha actualitzat una regla d'automatització (#%{id})",
-      "DELETE": "%{agentName} ha suprimit una regla d'automatització (#%{id})"
+      "ADD": "{agentName} ha creat una nova regla d'automatització (#{id})",
+      "EDIT": "{agentName} ha actualitzat una regla d'automatització (#{id})",
+      "DELETE": "{agentName} ha suprimit una regla d'automatització (#{id})"
     },
     "ACCOUNT_USER": {
-      "ADD": "%{agentName} ha convidat %{invitee} al compte com a %{role}",
+      "ADD": "{agentName} ha convidat {invitee} al compte com a {role}",
       "EDIT": {
-        "SELF": "%{agentName} ha canviat els seus %{attributes} a %{values}",
-        "OTHER": "%{agentName} ha canviat %{attributes} de %{user} a %{values}"
+        "SELF": "{agentName} ha canviat els seus {attributes} a {values}",
+        "OTHER": "{agentName} ha canviat {attributes} de {user} a {values}",
+        "DELETED": "{agentName} changed {attributes} of a deleted user to {values}"
       }
     },
     "INBOX": {
-      "ADD": "%{agentName} ha creat una safata d'entrada nova (#%{id})",
-      "EDIT": "%{agentName} ha actualitzat una safata d'entrada (#%{id})",
-      "DELETE": "%{agentName} ha suprimit una safata d'entrada (#%{id})"
+      "ADD": "{agentName} ha creat una safata d'entrada nova (#{id})",
+      "EDIT": "{agentName} ha actualitzat una safata d'entrada (#{id})",
+      "DELETE": "{agentName} ha suprimit una safata d'entrada (#{id})"
     },
     "WEBHOOK": {
-      "ADD": "%{agentName} ha creat un nou webhook (#%{id})",
-      "EDIT": "%{agentName} ha actualitzat un webhook (#%{id})",
-      "DELETE": "%{agentName} ha suprimit un webhook (#%{id})"
+      "ADD": "{agentName} ha creat un nou webhook (#{id})",
+      "EDIT": "{agentName} ha actualitzat un webhook (#{id})",
+      "DELETE": "{agentName} ha suprimit un webhook (#{id})"
     },
     "USER_ACTION": {
-      "SIGN_IN": "%{agentName} ha iniciat la sessió",
-      "SIGN_OUT": "%{agentName} ha tancat la sessió"
+      "SIGN_IN": "{agentName} ha iniciat la sessió",
+      "SIGN_OUT": "{agentName} ha tancat la sessió"
     },
     "TEAM": {
-      "ADD": "%{agentName} ha creat un equip nou (#%{id})",
-      "EDIT": "%{agentName} ha actualitzat un equip (#%{id})",
-      "DELETE": "%{agentName} ha suprimit un equip (#%{id})"
+      "ADD": "{agentName} ha creat un equip nou (#{id})",
+      "EDIT": "{agentName} ha actualitzat un equip (#{id})",
+      "DELETE": "{agentName} ha suprimit un equip (#{id})"
     },
     "MACRO": {
-      "ADD": "%{agentName} ha creat una macro nova (#%{id})",
-      "EDIT": "%{agentName} ha actualitzat una macro (#%{id})",
-      "DELETE": "%{agentName} ha suprimit una macro (#%{id})"
+      "ADD": "{agentName} ha creat una macro nova (#{id})",
+      "EDIT": "{agentName} ha actualitzat una macro (#{id})",
+      "DELETE": "{agentName} ha suprimit una macro (#{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "%{agentName} ha afegit %{user} a la safata d'entrada(#%{inbox_id})",
-      "REMOVE": "%{agentName} ha eliminat %{user} de la safata d'entrada(#%{inbox_id})"
+      "ADD": "{agentName} ha afegit {user} a la safata d'entrada(#{inbox_id})",
+      "REMOVE": "{agentName} ha eliminat {user} de la safata d'entrada(#{inbox_id})"
     },
     "TEAM_MEMBER": {
-      "ADD": "%{agentName} ha afegit %{user} a l'equip (#%{team_id})",
-      "REMOVE": "%{agentName} ha eliminat %{user} de l'equip (#%{team_id})"
+      "ADD": "{agentName} ha afegit {user} a l'equip (#{team_id})",
+      "REMOVE": "{agentName} ha eliminat {user} de l'equip (#{team_id})"
     },
     "ACCOUNT": {
-      "EDIT": "%{agentName} ha actualitzat la configuració del compte (#%{id})"
+      "EDIT": "{agentName} ha actualitzat la configuració del compte (#{id})"
     }
   }
 }

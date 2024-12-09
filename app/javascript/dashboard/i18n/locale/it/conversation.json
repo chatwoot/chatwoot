@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Nessuno",
         "INPUT_PLACEHOLDER": "Select priority",
         "NO_RESULTS": "Nessun risultato trovato",
-        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
         "FAILED": "Couldn't change priority. Please try again."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Assegna team",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "ID conversazione %{conversationId} assegnato a \"%{agentName}\"",
+          "SUCCESFUL": "ID conversazione {conversationId} assegnato a \"{agentName}\"",
           "FAILED": "Impossibile assegnare l'agente. Per favore riprova."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Etichetta #%{labelName} assegnata all'ID conversazione %{conversationId}",
+          "SUCCESFUL": "Etichetta #{labelName} assegnata all'ID conversazione {conversationId}",
           "FAILED": "Impossibile assegnare l'etichetta. Per favore riprova."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assegnato il team \"%{team}\" all'id conversazione %{conversationId}",
+          "SUCCESFUL": "Assegnato il team \"{team}\" all'id conversazione {conversationId}",
           "FAILED": "Impossibile assegnare il team. Riprova."
         }
       }
@@ -142,7 +142,8 @@
       "MSG_INPUT": "MAIUSC + INVIO per la nuova linea. Inizia con '/' per selezionare una risposta predefinita.",
       "PRIVATE_MSG_INPUT": "MAIUSC + INVIO per nuova linea. Questo sarà visibile solo agli agenti",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "La firma del messaggio non è configurata, configurala nelle impostazioni del profilo.",
-      "CLICK_HERE": "Clicca qui per aggiornare"
+      "CLICK_HERE": "Clicca qui per aggiornare",
+      "WHATSAPP_TEMPLATES": "Modelli Whatsapp"
     },
     "REPLYBOX": {
       "REPLY": "Rispondi",
@@ -238,27 +239,31 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Ehi 👋, Benvenuto in %{installationName}!",
-    "DESCRIPTION": "Grazie per esserti registrato. Vogliamo che tu ottenga il massimo da %{installationName}. Ecco alcune cose che puoi fare in %{installationName} per rendere l'esperienza deliziosa.",
+    "TITLE": "Ehi 👋, Benvenuto in {installationName}!",
+    "DESCRIPTION": "Grazie per esserti registrato. Vogliamo che tu ottenga il massimo da {installationName}. Ecco alcune cose che puoi fare in {installationName} per rendere l'esperienza deliziosa.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Leggi gli ultimi aggiornamenti",
     "ALL_CONVERSATION": {
       "TITLE": "Tutte le conversazioni in un unico luogo",
-      "DESCRIPTION": "Visualizza tutte le conversazioni dai tuoi clienti in una singola dashboard. È possibile filtrare le conversazioni in base al canale, all'etichetta e allo stato in arrivo."
+      "DESCRIPTION": "Visualizza tutte le conversazioni dai tuoi clienti in una singola dashboard. È possibile filtrare le conversazioni in base al canale, all'etichetta e allo stato in arrivo.",
+      "NEW_LINK": "Clicca qui per creare una casella di posta"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invita i membri del tuo team",
       "DESCRIPTION": "Dal momento che siete sempre pronti a parlare con il vostro cliente, portare nei vostri compagni di squadra per assistervi. Puoi invitare i tuoi compagni di squadra aggiungendo i loro indirizzi email alla lista degli agenti.",
       "NEW_LINK": "Clicca qui per invitare un membro del team"
     },
-    "INBOXES": {
-      "TITLE": "Connetti Inbox",
-      "DESCRIPTION": "Collegare vari canali attraverso i quali i vostri clienti sarebbero parlare con voi. Può essere un sito web live-chat, la tua pagina Facebook o Twitter o anche il tuo numero WhatsApp.",
-      "NEW_LINK": "Clicca qui per creare una casella di posta"
-    },
     "LABELS": {
       "TITLE": "Organizza le conversazioni con etichette",
       "DESCRIPTION": "Le etichette forniscono un modo più semplice per categorizzare la conversazione. Crea alcune etichette come #support-enquiry, #billing-question ecc., in modo da poterle usare in una conversazione più tardi.",
       "NEW_LINK": "Clicca qui per creare etichette"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -312,10 +317,10 @@
     "SIDEBAR_TITLE": "Conversation participants",
     "NO_RECORDS_FOUND": "Nessun risultato trovato",
     "ADD_PARTICIPANTS": "Select participants",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
     "NO_PARTICIPANTS_TEXT": "No one is participating!.",
     "WATCH_CONVERSATION": "Join conversation",
     "YOU_ARE_WATCHING": "You are participating",

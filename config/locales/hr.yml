@@ -17,7 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 hr:
-  hello: "Hello world"
+  hello: "Pozdrav svijet!"
   messages:
     reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
     reset_password_failure: Uh ho! We could not find any user with the specified email.
@@ -29,6 +29,7 @@ hr:
       invalid: Invalid events
     signup:
       disposable_email: We do not allow disposable emails
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: You have entered an invalid email
       email_already_exists: "You have already signed up for an account with %{email}"
       invalid_params: 'Invalid, please check the signup paramters and try again'
@@ -100,7 +101,7 @@ hr:
       conversation_id: Conversation ID
       sla_policy_breached: SLA Policy
       assignee: Assignee
-      team: Team
+      team: Tim
       inbox: Inbox
       labels: Labels
       conversation_link: Link to the Conversation
@@ -112,7 +113,7 @@ hr:
         contact_email_address: Contact Email Address
         contact_phone_number: Contact Phone Number
         link_to_the_conversation: Link to the conversation
-        agent_name: Agent Name
+        agent_name: Ime agenta
         rating: Rating
         feedback: Feedback Comment
         recorded_at: Recorded date
@@ -252,13 +253,13 @@ hr:
       back_to_home: Go to home page
   slack_unfurl:
     fields:
-      name: Name
+      name: Ime
       email: Email
       phone_number: Phone
       company_name: Company
       inbox_name: Inbox
       inbox_type: Inbox Type
-    button: Open conversation
+    button: Otvori razgovor
   time_units:
     days:
       one: "%{count} day"

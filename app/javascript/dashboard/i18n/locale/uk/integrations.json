@@ -4,8 +4,15 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Події з підпискою",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Скасувати",
         "DESC": "Вебхуки автоматично повідомляють про те, що відбувається у вашому обліковому записі Chatwoot. Будь ласка, введіть дійсний URL для налаштування зворотного виклику.",
@@ -40,10 +47,7 @@
       "LIST": {
         "404": "Немає налаштованих вебхуків для цього облікового запису.",
         "TITLE": "Керування вебхуками",
-        "TABLE_HEADER": [
-          "Кінцева точка вебхука",
-          "Дії"
-        ]
+        "TABLE_HEADER": ["Кінцева точка вебхука", "Дії"]
       },
       "EDIT": {
         "BUTTON_TEXT": "Редагувати",
@@ -69,7 +73,7 @@
         },
         "CONFIRM": {
           "TITLE": "Підтвердження видалення",
-          "MESSAGE": "Ви впевнені, що хочете видалити webhook? (%{webhookURL})",
+          "MESSAGE": "Ви впевнені, що хочете видалити webhook? ({webhookURL})",
           "YES": "Так, видалити ",
           "NO": "Ні, залиште"
         }
@@ -107,7 +111,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "ШІ асистент",
-      "WITH_AI": " %{option} з ШІ ",
+      "WITH_AI": " {option} з ШІ ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Пропозиція для відповіді",
         "SUMMARIZE": "Підсумувати",
@@ -176,10 +180,7 @@
       "LIST": {
         "404": "Поки що немає налаштованих додатків в цьому акаунті",
         "LOADING": "Отримання додатків панелі керування...",
-        "TABLE_HEADER": [
-          "Ім'я",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": ["Ім'я", "Endpoint"],
         "EDIT_TOOLTIP": "Редагувати додаток",
         "DELETE_TOOLTIP": "Видалити додаток"
       },
@@ -209,7 +210,7 @@
         "CONFIRM_YES": "Так, видалити це",
         "CONFIRM_NO": "Ні, зберегти це",
         "TITLE": "Підтвердіть видалення",
-        "MESSAGE": "Ви дійсно бажаєте видалити програму - %{appName}?",
+        "MESSAGE": "Ви дійсно бажаєте видалити програму - {appName}?",
         "API_SUCCESS": "Панель інструментів успішно видалено",
         "API_ERROR": "Не вдалося видалити додаток. Будь ласка, спробуйте ще раз пізніше"
       }
@@ -228,7 +229,7 @@
         "ERROR": "There was an error fetching the linear issues, please try again",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -287,7 +288,7 @@
         "PRIORITY": "Пріоритет",
         "ASSIGNEE": "Assignee",
         "LABELS": "Мітки",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Unlink",

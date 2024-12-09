@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Résumé",
-      "DELETE_WARNING": "Le contact de <strong>%{primaryContactName}</strong> sera supprimé.",
-      "ATTRIBUTE_WARNING": "Les coordonnées de <strong>%{primaryContactName}</strong> seront copiées vers <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Le contact de <strong>{primaryContactName}</strong> sera supprimé.",
+      "ATTRIBUTE_WARNING": "Les coordonnées de <strong>{primaryContactName}</strong> seront copiées vers <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Contact fusionné avec succès",
       "ERROR_MESSAGE": "Impossible de fusionner les contacts, essayez à nouveau !"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

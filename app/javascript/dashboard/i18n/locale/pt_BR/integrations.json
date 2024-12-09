@@ -1,11 +1,18 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrações",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
-    "LEARN_MORE": "Learn more about integrations",
-    "LOADING": "Fetching integrations",
+    "DESCRIPTION": "Chatwoot se integra com várias ferramentas e serviços para melhorar a eficiência da sua equipe. Explore a lista abaixo para configurar seus aplicativos favoritos.",
+    "LEARN_MORE": "Aprenda mais sobre integrações",
+    "LOADING": "Obtendo integrações",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Clique aqui para configurar",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": ""
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventos Inscritos",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Cancelar",
         "DESC": "Webhook Os eventos fornecem informações em tempo real sobre o que está acontecendo na sua conta do Chatwoot. Digite um URL válido para configurar um retorno de chamada.",
@@ -69,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Confirmar exclusão",
-          "MESSAGE": "Tem certeza que deseja excluir o webhook? (%{webhookURL})",
+          "MESSAGE": "Tem certeza que deseja excluir o webhook? ({webhookURL})",
           "YES": "Sim, excluir ",
           "NO": "Não, mantenha"
         }
@@ -107,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "Assistente Open AI",
-      "WITH_AI": " %{option} com IA ",
+      "WITH_AI": " {option} com IA ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Sugestão de resposta",
         "SUMMARIZE": "Resumir",
@@ -209,7 +216,7 @@
         "CONFIRM_YES": "Sim, exclua-o",
         "CONFIRM_NO": "Não, mantenha-o",
         "TITLE": "Confirmar exclusão",
-        "MESSAGE": "Tem certeza que deseja excluir o aplicativo - %{appName}?",
+        "MESSAGE": "Tem certeza que deseja excluir o aplicativo - {appName}?",
         "API_SUCCESS": "Aplicativo da dashboard excluído com sucesso",
         "API_ERROR": "Não conseguimos excluir o aplicativo. Por favor, tente novamente mais tarde"
       }
@@ -223,12 +230,12 @@
         "SEARCH": "Search issues",
         "SELECT": "Select issue",
         "TITLE": "Link",
-        "EMPTY_LIST": "No linear issues found",
+        "EMPTY_LIST": "",
         "LOADING": "Carregando",
-        "ERROR": "There was an error fetching the linear issues, please try again",
+        "ERROR": "",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -279,19 +286,19 @@
         "CANCEL": "Cancelar",
         "CREATE_SUCCESS": "Issue created successfully",
         "CREATE_ERROR": "There was an error creating the issue, please try again",
-        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
-        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+        "LOADING_TEAM_ERROR": "Houve um erro ao buscar as equipes, por favor, tente novamente",
+        "LOADING_TEAM_ENTITIES_ERROR": "Houve um erro ao buscar as entidades da equipe, por favor, tente novamente"
       },
       "ISSUE": {
         "STATUS": "SItuação",
         "PRIORITY": "Prioridade",
         "ASSIGNEE": "Responsável",
         "LABELS": "Marcadores",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Criado em {createdAt}"
       },
       "UNLINK": {
-        "TITLE": "Unlink",
-        "SUCCESS": "Issue unlinked successfully",
+        "TITLE": "Desvincular",
+        "SUCCESS": "Issue desvinculada com sucesso",
         "ERROR": "Houve um erro ao desvincular o atributo, por favor, tente novamente"
       }
     }

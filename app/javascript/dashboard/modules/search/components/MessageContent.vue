@@ -1,12 +1,11 @@
 <script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import ReadMore from './ReadMore.vue';
 
 export default {
   components: {
     ReadMore,
   },
-  mixins: [messageFormatterMixin],
   props: {
     author: {
       type: String,
@@ -20,6 +19,13 @@ export default {
       type: String,
       default: '',
     },
+  },
+  setup() {
+    const { formatMessage, highlightContent } = useMessageFormatter();
+    return {
+      formatMessage,
+      highlightContent,
+    };
   },
   data() {
     return {

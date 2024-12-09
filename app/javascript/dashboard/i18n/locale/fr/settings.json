@@ -239,6 +239,7 @@
     "REPORTS": "Rapports",
     "SETTINGS": "Paramètres",
     "CONTACTS": "Contacts",
+    "CAPTAIN": "Captain",
     "HOME": "Accueil",
     "AGENTS": "Agents",
     "AGENT_BOTS": "Bots",
@@ -276,6 +277,7 @@
     "REPORTS_TEAM": "Équipes",
     "SET_AVAILABILITY_TITLE": "Se définir comme",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Bêta",
     "REPORTS_OVERVIEW": "Vue d'ensemble",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
@@ -299,7 +301,7 @@
     "TITLE": "Facturation",
     "CURRENT_PLAN": {
       "TITLE": "Abonnement actuel",
-      "PLAN_NOTE": "Vous êtes actuellement abonné à l'offre **%{plan}** avec **%{quantity}** licences"
+      "PLAN_NOTE": "Vous êtes actuellement abonné à l'offre **{plan}** avec **{quantity}** licences"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Gérer votre abonnement",

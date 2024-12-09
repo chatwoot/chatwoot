@@ -4,8 +4,15 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "キャンセル",
         "DESC": "Webhookイベントは、Chatwootアカウントで何が起こっているかについてのリアルタイムの情報を提供します。コールバックを設定するには有効なURLを入力してください。",
@@ -69,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "削除の確認",
-          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
+          "MESSAGE": "Are you sure to delete the webhook? ({webhookURL})",
           "YES": "削除する ",
           "NO": "いいえ、保存しておきます"
         }
@@ -107,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "WITH_AI": " {option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
         "SUMMARIZE": "Summarize",
@@ -209,7 +216,7 @@
         "CONFIRM_YES": "Yes, delete it",
         "CONFIRM_NO": "No, keep it",
         "TITLE": "Confirm deletion",
-        "MESSAGE": "Are you sure to delete the app - %{appName}?",
+        "MESSAGE": "Are you sure to delete the app - {appName}?",
         "API_SUCCESS": "Dashboard app deleted successfully",
         "API_ERROR": "We couldn't delete the app. Please try again later"
       }
@@ -228,7 +235,7 @@
         "ERROR": "There was an error fetching the linear issues, please try again",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -287,7 +294,7 @@
         "PRIORITY": "Priority",
         "ASSIGNEE": "Assignee",
         "LABELS": "ラベル",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Unlink",

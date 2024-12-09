@@ -4,8 +4,15 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Abonnerede Begivenheder",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Annuller",
         "DESC": "Webhook-begivenheder giver dig realtidsoplysninger om, hvad der sker på din Chatwoot-konto. Angiv en gyldig URL for at konfigurere et callback.",
@@ -69,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Bekræft Sletning",
-          "MESSAGE": "Er du sikker på at du vil slette webhook? (%{webhookURL})",
+          "MESSAGE": "Er du sikker på at du vil slette webhook? ({webhookURL})",
           "YES": "Ja, Slet ",
           "NO": "Nej, behold det"
         }
@@ -107,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "WITH_AI": " {option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
         "SUMMARIZE": "Summarize",
@@ -209,7 +216,7 @@
         "CONFIRM_YES": "Ja, slet det",
         "CONFIRM_NO": "Nej, behold det",
         "TITLE": "Bekræft sletning",
-        "MESSAGE": "Er du sikker på at du vil slette appen - %{appName}?",
+        "MESSAGE": "Er du sikker på at du vil slette appen - {appName}?",
         "API_SUCCESS": "Dashboard app slettet",
         "API_ERROR": "Vi kunne ikke slette appen. Prøv igen senere"
       }
@@ -228,7 +235,7 @@
         "ERROR": "There was an error fetching the linear issues, please try again",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -287,7 +294,7 @@
         "PRIORITY": "Priority",
         "ASSIGNEE": "Assignee",
         "LABELS": "Etiketter",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Unlink",

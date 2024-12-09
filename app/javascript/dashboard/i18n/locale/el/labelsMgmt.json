@@ -3,8 +3,9 @@
     "HEADER": "Ετικέτες",
     "HEADER_BTN_TXT": "Προσθήκη Ετικέτας",
     "LOADING": "Λήψη ετικετών",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "Δεν υπάρχουν αντικείμενα να ταιριάζουν με αυτό το ερώτημα",
-    "SIDEBAR_TXT": "<p><b>Ετικέτες</b> <p>Οι ετικέτες βοηθούν στην κατηγοριοποίηση των συνομιλιών, και στην απόδοση προτεραιότητας. Μπορείτε να προσθέσετε ετικέτες από το πλευρικό μενού.. <br /><br />Οι Ετικέτες είναι συνδεδεμένες με τον λογαριασμό Οι ετικέτες συνδέονται με τον λογαριασμό και μπορούν να χρησιμοποιηθούν για τη δημιουργία προσαρμοσμένων ροών εργασίας στον οργανισμό σας. Μπορείτε να αντιστοιχίσετε χρώμα σε μια ετικέτα, διευκολύνοντας τον προσδιορισμό της. Μπορείτε επίσης να εμφανίσετε την ετικέτα στην πλευρική γραμμή για να φιλτράρετε εύκολα τις συνομιλίες.</p>",
     "LIST": {
       "404": "Δεν υπάρχουν ετικέτες διαθέσιμες σε αυτόν τον λογαριασμό.",
       "TITLE": "Διαχείριση Ετικετών",
@@ -49,7 +50,8 @@
       "DISMISS": "Dismiss",
       "ADD_SELECTED_LABELS": "Add selected labels",
       "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Προσθήκη Ετικέτας",

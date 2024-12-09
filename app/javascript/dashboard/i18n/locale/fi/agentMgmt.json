@@ -3,7 +3,8 @@
     "HEADER": "Edustajat",
     "HEADER_BTN_TXT": "Lisää edustaja",
     "LOADING": "Haetaan Edustajalistaa",
-    "SIDEBAR_TXT": "<p><b>Edustajat</b></p> <p> An <b>Edustaja</b> on jäsenenä asiakastukitiimissäsi. </p><p> Edustajat voivat katsella ja vastata viesteihin asiakkailtasi. Luettelo näyttää kaikki edustajat, jotka ovat tällä hetkellä tililläsi. </p><p> Klikkaa <b>Lisää edustaja</b> lisätäksesi uuden edustajan. Edustaja, jonka lisäät, saa sähköpostiviestin, jossa on vahvistuslinkki tilin aktivointiin, jonka jälkeen he voivat käyttää Chatwoot -sovellusta ja vastata viesteihin. </p><p> Pääsy Chatwoot'n ominaisuuksiin perustuu seuraaviin rooleihin. </p><p> <b>Edustaja</b> - Tällä roolilla toimivat edustajat voivat käyttää vain saapuneita, raportteja ja keskusteluja. He voivat määrittää keskusteluja muille edustajille tai itse ratkaista keskusteluja.</p><p> <b>Ylläpitäjä</b> - Ylläpitäjällä on pääsy kaikkiin Chatwoot ominaisuuksiin, jotka ovat käytössä tililläsi, mukaan lukien asetukset sekä kaikki normaalien asiamiesten oikeudet.</p>",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Ylläpitäjä",
       "AGENT": "Edustajat"
@@ -17,7 +18,8 @@
       "STATUS": "Tila",
       "ACTIONS": "Toiminnot",
       "VERIFIED": "Vahvistettu",
-      "VERIFICATION_PENDING": "Vahvistus odottaa"
+      "VERIFICATION_PENDING": "Vahvistus odottaa",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Lisää edustaja tiimiisi",

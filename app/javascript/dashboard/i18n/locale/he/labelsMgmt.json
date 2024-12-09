@@ -3,8 +3,9 @@
     "HEADER": "תוויות",
     "HEADER_BTN_TXT": "הוסף תווית",
     "LOADING": "מביא תוויות",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "אין פריטים התואמים לשאילתה זו",
-    "SIDEBAR_TXT": "<p><b>תוויות</b> <p>תוויות עוזרות לך לסווג שיחות ולתעדף אותן. אתה יכול להקצות תווית לשיחה מהלוח הצדדי. <br /><br />תוויות קשורות לחשבון וניתן להשתמש בהן כדי ליצור זרימות עבודה מותאמות אישית בארגון שלך. אתה יכול להקצות צבע מותאם אישית לתווית, זה מקל על זיהוי התווית. תוכל להציג את התווית בסרגל הצד כדי לסנן את השיחות בקלות.</p>",
     "LIST": {
       "404": "אין תוויות זמינות בחשבון זה.",
       "TITLE": "נהל תוויות",
@@ -49,7 +50,8 @@
       "DISMISS": "סגור",
       "ADD_SELECTED_LABELS": "Add selected labels",
       "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "הוסף תווית",

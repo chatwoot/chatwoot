@@ -1,12 +1,13 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} бесед выбрано",
+    "CONVERSATIONS_SELECTED": "{conversationCount} бесед выбрано",
     "AGENT_SELECT_LABEL": "Выбрать Агента",
-    "ASSIGN_CONFIRMATION_LABEL": "Вы уверены, что хотите назначить %{conversationCount} %{conversationLabel}",
-    "UNASSIGN_CONFIRMATION_LABEL": "Вы уверены, что хотите отменить назначение %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "Вы уверены, что хотите назначить {conversationCount} {conversationLabel}",
+    "UNASSIGN_CONFIRMATION_LABEL": "Вы уверены, что хотите отменить назначение {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Вернуться",
     "ASSIGN_LABEL": "Назначить",
     "YES": "Да",
+    "SEARCH_INPUT_PLACEHOLDER": "Поиск",
     "ASSIGN_AGENT_TOOLTIP": "Назначить агента",
     "ASSIGN_TEAM_TOOLTIP": "Назначить команду",
     "ASSIGN_SUCCESFUL": "Беседы успешно назначены.",

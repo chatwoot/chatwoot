@@ -10,7 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Ihr Passwort wurde erfolgreich geändert",
     "AFTER_EMAIL_CHANGED": "Ihr Profil wurde erfolgreich aktualisiert. Melden Sie sich erneut an, wenn Ihre Anmeldeinformationen geändert werden",
     "FORM": {
-      "PICTURE": "Profile Picture",
+      "PICTURE": "Profilbild",
       "AVATAR": "Profilbild",
       "ERROR": "Bitte korrigieren Sie Formularfehler",
       "REMOVE_IMAGE": "Entfernen",
@@ -37,12 +37,12 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Persönliche Nachrichtensignatur",
-        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
+        "NOTE": "Erstellen Sie eine einzigartige Nachrichtensignatur, die am Ende jeder Nachricht angezeigt wird, die Sie aus einem beliebigen Posteingang senden. Sie können auch ein Inline-Bild einfügen, das in Live-Chat-, E-Mail- und API-Postfächern unterstützt wird.",
         "BTN_TEXT": "Nachrichten-Signatur speichern",
         "API_ERROR": "Signatur konnte nicht gespeichert werden! Versuch es noch einmal",
         "API_SUCCESS": "Signatur erfolgreich gespeichert",
-        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_ERROR": "Bild konnte nicht hochgeladen werden! Versuchen Sie es erneut",
+        "IMAGE_UPLOAD_SUCCESS": "Bild erfolgreich hinzugefügt. Bitte klicken Sie auf Speichern, um die Signatur zu speichern",
         "IMAGE_UPLOAD_SIZE_ERROR": "Bildgröße sollte kleiner als {size}MB sein"
       },
       "MESSAGE_SIGNATURE": {
@@ -65,11 +65,11 @@
         "NOTE": "Audio-Benachrichtigungen im Dashboard für neue Nachrichten und Unterhaltungen aktivieren.",
         "ALERT_TYPES": {
           "NONE": "Keine",
-          "MINE": "Assigned",
+          "MINE": "Zugewiesen",
           "ALL": "Alle"
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Ereignisse für Konversationen zu alarmieren:",
           "NONE": "Keine",
           "ASSIGNED": "Zugewiesene Unterhaltungen",
           "ALL_CONVERSATIONS": "Alle Konversationen"
@@ -91,26 +91,26 @@
         "CONVERSATION_MENTION": "Senden Sie E-Mail-Benachrichtigungen, wenn Sie in einer Konversation erwähnt werden",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Senden Sie E-Mail-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "E-Mail-Benachrichtigungen senden, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird",
-        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+        "SLA_MISSED_FIRST_RESPONSE": "Senden Sie E-Mail-Benachrichtigungen, wenn eine Konversation die erste Antwort-SLA verpasst",
+        "SLA_MISSED_NEXT_RESPONSE": "Senden Sie E-Mail-Benachrichtigungen, wenn eine Konversation die nächste Antwort-SLA verpasst",
+        "SLA_MISSED_RESOLUTION": "Senden Sie E-Mail-Benachrichtigungen, wenn eine Konversation die Lösung-SLA verpasst"
       },
       "NOTIFICATIONS": {
-        "TITLE": "Notification preferences",
-        "TYPE_TITLE": "Notification type",
+        "TITLE": "Benachrichtigungseinstellungen",
+        "TYPE_TITLE": "Benachrichtigungsart",
         "EMAIL": "E-Mail",
-        "PUSH": "Push notification",
+        "PUSH": "Push-Benachrichtigung",
         "TYPES": {
-          "CONVERSATION_CREATED": "A new conversation is created",
-          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
-          "CONVERSATION_MENTION": "You are mentioned in a conversation",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
-          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
-          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "CONVERSATION_CREATED": "Eine neue Konversation wurde erstellt",
+          "CONVERSATION_ASSIGNED": "Eine Konversation wurde Ihnen zugewiesen",
+          "CONVERSATION_MENTION": "Sie wurden in einer Konversation erwähnt",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Eine neue Nachricht wurde in einer zugewiesenen Konversation erstellt",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Eine neue Nachricht wurde in einer Konversation erstellt, an der Sie teilnehmen",
+          "SLA_MISSED_FIRST_RESPONSE": "Eine Konversation verpasst die erste Antwort-SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "Eine Konversation verpasst die nächste Antwort-SLA",
+          "SLA_MISSED_RESOLUTION": "Eine Konversation verpasst die Lösungs-SLA"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "Aktivieren Sie Push-Benachrichtigungen für Ihren Browser, damit Sie diese empfangen können"
       },
       "API": {
         "UPDATE_SUCCESS": "Ihre Benachrichtigungseinstellungen wurden erfolgreich aktualisiert",
@@ -126,9 +126,9 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Sende Push-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird",
         "HAS_ENABLED_PUSH": "Sie haben die Push-Benachrichtigung für diesen Browser aktiviert.",
         "REQUEST_PUSH": "Push-Benachrichtigungen aktivieren",
-        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+        "SLA_MISSED_FIRST_RESPONSE": "Senden Sie Push-Benachrichtigungen, wenn eine Konversation die erste Antwort-SLA verpasst",
+        "SLA_MISSED_NEXT_RESPONSE": "Senden Sie Push-Benachrichtigungen, wenn eine Konversation die nächste Antwort-SLA verpasst",
+        "SLA_MISSED_RESOLUTION": "Senden Sie Push-Benachrichtigungen, wenn eine Konversation die Lösungs-SLA verpasst"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profilbild"
@@ -229,7 +229,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Wird gerade angezeigt:",
     "SWITCH": "Wechseln",
-    "INBOX_VIEW": "Inbox View",
+    "INBOX_VIEW": "Posteingangsansicht",
     "CONVERSATIONS": "Gespräche",
     "INBOX": "Posteingang",
     "ALL_CONVERSATIONS": "Alle Konversationen",
@@ -239,6 +239,7 @@
     "REPORTS": "Berichte",
     "SETTINGS": "Einstellungen",
     "CONTACTS": "Kontakte",
+    "CAPTAIN": "Kapitän",
     "HOME": "Hauptseite",
     "AGENTS": "Agenten",
     "AGENT_BOTS": "Bots",
@@ -276,9 +277,10 @@
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Setzen Sie sich als",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Übersicht",
-    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "REAUTHORIZE": "Ihre Posteingangsverbindung ist abgelaufen. Bitte erneut verbinden,\n um weiterhin Nachrichten empfangen und senden zu können",
     "HELP_CENTER": {
       "TITLE": "Hilfezentrum",
       "ALL_ARTICLES": "Alle Artikel",
@@ -299,7 +301,7 @@
     "TITLE": "Rechnungen",
     "CURRENT_PLAN": {
       "TITLE": "Derzeitiger Plan",
-      "PLAN_NOTE": "Sie haben derzeit den Tarif **%{plan}** mit **%{quantity}** Lizenzen abonniert"
+      "PLAN_NOTE": "Sie haben derzeit den Tarif **{plan}** mit **{quantity}** Lizenzen abonniert"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Abonnement verwalten",

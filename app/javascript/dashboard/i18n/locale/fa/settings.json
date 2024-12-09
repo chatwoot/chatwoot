@@ -239,6 +239,7 @@
     "REPORTS": "گزارشات",
     "SETTINGS": "تنظیمات",
     "CONTACTS": "مخاطبین",
+    "CAPTAIN": "Captain",
     "HOME": "صفحه اصلی",
     "AGENTS": "ایجنت ها",
     "AGENT_BOTS": "ربات‌ها",
@@ -276,6 +277,7 @@
     "REPORTS_TEAM": "تیم‌",
     "SET_AVAILABILITY_TITLE": "خود را به عنوان",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "آزمایشی",
     "REPORTS_OVERVIEW": "بررسی اجمالی",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
@@ -299,7 +301,7 @@
     "TITLE": "صورتحساب",
     "CURRENT_PLAN": {
       "TITLE": "طرح فعلی",
-      "PLAN_NOTE": "شما در حال حاضر مشترک طرح **%{plan}** با مجوز **%{quantity}** هستید"
+      "PLAN_NOTE": "شما در حال حاضر مشترک طرح **{plan}** با مجوز **{quantity}** هستید"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "اشتراک خود را مدیریت کنید",

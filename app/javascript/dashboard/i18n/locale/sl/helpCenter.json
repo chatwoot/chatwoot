@@ -41,6 +41,7 @@
         "UPLOADING": "Uploading...",
         "SUCCESS": "Image uploaded successfully",
         "ERROR": "Error while uploading image",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
         "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
         "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
@@ -83,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Uncategorized",
-      "SEARCH_RESULTS": "Search results for %{query}",
+      "SEARCH_RESULTS": "Search results for {query}",
       "EMPTY_TEXT": "Search for articles to insert into replies.",
       "SEARCH_LOADER": "Searching...",
       "INSERT_ARTICLE": "Insert",
@@ -249,13 +250,13 @@
         "DOMAIN": {
           "LABEL": "Custom Domain",
           "PLACEHOLDER": "Portal custom domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: %{exampleURL}",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
           "ERROR": "Enter a valid domain URL"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Home Page Link",
           "PLACEHOLDER": "Portal home page link",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: %{exampleURL}",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
           "ERROR": "Enter a valid home page URL"
         },
         "THEME_COLOR": {
@@ -481,6 +482,7 @@
           "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
         }
       }
-    }
+    },
+    "LOADING": "Loading..."
   }
 }

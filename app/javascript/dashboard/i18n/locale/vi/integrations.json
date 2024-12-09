@@ -4,8 +4,15 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Những sự kiện được theo dõi",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Huỷ",
         "DESC": "Webhook events cung cấp cho bạn thông tin thời gian thực về những gì đang xảy ra trong tài khoản Chatwoot của bạn. Vui lòng nhập một URL hợp lệ để định cấu hình một cuộc gọi lại.",
@@ -40,10 +47,7 @@
       "LIST": {
         "404": "Không có webhook nào được định cấu hình cho tài khoản này.",
         "TITLE": "Quản lý webhooks",
-        "TABLE_HEADER": [
-          "Webhook endpoint",
-          "Hành động"
-        ]
+        "TABLE_HEADER": ["Webhook endpoint", "Hành động"]
       },
       "EDIT": {
         "BUTTON_TEXT": "Chỉnh sửa",
@@ -69,7 +73,7 @@
         },
         "CONFIRM": {
           "TITLE": "Xác Nhận Xoá",
-          "MESSAGE": "Bạn có chắc chắn muốn xóa webhook không? (%{webhookURL})",
+          "MESSAGE": "Bạn có chắc chắn muốn xóa webhook không? ({webhookURL})",
           "YES": "Có, Xoá ",
           "NO": "Không, Giữ"
         }
@@ -107,7 +111,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "WITH_AI": " {option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
         "SUMMARIZE": "Summarize",
@@ -176,10 +180,7 @@
       "LIST": {
         "404": "Chưa có ứng dụng trang \u001dđiều khiển nào được định cấu hình trên tài khoản này",
         "LOADING": "Đang tìm nạp ứng dụng bảng điều khiển...",
-        "TABLE_HEADER": [
-          "Tên",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": ["Tên", "Endpoint"],
         "EDIT_TOOLTIP": "Sửa app",
         "DELETE_TOOLTIP": "Xoá app"
       },
@@ -209,7 +210,7 @@
         "CONFIRM_YES": "Có, xóa nó",
         "CONFIRM_NO": "Không, giữ nó",
         "TITLE": "Xác nhận xoá",
-        "MESSAGE": "Bạn có chắc chắn xóa ứng dụng - %{appName}?",
+        "MESSAGE": "Bạn có chắc chắn xóa ứng dụng - {appName}?",
         "API_SUCCESS": "Đã xóa ứng dụng trang điều khiển thành công",
         "API_ERROR": "Chúng tôi không thể xóa ứng dụng. Vui lòng thử lại sau"
       }
@@ -228,7 +229,7 @@
         "ERROR": "There was an error fetching the linear issues, please try again",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -287,7 +288,7 @@
         "PRIORITY": "Mức độ ưu tiên",
         "ASSIGNEE": "Assignee",
         "LABELS": "Nhãn",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Unlink",

@@ -23,13 +23,13 @@
         "NAME": "Tiempo de primera respuesta",
         "DESC": "( Media )",
         "INFO_TEXT": "Número total de conversaciones utilizadas en el cálculo:",
-        "TOOLTIP_TEXT": "Tiempo de primera respuesta es %{metricValue} (basado en %{conversationCount} conversaciones)"
+        "TOOLTIP_TEXT": "Tiempo de primera respuesta es {metricValue} (basado en {conversationCount} conversaciones)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tiempo de resolución",
         "DESC": "( Media )",
         "INFO_TEXT": "Número total de conversaciones utilizadas en el cálculo:",
-        "TOOLTIP_TEXT": "El tiempo de resolución es %{metricValue} (basado en %{conversationCount} conversaciones)"
+        "TOOLTIP_TEXT": "El tiempo de resolución es {metricValue} (basado en {conversationCount} conversaciones)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Número de resoluciones",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Tiempo de espera del cliente",
-        "TOOLTIP_TEXT": "El tiempo de espera es %{metricValue} (basado en %{conversationCount} conversaciones)"
+        "TOOLTIP_TEXT": "El tiempo de espera es {metricValue} (basado en {conversationCount} conversaciones)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -140,7 +140,7 @@
     ],
     "BUSINESS_HOURS": "Horarios",
     "FILTER_ACTIONS": {
-      "CLEAR_FILTER": "Clear filter",
+      "CLEAR_FILTER": "Limpiar filtros",
       "EMPTY_LIST": "No se encontraron resultados"
     }
   },
@@ -167,13 +167,13 @@
         "NAME": "Tiempo de primera respuesta",
         "DESC": "( Media )",
         "INFO_TEXT": "Número total de conversaciones utilizadas en el cálculo:",
-        "TOOLTIP_TEXT": "Tiempo de primera respuesta es %{metricValue} (basado en %{conversationCount} conversaciones)"
+        "TOOLTIP_TEXT": "Tiempo de primera respuesta es {metricValue} (basado en {conversationCount} conversaciones)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tiempo de resolución",
         "DESC": "( Media )",
         "INFO_TEXT": "Número total de conversaciones utilizadas en el cálculo:",
-        "TOOLTIP_TEXT": "El tiempo de resolución es %{metricValue} (basado en %{conversationCount} conversaciones)"
+        "TOOLTIP_TEXT": "El tiempo de resolución es {metricValue} (basado en {conversationCount} conversaciones)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Número de resoluciones",
@@ -234,13 +234,13 @@
         "NAME": "Tiempo de primera respuesta",
         "DESC": "( Media )",
         "INFO_TEXT": "Número total de conversaciones utilizadas en el cálculo:",
-        "TOOLTIP_TEXT": "Tiempo de primera respuesta es %{metricValue} (basado en %{conversationCount} conversaciones)"
+        "TOOLTIP_TEXT": "Tiempo de primera respuesta es {metricValue} (basado en {conversationCount} conversaciones)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tiempo de resolución",
         "DESC": "( Media )",
         "INFO_TEXT": "Número total de conversaciones utilizadas en el cálculo:",
-        "TOOLTIP_TEXT": "El tiempo de resolución es %{metricValue} (basado en %{conversationCount} conversaciones)"
+        "TOOLTIP_TEXT": "El tiempo de resolución es {metricValue} (basado en {conversationCount} conversaciones)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Número de resoluciones",
@@ -301,13 +301,13 @@
         "NAME": "Tiempo de primera respuesta",
         "DESC": "( Media )",
         "INFO_TEXT": "Número total de conversaciones utilizadas en el cálculo:",
-        "TOOLTIP_TEXT": "Tiempo de primera respuesta es %{metricValue} (basado en %{conversationCount} conversaciones)"
+        "TOOLTIP_TEXT": "Tiempo de primera respuesta es {metricValue} (basado en {conversationCount} conversaciones)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tiempo de resolución",
         "DESC": "( Media )",
         "INFO_TEXT": "Número total de conversaciones utilizadas en el cálculo:",
-        "TOOLTIP_TEXT": "El tiempo de resolución es %{metricValue} (basado en %{conversationCount} conversaciones)"
+        "TOOLTIP_TEXT": "El tiempo de resolución es {metricValue} (basado en {conversationCount} conversaciones)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Número de resoluciones",
@@ -368,13 +368,13 @@
         "NAME": "Tiempo de primera respuesta",
         "DESC": "( Media )",
         "INFO_TEXT": "Número total de conversaciones utilizadas en el cálculo:",
-        "TOOLTIP_TEXT": "Tiempo de primera respuesta es %{metricValue} (basado en %{conversationCount} conversaciones)"
+        "TOOLTIP_TEXT": "Tiempo de primera respuesta es {metricValue} (basado en {conversationCount} conversaciones)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tiempo de resolución",
         "DESC": "( Media )",
         "INFO_TEXT": "Número total de conversaciones utilizadas en el cálculo:",
-        "TOOLTIP_TEXT": "El tiempo de resolución es %{metricValue} (basado en %{conversationCount} conversaciones)"
+        "TOOLTIP_TEXT": "El tiempo de resolución es {metricValue} (basado en {conversationCount} conversaciones)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Número de resoluciones",
@@ -480,8 +480,9 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Tráfico de Conversación",
       "NO_CONVERSATIONS": "No hay conversaciones",
-      "CONVERSATION": "%{count} conversación",
-      "CONVERSATIONS": "%{count} conversaciones"
+      "CONVERSATION": "{count} conversación",
+      "CONVERSATIONS": "{count} conversaciones",
+      "DOWNLOAD_REPORT": "Descargar reporte"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversaciones por agentes",
@@ -511,10 +512,10 @@
     "SATURDAY": "Sábado"
   },
   "SLA_REPORTS": {
-    "HEADER": "SLA Reports",
+    "HEADER": "Informes de SLA",
     "NO_RECORDS": "SLA applied conversations are not available.",
     "LOADING": "Loading SLA data...",
-    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
+    "DOWNLOAD_SLA_REPORTS": "Descargar reportes de SLA",
     "DOWNLOAD_FAILED": "Failed to download SLA Reports",
     "DROPDOWN": {
       "ADD_FIlTER": "Añadir Filtro",
@@ -536,6 +537,7 @@
       "LABELS": "Etiqueta",
       "TEAMS": "Equipo"
     },
+    "WITH": "con",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Nimic",
         "INPUT_PLACEHOLDER": "Selectați prioritatea",
         "NO_RESULTS": "Niciun rezultat găsit",
-        "SUCCESSFUL": "A schimbat prioritatea ID-ului conversației %{conversationId} în %{priority}",
+        "SUCCESSFUL": "A schimbat prioritatea ID-ului conversației {conversationId} în {priority}",
         "FAILED": "Nu s-a putut schimba prioritatea. Vă rugăm să încercați din nou."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Atribuiți echipă",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Id conversație %{conversationId} atribuit la \"%{agentName}\"",
+          "SUCCESFUL": "Id conversație {conversationId} atribuit la \"{agentName}\"",
           "FAILED": "Nu s-a putut atribui agentul. Vă rugăm încercați din nou."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Etichetă atribuită #%{labelName} la conversația cu id %{conversationId}",
+          "SUCCESFUL": "Etichetă atribuită #{labelName} la conversația cu id {conversationId}",
           "FAILED": "Nu s-a putut atribui eticheta. Vă rugăm încercați din nou."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Echipa atribuită #%{team} la conversația cu id %{conversationId}",
+          "SUCCESFUL": "Echipa atribuită #{team} la conversația cu id {conversationId}",
           "FAILED": "Nu s-a putut atribui echipa. Vă rugăm să încercaţi din nou."
         }
       }
@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + enter pentru linie nouă. Începe cu '/' pentru a selecta un răspuns predeterminat.",
       "PRIVATE_MSG_INPUT": "Shift + enter pentru linie nouă. Acest lucru va fi vizibil doar pentru Agenți",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Semnătura mesajului nu este configurată, vă rugăm să o configurați în setările profilului.",
-      "CLICK_HERE": "Click aici pentru a actualiza"
+      "CLICK_HERE": "Click aici pentru a actualiza",
+      "WHATSAPP_TEMPLATES": "Șabloane WhatsApp"
     },
     "REPLYBOX": {
       "REPLY": "Răspunde",
@@ -238,27 +239,31 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hei 👋, Bine ati venit la %{installationName}!",
-    "DESCRIPTION": "Vă mulțumim pentru semnarea sus. Vrem să profitați la maximum de %{installationName}. Iată câteva lucruri pe care le puteți face în %{installationName} pentru a face experiența încântătoare.",
+    "TITLE": "Hei 👋, Bine ati venit la {installationName}!",
+    "DESCRIPTION": "Vă mulțumim pentru semnarea sus. Vrem să profitați la maximum de {installationName}. Iată câteva lucruri pe care le puteți face în {installationName} pentru a face experiența încântătoare.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Citiți cele mai recente actualizări ale noastre",
     "ALL_CONVERSATION": {
       "TITLE": "Toate conversațiile într-un singur loc",
-      "DESCRIPTION": "Vizualizați toate conversațiile de la clienți într-un singur tablou de bord. Puteți filtra conversațiile după canalul, eticheta și starea primite."
+      "DESCRIPTION": "Vizualizați toate conversațiile de la clienți într-un singur tablou de bord. Puteți filtra conversațiile după canalul, eticheta și starea primite.",
+      "NEW_LINK": "Click aici pentru a crea un inbox"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invită-ți membrii echipei",
       "DESCRIPTION": "Din moment ce vă pregătiți să vorbiți cu clientul dvs., aduceți-vă coechipierii pentru a vă ajuta. Vă puteți invita colegii de echipă adăugând adresele lor de e-mail la lista de agenți.",
       "NEW_LINK": "Faceți clic aici pentru a invita un membru al echipei"
     },
-    "INBOXES": {
-      "TITLE": "Conectați casetele",
-      "DESCRIPTION": "Conectează diverse canale prin care clienții tăi ar vorbi cu tine. Poate fi un live-chat pe site, pagina ta de Facebook sau Twitter sau chiar numărul tău de WhatsApp.",
-      "NEW_LINK": "Click aici pentru a crea un inbox"
-    },
     "LABELS": {
       "TITLE": "Organizarea conversațiilor cu etichete",
       "DESCRIPTION": "Etichetele oferă o modalitate mai ușoară de a clasifica conversația. Creați unele etichete, cum ar fi #support-solicitare, #billing-întrebare etc., astfel încât să le puteți utiliza într-o conversație mai târziu.",
       "NEW_LINK": "Click aici pentru a crea tag-uri"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -312,10 +317,10 @@
     "SIDEBAR_TITLE": "Participanți la conversație",
     "NO_RECORDS_FOUND": "Niciun rezultat găsit",
     "ADD_PARTICIPANTS": "Selectarea participanților",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} altele",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} altele",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} participă oamenii.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} persoană participă.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} altele",
+    "REMANING_PARTICIPANT_TEXT": "+{count} altele",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} participă oamenii.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} persoană participă.",
     "NO_PARTICIPANTS_TEXT": "Nimeni nu participă!.",
     "WATCH_CONVERSATION": "Începe conversația",
     "YOU_ARE_WATCHING": "Participați",

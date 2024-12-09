@@ -29,6 +29,7 @@ es:
       invalid: Eventos inválidos
     signup:
       disposable_email: No permitimos correos electrónicos desechables
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Ha introducido un correo electrónico no válido
       email_already_exists: "Ya te has registrado en una cuenta con %{email}"
       invalid_params: 'Inválido, por favor comprueba los parámetros de registro e inténtalo de nuevo'
@@ -75,7 +76,7 @@ es:
       avg_first_response_time: Promedio de tiempo de la primera respuesta
       avg_resolution_time: Tiempo promedio de resolución
       resolution_count: Número de resoluciones
-      avg_customer_waiting_time: Avg customer waiting time
+      avg_customer_waiting_time: Tiempo promedio de espera del cliente
     inbox_csv:
       inbox_name: Nombre de la bandeja de entrada
       inbox_type: Tipo de bandeja de entrada
@@ -93,7 +94,7 @@ es:
       avg_first_response_time: Promedio de tiempo de la primera respuesta
       avg_resolution_time: Tiempo promedio de resolución
       resolution_count: Número de resoluciones
-      avg_customer_waiting_time: Avg customer waiting time
+      avg_customer_waiting_time: Tiempo promedio de espera del cliente
     conversation_traffic_csv:
       timezone: Timezone
     sla_csv:
@@ -189,32 +190,32 @@ es:
   integration_apps:
     dashboard_apps:
       name: "Panel de aplicaciones"
-      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+      description: "Las aplicaciones de panel te permiten crear e incrustar aplicaciones que muestran información de usuario, pedidos o historial de pagos, proporcionando más contexto a tus agentes de soporte al cliente."
     dyte:
       name: "Dyte"
-      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
+      description: "Dyte es un producto que integra funcionalidades de audio y video en tu aplicación. Con esta integración, tus agentes pueden iniciar llamadas de video/voz con tus clientes directamente desde Chatwoot."
       meeting_name: "%{agent_name} ha iniciado una reunión"
     slack:
       name: "Slack"
-      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+      description: "Integra Chatwoot con Slack para mantener a tu equipo sincronizado. Esta integración te permite recibir notificaciones de nuevas conversaciones y responder directamente desde la interfaz de Slack."
     webhooks:
       name: "Webhook"
-      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+      description: "Los eventos de webhook proporcionan actualizaciones en tiempo real sobre las actividades en tu cuenta de Chatwoot. Puedes suscribirte a los eventos que prefieras y Chatwoot te enviará llamadas HTTP con las actualizaciones."
     dialogflow:
       name: "Dialogflow"
-      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+      description: "Construye chatbots con Dialogflow e intégralos fácilmente en tu bandeja de entrada. Estos bots pueden manejar consultas iniciales antes de transferirlas a un agente de servicio al cliente."
     google_translate:
       name: "Traductor de Google"
-      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
+      description: "Integra Google Translate para ayudar a los agentes a traducir fácilmente los mensajes de los clientes. Esta integración detecta automáticamente el idioma y lo convierte al idioma preferido del agente o del administrador."
     openai:
       name: "OpenAI"
-      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+      description: "Aprovecha el poder de los grandes modelos de lenguaje de OpenAI con funciones como sugerencias de respuestas, resúmenes, reformulación de mensajes, corrección ortográfica y clasificación de etiquetas."
     linear:
-      name: "Linear"
-      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+      name: "Lineal"
+      description: "Crea problemas en Linear directamente desde tu ventana de conversación. Alternativamente, enlaza problemas existentes en Linear para un proceso de seguimiento de problemas más eficiente y ágil."
     captain:
-      name: "Captain"
-      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+      name: "Capitán"
+      description: "Captain es un asistente nativo de inteligencia artificial diseñado para tu producto y entrenado en la base de conocimientos de tu empresa. Responde como un humano y resuelve eficazmente las consultas de los clientes. Configúralo fácilmente para tus buzones de entrada."
   public_portal:
     search:
       search_placeholder: Buscar artículo por título o cuerpo...

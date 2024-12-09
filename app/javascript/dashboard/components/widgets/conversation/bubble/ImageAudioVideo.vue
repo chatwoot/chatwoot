@@ -2,6 +2,7 @@
 import { mapGetters } from 'vuex';
 import { hasPressedCommand } from 'shared/helpers/KeyboardHelpers';
 import GalleryView from '../components/GalleryView.vue';
+import { timeStampAppendedURL } from 'dashboard/helper/URLHelper';
 
 const ALLOWED_FILE_TYPES = {
   IMAGE: 'image',
@@ -20,6 +21,7 @@ export default {
       required: true,
     },
   },
+  emits: ['error'],
   data() {
     return {
       show: false,
@@ -41,6 +43,9 @@ export default {
     },
     isAudio() {
       return this.attachment.file_type === ALLOWED_FILE_TYPES.AUDIO;
+    },
+    timeStampURL() {
+      return timeStampAppendedURL(this.dataUrl);
     },
     attachmentTypeClasses() {
       return {
@@ -108,11 +113,11 @@ export default {
       @click="onClick"
     />
     <audio v-else-if="isAudio" controls class="skip-context-menu mb-0.5">
-      <source :src="`${dataUrl}?t=${Date.now()}`" />
+      <source :src="timeStampURL" />
     </audio>
     <GalleryView
       v-if="show"
-      :show.sync="show"
+      v-model:show="show"
       :attachment="attachment"
       :all-attachments="filteredCurrentChatAttachments"
       @error="onImgError"

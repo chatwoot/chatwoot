@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "خلاصہ",
-      "DELETE_WARNING": "<strong>%{primaryContactName}</strong> کا کانٹیکٹ حذف کر دیا جائے گا۔.",
-      "ATTRIBUTE_WARNING": "<strong>%{primaryContactName}</strong> کے کانٹیکٹ کی تفصیلات <strong>%{parentContactName}</strong> پر کاپی کی جائیں گی۔."
+      "DELETE_WARNING": "<strong>{primaryContactName}</strong> کا کانٹیکٹ حذف کر دیا جائے گا۔.",
+      "ATTRIBUTE_WARNING": "<strong>{primaryContactName}</strong> کے کانٹیکٹ کی تفصیلات <strong>{parentContactName}</strong> پر کاپی کی جائیں گی۔."
     },
     "SEARCH": {
       "ERROR": "خامی کا پیغام"
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "کانٹیکٹ کامیابی سے ضم ہو گیا۔",
       "ERROR_MESSAGE": "کانٹیکٹ کو ضم نہیں کیا جا سکا، دوبارہ کوشش کریں!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

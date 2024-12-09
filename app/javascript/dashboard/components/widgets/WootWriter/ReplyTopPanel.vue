@@ -1,7 +1,7 @@
 <script>
-import { ref } from 'vue';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
+
 export default {
   name: 'ReplyTopPanel',
   props: {
@@ -22,9 +22,8 @@ export default {
       default: false,
     },
   },
+  emits: ['setReplyMode', 'togglePopout'],
   setup(props, { emit }) {
-    const replyTopRef = ref(null);
-
     const setReplyMode = mode => {
       emit('setReplyMode', mode);
     };
@@ -44,12 +43,11 @@ export default {
         allowOnFocusedInput: true,
       },
     };
-    useKeyboardEvents(keyboardEvents, replyTopRef);
+    useKeyboardEvents(keyboardEvents);
 
     return {
       handleReplyClick,
       handleNoteClick,
-      replyTopRef,
     };
   },
   computed: {
@@ -76,10 +74,7 @@ export default {
 </script>
 
 <template>
-  <div
-    ref="replyTopRef"
-    class="flex justify-between bg-black-50 dark:bg-slate-800"
-  >
+  <div class="flex justify-between bg-black-50 dark:bg-slate-800">
     <div class="button-group">
       <woot-button
         variant="clear"
@@ -113,7 +108,7 @@ export default {
       icon="dismiss"
       color-scheme="secondary"
       class-names="popout-button"
-      @click="$emit('click')"
+      @click="$emit('togglePopout')"
     />
     <woot-button
       v-else
@@ -121,7 +116,7 @@ export default {
       icon="resize-large"
       color-scheme="secondary"
       class-names="popout-button"
-      @click="$emit('click')"
+      @click="$emit('togglePopout')"
     />
   </div>
 </template>

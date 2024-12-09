@@ -7,6 +7,7 @@ import PopOverSearch from './search/PopOverSearch.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import CmdBarConversationSnooze from 'dashboard/routes/dashboard/commands/CmdBarConversationSnooze.vue';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
@@ -14,6 +15,14 @@ export default {
     ConversationBox,
     PopOverSearch,
     CmdBarConversationSnooze,
+  },
+  beforeRouteLeave(to, from, next) {
+    // Clear selected state if navigating away from a conversation to a route without a conversationId to prevent stale data issues
+    // and resolves timing issues during navigation with conversation view and other screens
+    if (this.conversationId) {
+      this.$store.dispatch('clearSelectedState');
+    }
+    next(); // Continue with navigation
   },
   props: {
     inboxId: {
@@ -87,6 +96,17 @@ export default {
       this.fetchConversationIfUnavailable();
     },
   },
+
+  created() {
+    // Clear selected state early if no conversation is selected
+    // This prevents child components from accessing stale data
+    // and resolves timing issues during navigation
+    // with conversation view and other screens
+    if (!this.conversationId) {
+      this.$store.dispatch('clearSelectedState');
+    }
+  },
+
   mounted() {
     this.$store.dispatch('agents/get');
     this.initialize();
@@ -151,7 +171,7 @@ export default {
             after: messageId,
           })
           .then(() => {
-            this.$emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
+            emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
           });
       } else {
         this.$store.dispatch('clearSelectedState');
@@ -182,11 +202,11 @@ export default {
       :conversation-type="conversationType"
       :folders-id="foldersId"
       :is-on-expanded-layout="isOnExpandedLayout"
-      @conversationLoad="onConversationLoad"
+      @conversation-load="onConversationLoad"
     >
       <PopOverSearch
         :is-on-expanded-layout="isOnExpandedLayout"
-        @toggleConversationLayout="toggleConversationLayout"
+        @toggle-conversation-layout="toggleConversationLayout"
       />
     </ChatList>
     <ConversationBox
@@ -194,7 +214,7 @@ export default {
       :inbox-id="inboxId"
       :is-contact-panel-open="isContactPanelOpen"
       :is-on-expanded-layout="isOnExpandedLayout"
-      @contactPanelToggle="onToggleContactPanel"
+      @contact-panel-toggle="onToggleContactPanel"
     />
     <CmdBarConversationSnooze />
   </section>

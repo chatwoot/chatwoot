@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Резюме",
-      "DELETE_WARNING": "Контакт от <strong>%{primaryContactName}</strong> ще бъде изтрит.",
-      "ATTRIBUTE_WARNING": "Детайлите на контакт <strong>%{primaryContactName}</strong> ще бъдат копирани в <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Контакт от <strong>{primaryContactName}</strong> ще бъде изтрит.",
+      "ATTRIBUTE_WARNING": "Детайлите на контакт <strong>{primaryContactName}</strong> ще бъдат копирани в <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ГРЕШКА"
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Успешно обединяване на контакта",
       "ERROR_MESSAGE": "Контактите не бяха обединени, опитайте отново!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

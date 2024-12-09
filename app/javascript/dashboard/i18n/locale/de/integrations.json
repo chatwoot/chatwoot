@@ -1,11 +1,18 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrationen",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
-    "LEARN_MORE": "Learn more about integrations",
-    "LOADING": "Fetching integrations",
+    "DESCRIPTION": "Chatwoot integriert sich mit mehreren Tools und Diensten, um die Effizienz Ihres Teams zu verbessern. Erkunden Sie die folgende Liste, um Ihre Lieblingsapps zu konfigurieren.",
+    "LEARN_MORE": "Mehr über Integrationen erfahren",
+    "LOADING": "Integrationen werden abgerufen",
+    "CAPTAIN": {
+      "DISABLED": "Captain ist auf Ihrem Konto nicht aktiviert.",
+      "CLICK_HERE_TO_CONFIGURE": "Hier klicken, um zu konfigurieren",
+      "LOADING_CONSOLE": "Captain-Konsole wird geladen...",
+      "FAILED_TO_LOAD_CONSOLE": "Fehler beim Laden der Captain-Konsole. Bitte aktualisieren und erneut versuchen."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Abonnierte Events",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Stornieren",
         "DESC": "Webhook-Ereignisse bieten Ihnen Echtzeitinformationen darüber, was in Ihrem Chatwoot-Konto passiert. Bitte geben Sie eine gültige URL ein, um einen Rückruf zu konfigurieren.",
@@ -69,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Löschung bestätigen",
-          "MESSAGE": "Möchten Sie den Webhook wirklich löschen? (%{webhookURL})",
+          "MESSAGE": "Möchten Sie den Webhook wirklich löschen? ({webhookURL})",
           "YES": "Ja, löschen ",
           "NO": "Nein, behalte es"
         }
@@ -78,25 +85,25 @@
     "SLACK": {
       "DELETE": "Löschen",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Delete the integration",
-        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+        "TITLE": "Integration löschen",
+        "MESSAGE": "Sind Sie sicher, dass Sie die Integration löschen möchten? Dadurch verlieren Sie den Zugang zu Konversationen in Ihrem Slack-Arbeitsbereich."
       },
       "HELP_TEXT": {
         "TITLE": "Slack-Integration verwenden",
         "BODY": "<br/><p>Chatwoot wird nun alle eingehenden Konversationen in den <b><i>Kundengespräche</i></b> Channel innerhalb Ihres Slack Arbeitsplatzes synchronisieren.</p><p>Wenn Sie in <b><i>Kunden-Konversationen</i></b> antworten, wird der Slack Kanal eine Antwort an den Kunden durch Chat erzeugen.</p><p>Starten Sie die Antworten mit <b><i>Notiz:</i></b> um private Notizen anstatt Antworten zu erstellen.</p><p>Wenn der Replier auf Slack ein Agentenprofil im Chatwoot unter der gleichen E-Mail hat, werden die Antworten entsprechend assoziiert.</p><p>Wenn der Replier kein Agentenprofil hat, werden die Antworten aus dem Bot-Profil getätigt.</p>",
-        "SELECTED": "selected"
+        "SELECTED": "ausgewählt"
       },
       "SELECT_CHANNEL": {
-        "OPTION_LABEL": "Select a channel",
+        "OPTION_LABEL": "Einen Kanal auswählen",
         "UPDATE": "Aktualisieren",
-        "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Attention required",
-        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+        "BUTTON_TEXT": "Kanal verbinden",
+        "DESCRIPTION": "Ihr Slack-Arbeitsbereich ist jetzt mit Chatwoot verbunden. Die Integration ist jedoch derzeit inaktiv. Um die Integration zu aktivieren und einen Kanal mit Chatwoot zu verbinden, klicken Sie bitte auf den untenstehenden Button.\n\n**Hinweis:** Wenn Sie versuchen, einen privaten Kanal zu verbinden, fügen Sie die Chatwoot-App dem Slack-Kanal hinzu, bevor Sie diesen Schritt fortsetzen.",
+        "ATTENTION_REQUIRED": "Achtung",
+        "EXPIRED": "Ihre Slack-Integration ist abgelaufen. Um weiterhin Nachrichten auf Slack zu erhalten, löschen Sie bitte die Integration und verbinden Sie Ihren Arbeitsbereich erneut."
       },
-      "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
-      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+      "UPDATE_ERROR": "Beim Aktualisieren der Integration ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
+      "UPDATE_SUCCESS": "Der Kanal wurde erfolgreich verbunden",
+      "FAILED_TO_FETCH_CHANNELS": "Beim Abrufen der Kanäle von Slack ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
     },
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Klicken Sie hier, um beizutreten",
@@ -107,38 +114,38 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI-Assistent",
-      "WITH_AI": " %{option} with AI ",
+      "WITH_AI": " {option} mit KI ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
-        "REPHRASE": "Improve Writing",
-        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
-        "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
-        "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "REPLY_SUGGESTION": "Antwortvorschlag",
+        "SUMMARIZE": "Zusammenfassen",
+        "REPHRASE": "Schreibstil verbessern",
+        "FIX_SPELLING_GRAMMAR": "Rechtschreibung und Grammatik korrigieren",
+        "SHORTEN": "Kürzen",
+        "EXPAND": "Erweitern",
+        "MAKE_FRIENDLY": "Nachrichtenton in freundlich ändern",
+        "MAKE_FORMAL": "Formellen Ton verwenden",
+        "SIMPLIFY": "Vereinfachen"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
-        "AI_WRITING": "AI is writing",
+        "DRAFT_TITLE": "Inhalt entwerfen",
+        "GENERATED_TITLE": "Generierter Inhalt",
+        "AI_WRITING": "Die KI schreibt",
         "BUTTONS": {
-          "APPLY": "Use this suggestion",
+          "APPLY": "Diesen Vorschlag verwenden",
           "CANCEL": "Stornieren"
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
-        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "TITLE": "Mit OpenAI integrieren",
+        "DESC": "Erweitern Sie Ihr Dashboard um fortschrittliche KI-Funktionen mit OpenAI's GPT-Modellen. Um loszulegen, geben Sie den API-Schlüssel aus Ihrem OpenAI-Konto ein.",
+        "KEY_PLACEHOLDER": "Geben Sie Ihren OpenAI-API-Schlüssel ein",
         "BUTTONS": {
           "NEED_HELP": "Brauchen Sie Hilfe?",
           "DISMISS": "Verwerfen",
-          "FINISH": "Finish Setup"
+          "FINISH": "Einrichtung abschließen"
         },
-        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "DISMISS_MESSAGE": "Sie können die OpenAI-Integration später jederzeit einrichten.",
+        "SUCCESS_MESSAGE": "OpenAI-Integration erfolgreich eingerichtet"
       },
       "TITLE": "Mit KI verbessern",
       "SUMMARY_TITLE": "Zusammenfassung mit KI",
@@ -172,7 +179,7 @@
       "HEADER_BTN_TXT": "Eine neue Dashboard-App hinzufügen",
       "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard-Apps ermöglichen es Unternehmen, eine Anwendung in das Chatwoot-Dashboard einzubetten, um den Kontext für Kundendienstmitarbeiter bereitzustellen. Mit dieser Funktion können Sie eine Anwendung unabhängig erstellen und diese in das Dashboard einbetten, um Benutzerinformationen, ihre Bestellungen oder ihren bisherigen Zahlungsverlauf bereitzustellen.</p><p>Wenn Sie Ihre Anwendung über das Dashboard in Chatwoot einbetten, erhält Ihre Anwendung den Kontext der Unterhaltung und des Kontakts als Fensterereignis. Implementieren Sie einen Listener für das Nachrichtenereignis auf Ihrer Seite, um den Kontext zu erhalten. </p><p>Um eine neue Dashboard-App hinzuzufügen, klicken Sie auf die Schaltfläche „Neue Dashboard-App hinzufügen“.</p>",
       "DESCRIPTION": "Dashboard-Apps ermöglichen es Unternehmen, eine Anwendung in das Dashboard einzubetten, um den Kontext für Kundendienstmitarbeiter bereitzustellen. Mit dieser Funktion können Sie eine Anwendung unabhängig erstellen und diese einbetten, um Benutzerinformationen, ihre Bestellungen oder ihren bisherigen Zahlungsverlauf bereitzustellen.",
-      "LEARN_MORE": "Learn more about Dashboard Apps",
+      "LEARN_MORE": "Mehr über Dashboard-Apps erfahren",
       "LIST": {
         "404": "Für dieses Konto sind noch keine Dashboard-Apps konfiguriert",
         "LOADING": "Dashboard-Apps werden abgerufen...",
@@ -209,90 +216,90 @@
         "CONFIRM_YES": "Ja, löschen",
         "CONFIRM_NO": "Nein, behalte es",
         "TITLE": "Löschen bestätigen",
-        "MESSAGE": "Möchten Sie die App %{appName} wirklich löschen?",
+        "MESSAGE": "Möchten Sie die App {appName} wirklich löschen?",
         "API_SUCCESS": "Dashboard-App erfolgreich gelöscht",
         "API_ERROR": "Wir konnten die App nicht löschen. Bitte versuchen Sie es später erneut"
       }
     },
     "LINEAR": {
-      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
-      "LOADING": "Fetching linear issues...",
-      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "ADD_OR_LINK_BUTTON": "Lineares Problem erstellen/verknüpfen",
+      "LOADING": "Lineare Probleme werden abgerufen...",
+      "LOADING_ERROR": "Beim Abrufen der linearen Probleme ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
       "CREATE": "Erstellen",
       "LINK": {
-        "SEARCH": "Search issues",
-        "SELECT": "Select issue",
+        "SEARCH": "Probleme suchen",
+        "SELECT": "Problem auswählen",
         "TITLE": "Link",
-        "EMPTY_LIST": "No linear issues found",
-        "LOADING": "Loading",
-        "ERROR": "There was an error fetching the linear issues, please try again",
-        "LINK_SUCCESS": "Issue linked successfully",
-        "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "EMPTY_LIST": "Keine linearen Probleme gefunden",
+        "LOADING": "Wird geladen",
+        "ERROR": "Beim Abrufen der linearen Probleme ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
+        "LINK_SUCCESS": "Problem erfolgreich verknüpft",
+        "LINK_ERROR": "Beim Verknüpfen des Problems ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
+        "LINK_TITLE": "Unterhaltung (#{conversationId}) mit {name}"
       },
       "ADD_OR_LINK": {
-        "TITLE": "Create/link linear issue",
+        "TITLE": "Lineares Problem erstellen/verknüpfen",
         "DESCRIPTION": "Erstellen Sie lineare Tickets aus Unterhaltungen oder verknüpfen Sie bestehende zur nahtlosen Verfolgung.",
         "FORM": {
           "TITLE": {
             "LABEL": "Titel",
-            "PLACEHOLDER": "Enter title",
+            "PLACEHOLDER": "Titel eingeben",
             "REQUIRED_ERROR": "Titel ist erforderlich"
           },
           "DESCRIPTION": {
             "LABEL": "Beschreibung",
-            "PLACEHOLDER": "Enter description"
+            "PLACEHOLDER": "Beschreibung eingeben"
           },
           "TEAM": {
             "LABEL": "Team",
             "PLACEHOLDER": "Team auswählen",
-            "SEARCH": "Search team",
-            "REQUIRED_ERROR": "Team is required"
+            "SEARCH": "Team suchen",
+            "REQUIRED_ERROR": "Team ist erforderlich"
           },
           "ASSIGNEE": {
             "LABEL": "Zugewiesener",
-            "PLACEHOLDER": "Select assignee",
-            "SEARCH": "Search assignee"
+            "PLACEHOLDER": "Zuständigen auswählen",
+            "SEARCH": "Zuständigen suchen"
           },
           "PRIORITY": {
             "LABEL": "Priorität",
             "PLACEHOLDER": "Priorität auswählen",
-            "SEARCH": "Search priority"
+            "SEARCH": "Priorität suchen"
           },
           "LABEL": {
             "LABEL": "Label",
-            "PLACEHOLDER": "Select label",
-            "SEARCH": "Search label"
+            "PLACEHOLDER": "Label auswählen",
+            "SEARCH": "Label suchen"
           },
           "STATUS": {
             "LABEL": "Status",
-            "PLACEHOLDER": "Select status",
-            "SEARCH": "Search status"
+            "PLACEHOLDER": "Status auswählen",
+            "SEARCH": "Status suchen"
           },
           "PROJECT": {
-            "LABEL": "Project",
-            "PLACEHOLDER": "Select project",
-            "SEARCH": "Search project"
+            "LABEL": "Projekt",
+            "PLACEHOLDER": "Projekt auswählen",
+            "SEARCH": "Projekt suchen"
           }
         },
         "CREATE": "Erstellen",
         "CANCEL": "Stornieren",
-        "CREATE_SUCCESS": "Issue created successfully",
-        "CREATE_ERROR": "There was an error creating the issue, please try again",
-        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
-        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+        "CREATE_SUCCESS": "Problem erfolgreich erstellt",
+        "CREATE_ERROR": "Beim Erstellen des Problems ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
+        "LOADING_TEAM_ERROR": "Beim Abrufen der Teams ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
+        "LOADING_TEAM_ENTITIES_ERROR": "Beim Abrufen der Team-Entitäten ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
       },
       "ISSUE": {
         "STATUS": "Status",
         "PRIORITY": "Priorität",
         "ASSIGNEE": "Zugewiesener",
         "LABELS": "Labels",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Erstellt am {createdAt}"
       },
       "UNLINK": {
-        "TITLE": "Unlink",
-        "SUCCESS": "Issue unlinked successfully",
-        "ERROR": "There was an error unlinking the issue, please try again"
+        "TITLE": "Verknüpfung aufheben",
+        "SUCCESS": "Problem erfolgreich getrennt",
+        "ERROR": "Beim Aufheben der Verknüpfung des Problems ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
       }
     }
   }

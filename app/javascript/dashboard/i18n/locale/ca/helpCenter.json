@@ -41,6 +41,7 @@
         "UPLOADING": "S'està carregant...",
         "SUCCESS": "La imatge s'ha carregat correctament",
         "ERROR": "S'ha produït un error en carregar la imatge",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "La mida de la imatge ha de ser inferior a {size}MB",
         "ERROR_FILE_FORMAT": "El format de la imatge ha de ser JPG, JPEG o PNG",
         "ERROR_FILE_DIMENSIONS": "Les dimensions de la imatge han de ser inferiors a 2000 x 2000"
@@ -83,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Sense categoria",
-      "SEARCH_RESULTS": "Resultats de la cerca per a %{query}",
+      "SEARCH_RESULTS": "Resultats de la cerca per a {query}",
       "EMPTY_TEXT": "Cerca articles per inserir a les respostes.",
       "SEARCH_LOADER": "S'està cercant...",
       "INSERT_ARTICLE": "Insereix",
@@ -481,6 +482,7 @@
           "DESCRIPTION": "Utilitza el portal com a CMS sense cap amb marcs de front-end de tercers mitjançant les nostres API."
         }
       }
-    }
+    },
+    "LOADING": "Loading..."
   }
 }

@@ -1,12 +1,13 @@
 <script>
 import { getUnixTime } from 'date-fns';
 import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
+import { emitter } from 'shared/helpers/mitt';
 import wootConstants from 'dashboard/constants/globals';
 import {
   CMD_BULK_ACTION_SNOOZE_CONVERSATION,
   CMD_BULK_ACTION_REOPEN_CONVERSATION,
   CMD_BULK_ACTION_RESOLVE_CONVERSATION,
-} from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
+} from 'dashboard/helper/commandbar/events';
 
 import AgentSelector from './AgentSelector.vue';
 import UpdateActions from './UpdateActions.vue';
@@ -47,6 +48,14 @@ export default {
       default: false,
     },
   },
+  emits: [
+    'selectAllConversations',
+    'assignAgent',
+    'updateConversations',
+    'assignLabels',
+    'assignTeam',
+    'resolveConversations',
+  ],
   data() {
     return {
       showAgentsList: false,
@@ -58,29 +67,29 @@ export default {
     };
   },
   mounted() {
-    this.$emitter.on(
+    emitter.on(
       CMD_BULK_ACTION_SNOOZE_CONVERSATION,
       this.onCmdSnoozeConversation
     );
-    this.$emitter.on(
+    emitter.on(
       CMD_BULK_ACTION_REOPEN_CONVERSATION,
       this.onCmdReopenConversation
     );
-    this.$emitter.on(
+    emitter.on(
       CMD_BULK_ACTION_RESOLVE_CONVERSATION,
       this.onCmdResolveConversation
     );
   },
-  destroyed() {
-    this.$emitter.off(
+  unmounted() {
+    emitter.off(
       CMD_BULK_ACTION_SNOOZE_CONVERSATION,
       this.onCmdSnoozeConversation
     );
-    this.$emitter.off(
+    emitter.off(
       CMD_BULK_ACTION_REOPEN_CONVERSATION,
       this.onCmdReopenConversation
     );
-    this.$emitter.off(
+    emitter.off(
       CMD_BULK_ACTION_RESOLVE_CONVERSATION,
       this.onCmdResolveConversation
     );
@@ -230,7 +239,7 @@ export default {
         <TeamActions
           v-if="showTeamsList"
           class="team-actions-box"
-          @assignTeam="assignTeam"
+          @assign-team="assignTeam"
           @close="showTeamsList = false"
         />
       </transition>
@@ -239,12 +248,12 @@ export default {
       {{ $t('BULK_ACTION.ALL_CONVERSATIONS_SELECTED_ALERT') }}
     </div>
     <woot-modal
-      :show.sync="showCustomTimeSnoozeModal"
+      v-model:show="showCustomTimeSnoozeModal"
       :on-close="hideCustomSnoozeModal"
     >
       <CustomSnoozeModal
         @close="hideCustomSnoozeModal"
-        @chooseTime="customSnoozeTime"
+        @choose-time="customSnoozeTime"
       />
     </woot-modal>
   </div>

@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "啥都没有",
         "INPUT_PLACEHOLDER": "选择优先级",
         "NO_RESULTS": "没有检索到相关信息",
-        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
         "FAILED": "无法更改优先级。请重试。"
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "分配一个团队",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "对话 ID %{conversationId} 已分配给 \"%{agentName}\"",
+          "SUCCESFUL": "对话 ID {conversationId} 已分配给 \"{agentName}\"",
           "FAILED": "无法分配客服，请再试。"
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "将标签 #%{labelName} 分配给对话 ID %{conversationId}",
+          "SUCCESFUL": "将标签 #{labelName} 分配给对话 ID {conversationId}",
           "FAILED": "无法分配标签。请再试。"
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "将团队 \"%{team}\" 分配给对话 ID %{conversationId}",
+          "SUCCESFUL": "将团队 \"{team}\" 分配给对话 ID {conversationId}",
           "FAILED": "无法分配团队。请重试。"
         }
       }
@@ -142,7 +142,8 @@
       "MSG_INPUT": "输入“/”开始选择快捷回复",
       "PRIVATE_MSG_INPUT": "Shift + 输入新行。这只对客服可见",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "未设置消息签名，请在个人资料中进行设置。",
-      "CLICK_HERE": "点击此处更新"
+      "CLICK_HERE": "点击此处更新",
+      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
     "REPLYBOX": {
       "REPLY": "回复",
@@ -238,27 +239,31 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "您好 👋, 欢迎来到 %{installationName}!",
-    "DESCRIPTION": "感谢您注册。我们希望您能够充分使用 %{installationName}。 这里有几件您可以在 %{installationName} 做的事情，让体验变得愉快。",
+    "TITLE": "您好 👋, 欢迎来到 {installationName}!",
+    "DESCRIPTION": "感谢您注册。我们希望您能够充分使用 {installationName}。 这里有几件您可以在 {installationName} 做的事情，让体验变得愉快。",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "阅读我们的最新升级日志",
     "ALL_CONVERSATION": {
       "TITLE": "您的所有对话都在一个地方",
-      "DESCRIPTION": "在单个面板中查看您客户的所有对话。您可以通过通道、标签和状态筛选对话。"
+      "DESCRIPTION": "在单个面板中查看您客户的所有对话。您可以通过通道、标签和状态筛选对话。",
+      "NEW_LINK": "点击此处创建收件箱"
     },
     "TEAM_MEMBERS": {
       "TITLE": "邀请您的团队成员",
       "DESCRIPTION": "当您准备好与您的客户交谈时，带上您的队友来协助您。 您可以通过添加他们的电子邮件地址到客服代表列表来邀请您的队友。",
       "NEW_LINK": "点击此处邀请一位请团队成员"
     },
-    "INBOXES": {
-      "TITLE": "连接收件箱",
-      "DESCRIPTION": "连接您的客户可以与您交谈的各种通道。可以是一个网站的在线聊天，也可以是您的 Facebook 或者 Twitter 主页，或者甚至可以是您的 WhatsApp 号码。",
-      "NEW_LINK": "点击此处创建收件箱"
-    },
     "LABELS": {
       "TITLE": "使用标签组织对话",
       "DESCRIPTION": "标签提供了一种简单的方法来让您归类对话。创建一些类似 #价格、#问题反馈 这样的标签，之后您可以在对话中使用它们。",
       "NEW_LINK": "点击此处创建标签"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -312,10 +317,10 @@
     "SIDEBAR_TITLE": "对话参与者",
     "NO_RECORDS_FOUND": "没有检索到相关信息",
     "ADD_PARTICIPANTS": "选择参与者",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} 其他人",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} 其他",
-    "TOTAL_PARTICIPANTS_TEXT": "有%{count}人参与。",
-    "TOTAL_PARTICIPANT_TEXT": "有%{count}人参与。",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} 其他人",
+    "REMANING_PARTICIPANT_TEXT": "+{count} 其他",
+    "TOTAL_PARTICIPANTS_TEXT": "有{count}人参与。",
+    "TOTAL_PARTICIPANT_TEXT": "有{count}人参与。",
     "NO_PARTICIPANTS_TEXT": "没有人参与！",
     "WATCH_CONVERSATION": "加入对话",
     "YOU_ARE_WATCHING": "你正在参与",

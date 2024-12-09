@@ -4,10 +4,30 @@ import { mapGetters } from 'vuex';
 import FilterItem from './FilterItem.vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 
+const CHAT_STATUS_FILTER_ITEMS = Object.freeze([
+  'open',
+  'resolved',
+  'pending',
+  'snoozed',
+  'all',
+]);
+
+const SORT_ORDER_ITEMS = Object.freeze([
+  'last_activity_at_asc',
+  'last_activity_at_desc',
+  'created_at_desc',
+  'created_at_asc',
+  'priority_desc',
+  'priority_asc',
+  'waiting_since_asc',
+  'waiting_since_desc',
+]);
+
 export default {
   components: {
     FilterItem,
   },
+  emits: ['changeFilter'],
   setup() {
     const { updateUISettings } = useUISettings();
 
@@ -18,8 +38,8 @@ export default {
   data() {
     return {
       showActionsDropdown: false,
-      chatStatusItems: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS'),
-      chatSortItems: this.$t('CHAT_LIST.SORT_ORDER_ITEMS'),
+      chatStatusItems: CHAT_STATUS_FILTER_ITEMS,
+      chatSortItems: SORT_ORDER_ITEMS,
     };
   },
   computed: {
@@ -88,7 +108,7 @@ export default {
           :selected-value="chatStatus"
           :items="chatStatusItems"
           path-prefix="CHAT_LIST.CHAT_STATUS_FILTER_ITEMS"
-          @onChangeFilter="onChangeFilter"
+          @on-change-filter="onChangeFilter"
         />
       </div>
       <div class="flex items-center justify-between last:mt-4">
@@ -100,7 +120,7 @@ export default {
           :selected-value="sortFilter"
           :items="chatSortItems"
           path-prefix="CHAT_LIST.SORT_ORDER_ITEMS"
-          @onChangeFilter="onChangeFilter"
+          @on-change-filter="onChangeFilter"
         />
       </div>
     </div>

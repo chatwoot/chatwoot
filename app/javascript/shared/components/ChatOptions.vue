@@ -1,12 +1,11 @@
 <script>
 import ChatOption from 'shared/components/ChatOption.vue';
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
 export default {
   components: {
     ChatOption,
   },
-  mixins: [messageFormatterMixin],
   props: {
     title: {
       type: String,
@@ -25,12 +24,19 @@ export default {
       default: false,
     },
   },
+  emits: ['optionSelect'],
+  setup() {
+    const { formatMessage } = useMessageFormatter();
+    return {
+      formatMessage,
+    };
+  },
   methods: {
     isSelected(option) {
       return this.selected === option.id;
     },
     onClick(selectedOption) {
-      this.$emit('click', selectedOption);
+      this.$emit('optionSelect', selectedOption);
     },
   },
 };
@@ -55,7 +61,7 @@ export default {
           :key="option.id"
           :action="option"
           :is-selected="isSelected(option)"
-          @click="onClick"
+          @option-select="onClick"
         />
       </ul>
     </div>
@@ -63,7 +69,8 @@ export default {
 </template>
 
 <style lang="scss">
-@import '~dashboard/assets/scss/variables.scss';
+@import 'dashboard/assets/scss/variables.scss';
+
 .has-selected {
   .option-button:not(.is-selected) {
     color: $color-light-gray;
@@ -73,7 +80,7 @@ export default {
 </style>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .options-message {
   max-width: 17rem;

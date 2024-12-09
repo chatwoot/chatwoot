@@ -239,6 +239,7 @@
     "REPORTS": "التقارير",
     "SETTINGS": "الإعدادات",
     "CONTACTS": "جهات الاتصال",
+    "CAPTAIN": "قائد",
     "HOME": "الرئيسية",
     "AGENTS": "وكيل الدعم",
     "AGENT_BOTS": "الروبوتات",
@@ -276,6 +277,7 @@
     "REPORTS_TEAM": "الفريق",
     "SET_AVAILABILITY_TITLE": "تعيين نفسك كـ",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "تجريبي",
     "REPORTS_OVERVIEW": "نظرة عامة",
     "REAUTHORIZE": "انتهت صلاحية اتصال صندوق الوارد الخاص بك، يرجى إعادة الاتصال\n لمواصلة تلقي وإرسال الرسائل",
@@ -299,7 +301,7 @@
     "TITLE": "الفواتير",
     "CURRENT_PLAN": {
       "TITLE": "الباقة الحالية",
-      "PLAN_NOTE": "أنت مشترك حاليا في باقة**%{plan}** مع تراخيص **%{quantity}**"
+      "PLAN_NOTE": "أنت مشترك حاليا في باقة**{plan}** مع تراخيص **{quantity}**"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "إدارة الاشتراك الخاص بك",

@@ -1,12 +1,13 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} razgovora je izabrano",
+    "CONVERSATIONS_SELECTED": "{conversationCount} razgovora je izabrano",
     "AGENT_SELECT_LABEL": "Izaberite agenta",
-    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign %{conversationCount} %{conversationLabel} to",
-    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign {conversationCount} {conversationLabel} to",
+    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Povratak",
     "ASSIGN_LABEL": "Dodeli",
     "YES": "Da",
+    "SEARCH_INPUT_PLACEHOLDER": "Traži",
     "ASSIGN_AGENT_TOOLTIP": "Dodeli agenta",
     "ASSIGN_TEAM_TOOLTIP": "Dodeli tim",
     "ASSIGN_SUCCESFUL": "Razgovor je uspešno dodeljen.",

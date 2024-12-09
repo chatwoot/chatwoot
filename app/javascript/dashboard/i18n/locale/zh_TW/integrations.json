@@ -4,8 +4,15 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "取消",
         "DESC": "Webhook 事件為您提供了有關 Chatwoot 帳戶中發生的事情的即時資訊。請輸入一個有效的URL來配置回呼。",
@@ -40,10 +47,7 @@
       "LIST": {
         "404": "此帳戶没有配置 webhooks。",
         "TITLE": "管理 webhooks",
-        "TABLE_HEADER": [
-          "Webhook 端点",
-          "操作"
-        ]
+        "TABLE_HEADER": ["Webhook 端点", "操作"]
       },
       "EDIT": {
         "BUTTON_TEXT": "編輯",
@@ -69,7 +73,7 @@
         },
         "CONFIRM": {
           "TITLE": "確認刪除",
-          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
+          "MESSAGE": "Are you sure to delete the webhook? ({webhookURL})",
           "YES": "是，刪除 ",
           "NO": "否，保留它"
         }
@@ -107,7 +111,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "WITH_AI": " {option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
         "SUMMARIZE": "Summarize",
@@ -176,10 +180,7 @@
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": [
-          "姓名",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": ["姓名", "Endpoint"],
         "EDIT_TOOLTIP": "編輯應用程式",
         "DELETE_TOOLTIP": "刪除應用程式"
       },
@@ -209,7 +210,7 @@
         "CONFIRM_YES": "是，刪除",
         "CONFIRM_NO": "否，保留",
         "TITLE": "刪除確認",
-        "MESSAGE": "你確定要刪除應用程式 %{appName} 嗎？",
+        "MESSAGE": "你確定要刪除應用程式 {appName} 嗎？",
         "API_SUCCESS": "Dashboard app deleted successfully",
         "API_ERROR": "We couldn't delete the app. Please try again later"
       }
@@ -228,7 +229,7 @@
         "ERROR": "There was an error fetching the linear issues, please try again",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -287,7 +288,7 @@
         "PRIORITY": "優先",
         "ASSIGNEE": "Assignee",
         "LABELS": "標籤",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Unlink",

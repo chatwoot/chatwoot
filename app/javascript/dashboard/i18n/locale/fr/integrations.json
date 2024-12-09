@@ -4,8 +4,15 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Événements suivis",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Annuler",
         "DESC": "Les événements Webhook vous fournissent des informations en temps réel sur ce qui se passe dans votre compte Chatwoot. Veuillez entrer une URL valide pour configurer un callback.",
@@ -69,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Confirmer la suppression",
-          "MESSAGE": "Êtes-vous sûr de vouloir supprimer le webhoook ? (%{webhookURL})",
+          "MESSAGE": "Êtes-vous sûr de vouloir supprimer le webhoook ? ({webhookURL})",
           "YES": "Oui, supprimer ",
           "NO": "Non, conservez-le"
         }
@@ -107,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "Assistance IA",
-      "WITH_AI": " %{option} avec IA ",
+      "WITH_AI": " {option} avec IA ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Suggestion de réponse",
         "SUMMARIZE": "Résumer",
@@ -209,7 +216,7 @@
         "CONFIRM_YES": "Oui, supprimez-le",
         "CONFIRM_NO": "Non, conservez-le",
         "TITLE": "Confirmer la suppression",
-        "MESSAGE": "Êtes-vous sûr de vouloir supprimer l'application - %{appName}?",
+        "MESSAGE": "Êtes-vous sûr de vouloir supprimer l'application - {appName}?",
         "API_SUCCESS": "Application du tableau de bord supprimée avec succès",
         "API_ERROR": "Nous n'avons pas pu supprimer l'application. Veuillez réessayer plus tard"
       }
@@ -228,7 +235,7 @@
         "ERROR": "There was an error fetching the linear issues, please try again",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -287,7 +294,7 @@
         "PRIORITY": "Priorité",
         "ASSIGNEE": "Assignee",
         "LABELS": "Étiquettes",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Unlink",

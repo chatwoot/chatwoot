@@ -43,7 +43,7 @@
         "API_SUCCESS": "İmza başarıyla kaydedildi",
         "IMAGE_UPLOAD_ERROR": "Resim yüklenemedi! Tekrar deneyin",
         "IMAGE_UPLOAD_SUCCESS": "Resim başarıyla eklendi. İmzayı kaydetmek için lütfen kaydet'e tıklayın",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu %{size}MB'dan küçük olmalıdır"
+        "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu {size}MB'dan küçük olmalıdır"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "İmzanız",
@@ -145,11 +145,7 @@
       },
       "AVAILABILITY": {
         "LABEL": "Uygunluk",
-        "STATUSES_LIST": [
-          "Çevrimiçi",
-          "Meşgul",
-          "Çevrimdışı"
-        ],
+        "STATUSES_LIST": ["Çevrimiçi", "Meşgul", "Çevrimdışı"],
         "SET_AVAILABILITY_SUCCESS": "Uygunluk başarıyla ayarlandı",
         "SET_AVAILABILITY_ERROR": "Uygunluk ayarlanamadı, lütfen tekrar deneyin"
       },
@@ -239,6 +235,7 @@
     "REPORTS": "Raporlar",
     "SETTINGS": "Ayarlar",
     "CONTACTS": "Kişiler",
+    "CAPTAIN": "Captain",
     "HOME": "Anasayfa",
     "AGENTS": "Kullanıcılar",
     "AGENT_BOTS": "Botlar",
@@ -276,6 +273,7 @@
     "REPORTS_TEAM": "Ekip",
     "SET_AVAILABILITY_TITLE": "Kendini şu şekilde ayarla",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Önizleme",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
@@ -299,7 +297,7 @@
     "TITLE": "Fatura",
     "CURRENT_PLAN": {
       "TITLE": "Mevcut Plan",
-      "PLAN_NOTE": "Şu anda **%{plan}** planına **%{quantity}** lisans abonesisiniz"
+      "PLAN_NOTE": "Şu anda **{plan}** planına **{quantity}** lisans abonesisiniz"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Aboneliğinizi yönetin",

@@ -239,6 +239,7 @@
     "REPORTS": "Zprávy",
     "SETTINGS": "Nastavení",
     "CONTACTS": "Kontakty",
+    "CAPTAIN": "Captain",
     "HOME": "Domů",
     "AGENTS": "Agenti",
     "AGENT_BOTS": "Bots",
@@ -276,6 +277,7 @@
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Overview",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
@@ -299,7 +301,7 @@
     "TITLE": "Billing",
     "CURRENT_PLAN": {
       "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Manage your subscription",

@@ -1,12 +1,13 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} konuşma seçildi",
+    "CONVERSATIONS_SELECTED": "{conversationCount} konuşma seçildi",
     "AGENT_SELECT_LABEL": "Temsilci seçin",
-    "ASSIGN_CONFIRMATION_LABEL": "%{conversationCount} %{conversationLabel} atanacak. Emin misiniz?",
-    "UNASSIGN_CONFIRMATION_LABEL": "%{conversationCount} %{conversationLabel} atanmamış yapılacak. Emin misiniz?",
+    "ASSIGN_CONFIRMATION_LABEL": "{conversationCount} {conversationLabel} atanacak. Emin misiniz?",
+    "UNASSIGN_CONFIRMATION_LABEL": "{conversationCount} {conversationLabel} atanmamış yapılacak. Emin misiniz?",
     "GO_BACK_LABEL": "Geri git",
     "ASSIGN_LABEL": "Atama yap",
     "YES": "Evet",
+    "SEARCH_INPUT_PLACEHOLDER": "Ara",
     "ASSIGN_AGENT_TOOLTIP": "Temsilci ata",
     "ASSIGN_TEAM_TOOLTIP": "Takım ata",
     "ASSIGN_SUCCESFUL": "Görüşmeler başarıyla atandı.",

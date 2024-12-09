@@ -39,7 +39,6 @@ const onSelect = () => {
 };
 
 useKeyboardNavigableList({
-  elementRef: mentionsListContainerRef,
   items: computed(() => props.items),
   onSelect,
   adjustScroll,
@@ -91,22 +90,24 @@ const variableKey = (item = {}) => {
           }"
           @click="onListItemSelection(index)"
         >
-          <p
-            class="max-w-full min-w-0 mb-0 overflow-hidden text-sm font-medium text-slate-900 dark:text-slate-100 group-hover:text-woot-500 dark:group-hover:text-woot-500 text-ellipsis whitespace-nowrap"
-            :class="{
-              'text-woot-500 dark:text-woot-500': index === selectedIndex,
-            }"
-          >
-            {{ item.description }}
-          </p>
-          <p
-            class="max-w-full min-w-0 mb-0 overflow-hidden text-xs text-slate-500 dark:text-slate-300 group-hover:text-woot-500 dark:group-hover:text-woot-500 text-ellipsis whitespace-nowrap"
-            :class="{
-              'text-woot-500 dark:text-woot-500': index === selectedIndex,
-            }"
-          >
-            {{ variableKey(item) }}
-          </p>
+          <slot :item="item" :index="index" :selected="index === selectedIndex">
+            <p
+              class="max-w-full min-w-0 mb-0 overflow-hidden text-sm font-medium text-slate-900 dark:text-slate-100 group-hover:text-woot-500 dark:group-hover:text-woot-500 text-ellipsis whitespace-nowrap"
+              :class="{
+                'text-woot-500 dark:text-woot-500': index === selectedIndex,
+              }"
+            >
+              {{ item.description }}
+            </p>
+            <p
+              class="max-w-full min-w-0 mb-0 overflow-hidden text-xs text-slate-500 dark:text-slate-300 group-hover:text-woot-500 dark:group-hover:text-woot-500 text-ellipsis whitespace-nowrap"
+              :class="{
+                'text-woot-500 dark:text-woot-500': index === selectedIndex,
+              }"
+            >
+              {{ variableKey(item) }}
+            </p>
+          </slot>
         </button>
       </woot-dropdown-item>
     </ul>

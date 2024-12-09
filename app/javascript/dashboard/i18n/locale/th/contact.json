@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "สรุปผล",
-      "DELETE_WARNING": "ผู้ติดต่อ <strong>%{primaryContactName}</strong>จะถูกลบออก",
-      "ATTRIBUTE_WARNING": "ข้อมูลผู้ติดต่อของ <strong>%{primaryContactName}</strong> จะถูกคัดลอกไปยัง <strong>%{parentContactName}</strong>"
+      "DELETE_WARNING": "ผู้ติดต่อ <strong>{primaryContactName}</strong>จะถูกลบออก",
+      "ATTRIBUTE_WARNING": "ข้อมูลผู้ติดต่อของ <strong>{primaryContactName}</strong> จะถูกคัดลอกไปยัง <strong>{parentContactName}</strong>"
     },
     "SEARCH": {
       "ERROR": "ข้อความผิดพลาด"
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "รวมผู้ติดต่อสำเร็จเเล้ว",
       "ERROR_MESSAGE": "ไม่สามารถรวมผู้ติดต่อได้ โปรดลองใหม่อีกครั้ง!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

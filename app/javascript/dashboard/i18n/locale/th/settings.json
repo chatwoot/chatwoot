@@ -145,11 +145,7 @@
       },
       "AVAILABILITY": {
         "LABEL": "สถานะ",
-        "STATUSES_LIST": [
-          "ออนไลน์",
-          "ไม่ว่าง",
-          "ออฟไลน์"
-        ],
+        "STATUSES_LIST": ["ออนไลน์", "ไม่ว่าง", "ออฟไลน์"],
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
         "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
@@ -239,6 +235,7 @@
     "REPORTS": "รายงาน",
     "SETTINGS": "ตั้งค่า",
     "CONTACTS": "ผู้ติดต่อ",
+    "CAPTAIN": "Captain",
     "HOME": "หน้าหลัก",
     "AGENTS": "พนักงาน",
     "AGENT_BOTS": "บอท",
@@ -276,6 +273,7 @@
     "REPORTS_TEAM": "ทีม",
     "SET_AVAILABILITY_TITLE": "ตั้งสถานะเป็น...",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "ภาพรวม",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
@@ -299,7 +297,7 @@
     "TITLE": "Billing",
     "CURRENT_PLAN": {
       "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Manage your subscription",

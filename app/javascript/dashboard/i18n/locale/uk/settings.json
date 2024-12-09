@@ -145,11 +145,7 @@
       },
       "AVAILABILITY": {
         "LABEL": "Присутність",
-        "STATUSES_LIST": [
-          "Онлайн",
-          "Зайнятий",
-          "Не в мережі"
-        ],
+        "STATUSES_LIST": ["Онлайн", "Зайнятий", "Не в мережі"],
         "SET_AVAILABILITY_SUCCESS": "Доступу успішно встановлено",
         "SET_AVAILABILITY_ERROR": "Не вдалося налаштувати доступність, будь ласка, спробуйте ще раз"
       },
@@ -239,6 +235,7 @@
     "REPORTS": "Звіти",
     "SETTINGS": "Налаштування",
     "CONTACTS": "Контакти",
+    "CAPTAIN": "Captain",
     "HOME": "Головна",
     "AGENTS": "Агенти",
     "AGENT_BOTS": "Боти",
@@ -276,6 +273,7 @@
     "REPORTS_TEAM": "Команда",
     "SET_AVAILABILITY_TITLE": "Позначити себе як",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Огляд",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
@@ -299,7 +297,7 @@
     "TITLE": "Біллінг",
     "CURRENT_PLAN": {
       "TITLE": "Поточний План",
-      "PLAN_NOTE": "Зараз ви підписані на **%{plan}** план з **%{quantity}** ліцензій"
+      "PLAN_NOTE": "Зараз ви підписані на **{plan}** план з **{quantity}** ліцензій"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Керування підпискою",

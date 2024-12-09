@@ -2,10 +2,13 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "إنشاء فريق جديد",
     "HEADER": "الفرق",
-    "SIDEBAR_TXT": "<p><b>الفريق</b></p> <p>الفرق تسمح لك بتنظيم عملائك في مجموعات على أساس مسؤولياتهم. <br /> يمكن للمستخدم أن يكون جزءا من فرق متعددة. يمكنك تعيين محادثات مع فريق عندما تعمل بشكل تعاوني. </p>",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "لا يوجد موظفي دعم مرتبطين بهذا الحساب.",
-      "EDIT_TEAM": "تعديل الفريق"
+      "EDIT_TEAM": "تعديل الفريق",
+      "NONE": "لا شيء"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -14,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "إضافة وكيل للفريق",
-        "TITLE": "إضافة وكلاء للفريق - %{teamName}",
+        "TITLE": "إضافة وكلاء للفريق - {teamName}",
         "DESC": "إضافة وكلاء إلى فريقك الجديد. هذا يتيح لكم العمل كفريق في المحادثات، والحصول على إشعار عن الأحداث الجديدة في نفس المحادثة."
       },
       "WIZARD": [
@@ -43,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "تحديث الوكلاء في الفريق",
-        "TITLE": "إضافة وكلاء للفريق - %{teamName}",
+        "TITLE": "إضافة وكلاء للفريق - {teamName}",
         "DESC": "إضافة وكلاء إلى فريقك الذي تم إنشاؤه حديثاً. سيتم إعلام جميع الوكلاء المضافين عند تعيين محادثة لهذا الفريق."
       },
       "WIZARD": [
@@ -74,14 +77,14 @@
       "ADD_AGENTS": "إضافة وكلاء إلى فريقك...",
       "SELECT": "حدد",
       "SELECT_ALL": "تحديد جميع الوكلاء",
-      "SELECTED_COUNT": "تم تحديد %{selected} من أصل %{total} وكيل."
+      "SELECTED_COUNT": "تم تحديد {selected} من أصل {total} وكيل."
     },
     "ADD": {
-      "TITLE": "إضافة وكلاء للفريق - %{teamName}",
+      "TITLE": "إضافة وكلاء للفريق - {teamName}",
       "DESC": "إضافة وكلاء إلى فريقك الجديد. هذا يتيح لكم العمل كفريق في المحادثات، والحصول على إشعار عن الأحداث الجديدة في نفس المحادثة.",
       "SELECT": "حدد",
       "SELECT_ALL": "تحديد جميع الوكلاء",
-      "SELECTED_COUNT": "تم تحديد %{selected} من أصل %{total} وكيل.",
+      "SELECTED_COUNT": "تم تحديد {selected} من أصل {total} وكيل.",
       "BUTTON_TEXT": "إضافة وكلاء",
       "AGENT_VALIDATION_ERROR": "اختر وكيل واحد على الأقل."
     },
@@ -97,7 +100,7 @@
         "ERROR_MESSAGE": "تعذر حذف الفريق. حاول مرة أخرى."
       },
       "CONFIRM": {
-        "TITLE": "هل أنت متأكد من أنك تريد حذف - %{teamName}",
+        "TITLE": "Are you sure you want to delete the team?",
         "PLACE_HOLDER": "الرجاء كتابة {teamName} للتأكيد",
         "MESSAGE": "سيؤدي حذف الفريق إلى إزالة مهمة الفريق من المحادثات التي تم تعيينها لهذا الفريق.",
         "YES": "حذف ",

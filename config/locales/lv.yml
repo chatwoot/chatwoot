@@ -29,6 +29,7 @@ lv:
       invalid: Nederīgi notikumi
     signup:
       disposable_email: Mēs nepieļaujam vienreizējās lietošanas e-pasta adreses
+      blocked_domain: Šis domēns nav atļauts. Ja uzskatāt, ka tā ir kļūda, lūdzu, sazinieties ar atbalsta dienestu.
       invalid_email: Jūs esat ievadījis nederīgu e-pasta adresi
       email_already_exists: "Jūs jau esat reģistrējis kontu ar %{email}"
       invalid_params: 'Kļūda. Lūdzu, pārbaudiet pierakstīšanās parametrus un mēģiniet vēlreiz'
@@ -188,33 +189,33 @@ lv:
       delete: "%{contact_name} ir Tiešsaistē, lūdzu, vēlāk mēģiniet vēlreiz"
   integration_apps:
     dashboard_apps:
-      name: "Informācijas paneļa lietotnes"
-      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+      name: "Informācijas paneļa Lietotnes"
+      description: "Informācijas paneļa Lietotnes ļauj izveidot un iegult lietojumprogrammas, kurās tiek parādīta lietotāja informācija, pasūtījumu vai maksājumu vēsture, nodrošinot plašāku kontekstu jūsu klientu atbalsta aģentiem."
     dyte:
       name: "Dyte"
-      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
+      description: "Dyte ir produkts, kas integrē audio un video funkcijas jūsu lietojumprogrammā. Izmantojot šo integrāciju, jūsu aģenti var sākt video/balss zvanus ar klientiem tieši no Chatwoot."
       meeting_name: "%{agent_name} ir sācis sapulci"
     slack:
       name: "Slack"
-      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+      description: "Integrējiet Chatwoot ar Slack, lai sinhronizētu savu komandu. Šī integrācija ļauj saņemt paziņojumus par jaunām sarunām un atbildēt uz tām tieši Slack saskarnē."
     webhooks:
       name: "Webhooks"
-      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+      description: "Webhook notikumi nodrošina reāllaika atjauninājumus par darbībām jūsu Chatwoot kontā. Varat abonēt vēlamos notikumus, un Chatwoot nosūtīs jums HTTP atzvanīšanas ziņojumus ar atjauninājumiem."
     dialogflow:
       name: "Dialogflow"
-      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+      description: "Veidojiet tērzēšanas robotus, izmantojot Dialogflow, un viegli integrējiet tos savā iesūtnē. Šīs robotprogrammatūras var apstrādāt sākotnējos vaicājumus pirms to nodošanas klientu apkalpošanas aģentam."
     google_translate:
       name: "Google Tulkotājs"
-      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
+      description: "Integrējiet Google tulkotāju, lai palīdzētu aģentiem viegli tulkot klientu ziņojumus. Šī integrācija automātiski nosaka valodu un pārslēdz to uz aģenta vai administratora vēlamo valodu."
     openai:
       name: "OpenAI"
-      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+      description: "Izmantojiet OpenAI lielo valodu modeļu iespējas, tādas kā atbilžu ieteikumus, kopsavilkumus, ziņojumu pārfrāzēšanu, pareizrakstības pārbaudi un etiķešu klasifikāciju."
     linear:
       name: "Lineārs"
-      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+      description: "Izveidojiet problēmu pieteikumus programmā Linear, tieši no sarunas loga. Varat arī sasaistīt esošos Linear problēmu pieteikumus, lai nodrošinātu racionālāku un efektīvāku problēmu izsekošanas procesu."
     captain:
       name: "Captain"
-      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+      description: "Captain ir vietējais AI palīgs, kas ir izveidots jūsu produktam un ir apmācīts, izmantojot jūsu uzņēmuma zināšanu bāzi. Tas reaģē kā cilvēks un efektīvi atrisina klientu jautājumus. Viegli konfigurējams jūsu iesūtnēs."
   public_portal:
     search:
       search_placeholder: Meklēt rakstu pēc nosaukuma vai pamatteksta...

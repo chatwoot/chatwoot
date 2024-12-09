@@ -1,12 +1,13 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} conversații selectate",
+    "CONVERSATIONS_SELECTED": "{conversationCount} conversații selectate",
     "AGENT_SELECT_LABEL": "Selectați agentul",
-    "ASSIGN_CONFIRMATION_LABEL": "Sigur doriți să atribuiți %{conversationCount} %{conversationLabel} la",
-    "UNASSIGN_CONFIRMATION_LABEL": "Sigur doriți să anulați atribuirea a %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "Sigur doriți să atribuiți {conversationCount} {conversationLabel} la",
+    "UNASSIGN_CONFIRMATION_LABEL": "Sigur doriți să anulați atribuirea a {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Mergeți înapoi",
     "ASSIGN_LABEL": "Atribuiți",
     "YES": "Da",
+    "SEARCH_INPUT_PLACEHOLDER": "Caută",
     "ASSIGN_AGENT_TOOLTIP": "Atribuiți agent",
     "ASSIGN_TEAM_TOOLTIP": "Atribuiți echipă",
     "ASSIGN_SUCCESFUL": "Conversațiile au fost atribuite.",

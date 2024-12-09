@@ -18,6 +18,7 @@
       "AND": "OG",
       "OR": "ELLER"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Lig med",
       "not_equal_to": "Ikke lig med",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Afkrydsningsfelt",
       "CREATED_AT": "Oprettet den",
       "LAST_ACTIVITY": "Last activity"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Værdi er påkrævet"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",

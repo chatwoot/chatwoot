@@ -18,6 +18,7 @@
       "AND": "I",
       "OR": "ILI"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Jednako sa",
       "not_equal_to": "Nije jednako sa",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Polje za potvrdu",
       "CREATED_AT": "Napravljena u",
       "LAST_ACTIVITY": "Poslednja aktivnost"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Vrednost je neophodna"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",

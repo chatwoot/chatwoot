@@ -41,6 +41,7 @@
         "UPLOADING": "Dodavanje...",
         "SUCCESS": "Image uploaded successfully",
         "ERROR": "Error while uploading image",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
         "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
         "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
@@ -83,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Uncategorized",
-      "SEARCH_RESULTS": "Search results for %{query}",
+      "SEARCH_RESULTS": "Search results for {query}",
       "EMPTY_TEXT": "Search for articles to insert into replies.",
       "SEARCH_LOADER": "Searching...",
       "INSERT_ARTICLE": "Insert",
@@ -481,6 +482,7 @@
           "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
         }
       }
-    }
+    },
+    "LOADING": "Loading..."
   }
 }

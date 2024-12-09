@@ -11,8 +11,9 @@
       "CONVERSATIONS": "Conversații",
       "MESSAGES": "Mesaje"
     },
-    "EMPTY_STATE": "Nu s-a găsit niciun %{item} pentru interogarea \"%{query}\"",
-    "EMPTY_STATE_FULL": "Nu s-au găsit rezultate pentru interogarea \"%{query}\"",
+    "SEARCHING_DATA": "In căutare",
+    "EMPTY_STATE": "Nu s-a găsit niciun {item} pentru interogarea \"{query}\"",
+    "EMPTY_STATE_FULL": "Nu s-au găsit rezultate pentru interogarea \"{query}\"",
     "PLACEHOLDER_KEYBINDING": "/ să se concentreze",
     "INPUT_PLACEHOLDER": "Tastați 3 sau mai multe caractere de căutat",
     "EMPTY_STATE_DEFAULT": "Căutați după id-ul conversației, e-mail, numărul de telefon, mesajele pentru rezultate de căutare mai bune. ",

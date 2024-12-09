@@ -5,7 +5,7 @@
     "BACK": "Voltar",
     "DISMISS": "Descartar",
     "UPDATE": {
-      "ERROR": "Não foi possível atualizar as configurações, tente novamente!",
+      "ERROR": "Não foi possível atualizar as configurações, por favor, tente novamente!",
       "SUCCESS": "Configurações de conta atualizadas com sucesso"
     },
     "FORM": {
@@ -15,22 +15,22 @@
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "Conta ID",
+        "TITLE": "ID da conta",
         "NOTE": "Este ID é necessário para integrações via API"
       },
       "NAME": {
-        "LABEL": "Nome da Conta",
+        "LABEL": "Nome da conta",
         "PLACEHOLDER": "Nome da sua conta",
         "ERROR": "Por favor, insira um nome de conta válido"
       },
       "LANGUAGE": {
-        "LABEL": "Idioma do site",
+        "LABEL": "Linguagem do site",
         "PLACEHOLDER": "Nome da sua conta",
         "ERROR": ""
       },
       "DOMAIN": {
         "LABEL": "E-mail recebido do domínio",
-        "PLACEHOLDER": "O domínio onde irá receber os emails",
+        "PLACEHOLDER": "O domínio onde irá receber os e-mails",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
@@ -41,18 +41,18 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Número de dias sem nenhuma atividade, após os quais o ticket se auto-resolve",
         "PLACEHOLDER": "30",
-        "ERROR": "Por favor, informe um período de resolução automática válido (mínimo de 1 dia e máximo de 999 dias)"
+        "ERROR": "Por favor, indique um período de resolução automática válido (mínimo de 1 dia e máximo de 999 dias)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "A sua conta tem a opção de continuar as conversas por e-mail ativa.",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Já pode receber emails no domínio que escolheu."
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Já pode receber e-mails no domínio que escolheu."
       }
     },
-    "UPDATE_CHATWOOT": "Está disponível uma nova atualização %{latestChatwootVersion} para o ChatWoot. Por favor, atualize a sua versão.",
-    "LEARN_MORE": "Saiba mais",
-    "PAYMENT_PENDING": "O seu pagamento está pendente. Por favor atualize as suas informações de pagamento para continuar a usar o Chatwoot",
-    "LIMITS_UPGRADE": "A sua conta excedeu os limites de utilização. Por favor faça um upgrade ao seu plano para continuar a utilizar o Chatwoot",
-    "OPEN_BILLING": "Abrir faturamento"
+    "UPDATE_CHATWOOT": "Está disponível uma nova atualização {latestChatwootVersion} para o ChatWoot. Por favor, atualize a sua versão.",
+    "LEARN_MORE": "Saber mais",
+    "PAYMENT_PENDING": "O seu pagamento está pendente. Por favor, atualize as suas informações de pagamento para continuar a usar o Chatwoot",
+    "LIMITS_UPGRADE": "A sua conta excedeu os limites de utilização. Por favor, faça um upgrade ao seu plano para continuar a utilizar o Chatwoot",
+    "OPEN_BILLING": "Abrir faturação"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -63,23 +63,23 @@
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notificaçoes",
-    "MARK_ALL_DONE": "Marcar todos como Resolvidos",
-    "DELETE_TITLE": "excluído",
+    "HEADER": "Notificações",
+    "MARK_ALL_DONE": "Marcar todos como resolvidos",
+    "DELETE_TITLE": "Excluído",
     "UNREAD_NOTIFICATION": {
-      "TITLE": "Notificações Não Lidas",
+      "TITLE": "Notificações não lidas",
       "ALL_NOTIFICATIONS": "Ver todas as notificações",
-      "LOADING_UNREAD_MESSAGE": "Carregando notificações não lidas...",
-      "EMPTY_MESSAGE": "Você não tem notificações não lidas"
+      "LOADING_UNREAD_MESSAGE": "A carregar notificações não lidas...",
+      "EMPTY_MESSAGE": "Não há notificações não lidas"
     },
     "LIST": {
       "LOADING_MESSAGE": "A carregar notificações...",
-      "404": "Sem Notificações",
+      "404": "Sem notificações",
       "TABLE_HEADER": [
-        "Nome:",
+        "Nome",
         "Número de telefone",
         "Conversas",
-        "Último contato"
+        "Último contacto"
       ]
     },
     "TYPE_LABEL": {
@@ -88,9 +88,9 @@
       "assigned_conversation_new_message": "Nova mensagem",
       "participating_conversation_new_message": "Nova mensagem",
       "conversation_mention": "Mencionar",
-      "sla_missed_first_response": "SLA Perdido",
-      "sla_missed_next_response": "SLA Perdido",
-      "sla_missed_resolution": "SLA Perdido"
+      "sla_missed_first_response": "SLA perdido",
+      "sla_missed_next_response": "SLA perdido",
+      "sla_missed_resolution": "SLA perdido"
     }
   },
   "NETWORK": {
@@ -104,60 +104,60 @@
     }
   },
   "COMMAND_BAR": {
-    "SEARCH_PLACEHOLDER": "Pesquisar ou pular para",
+    "SEARCH_PLACEHOLDER": "Pesquisar ou passar para",
     "SECTIONS": {
       "GENERAL": "Geral",
-      "REPORTS": "relatórios",
+      "REPORTS": "Relatórios",
       "CONVERSATION": "Conversa",
       "BULK_ACTIONS": "Ações em massa",
-      "CHANGE_ASSIGNEE": "Alterar Responsável",
-      "CHANGE_PRIORITY": "Alterar Prioridade",
-      "CHANGE_TEAM": "Alterar Equipa",
-      "SNOOZE_CONVERSATION": "Adiar Conversa",
+      "CHANGE_ASSIGNEE": "Alterar responsável",
+      "CHANGE_PRIORITY": "Alterar prioridade",
+      "CHANGE_TEAM": "Alterar equipa",
+      "SNOOZE_CONVERSATION": "Adiar conversa",
       "ADD_LABEL": "Adicionar etiqueta à conversa",
       "REMOVE_LABEL": "Remover etiqueta da conversa",
       "SETTINGS": "Configurações",
       "AI_ASSIST": "Assistente IA",
-      "APPEARANCE": "Aspeto",
+      "APPEARANCE": "Aparência",
       "SNOOZE_NOTIFICATION": "Suspender notificação"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Ir para o painel de conversação",
-      "GO_TO_CONTACTS_DASHBOARD": "Ir para o painel de contatos",
-      "GO_TO_REPORTS_OVERVIEW": "Ir para Visão Geral de Relatórios",
-      "GO_TO_CONVERSATION_REPORTS": "Ir para Relatórios de Conversa",
-      "GO_TO_AGENT_REPORTS": "Ir para Relatórios de Agentes",
-      "GO_TO_LABEL_REPORTS": "Ir para Relatórios de Etiquetas",
-      "GO_TO_INBOX_REPORTS": "Ir para Relatórios da Caixa de Entrada",
-      "GO_TO_TEAM_REPORTS": "Ir para Relatórios da Equipa",
-      "GO_TO_SETTINGS_AGENTS": "Ir para Configurações do Agente",
-      "GO_TO_SETTINGS_TEAMS": "Ir para Configurações da Equipa",
-      "GO_TO_SETTINGS_INBOXES": "Ir para Configurações da Caixa de entrada",
-      "GO_TO_SETTINGS_LABELS": "Ir para Configurações da Etiquetas",
-      "GO_TO_SETTINGS_CANNED_RESPONSES": "Ir para Configurações de Resposta Pronta",
-      "GO_TO_SETTINGS_APPLICATIONS": "Ir para Configurações da Aplicação",
-      "GO_TO_SETTINGS_ACCOUNT": "Ir para Configurações da Conta",
-      "GO_TO_SETTINGS_PROFILE": "Ir para Configurações do Perfil",
-      "GO_TO_NOTIFICATIONS": "Ir para Notificações",
+      "GO_TO_CONTACTS_DASHBOARD": "Ir para o painel de contactos",
+      "GO_TO_REPORTS_OVERVIEW": "Ir para a visão geral de relatórios",
+      "GO_TO_CONVERSATION_REPORTS": "Ir para relatórios de conversa",
+      "GO_TO_AGENT_REPORTS": "Ir para relatórios de agentes",
+      "GO_TO_LABEL_REPORTS": "Ir para relatórios de etiquetas",
+      "GO_TO_INBOX_REPORTS": "Ir para relatórios da caixa de entrada",
+      "GO_TO_TEAM_REPORTS": "Ir para relatórios da equipa",
+      "GO_TO_SETTINGS_AGENTS": "Ir para configurações do agente",
+      "GO_TO_SETTINGS_TEAMS": "Ir para configurações da equipa",
+      "GO_TO_SETTINGS_INBOXES": "Ir para configurações da caixa de entrada",
+      "GO_TO_SETTINGS_LABELS": "Ir para configurações de etiquetas",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Ir para configurações de resposta pronta",
+      "GO_TO_SETTINGS_APPLICATIONS": "Ir para configurações da aplicação",
+      "GO_TO_SETTINGS_ACCOUNT": "Ir para configurações da conta",
+      "GO_TO_SETTINGS_PROFILE": "Ir para configurações do perfil",
+      "GO_TO_NOTIFICATIONS": "Ir para notificações",
       "ADD_LABELS_TO_CONVERSATION": "Adicionar etiqueta à conversa",
       "ASSIGN_AN_AGENT": "Atribuir um agente",
       "AI_ASSIST": "Assistente IA",
       "ASSIGN_PRIORITY": "Atribuir prioridade",
       "ASSIGN_A_TEAM": "Atribuir uma equipa",
-      "MUTE_CONVERSATION": "Silenciar Conversa",
+      "MUTE_CONVERSATION": "Silenciar conversa",
       "UNMUTE_CONVERSATION": "Reativar conversa",
       "REMOVE_LABEL_FROM_CONVERSATION": "Remover etiqueta da conversa",
       "REOPEN_CONVERSATION": "Reabrir conversa",
       "RESOLVE_CONVERSATION": "Resolver conversa",
       "SEND_TRANSCRIPT": "Enviar transcrição por e-mail",
-      "SNOOZE_CONVERSATION": "Adiar Conversa",
+      "SNOOZE_CONVERSATION": "Adiar conversa",
       "UNTIL_NEXT_REPLY": "Até à próxima resposta",
       "UNTIL_NEXT_WEEK": "Até à próxima semana",
       "UNTIL_TOMORROW": "Até amanhã",
       "UNTIL_NEXT_MONTH": "Até ao mês seguinte",
       "AN_HOUR_FROM_NOW": "Até daqui a uma hora",
       "UNTIL_CUSTOM_TIME": "Personalizar...",
-      "CHANGE_APPEARANCE": "Alterar Aspeto",
+      "CHANGE_APPEARANCE": "Alterar aparência",
       "LIGHT_MODE": "Claro",
       "DARK_MODE": "Escuro",
       "SYSTEM_MODE": "Sistema",
@@ -165,7 +165,7 @@
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Carregando App da Dashboard..."
+    "LOADING_MESSAGE": "A carregar app do dashboard..."
   },
   "COMMON": {
     "OR": "Ou",

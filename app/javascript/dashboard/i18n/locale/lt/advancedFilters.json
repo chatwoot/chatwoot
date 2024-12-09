@@ -18,6 +18,7 @@
       "AND": "IR",
       "OR": "AR"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Lygu",
       "not_equal_to": "Nelygu",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Žymimasis langelis",
       "CREATED_AT": "Sukurta",
       "LAST_ACTIVITY": "Paskutiniai veiksmai"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Reikalinga vertė"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standartinis Filtras",

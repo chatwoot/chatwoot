@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Tiada",
         "INPUT_PLACEHOLDER": "Select priority",
         "NO_RESULTS": "Tiada dijumpa",
-        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
         "FAILED": "Couldn't change priority. Please try again."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Assign team",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
+          "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
           "FAILED": "Couldn't assign agent. Please try again."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Couldn't assign label. Please try again."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
+          "SUCCESFUL": "Assigned team \"{team}\" to conversation id {conversationId}",
           "FAILED": "Couldn't assign team. Please try again."
         }
       }
@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
       "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
-      "CLICK_HERE": "Click here to update"
+      "CLICK_HERE": "Click here to update",
+      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
     "REPLYBOX": {
       "REPLY": "Reply",
@@ -238,27 +239,31 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to %{installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
+    "TITLE": "Hey 👋, Welcome to {installationName}!",
+    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of {installationName}. Here are a few things you can do in {installationName} to make the experience delightful.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Read our latest updates",
     "ALL_CONVERSATION": {
       "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status.",
+      "NEW_LINK": "Click here to create an inbox"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invite your team members",
       "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Click here to invite a team member"
     },
-    "INBOXES": {
-      "TITLE": "Connect Inboxes",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Click here to create an inbox"
-    },
     "LABELS": {
       "TITLE": "Organize conversations with labels",
       "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
       "NEW_LINK": "Click here to create tags"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -312,10 +317,10 @@
     "SIDEBAR_TITLE": "Conversation participants",
     "NO_RECORDS_FOUND": "Tiada dijumpa",
     "ADD_PARTICIPANTS": "Select participants",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
     "NO_PARTICIPANTS_TEXT": "No one is participating!.",
     "WATCH_CONVERSATION": "Join conversation",
     "YOU_ARE_WATCHING": "You are participating",

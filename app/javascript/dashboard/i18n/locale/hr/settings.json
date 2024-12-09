@@ -1,23 +1,23 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Profile Settings",
-    "TITLE": "Profile Settings",
-    "BTN_TEXT": "Update Profile",
-    "DELETE_AVATAR": "Delete Avatar",
+    "LINK": "Postavke profila",
+    "TITLE": "Postavke profila",
+    "BTN_TEXT": "Ažuriraj profil",
+    "DELETE_AVATAR": "Izbriši avatar",
     "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
     "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
     "UPDATE_SUCCESS": "Your profile has been updated successfully",
     "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
     "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
     "FORM": {
-      "PICTURE": "Profile Picture",
-      "AVATAR": "Profile Image",
+      "PICTURE": "Profilna slika",
+      "AVATAR": "Profilna slika",
       "ERROR": "Please fix form errors",
-      "REMOVE_IMAGE": "Remove",
-      "UPLOAD_IMAGE": "Upload image",
-      "UPDATE_IMAGE": "Update image",
+      "REMOVE_IMAGE": "Izbriši",
+      "UPLOAD_IMAGE": "Prenesi sliku",
+      "UPDATE_IMAGE": "Ažuriraj sliku",
       "PROFILE_SECTION": {
-        "TITLE": "Profile",
+        "TITLE": "Profil",
         "NOTE": "Your email address is your identity and is used to log in."
       },
       "SEND_MESSAGE": {
@@ -51,31 +51,31 @@
         "PLACEHOLDER": "Insert your personal message signature here."
       },
       "PASSWORD_SECTION": {
-        "TITLE": "Password",
+        "TITLE": "Lozinka",
         "NOTE": "Updating your password would reset your logins in multiple devices.",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "Promijeni lozinku"
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Access Token",
+        "TITLE": "Pristupni token",
         "NOTE": "This token can be used if you are building an API based integration",
-        "COPY": "Copy"
+        "COPY": "Kopiraj"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
+        "TITLE": "Audio obavijesti",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
         "ALERT_TYPES": {
           "NONE": "Nijedno",
-          "MINE": "Assigned",
-          "ALL": "All"
+          "MINE": "Dodijeljeno",
+          "ALL": "Sve"
         },
         "ALERT_TYPE": {
           "TITLE": "Alert events for conversations:",
-          "NONE": "None",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
+          "NONE": "Nijedno",
+          "ASSIGNED": "Dodijeljeni razgovori",
+          "ALL_CONVERSATIONS": "Svi razgovori"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "Ton obavještenja:"
         },
         "CONDITIONS": {
           "TITLE": "Alert conditions:",
@@ -131,7 +131,7 @@
         "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Profile Image"
+        "LABEL": "Profilna slika"
       },
       "NAME": {
         "LABEL": "Your full name",
@@ -180,7 +180,7 @@
     "CHANGE_ACCOUNTS": "Switch Account",
     "CONTACT_SUPPORT": "Contact Support",
     "SELECTOR_SUBTITLE": "Select an account from the following list",
-    "PROFILE_SETTINGS": "Profile Settings",
+    "PROFILE_SETTINGS": "Postavke profila",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
     "APPEARANCE": "Change Appearance",
     "SUPER_ADMIN_CONSOLE": "Super Admin Console",
@@ -232,22 +232,23 @@
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Conversations",
     "INBOX": "Inbox",
-    "ALL_CONVERSATIONS": "All Conversations",
+    "ALL_CONVERSATIONS": "Svi razgovori",
     "MENTIONED_CONVERSATIONS": "Mentions",
     "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Reports",
     "SETTINGS": "Settings",
     "CONTACTS": "Contacts",
+    "CAPTAIN": "Captain",
     "HOME": "Home",
-    "AGENTS": "Agents",
+    "AGENTS": "Agenti",
     "AGENT_BOTS": "Botovi",
     "AUDIT_LOGS": "Audit Logovi",
     "INBOXES": "Inboxes",
     "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "Canned Responses",
     "INTEGRATIONS": "Integrations",
-    "PROFILE_SETTINGS": "Profile Settings",
+    "PROFILE_SETTINGS": "Postavke profila",
     "ACCOUNT_SETTINGS": "Account Settings",
     "APPLICATIONS": "Applications",
     "LABELS": "Labels",
@@ -270,70 +271,71 @@
     "ONE_OFF": "One off",
     "REPORTS_SLA": "SLA",
     "REPORTS_BOT": "Bot",
-    "REPORTS_AGENT": "Agents",
+    "REPORTS_AGENT": "Agenti",
     "REPORTS_LABEL": "Labels",
     "REPORTS_INBOX": "Inbox",
-    "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "REPORTS_TEAM": "Tim",
+    "SET_AVAILABILITY_TITLE": "Postavi sebe kao",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview",
+    "REPORTS_OVERVIEW": "Pregled",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Centar za pomoć",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
+      "ALL_ARTICLES": "Svi članci",
+      "MY_ARTICLES": "Moji članci",
+      "DRAFT": "Skica",
+      "ARCHIVED": "Arhivirano",
       "CATEGORY": "Kategorija",
-      "SETTINGS": "Settings",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "SETTINGS": "Postavke",
+      "CATEGORY_EMPTY_MESSAGE": "Nisu pronađene kategorije"
     },
     "SET_AUTO_OFFLINE": {
       "TEXT": "Mark offline automatically",
       "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
     },
-    "DOCS": "Read docs"
+    "DOCS": "Pročitaj članke"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "Naplata",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "Trenutni plan",
+      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
+      "TITLE": "Upravljanje pretplatom",
       "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
       "BUTTON_TXT": "Go to the billing portal"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
+      "TITLE": "Trebate pomoć?",
       "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
-      "BUTTON_TXT": "Chat with us"
+      "BUTTON_TXT": "Čavrljajte s nama"
     },
     "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NEW_ACCOUNT": "Novi račun",
+    "SELECTOR_SUBTITLE": "Kreirajte novi račun",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
+      "SUCCESS_MESSAGE": "Račun uspješno kreiran",
+      "EXIST_MESSAGE": "Račun već postoji",
       "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Company Name",
+        "LABEL": "Naziv tvrtke",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Submit"
+      "SUBMIT": "Pošalji"
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "Vidi sve skraćenice",
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
+      "OPEN_CONVERSATION": "Otvori razgovor",
       "RESOLVE_AND_NEXT": "Resolve and move to next",
       "NAVIGATE_DROPDOWN": "Navigate dropdown items",
       "RESOLVE_CONVERSATION": "Resolve Conversation",
@@ -343,7 +345,7 @@
       "TOGGLE_SIDEBAR": "Toggle Sidebar",
       "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
       "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
+      "GO_TO_SETTINGS": "Idi na postavke",
       "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
       "SWITCH_TO_REPLY": "Switch to Reply",
       "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"

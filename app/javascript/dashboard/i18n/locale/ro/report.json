@@ -23,13 +23,13 @@
         "NAME": "Primul timp de răspuns",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Primul timp de răspuns este %{metricValue} (pe baza conversațiilor %{conversationCount})"
+        "TOOLTIP_TEXT": "Primul timp de răspuns este {metricValue} (pe baza conversațiilor {conversationCount})"
       },
       "RESOLUTION_TIME": {
         "NAME": "Timp Rezolutie",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Timpul de rezolvare este %{metricValue} (pe baza conversațiilor %{conversationCount})"
+        "TOOLTIP_TEXT": "Timpul de rezolvare este {metricValue} (pe baza conversațiilor {conversationCount})"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Număr de rezoluții",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -167,13 +167,13 @@
         "NAME": "Primul timp de răspuns",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Primul timp de răspuns este %{metricValue} (pe baza conversațiilor %{conversationCount})"
+        "TOOLTIP_TEXT": "Primul timp de răspuns este {metricValue} (pe baza conversațiilor {conversationCount})"
       },
       "RESOLUTION_TIME": {
         "NAME": "Timp Rezolutie",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Timpul de rezolvare este %{metricValue} (pe baza conversațiilor %{conversationCount})"
+        "TOOLTIP_TEXT": "Timpul de rezolvare este {metricValue} (pe baza conversațiilor {conversationCount})"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Număr de rezoluții",
@@ -234,13 +234,13 @@
         "NAME": "Primul timp de răspuns",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Primul timp de răspuns este %{metricValue} (pe baza conversațiilor %{conversationCount})"
+        "TOOLTIP_TEXT": "Primul timp de răspuns este {metricValue} (pe baza conversațiilor {conversationCount})"
       },
       "RESOLUTION_TIME": {
         "NAME": "Timp Rezolutie",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Timpul de rezolvare este %{metricValue} (pe baza conversațiilor %{conversationCount})"
+        "TOOLTIP_TEXT": "Timpul de rezolvare este {metricValue} (pe baza conversațiilor {conversationCount})"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Număr de rezoluții",
@@ -301,13 +301,13 @@
         "NAME": "Primul timp de răspuns",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Primul timp de răspuns este %{metricValue} (pe baza conversațiilor %{conversationCount})"
+        "TOOLTIP_TEXT": "Primul timp de răspuns este {metricValue} (pe baza conversațiilor {conversationCount})"
       },
       "RESOLUTION_TIME": {
         "NAME": "Timp Rezolutie",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Timpul de rezolvare este %{metricValue} (pe baza conversațiilor %{conversationCount})"
+        "TOOLTIP_TEXT": "Timpul de rezolvare este {metricValue} (pe baza conversațiilor {conversationCount})"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Număr de rezoluții",
@@ -368,13 +368,13 @@
         "NAME": "Primul timp de răspuns",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Primul timp de răspuns este %{metricValue} (pe baza conversațiilor %{conversationCount})"
+        "TOOLTIP_TEXT": "Primul timp de răspuns este {metricValue} (pe baza conversațiilor {conversationCount})"
       },
       "RESOLUTION_TIME": {
         "NAME": "Timp Rezolutie",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Timpul de rezolvare este %{metricValue} (pe baza conversațiilor %{conversationCount})"
+        "TOOLTIP_TEXT": "Timpul de rezolvare este {metricValue} (pe baza conversațiilor {conversationCount})"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Număr de rezoluții",
@@ -480,8 +480,9 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Trafic de conversație",
       "NO_CONVERSATIONS": "Fără conversații",
-      "CONVERSATION": "%{count} conversație",
-      "CONVERSATIONS": "conversații %{count}"
+      "CONVERSATION": "{count} conversație",
+      "CONVERSATIONS": "conversații {count}",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversațiile agenților",
@@ -536,6 +537,7 @@
       "LABELS": "Etichetă",
       "TEAMS": "Echipa"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

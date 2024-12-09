@@ -3,7 +3,8 @@
     "HEADER": "Nhà cung cấp",
     "HEADER_BTN_TXT": "Thêm nhà cung cấp / đại lý",
     "LOADING": "Tải danh sách nhà cung cấp",
-    "SIDEBAR_TXT": "<p><b>Nhà cung cấp</b></p> <p> Một <b>nhà cung cấp</b> là thành viên của nhóm Hỗ trợ khách hàng của bạn. </p><p> Nhà cung cấp sẽ có thể xem và trả lời tin nhắn từ người dùng của bạn. Danh sách hiển thị tất cả các đại lý hiện có trong tài khoản của bạn. </p><p> Click vào <b>Thêm nhà cung cấp</b> để thêm mới nhà cung cấp. Nhà cung cấp mà bạn thêm sẽ nhận được email với liên kết xác nhận để kích hoạt tài khoản của họ, sau đó họ có thể truy cập Chatwoot và trả lời tin nhắn. </p><p> Quyền truy cập vào các tính năng của Chatwoot dựa trên các vai trò sau. </p><p> <b>Nhà cung cấp</b> - Nhà cung cấp có vai trò này chỉ có thể truy cập hộp thư đến, báo cáo và cuộc hội thoại. Họ có thể chỉ định các cuộc trò chuyện cho các đại lý khác hoặc chính họ và giải quyết các cuộc trò chuyện.</p><p> <b>Administrator</b> - Quản trị viên sẽ có quyền truy cập vào tất cả các tính năng Chatwoot được kích hoạt cho tài khoản của bạn, bao gồm cài đặt, cùng với tất cả các đặc quyền của một đại lý bình thường.</p>",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Quản trị viên",
       "AGENT": "Nhà cung cấp"
@@ -17,7 +18,8 @@
       "STATUS": "Trạng thái",
       "ACTIONS": "Hành động",
       "VERIFIED": "Đã xác minh",
-      "VERIFICATION_PENDING": "Đang chờ xác minh"
+      "VERIFICATION_PENDING": "Đang chờ xác minh",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Thêm đại lý vào nhóm của bạn",

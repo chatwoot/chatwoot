@@ -41,6 +41,7 @@
         "UPLOADING": "Завантажується...",
         "SUCCESS": "Зображення успішно завантажено",
         "ERROR": "Помилка при завантаженні зображення",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "Зображення має бути менше {size}Мб",
         "ERROR_FILE_FORMAT": "Формат зображення повинен бути jpg, jpeg або png",
         "ERROR_FILE_DIMENSIONS": "Розміри зображення повинні бути менші ніж 2000 х 2000"
@@ -83,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Без категорії",
-      "SEARCH_RESULTS": "Результати пошуку для %{query}",
+      "SEARCH_RESULTS": "Результати пошуку для {query}",
       "EMPTY_TEXT": "Пошук статей для вставки у відповіді.",
       "SEARCH_LOADER": "Шукаємо...",
       "INSERT_ARTICLE": "Вставка",
@@ -481,6 +482,7 @@
           "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
         }
       }
-    }
+    },
+    "LOADING": "Loading..."
   }
 }

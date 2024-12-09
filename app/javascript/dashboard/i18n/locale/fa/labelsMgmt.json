@@ -3,8 +3,9 @@
     "HEADER": "برچسب‌ها",
     "HEADER_BTN_TXT": "افزودن برچسب",
     "LOADING": "درحال گرفتن برچسب‌ها",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "هیچ آیتمی با این مشخصات یافت نشد",
-    "SIDEBAR_TXT": "<p>\n <b> برچسب ها</b>\n<p> برچسب ها به شما در دسته بندی مکالمات و اولویت بندی آنها کمک می کند. می توانید برچسب را به یک مکالمه از نوار کناری اختصاص دهید.\n <br/>\n <br/>\n برچسب ها به حساب گره خورده اند و می توانند برای ایجاد گردش کار سفارشی در سازمان شما استفاده شوند. می توانید رنگ سفارشی را به برچسب اختصاص دهید ، شناسایی برچسب آسان تر می شود. شما می توانید برچسب را در نوار کناری نمایش دهید تا مکالمه ها به راحتی فیلتر شود.\n</p>",
     "LIST": {
       "404": "هیچ برچسبی در این حساب‌کاربری وجود ندارد.",
       "TITLE": "مدیریت برچسب‌ها",
@@ -49,7 +50,8 @@
       "DISMISS": "نادیده بگیر",
       "ADD_SELECTED_LABELS": "اضافه کردن برچسب‌های انتخاب شده",
       "ADD_SELECTED_LABEL": "اضافه کردن برچسب‌ انتخاب شده",
-      "ADD_ALL_LABELS": "اضافه کردن همه برچسب ها"
+      "ADD_ALL_LABELS": "اضافه کردن همه برچسب ها",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "افزودن برچسب",

@@ -41,6 +41,7 @@
         "UPLOADING": "Subiendo...",
         "SUCCESS": "Imagen subida con éxito",
         "ERROR": "Error al subir la imagen",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "El tamaño de la imagen debe ser menor que {size}MB",
         "ERROR_FILE_FORMAT": "El formato de la imagen debe ser jpg, jpeg o png",
         "ERROR_FILE_DIMENSIONS": "Las dimensiones de la imagen deben ser menores de 2000 x 2000"
@@ -83,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Sin categoría",
-      "SEARCH_RESULTS": "Buscar resultados para %{query}",
+      "SEARCH_RESULTS": "Buscar resultados para {query}",
       "EMPTY_TEXT": "Buscar artículos para insertar en las respuestas.",
       "SEARCH_LOADER": "Buscando...",
       "INSERT_ARTICLE": "Insertar",
@@ -481,6 +482,7 @@
           "DESCRIPTION": "Utilice el portal como un CMS sin cabeceras con frameworks front-end de terceros usando nuestras APIs."
         }
       }
-    }
+    },
+    "LOADING": "Cargando..."
   }
 }

@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "总结",
-      "DELETE_WARNING": "<strong>%{primaryContactName}</strong> 的联系信息将被删除。",
-      "ATTRIBUTE_WARNING": "<strong>%{primaryContactName}</strong> 的联系信息将拷贝到 <strong>%{parentContactName}</strong>。"
+      "DELETE_WARNING": "<strong>{primaryContactName}</strong> 的联系信息将被删除。",
+      "ATTRIBUTE_WARNING": "<strong>{primaryContactName}</strong> 的联系信息将拷贝到 <strong>{parentContactName}</strong>。"
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "已成功合并联系人",
       "ERROR_MESSAGE": "无法合并联系人，请重试！"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

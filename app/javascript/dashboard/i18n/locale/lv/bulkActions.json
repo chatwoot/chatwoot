@@ -1,12 +1,13 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "Izvēlētas %{conversationCount} sarunas",
+    "CONVERSATIONS_SELECTED": "Izvēlētas {conversationCount} sarunas",
     "AGENT_SELECT_LABEL": "Izvēlieties aģentu",
-    "ASSIGN_CONFIRMATION_LABEL": "Vai patiešām vēlaties piesaistīt %{conversationCount} %{conversationLabel} pie",
-    "UNASSIGN_CONFIRMATION_LABEL": "Vai patiešām vēlaties atsaistīt %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "Vai patiešām vēlaties piesaistīt {conversationCount} {conversationLabel} pie",
+    "UNASSIGN_CONFIRMATION_LABEL": "Vai patiešām vēlaties atsaistīt {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Atgriezties",
     "ASSIGN_LABEL": "Piešķirt",
     "YES": "Jā",
+    "SEARCH_INPUT_PLACEHOLDER": "Meklēt",
     "ASSIGN_AGENT_TOOLTIP": "Piešķirt aģentu",
     "ASSIGN_TEAM_TOOLTIP": "Piešķirt komandu",
     "ASSIGN_SUCCESFUL": "Sarunas ir veiksmīgi piešķirtas.",

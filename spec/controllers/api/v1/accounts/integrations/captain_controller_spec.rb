@@ -1,65 +1,79 @@
 require 'rails_helper'
 
 RSpec.describe 'Captain Integrations API', type: :request do
-  let(:account) { create(:account) }
-  let(:admin) { create(:user, account: account, role: :administrator) }
-  let(:agent) { create(:user, account: account, role: :agent) }
-  let(:inbox) { create(:inbox, account: account) }
+  let!(:account) { create(:account) }
+  let!(:agent) { create(:user, account: account, role: :agent) }
+  let!(:hook) do
+    create(:integrations_hook, account: account, app_id: 'captain', settings: {
+             access_token: SecureRandom.hex,
+             account_email: Faker::Internet.email,
+             assistant_id: '1',
+             account_id: '1'
+           })
+  end
+  let(:captain_api_url) { 'https://captain.example.com/' }
 
-  describe 'GET /api/v1/accounts/{account.id}/integrations/captain/sso_url' do
+  before do
+    InstallationConfig.where(name: 'CAPTAIN_API_URL').first_or_create(value: captain_api_url)
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/integrations/captain/proxy' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        get sso_url_api_v1_account_integrations_captain_url(account_id: account.id),
-            params: {},
-            as: :json
+        post proxy_api_v1_account_integrations_captain_url(account_id: account.id),
+             params: { method: 'get', route: 'some_route' },
+             as: :json
 
         expect(response).to have_http_status(:unauthorized)
       end
     end
 
     context 'when it is an authenticated user' do
-      it 'return unauthorized if agent' do
-        get sso_url_api_v1_account_integrations_captain_url(account_id: account.id),
-            params: {},
-            headers: agent.create_new_auth_token,
-            as: :json
+      context 'when valid request method and route' do
+        let(:route) { 'some_route' }
+        let(:method) { 'get' }
 
-        expect(response).to have_http_status(:unauthorized)
+        it 'proxies the request to Captain API' do
+          stub_request(:get, "#{captain_api_url}api/accounts/#{hook.settings['account_id']}/#{route}")
+            .with(headers: {
+                    'X-User-Email' => hook.settings['account_email'],
+                    'X-User-Token' => hook.settings['access_token'],
+                    'Content-Type' => 'application/json'
+                  })
+            .to_return(status: 200, body: 'Success', headers: {})
+
+          post proxy_api_v1_account_integrations_captain_url(account_id: account.id),
+               params: { method: method, route: route },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(response.body).to eq('Success')
+        end
       end
 
-      it 'returns 404 if hook is not available' do
-        get sso_url_api_v1_account_integrations_captain_url(account_id: account.id),
-            params: {},
-            headers: admin.create_new_auth_token,
-            as: :json
+      context 'when HTTP method is invalid' do
+        it 'returns unprocessable entity' do
+          post proxy_api_v1_account_integrations_captain_url(account_id: account.id),
+               params: { method: 'invalid', route: 'some_route', body: { some: 'data' } },
+               headers: agent.create_new_auth_token,
+               as: :json
 
-        expect(response).to have_http_status(:not_found)
+          expect(response).to have_http_status(:internal_server_error)
+        end
       end
 
-      it 'returns sso url if hook is available' do
-        InstallationConfig.where(name: 'CAPTAIN_APP_URL').first_or_create(value: 'https://app.chatwoot.com')
+      context 'when the hook is not found' do
+        before { hook.destroy }
 
-        hook = create(:integrations_hook, account: account, app_id: 'captain', settings: {
-                        access_token: SecureRandom.hex,
-                        account_email: Faker::Internet.email,
-                        account_id: '1',
-                        assistant_id: '1',
-                        inbox_ids: '1'
-                      })
+        it 'returns not found' do
+          post proxy_api_v1_account_integrations_captain_url(account_id: account.id),
+               params: { method: 'get', route: 'some_route' },
+               headers: agent.create_new_auth_token,
+               as: :json
 
-        get sso_url_api_v1_account_integrations_captain_url(account_id: account.id),
-            params: {},
-            headers: admin.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:success)
-        data = response.parsed_body
-        params_string = "token=#{URI.encode_www_form_component(hook['settings']['access_token'])}" \
-                        "&email=#{URI.encode_www_form_component(hook['settings']['account_email'])}" \
-                        "&account_id=#{URI.encode_www_form_component(hook['settings']['account_id'])}"
-
-        sso_url = "https://app.chatwoot.com/sso?#{params_string}"
-        expect(data['sso_url']).to eq(sso_url)
+          expect(response).to have_http_status(:not_found)
+        end
       end
     end
   end

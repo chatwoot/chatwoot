@@ -4,8 +4,15 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "رویدادهای مشترک شده",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "انصراف",
         "DESC": "رویدادهای وب هوک اطلاعات لحظه‌ای حساب چت ووت شما را منتقل می‌کنند. لطفا آدرس URL صحیحی وارد کنید.",
@@ -69,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "تاییدیه حذف",
-          "MESSAGE": "آیا برای حذف وب‌هوک مطمئن هستید؟ \n(%{webhookURL})",
+          "MESSAGE": "آیا برای حذف وب‌هوک مطمئن هستید؟ \n({webhookURL})",
           "YES": "بله، حذف شود",
           "NO": "خیر، بماند"
         }
@@ -107,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "دستیار هوش مصنوعی",
-      "WITH_AI": " %{option} with AI ",
+      "WITH_AI": " {option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "پیشنهاد پاسخ",
         "SUMMARIZE": "Summarize",
@@ -209,7 +216,7 @@
         "CONFIRM_YES": "بله، حذف شود",
         "CONFIRM_NO": "خیر، بماند",
         "TITLE": "تاییدیه حذف",
-        "MESSAGE": "آیا مطمئن هستید که برنامه %{appName} حذف شود؟",
+        "MESSAGE": "آیا مطمئن هستید که برنامه {appName} حذف شود؟",
         "API_SUCCESS": "برنامه پیشخوان با موفقیت حذف شد",
         "API_ERROR": "ما نتوانستیم برنامه را حذف کنیم. لطفا بعدا دوباره امتحان کنید"
       }
@@ -228,7 +235,7 @@
         "ERROR": "There was an error fetching the linear issues, please try again",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -287,7 +294,7 @@
         "PRIORITY": "اولویت",
         "ASSIGNEE": "مسئول",
         "LABELS": "برچسب‌ها",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Unlink",

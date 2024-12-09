@@ -4,8 +4,8 @@
     "LOADING_CHART": "Diagrammdaten laden ...",
     "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
     "DOWNLOAD_AGENT_REPORTS": "Agenten-Berichte herunterladen",
-    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
-    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
+    "DATA_FETCHING_FAILED": "Daten konnten nicht abgerufen werden. Bitte versuchen Sie es später erneut.",
+    "SUMMARY_FETCHING_FAILED": "Zusammenfassung konnte nicht abgerufen werden. Bitte versuchen Sie es später erneut.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Konversationen",
@@ -23,13 +23,13 @@
         "NAME": "Erste Antwortzeit",
         "DESC": "( Durchschnitt )",
         "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
-        "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
+        "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt {metricValue} (basierend auf {conversationCount} Konversationen)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
         "DESC": "( Durchschnitt )",
         "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
-        "TOOLTIP_TEXT": "Die Lösungszeit beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
+        "TOOLTIP_TEXT": "Die Lösungszeit beträgt {metricValue} (basierend auf {conversationCount} Konversationen)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Auflösungsanzahl",
@@ -40,12 +40,12 @@
         "DESC": "( Gesamt )"
       },
       "BOT_HANDOFF_COUNT": {
-        "NAME": "Handoff Count",
+        "NAME": "Übergabezählung",
         "DESC": "( Gesamt )"
       },
       "REPLY_TIME": {
-        "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "NAME": "Wartezeit des Kunden",
+        "TOOLTIP_TEXT": "Die Wartezeit beträgt {metricValue} (basierend auf {conversationCount} Antworten)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -140,7 +140,7 @@
     ],
     "BUSINESS_HOURS": "Öffnungszeiten",
     "FILTER_ACTIONS": {
-      "CLEAR_FILTER": "Clear filter",
+      "CLEAR_FILTER": "Filter löschen",
       "EMPTY_LIST": "Keine Ergebnisse gefunden"
     }
   },
@@ -167,13 +167,13 @@
         "NAME": "Erste Antwortzeit",
         "DESC": "( Durchschnitt )",
         "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
-        "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
+        "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt {metricValue} (basierend auf {conversationCount} Konversationen)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
         "DESC": "( Durchschnitt )",
         "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
-        "TOOLTIP_TEXT": "Die Lösungszeit beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
+        "TOOLTIP_TEXT": "Die Lösungszeit beträgt {metricValue} (basierend auf {conversationCount} Konversationen)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Lösungsanzahl",
@@ -234,13 +234,13 @@
         "NAME": "Erste Antwortzeit",
         "DESC": "( Durchschnitt )",
         "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
-        "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
+        "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt {metricValue} (basierend auf {conversationCount} Konversationen)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
         "DESC": "( Durchschnitt )",
         "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
-        "TOOLTIP_TEXT": "Die Lösungszeit beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
+        "TOOLTIP_TEXT": "Die Lösungszeit beträgt {metricValue} (basierend auf {conversationCount} Konversationen)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Lösungsanzahl",
@@ -301,13 +301,13 @@
         "NAME": "Erste Antwortzeit",
         "DESC": "( Durchschnitt )",
         "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
-        "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
+        "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt {metricValue} (basierend auf {conversationCount} Konversationen)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
         "DESC": "( Durchschnitt )",
         "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
-        "TOOLTIP_TEXT": "Die Lösungszeit beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
+        "TOOLTIP_TEXT": "Die Lösungszeit beträgt {metricValue} (basierend auf {conversationCount} Konversationen)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Lösungsanzahl",
@@ -368,13 +368,13 @@
         "NAME": "Erste Antwortzeit",
         "DESC": "( Durchschnitt )",
         "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
-        "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
+        "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt {metricValue} (basierend auf {conversationCount} Konversationen)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
         "DESC": "( Durchschnitt )",
         "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
-        "TOOLTIP_TEXT": "Die Lösungszeit beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
+        "TOOLTIP_TEXT": "Die Lösungszeit beträgt {metricValue} (basierend auf {conversationCount} Konversationen)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Lösungsanzahl",
@@ -416,7 +416,7 @@
     "HEADER": "CSAT-Berichte",
     "NO_RECORDS": "Es sind keine Antworten zu CSAT Umfragen verfügbar.",
     "DOWNLOAD": "CSAT-Berichte herunterladen",
-    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
+    "DOWNLOAD_FAILED": "CSAT-Berichte konnten nicht heruntergeladen werden",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Agenten wählen"
@@ -446,23 +446,23 @@
     }
   },
   "BOT_REPORTS": {
-    "HEADER": "Bot Reports",
+    "HEADER": "Bot-Berichte",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
-        "LABEL": "No. of Conversations",
-        "TOOLTIP": "Total number of conversations handled by the bot"
+        "LABEL": "Anzahl der Konversationen",
+        "TOOLTIP": "Gesamtzahl der vom Bot bearbeiteten Konversationen"
       },
       "TOTAL_RESPONSES": {
-        "LABEL": "Total Responses",
-        "TOOLTIP": "Total number of responses sent by the bot"
+        "LABEL": "Gesamtanzahl Antworten",
+        "TOOLTIP": "Gesamtzahl der vom Bot gesendeten Antworten"
       },
       "RESOLUTION_RATE": {
-        "LABEL": "Resolution Rate",
-        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+        "LABEL": "Lösungsrate",
+        "TOOLTIP": "Gesamtzahl der vom Bot gelösten Konversationen / Gesamtzahl der vom Bot bearbeiteten Konversationen * 100"
       },
       "HANDOFF_RATE": {
-        "LABEL": "Handoff Rate",
-        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+        "LABEL": "Übergaberate",
+        "TOOLTIP": "Gesamtzahl der an Agenten übergebenen Konversationen / Gesamtzahl der vom Bot bearbeiteten Konversationen * 100"
       }
     }
   },
@@ -480,8 +480,9 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Gesprächsprotokoll",
       "NO_CONVERSATIONS": "Keine Konversation",
-      "CONVERSATION": "%{count} Konversation",
-      "CONVERSATIONS": "%{count} Konversationen"
+      "CONVERSATION": "{count} Konversation",
+      "CONVERSATIONS": "{count} Konversationen",
+      "DOWNLOAD_REPORT": "Bericht herunterladen"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Konversationen von Agenten",
@@ -502,29 +503,29 @@
     }
   },
   "DAYS_OF_WEEK": {
-    "SUNDAY": "Sunday",
-    "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
+    "SUNDAY": "Sonntag",
+    "MONDAY": "Montag",
+    "TUESDAY": "Dienstag",
+    "WEDNESDAY": "Mittwoch",
+    "THURSDAY": "Donnerstag",
+    "FRIDAY": "Freitag",
+    "SATURDAY": "Samstag"
   },
   "SLA_REPORTS": {
-    "HEADER": "SLA Reports",
-    "NO_RECORDS": "SLA applied conversations are not available.",
-    "LOADING": "Loading SLA data...",
-    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
-    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "HEADER": "SLA-Berichte",
+    "NO_RECORDS": "SLA-angewandte Unterhaltungen sind nicht verfügbar.",
+    "LOADING": "Lade SLA-Daten...",
+    "DOWNLOAD_SLA_REPORTS": "SLA-Berichte herunterladen",
+    "DOWNLOAD_FAILED": "SLA-Berichte konnten nicht heruntergeladen werden",
     "DROPDOWN": {
       "ADD_FIlTER": "Filter hinzufügen",
-      "CLEAR_ALL": "Clear all",
-      "CLEAR_FILTER": "Clear filter",
+      "CLEAR_ALL": "Alle löschen",
+      "CLEAR_FILTER": "Filter löschen",
       "EMPTY_LIST": "Keine Ergebnisse gefunden",
-      "NO_FILTER": "No filters available",
-      "SEARCH": "Search filter",
+      "NO_FILTER": "Keine Filter verfügbar",
+      "SEARCH": "Suchfilter",
       "INPUT_PLACEHOLDER": {
-        "SLA": "SLA name",
+        "SLA": "SLA-Name",
         "AGENTS": "Agentenname",
         "INBOXES": "Posteingangsname",
         "LABELS": "Labelname",
@@ -536,27 +537,28 @@
       "LABELS": "Label",
       "TEAMS": "Team"
     },
+    "WITH": "mit",
     "METRICS": {
       "HIT_RATE": {
-        "LABEL": "Hit Rate",
-        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+        "LABEL": "Trefferquote",
+        "TOOLTIP": "Prozentsatz der erstellten SLAs, die erfolgreich abgeschlossen wurden"
       },
       "NO_OF_MISSES": {
-        "LABEL": "Number of Misses",
-        "TOOLTIP": "Total SLA misses in a certain period"
+        "LABEL": "Anzahl der Verfehlungen",
+        "TOOLTIP": "Gesamtanzahl der SLA-Verfehlungen in einem bestimmten Zeitraum"
       },
       "NO_OF_CONVERSATIONS": {
-        "LABEL": "Number of Conversations",
-        "TOOLTIP": "Total number of conversations with SLA"
+        "LABEL": "Anzahl der Konversationen",
+        "TOOLTIP": "Gesamtzahl der Konversationen mit SLA"
       }
     },
     "TABLE": {
       "HEADER": {
-        "POLICY": "Policy",
+        "POLICY": "Richtlinie",
         "CONVERSATION": "Konversation",
         "AGENT": "Agent"
       },
-      "VIEW_DETAILS": "View Details"
+      "VIEW_DETAILS": "Details anzeigen"
     }
   }
 }

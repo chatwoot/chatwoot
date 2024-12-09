@@ -41,6 +41,7 @@
         "UPLOADING": "Frissítés...",
         "SUCCESS": "Képfeltöltés sikeres",
         "ERROR": "Hiba a kép feltöltésekor",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "A kép mérete kevesebb, mint {size} MB",
         "ERROR_FILE_FORMAT": "A kép formátuma legyen jpg, jpeg vagy png",
         "ERROR_FILE_DIMENSIONS": "A kép felbontása kevesebb legyen, mint 2000 x 2000"
@@ -83,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Kategorizálhatatlan",
-      "SEARCH_RESULTS": "Keresési eredmények %{query}",
+      "SEARCH_RESULTS": "Keresési eredmények {query}",
       "EMPTY_TEXT": "Cikkek keresése a válaszokba való beillesztéshez.",
       "SEARCH_LOADER": "Keresés...",
       "INSERT_ARTICLE": "Beszúrás",
@@ -481,6 +482,7 @@
           "DESCRIPTION": "Használja a portált fej nélküli CMS-ként harmadik féltől származó front-end keretrendszerekkel a mi API-ink segítségével."
         }
       }
-    }
+    },
+    "LOADING": "Loading..."
   }
 }

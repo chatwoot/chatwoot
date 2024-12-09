@@ -1,5 +1,7 @@
 <script>
 export default {
+  emits: ['notes', 'events', 'conversation'],
+
   methods: {
     onClickNotes() {
       this.$emit('notes');

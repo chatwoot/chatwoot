@@ -18,6 +18,7 @@
       "AND": "且",
       "OR": "或"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "等於",
       "not_equal_to": "不等於",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "勾選框",
       "CREATED_AT": "建立於",
       "LAST_ACTIVITY": "最後活動"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "此欄位為必填項目"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "一般查詢條件",

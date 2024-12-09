@@ -1,34 +1,31 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Inboxes",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "There are no inboxes attached to this account."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Choose Channel",
-        "route": "settings_inbox_new",
-        "body": "Choose the provider you want to integrate with Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Choose Channel",
+        "BODY": "Choose the provider you want to integrate with Chatwoot."
       },
-      {
-        "title": "Create Inbox",
-        "route": "settings_inboxes_page_channel",
-        "body": "Authenticate your account and create an inbox."
+      "INBOX": {
+        "TITLE": "Create Inbox",
+        "BODY": "Authenticate your account and create an inbox."
       },
-      {
-        "title": "Add Agents",
-        "route": "settings_inboxes_add_agents",
-        "body": "Add agents to the created inbox."
+      "AGENT": {
+        "TITLE": "Add Agents",
+        "BODY": "Add agents to the created inbox."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "You are all set to go!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "You are all set to go!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Inbox Name",
@@ -745,6 +742,18 @@
       "MICROSOFT": "Microsoft",
       "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Other Providers"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "Email",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API Channel"
     }
   }
 }

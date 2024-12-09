@@ -23,13 +23,13 @@
         "NAME": "Primer Temps de Resposta",
         "DESC": "( Promig )",
         "INFO_TEXT": "Nombre total de converses utilitzades per al càlcul:",
-        "TOOLTIP_TEXT": "El temps de primera resposta (FRT) és %{metricValue} (basat en %{conversationCount} converses)"
+        "TOOLTIP_TEXT": "El temps de primera resposta (FRT) és {metricValue} (basat en {conversationCount} converses)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de resolució",
         "DESC": "( Promig )",
         "INFO_TEXT": "Nombre total de converses utilitzades per al càlcul:",
-        "TOOLTIP_TEXT": "El temps de resolució (RT) és %{metricValue} (basat en %{conversationCount} converses)"
+        "TOOLTIP_TEXT": "El temps de resolució (RT) és {metricValue} (basat en {conversationCount} converses)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Total de resolucions",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Temps d'espera del client",
-        "TOOLTIP_TEXT": "El temps d'espera és %{metricValue} (basat en %{conversationCount} respostes)"
+        "TOOLTIP_TEXT": "El temps d'espera és {metricValue} (basat en {conversationCount} respostes)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -167,13 +167,13 @@
         "NAME": "Primer Temps de Resposta",
         "DESC": "( Promig )",
         "INFO_TEXT": "Nombre total de converses utilitzades per al càlcul:",
-        "TOOLTIP_TEXT": "El temps de primera resposta (FRT) és %{metricValue} (basat en %{conversationCount} converses)"
+        "TOOLTIP_TEXT": "El temps de primera resposta (FRT) és {metricValue} (basat en {conversationCount} converses)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de resolució",
         "DESC": "( Promig )",
         "INFO_TEXT": "Nombre total de converses utilitzades per al càlcul:",
-        "TOOLTIP_TEXT": "El temps de resolució (RT) és %{metricValue} (basat en %{conversationCount} converses)"
+        "TOOLTIP_TEXT": "El temps de resolució (RT) és {metricValue} (basat en {conversationCount} converses)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Total de resolucions",
@@ -234,13 +234,13 @@
         "NAME": "Primer Temps de Resposta",
         "DESC": "(Mitjana)",
         "INFO_TEXT": "Nombre total de converses utilitzades per al càlcul:",
-        "TOOLTIP_TEXT": "El temps de primera resposta (FRT) és %{metricValue} (basat en %{conversationCount} converses)"
+        "TOOLTIP_TEXT": "El temps de primera resposta (FRT) és {metricValue} (basat en {conversationCount} converses)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de resolució",
         "DESC": "( Promig )",
         "INFO_TEXT": "Nombre total de converses utilitzades per al càlcul:",
-        "TOOLTIP_TEXT": "El temps de resolució (RT) és %{metricValue} (basat en %{conversationCount} converses)"
+        "TOOLTIP_TEXT": "El temps de resolució (RT) és {metricValue} (basat en {conversationCount} converses)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Total de resolucions",
@@ -301,13 +301,13 @@
         "NAME": "Primer Temps de Resposta",
         "DESC": "( Promig )",
         "INFO_TEXT": "Nombre total de converses utilitzades per al càlcul:",
-        "TOOLTIP_TEXT": "El temps de primera resposta (FRT) és %{metricValue} (basat en %{conversationCount} converses)"
+        "TOOLTIP_TEXT": "El temps de primera resposta (FRT) és {metricValue} (basat en {conversationCount} converses)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de resolució",
         "DESC": "( Promig )",
         "INFO_TEXT": "Nombre total de converses utilitzades per al càlcul:",
-        "TOOLTIP_TEXT": "El temps de resolució (RT) és %{metricValue} (basat en %{conversationCount} converses)"
+        "TOOLTIP_TEXT": "El temps de resolució (RT) és {metricValue} (basat en {conversationCount} converses)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Total de resolucions",
@@ -368,13 +368,13 @@
         "NAME": "Primer Temps de Resposta",
         "DESC": "( Promig )",
         "INFO_TEXT": "Nombre total de converses utilitzades per al càlcul:",
-        "TOOLTIP_TEXT": "El temps de primera resposta (FRT) és %{metricValue} (basat en %{conversationCount} converses)"
+        "TOOLTIP_TEXT": "El temps de primera resposta (FRT) és {metricValue} (basat en {conversationCount} converses)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de resolució",
         "DESC": "( Promig )",
         "INFO_TEXT": "Nombre total de converses utilitzades per al càlcul:",
-        "TOOLTIP_TEXT": "El temps de resolució (RT) és %{metricValue} (basat en %{conversationCount} converses)"
+        "TOOLTIP_TEXT": "El temps de resolució (RT) és {metricValue} (basat en {conversationCount} converses)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Total de resolucions",
@@ -480,8 +480,9 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Trànsit de conversa",
       "NO_CONVERSATIONS": "Sense converses",
-      "CONVERSATION": "%{count} conversa",
-      "CONVERSATIONS": "%{count} converses"
+      "CONVERSATION": "{count} conversa",
+      "CONVERSATIONS": "{count} converses",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Converses per agents",
@@ -536,6 +537,7 @@
       "LABELS": "Etiqueta",
       "TEAMS": "Equip"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Proporció d'encerts",

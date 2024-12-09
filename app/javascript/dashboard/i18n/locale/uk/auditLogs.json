@@ -3,17 +3,15 @@
     "HEADER": "Логи аудиту",
     "HEADER_BTN_TXT": "Додати логи",
     "LOADING": "Завантаження логів",
+    "DESCRIPTION": "Audit Logs maintain a record of activities in your account, allowing you to track and audit your account, team, or services.",
+    "LEARN_MORE": "Learn more about audit logs",
     "SEARCH_404": "Немає елементів, що відповідають запиту",
     "SIDEBAR_TXT": "<p><b>Логи аудиту</b> </p><p> Логи - це історія всіх подій в системі Chatwoot. </p>",
     "LIST": {
       "404": "У цьому акаунті немає логів.",
       "TITLE": "Керувати логами",
       "DESC": " Логи - це історія всіх подій в системі Chatwoot.",
-      "TABLE_HEADER": [
-        "Користувач",
-        "Дія",
-        "IP-адреса"
-      ]
+      "TABLE_HEADER": ["Користувач", "Дія", "IP-адреса"]
     },
     "API": {
       "SUCCESS_MESSAGE": "Логи успішно отримано",
@@ -21,51 +19,52 @@
     },
     "DEFAULT_USER": "Система",
     "AUTOMATION_RULE": {
-      "ADD": "%{agentName} створив нове правило автоматизації (#%{id})",
-      "EDIT": "%{agentName} оновив правило автоматизації (#%{id})",
-      "DELETE": "%{agentName} видалив правило автоматизації (#%{id})"
+      "ADD": "{agentName} створив нове правило автоматизації (#{id})",
+      "EDIT": "{agentName} оновив правило автоматизації (#{id})",
+      "DELETE": "{agentName} видалив правило автоматизації (#{id})"
     },
     "ACCOUNT_USER": {
-      "ADD": "%{agentName} запросив %{invitee} на акаунт як %{role}",
+      "ADD": "{agentName} запросив {invitee} на акаунт як {role}",
       "EDIT": {
-        "SELF": "%{agentName} змінив свій %{attributes} на %{values}",
-        "OTHER": "%{agentName} змінив %{attributes} %{user} на %{values}"
+        "SELF": "{agentName} змінив свій {attributes} на {values}",
+        "OTHER": "{agentName} змінив {attributes} {user} на {values}",
+        "DELETED": "{agentName} changed {attributes} of a deleted user to {values}"
       }
     },
     "INBOX": {
-      "ADD": "%{agentName} створив нову папку вхідних (#%{id})",
-      "EDIT": "%{agentName} оновив папку \"Вхідні\" (#%{id})",
-      "DELETE": "%{agentName} видалив папку \"Вхідні\" (#%{id})"
+      "ADD": "{agentName} створив нову папку вхідних (#{id})",
+      "EDIT": "{agentName} оновив папку \"Вхідні\" (#{id})",
+      "DELETE": "{agentName} видалив папку \"Вхідні\" (#{id})"
     },
     "WEBHOOK": {
-      "ADD": "%{agentName} створив новий webhook (#%{id})",
-      "EDIT": "%{agentName} оновив webhook (#%{id})",
-      "DELETE": "%{agentName} видалив webhook (#%{id})"
+      "ADD": "{agentName} створив новий webhook (#{id})",
+      "EDIT": "{agentName} оновив webhook (#{id})",
+      "DELETE": "{agentName} видалив webhook (#{id})"
     },
     "USER_ACTION": {
-      "SIGN_IN": "Увійшов %{agentName}",
-      "SIGN_OUT": "Вийшов %{agentName}"
+      "SIGN_IN": "Увійшов {agentName}",
+      "SIGN_OUT": "Вийшов {agentName}"
     },
     "TEAM": {
-      "ADD": "%{agentName} створив нову команду (#%{id})",
-      "EDIT": "%{agentName} оновив команду (#%{id})",
-      "DELETE": "%{agentName} видалив команду (#%{id})"
+      "ADD": "{agentName} створив нову команду (#{id})",
+      "EDIT": "{agentName} оновив команду (#{id})",
+      "DELETE": "{agentName} видалив команду (#{id})"
     },
     "MACRO": {
-      "ADD": "%{agentName} створив новий макрос (#%{id})",
-      "EDIT": "%{agentName} оновив макрос (#%{id})",
-      "DELETE": "%{agentName} видалив макрос (#%{id})"
+      "ADD": "{agentName} створив новий макрос (#{id})",
+      "EDIT": "{agentName} оновив макрос (#{id})",
+      "DELETE": "{agentName} видалив макрос (#{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "%{agentName} додав %{user} до папки \"Вхідні\" (#%{inbox_id})",
-      "REMOVE": "%{agentName} видалив %{user} з папки \"Вхідні\" (#%{inbox_id})"
+      "ADD": "{agentName} додав {user} до папки \"Вхідні\" (#{inbox_id})",
+      "REMOVE": "{agentName} видалив {user} з папки \"Вхідні\" (#{inbox_id})"
     },
     "TEAM_MEMBER": {
-      "ADD": "%{agentName} додав %{user} до команди (#%{team_id})",
-      "REMOVE": "%{agentName} видалив %{user} з команди (#%{team_id})"
+      "ADD": "{agentName} додав {user} до команди (#{team_id})",
+      "REMOVE": "{agentName} видалив {user} з команди (#{team_id})"
     },
     "ACCOUNT": {
-      "EDIT": "%{agentName} оновив налаштування облікового запису (#%{id})"
+      "EDIT": "{agentName} оновив налаштування облікового запису (#{id})"
     }
   }
 }

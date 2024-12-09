@@ -1,7 +1,7 @@
 {
   "CONTACT_PANEL": {
     "NOT_AVAILABLE": "Not Available",
-    "EMAIL_ADDRESS": "Email Address",
+    "EMAIL_ADDRESS": "Adresa e-pošte",
     "PHONE_NUMBER": "Phone number",
     "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
@@ -44,7 +44,7 @@
     "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
     "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
     "SEND_TRANSCRIPT": "Send Transcript",
-    "EDIT_LABEL": "Edit",
+    "EDIT_LABEL": "Uredi",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Custom Attributes",
       "CONTACT_LABELS": "Contact Labels",
@@ -70,7 +70,7 @@
     "FORM": {
       "LABEL": "CSV File",
       "SUBMIT": "Import",
-      "CANCEL": "Cancel"
+      "CANCEL": "Odustani"
     },
     "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
     "ERROR_MESSAGE": "There was an error, please try again"
@@ -91,7 +91,7 @@
   },
   "DELETE_NOTE": {
     "CONFIRM": {
-      "TITLE": "Confirm Deletion",
+      "TITLE": "Potvrdi brisanje",
       "MESSAGE": "Are you want sure to delete this note?",
       "YES": "Yes, Delete it",
       "NO": "No, Keep it"
@@ -102,7 +102,7 @@
     "TITLE": "Delete contact",
     "DESC": "Delete contact details",
     "CONFIRM": {
-      "TITLE": "Confirm Deletion",
+      "TITLE": "Potvrdi brisanje",
       "MESSAGE": "Are you sure to delete ",
       "YES": "Yes, Delete",
       "NO": "No, Keep"
@@ -115,7 +115,7 @@
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Submit",
-      "CANCEL": "Cancel",
+      "CANCEL": "Odustani",
       "AVATAR": {
         "LABEL": "Contact Avatar"
       },
@@ -129,7 +129,7 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Enter the email address of the contact",
-        "LABEL": "Email Address",
+        "LABEL": "Adresa e-pošte",
         "DUPLICATE": "This email address is in use for another contact.",
         "ERROR": "Please enter a valid email address."
       },
@@ -217,7 +217,7 @@
         "HELP_TEXT": "Drag and drop files here or choose files to attach"
       },
       "SUBMIT": "Send message",
-      "CANCEL": "Cancel",
+      "CANCEL": "Odustani",
       "SUCCESS_MESSAGE": "Message sent!",
       "GO_TO_CONVERSATION": "View",
       "ERROR_MESSAGE": "Couldn't send! try again"
@@ -229,15 +229,15 @@
     "SEARCH_BUTTON": "Search",
     "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
     "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS_SAVE": "Spremi filter",
+    "FILTER_CONTACTS_DELETE": "Izbriši filter",
     "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
       "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
-        "NAME": "Name",
+        "NAME": "Ime",
         "PHONE_NUMBER": "Phone Number",
         "CONVERSATIONS": "Conversations",
         "LAST_ACTIVITY": "Last Activity",
@@ -246,7 +246,7 @@
         "CITY": "City",
         "SOCIAL_PROFILES": "Social Profiles",
         "COMPANY": "Company",
-        "EMAIL_ADDRESS": "Email Address"
+        "EMAIL_ADDRESS": "Adresa e-pošte"
       },
       "VIEW_DETAILS": "View details"
     }
@@ -311,7 +311,7 @@
     },
     "FORM": {
       "CREATE": "Add attribute",
-      "CANCEL": "Cancel",
+      "CANCEL": "Odustani",
       "NAME": {
         "LABEL": "Custom attribute name",
         "PLACEHOLDER": "Eg: shopify id",
@@ -367,20 +367,23 @@
     },
     "SUMMARY": {
       "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{primaryContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{primaryContactName}</strong> will be copied to <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Contact of <strong>{primaryContactName}</strong> will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>{primaryContactName}</strong> will be copied to <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
     },
     "FORM": {
       "SUBMIT": " Merge contacts",
-      "CANCEL": "Cancel",
+      "CANCEL": "Odustani",
       "CHILD_CONTACT": {
         "ERROR": "Select a child contact to merge"
       },
       "SUCCESS_MESSAGE": "Contact merged successfully",
       "ERROR_MESSAGE": "Could not merge contacts, try again!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

@@ -1,21 +1,27 @@
 <script>
 import { mapGetters } from 'vuex';
-import automationMethodsMixin from 'dashboard/mixins/automations/methodsMixin';
+import { useAutomation } from 'dashboard/composables/useAutomation';
+import { useEditableAutomation } from 'dashboard/composables/useEditableAutomation';
 import FilterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
 import AutomationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
-
 import {
-  AUTOMATION_RULE_EVENTS,
-  AUTOMATION_ACTION_TYPES,
-  AUTOMATIONS,
-} from './constants';
+  getFileName,
+  generateAutomationPayload,
+  getAttributes,
+  getInputType,
+  getOperators,
+  getCustomAttributeType,
+  showActionInput,
+} from 'dashboard/helper/automationHelper';
+import { validateAutomation } from 'dashboard/helper/validations';
+
+import { AUTOMATION_RULE_EVENTS, AUTOMATION_ACTION_TYPES } from './constants';
 
 export default {
   components: {
     FilterInputBox,
     AutomationActionInput,
   },
-  mixins: [automationMethodsMixin],
   props: {
     onClose: {
       type: Function,
@@ -26,14 +32,45 @@ export default {
       default: () => {},
     },
   },
+  emits: ['saveAutomation'],
+  setup() {
+    const {
+      automation,
+      automationTypes,
+      onEventChange,
+      getConditionDropdownValues,
+      appendNewCondition,
+      appendNewAction,
+      removeFilter,
+      removeAction,
+      resetFilter,
+      resetAction,
+      getActionDropdownValues,
+      manifestCustomAttributes,
+    } = useAutomation();
+    const { formatAutomation } = useEditableAutomation();
+    return {
+      automation,
+      automationTypes,
+      onEventChange,
+      getConditionDropdownValues,
+      appendNewCondition,
+      appendNewAction,
+      removeFilter,
+      removeAction,
+      resetFilter,
+      resetAction,
+      getActionDropdownValues,
+      formatAutomation,
+      manifestCustomAttributes,
+    };
+  },
   data() {
     return {
-      automationTypes: JSON.parse(JSON.stringify(AUTOMATIONS)),
       automationRuleEvent: AUTOMATION_RULE_EVENTS[0].key,
       automationRuleEvents: AUTOMATION_RULE_EVENTS,
       automationMutated: false,
       show: true,
-      automation: null,
       showDeleteConfirmationModal: false,
       allCustomAttributes: [],
       mode: 'edit',
@@ -63,11 +100,30 @@ export default {
   mounted() {
     this.manifestCustomAttributes();
     this.allCustomAttributes = this.$store.getters['attributes/getAttributes'];
-    this.formatAutomation(this.selectedResponse);
+
+    this.automation = this.formatAutomation(
+      this.selectedResponse,
+      this.allCustomAttributes,
+      this.automationTypes,
+      this.automationActionTypes
+    );
   },
   methods: {
+    getFileName,
+    getAttributes,
+    getInputType,
+    getOperators,
+    getCustomAttributeType,
+    showActionInput,
     isFeatureEnabled(flag) {
       return this.isFeatureEnabledonAccount(this.accountId, flag);
+    },
+    emitSaveAutomation() {
+      this.errors = validateAutomation(this.automation);
+      if (Object.keys(this.errors).length === 0) {
+        const automation = generateAutomationPayload(this.automation);
+        this.$emit('saveAutomation', automation, this.mode);
+      }
     },
   },
 };
@@ -99,7 +155,10 @@ export default {
         <div class="event_wrapper">
           <label :class="{ error: errors.event_name }">
             {{ $t('AUTOMATION.ADD.FORM.EVENT.LABEL') }}
-            <select v-model="automation.event_name" @change="onEventChange()">
+            <select
+              v-model="automation.event_name"
+              @change="onEventChange(automation)"
+            >
               <option
                 v-for="event in automationRuleEvents"
                 :key="event.key"
@@ -125,16 +184,37 @@ export default {
               v-for="(condition, i) in automation.conditions"
               :key="i"
               v-model="automation.conditions[i]"
-              :filter-attributes="getAttributes(automation.event_name)"
-              :input-type="getInputType(automation.conditions[i].attribute_key)"
-              :operators="getOperators(automation.conditions[i].attribute_key)"
+              :filter-attributes="
+                getAttributes(automationTypes, automation.event_name)
+              "
+              :input-type="
+                getInputType(
+                  allCustomAttributes,
+                  automationTypes,
+                  automation,
+                  automation.conditions[i].attribute_key
+                )
+              "
+              :operators="
+                getOperators(
+                  allCustomAttributes,
+                  automationTypes,
+                  automation,
+                  mode,
+                  automation.conditions[i].attribute_key
+                )
+              "
               :dropdown-values="
                 getConditionDropdownValues(
                   automation.conditions[i].attribute_key
                 )
               "
               :custom-attribute-type="
-                getCustomAttributeType(automation.conditions[i].attribute_key)
+                getCustomAttributeType(
+                  automationTypes,
+                  automation,
+                  automation.conditions[i].attribute_key
+                )
               "
               :show-query-operator="i !== automation.conditions.length - 1"
               :error-message="
@@ -142,8 +222,8 @@ export default {
                   ? $t(`AUTOMATION.ERRORS.${errors[`condition_${i}`]}`)
                   : ''
               "
-              @resetFilter="resetFilter(i, automation.conditions[i])"
-              @removeFilter="removeFilter(i)"
+              @reset-filter="resetFilter(i, automation.conditions[i])"
+              @remove-filter="removeFilter(i)"
             />
             <div class="mt-4">
               <woot-button
@@ -173,15 +253,17 @@ export default {
               v-model="automation.actions[i]"
               :action-types="automationActionTypes"
               :dropdown-values="getActionDropdownValues(action.action_name)"
-              :show-action-input="showActionInput(action.action_name)"
+              :show-action-input="
+                showActionInput(automationActionTypes, action.action_name)
+              "
               :error-message="
                 errors[`action_${i}`]
                   ? $t(`AUTOMATION.ERRORS.${errors[`action_${i}`]}`)
                   : ''
               "
               :initial-file-name="getFileName(action, automation.files)"
-              @resetAction="resetAction(i)"
-              @removeAction="removeAction(i)"
+              @reset-action="resetAction(i)"
+              @remove-action="removeAction(i)"
             />
             <div class="mt-4">
               <woot-button
@@ -206,7 +288,7 @@ export default {
             >
               {{ $t('AUTOMATION.EDIT.CANCEL_BUTTON_TEXT') }}
             </woot-button>
-            <woot-button @click="submitAutomation">
+            <woot-button @click="emitSaveAutomation">
               {{ $t('AUTOMATION.EDIT.SUBMIT') }}
             </woot-button>
           </div>

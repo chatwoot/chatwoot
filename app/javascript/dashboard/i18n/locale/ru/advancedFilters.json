@@ -18,6 +18,7 @@
       "AND": "И",
       "OR": "ИЛИ"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Равно",
       "not_equal_to": "Не равно",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Флажок",
       "CREATED_AT": "Дата создания",
       "LAST_ACTIVITY": "Последние действия"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Необходимо указать значение"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Стандартные фильтры",

@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Összegzés",
-      "DELETE_WARNING": "<strong>%{primaryContactName}</strong> kontaktja törlésre kerül.",
-      "ATTRIBUTE_WARNING": "<strong>%{primaryContactName}</strong> kontakt adatai át lesznek másolva hozzá: <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "<strong>{primaryContactName}</strong> kontaktja törlésre kerül.",
+      "ATTRIBUTE_WARNING": "<strong>{primaryContactName}</strong> kontakt adatai át lesznek másolva hozzá: <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "HIBA_ÜZENET"
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Kontakt összevonása sikeres",
       "ERROR_MESSAGE": "Nem sikerült a kontaktot összevonni, próbáld újra!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

@@ -3,6 +3,8 @@
     "HEADER": "Jurnale de audit",
     "HEADER_BTN_TXT": "Adăugarea jurnalelor de audit",
     "LOADING": "Preluarea jurnalelor de audit",
+    "DESCRIPTION": "Audit Logs maintain a record of activities in your account, allowing you to track and audit your account, team, or services.",
+    "LEARN_MORE": "Learn more about audit logs",
     "SEARCH_404": "Nu există elemente care să corespundă acestei interogări",
     "SIDEBAR_TXT": "<p><b>Jurnale de audit</b> </p><p> Jurnalele de audit sunt piste pentru evenimente și acțiuni într-un sistem Chatwoot. </p>",
     "LIST": {
@@ -21,51 +23,52 @@
     },
     "DEFAULT_USER": "Sistem",
     "AUTOMATION_RULE": {
-      "ADD": "%{agentName} a creat o nouă regulă de automatizare (#%{id})",
-      "EDIT": "%{agentName} a actualizat o regulă de automatizare (#%{id})",
-      "DELETE": "%{agentName} a șters o regulă de automatizare (#%{id})"
+      "ADD": "{agentName} a creat o nouă regulă de automatizare (#{id})",
+      "EDIT": "{agentName} a actualizat o regulă de automatizare (#{id})",
+      "DELETE": "{agentName} a șters o regulă de automatizare (#{id})"
     },
     "ACCOUNT_USER": {
-      "ADD": "%{agentName} invited %{invitee} to the account as an %{role}",
+      "ADD": "{agentName} invited {invitee} to the account as an {role}",
       "EDIT": {
-        "SELF": "%{agentName} changed their %{attributes} to %{values}",
-        "OTHER": "%{agentName} changed %{attributes} of %{user} to %{values}"
+        "SELF": "{agentName} changed their {attributes} to {values}",
+        "OTHER": "{agentName} changed {attributes} of {user} to {values}",
+        "DELETED": "{agentName} changed {attributes} of a deleted user to {values}"
       }
     },
     "INBOX": {
-      "ADD": "%{agentName} a creat un nou inbox (#%{id})",
-      "EDIT": "%{agentName} a actualizat un inbox (#%{id})",
-      "DELETE": "%{agentName} a șters un inbox (#%{id})"
+      "ADD": "{agentName} a creat un nou inbox (#{id})",
+      "EDIT": "{agentName} a actualizat un inbox (#{id})",
+      "DELETE": "{agentName} a șters un inbox (#{id})"
     },
     "WEBHOOK": {
-      "ADD": "%{agentName} a creat un nou webhook (#%{id})",
-      "EDIT": "%{agentName} a actualizat un webhook (#%{id})",
-      "DELETE": "%{agentName} a șters un webhook (#%{id})"
+      "ADD": "{agentName} a creat un nou webhook (#{id})",
+      "EDIT": "{agentName} a actualizat un webhook (#{id})",
+      "DELETE": "{agentName} a șters un webhook (#{id})"
     },
     "USER_ACTION": {
-      "SIGN_IN": "%{agentName} s-a autentificat",
-      "SIGN_OUT": "%{agentName} s-a deconectat"
+      "SIGN_IN": "{agentName} s-a autentificat",
+      "SIGN_OUT": "{agentName} s-a deconectat"
     },
     "TEAM": {
-      "ADD": "%{agentName} a creat o nouă echipa (#%{id})",
-      "EDIT": "%{agentName} a actualizat o echipa (#%{id})",
-      "DELETE": "%{agentName} a șters o echipa (#%{id})"
+      "ADD": "{agentName} a creat o nouă echipa (#{id})",
+      "EDIT": "{agentName} a actualizat o echipa (#{id})",
+      "DELETE": "{agentName} a șters o echipa (#{id})"
     },
     "MACRO": {
-      "ADD": "%{agentName} created a new macro (#%{id})",
-      "EDIT": "%{agentName} updated a macro (#%{id})",
-      "DELETE": "%{agentName} deleted a macro (#%{id})"
+      "ADD": "{agentName} created a new macro (#{id})",
+      "EDIT": "{agentName} updated a macro (#{id})",
+      "DELETE": "{agentName} deleted a macro (#{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "%{agentName} added %{user} to the inbox(#%{inbox_id})",
-      "REMOVE": "%{agentName} removed %{user} from the inbox(#%{inbox_id})"
+      "ADD": "{agentName} added {user} to the inbox(#{inbox_id})",
+      "REMOVE": "{agentName} removed {user} from the inbox(#{inbox_id})"
     },
     "TEAM_MEMBER": {
-      "ADD": "%{agentName} added %{user} to the team(#%{team_id})",
-      "REMOVE": "%{agentName} removed %{user} from the team(#%{team_id})"
+      "ADD": "{agentName} added {user} to the team(#{team_id})",
+      "REMOVE": "{agentName} removed {user} from the team(#{team_id})"
     },
     "ACCOUNT": {
-      "EDIT": "%{agentName} updated the account configuration (#%{id})"
+      "EDIT": "{agentName} updated the account configuration (#{id})"
     }
   }
 }

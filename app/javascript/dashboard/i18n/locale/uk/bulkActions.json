@@ -1,12 +1,13 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "Обрано %{conversationCount} розмов",
+    "CONVERSATIONS_SELECTED": "Обрано {conversationCount} розмов",
     "AGENT_SELECT_LABEL": "Виберіть агента",
-    "ASSIGN_CONFIRMATION_LABEL": "Ви впевнені, що хочете призначити %{conversationCount} %{conversationLabel} до",
-    "UNASSIGN_CONFIRMATION_LABEL": "Ви впевнені, що хочете скасувати призначення %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "Ви впевнені, що хочете призначити {conversationCount} {conversationLabel} до",
+    "UNASSIGN_CONFIRMATION_LABEL": "Ви впевнені, що хочете скасувати призначення {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Повернутися назад",
     "ASSIGN_LABEL": "Призначити",
     "YES": "Так",
+    "SEARCH_INPUT_PLACEHOLDER": "Пошук",
     "ASSIGN_AGENT_TOOLTIP": "Призначити агента",
     "ASSIGN_TEAM_TOOLTIP": "Призначити команду",
     "ASSIGN_SUCCESFUL": "Розмови успішно призначені.",

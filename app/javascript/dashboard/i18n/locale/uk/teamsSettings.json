@@ -2,10 +2,13 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Створити нову команду",
     "HEADER": "Команди",
-    "SIDEBAR_TXT": "<p><b>Команди</b></p> <p>команд дозволяють організовувати своїх агентів в групи на основі їх обов'язків. <br /> агент може бути частиною кількох команд. Ви можете призначити розмови команді, коли працюєте спільно. </p>",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "В цьому обліковому запису не створено жодної команди.",
-      "EDIT_TEAM": "Редагувати команду"
+      "EDIT_TEAM": "Редагувати команду",
+      "NONE": "Нiчого"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -14,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Додати агентів до команди",
-        "TITLE": "Додати агентів до команди - %{teamName}",
+        "TITLE": "Додати агентів до команди - {teamName}",
         "DESC": "Додати співробітників до новоствореної команди. Це дозволить вам співпрацювати як команда в розмовах, отримувати повідомлення про нові події в тій самій розмові."
       },
       "WIZARD": [
@@ -43,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Оновити агентів у команді",
-        "TITLE": "Додати агентів до команди - %{teamName}",
+        "TITLE": "Додати агентів до команди - {teamName}",
         "DESC": "Додати агентів до щойно створеної команди. Всі додані агенти будуть повідомлені, коли буде присвоєна розмова в цій команді."
       },
       "WIZARD": [
@@ -74,14 +77,14 @@
       "ADD_AGENTS": "Додавання агентів до команди...",
       "SELECT": "вибрати",
       "SELECT_ALL": "вибрати всіх агентів",
-      "SELECTED_COUNT": "%{selected} з %{total} агентів вибрано."
+      "SELECTED_COUNT": "{selected} з {total} агентів вибрано."
     },
     "ADD": {
-      "TITLE": "Додати агентів до команди - %{teamName}",
+      "TITLE": "Додати агентів до команди - {teamName}",
       "DESC": "Додати співробітників до новоствореної команди. Це дозволить вам співпрацювати як команда в розмовах, отримувати повідомлення про нові події в тій самій розмові.",
       "SELECT": "вибрати",
       "SELECT_ALL": "вибрати всіх агентів",
-      "SELECTED_COUNT": "%{selected} з %{total} агентів вибрано.",
+      "SELECTED_COUNT": "{selected} з {total} агентів вибрано.",
       "BUTTON_TEXT": "Додати агентів",
       "AGENT_VALIDATION_ERROR": "Виберіть принаймні одного агента."
     },
@@ -97,7 +100,7 @@
         "ERROR_MESSAGE": "Не вдалося видалити команду. Повторіть спробу."
       },
       "CONFIRM": {
-        "TITLE": "Ви впевнені, що бажаєте видалити - %{teamName}",
+        "TITLE": "Are you sure you want to delete the team?",
         "PLACE_HOLDER": "Будь ласка, введіть {teamName} щоб підтвердити",
         "MESSAGE": "Видалення команди призведе до видалення призначення команди з розмов.",
         "YES": "Видалити ",

@@ -18,6 +18,7 @@
       "AND": "و",
       "OR": "یا"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "مساوی با",
       "not_equal_to": "مساوی نیست با",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "چک باکس",
       "CREATED_AT": "ایجاد شده در",
       "LAST_ACTIVITY": "آخرین فعالیت"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "مقدار الزامی است"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "فیلترهای استاندارد",

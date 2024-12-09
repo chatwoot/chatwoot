@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { actions } from '../actions';
+import { uploadExternalImage, uploadFile } from 'dashboard/helper/uploadHelper';
 import * as types from '../../../mutation-types';
-import { uploadFile } from 'dashboard/helper/uploadHelper';
+import { actions } from '../actions';
 
 vi.mock('dashboard/helper/uploadHelper');
 
@@ -12,6 +12,13 @@ const articleList = [
     title: 'Documents are required to complete KYC',
   },
 ];
+
+const camelCasedArticle = {
+  id: 1,
+  categoryId: 1,
+  title: 'Documents are required to complete KYC',
+};
+
 const commit = vi.fn();
 const dispatch = vi.fn();
 global.axios = axios;
@@ -41,14 +48,14 @@ describe('#actions', () => {
           [
             {
               id: 1,
-              category_id: 1,
+              categoryId: 1,
               title: 'Documents are required to complete KYC',
             },
           ],
         ],
         [
           types.default.SET_ARTICLES_META,
-          { current_page: '1', articles_count: 5 },
+          { currentPage: '1', articlesCount: 5 },
         ],
         [types.default.ADD_MANY_ARTICLES_ID, [1]],
         [types.default.SET_UI_FLAG, { isFetching: false }],
@@ -71,11 +78,11 @@ describe('#actions', () => {
 
   describe('#create', () => {
     it('sends correct actions if API is success', async () => {
-      axios.post.mockResolvedValue({ data: { payload: articleList[0] } });
-      await actions.create({ commit, dispatch }, articleList[0]);
+      axios.post.mockResolvedValue({ data: { payload: camelCasedArticle } });
+      await actions.create({ commit, dispatch }, camelCasedArticle);
       expect(commit.mock.calls).toEqual([
         [types.default.SET_UI_FLAG, { isCreating: true }],
-        [types.default.ADD_ARTICLE, articleList[0]],
+        [types.default.ADD_ARTICLE, camelCasedArticle],
         [types.default.ADD_ARTICLE_ID, 1],
         [types.default.ADD_ARTICLE_FLAG, 1],
         [types.default.SET_UI_FLAG, { isCreating: false }],
@@ -96,7 +103,7 @@ describe('#actions', () => {
 
   describe('#update', () => {
     it('sends correct actions if API is success', async () => {
-      axios.patch.mockResolvedValue({ data: { payload: articleList[0] } });
+      axios.patch.mockResolvedValue({ data: { payload: camelCasedArticle } });
       await actions.update(
         { commit },
         {
@@ -110,7 +117,7 @@ describe('#actions', () => {
           types.default.UPDATE_ARTICLE_FLAG,
           { uiFlags: { isUpdating: true }, articleId: 1 },
         ],
-        [types.default.UPDATE_ARTICLE, articleList[0]],
+        [types.default.UPDATE_ARTICLE, camelCasedArticle],
         [
           types.default.UPDATE_ARTICLE_FLAG,
           { uiFlags: { isUpdating: false }, articleId: 1 },
@@ -187,33 +194,53 @@ describe('#actions', () => {
 
   describe('attachImage', () => {
     it('should upload the file and return the fileUrl', async () => {
-      // Given
       const mockFile = new Blob(['test'], { type: 'image/png' });
       mockFile.name = 'test.png';
 
       const mockFileUrl = 'https://test.com/test.png';
       uploadFile.mockResolvedValueOnce({ fileUrl: mockFileUrl });
 
-      // When
       const result = await actions.attachImage({}, { file: mockFile });
 
-      // Then
       expect(uploadFile).toHaveBeenCalledWith(mockFile);
       expect(result).toBe(mockFileUrl);
     });
 
     it('should throw an error if the upload fails', async () => {
-      // Given
       const mockFile = new Blob(['test'], { type: 'image/png' });
       mockFile.name = 'test.png';
 
       const mockError = new Error('Upload failed');
       uploadFile.mockRejectedValueOnce(mockError);
 
-      // When & Then
       await expect(actions.attachImage({}, { file: mockFile })).rejects.toThrow(
         'Upload failed'
       );
+    });
+  });
+
+  describe('uploadExternalImage', () => {
+    it('should upload the image from external URL and return the fileUrl', async () => {
+      const mockUrl = 'https://example.com/image.jpg';
+      const mockFileUrl = 'https://uploaded.example.com/image.jpg';
+      uploadExternalImage.mockResolvedValueOnce({ fileUrl: mockFileUrl });
+
+      // When
+      const result = await actions.uploadExternalImage({}, { url: mockUrl });
+
+      // Then
+      expect(uploadExternalImage).toHaveBeenCalledWith(mockUrl);
+      expect(result).toBe(mockFileUrl);
+    });
+
+    it('should throw an error if the upload fails', async () => {
+      const mockUrl = 'https://example.com/image.jpg';
+      const mockError = new Error('Upload failed');
+      uploadExternalImage.mockRejectedValueOnce(mockError);
+
+      await expect(
+        actions.uploadExternalImage({}, { url: mockUrl })
+      ).rejects.toThrow('Upload failed');
     });
   });
 });

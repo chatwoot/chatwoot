@@ -3,8 +3,9 @@
     "HEADER": "Etiketės",
     "HEADER_BTN_TXT": "Pridėti Etiketę",
     "LOADING": "Gaunamos etiketės",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "Šią užklausą atitinkančių elementų nėra",
-    "SIDEBAR_TXT": "<p><b>Etiketės</b> <p>Etiketės padeda suskirstyti pokalbius į kategorijas ir nustatyti jiems prioritetus. Galite priskirti etiketę pokalbiui iš šoninio skydelio. <br /><br />Etiketės susietos su paskyra ir gali būti naudojamos kuriant supaprastintus darbo procesus jūsų organizacijoje. Etiketei galite priskirti pasirinktą spalvą, kad būtų lengviau atpažinti etiketę. Galėsite rodyti etiketę šoninėje juostoje, kad galėtumėte lengvai filtruoti pokalbius.</p>",
     "LIST": {
       "404": "Šioje paskyroje nėra galimų etikečių.",
       "TITLE": "Tvarkyti etiketes",
@@ -49,7 +50,8 @@
       "DISMISS": "Atsisakyti",
       "ADD_SELECTED_LABELS": "Pridėti pažymėtas etiketes",
       "ADD_SELECTED_LABEL": "Pridėti pažymėtą etiketę",
-      "ADD_ALL_LABELS": "Pridėti visas etiketes"
+      "ADD_ALL_LABELS": "Pridėti visas etiketes",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Pridėti Etiketę",

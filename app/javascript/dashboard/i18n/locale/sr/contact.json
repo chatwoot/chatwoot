@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Rezime",
-      "DELETE_WARNING": "Kontakt <strong>%{primaryContactName}</strong> će biti obrisan.",
-      "ATTRIBUTE_WARNING": "Detalji kontakta <strong>%{primaryContactName}</strong> će biti iskopirani u <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Kontakt <strong>{primaryContactName}</strong> će biti obrisan.",
+      "ATTRIBUTE_WARNING": "Detalji kontakta <strong>{primaryContactName}</strong> će biti iskopirani u <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Kontakt je uspešno spojen",
       "ERROR_MESSAGE": "Nije bilo moguće spojiti kontakte, pokušajte ponovo!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

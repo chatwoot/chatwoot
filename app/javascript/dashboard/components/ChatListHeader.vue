@@ -61,15 +61,19 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
       </span>
     </div>
     <div class="flex items-center gap-1">
-      <div v-if="hasAppliedFilters && !hasActiveFolders">
-        <woot-button
-          v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON')"
-          size="tiny"
-          variant="smooth"
-          color-scheme="secondary"
-          icon="save"
-          @click="emit('addFolders')"
-        />
+      <template v-if="hasAppliedFilters && !hasActiveFolders">
+        <div class="relative">
+          <woot-button
+            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON')"
+            size="tiny"
+            variant="smooth"
+            color-scheme="secondary"
+            icon="save"
+            @click="emit('addFolders')"
+          />
+          <div id="saveFilterTeleportTarget" class="absolute mt-2 z-40" />
+        </div>
+
         <woot-button
           v-tooltip.top-end="$t('FILTER.CLEAR_BUTTON_LABEL')"
           size="tiny"
@@ -78,16 +82,23 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
           icon="dismiss-circle"
           @click="emit('resetFilters')"
         />
-      </div>
-      <div v-if="hasActiveFolders">
-        <woot-button
-          v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.EDIT.EDIT_BUTTON')"
-          size="tiny"
-          variant="smooth"
-          color-scheme="secondary"
-          icon="edit"
-          @click="emit('filtersModal')"
-        />
+      </template>
+      <template v-if="hasActiveFolders">
+        <div class="relative">
+          <woot-button
+            id="toggleConversationFilterButton"
+            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.EDIT.EDIT_BUTTON')"
+            size="tiny"
+            variant="smooth"
+            color-scheme="secondary"
+            icon="edit"
+            @click="emit('filtersModal')"
+          />
+          <div
+            id="conversationFilterTeleportTarget"
+            class="absolute mt-2 z-40"
+          />
+        </div>
         <woot-button
           v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
           size="tiny"
@@ -96,19 +107,22 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
           icon="delete"
           @click="emit('deleteFolders')"
         />
+      </template>
+      <div v-else class="relative">
+        <woot-button
+          id="toggleConversationFilterButton"
+          v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
+          variant="smooth"
+          color-scheme="secondary"
+          icon="filter"
+          size="tiny"
+          @click="emit('filtersModal')"
+        />
+        <div id="conversationFilterTeleportTarget" class="absolute mt-2 z-40" />
       </div>
-      <woot-button
-        v-else
-        v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
-        variant="smooth"
-        color-scheme="secondary"
-        icon="filter"
-        size="tiny"
-        @click="emit('filtersModal')"
-      />
       <ConversationBasicFilter
         v-if="!hasAppliedFiltersOrActiveFolders"
-        @changeFilter="onBasicFilterChange"
+        @change-filter="onBasicFilterChange"
       />
     </div>
   </div>

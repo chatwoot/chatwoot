@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Kopsavilkums",
-      "DELETE_WARNING": "Kontaktpersona <strong>%{primaryContactName}</strong> tiks dzēsta.",
-      "ATTRIBUTE_WARNING": "Kontaktpersonas <strong>%{primaryContactName}</strong> informācija tiks kopēta uz <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Kontaktpersona <strong>{primaryContactName}</strong> tiks dzēsta.",
+      "ATTRIBUTE_WARNING": "Kontaktpersonas <strong>{primaryContactName}</strong> informācija tiks kopēta uz <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "KĻŪDAS_PAZIŅOJUMS"
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Kontaktpersona ir veiksmīgi apvienota",
       "ERROR_MESSAGE": "Nevarēja apvienot kontaktpersonas, mēģiniet vēlreiz!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

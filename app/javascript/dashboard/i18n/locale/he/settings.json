@@ -239,6 +239,7 @@
     "REPORTS": "דיווחים",
     "SETTINGS": "הגדרות",
     "CONTACTS": "איש קשר",
+    "CAPTAIN": "Captain",
     "HOME": "בית",
     "AGENTS": "סוכנים",
     "AGENT_BOTS": "בוטים",
@@ -276,6 +277,7 @@
     "REPORTS_TEAM": "צוות",
     "SET_AVAILABILITY_TITLE": "הגדר את עצמך בתור",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "בטא",
     "REPORTS_OVERVIEW": "סקירה כללית",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
@@ -299,7 +301,7 @@
     "TITLE": "חיוב",
     "CURRENT_PLAN": {
       "TITLE": "תוכנית נוכחית",
-      "PLAN_NOTE": "אתה רשום כעת לתוכנית **%{plan}** עם רישיונות **%{quantity}**"
+      "PLAN_NOTE": "אתה רשום כעת לתוכנית **{plan}** עם רישיונות **{quantity}**"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "נהל את המנוי שלך",

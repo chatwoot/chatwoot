@@ -1,12 +1,13 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} percakapan dipilih",
+    "CONVERSATIONS_SELECTED": "{conversationCount} percakapan dipilih",
     "AGENT_SELECT_LABEL": "Pilih Agen",
-    "ASSIGN_CONFIRMATION_LABEL": "Apakah Anda yakin ingin menugaskan %{conversationCount} %{conversationLabel} kepada",
-    "UNASSIGN_CONFIRMATION_LABEL": "Apakah Anda yakin ingin melepaskan penugasan dari %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "Apakah Anda yakin ingin menugaskan {conversationCount} {conversationLabel} kepada",
+    "UNASSIGN_CONFIRMATION_LABEL": "Apakah Anda yakin ingin melepaskan penugasan dari {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Kembali",
     "ASSIGN_LABEL": "Tugaskan",
     "YES": "Ya",
+    "SEARCH_INPUT_PLACEHOLDER": "Cari",
     "ASSIGN_AGENT_TOOLTIP": "Tugaskan agen",
     "ASSIGN_TEAM_TOOLTIP": "Tugaskan tim",
     "ASSIGN_SUCCESFUL": "Percakapan berhasil ditugaskan.",

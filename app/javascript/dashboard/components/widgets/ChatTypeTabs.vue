@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import wootConstants from 'dashboard/constants/globals';
 
@@ -16,15 +16,16 @@ const props = defineProps({
 
 const emit = defineEmits(['chatTabChange']);
 
-const chatTypeTabsRef = ref(null);
-
 const activeTabIndex = computed(() => {
   return props.items.findIndex(item => item.key === props.activeTab);
 });
 
 const onTabChange = selectedTabIndex => {
-  if (props.items[selectedTabIndex].key !== props.activeTab) {
-    emit('chatTabChange', props.items[selectedTabIndex].key);
+  if (selectedTabIndex >= 0 && selectedTabIndex < props.items.length) {
+    const selectedItem = props.items[selectedTabIndex];
+    if (selectedItem.key !== props.activeTab) {
+      emit('chatTabChange', selectedItem.key);
+    }
   }
 };
 
@@ -34,23 +35,38 @@ const keyboardEvents = {
       if (props.activeTab === wootConstants.ASSIGNEE_TYPE.ALL) {
         onTabChange(0);
       } else {
-        onTabChange(activeTabIndex.value + 1);
+        const nextIndex = (activeTabIndex.value + 1) % props.items.length;
+        onTabChange(nextIndex);
       }
     },
   },
 };
-useKeyboardEvents(keyboardEvents, chatTypeTabsRef);
+
+useKeyboardEvents(keyboardEvents);
 </script>
 
 <template>
-  <div ref="chatTypeTabsRef">
-    <woot-tabs :index="activeTabIndex" @change="onTabChange">
-      <woot-tabs-item
-        v-for="item in items"
-        :key="item.key"
-        :name="item.name"
-        :count="item.count"
-      />
-    </woot-tabs>
-  </div>
+  <woot-tabs
+    :index="activeTabIndex"
+    class="w-full px-4 py-0 tab--chat-type"
+    @change="onTabChange"
+  >
+    <woot-tabs-item
+      v-for="(item, index) in items"
+      :key="item.key"
+      :index="index"
+      :name="item.name"
+      :count="item.count"
+    />
+  </woot-tabs>
 </template>
+
+<style scoped lang="scss">
+.tab--chat-type {
+  ::v-deep {
+    .tabs {
+      @apply p-0;
+    }
+  }
+}
+</style>

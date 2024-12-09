@@ -4,8 +4,15 @@
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "ரத்துசெய்",
         "DESC": "உங்கள் சாட்வூட் கணக்கில் என்ன நடக்கிறது என்பது குறித்த நிகழ்நேர தகவல்களை வெப்ஹூக் நிகழ்வுகள் உங்களுக்கு வழங்குகின்றன. மீட்டமைக்க சரியான URL ஐ உள்ளிடவும்.",
@@ -40,10 +47,7 @@
       "LIST": {
         "404": "இந்த கணக்கிற்கு எந்த வெப்ஹூக்கும் அமைக்கப்படவில்லை.",
         "TITLE": "வெப்ஹூக்குகளை நிர்வகிக்க",
-        "TABLE_HEADER": [
-          "வெப்ஹூக் எண்டு பாயிண்ட்",
-          "செயல்கள்"
-        ]
+        "TABLE_HEADER": ["வெப்ஹூக் எண்டு பாயிண்ட்", "செயல்கள்"]
       },
       "EDIT": {
         "BUTTON_TEXT": "திருத்து",
@@ -69,7 +73,7 @@
         },
         "CONFIRM": {
           "TITLE": "நீக்குதலை உறுதிப்படுத்தவும்",
-          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
+          "MESSAGE": "Are you sure to delete the webhook? ({webhookURL})",
           "YES": "ஆம், நீக்கு ",
           "NO": "இல்லை, அதை வைத்திரு"
         }
@@ -107,7 +111,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "WITH_AI": " {option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
         "SUMMARIZE": "Summarize",
@@ -176,10 +180,7 @@
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": [
-          "பெயர்",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": ["பெயர்", "Endpoint"],
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },
@@ -209,7 +210,7 @@
         "CONFIRM_YES": "Yes, delete it",
         "CONFIRM_NO": "No, keep it",
         "TITLE": "Confirm deletion",
-        "MESSAGE": "Are you sure to delete the app - %{appName}?",
+        "MESSAGE": "Are you sure to delete the app - {appName}?",
         "API_SUCCESS": "Dashboard app deleted successfully",
         "API_ERROR": "We couldn't delete the app. Please try again later"
       }
@@ -228,7 +229,7 @@
         "ERROR": "There was an error fetching the linear issues, please try again",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -287,7 +288,7 @@
         "PRIORITY": "Priority",
         "ASSIGNEE": "Assignee",
         "LABELS": "Labels",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Unlink",

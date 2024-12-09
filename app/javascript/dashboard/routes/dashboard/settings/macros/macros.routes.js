@@ -1,30 +1,47 @@
 import { frontendURL } from 'dashboard/helper/URLHelper';
 
-const SettingsContent = () => import('../Wrapper.vue');
-const Macros = () => import('./Index.vue');
-const MacroEditor = () => import('./MacroEditor.vue');
+import {
+  ROLES,
+  CONVERSATION_PERMISSIONS,
+} from 'dashboard/constants/permissions.js';
+import SettingsContent from '../Wrapper.vue';
+import SettingsWrapper from '../SettingsWrapper.vue';
+import Macros from './Index.vue';
+import MacroEditor from './MacroEditor.vue';
 
 export default {
   routes: [
     {
       path: frontendURL('accounts/:accountId/settings/macros'),
-      component: SettingsContent,
-      props: params => {
-        const showBackButton = params.name !== 'macros_wrapper';
-        return {
-          headerTitle: 'MACROS.HEADER',
-          headerButtonText: 'MACROS.HEADER_BTN_TXT',
-          icon: 'flash-settings',
-          showBackButton,
-        };
-      },
+      component: SettingsWrapper,
       children: [
         {
           path: '',
           name: 'macros_wrapper',
           component: Macros,
           meta: {
-            permissions: ['administrator', 'agent'],
+            permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
+          },
+        },
+      ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/settings/macros'),
+      component: SettingsContent,
+      props: () => {
+        return {
+          headerTitle: 'MACROS.HEADER',
+          icon: 'flash-settings',
+          showBackButton: true,
+        };
+      },
+      children: [
+        {
+          path: ':macroId/edit',
+          name: 'macros_edit',
+          component: MacroEditor,
+          meta: {
+            permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
           },
         },
         {
@@ -32,15 +49,7 @@ export default {
           name: 'macros_new',
           component: MacroEditor,
           meta: {
-            permissions: ['administrator', 'agent'],
-          },
-        },
-        {
-          path: ':macroId/edit',
-          name: 'macros_edit',
-          component: MacroEditor,
-          meta: {
-            permissions: ['administrator', 'agent'],
+            permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
           },
         },
       ],

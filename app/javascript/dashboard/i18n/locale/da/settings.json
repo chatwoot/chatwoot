@@ -239,6 +239,7 @@
     "REPORTS": "Rapporter",
     "SETTINGS": "Indstillinger",
     "CONTACTS": "Kontakter",
+    "CAPTAIN": "Captain",
     "HOME": "Hjem",
     "AGENTS": "Agenter",
     "AGENT_BOTS": "Bots",
@@ -276,6 +277,7 @@
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Sæt dig selv som",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Oversigt",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
@@ -299,7 +301,7 @@
     "TITLE": "Fakturering",
     "CURRENT_PLAN": {
       "TITLE": "Nuværende Abonnement",
-      "PLAN_NOTE": "Du abonnerer i øjeblikket på **%{plan}** planen med **%{quantity}** licenser"
+      "PLAN_NOTE": "Du abonnerer i øjeblikket på **{plan}** planen med **{quantity}** licenser"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Administrer dit abonnement",

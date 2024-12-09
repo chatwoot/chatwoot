@@ -239,6 +239,7 @@
     "REPORTS": "Отчёты",
     "SETTINGS": "Настройки",
     "CONTACTS": "Контакты",
+    "CAPTAIN": "Captain",
     "HOME": "Главная",
     "AGENTS": "Операторы",
     "AGENT_BOTS": "Боты",
@@ -276,6 +277,7 @@
     "REPORTS_TEAM": "Команда",
     "SET_AVAILABILITY_TITLE": "Установить себя",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Бета",
     "REPORTS_OVERVIEW": "Обзор",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
@@ -299,7 +301,7 @@
     "TITLE": "Платёж",
     "CURRENT_PLAN": {
       "TITLE": "Текущий план",
-      "PLAN_NOTE": "На данный момент вы подписаны на ** план%{plan}** с **%{quantity}** лицензиями"
+      "PLAN_NOTE": "На данный момент вы подписаны на ** план{plan}** с **{quantity}** лицензиями"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Управление подпиской",

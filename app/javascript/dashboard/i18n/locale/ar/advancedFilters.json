@@ -18,6 +18,7 @@
       "AND": "و",
       "OR": "أو"
     },
+    "INPUT_PLACEHOLDER": "أدخل القيمة",
     "OPERATOR_LABELS": {
       "equal_to": "يساوي",
       "not_equal_to": "لا يساوي",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "خانة الاختيار",
       "CREATED_AT": "تم إنشاؤها في",
       "LAST_ACTIVITY": "آخر نشاط"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "القيمة مطلوبة"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "التصفيات القياسية",

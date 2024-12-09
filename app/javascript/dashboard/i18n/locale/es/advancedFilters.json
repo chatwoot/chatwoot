@@ -18,6 +18,7 @@
       "AND": "Y",
       "OR": "O"
     },
+    "INPUT_PLACEHOLDER": "Introducir valor",
     "OPERATOR_LABELS": {
       "equal_to": "Igual a",
       "not_equal_to": "No igual a",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Casilla",
       "CREATED_AT": "Creado el",
       "LAST_ACTIVITY": "Última actividad"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "El valor es requerido"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Filtros estándar",

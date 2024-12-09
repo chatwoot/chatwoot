@@ -239,6 +239,7 @@
     "REPORTS": "Reports",
     "SETTINGS": "Stillingar",
     "CONTACTS": "Tengiliðir",
+    "CAPTAIN": "Captain",
     "HOME": "Home",
     "AGENTS": "Þjónustufulltrúar",
     "AGENT_BOTS": "Bots",
@@ -276,6 +277,7 @@
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Overview",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
@@ -299,7 +301,7 @@
     "TITLE": "Billing",
     "CURRENT_PLAN": {
       "TITLE": "Current Plan",
-      "PLAN_NOTE": "Þú ert áskrifandi að **%{plan}** áætluninni með **%{quantity}** leyfi"
+      "PLAN_NOTE": "Þú ert áskrifandi að **{plan}** áætluninni með **{quantity}** leyfi"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Manage your subscription",

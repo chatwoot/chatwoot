@@ -1,10 +1,11 @@
 {
   "MACROS": {
     "HEADER": "Macros",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
     "HEADER_BTN_TXT": "Afegeix una nova macro",
     "HEADER_BTN_TXT_SAVE": "Desa la macro",
     "LOADING": "Obtenció de macros",
-    "SIDEBAR_TXT": "<p><b>Macros</b><p>Una macro és un conjunt d'accions desades que ajuden els agents d'atenció al client a completar tasques fàcilment. Els agents poden definir un conjunt d'accions com etiquetar una conversa amb una etiqueta, enviar una transcripció de correu electrònic, actualitzar un atribut personalitzat, etc., i poden executar aquestes accions amb un sol clic. Quan els agents executen la macro, les accions es realitzaran seqüencialment en l'ordre en què es defineixen. Les macros milloren la productivitat i augmenten la coherència en les accions. </p><p>Una macro pot ser útil de dues maneres. </p><p><b>Com a ajuda d'un agent:</b> si un agent realitza un conjunt d'accions diverses vegades, pot desar-lo com a macro i executar totes les accions junts amb un sol clic.</ p><p><b>Com a opció per incorporar un membre de l'equip:</b> Cada agent ha de realitzar moltes comprovacions/accions diferents durant cada conversa. La incorporació d'un nou membre de l'equip d'assistència serà fàcil si hi ha macros predefinides disponibles al compte. En lloc de descriure cada pas en detall, el responsable o el responsable de l'equip pot indicar les macros utilitzades en diferents escenaris.</p>",
     "ERROR": "Alguna cosa ha anat malament, torna-ho a provar",
     "ORDER_INFO": "Les macros s'executaran en l'ordre en què afegeixis les teves accions. Pots reorganitzar-los arrossegant-los per l'identificador al costat de cada node.",
     "ADD": {
@@ -73,6 +74,15 @@
       "BUTTON_TOOLTIP": "Executa",
       "PREVIEW": "Vista prèvia de la macro",
       "EXECUTED_SUCCESSFULLY": "La macro s'ha executat correctament"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "El valor és necessari",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

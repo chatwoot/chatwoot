@@ -1,13 +1,14 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import { emitter } from 'shared/helpers/mitt';
 import EmailTranscriptModal from './EmailTranscriptModal.vue';
 import ResolveAction from '../../buttons/ResolveAction.vue';
 import {
   CMD_MUTE_CONVERSATION,
   CMD_SEND_TRANSCRIPT,
   CMD_UNMUTE_CONVERSATION,
-} from '../../../routes/dashboard/commands/commandBarBusEvents';
+} from 'dashboard/helper/commandbar/events';
 
 export default {
   components: {
@@ -23,14 +24,14 @@ export default {
     ...mapGetters({ currentChat: 'getSelectedChat' }),
   },
   mounted() {
-    this.$emitter.on(CMD_MUTE_CONVERSATION, this.mute);
-    this.$emitter.on(CMD_UNMUTE_CONVERSATION, this.unmute);
-    this.$emitter.on(CMD_SEND_TRANSCRIPT, this.toggleEmailActionsModal);
+    emitter.on(CMD_MUTE_CONVERSATION, this.mute);
+    emitter.on(CMD_UNMUTE_CONVERSATION, this.unmute);
+    emitter.on(CMD_SEND_TRANSCRIPT, this.toggleEmailActionsModal);
   },
-  destroyed() {
-    this.$emitter.off(CMD_MUTE_CONVERSATION, this.mute);
-    this.$emitter.off(CMD_UNMUTE_CONVERSATION, this.unmute);
-    this.$emitter.off(CMD_SEND_TRANSCRIPT, this.toggleEmailActionsModal);
+  unmounted() {
+    emitter.off(CMD_MUTE_CONVERSATION, this.mute);
+    emitter.off(CMD_UNMUTE_CONVERSATION, this.unmute);
+    emitter.off(CMD_SEND_TRANSCRIPT, this.toggleEmailActionsModal);
   },
   methods: {
     mute() {

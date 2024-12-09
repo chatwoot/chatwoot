@@ -1,12 +1,18 @@
 <script>
-import hookMixin from './hookMixin';
+import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
 export default {
-  mixins: [hookMixin],
   props: {
-    integration: {
-      type: Object,
-      default: () => ({}),
+    integrationId: {
+      type: String,
+      required: true,
     },
+  },
+  emits: ['add', 'delete'],
+  setup(props) {
+    const { integration, hasConnectedHooks } = useIntegrationHook(
+      props.integrationId
+    );
+    return { integration, hasConnectedHooks };
   },
 };
 </script>

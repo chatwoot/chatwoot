@@ -23,13 +23,13 @@
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -167,13 +167,13 @@
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -234,13 +234,13 @@
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -301,13 +301,13 @@
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -368,13 +368,13 @@
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -467,7 +467,7 @@
     }
   },
   "OVERVIEW_REPORTS": {
-    "HEADER": "Overview",
+    "HEADER": "Pregled",
     "LIVE": "Live",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
@@ -480,8 +480,9 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
       "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversations by agents",
@@ -517,7 +518,7 @@
     "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
     "DOWNLOAD_FAILED": "Failed to download SLA Reports",
     "DROPDOWN": {
-      "ADD_FIlTER": "Add filter",
+      "ADD_FIlTER": "Dodaj filter",
       "CLEAR_ALL": "Clear all",
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Nisu pronađeni rezultati",
@@ -534,8 +535,9 @@
       "INBOXES": "Inbox",
       "AGENTS": "Agent",
       "LABELS": "Label",
-      "TEAMS": "Team"
+      "TEAMS": "Tim"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

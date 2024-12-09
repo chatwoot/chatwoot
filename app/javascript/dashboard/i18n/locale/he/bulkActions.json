@@ -1,12 +1,13 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} שיחות נבחרו",
+    "CONVERSATIONS_SELECTED": "{conversationCount} שיחות נבחרו",
     "AGENT_SELECT_LABEL": "בחר נציג",
-    "ASSIGN_CONFIRMATION_LABEL": "האם אתה בטוח שברצונך לשייך %{conversationCount} %{conversationLabel} ל-",
-    "UNASSIGN_CONFIRMATION_LABEL": "האם אתה בטוח שברצונך לבטל שיוך %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "האם אתה בטוח שברצונך לשייך {conversationCount} {conversationLabel} ל-",
+    "UNASSIGN_CONFIRMATION_LABEL": "האם אתה בטוח שברצונך לבטל שיוך {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "חזור",
     "ASSIGN_LABEL": "שייך",
     "YES": "כן",
+    "SEARCH_INPUT_PLACEHOLDER": "חפש",
     "ASSIGN_AGENT_TOOLTIP": "שייך סוכן",
     "ASSIGN_TEAM_TOOLTIP": "שייך צוות",
     "ASSIGN_SUCCESFUL": "שיוך בוצע בהצלחה.",

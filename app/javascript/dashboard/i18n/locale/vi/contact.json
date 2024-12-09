@@ -151,7 +151,7 @@
       },
       "COUNTRY": {
         "PLACEHOLDER": "Nhập tên thành phố",
-        "LABEL": "Tên Nước",
+        "LABEL": "Tên nước",
         "SELECT_PLACEHOLDER": "Chọn",
         "REMOVE": "Xoá",
         "SELECT_COUNTRY": "Select Country"
@@ -225,13 +225,13 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "Danh bạ",
-    "FIELDS": "Trường của liên hệ",
+    "FIELDS": "Các trường của liên hệ",
     "SEARCH_BUTTON": "Tìm kiếm",
     "SEARCH_INPUT_PLACEHOLDER": "Tìm kiếm liên hệ",
     "FILTER_CONTACTS": "Lọc",
     "FILTER_CONTACTS_SAVE": "Lưu bộ lọc",
     "FILTER_CONTACTS_DELETE": "Xoá bộ lọc",
-    "FILTER_CONTACTS_EDIT": "Sửa giai đoạn",
+    "FILTER_CONTACTS_EDIT": "Sửa bộ lọc",
     "LIST": {
       "LOADING_MESSAGE": "Đang tải liên hệ...",
       "404": "Không có liên hệ nào khớp với tìm kiếm của bạn 🔍",
@@ -244,7 +244,7 @@
         "CREATED_AT": "Tạo vào lúc",
         "COUNTRY": "Quốc gia",
         "CITY": "Tỉnh / Thành phố",
-        "SOCIAL_PROFILES": "Hồ sơ xã hội",
+        "SOCIAL_PROFILES": "Hồ sơ mạng xã hội",
         "COMPANY": "Công ty",
         "EMAIL_ADDRESS": "Email"
       },
@@ -285,7 +285,7 @@
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Hoạt động"
+      "TITLE": "Các hoạt động"
     },
     "BUTTON": {
       "PILL_BUTTON_NOTES": "các ghi chú",
@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Tóm tắt",
-      "DELETE_WARNING": "Liên hệ của <strong>%{primaryContactName}</strong> sẽ bị xoá.",
-      "ATTRIBUTE_WARNING": "\bChi tiết liên hệ của <strong>%{primaryContactName}</strong> \bsẽ được sao chép đến <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Liên hệ của <strong>{primaryContactName}</strong> sẽ bị xoá.",
+      "ATTRIBUTE_WARNING": "\bChi tiết liên hệ của <strong>{primaryContactName}</strong> \bsẽ được sao chép đến <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Liên hệ được gộp thành công",
       "ERROR_MESSAGE": "Không thể hợp nhất liên lạc, thử lại!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

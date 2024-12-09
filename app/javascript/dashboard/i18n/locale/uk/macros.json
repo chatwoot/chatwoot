@@ -1,10 +1,11 @@
 {
   "MACROS": {
     "HEADER": "Макрос",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
     "HEADER_BTN_TXT": "Додати новий макрос",
     "HEADER_BTN_TXT_SAVE": "Зберегти макрос",
     "LOADING": "Завантаження макросів",
-    "SIDEBAR_TXT": "<p><b>Макроси</b><p>Це набір збережених дій, що допомагають агентам служби обслуговування клієнтів легко виконувати завдання. Агенти можуть визначити набір дій, таких як позначення розмови якоюсь міткою, відправленням розмови на пошту, оновлення користувацького атрибуту тощо. Коли агенти створюють макрос, дії виконуватимуться послідовно, в порядку, якому вони визначені. Макрос поліпшує продуктивність та підвищує ефективність в діях. </p><p>Макрос може бути корисним двома способами. </p><p><b>Повторювати дії агента:</b> Якщо агент виконує набір дій кілька разів, вони можуть зберегти їх як макрос і виконати всі дії разом використовуючи один клік.</p><p><b>Для учасників команди:</b> кожен агент повинен виконувати багато різних перевірок/дій під час кожної розмови. Додавання нового члена служби підтримки буде легким, якщо спеціалізовані макроси доступні на аккаунті. Замість того, щоб описувати кожен крок детально, менеджер / командний лідер може вказувати на макроси, використані в різних сценаріях.</p>",
     "ERROR": "Щось пішло не так. Будь ласка, оновіть сторінку",
     "ORDER_INFO": "Макроси запускається у порядку додавання ваших дій. Ви можете переставити їх шляхом перетягування.",
     "ADD": {
@@ -73,6 +74,15 @@
       "BUTTON_TOOLTIP": "Виконати",
       "PREVIEW": "Перегляд макросу",
       "EXECUTED_SUCCESSFULLY": "Макрос успішно виконано"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Необхідно вказати значення",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }
