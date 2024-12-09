@@ -4,11 +4,12 @@ import { ref } from 'vue';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useAI } from 'dashboard/composables/useAI';
+import { useAccount } from 'dashboard/composables/useAccount';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 
 // components
 import ReplyBox from './ReplyBox.vue';
-// import Message from './Message.vue';
+import Message from './Message.vue';
 import NextMessage from 'next/message/Message.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
@@ -34,6 +35,7 @@ import {
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 
 function shouldGroupWithNext(index, messages) {
@@ -54,6 +56,7 @@ function shouldGroupWithNext(index, messages) {
 
 export default {
   components: {
+    Message,
     NextMessage,
     ReplyBox,
     Banner,
@@ -74,6 +77,7 @@ export default {
   setup() {
     const isPopOutReplyBox = ref(false);
     const { isEnterprise } = useConfig();
+    const { accountId } = useAccount();
 
     const closePopOutReplyBox = () => {
       isPopOutReplyBox.value = false;
@@ -107,6 +111,7 @@ export default {
       isLabelSuggestionFeatureEnabled,
       fetchIntegrationsIfRequired,
       fetchLabelSuggestions,
+      accountId,
     };
   },
   data() {
@@ -127,6 +132,7 @@ export default {
       currentUserId: 'getCurrentUserID',
       listLoadingStatus: 'getAllMessagesLoaded',
       currentAccountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     isOpen() {
       return this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
@@ -172,19 +178,28 @@ export default {
       return messages;
     },
     readMessages() {
-      return useCamelCase(
-        getReadMessages(this.getMessages, this.currentChat.agent_last_seen_at),
-        { deep: true }
+      const readMessages = getReadMessages(
+        this.getMessages,
+        this.currentChat.agent_last_seen_at
       );
+
+      if (this.showNextBubbles) {
+        return useCamelCase(readMessages, { deep: true });
+      }
+
+      return readMessages;
     },
     unReadMessages() {
-      return useCamelCase(
-        getUnreadMessages(
-          this.getMessages,
-          this.currentChat.agent_last_seen_at
-        ),
-        { deep: true }
+      const unreadMessages = getUnreadMessages(
+        this.getMessages,
+        this.currentChat.agent_last_seen_at
       );
+
+      if (this.showNextBubbles) {
+        return useCamelCase(unreadMessages, { deep: true });
+      }
+
+      return unreadMessages;
     },
     shouldShowSpinner() {
       return (
@@ -259,6 +274,12 @@ export default {
         !this.is360DialogWhatsAppChannel;
 
       return { incoming, outgoing };
+    },
+    showNextBubbles() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.CHATWOOT_V4
+      );
     },
   },
 
@@ -504,15 +525,34 @@ export default {
           <span v-if="shouldShowSpinner" class="spinner message" />
         </li>
       </transition>
-      <NextMessage
-        v-for="(message, index) in readMessages"
-        :key="message.id"
-        v-bind="message"
-        :in-reply-to="getInReplyToMessage(message)"
-        :group-with-next="shouldGroupWithNext(index, readMessages)"
-        :current-user-id="currentUserId"
-        data-clarity-mask="True"
-      />
+      <template v-if="showNextBubbles">
+        <NextMessage
+          v-for="(message, index) in readMessages"
+          :key="message.id"
+          v-bind="message"
+          :in-reply-to="getInReplyToMessage(message)"
+          :group-with-next="shouldGroupWithNext(index, readMessages)"
+          :current-user-id="currentUserId"
+          data-clarity-mask="True"
+        />
+      </template>
+      <template v-else>
+        <Message
+          v-for="message in readMessages"
+          :key="message.id"
+          class="message--read ph-no-capture"
+          data-clarity-mask="True"
+          :data="message"
+          :is-a-tweet="isATweet"
+          :is-a-whatsapp-channel="isAWhatsAppChannel"
+          :is-web-widget-inbox="isAWebWidgetInbox"
+          :is-a-facebook-inbox="isAFacebookInbox"
+          :is-an-email-inbox="isAnEmailChannel"
+          :is-instagram="isInstagramDM"
+          :inbox-supports-reply-to="inboxSupportsReplyTo"
+          :in-reply-to="getInReplyToMessage(message)"
+        />
+      </template>
       <li v-show="unreadMessageCount != 0" class="unread--toast">
         <span>
           {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
@@ -523,15 +563,33 @@ export default {
           }}
         </span>
       </li>
-      <NextMessage
-        v-for="(message, index) in unReadMessages"
-        :key="message.id"
-        v-bind="message"
-        :in-reply-to="getInReplyToMessage(message)"
-        :group-with-next="shouldGroupWithNext(index, unReadMessages)"
-        :current-user-id="currentUserId"
-        data-clarity-mask="True"
-      />
+      <template v-if="showNextBubbles">
+        <NextMessage
+          v-for="(message, index) in unReadMessages"
+          :key="message.id"
+          v-bind="message"
+          :in-reply-to="getInReplyToMessage(message)"
+          :group-with-next="shouldGroupWithNext(index, unReadMessages)"
+          :current-user-id="currentUserId"
+          data-clarity-mask="True"
+        />
+      </template>
+      <template v-else>
+        <Message
+          v-for="message in unReadMessages"
+          :key="message.id"
+          class="message--unread ph-no-capture"
+          data-clarity-mask="True"
+          :data="message"
+          :is-a-tweet="isATweet"
+          :is-a-whatsapp-channel="isAWhatsAppChannel"
+          :is-web-widget-inbox="isAWebWidgetInbox"
+          :is-a-facebook-inbox="isAFacebookInbox"
+          :is-instagram-dm="isInstagramDM"
+          :inbox-supports-reply-to="inboxSupportsReplyTo"
+          :in-reply-to="getInReplyToMessage(message)"
+        />
+      </template>
       <ConversationLabelSuggestion
         v-if="shouldShowLabelSuggestions"
         :suggested-labels="labelSuggestions"
