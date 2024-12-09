@@ -235,7 +235,7 @@ const componentToRender = computed(() => {
     return InstagramStoryBubble;
   }
 
-  if (props.attachments.length === 1) {
+  if (Array.isArray(props.attachments) && props.attachments.length === 1) {
     const fileType = props.attachments[0].fileType;
 
     if (!props.content) {
@@ -250,7 +250,11 @@ const componentToRender = computed(() => {
     if (fileType === ATTACHMENT_TYPES.CONTACT) return ContactBubble;
   }
 
-  if (props.attachments.length > 1 && !props.content) {
+  if (
+    Array.isArray(props.attachments) &&
+    props.attachments.length > 1 &&
+    !props.content
+  ) {
     return AttachmentsBubble;
   }
 
