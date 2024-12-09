@@ -149,10 +149,18 @@ const variant = computed(() => {
 });
 
 const isMyMessage = computed(() => {
+  if (
+    props.status === MESSAGE_STATUS.PROGRESS &&
+    props.messageType === MESSAGE_TYPES.OUTGOING
+  ) {
+    return true;
+  }
   const senderId = props.senderId ?? props.sender?.id;
   const senderType = props.senderType ?? props.sender?.type;
 
-  if (!senderType || !senderId) return false;
+  if (!senderType || !senderId) {
+    return false;
+  }
 
   return (
     senderType.toLowerCase() === SENDER_TYPES.USER.toLowerCase() &&
