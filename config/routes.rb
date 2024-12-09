@@ -270,6 +270,7 @@ Rails.application.routes.draw do
 
           resources :upload, only: [:create]
           resources :messages, only: [:index]
+          resources :agent_scores, only: [:index]
           resources :parquet_reports, only: [:show]
         end
       end
