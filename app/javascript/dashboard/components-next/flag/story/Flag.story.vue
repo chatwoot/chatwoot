@@ -17,7 +17,6 @@ const BasicTemplate = {
   },
   template: `
     <div class="flex items-center gap-4 p-4 border rounded border-n-weak">
-      <Flag :country="country" />
       <Flag :country="country" :squared="squared" />
     </div>
   `,
