@@ -3,17 +3,22 @@ import { ref } from 'vue';
 import Flag from '../Flag.vue';
 import countries from 'shared/constants/countries';
 
-const story = {
-  title: 'Components/Flag',
-  component: Flag,
-};
-
 const BasicTemplate = {
   components: { Flag },
+  props: {
+    country: {
+      type: String,
+      default: 'us',
+    },
+    squared: {
+      type: Boolean,
+      default: false,
+    },
+  },
   template: `
     <div class="flex items-center gap-4 p-4 border rounded border-n-weak">
-      <Flag country="us" />
-      <Flag country="us" squared />
+      <Flag :country="country" />
+      <Flag :country="country" :squared="squared" />
     </div>
   `,
 };
@@ -63,9 +68,9 @@ const AllFlags = {
 </script>
 
 <template>
-  <Story :title="story.title">
+  <Story title="Components/Flag">
     <Variant title="Basic Usage">
-      <BasicTemplate />
+      <BasicTemplate country="us" squared />
     </Variant>
 
     <Variant title="Size Variants">
