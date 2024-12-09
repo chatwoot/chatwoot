@@ -10,7 +10,7 @@ class CreateCalBookingJob < ApplicationJob
       contacts = account.contacts
 
       contacts.each do |contact|
-        next unless contact.email == booking[:bookerEmail] || contact.phone_number == booking[:bookerPhone]
+        next unless contact.email == booking[:bookerEmail] || (contact.phone_number.present? && contact.phone_number == booking[:bookerPhone])
 
         ContactBooking.create!(
           user_id: user.id,

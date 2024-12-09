@@ -1,44 +1,41 @@
 class Onehash::Cal::CalEventController < Onehash::IntegrationController
   before_action :validate_update_params, only: [:update]
   before_action :validate_delete_params, only: [:destroy]
-  before_action :set_user, only: [:update, :destroy]
 
   def update
     events = user_update_params
-    CalEventUpdateJob.perform_later(@user.id, events)
 
-    render json: { message: 'Event update is being processed' }, status: :accepted
+    CalEventUpdateJob.perform_later(params[:account_user_ids], events)
+
+    render json: { message: 'Event update is being processed for multiple users' }, status: :accepted
   end
 
   def destroy
-    uid = params[:uid]
-    CalEventDestroyJob.perform_later(@user.id, uid)
+    uids = Array(params[:uids])
 
-    render json: { message: 'Event deletion is being processed' }, status: :accepted
+    account_user_ids = params[:account_user_ids].split(',')
+    CalEventDestroyJob.perform_later(account_user_ids, uids)
+
+    render json: { message: 'Event deletion is being processed for multiple users' }, status: :accepted
   end
 
   private
 
   def user_update_params
     params.require(:cal_events).map do |event|
-      event.permit(:uid, :title, :url)
+      event.permit(:uids, :title, :url)
     end
   end
 
-  def set_user
-    @user = AccountUser.find(params[:account_user_id]).user
-    render json: { error: 'User not found' }, status: :not_found unless @user
-  end
-
   def validate_update_params
-    return if params[:account_user_id].present? && params[:cal_events].is_a?(Array)
+    return if params[:account_user_ids].present? && params[:account_user_ids].is_a?(Array) && params[:cal_events].is_a?(Array)
 
-    render json: { error: 'Account User Id and Cal Events are required' }, status: :bad_request
+    render json: { error: 'Account User Ids and Cal Events are required' }, status: :bad_request
   end
 
   def validate_delete_params
-    return if params[:account_user_id].present? && params[:uid].present?
+    return if params[:account_user_ids].present? && params[:uids].present?
 
-    render json: { error: 'Account User Id and Cal event Uid are required' }, status: :bad_request
+    render json: { error: 'Account User Ids and Cal event Uid are required' }, status: :bad_request
   end
 end
