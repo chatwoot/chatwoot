@@ -42,6 +42,12 @@ class ApiClient {
   get() {
     return axios.get(this.url);
   }
+  fetchCampaignContacts(id) {
+    console.log('apiclient.js');
+    const data = axios.get(`${this.url}/${id}/fetchCampaignContacts`); // Use `const` to define the variable
+    console.log('Data:', data);
+    return data;
+  }
 
   show(id) {
     return axios.get(`${this.url}/${id}`);

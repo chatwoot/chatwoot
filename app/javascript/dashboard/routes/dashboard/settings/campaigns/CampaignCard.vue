@@ -3,11 +3,13 @@ import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.
 import InboxName from 'dashboard/components/widgets/InboxName.vue';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { messageStamp } from 'shared/helpers/timeHelper';
+import CampaignReportModal from './CampaignReportModal.vue';
 
 export default {
   components: {
     UserAvatarWithName,
     InboxName,
+    CampaignReportModal,
   },
   mixins: [messageFormatterMixin],
   props: {
@@ -23,6 +25,11 @@ export default {
       type: Boolean,
       default: true,
     },
+  },
+  data() {
+    return {
+      showReportModal: false, // Add state to control modal visibility
+    };
   },
 
   computed: {
@@ -50,6 +57,14 @@ export default {
     isCompleted() {
       return this.campaign.campaign_status === 'completed';
     },
+    canShowReport() {
+      // Only show report button for completed campaigns
+      return (
+        this.isCompleted &&
+        (this.campaign.processed_contacts_count > 0 ||
+          this.campaign.failed_contacts_count > 0)
+      );
+    },
     colorScheme() {
       if (this.isOngoingType || this.isWhatsappType) {
         return this.campaign.enabled ? 'success' : 'secondary';
@@ -61,6 +76,16 @@ export default {
   },
   methods: {
     messageStamp,
+    openReportModal() {
+      this.showReportModal = true;
+    },
+    closeReportModal() {
+      this.showReportModal = false;
+    },
+    handleReportError(error) {
+      // Optional: Add error handling logic, e.g., showing a toast notification
+      console.error('Campaign report error:', error);
+    },
   },
 };
 </script>
@@ -150,6 +175,23 @@ export default {
 
         <!-- Action Buttons -->
         <div class="flex space-x-4">
+          <woot-button
+            v-if="canShowReport"
+            variant="link"
+            icon="document"
+            color-scheme="secondary"
+            size="small"
+            @click="openReportModal"
+            class="ml-auto"
+          >
+            {{ $t('CAMPAIGN.LIST.BUTTONS.SHOW_REPORT') }}
+          </woot-button>
+          <CampaignReportModal
+            v-if="showReportModal"
+            :campaign="campaign"
+            @close="closeReportModal"
+            @error="handleReportError"
+          />
           <woot-button
             v-if="(isOngoingType || isWhatsappType) && !isCompleted"
             variant="link"

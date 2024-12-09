@@ -29,12 +29,22 @@ export default {
 
   computed: {
     pathSource() {
-      // To support icons with multiple paths
-      const path = this.icons[`${this.icon}-${this.type}`];
-      if (path.constructor === Array) {
-        return path;
+      // Check if icons object exists and the specific icon path exists
+      const iconPath = this.icons && this.icons[`${this.icon}-${this.type}`];
+
+      // If iconPath is undefined, return an empty array or a default path
+      if (!iconPath) {
+        console.warn(`No icon found for ${this.icon}-${this.type}`);
+        return []; // or return a default icon path if needed
       }
-      return [path];
+
+      // If path is already an array, return it
+      if (Array.isArray(iconPath)) {
+        return iconPath;
+      }
+
+      // If path is a single path, wrap it in an array
+      return [iconPath];
     },
   },
 };

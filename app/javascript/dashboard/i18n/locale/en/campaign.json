@@ -13,6 +13,16 @@
       "FAILED": "Failed",
       "REPLIED": "Replied"
     },
+    "REPORT": {
+      "TITLE": "Campaign Report",
+      "PROCESSED_CONTACTS": "Successful contacts",
+      "FAILED_CONTACTS": "Failed contacts",
+      "EXPORT_CSV": "Export CSV",
+      "SEARCH_PLACEHOLDER": "Search the contacts",
+      "CLOSE": "Close",
+      "NO_PROCESSED_CONTACTS": "No Successful contacts",
+      "NO_FAILED_CONTACTS": "No Failed contacts"
+    },
     "CONTACT_SELECTOR": {
       "SEARCH_PLACEHOLDER": "Search The contacts",
       "SELECT_ALL": "Select All",
@@ -126,7 +136,8 @@
       "BUTTONS": {
         "ADD": "Add",
         "EDIT": "Edit",
-        "DELETE": "Delete"
+        "DELETE": "Delete",
+        "SHOW_REPORT": "View Report"
       },
       "STATUS": {
         "ENABLED": "Enabled",
