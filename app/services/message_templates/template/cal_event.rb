@@ -1,9 +1,10 @@
 class MessageTemplates::Template::CalEvent
-  pattr_initialize [:conversation_id!, :account_id!, :event_url]
+  pattr_initialize [:conversation_id!, :account_id!, :event_url, :title]
 
-  def initialize(conversation_id, account_id, event_url)
+  def initialize(conversation_id, account_id, event_url, title)
     @conversation = Conversation.find_by(display_id: conversation_id, account_id: account_id)
     @event_url = event_url
+    @title = title
   end
 
   def perform
@@ -29,7 +30,7 @@ class MessageTemplates::Template::CalEvent
       message_type: :template,
       content_type: :cal_event,
       content: content,
-      content_attributes: { 'event_url': @event_url }
+      content_attributes: { 'event_url': @event_url, 'title': @title }
     }
   end
 end

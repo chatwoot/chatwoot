@@ -15,14 +15,15 @@ class Onehash::SendCalEventController < Api::V1::Accounts::BaseController
   private
 
   def valid_params?
-    permitted_params[:conversation_id] && permitted_params[:account_id] && permitted_params[:event_url]
+    permitted_params[:conversation_id] && permitted_params[:account_id] && permitted_params[:event_url] && permitted_params[:title]
   end
 
   def sent_event
     cal_event_book = MessageTemplates::Template::CalEvent.new(
       permitted_params[:conversation_id],
       permitted_params[:account_id],
-      permitted_params[:event_url]
+      permitted_params[:event_url],
+      permitted_params[:title]
     )
     cal_event_book.perform
   end
@@ -32,6 +33,6 @@ class Onehash::SendCalEventController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:conversation_id, :account_id, :event_url)
+    params.permit(:conversation_id, :account_id, :event_url, :title)
   end
 end

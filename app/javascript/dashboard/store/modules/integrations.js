@@ -137,13 +137,17 @@ export const actions = {
     }
   },
 
-  addOneHashIntegration: async ({ commit }, integrationId) => {
+  addOneHashIntegration: async ({ commit }, { integrationId, slug }) => {
     try {
-      const response =
-        await IntegrationsAPI.addOneHashIntegration(integrationId);
+      const response = await IntegrationsAPI.addOneHashIntegration(
+        integrationId,
+        slug
+      );
       commit(types.default.ADD_INTEGRATION, response.data);
+      return response;
     } catch (error) {
       throwErrorMessage(error);
+      return null;
     }
   },
 };
