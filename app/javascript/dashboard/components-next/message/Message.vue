@@ -78,7 +78,7 @@ import MessageMeta from './MessageMeta.vue';
  * @property {string|null} [senderType=null] - The type of the sender
  * @property {string} content - The message content
  */
-
+// eslint-disable-next-line vue/define-macros-order
 const props = defineProps({
   id: { type: Number, required: true },
   messageType: {
