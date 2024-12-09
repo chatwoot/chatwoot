@@ -92,6 +92,8 @@ class Account < ApplicationRecord
   after_create_commit :update_usage_limits
   after_destroy :remove_account_sequences
 
+  has_many :contact_bookings, dependent: :destroy_async
+
   def agents
     users.where(account_users: { role: :agent })
   end

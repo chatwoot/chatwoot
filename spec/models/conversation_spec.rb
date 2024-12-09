@@ -142,7 +142,7 @@ RSpec.describe Conversation do
     it 'runs after_update callbacks' do
       conversation.update(
         status: :resolved,
-        contact_last_seen_at: Time.now,
+        contact_last_seen_at: Time.zone.now,
         assignee: new_assignee
       )
       status_change = conversation.status_change
@@ -193,7 +193,7 @@ RSpec.describe Conversation do
     it 'creates conversation activities' do
       conversation.update(
         status: :resolved,
-        contact_last_seen_at: Time.now,
+        contact_last_seen_at: Time.zone.now,
         assignee: new_assignee,
         label_list: [label.title]
       )
@@ -622,7 +622,7 @@ RSpec.describe Conversation do
             account: conversation.account,
             inbox: facebook_inbox,
             conversation: conversation,
-            created_at: Time.now - 48.hours
+            created_at: 48.hours.ago
           )
 
           expect(conversation.can_reply?).to be true
@@ -637,7 +637,7 @@ RSpec.describe Conversation do
             account: conversation.account,
             inbox: facebook_inbox,
             conversation: conversation,
-            created_at: Time.now - 48.hours
+            created_at: 48.hours.ago
           )
 
           expect(conversation.can_reply?).to be false
@@ -657,7 +657,7 @@ RSpec.describe Conversation do
             account: conversation.account,
             inbox: api_channel.inbox,
             conversation: conversation,
-            created_at: Time.now - 13.hours
+            created_at: 13.hours.ago
           )
 
           expect(api_channel.additional_attributes['agent_reply_time_window']).to be_nil
@@ -673,7 +673,7 @@ RSpec.describe Conversation do
             account: conversation.account,
             inbox: api_channel_with_limit.inbox,
             conversation: conversation,
-            created_at: Time.now - 13.hours
+            created_at: 13.hours.ago
           )
 
           expect(api_channel_with_limit.additional_attributes['agent_reply_time_window']).to eq '12'

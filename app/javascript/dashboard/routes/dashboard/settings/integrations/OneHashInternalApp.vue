@@ -19,6 +19,9 @@ export default {
   data() {
     return {
       showDeleteConfirmationPopup: false,
+      showCalIntegrationPopup: false,
+      loading: false,
+      cal_user_slug: '',
     };
   },
   computed: {
@@ -32,6 +35,12 @@ export default {
     },
     closeDeletePopup() {
       this.showDeleteConfirmationPopup = false;
+    },
+    openCalIntegrationPopup() {
+      this.showCalIntegrationPopup = true;
+    },
+    closeCalIntegrationPopup() {
+      this.showCalIntegrationPopup = false;
     },
     confirmDeletion() {
       this.closeDeletePopup();
@@ -52,16 +61,41 @@ export default {
       }
     },
 
-    async addIntegration() {
+    async addCalIntegration() {
       try {
-        await this.$store.dispatch(
+        this.loading = true;
+        if (this.cal_user_slug.trim() === '') {
+          useAlert('Field cannot be empty');
+          return;
+        }
+        const regex =
+          /(https?:\/\/(cal\.id|calid\.in|localhost):?[\d]*\/)([^/]+)$/;
+        const match = this.cal_user_slug.match(regex);
+        if (match) {
+          this.cal_user_slug = match[3];
+        }
+
+        this.closeCalIntegrationPopup();
+        const res = await this.$store.dispatch(
           'integrations/addOneHashIntegration',
-          this.integrationId
+          {
+            integrationId: this.integrationId,
+            slug: this.cal_user_slug,
+          }
         );
-        window.location.reload();
-        useAlert(this.$t('INTEGRATION_SETTINGS.ADD.API.SUCCESS_MESSAGE'));
+        useAlert(res.data.message);
       } catch (error) {
         useAlert(this.$t('INTEGRATION_SETTINGS.ADD.API.ERROR_MESSAGE'));
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async handleConfigure() {
+      if (this.integrationId === 'onehash_cal') {
+        this.openCalIntegrationPopup();
+      } else {
+        useAlert('App not configured');
       }
     },
   },
@@ -93,17 +127,34 @@ export default {
     </div>
     <div class="flex justify-center items-center mb-0 w-[15%]">
       <div v-if="integrationEnabled">
-        <button class="button alert" @click="openDeletePopup">
+        <woot-button
+          variant="smooth"
+          color-scheme="danger"
+          icon="delete"
+          @click="openDeletePopup"
+        >
           {{
             deleteButtonText ||
             $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
           }}
-        </button>
+        </woot-button>
+        <!-- <button class="button alert" @click="openDeletePopup">
+          {{
+            deleteButtonText ||
+            $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
+          }}
+        </button> -->
       </div>
       <div v-else>
-        <button class="button nice" @click="addIntegration">
+        <woot-button
+          variant="smooth"
+          color-scheme="secondary"
+          icon="plus-sign"
+          :is-loading="loading"
+          @click="handleConfigure"
+        >
           {{ $t('INTEGRATION_SETTINGS.WEBHOOK.CONFIGURE') }}
-        </button>
+        </woot-button>
       </div>
     </div>
     <woot-delete-modal
@@ -121,5 +172,32 @@ export default {
       :confirm-text="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.YES')"
       :reject-text="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.NO')"
     />
+
+    <woot-modal
+      :show.sync="showCalIntegrationPopup"
+      :on-close="closeCalIntegrationPopup"
+    >
+      <div class="bg-white p-6 rounded-lg text-center">
+        <!-- Modal Title -->
+        <h2 class="text-xl font-semibold mb-4">
+          {{ $t('INTEGRATION_SETTINGS.ONEHASH_CAL.ADD_TITLE') }}
+        </h2>
+
+        <p class="text-gray-700 mb-4">
+          {{ $t('INTEGRATION_SETTINGS.ONEHASH_CAL.ADD_MESSAGE') }}
+        </p>
+
+        <input
+          v-model="cal_user_slug"
+          @keydown.enter="addCalIntegration"
+          type="text"
+          class="w-full p-2 mb-4 border border-gray-300 rounded-md"
+        />
+
+        <button class="button nice" @click="addCalIntegration">
+          {{ $t('INTEGRATION_SETTINGS.ONEHASH_CAL.PROCEED') }}
+        </button>
+      </div>
+    </woot-modal>
   </div>
 </template>

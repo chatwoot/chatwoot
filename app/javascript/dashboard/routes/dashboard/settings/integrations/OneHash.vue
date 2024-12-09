@@ -17,9 +17,6 @@ export default {
     },
   },
   methods: {
-    async connectOneHashCal() {
-      await this.$store.dispatch('integrations/connectOneHashCal');
-    },
     getTranslationKey(internalAppId, suffix) {
       const map = {
         onehash_cal: 'ONEHASH_CAL',

@@ -387,7 +387,9 @@ export default {
       return slug;
     },
     getCalendarEvents() {
-      return this.currentUser?.custom_attributes?.cal_events;
+      return this.currentUser?.custom_attributes?.cal_events[
+        this.currentUser.account_id.toString()
+      ];
     },
   },
   watch: {
@@ -1089,6 +1091,7 @@ export default {
         conversation_id: this.currentChat.id,
         account_id: this.currentUser.account_id,
         event_url: payload.url,
+        title: payload.title,
       });
 
       this.hideSelectCalendarModal();

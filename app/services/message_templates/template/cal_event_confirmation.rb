@@ -3,9 +3,8 @@ class MessageTemplates::Template::CalEventConfirmation
 
   def initialize(message_id, event_payload)
     @event_payload = event_payload
-    puts "event_payload__: #{@event_payload.inspect}"
-    @message = Message.find_by_id(message_id)
-    @conversation = Conversation.find_by_id(@message.conversation_id)
+    @message = Message.find_by(id: message_id)
+    @conversation = Conversation.find_by(id: @message.conversation_id)
   end
 
   def perform

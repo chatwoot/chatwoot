@@ -37,8 +37,10 @@ class IntegrationsAPI extends ApiClient {
     return axios.get(`${this.baseUrl()}/integrations/captain/sso_url`);
   }
 
-  addOneHashIntegration(integrationId) {
-    return axios.post(`${this.baseUrl()}/integrations/${integrationId}`);
+  addOneHashIntegration(integrationId, slug) {
+    return axios.get(
+      `${this.baseUrl()}/integrations/${integrationId}?cal_user_slug=${slug}`
+    );
   }
 }
 

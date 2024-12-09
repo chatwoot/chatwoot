@@ -10,6 +10,6 @@ require 'rails_helper'
 #     end
 #   end
 # end
-RSpec.describe Api::V1::Widget::ChatbotsHelper, type: :helper do
+RSpec.describe Api::V1::Widget::ChatbotsHelper do
   pending "add some examples to (or delete) #{__FILE__}"
 end
