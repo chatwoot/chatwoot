@@ -480,9 +480,18 @@ export default {
       this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
     },
     getInReplyToMessage(parentMessage) {
-      if (!parentMessage) return null;
-      const inReplyToMessageId = parentMessage.contentAttributes?.inReplyTo;
-      if (!inReplyToMessageId) return null;
+      // the old implementation took an empty object, but the
+      // new implementation takes null
+      const emptyOption = this.showNextBubbles ? null : {};
+
+      if (!parentMessage) return emptyOption;
+      // to maintain backward compatibility we use both the keys
+      // contentAttributes and content_attributes
+      // TODO: Remove this once we've migrated all the keys to camelCase
+      const inReplyToMessageId =
+        parentMessage.contentAttributes?.inReplyTo ??
+        parentMessage.content_attributes?.in_reply_to;
+      if (!inReplyToMessageId) return emptyOption;
 
       return this.currentChat?.messages.find(message => {
         if (message.id === inReplyToMessageId) {
@@ -518,7 +527,10 @@ export default {
         @click="onToggleContactPanel"
       />
     </div>
-    <ul class="conversation-panel px-4 bg-n-background">
+    <ul
+      class="conversation-panel"
+      :class="{ 'px-4 bg-n-background': showNextBubbles }"
+    >
       <transition name="slide-up">
         <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
         <li class="min-h-[4rem]">
