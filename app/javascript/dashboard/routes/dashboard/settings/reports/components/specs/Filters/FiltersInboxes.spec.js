@@ -55,7 +55,7 @@ describe('ReportsFiltersInboxes.vue', () => {
     });
 
     const selectedInbox = { id: 1, name: 'Inbox 1' };
-    await wrapper.setData({ selectedOption: selectedInbox });
+    wrapper.vm.selectedOption = selectedInbox;
 
     await wrapper.vm.handleInput();
 
@@ -65,12 +65,13 @@ describe('ReportsFiltersInboxes.vue', () => {
 
   it('passes the correct "multiple" prop to multiselect component', () => {
     const wrapper = shallowMount(ReportsFiltersInboxes, {
-      store,
-      localVue,
+      global: {
+        plugins: [store],
+        ...mountParams.global,
+      },
       propsData: {
         multiple: true,
       },
-      ...mountParams,
     });
 
     const multiselect = wrapper.findComponent({ name: 'multiselect' });
