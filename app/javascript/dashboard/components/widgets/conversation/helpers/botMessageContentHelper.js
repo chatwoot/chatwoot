@@ -11,8 +11,12 @@ const generateInputSelectContent = contentAttributes => {
   return '';
 };
 
-const generateCalEventContent = (contentAttributes, { calEventResponse }) => {
-  return `<strong>${calEventResponse}</strong>`;
+const generateCalEventContent = contentAttributes => {
+  const { t } = useI18n();
+
+  return t('CONVERSATION.CAL_EVENT_RESPONSE', {
+    title: contentAttributes.title,
+  });
 };
 
 const generateCalEventConfirmationContent = contentAttributes => {
@@ -88,7 +92,6 @@ export const generateBotMessageContent = (
   {
     noResponseText = 'No response',
     csat: { ratingTitle = 'Rating', feedbackTitle = 'Feedback' } = {},
-    calEventResponse = 'Calendar event sent',
   } = {}
 ) => {
   const contentTypeMethods = {
@@ -106,7 +109,6 @@ export const generateBotMessageContent = (
       noResponseText,
       ratingTitle,
       feedbackTitle,
-      calEventResponse,
     });
   }
   return '';

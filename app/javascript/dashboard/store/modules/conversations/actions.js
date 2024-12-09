@@ -507,12 +507,16 @@ const actions = {
     }
   },
 
-  sendCalEvent: async (_, { account_id, conversation_id, event_url }) => {
+  sendCalEvent: async (
+    _,
+    { account_id, conversation_id, event_url, title }
+  ) => {
     try {
       await MessageApi.sendCalEvent({
         account_id,
         conversation_id,
         event_url,
+        title,
       });
     } catch (error) {
       throw new Error(error);
