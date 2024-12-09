@@ -68,6 +68,13 @@ export default {
           useAlert('Field cannot be empty');
           return;
         }
+        const regex =
+          /(https?:\/\/(cal\.id|calid\.in|localhost):?[\d]*\/)([^/]+)$/;
+        const match = this.cal_user_slug.match(regex);
+        if (match) {
+          this.cal_user_slug = match[3];
+        }
+
         this.closeCalIntegrationPopup();
         const res = await this.$store.dispatch(
           'integrations/addOneHashIntegration',
