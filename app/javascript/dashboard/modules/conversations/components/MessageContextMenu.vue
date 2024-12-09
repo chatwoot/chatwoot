@@ -4,6 +4,7 @@ import { mapGetters } from 'vuex';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned.vue';
+import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { conversationUrl, frontendURL } from '../../../helper/URLHelper';
 import {
@@ -62,7 +63,7 @@ export default {
       return this.getPlainText(this.messageContent);
     },
     conversationId() {
-      return this.message.conversation_id;
+      return this.message.conversation_id ?? this.message.conversationId;
     },
     messageId() {
       return this.message.id;
@@ -71,7 +72,9 @@ export default {
       return this.message.content;
     },
     contentAttributes() {
-      return this.message.content_attributes;
+      return useSnakeCase(
+        this.message.content_attributes ?? this.message.contentAttributes
+      );
     },
   },
   methods: {

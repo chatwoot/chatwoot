@@ -544,6 +544,7 @@ export default {
           v-bind="message"
           :in-reply-to="getInReplyToMessage(message)"
           :group-with-next="shouldGroupWithNext(index, readMessages)"
+          :inbox-supports-reply-to="inboxSupportsReplyTo"
           :current-user-id="currentUserId"
           data-clarity-mask="True"
         />
@@ -582,6 +583,7 @@ export default {
           v-bind="message"
           :in-reply-to="getInReplyToMessage(message)"
           :group-with-next="shouldGroupWithNext(index, unReadMessages)"
+          :inbox-supports-reply-to="inboxSupportsReplyTo"
           :current-user-id="currentUserId"
           data-clarity-mask="True"
         />
