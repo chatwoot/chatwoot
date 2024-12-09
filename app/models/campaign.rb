@@ -66,16 +66,19 @@ class Campaign < ApplicationRecord
   end
 
   def processed_contacts
-    contacts.where(campaign_contacts: { status: 'processed' })
+    CUSTOM_LOGGER.info("Processed ka Req aayi hai")
+    contacts.joins(:campaign_contacts).where(campaign_contacts: { status: 'processed', campaign_id: self.id })
   end
-
+  
   def failed_contacts
-    contacts.where(campaign_contacts: { status: 'failed' })
+    CUSTOM_LOGGER.info("Processed ka Req aayi hai")
+    contacts.joins(:campaign_contacts).where(campaign_contacts: { status: 'failed', campaign_id: self.id })
   end
-
+  
   def delivered_contacts
-    contacts.where(campaign_contacts: { status: 'delivered' })
+    contacts.joins(:campaign_contacts).where(campaign_contacts: { status: 'delivered' })
   end
+  
 
   def trigger!
     return if completed?

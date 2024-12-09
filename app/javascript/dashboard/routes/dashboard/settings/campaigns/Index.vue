@@ -57,7 +57,7 @@ export default {
         v-if="isWhatsappType"
         color-scheme="secondary"
         class-names="button--fixed-left"
-        icon="refresh"
+        icon="repeat"
         @click="reloadPage"
       >
         {{ $t('Reload') }}
