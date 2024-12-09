@@ -1,7 +1,7 @@
 class Internal::RemoveStaleRedisKeysService
   pattr_initialize [:account_id!]
 
-  def perform  # Remove the parameter since we already have @account_id
+  def perform
     range_start = (Time.zone.now - OnlineStatusTracker::PRESENCE_DURATION).to_i
     # exclusive minimum score is specified by prefixing (
     # we are clearing old records because this could clogg up the sorted set
