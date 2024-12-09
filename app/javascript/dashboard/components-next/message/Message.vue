@@ -110,7 +110,7 @@ const props = defineProps({
   senderId: { type: Number, default: null },
   senderType: { type: String, default: null },
   content: { type: String, required: true },
-  contentAttributes: { type: Object, default: () => {} },
+  contentAttributes: { type: Object, default: () => ({}) },
   currentUserId: { type: Number, required: true },
   groupWithNext: { type: Boolean, default: false },
   inReplyTo: { type: Object, default: null },
@@ -135,7 +135,7 @@ const variant = computed(() => {
     }
   }
   if (props.status === MESSAGE_STATUS.FAILED) return MESSAGE_VARIANTS.ERROR;
-  if (props.contentAttributes.isUnsupported)
+  if (props.contentAttributes?.isUnsupported)
     return MESSAGE_VARIANTS.UNSUPPORTED;
 
   const variants = {
@@ -227,11 +227,11 @@ const componentToRender = computed(() => {
     if (emailInboxTypes.includes(props.messageType)) return EmailBubble;
   }
 
-  if (props.contentAttributes.isUnsupported) {
+  if (props.contentAttributes?.isUnsupported) {
     return UnsupportedBubble;
   }
 
-  if (props.contentAttributes.imageType === 'story_mention') {
+  if (props.contentAttributes?.imageType === 'story_mention') {
     return InstagramStoryBubble;
   }
 
@@ -261,7 +261,7 @@ const shouldShowContextMenu = computed(() => {
   return !(
     props.status === MESSAGE_STATUS.FAILED ||
     props.status === MESSAGE_STATUS.PROGRESS ||
-    props.contentAttributes.isUnsupported
+    props.contentAttributes?.isUnsupported
   );
 });
 
@@ -270,7 +270,7 @@ const isBubble = computed(() => {
 });
 
 const isMessageDeleted = computed(() => {
-  return props.contentAttributes.deleted;
+  return props.contentAttributes?.deleted;
 });
 
 const payloadForContextMenu = computed(() => {
