@@ -241,7 +241,7 @@ export default {
 
 <template>
   <div
-    class="flex flex-col w-48 h-full px-2 pb-8 overflow-auto text-sm border-r bg-n-solid-2 dark:bg-n-solid-2 dark:border-n-weak/50 border-n-weak/50 rtl:border-r-0 rtl:border-l"
+    class="flex flex-col w-48 h-full px-2 pb-8 overflow-auto text-sm border-r bg-n-solid-2 dark:bg-n-solid-2 dark:border-n-weak border-n-weak rtl:border-r-0 rtl:border-l"
   >
     <AccountContext @toggle-accounts="toggleAccountModal" />
     <transition-group

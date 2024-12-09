@@ -3,7 +3,7 @@
 }
 
 .tabs--container--with-border {
-  @apply border-b border-n-weak/50 dark:border-n-weak/50;
+  @apply border-b border-n-weak dark:border-n-weak;
 }
 
 .tabs {

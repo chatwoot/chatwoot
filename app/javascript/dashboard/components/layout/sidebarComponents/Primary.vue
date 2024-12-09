@@ -71,7 +71,7 @@ export default {
 
 <template>
   <div
-    class="flex flex-col justify-between w-16 h-full border-r bg-n-solid-2 dark:bg-n-solid-2 dark:border-n-weak border-n-weak/50 rtl:border-l rtl:border-r-0"
+    class="flex flex-col justify-between w-16 h-full border-r bg-n-solid-2 dark:bg-n-solid-2 dark:border-n-weak border-n-weak rtl:border-l rtl:border-r-0"
   >
     <div class="flex flex-col items-center">
       <Logo
