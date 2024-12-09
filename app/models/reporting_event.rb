@@ -37,7 +37,7 @@ class ReportingEvent < ApplicationRecord
   belongs_to :conversation, optional: true
 
   scope :filter_by_label, lambda { |selected_label|
-    joins(:conversation).where(conversations: { cached_label_list: selected_label }) if selected_label.present?
+    joins(:conversation).merge(Conversation.tagged_with(selected_label)) if selected_label.present?
   }
 
   scope :filter_by_team, lambda { |selected_team|

@@ -34,7 +34,7 @@ class AppliedSla < ApplicationRecord
   scope :filter_by_team_id, ->(team_id) { joins(:conversation).where(conversations: { team_id: team_id }) if team_id.present? }
   scope :filter_by_sla_policy_id, ->(sla_policy_id) { where(sla_policy_id: sla_policy_id) if sla_policy_id.present? }
   scope :filter_by_label_list, lambda { |label_list|
-                                 joins(:conversation).where('conversations.cached_label_list LIKE ?', "%#{label_list}%") if label_list.present?
+                                 joins(:conversation).merge(Conversation.tagged_with(label_list)) if label_list.present?
                                }
   scope :filter_by_assigned_agent_id, lambda { |assigned_agent_id|
                                         joins(:conversation).where(conversations: { assignee_id: assigned_agent_id }) if assigned_agent_id.present?
