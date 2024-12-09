@@ -46,6 +46,10 @@ export default {
     editorId: { type: String, default: '' },
     placeholder: { type: String, default: '' },
     enabledMenuOptions: { type: Array, default: () => [] },
+    autofocus: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['blur', 'input', 'update:modelValue', 'keyup', 'focus', 'keydown'],
   setup() {
@@ -86,7 +90,9 @@ export default {
     this.createEditorView();
 
     editorView.updateState(state);
-    this.focusEditorInputField();
+    if (this.autofocus) {
+      this.focusEditorInputField();
+    }
   },
   methods: {
     contentFromEditor() {

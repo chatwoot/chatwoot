@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "3.14.0",
+  "version": "3.15.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
@@ -10,7 +10,7 @@
     "test:coverage": "TZ=UTC vitest --no-watch --no-cache --coverage",
     "start:dev": "foreman start -f ./Procfile.dev",
     "start:test": "RAILS_ENV=test foreman start -f ./Procfile.test",
-    "start:dev-overmind": "overmind start -f ./Procfile.dev",
+    "dev": "overmind start -f ./Procfile.dev",
     "ruby:prettier": "bundle exec rubocop -a",
     "build:sdk": "BUILD_MODE=library vite build",
     "prepare": "husky install",
@@ -31,9 +31,10 @@
   ],
   "dependencies": {
     "@breezystack/lamejs": "^1.2.7",
+    "@chatwoot/captain": "0.0.3-alpha.4",
     "@chatwoot/ninja-keys": "1.2.3",
     "@chatwoot/prosemirror-schema": "1.1.1-next",
-    "@chatwoot/utils": "^0.0.25",
+    "@chatwoot/utils": "^0.0.30",
     "@formkit/core": "^1.6.7",
     "@formkit/vue": "^1.6.7",
     "@hcaptcha/vue3-hcaptcha": "^1.3.0",
@@ -52,10 +53,11 @@
     "@vue/compiler-sfc": "^3.5.8",
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",
-    "@vueuse/components": "^11.1.0",
-    "@vueuse/core": "^11.1.0",
+    "@vueuse/components": "^12.0.0",
+    "@vueuse/core": "^12.0.0",
     "activestorage": "^5.2.6",
     "axios": "^1.7.7",
+    "camelcase-keys": "^9.1.3",
     "chart.js": "~4.4.4",
     "color2k": "^2.0.2",
     "company-email-validator": "^1.1.0",
@@ -75,6 +77,7 @@
     "mitt": "^3.0.1",
     "opus-recorder": "^8.0.5",
     "semver": "7.6.3",
+    "snakecase-keys": "^8.0.1",
     "timezone-phone-codes": "^0.0.2",
     "tinykeys": "^3.0.0",
     "turbolinks": "^5.2.0",
@@ -82,11 +85,11 @@
     "video.js": "7.18.1",
     "videojs-record": "4.5.0",
     "videojs-wavesurfer": "3.8.0",
-    "vue": "^3.5.8",
+    "vue": "^3.5.12",
     "vue-chartjs": "5.3.1",
     "vue-datepicker-next": "^1.0.3",
     "vue-dompurify-html": "^5.1.0",
-    "vue-i18n": "9.14.0",
+    "vue-i18n": "9.14.2",
     "vue-letter": "^0.2.0",
     "vue-multiselect": "3.1.0",
     "vue-router": "~4.4.5",
@@ -101,8 +104,10 @@
   "devDependencies": {
     "@egoist/tailwindcss-icons": "^1.8.1",
     "@histoire/plugin-vue": "0.17.15",
-    "@iconify-json/logos": "^1.2.0",
-    "@iconify-json/lucide": "^1.2.5",
+    "@iconify-json/logos": "^1.2.3",
+    "@iconify-json/lucide": "^1.2.11",
+    "@iconify-json/ph": "^1.2.1",
+    "@iconify-json/ri": "^1.2.3",
     "@size-limit/file": "^8.2.4",
     "@vitest/coverage-v8": "2.0.1",
     "@vue/test-utils": "^2.4.6",
@@ -138,6 +143,13 @@
   "husky": {
     "hooks": {
       "pre-push": "sh bin/validate_push"
+    }
+  },
+  "pnpm": {
+    "overrides": {
+      "vite-node": "2.0.1",
+      "vite": "5.4.8",
+      "vitest": "2.0.1"
     }
   },
   "lint-staged": {

@@ -133,9 +133,10 @@ export const actions = {
     }
   },
 
-  deleteAvatar: async () => {
+  deleteAvatar: async ({ commit }) => {
     try {
-      await authAPI.deleteAvatar();
+      const response = await authAPI.deleteAvatar();
+      commit(types.SET_CURRENT_USER, response.data);
     } catch (error) {
       // Ignore error
     }
@@ -151,8 +152,15 @@ export const actions = {
     }
   },
 
-  updateAvailability: async ({ commit, dispatch }, params) => {
+  updateAvailability: async (
+    { commit, dispatch, getters: _getters },
+    params
+  ) => {
+    const previousStatus = _getters.getCurrentUserAvailability;
+
     try {
+      // optimisticly update current status
+      commit(types.SET_CURRENT_USER_AVAILABILITY, params.availability);
       const response = await authAPI.updateAvailability(params);
       const userData = response.data;
       const { id } = userData;
@@ -162,16 +170,23 @@ export const actions = {
         availabilityStatus: params.availability,
       });
     } catch (error) {
-      // Ignore error
+      // revert back to previous status if update fails
+      commit(types.SET_CURRENT_USER_AVAILABILITY, previousStatus);
     }
   },
 
-  updateAutoOffline: async ({ commit }, { accountId, autoOffline }) => {
+  updateAutoOffline: async (
+    { commit, getters: _getters },
+    { accountId, autoOffline }
+  ) => {
+    const previousAutoOffline = _getters.getCurrentUserAutoOffline;
+
     try {
+      commit(types.SET_CURRENT_USER_AUTO_OFFLINE, autoOffline);
       const response = await authAPI.updateAutoOffline(accountId, autoOffline);
       commit(types.SET_CURRENT_USER, response.data);
     } catch (error) {
-      // Ignore error
+      commit(types.SET_CURRENT_USER_AUTO_OFFLINE, previousAutoOffline);
     }
   },
 
@@ -207,6 +222,19 @@ export const mutations = {
       }
       return account;
     });
+    _state.currentUser = {
+      ..._state.currentUser,
+      accounts,
+    };
+  },
+  [types.SET_CURRENT_USER_AUTO_OFFLINE](_state, autoOffline) {
+    const accounts = _state.currentUser.accounts.map(account => {
+      if (account.id === _state.currentUser.account_id) {
+        return { ...account, autoOffline: autoOffline };
+      }
+      return account;
+    });
+
     _state.currentUser = {
       ..._state.currentUser,
       accounts,

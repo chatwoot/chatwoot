@@ -1,14 +1,22 @@
 <script>
+import { mapGetters } from 'vuex';
 import { defineAsyncComponent } from 'vue';
+
+import NextSidebar from 'next/sidebar/Sidebar.vue';
 import Sidebar from '../../components/layout/Sidebar.vue';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
 import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAccountModal.vue';
 import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector.vue';
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
+
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useAccount } from 'dashboard/composables/useAccount';
+
 import wootConstants from 'dashboard/constants/globals';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+
 const CommandBar = defineAsyncComponent(
   () => import('./commands/commandbar.vue')
 );
@@ -16,6 +24,7 @@ import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
+    NextSidebar,
     Sidebar,
     CommandBar,
     WootKeyShortcutModal,
@@ -26,10 +35,12 @@ export default {
   },
   setup() {
     const { uiSettings, updateUISettings } = useUISettings();
+    const { accountId } = useAccount();
 
     return {
       uiSettings,
       updateUISettings,
+      accountId,
     };
   },
   data() {
@@ -44,6 +55,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+    }),
     currentRoute() {
       return ' ';
     },
@@ -61,6 +75,12 @@ export default {
       const { previously_used_sidebar_view: showSecondarySidebar } =
         this.uiSettings;
       return showSecondarySidebar;
+    },
+    showNextSidebar() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.CHATWOOT_V4
+      );
     },
   },
   watch: {
@@ -155,7 +175,15 @@ export default {
 
 <template>
   <div class="flex flex-wrap app-wrapper dark:text-slate-300">
+    <NextSidebar
+      v-if="showNextSidebar"
+      @toggle-account-modal="toggleAccountModal"
+      @open-key-shortcut-modal="toggleKeyShortcutModal"
+      @close-key-shortcut-modal="closeKeyShortcutModal"
+      @show-create-account-modal="openCreateAccountModal"
+    />
     <Sidebar
+      v-else
       :route="currentRoute"
       :has-banner="hasBanner"
       :show-secondary-sidebar="isSidebarOpen"

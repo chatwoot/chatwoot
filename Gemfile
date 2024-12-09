@@ -49,7 +49,7 @@ gem 'aws-sdk-s3', require: false
 # original gem isn't maintained actively
 # we wanted updated version of faraday which is a dependency for slack-ruby-client
 gem 'azure-storage-blob', git: 'https://github.com/chatwoot/azure-storage-ruby', branch: 'chatwoot', require: false
-gem 'google-cloud-storage', require: false
+gem 'google-cloud-storage', '>= 1.48.0', require: false
 gem 'image_processing'
 
 ##-- gems for database --#
@@ -181,6 +181,9 @@ gem 'reverse_markdown'
 group :production do
   # we dont want request timing out in development while using byebug
   gem 'rack-timeout'
+  # for heroku autoscaling
+  gem 'judoscale-rails', require: false
+  gem 'judoscale-sidekiq', require: false
 end
 
 group :development do

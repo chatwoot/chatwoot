@@ -17,6 +17,10 @@ const props = defineProps({
     type: Number,
     default: 16,
   },
+  currentPageInfo: {
+    type: String,
+    default: '',
+  },
 });
 const emit = defineEmits(['update:currentPage']);
 const { t } = useI18n();
@@ -39,11 +43,14 @@ const changePage = newPage => {
 };
 
 const currentPageInformation = computed(() => {
-  return t('PAGINATION_FOOTER.SHOWING', {
-    startItem: startItem.value,
-    endItem: endItem.value,
-    totalItems: props.totalItems,
-  });
+  return t(
+    props.currentPageInfo ? props.currentPageInfo : 'PAGINATION_FOOTER.SHOWING',
+    {
+      startItem: startItem.value,
+      endItem: endItem.value,
+      totalItems: props.totalItems,
+    }
+  );
 });
 
 const pageInfo = computed(() => {
@@ -56,55 +63,53 @@ const pageInfo = computed(() => {
 
 <template>
   <div
-    class="flex justify-between h-12 w-full max-w-[957px] mx-auto bg-slate-25 dark:bg-slate-800/50 rounded-xl py-2 px-3 items-center"
+    class="flex justify-between h-12 w-full max-w-[957px] outline outline-n-container outline-1 mx-auto bg-n-solid-2 rounded-xl py-2 ltr:pl-4 rtl:pr-4 ltr:pr-3 rtl:pl-3 items-center"
   >
     <div class="flex items-center gap-3">
-      <span
-        class="min-w-0 text-sm font-normal line-clamp-1 text-slate-600 dark:text-slate-300"
-      >
+      <span class="min-w-0 text-sm font-normal line-clamp-1 text-n-slate-11">
         {{ currentPageInformation }}
       </span>
     </div>
     <div class="flex items-center gap-2">
       <Button
-        icon="chevrons-lucide-left"
-        icon-lib="lucide"
+        icon="i-lucide-chevrons-left"
         variant="ghost"
         size="sm"
+        color="slate"
+        class="!w-8 !h-6"
         :disabled="isFirstPage"
         @click="changePage(1)"
       />
       <Button
-        icon="chevron-lucide-left"
-        icon-lib="lucide"
+        icon="i-lucide-chevron-left"
         variant="ghost"
+        color="slate"
         size="sm"
+        class="!w-8 !h-6"
         :disabled="isFirstPage"
         @click="changePage(currentPage - 1)"
       />
-      <div
-        class="inline-flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400"
-      >
-        <span
-          class="px-3 tabular-nums py-0.5 bg-white dark:bg-slate-900 rounded-md"
-        >
+      <div class="inline-flex items-center gap-2 text-sm text-n-slate-11">
+        <span class="px-3 tabular-nums py-0.5 bg-n-alpha-black2 rounded-md">
           {{ currentPage }}
         </span>
-        <span>{{ pageInfo }}</span>
+        <span class="truncate">{{ pageInfo }}</span>
       </div>
       <Button
-        icon="chevron-lucide-right"
-        icon-lib="lucide"
+        icon="i-lucide-chevron-right"
         variant="ghost"
+        color="slate"
         size="sm"
+        class="!w-8 !h-6"
         :disabled="isLastPage"
         @click="changePage(currentPage + 1)"
       />
       <Button
-        icon="chevrons-lucide-right"
-        icon-lib="lucide"
+        icon="i-lucide-chevrons-right"
         variant="ghost"
+        color="slate"
         size="sm"
+        class="!w-8 !h-6"
         :disabled="isLastPage"
         @click="changePage(totalPages)"
       />

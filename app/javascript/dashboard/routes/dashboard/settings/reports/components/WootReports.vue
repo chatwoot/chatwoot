@@ -1,20 +1,12 @@
 <script>
+import V4Button from 'dashboard/components-next/button/Button.vue';
 import { useAlert, useTrack } from 'dashboard/composables';
 import ReportFilters from './ReportFilters.vue';
 import ReportContainer from '../ReportContainer.vue';
 import { GROUP_BY_FILTER } from '../constants';
 import { generateFileName } from '../../../../../helper/downloadHelper';
 import { REPORTS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
-
-const REPORTS_KEYS = {
-  CONVERSATIONS: 'conversations_count',
-  INCOMING_MESSAGES: 'incoming_messages_count',
-  OUTGOING_MESSAGES: 'outgoing_messages_count',
-  FIRST_RESPONSE_TIME: 'avg_first_response_time',
-  RESOLUTION_TIME: 'avg_resolution_time',
-  RESOLUTION_COUNT: 'resolutions_count',
-  REPLY_TIME: 'reply_time',
-};
+import ReportHeader from './ReportHeader.vue';
 
 const GROUP_BY_OPTIONS = {
   DAY: [{ id: 1, groupByKey: 'REPORT.GROUPING_OPTIONS.DAY' }],
@@ -36,6 +28,8 @@ const GROUP_BY_OPTIONS = {
 
 export default {
   components: {
+    ReportHeader,
+    V4Button,
     ReportFilters,
     ReportContainer,
   },
@@ -56,6 +50,10 @@ export default {
       type: String,
       default: 'Download Reports',
     },
+    reportTitle: {
+      type: String,
+      default: 'Download Reports',
+    },
   },
   data() {
     return {
@@ -71,6 +69,22 @@ export default {
   computed: {
     filterItemsList() {
       return this.$store.getters[this.getterKey] || [];
+    },
+    isAgentType() {
+      return this.type === 'agent';
+    },
+    reportKeys() {
+      return {
+        CONVERSATIONS: 'conversations_count',
+        ...(!this.isAgentType && {
+          INCOMING_MESSAGES: 'incoming_messages_count',
+        }),
+        OUTGOING_MESSAGES: 'outgoing_messages_count',
+        FIRST_RESPONSE_TIME: 'avg_first_response_time',
+        RESOLUTION_TIME: 'avg_resolution_time',
+        RESOLUTION_COUNT: 'resolutions_count',
+        REPLY_TIME: 'reply_time',
+      };
     },
   },
   mounted() {
@@ -92,19 +106,11 @@ export default {
       }
     },
     fetchChartData() {
-      [
-        'CONVERSATIONS',
-        'INCOMING_MESSAGES',
-        'OUTGOING_MESSAGES',
-        'FIRST_RESPONSE_TIME',
-        'RESOLUTION_TIME',
-        'RESOLUTION_COUNT',
-        'REPLY_TIME',
-      ].forEach(async key => {
+      Object.keys(this.reportKeys).forEach(async key => {
         try {
           const { from, to, groupBy, businessHours } = this;
           this.$store.dispatch('fetchAccountReport', {
-            metric: REPORTS_KEYS[key],
+            metric: this.reportKeys[key],
             from,
             to,
             type: this.type,
@@ -200,26 +206,29 @@ export default {
 </script>
 
 <template>
-  <div class="flex-1 p-4 overflow-auto">
-    <woot-button
-      color-scheme="success"
-      class-names="button--fixed-top"
-      icon="arrow-download"
+  <ReportHeader :header-title="reportTitle">
+    <V4Button
+      :label="downloadButtonLabel"
+      icon="i-ph-download-simple"
+      size="sm"
       @click="downloadReports"
-    >
-      {{ downloadButtonLabel }}
-    </woot-button>
-    <ReportFilters
-      v-if="filterItemsList"
-      :type="type"
-      :filter-items-list="filterItemsList"
-      :group-by-filter-items-list="groupByfilterItemsList"
-      :selected-group-by-filter="selectedGroupByFilter"
-      @date-range-change="onDateRangeChange"
-      @filter-change="onFilterChange"
-      @group-by-filter-change="onGroupByFilterChange"
-      @business-hours-toggle="onBusinessHoursToggle"
     />
-    <ReportContainer v-if="filterItemsList.length" :group-by="groupBy" />
-  </div>
+  </ReportHeader>
+
+  <ReportFilters
+    v-if="filterItemsList"
+    :type="type"
+    :filter-items-list="filterItemsList"
+    :group-by-filter-items-list="groupByfilterItemsList"
+    :selected-group-by-filter="selectedGroupByFilter"
+    @date-range-change="onDateRangeChange"
+    @filter-change="onFilterChange"
+    @group-by-filter-change="onGroupByFilterChange"
+    @business-hours-toggle="onBusinessHoursToggle"
+  />
+  <ReportContainer
+    v-if="filterItemsList.length"
+    :group-by="groupBy"
+    :report-keys="reportKeys"
+  />
 </template>

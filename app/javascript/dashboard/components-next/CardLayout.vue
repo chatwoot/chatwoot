@@ -1,5 +1,13 @@
 <script setup>
+defineProps({
+  layout: {
+    type: String,
+    default: 'col',
+  },
+});
+
 const emit = defineEmits(['click']);
+
 const handleClick = () => {
   emit('click');
 };
@@ -7,10 +15,18 @@ const handleClick = () => {
 
 <template>
   <div
-    class="relative flex flex-col w-full gap-3 px-6 py-5 group/cardLayout rounded-2xl bg-slate-25 dark:bg-slate-800/50"
-    @click="handleClick"
+    class="flex flex-col w-full shadow outline-1 outline outline-n-container group/cardLayout rounded-2xl bg-n-solid-2"
   >
-    <slot name="header" />
-    <slot name="footer" />
+    <div
+      class="flex w-full gap-3 px-6 py-5"
+      :class="
+        layout === 'col' ? 'flex-col' : 'flex-row justify-between items-center'
+      "
+      @click="handleClick"
+    >
+      <slot />
+    </div>
+
+    <slot name="after" />
   </div>
 </template>
