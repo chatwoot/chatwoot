@@ -10,7 +10,4 @@ json.from smart_action.from
 json.to smart_action.to
 json.link smart_action.link
 json.content smart_action.content
-json.score smart_action.score
-json.criteria smart_action.criteria
 json.manual_action smart_action.manual_action?
-json.created_at smart_action.created_at
