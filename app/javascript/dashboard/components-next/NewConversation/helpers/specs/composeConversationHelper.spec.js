@@ -463,3 +463,74 @@ describe('composeConversationHelper', () => {
     });
   });
 });
+
+describe('compareInboxes', () => {
+  it('should sort inboxes by channel priority', () => {
+    const inboxes = [
+      { channelType: 'Channel::Api', name: 'API Inbox' },
+      { channelType: 'Channel::Email', name: 'Email Inbox' },
+      { channelType: 'Channel::WebWidget', name: 'Widget' },
+      { channelType: 'Channel::Whatsapp', name: 'WhatsApp' },
+    ];
+
+    const sorted = [...inboxes].sort(helpers.compareInboxes);
+
+    expect(sorted[0].channelType).toBe('Channel::Email');
+    expect(sorted[1].channelType).toBe('Channel::Whatsapp');
+    expect(sorted[2].channelType).toBe('Channel::WebWidget');
+    expect(sorted[3].channelType).toBe('Channel::Api');
+  });
+
+  it('should sort SMS channels correctly', () => {
+    const inboxes = [
+      { channelType: 'Channel::TwilioSms', name: 'Twilio' },
+      { channelType: 'Channel::Sms', name: 'Regular SMS' },
+    ];
+
+    const sorted = [...inboxes].sort(helpers.compareInboxes);
+
+    expect(sorted[0].channelType).toBe('Channel::Sms');
+    expect(sorted[1].channelType).toBe('Channel::TwilioSms');
+  });
+
+  it('should sort by name when channel types are same', () => {
+    const inboxes = [
+      { channelType: 'Channel::Email', name: 'Support' },
+      { channelType: 'Channel::Email', name: 'Marketing' },
+      { channelType: 'Channel::Email', name: 'Billing' },
+    ];
+
+    const sorted = [...inboxes].sort(helpers.compareInboxes);
+
+    expect(sorted.map(inbox => inbox.name)).toEqual([
+      'Billing',
+      'Marketing',
+      'Support',
+    ]);
+  });
+
+  it('should put channels without priority at the end', () => {
+    const inboxes = [
+      { channelType: 'Channel::Unknown', name: 'Unknown' },
+      { channelType: 'Channel::Email', name: 'Email' },
+      { channelType: 'Channel::LineChannel', name: 'Line' },
+      { channelType: 'Channel::Whatsapp', name: 'WhatsApp' },
+    ];
+
+    const sorted = [...inboxes].sort(helpers.compareInboxes);
+
+    expect(sorted.map(i => i.channelType)).toEqual([
+      'Channel::Email',
+      'Channel::Whatsapp',
+
+      'Channel::LineChannel',
+      'Channel::Unknown',
+    ]);
+  });
+
+  it('should handle empty array', () => {
+    const inboxes = [];
+    const sorted = [...inboxes].sort(helpers.compareInboxes);
+    expect(sorted).toEqual([]);
+  });
+});
