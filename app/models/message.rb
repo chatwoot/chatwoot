@@ -304,6 +304,10 @@ class Message < ApplicationRecord
     snt.to_s.capitalize
   end
 
+  def resend_message
+    notify_via_mail
+  end
+
   private
 
   def prevent_message_flooding
