@@ -11,10 +11,8 @@ describe('#sendMessage', () => {
     });
 
     window.WOOT_WIDGET = {
-      $root: {
-        $i18n: {
-          locale: 'ar',
-        },
+      $i18n: {
+        locale: 'ar',
       },
     };
 

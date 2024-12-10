@@ -36,5 +36,8 @@
     "8025": {
       "label": "Mailhog UI"
     }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {}
   }
 }

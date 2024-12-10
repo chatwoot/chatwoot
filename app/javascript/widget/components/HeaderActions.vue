@@ -60,12 +60,7 @@ export default {
         chatwootWebChannel: { websiteToken },
         authToken,
       } = window;
-      popoutChatWindow(
-        origin,
-        websiteToken,
-        this.$root.$i18n.locale,
-        authToken
-      );
+      popoutChatWindow(origin, websiteToken, this.$i18n.locale, authToken);
     },
     closeWindow() {
       if (IFrameHelper.isIFrame()) {

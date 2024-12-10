@@ -5,7 +5,7 @@ import {
   createColumnHelper,
   getCoreRowModel,
 } from '@tanstack/vue-table';
-import { dynamicTime } from 'shared/helpers/timeHelper';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 import { useI18n } from 'vue-i18n';
 
 import Spinner from 'shared/components/Spinner.vue';
@@ -36,6 +36,7 @@ const props = defineProps({
 
 const emit = defineEmits(['onSortChange']);
 const { t } = useI18n();
+const { localeDynamicTime } = useLocaleDateFormatter();
 
 const tableData = computed(() => {
   if (props.isLoading) {
@@ -51,8 +52,10 @@ const tableData = computed(() => {
     return {
       ...item,
       profiles: additional.social_profiles || {},
-      last_activity_at: lastActivityAt ? dynamicTime(lastActivityAt) : null,
-      created_at: createdAt ? dynamicTime(createdAt) : null,
+      last_activity_at: lastActivityAt
+        ? localeDynamicTime(lastActivityAt)
+        : null,
+      created_at: createdAt ? localeDynamicTime(createdAt) : null,
     };
   });
 });

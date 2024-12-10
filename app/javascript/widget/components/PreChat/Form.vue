@@ -37,7 +37,7 @@ export default {
   },
   data() {
     return {
-      locale: this.$root.$i18n.locale,
+      locale: this.$i18n.locale,
       hasErrorInPhoneInput: false,
       message: '',
       formValues: {},

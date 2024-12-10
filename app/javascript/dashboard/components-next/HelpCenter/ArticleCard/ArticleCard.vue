@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
-import { dynamicTime } from 'shared/helpers/timeHelper';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 import {
   ARTICLE_MENU_ITEMS,
   ARTICLE_MENU_OPTIONS,
@@ -49,6 +49,8 @@ const props = defineProps({
 const emit = defineEmits(['openArticle', 'articleAction']);
 
 const { t } = useI18n();
+
+const { localeDynamicTime } = useLocaleDateFormatter();
 
 const [showActionsDropdown, toggleDropdown] = useToggle();
 
@@ -109,7 +111,7 @@ const authorThumbnailSrc = computed(() => {
 });
 
 const lastUpdatedAt = computed(() => {
-  return dynamicTime(props.updatedAt);
+  return localeDynamicTime(props.updatedAt);
 });
 
 const handleArticleAction = ({ action, value }) => {
