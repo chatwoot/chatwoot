@@ -24,7 +24,7 @@ defineProps({
 </script>
 
 <template>
-  <BaseBubble class="grid gap-2 bg-transparent">
+  <BaseBubble class="grid gap-2 bg-transparent" data-bubble-name="attachments">
     <AttachmentChips :attachments="attachments" class="gap-1" />
   </BaseBubble>
 </template>

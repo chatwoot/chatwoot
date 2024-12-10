@@ -58,7 +58,7 @@ const downloadAttachment = async () => {
 </script>
 
 <template>
-  <BaseBubble class="overflow-hidden relative group">
+  <BaseBubble class="overflow-hidden relative group" data-bubble-name="image">
     <div
       v-if="hasError"
       class="flex items-center bg-n-alpha-1 gap-1 text-center px-5 py-4 rounded-lg"

@@ -47,7 +47,7 @@ const isReel = computed(() => {
 </script>
 
 <template>
-  <BaseBubble class="overflow-hidden relative group">
+  <BaseBubble class="overflow-hidden relative group" data-bubble-name="video">
     <div
       v-if="isReel"
       class="absolute p-2 flex items-start justify-end size-12 bg-gradient-to-bl from-n-alpha-black1 to-transparent right-0"

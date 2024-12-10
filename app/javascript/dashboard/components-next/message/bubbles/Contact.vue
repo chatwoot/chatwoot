@@ -119,7 +119,7 @@ async function addContact() {
 </script>
 
 <template>
-  <BaseBubble class="p-3 min-w-64">
+  <BaseBubble class="p-3 min-w-64" data-bubble-name="contact">
     <div class="grid gap-0.5 mb-2">
       <span class="truncate">{{ name }}</span>
       <span class="truncate text-sm text-n-slate-11">
