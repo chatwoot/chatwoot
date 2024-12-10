@@ -408,7 +408,7 @@ provideMessageContext({
         :created-at="props.createdAt"
       />
     </div>
-    <div v-if="shouldShowContextMenu" class="context-menu-wrap">
+    <div v-if="shouldShowContextMenu" class="context-menu-wrap h-0 w-0">
       <ContextMenu
         v-if="isBubble && !isMessageDeleted"
         :context-menu-position="contextMenuPosition"
