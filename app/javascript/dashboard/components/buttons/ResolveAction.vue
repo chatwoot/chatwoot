@@ -43,13 +43,6 @@ const isSnoozed = computed(
   () => currentChat.value.status === wootConstants.STATUS_TYPE.SNOOZED
 );
 
-const buttonClass = computed(() => {
-  if (isPending.value) return 'primary';
-  if (isOpen.value) return 'success';
-  if (isResolved.value) return 'warning';
-  return '';
-});
-
 const showAdditionalActions = computed(
   () => !isPending.value && !isSnoozed.value
 );
