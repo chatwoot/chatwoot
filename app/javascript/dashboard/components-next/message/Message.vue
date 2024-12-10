@@ -14,6 +14,7 @@ import {
   SENDER_TYPES,
   ORIENTATION,
   MESSAGE_STATUS,
+  CONTENT_TYPES,
 } from './constants';
 
 import Avatar from 'next/avatar/Avatar.vue';
@@ -104,20 +105,25 @@ const props = defineProps({
     validator: value => Object.values(MESSAGE_STATUS).includes(value),
   },
   attachments: { type: Array, default: () => [] },
-  private: { type: Boolean, default: false },
+  content: { type: String, default: null },
+  contentAttributes: { type: Object, default: () => ({}) },
+  contentType: {
+    type: String,
+    default: 'text',
+    validator: value => Object.values(CONTENT_TYPES).includes(value),
+  },
+  conversationId: { type: Number, required: true },
   createdAt: { type: Number, required: true },
+  currentUserId: { type: Number, required: true },
+  groupWithNext: { type: Boolean, default: false },
+  inboxId: { type: Number, required: true },
+  inboxSupportsReplyTo: { type: Object, default: () => ({}) },
+  inReplyTo: { type: Object, default: null },
+  isEmailInbox: { type: Boolean, default: false },
+  private: { type: Boolean, default: false },
   sender: { type: Object, default: null },
   senderId: { type: Number, default: null },
   senderType: { type: String, default: null },
-  content: { type: String, default: null },
-  contentAttributes: { type: Object, default: () => ({}) },
-  currentUserId: { type: Number, required: true },
-  groupWithNext: { type: Boolean, default: false },
-  inReplyTo: { type: Object, default: null },
-  isEmailInbox: { type: Boolean, default: false },
-  conversationId: { type: Number, required: true },
-  inboxId: { type: Number, required: true },
-  inboxSupportsReplyTo: { type: Object, default: () => ({}) },
 });
 
 const contextMenuPosition = ref({});
