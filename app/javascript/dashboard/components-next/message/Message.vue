@@ -134,12 +134,18 @@ const showContextMenu = ref(false);
  */
 const variant = computed(() => {
   if (props.private) return MESSAGE_VARIANTS.PRIVATE;
+
   if (props.isEmailInbox) {
     const emailInboxTypes = [MESSAGE_TYPES.INCOMING, MESSAGE_TYPES.OUTGOING];
     if (emailInboxTypes.includes(props.messageType)) {
       return MESSAGE_VARIANTS.EMAIL;
     }
   }
+
+  if (props.contentType === CONTENT_TYPES.INCOMING_EMAIL) {
+    return MESSAGE_VARIANTS.EMAIL;
+  }
+
   if (props.status === MESSAGE_STATUS.FAILED) return MESSAGE_VARIANTS.ERROR;
   if (props.contentAttributes?.isUnsupported)
     return MESSAGE_VARIANTS.UNSUPPORTED;
@@ -241,6 +247,10 @@ const componentToRender = computed(() => {
   if (props.isEmailInbox && !props.private) {
     const emailInboxTypes = [MESSAGE_TYPES.INCOMING, MESSAGE_TYPES.OUTGOING];
     if (emailInboxTypes.includes(props.messageType)) return EmailBubble;
+  }
+
+  if (props.contentType === CONTENT_TYPES.INCOMING_EMAIL) {
+    return EmailBubble;
   }
 
   if (props.contentAttributes?.isUnsupported) {
