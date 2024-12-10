@@ -1,7 +1,7 @@
 <script setup>
 import Copilot from 'dashboard/components-next/copilot/Copilot.vue';
 import IntegrationsAPI from 'dashboard/api/integrations';
-import { useMapGetter } from 'dashboard/composables/store.js';
+import { useMapGetter } from 'dashboard/composables/store';
 import { ref } from 'vue';
 const props = defineProps({
   conversationId: {
@@ -49,12 +49,10 @@ const sendMessage = async message => {
 </script>
 
 <template>
-  <div class="border-n-weak border-l w-96">
-    <Copilot
-      :messages="messages"
-      :support-agent="currentUser"
-      :is-captain-typing="isCaptainTyping"
-      @send-message="sendMessage"
-    />
-  </div>
+  <Copilot
+    :messages="messages"
+    :support-agent="currentUser"
+    :is-captain-typing="isCaptainTyping"
+    @send-message="sendMessage"
+  />
 </template>

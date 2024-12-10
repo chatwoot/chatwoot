@@ -34,7 +34,7 @@ const scrollToBottom = async () => {
 };
 
 watch(
-  [props.messages, props.isCaptainTyping],
+  [() => props.messages, () => props.isCaptainTyping],
   () => {
     scrollToBottom();
   },
@@ -44,7 +44,7 @@ watch(
 
 <template>
   <div
-    class="flex flex-col bg-n-solid-2 min-w-96 mx-auto h-full text-sm font-interDisplay tracking-[0.3px]"
+    class="flex flex-col bg-n-solid-2 mx-auto h-full text-sm leading-6 tracking-tight"
   >
     <div ref="chatContainer" class="flex-1 overflow-y-auto py-4 space-y-6 px-4">
       <template v-for="message in messages" :key="message.id">

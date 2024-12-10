@@ -16,8 +16,8 @@ defineProps({
 <template>
   <div class="flex flex-row gap-2">
     <Avatar
-      :name="supportAgent.name"
-      :src="supportAgent.thumbnail"
+      :name="supportAgent.available_name"
+      :src="supportAgent.avatar_url"
       :size="24"
       rounded-full
     />
