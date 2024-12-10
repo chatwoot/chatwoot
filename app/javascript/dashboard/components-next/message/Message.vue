@@ -380,7 +380,7 @@ provideMessageContext({
       >
         <Avatar
           :name="sender ? sender.name : ''"
-          :src="sender.thumbnail"
+          :src="sender?.thumbnail"
           :size="24"
         />
       </div>
