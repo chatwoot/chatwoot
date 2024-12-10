@@ -8,7 +8,7 @@ class Api::V1::Accounts::Integrations::CaptainController < Api::V1::Accounts::Ba
   end
 
   def copilot
-    request_url = build_request_url(build_request_path("/assistants/#{hook.settings['account_id']}/copilot"))
+    request_url = build_request_url(build_request_path("/assistants/#{hook.settings['assistant_id']}/copilot"))
     params = {
       previous_messages: copilot_params[:previous_messages],
       conversation_history: conversation_history,
@@ -35,7 +35,7 @@ class Api::V1::Accounts::Integrations::CaptainController < Api::V1::Accounts::Ba
   end
 
   def request_path
-    request_route = with_leading_hash_on_route
+    request_route = with_leading_hash_on_route(params[:route])
 
     return 'api/sessions/profile' if request_route == '/sessions/profile'
 
