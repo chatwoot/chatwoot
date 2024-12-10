@@ -24,11 +24,8 @@ const formattedContent = computed(() => {
 </script>
 
 <template>
-  <span v-html="formattedContent" />
+  <span
+    class="[&>p:last-child]:mb-0 [&>ul]:list-inside"
+    v-html="formattedContent"
+  />
 </template>
-
-<style>
-p:last-child {
-  margin-bottom: 0;
-}
-</style>
