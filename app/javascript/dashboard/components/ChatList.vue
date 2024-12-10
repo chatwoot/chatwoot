@@ -501,9 +501,9 @@ function initializeFolderToFilterModal(newActiveFolder) {
     const transformed = useCamelCase(filter);
     const values = Array.isArray(transformed.values)
       ? generateValuesForEditCustomViews(
-        useSnakeCase(filter),
-        setParamsForEditFolderModal()
-      )
+          useSnakeCase(filter),
+          setParamsForEditFolderModal()
+        )
       : [];
 
     return {
