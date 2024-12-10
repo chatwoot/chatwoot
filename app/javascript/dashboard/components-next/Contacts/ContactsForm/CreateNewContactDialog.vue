@@ -27,11 +27,16 @@ const handleDialogConfirm = async () => {
   emit('create', contact.value);
 };
 
+const onSuccess = () => {
+  contactsFormRef.value?.resetForm();
+  dialogRef.value.close();
+};
+
 const closeDialog = () => {
   dialogRef.value.close();
 };
 
-defineExpose({ dialogRef, contactsFormRef });
+defineExpose({ dialogRef, contactsFormRef, onSuccess });
 </script>
 
 <template>

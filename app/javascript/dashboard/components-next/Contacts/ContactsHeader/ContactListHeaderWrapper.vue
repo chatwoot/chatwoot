@@ -7,6 +7,10 @@ import { useAlert, useTrack } from 'dashboard/composables';
 import { CONTACTS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
 import contactFilterItems from 'dashboard/routes/dashboard/contacts/contactFilterItems';
+import {
+  DuplicateContactException,
+  ExceptionWithMessage,
+} from 'shared/helpers/CustomErrors';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
 import countries from 'shared/constants/countries';
 import {
@@ -23,38 +27,15 @@ import DeleteSegmentDialog from 'dashboard/components-next/Contacts/ContactsForm
 import ContactsFilter from 'dashboard/components-next/filter/ContactsFilter.vue';
 
 const props = defineProps({
-  showSearch: {
-    type: Boolean,
-    default: true,
-  },
-  searchValue: {
-    type: String,
-    default: '',
-  },
-  activeSort: {
-    type: String,
-    default: 'last_activity_at',
-  },
-  activeOrdering: {
-    type: String,
-    default: '',
-  },
-  headerTitle: {
-    type: String,
-    default: '',
-  },
-  segmentsId: {
-    type: [String, Number],
-    default: 0,
-  },
-  activeSegment: {
-    type: Object,
-    default: null,
-  },
-  hasAppliedFilters: {
-    type: Boolean,
-    default: false,
-  },
+  showSearch: { type: Boolean, default: true },
+  searchValue: { type: String, default: '' },
+  activeSort: { type: String, default: 'last_activity_at' },
+  activeOrdering: { type: String, default: '' },
+  headerTitle: { type: String, default: '' },
+  segmentsId: { type: [String, Number], default: 0 },
+  activeSegment: { type: Object, default: null },
+  hasAppliedFilters: { type: Boolean, default: false },
+  isLabelView: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
@@ -99,8 +80,26 @@ const openDeleteSegmentDialog = () =>
   deleteSegmentDialogRef.value?.dialogRef.open();
 
 const onCreate = async contact => {
-  await store.dispatch('contacts/create', contact);
-  createNewContactDialogRef.value?.dialogRef.close();
+  try {
+    await store.dispatch('contacts/create', contact);
+    createNewContactDialogRef.value?.onSuccess();
+    useAlert(
+      t('CONTACTS_LAYOUT.HEADER.ACTIONS.CONTACT_CREATION.SUCCESS_MESSAGE')
+    );
+  } catch (error) {
+    const i18nPrefix = 'CONTACTS_LAYOUT.HEADER.ACTIONS.CONTACT_CREATION';
+    if (error instanceof DuplicateContactException) {
+      if (error.data.includes('email')) {
+        useAlert(t(`${i18nPrefix}.EMAIL_ADDRESS_DUPLICATE`));
+      } else if (error.data.includes('phone_number')) {
+        useAlert(t(`${i18nPrefix}.PHONE_NUMBER_DUPLICATE`));
+      }
+    } else if (error instanceof ExceptionWithMessage) {
+      useAlert(error.data);
+    } else {
+      useAlert(t(`${i18nPrefix}.ERROR_MESSAGE`));
+    }
+  }
 };
 
 const onImport = async file => {
@@ -135,11 +134,19 @@ const onCreateSegment = async payload => {
       ...payload,
       query: segmentsQuery.value,
     };
-    await store.dispatch('customViews/create', payloadData);
+    const response = await store.dispatch('customViews/create', payloadData);
     createSegmentDialogRef.value?.dialogRef.close();
     useAlert(
       t('CONTACTS_LAYOUT.HEADER.ACTIONS.FILTERS.CREATE_SEGMENT.SUCCESS_MESSAGE')
     );
+    const segmentId = response?.data?.id;
+    if (!segmentId) return;
+    // Navigate to the created segment
+    router.push({
+      name: 'contacts_dashboard_segments_index',
+      params: { segmentId },
+      query: { page: 1 },
+    });
   } catch {
     useAlert(
       t('CONTACTS_LAYOUT.HEADER.ACTIONS.FILTERS.CREATE_SEGMENT.ERROR_MESSAGE')
@@ -176,7 +183,6 @@ const closeAdvanceFiltersModal = () => {
 };
 
 const clearFilters = async () => {
-  await store.dispatch('contacts/clearContactFilters');
   emit('clearFilters');
 };
 
@@ -251,6 +257,10 @@ const onToggleFilters = () => {
   }
   showFiltersModal.value = true;
 };
+
+defineExpose({
+  onToggleFilters,
+});
 </script>
 
 <template>
@@ -261,6 +271,7 @@ const onToggleFilters = () => {
     :active-ordering="activeOrdering"
     :header-title="headerTitle"
     :is-segments-view="hasActiveSegments"
+    :is-label-view="isLabelView"
     :has-active-filters="hasAppliedFilters"
     :button-label="t('CONTACTS_LAYOUT.HEADER.MESSAGE_BUTTON')"
     @search="emit('search', $event)"

@@ -4,6 +4,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import ContactSortMenu from './components/ContactSortMenu.vue';
 import ContactMoreActions from './components/ContactMoreActions.vue';
+import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 
 defineProps({
   showSearch: {
@@ -18,10 +19,10 @@ defineProps({
     type: String,
     required: true,
   },
-  //   buttonLabel: {
-  //     type: String,
-  //     default: '',
-  //   },
+  buttonLabel: {
+    type: String,
+    default: '',
+  },
   activeSort: {
     type: String,
     default: 'last_activity_at',
@@ -38,13 +39,16 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  isLabelView: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits([
   'search',
   'filter',
   'update:sort',
-  //   'message',
   'add',
   'import',
   'export',
@@ -54,9 +58,9 @@ const emit = defineEmits([
 </script>
 
 <template>
-  <header class="sticky top-0 z-10 px-6 xl:px-0">
+  <header class="sticky top-0 z-10">
     <div
-      class="flex items-center justify-between w-full h-20 gap-2 mx-auto max-w-[960px]"
+      class="flex items-center justify-between w-full h-20 px-6 gap-2 mx-auto max-w-[960px]"
     >
       <span class="text-xl font-medium truncate text-n-slate-12">
         {{ headerTitle }}
@@ -81,7 +85,7 @@ const emit = defineEmits([
           </Input>
         </div>
         <div class="flex items-center gap-2">
-          <div class="relative">
+          <div v-if="!isLabelView" class="relative">
             <Button
               id="toggleContactsFilterButton"
               :icon="
@@ -89,7 +93,7 @@ const emit = defineEmits([
               "
               color="slate"
               size="sm"
-              class="relative"
+              class="relative w-8"
               variant="ghost"
               @click="emit('filter')"
             >
@@ -101,20 +105,18 @@ const emit = defineEmits([
             <slot name="filter" />
           </div>
           <Button
-            v-if="hasActiveFilters && !isSegmentsView"
+            v-if="hasActiveFilters && !isSegmentsView && !isLabelView"
             icon="i-lucide-save"
             color="slate"
             size="sm"
-            class="relative"
             variant="ghost"
             @click="emit('createSegment')"
           />
           <Button
-            v-if="isSegmentsView"
+            v-if="isSegmentsView && !isLabelView"
             icon="i-lucide-trash"
             color="slate"
             size="sm"
-            class="relative"
             variant="ghost"
             @click="emit('deleteSegment')"
           />
@@ -129,9 +131,12 @@ const emit = defineEmits([
             @export="emit('export')"
           />
         </div>
-        <!-- TODO: Add this when we enabling message feature -->
-        <!-- <div class="w-px h-4 bg-n-strong" /> -->
-        <!-- <Button :label="buttonLabel" size="sm" @click="emit('message')" /> -->
+        <div class="w-px h-4 bg-n-strong" />
+        <ComposeConversation>
+          <template #trigger="{ toggle }">
+            <Button :label="buttonLabel" size="sm" @click="toggle" />
+          </template>
+        </ComposeConversation>
       </div>
     </div>
   </header>

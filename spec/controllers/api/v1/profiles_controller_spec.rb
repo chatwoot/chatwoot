@@ -180,6 +180,8 @@ RSpec.describe 'Profile API', type: :request do
                as: :json
 
         expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['avatar_url']).to be_empty
       end
     end
   end
