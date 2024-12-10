@@ -24,12 +24,22 @@ const BasicTemplate = {
 
 const SizeVariants = {
   components: { Flag },
+  setup() {
+    const isSquared = ref(false);
+    return { isSquared };
+  },
   template: `
-    <div class="flex items-center gap-4 p-4 border rounded border-n-weak">
-      <Flag country="in" class="size-4" />
-      <Flag country="in" class="size-6" />
-      <Flag country="in" class="size-8" />
-      <Flag country="in" class="size-10" />
+    <div class="flex flex-col gap-4">
+      <label class="flex items-center gap-2">
+        <input type="checkbox" v-model="isSquared">
+        Squared flags
+      </label>
+      <div class="flex items-center gap-4 p-4 border rounded border-n-weak">
+        <Flag country="in" class="!size-4" :squared="isSquared" />
+        <Flag country="in" class="!size-6" :squared="isSquared" />
+        <Flag country="in" class="!size-8" :squared="isSquared" />
+        <Flag country="in" class="!size-10" :squared="isSquared" />
+      </div>
     </div>
   `,
 };
@@ -69,7 +79,7 @@ const AllFlags = {
 <template>
   <Story title="Components/Flag">
     <Variant title="Basic Usage">
-      <BasicTemplate country="us" squared />
+      <BasicTemplate country="us" :squared="false" />
     </Variant>
 
     <Variant title="Size Variants">
