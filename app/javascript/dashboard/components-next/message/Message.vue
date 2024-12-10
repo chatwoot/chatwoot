@@ -149,6 +149,8 @@ const variant = computed(() => {
 });
 
 const isMyMessage = computed(() => {
+  // if an outgoing message is still processing, then it's definitely a
+  // message sent by the current user
   if (
     props.status === MESSAGE_STATUS.PROGRESS &&
     props.messageType === MESSAGE_TYPES.OUTGOING
