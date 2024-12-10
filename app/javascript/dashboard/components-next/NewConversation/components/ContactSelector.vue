@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { INPUT_TYPES } from 'dashboard/components-next/taginput/helper/tagInputHelper.js';
 
 import TagInput from 'dashboard/components-next/taginput/TagInput.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -54,7 +55,7 @@ const emit = defineEmits([
 const i18nPrefix = 'COMPOSE_NEW_CONVERSATION.FORM.CONTACT_SELECTOR';
 const { t } = useI18n();
 
-const inputType = ref('email');
+const inputType = ref(INPUT_TYPES.EMAIL);
 
 const contactsList = computed(() => {
   return props.contacts?.map(({ name, id, thumbnail, email, ...rest }) => ({
@@ -90,7 +91,7 @@ const handleInput = value => {
   // Update input type based on whether input starts with '+'
   // If it does, set input type to 'tel'
   // Otherwise, set input type to 'email'
-  inputType.value = value.startsWith('+') ? 'tel' : 'email';
+  inputType.value = value.startsWith('+') ? INPUT_TYPES.TEL : INPUT_TYPES.EMAIL;
   emit('searchContacts', value);
 };
 </script>
