@@ -1,14 +1,14 @@
 <script>
 import { mapGetters } from 'vuex';
-import ContactPanel from 'dashboard/routes/dashboard/conversation/ContactPanel.vue';
 import ConversationHeader from './ConversationHeader.vue';
 import DashboardAppFrame from '../DashboardApp/Frame.vue';
 import EmptyState from './EmptyState/EmptyState.vue';
 import MessagesView from './MessagesView.vue';
+import ConversationSidebar from './ConversationSidebar.vue';
 
 export default {
   components: {
-    ContactPanel,
+    ConversationSidebar,
     ConversationHeader,
     DashboardAppFrame,
     EmptyState,
@@ -138,17 +138,11 @@ export default {
         v-if="!currentChat.id && !isInboxView"
         :is-on-expanded-layout="isOnExpandedLayout"
       />
-      <div
-        v-show="showContactPanel"
-        class="conversation-sidebar-wrap basis-full sm:basis-[17.5rem] md:basis-[18.75rem] lg:basis-[19.375rem] xl:basis-[20.625rem] 2xl:basis-[25rem] rtl:border-r border-slate-50 dark:border-slate-700 h-auto overflow-auto z-10 flex-shrink-0 flex-grow-0"
-      >
-        <ContactPanel
-          v-if="showContactPanel"
-          :conversation-id="currentChat.id"
-          :inbox-id="currentChat.inbox_id"
-          :on-toggle="onToggleContactPanel"
-        />
-      </div>
+      <ConversationSidebar
+        v-if="showContactPanel"
+        :current-chat="currentChat"
+        @toggle-contact-panel="onToggleContactPanel"
+      />
     </div>
     <DashboardAppFrame
       v-for="(dashboardApp, index) in dashboardApps"
@@ -178,12 +172,6 @@ export default {
         @apply pb-2 pt-1;
       }
     }
-  }
-}
-
-.conversation-sidebar-wrap {
-  &::v-deep .contact--panel {
-    @apply w-full h-full max-w-full;
   }
 }
 </style>
