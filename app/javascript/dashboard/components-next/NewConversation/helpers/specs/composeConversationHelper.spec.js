@@ -434,17 +434,21 @@ describe('composeConversationHelper', () => {
         const mockContact = {
           id: 1,
           name: '919999999999',
-          phoneNumber: '+919999999999',
+          phone_number: '+919999999999',
         };
         ContactAPI.create.mockResolvedValue({
           data: { payload: { contact: mockContact } },
         });
 
         const result = await helpers.createNewContact('+919999999999');
-        expect(result).toEqual(mockContact);
-        expect(ContactAPI.create).toHaveBeenCalledWith({
+        expect(result).toEqual({
+          id: 1,
           name: '919999999999',
           phoneNumber: '+919999999999',
+        });
+        expect(ContactAPI.create).toHaveBeenCalledWith({
+          name: '919999999999',
+          phone_number: '+919999999999',
         });
       });
     });

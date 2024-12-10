@@ -203,7 +203,7 @@ export const createNewContact = async input => {
     name: input.startsWith('+')
       ? getNameFromPhoneNumber(input)
       : getCapitalizedNameFromEmail(input),
-    ...(input.startsWith('+') ? { phoneNumber: input } : { email: input }),
+    ...(input.startsWith('+') ? { phone_number: input } : { email: input }),
   };
 
   const {

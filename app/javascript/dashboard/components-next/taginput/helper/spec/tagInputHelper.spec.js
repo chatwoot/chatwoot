@@ -1,4 +1,3 @@
-import { describe, it, expect } from 'vitest';
 import {
   validatePhoneNumber,
   formatPhoneNumber,
@@ -150,7 +149,7 @@ describe('tagInputHelper', () => {
       expect(result).toEqual({
         label: '+91 82838 38283',
         value: '+918283838283',
-        phone: '+918283838283',
+        phoneNumber: '+918283838283',
         thumbnail: { name: '+91 82838 38283', src: '' },
         action: 'create',
       });

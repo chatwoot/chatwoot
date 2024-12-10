@@ -89,11 +89,11 @@ const filteredMenuItems = computed(() =>
   })
 );
 
-const emitDataOnAdd = emailValue => {
-  const matchingMenuItem = findMatchingMenuItem(props.menuItems, emailValue);
+const emitDataOnAdd = value => {
+  const matchingMenuItem = findMatchingMenuItem(props.menuItems, value);
   return matchingMenuItem
-    ? emit('add', { email: emailValue, ...matchingMenuItem })
-    : emit('add', { value: emailValue, action: 'create' });
+    ? emit('add', { value: value, ...matchingMenuItem })
+    : emit('add', { value: value, action: 'create' });
 };
 
 const updateValueAndFocus = value => {
@@ -112,7 +112,10 @@ const addTag = async () => {
     return;
   }
 
-  if (props.type === INPUT_TYPES.EMAIL || props.allowCreate) {
+  if (
+    [INPUT_TYPES.EMAIL, INPUT_TYPES.TEL].includes(props.type) ||
+    props.allowCreate
+  ) {
     if (!(await v$.value.$validate())) return;
     emitDataOnAdd(trimmedTag);
   }
@@ -125,14 +128,24 @@ const removeTag = index => {
   emit('remove');
 };
 
-const handleDropdownAction = async ({ email: emailAddress, ...rest }) => {
+const handleDropdownAction = async ({
+  email: emailAddress,
+  phoneNumber,
+  ...rest
+}) => {
   if (props.mode === MODE.SINGLE && tags.value.length >= 1) return;
+  if (!props.showDropdown) return;
 
-  if (props.type === 'email' && props.showDropdown) {
-    newTag.value = emailAddress;
-    if (!(await v$.value.$validate())) return;
-    emit('add', { email: emailAddress, ...rest });
-  }
+  const isEmail = props.type === 'email';
+  newTag.value = isEmail ? emailAddress : phoneNumber;
+
+  if (!(await v$.value.$validate())) return;
+
+  const payload = isEmail
+    ? { email: emailAddress, ...rest }
+    : { phoneNumber, ...rest };
+
+  emit('add', payload);
   updateValueAndFocus(emailAddress);
 };
 

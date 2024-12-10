@@ -71,7 +71,7 @@ export const createNewTagMenuItem = (formattedValue, trimmedNewTag, type) => ({
   label: formattedValue,
   value: trimmedNewTag,
   ...(type === INPUT_TYPES.EMAIL ? { email: trimmedNewTag } : {}),
-  ...(type === INPUT_TYPES.TEL ? { phone: trimmedNewTag } : {}),
+  ...(type === INPUT_TYPES.TEL ? { phoneNumber: trimmedNewTag } : {}),
   thumbnail: { name: formattedValue, src: '' },
   action: 'create',
 });
