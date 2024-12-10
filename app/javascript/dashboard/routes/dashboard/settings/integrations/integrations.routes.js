@@ -73,7 +73,7 @@ export default {
           name: 'settings_integrations_onehash_apps',
           component: OneHash,
           meta: {
-            permissions: ['administrator'],
+            permissions: ['administrator', 'agent'],
           },
         },
         {
@@ -88,6 +88,14 @@ export default {
           }),
         },
       ],
+    },
+    {
+      path: '',
+      name: 'agent_settings_integrations_onehash_apps',
+      component: OneHash,
+      meta: {
+        permissions: ['agent'],
+      },
     },
   ],
 };
