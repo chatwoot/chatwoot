@@ -113,7 +113,7 @@ export default {
       delay: { show: 1500, hide: 0 },
       hideOnClick: true,
     }"
-    class="ml-auto leading-4 text-xxs text-slate-500 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100"
+    class="ml-auto leading-4 text-xxs text-n-slate-9 hover:text-n-slate-10"
   >
     <span>{{ `${createdAtTime} • ${lastActivityTime}` }}</span>
   </div>

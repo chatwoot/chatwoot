@@ -35,13 +35,13 @@ const onToggle = () => {
 <template>
   <div class="-mt-px text-sm">
     <button
-      class="flex items-center select-none w-full rounded-none bg-slate-50 dark:bg-slate-800 border border-l-0 border-r-0 border-solid m-0 border-slate-100 dark:border-slate-700/50 cursor-grab justify-between py-2 px-4 drag-handle"
+      class="flex items-center justify-between w-full px-4 py-2 m-0 border border-l-0 border-r-0 border-solid rounded-none select-none bg-n-slate-3 dark:bg-n-solid-2 border-n-weak dark:border-n-weak cursor-grab drag-handle"
       @click.stop="onToggle"
     >
       <div class="flex justify-between mb-0.5">
         <EmojiOrIcon class="inline-block w-5" :icon="icon" :emoji="emoji" />
         <h5
-          class="text-slate-800 text-sm dark:text-slate-100 mb-0 py-0 pr-2 pl-0"
+          class="py-0 pl-0 pr-2 mb-0 text-sm text-slate-800 dark:text-slate-100"
         >
           {{ title }}
         </h5>

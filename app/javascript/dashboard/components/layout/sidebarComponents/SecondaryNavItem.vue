@@ -140,7 +140,7 @@ export default {
         this.isContactsDefaultRoute ||
         this.isCurrentRoute
       ) {
-        return 'bg-woot-25 dark:bg-slate-800 text-woot-500 dark:text-woot-500 hover:text-woot-500 dark:hover:text-woot-500 active-view';
+        return 'bg-n-brand/5 dark:bg-n-brand/10 !text-n-blue-text dark:!text-n-blue-text hover:text-n-blue-text dark:hover:text-n-blue-text active-view';
       }
       if (this.hasSubMenu) {
         if (
@@ -149,7 +149,7 @@ export default {
           this.isIntegrationsSettings ||
           this.isApplicationsSettings
         ) {
-          return 'bg-woot-25 dark:bg-slate-800 text-woot-500 dark:text-woot-500 hover:text-woot-500 dark:hover:text-woot-500 active-view';
+          return 'bg-n-brand/5 dark:bg-n-brand/10 !text-n-blue-text dark:!text-n-blue-text hover:text-n-blue-text dark:hover:text-n-blue-text active-view';
         }
         return 'hover:text-slate-700 dark:hover:text-slate-100';
       }
@@ -217,7 +217,7 @@ export default {
     </div>
     <router-link
       v-else
-      class="flex items-center p-2 m-0 text-sm leading-4 rounded-lg text-slate-700 dark:text-slate-100 hover:bg-slate-25 dark:hover:bg-slate-800"
+      class="flex items-center p-2 m-0 text-sm leading-4 rounded-lg text-slate-700 dark:text-slate-100 hover:bg-slate-25 dark:hover:bg-n-solid-3"
       :class="computedClass"
       :to="menuItem && menuItem.toState"
     >
@@ -233,7 +233,7 @@ export default {
         :class="{
           'text-slate-300 dark:text-slate-600': isCountZero && !isActiveView,
           'text-slate-600 dark:text-slate-50': !isCountZero && !isActiveView,
-          'bg-woot-75 dark:bg-woot-200 text-woot-600 dark:text-woot-600':
+          'bg-n-brand/5 dark:bg-n-brand/10 text-n-brand dark:text-n-brand':
             isActiveView,
           'bg-slate-50 dark:bg-slate-700': !isActiveView,
         }"
