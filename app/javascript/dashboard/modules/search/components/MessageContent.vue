@@ -73,9 +73,9 @@ export default {
 <template>
   <blockquote
     ref="messageContainer"
-    class="message border-l-2 border-slate-100 dark:border-slate-700"
+    class="border-l-2 !py-0 !px-2 !mt-2 border-n-weak dark:border-n-strong"
   >
-    <p class="header">
+    <p class="mb-1 text-n-slate-11 dark:text-n-slate-11">
       <strong class="text-slate-700 dark:text-slate-100">
         {{ author }}
       </strong>
@@ -88,23 +88,16 @@ export default {
 </template>
 
 <style scoped lang="scss">
-.message {
-  @apply py-0 px-2 mt-2;
-}
 .message-content::v-deep p,
 .message-content::v-deep li::marker {
-  @apply text-slate-700 dark:text-slate-100 mb-1;
-}
-
-.header {
-  @apply text-slate-500 dark:text-slate-300 mb-1;
+  @apply text-n-slate-11 dark:text-n-slate-11 mb-1;
 }
 
 .message-content {
-  @apply break-words text-slate-600 dark:text-slate-200;
+  @apply break-words text-n-slate-12;
 }
 
 .message-content::v-deep .searchkey--highlight {
-  @apply text-woot-600 dark:text-woot-500 text-sm font-semibold;
+  @apply text-n-blue-text dark:text-n-blue-text text-sm font-semibold;
 }
 </style>

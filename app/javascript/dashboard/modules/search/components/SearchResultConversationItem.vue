@@ -56,37 +56,62 @@ export default {
 </script>
 
 <template>
-  <router-link :to="navigateTo" class="conversation-item">
-    <div class="icon-wrap">
+  <router-link
+    :to="navigateTo"
+    class="flex p-2 rounded-md cursor-pointer hover:bg-n-slate-3 dark:hover:bg-n-solid-3"
+  >
+    <div
+      class="flex items-center justify-center flex-shrink-0 w-6 h-6 rounded bg-n-brand/10 dark:bg-n-brand/40 text-n-blue-text dark:text-n-blue-text"
+    >
       <fluent-icon icon="chat-multiple" :size="14" />
     </div>
-    <div class="conversation-details">
-      <div class="meta-wrap">
+    <div class="flex-grow min-w-0 ml-2">
+      <div class="flex items-center justify-between mb-1">
         <div class="flex">
           <woot-label
-            class="conversation-id"
+            class="!bg-n-slate-3 dark:!bg-n-solid-3 !border-n-weak dark:!border-n-strong m-0"
             :title="`#${id}`"
             :show-close="false"
             small
           />
-          <div class="inbox-name-wrap">
-            <InboxName :inbox="inbox" class="mr-2 rtl:mr-0 rtl:ml-2" />
+          <div
+            class="flex items-center justify-center h-5 ml-1 rounded bg-n-slate-3 dark:bg-n-solid-3 w-fit rtl:ml-0 rtl:mr-1"
+          >
+            <InboxName
+              :inbox="inbox"
+              class="mr-2 rtl:mr-0 rtl:ml-2 bg-n-slate-3 dark:bg-n-solid-3 text-n-slate-11 dark:text-n-slate-11"
+            />
           </div>
         </div>
         <div>
-          <span class="created-at">{{ createdAtTime }}</span>
+          <span
+            class="text-xs font-normal text-n-slate-11 dark:text-n-slate-11"
+          >
+            {{ createdAtTime }}
+          </span>
         </div>
       </div>
-      <div class="user-details">
-        <h5 v-if="name" class="text-sm name text-slate-800 dark:text-slate-100">
-          <span class="pre-text"> {{ $t('SEARCH.FROM') }}: </span>
+      <div class="flex gap-2">
+        <h5
+          v-if="name"
+          class="m-0 text-sm text-n-slate-12 dark:text-n-slate-12"
+        >
+          <span
+            class="text-xs font-normal text-n-slate-11 dark:text-n-slate-11"
+          >
+            {{ $t('SEARCH.FROM') }}:
+          </span>
           {{ name }}
         </h5>
         <h5
           v-if="email"
-          class="overflow-hidden text-sm email text-slate-700 dark:text-slate-200 whitespace-nowrap text-ellipsis"
+          class="m-0 overflow-hidden text-sm text-n-slate-12 dark:text-n-slate-12 whitespace-nowrap text-ellipsis"
         >
-          <span class="pre-text">{{ $t('SEARCH.EMAIL') }}:</span>
+          <span
+            class="text-xs font-normal text-n-slate-11 dark:text-n-slate-11"
+          >
+            {{ $t('SEARCH.EMAIL') }}:
+          </span>
           {{ email }}
         </h5>
       </div>
@@ -94,40 +119,3 @@ export default {
     </div>
   </router-link>
 </template>
-
-<style scoped lang="scss">
-.conversation-item {
-  @apply cursor-pointer flex p-2 rounded hover:bg-slate-25 dark:hover:bg-slate-800;
-}
-
-.meta-wrap {
-  @apply flex items-center justify-between mb-1;
-}
-.icon-wrap {
-  @apply w-6 h-6 flex-shrink-0  bg-woot-75 dark:bg-woot-600/50 flex items-center justify-center rounded text-woot-600 dark:text-woot-500;
-}
-
-.inbox-name-wrap {
-  @apply bg-slate-25 dark:bg-slate-800 h-5 flex justify-center items-center rounded w-fit ml-1 rtl:ml-0 rtl:mr-1;
-}
-.conversation-details {
-  @apply ml-2 flex-grow min-w-0;
-}
-
-.name {
-  @apply flex-shrink-0;
-}
-.conversation-id,
-.name,
-.email {
-  @apply m-0;
-}
-.created-at,
-.pre-text {
-  @apply text-slate-600 dark:text-slate-100 text-xs font-normal;
-}
-
-.user-details {
-  @apply flex gap-2;
-}
-</style>

@@ -51,7 +51,7 @@ export default {
     :show-title="showTitle"
     :is-fetching="isFetching"
   >
-    <ul v-if="messages.length" class="search-list">
+    <ul v-if="messages.length" class="space-y-1.5">
       <li v-for="message in messages" :key="message.id">
         <SearchResultConversationItem
           :id="message.conversation_id"

@@ -43,7 +43,7 @@ export default {
     :show-title="showTitle"
     :is-fetching="isFetching"
   >
-    <ul v-if="contacts.length" class="search-list">
+    <ul v-if="contacts.length" class="space-y-1.5">
       <li v-for="contact in contacts" :key="contact.id">
         <SearchResultContactItem
           :id="contact.id"
