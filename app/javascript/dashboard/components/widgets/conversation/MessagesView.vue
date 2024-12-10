@@ -542,6 +542,7 @@ export default {
           v-for="(message, index) in readMessages"
           :key="message.id"
           v-bind="message"
+          :is-email-inbox="isAnEmailChannel"
           :in-reply-to="getInReplyToMessage(message)"
           :group-with-next="shouldGroupWithNext(index, readMessages)"
           :inbox-supports-reply-to="inboxSupportsReplyTo"
@@ -585,6 +586,7 @@ export default {
           :group-with-next="shouldGroupWithNext(index, unReadMessages)"
           :inbox-supports-reply-to="inboxSupportsReplyTo"
           :current-user-id="currentUserId"
+          :is-email-inbox="isAnEmailChannel"
           data-clarity-mask="True"
         />
       </template>
