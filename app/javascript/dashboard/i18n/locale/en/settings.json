@@ -236,6 +236,9 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Submit"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available."
     }
   },
   "CONFIRM_EMAIL": "Verifying...",

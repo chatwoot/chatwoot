@@ -2,8 +2,6 @@
 import { ref, computed } from 'vue';
 import { useMessageContext } from '../provider.js';
 import Icon from 'next/icon/Icon.vue';
-import ImageBubble from './Image.vue';
-import VideoBubble from './Video.vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 
 import MessageFormatter from 'shared/helpers/MessageFormatter.js';

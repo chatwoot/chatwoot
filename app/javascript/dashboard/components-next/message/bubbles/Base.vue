@@ -55,7 +55,9 @@ const previewMessage = computed(() => {
 
   if (content) return content;
   if (attachments?.length) {
-    const [{ fileType } = {}] = inReplyTo.attachments;
+    const firstAttachment = attachments[0];
+    const fileType = firstAttachment.fileType ?? firstAttachment.file_type;
+
     return t(`CHAT_LIST.ATTACHMENTS.${fileType}.CONTENT`);
   }
 
@@ -65,7 +67,7 @@ const previewMessage = computed(() => {
 
 <template>
   <div
-    class="text-sm"
+    class="text-sm min-w-32"
     :class="[
       messageClass,
       {
