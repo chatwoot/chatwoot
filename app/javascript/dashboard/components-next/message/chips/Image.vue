@@ -9,7 +9,7 @@ defineProps({
   },
 });
 
-const hasError = ref(true);
+const hasError = ref(false);
 
 const handleError = () => {
   hasError.value = true;
