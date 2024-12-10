@@ -80,6 +80,11 @@ export const getCapitalizedNameFromEmail = email => {
   return name.charAt(0).toUpperCase() + name.slice(1);
 };
 
+export const getNameFromPhoneNumber = phoneNumber => {
+  // Remove the '+' prefix if it exists
+  return phoneNumber.startsWith('+') ? phoneNumber.slice(1) : phoneNumber;
+};
+
 export const processContactableInboxes = inboxes => {
   return inboxes.map(inbox => ({
     ...inbox.inbox,
@@ -193,10 +198,12 @@ export const searchContacts = async ({ keys, query }) => {
   return filteredPayload || [];
 };
 
-export const createNewContact = async email => {
+export const createNewContact = async input => {
   const payload = {
-    name: getCapitalizedNameFromEmail(email),
-    email,
+    name: input.startsWith('+')
+      ? getNameFromPhoneNumber(input)
+      : getCapitalizedNameFromEmail(input),
+    ...(input.startsWith('+') ? { phoneNumber: input } : { email: input }),
   };
 
   const {
