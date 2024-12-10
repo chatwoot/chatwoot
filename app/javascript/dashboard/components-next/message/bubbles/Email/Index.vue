@@ -5,6 +5,7 @@ import { Letter } from 'vue-letter';
 import Icon from 'next/icon/Icon.vue';
 import { EmailQuoteExtractor } from './removeReply.js';
 import BaseBubble from 'next/message/bubbles/Base.vue';
+import FormattedContent from 'next/message/bubbles/Text/FormattedContent.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 
 import EmailMeta from './EmailMeta.vue';
@@ -92,7 +93,8 @@ const textToShow = computed(() => {
           {{ $t('EMAIL_HEADER.EXPAND') }}
         </button>
       </div>
-      <template>
+      <FormattedContent v-if="isOutgoing && content" :content="content" />
+      <template v-else>
         <Letter
           v-if="showQuotedMessage"
           class-name="prose prose-email !max-w-none"
