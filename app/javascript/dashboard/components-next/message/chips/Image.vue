@@ -1,16 +1,38 @@
 <script setup>
+import { ref } from 'vue';
+import Icon from 'next/icon/Icon.vue';
+
 defineProps({
   attachment: {
     type: Object,
     required: true,
   },
 });
+
+const hasError = ref(true);
+
+const handleError = () => {
+  hasError.value = true;
+};
 </script>
 
 <template>
   <div
     class="size-[72px] overflow-hidden contain-content rounded-xl cursor-pointer"
   >
-    <img class="w-full h-full object-cover" :src="attachment.dataUrl" />
+    <div
+      v-if="hasError"
+      class="flex flex-col text-xs items-center bg-n-alpha-1 gap-1 text-center px-5 py-4 rounded-lg"
+    >
+      <Icon icon="i-lucide-circle-off" class="text-n-slate-11" />
+      <p class="mb-0 text-n-slate-11">
+        {{ $t('COMPONENTS.MEDIA.LOADING_FAILED') }}
+      </p>
+    </div>
+    <img
+      class="w-full h-full object-cover"
+      :src="attachment.dataUrl"
+      @onerror="handleError"
+    />
   </div>
 </template>
