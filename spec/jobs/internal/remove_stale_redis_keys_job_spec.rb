@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Internal::RemoveStaleRedisKeysJob, type: :job do
+RSpec.describe Internal::RemoveStaleRedisKeysJob do
   let(:account) { create(:account) }
 
   describe '#perform' do

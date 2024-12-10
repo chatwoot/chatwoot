@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Internal::ProcessStaleRedisKeysJob, type: :job do
+RSpec.describe Internal::ProcessStaleRedisKeysJob do
   let(:account) { create(:account) }
 
   describe '#perform' do
