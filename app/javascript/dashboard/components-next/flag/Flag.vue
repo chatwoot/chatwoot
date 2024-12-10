@@ -18,3 +18,7 @@ const renderFlag = () => {
 <template>
   <component :is="renderFlag" />
 </template>
+
+<style>
+@import 'flag-icons/css/flag-icons.min.css';
+</style>
