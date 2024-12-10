@@ -21,6 +21,9 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['sendMessage']);
+
+const COPILOT_USER_ROLES = ['assistant', 'system'];
+
 const sendMessage = message => {
   emit('sendMessage', message);
 };
@@ -43,9 +46,7 @@ watch(
 </script>
 
 <template>
-  <div
-    class="flex flex-col bg-n-solid-2 mx-auto h-full text-sm leading-6 tracking-tight"
-  >
+  <div class="flex flex-col ]mx-auto h-full text-sm leading-6 tracking-tight">
     <div ref="chatContainer" class="flex-1 overflow-y-auto py-4 space-y-6 px-4">
       <template v-for="message in messages" :key="message.id">
         <CopilotAgentMessage
@@ -54,7 +55,7 @@ watch(
           :message="message"
         />
         <CopilotAssistantMessage
-          v-else-if="['assistant', 'system'].includes(message.role)"
+          v-else-if="COPILOT_USER_ROLES.includes(message.role)"
           :message="message"
         />
       </template>
