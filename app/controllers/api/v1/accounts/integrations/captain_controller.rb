@@ -14,7 +14,6 @@ class Api::V1::Accounts::Integrations::CaptainController < Api::V1::Accounts::Ba
       conversation_history: conversation_history,
       message: copilot_params[:message]
     }
-    Rails.logger.info(request_url)
     response = HTTParty.send(:post, request_url, body: params.to_json, headers: headers)
     render plain: response.body, status: response.code
   end
