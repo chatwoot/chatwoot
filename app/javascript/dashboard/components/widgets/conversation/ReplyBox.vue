@@ -1000,6 +1000,19 @@ export default {
         cc = cc.filter(email => email !== conversationContact);
       }
 
+      // Add each address in emailAttributes.to to the cc variable, except when the address is:
+      // The Inbox email address (e.g. support@mycompany.example.com in the example above)
+      // A reply email address (e.g. reply+xxx@mycompany.example.com)
+      // The current conversation contact's email
+      cc.push(
+        ...emailAttributes.to.filter(
+          email =>
+            email !== this.inbox.email &&
+            !email.startsWith('reply+') &&
+            email !== conversationContact
+        )
+      );
+
       // If the last incoming message sender is different from the conversation contact, add them to the "to"
       // and add the conversation contact to the CC
       if (!emailAttributes.from.includes(conversationContact)) {
