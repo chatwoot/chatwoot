@@ -22,14 +22,13 @@ const handleError = () => {
   >
     <div
       v-if="hasError"
-      class="flex flex-col text-xs items-center bg-n-alpha-1 gap-1 text-center px-5 py-4 rounded-lg"
+      class="flex flex-col size-full justify-center text-xs items-center bg-n-alpha-1 gap-1 text-center rounded-lg text-n-slate-11"
     >
       <Icon icon="i-lucide-circle-off" class="text-n-slate-11" />
-      <p class="mb-0 text-n-slate-11">
-        {{ $t('COMPONENTS.MEDIA.LOADING_FAILED') }}
-      </p>
+      {{ $t('COMPONENTS.MEDIA.LOADING_FAILED') }}
     </div>
     <img
+      v-else
       class="w-full h-full object-cover"
       :src="attachment.dataUrl"
       @onerror="handleError"
