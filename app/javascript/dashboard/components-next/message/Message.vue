@@ -336,7 +336,7 @@ function closeContextMenu() {
 
 function handleReplyTo() {
   const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
-  const { conversation_id: conversationId, id: replyTo } = props;
+  const { conversationId, id: replyTo } = props;
 
   LocalStorage.updateJsonStore(replyStorageKey, conversationId, replyTo);
   emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, props);
