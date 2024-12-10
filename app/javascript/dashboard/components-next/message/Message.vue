@@ -385,7 +385,7 @@ provideMessageContext({
         />
       </div>
       <div
-        class="[grid-area:bubble]"
+        class="[grid-area:bubble] flex"
         :class="{
           'pl-9': ORIENTATION.RIGHT === orientation,
         }"
