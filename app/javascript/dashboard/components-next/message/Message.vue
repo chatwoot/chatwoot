@@ -18,7 +18,7 @@ import {
 
 import Avatar from 'next/avatar/Avatar.vue';
 
-import TextBubble from './bubbles/Text.vue';
+import TextBubble from './bubbles/Text/Index.vue';
 import ActivityBubble from './bubbles/Activity.vue';
 import ImageBubble from './bubbles/Image.vue';
 import FileBubble from './bubbles/File.vue';

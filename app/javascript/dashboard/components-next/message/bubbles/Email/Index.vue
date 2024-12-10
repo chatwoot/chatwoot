@@ -8,7 +8,7 @@ import BaseBubble from 'next/message/bubbles/Base.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 
 import EmailMeta from './EmailMeta.vue';
-import { MESSAGE_STATUS } from '../../constants';
+import { MESSAGE_STATUS, MESSAGE_TYPES } from '../../constants';
 
 const props = defineProps({
   content: {
@@ -32,6 +32,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  messageType: {
+    type: String,
+    required: true,
+  },
 });
 
 const isExpandable = ref(false);
@@ -41,6 +45,10 @@ const contentContainer = useTemplateRef('contentContainer');
 
 onMounted(() => {
   isExpandable.value = contentContainer.value.scrollHeight > 400;
+});
+
+const isOutgoing = computed(() => {
+  return props.messageType === MESSAGE_TYPES.OUTGOING;
 });
 
 const fullHTML = computed(() => {
@@ -84,18 +92,20 @@ const textToShow = computed(() => {
           {{ $t('EMAIL_HEADER.EXPAND') }}
         </button>
       </div>
-      <Letter
-        v-if="showQuotedMessage"
-        class-name="prose prose-email !max-w-none"
-        :html="fullHTML"
-        :text="textToShow"
-      />
-      <Letter
-        v-else
-        class-name="prose prose-email !max-w-none"
-        :html="unquotedHTML"
-        :text="textToShow"
-      />
+      <template>
+        <Letter
+          v-if="showQuotedMessage"
+          class-name="prose prose-email !max-w-none"
+          :html="fullHTML"
+          :text="textToShow"
+        />
+        <Letter
+          v-else
+          class-name="prose prose-email !max-w-none"
+          :html="unquotedHTML"
+          :text="textToShow"
+        />
+      </template>
       <button
         v-if="hasQuotedMessage"
         class="text-n-slate-11 px-1 leading-none text-sm bg-n-alpha-black2 text-center flex items-center gap-1 mt-2"

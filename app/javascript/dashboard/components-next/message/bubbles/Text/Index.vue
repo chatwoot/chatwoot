@@ -1,11 +1,10 @@
 <script setup>
 import { computed } from 'vue';
-import { useMessageContext } from '../provider.js';
 import BaseBubble from 'next/message/bubbles/Base.vue';
+import FormattedContent from './FormattedContent.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
+import { MESSAGE_TYPES } from '../../constants';
 
-import MessageFormatter from 'shared/helpers/MessageFormatter.js';
-import { MESSAGE_TYPES, MESSAGE_VARIANTS } from '../constants';
 /**
  * @typedef {Object} Attachment
  * @property {number} id - Unique identifier for the attachment
@@ -39,16 +38,6 @@ const props = defineProps({
   },
 });
 
-const { variant } = useMessageContext();
-
-const formattedContent = computed(() => {
-  if (variant.value === MESSAGE_VARIANTS.ACTIVITY) {
-    return props.content;
-  }
-
-  return new MessageFormatter(props.content).formattedMessage;
-});
-
 const isTemplate = computed(() => {
   return props.messageType === MESSAGE_TYPES.TEMPLATE;
 });
@@ -56,7 +45,7 @@ const isTemplate = computed(() => {
 
 <template>
   <BaseBubble class="p-3 grid gap-3">
-    <span v-if="content" v-html="formattedContent" />
+    <FormattedContent v-if="content" :content="content" />
     <AttachmentChips :attachments="attachments" class="gap-2" />
     <template v-if="isTemplate">
       <div
