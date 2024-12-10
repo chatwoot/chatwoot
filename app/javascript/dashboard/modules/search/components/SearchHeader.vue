@@ -71,7 +71,7 @@ export default {
     <input
       ref="searchInput"
       type="search"
-      class="dark:bg-slate-900"
+      class="w-full m-0 bg-transparent border-transparent shadow-none text-n-slate-12 dark:text-n-slate-12 active:border-transparent active:shadow-none hover:border-transparent hover:shadow-none focus:border-transparent focus:shadow-none"
       :placeholder="$t('SEARCH.INPUT_PLACEHOLDER')"
       :value="searchQuery"
       @focus="onFocus"
@@ -86,11 +86,3 @@ export default {
     />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.input-container {
-  input[type='search'] {
-    @apply w-full m-0 shadow-none border-transparent active:border-transparent active:shadow-none hover:border-transparent hover:shadow-none focus:border-transparent focus:shadow-none;
-  }
-}
-</style>
