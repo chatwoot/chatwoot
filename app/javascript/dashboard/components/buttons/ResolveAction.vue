@@ -15,6 +15,8 @@ import {
   CMD_RESOLVE_CONVERSATION,
 } from 'dashboard/helper/commandbar/events';
 
+import Button from 'dashboard/components-next/button/Button.vue';
+
 const store = useStore();
 const getters = useStoreGetters();
 const { t } = useI18n();
@@ -138,53 +140,51 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
 
 <template>
   <div class="relative flex items-center justify-end resolve-actions">
-    <div class="button-group">
-      <woot-button
+    <div
+      class="rounded-lg shadow button-group outline-1 outline"
+      :class="!showOpenButton ? 'outline-n-container' : 'outline-transparent'"
+    >
+      <Button
         v-if="isOpen"
-        class-names="resolve"
-        color-scheme="success"
-        icon="checkmark"
-        emoji="✅"
+        :label="t('CONVERSATION.HEADER.RESOLVE_ACTION')"
+        size="sm"
+        color="slate"
+        class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
         :is-loading="isLoading"
         @click="onCmdResolveConversation"
-      >
-        {{ $t('CONVERSATION.HEADER.RESOLVE_ACTION') }}
-      </woot-button>
-      <woot-button
+      />
+      <Button
         v-else-if="isResolved"
-        class-names="resolve"
-        color-scheme="warning"
-        icon="arrow-redo"
-        emoji="👀"
+        :label="t('CONVERSATION.HEADER.REOPEN_ACTION')"
+        size="sm"
+        color="slate"
+        class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
         :is-loading="isLoading"
         @click="onCmdOpenConversation"
-      >
-        {{ t('CONVERSATION.HEADER.REOPEN_ACTION') }}
-      </woot-button>
-      <woot-button
+      />
+      <Button
         v-else-if="showOpenButton"
-        class-names="resolve"
-        color-scheme="primary"
-        icon="person"
+        :label="t('CONVERSATION.HEADER.OPEN_ACTION')"
+        size="sm"
         :is-loading="isLoading"
         @click="onCmdOpenConversation"
-      >
-        {{ t('CONVERSATION.HEADER.OPEN_ACTION') }}
-      </woot-button>
-      <woot-button
+      />
+      <Button
         v-if="showAdditionalActions"
         ref="arrowDownButtonRef"
-        :color-scheme="buttonClass"
+        icon="i-lucide-chevron-down"
         :disabled="isLoading"
-        icon="chevron-down"
-        emoji="🔽"
+        size="sm"
+        class="ltr:rounded-l-none rtl:rounded-r-none !outline-0"
+        color="slate"
+        trailing-icon
         @click="openDropdown"
       />
     </div>
     <div
       v-if="showActionsDropdown"
       v-on-clickaway="closeDropdown"
-      class="dropdown-pane dropdown-pane--open left-auto top-[2.625rem] mt-0.5 right-0 max-w-[12.5rem] min-w-[9.75rem]"
+      class="dropdown-pane dropdown-pane--open left-auto top-full mt-0.5 ltr:right-0 rtl:left-0 max-w-[12.5rem] min-w-[9.75rem]"
     >
       <WootDropdownMenu class="mb-0">
         <WootDropdownItem v-if="!isPending">
