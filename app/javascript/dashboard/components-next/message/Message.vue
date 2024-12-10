@@ -109,7 +109,7 @@ const props = defineProps({
   sender: { type: Object, default: null },
   senderId: { type: Number, default: null },
   senderType: { type: String, default: null },
-  content: { type: String, required: true },
+  content: { type: String, default: null },
   contentAttributes: { type: Object, default: () => ({}) },
   currentUserId: { type: Number, required: true },
   groupWithNext: { type: Boolean, default: false },
