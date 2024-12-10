@@ -52,7 +52,7 @@ const fileType = computed(() => {
 </script>
 
 <template>
-  <BaseBubble class="overflow-hidden relative group p-3 min-w-56">
+  <BaseBubble class="overflow-hidden relative group px-4 py-3 min-w-56">
     <span class="text-n-slate-12 flex items-center gap-1.5">
       <FileIcon :file-type="fileType" class="size-4" />
       {{ decodeURI(fileName) }}

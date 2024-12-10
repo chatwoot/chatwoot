@@ -44,7 +44,7 @@ const isTemplate = computed(() => {
 </script>
 
 <template>
-  <BaseBubble class="p-3 grid gap-3">
+  <BaseBubble class="px-4 py-3 grid gap-3">
     <FormattedContent v-if="content" :content="content" />
     <AttachmentChips :attachments="attachments" class="gap-2" />
     <template v-if="isTemplate">
