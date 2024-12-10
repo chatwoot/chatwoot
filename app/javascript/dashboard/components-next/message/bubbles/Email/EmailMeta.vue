@@ -32,7 +32,9 @@ const toEmail = computed(() => {
 
 const ccEmail = computed(() => {
   return (
-    props.contentAttributes?.ccEmail ?? props.contentAttributes?.email?.cc ?? []
+    props.contentAttributes?.ccEmails ??
+    props.contentAttributes?.email?.cc ??
+    []
   );
 });
 
@@ -42,7 +44,7 @@ const senderName = computed(() => {
 
 const bccEmail = computed(() => {
   return (
-    props.contentAttributes?.bccEmail ??
+    props.contentAttributes?.bccEmails ??
     props.contentAttributes?.email?.bcc ??
     []
   );
@@ -81,11 +83,11 @@ const showMeta = computed(() => {
       </div>
       <div v-if="ccEmail.length">
         {{ $t('EMAIL_HEADER.CC') }}:
-        {{ ccEmail }}
+        {{ ccEmail.join(', ') }}
       </div>
       <div v-if="bccEmail.length">
         {{ $t('EMAIL_HEADER.BCC') }}:
-        {{ bccEmail }}
+        {{ bccEmail.join(', ') }}
       </div>
       <div v-if="subject">
         {{ $t('EMAIL_HEADER.SUBJECT') }}:
