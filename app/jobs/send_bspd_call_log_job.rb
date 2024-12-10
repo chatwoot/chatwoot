@@ -1,43 +1,35 @@
-module CallHelper
-  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
-  def get_call_log_string(callback_payload)
-    agent_log = callback_payload['Legs'].first
-    user_log = callback_payload['Legs'].last
-    agent_call_status = agent_log['Status']
-    user_call_status = user_log['Status']
-    event_type = callback_payload['EventType']
+class SendBspdCallLogJob < ApplicationJob
+  queue_as :high
 
-    case event_type
-    when 'terminal'
-      return 'Call was connected to agent but they were busy' if agent_call_status == 'busy'
-      return "Call was connected to agent but they didn't pick up the call" if agent_call_status == 'no-answer'
-      return "The call failed, as it couldn't be connected to the user." if callback_payload['Status'] == 'failed' && user_call_status == 'canceled'
-
-      if callback_payload['Status'] == 'completed'
-        call_duration = format_duration_from_seconds(user_log['OnCallDuration'])
-        "Call completed with user\n\nCall Duration: #{call_duration}\nCall recording link: #{callback_payload['RecordingUrl']}"
-      end
-    when 'answered'
-      if agent_call_status == 'in-progress' && user_call_status == 'in-progress'
-        'Both user and agent are on the call'
-      elsif agent_call_status == 'in-progress'
-        'Agent has picked up the call'
-      end
-    end
+  def perform(parsed_body, conversation, account_id)
+    Rails.logger.info "Sending call log to BSPD: #{parsed_body.inspect}"
+    call_report = build_call_report(parsed_body, conversation, account_id)
+    send_report_to_bspd(call_report)
+    Rails.logger.info "Call log sent to BSPD: #{call_report.inspect}"
+  rescue StandardError => e
+    handle_error(e)
   end
-  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
 
-  def format_duration_from_seconds(duration_seconds)
-    hours = duration_seconds / 3600
-    minutes = (duration_seconds % 3600) / 60
-    remaining_seconds = duration_seconds % 60
+  def send_report_to_bspd(call_report)
+    response = HTTParty.post(
+      'https://b3i4zxcefi.execute-api.us-east-1.amazonaws.com/chatwoot/webhook/callReport',
+      body: call_report.to_json,
+      headers: { 'Content-Type' => 'application/json' }
+    )
+    handle_response(response)
+  end
 
-    result = []
-    result << "#{hours} hours" if hours.positive?
-    result << "#{minutes} minutes" if minutes.positive?
-    result << "#{remaining_seconds} seconds" if remaining_seconds.positive?
+  def handle_response(response)
+    unless response.success?
+      Rails.logger.error "BSPD API returned error: #{response.body}"
+      raise "BSPD API error: #{response.code} - #{response.body}"
+    end
+    Rails.logger.info "Call log sent to BSPD: #{response.body}"
+  end
 
-    result.join(' ')
+  def handle_error(error)
+    Rails.logger.error "Error sending call log to BSPD: #{error.message}"
+    raise error
   end
 
   def build_call_report(parsed_body, conversation, account_id)

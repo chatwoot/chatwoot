@@ -133,8 +133,12 @@ export default {
         ? 'contact_attribute'
         : 'conversation_attribute';
 
-      return this.$store.getters['attributes/getAttributesByModel'](
-        attributeModel
+      const allAttributes =
+        this.$store.getters['attributes/getAttributesByModel'](attributeModel);
+
+      return allAttributes.filter(
+        attr =>
+          !['calling_status', 'calling_notes'].includes(attr.attribute_key)
       );
     },
     tabs() {

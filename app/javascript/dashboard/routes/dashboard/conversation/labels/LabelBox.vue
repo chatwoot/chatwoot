@@ -11,7 +11,7 @@
       >
         <add-label @add="toggleLabels" />
         <woot-label
-          v-for="label in activeLabels"
+          v-for="label in filteredActiveLabels"
           :key="label.id"
           :title="label.title"
           :description="label.description"
@@ -29,8 +29,8 @@
           >
             <label-dropdown
               v-if="showSearchDropdownLabel"
-              :account-labels="accountLabels"
-              :selected-labels="savedLabels"
+              :account-labels="filteredAccountLabels"
+              :selected-labels="filteredSavedLabels"
               :allow-creation="isAdmin"
               @add="addLabelToConversation"
               @remove="removeLabelFromConversation"
@@ -79,6 +79,17 @@ export default {
       conversationUiFlags: 'conversationLabels/getUIFlags',
       labelUiFlags: 'conversationLabels/getUIFlags',
     }),
+    filteredActiveLabels() {
+      return this.activeLabels.filter(label => label.title !== 'calling-nudge');
+    },
+    filteredAccountLabels() {
+      return this.accountLabels.filter(
+        label => label.title !== 'calling-nudge'
+      );
+    },
+    filteredSavedLabels() {
+      return this.savedLabels.filter(label => label.title !== 'calling-nudge');
+    },
   },
   methods: {
     toggleLabels() {

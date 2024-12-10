@@ -66,6 +66,10 @@ export default {
       type: String,
       required: true,
     },
+    callingInfo: {
+      type: Boolean,
+      default: false,
+    },
     emptyStateMessage: {
       type: String,
       default: '',
@@ -83,8 +87,14 @@ export default {
         : this.$t('CUSTOM_ATTRIBUTES.SHOW_LESS');
     },
     filteredAttributes() {
-      return this.attributes.map(attribute => {
-        // Check if the attribute key exists in customAttributes
+      const attributes = this.attributes.filter(attribute => {
+        const isCallingAttribute = ['calling_status', 'calling_notes'].includes(
+          attribute.attribute_key
+        );
+        return this.callingInfo ? isCallingAttribute : !isCallingAttribute;
+      });
+
+      return attributes.map(attribute => {
         const hasValue = Object.hasOwnProperty.call(
           this.customAttributes,
           attribute.attribute_key
@@ -95,7 +105,6 @@ export default {
 
         return {
           ...attribute,
-          // Set value from customAttributes if it exists, otherwise use default value
           value: hasValue
             ? this.customAttributes[attribute.attribute_key]
             : defaultValue,

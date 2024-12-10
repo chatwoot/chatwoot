@@ -1,6 +1,7 @@
 /* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../helper/URLHelper';
 const ConversationView = () => import('./ConversationView');
+import { CALLING_NUDGES_LABEL } from '../../../../sdk/constants';
 
 export default {
   routes: [
@@ -127,6 +128,29 @@ export default {
       roles: ['administrator', 'agent'],
       component: ConversationView,
       props: () => ({ conversationType: 'unattended' }),
+    },
+    {
+      path: frontendURL('accounts/:accountId/calling_nudges/conversations'),
+      name: 'conversation_calling_nudges',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: () => ({
+        conversationType: 'calling_nudges',
+        label: CALLING_NUDGES_LABEL,
+      }),
+    },
+    {
+      path: frontendURL(
+        'accounts/:accountId/calling_nudges/conversations/:conversationId'
+      ),
+      name: 'conversation_through_calling_nudges',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: route => ({
+        conversationId: route.params.conversationId,
+        conversationType: 'calling_nudges',
+        label: 'calling-nudge',
+      }),
     },
     {
       path: frontendURL(

@@ -137,15 +137,17 @@ export default {
         showModalForNewItem: true,
         modalName: 'AddLabel',
         dataTestid: 'sidebar-new-label-button',
-        children: this.labels.map(label => ({
-          id: label.id,
-          label: label.title,
-          color: label.color,
-          truncateLabel: true,
-          toState: frontendURL(
-            `accounts/${this.accountId}/label/${label.title}`
-          ),
-        })),
+        children: this.labels
+          .filter(label => label.title !== 'calling-nudge')
+          .map(label => ({
+            id: label.id,
+            label: label.title,
+            color: label.color,
+            truncateLabel: true,
+            toState: frontendURL(
+              `accounts/${this.accountId}/label/${label.title}`
+            ),
+          })),
       };
     },
     contactLabelSection() {

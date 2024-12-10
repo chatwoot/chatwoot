@@ -167,6 +167,7 @@ import { conversationListPageURL } from '../helper/URLHelper';
 import {
   isOnMentionsView,
   isOnUnattendedView,
+  isOnCallingNudgesView,
 } from '../store/modules/conversations/helpers/actionHelpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import { CMD_SNOOZE_CONVERSATION } from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
@@ -422,6 +423,9 @@ export default {
       }
       if (this.inbox.name) {
         return this.inbox.name;
+      }
+      if (this.conversationType === 'calling_nudges') {
+        return 'Calling Nudges';
       }
       if (this.activeTeam.name) {
         return this.activeTeam.name;
@@ -917,6 +921,8 @@ export default {
           conversationType = 'mention';
         } else if (isOnUnattendedView({ route: { name } })) {
           conversationType = 'unattended';
+        } else if (isOnCallingNudgesView({ route: { name } })) {
+          conversationType = 'calling_nudges';
         }
         this.$router.push(
           conversationListPageURL({

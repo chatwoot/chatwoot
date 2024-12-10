@@ -28,7 +28,11 @@
         class="min-w-[1rem] mr-1.5 rtl:mr-0 rtl:ml-1.5"
         size="14"
       />
-      {{ $t(`SIDEBAR.${menuItem.label}`) }}
+      {{
+        menuItem.label === 'CALLING_NUDGES'
+          ? 'Calling Nudges'
+          : $t(`SIDEBAR.${menuItem.label}`)
+      }}
       <span
         v-if="showChildCount(menuItem.count)"
         class="px-1 py-0 mx-1 font-medium rounded-md text-xxs"
@@ -104,6 +108,7 @@ import SecondaryChildNavItem from './SecondaryChildNavItem.vue';
 import {
   isOnMentionsView,
   isOnUnattendedView,
+  isOnCallingNudgesView,
 } from '../../../store/modules/conversations/helpers/actionHelpers';
 
 export default {
@@ -179,6 +184,12 @@ export default {
         this.menuItem.toStateName === 'conversation_unattended'
       );
     },
+    isCallingNudges() {
+      return (
+        isOnCallingNudgesView({ route: this.$route }) &&
+        this.menuItem.toStateName === 'conversation_calling_nudges'
+      );
+    },
     isTeamsSettings() {
       return (
         this.$store.state.route.name === 'settings_teams_edit' &&
@@ -214,6 +225,7 @@ export default {
         this.isAllConversations ||
         this.isMentions ||
         this.isUnattended ||
+        this.isCallingNudges ||
         this.isCurrentRoute
       ) {
         return 'bg-woot-25 dark:bg-slate-800 text-woot-500 dark:text-woot-500 hover:text-woot-500 dark:hover:text-woot-500 active-view';

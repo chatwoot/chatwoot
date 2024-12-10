@@ -12,6 +12,7 @@ import {
   isOnFoldersView,
   isOnMentionsView,
   isOnUnattendedView,
+  isOnCallingNudgesView,
 } from './helpers/actionHelpers';
 
 export const hasMessageFailedWithExternalError = pendingMessage => {
@@ -331,6 +332,7 @@ const actions = {
       !hasAppliedFilters &&
       !isOnMentionsView(rootState) &&
       !isOnUnattendedView(rootState) &&
+      !isOnCallingNudgesView(rootState) &&
       isMatchingInboxFilter
     ) {
       if (isOnFoldersView(rootState)) {
@@ -357,11 +359,21 @@ const actions = {
     }
   },
 
+  addCallingNudges({ dispatch, rootState }, conversation) {
+    if (isOnCallingNudgesView(rootState)) {
+      dispatch('updateConversation', conversation);
+    }
+  },
+
   async updateConversation({ commit, dispatch, rootState }, conversation) {
     const {
       meta: { sender },
     } = conversation;
-    if (!isOnMentionsView(rootState) && !isOnUnattendedView(rootState)) {
+    if (
+      !isOnMentionsView(rootState) &&
+      !isOnUnattendedView(rootState) &&
+      !isOnCallingNudgesView(rootState)
+    ) {
       if (isOnFoldersView(rootState)) {
         const isConversationPartOfFolder =
           await checkIfConversationPartOfFolder(conversation, rootState);

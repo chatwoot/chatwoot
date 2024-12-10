@@ -26,6 +26,7 @@ class Account < ApplicationRecord
   include Reportable
   include Featurable
   include CacheKeys
+  include CustomAttributeHandler
 
   DEFAULT_QUERY_SETTING = {
     flag_query_mode: :bit_operator,
@@ -82,7 +83,7 @@ class Account < ApplicationRecord
   enum status: { active: 0, suspended: 1 }
 
   before_validation :validate_limit_keys
-  after_create_commit :notify_creation
+  after_create_commit :notify_creation, :create_default_calling_attributes
   after_destroy :remove_account_sequences
 
   def agents

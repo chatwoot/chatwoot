@@ -12,6 +12,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  callingInfo: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const referer = computed(() => props.conversationAttributes.referer);
@@ -96,6 +100,7 @@ const staticElements = computed(() =>
       attribute-class="conversation--attribute"
       attribute-from="conversation_panel"
       attribute-type="conversation_attribute"
+      :calling-info="callingInfo"
     />
   </div>
 </template>

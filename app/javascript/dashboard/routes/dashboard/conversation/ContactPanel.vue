@@ -58,6 +58,22 @@
               />
             </accordion-item>
           </div>
+          <div v-else-if="element.name === 'calling_info'">
+            <accordion-item
+              :title="'Calling Information'"
+              :is-open="isContactSidebarItemOpen('is_calling_info_open')"
+              compact
+              @click="
+                value => toggleSidebarUIState('is_calling_info_open', value)
+              "
+            >
+              <conversation-info
+                :conversation-attributes="conversationAdditionalAttributes"
+                :contact-attributes="contactAdditionalAttributes"
+                :calling-info="true"
+              />
+            </accordion-item>
+          </div>
           <div v-else-if="element.name === 'conversation_info'">
             <accordion-item
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_INFO')"

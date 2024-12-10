@@ -31,6 +31,14 @@ export const isOnUnattendedView = ({ route: { name: routeName } }) => {
   return UNATTENDED_ROUTES.includes(routeName);
 };
 
+export const isOnCallingNudgesView = ({ route: { name: routeName } }) => {
+  const CALLING_NUDGES_ROUTES = [
+    'conversation_calling_nudges',
+    'conversation_through_calling_nudges',
+  ];
+  return CALLING_NUDGES_ROUTES.includes(routeName);
+};
+
 export const isOnFoldersView = ({ route: { name: routeName } }) => {
   const FOLDER_ROUTES = [
     'folder_conversations',

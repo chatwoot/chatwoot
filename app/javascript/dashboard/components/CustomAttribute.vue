@@ -42,15 +42,14 @@
     <div v-if="notAttributeTypeCheckboxAndList">
       <div v-if="isEditing" v-on-clickaway="onClickAway">
         <div class="mb-2 w-full flex items-center">
-          <input
+          <textarea
             ref="inputfield"
             v-model="editedValue"
             :type="inputType"
-            class="!h-8 ltr:!rounded-r-none rtl:!rounded-l-none !mb-0 !text-sm"
+            class="!h-16 ltr:!rounded-r-none rtl:!rounded-l-none !mb-0 !text-sm"
             autofocus="true"
             :class="{ error: $v.editedValue.$error }"
             @blur="$v.editedValue.$touch"
-            @keyup.enter="onUpdate"
           />
           <div>
             <woot-button

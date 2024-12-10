@@ -30,7 +30,7 @@
             </th>
           </thead>
           <tbody>
-            <tr v-for="(label, index) in records" :key="label.title">
+            <tr v-for="(label, index) in filteredRecords" :key="label.title">
               <td class="label-title">
                 <span class="overflow-hidden whitespace-nowrap text-ellipsis">{{
                   label.title
@@ -127,6 +127,9 @@ export default {
       records: 'labels/getLabels',
       uiFlags: 'labels/getUIFlags',
     }),
+    filteredRecords() {
+      return this.records.filter(label => label.title !== 'calling-nudge');
+    },
     // Delete Modal
     deleteConfirmText() {
       return this.$t('LABEL_MGMT.DELETE.CONFIRM.YES');

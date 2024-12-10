@@ -20,6 +20,8 @@ const conversations = accountId => ({
     'conversations_through_folders',
     'conversation_unattended',
     'conversation_through_unattended',
+    'conversation_calling_nudges',
+    'conversation_through_calling_nudges',
   ],
   menuItems: [
     {
@@ -43,6 +45,15 @@ const conversations = accountId => ({
       key: 'conversation_unattended',
       toState: frontendURL(`accounts/${accountId}/unattended/conversations`),
       toStateName: 'conversation_unattended',
+    },
+    {
+      icon: 'call',
+      label: 'CALLING_NUDGES',
+      key: 'conversation_calling_nudges',
+      toState: frontendURL(
+        `accounts/${accountId}/calling_nudges/conversations`
+      ),
+      toStateName: 'conversation_calling_nudges',
     },
   ],
 });

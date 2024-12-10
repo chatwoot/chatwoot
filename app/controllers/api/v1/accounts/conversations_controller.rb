@@ -39,11 +39,12 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     head :ok
   end
 
-  def update_orders
-    existing_orders = @conversation.additional_attributes[:orders] || []
+  def update_source_context
+    existing_source_context = @conversation.additional_attributes[:source_context] || {}
+    permitted_source_context = params.require(:source_context).permit!.to_h
     @conversation.update(
       additional_attributes: @conversation.additional_attributes.merge(
-        orders: existing_orders + [params[:order]]
+        source_context: existing_source_context.merge(permitted_source_context)
       )
     )
     head :ok

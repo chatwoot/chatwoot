@@ -113,7 +113,7 @@ Rails.application.routes.draw do
               post :transcript
               post :toggle_status
               post :mark_intent
-              post :update_orders
+              post :update_source_context
               post :toggle_priority
               post :toggle_typing_status
               post :update_last_seen
