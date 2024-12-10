@@ -785,7 +785,7 @@ watch(conversationFilters, (newVal, oldVal) => {
     class="flex flex-col flex-shrink-0 border-r conversations-list-wrap rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
     :class="[
       { hidden: !showConversationList },
-      isOnExpandedLayout ? 'basis-full' : 'flex-basis-clamp',
+      isOnExpandedLayout ? 'basis-full' : 'w-[360px]',
     ]"
   >
     <slot />
@@ -916,12 +916,3 @@ watch(conversationFilters, (newVal, oldVal) => {
     </Teleport>
   </div>
 </template>
-
-<style scoped>
-@tailwind components;
-@layer components {
-  .flex-basis-clamp {
-    flex-basis: clamp(20rem, 4vw + 21.25rem, 27.5rem);
-  }
-}
-</style>
