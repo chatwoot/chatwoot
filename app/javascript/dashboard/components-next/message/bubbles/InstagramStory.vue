@@ -62,7 +62,7 @@ const onVideoLoadError = () => {
 
 <template>
   <BaseBubble class="px-4 py-3 overflow-hidden" data-bubble-name="ig_story">
-    <div v-if="content" class="mb-2" v-html="formattedContent" />
+    <div v-if="content" v-dompurify-html="formattedContent" class="mb-2" />
     <img
       v-if="!hasImgStoryError"
       class="rounded-lg max-w-80"

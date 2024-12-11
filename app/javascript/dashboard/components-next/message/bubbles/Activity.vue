@@ -11,6 +11,6 @@ defineProps({
 
 <template>
   <BaseBubble class="px-2 py-0.5" data-bubble-name="activity">
-    <span v-html="content" />
+    <span v-dompurify-html="content" />
   </BaseBubble>
 </template>

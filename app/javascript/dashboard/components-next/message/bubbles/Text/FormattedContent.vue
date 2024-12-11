@@ -25,7 +25,7 @@ const formattedContent = computed(() => {
 
 <template>
   <span
+    v-dompurify-html="formattedContent"
     class="[&>p:last-child]:mb-0 [&>ul]:list-inside"
-    v-html="formattedContent"
   />
 </template>
