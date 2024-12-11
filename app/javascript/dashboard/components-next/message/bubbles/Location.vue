@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted, nextTick } from 'vue';
-import BaseBubble from './Base.vue';
+import BaseAttachmentBubble from './BaseAttachment.vue';
 import Icon from 'next/icon/Icon.vue';
 import { useI18n } from 'vue-i18n';
 import maplibregl from 'maplibre-gl';
@@ -86,33 +86,21 @@ onMounted(async () => {
 </script>
 
 <template>
-  <BaseBubble class="min-w-64 grid gap-4 overflow-hidden">
-    <div id="map" class="max-w-md min-w-64 w-full h-28 -mb-8 z-10" />
-    <div class="grid gap-3 px-3 z-20">
-      <div class="size-8 rounded-lg bg-[#0D9B8A] grid place-content-center">
-        <Icon icon="i-ph-navigation-arrow-fill" class="text-white size-4" />
-      </div>
-      <div class="truncate text-sm text-n-slate-11">
-        <div v-if="senderName" class="text-n-slate-12 text-sm truncate">
-          {{
-            t('CONVERSATION.SHARED_ATTACHMENT.LOCATION', {
-              sender: senderName,
-            })
-          }}
-        </div>
-        {{ title }}
-      </div>
-    </div>
-    <div class="px-3 pb-3 w-full">
-      <a
-        :href="mapUrl"
-        target="blank"
-        class="w-full block bg-n-solid-3 px-4 py-2 rounded-lg text-sm text-center"
-      >
-        {{ t('COMPONENTS.LOCATION_BUBBLE.SEE_ON_MAP') }}
-      </a>
-    </div>
-  </BaseBubble>
+  <BaseAttachmentBubble
+    icon="i-ph-navigation-arrow-fill"
+    icon-bg-color="bg-[#0D9B8A]"
+    :sender="sender"
+    sender-translation-key="CONVERSATION.SHARED_ATTACHMENT.LOCATION"
+    :content="title"
+    :action="{
+      label: t('COMPONENTS.LOCATION_BUBBLE.SEE_ON_MAP'),
+      href: mapUrl,
+    }"
+  >
+    <template #before>
+      <div id="map" class="max-w-md min-w-64 w-full h-28 -mb-12 z-10" />
+    </template>
+  </BaseAttachmentBubble>
 </template>
 
 <style>

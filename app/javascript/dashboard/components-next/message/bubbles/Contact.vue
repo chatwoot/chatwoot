@@ -3,8 +3,7 @@ import { computed } from 'vue';
 import { useAlert } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
-import BaseBubble from './Base.vue';
-import Icon from 'next/icon/Icon.vue';
+import BaseAttachmentBubble from './BaseAttachment.vue';
 
 import {
   DuplicateContactException,
@@ -50,10 +49,6 @@ const { t } = useI18n();
 
 const attachment = computed(() => {
   return props.attachments[0];
-});
-
-const senderName = computed(() => {
-  return props.sender.name;
 });
 
 const phoneNumber = computed(() => {
@@ -123,32 +118,20 @@ async function addContact() {
     }
   }
 }
+
+const action = computed(() => ({
+  label: t('CONVERSATION.SAVE_CONTACT'),
+  onClick: addContact,
+}));
 </script>
 
 <template>
-  <BaseBubble class="p-3 min-w-64 grid gap-4">
-    <div class="grid gap-3">
-      <div class="size-8 rounded-lg bg-[#D6409F] grid place-content-center">
-        <Icon icon="i-teenyicons-user-circle-solid" class="text-white size-4" />
-      </div>
-      <div class="space-y-1">
-        <div v-if="senderName" class="text-n-slate-12 text-sm truncate">
-          {{
-            t('CONVERSATION.SHARED_ATTACHMENT.CONTACT', {
-              sender: senderName,
-            })
-          }}
-        </div>
-        <div class="truncate text-sm text-n-slate-11">{{ phoneNumber }}</div>
-      </div>
-    </div>
-    <div v-if="formattedPhoneNumber" class="link-wrap">
-      <button
-        class="w-full bg-n-solid-3 px-4 py-2 rounded-lg text-sm"
-        @click.prevent="addContact"
-      >
-        {{ t('CONVERSATION.SAVE_CONTACT') }}
-      </button>
-    </div>
-  </BaseBubble>
+  <BaseAttachmentBubble
+    icon="i-teenyicons-user-circle-solid"
+    icon-bg-color="bg-[#D6409F]"
+    :sender="sender"
+    sender-translation-key="CONVERSATION.SHARED_ATTACHMENT.CONTACT"
+    :content="phoneNumber"
+    :action="formattedPhoneNumber ? action : null"
+  />
 </template>

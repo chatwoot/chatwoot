@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import BaseBubble from './Base.vue';
+import BaseAttachmentBubble from './BaseAttachment.vue';
 import FileIcon from 'next/icon/FileIcon.vue';
 
 /**
@@ -41,10 +41,6 @@ const url = computed(() => {
   return props.attachments[0].dataUrl;
 });
 
-const senderName = computed(() => {
-  return props.sender.name;
-});
-
 const fileName = computed(() => {
   if (url.value) {
     const filename = url.value.substring(url.value.lastIndexOf('/') + 1);
@@ -59,34 +55,19 @@ const fileType = computed(() => {
 </script>
 
 <template>
-  <BaseBubble class="p-3 min-w-64 grid gap-4">
-    <div class="grid gap-3">
-      <div
-        class="size-8 rounded-lg grid place-content-center bg-n-alpha-3 dark:bg-n-alpha-white"
-      >
-        <FileIcon :file-type="fileType" class="size-4" />
-      </div>
-      <div class="space-y-1">
-        <div v-if="senderName" class="text-n-slate-12 text-sm truncate">
-          {{
-            t('CONVERSATION.SHARED_ATTACHMENT.FILE', {
-              sender: senderName,
-            })
-          }}
-        </div>
-        <div class="truncate text-sm text-n-slate-11">
-          {{ decodeURI(fileName) }}
-        </div>
-      </div>
-    </div>
-    <a
-      :href="url"
-      rel="noreferrer noopener nofollow"
-      target="_blank"
-      class="w-full bg-n-solid-3 px-4 py-2 rounded-lg text-sm text-center"
-      @click.prevent="addContact"
-    >
-      {{ $t('CONVERSATION.DOWNLOAD') }}
-    </a>
-  </BaseBubble>
+  <BaseAttachmentBubble
+    icon="i-teenyicons-user-circle-solid"
+    icon-bg-color="bg-n-alpha-3 dark:bg-n-alpha-white"
+    :sender="sender"
+    sender-translation-key="CONVERSATION.SHARED_ATTACHMENT.FILE"
+    :content="decodeURI(fileName)"
+    :action="{
+      href: url,
+      label: $t('CONVERSATION.DOWNLOAD'),
+    }"
+  >
+    <template #icon>
+      <FileIcon :file-type="fileType" class="size-4" />
+    </template>
+  </BaseAttachmentBubble>
 </template>
