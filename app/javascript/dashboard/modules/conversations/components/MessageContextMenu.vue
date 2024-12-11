@@ -39,6 +39,10 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    hideButton: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['open', 'close', 'replyTo'],
   setup() {
@@ -186,6 +190,7 @@ export default {
       :reject-text="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.CANCEL')"
     />
     <woot-button
+      v-if="!hideButton"
       icon="more-vertical"
       color-scheme="secondary"
       variant="clear"
