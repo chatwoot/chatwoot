@@ -1,8 +1,7 @@
 <script setup>
 import Message from './Message.vue';
 
-// import textOnly from './fixtures/textOnly.js';
-import textWithMedia from './fixtures/textWithMedia.js';
+import textWithMedia from '../fixtures/textWithMedia.js';
 
 const messages = textWithMedia;
 
