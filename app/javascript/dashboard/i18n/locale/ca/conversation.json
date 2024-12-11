@@ -219,6 +219,10 @@
         "DELETE": "Esborrar",
         "CANCEL": "Cancel·la"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contacte",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
