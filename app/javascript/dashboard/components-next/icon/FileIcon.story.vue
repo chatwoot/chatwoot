@@ -21,10 +21,7 @@ const files = [
 </script>
 
 <template>
-  <Story
-    title="Components/Icons/FileIcon"
-    :layout="{ type: 'grid', width: '800' }"
-  >
+  <Story title="Components/Icons/FileIcon">
     <div class="grid grid-cols-4 gap-5">
       <div
         v-for="file in files"
