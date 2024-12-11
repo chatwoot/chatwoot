@@ -80,116 +80,6 @@ const activityMessage = computed(() =>
   })
 );
 
-const audioMessage = computed(() =>
-  getMessage({
-    content: null,
-    attachments: [
-      getAttachment(
-        'audio',
-        'https://cdn.freesound.org/previews/769/769025_16085454-lq.mp3'
-      ),
-    ],
-    ...baseSenderData.value,
-  })
-);
-
-const brokenImageMessage = computed(() =>
-  getMessage({
-    content: null,
-    attachments: [getAttachment('image', 'https://chatwoot.dev/broken.png')],
-    ...baseSenderData.value,
-  })
-);
-
-const imageMessage = computed(() =>
-  getMessage({
-    content: null,
-    attachments: [
-      getAttachment(
-        'image',
-        'https://images.pexels.com/photos/28506417/pexels-photo-28506417/free-photo-of-motorbike-on-scenic-road-in-surat-thani-thailand.jpeg'
-      ),
-    ],
-    ...baseSenderData.value,
-  })
-);
-
-const videoMessage = computed(() =>
-  getMessage({
-    content: null,
-    attachments: [
-      getAttachment(
-        'video',
-        'https://videos.pexels.com/video-files/1739010/1739010-hd_1920_1080_30fps.mp4'
-      ),
-    ],
-    ...baseSenderData.value,
-  })
-);
-
-const attachmentsOnly = computed(() =>
-  getMessage({
-    content: null,
-    attachments: [
-      getAttachment('image', 'https://chatwoot.dev/broken.png'),
-      getAttachment(
-        'video',
-        'https://videos.pexels.com/video-files/1739010/1739010-hd_1920_1080_30fps.mp4'
-      ),
-      getAttachment(
-        'image',
-        'https://images.pexels.com/photos/28506417/pexels-photo-28506417/free-photo-of-motorbike-on-scenic-road-in-surat-thani-thailand.jpeg'
-      ),
-      getAttachment('file', 'https://chatwoot.dev/invoice.pdf'),
-      getAttachment('file', 'https://chatwoot.dev/logs.txt'),
-      getAttachment('file', 'https://chatwoot.dev/contacts.xls'),
-      getAttachment('file', 'https://chatwoot.dev/customers.csv'),
-      getAttachment('file', 'https://chatwoot.dev/warehousing-policy.docx'),
-      getAttachment('file', 'https://chatwoot.dev/pitch-deck.ppt'),
-      getAttachment('file', 'https://chatwoot.dev/all-files.tar'),
-      getAttachment(
-        'audio',
-        'https://cdn.freesound.org/previews/769/769025_16085454-lq.mp3'
-      ),
-    ],
-    ...baseSenderData.value,
-  })
-);
-
-const singleFile = computed(() =>
-  getMessage({
-    content: null,
-    attachments: [getAttachment('file', 'https://chatwoot.dev/all-files.tar')],
-    ...baseSenderData.value,
-  })
-);
-
-const contact = computed(() =>
-  getMessage({
-    content: null,
-    attachments: [
-      getAttachment('contact', null, {
-        fallbackTitle: '+919999999999',
-      }),
-    ],
-    ...baseSenderData.value,
-  })
-);
-
-const location = computed(() =>
-  getMessage({
-    content: null,
-    attachments: [
-      getAttachment('location', null, {
-        coordinatesLat: 37.7937545,
-        coordinatesLong: -122.3997472,
-        fallbackTitle: 'Chatwoot Inc',
-      }),
-    ],
-    ...baseSenderData.value,
-  })
-);
-
 const email = computed(() =>
   getMessage({
     content: null,
@@ -251,71 +141,11 @@ const email = computed(() =>
     ...baseSenderData.value,
   })
 );
-
-const instagramStory = computed(() =>
-  getMessage({
-    content: 'cwtestinglocal mentioned you in the story: ',
-    contentAttributes: {
-      imageType: 'story_mention',
-    },
-    attachments: [
-      getAttachment(
-        'image',
-        'https://images.pexels.com/photos/2587370/pexels-photo-2587370.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
-      ),
-    ],
-    ...baseSenderData.value,
-  })
-);
-
-const unsupported = computed(() =>
-  getMessage({
-    content: null,
-    contentAttributes: {
-      isUnsupported: true,
-    },
-    ...baseSenderData.value,
-  })
-);
-
-const igReel = computed(() =>
-  getMessage({
-    content: null,
-    attachments: [
-      getAttachment(
-        'ig_reel',
-        'https://videos.pexels.com/video-files/2023708/2023708-hd_720_1280_30fps.mp4'
-      ),
-    ],
-    ...baseSenderData.value,
-  })
-);
-
-const dyte = computed(() => {
-  return getMessage({
-    messageType: 1,
-    contentType: 'integrations',
-    contentAttributes: {
-      type: 'dyte',
-      data: {
-        meetingId: 'f16bebe6-08b9-4593-899a-849f59c47397',
-        roomName: 'zcufnc-adbjcg',
-      },
-    },
-    senderId: 1,
-    sender: {
-      id: 1,
-      name: 'Shivam Mishra',
-      availableName: 'Shivam Mishra',
-      type: 'user',
-    },
-  });
-});
 </script>
 
 <template>
   <Story
-    title="Components/Messages/Bubbles"
+    title="Components/Message Bubbles/Bubbles"
     :layout="{ type: 'grid', width: '800px' }"
   >
     <Variant title="Text">
@@ -329,76 +159,10 @@ const dyte = computed(() => {
       </div>
     </Variant>
 
-    <!-- Media Types -->
-    <Variant title="Audio">
-      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
-        <Message :current-user-id="1" v-bind="audioMessage" />
-      </div>
-    </Variant>
-    <Variant title="Image">
-      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
-        <Message :current-user-id="1" v-bind="imageMessage" />
-      </div>
-    </Variant>
-    <Variant title="Broken Image">
-      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
-        <Message :current-user-id="1" v-bind="brokenImageMessage" />
-      </div>
-    </Variant>
-    <Variant title="Video">
-      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
-        <Message :current-user-id="1" v-bind="videoMessage" />
-      </div>
-    </Variant>
-
-    <!-- Files and Attachments -->
-    <Variant title="Multiple Attachments">
-      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
-        <Message :current-user-id="1" v-bind="attachmentsOnly" />
-      </div>
-    </Variant>
-    <Variant title="File">
-      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
-        <Message :current-user-id="1" v-bind="singleFile" />
-      </div>
-    </Variant>
-    <Variant title="Contact">
-      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
-        <Message :current-user-id="1" v-bind="contact" />
-      </div>
-    </Variant>
-    <Variant title="Location">
-      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
-        <Message :current-user-id="1" v-bind="location" />
-      </div>
-    </Variant>
-    <Variant title="Dyte Video">
-      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
-        <Message :current-user-id="1" v-bind="dyte" />
-      </div>
-    </Variant>
-
     <!-- Platform Specific -->
     <Variant title="Email">
       <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
         <Message :current-user-id="1" is-email-inbox v-bind="email" />
-      </div>
-    </Variant>
-    <Variant title="Instagram Story">
-      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
-        <Message :current-user-id="1" v-bind="instagramStory" />
-      </div>
-    </Variant>
-    <Variant title="Instagram Reel">
-      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
-        <Message :current-user-id="1" v-bind="igReel" />
-      </div>
-    </Variant>
-
-    <!-- Other -->
-    <Variant title="Unsupported">
-      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
-        <Message :current-user-id="1" v-bind="unsupported" />
       </div>
     </Variant>
   </Story>
