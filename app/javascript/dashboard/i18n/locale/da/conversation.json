@@ -219,6 +219,10 @@
         "DELETE": "Slet",
         "CANCEL": "Annuller"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Kontakt",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
