@@ -74,7 +74,9 @@ const menuItems = computed(() => {
       show: currentUser.value.type === 'SuperAdmin',
       label: t('SIDEBAR_ITEMS.SUPER_ADMIN_CONSOLE'),
       icon: 'i-lucide-castle',
-      link: '/super_admin',
+      click: () => {
+        window.open('/super_admin', '_blank');
+      },
       target: '_blank',
     },
     {
