@@ -1,6 +1,6 @@
 <script setup>
 import { useAlert } from 'dashboard/composables';
-import { messageTimestamp } from 'shared/helpers/timeHelper';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
@@ -19,7 +19,7 @@ const records = computed(() => getters['auditlogs/getAuditLogs'].value);
 const uiFlags = computed(() => getters['auditlogs/getUIFlags'].value);
 const meta = computed(() => getters['auditlogs/getMeta'].value);
 const agentList = computed(() => getters['agents/getAgents'].value);
-
+const { localeDateFormat } = useLocaleDateFormatter();
 const { t } = useI18n();
 const route = useRoute();
 
@@ -113,12 +113,7 @@ const tableHeaders = computed(() => {
                 {{ generateLogText(auditLogItem) }}
               </td>
               <td class="py-4 pr-4 break-all whitespace-nowrap">
-                {{
-                  messageTimestamp(
-                    auditLogItem.created_at,
-                    'MMM dd, yyyy hh:mm a'
-                  )
-                }}
+                {{ localeDateFormat(auditLogItem.created_at, 'dateM_timeM') }}
               </td>
               <td class="py-4 w-[8.75rem]">
                 {{ auditLogItem.remote_address }}

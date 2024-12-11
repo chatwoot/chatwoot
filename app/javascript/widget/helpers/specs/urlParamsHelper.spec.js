@@ -9,10 +9,8 @@ describe('#buildSearchParamsWithLocale', () => {
     let windowSpy = vi.spyOn(window, 'window', 'get');
     windowSpy.mockImplementation(() => ({
       WOOT_WIDGET: {
-        $root: {
-          $i18n: {
-            locale: 'el',
-          },
+        $i18n: {
+          locale: 'el',
         },
       },
     }));

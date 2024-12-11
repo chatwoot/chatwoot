@@ -1,93 +1,105 @@
 import {
-  format,
   isSameYear,
   fromUnixTime,
   formatDistanceToNow,
+  formatDistanceToNowStrict,
+  isSameDay,
 } from 'date-fns';
-
-/**
- * Formats a Unix timestamp into a human-readable time format.
- * @param {number} time - Unix timestamp.
- * @param {string} [dateFormat='h:mm a'] - Desired format of the time.
- * @returns {string} Formatted time string.
- */
-export const messageStamp = (time, dateFormat = 'h:mm a') => {
-  const unixTime = fromUnixTime(time);
-  return format(unixTime, dateFormat);
-};
+import * as locales from 'date-fns/locale';
 
 /**
  * Provides a formatted timestamp, adjusting the format based on the current year.
  * @param {number} time - Unix timestamp.
- * @param {string} [dateFormat='MMM d, yyyy'] - Desired date format.
+ * @param {string} [locale='en'] - Desired locale and region.
  * @returns {string} Formatted date string.
  */
-export const messageTimestamp = (time, dateFormat = 'MMM d, yyyy') => {
+export const messageDateFormat = (time, locale = 'en') => {
   const messageTime = fromUnixTime(time);
   const now = new Date();
-  const messageDate = format(messageTime, dateFormat);
-  if (!isSameYear(messageTime, now)) {
-    return format(messageTime, 'LLL d y, h:mm a');
+  let options;
+  if (isSameYear(messageTime, now)) {
+    options = {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    };
+    if (isSameDay(messageTime, now)) {
+      options = {
+        timeStyle: 'short',
+      };
+    }
+  } else {
+    options = {
+      dateStyle: 'medium',
+    };
   }
-  return messageDate;
-};
-
-/**
- * Converts a Unix timestamp to a relative time string (e.g., 3 hours ago).
- * @param {number} time - Unix timestamp.
- * @returns {string} Relative time string.
- */
-export const dynamicTime = time => {
-  const unixTime = fromUnixTime(time);
-  return formatDistanceToNow(unixTime, { addSuffix: true });
+  return new Intl.DateTimeFormat(locale.replace('_', '-'), options).format(
+    messageTime
+  );
 };
 
 /**
  * Formats a Unix timestamp into a specified date format.
  * @param {number} time - Unix timestamp.
- * @param {string} [dateFormat='MMM d, yyyy'] - Desired date format.
+ * @param {string} [locale='en'] - Desired locale and region.
  * @returns {string} Formatted date string.
  */
-export const dateFormat = (time, df = 'MMM d, yyyy') => {
+export const dateFormat = (time, formatStyle = 'dateM', locale = 'en') => {
   const unixTime = fromUnixTime(time);
-  return format(unixTime, df);
+  const options = {};
+  switch (formatStyle) {
+    case 'dateS':
+      options.dateStyle = 'short';
+      break;
+    case 'dateM':
+      options.dateStyle = 'medium';
+      break;
+    case 'dateM_timeS':
+      options.dateStyle = 'medium';
+      options.timeStyle = 'short';
+      break;
+    case 'dateM_timeM':
+      options.dateStyle = 'medium';
+      options.timeStyle = 'medium';
+      break;
+    default:
+      options.dateStyle = 'medium';
+  }
+  return new Intl.DateTimeFormat(locale.replace('_', '-'), options).format(
+    unixTime
+  );
+};
+
+/**
+ * Converts a Unix timestamp to a relative time string (e.g., 3 hours ago).
+ * @param {number} time - Unix timestamp.
+ * @param {string} [locale='en'] - Desired locale and region.
+ * @returns {string} Relative time string.
+ */
+export const dynamicTime = (time, locale = 'en') => {
+  const unixTime = fromUnixTime(time);
+  return formatDistanceToNow(unixTime, {
+    addSuffix: true,
+    locale: locales[locale.replace('_', '')],
+  });
 };
 
 /**
  * Converts a detailed time description into a shorter format, optionally appending 'ago'.
  * @param {string} time - Detailed time description (e.g., 'a minute ago').
  * @param {boolean} [withAgo=false] - Whether to append 'ago' to the result.
+ * @param {string} [locale='en'] - Desired locale and region.
  * @returns {string} Shortened time description.
  */
-export const shortTimestamp = (time, withAgo = false) => {
-  // This function takes a time string and converts it to a short time string
-  // with the following format: 1m, 1h, 1d, 1mo, 1y
-  // The function also takes an optional boolean parameter withAgo
-  // which will add the word "ago" to the end of the time string
-  const suffix = withAgo ? ' ago' : '';
-  const timeMappings = {
-    'less than a minute ago': 'now',
-    'a minute ago': `1m${suffix}`,
-    'an hour ago': `1h${suffix}`,
-    'a day ago': `1d${suffix}`,
-    'a month ago': `1mo${suffix}`,
-    'a year ago': `1y${suffix}`,
-  };
-  // Check if the time string is one of the specific cases
-  if (timeMappings[time]) {
-    return timeMappings[time];
+export const shortTimestamp = (time, withAgo = false, locale = 'en') => {
+  const unixTime = fromUnixTime(time);
+  if (Date.now() / 1000 - time < 60) {
+    return formatDistanceToNow(unixTime, {
+      addSuffix: withAgo,
+      locale: locales[locale.replace('_', '')],
+    });
   }
-  const convertToShortTime = time
-    .replace(/about|over|almost|/g, '')
-    .replace(' minute ago', `m${suffix}`)
-    .replace(' minutes ago', `m${suffix}`)
-    .replace(' hour ago', `h${suffix}`)
-    .replace(' hours ago', `h${suffix}`)
-    .replace(' day ago', `d${suffix}`)
-    .replace(' days ago', `d${suffix}`)
-    .replace(' month ago', `mo${suffix}`)
-    .replace(' months ago', `mo${suffix}`)
-    .replace(' year ago', `y${suffix}`)
-    .replace(' years ago', `y${suffix}`);
-  return convertToShortTime;
+  return formatDistanceToNowStrict(unixTime, {
+    addSuffix: withAgo,
+    locale: locales[locale.replace('_', '')],
+  });
 };

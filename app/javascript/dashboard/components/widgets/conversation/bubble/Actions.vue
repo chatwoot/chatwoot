@@ -1,7 +1,7 @@
 <script>
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import { messageTimestamp } from 'shared/helpers/timeHelper';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 
 export default {
   mixins: [inboxMixin],
@@ -55,6 +55,10 @@ export default {
       default: 0,
     },
   },
+  setup() {
+    const { localeMessageDateFormat } = useLocaleDateFormatter();
+    return { localeMessageDateFormat };
+  },
   computed: {
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.inboxId);
@@ -78,7 +82,7 @@ export default {
       return MESSAGE_STATUS.SENT === this.messageStatus;
     },
     readableTime() {
-      return messageTimestamp(this.createdAt, 'LLL d, h:mm a');
+      return this.localeMessageDateFormat(this.createdAt);
     },
     screenName() {
       const { additional_attributes: additionalAttributes = {} } =

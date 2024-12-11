@@ -1,7 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import { dynamicTime } from 'shared/helpers/timeHelper';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
@@ -47,8 +47,10 @@ export default {
   emits: ['togglePanel', 'panelClose'],
   setup() {
     const { isAdmin } = useAdmin();
+    const { localeDynamicTime } = useLocaleDateFormatter();
     return {
       isAdmin,
+      localeDynamicTime,
     };
   },
   data() {
@@ -98,7 +100,6 @@ export default {
     },
   },
   methods: {
-    dynamicTime,
     toggleEditModal() {
       this.showEditModal = !this.showEditModal;
     },
@@ -203,7 +204,7 @@ export default {
             <fluent-icon
               v-if="contact.created_at"
               v-tooltip.left="
-                `${$t('CONTACT_PANEL.CREATED_AT_LABEL')} ${dynamicTime(
+                `${$t('CONTACT_PANEL.CREATED_AT_LABEL')} ${localeDynamicTime(
                   contact.created_at
                 )}`
               "

@@ -120,7 +120,7 @@ export default {
       }
     },
     setLocale(locale) {
-      this.$root.$i18n.locale = locale || 'en';
+      this.$i18n.locale = locale.replace('-', '_') || 'en';
     },
   },
 };

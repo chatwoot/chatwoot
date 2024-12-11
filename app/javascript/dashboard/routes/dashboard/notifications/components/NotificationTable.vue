@@ -2,7 +2,7 @@
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
-import { dynamicTime } from 'shared/helpers/timeHelper';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -33,6 +33,10 @@ export default {
       default: () => {},
     },
   },
+  setup() {
+    const { localeDynamicTime } = useLocaleDateFormatter();
+    return { localeDynamicTime };
+  },
   computed: {
     ...mapGetters({
       notificationMetadata: 'notifications/getMeta',
@@ -40,9 +44,6 @@ export default {
     showEmptyResult() {
       return !this.isLoading && this.notifications.length === 0;
     },
-  },
-  methods: {
-    dynamicTime,
   },
 };
 </script>
@@ -109,7 +110,7 @@ export default {
           <td>
             <div class="text-right timestamp--column">
               <span class="notification--created-at">
-                {{ dynamicTime(notificationItem.last_activity_at) }}
+                {{ localeDynamicTime(notificationItem.last_activity_at) }}
               </span>
             </div>
           </td>
