@@ -794,6 +794,7 @@ watch(conversationFilters, (newVal, oldVal) => {
       :has-applied-filters="hasAppliedFilters"
       :has-active-folders="hasActiveFolders"
       :active-status="activeStatus"
+      :is-on-expanded-layout="isOnExpandedLayout"
       @add-folders="onClickOpenAddFoldersModal"
       @delete-folders="onClickOpenDeleteFoldersModal"
       @filters-modal="onToggleAdvanceFiltersModal"
