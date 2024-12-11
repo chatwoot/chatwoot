@@ -62,7 +62,7 @@ module CallHelper
     {
       callId: parsed_body['CallSid'],
       accountId: parsed_body['PhoneNumberSid'],
-      phoneNumber: parsed_body['From']
+      phoneNumber: parsed_body['PhoneNumberSid']
     }
   end
 
