@@ -219,6 +219,10 @@
         "DELETE": "刪除",
         "CANCEL": "取消"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "聯絡人",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
