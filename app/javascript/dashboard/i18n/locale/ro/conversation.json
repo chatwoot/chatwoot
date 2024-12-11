@@ -219,6 +219,10 @@
         "DELETE": "Şterge",
         "CANCEL": "Renunță"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contact",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
