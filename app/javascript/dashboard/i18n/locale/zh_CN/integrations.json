@@ -302,5 +302,13 @@
         "ERROR": "There was an error unlinking the issue, please try again"
       }
     }
+  },
+  "CAPTAIN": {
+    "NAME": "Captain",
+    "COPILOT": {
+      "SEND_MESSAGE": "发送消息...",
+      "LOADER": "Captain is thinking",
+      "YOU": "您"
+    }
   }
 }
