@@ -219,6 +219,10 @@
         "DELETE": "Dzēst",
         "CANCEL": "Atcelt"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Kontaktpersona",
+      "COPILOT": "Kopilots"
     }
   },
   "EMAIL_TRANSCRIPT": {
