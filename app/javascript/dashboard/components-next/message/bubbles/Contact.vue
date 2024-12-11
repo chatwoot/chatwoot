@@ -5,7 +5,6 @@ import { useStore } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import BaseBubble from './Base.vue';
 import Icon from 'next/icon/Icon.vue';
-import Button from 'next/button/Button.vue';
 
 import {
   DuplicateContactException,
@@ -40,6 +39,10 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  sender: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 
 const $store = useStore();
@@ -47,6 +50,10 @@ const { t } = useI18n();
 
 const attachment = computed(() => {
   return props.attachments[0];
+});
+
+const senderName = computed(() => {
+  return props.sender.name;
 });
 
 const phoneNumber = computed(() => {
@@ -119,17 +126,29 @@ async function addContact() {
 </script>
 
 <template>
-  <BaseBubble class="p-3 min-w-64">
-    <div class="grid gap-0.5 mb-2">
-      <span class="truncate">{{ name }}</span>
-      <span class="truncate text-sm text-n-slate-11">
-        {{ phoneNumber }}
-      </span>
+  <BaseBubble class="p-3 min-w-64 grid gap-4">
+    <div class="grid gap-3">
+      <div class="size-8 rounded-lg bg-[#D6409F] grid place-content-center">
+        <Icon icon="i-teenyicons-user-circle-solid" class="text-white size-4" />
+      </div>
+      <div class="space-y-1">
+        <div v-if="senderName" class="text-n-slate-12 text-sm truncate">
+          {{
+            t('CONVERSATION.SHARED_ATTACHMENT.CONTACT', {
+              sender: senderName,
+            })
+          }}
+        </div>
+        <div class="truncate text-sm text-n-slate-11">{{ phoneNumber }}</div>
+      </div>
     </div>
     <div v-if="formattedPhoneNumber" class="link-wrap">
-      <Button slate solid sm class="w-full" @click.prevent="addContact">
+      <button
+        class="w-full bg-n-solid-3 px-4 py-2 rounded-lg text-sm"
+        @click.prevent="addContact"
+      >
         {{ t('CONVERSATION.SAVE_CONTACT') }}
-      </Button>
+      </button>
     </div>
   </BaseBubble>
 </template>
