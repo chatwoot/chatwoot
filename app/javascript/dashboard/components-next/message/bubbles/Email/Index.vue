@@ -126,7 +126,7 @@ const textToShow = computed(() => {
         />
       </button>
     </section>
-    <section v-if="attachments.length" class="px-4 pb-4">
+    <section v-if="attachments.length" class="px-4 pb-4 space-y-2">
       <AttachmentChips :attachments="attachments" class="gap-1" />
     </section>
   </BaseBubble>

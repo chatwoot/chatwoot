@@ -2,9 +2,8 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import BaseBubble from './Base.vue';
+import BaseAttachmentBubble from './BaseAttachment.vue';
 import FileIcon from 'next/icon/FileIcon.vue';
-import Button from 'next/button/Button.vue';
 
 /**
  * @typedef {Object} Attachment
@@ -30,6 +29,10 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  sender: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 
 const { t } = useI18n();
@@ -52,18 +55,19 @@ const fileType = computed(() => {
 </script>
 
 <template>
-  <BaseBubble
-    class="overflow-hidden relative group px-4 py-3 min-w-56"
-    data-bubble-name="file"
+  <BaseAttachmentBubble
+    icon="i-teenyicons-user-circle-solid"
+    icon-bg-color="bg-n-alpha-3 dark:bg-n-alpha-white"
+    :sender="sender"
+    sender-translation-key="CONVERSATION.SHARED_ATTACHMENT.FILE"
+    :content="decodeURI(fileName)"
+    :action="{
+      href: url,
+      label: $t('CONVERSATION.DOWNLOAD'),
+    }"
   >
-    <span class="text-n-slate-12 flex items-center gap-1.5">
+    <template #icon>
       <FileIcon :file-type="fileType" class="size-4" />
-      {{ decodeURI(fileName) }}
-    </span>
-    <a :href="url" rel="noreferrer noopener nofollow" target="_blank">
-      <Button xs solid slate class="w-full mt-2" icon="i-lucide-download">
-        {{ $t('CONVERSATION.DOWNLOAD') }}
-      </Button>
-    </a>
-  </BaseBubble>
+    </template>
+  </BaseAttachmentBubble>
 </template>

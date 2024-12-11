@@ -43,7 +43,7 @@ const hasError = ref(false);
 const showGallery = ref(false);
 const { filteredCurrentChatAttachments } = useMessageContext();
 
-const handleError = ev => {
+const handleError = () => {
   hasError.value = true;
   emit('error');
 };
@@ -70,7 +70,7 @@ const downloadAttachment = async () => {
   >
     <div
       v-if="hasError"
-      class="flex items-center bg-n-alpha-1 gap-1 text-center px-5 py-4 rounded-lg"
+      class="flex items-center gap-1 px-5 py-4 text-center rounded-lg bg-n-alpha-1"
     >
       <Icon icon="i-lucide-circle-off" class="text-n-slate-11" />
       <p class="mb-0 text-n-slate-11">
@@ -78,7 +78,13 @@ const downloadAttachment = async () => {
       </p>
     </div>
     <template v-else>
-      <img :src="attachment.thumbUrl" @click="onClick" @error="handleError" />
+      <img
+        :src="attachment.dataUrl"
+        :width="attachment.width"
+        :height="attachment.height"
+        @click="onClick"
+        @error="handleError"
+      />
       <div
         class="inset-0 p-2 absolute bg-gradient-to-tl from-n-slate-12/30 dark:from-n-slate-1/50 via-transparent to-transparent hidden group-hover:flex items-end justify-end gap-1.5"
       >
@@ -99,7 +105,7 @@ const downloadAttachment = async () => {
     v-model:show="showGallery"
     :attachment="useSnakeCase(attachment)"
     :all-attachments="filteredCurrentChatAttachments"
-    @error="onError"
+    @error="handleError"
     @close="() => (showGallery = false)"
   />
 </template>

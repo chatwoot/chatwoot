@@ -89,12 +89,12 @@ const files = computed(() => {
     </template>
   </div>
   <div v-if="recordings.length" :class="classToApply">
-    <AudioChip
-      v-for="attachment in recordings"
-      :key="attachment.id"
-      class="bg-n-alpha-3 dark:bg-n-alpha-2 text-n-slate-12"
-      :attachment="attachment"
-    />
+    <div v-for="attachment in recordings" :key="attachment.id">
+      <AudioChip
+        class="bg-n-alpha-3 dark:bg-n-alpha-2 text-n-slate-12"
+        :attachment="attachment"
+      />
+    </div>
   </div>
   <div v-if="files.length" :class="classToApply">
     <FileChip

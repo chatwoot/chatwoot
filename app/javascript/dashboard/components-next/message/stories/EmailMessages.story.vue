@@ -1,9 +1,9 @@
 <script setup>
-import Message from './Message.vue';
+import Message from '../Message.vue';
 
-import simpleEmail from './fixtures/simpleEmail.js';
-import fullConversation from './fixtures/emailConversation.js';
-import newsletterEmail from './fixtures/newsletterEmail.js';
+import simpleEmail from '../fixtures/simpleEmail.js';
+import fullConversation from '../fixtures/emailConversation.js';
+import newsletterEmail from '../fixtures/newsletterEmail.js';
 
 const failedEmail = {
   ...simpleEmail[0],

@@ -1,8 +1,6 @@
 <script setup>
-import Message from './Message.vue';
-
-// import textOnly from './fixtures/textOnly.js';
-import instagramConversation from './fixtures/instagramConversation.js';
+import Message from '../Message.vue';
+import instagramConversation from '../fixtures/instagramConversation.js';
 
 const messages = instagramConversation;
 

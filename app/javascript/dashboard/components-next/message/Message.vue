@@ -30,6 +30,7 @@ import AttachmentsBubble from './bubbles/Attachments.vue';
 import EmailBubble from './bubbles/Email/Index.vue';
 import UnsupportedBubble from './bubbles/Unsupported.vue';
 import ContactBubble from './bubbles/Contact.vue';
+import DyteBubble from './bubbles/Dyte.vue';
 const LocationBubble = defineAsyncComponent(
   () => import('./bubbles/Location.vue')
 );
@@ -91,6 +92,7 @@ import ContextMenu from 'dashboard/modules/conversations/components/MessageConte
  * @property {number} conversationId - The ID of the conversation to which the message belongs
  * @property {number} inboxId - The ID of the inbox to which the message belongs
  */
+
 // eslint-disable-next-line vue/define-macros-order
 const props = defineProps({
   id: { type: Number, required: true },
@@ -257,7 +259,11 @@ const componentToRender = computed(() => {
     return UnsupportedBubble;
   }
 
-  if (props.contentAttributes?.imageType === 'story_mention') {
+  if (props.contentAttributes.type === 'dyte') {
+    return DyteBubble;
+  }
+
+  if (props.contentAttributes.imageType === 'story_mention') {
     return InstagramStoryBubble;
   }
 

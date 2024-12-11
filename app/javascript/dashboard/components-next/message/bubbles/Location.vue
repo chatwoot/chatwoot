@@ -1,7 +1,7 @@
 <script setup>
 import { computed, onMounted, nextTick } from 'vue';
-import BaseBubble from './Base.vue';
-import Icon from 'next/icon/Icon.vue';
+import BaseAttachmentBubble from './BaseAttachment.vue';
+import { useI18n } from 'vue-i18n';
 import maplibregl from 'maplibre-gl';
 
 /**
@@ -28,7 +28,13 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  sender: {
+    type: Object,
+    default: () => ({}),
+  },
 });
+
+const { t } = useI18n();
 
 const attachment = computed(() => {
   return props.attachments[0];
@@ -75,27 +81,21 @@ onMounted(async () => {
 </script>
 
 <template>
-  <BaseBubble
-    class="overflow-hidden relative group outline outline-1 outline-n-weak"
-    data-bubble-name="location"
+  <BaseAttachmentBubble
+    icon="i-ph-navigation-arrow-fill"
+    icon-bg-color="bg-[#0D9B8A]"
+    :sender="sender"
+    sender-translation-key="CONVERSATION.SHARED_ATTACHMENT.LOCATION"
+    :content="title"
+    :action="{
+      label: t('COMPONENTS.LOCATION_BUBBLE.SEE_ON_MAP'),
+      href: mapUrl,
+    }"
   >
-    <div id="map" class="max-w-md min-w-64 w-full h-36" />
-    <div
-      class="flex gap-2 p-2 items-center text-xs justify-between bg-n-alpha-3"
-    >
-      <div class="flex gap-1 items-center truncate">
-        <Icon icon="i-lucide-map-pin" class="text-n-slate-10 flex-shrink-0" />
-        {{ title }}
-      </div>
-      <a
-        :href="mapUrl"
-        target="blank"
-        class="text-n-slate-12 flex-shrink-0 text-xs"
-      >
-        {{ $t('COMPONENTS.LOCATION_BUBBLE.SEE_ON_MAP') }}
-      </a>
-    </div>
-  </BaseBubble>
+    <template #before>
+      <div id="map" class="z-10 w-full max-w-md -mb-12 min-w-64 h-28" />
+    </template>
+  </BaseAttachmentBubble>
 </template>
 
 <style>

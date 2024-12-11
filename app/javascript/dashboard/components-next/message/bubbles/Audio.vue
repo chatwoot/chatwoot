@@ -35,10 +35,7 @@ const attachment = computed(() => {
 </script>
 
 <template>
-  <BaseBubble
-    class="overflow-hidden outline outline-n-strong outline-1 !bg-n-alpha-3"
-    data-bubble-name="audio"
-  >
+  <BaseBubble class="bg-transparent">
     <AudioChip
       :attachment="attachment"
       class="p-2 text-n-slate-12 bg-n-alpha-3"
