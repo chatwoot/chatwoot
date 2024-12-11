@@ -2,6 +2,10 @@
 import { ref, computed } from 'vue';
 import BaseBubble from './Base.vue';
 import Button from 'next/button/Button.vue';
+import Icon from 'next/icon/Icon.vue';
+import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
+import { useMessageContext } from 'next/message/provider.js';
+import GalleryView from 'dashboard/components/widgets/conversation/components/GalleryView.vue';
 
 /**
  * @typedef {Object} Attachment
@@ -36,6 +40,8 @@ const attachment = computed(() => {
 });
 
 const hasError = ref(false);
+const showGallery = ref(false);
+const { filteredCurrentChatAttachments } = useMessageContext();
 
 const handleError = () => {
   hasError.value = true;
@@ -57,20 +63,43 @@ const downloadAttachment = async () => {
 </script>
 
 <template>
-  <BaseBubble class="overflow-hidden relative group">
-    <img :src="attachment.thumbUrl" @click="onClick" @error="handleError" />
+  <BaseBubble
+    class="overflow-hidden relative group border-[4px] border-n-weak"
+    data-bubble-name="image"
+    @click="showGallery = true"
+  >
     <div
-      class="inset-0 p-2 absolute bg-gradient-to-tl from-n-slate-12/30 dark:from-n-slate-1/50 via-transparent to-transparent hidden group-hover:flex items-end justify-end gap-1.5"
+      v-if="hasError"
+      class="flex items-center bg-n-alpha-1 gap-1 text-center px-5 py-4 rounded-lg"
     >
-      <Button xs solid slate icon="i-lucide-expand" class="opacity-60" />
-      <Button
-        xs
-        solid
-        slate
-        icon="i-lucide-download"
-        class="opacity-60"
-        @click="downloadAttachment"
-      />
+      <Icon icon="i-lucide-circle-off" class="text-n-slate-11" />
+      <p class="mb-0 text-n-slate-11">
+        {{ $t('COMPONENTS.MEDIA.IMAGE_UNAVAILABLE') }}
+      </p>
     </div>
+    <template v-else>
+      <img :src="attachment.thumbUrl" @click="onClick" @error="handleError" />
+      <div
+        class="inset-0 p-2 absolute bg-gradient-to-tl from-n-slate-12/30 dark:from-n-slate-1/50 via-transparent to-transparent hidden group-hover:flex items-end justify-end gap-1.5"
+      >
+        <Button xs solid slate icon="i-lucide-expand" class="opacity-60" />
+        <Button
+          xs
+          solid
+          slate
+          icon="i-lucide-download"
+          class="opacity-60"
+          @click="downloadAttachment"
+        />
+      </div>
+    </template>
   </BaseBubble>
+  <GalleryView
+    v-if="showGallery"
+    v-model:show="showGallery"
+    :attachment="useSnakeCase(attachment)"
+    :all-attachments="filteredCurrentChatAttachments"
+    @error="onError"
+    @close="() => (showGallery = false)"
+  />
 </template>

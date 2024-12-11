@@ -2,6 +2,9 @@
 import { ref, computed } from 'vue';
 import BaseBubble from './Base.vue';
 import Icon from 'next/icon/Icon.vue';
+import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
+import { useMessageContext } from 'next/message/provider.js';
+import GalleryView from 'dashboard/components/widgets/conversation/components/GalleryView.vue';
 import { ATTACHMENT_TYPES } from '../constants';
 
 /**
@@ -31,6 +34,8 @@ const props = defineProps({
 });
 const emit = defineEmits(['error']);
 const hasError = ref(false);
+const showGallery = ref(false);
+const { filteredCurrentChatAttachments } = useMessageContext();
 
 const handleError = () => {
   hasError.value = true;
@@ -47,7 +52,11 @@ const isReel = computed(() => {
 </script>
 
 <template>
-  <BaseBubble class="overflow-hidden relative group">
+  <BaseBubble
+    class="overflow-hidden relative group border-[4px] border-n-weak"
+    data-bubble-name="video"
+    @click="showGallery = true"
+  >
     <div
       v-if="isReel"
       class="absolute p-2 flex items-start justify-end size-12 bg-gradient-to-bl from-n-alpha-black1 to-transparent right-0"
@@ -64,4 +73,12 @@ const isReel = computed(() => {
       @error="handleError"
     />
   </BaseBubble>
+  <GalleryView
+    v-if="showGallery"
+    v-model:show="showGallery"
+    :attachment="useSnakeCase(attachment)"
+    :all-attachments="filteredCurrentChatAttachments"
+    @error="onError"
+    @close="() => (showGallery = false)"
+  />
 </template>

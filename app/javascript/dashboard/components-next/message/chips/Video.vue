@@ -1,16 +1,26 @@
 <script setup>
+import { ref } from 'vue';
 import Icon from 'next/icon/Icon.vue';
+import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
+import { useMessageContext } from '../provider.js';
+import GalleryView from 'dashboard/components/widgets/conversation/components/GalleryView.vue';
+
 defineProps({
   attachment: {
     type: Object,
     required: true,
   },
 });
+
+const showGallery = ref(false);
+
+const { filteredCurrentChatAttachments } = useMessageContext();
 </script>
 
 <template>
   <div
     class="size-[72px] overflow-hidden contain-content rounded-xl cursor-pointer relative group"
+    @click="showGallery = true"
   >
     <video
       :src="attachment.dataUrl"
@@ -31,4 +41,12 @@ defineProps({
       </div>
     </div>
   </div>
+  <GalleryView
+    v-if="showGallery"
+    v-model:show="showGallery"
+    :attachment="useSnakeCase(attachment)"
+    :all-attachments="filteredCurrentChatAttachments"
+    @error="onError"
+    @close="() => (showGallery = false)"
+  />
 </template>
