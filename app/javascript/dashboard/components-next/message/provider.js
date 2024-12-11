@@ -13,13 +13,15 @@ export function useMessageContext() {
 
   const currentChatAttachments = useMapGetter('getSelectedChatAttachments');
   const filteredCurrentChatAttachments = computed(() => {
-    const attachments = currentChatAttachments.filter(attachment =>
+    const attachments = currentChatAttachments.value.filter(attachment =>
       [
         ATTACHMENT_TYPES.IMAGE,
         ATTACHMENT_TYPES.VIDEO,
+        ATTACHMENT_TYPES.IG_REEL,
         ATTACHMENT_TYPES.AUDIO,
-      ].includes(attachment.fileType)
+      ].includes(attachment.file_type)
     );
+
     return useSnakeCase(attachments);
   });
 

@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import Icon from 'next/icon/Icon.vue';
-
+import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { useMessageContext } from '../provider.js';
 
 import GalleryView from 'dashboard/components/widgets/conversation/components/GalleryView.vue';
