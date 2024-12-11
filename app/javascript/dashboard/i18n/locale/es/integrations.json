@@ -302,5 +302,13 @@
         "ERROR": "Se ha producido un error al desvincular el problema, inténtelo de nuevo"
       }
     }
+  },
+  "CAPTAIN": {
+    "NAME": "Capitán",
+    "COPILOT": {
+      "SEND_MESSAGE": "Enviar mensaje...",
+      "LOADER": "Captain is thinking",
+      "YOU": "Tú"
+    }
   }
 }
