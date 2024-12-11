@@ -219,6 +219,10 @@
         "DELETE": "Διαγραφή",
         "CANCEL": "Άκυρο"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Επαφές",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
