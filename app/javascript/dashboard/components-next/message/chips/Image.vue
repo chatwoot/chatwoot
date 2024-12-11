@@ -1,9 +1,9 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import Icon from 'next/icon/Icon.vue';
-import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
+
 import { useMessageContext } from '../provider.js';
-import { ATTACHMENT_TYPES } from '../constants';
+
 import GalleryView from 'dashboard/components/widgets/conversation/components/GalleryView.vue';
 
 defineProps({
@@ -15,18 +15,7 @@ defineProps({
 const hasError = ref(false);
 const showGallery = ref(false);
 
-const { currentChatAttachments } = useMessageContext();
-
-const filteredCurrentChatAttachments = computed(() => {
-  const attachments = currentChatAttachments.filter(attachment =>
-    [
-      ATTACHMENT_TYPES.IMAGE,
-      ATTACHMENT_TYPES.VIDEO,
-      ATTACHMENT_TYPES.AUDIO,
-    ].includes(attachment.fileType)
-  );
-  return useSnakeCase(attachments);
-});
+const { filteredCurrentChatAttachments } = useMessageContext();
 
 const handleError = () => {
   hasError.value = true;

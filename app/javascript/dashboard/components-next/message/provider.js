@@ -1,5 +1,7 @@
-import { inject, provide } from 'vue';
+import { inject, provide, computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
+import { ATTACHMENT_TYPES } from './constants';
 
 const MessageControl = Symbol('MessageControl');
 
@@ -10,8 +12,18 @@ export function useMessageContext() {
   }
 
   const currentChatAttachments = useMapGetter('getSelectedChatAttachments');
+  const filteredCurrentChatAttachments = computed(() => {
+    const attachments = currentChatAttachments.filter(attachment =>
+      [
+        ATTACHMENT_TYPES.IMAGE,
+        ATTACHMENT_TYPES.VIDEO,
+        ATTACHMENT_TYPES.AUDIO,
+      ].includes(attachment.fileType)
+    );
+    return useSnakeCase(attachments);
+  });
 
-  return { ...context, currentChatAttachments };
+  return { ...context, filteredCurrentChatAttachments };
 }
 
 export function provideMessageContext(context) {
