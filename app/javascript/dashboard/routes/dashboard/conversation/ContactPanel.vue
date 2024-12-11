@@ -92,9 +92,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    class="overflow-y-auto bg-white border-l dark:bg-slate-900 text-slate-900 dark:text-slate-300 border-n-weak dark:border-n-weak rtl:border-l-0 rtl:border-r contact--panel"
-  >
+  <div class="w-full">
     <ContactInfo
       :contact="contact"
       :channel-type="channelType"
