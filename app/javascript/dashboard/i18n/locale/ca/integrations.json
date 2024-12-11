@@ -302,5 +302,13 @@
         "ERROR": "S'ha produït un error en desenllaçar la issue, torna-ho a provar"
       }
     }
+  },
+  "CAPTAIN": {
+    "NAME": "Captain",
+    "COPILOT": {
+      "SEND_MESSAGE": "Envia missatge...",
+      "LOADER": "Captain is thinking",
+      "YOU": "Tu"
+    }
   }
 }
