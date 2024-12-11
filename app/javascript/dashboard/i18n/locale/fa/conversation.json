@@ -219,6 +219,10 @@
         "DELETE": "حذف",
         "CANCEL": "انصراف"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "مخاطب",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
