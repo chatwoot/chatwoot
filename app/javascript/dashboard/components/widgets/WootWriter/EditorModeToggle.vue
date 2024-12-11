@@ -18,7 +18,7 @@ const isPrivate = computed(() => props.mode === REPLY_EDITOR_MODES.NOTE);
 
 <template>
   <button
-    class="flex items-center h-8 gap-2 py-1 transition-all border rounded-full min-w-fit bg-n-alpha-2 dark:bg-n-alpha-2"
+    class="flex items-center h-8 gap-2 py-1 transition-all border rounded-full min-w-fit bg-n-alpha-2 dark:bg-n-alpha-2 hover:bg-n-alpha-1 dark:hover:brightness-105"
     :class="[
       isPrivate
         ? 'flex-row-reverse ltr:pr-1 rtl:pl-1 ltr:pl-3 rtl:pr-3 border-n-amber-12/10 dark:border-n-amber-3/30'
