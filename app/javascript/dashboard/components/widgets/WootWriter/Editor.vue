@@ -735,14 +735,14 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 
   .ProseMirror-menubar {
     min-height: var(--space-two) !important;
-    @apply -ml-2.5 pb-0 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-100;
+    @apply -ml-2.5 pb-0 bg-transparent text-n-slate-11;
 
     .ProseMirror-menu-active {
       @apply bg-slate-75 dark:bg-slate-800;
     }
   }
 
-  > .ProseMirror {
+  >.ProseMirror {
     @apply p-0 break-words text-slate-800 dark:text-slate-100;
 
     h1,
@@ -787,11 +787,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
   }
 
   .ProseMirror-menubar-wrapper {
-    .ProseMirror-menubar {
-      @apply bg-yellow-100 dark:bg-yellow-800 text-slate-700 dark:text-slate-25;
-    }
-
-    > .ProseMirror {
+    >.ProseMirror {
       @apply text-slate-800 dark:text-slate-25;
 
       p {
