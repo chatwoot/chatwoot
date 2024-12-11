@@ -3,6 +3,9 @@ import { ref, computed } from 'vue';
 import BaseBubble from './Base.vue';
 import Button from 'next/button/Button.vue';
 import Icon from 'next/icon/Icon.vue';
+import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
+import { useMessageContext } from 'next/message/provider.js';
+import GalleryView from 'dashboard/components/widgets/conversation/components/GalleryView.vue';
 
 /**
  * @typedef {Object} Attachment
@@ -37,6 +40,8 @@ const attachment = computed(() => {
 });
 
 const hasError = ref(false);
+const showGallery = ref(false);
+const { filteredCurrentChatAttachments } = useMessageContext();
 
 const handleError = () => {
   hasError.value = true;
@@ -58,7 +63,11 @@ const downloadAttachment = async () => {
 </script>
 
 <template>
-  <BaseBubble class="overflow-hidden relative group" data-bubble-name="image">
+  <BaseBubble
+    class="overflow-hidden relative group"
+    data-bubble-name="image"
+    @click="showGallery = true"
+  >
     <div
       v-if="hasError"
       class="flex items-center bg-n-alpha-1 gap-1 text-center px-5 py-4 rounded-lg"
@@ -85,4 +94,12 @@ const downloadAttachment = async () => {
       </div>
     </template>
   </BaseBubble>
+  <GalleryView
+    v-if="showGallery"
+    v-model:show="showGallery"
+    :attachment="useSnakeCase(attachment)"
+    :all-attachments="filteredCurrentChatAttachments"
+    @error="onError"
+    @close="() => (showGallery = false)"
+  />
 </template>
