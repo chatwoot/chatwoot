@@ -51,7 +51,7 @@ const showCopilotTab = computed(() => {
 
 <template>
   <div
-    class="ltr:border-l rtl:border-r border-n-weak h-full overflow-hidden z-10 min-w-[300px] w-[300px] flex flex-col bg-n-solid-2"
+    class="ltr:border-l rtl:border-r border-n-weak h-full overflow-hidden z-10 min-w-[300px] w-[300px] 2xl:min-w-96 2xl:w-96 flex flex-col bg-n-background"
   >
     <div v-if="showCopilotTab" class="p-2">
       <TabBar
