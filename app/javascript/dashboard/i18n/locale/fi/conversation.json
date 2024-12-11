@@ -219,6 +219,10 @@
         "DELETE": "Poista",
         "CANCEL": "Peruuta"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contact",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
