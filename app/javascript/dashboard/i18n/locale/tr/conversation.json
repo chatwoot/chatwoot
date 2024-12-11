@@ -219,6 +219,10 @@
         "DELETE": "Sil",
         "CANCEL": "İptal Et"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "İletişim",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
