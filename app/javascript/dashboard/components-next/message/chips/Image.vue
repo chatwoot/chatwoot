@@ -38,7 +38,7 @@ const handleError = () => {
       v-else
       class="w-full h-full object-cover"
       :src="attachment.dataUrl"
-      @onerror="handleError"
+      @error="handleError"
     />
   </div>
   <GalleryView
