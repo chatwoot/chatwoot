@@ -1,4 +1,3 @@
-<!-- AttachmentBubble.vue -->
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -47,9 +46,11 @@ const senderName = computed(() => {
             })
           }}
         </div>
-        <div class="truncate text-sm text-n-slate-11">
-          {{ content }}
-        </div>
+        <slot>
+          <div v-if="content" class="truncate text-sm text-n-slate-11">
+            {{ content }}
+          </div>
+        </slot>
       </div>
     </div>
     <div v-if="action" class="px-3 pb-3">
