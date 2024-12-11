@@ -302,5 +302,13 @@
         "ERROR": "Beim Aufheben der Verknüpfung des Problems ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
       }
     }
+  },
+  "CAPTAIN": {
+    "NAME": "Kapitän",
+    "COPILOT": {
+      "SEND_MESSAGE": "Nachricht senden...",
+      "LOADER": "Captain is thinking",
+      "YOU": "Sie"
+    }
   }
 }
