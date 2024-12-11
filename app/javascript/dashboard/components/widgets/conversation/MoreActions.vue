@@ -4,6 +4,8 @@ import { useAlert } from 'dashboard/composables';
 import { emitter } from 'shared/helpers/mitt';
 import EmailTranscriptModal from './EmailTranscriptModal.vue';
 import ResolveAction from '../../buttons/ResolveAction.vue';
+import ButtonV4 from 'dashboard/components-next/button/Button.vue';
+
 import {
   CMD_MUTE_CONVERSATION,
   CMD_SEND_TRANSCRIPT,
@@ -14,6 +16,7 @@ export default {
   components: {
     EmailTranscriptModal,
     ResolveAction,
+    ButtonV4,
   },
   data() {
     return {
@@ -51,27 +54,30 @@ export default {
 
 <template>
   <div class="relative flex items-center gap-2 actions--container">
-    <woot-button
+    <ButtonV4
       v-if="!currentChat.muted"
       v-tooltip="$t('CONTACT_PANEL.MUTE_CONTACT')"
-      variant="clear"
-      color-scheme="secondary"
-      icon="speaker-mute"
+      size="sm"
+      variant="ghost"
+      color="slate"
+      icon="i-lucide-volume-off"
       @click="mute"
     />
-    <woot-button
+    <ButtonV4
       v-else
       v-tooltip.left="$t('CONTACT_PANEL.UNMUTE_CONTACT')"
-      variant="clear"
-      color-scheme="secondary"
-      icon="speaker-1"
+      size="sm"
+      variant="ghost"
+      color="slate"
+      icon="i-lucide-volume-1"
       @click="unmute"
     />
-    <woot-button
+    <ButtonV4
       v-tooltip="$t('CONTACT_PANEL.SEND_TRANSCRIPT')"
-      variant="clear"
-      color-scheme="secondary"
-      icon="share"
+      size="sm"
+      variant="ghost"
+      color="slate"
+      icon="i-lucide-share"
       @click="toggleEmailActionsModal"
     />
     <ResolveAction

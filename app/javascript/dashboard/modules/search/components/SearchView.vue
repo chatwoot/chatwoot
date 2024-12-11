@@ -201,8 +201,8 @@ export default {
 </script>
 
 <template>
-  <div class="search-page">
-    <div class="page-header">
+  <div class="flex flex-col w-full bg-n-background">
+    <div class="flex p-4">
       <woot-button
         icon="chevron-left"
         variant="smooth"
@@ -213,7 +213,9 @@ export default {
         {{ $t('GENERAL_SETTINGS.BACK') }}
       </woot-button>
     </div>
-    <section class="search-root">
+    <section
+      class="flex my-0 p-4 relative mx-auto max-w-[45rem] min-h-[20rem] flex-col w-full h-full bg-n-background"
+    >
       <header>
         <SearchHeader @search="onSearch" />
         <SearchTabs
@@ -223,7 +225,7 @@ export default {
           @tab-change="tab => (selectedTab = tab)"
         />
       </header>
-      <div class="search-results">
+      <div class="flex-grow h-full px-2 py-0 overflow-y-auto">
         <div v-if="showResultsSection">
           <Policy :permissions="[...rolePermissions, contactPermissions]">
             <SearchResultContactsList
@@ -259,17 +261,23 @@ export default {
             />
           </Policy>
         </div>
-        <div v-else-if="showEmptySearchResults" class="empty">
-          <fluent-icon icon="info" size="16px" class="icon" />
-          <p class="empty-state__text">
+        <div
+          v-else-if="showEmptySearchResults"
+          class="flex flex-col items-center justify-center px-4 py-6 mt-8 rounded-md"
+        >
+          <fluent-icon icon="info" size="16px" class="text-n-slate-11" />
+          <p class="m-2 text-center text-n-slate-11">
             {{ $t('SEARCH.EMPTY_STATE_FULL', { query }) }}
           </p>
         </div>
-        <div v-else class="text-center empty">
+        <div
+          v-else
+          class="flex flex-col items-center justify-center px-4 py-6 mt-8 text-center rounded-md"
+        >
           <p class="text-center margin-bottom-0">
-            <fluent-icon icon="search" size="24px" class="icon" />
+            <fluent-icon icon="search" size="24px" class="text-n-slate-11" />
           </p>
-          <p class="empty-state__text">
+          <p class="m-2 text-center text-n-slate-11">
             {{ $t('SEARCH.EMPTY_STATE_DEFAULT') }}
           </p>
         </div>
@@ -277,29 +285,3 @@ export default {
     </section>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.search-page {
-  @apply flex flex-col w-full bg-white dark:bg-slate-900;
-}
-.page-header {
-  @apply flex p-4;
-}
-.search-root {
-  @apply flex my-0 p-4 relative mx-auto max-w-[45rem] min-h-[20rem] flex-col w-full h-full bg-white dark:bg-slate-900;
-
-  .search-results {
-    @apply flex-grow h-full overflow-y-auto py-0 px-2;
-  }
-}
-
-.empty {
-  @apply flex flex-col items-center justify-center py-6 px-4 rounded-md mt-8;
-  .icon {
-    @apply text-slate-500 dark:text-slate-400;
-  }
-  .empty-state__text {
-    @apply text-center text-slate-500 dark:text-slate-400 m-2;
-  }
-}
-</style>
