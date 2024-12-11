@@ -104,7 +104,12 @@ const brokenImageMessage = computed(() =>
 const imageMessage = computed(() =>
   getMessage({
     content: null,
-    attachments: [getAttachment('image', 'https://images.pexels.com/photos/28506417/pexels-photo-28506417/free-photo-of-motorbike-on-scenic-road-in-surat-thani-thailand.jpeg')],
+    attachments: [
+      getAttachment(
+        'image',
+        'https://images.pexels.com/photos/28506417/pexels-photo-28506417/free-photo-of-motorbike-on-scenic-road-in-surat-thani-thailand.jpeg'
+      ),
+    ],
     ...baseSenderData.value,
   })
 );
@@ -130,7 +135,10 @@ const attachmentsOnly = computed(() =>
         'video',
         'https://videos.pexels.com/video-files/1739010/1739010-hd_1920_1080_30fps.mp4'
       ),
-      getAttachment('image', 'https://images.pexels.com/photos/28506417/pexels-photo-28506417/free-photo-of-motorbike-on-scenic-road-in-surat-thani-thailand.jpeg'),
+      getAttachment(
+        'image',
+        'https://images.pexels.com/photos/28506417/pexels-photo-28506417/free-photo-of-motorbike-on-scenic-road-in-surat-thani-thailand.jpeg'
+      ),
       getAttachment('file', 'https://chatwoot.dev/invoice.pdf'),
       getAttachment('file', 'https://chatwoot.dev/logs.txt'),
       getAttachment('file', 'https://chatwoot.dev/contacts.xls'),
@@ -223,7 +231,10 @@ const email = computed(() =>
         'video',
         'https://videos.pexels.com/video-files/1739010/1739010-hd_1920_1080_30fps.mp4'
       ),
-      getAttachment('image', 'https://images.pexels.com/photos/28506417/pexels-photo-28506417/free-photo-of-motorbike-on-scenic-road-in-surat-thani-thailand.jpeg'),
+      getAttachment(
+        'image',
+        'https://images.pexels.com/photos/28506417/pexels-photo-28506417/free-photo-of-motorbike-on-scenic-road-in-surat-thani-thailand.jpeg'
+      ),
       getAttachment('file', 'https://chatwoot.dev/invoice.pdf'),
       getAttachment('file', 'https://chatwoot.dev/logs.txt'),
       getAttachment('file', 'https://chatwoot.dev/contacts.xls'),
@@ -269,9 +280,12 @@ const unsupported = computed(() =>
 const igReel = computed(() =>
   getMessage({
     content: null,
-    attachments: [{
-      isUnsupported: true,
-    },]
+    attachments: [
+      getAttachment(
+        'ig_reel',
+        'https://videos.pexels.com/video-files/2023708/2023708-hd_720_1280_30fps.mp4'
+      ),
+    ],
     ...baseSenderData.value,
   })
 );
@@ -348,6 +362,11 @@ const igReel = computed(() =>
     <Variant title="Instagram Story">
       <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
         <Message :current-user-id="1" v-bind="instagramStory" />
+      </div>
+    </Variant>
+    <Variant title="Instagram Reel">
+      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
+        <Message :current-user-id="1" v-bind="igReel" />
       </div>
     </Variant>
 
