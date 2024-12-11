@@ -219,6 +219,10 @@
         "DELETE": "Delete",
         "CANCEL": "ரத்துசெய்"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contact",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
