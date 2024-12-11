@@ -219,6 +219,10 @@
         "DELETE": "ഇല്ലാതാക്കുക",
         "CANCEL": "റദ്ദാക്കുക"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "ബന്ധപ്പെടുക",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
