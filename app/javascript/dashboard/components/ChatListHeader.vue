@@ -110,7 +110,11 @@ const toggleConversationLayout = () => {
             xs
             @click="emit('addFolders')"
           />
-          <div id="saveFilterTeleportTarget" class="absolute z-40 mt-2" />
+          <div
+            id="saveFilterTeleportTarget"
+            class="absolute z-40 mt-2"
+            :class="{ 'ltr:right-0 rtl:left-0': isOnExpandedLayout }"
+          />
         </div>
         <NextButton
           v-tooltip.top-end="$t('FILTER.CLEAR_BUTTON_LABEL')"
@@ -134,6 +138,7 @@ const toggleConversationLayout = () => {
           <div
             id="conversationFilterTeleportTarget"
             class="absolute z-40 mt-2"
+            :class="{ 'ltr:right-0 rtl:left-0': isOnExpandedLayout }"
           />
         </div>
         <NextButton
