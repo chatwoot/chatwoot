@@ -219,6 +219,10 @@
         "DELETE": "Eyða",
         "CANCEL": "Hætta við"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contact",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
