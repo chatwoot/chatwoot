@@ -104,7 +104,7 @@ const brokenImageMessage = computed(() =>
 const imageMessage = computed(() =>
   getMessage({
     content: null,
-    attachments: [getAttachment('image', 'https://picsum.photos/500/100')],
+    attachments: [getAttachment('image', 'https://images.pexels.com/photos/28506417/pexels-photo-28506417/free-photo-of-motorbike-on-scenic-road-in-surat-thani-thailand.jpeg')],
     ...baseSenderData.value,
   })
 );
@@ -130,7 +130,7 @@ const attachmentsOnly = computed(() =>
         'video',
         'https://videos.pexels.com/video-files/1739010/1739010-hd_1920_1080_30fps.mp4'
       ),
-      getAttachment('image', 'https://picsum.photos/500/100'),
+      getAttachment('image', 'https://images.pexels.com/photos/28506417/pexels-photo-28506417/free-photo-of-motorbike-on-scenic-road-in-surat-thani-thailand.jpeg'),
       getAttachment('file', 'https://chatwoot.dev/invoice.pdf'),
       getAttachment('file', 'https://chatwoot.dev/logs.txt'),
       getAttachment('file', 'https://chatwoot.dev/contacts.xls'),
@@ -223,7 +223,7 @@ const email = computed(() =>
         'video',
         'https://videos.pexels.com/video-files/1739010/1739010-hd_1920_1080_30fps.mp4'
       ),
-      getAttachment('image', 'https://picsum.photos/500/100'),
+      getAttachment('image', 'https://images.pexels.com/photos/28506417/pexels-photo-28506417/free-photo-of-motorbike-on-scenic-road-in-surat-thani-thailand.jpeg'),
       getAttachment('file', 'https://chatwoot.dev/invoice.pdf'),
       getAttachment('file', 'https://chatwoot.dev/logs.txt'),
       getAttachment('file', 'https://chatwoot.dev/contacts.xls'),
