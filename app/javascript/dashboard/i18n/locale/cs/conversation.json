@@ -219,6 +219,10 @@
         "DELETE": "Vymazat",
         "CANCEL": "Zrušit"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contact",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
