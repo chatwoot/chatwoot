@@ -4,7 +4,6 @@ import { useI18n } from 'vue-i18n';
 
 import BaseBubble from './Base.vue';
 import FileIcon from 'next/icon/FileIcon.vue';
-import Button from 'next/button/Button.vue';
 
 /**
  * @typedef {Object} Attachment
@@ -30,12 +29,20 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  sender: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 
 const { t } = useI18n();
 
 const url = computed(() => {
   return props.attachments[0].dataUrl;
+});
+
+const senderName = computed(() => {
+  return props.sender.name;
 });
 
 const fileName = computed(() => {
@@ -52,15 +59,34 @@ const fileType = computed(() => {
 </script>
 
 <template>
-  <BaseBubble class="overflow-hidden relative group p-3 min-w-56">
-    <span class="text-n-slate-12 flex items-center gap-1.5">
-      <FileIcon :file-type="fileType" class="size-4" />
-      {{ decodeURI(fileName) }}
-    </span>
-    <a :href="url" rel="noreferrer noopener nofollow" target="_blank">
-      <Button xs solid slate class="w-full mt-2" icon="i-lucide-download">
-        {{ $t('CONVERSATION.DOWNLOAD') }}
-      </Button>
+  <BaseBubble class="p-3 min-w-64 grid gap-4">
+    <div class="grid gap-3">
+      <div
+        class="size-8 rounded-lg grid place-content-center bg-n-alpha-3 dark:bg-n-alpha-white"
+      >
+        <FileIcon :file-type="fileType" class="size-4" />
+      </div>
+      <div class="space-y-1">
+        <div v-if="senderName" class="text-n-slate-12 text-sm truncate">
+          {{
+            t('CONVERSATION.SHARED_ATTACHMENT.FILE', {
+              sender: senderName,
+            })
+          }}
+        </div>
+        <div class="truncate text-sm text-n-slate-11">
+          {{ decodeURI(fileName) }}
+        </div>
+      </div>
+    </div>
+    <a
+      :href="url"
+      rel="noreferrer noopener nofollow"
+      target="_blank"
+      class="w-full bg-n-solid-3 px-4 py-2 rounded-lg text-sm text-center"
+      @click.prevent="addContact"
+    >
+      {{ $t('CONVERSATION.DOWNLOAD') }}
     </a>
   </BaseBubble>
 </template>

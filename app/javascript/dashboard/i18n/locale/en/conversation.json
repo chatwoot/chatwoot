@@ -42,6 +42,7 @@
     "SHARED_ATTACHMENT": {
       "CONTACT": "{sender} has shared a contact",
       "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
       "MEETING": "{sender} has started a meeting"
     },
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
