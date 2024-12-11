@@ -219,6 +219,10 @@
         "DELETE": "Padamkan",
         "CANCEL": "Batalkan"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contact",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
