@@ -43,7 +43,7 @@ const hasError = ref(false);
 const showGallery = ref(false);
 const { filteredCurrentChatAttachments } = useMessageContext();
 
-const handleError = () => {
+const handleError = ev => {
   hasError.value = true;
   emit('error');
 };
@@ -64,7 +64,7 @@ const downloadAttachment = async () => {
 
 <template>
   <BaseBubble
-    class="overflow-hidden relative group"
+    class="overflow-hidden relative group border-[4px] border-n-weak"
     data-bubble-name="image"
     @click="showGallery = true"
   >

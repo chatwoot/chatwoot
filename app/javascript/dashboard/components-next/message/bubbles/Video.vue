@@ -53,7 +53,7 @@ const isReel = computed(() => {
 
 <template>
   <BaseBubble
-    class="overflow-hidden relative group"
+    class="overflow-hidden relative group border-[4px] border-n-weak"
     data-bubble-name="video"
     @click="showGallery = true"
   >
