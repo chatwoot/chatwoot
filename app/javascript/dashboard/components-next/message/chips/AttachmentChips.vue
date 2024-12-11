@@ -1,10 +1,11 @@
 <script setup>
-import { computed, defineOptions } from 'vue';
+import { computed, defineOptions, useAttrs } from 'vue';
 
 import ImageChip from 'next/message/chips/Image.vue';
 import VideoChip from 'next/message/chips/Video.vue';
 import AudioChip from 'next/message/chips/Audio.vue';
 import FileChip from 'next/message/chips/File.vue';
+import { useMessageContext } from '../provider.js';
 
 import { ATTACHMENT_TYPES } from '../constants';
 
@@ -30,6 +31,19 @@ const props = defineProps({
 
 defineOptions({
   inheritAttrs: false,
+});
+
+const attrs = useAttrs();
+const { orientation } = useMessageContext();
+
+const classToApply = computed(() => {
+  const baseClasses = [attrs.class, 'flex', 'flex-wrap'];
+
+  if (orientation.value === 'right') {
+    baseClasses.push('justify-end');
+  }
+
+  return baseClasses;
 });
 
 const allAttachments = computed(() => {
@@ -62,11 +76,7 @@ const files = computed(() => {
 </script>
 
 <template>
-  <div
-    v-if="mediaAttachments.length"
-    :class="[$attrs.class]"
-    class="flex flex-wrap"
-  >
+  <div v-if="mediaAttachments.length" :class="classToApply">
     <template v-for="attachment in mediaAttachments" :key="attachment.id">
       <ImageChip
         v-if="attachment.fileType === ATTACHMENT_TYPES.IMAGE"
@@ -78,7 +88,7 @@ const files = computed(() => {
       />
     </template>
   </div>
-  <div v-if="recordings.length" :class="[$attrs.class]" class="flex flex-wrap">
+  <div v-if="recordings.length" :class="classToApply">
     <AudioChip
       v-for="attachment in recordings"
       :key="attachment.id"
@@ -86,7 +96,7 @@ const files = computed(() => {
       :attachment="attachment"
     />
   </div>
-  <div v-if="files.length" :class="[$attrs.class]" class="flex flex-wrap">
+  <div v-if="files.length" :class="classToApply">
     <FileChip
       v-for="attachment in files"
       :key="attachment.id"
