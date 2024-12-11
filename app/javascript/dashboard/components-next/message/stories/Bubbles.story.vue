@@ -104,12 +104,7 @@ const brokenImageMessage = computed(() =>
 const imageMessage = computed(() =>
   getMessage({
     content: null,
-    attachments: [
-      getAttachment(
-        'image',
-        'https://images.pexels.com/photos/28506417/pexels-photo-28506417/free-photo-of-motorbike-on-scenic-road-in-surat-thani-thailand.jpeg'
-      ),
-    ],
+    attachments: [getAttachment('image', 'https://picsum.photos/500/100')],
     ...baseSenderData.value,
   })
 );
@@ -135,10 +130,7 @@ const attachmentsOnly = computed(() =>
         'video',
         'https://videos.pexels.com/video-files/1739010/1739010-hd_1920_1080_30fps.mp4'
       ),
-      getAttachment(
-        'image',
-        'https://images.pexels.com/photos/28506417/pexels-photo-28506417/free-photo-of-motorbike-on-scenic-road-in-surat-thani-thailand.jpeg'
-      ),
+      getAttachment('image', 'https://picsum.photos/500/100'),
       getAttachment('file', 'https://chatwoot.dev/invoice.pdf'),
       getAttachment('file', 'https://chatwoot.dev/logs.txt'),
       getAttachment('file', 'https://chatwoot.dev/contacts.xls'),
@@ -231,10 +223,7 @@ const email = computed(() =>
         'video',
         'https://videos.pexels.com/video-files/1739010/1739010-hd_1920_1080_30fps.mp4'
       ),
-      getAttachment(
-        'image',
-        'https://images.pexels.com/photos/28506417/pexels-photo-28506417/free-photo-of-motorbike-on-scenic-road-in-surat-thani-thailand.jpeg'
-      ),
+      getAttachment('image', 'https://picsum.photos/500/100'),
       getAttachment('file', 'https://chatwoot.dev/invoice.pdf'),
       getAttachment('file', 'https://chatwoot.dev/logs.txt'),
       getAttachment('file', 'https://chatwoot.dev/contacts.xls'),
@@ -280,12 +269,9 @@ const unsupported = computed(() =>
 const igReel = computed(() =>
   getMessage({
     content: null,
-    attachments: [
-      getAttachment(
-        'ig_reel',
-        'https://videos.pexels.com/video-files/2023708/2023708-hd_720_1280_30fps.mp4'
-      ),
-    ],
+    attachments: [{
+      isUnsupported: true,
+    },]
     ...baseSenderData.value,
   })
 );
@@ -296,9 +282,79 @@ const igReel = computed(() =>
     title="Components/Messages/Bubbles"
     :layout="{ type: 'grid', width: '800px' }"
   >
+    <Variant title="Text">
+      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
+        <Message :current-user-id="1" v-bind="simpleText" />
+      </div>
+    </Variant>
+    <Variant title="Activity">
+      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
+        <Message :current-user-id="1" v-bind="activityMessage" />
+      </div>
+    </Variant>
+
+    <!-- Media Types -->
+    <Variant title="Audio">
+      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
+        <Message :current-user-id="1" v-bind="audioMessage" />
+      </div>
+    </Variant>
     <Variant title="Image">
       <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
         <Message :current-user-id="1" v-bind="imageMessage" />
+      </div>
+    </Variant>
+    <Variant title="Broken Image">
+      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
+        <Message :current-user-id="1" v-bind="brokenImageMessage" />
+      </div>
+    </Variant>
+    <Variant title="Video">
+      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
+        <Message :current-user-id="1" v-bind="videoMessage" />
+      </div>
+    </Variant>
+
+    <!-- Files and Attachments -->
+    <Variant title="Attachments Only">
+      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
+        <Message :current-user-id="1" v-bind="attachmentsOnly" />
+      </div>
+    </Variant>
+    <Variant title="File">
+      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
+        <Message :current-user-id="1" v-bind="singleFile" />
+      </div>
+    </Variant>
+
+    <!-- Contact & Location -->
+    <Variant title="Contact">
+      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
+        <Message :current-user-id="1" v-bind="contact" />
+      </div>
+    </Variant>
+    <Variant title="Location">
+      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
+        <Message :current-user-id="1" v-bind="location" />
+      </div>
+    </Variant>
+
+    <!-- Platform Specific -->
+    <Variant title="Email">
+      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
+        <Message :current-user-id="1" is-email-inbox v-bind="email" />
+      </div>
+    </Variant>
+    <Variant title="Instagram Story">
+      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
+        <Message :current-user-id="1" v-bind="instagramStory" />
+      </div>
+    </Variant>
+
+    <!-- Other -->
+    <Variant title="Unsupported">
+      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
+        <Message :current-user-id="1" v-bind="unsupported" />
       </div>
     </Variant>
   </Story>

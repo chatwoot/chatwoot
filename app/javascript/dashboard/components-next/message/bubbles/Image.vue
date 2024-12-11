@@ -78,7 +78,13 @@ const downloadAttachment = async () => {
       </p>
     </div>
     <template v-else>
-      <img :src="attachment.dataUrl" @click="onClick" @error="handleError" />
+      <img
+        :src="attachment.dataUrl"
+        :width="attachment.width"
+        :height="attachment.height"
+        @click="onClick"
+        @error="handleError"
+      />
       <div
         class="inset-0 p-2 absolute bg-gradient-to-tl from-n-slate-12/30 dark:from-n-slate-1/50 via-transparent to-transparent hidden group-hover:flex items-end justify-end gap-1.5"
       >
