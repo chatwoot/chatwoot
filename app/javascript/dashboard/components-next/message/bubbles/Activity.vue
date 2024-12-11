@@ -10,7 +10,7 @@ defineProps({
 </script>
 
 <template>
-  <BaseBubble class="px-2 py-0.5">
-    <span v-html="content" />
+  <BaseBubble class="px-2 py-0.5" data-bubble-name="activity">
+    <span v-dompurify-html="content" />
   </BaseBubble>
 </template>

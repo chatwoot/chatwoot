@@ -32,9 +32,13 @@ defineOptions({
   inheritAttrs: false,
 });
 
+const allAttachments = computed(() => {
+  return Array.isArray(props.attachments) ? props.attachments : [];
+});
+
 const mediaAttachments = computed(() => {
   const allowedTypes = [ATTACHMENT_TYPES.IMAGE, ATTACHMENT_TYPES.VIDEO];
-  const mediaTypes = props.attachments.filter(attachment =>
+  const mediaTypes = allAttachments.value.filter(attachment =>
     allowedTypes.includes(attachment.fileType)
   );
 
@@ -45,13 +49,13 @@ const mediaAttachments = computed(() => {
 });
 
 const recordings = computed(() => {
-  return props.attachments.filter(
+  return allAttachments.value.filter(
     attachment => attachment.fileType === ATTACHMENT_TYPES.AUDIO
   );
 });
 
 const files = computed(() => {
-  return props.attachments.filter(
+  return allAttachments.value.filter(
     attachment => attachment.fileType === ATTACHMENT_TYPES.FILE
   );
 });

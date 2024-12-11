@@ -77,6 +77,7 @@ onMounted(async () => {
 <template>
   <BaseBubble
     class="overflow-hidden relative group outline outline-1 outline-n-weak"
+    data-bubble-name="location"
   >
     <div id="map" class="max-w-md min-w-64 w-full h-36" />
     <div

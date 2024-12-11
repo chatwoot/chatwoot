@@ -13,7 +13,8 @@ const { t } = useI18n();
 
 const varaintBaseMap = {
   [MESSAGE_VARIANTS.AGENT]: 'bg-n-solid-blue text-n-slate-12',
-  [MESSAGE_VARIANTS.PRIVATE]: 'bg-n-solid-amber text-n-amber-12',
+  [MESSAGE_VARIANTS.PRIVATE]:
+    'bg-n-solid-amber text-n-amber-12 [&_.prosemirror-mention-node]:font-semibold',
   [MESSAGE_VARIANTS.USER]: 'bg-n-slate-4 text-n-slate-12',
   [MESSAGE_VARIANTS.ACTIVITY]: 'bg-n-alpha-1 text-n-slate-11 text-sm',
   [MESSAGE_VARIANTS.BOT]: 'bg-n-solid-iris text-n-slate-12',
@@ -55,7 +56,9 @@ const previewMessage = computed(() => {
 
   if (content) return content;
   if (attachments?.length) {
-    const [{ fileType } = {}] = inReplyTo.attachments;
+    const firstAttachment = attachments[0];
+    const fileType = firstAttachment.fileType ?? firstAttachment.file_type;
+
     return t(`CHAT_LIST.ATTACHMENTS.${fileType}.CONTENT`);
   }
 
@@ -65,7 +68,7 @@ const previewMessage = computed(() => {
 
 <template>
   <div
-    class="text-sm"
+    class="text-sm min-w-32 break-words"
     :class="[
       messageClass,
       {

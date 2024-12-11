@@ -2,8 +2,6 @@
 import { ref, computed } from 'vue';
 import { useMessageContext } from '../provider.js';
 import Icon from 'next/icon/Icon.vue';
-import ImageBubble from './Image.vue';
-import VideoBubble from './Video.vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 
 import MessageFormatter from 'shared/helpers/MessageFormatter.js';
@@ -63,8 +61,8 @@ const onVideoLoadError = () => {
 </script>
 
 <template>
-  <BaseBubble class="p-3 overflow-hidden">
-    <div v-if="content" class="mb-2" v-html="formattedContent" />
+  <BaseBubble class="px-4 py-3 overflow-hidden" data-bubble-name="ig_story">
+    <div v-if="content" v-dompurify-html="formattedContent" class="mb-2" />
     <img
       v-if="!hasImgStoryError"
       class="rounded-lg max-w-80"
