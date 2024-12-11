@@ -105,7 +105,7 @@ export default {
       bccEmails: '',
       ccEmails: '',
       toEmails: '',
-      doAutoSaveDraft: () => { },
+      doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
       updateEditorSelectionWith: '',
       undefinedVariableMessage: '',
@@ -684,10 +684,10 @@ export default {
       return isPrivate
         ? useTrack(CONVERSATION_EVENTS.SENT_PRIVATE_NOTE)
         : useTrack(CONVERSATION_EVENTS.SENT_MESSAGE, {
-          channelType: this.channelType,
-          signatureEnabled: this.sendWithSignature,
-          hasReplyTo: !!this.inReplyTo?.id,
-        });
+            channelType: this.channelType,
+            signatureEnabled: this.sendWithSignature,
+            hasReplyTo: !!this.inReplyTo?.id,
+          });
     },
     async onSendReply() {
       const undefinedVariables = getUndefinedVariablesInMessage({
@@ -1245,7 +1245,7 @@ export default {
   @apply relative mb-2 mx-2 border border-n-weak rounded-xl bg-n-solid-1;
 
   &.is-private {
-    @apply bg-n-solid-amber;
+    @apply bg-n-solid-amber dark:border-n-amber-3/10 border-n-amber-12/5;
   }
 }
 
@@ -1254,7 +1254,7 @@ export default {
 }
 
 .reply-box__top {
-  @apply relative py-0 px-4 -mt-px border-t border-n-weak;
+  @apply relative py-0 px-4 -mt-px;
 
   textarea {
     @apply shadow-none border-transparent bg-transparent m-0 max-h-60 min-h-[3rem] pt-4 pb-0 px-0 resize-none;

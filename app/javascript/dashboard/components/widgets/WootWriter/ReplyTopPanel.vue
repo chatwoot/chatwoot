@@ -2,11 +2,13 @@
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import EditorModeToggle from './EditorModeToggle.vue';
 
 export default {
   name: 'ReplyTopPanel',
   components: {
     NextButton,
+    EditorModeToggle,
   },
   props: {
     mode: {
@@ -33,6 +35,13 @@ export default {
     const handleNoteClick = () => {
       setReplyMode(REPLY_EDITOR_MODES.NOTE);
     };
+    const handleModeToggle = () => {
+      const newMode =
+        props.mode === REPLY_EDITOR_MODES.REPLY
+          ? REPLY_EDITOR_MODES.NOTE
+          : REPLY_EDITOR_MODES.REPLY;
+      setReplyMode(newMode);
+    };
     const keyboardEvents = {
       'Alt+KeyP': {
         action: () => handleNoteClick(),
@@ -46,8 +55,10 @@ export default {
     useKeyboardEvents(keyboardEvents);
 
     return {
+      handleModeToggle,
       handleReplyClick,
       handleNoteClick,
+      REPLY_EDITOR_MODES,
     };
   },
   computed: {
@@ -74,22 +85,12 @@ export default {
 </script>
 
 <template>
-  <div class="flex justify-between">
-    <div class="flex flex-row items-center justify-center">
-      <NextButton
-        class="rounded-tl-xl rounded-bl-none rounded-br-none rounded-tr-none"
-        ghost
-        :label="$t('CONVERSATION.REPLYBOX.REPLY')"
-        @click="handleReplyClick"
-      />
-      <NextButton
-        ghost
-        amber
-        class="rounded-none"
-        :label="$t('CONVERSATION.REPLYBOX.PRIVATE_NOTE')"
-        @click="handleNoteClick"
-      />
-    </div>
+  <div class="flex justify-between h-[52px] gap-2 ltr:pl-3 rtl:pr-3">
+    <EditorModeToggle
+      :mode="mode"
+      class="mt-3"
+      @toggle-mode="handleModeToggle"
+    />
     <div class="flex items-center mx-4 my-0">
       <div v-if="isMessageLengthReachingThreshold" class="text-xs">
         <span :class="charLengthClass">
@@ -99,7 +100,7 @@ export default {
     </div>
     <NextButton
       ghost
-      class="text-n-slate-11 rounded-tl-none rounded-bl-none rounded-br-none rounded-tr-xl"
+      class="rounded-bl-none rounded-br-none ltr:rounded-tl-none rtl:rounded-tr-none text-n-slate-11 ltr:rounded-tr-xl rtl:rounded-tl-xl"
       icon="i-lucide-maximize-2"
       @click="$emit('togglePopout')"
     />

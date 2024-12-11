@@ -1,0 +1,55 @@
+<script setup>
+import { computed } from 'vue';
+import { REPLY_EDITOR_MODES } from './constants';
+
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+
+const props = defineProps({
+  mode: {
+    type: String,
+    default: REPLY_EDITOR_MODES.REPLY,
+  },
+});
+
+defineEmits(['toggleMode']);
+
+const isPrivate = computed(() => props.mode === REPLY_EDITOR_MODES.NOTE);
+</script>
+
+<template>
+  <button
+    class="flex items-center h-8 gap-2 py-1 transition-all border rounded-full min-w-fit bg-n-alpha-2 dark:bg-n-alpha-2"
+    :class="[
+      isPrivate
+        ? 'flex-row-reverse ltr:pr-1 rtl:pl-1 ltr:pl-3 rtl:pr-3 border-n-amber-12/10 dark:border-n-amber-3/30'
+        : 'flex-row ltr:pl-1 rtl:pr-1 ltr:pr-3 rtl:pl-3 border-n-weak dark:border-n-weak',
+    ]"
+    @click="$emit('toggleMode')"
+  >
+    <div
+      class="flex items-center justify-center w-6 transition-all rounded-full bg-n-alpha-black1 size-6"
+    >
+      <Icon
+        :icon="
+          isPrivate
+            ? 'i-material-symbols-lock'
+            : 'i-material-symbols-lock-open-rounded'
+        "
+        class="flex-shrink-0 size-3.5"
+        :class="[
+          isPrivate ? 'dark:text-n-amber-9 text-n-amber-11' : 'text-n-slate-10',
+        ]"
+      />
+    </div>
+    <span
+      class="flex items-center text-sm font-medium transition-all w-fit whitespace-nowrap"
+      :class="[isPrivate ? 'text-n-amber-12' : 'text-n-slate-12']"
+    >
+      {{
+        isPrivate
+          ? $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE')
+          : $t('CONVERSATION.REPLYBOX.REPLY')
+      }}
+    </span>
+  </button>
+</template>
