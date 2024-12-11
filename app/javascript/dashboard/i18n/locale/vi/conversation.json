@@ -219,6 +219,10 @@
         "DELETE": "Xoá",
         "CANCEL": "Huỷ"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Liên hệ",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
