@@ -219,6 +219,10 @@
         "DELETE": "Radera",
         "CANCEL": "Avbryt"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contact",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
