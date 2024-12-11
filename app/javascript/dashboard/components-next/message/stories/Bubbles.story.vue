@@ -131,6 +131,7 @@ const attachmentsOnly = computed(() =>
   getMessage({
     content: null,
     attachments: [
+      getAttachment('image', 'https://chatwoot.dev/broken.png'),
       getAttachment(
         'video',
         'https://videos.pexels.com/video-files/1739010/1739010-hd_1920_1080_30fps.mp4'
