@@ -1,6 +1,10 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import Icon from 'next/icon/Icon.vue';
+import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
+import { useMessageContext } from '../provider.js';
+import { ATTACHMENT_TYPES } from '../constants';
+import GalleryView from 'dashboard/components/widgets/conversation/components/GalleryView.vue';
 
 defineProps({
   attachment: {
@@ -8,8 +12,21 @@ defineProps({
     required: true,
   },
 });
-
 const hasError = ref(false);
+const showGallery = ref(false);
+
+const { attachments: currentChatAttachments } = useMessageContext();
+
+const filteredCurrentChatAttachments = computed(() => {
+  const attachments = currentChatAttachments.filter(attachment =>
+    [
+      ATTACHMENT_TYPES.IMAGE,
+      ATTACHMENT_TYPES.VIDEO,
+      ATTACHMENT_TYPES.AUDIO,
+    ].includes(attachment.fileType)
+  );
+  return useSnakeCase(attachments);
+});
 
 const handleError = () => {
   hasError.value = true;
@@ -19,6 +36,7 @@ const handleError = () => {
 <template>
   <div
     class="size-[72px] overflow-hidden contain-content rounded-xl cursor-pointer"
+    @click="showGallery = true"
   >
     <div
       v-if="hasError"
@@ -34,4 +52,12 @@ const handleError = () => {
       @onerror="handleError"
     />
   </div>
+  <GalleryView
+    v-if="showGallery"
+    v-model:show="showGallery"
+    :attachment="useSnakeCase(attachment)"
+    :all-attachments="filteredCurrentChatAttachments"
+    @error="onError"
+    @close="() => (showGallery = false)"
+  />
 </template>

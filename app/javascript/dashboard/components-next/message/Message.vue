@@ -363,6 +363,7 @@ provideMessageContext({
   inReplyTo: props.inReplyTo,
   orientation,
   isMyMessage,
+  attachments: props.attachments,
 });
 </script>
 
