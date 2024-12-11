@@ -742,7 +742,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
     }
   }
 
-  >.ProseMirror {
+  > .ProseMirror {
     @apply p-0 break-words text-slate-800 dark:text-slate-100;
 
     h1,
@@ -787,7 +787,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
   }
 
   .ProseMirror-menubar-wrapper {
-    >.ProseMirror {
+    > .ProseMirror {
       @apply text-slate-800 dark:text-slate-25;
 
       p {
