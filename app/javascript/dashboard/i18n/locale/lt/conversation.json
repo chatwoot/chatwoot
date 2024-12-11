@@ -219,6 +219,10 @@
         "DELETE": "Ištrinti",
         "CANCEL": "Atšaukti"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Kontaktas",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
