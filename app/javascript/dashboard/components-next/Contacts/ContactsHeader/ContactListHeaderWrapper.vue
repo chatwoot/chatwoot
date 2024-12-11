@@ -106,10 +106,15 @@ const onImport = async file => {
   try {
     await store.dispatch('contacts/import', file);
     contactImportDialogRef.value?.dialogRef.close();
-    useAlert(t('IMPORT_CONTACTS.SUCCESS_MESSAGE'));
+    useAlert(
+      t('CONTACTS_LAYOUT.HEADER.ACTIONS.IMPORT_CONTACT.SUCCESS_MESSAGE')
+    );
     useTrack(CONTACTS_EVENTS.IMPORT_SUCCESS);
   } catch (error) {
-    useAlert(error.message ?? t('IMPORT_CONTACTS.ERROR_MESSAGE'));
+    useAlert(
+      error.message ??
+        t('CONTACTS_LAYOUT.HEADER.ACTIONS.IMPORT_CONTACT.ERROR_MESSAGE')
+    );
     useTrack(CONTACTS_EVENTS.IMPORT_FAILURE);
   }
 };
