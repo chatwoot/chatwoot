@@ -302,5 +302,13 @@
         "ERROR": "Atsaistot jautājumu radās kļūda. Lūdzu, mēģiniet vēlreiz"
       }
     }
+  },
+  "CAPTAIN": {
+    "NAME": "Kapteinis",
+    "COPILOT": {
+      "SEND_MESSAGE": "Sūtīt ziņojumu...",
+      "LOADER": "Kapteinis domā",
+      "YOU": "Jūs"
+    }
   }
 }
