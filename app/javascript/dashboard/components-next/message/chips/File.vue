@@ -26,6 +26,29 @@ const fileName = computed(() => {
 const fileType = computed(() => {
   return fileName.value.split('.').pop();
 });
+
+const textColorClass = computed(() => {
+  const colorMap = {
+    '7z': 'dark:text-[#EDEEF0] text-[#2F265F]',
+    csv: 'text-amber-12',
+    doc: 'dark:text-[#D6E1FF] text-[#1F2D5C]', // indigo-12
+    docx: 'dark:text-[#D6E1FF] text-[#1F2D5C]', // indigo-12
+    json: 'text-n-slate-12',
+    odt: 'dark:text-[#D6E1FF] text-[#1F2D5C]', // indigo-12
+    pdf: 'text-n-ruby-12',
+    ppt: 'dark:text-[#FFE0C2] text-[#582D1D]',
+    pptx: 'dark:text-[#FFE0C2] text-[#582D1D]',
+    rar: 'dark:text-[#EDEEF0] text-[#2F265F]',
+    rtf: 'dark:text-[#D6E1FF] text-[#1F2D5C]', // indigo-12
+    tar: 'dark:text-[#EDEEF0] text-[#2F265F]',
+    txt: 'text-n-slate-12',
+    xls: 'text-n-teal-12',
+    xlsx: 'text-n-teal-12',
+    zip: 'dark:text-[#EDEEF0] text-[#2F265F]',
+  };
+
+  return colorMap[fileType.value] || 'text-n-slate-12';
+});
 </script>
 
 <template>
@@ -33,7 +56,9 @@ const fileType = computed(() => {
     class="h-9 bg-n-alpha-3 gap-2 items-center flex px-2 rounded-lg border border-n-strong"
   >
     <FileIcon class="flex-shrink-0" :file-type="fileType" />
-    <span class="mr-1 max-w-32 truncate">{{ fileName }}</span>
+    <span class="mr-1 max-w-32 truncate" :class="textColorClass">
+      {{ fileName }}
+    </span>
     <a
       v-tooltip="t('CONVERSATION.DOWNLOAD')"
       class="flex-shrink-0 h-9 grid place-content-center cursor-pointer"
