@@ -1,4 +1,5 @@
 import { inject, provide } from 'vue';
+import { useMapGetter } from 'dashboard/composables/store';
 
 const MessageControl = Symbol('MessageControl');
 
@@ -8,7 +9,9 @@ export function useMessageContext() {
     throw new Error(`Component is missing a parent <Message /> component.`);
   }
 
-  return { ...context };
+  const currentChatAttachments = useMapGetter('getSelectedChatAttachments');
+
+  return { ...context, currentChatAttachments };
 }
 
 export function provideMessageContext(context) {

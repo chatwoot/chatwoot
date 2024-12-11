@@ -15,7 +15,7 @@ defineProps({
 
 const showGallery = ref(false);
 
-const { attachments: currentChatAttachments } = useMessageContext();
+const { currentChatAttachments } = useMessageContext();
 
 const filteredCurrentChatAttachments = computed(() => {
   const attachments = currentChatAttachments.filter(attachment =>
