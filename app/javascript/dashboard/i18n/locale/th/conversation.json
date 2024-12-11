@@ -219,6 +219,10 @@
         "DELETE": "ลบ",
         "CANCEL": "ยกเลิก"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "ผู้ติดต่อ",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
