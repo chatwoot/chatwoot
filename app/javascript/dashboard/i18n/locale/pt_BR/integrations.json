@@ -302,5 +302,13 @@
         "ERROR": "Houve um erro ao desvincular o atributo, por favor, tente novamente"
       }
     }
+  },
+  "CAPTAIN": {
+    "NAME": "Capitain",
+    "COPILOT": {
+      "SEND_MESSAGE": "Enviar mensagem...",
+      "LOADER": "Captain is thinking",
+      "YOU": "Você"
+    }
   }
 }
