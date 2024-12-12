@@ -57,46 +57,6 @@
     "TITLE": "연락처 수정",
     "DESC": "연락처 수정 자세히"
   },
-  "CREATE_CONTACT": {
-    "BUTTON_LABEL": "새 연결",
-    "TITLE": "새 연결 만들기",
-    "DESC": "연락처에 대한 기본 정보 세부 정보를 추가합니다."
-  },
-  "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "가져오기",
-    "TITLE": "연락처 가져오기",
-    "DESC": "CSV 파일을 통해 연락처 가져오기",
-    "DOWNLOAD_LABEL": "간단한 CSV 파일 다운받기",
-    "FORM": {
-      "LABEL": "CSV 파일",
-      "SUBMIT": "가져오기",
-      "CANCEL": "취소"
-    },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
-    "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
-  },
-  "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Export",
-    "TITLE": "Export Contacts",
-    "DESC": "Export contacts to a CSV file.",
-    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오.",
-    "CONFIRM": {
-      "TITLE": "Export Contacts",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
-    }
-  },
-  "DELETE_NOTE": {
-    "CONFIRM": {
-      "TITLE": "삭제 확인",
-      "MESSAGE": "정말로 이 노트를 삭제하고 싶으신가요?",
-      "YES": "예, 삭제합니다",
-      "NO": "아니요, 유지합니다."
-    }
-  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "연락처 지우기",
     "TITLE": "연락처 지우기",
@@ -224,79 +184,14 @@
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "연락처",
-    "FIELDS": "Contact fields",
-    "SEARCH_BUTTON": "검색",
-    "SEARCH_INPUT_PLACEHOLDER": "연락처 검색",
-    "FILTER_CONTACTS": "필터",
-    "FILTER_CONTACTS_SAVE": "필터 저장하기",
-    "FILTER_CONTACTS_DELETE": "필터 삭제하기",
-    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
-      "LOADING_MESSAGE": "연락처를 불러오는 중...",
-      "404": "검색과 일치하는 연락처 없음 🔍",
-      "NO_CONTACTS": "사용 가능한 연락처가 없습니다",
       "TABLE_HEADER": {
-        "NAME": "이름",
-        "PHONE_NUMBER": "전화 번호",
-        "CONVERSATIONS": "대화",
-        "LAST_ACTIVITY": "지난 활동",
-        "CREATED_AT": "에 만들어짐",
-        "COUNTRY": "국가",
-        "CITY": "도시",
-        "SOCIAL_PROFILES": "소셜 프로필",
-        "COMPANY": "회사",
-        "EMAIL_ADDRESS": "이메일 주소"
-      },
-      "VIEW_DETAILS": "상세보기"
-    }
-  },
-  "CONTACT_PROFILE": {
-    "BACK_BUTTON": "연락처",
-    "LOADING": "연락처 프로필 불러오는 중..."
-  },
-  "REMINDER": {
-    "ADD_BUTTON": {
-      "BUTTON": "추가하기",
-      "TITLE": "쉬프트와 엔터를 눌러 작업 만들기"
-    },
-    "FOOTER": {
-      "DUE_DATE": "끝나는 날짜",
-      "LABEL_TITLE": "유형 선택하기"
-    }
-  },
-  "NOTES": {
-    "FETCHING_NOTES": "노트를 가져오는 중...",
-    "NOT_AVAILABLE": "이 연락처에 대한 노트가 없습니다",
-    "HEADER": {
-      "TITLE": "노트들"
-    },
-    "LIST": {
-      "LABEL": "노트가 추가되었습니다"
-    },
-    "ADD": {
-      "BUTTON": "추가하기",
-      "PLACEHOLDER": "노트 추가하기",
-      "TITLE": "쉬프트와 엔터를 눌러 노트 만들기"
-    },
-    "CONTENT_HEADER": {
-      "DELETE": "노트 삭제하기"
-    }
-  },
-  "EVENTS": {
-    "HEADER": {
-      "TITLE": "Activities"
-    },
-    "BUTTON": {
-      "PILL_BUTTON_NOTES": "노트들",
-      "PILL_BUTTON_EVENTS": "이벤트들",
-      "PILL_BUTTON_CONVO": "대화"
+        "SOCIAL_PROFILES": "소셜 프로필"
+      }
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "속성 추가하기",
     "BUTTON": "사용자 지정 속성 추가하기",
-    "NOT_AVAILABLE": "이 연락처에 사용 가능한 커스텀 속성이 없습니다.",
     "COPY_SUCCESSFUL": "클립보드에 성공적으로 복사됨",
     "SHOW_MORE": "Show all attributes",
     "SHOW_LESS": "Show less attributes",
