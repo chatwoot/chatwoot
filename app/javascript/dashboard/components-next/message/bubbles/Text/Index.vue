@@ -32,8 +32,8 @@ const props = defineProps({
     default: () => ({}),
   },
   messageType: {
-    type: String,
-    default: '',
+    type: Number,
+    required: true,
     validator: value => Object.values(MESSAGE_TYPES).includes(value),
   },
 });
