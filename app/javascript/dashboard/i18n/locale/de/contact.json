@@ -57,46 +57,6 @@
     "TITLE": "Kontakt bearbeiten",
     "DESC": "Kontaktdetails bearbeiten"
   },
-  "CREATE_CONTACT": {
-    "BUTTON_LABEL": "Neuer Kontakt",
-    "TITLE": "Neuen Kontakt erstellen",
-    "DESC": "Fügen Sie grundlegende Informationen über den Kontakt hinzu."
-  },
-  "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Importieren",
-    "TITLE": "Kontakte importieren",
-    "DESC": "Kontakte über CSV-Datei importieren.",
-    "DOWNLOAD_LABEL": "Ein CSV-Beispiel herunterladen.",
-    "FORM": {
-      "LABEL": "CSV-Datei",
-      "SUBMIT": "Importieren",
-      "CANCEL": "Abbrechen"
-    },
-    "SUCCESS_MESSAGE": "Sie werden per E-Mail benachrichtigt, wenn der Import abgeschlossen ist.",
-    "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
-  },
-  "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Exportieren",
-    "TITLE": "Kontakte exportieren",
-    "DESC": "Kontakte als CSV exportieren.",
-    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut",
-    "CONFIRM": {
-      "TITLE": "Kontakte exportieren",
-      "MESSAGE": "Sind Sie sicher, dass Sie alle Kontakte exportieren möchten?",
-      "FILTERED_MESSAGE": "Sind Sie sicher, dass Sie alle gefilterten Kontakte exportieren möchten?",
-      "YES": "Ja, exportieren",
-      "NO": "Nein, abbrechen"
-    }
-  },
-  "DELETE_NOTE": {
-    "CONFIRM": {
-      "TITLE": "Löschung bestätigen",
-      "MESSAGE": "Möchten Sie diese Notiz wirklich löschen?",
-      "YES": "Ja, löschen",
-      "NO": "Nein, behalte es"
-    }
-  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Kontakt löschen",
     "TITLE": "Kontakt löschen",
@@ -224,79 +184,14 @@
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Kontakte",
-    "FIELDS": "Kontakt-Felder",
-    "SEARCH_BUTTON": "Suchen",
-    "SEARCH_INPUT_PLACEHOLDER": "Suche nach Kontakten",
-    "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "Filter speichern",
-    "FILTER_CONTACTS_DELETE": "Filter löschen",
-    "FILTER_CONTACTS_EDIT": "Segment bearbeiten",
     "LIST": {
-      "LOADING_MESSAGE": "Kontakte werden geladen...",
-      "404": "Keine Kontakte entsprechen Ihrer Suche 🔍",
-      "NO_CONTACTS": "Keine Kontakte verfügbar",
       "TABLE_HEADER": {
-        "NAME": "Name",
-        "PHONE_NUMBER": "Telefonnummer",
-        "CONVERSATIONS": "Gespräche",
-        "LAST_ACTIVITY": "Letzte Aktivität",
-        "CREATED_AT": "Erstellt am",
-        "COUNTRY": "Land",
-        "CITY": "Stadt",
-        "SOCIAL_PROFILES": "Profile in sozialen Netzwerken",
-        "COMPANY": "Firma",
-        "EMAIL_ADDRESS": "E-Mail-Adresse"
-      },
-      "VIEW_DETAILS": "Details anzeigen"
-    }
-  },
-  "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Kontakte",
-    "LOADING": "Kontaktprofil wird geladen..."
-  },
-  "REMINDER": {
-    "ADD_BUTTON": {
-      "BUTTON": "Hinzufügen",
-      "TITLE": "Shift + Enter um eine Aufgabe zu erstellen"
-    },
-    "FOOTER": {
-      "DUE_DATE": "Fälligkeitsdatum",
-      "LABEL_TITLE": "Typ festlegen"
-    }
-  },
-  "NOTES": {
-    "FETCHING_NOTES": "Notizen werden geladen...",
-    "NOT_AVAILABLE": "Für diesen Kontakt wurden keine Notizen erstellt",
-    "HEADER": {
-      "TITLE": "Notizen"
-    },
-    "LIST": {
-      "LABEL": "Notiz hinzugefügt"
-    },
-    "ADD": {
-      "BUTTON": "Hinzufügen",
-      "PLACEHOLDER": "Notiz hinzufügen",
-      "TITLE": "Shift + Enter um eine Notiz zu erstellen"
-    },
-    "CONTENT_HEADER": {
-      "DELETE": "Notiz löschen"
-    }
-  },
-  "EVENTS": {
-    "HEADER": {
-      "TITLE": "Aktivitäten"
-    },
-    "BUTTON": {
-      "PILL_BUTTON_NOTES": "Notizen",
-      "PILL_BUTTON_EVENTS": "Veranstaltungen",
-      "PILL_BUTTON_CONVO": "Konversation"
+        "SOCIAL_PROFILES": "Profile in sozialen Netzwerken"
+      }
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Attribute hinzufügen",
     "BUTTON": "Eigenes Attribut hinzufügen",
-    "NOT_AVAILABLE": "Für diesen Kontakt sind keine benutzerdefinierten Attribute verfügbar.",
     "COPY_SUCCESSFUL": "Erfolgreich in die Zwischenablage kopiert",
     "SHOW_MORE": "Alle Attribute anzeigen",
     "SHOW_LESS": "Weniger Attribute anzeigen",
