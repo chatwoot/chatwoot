@@ -57,46 +57,6 @@
     "TITLE": "Modifier le contact",
     "DESC": "Modifier les informations de contact"
   },
-  "CREATE_CONTACT": {
-    "BUTTON_LABEL": "Nouveau contact",
-    "TITLE": "Créer un nouveau contact",
-    "DESC": "Ajouter des informations de base à propos du contact."
-  },
-  "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Importer",
-    "TITLE": "Importer des contacts",
-    "DESC": "Importer des contacts via un fichier CSV.",
-    "DOWNLOAD_LABEL": "Télécharger un exemple de CSV.",
-    "FORM": {
-      "LABEL": "Fichier CSV",
-      "SUBMIT": "Importer",
-      "CANCEL": "Annuler"
-    },
-    "SUCCESS_MESSAGE": "Vous serez notifié par e-mail lorsque l'importation sera terminée.",
-    "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
-  },
-  "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Exporter",
-    "TITLE": "Exporter les contacts",
-    "DESC": "Exporter les contacts vers un fichier CSV.",
-    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer",
-    "CONFIRM": {
-      "TITLE": "Exporter les contacts",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
-    }
-  },
-  "DELETE_NOTE": {
-    "CONFIRM": {
-      "TITLE": "Confirmer la suppression",
-      "MESSAGE": "Êtes-vous sûr de vouloir supprimer cette note ?",
-      "YES": "Oui, supprimer",
-      "NO": "Non, conservez-le"
-    }
-  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Supprimer le contact",
     "TITLE": "Supprimer le contact",
@@ -224,79 +184,14 @@
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "FIELDS": "Champs du contact",
-    "SEARCH_BUTTON": "Rechercher",
-    "SEARCH_INPUT_PLACEHOLDER": "Rechercher des contacts",
-    "FILTER_CONTACTS": "Filtrer",
-    "FILTER_CONTACTS_SAVE": "Enregistrer le filtre",
-    "FILTER_CONTACTS_DELETE": "Supprimer le filtre",
-    "FILTER_CONTACTS_EDIT": "Modifier le segment",
     "LIST": {
-      "LOADING_MESSAGE": "Chargement des contacts...",
-      "404": "Aucun contact ne correspond à votre recherche 🔍",
-      "NO_CONTACTS": "Il n'y a aucun contact disponible",
       "TABLE_HEADER": {
-        "NAME": "Nom",
-        "PHONE_NUMBER": "Numéro de téléphone",
-        "CONVERSATIONS": "Conversations",
-        "LAST_ACTIVITY": "Dernière activité",
-        "CREATED_AT": "Créé le",
-        "COUNTRY": "Pays",
-        "CITY": "Ville",
-        "SOCIAL_PROFILES": "Comptes réseaux sociaux",
-        "COMPANY": "Société",
-        "EMAIL_ADDRESS": "Adresse de courriel"
-      },
-      "VIEW_DETAILS": "Voir les détails"
-    }
-  },
-  "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Contacts",
-    "LOADING": "Chargement du profil du contact..."
-  },
-  "REMINDER": {
-    "ADD_BUTTON": {
-      "BUTTON": "Ajouter",
-      "TITLE": "Shift + Entrée pour créer une tâche"
-    },
-    "FOOTER": {
-      "DUE_DATE": "Date d'échéance",
-      "LABEL_TITLE": "Définir le type"
-    }
-  },
-  "NOTES": {
-    "FETCHING_NOTES": "Récupération des notes...",
-    "NOT_AVAILABLE": "Il n'y a aucune note créée pour ce contact",
-    "HEADER": {
-      "TITLE": "Notes"
-    },
-    "LIST": {
-      "LABEL": "a ajouté une note"
-    },
-    "ADD": {
-      "BUTTON": "Ajouter",
-      "PLACEHOLDER": "Ajouter une note",
-      "TITLE": "Shift + Entrée pour créer une note"
-    },
-    "CONTENT_HEADER": {
-      "DELETE": "Supprimer la note"
-    }
-  },
-  "EVENTS": {
-    "HEADER": {
-      "TITLE": "Activités"
-    },
-    "BUTTON": {
-      "PILL_BUTTON_NOTES": "Notes",
-      "PILL_BUTTON_EVENTS": "Evénements",
-      "PILL_BUTTON_CONVO": "conversations"
+        "SOCIAL_PROFILES": "Comptes réseaux sociaux"
+      }
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Ajouter des attributs",
     "BUTTON": "Ajouter un attribut personnalisé",
-    "NOT_AVAILABLE": "Il n'y a aucun attribut personnalisé disponible pour ce contact.",
     "COPY_SUCCESSFUL": "Copié dans le presse-papiers avec succès",
     "SHOW_MORE": "Show all attributes",
     "SHOW_LESS": "Show less attributes",
