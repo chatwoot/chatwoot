@@ -1,7 +1,6 @@
 <script setup>
 import { computed, onMounted, nextTick } from 'vue';
 import BaseAttachmentBubble from './BaseAttachment.vue';
-import Icon from 'next/icon/Icon.vue';
 import { useI18n } from 'vue-i18n';
 import maplibregl from 'maplibre-gl';
 
@@ -36,10 +35,6 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
-
-const senderName = computed(() => {
-  return props.sender.name;
-});
 
 const attachment = computed(() => {
   return props.attachments[0];
@@ -98,7 +93,7 @@ onMounted(async () => {
     }"
   >
     <template #before>
-      <div id="map" class="max-w-md min-w-64 w-full h-28 -mb-12 z-10" />
+      <div id="map" class="z-10 w-full max-w-md -mb-12 min-w-64 h-28" />
     </template>
   </BaseAttachmentBubble>
 </template>
