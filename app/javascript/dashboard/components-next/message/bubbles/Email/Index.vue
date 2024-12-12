@@ -34,7 +34,7 @@ const props = defineProps({
     default: () => ({}),
   },
   messageType: {
-    type: String,
+    type: Number,
     required: true,
   },
 });
