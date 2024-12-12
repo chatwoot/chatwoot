@@ -42,7 +42,7 @@ const formattedContent = computed(() => {
 </script>
 
 <template>
-  <BaseBubble class="p-3 grid gap-3">
+  <BaseBubble class="p-3 grid gap-3" data-bubble-name="text">
     <span v-if="content" v-html="formattedContent" />
     <AttachmentChips :attachments="attachments" class="gap-2" />
   </BaseBubble>

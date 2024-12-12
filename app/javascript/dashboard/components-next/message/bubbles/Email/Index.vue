@@ -63,7 +63,7 @@ const textToShow = computed(() => {
 </script>
 
 <template>
-  <BaseBubble class="w-full overflow-hidden">
+  <BaseBubble class="w-full overflow-hidden" data-bubble-name="email">
     <EmailMeta :status :sender :content-attributes />
     <section
       ref="contentContainer"
