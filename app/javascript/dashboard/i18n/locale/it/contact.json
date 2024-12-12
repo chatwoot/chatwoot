@@ -57,46 +57,6 @@
     "TITLE": "Modifica contatto",
     "DESC": "Modifica dettagli contatto"
   },
-  "CREATE_CONTACT": {
-    "BUTTON_LABEL": "Nuovo contatto",
-    "TITLE": "Crea nuovo contatto",
-    "DESC": "Aggiungi informazioni di base sul contatto."
-  },
-  "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Importa",
-    "TITLE": "Importa contatti",
-    "DESC": "Importa contatti attraverso un file CSV.",
-    "DOWNLOAD_LABEL": "Scarica un csv di esempio.",
-    "FORM": {
-      "LABEL": "File CSV",
-      "SUBMIT": "Importa",
-      "CANCEL": "Annulla"
-    },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
-    "ERROR_MESSAGE": "Si è verificato un errore, riprova"
-  },
-  "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Export",
-    "TITLE": "Export Contacts",
-    "DESC": "Export contacts to a CSV file.",
-    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "Si è verificato un errore, riprova",
-    "CONFIRM": {
-      "TITLE": "Export Contacts",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
-    }
-  },
-  "DELETE_NOTE": {
-    "CONFIRM": {
-      "TITLE": "Conferma eliminazione",
-      "MESSAGE": "Sei sicuro di voler eliminare questa nota?",
-      "YES": "Sì, eliminala",
-      "NO": "No, conserva"
-    }
-  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Elimina contatto",
     "TITLE": "Elimina contatto",
@@ -224,79 +184,14 @@
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contatti",
-    "FIELDS": "Campi di contatto",
-    "SEARCH_BUTTON": "Cerca",
-    "SEARCH_INPUT_PLACEHOLDER": "Cerca contatti",
-    "FILTER_CONTACTS": "Filtro",
-    "FILTER_CONTACTS_SAVE": "Salva filtro",
-    "FILTER_CONTACTS_DELETE": "Elimina filtro",
-    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
-      "LOADING_MESSAGE": "Caricamento contatti...",
-      "404": "Nessun contatto corrisponde alla tua ricerca 🔍",
-      "NO_CONTACTS": "Non ci sono contatti disponibili",
       "TABLE_HEADER": {
-        "NAME": "Nome",
-        "PHONE_NUMBER": "Numero di telefono",
-        "CONVERSATIONS": "Conversazioni",
-        "LAST_ACTIVITY": "Ultima attività",
-        "CREATED_AT": "Creato il",
-        "COUNTRY": "Paese",
-        "CITY": "Città",
-        "SOCIAL_PROFILES": "Profili social",
-        "COMPANY": "Azienda",
-        "EMAIL_ADDRESS": "Indirizzo email"
-      },
-      "VIEW_DETAILS": "Visualizza dettagli"
-    }
-  },
-  "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Contatti",
-    "LOADING": "Caricamento profilo contatto..."
-  },
-  "REMINDER": {
-    "ADD_BUTTON": {
-      "BUTTON": "Aggiungi",
-      "TITLE": "Maiusc + Invio per creare un'attività"
-    },
-    "FOOTER": {
-      "DUE_DATE": "Data di scadenza",
-      "LABEL_TITLE": "Imposta tipo"
-    }
-  },
-  "NOTES": {
-    "FETCHING_NOTES": "Recupero delle note...",
-    "NOT_AVAILABLE": "Non ci sono note create per questo contatto",
-    "HEADER": {
-      "TITLE": "Note"
-    },
-    "LIST": {
-      "LABEL": "ha aggiunto una nota"
-    },
-    "ADD": {
-      "BUTTON": "Aggiungi",
-      "PLACEHOLDER": "Aggiungi una nota",
-      "TITLE": "Maiusc + Invio per creare una nota"
-    },
-    "CONTENT_HEADER": {
-      "DELETE": "Elimina nota"
-    }
-  },
-  "EVENTS": {
-    "HEADER": {
-      "TITLE": "Attività"
-    },
-    "BUTTON": {
-      "PILL_BUTTON_NOTES": "note",
-      "PILL_BUTTON_EVENTS": "eventi",
-      "PILL_BUTTON_CONVO": "conversazioni"
+        "SOCIAL_PROFILES": "Profili social"
+      }
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Aggiungi attributi",
     "BUTTON": "Aggiungi attributo personalizzato",
-    "NOT_AVAILABLE": "Non sono disponibili attributi personalizzati per questo contatto.",
     "COPY_SUCCESSFUL": "Copiato negli appunti con successo",
     "SHOW_MORE": "Show all attributes",
     "SHOW_LESS": "Show less attributes",
