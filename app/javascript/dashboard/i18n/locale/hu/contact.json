@@ -57,46 +57,6 @@
     "TITLE": "Kontakt szerkesztése",
     "DESC": "Kontakt részletek szerkesztése"
   },
-  "CREATE_CONTACT": {
-    "BUTTON_LABEL": "Új kontakt",
-    "TITLE": "Új kontakt létrehozása",
-    "DESC": "Alapvető információ a kontaktról."
-  },
-  "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Importálás",
-    "TITLE": "Kontaktok importálása",
-    "DESC": "Kontaktok importálása CSV fájlból.",
-    "DOWNLOAD_LABEL": "Minta CSV fájl letöltése.",
-    "FORM": {
-      "LABEL": "CSV fájl",
-      "SUBMIT": "Importálás",
-      "CANCEL": "Mégse"
-    },
-    "SUCCESS_MESSAGE": "Értesítjük emailben, amint a befogadás megtörtént.",
-    "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
-  },
-  "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Export",
-    "TITLE": "Kontaktok exportálása",
-    "DESC": "Kontaktok exportálása CSV fájlból.",
-    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra",
-    "CONFIRM": {
-      "TITLE": "Kontaktok exportálása",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
-    }
-  },
-  "DELETE_NOTE": {
-    "CONFIRM": {
-      "TITLE": "Törlés megerősítése",
-      "MESSAGE": "Biztosan törölni akarod ezt a megjegyzést?",
-      "YES": "Igen, töröld",
-      "NO": "Nem, tartsa meg"
-    }
-  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Kontakt Törlése",
     "TITLE": "Kontakt törlése",
@@ -224,79 +184,14 @@
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Kontaktok",
-    "FIELDS": "Kontakt mezői",
-    "SEARCH_BUTTON": "Keresés",
-    "SEARCH_INPUT_PLACEHOLDER": "Kontaktok keresése",
-    "FILTER_CONTACTS": "Szűrő",
-    "FILTER_CONTACTS_SAVE": "Szűrő mentése",
-    "FILTER_CONTACTS_DELETE": "Szűrő törlése",
-    "FILTER_CONTACTS_EDIT": "Szegmens szerkesztése",
     "LIST": {
-      "LOADING_MESSAGE": "Kontaktok betöltése...",
-      "404": "Nincs a keresésnek megfelelő kontakt 🔍",
-      "NO_CONTACTS": "Nincsenek elérhető kontaktok",
       "TABLE_HEADER": {
-        "NAME": "Név",
-        "PHONE_NUMBER": "Telefonszám",
-        "CONVERSATIONS": "Beszélgetések",
-        "LAST_ACTIVITY": "Utolsó aktivitás",
-        "CREATED_AT": "Létrehozva",
-        "COUNTRY": "Ország",
-        "CITY": "Város",
-        "SOCIAL_PROFILES": "Social media profilok",
-        "COMPANY": "Cég",
-        "EMAIL_ADDRESS": "Email cím"
-      },
-      "VIEW_DETAILS": "Részletek megtekintése"
-    }
-  },
-  "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Kontaktok",
-    "LOADING": "A kontakt profiljának betöltése..."
-  },
-  "REMINDER": {
-    "ADD_BUTTON": {
-      "BUTTON": "Hozzáadás",
-      "TITLE": "Shift + Enter egy feladat létrehozásához"
-    },
-    "FOOTER": {
-      "DUE_DATE": "Lejárati idő",
-      "LABEL_TITLE": "Típus megadása"
-    }
-  },
-  "NOTES": {
-    "FETCHING_NOTES": "Megjegyzések letöltése...",
-    "NOT_AVAILABLE": "Ehhez a kontakthoz nincs megjegyzés létrehozva",
-    "HEADER": {
-      "TITLE": "Megjegyzések"
-    },
-    "LIST": {
-      "LABEL": "hozzáadott egy megjegyzést"
-    },
-    "ADD": {
-      "BUTTON": "Hozzáadás",
-      "PLACEHOLDER": "Megjegyzés hozzáadása",
-      "TITLE": "Shift + Enter egy megjegyzés létrehozásához"
-    },
-    "CONTENT_HEADER": {
-      "DELETE": "Megjegyzés törlése"
-    }
-  },
-  "EVENTS": {
-    "HEADER": {
-      "TITLE": "Tevékenységek"
-    },
-    "BUTTON": {
-      "PILL_BUTTON_NOTES": "megjegyzések",
-      "PILL_BUTTON_EVENTS": "események",
-      "PILL_BUTTON_CONVO": "beszélgetések"
+        "SOCIAL_PROFILES": "Social media profilok"
+      }
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Attribútum hozzáadása",
     "BUTTON": "Speciális attribútum hozzáadása",
-    "NOT_AVAILABLE": "Ehhez a névjegyhez nem állnak rendelkezésre egyéni tulajdonságok.",
     "COPY_SUCCESSFUL": "Vágólapra másolva",
     "SHOW_MORE": "Show all attributes",
     "SHOW_LESS": "Show less attributes",
