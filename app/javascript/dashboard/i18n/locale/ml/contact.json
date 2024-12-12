@@ -57,46 +57,6 @@
     "TITLE": "കോൺ‌ടാക്റ്റ് എഡിറ്റുചെയ്യുക",
     "DESC": "കോൺ‌ടാക്റ്റ് വിശദാംശങ്ങൾ‌ എഡിറ്റുചെയ്യുക"
   },
-  "CREATE_CONTACT": {
-    "BUTTON_LABEL": "New Contact",
-    "TITLE": "Create new contact",
-    "DESC": "കോൺടാക്‌റ്റിനെക്കുറിച്ചുള്ള അടിസ്ഥാന വിവര വിശദാംശങ്ങൾ ചേർക്കുക."
-  },
-  "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Import",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
-    "FORM": {
-      "LABEL": "CSV ഫയൽ",
-      "SUBMIT": "Import",
-      "CANCEL": "റദ്ദാക്കുക"
-    },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
-    "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
-  },
-  "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Export",
-    "TITLE": "Export Contacts",
-    "DESC": "Export contacts to a CSV file.",
-    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക",
-    "CONFIRM": {
-      "TITLE": "Export Contacts",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
-    }
-  },
-  "DELETE_NOTE": {
-    "CONFIRM": {
-      "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
-      "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
-      "NO": "ഇല്ല, സൂക്ഷിക്കുക"
-    }
-  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "കോൺടാക്റ്റ് ഇല്ലാതാക്കുക",
     "TITLE": "കോൺടാക്റ്റ് ഇല്ലാതാക്കുക",
@@ -224,79 +184,14 @@
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "കോൺ‌ടാക്റ്റുകൾ",
-    "FIELDS": "Contact fields",
-    "SEARCH_BUTTON": "തിരയുക",
-    "SEARCH_INPUT_PLACEHOLDER": "കോൺ‌ടാക്റ്റുകൾക്കായി തിരയുക",
-    "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "ഫിൽട്ടർ സേവ് ചെയുക",
-    "FILTER_CONTACTS_DELETE": "ഫിൽട്ടർ ഇല്ലാതാക്കുക",
-    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
-      "LOADING_MESSAGE": "കോൺ‌ടാക്റ്റുകൾ‌ ലോഡുചെയ്യുന്നു...",
-      "404": "കോൺ‌ടാക്റ്റുകളൊന്നും നിങ്ങളുടെ തിരയലുമായി പൊരുത്തപ്പെടുന്നില്ല",
-      "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
-        "NAME": "പേര്",
-        "PHONE_NUMBER": "ഫോൺ നമ്പർ",
-        "CONVERSATIONS": "സംഭാഷണങ്ങൾ",
-        "LAST_ACTIVITY": "അവസാന പ്രവർത്തനം",
-        "CREATED_AT": "Created At",
-        "COUNTRY": "രാജ്യം",
-        "CITY": "നഗരം",
-        "SOCIAL_PROFILES": "സോഷ്യൽ പ്രൊഫൈലുകൾ",
-        "COMPANY": "കമ്പനി",
-        "EMAIL_ADDRESS": "ഇമെയിൽ വിലാസം"
-      },
-      "VIEW_DETAILS": "വിശദാംശങ്ങൾ കാണുക"
-    }
-  },
-  "CONTACT_PROFILE": {
-    "BACK_BUTTON": "കോൺ‌ടാക്റ്റുകൾ",
-    "LOADING": "Loading contact profile..."
-  },
-  "REMINDER": {
-    "ADD_BUTTON": {
-      "BUTTON": "ചേർക്കുക",
-      "TITLE": "Shift + Enter to create a task"
-    },
-    "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
-    }
-  },
-  "NOTES": {
-    "FETCHING_NOTES": "Fetching notes...",
-    "NOT_AVAILABLE": "There are no notes created for this contact",
-    "HEADER": {
-      "TITLE": "Notes"
-    },
-    "LIST": {
-      "LABEL": "added a note"
-    },
-    "ADD": {
-      "BUTTON": "ചേർക്കുക",
-      "PLACEHOLDER": "Add a note",
-      "TITLE": "ഒരു കുറിപ്പ് സൃഷ്ടിക്കാൻ Shift + Enter"
-    },
-    "CONTENT_HEADER": {
-      "DELETE": "കുറിപ്പ് ഇല്ലാതാക്കുക"
-    }
-  },
-  "EVENTS": {
-    "HEADER": {
-      "TITLE": "പ്രവർത്തനങ്ങൾ"
-    },
-    "BUTTON": {
-      "PILL_BUTTON_NOTES": "notes",
-      "PILL_BUTTON_EVENTS": "events",
-      "PILL_BUTTON_CONVO": "സംഭാഷണങ്ങൾ"
+        "SOCIAL_PROFILES": "സോഷ്യൽ പ്രൊഫൈലുകൾ"
+      }
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Add attributes",
     "BUTTON": "Add custom attribute",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "COPY_SUCCESSFUL": "ക്ലിപ്പ്ബോർഡിലേക്ക് വിജയകരമായി പകർത്തി",
     "SHOW_MORE": "Show all attributes",
     "SHOW_LESS": "Show less attributes",
