@@ -1,5 +1,6 @@
 import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 export const INBOX_FEATURES = {
@@ -38,11 +39,11 @@ export const useInbox = () => {
   const inbox = computed(() => {
     const inboxId = currentChat.value.inbox_id;
 
-    return inboxGetter.value(inboxId);
+    return useCamelCase(inboxGetter.value(inboxId), { deep: true });
   });
 
   const channelType = computed(() => {
-    return inbox.value.channel_type;
+    return inbox.value.channelType;
   });
 
   const isAPIInbox = computed(() => {
@@ -121,6 +122,7 @@ export const useInbox = () => {
   });
 
   return {
+    inbox,
     isAFacebookInbox,
     isALineChannel,
     isAPIInbox,
