@@ -57,46 +57,6 @@
     "TITLE": "Редактиране на контакта",
     "DESC": "Редактиране детайлите на контакта"
   },
-  "CREATE_CONTACT": {
-    "BUTTON_LABEL": "Нов контакт",
-    "TITLE": "Създаване на нов контакт",
-    "DESC": "Добавете основна информация за конктакта."
-  },
-  "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Внасяне",
-    "TITLE": "Внасяне на контакти",
-    "DESC": "Внасяне на контакти чрез CSV файл.",
-    "DOWNLOAD_LABEL": "Свали шаблонен CSV.",
-    "FORM": {
-      "LABEL": "CSV файл",
-      "SUBMIT": "Внасяне",
-      "CANCEL": "Отмени"
-    },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
-    "ERROR_MESSAGE": "Възникна грешка, моля опитайте отново"
-  },
-  "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Export",
-    "TITLE": "Export Contacts",
-    "DESC": "Export contacts to a CSV file.",
-    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "Възникна грешка, моля опитайте отново",
-    "CONFIRM": {
-      "TITLE": "Export Contacts",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
-    }
-  },
-  "DELETE_NOTE": {
-    "CONFIRM": {
-      "TITLE": "Потвърди изтриването",
-      "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
-      "NO": "No, Keep it"
-    }
-  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Изтриване на контакта",
     "TITLE": "Изтриване на контакта",
@@ -224,79 +184,14 @@
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Контакти",
-    "FIELDS": "Полета на контакта",
-    "SEARCH_BUTTON": "Търсене",
-    "SEARCH_INPUT_PLACEHOLDER": "Търсене на контакти",
-    "FILTER_CONTACTS": "Филтър",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
-    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
-      "LOADING_MESSAGE": "Зареждане на контактите...",
-      "404": "Няма контакти отговарящи на търсенети ви 🔍",
-      "NO_CONTACTS": "Няма налични контакти",
       "TABLE_HEADER": {
-        "NAME": "Име",
-        "PHONE_NUMBER": "Телефон",
-        "CONVERSATIONS": "Разговори",
-        "LAST_ACTIVITY": "Последна активност",
-        "CREATED_AT": "Created At",
-        "COUNTRY": "Държава",
-        "CITY": "Град",
-        "SOCIAL_PROFILES": "Социални профили",
-        "COMPANY": "Фирма",
-        "EMAIL_ADDRESS": "Имейл адрес"
-      },
-      "VIEW_DETAILS": "Вижте детайлите"
-    }
-  },
-  "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Контакти",
-    "LOADING": "Зареждане профила на контакта..."
-  },
-  "REMINDER": {
-    "ADD_BUTTON": {
-      "BUTTON": "Добавяне",
-      "TITLE": "Shift + Enter за създаване на задача"
-    },
-    "FOOTER": {
-      "DUE_DATE": "Краен срок",
-      "LABEL_TITLE": "Задаване на тип"
-    }
-  },
-  "NOTES": {
-    "FETCHING_NOTES": "Извличане на бележки...",
-    "NOT_AVAILABLE": "Няма създадени бележки за този контакт",
-    "HEADER": {
-      "TITLE": "Бележки"
-    },
-    "LIST": {
-      "LABEL": "добавена бележка"
-    },
-    "ADD": {
-      "BUTTON": "Добавяне",
-      "PLACEHOLDER": "Добавяне на бележка",
-      "TITLE": "Shift + Enter за създаване на бележка"
-    },
-    "CONTENT_HEADER": {
-      "DELETE": "Изтриване на бележка"
-    }
-  },
-  "EVENTS": {
-    "HEADER": {
-      "TITLE": "Дейности"
-    },
-    "BUTTON": {
-      "PILL_BUTTON_NOTES": "бележки",
-      "PILL_BUTTON_EVENTS": "събития",
-      "PILL_BUTTON_CONVO": "разговори"
+        "SOCIAL_PROFILES": "Социални профили"
+      }
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Добавяне на атрибут",
     "BUTTON": "Добавяне на персонализиран атрибут",
-    "NOT_AVAILABLE": "Няма персонализирани атрибути за този контакт.",
     "COPY_SUCCESSFUL": "Успешно копиране в клипборда",
     "SHOW_MORE": "Show all attributes",
     "SHOW_LESS": "Show less attributes",
