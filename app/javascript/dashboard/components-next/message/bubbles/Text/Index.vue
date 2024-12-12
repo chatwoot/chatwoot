@@ -44,13 +44,13 @@ const isTemplate = computed(() => {
 </script>
 
 <template>
-  <BaseBubble class="px-4 py-3 flex flex-col gap-3" data-bubble-name="text">
+  <BaseBubble class="flex flex-col gap-3 px-4 py-3" data-bubble-name="text">
     <FormattedContent v-if="content" :content="content" />
     <AttachmentChips :attachments="attachments" class="gap-2" />
     <template v-if="isTemplate">
       <div
         v-if="contentAttributes.submittedEmail"
-        class="bg-n-alpha-3 px-2 py-1 rounded-lg"
+        class="px-2 py-1 rounded-lg bg-n-alpha-3"
       >
         {{ contentAttributes.submittedEmail }}
       </div>

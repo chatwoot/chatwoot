@@ -61,8 +61,8 @@ const onVideoLoadError = () => {
 </script>
 
 <template>
-  <BaseBubble class="px-4 py-3 overflow-hidden" data-bubble-name="ig_story">
-    <div v-if="content" v-dompurify-html="formattedContent" class="mb-2" />
+  <BaseBubble class="p-3 overflow-hidden" data-bubble-name="ig-story">
+    <div v-if="content" class="mb-2" v-html="formattedContent" />
     <img
       v-if="!hasImgStoryError"
       class="rounded-lg max-w-80"
@@ -78,7 +78,7 @@ const onVideoLoadError = () => {
     />
     <div
       v-else
-      class="flex items-center bg-n-alpha-1 gap-1 text-center px-5 py-4 rounded-lg"
+      class="flex items-center gap-1 px-5 py-4 text-center rounded-lg bg-n-alpha-1"
     >
       <Icon icon="i-lucide-circle-off" class="text-n-slate-11" />
       <p class="mb-0 text-n-slate-11">

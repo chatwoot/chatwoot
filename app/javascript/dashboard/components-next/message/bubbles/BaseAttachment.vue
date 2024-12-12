@@ -27,7 +27,10 @@ const senderName = computed(() => {
 </script>
 
 <template>
-  <BaseBubble class="overflow-hidden grid gap-4 min-w-64 p-0">
+  <BaseBubble
+    class="overflow-hidden grid gap-4 min-w-64 p-0"
+    data-bubble-name="attachment"
+  >
     <slot name="before" />
     <div class="grid gap-3 px-3 pt-3 z-20">
       <div
