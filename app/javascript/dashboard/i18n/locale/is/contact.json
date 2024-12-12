@@ -57,46 +57,6 @@
     "TITLE": "Breyta tengilið",
     "DESC": "Breyta smáatriðum tengiliðs"
   },
-  "CREATE_CONTACT": {
-    "BUTTON_LABEL": "Nýr tengiliður",
-    "TITLE": "Bæta við nýjum tengilið",
-    "DESC": "Bættu við grunnupplýsingum um tengiliðinn."
-  },
-  "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Hlaða inn",
-    "TITLE": "Hlaða inn tengiliðum",
-    "DESC": "Hlaða inn tengiliðum með CSV skrá.",
-    "DOWNLOAD_LABEL": "Sækja csv sýnishorn.",
-    "FORM": {
-      "LABEL": "CSV skrá",
-      "SUBMIT": "Hlaða inn",
-      "CANCEL": "Hætta við"
-    },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
-    "ERROR_MESSAGE": "Það kom upp villa, vinsamlegast reyndur aftur"
-  },
-  "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Export",
-    "TITLE": "Export Contacts",
-    "DESC": "Export contacts to a CSV file.",
-    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "Það kom upp villa, vinsamlegast reyndu aftur",
-    "CONFIRM": {
-      "TITLE": "Export Contacts",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
-    }
-  },
-  "DELETE_NOTE": {
-    "CONFIRM": {
-      "TITLE": "Staðfesta eyðingu",
-      "MESSAGE": "Ertu viss um að þú viljir eyða þessari glósu?",
-      "YES": "Já, eyða",
-      "NO": "Nei, hætta við eyðingu"
-    }
-  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Eyða tengilið",
     "TITLE": "Eyða tengilið",
@@ -224,79 +184,14 @@
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Tengiliðir",
-    "FIELDS": "Tengiliðs reitir",
-    "SEARCH_BUTTON": "Leit",
-    "SEARCH_INPUT_PLACEHOLDER": "Leita að tengiliðum",
-    "FILTER_CONTACTS": "Sía",
-    "FILTER_CONTACTS_SAVE": "Vista síu",
-    "FILTER_CONTACTS_DELETE": "Eyða síu",
-    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
-      "LOADING_MESSAGE": "Hleð tengiliðum...",
-      "404": "Engir tengiliðir fundust",
-      "NO_CONTACTS": "Það eru engir tengiliðir til staðar",
       "TABLE_HEADER": {
-        "NAME": "Nafn",
-        "PHONE_NUMBER": "Símanúmer",
-        "CONVERSATIONS": "Samtöl",
-        "LAST_ACTIVITY": "Seinasta virkni",
-        "CREATED_AT": "Skráð",
-        "COUNTRY": "Land",
-        "CITY": "Borg",
-        "SOCIAL_PROFILES": "Social Profiles",
-        "COMPANY": "Fyrirtæki",
-        "EMAIL_ADDRESS": "Netfang"
-      },
-      "VIEW_DETAILS": "Sjá smáatriði"
-    }
-  },
-  "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Tengiliðir",
-    "LOADING": "Loading contact profile..."
-  },
-  "REMINDER": {
-    "ADD_BUTTON": {
-      "BUTTON": "Bæta við",
-      "TITLE": "Shift + Enter to create a task"
-    },
-    "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
-    }
-  },
-  "NOTES": {
-    "FETCHING_NOTES": "Sækir athugasemdir...",
-    "NOT_AVAILABLE": "Engar athugasemdir hafa verið gerðar fyrir þennan tengilið",
-    "HEADER": {
-      "TITLE": "Athugasemdir"
-    },
-    "LIST": {
-      "LABEL": "bæta við athugasemd"
-    },
-    "ADD": {
-      "BUTTON": "Bæta við",
-      "PLACEHOLDER": "Bæta við athugasemd",
-      "TITLE": "Shift + Enter til þess að bæta við athugasemd"
-    },
-    "CONTENT_HEADER": {
-      "DELETE": "Eyða athugasemd"
-    }
-  },
-  "EVENTS": {
-    "HEADER": {
-      "TITLE": "Activities"
-    },
-    "BUTTON": {
-      "PILL_BUTTON_NOTES": "notes",
-      "PILL_BUTTON_EVENTS": "atburðir",
-      "PILL_BUTTON_CONVO": "samtöl"
+        "SOCIAL_PROFILES": "Social Profiles"
+      }
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Bæta við eiginleikum",
     "BUTTON": "Bæta við sérsniðnum eiginleika",
-    "NOT_AVAILABLE": "Engir sérsniðnir eiginleikar eru tiltækir fyrir þennan tengilið.",
     "COPY_SUCCESSFUL": "Afritað á klemmuspjald",
     "SHOW_MORE": "Show all attributes",
     "SHOW_LESS": "Show less attributes",
