@@ -35,7 +35,6 @@ import {
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 
 function shouldGroupWithNext(index, messages) {
@@ -102,6 +101,10 @@ export default {
       fetchLabelSuggestions,
     } = useAI();
 
+    const showNextBubbles = LocalStorage.get(
+      LOCAL_STORAGE_KEYS.USE_NEXT_BUBBLE
+    );
+
     return {
       isEnterprise,
       isPopOutReplyBox,
@@ -112,6 +115,7 @@ export default {
       fetchIntegrationsIfRequired,
       fetchLabelSuggestions,
       accountId,
+      showNextBubbles,
     };
   },
   data() {
@@ -132,7 +136,6 @@ export default {
       currentUserId: 'getCurrentUserID',
       listLoadingStatus: 'getAllMessagesLoaded',
       currentAccountId: 'getCurrentAccountId',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     isOpen() {
       return this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
@@ -274,12 +277,6 @@ export default {
         !this.is360DialogWhatsAppChannel;
 
       return { incoming, outgoing };
-    },
-    showNextBubbles() {
-      return this.isFeatureEnabledonAccount(
-        this.accountId,
-        FEATURE_FLAGS.CHATWOOT_V4
-      );
     },
   },
 
