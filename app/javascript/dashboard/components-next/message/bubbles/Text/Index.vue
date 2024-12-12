@@ -1,11 +1,10 @@
 <script setup>
 import { computed } from 'vue';
-import { useMessageContext } from '../provider.js';
 import BaseBubble from 'next/message/bubbles/Base.vue';
+import FormattedContent from './FormattedContent.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
+import { MESSAGE_TYPES } from '../../constants';
 
-import MessageFormatter from 'shared/helpers/MessageFormatter.js';
-import { MESSAGE_VARIANTS } from '../constants';
 /**
  * @typedef {Object} Attachment
  * @property {number} id - Unique identifier for the attachment
@@ -28,23 +27,34 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  contentAttributes: {
+    type: Object,
+    default: () => ({}),
+  },
+  messageType: {
+    type: String,
+    default: '',
+    validator: value => Object.values(MESSAGE_TYPES).includes(value),
+  },
 });
 
-const { variant } = useMessageContext();
-
-const formattedContent = computed(() => {
-  if (variant.value === MESSAGE_VARIANTS.ACTIVITY) {
-    return props.content;
-  }
-
-  return new MessageFormatter(props.content).formattedMessage;
+const isTemplate = computed(() => {
+  return props.messageType === MESSAGE_TYPES.TEMPLATE;
 });
 </script>
 
 <template>
-  <BaseBubble class="p-3 grid gap-3" data-bubble-name="text">
-    <span v-if="content" v-html="formattedContent" />
+  <BaseBubble class="flex flex-col gap-3 px-4 py-3" data-bubble-name="text">
+    <FormattedContent v-if="content" :content="content" />
     <AttachmentChips :attachments="attachments" class="gap-2" />
+    <template v-if="isTemplate">
+      <div
+        v-if="contentAttributes.submittedEmail"
+        class="px-2 py-1 rounded-lg bg-n-alpha-3"
+      >
+        {{ contentAttributes.submittedEmail }}
+      </div>
+    </template>
   </BaseBubble>
 </template>
 
