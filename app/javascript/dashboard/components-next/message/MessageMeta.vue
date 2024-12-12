@@ -4,7 +4,7 @@ import { messageTimestamp } from 'shared/helpers/timeHelper';
 
 import MessageStatus from './MessageStatus.vue';
 import Icon from 'next/icon/Icon.vue';
-import { useMessageContext } from './provider.js';
+import { useInbox } from 'dashboard/composables/useInbox';
 
 import { MESSAGE_STATUS, MESSAGE_TYPES } from './constants';
 
@@ -69,7 +69,7 @@ const {
   isAWebWidgetInbox,
   isAWhatsAppChannel,
   isAnEmailChannel,
-} = useMessageContext();
+} = useInbox();
 
 const readableTime = computed(() =>
   messageTimestamp(props.createdAt, 'LLL d, h:mm a')
@@ -98,7 +98,7 @@ const isSent = computed(() => {
     isASmsInbox.value ||
     isATelegramChannel.value
   ) {
-    return props.sourceId && props.messageStatus === MESSAGE_STATUS.SENT;
+    return props.sourceId && props.status === MESSAGE_STATUS.SENT;
   }
 
   // All messages will be mark as sent for the Line channel, as there is no source ID.
@@ -116,14 +116,14 @@ const isDelivered = computed(() => {
     isASmsInbox.value ||
     isAFacebookInbox.value
   ) {
-    return props.sourceId && props.messageStatus === MESSAGE_STATUS.DELIVERED;
+    return props.sourceId && props.status === MESSAGE_STATUS.DELIVERED;
   }
   // All messages marked as delivered for the web widget inbox and API inbox once they are sent.
   if (isAWebWidgetInbox.value || isAPIInbox.value) {
-    return props.messageStatus === MESSAGE_STATUS.SENT;
+    return props.status === MESSAGE_STATUS.SENT;
   }
   if (isALineChannel.value) {
-    return props.messageStatus === MESSAGE_STATUS.DELIVERED;
+    return props.status === MESSAGE_STATUS.DELIVERED;
   }
 
   return false;
@@ -137,11 +137,11 @@ const isRead = computed(() => {
     isATwilioChannel.value ||
     isAFacebookInbox.value
   ) {
-    return props.sourceId && props.messageStatus === MESSAGE_STATUS.READ;
+    return props.sourceId && props.status === MESSAGE_STATUS.READ;
   }
 
   if (isAWebWidgetInbox.value || isAPIInbox.value) {
-    return props.messageStatus === MESSAGE_STATUS.READ;
+    return props.status === MESSAGE_STATUS.READ;
   }
 
   return false;
