@@ -57,46 +57,6 @@
     "TITLE": "Edytuj kontakt",
     "DESC": "Edytuj dane kontaktowe"
   },
-  "CREATE_CONTACT": {
-    "BUTTON_LABEL": "Utwórz kontakt",
-    "TITLE": "Utwórz nowy kontakt",
-    "DESC": "Dodaj informacje o kontakcie"
-  },
-  "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Importuj",
-    "TITLE": "Importuj kontakty",
-    "DESC": "Importuj kontakty z pliku CSV.",
-    "DOWNLOAD_LABEL": "Pobierz przykładowy plik CSV",
-    "FORM": {
-      "LABEL": "Plik CSV",
-      "SUBMIT": "Importuj",
-      "CANCEL": "Anuluj"
-    },
-    "SUCCESS_MESSAGE": "Otrzymasz powiadomienie e-mailem, gdy import zostanie zakończony.",
-    "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
-  },
-  "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Eksportuj",
-    "TITLE": "Eksportuj kontakty",
-    "DESC": "Eksportuj kontakty do pliku CSV",
-    "SUCCESS_MESSAGE": "Eksportowanie w toku, otrzymasz powiadomienie e-mailem, gdy plik będzie gotowy do pobrania.",
-    "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie",
-    "CONFIRM": {
-      "TITLE": "Eksportuj kontakty",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
-    }
-  },
-  "DELETE_NOTE": {
-    "CONFIRM": {
-      "TITLE": "Potwierdź usunięcie",
-      "MESSAGE": "Czy na pewno chcesz usunąć tę notatkę?",
-      "YES": "Tak, usuń",
-      "NO": "Nie, anuluj"
-    }
-  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Usuń kontakt",
     "TITLE": "Usuń kontakt",
@@ -224,79 +184,14 @@
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Kontakty",
-    "FIELDS": "Pola kontaktu",
-    "SEARCH_BUTTON": "Szukaj",
-    "SEARCH_INPUT_PLACEHOLDER": "Wyszukaj kontakty",
-    "FILTER_CONTACTS": "Filtruj",
-    "FILTER_CONTACTS_SAVE": "Zapisz filtr",
-    "FILTER_CONTACTS_DELETE": "Usuń filtr",
-    "FILTER_CONTACTS_EDIT": "Edytuj segment",
     "LIST": {
-      "LOADING_MESSAGE": "Ładowanie kontaktów...",
-      "404": "Brak kontaktów pasujących do wyszukiwania 🔍",
-      "NO_CONTACTS": "Brak dostępnych kontaktów",
       "TABLE_HEADER": {
-        "NAME": "Nazwisko",
-        "PHONE_NUMBER": "Numer telefonu",
-        "CONVERSATIONS": "Rozmowy",
-        "LAST_ACTIVITY": "Ostatnia aktywność",
-        "CREATED_AT": "Utworzono",
-        "COUNTRY": "Kraj",
-        "CITY": "Miasto",
-        "SOCIAL_PROFILES": "Profile społecznościowe",
-        "COMPANY": "Firma",
-        "EMAIL_ADDRESS": "Adres e-mail"
-      },
-      "VIEW_DETAILS": "Zobacz szczegóły"
-    }
-  },
-  "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Kontakty",
-    "LOADING": "Wczytywanie profilu kontaktu..."
-  },
-  "REMINDER": {
-    "ADD_BUTTON": {
-      "BUTTON": "Dodaj",
-      "TITLE": "Shift + Enter, aby dodać przypomnienie"
-    },
-    "FOOTER": {
-      "DUE_DATE": "Data wykonania",
-      "LABEL_TITLE": "Ustaw typ"
-    }
-  },
-  "NOTES": {
-    "FETCHING_NOTES": "Pobieranie notatek...",
-    "NOT_AVAILABLE": "Brak dostępnych notatek dla tego kontaktu",
-    "HEADER": {
-      "TITLE": "Notatki"
-    },
-    "LIST": {
-      "LABEL": "dodana notatka"
-    },
-    "ADD": {
-      "BUTTON": "Dodaj",
-      "PLACEHOLDER": "Dodaj notatkę",
-      "TITLE": "Shift + Enter, aby dodać notatkę"
-    },
-    "CONTENT_HEADER": {
-      "DELETE": "Usuń notatkę"
-    }
-  },
-  "EVENTS": {
-    "HEADER": {
-      "TITLE": "Aktywności"
-    },
-    "BUTTON": {
-      "PILL_BUTTON_NOTES": "Notatki",
-      "PILL_BUTTON_EVENTS": "Wydarzenia",
-      "PILL_BUTTON_CONVO": "Rozmowy"
+        "SOCIAL_PROFILES": "Profile społecznościowe"
+      }
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Dodaj atrybuty",
     "BUTTON": "Dodaj niestandardowy atrybut",
-    "NOT_AVAILABLE": "Brak dostępnych niestandardowych atrybutów dla tego kontaktu.",
     "COPY_SUCCESSFUL": "Skopiowano pomyślnie",
     "SHOW_MORE": "Show all attributes",
     "SHOW_LESS": "Show less attributes",
