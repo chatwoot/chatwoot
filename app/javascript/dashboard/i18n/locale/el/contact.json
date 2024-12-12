@@ -57,46 +57,6 @@
     "TITLE": "Επεξεργασία επαφής",
     "DESC": "Επεξεργασία λεπτομερειών επαφής"
   },
-  "CREATE_CONTACT": {
-    "BUTTON_LABEL": "Νέα Επαφή",
-    "TITLE": "Δημιουργία νέας επαφής",
-    "DESC": "Προσθήκη βασικών πληροφοριών για την επαφή."
-  },
-  "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Εισαγωγή",
-    "TITLE": "Εισαγωγή Επαφών",
-    "DESC": "Εισαγωγή επαφών μέσω αρχείου CSV.",
-    "DOWNLOAD_LABEL": "Λήψη δείγματος csv.",
-    "FORM": {
-      "LABEL": "Αρχείο CSV",
-      "SUBMIT": "Εισαγωγή",
-      "CANCEL": "Άκυρο"
-    },
-    "SUCCESS_MESSAGE": "Θα ειδοποιηθείτε μέσω email όταν ολοκληρωθεί η εισαγωγή.",
-    "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
-  },
-  "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Export",
-    "TITLE": "Export Contacts",
-    "DESC": "Export contacts to a CSV file.",
-    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά",
-    "CONFIRM": {
-      "TITLE": "Export Contacts",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
-    }
-  },
-  "DELETE_NOTE": {
-    "CONFIRM": {
-      "TITLE": "Επιβεβαίωση Διαγραφής",
-      "MESSAGE": "Θέλετε να διαγράψετε τη σημείωση;",
-      "YES": "Ναι, Διέγραψε την",
-      "NO": "Όχι, Κράτησε τον/την"
-    }
-  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Διαγραφή Επαφής",
     "TITLE": "Διαγραφή Επαφής",
@@ -224,79 +184,14 @@
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Επαφές",
-    "FIELDS": "Πεδία επαφής",
-    "SEARCH_BUTTON": "Αναζήτηση",
-    "SEARCH_INPUT_PLACEHOLDER": "Αναζήτηση Επαφών",
-    "FILTER_CONTACTS": "Φίλτρο",
-    "FILTER_CONTACTS_SAVE": "Αποθήκευση φίλτρου",
-    "FILTER_CONTACTS_DELETE": "Διαγραφή φίλτρου",
-    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
-      "LOADING_MESSAGE": "Φόρτωση επαφών...",
-      "404": "Δεν υπάρχουν επαφές που να αντιστοιχούν με την αναζήτησή σας 🔍",
-      "NO_CONTACTS": "Δεν υπάρχουν διαθέσιμες επαφές",
       "TABLE_HEADER": {
-        "NAME": "Όνομα",
-        "PHONE_NUMBER": "Αριθμός Τηλεφώνου",
-        "CONVERSATIONS": "Συζητήσεις",
-        "LAST_ACTIVITY": "Τελευταία Δραστηριότητα",
-        "CREATED_AT": "Δημιουργήθηκε στις",
-        "COUNTRY": "Χώρα",
-        "CITY": "Πόλη",
-        "SOCIAL_PROFILES": "Social Profiles",
-        "COMPANY": "Εταιρία",
-        "EMAIL_ADDRESS": "Διεύθυνση Email"
-      },
-      "VIEW_DETAILS": "Προβολή λεπτομεριών"
-    }
-  },
-  "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Επαφές",
-    "LOADING": "Φόρτωση προφίλ επαφής..."
-  },
-  "REMINDER": {
-    "ADD_BUTTON": {
-      "BUTTON": "Προσθήκη",
-      "TITLE": "Shift + Enter για δημιουργία εργασίας"
-    },
-    "FOOTER": {
-      "DUE_DATE": "Ημερομηνία λήξης",
-      "LABEL_TITLE": "Ορισμός τύπου"
-    }
-  },
-  "NOTES": {
-    "FETCHING_NOTES": "Λήψη σημειώσεων...",
-    "NOT_AVAILABLE": "Δεν υπάρχουν σημειώσεις για αυτήν την επαφή",
-    "HEADER": {
-      "TITLE": "Σημειώσεις"
-    },
-    "LIST": {
-      "LABEL": "προστέθηκε μια σημείωση"
-    },
-    "ADD": {
-      "BUTTON": "Προσθήκη",
-      "PLACEHOLDER": "Προσθήκη σημείωσης",
-      "TITLE": "Shift + Enter για δημιουργία σημείωσης"
-    },
-    "CONTENT_HEADER": {
-      "DELETE": "Διαγραφή σημείωσης"
-    }
-  },
-  "EVENTS": {
-    "HEADER": {
-      "TITLE": "Δραστηριότητες"
-    },
-    "BUTTON": {
-      "PILL_BUTTON_NOTES": "σημειώσεις",
-      "PILL_BUTTON_EVENTS": "συμβάντα",
-      "PILL_BUTTON_CONVO": "συζητήσεις"
+        "SOCIAL_PROFILES": "Social Profiles"
+      }
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Προσθήκη ιδιότητας",
     "BUTTON": "Προσθήκη προσαρμοσμένης ιδιότητας",
-    "NOT_AVAILABLE": "Δεν υπάρχουν διαθέσιμες προσαρμοσμένες ιδιότητες για αυτήν την επαφή.",
     "COPY_SUCCESSFUL": "Αντιγράφτηκε με επιτυχία στο πρόχειρο",
     "SHOW_MORE": "Show all attributes",
     "SHOW_LESS": "Show less attributes",
