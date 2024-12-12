@@ -87,10 +87,9 @@ export default {
       />
       <span
         v-if="value"
+        v-dompurify-html="value"
         class="overflow-hidden text-sm whitespace-nowrap text-ellipsis"
-      >
-        {{ value }}
-      </span>
+      />
       <span v-else class="text-sm text-slate-300 dark:text-slate-600">{{
         $t('CONTACT_PANEL.NOT_AVAILABLE')
       }}</span>

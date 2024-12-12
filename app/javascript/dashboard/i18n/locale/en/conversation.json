@@ -225,6 +225,10 @@
         "DELETE": "Delete",
         "CANCEL": "Cancel"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contact",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
