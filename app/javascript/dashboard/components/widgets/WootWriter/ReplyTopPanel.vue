@@ -100,7 +100,7 @@ export default {
     </div>
     <NextButton
       ghost
-      class="rounded-bl-none rounded-br-none ltr:rounded-tl-none rtl:rounded-tr-none text-n-slate-11 ltr:rounded-tr-xl rtl:rounded-tl-xl"
+      class="ltr:rounded-bl-md rtl:rounded-br-md ltr:rounded-br-none rtl:rounded-bl-none ltr:rounded-tl-none rtl:rounded-tr-none text-n-slate-11 ltr:rounded-tr-[11px] rtl:rounded-tl-[11px]"
       icon="i-lucide-maximize-2"
       @click="$emit('togglePopout')"
     />
