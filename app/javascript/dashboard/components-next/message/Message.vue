@@ -126,6 +126,7 @@ const props = defineProps({
   sender: { type: Object, default: null },
   senderId: { type: Number, default: null },
   senderType: { type: String, default: null },
+  sourceId: { type: String, default: '' },
 });
 
 const contextMenuPosition = ref({});
@@ -428,8 +429,9 @@ provideMessageContext({
         :sender="props.sender"
         :status="props.status"
         :private="props.private"
-        :is-my-message="isMyMessage"
+        :message-type="props.messageType"
         :created-at="props.createdAt"
+        :source-id="props.sourceId"
       />
     </div>
     <div v-if="shouldShowContextMenu" class="context-menu-wrap">
