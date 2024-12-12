@@ -57,46 +57,6 @@
     "TITLE": "Kişiyi Düzenle",
     "DESC": "İletişim bilgilerini düzenleyin"
   },
-  "CREATE_CONTACT": {
-    "BUTTON_LABEL": "Yeni Kişi",
-    "TITLE": "Yeni kişi oluştur",
-    "DESC": "Kişi hakkındaki temel bilgileri girin."
-  },
-  "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "İçe Aktar",
-    "TITLE": "Kişileri İçe Aktar",
-    "DESC": "Kişileri CSV dosyası olarak içe aktar.",
-    "DOWNLOAD_LABEL": "Örnek CSV dosyası indir.",
-    "FORM": {
-      "LABEL": "CSV Dosyası",
-      "SUBMIT": "İçe Aktar",
-      "CANCEL": "İptal Et"
-    },
-    "SUCCESS_MESSAGE": "İçe aktarma işlemi tamamlandığında e-posta ile bildirileceksiniz.",
-    "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
-  },
-  "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Dışa Aktar",
-    "TITLE": "Kişileri Dışa Aktar",
-    "DESC": "Kişileri CSV dosyası olarak dışa aktar.",
-    "SUCCESS_MESSAGE": "Dışa aktarma işlemi devam ediyor, dışa aktarma dosyası indirmeye hazır olduğunda e-posta ile bildirileceksiniz.",
-    "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin",
-    "CONFIRM": {
-      "TITLE": "Kişileri Dışa Aktar",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
-    }
-  },
-  "DELETE_NOTE": {
-    "CONFIRM": {
-      "TITLE": "Silmeyi Onayla",
-      "MESSAGE": "Bu notu silmek istediğinizden emin misiniz?",
-      "YES": "Evet, Sil",
-      "NO": "Hayır, Sakla"
-    }
-  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Kişiyi Sil",
     "TITLE": "Kişiyi Sil",
@@ -224,79 +184,14 @@
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Kişiler",
-    "FIELDS": "İletişim Alanları",
-    "SEARCH_BUTTON": "Ara",
-    "SEARCH_INPUT_PLACEHOLDER": "Kişileri arayın",
-    "FILTER_CONTACTS": "Filtrele",
-    "FILTER_CONTACTS_SAVE": "Filtreyi kaydet",
-    "FILTER_CONTACTS_DELETE": "Filtreyi sil",
-    "FILTER_CONTACTS_EDIT": "Segmenti düzenle",
     "LIST": {
-      "LOADING_MESSAGE": "Kişiler yükleniyor...",
-      "404": "Aramanızla eşleşen kişi bulunamadı 🔍",
-      "NO_CONTACTS": "Uygun bir kişi bulunamadı",
       "TABLE_HEADER": {
-        "NAME": "Ad",
-        "PHONE_NUMBER": "Telefon Numarası",
-        "CONVERSATIONS": "Konuşmalar",
-        "LAST_ACTIVITY": "Son Aktivite",
-        "CREATED_AT": "Oluşturuldu",
-        "COUNTRY": "Ülke",
-        "CITY": "Şehir",
-        "SOCIAL_PROFILES": "Sosyal Profiller",
-        "COMPANY": "Şirket",
-        "EMAIL_ADDRESS": "E-posta Adresi"
-      },
-      "VIEW_DETAILS": "Detayları Göster"
-    }
-  },
-  "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Kişilere Dön",
-    "LOADING": "Kişi profili yükleniyor..."
-  },
-  "REMINDER": {
-    "ADD_BUTTON": {
-      "BUTTON": "Ekle",
-      "TITLE": "Yeni görev oluşturmak için shift + enter'a basın"
-    },
-    "FOOTER": {
-      "DUE_DATE": "Bitiş tarihi",
-      "LABEL_TITLE": "Türü belirle"
-    }
-  },
-  "NOTES": {
-    "FETCHING_NOTES": "Notlar alınıyor...",
-    "NOT_AVAILABLE": "Bu kişi için kaydedilmiş bir not yok",
-    "HEADER": {
-      "TITLE": "Notlar"
-    },
-    "LIST": {
-      "LABEL": "not eklendi"
-    },
-    "ADD": {
-      "BUTTON": "Ekle",
-      "PLACEHOLDER": "Not ekleyin",
-      "TITLE": "Yeni not oluşturmak için shift + enter'a basın"
-    },
-    "CONTENT_HEADER": {
-      "DELETE": "Notu Sil"
-    }
-  },
-  "EVENTS": {
-    "HEADER": {
-      "TITLE": "Etkinlikler"
-    },
-    "BUTTON": {
-      "PILL_BUTTON_NOTES": "notlar",
-      "PILL_BUTTON_EVENTS": "etkinlikler",
-      "PILL_BUTTON_CONVO": "konuşmalar"
+        "SOCIAL_PROFILES": "Sosyal Profiller"
+      }
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Özellik ekle",
     "BUTTON": "Belirli bir özellik ekle",
-    "NOT_AVAILABLE": "Bu kişi için belirlenmiş bir özellik yok.",
     "COPY_SUCCESSFUL": "Panoya başarıyla kopyalandı",
     "SHOW_MORE": "Show all attributes",
     "SHOW_LESS": "Show less attributes",
