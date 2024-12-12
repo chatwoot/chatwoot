@@ -11,6 +11,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  isCompact: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['change']);
@@ -59,7 +63,10 @@ onMounted(() => {
 
 <template>
   <div
-    :class="{ 'tabs--container--with-border': border }"
+    :class="{
+      'tabs--container--with-border': border,
+      'tabs--container--compact': isCompact,
+    }"
     class="tabs--container"
   >
     <button
