@@ -27,6 +27,19 @@ class NotificationListener < BaseListener
     end
   end
 
+  def conversation_calling_status_change(event)
+    Rails.logger.info('CALLING STATUS CHANGE LISTENER')
+    conversation, account = extract_conversation_and_account(event)
+    return if conversation.pending?
+
+    NotificationBuilder.new(
+      notification_type: 'calling_status_change',
+      user: conversation.assignee,
+      account: account,
+      primary_actor: conversation
+    ).perform
+  end
+
   def assignee_changed(event)
     conversation, account = extract_conversation_and_account(event)
     assignee = conversation.assignee

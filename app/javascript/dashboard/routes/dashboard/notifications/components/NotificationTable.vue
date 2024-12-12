@@ -43,9 +43,11 @@
           <td class="text-right">
             <span class="notification--type">
               {{
-                $t(
-                  `NOTIFICATIONS_PAGE.TYPE_LABEL.${notificationItem.notification_type}`
-                )
+                notificationItem.notification_type === 'calling_status_change'
+                  ? 'Calling Nudge Created'
+                  : $t(
+                      `NOTIFICATIONS_PAGE.TYPE_LABEL.${notificationItem.notification_type}`
+                    )
               }}
             </span>
           </td>

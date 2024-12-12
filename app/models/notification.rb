@@ -42,7 +42,8 @@ class Notification < ApplicationRecord
     participating_conversation_new_message: 5,
     sla_missed_first_response: 6,
     sla_missed_next_response: 7,
-    sla_missed_resolution: 8
+    sla_missed_resolution: 8,
+    calling_status_change: 9
   }.freeze
 
   enum notification_type: NOTIFICATION_TYPES
@@ -96,6 +97,7 @@ class Notification < ApplicationRecord
       'conversation_assignment' => 'notifications.notification_title.conversation_assignment',
       'assigned_conversation_new_message' => 'notifications.notification_title.assigned_conversation_new_message',
       'participating_conversation_new_message' => 'notifications.notification_title.assigned_conversation_new_message',
+      'calling_status_change' => 'notifications.notification_title.calling_status_change',
       'conversation_mention' => 'notifications.notification_title.conversation_mention',
       'sla_missed_first_response' => 'notifications.notification_title.sla_missed_first_response',
       'sla_missed_next_response' => 'notifications.notification_title.sla_missed_next_response',
@@ -110,6 +112,8 @@ class Notification < ApplicationRecord
     elsif %w[conversation_assignment assigned_conversation_new_message participating_conversation_new_message
              conversation_mention].include?(notification_type)
       I18n.t(i18n_key, display_id: conversation.display_id)
+    elsif notification_type == 'calling_status_change'
+      "New calling nudge created for your conversation [ID - #{conversation.display_id}]."
     else
       I18n.t(i18n_key, display_id: primary_actor.display_id)
     end
@@ -120,7 +124,7 @@ class Notification < ApplicationRecord
     case notification_type
     when 'conversation_creation', 'sla_missed_first_response'
       message_body(conversation.messages.first)
-    when 'assigned_conversation_new_message', 'participating_conversation_new_message', 'conversation_mention'
+    when 'assigned_conversation_new_message', 'participating_conversation_new_message', 'conversation_mention', 'calling_status_change'
       message_body(secondary_actor)
     when 'conversation_assignment', 'sla_missed_next_response', 'sla_missed_resolution'
       message_body(conversation.messages.incoming.last)

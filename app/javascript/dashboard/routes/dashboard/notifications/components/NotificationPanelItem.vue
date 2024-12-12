@@ -33,9 +33,11 @@
                 class="text-xxs p-0.5 px-1 my-0 mx-2 bg-slate-50 dark:bg-slate-700 rounded-md"
               >
                 {{
-                  $t(
-                    `NOTIFICATIONS_PAGE.TYPE_LABEL.${notificationItem.notification_type}`
-                  )
+                  notificationItem.notification_type === 'calling_status_change'
+                    ? 'Calling Nudge Created'
+                    : $t(
+                        `NOTIFICATIONS_PAGE.TYPE_LABEL.${notificationItem.notification_type}`
+                      )
                 }}
               </span>
             </div>

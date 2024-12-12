@@ -45,7 +45,12 @@
             class="flex flex-row items-start gap-2 col-span-7 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
           >
             <span class="text-sm text-ash-900">
-              {{ $t(notification.label) }}
+              {{
+                notification.label ===
+                'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.CALLING_STATUS_CHANGE'
+                  ? 'A new calling nudge created for your assigned conversation'
+                  : $t(notification.label)
+              }}
             </span>
           </div>
           <div

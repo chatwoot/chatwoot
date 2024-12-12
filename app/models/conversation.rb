@@ -191,6 +191,26 @@ class Conversation < ApplicationRecord
     true
   end
 
+  def notifiable_calling_status_change?
+    return false unless saved_change_to_custom_attributes?
+
+    Rails.logger.info('saved_change_to_custom_attributes? true')
+    return false if custom_attributes['calling_status'].blank?
+
+    Rails.logger.info('custom_attributes[calling_status].blank? false')
+    Rails.logger.info "previous_changes: #{previous_changes.inspect}"
+    previous_calling_status = previous_changes['custom_attributes'][0]['calling_status']
+    Rails.logger.info "previous_calling_status: #{previous_calling_status}"
+    return false if previous_calling_status.present?
+
+    Rails.logger.info('previous_calling_status.blank? true')
+    return false if self_assign?(assignee_id)
+
+    Rails.logger.info('self_assign?(assignee_id) false')
+
+    true
+  end
+
   def tweet?
     inbox.inbox_type == 'Twitter' && additional_attributes['type'] == 'tweet'
   end
@@ -230,9 +250,11 @@ class Conversation < ApplicationRecord
   end
 
   def execute_after_update_commit_callbacks
+    Rails.logger.info('EXECUTING AFTER UPDATE COMMIT CALLBACKS')
     notify_status_change
     create_activity
     notify_conversation_updation
+    notify_calling_status_change
   end
 
   def ensure_snooze_until_reset
@@ -266,6 +288,22 @@ class Conversation < ApplicationRecord
     return unless previous_changes.keys.present? && allowed_keys?
 
     dispatch_conversation_updated_event(previous_changes)
+  end
+
+  def notify_calling_status_change
+    Rails.logger.info('NOTIFYING CALLING STATUS CHANGE')
+    return unless notifiable_calling_status_change?
+
+    Rails.logger.info('NOTIFYING CALLING STATUS CHANGE')
+
+    Rails.configuration.dispatcher.dispatch(
+      'conversation.calling_status_change',
+      Time.zone.now,
+      conversation: self,
+      notifiable_assignee_change: false,
+      changed_attributes: previous_changes,
+      performed_by: Current.executed_by
+    )
   end
 
   def list_of_keys
