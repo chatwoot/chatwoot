@@ -33,7 +33,7 @@ const props = defineProps({
   },
   messageType: {
     type: Number,
-    default: '',
+    required: true,
     validator: value => Object.values(MESSAGE_TYPES).includes(value),
   },
 });
