@@ -1,7 +1,6 @@
 <script setup>
 import { computed } from 'vue';
 import Auth from 'dashboard/api/auth';
-import { useRouter } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import Avatar from 'next/avatar/Avatar.vue';
@@ -21,7 +20,6 @@ defineOptions({
 });
 
 const { t } = useI18n();
-const router = useRouter();
 
 const globalConfig = useMapGetter('globalConfig/get');
 const currentUser = useMapGetter('getCurrentUser');
@@ -49,9 +47,7 @@ const menuItems = computed(() => {
       show: true,
       label: t('SIDEBAR_ITEMS.PROFILE_SETTINGS'),
       icon: 'i-lucide-user-pen',
-      click: () => {
-        router.push({ name: 'profile_settings_index' });
-      },
+      link: { name: 'profile_settings_index' },
     },
     {
       show: true,
@@ -66,15 +62,16 @@ const menuItems = computed(() => {
       show: true,
       label: t('SIDEBAR_ITEMS.DOCS'),
       icon: 'i-lucide-book',
-      click: () => {
-        window.open('https://www.chatwoot.com/hc/user-guide/en', '_blank');
-      },
+      link: 'https://www.chatwoot.com/hc/user-guide/en',
+      nativeLink: true,
+      target: '_blank',
     },
     {
       show: currentUser.value.type === 'SuperAdmin',
       label: t('SIDEBAR_ITEMS.SUPER_ADMIN_CONSOLE'),
       icon: 'i-lucide-castle',
       link: '/super_admin',
+      nativeLink: true,
       target: '_blank',
     },
     {
