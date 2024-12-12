@@ -88,14 +88,14 @@ const toggleConversationLayout = () => {
   >
     <div class="flex max-w-[85%] justify-center items-center">
       <h1
-        class="text-xl font-medium break-words truncate text-black-900 dark:text-slate-100"
+        class="text-lg font-medium break-words truncate text-n-slate-12"
         :title="pageTitle"
       >
         {{ pageTitle }}
       </h1>
       <span
         v-if="!hasAppliedFiltersOrActiveFolders"
-        class="p-1 my-0.5 mx-1 rounded-md capitalize bg-n-slate-3 dark:bg-n-solid-3 hover:bg-n-slate-3 text-xxs text-n-slate-11"
+        class="px-2 py-1 my-0.5 mx-1 rounded-md capitalize bg-n-slate-3 text-xxs text-n-slate-12"
       >
         {{ $t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${activeStatus}.TEXT`) }}
       </span>
@@ -108,6 +108,7 @@ const toggleConversationLayout = () => {
             icon="i-lucide-save"
             slate
             xs
+            faded
             @click="emit('addFolders')"
           />
           <div
@@ -133,6 +134,7 @@ const toggleConversationLayout = () => {
             icon="i-lucide-pen-line"
             slate
             xs
+            faded
             @click="emit('filtersModal')"
           />
           <div
@@ -146,8 +148,8 @@ const toggleConversationLayout = () => {
           v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
           icon="i-lucide-trash-2"
           ruby
-          faded
           xs
+          faded
           @click="emit('deleteFolders')"
         />
       </template>
@@ -158,6 +160,7 @@ const toggleConversationLayout = () => {
           icon="i-lucide-list-filter"
           slate
           xs
+          faded
           @click="emit('filtersModal')"
         />
         <div

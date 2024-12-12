@@ -91,6 +91,7 @@ export default {
       v-tooltip.right="$t('CHAT_LIST.SORT_TOOLTIP_LABEL')"
       icon="i-lucide-arrow-up-down"
       slate
+      faded
       xs
       @click="toggleDropdown"
     />
