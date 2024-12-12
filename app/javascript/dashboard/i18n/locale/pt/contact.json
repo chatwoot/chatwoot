@@ -57,46 +57,6 @@
     "TITLE": "Editar contacto",
     "DESC": "Editar detalhes do contacto"
   },
-  "CREATE_CONTACT": {
-    "BUTTON_LABEL": "Novo contacto",
-    "TITLE": "Criar novo contacto",
-    "DESC": "Adicionar informações básicas sobre o contacto."
-  },
-  "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Importar",
-    "TITLE": "Importar contactos",
-    "DESC": "Importar contactos através de um ficheiro CSV.",
-    "DOWNLOAD_LABEL": "Descarregar uma amostra CSV.",
-    "FORM": {
-      "LABEL": "Ficheiro CSV",
-      "SUBMIT": "Importar",
-      "CANCEL": "Cancelar"
-    },
-    "SUCCESS_MESSAGE": "Será notificado via e-mail quando a importação estiver completa.",
-    "ERROR_MESSAGE": "Ocorreu um erro, por favor, tente novamente"
-  },
-  "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Exportar",
-    "TITLE": "Exportar contactos",
-    "DESC": "Exportar contactos para um ficheiro CSV.",
-    "SUCCESS_MESSAGE": "Exportação em progresso. Será notificado via e-mail quando o ficheiro de exportação estiver pronto para descarregar.",
-    "ERROR_MESSAGE": "Ocorreu um erro, por favor, tente novamente",
-    "CONFIRM": {
-      "TITLE": "Exportar contactos",
-      "MESSAGE": "Tem certeza de que deseja exportar todos os contatos?",
-      "FILTERED_MESSAGE": "Tem certeza que deseja exportar todos os contatos filtrados?",
-      "YES": "Sim, exportar",
-      "NO": "Não, cancelar"
-    }
-  },
-  "DELETE_NOTE": {
-    "CONFIRM": {
-      "TITLE": "Confirmar exclusão",
-      "MESSAGE": "Tem a certeza que pretende excluir esta nota?",
-      "YES": "Sim, excluir",
-      "NO": "Não, manter"
-    }
-  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Excluir contacto",
     "TITLE": "Excluir contacto",
@@ -224,79 +184,14 @@
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contactos",
-    "FIELDS": "Campos do contacto",
-    "SEARCH_BUTTON": "Procurar",
-    "SEARCH_INPUT_PLACEHOLDER": "Pesquisar por contactos",
-    "FILTER_CONTACTS": "Filtro",
-    "FILTER_CONTACTS_SAVE": "Guardar filtro",
-    "FILTER_CONTACTS_DELETE": "Apagar filtro",
-    "FILTER_CONTACTS_EDIT": "Editar segmento",
     "LIST": {
-      "LOADING_MESSAGE": "A carregar contactos...",
-      "404": "Nenhum contacto corresponde à sua pesquisa 🔍",
-      "NO_CONTACTS": "Não há contactos disponíveis",
       "TABLE_HEADER": {
-        "NAME": "Nome",
-        "PHONE_NUMBER": "Número de telefone",
-        "CONVERSATIONS": "Conversas",
-        "LAST_ACTIVITY": "Última atividade",
-        "CREATED_AT": "Criado em",
-        "COUNTRY": "País",
-        "CITY": "Cidade",
-        "SOCIAL_PROFILES": "Perfis das redes sociais",
-        "COMPANY": "Empresa",
-        "EMAIL_ADDRESS": "Endereço de e-mail"
-      },
-      "VIEW_DETAILS": "Mostrar detalhes"
-    }
-  },
-  "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Contactos",
-    "LOADING": "A carregar perfil do contacto..."
-  },
-  "REMINDER": {
-    "ADD_BUTTON": {
-      "BUTTON": "Adicionar",
-      "TITLE": "Shift + Enter para criar uma tarefa"
-    },
-    "FOOTER": {
-      "DUE_DATE": "Data limite",
-      "LABEL_TITLE": "Configurar tipo"
-    }
-  },
-  "NOTES": {
-    "FETCHING_NOTES": "A procurar notas...",
-    "NOT_AVAILABLE": "Não há notas criadas para este contacto",
-    "HEADER": {
-      "TITLE": "Notas"
-    },
-    "LIST": {
-      "LABEL": "Nota adicionada"
-    },
-    "ADD": {
-      "BUTTON": "Adicionar",
-      "PLACEHOLDER": "Adicionar nota",
-      "TITLE": "Shift + Enter para criar uma nota"
-    },
-    "CONTENT_HEADER": {
-      "DELETE": "Apagar nota"
-    }
-  },
-  "EVENTS": {
-    "HEADER": {
-      "TITLE": "Atividades"
-    },
-    "BUTTON": {
-      "PILL_BUTTON_NOTES": "Notas",
-      "PILL_BUTTON_EVENTS": "Eventos",
-      "PILL_BUTTON_CONVO": "Conversas"
+        "SOCIAL_PROFILES": "Perfis das redes sociais"
+      }
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Adicionar atributos",
     "BUTTON": "Adicionar atributo personalizado",
-    "NOT_AVAILABLE": "Não há atributos personalizados disponíveis para este contacto.",
     "COPY_SUCCESSFUL": "Copiado para área de transferência com sucesso",
     "SHOW_MORE": "Mostrar todos os atributos",
     "SHOW_LESS": "Mostrar menos atributos",
