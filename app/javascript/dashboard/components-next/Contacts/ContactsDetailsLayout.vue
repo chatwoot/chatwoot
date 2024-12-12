@@ -1,28 +1,30 @@
 <script setup>
 import { computed, useSlots } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
-// import Button from 'dashboard/components-next/button/Button.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 import Breadcrumb from 'dashboard/components-next/breadcrumb/Breadcrumb.vue';
+import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 
 const props = defineProps({
-  // buttonLabel: {
-  //   type: String,
-  //   default: '',
-  // },
+  buttonLabel: {
+    type: String,
+    default: '',
+  },
   selectedContact: {
     type: Object,
     default: () => ({}),
   },
 });
 
-const emit = defineEmits([
-  // 'message',
-  'goToContactsList',
-]);
+const emit = defineEmits(['goToContactsList']);
 
 const { t } = useI18n();
 const slots = useSlots();
+const route = useRoute();
+
+const contactId = computed(() => route.params.contactId);
 
 const selectedContactName = computed(() => {
   return props.selectedContact?.name;
@@ -50,7 +52,7 @@ const handleBreadcrumbClick = () => {
 
 <template>
   <section
-    class="flex w-full h-full gap-4 overflow-hidden justify-evenly bg-n-background"
+    class="flex w-full h-full overflow-hidden justify-evenly bg-n-background"
   >
     <div
       class="flex flex-col w-full h-full transition-all duration-300 ltr:2xl:ml-56 rtl:2xl:mr-56"
@@ -62,7 +64,11 @@ const handleBreadcrumbClick = () => {
               :items="breadcrumbItems"
               @click="handleBreadcrumbClick"
             />
-            <!-- <Button :label="buttonLabel" size="sm" @click="emit('message')" /> -->
+            <ComposeConversation :contact-id="contactId">
+              <template #trigger="{ toggle }">
+                <Button :label="buttonLabel" size="sm" @click="toggle" />
+              </template>
+            </ComposeConversation>
           </div>
         </div>
       </header>

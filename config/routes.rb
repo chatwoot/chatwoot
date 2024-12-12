@@ -220,6 +220,7 @@ Rails.application.routes.draw do
             resource :captain, controller: 'captain', only: [] do
               collection do
                 post :proxy
+                post :copilot
               end
             end
             resources :hooks, only: [:show, :create, :update, :destroy] do

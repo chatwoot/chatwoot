@@ -4,6 +4,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import ContactSortMenu from './components/ContactSortMenu.vue';
 import ContactMoreActions from './components/ContactMoreActions.vue';
+import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 
 defineProps({
   showSearch: {
@@ -18,10 +19,10 @@ defineProps({
     type: String,
     required: true,
   },
-  //   buttonLabel: {
-  //     type: String,
-  //     default: '',
-  //   },
+  buttonLabel: {
+    type: String,
+    default: '',
+  },
   activeSort: {
     type: String,
     default: 'last_activity_at',
@@ -48,7 +49,6 @@ const emit = defineEmits([
   'search',
   'filter',
   'update:sort',
-  //   'message',
   'add',
   'import',
   'export',
@@ -93,7 +93,7 @@ const emit = defineEmits([
               "
               color="slate"
               size="sm"
-              class="relative"
+              class="relative w-8"
               variant="ghost"
               @click="emit('filter')"
             >
@@ -109,7 +109,6 @@ const emit = defineEmits([
             icon="i-lucide-save"
             color="slate"
             size="sm"
-            class="relative"
             variant="ghost"
             @click="emit('createSegment')"
           />
@@ -118,7 +117,6 @@ const emit = defineEmits([
             icon="i-lucide-trash"
             color="slate"
             size="sm"
-            class="relative"
             variant="ghost"
             @click="emit('deleteSegment')"
           />
@@ -133,9 +131,12 @@ const emit = defineEmits([
             @export="emit('export')"
           />
         </div>
-        <!-- TODO: Add this when we enabling message feature -->
-        <!-- <div class="w-px h-4 bg-n-strong" /> -->
-        <!-- <Button :label="buttonLabel" size="sm" @click="emit('message')" /> -->
+        <div class="w-px h-4 bg-n-strong" />
+        <ComposeConversation>
+          <template #trigger="{ toggle }">
+            <Button :label="buttonLabel" size="sm" @click="toggle" />
+          </template>
+        </ComposeConversation>
       </div>
     </div>
   </header>
