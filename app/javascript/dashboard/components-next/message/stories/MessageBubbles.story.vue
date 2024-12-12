@@ -71,7 +71,14 @@ const baseSenderData = computed(() => {
   };
 });
 
-const simpleText = computed(() => getMessage(baseSenderData.value));
+const simpleText = computed(() =>
+  getMessage({
+    ...baseSenderData.value,
+  })
+);
+const privateText = computed(() =>
+  getMessage({ private: true, ...baseSenderData.value })
+);
 
 const activityMessage = computed(() =>
   getMessage({
@@ -156,6 +163,11 @@ const email = computed(() =>
     <Variant title="Activity">
       <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
         <Message :current-user-id="1" v-bind="activityMessage" />
+      </div>
+    </Variant>
+    <Variant title="Private Message">
+      <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
+        <Message :current-user-id="1" v-bind="privateText" />
       </div>
     </Variant>
 

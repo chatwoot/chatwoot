@@ -6,6 +6,7 @@ import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import ContactsForm from 'dashboard/components-next/Contacts/ContactsForm/ContactsForm.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import Flag from 'dashboard/components-next/flag/Flag.vue';
 import countries from 'shared/constants/countries';
 
 const props = defineProps({
@@ -56,13 +57,19 @@ const countryDetails = computed(() => {
 
   if (!activeCountry) return null;
 
-  const parts = [
-    activeCountry.emoji,
-    city ? `${city},` : null,
-    activeCountry.name,
-  ].filter(Boolean);
+  return {
+    countryCode: activeCountry.id,
+    city: city ? `${city},` : null,
+    name: activeCountry.name,
+  };
+});
 
-  return parts.length ? parts.join(' ') : null;
+const formattedLocation = computed(() => {
+  if (!countryDetails.value) return '';
+
+  return [countryDetails.value.city, countryDetails.value.name]
+    .filter(Boolean)
+    .join(' ');
 });
 
 const handleFormUpdate = updatedData => {
@@ -114,8 +121,12 @@ const onClickViewDetails = () => emit('showContact', props.id);
             {{ phoneNumber }}
           </span>
           <div v-if="phoneNumber" class="w-px h-3 truncate bg-n-slate-6" />
-          <span v-if="countryDetails" class="text-sm truncate text-n-slate-11">
-            {{ countryDetails }}
+          <span
+            v-if="countryDetails"
+            class="inline-flex items-center gap-2 text-sm truncate text-n-slate-11"
+          >
+            <Flag :country="countryDetails.countryCode" class="size-3.5" />
+            {{ formattedLocation }}
           </span>
           <div v-if="countryDetails" class="w-px h-3 truncate bg-n-slate-6" />
           <Button
