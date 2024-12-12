@@ -1,5 +1,10 @@
 <script>
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
+  components: {
+    NextButton,
+  },
   props: {
     isOnExpandedLayout: {
       type: Boolean,
@@ -16,22 +21,17 @@ export default {
 </script>
 
 <template>
-  <woot-button
+  <NextButton
     v-tooltip.left="$t('CONVERSATION.SWITCH_VIEW_LAYOUT')"
-    icon="arrow-right-import"
-    size="tiny"
-    variant="smooth"
-    color-scheme="secondary"
-    class="layout-switch__container"
-    :class="{ expanded: isOnExpandedLayout }"
+    :icon="
+      isOnExpandedLayout
+        ? 'i-lucide-arrow-left-to-line'
+        : 'i-lucide-arrow-right-to-line'
+    "
+    slate
+    xs
+    faded
+    class="flex-shrink-0 rtl:rotate-180 ltr:rotate-0"
     @click="toggle"
   />
 </template>
-
-<style lang="scss" soped>
-.layout-switch__container {
-  &.expanded .icon {
-    transform: rotate(180deg);
-  }
-}
-</style>
