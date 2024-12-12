@@ -193,7 +193,7 @@ export default {
 </script>
 
 <template>
-  <section class="bg-white conversation-page dark:bg-slate-900">
+  <section class="flex w-full h-full">
     <ChatList
       :show-conversation-list="showConversationList"
       :conversation-inbox="inboxId"
@@ -219,11 +219,3 @@ export default {
     <CmdBarConversationSnooze />
   </section>
 </template>
-
-<style lang="scss" scoped>
-.conversation-page {
-  display: flex;
-  width: 100%;
-  height: 100%;
-}
-</style>

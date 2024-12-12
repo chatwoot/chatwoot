@@ -782,10 +782,10 @@ watch(conversationFilters, (newVal, oldVal) => {
 
 <template>
   <div
-    class="flex flex-col flex-shrink-0 border-r conversations-list-wrap rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
+    class="flex flex-col flex-shrink-0 conversations-list-wrap"
     :class="[
       { hidden: !showConversationList },
-      isOnExpandedLayout ? 'basis-full' : 'w-[360px]',
+      isOnExpandedLayout ? 'basis-full' : 'w-[360px] 2xl:w-[420px]',
     ]"
   >
     <slot />

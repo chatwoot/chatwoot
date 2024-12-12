@@ -468,9 +468,7 @@ export default {
         size="tiny"
         color-scheme="secondary"
         class="box-border fixed z-10 bg-white border border-r-0 border-solid rounded-bl-calc rtl:rotate-180 rounded-tl-calc dark:bg-slate-700 border-slate-50 dark:border-slate-600"
-        :class="
-          isInboxView ? 'top-52 md:top-40' : 'top-[9.5rem] md:top-[6.25rem]'
-        "
+        :class="isInboxView ? 'top-52 md:top-40' : 'top-32'"
         :icon="isRightOrLeftIcon"
         @click="onToggleContactPanel"
       />
@@ -558,6 +556,7 @@ export default {
 
 <style scoped>
 @tailwind components;
+
 @layer components {
   .rounded-bl-calc {
     border-bottom-left-radius: calc(1.5rem + 1px);

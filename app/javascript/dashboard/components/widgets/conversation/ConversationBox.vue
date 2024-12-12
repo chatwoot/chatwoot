@@ -98,8 +98,10 @@ export default {
 
 <template>
   <div
-    class="conversation-details-wrap bg-slate-25 dark:bg-slate-800"
-    :class="{ 'with-border-right': !isOnExpandedLayout }"
+    class="conversation-details-wrap bg-n-background"
+    :class="{
+      'border-l rtl:border-l-0 rtl:border-r border-n-weak': !isOnExpandedLayout,
+    }"
   >
     <ConversationHeader
       v-if="currentChat.id"
@@ -159,10 +161,6 @@ export default {
 <style lang="scss" scoped>
 .conversation-details-wrap {
   @apply flex flex-col min-w-0 w-full;
-
-  &.with-border-right {
-    @apply border-r border-slate-50 dark:border-slate-700;
-  }
 }
 
 .dashboard-app--tabs {
