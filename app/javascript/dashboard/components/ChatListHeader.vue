@@ -80,22 +80,22 @@ const toggleConversationLayout = () => {
 
 <template>
   <div
-    class="flex items-center justify-between px-4 pb-0"
+    class="flex items-center justify-between gap-2 px-4 pb-0"
     :class="{
       'pb-3 border-b border-n-strong': hasAppliedFiltersOrActiveFolders,
       'pt-2.5': showV4View,
     }"
   >
-    <div class="flex max-w-[85%] justify-center items-center">
+    <div class="flex items-center justify-center min-w-0">
       <h1
-        class="text-lg font-medium break-words truncate text-n-slate-12"
+        class="text-lg font-medium truncate text-n-slate-12"
         :title="pageTitle"
       >
         {{ pageTitle }}
       </h1>
       <span
         v-if="!hasAppliedFiltersOrActiveFolders"
-        class="px-2 py-1 my-0.5 mx-1 rounded-md capitalize bg-n-slate-3 text-xxs text-n-slate-12"
+        class="px-2 py-1 my-0.5 mx-1 rounded-md capitalize bg-n-slate-3 text-xxs text-n-slate-12 shrink-0"
       >
         {{ $t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${activeStatus}.TEXT`) }}
       </span>
