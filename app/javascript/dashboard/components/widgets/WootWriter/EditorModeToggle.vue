@@ -18,7 +18,7 @@ const isPrivate = computed(() => props.mode === REPLY_EDITOR_MODES.NOTE);
 
 <template>
   <button
-    class="flex items-center h-8 gap-2 py-1 transition-all border rounded-full min-w-fit bg-n-alpha-2 dark:bg-n-alpha-2 hover:bg-n-alpha-1 dark:hover:brightness-105"
+    class="flex items-center h-8 gap-2 py-1 transition-all border rounded-full duration-600 min-w-fit bg-n-alpha-2 dark:bg-n-alpha-2 hover:bg-n-alpha-1 dark:hover:brightness-105"
     :class="[
       isPrivate
         ? 'flex-row-reverse ltr:pr-1 rtl:pl-1 ltr:pl-3 rtl:pr-3 border-n-amber-12/10 dark:border-n-amber-3/30'
@@ -27,7 +27,7 @@ const isPrivate = computed(() => props.mode === REPLY_EDITOR_MODES.NOTE);
     @click="$emit('toggleMode')"
   >
     <div
-      class="flex items-center justify-center w-6 transition-all rounded-full bg-n-alpha-black1 size-6"
+      class="flex items-center justify-center w-6 transition-all duration-200 rounded-full bg-n-alpha-black1 size-6"
     >
       <Icon
         :icon="
@@ -42,7 +42,7 @@ const isPrivate = computed(() => props.mode === REPLY_EDITOR_MODES.NOTE);
       />
     </div>
     <span
-      class="flex items-center text-sm font-medium transition-all w-fit whitespace-nowrap"
+      class="flex items-center text-sm font-medium transition-all duration-200 w-fit whitespace-nowrap"
       :class="[isPrivate ? 'text-n-amber-12' : 'text-n-slate-12']"
     >
       {{
