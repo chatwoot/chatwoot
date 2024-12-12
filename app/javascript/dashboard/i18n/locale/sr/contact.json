@@ -57,46 +57,6 @@
     "TITLE": "Uredi kontakta",
     "DESC": "Uredi detalje kontakta"
   },
-  "CREATE_CONTACT": {
-    "BUTTON_LABEL": "Novi kontakt",
-    "TITLE": "Napravi novi kontakt",
-    "DESC": "Dodaj osnovne informacije o kontaktu."
-  },
-  "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Uvoz",
-    "TITLE": "Uvezi kontakte",
-    "DESC": "Uvezi kontakte uz pomoć CSV datoteke.",
-    "DOWNLOAD_LABEL": "Preuzmi csv primer.",
-    "FORM": {
-      "LABEL": "CSV datoteka",
-      "SUBMIT": "Uvoz",
-      "CANCEL": "Otkaži"
-    },
-    "SUCCESS_MESSAGE": "Bićete obavešteni putem e-poruke kada se uvoz završi.",
-    "ERROR_MESSAGE": "Pojavila se greška, molim vas pokušajte ponovo"
-  },
-  "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Export",
-    "TITLE": "Export Contacts",
-    "DESC": "Export contacts to a CSV file.",
-    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "Pojavila se greška, molim vas pokušajte ponovo",
-    "CONFIRM": {
-      "TITLE": "Export Contacts",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
-    }
-  },
-  "DELETE_NOTE": {
-    "CONFIRM": {
-      "TITLE": "Potvrdite brisanje",
-      "MESSAGE": "Da li zaista želite da obrišete ovu belešku?",
-      "YES": "Da, obriši je",
-      "NO": "Ne, ostavi je"
-    }
-  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Obriši kontakt",
     "TITLE": "Obriši kontakt",
@@ -224,79 +184,14 @@
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Kontakti",
-    "FIELDS": "Kontakt polja",
-    "SEARCH_BUTTON": "Traži",
-    "SEARCH_INPUT_PLACEHOLDER": "Traži kontakte",
-    "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "Sačuvaj filter",
-    "FILTER_CONTACTS_DELETE": "Izbriši filter",
-    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
-      "LOADING_MESSAGE": "Preuzimanje kontakata...",
-      "404": "Nisu pronađeni kontakti 🔍",
-      "NO_CONTACTS": "Nema dostupnih kontakata",
       "TABLE_HEADER": {
-        "NAME": "Ime",
-        "PHONE_NUMBER": "Broj telefona",
-        "CONVERSATIONS": "Razgovori",
-        "LAST_ACTIVITY": "Poslednja aktivnost",
-        "CREATED_AT": "Kreirano",
-        "COUNTRY": "Država",
-        "CITY": "Grad",
-        "SOCIAL_PROFILES": "Socijalne mreže",
-        "COMPANY": "Firma",
-        "EMAIL_ADDRESS": "E-mail adresa"
-      },
-      "VIEW_DETAILS": "Pogledaj detalje"
-    }
-  },
-  "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Kontakti",
-    "LOADING": "Preuzimanje profila kontakta..."
-  },
-  "REMINDER": {
-    "ADD_BUTTON": {
-      "BUTTON": "Dodaj",
-      "TITLE": "Shift + Enter za dodavanje zadatka"
-    },
-    "FOOTER": {
-      "DUE_DATE": "Krajnji rok",
-      "LABEL_TITLE": "Postavi tip"
-    }
-  },
-  "NOTES": {
-    "FETCHING_NOTES": "Preuzimanje beleški...",
-    "NOT_AVAILABLE": "Nema napravljenih beleški za ovaj kontakt",
-    "HEADER": {
-      "TITLE": "Beleške"
-    },
-    "LIST": {
-      "LABEL": "beleška je dodata"
-    },
-    "ADD": {
-      "BUTTON": "Dodaj",
-      "PLACEHOLDER": "Dodaj belešku",
-      "TITLE": "Shift + Enter za dodavanje zadatka"
-    },
-    "CONTENT_HEADER": {
-      "DELETE": "Izbriši belešku"
-    }
-  },
-  "EVENTS": {
-    "HEADER": {
-      "TITLE": "Aktivnosti"
-    },
-    "BUTTON": {
-      "PILL_BUTTON_NOTES": "beleške",
-      "PILL_BUTTON_EVENTS": "Događaji",
-      "PILL_BUTTON_CONVO": "razgovori"
+        "SOCIAL_PROFILES": "Socijalne mreže"
+      }
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Dodaj atribute",
     "BUTTON": "Dodaj vlastite atribute",
-    "NOT_AVAILABLE": "Nema dostupnih prilagođenih atributa za ovaj kontakt.",
     "COPY_SUCCESSFUL": "Uspešno kopirano na beležnicu",
     "SHOW_MORE": "Show all attributes",
     "SHOW_LESS": "Show less attributes",
