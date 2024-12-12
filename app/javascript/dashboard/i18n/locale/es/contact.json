@@ -57,46 +57,6 @@
     "TITLE": "Editar Contacto",
     "DESC": "Editar detalles del contacto"
   },
-  "CREATE_CONTACT": {
-    "BUTTON_LABEL": "Nuevo contacto",
-    "TITLE": "Crear un contacto nuevo",
-    "DESC": "Añadir información básica sobre el contacto."
-  },
-  "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Importar",
-    "TITLE": "Importar Contactos",
-    "DESC": "Importar contactos a través de un archivo CSV.",
-    "DOWNLOAD_LABEL": "Descarga un ejemplo de csv.",
-    "FORM": {
-      "LABEL": "Archivo CSV",
-      "SUBMIT": "Importar",
-      "CANCEL": "Cancelar"
-    },
-    "SUCCESS_MESSAGE": "Se le notificará por correo electrónico cuando se complete la importación.",
-    "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
-  },
-  "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Exportar",
-    "TITLE": "Exportar contactos",
-    "DESC": "Exportar contactos a un archivo CSV.",
-    "SUCCESS_MESSAGE": "El proceso de exportar esta en proceso. Será notificado por correo cuando el archivo esté listo para descargar.",
-    "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo",
-    "CONFIRM": {
-      "TITLE": "Exportar contactos",
-      "MESSAGE": "¿Está seguro que desea exportar todos los contactos?",
-      "FILTERED_MESSAGE": "¿Está seguro que desea exportar todos los contactos filtrados?",
-      "YES": "Sí, exportar",
-      "NO": "No, cancelar"
-    }
-  },
-  "DELETE_NOTE": {
-    "CONFIRM": {
-      "TITLE": "Confirmar eliminación",
-      "MESSAGE": "¿Está seguro de eliminar esta nota?",
-      "YES": "Sí, eliminar",
-      "NO": "No, mantenerlo"
-    }
-  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Eliminar contacto",
     "TITLE": "Eliminar contacto",
@@ -224,79 +184,14 @@
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contactos",
-    "FIELDS": "Campos de contacto",
-    "SEARCH_BUTTON": "Buscar",
-    "SEARCH_INPUT_PLACEHOLDER": "Buscar contactos",
-    "FILTER_CONTACTS": "Filtro",
-    "FILTER_CONTACTS_SAVE": "Guardar filtro",
-    "FILTER_CONTACTS_DELETE": "Eliminar filtro",
-    "FILTER_CONTACTS_EDIT": "Editar segmento",
     "LIST": {
-      "LOADING_MESSAGE": "Cargando contactos...",
-      "404": "No hay contactos que coincidan con tu búsqueda 🔍",
-      "NO_CONTACTS": "No hay contactos disponibles",
       "TABLE_HEADER": {
-        "NAME": "Nombre",
-        "PHONE_NUMBER": "Número telefónico",
-        "CONVERSATIONS": "Conversaciones",
-        "LAST_ACTIVITY": "Última actividad",
-        "CREATED_AT": "Creado el",
-        "COUNTRY": "País",
-        "CITY": "Ciudad",
-        "SOCIAL_PROFILES": "Perfiles Sociales",
-        "COMPANY": "Empresa",
-        "EMAIL_ADDRESS": "Dirección de correo"
-      },
-      "VIEW_DETAILS": "Ver detalles"
-    }
-  },
-  "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Contactos",
-    "LOADING": "Cargando perfil de contacto..."
-  },
-  "REMINDER": {
-    "ADD_BUTTON": {
-      "BUTTON": "Añadir",
-      "TITLE": "Shift + Enter para crear una tarea"
-    },
-    "FOOTER": {
-      "DUE_DATE": "Fecha límite",
-      "LABEL_TITLE": "Establecer el tipo"
-    }
-  },
-  "NOTES": {
-    "FETCHING_NOTES": "Obteniendo notas...",
-    "NOT_AVAILABLE": "No hay notas creadas para este contacto",
-    "HEADER": {
-      "TITLE": "Notas"
-    },
-    "LIST": {
-      "LABEL": "Se agregó una nota"
-    },
-    "ADD": {
-      "BUTTON": "Añadir",
-      "PLACEHOLDER": "Añadir nota",
-      "TITLE": "Shift + Enter para crear una nota"
-    },
-    "CONTENT_HEADER": {
-      "DELETE": "Eliminar nota"
-    }
-  },
-  "EVENTS": {
-    "HEADER": {
-      "TITLE": "Actividades"
-    },
-    "BUTTON": {
-      "PILL_BUTTON_NOTES": "notas",
-      "PILL_BUTTON_EVENTS": "Eventos",
-      "PILL_BUTTON_CONVO": "conversaciones"
+        "SOCIAL_PROFILES": "Perfiles Sociales"
+      }
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Añadir atributos",
     "BUTTON": "Añadir atributo personalizado",
-    "NOT_AVAILABLE": "No hay atributos personalizados disponibles para este contacto.",
     "COPY_SUCCESSFUL": "Copiado al portapapeles satisfactoriamente",
     "SHOW_MORE": "Mostrar todos los atributos",
     "SHOW_LESS": "Mostrar menos atributos",
