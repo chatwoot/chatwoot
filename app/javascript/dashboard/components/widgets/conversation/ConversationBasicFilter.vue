@@ -29,6 +29,12 @@ export default {
     FilterItem,
     NextButton,
   },
+  props: {
+    isOnExpandedLayout: {
+      type: Boolean,
+      required: true,
+    },
+  },
   emits: ['changeFilter'],
   setup() {
     const { updateUISettings } = useUISettings();
@@ -98,7 +104,11 @@ export default {
     <div
       v-if="showActionsDropdown"
       v-on-clickaway="closeDropdown"
-      class="right-0 mt-1 dropdown-pane dropdown-pane--open !w-52 !p-4 top-6 !bg-n-alpha-3 dark:!bg-n-alpha-3 backdrop-blur-[100px] !border-n-strong dark:!border-n-strong"
+      class="mt-1 dropdown-pane dropdown-pane--open !w-52 !p-4 top-6 border !border-n-weak dark:!border-n-weak !bg-n-alpha-3 dark:!bg-n-alpha-3 backdrop-blur-[100px]"
+      :class="{
+        'ltr:left-0 rtl:right-0': !isOnExpandedLayout,
+        'ltr:right-0 rtl:left-0': isOnExpandedLayout,
+      }"
     >
       <div class="flex items-center justify-between last:mt-4">
         <span class="text-xs font-medium text-n-slate-12">{{
