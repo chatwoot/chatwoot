@@ -254,7 +254,7 @@ export default {
 </script>
 
 <template>
-  <div class="bottom-box" :class="wrapClass">
+  <div class="flex justify-between p-3" :class="wrapClass">
     <div class="left-wrap">
       <NextButton
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
@@ -291,7 +291,7 @@ export default {
       <NextButton
         v-if="showAudioRecorderButton"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
-        :icon="!isRecordingAudio ? 'i-ph-microphone' : 'i-ph-stop'"
+        :icon="!isRecordingAudio ? 'i-ph-microphone' : 'i-ph-microphone-slash'"
         slate
         faded
         sm
@@ -380,10 +380,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-.bottom-box {
-  @apply flex justify-between py-3 px-4;
-}
-
 .left-wrap {
   @apply items-center flex gap-2;
 }
