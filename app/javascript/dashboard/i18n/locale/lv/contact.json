@@ -57,46 +57,6 @@
     "TITLE": "Rediģēt kontaktpersonu",
     "DESC": "Rediģēt kontaktinformāciju"
   },
-  "CREATE_CONTACT": {
-    "BUTTON_LABEL": "Jauna Kontaktpersona",
-    "TITLE": "Izveidot jaunu kontaktpersonu",
-    "DESC": "Pievienot pamatinformāciju par kontaktpersonu."
-  },
-  "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Importēt",
-    "TITLE": "Importēt Kontaktpersonas",
-    "DESC": "Importēt kontaktpersonas, izmantojot CSV failu.",
-    "DOWNLOAD_LABEL": "Lejupielādēt csv paraugu.",
-    "FORM": {
-      "LABEL": "CSV Fails",
-      "SUBMIT": "Importēt",
-      "CANCEL": "Atcelt"
-    },
-    "SUCCESS_MESSAGE": "Kad importēšana būs pabeigta, jūs saņemsiet paziņojumu pa e-pastu.",
-    "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
-  },
-  "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Eksportēt",
-    "TITLE": "Eksportēt Kontaktpersonas",
-    "DESC": "Eksportēt kontaktpersonas uz CSV failu.",
-    "SUCCESS_MESSAGE": "Notiek eksportēšana, Jūs saņemsit paziņojumu pa e-pastu, kad eksporta fails būs gatavs lejupielādei.",
-    "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz",
-    "CONFIRM": {
-      "TITLE": "Eksportēt Kontaktpersonas",
-      "MESSAGE": "Vai vēlaties eksportēt visas kontaktpersonas?",
-      "FILTERED_MESSAGE": "Vai tiešām vēlaties eksportēt visas filtrētās kontaktpersonas?",
-      "YES": "Jā, Eksportēt",
-      "NO": "Nē, Atcelt"
-    }
-  },
-  "DELETE_NOTE": {
-    "CONFIRM": {
-      "TITLE": "Apstiprināt Dzēšanu",
-      "MESSAGE": "Vai tiešām vēlaties dzēst šo piezīmi?",
-      "YES": "Jā, Dzēst",
-      "NO": "Nē, Paturēt"
-    }
-  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Dzēst Kontaktpersonu",
     "TITLE": "Dzēst kontaktpersonu",
@@ -224,79 +184,14 @@
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Kontaktpersonas",
-    "FIELDS": "Kontaktpersonu lauki",
-    "SEARCH_BUTTON": "Meklēt",
-    "SEARCH_INPUT_PLACEHOLDER": "Meklēt kontaktpersonas",
-    "FILTER_CONTACTS": "Filtrs",
-    "FILTER_CONTACTS_SAVE": "Saglabāt filtru",
-    "FILTER_CONTACTS_DELETE": "Dzēst filtru",
-    "FILTER_CONTACTS_EDIT": "Rediģēt segmentu",
     "LIST": {
-      "LOADING_MESSAGE": "Notiek kontaktpersonu ielāde...",
-      "404": "Neviena kontaktpersona neatbilst jūsu meklēšanas vaicājumam 🔍",
-      "NO_CONTACTS": "Nav pieejamu kontaktpersonu",
       "TABLE_HEADER": {
-        "NAME": "Nosaukums",
-        "PHONE_NUMBER": "Telefona Numurs",
-        "CONVERSATIONS": "Sarunas",
-        "LAST_ACTIVITY": "Pēdējās Darbības",
-        "CREATED_AT": "Izveidots",
-        "COUNTRY": "Valsts",
-        "CITY": "Pilsēta",
-        "SOCIAL_PROFILES": "Sociālie Profili",
-        "COMPANY": "Uzņēmums",
-        "EMAIL_ADDRESS": "e-pasta Adrese"
-      },
-      "VIEW_DETAILS": "Skatīt detalizētu informāciju"
-    }
-  },
-  "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Kontaktpersonas",
-    "LOADING": "Notiek kontaktpersonas profila ielāde..."
-  },
-  "REMINDER": {
-    "ADD_BUTTON": {
-      "BUTTON": "Pievienot",
-      "TITLE": "Shift + Enter, lai izveidotu uzdevumu"
-    },
-    "FOOTER": {
-      "DUE_DATE": "Gala termiņš",
-      "LABEL_TITLE": "Iestatīt tipu"
-    }
-  },
-  "NOTES": {
-    "FETCHING_NOTES": "Notiek piezīmju iegūšana...",
-    "NOT_AVAILABLE": "Šai kontaktpersonai nav izveidota neviena piezīme",
-    "HEADER": {
-      "TITLE": "Piezīmes"
-    },
-    "LIST": {
-      "LABEL": "pievienoja piezīmi"
-    },
-    "ADD": {
-      "BUTTON": "Pievienot",
-      "PLACEHOLDER": "Pievienot piezīmi",
-      "TITLE": "Shift + Enter, lai izveidotu piezīmi"
-    },
-    "CONTENT_HEADER": {
-      "DELETE": "Dzēst piezīmi"
-    }
-  },
-  "EVENTS": {
-    "HEADER": {
-      "TITLE": "Darbības"
-    },
-    "BUTTON": {
-      "PILL_BUTTON_NOTES": "piezīmes",
-      "PILL_BUTTON_EVENTS": "notikumi",
-      "PILL_BUTTON_CONVO": "sarunas"
+        "SOCIAL_PROFILES": "Sociālie Profili"
+      }
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Pievienot īpašības",
     "BUTTON": "Pievienot pielāgotu īpašību",
-    "NOT_AVAILABLE": "Šai kontaktpersonai nav pieejamas pielāgotas īpašības.",
     "COPY_SUCCESSFUL": "Veiksmīgi nokopēts uz clipboard",
     "SHOW_MORE": "Rādīt visus atribūtus",
     "SHOW_LESS": "Rādīt mazāk atribūtu",
