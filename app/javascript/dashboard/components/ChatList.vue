@@ -824,6 +824,7 @@ watch(conversationFilters, (newVal, oldVal) => {
       v-if="!hasAppliedFiltersOrActiveFolders"
       :items="assigneeTabItems"
       :active-tab="activeAssigneeTab"
+      is-compact
       @chat-tab-change="updateAssigneeTab"
     />
 

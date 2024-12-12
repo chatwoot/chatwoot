@@ -42,7 +42,7 @@ export default {
       />
       <router-link
         :to="searchUrl"
-        class="inline-flex items-center flex-1 h-6 min-w-0 gap-1 px-2 py-0 text-left rounded-md rtl:mr-2.5 search-link rtl:text-right bg-n-slate-3 dark:bg-n-solid-3 hover:bg-n-slate-3"
+        class="inline-flex items-center flex-1 h-6 min-w-0 gap-1 px-2 py-0 text-left rounded-md rtl:mr-2.5 search-link rtl:text-right bg-n-slate-9/10 hover:bg-n-slate-3"
       >
         <div class="flex flex-shrink-0">
           <fluent-icon
