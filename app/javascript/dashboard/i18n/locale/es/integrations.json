@@ -308,7 +308,8 @@
     "COPILOT": {
       "SEND_MESSAGE": "Enviar mensaje...",
       "LOADER": "Captain is thinking",
-      "YOU": "Tú"
+      "YOU": "Tú",
+      "USE": "Use this"
     }
   }
 }
