@@ -2,7 +2,7 @@
   "HELP_CENTER": {
     "TITLE": "Центр поддержки",
     "NEW_PAGE": {
-      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
+      "DESCRIPTION": "Создайте порталы самообслуживания для вашего центра поддержки. Помогите вашим клиентам быстро находить ответы, без ожидания. Оптимизируйте запросы, повысите эффективность агентов и улучшите поддержку клиентов.",
       "CREATE_PORTAL_BUTTON": "Создать портал"
     },
     "HEADER": {
@@ -492,7 +492,7 @@
     "ARTICLES_PAGE": {
       "ARTICLE_CARD": {
         "CARD": {
-          "VIEWS": "{count} view | {count} views",
+          "VIEWS": "{count} просмотр | {count} просмотров",
           "DROPDOWN_MENU": {
             "PUBLISH": "Опубликовано",
             "DRAFT": "Черновик",
@@ -622,11 +622,11 @@
       }
     },
     "LOCALES_PAGE": {
-      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
+      "LOCALES_COUNT": "Нет доступных локалей | {n} локаль | {n} локалей",
       "NEW_LOCALE_BUTTON_TEXT": "Новая локаль",
       "LOCALE_CARD": {
         "ARTICLES_COUNT": "{count} статьи | {count} статьи",
-        "CATEGORIES_COUNT": "{count} category | {count} categories",
+        "CATEGORIES_COUNT": "{count} категория | {count} категории",
         "DEFAULT": "По умолчанию",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "Сделать по умолчанию",
@@ -635,7 +635,7 @@
       },
       "ADD_LOCALE_DIALOG": {
         "TITLE": "Добавить новую локаль",
-        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "DESCRIPTION": "Выберите язык, на котором будет написана эта статья. Этот язык будет добавлен в ваш список переводов, и вы сможете добавить другие языки позже.",
         "COMBOBOX": {
           "PLACEHOLDER": "Выберите язык..."
         },
@@ -655,21 +655,21 @@
         "PUBLISH": "Опубликовано",
         "DRAFT": "Черновик",
         "ARCHIVE": "Архив",
-        "BACK_TO_ARTICLES": "Back to articles"
+        "BACK_TO_ARTICLES": "Назад к статьям"
       },
       "EDIT_ARTICLE": {
-        "MORE_PROPERTIES": "More properties",
+        "MORE_PROPERTIES": "Больше параметров",
         "UNCATEGORIZED": "Без категории",
-        "EDITOR_PLACEHOLDER": "Write something..."
+        "EDITOR_PLACEHOLDER": "Напишите что-нибудь..."
       },
       "ARTICLE_PROPERTIES": {
-        "ARTICLE_PROPERTIES": "Article properties",
+        "ARTICLE_PROPERTIES": "Параметры статьи",
         "META_DESCRIPTION": "Мета описание",
-        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
+        "META_DESCRIPTION_PLACEHOLDER": "Добавить мета-описание",
         "META_TITLE": "Мета-заголовок",
-        "META_TITLE_PLACEHOLDER": "Add meta title",
+        "META_TITLE_PLACEHOLDER": "Добавить мета-заголовок",
         "META_TAGS": "Мета теги",
-        "META_TAGS_PLACEHOLDER": "Add meta tags"
+        "META_TAGS_PLACEHOLDER": "Добавить мета-теги"
       },
       "API": {
         "ERROR": "Ошибка при сохранении статьи"
@@ -684,18 +684,18 @@
       "PORTAL_NAME": "Имя портала"
     },
     "CREATE_PORTAL_DIALOG": {
-      "TITLE": "Create new portal",
-      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
+      "TITLE": "Создать новый портал",
+      "DESCRIPTION": "Дайте вашему порталу название и создайте удобочитаемый slug для URL. Вы сможете изменить оба этих параметра позже в настройках.",
       "CONFIRM_BUTTON_LABEL": "Создать",
       "NAME": {
         "LABEL": "Имя",
-        "PLACEHOLDER": "User Guide | Chatwoot",
+        "PLACEHOLDER": "Руководство пользователя | Chatwoot",
         "MESSAGE": "Выберите имя для вашего портала.",
         "ERROR": "Необходимо указать имя"
       },
       "SLUG": {
         "LABEL": "Метка",
-        "PLACEHOLDER": "user-guide",
+        "PLACEHOLDER": "руководство пользователя",
         "ERROR": "Необходимо указать метку"
       }
     },
@@ -703,8 +703,8 @@
       "FORM": {
         "AVATAR": {
           "LABEL": "Логотип",
-          "IMAGE_UPLOAD_ERROR": "Не удалось загрузить изображение! Попробуйте еще раз",
-          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
+          "IMAGE_UPLOAD_ERROR": "Не удалось загрузить изображение! Попробуйте снова",
+          "IMAGE_UPLOAD_SUCCESS": "Изображение успешно добавлено. Пожалуйста, нажмите сохранить, чтобы сохранить подпись",
           "IMAGE_DELETE_SUCCESS": "Логотип успешно удалён",
           "IMAGE_DELETE_ERROR": "Не удалось удалить логотип",
           "IMAGE_UPLOAD_SIZE_ERROR": "Размер изображения должен быть меньше, чем {size}MB"
@@ -723,18 +723,18 @@
           "PLACEHOLDER": "Заголовок страницы портала"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home page link",
+          "LABEL": "Ссылка на домашнюю страницу",
           "PLACEHOLDER": "Ссылка на главную страницу портала",
-          "ERROR": "Invalid URL. The Home page link must start with 'http://' or 'https://'."
+          "ERROR": "Неправильный URL-адрес. Ссылка на главную страницу должна начинаться с 'http://' или 'https://'."
         },
         "SLUG": {
           "LABEL": "Метка",
-          "PLACEHOLDER": "Portal slug"
+          "PLACEHOLDER": "Slug портала"
         },
         "LIVE_CHAT_WIDGET": {
           "LABEL": "Виджет онлайн чата",
           "PLACEHOLDER": "Выберите виджет онлайн чата",
-          "HELP_TEXT": "Select a live chat widget that will appear on your help center"
+          "HELP_TEXT": "Выберите виджет онлайн-чата, который появится в вашем центре помощи"
         },
         "BRAND_COLOR": {
           "LABEL": "Цвет бренда"
@@ -745,7 +745,7 @@
         "CUSTOM_DOMAIN": {
           "HEADER": "Свой домен",
           "LABEL": "Свой домен:",
-          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
+          "DESCRIPTION": "Вы можете разместить ваш портал на собственном домене. Например, если ваш сайт — yourdomain.com, и вы хотите, чтобы ваш портал был доступен по адресу docs.yourdomain.com, просто введите это в это поле.",
           "PLACEHOLDER": "Пользовательский домен портала",
           "EDIT_BUTTON": "Редактировать пользовательский домен",
           "ADD_BUTTON": "Добавить пользовательский домен",
@@ -760,9 +760,9 @@
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "Настройка DNS",
-            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
-            "HELP_TEXT": "Once this is done, you can reach out to our support to request for the auto-generated SSL certificate.",
-            "CONFIRM_BUTTON_LABEL": "Got it!"
+            "DESCRIPTION": "Войдите в учетную запись с вашим DNS провайдером и добавьте запись CNAME для поддомена, указывающего на chatwoot.help",
+            "HELP_TEXT": "Как только это будет сделано, вы можете связаться с нашей службой поддержки для запроса SSL-сертификата.",
+            "CONFIRM_BUTTON_LABEL": "Понял!"
           }
         },
         "DELETE_PORTAL": {
