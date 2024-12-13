@@ -1,12 +1,20 @@
 <script setup>
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+
+import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from '../avatar/Avatar.vue';
 
-defineProps({
+const props = defineProps({
   message: {
     type: Object,
     required: true,
   },
 });
+
+const useCopilotResponse = () => {
+  emitter.emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, props.message?.content);
+};
 </script>
 
 <template>
@@ -21,6 +29,15 @@ defineProps({
       <div class="font-medium">{{ $t('CAPTAIN.NAME') }}</div>
       <div class="break-words">
         {{ message.content }}
+      </div>
+      <div class="flex flex-row mt-1">
+        <Button
+          :label="$t('CAPTAIN.COPILOT.USE')"
+          faded
+          sm
+          slate
+          @click="useCopilotResponse"
+        />
       </div>
     </div>
   </div>
