@@ -236,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Pateikti"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "Tikrinama...",
