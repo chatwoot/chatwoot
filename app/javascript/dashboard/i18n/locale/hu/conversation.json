@@ -38,10 +38,16 @@
     "REMOVE_SELECTION": "Kijelölés törlése",
     "DOWNLOAD": "Letöltés",
     "UNKNOWN_FILE_TYPE": "Ismeretlen fájl",
-    "SAVE_CONTACT": "Mentés",
+    "SAVE_CONTACT": "Save Contact",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} megbeszélést kezdett"
+    },
     "UPLOADING_ATTACHMENTS": "Csatolt fileok feltöltése...",
     "REPLIED_TO_STORY": "Válaszolt a storydra",
-    "UNSUPPORTED_MESSAGE": "Ez az üzenet nem támogatott.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Ez az üzenet nem támogatott. Ezt az üzenetet a Facebook Messenger alkalmazásban tekintheti meg.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Ez az üzenet nem támogatott. Ezt az üzenetet az Instagram alkalmazásban tekintheti meg.",
     "SUCCESS_DELETE_MESSAGE": "Üzenet törölve",
@@ -314,7 +320,8 @@
     "TO": "Ide",
     "BCC": "Titkos másolat",
     "CC": "Másolat",
-    "SUBJECT": "Tárgy"
+    "SUBJECT": "Tárgy",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Részvétel",
