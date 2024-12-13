@@ -236,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "보내기"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "확인 중...",
