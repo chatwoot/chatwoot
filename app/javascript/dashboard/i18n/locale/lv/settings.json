@@ -236,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Iesniegt"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "Šis attēls vairs nav pieejams.",
+      "LOADING_FAILED": "Ielāde neizdevās"
     }
   },
   "CONFIRM_EMAIL": "Notiek pārbaude...",
