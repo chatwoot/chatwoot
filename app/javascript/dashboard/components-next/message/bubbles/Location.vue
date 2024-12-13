@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, nextTick } from 'vue';
+import { computed, onMounted, nextTick, useTemplateRef } from 'vue';
 import BaseAttachmentBubble from './BaseAttachment.vue';
 import { useI18n } from 'vue-i18n';
 import maplibregl from 'maplibre-gl';
@@ -55,12 +55,14 @@ const mapUrl = computed(
   () => `https://maps.google.com/?q=${lat.value},${long.value}`
 );
 
+const mapContainer = useTemplateRef('mapContainer');
+
 const setupMap = () => {
   const map = new maplibregl.Map({
     style: 'https://tiles.openfreemap.org/styles/positron',
     center: [long.value, lat.value],
     zoom: 9.5,
-    container: 'map',
+    container: mapContainer.value,
     attributionControl: false,
     dragPan: false,
     dragRotate: false,
@@ -93,7 +95,10 @@ onMounted(async () => {
     }"
   >
     <template #before>
-      <div id="map" class="z-10 w-full max-w-md -mb-12 min-w-64 h-28" />
+      <div
+        ref="mapContainer"
+        class="z-10 w-full max-w-md -mb-12 min-w-64 h-28"
+      />
     </template>
   </BaseAttachmentBubble>
 </template>

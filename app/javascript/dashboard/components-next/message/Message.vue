@@ -123,7 +123,7 @@ const props = defineProps({
   },
   contentAttributes: {
     type: Object,
-    default: () => {},
+    default: () => { },
   },
   currentUserId: {
     type: Number,
@@ -319,7 +319,7 @@ provideMessageContext({
       >
         <Avatar
           :name="sender ? sender.name : ''"
-          :src="sender.thumbnail"
+          :src="sender?.thumbnail"
           :size="24"
         />
       </div>
