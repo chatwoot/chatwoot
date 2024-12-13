@@ -305,7 +305,8 @@
     "COPILOT": {
       "SEND_MESSAGE": "Send message...",
       "LOADER": "Captain is thinking",
-      "YOU": "You"
+      "YOU": "You",
+      "USE": "Use this"
     }
   }
 }
