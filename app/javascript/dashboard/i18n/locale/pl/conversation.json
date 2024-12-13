@@ -38,10 +38,16 @@
     "REMOVE_SELECTION": "Usuń zaznaczenie",
     "DOWNLOAD": "Pobierz",
     "UNKNOWN_FILE_TYPE": "Nieznany plik",
-    "SAVE_CONTACT": "Zapisz",
+    "SAVE_CONTACT": "Save Contact",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} rozpoczął spotkanie"
+    },
     "UPLOADING_ATTACHMENTS": "Przesyłanie załączników...",
     "REPLIED_TO_STORY": "Odpowiedziałeś na swoją historię",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Wiadomość usunięta pomyślnie",
@@ -314,7 +320,8 @@
     "TO": "Do",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Temat"
+    "SUBJECT": "Temat",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Uczestniczący",
