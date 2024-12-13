@@ -308,7 +308,8 @@
     "COPILOT": {
       "SEND_MESSAGE": "Kirim Pesan...",
       "LOADER": "Captain is thinking",
-      "YOU": "Anda"
+      "YOU": "Anda",
+      "USE": "Use this"
     }
   }
 }
