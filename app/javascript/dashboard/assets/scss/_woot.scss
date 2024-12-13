@@ -135,6 +135,7 @@
     --solid-active: 255 255 255;
     --solid-amber: 252 232 193;
     --solid-blue: 218 236 255;
+    --solid-iris: 230 231 255;
 
     --alpha-1: 67, 67, 67, 0.06;
     --alpha-2: 201, 202, 207, 0.15;
@@ -142,10 +143,10 @@
     --black-alpha-1: 0, 0, 0, 0.12;
     --black-alpha-2: 0, 0, 0, 0.04;
     --border-blue: 39, 129, 246, 0.5;
-    --white-alpha: 255, 255, 255, 0.1;
+    --white-alpha: 255, 255, 255, 0.8;
   }
 
-  body.dark {
+  .dark {
     /* slate */
     --slate-1: 17 17 19;
     --slate-2: 24 25 27;
@@ -221,6 +222,7 @@
     --solid-active: 53 57 66;
     --solid-amber: 42 37 30;
     --solid-blue: 16 49 91;
+    --solid-iris: 38 42 101;
     --text-blue: 126 182 255;
 
     --alpha-1: 36, 36, 36, 0.8;
@@ -230,7 +232,7 @@
     --black-alpha-2: 0, 0, 0, 0.2;
     --border-blue: 39, 129, 246, 0.5;
     --border-container: 236, 236, 236, 0;
-    --white-alpha: 255, 255, 255, 0.1;
+    --white-alpha: 255, 255, 255, 0.8;
   }
   /* NEXT COLORS END */
 
