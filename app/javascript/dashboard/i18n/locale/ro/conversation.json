@@ -38,10 +38,16 @@
     "REMOVE_SELECTION": "Elimină selecția",
     "DOWNLOAD": "Descărcare",
     "UNKNOWN_FILE_TYPE": "Fișier necunoscut",
-    "SAVE_CONTACT": "Salvează",
+    "SAVE_CONTACT": "Save Contact",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} a început o întâlnire"
+    },
     "UPLOADING_ATTACHMENTS": "Se încarcă atașamentele...",
     "REPLIED_TO_STORY": "A răspuns la povestea ta",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Mesaj şters cu succes",
@@ -314,7 +320,8 @@
     "TO": "Către",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Subiect"
+    "SUBJECT": "Subiect",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participante",
