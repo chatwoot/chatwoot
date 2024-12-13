@@ -61,7 +61,7 @@ const setupMap = () => {
   const map = new maplibregl.Map({
     style: 'https://tiles.openfreemap.org/styles/positron',
     center: [long.value, lat.value],
-    zoom: 9.5,
+    zoom: 15,
     container: mapContainer.value,
     attributionControl: false,
     dragPan: false,
@@ -72,6 +72,7 @@ const setupMap = () => {
     keyboard: false,
     doubleClickZoom: false,
   });
+  new maplibregl.Marker().setLngLat([long.value, lat.value]).addTo(map);
 
   return map;
 };
