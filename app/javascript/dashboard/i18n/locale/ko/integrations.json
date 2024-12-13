@@ -308,7 +308,8 @@
     "COPILOT": {
       "SEND_MESSAGE": "메시지 보내기...",
       "LOADER": "Captain is thinking",
-      "YOU": "나"
+      "YOU": "나",
+      "USE": "Use this"
     }
   }
 }
