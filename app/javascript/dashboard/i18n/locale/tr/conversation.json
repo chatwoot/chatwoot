@@ -38,10 +38,16 @@
     "REMOVE_SELECTION": "Seçimi Kaldır",
     "DOWNLOAD": "İndir",
     "UNKNOWN_FILE_TYPE": "Bilinmeyen Dosya",
-    "SAVE_CONTACT": "Kaydet",
+    "SAVE_CONTACT": "Save Contact",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} bir toplantı başlattı"
+    },
     "UPLOADING_ATTACHMENTS": "Dosyalar gönderiliyor...",
     "REPLIED_TO_STORY": "Hikayene cevap verildi",
-    "UNSUPPORTED_MESSAGE": "Bu mesaj desteklenmiyor.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Bu mesaj desteklenmiyor. Bu mesajı Facebook Messenger uygulamasında görüntüleyebilirsiniz.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Bu mesaj desteklenmiyor. Bu mesajı Instagram uygulamasında görüntüleyebilirsiniz.",
     "SUCCESS_DELETE_MESSAGE": "Mesaj başarıyla silindi",
@@ -314,7 +320,8 @@
     "TO": "Kime",
     "BCC": "Gizli Kopya",
     "CC": "Kopya",
-    "SUBJECT": "Konu"
+    "SUBJECT": "Konu",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Katılımcılar",
