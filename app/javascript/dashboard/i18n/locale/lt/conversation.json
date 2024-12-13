@@ -38,10 +38,16 @@
     "REMOVE_SELECTION": "Pašalinti Pasirinkimą",
     "DOWNLOAD": "Parsisiųsti",
     "UNKNOWN_FILE_TYPE": "Nežinomas failas",
-    "SAVE_CONTACT": "Išsaugoti",
+    "SAVE_CONTACT": "Save Contact",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} pradėjo susitikimą"
+    },
     "UPLOADING_ATTACHMENTS": "Įkeliami priedai...",
     "REPLIED_TO_STORY": "Atsakė į tavo pasakojimą",
-    "UNSUPPORTED_MESSAGE": "Ši žinutė nepalaikoma.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Ši žinutė nepalaikoma. Jūs galite peržiūrėti šią žinutę Facebook Messenger programėlėje.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Ši žinutė nepalaikoma. Jūs galite peržiūrėti šią žinutę Instagram programėlėje.",
     "SUCCESS_DELETE_MESSAGE": "Pranešimas ištrintas sėkmingai",
@@ -314,7 +320,8 @@
     "TO": "Kam",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Tema"
+    "SUBJECT": "Tema",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Dalyvaujantys",
