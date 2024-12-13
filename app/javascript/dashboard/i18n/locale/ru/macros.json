@@ -1,7 +1,7 @@
 {
   "MACROS": {
     "HEADER": "Макрос",
-    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "DESCRIPTION": "Макрос — это набор сохраненных действий, которые помогают агентам службы поддержки легко выполнять задачи. Агенты могут определить ряд действий, таких как добавление метки к беседе, отправка транскрипта электронной почты, обновление пользовательского атрибута и т. д., и выполнять их одним щелчком мыши.",
     "LEARN_MORE": "Узнать больше о макросах",
     "HEADER_BTN_TXT": "Добавить новый макрос",
     "HEADER_BTN_TXT_SAVE": "Сохранить макрос",
