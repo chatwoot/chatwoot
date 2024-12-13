@@ -1,8 +1,8 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Пожалуйста, выберите диалог из левой панели",
-    "CSAT_REPLY_MESSAGE": "Пожалуйста, оцените разговор",
-    "404": "Мы не можем найти разговор. Пожалуйста, попробуйте еще раз",
+    "CSAT_REPLY_MESSAGE": "Пожалуйста, оцените диалог",
+    "404": "Мы не можем найти диалог. Пожалуйста, попробуйте еще раз",
     "SWITCH_VIEW_LAYOUT": "Переключить вид",
     "DASHBOARD_APP_TAB_MESSAGES": "Сообщения",
     "UNVERIFIED_SESSION": "Подлинность этого пользователя не подтверждена",
@@ -30,7 +30,7 @@
     "LOADING_CONVERSATIONS": "Загрузка диалогов",
     "CANNOT_REPLY": "Вы не можете ответить из-за",
     "24_HOURS_WINDOW": "Ограничение на 24 часа",
-    "NOT_ASSIGNED_TO_YOU": "Этот разговор вам не назначен. Вы хотите назначить этот разговор себе?",
+    "NOT_ASSIGNED_TO_YOU": "Этот диалог вам не назначен. Вы хотите назначить этот диалог себе?",
     "ASSIGN_TO_ME": "Назначить мне",
     "TWILIO_WHATSAPP_CAN_REPLY": "Вы можете ответить в этой беседе только с помощью шаблона сообщения",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Ограничение на 24 часа",
@@ -38,10 +38,16 @@
     "REMOVE_SELECTION": "Удалить выделенное",
     "DOWNLOAD": "Скачать",
     "UNKNOWN_FILE_TYPE": "Неизвестный файл",
-    "SAVE_CONTACT": "Сохранить",
+    "SAVE_CONTACT": "Сохранить контакт",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} поделился контактом",
+      "LOCATION": "{sender} поделился местоположением",
+      "FILE": "{sender} поделился файлом",
+      "MEETING": "{sender} приступил к встрече"
+    },
     "UPLOADING_ATTACHMENTS": "Загрузка вложений...",
     "REPLIED_TO_STORY": "Ответил на вашу историю",
-    "UNSUPPORTED_MESSAGE": "Это сообщение не поддерживается.",
+    "UNSUPPORTED_MESSAGE": "Это сообщение не поддерживается. Вы можете просмотреть это сообщение в приложении Facebook / Instagram.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Это сообщение не поддерживается. Вы можете просмотреть это сообщение в приложении Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Это сообщение не поддерживается. Вы можете просмотреть это сообщение в приложении Instagram.",
     "SUCCESS_DELETE_MESSAGE": "Сообщение успешно удалено",
@@ -314,7 +320,8 @@
     "TO": "Кому",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Тема"
+    "SUBJECT": "Тема",
+    "EXPAND": "Развернуть email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Участвующие",
