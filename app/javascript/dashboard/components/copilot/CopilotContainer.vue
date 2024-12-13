@@ -8,6 +8,10 @@ const props = defineProps({
     type: [Number, String],
     required: true,
   },
+  conversationInboxType: {
+    type: String,
+    required: true,
+  },
 });
 const currentUser = useMapGetter('getCurrentUser');
 const messages = ref([]);
@@ -53,6 +57,7 @@ const sendMessage = async message => {
     :messages="messages"
     :support-agent="currentUser"
     :is-captain-typing="isCaptainTyping"
+    :conversation-inbox-type="conversationInboxType"
     @send-message="sendMessage"
   />
 </template>

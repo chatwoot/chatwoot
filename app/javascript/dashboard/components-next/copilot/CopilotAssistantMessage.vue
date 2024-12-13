@@ -1,6 +1,8 @@
 <script setup>
+import { computed } from 'vue';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from '../avatar/Avatar.vue';
@@ -10,10 +12,24 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  conversationInboxType: {
+    type: String,
+    required: true,
+  },
+});
+
+const insertIntoRichEditor = computed(() => {
+  return [INBOX_TYPES.WEB, INBOX_TYPES.EMAIL].includes(
+    props.conversationInboxType
+  );
 });
 
 const useCopilotResponse = () => {
-  emitter.emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, props.message?.content);
+  if (insertIntoRichEditor.value) {
+    emitter.emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, props.message?.content);
+  } else {
+    emitter.emit(BUS_EVENTS.INSERT_INTO_NORMAL_EDITOR, props.message?.content);
+  }
 };
 </script>
 

@@ -18,6 +18,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  conversationInboxType: {
+    type: String,
+    required: true,
+  },
 });
 
 const emit = defineEmits(['sendMessage']);
@@ -47,7 +51,7 @@ watch(
 
 <template>
   <div class="flex flex-col ]mx-auto h-full text-sm leading-6 tracking-tight">
-    <div ref="chatContainer" class="flex-1 overflow-y-auto py-4 space-y-6 px-4">
+    <div ref="chatContainer" class="flex-1 px-4 py-4 space-y-6 overflow-y-auto">
       <template v-for="message in messages" :key="message.id">
         <CopilotAgentMessage
           v-if="message.role === 'user'"
@@ -57,12 +61,13 @@ watch(
         <CopilotAssistantMessage
           v-else-if="COPILOT_USER_ROLES.includes(message.role)"
           :message="message"
+          :conversation-inbox-type="conversationInboxType"
         />
       </template>
 
       <CopilotLoader v-if="isCaptainTyping" />
     </div>
 
-    <CopilotInput class="mx-3 mb-4 mt-px" @send="sendMessage" />
+    <CopilotInput class="mx-3 mt-px mb-4" @send="sendMessage" />
   </div>
 </template>
