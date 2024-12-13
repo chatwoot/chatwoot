@@ -308,7 +308,8 @@
     "COPILOT": {
       "SEND_MESSAGE": "Išsiųsti pranešimą...",
       "LOADER": "Captain is thinking",
-      "YOU": "Jūs"
+      "YOU": "Jūs",
+      "USE": "Use this"
     }
   }
 }
