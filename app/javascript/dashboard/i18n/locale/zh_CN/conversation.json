@@ -38,10 +38,16 @@
     "REMOVE_SELECTION": "移除选择",
     "DOWNLOAD": "下载",
     "UNKNOWN_FILE_TYPE": "未知文件",
-    "SAVE_CONTACT": "保存",
+    "SAVE_CONTACT": "Save Contact",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} 已开始会议"
+    },
     "UPLOADING_ATTACHMENTS": "正在上传附件...",
     "REPLIED_TO_STORY": "回复您的故事",
-    "UNSUPPORTED_MESSAGE": "不支持此消息。",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "不支持此消息。您可以在 Facebook Messenger 应用上查看此消息。",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "不支持此消息。您可以在 Instagram 应用上查看此消息。",
     "SUCCESS_DELETE_MESSAGE": "已成功删除消息",
@@ -314,7 +320,8 @@
     "TO": "发送至",
     "BCC": "密送",
     "CC": "抄送",
-    "SUBJECT": "主题"
+    "SUBJECT": "主题",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "参与者",
