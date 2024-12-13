@@ -308,7 +308,8 @@
     "COPILOT": {
       "SEND_MESSAGE": "پیغام بھیجیں...",
       "LOADER": "Captain is thinking",
-      "YOU": "You"
+      "YOU": "You",
+      "USE": "Use this"
     }
   }
 }
