@@ -123,7 +123,7 @@ const props = defineProps({
   },
   contentAttributes: {
     type: Object,
-    default: () => { },
+    default: () => {},
   },
   currentUserId: {
     type: Number,
