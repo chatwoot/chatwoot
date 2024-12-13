@@ -38,10 +38,16 @@
     "REMOVE_SELECTION": "إزالة التحديد",
     "DOWNLOAD": "تحميل",
     "UNKNOWN_FILE_TYPE": "ملف غير معروف",
-    "SAVE_CONTACT": "حفظ",
+    "SAVE_CONTACT": "Save Contact",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "بدأ {sender} اجتماعاً"
+    },
     "UPLOADING_ATTACHMENTS": "جاري رفع المرفقات...",
     "REPLIED_TO_STORY": "رد على قصتك",
-    "UNSUPPORTED_MESSAGE": "هذه الرسالة غير مدعومة.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "هذه الرسالة غير مدعومة، يمكنك مشاهدة هذه الرسالة على تطبيق فيسبوك (Messenger).",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "هذه الرسالة غير مدعومة، يمكنك عرض هذه الرسالة على تطبيق Instagram.",
     "SUCCESS_DELETE_MESSAGE": "تم حذف الرسالة بنجاح",
@@ -314,7 +320,8 @@
     "TO": "إلى",
     "BCC": "نسخة خفية من البريد",
     "CC": "نسخة من البريد",
-    "SUBJECT": "الموضوع"
+    "SUBJECT": "الموضوع",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "المشاركة",
