@@ -1,10 +1,10 @@
 {
   "PAGINATION_FOOTER": {
-    "SHOWING": "Showing {startItem} - {endItem} of {totalItems} items",
-    "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} pages"
+    "SHOWING": "Показаны {startItem}-{endItem} из {totalItems} элементов",
+    "CURRENT_PAGE_INFO": "{currentPage} из {totalPages} страниц"
   },
   "COMBOBOX": {
-    "PLACEHOLDER": "Select an option...",
+    "PLACEHOLDER": "Выберите параметр...",
     "EMPTY_SEARCH_RESULTS": "Не найдено элементов для поиска `{searchTerm}`",
     "EMPTY_STATE": "Результаты не найдены.",
     "SEARCH_PLACEHOLDER": "Поиск...",
@@ -35,7 +35,7 @@
     "ARIA_LABEL": "Навигация"
   },
   "SWITCH": {
-    "TOGGLE": "Toggle switch"
+    "TOGGLE": "Переключить"
   },
   "LABEL": {
     "TAG_BUTTON": "тег"
