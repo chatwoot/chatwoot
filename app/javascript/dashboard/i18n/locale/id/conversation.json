@@ -38,10 +38,16 @@
     "REMOVE_SELECTION": "Hapus Pilihan",
     "DOWNLOAD": "Unduh",
     "UNKNOWN_FILE_TYPE": "Jenis Berkas Tidak Dikenal",
-    "SAVE_CONTACT": "Simpan",
+    "SAVE_CONTACT": "Save Contact",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} memulai percakapan"
+    },
     "UPLOADING_ATTACHMENTS": "Mengunggah lampiran...",
     "REPLIED_TO_STORY": "Membalas cerita Anda",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Pesan berhasil dihapus",
@@ -314,7 +320,8 @@
     "TO": "Ke",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Subjek"
+    "SUBJECT": "Subjek",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Berpartisipasi",
