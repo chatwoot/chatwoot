@@ -308,7 +308,8 @@
     "COPILOT": {
       "SEND_MESSAGE": "Надіслати...",
       "LOADER": "Captain is thinking",
-      "YOU": "Ви"
+      "YOU": "Ви",
+      "USE": "Use this"
     }
   }
 }
