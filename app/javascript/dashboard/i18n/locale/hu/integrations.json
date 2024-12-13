@@ -308,7 +308,8 @@
     "COPILOT": {
       "SEND_MESSAGE": "Üzenet elküldése...",
       "LOADER": "Captain is thinking",
-      "YOU": "Ön"
+      "YOU": "Ön",
+      "USE": "Use this"
     }
   }
 }
