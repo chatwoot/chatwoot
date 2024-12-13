@@ -236,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "സമർപ്പിക്കുക"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "പരിശോധിച്ചുറപ്പിക്കുന്നു...",
