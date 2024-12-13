@@ -308,7 +308,8 @@
     "COPILOT": {
       "SEND_MESSAGE": "Sūtīt ziņojumu...",
       "LOADER": "Kapteinis domā",
-      "YOU": "Jūs"
+      "YOU": "Jūs",
+      "USE": "Izmantot šo"
     }
   }
 }
