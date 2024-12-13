@@ -38,10 +38,16 @@
     "REMOVE_SELECTION": "選択項目を削除",
     "DOWNLOAD": "ダウンロード",
     "UNKNOWN_FILE_TYPE": "不明なファイル",
-    "SAVE_CONTACT": "Save",
+    "SAVE_CONTACT": "Save Contact",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} has started a meeting"
+    },
     "UPLOADING_ATTACHMENTS": "添付ファイルをアップロード中...",
     "REPLIED_TO_STORY": "Replied to your story",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "メッセージの削除に成功",
@@ -314,7 +320,8 @@
     "TO": "宛先:",
     "BCC": "ビーシーシー",
     "CC": "シーシー",
-    "SUBJECT": "件名"
+    "SUBJECT": "件名",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participating",
