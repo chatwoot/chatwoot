@@ -12,6 +12,7 @@ on:
       - master
     tags:
       - v*
+  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -48,6 +49,7 @@ jobs:
           echo "DOCKER_TAG=chatwoot/chatwoot:latest-ce" >> $GITHUB_ENV
 
       - name: Login to DockerHub
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -59,5 +61,5 @@ jobs:
           context: .
           file: docker/Dockerfile
           platforms: linux/amd64, linux/arm64
-          push: true
+          push: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
           tags: ${{ env.DOCKER_TAG }}
