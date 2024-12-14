@@ -1,12 +1,11 @@
+import {
+  ANALYTICS_IDENTITY,
+  CHATWOOT_RESET,
+  CHATWOOT_SET_USER,
+} from '../constants/appEvents';
 import AnalyticsHelper from './AnalyticsHelper';
 import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotificationHelper';
 import { emitter } from 'shared/helpers/mitt';
-
-export const CHATWOOT_SET_USER = 'CHATWOOT_SET_USER';
-export const CHATWOOT_RESET = 'CHATWOOT_RESET';
-
-export const ANALYTICS_IDENTITY = 'ANALYTICS_IDENTITY';
-export const ANALYTICS_RESET = 'ANALYTICS_RESET';
 
 export const initializeAnalyticsEvents = () => {
   emitter.on(ANALYTICS_IDENTITY, ({ user }) => {
@@ -14,7 +13,7 @@ export const initializeAnalyticsEvents = () => {
   });
 };
 
-const initializeAudioAlerts = user => {
+export const initializeAudioAlerts = user => {
   const { ui_settings: uiSettings } = user || {};
   const {
     always_play_audio_alert: alwaysPlayAudioAlert,
@@ -25,7 +24,7 @@ const initializeAudioAlerts = user => {
     // entire payload for the user during the signup process.
   } = uiSettings || {};
 
-  DashboardAudioNotificationHelper.setInstanceValues({
+  DashboardAudioNotificationHelper.set({
     currentUser: user,
     audioAlertType: audioAlertType || 'none',
     audioAlertTone: audioAlertTone || 'ding',

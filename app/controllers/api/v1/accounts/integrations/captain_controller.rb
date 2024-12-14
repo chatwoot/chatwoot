@@ -2,7 +2,19 @@ class Api::V1::Accounts::Integrations::CaptainController < Api::V1::Accounts::Ba
   before_action :hook
 
   def proxy
+    request_url = build_request_url(request_path)
     response = HTTParty.send(request_method, request_url, body: permitted_params[:body].to_json, headers: headers)
+    render plain: response.body, status: response.code
+  end
+
+  def copilot
+    request_url = build_request_url(build_request_path("/assistants/#{hook.settings['assistant_id']}/copilot"))
+    params = {
+      previous_messages: copilot_params[:previous_messages],
+      conversation_history: conversation_history,
+      message: copilot_params[:message]
+    }
+    response = HTTParty.send(:post, request_url, body: params.to_json, headers: headers)
     render plain: response.body, status: response.code
   end
 
@@ -17,15 +29,19 @@ class Api::V1::Accounts::Integrations::CaptainController < Api::V1::Accounts::Ba
     }
   end
 
+  def build_request_path(route)
+    "api/accounts/#{hook.settings['account_id']}#{route}"
+  end
+
   def request_path
     request_route = with_leading_hash_on_route(params[:route])
 
     return 'api/sessions/profile' if request_route == '/sessions/profile'
 
-    "api/accounts/#{hook.settings['account_id']}#{request_route}"
+    build_request_path(request_route)
   end
 
-  def request_url
+  def build_request_url(request_path)
     base_url = InstallationConfig.find_by(name: 'CAPTAIN_API_URL').value
     URI.join(base_url, request_path).to_s
   end
@@ -45,6 +61,15 @@ class Api::V1::Accounts::Integrations::CaptainController < Api::V1::Accounts::Ba
     return '' if request_route.blank?
 
     request_route.start_with?('/') ? request_route : "/#{request_route}"
+  end
+
+  def conversation_history
+    conversation = Current.account.conversations.find_by!(display_id: copilot_params[:conversation_id])
+    conversation.to_llm_text
+  end
+
+  def copilot_params
+    params.permit(:previous_messages, :conversation_id, :message)
   end
 
   def permitted_params

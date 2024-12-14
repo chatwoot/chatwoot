@@ -25,6 +25,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  isSearching: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['action']);
@@ -71,8 +75,8 @@ onMounted(() => {
       />
     </div>
     <button
-      v-for="item in filteredMenuItems"
-      :key="item.action"
+      v-for="(item, index) in filteredMenuItems"
+      :key="index"
       class="inline-flex items-center justify-start w-full h-8 min-w-0 gap-2 px-2 py-1.5 transition-all duration-200 ease-in-out border-0 rounded-lg z-60 hover:bg-n-alpha-1 dark:hover:bg-n-alpha-2 disabled:cursor-not-allowed disabled:pointer-events-none disabled:opacity-50"
       :class="{
         'bg-n-alpha-1 dark:bg-n-solid-active': item.isSelected,
@@ -81,7 +85,6 @@ onMounted(() => {
       }"
       :disabled="item.disabled"
       @click="handleAction(item)"
-      @keydown.enter="handleAction(item)"
     >
       <slot name="thumbnail" :item="item">
         <Avatar
@@ -92,7 +95,7 @@ onMounted(() => {
           rounded-full
         />
       </slot>
-      <Icon v-if="item.icon" :icon="item.icon" class="flex-shrink-0" />
+      <Icon v-if="item.icon" :icon="item.icon" class="flex-shrink-0 size-3.5" />
       <span v-if="item.emoji" class="flex-shrink-0">{{ item.emoji }}</span>
       <span v-if="item.label" class="min-w-0 text-sm truncate">{{
         item.label
@@ -102,7 +105,11 @@ onMounted(() => {
       v-if="filteredMenuItems.length === 0"
       class="text-sm text-n-slate-11 px-2 py-1.5"
     >
-      {{ t('DROPDOWN_MENU.EMPTY_STATE') }}
+      {{
+        isSearching
+          ? t('DROPDOWN_MENU.SEARCHING')
+          : t('DROPDOWN_MENU.EMPTY_STATE')
+      }}
     </div>
   </div>
 </template>

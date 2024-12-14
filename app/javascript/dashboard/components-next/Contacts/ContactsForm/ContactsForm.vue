@@ -3,7 +3,7 @@ import { computed, reactive, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { required, email, minLength } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
-
+import { splitName } from '@chatwoot/utils';
 import countries from 'shared/constants/countries.js';
 import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
@@ -41,11 +41,11 @@ const FORM_CONFIG = {
 };
 
 const SOCIAL_CONFIG = {
-  FACEBOOK: 'i-ri-facebook-circle-fill',
-  GITHUB: 'i-ri-github-fill',
-  INSTAGRAM: 'i-ri-instagram-line',
   LINKEDIN: 'i-ri-linkedin-box-fill',
+  FACEBOOK: 'i-ri-facebook-circle-fill',
+  INSTAGRAM: 'i-ri-instagram-line',
   TWITTER: 'i-ri-twitter-x-fill',
+  GITHUB: 'i-ri-github-fill',
 };
 
 const defaultState = {
@@ -80,6 +80,8 @@ const validationRules = {
 
 const v$ = useVuelidate(validationRules, state);
 
+const isFormInvalid = computed(() => v$.value.$invalid);
+
 const prepareStateBasedOnProps = () => {
   if (props.isNewContact) {
     return; // Added to prevent state update for new contact form
@@ -92,14 +94,13 @@ const prepareStateBasedOnProps = () => {
     phoneNumber,
     additionalAttributes = {},
   } = props.contactData || {};
-
-  const [firstName = '', lastName = ''] = name.split(' ');
+  const { firstName, lastName } = splitName(name);
   const {
-    description,
-    companyName,
-    countryCode,
-    country,
-    city,
+    description = '',
+    companyName = '',
+    countryCode = '',
+    country = '',
+    city = '',
     socialProfiles = {},
   } = additionalAttributes || {};
 
@@ -203,6 +204,20 @@ const getMessageType = key => {
     : 'info';
 };
 
+const handleCountrySelection = value => {
+  const selectedCountry = countries.find(option => option.name === value);
+  state.additionalAttributes.countryCode = selectedCountry?.id || '';
+  emit('update', state);
+};
+
+const resetValidation = () => {
+  v$.value.$reset();
+};
+
+const resetForm = () => {
+  Object.assign(state, defaultState);
+};
+
 watch(() => props.contactData, prepareStateBasedOnProps, {
   immediate: true,
   deep: true,
@@ -211,6 +226,9 @@ watch(() => props.contactData, prepareStateBasedOnProps, {
 // Expose state to parent component for avatar upload
 defineExpose({
   state,
+  resetValidation,
+  isFormInvalid,
+  resetForm,
 });
 </script>
 
@@ -220,7 +238,7 @@ defineExpose({
       <span class="py-1 text-sm font-medium text-n-slate-12">
         {{ t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.TITLE') }}
       </span>
-      <div class="grid w-full grid-cols-2 gap-4">
+      <div class="grid w-full grid-cols-1 gap-4 sm:grid-cols-2">
         <template v-for="item in editDetailsForm" :key="item.key">
           <ComboBox
             v-if="item.key === 'COUNTRY'"
@@ -234,7 +252,7 @@ defineExpose({
               '[&>div>button]:!outline-n-weak [&>div>button]:hover:!outline-n-strong [&>div>button]:!bg-n-alpha-black2':
                 isDetailsView,
             }"
-            @update:model-value="emit('update', state)"
+            @update:model-value="handleCountrySelection"
           />
           <PhoneNumberInput
             v-else-if="item.key === 'PHONE_NUMBER'"
@@ -248,7 +266,7 @@ defineExpose({
             :placeholder="item.placeholder"
             :message-type="getMessageType(item.key)"
             :custom-input-class="`h-8 !pt-1 !pb-1 ${
-              !isDetailsView ? '[&:not(.error)]:!border-transparent' : ''
+              !isDetailsView ? '[&:not(.error,.focus)]:!border-transparent' : ''
             }`"
             class="w-full"
             @input="

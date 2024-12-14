@@ -7,17 +7,17 @@ import { useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useStorage } from '@vueuse/core';
-
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
+
+import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
 import SidebarProfileMenu from './SidebarProfileMenu.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
-import SidebarNotificationBell from './SidebarNotificationBell.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import Logo from 'next/icon/Logo.vue';
+import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 
 const emit = defineEmits([
-  'openNotificationPanel',
   'closeKeyShortcutModal',
   'openKeyShortcutModal',
   'showCreateAccountModal',
@@ -27,7 +27,6 @@ const { accountScopedRoute } = useAccount();
 const store = useStore();
 const searchShortcut = useKbd([`$mod`, 'k']);
 const { t } = useI18n();
-const enableNewConversation = false;
 
 const toggleShortcutModalFn = show => {
   if (show) {
@@ -45,7 +44,7 @@ useSidebarKeyboardShortcuts(toggleShortcutModalFn);
 const expandedItem = useStorage(
   'next-sidebar-expanded-item',
   null,
-  localStorage
+  sessionStorage
 );
 
 const setExpandedItem = name => {
@@ -197,7 +196,12 @@ const menuItems = computed(() => {
         {
           name: 'All Contacts',
           label: t('SIDEBAR.ALL_CONTACTS'),
-          to: accountScopedRoute('contacts_dashboard'),
+          to: accountScopedRoute(
+            'contacts_dashboard_index',
+            {},
+            { page: 1, search: undefined }
+          ),
+          activeOn: ['contacts_dashboard_index', 'contacts_edit'],
         },
         {
           name: 'Segments',
@@ -206,9 +210,15 @@ const menuItems = computed(() => {
           children: contactCustomViews.value.map(view => ({
             name: `${view.name}-${view.id}`,
             label: view.name,
-            to: accountScopedRoute('contacts_segments_dashboard', {
-              id: view.id,
-            }),
+            to: accountScopedRoute(
+              'contacts_dashboard_segments_index',
+              { segmentId: view.id },
+              { page: 1 }
+            ),
+            activeOn: [
+              'contacts_dashboard_segments_index',
+              'contacts_edit_segment',
+            ],
           })),
         },
         {
@@ -222,9 +232,15 @@ const menuItems = computed(() => {
               class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
               style: { backgroundColor: label.color },
             }),
-            to: accountScopedRoute('contacts_labels_dashboard', {
-              label: label.title,
-            }),
+            to: accountScopedRoute(
+              'contacts_dashboard_labels_index',
+              { label: label.title },
+              { page: 1, search: undefined }
+            ),
+            activeOn: [
+              'contacts_dashboard_labels_index',
+              'contacts_edit_label',
+            ],
           })),
         },
       ],
@@ -250,11 +266,6 @@ const menuItems = computed(() => {
           to: accountScopedRoute('csat_reports'),
         },
         {
-          name: 'Reports Bot',
-          label: t('SIDEBAR.REPORTS_BOT'),
-          to: accountScopedRoute('bot_reports'),
-        },
-        {
           name: 'Reports Agent',
           label: t('SIDEBAR.REPORTS_AGENT'),
           to: accountScopedRoute('agent_reports'),
@@ -278,6 +289,11 @@ const menuItems = computed(() => {
           name: 'Reports SLA',
           label: t('SIDEBAR.REPORTS_SLA'),
           to: accountScopedRoute('sla_reports'),
+        },
+        {
+          name: 'Reports Bot',
+          label: t('SIDEBAR.REPORTS_BOT'),
+          to: accountScopedRoute('bot_reports'),
         },
       ],
     },
@@ -343,18 +359,6 @@ const menuItems = computed(() => {
             navigationPath: 'portals_settings_index',
           }),
         },
-      ],
-      activeOn: [
-        'portals_new',
-        'portals_index',
-        'portals_articles_index',
-        'portals_articles_new',
-        'portals_articles_edit',
-        'portals_categories_index',
-        'portals_categories_articles_index',
-        'portals_categories_articles_edit',
-        'portals_locales_index',
-        'portals_settings_index',
       ],
     },
     {
@@ -476,7 +480,7 @@ const menuItems = computed(() => {
       <div class="flex gap-2 px-2">
         <RouterLink
           :to="{ name: 'search' }"
-          class="flex items-center w-full gap-2 px-2 py-1 border rounded-lg border-n-weak bg-n-solid-3 dark:bg-n-black/30"
+          class="flex items-center w-full gap-2 px-2 py-1 rounded-lg h-7 outline outline-1 outline-n-weak bg-n-solid-3 dark:bg-n-black/30"
         >
           <span class="flex-shrink-0 i-lucide-search size-4 text-n-slate-11" />
           <span class="flex-grow text-left">
@@ -488,14 +492,17 @@ const menuItems = computed(() => {
             {{ searchShortcut }}
           </span>
         </RouterLink>
-        <button
-          v-if="enableNewConversation"
-          class="flex items-center w-full gap-2 px-2 py-1 border rounded-lg border-n-weak bg-n-solid-3"
-        >
-          <span
-            class="flex-shrink-0 i-lucide-square-pen size-4 text-n-slate-11"
-          />
-        </button>
+        <ComposeConversation align-position="right">
+          <template #trigger="{ toggle }">
+            <Button
+              icon="i-lucide-pen-line"
+              color="slate"
+              size="sm"
+              class="!h-7 !bg-n-solid-3 dark:!bg-n-black/30 !outline-n-weak !text-n-slate-11"
+              @click="toggle"
+            />
+          </template>
+        </ComposeConversation>
       </div>
     </section>
     <nav class="grid flex-grow gap-2 px-2 pb-5 overflow-y-scroll no-scrollbar">
@@ -513,12 +520,6 @@ const menuItems = computed(() => {
       <SidebarProfileMenu
         @open-key-shortcut-modal="emit('openKeyShortcutModal')"
       />
-      <div v-if="false" class="flex items-center">
-        <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
-        <SidebarNotificationBell
-          @open-notification-panel="emit('openNotificationPanel')"
-        />
-      </div>
     </section>
   </aside>
 </template>

@@ -178,7 +178,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col justify-between gap-3 mb-4 md:flex-row">
+  <div class="flex flex-col justify-between gap-3 md:flex-row">
     <div
       class="w-full grid gap-y-2 gap-x-1.5 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]"
     >
