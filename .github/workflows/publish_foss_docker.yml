@@ -41,7 +41,9 @@ jobs:
 
       - name: set docker tag
         run: |
-          echo "DOCKER_TAG=chatwoot/chatwoot:$GIT_REF-ce" >> $GITHUB_ENV
+          # Replace forward slashes with hyphens in the ref name
+          SANITIZED_REF=$(echo "$GIT_REF" | sed 's/\//-/g')
+          echo "DOCKER_TAG=chatwoot/chatwoot:$SANITIZED_REF-ce" >> $GITHUB_ENV
 
       - name: replace docker tag if master
         if: github.ref_name == 'master'
