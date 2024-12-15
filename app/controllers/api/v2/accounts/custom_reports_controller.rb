@@ -76,6 +76,21 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
     }
   end
 
+  def bot_base_filters
+    api_inbox_ids = Current.account.inboxes.where(channel_type: 'Channel::Api').pluck(:id)
+    {
+      time_period: {
+        type: 'custom',
+        start_date: params[:since],
+        end_date: params[:until]
+      },
+      business_hours: params[:business_hours],
+      inboxes: api_inbox_ids,
+      agents: params[:agents],
+      labels: params[:labels]
+    }
+  end
+
   # rubocop:disable Layout/LineLength
   def agents_overview_params
     {
@@ -90,7 +105,7 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
   def bot_analytics_overview_params
     {
       metrics: %w[bot_total_revenue sales_ooo_hours bot_handled],
-      filters: base_filters
+      filters: bot_base_filters
     }
   end
 
@@ -98,7 +113,7 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
     {
       metrics: %w[pre_sale_queries bot_orders_placed bot_revenue_generated],
       group_by: 'working_hours',
-      filters: base_filters
+      filters: bot_base_filters
     }
   end
 
@@ -106,7 +121,7 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
     {
       metrics: %w[bot_handled bot_resolved bot_avg_resolution_time bot_assign_to_agent],
       group_by: 'working_hours',
-      filters: base_filters
+      filters: bot_base_filters
     }
   end
 
