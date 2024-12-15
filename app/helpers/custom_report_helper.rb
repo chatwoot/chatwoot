@@ -1,0 +1,779 @@
+# rubocop:disable Metrics/ModuleLength
+# rubocop:disable Metrics/PerceivedComplexity
+# rubocop:disable Metrics/AbcSize
+# rubocop:disable Layout/LineLength
+# rubocop:disable Metrics/MethodLength
+# rubocop:disable Rails/HelperInstanceVariable
+# rubocop:disable Metrics/CyclomaticComplexity
+module CustomReportHelper
+  include OnlineStatusHelper
+  include WorkingHoursHelper
+  include BspdAnalyticsHelper
+
+  private
+
+  ### Conversation Statuses Metrics ###
+  def new_assigned
+    # New conversations assigned in the given time period
+    base_query = @account.conversations.where(created_at: @time_range)
+
+    base_query = label_filtered_conversations if @config[:filters][:labels].present?
+
+    # Create a subquery with the latest assignments
+    latest_assignments = ConversationAssignment
+                         .select('conversation_id, assignee_id, inbox_id, team_id, created_at')
+                         .where(account_id: @account.id, conversation_id: base_query.pluck(:id))
+
+    # Wrap it in a subquery to make it countable
+    base_query = ConversationAssignment.from("(#{latest_assignments.to_sql}) AS conversation_assignments")
+
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info 'New Assigned'
+    group_and_count_conversation_assignment(base_query, @config[:group_by])
+  end
+
+  def carry_forwarded
+    # conversations that were created before the start of the specified time period, but are still not resolved at the start of specified time period
+    not_resolved_conversations_before_time_range = ConversationStatus.from(
+      "(#{latest_conversation_statuses_before_time_range.to_sql}) AS conversation_statuses"
+    ).where.not(status: :resolved)
+
+    conversations_without_conversation_status_before_time_range = @account.conversations.where.not(id: ConversationStatus.from(
+      "(#{latest_conversation_statuses_before_time_range.to_sql}) AS conversation_statuses"
+    ).pluck(:conversation_id)).where('created_at < ?', @time_range.begin).where('(updated_at >= ?) OR (updated_at <= ? AND status != ?)', @time_range.begin, @time_range.begin, Conversation.statuses[:resolved])
+
+    base_query = @account.conversations.where(id: [
+      not_resolved_conversations_before_time_range.pluck(:conversation_id),
+      conversations_without_conversation_status_before_time_range.pluck(:id)
+    ].flatten)
+
+    if @config[:filters][:labels].present?
+      base_query = label_filtered_conversations.where(id: not_resolved_conversations_before_time_range.pluck(:conversation_id))
+    end
+
+    latest_assignments = ConversationAssignment
+                         .select('DISTINCT ON (conversation_id) conversation_id, inbox_id, assignee_id, team_id, created_at')
+                         .where('created_at < ?', @time_range.begin)
+                         .where(account_id: @account.id, conversation_id: base_query.pluck(:id))
+                         .order('conversation_id, created_at DESC')
+
+    base_query = ConversationAssignment.from("(#{latest_assignments.to_sql}) AS conversation_assignments")
+
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info 'Carry Forwarded'
+    group_and_count_conversation_assignment(base_query, @config[:group_by])
+  end
+
+  def reopened
+    # conversations that reverted to an open state from resolved state(any other state doesnt count) during the specified time period.
+    resolved_conversations_before_time_range = ConversationStatus.from("(#{latest_conversation_statuses_before_time_range.to_sql}) AS conversation_statuses").where(status: :resolved)
+
+    Rails.logger.info "resolved_conversations_before_time_range: #{resolved_conversations_before_time_range.to_sql}"
+
+    reopened_conversations = first_conversation_statuses.where(conversation_id: resolved_conversations_before_time_range.pluck(:conversation_id)).where(status: :open)
+
+    Rails.logger.info "reopened_conversations: #{reopened_conversations.to_sql}"
+
+    base_query = @account.conversations.where(id: reopened_conversations.pluck(:conversation_id))
+
+    base_query = label_filtered_conversations.where(id: reopened_conversations.pluck(:conversation_id)) if @config[:filters][:labels].present?
+
+    # Get all assignments during the time range
+    latest_assignments = ConversationAssignment
+                         .select('DISTINCT ON (conversation_id) conversation_id, inbox_id, assignee_id, team_id, created_at')
+                         .where('created_at >= ?', @time_range.begin)
+                         .where(account_id: @account.id, conversation_id: base_query.pluck(:id))
+                         .order('conversation_id, created_at ASC')
+
+    # Handle conversations without assignments by creating a union query
+    conversations_without_assignments = base_query
+                                        .where.not(id: latest_assignments.pluck(:conversation_id))
+                                        .select('id AS conversation_id, inbox_id, assignee_id, NULL AS team_id, created_at')
+
+    # Combine both queries using a UNION
+    combined_query = ConversationAssignment.connection.unprepared_statement do
+      "((#{latest_assignments.to_sql}) UNION (#{conversations_without_assignments.to_sql})) AS conversation_assignments"
+    end
+
+    base_query = ConversationAssignment.from(combined_query)
+
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info 'Reopened'
+    group_and_count_conversation_assignment(base_query, @config[:group_by])
+  end
+
+  def handled
+    # carry forwarded + new assigned + reopened
+    if @config[:group_by].present?
+      # For grouped data, we need to merge the results
+      result = {}
+      [carry_forwarded, new_assigned, reopened].each do |data|
+        data.each do |key, value|
+          result[key] ||= 0
+          result[key] += value
+        end
+      end
+      result
+    else
+      # For non-grouped data, we can simply sum the values
+      carry_forwarded + new_assigned + reopened
+    end
+  end
+
+  def bot_handled
+    # set filter as @@config[:filters][:agents] = [bot_user.id]
+    @config[:filters][:agents] = [bot_user.id]
+
+    handled
+  end
+
+  def pre_sale_queries
+    base_query = @account.conversations.with_intent('PRE_SALES').where(created_at: @time_range)
+
+    base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+
+    group_and_count(base_query, @config[:group_by])
+  end
+
+  def bot_user
+    query = @account.users.where('email LIKE ?', 'cx.%@bitespeed.co')
+    Rails.logger.info "bot_user query: #{query.to_sql}"
+    query.first
+  end
+
+  def open
+    # conversations that remain in an “Open” state at the end of the specified period.
+    open_conversations = ConversationStatus.from("(#{latest_conversation_statuses.to_sql}) AS conversation_statuses").where(status: :open)
+
+    base_query = @account.conversations.where(id: open_conversations.pluck(:conversation_id))
+
+    base_query = label_filtered_conversations.where(id: open_conversations.pluck(:conversation_id)) if @config[:filters][:labels].present?
+
+    latest_assignments = ConversationAssignment
+                         .select('DISTINCT ON (conversation_id) conversation_id, inbox_id, assignee_id, team_id, created_at')
+                         .where('created_at < ?', @time_range.end)
+                         .where(account_id: @account.id, conversation_id: base_query.pluck(:id))
+                         .order('conversation_id, created_at DESC')
+
+    base_query = ConversationAssignment.from("(#{latest_assignments.to_sql}) AS conversation_assignments")
+
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "open_conversations: #{base_query.to_sql}"
+
+    group_and_count_conversation_assignment(base_query, @config[:group_by])
+  end
+
+  def resolved
+    # conversations that get resolved at the end of the specified period. we use this so we remove the conversations that get reopened in the time range from reporting events
+    resolved_conversations = ConversationStatus.from("(#{latest_conversation_statuses.to_sql}) AS conversation_statuses")
+                                               .where(status: :resolved)
+
+    # Get conversations that were resolved in the time range
+    base_query = @account.reporting_events
+                         .where(name: 'conversation_resolved', created_at: @time_range)
+                         .where(conversation_id: resolved_conversations.pluck(:conversation_id))
+
+    # Apply filters
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "resolved conversations query: #{base_query.to_sql}"
+
+    group_and_count_reporting_events(base_query, @config[:group_by])
+  end
+
+  def bot_resolved
+    @config[:filters][:agents] = [bot_user.id]
+
+    resolved
+  end
+
+  def snoozed
+    # conversations that remain in an “Snoozed” state at the end of the specified period.
+    snoozed_conversations = ConversationStatus.from("(#{latest_conversation_statuses.to_sql}) AS conversation_statuses").where(status: :snoozed)
+
+    base_query = @account.conversations.where(id: snoozed_conversations.pluck(:conversation_id))
+
+    base_query = label_filtered_conversations.where(id: snoozed_conversations.pluck(:conversation_id)) if @config[:filters][:labels].present?
+
+    Rails.logger.info "snoozed_conversations: #{base_query.to_sql}"
+
+    latest_assignments = ConversationAssignment
+                         .select('DISTINCT ON (conversation_id) conversation_id, inbox_id, assignee_id, team_id, created_at')
+                         .where('created_at < ?', @time_range.end)
+                         .where(account_id: @account.id, conversation_id: base_query.pluck(:id))
+                         .order('conversation_id, created_at DESC')
+
+    base_query = ConversationAssignment.from("(#{latest_assignments.to_sql}) AS conversation_assignments")
+
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    group_and_count_conversation_assignment(base_query, @config[:group_by])
+  end
+
+  def waiting_agent_response
+    # conversations that are open and waiting an agent response at the end of the specified period.
+
+    open_conversations = ConversationStatus.from("(#{latest_conversation_statuses.to_sql}) AS conversation_statuses").where(status: :open)
+
+    conversation_waiting_agent_response = latest_messages_by_type(
+      open_conversations.pluck(:conversation_id),
+      :incoming
+    )
+
+    Rails.logger.info "conversation_waiting_agent_response: #{conversation_waiting_agent_response.to_sql}"
+
+    base_query = @account.conversations.where(id: conversation_waiting_agent_response.pluck(:conversation_id))
+
+    if @config[:filters][:labels].present?
+      base_query = label_filtered_conversations.where(id: conversation_waiting_agent_response.pluck(:conversation_id))
+    end
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "waiting_agent_response: #{base_query.to_sql}"
+
+    group_and_count(base_query, @config[:group_by])
+  end
+
+  def waiting_customer_response
+    # conversations that are open and waiting a customer response at the end of the specified period.
+    open_conversations = ConversationStatus.from("(#{latest_conversation_statuses.to_sql}) AS conversation_statuses").where(status: :open)
+
+    conversation_waiting_customer_response = latest_messages_by_type(
+      open_conversations.pluck(:conversation_id),
+      [:outgoing, :template]
+    )
+
+    base_query = @account.conversations.where(id: conversation_waiting_customer_response.pluck(:conversation_id))
+
+    if @config[:filters][:labels].present?
+      base_query = label_filtered_conversations.where(id: conversation_waiting_customer_response.pluck(:conversation_id))
+    end
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "waiting_customer_response: #{base_query.to_sql}"
+
+    group_and_count(base_query, @config[:group_by])
+  end
+
+  ### Agent Metrics ###
+  def avg_first_response_time
+    # the average time elapsed between a ticket getting assigned to an agent and the agent responding to it for the first time.
+    base_query = @account.reporting_events.where(name: 'first_response', created_at: @time_range)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(avg_first_response_time): #{base_query.to_sql}"
+
+    Rails.logger.info "get_grouped_average(base_query) #{get_grouped_average(base_query)}"
+
+    get_grouped_average(base_query)
+  end
+
+  def avg_resolution_time
+    # the average time elapsed between a ticket getting assigned to an agent and the agent sending the last message to the customer (only resolved tickets are included in this calculation)
+    base_query = @account.reporting_events.where(name: 'conversation_resolved', created_at: @time_range)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(avg_resolution_time): #{base_query.to_sql}"
+
+    get_grouped_average(base_query)
+  end
+
+  def bot_avg_resolution_time
+    @config[:filters][:agents] = [bot_user.id]
+
+    avg_resolution_time
+  end
+
+  def bot_assign_to_agent
+    # find all the conversations where assignment changed from bot to someone else other than bot.
+    bot_assignments = ConversationAssignment.where(assignee_id: bot_user.id)
+
+    conversations_assigned_by_bot = @account.conversations.where(id: bot_assignments
+    .select(:conversation_id)
+    .distinct
+    .joins('INNER JOIN conversation_assignments AS ca2 ON ca2.conversation_id = conversation_assignments.conversation_id')
+                                            .where('ca2.assignee_id != ? AND ca2.created_at > conversation_assignments.created_at', bot_user.id)
+                                            .where(created_at: @time_range))
+
+    Rails.logger.info "conversations_assigned_by_bot: #{conversations_assigned_by_bot.to_sql}"
+
+    base_query = @account.conversations.where(id: conversations_assigned_by_bot.pluck(:id))
+
+    base_query = label_filtered_conversations.where(id: conversations_assigned_by_bot.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+
+    group_and_count(base_query, @config[:group_by])
+  end
+
+  def avg_resolution_time_of_new_assigned_conversations
+    # the average time elapsed between a ticket getting assigned to an agent and the agent sending the last message to the customer (only resolved tickets are included in this calculation)
+    # but split by conversations that moved to resolved from new_assigned
+    # means need to check the conversations where created in the same time range as the time range for which the report is generated
+    base_query = @account.reporting_events.joins(:conversation).where(name: 'conversation_resolved', conversations: { created_at: @time_range }, created_at: @time_range)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(avg_resolution_time_of_new_assigned_conversations): #{base_query.to_sql}"
+
+    get_grouped_average(base_query)
+  end
+
+  def avg_resolution_time_of_carry_forwarded_conversations
+    # the average time elapsed between a ticket getting assigned to an agent and the agent sending the last message to the customer (only resolved tickets are included in this calculation)
+    # but split by conversations that moved to resolved from carry_forwarded
+    # means need to check the conversations where created before the start of the time range and are still not resolved at the start of the time range for which the report is generated
+
+    not_resolved_conversations_before_time_range = ConversationStatus.from("(#{latest_conversation_statuses_before_time_range.to_sql}) AS conversation_statuses").where.not(status: :resolved)
+
+    conversations_without_conversation_status_before_time_range = @account.conversations.where.not(id: ConversationStatus.from(
+      "(#{latest_conversation_statuses_before_time_range.to_sql}) AS conversation_statuses"
+    ).pluck(:conversation_id)).where('created_at < ?', @time_range.begin).where('(updated_at >= ?) OR (updated_at <= ? AND status != ?)', @time_range.begin, @time_range.begin, Conversation.statuses[:resolved])
+
+    base_query = @account.reporting_events.where(name: 'conversation_resolved', conversation_id: [
+      not_resolved_conversations_before_time_range.pluck(:conversation_id),
+      conversations_without_conversation_status_before_time_range.pluck(:id)
+    ].flatten, created_at: @time_range)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(avg_resolution_time_of_carry_forwarded_conversations): #{base_query.to_sql}"
+
+    get_grouped_average(base_query)
+  end
+
+  def avg_resolution_time_of_reopened_conversations
+    # the average time elapsed between a ticket getting assigned to an agent and the agent sending the last message to the customer (only resolved tickets are included in this calculation)
+    # but split by conversations that moved to resolved from reopened
+    # means need to check the conversations where created before the start of the time range and is resolved at the start of the time range for which the report is generated
+
+    resolved_conversations_before_time_range = ConversationStatus.from("(#{latest_conversation_statuses_before_time_range.to_sql}) AS conversation_statuses").where(status: :resolved)
+
+    reopened_conversations = first_conversation_statuses.where(conversation_id: resolved_conversations_before_time_range.pluck(:conversation_id)).where(status: :open)
+
+    base_query = @account.reporting_events.where(name: 'conversation_resolved', conversation_id: reopened_conversations.pluck(:conversation_id), created_at: @time_range)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:conversation_id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(avg_resolution_time_of_reopened_conversations): #{base_query.to_sql}"
+
+    get_grouped_average(base_query)
+  end
+
+  def avg_response_time
+    # the average time elapsed b/w a cx messaging and agent replying during the whole conversation
+    base_query = @account.reporting_events.where(name: 'reply_time', created_at: @time_range)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(avg_response_time): #{base_query.to_sql}"
+
+    get_grouped_average(base_query)
+  end
+
+  def avg_csat_score
+    # Score given by cx at the end of each conversation resolution
+    base_query = @account.csat_survey_responses.where(created_at: @time_range)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.filter_by_inbox_id(@config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.filter_by_assigned_agent_id(@config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(avg_csat_score): #{base_query.to_sql}"
+
+    get_grouped_average_csat(base_query)
+  end
+
+  def median_first_response_time
+    # the median time elapsed between a ticket getting assigned to an agent and the agent responding to it for the first time.
+    base_query = @account.reporting_events.where(name: 'first_response', created_at: @time_range)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(median_first_response_time): #{base_query.to_sql}"
+
+    get_grouped_median(base_query)
+  end
+
+  def median_resolution_time
+    # the median time elapsed between a ticket getting assigned to an agent and the agent sending the last message to the customer (only resolved tickets are included in this calculation)
+    base_query = @account.reporting_events.where(name: 'conversation_resolved', created_at: @time_range)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(median_resolution_time): #{base_query.to_sql}"
+
+    get_grouped_median(base_query)
+  end
+
+  def median_resolution_time_of_new_assigned_conversations
+    # the median time elapsed between a ticket getting assigned to an agent and the agent sending the last message to the customer (only resolved tickets are included in this calculation)
+    # but split by conversations that moved to resolved from new_assigned
+    # means need to check the conversations where created in the same time range as the time range for which the report is generated
+    base_query = @account.reporting_events.joins(:conversation).where(name: 'conversation_resolved', conversations: { created_at: @time_range }, created_at: @time_range)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(median_resolution_time_of_new_assigned_conversations): #{base_query.to_sql}"
+    get_grouped_median(base_query)
+  end
+
+  def median_resolution_time_of_carry_forwarded_conversations
+    # the median time elapsed between a ticket getting assigned to an agent and the agent sending the last message to the customer (only resolved tickets are included in this calculation)
+    # but split by conversations that moved to resolved from carry_forwarded
+    # means need to check the conversations where created before the start of the time range and are still not resolved at the start of the time range for which the report is generated
+
+    not_resolved_conversations_before_time_range = ConversationStatus.from("(#{latest_conversation_statuses_before_time_range.to_sql}) AS conversation_statuses").where.not(status: :resolved)
+
+    conversations_without_conversation_status_before_time_range = @account.conversations.where.not(id: ConversationStatus.from(
+      "(#{latest_conversation_statuses_before_time_range.to_sql}) AS conversation_statuses"
+    ).pluck(:conversation_id)).where('created_at < ?', @time_range.begin).where('(updated_at >= ?) OR (updated_at <= ? AND status != ?)', @time_range.begin, @time_range.begin, Conversation.statuses[:resolved])
+
+    base_query = @account.reporting_events.where(name: 'conversation_resolved', conversation_id: [
+      not_resolved_conversations_before_time_range.pluck(:conversation_id),
+      conversations_without_conversation_status_before_time_range.pluck(:id)
+    ].flatten, created_at: @time_range)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(median_resolution_time_of_carry_forwarded_conversations): #{base_query.to_sql}"
+
+    get_grouped_median(base_query)
+  end
+
+  def median_resolution_time_of_reopened_conversations
+    # the median time elapsed between a ticket getting assigned to an agent and the agent sending the last message to the customer (only resolved tickets are included in this calculation)
+    # but split by conversations that moved to resolved from reopened
+    # means need to check the conversations where created before the start of the time range and is resolved at the start of the time range for which the report is generated
+
+    resolved_conversations_before_time_range = ConversationStatus.from("(#{latest_conversation_statuses_before_time_range.to_sql}) AS conversation_statuses").where(status: :resolved)
+
+    reopened_conversations = first_conversation_statuses.where(conversation_id: resolved_conversations_before_time_range.pluck(:conversation_id)).where(status: :open)
+
+    base_query = @account.reporting_events.where(name: 'conversation_resolved', conversation_id: reopened_conversations.pluck(:conversation_id), created_at: @time_range)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:conversation_id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(median_resolution_time_of_reopened_conversations): #{base_query.to_sql}"
+
+    get_grouped_median(base_query)
+  end
+
+  def median_response_time
+    # the median time elapsed b/w a cx messaging and agent replying during the whole conversation
+    base_query = @account.reporting_events.where(name: 'reply_time', created_at: @time_range)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(median_response_time): #{base_query.to_sql}"
+
+    get_grouped_median(base_query)
+  end
+
+  def median_csat_score
+    # median score given by cx at the end of each conversation resolution
+    base_query = @account.csat_survey_responses.where(created_at: @time_range)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.filter_by_inbox_id(@config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.filter_by_assigned_agent_id(@config[:filters][:agents]) if @config[:filters][:agents].present?
+    base_query = base_query.filter_by_team_id(@config[:filters][:teams]) if @config[:filters][:teams].present?
+
+    Rails.logger.info "Base query(median_csat_score): #{base_query.to_sql}"
+
+    get_grouped_median_csat(base_query)
+  end
+
+  ### Helper Methods ###
+
+  def get_grouped_average(events)
+    if @config[:group_by].present?
+      Rails.logger.info "events: #{events.to_sql}"
+      if @config[:group_by] == 'working_hours'
+        result = events.joins(:conversation)
+                       .group("COALESCE((conversations.additional_attributes->>'working_hours')::boolean, true)")
+                       .average(average_value_key)
+                       .transform_keys { |key| key ? 'working_hours' : 'non_working_hours' }
+        {
+          'working_hours' => result['working_hours'] || nil,
+          'non_working_hours' => result['non_working_hours'] || nil,
+          'total' => events.group(group_by_key).average(average_value_key) || nil
+        }
+      else
+        events.group(group_by_key).average(average_value_key)
+      end
+    else
+      events.average(average_value_key)
+    end
+  end
+
+  def get_grouped_median(events)
+    if @config[:group_by].present?
+      group_key = group_by_key
+      value_key = average_value_key
+
+      Rails.logger.info "get_grouped_median Group key: #{group_key.inspect}, Value key: #{value_key.inspect}"
+
+      return {} if group_key.nil? || value_key.nil?
+
+      Rails.logger.info "events: #{events.to_sql}"
+
+      begin
+        result = events.group(group_key)
+                       .pluck(Arel.sql(sanitize_sql_for_conditions(["#{group_key}, ARRAY_AGG(#{value_key})"])))
+                       .to_h
+                       .transform_values { |values| calculate_median(values) }
+        Rails.logger.info "Grouped median result: #{result.inspect}"
+        result
+      rescue ActiveRecord::StatementInvalid => e
+        Rails.logger.error "Error in get_grouped_median: #{e.message}"
+        {}
+      end
+    else
+      calculate_median(events.pluck(average_value_key))
+    end
+  end
+
+  def calculate_median(array)
+    return nil if array.empty?
+
+    sorted = array.sort
+    len = sorted.length
+    (sorted[(len - 1) / 2] + sorted[len / 2]) / 2.0
+  end
+
+  def sanitize_sql_for_conditions(sql)
+    ActiveRecord::Base.send(:sanitize_sql_for_conditions, sql)
+  end
+
+  def get_grouped_average_csat(events)
+    if @config[:group_by].present?
+      case @config[:group_by]
+      when 'agent'
+        events.group(:assigned_agent_id).average(:rating)
+      when 'inbox'
+        events.joins(:conversation).group('conversations.inbox_id').average(:rating)
+      end
+    else
+      events.average(:rating)
+    end
+  end
+
+  def get_grouped_median_csat(events)
+    if @config[:group_by].present?
+      group_key, join_condition = case @config[:group_by]
+                                  when 'agent'
+                                    [:assigned_agent_id, nil]
+                                  when 'inbox'
+                                    ['conversations.inbox_id', :conversation]
+                                  else
+                                    [nil, nil]
+                                  end
+
+      Rails.logger.info "CSAT Group key: #{group_key.inspect}, Join condition: #{join_condition.inspect}"
+
+      return {} if group_key.nil?
+
+      begin
+        query = join_condition ? events.joins(join_condition) : events
+        result = query.group(group_key)
+                      .pluck(Arel.sql(sanitize_sql_for_conditions(["#{group_key}, ARRAY_AGG(rating)"])))
+                      .to_h
+                      .transform_values { |ratings| calculate_median(ratings) }
+        Rails.logger.info "Grouped median CSAT result: #{result.inspect}"
+        result
+      rescue ActiveRecord::StatementInvalid => e
+        Rails.logger.error "Error in get_grouped_median_csat: #{e.message}"
+        {}
+      end
+    else
+      calculate_median(events.pluck(:rating))
+    end
+  end
+
+  def average_value_key
+    @config[:filters][:business_hours].present? && @config[:filters][:business_hours] == true ? :value_in_business_hours : :value
+  end
+
+  def group_by_key
+    case @config[:group_by]
+    when 'agent'
+      :user_id
+    when 'inbox'
+      :inbox_id
+    end
+  end
+
+  def group_and_count(query, group_by_param)
+    Rails.logger.info "group_and_count query: #{query.to_sql}"
+
+    case group_by_param
+    when 'agent'
+      query.group(:assignee_id).count
+    when 'inbox'
+      query.group(:inbox_id).count
+    when 'working_hours'
+      # Group by working_hours using additional_attributes
+      result = query.group("COALESCE((additional_attributes->>'working_hours')::boolean, true)")
+                    .count
+                    .transform_keys do |key|
+        # Transform true/false keys to working_hours/non_working_hours
+        key ? 'working_hours' : 'non_working_hours'
+      end
+
+      # Ensure both keys exist with at least 0 as value
+      {
+        'working_hours' => result['working_hours'] || 0,
+        'non_working_hours' => result['non_working_hours'] || 0
+      }
+    else
+      query.count
+    end
+  rescue StandardError => e
+    Rails.logger.error "Error in group_and_count: #{e.message}"
+    Rails.logger.error e.backtrace.join("\n")
+    raise e
+  end
+
+  def group_and_count_conversation_assignment(query, group_by_param)
+    Rails.logger.info "group_and_count query: #{query.to_sql}"
+
+    case group_by_param
+    when 'agent'
+      query.group(:assignee_id).count
+    when 'inbox'
+      query.group(:inbox_id).count
+    when 'working_hours'
+      # Join with conversations table to access additional_attributes
+      result = query.joins(:conversation)
+                    .group("COALESCE((conversations.additional_attributes->>'working_hours')::boolean, true)")
+                    .count
+                    .transform_keys { |key| key ? 'working_hours' : 'non_working_hours' }
+
+      # Ensure both keys exist with at least 0 as value
+      {
+        'working_hours' => result['working_hours'] || 0,
+        'non_working_hours' => result['non_working_hours'] || 0
+      }
+    else
+      query.count
+    end
+  rescue StandardError => e
+    Rails.logger.error "Error in group_and_count_conversation_assignment: #{e.message}"
+    Rails.logger.error e.backtrace.join("\n")
+    raise e
+  end
+
+  def group_and_count_reporting_events(query, group_by_param)
+    case group_by_param
+    when 'agent'
+      query.group(:user_id).distinct.count(:conversation_id)
+    when 'inbox'
+      query.group(:inbox_id).distinct.count(:conversation_id)
+    when 'working_hours'
+      result = query.joins(:conversation)
+                    .group("COALESCE((conversations.additional_attributes->>'working_hours')::boolean, true)")
+                    .distinct
+                    .count(:conversation_id)
+                    .transform_keys { |key| key ? 'working_hours' : 'non_working_hours' }
+
+      {
+        'working_hours' => result['working_hours'] || 0,
+        'non_working_hours' => result['non_working_hours'] || 0
+      }
+    else
+      query.distinct.count(:conversation_id)
+    end
+  rescue StandardError => e
+    Rails.logger.error "Error in group_and_count_reporting_events: #{e.message}"
+    Rails.logger.error e.backtrace.join("\n")
+    raise e
+  end
+
+  def first_conversation_statuses
+    ConversationStatus.select('DISTINCT ON (conversation_id) conversation_id, status, created_at').where(
+      account_id: account.id,
+      created_at: @time_range
+    ).order('conversation_id, created_at ASC')
+  end
+
+  def latest_conversation_statuses
+    ConversationStatus.select('DISTINCT ON (conversation_id) conversation_id, status, created_at').where(
+      account_id: account.id,
+      created_at: @time_range
+    ).order('conversation_id, created_at DESC')
+  end
+
+  def latest_conversation_statuses_before_time_range
+    ConversationStatus.select('DISTINCT ON (conversation_id) conversation_id, status, created_at').where(
+      account_id: account.id
+    ).where('created_at < ?', @time_range.begin).order('conversation_id, created_at DESC')
+  end
+
+  def latest_messages_by_type(conversation_ids, message_types)
+    Message
+      .select('DISTINCT ON (messages.conversation_id) messages.*')
+      .where(conversation_id: conversation_ids, created_at: @time_range)
+      .where.not(message_type: :activity)
+      .where(message_type: message_types)
+      .order('messages.conversation_id, messages.created_at DESC')
+  end
+
+  def label_filtered_conversations
+    convs = @account.conversations.tagged_with(@config[:filters][:labels], :any => true).where(created_at: @time_range)
+    Rails.logger.info "label_filtered_conversations: #{convs.to_sql}"
+    convs
+  end
+
+  def bot_label_filtered_conversations
+    convs = @account.conversations.tagged_with(@config[:filters][:labels], :any => true).where(created_at: @time_range, assignee_id: bot_user.id)
+    Rails.logger.info "bot_label_filtered_conversations: #{convs.to_sql}"
+    convs
+  end
+end
+# rubocop:enable Metrics/ModuleLength
+# rubocop:enable Metrics/AbcSize
+# rubocop:enable Layout/LineLength
+# rubocop:enable Metrics/MethodLength
+# rubocop:enable Metrics/CyclomaticComplexity
+# rubocop:enable Rails/HelperInstanceVariable
+# rubocop:enable Metrics/PerceivedComplexity

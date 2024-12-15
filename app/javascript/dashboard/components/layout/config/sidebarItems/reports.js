@@ -13,6 +13,7 @@ const reports = accountId => ({
     'inbox_reports',
     'team_reports',
     'sla_reports',
+    'account_bot_analytics',
   ],
   menuItems: [
     {
@@ -79,6 +80,13 @@ const reports = accountId => ({
       featureFlag: FEATURE_FLAGS.SLA,
       toState: frontendURL(`accounts/${accountId}/reports/sla`),
       toStateName: 'sla_reports',
+    },
+    {
+      icon: 'chat',
+      label: 'BOT_ANALYTICS',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/reports/bot-analytics`),
+      toStateName: 'account_bot_analytics',
     },
   ],
 });

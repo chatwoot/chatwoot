@@ -11,6 +11,7 @@
       :back-url="backUrl"
       :show-new-button="showNewButton"
       :show-sidemenu-icon="showSidemenuIcon"
+      :custom-icon="customIcon"
     />
     <keep-alive v-if="keepAlive">
       <router-view />
@@ -50,6 +51,10 @@ export default {
     showSidemenuIcon: {
       type: Boolean,
       default: true,
+    },
+    customIcon: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

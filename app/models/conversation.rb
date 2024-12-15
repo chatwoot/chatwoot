@@ -58,6 +58,7 @@ class Conversation < ApplicationRecord
   include SortHandler
   include PushDataHelper
   include ConversationMuteHelpers
+  include WorkingHoursHelper
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -79,6 +80,9 @@ class Conversation < ApplicationRecord
     return none if auto_resolve_duration.to_i.zero?
 
     open.where('last_activity_at < ? ', Time.now.utc - auto_resolve_duration.days)
+  }
+  scope :with_intent, lambda { |intent|
+    where("additional_attributes->>'intent' = ?", intent)
   }
 
   scope :last_user_message_at, lambda {
@@ -108,6 +112,7 @@ class Conversation < ApplicationRecord
   before_save :ensure_snooze_until_reset
   before_create :determine_conversation_status
   before_create :ensure_waiting_since
+  before_create :set_working_hours_attribute
 
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
@@ -237,6 +242,11 @@ class Conversation < ApplicationRecord
       conversation_id: id,
       status: status
     )
+  end
+
+  def set_working_hours_attribute
+    self.additional_attributes ||= {}
+    self.additional_attributes['working_hours'] = in_working_hours(created_at)
   end
 
   def log_status_change

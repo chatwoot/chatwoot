@@ -56,7 +56,7 @@ export default {
     }),
   },
   mounted() {
-    this.$store.dispatch('labels/get');
+    this.$store.dispatch('labels/get', { force: true });
   },
   methods: {
     handleInput() {

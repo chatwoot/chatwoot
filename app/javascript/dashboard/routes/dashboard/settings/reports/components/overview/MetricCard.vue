@@ -23,6 +23,15 @@
           </span>
         </div>
         <div class="card-header--control-area">
+          <woot-button
+            v-if="showDownloadButton"
+            class="ml-auto"
+            variant="clear"
+            icon="arrow-download"
+            @click="openDownloadModal"
+          >
+            Download Report
+          </woot-button>
           <slot name="control" />
         </div>
       </slot>
@@ -43,16 +52,48 @@
         {{ loadingMessage }}
       </span>
     </div>
+    <woot-modal :show="showDownloadModal" :on-close="closeDownloadModal">
+      <div class="h-auto overflow-auto flex flex-col">
+        <woot-modal-header
+          :header-title="'Enter Email Address'"
+          :header-content="'We’ll send the report on this email.'"
+        />
+        <form class="w-full" @submit.prevent="sendReport">
+          <label class="block">
+            <span class="text-gray-700">Email Address</span>
+            <input
+              v-model="emailAddress"
+              type="email"
+              class="mt-4 block w-full rounded-md border-gray-300 shadow-sm"
+              placeholder="Enter your email address"
+              required
+            />
+          </label>
+          <div class="flex justify-end mt-6 space-x-2">
+            <woot-button
+              class="button clear"
+              @click.prevent="closeDownloadModal"
+            >
+              Cancel
+            </woot-button>
+            <woot-button type="submit"> Send Report </woot-button>
+          </div>
+        </form>
+      </div>
+    </woot-modal>
   </div>
 </template>
 <script>
 import Spinner from 'shared/components/Spinner.vue';
+import alertMixin from 'shared/mixins/alertMixin';
+import CustomReportsAPI from 'dashboard/api/customReports';
 
 export default {
   name: 'MetricCard',
   components: {
     Spinner,
   },
+  mixins: [alertMixin],
   props: {
     isLive: {
       type: Boolean,
@@ -73,6 +114,68 @@ export default {
     isFilter: {
       type: Boolean,
       default: false,
+    },
+    showDownloadButton: {
+      type: Boolean,
+      default: false,
+    },
+    downloadFilters: {
+      type: Object,
+      default: () => ({}),
+    },
+    downloadType: {
+      type: String,
+      default: '',
+    },
+  },
+  data() {
+    return {
+      showDownloadModal: false,
+      emailAddress: '',
+    };
+  },
+  methods: {
+    openDownloadModal() {
+      this.showDownloadModal = true;
+    },
+    closeDownloadModal() {
+      this.showDownloadModal = false;
+      this.emailAddress = '';
+    },
+    async sendReport() {
+      if (this.downloadType === 'overview') {
+        await CustomReportsAPI.downloadCustomAgentOverviewReports({
+          ...this.downloadFilters,
+          email: this.emailAddress,
+        });
+      } else if (this.downloadType === 'conversationStates') {
+        await CustomReportsAPI.downloadCustomAgentWiseConversationStatesReports(
+          {
+            ...this.downloadFilters,
+            email: this.emailAddress,
+          }
+        );
+      } else if (this.downloadType === 'botAnalyticsOverview') {
+        await CustomReportsAPI.downloadCustomBotAnalyticsOverviewReports({
+          ...this.downloadFilters,
+          email: this.emailAddress,
+        });
+      } else if (this.downloadType === 'botAnalyticsSalesOverview') {
+        await CustomReportsAPI.downloadCustomBotAnalyticsSalesOverviewReports({
+          ...this.downloadFilters,
+          email: this.emailAddress,
+        });
+      } else if (this.downloadType === 'botAnalyticsSupportOverview') {
+        await CustomReportsAPI.downloadCustomBotAnalyticsSupportOverviewReports(
+          {
+            ...this.downloadFilters,
+            email: this.emailAddress,
+          }
+        );
+      }
+
+      this.showAlert('Report sent successfully!');
+      this.closeDownloadModal();
     },
   },
 };

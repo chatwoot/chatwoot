@@ -1,6 +1,7 @@
 /* eslint no-console: 0 */
 import { clampDataBetweenTimeline } from 'shared/helpers/ReportsDataHelper';
 import liveReports from '../../api/liveReports';
+import customReports from '../../api/customReports';
 import Report from '../../api/reports';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
@@ -53,11 +54,13 @@ const state = {
   overview: {
     uiFlags: {
       isFetchingAccountConversationMetric: false,
+      isFetchingBotConversationMetric: false,
       isFetchingAccountConversationsHeatmap: false,
       isFetchingAgentConversationMetric: false,
       isFetchingTeamConversationMetric: false,
     },
     accountConversationMetric: {},
+    botConversationMetric: {},
     accountConversationHeatmap: [],
     agentConversationMetric: [],
     teamConversationMetric: [],
@@ -76,6 +79,9 @@ const getters = {
   },
   getAccountConversationMetric(_state) {
     return _state.overview.accountConversationMetric;
+  },
+  getBotConversationMetric(_state) {
+    return _state.overview.botConversationMetric;
   },
   getAccountConversationHeatmapData(_state) {
     return _state.overview.accountConversationHeatmap;
@@ -164,6 +170,22 @@ export const actions = {
       })
       .catch(() => {
         commit(types.default.TOGGLE_ACCOUNT_CONVERSATION_METRIC_LOADING, false);
+      });
+  },
+  fetchBotConversationMetric({ commit }, params = {}) {
+    commit(types.default.TOGGLE_BOT_CONVERSATION_METRIC_LOADING, true);
+    console.log('this is being called');
+    customReports
+      .getCustomBotAnalyticsOverviewReports(params)
+      .then(botConversationMetric => {
+        commit(
+          types.default.SET_BOT_CONVERSATION_METRIC,
+          botConversationMetric.data.data
+        );
+        commit(types.default.TOGGLE_BOT_CONVERSATION_METRIC_LOADING, false);
+      })
+      .catch(() => {
+        commit(types.default.TOGGLE_BOT_CONVERSATION_METRIC_LOADING, false);
       });
   },
   fetchAgentConversationMetric({ commit }) {
@@ -306,6 +328,12 @@ const mutations = {
   },
   [types.default.TOGGLE_ACCOUNT_CONVERSATION_METRIC_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingAccountConversationMetric = flag;
+  },
+  [types.default.SET_BOT_CONVERSATION_METRIC](_state, metricData) {
+    _state.overview.botConversationMetric = metricData;
+  },
+  [types.default.TOGGLE_BOT_CONVERSATION_METRIC_LOADING](_state, flag) {
+    _state.overview.uiFlags.isFetchingBotConversationMetric = flag;
   },
   [types.default.SET_AGENT_CONVERSATION_METRIC](_state, metricData) {
     _state.overview.agentConversationMetric = metricData;

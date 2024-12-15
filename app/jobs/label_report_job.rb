@@ -9,6 +9,7 @@ class LabelReportJob < ApplicationJob
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/PerceivedComplexity
   # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
   def perform
     set_statement_timeout
 
@@ -35,12 +36,18 @@ class LabelReportJob < ApplicationJob
                 { since: 1.day.ago.beginning_of_day, until: 1.day.ago.end_of_day }
               end
 
-      process_account(job[:account_id], range, false, job[:frequency])
+      if job[:type].present? && job[:type] == 'overall'
+        process_account_overall_data(job[:account_id], range, false, job[:frequency])
+      else
+        process_account(job[:account_id], range, false, job[:frequency])
+      end
     end
   end
+
   # rubocop:enable Metrics/CyclomaticComplexity
   # rubocop:enable Metrics/PerceivedComplexity
   # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
 
   def set_statement_timeout
     ActiveRecord::Base.connection.execute("SET statement_timeout = '60s'")
@@ -48,6 +55,22 @@ class LabelReportJob < ApplicationJob
 
   def working_hours_enabled?(account_id)
     Account.find(account_id).inboxes.any?(&:working_hours_enabled?)
+  end
+
+  def process_account_overall_data(account_id, range, bitespeed_bot, frequency = 'daily')
+    report = generate_label_report_overall(account_id, range)
+
+    if report.present?
+      Rails.logger.info "Data found for account_id: #{account_id}"
+
+      start_date = range[:since].strftime('%Y-%m-%d')
+      end_date = range[:until].strftime('%Y-%m-%d')
+
+      csv_content = generate_csv_overall(report, start_date, end_date)
+      upload_csv(account_id, range, csv_content, frequency, bitespeed_bot)
+    else
+      Rails.logger.info "No data found for account_id: #{account_id}"
+    end
   end
 
   def process_account(account_id, range, bitespeed_bot, frequency = 'daily')
@@ -79,6 +102,14 @@ class LabelReportJob < ApplicationJob
       report = generate_report(account,
                                { type: :label, id: label.id, since: range[:since], until: range[:until], assignee_id: agent.user_id,
                                  business_hours: business_hours })
+      [label.title] + generate_readable_report_metrics(report)
+    end
+  end
+
+  def generate_label_report_overall(account_id, range)
+    account = Account.find(account_id)
+    account.labels.map do |label|
+      report = generate_report(account, { type: :label, id: label.id, since: range[:since], until: range[:until], business_hours: true })
       [label.title] + generate_readable_report_metrics(report)
     end
   end
@@ -125,6 +156,18 @@ class LabelReportJob < ApplicationJob
     end
   end
 
+  def generate_csv_overall(result, start_date, end_date)
+    CSV.generate(headers: true) do |csv|
+      csv << ["Reporting period #{start_date} to #{end_date}"]
+      csv << []
+      csv << ['Label', 'No. of conversations', 'Avg first response time', 'Avg resolution time', 'Open conversations', 'Unattended conversations',
+              'Resolved conversations']
+      result.each do |row|
+        csv << row
+      end
+    end
+  end
+
   def upload_csv(account_id, range, csv_content, frequency, _bitespeed_bot)
     start_date = range[:since].strftime('%Y-%m-%d')
     end_date = range[:until].strftime('%Y-%m-%d')
@@ -136,7 +179,7 @@ class LabelReportJob < ApplicationJob
     # Rails.logger.debug csv_content
     # csv_url = file_name
     # File.write(csv_url, csv_content)
-    # Rails.logger.debug "CSV URL: #{csv_url}"
+    # Rails.logger.debug { "CSV URL: #{csv_url}" }
 
     # Upload csv_content via ActiveStorage and print the URL
     blob = ActiveStorage::Blob.create_and_upload!(
