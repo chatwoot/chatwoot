@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps, computed } from 'vue';
-import NextMessage from 'next/message/Message.vue';
+import Message from './Message.vue';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 
 /**
@@ -97,7 +97,7 @@ const getInReplyToMessage = parentMessage => {
   <ul class="px-4 bg-n-background">
     <slot name="beforeAll" />
     <template v-for="(message, index) in read" :key="message.id">
-      <NextMessage
+      <Message
         v-bind="message"
         :is-email-inbox="isAnEmailChannel"
         :in-reply-to="getInReplyToMessage(message)"
@@ -109,7 +109,7 @@ const getInReplyToMessage = parentMessage => {
     </template>
     <slot name="beforeUnread" />
     <template v-for="(message, index) in unread" :key="message.id">
-      <NextMessage
+      <Message
         v-bind="message"
         :in-reply-to="getInReplyToMessage(message)"
         :group-with-next="shouldGroupWithNext(index, unReadMessages)"
