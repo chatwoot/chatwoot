@@ -46,6 +46,10 @@ class Label < ApplicationRecord
     account.reporting_events.where(conversation_id: conversations.pluck(:id))
   end
 
+  def tag_id
+    Tag.find_by(name: title)&.id
+  end
+
   private
 
   def update_associated_models

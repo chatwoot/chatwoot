@@ -27,7 +27,7 @@ end
 private
 
 def order_status_handler(params)
-  order = Integrations::CustomApi::UpdateOrderStatusService.new(params['id'], params['fulfillmentStatus']).perform
+  order = Integrations::CustomApi::UpdateOrderStatusService.new(params['id'], params['fulfillmentStatus'], params['trackingCode']).perform
   dispatcher_dispatch('order.status_updated', order)
 end
 

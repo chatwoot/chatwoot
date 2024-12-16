@@ -34,6 +34,7 @@
 #  status               :string
 #  total                :string
 #  total_tax            :string
+#  tracking_code        :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  account_id           :integer

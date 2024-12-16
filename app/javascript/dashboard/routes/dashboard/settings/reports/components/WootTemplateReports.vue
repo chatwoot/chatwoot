@@ -266,7 +266,7 @@ export default {
     },
 
     convertToMoney(value) {
-      return 'R$ ' + parseFloat(value).toString();
+      return 'US$ ' + parseFloat(value).toString();
     },
 
     verifyErrors() {

@@ -73,6 +73,14 @@ conversations:
       - 'not_equal_to'
       - 'is_present'
       - 'is_not_present'
+  conversation_label:
+    attribute_type: 'standard'
+    data_type: 'labels'
+    filter_operators:
+      - 'equal_to'
+      - 'not_equal_to'
+      - 'is_present'
+      - 'is_not_present'
   browser_language:
     attribute_type: 'additional_attributes'
     data_type: 'text'
@@ -181,6 +189,14 @@ contacts:
       - 'does_not_contain'
   labels:
     attribute_type: 'standard'
+    data_type: 'labels'
+    filter_operators:
+      - 'equal_to'
+      - 'not_equal_to'
+      - 'is_present'
+      - 'is_not_present'
+  contact_label:
+    attribute_type: 'label'
     data_type: 'labels'
     filter_operators:
       - 'equal_to'

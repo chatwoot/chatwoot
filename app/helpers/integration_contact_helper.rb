@@ -2,7 +2,11 @@ module IntegrationContactHelper
   def format_phone_number_to_e164(phone_number)
     digits = phone_number.gsub(/\D/, '')
 
-    "+55#{digits}"
+    if digits.start_with?('55')
+      "+#{digits}"
+    else
+      "+55#{digits}"
+    end
   end
 
   def build_custom_attributes(order_data, corrupted_data = nil)

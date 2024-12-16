@@ -2,7 +2,7 @@ class ApplicationMailer < ActionMailer::Base
   include ActionView::Helpers::SanitizeHelper
 
   default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
-  before_action { ensure_current_account(params.try(:[], :account)) }
+  before_action :ensure_account_if_needed
   around_action :switch_locale
   layout 'mailer/base'
   # Fetch template from Database if available
@@ -72,6 +72,12 @@ class ApplicationMailer < ActionMailer::Base
   def ensure_current_account(account)
     Current.reset
     Current.account = account if account.present?
+  end
+
+  def ensure_account_if_needed
+    return if %w[confirmation_instructions reset_password_instructions].include?(action_name)
+
+    ensure_current_account(params.try(:[], :account))
   end
 
   def switch_locale(&)

@@ -50,6 +50,20 @@ export const AUTOMATIONS = {
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_6,
       },
+      {
+        key: 'contact_label',
+        name: 'Contact Label',
+        attributeI18nKey: 'CONTACT_LABEL',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
+      {
+        key: 'conversation_label',
+        name: 'Conversation Label',
+        attributeI18nKey: 'PRIORITY',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
     ],
     actions: [
       {
@@ -210,6 +224,20 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'PRIORITY',
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'contact_label',
+        name: 'Contact Label',
+        attributeI18nKey: 'CONTACT_LABEL',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
+      {
+        key: 'conversation_label',
+        name: 'Conversation Label',
+        attributeI18nKey: 'PRIORITY',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
       },
     ],
     actions: [
@@ -386,6 +414,20 @@ export const AUTOMATIONS = {
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
+      {
+        key: 'contact_label',
+        name: 'Contact Label',
+        attributeI18nKey: 'CONTACT_LABEL',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
+      {
+        key: 'conversation_label',
+        name: 'Conversation Label',
+        attributeI18nKey: 'PRIORITY',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
     ],
     actions: [
       {
@@ -554,6 +596,20 @@ export const AUTOMATIONS = {
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
+      {
+        key: 'contact_label',
+        name: 'Contact Label',
+        attributeI18nKey: 'CONTACT_LABEL',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
+      {
+        key: 'conversation_label',
+        name: 'Conversation Label',
+        attributeI18nKey: 'PRIORITY',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
     ],
     actions: [
       {
@@ -674,6 +730,13 @@ export const AUTOMATIONS = {
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_1,
       },
+      {
+        key: 'contact_label',
+        name: 'Contact Label',
+        attributeI18nKey: 'CONTACT_LABEL',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
     ],
     actions: [
       {
@@ -728,6 +791,13 @@ export const AUTOMATIONS = {
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_1,
       },
+      {
+        key: 'contact_label',
+        name: 'Contact Label',
+        attributeI18nKey: 'CONTACT_LABEL',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
     ],
     actions: [
       {
@@ -767,6 +837,13 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'STATUS',
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_2,
+      },
+      {
+        key: 'contact_label',
+        name: 'Contact Label',
+        attributeI18nKey: 'CONTACT_LABEL',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
       },
     ],
     actions: [

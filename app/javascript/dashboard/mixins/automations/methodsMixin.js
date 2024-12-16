@@ -114,6 +114,7 @@ export default {
         inboxes,
         statusFilterOptions,
         teams,
+        labels,
       } = this;
       return getConditionOptions({
         agents,
@@ -127,6 +128,7 @@ export default {
         languages,
         countries,
         type,
+        labels,
       });
     },
     appendNewCondition() {

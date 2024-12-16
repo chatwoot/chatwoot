@@ -1,5 +1,5 @@
 class Campaigns::OneoffConversationBuilder
-  pattr_initialize [:contact_inbox_id!, :campaign_display_id!, :conversation_additional_attributes, :custom_attributes]
+  pattr_initialize [:contact_inbox_id!, :campaign_display_id!, :conversation_additional_attributes, :custom_attributes, :template_params, :content]
 
   def perform
     @contact_inbox = ContactInbox.find(@contact_inbox_id)
@@ -7,7 +7,14 @@ class Campaigns::OneoffConversationBuilder
     ActiveRecord::Base.transaction do
       @contact_inbox.lock!
 
-      @conversation = ::Conversation.create!(conversation_params)
+      conversations = @contact_inbox.reload.conversations
+      @conversation = if conversations&.open&.length()&.> 0
+                        conversations.open[0]
+                      else
+                        ::Conversation.create!(conversation_params)
+
+                      end
+
       Messages::MessageBuilder.new(@campaign.sender, @conversation, message_params).perform
     end
     @conversation
@@ -20,8 +27,12 @@ class Campaigns::OneoffConversationBuilder
 
   def message_params
     ActionController::Parameters.new({
-                                       content: @campaign.message,
-                                       campaign_id: @campaign.id
+                                       campaign_id: @campaign.id,
+                                       template_params: {
+                                         **@template_params,
+                                         processed_params: @template_params[:processed_params].is_a?(Hash) ? @template_params[:processed_params] : {}
+                                       },
+                                       content: @content
                                      })
   end
 
