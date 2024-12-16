@@ -56,6 +56,8 @@ class SmartAction < ApplicationRecord
   scope :automated_response, -> { where(event: AUTOMATED_RESPONSE) }
   scope :handover_conversation, -> { where(event: HANDOVER_CONVERSATION) }
   scope :active, -> { where(active: true) }
+  scope :filter_by_created_at, ->(range) { where(created_at: range) if range.present? }
+
   delegate :account, to: :conversation
 
   after_create_commit :execute_after_create_commit_callbacks
