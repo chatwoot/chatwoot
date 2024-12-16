@@ -12,7 +12,7 @@ on:
       - master
     tags:
       - v*
-  pull_request:
+# pull_request:
   workflow_dispatch:
 
 jobs:
