@@ -4,7 +4,6 @@ import { ref } from 'vue';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useAI } from 'dashboard/composables/useAI';
-import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 
 // components
 import ReplyBox from './ReplyBox.vue';
@@ -162,28 +161,16 @@ export default {
       return messages;
     },
     readMessages() {
-      const readMessages = getReadMessages(
+      return getReadMessages(
         this.getMessages,
         this.currentChat.agent_last_seen_at
       );
-
-      if (this.showNextBubbles) {
-        return useCamelCase(readMessages, { deep: true });
-      }
-
-      return readMessages;
     },
     unReadMessages() {
-      const unreadMessages = getUnreadMessages(
+      return getUnreadMessages(
         this.getMessages,
         this.currentChat.agent_last_seen_at
       );
-
-      if (this.showNextBubbles) {
-        return useCamelCase(unreadMessages, { deep: true });
-      }
-
-      return unreadMessages;
     },
     shouldShowSpinner() {
       return (
@@ -581,7 +568,6 @@ export default {
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :in-reply-to="getInReplyToMessage(message)"
       />
-
       <ConversationLabelSuggestion
         v-if="shouldShowLabelSuggestions"
         :suggested-labels="labelSuggestions"

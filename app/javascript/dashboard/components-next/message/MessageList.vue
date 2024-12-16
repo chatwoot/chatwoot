@@ -1,6 +1,7 @@
 <script setup>
+import { defineProps, computed } from 'vue';
 import NextMessage from 'next/message/Message.vue';
-import { defineProps } from 'vue';
+import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 
 /**
  * Props definition for the component
@@ -39,6 +40,14 @@ const props = defineProps({
   },
 });
 
+const unread = computed(() => {
+  return useCamelCase(props.unReadMessages, { deep: true });
+});
+
+const read = computed(() => {
+  return useCamelCase(props.readMessages, { deep: true });
+});
+
 /**
  * Determines if a message should be grouped with the next message
  * @param {Number} index - Index of the current message
@@ -67,25 +76,27 @@ const shouldGroupWithNext = (index, messages) => {
  * @returns {Object|null} - The message being replied to, or null if not found
  */
 const getInReplyToMessage = parentMessage => {
-  const emptyOption = null;
-
-  if (!parentMessage) return emptyOption;
+  if (!parentMessage) return null;
 
   const inReplyToMessageId =
     parentMessage.contentAttributes?.inReplyTo ??
     parentMessage.content_attributes?.in_reply_to;
 
-  if (!inReplyToMessageId) return emptyOption;
+  if (!inReplyToMessageId) return null;
 
   // Find in-reply-to message in the messages prop
-  return props.messages?.find(message => message.id === inReplyToMessageId);
+  const replyMessage = props.messages?.find(
+    message => message.id === inReplyToMessageId
+  );
+
+  return replyMessage ? useCamelCase(replyMessage) : null;
 };
 </script>
 
 <template>
   <ul class="px-4 bg-n-background">
     <slot name="beforeAll" />
-    <template v-for="(message, index) in readMessages" :key="message.id">
+    <template v-for="(message, index) in read" :key="message.id">
       <NextMessage
         v-bind="message"
         :is-email-inbox="isAnEmailChannel"
@@ -97,7 +108,7 @@ const getInReplyToMessage = parentMessage => {
       />
     </template>
     <slot name="beforeUnread" />
-    <template v-for="(message, index) in unReadMessages" :key="message.id">
+    <template v-for="(message, index) in unread" :key="message.id">
       <NextMessage
         v-bind="message"
         :in-reply-to="getInReplyToMessage(message)"
