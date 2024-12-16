@@ -6,7 +6,7 @@ import ContactPanel from 'dashboard/routes/dashboard/conversation/ContactPanel.v
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import { useI18n } from 'vue-i18n';
 
-defineProps({
+const props = defineProps({
   currentChat: {
     required: true,
     type: Object,
@@ -16,11 +16,13 @@ defineProps({
 const emit = defineEmits(['toggleContactPanel']);
 
 const getters = useStoreGetters();
+const { t } = useI18n();
 
 const captainIntegration = computed(() =>
   getters['integrations/getIntegration'].value('captain', null)
 );
-const { t } = useI18n();
+
+const channelType = computed(() => props.currentChat?.meta?.channel || '');
 
 const CONTACT_TABS_OPTIONS = [
   { key: 'CONTACT', value: 'contact' },
@@ -61,7 +63,7 @@ const showCopilotTab = computed(() => {
         @tab-changed="handleTabChange"
       />
     </div>
-    <div class="overflow-auto flex flex-1">
+    <div class="flex flex-1 overflow-auto">
       <ContactPanel
         v-if="!activeTab"
         :conversation-id="currentChat.id"
@@ -71,6 +73,7 @@ const showCopilotTab = computed(() => {
       <CopilotContainer
         v-else-if="activeTab === 1 && showCopilotTab"
         :key="currentChat.id"
+        :conversation-inbox-type="channelType"
         :conversation-id="currentChat.id"
         class="flex-1"
       />
