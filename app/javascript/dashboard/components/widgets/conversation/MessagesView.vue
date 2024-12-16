@@ -446,9 +446,6 @@ export default {
     },
     getInReplyToMessage(parentMessage) {
       if (!parentMessage) return {};
-      // to maintain backward compatibility we use both the keys
-      // contentAttributes and content_attributes
-      // TODO: Remove this once we've migrated all the keys to camelCase
       const inReplyToMessageId = parentMessage.content_attributes?.in_reply_to;
       if (!inReplyToMessageId) return {};
 
