@@ -18,7 +18,6 @@
           class="!p-0"
           action-key="summaryReports/fetchCustomBotAnalyticsSalesOverviewReports"
           summary-key="summaryReports/getCustomBotAnalyticsSalesOverviewReports"
-          :download-button-label="$t('REPORT.DOWNLOAD_AGENT_REPORTS')"
           @filter-change="handleSalesFilterChange"
         />
       </metric-card>
@@ -36,7 +35,6 @@
           class="!p-0"
           action-key="summaryReports/fetchCustomBotAnalyticsSupportOverviewReports"
           summary-key="summaryReports/getCustomBotAnalyticsSupportOverviewReports"
-          :download-button-label="$t('REPORT.DOWNLOAD_AGENT_REPORTS')"
           :show-advanced-filters="true"
           @filter-change="handleSupportFilterChange"
         />
