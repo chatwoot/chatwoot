@@ -10,7 +10,6 @@ import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 // components
 import ReplyBox from './ReplyBox.vue';
 import Message from './Message.vue';
-import NextMessage from 'next/message/Message.vue';
 import NextMessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
@@ -466,9 +465,7 @@ export default {
       // to maintain backward compatibility we use both the keys
       // contentAttributes and content_attributes
       // TODO: Remove this once we've migrated all the keys to camelCase
-      const inReplyToMessageId =
-        parentMessage.contentAttributes?.inReplyTo ??
-        parentMessage.content_attributes?.in_reply_to;
+      const inReplyToMessageId = parentMessage.content_attributes?.in_reply_to;
       if (!inReplyToMessageId) return {};
 
       return this.currentChat?.messages.find(message => {
