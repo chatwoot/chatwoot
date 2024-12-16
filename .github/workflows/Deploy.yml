@@ -1,29 +1,17 @@
-name: Hourly restarter Job
+name: Chatwoot restarter Job
 
 on:
   workflow_dispatch:
-    inputs:
-      environment:
-        description: "Environment to deploy to"
-        required: true
-        default: "homolog"
 
 jobs:
   run-cron-job:
     runs-on: self-hosted
 
     steps:
-      - name: Verify environment integrity
-        run: |
-          if [[ "${{inputs.environment}}" != "production" && "${{inputs.environment}}" != "homolog" ]]; then
-            echo "Deploy environment not valid: ${{inputs.environment}}"
-            exit 1
-          fi
-
-
       - name: Deploy production Chatwoot
         run: |
           cd /home/ec2-user/chatwoot
           docker-compose pull
           docker-compose build
+          docker-compose down
           docker-compose up -d --remove-orphans
