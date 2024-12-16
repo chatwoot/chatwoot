@@ -501,6 +501,7 @@ export default {
     </div>
     <NextMessageList
       v-if="showNextBubbles"
+      class="conversation-panel"
       :read-messages="readMessages"
       :un-read-messages="unreadMessages"
       :current-user-id="currentUserId"
