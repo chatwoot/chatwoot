@@ -4,8 +4,9 @@ import { messageTimestamp } from 'shared/helpers/timeHelper';
 
 import MessageStatus from './MessageStatus.vue';
 import Icon from 'next/icon/Icon.vue';
+import { useInbox } from 'dashboard/composables/useInbox';
 
-import { MESSAGE_STATUS } from './constants';
+import { MESSAGE_STATUS, MESSAGE_TYPES } from './constants';
 
 /**
  * @typedef {Object} Sender
@@ -43,21 +44,116 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  isMyMessage: {
-    type: Boolean,
-    default: false,
-  },
   createdAt: {
     type: Number,
     required: true,
   },
+  sourceId: {
+    type: String,
+    default: '',
+  },
+  messageType: {
+    type: Number,
+    required: true,
+    validator: value => Object.values(MESSAGE_TYPES).includes(value),
+  },
 });
+
+const {
+  isAFacebookInbox,
+  isALineChannel,
+  isAPIInbox,
+  isASmsInbox,
+  isATelegramChannel,
+  isATwilioChannel,
+  isAWebWidgetInbox,
+  isAWhatsAppChannel,
+  isAnEmailChannel,
+} = useInbox();
 
 const readableTime = computed(() =>
   messageTimestamp(props.createdAt, 'LLL d, h:mm a')
 );
 
 const showSender = computed(() => !props.isMyMessage && props.sender);
+
+const showStatusIndicator = computed(() => {
+  if (props.private) return false;
+  if (props.messageType === MESSAGE_TYPES.OUTGOING) return true;
+  if (props.messageType === MESSAGE_TYPES.TEMPLATE) return true;
+
+  return false;
+});
+
+const isSent = computed(() => {
+  if (!showStatusIndicator.value) return false;
+
+  // Messages will be marked as sent for the Email channel if they have a source ID.
+  if (isAnEmailChannel.value) return !!props.sourceId;
+
+  if (
+    isAWhatsAppChannel.value ||
+    isATwilioChannel.value ||
+    isAFacebookInbox.value ||
+    isASmsInbox.value ||
+    isATelegramChannel.value
+  ) {
+    return props.sourceId && props.status === MESSAGE_STATUS.SENT;
+  }
+
+  // All messages will be mark as sent for the Line channel, as there is no source ID.
+  if (props.isALineChannel) return true;
+
+  return false;
+});
+
+const isDelivered = computed(() => {
+  if (!showStatusIndicator.value) return false;
+
+  if (
+    isAWhatsAppChannel.value ||
+    isATwilioChannel.value ||
+    isASmsInbox.value ||
+    isAFacebookInbox.value
+  ) {
+    return props.sourceId && props.status === MESSAGE_STATUS.DELIVERED;
+  }
+  // All messages marked as delivered for the web widget inbox and API inbox once they are sent.
+  if (isAWebWidgetInbox.value || isAPIInbox.value) {
+    return props.status === MESSAGE_STATUS.SENT;
+  }
+  if (isALineChannel.value) {
+    return props.status === MESSAGE_STATUS.DELIVERED;
+  }
+
+  return false;
+});
+
+const isRead = computed(() => {
+  if (!showStatusIndicator.value) return false;
+
+  if (
+    isAWhatsAppChannel.value ||
+    isATwilioChannel.value ||
+    isAFacebookInbox.value
+  ) {
+    return props.sourceId && props.status === MESSAGE_STATUS.READ;
+  }
+
+  if (isAWebWidgetInbox.value || isAPIInbox.value) {
+    return props.status === MESSAGE_STATUS.READ;
+  }
+
+  return false;
+});
+
+const statusToShow = computed(() => {
+  if (isRead.value) return MESSAGE_STATUS.READ;
+  if (isDelivered.value) return MESSAGE_STATUS.DELIVERED;
+  if (isSent.value) return MESSAGE_STATUS.SENT;
+
+  return MESSAGE_STATUS.PROGRESS;
+});
 </script>
 
 <template>
@@ -72,6 +168,6 @@ const showSender = computed(() => !props.isMyMessage && props.sender);
       icon="i-lucide-lock-keyhole"
       class="text-n-slate-10 size-3"
     />
-    <MessageStatus v-if="props.isMyMessage" :status />
+    <MessageStatus v-if="showStatusIndicator" :status="statusToShow" />
   </div>
 </template>
