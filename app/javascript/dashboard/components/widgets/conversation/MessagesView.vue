@@ -4,7 +4,6 @@ import { ref } from 'vue';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useAI } from 'dashboard/composables/useAI';
-import { useAccount } from 'dashboard/composables/useAccount';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 
 // components
@@ -60,7 +59,6 @@ export default {
   setup() {
     const isPopOutReplyBox = ref(false);
     const { isEnterprise } = useConfig();
-    const { accountId } = useAccount();
 
     const closePopOutReplyBox = () => {
       isPopOutReplyBox.value = false;
@@ -98,7 +96,6 @@ export default {
       isLabelSuggestionFeatureEnabled,
       fetchIntegrationsIfRequired,
       fetchLabelSuggestions,
-      accountId,
       showNextBubbles,
     };
   },
