@@ -37,7 +37,7 @@ const labelMenuItems = computed(() => {
       isSelected: savedLabels.value.some(
         savedLabel => savedLabel.id === label.id
       ),
-      action: 'addLabel',
+      action: 'contactLabel',
     }))
     .toSorted((a, b) => Number(a.isSelected) - Number(b.isSelected));
 });
@@ -49,7 +49,7 @@ const fetchLabels = async contactId => {
   store.dispatch('contactLabels/get', contactId);
 };
 
-const handleLabelAction = async ({ action, value }) => {
+const handleLabelAction = async ({ value }) => {
   try {
     // Get current label titles
     const currentLabels = savedLabels.value.map(label => label.title);
@@ -59,16 +59,15 @@ const handleLabelAction = async ({ action, value }) => {
     if (!selectedLabel) return;
 
     let updatedLabels;
-    if (action === 'addLabel') {
-      // If label is already selected, remove it (toggle behavior)
-      if (currentLabels.includes(selectedLabel.title)) {
-        updatedLabels = currentLabels.filter(
-          labelTitle => labelTitle !== selectedLabel.title
-        );
-      } else {
-        // Add the new label
-        updatedLabels = [...currentLabels, selectedLabel.title];
-      }
+
+    // If label is already selected, remove it (toggle behavior)
+    if (currentLabels.includes(selectedLabel.title)) {
+      updatedLabels = currentLabels.filter(
+        labelTitle => labelTitle !== selectedLabel.title
+      );
+    } else {
+      // Add the new label
+      updatedLabels = [...currentLabels, selectedLabel.title];
     }
 
     await store.dispatch('contactLabels/update', {
@@ -83,7 +82,7 @@ const handleLabelAction = async ({ action, value }) => {
 };
 
 const handleRemoveLabel = labelId => {
-  return handleLabelAction({ action: 'addLabel', value: labelId });
+  return handleLabelAction({ value: labelId });
 };
 
 watch(
