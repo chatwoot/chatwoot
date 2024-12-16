@@ -11,6 +11,7 @@ import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import ReplyBox from './ReplyBox.vue';
 import Message from './Message.vue';
 import NextMessage from 'next/message/Message.vue';
+import NextMessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 
@@ -37,26 +38,10 @@ import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 
-function shouldGroupWithNext(index, messages) {
-  if (index === messages.length - 1) return false;
-
-  const current = messages[index];
-  const next = messages[index + 1];
-
-  if (next.status === 'failed') return false;
-
-  const nextSenderId = next.senderId ?? next.sender?.id;
-  const currentSenderId = current.senderId ?? current.sender?.id;
-  if (currentSenderId !== nextSenderId) return false;
-
-  // Check if messages are in the same minute by rounding down to nearest minute
-  return Math.floor(next.createdAt / 60) === Math.floor(current.createdAt / 60);
-}
-
 export default {
   components: {
     Message,
-    NextMessage,
+    NextMessageList,
     ReplyBox,
     Banner,
     ConversationLabelSuggestion,
@@ -477,18 +462,14 @@ export default {
       this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
     },
     getInReplyToMessage(parentMessage) {
-      // the old implementation took an empty object, but the
-      // new implementation takes null
-      const emptyOption = this.showNextBubbles ? null : {};
-
-      if (!parentMessage) return emptyOption;
+      if (!parentMessage) return {};
       // to maintain backward compatibility we use both the keys
       // contentAttributes and content_attributes
       // TODO: Remove this once we've migrated all the keys to camelCase
       const inReplyToMessageId =
         parentMessage.contentAttributes?.inReplyTo ??
         parentMessage.content_attributes?.in_reply_to;
-      if (!inReplyToMessageId) return emptyOption;
+      if (!inReplyToMessageId) return {};
 
       return this.currentChat?.messages.find(message => {
         if (message.id === inReplyToMessageId) {
@@ -497,7 +478,6 @@ export default {
         return false;
       });
     },
-    shouldGroupWithNext: shouldGroupWithNext,
   },
 };
 </script>
@@ -522,46 +502,66 @@ export default {
         @click="onToggleContactPanel"
       />
     </div>
-    <ul
-      class="conversation-panel"
-      :class="{ 'px-4 bg-n-background': showNextBubbles }"
+    <NextMessageList
+      v-if="showNextBubbles"
+      :read-messages="readMessages"
+      :un-read-messages="unreadMessages"
+      :current-user-id="currentUserId"
+      :is-an-email-channel="isAnEmailChannel"
+      :inbox-supports-reply-to="inboxSupportsReplyTo"
+      :messages="currentChat?.messages"
     >
+      <template #beforeAll>
+        <transition name="slide-up">
+          <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
+          <li class="min-h-[4rem]">
+            <span v-if="shouldShowSpinner" class="spinner message" />
+          </li>
+        </transition>
+      </template>
+      <template #beforeUnread>
+        <li v-show="unreadMessageCount != 0" class="unread--toast">
+          <span>
+            {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
+            {{
+              unreadMessageCount > 1
+                ? $t('CONVERSATION.UNREAD_MESSAGES')
+                : $t('CONVERSATION.UNREAD_MESSAGE')
+            }}
+          </span>
+        </li>
+      </template>
+      <template #after>
+        <ConversationLabelSuggestion
+          v-if="shouldShowLabelSuggestions"
+          :suggested-labels="labelSuggestions"
+          :chat-labels="currentChat.labels"
+          :conversation-id="currentChat.id"
+        />
+      </template>
+    </NextMessageList>
+    <ul v-else class="conversation-panel">
       <transition name="slide-up">
         <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
         <li class="min-h-[4rem]">
           <span v-if="shouldShowSpinner" class="spinner message" />
         </li>
       </transition>
-      <template v-if="showNextBubbles">
-        <NextMessage
-          v-for="(message, index) in readMessages"
-          :key="message.id"
-          v-bind="message"
-          :is-email-inbox="isAnEmailChannel"
-          :in-reply-to="getInReplyToMessage(message)"
-          :group-with-next="shouldGroupWithNext(index, readMessages)"
-          :inbox-supports-reply-to="inboxSupportsReplyTo"
-          :current-user-id="currentUserId"
-          data-clarity-mask="True"
-        />
-      </template>
-      <template v-else>
-        <Message
-          v-for="message in readMessages"
-          :key="message.id"
-          class="message--read ph-no-capture"
-          data-clarity-mask="True"
-          :data="message"
-          :is-a-tweet="isATweet"
-          :is-a-whatsapp-channel="isAWhatsAppChannel"
-          :is-web-widget-inbox="isAWebWidgetInbox"
-          :is-a-facebook-inbox="isAFacebookInbox"
-          :is-an-email-inbox="isAnEmailChannel"
-          :is-instagram="isInstagramDM"
-          :inbox-supports-reply-to="inboxSupportsReplyTo"
-          :in-reply-to="getInReplyToMessage(message)"
-        />
-      </template>
+      <Message
+        v-for="message in readMessages"
+        :key="message.id"
+        class="message--read ph-no-capture"
+        data-clarity-mask="True"
+        :data="message"
+        :is-a-tweet="isATweet"
+        :is-a-whatsapp-channel="isAWhatsAppChannel"
+        :is-web-widget-inbox="isAWebWidgetInbox"
+        :is-a-facebook-inbox="isAFacebookInbox"
+        :is-an-email-inbox="isAnEmailChannel"
+        :is-instagram="isInstagramDM"
+        :inbox-supports-reply-to="inboxSupportsReplyTo"
+        :in-reply-to="getInReplyToMessage(message)"
+      />
       <li v-show="unreadMessageCount != 0" class="unread--toast">
         <span>
           {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
@@ -572,35 +572,21 @@ export default {
           }}
         </span>
       </li>
-      <template v-if="showNextBubbles">
-        <NextMessage
-          v-for="(message, index) in unReadMessages"
-          :key="message.id"
-          v-bind="message"
-          :in-reply-to="getInReplyToMessage(message)"
-          :group-with-next="shouldGroupWithNext(index, unReadMessages)"
-          :inbox-supports-reply-to="inboxSupportsReplyTo"
-          :current-user-id="currentUserId"
-          :is-email-inbox="isAnEmailChannel"
-          data-clarity-mask="True"
-        />
-      </template>
-      <template v-else>
-        <Message
-          v-for="message in unReadMessages"
-          :key="message.id"
-          class="message--unread ph-no-capture"
-          data-clarity-mask="True"
-          :data="message"
-          :is-a-tweet="isATweet"
-          :is-a-whatsapp-channel="isAWhatsAppChannel"
-          :is-web-widget-inbox="isAWebWidgetInbox"
-          :is-a-facebook-inbox="isAFacebookInbox"
-          :is-instagram-dm="isInstagramDM"
-          :inbox-supports-reply-to="inboxSupportsReplyTo"
-          :in-reply-to="getInReplyToMessage(message)"
-        />
-      </template>
+      <Message
+        v-for="message in unReadMessages"
+        :key="message.id"
+        class="message--unread ph-no-capture"
+        data-clarity-mask="True"
+        :data="message"
+        :is-a-tweet="isATweet"
+        :is-a-whatsapp-channel="isAWhatsAppChannel"
+        :is-web-widget-inbox="isAWebWidgetInbox"
+        :is-a-facebook-inbox="isAFacebookInbox"
+        :is-instagram-dm="isInstagramDM"
+        :inbox-supports-reply-to="inboxSupportsReplyTo"
+        :in-reply-to="getInReplyToMessage(message)"
+      />
+
       <ConversationLabelSuggestion
         v-if="shouldShowLabelSuggestions"
         :suggested-labels="labelSuggestions"
@@ -638,7 +624,6 @@ export default {
 
 <style scoped>
 @tailwind components;
-
 @layer components {
   .rounded-bl-calc {
     border-bottom-left-radius: calc(1.5rem + 1px);
