@@ -42,7 +42,7 @@ module CallHelper
 
   def build_call_report(parsed_body, conversation, account_id)
     is_inbound = parsed_body['Direction'] == 'inbound'
-    journey_context = conversation.additional_attributes[:source_context]
+    journey_context = conversation&.additional_attributes&.dig('source_context') || {}
     {
       conversationId: conversation.display_id,
       accountId: account_id.to_i,
