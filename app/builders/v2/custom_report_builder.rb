@@ -127,6 +127,8 @@ class V2::CustomReportBuilder
         end
       end
 
+      Rails.logger.info "Data calculated: #{data.inspect}"
+
       if @group_by.present?
         Rails.logger.info "Group by: #{@group_by.inspect}"
         case @group_by
@@ -228,7 +230,17 @@ class V2::CustomReportBuilder
        bot_assign_to_agent
        pre_sale_queries
        bot_orders_placed
-       bot_revenue_generated].include?(metric)
+       bot_revenue_generated
+       total_calling_nudged_conversations
+       scheduled_call_conversations
+       not_picked_up_call_conversations
+       follow_up_call_conversations
+       converted_call_conversations
+       dropped_call_conversations
+       avg_time_to_call_after_nudge
+       avg_time_to_convert
+       avg_time_to_drop
+       avg_follow_up_calls].include?(metric)
   end
   # rubocop:enable Metrics/MethodLength
 

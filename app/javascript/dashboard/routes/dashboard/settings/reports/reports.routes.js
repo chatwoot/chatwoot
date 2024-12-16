@@ -11,7 +11,7 @@ const BotReports = () => import('./BotReports.vue');
 const LiveReports = () => import('./LiveReports.vue');
 const BotAnalytics = () => import('./BotAnalytics.vue');
 const SLAReports = () => import('./SLAReports.vue');
-
+const CallAnalytics = () => import('./CallAnalytics.vue');
 export default {
   routes: [
     {
@@ -53,6 +53,27 @@ export default {
           name: 'account_bot_analytics',
           roles: ['administrator'],
           component: BotAnalytics,
+        },
+      ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/reports'),
+      component: SettingsContent,
+      props: {
+        headerTitle: 'Call Analytics',
+        icon: 'call',
+        keepAlive: false,
+      },
+      children: [
+        {
+          path: '',
+          redirect: 'overview',
+        },
+        {
+          path: 'call-analytics',
+          name: 'account_call_analytics',
+          roles: ['administrator'],
+          component: CallAnalytics,
         },
       ],
     },

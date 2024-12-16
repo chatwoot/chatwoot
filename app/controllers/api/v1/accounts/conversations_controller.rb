@@ -42,9 +42,11 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def update_source_context
     existing_source_context = @conversation.additional_attributes[:source_context] || {}
     permitted_source_context = params.require(:source_context).permit!.to_h
+
     @conversation.update(
       additional_attributes: @conversation.additional_attributes.merge(
-        source_context: existing_source_context.merge(permitted_source_context)
+        source_context: existing_source_context.merge(permitted_source_context),
+        nudge_created: Time.current
       )
     )
     head :ok

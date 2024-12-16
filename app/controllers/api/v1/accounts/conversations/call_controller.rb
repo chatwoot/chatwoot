@@ -44,17 +44,19 @@ class Api::V1::Accounts::Conversations::CallController < Api::V1::Accounts::Conv
       body: form_data
     )
 
+    conversation = Conversation.where({
+                                        account_id: params[:account_id],
+                                        display_id: params[:conversation_id]
+                                      }).first
+
     if response.code != 200
       xml_data = REXML::Document.new(response.body)
       error_message = xml_data.elements['//Message'].text
       render json: { success: false, response: error_message }
-      conversation = Conversation.where({
-                                          account_id: params[:account_id],
-                                          display_id: params[:conversation_id]
-                                        }).first
       conversation.messages.create!(private_message_params("Error in iniating call: #{error_message}", conversation))
       return
     end
+    create_follow_up_call_reporting_event(conversation)
     render json: { success: true, response: response.body }
   end
 
@@ -78,6 +80,28 @@ class Api::V1::Accounts::Conversations::CallController < Api::V1::Accounts::Conv
   def private_message_params(error, conversation)
     { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :outgoing, content: '', private: true,
       additional_attributes: { type: 'error', content: error } }
+  end
+
+  def create_follow_up_call_reporting_event(conversation)
+    Rails.logger.info('CREATE FOLLOW-UP CALL REPORTING EVENT')
+    Rails.logger.info("conversation.custom_attributes['calling_status'].present? #{conversation.custom_attributes['calling_status'].present?}")
+    Rails.logger.info("conversation.custom_attributes['calling_status'] == 'Follow-up' #{conversation.custom_attributes['calling_status']}")
+    return unless conversation.custom_attributes['calling_status'].present? &&
+                  conversation.custom_attributes['calling_status'] == 'Follow-up'
+
+    reporting_event = ReportingEvent.new(
+      name: 'conversation_follow_up_call',
+      value: 1,
+      value_in_business_hours: 1,
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      user_id: conversation.assignee_id,
+      conversation_id: conversation.id,
+      event_start_time: conversation.updated_at,
+      event_end_time: conversation.updated_at
+    )
+
+    reporting_event.save!
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity
 end

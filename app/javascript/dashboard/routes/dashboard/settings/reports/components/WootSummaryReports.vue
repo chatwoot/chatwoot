@@ -460,6 +460,101 @@ export default {
 
         return baseColumns;
       }
+
+      if (this.agentTableType === 'callOverview') {
+        const baseColumns = [
+          {
+            field: 'agent',
+            key: 'agent',
+            title: this.type,
+            fixed: 'left',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 25,
+            renderBodyCell: ({ row }) => (
+              <div class="row-user-block">
+                <div class="user-block">
+                  <h6 class="title overflow-hidden whitespace-nowrap text-ellipsis text-sm capitalize">
+                    {row.name}
+                  </h6>
+                </div>
+              </div>
+            ),
+          },
+          {
+            field: 'totalCallingNudgedConversations',
+            key: 'totalCallingNudgedConversations',
+            title: 'Total Calls',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          },
+          {
+            field: 'scheduledCallConversations',
+            key: 'scheduledCallConversations',
+            title: 'Scheduled',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          },
+          {
+            field: 'notPickedUpCallConversations',
+            key: 'notPickedUpCallConversations',
+            title: 'Not Picked',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          },
+          {
+            field: 'followUpCallConversations',
+            key: 'followUpCallConversations',
+            title: 'Follow-Up',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          },
+          {
+            field: 'convertedCallConversations',
+            key: 'convertedCallConversations',
+            title: 'Converted',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          },
+          {
+            field: 'droppedCallConversations',
+            key: 'droppedCallConversations',
+            title: 'Dropped',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          },
+          {
+            field: 'avgTimeToCallAfterNudge',
+            key: 'avgTimeToCallAfterNudge',
+            title: 'Avg. Time to Call after nudge',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          },
+          {
+            field: 'avgTimeToConvert',
+            key: 'avgTimeToConvert',
+            title: 'Avg. Time to Convert',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          },
+          {
+            field: 'avgTimeToDrop',
+            key: 'avgTimeToDrop',
+            title: 'Avg. Time to Drop',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          },
+          {
+            field: 'avgFollowUpCalls',
+            key: 'avgFollowUpCalls',
+            title: 'Avg. Follow-Up Calls',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          },
+        ];
+
+        return baseColumns;
+      }
+
       const baseColumns = [
         {
           field: 'agent',
@@ -609,6 +704,35 @@ export default {
               typeMetrics.waiting_customer_response || '--',
             waitingAgentResponse: typeMetrics.waiting_agent_response || '--',
             snoozed: typeMetrics.snoozed || '--',
+          };
+        });
+      }
+
+      if (this.agentTableType === 'callOverview') {
+        return combinedTeams.map(team => {
+          const typeMetrics = this.getMetrics(team.id);
+          return {
+            name: team.name,
+            totalCallingNudgedConversations:
+              typeMetrics.total_calling_nudged_conversations || '--',
+            scheduledCallConversations:
+              typeMetrics.scheduled_call_conversations || '--',
+            notPickedUpCallConversations:
+              typeMetrics.not_picked_up_call_conversations || '--',
+            followUpCallConversations:
+              typeMetrics.follow_up_call_conversations || '--',
+            convertedCallConversations:
+              typeMetrics.converted_call_conversations || '--',
+            droppedCallConversations:
+              typeMetrics.dropped_call_conversations || '--',
+            avgTimeToCallAfterNudge:
+              this.renderContent(typeMetrics.avg_time_to_call_after_nudge) ||
+              '--',
+            avgTimeToConvert:
+              this.renderContent(typeMetrics.avg_time_to_convert) || '--',
+            avgTimeToDrop:
+              this.renderContent(typeMetrics.avg_time_to_drop) || '--',
+            avgFollowUpCalls: typeMetrics.avg_follow_up_calls || '--',
           };
         });
       }

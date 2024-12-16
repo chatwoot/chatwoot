@@ -184,6 +184,14 @@ class Conversation < ApplicationRecord
     unread_messages.where(account_id: account_id).incoming.last(10)
   end
 
+  def nudge_created
+    additional_attributes['nudge_created'] || created_at
+  end
+
+  def calling_status
+    custom_attributes['calling_status']
+  end
+
   def cached_label_list_array
     (cached_label_list || '').split(',').map(&:strip)
   end
@@ -215,6 +223,69 @@ class Conversation < ApplicationRecord
 
     true
   end
+
+  # rubocop:disable Metrics/AbcSize
+  def first_call?
+    Rails.logger.info('FIRST CALL?')
+    return false unless saved_change_to_custom_attributes?
+
+    Rails.logger.info('saved_change_to_custom_attributes? true')
+    return false if previous_changes['custom_attributes'].blank?
+
+    Rails.logger.info('previous_changes[custom_attributes].blank? false')
+    return false if previous_changes['custom_attributes'][0]['calling_status'].blank?
+
+    Rails.logger.info('previous_changes[custom_attributes][0][calling_status].blank? false')
+    return false if previous_changes['custom_attributes'][1]['calling_status'].blank?
+
+    Rails.logger.info('previous_changes[custom_attributes][1][calling_status].blank? false')
+
+    previous_calling_status = previous_changes['custom_attributes'][0]['calling_status']
+    current_calling_status = previous_changes['custom_attributes'][1]['calling_status']
+
+    previous_calling_status == 'Scheduled' && current_calling_status != 'Scheduled'
+  end
+
+  def call_converted?
+    Rails.logger.info('CALL CONVERTED?')
+    return false unless saved_change_to_custom_attributes?
+
+    Rails.logger.info('saved_change_to_custom_attributes? true')
+    return false if previous_changes['custom_attributes'].blank?
+
+    Rails.logger.info('previous_changes[custom_attributes].blank? false')
+    return false if previous_changes['custom_attributes'][0]['calling_status'].blank?
+
+    Rails.logger.info('previous_changes[custom_attributes][0][calling_status].blank? false')
+    return false if previous_changes['custom_attributes'][1]['calling_status'].blank?
+
+    Rails.logger.info('previous_changes[custom_attributes][1][calling_status].blank? false')
+
+    previous_calling_status = previous_changes['custom_attributes'][0]['calling_status']
+    current_calling_status = previous_changes['custom_attributes'][1]['calling_status']
+
+    current_calling_status == 'Converted' && previous_calling_status != 'Converted'
+  end
+
+  def call_dropped?
+    Rails.logger.info('CALL DROPPED?')
+    return false unless saved_change_to_custom_attributes?
+
+    Rails.logger.info('saved_change_to_custom_attributes? true')
+    return false if previous_changes['custom_attributes'].blank?
+
+    Rails.logger.info('previous_changes[custom_attributes].blank? false')
+    return false if previous_changes['custom_attributes'][0]['calling_status'].blank?
+
+    Rails.logger.info('previous_changes[custom_attributes][0][calling_status].blank? false')
+    return false if previous_changes['custom_attributes'][1]['calling_status'].blank?
+
+    previous_calling_status = previous_changes['custom_attributes'][0]['calling_status']
+    current_calling_status = previous_changes['custom_attributes'][1]['calling_status']
+
+    previous_calling_status != 'Dropped' && current_calling_status == 'Dropped'
+  end
+  # rubocop:enable Metrics/AbcSize
 
   def tweet?
     inbox.inbox_type == 'Twitter' && additional_attributes['type'] == 'tweet'
@@ -300,21 +371,43 @@ class Conversation < ApplicationRecord
     dispatch_conversation_updated_event(previous_changes)
   end
 
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Layout/LineLength
   def notify_calling_status_change
-    Rails.logger.info('NOTIFYING CALLING STATUS CHANGE')
-    return unless notifiable_calling_status_change?
+    if notifiable_calling_status_change?
+      Rails.logger.info('NOTIFYING CALLING STATUS CHANGE')
 
-    Rails.logger.info('NOTIFYING CALLING STATUS CHANGE')
-
-    Rails.configuration.dispatcher.dispatch(
-      'conversation.calling_status_change',
-      Time.zone.now,
-      conversation: self,
-      notifiable_assignee_change: false,
-      changed_attributes: previous_changes,
-      performed_by: Current.executed_by
-    )
+      Rails.configuration.dispatcher.dispatch(
+        'conversation.calling_status_change',
+        Time.zone.now,
+        conversation: self,
+        notifiable_assignee_change: false,
+        changed_attributes: previous_changes,
+        performed_by: Current.executed_by
+      )
+    elsif first_call?
+      # can be one of 3 events
+      # 1. first_call = if calling_status went from 'Scheduled' to any other value.
+      # 2. call_converted = if calling_status went from any other value to 'Converted'.
+      # 3. call_dropped = if calling_status went from any other value to 'Dropped'.
+      # all cases - Event Start Time = conversation.additional_attributes.nudge_created || conversation.created_at. Event End Time = conversation.updated_at
+      Rails.logger.info('DISPATCHING FIRST CALL EVENT')
+      Rails.configuration.dispatcher.dispatch('conversation.first_call', Time.zone.now, conversation: self, notifiable_assignee_change: false,
+                                                                                        changed_attributes: previous_changes, performed_by: Current.executed_by)
+    elsif call_converted?
+      Rails.logger.info('DISPATCHING CALL CONVERTED EVENT')
+      Rails.configuration.dispatcher.dispatch('conversation.call_converted', Time.zone.now, conversation: self, notifiable_assignee_change: false,
+                                                                                            changed_attributes: previous_changes, performed_by: Current.executed_by)
+    elsif call_dropped?
+      Rails.logger.info('DISPATCHING CALL DROPPED EVENT')
+      Rails.configuration.dispatcher.dispatch('conversation.call_dropped', Time.zone.now, conversation: self, notifiable_assignee_change: false,
+                                                                                          changed_attributes: previous_changes, performed_by: Current.executed_by)
+    end
   end
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Layout/LineLength
 
   def list_of_keys
     %w[team_id assignee_id status snoozed_until custom_attributes label_list waiting_since first_reply_created_at

@@ -54,7 +54,7 @@ module CustomReportHelper
     end
 
     latest_assignments = ConversationAssignment
-                         .select('DISTINCT ON (conversation_id) conversation_id, inbox_id, assignee_id, team_id, created_at')
+                         .select('DISTINCT ON (conversation_id) *')
                          .where('created_at < ?', @time_range.begin)
                          .where(account_id: @account.id, conversation_id: base_query.pluck(:id))
                          .order('conversation_id, created_at DESC')
@@ -84,19 +84,20 @@ module CustomReportHelper
 
     # Get all assignments during the time range
     latest_assignments = ConversationAssignment
-                         .select('DISTINCT ON (conversation_id) conversation_id, inbox_id, assignee_id, team_id, created_at')
+                         .select('DISTINCT ON (conversation_id) *')
                          .where('created_at >= ?', @time_range.begin)
                          .where(account_id: @account.id, conversation_id: base_query.pluck(:id))
                          .order('conversation_id, created_at ASC')
 
+    latest_assignments_with_required_columns = ConversationAssignment.select('conversation_id, inbox_id, assignee_id, team_id, created_at').where(id: latest_assignments.pluck(:id))
     # Handle conversations without assignments by creating a union query
     conversations_without_assignments = base_query
-                                        .where.not(id: latest_assignments.pluck(:conversation_id))
+                                        .where.not(id: latest_assignments_with_required_columns.pluck(:conversation_id))
                                         .select('id AS conversation_id, inbox_id, assignee_id, NULL AS team_id, created_at')
 
     # Combine both queries using a UNION
     combined_query = ConversationAssignment.connection.unprepared_statement do
-      "((#{latest_assignments.to_sql}) UNION (#{conversations_without_assignments.to_sql})) AS conversation_assignments"
+      "((#{latest_assignments_with_required_columns.to_sql}) UNION (#{conversations_without_assignments.to_sql})) AS conversation_assignments"
     end
 
     base_query = ConversationAssignment.from(combined_query)
@@ -157,7 +158,7 @@ module CustomReportHelper
     base_query = label_filtered_conversations.where(id: open_conversations.pluck(:conversation_id)) if @config[:filters][:labels].present?
 
     latest_assignments = ConversationAssignment
-                         .select('DISTINCT ON (conversation_id) conversation_id, inbox_id, assignee_id, team_id, created_at')
+                         .select('DISTINCT ON (conversation_id) *')
                          .where('created_at < ?', @time_range.end)
                          .where(account_id: @account.id, conversation_id: base_query.pluck(:id))
                          .order('conversation_id, created_at DESC')
@@ -178,9 +179,10 @@ module CustomReportHelper
                                                .where(status: :resolved)
 
     # Get conversations that were resolved in the time range
-    base_query = @account.reporting_events
+    base_query = @account.reporting_events.select('DISTINCT ON (conversation_id) *')
                          .where(name: 'conversation_resolved', created_at: @time_range)
                          .where(conversation_id: resolved_conversations.pluck(:conversation_id))
+                         .order('created_at DESC')
 
     # Apply filters
     base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
@@ -188,6 +190,8 @@ module CustomReportHelper
     base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
 
     Rails.logger.info "resolved conversations query: #{base_query.to_sql}"
+
+    base_query = ReportingEvent.where(id: base_query.pluck(:id))
 
     group_and_count_reporting_events(base_query, @config[:group_by])
   end
@@ -209,7 +213,7 @@ module CustomReportHelper
     Rails.logger.info "snoozed_conversations: #{base_query.to_sql}"
 
     latest_assignments = ConversationAssignment
-                         .select('DISTINCT ON (conversation_id) conversation_id, inbox_id, assignee_id, team_id, created_at')
+                         .select('DISTINCT ON (conversation_id) *')
                          .where('created_at < ?', @time_range.end)
                          .where(account_id: @account.id, conversation_id: base_query.pluck(:id))
                          .order('conversation_id, created_at DESC')
@@ -267,6 +271,132 @@ module CustomReportHelper
     Rails.logger.info "waiting_customer_response: #{base_query.to_sql}"
 
     group_and_count(base_query, @config[:group_by])
+  end
+
+  def total_calling_nudged_conversations
+    base_query = @account.conversations.where(created_at: @time_range).where("additional_attributes->>'source_context' IS NOT NULL")
+
+    base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "total_calling_nudged_conversations: #{base_query.to_sql}"
+
+    group_and_count(base_query, @config[:group_by])
+  end
+
+  def scheduled_call_conversations
+    base_query = @account.conversations.where(created_at: @time_range).where("additional_attributes->>'source_context' IS NOT NULL").where("custom_attributes->>'calling_status' = 'Scheduled'")
+
+    base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "scheduled_call_conversations: #{base_query.to_sql}"
+
+    group_and_count(base_query, @config[:group_by])
+  end
+
+  def not_picked_up_call_conversations
+    base_query = @account.conversations.where(created_at: @time_range).where("additional_attributes->>'source_context' IS NOT NULL").where("custom_attributes->>'calling_status' = 'Not Picked'")
+
+    base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "not_picked_up_call_conversations: #{base_query.to_sql}"
+
+    group_and_count(base_query, @config[:group_by])
+  end
+
+  def follow_up_call_conversations
+    base_query = @account.conversations.where(created_at: @time_range).where("additional_attributes->>'source_context' IS NOT NULL").where("custom_attributes->>'calling_status' = 'Follow-up'")
+
+    base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "follow_up_call_conversations: #{base_query.to_sql}"
+
+    group_and_count(base_query, @config[:group_by])
+  end
+
+  def converted_call_conversations
+    base_query = @account.conversations.where(created_at: @time_range).where("additional_attributes->>'source_context' IS NOT NULL").where("custom_attributes->>'calling_status' = 'Converted'")
+
+    base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "converted_call_conversations: #{base_query.to_sql}"
+
+    group_and_count(base_query, @config[:group_by])
+  end
+
+  def dropped_call_conversations
+    base_query = @account.conversations.where(created_at: @time_range).where("additional_attributes->>'source_context' IS NOT NULL").where("custom_attributes->>'calling_status' = 'Dropped'")
+
+    base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "dropped_call_conversations: #{base_query.to_sql}"
+
+    group_and_count(base_query, @config[:group_by])
+  end
+
+  def avg_time_to_call_after_nudge
+    base_query = @account.reporting_events.where(name: 'conversation_first_call', created_at: @time_range)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(avg_resolution_time): #{base_query.to_sql}"
+
+    get_grouped_average(base_query)
+  end
+
+  def avg_time_to_convert
+    base_query = @account.reporting_events.where(name: 'conversation_call_converted', created_at: @time_range)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(avg_resolution_time): #{base_query.to_sql}"
+
+    get_grouped_average(base_query)
+  end
+
+  def avg_time_to_drop
+    base_query = @account.reporting_events.where(name: 'conversation_call_dropped', created_at: @time_range)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(avg_time_to_drop): #{base_query.to_sql}"
+
+    get_grouped_average(base_query)
+  end
+
+  def avg_follow_up_calls
+    base_query = @account.reporting_events.where(name: 'conversation_follow_up_call', created_at: @time_range)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(avg_resolution_time): #{base_query.to_sql}"
+
+    base_query = base_query.group(:conversation_id, :user_id).select('conversation_id, user_id, COUNT(*) as value, COUNT(*) as value_in_business_hours')
+
+    base_query = ReportingEvent.from("(#{base_query.to_sql}) AS reporting_events")
+
+    Rails.logger.info "Base query(avg_follow_up_calls): #{base_query.to_sql}"
+
+    get_grouped_average(base_query)
   end
 
   ### Agent Metrics ###
@@ -730,21 +860,21 @@ module CustomReportHelper
   end
 
   def first_conversation_statuses
-    ConversationStatus.select('DISTINCT ON (conversation_id) conversation_id, status, created_at').where(
+    ConversationStatus.select('DISTINCT ON (conversation_id) *').where(
       account_id: account.id,
       created_at: @time_range
     ).order('conversation_id, created_at ASC')
   end
 
   def latest_conversation_statuses
-    ConversationStatus.select('DISTINCT ON (conversation_id) conversation_id, status, created_at').where(
+    ConversationStatus.select('DISTINCT ON (conversation_id) *').where(
       account_id: account.id,
       created_at: @time_range
     ).order('conversation_id, created_at DESC')
   end
 
   def latest_conversation_statuses_before_time_range
-    ConversationStatus.select('DISTINCT ON (conversation_id) conversation_id, status, created_at').where(
+    ConversationStatus.select('DISTINCT ON (conversation_id) *').where(
       account_id: account.id
     ).where('created_at < ?', @time_range.begin).order('conversation_id, created_at DESC')
   end

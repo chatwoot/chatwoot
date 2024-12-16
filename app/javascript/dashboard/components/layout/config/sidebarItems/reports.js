@@ -14,6 +14,7 @@ const reports = accountId => ({
     'team_reports',
     'sla_reports',
     'account_bot_analytics',
+    'account_call_analytics',
   ],
   menuItems: [
     {
@@ -87,6 +88,13 @@ const reports = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/bot-analytics`),
       toStateName: 'account_bot_analytics',
+    },
+    {
+      icon: 'call',
+      label: 'CALL_ANALYTICS',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/reports/call-analytics`),
+      toStateName: 'account_call_analytics',
     },
   ],
 });

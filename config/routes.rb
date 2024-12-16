@@ -359,6 +359,7 @@ Rails.application.routes.draw do
             collection do
               get :agents_overview
               get :agent_wise_conversation_states
+              get :agent_call_overview
               post :download_agents_overview
               post :download_agent_wise_conversation_states
               post :download_bot_analytics_sales_overview

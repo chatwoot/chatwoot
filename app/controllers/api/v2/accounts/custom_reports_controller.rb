@@ -13,6 +13,10 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
     render json: process_grouped_data(build_report(agent_wise_conversation_states_params))
   end
 
+  def agent_call_overview
+    render json: process_grouped_data(build_report(agent_call_overview_params))
+  end
+
   def download_agents_overview
     enqueue_report_generation(download_agents_overview_params)
   end
@@ -133,6 +137,17 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
     }
   end
 
+  # rubocop:disable Layout/LineLength
+  def agent_call_overview_params
+    {
+      metrics: %w[total_calling_nudged_conversations scheduled_call_conversations not_picked_up_call_conversations follow_up_call_conversations
+                  converted_call_conversations dropped_call_conversations avg_time_to_call_after_nudge avg_time_to_convert avg_time_to_drop avg_follow_up_calls],
+      group_by: 'agent',
+      filters: base_filters
+    }
+  end
+
+  # rubocop:enable Layout/LineLength
   def download_agents_overview_params
     {
       metrics: ['resolved'] + send(:"#{params[:metric_type]&.downcase}_metrics"),

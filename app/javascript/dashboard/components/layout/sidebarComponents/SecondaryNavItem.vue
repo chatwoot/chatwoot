@@ -75,11 +75,14 @@
           </clipPath>
         </defs>
       </svg>
+
       {{
         menuItem.label === 'BOT_ANALYTICS'
           ? 'Whatsapp Chatbot'
-        : menuItem.label === 'CALLING_NUDGES'
+          : menuItem.label === 'CALLING_NUDGES'
           ? 'Calling Nudges'
+          : menuItem.label === 'CALL_ANALYTICS'
+          ? 'Call Analytics'
           : $t(`SIDEBAR.${menuItem.label}`)
       }}
       <span

@@ -8,6 +8,7 @@ export const state = {
   inboxSummaryReports: [],
   customAgentOverviewReports: [],
   customAgentConversationStatesReports: [],
+  customAgentCallOverviewReports: [],
   customBotAnalyticsSalesOverviewReports: [],
   customBotAnalyticsSupportOverviewReports: [],
   uiFlags: {
@@ -15,6 +16,7 @@ export const state = {
     isBotAnalyticsSupportOverviewReportsLoading: false,
     isAgentOverviewReportsLoading: false,
     isAgentConversationStatesReportsLoading: false,
+    isAgentCallOverviewReportsLoading: false,
   },
 };
 
@@ -33,6 +35,9 @@ export const getters = {
   },
   getCustomAgentConversationStatesReports(_state) {
     return _state.customAgentConversationStatesReports;
+  },
+  getCustomAgentCallOverviewReports(_state) {
+    return _state.customAgentCallOverviewReports;
   },
   getCustomBotAnalyticsSalesOverviewReports(_state) {
     return _state.customBotAnalyticsSalesOverviewReports;
@@ -110,6 +115,17 @@ export const actions = {
       commit('toggleAgentConversationStatesReportsLoading', false);
     }
   },
+  async fetchCustomAgentCallOverviewReports({ commit }, params) {
+    commit('toggleAgentCallOverviewReportsLoading', true);
+    try {
+      const response =
+        await CustomReportsAPI.getCustomAgentCallOverviewReports(params);
+      commit('setCustomAgentCallOverviewReport', response.data);
+      commit('toggleAgentCallOverviewReportsLoading', false);
+    } catch (error) {
+      commit('toggleAgentCallOverviewReportsLoading', false);
+    }
+  },
   async fetchInboxSummaryReports({ commit }, params) {
     try {
       const response = await SummaryReportsAPI.getInboxReports(params);
@@ -132,6 +148,9 @@ export const mutations = {
   },
   setCustomAgentConversationStatesReport(_state, data) {
     Vue.set(_state, 'customAgentConversationStatesReports', data);
+  },
+  setCustomAgentCallOverviewReport(_state, data) {
+    Vue.set(_state, 'customAgentCallOverviewReports', data);
   },
   setCustomAgentOverviewReport(_state, data) {
     Vue.set(_state, 'customAgentOverviewReports', data);
@@ -157,6 +176,9 @@ export const mutations = {
   },
   toggleAgentConversationStatesReportsLoading(_state, flag) {
     Vue.set(_state, 'uiFlags.isAgentConversationStatesReportsLoading', flag);
+  },
+  toggleAgentCallOverviewReportsLoading(_state, flag) {
+    Vue.set(_state, 'uiFlags.isAgentCallOverviewReportsLoading', flag);
   },
 };
 

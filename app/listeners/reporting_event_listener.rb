@@ -86,6 +86,57 @@ class ReportingEventListener < BaseListener
     reporting_event.save!
   end
 
+  def conversation_first_call(event)
+    conversation = extract_conversation_and_account(event)[0]
+
+    reporting_event = ReportingEvent.new(
+      name: 'conversation_first_call',
+      value: conversation.updated_at.to_i - conversation.nudge_created.to_i,
+      value_in_business_hours: business_hours(conversation.inbox, conversation.nudge_created, conversation.updated_at),
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      user_id: conversation.assignee_id,
+      conversation_id: conversation.id,
+      event_start_time: conversation.nudge_created,
+      event_end_time: conversation.updated_at
+    )
+    reporting_event.save!
+  end
+
+  def conversation_call_converted(event)
+    conversation = extract_conversation_and_account(event)[0]
+
+    reporting_event = ReportingEvent.new(
+      name: 'conversation_call_converted',
+      value: conversation.updated_at.to_i - conversation.nudge_created.to_i,
+      value_in_business_hours: business_hours(conversation.inbox, conversation.nudge_created, conversation.updated_at),
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      user_id: conversation.assignee_id,
+      conversation_id: conversation.id,
+      event_start_time: conversation.nudge_created,
+      event_end_time: conversation.updated_at
+    )
+    reporting_event.save!
+  end
+
+  def conversation_call_dropped(event)
+    conversation = extract_conversation_and_account(event)[0]
+
+    reporting_event = ReportingEvent.new(
+      name: 'conversation_call_dropped',
+      value: conversation.updated_at.to_i - conversation.nudge_created.to_i,
+      value_in_business_hours: business_hours(conversation.inbox, conversation.nudge_created, conversation.updated_at),
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      user_id: conversation.assignee_id,
+      conversation_id: conversation.id,
+      event_start_time: conversation.nudge_created,
+      event_end_time: conversation.updated_at
+    )
+    reporting_event.save!
+  end
+
   private
 
   def create_bot_resolved_event(conversation, reporting_event)
