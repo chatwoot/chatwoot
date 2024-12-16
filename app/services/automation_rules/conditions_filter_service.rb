@@ -38,7 +38,7 @@ class AutomationRules::ConditionsFilterService < FilterService
     records.any?
   rescue StandardError => e
     Rails.logger.error "Error in AutomationRules::ConditionsFilterService: #{e.message}"
-    Rails.logger.info "AutomationRules::ConditionsFilterService failed while processing rule #{@rule.id} for conversation #{@conversation.id}"
+    Rails.logger.warn "AutomationRules::ConditionsFilterService failed while processing rule #{@rule.id} for conversation #{@conversation.id}"
     false
   end
 
