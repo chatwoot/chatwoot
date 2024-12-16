@@ -488,7 +488,7 @@ export default {
       :current-user-id="currentUserId"
       :is-an-email-channel="isAnEmailChannel"
       :inbox-supports-reply-to="inboxSupportsReplyTo"
-      :messages="currentChat?.messages"
+      :messages="currentChat ? currentChat.messages : []"
     >
       <template #beforeAll>
         <transition name="slide-up">
