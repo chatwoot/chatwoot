@@ -82,6 +82,10 @@ const handleLabelAction = async ({ action, value }) => {
   }
 };
 
+const handleRemoveLabel = labelId => {
+  return handleLabelAction({ action: 'addLabel', value: labelId });
+};
+
 watch(
   () => props.contactId,
   (newVal, oldVal) => {
@@ -99,7 +103,12 @@ onMounted(() => {
 
 <template>
   <div class="flex flex-wrap items-center gap-2">
-    <LabelItem v-for="label in savedLabels" :key="label.id" :label="label" />
+    <LabelItem
+      v-for="label in savedLabels"
+      :key="label.id"
+      :label="label"
+      @remove="handleRemoveLabel"
+    />
     <AddLabel
       :label-menu-items="labelMenuItems"
       @update-label="handleLabelAction"
