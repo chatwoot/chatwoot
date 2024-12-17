@@ -18,6 +18,11 @@ const route = useRoute();
 
 const showDropdown = ref(false);
 
+// Store the currently hovered label's ID
+// Using JS state management instead of CSS :hover / group hover
+// This will solve the flickering issue when hovering over the last label item
+const hoveredLabel = ref(null);
+
 const allLabels = useMapGetter('labels/getLabels');
 const contactLabels = useMapGetter('contactLabels/getContactLabels');
 
@@ -37,7 +42,7 @@ const labelMenuItems = computed(() => {
       isSelected: savedLabels.value.some(
         savedLabel => savedLabel.id === label.id
       ),
-      action: 'addLabel',
+      action: 'contactLabel',
     }))
     .toSorted((a, b) => Number(a.isSelected) - Number(b.isSelected));
 });
@@ -49,7 +54,7 @@ const fetchLabels = async contactId => {
   store.dispatch('contactLabels/get', contactId);
 };
 
-const handleLabelAction = async ({ action, value }) => {
+const handleLabelAction = async ({ value }) => {
   try {
     // Get current label titles
     const currentLabels = savedLabels.value.map(label => label.title);
@@ -59,16 +64,15 @@ const handleLabelAction = async ({ action, value }) => {
     if (!selectedLabel) return;
 
     let updatedLabels;
-    if (action === 'addLabel') {
-      // If label is already selected, remove it (toggle behavior)
-      if (currentLabels.includes(selectedLabel.title)) {
-        updatedLabels = currentLabels.filter(
-          labelTitle => labelTitle !== selectedLabel.title
-        );
-      } else {
-        // Add the new label
-        updatedLabels = [...currentLabels, selectedLabel.title];
-      }
+
+    // If label is already selected, remove it (toggle behavior)
+    if (currentLabels.includes(selectedLabel.title)) {
+      updatedLabels = currentLabels.filter(
+        labelTitle => labelTitle !== selectedLabel.title
+      );
+    } else {
+      // Add the new label
+      updatedLabels = [...currentLabels, selectedLabel.title];
     }
 
     await store.dispatch('contactLabels/update', {
@@ -80,6 +84,10 @@ const handleLabelAction = async ({ action, value }) => {
   } catch (error) {
     // error
   }
+};
+
+const handleRemoveLabel = labelId => {
+  return handleLabelAction({ value: labelId });
 };
 
 watch(
@@ -95,11 +103,31 @@ onMounted(() => {
     fetchLabels(route.params.contactId);
   }
 });
+
+const handleMouseLeave = () => {
+  // Reset hover state when mouse leaves the container
+  // This ensures all labels return to their default state
+  hoveredLabel.value = null;
+};
+
+const handleLabelHover = labelId => {
+  // Added this to prevent flickering on when showing remove button on hover
+  // If the label item is at end of the line, it will show the remove button
+  // when hovering over the last label item
+  hoveredLabel.value = labelId;
+};
 </script>
 
 <template>
-  <div class="flex flex-wrap items-center gap-2">
-    <LabelItem v-for="label in savedLabels" :key="label.id" :label="label" />
+  <div class="flex flex-wrap items-center gap-2" @mouseleave="handleMouseLeave">
+    <LabelItem
+      v-for="label in savedLabels"
+      :key="label.id"
+      :label="label"
+      :is-hovered="hoveredLabel === label.id"
+      @remove="handleRemoveLabel"
+      @hover="handleLabelHover(label.id)"
+    />
     <AddLabel
       :label-menu-items="labelMenuItems"
       @update-label="handleLabelAction"
