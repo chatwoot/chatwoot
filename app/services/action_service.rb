@@ -29,6 +29,10 @@ class ActionService
   def add_label(labels)
     return if labels.empty?
 
+    # make sure all labels exist
+    found_labels = labels.all? { |label| @account.labels.find_by(title: label).present? }
+    return unless found_labels
+
     @conversation.reload.add_labels(labels)
   end
 
