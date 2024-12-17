@@ -30,7 +30,7 @@ class AutomationRules::ConditionValidationService
     return true if query_operator.nil?
     return true if query_operator.empty?
 
-    return false unless %w[AND OR].include?(query_operator.upcase)
+    %w[AND OR].include?(query_operator.upcase)
   end
 
   def valid_condition?(condition)
