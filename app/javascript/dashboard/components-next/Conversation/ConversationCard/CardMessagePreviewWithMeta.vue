@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import CardLabels from 'dashboard/components-next/Conversation/ConversationCard/CardLabels.vue';
@@ -19,9 +20,15 @@ const props = defineProps({
 
 const { t } = useI18n();
 
+const { getPlainText } = useMessageFormatter();
+
 const lastNonActivityMessageContent = computed(() => {
-  const { lastNonActivityMessage = {} } = props.conversation;
-  return lastNonActivityMessage?.content || t('CHAT_LIST.NO_CONTENT');
+  const { lastNonActivityMessage = {}, customAttributes = {} } =
+    props.conversation;
+  const { email: { subject } = {} } = customAttributes;
+  return getPlainText(
+    subject || lastNonActivityMessage.content || t('CHAT_LIST.NO_CONTENT')
+  );
 });
 
 const assignee = computed(() => {

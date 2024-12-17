@@ -6,7 +6,7 @@ import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import { buildPortalURL } from 'dashboard/helper/portalHelper';
 
 import Button from 'dashboard/components-next/button/Button.vue';
-import Thumbnail from 'dashboard/components-next/thumbnail/Thumbnail.vue';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 
 const emit = defineEmits(['close', 'createPortal']);
 
@@ -108,6 +108,7 @@ const redirectToPortalHomePage = () => {
           <Button
             icon="i-lucide-arrow-up-right"
             variant="ghost"
+            color="slate"
             icon-lib="lucide"
             size="sm"
             class="!w-6 !h-6 hover:bg-n-slate-2 text-n-slate-11 !p-0.5 rounded-md"
@@ -133,6 +134,7 @@ const redirectToPortalHomePage = () => {
         :key="index"
         :label="portal.name"
         variant="ghost"
+        color="slate"
         trailing-icon
         :icon="isPortalActive(portal) ? 'i-lucide-check' : ''"
         class="!justify-end !px-2 !py-2 hover:!bg-n-alpha-2 [&>.i-lucide-check]:text-n-teal-10 h-9"
@@ -148,14 +150,13 @@ const redirectToPortalHomePage = () => {
         <span class="text-sm font-medium truncate text-n-slate-12">
           {{ portal.name || '' }}
         </span>
-        <Thumbnail
+        <Avatar
           v-if="portal"
-          :author="portal"
           :name="portal.name"
-          :size="20"
           :src="getPortalThumbnailSrc(portal)"
-          :show-author-name="false"
+          :size="20"
           icon-name="i-lucide-building-2"
+          rounded-full
         />
       </Button>
     </div>

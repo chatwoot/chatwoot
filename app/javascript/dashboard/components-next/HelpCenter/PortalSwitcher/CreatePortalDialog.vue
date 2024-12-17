@@ -120,29 +120,27 @@ defineExpose({ dialogRef });
     :is-loading="isCreatingPortal"
     @confirm="handleDialogConfirm"
   >
-    <template #form>
-      <div class="flex flex-col gap-6">
-        <Input
-          id="portal-name"
-          v-model="state.name"
-          type="text"
-          :placeholder="t('HELP_CENTER.CREATE_PORTAL_DIALOG.NAME.PLACEHOLDER')"
-          :label="t('HELP_CENTER.CREATE_PORTAL_DIALOG.NAME.LABEL')"
-          :message-type="nameError ? 'error' : 'info'"
-          :message="
-            nameError || t('HELP_CENTER.CREATE_PORTAL_DIALOG.NAME.MESSAGE')
-          "
-        />
-        <Input
-          id="portal-slug"
-          v-model="state.slug"
-          type="text"
-          :placeholder="t('HELP_CENTER.CREATE_PORTAL_DIALOG.SLUG.PLACEHOLDER')"
-          :label="t('HELP_CENTER.CREATE_PORTAL_DIALOG.SLUG.LABEL')"
-          :message-type="slugError ? 'error' : 'info'"
-          :message="slugError || buildPortalURL(state.slug)"
-        />
-      </div>
-    </template>
+    <div class="flex flex-col gap-6">
+      <Input
+        id="portal-name"
+        v-model="state.name"
+        type="text"
+        :placeholder="t('HELP_CENTER.CREATE_PORTAL_DIALOG.NAME.PLACEHOLDER')"
+        :label="t('HELP_CENTER.CREATE_PORTAL_DIALOG.NAME.LABEL')"
+        :message-type="nameError ? 'error' : 'info'"
+        :message="
+          nameError || t('HELP_CENTER.CREATE_PORTAL_DIALOG.NAME.MESSAGE')
+        "
+      />
+      <Input
+        id="portal-slug"
+        v-model="state.slug"
+        type="text"
+        :placeholder="t('HELP_CENTER.CREATE_PORTAL_DIALOG.SLUG.PLACEHOLDER')"
+        :label="t('HELP_CENTER.CREATE_PORTAL_DIALOG.SLUG.LABEL')"
+        :message-type="slugError ? 'error' : 'info'"
+        :message="slugError || buildPortalURL(state.slug)"
+      />
+    </div>
   </Dialog>
 </template>

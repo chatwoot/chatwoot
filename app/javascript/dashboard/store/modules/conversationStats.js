@@ -5,6 +5,7 @@ const state = {
   mineCount: 0,
   unAssignedCount: 0,
   allCount: 0,
+  updatedOn: null,
 };
 
 export const getters = {
@@ -12,7 +13,17 @@ export const getters = {
 };
 
 export const actions = {
-  get: async ({ commit }, params) => {
+  get: async ({ commit, state: $state }, params) => {
+    const currentTime = new Date();
+    const lastUpdatedTime = new Date($state.updatedOn);
+
+    // Skip large accounts from making too many requests
+    if (currentTime - lastUpdatedTime < 10000 && $state.allCount > 1000) {
+      // eslint-disable-next-line no-console
+      console.warn('Skipping conversation meta fetch');
+      return;
+    }
+
     try {
       const response = await ConversationApi.meta(params);
       const {
@@ -40,6 +51,7 @@ export const mutations = {
     $state.mineCount = mineCount;
     $state.allCount = allCount;
     $state.unAssignedCount = unAssignedCount;
+    $state.updatedOn = new Date();
   },
 };
 

@@ -51,5 +51,19 @@ const handleAction = () => {
         />
       </div>
     </Variant>
+
+    <Variant title="With search">
+      <div class="p-4 bg-white h-72 dark:bg-slate-900">
+        <DropdownMenu
+          :menu-items="[
+            { label: 'Custom 1', action: 'custom1', icon: 'file-upload' },
+            { label: 'Custom 2', action: 'custom2', icon: 'document' },
+            { label: 'Danger', action: 'delete', icon: 'delete' },
+          ]"
+          show-search
+          @action="handleAction"
+        />
+      </div>
+    </Variant>
   </Story>
 </template>

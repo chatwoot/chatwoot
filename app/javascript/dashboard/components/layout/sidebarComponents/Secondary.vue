@@ -134,7 +134,7 @@ export default {
         icon: 'number-symbol',
         label: 'TAGGED_WITH',
         hasSubMenu: true,
-        key: 'label',
+        key: 'labels',
         newLink: this.showNewLink(FEATURE_FLAGS.TEAM_MANAGEMENT),
         newLinkTag: 'NEW_LABEL',
         toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
@@ -147,7 +147,7 @@ export default {
           color: label.color,
           truncateLabel: true,
           toState: frontendURL(
-            `accounts/${this.accountId}/labels/${label.title}/contacts`
+            `accounts/${this.accountId}/contacts/labels/${label.title}`
           ),
         })),
       };
@@ -194,7 +194,7 @@ export default {
         icon: 'folder',
         label: 'CUSTOM_VIEWS_SEGMENTS',
         hasSubMenu: true,
-        key: 'custom_view',
+        key: 'segments',
         children: this.customViews
           .filter(view => view.filter_type === 'contact')
           .map(view => ({
@@ -202,7 +202,7 @@ export default {
             label: view.name,
             truncateLabel: true,
             toState: frontendURL(
-              `accounts/${this.accountId}/contacts/custom_view/${view.id}`
+              `accounts/${this.accountId}/contacts/segments/${view.id}`
             ),
           })),
       };
@@ -247,7 +247,7 @@ export default {
     <transition-group
       name="menu-list"
       tag="ul"
-      class="pt-2 reset-base list-none"
+      class="pt-2 list-none reset-base"
     >
       <SecondaryNavItem
         v-for="menuItem in accessibleMenuItems"

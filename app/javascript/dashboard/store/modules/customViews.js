@@ -70,6 +70,7 @@ export const actions = {
         data: response.data,
         filterType: FILTER_KEYS[obj.filter_type],
       });
+      return response;
     } catch (error) {
       const errorMessage = error?.response?.data?.message;
       throw new Error(errorMessage);

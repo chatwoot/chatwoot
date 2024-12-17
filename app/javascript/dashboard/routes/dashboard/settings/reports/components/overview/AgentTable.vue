@@ -144,10 +144,7 @@ const table = useVueTable({
 
 <template>
   <div class="agent-table-container">
-    <Table
-      :table="table"
-      class="max-h-[calc(100vh-21.875rem)] border border-slate-50 dark:border-slate-800"
-    />
+    <Table :table="table" class="max-h-[calc(100vh-21.875rem)]" />
     <Pagination class="mt-2" :table="table" />
     <div v-if="isLoading" class="agents-loader">
       <Spinner />
@@ -169,7 +166,7 @@ const table = useVueTable({
   .ve-table {
     &::v-deep {
       th.ve-table-header-th {
-        font-size: var(--font-size-mini) !important;
+        @apply text-sm rounded-xl;
         padding: var(--space-small) var(--space-two) !important;
       }
 

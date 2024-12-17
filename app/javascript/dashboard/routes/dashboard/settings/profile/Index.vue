@@ -190,7 +190,6 @@ export default {
       <UserProfilePicture
         :src="avatarUrl"
         :name="name"
-        size="72px"
         @change="updateProfilePicture"
         @delete="deleteProfilePicture"
       />
