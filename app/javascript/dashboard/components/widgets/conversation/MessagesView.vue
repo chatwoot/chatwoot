@@ -1,5 +1,5 @@
 <script>
-import { ref, defineAsyncComponent } from 'vue';
+import { ref } from 'vue';
 // composable
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
@@ -8,9 +8,7 @@ import { useAI } from 'dashboard/composables/useAI';
 // components
 import ReplyBox from './ReplyBox.vue';
 import Message from './Message.vue';
-const NextMessageList = defineAsyncComponent(
-  () => import('next/message/MessageList.vue')
-);
+import NextMessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 
@@ -493,16 +491,7 @@ export default {
       :should-show-spinner="shouldShowSpinner"
       :unread-message-count="unreadMessageCount"
       :messages="currentChat ? currentChat.messages : []"
-    >
-      <template #after>
-        <ConversationLabelSuggestion
-          v-if="shouldShowLabelSuggestions"
-          :suggested-labels="labelSuggestions"
-          :chat-labels="currentChat.labels"
-          :conversation-id="currentChat.id"
-        />
-      </template>
-    </NextMessageList>
+    />
     <ul v-else class="conversation-panel">
       <transition name="slide-up">
         <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
