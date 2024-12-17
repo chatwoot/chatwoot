@@ -60,17 +60,21 @@ class Whatsapp::WhatsappCampaignService
     find_template(campaign.template_id)
   end
 
-  def send_message_to_contact(campaign_contact, template)
+  def send_message_to_contact(campaign_contact, template) 
     whatsapp_client.send_template(
       campaign_contact.contact.phone_number,
-      template_payload(template)
+      template_payload(template,campaign_contact.contact.name)
     )
   end
 
-  def template_payload(template)
+  def template_payload(template,name)
     {
       name: template['name'], # e.g., 'hello_world'
-      lang_code: template['language'] # e.g., 'en_US'
+      lang_code: template['language'], # e.g., 'en_US'
+      parameters: [{
+        "type": "text",
+        "text": name
+      }]
     }
   end
 
