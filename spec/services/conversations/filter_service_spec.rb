@@ -185,6 +185,30 @@ describe Conversations::FilterService do
         expect(result[:count][:all_count]).to be 2
         expect(result[:conversations].pluck(:campaign_id).sort).to eq [campaign_2.id, campaign_1.id].sort
       end
+
+      it 'handles invalid query conditions' do
+        params[:payload] = [
+          {
+            attribute_key: 'assignee_id',
+            filter_operator: 'equal_to',
+            values: [
+              user_1.id,
+              user_2.id
+            ],
+            query_operator: 'INVALID',
+            custom_attribute_type: ''
+          }.with_indifferent_access,
+          {
+            attribute_key: 'campaign_id',
+            filter_operator: 'is_present',
+            values: [],
+            query_operator: nil,
+            custom_attribute_type: ''
+          }.with_indifferent_access
+        ]
+
+        expect { filter_service.new(params, user_1).perform }.to raise_error(CustomExceptions::CustomFilter::InvalidQueryOperator)
+      end
     end
   end
 
