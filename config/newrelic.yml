@@ -58,6 +58,7 @@ test:
 staging:
   <<: *default_settings
   app_name: <%= ENV.fetch('NEW_RELIC_APP_NAME', 'Chatwoot')  %> (Staging)
+  monitor_mode: <%= ENV.fetch('NEW_RELIC_STAGING_MONITORING_ENABLED', false) %>
 
 production:
   <<: *default_settings
