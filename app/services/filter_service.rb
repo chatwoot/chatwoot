@@ -204,4 +204,13 @@ class FilterService
     end
     base_relation.where(@query_string, @filter_values.with_indifferent_access)
   end
+
+  def validate_query_operator
+    @params[:payload].each do |query_hash|
+      next if query_hash['query_operator'].nil?
+
+      operator = query_hash['query_operator'].upcase
+      raise CustomExceptions::CustomFilter::InvalidQueryOperator.new({}) unless %w[AND OR].include?(operator)
+    end
+  end
 end
