@@ -8,7 +8,6 @@ import { useAI } from 'dashboard/composables/useAI';
 // components
 import ReplyBox from './ReplyBox.vue';
 import Message from './Message.vue';
-import NextMessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 
@@ -38,7 +37,6 @@ import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 export default {
   components: {
     Message,
-    NextMessageList,
     ReplyBox,
     Banner,
     ConversationLabelSuggestion,
@@ -480,46 +478,7 @@ export default {
         @click="onToggleContactPanel"
       />
     </div>
-    <NextMessageList
-      v-if="showNextBubbles"
-      class="conversation-panel"
-      :read-messages="readMessages"
-      :un-read-messages="unreadMessages"
-      :current-user-id="currentUserId"
-      :is-an-email-channel="isAnEmailChannel"
-      :inbox-supports-reply-to="inboxSupportsReplyTo"
-      :messages="currentChat ? currentChat.messages : []"
-    >
-      <template #beforeAll>
-        <transition name="slide-up">
-          <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
-          <li class="min-h-[4rem]">
-            <span v-if="shouldShowSpinner" class="spinner message" />
-          </li>
-        </transition>
-      </template>
-      <template #beforeUnread>
-        <li v-show="unreadMessageCount != 0" class="unread--toast">
-          <span>
-            {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
-            {{
-              unreadMessageCount > 1
-                ? $t('CONVERSATION.UNREAD_MESSAGES')
-                : $t('CONVERSATION.UNREAD_MESSAGE')
-            }}
-          </span>
-        </li>
-      </template>
-      <template #after>
-        <ConversationLabelSuggestion
-          v-if="shouldShowLabelSuggestions"
-          :suggested-labels="labelSuggestions"
-          :chat-labels="currentChat.labels"
-          :conversation-id="currentChat.id"
-        />
-      </template>
-    </NextMessageList>
-    <ul v-else class="conversation-panel">
+    <ul class="conversation-panel">
       <transition name="slide-up">
         <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
         <li class="min-h-[4rem]">
