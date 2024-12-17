@@ -26,7 +26,7 @@ class AutomationRule < ApplicationRecord
 
   validate :json_conditions_format
   validate :json_actions_format
-  validate :query_operator_presence
+  validate :validate_query_operators
   validates :account_id, presence: true
 
   after_update_commit :reauthorized!, if: -> { saved_change_to_conditions? }
@@ -77,11 +77,26 @@ class AutomationRule < ApplicationRecord
     errors.add(:actions, "Automation actions #{actions.join(',')} not supported.") if actions.any?
   end
 
-  def query_operator_presence
+  # Validates the operator used in conditions to combine multiple conditions.
+  # Each condition can be combined using either "AND" or "OR" operators.
+  # If a query operator is present, it must be either "AND" or "OR" (case insensitive).
+  # This validation ensures logical operators are being used correctly in automation conditions.
+  # And we don't push any unsanitized query operators to the database.
+  def validate_query_operators
     return if conditions.blank?
 
     operators = conditions.select { |obj, _| obj['query_operator'].nil? }
-    errors.add(:conditions, 'Automation conditions should have query operator.') if operators.length > 1
+    if operators.length > 1
+      errors.add(:conditions, 'Automation conditions should have query operator.')
+      return
+    end
+
+    conditions.each do |obj, _|
+      next if obj['query_operator'].nil?
+
+      operator = obj['query_operator'].upcase
+      errors.add(:conditions, 'Query operator must be either "AND" or "OR"') unless %w[AND OR].include?(operator)
+    end
   end
 end
 
