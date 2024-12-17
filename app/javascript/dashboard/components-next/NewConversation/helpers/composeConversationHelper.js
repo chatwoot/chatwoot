@@ -193,10 +193,12 @@ export const searchContacts = async ({ keys, query }) => {
   return filteredPayload || [];
 };
 
-export const createNewContact = async email => {
+export const createNewContact = async input => {
   const payload = {
-    name: getCapitalizedNameFromEmail(email),
-    email,
+    name: input.startsWith('+')
+      ? input.slice(1) // Remove the '+' prefix if it exists
+      : getCapitalizedNameFromEmail(input),
+    ...(input.startsWith('+') ? { phone_number: input } : { email: input }),
   };
 
   const {
