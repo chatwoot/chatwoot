@@ -77,7 +77,7 @@ export default {
 
 <template>
   <div
-    class="flex items-center justify-between w-full py-2 border-b ltr:pl-4 rtl:pl-2 rtl:pr-4 ltr:pr-2 h-14 border-slate-50 dark:border-slate-800/50"
+    class="flex items-center justify-between w-full pt-4 pb-2 h-14 ltr:pl-6 rtl:pl-4 rtl:pr-6 ltr:pr-4"
   >
     <div class="flex items-center gap-1.5">
       <h1 class="text-xl font-medium text-slate-900 dark:text-slate-25">

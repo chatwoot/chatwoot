@@ -59,6 +59,11 @@ export default {
       return this.meta?.assignee;
     },
     pushTitle() {
+      // console.log({
+      //   notificationType: this.notificationItem.notification_type,
+      //   pushMessageTitle: this.notificationItem.push_message_title,
+      //   pushMessageBody: this.notificationItem.push_message_body,
+      // });
       return this.$t(
         `INBOX.TYPES.${this.notificationItem.notification_type.toUpperCase()}`
       );
