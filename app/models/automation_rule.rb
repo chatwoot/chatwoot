@@ -100,7 +100,7 @@ class AutomationRule < ApplicationRecord
     return if query_operator.empty?
 
     operator = query_operator.upcase
-    raise CustomExceptions::CustomFilter::InvalidQueryOperator.new({}) unless %w[AND OR].include?(operator)
+    errors.add(:conditions, 'Query operator must be either "AND" or "OR"') unless %w[AND OR].include?(operator)
   end
 end
 
