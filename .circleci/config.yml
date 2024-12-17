@@ -74,7 +74,7 @@ jobs:
             source ~/.rvm/scripts/rvm
             rvm install "3.3.3"
             rvm use 3.3.3 --default
-            gem install bundler
+            gem install bundler -v 2.5.16
 
       - run:
           name: Install Application Dependencies
