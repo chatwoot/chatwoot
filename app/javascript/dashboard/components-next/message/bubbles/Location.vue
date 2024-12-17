@@ -2,7 +2,7 @@
 import { computed, onMounted, nextTick, useTemplateRef } from 'vue';
 import BaseAttachmentBubble from './BaseAttachment.vue';
 import { useI18n } from 'vue-i18n';
-import maplibregl from 'maplibre-gl';
+// import maplibregl from 'maplibre-gl';
 
 /**
  * @typedef {Object} Attachment
@@ -57,29 +57,28 @@ const mapUrl = computed(
 
 const mapContainer = useTemplateRef('mapContainer');
 
-const setupMap = () => {
-  const map = new maplibregl.Map({
-    style: 'https://tiles.openfreemap.org/styles/positron',
-    center: [long.value, lat.value],
-    zoom: 15,
-    container: mapContainer.value,
-    attributionControl: false,
-    dragPan: false,
-    dragRotate: false,
-    scrollZoom: false,
-    touchZoom: false,
-    touchRotate: false,
-    keyboard: false,
-    doubleClickZoom: false,
-  });
-  // new maplibregl.Marker().setLngLat([long.value, lat.value]).addTo(map);
-
-  return map;
-};
+// const setupMap = () => {
+// const map = new maplibregl.Map({
+//   style: 'https://tiles.openfreemap.org/styles/positron',
+//   center: [long.value, lat.value],
+//   zoom: 15,
+//   container: mapContainer.value,
+//   attributionControl: false,
+//   dragPan: false,
+//   dragRotate: false,
+//   scrollZoom: false,
+//   touchZoom: false,
+//   touchRotate: false,
+//   keyboard: false,
+//   doubleClickZoom: false,
+// });
+// new maplibregl.Marker().setLngLat([long.value, lat.value]).addTo(map);
+// return map;
+// };
 
 onMounted(async () => {
   await nextTick();
-  setupMap();
+  // setupMap();
 });
 </script>
 
