@@ -5,6 +5,7 @@ import Index from './Index.vue';
 import Webhook from './Webhooks/Index.vue';
 import DashboardApps from './DashboardApps/Index.vue';
 import Slack from './Slack.vue';
+import Captain from './Captain/Index.vue';
 import SettingsContent from '../Wrapper.vue';
 
 export default {
@@ -34,6 +35,14 @@ export default {
           path: 'webhook',
           component: Webhook,
           name: 'settings_integrations_webhook',
+          meta: {
+            permissions: ['administrator'],
+          },
+        },
+        {
+          path: 'captain',
+          component: Captain,
+          name: 'settings_integrations_captain',
           meta: {
             permissions: ['administrator'],
           },
