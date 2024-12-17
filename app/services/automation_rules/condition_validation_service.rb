@@ -15,8 +15,7 @@ class AutomationRules::ConditionValidationService
 
   def perform
     @rule.conditions.each do |condition|
-      return false unless valid_condition?(condition)
-      return false unless valid_query_operator?(condition)
+      return false unless valid_condition?(condition) && valid_query_operator?(condition)
     end
 
     true
