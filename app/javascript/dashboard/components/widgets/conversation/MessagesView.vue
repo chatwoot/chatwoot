@@ -1,5 +1,5 @@
 <script>
-import { ref } from 'vue';
+import { ref, defineAsyncComponent } from 'vue';
 // composable
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
@@ -8,7 +8,9 @@ import { useAI } from 'dashboard/composables/useAI';
 // components
 import ReplyBox from './ReplyBox.vue';
 import Message from './Message.vue';
-import NextMessageList from 'next/message/MessageList.vue';
+const NextMessageList = defineAsyncComponent(
+  () => import('next/message/MessageList.vue')
+);
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 
