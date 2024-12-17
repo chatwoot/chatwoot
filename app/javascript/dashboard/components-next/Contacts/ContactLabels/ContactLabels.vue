@@ -17,6 +17,7 @@ const store = useStore();
 const route = useRoute();
 
 const showDropdown = ref(false);
+const hoveredLabel = ref(null);
 
 const allLabels = useMapGetter('labels/getLabels');
 const contactLabels = useMapGetter('contactLabels/getContactLabels');
@@ -98,15 +99,25 @@ onMounted(() => {
     fetchLabels(route.params.contactId);
   }
 });
+
+const handleMouseLeave = () => {
+  hoveredLabel.value = null;
+};
+
+const handleLabelHover = labelId => {
+  hoveredLabel.value = labelId;
+};
 </script>
 
 <template>
-  <div class="flex flex-wrap items-center gap-2">
+  <div class="flex flex-wrap items-center gap-2" @mouseleave="handleMouseLeave">
     <LabelItem
       v-for="label in savedLabels"
       :key="label.id"
       :label="label"
+      :is-hovered="hoveredLabel === label.id"
       @remove="handleRemoveLabel"
+      @hover="handleLabelHover(label.id)"
     />
     <AddLabel
       :label-menu-items="labelMenuItems"
