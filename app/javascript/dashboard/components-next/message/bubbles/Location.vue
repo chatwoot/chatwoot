@@ -72,7 +72,7 @@ const setupMap = () => {
     keyboard: false,
     doubleClickZoom: false,
   });
-  new maplibregl.Marker().setLngLat([long.value, lat.value]).addTo(map);
+  // new maplibregl.Marker().setLngLat([long.value, lat.value]).addTo(map);
 
   return map;
 };
