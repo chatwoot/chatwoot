@@ -88,13 +88,19 @@ class AutomationRule < ApplicationRecord
   # This validation ensures logical operators are being used correctly in automation conditions.
   # And we don't push any unsanitized query operators to the database.
   def query_operator_value
-    conditions.each do |obj, _|
-      next if obj['query_operator'].nil?
-      next if obj['query_operator'].empty?
-
-      operator = obj['query_operator'].upcase
-      errors.add(:conditions, 'Query operator must be either "AND" or "OR"') unless %w[AND OR].include?(operator)
+    conditions.each do |obj|
+      validate_single_condition(obj)
     end
+  end
+
+  def validate_single_condition(condition)
+    query_operator = condition['query_operator']
+
+    return if query_operator.nil?
+    return if query_operator.empty?
+
+    operator = query_operator.upcase
+    raise CustomExceptions::CustomFilter::InvalidQueryOperator.new({}) unless %w[AND OR].include?(operator)
   end
 end
 
