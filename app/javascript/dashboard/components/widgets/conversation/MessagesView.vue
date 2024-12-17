@@ -8,6 +8,7 @@ import { useAI } from 'dashboard/composables/useAI';
 // components
 import ReplyBox from './ReplyBox.vue';
 import Message from './Message.vue';
+import NextMessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 
@@ -37,6 +38,7 @@ import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 export default {
   components: {
     Message,
+    NextMessageList,
     ReplyBox,
     Banner,
     ConversationLabelSuggestion,
@@ -478,7 +480,28 @@ export default {
         @click="onToggleContactPanel"
       />
     </div>
-    <ul class="conversation-panel">
+    <NextMessageList
+      v-if="showNextBubbles"
+      class="conversation-panel"
+      :read-messages="readMessages"
+      :un-read-messages="unreadMessages"
+      :current-user-id="currentUserId"
+      :is-an-email-channel="isAnEmailChannel"
+      :inbox-supports-reply-to="inboxSupportsReplyTo"
+      :should-show-spinner="shouldShowSpinner"
+      :unread-message-count="unreadMessageCount"
+      :messages="currentChat ? currentChat.messages : []"
+    >
+      <template #after>
+        <ConversationLabelSuggestion
+          v-if="shouldShowLabelSuggestions"
+          :suggested-labels="labelSuggestions"
+          :chat-labels="currentChat.labels"
+          :conversation-id="currentChat.id"
+        />
+      </template>
+    </NextMessageList>
+    <ul v-else class="conversation-panel">
       <transition name="slide-up">
         <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
         <li class="min-h-[4rem]">

@@ -38,6 +38,14 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  shouldShowSpinner: {
+    type: Boolean,
+    default: false,
+  },
+  unreadMessageCount: {
+    type: Number,
+    default: 0,
+  },
 });
 
 const unread = computed(() => {
@@ -95,30 +103,44 @@ const getInReplyToMessage = parentMessage => {
 
 <template>
   <ul class="px-4 bg-n-background">
-    <slot name="beforeAll" />
-    <template v-for="(message, index) in read" :key="message.id">
-      <Message
-        v-bind="message"
-        :is-email-inbox="isAnEmailChannel"
-        :in-reply-to="getInReplyToMessage(message)"
-        :group-with-next="shouldGroupWithNext(index, readMessages)"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :current-user-id="currentUserId"
-        data-clarity-mask="True"
-      />
-    </template>
-    <slot name="beforeUnread" />
-    <template v-for="(message, index) in unread" :key="message.id">
-      <Message
-        v-bind="message"
-        :in-reply-to="getInReplyToMessage(message)"
-        :group-with-next="shouldGroupWithNext(index, unReadMessages)"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :current-user-id="currentUserId"
-        :is-email-inbox="isAnEmailChannel"
-        data-clarity-mask="True"
-      />
-    </template>
+    <transition name="slide-up">
+      <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
+      <li class="min-h-[4rem]">
+        <span v-if="shouldShowSpinner" class="spinner message" />
+      </li>
+    </transition>
+    <Message
+      v-for="(message, index) in read"
+      :key="message.id"
+      v-bind="message"
+      :is-email-inbox="isAnEmailChannel"
+      :in-reply-to="getInReplyToMessage(message)"
+      :group-with-next="shouldGroupWithNext(index, readMessages)"
+      :inbox-supports-reply-to="inboxSupportsReplyTo"
+      :current-user-id="currentUserId"
+      data-clarity-mask="True"
+    />
+    <li v-show="unreadMessageCount != 0" class="unread--toast">
+      <span>
+        {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
+        {{
+          unreadMessageCount > 1
+            ? $t('CONVERSATION.UNREAD_MESSAGES')
+            : $t('CONVERSATION.UNREAD_MESSAGE')
+        }}
+      </span>
+    </li>
+    <Message
+      v-for="(message, index) in unread"
+      :key="message.id"
+      v-bind="message"
+      :in-reply-to="getInReplyToMessage(message)"
+      :group-with-next="shouldGroupWithNext(index, unReadMessages)"
+      :inbox-supports-reply-to="inboxSupportsReplyTo"
+      :current-user-id="currentUserId"
+      :is-email-inbox="isAnEmailChannel"
+      data-clarity-mask="True"
+    />
     <slot name="after" />
   </ul>
 </template>
