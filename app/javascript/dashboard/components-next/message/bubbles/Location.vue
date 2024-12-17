@@ -1,8 +1,7 @@
 <script setup>
-import { computed, onMounted, nextTick, useTemplateRef } from 'vue';
+import { computed } from 'vue';
 import BaseAttachmentBubble from './BaseAttachment.vue';
 import { useI18n } from 'vue-i18n';
-import maplibregl from 'maplibre-gl';
 
 /**
  * @typedef {Object} Attachment
@@ -54,33 +53,6 @@ const title = computed(() => {
 const mapUrl = computed(
   () => `https://maps.google.com/?q=${lat.value},${long.value}`
 );
-
-const mapContainer = useTemplateRef('mapContainer');
-
-const setupMap = () => {
-  const map = new maplibregl.Map({
-    style: 'https://tiles.openfreemap.org/styles/positron',
-    center: [long.value, lat.value],
-    zoom: 15,
-    container: mapContainer.value,
-    attributionControl: false,
-    dragPan: false,
-    dragRotate: false,
-    scrollZoom: false,
-    touchZoom: false,
-    touchRotate: false,
-    keyboard: false,
-    doubleClickZoom: false,
-  });
-  new maplibregl.Marker().setLngLat([long.value, lat.value]).addTo(map);
-
-  return map;
-};
-
-onMounted(async () => {
-  await nextTick();
-  setupMap();
-});
 </script>
 
 <template>
@@ -94,16 +66,5 @@ onMounted(async () => {
       label: t('COMPONENTS.LOCATION_BUBBLE.SEE_ON_MAP'),
       href: mapUrl,
     }"
-  >
-    <template #before>
-      <div
-        ref="mapContainer"
-        class="z-10 w-full max-w-md -mb-12 min-w-64 h-28"
-      />
-    </template>
-  </BaseAttachmentBubble>
+  />
 </template>
-
-<style>
-@import 'maplibre-gl/dist/maplibre-gl.css';
-</style>
