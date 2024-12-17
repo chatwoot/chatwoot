@@ -22,6 +22,7 @@
   - mailers
   - action_mailbox_routing
   - low
+  - 1_min_mailer
   - async_database_migration
   - active_storage_analysis
   - active_storage_purge
