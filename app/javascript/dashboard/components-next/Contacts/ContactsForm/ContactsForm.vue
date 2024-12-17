@@ -94,7 +94,7 @@ const prepareStateBasedOnProps = () => {
     phoneNumber,
     additionalAttributes = {},
   } = props.contactData || {};
-  const { firstName, lastName } = splitName(name);
+  const { firstName, lastName } = splitName(name || '');
   const {
     description = '',
     companyName = '',
