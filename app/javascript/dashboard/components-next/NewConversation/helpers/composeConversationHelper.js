@@ -82,7 +82,7 @@ export const getCapitalizedNameFromEmail = email => {
 
 export const getNameFromPhoneNumber = phoneNumber => {
   // Remove the '+' prefix if it exists
-  return phoneNumber.startsWith('+') ? phoneNumber.slice(1) : phoneNumber;
+  return phoneNumber?.slice(1);
 };
 
 export const processContactableInboxes = inboxes => {
