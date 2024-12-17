@@ -175,10 +175,10 @@ const onCardClick = () => {
       <p v-dompurify-html="formattedMessage" class="mb-0 line-clamp-2" />
     </div>
     <div class="flex items-center justify-between h-6 gap-2">
-      <div class="flex items-center gap-1">
+      <div class="flex items-center flex-1 min-w-0 gap-1">
         <div
           v-if="snoozedUntilTime || hasLastSnoozed"
-          class="flex items-center gap-2 ltr:pl-1 rtl:pr-1"
+          class="flex items-center w-full min-w-0 gap-2 ltr:pl-1 rtl:pr-1"
         >
           <Icon
             :icon="
@@ -186,9 +186,9 @@ const onCardClick = () => {
                 ? 'i-lucide-alarm-clock-plus'
                 : 'i-lucide-alarm-clock-off'
             "
-            class="size-4 text-n-blue-text"
+            class="flex-shrink-0 size-4 text-n-blue-text"
           />
-          <span class="text-xs font-medium text-n-blue-text">
+          <span class="text-xs font-medium truncate text-n-blue-text">
             {{
               !hasLastSnoozed
                 ? t('INBOX.TYPES_NEXT.SNOOZED_NOTIFICATION')
@@ -198,19 +198,22 @@ const onCardClick = () => {
         </div>
         <div
           v-else-if="notificationDetails.text"
-          class="flex items-center gap-2 ltr:pl-1 rtl:pr-1"
+          class="flex items-center w-full min-w-0 gap-2 ltr:pl-1 rtl:pr-1"
         >
           <Icon
             :icon="notificationDetails.icon"
             :class="notificationDetails.color"
-            class="size-4"
+            class="flex-shrink-0 size-4"
           />
-          <span class="text-xs font-medium" :class="notificationDetails.color">
+          <span
+            class="text-xs font-medium truncate"
+            :class="notificationDetails.color"
+          >
             {{ notificationDetails.text }}
           </span>
         </div>
       </div>
-      <div class="flex items-center gap-2">
+      <div class="flex items-center flex-shrink-0 gap-2">
         <SLACardLabel
           v-show="hasSlaThreshold"
           ref="slaCardLabel"

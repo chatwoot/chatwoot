@@ -208,8 +208,8 @@ export default {
 <template>
   <section class="flex w-full h-full bg-n-solid-1">
     <div
-      class="flex flex-col h-full w-full md:min-w-[400px] md:max-w-[400px] ltr:border-r border-slate-50 dark:border-slate-800/50"
-      :class="!currentNotificationId ? 'flex' : 'hidden md:flex'"
+      class="flex flex-col h-full w-full lg:min-w-[400px] lg:max-w-[400px] ltr:border-r border-slate-50 dark:border-slate-800/50"
+      :class="!currentNotificationId ? 'flex' : 'hidden xl:flex'"
     >
       <InboxListHeader
         :is-context-menu-open="isInboxContextMenuOpen"

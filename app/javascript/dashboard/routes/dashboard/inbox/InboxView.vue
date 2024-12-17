@@ -175,7 +175,7 @@ export default {
 </script>
 
 <template>
-  <div class="h-full w-full md:w-[calc(100%-360px)]">
+  <div class="h-full w-full xl:w-[calc(100%-400px)]">
     <div v-if="showEmptyState" class="flex w-full h-full">
       <InboxEmptyState
         :empty-state-message="$t('INBOX.LIST.NO_MESSAGES_AVAILABLE')"
