@@ -17,6 +17,10 @@ const store = useStore();
 const route = useRoute();
 
 const showDropdown = ref(false);
+
+// Store the currently hovered label's ID
+// Using JS state management instead of CSS :hover / group hover
+// This will solve the flickering issue when hovering over the last label item
 const hoveredLabel = ref(null);
 
 const allLabels = useMapGetter('labels/getLabels');
@@ -101,10 +105,15 @@ onMounted(() => {
 });
 
 const handleMouseLeave = () => {
+  // Reset hover state when mouse leaves the container
+  // This ensures all labels return to their default state
   hoveredLabel.value = null;
 };
 
 const handleLabelHover = labelId => {
+  // Added this to prevent flickering on when showing remove button on hover
+  // If the label item is at end of the line, it will show the remove button
+  // when hovering over the last label item
   hoveredLabel.value = labelId;
 };
 </script>

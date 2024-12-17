@@ -19,6 +19,9 @@ const handleRemoveLabel = () => {
 };
 
 const handleMouseEnter = () => {
+  // Notify parent component when this label is hovered
+  // Added this to show the remove button with transition when hovering over the label
+  // This will solve the flickering issue when hovering over the last label item
   emit('hover', props.label?.id);
 };
 </script>
