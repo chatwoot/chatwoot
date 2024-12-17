@@ -4,11 +4,13 @@ import { ref } from 'vue';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useAI } from 'dashboard/composables/useAI';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 
 // components
 import ReplyBox from './ReplyBox.vue';
 import Message from './Message.vue';
-import NextMessageList from 'next/message/MessageList.vue';
+import NextMessage from 'next/message/Message.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 
@@ -35,10 +37,26 @@ import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 
+function shouldGroupWithNext(index, messages) {
+  if (index === messages.length - 1) return false;
+
+  const current = messages[index];
+  const next = messages[index + 1];
+
+  if (next.status === 'failed') return false;
+
+  const nextSenderId = next.senderId ?? next.sender?.id;
+  const currentSenderId = current.senderId ?? current.sender?.id;
+  if (currentSenderId !== nextSenderId) return false;
+
+  // Check if messages are in the same minute by rounding down to nearest minute
+  return Math.floor(next.createdAt / 60) === Math.floor(current.createdAt / 60);
+}
+
 export default {
   components: {
     Message,
-    NextMessageList,
+    NextMessage,
     ReplyBox,
     Banner,
     ConversationLabelSuggestion,
@@ -58,6 +76,7 @@ export default {
   setup() {
     const isPopOutReplyBox = ref(false);
     const { isEnterprise } = useConfig();
+    const { accountId } = useAccount();
 
     const closePopOutReplyBox = () => {
       isPopOutReplyBox.value = false;
@@ -95,6 +114,7 @@ export default {
       isLabelSuggestionFeatureEnabled,
       fetchIntegrationsIfRequired,
       fetchLabelSuggestions,
+      accountId,
       showNextBubbles,
     };
   },
@@ -161,16 +181,28 @@ export default {
       return messages;
     },
     readMessages() {
-      return getReadMessages(
+      const readMessages = getReadMessages(
         this.getMessages,
         this.currentChat.agent_last_seen_at
       );
+
+      if (this.showNextBubbles) {
+        return useCamelCase(readMessages, { deep: true });
+      }
+
+      return readMessages;
     },
     unReadMessages() {
-      return getUnreadMessages(
+      const unreadMessages = getUnreadMessages(
         this.getMessages,
         this.currentChat.agent_last_seen_at
       );
+
+      if (this.showNextBubbles) {
+        return useCamelCase(unreadMessages, { deep: true });
+      }
+
+      return unreadMessages;
     },
     shouldShowSpinner() {
       return (
@@ -445,9 +477,18 @@ export default {
       this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
     },
     getInReplyToMessage(parentMessage) {
-      if (!parentMessage) return {};
-      const inReplyToMessageId = parentMessage.content_attributes?.in_reply_to;
-      if (!inReplyToMessageId) return {};
+      // the old implementation took an empty object, but the
+      // new implementation takes null
+      const emptyOption = this.showNextBubbles ? null : {};
+
+      if (!parentMessage) return emptyOption;
+      // to maintain backward compatibility we use both the keys
+      // contentAttributes and content_attributes
+      // TODO: Remove this once we've migrated all the keys to camelCase
+      const inReplyToMessageId =
+        parentMessage.contentAttributes?.inReplyTo ??
+        parentMessage.content_attributes?.in_reply_to;
+      if (!inReplyToMessageId) return emptyOption;
 
       return this.currentChat?.messages.find(message => {
         if (message.id === inReplyToMessageId) {
@@ -456,6 +497,7 @@ export default {
         return false;
       });
     },
+    shouldGroupWithNext: shouldGroupWithNext,
   },
 };
 </script>
@@ -480,40 +522,46 @@ export default {
         @click="onToggleContactPanel"
       />
     </div>
-    <NextMessageList
-      v-if="showNextBubbles"
+    <ul
       class="conversation-panel"
-      :read-messages="readMessages"
-      :un-read-messages="unreadMessages"
-      :current-user-id="currentUserId"
-      :is-an-email-channel="isAnEmailChannel"
-      :inbox-supports-reply-to="inboxSupportsReplyTo"
-      :should-show-spinner="shouldShowSpinner"
-      :unread-message-count="unreadMessageCount"
-      :messages="currentChat ? currentChat.messages : []"
-    />
-    <ul v-else class="conversation-panel">
+      :class="{ 'px-4 bg-n-background': showNextBubbles }"
+    >
       <transition name="slide-up">
         <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
         <li class="min-h-[4rem]">
           <span v-if="shouldShowSpinner" class="spinner message" />
         </li>
       </transition>
-      <Message
-        v-for="message in readMessages"
-        :key="message.id"
-        class="message--read ph-no-capture"
-        data-clarity-mask="True"
-        :data="message"
-        :is-a-tweet="isATweet"
-        :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :is-web-widget-inbox="isAWebWidgetInbox"
-        :is-a-facebook-inbox="isAFacebookInbox"
-        :is-an-email-inbox="isAnEmailChannel"
-        :is-instagram="isInstagramDM"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :in-reply-to="getInReplyToMessage(message)"
-      />
+      <template v-if="showNextBubbles">
+        <NextMessage
+          v-for="(message, index) in readMessages"
+          :key="message.id"
+          v-bind="message"
+          :is-email-inbox="isAnEmailChannel"
+          :in-reply-to="getInReplyToMessage(message)"
+          :group-with-next="shouldGroupWithNext(index, readMessages)"
+          :inbox-supports-reply-to="inboxSupportsReplyTo"
+          :current-user-id="currentUserId"
+          data-clarity-mask="True"
+        />
+      </template>
+      <template v-else>
+        <Message
+          v-for="message in readMessages"
+          :key="message.id"
+          class="message--read ph-no-capture"
+          data-clarity-mask="True"
+          :data="message"
+          :is-a-tweet="isATweet"
+          :is-a-whatsapp-channel="isAWhatsAppChannel"
+          :is-web-widget-inbox="isAWebWidgetInbox"
+          :is-a-facebook-inbox="isAFacebookInbox"
+          :is-an-email-inbox="isAnEmailChannel"
+          :is-instagram="isInstagramDM"
+          :inbox-supports-reply-to="inboxSupportsReplyTo"
+          :in-reply-to="getInReplyToMessage(message)"
+        />
+      </template>
       <li v-show="unreadMessageCount != 0" class="unread--toast">
         <span>
           {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
@@ -524,20 +572,35 @@ export default {
           }}
         </span>
       </li>
-      <Message
-        v-for="message in unReadMessages"
-        :key="message.id"
-        class="message--unread ph-no-capture"
-        data-clarity-mask="True"
-        :data="message"
-        :is-a-tweet="isATweet"
-        :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :is-web-widget-inbox="isAWebWidgetInbox"
-        :is-a-facebook-inbox="isAFacebookInbox"
-        :is-instagram-dm="isInstagramDM"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :in-reply-to="getInReplyToMessage(message)"
-      />
+      <template v-if="showNextBubbles">
+        <NextMessage
+          v-for="(message, index) in unReadMessages"
+          :key="message.id"
+          v-bind="message"
+          :in-reply-to="getInReplyToMessage(message)"
+          :group-with-next="shouldGroupWithNext(index, unReadMessages)"
+          :inbox-supports-reply-to="inboxSupportsReplyTo"
+          :current-user-id="currentUserId"
+          :is-email-inbox="isAnEmailChannel"
+          data-clarity-mask="True"
+        />
+      </template>
+      <template v-else>
+        <Message
+          v-for="message in unReadMessages"
+          :key="message.id"
+          class="message--unread ph-no-capture"
+          data-clarity-mask="True"
+          :data="message"
+          :is-a-tweet="isATweet"
+          :is-a-whatsapp-channel="isAWhatsAppChannel"
+          :is-web-widget-inbox="isAWebWidgetInbox"
+          :is-a-facebook-inbox="isAFacebookInbox"
+          :is-instagram-dm="isInstagramDM"
+          :inbox-supports-reply-to="inboxSupportsReplyTo"
+          :in-reply-to="getInReplyToMessage(message)"
+        />
+      </template>
       <ConversationLabelSuggestion
         v-if="shouldShowLabelSuggestions"
         :suggested-labels="labelSuggestions"
@@ -575,6 +638,7 @@ export default {
 
 <style scoped>
 @tailwind components;
+
 @layer components {
   .rounded-bl-calc {
     border-bottom-left-radius: calc(1.5rem + 1px);
