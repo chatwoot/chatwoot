@@ -1,4 +1,6 @@
 class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
+  # TODO: let move this regex from here to a config file where we can update this list much more easily
+  # the config file will also have the matching embed template as well. 
   YOUTUBE_REGEX = %r{https?://(?:www\.)?(?:youtube\.com/watch\?v=|youtu\.be/)([^&/]+)}
   LOOM_REGEX = %r{https?://(?:www\.)?loom\.com/share/([^&/]+)}
   VIMEO_REGEX = %r{https?://(?:www\.)?vimeo\.com/(\d+)}
