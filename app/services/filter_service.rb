@@ -208,6 +208,7 @@ class FilterService
   def validate_query_operator
     @params[:payload].each do |query_hash|
       next if query_hash['query_operator'].nil?
+      next if query_hash['query_operator'].empty?
 
       operator = query_hash['query_operator'].upcase
       raise CustomExceptions::CustomFilter::InvalidQueryOperator.new({}) unless %w[AND OR].include?(operator)
