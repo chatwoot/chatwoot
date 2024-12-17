@@ -1,7 +1,8 @@
 <script setup>
-import Thumbnail from 'dashboard/components-next/thumbnail/Thumbnail.vue';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
@@ -33,10 +34,11 @@ const senderThumbnailSrc = computed(() => props.sender?.thumbnail);
     {{ t('CAMPAIGN.LIVE_CHAT.CARD.CAMPAIGN_DETAILS.SENT_BY') }}
   </span>
   <div class="flex items-center gap-1.5 flex-shrink-0">
-    <Thumbnail
-      :author="sender || { name: senderName }"
+    <Avatar
       :name="senderName"
       :src="senderThumbnailSrc"
+      :size="16"
+      rounded-full
     />
     <span class="text-sm font-medium text-n-slate-12">
       {{ senderName }}

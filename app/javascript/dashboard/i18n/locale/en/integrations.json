@@ -299,5 +299,14 @@
         "ERROR": "There was an error unlinking the issue, please try again"
       }
     }
+  },
+  "CAPTAIN": {
+    "NAME": "Captain",
+    "COPILOT": {
+      "SEND_MESSAGE": "Send message...",
+      "LOADER": "Captain is thinking",
+      "YOU": "You",
+      "USE": "Use this"
+    }
   }
 }

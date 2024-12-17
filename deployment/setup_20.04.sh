@@ -171,8 +171,8 @@ EOF
 #   None
 ##############################################################################
 function install_dependencies() {
-  apt update && apt upgrade -y
-  apt install -y curl
+  apt-get update && apt-get upgrade -y
+  apt-get install -y curl
   curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
   mkdir -p /etc/apt/keyrings
@@ -180,9 +180,9 @@ function install_dependencies() {
   NODE_MAJOR=20
   echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
 
-  apt update
+  apt-get update
 
-  apt install -y \
+  apt-get install -y \
       git software-properties-common ca-certificates imagemagick libpq-dev \
       libxml2-dev libxslt1-dev file g++ gcc autoconf build-essential \
       libssl-dev libyaml-dev libreadline-dev gnupg2 \
@@ -203,7 +203,7 @@ function install_dependencies() {
 #   None
 ##############################################################################
 function install_databases() {
-  apt install -y postgresql postgresql-contrib redis-server
+  apt-get install -y postgresql postgresql-contrib redis-server
 }
 
 ##############################################################################
@@ -216,7 +216,7 @@ function install_databases() {
 #   None
 ##############################################################################
 function install_webserver() {
-  apt install -y nginx nginx-full certbot python3-certbot-nginx
+  apt-get install -y nginx nginx-full certbot python3-certbot-nginx
 }
 
 ##############################################################################
@@ -752,9 +752,9 @@ function upgrade_redis() {
 
   curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
-  apt update -y
-  apt upgrade redis-server -y
-  apt install libvips -y
+  apt-get update -y
+  apt-get upgrade redis-server -y
+  apt-get install libvips -y
 }
 
 
@@ -787,8 +787,8 @@ function upgrade_node() {
   NODE_MAJOR=20
   echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
 
-  apt update
-  apt install nodejs -y
+  apt-get update
+  apt-get install nodejs -y
 
 }
 
@@ -989,7 +989,7 @@ function cwctl_upgrade_check() {
     #Check if pip is not installed, and install it if not
     if ! command -v pip3 &> /dev/null; then
         echo "Installing pip..."
-        apt install -y python3-pip
+        apt-get install -y python3-pip
     fi
 
     # Check if packaging library is installed, and install it if not
@@ -1025,7 +1025,7 @@ function install_packaging() {
   ubuntu_version=$(lsb_release -r | awk '{print $2}')
   if [[ "$ubuntu_version" == "24.04" ]]; then
     echo "Detected Ubuntu 24.04. Installing packaging library using apt."
-    apt install -y python3-packaging
+    apt-get install -y python3-packaging
   else
     echo "Installing packaging library using pip."
     python3 -m pip install packaging

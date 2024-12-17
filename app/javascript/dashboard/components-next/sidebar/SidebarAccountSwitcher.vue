@@ -54,7 +54,7 @@ const emitNewAccount = () => {
         />
       </button>
     </template>
-    <DropdownBody class="min-w-80">
+    <DropdownBody class="min-w-80 z-50">
       <DropdownSection :title="t('SIDEBAR_ITEMS.SWITCH_WORKSPACE')">
         <DropdownItem
           v-for="account in currentUser.accounts"

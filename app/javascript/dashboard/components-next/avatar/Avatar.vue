@@ -39,11 +39,12 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['upload']);
+const emit = defineEmits(['upload', 'delete']);
 
 const { t } = useI18n();
 
 const isImageValid = ref(true);
+const fileInput = ref(null);
 
 const AVATAR_COLORS = {
   dark: [
@@ -131,11 +132,37 @@ const iconStyles = computed(() => ({
 }));
 
 const initialsStyles = computed(() => ({
-  fontSize: `${props.size / 1.8}px`,
+  fontSize: `${Math.min(props.size / 2.5, 24)}px`,
 }));
 
 const invalidateCurrentImage = () => {
   isImageValid.value = false;
+};
+
+const handleUploadAvatar = () => {
+  fileInput.value.click();
+};
+
+const handleImageUpload = event => {
+  const [file] = event.target.files;
+  if (file) {
+    emit('upload', {
+      file,
+      url: file ? URL.createObjectURL(file) : null,
+    });
+  }
+};
+
+const handleDeleteAvatar = () => {
+  if (fileInput.value) {
+    fileInput.value.value = null;
+  }
+  emit('delete');
+};
+
+const handleDismiss = event => {
+  event.stopPropagation();
+  handleDeleteAvatar();
 };
 
 watch(
@@ -147,7 +174,7 @@ watch(
 </script>
 
 <template>
-  <span class="relative inline-flex" :style="containerStyles">
+  <span class="relative inline-flex group/avatar" :style="containerStyles">
     <!-- Status Badge -->
     <slot name="badge" :size="size">
       <div
@@ -157,6 +184,15 @@ watch(
         :class="STATUS_CLASSES[status]"
       />
     </slot>
+
+    <!-- Delete Avatar Button -->
+    <div
+      v-if="src && allowUpload"
+      class="absolute z-20 flex items-center justify-center invisible w-6 h-6 transition-all duration-300 ease-in-out opacity-0 cursor-pointer outline outline-1 outline-n-container -top-2 -right-2 rounded-xl bg-n-solid-3 group-hover/avatar:visible group-hover/avatar:opacity-100"
+      @click="handleDismiss"
+    >
+      <Icon icon="i-lucide-x" class="text-n-slate-11 size-4" />
+    </div>
 
     <!-- Avatar Container -->
     <span
@@ -202,16 +238,23 @@ watch(
         />
       </template>
 
-      <!-- Upload Overlay -->
+      <!-- Upload Overlay and Input -->
       <div
         v-if="allowUpload"
-        role="button"
-        class="absolute inset-0 flex items-center justify-center invisible w-full h-full transition-all duration-500 ease-in-out opacity-0 rounded-xl dark:bg-slate-900/50 bg-slate-900/20 group-hover/avatar:visible group-hover/avatar:opacity-100"
-        @click="emit('upload')"
+        class="absolute inset-0 z-10 flex items-center justify-center invisible w-full h-full transition-all duration-300 ease-in-out opacity-0 rounded-xl bg-n-alpha-black1 group-hover/avatar:visible group-hover/avatar:opacity-100"
+        @click="handleUploadAvatar"
       >
         <Icon
           icon="i-lucide-upload"
-          class="text-white dark:text-white size-4"
+          class="text-white"
+          :style="{ width: `${size / 2}px`, height: `${size / 2}px` }"
+        />
+        <input
+          ref="fileInput"
+          type="file"
+          accept="image/png, image/jpeg, image/jpg, image/gif, image/webp"
+          class="hidden"
+          @change="handleImageUpload"
         />
       </div>
     </span>
