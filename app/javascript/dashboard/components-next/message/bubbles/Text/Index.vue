@@ -4,7 +4,7 @@ import BaseBubble from 'next/message/bubbles/Base.vue';
 import FormattedContent from './FormattedContent.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 import { MESSAGE_TYPES } from '../../constants';
-import { useMessageContext } from 'next/message/provider.js';
+import { useMessageContext } from '../../provider.js';
 
 const { content, attachments, contentAttributes, messageType } =
   useMessageContext();

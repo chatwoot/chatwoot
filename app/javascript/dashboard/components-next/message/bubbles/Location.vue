@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import BaseAttachmentBubble from './BaseAttachment.vue';
 import { useI18n } from 'vue-i18n';
-import { useMessageContext } from 'next/message/provider.js';
+import { useMessageContext } from '../provider.js';
 
 const { attachments } = useMessageContext();
 const { t } = useI18n();

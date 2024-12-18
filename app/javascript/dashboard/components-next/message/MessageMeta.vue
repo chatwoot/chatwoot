@@ -5,7 +5,7 @@ import { messageTimestamp } from 'shared/helpers/timeHelper';
 import MessageStatus from './MessageStatus.vue';
 import Icon from 'next/icon/Icon.vue';
 import { useInbox } from 'dashboard/composables/useInbox';
-import { useMessageContext } from 'next/message/provider.js';
+import { useMessageContext } from './provider.js';
 
 import { MESSAGE_STATUS, MESSAGE_TYPES } from './constants';
 

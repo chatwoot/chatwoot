@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import BaseBubble from './Base.vue';
 import Icon from 'next/icon/Icon.vue';
-import { useMessageContext } from 'next/message/provider.js';
+import { useMessageContext } from '../provider.js';
 
 defineProps({
   icon: { type: [String, Object], required: true },

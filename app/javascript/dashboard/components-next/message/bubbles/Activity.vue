@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
 import BaseBubble from './Base.vue';
-import { useMessageContext } from 'next/message/provider.js';
+import { useMessageContext } from '../provider.js';
 
 const { content, createdAt } = useMessageContext();
 

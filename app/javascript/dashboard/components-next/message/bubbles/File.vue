@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { useMessageContext } from 'next/message/provider.js';
+import { useMessageContext } from '../provider.js';
 import BaseAttachmentBubble from './BaseAttachment.vue';
 import FileIcon from 'next/icon/FileIcon.vue';
 

@@ -9,7 +9,7 @@ import FormattedContent from 'next/message/bubbles/Text/FormattedContent.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 import EmailMeta from './EmailMeta.vue';
 
-import { useMessageContext } from 'next/message/provider.js';
+import { useMessageContext } from '../../provider.js';
 import { MESSAGE_TYPES } from 'next/message/constants.js';
 
 const { content, contentAttributes, attachments, messageType } =

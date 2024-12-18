@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { MESSAGE_STATUS } from '../../constants';
-import { useMessageContext } from 'next/message/provider.js';
+import { useMessageContext } from '../../provider.js';
 
 const { contentAttributes, status, sender } = useMessageContext();
 

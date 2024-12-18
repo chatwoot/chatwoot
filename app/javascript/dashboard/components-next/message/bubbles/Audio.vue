@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import BaseBubble from './Base.vue';
 import AudioChip from 'next/message/chips/Audio.vue';
-import { useMessageContext } from 'next/message/provider.js';
+import { useMessageContext } from '../provider.js';
 
 const { attachments } = useMessageContext();
 

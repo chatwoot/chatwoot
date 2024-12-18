@@ -3,7 +3,7 @@ import { ref, computed } from 'vue';
 import BaseBubble from './Base.vue';
 import Icon from 'next/icon/Icon.vue';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
-import { useMessageContext } from 'next/message/provider.js';
+import { useMessageContext } from '../provider.js';
 import GalleryView from 'dashboard/components/widgets/conversation/components/GalleryView.vue';
 import { ATTACHMENT_TYPES } from '../constants';
 
