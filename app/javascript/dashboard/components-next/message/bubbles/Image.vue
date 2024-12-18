@@ -64,14 +64,11 @@ const downloadAttachment = async () => {
 
 <template>
   <BaseBubble
-    class="overflow-hidden relative group border-[4px] border-n-weak"
+    class="overflow-hidden relative group px-4 py-3"
     data-bubble-name="image"
     @click="showGallery = true"
   >
-    <div
-      v-if="hasError"
-      class="flex items-center gap-1 px-5 py-4 text-center rounded-lg bg-n-alpha-1"
-    >
+    <div v-if="hasError" class="flex items-center gap-1 text-center rounded-lg">
       <Icon icon="i-lucide-circle-off" class="text-n-slate-11" />
       <p class="mb-0 text-n-slate-11">
         {{ $t('COMPONENTS.MEDIA.IMAGE_UNAVAILABLE') }}

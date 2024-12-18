@@ -53,7 +53,7 @@ const isReel = computed(() => {
 
 <template>
   <BaseBubble
-    class="overflow-hidden relative group border-[4px] border-n-weak"
+    class="overflow-hidden relative group px-4 py-3"
     data-bubble-name="video"
     @click="showGallery = true"
   >
@@ -65,6 +65,7 @@ const isReel = computed(() => {
     </div>
     <video
       controls
+      class="rounded-lg"
       :src="attachment.dataUrl"
       :class="{
         'max-w-48': isReel,
