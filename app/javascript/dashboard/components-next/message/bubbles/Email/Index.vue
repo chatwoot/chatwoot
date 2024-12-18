@@ -67,7 +67,7 @@ const hasQuotedMessage = computed(() => {
 const textToShow = computed(() => {
   const text =
     props.contentAttributes?.email?.textContent?.full ?? props.content;
-  return text.replace(/\n/g, '<br>');
+  return text?.replace(/\n/g, '<br>');
 });
 </script>
 
