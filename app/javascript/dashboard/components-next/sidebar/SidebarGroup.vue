@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted, nextTick } from 'vue';
 import { useSidebarContext } from './provider';
 import { useRoute, useRouter } from 'vue-router';
 import Policy from 'dashboard/components/policy.vue';
@@ -66,13 +66,34 @@ const activeChild = computed(() => {
   );
   if (pathSame) return pathSame;
 
-  const pathSatrtsWith = navigableChildren.value.find(
-    child => child.to && route.path.startsWith(resolvePath(child.to))
-  );
-  if (pathSatrtsWith) return pathSatrtsWith;
-
-  return navigableChildren.value.find(child =>
+  // Rank the activeOn Prop higher than the path match
+  // There will be cases where the path name is the same but the params are different
+  // So we need to rank them based on the params
+  // For example, contacts segment list in the sidebar effectively has the same name
+  // But the params are different
+  const activeOnPages = navigableChildren.value.filter(child =>
     child.activeOn?.includes(route.name)
+  );
+
+  if (activeOnPages.length > 0) {
+    const rankedPage = activeOnPages.find(child => {
+      return Object.keys(child.to.params)
+        .map(key => {
+          return String(child.to.params[key]) === String(route.params[key]);
+        })
+        .every(match => match);
+    });
+
+    // If there is no ranked page, return the first activeOn page anyway
+    // Since this takes higher precedence over the path match
+    // This is not perfect, ideally we should rank each route based on all the techniques
+    // and then return the highest ranked one
+    // But this is good enough for now
+    return rankedPage ?? activeOnPages[0];
+  }
+
+  return navigableChildren.value.find(
+    child => child.to && route.path.startsWith(resolvePath(child.to))
   );
 });
 
@@ -92,6 +113,13 @@ const toggleTrigger = () => {
   }
   setExpandedItem(props.name);
 };
+
+onMounted(async () => {
+  await nextTick();
+  if (hasActiveChild.value) {
+    setExpandedItem(props.name);
+  }
+});
 </script>
 
 <!-- eslint-disable-next-line vue/no-root-v-if -->

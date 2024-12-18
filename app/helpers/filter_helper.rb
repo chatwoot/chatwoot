@@ -81,4 +81,12 @@ module FilterHelper
   def default_filter(query_hash, filter_operator_value)
     "#{filter_config[:table_name]}.#{query_hash[:attribute_key]} #{filter_operator_value} #{query_hash[:query_operator]}"
   end
+
+  def validate_single_condition(condition)
+    return if condition['query_operator'].nil?
+    return if condition['query_operator'].empty?
+
+    operator = condition['query_operator'].upcase
+    raise CustomExceptions::CustomFilter::InvalidQueryOperator.new({}) unless %w[AND OR].include?(operator)
+  end
 end
