@@ -1,5 +1,5 @@
 class Inboxes::FetchImapEmailInboxesJob < ApplicationJob
-  queue_as :1_min_mailer
+  queue_as :one_min_mailer
 
   def perform
     Inbox.where(channel_type: 'Channel::Email').all.find_each(batch_size: 100) do |inbox|
