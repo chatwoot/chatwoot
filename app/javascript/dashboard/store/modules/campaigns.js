@@ -6,9 +6,11 @@ import { CAMPAIGNS_EVENTS } from '../../helper/AnalyticsHelper/events';
 
 export const state = {
   records: [],
+  campaignContacts: {},
   uiFlags: {
     isFetching: false,
     isCreating: false,
+    isFetchingContacts: false,
   },
 };
 
@@ -23,6 +25,9 @@ export const getters = {
   },
   getAllCampaigns: _state => {
     return _state.records;
+  },
+  getContactsForCampaign: _state => campaignId => {
+    return _state.campaignContacts[campaignId] || [];
   },
 };
 
@@ -55,8 +60,7 @@ export const actions = {
       const response = await CampaignsAPI.update(id, updateObj);
       AnalyticsHelper.track(CAMPAIGNS_EVENTS.UPDATE_CAMPAIGN);
       commit(types.EDIT_CAMPAIGN, response.data);
-    } catch (error) {
-      throw new Error(error);
+      return response.data;
     } finally {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isUpdating: false });
     }
@@ -73,6 +77,23 @@ export const actions = {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isDeleting: false });
     }
   },
+  fetchCampaignContacts: async ({ commit }, campaignId) => {
+    commit(types.SET_CAMPAIGN_UI_FLAG, { isFetchingContacts: true });
+    try {
+      const response = await CampaignsAPI.fetchCampaignContacts(campaignId);
+      console.log(response.data);
+      commit(types.SET_CAMPAIGN_CONTACTS, {
+        campaignId,
+        contacts: response.data,
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Failed to fetch campaign contacts', error);
+      throw error;
+    } finally {
+      commit(types.SET_CAMPAIGN_UI_FLAG, { isFetchingContacts: false });
+    }
+  },
 };
 
 export const mutations = {
@@ -82,11 +103,16 @@ export const mutations = {
       ...data,
     };
   },
-
   [types.ADD_CAMPAIGN]: MutationHelpers.create,
   [types.SET_CAMPAIGNS]: MutationHelpers.set,
   [types.EDIT_CAMPAIGN]: MutationHelpers.update,
   [types.DELETE_CAMPAIGN]: MutationHelpers.destroy,
+  [types.SET_CAMPAIGN_CONTACTS](state, { campaignId, contacts }) {
+    state.campaignContacts = {
+      ...state.campaignContacts,
+      [campaignId]: contacts,
+    };
+  },
 };
 
 export default {
