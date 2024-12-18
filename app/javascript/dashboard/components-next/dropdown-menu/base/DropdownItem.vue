@@ -6,7 +6,8 @@ import { useDropdownContext } from './provider.js';
 const props = defineProps({
   label: { type: String, default: '' },
   icon: { type: [String, Object, Function], default: '' },
-  link: { type: String, default: '' },
+  link: { type: [String, Object], default: '' },
+  nativeLink: { type: Boolean, default: false },
   click: { type: Function, default: null },
   preserveOpen: { type: Boolean, default: false },
 });
@@ -18,7 +19,13 @@ defineOptions({
 const { closeMenu } = useDropdownContext();
 
 const componentIs = computed(() => {
-  if (props.link) return 'router-link';
+  if (props.link) {
+    if (props.nativeLink && typeof props.link === 'string') {
+      return 'a';
+    }
+
+    return 'router-link';
+  }
   if (props.click) return 'button';
 
   return 'div';
@@ -27,8 +34,8 @@ const componentIs = computed(() => {
 const triggerClick = () => {
   if (props.click) {
     props.click();
-    if (!props.preserveOpen) closeMenu();
   }
+  if (!props.preserveOpen) closeMenu();
 };
 </script>
 
@@ -41,7 +48,8 @@ const triggerClick = () => {
       :class="{
         'hover:bg-n-alpha-2 rounded-lg w-full gap-3': !$slots.default,
       }"
-      :href="props.link || null"
+      :href="componentIs === 'a' ? props.link : null"
+      :to="componentIs === 'router-link' ? props.link : null"
       @click="triggerClick"
     >
       <slot>

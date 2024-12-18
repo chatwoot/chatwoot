@@ -80,7 +80,7 @@ const toggleSelected = option => {
         <span class="text-n-slate-11">{{ t('COMBOBOX.PLACEHOLDER') }}</span>
       </Button>
     </template>
-    <DropdownBody class="top-0 min-w-56 z-[999]">
+    <DropdownBody class="top-0 min-w-56 z-50" strong>
       <div v-if="!disableSearch" class="relative">
         <Icon class="absolute size-4 left-2 top-2" icon="i-lucide-search" />
         <input

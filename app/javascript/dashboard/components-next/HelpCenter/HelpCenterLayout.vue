@@ -76,6 +76,7 @@ const togglePortalSwitcher = () => {
               <Button
                 icon="i-lucide-chevron-down"
                 variant="ghost"
+                color="slate"
                 size="xs"
                 class="rounded-md group-hover:bg-n-slate-3 hover:bg-n-slate-3"
                 @click="togglePortalSwitcher"

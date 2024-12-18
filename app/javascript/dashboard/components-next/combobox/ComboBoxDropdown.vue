@@ -29,7 +29,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:searchValue', 'select', 'search']);
+const emit = defineEmits(['select', 'search']);
 
 const { t } = useI18n();
 

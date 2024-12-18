@@ -133,9 +133,10 @@ export const actions = {
     }
   },
 
-  deleteAvatar: async () => {
+  deleteAvatar: async ({ commit }) => {
     try {
-      await authAPI.deleteAvatar();
+      const response = await authAPI.deleteAvatar();
+      commit(types.SET_CURRENT_USER, response.data);
     } catch (error) {
       // Ignore error
     }

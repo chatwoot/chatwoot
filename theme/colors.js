@@ -300,6 +300,21 @@ export const colors = {
       12: 'rgb(var(--slate-12) / <alpha-value>)',
     },
 
+    iris: {
+      1: 'rgb(var(--iris-1) / <alpha-value>)',
+      2: 'rgb(var(--iris-2) / <alpha-value>)',
+      3: 'rgb(var(--iris-3) / <alpha-value>)',
+      4: 'rgb(var(--iris-4) / <alpha-value>)',
+      5: 'rgb(var(--iris-5) / <alpha-value>)',
+      6: 'rgb(var(--iris-6) / <alpha-value>)',
+      7: 'rgb(var(--iris-7) / <alpha-value>)',
+      8: 'rgb(var(--iris-8) / <alpha-value>)',
+      9: 'rgb(var(--iris-9) / <alpha-value>)',
+      10: 'rgb(var(--iris-10) / <alpha-value>)',
+      11: 'rgb(var(--iris-11) / <alpha-value>)',
+      12: 'rgb(var(--iris-12) / <alpha-value>)',
+    },
+
     ruby: {
       1: 'rgb(var(--ruby-1) / <alpha-value>)',
       2: 'rgb(var(--ruby-2) / <alpha-value>)',
@@ -355,6 +370,7 @@ export const colors = {
       active: 'rgb(var(--solid-active) / <alpha-value>)',
       amber: 'rgb(var(--solid-amber) / <alpha-value>)',
       blue: 'rgb(var(--solid-blue) / <alpha-value>)',
+      iris: 'rgb(var(--solid-iris) / <alpha-value>)',
     },
     alpha: {
       1: 'rgba(var(--alpha-1))',
