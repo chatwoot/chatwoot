@@ -1,0 +1,4 @@
+locust==1.4.1
+names==0.3.0
+essential_generators==1.0
+environs==9.3.0
