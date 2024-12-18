@@ -79,9 +79,10 @@ const MessageControl = Symbol('MessageControl');
  * @property {import('vue').Ref<number>} createdAt - Timestamp when the message was created
  * @property {import('vue').Ref<number>} currentUserId - The ID of the current user
  * @property {import('vue').Ref<number>} id - The unique identifier for the message
- * @property {import('vue').Ref<number>} messageType - The type of message (must be one of MESSAGE_TYPES)
+ * @property {import('vue').Ref<'text'|'input_text'|'input_textarea'|'input_email'|'input_select'|'cards'|'form'|'article'|'incoming_email'|'input_csat'|'integrations'|'sticker'>} contentType - Content type of the message
+ * @property {import('vue').Ref<0|1|2|3>} messageType - The type of message (must be one of MESSAGE_TYPES)
  * @property {import('vue').Ref<string|null>} [error=null] - Error message if the message failed to send
- * @property {import('vue').Ref<string|null>} [senderType=null] - The type of the sender
+ * @property {import('vue').Ref<'contact'|'user'|'Contact'|'User'>} [senderType=null] - The type of the sender
  * @property {import('vue').Ref<string>} content - The message content
  * @property {import('vue').Ref<boolean>} [groupWithNext=false] - Whether the message should be grouped with the next message
  * @property {import('vue').Ref<Object|null>} [inReplyTo=null] - The message to which this message is a reply
