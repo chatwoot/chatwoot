@@ -20,7 +20,7 @@ import { MESSAGE_TYPES } from '../../constants';
  */
 const props = defineProps({
   content: {
-    type: String,
+    type: [String, null],
     required: true,
   },
   attachments: {
