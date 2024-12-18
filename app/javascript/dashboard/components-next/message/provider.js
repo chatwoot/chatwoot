@@ -89,6 +89,10 @@ const MessageControl = Symbol('MessageControl');
  * @property {import('vue').Ref<number>} conversationId - The ID of the conversation to which the message belongs
  * @property {import('vue').Ref<number>} inboxId - The ID of the inbox to which the message belongs
  * @property {import('vue').ComputedRef<boolean>} isPrivate - Proxy computed value for private
+ * @property {import('vue').ComputedRef<boolean>} isMyMessage - Does the message belong to the current user
+ * @property {import('vue').ComputedRef<boolean>} shouldGroupWithNext - Should group with the next message or not, it is differnt from groupWithNext, this has a bypass for a failed message
+ * @property {import('vue').ComputedRef<('user'|'agent'|'activity'|'private'|'bot'|'error'|'template'|'email'|'unsupported')>} variant - The visual variant of the message
+ * @property {import('vue').ComputedRef<('left'|'center'|'right')>} orientation - The visual variant of the message
  */
 
 /**
