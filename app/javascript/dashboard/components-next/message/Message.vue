@@ -401,7 +401,7 @@ provideMessageContext({
       <div
         class="[grid-area:bubble] flex"
         :class="{
-          'pl-9': ORIENTATION.RIGHT === orientation,
+          'pl-9 justify-end': orientation === ORIENTATION.RIGHT,
         }"
         @contextmenu="openContextMenu($event)"
       >
