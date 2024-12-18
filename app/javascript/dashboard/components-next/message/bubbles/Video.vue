@@ -53,26 +53,28 @@ const isReel = computed(() => {
 
 <template>
   <BaseBubble
-    class="overflow-hidden relative group p-3"
+    class="overflow-hidden p-3"
     data-bubble-name="video"
     @click="showGallery = true"
   >
-    <div
-      v-if="isReel"
-      class="absolute p-2 flex items-start justify-end size-12 bg-gradient-to-bl from-n-alpha-black1 to-transparent right-0"
-    >
-      <Icon icon="i-lucide-instagram" class="text-white" />
+    <div class="relative group rounded-lg overflow-hidden">
+      <div
+        v-if="isReel"
+        class="absolute p-2 flex items-start justify-end right-0"
+      >
+        <Icon icon="i-lucide-instagram" class="text-white shadow-lg" />
+      </div>
+      <video
+        controls
+        class="rounded-lg"
+        :src="attachment.dataUrl"
+        :class="{
+          'max-w-48': isReel,
+          'max-w-full': !isReel,
+        }"
+        @error="handleError"
+      />
     </div>
-    <video
-      controls
-      class="rounded-lg"
-      :src="attachment.dataUrl"
-      :class="{
-        'max-w-48': isReel,
-        'max-w-full': !isReel,
-      }"
-      @error="handleError"
-    />
   </BaseBubble>
   <GalleryView
     v-if="showGallery"

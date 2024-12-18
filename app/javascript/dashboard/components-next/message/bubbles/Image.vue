@@ -74,9 +74,8 @@ const downloadAttachment = async () => {
         {{ $t('COMPONENTS.MEDIA.IMAGE_UNAVAILABLE') }}
       </p>
     </div>
-    <div v-else class="relative group">
+    <div v-else class="relative group rounded-lg overflow-hidden">
       <img
-        class="rounded-lg"
         :src="attachment.dataUrl"
         :width="attachment.width"
         :height="attachment.height"
