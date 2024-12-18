@@ -47,7 +47,7 @@ const long = computed(() => {
 });
 
 const title = computed(() => {
-  return attachment.value.fallbackTitle;
+  return attachment.value.fallbackTitle ?? attachment.value.fallback_title;
 });
 
 const mapUrl = computed(
