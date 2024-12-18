@@ -41,10 +41,17 @@ const props = defineProps({
 const isTemplate = computed(() => {
   return props.messageType === MESSAGE_TYPES.TEMPLATE;
 });
+
+const isEmpty = computed(() => {
+  return !props.content && !props.attachments.length;
+});
 </script>
 
 <template>
   <BaseBubble class="flex flex-col gap-3 px-4 py-3" data-bubble-name="text">
+    <span v-if="isEmpty" class="text-n-slate-11">
+      {{ $t('CONVERSATION.NO_CONTENT') }}
+    </span>
     <FormattedContent v-if="content" :content="content" />
     <AttachmentChips :attachments="attachments" class="gap-2" />
     <template v-if="isTemplate">
