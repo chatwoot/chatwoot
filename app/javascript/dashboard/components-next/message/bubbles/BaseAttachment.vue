@@ -28,7 +28,7 @@ const senderName = computed(() => {
 
 <template>
   <BaseBubble
-    class="overflow-hidden grid gap-4 min-w-64 p-0"
+    class="overflow-hidden grid gap-4 min-w-64 p-0 !bg-n-solid-2 shadow-[0px_0px_12px_0px_rgba(0,0,0,0.05)]"
     data-bubble-name="attachment"
   >
     <slot name="before" />
@@ -62,13 +62,13 @@ const senderName = computed(() => {
         :href="action.href"
         rel="noreferrer noopener nofollow"
         target="_blank"
-        class="w-full block bg-n-solid-3 px-4 py-2 rounded-lg text-sm text-center"
+        class="w-full block bg-n-solid-3 px-4 py-2 rounded-lg text-sm text-center border border-n-container"
       >
         {{ action.label }}
       </a>
       <button
         v-else
-        class="w-full bg-n-solid-3 px-4 py-2 rounded-lg text-sm"
+        class="w-full bg-n-solid-3 px-4 py-2 rounded-lg text-sm text-center border border-n-container"
         @click="action.onClick"
       >
         {{ action.label }}
