@@ -80,4 +80,26 @@ class Whatsapp::Providers::BaseService
     json_hash = { :button => 'Choose an item', 'sections' => sections }
     create_payload('list', message.content, JSON.generate(json_hash))
   end
+
+  def fetch_coupon_data(template_name)
+    template = whatsapp_channel.message_templates.find { |tmpl| tmpl['name'] == template_name }
+
+    return { coupon_code: nil, copy_code_index: nil } unless template
+
+    buttons_component = template['components'].find { |component| component['type'] == 'BUTTONS' }
+    return { coupon_code: nil, copy_code_index: nil } unless buttons_component
+
+    coupon_code = nil
+    copy_code_index = nil
+
+    buttons_component['buttons'].each_with_index do |button, index|
+      next unless button['type'] == 'COPY_CODE'
+
+      coupon_code = button['example']&.first
+      copy_code_index = index
+      break
+    end
+
+    { coupon_code: coupon_code, copy_code_index: copy_code_index }
+  end
 end
