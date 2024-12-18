@@ -21,6 +21,12 @@
       "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
       "TITLE": "Previous Conversations"
     },
+    "BOOKING":{
+      "NO_BOOKINGS_FOUND": "There are no previous booking associated to this contact.",
+      "TITLE": "Previous Bookings from Cal.ID",
+      "EVENT": "Event : ",
+      "HOST": "Host : "
+    },
     "LABELS": {
       "CONTACT": {
         "TITLE": "Contact Labels",

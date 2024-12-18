@@ -106,7 +106,7 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "CLICK_HERE_TO_JOIN": " Connect",
       "LEAVE_THE_ROOM": "Leave the call"
     }
   },
@@ -137,5 +137,6 @@
   },
   "FOOTER_REPLY_TO": {
     "REPLY_TO": "Replying to:"
-  }
+  },
+  "CAL_EVENT_CONFIRMATION_RESPONSE": "<br/>Meeting with <strong>%{organizer}</strong> is scheduled at <strong>%{time}</strong> on <strong>%{date}</strong> in <strong>%{timezone}</strong>."
 }

@@ -10,6 +10,6 @@ require 'rails_helper'
 #     end
 #   end
 # end
-RSpec.describe Chatbots::CallbacksHelper, type: :helper do
+RSpec.describe Chatbots::CallbacksHelper do
   pending "add some examples to (or delete) #{__FILE__}"
 end

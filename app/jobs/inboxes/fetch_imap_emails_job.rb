@@ -43,46 +43,11 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     channel.authorization_error!
   end
 
-  def mail_info_logger(channel, inbound_mail, uid)
-    return if Rails.env.test?
-
-    Rails.logger.info("
-      #{channel.provider} Email id: #{inbound_mail.from} - message_source_id: #{inbound_mail.message_id} - sequence id: #{uid}")
-  end
-
-  def build_imap_client(channel, access_token, auth_method)
-    imap = Net::IMAP.new(channel.imap_address, channel.imap_port, true)
-    imap.authenticate(auth_method, channel.imap_login, access_token)
-    imap.select('INBOX')
-    imap
-  end
-
-  def email_already_present?(channel, message_id)
-    channel.inbox.messages.find_by(source_id: message_id).present?
-  end
-
-  def build_mail_from_string(raw_email_content)
-    Mail.read_from_string(raw_email_content)
-  end
-
   def process_mail(inbound_mail, channel)
     Imap::ImapMailbox.new.process(inbound_mail, channel)
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
     Rails.logger.error("
       #{channel.provider} Email dropped: #{inbound_mail.from} and message_source_id: #{inbound_mail.message_id}")
-  end
-
-  # Making sure the access token is valid for microsoft provider
-  def valid_access_token(channel)
-    Microsoft::RefreshOauthTokenService.new(channel: channel).access_token
-  end
-
-  def yesterday
-    (Time.zone.today - 1).strftime('%d-%b-%Y')
-  end
-
-  def tomorrow
-    (Time.zone.today + 1).strftime('%d-%b-%Y')
   end
 end

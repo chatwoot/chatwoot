@@ -136,6 +136,20 @@ export const actions = {
       throw new Error(error);
     }
   },
+
+  addOneHashIntegration: async ({ commit }, { integrationId, slug }) => {
+    try {
+      const response = await IntegrationsAPI.addOneHashIntegration(
+        integrationId,
+        slug
+      );
+      commit(types.default.ADD_INTEGRATION, response.data);
+      return response;
+    } catch (error) {
+      throwErrorMessage(error);
+      return null;
+    }
+  },
 };
 
 export const mutations = {

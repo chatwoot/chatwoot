@@ -19,9 +19,9 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
       create_record_in_db(params)
       id = Chatbot.find_by(inbox_id: params[:inbox_id]).id
       if id.present?
-        create_uri = ENV.fetch('MICROSERVICE_URL', nil) + '/chatbot/create'
+        create_uri = "#{ENV.fetch('MICROSERVICE_URL', nil)}/chatbot/create"
         parsed_links = JSON.parse(params[:urls])
-        links = parsed_links.map { |url_obj| url_obj['link'] }
+        links = parsed_links.pluck('link')
 
         files = []
         if params[:files].present?
@@ -32,7 +32,7 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
           end
         end
 
-        payload = { id: id, urls: links, files: files, text: params[:text] }
+        payload = { id: id, urls: links, files: files, text: params[:text], inbox_id: params[:inbox_id] }
         begin
           response = HTTP.post(create_uri, form: payload)
         rescue HTTP::Error => e
@@ -51,22 +51,31 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
              else
                'Disabled'
              end
-    @chatbot.update!(name: params[:chatbotName], reply_on_no_relevant_result: params[:chatbotReplyOnNoRelevantResult], status: status)
+    @chatbot.update!(
+      name: params[:chatbotName],
+      reply_on_no_relevant_result: params[:chatbotReplyOnNoRelevantResult],
+      reply_on_connect_with_team: params[:chatbotReplyOnConnectWithTeam],
+      status: status
+    )
   end
 
   def destroy_chatbot
     chatbot = Chatbot.find_by(id: params[:id])
     return unless chatbot
 
+    conversations = Conversation.where("chatbot_attributes ->> 'id' = ?", params[:id].to_s)
+    conversations.find_each do |conversation|
+      conversation.update(chatbot_attributes: {})
+    end
     chatbot.destroy!
     begin
-      delete_uri = ENV.fetch('MICROSERVICE_URL', nil) + '/chatbot/delete'
+      delete_uri = "#{ENV.fetch('MICROSERVICE_URL', nil)}/chatbot/delete"
       payload = { id: chatbot.id }
       response = HTTP.delete(delete_uri, form: payload)
     rescue Errno::ECONNREFUSED => e
-      puts "Connection refused: #{e.message}"
+      Rails.logger.debug { "Connection refused: #{e.message}" }
     rescue StandardError => e
-      puts "An error occurred: #{e.message}"
+      Rails.logger.debug { "An error occurred: #{e.message}" }
     end
   end
 
@@ -77,9 +86,9 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
     @chatbot.update(urls: JSON.parse(params[:urls]), text: params[:text])
     attach_files(params[:files]) if params[:files].present?
 
-    retrain_uri = ENV.fetch('MICROSERVICE_URL', nil) + '/chatbot/retrain'
+    retrain_uri = "#{ENV.fetch('MICROSERVICE_URL', nil)}/chatbot/retrain"
     parsed_links = JSON.parse(params[:urls])
-    links = parsed_links.map { |url_obj| url_obj['link'] }
+    links = parsed_links.pluck('link')
 
     files = []
     if params[:files].present?
@@ -117,7 +126,7 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
   def fetch_links
     url = params[:url]
     begin
-      scrape_uri = ENV.fetch('MICROSERVICE_URL', nil) + '/chatbot/scrape'
+      scrape_uri = "#{ENV.fetch('MICROSERVICE_URL', nil)}/chatbot/scrape"
       @user = User.find_by!(pubsub_token: current_user.pubsub_token)
       payload = { url: url, user_id: @user.id }
       response = HTTP.post(scrape_uri, form: payload)
@@ -200,6 +209,7 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
     @chatbot = Chatbot.new(
       name: SecureRandom.alphanumeric(10),
       reply_on_no_relevant_result: I18n.t('chatbots.reply_on_no_relevant_result'),
+      reply_on_connect_with_team: I18n.t('chatbots.reply_on_connect_with_team'),
       last_trained_at: DateTime.now.strftime('%B %d, %Y at %I:%M %p'),
       account_id: params['accountId'],
       website_token: params['website_token'],

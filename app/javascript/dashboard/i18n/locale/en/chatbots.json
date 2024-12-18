@@ -105,6 +105,11 @@
       },
       "CHATBOT_REPLY_ON_NO_RESULT": {
         "LABEL": "Chatbot reply when no relevant result is found",
+        "PLACEHOLDER": "No relevant result found.",
+        "ERROR": "Please enter a valid reply"
+      },
+      "CHATBOT_REPLY_ON_CONNECT_WITH_TEAM": {
+        "LABEL": "Chatbot reply for connecting with the team",
         "PLACEHOLDER": "Someone from the team will join soon.",
         "ERROR": "Please enter a valid reply"
       },

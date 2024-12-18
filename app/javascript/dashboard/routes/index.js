@@ -20,6 +20,13 @@ export const validateAuthenticateRoutePermission = (to, next, { getters }) => {
     return '/app/login';
   }
 
+  if (to.fullPath === '/app?to=cal_integration') {
+    return next(
+      frontendURL(
+        `accounts/${user.account_id}/settings/integrations/onehash_apps`
+      )
+    );
+  }
   if (!to.name) {
     return next(frontendURL(`accounts/${user.account_id}/dashboard`));
   }

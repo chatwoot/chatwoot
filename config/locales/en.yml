@@ -183,6 +183,9 @@ en:
       email_input_box_message_body: "Get notified by email"
       csat_input_message_body: "Please rate the conversation"
       connect_with_team_message_body: "Connect with team"
+      cal_event_message_body: "Schedule a meeting with us"
+      cal_event_confirmation_body: "Booking Successful 🗓️"
+
     reply:
       email:
         header:
@@ -212,6 +215,12 @@ en:
     slack:
       name: "Slack"
       description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+    onehash_apps:
+      name: "OneHash"
+      description: "Integrate OneHash Chat with other in house OneHash products to keep your team in sync. "
+    onehash_cal:
+      name: "OneHash Cal"
+      description: "Integrate OneHash Chat with CAL to keep your team in sync. "
     webhooks:
       name: "Webhooks"
       description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
@@ -275,5 +284,5 @@ en:
      inbox_type: Inbox Type
     button: Open conversation
   chatbots:
-    reply_on_no_relevant_result: Sorry, but I don't have a relevant answer for your query. Someone from the team will connect soon
-
+    reply_on_no_relevant_result: I apologize, but it seems that I currently don't have the relevant information to provide an answer to your question. Please feel free to ask about a different topic or provide more details, and I'll do my best to assist you!
+    reply_on_connect_with_team: Thank you for your inquiry! Someone from our team will respond to you shortly.

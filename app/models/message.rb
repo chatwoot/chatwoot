@@ -92,7 +92,10 @@ class Message < ApplicationRecord
     incoming_email: 8,
     input_csat: 9,
     integrations: 10,
-    sticker: 11
+    sticker: 11,
+    input_connect_with_team: 12,
+    cal_event: 13,
+    cal_event_confirmation: 14
   }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
   # [:submitted_email, :items, :submitted_values] : Used for bot message types
@@ -141,8 +144,8 @@ class Message < ApplicationRecord
       conversation_id: conversation.display_id,
       conversation: conversation_push_event_data
     )
-    data.merge!(echo_id: echo_id) if echo_id.present?
-    data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
+    data[:echo_id] = echo_id if echo_id.present?
+    data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
     merge_sender_attributes(data)
   end
 
@@ -165,8 +168,8 @@ class Message < ApplicationRecord
   end
 
   def merge_sender_attributes(data)
-    data.merge!(sender: sender.push_event_data) if sender && !sender.is_a?(AgentBot)
-    data.merge!(sender: sender.push_event_data(inbox)) if sender.is_a?(AgentBot)
+    data[:sender] = sender.push_event_data if sender && !sender.is_a?(AgentBot)
+    data[:sender] = sender.push_event_data(inbox) if sender.is_a?(AgentBot)
     data
   end
 
@@ -186,7 +189,7 @@ class Message < ApplicationRecord
       sender: sender.try(:webhook_data),
       source_id: source_id
     }
-    data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
+    data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
     data
   end
 

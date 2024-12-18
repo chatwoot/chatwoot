@@ -1,4 +1,5 @@
 import { CSAT_RATINGS } from '../../../../../shared/constants/messages';
+import { useI18n } from 'dashboard/composables/useI18n';
 
 const generateInputSelectContent = contentAttributes => {
   const { submitted_values: submittedValues = [] } = contentAttributes;
@@ -8,6 +9,31 @@ const generateInputSelectContent = contentAttributes => {
     return `<strong>${selectedOption.title}</strong>`;
   }
   return '';
+};
+
+const generateCalEventContent = contentAttributes => {
+  const { t } = useI18n();
+
+  return t('CONVERSATION.CAL_EVENT_RESPONSE', {
+    title: contentAttributes.title,
+  });
+};
+
+const generateCalEventConfirmationContent = contentAttributes => {
+  const { t } = useI18n();
+
+  const { event_booker, event_organizer, event_scheduled_at } =
+    contentAttributes.event_payload;
+  const booker = event_booker.charAt(0).toUpperCase() + event_booker.slice(1);
+  const organizer =
+    event_organizer.charAt(0).toUpperCase() + event_organizer.slice(1);
+  return t('CONVERSATION.CAL_EVENT_CONFIRMATION_RESPONSE', {
+    booker,
+    organizer,
+    time: event_scheduled_at.time,
+    date: event_scheduled_at.date,
+    timezone: event_scheduled_at.timezone,
+  });
 };
 
 const generateInputEmailContent = contentAttributes => {
@@ -73,6 +99,8 @@ export const generateBotMessageContent = (
     input_email: generateInputEmailContent,
     form: generateFormContent,
     input_csat: generateCSATContent,
+    cal_event: generateCalEventContent,
+    cal_event_confirmation: generateCalEventConfirmationContent,
   };
 
   const contentTypeMethod = contentTypeMethods[contentType];

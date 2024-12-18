@@ -6,6 +6,7 @@
 #  inbox_name                  :string
 #  last_trained_at             :datetime
 #  name                        :string           not null
+#  reply_on_connect_with_team  :string
 #  reply_on_no_relevant_result :string
 #  status                      :string
 #  temperature                 :float            default(0.1)

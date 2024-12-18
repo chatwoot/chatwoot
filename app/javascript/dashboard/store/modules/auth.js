@@ -11,6 +11,7 @@ const initialState = {
     accounts: [],
     email: null,
     name: null,
+    custom_attributes: {},
   },
   uiFlags: {
     isFetching: true,

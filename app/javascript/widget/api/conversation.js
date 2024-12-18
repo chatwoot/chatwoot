@@ -67,6 +67,12 @@ const deleteCustomAttribute = async customAttribute => {
   );
 };
 
+const sendCalConfirmationEventAPI = async body => {
+  return API.post(`/api/send_cal_event_confirmation`, {
+    ...body,
+  });
+};
+
 export {
   createConversationAPI,
   sendMessageAPI,
@@ -79,4 +85,5 @@ export {
   toggleStatus,
   setCustomAttributes,
   deleteCustomAttribute,
+  sendCalConfirmationEventAPI,
 };
