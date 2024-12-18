@@ -4,6 +4,10 @@ import { getInboxIconByType } from 'dashboard/helper/inbox';
 import { useI18n } from 'vue-i18n';
 import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
 import {
+  snoozedReopenTimeToTimestamp,
+  shortenSnoozeTime,
+} from 'dashboard/helper/snoozeHelpers';
+import {
   NOTIFICATION_TYPES_MAPPING,
   NOTIFICATION_TYPES_WITHOUT_MESSAGE,
 } from 'dashboard/routes/dashboard/inbox/helpers/InboxViewHelpers';
@@ -42,7 +46,7 @@ const slaCardLabel = ref(null);
 
 const primaryActor = computed(() => props.inboxItem?.primaryActor);
 const meta = computed(() => primaryActor.value?.meta);
-const assigneeMeta = computed(() => meta.value?.assignee);
+const assigneeMeta = computed(() => meta.value?.sender);
 const isUnread = computed(() => !props.inboxItem?.readAt);
 
 const menuItems = computed(() => [
@@ -62,6 +66,7 @@ const formattedMessage = computed(() => {
 
   // Handle cases without push message body
   if (NOTIFICATION_TYPES_WITHOUT_MESSAGE.includes(notificationType)) {
+    // TODO: replace the meta.sender.name with secondaryActor.sender.name
     return `<span class="${classes.emphasis}">${meta.value?.sender?.name}:</span> 
             <span class="${classes.normal}">${primaryActor.value?.messages[0]?.content || t('INBOX.NO_CONTENT')}</span>`;
   }
@@ -114,12 +119,22 @@ const hasSlaThreshold = computed(() => {
 
 const snoozedUntilTime = computed(() => {
   const { snoozedUntil } = props.inboxItem;
-  return snoozedUntil;
+  if (!snoozedUntil) return null;
+  const timestamp = snoozedReopenTimeToTimestamp(snoozedUntil);
+  return shortenSnoozeTime(dynamicTime(timestamp));
 });
 
 const hasLastSnoozed = computed(() => {
   const { lastSnoozedAt = '' } = props.inboxItem?.meta || {};
   return lastSnoozedAt;
+});
+
+const snoozedText = computed(() => {
+  return !hasLastSnoozed.value
+    ? t('INBOX.TYPES_NEXT.SNOOZED_UNTIL', {
+        time: shortTimestamp(snoozedUntilTime.value),
+      })
+    : t('INBOX.TYPES_NEXT.SNOOZED_ENDS');
 });
 
 const contextMenuActions = {
@@ -168,7 +183,6 @@ const onCardClick = () => {
         :name="assigneeMeta.name"
         :src="assigneeMeta.thumbnail"
         :size="20"
-        :status="assigneeMeta.availabilityStatus"
         rounded-full
         class="mt-1"
       />
@@ -189,11 +203,7 @@ const onCardClick = () => {
             class="flex-shrink-0 size-4 text-n-blue-text"
           />
           <span class="text-xs font-medium truncate text-n-blue-text">
-            {{
-              !hasLastSnoozed
-                ? t('INBOX.TYPES_NEXT.SNOOZED_NOTIFICATION')
-                : t('INBOX.TYPES_NEXT.SNOOZED_NOTIFICATION_LAST')
-            }}
+            {{ snoozedText }}
           </span>
         </div>
         <div

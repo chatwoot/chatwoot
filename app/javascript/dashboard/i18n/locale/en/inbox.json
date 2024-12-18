@@ -36,8 +36,8 @@
       "SLA_MISSED_RESOLUTION": "SLA breach",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message",
-      "SNOOZED_NOTIFICATION": "Snoozed",
-      "SNOOZED_NOTIFICATION_LAST": "Unsnoozed"
+      "SNOOZED_UNTIL": "Snoozed for {time}",
+      "SNOOZED_ENDS": "Snooze ended"
     },
     "NO_CONTENT": "No content available",
     "MENU_ITEM": {
