@@ -32,16 +32,23 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def search
-    render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
+    if params[:q].blank?
+      render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity and return
+    end
 
     search_query = "%#{params[:q].strip}%"
     search_integer = params[:q].strip.to_i if /^\d+$/.match?(params[:q].strip)
 
-    contacts = resolved_contacts.where(
-      'name ILIKE :search OR CAST(id AS TEXT) ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR contacts.identifier LIKE :search
-        OR contacts.additional_attributes->>\'company_name\' ILIKE :search',
-      search: search_query
-    ).order(Arel.sql("CASE WHEN id = #{search_integer} THEN 0 ELSE 1 END"))
+    base_query = <<~SQL
+      name ILIKE :search OR CAST(id AS TEXT) ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR contacts.identifier LIKE :search
+      OR contacts.additional_attributes->>'company_name' ILIKE :search
+    SQL
+
+    contacts = resolved_contacts.where(base_query, search: search_query)
+
+    if search_integer
+      contacts = contacts.order(Arel.sql("CASE WHEN id = #{search_integer} THEN 0 ELSE 1 END"))
+    end
 
     @contacts_count = contacts.count
     @contacts = fetch_contacts(contacts)
