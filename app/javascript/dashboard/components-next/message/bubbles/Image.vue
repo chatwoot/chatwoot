@@ -64,7 +64,7 @@ const downloadAttachment = async () => {
 
 <template>
   <BaseBubble
-    class="overflow-hidden relative group px-4 py-3"
+    class="overflow-hidden relative group p-3"
     data-bubble-name="image"
     @click="showGallery = true"
   >
