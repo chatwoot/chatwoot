@@ -26,7 +26,6 @@ import FileBubble from './bubbles/File.vue';
 import AudioBubble from './bubbles/Audio.vue';
 import VideoBubble from './bubbles/Video.vue';
 import InstagramStoryBubble from './bubbles/InstagramStory.vue';
-import AttachmentsBubble from './bubbles/Attachments.vue';
 import EmailBubble from './bubbles/Email/Index.vue';
 import UnsupportedBubble from './bubbles/Unsupported.vue';
 import ContactBubble from './bubbles/Contact.vue';
@@ -281,14 +280,6 @@ const componentToRender = computed(() => {
     }
     // Attachment content is the name of the contact
     if (fileType === ATTACHMENT_TYPES.CONTACT) return ContactBubble;
-  }
-
-  if (
-    Array.isArray(props.attachments) &&
-    props.attachments.length > 1 &&
-    !props.content
-  ) {
-    return AttachmentsBubble;
   }
 
   return TextBubble;
