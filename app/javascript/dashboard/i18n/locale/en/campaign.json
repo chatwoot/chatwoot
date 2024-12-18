@@ -5,7 +5,8 @@
     "HEADER_BTN_TXT": {
       "ONE_OFF": "Create a one off campaign",
       "ONGOING": "Create a ongoing campaign",
-      "WHATSAPP": "Create a WhatsApp campaign"
+      "WHATSAPP": "Create a WhatsApp campaign",
+      "REFRESH": "Refresh"
     },
     "METRICS": {
       "SUCCESSFUL": "Successful",
@@ -27,7 +28,7 @@
       "SEARCH_PLACEHOLDER": "Search The contacts",
       "SELECT_ALL": "Select All",
       "CLEAR": "Clear",
-      "SELECTED_CONTACTS": "Selected"
+      "SELECTED_CONTACTS": "Selected: {count} contacts"
     },
     "ADD": {
       "TITLE": "Create a campaign",

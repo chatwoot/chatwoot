@@ -58,11 +58,19 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.fetchCampaignContacts();
+    this.$store
+      .dispatch('campaigns/fetchCampaignContacts', this.campaign.id)
+      .then(() => {
+        this.fetchCampaignContacts();
+      })
+      .catch(error => {
+        this.isLoading = false;
+        this.error = error.message || this.$t('CAMPAIGN.REPORT.GENERIC_ERROR');
+        this.$emit('error', error);
+      });
   },
   methods: {
-    // Existing method remains the same
-    async fetchCampaignContacts() {
+    fetchCampaignContacts() {
       // Reset state before fetching
       this.isLoading = true;
       this.error = null;
@@ -70,16 +78,14 @@ export default defineComponent({
       this.failedContacts = [];
 
       try {
-        // Ensure the Vuex action exists and is correctly implemented
-        const response = await this.$store.dispatch(
-          'campaigns/fetchCampaignContacts',
-          this.campaign.id
-        );
-        this.processedContacts = response.processed_contacts || [];
-        this.failedContacts = response.failed_contacts || [];
+        // Retrieve contacts using the getter with campaign ID
+        const contacts = this.contactDetails(this.campaign.id);
+        // Ensure contacts is an array
+        this.processedContacts = contacts.processed_contacts || [];
+        this.failedContacts = contacts.failed_contacts || [];
       } catch (error) {
         // Comprehensive error handling
-        console.error('Failed to fetch campaign contacts:', error);
+        console.error('Failed to retrieve campaign contacts:', error);
         this.error = error.message || this.$t('CAMPAIGN.REPORT.GENERIC_ERROR');
         this.$emit('error', error);
       } finally {

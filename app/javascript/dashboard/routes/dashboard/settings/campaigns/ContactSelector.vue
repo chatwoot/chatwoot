@@ -101,18 +101,16 @@ export default {
   @apply flex flex-col h-full;
 
   .search-header {
-    @apply flex items-center justify-between p-4 border-b;
-    background-color: #343a40; // Dark gray for the header background
-    border-color: #495057; // Slightly lighter gray for the border
+    @apply flex items-center justify-between p-4 border-b 
+           bg-white dark:bg-slate-800 
+           border-slate-200 dark:border-slate-700;
 
     .search-input {
-      @apply w-64 px-3 py-2 border rounded;
-      background-color: #495057; // Darker gray for the input field
-      border-color: #6c757d; // Medium gray for the input border
-      color: #ffffff; // White text for input
-      &::placeholder {
-        color: #adb5bd; // Light gray for placeholder text
-      }
+      @apply w-64 px-3 py-2 border rounded
+             bg-white dark:bg-slate-700 
+             border-slate-300 dark:border-slate-600
+             text-slate-900 dark:text-white
+             placeholder-slate-500 dark:placeholder-slate-400;
       &:focus {
         border-color: #17a2b8; // Cyan for focus border
         box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25); // Cyan shadow for focus
@@ -123,56 +121,51 @@ export default {
       @apply flex gap-2;
 
       button {
-        @apply px-3 py-1 text-sm border rounded;
-        background-color: #495057; // Darker gray for buttons
-        border-color: #6c757d; // Medium gray for button border
-        color: #ffffff; // White text for buttons
-        &:hover {
-          background-color: #6c757d; // Slightly lighter gray for hover state
-        }
+        @apply px-3 py-1 text-sm border rounded
+               bg-white dark:bg-slate-700
+               border-slate-300 dark:border-slate-600
+               text-slate-700 dark:text-white
+               hover:bg-slate-50 hover:dark:bg-slate-600;
       }
     }
   }
 
   .contacts-list {
-    @apply flex-1 overflow-y-auto;
-    background-color: #212529; // Dark gray for the contact list background
+    @apply flex-1 overflow-y-auto bg-white dark:bg-slate-900;
+    max-height: 300px; /* Set a max-height to fix modal size */
+    overflow-y: auto; /* Add scrollbar when content overflows */
+    border-bottom: 1px solid #e2e8f0; /* Optional: a bottom border for clarity */
 
     .contact-item {
-      @apply flex items-center justify-between p-3 cursor-pointer;
-      background-color: #343a40; // Consistent gray background for all contacts
-      border-bottom: 1px solid #495057; // Medium gray for borders
-
-      &:hover {
-        background-color: #495057; // Lighter gray for hover state
-      }
+      @apply flex items-center justify-between p-3 cursor-pointer
+           bg-white dark:bg-slate-800 
+           border-b border-slate-100 dark:border-slate-700
+           hover:bg-slate-50 hover:dark:bg-slate-700;
 
       .contact-info {
         @apply flex flex-col;
 
         .contact-name {
-          @apply font-medium;
-          color: #ffffff; // White for contact names
+          @apply font-medium text-slate-900 dark:text-white;
         }
 
         .contact-phone {
-          @apply text-sm;
-          color: #adb5bd; // Muted light gray for phone numbers
+          @apply text-sm text-slate-600 dark:text-slate-400;
         }
       }
 
       input[type='checkbox'] {
         @apply cursor-pointer;
-        accent-color: #17a2b8; // Cyan checkbox to indicate selection
+        accent-color: #17a2b8;
       }
     }
   }
 
   .selection-summary {
-    @apply p-4 text-sm font-medium border-t;
-    background-color: #343a40; // Dark gray for the summary background
-    color: #ffffff; // White text for the summary
-    border-color: #495057; // Medium gray for the border
+    @apply p-4 text-sm font-medium border-t
+           bg-white dark:bg-slate-800
+           text-slate-700 dark:text-white
+           border-slate-200 dark:border-slate-700;
   }
 }
 </style>
