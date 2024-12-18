@@ -10,11 +10,11 @@
 - name: channel_twitter
   enabled: true
 - name: ip_lookup
-  enabled: false
+  enabled: true
 - name: disable_branding
   enabled: false
 - name: email_continuity_on_api_channel
-  enabled: false
+  enabled: true
 - name: help_center
   enabled: true
   help_url: https://chwt.app/hc/help-center
@@ -61,11 +61,11 @@
 - name: auto_resolve_conversations
   enabled: true
 - name: custom_reply_email
-  enabled: false
+  enabled: true
 - name: custom_reply_domain
-  enabled: false
+  enabled: true
 - name: audit_logs
-  enabled: false
+  enabled: true
 - name: response_bot
   enabled: false
 - name: message_reply_to
@@ -76,13 +76,13 @@
 - name: inbox_view
   enabled: false
 - name: sla
-  enabled: false
+  enabled: true
   premium: true
   help_url: https://chwt.app/hc/sla
 - name: help_center_embedding_search
-  enabled: false
+  enabled: true
   premium: true
 - name: linear_integration
-  enabled: false
+  enabled: true
 - name: captain_integration
   enabled: false

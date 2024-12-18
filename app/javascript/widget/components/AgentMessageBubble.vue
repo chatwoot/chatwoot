@@ -8,6 +8,9 @@ import EmailInput from './template/EmailInput.vue';
 import CustomerSatisfaction from 'shared/components/CustomerSatisfaction.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 import IntegrationCard from './template/IntegrationCard.vue';
+import CalEventCard from './template/CalEventCard.vue';
+import CalEventConfirmationCard from './template/CalEventConfirmationCard.vue';
+import ConnectWithTeamInput from './template/ConnectWithTeamInput.vue';
 
 export default {
   name: 'AgentMessageBubble',
@@ -19,6 +22,9 @@ export default {
     EmailInput,
     CustomerSatisfaction,
     IntegrationCard,
+    CalEventCard,
+    CalEventConfirmationCard,
+    ConnectWithTeamInput,
   },
   mixins: [messageFormatterMixin, darkModeMixin],
   props: {
@@ -31,6 +37,7 @@ export default {
       default: () => {},
     },
   },
+
   computed: {
     isTemplate() {
       return this.messageType === 3;
@@ -56,7 +63,17 @@ export default {
     isIntegrations() {
       return this.contentType === 'integrations';
     },
+    isCalEvent() {
+      return this.contentType === 'cal_event';
+    },
+    isCalEventConfirmation() {
+      return this.contentType === 'cal_event_confirmation';
+    },
+    isConnectWithTeam() {
+      return this.contentType === 'input_connect_with_team';
+    },
   },
+
   methods: {
     onResponse(messageResponse) {
       this.$store.dispatch('message/update', messageResponse);
@@ -105,6 +122,19 @@ export default {
         :message-id="messageId"
         :meeting-data="messageContentAttributes.data"
       />
+
+      <CalEventCard
+        v-if="isCalEvent"
+        :event-url="messageContentAttributes.event_url"
+        :message-id="messageId"
+      />
+
+      <CalEventConfirmationCard
+        v-if="isCalEventConfirmation"
+        :event-payload="messageContentAttributes.event_payload"
+      />
+      
+      <ConnectWithTeamInput v-if="isConnectWithTeam" :message-id="messageId" />
     </div>
     <div v-if="isOptions">
       <ChatOptions

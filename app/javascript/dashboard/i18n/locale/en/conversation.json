@@ -2,6 +2,8 @@
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Please select a conversation from left pane",
     "CSAT_REPLY_MESSAGE": "Please rate the conversation",
+    "CAL_EVENT_RESPONSE": "Calendar event \"<strong>%{title}</strong>\" sent successfully",
+    "CAL_EVENT_CONFIRMATION_RESPONSE": "<strong>%{booker}</strong> scheduled a meeting with <strong>%{organizer}</strong> at <strong>%{time}</strong> on <strong>%{date}</strong> in <strong>%{timezone}</strong>.",
     "404": "Sorry, we cannot find the conversation. Please try again",
     "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Messages",
@@ -143,7 +145,8 @@
       "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
       "CLICK_HERE": "Click here to update",
-      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
+      "WHATSAPP_TEMPLATES": "Whatsapp Templates",
+      "SEND_CALENDAR": "Send Calendar"
     },
     "REPLYBOX": {
       "REPLY": "Reply",
@@ -280,7 +283,8 @@
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "Previous Conversations",
-      "MACROS": "Macros"
+      "MACROS": "Macros",
+      "PREVIOUS_BOOKINGS": "Previous Bookings"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -335,5 +339,12 @@
     "ORIGINAL_CONTENT": "Original Content",
     "TRANSLATED_CONTENT": "Translated Content",
     "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+  },
+  "SELECT_CALENDAR_EVENT": {
+    "MODAL": {
+      "TITLE": "Calendar Events",
+      "DESC": "Select a calendar event from the list below.",
+      "SEND_EVENT": "Send Event"
+    }
   }
 }

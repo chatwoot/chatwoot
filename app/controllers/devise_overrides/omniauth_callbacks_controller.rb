@@ -29,7 +29,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     create_account_for_user
     token = @resource.send(:set_reset_password_token)
     frontend_url = ENV.fetch('FRONTEND_URL', nil)
-    redirect_to "#{frontend_url}"
+    redirect_to frontend_url.to_s
   end
 
   def login_page_url(error: nil, email: nil, sso_auth_token: nil)
@@ -85,7 +85,17 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
           browser_token: token,
           metadata: token_response
         )
-        cookies[:keycloak_token] = token
+        frontend_url = ENV.fetch('FRONTEND_URL', nil)
+        use_secure_cookies = (frontend_url && frontend_url.start_with?('https://')) || false
+
+        cookies[:keycloak_token] = {
+          value: token,
+          # httponly: true,
+          secure: use_secure_cookies,
+          same_site: use_secure_cookies ? 'None' : 'Lax',
+          max_age: 7_776_000
+        }
+
         get_resource_from_user_info
       else
         render json: { message: 'User info from token failed', redirect_url: '/' }, status: :unprocessable_entity

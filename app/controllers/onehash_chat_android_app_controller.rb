@@ -21,7 +21,7 @@ class OnehashChatAndroidAppController < ApplicationController
     introspect_url = URI.join(keycloak_url, "/realms/#{realm}/protocol/openid-connect/token/introspect").to_s
     client_id = ENV.fetch('KEYCLOAK_CLIENT_ID', nil)
     client_secret = ENV.fetch('KEYCLOAK_CLIENT_SECRET', nil)
-    access_token = bearer_token.split(' ').last
+    access_token = bearer_token.split.last
     introspect_res = HTTParty.post(
       introspect_url,
       body: URI.encode_www_form({

@@ -153,6 +153,12 @@ export default {
       if (this.contentType === 'input_csat') {
         return this.$t('CONVERSATION.CSAT_REPLY_MESSAGE') + botMessageContent;
       }
+      if (
+        this.contentType === 'cal_event' ||
+        this.contentType === 'cal_event_confirmation'
+      ) {
+        return botMessageContent;
+      }
 
       return (
         this.formatMessage(

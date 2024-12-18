@@ -143,6 +143,7 @@ Rails.application.routes.draw do
               get :contactable_inboxes
               post :destroy_custom_attributes
               delete :avatar
+              get :bookings
             end
             scope module: :contacts do
               resources :conversations, only: [:index]
@@ -341,6 +342,11 @@ Rails.application.routes.draw do
             collection do
               post :add_participant_to_meeting
             end
+          end
+        end
+        resource :chatbots, only: [] do
+          collection do
+            post :connect_with_team
           end
         end
       end
@@ -559,4 +565,32 @@ Rails.application.routes.draw do
   post 'chatbots/callback/update_status', to: 'chatbots/callbacks#update_status'
   post 'chatbots/callback/query_reply', to: 'chatbots/callbacks#query_reply'
   post 'chatbots/callback/links_crawled', to: 'chatbots/callbacks#links_crawled'
+
+  # Routes for OneHash Cross App Integration
+  namespace :onehash do
+    namespace :cal do
+      resources :contacts, only: [:create, :index]
+      resources :cal_event, only: [:update, :destroy]
+      resources :action, only: [:destroy, :create]
+    end
+  end
+
+  # Custom routes for cal data sync
+  # get 'api/oh/integrations/accounts', to: 'onehash/cal/accounts#index'
+  # get 'api/oh/integrations/contacts', to: 'onehash/cal/contacts#index'
+  # post 'api/oh/integrations/contacts', to: 'onehash/cal/contacts#create'
+  post 'api/oh/integrations/cal_booking', to: 'onehash/cal/cal_booking#create'
+  patch 'api/oh/integrations/cal_booking', to: 'onehash/cal/cal_booking#update'
+  delete 'api/oh/integrations/cal_booking', to: 'onehash/cal/cal_booking#destroy'
+
+  patch 'api/oh/integrations/cal_event', to: 'onehash/cal/cal_event#update'
+  delete 'api/oh/integrations/cal_event', to: 'onehash/cal/cal_event#destroy'
+
+  # Cal integration routes
+  get 'api/v1/accounts/:account_id/integrations/onehash_cal', to: 'onehash/cal/internal#notify'
+  delete 'api/v1/accounts/:account_id/integrations/onehash_cal', to: 'onehash/cal/internal#destroy'
+
+  # Send Cal event and event confirmation routes
+  post 'api/send_cal_event/', to: 'onehash/send_cal_event#send_event_handler'
+  post 'api/send_cal_event_confirmation/', to: 'onehash/send_cal_event_confirmation#send_confirmation_handler'
 end

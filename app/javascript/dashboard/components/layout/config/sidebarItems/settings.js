@@ -43,6 +43,7 @@ const settings = accountId => ({
     'settings_teams_list',
     'settings_teams_new',
     'sla_list',
+    'settings_integrations_onehash_apps',
   ],
   menuItems: [
     {
@@ -170,6 +171,20 @@ const settings = accountId => ({
       toStateName: 'settings_applications',
       featureFlag: FEATURE_FLAGS.INTEGRATIONS,
     },
+    {
+      icon: 'flash-on',
+      label: 'INTEGRATIONS',
+      hasSubMenu: false,
+      meta: {
+        permissions: ['agent'],
+      },
+      toState: frontendURL(
+        `accounts/${accountId}/settings/integrations/onehash_apps`
+      ),
+      toStateName: 'agent_settings_integrations_onehash_apps',
+      featureFlag: FEATURE_FLAGS.INTEGRATIONS,
+    },
+
     {
       icon: 'key',
       label: 'AUDIT_LOGS',

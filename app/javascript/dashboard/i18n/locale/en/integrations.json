@@ -103,7 +103,7 @@
       "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "CLICK_HERE_TO_JOIN": " Connect",
       "LEAVE_THE_ROOM": "Leave the room",
       "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
       "JOIN_ERROR": "There was an error joining the call, please try again",
@@ -294,6 +294,22 @@
         "TITLE": "Unlink",
         "SUCCESS": "Issue unlinked successfully",
         "ERROR": "There was an error unlinking the issue, please try again"
+      }
+    },
+    "ONEHASH_CAL": {
+      "DELETE": "Remove",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Delete the integration",
+        "MESSAGE": "Are you sure you want to delete the integration?"
+      },
+      "ADD_TITLE": "Enter the Cal ID user's slug you wish to integrate with.",
+      "ADD_MESSAGE": "This will send an integration request to the specified user's Cal account, which will require approval from their side.",
+      "PROCEED":"Send request"
+    },
+    "ADD": {
+      "API": {
+        "SUCCESS_MESSAGE": "Integration added  successfully",
+        "ERROR_MESSAGE": "Could not connect to  Server, Please try again later"
       }
     }
   }

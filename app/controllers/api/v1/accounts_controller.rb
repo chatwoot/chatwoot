@@ -5,12 +5,10 @@ class Api::V1::AccountsController < Api::BaseController
   skip_before_action :authenticate_user!, :set_current_user, :handle_with_exception,
                      only: [:create], raise: false
   before_action :check_signup_enabled, only: [:create]
+  before_action :ensure_account_name, only: [:create]
   before_action :validate_captcha, only: [:create]
   before_action :fetch_account, except: [:create]
   before_action :check_authorization, except: [:create]
-  # To removee
-  # skip_before_action :verify_subscription,
-  #                    only: [:billing_subscription, :show, :stripe_checkout], raise: false
 
   rescue_from CustomExceptions::Account::InvalidEmail,
               CustomExceptions::Account::UserExists,
@@ -109,6 +107,17 @@ class Api::V1::AccountsController < Api::BaseController
 
   private
 
+  def ensure_account_name
+    # ensure that account_name and user_full_name is present
+    # this is becuase the account builder and the models validations are not triggered
+    # this change is to align the behaviour with the v2 accounts controller
+    # since these values are not required directly there
+    return if account_params[:account_name].present?
+    return if account_params[:user_full_name].present?
+
+    raise CustomExceptions::Account::InvalidParams.new({})
+  end
+
   def get_cache_keys
     {
       label: fetch_value_for_key(params[:id], Label.name.underscore),
@@ -166,17 +175,18 @@ class Api::V1::AccountsController < Api::BaseController
   def activate_ltd(coupon_code)
     code_prefix = coupon_code.code[0, 2]
     partner_name = ''
-    if code_prefix == 'AS'
+    case code_prefix
+    when 'AS'
       partner_name = 'AppSumo'
-    elsif code_prefix == 'DM'
+    when 'DM'
       partner_name = 'DealMirror'
-    elsif code_prefix == 'PG'
+    when 'PG'
       partner_name = 'PitchGround'
-    elsif code_prefix == 'RH'
+    when 'RH'
       partner_name = 'RocketHub'
-    elsif code_prefix == 'DF'
+    when 'DF'
       partner_name = 'DealFuel'
-    elsif code_prefix == 'OH'
+    when 'OH'
       partner_name = 'OneHash'
     end
 
@@ -184,19 +194,20 @@ class Api::V1::AccountsController < Api::BaseController
       agent = nil
       ltd_plan_name = nil
       coupon_code_used = @account.coupon_code_used
-      if coupon_code_used == 0
+      case coupon_code_used
+      when 0
         agent = 3
         ltd_plan_name = 'Tier 1'
-      elsif coupon_code_used == 1
+      when 1
         agent = 5
         ltd_plan_name = 'Tier 2'
-      elsif coupon_code_used == 2
+      when 2
         agent = 15
         ltd_plan_name = 'Tier 3'
-      elsif coupon_code_used == 3
+      when 3
         agent = 15
         ltd_plan_name = 'Tier 3'
-      elsif coupon_code_used == 4
+      when 4
         agent = 100_000
         ltd_plan_name = 'Tier 4'
       end
@@ -221,16 +232,17 @@ class Api::V1::AccountsController < Api::BaseController
       agent = nil
       ltd_plan_name = nil
       coupon_code_used = @account.coupon_code_used
-      if tier == 'T1'
+      case tier
+      when 'T1'
         agent = 3
         ltd_plan_name = 'Tier 1'
-      elsif tier == 'T2'
+      when 'T2'
         agent = 5
         ltd_plan_name = 'Tier 2'
-      elsif tier == 'T3'
+      when 'T3'
         agent = 15
         ltd_plan_name = 'Tier 3'
-      elsif tier == 'T4'
+      when 'T4'
         agent = 100_000
         ltd_plan_name = 'Tier 4'
       end

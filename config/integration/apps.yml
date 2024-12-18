@@ -8,6 +8,18 @@
 # settings_json_schema: the json schema used to validate the settings hash (https://json-schema.org/)
 # settings_form_schema: the formulate schema used in frontend to render settings form (https://vueformulate.com/)
 ########################################################
+onehash_apps:
+  id: onehash_apps
+  logo: onehash_apps.png
+  i18n_key: onehash_apps
+  action: /onehash_apps
+  hook_type: account
+  allow_multiple_hooks: true
+  internal_apps:
+    onehash_cal:
+      id: onehash_cal
+      i18n_key: onehash_cal
+      logo: onehash_cal.png
 captain:
   id: captain
   logo: captain.png
@@ -240,3 +252,5 @@ dyte:
     },
   ]
   visible_properties: ["organization_id"]
+
+      

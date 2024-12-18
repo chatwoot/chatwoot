@@ -8,6 +8,7 @@ import {
   toggleStatus,
   setCustomAttributes,
   deleteCustomAttribute,
+  sendCalConfirmationEventAPI,
 } from 'widget/api/conversation';
 
 import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
@@ -192,6 +193,17 @@ export const actions = {
       await deleteCustomAttribute(customAttribute);
     } catch (error) {
       // IgnoreError
+    }
+  },
+
+  sendCalConfirmationEvent: async (_, { message_id, event_payload }) => {
+    try {
+      await sendCalConfirmationEventAPI({
+        message_id,
+        event_payload,
+      });
+    } catch (error) {
+      throw new Error(error);
     }
   },
 };

@@ -41,6 +41,7 @@ import {
 
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
+import SelectCalendar from 'dashboard/routes/dashboard/conversation/contact/SelectCalendar.vue';
 
 const EmojiInput = () => import('shared/components/emoji/EmojiInput.vue');
 
@@ -60,6 +61,7 @@ export default {
     WhatsappTemplates,
     MessageSignatureMissingAlert,
     ArticleSearchPopover,
+    SelectCalendar,
   },
   mixins: [
     inboxMixin,
@@ -115,6 +117,7 @@ export default {
       showVariablesMenu: false,
       newConversationModalActive: false,
       showArticleSearchPopover: false,
+      showSelectCalendarModal: false,
     };
   },
   computed: {
@@ -382,6 +385,14 @@ export default {
       const { help_center: portal = {} } = this.inbox;
       const { slug = '' } = portal;
       return slug;
+    },
+    getCalendarEvents() {
+      if (this.currentUser?.custom_attributes?.cal_events) {
+        return this.currentUser?.custom_attributes?.cal_events[
+          this.currentUser.account_id.toString()
+        ];
+      }
+      return null;
     },
   },
   watch: {
@@ -1072,6 +1083,22 @@ export default {
     toggleInsertArticle() {
       this.showArticleSearchPopover = !this.showArticleSearchPopover;
     },
+    openSelectCalendarModal() {
+      this.showSelectCalendarModal = true;
+    },
+    hideSelectCalendarModal() {
+      this.showSelectCalendarModal = false;
+    },
+    async onSelectCalendarEvent(payload) {
+      this.$store.dispatch('sendCalEvent', {
+        conversation_id: this.currentChat.id,
+        account_id: this.currentUser.account_id,
+        event_url: payload.url,
+        title: payload.title,
+      });
+
+      this.hideSelectCalendarModal();
+    },
   },
 };
 </script>
@@ -1208,10 +1235,12 @@ export default {
       :message="message"
       :portal-slug="connectedPortalSlug"
       :new-conversation-modal-active="newConversationModalActive"
+      :calendar-events="getCalendarEvents"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
       @toggleEditor="toggleRichContentEditor"
       @replaceText="replaceText"
       @toggleInsertArticle="toggleInsertArticle"
+      @showAvailableCalendars="openSelectCalendarModal"
     />
     <WhatsappTemplates
       :inbox-id="inbox.id"
@@ -1219,6 +1248,14 @@ export default {
       @close="hideWhatsappTemplatesModal"
       @onSend="onSendWhatsAppReply"
       @cancel="hideWhatsappTemplatesModal"
+    />
+
+    <SelectCalendar
+      v-if="getCalendarEvents"
+      :calendar-events="getCalendarEvents"
+      :show="showSelectCalendarModal"
+      @close="hideSelectCalendarModal"
+      @onSelect="onSelectCalendarEvent"
     />
 
     <woot-confirm-modal

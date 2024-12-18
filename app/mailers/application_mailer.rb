@@ -1,7 +1,7 @@
 class ApplicationMailer < ActionMailer::Base
   include ActionView::Helpers::SanitizeHelper
 
-  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'OneHash Chat <digital@outbound.chat.onehash.ai>')
+  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'OneHash <alerts@reply.chat.onehash.ai>')
   before_action { ensure_current_account(params.try(:[], :account)) }
   around_action :switch_locale
   layout 'mailer/base'

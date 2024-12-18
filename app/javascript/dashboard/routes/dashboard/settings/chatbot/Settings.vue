@@ -21,6 +21,7 @@ export default {
       selectedTabIndex: 0,
       selectedChatbotName: '',
       selectedChatbotReplyOnNoRelevantResult: '',
+      selectedChatbotReplyOnConnectWithTeam: '',
       chatbotEnabled: true,
     };
   },
@@ -64,6 +65,7 @@ export default {
   validations: {
     selectedChatbotName: { required },
     selectedChatbotReplyOnNoRelevantResult: { required },
+    selectedChatbotReplyOnConnectWithTeam: { required },
   },
   methods: {
     async fetchChatbot() {
@@ -72,6 +74,8 @@ export default {
         this.selectedChatbotName = this.chatbot.name;
         this.selectedChatbotReplyOnNoRelevantResult =
           this.chatbot.reply_on_no_relevant_result;
+        this.selectedChatbotReplyOnConnectWithTeam =
+          this.chatbot.reply_on_connect_with_team;
         this.chatbotEnabled = this.chatbot.status === 'Enabled';
       });
     },
@@ -82,6 +86,8 @@ export default {
           chatbotName: this.selectedChatbotName,
           chatbotReplyOnNoRelevantResult:
             this.selectedChatbotReplyOnNoRelevantResult,
+          chatbotReplyOnConnectWithTeam:
+            this.selectedChatbotReplyOnConnectWithTeam,
           chatbotStatus: this.chatbotEnabled,
         };
         await this.$store.dispatch('chatbots/update', payload);
@@ -135,6 +141,14 @@ export default {
           :label="$t('CHATBOTS.ADD.CHATBOT_REPLY_ON_NO_RESULT.LABEL')"
           :placeholder="
             $t('CHATBOTS.ADD.CHATBOT_REPLY_ON_NO_RESULT.PLACEHOLDER')
+          "
+        />
+        <woot-input
+          v-model.trim="selectedChatbotReplyOnConnectWithTeam"
+          class="w-3/4 pb-4"
+          :label="$t('CHATBOTS.ADD.CHATBOT_REPLY_ON_CONNECT_WITH_TEAM.LABEL')"
+          :placeholder="
+            $t('CHATBOTS.ADD.CHATBOT_REPLY_ON_CONNECT_WITH_TEAM.PLACEHOLDER')
           "
         />
         <label class="w-3/4 pb-4">
