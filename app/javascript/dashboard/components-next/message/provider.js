@@ -69,31 +69,38 @@ const MessageControl = Symbol('MessageControl');
  */
 
 /**
+ * @typedef {'sent'|'delivered'|'read'|'failed'|'progress'} MessageStatus
+ * @typedef {'text'|'input_text'|'input_textarea'|'input_email'|'input_select'|'cards'|'form'|'article'|'incoming_email'|'input_csat'|'integrations'|'sticker'} MessageContentType
+ * @typedef {0|1|2|3} MessageType
+ * @typedef {'contact'|'user'|'Contact'|'User'} SenderType
+ * @typedef {'user'|'agent'|'activity'|'private'|'bot'|'error'|'template'|'email'|'unsupported'} MessageVariant
+ * @typedef {'left'|'center'|'right'} MessageOrientation
+
  * @typedef {Object} MessageContext
- * @property {import('vue').Ref<('sent'|'delivered'|'read'|'failed'|'progress')>} status - The delivery status of the message
- * @property {import('vue').Ref<ContentAttributes>} [contentAttributes={}] - Additional attributes of the message content
- * @property {import('vue').Ref<Attachment[]>} [attachments=[]] - The attachments associated with the message
- * @property {import('vue').Ref<Sender|null>} [sender=null] - The sender information
- * @property {import('vue').Ref<boolean>} [private=false] - Whether the message is private
- * @property {import('vue').Ref<number|null>} [senderId=null] - The ID of the sender
+ * @property {import('vue').Ref<string>} content - The message content
+ * @property {import('vue').Ref<number>} conversationId - The ID of the conversation to which the message belongs
  * @property {import('vue').Ref<number>} createdAt - Timestamp when the message was created
  * @property {import('vue').Ref<number>} currentUserId - The ID of the current user
  * @property {import('vue').Ref<number>} id - The unique identifier for the message
- * @property {import('vue').Ref<'text'|'input_text'|'input_textarea'|'input_email'|'input_select'|'cards'|'form'|'article'|'incoming_email'|'input_csat'|'integrations'|'sticker'>} contentType - Content type of the message
- * @property {import('vue').Ref<0|1|2|3>} messageType - The type of message (must be one of MESSAGE_TYPES)
- * @property {import('vue').Ref<string|null>} [error=null] - Error message if the message failed to send
- * @property {import('vue').Ref<'contact'|'user'|'Contact'|'User'>} [senderType=null] - The type of the sender
- * @property {import('vue').Ref<string>} content - The message content
- * @property {import('vue').Ref<boolean>} [groupWithNext=false] - Whether the message should be grouped with the next message
- * @property {import('vue').Ref<Object|null>} [inReplyTo=null] - The message to which this message is a reply
- * @property {import('vue').Ref<boolean>} [isEmailInbox=false] - Whether the message is from an email inbox
- * @property {import('vue').Ref<number>} conversationId - The ID of the conversation to which the message belongs
  * @property {import('vue').Ref<number>} inboxId - The ID of the inbox to which the message belongs
- * @property {import('vue').ComputedRef<boolean>} isPrivate - Proxy computed value for private
+ * @property {import('vue').Ref<boolean>} [groupWithNext=false] - Whether the message should be grouped with the next message
+ * @property {import('vue').Ref<boolean>} [isEmailInbox=false] - Whether the message is from an email inbox
+ * @property {import('vue').Ref<boolean>} [private=false] - Whether the message is private
+ * @property {import('vue').Ref<number|null>} [senderId=null] - The ID of the sender
+ * @property {import('vue').Ref<string|null>} [error=null] - Error message if the message failed to send
+ * @property {import('vue').Ref<Attachment[]>} [attachments=[]] - The attachments associated with the message
+ * @property {import('vue').Ref<ContentAttributes>} [contentAttributes={}] - Additional attributes of the message content
+ * @property {import('vue').Ref<MessageContentType>} contentType - Content type of the message
+ * @property {import('vue').Ref<MessageStatus>} status - The delivery status of the message
+ * @property {import('vue').Ref<MessageType>} messageType - The type of message (must be one of MESSAGE_TYPES)
+ * @property {import('vue').Ref<Object|null>} [inReplyTo=null] - The message to which this message is a reply
+ * @property {import('vue').Ref<SenderType>} [senderType=null] - The type of the sender
+ * @property {import('vue').Ref<Sender|null>} [sender=null] - The sender information
+ * @property {import('vue').ComputedRef<MessageOrientation>} orientation - The visual variant of the message
+ * @property {import('vue').ComputedRef<MessageVariant>} variant - The visual variant of the message
  * @property {import('vue').ComputedRef<boolean>} isMyMessage - Does the message belong to the current user
+ * @property {import('vue').ComputedRef<boolean>} isPrivate - Proxy computed value for private
  * @property {import('vue').ComputedRef<boolean>} shouldGroupWithNext - Should group with the next message or not, it is differnt from groupWithNext, this has a bypass for a failed message
- * @property {import('vue').ComputedRef<('user'|'agent'|'activity'|'private'|'bot'|'error'|'template'|'email'|'unsupported')>} variant - The visual variant of the message
- * @property {import('vue').ComputedRef<('left'|'center'|'right')>} orientation - The visual variant of the message
  */
 
 /**
