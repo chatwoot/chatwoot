@@ -71,6 +71,7 @@
     "md5": "^2.3.0",
     "mitt": "^3.0.1",
     "opus-recorder": "^8.0.5",
+    "papaparse": "^5.4.1",
     "postcss": "^8.4.31",
     "postcss-loader": "^4.2.0",
     "semver": "7.5.3",

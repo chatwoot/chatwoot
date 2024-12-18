@@ -219,11 +219,29 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_14_081144) do
     t.jsonb "audience", default: []
     t.datetime "scheduled_at", precision: nil
     t.boolean "trigger_only_during_business_hours", default: false
+    t.bigint "template_id"
+    t.integer "processed_contacts_count", default: 0
+    t.integer "failed_contacts_count", default: 0
+    t.integer "read_count", default: 0
     t.index ["account_id"], name: "index_campaigns_on_account_id"
     t.index ["campaign_status"], name: "index_campaigns_on_campaign_status"
     t.index ["campaign_type"], name: "index_campaigns_on_campaign_type"
     t.index ["inbox_id"], name: "index_campaigns_on_inbox_id"
     t.index ["scheduled_at"], name: "index_campaigns_on_scheduled_at"
+    t.index ["template_id"], name: "index_campaigns_on_template_id"
+  end
+
+  create_table "campaigns_contacts", force: :cascade do |t|
+    t.bigint "campaign_id", null: false
+    t.bigint "contact_id", null: false
+    t.string "status", default: "pending"
+    t.datetime "processed_at"
+    t.text "error_message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "message_id"
+    t.index ["campaign_id", "contact_id"], name: "index_campaigns_contacts_on_campaign_id_and_contact_id", unique: true
+    t.index ["message_id"], name: "index_campaigns_contacts_on_message_id"
   end
 
   create_table "canned_responses", id: :serial, force: :cascade do |t|
@@ -305,6 +323,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_14_081144) do
     t.string "instagram_id"
     t.index ["page_id", "account_id"], name: "index_channel_facebook_pages_on_page_id_and_account_id", unique: true
     t.index ["page_id"], name: "index_channel_facebook_pages_on_page_id"
+  end
+
+  create_table "channel_gupshup", force: :cascade do |t|
+    t.string "account_id", null: false
+    t.string "app", null: false
+    t.string "apikey", null: false
+    t.integer "phone_number", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["phone_number", "account_id"], name: "index_channel_gupshup_on_phone_number_and_account_id", unique: true
   end
 
   create_table "channel_line", force: :cascade do |t|
@@ -1101,6 +1129,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_14_081144) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "campaigns_contacts", "campaigns", on_delete: :cascade
+  add_foreign_key "campaigns_contacts", "contacts", on_delete: :cascade
   add_foreign_key "contact_bookings", "accounts"
   add_foreign_key "contact_bookings", "contacts"
   add_foreign_key "contact_bookings", "users"

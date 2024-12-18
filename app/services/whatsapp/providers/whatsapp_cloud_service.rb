@@ -17,11 +17,26 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
         messaging_product: 'whatsapp',
         to: phone_number,
         template: template_body_parameters(template_info),
-        type: 'template'
+        type: 'template',
+        recepient_type: 'individual'
       }.to_json
     )
 
     process_response(response)
+  end
+
+  def template_body_parameters(template_info)
+    {
+      name: template_info[:name],
+      language: {
+        policy: 'deterministic',
+        code: template_info[:lang_code]
+      },
+      components: [{
+        type: 'body',
+        parameters: template_info[:parameters] || []
+      }]
+    }
   end
 
   def sync_templates
@@ -40,6 +55,10 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     return response['data'] + fetch_whatsapp_templates(next_url) if next_url.present?
 
     response['data']
+  end
+
+  def business_account_path
+    "#{api_base_path}/v14.0/#{whatsapp_channel.provider_config['business_account_id']}"
   end
 
   def next_url(response)
@@ -66,10 +85,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   # TODO: See if we can unify the API versions and for both paths and make it consistent with out facebook app API versions
   def phone_id_path
     "#{api_base_path}/v13.0/#{whatsapp_channel.provider_config['phone_number_id']}"
-  end
-
-  def business_account_path
-    "#{api_base_path}/v14.0/#{whatsapp_channel.provider_config['business_account_id']}"
   end
 
   def send_text_message(phone_number, message)
@@ -118,20 +133,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       Rails.logger.error response.body
       nil
     end
-  end
-
-  def template_body_parameters(template_info)
-    {
-      name: template_info[:name],
-      language: {
-        policy: 'deterministic',
-        code: template_info[:lang_code]
-      },
-      components: [{
-        type: 'body',
-        parameters: template_info[:parameters]
-      }]
-    }
   end
 
   def whatsapp_reply_context(message)

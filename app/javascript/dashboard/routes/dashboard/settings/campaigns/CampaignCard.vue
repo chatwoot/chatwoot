@@ -3,11 +3,13 @@ import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.
 import InboxName from 'dashboard/components/widgets/InboxName.vue';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { messageStamp } from 'shared/helpers/timeHelper';
+import CampaignReportModal from './CampaignReportModal.vue';
 
 export default {
   components: {
     UserAvatarWithName,
     InboxName,
+    CampaignReportModal,
   },
   mixins: [messageFormatterMixin],
   props: {
@@ -15,26 +17,56 @@ export default {
       type: Object,
       required: true,
     },
+    inbox: {
+      type: Object,
+      required: false, // Make this optional if it's not always passed
+    },
     isOngoingType: {
       type: Boolean,
       default: true,
     },
   },
+  data() {
+    return {
+      showReportModal: false, // Add state to control modal visibility
+    };
+  },
 
   computed: {
+    failedContactsCount() {
+      return this.campaign.failed_contacts_count ?? '1';
+    },
     campaignStatus() {
-      if (this.isOngoingType) {
+      if (this.campaign.campaign_status === 'completed') {
+        return this.$t('CAMPAIGN.LIST.STATUS.COMPLETED');
+      }
+
+      // Then handle ongoing/whatsapp enabled/disabled status
+      if (this.isOngoingType || this.isWhatsappType) {
         return this.campaign.enabled
           ? this.$t('CAMPAIGN.LIST.STATUS.ENABLED')
           : this.$t('CAMPAIGN.LIST.STATUS.DISABLED');
       }
 
-      return this.campaign.campaign_status === 'completed'
-        ? this.$t('CAMPAIGN.LIST.STATUS.COMPLETED')
-        : this.$t('CAMPAIGN.LIST.STATUS.ACTIVE');
+      // For other campaigns, show active status
+      return this.$t('CAMPAIGN.LIST.STATUS.ACTIVE');
+    },
+    isWhatsappType() {
+      return this.campaign.campaign_type === 'whatsapp';
+    },
+    isCompleted() {
+      return this.campaign.campaign_status === 'completed';
+    },
+    canShowReport() {
+      // Only show report button for completed campaigns
+      return (
+        this.isCompleted &&
+        (this.campaign.processed_contacts_count > 0 ||
+          this.campaign.failed_contacts_count > 0)
+      );
     },
     colorScheme() {
-      if (this.isOngoingType) {
+      if (this.isOngoingType || this.isWhatsappType) {
         return this.campaign.enabled ? 'success' : 'secondary';
       }
       return this.campaign.campaign_status === 'completed'
@@ -44,6 +76,16 @@ export default {
   },
   methods: {
     messageStamp,
+    openReportModal() {
+      this.showReportModal = true;
+    },
+    closeReportModal() {
+      this.showReportModal = false;
+    },
+    handleReportError(error) {
+      // Optional: Add error handling logic, e.g., showing a toast notification
+      console.error('Campaign report error:', error);
+    },
   },
 };
 </script>
@@ -64,26 +106,112 @@ export default {
           class="text-sm line-clamp-1 [&>p]:mb-0"
         />
       </div>
-      <div class="flex flex-row space-x-4">
-        <woot-button
-          v-if="isOngoingType"
-          variant="link"
-          icon="edit"
-          color-scheme="secondary"
-          size="small"
-          @click="$emit('edit', campaign)"
-        >
-          {{ $t('CAMPAIGN.LIST.BUTTONS.EDIT') }}
-        </woot-button>
-        <woot-button
-          variant="link"
-          icon="dismiss-circle"
-          size="small"
-          color-scheme="secondary"
-          @click="$emit('delete', campaign)"
-        >
-          {{ $t('CAMPAIGN.LIST.BUTTONS.DELETE') }}
-        </woot-button>
+      <div class="flex flex-row items-center">
+        <!-- Metrics - Now with center alignment and larger values -->
+        <div class="flex items-center space-x-8 mr-12">
+          <!-- Increased spacing between metrics and reduced right margin -->
+          <div class="flex flex-col items-center">
+            <!-- Changed to items-center -->
+            <span
+              class="text-xl font-semibold text-slate-900 dark:text-slate-100"
+            >
+              <!-- Increased text size -->
+              {{
+                campaign.processed_contacts_count !== null &&
+                campaign.processed_contacts_count !== undefined
+                  ? campaign.processed_contacts_count
+                  : '_'
+              }}
+            </span>
+            <span class="text-sm text-slate-600 dark:text-slate-400">
+              <!-- Increased label size -->
+              {{ $t('CAMPAIGN.METRICS.SUCCESSFUL') }}
+            </span>
+          </div>
+
+          <div class="flex flex-col items-center">
+            <span
+              class="text-xl font-semibold text-slate-900 dark:text-slate-100"
+            >
+              {{
+                campaign.read_count !== null &&
+                campaign.read_count !== undefined
+                  ? campaign.read_count
+                  : '_'
+              }}
+            </span>
+            <span class="text-sm text-slate-600 dark:text-slate-400">
+              {{ $t('CAMPAIGN.METRICS.READ') }}
+            </span>
+          </div>
+
+          <div class="flex flex-col items-center">
+            <span
+              class="text-xl font-semibold text-slate-900 dark:text-slate-100"
+            >
+              {{
+                failedContactsCount !== null &&
+                failedContactsCount !== undefined
+                  ? failedContactsCount
+                  : '_'
+              }}
+            </span>
+            <span class="text-sm text-slate-600 dark:text-slate-400">
+              {{ $t('CAMPAIGN.METRICS.FAILED') }}
+            </span>
+          </div>
+
+          <!-- <div class="flex flex-col items-center">
+            <span
+              class="text-xl font-semibold text-slate-900 dark:text-slate-100"
+            >
+              {{ campaign.replied || '_' }}
+            </span>
+            <span class="text-sm text-slate-600 dark:text-slate-400">
+              {{ $t('CAMPAIGN.METRICS.REPLIED') }}
+            </span>
+          </div> -->
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex space-x-4">
+          <woot-button
+            v-if="canShowReport"
+            variant="link"
+            icon="document"
+            color-scheme="secondary"
+            size="small"
+            @click="openReportModal"
+            class="ml-auto"
+          >
+            {{ $t('CAMPAIGN.LIST.BUTTONS.SHOW_REPORT') }}
+          </woot-button>
+          <CampaignReportModal
+            v-if="showReportModal"
+            :campaign="campaign"
+            @close="closeReportModal"
+            @error="handleReportError"
+          />
+          <woot-button
+            v-if="(isOngoingType || isWhatsappType) && !isCompleted"
+            variant="link"
+            icon="edit"
+            color-scheme="secondary"
+            size="small"
+            @click="$emit('edit', campaign)"
+          >
+            {{ $t('CAMPAIGN.LIST.BUTTONS.EDIT') }}
+          </woot-button>
+          <woot-button
+            variant="link"
+            icon="dismiss-circle"
+            size="small"
+            color-scheme="secondary"
+            @click="$emit('delete', campaign)"
+          >
+            {{ $t('CAMPAIGN.LIST.BUTTONS.DELETE') }}
+          </woot-button>
+        </div>
       </div>
     </div>
 
@@ -94,7 +222,16 @@ export default {
         :color-scheme="colorScheme"
         class="mr-3 text-xs"
       />
-      <InboxName :inbox="campaign.inbox" class="mb-1 ltr:ml-0 rtl:mr-0" />
+      <InboxName
+        v-if="isWhatsappType"
+        :inbox="inbox"
+        class="mb-1 ltr:ml-0 rtl:mr-0"
+      />
+      <InboxName
+        v-else
+        :inbox="campaign.inbox"
+        class="mb-1 ltr:ml-0 rtl:mr-0"
+      />
       <UserAvatarWithName
         v-if="campaign.sender"
         :user="campaign.sender"
@@ -110,7 +247,16 @@ export default {
         v-if="campaign.scheduled_at"
         class="mb-1 text-xs text-slate-700 dark:text-slate-500"
       >
-        {{ messageStamp(new Date(campaign.scheduled_at), 'LLL d, h:mm a') }}
+        {{
+          new Intl.DateTimeFormat('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+          }).format(new Date(campaign.scheduled_at))
+        }}
       </div>
     </div>
   </div>
