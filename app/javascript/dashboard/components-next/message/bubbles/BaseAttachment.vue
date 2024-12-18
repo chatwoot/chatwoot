@@ -3,11 +3,11 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import BaseBubble from './Base.vue';
 import Icon from 'next/icon/Icon.vue';
+import { useMessageContext } from 'next/message/provider.js';
 
-const props = defineProps({
+defineProps({
   icon: { type: [String, Object], required: true },
   iconBgColor: { type: String, default: 'bg-n-alpha-3' },
-  sender: { type: Object, default: () => ({}) },
   senderTranslationKey: { type: String, required: true },
   content: { type: String, required: true },
   action: {
@@ -19,10 +19,11 @@ const props = defineProps({
   },
 });
 
+const { sender } = useMessageContext();
 const { t } = useI18n();
 
 const senderName = computed(() => {
-  return props.sender.name;
+  return sender?.value.name;
 });
 </script>
 

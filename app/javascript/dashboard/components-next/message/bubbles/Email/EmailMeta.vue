@@ -1,57 +1,44 @@
 <script setup>
 import { computed } from 'vue';
 import { MESSAGE_STATUS } from '../../constants';
+import { useMessageContext } from 'next/message/provider.js';
 
-const props = defineProps({
-  contentAttributes: {
-    type: Object,
-    default: () => ({}),
-  },
-  status: {
-    type: String,
-    required: true,
-    validator: value => Object.values(MESSAGE_STATUS).includes(value),
-  },
-  sender: {
-    type: Object,
-    default: () => ({}),
-  },
-});
+const { contentAttributes, status, sender } = useMessageContext();
 
 const hasError = computed(() => {
-  return props.status === MESSAGE_STATUS.FAILED;
+  return status.value === MESSAGE_STATUS.FAILED;
 });
 
 const fromEmail = computed(() => {
-  return props.contentAttributes?.email?.from ?? [];
+  return contentAttributes.value?.email?.from ?? [];
 });
 
 const toEmail = computed(() => {
-  return props.contentAttributes?.email?.to ?? [];
+  return contentAttributes.value?.email?.to ?? [];
 });
 
 const ccEmail = computed(() => {
   return (
-    props.contentAttributes?.ccEmails ??
-    props.contentAttributes?.email?.cc ??
+    contentAttributes.value?.ccEmails ??
+    contentAttributes.value?.email?.cc ??
     []
   );
 });
 
 const senderName = computed(() => {
-  return props.sender.name ?? '';
+  return sender.value.name ?? '';
 });
 
 const bccEmail = computed(() => {
   return (
-    props.contentAttributes?.bccEmails ??
-    props.contentAttributes?.email?.bcc ??
+    contentAttributes.value?.bccEmails ??
+    contentAttributes.value?.email?.bcc ??
     []
   );
 });
 
 const subject = computed(() => {
-  return props.contentAttributes?.email?.subject ?? '';
+  return contentAttributes.value?.email?.subject ?? '';
 });
 
 const showMeta = computed(() => {
