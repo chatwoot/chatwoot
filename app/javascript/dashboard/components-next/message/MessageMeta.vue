@@ -32,7 +32,7 @@ import { MESSAGE_STATUS, MESSAGE_TYPES } from './constants';
 
 const props = defineProps({
   sender: {
-    type: Object,
+    type: [Object, null],
     required: true,
   },
   status: {
