@@ -66,6 +66,7 @@ ru:
       number_of_records: Достигнут лимит. Максимальное количество разрешенных пользовательских фильтров для каждого пользователя - 50.
       invalid_attribute: Недопустимый ключ атрибута - [%{key}]. Ключ должен быть одним из [%{allowed_keys}] или пользовательским атрибутом, указанным в учетной записи.
       invalid_operator: Неверный оператор. Допустимыми операторами для %{attribute_name} являются [%{allowed_keys}].
+      invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Недопустимое значение. Значения, предоставленные для %{attribute_name} являются недопустимыми
   reports:
     period: Отчётный период с %{since} по %{until}
