@@ -50,7 +50,7 @@ class Integrations::CustomApi::CreateOrUpdateOrderService
       'SHIPPED' => 'Enviado',
       'IN_PROGRESS' => 'Em Produção',
       'PARTIALLY_FULFILLED' => 'Envio de fotos finalizado',
-      'PENDING_PHOTOS' => 'Aguardando o envio de fotos',
+      'PENDING_PHOTOS' => 'Compra confirmada',
       'PENDING_FULFILLMENT' => 'Aguardando atendimento',
       'CANCELED' => 'Cancelado'
     }.freeze

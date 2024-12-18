@@ -39,6 +39,22 @@ export const PRIORITY_CONDITION_VALUES = [
   },
 ];
 
+export const CUSTOM_API_STATUS_VALUES = [
+  { id: 'Aguardando atendimento', name: 'Aguardando atendimento' },
+  { id: 'Compra confirmada', name: 'Compra confirmada' },
+  { id: 'Envio de fotos finalizado', name: 'Envio de fotos finalizado' },
+  { id: 'Em Produção', name: 'Em Produção' },
+  { id: 'Enviado', name: 'Enviado' },
+  { id: 'Finalizado', name: 'Finalizado' },
+  { id: 'Cancelado', name: 'Cancelado' },
+];
+
+export const CUSTOM_API_PAYMENT_STATUS_VALUES = [
+  { id: 'Pago', name: 'Pago' },
+  { id: 'Pendente', name: 'Pendente' },
+  { id: 'Recusado', name: 'Recusado' },
+];
+
 export const getCustomAttributeInputType = key => {
   const customAttributeMap = {
     date: 'date',
@@ -186,6 +202,8 @@ export const getConditionOptions = ({
     priority: PRIORITY_CONDITION_VALUES,
     contact_label: generateConditionOptions(labels, 'tag_id'),
     conversation_label: generateConditionOptions(labels, 'tag_id'),
+    custom_status: CUSTOM_API_STATUS_VALUES,
+    payment_status: CUSTOM_API_PAYMENT_STATUS_VALUES,
   };
 
   return conditionFilterMaps[type];
@@ -217,6 +235,28 @@ export const getDefaultConditions = eventName => {
     return [
       {
         attribute_key: 'browser_language',
+        filter_operator: 'equal_to',
+        values: '',
+        query_operator: 'and',
+        custom_attribute_type: '',
+      },
+    ];
+  }
+  if (eventName === 'cart_recovery') {
+    return [
+      {
+        attribute_key: 'none',
+        filter_operator: 'equal_to',
+        values: '',
+        query_operator: 'and',
+        custom_attribute_type: '',
+      },
+    ];
+  }
+  if (eventName === 'order_created' || eventName === 'order_status_updated') {
+    return [
+      {
+        attribute_key: 'custom_status',
         filter_operator: 'equal_to',
         values: '',
         query_operator: 'and',

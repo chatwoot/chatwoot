@@ -710,11 +710,11 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_1,
       },
       {
-        key: 'status',
+        key: 'custom_status',
         name: 'Status',
         attributeI18nKey: 'STATUS',
-        inputType: 'plain_text',
-        filterOperators: OPERATOR_TYPES_2,
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
       },
       {
         key: 'platform',
@@ -727,8 +727,8 @@ export const AUTOMATIONS = {
         key: 'payment_status',
         name: 'Payment Status',
         attributeI18nKey: 'PAYMENT_STATUS',
-        inputType: 'plain_text',
-        filterOperators: OPERATOR_TYPES_1,
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
       },
       {
         key: 'contact_label',
@@ -771,11 +771,11 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_1,
       },
       {
-        key: 'status',
+        key: 'custom_status',
         name: 'Status',
         attributeI18nKey: 'STATUS',
-        inputType: 'plain_text',
-        filterOperators: OPERATOR_TYPES_2,
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
       },
       {
         key: 'platform',
@@ -788,8 +788,8 @@ export const AUTOMATIONS = {
         key: 'payment_status',
         name: 'Payment Status',
         attributeI18nKey: 'PAYMENT_STATUS',
-        inputType: 'plain_text',
-        filterOperators: OPERATOR_TYPES_1,
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
       },
       {
         key: 'contact_label',
@@ -830,13 +830,6 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'NONE',
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_1,
-      },
-      {
-        key: 'status',
-        name: 'Status',
-        attributeI18nKey: 'STATUS',
-        inputType: 'plain_text',
-        filterOperators: OPERATOR_TYPES_2,
       },
       {
         key: 'contact_label',

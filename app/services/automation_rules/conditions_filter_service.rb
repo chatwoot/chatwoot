@@ -164,8 +164,12 @@ class AutomationRules::ConditionsFilterService < FilterService
     query_operator = query_hash['query_operator']
 
     filter_operator_value = filter_operation(query_hash, current_index)
-
-    " orders.#{attribute_key} #{filter_operator_value} #{query_operator} "
+    case attribute_key
+    when 'custom_status'
+      " orders.status #{filter_operator_value} #{query_operator} "
+    else
+      " orders.#{attribute_key} #{filter_operator_value} #{query_operator} "
+    end
   end
 
   def conversation_query_string(table_name, current_filter, query_hash, current_index)
