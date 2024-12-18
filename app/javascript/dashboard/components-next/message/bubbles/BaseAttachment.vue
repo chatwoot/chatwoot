@@ -28,50 +28,52 @@ const senderName = computed(() => {
 
 <template>
   <BaseBubble
-    class="overflow-hidden grid gap-4 min-w-64 p-3 !bg-n-solid-2 shadow-[0px_0px_12px_0px_rgba(0,0,0,0.05)]"
+    class="overflow-hidden p-3 !bg-n-solid-2 shadow-[0px_0px_12px_0px_rgba(0,0,0,0.05)]"
     data-bubble-name="attachment"
   >
-    <div class="grid gap-3 z-20">
-      <div
-        class="size-8 rounded-lg grid place-content-center"
-        :class="iconBgColor"
-      >
-        <slot name="icon">
-          <Icon :icon="icon" class="text-white size-4" />
-        </slot>
-      </div>
-      <div class="space-y-1">
-        <div v-if="senderName" class="text-n-slate-12 text-sm truncate">
-          {{
-            t(senderTranslationKey, {
-              sender: senderName,
-            })
-          }}
+    <div class="grid gap-4 min-w-64">
+      <div class="grid gap-3 z-20">
+        <div
+          class="size-8 rounded-lg grid place-content-center"
+          :class="iconBgColor"
+        >
+          <slot name="icon">
+            <Icon :icon="icon" class="text-white size-4" />
+          </slot>
         </div>
-        <slot>
-          <div v-if="content" class="truncate text-sm text-n-slate-11">
-            {{ content }}
+        <div class="space-y-1">
+          <div v-if="senderName" class="text-n-slate-12 text-sm truncate">
+            {{
+              t(senderTranslationKey, {
+                sender: senderName,
+              })
+            }}
           </div>
-        </slot>
+          <slot>
+            <div v-if="content" class="truncate text-sm text-n-slate-11">
+              {{ content }}
+            </div>
+          </slot>
+        </div>
       </div>
-    </div>
-    <div v-if="action">
-      <a
-        v-if="action.href"
-        :href="action.href"
-        rel="noreferrer noopener nofollow"
-        target="_blank"
-        class="w-full block bg-n-solid-3 px-4 py-2 rounded-lg text-sm text-center border border-n-container"
-      >
-        {{ action.label }}
-      </a>
-      <button
-        v-else
-        class="w-full bg-n-solid-3 px-4 py-2 rounded-lg text-sm text-center border border-n-container"
-        @click="action.onClick"
-      >
-        {{ action.label }}
-      </button>
+      <div v-if="action">
+        <a
+          v-if="action.href"
+          :href="action.href"
+          rel="noreferrer noopener nofollow"
+          target="_blank"
+          class="w-full block bg-n-solid-3 px-4 py-2 rounded-lg text-sm text-center border border-n-container"
+        >
+          {{ action.label }}
+        </a>
+        <button
+          v-else
+          class="w-full bg-n-solid-3 px-4 py-2 rounded-lg text-sm text-center border border-n-container"
+          @click="action.onClick"
+        >
+          {{ action.label }}
+        </button>
+      </div>
     </div>
   </BaseBubble>
 </template>

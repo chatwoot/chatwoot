@@ -102,6 +102,7 @@ const previewMessage = computed(() => {
     <MessageMeta
       v-if="!shouldGroupWithNext && variant !== MESSAGE_VARIANTS.ACTIVITY"
       :class="flexOrientationClass"
+      class="mt-2"
     />
   </div>
 </template>
