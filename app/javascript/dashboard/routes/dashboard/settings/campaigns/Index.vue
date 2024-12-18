@@ -31,7 +31,11 @@ export default {
       // Logic to determine if it's a WhatsApp campaign type
       return this.campaignType === 'whatsapp';
     },
+    refresh() {
+      return this.$t('CAMPAIGN.HEADER_BTN_TXT.REFRESH');
+    },
   },
+
   mounted() {
     this.$store.dispatch('campaigns/get');
   },
@@ -60,7 +64,7 @@ export default {
         icon="repeat"
         @click="reloadPage"
       >
-        {{ $t('Reload') }}
+        {{ refresh }}
       </woot-button>
 
       <!-- Add campaign button -->

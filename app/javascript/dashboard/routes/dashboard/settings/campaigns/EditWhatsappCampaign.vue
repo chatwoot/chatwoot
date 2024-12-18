@@ -6,7 +6,7 @@ import { useAlert } from 'dashboard/composables';
 import campaignMixin from 'shared/mixins/campaignMixin';
 import WootDateTimePicker from 'dashboard/components/ui/DateTimePicker.vue';
 import ContactSelector from './ContactSelector.vue';
-import ContactsAPI from '/Users/rohitashokyelmar/Desktop/OneHash/onehash-chat/app/javascript/dashboard/api/contacts.js';
+import ContactsAPI from 'dashboard/api/contacts';
 
 export default {
   components: {
