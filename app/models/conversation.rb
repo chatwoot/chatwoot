@@ -185,7 +185,7 @@ class Conversation < ApplicationRecord
   end
 
   def nudge_created
-    additional_attributes['nudge_created'] || created_at
+    additional_attributes['nudge_created'].present? ? Time.zone.parse(additional_attributes['nudge_created']).to_i : created_at.to_i
   end
 
   def calling_status

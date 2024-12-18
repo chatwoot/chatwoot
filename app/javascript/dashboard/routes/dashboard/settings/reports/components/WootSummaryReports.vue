@@ -27,7 +27,9 @@
     <report-filter-selector
       :show-agents-filter="false"
       :show-labels-filter="showAdvancedFilters"
-      :show-inbox-filter="showAdvancedFilters"
+      :show-inbox-filter="
+        showAdvancedFilters && agentTableType !== 'callOverview'
+      "
       @filter-change="onFilterChange"
     />
     <ve-table

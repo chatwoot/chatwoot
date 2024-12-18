@@ -346,7 +346,7 @@ module CustomReportHelper
   end
 
   def avg_time_to_call_after_nudge
-    base_query = @account.reporting_events.where(name: 'conversation_first_call', created_at: @time_range)
+    base_query = @account.reporting_events.where(name: 'conversation_first_call', created_at: @time_range).joins(:conversation).where("conversations.additional_attributes->>'source_context' IS NOT NULL")
 
     base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
     base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
@@ -358,7 +358,7 @@ module CustomReportHelper
   end
 
   def avg_time_to_convert
-    base_query = @account.reporting_events.where(name: 'conversation_call_converted', created_at: @time_range)
+    base_query = @account.reporting_events.where(name: 'conversation_call_converted', created_at: @time_range).joins(:conversation).where("conversations.additional_attributes->>'source_context' IS NOT NULL")
 
     base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
     base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
@@ -370,7 +370,7 @@ module CustomReportHelper
   end
 
   def avg_time_to_drop
-    base_query = @account.reporting_events.where(name: 'conversation_call_dropped', created_at: @time_range)
+    base_query = @account.reporting_events.where(name: 'conversation_call_dropped', created_at: @time_range).joins(:conversation).where("conversations.additional_attributes->>'source_context' IS NOT NULL")
 
     base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
     base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
@@ -382,7 +382,7 @@ module CustomReportHelper
   end
 
   def avg_follow_up_calls
-    base_query = @account.reporting_events.where(name: 'conversation_follow_up_call', created_at: @time_range)
+    base_query = @account.reporting_events.where(name: 'conversation_follow_up_call', created_at: @time_range).joins(:conversation).where("conversations.additional_attributes->>'source_context' IS NOT NULL")
 
     base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
     base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
