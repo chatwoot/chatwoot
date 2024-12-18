@@ -1,6 +1,8 @@
 <script setup>
 import { computed } from 'vue';
 
+import MessageMeta from '../MessageMeta.vue';
+
 import { emitter } from 'shared/helpers/mitt';
 import { useMessageContext } from '../provider.js';
 import { useI18n } from 'vue-i18n';
@@ -8,7 +10,8 @@ import { useI18n } from 'vue-i18n';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { MESSAGE_VARIANTS, ORIENTATION } from '../constants';
 
-const { variant, orientation, inReplyTo } = useMessageContext();
+const { variant, orientation, inReplyTo, shouldGroupWithNext } =
+  useMessageContext();
 const { t } = useI18n();
 
 const varaintBaseMap = {
@@ -30,6 +33,16 @@ const orientationMap = {
   [ORIENTATION.RIGHT]: 'rounded-xl rounded-br-sm',
   [ORIENTATION.CENTER]: 'rounded-md',
 };
+
+const flexOrientationClass = computed(() => {
+  const map = {
+    [ORIENTATION.LEFT]: 'justify-start',
+    [ORIENTATION.RIGHT]: 'justify-end',
+    [ORIENTATION.CENTER]: 'justify-center',
+  };
+
+  return map[orientation.value];
+});
 
 const messageClass = computed(() => {
   const classToApply = [varaintBaseMap[variant.value]];
@@ -86,5 +99,9 @@ const previewMessage = computed(() => {
       </span>
     </div>
     <slot />
+    <MessageMeta
+      v-if="!shouldGroupWithNext && variant !== MESSAGE_VARIANTS.ACTIVITY"
+      :class="flexOrientationClass"
+    />
   </div>
 </template>

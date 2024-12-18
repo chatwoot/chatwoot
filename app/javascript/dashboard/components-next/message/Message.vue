@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, defineAsyncComponent } from 'vue';
+import { computed, ref, toRefs } from 'vue';
 import { provideMessageContext } from './provider.js';
 import { useTrack } from 'dashboard/composables';
 import { emitter } from 'shared/helpers/mitt';
@@ -30,12 +30,9 @@ import EmailBubble from './bubbles/Email/Index.vue';
 import UnsupportedBubble from './bubbles/Unsupported.vue';
 import ContactBubble from './bubbles/Contact.vue';
 import DyteBubble from './bubbles/Dyte.vue';
-const LocationBubble = defineAsyncComponent(
-  () => import('./bubbles/Location.vue')
-);
+import LocationBubble from './bubbles/Location.vue';
 
 import MessageError from './MessageError.vue';
-import MessageMeta from './MessageMeta.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
 
 /**
@@ -357,10 +354,12 @@ function handleReplyTo() {
 }
 
 provideMessageContext({
+  ...toRefs(props),
+  isPrivate: computed(() => props.private),
   variant,
-  inReplyTo: props.inReplyTo,
   orientation,
   isMyMessage,
+  shouldGroupWithNext,
 });
 </script>
 
@@ -412,17 +411,6 @@ provideMessageContext({
         class="[grid-area:meta]"
         :class="flexOrientationClass"
         :error="contentAttributes.externalError"
-      />
-      <MessageMeta
-        v-else-if="!shouldGroupWithNext"
-        class="[grid-area:meta]"
-        :class="flexOrientationClass"
-        :sender="props.sender"
-        :status="props.status"
-        :private="props.private"
-        :message-type="props.messageType"
-        :created-at="props.createdAt"
-        :source-id="props.sourceId"
       />
     </div>
     <div v-if="shouldShowContextMenu" class="context-menu-wrap">

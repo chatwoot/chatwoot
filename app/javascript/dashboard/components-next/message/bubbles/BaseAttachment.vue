@@ -28,11 +28,10 @@ const senderName = computed(() => {
 
 <template>
   <BaseBubble
-    class="overflow-hidden grid gap-4 min-w-64 p-0 !bg-n-solid-2 shadow-[0px_0px_12px_0px_rgba(0,0,0,0.05)]"
+    class="overflow-hidden grid gap-4 min-w-64 p-3 !bg-n-solid-2 shadow-[0px_0px_12px_0px_rgba(0,0,0,0.05)]"
     data-bubble-name="attachment"
   >
-    <slot name="before" />
-    <div class="grid gap-3 px-3 pt-3 z-20">
+    <div class="grid gap-3 z-20">
       <div
         class="size-8 rounded-lg grid place-content-center"
         :class="iconBgColor"
@@ -56,7 +55,7 @@ const senderName = computed(() => {
         </slot>
       </div>
     </div>
-    <div v-if="action" class="px-3 pb-3">
+    <div v-if="action">
       <a
         v-if="action.href"
         :href="action.href"
