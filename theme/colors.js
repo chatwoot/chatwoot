@@ -360,6 +360,21 @@ export const colors = {
       12: 'rgb(var(--teal-12) / <alpha-value>)',
     },
 
+    gray: {
+      1: 'rgb(var(--gray-1) / <alpha-value>)',
+      2: 'rgb(var(--gray-2) / <alpha-value>)',
+      3: 'rgb(var(--gray-3) / <alpha-value>)',
+      4: 'rgb(var(--gray-4) / <alpha-value>)',
+      5: 'rgb(var(--gray-5) / <alpha-value>)',
+      6: 'rgb(var(--gray-6) / <alpha-value>)',
+      7: 'rgb(var(--gray-7) / <alpha-value>)',
+      8: 'rgb(var(--gray-8) / <alpha-value>)',
+      9: 'rgb(var(--gray-9) / <alpha-value>)',
+      10: 'rgb(var(--gray-10) / <alpha-value>)',
+      11: 'rgb(var(--gray-11) / <alpha-value>)',
+      12: 'rgb(var(--gray-12) / <alpha-value>)',
+    },
+
     black: '#000000',
     brand: '#2781F6',
     background: 'rgb(var(--background-color) / <alpha-value>)',
