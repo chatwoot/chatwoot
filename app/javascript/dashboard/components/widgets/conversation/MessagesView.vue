@@ -484,7 +484,7 @@ export default {
       v-if="showNextBubbles"
       class="conversation-panel"
       :read-messages="readMessages"
-      :un-read-messages="unreadMessages"
+      :un-read-messages="unReadMessages"
       :current-user-id="currentUserId"
       :is-an-email-channel="isAnEmailChannel"
       :inbox-supports-reply-to="inboxSupportsReplyTo"
