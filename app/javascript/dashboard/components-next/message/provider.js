@@ -33,8 +33,39 @@ const MessageControl = Symbol('MessageControl');
  */
 
 /**
+ * @typedef {Object} EmailContent
+ * @property {string[]|null} bcc - BCC recipients
+ * @property {string[]|null} cc - CC recipients
+ * @property {string} contentType - Content type of the email
+ * @property {string} date - Date the email was sent
+ * @property {string[]} from - From email address
+ * @property {Object} htmlContent - HTML content of the email
+ * @property {string} htmlContent.full - Full HTML content
+ * @property {string} htmlContent.reply - Reply HTML content
+ * @property {string} htmlContent.quoted - Quoted HTML content
+ * @property {string|null} inReplyTo - Message ID being replied to
+ * @property {string} messageId - Unique message identifier
+ * @property {boolean} multipart - Whether the email is multipart
+ * @property {number} numberOfAttachments - Number of attachments
+ * @property {string} subject - Email subject line
+ * @property {Object} textContent - Text content of the email
+ * @property {string} textContent.full - Full text content
+ * @property {string} textContent.reply - Reply text content
+ * @property {string} textContent.quoted - Quoted text content
+ * @property {string[]} to - To email addresses
+ */
+
+/**
  * @typedef {Object} ContentAttributes
  * @property {string} externalError - an error message to be shown if the message failed to send
+ * @property {Object} [data] - Optional data object containing roomName and messageId
+ * @property {string} data.roomName - Name of the room
+ * @property {string} data.messageId - ID of the message
+ * @property {'story_mention'} [imageType] - Flag to indicate this is a story mention
+ * @property {'dyte'} [type] - Flag to indicate this is a dyte call
+ * @property {EmailContent} [email] - Email content and metadata
+ * @property {string|null} [ccEmail] - CC email addresses
+ * @property {string|null} [bccEmail] - BCC email addresses
  */
 
 /**
