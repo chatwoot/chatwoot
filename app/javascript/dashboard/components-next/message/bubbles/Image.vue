@@ -64,7 +64,7 @@ const downloadAttachment = async () => {
 
 <template>
   <BaseBubble
-    class="overflow-hidden relative group p-3"
+    class="overflow-hidden p-3"
     data-bubble-name="image"
     @click="showGallery = true"
   >
@@ -74,8 +74,9 @@ const downloadAttachment = async () => {
         {{ $t('COMPONENTS.MEDIA.IMAGE_UNAVAILABLE') }}
       </p>
     </div>
-    <template v-else>
+    <div v-else class="relative group">
       <img
+        class="rounded-lg"
         :src="attachment.dataUrl"
         :width="attachment.width"
         :height="attachment.height"
@@ -95,7 +96,7 @@ const downloadAttachment = async () => {
           @click="downloadAttachment"
         />
       </div>
-    </template>
+    </div>
   </BaseBubble>
   <GalleryView
     v-if="showGallery"
