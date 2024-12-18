@@ -108,15 +108,11 @@ const statusToShow = computed(() => {
 </script>
 
 <template>
-  <div class="text-xs text-n-slate-11 flex items-center gap-1.5">
+  <div class="text-xs flex items-center gap-1.5">
     <div class="inline">
       <span class="inline">{{ readableTime }}</span>
     </div>
-    <Icon
-      v-if="isPrivate"
-      icon="i-lucide-lock-keyhole"
-      class="text-n-slate-10 size-3"
-    />
+    <Icon v-if="isPrivate" icon="i-lucide-lock-keyhole" class="size-3" />
     <MessageStatus v-if="showStatusIndicator" :status="statusToShow" />
   </div>
 </template>

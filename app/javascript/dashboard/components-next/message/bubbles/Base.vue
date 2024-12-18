@@ -101,10 +101,13 @@ const previewMessage = computed(() => {
     <slot />
     <MessageMeta
       v-if="!shouldGroupWithNext && variant !== MESSAGE_VARIANTS.ACTIVITY"
-      :class="
-        (flexOrientationClass,
-        variant === MESSAGE_VARIANTS.EMAIL ? 'px-3 pb-3' : '')
-      "
+      :class="[
+        flexOrientationClass,
+        variant === MESSAGE_VARIANTS.EMAIL ? 'px-3 pb-3' : '',
+        variant === MESSAGE_VARIANTS.PRIVATE
+          ? 'text-n-amber-12/50'
+          : 'text-n-slate-11',
+      ]"
       class="mt-2"
     />
   </div>
