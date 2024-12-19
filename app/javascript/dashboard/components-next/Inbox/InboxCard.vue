@@ -41,6 +41,7 @@ const slaCardLabel = ref(null);
 const getMessageClasses = {
   emphasis: 'text-sm font-medium text-n-slate-12',
   normal: 'text-sm font-normal text-n-slate-11',
+  normalUnread: 'text-sm text-n-slate-12',
 };
 
 const primaryActor = computed(() => props.inboxItem?.primaryActor);
@@ -81,16 +82,16 @@ const formatPushMessage = message => {
 
 const formattedMessage = computed(() => {
   const { notificationType = '' } = props.inboxItem || {};
+  const messageContent = NOTIFICATION_TYPES_WITHOUT_MESSAGE.includes(
+    notificationType
+  )
+    ? `<span class="${getMessageClasses.emphasis}">${meta.value?.sender?.name}:</span> 
+       <span class="${isUnread.value ? getMessageClasses.normalUnread : getMessageClasses.normal}">${primaryActor.value?.messages[0]?.content || t('INBOX.NO_CONTENT')}</span>`
+    : `<span class="${isUnread.value ? getMessageClasses.normalUnread : getMessageClasses.normal}">${formatPushMessage(props.inboxItem?.pushMessageBody || '')}</span>`;
 
-  // Handle cases without push message body
-  if (NOTIFICATION_TYPES_WITHOUT_MESSAGE.includes(notificationType)) {
-    // TODO: replace the meta.sender.name with secondaryActor.sender.name
-    return `<span class="${getMessageClasses.emphasis}">${meta.value?.sender?.name}:</span> 
-            <span class="${getMessageClasses.normal}">${primaryActor.value?.messages[0]?.content || t('INBOX.NO_CONTENT')}</span>`;
-  }
-
-  const message = props.inboxItem?.pushMessageBody || '';
-  return `<span class="${getMessageClasses.normal}">${formatPushMessage(message)}</span>`;
+  return isUnread.value
+    ? `<span class="inline-flex w-2 h-2 rounded-full bg-n-iris-10 mb-px ltr:mr-1 rtl:ml-1 flex-shrink-0"></span> ${messageContent}`
+    : messageContent;
 });
 
 const notificationDetails = computed(() => {
