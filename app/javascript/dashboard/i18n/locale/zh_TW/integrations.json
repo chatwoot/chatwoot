@@ -262,7 +262,7 @@
             "SEARCH": "Search assignee"
           },
           "PRIORITY": {
-            "LABEL": "優先",
+            "LABEL": "優先程度",
             "PLACEHOLDER": "Select priority",
             "SEARCH": "Search priority"
           },
@@ -291,7 +291,7 @@
       },
       "ISSUE": {
         "STATUS": "狀態",
-        "PRIORITY": "優先",
+        "PRIORITY": "優先程度",
         "ASSIGNEE": "Assignee",
         "LABELS": "標籤",
         "CREATED_AT": "Created at {createdAt}"
