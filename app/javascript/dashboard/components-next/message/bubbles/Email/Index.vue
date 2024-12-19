@@ -7,37 +7,13 @@ import { EmailQuoteExtractor } from './removeReply.js';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 import FormattedContent from 'next/message/bubbles/Text/FormattedContent.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
-
 import EmailMeta from './EmailMeta.vue';
-import { MESSAGE_STATUS, MESSAGE_TYPES } from '../../constants';
 
-const props = defineProps({
-  content: {
-    type: String,
-    required: true,
-  },
-  contentAttributes: {
-    type: Object,
-    default: () => ({}),
-  },
-  attachments: {
-    type: Array,
-    default: () => [],
-  },
-  status: {
-    type: String,
-    required: true,
-    validator: value => Object.values(MESSAGE_STATUS).includes(value),
-  },
-  sender: {
-    type: Object,
-    default: () => ({}),
-  },
-  messageType: {
-    type: Number,
-    required: true,
-  },
-});
+import { useMessageContext } from '../../provider.js';
+import { MESSAGE_TYPES } from 'next/message/constants.js';
+
+const { content, contentAttributes, attachments, messageType } =
+  useMessageContext();
 
 const isExpandable = ref(false);
 const isExpanded = ref(false);
@@ -49,11 +25,11 @@ onMounted(() => {
 });
 
 const isOutgoing = computed(() => {
-  return props.messageType === MESSAGE_TYPES.OUTGOING;
+  return messageType.value === MESSAGE_TYPES.OUTGOING;
 });
 
 const fullHTML = computed(() => {
-  return props.contentAttributes?.email?.htmlContent?.full ?? props.content;
+  return contentAttributes?.value?.email?.htmlContent?.full ?? content.value;
 });
 
 const unquotedHTML = computed(() => {
@@ -66,14 +42,14 @@ const hasQuotedMessage = computed(() => {
 
 const textToShow = computed(() => {
   const text =
-    props.contentAttributes?.email?.textContent?.full ?? props.content;
+    contentAttributes?.value?.email?.textContent?.full ?? content.value;
   return text?.replace(/\n/g, '<br>');
 });
 </script>
 
 <template>
   <BaseBubble class="w-full overflow-hidden" data-bubble-name="email">
-    <EmailMeta :status :sender :content-attributes />
+    <EmailMeta />
     <section
       ref="contentContainer"
       class="p-4"

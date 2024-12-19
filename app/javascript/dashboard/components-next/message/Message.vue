@@ -218,11 +218,9 @@ const gridTemplate = computed(() => {
   const map = {
     [ORIENTATION.LEFT]: `
       "avatar bubble"
-      "spacer meta"
     `,
     [ORIENTATION.RIGHT]: `
       "bubble"
-      "meta"
     `,
   };
 
@@ -404,7 +402,7 @@ provideMessageContext({
         }"
         @contextmenu="openContextMenu($event)"
       >
-        <Component :is="componentToRender" v-bind="props" />
+        <Component :is="componentToRender" />
       </div>
       <MessageError
         v-if="contentAttributes.externalError"

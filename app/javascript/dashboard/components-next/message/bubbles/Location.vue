@@ -2,41 +2,13 @@
 import { computed } from 'vue';
 import BaseAttachmentBubble from './BaseAttachment.vue';
 import { useI18n } from 'vue-i18n';
+import { useMessageContext } from '../provider.js';
 
-/**
- * @typedef {Object} Attachment
- * @property {number} id - Unique identifier for the attachment
- * @property {number} messageId - ID of the associated message
- * @property {'image'|'audio'|'video'|'file'|'location'|'fallback'|'share'|'story_mention'|'contact'|'ig_reel'} fileType - Type of the attachment (file or image)
- * @property {number} accountId - ID of the associated account
- * @property {string|null} extension - File extension
- * @property {string} dataUrl - URL to access the full attachment data
- * @property {string} thumbUrl - URL to access the thumbnail version
- * @property {number} fileSize - Size of the file in bytes
- * @property {number|null} width - Width of the image if applicable
- * @property {number|null} height - Height of the image if applicable
- */
-
-/**
- * @typedef {Object} Props
- * @property {Attachment[]} [attachments=[]] - The attachments associated with the message
- */
-
-const props = defineProps({
-  attachments: {
-    type: Array,
-    required: true,
-  },
-  sender: {
-    type: Object,
-    default: () => ({}),
-  },
-});
-
+const { attachments } = useMessageContext();
 const { t } = useI18n();
 
 const attachment = computed(() => {
-  return props.attachments[0];
+  return attachments.value[0];
 });
 
 const lat = computed(() => {
@@ -59,7 +31,6 @@ const mapUrl = computed(
   <BaseAttachmentBubble
     icon="i-ph-navigation-arrow-fill"
     icon-bg-color="bg-[#0D9B8A]"
-    :sender="sender"
     sender-translation-key="CONVERSATION.SHARED_ATTACHMENT.LOCATION"
     :content="title"
     :action="{
