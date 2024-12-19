@@ -42,6 +42,7 @@ class DailyConversationWithOrderIdsReportJob < ApplicationJob
       SELECT DISTINCT ON (conversations.id)
           conversations.id AS conversation_id,
           conversations.display_id AS conversation_display_id,
+          CONCAT('https://chat.bitespeed.co/app/accounts/', conversations.account_id, '/conversations/', conversations.display_id) AS conversation_link,
           conversations.created_at AS conversation_created_at,
           contacts.created_at AS customer_created_at,
           inboxes.name AS inbox_name,
@@ -122,12 +123,12 @@ class DailyConversationWithOrderIdsReportJob < ApplicationJob
   def generate_csv(results)
     CSV.generate(headers: true) do |csv|
       csv << [
-        'Conversation ID', 'Inbox Name', 'Customer Phone Number', 'Customer Email', 'Customer Instagram',
+        'Conversation ID', 'Conversation Link', 'Inbox Name', 'Customer Phone Number', 'Customer Email', 'Customer Instagram',
         'Customer Name', 'Labels', 'Order ID', 'Conversation Created At', 'Contact Created At'
       ]
       results.each do |row|
         csv << [
-          row['conversation_display_id'], row['inbox_name'], row['customer_phone_number'], row['customer_email'],
+          row['conversation_display_id'], row['conversation_link'], row['inbox_name'], row['customer_phone_number'], row['customer_email'],
           row['customer_instagram'], row['customer_name'], row['labels'], row['order_id'], row['conversation_created_at'], row['customer_created_at']
         ]
       end
