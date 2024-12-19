@@ -18,7 +18,7 @@
       "AND": "VE",
       "OR": "YA DA"
     },
-    "INPUT_PLACEHOLDER": "Enter value",
+    "INPUT_PLACEHOLDER": "Filtre verisini giriniz",
     "OPERATOR_LABELS": {
       "equal_to": "Eşit",
       "not_equal_to": "Eşit Değil",
@@ -66,9 +66,9 @@
     },
     "ERRORS": {
       "VALUE_REQUIRED": "Değer gereklidir",
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
+      "ATTRIBUTE_KEY_REQUIRED": "Özellik anahtarı zorunludur",
+      "FILTER_OPERATOR_REQUIRED": "Filtre operatörü zorunludur",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Değer 1 ile 998 arasında olmalıdır"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standart Filtreler",
