@@ -61,26 +61,26 @@
         "COPY": "Copiar"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Alerts",
-        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
-        "PLAY": "Play sound",
+        "TITLE": "Alertas de áudio",
+        "NOTE": "Habilitar notificações de áudio no painel para novas mensagens e conversas.",
+        "PLAY": "Reproduzir áudio",
         "ALERT_TYPES": {
           "NONE": "Nenhuma",
           "MINE": "Atribuído",
           "ALL": "Todos",
-          "ASSIGNED": "My assigned conversations",
-          "UNASSIGNED": "Unassigned conversations",
-          "NOTME": "Open conversations assigned to others"
+          "ASSIGNED": "Conversas atribuídas a mim",
+          "UNASSIGNED": "Conversas não atribuídas",
+          "NOTME": "Conversas abertas atribuídas a outras pessoas"
         },
         "ALERT_COMBINATIONS": {
-          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
-          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
-          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
-          "NOTME": "You'll receive alerts for conversations assigned to others.",
-          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
-          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
-          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
-          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+          "NONE": "Você não selecionou nenhuma opção, você não receberá nenhum alerta de áudio.",
+          "ASSIGNED": "Você receberá alertas para conversas atribuídas a você.",
+          "UNASSIGNED": "Você receberá alertas para quaisquer conversas não atribuídas.",
+          "NOTME": "Você receberá alertas para conversas atribuídas a outras pessoas.",
+          "ASSIGNED+UNASSIGNED": "Receberá alertas de conversas atribuídas e de quaisquer conversas não assistidas.",
+          "ASSIGNED+NOTME": "Você receberá alertas para conversas atribuídas a você e a outros, mas não para conversas não atribuídas.",
+          "NOTME+UNASSIGNED": "Você receberá alertas de conversas não assistidas e aqueles atribuídos a outros.",
+          "ASSIGNED+NOTME+UNASSIGNED": "Você receberá alertas para quaisquer conversas não atribuídas."
         },
         "ALERT_TYPE": {
           "TITLE": "Eventos de alerta para conversas",
@@ -96,7 +96,7 @@
           "CONDITION_ONE": "Enviar alertas de áudio apenas se a janela do navegador não estiver ativa",
           "CONDITION_TWO": "Enviar alertas a cada 30 segundos até que todas as conversas atribuídas sejam lidas"
         },
-        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "SOUND_PERMISSION_ERROR": "A reprodução automática está desativada no seu navegador. Para ouvir alertas automaticamente, habilite a permissão de som nas configurações do seu navegador ou interaja com a página.",
         "READ_MORE": "Saiba mais"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
@@ -238,8 +238,8 @@
       "SUBMIT": "Enviar"
     },
     "MEDIA": {
-      "IMAGE_UNAVAILABLE": "This image is no longer available.",
-      "LOADING_FAILED": "Loading failed"
+      "IMAGE_UNAVAILABLE": "Esta imagem não está mais disponível.",
+      "LOADING_FAILED": "Falha no carregamento"
     }
   },
   "CONFIRM_EMAIL": "Verificando...",
