@@ -328,6 +328,7 @@ Rails.application.routes.draw do
             collection do
               get :agent
               get :team
+              get :inbox
             end
           end
           resources :reports, only: [:index] do
