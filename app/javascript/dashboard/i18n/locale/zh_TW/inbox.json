@@ -13,8 +13,8 @@
       "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week"
     },
     "ACTION_HEADER": {
-      "SNOOZE": "Snooze notification",
-      "DELETE": "Delete notification",
+      "SNOOZE": "擱置通知",
+      "DELETE": "刪除通知",
       "BACK": "返回"
     },
     "TYPES": {
@@ -28,13 +28,13 @@
       "SLA_MISSED_RESOLUTION": "SLA target resolution missed for conversation"
     },
     "MENU_ITEM": {
-      "MARK_AS_READ": "Mark as read",
-      "MARK_AS_UNREAD": "Mark as unread",
-      "SNOOZE": "Snooze",
+      "MARK_AS_READ": "標記為已讀取",
+      "MARK_AS_UNREAD": "標記為未讀取",
+      "SNOOZE": "擱置",
       "DELETE": "刪除",
-      "MARK_ALL_READ": "Mark all as read",
-      "DELETE_ALL": "Delete all",
-      "DELETE_ALL_READ": "Delete all read"
+      "MARK_ALL_READ": "標記全部為已讀取",
+      "DELETE_ALL": "刪除所有",
+      "DELETE_ALL_READ": "標記為未讀取已讀取"
     },
     "DISPLAY_MENU": {
       "SORT": "Sort",
@@ -42,10 +42,10 @@
       "SORT_OPTIONS": {
         "NEWEST": "Newest",
         "OLDEST": "Oldest",
-        "PRIORITY": "優先"
+        "PRIORITY": "優先程度"
       },
       "DISPLAY_OPTIONS": {
-        "SNOOZED": "已关闭",
+        "SNOOZED": "擱置",
         "READ": "Read",
         "LABELS": "標籤",
         "CONVERSATION_ID": "Conversation ID"
