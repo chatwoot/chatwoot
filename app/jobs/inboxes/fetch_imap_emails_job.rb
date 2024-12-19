@@ -1,7 +1,7 @@
 require 'net/imap'
 
 class Inboxes::FetchImapEmailsJob < MutexApplicationJob
-  queue_as :one_min_mailer
+  queue_as :scheduled_jobs
 
   def perform(channel, interval = 1)
     return unless should_fetch_email?(channel)
