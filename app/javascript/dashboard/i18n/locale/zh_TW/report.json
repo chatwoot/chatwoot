@@ -8,7 +8,7 @@
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "會話",
+        "NAME": "對話",
         "DESC": "(總計)"
       },
       "INCOMING_MESSAGES": {
@@ -450,8 +450,8 @@
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
       "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN": "打開",
-      "UNATTENDED": "Unattended",
+      "OPEN": "開啟",
+      "UNATTENDED": "無人處理",
       "UNASSIGNED": "未指派的",
       "PENDING": "待處理"
     },
@@ -468,16 +468,16 @@
       "NO_AGENTS": "There are no conversations by agents",
       "TABLE_HEADER": {
         "AGENT": "客服",
-        "OPEN": "打開",
-        "UNATTENDED": "Unattended",
+        "OPEN": "OPEN",
+        "UNATTENDED": "無人處理",
         "STATUS": "狀態"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Agent status",
-      "ONLINE": "線上的",
+      "HEADER": "客服狀態",
+      "ONLINE": "上線",
       "BUSY": "忙碌中",
-      "OFFLINE": "離線的"
+      "OFFLINE": "離線"
     }
   },
   "DAYS_OF_WEEK": {
