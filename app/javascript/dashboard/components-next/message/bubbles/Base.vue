@@ -85,7 +85,7 @@ const previewMessage = computed(() => {
     :class="[
       messageClass,
       {
-        'max-w-md': variant !== MESSAGE_VARIANTS.EMAIL,
+        'max-w-lg': variant !== MESSAGE_VARIANTS.EMAIL,
       },
     ]"
   >
