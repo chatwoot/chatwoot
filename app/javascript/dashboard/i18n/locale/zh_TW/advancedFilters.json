@@ -18,7 +18,7 @@
       "AND": "且",
       "OR": "或"
     },
-    "INPUT_PLACEHOLDER": "Enter value",
+    "INPUT_PLACEHOLDER": "輸入文字或數值",
     "OPERATOR_LABELS": {
       "equal_to": "等於",
       "not_equal_to": "不等於",
@@ -41,19 +41,19 @@
       "startsWith": "從這開始"
     },
     "ATTRIBUTE_LABELS": {
-      "TRUE": "True",
-      "FALSE": "False"
+      "TRUE": "是",
+      "FALSE": "否"
     },
     "ATTRIBUTES": {
       "STATUS": "狀態",
-      "ASSIGNEE_NAME": "轉發指定人",
+      "ASSIGNEE_NAME": "指派客服",
       "INBOX_NAME": "收件匣名稱",
       "TEAM_NAME": "團隊名稱",
       "CONVERSATION_IDENTIFIER": "對話ID",
       "CAMPAIGN_NAME": "活動名稱",
       "LABELS": "標籤",
       "BROWSER_LANGUAGE": "瀏覽器語言",
-      "PRIORITY": "優先",
+      "PRIORITY": "優先程度",
       "COUNTRY_NAME": "國家名稱",
       "REFERER_LINK": "推薦人連結",
       "CUSTOM_ATTRIBUTE_LIST": "列表",
@@ -72,7 +72,7 @@
     },
     "GROUPS": {
       "STANDARD_FILTERS": "一般查詢條件",
-      "ADDITIONAL_FILTERS": "田家查詢條件",
+      "ADDITIONAL_FILTERS": "添加查詢條件",
       "CUSTOM_ATTRIBUTES": "自訂屬性"
     },
     "CUSTOM_VIEWS": {
