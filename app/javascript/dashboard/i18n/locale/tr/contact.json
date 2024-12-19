@@ -496,7 +496,7 @@
         "NO": "Hayır",
         "TRIGGER": {
           "SELECT": "Değer seçin",
-          "INPUT": "Enter value"
+          "INPUT": "Filtre verisini giriniz"
         },
         "VALIDATIONS": {
           "INVALID_NUMBER": "Invalid number",
