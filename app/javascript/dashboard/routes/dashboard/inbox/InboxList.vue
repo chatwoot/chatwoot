@@ -4,8 +4,7 @@ import { useAlert, useTrack } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import wootConstants from 'dashboard/constants/globals';
 
-// import InboxCard from './components/InboxCard.vue';
-import InboxCardV4 from 'dashboard/components-next/Inbox/InboxCard.vue';
+import InboxCard from 'dashboard/components-next/Inbox/InboxCard.vue';
 import InboxListHeader from './components/InboxListHeader.vue';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
@@ -13,8 +12,7 @@ import CmdBarConversationSnooze from 'dashboard/routes/dashboard/commands/CmdBar
 
 export default {
   components: {
-    // InboxCard,
-    InboxCardV4,
+    InboxCard,
     InboxListHeader,
     IntersectionObserver,
     CmdBarConversationSnooze,
@@ -220,7 +218,7 @@ export default {
         ref="notificationList"
         class="flex flex-col gap-px w-full h-[calc(100%-56px)] overflow-x-hidden px-3 overflow-y-auto divide-y divide-n-strong [&>*:hover]:!border-y-transparent [&>*.active]:!border-y-transparent [&>*:hover+*]:!border-t-transparent [&>*.active+*]:!border-t-transparent"
       >
-        <InboxCardV4
+        <InboxCard
           v-for="notificationItem in notificationsV4"
           :key="notificationItem.id"
           :inbox-item="notificationItem"
@@ -238,18 +236,6 @@ export default {
           @context-menu-close="isInboxContextMenuOpen = false"
           @click="openConversation(notificationItem)"
         />
-        <!-- <InboxCard
-          v-for="notificationItem in notifications"
-          :key="notificationItem.id"
-          :active="currentNotificationId === notificationItem.id"
-          :notification-item="notificationItem"
-          @mark-notification-as-read="markNotificationAsRead"
-          @mark-notification-as-un-read="markNotificationAsUnRead"
-          @delete-notification="deleteNotification"
-          @context-menu-open="isInboxContextMenuOpen = true"
-          @context-menu-close="isInboxContextMenuOpen = false"
-        /> -->
-
         <div v-if="uiFlags.isFetching" class="text-center">
           <span class="mt-4 mb-4 spinner" />
         </div>

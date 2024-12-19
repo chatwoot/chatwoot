@@ -198,7 +198,7 @@ export default {
       </div>
       <ConversationBox
         v-else
-        class="h-[calc(100%-56px)]"
+        class="h-[calc(100%-56px)] [&.conversation-details-wrap]:!border-0"
         is-inbox-view
         :inbox-id="inboxId"
         :is-contact-panel-open="isContactPanelOpen"

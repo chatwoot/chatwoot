@@ -109,7 +109,7 @@ export default {
   >
     <woot-button
       variant="clear link"
-      class="flex md:hidden !pt-1 !pb-1 rounded-md ltr:pr-1 rtl:pl-1 !no-underline"
+      class="flex xl:hidden !pt-1 !pb-1 rounded-md ltr:pr-1 rtl:pl-1 !no-underline"
       size="medium"
       color-scheme="primary"
       icon="chevron-left"
@@ -131,7 +131,7 @@ export default {
         size="small"
         color-scheme="secondary"
         icon="snooze"
-        class="[&>span]:hidden md:[&>span]:inline-flex"
+        class="[&>span]:hidden xl:[&>span]:inline-flex"
         @click="openSnoozeNotificationModal"
       >
         {{ $t('INBOX.ACTION_HEADER.SNOOZE') }}
@@ -141,7 +141,7 @@ export default {
         size="small"
         color-scheme="secondary"
         variant="hollow"
-        class="[&>span]:hidden md:[&>span]:inline-flex"
+        class="[&>span]:hidden xl:[&>span]:inline-flex"
         @click="deleteNotification"
       >
         {{ $t('INBOX.ACTION_HEADER.DELETE') }}
