@@ -249,13 +249,13 @@
         "DOMAIN": {
           "LABEL": "Custom Domain",
           "PLACEHOLDER": "Portal custom domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
           "ERROR": "Enter a valid domain URL"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Home Page Link",
           "PLACEHOLDER": "Portal home page link",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
           "ERROR": "Enter a valid home page URL"
         },
         "THEME_COLOR": {
@@ -457,7 +457,7 @@
       "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
       "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
       "PREVIEW_LINK": "Preview article",
-      "CANCEL": "關閉",
+      "CANCEL": "取消",
       "BACK": "返回",
       "BACK_RESULTS": "Back to results"
     },
