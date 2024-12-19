@@ -5,7 +5,8 @@ import ReportsWrapper from './components/ReportsWrapper.vue';
 import Index from './Index.vue';
 import AgentReports from './AgentReports.vue';
 import LabelReports from './LabelReports.vue';
-import InboxReports from './InboxReports.vue';
+import InboxReportsIndex from './InboxReportsIndex.vue';
+import InboxReportsShow from './InboxReportsShow.vue';
 import TeamReports from './TeamReports.vue';
 import CsatResponses from './CsatResponses.vue';
 import BotReports from './BotReports.vue';
@@ -62,7 +63,15 @@ export default {
           meta: {
             permissions: ['administrator', 'report_manage'],
           },
-          component: InboxReports,
+          component: InboxReportsIndex,
+        },
+        {
+          path: 'inboxes/:inboxId',
+          name: 'inbox_reports_show',
+          meta: {
+            permissions: ['administrator', 'report_manage'],
+          },
+          component: InboxReportsShow,
         },
         {
           path: 'teams',

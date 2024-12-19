@@ -258,6 +258,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Inbox Overview",
+    "DESCRIPTION": "Here’s a quick overview of your inbox performance with key metrics at a glance. You can check conversations, response times, resolution times, and resolved cases—all in one place. To view individual inbox performance, click on the inbox name.",
     "LOADING_CHART": "Loading chart data...",
     "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
     "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
@@ -538,5 +539,13 @@
       },
       "VIEW_DETAILS": "View Details"
     }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Inbox",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Reply Time",
+    "RESOLUTION_COUNT": "Resolution Count",
+    "CONVERSATIONS": "No. of conversations"
   }
 }
