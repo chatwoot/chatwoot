@@ -9,7 +9,7 @@
       "NOTE": "Abone olunan tüm gelen kutularından bildirimler",
       "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
       "SNOOZED_UNTIL": "Susturulacak kadar ertelendi",
-      "SNOOZED_UNTIL_TOMORROW": "yarına ertelendi",
+      "SNOOZED_UNTIL_TOMORROW": "Yarına ertelendi",
       "SNOOZED_UNTIL_NEXT_WEEK": "Önümüzdeki haftaya ertelendi"
     },
     "ACTION_HEADER": {
@@ -48,7 +48,7 @@
         "SNOOZED": "Susturuldu",
         "READ": "Oku",
         "LABELS": "Etiketler",
-        "CONVERSATION_ID": "Sohbet ID"
+        "CONVERSATION_ID": "Sohbet Kodu"
       }
     },
     "ALERTS": {
