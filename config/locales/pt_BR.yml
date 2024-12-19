@@ -66,7 +66,7 @@ pt_BR:
       number_of_records: Limite atingido. O número máximo de filtros personalizados permitidos para um usuário por conta é de 50.
       invalid_attribute: Chave de atributo inválido - [%{key}]. A chave deve ser uma das [%{allowed_keys}] ou um atributo personalizado definido na conta.
       invalid_operator: Operador inválido. Os operadores permitidos para %{attribute_name} são [%{allowed_keys}].
-      invalid_query_operator: Query operator must be either "AND" or "OR".
+      invalid_query_operator: Operador de consulta deve ser "E" ou "OU".
       invalid_value: Valor inválido. Os valores fornecidos para %{attribute_name} são inválidos
   reports:
     period: Reportando o período %{since} a %{until}
