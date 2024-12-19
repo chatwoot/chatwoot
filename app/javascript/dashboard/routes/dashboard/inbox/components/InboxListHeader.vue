@@ -1,11 +1,14 @@
 <script>
 import { useAlert, useTrack } from 'dashboard/composables';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import InboxOptionMenu from './InboxOptionMenu.vue';
 import InboxDisplayMenu from './InboxDisplayMenu.vue';
 
 export default {
   components: {
+    NextButton,
     InboxOptionMenu,
     InboxDisplayMenu,
   },
@@ -77,56 +80,42 @@ export default {
 
 <template>
   <div
-    class="flex items-center justify-between w-full pt-4 pb-2 h-14 ltr:pl-6 rtl:pl-4 rtl:pr-6 ltr:pr-4"
+    class="flex items-center justify-between w-full pt-4 pb-2 h-14 ltr:pl-6 rtl:pl-3 rtl:pr-6 ltr:pr-3"
   >
     <div class="flex items-center gap-1.5">
       <h1 class="text-xl font-medium text-slate-900 dark:text-slate-25">
         {{ $t('INBOX.LIST.TITLE') }}
       </h1>
       <div class="relative">
-        <div
-          role="button"
-          class="flex items-center gap-1 px-2 py-1 border rounded-md border-slate-100 dark:border-slate-700/50"
+        <NextButton
+          :label="$t('INBOX.LIST.DISPLAY_DROPDOWN')"
+          icon="i-lucide-chevron-down"
+          trailing-icon
+          slate
+          xs
+          faded
           @click="openInboxDisplayMenu"
-        >
-          <span
-            class="text-xs font-medium text-center text-slate-600 dark:text-slate-200"
-          >
-            {{ $t('INBOX.LIST.DISPLAY_DROPDOWN') }}
-          </span>
-          <fluent-icon
-            icon="chevron-down"
-            size="12"
-            class="text-slate-600 dark:text-slate-200"
-          />
-        </div>
+        />
         <InboxDisplayMenu
           v-if="showInboxDisplayMenu"
           v-on-clickaway="openInboxDisplayMenu"
-          class="absolute top-9 ltr:left-0 rtl:right-0"
+          class="absolute top-full mt-1 ltr:left-0 rtl:right-0"
           @filter="onFilterChange"
         />
       </div>
     </div>
     <div class="relative flex items-center gap-1">
-      <!-- <woot-button
-        variant="clear"
-        size="small"
-        color-scheme="secondary"
-        icon="filter"
-        @click="openInboxFilter"
-      /> -->
-      <woot-button
-        variant="clear"
-        size="small"
-        color-scheme="secondary"
-        icon="mail-inbox"
+      <NextButton
+        icon="i-lucide-sliders-vertical"
+        slate
+        xs
+        faded
         @click="openInboxOptionsMenu"
       />
       <InboxOptionMenu
         v-if="showInboxOptionMenu"
         v-on-clickaway="openInboxOptionsMenu"
-        class="absolute top-9 ltr:right-0 ltr:md:right-[unset] rtl:left-0 rtl:md:left-[unset]"
+        class="absolute top-full mt-1 ltr:right-0 ltr:lg:right-[unset] rtl:left-0 rtl:md:left-[unset]"
         @option-click="onInboxOptionMenuClick"
       />
     </div>

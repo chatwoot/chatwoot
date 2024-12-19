@@ -2,7 +2,12 @@
 import wootConstants from 'dashboard/constants/globals';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
+  components: {
+    NextButton,
+  },
   emits: ['filter'],
 
   setup() {
@@ -114,40 +119,31 @@ export default {
   >
     <div class="flex items-center justify-between p-3 rounded-t-lg h-11">
       <div class="flex gap-1.5">
-        <fluent-icon
-          icon="arrow-sort"
-          type="outline"
-          size="16"
-          class="text-slate-700 dark:text-slate-100"
-        />
-        <span class="text-xs font-medium text-slate-800 dark:text-slate-100">
+        <span class="i-lucide-arrow-down-up size-3.5 text-n-slate-12" />
+        <span class="text-xs font-medium text-n-slate-12">
           {{ $t('INBOX.DISPLAY_MENU.SORT') }}
         </span>
       </div>
-      <div class="relative">
-        <div
-          role="button"
-          class="h-5 flex gap-1 rounded-md items-center pr-1.5 pl-1 py-0.5 w-[70px] justify-between border-0 outline outline-1 outline-n-container dark:outline-n-strong"
+      <div v-on-clickaway="() => (showSortMenu = false)" class="relative">
+        <NextButton
+          :label="activeSortOption"
+          icon="i-lucide-chevron-down"
+          slate
+          trailing-icon
+          xs
+          outline
+          class="w-20"
           @click="openSortMenu"
-        >
-          <span class="text-xs font-medium text-slate-600 dark:text-slate-300">
-            {{ activeSortOption }}
-          </span>
-          <fluent-icon
-            icon="chevron-down"
-            size="12"
-            class="text-slate-600 dark:text-slate-200"
-          />
-        </div>
+        />
         <div
           v-if="showSortMenu"
-          class="absolute flex flex-col gap-0.5 bg-n-alpha-3 backdrop-blur-[100px] z-60 rounded-md p-0.5 top-0 w-[70px] outline outline-1 outline-n-container dark:outline-n-strong"
+          class="absolute flex flex-col gap-0.5 bg-n-alpha-3 backdrop-blur-[100px] z-60 rounded-lg p-0.5 w-20 top-px outline outline-1 outline-n-container dark:outline-n-strong"
         >
           <div
             v-for="option in sortOptions"
             :key="option.key"
             role="button"
-            class="flex rounded-[4px] h-5 w-full items-center justify-between p-0.5 gap-1"
+            class="flex rounded-md h-5 w-full items-center justify-between px-1.5 py-0.5 gap-1"
             :class="{
               'bg-n-brand/10 dark:bg-n-brand/10': activeSort === option.key,
             }"
@@ -158,25 +154,21 @@ export default {
               :class="{
                 'text-n-blue-text dark:text-n-blue-text':
                   activeSort === option.key,
-                'text-slate-600 dark:text-slate-300': activeSort !== option.key,
+                'text-n-slate-11': activeSort !== option.key,
               }"
             >
               {{ option.name }}
             </span>
-            <fluent-icon
+            <span
               v-if="activeSort === option.key"
-              icon="checkmark"
-              size="14"
-              class="text-n-blue-text dark:text-n-blue-text"
+              class="i-lucide-check size-2.5 text-n-blue-text"
             />
           </div>
         </div>
       </div>
     </div>
     <div>
-      <span
-        class="px-3 py-4 text-xs font-medium text-slate-400 dark:text-slate-400"
-      >
+      <span class="px-3 py-4 text-xs font-medium text-n-slate-11">
         {{ $t('INBOX.DISPLAY_MENU.DISPLAY') }}
       </span>
       <div class="flex flex-col divide-y divide-n-weak dark:divide-n-strong">
