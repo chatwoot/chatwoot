@@ -95,7 +95,7 @@
       "CANCEL": "取消"
     },
     "PRIORITY": {
-      "TITLE": "優先",
+      "TITLE": "優先程度",
       "OPTIONS": {
         "NONE": "無",
         "URGENT": "Urgent",
