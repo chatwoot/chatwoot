@@ -193,8 +193,8 @@
   "CUSTOM_ATTRIBUTES": {
     "BUTTON": "新增自訂屬性",
     "COPY_SUCCESSFUL": "成功複製到剪貼簿",
-    "SHOW_MORE": "Show all attributes",
-    "SHOW_LESS": "Show less attributes",
+    "SHOW_MORE": "顯示所有",
+    "SHOW_LESS": "顯示部分",
     "ACTIONS": {
       "COPY": "Copy attribute",
       "DELETE": "Delete attribute",
@@ -376,8 +376,8 @@
       "LAST_ACTIVITY": "最後活動",
       "REFERER_LINK": "推薦人連結",
       "BLOCKED": "Blocked",
-      "BLOCKED_TRUE": "True",
-      "BLOCKED_FALSE": "False",
+      "BLOCKED_TRUE": "是",
+      "BLOCKED_FALSE": "否",
       "BUTTONS": {
         "CLEAR_FILTERS": "清除查詢條件",
         "UPDATE_SEGMENT": "Update segment",
@@ -496,7 +496,7 @@
         "NO": "否",
         "TRIGGER": {
           "SELECT": "Select value",
-          "INPUT": "Enter value"
+          "INPUT": "輸入文字或數值"
         },
         "VALIDATIONS": {
           "INVALID_NUMBER": "Invalid number",
