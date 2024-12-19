@@ -7,10 +7,7 @@ import {
   snoozedReopenTimeToTimestamp,
   shortenSnoozeTime,
 } from 'dashboard/helper/snoozeHelpers';
-import {
-  NOTIFICATION_TYPES_MAPPING,
-  NOTIFICATION_TYPES_WITHOUT_MESSAGE,
-} from 'dashboard/routes/dashboard/inbox/helpers/InboxViewHelpers';
+import { NOTIFICATION_TYPES_MAPPING } from 'dashboard/routes/dashboard/inbox/helpers/InboxViewHelpers';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -81,13 +78,7 @@ const formatPushMessage = message => {
 };
 
 const formattedMessage = computed(() => {
-  const { notificationType = '' } = props.inboxItem || {};
-  const messageContent = NOTIFICATION_TYPES_WITHOUT_MESSAGE.includes(
-    notificationType
-  )
-    ? `<span class="${getMessageClasses.emphasis}">${meta.value?.sender?.name}:</span> 
-       <span class="${isUnread.value ? getMessageClasses.normalUnread : getMessageClasses.normal}">${primaryActor.value?.messages[0]?.content || t('INBOX.NO_CONTENT')}</span>`
-    : `<span class="${isUnread.value ? getMessageClasses.normalUnread : getMessageClasses.normal}">${formatPushMessage(props.inboxItem?.pushMessageBody || '')}</span>`;
+  const messageContent = `<span class="${isUnread.value ? getMessageClasses.normalUnread : getMessageClasses.normal}">${formatPushMessage(props.inboxItem?.pushMessageBody || '')}</span>`;
 
   return isUnread.value
     ? `<span class="inline-flex w-2 h-2 rounded-full bg-n-iris-10 mb-px ltr:mr-1 rtl:ml-1 flex-shrink-0"></span> ${messageContent}`

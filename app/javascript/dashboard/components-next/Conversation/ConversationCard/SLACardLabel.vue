@@ -19,10 +19,6 @@ const slaStatus = ref({
   icon: null,
 });
 
-const hasSlaThreshold = computed(() => {
-  return slaStatus.value?.threshold;
-});
-
 // TODO: Remove this once we update the helper from utils
 // https://github.com/chatwoot/utils/blob/main/src/sla.ts#L73
 const convertObjectCamelCaseToSnakeCase = object => {
@@ -34,6 +30,10 @@ const convertObjectCamelCaseToSnakeCase = object => {
 
 const appliedSLA = computed(() => props.conversation?.appliedSla);
 const isSlaMissed = computed(() => slaStatus.value?.isSlaMissed);
+
+const hasSlaThreshold = computed(() => {
+  return slaStatus.value?.threshold && appliedSLA.value?.id;
+});
 
 const slaStatusText = computed(() => {
   return slaStatus.value?.type?.toUpperCase();

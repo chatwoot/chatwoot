@@ -14,11 +14,3 @@ export const NOTIFICATION_TYPES_MAPPING = {
   SLA_MISSED_NEXT_RESPONSE: ['i-lucide-heart-crack', 'text-n-ruby-11'],
   SLA_MISSED_RESOLUTION: ['i-lucide-heart-crack', 'text-n-ruby-11'],
 };
-
-export const NOTIFICATION_TYPES_WITHOUT_MESSAGE = [
-  'conversation_creation',
-  'conversation_assignment',
-  'sla_missed_first_response',
-  'sla_missed_next_response',
-  'sla_missed_resolution',
-];
