@@ -72,6 +72,7 @@ export const isAConversationRoute = (
     'inbox_conversation',
     'conversation_through_mentions',
     'conversation_through_unattended',
+    'conversation_through_calling_nudges',
     'conversation_through_inbox',
     'conversations_through_label',
     'conversations_through_team',
