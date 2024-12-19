@@ -1,6 +1,8 @@
 <script setup>
 import { computed } from 'vue';
 
+import MessageMeta from '../MessageMeta.vue';
+
 import { emitter } from 'shared/helpers/mitt';
 import { useMessageContext } from '../provider.js';
 import { useI18n } from 'vue-i18n';
@@ -8,14 +10,15 @@ import { useI18n } from 'vue-i18n';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { MESSAGE_VARIANTS, ORIENTATION } from '../constants';
 
-const { variant, orientation, inReplyTo } = useMessageContext();
+const { variant, orientation, inReplyTo, shouldGroupWithNext } =
+  useMessageContext();
 const { t } = useI18n();
 
 const varaintBaseMap = {
   [MESSAGE_VARIANTS.AGENT]: 'bg-n-solid-blue text-n-slate-12',
   [MESSAGE_VARIANTS.PRIVATE]:
     'bg-n-solid-amber text-n-amber-12 [&_.prosemirror-mention-node]:font-semibold',
-  [MESSAGE_VARIANTS.USER]: 'bg-n-slate-4 text-n-slate-12',
+  [MESSAGE_VARIANTS.USER]: 'bg-n-gray-4 text-n-slate-12',
   [MESSAGE_VARIANTS.ACTIVITY]: 'bg-n-alpha-1 text-n-slate-11 text-sm',
   [MESSAGE_VARIANTS.BOT]: 'bg-n-solid-iris text-n-slate-12',
   [MESSAGE_VARIANTS.TEMPLATE]: 'bg-n-solid-iris text-n-slate-12',
@@ -30,6 +33,16 @@ const orientationMap = {
   [ORIENTATION.RIGHT]: 'rounded-xl rounded-br-sm',
   [ORIENTATION.CENTER]: 'rounded-md',
 };
+
+const flexOrientationClass = computed(() => {
+  const map = {
+    [ORIENTATION.LEFT]: 'justify-start',
+    [ORIENTATION.RIGHT]: 'justify-end',
+    [ORIENTATION.CENTER]: 'justify-center',
+  };
+
+  return map[orientation.value];
+});
 
 const messageClass = computed(() => {
   const classToApply = [varaintBaseMap[variant.value]];
@@ -72,7 +85,7 @@ const previewMessage = computed(() => {
     :class="[
       messageClass,
       {
-        'max-w-md': variant !== MESSAGE_VARIANTS.EMAIL,
+        'max-w-lg': variant !== MESSAGE_VARIANTS.EMAIL,
       },
     ]"
   >
@@ -86,5 +99,16 @@ const previewMessage = computed(() => {
       </span>
     </div>
     <slot />
+    <MessageMeta
+      v-if="!shouldGroupWithNext && variant !== MESSAGE_VARIANTS.ACTIVITY"
+      :class="[
+        flexOrientationClass,
+        variant === MESSAGE_VARIANTS.EMAIL ? 'px-3 pb-3' : '',
+        variant === MESSAGE_VARIANTS.PRIVATE
+          ? 'text-n-amber-12/50'
+          : 'text-n-slate-11',
+      ]"
+      class="mt-2"
+    />
   </div>
 </template>
