@@ -33,7 +33,7 @@ export default {
 
 <template>
   <div
-    class="z-50 flex flex-col w-40 gap-1 py-1 bg-white border divide-y shadow-md dark:bg-slate-900 border-slate-100 dark:border-slate-700/50 rounded-xl divide-slate-100 dark:divide-slate-700/50"
+    class="z-50 flex flex-col w-40 gap-1 bg-n-alpha-3 backdrop-blur-[100px] divide-y py-2 px-2 outline outline-1 outline-n-container shadow-lg rounded-xl divide-n-weak dark:divide-n-strong"
   >
     <div class="flex flex-col">
       <MenuItem

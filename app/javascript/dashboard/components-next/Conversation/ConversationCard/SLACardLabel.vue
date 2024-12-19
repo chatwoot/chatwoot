@@ -31,6 +31,10 @@ const convertObjectCamelCaseToSnakeCase = object => {
 const appliedSLA = computed(() => props.conversation?.appliedSla);
 const isSlaMissed = computed(() => slaStatus.value?.isSlaMissed);
 
+const hasSlaThreshold = computed(() => {
+  return slaStatus.value?.threshold && appliedSLA.value?.id;
+});
+
 const slaStatusText = computed(() => {
   return slaStatus.value?.type?.toUpperCase();
 });
@@ -61,6 +65,10 @@ onUnmounted(() => {
 });
 
 watch(() => props.conversation, updateSlaStatus);
+
+defineExpose({
+  hasSlaThreshold,
+});
 </script>
 
 <template>
