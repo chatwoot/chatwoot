@@ -10,7 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Şifreniz başarıyla değiştirildi",
     "AFTER_EMAIL_CHANGED": "Profiliniz başarıyla güncellendi, lütfen giriş bilgileriniz değiştiği için tekrar giriş yapın",
     "FORM": {
-      "PICTURE": "Profile Picture",
+      "PICTURE": "Profil Resmi",
       "AVATAR": "Profil Resmi",
       "ERROR": "Lütfen form hatalarını düzeltin",
       "REMOVE_IMAGE": "Kaldır",
@@ -61,16 +61,16 @@
         "COPY": "Kopyala"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Alerts",
+        "TITLE": "Sesli Uyarılar",
         "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
-        "PLAY": "Play sound",
+        "PLAY": "Sesi oynat",
         "ALERT_TYPES": {
           "NONE": "Hiç",
-          "MINE": "Assigned",
+          "MINE": "Atanmış",
           "ALL": "Hepsi",
-          "ASSIGNED": "My assigned conversations",
-          "UNASSIGNED": "Unassigned conversations",
-          "NOTME": "Open conversations assigned to others"
+          "ASSIGNED": "Bana atanmış konuşmalar",
+          "UNASSIGNED": "Atanmamış konuşmalar",
+          "NOTME": "Başkalarına atanmış açık konuşmalar"
         },
         "ALERT_COMBINATIONS": {
           "NONE": "You haven't selected any options, you won't receive any audio alerts.",
@@ -277,7 +277,7 @@
     "LABELS": "Etiketler",
     "CUSTOM_ATTRIBUTES": "Özel Nitelikler",
     "AUTOMATION": "Otomasyon",
-    "MACROS": "Makrolar",
+    "MACROS": "Kısayollar",
     "TEAMS": "Ekipler",
     "BILLING": "Fatura",
     "CUSTOM_VIEWS_FOLDER": "Klasörler",
