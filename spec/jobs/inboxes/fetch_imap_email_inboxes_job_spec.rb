@@ -10,7 +10,7 @@ RSpec.describe Inboxes::FetchImapEmailInboxesJob do
 
   it 'enqueues the job' do
     expect { described_class.perform_later }.to have_enqueued_job(described_class)
-      .on_queue('scheduled_jobs')
+      .on_queue('one_min_mailer')
   end
 
   context 'when called' do
