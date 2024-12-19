@@ -68,6 +68,9 @@ class Channel::Email < ApplicationRecord
   private
 
   def ensure_forward_to_email
-    self.forward_to_email ||= "#{SecureRandom.hex}@#{account.inbound_email_domain}"
+    inbox_preference = ENV.fetch('MAILER_INBOUND_INBOX_PREFERENCE', 'false') == 'true'
+    email_domain = inbox_preference && email&.split('@')&.last
+
+    self.forward_to_email ||= "#{SecureRandom.hex}@#{email_domain || account.inbound_email_domain}"
   end
 end
