@@ -99,7 +99,7 @@ tr:
     conversation_traffic_csv:
       timezone: Zaman dilimi
     sla_csv:
-      conversation_id: Sohbet ID
+      conversation_id: Sohbet Kodu
       sla_policy_breached: SLA Policy
       assignee: Assignee
       team: Ekip
