@@ -1087,7 +1087,7 @@ export default {
         inboxIds.push(url.split('inbox/')[1]);
       } else {
         const inboxes = this.$store.getters['inboxes/getInboxes'];
-        inboxIds.push(inboxes.map(inbox => inbox.id));
+        inboxIds.push(...inboxes.map(inbox => inbox.id));
       }
       AccountAPI.assignUnassignedConversations(inboxIds);
       this.showAlert(
