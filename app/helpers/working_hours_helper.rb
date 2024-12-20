@@ -7,8 +7,7 @@ module WorkingHoursHelper
   SHOP_URL_TTL = 24.hours
   WORKING_HOURS_TTL = 12.hours
 
-  def in_working_hours(created_at)
-    account_id = Current.account.id
+  def in_working_hours(account_id, created_at)
     shop_url = fetch_shop_url(account_id)
     return true if shop_url.blank?
 

@@ -82,6 +82,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def instagram_direct_message_conversation
+    Rails.logger.info("Finding Instagram direct message conversation for inbox #{@inbox.id}")
     Conversation.where(conversation_params)
                 .where("additional_attributes ->> 'type' = 'instagram_direct_message'")
   end
@@ -182,6 +183,8 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     return if @outgoing_echo && already_sent_from_chatwoot?
     return if message_content.blank? && all_unsupported_files?
 
+    Rails.logger.info("Building message for inbox #{@inbox.id}")
+
     if template_message?
       template_valid_attachments = template_attachments || []
       template_message_params.zip(template_button_message_params,
@@ -210,23 +213,56 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     @message.save_story_info(story_reply_attributes)
   end
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
   def build_conversation
-    @contact_inbox ||= contact.contact_inboxes.find_by!(source_id: message_source_id)
+    Rails.logger.info('=== Starting build_conversation ===')
+    Rails.logger.info("Contact: #{contact.inspect}")
+    Rails.logger.info("Message source ID: #{message_source_id}")
+
+    @contact_inbox ||= begin
+      inbox = contact.contact_inboxes.find_by!(source_id: message_source_id)
+      Rails.logger.info("Found contact_inbox: #{inbox.inspect}")
+      inbox
+    end
 
     previous_conversation = find_previous_conversation
+    Rails.logger.info("Previous conversation: #{previous_conversation.inspect}")
 
-    new_conversation = Conversation.create!(conversation_params.merge(
-                                              contact_inbox_id: @contact_inbox.id,
-                                              additional_attributes: { type: 'instagram_direct_message' }
-                                            ))
+    Rails.logger.info('=== Creating new conversation with params ===')
+    Rails.logger.info("Account ID: #{@inbox.account_id}")
+    Rails.logger.info("Inbox ID: #{@inbox.id}")
+    Rails.logger.info("Contact ID: #{contact.id}")
+    Rails.logger.info("Contact Inbox ID: #{@contact_inbox.id}")
 
-    ConversationImport.perform_later(new_conversation.id, previous_conversation.id) if previous_conversation.present?
+    conversation_create_params = conversation_params.merge(
+      contact_inbox_id: @contact_inbox.id,
+      additional_attributes: { type: 'instagram_direct_message' }
+    )
+    Rails.logger.info("Final conversation params: #{conversation_create_params.inspect}")
 
-    new_conversation.messages.create!(private_message_params("Conversation with #{contact.name.capitalize} started",
-                                                             new_conversation))
+    new_conversation = Conversation.create!(conversation_create_params)
+    Rails.logger.info("Created new conversation: #{new_conversation.inspect}")
+
+    if previous_conversation.present?
+      Rails.logger.info("Scheduling conversation import for new: #{new_conversation.id}, previous: #{previous_conversation.id}")
+      ConversationImport.perform_later(new_conversation.id, previous_conversation.id)
+    end
+
+    private_message = private_message_params("Conversation with #{contact.name.capitalize} started", new_conversation)
+    Rails.logger.info("Creating private message with params: #{private_message.inspect}")
+    new_conversation.messages.create!(private_message)
+
+    Rails.logger.info('=== Finished build_conversation ===')
     new_conversation
+  rescue StandardError => e
+    Rails.logger.error("Error in build_conversation: #{e.message}")
+    Rails.logger.error(e.backtrace.join("\n"))
+    raise
   end
 
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
   def private_message_params(content, new_conversation)
     { account_id: new_conversation.account_id,
       additional_attributes: { disable_notifications: true },
@@ -241,14 +277,28 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     Conversation.where(conversation_params).order(created_at: :desc).first
   end
 
+  # rubocop:disable Metrics/AbcSize
   def conversation_params
-    {
+    Rails.logger.info('=== Validating conversation_params ===')
+    Rails.logger.info("Inbox: #{@inbox.inspect}")
+    Rails.logger.info("Contact: #{contact.inspect}")
+
+    raise 'Inbox not initialized' if @inbox.nil?
+    raise 'Inbox ID not present' if @inbox.id.nil?
+    raise 'Contact not found' if contact.nil?
+    raise 'Contact ID not present' if contact.id.nil?
+
+    params = {
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       contact_id: contact.id
     }
+
+    Rails.logger.info("Generated conversation params: #{params.inspect}")
+    params
   end
 
+  # rubocop:enable Metrics/AbcSize
   def template_button_message_params
     template_message_button_content.map do |content|
       params = {

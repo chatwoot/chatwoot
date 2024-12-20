@@ -317,7 +317,7 @@ class Conversation < ApplicationRecord
 
   def set_working_hours_attribute
     self.additional_attributes ||= {}
-    self.additional_attributes['working_hours'] = in_working_hours(created_at)
+    self.additional_attributes['working_hours'] = in_working_hours(account_id, created_at)
   end
 
   def log_status_change

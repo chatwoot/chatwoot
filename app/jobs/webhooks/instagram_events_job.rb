@@ -22,8 +22,16 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   def process_entries(entries)
     entries.each do |entry|
       entry = entry.with_indifferent_access
-      messages(entry).each do |messaging|
-        send(@event_name, messaging) if event_name(messaging)
+      begin
+        messages(entry).each do |messaging|
+          if event_name(messaging)
+            Rails.logger.info("Processing Instagram message for entry ID: #{entry[:id]}")
+            send(@event_name, messaging)
+          end
+        end
+      rescue StandardError => e
+        Rails.logger.error("Error processing Instagram entry: #{entry.inspect}")
+        Rails.logger.error(e)
       end
     end
   end

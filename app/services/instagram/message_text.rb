@@ -11,9 +11,13 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
   end
 
   def perform
+    Rails.logger.info("Processing Instagram message text: #{@messaging.inspect}")
     create_test_text
+    Rails.logger.info("Test text created: #{@test_text.inspect}")
     instagram_id, contact_id = instagram_and_contact_ids
+    Rails.logger.info("Instagram and contact IDs: #{instagram_id}, #{contact_id}")
     inbox_channel(instagram_id)
+    Rails.logger.info("Inbox channel: #{@inbox.inspect}")
     # person can connect the channel and then delete the inbox
     return if @inbox.blank?
 
@@ -90,6 +94,7 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
   def create_message
     return unless @contact_inbox
 
+    Rails.logger.info("Creating message for inbox #{@inbox.id}")
     Messages::Instagram::MessageBuilder.new(@messaging, @inbox, outgoing_echo: agent_message_via_echo?).perform
   end
 
