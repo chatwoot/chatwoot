@@ -274,7 +274,12 @@ module CustomReportHelper
   end
 
   def total_calling_nudged_conversations
-    base_query = @account.conversations.where(created_at: @time_range).where("additional_attributes->>'source_context' IS NOT NULL")
+    base_query = @account.conversations
+                         .where("additional_attributes->>'source_context' IS NOT NULL")
+                         .where("(additional_attributes->>'nudge_created')::timestamp BETWEEN ? AND ?
+                         OR (additional_attributes->>'nudge_created' IS NULL AND created_at BETWEEN ? AND ?)",
+                                @time_range.begin, @time_range.end,
+                                @time_range.begin, @time_range.end)
 
     base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
     base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
@@ -286,7 +291,13 @@ module CustomReportHelper
   end
 
   def scheduled_call_conversations
-    base_query = @account.conversations.where(created_at: @time_range).where("additional_attributes->>'source_context' IS NOT NULL").where("custom_attributes->>'calling_status' = 'Scheduled'")
+    base_query = @account.conversations
+                         .where("additional_attributes->>'source_context' IS NOT NULL")
+                         .where("custom_attributes->>'calling_status' = 'Scheduled'")
+                         .where("(additional_attributes->>'nudge_created')::timestamp BETWEEN ? AND ?
+                         OR (additional_attributes->>'nudge_created' IS NULL AND created_at BETWEEN ? AND ?)",
+                                @time_range.begin, @time_range.end,
+                                @time_range.begin, @time_range.end)
 
     base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
     base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
@@ -298,7 +309,13 @@ module CustomReportHelper
   end
 
   def not_picked_up_call_conversations
-    base_query = @account.conversations.where(created_at: @time_range).where("additional_attributes->>'source_context' IS NOT NULL").where("custom_attributes->>'calling_status' = 'Not Picked'")
+    base_query = @account.conversations
+                         .where("additional_attributes->>'source_context' IS NOT NULL")
+                         .where("custom_attributes->>'calling_status' = 'Not Picked'")
+                         .where("(additional_attributes->>'nudge_created')::timestamp BETWEEN ? AND ?
+                         OR (additional_attributes->>'nudge_created' IS NULL AND created_at BETWEEN ? AND ?)",
+                                @time_range.begin, @time_range.end,
+                                @time_range.begin, @time_range.end)
 
     base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
     base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
@@ -310,7 +327,13 @@ module CustomReportHelper
   end
 
   def follow_up_call_conversations
-    base_query = @account.conversations.where(created_at: @time_range).where("additional_attributes->>'source_context' IS NOT NULL").where("custom_attributes->>'calling_status' = 'Follow-up'")
+    base_query = @account.conversations
+                         .where("additional_attributes->>'source_context' IS NOT NULL")
+                         .where("custom_attributes->>'calling_status' = 'Follow-up'")
+                         .where("(additional_attributes->>'nudge_created')::timestamp BETWEEN ? AND ?
+                         OR (additional_attributes->>'nudge_created' IS NULL AND created_at BETWEEN ? AND ?)",
+                                @time_range.begin, @time_range.end,
+                                @time_range.begin, @time_range.end)
 
     base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
     base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
@@ -322,7 +345,13 @@ module CustomReportHelper
   end
 
   def converted_call_conversations
-    base_query = @account.conversations.where(created_at: @time_range).where("additional_attributes->>'source_context' IS NOT NULL").where("custom_attributes->>'calling_status' = 'Converted'")
+    base_query = @account.conversations
+                         .where("additional_attributes->>'source_context' IS NOT NULL")
+                         .where("custom_attributes->>'calling_status' = 'Converted'")
+                         .where("(additional_attributes->>'nudge_created')::timestamp BETWEEN ? AND ?
+                         OR (additional_attributes->>'nudge_created' IS NULL AND created_at BETWEEN ? AND ?)",
+                                @time_range.begin, @time_range.end,
+                                @time_range.begin, @time_range.end)
 
     base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
     base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
@@ -334,7 +363,13 @@ module CustomReportHelper
   end
 
   def dropped_call_conversations
-    base_query = @account.conversations.where(created_at: @time_range).where("additional_attributes->>'source_context' IS NOT NULL").where("custom_attributes->>'calling_status' = 'Dropped'")
+    base_query = @account.conversations
+                         .where("additional_attributes->>'source_context' IS NOT NULL")
+                         .where("custom_attributes->>'calling_status' = 'Dropped'")
+                         .where("(additional_attributes->>'nudge_created')::timestamp BETWEEN ? AND ?
+                         OR (additional_attributes->>'nudge_created' IS NULL AND created_at BETWEEN ? AND ?)",
+                                @time_range.begin, @time_range.end,
+                                @time_range.begin, @time_range.end)
 
     base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
     base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?

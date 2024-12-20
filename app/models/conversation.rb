@@ -386,7 +386,9 @@ class Conversation < ApplicationRecord
         changed_attributes: previous_changes,
         performed_by: Current.executed_by
       )
-    elsif first_call?
+    end
+
+    if first_call?
       # can be one of 3 events
       # 1. first_call = if calling_status went from 'Scheduled' to any other value.
       # 2. call_converted = if calling_status went from any other value to 'Converted'.
@@ -395,15 +397,19 @@ class Conversation < ApplicationRecord
       Rails.logger.info('DISPATCHING FIRST CALL EVENT')
       Rails.configuration.dispatcher.dispatch('conversation.first_call', Time.zone.now, conversation: self, notifiable_assignee_change: false,
                                                                                         changed_attributes: previous_changes, performed_by: Current.executed_by)
-    elsif call_converted?
+    end
+
+    if call_converted?
       Rails.logger.info('DISPATCHING CALL CONVERTED EVENT')
       Rails.configuration.dispatcher.dispatch('conversation.call_converted', Time.zone.now, conversation: self, notifiable_assignee_change: false,
                                                                                             changed_attributes: previous_changes, performed_by: Current.executed_by)
-    elsif call_dropped?
-      Rails.logger.info('DISPATCHING CALL DROPPED EVENT')
-      Rails.configuration.dispatcher.dispatch('conversation.call_dropped', Time.zone.now, conversation: self, notifiable_assignee_change: false,
-                                                                                          changed_attributes: previous_changes, performed_by: Current.executed_by)
     end
+
+    return unless call_dropped?
+
+    Rails.logger.info('DISPATCHING CALL DROPPED EVENT')
+    Rails.configuration.dispatcher.dispatch('conversation.call_dropped', Time.zone.now, conversation: self, notifiable_assignee_change: false,
+                                                                                        changed_attributes: previous_changes, performed_by: Current.executed_by)
   end
   # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/AbcSize
