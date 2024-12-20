@@ -1,6 +1,7 @@
 <script setup>
 import { defineProps, computed } from 'vue';
 import Message from './Message.vue';
+import { MESSAGE_TYPES } from './constants.js';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 
 /**
@@ -51,20 +52,29 @@ const read = computed(() => {
 /**
  * Determines if a message should be grouped with the next message
  * @param {Number} index - Index of the current message
- * @param {Array} messages - Array of messages to check
+ * @param {Array} searchList - Array of messages to check
  * @returns {Boolean} - Whether the message should be grouped with next
  */
-const shouldGroupWithNext = (index, messages) => {
-  if (index === messages.length - 1) return false;
+const shouldGroupWithNext = (index, searchList) => {
+  if (index === searchList.length - 1) return false;
 
-  const current = messages[index];
-  const next = messages[index + 1];
+  const current = searchList[index];
+  const next = searchList[index + 1];
 
   if (next.status === 'failed') return false;
 
   const nextSenderId = next.senderId ?? next.sender?.id;
   const currentSenderId = current.senderId ?? current.sender?.id;
-  if (currentSenderId !== nextSenderId) return false;
+  const hasSameSender = nextSenderId === currentSenderId;
+
+  const nextMessageType = next.messageType;
+  const currentMessageType = current.messageType;
+
+  const areBothTemplates =
+    nextMessageType === MESSAGE_TYPES.TEMPLATE &&
+    currentMessageType === MESSAGE_TYPES.TEMPLATE;
+
+  if (!hasSameSender || !areBothTemplates) return false;
 
   // Check if messages are in the same minute by rounding down to nearest minute
   return Math.floor(next.createdAt / 60) === Math.floor(current.createdAt / 60);
@@ -101,7 +111,7 @@ const getInReplyToMessage = parentMessage => {
         v-bind="message"
         :is-email-inbox="isAnEmailChannel"
         :in-reply-to="getInReplyToMessage(message)"
-        :group-with-next="shouldGroupWithNext(index, readMessages)"
+        :group-with-next="shouldGroupWithNext(index, read)"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :current-user-id="currentUserId"
         data-clarity-mask="True"
@@ -112,7 +122,7 @@ const getInReplyToMessage = parentMessage => {
       <Message
         v-bind="message"
         :in-reply-to="getInReplyToMessage(message)"
-        :group-with-next="shouldGroupWithNext(index, unReadMessages)"
+        :group-with-next="shouldGroupWithNext(index, unread)"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :current-user-id="currentUserId"
         :is-email-inbox="isAnEmailChannel"
