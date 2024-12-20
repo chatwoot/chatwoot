@@ -39,6 +39,7 @@
     "DOWNLOAD": "Baixar",
     "UNKNOWN_FILE_TYPE": "Arquivo Desconhecido",
     "SAVE_CONTACT": "Salvar contato",
+    "NO_CONTENT": "No content to display",
     "SHARED_ATTACHMENT": {
       "CONTACT": "{sender} compartilhou um contato",
       "LOCATION": "{sender} compartilhou uma localização",
