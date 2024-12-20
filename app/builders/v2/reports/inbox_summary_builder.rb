@@ -23,18 +23,6 @@ class V2::Reports::InboxSummaryBuilder < V2::Reports::BaseSummaryBuilder
     account.conversations.where(created_at: range).group(group_by_key).count
   end
 
-  def fetch_resolved_count
-    reporting_events.where(name: 'conversation_resolved').group(group_by_key).count
-  end
-
-  def fetch_average_time(event_name)
-    get_grouped_average(reporting_events.where(name: event_name))
-  end
-
-  def reporting_events
-    @reporting_events ||= account.reporting_events.where(created_at: range)
-  end
-
   def prepare_report
     account.inboxes.map do |inbox|
       build_inbox_stats(inbox)
