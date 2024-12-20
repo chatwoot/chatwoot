@@ -120,23 +120,25 @@ class DailyConversationWithOrderIdsReportJob < ApplicationJob
     end
   end
 
+  # rubocop:disable Layout/LineLength
   def generate_csv(results)
     CSV.generate(headers: true) do |csv|
       csv << [
         'Conversation ID', 'Conversation Link', 'Inbox Name', 'Customer Phone Number', 'Customer Email', 'Customer Instagram',
-        'Customer Name', 'Labels', 'Order ID', 'Conversation Created At', 'Contact Created At'
+        'Customer Name', 'Agent Name', 'Conversation Status', 'Labels', 'Order ID', 'Conversation Created At', 'Contact Created At'
       ]
       results.each do |row|
         csv << [
           row['conversation_display_id'], row['conversation_link'], row['inbox_name'], row['customer_phone_number'], row['customer_email'],
-          row['customer_instagram'], row['customer_name'], row['labels'], row['order_id'], row['conversation_created_at'], row['customer_created_at']
+          row['customer_instagram'], row['customer_name'], row['agent_name'], row['conversation_status'], row['labels'], row['order_id'], row['conversation_created_at'], row['customer_created_at']
         ]
       end
     end
   end
+  # rubocop:enable Layout/LineLength
 
   def upload_csv(account_id, current_date, csv_content)
-    # # for testing locally uncomment below
+    # for testing locally uncomment below
     # puts csv_content
     # csv_url = "daily_conversation_report_#{account_id}_#{current_date}.csv"
     # File.write(csv_url, csv_content)
