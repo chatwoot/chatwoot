@@ -23,7 +23,7 @@ const varaintBaseMap = {
   [MESSAGE_VARIANTS.BOT]: 'bg-n-solid-iris text-n-slate-12',
   [MESSAGE_VARIANTS.TEMPLATE]: 'bg-n-solid-iris text-n-slate-12',
   [MESSAGE_VARIANTS.ERROR]: 'bg-n-ruby-4 text-n-ruby-12',
-  [MESSAGE_VARIANTS.EMAIL]: 'bg-n-alpha-2 w-full',
+  [MESSAGE_VARIANTS.EMAIL]: 'bg-n-gray-4 w-full text-n-slate-12',
   [MESSAGE_VARIANTS.UNSUPPORTED]:
     'bg-n-solid-amber/70 border border-dashed border-n-amber-12 text-n-amber-12',
 };
