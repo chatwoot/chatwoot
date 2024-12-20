@@ -44,7 +44,7 @@ const tailwindConfig = {
       typography: {
         email: {
           css: {
-            color: 'rgb(var(--slate-11))',
+            color: 'rgb(var(--slate-12))',
             lineHeight: '1.6',
             fontSize: '14px',
             '*': {
