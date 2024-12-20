@@ -39,6 +39,7 @@
     "DOWNLOAD": "下载",
     "UNKNOWN_FILE_TYPE": "未知文件",
     "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
     "SHARED_ATTACHMENT": {
       "CONTACT": "{sender} has shared a contact",
       "LOCATION": "{sender} has shared a location",
