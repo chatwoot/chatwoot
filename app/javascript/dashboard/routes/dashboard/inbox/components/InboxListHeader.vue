@@ -80,10 +80,12 @@ export default {
 
 <template>
   <div
-    class="flex items-center justify-between w-full pt-4 pb-2 h-14 ltr:pl-6 rtl:pl-3 rtl:pr-6 ltr:pr-3"
+    class="flex items-center justify-between w-full gap-1 pt-4 pb-2 h-14 ltr:pl-6 rtl:pl-3 rtl:pr-6 ltr:pr-3"
   >
-    <div class="flex items-center gap-1.5">
-      <h1 class="text-xl font-medium text-slate-900 dark:text-slate-25">
+    <div class="flex items-center gap-1.5 min-w-0 flex-1">
+      <h1
+        class="min-w-0 text-xl font-medium truncate text-slate-900 dark:text-slate-25"
+      >
         {{ $t('INBOX.LIST.TITLE') }}
       </h1>
       <div class="relative">
@@ -99,7 +101,7 @@ export default {
         <InboxDisplayMenu
           v-if="showInboxDisplayMenu"
           v-on-clickaway="openInboxDisplayMenu"
-          class="absolute top-full mt-1 ltr:left-0 rtl:right-0"
+          class="absolute mt-1 top-full ltr:left-0 rtl:right-0"
           @filter="onFilterChange"
         />
       </div>

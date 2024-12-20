@@ -70,10 +70,8 @@ const menuItems = computed(() => [
 ]);
 
 const formatPushMessage = message => {
-  return message.replace(/^([^:]+):|@(\w+)/g, (match, name, mention) => {
-    if (name)
-      return `<span class="${getMessageClasses.emphasis}">${name}:</span>`;
-    return `<span class="${getMessageClasses.emphasis}">@${mention}</span>`;
+  return message.replace(/^([^:]+):/g, (match, name) => {
+    return `<span class="${getMessageClasses.emphasis}">${name}:</span>`;
   });
 };
 
@@ -81,7 +79,7 @@ const formattedMessage = computed(() => {
   const messageContent = `<span class="${isUnread.value ? getMessageClasses.normalUnread : getMessageClasses.normal}">${formatPushMessage(props.inboxItem?.pushMessageBody || '')}</span>`;
 
   return isUnread.value
-    ? `<span class="inline-flex w-2 h-2 rounded-full bg-n-iris-10 mb-px ltr:mr-1 rtl:ml-1 flex-shrink-0"></span> ${messageContent}`
+    ? `<span class="inline-flex flex-shrink-0 w-2 h-2 mb-px rounded-full bg-n-iris-10 ltr:mr-1 rtl:ml-1"></span> ${messageContent}`
     : messageContent;
 });
 

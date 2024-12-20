@@ -216,7 +216,7 @@ export default {
       />
       <div
         ref="notificationList"
-        class="flex flex-col gap-px w-full h-[calc(100%-56px)] overflow-x-hidden px-3 overflow-y-auto divide-y divide-n-strong [&>*:hover]:!border-y-transparent [&>*.active]:!border-y-transparent [&>*:hover+*]:!border-t-transparent [&>*.active+*]:!border-t-transparent"
+        class="flex flex-col gap-px w-full h-[calc(100%-56px)] pb-3 overflow-x-hidden px-3 overflow-y-auto divide-y divide-n-strong [&>*:hover]:!border-y-transparent [&>*.active]:!border-y-transparent [&>*:hover+*]:!border-t-transparent [&>*.active+*]:!border-t-transparent"
       >
         <InboxCard
           v-for="notificationItem in notificationsV4"

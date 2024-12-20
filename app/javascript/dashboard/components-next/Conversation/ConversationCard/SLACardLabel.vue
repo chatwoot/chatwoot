@@ -41,7 +41,7 @@ const slaStatusText = computed(() => {
 
 const updateSlaStatus = () => {
   slaStatus.value = evaluateSLAStatus({
-    appliedSla: convertObjectCamelCaseToSnakeCase(appliedSLA.value),
+    appliedSla: convertObjectCamelCaseToSnakeCase(appliedSLA.value || {}),
     chat: props.conversation,
   });
 };
