@@ -25,6 +25,8 @@ class DailyConversationReportJob < ApplicationJob
 
       report_time = job[:report_time]
 
+      mask_data = job[:mask_data] || false
+
       if report_time.present?
         report_time = Time.strptime(report_time, '%H:%M').in_time_zone('Asia/Kolkata').utc.strftime('%H:%M')
         current_time = Time.current.in_time_zone('UTC').strftime('%H:%M')
@@ -50,7 +52,7 @@ class DailyConversationReportJob < ApplicationJob
                 { since: 24.hours.ago, until: Time.current }
               end
 
-      process_account(job[:account_id], current_date, range, false, job[:frequency])
+      process_account(job[:account_id], current_date, range, mask_data, false, job[:frequency])
     end
   end
   # rubocop:enable Metrics/AbcSize
@@ -72,7 +74,8 @@ class DailyConversationReportJob < ApplicationJob
     ActiveRecord::Base.connection.execute("SET statement_timeout = '60s'")
   end
 
-  def process_account(account_id, _current_date, range, bitespeed_bot, frequency = 'daily')
+  # rubocop:disable Metrics/ParameterLists
+  def process_account(account_id, _current_date, range, mask_data, bitespeed_bot, frequency = 'daily')
     report = generate_report(account_id, range)
 
     if report.present?
@@ -81,12 +84,13 @@ class DailyConversationReportJob < ApplicationJob
       start_date = range[:since].strftime('%Y-%m-%d')
       end_date = range[:until].strftime('%Y-%m-%d')
 
-      csv_content = generate_csv(report, start_date, end_date)
+      csv_content = generate_csv(report, start_date, end_date, mask_data)
       upload_csv(account_id, range, csv_content, frequency, bitespeed_bot)
     else
       Rails.logger.info "No data found for account_id: #{account_id}"
     end
   end
+  # rubocop:enable Metrics/ParameterLists
 
   # rubocop:disable Metrics/MethodLength
   def generate_report(account_id, range)
@@ -137,30 +141,52 @@ class DailyConversationReportJob < ApplicationJob
   end
   # rubocop:enable Metrics/MethodLength
 
-  def generate_csv(results, start_date, end_date)
+  # rubocop:disable Metrics/MethodLength
+  def generate_csv(results, start_date, end_date, mask_data)
     CSV.generate(headers: true) do |csv|
       csv << ["Reporting period #{start_date} to #{end_date}"]
-      csv << [
-        'Conversation ID', 'Conversation Link', 'Conversation Created At', 'Contact Created At', 'Inbox Name',
-        'Customer Phone Number', 'Customer Name', 'Agent Name', 'Conversation Status',
-        'First Response Time (minutes)', 'Resolution Time (minutes)', 'Labels'
+      headers = [
+        'Conversation ID', 'Conversation Link', 'Conversation Created At', 'Contact Created At', 'Inbox Name'
       ]
+
+      # Only include customer details in headers if not masking data
+      headers += ['Customer Phone Number', 'Customer Name'] unless mask_data
+
+      headers += ['Agent Name', 'Conversation Status', 'First Response Time (minutes)', 'Resolution Time (minutes)', 'Labels']
+
+      csv << headers
       results.each do |row|
-        csv << [
-          row['conversation_display_id'], row['conversation_link'], row['conversation_created_at'], row['customer_created_at'], row['inbox_name'],
-          row['customer_phone_number'], row['customer_name'], row['agent_name'], row['conversation_status'],
-          row['first_response_time_minutes'], row['resolution_time_minutes'], row['labels']
+        values = [
+          row['conversation_display_id'],
+          row['conversation_link'],
+          row['conversation_created_at'],
+          row['customer_created_at'],
+          row['inbox_name']
         ]
+
+        # Only include customer details in values if not masking data
+        values += [row['customer_phone_number'], row['customer_name']] unless mask_data
+
+        values += [
+          row['agent_name'],
+          row['conversation_status'],
+          row['first_response_time_minutes'],
+          row['resolution_time_minutes'],
+          row['labels']
+        ]
+
+        csv << values
       end
     end
   end
+  # rubocop:enable Metrics/MethodLength
 
   def upload_csv(account_id, range, csv_content, frequency, bitespeed_bot)
     start_date = range[:since].strftime('%Y-%m-%d')
     end_date = range[:until].strftime('%Y-%m-%d')
 
     # Determine the file name based on the frequency
-    file_name = "#{frequency}_conversation_report_#{account_id}_#{end_date}.csv"
+    # file_name = "#{frequency}_conversation_report_#{account_id}_#{end_date}.csv"
 
     # For testing locally, uncomment below
     # puts csv_content
