@@ -39,6 +39,7 @@
     "DOWNLOAD": "Скачать",
     "UNKNOWN_FILE_TYPE": "Неизвестный файл",
     "SAVE_CONTACT": "Сохранить контакт",
+    "NO_CONTENT": "No content to display",
     "SHARED_ATTACHMENT": {
       "CONTACT": "{sender} поделился контактом",
       "LOCATION": "{sender} поделился местоположением",
