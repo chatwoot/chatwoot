@@ -103,6 +103,10 @@ class CustomReportsAPI extends ApiClient {
     return axios.get(`${this.url}/bot_analytics_support_overview`, { params });
   }
 
+  getCurrency() {
+    return axios.get(`${this.url}/shop_currency`);
+  }
+
   downloadCustomAgentOverviewReports({
     since,
     until,

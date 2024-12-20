@@ -57,6 +57,7 @@
     "color2k": "^2.0.2",
     "company-email-validator": "^1.0.8",
     "core-js": "3.11.0",
+    "currency-symbol-map": "^5.1.0",
     "date-fns": "2.21.1",
     "date-fns-tz": "^1.3.3",
     "dompurify": "2.2.7",

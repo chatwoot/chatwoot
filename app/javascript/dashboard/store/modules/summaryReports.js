@@ -11,6 +11,7 @@ export const state = {
   customAgentCallOverviewReports: [],
   customBotAnalyticsSalesOverviewReports: [],
   customBotAnalyticsSupportOverviewReports: [],
+  currency: null,
   uiFlags: {
     isBotAnalyticsSalesOverviewReportsLoading: false,
     isBotAnalyticsSupportOverviewReportsLoading: false,
@@ -47,6 +48,9 @@ export const getters = {
   },
   getUiFlags(_state) {
     return _state.uiFlags;
+  },
+  getCurrency(_state) {
+    return _state.currency;
   },
 };
 
@@ -102,6 +106,14 @@ export const actions = {
       commit('toggleBotAnalyticsSupportOverviewReportsLoading', false);
     } catch (error) {
       commit('toggleBotAnalyticsSupportOverviewReportsLoading', false);
+    }
+  },
+  async fetchCurrency({ commit }) {
+    try {
+      const response = await CustomReportsAPI.getCurrency();
+      commit('setCurrency', response.data.currency);
+    } catch (error) {
+      // Ignore error
     }
   },
   async fetchCustomAgentConversationStatesReports({ commit }, params) {
@@ -160,6 +172,9 @@ export const mutations = {
   },
   setCustomBotAnalyticsSupportOverviewReport(_state, data) {
     Vue.set(_state, 'customBotAnalyticsSupportOverviewReports', data);
+  },
+  setCurrency(_state, data) {
+    Vue.set(_state, 'currency', data);
   },
   toggleBotAnalyticsSalesOverviewReportsLoading(_state, flag) {
     Vue.set(_state.uiFlags, 'isBotAnalyticsSalesOverviewReportsLoading', flag);

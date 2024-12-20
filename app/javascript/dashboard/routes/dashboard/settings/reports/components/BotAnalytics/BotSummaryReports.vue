@@ -55,6 +55,7 @@ import { formatTime } from '@chatwoot/utils';
 import Spinner from 'shared/components/Spinner.vue';
 import reportMixin from './../../../../../../mixins/reportMixin';
 import alertMixin from 'shared/mixins/alertMixin';
+import getSymbolFromCurrency from 'currency-symbol-map';
 
 export default {
   components: {
@@ -163,6 +164,9 @@ export default {
     renderContent(key, value, total) {
       const timeMetrics = ['bot_avg_resolution_time'];
       const financeMetrics = ['bot_revenue_generated'];
+      const currencySymbol = getSymbolFromCurrency(
+        this.$store.getters['summaryReports/getCurrency'] || 'INR'
+      );
 
       const percentageMetrics = ['bot_resolved', 'bot_assign_to_agent'];
 
@@ -170,7 +174,7 @@ export default {
       if (timeMetrics.includes(key)) {
         displayValue = value ? formatTime(value) : '--';
       } else if (financeMetrics.includes(key)) {
-        displayValue = value ? `₹${value.toFixed(2)}` : '--';
+        displayValue = value ? `${currencySymbol}${value.toFixed(2)}` : '--';
       } else {
         displayValue = value;
       }
@@ -191,11 +195,14 @@ export default {
       this.emitFilterChange();
 
       try {
-        await this.$store.dispatch(this.actionKey, {
-          since: from,
-          until: to,
-          selectedLabel,
-        });
+        await Promise.all([
+          this.$store.dispatch('summaryReports/fetchCurrency'),
+          this.$store.dispatch(this.actionKey, {
+            since: from,
+            until: to,
+            selectedLabel,
+          }),
+        ]);
       } finally {
         this.isFetchingData = false;
       }

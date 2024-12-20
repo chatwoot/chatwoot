@@ -3,6 +3,7 @@ import { mapGetters } from 'vuex';
 import MetricCard from '../overview/MetricCard.vue';
 import ReportFilterSelector from './../FilterSelector.vue';
 import Spinner from 'shared/components/Spinner.vue';
+import getSymbolFromCurrency from 'currency-symbol-map';
 const noneTeam = { team_id: 0, name: 'All teams' };
 
 export default {
@@ -27,6 +28,9 @@ export default {
     }),
     conversationMetrics() {
       let metric = {};
+      const currencySymbol = getSymbolFromCurrency(
+        this.$store.getters['summaryReports/getCurrency'] || 'INR'
+      );
       Object.keys(this.botConversationMetric).forEach(key => {
         if (key === 'grouped_data') {
           return;
@@ -39,7 +43,9 @@ export default {
         const metricName = metricNames[key] || '';
         metric[metricName] =
           key === 'bot_total_revenue'
-            ? `₹${(this.botConversationMetric[key] || 0).toFixed(2)}`
+            ? `${currencySymbol}${(
+                this.botConversationMetric[key] || 0
+              ).toFixed(2)}`
             : this.botConversationMetric[key] || 0;
       });
       return metric;

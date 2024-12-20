@@ -1,4 +1,6 @@
 class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseController
+  include BspdAnalyticsHelper
+
   def index
     builder = V2::CustomReportBuilder.new(Current.account, params)
     result = builder.fetch_data
@@ -47,6 +49,10 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
 
   def bot_analytics_support_overview
     render json: build_report(bot_analytics_support_overview_params)
+  end
+
+  def shop_currency
+    render json: { currency: bspd_shop_currency(Current.account.id) }
   end
 
   private
