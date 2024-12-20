@@ -39,6 +39,7 @@
     "DOWNLOAD": "İndir",
     "UNKNOWN_FILE_TYPE": "Bilinmeyen Dosya",
     "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
     "SHARED_ATTACHMENT": {
       "CONTACT": "{sender} has shared a contact",
       "LOCATION": "{sender} has shared a location",
@@ -290,7 +291,7 @@
       "CONVERSATION_INFO": "Konuşma Bilgisi",
       "CONTACT_ATTRIBUTES": "İletişim Nitelikleri",
       "PREVIOUS_CONVERSATION": "Önceki Konuşmalar",
-      "MACROS": "Makrolar"
+      "MACROS": "Kısayollar"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
