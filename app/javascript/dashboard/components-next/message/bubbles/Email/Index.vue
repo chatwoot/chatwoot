@@ -49,8 +49,8 @@ const textToShow = computed(() => {
 
 <template>
   <BaseBubble class="w-full" data-bubble-name="email">
-    <EmailMeta />
-    <section ref="contentContainer" class="p-4">
+    <EmailMeta class="p-3" />
+    <section ref="contentContainer" class="p-3">
       <div
         :class="{
           'max-h-[400px] overflow-hidden relative': !isExpanded && isExpandable,
