@@ -186,7 +186,7 @@ class DailyConversationReportJob < ApplicationJob
     end_date = range[:until].strftime('%Y-%m-%d')
 
     # Determine the file name based on the frequency
-    # file_name = "#{frequency}_conversation_report_#{account_id}_#{end_date}.csv"
+    file_name = "#{frequency}_conversation_report_#{account_id}_#{end_date}.csv"
 
     # For testing locally, uncomment below
     # puts csv_content
