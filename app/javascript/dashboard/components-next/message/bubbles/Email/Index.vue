@@ -59,7 +59,7 @@ const textToShow = computed(() => {
     >
       <div
         v-if="isExpandable && !isExpanded"
-        class="absolute left-0 right-0 bottom-0 h-40 p-8 flex items-end bg-gradient-to-t dark:from-[#24252b] from-[#F5F5F6] dark:via-[rgba(36,37,43,0.5)] via-[rgba(245,245,246,0.50)] dark:to-transparent to-[rgba(245,245,246,0.00)]"
+        class="absolute left-0 right-0 bottom-0 h-40 px-8 flex items-end bg-gradient-to-t from-[#f5f5f6] via-[#f5f5f6] via-20% to-transparent dark:from-[#24252b] dark:via-[#24252b]"
       >
         <button
           class="text-n-slate-12 py-2 px-8 mx-auto text-center flex items-center gap-2"
