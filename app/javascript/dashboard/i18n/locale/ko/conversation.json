@@ -39,6 +39,7 @@
     "DOWNLOAD": "다운로드",
     "UNKNOWN_FILE_TYPE": "알 수 없는 파일",
     "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
     "SHARED_ATTACHMENT": {
       "CONTACT": "{sender} has shared a contact",
       "LOCATION": "{sender} has shared a location",
