@@ -129,16 +129,16 @@ const tailwindConfig = {
             th: {
               padding: '0.75em',
               color: 'rgb(var(--slate-12))',
-              borderBottom: `1px solid rgb(var(--border-strong))`,
+              border: `none`,
               textAlign: 'left',
               fontWeight: '600',
             },
             tr: {
-              borderBottom: `1px solid rgb(var(--border-strong))`,
+              border: `none`,
             },
             td: {
               padding: '0.75em',
-              borderBottom: `1px solid rgb(var(--border-strong))`,
+              border: `none`,
             },
             img: {
               maxWidth: '100%',
