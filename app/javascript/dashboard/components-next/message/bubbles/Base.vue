@@ -81,7 +81,7 @@ const previewMessage = computed(() => {
 
 <template>
   <div
-    class="text-sm min-w-32 break-words"
+    class="text-sm"
     :class="[
       messageClass,
       {
