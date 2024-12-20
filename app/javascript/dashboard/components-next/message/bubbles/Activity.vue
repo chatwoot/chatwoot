@@ -18,8 +18,8 @@ const readableTime = computed(() =>
   >
     <span v-dompurify-html="content" class="truncate" />
     <div v-if="readableTime" class="w-px h-3 rounded-full bg-n-slate-7" />
-    <span class="text-n-slate-10 truncate flex-shrink">
+    <time class="text-n-slate-10 truncate flex-shrink" :title="readableTime">
       {{ readableTime }}
-    </span>
+    </time>
   </BaseBubble>
 </template>
