@@ -12,7 +12,7 @@ import { useCamelCase } from 'dashboard/composables/useTransformKeys';
  * @property {Number} currentUserId - ID of the current user
  * @property {Boolean} isAnEmailChannel - Whether this is an email channel
  * @property {Object} inboxSupportsReplyTo - Inbox reply support configuration
- * @property {Array} messages - Array of all messages
+ * @property {Array} messages - Array of all messages [These are not in camelcase]
  */
 const props = defineProps({
   readMessages: {
