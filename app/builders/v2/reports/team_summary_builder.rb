@@ -1,34 +1,13 @@
 class V2::Reports::TeamSummaryBuilder < V2::Reports::BaseSummaryBuilder
   pattr_initialize [:account!, :params!]
 
-  def build
-    load_data
-    prepare_report
-  end
-
   private
 
   attr_reader :conversations_count, :resolved_count,
               :avg_resolution_time, :avg_first_response_time, :avg_reply_time
 
-  def load_data
-    @conversations_count = fetch_conversations_count
-    @resolved_count = fetch_resolved_count
-    @avg_resolution_time = fetch_average_time('conversation_resolved')
-    @avg_first_response_time = fetch_average_time('first_response')
-    @avg_reply_time = fetch_average_time('reply_time')
-  end
-
   def fetch_conversations_count
     account.conversations.where(created_at: range).group(:team_id).count
-  end
-
-  def fetch_resolved_count
-    reporting_events.where(name: 'conversation_resolved').group(group_by_key).count
-  end
-
-  def fetch_average_time(event_name)
-    get_grouped_average(reporting_events.where(name: event_name))
   end
 
   def reporting_events
