@@ -39,6 +39,7 @@
     "DOWNLOAD": "Lejupielādēt",
     "UNKNOWN_FILE_TYPE": "Nezināms Fails",
     "SAVE_CONTACT": "Saglabāt Kontaktpersonu",
+    "NO_CONTENT": "Nav satura, ko parādīt",
     "SHARED_ATTACHMENT": {
       "CONTACT": "{sender} kopīgoja kontaktpersonu",
       "LOCATION": "{sender} kopīgoja atrašanās vietu",
