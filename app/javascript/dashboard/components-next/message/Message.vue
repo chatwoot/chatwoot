@@ -218,9 +218,11 @@ const gridTemplate = computed(() => {
   const map = {
     [ORIENTATION.LEFT]: `
       "avatar bubble"
+      "spacer meta"
     `,
     [ORIENTATION.RIGHT]: `
       "bubble"
+      "meta"
     `,
   };
 
