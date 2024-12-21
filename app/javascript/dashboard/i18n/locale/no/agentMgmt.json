@@ -3,8 +3,8 @@
     "HEADER": "Agenter",
     "HEADER_BTN_TXT": "Legg til agent",
     "LOADING": "Henter agentliste",
-    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
-    "LEARN_MORE": "Learn about user roles",
+    "DESCRIPTION": "En agent er et medlem av kundestøtteteamet som kan se og svare på brukermeldinger. Listen nedenfor viser alle agenter på kontoen din.",
+    "LEARN_MORE": "Lær om brukerroller",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrator",
       "AGENT": "Agent"
@@ -19,7 +19,7 @@
       "ACTIONS": "Handlinger",
       "VERIFIED": "Verifisert",
       "VERIFICATION_PENDING": "Verifisering venter",
-      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+      "AVAILABLE_CUSTOM_ROLE": "Tilgjengelige egendefinerte rolletillatelser"
     },
     "ADD": {
       "TITLE": "Legg til agent i teamet ditt",
@@ -78,8 +78,8 @@
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "Tilgjengelighet",
-          "PLACEHOLDER": "Please select an availability status",
-          "ERROR": "Availability is required"
+          "PLACEHOLDER": "Vennligst velg en tilgjengelighet status",
+          "ERROR": "Tilgjengelighet er påkrevd"
         },
         "SUBMIT": "Rediger agent"
       },
@@ -97,23 +97,23 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "No results found."
+      "NO_RESULTS": "Ingen resultater funnet."
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "None",
+      "PLACEHOLDER": "Ingen",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "Velg agent",
+        "TEAM": "Velg gruppe"
       },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Ingen agenter funnet",
-          "TEAM": "No teams found"
+          "TEAM": "Ingen grupper funnet"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams",
-          "INPUT": "Search for agents"
+          "AGENT": "Søk etter agenter",
+          "TEAM": "Søk blant grupper",
+          "INPUT": "Søk etter agenter"
         }
       }
     }
