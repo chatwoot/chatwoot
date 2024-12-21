@@ -158,12 +158,12 @@ class FilterService
     table_name = attribute_model == 'conversation_attribute' ? 'conversations' : 'contacts'
 
     query = if attribute_data_type == 'text'
-              "LOWER(#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
+              " ( LOWER(#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} "
             else
-              "(#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
+              " ( (#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value}  "
             end
 
-    query + not_in_custom_attr_query(table_name, query_hash, attribute_data_type)
+    query + not_in_custom_attr_query(table_name, query_hash, attribute_data_type) + " #{query_operator} "
   end
 
   def custom_attribute(attribute_key, account, custom_attribute_type)
@@ -175,9 +175,9 @@ class FilterService
   end
 
   def not_in_custom_attr_query(table_name, query_hash, attribute_data_type)
-    return '' unless query_hash[:filter_operator] == 'not_equal_to'
+    return ')' unless query_hash[:filter_operator] == 'not_equal_to'
 
-    " OR (#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} IS NULL "
+    " OR (#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} IS NULL )"
   end
 
   def equals_to_filter_string(filter_operator, current_index)
