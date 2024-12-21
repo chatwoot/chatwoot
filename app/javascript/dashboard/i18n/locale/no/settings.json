@@ -229,7 +229,7 @@
     "FILE_BUBBLE": {
       "DOWNLOAD": "Last ned",
       "UPLOADING": "Laster opp...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+      "INSTAGRAM_STORY_UNAVAILABLE": "Denne historien er ikke lenger tilgjengelig."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -256,7 +256,7 @@
     "CONVERSATIONS": "Samtaler",
     "INBOX": "Inbox",
     "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Mentions",
+    "MENTIONED_CONVERSATIONS": "Omtale",
     "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "Rapporter",
