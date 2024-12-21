@@ -252,12 +252,12 @@
           },
           "TEAM": {
             "LABEL": "Team",
-            "PLACEHOLDER": "Select team",
+            "PLACEHOLDER": "Velg gruppe",
             "SEARCH": "Search team",
             "REQUIRED_ERROR": "Team is required"
           },
           "ASSIGNEE": {
-            "LABEL": "Assignee",
+            "LABEL": "Agent",
             "PLACEHOLDER": "Select assignee",
             "SEARCH": "Search assignee"
           },
@@ -292,7 +292,7 @@
       "ISSUE": {
         "STATUS": "Satus",
         "PRIORITY": "Priority",
-        "ASSIGNEE": "Assignee",
+        "ASSIGNEE": "Agent",
         "LABELS": "Etiketter",
         "CREATED_AT": "Created at {createdAt}"
       },
