@@ -83,8 +83,8 @@
       "CONFIRM": {
         "TITLE": "Confirm deletion",
         "MESSAGE": "Er du sikker på at du vil slette ",
-        "YES": "Yes, delete ",
-        "NO": "No, keep "
+        "YES": "Ja, slett ",
+        "NO": "Nei, behold "
       }
     }
   }
