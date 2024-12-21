@@ -453,7 +453,7 @@
       "OPEN": "Åpne",
       "UNATTENDED": "Unattended",
       "UNASSIGNED": "Ikke tildelt",
-      "PENDING": "Pending"
+      "PENDING": "Ventende"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
@@ -504,8 +504,8 @@
       "SEARCH": "Search filter",
       "INPUT_PLACEHOLDER": {
         "SLA": "SLA name",
-        "AGENTS": "Agent name",
-        "INBOXES": "Inbox name",
+        "AGENTS": "Agent navn",
+        "INBOXES": "Navn på innboks",
         "LABELS": "Etikettens navn",
         "TEAMS": "Team name"
       },
