@@ -6,10 +6,10 @@
     "LIST": {
       "404": "Det er ingen aktive samtaler i denne gruppen."
     },
-    "FAILED_TO_SEND": "Failed to send",
+    "FAILED_TO_SEND": "Kunne ikke sende",
     "TAB_HEADING": "Samtaler",
-    "MENTION_HEADING": "Mentions",
-    "UNATTENDED_HEADING": "Unattended",
+    "MENTION_HEADING": "Omtale",
+    "UNATTENDED_HEADING": "Udeltatt",
     "SEARCH": {
       "INPUT": "Søk etter personer, samtaler, lagrede svar .."
     },
@@ -27,17 +27,17 @@
         "TEXT": "Løst"
       },
       "pending": {
-        "TEXT": "Pending"
+        "TEXT": "Ventende"
       },
       "snoozed": {
-        "TEXT": "Snoozed"
+        "TEXT": "Slumret"
       },
       "all": {
         "TEXT": "Alle"
       }
     },
     "VIEW_FILTER": "Vis",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "Sorter samtaler",
     "CHAT_SORT": {
       "STATUS": "Satus",
       "ORDER_BY": "Order by"
