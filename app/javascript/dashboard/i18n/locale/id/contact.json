@@ -245,7 +245,7 @@
     "VALIDATIONS": {
       "REQUIRED": "Nilai yang valid diperlukan",
       "INVALID_URL": "URL tidak valid",
-      "INVALID_INPUT": "Invalid Input"
+      "INVALID_INPUT": "Masukan Tidak Valid"
     }
   },
   "MERGE_CONTACTS": {
@@ -293,21 +293,21 @@
       },
       "ACTIONS": {
         "CONTACT_CREATION": {
-          "ADD_CONTACT": "Add contact",
-          "EXPORT_CONTACT": "Export contacts",
+          "ADD_CONTACT": "Tambahkan kontak",
+          "EXPORT_CONTACT": "Ekspor kontak",
           "IMPORT_CONTACT": "Import contacts",
-          "SAVE_CONTACT": "Save contact",
+          "SAVE_CONTACT": "Simpan kontak",
           "EMAIL_ADDRESS_DUPLICATE": "Alamat email ini digunakan untuk kontak lain.",
           "PHONE_NUMBER_DUPLICATE": "Nomor ini sudah digunakan oleh kontak lain.",
           "SUCCESS_MESSAGE": "Kontak berhasil disimpan",
           "ERROR_MESSAGE": "Unable to save contact. Please try again later."
         },
         "IMPORT_CONTACT": {
-          "TITLE": "Import contacts",
+          "TITLE": "Impor kontak",
           "DESCRIPTION": "Impor kontak melalui file CSV.",
           "DOWNLOAD_LABEL": "Unduh contoh file CSV.",
           "LABEL": "File CSV:",
-          "CHOOSE_FILE": "Choose file",
+          "CHOOSE_FILE": "Pilih berkas",
           "CHANGE": "Ubah",
           "CANCEL": "Batalkan",
           "IMPORT": "Impor",
@@ -315,7 +315,7 @@
           "ERROR_MESSAGE": "Terjadi kesalahan, harap coba lagi"
         },
         "EXPORT_CONTACT": {
-          "TITLE": "Export contacts",
+          "TITLE": "Ekspor kontak",
           "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
           "CONFIRM": "Ekspor",
           "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
@@ -544,7 +544,7 @@
     "EMPTY_STATE": {
       "TITLE": "No contacts found in this account",
       "SUBTITLE": "Start adding new contacts by clicking on the button below",
-      "BUTTON_LABEL": "Add contact",
+      "BUTTON_LABEL": "Tambahkan kontak",
       "SEARCH_EMPTY_STATE_TITLE": "Tidak ada kontak yang cocok dengan pencarian Anda 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋"
     }
