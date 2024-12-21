@@ -235,7 +235,7 @@
         "ERROR": "",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+        "LINK_TITLE": "Conversa (#{conversationId}) com {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -258,33 +258,33 @@
           },
           "ASSIGNEE": {
             "LABEL": "Responsável",
-            "PLACEHOLDER": "Select assignee",
-            "SEARCH": "Search assignee"
+            "PLACEHOLDER": "Selecione o atribuído",
+            "SEARCH": "Pesquisar atribuído"
           },
           "PRIORITY": {
             "LABEL": "Prioridade",
             "PLACEHOLDER": "Selecionar prioridade",
-            "SEARCH": "Search priority"
+            "SEARCH": "Selecionar prioridade"
           },
           "LABEL": {
             "LABEL": "Nome do campo",
             "PLACEHOLDER": "Selecione o marcador",
-            "SEARCH": "Search label"
+            "SEARCH": "Pesquisar marcador "
           },
           "STATUS": {
             "LABEL": "SItuação",
-            "PLACEHOLDER": "Select status",
-            "SEARCH": "Search status"
+            "PLACEHOLDER": "Selecione Status",
+            "SEARCH": "Pesquisar status"
           },
           "PROJECT": {
-            "LABEL": "Project",
-            "PLACEHOLDER": "Select project",
-            "SEARCH": "Search project"
+            "LABEL": "Projeto",
+            "PLACEHOLDER": "Selecionar projeto",
+            "SEARCH": "Pesquisar projeto"
           }
         },
         "CREATE": "Criar",
         "CANCEL": "Cancelar",
-        "CREATE_SUCCESS": "Issue created successfully",
+        "CREATE_SUCCESS": "Pasta criada com sucesso",
         "CREATE_ERROR": "There was an error creating the issue, please try again",
         "LOADING_TEAM_ERROR": "Houve um erro ao buscar as equipes, por favor, tente novamente",
         "LOADING_TEAM_ENTITIES_ERROR": "Houve um erro ao buscar as entidades da equipe, por favor, tente novamente"
@@ -294,7 +294,7 @@
         "PRIORITY": "Prioridade",
         "ASSIGNEE": "Responsável",
         "LABELS": "Marcadores",
-        "CREATED_AT": "Created at {createdAt}"
+        "CREATED_AT": "Criado em {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Desvincular",
