@@ -218,9 +218,11 @@ const gridTemplate = computed(() => {
   const map = {
     [ORIENTATION.LEFT]: `
       "avatar bubble"
+      "spacer meta"
     `,
     [ORIENTATION.RIGHT]: `
       "bubble"
+      "meta"
     `,
   };
 
@@ -399,6 +401,7 @@ provideMessageContext({
         class="[grid-area:bubble] flex"
         :class="{
           'pl-9 justify-end': orientation === ORIENTATION.RIGHT,
+          'min-w-0': variant === MESSAGE_VARIANTS.EMAIL,
         }"
         @contextmenu="openContextMenu($event)"
       >

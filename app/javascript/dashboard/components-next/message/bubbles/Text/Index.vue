@@ -19,20 +19,22 @@ const isEmpty = computed(() => {
 </script>
 
 <template>
-  <BaseBubble class="flex flex-col gap-3 px-4 py-3" data-bubble-name="text">
-    <span v-if="isEmpty" class="text-n-slate-11">
-      {{ $t('CONVERSATION.NO_CONTENT') }}
-    </span>
-    <FormattedContent v-if="content" :content="content" />
-    <AttachmentChips :attachments="attachments" class="gap-2" />
-    <template v-if="isTemplate">
-      <div
-        v-if="contentAttributes.submittedEmail"
-        class="px-2 py-1 rounded-lg bg-n-alpha-3"
-      >
-        {{ contentAttributes.submittedEmail }}
-      </div>
-    </template>
+  <BaseBubble class="px-4 py-3" data-bubble-name="text">
+    <div class="gap-3 flex flex-col">
+      <span v-if="isEmpty" class="text-n-slate-11">
+        {{ $t('CONVERSATION.NO_CONTENT') }}
+      </span>
+      <FormattedContent v-if="content" :content="content" />
+      <AttachmentChips :attachments="attachments" class="gap-2" />
+      <template v-if="isTemplate">
+        <div
+          v-if="contentAttributes.submittedEmail"
+          class="px-2 py-1 rounded-lg bg-n-alpha-3"
+        >
+          {{ contentAttributes.submittedEmail }}
+        </div>
+      </template>
+    </div>
   </BaseBubble>
 </template>
 
