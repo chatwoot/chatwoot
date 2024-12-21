@@ -623,7 +623,11 @@ export default {
     }
 
     .reply-box {
-      @apply border border-solid border-slate-75 dark:border-slate-600 max-w-[75rem] w-[70%];
+      @apply border border-n-weak max-w-[75rem] w-[70%];
+
+      &.is-private {
+        @apply dark:border-n-amber-3/30 border-n-amber-12/5;
+      }
     }
 
     .reply-box .reply-box__top {
