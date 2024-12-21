@@ -16,6 +16,8 @@ json.data do
       json.primary_actor notification.primary_actor.push_event_data
       json.read_at notification.read_at
       # Secondary actor could be nil for cases like system assigning conversation
+      json.secondary_actor_type notification.secondary_actor_type
+      json.secondary_actor_id notification.secondary_actor_id
       json.secondary_actor notification.secondary_actor&.push_event_data
       json.user notification.user.push_event_data
       json.created_at notification.created_at.to_i
