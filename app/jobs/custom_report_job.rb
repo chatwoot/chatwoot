@@ -175,7 +175,7 @@ class CustomReportJob < ApplicationJob
     csv_url = Rails.application.routes.url_helpers.url_for(blob)
 
     # Send email with the CSV URL
-    subject = "#{grouped_by.capitalize} Report from #{start_date} to #{end_date}"
+    subject = "#{grouped_by.capitalize} Report from #{start_date} to #{end_date} | #{account.name.capitalize}"
     body_html = <<~HTML
       <p>Hello,</p>
 

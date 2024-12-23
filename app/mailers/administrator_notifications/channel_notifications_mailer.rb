@@ -54,7 +54,7 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
   def daily_conversation_report(csv_url, current_date)
     return unless smtp_config_set_or_development?
 
-    subject = "Daily Conversation Report for #{current_date}"
+    subject = "Daily Conversation Report for #{current_date} | #{Current.account.name.capitalize}"
     @action_url = csv_url
     send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
   end
@@ -62,7 +62,7 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
   def weekly_conversation_report(csv_url, since_date, until_date)
     return unless smtp_config_set_or_development?
 
-    subject = "Weekly Conversation Report from #{since_date} to #{until_date}"
+    subject = "Weekly Conversation Report from #{since_date} to #{until_date} | #{Current.account.name.capitalize}"
     @action_url = csv_url
     send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
   end
@@ -70,7 +70,7 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
   def custom_conversation_report(csv_url, since_date, until_date, bitespeed_bot)
     return unless smtp_config_set_or_development?
 
-    subject = "Conversation Report from #{since_date} to #{until_date}"
+    subject = "Conversation Report from #{since_date} to #{until_date} | #{Current.account.name.capitalize}"
     @action_url = csv_url
     recipients = admin_emails
     recipients += ['jaideep+chatwootdebugreports@bitespeed.co', 'aryanm@bitespeed.co'] if bitespeed_bot
@@ -80,7 +80,7 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
   def daily_agent_report(csv_url, current_date)
     return unless smtp_config_set_or_development?
 
-    subject = "Daily Agent Report for #{current_date}"
+    subject = "Daily Agent Report for #{current_date} | #{Current.account.name.capitalize}"
     @action_url = csv_url
     send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
   end
@@ -88,7 +88,7 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
   def weekly_agent_report(csv_url, since_date, until_date)
     return unless smtp_config_set_or_development?
 
-    subject = "Weekly Agent Report from #{since_date} to #{until_date}"
+    subject = "Weekly Agent Report from #{since_date} to #{until_date} | #{Current.account.name.capitalize}"
     @action_url = csv_url
     send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
   end
@@ -96,7 +96,7 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
   def monthly_agent_report(csv_url, since_date, until_date)
     return unless smtp_config_set_or_development?
 
-    subject = "Monthly Agent Report from #{since_date} to #{until_date}"
+    subject = "Monthly Agent Report from #{since_date} to #{until_date} | #{Current.account.name.capitalize}"
     @action_url = csv_url
     send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
   end
@@ -104,7 +104,7 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
   def custom_agent_report(csv_url, since_date, until_date, bitespeed_bot)
     return unless smtp_config_set_or_development?
 
-    subject = "Agent Report from #{since_date} to #{until_date}"
+    subject = "Agent Report from #{since_date} to #{until_date} | #{Current.account.name.capitalize}"
     @action_url = csv_url
     recipients = admin_emails
     recipients += ['jaideep+chatwootdebugreports@bitespeed.co', 'aryanm@bitespeed.co', 'vinayaktrivedi@bitespeed.co'] if bitespeed_bot
@@ -114,7 +114,7 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
   def daily_label_report(csv_url, current_date)
     return unless smtp_config_set_or_development?
 
-    subject = "Daily Label Report for #{current_date}"
+    subject = "Daily Label Report for #{current_date} | #{Current.account.name.capitalize}"
     @action_url = csv_url
     send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
   end
@@ -122,7 +122,7 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
   def weekly_label_report(csv_url, since_date, until_date)
     return unless smtp_config_set_or_development?
 
-    subject = "Weekly Label Report from #{since_date} to #{until_date}"
+    subject = "Weekly Label Report from #{since_date} to #{until_date} | #{Current.account.name.capitalize}"
     @action_url = csv_url
     send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
   end
@@ -130,7 +130,7 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
   def monthly_label_report(csv_url, since_date, until_date)
     return unless smtp_config_set_or_development?
 
-    subject = "Monthly Label Report from #{since_date} to #{until_date}"
+    subject = "Monthly Label Report from #{since_date} to #{until_date} | #{Current.account.name.capitalize}"
     @action_url = csv_url
     send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
   end
