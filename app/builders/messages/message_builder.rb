@@ -13,6 +13,7 @@ class Messages::MessageBuilder
     @automation_rule = content_attributes&.dig(:automation_rule_id)
     @ignore_automation_rules = params[:ignore_automation_rules]
     @disable_notifications = params[:disable_notifications]
+    @disable_webhook_notifications = params[:disable_webhook_notifications]
     @parent_source_id = params[:parent_source_id]
     return unless params.instance_of?(ActionController::Parameters)
 
@@ -182,6 +183,16 @@ class Messages::MessageBuilder
     @disable_notifications.present? && @disable_notifications == 'true' ? { additional_attributes: { disable_notifications: true } } : {}
   end
 
+  def disable_webhook_notifications
+    if @disable_webhook_notifications.present? && @disable_webhook_notifications == 'true'
+      {
+        additional_attributes: { disable_webhook_notifications: true }
+      }
+    else
+      {}
+    end
+  end
+
   def message_sender
     return if @params[:sender_type] != 'AgentBot'
 
@@ -202,7 +213,7 @@ class Messages::MessageBuilder
       in_reply_to: @in_reply_to,
       echo_id: @params[:echo_id],
       source_id: @params[:source_id]
-    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params).merge(ignore_automation_rules).merge(disable_notifications).merge(template_params_stringified)
+    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params).merge(ignore_automation_rules).merge(disable_notifications).merge(disable_webhook_notifications).merge(template_params_stringified)
   end
   # rubocop:enable Layout/LineLength
 end

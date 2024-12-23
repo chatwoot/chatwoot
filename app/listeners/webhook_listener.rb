@@ -89,7 +89,11 @@ class WebhookListener < BaseListener
 
   def ignore_message_created_event?(event)
     message = event.data[:message]
-    backpopulated_message?(message)
+    backpopulated_message?(message) || ignore_webhook_notification_trigger?(message)
+  end
+
+  def ignore_webhook_notification_trigger?(message)
+    message.additional_attributes['disable_webhook_notifications'].present? && message.additional_attributes['disable_webhook_notifications']
   end
 
   def backpopulated_message?(message)
