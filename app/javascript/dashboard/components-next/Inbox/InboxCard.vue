@@ -36,7 +36,8 @@ const contextMenuPosition = ref({ x: null, y: null });
 const slaCardLabel = ref(null);
 
 const getMessageClasses = {
-  emphasis: 'text-sm font-medium text-n-slate-12',
+  emphasis: 'text-sm font-medium text-n-slate-11',
+  emphasisUnread: 'text-sm font-medium text-n-slate-12',
   normal: 'text-sm font-normal text-n-slate-11',
   normalUnread: 'text-sm text-n-slate-12',
 };
@@ -71,7 +72,7 @@ const menuItems = computed(() => [
 
 const formatPushMessage = message => {
   return message.replace(/^([^:]+):/g, (match, name) => {
-    return `<span class="${getMessageClasses.emphasis}">${name}:</span>`;
+    return `<span class="${isUnread.value ? getMessageClasses.emphasisUnread : getMessageClasses.emphasis}">${name}:</span>`;
   });
 };
 
@@ -165,9 +166,13 @@ onBeforeMount(contextMenuActions.close);
                 ? 'i-lucide-alarm-clock-plus'
                 : 'i-lucide-alarm-clock-off'
             "
-            class="flex-shrink-0 size-4 text-n-blue-text"
+            class="flex-shrink-0 size-4"
+            :class="!isUnread ? 'text-n-slate-11' : 'text-n-blue-text'"
           />
-          <span class="text-xs font-medium truncate text-n-blue-text">
+          <span
+            class="text-xs font-medium truncate"
+            :class="!isUnread ? 'text-n-slate-11' : 'text-n-blue-text'"
+          >
             {{ snoozedText }}
           </span>
         </div>
@@ -177,12 +182,12 @@ onBeforeMount(contextMenuActions.close);
         >
           <Icon
             :icon="notificationDetails.icon"
-            :class="notificationDetails.color"
+            :class="isUnread ? notificationDetails.color : 'text-n-slate-11'"
             class="flex-shrink-0 size-4"
           />
           <span
             class="text-xs font-medium truncate"
-            :class="notificationDetails.color"
+            :class="isUnread ? notificationDetails.color : 'text-n-slate-11'"
           >
             {{ notificationDetails.text }}
           </span>
@@ -194,6 +199,9 @@ onBeforeMount(contextMenuActions.close);
           ref="slaCardLabel"
           :conversation="primaryActor"
           class="[&>span]:text-xs"
+          :class="
+            !isUnread && '[&>span]:text-n-slate-11 [&>div>svg]:fill-n-slate-11'
+          "
         />
         <div v-if="hasSlaThreshold" class="w-px h-3 rounded-sm bg-n-slate-4" />
         <CardPriorityIcon
