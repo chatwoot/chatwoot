@@ -303,8 +303,11 @@
         "MESSAGE": "Are you sure you want to delete the integration?"
       },
       "ADD_TITLE": "Enter the Cal ID user's slug you wish to integrate with.",
-      "ADD_MESSAGE": "This will send an integration request to the specified user's Cal account, which will require approval from their side.",
-      "PROCEED":"Send request"
+      "ADD_MESSAGE": "Note: This will send an integration request to the specified user's Cal account, which can be viewed in the side panel of the Cal app.",
+      "PROCEED": "Send request",
+      "API": {
+        "MESSAGE": "Request Raised Successfully"
+      }
     },
     "ADD": {
       "API": {
