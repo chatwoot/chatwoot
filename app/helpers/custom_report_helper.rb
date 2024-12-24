@@ -197,11 +197,13 @@ module CustomReportHelper
   end
 
   def bot_resolved
+    newly_created_conversations = @account.conversations.where(created_at: @time_range)
+
     # Get conversations that were resolved in the time range
-    base_query = @account.reporting_events.select('DISTINCT ON (conversation_id) *').joins(:conversation)
-                         .where(name: 'conversation_resolved', created_at: @time_range, conversations: {
-                                  created_at: @time_range
-                                }).order('created_at DESC')
+    base_query = @account.reporting_events.select('DISTINCT ON (conversation_id) *')
+                         .where(name: 'conversation_resolved', created_at: @time_range)
+                         .where(conversation_id: newly_created_conversations.pluck(:id))
+                         .order('created_at DESC')
 
     # Apply filters
     base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
