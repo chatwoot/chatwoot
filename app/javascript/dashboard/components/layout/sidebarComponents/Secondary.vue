@@ -138,7 +138,11 @@ export default {
         modalName: 'AddLabel',
         dataTestid: 'sidebar-new-label-button',
         children: this.labels
-          .filter(label => label.title !== 'calling-nudge')
+          .filter(
+            label =>
+              label.title !== 'calling-nudge' &&
+              label.title !== 'pre-sale-query'
+          )
           .map(label => ({
             id: label.id,
             label: label.title,

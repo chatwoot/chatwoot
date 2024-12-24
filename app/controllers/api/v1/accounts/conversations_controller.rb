@@ -36,6 +36,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
                              intent: intent
                            )
                          })
+
+    @conversation.add_label('pre-sale-query') if intent == 'PRE_SALES'
     head :ok
   end
 

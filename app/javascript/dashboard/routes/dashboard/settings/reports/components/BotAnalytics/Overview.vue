@@ -38,7 +38,7 @@ export default {
         const metricNames = {
           bot_total_revenue: 'Total Revenue Generated',
           sales_ooo_hours: 'Sales generated during OOO hours',
-          bot_handled: 'Total Queries Automated',
+          bot_resolved: 'Total Queries Resolved',
         };
         const metricName = metricNames[key] || '';
         metric[metricName] =

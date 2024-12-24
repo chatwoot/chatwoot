@@ -131,9 +131,16 @@ export default {
         // Add safety checks for data access
         const workingHours = groupedData[key]?.working_hours || 0;
         const nonWorkingHours = groupedData[key]?.non_working_hours || 0;
-        const totalBotHandled =
-          (groupedData.bot_handled?.working_hours || 0) +
-          (groupedData.bot_handled?.non_working_hours || 0);
+        let workingTotal = groupedData.bot_handled?.working_hours || 0;
+        let nonWorkingTotal = groupedData.bot_handled?.non_working_hours || 0;
+
+        if (key === 'bot_orders_placed') {
+          workingTotal = groupedData.pre_sale_queries?.working_hours || 0;
+          nonWorkingTotal =
+            groupedData.pre_sale_queries?.non_working_hours || 0;
+        }
+
+        const totalBotHandled = workingTotal + nonWorkingTotal;
 
         // TODO: fix total value for avg resolution time
         const totalValue =
@@ -146,9 +153,9 @@ export default {
           outOfOffice: this.renderContent(
             key,
             nonWorkingHours,
-            totalBotHandled
+            nonWorkingTotal
           ),
-          workHours: this.renderContent(key, workingHours, totalBotHandled),
+          workHours: this.renderContent(key, workingHours, workingTotal),
           total: this.renderContent(key, totalValue, totalBotHandled),
         });
       });
@@ -168,7 +175,11 @@ export default {
         this.$store.getters['summaryReports/getCurrency'] || 'INR'
       );
 
-      const percentageMetrics = ['bot_resolved', 'bot_assign_to_agent'];
+      const percentageMetrics = [
+        'bot_resolved',
+        'bot_assign_to_agent',
+        'bot_orders_placed',
+      ];
 
       let displayValue;
       if (timeMetrics.includes(key)) {

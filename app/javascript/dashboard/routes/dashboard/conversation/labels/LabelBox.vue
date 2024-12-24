@@ -80,15 +80,22 @@ export default {
       labelUiFlags: 'conversationLabels/getUIFlags',
     }),
     filteredActiveLabels() {
-      return this.activeLabels.filter(label => label.title !== 'calling-nudge');
+      return this.activeLabels.filter(
+        label =>
+          label.title !== 'calling-nudge' && label.title !== 'pre-sale-query'
+      );
     },
     filteredAccountLabels() {
       return this.accountLabels.filter(
-        label => label.title !== 'calling-nudge'
+        label =>
+          label.title !== 'calling-nudge' && label.title !== 'pre-sale-query'
       );
     },
     filteredSavedLabels() {
-      return this.savedLabels.filter(label => label.title !== 'calling-nudge');
+      return this.savedLabels.filter(
+        label =>
+          label.title !== 'calling-nudge' && label.title !== 'pre-sale-query'
+      );
     },
   },
   methods: {

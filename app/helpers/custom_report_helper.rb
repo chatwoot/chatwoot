@@ -131,7 +131,7 @@ module CustomReportHelper
     # set filter as @@config[:filters][:agents] = [bot_user.id]
     @config[:filters][:agents] = [bot_user.id]
 
-    handled
+    new_assigned
   end
 
   def pre_sale_queries
@@ -197,9 +197,22 @@ module CustomReportHelper
   end
 
   def bot_resolved
-    @config[:filters][:agents] = [bot_user.id]
+    # Get conversations that were resolved in the time range
+    base_query = @account.reporting_events.select('DISTINCT ON (conversation_id) *').joins(:conversation)
+                         .where(name: 'conversation_resolved', created_at: @time_range, conversations: {
+                                  created_at: @time_range
+                                }).order('created_at DESC')
 
-    resolved
+    # Apply filters
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: bot_user.id)
+
+    Rails.logger.info "resolved conversations query: #{base_query.to_sql}"
+
+    base_query = ReportingEvent.where(id: base_query.pluck(:id))
+
+    group_and_count_reporting_events(base_query, @config[:group_by])
   end
 
   def snoozed
@@ -464,9 +477,18 @@ module CustomReportHelper
   end
 
   def bot_avg_resolution_time
-    @config[:filters][:agents] = [bot_user.id]
+    base_query = @account.reporting_events.joins(:conversation).where(name: 'conversation_resolved', created_at: @time_range, conversations: {
+                                                                        created_at: @time_range
+                                                                      })
 
-    avg_resolution_time
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+
+    base_query = base_query.where(user_id: bot_user.id)
+
+    Rails.logger.info "Base query(avg_resolution_time): #{base_query.to_sql}"
+
+    get_grouped_average(base_query)
   end
 
   def bot_assign_to_agent
@@ -482,7 +504,7 @@ module CustomReportHelper
 
     Rails.logger.info "conversations_assigned_by_bot: #{conversations_assigned_by_bot.to_sql}"
 
-    base_query = @account.conversations.where(id: conversations_assigned_by_bot.pluck(:id))
+    base_query = @account.conversations.where(id: conversations_assigned_by_bot.pluck(:id), created_at: @time_range)
 
     base_query = label_filtered_conversations.where(id: conversations_assigned_by_bot.pluck(:id)) if @config[:filters][:labels].present?
     base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?

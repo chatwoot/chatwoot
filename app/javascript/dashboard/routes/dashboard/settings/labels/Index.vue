@@ -128,7 +128,10 @@ export default {
       uiFlags: 'labels/getUIFlags',
     }),
     filteredRecords() {
-      return this.records.filter(label => label.title !== 'calling-nudge');
+      return this.records.filter(
+        label =>
+          label.title !== 'calling-nudge' && label.title !== 'pre-sale-query'
+      );
     },
     // Delete Modal
     deleteConfirmText() {

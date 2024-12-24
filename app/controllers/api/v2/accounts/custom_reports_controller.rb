@@ -114,7 +114,7 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
 
   def bot_analytics_overview_params
     {
-      metrics: %w[bot_total_revenue sales_ooo_hours bot_handled],
+      metrics: %w[bot_total_revenue sales_ooo_hours bot_resolved],
       filters: bot_base_filters
     }
   end
