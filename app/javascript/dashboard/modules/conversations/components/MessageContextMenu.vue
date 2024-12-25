@@ -44,7 +44,7 @@ export default {
       default: false,
     },
   },
-  emits: ['open', 'close', 'replyTo'],
+  emits: ['open', 'close', 'replyTo', 'toggleBg'],
   setup() {
     const { getPlainText } = useMessageFormatter();
     return {
@@ -115,6 +115,9 @@ export default {
     },
     handleClose(e) {
       this.$emit('close', e);
+    },
+    toggleBackground(e) {
+      this.$emit('toggleBg', e);
     },
     handleTranslate() {
       const { locale } = this.getAccount(this.currentAccountId);
@@ -231,6 +234,15 @@ export default {
           }"
           variant="icon"
           @click.stop="handleTranslate"
+        />
+        <MenuItem
+          v-if="enabledOptions['toggleBg']"
+          :option="{
+            icon: 'arrow-rotate-clockwise',
+            label: $t('CONVERSATION.CONTEXT_MENU.TOGGLE_BG'),
+          }"
+          variant="icon"
+          @click.stop="toggleBackground"
         />
         <hr />
         <MenuItem

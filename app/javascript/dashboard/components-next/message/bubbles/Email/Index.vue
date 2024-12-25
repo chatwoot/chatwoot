@@ -1,6 +1,9 @@
 <script setup>
 import { computed, useTemplateRef, ref, onMounted } from 'vue';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { Letter } from 'vue-letter';
+import { LocalStorage } from 'shared/helpers/localStorage';
 
 import Icon from 'next/icon/Icon.vue';
 import { EmailQuoteExtractor } from './removeReply.js';
@@ -12,16 +15,22 @@ import EmailMeta from './EmailMeta.vue';
 import { useMessageContext } from '../../provider.js';
 import { MESSAGE_TYPES } from 'next/message/constants.js';
 
-const { content, contentAttributes, attachments, messageType } =
+const { id, content, contentAttributes, attachments, messageType } =
   useMessageContext();
 
 const isExpandable = ref(false);
 const isExpanded = ref(false);
 const showQuotedMessage = ref(false);
+const useWhiteBackground = ref(false);
 const contentContainer = useTemplateRef('contentContainer');
 
 onMounted(() => {
   isExpandable.value = contentContainer.value.scrollHeight > 400;
+
+  useWhiteBackground.value = LocalStorage.get(`bg-light-toggle::${id.value}`);
+  emitter.on(BUS_EVENTS.TOGGLE_MESSAGE_BG, () => {
+    useWhiteBackground.value = LocalStorage.get(`bg-light-toggle::${id.value}`);
+  });
 });
 
 const isOutgoing = computed(() => {
@@ -70,7 +79,12 @@ const textToShow = computed(() => {
           </button>
         </div>
         <FormattedContent v-if="isOutgoing && content" :content="content" />
-        <template v-else>
+        <div
+          v-else
+          :class="{
+            'dark:bg-white dark:p-4 rounded-lg text-black': useWhiteBackground,
+          }"
+        >
           <Letter
             v-if="showQuotedMessage"
             class-name="prose prose-email !max-w-none"
@@ -83,7 +97,7 @@ const textToShow = computed(() => {
             :html="unquotedHTML"
             :text="textToShow"
           />
-        </template>
+        </div>
         <button
           v-if="hasQuotedMessage"
           class="text-n-slate-11 px-1 leading-none text-sm bg-n-alpha-black2 text-center flex items-center gap-1 mt-2"

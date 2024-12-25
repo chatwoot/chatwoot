@@ -318,6 +318,7 @@ const contextMenuEnabledOptions = computed(() => {
     delete: hasText || hasAttachments,
     cannedResponse: isOutgoing && hasText,
     replyTo: !props.private && props.inboxSupportsReplyTo.outgoing,
+    toggleBg: variant.value === MESSAGE_VARIANTS.EMAIL,
   };
 });
 
@@ -351,6 +352,20 @@ function handleReplyTo() {
 
   LocalStorage.updateJsonStore(replyStorageKey, conversationId, replyTo);
   emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, props);
+}
+
+function toggleBg() {
+  const key = `bg-light-toggle::${props.id}`;
+  const isToggled = LocalStorage.get(key);
+
+  if (isToggled) {
+    LocalStorage.remove(key);
+  } else {
+    LocalStorage.set(`bg-light-toggle::${props.id}`, true);
+  }
+
+  emitter.emit(BUS_EVENTS.TOGGLE_MESSAGE_BG, props.id);
+  closeContextMenu();
 }
 
 provideMessageContext({
@@ -425,6 +440,7 @@ provideMessageContext({
         @open="openContextMenu"
         @close="closeContextMenu"
         @reply-to="handleReplyTo"
+        @toggle-bg="toggleBg"
       />
     </div>
   </div>
