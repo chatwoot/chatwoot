@@ -70,14 +70,23 @@ const menuItems = computed(() => [
   },
 ]);
 
+const messageClasses = computed(() => ({
+  emphasis: isUnread.value
+    ? getMessageClasses.emphasisUnread
+    : getMessageClasses.emphasis,
+  normal: isUnread.value
+    ? getMessageClasses.normalUnread
+    : getMessageClasses.normal,
+}));
+
 const formatPushMessage = message => {
   return message.replace(/^([^:]+):/g, (match, name) => {
-    return `<span class="${isUnread.value ? getMessageClasses.emphasisUnread : getMessageClasses.emphasis}">${name}:</span>`;
+    return `<span class="${messageClasses.value.emphasis}">${name}:</span>`;
   });
 };
 
 const formattedMessage = computed(() => {
-  const messageContent = `<span class="${isUnread.value ? getMessageClasses.normalUnread : getMessageClasses.normal}">${formatPushMessage(props.inboxItem?.pushMessageBody || '')}</span>`;
+  const messageContent = `<span class="${messageClasses.value.normal}">${formatPushMessage(props.inboxItem?.pushMessageBody || '')}</span>`;
 
   return isUnread.value
     ? `<span class="inline-flex flex-shrink-0 w-2 h-2 mb-px rounded-full bg-n-iris-10 ltr:mr-1 rtl:ml-1"></span> ${messageContent}`
