@@ -633,10 +633,10 @@ export default {
       const otherTeams = this.filterItemsList.filter(
         team => !team.name.toLowerCase().includes('bitespeed')
       );
-      // Only spread bitespeedTeam if it exists
-      const combinedTeams = bitespeedTeam
-        ? [bitespeedTeam, ...otherTeams]
-        : otherTeams;
+      let combinedTeams = otherTeams;
+      if (this.agentTableType !== 'callOverview' && bitespeedTeam) {
+        combinedTeams = [bitespeedTeam, ...otherTeams];
+      }
 
       if (this.agentTableType === 'overview') {
         // if have "Bitespeed" in the name, then it should be top of the array.
