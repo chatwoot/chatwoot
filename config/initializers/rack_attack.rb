@@ -155,7 +155,7 @@ class Rack::Attack
   end
 
   ## Prevent abuse of reports api
-  throttle('/api/v2/accounts/:account_id/reports', limit: ENV.fetch('RATE_LIMIT_REPORTS_API', '10').to_i, period: 1.minute) do |req|
+  throttle('/api/v2/accounts/:account_id/reports', limit: ENV.fetch('RATE_LIMIT_REPORTS_API', '100').to_i, period: 1.minute) do |req|
     match_data = %r{/api/v2/accounts/(?<account_id>\d+)/reports}.match(req.path)
     match_data[:account_id] if match_data.present?
   end
