@@ -33,11 +33,12 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     # intent is a string like "PRE_SALES"
     @conversation.update({
                            additional_attributes: @conversation.additional_attributes.merge(
-                             intent: intent
+                             intent: intent,
+                             intent_created: Time.current
                            )
                          })
 
-    @conversation.add_label('pre-sale-query') if intent == 'PRE_SALES'
+    @conversation.add_labels(['pre-sale-query']) if intent == 'PRE_SALES'
     head :ok
   end
 

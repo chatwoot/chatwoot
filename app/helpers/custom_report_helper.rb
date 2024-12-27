@@ -495,20 +495,19 @@ module CustomReportHelper
 
   def bot_assign_to_agent
     # find all the conversations where assignment changed from bot to someone else other than bot.
-    bot_assignments = ConversationAssignment.where(assignee_id: bot_user.id)
-
-    conversations_assigned_by_bot = @account.conversations.where(id: bot_assignments
-    .select(:conversation_id)
-    .distinct
-    .joins('INNER JOIN conversation_assignments AS ca2 ON ca2.conversation_id = conversation_assignments.conversation_id')
-                                            .where('ca2.assignee_id != ? AND ca2.created_at > conversation_assignments.created_at', bot_user.id)
-                                            .where(created_at: @time_range))
+    conversations_assigned_by_bot = ConversationAssignment
+                                    .select('DISTINCT a2.conversation_id')
+                                    .from('conversation_assignments a1')
+                                    .joins('JOIN conversation_assignments a2 ON a1.conversation_id = a2.conversation_id AND a1.created_at < a2.created_at')
+                                    .where(a1: { assignee_id: bot_user.id })
+                                    .where.not(a2: { assignee_id: bot_user.id })
+                                    .where(a2: { created_at: @time_range })
 
     Rails.logger.info "conversations_assigned_by_bot: #{conversations_assigned_by_bot.to_sql}"
 
-    base_query = @account.conversations.where(id: conversations_assigned_by_bot.pluck(:id), created_at: @time_range)
+    base_query = @account.conversations.where(id: conversations_assigned_by_bot, created_at: @time_range)
 
-    base_query = label_filtered_conversations.where(id: conversations_assigned_by_bot.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = label_filtered_conversations.where(id: conversations_assigned_by_bot) if @config[:filters][:labels].present?
     base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
 
     group_and_count(base_query, @config[:group_by])
@@ -868,14 +867,15 @@ module CustomReportHelper
 
     case group_by_param
     when 'agent'
-      query.group(:assignee_id).count
+      query.group(:assignee_id).distinct.count(:conversation_id)
     when 'inbox'
-      query.group(:inbox_id).count
+      query.group(:inbox_id).distinct.count(:conversation_id)
     when 'working_hours'
       # Join with conversations table to access additional_attributes
       result = query.joins(:conversation)
                     .group("COALESCE((conversations.additional_attributes->>'working_hours')::boolean, true)")
-                    .count
+                    .distinct
+                    .count(:conversation_id)
                     .transform_keys { |key| key ? 'working_hours' : 'non_working_hours' }
 
       # Ensure both keys exist with at least 0 as value
@@ -884,7 +884,7 @@ module CustomReportHelper
         'non_working_hours' => result['non_working_hours'] || 0
       }
     else
-      query.count
+      query.distinct.count(:conversation_id)
     end
   rescue StandardError => e
     Rails.logger.error "Error in group_and_count_conversation_assignment: #{e.message}"
@@ -894,21 +894,21 @@ module CustomReportHelper
 
   def group_and_count_reporting_events(query, group_by_param)
     case group_by_param
-    when 'agent'
-      query.group(:user_id).distinct.count(:conversation_id)
-    when 'inbox'
-      query.group(:inbox_id).distinct.count(:conversation_id)
     when 'working_hours'
-      result = query.joins(:conversation)
-                    .group("COALESCE((conversations.additional_attributes->>'working_hours')::boolean, true)")
-                    .distinct
-                    .count(:conversation_id)
-                    .transform_keys { |key| key ? 'working_hours' : 'non_working_hours' }
+      conversation_ids = query.distinct.pluck(:conversation_id)
+      result = Conversation.where(id: conversation_ids)
+                           .group("COALESCE((additional_attributes->>'working_hours')::boolean, true)")
+                           .count
+                           .transform_keys { |key| key ? 'working_hours' : 'non_working_hours' }
 
       {
         'working_hours' => result['working_hours'] || 0,
         'non_working_hours' => result['non_working_hours'] || 0
       }
+    when 'agent'
+      query.group(:user_id).distinct.count(:conversation_id)
+    when 'inbox'
+      query.group(:inbox_id).distinct.count(:conversation_id)
     else
       query.distinct.count(:conversation_id)
     end
