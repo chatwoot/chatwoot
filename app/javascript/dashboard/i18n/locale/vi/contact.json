@@ -284,8 +284,8 @@
   "CONTACTS_LAYOUT": {
     "HEADER": {
       "TITLE": "Liên hệ",
-      "SEARCH_TITLE": "Search contacts",
-      "SEARCH_PLACEHOLDER": "Search...",
+      "SEARCH_TITLE": "Tìm kiếm liên hệ",
+      "SEARCH_PLACEHOLDER": "Tìm kiếm...",
       "MESSAGE_BUTTON": "Tin nhắn",
       "SEND_MESSAGE": "Gửi tin nhắn",
       "BREADCRUMB": {
@@ -396,7 +396,7 @@
       }
     },
     "CARD": {
-      "OF": "of",
+      "OF": "của",
       "VIEW_DETAILS": "Xem chi tiết",
       "EDIT_DETAILS_FORM": {
         "TITLE": "Chỉnh sửa liên hệ chi tiết",
