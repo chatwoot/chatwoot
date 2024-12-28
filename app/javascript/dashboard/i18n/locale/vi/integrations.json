@@ -263,7 +263,7 @@
           },
           "PRIORITY": {
             "LABEL": "Mức độ ưu tiên",
-            "PLACEHOLDER": "Select priority",
+            "PLACEHOLDER": "Chọc mức ưu tiên",
             "SEARCH": "Search priority"
           },
           "LABEL": {
