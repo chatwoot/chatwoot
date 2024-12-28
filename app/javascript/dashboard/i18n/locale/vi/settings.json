@@ -10,7 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Mật khẩu của bạn đã được thay đổi thành công",
     "AFTER_EMAIL_CHANGED": "Hồ sơ của bạn đã được cập nhật thành công, vui lòng đăng nhập lại khi thông tin đăng nhập của bạn được thay đổi",
     "FORM": {
-      "PICTURE": "Profile Picture",
+      "PICTURE": "Ảnh hồ sơ",
       "AVATAR": "Hình ảnh hồ sơ cá nhân",
       "ERROR": "Vui lòng sửa lỗi biểu mẫu",
       "REMOVE_IMAGE": "Xoá",
@@ -97,7 +97,7 @@
           "CONDITION_TWO": "Gửi thông báo cứ sau 30 giây cho đến khi tất cả các cuộc hội thoại được chỉ định được đọc"
         },
         "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
-        "READ_MORE": "Read more"
+        "READ_MORE": "Xem thêm"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Thông Báo Email",
@@ -198,7 +198,7 @@
     "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Chọn một tài khoản từ danh sách sau",
     "PROFILE_SETTINGS": "Profile settings",
-    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "KEYBOARD_SHORTCUTS": "Phím tắt",
     "APPEARANCE": "Change appearance",
     "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
     "DOCS": "Read documentation",
