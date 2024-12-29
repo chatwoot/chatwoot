@@ -132,6 +132,7 @@
     "postcss-preset-env": "^8.5.1",
     "prettier": "^3.3.3",
     "prosemirror-model": "^1.22.3",
+    "sass-embedded": "^1.83.0",
     "size-limit": "^8.2.4",
     "tailwindcss": "^3.4.13",
     "vite": "^5.4.8",
