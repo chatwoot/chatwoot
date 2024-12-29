@@ -68,7 +68,7 @@
       "VALUE_REQUIRED": "Wartość jest wymagana",
       "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
       "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Wartość musi zawierać się w przedziale od 1 do 998"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standardowe filtry",
