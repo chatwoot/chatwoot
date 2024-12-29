@@ -365,7 +365,8 @@ class CustomReportJob < ApplicationJob
     }.to_json
     params[:phoneNumbers] = phone_numbers
 
-    response = HTTParty.get('https://43r09s4nl9.execute-api.us-east-1.amazonaws.com/chatwoot/botAttributions', query: params)
+    response = HTTParty.get('https://43r09s4nl9.execute-api.us-east-1.amazonaws.com/chatwoot/botAttributions/phoneNumbers', query: params)
+    Rails.logger.info "fetch_order_ids_response: #{response.body}"
     JSON.parse(response.body)['orders']
   rescue StandardError => e
     Rails.logger.error "Failed to fetch order IDs: #{e.message}"
