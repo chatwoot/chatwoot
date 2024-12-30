@@ -141,7 +141,8 @@ export default {
           .filter(
             label =>
               label.title !== 'calling-nudge' &&
-              label.title !== 'pre-sale-query'
+              label.title !== 'pre-sale-query' &&
+              label.title !== 'support-query'
           )
           .map(label => ({
             id: label.id,

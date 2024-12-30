@@ -130,7 +130,9 @@ export default {
     filteredRecords() {
       return this.records.filter(
         label =>
-          label.title !== 'calling-nudge' && label.title !== 'pre-sale-query'
+          label.title !== 'calling-nudge' &&
+          label.title !== 'pre-sale-query' &&
+          label.title !== 'support-query'
       );
     },
     // Delete Modal

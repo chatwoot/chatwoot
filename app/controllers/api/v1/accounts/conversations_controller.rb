@@ -28,6 +28,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @attachments = @conversation.attachments
   end
 
+  # rubocop:disable Metrics/MethodLength
   def mark_intent
     intent = params[:intent]
     # intent is a string like "PRE_SALES" or "SUPPORT"
@@ -40,13 +41,28 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
     if intent == 'PRE_SALES'
       @conversation.remove_labels_if_present(['support-query'])
+      Label.find_or_create_by!(
+        account: account,
+        title: 'pre-sale-query'
+      ) do |l|
+        l.description = 'Automatically added to conversations with PRE_SALES intent'
+        l.color = '#1f93ff' # Default color
+      end
       @conversation.add_labels(['pre-sale-query'])
     elsif intent == 'SUPPORT'
       @conversation.remove_labels_if_present(['pre-sale-query'])
+      Label.find_or_create_by!(
+        account: account,
+        title: 'support-query'
+      ) do |l|
+        l.description = 'Automatically added to conversations with SUPPORT intent'
+        l.color = '#1f93ff' # Default color
+      end
       @conversation.add_labels(['support-query'])
     end
     head :ok
   end
+  # rubocop:enable Metrics/MethodLength
 
   def update_source_context
     existing_source_context = @conversation.additional_attributes[:source_context] || {}

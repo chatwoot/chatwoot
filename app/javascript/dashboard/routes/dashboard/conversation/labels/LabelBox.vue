@@ -82,19 +82,25 @@ export default {
     filteredActiveLabels() {
       return this.activeLabels.filter(
         label =>
-          label.title !== 'calling-nudge' && label.title !== 'pre-sale-query'
+          label.title !== 'calling-nudge' &&
+          label.title !== 'pre-sale-query' &&
+          label.title !== 'support-query'
       );
     },
     filteredAccountLabels() {
       return this.accountLabels.filter(
         label =>
-          label.title !== 'calling-nudge' && label.title !== 'pre-sale-query'
+          label.title !== 'calling-nudge' &&
+          label.title !== 'pre-sale-query' &&
+          label.title !== 'support-query'
       );
     },
     filteredSavedLabels() {
       return this.savedLabels.filter(
         label =>
-          label.title !== 'calling-nudge' && label.title !== 'pre-sale-query'
+          label.title !== 'calling-nudge' &&
+          label.title !== 'pre-sale-query' &&
+          label.title !== 'support-query'
       );
     },
   },
