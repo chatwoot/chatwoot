@@ -351,21 +351,25 @@ class CustomReportJob < ApplicationJob
 
   def fetch_order_ids(account_id, phone_numbers, time_range)
     shop_url = fetch_shop_url(account_id)
-    time_offset = 330
 
-    params = {
+    body = {
       shopUrl: shop_url,
-      timeOffset: time_offset,
+      timeOffset: 330,
       phoneNumbers: phone_numbers,
       timeQualifier: 'Custom',
       timeQuantifier: {
         from: time_range&.begin&.strftime('%Y-%m-%d'),
         to: time_range&.end&.strftime('%Y-%m-%d')
-      }.to_json
+      }
     }
-    Rails.logger.info "fetch_order_ids_params: #{params}"
 
-    response = HTTParty.get('https://43r09s4nl9.execute-api.us-east-1.amazonaws.com/chatwoot/botAttributions/phoneNumbers', query: params)
+    Rails.logger.info "fetch_order_ids_params: #{body}"
+
+    response = HTTParty.post(
+      'https://43r09s4nl9.execute-api.us-east-1.amazonaws.com/chatwoot/botAttributions/phoneNumbers',
+      body: body.to_json,
+      headers: { 'Content-Type' => 'application/json' }
+    )
     Rails.logger.info "fetch_order_ids_response: #{response.body}"
     JSON.parse(response.body)['orders']
   rescue StandardError => e
