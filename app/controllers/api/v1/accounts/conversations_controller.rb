@@ -40,7 +40,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
                          })
 
     if intent == 'PRE_SALES'
-      @conversation.remove_labels_if_present(['support-query'])
+      @conversation.update_labels(@conversation.label_list - ['support-query'])
       Label.find_or_create_by!(
         account: Current.account,
         title: 'pre-sale-query'
@@ -50,7 +50,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
       end
       @conversation.add_labels(['pre-sale-query'])
     elsif intent == 'SUPPORT'
-      @conversation.remove_labels_if_present(['pre-sale-query'])
+      @conversation.update_labels(@conversation.label_list - ['pre-sale-query'])
       Label.find_or_create_by!(
         account: Current.account,
         title: 'support-query'
