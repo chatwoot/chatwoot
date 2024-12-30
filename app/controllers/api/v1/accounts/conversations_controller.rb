@@ -30,7 +30,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def mark_intent
     intent = params[:intent]
-    # intent is a string like "PRE_SALES"
+    # intent is a string like "PRE_SALES" or "SUPPORT"
     @conversation.update({
                            additional_attributes: @conversation.additional_attributes.merge(
                              intent: intent,
@@ -38,7 +38,13 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
                            )
                          })
 
-    @conversation.add_labels(['pre-sale-query']) if intent == 'PRE_SALES'
+    if intent == 'PRE_SALES'
+      @conversation.remove_labels_if_present(['support-query'])
+      @conversation.add_labels(['pre-sale-query'])
+    elsif intent == 'SUPPORT'
+      @conversation.remove_labels_if_present(['pre-sale-query'])
+      @conversation.add_labels(['support-query'])
+    end
     head :ok
   end
 

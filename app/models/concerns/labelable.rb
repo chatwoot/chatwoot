@@ -14,4 +14,10 @@ module Labelable
     combined_labels = labels + new_labels
     update!(label_list: combined_labels)
   end
+
+  def remove_labels_if_present(labels_to_remove = nil)
+    labels_to_remove = Array(labels_to_remove) # Make sure labels_to_remove is an array
+    remaining_labels = labels - labels_to_remove
+    update!(label_list: remaining_labels)
+  end
 end
