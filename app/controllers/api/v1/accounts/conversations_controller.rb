@@ -42,7 +42,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     if intent == 'PRE_SALES'
       @conversation.remove_labels_if_present(['support-query'])
       Label.find_or_create_by!(
-        account: account,
+        account: Current.account,
         title: 'pre-sale-query'
       ) do |l|
         l.description = 'Automatically added to conversations with PRE_SALES intent'
@@ -52,7 +52,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     elsif intent == 'SUPPORT'
       @conversation.remove_labels_if_present(['pre-sale-query'])
       Label.find_or_create_by!(
-        account: account,
+        account: Current.account,
         title: 'support-query'
       ) do |l|
         l.description = 'Automatically added to conversations with SUPPORT intent'
