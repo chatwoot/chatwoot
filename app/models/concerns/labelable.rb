@@ -16,8 +16,11 @@ module Labelable
   end
 
   def remove_labels_if_present(labels_to_remove = nil)
+    Rails.logger.info("Removing labels: #{labels_to_remove}")
     labels_to_remove = Array(labels_to_remove) # Make sure labels_to_remove is an array
+    Rails.logger.info("Labels to remove: #{labels_to_remove}")
     remaining_labels = labels - labels_to_remove
+    Rails.logger.info("Remaining labels: #{remaining_labels}")
     update!(label_list: remaining_labels)
   end
 end
