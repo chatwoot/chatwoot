@@ -6,6 +6,7 @@ import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { useDarkMode } from 'widget/composables/useDarkMode';
 import configMixin from 'widget/mixins/configMixin';
 import { CONVERSATION_STATUS } from 'shared/constants/messages';
+import { useI18n } from 'vue-i18n';
 
 export default {
   name: 'HeaderActions',
@@ -23,7 +24,9 @@ export default {
   },
   setup() {
     const { getThemeClass } = useDarkMode();
-    return { getThemeClass };
+    const i18n = useI18n();
+
+    return { getThemeClass, i18n };
   },
   computed: {
     ...mapGetters({
@@ -60,12 +63,7 @@ export default {
         chatwootWebChannel: { websiteToken },
         authToken,
       } = window;
-      popoutChatWindow(
-        origin,
-        websiteToken,
-        this.$root.$i18n.locale,
-        authToken
-      );
+      popoutChatWindow(origin, websiteToken, this.i18n.locale.value, authToken);
     },
     closeWindow() {
       if (IFrameHelper.isIFrame()) {

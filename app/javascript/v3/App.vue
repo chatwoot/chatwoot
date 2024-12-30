@@ -1,15 +1,22 @@
 <script>
 import SnackbarContainer from './components/SnackBar/Container.vue';
+import { setLocale } from 'dashboard/i18n/loader';
+import { useI18n } from 'vue-i18n';
 
 export default {
   components: { SnackbarContainer },
+  setup() {
+    const i18n = useI18n();
+
+    return { i18n };
+  },
   data() {
     return { theme: 'light' };
   },
-  mounted() {
+  async mounted() {
     this.setColorTheme();
     this.listenToThemeChanges();
-    this.setLocale(window.chatwootConfig.selectedLocale);
+    await setLocale(this.i18n, window.chatwootConfig.selectedLocale);
   },
   methods: {
     setColorTheme() {
@@ -29,9 +36,6 @@ export default {
           this.theme = 'light';
         }
       };
-    },
-    setLocale(locale) {
-      this.$root.$i18n.locale = locale;
     },
   },
 };

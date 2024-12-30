@@ -19,6 +19,8 @@ import {
   verifyServiceWorkerExistence,
 } from './helper/pushHelper';
 import ReconnectService from 'dashboard/helper/ReconnectService';
+import { setLocale } from 'dashboard/i18n/loader';
+import { useI18n } from 'vue-i18n';
 
 export default {
   name: 'App',
@@ -36,9 +38,10 @@ export default {
   setup() {
     const router = useRouter();
     const store = useStore();
+    const i18n = useI18n();
     const { accountId } = useAccount();
 
-    return { router, store, currentAccountId: accountId };
+    return { router, store, i18n, currentAccountId: accountId };
   },
   data() {
     return {
@@ -79,10 +82,10 @@ export default {
       },
     },
   },
-  mounted() {
+  async mounted() {
     this.initializeColorTheme();
     this.listenToThemeChanges();
-    this.setLocale(window.chatwootConfig.selectedLocale);
+    await setLocale(this.i18n, window.chatwootConfig.selectedLocale);
   },
   unmounted() {
     if (this.reconnectService) {
@@ -97,9 +100,6 @@ export default {
       const mql = window.matchMedia('(prefers-color-scheme: dark)');
       mql.onchange = e => setColorTheme(e.matches);
     },
-    setLocale(locale) {
-      this.$root.$i18n.locale = locale;
-    },
     async initializeAccount() {
       await this.$store.dispatch('accounts/get');
       this.$store.dispatch('setActiveAccount', {
@@ -108,7 +108,7 @@ export default {
       const { locale, latest_chatwoot_version: latestChatwootVersion } =
         this.getAccount(this.currentAccountId);
       const { pubsub_token: pubsubToken } = this.currentUser || {};
-      this.setLocale(locale);
+      await setLocale(this.i18n, locale);
       this.latestChatwootVersion = latestChatwootVersion;
       vueActionCable.init(this.store, pubsubToken);
       this.reconnectService = new ReconnectService(this.store, this.router);

@@ -6,6 +6,8 @@ import Rating from 'survey/components/Rating.vue';
 import Feedback from 'survey/components/Feedback.vue';
 import Banner from 'survey/components/Banner.vue';
 import { getSurveyDetails, updateSurvey } from 'survey/api/survey';
+import { setLocale } from 'survey/i18n/loader';
+import { useI18n } from 'vue-i18n';
 
 export default {
   name: 'Response',
@@ -15,6 +17,11 @@ export default {
     Spinner,
     Banner,
     Feedback,
+  },
+  setup() {
+    const i18n = useI18n();
+
+    return { i18n };
   },
   data() {
     return {
@@ -82,7 +89,7 @@ export default {
         this.surveyDetails = result?.data?.csat_survey_response;
         this.selectedRating = this.surveyDetails?.rating;
         this.feedbackMessage = this.surveyDetails?.feedback_message || '';
-        this.setLocale(result.data.locale);
+        await setLocale(this.i18n, result.data.locale);
       } catch (error) {
         const errorMessage = error?.response?.data?.message;
         this.errorMessage = errorMessage || this.$t('SURVEY.API.ERROR_MESSAGE');
@@ -118,9 +125,6 @@ export default {
       } finally {
         this.isUpdating = false;
       }
-    },
-    setLocale(locale) {
-      this.$root.$i18n.locale = locale || 'en';
     },
   },
 };

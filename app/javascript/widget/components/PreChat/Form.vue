@@ -11,6 +11,7 @@ import { useDarkMode } from 'widget/composables/useDarkMode';
 import configMixin from 'widget/mixins/configMixin';
 import { FormKit, createInput } from '@formkit/vue';
 import PhoneInput from 'widget/components/Form/PhoneInput.vue';
+import { useI18n } from 'vue-i18n';
 
 export default {
   components: {
@@ -32,12 +33,13 @@ export default {
     });
     const { formatMessage } = useMessageFormatter();
     const { getThemeClass } = useDarkMode();
+    const i18n = useI18n();
 
-    return { formatMessage, phoneInput, getThemeClass };
+    return { formatMessage, phoneInput, getThemeClass, i18n };
   },
   data() {
     return {
-      locale: this.$root.$i18n.locale,
+      locale: this.i18n.locale.value,
       hasErrorInPhoneInput: false,
       message: '',
       formValues: {},

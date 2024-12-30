@@ -21,6 +21,8 @@ import {
 import { useDarkMode } from 'widget/composables/useDarkMode';
 import { SDK_SET_BUBBLE_VISIBILITY } from '../shared/constants/sharedFrameEvents';
 import { emitter } from 'shared/helpers/mitt';
+import { setLocale } from 'widget/i18n/loader';
+import { useI18n } from 'vue-i18n';
 
 export default {
   name: 'App',
@@ -30,7 +32,9 @@ export default {
   mixins: [availabilityMixin, configMixin, routerMixin],
   setup() {
     const { prefersDarkMode } = useDarkMode();
-    return { prefersDarkMode };
+    const i18n = useI18n();
+
+    return { prefersDarkMode, i18n };
   },
   data() {
     return {
@@ -63,18 +67,18 @@ export default {
       this.setCampaignView();
     },
   },
-  mounted() {
+  async mounted() {
     const { websiteToken, locale, widgetColor } = window.chatwootWebChannel;
-    this.setLocale(locale);
+    await this.setI18nLocale(locale);
     this.setWidgetColor(widgetColor);
     setHeader(window.authToken);
     if (this.isIFrame) {
       this.registerListeners();
       this.sendLoadedEvent();
     } else {
-      this.fetchOldConversations();
-      this.fetchAvailableAgents(websiteToken);
-      this.setLocale(getLocale(window.location.search));
+      await this.fetchOldConversations();
+      await this.fetchAvailableAgents(websiteToken);
+      await this.setI18nLocale(getLocale(window.location.search));
     }
     if (this.isRNWebView) {
       this.registerListeners();
@@ -119,7 +123,7 @@ export default {
         });
       });
     },
-    setLocale(localeWithVariation) {
+    async setI18nLocale(localeWithVariation) {
       if (!localeWithVariation) return;
       const { enabledLanguages } = window.chatwootWebChannel;
       const localeWithoutVariation = localeWithVariation.split('_')[0];
@@ -131,9 +135,9 @@ export default {
       );
 
       if (hasLocaleWithVariation) {
-        this.$root.$i18n.locale = localeWithVariation;
+        await setLocale(this.i18n, localeWithVariation);
       } else if (hasLocaleWithoutVariation) {
-        this.$root.$i18n.locale = localeWithoutVariation;
+        await setLocale(this.i18n, localeWithoutVariation);
       }
     },
     registerUnreadEvents() {
@@ -237,7 +241,7 @@ export default {
         }
         const message = IFrameHelper.getMessage(e);
         if (message.event === 'config-set') {
-          this.setLocale(message.locale);
+          this.setI18nLocale(message.locale);
           this.setBubbleLabel();
           this.fetchOldConversations().then(() => this.setUnreadView());
           this.fetchAvailableAgents(websiteToken);
@@ -286,7 +290,7 @@ export default {
             message.customAttribute
           );
         } else if (message.event === 'set-locale') {
-          this.setLocale(message.locale);
+          this.setI18nLocale(message.locale);
           this.setBubbleLabel();
         } else if (message.event === 'set-color-scheme') {
           this.setColorScheme(message.darkMode);

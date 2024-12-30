@@ -7,6 +7,7 @@ import { mapGetters } from 'vuex';
 import { useDarkMode } from 'widget/composables/useDarkMode';
 import routerMixin from 'widget/mixins/routerMixin';
 import configMixin from 'widget/mixins/configMixin';
+import { useI18n } from 'vue-i18n';
 
 export default {
   name: 'Home',
@@ -18,7 +19,9 @@ export default {
   mixins: [configMixin, routerMixin],
   setup() {
     const { prefersDarkMode } = useDarkMode();
-    return { prefersDarkMode };
+    const i18n = useI18n();
+
+    return { prefersDarkMode, i18n };
   },
   computed: {
     ...mapGetters({
@@ -29,7 +32,7 @@ export default {
       articleUiFlags: 'article/uiFlags',
     }),
     widgetLocale() {
-      return this.$i18n.locale || 'en';
+      return this.i18n.locale.value || 'en';
     },
     portal() {
       return window.chatwootWebChannel.portal;

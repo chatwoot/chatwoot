@@ -9,6 +9,8 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import semver from 'semver';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
+import { setLocale } from 'dashboard/i18n/loader';
+import { useI18n } from 'vue-i18n';
 
 export default {
   setup() {
@@ -16,8 +18,9 @@ export default {
     const { enabledLanguages } = useConfig();
     const { accountId } = useAccount();
     const v$ = useVuelidate();
+    const i18n = useI18n();
 
-    return { updateUISettings, v$, enabledLanguages, accountId };
+    return { updateUISettings, v$, enabledLanguages, accountId, i18n };
   },
   data() {
     return {
@@ -113,7 +116,6 @@ export default {
           latest_chatwoot_version: latestChatwootVersion,
         } = this.getAccount(this.accountId);
 
-        this.$root.$i18n.locale = locale;
         this.name = name;
         this.locale = locale;
         this.id = id;
@@ -141,7 +143,7 @@ export default {
           support_email: this.supportEmail,
           auto_resolve_duration: this.autoResolveDuration,
         });
-        this.$root.$i18n.locale = this.locale;
+        await setLocale(this.i18n, this.locale);
         this.getAccount(this.id).locale = this.locale;
         this.updateDirectionView(this.locale);
         useAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
