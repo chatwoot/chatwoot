@@ -355,15 +355,15 @@ class CustomReportJob < ApplicationJob
 
     params = {
       shopUrl: shop_url,
-      timeOffset: time_offset
+      timeOffset: time_offset,
+      phoneNumbers: phone_numbers,
+      timeQualifier: 'Custom',
+      timeQuantifier: {
+        from: time_range&.begin&.strftime('%Y-%m-%d'),
+        to: time_range&.end&.strftime('%Y-%m-%d')
+      }.to_json
     }
-
-    params[:timeQualifier] = 'Custom'
-    params[:timeQuantifier] = {
-      from: time_range&.begin&.strftime('%Y-%m-%d'),
-      to: time_range&.end&.strftime('%Y-%m-%d')
-    }.to_json
-    params[:phoneNumbers] = phone_numbers
+    Rails.logger.info "fetch_order_ids_params: #{params}"
 
     response = HTTParty.get('https://43r09s4nl9.execute-api.us-east-1.amazonaws.com/chatwoot/botAttributions/phoneNumbers', query: params)
     Rails.logger.info "fetch_order_ids_response: #{response.body}"

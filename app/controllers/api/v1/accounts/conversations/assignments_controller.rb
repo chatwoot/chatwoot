@@ -13,10 +13,15 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
   private
 
   def set_agent
-    @agent = Current.account.users.find_by(id: params[:assignee_id])
-    @conversation.assignee = @agent
-    @conversation.save!
-    render_agent
+    if params[:assignee_id] == -1
+      inbox = Inbox.find(@conversation.inbox_id)
+      ::AutoAssignment::AgentAssignmentService.new(conversation: @conversation, allowed_agent_ids: inbox.member_ids_with_assignment_capacity).perform
+    else
+      @agent = Current.account.users.find_by(id: params[:assignee_id])
+      @conversation.assignee = @agent
+      @conversation.save!
+      render_agent
+    end
   end
 
   def render_agent
