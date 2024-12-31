@@ -25,12 +25,14 @@
 <script>
 import { mapGetters } from 'vuex';
 import axios from 'axios';
+import alertMixin from 'shared/mixins/alertMixin';
 
 import Modal from '../../../../components/Modal';
 export default {
   components: {
     Modal,
   },
+  mixins: [alertMixin],
   props: {
     show: {
       type: Boolean,
@@ -54,7 +56,7 @@ export default {
       this.$emit('cancel');
     },
     showAlert(message) {
-      bus.$emit('newToastMessage', message);
+      this.$emit('newToastMessage', message);
     },
     async onConfirm() {
       const subscribeQuery = [];
