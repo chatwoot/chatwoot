@@ -48,7 +48,6 @@ class Whatsapp::WhatsappCampaignService
   def send_template_message(campaign_contact)
     template = fetch_template
     raise 'Template not found' if template.nil?
-
     response = send_message_to_contact(campaign_contact, template)
     update_contact_status(campaign_contact, response)
   rescue StandardError => e
@@ -67,16 +66,26 @@ class Whatsapp::WhatsappCampaignService
     )
   end
 
-  def template_payload(template,name)
-    {
+  def template_payload(template, name)
+    # Check if any component contains the 'example' key
+    example_present = template['components'].any? { |component| component.key?('example') }
+  
+    # Build the payload with or without 'parameters' key based on 'example' presence
+    payload = {
       name: template['name'], # e.g., 'hello_world'
-      lang_code: template['language'], # e.g., 'en_US'
-      parameters: [{
+      lang_code: template['language'] # e.g., 'en_US'
+    }
+  
+    if example_present
+      payload[:parameters] = [{
         "type": "text",
         "text": name
       }]
-    }
+    end
+  
+    payload
   end
+  
 
   def find_template(template_id)
     return nil if campaign.inbox.channel&.message_templates.blank?
