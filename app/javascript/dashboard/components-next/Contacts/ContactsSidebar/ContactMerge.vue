@@ -20,7 +20,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['goToContactsList']);
+const emit = defineEmits(['goToContactsList', 'resetTab']);
 
 const { t } = useI18n();
 const store = useStore();
@@ -74,6 +74,9 @@ const onContactSearch = debounce(
 );
 
 const resetState = () => {
+  if (state.primaryContactId === null) {
+    emit('resetTab');
+  }
   state.primaryContactId = null;
   searchResults.value = [];
   isSearching.value = false;

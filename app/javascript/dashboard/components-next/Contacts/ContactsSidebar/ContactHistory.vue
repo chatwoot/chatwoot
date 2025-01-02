@@ -34,22 +34,19 @@ const contactConversations = computed(() =>
   >
     <Spinner />
   </div>
-  <div v-else-if="contactConversations.length > 0" class="flex flex-col py-6">
-    <div
+  <div
+    v-else-if="contactConversations.length > 0"
+    class="px-6 py-4 divide-y divide-n-strong [&>*:hover]:!border-y-transparent [&>*:hover+*]:!border-t-transparent"
+  >
+    <ConversationCard
       v-for="conversation in contactConversations"
       :key="conversation.id"
-      class="border-b border-n-strong"
-    >
-      <ConversationCard
-        v-if="conversation"
-        :key="conversation.id"
-        :conversation="conversation"
-        :contact="contactsById(conversation.meta.sender.id)"
-        :state-inbox="stateInbox(conversation.inboxId)"
-        :account-labels="accountLabelsValue"
-        class="px-6 !rounded-none dark:hover:bg-n-alpha-3 hover:bg-n-alpha-1"
-      />
-    </div>
+      :conversation="conversation"
+      :contact="contactsById(conversation.meta.sender.id)"
+      :state-inbox="stateInbox(conversation.inboxId)"
+      :account-labels="accountLabelsValue"
+      class="rounded-none hover:rounded-xl hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3"
+    />
   </div>
   <p v-else class="px-6 py-10 text-sm leading-6 text-center text-n-slate-11">
     {{ t('CONTACTS_LAYOUT.SIDEBAR.HISTORY.EMPTY_STATE') }}

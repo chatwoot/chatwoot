@@ -65,29 +65,6 @@ export const validateSingleFilter = filter => {
   return null;
 };
 
-/**
- * Validates filters for conversations or contacts.
- *
- * @param {Array} filters - An array of filter objects to validate.
- * @param {string} filters[].attribute_key - The key of the attribute to filter on.
- * @param {string} filters[].filter_operator - The operator to use for filtering.
- * @param {string|number} [filters[].values] - The value(s) to filter by (required for most operators).
- *
- * @returns {Object} An object containing any validation errors, keyed by filter index.
- */
-export const validateConversationOrContactFilters = filters => {
-  const errors = {};
-
-  filters.forEach((filter, index) => {
-    const error = validateSingleFilter(filter);
-    if (error) {
-      errors[`filter_${index}`] = error;
-    }
-  });
-
-  return errors;
-};
-
 // ------------------------------------------------------------------
 // ---------------------- Automation Validation ---------------------
 // ------------------------------------------------------------------

@@ -119,6 +119,13 @@ export default {
         this.menuItem.toStateName === 'settings_applications'
       );
     },
+    isContactsDefaultRoute() {
+      return (
+        this.menuItem.toStateName === 'contacts_dashboard_index' &&
+        (this.$store.state.route.name === 'contacts_dashboard_index' ||
+          this.$store.state.route.name === 'contacts_edit')
+      );
+    },
     isCurrentRoute() {
       return this.$store.state.route.name.includes(this.menuItem.toStateName);
     },
@@ -130,6 +137,7 @@ export default {
         this.isAllConversations ||
         this.isMentions ||
         this.isUnattended ||
+        this.isContactsDefaultRoute ||
         this.isCurrentRoute
       ) {
         return 'bg-woot-25 dark:bg-slate-800 text-woot-500 dark:text-woot-500 hover:text-woot-500 dark:hover:text-woot-500 active-view';
@@ -242,7 +250,7 @@ export default {
       </span>
     </router-link>
 
-    <ul v-if="hasSubMenu" class="reset-base list-none">
+    <ul v-if="hasSubMenu" class="list-none reset-base">
       <SecondaryChildNavItem
         v-for="child in menuItem.children"
         :key="child.id"

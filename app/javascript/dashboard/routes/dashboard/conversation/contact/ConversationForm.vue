@@ -138,7 +138,7 @@ export default {
     },
     selectedInbox: {
       get() {
-        const inboxList = this.contact.contactableInboxes || [];
+        const inboxList = this.contact.contact_inboxes || [];
         return (
           inboxList.find(inbox => {
             return inbox.inbox?.id && inbox.inbox?.id === this.targetInbox?.id;
@@ -152,7 +152,7 @@ export default {
       },
     },
     showNoInboxAlert() {
-      if (!this.contact.contactableInboxes) {
+      if (!this.contact.contact_inboxes) {
         return false;
       }
       return this.inboxes.length === 0 && !this.uiFlags.isFetchingInboxes;
@@ -166,7 +166,7 @@ export default {
         : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
     },
     inboxes() {
-      const inboxList = this.contact.contactableInboxes || [];
+      const inboxList = this.contact.contact_inboxes || [];
       return inboxList.map(inbox => ({
         ...inbox.inbox,
         sourceId: inbox.source_id,

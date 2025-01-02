@@ -169,7 +169,7 @@ watch(
           @apply m-0 !important;
 
           &::before {
-            @apply text-n-slate-10 dark:text-n-slate-10 !important;
+            @apply text-n-slate-11 dark:text-n-slate-11;
           }
         }
       }

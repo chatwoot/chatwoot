@@ -8,6 +8,7 @@ import { useAI } from 'dashboard/composables/useAI';
 // components
 import ReplyBox from './ReplyBox.vue';
 import Message from './Message.vue';
+import NextMessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 
@@ -37,6 +38,7 @@ import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 export default {
   components: {
     Message,
+    NextMessageList,
     ReplyBox,
     Banner,
     ConversationLabelSuggestion,
@@ -80,6 +82,10 @@ export default {
       fetchLabelSuggestions,
     } = useAI();
 
+    const showNextBubbles = LocalStorage.get(
+      LOCAL_STORAGE_KEYS.USE_NEXT_BUBBLE
+    );
+
     return {
       isEnterprise,
       isPopOutReplyBox,
@@ -89,6 +95,7 @@ export default {
       isLabelSuggestionFeatureEnabled,
       fetchIntegrationsIfRequired,
       fetchLabelSuggestions,
+      showNextBubbles,
     };
   },
   data() {
@@ -106,6 +113,7 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
+      currentUserId: 'getCurrentUserID',
       listLoadingStatus: 'getAllMessagesLoaded',
       currentAccountId: 'getCurrentAccountId',
     }),
@@ -436,7 +444,6 @@ export default {
     makeMessagesRead() {
       this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
     },
-
     getInReplyToMessage(parentMessage) {
       if (!parentMessage) return {};
       const inReplyToMessageId = parentMessage.content_attributes?.in_reply_to;
@@ -468,14 +475,51 @@ export default {
         size="tiny"
         color-scheme="secondary"
         class="box-border fixed z-10 bg-white border border-r-0 border-solid rounded-bl-calc rtl:rotate-180 rounded-tl-calc dark:bg-slate-700 border-slate-50 dark:border-slate-600"
-        :class="
-          isInboxView ? 'top-52 md:top-40' : 'top-[9.5rem] md:top-[6.25rem]'
-        "
+        :class="isInboxView ? 'top-52 md:top-40' : 'top-32'"
         :icon="isRightOrLeftIcon"
         @click="onToggleContactPanel"
       />
     </div>
-    <ul class="conversation-panel">
+    <NextMessageList
+      v-if="showNextBubbles"
+      class="conversation-panel"
+      :read-messages="readMessages"
+      :un-read-messages="unReadMessages"
+      :current-user-id="currentUserId"
+      :is-an-email-channel="isAnEmailChannel"
+      :inbox-supports-reply-to="inboxSupportsReplyTo"
+      :messages="currentChat ? currentChat.messages : []"
+    >
+      <template #beforeAll>
+        <transition name="slide-up">
+          <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
+          <li class="min-h-[4rem]">
+            <span v-if="shouldShowSpinner" class="spinner message" />
+          </li>
+        </transition>
+      </template>
+      <template #beforeUnread>
+        <li v-show="unreadMessageCount != 0" class="unread--toast">
+          <span>
+            {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
+            {{
+              unreadMessageCount > 1
+                ? $t('CONVERSATION.UNREAD_MESSAGES')
+                : $t('CONVERSATION.UNREAD_MESSAGE')
+            }}
+          </span>
+        </li>
+      </template>
+      <template #after>
+        <ConversationLabelSuggestion
+          v-if="shouldShowLabelSuggestions"
+          :suggested-labels="labelSuggestions"
+          :chat-labels="currentChat.labels"
+          :conversation-id="currentChat.id"
+        />
+      </template>
+    </NextMessageList>
+    <ul v-else class="conversation-panel">
       <transition name="slide-up">
         <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
         <li class="min-h-[4rem]">

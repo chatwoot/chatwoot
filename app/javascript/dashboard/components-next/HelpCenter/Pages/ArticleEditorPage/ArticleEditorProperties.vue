@@ -111,7 +111,7 @@ onMounted(() => {
             custom-label-class="min-w-[120px]"
           />
         </div>
-        <div class="flex justify-between w-full gap-2 py-2">
+        <div class="flex justify-between w-full gap-3 py-2">
           <label
             class="text-sm font-medium whitespace-nowrap min-w-[120px] text-slate-900 dark:text-slate-50"
           >

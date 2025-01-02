@@ -36,6 +36,10 @@ class IntegrationsAPI extends ApiClient {
   requestCaptain(body) {
     return axios.post(`${this.baseUrl()}/integrations/captain/proxy`, body);
   }
+
+  requestCaptainCopilot(body) {
+    return axios.post(`${this.baseUrl()}/integrations/captain/copilot`, body);
+  }
 }
 
 export default new IntegrationsAPI();

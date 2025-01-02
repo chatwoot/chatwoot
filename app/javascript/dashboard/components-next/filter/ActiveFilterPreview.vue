@@ -4,22 +4,11 @@ import { replaceUnderscoreWithSpace } from './helper/filterHelper.js';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 defineProps({
-  appliedFilters: {
-    type: Array,
-    default: () => [],
-  },
-  maxVisibleFilters: {
-    type: Number,
-    default: 2,
-  },
-  clearButtonLabel: {
-    type: String,
-    default: '',
-  },
-  moreFiltersLabel: {
-    type: String,
-    default: '',
-  },
+  appliedFilters: { type: Array, default: () => [] },
+  maxVisibleFilters: { type: Number, default: 2 },
+  clearButtonLabel: { type: String, default: '' },
+  moreFiltersLabel: { type: String, default: '' },
+  showClearButton: { type: Boolean, default: true },
 });
 
 const emit = defineEmits(['clearFilters', 'openFilter']);
@@ -46,6 +35,9 @@ const formatOperatorLabel = operator => {
 
 const formatFilterValue = value => {
   if (!value) return '';
+  if (Array.isArray(value)) {
+    return value.join(', ');
+  }
   if (typeof value === 'object' && value.name) {
     return value.name;
   }
@@ -55,10 +47,7 @@ const formatFilterValue = value => {
 
 <template>
   <div class="flex flex-wrap items-center w-full gap-2 mx-auto">
-    <template
-      v-for="(filter, index) in appliedFilters"
-      :key="filter.attributeKey"
-    >
+    <template v-for="(filter, index) in appliedFilters" :key="index">
       <div
         v-if="index < maxVisibleFilters"
         class="inline-flex items-center gap-2 h-7"
@@ -107,8 +96,9 @@ const formatFilterValue = value => {
     >
       {{ moreFiltersLabel }}
     </div>
-    <div class="w-px h-3 rounded-lg bg-n-strong" />
+    <div v-if="showClearButton" class="w-px h-3 rounded-lg bg-n-strong" />
     <Button
+      v-if="showClearButton"
       :label="clearButtonLabel"
       size="xs"
       class="!px-1"
