@@ -1,6 +1,12 @@
 <script setup>
-import { computed, defineAsyncComponent } from 'vue';
+import { computed, ref, toRefs } from 'vue';
 import { provideMessageContext } from './provider.js';
+import { useTrack } from 'dashboard/composables';
+import { emitter } from 'shared/helpers/mitt';
+import { LocalStorage } from 'shared/helpers/localStorage';
+import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
   MESSAGE_TYPES,
   ATTACHMENT_TYPES,
@@ -8,6 +14,7 @@ import {
   SENDER_TYPES,
   ORIENTATION,
   MESSAGE_STATUS,
+  CONTENT_TYPES,
 } from './constants';
 
 import Avatar from 'next/avatar/Avatar.vue';
@@ -19,17 +26,14 @@ import FileBubble from './bubbles/File.vue';
 import AudioBubble from './bubbles/Audio.vue';
 import VideoBubble from './bubbles/Video.vue';
 import InstagramStoryBubble from './bubbles/InstagramStory.vue';
-import AttachmentsBubble from './bubbles/Attachments.vue';
 import EmailBubble from './bubbles/Email/Index.vue';
 import UnsupportedBubble from './bubbles/Unsupported.vue';
 import ContactBubble from './bubbles/Contact.vue';
 import DyteBubble from './bubbles/Dyte.vue';
-const LocationBubble = defineAsyncComponent(
-  () => import('./bubbles/Location.vue')
-);
+import LocationBubble from './bubbles/Location.vue';
 
 import MessageError from './MessageError.vue';
-import MessageMeta from './MessageMeta.vue';
+import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
 
 /**
  * @typedef {Object} Attachment
@@ -65,7 +69,7 @@ import MessageMeta from './MessageMeta.vue';
 
 /**
  * @typedef {Object} Props
- * @property {('sent'|'delivered'|'read'|'failed')} status - The delivery status of the message
+ * @property {('sent'|'delivered'|'read'|'failed'|'progress')} status - The delivery status of the message
  * @property {ContentAttributes} [contentAttributes={}] - Additional attributes of the message content
  * @property {Attachment[]} [attachments=[]] - The attachments associated with the message
  * @property {Sender|null} [sender=null] - The sender information
@@ -78,6 +82,11 @@ import MessageMeta from './MessageMeta.vue';
  * @property {string|null} [error=null] - Error message if the message failed to send
  * @property {string|null} [senderType=null] - The type of the sender
  * @property {string} content - The message content
+ * @property {boolean} [groupWithNext=false] - Whether the message should be grouped with the next message
+ * @property {Object|null} [inReplyTo=null] - The message to which this message is a reply
+ * @property {boolean} [isEmailInbox=false] - Whether the message is from an email inbox
+ * @property {number} conversationId - The ID of the conversation to which the message belongs
+ * @property {number} inboxId - The ID of the inbox to which the message belongs
  */
 
 // eslint-disable-next-line vue/define-macros-order
@@ -93,70 +102,51 @@ const props = defineProps({
     required: true,
     validator: value => Object.values(MESSAGE_STATUS).includes(value),
   },
-  attachments: {
-    type: Array,
-    default: () => [],
-  },
-  private: {
-    type: Boolean,
-    default: false,
-  },
-  createdAt: {
-    type: Number,
-    required: true,
-  },
-  sender: {
-    type: Object,
-    default: null,
-  },
-  senderId: {
-    type: Number,
-    default: null,
-  },
-  senderType: {
+  attachments: { type: Array, default: () => [] },
+  content: { type: String, default: null },
+  contentAttributes: { type: Object, default: () => ({}) },
+  contentType: {
     type: String,
-    default: null,
+    default: 'text',
+    validator: value => Object.values(CONTENT_TYPES).includes(value),
   },
-  content: {
-    type: String,
-    required: true,
-  },
-  contentAttributes: {
-    type: Object,
-    default: () => {},
-  },
-  currentUserId: {
-    type: Number,
-    required: true,
-  },
-  groupWithNext: {
-    type: Boolean,
-    default: false,
-  },
-  inReplyTo: {
-    type: Object,
-    default: null,
-  },
-  isEmailInbox: {
-    type: Boolean,
-    default: false,
-  },
+  conversationId: { type: Number, required: true },
+  createdAt: { type: Number, required: true }, // eslint-disable-line vue/no-unused-properties
+  currentUserId: { type: Number, required: true },
+  groupWithNext: { type: Boolean, default: false },
+  inboxId: { type: Number, required: true }, // eslint-disable-line vue/no-unused-properties
+  inboxSupportsReplyTo: { type: Object, default: () => ({}) },
+  inReplyTo: { type: Object, default: null }, // eslint-disable-line vue/no-unused-properties
+  isEmailInbox: { type: Boolean, default: false },
+  private: { type: Boolean, default: false },
+  sender: { type: Object, default: null },
+  senderId: { type: Number, default: null },
+  senderType: { type: String, default: null },
+  sourceId: { type: String, default: '' }, // eslint-disable-line vue/no-unused-properties
 });
 
+const contextMenuPosition = ref({});
+const showContextMenu = ref(false);
 /**
  * Computes the message variant based on props
  * @type {import('vue').ComputedRef<'user'|'agent'|'activity'|'private'|'bot'|'template'>}
  */
 const variant = computed(() => {
   if (props.private) return MESSAGE_VARIANTS.PRIVATE;
+
   if (props.isEmailInbox) {
     const emailInboxTypes = [MESSAGE_TYPES.INCOMING, MESSAGE_TYPES.OUTGOING];
     if (emailInboxTypes.includes(props.messageType)) {
       return MESSAGE_VARIANTS.EMAIL;
     }
   }
+
+  if (props.contentType === CONTENT_TYPES.INCOMING_EMAIL) {
+    return MESSAGE_VARIANTS.EMAIL;
+  }
+
   if (props.status === MESSAGE_STATUS.FAILED) return MESSAGE_VARIANTS.ERROR;
-  if (props.contentAttributes.isUnsupported)
+  if (props.contentAttributes?.isUnsupported)
     return MESSAGE_VARIANTS.UNSUPPORTED;
 
   const variants = {
@@ -170,10 +160,20 @@ const variant = computed(() => {
 });
 
 const isMyMessage = computed(() => {
+  // if an outgoing message is still processing, then it's definitely a
+  // message sent by the current user
+  if (
+    props.status === MESSAGE_STATUS.PROGRESS &&
+    props.messageType === MESSAGE_TYPES.OUTGOING
+  ) {
+    return true;
+  }
   const senderId = props.senderId ?? props.sender?.id;
   const senderType = props.senderType ?? props.sender?.type;
 
-  if (!senderType || !senderId) return false;
+  if (!senderType || !senderId) {
+    return false;
+  }
 
   return (
     senderType.toLowerCase() === SENDER_TYPES.USER.toLowerCase() &&
@@ -248,7 +248,11 @@ const componentToRender = computed(() => {
     if (emailInboxTypes.includes(props.messageType)) return EmailBubble;
   }
 
-  if (props.contentAttributes.isUnsupported) {
+  if (props.contentType === CONTENT_TYPES.INCOMING_EMAIL) {
+    return EmailBubble;
+  }
+
+  if (props.contentAttributes?.isUnsupported) {
     return UnsupportedBubble;
   }
 
@@ -260,7 +264,7 @@ const componentToRender = computed(() => {
     return InstagramStoryBubble;
   }
 
-  if (props.attachments.length === 1) {
+  if (Array.isArray(props.attachments) && props.attachments.length === 1) {
     const fileType = props.attachments[0].fileType;
 
     if (!props.content) {
@@ -275,23 +279,93 @@ const componentToRender = computed(() => {
     if (fileType === ATTACHMENT_TYPES.CONTACT) return ContactBubble;
   }
 
-  if (props.attachments.length > 1 && !props.content) {
-    return AttachmentsBubble;
-  }
-
   return TextBubble;
 });
 
+const shouldShowContextMenu = computed(() => {
+  return !(
+    props.status === MESSAGE_STATUS.FAILED ||
+    props.status === MESSAGE_STATUS.PROGRESS ||
+    props.contentAttributes?.isUnsupported
+  );
+});
+
+const isBubble = computed(() => {
+  return props.messageType !== MESSAGE_TYPES.ACTIVITY;
+});
+
+const isMessageDeleted = computed(() => {
+  return props.contentAttributes?.deleted;
+});
+
+const payloadForContextMenu = computed(() => {
+  return {
+    id: props.id,
+    content_attributes: props.contentAttributes,
+    content: props.content,
+    conversation_id: props.conversationId,
+  };
+});
+
+const contextMenuEnabledOptions = computed(() => {
+  const hasText = !!props.content;
+  const hasAttachments = !!(props.attachments && props.attachments.length > 0);
+
+  const isOutgoing = props.messageType === MESSAGE_TYPES.OUTGOING;
+
+  return {
+    copy: hasText,
+    delete: hasText || hasAttachments,
+    cannedResponse: isOutgoing && hasText,
+    replyTo: !props.private && props.inboxSupportsReplyTo.outgoing,
+  };
+});
+
+function openContextMenu(e) {
+  const shouldSkipContextMenu =
+    e.target?.classList.contains('skip-context-menu') ||
+    e.target?.tagName.toLowerCase() === 'a';
+  if (shouldSkipContextMenu || getSelection().toString()) {
+    return;
+  }
+
+  e.preventDefault();
+  if (e.type === 'contextmenu') {
+    useTrack(ACCOUNT_EVENTS.OPEN_MESSAGE_CONTEXT_MENU);
+  }
+  contextMenuPosition.value = {
+    x: e.pageX || e.clientX,
+    y: e.pageY || e.clientY,
+  };
+  showContextMenu.value = true;
+}
+
+function closeContextMenu() {
+  showContextMenu.value = false;
+  contextMenuPosition.value = { x: null, y: null };
+}
+
+function handleReplyTo() {
+  const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
+  const { conversationId, id: replyTo } = props;
+
+  LocalStorage.updateJsonStore(replyStorageKey, conversationId, replyTo);
+  emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, props);
+}
+
 provideMessageContext({
+  ...toRefs(props),
+  isPrivate: computed(() => props.private),
   variant,
-  inReplyTo: props.inReplyTo,
   orientation,
   isMyMessage,
+  shouldGroupWithNext,
 });
 </script>
 
 <template>
   <div
+    :id="`message${props.id}`"
     class="flex w-full"
     :data-message-id="props.id"
     :class="[flexOrientationClass, shouldGroupWithNext ? 'mb-2' : 'mb-4']"
@@ -324,12 +398,14 @@ provideMessageContext({
         />
       </div>
       <div
-        class="[grid-area:bubble]"
+        class="[grid-area:bubble] flex"
         :class="{
-          'pl-9': ORIENTATION.RIGHT === orientation,
+          'pl-9 justify-end': orientation === ORIENTATION.RIGHT,
+          'min-w-0': variant === MESSAGE_VARIANTS.EMAIL,
         }"
+        @contextmenu="openContextMenu($event)"
       >
-        <Component :is="componentToRender" v-bind="props" />
+        <Component :is="componentToRender" />
       </div>
       <MessageError
         v-if="contentAttributes.externalError"
@@ -337,15 +413,18 @@ provideMessageContext({
         :class="flexOrientationClass"
         :error="contentAttributes.externalError"
       />
-      <MessageMeta
-        v-else-if="!shouldGroupWithNext"
-        class="[grid-area:meta]"
-        :class="flexOrientationClass"
-        :sender="props.sender"
-        :status="props.status"
-        :private="props.private"
-        :is-my-message="isMyMessage"
-        :created-at="props.createdAt"
+    </div>
+    <div v-if="shouldShowContextMenu" class="context-menu-wrap">
+      <ContextMenu
+        v-if="isBubble && !isMessageDeleted"
+        :context-menu-position="contextMenuPosition"
+        :is-open="showContextMenu"
+        :enabled-options="contextMenuEnabledOptions"
+        :message="payloadForContextMenu"
+        hide-button
+        @open="openContextMenu"
+        @close="closeContextMenu"
+        @reply-to="handleReplyTo"
       />
     </div>
   </div>
