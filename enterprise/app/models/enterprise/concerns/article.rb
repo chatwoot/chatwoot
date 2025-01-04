@@ -8,7 +8,7 @@ module Enterprise::Concerns::Article
       has_many :article_embeddings, dependent: :destroy_async
     end
 
-    add_article_embedding_association if Features::HelpcenterEmbeddingSearchService.new.feature_enabled?
+    add_article_embedding_association
 
     def self.vector_search(params)
       embedding = Openai::EmbeddingsService.new.get_embedding(params['query'], 'text-embedding-3-small')
