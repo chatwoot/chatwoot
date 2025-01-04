@@ -170,15 +170,35 @@ Rails.application.routes.draw do
             end
           end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
-          resources :response_sources, only: [:create] do
+          resources :response_sources do
             collection do
               post :parse
             end
             member do
               post :add_document
               post :remove_document
+              get :search
+              post :chat
+              post :copilot
+              post :ingest_content
             end
           end
+
+          resources :response_documents do
+            collection do
+              post :bulk_create
+              get :search
+            end
+            member do
+              get :responses
+            end
+          end
+          resources :responses do
+            collection do
+              get :search
+            end
+          end
+        end
 
           resources :notifications, only: [:index, :update, :destroy] do
             collection do
