@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_04_210328) do
+ActiveRecord::Schema[7.0].define(version: 2025_01_05_005821) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -271,16 +271,18 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_04_210328) do
   end
 
   create_table "captain_documents", force: :cascade do |t|
-    t.string "name", null: false
+    t.string "name"
     t.string "external_link", null: false
     t.text "content"
     t.bigint "assistant_id", null: false
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0, null: false
     t.index ["account_id"], name: "index_captain_documents_on_account_id"
     t.index ["assistant_id", "external_link"], name: "index_captain_documents_on_assistant_id_and_external_link", unique: true
     t.index ["assistant_id"], name: "index_captain_documents_on_assistant_id"
+    t.index ["status"], name: "index_captain_documents_on_status"
   end
 
   create_table "categories", force: :cascade do |t|
