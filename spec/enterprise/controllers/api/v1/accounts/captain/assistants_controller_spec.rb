@@ -14,7 +14,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
       end
     end
 
-    context 'when it is an admin' do
+    context 'when it is an agent' do
       it 'fetches assistants for the account' do
         create_list(:captain_assistant, 3, account: account)
         get "/api/v1/accounts/#{account.id}/captain/assistants",
@@ -39,7 +39,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
       end
     end
 
-    context 'when it is an admin' do
+    context 'when it is an agent' do
       it 'fetches the assistant' do
         get "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
             headers: agent.create_new_auth_token,
