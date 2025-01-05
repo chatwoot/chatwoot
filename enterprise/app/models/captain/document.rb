@@ -35,6 +35,7 @@ class Captain::Document < ApplicationRecord
   }
 
   after_create_commit :enqueue_crawl_job
+  scope :ordered, -> { order(created_at: :desc) }
 
   scope :for_account, ->(account_id) { where(account_id: account_id) }
   scope :for_assistant, ->(assistant_id) { where(assistant_id: assistant_id) }

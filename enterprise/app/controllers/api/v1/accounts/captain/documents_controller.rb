@@ -6,7 +6,7 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   before_action :set_document, only: [:show, :destroy]
 
   def index
-    @documents = @assistant.documents.order(created_at: :desc)
+    @documents = @assistant.documents.ordered
   end
 
   def show; end
