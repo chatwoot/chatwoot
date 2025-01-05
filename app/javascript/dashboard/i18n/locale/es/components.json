@@ -22,7 +22,7 @@
     }
   },
   "PHONE_INPUT": {
-    "SEARCH_PLACEHOLDER": "Search country",
+    "SEARCH_PLACEHOLDER": "Buscar país",
     "ERROR": "Phone number should be empty or in E.164 format",
     "DIAL_CODE_ERROR": "Por favor, seleccione un código de marcado de la lista"
   },
