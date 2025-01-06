@@ -10,7 +10,7 @@ module Enterprise::Inbox
   end
 
   def response_bot_enabled?
-    account.feature_enabled?('response_bot') && response_sources.any?
+    account.feature_enabled?('response_bot')
   end
 
   private
