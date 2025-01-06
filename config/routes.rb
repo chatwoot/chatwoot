@@ -51,6 +51,7 @@ Rails.application.routes.draw do
           namespace :captain do
             resources :assistants do
               resources :documents, only: [:index, :show, :create, :destroy]
+              resources :assistant_responses
             end
           end
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
