@@ -370,7 +370,7 @@ Rails.application.routes.draw do
       end
 
       post 'webhooks/stripe', to: 'webhooks/stripe#process_payload'
-      post 'webhooks/firecrawl/:assistant_id', to: 'webhooks/firecrawl#process_payload'
+      post 'webhooks/firecrawl', to: 'webhooks/firecrawl#process_payload'
     end
   end
 

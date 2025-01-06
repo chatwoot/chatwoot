@@ -43,7 +43,7 @@ class Captain::Document < ApplicationRecord
   private
 
   def enqueue_crawl_job
-    Captain::Documents::CrawlJob.perform_later(id)
+    Captain::Documents::CrawlJob.perform_later(self)
   end
 
   def ensure_account_id
