@@ -34,6 +34,7 @@ jobs:
             DEBIAN_FRONTEND=noninteractive sudo apt-get install -y \
               libpq-dev \
               redis-server \
+              postgresql-common \
               postgresql \
               postgresql-14-pgvector \
               build-essential \
