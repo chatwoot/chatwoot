@@ -71,7 +71,7 @@
         "DIAL_CODE_VALID_ERROR": "لطفا\" یک کد کشور انتخاب کنید",
         "VALID_ERROR": "لطفا\" یک شماره موبایل معتبر وارد نمایید",
         "DROPDOWN_EMPTY": "نتیجه‌ای یافت نشد",
-        "DROPDOWN_SEARCH": "Search country"
+        "DROPDOWN_SEARCH": "جستجوی کشور"
       },
       "MESSAGE": {
         "LABEL": "پیام",

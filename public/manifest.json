@@ -1,6 +1,6 @@
 {
-  "name": "Chatwoot",
-  "short_name": "Chatwoot",
+  "name": "Connnect Chat",
+  "short_name": "Connnect",
   "icons": [{
     "src": "\/android-icon-36x36.png",
     "sizes": "36x36",
@@ -39,6 +39,6 @@
    }],
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#1f93ff",
-  "theme_color": "#1f93ff"
+  "background_color": "#6C47E4",
+  "theme_color": "#6C47E4"
 }
