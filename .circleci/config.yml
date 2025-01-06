@@ -35,8 +35,8 @@ jobs:
               libpq-dev \
               redis-server \
               postgresql-common \
-              postgresql \
-              postgresql-14-pgvector \
+              postgresql-16 \
+              postgresql-16-pgvector \
               build-essential \
               git \
               curl \
