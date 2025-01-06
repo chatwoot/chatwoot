@@ -23,6 +23,7 @@ class Captain::Document < ApplicationRecord
   self.table_name = 'captain_documents'
 
   belongs_to :assistant, class_name: 'Captain::Assistant'
+  has_many :responses, class_name: 'Captain::AssistantResponse', dependent: :destroy
   belongs_to :account
 
   validates :external_link, presence: true
@@ -35,6 +36,7 @@ class Captain::Document < ApplicationRecord
   }
 
   after_create_commit :enqueue_crawl_job
+  after_commit :enqueue_response_builder_job
   scope :ordered, -> { order(created_at: :desc) }
 
   scope :for_account, ->(account_id) { where(account_id: account_id) }
@@ -46,6 +48,12 @@ class Captain::Document < ApplicationRecord
     return if status != 'in_progress'
 
     Captain::Documents::CrawlJob.perform_later(self)
+  end
+
+  def enqueue_response_builder_job
+    return if status != 'available'
+
+    Captain::Documents::ResponseBuilderJob.perform_later(self)
   end
 
   def ensure_account_id
