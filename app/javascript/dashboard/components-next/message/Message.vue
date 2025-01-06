@@ -149,6 +149,10 @@ const variant = computed(() => {
   if (props.contentAttributes?.isUnsupported)
     return MESSAGE_VARIANTS.UNSUPPORTED;
 
+  if (!props.sender || props.sender.type === 'agent_bot') {
+    return MESSAGE_VARIANTS.BOT;
+  }
+
   const variants = {
     [MESSAGE_TYPES.INCOMING]: MESSAGE_VARIANTS.USER,
     [MESSAGE_TYPES.ACTIVITY]: MESSAGE_VARIANTS.ACTIVITY,
