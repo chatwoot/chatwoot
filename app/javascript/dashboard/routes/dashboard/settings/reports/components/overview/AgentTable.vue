@@ -73,10 +73,10 @@ const tableData = computed(() => {
         email: agentInformation.email,
         thumbnail: agentInformation.thumbnail,
         open:
-          agent.metric.open ||
+          agent.metric.open ??
           Math.floor(stringToFloat(agentInformation.email) * 50),
         unattended:
-          agent.metric.unattended ||
+          agent.metric.unattended ??
           Math.floor(stringToFloat(agentInformation.email) * 30),
         status: agentInformation.availability_status,
       };
