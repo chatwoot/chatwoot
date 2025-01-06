@@ -26,6 +26,7 @@ attr_accessor :conversations, :file_name, :report
   def arrow_fields
     [
       Arrow::Field.new('id', :int64),
+      Arrow::Field.new('display_id', :int64),
       Arrow::Field.new('sender_id', :int64),
       Arrow::Field.new('sender_name', :string),
       Arrow::Field.new('sender_email', :string),
@@ -78,7 +79,8 @@ attr_accessor :conversations, :file_name, :report
     GC.enable
     conversations.find_in_batches(batch_size: batch_size) do |cons|
       cons.each do |conversation|
-        @columns['id'] << conversation&.display_id.to_i
+        @columns['id'] << conversation.&id.to_i
+        @columns['display_id'] << conversation&.display_id.to_i
         @columns['sender_id'] << conversation&.contact&.id.to_i
         @columns['sender_name'] << conversation&.contact&.name.to_s
         @columns['sender_email'] << conversation&.contact&.email.to_s
@@ -122,6 +124,7 @@ attr_accessor :conversations, :file_name, :report
   def map_columns_array
     [
       Arrow::Int64Array.new(@columns['id']),
+      Arrow::Int64Array.new(@columns['display_id']),
       Arrow::Int64Array.new(@columns['sender_id']),
       Arrow::StringArray.new(@columns['sender_name']),
       Arrow::StringArray.new(@columns['sender_email']),
