@@ -178,7 +178,6 @@ export default {
     <NextSidebar
       v-if="showNextSidebar"
       @toggle-account-modal="toggleAccountModal"
-      @open-notification-panel="openNotificationPanel"
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
       @show-create-account-modal="openCreateAccountModal"

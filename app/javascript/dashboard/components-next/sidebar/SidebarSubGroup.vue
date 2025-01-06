@@ -52,7 +52,7 @@ useEventListener(scrollableContainer, 'scroll', () => {
     :icon
     class="my-1"
   />
-  <ul class="m-0 list-none relative group">
+  <ul class="m-0 list-none reset-base relative group">
     <!-- Each element has h-8, which is 32px, we will show 7 items with one hidden at the end,
     which is 14rem. Then we add 16px so that we have some text visible from the next item  -->
     <div

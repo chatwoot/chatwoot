@@ -1,5 +1,5 @@
 <script setup>
-import { computed, watch, ref } from 'vue';
+import { computed, onMounted, nextTick } from 'vue';
 import { useSidebarContext } from './provider';
 import { useRoute, useRouter } from 'vue-router';
 import Policy from 'dashboard/components/policy.vue';
@@ -25,17 +25,6 @@ const {
   resolveFeatureFlag,
   isAllowed,
 } = useSidebarContext();
-
-const parentEl = ref(null);
-
-const locateLastChild = async () => {
-  const children = parentEl.value?.querySelectorAll('.child-item');
-  if (!children) return;
-
-  children.forEach((child, index) => {
-    child.classList.toggle('last-child-item', index === children.length - 1);
-  });
-};
 
 const navigableChildren = computed(() => {
   return props.children?.flatMap(child => child.children || child) || [];
@@ -77,13 +66,34 @@ const activeChild = computed(() => {
   );
   if (pathSame) return pathSame;
 
-  const pathSatrtsWith = navigableChildren.value.find(
-    child => child.to && route.path.startsWith(resolvePath(child.to))
-  );
-  if (pathSatrtsWith) return pathSatrtsWith;
-
-  return navigableChildren.value.find(child =>
+  // Rank the activeOn Prop higher than the path match
+  // There will be cases where the path name is the same but the params are different
+  // So we need to rank them based on the params
+  // For example, contacts segment list in the sidebar effectively has the same name
+  // But the params are different
+  const activeOnPages = navigableChildren.value.filter(child =>
     child.activeOn?.includes(route.name)
+  );
+
+  if (activeOnPages.length > 0) {
+    const rankedPage = activeOnPages.find(child => {
+      return Object.keys(child.to.params)
+        .map(key => {
+          return String(child.to.params[key]) === String(route.params[key]);
+        })
+        .every(match => match);
+    });
+
+    // If there is no ranked page, return the first activeOn page anyway
+    // Since this takes higher precedence over the path match
+    // This is not perfect, ideally we should rank each route based on all the techniques
+    // and then return the highest ranked one
+    // But this is good enough for now
+    return rankedPage ?? activeOnPages[0];
+  }
+
+  return navigableChildren.value.find(
+    child => child.to && route.path.startsWith(resolvePath(child.to))
   );
 });
 
@@ -104,8 +114,11 @@ const toggleTrigger = () => {
   setExpandedItem(props.name);
 };
 
-watch([expandedItem, accessibleItems], locateLastChild, {
-  immediate: true,
+onMounted(async () => {
+  await nextTick();
+  if (hasActiveChild.value) {
+    setExpandedItem(props.name);
+  }
 });
 </script>
 
@@ -116,7 +129,7 @@ watch([expandedItem, accessibleItems], locateLastChild, {
     :permissions="resolvePermissions(to)"
     :feature-flag="resolveFeatureFlag(to)"
     as="li"
-    class="text-sm cursor-pointer select-none gap-1 grid"
+    class="grid gap-1 text-sm cursor-pointer select-none"
   >
     <SidebarGroupHeader
       :icon
@@ -132,13 +145,14 @@ watch([expandedItem, accessibleItems], locateLastChild, {
     <ul
       v-if="hasChildren"
       v-show="isExpanded || hasActiveChild"
-      ref="parentEl"
-      class="list-none m-0 grid sidebar-group-children"
+      class="grid m-0 list-none sidebar-group-children"
     >
       <template v-for="child in children" :key="child.name">
         <SidebarSubGroup
           v-if="child.children"
-          v-bind="child"
+          :label="child.label"
+          :icon="child.icon"
+          :children="child.children"
           :is-expanded="isExpanded"
           :active-child="activeChild"
         />
@@ -155,3 +169,59 @@ watch([expandedItem, accessibleItems], locateLastChild, {
     </ul>
   </Policy>
 </template>
+
+<style>
+.sidebar-group-children .child-item::before {
+  content: '';
+  position: absolute;
+  width: 0.125rem;
+  /* 0.5px */
+  height: 100%;
+}
+
+.sidebar-group-children .child-item:first-child::before {
+  border-radius: 4px 4px 0 0;
+}
+
+/* This selects the last child in a group */
+/* https://codepen.io/scmmishra/pen/yLmKNLW */
+.sidebar-group-children > .child-item:last-child::before,
+.sidebar-group-children
+  > *:last-child
+  > *:last-child
+  > .child-item:last-child::before {
+  height: 20%;
+}
+
+.sidebar-group-children > .child-item:last-child::after,
+.sidebar-group-children
+  > *:last-child
+  > *:last-child
+  > .child-item:last-child::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 12px;
+  bottom: calc(50% - 2px);
+  border-bottom-width: 0.125rem;
+  border-left-width: 0.125rem;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  border-radius: 0 0 0 4px;
+  left: 0;
+}
+
+.app-rtl--wrapper .sidebar-group-children > .child-item:last-child::after,
+.app-rtl--wrapper
+  .sidebar-group-children
+  > *:last-child
+  > *:last-child
+  > .child-item:last-child::after {
+  right: 0;
+  border-bottom-width: 0.125rem;
+  border-right-width: 0.125rem;
+  border-left-width: 0px;
+  border-top-width: 0px;
+  border-radius: 0 0 4px 0px;
+}
+</style>

@@ -6,6 +6,7 @@ import { routes as notificationRoutes } from './notifications/routes';
 import { routes as inboxRoutes } from './inbox/routes';
 import { frontendURL } from '../../helper/URLHelper';
 import helpcenterRoutes from './helpcenter/helpcenter.routes';
+import campaignsRoutes from './campaigns/campaigns.routes';
 
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
@@ -20,13 +21,14 @@ export default {
       component: AppContainer,
       children: [
         {
-          path: frontendURL('accounts/:accountId/captain'),
+          path: frontendURL('accounts/:accountId/captain/:page'),
           name: 'captain',
           component: Captain,
           meta: {
             permissions: ['administrator', 'agent'],
             featureFlag: FEATURE_FLAGS.CAPTAIN,
           },
+          props: true,
         },
         ...inboxRoutes,
         ...conversation.routes,
@@ -35,6 +37,7 @@ export default {
         ...searchRoutes,
         ...notificationRoutes,
         ...helpcenterRoutes.routes,
+        ...campaignsRoutes.routes,
       ],
     },
     {

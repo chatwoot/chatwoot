@@ -4,6 +4,7 @@ import { OnClickOutside } from '@vueuse/components';
 import { useI18n } from 'vue-i18n';
 
 import Button from 'dashboard/components-next/button/Button.vue';
+import ComboBoxDropdown from 'dashboard/components-next/combobox/ComboBoxDropdown.vue';
 
 const props = defineProps({
   options: {
@@ -36,16 +37,20 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  hasError: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'search']);
 
 const { t } = useI18n();
 
 const selectedValue = ref(props.modelValue);
 const open = ref(false);
 const search = ref('');
-const searchInput = ref(null);
+const dropdownRef = ref(null);
 const comboboxRef = ref(null);
 
 const filteredOptions = computed(() => {
@@ -70,11 +75,13 @@ const selectOption = option => {
   open.value = false;
   search.value = '';
 };
+
 const toggleDropdown = () => {
+  if (props.disabled) return;
   open.value = !open.value;
   if (open.value) {
     search.value = '';
-    nextTick(() => searchInput.value.focus());
+    nextTick(() => dropdownRef.value?.focus());
   }
 };
 
@@ -94,67 +101,40 @@ watch(
       'cursor-not-allowed': disabled,
       'group/combobox': !disabled,
     }"
+    @click.prevent
   >
     <OnClickOutside @trigger="open = false">
       <Button
         variant="outline"
-        color="slate"
+        :color="hasError && !open ? 'ruby' : open ? 'blue' : 'slate'"
         :label="selectedLabel"
         trailing-icon
         :disabled="disabled"
         class="justify-between w-full !px-3 !py-2.5 text-n-slate-12 font-normal group-hover/combobox:border-n-slate-6"
+        :class="{ focused: open }"
         :icon="open ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
         @click="toggleDropdown"
       />
-      <div
-        v-show="open"
-        class="absolute z-50 w-full mt-1 transition-opacity duration-200 border rounded-md shadow-lg bg-n-solid-1 border-n-strong"
-      >
-        <div class="relative border-b border-n-strong">
-          <span class="absolute i-lucide-search top-2.5 size-4 left-3" />
-          <input
-            ref="searchInput"
-            v-model="search"
-            type="search"
-            :placeholder="searchPlaceholder || t('COMBOBOX.SEARCH_PLACEHOLDER')"
-            class="w-full py-2 pl-10 pr-2 text-sm border-none rounded-t-md bg-n-solid-1 text-slate-900 dark:text-slate-50"
-          />
-        </div>
-        <ul
-          class="py-1 mb-0 overflow-auto max-h-60"
-          role="listbox"
-          :aria-activedescendant="selectedValue"
-        >
-          <li
-            v-for="option in filteredOptions"
-            :key="option.value"
-            class="flex items-center justify-between !text-n-slate-12 w-full gap-2 px-3 py-2 text-sm transition-colors duration-150 cursor-pointer hover:bg-n-alpha-2"
-            :class="{
-              'bg-n-alpha-2': option.value === selectedValue,
-            }"
-            role="option"
-            :aria-selected="option.value === selectedValue"
-            @click="selectOption(option)"
-          >
-            <span :class="{ 'font-medium': option.value === selectedValue }">
-              {{ option.label }}
-            </span>
-            <span
-              v-if="option.value === selectedValue"
-              class="flex-shrink-0 i-lucide-check size-4 text-n-slate-11"
-            />
-          </li>
-          <li
-            v-if="filteredOptions.length === 0"
-            class="px-3 py-2 text-sm text-slate-600 dark:text-slate-300"
-          >
-            {{ emptyState || t('COMBOBOX.EMPTY_STATE') }}
-          </li>
-        </ul>
-      </div>
+
+      <ComboBoxDropdown
+        ref="dropdownRef"
+        v-model:search-value="search"
+        :open="open"
+        :options="filteredOptions"
+        :search-placeholder="searchPlaceholder"
+        :empty-state="emptyState"
+        :selected-values="selectedValue"
+        @search="emit('search', $event)"
+        @select="selectOption"
+      />
+
       <p
         v-if="message"
-        class="mt-2 mb-0 text-xs truncate transition-all duration-500 ease-in-out text-n-slate-11 dark:text-n-slate-11"
+        class="mt-2 mb-0 text-xs truncate transition-all duration-500 ease-in-out"
+        :class="{
+          'text-n-ruby-9': hasError,
+          'text-n-slate-11': !hasError,
+        }"
       >
         {{ message }}
       </p>

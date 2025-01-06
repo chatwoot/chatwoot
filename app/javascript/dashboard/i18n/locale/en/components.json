@@ -5,14 +5,26 @@
   },
   "COMBOBOX": {
     "PLACEHOLDER": "Select an option...",
+    "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
     "EMPTY_STATE": "No results found.",
-    "SEARCH_PLACEHOLDER": "Search..."
+    "SEARCH_PLACEHOLDER": "Search...",
+    "MORE": "+{count} more"
+  },
+  "DROPDOWN_MENU": {
+    "SEARCH_PLACEHOLDER": "Search...",
+    "EMPTY_STATE": "No results found.",
+    "SEARCHING": "Searching..."
   },
   "DIALOG": {
     "BUTTONS": {
       "CANCEL": "Cancel",
       "CONFIRM": "Confirm"
     }
+  },
+  "PHONE_INPUT": {
+    "SEARCH_PLACEHOLDER": "Search country",
+    "ERROR": "Phone number should be empty or in E.164 format",
+    "DIAL_CODE_ERROR": "Please select a dial code from the list"
   },
   "THUMBNAIL": {
     "AUTHOR": {
@@ -21,5 +33,11 @@
   },
   "BREADCRUMB": {
     "ARIA_LABEL": "Breadcrumb"
+  },
+  "SWITCH": {
+    "TOGGLE": "Toggle switch"
+  },
+  "LABEL": {
+    "TAG_BUTTON": "tag"
   }
 }

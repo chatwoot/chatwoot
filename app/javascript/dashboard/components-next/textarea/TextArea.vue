@@ -58,6 +58,15 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  message: {
+    type: String,
+    default: '',
+  },
+  messageType: {
+    type: String,
+    default: 'info',
+    validator: value => ['info', 'error', 'success'].includes(value),
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -66,6 +75,17 @@ const textareaRef = ref(null);
 const isFocused = ref(false);
 
 const characterCount = computed(() => props.modelValue.length);
+
+const messageClass = computed(() => {
+  switch (props.messageType) {
+    case 'error':
+      return 'text-n-ruby-9 dark:text-n-ruby-9';
+    case 'success':
+      return 'text-green-500 dark:text-green-400';
+    default:
+      return 'text-n-slate-11 dark:text-n-slate-11';
+  }
+});
 
 // TODO - use "field-sizing: content" and "height: auto" in future for auto height, when available.
 const adjustHeight = () => {
@@ -85,11 +105,15 @@ const handleInput = event => {
 };
 
 const handleFocus = () => {
-  isFocused.value = true;
+  if (!props.disabled) {
+    isFocused.value = true;
+  }
 };
 
 const handleBlur = () => {
-  isFocused.value = false;
+  if (!props.disabled) {
+    isFocused.value = false;
+  }
 };
 
 // Watch for changes in modelValue to adjust height
@@ -118,19 +142,22 @@ onMounted(() => {
     <label
       v-if="label"
       :for="id"
-      class="mb-0.5 text-sm font-medium text-gray-900 dark:text-gray-50"
+      class="mb-0.5 text-sm font-medium text-n-slate-12"
     >
       {{ label }}
     </label>
     <div
-      class="flex flex-col gap-2 px-3 pt-3 pb-3 transition-all duration-500 ease-in-out bg-white border rounded-lg border-n-weak dark:border-n-weak dark:bg-slate-900"
+      class="flex flex-col gap-2 px-3 pt-3 pb-3 transition-all duration-500 ease-in-out border rounded-lg bg-n-alpha-black2"
       :class="[
         customTextAreaWrapperClass,
         {
-          'cursor-not-allowed opacity-50 !bg-slate-25 dark:!bg-slate-800 disabled:border-n-weak dark:disabled:border-n-weak':
+          'cursor-not-allowed opacity-50 !bg-n-alpha-black2 disabled:border-n-weak dark:disabled:border-n-weak':
             disabled,
           'border-n-brand dark:border-n-brand': isFocused,
-          'hover:border-n-slate-6 dark:hover:border-n-slate-6': !isFocused,
+          'hover:border-n-slate-6 dark:hover:border-n-slate-6 border-n-weak dark:border-n-weak':
+            !isFocused && messageType !== 'error',
+          'border-n-ruby-8 dark:border-n-ruby-8 hover:border-n-ruby-9 dark:hover:border-n-ruby-9':
+            messageType === 'error' && !isFocused,
         },
       ]"
     >
@@ -152,7 +179,7 @@ onMounted(() => {
         }"
         :disabled="disabled"
         rows="1"
-        class="flex w-full reset-base text-sm p-0 !rounded-none !bg-transparent dark:!bg-transparent !border-0 !mb-0 placeholder:text-slate-200 dark:placeholder:text-slate-500 text-slate-900 dark:text-white disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-slate-25 dark:disabled:bg-slate-900"
+        class="flex w-full reset-base text-sm p-0 !rounded-none !bg-transparent dark:!bg-transparent !border-0 !mb-0 placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 text-n-slate-12 dark:text-n-slate-12 disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-slate-25 dark:disabled:bg-slate-900"
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"
@@ -161,10 +188,17 @@ onMounted(() => {
         v-if="showCharacterCount"
         class="flex items-center justify-end h-4 mt-1 bottom-3 ltr:right-3 rtl:left-3"
       >
-        <span class="text-xs tabular-nums text-slate-300 dark:text-slate-600">
+        <span class="text-xs tabular-nums text-n-slate-10">
           {{ characterCount }} / {{ maxLength }}
         </span>
       </div>
     </div>
+    <p
+      v-if="message"
+      class="min-w-0 mt-1 mb-0 text-xs truncate transition-all duration-500 ease-in-out"
+      :class="messageClass"
+    >
+      {{ message }}
+    </p>
   </div>
 </template>

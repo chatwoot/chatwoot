@@ -1,48 +1,60 @@
-/* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../helper/URLHelper';
-import ContactsView from './components/ContactsView.vue';
+import ContactsIndex from './pages/ContactsIndex.vue';
 import ContactManageView from './pages/ContactManageView.vue';
+
+const commonMeta = {
+  permissions: ['administrator', 'agent', 'contact_manage'],
+};
 
 export const routes = [
   {
     path: frontendURL('accounts/:accountId/contacts'),
-    name: 'contacts_dashboard',
-    meta: {
-      permissions: ['administrator', 'agent', 'contact_manage'],
-    },
-    component: ContactsView,
-  },
-  {
-    path: frontendURL('accounts/:accountId/contacts/custom_view/:id'),
-    name: 'contacts_segments_dashboard',
-    meta: {
-      permissions: ['administrator', 'agent', 'contact_manage'],
-    },
-    component: ContactsView,
-    props: route => {
-      return { segmentsId: route.params.id };
-    },
-  },
-  {
-    path: frontendURL('accounts/:accountId/labels/:label/contacts'),
-    name: 'contacts_labels_dashboard',
-    meta: {
-      permissions: ['administrator', 'agent', 'contact_manage'],
-    },
-    component: ContactsView,
-    props: route => {
-      return { label: route.params.label };
-    },
+    component: ContactsIndex,
+    meta: commonMeta,
+    children: [
+      {
+        path: '',
+        name: 'contacts_dashboard_index',
+        component: ContactsIndex,
+        meta: commonMeta,
+      },
+      {
+        path: 'segments/:segmentId',
+        name: 'contacts_dashboard_segments_index',
+        component: ContactsIndex,
+        meta: commonMeta,
+      },
+      {
+        path: 'labels/:label',
+        name: 'contacts_dashboard_labels_index',
+        component: ContactsIndex,
+        meta: commonMeta,
+      },
+    ],
   },
   {
     path: frontendURL('accounts/:accountId/contacts/:contactId'),
-    name: 'contact_profile_dashboard',
-    meta: {
-      permissions: ['administrator', 'agent', 'contact_manage'],
-    },
     component: ContactManageView,
-    props: route => {
-      return { contactId: route.params.contactId };
-    },
+    meta: commonMeta,
+    children: [
+      {
+        path: '',
+        name: 'contacts_edit',
+        component: ContactManageView,
+        meta: commonMeta,
+      },
+      {
+        path: 'segments/:segmentId',
+        name: 'contacts_edit_segment',
+        component: ContactManageView,
+        meta: commonMeta,
+      },
+      {
+        path: 'labels/:label',
+        name: 'contacts_edit_label',
+        component: ContactManageView,
+        meta: commonMeta,
+      },
+    ],
   },
 ];

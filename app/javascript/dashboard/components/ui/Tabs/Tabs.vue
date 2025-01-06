@@ -1,5 +1,4 @@
 <script setup>
-// [VITE] TODO: Test this component across different screen sizes and usages
 import { ref, provide, onMounted, computed } from 'vue';
 import { useEventListener } from '@vueuse/core';
 
@@ -12,20 +11,19 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  isCompact: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['change']);
 
 const hasScroll = ref(false);
-// TODO: We may not this internalActiveIndex, we can use activeIndex directly
-// But right I'll keep it and fix it when testing the rest of the codebase
-const internalActiveIndex = ref(props.index);
 
-// Create a proxy for activeIndex using computed
 const activeIndex = computed({
-  get: () => internalActiveIndex.value,
+  get: () => props.index,
   set: newValue => {
-    internalActiveIndex.value = newValue;
     emit('change', newValue);
   },
 });
@@ -65,7 +63,10 @@ onMounted(() => {
 
 <template>
   <div
-    :class="{ 'tabs--container--with-border': border }"
+    :class="{
+      'tabs--container--with-border': border,
+      'tabs--container--compact': isCompact,
+    }"
     class="tabs--container"
   >
     <button

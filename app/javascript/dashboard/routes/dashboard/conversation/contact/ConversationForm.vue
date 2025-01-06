@@ -3,8 +3,7 @@ import { ref } from 'vue';
 // constants & helpers
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
-import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
-import { getInboxSource } from 'dashboard/helper/inbox';
+import { getInboxSource, INBOX_TYPES } from 'dashboard/helper/inbox';
 
 // store
 import { mapGetters } from 'vuex';
@@ -139,7 +138,7 @@ export default {
     },
     selectedInbox: {
       get() {
-        const inboxList = this.contact.contactableInboxes || [];
+        const inboxList = this.contact.contact_inboxes || [];
         return (
           inboxList.find(inbox => {
             return inbox.inbox?.id && inbox.inbox?.id === this.targetInbox?.id;
@@ -153,7 +152,7 @@ export default {
       },
     },
     showNoInboxAlert() {
-      if (!this.contact.contactableInboxes) {
+      if (!this.contact.contact_inboxes) {
         return false;
       }
       return this.inboxes.length === 0 && !this.uiFlags.isFetchingInboxes;
@@ -167,7 +166,7 @@ export default {
         : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
     },
     inboxes() {
-      const inboxList = this.contact.contactableInboxes || [];
+      const inboxList = this.contact.contact_inboxes || [];
       return inboxList.map(inbox => ({
         ...inbox.inbox,
         sourceId: inbox.source_id,

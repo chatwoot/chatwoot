@@ -65,6 +65,7 @@ const props = defineProps({
   modelValue: { type: String, default: '' },
   editorId: { type: String, default: '' },
   placeholder: { type: String, default: '' },
+  disabled: { type: Boolean, default: false },
   isPrivate: { type: Boolean, default: false },
   enableSuggestions: { type: Boolean, default: true },
   overrideLineBreaks: { type: Boolean, default: false },
@@ -299,6 +300,8 @@ function handleEmptyBodyWithSignature() {
 }
 
 function focusEditor(content) {
+  if (props.disabled) return;
+
   const unrefContent = unref(content);
   if (isBodyEmpty(unrefContent) && sendWithSignature.value) {
     // reload state can be called when switching between conversations, or when drafts is loaded
@@ -561,6 +564,7 @@ function onKeydown(event) {
 function createEditorView() {
   editorView = new EditorView(editor.value, {
     state: state,
+    editable: () => !props.disabled,
     dispatchTransaction: tx => {
       state = state.apply(tx);
       editorView.updateState(state);
@@ -570,17 +574,21 @@ function createEditorView() {
     },
     handleDOMEvents: {
       keyup: () => {
-        typingIndicator.start();
-        updateImgToolbarOnDelete();
+        if (!props.disabled) {
+          typingIndicator.start();
+          updateImgToolbarOnDelete();
+        }
       },
-      keydown: (view, event) => onKeydown(event),
-      focus: () => emit('focus'),
-      click: isEditorMouseFocusedOnAnImage,
+      keydown: (view, event) => !props.disabled && onKeydown(event),
+      focus: () => !props.disabled && emit('focus'),
+      click: () => !props.disabled && isEditorMouseFocusedOnAnImage(),
       blur: () => {
+        if (props.disabled) return;
         typingIndicator.stop();
         emit('blur');
       },
       paste: (_view, event) => {
+        if (props.disabled) return;
         const data = event.clipboardData.files;
         if (data.length > 0) {
           event.preventDefault();

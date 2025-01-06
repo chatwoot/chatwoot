@@ -219,7 +219,8 @@ Rails.application.routes.draw do
             resources :apps, only: [:index, :show]
             resource :captain, controller: 'captain', only: [] do
               collection do
-                get :sso_url
+                post :proxy
+                post :copilot
               end
             end
             resources :hooks, only: [:show, :create, :update, :destroy] do
@@ -327,6 +328,7 @@ Rails.application.routes.draw do
             collection do
               get :agent
               get :team
+              get :inbox
             end
           end
           resources :reports, only: [:index] do
