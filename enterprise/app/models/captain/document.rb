@@ -43,6 +43,8 @@ class Captain::Document < ApplicationRecord
   private
 
   def enqueue_crawl_job
+    return if status != 'in_progress'
+
     Captain::Documents::CrawlJob.perform_later(self)
   end
 
