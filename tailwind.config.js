@@ -143,6 +143,8 @@ const tailwindConfig = {
             img: {
               maxWidth: '100%',
               height: 'auto',
+              marginTop: 'unset',
+              marginBottom: 'unset',
             },
           },
         },
