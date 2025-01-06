@@ -1,3 +1,24 @@
+# == Schema Information
+#
+# Table name: captain_assistant_responses
+#
+#  id           :bigint           not null, primary key
+#  answer       :text             not null
+#  embedding    :vector(1536)
+#  question     :string           not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  account_id   :bigint           not null
+#  assistant_id :bigint           not null
+#  document_id  :bigint
+#
+# Indexes
+#
+#  index_captain_assistant_responses_on_account_id    (account_id)
+#  index_captain_assistant_responses_on_assistant_id  (assistant_id)
+#  index_captain_assistant_responses_on_document_id   (document_id)
+#  vector_idx_knowledge_entries_embedding             (embedding) USING ivfflat
+#
 class Captain::AssistantResponse < ApplicationRecord
   self.table_name = 'captain_assistant_responses'
 
@@ -10,7 +31,7 @@ class Captain::AssistantResponse < ApplicationRecord
   validates :answer, presence: true
 
   before_validation :ensure_account
-  before_save :update_response_embedding
+  after_commit :update_response_embedding
 
   scope :ordered, -> { order(created_at: :desc) }
   scope :by_account, ->(account_id) { where(account_id: account_id) }
@@ -24,6 +45,8 @@ class Captain::AssistantResponse < ApplicationRecord
   end
 
   def update_response_embedding
-    # self.embedding = Openai::EmbeddingsService.new.get_embedding("#{question}: #{answer}")
+    return unless saved_change_to_question? || saved_change_to_answer? || embedding.nil?
+
+    Captain::Llm::UpdateEmbeddingJob.perform_later(self, "#{question}: #{answer}")
   end
 end

@@ -11,7 +11,7 @@ module Enterprise::Concerns::Article
     add_article_embedding_association
 
     def self.vector_search(params)
-      embedding = Openai::EmbeddingsService.new.get_embedding(params['query'], 'text-embedding-3-small')
+      embedding = Captain::Llm::EmbeddingService.new.get_embedding(params['query'])
       records = joins(
         :category
       ).search_by_category_slug(
