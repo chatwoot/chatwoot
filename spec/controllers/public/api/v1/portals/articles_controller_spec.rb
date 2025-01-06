@@ -17,6 +17,8 @@ RSpec.describe 'Public Articles API', type: :request do
     create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: article.id, views: 1)
     create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: article.id, views: 5)
     create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id, views: 4)
+
+    sign_in agent
   end
 
   describe 'GET /public/api/v1/portals/:slug/articles' do

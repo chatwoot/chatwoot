@@ -5,6 +5,7 @@ include:
 
 stages:
   - build_and_publish
+  - test
   - plan
   - comment
   - apply
@@ -18,10 +19,17 @@ default:
     - eval $(ssh-agent -s)
     - chmod 400 "${CICD_PRIVATE_KEY}"
     - ssh-add "${CICD_PRIVATE_KEY}"
-
+  
 variables:
   DOCKER_HOST: tcp://docker:2375
   DOCKER_TLS_CERTDIR: ""
+  BUNDLE_PATH: vendor/bundle
+
+cache:
+  key: vendor-bundle-$CI_COMMIT_REF_SLUG
+  paths:
+    - vendor/bundle
+    - vendor/ruby
 
 build_and_publish:
   stage: build_and_publish
@@ -30,6 +38,75 @@ build_and_publish:
     - make publish
   only:
     - main
+    - merge_request
+
+# TODO: improve test stage to work with Docker in Docker
+test:
+  stage: test
+  image: public.ecr.aws/ubuntu/ubuntu:20.04
+  services:
+    - name: postgres:15
+      alias: db
+    - name: redis:alpine
+      alias: redis
+  variables:
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: ""
+    POSTGRES_DB: chatwoot_test
+    POSTGRES_HOST_AUTH_METHOD: trust
+    NODE_OPTIONS: --openssl-legacy-provider
+    POSTGRES_PORT: 5432
+    POSTGRES_HOST: db
+    RAILS_ENV: test
+  before_script:
+    # install parquet libraries
+    - apt update
+    - apt install -y -V ca-certificates lsb-release wget
+    - wget https://apache.jfrog.io/artifactory/arrow/$(lsb_release --id --short | tr 'A-Z' 'a-z')/apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb
+    - apt install -y -V ./apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb
+    - export DEBIAN_FRONTEND=noninteractive
+    - ln -fs /usr/share/zoneinfo/Europe/Stockholm /etc/localtime
+    - apt update
+    - apt-get install -y  libarrow-dev libarrow-glib-dev libparquet-glib-dev libgirepository-1.0-1 libgirepository1.0-dev libpq-dev
+    - sed -i -e 's/-std=c++11//g' /usr/lib/x86_64-linux-gnu/pkgconfig/re2.pc
+    # install ruby dependencies
+    - apt-get update -y
+    - apt-get install -y curl git build-essential libssl-dev libreadline-dev zlib1g-dev libyaml-dev
+    - git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+    - echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+    - echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+    - export PATH="$HOME/.rbenv/bin:$PATH"
+    - eval "$(rbenv init -)"
+    - git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+    - ~/.rbenv/plugins/ruby-build/install.sh
+    # Install Ruby 3.2.4
+    - rbenv install 3.2.4
+    - rbenv global 3.2.4
+    # Verify Ruby installation
+    - ruby -v
+    - gem install bundler
+    - bundle install
+    # install node.js and yarn
+    - curl -fsSL https://deb.nodesource.com/setup_21.x | bash -
+    - apt-get install -y nodejs
+    - npm install --global yarn
+    - yarn install --check-files
+    # Prepare the application
+    - rm -rf enterprise spec/enterprise
+    - bundle exec rails webpacker:compile
+    - bundle exec rake db:create
+    - bundle exec rake db:schema:load
+  script:
+    # Run the tests
+    - bundle exec rspec --profile=10 --format documentation
+  after_script:
+    # Collect logs
+    - mkdir -p artifacts
+    - cp -r log/* artifacts/
+  artifacts:
+    paths:
+      - artifacts/
+  only:
     - merge_request
 
 plan_infra:

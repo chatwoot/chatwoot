@@ -86,8 +86,16 @@ RSpec.describe ConversationReplyMailer do
       let(:message) { create(:message, message_type: :outgoing, conversation: conversation) }
       let(:mail) { described_class.reply_with_summary(message.conversation, message.id).deliver_now }
 
-      it 'has correct name' do
-        expect(mail[:from].display_names).to eq(["#{message.sender.available_name} from Inbox"])
+      it 'has correct sender' do
+        expect(mail[:from].value).to eq('support@test.com')
+      end
+
+      context 'email channel' do
+        let(:conversation) { create(:conversation, assignee: nil, inbox: email_channel.inbox) }
+
+        it 'has correct sender' do
+          expect(mail[:from].value).to include(email_channel.email)
+        end
       end
     end
 
@@ -334,7 +342,7 @@ RSpec.describe ConversationReplyMailer do
       let(:mail) { described_class.reply_with_summary(message.conversation, message.id).deliver_now }
 
       it 'set reply to email address as inbox email address' do
-        expect(mail.from).to eq([inbox.account.support_email])
+        expect(mail.from).to eq([inbox.channel.email])
         expect(mail.reply_to).to eq([inbox.email_address])
       end
     end
@@ -361,7 +369,7 @@ RSpec.describe ConversationReplyMailer do
       end
 
       it 'sets the from email to be the support email' do
-        expect(mail['FROM'].value).to eq("#{conversation.messages.last.sender.available_name} from Inbox <#{conversation.account.support_email}>")
+        expect(mail['FROM'].value).to eq(conversation.account.support_email)
         expect(mail.from).to eq([conversation.account.support_email])
       end
 

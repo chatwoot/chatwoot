@@ -59,12 +59,19 @@ build:
 		-t '$(DOCKER_REPO):$(DOCKER_TAG)' \
 		.
 
+.PHONY: pull
+pull:
+	$(info )
+	$(info 👷🔨 $(bold)Pulling$(sgr0) 👷🔨)
+	$(info )
+
+	docker pull '$(DOCKER_REPO):$(DOCKER_TAG)'
+
 .PHONY: test
 test:
 	$(info )
-	$(info no tests)
+	$(info Running RSpec tests...)
 	$(info )
-
 
 .PHONY: publish
 publish: docker-login
