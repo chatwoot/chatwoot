@@ -53,6 +53,10 @@ const tailwindConfig = {
               },
             },
 
+            'br + br': {
+              display: 'none',
+            },
+
             strong: {
               color: 'rgb(var(--slate-12))',
               fontWeight: '700',
