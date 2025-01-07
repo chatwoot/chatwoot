@@ -3,6 +3,7 @@
 # Table name: captain_assistants
 #
 #  id          :bigint           not null, primary key
+#  config      :jsonb            not null
 #  description :string
 #  name        :string           not null
 #  created_at  :datetime         not null

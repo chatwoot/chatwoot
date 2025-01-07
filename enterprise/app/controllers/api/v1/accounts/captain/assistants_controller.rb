@@ -34,6 +34,6 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def assistant_params
-    params.require(:assistant).permit(:name, :description)
+    params.require(:assistant).permit(:name, :description, config: [:product_name])
   end
 end
