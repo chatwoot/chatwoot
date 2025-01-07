@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import { useRouter, useRoute } from 'vue-router';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper.js';
@@ -33,6 +33,8 @@ const props = defineProps({
 const router = useRouter();
 const route = useRoute();
 
+const cardMessagePreviewWithMetaRef = ref(null);
+
 const currentContact = computed(() => props.contact);
 
 const currentContactName = computed(() => currentContact.value?.name);
@@ -56,8 +58,10 @@ const lastActivityAt = computed(() => {
 });
 
 const showMessagePreviewWithoutMeta = computed(() => {
-  const { slaPolicyId, labels = [] } = props.conversation;
-  return !slaPolicyId && labels.length === 0;
+  const { labels = [] } = props.conversation;
+  return (
+    !cardMessagePreviewWithMetaRef.value?.hasSlaThreshold && labels.length === 0
+  );
 });
 
 const onCardClick = e => {
@@ -82,6 +86,7 @@ const onCardClick = e => {
 
 <template>
   <div
+    role="button"
     class="flex w-full gap-3 px-3 py-4 transition-all duration-300 ease-in-out cursor-pointer"
     @click="onCardClick"
   >
@@ -114,11 +119,12 @@ const onCardClick = e => {
         </div>
       </div>
       <CardMessagePreview
-        v-if="showMessagePreviewWithoutMeta"
+        v-show="showMessagePreviewWithoutMeta"
         :conversation="conversation"
       />
       <CardMessagePreviewWithMeta
-        v-else
+        v-show="!showMessagePreviewWithoutMeta"
+        ref="cardMessagePreviewWithMetaRef"
         :conversation="conversation"
         :account-labels="accountLabels"
       />
