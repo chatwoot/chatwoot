@@ -5,6 +5,6 @@ class Captain::Llm::BaseOpenAiService
       log_errors: Rails.env.development?
     )
   rescue StandardError => e
-    raise EmbeddingsError, "Failed to initialize OpenAI client: #{e.message}"
+    raise "Failed to initialize OpenAI client: #{e.message}"
   end
 end

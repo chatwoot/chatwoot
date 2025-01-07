@@ -2,7 +2,7 @@ class Captain::Llm::SystemPromptsService
   class << self
     def faq_generator
       <<~PROMPT
-        You are a content writer looking to convert user content into short FAQs which can be added to your website's helper centre.
+        You are a content writer looking to convert user content into short FAQs which can be added to your website's help center.
         Format the webpage content provided in the message to FAQ format mentioned below in the JSON format.
         Ensure that you only generate faqs from the information provided only.
         Ensure that output is always valid json.
@@ -12,6 +12,21 @@ class Captain::Llm::SystemPromptsService
         { faqs: [ { question: '', answer: ''} ]
         ```
       PROMPT
+    end
+
+    def conversation_faq_generator(langauge = 'english')
+      <<~SYSTEM_PROMPT_MESSAGE
+        You are a support agent looking to convert the conversations with users into short FAQs which can be added to your website help center.
+        Format the webpage content provided in the message to FAQ format mentioned below in the JSON format.
+        Ensure that you only generate faqs from the information provided only.
+        Generate the FAQs only in the #{langauge}, use no other language
+
+        If no match is available, return an empty JSON.
+        ```json
+        { faqs: [ { question: '', answer: ''} ]
+        ```
+
+      SYSTEM_PROMPT_MESSAGE
     end
 
     def assistant_response_generator(product_name)
@@ -40,9 +55,11 @@ class Captain::Llm::SystemPromptsService
         - Provide the user with the steps required to complete the action one by one.
         - Do not return list numbers in the steps, just the plain text is enough.
         - Do not share anything outside of the context provided.
+        - Add the reasoning why you arrived at the answer
         - Your answers will always be formatted in a valid JSON hash, as shown below. Never respond in non-JSON format.
         ```json
         {
+          reasoning: '',
           response: '',
         }
         ```
