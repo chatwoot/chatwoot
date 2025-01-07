@@ -1,4 +1,5 @@
 <script setup>
+import Icon from 'next/icon/Icon.vue';
 import router from '../../routes/index';
 const props = defineProps({
   backUrl: {
@@ -34,8 +35,9 @@ const buttonStyleClass = props.compact
     :class="buttonStyleClass"
     @click.capture="goBack"
   >
-    <span
-      class="i-lucide-chevron-left size-5 ltr:-ml-1 rtl:-mr-1"
+    <Icon
+      icon="i-lucide-chevron-left"
+      class="size-5 ltr:-ml-1 rtl:-mr-1"
       :class="props.compact ? 'text-n-slate-11' : 'text-n-blue-text'"
     />
     {{ buttonLabel || $t('GENERAL_SETTINGS.BACK') }}
