@@ -84,6 +84,7 @@ const menuItems = computed(() => {
       label: t('SIDEBAR.INBOX'),
       icon: 'i-lucide-inbox',
       to: accountScopedRoute('inbox_view'),
+      activeOn: ['inbox_view', 'inbox_view_conversation'],
     },
     {
       name: 'Conversation',
