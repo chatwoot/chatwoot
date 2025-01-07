@@ -154,8 +154,15 @@ class Rack::Attack
     match_data[:account_id] if match_data.present?
   end
 
-  ## Prevent abuse of reports api
-  throttle('/api/v2/accounts/:account_id/reports', limit: ENV.fetch('RATE_LIMIT_REPORTS_API', '100').to_i, period: 1.minute) do |req|
+  # Throttle by individual user (based on uid)
+  throttle('/api/v2/accounts/:account_id/reports/user', limit: ENV.fetch('RATE_LIMIT_REPORTS_API_USER_LEVEL', '100').to_i, period: 1.minute) do |req|
+    match_data = %r{/api/v2/accounts/(?<account_id>\d+)/reports}.match(req.path)
+    user_uid = req.get_header('HTTP_UID')
+    "#{user_uid}:#{match_data[:account_id]}" if match_data.present? && user_uid.present?
+  end
+
+  ## Prevent abuse of reports api at account level
+  throttle('/api/v2/accounts/:account_id/reports', limit: ENV.fetch('RATE_LIMIT_REPORTS_API_ACCOUNT_LEVEL', '1000').to_i, period: 1.minute) do |req|
     match_data = %r{/api/v2/accounts/(?<account_id>\d+)/reports}.match(req.path)
     match_data[:account_id] if match_data.present?
   end
