@@ -69,7 +69,11 @@ const textToShow = computed(() => {
             {{ $t('EMAIL_HEADER.EXPAND') }}
           </button>
         </div>
-        <FormattedContent v-if="isOutgoing && content" :content="content" />
+        <FormattedContent
+          v-if="isOutgoing && content"
+          class="text-n-slate-12"
+          :content="content"
+        />
         <template v-else>
           <Letter
             v-if="showQuotedMessage"
