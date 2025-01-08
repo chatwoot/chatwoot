@@ -58,14 +58,14 @@ const messageClass = computed(() => {
 
 const scrollToMessage = () => {
   emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE, {
-    messageId: this.message.id,
+    messageId: inReplyTo.value.id,
   });
 };
 
-const previewMessage = computed(() => {
+const replyToPreview = computed(() => {
   if (!inReplyTo) return '';
 
-  const { content, attachments } = inReplyTo;
+  const { content, attachments } = inReplyTo.value;
 
   if (content) return content;
   if (attachments?.length) {
@@ -91,11 +91,11 @@ const previewMessage = computed(() => {
   >
     <div
       v-if="inReplyTo"
-      class="bg-n-alpha-black1 rounded-lg p-2"
+      class="bg-n-alpha-black1 rounded-lg p-2 -mx-1 mb-2 cursor-pointer"
       @click="scrollToMessage"
     >
       <span class="line-clamp-2">
-        {{ previewMessage }}
+        {{ replyToPreview }}
       </span>
     </div>
     <slot />
