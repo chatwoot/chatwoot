@@ -1,4 +1,5 @@
 import { sortComparator } from './helpers';
+import camelcaseKeys from 'camelcase-keys';
 
 export const getters = {
   getNotifications($state) {
@@ -10,6 +11,13 @@ export const getters = {
       sortComparator(n1, n2, sortOrder)
     );
     return sortedNotifications;
+  },
+  getFilteredNotificationsV4: $state => filters => {
+    const sortOrder = filters.sortOrder === 'desc' ? 'newest' : 'oldest';
+    const sortedNotifications = Object.values($state.records).sort((n1, n2) =>
+      sortComparator(n1, n2, sortOrder)
+    );
+    return camelcaseKeys(sortedNotifications, { deep: true });
   },
   getNotificationById: $state => id => {
     return $state.records[id] || {};

@@ -26,6 +26,6 @@ const formattedContent = computed(() => {
 <template>
   <span
     v-dompurify-html="formattedContent"
-    class="[&_.link]:text-n-slate-11 [&_.link]:underline [&>p:last-child]:mb-0 [&>ul]:list-inside"
+    class="[&_.link]:text-n-slate-11 [&_.link]:underline [&>p:last-child]:mb-0 [&>ul]:list-inside [&>ol]:list-inside [&>dl]:list-inside [&>ol]:list-decimal [&>ul]:list-disc"
   />
 </template>

@@ -32,6 +32,7 @@ const tailwindConfig = {
     './app/javascript/dashboard/components-next/**/*.vue',
     './app/javascript/dashboard/helper/**/*.js',
     './app/javascript/dashboard/components-next/**/*.js',
+    './app/javascript/dashboard/routes/dashboard/**/**/*.js',
     './app/views/**/*.html.erb',
   ],
   theme: {
@@ -51,6 +52,10 @@ const tailwindConfig = {
               '&:first-child': {
                 marginTop: '0',
               },
+            },
+
+            'br + br': {
+              display: 'none',
             },
 
             strong: {
@@ -143,6 +148,8 @@ const tailwindConfig = {
             img: {
               maxWidth: '100%',
               height: 'auto',
+              marginTop: 'unset',
+              marginBottom: 'unset',
             },
           },
         },
