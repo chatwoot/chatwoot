@@ -49,10 +49,9 @@ Rails.application.routes.draw do
             post :bulk_create, on: :collection
           end
           namespace :captain do
-            resources :assistants do
-              resources :documents, only: [:index, :show, :create, :destroy]
-              resources :assistant_responses
-            end
+            resources :assistants
+            resources :documents, only: [:index, :show, :create, :destroy]
+            resources :assistant_responses
           end
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
