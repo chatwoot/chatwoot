@@ -181,7 +181,7 @@ ActiveSupport::Notifications.subscribe('throttle.rack_attack') do |_name, _start
   req = payload[:request]
 
   user_uid = req.get_header('HTTP_UID')
-  api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token') || req.get_header('api-access-token')
+  api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
 
   # Mask the token if present
   masked_api_token = api_access_token.present? ? "#{api_access_token[0..4]}...[REDACTED]" : nil
