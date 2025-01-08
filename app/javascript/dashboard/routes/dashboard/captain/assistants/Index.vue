@@ -1,15 +1,33 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 
-import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import AssistantCard from 'dashboard/components-next/captain/assistant/AssistantCard.vue';
+import DeleteDialog from 'dashboard/components-next/captain/pageComponents/assistant/DeleteDialog.vue';
+import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+
 const store = useStore();
 
 const uiFlags = useMapGetter('captainAssistants/getUIFlags');
 const assistants = useMapGetter('captainAssistants/getCaptainAssistants');
 const isFetching = computed(() => uiFlags.value.fetchingList);
+
+const selectedAssistant = ref(null);
+const deleteDialog = ref(null);
+
+const handleDelete = () => {
+  deleteDialog.value.dialogRef.open();
+};
+const handleAction = ({ action, id }) => {
+  selectedAssistant.value = assistants.value.find(
+    assistant => id === assistant.id
+  );
+
+  if (action === 'delete') {
+    handleDelete();
+  }
+};
 
 onMounted(() => store.dispatch('captainAssistants/get'));
 </script>
@@ -35,9 +53,16 @@ onMounted(() => store.dispatch('captainAssistants/get'));
         :description="assistant.description"
         :updated-at="assistant.updated_at || assistant.created_at"
         :created-at="assistant.created_at"
+        @action="handleAction"
       />
     </div>
 
     <div v-else>{{ 'No assistants found' }}</div>
+
+    <DeleteDialog
+      ref="deleteDialog"
+      :entity="selectedAssistant"
+      type="Assistants"
+    />
   </PageLayout>
 </template>

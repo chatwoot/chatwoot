@@ -1,17 +1,30 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 
-import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import DeleteDialog from 'dashboard/components-next/captain/pageComponents/assistant/DeleteDialog.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import ResponseCard from 'dashboard/components-next/captain/assistant/ResponseCard.vue';
-const store = useStore();
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
+const store = useStore();
 const uiFlags = useMapGetter('captainResponses/getUIFlags');
 const responseMeta = useMapGetter('captainResponses/getMeta');
 const responses = useMapGetter('captainResponses/getCaptainResponses');
 const isFetching = computed(() => uiFlags.value.fetchingList);
 
+const selectedResponse = ref(null);
+const deleteDialog = ref(null);
+const handleDelete = () => {
+  deleteDialog.value.dialogRef.open();
+};
+const handleAction = ({ action, id }) => {
+  selectedResponse.value = responses.value.find(response => id === response.id);
+
+  if (action === 'delete') {
+    handleDelete();
+  }
+};
 const fetchResponses = (page = 1) => {
   store.dispatch('captainResponses/get', { page });
 };
@@ -45,9 +58,16 @@ onMounted(() => fetchResponses());
         :answer="response.answer"
         :assistant="response.assistant"
         :created-at="response.created_at"
+        @action="handleAction"
       />
     </div>
 
     <div v-else>{{ 'No responses found' }}</div>
+
+    <DeleteDialog
+      ref="deleteDialog"
+      :entity="selectedResponse"
+      type="Responses"
+    />
   </PageLayout>
 </template>

@@ -310,15 +310,36 @@
     },
     "ASSISTANTS": {
       "HEADER": "Assistants",
-      "ADD_NEW": "Create a new assistant"
+      "ADD_NEW": "Create a new assistant",
+      "DELETE": {
+        "TITLE": "Are you sure to delete the assistant?",
+        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+        "CONFIRM": "Yes, delete",
+        "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
+        "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
+      }
     },
     "DOCUMENTS": {
       "HEADER": "Documents",
-      "ADD_NEW": "Create a new document"
+      "ADD_NEW": "Create a new document",
+      "DELETE": {
+        "TITLE": "Are you sure to delete the document?",
+        "DESCRIPTION": "This action is permanent. Deleting this document will permanently erase all generated knowledge.",
+        "CONFIRM": "Yes, delete",
+        "SUCCESS_MESSAGE": "The document has been successfully deleted",
+        "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+      }
     },
     "RESPONSES": {
       "HEADER": "Assistant Responses",
-      "ADD_NEW": "Create a new response"
+      "ADD_NEW": "Create a new response",
+      "DELETE": {
+        "TITLE": "Are you sure to delete the response?",
+        "DESCRIPTION": "",
+        "CONFIRM": "Yes, delete",
+        "SUCCESS_MESSAGE": "The document has been successfully deleted",
+        "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+      }
     }
   }
 }
