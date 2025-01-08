@@ -107,7 +107,7 @@ export default {
 <template>
   <div>
     <div
-      class="flex flex-col items-start justify-between md:flex-row md:items-center shadow-md rounded-md py-2"
+      class="flex flex-col items-start bg-white justify-between md:flex-row md:items-center shadow-lg border-1 rounded-md py-2"
     >
       <div class="flex items-center justify-start flex-1 m-0 mx-4">
         <img
