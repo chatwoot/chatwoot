@@ -1,4 +1,4 @@
-import CaptainResponseAPI from '../../api/captainResponse';
+import CaptainResponseAPI from 'dashboard/api/captain/response';
 import { createStore } from './storeFactory';
 
 export default createStore({

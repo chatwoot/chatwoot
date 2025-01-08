@@ -173,19 +173,19 @@ const menuItems = computed(() => {
       label: t('SIDEBAR.CAPTAIN'),
       children: [
         {
+          name: 'Assistants',
+          label: 'Assistants',
+          to: accountScopedRoute('captain_assistants_index'),
+        },
+        {
           name: 'Documents',
           label: 'Documents',
-          to: accountScopedRoute('captain', { page: 'documents' }),
+          to: accountScopedRoute('captain_documents_index'),
         },
         {
           name: 'Responses',
           label: 'Responses',
-          to: accountScopedRoute('captain', { page: 'responses' }),
-        },
-        {
-          name: 'Playground',
-          label: 'Playground',
-          to: accountScopedRoute('captain', { page: 'playground' }),
+          to: accountScopedRoute('captain_responses_index'),
         },
       ],
     },

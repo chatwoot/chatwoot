@@ -32,7 +32,7 @@ export const createStore = options => {
   };
 
   const actions = {
-    [`get${name}`]: async function get({ commit }, { searchKey } = {}) {
+    get: async function get({ commit }, { searchKey } = {}) {
       commit(mutationTypes.SET_UI_FLAG, { fetchingList: true });
       try {
         const response = await API.get({ searchKey });
@@ -43,7 +43,7 @@ export const createStore = options => {
       }
     },
 
-    [`create${name}`]: async function create({ commit }, dataObj) {
+    create: async function create({ commit }, dataObj) {
       commit(mutationTypes.SET_UI_FLAG, { creatingItem: true });
       try {
         const response = await API.create(dataObj);
@@ -56,7 +56,7 @@ export const createStore = options => {
       }
     },
 
-    [`update${name}`]: async function update({ commit }, { id, ...updateObj }) {
+    update: async function update({ commit }, { id, ...updateObj }) {
       commit(mutationTypes.SET_UI_FLAG, { updatingItem: true });
       try {
         const response = await API.update(id, updateObj);
@@ -69,7 +69,7 @@ export const createStore = options => {
       }
     },
 
-    [`delete${name}`]: async function remove({ commit }, id) {
+    delete: async function remove({ commit }, id) {
       commit(mutationTypes.SET_UI_FLAG, { deletingItem: true });
       try {
         await API.delete(id);
@@ -97,6 +97,7 @@ export const createStore = options => {
   };
 
   return {
+    namespaced: true,
     state,
     getters,
     actions,
