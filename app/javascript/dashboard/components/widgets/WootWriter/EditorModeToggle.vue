@@ -21,7 +21,7 @@ const isPrivate = computed(() => props.mode === REPLY_EDITOR_MODES.NOTE);
     class="flex items-center h-8 p-1 transition-all border rounded-full duration-600 bg-n-alpha-2 dark:bg-n-alpha-2 hover:bg-n-alpha-1 dark:hover:brightness-105 group relative transition-all duration-300 ease-in-out"
     :class="[
       isPrivate
-        ? 'border-n-amber-12/10 dark:border-n-amber-3/30'
+        ? 'border-n-amber-12/10 dark:border-n-amber-3/30 w-[128px]'
         : 'border-n-weak dark:border-n-weak ',
     ]"
     @click="$emit('toggleMode')"
@@ -47,11 +47,11 @@ const isPrivate = computed(() => props.mode === REPLY_EDITOR_MODES.NOTE);
       />
     </div>
     <span
-      class="flex items-center text-sm font-medium transition-all duration-200 w-fit whitespace-nowrap mx-2"
+      class="flex items-center text-sm font-medium transition-all duration-200 w-fit whitespace-nowrap"
       :class="[
         isPrivate
-          ? 'text-n-amber-12 ltr:mr-7 rtl:ml-7'
-          : 'text-n-slate-12 ltr:ml-7 rtl:mr-7',
+          ? 'text-n-amber-12 ltr:mr-7 ltr:ml-1 rtl:ml-7 rtl:mr-1'
+          : 'text-n-slate-12 ltr:ml-7 ltr:mr-1 rtl:mr-7 rtl:ml-1',
       ]"
     >
       {{
