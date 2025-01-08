@@ -84,8 +84,8 @@ export default {
             slug: this.cal_user_slug,
           }
         );
-        useAlert(res.data.message);
         this.requestRaised = true;
+        useAlert(res.data.message);
       } catch (error) {
         useAlert(this.$t('INTEGRATION_SETTINGS.ADD.API.ERROR_MESSAGE'));
       } finally {
