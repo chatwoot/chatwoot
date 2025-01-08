@@ -187,22 +187,20 @@ ActiveSupport::Notifications.subscribe('throttle.rack_attack') do |_name, _start
   masked_api_token = api_access_token.present? ? "#{api_access_token[0..4]}...[REDACTED]" : nil
 
   # Use uid if present, otherwise fallback to masked api_access_token for tracking
-  user_identifier = user_uid.presence || masked_api_token.presence || "unknown_user"
+  user_identifier = user_uid.presence || masked_api_token.presence || 'unknown_user'
 
   # Extract account ID if present
   account_match = %r{/accounts/(?<account_id>\d+)}.match(req.path)
-  account_id = account_match ? account_match[:account_id] : "unknown_account"
+  account_id = account_match ? account_match[:account_id] : 'unknown_account'
 
-  Rails.logger.warn <<~LOG
-  [Rack::Attack][Blocked] 
-  remote_ip: "#{req.remote_ip}", 
-  path: "#{req.path}", 
-  user_identifier: "#{user_identifier}", 
-  account_id: "#{account_id}", 
-  method: "#{req.request_method}", 
-  user_agent: "#{req.user_agent}"
-LOG
-
+  Rails.logger.warn(
+    "[Rack::Attack][Blocked] remote_ip: \"#{req.remote_ip}\", " \
+    "path: \"#{req.path}\", " \
+    "user_identifier: \"#{user_identifier}\", " \
+    "account_id: \"#{account_id}\", " \
+    "method: \"#{req.request_method}\", " \
+    "user_agent: \"#{req.user_agent}\""
+  )
 end
 
 Rack::Attack.enabled = Rails.env.production? ? ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK', true)) : false
