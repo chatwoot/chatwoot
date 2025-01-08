@@ -93,8 +93,11 @@ export const createStore = options => {
         ...data,
       };
     },
-    [mutationTypes.SET](state, meta) {
-      state.meta = meta;
+    [mutationTypes.SET_META](state, meta) {
+      state.meta = {
+        totalCount: Number(meta.total_count),
+        page: Number(meta.page),
+      };
     },
     [mutationTypes.SET]: MutationHelpers.set,
     [mutationTypes.ADD]: MutationHelpers.create,

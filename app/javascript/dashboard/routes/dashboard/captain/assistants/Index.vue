@@ -1,6 +1,5 @@
 <script setup>
 import { computed, onMounted } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -12,13 +11,15 @@ const uiFlags = useMapGetter('captainAssistants/getUIFlags');
 const assistants = useMapGetter('captainAssistants/getCaptainAssistants');
 const isFetching = computed(() => uiFlags.value.fetchingList);
 
-onMounted(() => {
-  store.dispatch('captainAssistants/get');
-});
+onMounted(() => store.dispatch('captainAssistants/get'));
 </script>
 
 <template>
-  <PageLayout header-title="Assistants" button-label="Add a new assistant">
+  <PageLayout
+    :header-title="$t('CAPTAIN.ASSISTANTS.HEADER')"
+    :button-label="$t('CAPTAIN.ASSISTANTS.ADD_NEW')"
+    :show-pagination-footer="false"
+  >
     <div
       v-if="isFetching"
       class="flex items-center justify-center py-10 text-n-slate-11"

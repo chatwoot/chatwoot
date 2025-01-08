@@ -1,6 +1,5 @@
 <script setup>
 import { computed, onMounted } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -9,18 +8,27 @@ import ResponseCard from 'dashboard/components-next/captain/assistant/ResponseCa
 const store = useStore();
 
 const uiFlags = useMapGetter('captainResponses/getUIFlags');
+const responseMeta = useMapGetter('captainResponses/getMeta');
 const responses = useMapGetter('captainResponses/getCaptainResponses');
 const isFetching = computed(() => uiFlags.value.fetchingList);
 
-onMounted(() => {
-  store.dispatch('captainResponses/get');
-});
+const fetchResponses = (page = 1) => {
+  store.dispatch('captainResponses/get', { page });
+};
+
+const onPageChange = page => fetchResponses(page);
+
+onMounted(() => fetchResponses());
 </script>
 
 <template>
   <PageLayout
-    header-title="Assistant Responses"
-    button-label="Add a new response"
+    :total-count="responseMeta.totalCount"
+    :current-page="responseMeta.page"
+    :header-title="$t('CAPTAIN.RESPONSES.HEADER')"
+    :button-label="$t('CAPTAIN.RESPONSES.ADD_NEW')"
+    :show-pagination-footer="!isFetching && responses.length"
+    @update:current-page="onPageChange"
   >
     <div
       v-if="isFetching"

@@ -307,6 +307,18 @@
       "LOADER": "Captain is thinking",
       "YOU": "You",
       "USE": "Use this"
+    },
+    "ASSISTANTS": {
+      "HEADER": "Assistants",
+      "ADD_NEW": "Create a new assistant"
+    },
+    "DOCUMENTS": {
+      "HEADER": "Documents",
+      "ADD_NEW": "Create a new document"
+    },
+    "RESPONSES": {
+      "HEADER": "Assistant Responses",
+      "ADD_NEW": "Create a new response"
     }
   }
 }

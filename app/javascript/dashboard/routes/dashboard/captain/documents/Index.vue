@@ -1,6 +1,5 @@
 <script setup>
 import { computed, onMounted } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -11,14 +10,26 @@ const store = useStore();
 const uiFlags = useMapGetter('captainDocuments/getUIFlags');
 const documents = useMapGetter('captainDocuments/getCaptainDocuments');
 const isFetching = computed(() => uiFlags.value.fetchingList);
+const documentsMeta = useMapGetter('captainDocuments/getMeta');
 
-onMounted(() => {
-  store.dispatch('captainDocuments/get');
-});
+const fetchDocuments = (page = 1) => {
+  store.dispatch('captainDocuments/get', { page });
+};
+
+const onPageChange = page => fetchDocuments(page);
+
+onMounted(() => fetchDocuments());
 </script>
 
 <template>
-  <PageLayout header-title="Documents" button-label="Add a new document">
+  <PageLayout
+    :header-title="$t('CAPTAIN.DOCUMENTS.HEADER')"
+    :button-label="$t('CAPTAIN.DOCUMENTS.ADD_NEW')"
+    :total-count="documentsMeta.totalCount"
+    :current-page="documentsMeta.page"
+    :show-pagination-footer="!isFetching && documents.length"
+    @update:current-page="onPageChange"
+  >
     <div
       v-if="isFetching"
       class="flex items-center justify-center py-10 text-n-slate-11"

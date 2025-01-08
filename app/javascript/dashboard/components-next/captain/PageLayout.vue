@@ -1,7 +1,20 @@
 <script setup>
 import Button from 'dashboard/components-next/button/Button.vue';
+import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 
 defineProps({
+  currentPage: {
+    type: Number,
+    default: 1,
+  },
+  totalCount: {
+    type: Number,
+    default: 100,
+  },
+  itemsPerPage: {
+    type: Number,
+    default: 25,
+  },
   headerTitle: {
     type: String,
     default: '',
@@ -10,12 +23,21 @@ defineProps({
     type: String,
     default: '',
   },
+  showPaginationFooter: {
+    type: Boolean,
+    default: true,
+  },
 });
 
-const emit = defineEmits(['click', 'close']);
+const emit = defineEmits(['click', 'close', 'update:currentPage']);
 
 const handleButtonClick = () => {
   emit('click');
+};
+
+const handlePageChange = event => {
+  console.log(event);
+  emit('update:currentPage', event);
 };
 </script>
 
@@ -48,5 +70,13 @@ const handleButtonClick = () => {
         <slot name="default" />
       </div>
     </main>
+    <footer v-if="showPaginationFooter" class="sticky bottom-0 z-10 px-4 pb-4">
+      <PaginationFooter
+        :current-page="currentPage"
+        :total-items="totalCount"
+        :items-per-page="itemsPerPage"
+        @update:current-page="handlePageChange"
+      />
+    </footer>
   </section>
 </template>
