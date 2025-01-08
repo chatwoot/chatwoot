@@ -159,7 +159,7 @@ class Rack::Attack
     match_data = %r{/api/v2/accounts/(?<account_id>\d+)/reports}.match(req.path)
     # Extract user identification (uid for web, api_access_token for API requests)
     user_uid = req.get_header('HTTP_UID')
-    api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token') || req.get_header('api-access-token')
+    api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
 
     # Use uid if present, otherwise fallback to api_access_token for tracking
     user_identifier = user_uid.presence || api_access_token.presence
