@@ -12,8 +12,7 @@
 #
 # Indexes
 #
-#  index_captain_assistants_on_account_id           (account_id)
-#  index_captain_assistants_on_account_id_and_name  (account_id,name) UNIQUE
+#  index_captain_assistants_on_account_id  (account_id)
 #
 class Captain::Assistant < ApplicationRecord
   self.table_name = 'captain_assistants'
