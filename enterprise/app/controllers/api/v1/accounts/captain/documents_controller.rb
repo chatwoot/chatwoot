@@ -30,7 +30,7 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   private
 
   def set_documents
-    @documents = Current.account.captain_documents.includes(:assistant)
+    @documents = Current.account.captain_documents.includes(:assistant).ordered
   end
 
   def set_document
