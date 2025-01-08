@@ -10,7 +10,7 @@ const store = useStore();
 
 const uiFlags = useMapGetter('captainDocuments/getUIFlags');
 const documents = useMapGetter('captainDocuments/getCaptainDocuments');
-const isFetchingCampaigns = computed(() => uiFlags.value.isFetching);
+const isFetching = computed(() => uiFlags.value.fetchingList);
 
 onMounted(() => {
   store.dispatch('captainDocuments/get');
@@ -20,7 +20,7 @@ onMounted(() => {
 <template>
   <PageLayout header-title="Documents" button-label="Add a new document">
     <div
-      v-if="isFetchingCampaigns"
+      v-if="isFetching"
       class="flex items-center justify-center py-10 text-n-slate-11"
     >
       <Spinner />

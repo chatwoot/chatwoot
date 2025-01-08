@@ -10,7 +10,7 @@ const store = useStore();
 
 const uiFlags = useMapGetter('captainAssistants/getUIFlags');
 const assistants = useMapGetter('captainAssistants/getCaptainAssistants');
-const isFetchingCampaigns = computed(() => uiFlags.value.isFetching);
+const isFetching = computed(() => uiFlags.value.fetchingList);
 
 onMounted(() => {
   store.dispatch('captainAssistants/get');
@@ -20,7 +20,7 @@ onMounted(() => {
 <template>
   <PageLayout header-title="Assistants" button-label="Add a new assistant">
     <div
-      v-if="isFetchingCampaigns"
+      v-if="isFetching"
       class="flex items-center justify-center py-10 text-n-slate-11"
     >
       <Spinner />

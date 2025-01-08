@@ -6,21 +6,13 @@ class CaptainDocument extends ApiClient {
     super('captain/documents', { accountScoped: true });
   }
 
-  get({ searchKey } = {}) {
-    const url = searchKey ? `${this.url}?search=${searchKey}` : this.url;
-    return axios.get(url);
-  }
-
-  create(data) {
-    return axios.post(this.url, data);
-  }
-
-  update(id, data) {
-    return axios.patch(`${this.url}/${id}`, data);
-  }
-
-  delete(id) {
-    return axios.delete(`${this.url}/${id}`);
+  get({ page = 1, searchKey } = {}) {
+    return axios.get(this.url, {
+      params: {
+        page,
+        searchKey,
+      },
+    });
   }
 }
 

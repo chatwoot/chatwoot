@@ -2,6 +2,7 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   before_action :current_account
   before_action -> { check_authorization(Captain::Assistant) }
 
+  before_action :set_current_page, only: [:index]
   before_action :set_documents, except: [:create]
   before_action :set_document, only: [:show, :destroy]
   before_action :set_assistant, only: [:create]
@@ -10,7 +11,9 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   def index
     base_query = @documents
     base_query = base_query.where(assistant_id: permitted_params[:assistant_id]) if permitted_params[:assistant_id].present?
-    @documents = base_query.page(permitted_params[:page] || 1).per(RESULTS_PER_PAGE)
+
+    @documents_count = base_query.count
+    @documents = base_query.page(@current_page).per(RESULTS_PER_PAGE)
   end
 
   def show; end
@@ -39,6 +42,10 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
 
   def set_assistant
     @assistant = Current.account.captain_assistants.find_by(id: document_params[:assistant_id])
+  end
+
+  def set_current_page
+    @current_page = permitted_params[:page] || 1
   end
 
   def permitted_params

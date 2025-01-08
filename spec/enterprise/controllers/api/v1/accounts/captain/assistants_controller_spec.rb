@@ -5,6 +5,10 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
 
+  def json_response
+    JSON.parse(response.body, symbolize_names: true)
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/captain/assistants' do
     context 'when it is an un-authenticated user' do
       it 'does not fetch assistants' do
@@ -21,9 +25,11 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
             headers: agent.create_new_auth_token,
             as: :json
 
-        json_response = JSON.parse(response.body)
         expect(response).to have_http_status(:success)
-        expect(json_response.length).to eq(3)
+        expect(json_response[:payload].length).to eq(3)
+        expect(json_response[:meta]).to eq(
+          { total_count: 3, page: 1 }
+        )
       end
     end
   end
@@ -45,9 +51,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
             headers: agent.create_new_auth_token,
             as: :json
 
-        json_response = JSON.parse(response.body)
         expect(response).to have_http_status(:success)
-        expect(json_response['id']).to eq(assistant.id)
+        expect(json_response[:id]).to eq(assistant.id)
       end
     end
   end
@@ -90,8 +95,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
                as: :json
         end.to change(Captain::Assistant, :count).by(1)
 
-        json_response = JSON.parse(response.body)
-        expect(json_response['name']).to eq('New Assistant')
+        expect(json_response[:name]).to eq('New Assistant')
         expect(response).to have_http_status(:success)
       end
     end
@@ -133,9 +137,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
               headers: admin.create_new_auth_token,
               as: :json
 
-        json_response = JSON.parse(response.body)
         expect(response).to have_http_status(:success)
-        expect(json_response['name']).to eq('Updated Assistant')
+        expect(json_response[:name]).to eq('Updated Assistant')
       end
     end
   end

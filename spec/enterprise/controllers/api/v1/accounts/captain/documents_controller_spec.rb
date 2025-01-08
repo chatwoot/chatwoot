@@ -33,7 +33,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
           get "/api/v1/accounts/#{account.id}/captain/documents", headers: agent.create_new_auth_token, as: :json
 
           expect(response).to have_http_status(:ok)
-          expect(json_response.length).to eq(25)
+          expect(json_response[:payload].length).to eq(25)
+          expect(json_response[:meta]).to eq({ page: 1, total_count: 30 })
         end
 
         it 'returns the second page of documents' do
@@ -42,7 +43,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
               headers: agent.create_new_auth_token, as: :json
 
           expect(response).to have_http_status(:ok)
-          expect(json_response.length).to eq(5)
+          expect(json_response[:payload].length).to eq(5)
+          expect(json_response[:meta]).to eq({ page: 2, total_count: 30 })
         end
       end
 
@@ -57,8 +59,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
               params: { assistant_id: assistant.id },
               headers: agent.create_new_auth_token, as: :json
           expect(response).to have_http_status(:ok)
-          expect(json_response.length).to eq(3)
-          expect(json_response[0][:assistant][:id]).to eq(assistant.id)
+          expect(json_response[:payload].length).to eq(3)
+          expect(json_response[:payload][0][:assistant][:id]).to eq(assistant.id)
         end
 
         it 'returns empty array when assistant has no documents' do
@@ -67,7 +69,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
               params: { assistant_id: new_assistant.id },
               headers: agent.create_new_auth_token, as: :json
           expect(response).to have_http_status(:ok)
-          expect(json_response).to be_empty
+          expect(json_response[:payload]).to be_empty
         end
       end
 
@@ -83,8 +85,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
           get "/api/v1/accounts/#{account.id}/captain/documents",
               headers: agent.create_new_auth_token, as: :json
           expect(response).to have_http_status(:ok)
-          expect(json_response.length).to eq(3)
-          document_account_ids = json_response.pluck(:account_id).uniq
+          expect(json_response[:payload].length).to eq(3)
+          document_account_ids = json_response[:payload].pluck(:account_id).uniq
           expect(document_account_ids).to eq([account.id])
         end
       end
@@ -100,8 +102,9 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
               params: { assistant_id: assistant.id, page: 2 },
               headers: agent.create_new_auth_token, as: :json
           expect(response).to have_http_status(:ok)
-          expect(json_response.length).to eq(5)
-          expect(json_response[0][:assistant][:id]).to eq(assistant.id)
+          expect(json_response[:payload].length).to eq(5)
+          expect(json_response[:payload][0][:assistant][:id]).to eq(assistant.id)
+          expect(json_response[:meta]).to eq({ page: 2, total_count: 30 })
         end
       end
     end

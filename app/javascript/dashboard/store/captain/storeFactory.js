@@ -6,17 +6,18 @@ export const createStore = options => {
 
   const capitalizedName = name.toUpperCase();
 
-  // Generate mutation types
   const mutationTypes = {
     SET_UI_FLAG: `SET_${capitalizedName}_UI_FLAG`,
     SET: `SET_${capitalizedName}`,
     ADD: `ADD_${capitalizedName}`,
     EDIT: `EDIT_${capitalizedName}`,
     DELETE: `DELETE_${capitalizedName}`,
+    SET_META: `SET_${capitalizedName}_META`,
   };
 
-  const state = {
+  const initialState = {
     records: [],
+    meta: {},
     uiFlags: {
       fetchingList: false,
       fetchingItem: false,
@@ -27,16 +28,18 @@ export const createStore = options => {
   };
 
   const getters = {
-    [`get${name}s`]: _state => _state.records,
-    getUIFlags: _state => _state.uiFlags,
+    [`get${name}s`]: state => state.records,
+    getUIFlags: state => state.uiFlags,
+    getMeta: state => state.meta,
   };
 
   const actions = {
-    get: async function get({ commit }, { searchKey } = {}) {
+    get: async function get({ commit }, { page, searchKey } = {}) {
       commit(mutationTypes.SET_UI_FLAG, { fetchingList: true });
       try {
-        const response = await API.get({ searchKey });
-        commit(mutationTypes.SET, response.data);
+        const response = await API.get({ page, searchKey });
+        commit(mutationTypes.SET, response.data.payload);
+        commit(mutationTypes.SET_META, response.data.meta);
         commit(mutationTypes.SET_UI_FLAG, { fetchingList: false });
       } catch (error) {
         commit(mutationTypes.SET_UI_FLAG, { fetchingList: false });
@@ -84,11 +87,14 @@ export const createStore = options => {
   };
 
   const mutations = {
-    [mutationTypes.SET_UI_FLAG](_state, data) {
-      _state.uiFlags = {
-        ..._state.uiFlags,
+    [mutationTypes.SET_UI_FLAG](state, data) {
+      state.uiFlags = {
+        ...state.uiFlags,
         ...data,
       };
+    },
+    [mutationTypes.SET](state, meta) {
+      state.meta = meta;
     },
     [mutationTypes.SET]: MutationHelpers.set,
     [mutationTypes.ADD]: MutationHelpers.create,
@@ -98,7 +104,7 @@ export const createStore = options => {
 
   return {
     namespaced: true,
-    state,
+    state: initialState,
     getters,
     actions,
     mutations,

@@ -10,7 +10,7 @@ const store = useStore();
 
 const uiFlags = useMapGetter('captainResponses/getUIFlags');
 const responses = useMapGetter('captainResponses/getCaptainResponses');
-const isFetchingCampaigns = computed(() => uiFlags.value.isFetching);
+const isFetching = computed(() => uiFlags.value.fetchingList);
 
 onMounted(() => {
   store.dispatch('captainResponses/get');
@@ -23,7 +23,7 @@ onMounted(() => {
     button-label="Add a new response"
   >
     <div
-      v-if="isFetchingCampaigns"
+      v-if="isFetching"
       class="flex items-center justify-center py-10 text-n-slate-11"
     >
       <Spinner />

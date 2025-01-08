@@ -28,7 +28,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
             as: :json
 
         expect(response).to have_http_status(:ok)
-        expect(json_response.length).to eq(25)
+        expect(json_response[:payload].length).to eq(25)
       end
 
       it 'returns second page of responses' do
@@ -38,7 +38,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
             as: :json
 
         expect(response).to have_http_status(:ok)
-        expect(json_response.length).to eq(5)
+        expect(json_response[:payload].length).to eq(5)
+        expect(json_response[:meta]).to eq({ page: 2, total_count: 30 })
       end
     end
 
@@ -61,8 +62,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
             as: :json
 
         expect(response).to have_http_status(:ok)
-        expect(json_response.length).to eq(3)
-        expect(json_response[0][:assistant][:id]).to eq(assistant.id)
+        expect(json_response[:payload].length).to eq(3)
+        expect(json_response[:payload][0][:assistant][:id]).to eq(assistant.id)
       end
     end
 
@@ -85,8 +86,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
             as: :json
 
         expect(response).to have_http_status(:ok)
-        expect(json_response.length).to eq(3)
-        expect(json_response[0][:document][:id]).to eq(document.id)
+        expect(json_response[:payload].length).to eq(3)
+        expect(json_response[:payload][0][:document][:id]).to eq(document.id)
       end
     end
   end
