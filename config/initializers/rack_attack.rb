@@ -157,8 +157,15 @@ class Rack::Attack
   # Throttle by individual user (based on uid)
   throttle('/api/v2/accounts/:account_id/reports/user', limit: ENV.fetch('RATE_LIMIT_REPORTS_API_USER_LEVEL', '100').to_i, period: 1.minute) do |req|
     match_data = %r{/api/v2/accounts/(?<account_id>\d+)/reports}.match(req.path)
+
+    # Extract user identification (uid for web, api_access_token for API requests)
     user_uid = req.get_header('HTTP_UID')
-    "#{user_uid}:#{match_data[:account_id]}" if match_data.present? && user_uid.present?
+    api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token') || req.get_header('api-access-token')
+
+    # Use uid if present, otherwise fallback to api_access_token for tracking
+    user_identifier = user_uid || api_access_token
+
+    "#{user_identifier}:#{match_data[:account_id]}" if match_data.present? && user_uid.present?
   end
 
   ## Prevent abuse of reports api at account level
