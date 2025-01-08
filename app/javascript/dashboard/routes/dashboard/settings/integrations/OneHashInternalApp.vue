@@ -77,11 +77,14 @@ export default {
         }
 
         this.closeCalIntegrationPopup();
-        await this.$store.dispatch('integrations/addOneHashIntegration', {
-          integrationId: this.integrationId,
-          slug: this.cal_user_slug,
-        });
-        useAlert(this.$t('INTEGRATION_SETTINGS.ONEHASH_CAL.API.MESSAGE'));
+        const res = await this.$store.dispatch(
+          'integrations/addOneHashIntegration',
+          {
+            integrationId: this.integrationId,
+            slug: this.cal_user_slug,
+          }
+        );
+        useAlert(res.data.message);
         this.requestRaised = true;
       } catch (error) {
         useAlert(this.$t('INTEGRATION_SETTINGS.ADD.API.ERROR_MESSAGE'));
