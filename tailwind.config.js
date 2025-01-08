@@ -227,7 +227,14 @@ const tailwindConfig = {
     iconsPlugin({
       collections: {
         woot: { icons },
-        ...getIconCollections(['lucide', 'logos', 'ri', 'ph', 'teenyicons']),
+        ...getIconCollections([
+          'lucide',
+          'logos',
+          'ri',
+          'ph',
+          'material-symbols',
+          'teenyicons',
+        ]),
       },
     }),
   ],
