@@ -8,3 +8,4 @@ json.external_link resource.external_link
 json.id resource.id
 json.name resource.name
 json.status resource.status
+json.updated_at resource.updated_at.to_i

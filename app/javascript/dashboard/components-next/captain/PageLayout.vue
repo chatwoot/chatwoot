@@ -36,7 +36,6 @@ const handleButtonClick = () => {
 };
 
 const handlePageChange = event => {
-  console.log(event);
   emit('update:currentPage', event);
 };
 </script>

@@ -40,7 +40,7 @@ onMounted(() => fetchResponses());
     :current-page="responseMeta.page"
     :header-title="$t('CAPTAIN.RESPONSES.HEADER')"
     :button-label="$t('CAPTAIN.RESPONSES.ADD_NEW')"
-    :show-pagination-footer="!isFetching && responses.length"
+    :show-pagination-footer="!isFetching && !!responses.length"
     @update:current-page="onPageChange"
   >
     <div

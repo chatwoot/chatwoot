@@ -1,11 +1,12 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/assistant/DeleteDialog.vue';
 import DocumentCard from 'dashboard/components-next/captain/assistant/DocumentCard.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import RelatedResponses from 'dashboard/components-next/captain/pageComponents/document/RelatedResponses.vue';
 const store = useStore();
 
 const uiFlags = useMapGetter('captainDocuments/getUIFlags');
@@ -15,9 +16,23 @@ const documentsMeta = useMapGetter('captainDocuments/getMeta');
 
 const selectedDocument = ref(null);
 const deleteDialog = ref(null);
+
 const handleDelete = () => {
   deleteDialog.value.dialogRef.open();
 };
+
+const showRelatedResponses = ref(false);
+const relationQuestionDialog = ref(null);
+
+const handleShowRelatedDocument = () => {
+  showRelatedResponses.value = true;
+  nextTick(() => relationQuestionDialog.value.dialogRef.open());
+};
+
+const handleRelatedResponseClose = () => {
+  showRelatedResponses.value = false;
+};
+
 const handleAction = ({ action, id }) => {
   selectedDocument.value = documents.value.find(
     captainDocument => id === captainDocument.id
@@ -25,6 +40,8 @@ const handleAction = ({ action, id }) => {
 
   if (action === 'delete') {
     handleDelete();
+  } else if (action === 'viewRelatedQuestions') {
+    handleShowRelatedDocument();
   }
 };
 
@@ -43,7 +60,7 @@ onMounted(() => fetchDocuments());
     :button-label="$t('CAPTAIN.DOCUMENTS.ADD_NEW')"
     :total-count="documentsMeta.totalCount"
     :current-page="documentsMeta.page"
-    :show-pagination-footer="!isFetching && documents.length"
+    :show-pagination-footer="!isFetching && !!documents.length"
     @update:current-page="onPageChange"
   >
     <div
@@ -66,8 +83,14 @@ onMounted(() => fetchDocuments());
     </div>
 
     <div v-else>{{ 'No documents found' }}</div>
-
+    <RelatedResponses
+      v-if="showRelatedResponses"
+      ref="relationQuestionDialog"
+      :captain-document="selectedDocument"
+      @close="handleRelatedResponseClose"
+    />
     <DeleteDialog
+      v-if="selectedDocument"
       ref="deleteDialog"
       :entity="selectedDocument"
       type="Documents"

@@ -40,15 +40,9 @@ const [showActionsDropdown, toggleDropdown] = useToggle();
 const menuItems = computed(() => [
   {
     label: 'View related questions',
-    value: 'edit',
-    action: 'edit',
+    value: 'viewRelatedQuestions',
+    action: 'viewRelatedQuestions',
     icon: 'i-ph-tree-view-duotone',
-  },
-  {
-    label: 'Edit document',
-    value: 'edit',
-    action: 'edit',
-    icon: 'i-lucide-pencil-line',
   },
   {
     label: 'Delete document',

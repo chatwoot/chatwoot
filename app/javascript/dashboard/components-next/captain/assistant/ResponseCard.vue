@@ -21,7 +21,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
-
+  compact: {
+    type: Boolean,
+    default: false,
+  },
   assistant: {
     type: Object,
     default: () => ({}),
@@ -68,12 +71,12 @@ const handleAssistantAction = ({ action, value }) => {
 </script>
 
 <template>
-  <CardLayout>
+  <CardLayout :class="{ 'rounded-md': compact }">
     <div class="flex justify-between w-full gap-1">
       <span class="text-base text-n-slate-12 line-clamp-1">
         {{ question }}
       </span>
-      <div class="flex items-center gap-2">
+      <div v-if="!compact" class="flex items-center gap-2">
         <div
           v-on-clickaway="() => toggleDropdown(false)"
           class="relative flex items-center group"
@@ -94,24 +97,22 @@ const handleAssistantAction = ({ action, value }) => {
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between w-full gap-4">
+    <span class="text-n-slate-11 text-sm line-clamp-5">
+      {{ answer }}
+    </span>
+    <span v-if="!compact">
       <span
-        class="text-n-slate-11 text-sm truncate flex justify-start flex-1 items-center gap-1"
-      >
-        <span class="truncate">{{ answer }}</span>
-      </span>
-      <span
-        class="text-sm shrink-0 truncate text-n-slate-11 flex items-center gap-1"
+        class="text-sm shrink-0 truncate text-n-slate-11 inline-flex items-center gap-1"
       >
         <i class="i-woot-captain" />
         {{ assistant?.name || '' }}
       </span>
       <div
-        class="shrink-0 text-sm text-n-slate-11 line-clamp-1 flex items-center gap-1"
+        class="shrink-0 text-sm text-n-slate-11 line-clamp-1 inline-flex items-center gap-1 ml-3"
       >
         <i class="i-ph-calendar-dot" />
         {{ timestamp }}
       </div>
-    </div>
+    </span>
   </CardLayout>
 </template>
