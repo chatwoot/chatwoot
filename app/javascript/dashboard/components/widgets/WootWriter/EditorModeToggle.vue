@@ -50,8 +50,8 @@ const isPrivate = computed(() => props.mode === REPLY_EDITOR_MODES.NOTE);
       class="flex items-center text-sm font-medium transition-all duration-200 w-fit whitespace-nowrap"
       :class="[
         isPrivate
-          ? 'text-n-amber-12 ltr:mr-7 ltr:ml-1 rtl:ml-7 rtl:mr-1'
-          : 'text-n-slate-12 ltr:ml-7 ltr:mr-1 rtl:mr-7 rtl:ml-1',
+          ? 'text-n-amber-12 ltr:mr-7 ltr:ml-1.5 rtl:ml-7 rtl:mr-1.5'
+          : 'text-n-slate-12 ltr:ml-7 ltr:mr-1.5 rtl:mr-7 rtl:ml-1.5',
       ]"
     >
       {{
