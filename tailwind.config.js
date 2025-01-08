@@ -121,10 +121,16 @@ const tailwindConfig = {
             },
             code: {
               backgroundColor: 'rgb(var(--alpha-3))',
-              color: 'rgb(var(--solid-amber))',
+              color: 'rgb(var(--slate-11))',
               padding: '0.2em 0.4em',
               borderRadius: '4px',
               fontSize: '0.95em',
+              '&::before': {
+                content: `none`,
+              },
+              '&::after': {
+                content: `none`,
+              },
             },
             pre: {
               backgroundColor: 'rgb(var(--alpha-3))',
