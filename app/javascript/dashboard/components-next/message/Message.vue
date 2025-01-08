@@ -152,7 +152,8 @@ const variant = computed(() => {
   if (props.contentAttributes?.isUnsupported)
     return MESSAGE_VARIANTS.UNSUPPORTED;
 
-  if (!props.sender || props.sender.type === SENDER_TYPES.AGENT_BOT) {
+  const isBot = !props.sender || props.sender.type === SENDER_TYPES.AGENT_BOT;
+  if (isBot && props.messageType === MESSAGE_TYPES.OUTGOING) {
     return MESSAGE_VARIANTS.BOT;
   }
 

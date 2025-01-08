@@ -80,6 +80,10 @@ const messageClasses = computed(() => ({
 }));
 
 const formatPushMessage = message => {
+  if (message.startsWith(': ')) {
+    return message.slice(2);
+  }
+
   return message.replace(/^([^:]+):/g, (match, name) => {
     return `<span class="${messageClasses.value.emphasis}">${name}:</span>`;
   });
