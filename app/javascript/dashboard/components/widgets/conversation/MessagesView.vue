@@ -574,7 +574,10 @@ export default {
     </ul>
     <div
       class="conversation-footer"
-      :class="{ 'modal-mask': isPopOutReplyBox }"
+      :class="{
+        'modal-mask': isPopOutReplyBox,
+        'bg-n-background': showNextBubbles,
+      }"
     >
       <div
         v-if="isAnyoneTyping"
