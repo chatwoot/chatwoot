@@ -82,7 +82,7 @@ describe NotificationBuilder do
           account: account,
           primary_actor: primary_actor
         ).perform
-      end.not_to change { user.notifications.count }
+      end.not_to(change { user.notifications.count })
     end
 
     it 'will create a notification if conversation contact is blocked and notification type is conversation_mention' do
