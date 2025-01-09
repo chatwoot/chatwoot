@@ -324,26 +324,32 @@
         "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
       },
       "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
-      "ADD": {
+      "CREATE": {
         "TITLE": "Create an assistant",
+        "SUCCESS_MESSAGE": "The assistant has been successfully created",
+        "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
+      },
+      "FORM": {
         "NAME": {
           "LABEL": "Assistant Name",
           "PLACEHOLDER": "Enter a name for the assistant",
-          "REQUIRED_ERROR": "Please provide a name for the assistant"
+          "ERROR": "Please provide a name for the assistant"
         },
         "DESCRIPTION": {
           "LABEL": "Assistant Description",
           "PLACEHOLDER": "Describe how and where this assistant will be used",
-          "REQUIRED_ERROR": "A description is required"
+          "ERROR": "A description is required"
         },
         "PRODUCT_NAME": {
           "LABEL": "Product Name",
           "PLACEHOLDER": "Enter the name of the product this assistant is designed for",
-          "REQUIRED_ERROR": "The product name is required"
+          "ERROR": "The product name is required"
         }
       },
       "EDIT": {
-        "TITLE": "Update the assistant"
+        "TITLE": "Update the assistant",
+        "SUCCESS_MESSAGE": "The assistant has been successfully updated",
+        "ERROR_MESSAGE": "There was an error updating the assistant, please try again."
       }
     },
     "DOCUMENTS": {

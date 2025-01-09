@@ -1,32 +1,55 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 
 import AssistantCard from 'dashboard/components-next/captain/assistant/AssistantCard.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import CreateAssistantDialog from 'dashboard/components-next/captain/pageComponents/assistant/CreateAssistantDialog.vue';
 
 const store = useStore();
-
+const dialogType = ref('');
 const uiFlags = useMapGetter('captainAssistants/getUIFlags');
 const assistants = useMapGetter('captainAssistants/getCaptainAssistants');
 const isFetching = computed(() => uiFlags.value.fetchingList);
 
 const selectedAssistant = ref(null);
-const deleteDialog = ref(null);
+const deleteAssistantDialog = ref(null);
 
 const handleDelete = () => {
-  deleteDialog.value.dialogRef.open();
+  deleteAssistantDialog.value.dialogRef.open();
 };
+
+const createAssistantDialog = ref(null);
+
+const handleCreate = () => {
+  dialogType.value = 'create';
+  nextTick(() => createAssistantDialog.value.dialogRef.open());
+};
+
+const handleEdit = () => {
+  dialogType.value = 'edit';
+  nextTick(() => createAssistantDialog.value.dialogRef.open());
+};
+
 const handleAction = ({ action, id }) => {
   selectedAssistant.value = assistants.value.find(
     assistant => id === assistant.id
   );
+  nextTick(() => {
+    if (action === 'delete') {
+      handleDelete();
+    }
+    if (action === 'edit') {
+      handleEdit();
+    }
+  });
+};
 
-  if (action === 'delete') {
-    handleDelete();
-  }
+const handleCreateClose = () => {
+  dialogType.value = '';
+  selectedAssistant.value = null;
 };
 
 onMounted(() => store.dispatch('captainAssistants/get'));
@@ -37,6 +60,7 @@ onMounted(() => store.dispatch('captainAssistants/get'));
     :header-title="$t('CAPTAIN.ASSISTANTS.HEADER')"
     :button-label="$t('CAPTAIN.ASSISTANTS.ADD_NEW')"
     :show-pagination-footer="false"
+    @click="handleCreate"
   >
     <div
       v-if="isFetching"
@@ -60,9 +84,18 @@ onMounted(() => store.dispatch('captainAssistants/get'));
     <div v-else>{{ 'No assistants found' }}</div>
 
     <DeleteDialog
-      ref="deleteDialog"
+      v-if="selectedAssistant"
+      ref="deleteAssistantDialog"
       :entity="selectedAssistant"
       type="Assistants"
+    />
+
+    <CreateAssistantDialog
+      v-if="dialogType"
+      ref="createAssistantDialog"
+      :type="dialogType"
+      :selected-assistant="selectedAssistant"
+      @close="handleCreateClose"
     />
   </PageLayout>
 </template>
