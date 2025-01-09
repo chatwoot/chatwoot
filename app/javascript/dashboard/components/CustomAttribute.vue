@@ -209,9 +209,7 @@ export default {
           <span
             class="w-full inline-flex gap-1.5 items-start font-medium whitespace-nowrap text-sm mb-0"
             :class="
-              v$.editedValue.$error
-                ? 'text-red-400 dark:text-red-500'
-                : 'text-slate-800 dark:text-slate-100'
+              v$.editedValue.$error ? 'text-n-ruby-11' : 'text-n-slate-12'
             "
           >
             {{ label }}
@@ -258,7 +256,7 @@ export default {
         </div>
         <span
           v-if="shouldShowErrorMessage"
-          class="block w-full -mt-px text-sm font-normal text-red-400 dark:text-red-500"
+          class="block w-full -mt-px text-sm font-normal text-n-ruby-11"
         >
           {{ errorMessage }}
         </span>
@@ -273,13 +271,13 @@ export default {
           :href="hrefURL"
           target="_blank"
           rel="noopener noreferrer"
-          class="group-hover:bg-slate-50 group-hover:dark:bg-slate-700 inline-block rounded-sm mb-0 break-all py-0.5 px-1"
+          class="group-hover:bg-n-slate-3 group-hover:dark:bg-n-solid-3 inline-block rounded-sm mb-0 break-all py-0.5 px-1"
         >
           {{ urlValue }}
         </a>
         <p
           v-else
-          class="group-hover:bg-slate-50 group-hover:dark:bg-slate-700 inline-block rounded-sm mb-0 break-all py-0.5 px-1"
+          class="group-hover:bg-n-slate-3 group-hover:dark:bg-n-solid-3 inline-block rounded-sm mb-0 break-all py-0.5 px-1"
         >
           {{ displayValue || '---' }}
         </p>
