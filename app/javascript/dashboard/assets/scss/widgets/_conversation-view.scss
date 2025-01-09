@@ -219,7 +219,7 @@
 }
 
 .conversation-footer {
-  @apply flex relative flex-col;
+  @apply flex relative flex-col bg-n-background;
 }
 
 .left .bubble .text-content {
