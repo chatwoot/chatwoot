@@ -54,7 +54,7 @@ class Api::V1::Accounts::Captain::AssistantResponsesController < Api::V1::Accoun
   end
 
   def permitted_params
-    params.permit(:id, :assistant_id, :page, :document_id)
+    params.permit(:id, :assistant_id, :page, :document_id, :account_id)
   end
 
   def response_params

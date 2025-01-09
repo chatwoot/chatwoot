@@ -20,6 +20,12 @@ class Captain::Assistant < ApplicationRecord
   belongs_to :account
   has_many :documents, class_name: 'Captain::Document', dependent: :destroy_async
   has_many :responses, class_name: 'Captain::AssistantResponse', dependent: :destroy_async
+  has_many :captain_inboxes,
+           class_name: 'CaptainInbox',
+           foreign_key: :captain_assistant_id,
+           dependent: :destroy_async
+  has_many :inboxes,
+           through: :captain_inboxes
 
   validates :name, presence: true
   validates :account_id, presence: true

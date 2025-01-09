@@ -15,7 +15,7 @@
 #  index_captain_inboxes_on_inbox_id                           (inbox_id)
 #
 class CaptainInbox < ApplicationRecord
-  belongs_to :captain_assistant
+  belongs_to :captain_assistant, class_name: 'Captain::Assistant'
   belongs_to :inbox
 
   validates :inbox_id, uniqueness: true
