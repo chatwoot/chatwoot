@@ -2,7 +2,7 @@ import { throwErrorMessage } from 'dashboard/store/utils/api';
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 
 export const createStore = options => {
-  const { name, API } = options;
+  const { name, API, actions = () => { } } = options;
 
   const capitalizedName = name.toUpperCase();
 
@@ -28,14 +28,14 @@ export const createStore = options => {
   };
 
   const getters = {
-    getRecords: state => state.records,
+    getRecords: state => state.records.sort((r1, r2) => r2.id - r1.id),
     getRecord: state => id =>
       state.records.find(record => record.id === Number(id)) || {},
     getUIFlags: state => state.uiFlags,
     getMeta: state => state.meta,
   };
 
-  const actions = {
+  const storeActions = {
     get: async function get({ commit }, params = {}) {
       commit(mutationTypes.SET_UI_FLAG, { fetchingList: true });
       try {
@@ -97,6 +97,8 @@ export const createStore = options => {
         return throwErrorMessage(error);
       }
     },
+
+    ...actions(mutationTypes),
   };
 
   const mutations = {
@@ -122,7 +124,7 @@ export const createStore = options => {
     namespaced: true,
     state: initialState,
     getters,
-    actions,
+    actions: storeActions,
     mutations,
   };
 };

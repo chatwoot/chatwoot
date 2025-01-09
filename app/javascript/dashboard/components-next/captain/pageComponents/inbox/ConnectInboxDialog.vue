@@ -23,13 +23,11 @@ const connectForm = ref(null);
 const i18nKey = 'CAPTAIN.INBOXES.CREATE';
 
 const handleSubmit = async payload => {
-  console.log(payload);
   try {
     await store.dispatch('captainInboxes/create', payload);
     useAlert(t(`${i18nKey}.SUCCESS_MESSAGE`));
     dialogRef.value.close();
   } catch (error) {
-    console.log(error.response);
     const errorMessage = error?.message || t(`${i18nKey}.ERROR_MESSAGE`);
     useAlert(errorMessage);
   }
@@ -49,8 +47,9 @@ defineExpose({ dialogRef });
 <template>
   <Dialog
     ref="dialogRef"
+    type="create"
     :title="$t(`${i18nKey}.TITLE`)"
-    :description="$t('CAPTAIN.DOCUMENTS.FORM_DESCRIPTION')"
+    :description="$t('CAPTAIN.INBOXES.FORM_DESCRIPTION')"
     :show-cancel-button="false"
     :show-confirm-button="false"
     overflow-y-auto
