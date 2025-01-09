@@ -28,8 +28,8 @@ export const createStore = options => {
   };
 
   const getters = {
-    [`get${name}s`]: state => state.records,
-    [`get${name}`]: state => id =>
+    getRecords: state => state.records,
+    getRecord: state => id =>
       state.records.find(record => record.id === Number(id)) || {},
     getUIFlags: state => state.uiFlags,
     getMeta: state => state.meta,

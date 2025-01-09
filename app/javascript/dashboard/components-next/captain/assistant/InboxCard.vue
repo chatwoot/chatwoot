@@ -9,6 +9,10 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import { INBOX_TYPES, getInboxIconByType } from 'dashboard/helper/inbox';
 
 const props = defineProps({
+  id: {
+    type: Number,
+    required: true,
+  },
   inbox: {
     type: Object,
     required: true,
@@ -45,7 +49,7 @@ const inboxName = computed(() => {
 
 const menuItems = computed(() => [
   {
-    label: t('CAPTAIN.CONNECTED_INBOX.DISCONNECT'),
+    label: t('CAPTAIN.INBOXES.OPTIONS.DISCONNECT'),
     value: 'delete',
     action: 'delete',
     icon: 'i-lucide-trash',

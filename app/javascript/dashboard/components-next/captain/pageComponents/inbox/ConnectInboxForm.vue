@@ -2,40 +2,49 @@
 import { reactive, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength, url } from '@vuelidate/validators';
+import { required } from '@vuelidate/validators';
 import { useMapGetter } from 'dashboard/composables/store';
 
-import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+
+const props = defineProps({
+  assistantId: {
+    type: Number,
+    required: true,
+  },
+});
 
 const emit = defineEmits(['submit', 'cancel']);
 
 const { t } = useI18n();
 
 const formState = {
-  uiFlags: useMapGetter('captainDocuments/getUIFlags'),
-  assistants: useMapGetter('captainAssistants/getRecords'),
+  uiFlags: useMapGetter('captainInboxes/getUIFlags'),
+  inboxes: useMapGetter('inboxes/getInboxes'),
+  captainInboxes: useMapGetter('captainInboxes/getRecords'),
 };
 
 const initialState = {
-  name: '',
-  assistantId: null,
+  inboxId: null,
 };
 
 const state = reactive({ ...initialState });
 
 const validationRules = {
-  url: { required, url, minLength: minLength(1) },
-  assistantId: { required },
+  inboxId: { required },
 };
 
-const assistantList = computed(() =>
-  formState.assistants.value.map(assistant => ({
-    value: assistant.id,
-    label: assistant.name,
-  }))
-);
+const inboxList = computed(() => {
+  const captainInboxIds = formState.captainInboxes.value.map(inbox => inbox.id);
+
+  return formState.inboxes.value
+    .filter(inbox => !captainInboxIds.includes(inbox.id))
+    .map(inbox => ({
+      value: inbox.id,
+      label: inbox.name,
+    }));
+});
 
 const v$ = useVuelidate(validationRules, state);
 
@@ -43,20 +52,19 @@ const isLoading = computed(() => formState.uiFlags.value.creatingItem);
 
 const getErrorMessage = (field, errorKey) => {
   return v$.value[field].$error
-    ? t(`CAPTAIN.DOCUMENTS.FORM.${errorKey}.ERROR`)
+    ? t(`CAPTAIN.INBOXES.FORM.${errorKey}.ERROR`)
     : '';
 };
 
 const formErrors = computed(() => ({
-  url: getErrorMessage('url', 'URL'),
-  assistantId: getErrorMessage('assistantId', 'ASSISTANT'),
+  inboxId: getErrorMessage('inboxId', 'INBOX'),
 }));
 
 const handleCancel = () => emit('cancel');
 
-const prepareDocumentDetails = () => ({
-  external_link: state.url,
-  assistant_id: state.assistantId,
+const prepareInboxPayload = () => ({
+  inboxId: state.inboxId,
+  assistantId: props.assistantId,
 });
 
 const handleSubmit = async () => {
@@ -65,31 +73,24 @@ const handleSubmit = async () => {
     return;
   }
 
-  emit('submit', prepareDocumentDetails());
+  emit('submit', prepareInboxPayload());
 };
 </script>
 
 <template>
   <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
-    <Input
-      v-model="state.url"
-      :label="t('CAPTAIN.DOCUMENTS.FORM.URL.LABEL')"
-      :placeholder="t('CAPTAIN.DOCUMENTS.FORM.URL.PLACEHOLDER')"
-      :message="formErrors.url"
-      :message-type="formErrors.url ? 'error' : 'info'"
-    />
     <div class="flex flex-col gap-1">
-      <label for="assistant" class="mb-0.5 text-sm font-medium text-n-slate-12">
-        {{ t('CAPTAIN.DOCUMENTS.FORM.ASSISTANT.LABEL') }}
+      <label for="inbox" class="mb-0.5 text-sm font-medium text-n-slate-12">
+        {{ t('CAPTAIN.INBOXES.FORM.INBOX.LABEL') }}
       </label>
       <ComboBox
-        id="assistant"
-        v-model="state.assistantId"
-        :options="assistantList"
-        :has-error="!!formErrors.assistantId"
-        :placeholder="t('CAPTAIN.DOCUMENTS.FORM.ASSISTANT.PLACEHOLDER')"
+        id="inbox"
+        v-model="state.inboxId"
+        :options="inboxList"
+        :has-error="!!formErrors.inboxId"
+        :placeholder="t('CAPTAIN.INBOXES.FORM.INBOX.PLACEHOLDER')"
         class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
-        :message="formErrors.assistantId"
+        :message="formErrors.inboxId"
       />
     </div>
 

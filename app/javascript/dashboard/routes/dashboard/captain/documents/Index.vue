@@ -11,16 +11,16 @@ import CreateDocumentDialog from '../../../../components-next/captain/pageCompon
 const store = useStore();
 
 const uiFlags = useMapGetter('captainDocuments/getUIFlags');
-const documents = useMapGetter('captainDocuments/getCaptainDocuments');
-const assistants = useMapGetter('captainAssistants/getCaptainAssistants');
+const documents = useMapGetter('captainDocuments/getRecords');
+const assistants = useMapGetter('captainAssistants/getRecords');
 const isFetching = computed(() => uiFlags.value.fetchingList);
 const documentsMeta = useMapGetter('captainDocuments/getMeta');
 
 const selectedDocument = ref(null);
-const deleteDialog = ref(null);
+const deleteDocumentDialog = ref(null);
 
 const handleDelete = () => {
-  deleteDialog.value.dialogRef.open();
+  deleteDocumentDialog.value.dialogRef.open();
 };
 
 const showRelatedResponses = ref(false);
@@ -50,11 +50,13 @@ const handleAction = ({ action, id }) => {
     captainDocument => id === captainDocument.id
   );
 
-  if (action === 'delete') {
-    handleDelete();
-  } else if (action === 'viewRelatedQuestions') {
-    handleShowRelatedDocument();
-  }
+  nextTick(() => {
+    if (action === 'delete') {
+      handleDelete();
+    } else if (action === 'viewRelatedQuestions') {
+      handleShowRelatedDocument();
+    }
+  });
 };
 
 const fetchDocuments = (page = 1) => {
@@ -114,7 +116,7 @@ onMounted(() => {
     />
     <DeleteDialog
       v-if="selectedDocument"
-      ref="deleteDialog"
+      ref="deleteDocumentDialog"
       :entity="selectedDocument"
       type="Documents"
     />

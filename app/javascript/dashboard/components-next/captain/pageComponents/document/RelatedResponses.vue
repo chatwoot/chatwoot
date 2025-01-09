@@ -17,7 +17,7 @@ const store = useStore();
 const dialogRef = ref(null);
 
 const uiFlags = useMapGetter('captainResponses/getUIFlags');
-const responses = useMapGetter('captainResponses/getCaptainResponses');
+const responses = useMapGetter('captainResponses/getRecords');
 const isFetching = computed(() => uiFlags.value.fetchingList);
 
 const handleClose = () => {

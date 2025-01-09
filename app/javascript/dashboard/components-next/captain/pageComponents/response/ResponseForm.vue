@@ -26,7 +26,7 @@ const { t } = useI18n();
 
 const formState = {
   uiFlags: useMapGetter('captainResponses/getUIFlags'),
-  assistants: useMapGetter('captainAssistants/getCaptainAssistants'),
+  assistants: useMapGetter('captainAssistants/getRecords'),
 };
 
 const initialState = {

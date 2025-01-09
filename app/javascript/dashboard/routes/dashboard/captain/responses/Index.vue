@@ -11,7 +11,7 @@ import CreateResponseDialog from 'dashboard/components-next/captain/pageComponen
 const store = useStore();
 const uiFlags = useMapGetter('captainResponses/getUIFlags');
 const responseMeta = useMapGetter('captainResponses/getMeta');
-const responses = useMapGetter('captainResponses/getCaptainResponses');
+const responses = useMapGetter('captainResponses/getRecords');
 const isFetching = computed(() => uiFlags.value.fetchingList);
 
 const selectedResponse = ref(null);

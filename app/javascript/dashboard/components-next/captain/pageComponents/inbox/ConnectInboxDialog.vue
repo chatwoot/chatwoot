@@ -1,0 +1,67 @@
+<script setup>
+import { ref } from 'vue';
+import { useStore } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
+import { useI18n } from 'vue-i18n';
+
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import ConnectInboxForm from './ConnectInboxForm.vue';
+
+defineProps({
+  assistantId: {
+    type: Number,
+    required: true,
+  },
+});
+const emit = defineEmits(['close']);
+const { t } = useI18n();
+const store = useStore();
+
+const dialogRef = ref(null);
+const connectForm = ref(null);
+
+const i18nKey = 'CAPTAIN.INBOXES.CREATE';
+
+const handleSubmit = async payload => {
+  console.log(payload);
+  try {
+    await store.dispatch('captainInboxes/create', payload);
+    useAlert(t(`${i18nKey}.SUCCESS_MESSAGE`));
+    dialogRef.value.close();
+  } catch (error) {
+    console.log(error.response);
+    const errorMessage = error?.message || t(`${i18nKey}.ERROR_MESSAGE`);
+    useAlert(errorMessage);
+  }
+};
+
+const handleClose = () => {
+  emit('close');
+};
+
+const handleCancel = () => {
+  dialogRef.value.close();
+};
+
+defineExpose({ dialogRef });
+</script>
+
+<template>
+  <Dialog
+    ref="dialogRef"
+    :title="$t(`${i18nKey}.TITLE`)"
+    :description="$t('CAPTAIN.DOCUMENTS.FORM_DESCRIPTION')"
+    :show-cancel-button="false"
+    :show-confirm-button="false"
+    overflow-y-auto
+    @close="handleClose"
+  >
+    <ConnectInboxForm
+      ref="connectForm"
+      :assistant-id="assistantId"
+      @submit="handleSubmit"
+      @cancel="handleCancel"
+    />
+    <template #footer />
+  </Dialog>
+</template>

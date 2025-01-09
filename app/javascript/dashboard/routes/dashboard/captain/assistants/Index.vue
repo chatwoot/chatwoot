@@ -14,7 +14,7 @@ const router = useRouter();
 const store = useStore();
 const dialogType = ref('');
 const uiFlags = useMapGetter('captainAssistants/getUIFlags');
-const assistants = useMapGetter('captainAssistants/getCaptainAssistants');
+const assistants = useMapGetter('captainAssistants/getRecords');
 const isFetching = computed(() => uiFlags.value.fetchingList);
 
 const selectedAssistant = ref(null);

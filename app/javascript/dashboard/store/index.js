@@ -48,6 +48,7 @@ import SLAReports from './modules/SLAReports';
 import captainAssistants from './captain/assistant';
 import captainDocuments from './captain/document';
 import captainResponses from './captain/response';
+import captainInboxes from './captain/inboxes';
 const plugins = [];
 
 export default createStore({
@@ -100,6 +101,7 @@ export default createStore({
     captainAssistants,
     captainDocuments,
     captainResponses,
+    captainInboxes,
   },
   plugins,
 });

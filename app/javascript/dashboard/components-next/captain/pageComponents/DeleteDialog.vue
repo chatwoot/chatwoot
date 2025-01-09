@@ -14,18 +14,22 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  deletePayload: {
+    type: Object,
+    default: null,
+  },
 });
 
 const { t } = useI18n();
 const store = useStore();
-const deleteAssistantDialogRef = ref(null);
+const deleteDialogRef = ref(null);
 const i18nKey = computed(() => props.type.toUpperCase());
 
-const deleteEntity = async id => {
-  if (!id) return;
+const deleteEntity = async payload => {
+  if (!payload) return;
 
   try {
-    await store.dispatch(`captain${props.type}/delete`, id);
+    await store.dispatch(`captain${props.type}/delete`, payload);
     useAlert(t(`CAPTAIN.${i18nKey.value}.DELETE.SUCCESS_MESSAGE`));
   } catch (error) {
     useAlert(t(`CAPTAIN.${i18nKey.value}.DELETE.ERROR_MESSAGE`));
@@ -33,16 +37,16 @@ const deleteEntity = async id => {
 };
 
 const handleDialogConfirm = async () => {
-  await deleteEntity(props.entity.id);
-  deleteAssistantDialogRef.value?.close();
+  await deleteEntity(props.deletePayload || props.entity.id);
+  deleteDialogRef.value?.close();
 };
 
-defineExpose({ dialogRef: deleteAssistantDialogRef });
+defineExpose({ dialogRef: deleteDialogRef });
 </script>
 
 <template>
   <Dialog
-    ref="deleteAssistantDialogRef"
+    ref="deleteDialogRef"
     type="alert"
     :title="t(`CAPTAIN.${i18nKey}.DELETE.TITLE`)"
     :description="t(`CAPTAIN.${i18nKey}.DELETE.DESCRIPTION`)"

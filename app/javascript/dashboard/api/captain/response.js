@@ -7,7 +7,6 @@ class CaptainResponses extends ApiClient {
   }
 
   get({ page = 1, searchKey, assistantId, documentId } = {}) {
-    console.log(assistantId, documentId);
     return axios.get(this.url, {
       params: {
         page,

@@ -430,9 +430,32 @@
         "ERROR_MESSAGE": "There was an error updating the response, please try again."
       }
     },
-    "CONNECTED_INBOXES": {
+    "INBOXES": {
       "HEADER": "Connected Inboxes",
-      "ADD_NEW": "Connect a new inbox"
+      "ADD_NEW": "Connect a new inbox",
+      "OPTIONS" :{
+        "DISCONNECT": "Disconnect"
+      },
+      "DELETE": {
+        "TITLE": "Are you sure to disconnect the inbox?",
+        "DESCRIPTION": "",
+        "CONFIRM": "Yes, delete",
+        "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
+        "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
+      },
+      "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
+      "CREATE": {
+        "TITLE": "Connect an Inbox",
+        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
+        "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
+      },
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Inbox",
+          "PLACEHOLDER": "Choose the inbox to deploy the assistant.",
+          "ERROR": "An inbox selection is required."
+        }
+      }
     }
   }
 }
