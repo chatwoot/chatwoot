@@ -551,48 +551,48 @@
   },
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
-      "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+      "ERROR_MESSAGE": "Mēs nevarējām pabeigt meklēšanu. Lūdzu, mēģiniet vēlreiz."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "Apskatīt",
-      "SUCCESS_MESSAGE": "The message was sent successfully!",
-      "ERROR_MESSAGE": "An error occurred while creating the conversation. Please try again later.",
-      "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
+      "SUCCESS_MESSAGE": "Ziņa veiksmīgi nosūtīta!",
+      "ERROR_MESSAGE": "Veidojot sarunu, radās kļūda. Lūdzu, vēlāk mēģiniet vēlreiz.",
+      "NO_INBOX_ALERT": "Nav pieejamas iesūtnes, lai sāktu sarunu ar šo kontaktpersonu.",
       "CONTACT_SELECTOR": {
         "LABEL": "Kam:",
-        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
-        "CONTACT_CREATING": "Creating contact..."
+        "TAG_INPUT_PLACEHOLDER": "Meklēt kontaktpersonu pēc vārda, e-pasta vai tālruņa numura",
+        "CONTACT_CREATING": "Notiek kontaktpersonas izveide..."
       },
       "INBOX_SELECTOR": {
-        "LABEL": "Via:",
-        "BUTTON": "Show inboxes"
+        "LABEL": "Izmantojot:",
+        "BUTTON": "Rādīt iesūtnes"
       },
       "EMAIL_OPTIONS": {
         "SUBJECT_LABEL": "Tēma :",
-        "SUBJECT_PLACEHOLDER": "Enter your email subject here",
+        "SUBJECT_PLACEHOLDER": "Ievadiet šeit sava e-pasta tēmu",
         "CC_LABEL": "Cc:",
-        "CC_PLACEHOLDER": "Search for a contact with their email address",
+        "CC_PLACEHOLDER": "Meklēt kontaktpersonu pēc e-pasta adreses",
         "BCC_LABEL": "Bcc:",
-        "BCC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_PLACEHOLDER": "Meklēt kontaktpersonu pēc e-pasta adreses",
         "BCC_BUTTON": "Bcc"
       },
       "MESSAGE_EDITOR": {
         "PLACEHOLDER": "Rakstiet savu ziņojumu šeit..."
       },
       "WHATSAPP_OPTIONS": {
-        "LABEL": "Select template",
-        "SEARCH_PLACEHOLDER": "Search templates",
-        "EMPTY_STATE": "No templates found",
+        "LABEL": "Izvēlieties veidni",
+        "SEARCH_PLACEHOLDER": "Meklēt veidnes",
+        "EMPTY_STATE": "Nav atrasta neviena veidne",
         "TEMPLATE_PARSER": {
-          "TEMPLATE_NAME": "WhatsApp template: {templateName}",
+          "TEMPLATE_NAME": "WhatsApp veidne: {templateName}",
           "VARIABLES": "Mainīgie",
           "BACK": "Atgriezties",
           "SEND_MESSAGE": "Sūtīt ziņojumu"
         }
       },
       "ACTION_BUTTONS": {
-        "DISCARD": "Discard",
-        "SEND": "Send ({keyCode})"
+        "DISCARD": "Izmest",
+        "SEND": "Sūtīt ({keyCode})"
       }
     }
   }
