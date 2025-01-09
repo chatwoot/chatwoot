@@ -41,9 +41,9 @@ const createAssistant = assistantDetails =>
 const handleSubmit = async updatedAssistant => {
   try {
     if (props.type === 'edit') {
-      updateAssistant(updatedAssistant);
+      await updateAssistant(updatedAssistant);
     } else {
-      createAssistant(updatedAssistant);
+      await createAssistant(updatedAssistant);
     }
     useAlert(t(`${i18nKey.value}.SUCCESS_MESSAGE`));
     dialogRef.value.close();

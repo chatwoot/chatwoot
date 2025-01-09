@@ -51,7 +51,7 @@ defineExpose({ dialogRef });
     >
       <Spinner />
     </div>
-    <div v-else class="flex flex-col gap-3">
+    <div v-else class="flex flex-col gap-3 min-h-48">
       <ResponseCard
         v-for="response in responses"
         :id="response.id"

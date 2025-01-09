@@ -26,8 +26,7 @@ const emit = defineEmits(['submit', 'cancel']);
 const { t } = useI18n();
 
 const formState = {
-  uiFlags: useMapGetter('campaigns/getUIFlags'),
-  inboxes: useMapGetter('inboxes/getWebsiteInboxes'),
+  uiFlags: useMapGetter('captainAssistants/getUIFlags'),
 };
 
 const initialState = {
@@ -46,7 +45,7 @@ const validationRules = {
 
 const v$ = useVuelidate(validationRules, state);
 
-const isLoading = computed(() => formState.uiFlags.value.isLoading);
+const isLoading = computed(() => formState.uiFlags.value.creatingItem);
 
 const getErrorMessage = (field, errorKey) => {
   return v$.value[field].$error

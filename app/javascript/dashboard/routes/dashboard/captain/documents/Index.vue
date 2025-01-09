@@ -7,10 +7,12 @@ import DocumentCard from 'dashboard/components-next/captain/assistant/DocumentCa
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import RelatedResponses from 'dashboard/components-next/captain/pageComponents/document/RelatedResponses.vue';
+import CreateDocumentDialog from '../../../../components-next/captain/pageComponents/document/CreateDocumentDialog.vue';
 const store = useStore();
 
 const uiFlags = useMapGetter('captainDocuments/getUIFlags');
 const documents = useMapGetter('captainDocuments/getCaptainDocuments');
+const assistants = useMapGetter('captainAssistants/getCaptainAssistants');
 const isFetching = computed(() => uiFlags.value.fetchingList);
 const documentsMeta = useMapGetter('captainDocuments/getMeta');
 
@@ -22,15 +24,25 @@ const handleDelete = () => {
 };
 
 const showRelatedResponses = ref(false);
+const showCreateDialog = ref(false);
+const createDocumentDialog = ref(null);
 const relationQuestionDialog = ref(null);
 
 const handleShowRelatedDocument = () => {
   showRelatedResponses.value = true;
   nextTick(() => relationQuestionDialog.value.dialogRef.open());
 };
+const handleCreateDocument = () => {
+  showCreateDialog.value = true;
+  nextTick(() => createDocumentDialog.value.dialogRef.open());
+};
 
 const handleRelatedResponseClose = () => {
   showRelatedResponses.value = false;
+};
+
+const handleCreateDialogClose = () => {
+  showCreateDialog.value = false;
 };
 
 const handleAction = ({ action, id }) => {
@@ -51,7 +63,12 @@ const fetchDocuments = (page = 1) => {
 
 const onPageChange = page => fetchDocuments(page);
 
-onMounted(() => fetchDocuments());
+onMounted(() => {
+  if (!assistants.value.length) {
+    store.dispatch('captainAssistants/get');
+  }
+  fetchDocuments();
+});
 </script>
 
 <template>
@@ -62,6 +79,7 @@ onMounted(() => fetchDocuments());
     :current-page="documentsMeta.page"
     :show-pagination-footer="!isFetching && !!documents.length"
     @update:current-page="onPageChange"
+    @click="handleCreateDocument"
   >
     <div
       v-if="isFetching"
@@ -74,7 +92,7 @@ onMounted(() => fetchDocuments());
         v-for="doc in documents"
         :id="doc.id"
         :key="doc.id"
-        :name="doc.name"
+        :name="doc.name || doc.external_link"
         :external-link="doc.external_link"
         :assistant="doc.assistant"
         :created-at="doc.created_at"
@@ -88,6 +106,11 @@ onMounted(() => fetchDocuments());
       ref="relationQuestionDialog"
       :captain-document="selectedDocument"
       @close="handleRelatedResponseClose"
+    />
+    <CreateDocumentDialog
+      v-if="showCreateDialog"
+      ref="createDocumentDialog"
+      @close="handleCreateDialogClose"
     />
     <DeleteDialog
       v-if="selectedDocument"

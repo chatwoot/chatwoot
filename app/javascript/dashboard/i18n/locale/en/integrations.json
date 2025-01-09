@@ -359,6 +359,24 @@
         "TITLE": "Related Responses",
         "DESCRIPTION": "These responses are generated directly from the document."
       },
+      "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
+      "CREATE": {
+        "TITLE": "Add a document",
+        "SUCCESS_MESSAGE": "The document has been successfully created",
+        "ERROR_MESSAGE": "There was an error creating the document, please try again."
+      },
+      "FORM": {
+        "URL": {
+          "LABEL": "URL",
+          "PLACEHOLDER": "Enter the URL of the document",
+          "ERROR": "Please provide a valid URL for the document"
+        },
+        "ASSISTANT": {
+          "LABEL": "Assistant",
+          "PLACEHOLDER": "Select the assistant",
+          "ERROR": "The assistant field is required"
+        }
+      },
       "DELETE": {
         "TITLE": "Are you sure to delete the document?",
         "DESCRIPTION": "This action is permanent. Deleting this document will permanently erase all generated knowledge.",
