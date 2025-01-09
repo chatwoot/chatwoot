@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 
-import DeleteDialog from 'dashboard/components-next/captain/pageComponents/assistant/DeleteDialog.vue';
+import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import ResponseCard from 'dashboard/components-next/captain/assistant/ResponseCard.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -58,6 +58,7 @@ onMounted(() => fetchResponses());
         :answer="response.answer"
         :assistant="response.assistant"
         :created-at="response.created_at"
+        :updated-at="response.updated_at"
         @action="handleAction"
       />
     </div>

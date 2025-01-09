@@ -308,6 +308,11 @@
       "YOU": "You",
       "USE": "Use this"
     },
+    "FORM": {
+      "CANCEL": "Cancel",
+      "CREATE": "Create",
+      "EDIT": "Update"
+    },
     "ASSISTANTS": {
       "HEADER": "Assistants",
       "ADD_NEW": "Create a new assistant",
@@ -317,6 +322,28 @@
         "CONFIRM": "Yes, delete",
         "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
         "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
+      },
+      "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
+      "ADD": {
+        "TITLE": "Create an assistant",
+        "NAME": {
+          "LABEL": "Assistant Name",
+          "PLACEHOLDER": "Enter a name for the assistant",
+          "REQUIRED_ERROR": "Please provide a name for the assistant"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Assistant Description",
+          "PLACEHOLDER": "Describe how and where this assistant will be used",
+          "REQUIRED_ERROR": "A description is required"
+        },
+        "PRODUCT_NAME": {
+          "LABEL": "Product Name",
+          "PLACEHOLDER": "Enter the name of the product this assistant is designed for",
+          "REQUIRED_ERROR": "The product name is required"
+        }
+      },
+      "EDIT": {
+        "TITLE": "Update the assistant"
       }
     },
     "DOCUMENTS": {
