@@ -74,7 +74,7 @@ const shouldGroupWithNext = (index, searchList) => {
     nextMessageType === MESSAGE_TYPES.TEMPLATE &&
     currentMessageType === MESSAGE_TYPES.TEMPLATE;
 
-  if (!hasSameSender || !areBothTemplates) return false;
+  if (!hasSameSender || areBothTemplates) return false;
 
   // Check if messages are in the same minute by rounding down to nearest minute
   return Math.floor(next.createdAt / 60) === Math.floor(current.createdAt / 60);
