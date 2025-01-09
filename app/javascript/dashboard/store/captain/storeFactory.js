@@ -29,6 +29,8 @@ export const createStore = options => {
 
   const getters = {
     [`get${name}s`]: state => state.records,
+    [`get${name}`]: state => id =>
+      state.records.find(record => record.id === Number(id)) || {},
     getUIFlags: state => state.uiFlags,
     getMeta: state => state.meta,
   };
@@ -43,6 +45,17 @@ export const createStore = options => {
         commit(mutationTypes.SET_UI_FLAG, { fetchingList: false });
       } catch (error) {
         commit(mutationTypes.SET_UI_FLAG, { fetchingList: false });
+      }
+    },
+
+    show: async function show({ commit }, id) {
+      commit(mutationTypes.SET_UI_FLAG, { fetchingItem: true });
+      try {
+        const response = await API.show(id);
+        commit(mutationTypes.ADD, response.data);
+        commit(mutationTypes.SET_UI_FLAG, { fetchingItem: false });
+      } catch (error) {
+        commit(mutationTypes.SET_UI_FLAG, { fetchingItem: false });
       }
     },
 

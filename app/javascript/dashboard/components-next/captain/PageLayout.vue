@@ -44,9 +44,12 @@ const handlePageChange = event => {
   <section class="flex flex-col w-full h-full overflow-hidden bg-n-background">
     <header class="sticky top-0 z-10 px-6 lg:px-0">
       <div class="w-full max-w-[960px] mx-auto">
-        <div class="flex items-center justify-between w-full h-20 gap-2">
+        <div
+          class="flex items-start lg:items-center justify-between w-full py-6 lg:py-0 lg:h-20 gap-4 lg:gap-2 flex-col lg:flex-row"
+        >
           <span class="text-xl font-medium text-n-slate-12">
             {{ headerTitle }}
+            <slot name="headerTitle" />
           </span>
           <div
             v-on-clickaway="() => emit('close')"

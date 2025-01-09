@@ -350,6 +350,11 @@
         "TITLE": "Update the assistant",
         "SUCCESS_MESSAGE": "The assistant has been successfully updated",
         "ERROR_MESSAGE": "There was an error updating the assistant, please try again."
+      },
+      "OPTIONS": {
+        "EDIT_ASSISTANT": "Edit Assistant",
+        "DELETE_ASSISTANT": "Delete Assistant",
+        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
       }
     },
     "DOCUMENTS": {
@@ -424,6 +429,10 @@
         "SUCCESS_MESSAGE": "The response has been successfully updated",
         "ERROR_MESSAGE": "There was an error updating the response, please try again."
       }
+    },
+    "CONNECTED_INBOXES": {
+      "HEADER": "Connected Inboxes",
+      "ADD_NEW": "Connect a new inbox"
     }
   }
 }

@@ -35,13 +35,19 @@ const [showActionsDropdown, toggleDropdown] = useToggle();
 
 const menuItems = computed(() => [
   {
-    label: 'Edit assistant',
+    label: t('CAPTAIN.ASSISTANTS.OPTIONS.VIEW_CONNECTED_INBOXES'),
+    value: 'viewConnectedInboxes',
+    action: 'viewConnectedInboxes',
+    icon: 'i-lucide-link',
+  },
+  {
+    label: t('CAPTAIN.ASSISTANTS.OPTIONS.EDIT_ASSISTANT'),
     value: 'edit',
     action: 'edit',
     icon: 'i-lucide-pencil-line',
   },
   {
-    label: 'Delete Assistant',
+    label: t('CAPTAIN.ASSISTANTS.OPTIONS.DELETE_ASSISTANT'),
     value: 'delete',
     action: 'delete',
     icon: 'i-lucide-trash',

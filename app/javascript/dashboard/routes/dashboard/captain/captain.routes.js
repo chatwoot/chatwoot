@@ -1,5 +1,6 @@
 import { frontendURL } from '../../../helper/URLHelper';
 import AssistantIndex from './assistants/Index.vue';
+import AssistantInboxesIndex from './assistants/inboxes/Index.vue';
 import DocumentsIndex from './documents/Index.vue';
 import ResponsesIndex from './responses/Index.vue';
 
@@ -8,6 +9,16 @@ export const routes = [
     path: frontendURL('accounts/:accountId/captain/assistants'),
     component: AssistantIndex,
     name: 'captain_assistants_index',
+    meta: {
+      permissions: ['administrator', 'agent'],
+    },
+  },
+  {
+    path: frontendURL(
+      'accounts/:accountId/captain/assistants/:assistantId/inboxes'
+    ),
+    component: AssistantInboxesIndex,
+    name: 'captain_assistants_inboxes_index',
     meta: {
       permissions: ['administrator', 'agent'],
     },
