@@ -52,8 +52,6 @@ const formErrors = computed(() => ({
   assistantId: getErrorMessage('assistantId', 'ASSISTANT'),
 }));
 
-const resetState = () => Object.assign(state, initialState);
-
 const handleCancel = () => emit('cancel');
 
 const prepareDocumentDetails = () => ({
@@ -68,8 +66,6 @@ const handleSubmit = async () => {
   }
 
   emit('submit', prepareDocumentDetails());
-  resetState();
-  handleCancel();
 };
 </script>
 

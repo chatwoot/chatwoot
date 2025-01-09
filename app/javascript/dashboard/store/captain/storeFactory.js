@@ -34,10 +34,10 @@ export const createStore = options => {
   };
 
   const actions = {
-    get: async function get({ commit }, { page, searchKey } = {}) {
+    get: async function get({ commit }, params = {}) {
       commit(mutationTypes.SET_UI_FLAG, { fetchingList: true });
       try {
-        const response = await API.get({ page, searchKey });
+        const response = await API.get(params);
         commit(mutationTypes.SET, response.data.payload);
         commit(mutationTypes.SET_META, response.data.meta);
         commit(mutationTypes.SET_UI_FLAG, { fetchingList: false });

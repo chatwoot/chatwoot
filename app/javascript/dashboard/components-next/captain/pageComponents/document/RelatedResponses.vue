@@ -24,12 +24,12 @@ const handleClose = () => {
   emit('close');
 };
 
-onMounted(() =>
+onMounted(() => {
   store.dispatch('captainResponses/get', {
-    assistant_id: props.captainDocument.assistant_id,
-    document_id: props.captainDocument.id,
-  })
-);
+    assistantId: props.captainDocument.assistant.id,
+    documentId: props.captainDocument.id,
+  });
+});
 defineExpose({ dialogRef });
 </script>
 

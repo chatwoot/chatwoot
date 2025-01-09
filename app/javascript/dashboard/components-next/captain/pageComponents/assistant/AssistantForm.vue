@@ -59,8 +59,6 @@ const formErrors = computed(() => ({
   productName: getErrorMessage('productName', 'PRODUCT_NAME'),
 }));
 
-const resetState = () => Object.assign(state, initialState);
-
 const handleCancel = () => emit('cancel');
 
 const prepareAssistantDetails = () => ({
@@ -76,10 +74,6 @@ const handleSubmit = async () => {
   }
 
   emit('submit', prepareAssistantDetails());
-  if (props.mode === 'create') {
-    resetState();
-    handleCancel();
-  }
 };
 
 const updateStateFromAssistant = assistant => {

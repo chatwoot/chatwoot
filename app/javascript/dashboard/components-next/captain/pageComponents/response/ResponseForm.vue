@@ -66,8 +66,6 @@ const formErrors = computed(() => ({
   assistantId: getErrorMessage('assistantId', 'ASSISTANT'),
 }));
 
-const resetState = () => Object.assign(state, initialState);
-
 const handleCancel = () => emit('cancel');
 
 const prepareDocumentDetails = () => ({
@@ -83,10 +81,6 @@ const handleSubmit = async () => {
   }
 
   emit('submit', prepareDocumentDetails());
-  if (props.mode === 'create') {
-    resetState();
-    handleCancel();
-  }
 };
 
 const updateStateFromResponse = response => {
@@ -157,7 +151,7 @@ watch(
       />
       <Button
         type="submit"
-        :label="t('CAPTAIN.FORM.CREATE')"
+        :label="t(`CAPTAIN.FORM.${mode.toUpperCase()}`)"
         class="w-full"
         :is-loading="isLoading"
         :disabled="isLoading"
