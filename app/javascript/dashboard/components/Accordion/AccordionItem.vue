@@ -35,20 +35,18 @@ const onToggle = () => {
 <template>
   <div class="-mt-px text-sm">
     <button
-      class="flex items-center select-none w-full rounded-none bg-slate-50 dark:bg-slate-800 border border-l-0 border-r-0 border-solid m-0 border-slate-100 dark:border-slate-700/50 cursor-grab justify-between py-2 px-4 drag-handle"
+      class="flex items-center select-none w-full rounded-none bg-n-slate-3 border border-l-0 border-r-0 border-n-weak m-0 cursor-grab justify-between py-2 px-4 drag-handle"
       @click.stop="onToggle"
     >
       <div class="flex justify-between mb-0.5">
         <EmojiOrIcon class="inline-block w-5" :icon="icon" :emoji="emoji" />
-        <h5
-          class="text-slate-800 text-sm dark:text-slate-100 mb-0 py-0 pr-2 pl-0"
-        >
+        <h5 class="text-n-slate-12 text-sm mb-0 py-0 pr-2 pl-0">
           {{ title }}
         </h5>
       </div>
       <div class="flex flex-row">
         <slot name="button" />
-        <div class="flex justify-end w-3 text-woot-500">
+        <div class="flex justify-end w-3 text-n-blue-text cursor-pointer">
           <fluent-icon v-if="isOpen" size="24" icon="subtract" type="solid" />
           <fluent-icon v-else size="24" icon="add" type="solid" />
         </div>
@@ -56,7 +54,7 @@ const onToggle = () => {
     </button>
     <div
       v-if="isOpen"
-      class="bg-white dark:bg-slate-900"
+      class="bg-white dark:bg-n-background"
       :class="compact ? 'p-0' : 'p-4'"
     >
       <slot />
