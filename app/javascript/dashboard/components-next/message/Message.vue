@@ -3,6 +3,7 @@ import { computed, ref, toRefs } from 'vue';
 import { provideMessageContext } from './provider.js';
 import { useTrack } from 'dashboard/composables';
 import { emitter } from 'shared/helpers/mitt';
+import { useI18n } from 'vue-i18n';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
@@ -127,6 +128,8 @@ const props = defineProps({
 
 const contextMenuPosition = ref({});
 const showContextMenu = ref(false);
+const { t } = useI18n();
+
 /**
  * Computes the message variant based on props
  * @type {import('vue').ComputedRef<'user'|'agent'|'activity'|'private'|'bot'|'template'>}
@@ -148,6 +151,11 @@ const variant = computed(() => {
   if (props.status === MESSAGE_STATUS.FAILED) return MESSAGE_VARIANTS.ERROR;
   if (props.contentAttributes?.isUnsupported)
     return MESSAGE_VARIANTS.UNSUPPORTED;
+
+  const isBot = !props.sender || props.sender.type === SENDER_TYPES.AGENT_BOT;
+  if (isBot && props.messageType === MESSAGE_TYPES.OUTGOING) {
+    return MESSAGE_VARIANTS.BOT;
+  }
 
   const variants = {
     [MESSAGE_TYPES.INCOMING]: MESSAGE_VARIANTS.USER,
@@ -353,6 +361,27 @@ function handleReplyTo() {
   emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, props);
 }
 
+const avatarInfo = computed(() => {
+  if (!props.sender || props.sender.type === SENDER_TYPES.AGENT_BOT) {
+    return {
+      name: t('CONVERSATION.BOT'),
+      src: '',
+    };
+  }
+
+  if (props.sender) {
+    return {
+      name: props.sender.name,
+      src: props.sender?.thumbnail,
+    };
+  }
+
+  return {
+    name: '',
+    src: '',
+  };
+});
+
 provideMessageContext({
   ...toRefs(props),
   isPrivate: computed(() => props.private),
@@ -391,11 +420,7 @@ provideMessageContext({
         v-if="!shouldGroupWithNext && shouldShowAvatar"
         class="[grid-area:avatar] flex items-end"
       >
-        <Avatar
-          :name="sender ? sender.name : ''"
-          :src="sender?.thumbnail"
-          :size="24"
-        />
+        <Avatar v-bind="avatarInfo" :size="24" />
       </div>
       <div
         class="[grid-area:bubble] flex"
