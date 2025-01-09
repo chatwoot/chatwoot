@@ -576,7 +576,7 @@ export default {
       class="conversation-footer"
       :class="{
         'modal-mask': isPopOutReplyBox,
-        'bg-n-background': showNextBubbles,
+        'bg-n-background': showNextBubbles && !isPopOutReplyBox,
       }"
     >
       <div
