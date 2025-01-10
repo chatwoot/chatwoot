@@ -6,11 +6,7 @@ module Enterprise::Inbox
   end
 
   def active_bot?
-    super || response_bot_enabled?
-  end
-
-  def response_bot_enabled?
-    account.feature_enabled?('response_bot')
+    super || captain_assistant.present?
   end
 
   private

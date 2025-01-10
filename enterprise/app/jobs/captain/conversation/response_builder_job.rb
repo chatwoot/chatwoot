@@ -1,70 +1,90 @@
 class Captain::Conversation::ResponseBuilderJob < ApplicationJob
-  pattr_initialize [:conversation!, assistant!]
+  MAX_MESSAGE_LENGTH = 10_000
 
   def perform(conversation, assistant)
+    @conversation = conversation
+    @assistant = assistant
+
     ActiveRecord::Base.transaction do
-      @response = Captain::Llm::AssistantChatService.new(assistant: assistant).generate_response(
-        conversation.messages.last,
-        previous_messages: get_previous_messages(conver)
-      )
-      process_response
+      generate_and_process_response
     end
   rescue StandardError => e
-    process_action('handoff') # something went wrong, pass to agent
-    ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
-    true
+    handle_error(e)
   end
 
   private
 
-  delegate :contact, :account, :inbox, to: :conversation
+  delegate :account, :inbox, to: :@conversation
 
+  def generate_and_process_response
+    @response = Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
+      @conversation.messages.incoming.last.content,
+      collect_previous_messages
+    )
 
-  def get_previous_messages
-    conversation.messages.where(message_type: [:outgoing, :incoming]).where(private: false).find_each do |message|
-      next if message.content_type != 'text'
+    return process_action('handoff') if handoff_requested?
 
-      role = determine_role(message)
-      previous_messages << { content: message.content, role: role }
-    end
+    create_messages
+  end
+
+  def collect_previous_messages
+    @conversation
+      .messages
+      .where(message_type: [:incoming, :outgoing])
+      .where(private: false)
+      .map do |message|
+        {
+          content: message.content,
+          role: determine_role(message)
+        }
+      end
   end
 
   def determine_role(message)
     message.message_type == 'incoming' ? 'user' : 'system'
   end
 
-  def process_response
-    if @response['response'] == 'conversation_handoff'
-      process_action('handoff')
-    else
-      create_messages
-    end
+  def handoff_requested?
+    @response['response'] == 'conversation_handoff'
   end
 
   def process_action(action)
     case action
     when 'handoff'
-      conversation.messages.create!('message_type': :outgoing, 'account_id': conversation.account_id, 'inbox_id': conversation.inbox_id,
-                                    'content': 'Transferring to another agent for further assistance.')
-      conversation.bot_handoff!
+      create_handoff_message
+      @conversation.bot_handoff!
     end
   end
 
-  def create_messages
-    message_content = @response['response']
-    message_content += self.class.generate_sources_section(@response['context_ids']) if @response['context_ids'].present?
+  def create_handoff_message
+    create_outgoing_message('Transferring to another agent for further assistance.')
+  end
 
-    create_outgoing_message(message_content)
+  def create_messages
+    validate_message_content!(@response['response'])
+    create_outgoing_message(@response['response'])
+  end
+
+  def validate_message_content!(content)
+    raise ArgumentError, 'Message content cannot be blank' if content.blank?
   end
 
   def create_outgoing_message(message_content)
-    conversation.messages.create!(
-      {
-        message_type: :outgoing,
-        account_id: conversation.account_id,
-        inbox_id: conversation.inbox_id,
-        content: message_content
-      }
+    @conversation.messages.create!(
+      message_type: :outgoing,
+      account_id: account.id,
+      inbox_id: inbox.id,
+      content: message_content
     )
+  end
+
+  def handle_error(error)
+    log_error(error)
+    process_action('handoff')
+    true
+  end
+
+  def log_error(error)
+    ChatwootExceptionTracker.new(error, account: account).capture_exception
   end
 end
