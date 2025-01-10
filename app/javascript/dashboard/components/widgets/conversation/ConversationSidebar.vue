@@ -5,6 +5,8 @@ import CopilotContainer from '../../copilot/CopilotContainer.vue';
 import ContactPanel from 'dashboard/routes/dashboard/conversation/ContactPanel.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import { useI18n } from 'vue-i18n';
+import { useMapGetter } from 'dashboard/composables/store';
+import { FEATURE_FLAGS } from '../../../featureFlags';
 
 const props = defineProps({
   currentChat: {
@@ -15,12 +17,7 @@ const props = defineProps({
 
 const emit = defineEmits(['toggleContactPanel']);
 
-const getters = useStoreGetters();
 const { t } = useI18n();
-
-const captainIntegration = computed(() =>
-  getters['integrations/getIntegration'].value('captain', null)
-);
 
 const channelType = computed(() => props.currentChat?.meta?.channel || '');
 
@@ -45,10 +42,14 @@ const handleTabChange = selectedTab => {
     tabItem => tabItem.value === selectedTab.value
   );
 };
+const currentAccountId = useMapGetter('getCurrentAccountId');
+const isFeatureEnabledonAccount = useMapGetter(
+  'accounts/isFeatureEnabledonAccount'
+);
 
-const showCopilotTab = computed(() => {
-  return captainIntegration.value && captainIntegration.value.enabled;
-});
+const showCopilotTab = computed(() =>
+  isFeatureEnabledonAccount.value(currentAccountId.value, FEATURE_FLAGS.CAPTAIN)
+);
 </script>
 
 <template>

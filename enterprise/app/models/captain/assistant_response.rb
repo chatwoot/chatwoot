@@ -38,6 +38,11 @@ class Captain::AssistantResponse < ApplicationRecord
   scope :by_assistant, ->(assistant_id) { where(assistant_id: assistant_id) }
   scope :with_document, ->(document_id) { where(document_id: document_id) }
 
+  def self.search(query)
+    embedding = Captain::Llm::EmbeddingService.new.get_embedding(query)
+    nearest_neighbors(:embedding, embedding, distance: 'cosine').limit(5)
+  end
+
   private
 
   def ensure_account

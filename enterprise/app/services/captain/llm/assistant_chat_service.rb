@@ -84,12 +84,9 @@ class Captain::Llm::AssistantChatService < Captain::Llm::BaseOpenAiService
   end
 
   def fetch_documentation(query)
-    embedding = Captain::Llm::EmbeddingService.new.get_embedding(query)
-
     @assistant
       .responses
-      .nearest_neighbors(:embedding, embedding, distance: 'cosine')
-      .limit(5)
+      .search(query)
       .map { |response| format_response(response) }.join
   end
 
