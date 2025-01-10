@@ -70,7 +70,6 @@ defineExpose({ dialogRef });
     :description="$t('CAPTAIN.RESPONSES.FORM_DESCRIPTION')"
     :show-cancel-button="false"
     :show-confirm-button="false"
-    overflow-y-auto
     @close="handleClose"
   >
     <ResponseForm
