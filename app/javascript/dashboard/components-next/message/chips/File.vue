@@ -62,7 +62,7 @@ const textColorClass = computed(() => {
     <a
       v-tooltip="t('CONVERSATION.DOWNLOAD')"
       class="flex-shrink-0 h-9 grid place-content-center cursor-pointer text-n-slate-11"
-      :href="url"
+      :href="attachment.dataUrl"
       rel="noreferrer noopener nofollow"
       target="_blank"
     >
