@@ -1,5 +1,4 @@
 class Captain::Llm::ConversationFaqService < Captain::Llm::BaseOpenAiService
-  DEFAULT_MODEL = 'gpt-4o'.freeze
   DISTANCE_THRESHOLD = 0.3
 
   def initialize(assistant, conversation, model = DEFAULT_MODEL)

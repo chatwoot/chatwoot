@@ -10,7 +10,7 @@ class Captain::LlmService
 
   def call(messages, functions = [])
     openai_params = {
-      model: 'gpt-4o',
+      model: 'gpt-4o-mini',
       response_format: { type: 'json_object' },
       messages: messages
     }

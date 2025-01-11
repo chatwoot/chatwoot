@@ -388,6 +388,11 @@
         "CONFIRM": "Yes, delete",
         "SUCCESS_MESSAGE": "The document has been successfully deleted",
         "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+      },
+
+      "OPTIONS": {
+        "VIEW_RELATED_RESPONSES": "View Related Responses",
+        "DELETE_DOCUMENT": "Delete Document"
       }
     },
     "RESPONSES": {
@@ -428,6 +433,11 @@
         "TITLE": "Update the response",
         "SUCCESS_MESSAGE": "The response has been successfully updated",
         "ERROR_MESSAGE": "There was an error updating the response, please try again."
+      },
+
+      "OPTIONS": {
+        "EDIT_RESPONSE": "Edit response",
+        "DELETE_RESPONSE": "Delete response"
       }
     },
     "INBOXES": {

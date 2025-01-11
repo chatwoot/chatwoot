@@ -39,13 +39,13 @@ const [showActionsDropdown, toggleDropdown] = useToggle();
 
 const menuItems = computed(() => [
   {
-    label: 'View related questions',
+    label: t('CAPTAIN.DOCUMENTS.OPTIONS.VIEW_RELATED_RESPONSES'),
     value: 'viewRelatedQuestions',
     action: 'viewRelatedQuestions',
     icon: 'i-ph-tree-view-duotone',
   },
   {
-    label: 'Delete document',
+    label: t('CAPTAIN.DOCUMENTS.OPTIONS.DELETE_DOCUMENT'),
     value: 'delete',
     action: 'delete',
     icon: 'i-lucide-trash',

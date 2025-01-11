@@ -57,7 +57,10 @@ const fetchResponses = (page = 1) => {
 
 const onPageChange = page => fetchResponses(page);
 
-onMounted(() => fetchResponses());
+onMounted(() => {
+  store.dispatch('captainAssistants/get');
+  fetchResponses();
+});
 </script>
 
 <template>

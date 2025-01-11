@@ -11,7 +11,7 @@ module Enterprise::Api::V1::Accounts::ConversationsController
     response = Captain::Copilot::ChatService.new(
       assistant,
       messages: copilot_params[:previous_messages],
-      history: @conversation.to_llm_text
+      conversation_history: @conversation.to_llm_text
     ).execute(copilot_params[:message])
 
     render json: { message: response }

@@ -1,12 +1,9 @@
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 
-export const createStore = options => {
-  const { name, API, actions = () => { } } = options;
-
+export const generateMutationTypes = name => {
   const capitalizedName = name.toUpperCase();
-
-  const mutationTypes = {
+  return {
     SET_UI_FLAG: `SET_${capitalizedName}_UI_FLAG`,
     SET: `SET_${capitalizedName}`,
     ADD: `ADD_${capitalizedName}`,
@@ -14,117 +11,130 @@ export const createStore = options => {
     DELETE: `DELETE_${capitalizedName}`,
     SET_META: `SET_${capitalizedName}_META`,
   };
+};
 
-  const initialState = {
-    records: [],
-    meta: {},
-    uiFlags: {
-      fetchingList: false,
-      fetchingItem: false,
-      creatingItem: false,
-      updatingItem: false,
-      deletingItem: false,
-    },
-  };
+export const createInitialState = () => ({
+  records: [],
+  meta: {},
+  uiFlags: {
+    fetchingList: false,
+    fetchingItem: false,
+    creatingItem: false,
+    updatingItem: false,
+    deletingItem: false,
+  },
+});
 
-  const getters = {
-    getRecords: state => state.records.sort((r1, r2) => r2.id - r1.id),
-    getRecord: state => id =>
-      state.records.find(record => record.id === Number(id)) || {},
-    getUIFlags: state => state.uiFlags,
-    getMeta: state => state.meta,
-  };
+export const createGetters = () => ({
+  getRecords: state => state.records.sort((r1, r2) => r2.id - r1.id),
+  getRecord: state => id =>
+    state.records.find(record => record.id === Number(id)) || {},
+  getUIFlags: state => state.uiFlags,
+  getMeta: state => state.meta,
+});
 
-  const storeActions = {
-    get: async function get({ commit }, params = {}) {
-      commit(mutationTypes.SET_UI_FLAG, { fetchingList: true });
-      try {
-        const response = await API.get(params);
-        commit(mutationTypes.SET, response.data.payload);
-        commit(mutationTypes.SET_META, response.data.meta);
-        commit(mutationTypes.SET_UI_FLAG, { fetchingList: false });
-      } catch (error) {
-        commit(mutationTypes.SET_UI_FLAG, { fetchingList: false });
-      }
-    },
+// store/mutations.js
+export const createMutations = mutationTypes => ({
+  [mutationTypes.SET_UI_FLAG](state, data) {
+    state.uiFlags = {
+      ...state.uiFlags,
+      ...data,
+    };
+  },
+  [mutationTypes.SET_META](state, meta) {
+    state.meta = {
+      totalCount: Number(meta.total_count),
+      page: Number(meta.page),
+    };
+  },
+  [mutationTypes.SET]: MutationHelpers.set,
+  [mutationTypes.ADD]: MutationHelpers.create,
+  [mutationTypes.EDIT]: MutationHelpers.update,
+  [mutationTypes.DELETE]: MutationHelpers.destroy,
+});
 
-    show: async function show({ commit }, id) {
-      commit(mutationTypes.SET_UI_FLAG, { fetchingItem: true });
-      try {
-        const response = await API.show(id);
-        commit(mutationTypes.ADD, response.data);
-        commit(mutationTypes.SET_UI_FLAG, { fetchingItem: false });
-      } catch (error) {
-        commit(mutationTypes.SET_UI_FLAG, { fetchingItem: false });
-      }
-    },
+// store/actions/crud.js
+export const createCrudActions = (API, mutationTypes) => ({
+  async get({ commit }, params = {}) {
+    commit(mutationTypes.SET_UI_FLAG, { fetchingList: true });
+    try {
+      const response = await API.get(params);
+      commit(mutationTypes.SET, response.data.payload);
+      commit(mutationTypes.SET_META, response.data.meta);
+      return response.data.payload;
+    } catch (error) {
+      return throwErrorMessage(error);
+    } finally {
+      commit(mutationTypes.SET_UI_FLAG, { fetchingList: false });
+    }
+  },
 
-    create: async function create({ commit }, dataObj) {
-      commit(mutationTypes.SET_UI_FLAG, { creatingItem: true });
-      try {
-        const response = await API.create(dataObj);
-        commit(mutationTypes.ADD, response.data);
-        commit(mutationTypes.SET_UI_FLAG, { creatingItem: false });
-        return response.data;
-      } catch (error) {
-        commit(mutationTypes.SET_UI_FLAG, { creatingItem: false });
-        return throwErrorMessage(error);
-      }
-    },
+  async show({ commit }, id) {
+    commit(mutationTypes.SET_UI_FLAG, { fetchingItem: true });
+    try {
+      const response = await API.show(id);
+      commit(mutationTypes.ADD, response.data);
+      return response.data;
+    } catch (error) {
+      return throwErrorMessage(error);
+    } finally {
+      commit(mutationTypes.SET_UI_FLAG, { fetchingItem: false });
+    }
+  },
 
-    update: async function update({ commit }, { id, ...updateObj }) {
-      commit(mutationTypes.SET_UI_FLAG, { updatingItem: true });
-      try {
-        const response = await API.update(id, updateObj);
-        commit(mutationTypes.EDIT, response.data);
-        commit(mutationTypes.SET_UI_FLAG, { updatingItem: false });
-        return response.data;
-      } catch (error) {
-        commit(mutationTypes.SET_UI_FLAG, { updatingItem: false });
-        return throwErrorMessage(error);
-      }
-    },
+  async create({ commit }, dataObj) {
+    commit(mutationTypes.SET_UI_FLAG, { creatingItem: true });
+    try {
+      const response = await API.create(dataObj);
+      commit(mutationTypes.ADD, response.data);
+      return response.data;
+    } catch (error) {
+      return throwErrorMessage(error);
+    } finally {
+      commit(mutationTypes.SET_UI_FLAG, { creatingItem: false });
+    }
+  },
 
-    delete: async function remove({ commit }, id) {
-      commit(mutationTypes.SET_UI_FLAG, { deletingItem: true });
-      try {
-        await API.delete(id);
-        commit(mutationTypes.DELETE, id);
-        commit(mutationTypes.SET_UI_FLAG, { deletingItem: false });
-        return id;
-      } catch (error) {
-        commit(mutationTypes.SET_UI_FLAG, { deletingItem: false });
-        return throwErrorMessage(error);
-      }
-    },
+  async update({ commit }, { id, ...updateObj }) {
+    commit(mutationTypes.SET_UI_FLAG, { updatingItem: true });
+    try {
+      const response = await API.update(id, updateObj);
+      commit(mutationTypes.EDIT, response.data);
+      return response.data;
+    } catch (error) {
+      return throwErrorMessage(error);
+    } finally {
+      commit(mutationTypes.SET_UI_FLAG, { updatingItem: false });
+    }
+  },
 
-    ...actions(mutationTypes),
-  };
+  async delete({ commit }, id) {
+    commit(mutationTypes.SET_UI_FLAG, { deletingItem: true });
+    try {
+      await API.delete(id);
+      commit(mutationTypes.DELETE, id);
+      return id;
+    } catch (error) {
+      return throwErrorMessage(error);
+    } finally {
+      commit(mutationTypes.SET_UI_FLAG, { deletingItem: false });
+    }
+  },
+});
+export const createStore = options => {
+  const { name, API, actions } = options;
+  const mutationTypes = generateMutationTypes(name);
 
-  const mutations = {
-    [mutationTypes.SET_UI_FLAG](state, data) {
-      state.uiFlags = {
-        ...state.uiFlags,
-        ...data,
-      };
-    },
-    [mutationTypes.SET_META](state, meta) {
-      state.meta = {
-        totalCount: Number(meta.total_count),
-        page: Number(meta.page),
-      };
-    },
-    [mutationTypes.SET]: MutationHelpers.set,
-    [mutationTypes.ADD]: MutationHelpers.create,
-    [mutationTypes.EDIT]: MutationHelpers.update,
-    [mutationTypes.DELETE]: MutationHelpers.destroy,
-  };
+  const customActions = actions ? actions(mutationTypes) : {};
 
   return {
     namespaced: true,
-    state: initialState,
-    getters,
-    actions: storeActions,
-    mutations,
+    state: createInitialState(),
+    getters: createGetters(),
+    mutations: createMutations(mutationTypes),
+    actions: {
+      ...createCrudActions(API, mutationTypes),
+      ...customActions,
+    },
   };
 };

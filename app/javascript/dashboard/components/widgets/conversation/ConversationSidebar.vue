@@ -1,5 +1,4 @@
 <script setup>
-import { useStoreGetters } from 'dashboard/composables/store';
 import { computed, ref } from 'vue';
 import CopilotContainer from '../../copilot/CopilotContainer.vue';
 import ContactPanel from 'dashboard/routes/dashboard/conversation/ContactPanel.vue';

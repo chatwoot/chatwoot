@@ -47,13 +47,13 @@ const [showActionsDropdown, toggleDropdown] = useToggle();
 
 const menuItems = computed(() => [
   {
-    label: 'Edit response',
+    label: t('CAPTAIN.RESPONSES.OPTIONS.EDIT_RESPONSE'),
     value: 'edit',
     action: 'edit',
     icon: 'i-lucide-pencil-line',
   },
   {
-    label: 'Delete response',
+    label: t('CAPTAIN.RESPONSES.OPTIONS.DELETE_RESPONSE'),
     value: 'delete',
     action: 'delete',
     icon: 'i-lucide-trash',

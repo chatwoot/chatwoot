@@ -1,6 +1,4 @@
 class Captain::Llm::FaqGeneratorService < Captain::Llm::BaseOpenAiService
-  DEFAULT_MODEL = 'gpt-4o'.freeze
-
   def initialize(content, model = DEFAULT_MODEL)
     super()
     @content = content

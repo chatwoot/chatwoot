@@ -52,7 +52,6 @@ defineExpose({ dialogRef });
     :description="$t('CAPTAIN.INBOXES.FORM_DESCRIPTION')"
     :show-cancel-button="false"
     :show-confirm-button="false"
-    overflow-y-auto
     @close="handleClose"
   >
     <ConnectInboxForm

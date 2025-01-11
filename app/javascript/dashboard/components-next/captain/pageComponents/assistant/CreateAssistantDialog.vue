@@ -48,9 +48,7 @@ const handleSubmit = async updatedAssistant => {
     useAlert(t(`${i18nKey.value}.SUCCESS_MESSAGE`));
     dialogRef.value.close();
   } catch (error) {
-    console.log(error);
-    const errorMessage =
-      error?.response?.message || t(`${i18nKey.value}.ERROR_MESSAGE`);
+    const errorMessage = error?.message || t(`${i18nKey.value}.ERROR_MESSAGE`);
     useAlert(errorMessage);
   }
 };

@@ -1,8 +1,6 @@
 require 'openai'
 
 class Captain::Llm::AssistantChatService < Captain::Llm::BaseOpenAiService
-  DEFAULT_MODEL = 'gpt-4o-mini'.freeze
-
   def initialize(assistant: nil)
     super()
 
