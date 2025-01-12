@@ -10,7 +10,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
     @articles_count = @articles.count
     search_articles
     order_by_sort_param
-    @articles.page(list_params[:page]) if list_params[:page].present?
+    @articles = @articles.page(list_params[:page]) if list_params[:page].present?
   end
 
   def show; end
