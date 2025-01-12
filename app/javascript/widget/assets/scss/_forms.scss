@@ -14,7 +14,6 @@ $input-height: $space-two * 2;
   box-sizing: border-box;
   color: $color-body;
   display: block;
-  font-family: $font-family;
   font-size: $font-size-medium;
   height: $input-height;
   line-height: 1.5;
@@ -69,7 +68,6 @@ $input-height: $space-two * 2;
 
 // Form element: Textarea
 textarea.form-input {
-  font-family: $font-family;
 
   @include placeholder {
     color: $color-light-gray;

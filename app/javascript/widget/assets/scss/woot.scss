@@ -15,10 +15,7 @@
 
 html,
 body {
-  font-family: $font-family;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  height: 100%;
+  @apply antialiased h-full font-interDisplay tracking-[0.4px];
 }
 
 .is-mobile {
@@ -41,10 +38,6 @@ body {
       display: block !important;
     }
   }
-}
-
-.cursor-pointer {
-  cursor: pointer;
 }
 
 .message-content {

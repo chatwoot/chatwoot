@@ -1,9 +1,9 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue';
-import ArticleList from './ArticleList.vue';
+import { defineProps, defineEmits, computed } from 'vue';
+import ArticleListItem from './ArticleListItem.vue';
 import { useMapGetter } from 'dashboard/composables/store';
 
-defineProps({
+const props = defineProps({
   articles: {
     type: Array,
     default: () => [],
@@ -12,6 +12,7 @@ defineProps({
 
 const emit = defineEmits(['view', 'viewAll']);
 const widgetColor = useMapGetter('appConfig/getWidgetColor');
+const articlesToDisplay = computed(() => props.articles.slice(0, 6));
 
 const onArticleClick = link => {
   emit('view', link);
@@ -19,18 +20,25 @@ const onArticleClick = link => {
 </script>
 
 <template>
-  <div>
-    <h3 class="mb-0 text-sm font-medium text-slate-800 dark:text-slate-50">
+  <div class="flex flex-col gap-3 pb-4">
+    <h3 class="font-medium text-n-slate-12">
       {{ $t('PORTAL.POPULAR_ARTICLES') }}
     </h3>
-    <ArticleList :articles="articles" @select-article="onArticleClick" />
+    <div class="flex flex-col gap-2">
+      <ArticleListItem
+        v-for="article in articlesToDisplay"
+        :key="article.slug"
+        :link="article.link"
+        :title="article.title"
+        @select-article="onArticleClick"
+      />
+    </div>
     <button
-      class="inline-flex items-center justify-between px-2 py-1 -ml-2 text-sm font-medium leading-6 rounded-md text-slate-800 dark:text-slate-50 hover:bg-slate-25 dark:hover:bg-slate-800 see-articles"
+      class="font-medium tracking-wide inline-flex"
       :style="{ color: widgetColor }"
       @click="$emit('viewAll')"
     >
-      <span class="pr-2 text-sm">{{ $t('PORTAL.VIEW_ALL_ARTICLES') }}</span>
-      <FluentIcon icon="arrow-right" size="14" />
+      <span>{{ $t('PORTAL.VIEW_ALL_ARTICLES') }}</span>
     </button>
   </div>
 </template>

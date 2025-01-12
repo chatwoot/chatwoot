@@ -17,7 +17,7 @@ export default {
   props: {
     availableAgents: {
       type: Array,
-      default: () => {},
+      default: () => { },
     },
     hasConversation: {
       type: Boolean,
@@ -60,25 +60,25 @@ export default {
 
 <template>
   <div
-    class="flex flex-col gap-5 w-full shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-5 py-4"
+    class="flex flex-col gap-3 w-full shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-5 py-4"
   >
     <div class="flex items-center justify-between gap-2">
       <div class="flex flex-col gap-1">
-        <div class="text-base font-medium text-n-slate-12">
+        <div class="font-medium text-n-slate-12">
           {{
             isOnline
               ? $t('TEAM_AVAILABILITY.ONLINE')
               : $t('TEAM_AVAILABILITY.OFFLINE')
           }}
         </div>
-        <div class="text-n-slate-11 text-sm">
+        <div class="text-n-slate-11">
           {{ replyWaitMessage }}
         </div>
       </div>
       <AvailableAgents v-if="isOnline" :agents="availableAgents" />
     </div>
     <button
-      class="inline-flex items-center text-sm font-medium text-n-slate-12"
+      class="inline-flex items-center font-medium text-n-slate-12"
       :style="{ color: widgetColor }"
       @click="startConversation"
     >
@@ -89,7 +89,7 @@ export default {
             : $t('START_CONVERSATION')
         }}
       </span>
-      <i class="i-lucide-arrow-right text-base" />
+      <i class="i-lucide-chevron-right text-lg" />
     </button>
   </div>
 </template>
