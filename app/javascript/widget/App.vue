@@ -335,14 +335,14 @@ export default {
 <template>
   <div
     v-if="!conversationSize && isFetchingList"
-    class="flex items-center justify-center flex-1 h-full bg-black-25"
+    class="flex items-center justify-center flex-1 h-full max-w-96 mx-auto"
     :class="{ dark: prefersDarkMode }"
   >
     <Spinner size="" />
   </div>
   <div
     v-else
-    class="flex flex-col justify-end h-full"
+    class="flex flex-col justify-end h-full max-w-[600px] mx-auto"
     :class="{
       'is-mobile': isMobile,
       'is-widget-right': isRightAligned,

@@ -44,11 +44,11 @@ const containerClasses = computed(() => [
     </div>
     <h2
       v-dompurify-html="introHeading"
-      class="mt-4 text-2xl mb-1.5 font-medium text-slate-900 dark:text-slate-50"
+      class="mt-4 text-2xl mb-1.5 font-medium text-n-slate-12"
     />
     <p
       v-dompurify-html="introBody"
-      class="text-base leading-normal text-slate-700 dark:text-slate-200"
+      class="text-lg leading-normal text-n-slate-11"
     />
   </header>
 </template>

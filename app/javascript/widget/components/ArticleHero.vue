@@ -24,7 +24,7 @@ const onArticleClick = link => {
     <h3 class="font-medium text-n-slate-12">
       {{ $t('PORTAL.POPULAR_ARTICLES') }}
     </h3>
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-4">
       <ArticleListItem
         v-for="article in articlesToDisplay"
         :key="article.slug"

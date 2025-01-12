@@ -103,13 +103,13 @@ export default {
 
 <template>
   <div
-    class="w-full h-full bg-slate-25 dark:bg-slate-800"
+    class="w-full h-full"
     :class="{ 'overflow-auto': isOnHomeView }"
     @keydown.esc="closeWindow"
   >
     <div class="relative flex flex-col h-full">
       <div
-        class="sticky top-0 z-40 transition-all header-wrap"
+        class=""
         :class="{
           expanded: !isHeaderCollapsed,
           collapsed: isHeaderCollapsed,
@@ -147,22 +147,5 @@ export default {
 
 .custom-header-shadow {
   @include shadow-large;
-}
-
-.header-wrap {
-  flex-shrink: 0;
-  transition: max-height 100ms;
-
-  &.expanded {
-    max-height: 16rem;
-  }
-
-  &.collapsed {
-    max-height: 4.5rem;
-  }
-
-  @media only screen and (min-device-width: 320px) and (max-device-width: 667px) {
-    border-radius: 0;
-  }
 }
 </style>
