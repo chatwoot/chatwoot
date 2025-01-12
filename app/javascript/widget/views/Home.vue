@@ -1,7 +1,7 @@
 <script>
 import TeamAvailability from 'widget/components/TeamAvailability.vue';
-import ArticleHero from 'widget/components/ArticleHero.vue';
-import ArticleCardSkeletonLoader from 'widget/components/ArticleCardSkeletonLoader.vue';
+import ArticleHero from 'widget/components/pageComponents/Home/Article/ArticleBlock.vue';
+import ArticleCardSkeletonLoader from 'widget/components/pageComponents/Home/Article/SkeletonLoader.vue';
 
 import { mapGetters } from 'vuex';
 import { useDarkMode } from 'widget/composables/useDarkMode';
