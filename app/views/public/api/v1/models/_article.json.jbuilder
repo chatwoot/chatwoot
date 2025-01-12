@@ -11,7 +11,13 @@ json.slug article.slug
 
 if article.portal.present?
   json.portal do
-    json.partial! 'public/api/v1/models/hc/portal', formats: [:json], portal: article.portal
+    json.custom_domain article.portal.custom_domain
+    json.header_text article.portal.header_text
+    json.homepage_link article.portal.homepage_link
+    json.name article.portal.name
+    json.page_title article.portal.page_title
+    json.slug article.portal.slug
+    json.logo article.portal.file_base_data if article.portal.logo.present?
   end
 end
 
@@ -28,14 +34,6 @@ json.views article.views
 if article.author.present?
   json.author do
     json.partial! 'public/api/v1/models/hc/author', formats: [:json], resource: article.author
-  end
-end
-
-json.associated_articles do
-  if article.associated_articles.any?
-    json.array! article.associated_articles.each do |associated_article|
-      json.partial! 'public/api/v1/models/hc/associated_article', formats: [:json], article: associated_article
-    end
   end
 end
 

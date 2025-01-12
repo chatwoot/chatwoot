@@ -7,6 +7,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
 
   def index
     @articles = @portal.articles.published
+    @articles_count = @articles.count
     search_articles
     order_by_sort_param
     @articles.page(list_params[:page]) if list_params[:page].present?
@@ -44,7 +45,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def list_params
-    params.permit(:query, :locale, :sort, :status)
+    params.permit(:query, :locale, :sort, :status, :page)
   end
 
   def permitted_params
