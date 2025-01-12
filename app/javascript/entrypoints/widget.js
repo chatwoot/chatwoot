@@ -10,6 +10,7 @@ import router from '../widget/router';
 import { directive as onClickaway } from 'vue3-click-away';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
 import { plugin, defaultConfig } from '@formkit/vue';
+import { createPinia } from 'pinia';
 
 import {
   startsWithPlus,
@@ -21,9 +22,11 @@ const i18n = createI18n({
   locale: 'en',
   messages: i18nMessages,
 });
+const pinia = createPinia();
 
 const app = createApp(App);
 app.use(i18n);
+app.use(pinia);
 app.use(store);
 app.use(router);
 app.use(VueDOMPurifyHTML, domPurifyConfig);
