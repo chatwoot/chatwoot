@@ -5,7 +5,7 @@
     "HEADER_BTN_TXT": {
       "ONE_OFF": "Create a one off campaign",
       "ONGOING": "Create a ongoing campaign",
-      "WHATSAPP": "Create a WhatsApp campaign",
+      "WHATSAPP": "Create a WhatsApp Campaign",
       "REFRESH": "Refresh"
     },
     "METRICS": {
@@ -15,22 +15,31 @@
       "REPLIED": "Replied"
     },
     "REPORT": {
-      "TITLE": "Campaign Report",
+      "TITLE": "Campaign Report: {title}",
       "PROCESSED_CONTACTS": "Successful contacts",
       "FAILED_CONTACTS": "Failed contacts",
       "EXPORT_CSV": "Export CSV",
       "SEARCH_PLACEHOLDER": "Search the contacts",
       "CLOSE": "Close",
-      "NO_PROCESSED_CONTACTS": "No Successful contacts",
-      "NO_FAILED_CONTACTS": "No Failed contacts"
+      "NO_CONTACTS": "There are no {type} contacts",
+      "CONTACTS_COUNT": "Total Contacts Scheduled: {count} "
     },
     "CONTACT_SELECTOR": {
       "SEARCH_PLACEHOLDER": "Search The contacts",
       "SELECT_ALL": "Select All",
       "CLEAR": "Clear",
-      "SELECTED_CONTACTS": "Selected: {count} contacts"
+      "SELECTED_CONTACTS": "Selected: {count} contacts",
+      "NEXT": "Next",
+      "PREVIOUS": "Prev",
+      "LOADING": "Loading...",
+      "SELECTING_EVERYTHING": "SELECTING",
+      "SELECT_EVERYTHING": "SELECT"
     },
     "ADD": {
+      "SELECT_ALL": {
+        "SUCCESS": "All contacts selected",
+        "CLEAR": "Deselected all contacts"
+      },
       "TITLE": "Create a campaign",
       "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
       "CANCEL_BUTTON_TEXT": "Cancel",
@@ -38,6 +47,12 @@
       "BACK_BUTTON_TEXT": "Go Back",
       "NEXT_BUTTON_TEXT": "Next",
       "FORM": {
+        "CREATE_INBOX": {
+          "LABEL": "Create an Inbox"
+        },
+        "HELP": {
+          "LABEL": "Help?"
+        },
         "TITLE": {
           "LABEL": "Title",
           "PLACEHOLDER": "Please enter the title of campaign",

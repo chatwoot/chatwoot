@@ -21,7 +21,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
         recepient_type: 'individual'
       }.to_json
     )
-
     process_response(response)
   end
 

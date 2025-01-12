@@ -30,6 +30,7 @@ export default {
       isLoadingContacts: false,
       currentPage: 1,
       totalPages: 1,
+      total_count: 0,
       sortAttribute: 'name',
     };
   },
@@ -43,7 +44,7 @@ export default {
     const step2Validations = {
       selectedContacts: {
         required,
-        minLength: value => value.length > 0,
+        minLength: value => (value || []).length > 0,
       },
     };
 
@@ -61,8 +62,12 @@ export default {
           )
         : [];
     },
+    accountId() {
+      return this.$route.params.accountId;
+    },
     inboxes() {
       const allInboxes = this.$store.getters['inboxes/getInboxes'];
+
       return allInboxes.filter(inbox => inbox.provider === 'whatsapp_cloud');
     },
     isStep1Valid() {
@@ -74,6 +79,38 @@ export default {
     },
   },
   methods: {
+    async fetchAllContactIds() {
+      try {
+        this.isSelectingAll = true;
+
+        const { data } = await ContactsAPI.getAllIds();
+
+        this.total_count = data.total_count;
+
+        this.selectedContacts = data.contact_ids;
+
+        if (this.$refs.contactSelector) {
+          this.$refs.contactSelector.updateSelectedContacts(data.contact_ids);
+        }
+
+        useAlert(this.$t('CAMPAIGN.ADD.SELECT_ALL.SUCCESS'));
+      } catch (error) {
+        useAlert(this.$t('CAMPAIGN.ADD.SELECT_ALL.ERROR'));
+      } finally {
+        this.isSelectingAll = false;
+      }
+    },
+    handleInboxSelection() {
+      if (this.selectedInbox === 'create_new') {
+        this.selectedInbox = '';
+
+        window.open(
+          `https://chat.onehash.ai/app/accounts/${this.accountId}/settings/inboxes/new/whatsapp`,
+          '_blank',
+          'noopener noreferrer'
+        );
+      }
+    },
     onClose() {
       this.$emit('onClose');
     },
@@ -85,7 +122,6 @@ export default {
         this.isLoadingContacts = true;
 
         if (search) {
-          // Use search API if there's a search query
           const { data } = await ContactsAPI.search(
             search,
             page,
@@ -93,7 +129,6 @@ export default {
           );
           this.handleContactsResponse(data);
         } else {
-          // Use regular fetch if no search
           const { data } = await ContactsAPI.get(page, this.sortAttribute);
           this.handleContactsResponse(data);
         }
@@ -105,21 +140,19 @@ export default {
     },
 
     handleContactsResponse(data) {
-      // Assuming the API returns an object with contacts and meta information
       const { payload = [], meta = {} } = data;
       const filteredContacts = payload.filter(contact => contact.phone_number);
 
-      // If it's the first page, replace the list
       if (this.currentPage === 1) {
         this.contactList = filteredContacts;
       } else {
-        // Otherwise append to the existing list
         this.contactList = [...this.contactList, ...filteredContacts];
       }
 
-      // Update pagination info
-      this.totalPages = meta.total_pages || 1;
+      const totalpages = meta.count / 30;
+      this.totalPages = totalpages < 33 ? totalpages : 33;
     },
+
     async loadMoreContacts() {
       if (this.currentPage < this.totalPages && !this.isLoadingContacts) {
         this.currentPage += 1;
@@ -150,6 +183,13 @@ export default {
 
       try {
         // Construct the campaign details as per the backend's expected format
+
+        const contactIds =
+          this.selectedContacts.length > 0 &&
+          typeof this.selectedContacts[0] === 'object'
+            ? this.selectedContacts.map(contact => contact.id)
+            : this.selectedContacts;
+
         const campaignDetails = {
           campaign: {
             // Wrap the data in a 'campaign' object to match strong parameters
@@ -157,7 +197,7 @@ export default {
             inbox_id: this.selectedInbox,
             template_id: this.selectedTemplate?.id || null,
             scheduled_at: this.scheduledAt,
-            contacts: this.selectedContacts.map(contact => contact.id),
+            contacts: contactIds,
             // Add optional fields with default values if needed
             enabled: true, // Enable campaign by default
             trigger_only_during_business_hours: false, // Default value
@@ -210,7 +250,17 @@ export default {
 
           <label :class="{ error: v$.selectedInbox.$error }">
             {{ $t('CAMPAIGN.ADD.FORM.INBOX.LABEL') }}
-            <select v-model="selectedInbox">
+            <select v-model="selectedInbox" @change="handleInboxSelection">
+              <option value="" disabled selected>
+                {{ $t('CAMPAIGN.ADD.FORM.INBOX.PLACEHOLDER') }}
+              </option>
+              <option value="create_new" class="create-inbox-option">
+                {{
+                  $t('CAMPAIGN.ADD.FORM.CREATE_INBOX.LABEL', {
+                    default: 'Create an Inbox',
+                  })
+                }}
+              </option>
               <option v-for="item in inboxes" :key="item.name" :value="item.id">
                 {{ item.name }}
               </option>
@@ -222,6 +272,14 @@ export default {
 
           <label :class="{ error: v$.selectedTemplate.$error }">
             {{ $t('CAMPAIGN.ADD.FORM.SELECT_TEMPLATE.LABEL') }}
+            <a
+              href="https://developers.facebook.com/docs/whatsapp/business-management-api/message-templates/#create-and-manage-templates"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-xs text-[#369EFF] hover:text-[#1b67ae]"
+            >
+              {{ $t('CAMPAIGN.ADD.FORM.HELP.LABEL', { default: 'Help' }) }}
+            </a>
             <select v-model="selectedTemplate">
               <option
                 v-for="template in templateList"
@@ -265,9 +323,14 @@ export default {
     <!-- Step 2: Contact Selection -->
     <div v-else class="contact-selection">
       <ContactSelector
+        ref="contactSelector"
         :contacts="contactList"
         :selected-contacts="selectedContacts"
+        :is-loading="isLoadingContacts"
+        :has-more="currentPage < totalPages"
         @contactsSelected="onContactsSelected"
+        @loadMore="loadMoreContacts"
+        @selectAllContacts="fetchAllContactIds"
       />
 
       <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
@@ -288,3 +351,17 @@ export default {
     </div>
   </div>
 </template>
+<style scoped>
+.create-inbox-option {
+  background-color: #f0f9ff; /* Light blue background */
+  color: #369eff; /* Same blue as your original link */
+  font-weight: 500;
+}
+
+/* For Firefox which doesn't support styling option elements directly */
+select option[value='create_new'] {
+  background-color: #f0f9ff;
+  color: #369eff;
+  font-weight: 500;
+}
+</style>

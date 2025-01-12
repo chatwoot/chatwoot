@@ -81,9 +81,48 @@ def fetchCampaignContacts
     }
   end
 
+  read_contacts = @campaign.read_contacts.map do |contact|
+    {
+      id: contact.id,
+      name: contact.name,
+      phone_number: contact.phone_number,
+      processed_at: contact.campaign_contacts.find_by(campaign: @campaign)&.updated_at
+    }
+  end
+
+  delivered_contacts = @campaign.delivered_contacts.map do |contact|
+    {
+      id: contact.id,
+      name: contact.name,
+      phone_number: contact.phone_number,
+      processed_at: contact.campaign_contacts.find_by(campaign: @campaign)&.updated_at
+    }
+  end
+
+  replied_contacts = @campaign.replied_contacts.map do |contact|
+    {
+      id: contact.id,
+      name: contact.name,
+      phone_number: contact.phone_number,
+      processed_at: contact.campaign_contacts.find_by(campaign: @campaign)&.updated_at
+    }
+  end
+
+  pending_contacts = @campaign.pending_contacts.map do |contact|
+    {
+      id: contact.id,
+      name: contact.name,
+      phone_number: contact.phone_number
+    }
+  end
+
   render json: {
     processed_contacts: processed_contacts,
-    failed_contacts: failed_contacts
+    failed_contacts: failed_contacts,
+    read_contacts: read_contacts,
+    delivered_contacts: delivered_contacts,
+    replied_contacts: replied_contacts,
+    pending_contacts: pending_contacts
   }
 end
 

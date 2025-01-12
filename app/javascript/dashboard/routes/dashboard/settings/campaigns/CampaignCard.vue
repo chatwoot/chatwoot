@@ -40,6 +40,9 @@ export default {
       if (this.campaign.campaign_status === 'completed') {
         return this.$t('CAMPAIGN.LIST.STATUS.COMPLETED');
       }
+      if (this.campaign.campaign_status === 'active') {
+        return this.$t('CAMPAIGN.LIST.STATUS.ACTIVE');
+      }
 
       // Then handle ongoing/whatsapp enabled/disabled status
       if (this.isOngoingType || this.isWhatsappType) {
@@ -84,7 +87,7 @@ export default {
     },
     handleReportError(error) {
       // Optional: Add error handling logic, e.g., showing a toast notification
-      console.error('Campaign report error:', error);
+      return;
     },
   },
 };
@@ -107,15 +110,11 @@ export default {
         />
       </div>
       <div class="flex flex-row items-center">
-        <!-- Metrics - Now with center alignment and larger values -->
-        <div class="flex items-center space-x-8 mr-12">
-          <!-- Increased spacing between metrics and reduced right margin -->
+        <div v-if="isWhatsappType" class="flex items-center space-x-8 mr-12">
           <div class="flex flex-col items-center">
-            <!-- Changed to items-center -->
             <span
               class="text-xl font-semibold text-slate-900 dark:text-slate-100"
             >
-              <!-- Increased text size -->
               {{
                 campaign.processed_contacts_count !== null &&
                 campaign.processed_contacts_count !== undefined
@@ -124,7 +123,6 @@ export default {
               }}
             </span>
             <span class="text-sm text-slate-600 dark:text-slate-400">
-              <!-- Increased label size -->
               {{ $t('CAMPAIGN.METRICS.SUCCESSFUL') }}
             </span>
           </div>
@@ -176,7 +174,7 @@ export default {
         <!-- Action Buttons -->
         <div class="flex space-x-4">
           <woot-button
-            v-if="canShowReport"
+            v-if="isWhatsappType"
             variant="link"
             icon="document"
             color-scheme="secondary"
