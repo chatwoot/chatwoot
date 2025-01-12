@@ -37,7 +37,9 @@ class CampaignContact < ApplicationRecord
     pending: 'pending',
     processed: 'processed',
     failed: 'failed',
-    delivered: 'delivered'
+    delivered: 'delivered',
+    read: 'read',
+    replied: 'replied'
   }
 
   def self.find_campaign_by_message_id(message_id)

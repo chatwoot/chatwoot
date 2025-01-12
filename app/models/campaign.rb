@@ -62,7 +62,7 @@ class Campaign < ApplicationRecord
   after_commit :set_display_id, unless: :display_id?
 
   def pending_contacts
-    contacts.where(campaign_contacts: { status: 'pending' })
+    contacts.joins(:campaign_contacts).where(campaign_contacts: { status: 'pending', campaign_id: self.id })
   end
 
   def processed_contacts
@@ -74,7 +74,24 @@ class Campaign < ApplicationRecord
   end
   
   def delivered_contacts
-    contacts.joins(:campaign_contacts).where(campaign_contacts: { status: 'delivered' })
+    contacts.joins(:campaign_contacts).where(campaign_contacts: { status: 'delivered', campaign_id: self.id })
+  end
+
+  # New Methods for Read and Replied Contacts
+  def read_contacts
+    contacts.joins(:campaign_contacts).where(campaign_contacts: { status: 'read', campaign_id: self.id })
+  end
+
+  def replied_contacts
+    contacts.joins(:campaign_contacts).where(campaign_contacts: { status: 'replied', campaign_id: self.id })
+  end
+
+  def processing?
+    campaign_status == 'active'
+  end
+  
+  def complete?
+    campaign_contacts.where(status: ['pending']).empty?
   end
   
 

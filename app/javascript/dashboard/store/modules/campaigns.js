@@ -81,7 +81,6 @@ export const actions = {
     commit(types.SET_CAMPAIGN_UI_FLAG, { isFetchingContacts: true });
     try {
       const response = await CampaignsAPI.fetchCampaignContacts(campaignId);
-      console.log(response.data);
       commit(types.SET_CAMPAIGN_CONTACTS, {
         campaignId,
         contacts: response.data,

@@ -6,15 +6,22 @@ export default {
       type: Array,
       required: true,
     },
-    // selectedContacts: {
-    //   type: Array,
-    //   default: () => [],
-    // },
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
+    hasMore: {
+      type: Boolean,
+      default: false,
+    },
   },
+  emits: ['contactsSelected', 'loadMore', 'selectAllContacts'],
   data() {
     return {
       searchQuery: '',
       localSelectedContacts: [],
+      observer: null,
+      isSelectingAll: false,
     };
   },
   computed: {
@@ -26,7 +33,32 @@ export default {
       );
     },
   },
+  mounted() {
+    this.setupInfiniteScroll();
+  },
+  beforeUnmount() {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+  },
   methods: {
+    setupInfiniteScroll() {
+      const options = {
+        root: this.$refs.contactsList,
+        rootMargin: '0px',
+        threshold: 0.5,
+      };
+
+      this.observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting && this.hasMore && !this.isLoading) {
+          this.$emit('loadMore');
+        }
+      }, options);
+
+      if (this.$refs.loadingTrigger) {
+        this.observer.observe(this.$refs.loadingTrigger);
+      }
+    },
     toggleContact(contact) {
       const index = this.localSelectedContacts.findIndex(
         c => c.id === contact.id
@@ -39,15 +71,62 @@ export default {
       this.$emit('contactsSelected', this.localSelectedContacts);
     },
     isSelected(contact) {
-      return this.localSelectedContacts.some(c => c.id === contact.id);
+      return (this.localSelectedContacts || []).some(c => c.id === contact.id);
     },
-    selectAll() {
-      this.localSelectedContacts = [...this.filteredContacts];
-      this.$emit('contactsSelected', this.localSelectedContacts);
+    async selectAll() {
+      this.isSelectingAll = true;
+      try {
+        // First, select all currently loaded contacts
+        this.contacts.forEach(contact => {
+          if (!this.isSelected(contact)) {
+            this.localSelectedContacts.push(contact);
+          }
+        });
+
+        // Emit the current selection before fetching all IDs
+        this.$emit('contactsSelected', this.localSelectedContacts);
+
+        // Fetch all contact IDs from backend
+        await this.$emit('selectAllContacts');
+      } finally {
+        this.isSelectingAll = false;
+      }
     },
     clearSelection() {
       this.localSelectedContacts = [];
       this.$emit('contactsSelected', this.localSelectedContacts);
+    },
+    // Method to update selected contacts from parent
+    updateSelectedContacts(contactIds) {
+      // Convert current selections to a Set of IDs for quick lookup
+      const currentSelectedIds = new Set(
+        this.localSelectedContacts.map(c => c.id)
+      );
+
+      // Add any new IDs from the backend that aren't in our current selection
+      contactIds.forEach(id => {
+        if (!currentSelectedIds.has(id)) {
+          // If we have the contact object in our loaded contacts, use that
+          const contact = this.contacts.find(c => c.id === id);
+          if (contact) {
+            this.localSelectedContacts.push(contact);
+          } else {
+            // If we don't have the contact object, create a minimal one
+            this.localSelectedContacts.push({ id: id });
+          }
+        }
+      });
+
+      this.$emit('contactsSelected', this.localSelectedContacts);
+    },
+  },
+  watch: {
+    contacts() {
+      this.$nextTick(() => {
+        if (this.$refs.loadingTrigger && this.observer) {
+          this.observer.observe(this.$refs.loadingTrigger);
+        }
+      });
     },
   },
 };
@@ -71,7 +150,7 @@ export default {
         </button>
       </div>
     </div>
-    <div class="contacts-list">
+    <div ref="contactsList" class="contacts-list">
       <div
         v-for="contact in filteredContacts"
         :key="contact.id"
@@ -84,6 +163,18 @@ export default {
           <span class="contact-phone">{{ contact.phone_number }}</span>
         </div>
         <input type="checkbox" :checked="isSelected(contact)" @click.stop />
+      </div>
+
+      <!-- Loading trigger element -->
+      <div
+        v-if="hasMore"
+        ref="loadingTrigger"
+        class="loading-trigger"
+        :class="{ 'is-loading': isLoading }"
+      >
+        <span v-if="isLoading">{{
+          $t('CAMPAIGN.CONTACT_SELECTOR.LOADING')
+        }}</span>
       </div>
     </div>
     <div class="selection-summary">
@@ -166,6 +257,13 @@ export default {
            bg-white dark:bg-slate-800
            text-slate-700 dark:text-white
            border-slate-200 dark:border-slate-700;
+  }
+  .loading-trigger {
+    @apply p-4 text-center text-sm text-slate-600 dark:text-slate-400;
+
+    &.is-loading {
+      @apply bg-slate-50 dark:bg-slate-700;
+    }
   }
 }
 </style>

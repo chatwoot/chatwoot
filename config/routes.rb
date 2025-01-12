@@ -135,6 +135,7 @@ Rails.application.routes.draw do
             collection do
               get :active
               get :search
+              get :get_all_ids
               post :filter
               post :import
               post :export
