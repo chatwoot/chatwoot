@@ -121,7 +121,7 @@ describe NotificationListener do
   end
 
   # integration tests to ensure that the order mention service and new message notification service are called in the correct order
-  describe 'message_created' do
+  describe 'message_created - mentions, participation & assignment integration' do
     let(:event_name) { :'message.created' }
 
     it 'will not create duplicate new message notification for the same user for mentions participation & assignment' do
