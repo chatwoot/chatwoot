@@ -2,16 +2,16 @@
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
-import AvailableAgents from 'widget/components/AvailableAgents.vue';
 import configMixin from 'widget/mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
 import { IFrameHelper } from 'widget/helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
+import GroupedAvatars from 'widget/components/GroupedAvatars.vue';
 
 export default {
   name: 'TeamAvailability',
   components: {
-    AvailableAgents,
+    GroupedAvatars,
   },
   mixins: [configMixin, nextAvailabilityTime, availabilityMixin],
   props: {
@@ -32,6 +32,13 @@ export default {
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
+    },
+    agentAvatars() {
+      return this.availableAgents.map(agent => ({
+        name: agent.name,
+        avatar: agent.avatar_url,
+        id: agent.id,
+      }));
     },
     isOnline() {
       const { workingHoursEnabled } = this.channelConfig;
@@ -75,7 +82,7 @@ export default {
           {{ replyWaitMessage }}
         </div>
       </div>
-      <AvailableAgents v-if="isOnline" :agents="availableAgents" />
+      <GroupedAvatars v-if="isOnline" :users="agentAvatars" />
     </div>
     <button
       class="inline-flex items-center font-medium text-n-slate-12"
