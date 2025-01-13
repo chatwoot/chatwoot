@@ -288,18 +288,18 @@ export default {
         </div>
       </div>
       <h4
-        class="conversation--user font-semibold text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap w-[calc(100%-70px)] text-n-slate-12"
+        class="conversation--user font-medium text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap w-[calc(100%-70px)] text-n-slate-12"
       >
         {{ currentContact.name }}
       </h4>
       <MessagePreview
         v-if="lastMessageInChat"
         :message="lastMessageInChat"
-        class="conversation--message font-semibold my-0 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem] text-sm text-n-slate-11"
+        class="conversation--message font-medium my-0 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem] text-sm text-n-slate-11"
       />
       <p
         v-else
-        class="conversation--message font-semibold text-n-slate-11 text-sm my-0 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem] overflow-hidden text-ellipsis whitespace-nowrap"
+        class="conversation--message font-medium text-n-slate-11 text-sm my-0 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem] overflow-hidden text-ellipsis whitespace-nowrap"
       >
         <fluent-icon
           size="16"
