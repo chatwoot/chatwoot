@@ -17,7 +17,7 @@ class LlmFormatter::ContactLlmFormatter < LlmFormatter::DefaultLlmFormatter
   private
 
   def build_notes
-    @record.notes.all.map { |note| " - #{note.content} : #{note.created_at.strftime('%Y-%m-%d %H:%M:%S')} " }.join("\n")
+    @record.notes.all.map { |note| " - #{note.content}" }.join("\n")
   end
 
   def build_attributes

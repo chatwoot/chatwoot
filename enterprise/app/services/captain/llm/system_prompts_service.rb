@@ -29,6 +29,20 @@ class Captain::Llm::SystemPromptsService
       SYSTEM_PROMPT_MESSAGE
     end
 
+    def notes_generator(langauge = 'english')
+      <<~SYSTEM_PROMPT_MESSAGE
+        You are a note taker looking to convert the conversation with a contact into actionable notes for the CRM.
+        Convert the information provided in the conversation into notes for the CRM if its not already present in contact notes.
+        Generate the notes only in the #{langauge}, use no other language
+        Ensure that you only generate notes from the information provided only.
+        Provide the notes in the JSON format as shown below.
+        ```json
+        { notes: [] }
+        ```
+
+      SYSTEM_PROMPT_MESSAGE
+    end
+
     def assistant_response_generator(product_name)
       <<~SYSTEM_PROMPT_MESSAGE
         [Identity]
