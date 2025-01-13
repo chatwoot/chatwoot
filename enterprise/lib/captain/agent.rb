@@ -74,7 +74,7 @@ class Captain::Agent
       - Work diligently until the stated objective is achieved.
       - Utilize only the provided tools for solving the task. Do not make up names of the functions
       - Set 'stop: true' when the objective is complete.
-      - DO NOT privide tool_call as final answer
+      - DO NOT provide tool_call as final answer
       - If you have enough information to provide the details to the user, prepare a final result collecting all the information you have.
 
       Output Structure:
