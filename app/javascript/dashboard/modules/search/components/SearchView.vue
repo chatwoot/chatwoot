@@ -4,6 +4,7 @@ import SearchTabs from './SearchTabs.vue';
 import SearchResultConversationsList from './SearchResultConversationsList.vue';
 import SearchResultMessagesList from './SearchResultMessagesList.vue';
 import SearchResultContactsList from './SearchResultContactsList.vue';
+import ButtonV4 from 'dashboard/components-next/button/Button.vue';
 import { useTrack } from 'dashboard/composables';
 import Policy from 'dashboard/components/policy.vue';
 import {
@@ -27,6 +28,7 @@ export default {
     SearchResultConversationsList,
     SearchResultMessagesList,
     Policy,
+    ButtonV4,
   },
   data() {
     return {
@@ -203,15 +205,14 @@ export default {
 <template>
   <div class="flex flex-col w-full bg-n-background">
     <div class="flex p-4">
-      <woot-button
-        icon="chevron-left"
-        variant="smooth"
-        size="small "
-        class="back-button"
+      <ButtonV4
+        :label="$t('GENERAL_SETTINGS.BACK')"
+        icon="i-lucide-chevron-left"
+        faded
+        primary
+        sm
         @click="onBack"
-      >
-        {{ $t('GENERAL_SETTINGS.BACK') }}
-      </woot-button>
+      />
     </div>
     <section
       class="flex my-0 p-4 relative mx-auto max-w-[45rem] min-h-[20rem] flex-col w-full h-full bg-n-background"
