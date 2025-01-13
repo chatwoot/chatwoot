@@ -77,13 +77,13 @@ const textToShow = computed(() => {
         <template v-else>
           <Letter
             v-if="showQuotedMessage"
-            class-name="prose prose-email !max-w-none"
+            class-name="prose prose-bubble !max-w-none"
             :html="fullHTML"
             :text="textToShow"
           />
           <Letter
             v-else
-            class-name="prose prose-email !max-w-none"
+            class-name="prose prose-bubble !max-w-none"
             :html="unquotedHTML"
             :text="textToShow"
           />
