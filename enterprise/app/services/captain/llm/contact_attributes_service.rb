@@ -1,4 +1,4 @@
-class Captain::Llm::ContactNotesService < Captain::Llm::BaseOpenAiService
+class Captain::Llm::ContactAttributesService < Captain::Llm::BaseOpenAiService
   DEFAULT_MODEL = 'gpt-4o'.freeze
 
   def initialize(assistant, conversation, model = DEFAULT_MODEL)
@@ -10,17 +10,16 @@ class Captain::Llm::ContactNotesService < Captain::Llm::BaseOpenAiService
     @model = model
   end
 
-  def generate_and_update_notes
-    generate_notes.each do |note|
-      @contact.notes.create!(content: note)
-    end
+  def generate_and_update_attributes
+    attributes = generate_attributes
+    # to implement the update attributes
   end
 
   private
 
   attr_reader :content
 
-  def generate_notes
+  def generate_attributes
     response = @client.chat(parameters: chat_parameters)
     parse_response(response)
   rescue OpenAI::Error => e
@@ -29,7 +28,7 @@ class Captain::Llm::ContactNotesService < Captain::Llm::BaseOpenAiService
   end
 
   def chat_parameters
-    prompt = Captain::Llm::SystemPromptsService.notes_generator
+    prompt = Captain::Llm::SystemPromptsService.attributes_generator
     {
       model: @model,
       response_format: { type: 'json_object' },
@@ -50,7 +49,7 @@ class Captain::Llm::ContactNotesService < Captain::Llm::BaseOpenAiService
     content = response.dig('choices', 0, 'message', 'content')
     return [] if content.nil?
 
-    JSON.parse(content.strip).fetch('notes', [])
+    JSON.parse(content.strip).fetch('attributes', [])
   rescue JSON::ParserError => e
     Rails.logger.error "Error in parsing GPT processed response: #{e.message}"
     []

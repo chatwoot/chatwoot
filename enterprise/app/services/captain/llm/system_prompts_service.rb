@@ -43,6 +43,20 @@ class Captain::Llm::SystemPromptsService
       SYSTEM_PROMPT_MESSAGE
     end
 
+    def attributes_generator
+      <<~SYSTEM_PROMPT_MESSAGE
+        You are a note taker looking to find the attributes of the contact from the conversation.
+        Slot the attributes available in the conversation into the attributes available in the contact.
+        Only generate attributes that are not already present in the contact.
+        Ensure that you only generate attributes from the information provided only.
+        Provide the attributes in the JSON format as shown below.
+        ```json
+        { attributes: [ { attribute: '', value: '' } ] }
+        ```
+
+      SYSTEM_PROMPT_MESSAGE
+    end
+
     def assistant_response_generator(product_name)
       <<~SYSTEM_PROMPT_MESSAGE
         [Identity]
