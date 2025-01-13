@@ -1,10 +1,14 @@
 <script setup>
 import Icon from 'next/icon/Icon.vue';
 import { useI18n } from 'vue-i18n';
+import { useMessageContext } from './provider.js';
+import { ORIENTATION } from './constants';
 
 defineProps({
   error: { type: String, required: true },
 });
+
+const { orientation } = useMessageContext();
 
 const { t } = useI18n();
 </script>
@@ -22,7 +26,11 @@ const { t } = useI18n();
         />
       </div>
       <div
-        class="absolute bg-n-alpha-3 px-4 py-3 border rounded-xl border-n-strong text-n-slate-12 bottom-6 w-52 right-0 text-xs backdrop-blur-[100px] shadow-[0px_0px_24px_0px_rgba(0,0,0,0.12)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all"
+        class="absolute bg-n-alpha-3 px-4 py-3 border rounded-xl border-n-strong text-n-slate-12 bottom-6 w-52 text-xs backdrop-blur-[100px] shadow-[0px_0px_24px_0px_rgba(0,0,0,0.12)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all"
+        :class="{
+          'right-0': orientation === ORIENTATION.LEFT,
+          'left-0': orientation === ORIENTATION.RIGHT,
+        }"
       >
         {{ error }}
       </div>
