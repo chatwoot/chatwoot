@@ -7,6 +7,13 @@ custom_branding:
   icon: 'icon-paint-brush-line'
   config_key: 'custom_branding'
   enterprise: true
+captain:
+  name: 'Captain'
+  description: 'Enable AI-powered conversations with your customers.'
+  enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
+  icon: 'icon-captain-logo'
+  config_key: 'captain'
+  enterprise: true
 agent_capacity:
   name: 'Agent Capacity'
   description: 'Set limits to auto-assigning conversations to your agents.'
