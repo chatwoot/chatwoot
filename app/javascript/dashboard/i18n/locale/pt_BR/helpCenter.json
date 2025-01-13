@@ -660,7 +660,7 @@
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "More properties",
         "UNCATEGORIZED": "Não categorizado",
-        "EDITOR_PLACEHOLDER": "Write something..."
+        "EDITOR_PLACEHOLDER": "Escrever algo..."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Article properties",
@@ -739,7 +739,7 @@
         "BRAND_COLOR": {
           "LABEL": "Brand color"
         },
-        "SAVE_CHANGES": "Save changes"
+        "SAVE_CHANGES": "Salvar Alterações"
       },
       "CONFIGURATION_FORM": {
         "CUSTOM_DOMAIN": {
@@ -747,35 +747,35 @@
           "LABEL": "Domínio personalizado:",
           "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
           "PLACEHOLDER": "Domínio personalizado do portal",
-          "EDIT_BUTTON": "Edit custom domain",
-          "ADD_BUTTON": "Add custom domain",
+          "EDIT_BUTTON": "Editar domínio personalizado",
+          "ADD_BUTTON": "Adicionar domínio personalizado",
           "DIALOG": {
-            "ADD_HEADER": "Add custom domain",
-            "EDIT_HEADER": "Edit custom domain",
-            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
-            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
+            "ADD_HEADER": "Adicionar domínio personalizado",
+            "EDIT_HEADER": "Editar domínio personalizado",
+            "ADD_CONFIRM_BUTTON_LABEL": "Adicionar domínio",
+            "EDIT_CONFIRM_BUTTON_LABEL": "Atualizar domínio",
             "LABEL": "Domínio personalizado",
             "PLACEHOLDER": "Domínio personalizado do portal",
-            "ERROR": "Custom domain is required"
+            "ERROR": "Domínio personalizado é obrigatório"
           },
           "DNS_CONFIGURATION_DIALOG": {
-            "HEADER": "DNS configuration",
-            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
+            "HEADER": "Configuração de DNS",
+            "DESCRIPTION": "Faça o login na conta que você tem com seu provedor DNS e adicione um registro CNAME para subdomínio apontando para chatwoot.help",
             "HELP_TEXT": "Once this is done, you can reach out to our support to request for the auto-generated SSL certificate.",
             "CONFIRM_BUTTON_LABEL": "Got it!"
           }
         },
         "DELETE_PORTAL": {
-          "BUTTON": "Delete {portalName}",
+          "BUTTON": "Excluir {portalName}",
           "HEADER": "Excluir portal",
           "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
           "DIALOG": {
-            "HEADER": "Sure you want to delete {portalName}?",
+            "HEADER": "Tem certeza que deseja excluir {portalName}?",
             "DESCRIPTION": "This is a permanent action that cannot be reversed.",
             "CONFIRM_BUTTON_LABEL": "Excluir"
           }
         },
-        "EDIT_CONFIGURATION": "Edit configuration"
+        "EDIT_CONFIGURATION": "Editar configuração"
       },
       "API": {
         "CREATE_PORTAL": {
