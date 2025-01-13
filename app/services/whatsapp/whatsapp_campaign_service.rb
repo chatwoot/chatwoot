@@ -17,9 +17,7 @@ class Whatsapp::WhatsappCampaignService
   end
   
   def perform
-    CUSTOM_LOGGER.info("Starting campaign execution for campaign #{campaign.id}")
     return if campaign.completed?
-    campaign.update!(campaign_status: :active)
     
     Sidekiq.redis do |redis|
       # Ensure no other campaign execution is in progress
@@ -44,7 +42,6 @@ class Whatsapp::WhatsappCampaignService
     total_pending = campaign.campaign_contacts.pending.count
     total_batches = (total_pending.to_f / BATCH_SIZE).ceil
     
-    CUSTOM_LOGGER.info("Processing #{total_pending} contacts in #{total_batches} batches")
     
     total_batches.times do |batch_number|
       process_batch(batch_number)
@@ -56,7 +53,6 @@ class Whatsapp::WhatsappCampaignService
   def process_batch(batch_number)
     offset = batch_number * BATCH_SIZE
     
-    CUSTOM_LOGGER.info("Processing batch #{batch_number + 1} starting at offset #{offset}")
     
     contacts = campaign.campaign_contacts.pending
                       .order(id: :asc)
@@ -70,13 +66,11 @@ class Whatsapp::WhatsappCampaignService
       sequence_number = offset + total_scheduled + 1
       scheduled_time = calculate_schedule_time(sequence_number)
       
-      CUSTOM_LOGGER.info("Scheduling contact #{campaign_contact.id} as sequence #{sequence_number} at #{scheduled_time}")
       
       schedule_contact_job(campaign_contact, sequence_number, scheduled_time)
       total_scheduled += 1
     end
     
-    CUSTOM_LOGGER.info("Scheduled #{total_scheduled} contacts for batch #{batch_number + 1}")
   end
   
   def calculate_schedule_time(sequence_number)
@@ -112,7 +106,7 @@ class Whatsapp::WhatsappCampaignService
   end
   
   def handle_campaign_failure(error)
-    campaign.update!(campaign_status: :failed)
+    campaign.update!(campaign_status: :completed)
     Rails.logger.error("Campaign #{campaign.id} failed: #{error.message}")
     notify_admin_of_failure(error)
   end
