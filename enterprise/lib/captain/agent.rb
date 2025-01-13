@@ -16,19 +16,14 @@ class Captain::Agent
 
   def execute(input, context)
     setup_messages(input, context)
-    iteration_count = 0
     result = {}
-    loop do
-      break if iteration_count > @max_iterations
-
-      push_to_messages({ role: 'system', content: 'Provide a final answer' }) if iteration_count == @max_iterations
+    @max_iterations.times do |iteration|
+      push_to_messages(role: 'system', content: 'Provide a final answer') if iteration == @max_iterations - 1
 
       result = @llm.call(@messages, functions)
       handle_llm_result(result)
 
       break if result[:stop]
-
-      iteration_count += 1
     end
 
     result[:output]
@@ -79,6 +74,7 @@ class Captain::Agent
       - Work diligently until the stated objective is achieved.
       - Utilize only the provided tools for solving the task. Do not make up names of the functions
       - Set 'stop: true' when the objective is complete.
+      - DO NOT privide tool_call as final answer
       - If you have enough information to provide the details to the user, prepare a final result collecting all the information you have.
 
       Output Structure:

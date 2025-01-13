@@ -61,17 +61,15 @@ class Captain::Copilot::ChatService
     register_tool tool
   end
 
-  def format_response(response)
-    "\n\nQuestion: #{response[:question]}\nAnswer: #{response[:answer]}"
-  end
-
   def register_tool(tool)
     tool.register_method do |inputs, _, memory|
       assistant = Captain::Assistant.find(memory[:assistant_id])
       assistant
         .responses
         .search(inputs['search_query'])
-        .map { |response| format_response(response) }.join
+        .map do |response|
+        "\n\nQuestion: #{response[:question]}\nAnswer: #{response[:answer]}"
+      end.join
     end
 
     @agent.register_tool tool
