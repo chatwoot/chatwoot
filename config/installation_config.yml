@@ -133,6 +133,13 @@
   locked: false
 # End of Microsoft Email Channel Config
 
+# MARK: Captain Config
+- name: CAPTAIN_OPEN_AI_API_KEY
+  display_title: 'OpenAI API Key'
+  description: 'The OpenAI API key for the Captain AI service'
+  locked: false
+# End of Captain Config
+
 # ------- Chatwoot Internal Config for Cloud ----#
 - name: CHATWOOT_INBOX_TOKEN
   value:
