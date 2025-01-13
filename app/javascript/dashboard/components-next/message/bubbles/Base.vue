@@ -29,8 +29,8 @@ const varaintBaseMap = {
 };
 
 const orientationMap = {
-  [ORIENTATION.LEFT]: 'rounded-xl rounded-bl-sm',
-  [ORIENTATION.RIGHT]: 'rounded-xl rounded-br-sm',
+  [ORIENTATION.LEFT]: 'left-bubble rounded-xl rounded-bl-sm',
+  [ORIENTATION.RIGHT]: 'right-bubble rounded-xl rounded-br-sm',
   [ORIENTATION.CENTER]: 'rounded-md',
 };
 
