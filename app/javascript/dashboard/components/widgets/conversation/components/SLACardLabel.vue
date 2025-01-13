@@ -47,9 +47,7 @@ export default {
       return this.slaStatus?.isSlaMissed;
     },
     slaTextStyles() {
-      return this.isSlaMissed
-        ? 'text-red-400 dark:text-red-300'
-        : 'text-yellow-600 dark:text-yellow-500';
+      return this.isSlaMissed ? 'text-n-ruby-11' : 'text-n-amber-11';
     },
     slaStatusText() {
       const upperCaseType = this.slaStatus?.type?.toUpperCase(); // FRT, NRT, or RT
