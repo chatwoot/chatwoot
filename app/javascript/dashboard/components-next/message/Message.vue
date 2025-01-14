@@ -1,9 +1,11 @@
 <script setup>
-import { computed, ref, toRefs } from 'vue';
+import { onMounted, computed, ref, toRefs } from 'vue';
+import { useTimeoutFn } from '@vueuse/core';
 import { provideMessageContext } from './provider.js';
 import { useTrack } from 'dashboard/composables';
 import { emitter } from 'shared/helpers/mitt';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
@@ -127,8 +129,10 @@ const props = defineProps({
 });
 
 const contextMenuPosition = ref({});
+const showBackgroundHighlight = ref(false);
 const showContextMenu = ref(false);
 const { t } = useI18n();
+const route = useRoute();
 
 /**
  * Computes the message variant based on props
@@ -382,6 +386,20 @@ const avatarInfo = computed(() => {
   };
 });
 
+const setupHighlightTimer = () => {
+  if (Number(route.query.messageId) !== Number(props.id)) {
+    return;
+  }
+
+  showBackgroundHighlight.value = true;
+  const HIGHLIGHT_TIMER = 1000;
+  useTimeoutFn(() => {
+    showBackgroundHighlight.value = false;
+  }, HIGHLIGHT_TIMER);
+};
+
+onMounted(setupHighlightTimer);
+
 provideMessageContext({
   ...toRefs(props),
   isPrivate: computed(() => props.private),
@@ -400,6 +418,9 @@ provideMessageContext({
     :class="[
       flexOrientationClass,
       shouldGroupWithNext ? 'group-with-next mb-2' : 'mb-4',
+      {
+        'bg-n-alpha-1': showBackgroundHighlight,
+      },
     ]"
   >
     <div v-if="variant === MESSAGE_VARIANTS.ACTIVITY">
