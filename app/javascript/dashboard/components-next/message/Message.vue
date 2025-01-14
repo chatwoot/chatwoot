@@ -461,11 +461,11 @@ provideMessageContext({
 <style lang="scss">
 .group-with-next + .message-bubble-container {
   .left-bubble {
-    @apply rounded-tl-sm;
+    @apply rounded-tl-sm rtl:rounded-tr-sm rtl:rounded-tl-xl;
   }
 
   .right-bubble {
-    @apply rounded-tr-sm;
+    @apply rounded-tr-sm rtl:rounded-tl-sm rtl:rounded-tr-xl;
   }
 }
 </style>
