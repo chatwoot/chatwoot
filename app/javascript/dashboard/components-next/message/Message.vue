@@ -500,11 +500,11 @@ provideMessageContext({
 <style lang="scss">
 .group-with-next + .message-bubble-container {
   .left-bubble {
-    @apply rounded-tl-sm rtl:rounded-tr-sm rtl:rounded-tl-xl;
+    @apply ltr:rounded-tl-sm rtl:rounded-tr-sm;
   }
 
   .right-bubble {
-    @apply rounded-tr-sm rtl:rounded-tl-sm rtl:rounded-tr-xl;
+    @apply ltr:rounded-tr-sm rtl:rounded-tl-sm;
   }
 }
 </style>
