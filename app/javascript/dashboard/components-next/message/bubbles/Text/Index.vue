@@ -14,7 +14,7 @@ const isTemplate = computed(() => {
 });
 
 const isEmpty = computed(() => {
-  return !content.value && !attachments.value.length;
+  return !content.value && !attachments.value?.length;
 });
 </script>
 

@@ -1,9 +1,11 @@
 <script setup>
-import { computed, ref, toRefs } from 'vue';
+import { onMounted, computed, ref, toRefs } from 'vue';
+import { useTimeoutFn } from '@vueuse/core';
 import { provideMessageContext } from './provider.js';
 import { useTrack } from 'dashboard/composables';
 import { emitter } from 'shared/helpers/mitt';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
@@ -115,7 +117,7 @@ const props = defineProps({
   createdAt: { type: Number, required: true }, // eslint-disable-line vue/no-unused-properties
   currentUserId: { type: Number, required: true },
   groupWithNext: { type: Boolean, default: false },
-  inboxId: { type: Number, required: true }, // eslint-disable-line vue/no-unused-properties
+  inboxId: { type: Number, default: null }, // eslint-disable-line vue/no-unused-properties
   inboxSupportsReplyTo: { type: Object, default: () => ({}) },
   inReplyTo: { type: Object, default: null }, // eslint-disable-line vue/no-unused-properties
   isEmailInbox: { type: Boolean, default: false },
@@ -127,8 +129,10 @@ const props = defineProps({
 });
 
 const contextMenuPosition = ref({});
+const showBackgroundHighlight = ref(false);
 const showContextMenu = ref(false);
 const { t } = useI18n();
+const route = useRoute();
 
 /**
  * Computes the message variant based on props
@@ -329,6 +333,22 @@ const contextMenuEnabledOptions = computed(() => {
   };
 });
 
+const shouldRenderMessage = computed(() => {
+  const hasAttachments = !!(props.attachments && props.attachments.length > 0);
+  const isEmailContentType = props.contentType === CONTENT_TYPES.INCOMING_EMAIL;
+  const isUnsupported = props.contentAttributes?.isUnsupported;
+  const isAnIntegrationMessage =
+    props.contentType === CONTENT_TYPES.INTEGRATIONS;
+
+  return (
+    hasAttachments ||
+    props.content ||
+    isEmailContentType ||
+    isUnsupported ||
+    isAnIntegrationMessage
+  );
+});
+
 function openContextMenu(e) {
   const shouldSkipContextMenu =
     e.target?.classList.contains('skip-context-menu') ||
@@ -382,6 +402,20 @@ const avatarInfo = computed(() => {
   };
 });
 
+const setupHighlightTimer = () => {
+  if (Number(route.query.messageId) !== Number(props.id)) {
+    return;
+  }
+
+  showBackgroundHighlight.value = true;
+  const HIGHLIGHT_TIMER = 1000;
+  useTimeoutFn(() => {
+    showBackgroundHighlight.value = false;
+  }, HIGHLIGHT_TIMER);
+};
+
+onMounted(setupHighlightTimer);
+
 provideMessageContext({
   ...toRefs(props),
   isPrivate: computed(() => props.private),
@@ -392,14 +426,19 @@ provideMessageContext({
 });
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <div
+    v-if="shouldRenderMessage"
     :id="`message${props.id}`"
     class="flex w-full message-bubble-container"
     :data-message-id="props.id"
     :class="[
       flexOrientationClass,
       shouldGroupWithNext ? 'group-with-next mb-2' : 'mb-4',
+      {
+        'bg-n-alpha-1': showBackgroundHighlight,
+      },
     ]"
   >
     <div v-if="variant === MESSAGE_VARIANTS.ACTIVITY">
@@ -428,7 +467,7 @@ provideMessageContext({
       <div
         class="[grid-area:bubble] flex"
         :class="{
-          'pl-9 justify-end': orientation === ORIENTATION.RIGHT,
+          'ltr:pl-9 rtl:pl-0 justify-end': orientation === ORIENTATION.RIGHT,
           'min-w-0': variant === MESSAGE_VARIANTS.EMAIL,
         }"
         @contextmenu="openContextMenu($event)"
@@ -461,11 +500,11 @@ provideMessageContext({
 <style lang="scss">
 .group-with-next + .message-bubble-container {
   .left-bubble {
-    @apply rounded-tl-sm;
+    @apply ltr:rounded-tl-sm rtl:rounded-tr-sm;
   }
 
   .right-bubble {
-    @apply rounded-tr-sm;
+    @apply ltr:rounded-tr-sm rtl:rounded-tl-sm;
   }
 }
 </style>
