@@ -8,10 +8,8 @@ module Enterprise::Account::ConversationsResolutionSchedulerJob
   private
 
   def resolve_response_bot_conversations
-    Account.feature_response_bot.all.find_each(batch_size: 100) do |account|
-      account.inboxes.each do |inbox|
-        Captain::InboxPendingConversationsResolutionJob.perform_later(inbox) if inbox.captain_assistant.present?
-      end
+    CaptainInbox.all.find_each(batch_size: 100) do |captain_inbox|
+      Captain::InboxPendingConversationsResolutionJob.perform_later(captain_inbox.inbox)
     end
   end
 end

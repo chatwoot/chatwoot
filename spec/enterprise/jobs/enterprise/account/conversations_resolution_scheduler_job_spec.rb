@@ -2,20 +2,16 @@ require 'rails_helper'
 
 RSpec.describe Account::ConversationsResolutionSchedulerJob, type: :job do
   let!(:account_with_bot) { create(:account) }
+  let(:account) { create(:account) }
+  let(:assistant) { create(:captain_assistant, account: account_with_bot) }
+
   let!(:account_without_bot) { create(:account) }
   let!(:inbox_with_bot) { create(:inbox, account: account_with_bot) }
   let!(:inbox_without_bot) { create(:inbox, account: account_without_bot) }
-  let(:response_source) { create(:response_source, account: account_with_bot) }
 
   describe '#perform - captain resolutions' do
     before do
-      create(:integrations_hook, app_id: 'captain', account: account_with_bot, settings: {
-               inbox_ids: inbox_with_bot.id.to_s,
-               access_token: SecureRandom.hex,
-               account_id: Faker::Alphanumeric.alpha(number: 10),
-               account_email: Faker::Internet.email,
-               assistant_id: Faker::Alphanumeric.alpha(number: 10)
-             })
+      create(:captain_inbox, captain_assistant: assistant, inbox: inbox_with_bot)
     end
 
     it 'enqueues resolution jobs only for inboxes with captain enabled' do
