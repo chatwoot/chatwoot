@@ -117,12 +117,12 @@ const tailwindConfig = {
             blockquote: {
               color: 'rgb(var(--slate-11))',
               borderLeft: `4px solid rgb(var(--black-alpha-1))`,
-              borderRight: `4px solid rgb(var(--black-alpha-1))`,
               paddingLeft: '1em',
-              paddingRight: '1em',
               '[dir="rtl"] &': {
                 borderLeft: 'none',
                 paddingLeft: '0',
+                borderRight: `4px solid rgb(var(--black-alpha-1))`,
+                paddingRight: '1em',
               },
               '[dir="ltr"] &': {
                 borderRight: 'none',
