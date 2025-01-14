@@ -1,5 +1,8 @@
 <% content_for :head do %>
   <title><%= @category.name %> | <%= @portal.name %></title>
+  <% if @portal.logo.present? %>
+    <link rel="icon" href="<%= url_for(@portal.logo) %>" type="image/png">
+  <% end %>
   <% if @category.description.present? %>
     <meta name="description" content="<%= @category.description %>">
   <% end %>
