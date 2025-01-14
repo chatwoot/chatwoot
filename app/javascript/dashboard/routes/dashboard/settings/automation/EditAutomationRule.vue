@@ -105,19 +105,72 @@
               :show-action-input="showActionInput(action.action_name)"
               :v="$v.automation.actions.$each[i]"
               :initial-file-name="getFileName(action, automation.files)"
+              :event-options="eventOptions"
               @resetAction="resetAction(i)"
               @removeAction="removeAction(i)"
             />
-            <div class="mt-4">
-              <woot-button
-                icon="add"
-                color-scheme="success"
-                variant="smooth"
-                size="small"
-                @click="appendNewAction"
+            <div class="flex justify-between items-end">
+              <div class="mt-4">
+                <woot-button
+                  icon="add"
+                  color-scheme="success"
+                  variant="smooth"
+                  size="small"
+                  @click="appendNewAction"
+                >
+                  {{ $t('AUTOMATION.ADD.ACTION_BUTTON_LABEL') }}
+                </woot-button>
+              </div>
+              <div class="multiselect-wrap--small min-w-[200px]">
+                <label class="typo__label">{{
+                  $t('AUTOMATION.ADD.INTERVAL')
+                }}</label>
+                <multiselect
+                  class="no-margin"
+                  v-model="selectedTimerValue"
+                  track-by="value"
+                  label="name"
+                  selected-label
+                  :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+                  deselect-label=""
+                  :max-height="160"
+                  :options="timerValues"
+                  :allow-empty="false"
+                  :searchable="false"
+                  :option-height="104"
+                  @input="onTimerValueChange"
+                />
+              </div>
+              <div
+                v-if="selectedTimerValue.value === 'custom'"
+                class="flex space-x-2 mt-4 items-end"
               >
-                {{ $t('AUTOMATION.ADD.ACTION_BUTTON_LABEL') }}
-              </woot-button>
+                <div class="multiselect-wrap--small min-w-[120px] flex-1">
+                  <label class="typo__label">Tipo</label>
+                  <multiselect
+                    class="no-margin"
+                    v-model="customInterval.type"
+                    track-by="value"
+                    label="label"
+                    :max-height="160"
+                    :options="intervalTypes"
+                    :allow-empty="false"
+                    :searchable="false"
+                    :option-height="104"
+                  />
+                </div>
+                <div class="flex-1">
+                  <label class="typo__label">Valor</label>
+                  <input
+                    class="!mb-0"
+                    v-model="customInterval.amount"
+                    type="number"
+                    :max="getMaxValue(customInterval.type)"
+                    :min="0"
+                    :placeholder="$t('Digite a quantidade')"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -173,10 +226,15 @@ export default {
       type: Object,
       default: () => {},
     },
+    timerValues: {
+      type: Array,
+      default: () => [],
+    },
   },
   data() {
     return {
       automationTypes: JSON.parse(JSON.stringify(AUTOMATIONS)),
+      intervalTypes: JSON.parse(JSON.stringify(INTERVAL_TYPES)),
       automationRuleEvent: AUTOMATION_RULE_EVENTS[0].key,
       automationMutated: false,
       show: true,
@@ -184,6 +242,21 @@ export default {
       showDeleteConfirmationModal: false,
       allCustomAttributes: [],
       mode: 'edit',
+      selectedTimerValue: {
+        name: this.$t('AUTOMATION.ADD.INTERVALS.CUSTOM'),
+        type: 'none',
+        value: 'custom',
+      },
+      customInterval: {
+        type: {
+          value: this.selectedResponse.delay_type,
+          label: this.selectedResponse.delay_type,
+        },
+        amount: this.secondsToAmount(
+          this.selectedResponse.delay_type,
+          this.selectedResponse.delay
+        ),
+      },
     };
   },
   computed: {
@@ -201,11 +274,35 @@ export default {
     },
     automationActionTypes() {
       const isSLAEnabled = this.isFeatureEnabled('sla');
-      const actions = this.automationTypes[this.automationRuleEvent]?.actions;
+
+      const eventName = this.automation?.event_name ?? this.automationRuleEvent;
+
+      const actions = this.automationTypes[eventName]?.actions;
 
       return isSLAEnabled
         ? actions
         : actions?.filter(action => action.key !== 'add_sla');
+    },
+
+    eventOptions() {
+      return EVENT_VARIABLES[this.automation.event_name];
+    },
+
+    computedDelay() {
+      const { type, amount } = this.customInterval;
+      if (this.timerValues[0].value !== 'custom') {
+        return this.timerValues[0].value;
+      }
+      switch (type.value) {
+        case 'minutes':
+          return amount * 60;
+        case 'hours':
+          return amount * 3600;
+        case 'days':
+          return amount * 86400;
+        default:
+          return 0;
+      }
     },
 
     automationRuleEvents() {
@@ -220,6 +317,40 @@ export default {
     this.allCustomAttributes = this.$store.getters['attributes/getAttributes'];
     this.formatAutomation(this.selectedResponse);
   },
+
+  watch: {
+    customInterval: {
+      handler(value) {
+        if (this.selectedTimerValue.value === 'custom') {
+          this.setCustomTime(value);
+        }
+      },
+      deep: true,
+    },
+
+    'customInterval.type'(type) {
+      this.customInterval.amount = 1;
+    },
+    'customInterval.amount'(amount) {
+      if (amount > this.getMaxValue(this.customInterval.type)) {
+        this.customInterval.amount = 0;
+      }
+    },
+    'automation.event_name'(name) {
+      if (name === 'cart_recovery') {
+        this.automation.conditions = [
+          {
+            key: 'none',
+            name: 'None',
+            attributeI18nKey: 'NONE',
+            inputType: 'plain_text',
+            filterOperators: OPERATOR_TYPES_1,
+          },
+        ];
+      }
+    },
+  },
+
   methods: {
     isFeatureEnabled(flag) {
       return this.isFeatureEnabledonAccount(this.accountId, flag);
@@ -244,6 +375,69 @@ export default {
       }
 
       return actionTypes;
+    },
+
+    onTimerValueChange(interval) {
+      this.selectedTimerValue = interval;
+
+      if (interval.value === 'custom') {
+        this.setCustomTime(this.customInterval);
+      } else {
+        this.setDefaultTime(interval);
+      }
+    },
+
+    setCustomTime(interval) {
+      const { type, amount } = interval;
+      const amountInSeconds = this.amountToSeconds(
+        type.value,
+        parseInt(amount)
+      );
+      (this.automation.delay_type = type.value),
+        (this.automation.delay = amountInSeconds || 0);
+    },
+
+    setDefaultTime(interval) {
+      (this.automation.delay_type = interval.type),
+        (this.automation.delay = interval.value);
+    },
+
+    amountToSeconds(type, amount) {
+      switch (type) {
+        case 'minutes':
+          return amount * 60;
+        case 'hours':
+          return amount * 3600;
+        case 'days':
+          return amount * 86400;
+        default:
+          return 0;
+      }
+    },
+
+    secondsToAmount(type, amount) {
+      switch (type) {
+        case 'minutes':
+          return amount / 60;
+        case 'hours':
+          return amount / 3600;
+        case 'days':
+          return amount / 86400;
+        default:
+          return 0;
+      }
+    },
+    getMaxValue(type) {
+      switch (type.value) {
+        case 'days':
+          return 7;
+        case 'hours':
+          return 23;
+        case 'minutes':
+          return 59;
+        default:
+          return 0;
+      }
     },
   },
 };

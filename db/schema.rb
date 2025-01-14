@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_18_180253) do
+ActiveRecord::Schema[7.0].define(version: 2025_01_13_151935) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -199,6 +199,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_18_180253) do
     t.boolean "active", default: true, null: false
     t.integer "trigger_count"
     t.integer "delay"
+    t.string "delay_type"
     t.index ["account_id"], name: "index_automation_rules_on_account_id"
   end
 

@@ -66,6 +66,7 @@
               :max-height="160"
               :close-on-select="true"
               :options="[...whatsappInboxes]"
+              @input="updateInboxId"
             >
             </multiselect>
           </div>
@@ -119,6 +120,7 @@
         :inbox-id="targetInbox.id"
         :show-message-button="false"
         :event-options="eventOptions"
+        :template="selectedTemplate"
         @select-template="toggleWaTemplate"
         @change-variable="templateParams"
         @change-event-variable="templateEventParams"
@@ -187,7 +189,10 @@ export default {
   },
 
   data() {
-    return { targetInbox: '' };
+    return {
+      targetInbox: '',
+      selectedTemplate: {},
+    };
   },
   computed: {
     action_name: {
@@ -236,6 +241,21 @@ export default {
       return this.$store.getters['inboxes/getWhatsAppInboxes'];
     },
   },
+
+  mounted() {
+    if (this.value?.action_params) {
+      this.action_params.forEach(action => {
+        const selectedInbox = this.whatsappInboxes.find(
+          inbox => inbox.id === action.inbox_id
+        );
+        if (selectedInbox) {
+          this.targetInbox = selectedInbox;
+          this.selectedTemplate = action;
+        }
+      });
+    }
+  },
+
   methods: {
     removeAction() {
       this.$emit('removeAction');
@@ -252,23 +272,55 @@ export default {
     },
     templateParams(params) {
       const payload = this.value;
-      // const eventVariables = params.filter(param => !!param.value);
-      this.$emit('input', {
-        ...payload,
-        action_params: {
-          ...payload.action_params,
-          processed_params: params,
-        },
-      });
+
+      if (Array.isArray(payload.action_params)) {
+        this.$emit('input', {
+          ...payload,
+          action_params: {
+            ...payload.action_params[0],
+            processed_params: params,
+          },
+        });
+      } else {
+        this.$emit('input', {
+          ...payload,
+          action_params: {
+            ...payload.action_params,
+            processed_params: params,
+          },
+        });
+      }
     },
 
     templateEventParams(params) {
       const payload = this.value;
+
+      if (Array.isArray(payload.action_params)) {
+        this.$emit('input', {
+          ...payload,
+          action_params: {
+            ...payload.action_params[0],
+            processed_events: params,
+          },
+        });
+      } else {
+        this.$emit('input', {
+          ...payload,
+          action_params: {
+            ...payload.action_params,
+            processed_events: params,
+          },
+        });
+      }
+    },
+
+    updateInboxId(selectedInbox) {
+      const payload = this.value || {};
       this.$emit('input', {
         ...payload,
         action_params: {
           ...payload.action_params,
-          processed_events: params,
+          inbox_id: selectedInbox?.id || null,
         },
       });
     },

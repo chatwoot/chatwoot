@@ -119,6 +119,7 @@
         v-if="showEditPopup"
         :on-close="hideEditPopup"
         :selected-response="selectedResponse"
+        :timer-values="timerValues"
         @saveAutomation="submitAutomation"
       />
     </woot-modal>
@@ -177,6 +178,41 @@ export default {
     },
     isSLAEnabled() {
       return this.isFeatureEnabledonAccount(this.accountId, 'sla');
+    },
+
+    timerValues() {
+      return [
+        {
+          name: this.$t('AUTOMATION.ADD.INTERVALS.NONE'),
+          type: 'none',
+          value: null,
+        },
+        {
+          name: this.$t('AUTOMATION.ADD.INTERVALS.1HOUR'),
+          type: 'hours',
+          value: 3600,
+        },
+        {
+          name: this.$t('AUTOMATION.ADD.INTERVALS.1DAY'),
+          type: 'days',
+          value: 86400,
+        },
+        {
+          name: this.$t('AUTOMATION.ADD.INTERVALS.3DAY'),
+          type: 'days',
+          value: 259200,
+        },
+        {
+          name: this.$t('AUTOMATION.ADD.INTERVALS.7DAY'),
+          type: 'days',
+          value: 604800,
+        },
+        {
+          name: this.$t('AUTOMATION.ADD.INTERVALS.CUSTOM'),
+          type: 'none',
+          value: 'custom',
+        },
+      ];
     },
   },
   mounted() {
