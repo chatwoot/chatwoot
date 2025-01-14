@@ -28,7 +28,10 @@ class Integrations::Hook < ApplicationRecord
   validates :app_id, presence: true
   validates :inbox_id, presence: true, if: -> { hook_type == 'inbox' }
   validate :validate_settings_json_schema
-  validates :app_id, uniqueness: { scope: [:account_id], unless: -> { app.present? && app.params[:allow_multiple_hooks].present? } }
+  validates :app_id, uniqueness: { 
+    scope: [:account_id], 
+    unless: -> { (app.present? && app.params[:allow_multiple_hooks].present?) || hook_type == 'account_user' }
+  }  
   validates :account_user_id, presence: true, if: -> { hook_type == 'account_user' }
 
   # TODO: This seems to be only used for slack at the moment
