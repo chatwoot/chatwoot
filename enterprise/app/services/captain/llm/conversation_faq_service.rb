@@ -44,7 +44,7 @@ class Captain::Llm::ConversationFaqService < Captain::Llm::BaseOpenAiService
     similar_faqs = @assistant
                    .responses
                    .nearest_neighbors(:embedding, embedding, distance: 'cosine')
-    Rails.logger.info(similar_faqs.map { |faq| [faq.question, faq.neighbor_distance] })
+    Rails.logger.debug(similar_faqs.map { |faq| [faq.question, faq.neighbor_distance] })
     similar_faqs.select { |record| record.neighbor_distance < DISTANCE_THRESHOLD }
   end
 

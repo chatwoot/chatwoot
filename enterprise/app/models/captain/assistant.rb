@@ -28,6 +28,7 @@ class Captain::Assistant < ApplicationRecord
            through: :captain_inboxes
 
   validates :name, presence: true
+  validates :description, presence: true
   validates :account_id, presence: true
 
   scope :ordered, -> { order(created_at: :desc) }
