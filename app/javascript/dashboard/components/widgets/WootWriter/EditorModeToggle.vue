@@ -1,5 +1,6 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, useTemplateRef } from 'vue';
+import { useElementSize } from '@vueuse/core';
 import { REPLY_EDITOR_MODES } from './constants';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -13,52 +14,64 @@ const props = defineProps({
 
 defineEmits(['toggleMode']);
 
+const wootEditorReplyMode = useTemplateRef('wootEditorReplyMode');
+const wootEditorPrivateMode = useTemplateRef('wootEditorPrivateMode');
+
+const replyModeSize = useElementSize(wootEditorReplyMode);
+const privateModeSize = useElementSize(wootEditorPrivateMode);
+
+/**
+ * Computed boolean indicating if the editor is in private note mode
+ * @type {ComputedRef<boolean>}
+ */
 const isPrivate = computed(() => props.mode === REPLY_EDITOR_MODES.NOTE);
+
+/**
+ * Computes the width of the sliding background chip in pixels
+ * Includes 16px of padding in the calculation
+ * @type {ComputedRef<string>}
+ */
+const width = computed(() => {
+  const widthToUse = isPrivate.value
+    ? privateModeSize.width.value
+    : replyModeSize.width.value;
+
+  const widthWithPadding = widthToUse + 16;
+  return `${widthWithPadding}px`;
+});
+
+/**
+ * Computes the X translation value for the sliding background chip
+ * Translates by the width of reply mode + padding when in private mode
+ * @type {ComputedRef<string>}
+ */
+const translateValue = computed(() => {
+  const xTranslate = isPrivate.value ? replyModeSize.width.value + 16 : 0;
+
+  return `${xTranslate}px`;
+});
 </script>
 
 <template>
   <button
-    class="flex items-center h-8 p-1 transition-all border rounded-full duration-600 bg-n-alpha-2 dark:bg-n-alpha-2 hover:bg-n-alpha-1 dark:hover:brightness-105 group relative duration-300 ease-in-out"
-    :class="[
-      isPrivate
-        ? 'border-n-amber-12/10 dark:border-n-amber-3/30 w-[128px]'
-        : 'border-n-weak dark:border-n-weak ',
-    ]"
+    class="flex items-center w-auto h-8 p-1 transition-all border rounded-full duration-600 bg-n-alpha-2 group relative duration-300 ease-in-out"
     @click="$emit('toggleMode')"
   >
-    <div
-      class="flex absolute items-center justify-center w-6 rounded-full bg-n-alpha-black1 size-6 transition-all duration-300 ease-in-out"
-      :class="[
-        isPrivate
-          ? 'ltr:translate-x-[94px] rtl:-translate-x-[94px]'
-          : 'translate-x-0',
-      ]"
-    >
-      <Icon
-        :icon="
-          isPrivate
-            ? 'i-material-symbols-lock'
-            : 'i-material-symbols-lock-open-rounded'
-        "
-        class="flex-shrink-0 size-3.5"
-        :class="[
-          isPrivate ? 'dark:text-n-amber-9 text-n-amber-11' : 'text-n-slate-10',
-        ]"
-      />
+    <div ref="wootEditorReplyMode" class="flex items-center gap-1 px-2 z-20">
+      <Icon v-show="!isPrivate" icon="i-material-symbols-lock-open-rounded" />
+      {{ $t('CONVERSATION.REPLYBOX.REPLY') }}
     </div>
-    <span
-      class="flex items-center text-sm font-medium transition-all duration-200 w-fit whitespace-nowrap"
-      :class="[
-        isPrivate
-          ? 'text-n-amber-12 ltr:mr-7 ltr:ml-1.5 rtl:ml-7 rtl:mr-1.5'
-          : 'text-n-slate-12 ltr:ml-7 ltr:mr-1.5 rtl:mr-7 rtl:ml-1.5',
-      ]"
-    >
-      {{
-        isPrivate
-          ? $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE')
-          : $t('CONVERSATION.REPLYBOX.REPLY')
-      }}
-    </span>
+    <div ref="wootEditorPrivateMode" class="flex items-center gap-1 px-2 z-20">
+      <Icon v-show="isPrivate" icon="i-material-symbols-lock" />
+      {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
+    </div>
+    <div
+      class="absolute shadow-sm rounded-full h-6 w-[var(--chip-width)] transition-all duration-300 ease-in-out translate-x-[var(--translate-value)]"
+      :class="{
+        'bg-n-solid-1': !isPrivate,
+        'bg-n-amber-2': isPrivate,
+      }"
+      :style="{ '--chip-width': width, '--translate-value': translateValue }"
+    />
   </button>
 </template>
