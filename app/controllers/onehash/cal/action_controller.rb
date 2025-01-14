@@ -1,9 +1,10 @@
 class Onehash::Cal::ActionController < Onehash::IntegrationController
   before_action :validate_create_params, only: :create
   before_action :validate_destroy_params, only: :destroy
+  before_action :initialize_current_account_user, only: :create
+
 
   def create
-    init_current_account_user(params[:account_user_id])
     # Check if an integration hook already exists for the given app_id and account_user_id
     if Integrations::Hook.exists?(app_id: 'onehash_cal', account_user_id: Current.account_user.id)
       render json: { error: 'Some other account already linked' }, status: :unprocessable_entity
@@ -33,15 +34,24 @@ class Onehash::Cal::ActionController < Onehash::IntegrationController
 
     render json: { error: 'Account User Id is required' }, status: :bad_request
   end
+  
+  def initialize_current_account_user
+    init_current_account_user(params[:account_user_id])
+  end
 
   def init_current_account_user(account_user_id)
     if account_user_id.present?
-      Current.account_user = AccountUser.find(account_user_id)
-      logger.info "Set Current.account_user to ID #{account_user_id}"
+      begin
+        Current.account_user = AccountUser.find(account_user_id)
+        logger.info "Set Current.account_user to ID #{account_user_id}"
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: "Account User not found for #{account_user_id}" }, status: :bad_request
+      end
     else
       logger.warn 'No account_user_id found in the state parameter. Unable to set Current.account_user.'
     end
   end
+  
 
   def create_hook(cal_user_id)
     Integrations::Hook.create(
