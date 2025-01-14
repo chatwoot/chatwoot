@@ -6,7 +6,6 @@ class CaptainListener < BaseListener
     return if assistant.blank?
 
     Captain::Llm::ContactNotesService.new(assistant, conversation).generate_and_update_notes if assistant.config['feature_memory'].present?
-    # TODO: Implement the faq feature and enable this
-    # Captain::Llm::FaqGeneratorService.new(conversation.content).generate if assistant.config['feature_faq'].present?
+    Captain::Llm::ConversationFaqService.new(assistant, conversation).generate_and_deduplicate if assistant.config['feature_faq'].present?
   end
 end
