@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Firecrawl Webhooks', type: :request do
-  describe 'POST /enterprise/webhooks/firecrawl/:assistant_id' do
+  describe 'POST /enterprise/webhooks/firecrawl?assistant_id=:assistant_id' do
     let(:assistant_id) { 'asst_123' }
     let(:payload_data) do
       {
@@ -29,7 +29,7 @@ RSpec.describe 'Firecrawl Webhooks', type: :request do
           )
         )
 
-        post("/enterprise/webhooks/firecrawl/#{assistant_id}",
+        post("/enterprise/webhooks/firecrawl?assistant_id=#{assistant_id}",
              params: valid_params,
              as: :json)
 
@@ -46,7 +46,7 @@ RSpec.describe 'Firecrawl Webhooks', type: :request do
       it 'returns success without enqueuing job' do
         expect(Captain::Tools::FirecrawlParserJob).not_to receive(:perform_later)
 
-        post("/enterprise/webhooks/firecrawl/#{assistant_id}",
+        post("/enterprise/webhooks/firecrawl?assistant_id=#{assistant_id}",
              params: valid_params,
              as: :json)
 
