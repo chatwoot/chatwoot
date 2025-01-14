@@ -66,12 +66,16 @@ const translateValue = computed(() => {
       {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
     </div>
     <div
-      class="absolute shadow-sm rounded-full h-6 w-[var(--chip-width)] transition-all duration-300 ease-in-out translate-x-[var(--translate-value)]"
+      class="absolute shadow-sm rounded-full h-6 w-[var(--chip-width)] transition-all duration-300 ease-in-out translate-x-[var(--translate-x)] rtl:translate-x-[var(--rtl-translate-x)]"
       :class="{
         'bg-n-solid-1': !isPrivate,
         'bg-n-amber-2': isPrivate,
       }"
-      :style="{ '--chip-width': width, '--translate-value': translateValue }"
+      :style="{
+        '--chip-width': width,
+        '--translate-x': translateValue,
+        '--rtl-translate-x': `calc(-1 * var(--translate-x))`,
+      }"
     />
   </button>
 </template>
