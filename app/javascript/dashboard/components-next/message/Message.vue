@@ -333,6 +333,22 @@ const contextMenuEnabledOptions = computed(() => {
   };
 });
 
+const shouldRenderMessage = computed(() => {
+  const hasAttachments = !!(props.attachments && props.attachments.length > 0);
+  const isEmailContentType = props.contentType === CONTENT_TYPES.INCOMING_EMAIL;
+  const isUnsupported = props.contentAttributes?.isUnsupported;
+  const isAnIntegrationMessage =
+    props.contentType === CONTENT_TYPES.INTEGRATIONS;
+
+  return (
+    hasAttachments ||
+    props.content ||
+    isEmailContentType ||
+    isUnsupported ||
+    isAnIntegrationMessage
+  );
+});
+
 function openContextMenu(e) {
   const shouldSkipContextMenu =
     e.target?.classList.contains('skip-context-menu') ||
@@ -410,8 +426,10 @@ provideMessageContext({
 });
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <div
+    v-if="shouldRenderMessage"
     :id="`message${props.id}`"
     class="flex w-full message-bubble-container"
     :data-message-id="props.id"
