@@ -8,7 +8,7 @@
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "會話",
+        "NAME": "對話",
         "DESC": "(總計)"
       },
       "INCOMING_MESSAGES": {
@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "去年",
       "CUSTOM_DATE_RANGE": "自定日期範圍"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "最近7天"
-      },
-      {
-        "id": 1,
-        "name": "最近30天"
-      },
-      {
-        "id": 2,
-        "name": "三個月內"
-      },
-      {
-        "id": 3,
-        "name": "六個月內"
-      },
-      {
-        "id": 4,
-        "name": "去年"
-      },
-      {
-        "id": 5,
-        "name": "Custom date range"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "套用",
       "PLACEHOLDER": "Select date range"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "No results found"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -472,8 +450,8 @@
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
       "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN": "打開",
-      "UNATTENDED": "Unattended",
+      "OPEN": "開啟",
+      "UNATTENDED": "無人處理",
       "UNASSIGNED": "未指派的",
       "PENDING": "待處理"
     },
@@ -491,15 +469,15 @@
       "TABLE_HEADER": {
         "AGENT": "客服",
         "OPEN": "OPEN",
-        "UNATTENDED": "Unattended",
+        "UNATTENDED": "無人處理",
         "STATUS": "狀態"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Agent status",
-      "ONLINE": "線上的",
+      "HEADER": "客服狀態",
+      "ONLINE": "上線",
       "BUSY": "忙碌中",
-      "OFFLINE": "離線的"
+      "OFFLINE": "離線"
     }
   },
   "DAYS_OF_WEEK": {

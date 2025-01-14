@@ -61,15 +61,29 @@
         "COPY": "Copiază"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Notificări audio",
-        "NOTE": "Activați notificările audio în tabloul de bord pentru mesaje și conversații noi.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "Nimic",
           "MINE": "Assigned",
-          "ALL": "Toate"
+          "ALL": "Toate",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Alert events for conversations",
           "NONE": "Nimic",
           "ASSIGNED": "Conversații atribuite",
           "ALL_CONVERSATIONS": "Toate conversațiile"
@@ -81,7 +95,9 @@
           "TITLE": "Condiții de alertă:",
           "CONDITION_ONE": "Trimiteți alerte audio numai dacă fereastra browserului nu este activă",
           "CONDITION_TWO": "Trimiteți alerte la fiecare 30 de ani până când toate conversațiile atribuite sunt citite"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Citeşte mai mult"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificări prin e-mail",
@@ -145,11 +161,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Disponibilitate",
-        "STATUSES_LIST": [
-          "Online",
-          "Ocupat",
-          "Deconectat"
-        ],
+        "STATUS": {
+          "ONLINE": "Online",
+          "BUSY": "Ocupat",
+          "OFFLINE": "Deconectat"
+        },
         "SET_AVAILABILITY_SUCCESS": "Avatar a fost șters cu succes",
         "SET_AVAILABILITY_ERROR": "Nu s-a putut seta disponibilitatea, vă rugăm să încercați din nou"
       },
@@ -177,14 +193,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Schimba",
-    "CHANGE_ACCOUNTS": "Comută contul",
-    "CONTACT_SUPPORT": "Contact Suport",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Selectaţi un cont din următoarea listă",
-    "PROFILE_SETTINGS": "Setări profil",
-    "KEYBOARD_SHORTCUTS": "Scurtături Tastatură",
-    "APPEARANCE": "Change Appearance",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Consola",
-    "LOGOUT": "Deconectare"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "zile de încercare rămase.",
@@ -218,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Trimite"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "Verificare...",
@@ -227,11 +249,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "În prezent, vizualizarea:",
     "SWITCH": "Comută contul",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Conversații",
-    "INBOX": "Inbox",
+    "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "Toate conversațiile",
     "MENTIONED_CONVERSATIONS": "Menţionări",
     "PARTICIPATING_CONVERSATIONS": "Participante",
@@ -266,6 +289,8 @@
     "NEW_INBOX": "Inbox nou",
     "REPORTS_CONVERSATION": "Conversații",
     "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
     "CAMPAIGNS": "Campanii",
     "ONGOING": "În derulare",
     "ONE_OFF": "Unul oprit",
@@ -276,6 +301,7 @@
     "REPORTS_INBOX": "Inbox",
     "REPORTS_TEAM": "Echipa",
     "SET_AVAILABILITY_TITLE": "Setați-vă ca",
+    "SET_YOUR_AVAILABILITY": "Setați-vă disponibilitatea",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
@@ -283,17 +309,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Asistenta",
-      "ALL_ARTICLES": "Toate articolele",
-      "MY_ARTICLES": "Articolele mele",
-      "DRAFT": "Schita",
-      "ARCHIVED": "Arhivate",
-      "CATEGORY": "Categorie",
-      "SETTINGS": "Setări",
-      "CATEGORY_EMPTY_MESSAGE": "Nu s-au găsit categorii"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Categorii",
+      "LOCALES": "Limbi",
+      "SETTINGS": "Setări"
     },
+    "CHANNELS": "Canale",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Marcarea automată a offline-ului",
-      "INFO_TEXT": "Permiteți sistemului să vă marcheze automat offline atunci când nu utilizați aplicația sau tabloul de bord."
+      "INFO_TEXT": "Permiteți sistemului să vă marcheze automat offline atunci când nu utilizați aplicația sau tabloul de bord.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Citiți Documente"
   },

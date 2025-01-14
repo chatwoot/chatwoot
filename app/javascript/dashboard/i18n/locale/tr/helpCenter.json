@@ -1,5 +1,10 @@
 {
   "HELP_CENTER": {
+    "TITLE": "Yardım Merkezi",
+    "NEW_PAGE": {
+      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
+      "CREATE_PORTAL_BUTTON": "Portal Oluştur"
+    },
     "HEADER": {
       "FILTER": "Filtrele",
       "SORT": "Sırala",
@@ -190,26 +195,20 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [
-          {
-            "title": "Yardım Merkezi Bilgileri",
-            "route": "new_portal_information",
-            "body": "Portalin temel bilgileri",
-            "CREATE_BASIC_SETTING_BUTTON": "Portal temel ayarlarını oluştur"
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Yardım Merkezi Bilgileri",
+            "BODY": "Portalin temel bilgileri"
           },
-          {
-            "title": "Yardım Merkezi Özelleştirme",
-            "route": "portal_customization",
-            "body": "Portali özelleştir",
-            "UPDATE_PORTAL_BUTTON": "Portal ayarlarını güncelle"
+          "CUSTOMIZATION": {
+            "TITLE": "Yardım Merkezi Özelleştirme",
+            "BODY": "Portali özelleştir"
           },
-          {
-            "title": "Voila! 🎉",
-            "route": "portal_finish",
-            "body": "Her şey hazır!",
-            "FINISH": "Son"
+          "FINISH": {
+            "TITLE": "Voila! 🎉",
+            "BODY": "Her şey hazır!"
           }
-        ],
+        },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Geri",
           "BASIC_SETTINGS_PAGE": {
@@ -250,13 +249,13 @@
         "DOMAIN": {
           "LABEL": "Özel Domain",
           "PLACEHOLDER": "Portal özel domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
           "ERROR": "Geçerli bir domain URL girin"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Ana Sayfa Bağlantısı",
           "PLACEHOLDER": "Portal ana sayfa bağlantısı",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
           "ERROR": "Geçerli bir ana sayfa URL girin"
         },
         "THEME_COLOR": {
@@ -347,6 +346,12 @@
       "API": {
         "ERROR": "Makale arşivlenirken hata oluştu",
         "SUCCESS": "Makale başarıyla arşivlendi"
+      }
+    },
+    "DRAFT_ARTICLE": {
+      "API": {
+        "ERROR": "Error while drafting article",
+        "SUCCESS": "Article drafted successfully"
       }
     },
     "DELETE_ARTICLE": {
@@ -483,6 +488,305 @@
         }
       }
     },
-    "LOADING": "Loading..."
+    "LOADING": "Loading...",
+    "ARTICLES_PAGE": {
+      "ARTICLE_CARD": {
+        "CARD": {
+          "VIEWS": "{count} view | {count} views",
+          "DROPDOWN_MENU": {
+            "PUBLISH": "Yayınla",
+            "DRAFT": "Taslak",
+            "ARCHIVE": "Archive",
+            "DELETE": "Sil"
+          },
+          "STATUS": {
+            "DRAFT": "Taslak",
+            "PUBLISHED": "Yayınlandı",
+            "ARCHIVED": "Arşivlendi"
+          },
+          "CATEGORY": {
+            "UNCATEGORISED": "Uncategorised"
+          }
+        }
+      },
+      "ARTICLES_HEADER": {
+        "TABS": {
+          "ALL": "All articles",
+          "MINE": "Benim",
+          "DRAFT": "Taslak",
+          "PUBLISHED": "Yayınlandı",
+          "ARCHIVED": "Arşivlendi"
+        },
+        "CATEGORY": {
+          "ALL": "All categories"
+        },
+        "LOCALE": {
+          "ALL": "All locales"
+        },
+        "NEW_ARTICLE": "New article"
+      },
+      "EMPTY_STATE": {
+        "ALL": {
+          "TITLE": "Write an article",
+          "SUBTITLE": "Write a rich article, let’s get started!",
+          "BUTTON_LABEL": "New article"
+        },
+        "MINE": {
+          "TITLE": "You haven't written any articles here",
+          "SUBTITLE": "All articles written by you show up here for quick access."
+        },
+        "DRAFT": {
+          "TITLE": "There are no articles in drafts",
+          "SUBTITLE": "Draft articles will appear here"
+        },
+        "PUBLISHED": {
+          "TITLE": "There are no published articles",
+          "SUBTITLE": "Published articles will appear here"
+        },
+        "ARCHIVED": {
+          "TITLE": "There are no articles in the archive",
+          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+        },
+        "CATEGORY": {
+          "TITLE": "There are no articles in this category",
+          "SUBTITLE": "Articles in this category will appear here"
+        }
+      }
+    },
+    "CATEGORY_PAGE": {
+      "CATEGORY_HEADER": {
+        "NEW_CATEGORY": "Yeni kategori",
+        "EDIT_CATEGORY": "Kategori düzenle",
+        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "BREADCRUMB": {
+          "CATEGORY_LOCALE": "Categories ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+        }
+      },
+      "CATEGORY_EMPTY_STATE": {
+        "TITLE": "Hiç kategori bulunamadı",
+        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+      },
+      "CATEGORY_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles"
+      },
+      "CATEGORY_DIALOG": {
+        "CREATE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Kategori başarıyla oluşturuldu",
+            "ERROR_MESSAGE": "Kategori oluşturulamıyor"
+          }
+        },
+        "EDIT": {
+          "API": {
+            "SUCCESS_MESSAGE": "Kategori başarıyla güncellendi",
+            "ERROR_MESSAGE": "Kategori güncellenemiyor"
+          }
+        },
+        "DELETE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Kategori başarıyla silindi",
+            "ERROR_MESSAGE": "Kategori silinemiyor"
+          }
+        },
+        "HEADER": {
+          "CREATE": "Kategori oluştur",
+          "EDIT": "Kategori düzenle",
+          "DESCRIPTION": "Bir kategoriyi düzenlemek, kategoriyi genel portalda güncelleyecektir.",
+          "PORTAL": "Portal",
+          "LOCALE": "Yerel"
+        },
+        "FORM": {
+          "NAME": {
+            "LABEL": "İsim",
+            "PLACEHOLDER": "Kategori adı",
+            "ERROR": "Ad gerekli"
+          },
+          "SLUG": {
+            "LABEL": "Slug",
+            "PLACEHOLDER": "URL'ler için kategori slug'ı",
+            "ERROR": "Slug gereklidir",
+            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Açıklama",
+            "PLACEHOLDER": "Kategori hakkında kısa bir açıklama yapın.",
+            "ERROR": "Açıklama gerekli"
+          }
+        },
+        "BUTTONS": {
+          "CREATE": "Yarat",
+          "EDIT": "Güncelleme",
+          "CANCEL": "İptal Et"
+        }
+      }
+    },
+    "LOCALES_PAGE": {
+      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
+      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALE_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles",
+        "CATEGORIES_COUNT": "{count} category | {count} categories",
+        "DEFAULT": "Varsayılan",
+        "DROPDOWN_MENU": {
+          "MAKE_DEFAULT": "Make default",
+          "DELETE": "Sil"
+        }
+      },
+      "ADD_LOCALE_DIALOG": {
+        "TITLE": "Yeni bir yerel ekleyin",
+        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "COMBOBOX": {
+          "PLACEHOLDER": "Dil seçin..."
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Yerel dil başarıyla eklendi",
+          "ERROR_MESSAGE": "Yerel dil eklenemedi. Lütfen tekrar deneyin."
+        }
+      }
+    },
+    "EDIT_ARTICLE_PAGE": {
+      "HEADER": {
+        "STATUS": {
+          "SAVING": "Kaydediliyor...",
+          "SAVED": "Kaydedildi"
+        },
+        "PREVIEW": "Önizleme",
+        "PUBLISH": "Yayınla",
+        "DRAFT": "Taslak",
+        "ARCHIVE": "Archive",
+        "BACK_TO_ARTICLES": "Back to articles"
+      },
+      "EDIT_ARTICLE": {
+        "MORE_PROPERTIES": "More properties",
+        "UNCATEGORIZED": "Kategorize Edilmemiş",
+        "EDITOR_PLACEHOLDER": "Write something..."
+      },
+      "ARTICLE_PROPERTIES": {
+        "ARTICLE_PROPERTIES": "Article properties",
+        "META_DESCRIPTION": "Meta Açıklama",
+        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
+        "META_TITLE": "Meta Başlık",
+        "META_TITLE_PLACEHOLDER": "Add meta title",
+        "META_TAGS": "Meta Etiketleri",
+        "META_TAGS_PLACEHOLDER": "Add meta tags"
+      },
+      "API": {
+        "ERROR": "Makale kaydedilirken hata oluştu"
+      }
+    },
+    "PORTAL_SWITCHER": {
+      "NEW_PORTAL": "New portal",
+      "PORTALS": "Portallar",
+      "CREATE_PORTAL": "Create and manage multiple portals",
+      "ARTICLES": "makaleler",
+      "DOMAIN": "alan",
+      "PORTAL_NAME": "Portal adı"
+    },
+    "CREATE_PORTAL_DIALOG": {
+      "TITLE": "Create new portal",
+      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
+      "CONFIRM_BUTTON_LABEL": "Yarat",
+      "NAME": {
+        "LABEL": "İsim",
+        "PLACEHOLDER": "User Guide | Chatwoot",
+        "MESSAGE": "Choose an name for your portal.",
+        "ERROR": "Ad gerekli"
+      },
+      "SLUG": {
+        "LABEL": "Slug",
+        "PLACEHOLDER": "user-guide",
+        "ERROR": "Slug gereklidir"
+      }
+    },
+    "PORTAL_SETTINGS": {
+      "FORM": {
+        "AVATAR": {
+          "LABEL": "Logo",
+          "IMAGE_UPLOAD_ERROR": "Resim yüklenemedi! Tekrar deneyin",
+          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
+          "IMAGE_DELETE_SUCCESS": "Logo başarıyla silindi",
+          "IMAGE_DELETE_ERROR": "Unable to delete logo",
+          "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu %{size}MB'dan küçük olmalıdır"
+        },
+        "NAME": {
+          "LABEL": "İsim",
+          "PLACEHOLDER": "Portal adı",
+          "ERROR": "Ad gerekli"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Header text",
+          "PLACEHOLDER": "Portal başlık metni"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Page title",
+          "PLACEHOLDER": "Portal sayfa başlığı"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Home page link",
+          "PLACEHOLDER": "Portal ana sayfa bağlantısı",
+          "ERROR": "Invalid URL. The Home page link must start with 'http://' or 'https://'."
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Portal slug"
+        },
+        "LIVE_CHAT_WIDGET": {
+          "LABEL": "Live chat widget",
+          "PLACEHOLDER": "Select live chat widget",
+          "HELP_TEXT": "Select a live chat widget that will appear on your help center"
+        },
+        "BRAND_COLOR": {
+          "LABEL": "Brand color"
+        },
+        "SAVE_CHANGES": "Save changes"
+      },
+      "CONFIGURATION_FORM": {
+        "CUSTOM_DOMAIN": {
+          "HEADER": "Özel domain",
+          "LABEL": "Özel domain:",
+          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
+          "PLACEHOLDER": "Portal özel domain",
+          "EDIT_BUTTON": "Edit custom domain",
+          "ADD_BUTTON": "Add custom domain",
+          "DIALOG": {
+            "ADD_HEADER": "Add custom domain",
+            "EDIT_HEADER": "Edit custom domain",
+            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
+            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
+            "LABEL": "Özel domain",
+            "PLACEHOLDER": "Portal özel domain",
+            "ERROR": "Custom domain is required"
+          },
+          "DNS_CONFIGURATION_DIALOG": {
+            "HEADER": "DNS configuration",
+            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
+            "HELP_TEXT": "Once this is done, you can reach out to our support to request for the auto-generated SSL certificate.",
+            "CONFIRM_BUTTON_LABEL": "Got it!"
+          }
+        },
+        "DELETE_PORTAL": {
+          "BUTTON": "Delete {portalName}",
+          "HEADER": "Portali Sil",
+          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "DIALOG": {
+            "HEADER": "Sure you want to delete {portalName}?",
+            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
+            "CONFIRM_BUTTON_LABEL": "Sil"
+          }
+        },
+        "EDIT_CONFIGURATION": "Edit configuration"
+      },
+      "API": {
+        "CREATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Portal başarıyla oluşturuldu",
+          "ERROR_MESSAGE": "Unable to create portal"
+        },
+        "UPDATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Portal başarıyla güncellendi",
+          "ERROR_MESSAGE": "Unable to update portal"
+        }
+      }
+    }
   }
 }

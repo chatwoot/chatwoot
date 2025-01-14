@@ -66,6 +66,7 @@ de:
       number_of_records: Limit erreicht. Die maximale Anzahl an benutzerdefinierten Filtern pro Benutzerkonto beträgt 50.
       invalid_attribute: Ungültiger Attribut schlüssel - [%{key}]. Der Schlüssel sollte einer von [%{allowed_keys}] oder ein benutzerdefiniertes Attribut sein, das im Konto definiert ist.
       invalid_operator: Ungültiger Operator. Die erlaubten Operatoren für %{attribute_name} sind [%{allowed_keys}].
+      invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Ungültiger Wert. Die Werte für %{attribute_name} sind ungültig
   reports:
     period: Berichtszeitraum von %{since} bis %{until}

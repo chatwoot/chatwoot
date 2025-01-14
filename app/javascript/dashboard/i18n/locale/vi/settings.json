@@ -10,7 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Mật khẩu của bạn đã được thay đổi thành công",
     "AFTER_EMAIL_CHANGED": "Hồ sơ của bạn đã được cập nhật thành công, vui lòng đăng nhập lại khi thông tin đăng nhập của bạn được thay đổi",
     "FORM": {
-      "PICTURE": "Profile Picture",
+      "PICTURE": "Ảnh hồ sơ",
       "AVATAR": "Hình ảnh hồ sơ cá nhân",
       "ERROR": "Vui lòng sửa lỗi biểu mẫu",
       "REMOVE_IMAGE": "Xoá",
@@ -61,15 +61,29 @@
         "COPY": "Sao Chép"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Âm thanh Thông báo",
-        "NOTE": "Bật âm thanh thông báo trong trang tổng quan cho các tin nhắn và cuộc trò chuyện mới.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "Không có",
           "MINE": "Assigned",
-          "ALL": "Tất cả"
+          "ALL": "Tất cả",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Alert events for conversations",
           "NONE": "Không có",
           "ASSIGNED": "Cuộc trò chuyện được phân công",
           "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện"
@@ -81,7 +95,9 @@
           "TITLE": "Điều kiện cảnh báo:",
           "CONDITION_ONE": "Chỉ gửi cảnh báo âm thanh nếu cửa sổ trình duyệt không hoạt động",
           "CONDITION_TWO": "Gửi thông báo cứ sau 30 giây cho đến khi tất cả các cuộc hội thoại được chỉ định được đọc"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Xem thêm"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Thông Báo Email",
@@ -145,7 +161,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Khả dụng",
-        "STATUSES_LIST": ["Trực Tuyến", "Bận", "Không Trực Tuyến"],
+        "STATUS": {
+          "ONLINE": "Trực Tuyến",
+          "BUSY": "Bận",
+          "OFFLINE": "Không Trực Tuyến"
+        },
         "SET_AVAILABILITY_SUCCESS": "Tính khả dụng đã được thiết lập thành công",
         "SET_AVAILABILITY_ERROR": "Không thể đặt, vui lòng thử lại"
       },
@@ -173,14 +193,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Đổi",
-    "CHANGE_ACCOUNTS": "Chuyển tài khoản",
-    "CONTACT_SUPPORT": "Liên hệ Hỗ trợ",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Chọn một tài khoản từ danh sách sau",
-    "PROFILE_SETTINGS": "Cài Đặt Hồ Sơ Cá Nhân",
+    "PROFILE_SETTINGS": "Profile settings",
     "KEYBOARD_SHORTCUTS": "Phím tắt",
-    "APPEARANCE": "Change Appearance",
-    "SUPER_ADMIN_CONSOLE": "Bảng điều khiển dành cho quản trị viên cấp cao",
-    "LOGOUT": "Đăng xuất"
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "ngày dùng thử còn lại.",
@@ -214,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Gửi"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "Đang xác thực...",
@@ -223,11 +249,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Hiện đang xem:",
     "SWITCH": "Chuyển",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Cuộc trò chuyện",
-    "INBOX": "Hộp thư đến",
+    "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện",
     "MENTIONED_CONVERSATIONS": "Nhắn đến",
     "PARTICIPATING_CONVERSATIONS": "Participating",
@@ -262,6 +289,8 @@
     "NEW_INBOX": "Kênh mới",
     "REPORTS_CONVERSATION": "Các cuộc hội thoại",
     "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
     "CAMPAIGNS": "Chiến dịch",
     "ONGOING": "Đang diễn ra",
     "ONE_OFF": "Một lần",
@@ -272,6 +301,7 @@
     "REPORTS_INBOX": "Kênh",
     "REPORTS_TEAM": "Nhóm",
     "SET_AVAILABILITY_TITLE": "Đặt chính mình như",
+    "SET_YOUR_AVAILABILITY": "Đặt tính khả dụng của bạn",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
@@ -279,17 +309,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Help Center",
-      "ALL_ARTICLES": "Tất cả các bài",
-      "MY_ARTICLES": "Các bài của tôi",
-      "DRAFT": "Nháp",
-      "ARCHIVED": "Lưu trữ",
-      "CATEGORY": "Loại",
-      "SETTINGS": "Cài đặt",
-      "CATEGORY_EMPTY_MESSAGE": "Không tìm thấy danh mục nào"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Danh mục",
+      "LOCALES": "Ngôn ngữ",
+      "SETTINGS": "Cài đặt"
     },
+    "CHANNELS": "Kênh",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Tự động đánh dấu ngoại tuyến",
-      "INFO_TEXT": "Hãy để hệ thống tự động đánh dấu bạn ngoại tuyến khi bạn không sử dụng ứng dụng hoặc trang tổng quan."
+      "INFO_TEXT": "Hãy để hệ thống tự động đánh dấu bạn ngoại tuyến khi bạn không sử dụng ứng dụng hoặc trang tổng quan.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Đọc tài liệu"
   },

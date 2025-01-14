@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Temps d'espera del client",
-        "TOOLTIP_TEXT": "El temps d'espera és {metricValue} (basat en {conversationCount} respostes)"
+        "TOOLTIP_TEXT": "El temps d'espera és {metricValue} (basat en {conversationCount} respostes)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Darrer any",
       "CUSTOM_DATE_RANGE": "Interval de dates personalitzat"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Últims 7 dies"
-      },
-      {
-        "id": 1,
-        "name": "Últims 30 dies"
-      },
-      {
-        "id": 2,
-        "name": "Últims tres mesos"
-      },
-      {
-        "id": 3,
-        "name": "Últims sis mesos"
-      },
-      {
-        "id": 4,
-        "name": "Darrer any"
-      },
-      {
-        "id": 5,
-        "name": "Interval de dates personalitzat"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Aplica",
       "PLACEHOLDER": "Seleccioneu l'interval de dates"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Esborra els filtres",
       "EMPTY_LIST": "No s'ha trobat agents"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -490,7 +468,7 @@
       "NO_AGENTS": "No hi ha converses per part dels agents",
       "TABLE_HEADER": {
         "AGENT": "Agent",
-        "OPEN": "OBRE",
+        "OPEN": "Obrir",
         "UNATTENDED": "Sense assistència",
         "STATUS": "Estat"
       }

@@ -23,13 +23,13 @@
         "NAME": "Pirmās Atbildes Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir {metricValue} (based on {conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir {metricValue} (pamatojoties uz {conversationCount} sarunām)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Atrisināšanas Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir {metricValue} (based on {conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir {metricValue} (pamatojoties uz {conversationCount} sarunām)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Atrisināšanas Skaits",
@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Klienta gaidīšanas laiks",
-        "TOOLTIP_TEXT": "Gaidīšanas laiks ir {metricValue} (pamatojoties uz {conversationCount} atbildēm)"
+        "TOOLTIP_TEXT": "Gaidīšanas laiks ir {metricValue} (pamatojoties uz {conversationCount} atbildēm)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Pagājušais gads",
       "CUSTOM_DATE_RANGE": "Pielāgots datumu diapazons"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Pēdējās 7 dienas"
-      },
-      {
-        "id": 1,
-        "name": "Pēdējās 30 dienas"
-      },
-      {
-        "id": 2,
-        "name": "Pēdējie 3 mēneši"
-      },
-      {
-        "id": 3,
-        "name": "Pēdējie 6 mēneši"
-      },
-      {
-        "id": 4,
-        "name": "Pagājušais gads"
-      },
-      {
-        "id": 5,
-        "name": "Pielāgots datumu diapazons"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Pielietot",
       "PLACEHOLDER": "Izvēlieties datumu diapazonu"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Notīrīt filtru",
       "EMPTY_LIST": "Nav atrasts"
+    },
+    "PAGINATION": {
+      "RESULTS": "Rāda {start} līdz {end} no {total} rezultātiem"
     }
   },
   "AGENT_REPORTS": {
@@ -490,7 +468,7 @@
       "NO_AGENTS": "Aģentu sarunas nenotiek",
       "TABLE_HEADER": {
         "AGENT": "Aģents",
-        "OPEN": "ATVĒRT",
+        "OPEN": "Atvērt",
         "UNATTENDED": "Bez uzraudzības",
         "STATUS": "Statuss"
       }

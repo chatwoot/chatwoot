@@ -66,6 +66,7 @@ ca:
       number_of_records: S'ha arribat al límit. El nombre màxim de filtres personalitzats permesos per a un usuari per compte és de 50.
       invalid_attribute: 'Clau d''atribut no vàlida: [%{key}]. La clau hauria de ser una de [%{allowed_keys}] o un atribut personalitzat definit al compte.'
       invalid_operator: Operador no vàlid. Els operadors permesos per a %{attribute_name} son [%{allowed_keys}].
+      invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Valor no vàlid. Els valors proporcionats per a %{attribute_name} no són vàlids
   reports:
     period: Període d'informes %{since} a %{until}

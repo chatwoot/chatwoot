@@ -61,15 +61,29 @@
         "COPY": "Kopieren"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio-Benachrichtigungen",
-        "NOTE": "Audio-Benachrichtigungen im Dashboard für neue Nachrichten und Unterhaltungen aktivieren.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "Keine",
           "MINE": "Zugewiesen",
-          "ALL": "Alle"
+          "ALL": "Alle",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Ereignisse für Konversationen zu alarmieren:",
+          "TITLE": "Ereignisse für Konversationen zu alarmieren",
           "NONE": "Keine",
           "ASSIGNED": "Zugewiesene Unterhaltungen",
           "ALL_CONVERSATIONS": "Alle Konversationen"
@@ -81,7 +95,9 @@
           "TITLE": "Alarmbedingungen:",
           "CONDITION_ONE": "Audio-Alarm nur dann senden, wenn das Browserfenster nicht aktiv ist",
           "CONDITION_TWO": "Sende Benachrichtigungen alle 30 Sekunden, bis alle zugewiesenen Unterhaltungen gelesen werden"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Mehr erfahren"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-Mail Benachrichtigungen",
@@ -145,11 +161,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Verfügbarkeit",
-        "STATUSES_LIST": [
-          "Online",
-          "Beschäftigt",
-          "Offline"
-        ],
+        "STATUS": {
+          "ONLINE": "Online",
+          "BUSY": "Beschäftigt",
+          "OFFLINE": "Offline"
+        },
         "SET_AVAILABILITY_SUCCESS": "Verfügbarkeit wurde erfolgreich gesetzt",
         "SET_AVAILABILITY_ERROR": "Verfügbarkeit konnte nicht gesetzt werden, bitte versuchen Sie es erneut"
       },
@@ -177,14 +193,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Ändern",
-    "CHANGE_ACCOUNTS": "Benutzerkonto wechseln",
-    "CONTACT_SUPPORT": "Support kontaktieren",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Wählen Sie ein Benutzerkonto aus der folgenden Liste",
-    "PROFILE_SETTINGS": "Profileinstellungen",
-    "KEYBOARD_SHORTCUTS": "Tastenkombinationen",
-    "APPEARANCE": "Aussehen ändern",
-    "SUPER_ADMIN_CONSOLE": "Super-Admin Konsole",
-    "LOGOUT": "Ausloggen"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "Tage der Testversion verbleibend.",
@@ -218,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Abschicken"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "Überprüfen...",
@@ -227,11 +249,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Wird gerade angezeigt:",
     "SWITCH": "Wechseln",
     "INBOX_VIEW": "Posteingangsansicht",
     "CONVERSATIONS": "Gespräche",
-    "INBOX": "Posteingang",
+    "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "Alle Konversationen",
     "MENTIONED_CONVERSATIONS": "Erwähnungen",
     "PARTICIPATING_CONVERSATIONS": "Beteiligt",
@@ -266,6 +289,8 @@
     "NEW_INBOX": "Neuer Posteingang",
     "REPORTS_CONVERSATION": "Gespräche",
     "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
     "CAMPAIGNS": "Kampagnen",
     "ONGOING": "Im Gange",
     "ONE_OFF": "Einmalig",
@@ -276,6 +301,7 @@
     "REPORTS_INBOX": "Posteingang",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Setzen Sie sich als",
+    "SET_YOUR_AVAILABILITY": "Legen Sie Ihre Verfügbarkeit fest",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
@@ -283,17 +309,16 @@
     "REAUTHORIZE": "Ihre Posteingangsverbindung ist abgelaufen. Bitte erneut verbinden,\n um weiterhin Nachrichten empfangen und senden zu können",
     "HELP_CENTER": {
       "TITLE": "Hilfezentrum",
-      "ALL_ARTICLES": "Alle Artikel",
-      "MY_ARTICLES": "Meine Artikel",
-      "DRAFT": "Entwürfe",
-      "ARCHIVED": "Archiviert",
-      "CATEGORY": "Kategorie",
-      "SETTINGS": "Einstellungen",
-      "CATEGORY_EMPTY_MESSAGE": "Keine Kategorien gefunden"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Kategorien",
+      "LOCALES": "Sprachen",
+      "SETTINGS": "Einstellungen"
     },
+    "CHANNELS": "Kanäle",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Automatisch offline markieren",
-      "INFO_TEXT": "Lassen Sie sich vom System automatisch als offline markieren, wenn Sie die App oder das Dashboard nicht verwenden."
+      "INFO_TEXT": "Lassen Sie sich vom System automatisch als offline markieren, wenn Sie die App oder das Dashboard nicht verwenden.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Dokumente lesen"
   },

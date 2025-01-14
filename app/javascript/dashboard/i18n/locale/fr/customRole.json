@@ -22,12 +22,12 @@
       "404": "There are no custom roles available in this account.",
       "TITLE": "Manage custom roles",
       "DESC": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
-      "TABLE_HEADER": [
-        "Nom",
-        "Description",
-        "Permissions",
-        "Actions"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Nom",
+        "DESCRIPTION": "Description",
+        "PERMISSIONS": "Permissions",
+        "ACTIONS": "Actions"
+      }
     },
     "PERMISSIONS": {
       "CONVERSATION_MANAGE": "Manage all conversations",

@@ -111,9 +111,9 @@
           "TEAM": "Không tìm thấy nhóm nào"
         },
         "PLACEHOLDER": {
-          "AGENT": "Tìm kiếm tổng đài viên",
+          "AGENT": "Tìm kiếm nhân viên",
           "TEAM": "Tìm kiếm nhóm",
-          "INPUT": "Tìm thành viên"
+          "INPUT": "Tìm nhân viên"
         }
       }
     }

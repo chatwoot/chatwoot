@@ -1,37 +1,37 @@
 {
   "SLA": {
-    "HEADER": "Service Level Agreements",
+    "HEADER": "Соглашения об уровне обслуживания",
     "ADD_ACTION": "Добавить SLA",
-    "ADD_ACTION_LONG": "Create a new SLA Policy",
-    "DESCRIPTION": "Service Level Agreements (SLAs) are contracts that define clear expectations between your team and customers. They establish standards for response and resolution times, creating a framework for accountability and ensures a consistent, high-quality experience.",
-    "LEARN_MORE": "Learn more about SLA",
-    "LOADING": "Получение SLA",
+    "ADD_ACTION_LONG": "Создать новую политику SLA",
+    "DESCRIPTION": "Соглашения об уровне обслуживания (SLA) — это контракты, которые определяют четкие ожидания между вашей командой и клиентами. Они устанавливают стандарты времени ответа и разрешения проблем, создавая основу для подотчетности и обеспечивая последовательный, высококачественный опыт.",
+    "LEARN_MORE": "Узнать больше о SLA",
+    "LOADING": "Загрузка SLA",
     "PAYWALL": {
-      "TITLE": "Upgrade to create SLAs",
-      "AVAILABLE_ON": "The SLA feature is only available in the Business and Enterprise plans.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "Обновите тарифный план для создания SLA",
+      "AVAILABLE_ON": "Функция SLA доступна только в тарифных планах Business и Enterprise.",
+      "UPGRADE_PROMPT": "Обновите ваш тарифный план, чтобы получить доступ к расширенным функциям, таким как управление командой, автоматизация, пользовательские атрибуты и другие.",
+      "UPGRADE_NOW": "Обновить сейчас",
+      "CANCEL_ANYTIME": "Вы можете изменить или отменить ваш тарифный план в любое время"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "The SLA feature is only available in the paid plans.",
-      "UPGRADE_PROMPT": "Upgrade to a paid plan to access advanced features like audit logs, agent capacity, and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "AVAILABLE_ON": "Функция SLA доступна только в платных тарифных планах.",
+      "UPGRADE_PROMPT": "Перейдите на платный тарифный план, чтобы получить доступ к расширенным функциям, таким как аудит журналов, пропускная способность агентов и другие.",
+      "ASK_ADMIN": "Пожалуйста, обратитесь к вашему администратору для обновления."
     },
     "LIST": {
       "404": "В этой учетной записи нет доступных SLA.",
       "EMPTY": {
         "TITLE_1": "Enterprise P0",
-        "DESC_1": "Issues raised by enterprise customers, that require immediate attention.",
+        "DESC_1": "Проблемы, поднятые корпоративными клиентами, требующие немедленного внимания.",
         "TITLE_2": "Enterprise P1",
-        "DESC_2": "Issues raised by enterprise customers, that needs to be acknowledged quickly."
+        "DESC_2": "Проблемы, поднятые корпоративными клиентами, требующие быстрого подтверждения."
       },
-      "BUSINESS_HOURS_ON": "Время работы включено",
-      "BUSINESS_HOURS_OFF": "Время работы выключено",
+      "BUSINESS_HOURS_ON": "Рабочие часы включены",
+      "BUSINESS_HOURS_OFF": "Рабочие часы отключены",
       "RESPONSE_TYPES": {
         "FRT": "Порог времени первого ответа",
         "NRT": "Порог времени следующего ответа",
-        "RT": "Порог времени решения",
+        "RT": "Порог времени разрешения",
         "SHORT_HAND": {
           "FRT": "FRT",
           "NRT": "NRT",
@@ -43,9 +43,9 @@
       "NAME": {
         "LABEL": "Название SLA",
         "PLACEHOLDER": "Название SLA",
-        "REQUIRED_ERROR": "Название SLA обязательно для заполнения",
-        "MINIMUM_LENGTH_ERROR": "Минимальная длина 2 обязательна",
-        "VALID_ERROR": "Разрешены только алфавиты, числа, дефисы и подчеркивание"
+        "REQUIRED_ERROR": "Название SLA обязательно",
+        "MINIMUM_LENGTH_ERROR": "Минимальная длина — 2 символа",
+        "VALID_ERROR": "Допускаются только буквы, цифры, дефис и нижнее подчеркивание"
       },
       "DESCRIPTION": {
         "LABEL": "Описание",
@@ -56,7 +56,7 @@
         "PLACEHOLDER": "5"
       },
       "NEXT_RESPONSE_TIME": {
-        "LABEL": "Next Response Time",
+        "LABEL": "Время первого ответа",
         "PLACEHOLDER": "5"
       },
       "RESOLUTION_TIME": {
@@ -64,11 +64,11 @@
         "PLACEHOLDER": "60"
       },
       "BUSINESS_HOURS": {
-        "LABEL": "Время работы",
-        "PLACEHOLDER": "Только в рабочее время"
+        "LABEL": "Рабочие часы",
+        "PLACEHOLDER": "Только в рабочие часы"
       },
       "THRESHOLD_TIME": {
-        "INVALID_FORMAT_ERROR": "Threshold should be a number and greater than zero"
+        "INVALID_FORMAT_ERROR": "Пороговое значение должно быть числом и больше нуля"
       },
       "EDIT": "Редактировать",
       "CREATE": "Создать",
@@ -77,32 +77,32 @@
     },
     "ADD": {
       "TITLE": "Добавить SLA",
-      "DESC": "Friendly promises for great service!",
+      "DESC": "Дружелюбные обещания отличного обслуживания!",
       "API": {
-        "SUCCESS_MESSAGE": "SLA успешно добавлено",
-        "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
+        "SUCCESS_MESSAGE": "SLA успешно добавлен",
+        "ERROR_MESSAGE": "Произошла ошибка, пожалуйста, попробуйте снова"
       }
     },
     "DELETE": {
-      "TITLE": "Delete SLA",
+      "TITLE": "Удалить SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA deleted successfully",
-        "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
+        "SUCCESS_MESSAGE": "SLA успешно удален",
+        "ERROR_MESSAGE": "Произошла ошибка, пожалуйста, попробуйте снова"
       },
       "CONFIRM": {
-        "TITLE": "Подтвердите удаление",
-        "MESSAGE": "Are you sure you want to delete ",
+        "TITLE": "Подтвердить удаление",
+        "MESSAGE": "Вы уверены, что хотите удалить ",
         "YES": "Да, удалить ",
-        "NO": "Нет, не удалять "
+        "NO": "Нет, оставить "
       }
     },
     "EVENTS": {
-      "TITLE": "SLA Misses",
+      "TITLE": "Пропуски SLA",
       "FRT": "Время первого ответа",
-      "NRT": "Next response time",
-      "RT": "Resolution time",
-      "SHOW_MORE": "{count} more",
-      "HIDE": "Hide {count} rows"
+      "NRT": "Время первого ответа",
+      "RT": "Время разрешения",
+      "SHOW_MORE": "еще {count}",
+      "HIDE": "Скрыть {count} строк"
     }
   }
 }

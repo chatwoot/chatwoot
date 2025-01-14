@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Kliento laukimo laikas",
-        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Paskutinius metus",
       "CUSTOM_DATE_RANGE": "Pritaikytas datos intervalas"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Paskutines 7 dienas"
-      },
-      {
-        "id": 1,
-        "name": "Paskutines 30 dienų"
-      },
-      {
-        "id": 2,
-        "name": "Paskutinius 3 mėnesius"
-      },
-      {
-        "id": 3,
-        "name": "Paskutinius 6 mėnesius"
-      },
-      {
-        "id": 4,
-        "name": "Paskutinius metus"
-      },
-      {
-        "id": 5,
-        "name": "Pritaikytas datos intervalas"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Taikyti",
       "PLACEHOLDER": "Pasirinkti datos intervalą"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Nieko nerasta"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -490,7 +468,7 @@
       "NO_AGENTS": "Agentų pokalbių nėra",
       "TABLE_HEADER": {
         "AGENT": "Agentas",
-        "OPEN": "ATIDARYTI",
+        "OPEN": "Atidaryti",
         "UNATTENDED": "Be priežiūros",
         "STATUS": "Būsena"
       }

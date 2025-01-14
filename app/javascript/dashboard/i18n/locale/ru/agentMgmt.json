@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Добавить оператора",
     "LOADING": "Загружаем список операторов",
     "DESCRIPTION": "Агент является членом вашей службы поддержки, который может просматривать и отвечать на пользовательские сообщения. В приведенном ниже списке показаны все агенты в вашей учетной записи.",
-    "LEARN_MORE": "Learn about user roles",
+    "LEARN_MORE": "Узнать о ролях пользователей",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Администратор",
       "AGENT": "Оператор"
@@ -19,7 +19,7 @@
       "ACTIONS": "Действия",
       "VERIFIED": "Подтвержденный",
       "VERIFICATION_PENDING": "Неподтвержденный",
-      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+      "AVAILABLE_CUSTOM_ROLE": "Доступные права для пользовательских ролей"
     },
     "ADD": {
       "TITLE": "Добавить оператора",

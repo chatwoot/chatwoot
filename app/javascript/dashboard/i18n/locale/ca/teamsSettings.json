@@ -20,23 +20,18 @@
         "TITLE": "Afegeix agents a l'equip - {teamName}",
         "DESC": "Afegeix agents al teu equip acabat de crear. Això et permet col·laborar com a equip en converses, rebre notificacions sobre esdeveniments nous a la mateixa conversa."
       },
-      "WIZARD": [
-        {
-          "title": "Crear",
-          "route": "settings_teams_new",
-          "body": "Crea un nou equip d'agents."
-        },
-        {
-          "title": "Afegir agents",
-          "route": "settings_teams_add_agents",
-          "body": "Afegeix agents a l'equip."
-        },
-        {
-          "title": "Finalitza",
-          "route": "settings_teams_finish",
-          "body": "Ja estàs preparat!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "Crear",
+        "BODY": "Crea un nou equip d'agents."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Afegir agents",
+        "BODY": "Afegeix agents a l'equip."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Finalitza",
+        "BODY": "Ja estàs preparat!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "Afegeix agents a l'equip - {teamName}",
         "DESC": "Afegeix agents al teu equip acabat de crear. Tots els agents afegits rebran una notificació quan s'assigni una conversa a aquest equip."
       },
-      "WIZARD": [
-        {
-          "title": "Detalls de l'equip",
-          "route": "settings_teams_edit",
-          "body": "Canvia el nom, la descripció i altres detalls."
-        },
-        {
-          "title": "Edita agents",
-          "route": "settings_teams_edit_members",
-          "body": "Edita agents en el teu equip."
-        },
-        {
-          "title": "Finalitza",
-          "route": "settings_teams_edit_finish",
-          "body": "Ja estàs preparat!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Detalls de l'equip",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "Canvia el nom, la descripció i altres detalls."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Edita agents",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "Edita agents en el teu equip."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Finalitza",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "Ja estàs preparat!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "No s'han pogut desar els detalls de l'equip. Torna-ho a provar."

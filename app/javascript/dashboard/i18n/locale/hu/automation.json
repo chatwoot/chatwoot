@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Név",
-        "Leírás",
-        "Aktív",
-        "Létrehozva"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Név",
+        "DESCRIPTION": "Leírás",
+        "ACTIVE": "Aktív",
+        "CREATED_ON": "Létrehozva"
+      },
       "404": "Nem található automatizált szabály"
     },
     "DELETE": {
