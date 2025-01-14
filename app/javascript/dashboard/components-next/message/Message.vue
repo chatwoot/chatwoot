@@ -395,9 +395,12 @@ provideMessageContext({
 <template>
   <div
     :id="`message${props.id}`"
-    class="flex w-full"
+    class="flex w-full message-bubble-container"
     :data-message-id="props.id"
-    :class="[flexOrientationClass, shouldGroupWithNext ? 'mb-2' : 'mb-4']"
+    :class="[
+      flexOrientationClass,
+      shouldGroupWithNext ? 'group-with-next mb-2' : 'mb-4',
+    ]"
   >
     <div v-if="variant === MESSAGE_VARIANTS.ACTIVITY">
       <ActivityBubble :content="content" />
@@ -454,3 +457,15 @@ provideMessageContext({
     </div>
   </div>
 </template>
+
+<style lang="scss">
+.group-with-next + .message-bubble-container {
+  .left-bubble {
+    @apply rounded-tl-sm;
+  }
+
+  .right-bubble {
+    @apply rounded-tr-sm;
+  }
+}
+</style>
