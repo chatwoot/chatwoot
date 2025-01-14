@@ -61,15 +61,29 @@
         "COPY": "Kopēt"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Paziņojumi",
-        "NOTE": "Iespējot audio paziņojumus informācijas panelī jauniem ziņojumiem un sarunām.",
+        "TITLE": "Audio Brīdinājumi",
+        "NOTE": "Ieslēgt audio brīdinājumus informācijas panelī, priekš jauniem ziņojumiem un sarunām.",
+        "PLAY": "Atskaņot skaņu",
         "ALERT_TYPES": {
           "NONE": "Nav",
           "MINE": "Piešķirts",
-          "ALL": "Visi"
+          "ALL": "Visi",
+          "ASSIGNED": "Man piešķirtās sarunas",
+          "UNASSIGNED": "Nepiešķirtās sarunas",
+          "NOTME": "Atvērt citiem piešķirtās sarunas"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "Jūs neesat izvēlējies nevienu opciju, jūs nesaņemsiet audio brīdinājumus.",
+          "ASSIGNED": "Jūs saņemsiet brīdinājumus par jums piešķirtajām sarunām.",
+          "UNASSIGNED": "Jūs saņemsiet brīdinājumus par nepiešķirtām sarunām.",
+          "NOTME": "Jūs saņemsiet brīdinājumus par sarunām, kas piešķirtas citiem.",
+          "ASSIGNED+UNASSIGNED": "Jūs saņemsiet brīdinājumus par piešķirtajām sarunām un visām bez uzraudzības atstātām sarunām.",
+          "ASSIGNED+NOTME": "Jūs saņemsiet brīdinājumus par sarunām, kas piešķirtas jums un citiem, bet ne par sarunām, kas nav piešķirtas.",
+          "NOTME+UNASSIGNED": "Jūs saņemsiet brīdinājumus par sarunām, kas ir bez uzraudzības, kā arī par sarunām, kas piešķirtas citiem.",
+          "ASSIGNED+NOTME+UNASSIGNED": "Jūs saņemsiet brīdinājumus par visām sarunām."
         },
         "ALERT_TYPE": {
-          "TITLE": "Brīdinājuma notikumi sarunām:",
+          "TITLE": "Brīdinājuma notikumi sarunām",
           "NONE": "Nav",
           "ASSIGNED": "Piešķirtās Sarunas",
           "ALL_CONVERSATIONS": "Visas Sarunas"
@@ -81,7 +95,9 @@
           "TITLE": "Brīdinājumu nosacījumi:",
           "CONDITION_ONE": "Sūtīt audio brīdinājumus tikai tad, ja pārlūkprogrammas logs nav aktīvs",
           "CONDITION_TWO": "Sūtīt brīdinājumus ik pēc 30 sekundēm, līdz visas piešķirtās sarunas ir izlasītas"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Automātiskā atskaņošana jūsu pārlūkprogrammā ir atspējota. Lai automātiski dzirdētu brīdinājumus, pārlūkprogrammas iestatījumos iespējojiet skaņas atļauju vai mijiedarbojieties ar lapu.",
+        "READ_MORE": "Lasīt vairāk"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-pasta Ziņojumi",
@@ -145,11 +161,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Pieejamība",
-        "STATUSES_LIST": [
-          "Tiešsaistē",
-          "Aizņemts",
-          "Bezsaistē"
-        ],
+        "STATUS": {
+          "ONLINE": "Tiešsaistē",
+          "BUSY": "Aizņemts",
+          "OFFLINE": "Bezsaistē"
+        },
         "SET_AVAILABILITY_SUCCESS": "Pieejamība ir veiksmīgi iestatīta",
         "SET_AVAILABILITY_ERROR": "Nevarēja iestatīt pieejamību. Lūdzu, mēģiniet vēlreiz"
       },
@@ -177,13 +193,15 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Mainīt",
-    "CHANGE_ACCOUNTS": "Pārslēgt Kontu",
-    "CONTACT_SUPPORT": "Sazināties ar Atbalsta Dienestu",
+    "CHANGE_ACCOUNTS": "Pārslēgt kontu",
+    "SWITCH_WORKSPACE": "Pārslēgt darbvietu",
+    "CONTACT_SUPPORT": "Sazināties ar atbalstu",
     "SELECTOR_SUBTITLE": "Izvēlieties kontu no šī saraksta",
-    "PROFILE_SETTINGS": "Profila Iestatījumi",
-    "KEYBOARD_SHORTCUTS": "Tastatūras Īsinājumtaustiņi",
-    "APPEARANCE": "Mainīt Izskatu",
-    "SUPER_ADMIN_CONSOLE": "Superadministratora Konsole",
+    "PROFILE_SETTINGS": "Profila iestatījumi",
+    "KEYBOARD_SHORTCUTS": "Tastatūras īsinājumtaustiņi",
+    "APPEARANCE": "Mainīt izskatu",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin konsole",
+    "DOCS": "Lasīt dokumentāciju",
     "LOGOUT": "Izrakstīties"
   },
   "APP_GLOBAL": {
@@ -218,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Iesniegt"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "Šis attēls vairs nav pieejams.",
+      "LOADING_FAILED": "Ielāde neizdevās"
     }
   },
   "CONFIRM_EMAIL": "Notiek pārbaude...",
@@ -227,11 +249,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "Nav vienumu",
     "CURRENTLY_VIEWING_ACCOUNT": "Pašlaik skatās:",
     "SWITCH": "Pārslēgt",
     "INBOX_VIEW": "Iesūtnes Skats",
     "CONVERSATIONS": "Sarunas",
-    "INBOX": "Iesūtne",
+    "INBOX": "Mana Iesūtne",
     "ALL_CONVERSATIONS": "Visas Sarunas",
     "MENTIONED_CONVERSATIONS": "Pieminēšanas",
     "PARTICIPATING_CONVERSATIONS": "Piedalās",
@@ -266,6 +289,8 @@
     "NEW_INBOX": "Jauna iesūtne",
     "REPORTS_CONVERSATION": "Sarunas",
     "CSAT": "CSAT",
+    "LIVE_CHAT": "Tiešraides tērzēšana",
+    "SMS": "SMS",
     "CAMPAIGNS": "Kampaņas",
     "ONGOING": "Notiekošs",
     "ONE_OFF": "Vienreizējs",
@@ -276,6 +301,7 @@
     "REPORTS_INBOX": "Iesūtne",
     "REPORTS_TEAM": "Komanda",
     "SET_AVAILABILITY_TITLE": "Iestatīt sevi kā",
+    "SET_YOUR_AVAILABILITY": "Iestatīt savu pieejamību",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Pielāgotas lomas",
     "BETA": "Beta",
@@ -283,17 +309,16 @@
     "REAUTHORIZE": "Jūsu iesūtnes savienojuma termiņš ir beidzies. Lūdzu, pievienojiet vēlreiz\n lai turpinātu saņemt un sūtīt ziņas",
     "HELP_CENTER": {
       "TITLE": "Palīdzības centrs",
-      "ALL_ARTICLES": "Visi Raksti",
-      "MY_ARTICLES": "Mani Raksti",
-      "DRAFT": "Melnraksts",
-      "ARCHIVED": "Arhivēts",
-      "CATEGORY": "Kategorija",
-      "SETTINGS": "Iestatījumi",
-      "CATEGORY_EMPTY_MESSAGE": "Kategorijas nav atrastas"
+      "ARTICLES": "Raksti",
+      "CATEGORIES": "Kategorijas",
+      "LOCALES": "Lokalizācijas",
+      "SETTINGS": "Iestatījumi"
     },
+    "CHANNELS": "Kanāli",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Automātiski atzīmēt bezsaistē",
-      "INFO_TEXT": "Ļaut sistēmai, kad neizmantojat lietotni vai informācijas paneli, automātiski atzīmēt Jūs bezsaistē."
+      "INFO_TEXT": "Ļaut sistēmai, kad neizmantojat lietotni vai informācijas paneli, automātiski atzīmēt Jūs bezsaistē.",
+      "INFO_SHORT": "Automātiski atzīmēt bezsaistē, kad neizmantojat lietotni."
     },
     "DOCS": "Lasīt dokumentus"
   },

@@ -8,28 +8,24 @@
     "LIST": {
       "404": "Nie ma żadnych skrzynek odbiorczych przypisanych do tego konta."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Wybierz kanał",
-        "route": "settings_inbox_new",
-        "body": "Wybierz dostawcę, którego chcesz zintegrować z Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Wybierz kanał",
+        "BODY": "Wybierz dostawcę, którego chcesz zintegrować z Chatwoot."
       },
-      {
-        "title": "Utwórz skrzynkę odbiorczą",
-        "route": "settings_inboxes_page_channel",
-        "body": "Uwierzytelnij swoje konto i utwórz skrzynkę odbiorczą."
+      "INBOX": {
+        "TITLE": "Utwórz skrzynkę odbiorczą",
+        "BODY": "Uwierzytelnij swoje konto i utwórz skrzynkę odbiorczą."
       },
-      {
-        "title": "Dodaj agentów",
-        "route": "settings_inboxes_add_agents",
-        "body": "Dodaj agentów do utworzonej skrzynki odbiorczej."
+      "AGENT": {
+        "TITLE": "Dodaj agentów",
+        "BODY": "Dodaj agentów do utworzonej skrzynki odbiorczej."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "Wszystko jest gotowe!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Wszystko jest gotowe!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nazwa skrzynki odbiorczej",

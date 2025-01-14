@@ -25,12 +25,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nume",
-        "Creat de",
-        "Ultima actualizare de către",
-        "Vizibilitate"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nume",
+        "CREATED BY": "Creat de",
+        "LAST_UPDATED_BY": "Ultima actualizare de către",
+        "VISIBILITY": "Vizibilitate"
+      },
       "404": "Nu s-au găsit macrocomenzi"
     },
     "DELETE": {

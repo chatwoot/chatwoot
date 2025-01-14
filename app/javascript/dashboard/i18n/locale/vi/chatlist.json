@@ -6,6 +6,7 @@
     "LIST": {
       "404": "Không có bất kì hoạt động trò chuyện nào trong nhóm."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Các cuộc hội thoại",
     "MENTION_HEADING": "Nhắn đến",
     "UNATTENDED_HEADING": "Không giám sát",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "Địa điểm"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "có một đường dẫn chia sẻ"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "Không có nội dung",
     "HIDE_QUOTED_TEXT": "Ẩn văn bản được trích dẫn",
     "SHOW_QUOTED_TEXT": "Hiện Văn bản được trích dẫn",
-    "MESSAGE_READ": "\bĐọc"
+    "MESSAGE_READ": "\bĐọc",
+    "SENDING": "Sending"
   }
 }

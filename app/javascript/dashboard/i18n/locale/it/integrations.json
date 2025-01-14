@@ -31,7 +31,7 @@
         },
         "END_POINT": {
           "LABEL": "URL del webhook",
-          "PLACEHOLDER": "Esempio: https://example/api/webhook",
+          "PLACEHOLDER": "Example: {webhookExampleURL}",
           "ERROR": "Inserisci un URL valido"
         },
         "EDIT_SUBMIT": "Aggiorna webhook",
@@ -47,10 +47,10 @@
       "LIST": {
         "404": "Non ci sono webhook configurati per questo account.",
         "TITLE": "Gestisci webhook",
-        "TABLE_HEADER": [
-          "Endpoint Webhook",
-          "Azioni"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Endpoint Webhook",
+          "ACTIONS": "Azioni"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "Modifica",
@@ -90,7 +90,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "Stai utilizzando l'integrazione Slack",
-        "BODY": "<br/><p>Chatwoot ora sincronizzerà tutte le conversazioni in arrivo nel canale <b><i>conversazioni dei clienti</i></b> all'interno del tuo spazio di lavoro Slack.</p><p>Rispondendo a un thread di conversazione nel canale Slack <b><i>conversazioni dei clienti</i></b> verrà creata una risposta al cliente attraverso chatwoot.</p><p>Inizia le risposte con <b><i>nota:</i></b> per creare note private invece che risposte.</p><p>Se il replicante su slack ha un profilo agente in chatwoot sotto la stessa email, le risposte saranno associate di conseguenza.</p><p>Quando il replicante non ha un profilo di agente associato, le risposte saranno fatte dal profilo del bot.</p>",
+        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
         "SELECTED": "selected"
       },
       "SELECT_CHANNEL": {
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "Non ci sono ancora app dashboard configurate su questo account",
         "LOADING": "Recupero delle app dashboard...",
-        "TABLE_HEADER": [
-          "Nome",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "Nome",
+          "ENDPOINT": "Endpoint"
+        },
         "EDIT_TOOLTIP": "Modifica app",
         "DELETE_TOOLTIP": "Elimina app"
       },
@@ -301,6 +301,15 @@
         "SUCCESS": "Issue unlinked successfully",
         "ERROR": "There was an error unlinking the issue, please try again"
       }
+    }
+  },
+  "CAPTAIN": {
+    "NAME": "Captain",
+    "COPILOT": {
+      "SEND_MESSAGE": "Invia messaggio...",
+      "LOADER": "Captain is thinking",
+      "YOU": "You",
+      "USE": "Use this"
     }
   }
 }

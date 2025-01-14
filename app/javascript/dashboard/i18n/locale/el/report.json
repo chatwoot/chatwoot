@@ -29,7 +29,7 @@
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
         "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Χρόνος Ανάλυσης είναι {metricValue} (βασίζεται στις {conversationCount} συνομιλίες)"
+        "TOOLTIP_TEXT": "Ο Χρόνος Ανάλυσης είναι {metricValue} (βασίζεται στις {conversationCount} συνομιλίες)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Τελευταίο έτος",
       "CUSTOM_DATE_RANGE": "Προσαρμοσμένο εύρος ημερομηνιών"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Τελευταίες 7 ημέρες"
-      },
-      {
-        "id": 1,
-        "name": "Τελευταίες 30 ημέρες"
-      },
-      {
-        "id": 2,
-        "name": "Τελευταίοι 3 μήνες"
-      },
-      {
-        "id": 3,
-        "name": "Τελευταίοι 6 μήνες"
-      },
-      {
-        "id": 4,
-        "name": "Τελευταίο έτος"
-      },
-      {
-        "id": 5,
-        "name": "Προσαρμοσμένο εύρος ημερομηνιών"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Εφαρμογή",
       "PLACEHOLDER": "Επιλέξτε εύρος ημερομηνιών"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Δεν βρέθηκαν αποτελέσματα"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -173,7 +151,7 @@
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
         "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Χρόνος Ανάλυσης είναι {metricValue} (βασίζεται στις {conversationCount} συνομιλίες)"
+        "TOOLTIP_TEXT": "Ο Χρόνος Ανάλυσης είναι {metricValue} (βασίζεται στις {conversationCount} συνομιλίες)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -240,7 +218,7 @@
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
         "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Χρόνος Ανάλυσης είναι {metricValue} (βασίζεται στις {conversationCount} συνομιλίες)"
+        "TOOLTIP_TEXT": "Ο Χρόνος Ανάλυσης είναι {metricValue} (βασίζεται στις {conversationCount} συνομιλίες)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -307,7 +285,7 @@
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
         "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Χρόνος Ανάλυσης είναι {metricValue} (βασίζεται στις {conversationCount} συνομιλίες)"
+        "TOOLTIP_TEXT": "Ο Χρόνος Ανάλυσης είναι {metricValue} (βασίζεται στις {conversationCount} συνομιλίες)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -490,7 +468,7 @@
       "NO_AGENTS": "Δεν υπάρχουν συνομιλίες από πράκτορες",
       "TABLE_HEADER": {
         "AGENT": "Πράκτορας",
-        "OPEN": "ΑΝΟΙΓΜΑ",
+        "OPEN": "Ανοιχτές",
         "UNATTENDED": "Χωρίς Παρακολούθηση",
         "STATUS": "Κατάσταση"
       }

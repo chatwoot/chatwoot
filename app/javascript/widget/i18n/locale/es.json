@@ -71,7 +71,7 @@
         "DIAL_CODE_VALID_ERROR": "Por favor seleccione un código de país",
         "VALID_ERROR": "Por favor ingrese un número de teléfono válido",
         "DROPDOWN_EMPTY": "No se encontraron resultados",
-        "DROPDOWN_SEARCH": "Search country"
+        "DROPDOWN_SEARCH": "Buscar país"
       },
       "MESSAGE": {
         "LABEL": "Mensaje",
@@ -93,7 +93,7 @@
   "EMOJI": {
     "PLACEHOLDER": "Buscar emojis",
     "NOT_FOUND": "Ningún emoji coincide con tu búsqueda",
-    "ARIA_LABEL": "Emoji picker"
+    "ARIA_LABEL": "Selector de emoji"
   },
   "CSAT": {
     "TITLE": "Califica tu conversación",

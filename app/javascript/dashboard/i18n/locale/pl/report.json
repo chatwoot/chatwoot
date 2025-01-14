@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Ostatni rok",
       "CUSTOM_DATE_RANGE": "Niestandardowy zakres dat"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Ostatnie 7 dni"
-      },
-      {
-        "id": 1,
-        "name": "Ostatnie 30 dni"
-      },
-      {
-        "id": 2,
-        "name": "Ostatnie 3 miesiące"
-      },
-      {
-        "id": 3,
-        "name": "Ostatnie 6 miesięcy"
-      },
-      {
-        "id": 4,
-        "name": "Ostatni rok"
-      },
-      {
-        "id": 5,
-        "name": "Niestandardowy zakres dat"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Zastosuj",
       "PLACEHOLDER": "Wybierz zakres dat"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Nie znaleziono rekordów"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -490,16 +468,16 @@
       "NO_AGENTS": "Brak rozmów według agentów",
       "TABLE_HEADER": {
         "AGENT": "Agent",
-        "OPEN": "OTWARTE",
+        "OPEN": "Otwórz",
         "UNATTENDED": "Nieobsługiwane",
         "STATUS": "Status"
       }
     },
     "AGENT_STATUS": {
       "HEADER": "Status agenta",
-      "ONLINE": "Online",
+      "ONLINE": "Dostępny",
       "BUSY": "Zajęty",
-      "OFFLINE": "Offline"
+      "OFFLINE": "Niedostępny"
     }
   },
   "DAYS_OF_WEEK": {

@@ -66,6 +66,7 @@ fa:
       number_of_records: سررسید محدودیت. حداکثر تعداد قابل قبول فیلترها برای یک کاربر در هر اکانت 50 می باشند.
       invalid_attribute: کلید ویژگی معتبر نیست (%{key}). کلید باید یکی از %{allowed_keys} باشد یا یک ویژگی سفارشی ایجاد شده در حساب.
       invalid_operator: این عملیات مجاز نیست. عملیات های مجاز برای %{attribute_name} شامل %{allowed_keys} می باشد.
+      invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: مقدار معتبر نیست. مقادیر ارائه شده برای %{attribute_name} معتبر نیست
   reports:
     period: زمان گزارش از %{since} تا %{until}

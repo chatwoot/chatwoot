@@ -10,11 +10,11 @@
       "404": "Não há atalhos disponíveis nesta conta.",
       "TITLE": "Gerenciar Atalhos",
       "DESC": "Respostas Prontas são modelos de resposta predefinidas que podem ser usados para enviar respostas rapidamente durante conversas.",
-      "TABLE_HEADER": [
-        "Atalho",
-        "Conteúdo",
-        "Ações"
-      ]
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Atalho",
+        "CONTENT": "Conteúdo",
+        "ACTIONS": "Ações"
+      }
     },
     "ADD": {
       "TITLE": "Adicionar resposta pronta",
@@ -35,7 +35,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Resposta pronta adicionada com sucesso.",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Tente novamente."
+        "ERROR_MESSAGE": "Não foi possível desconectar o agente robô. Por favor, tente novamente mais tarde."
       }
     },
     "EDIT": {
@@ -57,14 +57,14 @@
       "BUTTON_TEXT": "Alterar",
       "API": {
         "SUCCESS_MESSAGE": "Resposta pronta atualizada com sucesso.",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Tente novamente."
+        "ERROR_MESSAGE": "Não foi possível desconectar o agente robô. Por favor, tente novamente mais tarde."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Excluir",
       "API": {
         "SUCCESS_MESSAGE": "Resposta pronta deletada com sucesso.",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Tente novamente."
+        "ERROR_MESSAGE": "Não foi possível desconectar o agente robô. Por favor, tente novamente mais tarde."
       },
       "CONFIRM": {
         "TITLE": "Confirmar exclusão",

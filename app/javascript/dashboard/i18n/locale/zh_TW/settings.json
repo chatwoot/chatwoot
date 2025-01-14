@@ -63,10 +63,24 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "音效通知",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "無",
           "MINE": "Assigned",
-          "ALL": "所有的"
+          "ALL": "所有的",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
           "TITLE": "Alert events for conversations:",
@@ -81,7 +95,9 @@
           "TITLE": "Alert conditions:",
           "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
           "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Read more"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "電子信箱通知",
@@ -145,7 +161,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "有效的",
-        "STATUSES_LIST": ["線上的", "忙碌中", "離線的"],
+        "STATUS": {
+          "ONLINE": "上線",
+          "BUSY": "忙碌",
+          "OFFLINE": "離線"
+        },
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
         "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
@@ -174,12 +194,14 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "變更",
     "CHANGE_ACCOUNTS": "切換帳戶",
+    "SWITCH_WORKSPACE": "Switch workspace",
     "CONTACT_SUPPORT": "Contact Support",
     "SELECTOR_SUBTITLE": "從以下列表中選擇一個帳戶",
     "PROFILE_SETTINGS": "個人資料設定",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
-    "APPEARANCE": "Change Appearance",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
+    "KEYBOARD_SHORTCUTS": "鍵盤快速鍵",
+    "APPEARANCE": "切換風格",
+    "SUPER_ADMIN_CONSOLE": "系統管理員後台",
+    "DOCS": "Read documentation",
     "LOGOUT": "退出登入"
   },
   "APP_GLOBAL": {
@@ -214,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "送出"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "正在驗證...",
@@ -223,15 +249,16 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
+    "SWITCH": "切換",
     "INBOX_VIEW": "Inbox View",
-    "CONVERSATIONS": "會話",
-    "INBOX": "收件匣",
+    "CONVERSATIONS": "對話",
+    "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "所有對話",
-    "MENTIONED_CONVERSATIONS": "Mentions",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
-    "UNATTENDED_CONVERSATIONS": "Unattended",
+    "MENTIONED_CONVERSATIONS": "被提及",
+    "PARTICIPATING_CONVERSATIONS": "參與中",
+    "UNATTENDED_CONVERSATIONS": "無人處理",
     "REPORTS": "報表",
     "SETTINGS": "設定",
     "CONTACTS": "聯絡人",
@@ -239,62 +266,64 @@
     "HOME": "首頁",
     "AGENTS": "客服",
     "AGENT_BOTS": "機器人",
-    "AUDIT_LOGS": "Audit Logs",
+    "AUDIT_LOGS": "稽核日誌",
     "INBOXES": "收件匣",
     "NOTIFICATIONS": "通知",
     "CANNED_RESPONSES": "預設回覆",
     "INTEGRATIONS": "整合方式",
     "PROFILE_SETTINGS": "個人檔案設定",
     "ACCOUNT_SETTINGS": "帳戶設定",
-    "APPLICATIONS": "Applications",
+    "APPLICATIONS": "應用程序",
     "LABELS": "標籤",
     "CUSTOM_ATTRIBUTES": "自訂屬性",
-    "AUTOMATION": "Automation",
-    "MACROS": "Macros",
+    "AUTOMATION": "自動化",
+    "MACROS": "巨集",
     "TEAMS": "團隊",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
+    "BILLING": "帳單",
+    "CUSTOM_VIEWS_FOLDER": "常用篩選條件",
+    "CUSTOM_VIEWS_SEGMENTS": "分眾",
     "ALL_CONTACTS": "所有聯絡人",
     "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
+    "NEW_LABEL": "新增標籤",
+    "NEW_TEAM": "建立新團隊",
+    "NEW_INBOX": "新增收件匣",
     "REPORTS_CONVERSATION": "對話",
-    "CSAT": "CSAT",
-    "CAMPAIGNS": "Campaigns",
+    "CSAT": "顧客滿意度得分(CSAT)",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
+    "CAMPAIGNS": "行銷活動",
     "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
-    "REPORTS_SLA": "SLA",
+    "ONE_OFF": "開啟 關閉",
+    "REPORTS_SLA": "服務水準協議(SLA)",
     "REPORTS_BOT": "機器人",
     "REPORTS_AGENT": "客服",
     "REPORTS_LABEL": "標籤",
     "REPORTS_INBOX": "收件匣",
     "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "SLA": "SLA",
-    "CUSTOM_ROLES": "Custom Roles",
+    "SET_AVAILABILITY_TITLE": "我的狀態",
+    "SET_YOUR_AVAILABILITY": "設定你的服務時間",
+    "SLA": "服務水準協議(SLA)",
+    "CUSTOM_ROLES": "自訂角色",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "總覽",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Help Center",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
-      "SETTINGS": "設定",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Categories",
+      "LOCALES": "Locales",
+      "SETTINGS": "設定"
     },
+    "CHANNELS": "頻道",
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+      "TEXT": "自動標記為離線",
+      "INFO_TEXT": "當您未使用應用程式或儀表板時，讓系統自動將您標記為離線",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Read docs"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "帳單",
     "CURRENT_PLAN": {
       "TITLE": "Current Plan",
       "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses"

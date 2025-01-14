@@ -38,10 +38,17 @@
     "REMOVE_SELECTION": "Elimina la selecció",
     "DOWNLOAD": "Descarrega",
     "UNKNOWN_FILE_TYPE": "Fitxer desconegut",
-    "SAVE_CONTACT": "Desar",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} ha iniciat una reunió"
+    },
     "UPLOADING_ATTACHMENTS": "Pujant fitxers adjunts...",
     "REPLIED_TO_STORY": "Va respondre a la teva història",
-    "UNSUPPORTED_MESSAGE": "Aquest missatge no està suportat.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Aquest missatge no està suportat. Pots veure aquest missatge a l'aplicació Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Aquest missatge no està suportat. Pots veure aquest missatge a l'aplicació d'Instagram.",
     "SUCCESS_DELETE_MESSAGE": "El missatge s'ha suprimit correctament",
@@ -219,6 +226,10 @@
         "DELETE": "Esborrar",
         "CANCEL": "Cancel·la"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contacte",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -310,7 +321,8 @@
     "TO": "Per",
     "BCC": "Cco",
     "CC": "Cc",
-    "SUBJECT": "Assumpte"
+    "SUBJECT": "Assumpte",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participant",
@@ -335,5 +347,10 @@
     "ORIGINAL_CONTENT": "Contingut original",
     "TRANSLATED_CONTENT": "Contingut traduït",
     "NO_TRANSLATIONS_AVAILABLE": "No hi ha traduccions disponibles per a aquest contingut"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
   }
 }

@@ -68,7 +68,7 @@
         "LABEL": "Telefoonnummer",
         "PLACEHOLDER": "Vul je telefoonnummer in",
         "REQUIRED_ERROR": "Telefoon nummer is vereist",
-        "DIAL_CODE_VALID_ERROR": "Selecteer a.u.b. een landcode",
+        "DIAL_CODE_VALID_ERROR": "Selecteer alstublieft een landcode",
         "VALID_ERROR": "Voer een geldig telefoonnummer in",
         "DROPDOWN_EMPTY": "Geen resultaten gevonden",
         "DROPDOWN_SEARCH": "Search country"
