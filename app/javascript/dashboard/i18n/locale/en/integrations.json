@@ -401,18 +401,18 @@
       }
     },
     "RESPONSES": {
-      "HEADER": "Assistant Responses",
-      "ADD_NEW": "Create a new response",
+      "HEADER": "FAQs",
+      "ADD_NEW": "Create new FAQ",
       "DELETE": {
-        "TITLE": "Are you sure to delete the response?",
+        "TITLE": "Are you sure to delete the FAQ?",
         "DESCRIPTION": "",
         "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The document has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+        "SUCCESS_MESSAGE": "FAQ deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
       },
       "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
       "CREATE": {
-        "TITLE": "Add a Response",
+        "TITLE": "Add an FAQ",
         "SUCCESS_MESSAGE": "The response has been added successfully.",
         "ERROR_MESSAGE": "An error occurred while adding the response. Please try again."
       },
@@ -435,14 +435,14 @@
         }
       },
       "EDIT": {
-        "TITLE": "Update the response",
-        "SUCCESS_MESSAGE": "The response has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the response, please try again."
+        "TITLE": "Update the FAQ",
+        "SUCCESS_MESSAGE": "The FAQ has been successfully updated",
+        "ERROR_MESSAGE": "There was an error updating the FAQ, please try again."
       },
 
       "OPTIONS": {
-        "EDIT_RESPONSE": "Edit response",
-        "DELETE_RESPONSE": "Delete response"
+        "EDIT_RESPONSE": "Edit FAQ",
+        "DELETE_RESPONSE": "Delete FAQ"
       }
     },
     "INBOXES": {
