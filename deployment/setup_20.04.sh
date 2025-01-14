@@ -835,8 +835,8 @@ function upgrade() {
   sleep 3
 
    # Check if CW_VERSION is 4.0 or above
-  if [[ "$(printf '%s\n' "$CW_VERSION" "4.0" | sort -V | head -n 1)" == "4.0" && "$CW_VERSION" != "4.0" ]]; then
-    echo "Chatwoot v4.0+ requires pgvector support in PostgreSQL."
+  if [[ "$(printf '%s\n' "$CW_VERSION" "4.0" | sort -V | head -n 1)" == "4.0" ]]; then
+    echo "Chatwoot v4.0 and above requires pgvector support in PostgreSQL."
     read -p "Does your postgres support pgvector and want to proceed with the upgrade? [Y/n]: " user_input
     user_input=${user_input:-Y}
     if [[ "$user_input" =~ ^([yY][eE][sS]|[yY])$ ]]; then
