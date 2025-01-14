@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Naam",
-        "Beschrijving",
-        "Actief",
-        "Aangemaakt op"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Naam",
+        "DESCRIPTION": "Beschrijving",
+        "ACTIVE": "Actief",
+        "CREATED_ON": "Aangemaakt op"
+      },
       "404": "Geen automatiseringsregels gevonden"
     },
     "DELETE": {

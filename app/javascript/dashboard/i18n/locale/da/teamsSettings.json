@@ -20,23 +20,18 @@
         "TITLE": "Tilføj agenter til team - {teamName}",
         "DESC": "Tilføj agenter til dit nyoprettede team. Dette lader dig samarbejde som et team om samtaler, få besked om nye begivenheder i samme samtale."
       },
-      "WIZARD": [
-        {
-          "title": "Opret",
-          "route": "settings_teams_new",
-          "body": "Opret et nyt team af agenter."
-        },
-        {
-          "title": "Tilføj Agenter",
-          "route": "settings_teams_add_agents",
-          "body": "Tilføj agenter til holdet."
-        },
-        {
-          "title": "Afslut",
-          "route": "settings_teams_finish",
-          "body": "Så er alt klart!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "Opret",
+        "BODY": "Opret et nyt team af agenter."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Tilføj Agenter",
+        "BODY": "Tilføj agenter til holdet."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Afslut",
+        "BODY": "Så er alt klart!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "Tilføj agenter til team - {teamName}",
         "DESC": "Tilføj agenter til dit nyoprettede team. Alle de tilføjede agenter vil blive underrettet, når en samtale er tildelt til dette team."
       },
-      "WIZARD": [
-        {
-          "title": "Team detaljer",
-          "route": "settings_teams_edit",
-          "body": "Skift navn, beskrivelse og andre detaljer."
-        },
-        {
-          "title": "Rediger Agenter",
-          "route": "settings_teams_edit_members",
-          "body": "Rediger agenter i dit team."
-        },
-        {
-          "title": "Afslut",
-          "route": "settings_teams_edit_finish",
-          "body": "Så er alt klart!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Team detaljer",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "Skift navn, beskrivelse og andre detaljer."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Rediger Agenter",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "Rediger agenter i dit team."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Afslut",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "Så er alt klart!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "Kunne ikke gemme teamdetaljerne. Prøv igen."

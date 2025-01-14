@@ -68,10 +68,10 @@
         "LABEL": "Номер телефона",
         "PLACEHOLDER": "Пожалуйста, введите ваш номер телефона",
         "REQUIRED_ERROR": "Требуется указать номер телефона",
-        "DIAL_CODE_VALID_ERROR": "Пожалуйста выберите код страны",
+        "DIAL_CODE_VALID_ERROR": "Пожалуйста, выберите код страны",
         "VALID_ERROR": "Пожалуйста, введите действительный номер телефона",
         "DROPDOWN_EMPTY": "Результаты не найдены",
-        "DROPDOWN_SEARCH": "Search country"
+        "DROPDOWN_SEARCH": "Поиск по стране"
       },
       "MESSAGE": {
         "LABEL": "Сообщение",
@@ -93,7 +93,7 @@
   "EMOJI": {
     "PLACEHOLDER": "Искать эмодзи",
     "NOT_FOUND": "По Вашему запросу не было найдено эмодзи",
-    "ARIA_LABEL": "Emoji picker"
+    "ARIA_LABEL": "Выбор эмодзи"
   },
   "CSAT": {
     "TITLE": "Оцените разговор",

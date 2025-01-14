@@ -71,7 +71,7 @@
         "DIAL_CODE_VALID_ERROR": "请选择国家代码",
         "VALID_ERROR": "请输入一个有效的电话号码",
         "DROPDOWN_EMPTY": "没有检索到相关信息",
-        "DROPDOWN_SEARCH": "Search country"
+        "DROPDOWN_SEARCH": "搜索国家/地区"
       },
       "MESSAGE": {
         "LABEL": "消息",
@@ -82,7 +82,7 @@
     "CAMPAIGN_HEADER": "请在开始对话之前提供您的姓名和电子邮件",
     "IS_REQUIRED": "是必填项",
     "REQUIRED": "必填项",
-    "REGEX_ERROR": "Please provide a valid input"
+    "REGEX_ERROR": "请提供一个有效的值"
   },
   "FILE_SIZE_LIMIT": "文件超过大小 {MAXIMUM_FILE_UPLOAD_SIZE} 附件限制",
   "CHAT_FORM": {
@@ -93,7 +93,7 @@
   "EMOJI": {
     "PLACEHOLDER": "搜索表情符号",
     "NOT_FOUND": "没有适合你的搜索结果",
-    "ARIA_LABEL": "Emoji picker"
+    "ARIA_LABEL": "Emoji选择器"
   },
   "CSAT": {
     "TITLE": "评价您的对话",

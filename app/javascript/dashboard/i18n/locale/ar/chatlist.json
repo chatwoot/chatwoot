@@ -6,6 +6,7 @@
     "LIST": {
       "404": "لا توجد محادثات نشطة في هذه المجموعة."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "المحادثات",
     "MENTION_HEADING": "الإشارات",
     "UNATTENDED_HEADING": "بدون حضور",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "الموقع الجغرافي"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "قام بمشاركة رابط"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "لم يتم العثور على محتوى",
     "HIDE_QUOTED_TEXT": "إخفاء النص المقتبس",
     "SHOW_QUOTED_TEXT": "إظهار النص المقتبس",
-    "MESSAGE_READ": "قراءة"
+    "MESSAGE_READ": "قراءة",
+    "SENDING": "Sending"
   }
 }

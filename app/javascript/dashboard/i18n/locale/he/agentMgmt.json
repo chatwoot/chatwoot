@@ -3,8 +3,8 @@
     "HEADER": "סוכנים",
     "HEADER_BTN_TXT": "הוסף סוכן",
     "LOADING": "טוען רשימת סוכנים",
-    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
-    "LEARN_MORE": "Learn about user roles",
+    "DESCRIPTION": "נציג הוא חלק מצוות התמיכה שלך שיכול לראות ולהגיב להודעות של משתמשים. הרשימה למטה מציגה את כל הנציגים בחשבון שלך.",
+    "LEARN_MORE": "למד עוד על תפקידי משתמשים",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "אדמין",
       "AGENT": "סוכן"
@@ -19,7 +19,7 @@
       "ACTIONS": "פעולות",
       "VERIFIED": "אומת",
       "VERIFICATION_PENDING": "מחכה לאימות",
-      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+      "AVAILABLE_CUSTOM_ROLE": "הרשאות משתמש מותאמות אישית זמינות"
     },
     "ADD": {
       "TITLE": "הוסף סוכן לצוות שלך",
@@ -113,7 +113,7 @@
         "PLACEHOLDER": {
           "AGENT": "חפש נציגים",
           "TEAM": "חפש קבוצות",
-          "INPUT": "Search for agents"
+          "INPUT": "חפש נציגים"
         }
       }
     }

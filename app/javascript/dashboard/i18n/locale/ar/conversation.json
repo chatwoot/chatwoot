@@ -38,10 +38,17 @@
     "REMOVE_SELECTION": "إزالة التحديد",
     "DOWNLOAD": "تحميل",
     "UNKNOWN_FILE_TYPE": "ملف غير معروف",
-    "SAVE_CONTACT": "حفظ",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "بدأ {sender} اجتماعاً"
+    },
     "UPLOADING_ATTACHMENTS": "جاري رفع المرفقات...",
     "REPLIED_TO_STORY": "رد على قصتك",
-    "UNSUPPORTED_MESSAGE": "هذه الرسالة غير مدعومة.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "هذه الرسالة غير مدعومة، يمكنك مشاهدة هذه الرسالة على تطبيق فيسبوك (Messenger).",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "هذه الرسالة غير مدعومة، يمكنك عرض هذه الرسالة على تطبيق Instagram.",
     "SUCCESS_DELETE_MESSAGE": "تم حذف الرسالة بنجاح",
@@ -219,6 +226,10 @@
         "DELETE": "حذف",
         "CANCEL": "إلغاء"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "جهات الاتصال",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -308,16 +319,17 @@
   "EMAIL_HEADER": {
     "FROM": "من",
     "TO": "إلى",
-    "BCC": "Bcc",
-    "CC": "Cc",
-    "SUBJECT": "الموضوع"
+    "BCC": "نسخة خفية من البريد",
+    "CC": "نسخة من البريد",
+    "SUBJECT": "الموضوع",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
-    "SIDEBAR_MENU_TITLE": "شارك",
+    "SIDEBAR_MENU_TITLE": "المشاركة",
     "SIDEBAR_TITLE": "المشاركون في المحادثة",
     "NO_RECORDS_FOUND": "لم يتم العثور على النتائج",
     "ADD_PARTICIPANTS": "اختر المشاركين",
-    "REMANING_PARTICIPANTS_TEXT": "+{count} أخرى",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} آخرون",
     "REMANING_PARTICIPANT_TEXT": "+{count} أخرى",
     "TOTAL_PARTICIPANTS_TEXT": "{count} شخص مشارك.",
     "TOTAL_PARTICIPANT_TEXT": "{count} شخص مشارك.",
@@ -335,5 +347,10 @@
     "ORIGINAL_CONTENT": "المحتوى الأصلي",
     "TRANSLATED_CONTENT": "المحتوى المترجم",
     "NO_TRANSLATIONS_AVAILABLE": "لا توجد ترجمات لهذا المحتوى"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
   }
 }

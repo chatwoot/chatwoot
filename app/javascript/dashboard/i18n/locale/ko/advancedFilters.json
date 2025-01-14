@@ -22,14 +22,23 @@
     "OPERATOR_LABELS": {
       "equal_to": "동일한",
       "not_equal_to": "비동일한",
-      "contains": "포함된",
       "does_not_contain": "포함되지 않은",
       "is_present": "현존하는",
       "is_not_present": "현존하지 않은",
       "is_greater_than": "보다 큰",
       "is_less_than": "보다 작은",
       "days_before": "x 일 전에",
-      "starts_with": "Starts with"
+      "starts_with": "Starts with",
+      "equalTo": "동일한",
+      "notEqualTo": "비동일한",
+      "contains": "포함된",
+      "doesNotContain": "포함되지 않은",
+      "isPresent": "현존하는",
+      "isNotPresent": "현존하지 않은",
+      "isGreaterThan": "보다 큰",
+      "isLessThan": "보다 작은",
+      "daysBefore": "x 일 전에",
+      "startsWith": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "참",
@@ -52,11 +61,14 @@
       "CUSTOM_ATTRIBUTE_NUMBER": "숫자",
       "CUSTOM_ATTRIBUTE_LINK": "링크",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "체크박스",
-      "CREATED_AT": "Created at",
-      "LAST_ACTIVITY": "Last activity"
+      "CREATED_AT": "에 만들어짐",
+      "LAST_ACTIVITY": "최근 활동"
     },
     "ERRORS": {
-      "VALUE_REQUIRED": "값이 필요합니다."
+      "VALUE_REQUIRED": "값이 필요합니다.",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",

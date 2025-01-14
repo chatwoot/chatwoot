@@ -8,28 +8,24 @@
     "LIST": {
       "404": "No hay entradas adjuntas a esta cuenta."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Elegir canal",
-        "route": "settings_inbox_new",
-        "body": "Elija el proveedor que desea integrar con Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Elegir canal",
+        "BODY": "Elija el proveedor que desea integrar con Chatwoot."
       },
-      {
-        "title": "Crear bandeja de entrada",
-        "route": "settings_inboxes_page_channel",
-        "body": "Autenticar tu cuenta y crear una bandeja de entrada."
+      "INBOX": {
+        "TITLE": "Crear bandeja de entrada",
+        "BODY": "Autenticar tu cuenta y crear una bandeja de entrada."
       },
-      {
-        "title": "Añadir agentes",
-        "route": "settings_inboxes_add_agents",
-        "body": "Añadir agentes a la bandeja de entrada creada."
+      "AGENT": {
+        "TITLE": "Añadir agentes",
+        "BODY": "Añadir agentes a la bandeja de entrada creada."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "¡Todo está listo!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "¡Todo está listo!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nombre de la bandeja de entrada",

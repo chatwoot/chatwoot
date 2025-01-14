@@ -18,18 +18,27 @@
       "AND": "和",
       "OR": "或"
     },
-    "INPUT_PLACEHOLDER": "Enter value",
+    "INPUT_PLACEHOLDER": "填写内容",
     "OPERATOR_LABELS": {
       "equal_to": "等于",
       "not_equal_to": "不等于",
-      "contains": "包含",
       "does_not_contain": "不包含",
       "is_present": "存在",
       "is_not_present": "不存在",
       "is_greater_than": "大于",
       "is_less_than": "小于：",
       "days_before": "是 x 天前",
-      "starts_with": "起始于..."
+      "starts_with": "起始于...",
+      "equalTo": "等于",
+      "notEqualTo": "不等于",
+      "contains": "包含",
+      "doesNotContain": "不包含",
+      "isPresent": "存在",
+      "isNotPresent": "不存在",
+      "isGreaterThan": "大于",
+      "isLessThan": "小于：",
+      "daysBefore": "是 x 天前",
+      "startsWith": "起始于..."
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "真的",
@@ -56,7 +65,10 @@
       "LAST_ACTIVITY": "上次操作"
     },
     "ERRORS": {
-      "VALUE_REQUIRED": "必须填写值"
+      "VALUE_REQUIRED": "必须填写值",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "值必须介于 1 到 998 之间。"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "常规筛选器",

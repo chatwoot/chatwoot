@@ -61,15 +61,29 @@
         "COPY": "کپی"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "اعلان های صوتی",
-        "NOTE": "اعلان های صوتی را در داشبورد برای پیام ها و مکالمات جدید فعال کنید.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "هیچکدام",
           "MINE": "اختصاص داده",
-          "ALL": "همه"
+          "ALL": "همه",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Alert events for conversations",
           "NONE": "هیچکدام",
           "ASSIGNED": "مکالمات اختصاص داده شده",
           "ALL_CONVERSATIONS": "همه گفتگوها"
@@ -81,7 +95,9 @@
           "TITLE": "شرط‌های هشدار:",
           "CONDITION_ONE": "فقط در صورتی که پنجره مرورگر فعال نباشد، هشدارهای صوتی را ارسال کنید",
           "CONDITION_TWO": "هر 30 ثانیه یک بار هشدار ارسال کنید تا زمانی که تمام مکالمات اختصاص داده شده خوانده شود"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "ادامه مطلب"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "اعلامیه‌ به ایمیل",
@@ -145,11 +161,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "در دسترس",
-        "STATUSES_LIST": [
-          "آنلاین",
-          "مشغول",
-          "آفلاین"
-        ],
+        "STATUS": {
+          "ONLINE": "آنلاین",
+          "BUSY": "مشغول",
+          "OFFLINE": "آفلاین"
+        },
         "SET_AVAILABILITY_SUCCESS": "در دسترس بودن با موفقیت تنظیم شد",
         "SET_AVAILABILITY_ERROR": "در دسترس بودن تنظیم نشد، لطفا دوباره امتحان کنید"
       },
@@ -177,14 +193,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "تغییر",
-    "CHANGE_ACCOUNTS": "سوییچ به یک حساب دیگر",
-    "CONTACT_SUPPORT": "با پشتیبانی تماس بگیرید",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "از لیست یکی از حساب‌ها را انتخاب کنید",
-    "PROFILE_SETTINGS": "تنظیمات پروفایل",
-    "KEYBOARD_SHORTCUTS": "میانبرهای صفحه‌کلید",
-    "APPEARANCE": "تغییر ظاهر",
-    "SUPER_ADMIN_CONSOLE": "کنسول سوپر مدیر",
-    "LOGOUT": "خروج از حساب‌کاربری"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "روز تا اتمام دوره آزمایشی باقی است.",
@@ -218,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "ثبت"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "در حال تایید...",
@@ -227,11 +249,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "در حال مشاهده:",
     "SWITCH": "تعویض",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "گفتگوها",
-    "INBOX": "صندوق ورودی",
+    "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "همه گفتگوها",
     "MENTIONED_CONVERSATIONS": "اشاره",
     "PARTICIPATING_CONVERSATIONS": "شرکت کننده",
@@ -266,6 +289,8 @@
     "NEW_INBOX": "صندوق ورودی جدید",
     "REPORTS_CONVERSATION": "گفتگوها",
     "CSAT": "رضایت مشتری",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
     "CAMPAIGNS": "کمپین ها",
     "ONGOING": "درحال انجام",
     "ONE_OFF": "یکبار مصرف",
@@ -276,6 +301,7 @@
     "REPORTS_INBOX": "صندوق ورودی",
     "REPORTS_TEAM": "تیم‌",
     "SET_AVAILABILITY_TITLE": "خود را به عنوان",
+    "SET_YOUR_AVAILABILITY": "در دسترس بودن خود را تنظیم کنید",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "آزمایشی",
@@ -283,17 +309,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "مرکز راهنما",
-      "ALL_ARTICLES": "همه مقالات",
-      "MY_ARTICLES": "مقالات من",
-      "DRAFT": "پیش‌نویس",
-      "ARCHIVED": "بایگانی شد",
-      "CATEGORY": "دسته‌بندی",
-      "SETTINGS": "تنظیمات",
-      "CATEGORY_EMPTY_MESSAGE": "هیچ دسته‌بندی‌ای یافت نشد"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "دسته‌بندی‌ها",
+      "LOCALES": "زبان‌های محلی",
+      "SETTINGS": "تنظیمات"
     },
+    "CHANNELS": "کانال‌ها",
     "SET_AUTO_OFFLINE": {
       "TEXT": "علامت گذاری خودکار به صورت آفلاین",
-      "INFO_TEXT": "هنگامی که از برنامه یا پیشخوان استفاده نمی‌کنید، به سیستم اجازه دهید به طور خودکار شما را به صورت آفلاین علامت گذاری کند."
+      "INFO_TEXT": "هنگامی که از برنامه یا پیشخوان استفاده نمی‌کنید، به سیستم اجازه دهید به طور خودکار شما را به صورت آفلاین علامت گذاری کند.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "اسناد را بخوانید"
   },

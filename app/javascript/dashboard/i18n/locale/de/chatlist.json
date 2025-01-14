@@ -6,6 +6,7 @@
     "LIST": {
       "404": "In dieser Gruppe existieren keine aktiven Gespräche."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Gespräche",
     "MENTION_HEADING": "Erwähnungen",
     "UNATTENDED_HEADING": "Unbeaufsichtigt",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "Ort"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "hat eine URL geteilt"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "Kein Inhalt verfügbar",
     "HIDE_QUOTED_TEXT": "Zitierten Text ausblenden",
     "SHOW_QUOTED_TEXT": "Zitierten Text anzeigen",
-    "MESSAGE_READ": "Lesen"
+    "MESSAGE_READ": "Lesen",
+    "SENDING": "Sending"
   }
 }

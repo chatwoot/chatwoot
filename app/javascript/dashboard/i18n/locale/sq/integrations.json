@@ -47,10 +47,10 @@
       "LIST": {
         "404": "There are no webhooks configured for this account.",
         "TITLE": "Manage webhooks",
-        "TABLE_HEADER": [
-          "Webhook endpoint",
-          "Actions"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Webhook endpoint",
+          "ACTIONS": "Actions"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "Edit",
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": [
-          "Name",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "Name",
+          "ENDPOINT": "Endpoint"
+        },
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },
@@ -301,6 +301,15 @@
         "SUCCESS": "Issue unlinked successfully",
         "ERROR": "There was an error unlinking the issue, please try again"
       }
+    }
+  },
+  "CAPTAIN": {
+    "NAME": "Captain",
+    "COPILOT": {
+      "SEND_MESSAGE": "Send message...",
+      "LOADER": "Captain is thinking",
+      "YOU": "Ju",
+      "USE": "Use this"
     }
   }
 }

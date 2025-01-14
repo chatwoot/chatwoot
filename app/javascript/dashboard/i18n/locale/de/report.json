@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Wartezeit des Kunden",
-        "TOOLTIP_TEXT": "Die Wartezeit beträgt {metricValue} (basierend auf {conversationCount} Antworten)"
+        "TOOLTIP_TEXT": "Die Wartezeit beträgt {metricValue} (basierend auf {conversationCount} Antworten)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Letztes Jahr",
       "CUSTOM_DATE_RANGE": "Benutzerdefinierter Zeitraum"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Letzten 7 Tage"
-      },
-      {
-        "id": 1,
-        "name": "Letzte 30 Tage"
-      },
-      {
-        "id": 2,
-        "name": "Die letzten 3 Monate"
-      },
-      {
-        "id": 3,
-        "name": "Die letzten 6 Monate"
-      },
-      {
-        "id": 4,
-        "name": "Letztes Jahr"
-      },
-      {
-        "id": 5,
-        "name": "Benutzerdefinierter Zeitraum"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Übernehmen",
       "PLACEHOLDER": "Zeitraum auswählen"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Filter löschen",
       "EMPTY_LIST": "Keine Ergebnisse gefunden"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -490,7 +468,7 @@
       "NO_AGENTS": "Es existieren keine Konversationen von Agenten",
       "TABLE_HEADER": {
         "AGENT": "Agent",
-        "OPEN": "OFFEN",
+        "OPEN": "Öffnen",
         "UNATTENDED": "Unbeaufsichtigt",
         "STATUS": "Status"
       }

@@ -31,7 +31,7 @@
         },
         "END_POINT": {
           "LABEL": "URL Webhook",
-          "PLACEHOLDER": "Exemplu: https://example/api/webhook",
+          "PLACEHOLDER": "Example: {webhookExampleURL}",
           "ERROR": "Te rog introdu un URL valid"
         },
         "EDIT_SUBMIT": "Actualizați webhook",
@@ -47,10 +47,10 @@
       "LIST": {
         "404": "Nu există webhook-uri configurate pentru acest cont.",
         "TITLE": "Gestionează webhook-uri",
-        "TABLE_HEADER": [
-          "Webhook endpoint",
-          "Actiuni"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Webhook endpoint",
+          "ACTIONS": "Actiuni"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "Editare",
@@ -90,7 +90,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "Utilizarea integrării Slack",
-        "BODY": "<br/><p>Chatwoot va sincroniza acum toate conversațiile primite în canalul <b><i>de conversații cu clienții</i></b> din interiorul locului de muncă slăbit.</p><p>Răspunsul la un fir de conversație în canalul de slăbire <b><i>a conversațiilor clienților</i></b> va crea un răspuns înapoi la client prin chatwoot.</p><p>Începeți răspunsurile cu <b><i>notă:</i></b> pentru a crea note private în loc de răspunsuri.</p><p>În cazul în care replier pe slack are un profil de agent în chatwoot sub același e-mail, răspunsurile vor fi asociate în consecință.</p><p>Atunci când replierul nu are un profil de agent asociat, răspunsurile vor fi făcute din profilul botului.</p>",
+        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
         "SELECTED": "selected"
       },
       "SELECT_CHANNEL": {
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "Nu există încă aplicații de tablou de bord configurate pe acest cont",
         "LOADING": "Preluarea aplicațiilor de tablou de bord...",
-        "TABLE_HEADER": [
-          "Nume",
-          "Punct final"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "Nume",
+          "ENDPOINT": "Punct final"
+        },
         "EDIT_TOOLTIP": "Editarea aplicației",
         "DELETE_TOOLTIP": "Ștergerea aplicației"
       },
@@ -301,6 +301,15 @@
         "SUCCESS": "Issue unlinked successfully",
         "ERROR": "There was an error unlinking the issue, please try again"
       }
+    }
+  },
+  "CAPTAIN": {
+    "NAME": "Captain",
+    "COPILOT": {
+      "SEND_MESSAGE": "Trimite mesaj...",
+      "LOADER": "Captain is thinking",
+      "YOU": "You",
+      "USE": "Use this"
     }
   }
 }
