@@ -11,7 +11,7 @@ class Captain::Llm::ContactAttributesService < Captain::Llm::BaseOpenAiService
   end
 
   def generate_and_update_attributes
-    attributes = generate_attributes
+    generate_attributes
     # to implement the update attributes
   end
 
