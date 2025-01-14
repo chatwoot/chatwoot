@@ -6,6 +6,7 @@
     "LIST": {
       "404": "No hi ha converses actives en aquest grup."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Converses",
     "MENTION_HEADING": "Mencions",
     "UNATTENDED_HEADING": "Sense assistència",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "Ubicació"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "ha compartit una URL"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "No hi ha contingut disponible",
     "HIDE_QUOTED_TEXT": "Amaga text entre cometes",
     "SHOW_QUOTED_TEXT": "Mostra text entre cometes",
-    "MESSAGE_READ": "Llegir"
+    "MESSAGE_READ": "Llegir",
+    "SENDING": "Sending"
   }
 }

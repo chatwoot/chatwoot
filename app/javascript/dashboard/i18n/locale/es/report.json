@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Tiempo de espera del cliente",
-        "TOOLTIP_TEXT": "El tiempo de espera es {metricValue} (basado en {conversationCount} conversaciones)"
+        "TOOLTIP_TEXT": "El tiempo de espera es {metricValue} (basado en {conversationCount} conversaciones)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Último año",
       "CUSTOM_DATE_RANGE": "Rango de fechas personalizado"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Últimos 7 días"
-      },
-      {
-        "id": 1,
-        "name": "Últimos 30 días"
-      },
-      {
-        "id": 2,
-        "name": "Últimos 3 meses"
-      },
-      {
-        "id": 3,
-        "name": "Últimos 6 meses"
-      },
-      {
-        "id": 4,
-        "name": "Último año"
-      },
-      {
-        "id": 5,
-        "name": "Rango de fechas personalizado"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Aplicar",
       "PLACEHOLDER": "Seleccione rango de fechas"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Limpiar filtros",
       "EMPTY_LIST": "No se encontraron resultados"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -490,7 +468,7 @@
       "NO_AGENTS": "No hay conversaciones por agentes",
       "TABLE_HEADER": {
         "AGENT": "Agente",
-        "OPEN": "ABIERTA",
+        "OPEN": "Abrir",
         "UNATTENDED": "Desatendido",
         "STATUS": "Estado"
       }

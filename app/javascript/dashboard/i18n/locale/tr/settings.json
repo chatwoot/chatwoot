@@ -10,7 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Şifreniz başarıyla değiştirildi",
     "AFTER_EMAIL_CHANGED": "Profiliniz başarıyla güncellendi, lütfen giriş bilgileriniz değiştiği için tekrar giriş yapın",
     "FORM": {
-      "PICTURE": "Profile Picture",
+      "PICTURE": "Profil Resmi",
       "AVATAR": "Profil Resmi",
       "ERROR": "Lütfen form hatalarını düzeltin",
       "REMOVE_IMAGE": "Kaldır",
@@ -43,7 +43,7 @@
         "API_SUCCESS": "İmza başarıyla kaydedildi",
         "IMAGE_UPLOAD_ERROR": "Resim yüklenemedi! Tekrar deneyin",
         "IMAGE_UPLOAD_SUCCESS": "Resim başarıyla eklendi. İmzayı kaydetmek için lütfen kaydet'e tıklayın",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu {size}MB'dan küçük olmalıdır"
+        "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu %{size}MB'dan küçük olmalıdır"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "İmzanız",
@@ -61,15 +61,29 @@
         "COPY": "Kopyala"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Sesli Bildirimler",
-        "NOTE": "Yeni mesajlar ve konuşmalar için panelde sesli bildirimleri etkinleştirin.",
+        "TITLE": "Sesli Uyarılar",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Sesi oynat",
         "ALERT_TYPES": {
           "NONE": "Hiç",
-          "MINE": "Assigned",
-          "ALL": "Hepsi"
+          "MINE": "Atanmış",
+          "ALL": "Hepsi",
+          "ASSIGNED": "Bana atanmış konuşmalar",
+          "UNASSIGNED": "Atanmamış konuşmalar",
+          "NOTME": "Başkalarına atanmış açık konuşmalar"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Alert events for conversations",
           "NONE": "Hiçbiri",
           "ASSIGNED": "Atanmış Konuşmalar",
           "ALL_CONVERSATIONS": "Tüm Konuşmalar"
@@ -81,7 +95,9 @@
           "TITLE": "Uyarı koşulları:",
           "CONDITION_ONE": "Tarayıcı penceresi etkin değilse sadece sesli uyarı gönder",
           "CONDITION_TWO": "Atanmış konuşmaların hepsi okunana kadar her 30 saniyede bir uyarı gönder"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Daha fazla bilgi edinin"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-posta Bildirimleri",
@@ -145,7 +161,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Uygunluk",
-        "STATUSES_LIST": ["Çevrimiçi", "Meşgul", "Çevrimdışı"],
+        "STATUS": {
+          "ONLINE": "Çevrimiçi",
+          "BUSY": "Meşgul",
+          "OFFLINE": "Çevrimdışı"
+        },
         "SET_AVAILABILITY_SUCCESS": "Uygunluk başarıyla ayarlandı",
         "SET_AVAILABILITY_ERROR": "Uygunluk ayarlanamadı, lütfen tekrar deneyin"
       },
@@ -173,14 +193,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Durumu Değiştir",
-    "CHANGE_ACCOUNTS": "Hesapları Değiştir",
-    "CONTACT_SUPPORT": "Destek İle İletişime Geç",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Listeden bir hesap seçin",
-    "PROFILE_SETTINGS": "Profil ayarları",
-    "KEYBOARD_SHORTCUTS": "Klavye Kısayolları",
-    "APPEARANCE": "Görünüm",
-    "SUPER_ADMIN_CONSOLE": "Süper Yönetici Konsolu",
-    "LOGOUT": "Çıkış Yap"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "gün deneme kaldı.",
@@ -214,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Gönder"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "Doğrulama yapılıyor...",
@@ -223,11 +249,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Şu an görüntülüyor:",
     "SWITCH": "Değiştir",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Konuşmalar",
-    "INBOX": "Gelen Kutusu",
+    "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "Tüm Görüşmeler",
     "MENTIONED_CONVERSATIONS": "Bahsedilmeler",
     "PARTICIPATING_CONVERSATIONS": "Katılımcılar",
@@ -250,7 +277,7 @@
     "LABELS": "Etiketler",
     "CUSTOM_ATTRIBUTES": "Özel Nitelikler",
     "AUTOMATION": "Otomasyon",
-    "MACROS": "Makrolar",
+    "MACROS": "Kısayollar",
     "TEAMS": "Ekipler",
     "BILLING": "Fatura",
     "CUSTOM_VIEWS_FOLDER": "Klasörler",
@@ -262,6 +289,8 @@
     "NEW_INBOX": "Yeni gelen kutusu",
     "REPORTS_CONVERSATION": "Konuşmalar",
     "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
     "CAMPAIGNS": "Kampanyalar",
     "ONGOING": "Devam Eden",
     "ONE_OFF": "Tek Seferlik",
@@ -272,6 +301,7 @@
     "REPORTS_INBOX": "Gelen kutusu",
     "REPORTS_TEAM": "Ekip",
     "SET_AVAILABILITY_TITLE": "Kendini şu şekilde ayarla",
+    "SET_YOUR_AVAILABILITY": "Uygunluk Durumunuzu Ayarlayın",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
@@ -279,17 +309,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Yardım Merkezi",
-      "ALL_ARTICLES": "Tüm Makaleler",
-      "MY_ARTICLES": "Benim Makalelerim",
-      "DRAFT": "Taslak",
-      "ARCHIVED": "Arşivlenmiş",
-      "CATEGORY": "Kategori",
-      "SETTINGS": "Ayarlar",
-      "CATEGORY_EMPTY_MESSAGE": "Kategori bulunamadı"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Kategoriler",
+      "LOCALES": "Yereller",
+      "SETTINGS": "Ayarlar"
     },
+    "CHANNELS": "Kanallar",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Otomatik olarak çevrimdışı olarak işaretle",
-      "INFO_TEXT": "Sistem sizi otomatik olarak çevrimdışı işaretlesin, uygulamayı veya gösterge tablosunu kullanmıyorsanız."
+      "INFO_TEXT": "Sistem sizi otomatik olarak çevrimdışı işaretlesin, uygulamayı veya gösterge tablosunu kullanmıyorsanız.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Dokümantasyonu oku"
   },

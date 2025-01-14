@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Năm ngoái",
       "CUSTOM_DATE_RANGE": "Phạm vi ngày tùy chỉnh"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "7 ngày cuối"
-      },
-      {
-        "id": 1,
-        "name": "30 ngày cuối"
-      },
-      {
-        "id": 2,
-        "name": "3 tháng vừa qua"
-      },
-      {
-        "id": 3,
-        "name": "6 tháng vừa qua"
-      },
-      {
-        "id": 4,
-        "name": "Năm ngoái"
-      },
-      {
-        "id": 5,
-        "name": "Phạm vi ngày tùy chỉnh"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Áp dụng",
       "PLACEHOLDER": "Chọn phạm vi ngày"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Không tìm thấy kết quả"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -490,7 +468,7 @@
       "NO_AGENTS": "Không có cuộc hội thoại nào của các tổng đài viên",
       "TABLE_HEADER": {
         "AGENT": "Nhà cung cấp",
-        "OPEN": "MỞ",
+        "OPEN": "Mở",
         "UNATTENDED": "Không giám sát",
         "STATUS": "Trạng thái"
       }

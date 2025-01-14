@@ -4,8 +4,8 @@
     "LOADING_CHART": "Загрузка данных графика...",
     "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
     "DOWNLOAD_AGENT_REPORTS": "Сказать отчёт по агентам",
-    "DATA_FETCHING_FAILED": "Не удалось получить данные, пожалуйста, повторите попытку позже.",
-    "SUMMARY_FETCHING_FAILED": "Не удалось получить итог, повторите попытку позже.",
+    "DATA_FETCHING_FAILED": "Не удалось загрузить данные. Пожалуйста, попробуйте позже.",
+    "SUMMARY_FETCHING_FAILED": "Не удалось загрузить сводку. Пожалуйста, попробуйте позже.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Диалоги",
@@ -22,13 +22,13 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Время первого ответа",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
+        "INFO_TEXT": "Общее количество диалогов для расчета:",
         "TOOLTIP_TEXT": "Время первого ответа — {metricValue} (на основе {conversationCount} сообщений)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Время Завершения",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
+        "INFO_TEXT": "Общее количество диалогов для расчета:",
         "TOOLTIP_TEXT": "Время на решение {metricValue} (основано на {conversationCount} разговорах)"
       },
       "RESOLUTION_COUNT": {
@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Время ожидания клиента",
-        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
+        "TOOLTIP_TEXT": "Время ожидания {metricValue} (на основе {conversationCount} ответов)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "За прошлый год",
       "CUSTOM_DATE_RANGE": "Настраиваемый диапазон даты"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Последние 7 дней"
-      },
-      {
-        "id": 1,
-        "name": "Последние 30 дней"
-      },
-      {
-        "id": 2,
-        "name": "Последние 3 месяца"
-      },
-      {
-        "id": 3,
-        "name": "Последние 6 месяцев"
-      },
-      {
-        "id": 4,
-        "name": "За прошлый год"
-      },
-      {
-        "id": 5,
-        "name": "Настраиваемый диапазон даты"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Применить",
       "PLACEHOLDER": "Выберите диапазон дат"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Очистить фильтр",
       "EMPTY_LIST": "Результаты не найдены"
+    },
+    "PAGINATION": {
+      "RESULTS": "Показаны {start} - {end} из {total} результатов"
     }
   },
   "AGENT_REPORTS": {
@@ -166,13 +144,13 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Время первого ответа",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
+        "INFO_TEXT": "Общее количество диалогов, используемых для вычисления:",
         "TOOLTIP_TEXT": "Время первого ответа — {metricValue} (на основе {conversationCount} сообщений)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Время Завершения",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
+        "INFO_TEXT": "Общее количество диалогов, используемых для вычисления:",
         "TOOLTIP_TEXT": "Время на решение {metricValue} (основано на {conversationCount} разговорах)"
       },
       "RESOLUTION_COUNT": {
@@ -233,13 +211,13 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Время первого ответа",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
+        "INFO_TEXT": "Общее количество диалогов, используемых для вычисления:",
         "TOOLTIP_TEXT": "Время первого ответа — {metricValue} (на основе {conversationCount} сообщений)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Время Завершения",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
+        "INFO_TEXT": "Общее количество диалогов, используемых для вычисления:",
         "TOOLTIP_TEXT": "Время на решение {metricValue} (основано на {conversationCount} разговорах)"
       },
       "RESOLUTION_COUNT": {
@@ -300,13 +278,13 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Время первого ответа",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
+        "INFO_TEXT": "Общее количество диалогов, используемых для вычисления:",
         "TOOLTIP_TEXT": "Время первого ответа — {metricValue} (на основе {conversationCount} сообщений)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Время Завершения",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
+        "INFO_TEXT": "Общее количество диалогов, используемых для вычисления:",
         "TOOLTIP_TEXT": "Время на решение {metricValue} (основано на {conversationCount} разговорах)"
       },
       "RESOLUTION_COUNT": {
@@ -367,13 +345,13 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Время первого ответа",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
+        "INFO_TEXT": "Общее количество диалогов, используемых для вычисления:",
         "TOOLTIP_TEXT": "Время первого ответа — {metricValue} (на основе {conversationCount} сообщений)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Время Завершения",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
+        "INFO_TEXT": "Общее количество диалогов, используемых для вычисления:",
         "TOOLTIP_TEXT": "Время на решение {metricValue} (основано на {conversationCount} разговорах)"
       },
       "RESOLUTION_COUNT": {
@@ -446,23 +424,23 @@
     }
   },
   "BOT_REPORTS": {
-    "HEADER": "Bot Reports",
+    "HEADER": "Отчеты о боте",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
-        "LABEL": "No. of Conversations",
-        "TOOLTIP": "Total number of conversations handled by the bot"
+        "LABEL": "Количество диалогов",
+        "TOOLTIP": "Общее количество диалогов, обработанных ботом"
       },
       "TOTAL_RESPONSES": {
-        "LABEL": "Total Responses",
-        "TOOLTIP": "Total number of responses sent by the bot"
+        "LABEL": "Всего ответов",
+        "TOOLTIP": "Общее количество ответов, отправленных ботом"
       },
       "RESOLUTION_RATE": {
-        "LABEL": "Resolution Rate",
-        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+        "LABEL": "Скорость разрешения",
+        "TOOLTIP": "Общее количество диалогов, разрешенных ботом / Общее количество диалогов, обработанных ботом * 100"
       },
       "HANDOFF_RATE": {
-        "LABEL": "Handoff Rate",
-        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+        "LABEL": "Частота передач",
+        "TOOLTIP": "Общее количество диалогов, передаваемых агентам / Общее количество диалогов, обрабатываемых ботом * 100"
       }
     }
   },
@@ -471,7 +449,7 @@
     "LIVE": "Онлайн",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Открытые диалоги",
-      "LOADING_MESSAGE": "Загрузка метрик разговора...",
+      "LOADING_MESSAGE": "Загрузка метрик диалогов...",
       "OPEN": "Открытых",
       "UNATTENDED": "Неотвеченные",
       "UNASSIGNED": "Неназначен",
@@ -482,7 +460,7 @@
       "NO_CONVERSATIONS": "Нет сообщений",
       "CONVERSATION": "{count} разговор",
       "CONVERSATIONS": "{count} разговоров",
-      "DOWNLOAD_REPORT": "Download report"
+      "DOWNLOAD_REPORT": "Скачать отчет"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Диалоги по операторам",
@@ -490,7 +468,7 @@
       "NO_AGENTS": "Нет диалогов связанных с операторами",
       "TABLE_HEADER": {
         "AGENT": "Оператор",
-        "OPEN": "ОТКРЫТЫХ",
+        "OPEN": "Открыть",
         "UNATTENDED": "Неотвеченные",
         "STATUS": "Статус"
       }
@@ -513,10 +491,10 @@
   },
   "SLA_REPORTS": {
     "HEADER": "Отчеты по SLA",
-    "NO_RECORDS": "SLA applied conversations are not available.",
+    "NO_RECORDS": "Разговоры с применением SLA недоступны.",
     "LOADING": "Загрузка данных по SLA...",
     "DOWNLOAD_SLA_REPORTS": "Скачать отчеты по SLA",
-    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "DOWNLOAD_FAILED": "Не удалось загрузить отчеты по SLA",
     "DROPDOWN": {
       "ADD_FIlTER": "Добавить фильтр",
       "CLEAR_ALL": "Очистить всё",
@@ -532,24 +510,24 @@
         "TEAMS": "Название команды"
       },
       "SLA": "Политика SLA",
-      "INBOXES": "Электронная почта",
+      "INBOXES": "Входящие",
       "AGENTS": "Оператор",
       "LABELS": "Метка",
       "TEAMS": "Команда"
     },
-    "WITH": "with",
+    "WITH": "с",
     "METRICS": {
       "HIT_RATE": {
-        "LABEL": "Hit Rate",
-        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+        "LABEL": "Уровень выполнения",
+        "TOOLTIP": "Процент успешно выполненных SLA из общего числа созданных"
       },
       "NO_OF_MISSES": {
-        "LABEL": "Number of Misses",
-        "TOOLTIP": "Total SLA misses in a certain period"
+        "LABEL": "Количество пропущенных SLA",
+        "TOOLTIP": "Общее количество пропущенных SLA за определенный период"
       },
       "NO_OF_CONVERSATIONS": {
-        "LABEL": "Number of Conversations",
-        "TOOLTIP": "Общее количество разговоров с SLA"
+        "LABEL": "Количество диалогов",
+        "TOOLTIP": "Общее количество диалогов с SLA"
       }
     },
     "TABLE": {

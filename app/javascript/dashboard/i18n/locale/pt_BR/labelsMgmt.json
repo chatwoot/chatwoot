@@ -3,18 +3,18 @@
     "HEADER": "Marcadores",
     "HEADER_BTN_TXT": "Adicionar marcador",
     "LOADING": "Buscando marcadores",
-    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
-    "LEARN_MORE": "Aprenda mais sobre rótulos",
+    "DESCRIPTION": "As etiquetas ajudam você a categorizar e priorizar conversas e leads. Você pode atribuir uma etiqueta a uma conversa ou contato usando o painel lateral.",
+    "LEARN_MORE": "Aprenda mais sobre etiquetas",
     "SEARCH_404": "Não existem itens correspondentes a esta consulta",
     "LIST": {
       "404": "Não há marcadores disponíveis nesta conta.",
       "TITLE": "Gerenciar marcadores",
       "DESC": "Marcadores permitem agrupar as conversas.",
-      "TABLE_HEADER": [
-        "Nome",
-        "Descrição",
-        "Cor"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Nome",
+        "DESCRIPTION": "Descrição",
+        "COLOR": "Cor"
+      }
     },
     "FORM": {
       "NAME": {

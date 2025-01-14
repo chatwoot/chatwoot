@@ -1,126 +1,150 @@
 {
   "CAMPAIGN": {
-    "HEADER": "Campañas",
-    "SIDEBAR_TXT": "Los mensajes proactivos permiten al cliente enviar mensajes a sus contactos, lo que generaría más conversaciones. Haga clic en <b>Añadir Campaña</b> para crear una nueva campaña. También puede editar o borrar una campaña existente haciendo clic en el botón de Editar o Borrar.",
-    "HEADER_BTN_TXT": {
-      "ONE_OFF": "Crear una campaña apagada",
-      "ONGOING": "Crear una campaña en curso"
-    },
-    "ADD": {
-      "TITLE": "Crear campaña",
-      "DESC": "Los mensajes proactivos permiten al cliente enviar mensajes a sus contactos, lo que generaría más conversaciones.",
-      "CANCEL_BUTTON_TEXT": "Cancelar",
-      "CREATE_BUTTON_TEXT": "Crear",
-      "FORM": {
-        "TITLE": {
-          "LABEL": "Título",
-          "PLACEHOLDER": "Por favor escriba un título para la campaña",
-          "ERROR": "El título es obligatorio"
+    "LIVE_CHAT": {
+      "HEADER_TITLE": "Live chat campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "CARD": {
+        "STATUS": {
+          "ENABLED": "Activado",
+          "DISABLED": "Deshabilitado"
         },
-        "SCHEDULED_AT": {
-          "LABEL": "Programar tiempo",
-          "PLACEHOLDER": "Por favor, seleccione la hora",
-          "CONFIRM": "Confirmar",
-          "ERROR": "El tiempo programado es requerido"
-        },
-        "AUDIENCE": {
-          "LABEL": "Audiencia",
-          "PLACEHOLDER": "Seleccione las etiquetas personalizadas",
-          "ERROR": "El público es requerido"
-        },
-        "INBOX": {
-          "LABEL": "Seleccione una bandeja de entrada",
-          "PLACEHOLDER": "Seleccione una bandeja de entrada",
-          "ERROR": "Se requiere buzón de entrada"
-        },
-        "MESSAGE": {
-          "LABEL": "Mensaje",
-          "PLACEHOLDER": "Por favor escriba el mensaje para la campaña",
-          "ERROR": "El mensaje es obligatorio"
-        },
-        "SENT_BY": {
-          "LABEL": "Enviado por",
-          "PLACEHOLDER": "Por favor seleccione el contenido de la campaña",
-          "ERROR": "El remitente es obligatorio"
-        },
-        "END_POINT": {
-          "LABEL": "URL",
-          "PLACEHOLDER": "Por favor escriba el URL",
-          "ERROR": "Por favor, introduzca una URL válida"
-        },
-        "TIME_ON_PAGE": {
-          "LABEL": "Tiempo en la página (segundos)",
-          "PLACEHOLDER": "Por favor escriba la hora",
-          "ERROR": "La hora en la página es obligatoria"
-        },
-        "ENABLED": "Habilitar campaña",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "Activar sólo durante horas de trabajo",
-        "SUBMIT": "Añadir campaña"
+        "CAMPAIGN_DETAILS": {
+          "SENT_BY": "Enviado por",
+          "BOT": "Bot",
+          "FROM": "De",
+          "URL": "URL:"
+        }
       },
-      "API": {
-        "SUCCESS_MESSAGE": "campaña creada satisfactoriamente",
-        "ERROR_MESSAGE": "Se presentó un error. Por favor intente nuevamente."
+      "EMPTY_STATE": {
+        "TITLE": "No live chat campaigns are available",
+        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+      },
+      "CREATE": {
+        "TITLE": "Create a live chat campaign",
+        "CANCEL_BUTTON_TEXT": "Cancelar",
+        "CREATE_BUTTON_TEXT": "Crear",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Título",
+            "PLACEHOLDER": "Por favor escriba un título para la campaña",
+            "ERROR": "El título es obligatorio"
+          },
+          "MESSAGE": {
+            "LABEL": "Mensaje",
+            "PLACEHOLDER": "Por favor escriba el mensaje para la campaña",
+            "ERROR": "El mensaje es obligatorio"
+          },
+          "INBOX": {
+            "LABEL": "Seleccione una bandeja de entrada",
+            "PLACEHOLDER": "Seleccione una bandeja de entrada",
+            "ERROR": "Se requiere buzón de entrada"
+          },
+          "SENT_BY": {
+            "LABEL": "Enviado por",
+            "PLACEHOLDER": "Please select sender",
+            "ERROR": "El remitente es obligatorio"
+          },
+          "END_POINT": {
+            "LABEL": "URL",
+            "PLACEHOLDER": "Por favor escriba el URL",
+            "ERROR": "Por favor, introduzca una URL válida"
+          },
+          "TIME_ON_PAGE": {
+            "LABEL": "Tiempo en la página (segundos)",
+            "PLACEHOLDER": "Por favor escriba la hora",
+            "ERROR": "La hora en la página es obligatoria"
+          },
+          "OTHER_PREFERENCES": {
+            "TITLE": "Other preferences",
+            "ENABLED": "Habilitar campaña",
+            "TRIGGER_ONLY_BUSINESS_HOURS": "Activar sólo durante horas de trabajo"
+          },
+          "BUTTONS": {
+            "CREATE": "Crear",
+            "CANCEL": "Cancelar"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
+            "ERROR_MESSAGE": "Se presentó un error. Por favor intente nuevamente."
+          }
+        }
+      },
+      "EDIT": {
+        "TITLE": "Edit live chat campaign",
+        "FORM": {
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
+            "ERROR_MESSAGE": "Se presentó un error. Por favor intente nuevamente."
+          }
+        }
       }
     },
-    "DELETE": {
-      "BUTTON_TEXT": "Eliminar",
-      "CONFIRM": {
-        "TITLE": "Confirmar eliminación",
-        "MESSAGE": "¿Está seguro de eliminar?",
-        "YES": "Sí, eliminar ",
-        "NO": "No, mantenerlo "
+    "SMS": {
+      "HEADER_TITLE": "SMS campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No SMS campaigns are available",
+        "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
       },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Completado",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create SMS campaign",
+        "CANCEL_BUTTON_TEXT": "Cancelar",
+        "CREATE_BUTTON_TEXT": "Crear",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Título",
+            "PLACEHOLDER": "Por favor escriba un título para la campaña",
+            "ERROR": "El título es obligatorio"
+          },
+          "MESSAGE": {
+            "LABEL": "Mensaje",
+            "PLACEHOLDER": "Por favor escriba el mensaje para la campaña",
+            "ERROR": "El mensaje es obligatorio"
+          },
+          "INBOX": {
+            "LABEL": "Seleccione una bandeja de entrada",
+            "PLACEHOLDER": "Seleccione una bandeja de entrada",
+            "ERROR": "Se requiere buzón de entrada"
+          },
+          "AUDIENCE": {
+            "LABEL": "Audiencia",
+            "PLACEHOLDER": "Seleccione las etiquetas personalizadas",
+            "ERROR": "El público es requerido"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Programar tiempo",
+            "PLACEHOLDER": "Por favor, seleccione la hora",
+            "ERROR": "El tiempo programado es requerido"
+          },
+          "BUTTONS": {
+            "CREATE": "Crear",
+            "CANCEL": "Cancelar"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "SMS campaign created successfully",
+            "ERROR_MESSAGE": "Se presentó un error. Por favor intente nuevamente."
+          }
+        }
+      }
+    },
+    "CONFIRM_DELETE": {
+      "TITLE": "¿Está seguro de eliminar?",
+      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "CONFIRM": "Eliminar",
       "API": {
         "SUCCESS_MESSAGE": "Campaña borrada satisfactoriamente",
-        "ERROR_MESSAGE": "La campaña no se pudo borrar. Intente nuevamente más tarde."
+        "ERROR_MESSAGE": "Se presentó un error. Por favor intente nuevamente."
       }
-    },
-    "EDIT": {
-      "TITLE": "Editar campaña",
-      "UPDATE_BUTTON_TEXT": "Actualizar",
-      "API": {
-        "SUCCESS_MESSAGE": "Campaña actualizada satisfactoriamente",
-        "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
-      }
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Cargando campañas...",
-      "404": "No hay campañas creadas en esta bandeja.",
-      "TABLE_HEADER": {
-        "TITLE": "Título",
-        "MESSAGE": "Mensaje",
-        "INBOX": "Bandeja de entrada",
-        "STATUS": "Estado",
-        "SENDER": "Remitente",
-        "URL": "URL",
-        "SCHEDULED_AT": "Programar tiempo",
-        "TIME_ON_PAGE": "Tiempo (segundos)",
-        "CREATED_AT": "Creado el"
-      },
-      "BUTTONS": {
-        "ADD": "Añadir",
-        "EDIT": "Editar",
-        "DELETE": "Eliminar"
-      },
-      "STATUS": {
-        "ENABLED": "Activado",
-        "DISABLED": "Deshabilitado",
-        "COMPLETED": "Completado",
-        "ACTIVE": "Activo"
-      },
-      "SENDER": {
-        "BOT": "Bot"
-      }
-    },
-    "ONE_OFF": {
-      "HEADER": "Campañas únicas",
-      "404": "No hay campañas en curso creadas",
-      "INBOXES_NOT_FOUND": "Por favor, crea una bandeja de entrada sms y empieza a añadir campañas"
-    },
-    "ONGOING": {
-      "HEADER": "Campañas en curso",
-      "404": "No hay campañas en curso creadas",
-      "INBOXES_NOT_FOUND": "Por favor, cree una bandeja de entrada del sitio web y comience a añadir campañas"
     }
   }
 }

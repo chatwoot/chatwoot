@@ -61,15 +61,29 @@
         "COPY": "Копіювати"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Звукові сповіщення",
-        "NOTE": "Увімкніть звукові сповіщення в інформаційній панелі для нових повідомлень і розмов.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "Нiчого",
           "MINE": "Призначено",
-          "ALL": "Всі"
+          "ALL": "Всі",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Сповіщення про події для розмов:",
+          "TITLE": "Сповіщення про події для розмов",
           "NONE": "Нiчого",
           "ASSIGNED": "Призначені розмови",
           "ALL_CONVERSATIONS": "Всі розмови"
@@ -81,7 +95,9 @@
           "TITLE": "Умови оповіщення:",
           "CONDITION_ONE": "Надсилати аудіосповіщення тільки якщо вікно браузера не активне",
           "CONDITION_TWO": "Надсилати сповіщення кожні 30 секунд, поки всі призначені розмови не будуть переглянуті"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Детальніше"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Сповіщення електронною поштою",
@@ -145,7 +161,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Присутність",
-        "STATUSES_LIST": ["Онлайн", "Зайнятий", "Не в мережі"],
+        "STATUS": {
+          "ONLINE": "В мережі",
+          "BUSY": "Зайнятий",
+          "OFFLINE": "Не в мережі"
+        },
         "SET_AVAILABILITY_SUCCESS": "Доступу успішно встановлено",
         "SET_AVAILABILITY_ERROR": "Не вдалося налаштувати доступність, будь ласка, спробуйте ще раз"
       },
@@ -173,14 +193,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Змінити",
-    "CHANGE_ACCOUNTS": "Змінити обліковий запис",
-    "CONTACT_SUPPORT": "Звернутися зі службою підтримки",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Виберіть обліковий запис із наступного списку",
-    "PROFILE_SETTINGS": "Налаштування облікового запису",
-    "KEYBOARD_SHORTCUTS": "Комбінації клавіш",
-    "APPEARANCE": "Змінити зовнішній вигляд",
-    "SUPER_ADMIN_CONSOLE": "Консоль адміна",
-    "LOGOUT": "Вийти"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "днів пробного періоду залишилося.",
@@ -214,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Додати"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "Перевірка...",
@@ -223,11 +249,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Зараз переглядається:",
     "SWITCH": "Перемкнути",
     "INBOX_VIEW": "Перегляд вхідних",
     "CONVERSATIONS": "Бесіди",
-    "INBOX": "Вхідні",
+    "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "Всі розмови",
     "MENTIONED_CONVERSATIONS": "Згадування",
     "PARTICIPATING_CONVERSATIONS": "Підключені агенти",
@@ -262,6 +289,8 @@
     "NEW_INBOX": "Нове джерело",
     "REPORTS_CONVERSATION": "Бесіди",
     "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
     "CAMPAIGNS": "Розсилки",
     "ONGOING": "У процесі",
     "ONE_OFF": "Один з",
@@ -272,6 +301,7 @@
     "REPORTS_INBOX": "Канал",
     "REPORTS_TEAM": "Команда",
     "SET_AVAILABILITY_TITLE": "Позначити себе як",
+    "SET_YOUR_AVAILABILITY": "Встановіть доступність",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
@@ -279,17 +309,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Довідковий центр",
-      "ALL_ARTICLES": "Всі статті",
-      "MY_ARTICLES": "Мої статті",
-      "DRAFT": "Чернетка",
-      "ARCHIVED": "Архівовано",
-      "CATEGORY": "Категорія",
-      "SETTINGS": "Налаштування",
-      "CATEGORY_EMPTY_MESSAGE": "Категорій не знайдено"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Категорії",
+      "LOCALES": "Locales",
+      "SETTINGS": "Налаштування"
     },
+    "CHANNELS": "Канали",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Позначити не в мережі (auto)",
-      "INFO_TEXT": "Дозволити системі автоматично позначати як не в мережі коли ви не використовуєте програму або панель управління."
+      "INFO_TEXT": "Дозволити системі автоматично позначати як не в мережі коли ви не використовуєте програму або панель управління.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Читати документи"
   },
