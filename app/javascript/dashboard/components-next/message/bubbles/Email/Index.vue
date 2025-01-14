@@ -109,7 +109,10 @@ const textToShow = computed(() => {
         </button>
       </div>
     </section>
-    <section v-if="attachments.length" class="px-4 pb-4 space-y-2">
+    <section
+      v-if="Array.isArray(attachments) && attachments.length"
+      class="px-4 pb-4 space-y-2"
+    >
       <AttachmentChips :attachments="attachments" class="gap-1" />
     </section>
   </BaseBubble>
