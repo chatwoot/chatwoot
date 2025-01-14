@@ -54,7 +54,7 @@ class Onehash::Cal::ActionController < Onehash::IntegrationController
   
 
   def create_hook(cal_user_id)
-    Integrations::Hook.create(
+    hook = Integrations::Hook.new(
       access_token: '',
       hook_type: 'account_user',
       account_user: Current.account_user,
@@ -64,5 +64,13 @@ class Onehash::Cal::ActionController < Onehash::IntegrationController
       settings: { cal_user_id: cal_user_id },
       status: 'enabled'
     )
+  
+    if hook.save
+      logger.info "Hook created successfully with ID #{hook.id} for cal_user_id #{cal_user_id}"
+    else
+      logger.error "Failed to create hook: #{hook.errors.full_messages.join(', ')}"
+      render json: { error: 'Failed to create hook', details: hook.errors.full_messages }, status: :unprocessable_entity
+    end
   end
+  
 end
