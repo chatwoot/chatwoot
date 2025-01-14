@@ -344,6 +344,11 @@
           "LABEL": "Product Name",
           "PLACEHOLDER": "Enter the name of the product this assistant is designed for",
           "ERROR": "The product name is required"
+        },
+        "FEATURES": {
+          "TITLE": "Features",
+          "ALLOW_CONVERSATION_FAQS": "Generate FAQs after resolving conversations",
+          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions."
         }
       },
       "EDIT": {

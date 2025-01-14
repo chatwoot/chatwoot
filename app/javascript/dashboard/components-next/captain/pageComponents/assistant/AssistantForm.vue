@@ -33,6 +33,8 @@ const initialState = {
   name: '',
   description: '',
   productName: '',
+  featureFaq: false,
+  featureMemory: false,
 };
 
 const state = reactive({ ...initialState });
@@ -64,7 +66,11 @@ const handleCancel = () => emit('cancel');
 const prepareAssistantDetails = () => ({
   name: state.name,
   description: state.description,
-  config: { product_name: state.productName },
+  config: {
+    product_name: state.productName,
+    feature_faq: state.featureFaq,
+    feature_memory: state.featureMemory,
+  },
 });
 
 const handleSubmit = async () => {
@@ -85,6 +91,8 @@ const updateStateFromAssistant = assistant => {
     name,
     description,
     productName: config.product_name,
+    featureFaq: config.feature_faq || false,
+    featureMemory: config.feature_memory || false,
   });
 };
 
@@ -124,6 +132,26 @@ watch(
       :message="formErrors.productName"
       :message-type="formErrors.productName ? 'error' : 'info'"
     />
+
+    <fieldset class="flex flex-col gap-2.5">
+      <legend class="mb-3 text-sm font-medium text-n-slate-12">
+        {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.TITLE') }}
+      </legend>
+
+      <label class="flex items-center gap-2">
+        <input v-model="state.featureFaq" type="checkbox" />
+        <span class="text-sm font-medium text-n-slate-12">
+          {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_CONVERSATION_FAQS') }}
+        </span>
+      </label>
+
+      <label class="flex items-center gap-2">
+        <input v-model="state.featureMemory" type="checkbox" />
+        <span class="text-sm font-medium text-n-slate-12">
+          {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_MEMORIES') }}
+        </span>
+      </label>
+    </fieldset>
 
     <div class="flex items-center justify-between w-full gap-3">
       <Button
