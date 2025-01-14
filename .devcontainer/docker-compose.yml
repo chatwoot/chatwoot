@@ -40,7 +40,7 @@ services:
     network_mode: service:db
 
   db:
-    image: postgres:latest
+    image: pgvector/pgvector:pg16
     restart: unless-stopped
     volumes:
       - postgres-data:/var/lib/postgresql/data
