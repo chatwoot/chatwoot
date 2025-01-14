@@ -11,11 +11,7 @@
       "404": "There are no Audit Logs available in this account.",
       "TITLE": "Manage Audit Logs",
       "DESC": "Audit Logs are trails for events and actions in a Chatwoot System.",
-      "TABLE_HEADER": {
-        "ACTIVITY": "User",
-        "TIME": "Action",
-        "IP_ADDRESS": "ที่อยู่ไอพี"
-      }
+      "TABLE_HEADER": ["User", "Action", "ที่อยู่ไอพี"]
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",

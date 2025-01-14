@@ -1,10 +1,10 @@
 <script>
 /* global FB */
-import InboxReconnectionRequired from '../components/InboxReconnectionRequired';
+import InboxReconnectionRequired from '../components/InboxReconnectionRequired.vue';
 import { useAlert } from 'dashboard/composables';
 
 import { loadScript } from 'dashboard/helper/DOMHelpers';
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/vue';
 
 export default {
   components: {
@@ -103,7 +103,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/variables';
+@import 'dashboard/assets/scss/variables';
 
 .fb--login {
   img {

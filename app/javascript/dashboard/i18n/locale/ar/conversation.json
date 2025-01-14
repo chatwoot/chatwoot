@@ -133,7 +133,7 @@
           "FAILED": "تعذر تعيين الوكيل. الرجاء المحاولة مرة أخرى."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "تعيين تسمية ##{labelName} لمعرف المحادثة {conversationId}",
+          "SUCCESFUL": "تعيين تسمية #{labelName} لمعرف المحادثة {conversationId}",
           "FAILED": "تعذر تعيين التسمية. الرجاء المحاولة مرة أخرى."
         },
         "TEAM_ASSIGNMENT": {

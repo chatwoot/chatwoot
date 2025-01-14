@@ -38,17 +38,10 @@
     "REMOVE_SELECTION": "Hapus Pilihan",
     "DOWNLOAD": "Unduh",
     "UNKNOWN_FILE_TYPE": "Jenis Berkas Tidak Dikenal",
-    "SAVE_CONTACT": "Save Contact",
-    "NO_CONTENT": "No content to display",
-    "SHARED_ATTACHMENT": {
-      "CONTACT": "{sender} has shared a contact",
-      "LOCATION": "{sender} has shared a location",
-      "FILE": "{sender} has shared a file",
-      "MEETING": "{sender} memulai percakapan"
-    },
+    "SAVE_CONTACT": "Simpan",
     "UPLOADING_ATTACHMENTS": "Mengunggah lampiran...",
     "REPLIED_TO_STORY": "Membalas cerita Anda",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Pesan berhasil dihapus",
@@ -133,7 +126,7 @@
           "FAILED": "Tidak dapat menugaskan agen. Silakan coba lagi."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
+          "SUCCESFUL": "Label #{labelName} ditugaskan ke id percakapan {conversationId}",
           "FAILED": "Tidak dapat menugaskan label. Silakan coba lagi."
         },
         "TEAM_ASSIGNMENT": {
@@ -226,10 +219,6 @@
         "DELETE": "Hapus",
         "CANCEL": "Batalkan"
       }
-    },
-    "SIDEBAR": {
-      "CONTACT": "Kontak",
-      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -321,8 +310,7 @@
     "TO": "Ke",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Subjek",
-    "EXPAND": "Expand email"
+    "SUBJECT": "Subjek"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Berpartisipasi",
@@ -347,10 +335,5 @@
     "ORIGINAL_CONTENT": "Konten Asli",
     "TRANSLATED_CONTENT": "Konten Terjemahan",
     "NO_TRANSLATIONS_AVAILABLE": "Tidak ada terjemahan yang tersedia untuk konten ini"
-  },
-  "TYPING": {
-    "ONE": "{user} is typing",
-    "TWO": "{user} and {secondUser} are typing",
-    "MULTIPLE": "{user} and {count} others are typing"
   }
 }

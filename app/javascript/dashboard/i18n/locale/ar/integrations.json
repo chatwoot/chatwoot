@@ -235,7 +235,7 @@
         "ERROR": "حدث خطأ أثناء جلب المشكلات من Linear، الرجاء المحاولة مرة أخرى",
         "LINK_SUCCESS": "تم ربط المشكلة بنجاح",
         "LINK_ERROR": "حدث خطأ أثناء ربط المشكلة، الرجاء المحاولة مرة أخرى",
-        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+        "LINK_TITLE": "محادثة (#{conversationId}) مع {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "إنشاء/رابط مشكلة في Linear",
@@ -294,7 +294,7 @@
         "PRIORITY": "الأولوية",
         "ASSIGNEE": "المكلَّف",
         "LABELS": "الوسوم",
-        "CREATED_AT": "Created at {createdAt}"
+        "CREATED_AT": "تم إنشاؤها في {createdAt}"
       },
       "UNLINK": {
         "TITLE": "إلغاء الربط",

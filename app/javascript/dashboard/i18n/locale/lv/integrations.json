@@ -47,10 +47,10 @@
       "LIST": {
         "404": "Šim kontam nav nokonfigurēts neviens webhook.",
         "TITLE": "Pārvaldīt webhook",
-        "TABLE_HEADER": {
-          "WEBHOOK_ENDPOINT": "Webhook galapunkts",
-          "ACTIONS": "Darbības"
-        }
+        "TABLE_HEADER": [
+          "Webhook galapunkts",
+          "Darbības"
+        ]
       },
       "EDIT": {
         "BUTTON_TEXT": "Rediģēt",
@@ -90,7 +90,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "Kā izmantot Slack integrāciju?",
-        "BODY": "Izmantojot šo integrāciju, visas jūsu ienākošās sarunas tiks sinhronizētas ar kanālu ***{selectedChannelName}*** jūsu Slack darbvietā. Jūs varat pārvaldīt visas savas klientu sarunas tieši kanālā un nekad nepalaist garām nevienu ziņojumu.\n\nŠādas ir galvenās integrācijas īpašības:\n\n**Atbldēt uz sarunām no Slack:** Lai atbildētu uz sarunu ***{selectedChannelName}*** Slack kanālā, uzrakstiet savu ziņojumu un nosūtiet to kā pavedienu. Šādi tiks izveidota atbilde klientam, izmantojot Chatwoot.\n\n**Izveidot privātas piezīmes:** ja vēlaties izveidot privātas piezīmes, nevis atbildes, sāciet ziņojumu ar ***`note:`***. Tas nodrošina, ka jūsu ziņojums ir privāts un nebūs redzams klientam.\n\n**Saistīt aģenta profilu:** ja personai, kas atbildēja Slack, ir Chatwoot aģenta profils ar to pašu e-pasta adresi, atbildes tiks automātiski saistītas ar šo aģenta profilu. Tas nozīmē, ka varat viegli izsekot kurš ko teica un kad. No otras puses, ja atbildētājam nav saistīta aģenta profila, atbildes klientam tiks rādītas no robotprogrammatūras profila.",
+        "BODY": "Izmantojot šo integrāciju, visas Jūsu ienākošās sarunas tiks sinhronizētas ar Jūsu Slack workspace kanālu ***{selectedChannelName}***. Jūs varat pārvaldīt visas savas sarunas ar klientiem savā kanālā un nekad nepalaist garām nevienu ziņojumu.\n\nŠeit ir galvenās integrācijas iezīmes:\n\n**Atbildēt uz sarunām no Slack:** Lai atbildētu uz sarunu Slack kanālā ***{selectedChannelName}***, uzrakstiet savu ziņojumu un nosūtiet to kā pavedienu. Tas nosūtīs atbildi klientam, izmantojot Chatwoot. Tas ir tik vienkārši!\n\n  **Izveidot privātas piezīmes:** Ja vēlaties izveidot privātas piezīmes, nevis atbildes, sāciet ziņojumu ar ***`note:`***. Tas nodrošina, ka jūsu ziņojums ir privāts un nebūs redzams klientam.\n\n**Asociēt aģenta profilu:** Ja personai, kas atbildēja Slack kanālā, ir aģenta profils pakalpojumā Chatwoot, ar tādu pašu e-pasta adresi, atbildes tiks automātiski asociētas ar šo aģenta profilu. Tas nozīmē, ka varat viegli izsekot kurš ko teica un kad. No otras puses, ja atbildētājam nav asociēta aģenta profila, atbildes klientam tiks rādītas no robotprogrammatūras profila.",
         "SELECTED": "izvēlēts"
       },
       "SELECT_CHANNEL": {
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "Šajā kontā vēl nav nokonfigurēta neviena informācijas paneļa lietotne",
         "LOADING": "Notiek informācijas paneļa lietotņu iegūšana...",
-        "TABLE_HEADER": {
-          "NAME": "Nosaukums",
-          "ENDPOINT": "Endpoint"
-        },
+        "TABLE_HEADER": [
+          "Nosaukums",
+          "Endpoint"
+        ],
         "EDIT_TOOLTIP": "Rediģēt lietotni",
         "DELETE_TOOLTIP": "Dzēst lietotni"
       },
@@ -301,15 +301,6 @@
         "SUCCESS": "Problēma ir veiksmīgi atsaistīta",
         "ERROR": "Atsaistot jautājumu radās kļūda. Lūdzu, mēģiniet vēlreiz"
       }
-    }
-  },
-  "CAPTAIN": {
-    "NAME": "Kapteinis",
-    "COPILOT": {
-      "SEND_MESSAGE": "Sūtīt ziņojumu...",
-      "LOADER": "Kapteinis domā",
-      "YOU": "Jūs",
-      "USE": "Izmantot šo"
     }
   }
 }

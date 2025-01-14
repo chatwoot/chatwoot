@@ -1,7 +1,7 @@
 import { useAutomation } from '../useAutomation';
 import { useStoreGetters, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
-import { useI18n } from '../useI18n';
+import { useI18n } from 'vue-i18n';
 import * as automationHelper from 'dashboard/helper/automationHelper';
 import {
   customAttributes,
@@ -20,7 +20,7 @@ import { MESSAGE_CONDITION_VALUES } from 'dashboard/constants/automation';
 
 vi.mock('dashboard/composables/store');
 vi.mock('dashboard/composables');
-vi.mock('../useI18n');
+vi.mock('vue-i18n');
 vi.mock('dashboard/helper/automationHelper');
 
 describe('useAutomation', () => {
@@ -120,8 +120,8 @@ describe('useAutomation', () => {
   });
 
   it('appends new condition and action correctly', () => {
-    const { appendNewCondition, appendNewAction } = useAutomation();
-    const mockAutomation = {
+    const { appendNewCondition, appendNewAction, automation } = useAutomation();
+    automation.value = {
       event_name: 'message_created',
       conditions: [],
       actions: [],
@@ -130,36 +130,37 @@ describe('useAutomation', () => {
     automationHelper.getDefaultConditions.mockReturnValue([{}]);
     automationHelper.getDefaultActions.mockReturnValue([{}]);
 
-    appendNewCondition(mockAutomation);
-    appendNewAction(mockAutomation);
+    appendNewCondition();
+    appendNewAction();
 
     expect(automationHelper.getDefaultConditions).toHaveBeenCalledWith(
       'message_created'
     );
     expect(automationHelper.getDefaultActions).toHaveBeenCalled();
-    expect(mockAutomation.conditions).toHaveLength(1);
-    expect(mockAutomation.actions).toHaveLength(1);
+    expect(automation.value.conditions).toHaveLength(1);
+    expect(automation.value.actions).toHaveLength(1);
   });
 
   it('removes filter and action correctly', () => {
-    const { removeFilter, removeAction } = useAutomation();
-    const mockAutomation = {
+    const { removeFilter, removeAction, automation } = useAutomation();
+    automation.value = {
       conditions: [{ id: 1 }, { id: 2 }],
       actions: [{ id: 1 }, { id: 2 }],
     };
 
-    removeFilter(mockAutomation, 0);
-    removeAction(mockAutomation, 0);
+    removeFilter(0);
+    removeAction(0);
 
-    expect(mockAutomation.conditions).toHaveLength(1);
-    expect(mockAutomation.actions).toHaveLength(1);
-    expect(mockAutomation.conditions[0].id).toBe(2);
-    expect(mockAutomation.actions[0].id).toBe(2);
+    expect(automation.value.conditions).toHaveLength(1);
+    expect(automation.value.actions).toHaveLength(1);
+    expect(automation.value.conditions[0].id).toBe(2);
+    expect(automation.value.actions[0].id).toBe(2);
   });
 
   it('resets filter and action correctly', () => {
-    const { resetFilter, resetAction } = useAutomation();
-    const mockAutomation = {
+    const { resetFilter, resetAction, automation, automationTypes } =
+      useAutomation();
+    automation.value = {
       event_name: 'message_created',
       conditions: [
         {
@@ -170,77 +171,37 @@ describe('useAutomation', () => {
       ],
       actions: [{ action_name: 'assign_agent', action_params: [1] }],
     };
-    const mockAutomationTypes = {
-      message_created: {
-        conditions: [
-          { key: 'status', filterOperators: [{ value: 'not_equal_to' }] },
-        ],
-      },
+    automationTypes.message_created = {
+      conditions: [
+        { key: 'status', filterOperators: [{ value: 'not_equal_to' }] },
+      ],
     };
 
-    resetFilter(
-      mockAutomation,
-      mockAutomationTypes,
-      0,
-      mockAutomation.conditions[0]
-    );
-    resetAction(mockAutomation, 0);
+    resetFilter(0, automation.value.conditions[0]);
+    resetAction(0);
 
-    expect(mockAutomation.conditions[0].filter_operator).toBe('not_equal_to');
-    expect(mockAutomation.conditions[0].values).toBe('');
-    expect(mockAutomation.actions[0].action_params).toEqual([]);
-  });
-
-  it('formats automation correctly', () => {
-    const { formatAutomation } = useAutomation();
-    const mockAutomation = {
-      conditions: [{ attribute_key: 'status', values: ['open'] }],
-      actions: [{ action_name: 'assign_agent', action_params: [1] }],
-    };
-    const mockAutomationTypes = {};
-    const mockAutomationActionTypes = [
-      { key: 'assign_agent', inputType: 'search_select' },
-    ];
-
-    automationHelper.getConditionOptions.mockReturnValue([
-      { id: 'open', name: 'open' },
-    ]);
-    automationHelper.getActionOptions.mockReturnValue([
-      { id: 1, name: 'Agent 1' },
-    ]);
-
-    const result = formatAutomation(
-      mockAutomation,
-      customAttributes,
-      mockAutomationTypes,
-      mockAutomationActionTypes
-    );
-
-    expect(result.conditions[0].values).toEqual([{ id: 'open', name: 'open' }]);
-    expect(result.actions[0].action_params).toEqual([
-      { id: 1, name: 'Agent 1' },
-    ]);
+    expect(automation.value.conditions[0].filter_operator).toBe('not_equal_to');
+    expect(automation.value.conditions[0].values).toBe('');
+    expect(automation.value.actions[0].action_params).toEqual([]);
   });
 
   it('manifests custom attributes correctly', () => {
-    const { manifestCustomAttributes } = useAutomation();
-    const mockAutomationTypes = {
-      message_created: { conditions: [] },
-      conversation_created: { conditions: [] },
-      conversation_updated: { conditions: [] },
-      conversation_opened: { conditions: [] },
-    };
+    const { manifestCustomAttributes, automationTypes } = useAutomation();
+    automationTypes.message_created = { conditions: [] };
+    automationTypes.conversation_created = { conditions: [] };
+    automationTypes.conversation_updated = { conditions: [] };
+    automationTypes.conversation_opened = { conditions: [] };
 
     automationHelper.generateCustomAttributeTypes.mockReturnValue([]);
     automationHelper.generateCustomAttributes.mockReturnValue([]);
 
-    manifestCustomAttributes(mockAutomationTypes);
+    manifestCustomAttributes();
 
     expect(automationHelper.generateCustomAttributeTypes).toHaveBeenCalledTimes(
       2
     );
     expect(automationHelper.generateCustomAttributes).toHaveBeenCalledTimes(1);
-    Object.values(mockAutomationTypes).forEach(type => {
+    Object.values(automationTypes).forEach(type => {
       expect(type.conditions).toHaveLength(0);
     });
   });
@@ -273,8 +234,8 @@ describe('useAutomation', () => {
   });
 
   it('handles event change correctly', () => {
-    const { onEventChange } = useAutomation();
-    const mockAutomation = {
+    const { onEventChange, automation } = useAutomation();
+    automation.value = {
       event_name: 'message_created',
       conditions: [],
       actions: [],
@@ -283,13 +244,13 @@ describe('useAutomation', () => {
     automationHelper.getDefaultConditions.mockReturnValue([{}]);
     automationHelper.getDefaultActions.mockReturnValue([{}]);
 
-    onEventChange(mockAutomation);
+    onEventChange();
 
     expect(automationHelper.getDefaultConditions).toHaveBeenCalledWith(
       'message_created'
     );
     expect(automationHelper.getDefaultActions).toHaveBeenCalled();
-    expect(mockAutomation.conditions).toHaveLength(1);
-    expect(mockAutomation.actions).toHaveLength(1);
+    expect(automation.value.conditions).toHaveLength(1);
+    expect(automation.value.actions).toHaveLength(1);
   });
 });

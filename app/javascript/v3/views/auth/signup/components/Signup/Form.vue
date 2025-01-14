@@ -5,13 +5,13 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
-import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
+import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 import FormInput from '../../../../../components/Form/Input.vue';
 import SubmitButton from '../../../../../components/Button/SubmitButton.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
 import { register } from '../../../../../api/auth';
-var CompanyEmailValidator = require('company-email-validator');
+import * as CompanyEmailValidator from 'company-email-validator';
 
 export default {
   components: {
@@ -38,29 +38,31 @@ export default {
       error: '',
     };
   },
-  validations: {
-    credentials: {
-      accountName: {
-        required,
-        minLength: minLength(2),
-      },
-      fullName: {
-        required,
-        minLength: minLength(2),
-      },
-      email: {
-        required,
-        email,
-        businessEmailValidator(value) {
-          return CompanyEmailValidator.isCompanyEmail(value);
+  validations() {
+    return {
+      credentials: {
+        accountName: {
+          required,
+          minLength: minLength(2),
+        },
+        fullName: {
+          required,
+          minLength: minLength(2),
+        },
+        email: {
+          required,
+          email,
+          businessEmailValidator(value) {
+            return CompanyEmailValidator.isCompanyEmail(value);
+          },
+        },
+        password: {
+          required,
+          isValidPassword,
+          minLength: minLength(6),
         },
       },
-      password: {
-        required,
-        isValidPassword,
-        minLength: minLength(6),
-      },
-    },
+    };
   },
   computed: {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
@@ -134,9 +136,9 @@ export default {
 <template>
   <div class="flex-1 px-1 overflow-auto">
     <form class="space-y-3" @submit.prevent="submit">
-      <div class="flex">
+      <div class="grid grid-cols-2 gap-2">
         <FormInput
-          v-model.trim="credentials.fullName"
+          v-model="credentials.fullName"
           name="full_name"
           class="flex-1"
           :class="{ error: v$.credentials.fullName.$error }"
@@ -147,9 +149,9 @@ export default {
           @blur="v$.credentials.fullName.$touch"
         />
         <FormInput
-          v-model.trim="credentials.accountName"
+          v-model="credentials.accountName"
           name="account_name"
-          class="flex-1 ml-2"
+          class="flex-1"
           :class="{ error: v$.credentials.accountName.$error }"
           :label="$t('REGISTER.COMPANY_NAME.LABEL')"
           :placeholder="$t('REGISTER.COMPANY_NAME.PLACEHOLDER')"
@@ -159,7 +161,7 @@ export default {
         />
       </div>
       <FormInput
-        v-model.trim="credentials.email"
+        v-model="credentials.email"
         type="email"
         name="email_address"
         :class="{ error: v$.credentials.email.$error }"
@@ -170,7 +172,7 @@ export default {
         @blur="v$.credentials.email.$touch"
       />
       <FormInput
-        v-model.trim="credentials.password"
+        v-model="credentials.password"
         type="password"
         name="password"
         :class="{ error: v$.credentials.password.$error }"

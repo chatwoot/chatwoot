@@ -1,5 +1,7 @@
 <script>
 export default {
+  emits: ['search'],
+
   data() {
     return {
       searchQuery: '',
@@ -10,7 +12,7 @@ export default {
     this.$refs.searchInput.focus();
     document.addEventListener('keydown', this.handler);
   },
-  beforeDestroy() {
+  unmounted() {
     document.removeEventListener('keydown', this.handler);
   },
   methods: {

@@ -4,8 +4,7 @@ import {
   MessageMarkdownSerializer,
 } from '@chatwoot/prosemirror-schema';
 import { replaceVariablesInMessage } from '@chatwoot/utils';
-
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/vue';
 
 /**
  * The delimiter used to separate the signature from the rest of the body.

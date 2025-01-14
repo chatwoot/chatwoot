@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Disconnect"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language understanding platform that makes it easy to design and integrate a conversational user interface into your mobile app, web application, device, bot, interactive voice response system, and so on. <br /> <br /> Dialogflow integration with {installationName} allows you to configure a Dialogflow bot with your inboxes which lets the bot handle the queries initially and hand them over to an agent when needed. Dialogflow can be used to qualifying the leads, reduce the workload of agents by providing frequently asked questions etc. <br /> <br /> To add Dialogflow, you need to create a Service Account in your Google project console and share the credentials. Please refer to the Dialogflow docs for more information."
+      "DIALOGFLOW": "Dialogflow er náttúrulegur málskilningsvettvangur sem gerir það auðvelt að hanna og samþætta samtalsnotendaviðmót í farsímaforritið þitt, vefforrit, tæki, vélmenni, gagnvirkt raddsvörunarkerfi og svo framvegis. <br /> <br /> Dialogflow samþætting við {installationName} gerir þér kleift að stilla Dialogflow spjallmenni við innhólfin þín sem gerir spjallmenninu kleift að sjá um fyrirspurnir í upphafi og afhenda þær þjónustufulltrúa þegar þörf krefur. Dialogflow er hægt að nota til að hæfa sölumönnunum, draga úr vinnuálagi þjónustufulltrúa með því að leggja fram algengar spurningar o.s.frv. <br /> <br /> Til að bæta Dialogflow við þarftu að búa til þjónustureikning í Google verkefnaborðinu þínu og deila aðgangsupplýsingum. Vinsamlegast skoðaðu Dialogflow skjölin fyrir frekari upplýsingar."
     }
   }
 }

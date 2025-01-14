@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "Arbejde e-mail",
-      "PLACEHOLDER": "Enter your work email address. E.g., bruce{'@'}wayne{'.'}enterprises",
+      "PLACEHOLDER": "Indtast din arbejdsmailadresse fx: bruce{'@'}wayne{'.'}enterprises",
       "ERROR": "Indtast venligst en gyldig arbejdsmail"
     },
     "PASSWORD": {

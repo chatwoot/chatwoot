@@ -1,6 +1,6 @@
 {
   "AUDIT_LOGS": {
-    "HEADER": "稽核日誌",
+    "HEADER": "Audit Logs",
     "HEADER_BTN_TXT": "Add Audit Logs",
     "LOADING": "Fetching Audit Logs",
     "DESCRIPTION": "Audit Logs maintain a record of activities in your account, allowing you to track and audit your account, team, or services.",
@@ -11,11 +11,7 @@
       "404": "There are no Audit Logs available in this account.",
       "TITLE": "Manage Audit Logs",
       "DESC": "Audit Logs are trails for events and actions in a Chatwoot System.",
-      "TABLE_HEADER": {
-        "ACTIVITY": "User",
-        "TIME": "Action",
-        "IP_ADDRESS": "IP 位置"
-      }
+      "TABLE_HEADER": ["User", "Action", "IP 位置"]
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",

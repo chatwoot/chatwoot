@@ -38,17 +38,10 @@
     "REMOVE_SELECTION": "Eliminar selección",
     "DOWNLOAD": "Descargar",
     "UNKNOWN_FILE_TYPE": "Archivo desconocido",
-    "SAVE_CONTACT": "Save Contact",
-    "NO_CONTENT": "No content to display",
-    "SHARED_ATTACHMENT": {
-      "CONTACT": "{sender} has shared a contact",
-      "LOCATION": "{sender} has shared a location",
-      "FILE": "{sender} has shared a file",
-      "MEETING": "{sender} ha iniciado una reunión"
-    },
+    "SAVE_CONTACT": "Guardar",
     "UPLOADING_ATTACHMENTS": "Subiendo archivos adjuntos...",
     "REPLIED_TO_STORY": "Respondió a su historia",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
+    "UNSUPPORTED_MESSAGE": "Este mensaje no es compatible.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Este mensaje no es compatible. Puedes ver este mensaje en la aplicación de Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Este mensaje no es compatible. Puedes ver este mensaje en la aplicación de Instagram.",
     "SUCCESS_DELETE_MESSAGE": "Mensaje eliminado correctamente",
@@ -133,7 +126,7 @@
           "FAILED": "No se pudo asignar el agente. Por favor, inténtelo de nuevo."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
+          "SUCCESFUL": "Etiqueta asignada #{labelName} al id de conversación {conversationId}",
           "FAILED": "No se pudo asignar el agente. Por favor, inténtelo de nuevo."
         },
         "TEAM_ASSIGNMENT": {
@@ -226,10 +219,6 @@
         "DELETE": "Eliminar",
         "CANCEL": "Cancelar"
       }
-    },
-    "SIDEBAR": {
-      "CONTACT": "Contacto",
-      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -321,8 +310,7 @@
     "TO": "Para",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Asunto",
-    "EXPAND": "Expand email"
+    "SUBJECT": "Asunto"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participar",
@@ -347,10 +335,5 @@
     "ORIGINAL_CONTENT": "Contenido original",
     "TRANSLATED_CONTENT": "Contenido traducido",
     "NO_TRANSLATIONS_AVAILABLE": "No hay traducciones disponibles para este contenido"
-  },
-  "TYPING": {
-    "ONE": "{user} is typing",
-    "TWO": "{user} and {secondUser} are typing",
-    "MULTIPLE": "{user} and {count} others are typing"
   }
 }

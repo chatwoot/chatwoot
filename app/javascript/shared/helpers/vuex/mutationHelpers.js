@@ -1,5 +1,3 @@
-import Vue from 'vue';
-
 export const set = (state, data) => {
   state.records = data;
 };
@@ -20,7 +18,7 @@ export const setSingleRecord = (state, data) => {
 export const update = (state, data) => {
   state.records.forEach((element, index) => {
     if (element.id === data.id) {
-      Vue.set(state.records, index, data);
+      state.records[index] = data;
     }
   });
 };
@@ -29,7 +27,7 @@ export const update = (state, data) => {
 export const updateAttributes = (state, data) => {
   state.records.forEach((element, index) => {
     if (element.id === data.id) {
-      Vue.set(state.records, index, { ...state.records[index], ...data });
+      state.records[index] = { ...state.records[index], ...data };
     }
   });
 };
@@ -37,11 +35,7 @@ export const updateAttributes = (state, data) => {
 export const updatePresence = (state, data) => {
   state.records.forEach((element, index) => {
     const availabilityStatus = data[element.id];
-    Vue.set(
-      state.records[index],
-      'availability_status',
-      availabilityStatus || 'offline'
-    );
+    state.records[index].availability_status = availabilityStatus || 'offline';
   });
 };
 
@@ -51,7 +45,7 @@ export const updateSingleRecordPresence = (
 ) => {
   const [selectedRecord] = records.filter(record => record.id === Number(id));
   if (selectedRecord) {
-    Vue.set(selectedRecord, 'availability_status', availabilityStatus);
+    selectedRecord.availability_status = availabilityStatus;
   }
 };
 

@@ -92,12 +92,7 @@
       "CONTACT": "İletişim"
     },
     "LIST": {
-      "TABLE_HEADER": {
-        "NAME": "İsim",
-        "DESCRIPTION": "Açıklama",
-        "TYPE": "Tip",
-        "KEY": "Anahtar"
-      },
+      "TABLE_HEADER": ["Ad", "Açıklama", "Tip", "Anahtar"],
       "BUTTONS": {
         "EDIT": "Düzenle",
         "DELETE": "Sil"

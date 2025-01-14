@@ -30,7 +30,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
 
   def set_article
     @article = @portal.articles.find_by(slug: permitted_params[:article_slug])
-    @article.increment_view_count
+    @article.increment_view_count if @article.published?
     @parsed_content = render_article_content(@article.content)
   end
 

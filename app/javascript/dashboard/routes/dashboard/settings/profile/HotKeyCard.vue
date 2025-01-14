@@ -24,12 +24,11 @@ defineProps({
 </script>
 
 <template>
-  <div
+  <button
     class="flex flex-col gap-4 w-full h-fit sm:max-h-[220px] p-4 sm:max-w-[350px] rounded-md border border-solid border-ash-200"
     :class="{
       'border-primary-300 ': active,
     }"
-    @click="$emit('click')"
   >
     <div class="flex flex-col gap-2 items-center w-full rounded-t-[5px]">
       <div class="flex items-center justify-between w-full gap-1">
@@ -60,5 +59,5 @@ defineProps({
         class="hidden object-cover w-full dark:block"
       />
     </div>
-  </div>
+  </button>
 </template>

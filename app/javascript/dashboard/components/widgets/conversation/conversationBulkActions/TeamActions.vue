@@ -1,6 +1,8 @@
 <script>
 import { mapGetters } from 'vuex';
 export default {
+  emits: ['assignTeam', 'close'],
+
   data() {
     return {
       query: '',

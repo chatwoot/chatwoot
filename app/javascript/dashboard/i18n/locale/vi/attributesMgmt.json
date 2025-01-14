@@ -92,12 +92,7 @@
       "CONTACT": "Liên lạc"
     },
     "LIST": {
-      "TABLE_HEADER": {
-        "NAME": "Tên",
-        "DESCRIPTION": "Mô tả",
-        "TYPE": "Kiểu",
-        "KEY": "Khoá"
-      },
+      "TABLE_HEADER": ["Tên", "Mô tả", "Kiểu", "Khoá"],
       "BUTTONS": {
         "EDIT": "Chỉnh sửa",
         "DELETE": "Xoá"

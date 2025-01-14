@@ -21,7 +21,7 @@ jobs:
         image: postgres:15.3
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: ""
+          POSTGRES_PASSWORD: ''
           POSTGRES_DB: postgres
           POSTGRES_HOST_AUTH_METHOD: trust
         ports:
@@ -41,47 +41,49 @@ jobs:
         options: --entrypoint redis-server
 
     steps:
-    - uses: actions/checkout@v4
-      with:
-        ref: ${{ github.event.pull_request.head.ref }}
-        repository: ${{ github.event.pull_request.head.repo.full_name }}
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
 
-    - uses: ruby/setup-ruby@v1
-      with:
-        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 20
-        cache: yarn
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
 
-    - name: yarn
-      run: yarn install
+      - name: Install pnpm dependencies
+        run: pnpm i
 
-    - name: Strip enterprise code
-      run: |
-        rm -rf enterprise
-        rm -rf spec/enterprise
+      - name: Strip enterprise code
+        run: |
+          rm -rf enterprise
+          rm -rf spec/enterprise
 
-    - name: Create database
-      run: bundle exec rake db:create
+      - name: Create database
+        run: bundle exec rake db:create
 
-    - name: Seed database
-      run: bundle exec rake db:schema:load
+      - name: Seed database
+        run: bundle exec rake db:schema:load
 
-    - name: yarn check-files
-      run: yarn install --check-files
+      - name: Run frontend tests
+        run: pnpm run test:coverage
 
-    # Run rails tests
-    - name: Run backend tests
-      run: |
-        bundle exec rspec --profile=10 --format documentation
-      env:
-        NODE_OPTIONS: --openssl-legacy-provider
+      # Run rails tests
+      - name: Run backend tests
+        run: |
+          bundle exec rspec --profile=10 --format documentation
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
 
-    - name: Upload rails log folder
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: rails-log-folder
-        path: log
+      - name: Upload rails log folder
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rails-log-folder
+          path: log

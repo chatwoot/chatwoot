@@ -79,7 +79,7 @@ export default {
   mounted() {
     this.$el.addEventListener('scroll', this.updateScrollPosition);
   },
-  beforeDestroy() {
+  unmounted() {
     this.$el.removeEventListener('scroll', this.updateScrollPosition);
     cancelAnimationFrame(this.requestID);
   },
@@ -142,8 +142,8 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables';
-@import '~widget/assets/scss/mixins';
+@import 'widget/assets/scss/variables';
+@import 'widget/assets/scss/mixins';
 
 .custom-header-shadow {
   @include shadow-large;

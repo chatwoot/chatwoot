@@ -80,7 +80,7 @@ export default {
         <label :class="{ error: v$.channelName.$error }">
           {{ $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.CHANNEL_NAME.LABEL') }}
           <input
-            v-model.trim="channelName"
+            v-model="channelName"
             type="text"
             :placeholder="
               $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.CHANNEL_NAME.PLACEHOLDER')
@@ -97,7 +97,7 @@ export default {
         <label :class="{ error: v$.email.$error }">
           {{ $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.EMAIL.LABEL') }}
           <input
-            v-model.trim="email"
+            v-model="email"
             type="text"
             :placeholder="$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.EMAIL.PLACEHOLDER')"
             @blur="v$.email.$touch"

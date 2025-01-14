@@ -1,6 +1,6 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "正在获取集成",
+    "FETCHING": "Fetching Integrations",
     "NO_HOOK_CONFIGURED": "There are no {integrationId} integrations configured in this account.",
     "HEADER": "Applications",
     "STATUS": {
@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Disconnect"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow 是一个自然语言理解平台，可以轻松设计会话用户界面并将其集成到移动应用程序、Web 应用程序、设备、机器人、交互式语音应答系统等中。 <br /> <br /> Dialogflow 与 {installationName} 集成允许您使用收件箱配置 Dialogflow 机器人，让机器人最初处理查询并在需要时将其移交给代理。 Dialogflow 可用于确定潜在客户资格，通过提供常见问题等来减少客服人员的工作量。<br /> <br />要添加 Dialogflow，您需要在 Google 项目控制台中创建一个服务帐户并共享凭据。请参阅 Dialogflow 文档以获取更多信息。"
+      "DIALOGFLOW": "Dialogflow is a natural language understanding platform that makes it easy to design and integrate a conversational user interface into your mobile app, web application, device, bot, interactive voice response system, and so on. <br /> <br /> Dialogflow integration with {installationName} allows you to configure a Dialogflow bot with your inboxes which lets the bot handle the queries initially and hand them over to an agent when needed. Dialogflow can be used to qualifying the leads, reduce the workload of agents by providing frequently asked questions etc. <br /> <br /> To add Dialogflow, you need to create a Service Account in your Google project console and share the credentials. Please refer to the Dialogflow docs for more information."
     }
   }
 }

@@ -38,17 +38,10 @@
     "REMOVE_SELECTION": "Noņemt Izvēli",
     "DOWNLOAD": "Lejupielādēt",
     "UNKNOWN_FILE_TYPE": "Nezināms Fails",
-    "SAVE_CONTACT": "Saglabāt Kontaktpersonu",
-    "NO_CONTENT": "Nav satura, ko parādīt",
-    "SHARED_ATTACHMENT": {
-      "CONTACT": "{sender} kopīgoja kontaktpersonu",
-      "LOCATION": "{sender} kopīgoja atrašanās vietu",
-      "FILE": "{sender} kopīgoja failu",
-      "MEETING": "{sender} ir sācis sapulci"
-    },
+    "SAVE_CONTACT": "Saglabāt",
     "UPLOADING_ATTACHMENTS": "Notiek pielikumu augšupielāde...",
     "REPLIED_TO_STORY": "Atbildēja uz Jūsu stāstu",
-    "UNSUPPORTED_MESSAGE": "Šis ziņojums netiek atbalstīts. Šo ziņojumu varat apskatīt Facebook/Instagram lietotnē.",
+    "UNSUPPORTED_MESSAGE": "Šis ziņojums netiek atbalstīts.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Šis ziņojums netiek atbalstīts. Šo ziņojumu Jūs varat apskatīt lietotnē Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Šis ziņojums netiek atbalstīts. Šo ziņojumu Jūs varat apskatīt lietotnē Instagram.",
     "SUCCESS_DELETE_MESSAGE": "Ziņojums veiksmīgi izdzēsts",
@@ -108,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Nav",
         "INPUT_PLACEHOLDER": "Izvēlieties prioritāti",
         "NO_RESULTS": "Nav atrasts",
-        "SUCCESSFUL": "Sarunas id {conversationId} prioritāte nomainīta uz {priority}",
+        "SUCCESSFUL": "Sarunas Id {conversationId} prioritāte nomainīta uz {priority}",
         "FAILED": "Nevarēja nomainīt prioritāti. Lūdzu, mēģiniet vēlreiz."
       }
     },
@@ -129,15 +122,15 @@
       "ASSIGN_TEAM": "Piešķirt komandu",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Sarunas id {conversationId} piešķirts \"{agentName}\"",
+          "SUCCESFUL": "Sarunas ID {conversationId} piešķirts \"{agentName}\"",
           "FAILED": "Nevarēja piešķirt aģentu. Lūdzu, mēģiniet vēlreiz."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Sarunai ar id {conversationId} piešķirta etiķete #{labelName}",
+          "SUCCESFUL": "Sarunai ar ID {conversationId} tika piešķirta etiķete #{labelName}",
           "FAILED": "Nevarēja piešķirt etiķeti. Lūdzu, mēģiniet vēlreiz."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Sarunai ar id {conversationId} tika piešķirta komanda \"{team}\"",
+          "SUCCESFUL": "Sarunai ar ID {conversationId} tika piešķirta komanda \"{team}\"",
           "FAILED": "Nevarēja piešķirt komandu. Lūdzu, mēģiniet vēlreiz."
         }
       }
@@ -226,10 +219,6 @@
         "DELETE": "Dzēst",
         "CANCEL": "Atcelt"
       }
-    },
-    "SIDEBAR": {
-      "CONTACT": "Kontaktpersona",
-      "COPILOT": "Kopilots"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -321,8 +310,7 @@
     "TO": "Kam",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Tēma",
-    "EXPAND": "Izvērst e-pastu"
+    "SUBJECT": "Tēma"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Piedalās",
@@ -347,10 +335,5 @@
     "ORIGINAL_CONTENT": "Oriģinālais Saturs",
     "TRANSLATED_CONTENT": "Tulkotais Saturs",
     "NO_TRANSLATIONS_AVAILABLE": "Šim saturam nav pieejami tulkojumi"
-  },
-  "TYPING": {
-    "ONE": "{user} raksta",
-    "TWO": "{user} un {secondUser} raksta",
-    "MULTIPLE": "{user} un {count} citi raksta"
   }
 }

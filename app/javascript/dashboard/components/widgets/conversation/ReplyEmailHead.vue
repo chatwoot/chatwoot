@@ -17,6 +17,7 @@ export default {
       default: '',
     },
   },
+  emits: ['update:bccEmails', 'update:ccEmails', 'update:toEmails'],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -88,11 +89,11 @@ export default {
         <label class="input-group-label">
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.TO') }}
         </label>
-        <div class="rounded-none flex-1 min-w-0 m-0 whitespace-nowrap">
+        <div class="flex-1 min-w-0 m-0 rounded-none whitespace-nowrap">
           <woot-input
-            v-model.trim="v$.toEmailsVal.$model"
+            v-model="v$.toEmailsVal.$model"
             type="text"
-            class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none"
+            class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none [&>input]:!bg-transparent dark:[&>input]:!bg-transparent"
             :class="{ error: v$.toEmailsVal.$error }"
             :placeholder="$t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.PLACEHOLDER')"
             @blur="onBlur"
@@ -105,10 +106,10 @@ export default {
         <label class="input-group-label">
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.LABEL') }}
         </label>
-        <div class="rounded-none flex-1 min-w-0 m-0 whitespace-nowrap">
+        <div class="flex-1 min-w-0 m-0 rounded-none whitespace-nowrap">
           <woot-input
-            v-model.trim="v$.ccEmailsVal.$model"
-            class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none"
+            v-model="v$.ccEmailsVal.$model"
+            class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none [&>input]:!bg-transparent dark:[&>input]:!bg-transparent"
             type="text"
             :class="{ error: v$.ccEmailsVal.$error }"
             :placeholder="$t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.PLACEHOLDER')"
@@ -133,11 +134,11 @@ export default {
         <label class="input-group-label">
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.LABEL') }}
         </label>
-        <div class="rounded-none flex-1 min-w-0 m-0 whitespace-nowrap">
+        <div class="flex-1 min-w-0 m-0 rounded-none whitespace-nowrap">
           <woot-input
-            v-model.trim="v$.bccEmailsVal.$model"
+            v-model="v$.bccEmailsVal.$model"
             type="text"
-            class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none"
+            class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none [&>input]:!bg-transparent dark:[&>input]:!bg-transparent"
             :class="{ error: v$.bccEmailsVal.$error }"
             :placeholder="
               $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.PLACEHOLDER')

@@ -38,17 +38,10 @@
     "REMOVE_SELECTION": "Xóa lựa chọn",
     "DOWNLOAD": "Tải xuống",
     "UNKNOWN_FILE_TYPE": "Tập tin chưa xác định",
-    "SAVE_CONTACT": "Lưu liên hệ",
-    "NO_CONTENT": "Không có nội dung để hiển thị",
-    "SHARED_ATTACHMENT": {
-      "CONTACT": "{sender} has shared a contact",
-      "LOCATION": "{sender} has shared a location",
-      "FILE": "{sender} has shared a file",
-      "MEETING": "{sender} đã bắt đầu một cuộc họp"
-    },
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Đang tải file đính kèm...",
     "REPLIED_TO_STORY": "Replied to your story",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Tin nhắn được xoá thành công",
@@ -77,7 +70,7 @@
         "NRT": "NRT {status}",
         "RT": "RT {status}",
         "MISSED": "missed",
-        "DUE": "quá hạn"
+        "DUE": "due"
       }
     },
     "RESOLVE_DROPDOWN": {
@@ -99,14 +92,14 @@
       "TITLE": "Mức độ ưu tiên",
       "OPTIONS": {
         "NONE": "Không có",
-        "URGENT": "Cấp bách",
-        "HIGH": "Cao",
-        "MEDIUM": "Trung bình",
-        "LOW": "Thấp"
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
       },
       "CHANGE_PRIORITY": {
         "SELECT_PLACEHOLDER": "Không có",
-        "INPUT_PLACEHOLDER": "Chọc mức ưu tiên",
+        "INPUT_PLACEHOLDER": "Select priority",
         "NO_RESULTS": "Không tìm thấy kết quả",
         "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
         "FAILED": "Couldn't change priority. Please try again."
@@ -133,7 +126,7 @@
           "FAILED": "Không thể gán điện thoại viên. Vui lòng thử lại."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
+          "SUCCESFUL": "Đã gán nhãn #{labelName} cho id hội thoại {conversationId}",
           "FAILED": "Không thể gán nhãn. Vui lòng thử lại."
         },
         "TEAM_ASSIGNMENT": {
@@ -157,7 +150,7 @@
       "PRIVATE_NOTE": "Lưu ý riêng",
       "SEND": "Gửi",
       "CREATE": "Thêm ghi chú",
-      "INSERT_READ_MORE": "Đọc thêm",
+      "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Hiển thị trình soạn thảo văn bản đa dạng thức",
@@ -226,10 +219,6 @@
         "DELETE": "Xoá",
         "CANCEL": "Huỷ"
       }
-    },
-    "SIDEBAR": {
-      "CONTACT": "Liên hệ",
-      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -321,8 +310,7 @@
     "TO": "Đến",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Chủ đề",
-    "EXPAND": "Expand email"
+    "SUBJECT": "Chủ đề"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participating",
@@ -347,10 +335,5 @@
     "ORIGINAL_CONTENT": "Original Content",
     "TRANSLATED_CONTENT": "Translated Content",
     "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
-  },
-  "TYPING": {
-    "ONE": "{user} is typing",
-    "TWO": "{user} and {secondUser} are typing",
-    "MULTIPLE": "{user} and {count} others are typing"
   }
 }

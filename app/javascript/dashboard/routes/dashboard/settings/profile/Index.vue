@@ -4,6 +4,7 @@ import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
@@ -109,9 +110,7 @@ export default {
 
         return true; // return the value so that the status can be known
       } catch (error) {
-        alertMessage = error?.response?.data?.error
-          ? error.response.data.error
-          : errorMessage;
+        alertMessage = parseAPIErrorResponse(error) || errorMessage;
 
         return false; // return the value so that the status can be known
       } finally {
@@ -191,7 +190,6 @@ export default {
       <UserProfilePicture
         :src="avatarUrl"
         :name="name"
-        size="72px"
         @change="updateProfilePicture"
         @delete="deleteProfilePicture"
       />
@@ -200,7 +198,7 @@ export default {
         :display-name="displayName"
         :email="email"
         :email-enabled="!globalConfig.disableUserProfileUpdate"
-        @updateUser="updateProfile"
+        @update-user="updateProfile"
       />
     </div>
 
@@ -210,7 +208,7 @@ export default {
     >
       <MessageSignature
         :message-signature="messageSignature"
-        @updateSignature="updateSignature"
+        @update-signature="updateSignature"
       />
     </FormSection>
     <FormSection
@@ -267,7 +265,7 @@ export default {
         )
       "
     >
-      <AccessToken :value="currentUser.access_token" @onCopy="onCopyToken" />
+      <AccessToken :value="currentUser.access_token" @on-copy="onCopyToken" />
     </FormSection>
   </div>
 </template>

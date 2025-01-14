@@ -12,6 +12,7 @@ import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
 import PriorityMark from './PriorityMark.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
+import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 
 export default {
   components: {
@@ -23,6 +24,7 @@ export default {
     MessagePreview,
     PriorityMark,
     SLACardLabel,
+    ContextMenu,
   },
   mixins: [inboxMixin],
   props: {
@@ -67,6 +69,15 @@ export default {
       default: false,
     },
   },
+  emits: [
+    'contextMenuToggle',
+    'assignAgent',
+    'assignLabel',
+    'assignTeam',
+    'markAsUnread',
+    'assignPriority',
+    'updateConversationStatus',
+  ],
   data() {
     return {
       hovered: false,
@@ -316,17 +327,13 @@ export default {
           {{ unreadCount > 9 ? '9+' : unreadCount }}
         </span>
       </div>
-      <CardLabels
-        :conversation-id="chat.id"
-        :conversation-labels="chat.labels"
-        class="mt-0.5 mx-2 mb-0"
-      >
+      <CardLabels :conversation-labels="chat.labels" class="mt-0.5 mx-2 mb-0">
         <template v-if="hasSlaPolicyId" #before>
           <SLACardLabel :chat="chat" class="ltr:mr-1 rtl:ml-1" />
         </template>
       </CardLabels>
     </div>
-    <woot-context-menu
+    <ContextMenu
       v-if="showContextMenu"
       :x="contextMenu.x"
       :y="contextMenu.y"
@@ -338,14 +345,14 @@ export default {
         :priority="chat.priority"
         :chat-id="chat.id"
         :has-unread-messages="hasUnread"
-        @updateConversation="onUpdateConversation"
-        @assignAgent="onAssignAgent"
-        @assignLabel="onAssignLabel"
-        @assignTeam="onAssignTeam"
-        @markAsUnread="markAsUnread"
-        @assignPriority="assignPriority"
+        @update-conversation="onUpdateConversation"
+        @assign-agent="onAssignAgent"
+        @assign-label="onAssignLabel"
+        @assign-team="onAssignTeam"
+        @mark-as-unread="markAsUnread"
+        @assign-priority="assignPriority"
       />
-    </woot-context-menu>
+    </ContextMenu>
   </div>
 </template>
 

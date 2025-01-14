@@ -77,7 +77,7 @@ export default {
   },
   computed: {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
-    getWidgetHeadConfig() {
+    getWidgetConfig() {
       return {
         welcomeHeading: this.welcomeHeading,
         welcomeTagline: this.welcomeTagline,
@@ -86,23 +86,6 @@ export default {
         isDefaultScreen: this.isDefaultScreen,
         isOnline: this.isOnline,
         replyTime: this.replyTimeText,
-        color: this.color,
-      };
-    },
-    getWidgetBodyConfig() {
-      return {
-        welcomeHeading: this.welcomeHeading,
-        welcomeTagline: this.welcomeTagline,
-        isDefaultScreen: this.isDefaultScreen,
-        isOnline: this.isOnline,
-        replyTime: this.replyTimeText,
-        color: this.color,
-        logo: this.logo,
-      };
-    },
-    getWidgetFooterConfig() {
-      return {
-        isDefaultScreen: this.isDefaultScreen,
         color: this.color,
       };
     },
@@ -123,12 +106,10 @@ export default {
         justifyContent: this.widgetBubblePosition === 'left' ? 'start' : 'end',
       };
     },
-    getBubbleTypeClass() {
-      return {
-        'bubble-close': this.isWidgetVisible,
-        'bubble-expanded':
-          !this.isWidgetVisible && this.widgetBubbleType === 'expanded_bubble',
-      };
+    isBubbleExpanded() {
+      return (
+        !this.isWidgetVisible && this.widgetBubbleType === 'expanded_bubble'
+      );
     },
     getWidgetBubbleLauncherTitle() {
       return this.isWidgetVisible || this.widgetBubbleType === 'standard'
@@ -149,22 +130,33 @@ export default {
 </script>
 
 <template>
-  <div class="widget-preview-container">
-    <div v-if="isWidgetVisible" class="screen-selector">
+  <div>
+    <div v-if="isWidgetVisible" class="flex flex-col items-center">
       <InputRadioGroup
         name="widget-screen"
         :items="widgetScreens"
         :action="handleScreenChange"
       />
     </div>
-    <div v-if="isWidgetVisible" class="widget-wrapper">
-      <WidgetHead :config="getWidgetHeadConfig" />
+    <div
+      v-if="isWidgetVisible"
+      class="widget-wrapper flex flex-col justify-between rounded-lg shadow-md bg-slate-25 dark:bg-slate-800 h-[500px] w-[320px]"
+    >
+      <WidgetHead :config="getWidgetConfig" />
       <div>
-        <WidgetBody :config="getWidgetBodyConfig" />
-        <WidgetFooter :config="getWidgetFooterConfig" />
-        <div class="branding">
-          <a class="branding-link">
-            <img class="branding-image" :src="globalConfig.logoThumbnail" />
+        <WidgetBody
+          v-if="!getWidgetConfig.isDefaultScreen"
+          :config="getWidgetConfig"
+        />
+        <WidgetFooter :config="getWidgetConfig" />
+        <div class="py-2.5 flex justify-center">
+          <a
+            class="items-center gap-0.5 text-slate-500 dark:text-slate-400 cursor-pointer flex filter grayscale opacity-90 hover:grayscale-0 hover:opacity-100 text-xxs"
+          >
+            <img
+              class="max-w-2.5 max-h-2.5"
+              :src="globalConfig.logoThumbnail"
+            />
             <span>
               {{
                 useInstallationName(
@@ -177,135 +169,34 @@ export default {
         </div>
       </div>
     </div>
-    <div class="widget-bubble" :style="getBubblePositionStyle">
+    <div class="flex mt-4 w-[320px]" :style="getBubblePositionStyle">
       <button
-        class="bubble"
-        :class="getBubbleTypeClass"
+        class="relative flex items-center justify-center rounded-full cursor-pointer"
         :style="{ background: color }"
+        :class="
+          isBubbleExpanded
+            ? 'w-auto font-medium text-base text-white dark:text-white h-12 px-4'
+            : 'w-16 h-16'
+        "
         @click="toggleWidget"
       >
         <img
           v-if="!isWidgetVisible"
           src="~dashboard/assets/images/bubble-logo.svg"
           alt=""
+          draggable="false"
+          class="w-6 h-6 mx-auto"
         />
-        <div>
+        <div v-if="isBubbleExpanded" class="ltr:pl-2.5 rtl:pr-2.5">
           {{ getWidgetBubbleLauncherTitle }}
+        </div>
+        <div v-if="isWidgetVisible" class="relative">
+          <div class="absolute w-0.5 h-8 rotate-45 -translate-y-1/2 bg-white" />
+          <div
+            class="absolute w-0.5 h-8 -rotate-45 -translate-y-1/2 bg-white"
+          />
         </div>
       </button>
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.screen-selector {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.widget-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: var(--shadow-widget-builder);
-  border-radius: var(--border-radius-large);
-  background-color: #f4f6fb;
-  width: calc(var(--space-large) * 10);
-  height: calc(var(--space-mega) * 5);
-
-  .branding {
-    padding-top: var(--space-one);
-    padding-bottom: var(--space-one);
-    display: flex;
-    justify-content: center;
-
-    .branding-link {
-      align-items: center;
-      color: var(--b-500);
-      cursor: pointer;
-      display: flex;
-      filter: grayscale(1);
-      flex-direction: row;
-      font-size: var(--font-size-micro);
-      line-height: 1.5;
-      opacity: 0.9;
-      text-decoration: none;
-
-      &:hover {
-        filter: grayscale(0);
-        opacity: 1;
-        color: var(--b-600);
-      }
-
-      .branding-image {
-        max-width: var(--space-one);
-        max-height: var(--space-one);
-        margin-right: var(--space-micro);
-      }
-    }
-  }
-}
-.widget-bubble {
-  display: flex;
-  flex-direction: row;
-  margin-top: var(--space-normal);
-  width: calc(var(--space-large) * 10);
-
-  .bubble {
-    display: flex;
-    align-items: center;
-    border-radius: calc(var(--border-radius-large) * 10);
-    height: calc(var(--space-large) * 2);
-    width: calc(var(--space-large) * 2);
-    position: relative;
-    overflow-wrap: anywhere;
-    cursor: pointer;
-
-    img {
-      height: var(--space-medium);
-      margin: var(--space-one) var(--space-one) var(--space-one)
-        var(--space-two);
-      width: var(--space-medium);
-    }
-
-    div {
-      padding-right: var(--space-two);
-    }
-
-    .bubble-expanded {
-      img {
-        height: var(--space-large);
-        width: var(--space-large);
-      }
-    }
-  }
-
-  .bubble-close::before,
-  .bubble-close::after {
-    background-color: var(--white);
-    content: ' ';
-    display: inline;
-    height: var(--space-medium);
-    width: var(--space-micro);
-    left: var(--space-large);
-    position: absolute;
-  }
-
-  .bubble-close::before {
-    transform: rotate(45deg);
-  }
-
-  .bubble-close::after {
-    transform: rotate(-45deg);
-  }
-
-  .bubble-expanded {
-    font-size: var(--font-size-default);
-    font-weight: var(--font-weight-medium);
-    color: var(--white);
-    width: auto !important;
-    height: var(--space-larger) !important;
-  }
-}
-</style>

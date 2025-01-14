@@ -3,7 +3,7 @@
     "TITLE": "登录到Chatwoot",
     "EMAIL": {
       "LABEL": "Email",
-      "PLACEHOLDER": "电子邮址 例如：somone@example.com"
+      "PLACEHOLDER": "电子邮址 例如：somone{'@'}example.com"
     },
     "PASSWORD": {
       "LABEL": "密码",

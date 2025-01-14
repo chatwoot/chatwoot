@@ -95,6 +95,7 @@ export default {
             : ''
         }`"
         @input="v$.currentPassword.$touch"
+        @blur="v$.currentPassword.$touch"
       />
 
       <woot-input
@@ -108,6 +109,7 @@ export default {
           v$.password.$error ? $t('PROFILE_SETTINGS.FORM.PASSWORD.ERROR') : ''
         }`"
         @input="v$.password.$touch"
+        @blur="v$.password.$touch"
       />
 
       <woot-input
@@ -125,6 +127,7 @@ export default {
             : ''
         }`"
         @input="v$.passwordConfirmation.$touch"
+        @blur="v$.passwordConfirmation.$touch"
       />
 
       <FormButton

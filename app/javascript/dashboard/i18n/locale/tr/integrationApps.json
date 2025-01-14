@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Bağlantıyı Kes"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language understanding platform that makes it easy to design and integrate a conversational user interface into your mobile app, web application, device, bot, interactive voice response system, and so on. <br /> <br /> Dialogflow integration with {installationName} allows you to configure a Dialogflow bot with your inboxes which lets the bot handle the queries initially and hand them over to an agent when needed. Dialogflow can be used to qualifying the leads, reduce the workload of agents by providing frequently asked questions etc. <br /> <br /> To add Dialogflow, you need to create a Service Account in your Google project console and share the credentials. Please refer to the Dialogflow docs for more information."
+      "DIALOGFLOW": "Dialogflow, doğal dil anlama platformudur ve mobil uygulamanıza, web uygulamanıza, cihazınıza, botunuza, etkileşimli sesli yanıt sistemine vb. sohbet kullanıcı arayüzü tasarlamayı ve entegre etmeyi kolaylaştırır. <br /> <br /> Dialogflow'un {installationName} ile entegrasyonu, botunuzu gelen kutularınızla yapılandırmanıza olanak tanır, bu da bota soruları başlangıçta ele almasını ve gerektiğinde bir temsilciye devretmesini sağlar. Dialogflow, lead'leri nitelendirmek, temsilcilere sıkça sorulan soruları sağlayarak temsilcilerin iş yükünü azaltmak için kullanılabilir. <br /> <br /> Dialogflow eklemek için, Google proje konsolunuzda bir Hizmet Hesabı oluşturmanız ve kimlik bilgilerini paylaşmanız gerekmektedir. Daha fazla bilgi için Dialogflow belgelerine başvurun."
     }
   }
 }

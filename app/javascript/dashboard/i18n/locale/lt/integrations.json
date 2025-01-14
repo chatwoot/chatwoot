@@ -31,7 +31,7 @@
         },
         "END_POINT": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Example: {webhookExampleURL}",
+          "PLACEHOLDER": "Pavyzdys: https://example/api/webhook",
           "ERROR": "Prašome įvesti tesingą URL adresą"
         },
         "EDIT_SUBMIT": "Atnaujinti webhook",
@@ -47,10 +47,10 @@
       "LIST": {
         "404": "Šioje paskyroje nėra sukonfigūruotų webhook.",
         "TITLE": "Tvarkykite webhooks",
-        "TABLE_HEADER": {
-          "WEBHOOK_ENDPOINT": "Webhook endpoint",
-          "ACTIONS": "Veiksmai"
-        }
+        "TABLE_HEADER": [
+          "Webhook endpoint",
+          "Veiksmai"
+        ]
       },
       "EDIT": {
         "BUTTON_TEXT": "Redaguoti",
@@ -90,7 +90,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "Slack integracijos naudojimas",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
+        "BODY": "<br/><p>Dabar Chatwoot sinchronizuos visus gaunamus pokalbius į <b><i>kliento pokalbiai</i></b> kanalą jūsų laisvoje darbo vietoje.</p><p>Atsakymas į pokalbių giją <b><i>kliento pokalbiai</i></b> Slack kanale pateiks atsakymą klientui per chatwoot.</p><p>Atsakymus pradėkite naudodami <b><i> pastaba:</i></b> jei norite sukurti privačias pastabas, o ne atsakymus.</p><p>Jei „slack“ atsakytojas turi agento profilį „chatwoot“ tuo pačiu el. pašto adresu, atsakymai bus atitinkamai susieti.</p><p> p><p>Kai atsakiklis neturi susieto agento profilio, atsakymai bus pateikiami iš boto profilio.</p>",
         "SELECTED": "pasirinkta"
       },
       "SELECT_CHANNEL": {
@@ -114,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI pagalba",
-      "WITH_AI": " {option} with AI ",
+      "WITH_AI": " {option} su AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Atsakymo pasiūlymas",
         "SUMMARIZE": "Apibendrinti",
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "Šioje paskyroje nėra sukonfigūruotų informacinio skydelio programų",
         "LOADING": "Gaunamos informacinio skydelio programos...",
-        "TABLE_HEADER": {
-          "NAME": "Vardas",
-          "ENDPOINT": "Endpoint"
-        },
+        "TABLE_HEADER": [
+          "Vardas",
+          "Endpoint"
+        ],
         "EDIT_TOOLTIP": "Redaguoti programą",
         "DELETE_TOOLTIP": "Ištrinti programą"
       },
@@ -301,15 +301,6 @@
         "SUCCESS": "Issue unlinked successfully",
         "ERROR": "There was an error unlinking the issue, please try again"
       }
-    }
-  },
-  "CAPTAIN": {
-    "NAME": "Captain",
-    "COPILOT": {
-      "SEND_MESSAGE": "Išsiųsti pranešimą...",
-      "LOADER": "Captain is thinking",
-      "YOU": "Jūs",
-      "USE": "Use this"
     }
   }
 }

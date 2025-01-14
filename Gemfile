@@ -49,7 +49,7 @@ gem 'aws-sdk-s3', require: false
 # original gem isn't maintained actively
 # we wanted updated version of faraday which is a dependency for slack-ruby-client
 gem 'azure-storage-blob', git: 'https://github.com/chatwoot/azure-storage-ruby', branch: 'chatwoot', require: false
-gem 'google-cloud-storage', require: false
+gem 'google-cloud-storage', '>= 1.48.0', require: false
 gem 'image_processing'
 
 ##-- gems for database --#
@@ -64,7 +64,7 @@ gem 'activerecord-import'
 gem 'dotenv-rails', '>= 3.0.0'
 gem 'foreman'
 gem 'puma'
-gem 'webpacker'
+gem 'vite_rails'
 # metrics on heroku
 gem 'barnes'
 
@@ -181,6 +181,9 @@ gem 'reverse_markdown'
 group :production do
   # we dont want request timing out in development while using byebug
   gem 'rack-timeout'
+  # for heroku autoscaling
+  gem 'judoscale-rails', require: false
+  gem 'judoscale-sidekiq', require: false
 end
 
 group :development do
@@ -204,8 +207,6 @@ group :development do
 end
 
 group :test do
-  # Cypress in rails.
-  gem 'cypress-on-rails'
   # fast cleaning of database
   gem 'database_cleaner'
   # mock http calls

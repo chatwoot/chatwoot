@@ -9,8 +9,8 @@ import {
   generateLogActionKey,
 } from 'dashboard/helper/auditlogHelper';
 import { computed, onMounted, watch } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
-import { useRoute, useRouter } from 'dashboard/composables/route';
+import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -35,13 +35,19 @@ const fetchAuditLogs = page => {
 };
 
 const generateLogText = auditLogItem => {
-  const translationPayload = generateTranslationPayload(
-    auditLogItem,
-    agentList.value
-  );
+  const payload = generateTranslationPayload(auditLogItem, agentList.value);
   const translationKey = generateLogActionKey(auditLogItem);
 
-  return t(translationKey, translationPayload);
+  const joinIfArray = value => {
+    return Array.isArray(value) ? value.join(', ') : value;
+  };
+
+  const mergedPayload = {
+    ...payload,
+    attributes: joinIfArray(payload.attributes),
+    values: joinIfArray(payload.values),
+  };
+  return t(translationKey, mergedPayload);
 };
 
 const onPageChange = page => {
@@ -57,6 +63,14 @@ watch(routerPage, (newPage, oldPage) => {
   if (newPage !== oldPage) {
     fetchAuditLogs(newPage);
   }
+});
+
+const tableHeaders = computed(() => {
+  return [
+    t('AUDIT_LOGS.LIST.TABLE_HEADER.ACTIVITY'),
+    t('AUDIT_LOGS.LIST.TABLE_HEADER.TIME'),
+    t('AUDIT_LOGS.LIST.TABLE_HEADER.IP_ADDRESS'),
+  ];
 });
 </script>
 
@@ -84,7 +98,7 @@ watch(routerPage, (newPage, oldPage) => {
         <table class="divide-y divide-slate-75 dark:divide-slate-700">
           <thead>
             <th
-              v-for="thHeader in $t('AUDIT_LOGS.LIST.TABLE_HEADER')"
+              v-for="thHeader in tableHeaders"
               :key="thHeader"
               class="py-4 pr-4 text-left font-semibold text-slate-700 dark:text-slate-300"
             >
@@ -117,7 +131,7 @@ watch(routerPage, (newPage, oldPage) => {
           :total-count="meta.totalEntries"
           :page-size="meta.perPage"
           class="border-slate-50 dark:border-slate-800 border-t !px-0 py-4"
-          @pageChange="onPageChange"
+          @page-change="onPageChange"
         />
       </div>
     </div>

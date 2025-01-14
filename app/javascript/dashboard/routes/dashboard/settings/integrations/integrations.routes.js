@@ -1,11 +1,11 @@
 import { frontendURL } from '../../../../helper/URLHelper';
-const SettingsWrapper = () => import('../SettingsWrapper.vue');
-const IntegrationHooks = () => import('./IntegrationHooks.vue');
-const Index = () => import('./Index.vue');
-const Webhook = () => import('./Webhooks/Index.vue');
-const DashboardApps = () => import('./DashboardApps/Index.vue');
-const Slack = () => import('./Slack.vue');
-const SettingsContent = () => import('../Wrapper.vue');
+import SettingsWrapper from '../SettingsWrapper.vue';
+import IntegrationHooks from './IntegrationHooks.vue';
+import Index from './Index.vue';
+import Webhook from './Webhooks/Index.vue';
+import DashboardApps from './DashboardApps/Index.vue';
+import Slack from './Slack.vue';
+import SettingsContent from '../Wrapper.vue';
 
 export default {
   routes: [

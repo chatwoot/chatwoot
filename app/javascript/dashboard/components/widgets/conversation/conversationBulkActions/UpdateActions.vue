@@ -1,5 +1,5 @@
 <script setup>
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { ref } from 'vue';
 
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';

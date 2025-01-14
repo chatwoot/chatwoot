@@ -41,6 +41,7 @@ export default {
       default: false,
     },
   },
+  emits: ['contactPanelToggle'],
   setup(props, { emit }) {
     const keyboardEvents = {
       'Alt+KeyO': {
@@ -139,7 +140,7 @@ export default {
         <BackButton
           v-if="showBackButton"
           :back-url="backButtonUrl"
-          class="ltr:ml-0 rtl:mr-0 rtl:ml-4"
+          class="ltr:mr-2 rtl:ml-2"
         />
         <Thumbnail
           :src="currentContact.thumbnail"

@@ -38,17 +38,10 @@
     "REMOVE_SELECTION": "Видалити вибране",
     "DOWNLOAD": "Звантажити",
     "UNKNOWN_FILE_TYPE": "Невідомий файл",
-    "SAVE_CONTACT": "Save Contact",
-    "NO_CONTENT": "No content to display",
-    "SHARED_ATTACHMENT": {
-      "CONTACT": "{sender} has shared a contact",
-      "LOCATION": "{sender} has shared a location",
-      "FILE": "{sender} has shared a file",
-      "MEETING": "{sender} розпочав зустріч"
-    },
+    "SAVE_CONTACT": "Зберегти",
     "UPLOADING_ATTACHMENTS": "Завантаження вкладень...",
     "REPLIED_TO_STORY": "Відповів(-ла) на вашу історію",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
+    "UNSUPPORTED_MESSAGE": "Це повідомлення не підтримується.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Це повідомлення не підтримується. Ви можете переглянути це повідомлення у додатку Facebook Messenger",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Це повідомлення не підтримується. Ви можете переглянути це повідомлення у додатку Instagram.",
     "SUCCESS_DELETE_MESSAGE": "Повідомлення успішно видалено",
@@ -133,7 +126,7 @@
           "FAILED": "Не вдалося призначити агента. Будь ласка, спробуйте ще раз."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
+          "SUCCESFUL": "Призначено мітку #{labelName} до ID розмови {conversationId}",
           "FAILED": "Не вдалося призначити мітку. Будь-ласка, спробуйте ще раз."
         },
         "TEAM_ASSIGNMENT": {
@@ -226,10 +219,6 @@
         "DELETE": "Видалити",
         "CANCEL": "Скасувати"
       }
-    },
-    "SIDEBAR": {
-      "CONTACT": "Контакт",
-      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -321,8 +310,7 @@
     "TO": "Для",
     "BCC": "Прихована копія",
     "CC": "Копія",
-    "SUBJECT": "Тема",
-    "EXPAND": "Expand email"
+    "SUBJECT": "Тема"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Підключені агенти",
@@ -347,10 +335,5 @@
     "ORIGINAL_CONTENT": "Оригінальний текст",
     "TRANSLATED_CONTENT": "Переклад",
     "NO_TRANSLATIONS_AVAILABLE": "Немає доступних перекладів"
-  },
-  "TYPING": {
-    "ONE": "{user} is typing",
-    "TWO": "{user} and {secondUser} are typing",
-    "MULTIPLE": "{user} and {count} others are typing"
   }
 }

@@ -1,3 +1,4 @@
+# TODO: lets use HTTParty instead of RestClient
 class ChatwootHub
   BASE_URL = ENV.fetch('CHATWOOT_HUB_URL', 'https://hub.2.chatwoot.com')
   PING_URL = "#{BASE_URL}/ping".freeze
@@ -5,6 +6,7 @@ class ChatwootHub
   PUSH_NOTIFICATION_URL = "#{BASE_URL}/send_push".freeze
   EVENTS_URL = "#{BASE_URL}/events".freeze
   BILLING_URL = "#{BASE_URL}/billing".freeze
+  CAPTAIN_ACCOUNTS_URL = "#{BASE_URL}/instance_captain_accounts".freeze
 
   def self.installation_identifier
     identifier = InstallationConfig.find_by(name: 'INSTALLATION_IDENTIFIER')&.value
@@ -44,14 +46,18 @@ class ChatwootHub
 
   def self.instance_metrics
     {
-      accounts_count: Account.count,
-      users_count: User.count,
-      inboxes_count: Inbox.count,
-      conversations_count: Conversation.count,
-      incoming_messages_count: Message.incoming.count,
-      outgoing_messages_count: Message.outgoing.count,
+      accounts_count: fetch_count(Account),
+      users_count: fetch_count(User),
+      inboxes_count: fetch_count(Inbox),
+      conversations_count: fetch_count(Conversation),
+      incoming_messages_count: fetch_count(Message.incoming),
+      outgoing_messages_count: fetch_count(Message.outgoing),
       additional_information: {}
     }
+  end
+
+  def self.fetch_count(model)
+    model.last&.id || 0
   end
 
   def self.sync_with_hub
@@ -84,6 +90,17 @@ class ChatwootHub
     Rails.logger.error "Exception: #{e.message}"
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception
+  end
+
+  def self.get_captain_settings(account)
+    info = {
+      installation_identifier: installation_identifier,
+      chatwoot_account_id: account.id,
+      account_name: account.name
+    }
+    HTTParty.post(CAPTAIN_ACCOUNTS_URL,
+                  body: info.to_json,
+                  headers: { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
   end
 
   def self.emit_event(event_name, event_data)

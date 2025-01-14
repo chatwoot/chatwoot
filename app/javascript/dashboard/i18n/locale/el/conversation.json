@@ -38,17 +38,10 @@
     "REMOVE_SELECTION": "Διαγραφή Επιλογής",
     "DOWNLOAD": "Κατέβασμα",
     "UNKNOWN_FILE_TYPE": "Άγνωστο Αρχείο",
-    "SAVE_CONTACT": "Save Contact",
-    "NO_CONTENT": "No content to display",
-    "SHARED_ATTACHMENT": {
-      "CONTACT": "{sender} has shared a contact",
-      "LOCATION": "{sender} has shared a location",
-      "FILE": "{sender} has shared a file",
-      "MEETING": "Ό πράκτορας {sender} ξεκίνησε μια συνάντηση"
-    },
+    "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Ανέβασμα επισυναπτόμενων...",
     "REPLIED_TO_STORY": "Replied to your story",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Το μήνυμα διαγράφηκε επιτυχώς",
@@ -133,7 +126,7 @@
           "FAILED": "Αδυναμία αντιστοίχισης σε πράκτορα. Παρακαλώ δοκιμάστε ξανά."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
+          "SUCCESFUL": "Εκχώρηση ετικέτας #{labelName} στην συνομιλία με αριθμό {conversationId}",
           "FAILED": "Αποτυχία στην εκχώρηση ετικέτας, παρακαλώ δοκιμάστε αργότερα."
         },
         "TEAM_ASSIGNMENT": {
@@ -226,10 +219,6 @@
         "DELETE": "Διαγραφή",
         "CANCEL": "Άκυρο"
       }
-    },
-    "SIDEBAR": {
-      "CONTACT": "Επαφές",
-      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -321,8 +310,7 @@
     "TO": "Προς",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Θέμα",
-    "EXPAND": "Expand email"
+    "SUBJECT": "Θέμα"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participating",
@@ -347,10 +335,5 @@
     "ORIGINAL_CONTENT": "Original Content",
     "TRANSLATED_CONTENT": "Translated Content",
     "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
-  },
-  "TYPING": {
-    "ONE": "{user} is typing",
-    "TWO": "{user} and {secondUser} are typing",
-    "MULTIPLE": "{user} and {count} others are typing"
   }
 }

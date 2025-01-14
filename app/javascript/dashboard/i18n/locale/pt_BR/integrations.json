@@ -5,14 +5,14 @@
     "LEARN_MORE": "Aprenda mais sobre integrações",
     "LOADING": "Obtendo integrações",
     "CAPTAIN": {
-      "DISABLED": "O capitão não está ativado na sua conta.",
+      "DISABLED": "Captain is not enabled on your account.",
       "CLICK_HERE_TO_CONFIGURE": "Clique aqui para configurar",
-      "LOADING_CONSOLE": "Carregando console do Captain...",
+      "LOADING_CONSOLE": "Loading Captain Console...",
       "FAILED_TO_LOAD_CONSOLE": ""
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventos Inscritos",
-      "LEARN_MORE": "Saiba mais sobre webhooks",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Cancelar",
         "DESC": "Webhook Os eventos fornecem informações em tempo real sobre o que está acontecendo na sua conta do Chatwoot. Digite um URL válido para configurar um retorno de chamada.",
@@ -31,7 +31,7 @@
         },
         "END_POINT": {
           "LABEL": "URL do Webhook",
-          "PLACEHOLDER": "Exemplo: {webhookExampleURL}",
+          "PLACEHOLDER": "Exemplo: https://example/api/webhook",
           "ERROR": "Por favor, insira uma URL válida"
         },
         "EDIT_SUBMIT": "Atualizar webhook",
@@ -47,10 +47,10 @@
       "LIST": {
         "404": "Não há webhooks configurados para esta conta.",
         "TITLE": "Gerenciar webhooks",
-        "TABLE_HEADER": {
-          "WEBHOOK_ENDPOINT": "Webhook URL (endpoint)",
-          "ACTIONS": "Ações"
-        }
+        "TABLE_HEADER": [
+          "Webhook URL (endpoint)",
+          "Ações"
+        ]
       },
       "EDIT": {
         "BUTTON_TEXT": "Alterar",
@@ -90,7 +90,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "Usando a integração com Slack",
-        "BODY": "Com essa integração, todas as suas conversas recebidas serão sincronizadas com o canal ***{selectedChannelName}*** em seu espaço de trabalho Slack. Você pode gerenciar todas as suas conversas com clientes diretamente no canal e nunca perder uma mensagem.\n\nAqui estão os principais recursos da integração:\n\n**Responda a conversas de dentro do Slack:** Para responder a uma conversa no canal ***{selectedChannelName}*** Slack, simplesmente digite a sua mensagem e envie-a como um tópico. Isso criará uma resposta ao cliente através do Chatwoot. É tão simples!\n\n **Crie notas privadas:** Se você quiser criar notas privadas em vez de respostas, inicie sua mensagem com ***`nota:`***. Isso garante que sua mensagem seja privada e não seja visível para o cliente.\n\n**Associar um perfil de agente:** Se a pessoa que respondeu no Slack tem um perfil de agente no Chatwoot sob o mesmo e-mail, as respostas serão associadas automaticamente com esse perfil de agente. Isso significa que você pode facilmente controlar quem disse o quê e quando. Por outro lado, quando o respondente não tiver um perfil de agente associado, as respostas aparecerão do perfil do bot para o cliente.",
+        "BODY": "<br/><p>Chatwoot irá agora sincronizar todas as conversas recebidas no canal de <b><i>conversas com clientes</i></b> dentro de seu local de trabalho de slack.</p><p>A resposta para uma conversa em <b><i>conversas ao cliente</i></b> canal de slack irá criar uma resposta para o cliente através do chatwoot.</p><p>Inicie as respostas com <b><i>nota:</i></b> para criar notas privadas em vez de respostas.</p><p>Se o remetente do slack tiver um perfil de agente no chatwoot sob o mesmo e-mail, as respostas serão associadas de acordo.</p><p>Quando o respondente não tiver um perfil de agente associado, as respostas serão dadas a partir do perfil do bot.</p>",
         "SELECTED": "selecionar"
       },
       "SELECT_CHANNEL": {
@@ -179,14 +179,14 @@
       "HEADER_BTN_TXT": "Adicionar um novo app da dashboard",
       "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps permite que as organizações incorporem um aplicativo dentro da dashboard do Chatwoot para fornecer o contexto para agentes de suporte ao cliente. Este recurso permite-lhe criar uma aplicação independente e incorporá-la dentro da dashboard para fornecer informações do usuário, seus pedidos ou seu histórico de pagamentos anteriores.</p><p>Quando você incorpora seu aplicativo usando a dashboard do Chatwoot, sua aplicação irá obter o contexto da conversa e entrar em contato como um evento de janela. Implementar um ouvinte para o evento de mensagem em sua página receber o contexto.</p><p>Para adicionar um novo aplicativo da dashboard, clique no botão 'Adicionar um novo aplicativo da dashboard'.</p>",
       "DESCRIPTION": "Aplicativos da dashboard permitem que organizações incorporem um aplicativo dentro do painel para fornecer o contexto para agentes de suporte ao cliente. Este recurso permite que você crie uma aplicação independente e incorpore para fornecer informações de usuário, seus pedidos ou seu histórico de pagamentos anteriores.",
-      "LEARN_MORE": "Saiba mais sobre os aplicativos de Dashboard",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "Ainda não há aplicativos da dashboard nesta conta",
         "LOADING": "Buscando aplicativos da dashboard...",
-        "TABLE_HEADER": {
-          "NAME": "Nome",
-          "ENDPOINT": "Endpoint"
-        },
+        "TABLE_HEADER": [
+          "Nome",
+          "Endpoint"
+        ],
         "EDIT_TOOLTIP": "Editar aplicativo",
         "DELETE_TOOLTIP": "Excluir aplicativo"
       },
@@ -235,7 +235,7 @@
         "ERROR": "",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversa (#{conversationId}) com {name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -258,33 +258,33 @@
           },
           "ASSIGNEE": {
             "LABEL": "Responsável",
-            "PLACEHOLDER": "Selecione o atribuído",
-            "SEARCH": "Pesquisar atribuído"
+            "PLACEHOLDER": "Select assignee",
+            "SEARCH": "Search assignee"
           },
           "PRIORITY": {
             "LABEL": "Prioridade",
             "PLACEHOLDER": "Selecionar prioridade",
-            "SEARCH": "Selecionar prioridade"
+            "SEARCH": "Search priority"
           },
           "LABEL": {
             "LABEL": "Nome do campo",
             "PLACEHOLDER": "Selecione o marcador",
-            "SEARCH": "Pesquisar marcador "
+            "SEARCH": "Search label"
           },
           "STATUS": {
             "LABEL": "SItuação",
-            "PLACEHOLDER": "Selecione Status",
-            "SEARCH": "Pesquisar status"
+            "PLACEHOLDER": "Select status",
+            "SEARCH": "Search status"
           },
           "PROJECT": {
-            "LABEL": "Projeto",
-            "PLACEHOLDER": "Selecionar projeto",
-            "SEARCH": "Pesquisar projeto"
+            "LABEL": "Project",
+            "PLACEHOLDER": "Select project",
+            "SEARCH": "Search project"
           }
         },
         "CREATE": "Criar",
         "CANCEL": "Cancelar",
-        "CREATE_SUCCESS": "Pasta criada com sucesso",
+        "CREATE_SUCCESS": "Issue created successfully",
         "CREATE_ERROR": "There was an error creating the issue, please try again",
         "LOADING_TEAM_ERROR": "Houve um erro ao buscar as equipes, por favor, tente novamente",
         "LOADING_TEAM_ENTITIES_ERROR": "Houve um erro ao buscar as entidades da equipe, por favor, tente novamente"
@@ -301,15 +301,6 @@
         "SUCCESS": "Issue desvinculada com sucesso",
         "ERROR": "Houve um erro ao desvincular o atributo, por favor, tente novamente"
       }
-    }
-  },
-  "CAPTAIN": {
-    "NAME": "Capitain",
-    "COPILOT": {
-      "SEND_MESSAGE": "Enviar mensagem...",
-      "LOADER": "Captain is thinking",
-      "YOU": "Você",
-      "USE": "Use this"
     }
   }
 }

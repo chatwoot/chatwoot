@@ -39,8 +39,9 @@ RSpec.describe 'Google::CallbacksController', type: :request do
       expect(Redis::Alfred.get(cache_key)).to be_nil
     end
 
-    it 'creates updates inbox channel config if inbox exists and authentication is successful' do
-      inbox = create(:channel_email, account: account, email: email)&.inbox
+    it 'updates inbox channel config if inbox exists with imap_login and authentication is successful' do
+      channel_email = create(:channel_email, account: account, imap_login: email)
+      inbox = channel_email.inbox
       expect(inbox.channel.provider_config).to eq({})
 
       stub_request(:post, 'https://accounts.google.com/o/oauth2/token')
@@ -50,7 +51,7 @@ RSpec.describe 'Google::CallbacksController', type: :request do
 
       get google_callback_url, params: { code: code }
 
-      expect(response).to redirect_to app_email_inbox_settings_url(account_id: account.id, inbox_id: account.inboxes.last.id)
+      expect(response).to redirect_to app_email_inbox_settings_url(account_id: account.id, inbox_id: inbox.id)
       expect(account.inboxes.count).to be 1
       expect(inbox.channel.reload.provider_config.keys).to include('access_token', 'refresh_token', 'expires_on')
       expect(inbox.channel.reload.provider_config['access_token']).to eq response_body_success[:access_token]

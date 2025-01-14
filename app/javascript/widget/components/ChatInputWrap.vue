@@ -8,7 +8,7 @@ import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 import { useDarkMode } from 'widget/composables/useDarkMode';
 
-const EmojiInput = () => import('shared/components/emoji/EmojiInput.vue');
+import EmojiInput from 'shared/components/emoji/EmojiInput.vue';
 
 export default {
   name: 'ChatInputWrap',
@@ -73,7 +73,7 @@ export default {
       }
     },
   },
-  destroyed() {
+  unmounted() {
     document.removeEventListener('keypress', this.handleEnterKeyPress);
   },
   mounted() {
@@ -146,8 +146,8 @@ export default {
       :placeholder="$t('CHAT_PLACEHOLDER')"
       class="form-input user-message-input is-focused"
       :class="inputColor"
-      @typingOff="onTypingOff"
-      @typingOn="onTypingOn"
+      @typing-off="onTypingOff"
+      @typing-on="onTypingOn"
       @focus="onFocus"
       @blur="onBlur"
     />
@@ -173,16 +173,16 @@ export default {
       />
       <ChatSendButton
         v-if="showSendButton"
-        :on-click="handleButtonClick"
         :color="widgetColor"
+        @click="handleButtonClick"
       />
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
-@import '~widget/assets/scss/mixins.scss';
+@import 'widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/mixins.scss';
 
 .chat-message--input {
   align-items: center;

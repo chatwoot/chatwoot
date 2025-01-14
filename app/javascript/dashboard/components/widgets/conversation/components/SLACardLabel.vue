@@ -74,7 +74,7 @@ export default {
     this.updateSlaStatus();
     this.createTimer();
   },
-  beforeDestroy() {
+  unmounted() {
     if (this.timer) {
       clearTimeout(this.timer);
     }
@@ -103,6 +103,7 @@ export default {
 };
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <div
     v-if="hasSlaThreshold"

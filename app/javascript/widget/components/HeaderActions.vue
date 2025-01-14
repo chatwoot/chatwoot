@@ -81,6 +81,7 @@ export default {
 };
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <div v-if="showHeaderActions" class="actions flex items-center">
     <button
@@ -127,7 +128,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .actions {
   button {
@@ -142,6 +143,7 @@ export default {
   .close-button {
     display: none;
   }
+
   .rn-close-button {
     display: block !important;
   }

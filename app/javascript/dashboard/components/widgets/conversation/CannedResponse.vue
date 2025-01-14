@@ -10,6 +10,7 @@ export default {
       default: '',
     },
   },
+  emits: ['replace'],
   computed: {
     ...mapGetters({
       cannedMessages: 'getCannedResponses',
@@ -35,7 +36,7 @@ export default {
       this.$store.dispatch('getCannedResponse', { searchKey: this.searchKey });
     },
     handleMentionClick(item = {}) {
-      this.$emit('click', item.description);
+      this.$emit('replace', item.description);
     },
   },
 };
@@ -46,6 +47,6 @@ export default {
   <MentionBox
     v-if="items.length"
     :items="items"
-    @mentionSelect="handleMentionClick"
+    @mention-select="handleMentionClick"
   />
 </template>

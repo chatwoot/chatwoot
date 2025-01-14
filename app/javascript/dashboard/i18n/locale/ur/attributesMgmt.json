@@ -92,12 +92,7 @@
       "CONTACT": "Contact"
     },
     "LIST": {
-      "TABLE_HEADER": {
-        "NAME": "نام",
-        "DESCRIPTION": "Description",
-        "TYPE": "Type",
-        "KEY": "Key"
-      },
+      "TABLE_HEADER": ["نام", "Description", "Type", "Key"],
       "BUTTONS": {
         "EDIT": "ترمیم",
         "DELETE": "حذف کریں۔"

@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import types from '../../mutation-types';
 import getters, { getSelectedChatConversation } from './getters';
 import actions from './actions';
@@ -60,12 +59,12 @@ export const mutations = {
   },
   [types.SET_ALL_MESSAGES_LOADED](_state) {
     const [chat] = getSelectedChatConversation(_state);
-    Vue.set(chat, 'allMessagesLoaded', true);
+    chat.allMessagesLoaded = true;
   },
 
   [types.CLEAR_ALL_MESSAGES_LOADED](_state) {
     const [chat] = getSelectedChatConversation(_state);
-    Vue.set(chat, 'allMessagesLoaded', false);
+    chat.allMessagesLoaded = false;
   },
   [types.CLEAR_CURRENT_CHAT_WINDOW](_state) {
     _state.selectedChatId = null;
@@ -86,7 +85,7 @@ export const mutations = {
   [types.SET_MISSING_MESSAGES](_state, { id, data }) {
     const [chat] = _state.allConversations.filter(c => c.id === id);
     if (!chat) return;
-    Vue.set(chat, 'messages', data);
+    chat.messages = data;
   },
 
   [types.SET_CURRENT_CHAT_WINDOW](_state, activeChat) {
@@ -97,12 +96,12 @@ export const mutations = {
 
   [types.ASSIGN_AGENT](_state, assignee) {
     const [chat] = getSelectedChatConversation(_state);
-    Vue.set(chat.meta, 'assignee', assignee);
+    chat.meta.assignee = assignee;
   },
 
   [types.ASSIGN_TEAM](_state, { team, conversationId }) {
     const [chat] = _state.allConversations.filter(c => c.id === conversationId);
-    Vue.set(chat.meta, 'team', team);
+    chat.meta.team = team;
   },
 
   [types.UPDATE_CONVERSATION_LAST_ACTIVITY](
@@ -111,17 +110,17 @@ export const mutations = {
   ) {
     const [chat] = _state.allConversations.filter(c => c.id === conversationId);
     if (chat) {
-      Vue.set(chat, 'last_activity_at', lastActivityAt);
+      chat.last_activity_at = lastActivityAt;
     }
   },
   [types.ASSIGN_PRIORITY](_state, { priority, conversationId }) {
     const [chat] = _state.allConversations.filter(c => c.id === conversationId);
-    Vue.set(chat, 'priority', priority);
+    chat.priority = priority;
   },
 
   [types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES](_state, custom_attributes) {
     const [chat] = getSelectedChatConversation(_state);
-    Vue.set(chat, 'custom_attributes', custom_attributes);
+    chat.custom_attributes = custom_attributes;
   },
 
   [types.CHANGE_CONVERSATION_STATUS](
@@ -130,18 +129,18 @@ export const mutations = {
   ) {
     const conversation =
       getters.getConversationById(_state)(conversationId) || {};
-    Vue.set(conversation, 'snoozed_until', snoozedUntil);
-    Vue.set(conversation, 'status', status);
+    conversation.snoozed_until = snoozedUntil;
+    conversation.status = status;
   },
 
   [types.MUTE_CONVERSATION](_state) {
     const [chat] = getSelectedChatConversation(_state);
-    Vue.set(chat, 'muted', true);
+    chat.muted = true;
   },
 
   [types.UNMUTE_CONVERSATION](_state) {
     const [chat] = getSelectedChatConversation(_state);
-    Vue.set(chat, 'muted', false);
+    chat.muted = false;
   },
 
   [types.ADD_CONVERSATION_ATTACHMENTS](_state, message) {
@@ -190,7 +189,7 @@ export const mutations = {
 
     const pendingMessageIndex = findPendingMessageIndex(chat, message);
     if (pendingMessageIndex !== -1) {
-      Vue.set(chat.messages, pendingMessageIndex, message);
+      chat.messages[pendingMessageIndex] = message;
     } else {
       chat.messages.push(message);
       chat.timestamp = message.created_at;
@@ -218,7 +217,7 @@ export const mutations = {
         ...allConversations[currentConversationIndex],
         ...conversationAttributes,
       };
-      Vue.set(allConversations, currentConversationIndex, currentConversation);
+      allConversations[currentConversationIndex] = currentConversation;
       if (_state.selectedChatId === conversation.id) {
         emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
         emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
@@ -242,8 +241,8 @@ export const mutations = {
   ) {
     const [chat] = _state.allConversations.filter(c => c.id === id);
     if (chat) {
-      Vue.set(chat, 'agent_last_seen_at', lastSeen);
-      Vue.set(chat, 'unread_count', unreadCount);
+      chat.agent_last_seen_at = lastSeen;
+      chat.unread_count = unreadCount;
     }
   },
   [types.CHANGE_CHAT_STATUS_FILTER](_state, data) {
@@ -257,13 +256,13 @@ export const mutations = {
   // Update assignee on action cable message
   [types.UPDATE_ASSIGNEE](_state, payload) {
     const [chat] = _state.allConversations.filter(c => c.id === payload.id);
-    Vue.set(chat.meta, 'assignee', payload.assignee);
+    chat.meta.assignee = payload.assignee;
   },
 
   [types.UPDATE_CONVERSATION_CONTACT](_state, { conversationId, ...payload }) {
     const [chat] = _state.allConversations.filter(c => c.id === conversationId);
     if (chat) {
-      Vue.set(chat.meta, 'sender', payload);
+      chat.meta.sender = payload;
     }
   },
 
@@ -274,7 +273,7 @@ export const mutations = {
   [types.SET_CONVERSATION_CAN_REPLY](_state, { conversationId, canReply }) {
     const [chat] = _state.allConversations.filter(c => c.id === conversationId);
     if (chat) {
-      Vue.set(chat, 'can_reply', canReply);
+      chat.can_reply = canReply;
     }
   },
 
@@ -282,7 +281,7 @@ export const mutations = {
     const chats = _state.allConversations.filter(
       c => c.meta.sender.id !== contactId
     );
-    Vue.set(_state, 'allConversations', chats);
+    _state.allConversations = chats;
   },
 
   [types.SET_CONVERSATION_FILTERS](_state, data) {

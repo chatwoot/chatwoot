@@ -6,8 +6,9 @@ By default, the navigation contains navigation links
 for all resources in the admin dashboard,
 as defined by the routes in the `admin/` namespace
 %>
-<%= javascript_pack_tag 'superadmin_pages' %>
 
+<%= vite_client_tag %>
+<%= vite_javascript_tag 'superadmin_pages' %>
 
 <%
   sidebar_icons = {

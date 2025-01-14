@@ -38,17 +38,10 @@
     "REMOVE_SELECTION": "Auswahl entfernen",
     "DOWNLOAD": "Herunterladen",
     "UNKNOWN_FILE_TYPE": "Unbekannte Datei",
-    "SAVE_CONTACT": "Save Contact",
-    "NO_CONTENT": "No content to display",
-    "SHARED_ATTACHMENT": {
-      "CONTACT": "{sender} has shared a contact",
-      "LOCATION": "{sender} has shared a location",
-      "FILE": "{sender} has shared a file",
-      "MEETING": "{sender} hat ein Meeting begonnen"
-    },
+    "SAVE_CONTACT": "Speichern",
     "UPLOADING_ATTACHMENTS": "Anhänge werden hochgeladen...",
     "REPLIED_TO_STORY": "Auf deine Geschichte geantwortet",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
+    "UNSUPPORTED_MESSAGE": "Die Nachricht wird nicht unterstützt.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Diese Nachricht wird nicht unterstützt. Sie können diese Nachricht in der Facebook-Messenger-App sehen.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Diese Nachricht wird nicht unterstützt. Sie können diese Nachricht in der Instagram-App sehen.",
     "SUCCESS_DELETE_MESSAGE": "Nachricht erfolgreich gelöscht",
@@ -133,7 +126,7 @@
           "FAILED": "Agent konnte nicht zugewiesen werden. Bitte versuche es erneut."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
+          "SUCCESFUL": "Das Label #{labelName} wurde der Konversations-ID {conversationId} zugewiesen",
           "FAILED": "Label konnte nicht zugewiesen werden. Bitte versuche es erneut."
         },
         "TEAM_ASSIGNMENT": {
@@ -226,10 +219,6 @@
         "DELETE": "Löschen",
         "CANCEL": "Abbrechen"
       }
-    },
-    "SIDEBAR": {
-      "CONTACT": "Kontakt",
-      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -321,8 +310,7 @@
     "TO": "An",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Betreff",
-    "EXPAND": "Expand email"
+    "SUBJECT": "Betreff"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Zugewiesen",
@@ -347,10 +335,5 @@
     "ORIGINAL_CONTENT": "Originalinhalt",
     "TRANSLATED_CONTENT": "Übersetzter Inhalt",
     "NO_TRANSLATIONS_AVAILABLE": "Für diesen Inhalt sind keine Übersetzungen verfügbar"
-  },
-  "TYPING": {
-    "ONE": "{user} is typing",
-    "TWO": "{user} and {secondUser} are typing",
-    "MULTIPLE": "{user} and {count} others are typing"
   }
 }

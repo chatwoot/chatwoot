@@ -8,6 +8,7 @@ import { useAI } from 'dashboard/composables/useAI';
 // components
 import ReplyBox from './ReplyBox.vue';
 import Message from './Message.vue';
+import NextMessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 
@@ -18,6 +19,7 @@ import { mapGetters } from 'vuex';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 
 // utils
+import { emitter } from 'shared/helpers/mitt';
 import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { LocalStorage } from 'shared/helpers/localStorage';
@@ -36,6 +38,7 @@ import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 export default {
   components: {
     Message,
+    NextMessageList,
     ReplyBox,
     Banner,
     ConversationLabelSuggestion,
@@ -51,6 +54,7 @@ export default {
       default: false,
     },
   },
+  emits: ['contactPanelToggle'],
   setup() {
     const isPopOutReplyBox = ref(false);
     const { isEnterprise } = useConfig();
@@ -78,6 +82,10 @@ export default {
       fetchLabelSuggestions,
     } = useAI();
 
+    const showNextBubbles = LocalStorage.get(
+      LOCAL_STORAGE_KEYS.USE_NEXT_BUBBLE
+    );
+
     return {
       isEnterprise,
       isPopOutReplyBox,
@@ -87,6 +95,7 @@ export default {
       isLabelSuggestionFeatureEnabled,
       fetchIntegrationsIfRequired,
       fetchLabelSuggestions,
+      showNextBubbles,
     };
   },
   data() {
@@ -104,6 +113,7 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
+      currentUserId: 'getCurrentUserID',
       listLoadingStatus: 'getAllMessagesLoaded',
       currentAccountId: 'getCurrentAccountId',
     }),
@@ -136,10 +146,9 @@ export default {
     },
     typingUserNames() {
       const userList = this.typingUsersList;
-
       if (this.isAnyoneTyping) {
-        const userListAsName = getTypingUsersText(userList);
-        return userListAsName;
+        const [i18nKey, params] = getTypingUsersText(userList);
+        return this.$t(i18nKey, params);
       }
 
       return '';
@@ -251,12 +260,12 @@ export default {
   },
 
   created() {
-    this.$emitter.on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+    emitter.on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
     // when a new message comes in, we refetch the label suggestions
-    this.$emitter.on(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS, this.fetchSuggestions);
+    emitter.on(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS, this.fetchSuggestions);
     // when a message is sent we set the flag to true this hides the label suggestions,
     // until the chat is changed and the flag is reset in the watch for currentChat
-    this.$emitter.on(BUS_EVENTS.MESSAGE_SENT, () => {
+    emitter.on(BUS_EVENTS.MESSAGE_SENT, () => {
       this.messageSentSinceOpened = true;
     });
   },
@@ -267,7 +276,7 @@ export default {
     this.fetchSuggestions();
   },
 
-  beforeDestroy() {
+  unmounted() {
     this.removeBusListeners();
     this.removeScrollListener();
   },
@@ -323,7 +332,7 @@ export default {
       this.$store.dispatch('fetchAllAttachments', this.currentChat.id);
     },
     removeBusListeners() {
-      this.$emitter.off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+      emitter.off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
     },
     onScrollToMessage({ messageId = '' } = {}) {
       this.$nextTick(() => {
@@ -428,14 +437,13 @@ export default {
       } else {
         this.hasUserScrolled = true;
       }
-      this.$emitter.emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
+      emitter.emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
       this.fetchPreviousMessages(e.target.scrollTop);
     },
 
     makeMessagesRead() {
       this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
     },
-
     getInReplyToMessage(parentMessage) {
       if (!parentMessage) return {};
       const inReplyToMessageId = parentMessage.content_attributes?.in_reply_to;
@@ -467,15 +475,53 @@ export default {
         size="tiny"
         color-scheme="secondary"
         class="box-border fixed z-10 bg-white border border-r-0 border-solid rounded-bl-calc rtl:rotate-180 rounded-tl-calc dark:bg-slate-700 border-slate-50 dark:border-slate-600"
-        :class="
-          isInboxView ? 'top-52 md:top-40' : 'top-[9.5rem] md:top-[6.25rem]'
-        "
+        :class="isInboxView ? 'top-52 md:top-40' : 'top-32'"
         :icon="isRightOrLeftIcon"
         @click="onToggleContactPanel"
       />
     </div>
-    <ul class="conversation-panel">
+    <NextMessageList
+      v-if="showNextBubbles"
+      class="conversation-panel"
+      :read-messages="readMessages"
+      :un-read-messages="unReadMessages"
+      :current-user-id="currentUserId"
+      :is-an-email-channel="isAnEmailChannel"
+      :inbox-supports-reply-to="inboxSupportsReplyTo"
+      :messages="currentChat ? currentChat.messages : []"
+    >
+      <template #beforeAll>
+        <transition name="slide-up">
+          <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
+          <li class="min-h-[4rem]">
+            <span v-if="shouldShowSpinner" class="spinner message" />
+          </li>
+        </transition>
+      </template>
+      <template #beforeUnread>
+        <li v-show="unreadMessageCount != 0" class="unread--toast">
+          <span>
+            {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
+            {{
+              unreadMessageCount > 1
+                ? $t('CONVERSATION.UNREAD_MESSAGES')
+                : $t('CONVERSATION.UNREAD_MESSAGE')
+            }}
+          </span>
+        </li>
+      </template>
+      <template #after>
+        <ConversationLabelSuggestion
+          v-if="shouldShowLabelSuggestions"
+          :suggested-labels="labelSuggestions"
+          :chat-labels="currentChat.labels"
+          :conversation-id="currentChat.id"
+        />
+      </template>
+    </NextMessageList>
+    <ul v-else class="conversation-panel">
       <transition name="slide-up">
+        <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
         <li class="min-h-[4rem]">
           <span v-if="shouldShowSpinner" class="spinner message" />
         </li>
@@ -528,7 +574,10 @@ export default {
     </ul>
     <div
       class="conversation-footer"
-      :class="{ 'modal-mask': isPopOutReplyBox }"
+      :class="{
+        'modal-mask': isPopOutReplyBox,
+        'bg-n-background': showNextBubbles && !isPopOutReplyBox,
+      }"
     >
       <div
         v-if="isAnyoneTyping"
@@ -540,15 +589,15 @@ export default {
           {{ typingUserNames }}
           <img
             class="w-6 ltr:ml-2 rtl:mr-2"
-            src="~dashboard/assets/images/typing.gif"
+            src="assets/images/typing.gif"
             alt="Someone is typing"
           />
         </div>
       </div>
       <ReplyBox
+        v-model:popout-reply-box="isPopOutReplyBox"
         :conversation-id="currentChat.id"
-        :popout-reply-box.sync="isPopOutReplyBox"
-        @click="showPopOutReplyBox"
+        @toggle-popout="showPopOutReplyBox"
       />
     </div>
   </div>
@@ -577,7 +626,11 @@ export default {
     }
 
     .reply-box {
-      @apply border border-solid border-slate-75 dark:border-slate-600 max-w-[75rem] w-[70%];
+      @apply border border-n-weak max-w-[75rem] w-[70%];
+
+      &.is-private {
+        @apply dark:border-n-amber-3/30 border-n-amber-12/5;
+      }
     }
 
     .reply-box .reply-box__top {

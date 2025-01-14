@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useVuelidate } from '@vuelidate/core';
 import { required, email } from '@vuelidate/validators';
@@ -113,7 +113,7 @@ const addAgent = async () => {
         <label :class="{ error: v$.agentName.$error }">
           {{ $t('AGENT_MGMT.ADD.FORM.NAME.LABEL') }}
           <input
-            v-model.trim="agentName"
+            v-model="agentName"
             type="text"
             :placeholder="$t('AGENT_MGMT.ADD.FORM.NAME.PLACEHOLDER')"
             @input="v$.agentName.$touch"
@@ -139,7 +139,7 @@ const addAgent = async () => {
         <label :class="{ error: v$.agentEmail.$error }">
           {{ $t('AGENT_MGMT.ADD.FORM.EMAIL.LABEL') }}
           <input
-            v-model.trim="agentEmail"
+            v-model="agentEmail"
             type="email"
             :placeholder="$t('AGENT_MGMT.ADD.FORM.EMAIL.PLACEHOLDER')"
             @input="v$.agentEmail.$touch"
