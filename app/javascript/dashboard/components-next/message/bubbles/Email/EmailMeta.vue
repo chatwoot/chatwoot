@@ -55,7 +55,7 @@ const showMeta = computed(() => {
 <template>
   <section
     v-show="showMeta"
-    class="space-y-1 pr-9 border-b border-n-strong text-sm"
+    class="space-y-1 rtl:pl-9 ltr:pr-9 border-b border-n-strong text-sm break-words"
     :class="hasError ? 'text-n-ruby-11' : 'text-n-slate-11'"
   >
     <template v-if="showMeta">
