@@ -8,28 +8,24 @@
     "LIST": {
       "404": "Tähän tiliin ei ole liitetty saapuneet-kansiota."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Valitse kanava",
-        "route": "settings_inbox_new",
-        "body": "Valitse keskusteluväylä, jonka haluat integroida Chatwotin kanssa."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Valitse kanava",
+        "BODY": "Valitse keskusteluväylä, jonka haluat integroida Chatwotin kanssa."
       },
-      {
-        "title": "Luo saapet-kansio",
-        "route": "settings_inboxes_page_channel",
-        "body": "Todenna tilisi ja luo saapuneet-kansio."
+      "INBOX": {
+        "TITLE": "Luo saapet-kansio",
+        "BODY": "Todenna tilisi ja luo saapuneet-kansio."
       },
-      {
-        "title": "Lisää edustaja",
-        "route": "settings_inboxes_add_agents",
-        "body": "Lisää edustajia luotuun saapuneet-kansioon."
+      "AGENT": {
+        "TITLE": "Lisää edustaja",
+        "BODY": "Lisää edustajia luotuun saapuneet-kansioon."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "Kaikki valmiina!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Kaikki valmiina!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Kansion nimi",

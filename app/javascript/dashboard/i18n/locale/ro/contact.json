@@ -57,46 +57,6 @@
     "TITLE": "Editare contact",
     "DESC": "Editare detalii contact"
   },
-  "CREATE_CONTACT": {
-    "BUTTON_LABEL": "Contact nou",
-    "TITLE": "Creare contact nou",
-    "DESC": "Adăugați informații de bază despre contact."
-  },
-  "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Importă",
-    "TITLE": "Importă contacte",
-    "DESC": "Importă contactele printr-un fișier CSV.",
-    "DOWNLOAD_LABEL": "Descarcă un formular csv.",
-    "FORM": {
-      "LABEL": "Fișier CSV",
-      "SUBMIT": "Importă",
-      "CANCEL": "Renunță"
-    },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
-    "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
-  },
-  "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Exportă",
-    "TITLE": "Exportă contacte",
-    "DESC": "Exportă contactele într-un fișier CSV.",
-    "SUCCESS_MESSAGE": "Exportul este în desfășurare, veți fi notificat prin e-mail când fișierul de export este gata de descărcare.",
-    "ERROR_MESSAGE": "A apărut o eroare, încercați din nou",
-    "CONFIRM": {
-      "TITLE": "Exportă contacte",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
-    }
-  },
-  "DELETE_NOTE": {
-    "CONFIRM": {
-      "TITLE": "Confirmă ștergerea",
-      "MESSAGE": "Doriți să ștergeți această notă?",
-      "YES": "Da, șterge",
-      "NO": "Nu, păstreaza"
-    }
-  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Șterge contact",
     "TITLE": "Șterge contact",
@@ -224,79 +184,14 @@
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacte",
-    "FIELDS": "Câmpuri de contact",
-    "SEARCH_BUTTON": "Caută",
-    "SEARCH_INPUT_PLACEHOLDER": "Caută contacte",
-    "FILTER_CONTACTS": "Filtru",
-    "FILTER_CONTACTS_SAVE": "Salvare filtru",
-    "FILTER_CONTACTS_DELETE": "Ștergere filtru",
-    "FILTER_CONTACTS_EDIT": "Modifică segment",
     "LIST": {
-      "LOADING_MESSAGE": "Se încarcă contactele...",
-      "404": "Niciun contact nu se potrivește cu căutarea ta 🔍",
-      "NO_CONTACTS": "Nu există contacte disponibile",
       "TABLE_HEADER": {
-        "NAME": "Nume",
-        "PHONE_NUMBER": "Număr de telefon",
-        "CONVERSATIONS": "Conversații",
-        "LAST_ACTIVITY": "Ultima activitate",
-        "CREATED_AT": "Creat la",
-        "COUNTRY": "Țară",
-        "CITY": "Oraș",
-        "SOCIAL_PROFILES": "Social Profil",
-        "COMPANY": "Companie",
-        "EMAIL_ADDRESS": "Adresa Email"
-      },
-      "VIEW_DETAILS": "Vezi detaliile"
-    }
-  },
-  "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Contacte",
-    "LOADING": "Se încarcă profilul contactului..."
-  },
-  "REMINDER": {
-    "ADD_BUTTON": {
-      "BUTTON": "Adaugă",
-      "TITLE": "Shift + Enter pentru a crea o sarcină"
-    },
-    "FOOTER": {
-      "DUE_DATE": "Data scadentă",
-      "LABEL_TITLE": "Setare tip"
-    }
-  },
-  "NOTES": {
-    "FETCHING_NOTES": "Se preiau notițe...",
-    "NOT_AVAILABLE": "Nu există note create pentru aceast contact",
-    "HEADER": {
-      "TITLE": "Notițe"
-    },
-    "LIST": {
-      "LABEL": "notă adaugată"
-    },
-    "ADD": {
-      "BUTTON": "Adaugă",
-      "PLACEHOLDER": "Adaugă o notă",
-      "TITLE": "Shift + Enter pentru a crea o notă"
-    },
-    "CONTENT_HEADER": {
-      "DELETE": "Ștergeți nota"
-    }
-  },
-  "EVENTS": {
-    "HEADER": {
-      "TITLE": "Activităţi"
-    },
-    "BUTTON": {
-      "PILL_BUTTON_NOTES": "notițe",
-      "PILL_BUTTON_EVENTS": "evenimente",
-      "PILL_BUTTON_CONVO": "conversații"
+        "SOCIAL_PROFILES": "Social Profil"
+      }
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Adaugă atributii",
     "BUTTON": "Adauga atributii personalizate",
-    "NOT_AVAILABLE": "Nu există atributii personalizate disponibile pentru acest contact.",
     "COPY_SUCCESSFUL": "Cod copiat în clipboard cu succes",
     "SHOW_MORE": "Show all attributes",
     "SHOW_LESS": "Show less attributes",
@@ -384,6 +279,321 @@
     },
     "DROPDOWN_ITEM": {
       "ID": "(ID: {identifier})"
+    }
+  },
+  "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "Contacte",
+      "SEARCH_TITLE": "Search contacts",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "MESSAGE_BUTTON": "Mesaj",
+      "SEND_MESSAGE": "Trimite mesaj",
+      "BREADCRUMB": {
+        "CONTACTS": "Contacte"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact",
+          "EMAIL_ADDRESS_DUPLICATE": "Această adresă de e-mail este folosită pentru un alt contact.",
+          "PHONE_NUMBER_DUPLICATE": "Acest număr de telefon este utilizat pentru o altă persoană de contact.",
+          "SUCCESS_MESSAGE": "Contact salvat cu succes",
+          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
+        },
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "Importă contactele printr-un fișier CSV.",
+          "DOWNLOAD_LABEL": "Descarcă un formular csv.",
+          "LABEL": "Fișier CSV:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "Schimba",
+          "CANCEL": "Renunță",
+          "IMPORT": "Importă",
+          "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+          "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Export contacts",
+          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "CONFIRM": "Exportă",
+          "SUCCESS_MESSAGE": "Exportul este în desfășurare, veți fi notificat prin e-mail când fișierul de export este gata de descărcare.",
+          "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
+        },
+        "SORT_BY": {
+          "LABEL": "Sortați după",
+          "OPTIONS": {
+            "NAME": "Nume",
+            "EMAIL": "E-mail",
+            "PHONE_NUMBER": "Număr de telefon",
+            "COMPANY": "Companie",
+            "COUNTRY": "Țară",
+            "CITY": "Oraș",
+            "LAST_ACTIVITY": "Ultima activitate",
+            "CREATED_AT": "Creat la"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        },
+        "FILTERS": {
+          "CREATE_SEGMENT": {
+            "TITLE": "Doriți să salvați acest filtru?",
+            "CONFIRM": "Salvare filtru",
+            "LABEL": "Nume",
+            "PLACEHOLDER": "Enter the name of the filter",
+            "ERROR": "Enter a valid name",
+            "SUCCESS_MESSAGE": "Filter saved successfully",
+            "ERROR_MESSAGE": "Unable to save filter. Please try again later."
+          },
+          "DELETE_SEGMENT": {
+            "TITLE": "Confirmă ștergerea",
+            "DESCRIPTION": "Are you sure you want to delete this filter?",
+            "CONFIRM": "Da, șterge",
+            "CANCEL": "No, Cancel",
+            "SUCCESS_MESSAGE": "Filter deleted successfully",
+            "ERROR_MESSAGE": "Unable to delete filter. Please try again later."
+          }
+        }
+      }
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
+    },
+    "FILTER": {
+      "NAME": "Nume",
+      "EMAIL": "E-mail",
+      "PHONE_NUMBER": "Număr de telefon",
+      "IDENTIFIER": "Identificator",
+      "COUNTRY": "Țară",
+      "CITY": "Oraș",
+      "CREATED_AT": "Creat la",
+      "LAST_ACTIVITY": "Ultima activitate",
+      "REFERER_LINK": "Link referer",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "Adevărat",
+      "BLOCKED_FALSE": "Fals",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Clear filters",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "Aplicarea filtrelor",
+        "ADD_FILTER": "Add filter"
+      },
+      "TITLE": "Filtrarea persoanelor de contact",
+      "EDIT_SEGMENT": "Modifică segment",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} more filters",
+        "CLEAR_FILTERS": "Clear filters"
+      }
+    },
+    "CARD": {
+      "OF": "of",
+      "VIEW_DETAILS": "Vezi detaliile",
+      "EDIT_DETAILS_FORM": {
+        "TITLE": "Editare detalii contact",
+        "FORM": {
+          "FIRST_NAME": {
+            "PLACEHOLDER": "Enter the first name"
+          },
+          "LAST_NAME": {
+            "PLACEHOLDER": "Enter the last name"
+          },
+          "EMAIL_ADDRESS": {
+            "PLACEHOLDER": "Enter the email address",
+            "DUPLICATE": "Această adresă de e-mail este folosită pentru un alt contact."
+          },
+          "PHONE_NUMBER": {
+            "PLACEHOLDER": "Enter the phone number",
+            "DUPLICATE": "Acest număr de telefon este utilizat pentru o altă persoană de contact."
+          },
+          "CITY": {
+            "PLACEHOLDER": "Introduceți numele orașului"
+          },
+          "COUNTRY": {
+            "PLACEHOLDER": "Select country"
+          },
+          "BIO": {
+            "PLACEHOLDER": "Enter the bio"
+          },
+          "COMPANY_NAME": {
+            "PLACEHOLDER": "Introduceți numele companiei"
+          }
+        },
+        "UPDATE_BUTTON": "Update contact",
+        "SUCCESS_MESSAGE": "Contact updated successfully",
+        "ERROR_MESSAGE": "Unable to update contact. Please try again later."
+      },
+      "SOCIAL_MEDIA": {
+        "TITLE": "Edit social links",
+        "FORM": {
+          "FACEBOOK": {
+            "PLACEHOLDER": "Add Facebook"
+          },
+          "GITHUB": {
+            "PLACEHOLDER": "Add Github"
+          },
+          "INSTAGRAM": {
+            "PLACEHOLDER": "Add Instagram"
+          },
+          "LINKEDIN": {
+            "PLACEHOLDER": "Add LinkedIn"
+          },
+          "TWITTER": {
+            "PLACEHOLDER": "Add Twitter"
+          }
+        }
+      }
+    },
+    "DETAILS": {
+      "CREATED_AT": "Created {date}",
+      "LAST_ACTIVITY": "Last active {date}",
+      "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
+      "DELETE_CONTACT": "Șterge contact",
+      "DELETE_DIALOG": {
+        "TITLE": "Confirmă ștergerea",
+        "DESCRIPTION": "Are you sure you want to delete this {contactName} contact?",
+        "CONFIRM": "Da, șterge",
+        "API": {
+          "SUCCESS_MESSAGE": "Contact șters cu succes",
+          "ERROR_MESSAGE": "Nu s-a putut șterge contactul. Vă rugăm să încercați din nou mai târziu."
+        }
+      },
+      "AVATAR": {
+        "UPLOAD": {
+          "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
+          "SUCCESS_MESSAGE": "Avatar uploaded successfully"
+        },
+        "DELETE": {
+          "SUCCESS_MESSAGE": "Avatar șters cu succes",
+          "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
+        }
+      }
+    },
+    "SIDEBAR": {
+      "TABS": {
+        "ATTRIBUTES": "Attributes",
+        "HISTORY": "History",
+        "NOTES": "Notițe",
+        "MERGE": "Merge"
+      },
+      "HISTORY": {
+        "EMPTY_STATE": "Nu există conversații anterioare asociate cu acest contact"
+      },
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "Da",
+        "NO": "Nu",
+        "TRIGGER": {
+          "SELECT": "Selectați valoarea",
+          "INPUT": "Enter value"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "Este necesară o valoare validă",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "URL invalid",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "Nu s-au găsit atribute",
+        "API": {
+          "SUCCESS_MESSAGE": "Atribut actualizat cu succes",
+          "DELETE_SUCCESS_MESSAGE": "Atribut sters cu succes",
+          "UPDATE_ERROR": "Imposibil de actualizat atributul. Vă rugăm să încercați din nou mai târziu",
+          "DELETE_ERROR": "Imposibil de șters atributul. Vă rugăm să încercați din nou mai târziu"
+        }
+      },
+      "MERGE": {
+        "TITLE": "Îmbinare contact",
+        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
+        "PRIMARY": "Contact principal",
+        "PRIMARY_HELP_LABEL": "To be saved",
+        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
+        "PARENT": "To be merged",
+        "PARENT_HELP_LABEL": "De eliminat",
+        "EMPTY_STATE": "No contacts found",
+        "PLACEHOLDER": "Search for primary contact",
+        "SEARCH_PLACEHOLDER": "Caută un contact",
+        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
+        "SUCCESS_MESSAGE": "Contact unit cu succes",
+        "ERROR_MESSAGE": "Contactele nu au putut fi îmbinate, încercați din nou!",
+        "IS_SEARCHING": "In căutare...",
+        "BUTTONS": {
+          "CANCEL": "Renunță",
+          "CONFIRM": "Îmbinare contact"
+        }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "Adaugă o notă",
+        "WROTE": "scrisese",
+        "YOU": "You",
+        "SAVE": "Save note",
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+      }
+    },
+    "EMPTY_STATE": {
+      "TITLE": "No contacts found in this account",
+      "SUBTITLE": "Start adding new contacts by clicking on the button below",
+      "BUTTON_LABEL": "Add contact",
+      "SEARCH_EMPTY_STATE_TITLE": "Niciun contact nu se potrivește cu căutarea ta 🔍",
+      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋"
+    }
+  },
+  "COMPOSE_NEW_CONVERSATION": {
+    "CONTACT_SEARCH": {
+      "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+    },
+    "FORM": {
+      "GO_TO_CONVERSATION": "Vizualizare",
+      "SUCCESS_MESSAGE": "The message was sent successfully!",
+      "ERROR_MESSAGE": "An error occurred while creating the conversation. Please try again later.",
+      "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
+      "CONTACT_SELECTOR": {
+        "LABEL": "Către:",
+        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
+        "CONTACT_CREATING": "Creating contact..."
+      },
+      "INBOX_SELECTOR": {
+        "LABEL": "Via:",
+        "BUTTON": "Show inboxes"
+      },
+      "EMAIL_OPTIONS": {
+        "SUBJECT_LABEL": "Subiect :",
+        "SUBJECT_PLACEHOLDER": "Enter your email subject here",
+        "CC_LABEL": "Cc:",
+        "CC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_LABEL": "Bcc:",
+        "BCC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_BUTTON": "Bcc"
+      },
+      "MESSAGE_EDITOR": {
+        "PLACEHOLDER": "Scrie mesajul aici..."
+      },
+      "WHATSAPP_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
+          "TEMPLATE_NAME": "WhatsApp template: {templateName}",
+          "VARIABLES": "Variabile",
+          "BACK": "Mergeți înapoi",
+          "SEND_MESSAGE": "Trimite mesaj"
+        }
+      },
+      "ACTION_BUTTONS": {
+        "DISCARD": "Discard",
+        "SEND": "Send ({keyCode})"
+      }
     }
   }
 }

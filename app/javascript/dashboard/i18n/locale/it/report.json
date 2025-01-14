@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Ultimo anno",
       "CUSTOM_DATE_RANGE": "Intervallo di date personalizzato"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Ultimi 7 giorni"
-      },
-      {
-        "id": 1,
-        "name": "Ultimi 30 giorni"
-      },
-      {
-        "id": 2,
-        "name": "Ultimi 3 mesi"
-      },
-      {
-        "id": 3,
-        "name": "Ultimi 6 mesi"
-      },
-      {
-        "id": 4,
-        "name": "Ultimo anno"
-      },
-      {
-        "id": 5,
-        "name": "Intervallo di date personalizzato"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Applica",
       "PLACEHOLDER": "Seleziona intervallo di date"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Nessun risultato trovato"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -490,7 +468,7 @@
       "NO_AGENTS": "Non ci sono conversazioni da parte degli agenti",
       "TABLE_HEADER": {
         "AGENT": "Agente",
-        "OPEN": "APERTE",
+        "OPEN": "Apri",
         "UNATTENDED": "Non partecipate",
         "STATUS": "Stato"
       }

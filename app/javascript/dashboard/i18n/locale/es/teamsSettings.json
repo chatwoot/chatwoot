@@ -20,23 +20,18 @@
         "TITLE": "Añadir agentes al equipo - {teamName}",
         "DESC": "Añada agentes a su recién creado equipo. Le permitirá colaborar como un equipo en las conversaciones, y ser notificado acerca de nuevos eventos en la misma conversación."
       },
-      "WIZARD": [
-        {
-          "title": "Crear",
-          "route": "settings_teams_new",
-          "body": "Crear un nuevo equipo de agentes."
-        },
-        {
-          "title": "Añadir agentes",
-          "route": "settings_teams_add_agents",
-          "body": "Añadir agentes al equipo."
-        },
-        {
-          "title": "Finalizar",
-          "route": "settings_teams_finish",
-          "body": "¡Todo está listo!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "Crear",
+        "BODY": "Crear un nuevo equipo de agentes."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Añadir agentes",
+        "BODY": "Añadir agentes al equipo."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Finalizar",
+        "BODY": "¡Todo está listo!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "Añadir agentes al equipo - {teamName}",
         "DESC": "Añada agentes a su recién creado equipo. Le permitirá colaborar como un equipo en las conversaciones, y ser notificado acerca de nuevos eventos en la misma conversación."
       },
-      "WIZARD": [
-        {
-          "title": "Detalles del equipo",
-          "route": "settings_teams_edit",
-          "body": "Cambiar nombre, descripción y otros detalles."
-        },
-        {
-          "title": "Editar Agentes",
-          "route": "settings_teams_edit_members",
-          "body": "Editar agentes en su equipo."
-        },
-        {
-          "title": "Finalizar",
-          "route": "settings_teams_edit_finish",
-          "body": "¡Todo está listo!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Detalles del equipo",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "Cambiar nombre, descripción y otros detalles."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Editar Agentes",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "Editar agentes en su equipo."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Finalizar",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "¡Todo está listo!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "No se han podido guardar los detalles del equipo. Intente nuevamente."

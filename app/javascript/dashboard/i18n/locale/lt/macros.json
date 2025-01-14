@@ -25,12 +25,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Vardas",
-        "Sukurtas",
-        "Paskutinį kartą atnaujino",
-        "Matomumas"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Vardas",
+        "CREATED BY": "Sukurtas",
+        "LAST_UPDATED_BY": "Paskutinį kartą atnaujino",
+        "VISIBILITY": "Matomumas"
+      },
       "404": "Nerasta makrokomandų"
     },
     "DELETE": {

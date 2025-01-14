@@ -31,7 +31,7 @@
         },
         "END_POINT": {
           "LABEL": "URL del webhook",
-          "PLACEHOLDER": "Exemple: https://example/api/webhook",
+          "PLACEHOLDER": "Example: {webhookExampleURL}",
           "ERROR": "Introduïu una URL vàlid"
         },
         "EDIT_SUBMIT": "Webhook actualitzat",
@@ -47,10 +47,10 @@
       "LIST": {
         "404": "No hi ha cap webhooks configurat per a aquest compte.",
         "TITLE": "Gestiona els webhooks",
-        "TABLE_HEADER": [
-          "Punt final del webhook",
-          "Accions"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Punt final del webhook",
+          "ACTIONS": "Accions"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "Edita",
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "Encara no hi ha cap aplicació de tauler configurada en aquest compte",
         "LOADING": "S'estan obtenint les aplicacions del tauler de control...",
-        "TABLE_HEADER": [
-          "Nom",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "Nom",
+          "ENDPOINT": "Endpoint"
+        },
         "EDIT_TOOLTIP": "Edita l'aplicació",
         "DELETE_TOOLTIP": "Suprimeix l'aplicació"
       },
@@ -301,6 +301,15 @@
         "SUCCESS": "S'ha desenllaçat la issue correctament",
         "ERROR": "S'ha produït un error en desenllaçar la issue, torna-ho a provar"
       }
+    }
+  },
+  "CAPTAIN": {
+    "NAME": "Captain",
+    "COPILOT": {
+      "SEND_MESSAGE": "Envia missatge...",
+      "LOADER": "Captain is thinking",
+      "YOU": "Tu",
+      "USE": "Use this"
     }
   }
 }

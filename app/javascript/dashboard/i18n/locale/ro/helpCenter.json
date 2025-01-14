@@ -1,5 +1,10 @@
 {
   "HELP_CENTER": {
+    "TITLE": "Asistenta",
+    "NEW_PAGE": {
+      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
+      "CREATE_PORTAL_BUTTON": "Creează Portal"
+    },
     "HEADER": {
       "FILTER": "Filtrați după",
       "SORT": "Sortați după",
@@ -190,26 +195,20 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [
-          {
-            "title": "Informații centru de asistență",
-            "route": "new_portal_information",
-            "body": "Informații de bază despre portal",
-            "CREATE_BASIC_SETTING_BUTTON": "Creează setări de bază portal"
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Informații centru de asistență",
+            "BODY": "Informații de bază despre portal"
           },
-          {
-            "title": "Personalizare centru de asistență",
-            "route": "portal_customization",
-            "body": "Personalizați portalul",
-            "UPDATE_PORTAL_BUTTON": "Actualizați setările portalului"
+          "CUSTOMIZATION": {
+            "TITLE": "Personalizare centru de asistență",
+            "BODY": "Personalizați portalul"
           },
-          {
-            "title": "Voila! 🎉",
-            "route": "portal_finish",
-            "body": "Totul este pregătit!",
-            "FINISH": "Finalizează"
+          "FINISH": {
+            "TITLE": "Voila! 🎉",
+            "BODY": "Totul este pregătit!"
           }
-        ],
+        },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Înapoi",
           "BASIC_SETTINGS_PAGE": {
@@ -250,13 +249,13 @@
         "DOMAIN": {
           "LABEL": "Domeniu personalizat",
           "PLACEHOLDER": "Domeniu personalizat portal",
-          "HELP_TEXT": "Adaugați doar dacă dorești să folosiți un domeniu personalizat pentru portalurile dvs. De exemplu: https://example.com",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
           "ERROR": "Introduceți o adresă URL validă"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Link pagină de pornire",
           "PLACEHOLDER": "Link pagină portal",
-          "HELP_TEXT": "Link-ul folosit pentru a reveni din portal pe pagina principală. De exemplu: https://example.com",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
           "ERROR": "Introduceți un URL valid pentru pagina principală"
         },
         "THEME_COLOR": {
@@ -347,6 +346,12 @@
       "API": {
         "ERROR": "Eroare la arhivarea articolului",
         "SUCCESS": "Articolul a fost arhivat"
+      }
+    },
+    "DRAFT_ARTICLE": {
+      "API": {
+        "ERROR": "Error while drafting article",
+        "SUCCESS": "Article drafted successfully"
       }
     },
     "DELETE_ARTICLE": {
@@ -483,6 +488,305 @@
         }
       }
     },
-    "LOADING": "Loading..."
+    "LOADING": "Loading...",
+    "ARTICLES_PAGE": {
+      "ARTICLE_CARD": {
+        "CARD": {
+          "VIEWS": "{count} view | {count} views",
+          "DROPDOWN_MENU": {
+            "PUBLISH": "Publicați",
+            "DRAFT": "Ciornă",
+            "ARCHIVE": "Archive",
+            "DELETE": "Şterge"
+          },
+          "STATUS": {
+            "DRAFT": "Ciornă",
+            "PUBLISHED": "Publicat",
+            "ARCHIVED": "Arhivat"
+          },
+          "CATEGORY": {
+            "UNCATEGORISED": "Uncategorised"
+          }
+        }
+      },
+      "ARTICLES_HEADER": {
+        "TABS": {
+          "ALL": "All articles",
+          "MINE": "Ale mele",
+          "DRAFT": "Ciornă",
+          "PUBLISHED": "Publicat",
+          "ARCHIVED": "Arhivat"
+        },
+        "CATEGORY": {
+          "ALL": "All categories"
+        },
+        "LOCALE": {
+          "ALL": "All locales"
+        },
+        "NEW_ARTICLE": "New article"
+      },
+      "EMPTY_STATE": {
+        "ALL": {
+          "TITLE": "Write an article",
+          "SUBTITLE": "Write a rich article, let’s get started!",
+          "BUTTON_LABEL": "New article"
+        },
+        "MINE": {
+          "TITLE": "You haven't written any articles here",
+          "SUBTITLE": "All articles written by you show up here for quick access."
+        },
+        "DRAFT": {
+          "TITLE": "There are no articles in drafts",
+          "SUBTITLE": "Draft articles will appear here"
+        },
+        "PUBLISHED": {
+          "TITLE": "There are no published articles",
+          "SUBTITLE": "Published articles will appear here"
+        },
+        "ARCHIVED": {
+          "TITLE": "There are no articles in the archive",
+          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+        },
+        "CATEGORY": {
+          "TITLE": "There are no articles in this category",
+          "SUBTITLE": "Articles in this category will appear here"
+        }
+      }
+    },
+    "CATEGORY_PAGE": {
+      "CATEGORY_HEADER": {
+        "NEW_CATEGORY": "Categorie nouă",
+        "EDIT_CATEGORY": "Editare categorie",
+        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "BREADCRUMB": {
+          "CATEGORY_LOCALE": "Categories ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+        }
+      },
+      "CATEGORY_EMPTY_STATE": {
+        "TITLE": "Nu au fost găsite categorii",
+        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+      },
+      "CATEGORY_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles"
+      },
+      "CATEGORY_DIALOG": {
+        "CREATE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Categoria a fost creată",
+            "ERROR_MESSAGE": "Nu s-a putut crea categoria"
+          }
+        },
+        "EDIT": {
+          "API": {
+            "SUCCESS_MESSAGE": "Categoria a fost actualizată",
+            "ERROR_MESSAGE": "Nu s-a putut actualiza categoria"
+          }
+        },
+        "DELETE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Categoria a fost ștearsă",
+            "ERROR_MESSAGE": "Nu s-a putut șterge categoria"
+          }
+        },
+        "HEADER": {
+          "CREATE": "Creați categoria",
+          "EDIT": "Editare categorie",
+          "DESCRIPTION": "Editarea unei categorii va actualiza categoria în portalul public.",
+          "PORTAL": "Portal",
+          "LOCALE": "Limbă"
+        },
+        "FORM": {
+          "NAME": {
+            "LABEL": "Nume",
+            "PLACEHOLDER": "Nume categorie",
+            "ERROR": "Numele este obligatoriu"
+          },
+          "SLUG": {
+            "LABEL": "Slug",
+            "PLACEHOLDER": "Slug-ul categoriei pentru url-uri",
+            "ERROR": "Slug-ul este obligatoriu",
+            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Descriere",
+            "PLACEHOLDER": "Oferiți o scurtă descriere pentru categorie.",
+            "ERROR": "Descrierea este obligatorie"
+          }
+        },
+        "BUTTONS": {
+          "CREATE": "Creeaza",
+          "EDIT": "Actualizare",
+          "CANCEL": "Renunță"
+        }
+      }
+    },
+    "LOCALES_PAGE": {
+      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
+      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALE_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles",
+        "CATEGORIES_COUNT": "{count} category | {count} categories",
+        "DEFAULT": "Implicit",
+        "DROPDOWN_MENU": {
+          "MAKE_DEFAULT": "Make default",
+          "DELETE": "Şterge"
+        }
+      },
+      "ADD_LOCALE_DIALOG": {
+        "TITLE": "Adaugați o nouă limba",
+        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "COMBOBOX": {
+          "PLACEHOLDER": "Select locale..."
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Limbă adăugata cu succes",
+          "ERROR_MESSAGE": "Nu se poate adăuga limba. Încercați din nou."
+        }
+      }
+    },
+    "EDIT_ARTICLE_PAGE": {
+      "HEADER": {
+        "STATUS": {
+          "SAVING": "Se salvează...",
+          "SAVED": "Salvat"
+        },
+        "PREVIEW": "Previzualizați",
+        "PUBLISH": "Publicați",
+        "DRAFT": "Ciornă",
+        "ARCHIVE": "Archive",
+        "BACK_TO_ARTICLES": "Back to articles"
+      },
+      "EDIT_ARTICLE": {
+        "MORE_PROPERTIES": "More properties",
+        "UNCATEGORIZED": "Necategorizat",
+        "EDITOR_PLACEHOLDER": "Write something..."
+      },
+      "ARTICLE_PROPERTIES": {
+        "ARTICLE_PROPERTIES": "Article properties",
+        "META_DESCRIPTION": "Descriere meta",
+        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
+        "META_TITLE": "Titlu meta",
+        "META_TITLE_PLACEHOLDER": "Add meta title",
+        "META_TAGS": "Etichete meta",
+        "META_TAGS_PLACEHOLDER": "Add meta tags"
+      },
+      "API": {
+        "ERROR": "Eroare la salvarea articolului"
+      }
+    },
+    "PORTAL_SWITCHER": {
+      "NEW_PORTAL": "New portal",
+      "PORTALS": "Portaluri",
+      "CREATE_PORTAL": "Create and manage multiple portals",
+      "ARTICLES": "articole",
+      "DOMAIN": "domeniu",
+      "PORTAL_NAME": "Nume portal"
+    },
+    "CREATE_PORTAL_DIALOG": {
+      "TITLE": "Create new portal",
+      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
+      "CONFIRM_BUTTON_LABEL": "Creeaza",
+      "NAME": {
+        "LABEL": "Nume",
+        "PLACEHOLDER": "User Guide | Chatwoot",
+        "MESSAGE": "Choose an name for your portal.",
+        "ERROR": "Numele este obligatoriu"
+      },
+      "SLUG": {
+        "LABEL": "Slug",
+        "PLACEHOLDER": "user-guide",
+        "ERROR": "Slug-ul este obligatoriu"
+      }
+    },
+    "PORTAL_SETTINGS": {
+      "FORM": {
+        "AVATAR": {
+          "LABEL": "Logo",
+          "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
+          "IMAGE_DELETE_SUCCESS": "Logo deleted successfully",
+          "IMAGE_DELETE_ERROR": "Unable to delete logo",
+          "IMAGE_UPLOAD_SIZE_ERROR": "Dimensiunea imaginii trebuie să fie mai mică de {size}MB"
+        },
+        "NAME": {
+          "LABEL": "Nume",
+          "PLACEHOLDER": "Nume portal",
+          "ERROR": "Numele este obligatoriu"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Header text",
+          "PLACEHOLDER": "Text antet portal"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Page title",
+          "PLACEHOLDER": "Titlu pagină portal"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Home page link",
+          "PLACEHOLDER": "Link pagină portal",
+          "ERROR": "Invalid URL. The Home page link must start with 'http://' or 'https://'."
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Portal slug"
+        },
+        "LIVE_CHAT_WIDGET": {
+          "LABEL": "Live chat widget",
+          "PLACEHOLDER": "Select live chat widget",
+          "HELP_TEXT": "Select a live chat widget that will appear on your help center"
+        },
+        "BRAND_COLOR": {
+          "LABEL": "Brand color"
+        },
+        "SAVE_CHANGES": "Save changes"
+      },
+      "CONFIGURATION_FORM": {
+        "CUSTOM_DOMAIN": {
+          "HEADER": "Domeniu personalizat",
+          "LABEL": "Domeniu personalizat:",
+          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
+          "PLACEHOLDER": "Domeniu personalizat portal",
+          "EDIT_BUTTON": "Edit custom domain",
+          "ADD_BUTTON": "Add custom domain",
+          "DIALOG": {
+            "ADD_HEADER": "Add custom domain",
+            "EDIT_HEADER": "Edit custom domain",
+            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
+            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
+            "LABEL": "Domeniu personalizat",
+            "PLACEHOLDER": "Domeniu personalizat portal",
+            "ERROR": "Custom domain is required"
+          },
+          "DNS_CONFIGURATION_DIALOG": {
+            "HEADER": "DNS configuration",
+            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
+            "HELP_TEXT": "Once this is done, you can reach out to our support to request for the auto-generated SSL certificate.",
+            "CONFIRM_BUTTON_LABEL": "Got it!"
+          }
+        },
+        "DELETE_PORTAL": {
+          "BUTTON": "Delete {portalName}",
+          "HEADER": "Ştergeţi portalul",
+          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "DIALOG": {
+            "HEADER": "Sure you want to delete {portalName}?",
+            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
+            "CONFIRM_BUTTON_LABEL": "Şterge"
+          }
+        },
+        "EDIT_CONFIGURATION": "Edit configuration"
+      },
+      "API": {
+        "CREATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Portalul a fost creat",
+          "ERROR_MESSAGE": "Unable to create portal"
+        },
+        "UPDATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Portalul a fost actualizat",
+          "ERROR_MESSAGE": "Unable to update portal"
+        }
+      }
+    }
   }
 }

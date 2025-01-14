@@ -20,23 +20,18 @@
         "TITLE": "Ügynökök hozzárendelése a {teamName} csapathoz",
         "DESC": "Adj hozzá ügynököket az újonan létrehozott csapatodhoz. Ez lehetővé teszi, hogy a csapatod a beszélgetéseken közösen dolgozzon és kapjon értesítést új eseményekről ezen beszélgetésekhez kapcsolódóan."
       },
-      "WIZARD": [
-        {
-          "title": "Létrehozás",
-          "route": "settings_teams_new",
-          "body": "Hozz létre új csapatot az ügynökeidből."
-        },
-        {
-          "title": "Ügynök Hozzádása",
-          "route": "settings_teams_add_agents",
-          "body": "Ügynökök hozzáadása a csapathoz."
-        },
-        {
-          "title": "Befejezés",
-          "route": "settings_teams_finish",
-          "body": "Mindennel készen állsz!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "Létrehozás",
+        "BODY": "Hozz létre új csapatot az ügynökeidből."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Ügynök Hozzádása",
+        "BODY": "Ügynökök hozzáadása a csapathoz."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Befejezés",
+        "BODY": "Mindennel készen állsz!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "Ügynökök hozzárendelése a {teamName} csapathoz",
         "DESC": "Adj ügynököket az újonan létrehozott csapatodhoz. Minden hozzáadott ügynök értesítést kap amikor egy beszélgetés a csapatához lesz rendelve."
       },
-      "WIZARD": [
-        {
-          "title": "Csapat részletek",
-          "route": "settings_teams_edit",
-          "body": "Változtass nevet, leírást és egyéb részleteket."
-        },
-        {
-          "title": "Ügynök szerkesztése",
-          "route": "settings_teams_edit_members",
-          "body": "A csapatod ügynökeinek szerkesztése."
-        },
-        {
-          "title": "Befejezés",
-          "route": "settings_teams_edit_finish",
-          "body": "Mindennel készen állsz!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Csapat részletek",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "Változtass nevet, leírást és egyéb részleteket."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Ügynök szerkesztése",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "A csapatod ügynökeinek szerkesztése."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Befejezés",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "Mindennel készen állsz!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "Nem sikerült a csapat részleteinek mentése. Kérjük próbáld újra."

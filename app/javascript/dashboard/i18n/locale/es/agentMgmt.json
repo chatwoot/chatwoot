@@ -3,8 +3,8 @@
     "HEADER": "Agentes",
     "HEADER_BTN_TXT": "Añadir agente",
     "LOADING": "Se están listando los agentes",
-    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
-    "LEARN_MORE": "Learn about user roles",
+    "DESCRIPTION": "Un agente es miembro de su equipo de atención al cliente, quién puede ver y responder a los mensajes del usuario.  La siguiente lista muestra todos los agentes en su cuenta.",
+    "LEARN_MORE": "Aprender acerca de roles de usuario",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrador",
       "AGENT": "Agente"
@@ -19,7 +19,7 @@
       "ACTIONS": "Acciones",
       "VERIFIED": "Verificado",
       "VERIFICATION_PENDING": "Verificación pendiente",
-      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+      "AVAILABLE_CUSTOM_ROLE": "Permisos personalizados de rol disponibles"
     },
     "ADD": {
       "TITLE": "Añadir agente a tu equipo",

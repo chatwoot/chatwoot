@@ -38,10 +38,17 @@
     "REMOVE_SELECTION": "Kijelölés törlése",
     "DOWNLOAD": "Letöltés",
     "UNKNOWN_FILE_TYPE": "Ismeretlen fájl",
-    "SAVE_CONTACT": "Mentés",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} megbeszélést kezdett"
+    },
     "UPLOADING_ATTACHMENTS": "Csatolt fileok feltöltése...",
     "REPLIED_TO_STORY": "Válaszolt a storydra",
-    "UNSUPPORTED_MESSAGE": "Ez az üzenet nem támogatott.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Ez az üzenet nem támogatott. Ezt az üzenetet a Facebook Messenger alkalmazásban tekintheti meg.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Ez az üzenet nem támogatott. Ezt az üzenetet az Instagram alkalmazásban tekintheti meg.",
     "SUCCESS_DELETE_MESSAGE": "Üzenet törölve",
@@ -101,7 +108,7 @@
         "SELECT_PLACEHOLDER": "Nincs",
         "INPUT_PLACEHOLDER": "Prioritás megadása",
         "NO_RESULTS": "Nincs találat",
-        "SUCCESSFUL": "Beszélgetés prioritásának megváltoztatása",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
         "FAILED": "Nem sikerült megváltoztatni a prioritást. Kérlek, próbáld újra."
       }
     },
@@ -122,15 +129,15 @@
       "ASSIGN_TEAM": "Csapat hozzárendelése",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Beszélgetés azonosító",
+          "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
           "FAILED": "Nem sikerült hozzárendelni ügynököt. Kérlek, próbáld újra."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Címke hozzárendelése",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Nem sikerült hozzárendelni címkét. Kérlek, próbáld újra."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Hozzárendelés csoporthoz",
+          "SUCCESFUL": "Assigned team \"{team}\" to conversation id {conversationId}",
           "FAILED": "Nem sikerült hozzárendelni csoporthoz. Kérlek, próbáld újra."
         }
       }
@@ -219,6 +226,10 @@
         "DELETE": "Törlés",
         "CANCEL": "Mégse"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Kontakt",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -310,7 +321,8 @@
     "TO": "Ide",
     "BCC": "Titkos másolat",
     "CC": "Másolat",
-    "SUBJECT": "Tárgy"
+    "SUBJECT": "Tárgy",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Részvétel",
@@ -335,5 +347,10 @@
     "ORIGINAL_CONTENT": "Eredeti szöveg",
     "TRANSLATED_CONTENT": "Fordított szöveg",
     "NO_TRANSLATIONS_AVAILABLE": "Nem elérhető fordítás ehhez a tartalomhoz"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
   }
 }
