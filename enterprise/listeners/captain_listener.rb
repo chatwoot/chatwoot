@@ -3,7 +3,7 @@ class CaptainListener < BaseListener
     conversation = extract_conversation_and_account(event)[0]
     assistant = conversation.inbox.captain_assistant
 
-    return unless assistant.present?
+    return if assistant.blank?
 
     Captain::Llm::ContactNotesService.new(assistant, conversation).generate_and_update_notes if assistant.config['feature_memory'].present?
     # TODO: Implement the faq feature and enable this
