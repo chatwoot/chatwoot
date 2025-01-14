@@ -3,8 +3,6 @@ import { computed, useTemplateRef } from 'vue';
 import { useElementSize } from '@vueuse/core';
 import { REPLY_EDITOR_MODES } from './constants';
 
-import Icon from 'dashboard/components-next/icon/Icon.vue';
-
 const props = defineProps({
   mode: {
     type: String,
@@ -58,11 +56,9 @@ const translateValue = computed(() => {
     @click="$emit('toggleMode')"
   >
     <div ref="wootEditorReplyMode" class="flex items-center gap-1 px-2 z-20">
-      <Icon v-show="!isPrivate" icon="i-material-symbols-lock-open-rounded" />
       {{ $t('CONVERSATION.REPLYBOX.REPLY') }}
     </div>
     <div ref="wootEditorPrivateMode" class="flex items-center gap-1 px-2 z-20">
-      <Icon v-show="isPrivate" icon="i-material-symbols-lock" />
       {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
     </div>
     <div
