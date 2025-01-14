@@ -347,7 +347,7 @@
         },
         "FEATURES": {
           "TITLE": "Features",
-          "ALLOW_CONVERSATION_FAQS": "Generate FAQs after resolving conversations",
+          "ALLOW_CONVERSATION_FAQS": "Generate responses from resolved conversations",
           "ALLOW_MEMORIES": "Capture key details as memories from customer interactions."
         }
       },

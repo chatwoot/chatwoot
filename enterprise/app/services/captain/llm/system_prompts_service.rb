@@ -37,7 +37,7 @@ class Captain::Llm::SystemPromptsService
         Ensure that you only generate notes from the information provided only.
         Provide the notes in the JSON format as shown below.
         ```json
-        { notes: [] }
+        { notes: ['note1', 'note2'] }
         ```
 
       SYSTEM_PROMPT_MESSAGE
