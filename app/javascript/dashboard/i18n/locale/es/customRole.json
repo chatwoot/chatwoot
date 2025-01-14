@@ -9,7 +9,7 @@
     "PAYWALL": {
       "TITLE": "Upgrade to create custom roles",
       "AVAILABLE_ON": "The custom role feature is only available in the Business and Enterprise plans.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
+      "UPGRADE_PROMPT": "Actualiza tu plan para tener acceso a funciones avanzadas como gestión de equipos, automatizaciones, atributos personalizados y más.",
       "UPGRADE_NOW": "Actualizar ahora",
       "CANCEL_ANYTIME": "Puede cambiar o cancelar su plan en cualquier momento"
     },
@@ -22,35 +22,35 @@
       "404": "There are no custom roles available in this account.",
       "TITLE": "Manage custom roles",
       "DESC": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
-      "TABLE_HEADER": [
-        "Nombre",
-        "Descripción",
-        "Permissions",
-        "Acciones"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Nombre",
+        "DESCRIPTION": "Descripción",
+        "PERMISSIONS": "Permissions",
+        "ACTIONS": "Acciones"
+      }
     },
     "PERMISSIONS": {
       "CONVERSATION_MANAGE": "Manage all conversations",
       "CONVERSATION_UNASSIGNED_MANAGE": "Manage unassigned conversations and those assigned to them",
       "CONVERSATION_PARTICIPATING_MANAGE": "Manage participating conversations and those assigned to them",
-      "CONTACT_MANAGE": "Manage contacts",
-      "REPORT_MANAGE": "Manage reports",
-      "KNOWLEDGE_BASE_MANAGE": "Manage knowledge base"
+      "CONTACT_MANAGE": "Administrar contactos",
+      "REPORT_MANAGE": "Administrar informes",
+      "KNOWLEDGE_BASE_MANAGE": "Administrar base de conocimiento"
     },
     "FORM": {
       "NAME": {
         "LABEL": "Nombre",
-        "PLACEHOLDER": "Please enter a name.",
+        "PLACEHOLDER": "Por favor, introduzca el nombre.",
         "ERROR": "El nombre es requerido."
       },
       "DESCRIPTION": {
         "LABEL": "Descripción",
-        "PLACEHOLDER": "Please enter a description.",
+        "PLACEHOLDER": "Por favor, introduzca una descripción.",
         "ERROR": "Descripción requerida."
       },
       "PERMISSIONS": {
-        "LABEL": "Permissions",
-        "ERROR": "Permissions are required."
+        "LABEL": "Permisos",
+        "ERROR": "Permisos requeridos."
       },
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
@@ -58,26 +58,26 @@
       }
     },
     "ADD": {
-      "TITLE": "Add custom role",
-      "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
+      "TITLE": "Añadir rol personalizado",
+      "DESC": " Los roles personalizados le permiten crear roles con permisos específicos y niveles de acceso para adaptarse a los requerimientos de la organización.",
       "SUBMIT": "Enviar",
       "API": {
-        "SUCCESS_MESSAGE": "Custom role added successfully."
+        "SUCCESS_MESSAGE": "Rol personalizado añadido con éxito."
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "Editar",
-      "TITLE": "Edit custom role",
-      "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
+      "TITLE": "Editar rol personalizado",
+      "DESC": " Los roles personalizados le permiten crear roles con permisos específicos y niveles de acceso para adaptarse a los requerimientos de la organización.",
       "SUBMIT": "Actualizar",
       "API": {
-        "SUCCESS_MESSAGE": "Custom role updated successfully."
+        "SUCCESS_MESSAGE": "Rol personalizado actualizado con éxito."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Eliminar",
       "API": {
-        "SUCCESS_MESSAGE": "Custom role deleted successfully.",
+        "SUCCESS_MESSAGE": "Rol personalizado eliminado con éxito.",
         "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
       },
       "CONFIRM": {

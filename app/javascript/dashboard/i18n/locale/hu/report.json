@@ -23,13 +23,13 @@
         "NAME": "Első reakció idő",
         "DESC": "( Átlag )",
         "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
-        "TOOLTIP_TEXT": "Első válaszidő"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
         "DESC": "( Átlag )",
         "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
-        "TOOLTIP_TEXT": "Felbontási idő"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Vevő várakozási idő",
-        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Elmúlt 1 évben",
       "CUSTOM_DATE_RANGE": "Egyedi időszak"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Utolsó 7 nap"
-      },
-      {
-        "id": 1,
-        "name": "Utolsó 30 nap"
-      },
-      {
-        "id": 2,
-        "name": "Elmúlt 3 hónapban"
-      },
-      {
-        "id": 3,
-        "name": "Elmúlt 6 hónapban"
-      },
-      {
-        "id": 4,
-        "name": "Elmúlt 1 évben"
-      },
-      {
-        "id": 5,
-        "name": "Egyedi időszak"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Alkalmaz",
       "PLACEHOLDER": "Dátumtartomány kiválasztása"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Nincs találat"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -167,13 +145,13 @@
         "NAME": "Első reakció idő",
         "DESC": "( Átlag )",
         "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
-        "TOOLTIP_TEXT": "Első válaszidő"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
         "DESC": "( Átlag )",
         "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
-        "TOOLTIP_TEXT": "Felbontási idő"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -234,13 +212,13 @@
         "NAME": "Első reakció idő",
         "DESC": "( Átlag )",
         "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
-        "TOOLTIP_TEXT": "Első válaszidő"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
         "DESC": "( Átlag )",
         "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
-        "TOOLTIP_TEXT": "Felbontási idő"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -301,13 +279,13 @@
         "NAME": "Első reakció idő",
         "DESC": "( Átlag )",
         "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
-        "TOOLTIP_TEXT": "Első válaszidő"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
         "DESC": "( Átlag )",
         "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
-        "TOOLTIP_TEXT": "Felbontási idő"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -368,13 +346,13 @@
         "NAME": "Első reakció idő",
         "DESC": "( Átlag )",
         "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
-        "TOOLTIP_TEXT": "Első válaszidő"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
         "DESC": "( Átlag )",
         "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
-        "TOOLTIP_TEXT": "Felbontási idő"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -480,8 +458,8 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Beszélgetés forgalom",
       "NO_CONVERSATIONS": "Nincsennek beszélgetések",
-      "CONVERSATION": "Beszélgetése százaléka",
-      "CONVERSATIONS": "Beszélgetések százalékai",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
       "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
@@ -490,7 +468,7 @@
       "NO_AGENTS": "Nincsennek ügynökök általi beszélgetések",
       "TABLE_HEADER": {
         "AGENT": "Ügynök",
-        "OPEN": "NYITOTT",
+        "OPEN": "Megnyitás",
         "UNATTENDED": "Figyelmen kívül hagyott",
         "STATUS": "Státusz"
       }

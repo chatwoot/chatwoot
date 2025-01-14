@@ -12,18 +12,18 @@
     "LIST": {
       "404": "沒有與此帳號關聯的客服",
       "TITLE": "管理您團隊中的客服",
-      "DESC": "你可以新增 / 移除客服到你的團隊。",
+      "DESC": "你可以新增 / 移除客服到你的團隊",
       "NAME": "姓名",
       "EMAIL": "電子信箱",
       "STATUS": "狀態",
       "ACTIONS": "操作",
       "VERIFIED": "已認證",
       "VERIFICATION_PENDING": "待驗證",
-      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+      "AVAILABLE_CUSTOM_ROLE": "可用的自定義角色權限"
     },
     "ADD": {
       "TITLE": "新增客服到你的團隊",
-      "DESC": "您可以新增能夠支援您的收件匣的人。",
+      "DESC": "您可以新增能夠支援您的收件匣的人",
       "CANCEL_BUTTON_TEXT": "取消",
       "FORM": {
         "NAME": {
@@ -97,7 +97,7 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "查無結果。"
+      "NO_RESULTS": "查無結果"
     },
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "無",

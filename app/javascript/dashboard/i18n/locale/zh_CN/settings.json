@@ -61,15 +61,29 @@
         "COPY": "复制"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "语音通知",
-        "NOTE": "在仪表盘中为新消息和对话启用音频通知。",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "啥都没有",
           "MINE": "Assigned",
-          "ALL": "所有的"
+          "ALL": "所有的",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Alert events for conversations",
           "NONE": "啥都没有",
           "ASSIGNED": "分配会话",
           "ALL_CONVERSATIONS": "所有会话"
@@ -81,7 +95,9 @@
           "TITLE": "Alert conditions:",
           "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
           "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "查看更多"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "电子邮件通知",
@@ -145,7 +161,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "有效的",
-        "STATUSES_LIST": ["在线的", "忙碌中", "离线的"],
+        "STATUS": {
+          "ONLINE": "在线",
+          "BUSY": "忙碌中",
+          "OFFLINE": "离线"
+        },
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
         "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
@@ -173,14 +193,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "改變",
-    "CHANGE_ACCOUNTS": "切换账户",
-    "CONTACT_SUPPORT": "联系客服",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "从以下列表中选择一个账户",
-    "PROFILE_SETTINGS": "个人资料设置",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
-    "APPEARANCE": "Change Appearance",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
-    "LOGOUT": "退出登录"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "剩余试用期天数",
@@ -214,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "提交"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "正在验证...",
@@ -223,11 +249,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "会话",
-    "INBOX": "收件箱",
+    "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "所有会话",
     "MENTIONED_CONVERSATIONS": "提及",
     "PARTICIPATING_CONVERSATIONS": "参与者",
@@ -262,7 +289,9 @@
     "NEW_INBOX": "New inbox",
     "REPORTS_CONVERSATION": "会话",
     "CSAT": "CSAT",
-    "CAMPAIGNS": "Campaigns",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
+    "CAMPAIGNS": "Campagnes",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
     "REPORTS_SLA": "SLA",
@@ -272,6 +301,7 @@
     "REPORTS_INBOX": "收件箱",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "SET_YOUR_AVAILABILITY": "Set your availability",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
@@ -279,17 +309,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "帮助中心",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "已存档",
-      "CATEGORY": "类别",
-      "SETTINGS": "设置",
-      "CATEGORY_EMPTY_MESSAGE": "未找到类别"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Categories",
+      "LOCALES": "Locales",
+      "SETTINGS": "设置"
     },
+    "CHANNELS": "频道",
     "SET_AUTO_OFFLINE": {
       "TEXT": "自动标记离线状态",
-      "INFO_TEXT": "当您不使用应用程序或仪表板时，让系统自动标记您离线。"
+      "INFO_TEXT": "当您不使用应用程序或仪表板时，让系统自动标记您离线。",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "阅读文档"
   },

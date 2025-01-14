@@ -6,6 +6,7 @@
     "LIST": {
       "404": "Det finns inga aktiva konversationer i denna grupp."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Konversationer",
     "MENTION_HEADING": "Mentions",
     "UNATTENDED_HEADING": "Unattended",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "Plats"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "har delat en webbadress"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "Inget innehåll tillgängligt",
     "HIDE_QUOTED_TEXT": "Dölj citerad text",
     "SHOW_QUOTED_TEXT": "Visa citerad text",
-    "MESSAGE_READ": "Read"
+    "MESSAGE_READ": "Read",
+    "SENDING": "Sending"
   }
 }

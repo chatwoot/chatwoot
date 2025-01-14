@@ -1,9 +1,9 @@
 {
   "CUSTOM_ROLE": {
-    "HEADER": "Custom Roles",
+    "HEADER": "Regras Personalizadas",
     "LEARN_MORE": "Learn more about custom roles",
     "DESCRIPTION": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
-    "HEADER_BTN_TXT": "Add custom role",
+    "HEADER_BTN_TXT": "Adicionar cargo personalizado",
     "LOADING": "Fetching custom roles...",
     "SEARCH_404": "Não existem itens correspondentes a esta consulta.",
     "PAYWALL": {
@@ -22,12 +22,12 @@
       "404": "There are no custom roles available in this account.",
       "TITLE": "Manage custom roles",
       "DESC": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
-      "TABLE_HEADER": [
-        "Nome",
-        "Descrição",
-        "Permissions",
-        "Ações"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Nome",
+        "DESCRIPTION": "Descrição",
+        "PERMISSIONS": "Permissões",
+        "ACTIONS": "Ações"
+      }
     },
     "PERMISSIONS": {
       "CONVERSATION_MANAGE": "Manage all conversations",
@@ -49,16 +49,16 @@
         "ERROR": "A descrição é obrigatória."
       },
       "PERMISSIONS": {
-        "LABEL": "Permissions",
+        "LABEL": "Permissões",
         "ERROR": "Permissions are required."
       },
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Tente novamente."
+        "ERROR_MESSAGE": "Não foi possível desconectar o agente robô. Por favor, tente novamente mais tarde."
       }
     },
     "ADD": {
-      "TITLE": "Add custom role",
+      "TITLE": "Adicionar cargo personalizado",
       "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
       "SUBMIT": "Enviar",
       "API": {
@@ -78,7 +78,7 @@
       "BUTTON_TEXT": "Excluir",
       "API": {
         "SUCCESS_MESSAGE": "Custom role deleted successfully.",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Tente novamente."
+        "ERROR_MESSAGE": "Não foi possível desconectar o agente robô. Por favor, tente novamente mais tarde."
       },
       "CONFIRM": {
         "TITLE": "Confirmar exclusão",

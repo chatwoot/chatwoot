@@ -20,23 +20,18 @@
         "TITLE": "Thêm đại lý vào nhóm - {teamName}",
         "DESC": "Thêm Đại lý vào nhóm mới tạo của bạn. Điều này cho phép bạn cộng tác như một nhóm trong các cuộc trò chuyện, nhận thông báo về các sự kiện mới trong cùng một cuộc trò chuyện."
       },
-      "WIZARD": [
-        {
-          "title": "Tạo",
-          "route": "settings_teams_new",
-          "body": "Tạo ra một nhóm đại lý mới."
-        },
-        {
-          "title": "Thêm đại lý",
-          "route": "settings_teams_add_agents",
-          "body": "Thêm đại lý vào nhóm."
-        },
-        {
-          "title": "Hoàn tất",
-          "route": "settings_teams_finish",
-          "body": "Bạn đã sẵn sàng để đi!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "Tạo",
+        "BODY": "Tạo ra một nhóm đại lý mới."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Thêm đại lý",
+        "BODY": "Thêm đại lý vào nhóm."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Hoàn tất",
+        "BODY": "Bạn đã sẵn sàng để đi!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "Thêm đại lý vào nhóm - {teamName}",
         "DESC": "Thêm Đại lý vào nhóm mới tạo của bạn. Tất cả các đại lý được thêm vào sẽ nhận được thông báo khi có cuộc trò chuyện được phân công cho nhóm này."
       },
-      "WIZARD": [
-        {
-          "title": "Chi tiết nhóm",
-          "route": "settings_teams_edit",
-          "body": "Đổi tên, mô tả và các chi tiết khác."
-        },
-        {
-          "title": "Sửa đại lý",
-          "route": "settings_teams_edit_members",
-          "body": "Sửa đại lý trong nhóm của bạn."
-        },
-        {
-          "title": "Hoàn tất",
-          "route": "settings_teams_edit_finish",
-          "body": "Bạn đã sẵn sàng để đi!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Chi tiết nhóm",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "Đổi tên, mô tả và các chi tiết khác."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Sửa đại lý",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "Sửa đại lý trong nhóm của bạn."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Hoàn tất",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "Bạn đã sẵn sàng để đi!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "Không thể lưu chi tiết nhóm. Thử lại."

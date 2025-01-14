@@ -1,35 +1,31 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Источники",
-    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
-    "LEARN_MORE": "Learn more about inboxes",
+    "DESCRIPTION": "Канал — это способ коммуникации, который ваш клиент выбирает для связи с вами. Входящие — это место, где вы управляете диалогами для определенного канала. Он может включать диалоги из различных источников, таких как электронная почта, онлайн чат или социальные сети.",
+    "LEARN_MORE": "Узнать больше о \"Входящих\"",
     "RECONNECTION_REQUIRED": "Входящие сообщения отключены. Вы не будете получать новые сообщения пока не пройдете авторизацию повторно.",
     "CLICK_TO_RECONNECT": "Нажмите здесь для повторного подключения.",
     "LIST": {
       "404": "У вас пока нет источников."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Выберите источник",
-        "route": "settings_inbox_new",
-        "body": "Выберите канал, который вы хотите подключить к Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Выберите источник",
+        "BODY": "Выберите канал, который вы хотите подключить к Chatwoot."
       },
-      {
-        "title": "Создать источник",
-        "route": "settings_inboxes_page_channel",
-        "body": "Авторизуйте свой аккаунт и создайте ящик."
+      "INBOX": {
+        "TITLE": "Создать источник",
+        "BODY": "Авторизуйте свой аккаунт и создайте ящик."
       },
-      {
-        "title": "Добавить операторов",
-        "route": "settings_inboxes_add_agents",
-        "body": "Добавить агента в созданный источник."
+      "AGENT": {
+        "TITLE": "Добавить операторов",
+        "BODY": "Добавить агента в созданный источник."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "Все готово!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Все готово!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Имя источника",
@@ -86,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Включить приветствие",
-          "HELP_TEXT": "Автоматически отправлять приветственное сообщение при создании нового разговора.",
+          "HELP_TEXT": "Автоматически отправлять приветственное сообщение при создании нового диалога.",
           "ENABLED": "Включено",
           "DISABLED": "Выключено"
         },
@@ -371,16 +367,16 @@
         "ERROR_MESSAGE": "Произошла ошибка при подключении к Microsoft, попробуйте еще раз"
       },
       "GOOGLE": {
-        "TITLE": "Google Email",
-        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "SIGN_IN": "Sign in with Google",
+        "TITLE": "Google Почта",
+        "DESCRIPTION": "Нажмите на кнопку Войти с помощью Google, чтобы начать. Вы будете перенаправлены на страницу входа в электронную почту. Как только вы согласитесь с запрошенными правами, вы будете перенаправлены обратно на этап создания источника.",
+        "SIGN_IN": "Войти с помощью Google",
         "EMAIL_PLACEHOLDER": "Введите адрес электронной почты",
-        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
+        "ERROR_MESSAGE": "Произошла ошибка при подключении к Google, пожалуйста, попробуйте еще раз"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Авторизуемся через Facebook...",
-      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
+      "ERROR_FB_LOADING": "Ошибка загрузки SDK Facebook. Пожалуйста, отключите любые блокировщики рекламы и попробуйте снова из другого браузера.",
       "ERROR_FB_AUTH": "Что-то пошло не так, обновите страницу...",
       "ERROR_FB_UNAUTHORIZED": "Вы не авторизованы для выполнения этого действия. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Пожалуйста, убедитесь, что у вас есть доступ к странице Facebook с полными правами. Подробнее о ролях в Facebook можно прочитать <a href=\" https://www.facebook.com/help/187316341316631\">здесь</a>.",
@@ -482,7 +478,7 @@
       "LABEL": "Возможности",
       "DISPLAY_FILE_PICKER": "Показывать выбор файла на виджете",
       "DISPLAY_EMOJI_PICKER": "Показывать эмодзи на виджете",
-      "ALLOW_END_CONVERSATION": "Разрешить пользователям завершать разговор из виджета",
+      "ALLOW_END_CONVERSATION": "Разрешить пользователям завершать диалог из виджета",
       "USE_INBOX_AVATAR_FOR_BOT": "Использовать имя папки \"Входящие\" и аватар для бота"
     },
     "SETTINGS_POPUP": {
@@ -500,8 +496,8 @@
       "SENDER_NAME_SECTION": "Включить имя агента в электронной почте",
       "ENABLE_CSAT_SUB_TEXT": "Включить/выключить опрос CSAT(степень удовлетворенности пользователя) после завершения беседы",
       "SENDER_NAME_SECTION_TEXT": "Включить/выключить отображение имени Сотрудника в электронной почте, если отключено, он будет показывать бизнес-имя",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Включить непрерывность разговоров по электронной почте",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Разговоры будут продолжаться по электронной почте, если доступен контактный адрес электронной почты.",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Включить непрерывность диалогов по электронной почте",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Диалоги будут продолжаться по электронной почте, если доступен контактный адрес электронной почты.",
       "LOCK_TO_SINGLE_CONVERSATION": "Заблокировать один диалог",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Включение или отключение нескольких диалогов для одного и того же контакта в этой папке «Входящие»",
       "INBOX_UPDATE_TITLE": "Настройки источника",
@@ -516,8 +512,8 @@
       "INBOX_IDENTIFIER_SUB_TEXT": "Используйте токен `inbox_identifier` для аутентификации ваших клиентов API.",
       "FORWARD_EMAIL_TITLE": "Переслать на Email",
       "FORWARD_EMAIL_SUB_TEXT": "Начните пересылать свои письма на этот email.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Разрешить отправлять сообщения после завершения разговора",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Разрешить пользователям отправлять сообщения даже после того, как разговор будет завершен.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Разрешить отправлять сообщения после завершения диалога",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Разрешить пользователям отправлять сообщения даже после того, как диалог будет завершен.",
       "WHATSAPP_SECTION_SUBHEADER": "Этот ключ API используется для интеграции с API WhatsApp.",
       "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Введите новый ключ API, используемый для интеграции с WhatsApp API.",
       "WHATSAPP_SECTION_TITLE": "Ключ API",
@@ -538,7 +534,7 @@
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Авто распределение лимита",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Пожалуйста, введите значение больше 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Ограничьте максимальное количество разговоров из этого почтового ящика, которые могут быть автоматически назначены агенту"
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Ограничьте максимальное количество диалогов из этого почтового ящика, которые могут быть автоматически назначены агенту"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Войти заново",
