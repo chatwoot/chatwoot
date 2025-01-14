@@ -7,6 +7,7 @@
 #  active        :boolean          default(TRUE), not null
 #  conditions    :jsonb            not null
 #  delay         :integer
+#  delay_type    :string
 #  description   :text
 #  event_name    :string           not null
 #  name          :string           not null
@@ -30,6 +31,7 @@ class AutomationRule < ApplicationRecord
   validate :json_actions_format
   validate :query_operator_presence
   validates :account_id, presence: true
+  validates :delay_type, inclusion: { in: %w[minutes hours days none], message: I18n.t('errors.data_import.data_type.invalid') }, allow_nil: true
 
   after_update_commit :reauthorized!, if: -> { saved_change_to_conditions? }
 

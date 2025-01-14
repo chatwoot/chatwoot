@@ -255,16 +255,18 @@ export default {
           },
         ],
         delay: null,
+        delay_type: null,
       },
       showDeleteConfirmationModal: false,
       allCustomAttributes: [],
       mode: 'create',
       selectedTimerValue: {
+        type: 'none',
         name: this.$t('AUTOMATION.ADD.INTERVALS.NONE'),
         value: null,
       },
       customInterval: {
-        type: { value: 'minutes', label: 'MINUTES' },
+        type: { value: 'minutes', label: 'minutes' },
         amount: 0,
       },
       timerParams: '',
@@ -286,12 +288,36 @@ export default {
 
     timerValues() {
       return [
-        { name: this.$t('AUTOMATION.ADD.INTERVALS.NONE'), value: null },
-        { name: this.$t('AUTOMATION.ADD.INTERVALS.1HOUR'), value: 3600 },
-        { name: this.$t('AUTOMATION.ADD.INTERVALS.1DAY'), value: 86400 },
-        { name: this.$t('AUTOMATION.ADD.INTERVALS.3DAY'), value: 259200 },
-        { name: this.$t('AUTOMATION.ADD.INTERVALS.7DAY'), value: 604800 },
-        { name: this.$t('AUTOMATION.ADD.INTERVALS.CUSTOM'), value: 'custom' },
+        {
+          name: this.$t('AUTOMATION.ADD.INTERVALS.NONE'),
+          type: 'none',
+          value: null,
+        },
+        {
+          name: this.$t('AUTOMATION.ADD.INTERVALS.1HOUR'),
+          type: 'hours',
+          value: 3600,
+        },
+        {
+          name: this.$t('AUTOMATION.ADD.INTERVALS.1DAY'),
+          type: 'days',
+          value: 86400,
+        },
+        {
+          name: this.$t('AUTOMATION.ADD.INTERVALS.3DAY'),
+          type: 'days',
+          value: 259200,
+        },
+        {
+          name: this.$t('AUTOMATION.ADD.INTERVALS.7DAY'),
+          type: 'days',
+          value: 604800,
+        },
+        {
+          name: this.$t('AUTOMATION.ADD.INTERVALS.CUSTOM'),
+          type: 'none',
+          value: 'custom',
+        },
       ];
     },
 
@@ -301,7 +327,6 @@ export default {
     automationActionTypes() {
       const isSLAEnabled = this.isFeatureEnabled('sla');
       const actions = this.automationTypes[this.automation.event_name]?.actions;
-
       return isSLAEnabled
         ? actions
         : actions.filter(action => action.key !== 'add_sla');
@@ -343,21 +368,17 @@ export default {
   },
 
   watch: {
-    computedDelay(value) {
-      this.automation.delay = value;
-    },
     customInterval: {
       handler(value) {
-        const { type, amount } = value;
-
-        const amountInSeconds = this.amountToSeconds(type.value, amount);
-        this.automation.delay = amountInSeconds;
+        if (this.selectedTimerValue.value === 'custom') {
+          this.setCustomTime(value);
+        }
       },
       deep: true,
-    },
+    },  
 
     'customInterval.type'(type) {
-      this.customInterval.amount = 0;
+      this.customInterval.amount = 1;
     },
     'customInterval.amount'(amount) {
       if (amount > this.getMaxValue(this.customInterval.type)) {
@@ -385,9 +406,27 @@ export default {
 
     onTimerValueChange(interval) {
       this.selectedTimerValue = interval;
-      if (interval !== 'custom') {
-        this.customInterval = { type: this.intervalTypes[0], amount: 0 };
+
+      if (interval.value === 'custom') {
+        this.setCustomTime(this.customInterval);
+      } else {
+        this.setDefaultTime(interval);
       }
+    },
+
+    setCustomTime(interval) {
+      const { type, amount } = interval;
+      const amountInSeconds = this.amountToSeconds(
+        type.value,
+        parseInt(amount)
+      );
+      (this.automation.delay_type = type.value),
+        (this.automation.delay = amountInSeconds || 0);
+    },
+
+    setDefaultTime(interval) {
+      (this.automation.delay_type = interval.type),
+        (this.automation.delay = interval.value);
     },
 
     amountToSeconds(type, amount) {
@@ -415,14 +454,6 @@ export default {
       }
     },
 
-    updateCustomTime(event) {
-      this.customTimeInSeconds = event.target.value;
-      this.automation.delay = parseInt(this.customTimeInSeconds, 10) || 0;
-    },
-
-    setShowTimerAction() {
-      this.showTimerAction = !this.showTimerAction;
-    },
   },
 };
 </script>

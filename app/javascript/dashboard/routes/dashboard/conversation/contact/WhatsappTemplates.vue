@@ -10,6 +10,8 @@
       :template="selectedWaTemplate"
       :show-message-button="showMessageButton"
       :options="eventOptions"
+      :selected-params="this.computedTemplate.processed_params"
+      :selected-event-params="this.computedTemplate.processed_events"
       @resetTemplate="onResetTemplate"
       @sendMessage="onSendMessage"
       @changeVariable="onChangeVariable"
@@ -43,11 +45,34 @@ export default {
       type: Array,
       default: () => [],
     },
+    template: {
+      type: Object,
+      default: () => {},
+    },
   },
   data() {
     return {
       selectedWaTemplate: null,
+      eventOptions: null,
     };
+  },
+
+  computed: {
+    computedTemplate() {
+      return this.template ?? {};
+    },
+  },
+
+  mounted() {
+    if (this.template?.id) {
+      const {
+        inbox_id,
+        processed_events,
+        processed_params,
+        ...filteredTemplate
+      } = this.template;
+      this.selectedWaTemplate = filteredTemplate;
+    }
   },
   methods: {
     pickTemplate(template) {

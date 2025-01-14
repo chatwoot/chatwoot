@@ -6,10 +6,14 @@ const allElementsNumbers = arr => {
   return arr.every(elem => typeof elem === 'number');
 };
 
-const formatArray = params => {
+const formatArray = (params, name) => {
   if (params.length <= 0) {
     params = [];
-  } else if (allElementsString(params) || allElementsNumbers(params)) {
+  } else if (
+    allElementsString(params) ||
+    allElementsNumbers(params) ||
+    name == 'send_template'
+  ) {
     params = [...params];
   } else {
     params = params.map(val => val.id);
@@ -30,7 +34,7 @@ const generatePayload = data => {
   const actions = JSON.parse(JSON.stringify(data));
   let payload = actions.map(item => {
     if (Array.isArray(item.action_params)) {
-      item.action_params = formatArray(item.action_params);
+      item.action_params = formatArray(item.action_params, item.action_name);
     } else if (typeof item.action_params === 'object') {
       item.action_params = generatePayloadForObject(item);
     } else if (!item.action_params) {

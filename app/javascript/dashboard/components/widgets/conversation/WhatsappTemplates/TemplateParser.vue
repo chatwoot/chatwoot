@@ -83,6 +83,14 @@ export default {
       type: Array,
       default: () => [],
     },
+    selectedParams: {
+      type: Object,
+      default: null,
+    },
+    selectedEventParams: {
+      type: Object,
+      default: null,
+    },
     showMessageButton: {
       type: Boolean,
       default: true,
@@ -129,6 +137,14 @@ export default {
   mounted() {
     this.generateVariables();
     this.setDisableResetButton();
+
+    if (this.selectedParams) {
+      this.processedParams = this.selectedParams;
+    }
+
+    if (this.selectedEventParams) {
+      this.eventVariables = this.selectedEventParams;
+    }
   },
   methods: {
     sendMessage() {
