@@ -401,7 +401,7 @@
       }
     },
     "RESPONSES": {
-      "HEADER": "FAQs",
+      "HEADER": "Generated FAQs",
       "ADD_NEW": "Create new FAQ",
       "DELETE": {
         "TITLE": "Are you sure to delete the FAQ?",
