@@ -10,7 +10,11 @@ class Onehash::Cal::ActionController < Onehash::IntegrationController
       render json: { error: 'Some other account already linked' }, status: :unprocessable_entity
       return
     end
-    create_hook(params[:cal_user_id])
+
+    unless create_hook(params[:cal_user_id])
+      return # Stop further execution if hook creation fails
+    end
+
     render json: { message: 'Account User hooks created successfully' }, status: :ok
   end
 
@@ -64,12 +68,14 @@ class Onehash::Cal::ActionController < Onehash::IntegrationController
       settings: { cal_user_id: cal_user_id },
       status: 'enabled'
     )
-  
+
     if hook.save
       logger.info "Hook created successfully with ID #{hook.id} for cal_user_id #{cal_user_id}"
+      true
     else
       logger.error "Failed to create hook: #{hook.errors.full_messages.join(', ')}"
       render json: { error: 'Failed to create hook', details: hook.errors.full_messages }, status: :unprocessable_entity
+      false
     end
   end
   
