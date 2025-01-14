@@ -97,7 +97,7 @@ const onCardClick = e => {
       :status="currentContactStatus"
       rounded-full
     />
-    <div class="flex flex-col w-full gap-1">
+    <div class="flex flex-col w-full gap-1 min-w-0">
       <div class="flex items-center justify-between h-6 gap-2">
         <h4 class="text-base font-medium truncate text-n-slate-12">
           {{ currentContactName }}
