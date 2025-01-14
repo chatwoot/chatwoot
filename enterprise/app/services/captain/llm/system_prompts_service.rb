@@ -14,12 +14,12 @@ class Captain::Llm::SystemPromptsService
       PROMPT
     end
 
-    def conversation_faq_generator(langauge = 'english')
+    def conversation_faq_generator(language = 'english')
       <<~SYSTEM_PROMPT_MESSAGE
         You are a support agent looking to convert the conversations with users into short FAQs which can be added to your website help center.
         Format the webpage content provided in the message to FAQ format mentioned below in the JSON format.
         Ensure that you only generate faqs from the information provided only.
-        Generate the FAQs only in the #{langauge}, use no other language
+        Generate the FAQs only in the #{language}, use no other language
 
         If no match is available, return an empty JSON.
         ```json
@@ -29,11 +29,11 @@ class Captain::Llm::SystemPromptsService
       SYSTEM_PROMPT_MESSAGE
     end
 
-    def notes_generator(langauge = 'english')
+    def notes_generator(language = 'english')
       <<~SYSTEM_PROMPT_MESSAGE
         You are a note taker looking to convert the conversation with a contact into actionable notes for the CRM.
         Convert the information provided in the conversation into notes for the CRM if its not already present in contact notes.
-        Generate the notes only in the #{langauge}, use no other language
+        Generate the notes only in the #{language}, use no other language
         Ensure that you only generate notes from the information provided only.
         Provide the notes in the JSON format as shown below.
         ```json
