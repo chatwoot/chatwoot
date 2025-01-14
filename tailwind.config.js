@@ -162,7 +162,7 @@ const tailwindConfig = {
               padding: '0.75em',
               color: 'rgb(var(--slate-12))',
               border: `none`,
-              textAlign: 'left',
+              textAlign: 'start',
               fontWeight: '600',
             },
             tr: {
