@@ -1,6 +1,7 @@
 <script setup>
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
+import { ref } from 'vue';
 
 import { defineComponent, reactive, computed, onMounted } from 'vue';
 import { useI18n } from 'dashboard/composables/useI18n';
@@ -28,6 +29,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  checkDomain: {
+    type: Function,
+    default: () => {},
+  },
 });
 const emit = defineEmits(['submit', 'deleteLogo']);
 
@@ -46,7 +51,12 @@ const state = reactive({
   domain: '',
   logoUrl: '',
   avatarBlobId: '',
+  isDomainFormatValid: true, // Tracks if domain format is valid
+  isDomainValid: false,
 });
+
+const isDomainValid = ref(false);
+const isValidating = ref(false);
 
 const rules = {
   name: {
@@ -117,6 +127,28 @@ function onNameChange() {
   state.slug = convertToCategorySlug(state.name);
 }
 
+async function checkDomainInternal(domain) {
+  try {
+    isValidating.value = true;
+    const res = await props.checkDomain(domain);
+    isDomainValid.value = res;
+  } catch (error) {
+    isDomainValid.value = false;
+  } finally {
+    isValidating.value = false;
+  }
+}
+
+async function onCheckDomainClick() {
+  if (!isDomain(state.domain)) {
+    state.isDomainFormatValid = false;
+    return;
+  }
+
+  state.isDomainFormatValid = true;
+  checkDomainInternal(state.domain);
+}
+
 function onSubmitClick() {
   v$.value.$touch();
   if (v$.value.$invalid) {
@@ -156,6 +188,12 @@ function onFileChange({ file }) {
     const errorKey =
       'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.IMAGE_UPLOAD_SIZE_ERROR';
     useAlert(t(errorKey, { size: MAXIMUM_FILE_UPLOAD_SIZE }));
+  }
+}
+
+function onDomainChange() {
+  if (isDomainValid.value) {
+    isDomainValid.value = false;
   }
 }
 </script>
@@ -218,19 +256,32 @@ function onFileChange({ file }) {
       <div class="mb-4">
         <woot-input
           v-model="state.domain"
-          :class="{ error: v$.domain.$error }"
+          :class="{ error: !state.isDomainFormatValid || v$.domain.$error }"
           :label="$t('HELP_CENTER.PORTAL.ADD.DOMAIN.LABEL')"
           :placeholder="$t('HELP_CENTER.PORTAL.ADD.DOMAIN.PLACEHOLDER')"
-          :help-text="domainExampleHelpText"
           :error="domainError"
+          :help-text="domainExampleHelpText"
           @blur="v$.domain.$touch"
+          @input="onDomainChange"
         />
+        <div v-if="state.domain" class="mt-2">
+          <woot-button
+            :is-loading="isValidating"
+            :disabled="!state.isDomainFormatValid || v$.domain.$error"
+            @click="onCheckDomainClick"
+          >
+            {{ $t('HELP_CENTER.PORTAL.ADD.DOMAIN.VALIDATE_BUTTON') }}
+          </woot-button>
+        </div>
+        <div v-if="isDomainValid" class="text-success mt-2">
+          {{ $t('HELP_CENTER.PORTAL.ADD.DOMAIN.VALID_MESSAGE') }}
+        </div>
       </div>
     </div>
     <template #footer-right>
       <woot-button
         :is-loading="isSubmitting"
-        :is-disabled="v$.$invalid"
+        :is-disabled="v$.$invalid || (state.domain != '' && !isDomainValid)"
         @click="onSubmitClick"
       >
         {{ submitButtonText }}

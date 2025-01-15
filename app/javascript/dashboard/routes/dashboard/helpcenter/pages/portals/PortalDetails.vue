@@ -53,6 +53,21 @@ export default {
         useAlert(this.alertMessage);
       }
     },
+
+    async checkDomain(domain) {
+      try {
+        const res = await this.$store.dispatch('portals/checkDomain', {
+          domain,
+        });
+        return res;
+      } catch (error) {
+        this.alertMessage =
+          error?.message ||
+          this.$t('HELP_CENTER.PORTAL.ADD.API.ERROR_MESSAGE_FOR_DOMAIN');
+        useAlert(this.alertMessage);
+        return null;
+      }
+    },
   },
 };
 </script>
@@ -65,6 +80,7 @@ export default {
         'HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.BASIC_SETTINGS_PAGE.CREATE_BASIC_SETTING_BUTTON'
       )
     "
+    :check-domain="checkDomain"
     @submit="createPortal"
   />
 </template>

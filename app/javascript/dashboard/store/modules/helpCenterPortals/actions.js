@@ -110,4 +110,14 @@ export const actions = {
   updatePortal: async ({ commit }, portal) => {
     commit(types.UPDATE_PORTAL_ENTRY, portal);
   },
+
+  checkDomain: async (_, { domain }) => {
+    try {
+      const { data } = await portalAPIs.checkDomain(domain);
+      return data.message;
+    } catch (error) {
+      throwErrorMessage(error);
+      return null;
+    }
+  },
 };
