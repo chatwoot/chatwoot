@@ -226,7 +226,7 @@ export default {
             size="medium"
             color-scheme="secondary"
             icon="delete"
-            class-names="flex justify-end w-4"
+            class-names="flex justify-end !w-fit"
             @click="onDelete"
           />
         </div>
@@ -249,7 +249,7 @@ export default {
             <woot-button
               size="small"
               icon="checkmark"
-              class="rounded-l-none rtl:rounded-r-none"
+              class="ltr:rounded-l-none rtl:rounded-r-none"
               @click="onUpdate"
             />
           </div>

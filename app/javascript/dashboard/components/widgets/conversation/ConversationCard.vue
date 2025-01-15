@@ -313,7 +313,9 @@ export default {
           {{ $t(`CHAT_LIST.NO_MESSAGES`) }}
         </span>
       </p>
-      <div class="absolute flex flex-col conversation--meta right-4 top-4">
+      <div
+        class="absolute flex flex-col conversation--meta ltr:right-4 rtl:left-4 top-4"
+      >
         <span class="ml-auto font-normal leading-4 text-xxs">
           <TimeAgo
             :last-activity-timestamp="chat.timestamp"
@@ -367,7 +369,7 @@ export default {
     @apply pl-0;
 
     .conversation-card--meta {
-      @apply pr-4;
+      @apply ltr:pr-4 rtl:pl-4;
     }
 
     .conversation--details {
