@@ -108,7 +108,7 @@
         "SELECT_PLACEHOLDER": "Ningú",
         "INPUT_PLACEHOLDER": "Selecciona la prioritat",
         "NO_RESULTS": "No s'ha trobat agents",
-        "SUCCESSFUL": "S'ha canviat la prioritat de l'identificador de conversa {conversationId} a {priority}",
+        "SUCCESSFUL": "S'ha canviat la prioritat de l'ID de conversa {conversationId} a {priority}",
         "FAILED": "No s'ha pogut canviar la prioritat. Si us plau, torna-ho a provar."
       }
     },
@@ -133,7 +133,7 @@
           "FAILED": "No s'ha pogut assignar l'agent. Torna-ho a provar."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "S'ha assignat l'etiqueta #{labelName} a l'id de conversa {conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "No s'ha pogut assignar l'etiqueta. Torna-ho a provar."
         },
         "TEAM_ASSIGNMENT": {
