@@ -473,6 +473,7 @@ export default {
     <Banner
       v-if="!currentChat.can_reply"
       color-scheme="alert"
+      class="mt-2 mx-2 rounded-lg overflow-hidden"
       :banner-message="replyWindowBannerMessage"
       :href-link="replyWindowLink"
       :href-link-text="replyWindowLinkText"
