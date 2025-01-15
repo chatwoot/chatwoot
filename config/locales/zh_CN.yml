@@ -17,7 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 zh_CN:
-  hello: "您好世界"
+  hello: '您好世界'
   messages:
     reset_password_success: 哇！密码重置请求成功。请检查您的邮件获取说明。
     reset_password_failure: 哎呀！我们找不到指定电子邮件的任何用户。
@@ -31,7 +31,7 @@ zh_CN:
       disposable_email: 我们不允许可用的电子邮件
       blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: 您输入了一个无效的电子邮件
-      email_already_exists: "您已经注册了 %{email} 的帐户"
+      email_already_exists: '您已经注册了 %{email} 的帐户'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: 注册失败
     data_import:
@@ -50,9 +50,9 @@ zh_CN:
       locale:
         unique: 在类别和门户中应该是唯一的
     dyte:
-      invalid_message_type: "无效的消息类型。不允许操作"
+      invalid_message_type: '无效的消息类型。不允许操作'
     slack:
-      invalid_channel_id: "无效的Slack频道。请重试"
+      invalid_channel_id: '无效的Slack频道。请重试'
     inboxes:
       imap:
         socket_error: 请检查网络连接，IMAP地址，然后再试一次。
@@ -120,103 +120,102 @@ zh_CN:
         recorded_at: 录制日期
   notifications:
     notification_title:
-      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
-      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
-      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
-      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
-      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
-      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
-      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
-    attachment: "Attachment"
-    no_content: "No content"
+      conversation_creation: 'A conversation (#%{display_id}) has been created in %{inbox_name}'
+      conversation_assignment: 'A conversation (#%{display_id}) has been assigned to you'
+      assigned_conversation_new_message: 'A new message is created in conversation (#%{display_id})'
+      conversation_mention: 'You have been mentioned in conversation (#%{display_id})'
+      sla_missed_first_response: 'SLA target first response missed for conversation (#%{display_id})'
+      sla_missed_next_response: 'SLA target next response missed for conversation (#%{display_id})'
+      sla_missed_resolution: 'SLA target resolution missed for conversation (#%{display_id})'
+    attachment: 'Attachment'
+    no_content: 'No content'
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} 会话中提到了你: "
+      instagram_story_content: '%{story_sender} 会话中提到了你: '
       instagram_deleted_story_content: 本信息不存在
       deleted: 此消息已被删除
       delivery_status:
-        error_code: "错误代码: %{error_code}"
+        error_code: '错误代码: %{error_code}'
     activity:
       status:
-        resolved: "对话被标记由 %{user_name} 解决"
-        contact_resolved: "对话被 %{contact_name} 重新打开"
-        open: "对话被 %{user_name} 重新打开"
-        pending: "对话被标记由 %{user_name} 待处理"
-        snoozed: "Conversation was snoozed by %{user_name}"
-        auto_resolved: "对话被系统标记为已解决, 原因是 %{duration} 天不活跃"
+        resolved: '对话被标记由 %{user_name} 解决'
+        contact_resolved: '对话被 %{contact_name} 重新打开'
+        open: '对话被 %{user_name} 重新打开'
+        pending: '对话被标记由 %{user_name} 待处理'
+        snoozed: 'Conversation was snoozed by %{user_name}'
+        auto_resolved: '对话被系统标记为已解决, 原因是 %{duration} 天不活跃'
         system_auto_open: 由于收到新的消息，系统重新打开了对话。
       priority:
         added: '%{user_name} 将优先级设置为 %{new_priority}'
         updated: '%{user_name} 将优先级从 %{old_priority} 更改为 %{new_priority}'
         removed: '%{user_name} 取消了优先级'
       assignee:
-        self_assigned: "%{user_name} 自行分配这次会话"
-        assigned: "由 %{assignee_name} 分配给 %{user_name}"
-        removed: "对话未被 %{user_name} 分配"
+        self_assigned: '%{user_name} 自行分配这次会话'
+        assigned: '由 %{assignee_name} 分配给 %{user_name}'
+        removed: '对话未被 %{user_name} 分配'
       team:
-        assigned: "由 %{team_name} 分配给 %{user_name}"
-        assigned_with_assignee: "由 %{assignee_name} 分配给 %{team_name} 团队的 %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
+        assigned: '由 %{team_name} 分配给 %{user_name}'
+        assigned_with_assignee: '由 %{assignee_name} 分配给 %{team_name} 团队的 %{user_name}'
+        removed: 'Unassigned from %{team_name} by %{user_name}'
       labels:
-        added: "%{user_name} 添加 %{labels}"
-        removed: "%{user_name} 移除 %{labels}"
+        added: '%{user_name} 添加 %{labels}'
+        removed: '%{user_name} 移除 %{labels}'
       sla:
-        added: "%{user_name} added SLA policy %{sla_name}"
-        removed: "%{user_name} removed SLA policy %{sla_name}"
-      muted: "%{user_name} 已将会话静音"
-      unmuted: "%{user_name} 已将会话取消静音"
+        added: '%{user_name} added SLA policy %{sla_name}'
+        removed: '%{user_name} removed SLA policy %{sla_name}'
+      muted: '%{user_name} 已将会话静音'
+      unmuted: '%{user_name} 已将会话取消静音'
     templates:
-      greeting_message_body: "%{account_name} 通常在几小时内回复。"
-      ways_to_reach_you_message_body: "给团队一个联系您的方法。"
-      email_input_box_message_body: "通过电子邮件得到通知"
-      csat_input_message_body: "请为会话评分"
+      greeting_message_body: '%{account_name} 通常在几小时内回复。'
+      ways_to_reach_you_message_body: '给团队一个联系您的方法。'
+      email_input_box_message_body: '通过电子邮件得到通知'
+      csat_input_message_body: '请为会话评分'
     reply:
       email:
         header:
-          from_with_name: "%{assignee_name} 来自 %{inbox_name} <%{from_email}>"
-          reply_with_name: "%{assignee_name} 来自 %{inbox_name} <reply+%{reply_email}>"
-          friendly_name: "%{sender_name} 来自 %{business_name} <%{from_email}>"
-          professional_name: "%{business_name} <%{from_email}>"
+          from_with_name: '%{assignee_name} 来自 %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} 来自 %{inbox_name} <reply+%{reply_email}>'
+          friendly_name: '%{sender_name} 来自 %{business_name} <%{from_email}>'
+          professional_name: '%{business_name} <%{from_email}>'
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} 来自 %{inbox_name} <%{from_email}>"
-          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
-      email_subject: "此对话中的新消息"
-      transcript_subject: "会话记录"
+          reply_with_name: '%{assignee_name} 来自 %{inbox_name} <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+      email_subject: '此对话中的新消息'
+      transcript_subject: '会话记录'
     survey:
-      response: "请为会话评分, %{link}"
+      response: '请为会话评分, %{link}'
   contacts:
     online:
-      delete: "%{contact_name} 在线, 请重试"
+      delete: '%{contact_name} 在线, 请重试'
   integration_apps:
     dashboard_apps:
-      name: "Dashboard Apps"
-      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+      name: 'Dashboard Apps'
+      description: 'Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents.'
     dyte:
-      name: "Dyte"
-      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
-      meeting_name: "%{agent_name} 已开始会议"
+      name: 'Dyte'
+      description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot.'
+      meeting_name: '%{agent_name} 已开始会议'
     slack:
-      name: "Slack"
+      name: 'Slack'
       description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
-      name: "Webhooks"
-      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+      name: ''
+      description: 'Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates.'
     dialogflow:
-      name: "Dialogflow"
-      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+      name: 'Dialogflow'
+      description: 'Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent.'
     google_translate:
-      name: "Google 翻译"
+      name: 'Google 翻译'
       description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
     openai:
-      name: "OpenAI"
-      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+      name: 'OpenAI'
+      description: 'Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification.'
     linear:
-      name: "Linear"
-      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
-    captain:
-      name: "Captain"
-      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+      name: 'Linear'
+      description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
+  captain:
+    copilot_error: 'Please connect an assistant to this inbox to use copilot'
   public_portal:
     search:
       search_placeholder: 搜索文章的标题或正文...
@@ -263,14 +262,10 @@ zh_CN:
     button: 重新打开会话
   time_units:
     days:
-      one: "%{count} day"
-      other: "%{count} days"
+      other: '%{count} days'
     hours:
-      one: "%{count} hour"
-      other: "%{count} hours"
+      other: '%{count} hours'
     minutes:
-      one: "%{count} minute"
-      other: "%{count} minutes"
+      other: '%{count} minutes'
     seconds:
-      one: "%{count} second"
-      other: "%{count} seconds"
+      other: '%{count} seconds'
