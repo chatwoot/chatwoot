@@ -250,7 +250,9 @@
           "LABEL": "Custom Domain",
           "PLACEHOLDER": "Portal custom domain",
           "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: %{exampleURL}",
-          "ERROR": "Enter a valid domain URL"
+          "ERROR": "Enter a valid domain URL",
+          "VALIDATE_BUTTON": "Validate Domain",
+          "VALID_MESSAGE": "Domain Verified"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Home Page Link",
