@@ -2,8 +2,8 @@ require 'httparty'
 require 'json'
 require 'rexml/document'
 
-class Api::V1::Accounts::Conversations::CallController < Api::V1::Accounts::Conversations::BaseController
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity
+class Api::V1::Accounts::CallController < Api::V1::Accounts::BaseController
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def create
     account = Account.find_by(id: params[:account_id])
 
@@ -20,6 +20,30 @@ class Api::V1::Accounts::Conversations::CallController < Api::V1::Accounts::Conv
       {}
     end
 
+    api_inboxes = Inbox.where(account_id: params[:account_id], channel_type: 'Channel::Api')
+    api_inboxes_ids = api_inboxes.pluck(:id)
+
+    latest_open_conversation = Conversation.where(account_id: params[:account_id], contact_id: params[:contactId],
+                                                  inbox_id: api_inboxes_ids).order(created_at: :desc).first
+
+    if latest_open_conversation.blank?
+      Rails.logger.info("No conversation found for contact #{params[:contactId]}")
+      render json: { success: false, error: 'No open conversation found for contact' }, status: :bad_request
+      return
+    end
+
+    if latest_open_conversation.status != 'open'
+      Rails.logger.info("Conversation #{latest_open_conversation.id} is not open")
+      latest_open_conversation.update(status: 'open')
+      latest_open_conversation.save!
+    end
+
+    # determine display_id, inbox_id
+    display_id = latest_open_conversation.display_id
+    inbox_id = latest_open_conversation.inbox_id
+
+    status_callback = "#{payload['baseUrl']}/webhooks/call/#{params[:account_id]}/#{inbox_id}/#{display_id}"
+
     unless payload['to'] && payload['from']
       render json: { success: false, error: 'Missing required fields: to or from' }, status: :bad_request
       return
@@ -31,7 +55,7 @@ class Api::V1::Accounts::Conversations::CallController < Api::V1::Accounts::Conv
       To: payload['to'],
       From: payload['from'],
       CallerId: call_config['callerId'],
-      StatusCallback: payload['statusCallback'],
+      StatusCallback: status_callback,
       'StatusCallbackEvents[0]': 'terminal',
       'StatusCallbackEvents[1]': 'answered',
       StatusCallbackContentType: 'application/json',
@@ -44,10 +68,7 @@ class Api::V1::Accounts::Conversations::CallController < Api::V1::Accounts::Conv
       body: form_data
     )
 
-    conversation = Conversation.where({
-                                        account_id: params[:account_id],
-                                        display_id: params[:conversation_id]
-                                      }).first
+    conversation = latest_open_conversation
 
     if response.code != 200
       xml_data = REXML::Document.new(response.body)
@@ -103,5 +124,5 @@ class Api::V1::Accounts::Conversations::CallController < Api::V1::Accounts::Conv
 
     reporting_event.save!
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end

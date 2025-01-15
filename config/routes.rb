@@ -51,6 +51,11 @@ Rails.application.routes.draw do
           resources :agents, only: [:index, :create, :update, :destroy] do
             post :bulk_create, on: :collection
           end
+          resources :call, only: [:create] do
+            collection do
+              patch :update_call_config
+            end
+          end
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
           end
@@ -94,11 +99,6 @@ Rails.application.routes.draw do
                   post :translate
                   post :retry
                   patch :update_with_source_id
-                end
-              end
-              resources :call, only: [:create] do
-                collection do
-                  patch :update_call_config
                 end
               end
               resources :assignments, only: [:create]

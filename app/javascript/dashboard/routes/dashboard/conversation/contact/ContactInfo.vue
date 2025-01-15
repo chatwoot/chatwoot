@@ -361,9 +361,8 @@ export default {
         const response = await Calling.startCall({
           from: this.currentUser.custom_attributes.phone_number,
           to: this.contact.phone_number,
-          accountId: this.currentChat.account_id,
-          conversationId: this.currentChat.id,
-          inboxId: this.currentChat.inbox_id,
+          accountId: this.accountId,
+          contactId: this.contact.id,
           accessToken: this.currentUser.access_token,
         });
         if (response?.data?.success) {

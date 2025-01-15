@@ -3,14 +3,15 @@ import ApiClient from './ApiClient';
 
 class CallingAPI extends ApiClient {
   // eslint-disable-next-line class-methods-use-this
-  startCall({ to, from, accountId, conversationId, inboxId, accessToken }) {
-    const url = `/api/v1/accounts/${accountId}/conversations/${conversationId}/call`;
+  startCall({ to, from, accountId, contactId, accessToken }) {
+    const url = `/api/v1/accounts/${accountId}/call`;
     return axios.post(
       url,
       {
         to,
         from,
-        statusCallback: `${window.location.origin}/webhooks/call/${accountId}/${inboxId}/${conversationId}`,
+        contactId,
+        baseUrl: window.location.origin,
       },
       {
         headers: {
