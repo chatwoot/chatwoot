@@ -1,6 +1,6 @@
 <script setup>
 import Copilot from 'dashboard/components-next/copilot/Copilot.vue';
-import IntegrationsAPI from 'dashboard/api/integrations';
+import ConversationAPI from 'dashboard/api/inbox/conversation';
 import { useMapGetter } from 'dashboard/composables/store';
 import { ref } from 'vue';
 const props = defineProps({
@@ -28,16 +28,19 @@ const sendMessage = async message => {
   isCaptainTyping.value = true;
 
   try {
-    const { data } = await IntegrationsAPI.requestCaptainCopilot({
-      previous_history: messages.value
-        .map(m => ({
-          role: m.role,
-          content: m.content,
-        }))
-        .slice(0, -1),
-      message,
-      conversation_id: props.conversationId,
-    });
+    const { data } = await ConversationAPI.requestCopilot(
+      props.conversationId,
+      {
+        previous_history: messages.value
+          .map(m => ({
+            role: m.role,
+            content: m.content,
+          }))
+          .slice(0, -1),
+        message,
+        assistant_id: 16,
+      }
+    );
     messages.value.push({
       id: new Date().getTime(),
       role: 'assistant',

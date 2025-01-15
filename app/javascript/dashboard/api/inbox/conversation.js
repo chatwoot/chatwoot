@@ -133,6 +133,10 @@ class ConversationApi extends ApiClient {
   getAllAttachments(conversationId) {
     return axios.get(`${this.url}/${conversationId}/attachments`);
   }
+
+  requestCopilot(conversationId, body) {
+    return axios.post(`${this.url}/${conversationId}/copilot`, body);
+  }
 }
 
 export default new ConversationApi();
