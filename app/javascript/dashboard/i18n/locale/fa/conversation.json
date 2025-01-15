@@ -38,10 +38,17 @@
     "REMOVE_SELECTION": "حذف انتخاب‌شده‌ها",
     "DOWNLOAD": "دانلود",
     "UNKNOWN_FILE_TYPE": "فایل ناشناخته",
-    "SAVE_CONTACT": "ذخیره",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} جلسه ای را آغاز کرده است"
+    },
     "UPLOADING_ATTACHMENTS": "در حال بارگذاری پیوست‌ها...",
     "REPLIED_TO_STORY": "به استوری شما پاسخ داده",
-    "UNSUPPORTED_MESSAGE": "از این پیام پشتیبانی نمی شود.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "این پیام پشتیبانی نمی شود. می توانید این پیام را در برنامه فیس بوک مسنجر مشاهده کنید.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "این پیام پشتیبانی نمی شود. می توانید این پیام را در برنامه اینستاگرام مشاهده کنید.",
     "SUCCESS_DELETE_MESSAGE": "پیام با موفقیت حذف شد",
@@ -126,7 +133,7 @@
           "FAILED": "اپراتور تعیین نشد. لطفا دوباره تلاش کنید."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "برچسب #{labelName} را به شناسه مکالمه {conversationId} اختصاص داد",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "برچسب اختصاص داده نشد. لطفا دوباره تلاش کنید."
         },
         "TEAM_ASSIGNMENT": {
@@ -219,6 +226,10 @@
         "DELETE": "حذف",
         "CANCEL": "انصراف"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "مخاطب",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -310,7 +321,8 @@
     "TO": "به",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "موضوع"
+    "SUBJECT": "موضوع",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "شرکت کنندگان",
@@ -335,5 +347,10 @@
     "ORIGINAL_CONTENT": "محتوای اصلی",
     "TRANSLATED_CONTENT": "مطالب ترجمه شده",
     "NO_TRANSLATIONS_AVAILABLE": "هیچ ترجمه‌ای برای این مطلب موجود نیست"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
   }
 }
