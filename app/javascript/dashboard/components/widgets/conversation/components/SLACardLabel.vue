@@ -108,7 +108,7 @@ export default {
     class="relative flex items-center cursor-pointer min-w-fit"
     :class="
       showExtendedInfo
-        ? 'h-[26px] rounded-lg bg-n-alpha-3'
+        ? 'h-[26px] rounded-lg bg-n-alpha-1'
         : 'rounded h-5  border border-n-strong'
     "
   >
