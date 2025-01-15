@@ -131,7 +131,7 @@ export default {
         icon="i-lucide-bell-minus"
         slate
         xs
-        outline
+        faded
         class="[&>.truncate]:hidden md:[&>.truncate]:block"
         @click="openSnoozeNotificationModal"
       />
@@ -140,7 +140,7 @@ export default {
         icon="i-lucide-trash-2"
         slate
         xs
-        outline
+        faded
         class="[&>.truncate]:hidden md:[&>.truncate]:block"
         @click="deleteNotification"
       />
