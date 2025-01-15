@@ -431,12 +431,12 @@ provideMessageContext({
   <div
     v-if="shouldRenderMessage"
     :id="`message${props.id}`"
-    class="flex w-full message-bubble-container"
+    class="flex w-full message-bubble-container mb-2"
     :data-message-id="props.id"
     :class="[
       flexOrientationClass,
-      shouldGroupWithNext ? 'group-with-next mb-2' : 'mb-4',
       {
+        'group-with-next': shouldGroupWithNext,
         'bg-n-alpha-1': showBackgroundHighlight,
       },
     ]"
@@ -449,7 +449,7 @@ provideMessageContext({
       :class="[
         gridClass,
         {
-          'gap-y-2': !shouldGroupWithNext,
+          'gap-y-2': contentAttributes.externalError,
           'w-full': variant === MESSAGE_VARIANTS.EMAIL,
         },
       ]"

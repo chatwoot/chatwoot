@@ -123,13 +123,17 @@ export default {
   }
 
   &.alert {
-    @apply bg-red-500 dark:bg-red-500;
+    @apply bg-n-ruby-3 text-n-ruby-12;
     .banner-action__button {
-      @apply bg-red-700 dark:bg-red-700 border-none text-white dark:text-white;
+      @apply border-none text-n-ruby-12 bg-n-ruby-5;
 
       &:hover {
-        @apply bg-red-800 dark:bg-red-800;
+        @apply bg-n-ruby-4;
       }
+    }
+
+    a {
+      @apply text-n-ruby-12;
     }
   }
 
