@@ -34,7 +34,7 @@ export default {
     },
     chat: {
       type: Object,
-      default: () => { },
+      default: () => {},
     },
     hideInboxName: {
       type: Boolean,
