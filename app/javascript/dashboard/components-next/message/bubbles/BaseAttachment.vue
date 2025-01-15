@@ -54,7 +54,7 @@ const senderName = computed(() => {
           </slot>
         </div>
       </div>
-      <div v-if="action">
+      <div v-if="action" class="mb-2">
         <a
           v-if="action.href"
           :href="action.href"
