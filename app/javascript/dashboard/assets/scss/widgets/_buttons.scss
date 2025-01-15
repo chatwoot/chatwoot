@@ -42,7 +42,7 @@ button {
     }
   }
 
-  &:hover:not(.secondary):not(.success):not(.alert):not(.warning) {
+  &:hover:not(.secondary):not(.success):not(.alert):not(.warning):not(.clear) {
     @apply bg-n-brand/80 dark:bg-n-brand/80;
   }
 
