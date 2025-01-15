@@ -110,4 +110,17 @@ export const actions = {
   updatePortal: async ({ commit }, portal) => {
     commit(types.UPDATE_PORTAL_ENTRY, portal);
   },
+
+  checkDomain: async ({ commit }, { domain }) => {
+    try {
+      commit(types.SET_UI_FLAG, { isValidating: true });
+
+      const { data } = await portalAPIs.checkDomain(domain);
+      commit(types.SET_UI_FLAG, { domainValid: data.message });
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      // commit(types.SET_UI_FLAG, { isValidating: false });
+    }
+  },
 };

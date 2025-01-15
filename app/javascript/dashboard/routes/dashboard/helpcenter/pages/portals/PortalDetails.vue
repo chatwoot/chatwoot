@@ -20,7 +20,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      uiFlags: 'portals/uiFlagsIn',
+      uiFlags: 'portals/uiFlags',
     }),
   },
 
@@ -53,6 +53,19 @@ export default {
         useAlert(this.alertMessage);
       }
     },
+
+    async checkDomain(domain) {
+      try {
+        await this.$store.dispatch('portals/checkDomain', {
+          domain,
+        });
+      } catch (error) {
+        this.alertMessage =
+          error?.message ||
+          this.$t('HELP_CENTER.PORTAL.ADD.API.ERROR_MESSAGE_FOR_DOMAIN');
+        useAlert(this.alertMessage);
+      }
+    },
   },
 };
 </script>
@@ -65,6 +78,9 @@ export default {
         'HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.BASIC_SETTINGS_PAGE.CREATE_BASIC_SETTING_BUTTON'
       )
     "
+    :is-validating="uiFlags.isValidating"
+    :is-valid="uiFlags.domainValid"
     @submit="createPortal"
+    @checkDomain="checkDomain"
   />
 </template>

@@ -263,6 +263,9 @@ Rails.application.routes.draw do
               put :add_members
               delete :logo
             end
+            collection do
+              get :check  
+            end
             resources :categories
             resources :articles do
               post :reorder, on: :collection

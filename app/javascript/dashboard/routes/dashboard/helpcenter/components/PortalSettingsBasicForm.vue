@@ -28,8 +28,16 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  isValidating: {
+    type: Boolean,
+    default: false,
+  },
+  isValid: {
+    type: Boolean,
+    default: false,
+  },
 });
-const emit = defineEmits(['submit', 'deleteLogo']);
+const emit = defineEmits(['submit', 'deleteLogo', 'checkDomain']);
 
 defineComponent({
   name: 'PortalSettingsBasicForm',
@@ -46,6 +54,7 @@ const state = reactive({
   domain: '',
   logoUrl: '',
   avatarBlobId: '',
+  isDomainFormatValid: true, // Tracks if domain format is valid
 });
 
 const rules = {
@@ -115,6 +124,16 @@ onMounted(() => {
 
 function onNameChange() {
   state.slug = convertToCategorySlug(state.name);
+}
+
+async function onCheckDomainClick() {
+  if (!isDomain(state.domain)) {
+    state.isDomainFormatValid = false;
+    return;
+  }
+
+  state.isDomainFormatValid = true;
+  emit('checkDomain', state.domain);
 }
 
 function onSubmitClick() {
@@ -218,19 +237,31 @@ function onFileChange({ file }) {
       <div class="mb-4">
         <woot-input
           v-model="state.domain"
-          :class="{ error: v$.domain.$error }"
+          :class="{ error: !state.isDomainFormatValid || v$.domain.$error }"
           :label="$t('HELP_CENTER.PORTAL.ADD.DOMAIN.LABEL')"
           :placeholder="$t('HELP_CENTER.PORTAL.ADD.DOMAIN.PLACEHOLDER')"
-          :help-text="domainExampleHelpText"
           :error="domainError"
+          :help-text="domainExampleHelpText"
           @blur="v$.domain.$touch"
         />
+        <div v-if="state.domain" class="mt-2">
+          <woot-button
+            :is-loading="isValidating"
+            :disabled="!state.isDomainFormatValid || v$.domain.$error"
+            @click="onCheckDomainClick"
+          >
+            {{ $t('HELP_CENTER.PORTAL.ADD.DOMAIN.VALIDATE_BUTTON') }}
+          </woot-button>
+        </div>
+        <div v-if="isValid" class="text-success mt-2">
+          {{ $t('HELP_CENTER.PORTAL.ADD.DOMAIN.VALID_MESSAGE') }}
+        </div>
       </div>
     </div>
     <template #footer-right>
       <woot-button
         :is-loading="isSubmitting"
-        :is-disabled="v$.$invalid"
+        :is-disabled="v$.$invalid || (state.domain != '' && !isValid)"
         @click="onSubmitClick"
       >
         {{ submitButtonText }}

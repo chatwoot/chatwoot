@@ -1,8 +1,11 @@
+require 'resolv'
+
+
 class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   include ::FileTypeHelper
 
-  before_action :fetch_portal, except: [:index, :create]
-  before_action :check_authorization
+  before_action :fetch_portal, except: [:index, :create,:check]
+  before_action :check_authorization, except: [:check]  # Skip check_authorization for the check action
   before_action :set_current_page, only: [:index]
 
   def index
@@ -57,6 +60,25 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     blob = ActiveStorage::Blob.find_by(id: blob_id)
     @portal.logo.attach(blob)
   end
+
+  def check  
+    unless params[:domain].present?
+      render json: { message: false, error: 'Domain parameter is missing' }, status: :unprocessable_entity
+      return
+    end
+    current_ip = ENV.fetch('CURRENT_IP', nil)
+    if current_ip.nil?
+      render json: { message: false, error: 'Current IP is not configured' }, status: :unprocessable_entity
+      return
+    end
+    begin
+      domain_ip = Resolv.getaddress(params[:domain])    
+      render json: { message: domain_ip == current_ip }, status: :ok
+    rescue Resolv::ResolvError => e
+      render json: { message: false, error: 'Domain could not be resolved' }, status: :unprocessable_entity
+    end
+  end
+  
 
   private
 
