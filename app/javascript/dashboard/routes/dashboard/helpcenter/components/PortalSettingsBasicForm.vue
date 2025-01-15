@@ -1,6 +1,7 @@
 <script setup>
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
+import { ref } from 'vue';
 
 import { defineComponent, reactive, computed, onMounted } from 'vue';
 import { useI18n } from 'dashboard/composables/useI18n';
@@ -28,16 +29,12 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  isValidating: {
-    type: Boolean,
-    default: false,
-  },
-  isValid: {
-    type: Boolean,
-    default: false,
+  checkDomain: {
+    type: Function,
+    default: () => {},
   },
 });
-const emit = defineEmits(['submit', 'deleteLogo', 'checkDomain']);
+const emit = defineEmits(['submit', 'deleteLogo']);
 
 defineComponent({
   name: 'PortalSettingsBasicForm',
@@ -55,7 +52,11 @@ const state = reactive({
   logoUrl: '',
   avatarBlobId: '',
   isDomainFormatValid: true, // Tracks if domain format is valid
+  isDomainValid: false,
 });
+
+const isDomainValid = ref(false);
+const isValidating = ref(false);
 
 const rules = {
   name: {
@@ -126,6 +127,18 @@ function onNameChange() {
   state.slug = convertToCategorySlug(state.name);
 }
 
+async function checkDomainInternal(domain) {
+  try {
+    isValidating.value = true;
+    const res = await props.checkDomain(domain);
+    isDomainValid.value = res;
+  } catch (error) {
+    isDomainValid.value = false;
+  } finally {
+    isValidating.value = false;
+  }
+}
+
 async function onCheckDomainClick() {
   if (!isDomain(state.domain)) {
     state.isDomainFormatValid = false;
@@ -133,7 +146,7 @@ async function onCheckDomainClick() {
   }
 
   state.isDomainFormatValid = true;
-  emit('checkDomain', state.domain);
+  checkDomainInternal(state.domain);
 }
 
 function onSubmitClick() {
@@ -175,6 +188,12 @@ function onFileChange({ file }) {
     const errorKey =
       'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.IMAGE_UPLOAD_SIZE_ERROR';
     useAlert(t(errorKey, { size: MAXIMUM_FILE_UPLOAD_SIZE }));
+  }
+}
+
+function onDomainChange() {
+  if (isDomainValid.value) {
+    isDomainValid.value = false;
   }
 }
 </script>
@@ -243,6 +262,7 @@ function onFileChange({ file }) {
           :error="domainError"
           :help-text="domainExampleHelpText"
           @blur="v$.domain.$touch"
+          @input="onDomainChange"
         />
         <div v-if="state.domain" class="mt-2">
           <woot-button
@@ -253,7 +273,7 @@ function onFileChange({ file }) {
             {{ $t('HELP_CENTER.PORTAL.ADD.DOMAIN.VALIDATE_BUTTON') }}
           </woot-button>
         </div>
-        <div v-if="isValid" class="text-success mt-2">
+        <div v-if="isDomainValid" class="text-success mt-2">
           {{ $t('HELP_CENTER.PORTAL.ADD.DOMAIN.VALID_MESSAGE') }}
         </div>
       </div>
@@ -261,7 +281,7 @@ function onFileChange({ file }) {
     <template #footer-right>
       <woot-button
         :is-loading="isSubmitting"
-        :is-disabled="v$.$invalid || (state.domain != '' && !isValid)"
+        :is-disabled="v$.$invalid || (state.domain != '' && !isDomainValid)"
         @click="onSubmitClick"
       >
         {{ submitButtonText }}

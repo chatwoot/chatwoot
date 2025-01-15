@@ -73,7 +73,11 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     end
     begin
       domain_ip = Resolv.getaddress(params[:domain])    
-      render json: { message: domain_ip == current_ip }, status: :ok
+      if domain_ip == current_ip
+        render json: { message: true }, status: :ok
+      else
+        render json: { message: false, error: 'Domain not configured' }, status: :unprocessable_entity
+      end
     rescue Resolv::ResolvError => e
       render json: { message: false, error: 'Domain could not be resolved' }, status: :unprocessable_entity
     end
