@@ -160,6 +160,7 @@ onMounted(() => {
         },
       ]"
     >
+      <slot /><!-- Slot for adding popover -->
       <textarea
         :id="id"
         ref="textareaRef"
