@@ -5,14 +5,14 @@
     "LEARN_MORE": "Aprenda mais sobre integrações",
     "LOADING": "Obtendo integrações",
     "CAPTAIN": {
-      "DISABLED": "Captain is not enabled on your account.",
+      "DISABLED": "O capitão não está ativado na sua conta.",
       "CLICK_HERE_TO_CONFIGURE": "Clique aqui para configurar",
-      "LOADING_CONSOLE": "Loading Captain Console...",
+      "LOADING_CONSOLE": "Carregando console do Captain...",
       "FAILED_TO_LOAD_CONSOLE": ""
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventos Inscritos",
-      "LEARN_MORE": "Learn more about webhooks",
+      "LEARN_MORE": "Saiba mais sobre webhooks",
       "FORM": {
         "CANCEL": "Cancelar",
         "DESC": "Webhook Os eventos fornecem informações em tempo real sobre o que está acontecendo na sua conta do Chatwoot. Digite um URL válido para configurar um retorno de chamada.",
@@ -31,7 +31,7 @@
         },
         "END_POINT": {
           "LABEL": "URL do Webhook",
-          "PLACEHOLDER": "Exemplo: https://example/api/webhook",
+          "PLACEHOLDER": "Exemplo: {webhookExampleURL}",
           "ERROR": "Por favor, insira uma URL válida"
         },
         "EDIT_SUBMIT": "Atualizar webhook",
@@ -47,10 +47,10 @@
       "LIST": {
         "404": "Não há webhooks configurados para esta conta.",
         "TITLE": "Gerenciar webhooks",
-        "TABLE_HEADER": [
-          "Webhook URL (endpoint)",
-          "Ações"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Webhook URL (endpoint)",
+          "ACTIONS": "Ações"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "Alterar",
@@ -90,7 +90,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "Usando a integração com Slack",
-        "BODY": "<br/><p>Chatwoot irá agora sincronizar todas as conversas recebidas no canal de <b><i>conversas com clientes</i></b> dentro de seu local de trabalho de slack.</p><p>A resposta para uma conversa em <b><i>conversas ao cliente</i></b> canal de slack irá criar uma resposta para o cliente através do chatwoot.</p><p>Inicie as respostas com <b><i>nota:</i></b> para criar notas privadas em vez de respostas.</p><p>Se o remetente do slack tiver um perfil de agente no chatwoot sob o mesmo e-mail, as respostas serão associadas de acordo.</p><p>Quando o respondente não tiver um perfil de agente associado, as respostas serão dadas a partir do perfil do bot.</p>",
+        "BODY": "Com essa integração, todas as suas conversas recebidas serão sincronizadas com o canal ***{selectedChannelName}*** em seu espaço de trabalho Slack. Você pode gerenciar todas as suas conversas com clientes diretamente no canal e nunca perder uma mensagem.\n\nAqui estão os principais recursos da integração:\n\n**Responda a conversas de dentro do Slack:** Para responder a uma conversa no canal ***{selectedChannelName}*** Slack, simplesmente digite a sua mensagem e envie-a como um tópico. Isso criará uma resposta ao cliente através do Chatwoot. É tão simples!\n\n **Crie notas privadas:** Se você quiser criar notas privadas em vez de respostas, inicie sua mensagem com ***`nota:`***. Isso garante que sua mensagem seja privada e não seja visível para o cliente.\n\n**Associar um perfil de agente:** Se a pessoa que respondeu no Slack tem um perfil de agente no Chatwoot sob o mesmo e-mail, as respostas serão associadas automaticamente com esse perfil de agente. Isso significa que você pode facilmente controlar quem disse o quê e quando. Por outro lado, quando o respondente não tiver um perfil de agente associado, as respostas aparecerão do perfil do bot para o cliente.",
         "SELECTED": "selecionar"
       },
       "SELECT_CHANNEL": {
@@ -179,14 +179,14 @@
       "HEADER_BTN_TXT": "Adicionar um novo app da dashboard",
       "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps permite que as organizações incorporem um aplicativo dentro da dashboard do Chatwoot para fornecer o contexto para agentes de suporte ao cliente. Este recurso permite-lhe criar uma aplicação independente e incorporá-la dentro da dashboard para fornecer informações do usuário, seus pedidos ou seu histórico de pagamentos anteriores.</p><p>Quando você incorpora seu aplicativo usando a dashboard do Chatwoot, sua aplicação irá obter o contexto da conversa e entrar em contato como um evento de janela. Implementar um ouvinte para o evento de mensagem em sua página receber o contexto.</p><p>Para adicionar um novo aplicativo da dashboard, clique no botão 'Adicionar um novo aplicativo da dashboard'.</p>",
       "DESCRIPTION": "Aplicativos da dashboard permitem que organizações incorporem um aplicativo dentro do painel para fornecer o contexto para agentes de suporte ao cliente. Este recurso permite que você crie uma aplicação independente e incorpore para fornecer informações de usuário, seus pedidos ou seu histórico de pagamentos anteriores.",
-      "LEARN_MORE": "Learn more about Dashboard Apps",
+      "LEARN_MORE": "Saiba mais sobre os aplicativos de Dashboard",
       "LIST": {
         "404": "Ainda não há aplicativos da dashboard nesta conta",
         "LOADING": "Buscando aplicativos da dashboard...",
-        "TABLE_HEADER": [
-          "Nome",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "Nome",
+          "ENDPOINT": "Endpoint"
+        },
         "EDIT_TOOLTIP": "Editar aplicativo",
         "DELETE_TOOLTIP": "Excluir aplicativo"
       },
@@ -235,7 +235,7 @@
         "ERROR": "",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+        "LINK_TITLE": "Conversa (#{conversationId}) com {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -258,33 +258,33 @@
           },
           "ASSIGNEE": {
             "LABEL": "Responsável",
-            "PLACEHOLDER": "Select assignee",
-            "SEARCH": "Search assignee"
+            "PLACEHOLDER": "Selecione o atribuído",
+            "SEARCH": "Pesquisar atribuído"
           },
           "PRIORITY": {
             "LABEL": "Prioridade",
             "PLACEHOLDER": "Selecionar prioridade",
-            "SEARCH": "Search priority"
+            "SEARCH": "Selecionar prioridade"
           },
           "LABEL": {
             "LABEL": "Nome do campo",
             "PLACEHOLDER": "Selecione o marcador",
-            "SEARCH": "Search label"
+            "SEARCH": "Pesquisar marcador "
           },
           "STATUS": {
             "LABEL": "SItuação",
-            "PLACEHOLDER": "Select status",
-            "SEARCH": "Search status"
+            "PLACEHOLDER": "Selecione Status",
+            "SEARCH": "Pesquisar status"
           },
           "PROJECT": {
-            "LABEL": "Project",
-            "PLACEHOLDER": "Select project",
-            "SEARCH": "Search project"
+            "LABEL": "Projeto",
+            "PLACEHOLDER": "Selecionar projeto",
+            "SEARCH": "Pesquisar projeto"
           }
         },
         "CREATE": "Criar",
         "CANCEL": "Cancelar",
-        "CREATE_SUCCESS": "Issue created successfully",
+        "CREATE_SUCCESS": "Pasta criada com sucesso",
         "CREATE_ERROR": "There was an error creating the issue, please try again",
         "LOADING_TEAM_ERROR": "Houve um erro ao buscar as equipes, por favor, tente novamente",
         "LOADING_TEAM_ENTITIES_ERROR": "Houve um erro ao buscar as entidades da equipe, por favor, tente novamente"
@@ -300,6 +300,176 @@
         "TITLE": "Desvincular",
         "SUCCESS": "Issue desvinculada com sucesso",
         "ERROR": "Houve um erro ao desvincular o atributo, por favor, tente novamente"
+      }
+    }
+  },
+  "CAPTAIN": {
+    "NAME": "Capitão",
+    "COPILOT": {
+      "SEND_MESSAGE": "Enviar mensagem...",
+      "LOADER": "Captain is thinking",
+      "YOU": "Você",
+      "USE": "Use this"
+    },
+    "FORM": {
+      "CANCEL": "Cancelar",
+      "CREATE": "Criar",
+      "EDIT": "Atualizar"
+    },
+    "ASSISTANTS": {
+      "HEADER": "Assistants",
+      "ADD_NEW": "Create a new assistant",
+      "DELETE": {
+        "TITLE": "Are you sure to delete the assistant?",
+        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+        "CONFIRM": "Sim, excluir",
+        "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
+        "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
+      },
+      "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
+      "CREATE": {
+        "TITLE": "Create an assistant",
+        "SUCCESS_MESSAGE": "The assistant has been successfully created",
+        "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Assistant Name",
+          "PLACEHOLDER": "Enter a name for the assistant",
+          "ERROR": "Please provide a name for the assistant"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Assistant Description",
+          "PLACEHOLDER": "Describe how and where this assistant will be used",
+          "ERROR": "A description is required"
+        },
+        "PRODUCT_NAME": {
+          "LABEL": "Product Name",
+          "PLACEHOLDER": "Enter the name of the product this assistant is designed for",
+          "ERROR": "The product name is required"
+        },
+        "FEATURES": {
+          "TITLE": "Funcionalidades",
+          "ALLOW_CONVERSATION_FAQS": "Generate responses from resolved conversations",
+          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions."
+        }
+      },
+      "EDIT": {
+        "TITLE": "Update the assistant",
+        "SUCCESS_MESSAGE": "The assistant has been successfully updated",
+        "ERROR_MESSAGE": "There was an error updating the assistant, please try again."
+      },
+      "OPTIONS": {
+        "EDIT_ASSISTANT": "Edit Assistant",
+        "DELETE_ASSISTANT": "Delete Assistant",
+        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+      }
+    },
+    "DOCUMENTS": {
+      "HEADER": "Documents",
+      "ADD_NEW": "Create a new document",
+      "RELATED_RESPONSES": {
+        "TITLE": "Related Responses",
+        "DESCRIPTION": "These responses are generated directly from the document."
+      },
+      "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
+      "CREATE": {
+        "TITLE": "Add a document",
+        "SUCCESS_MESSAGE": "The document has been successfully created",
+        "ERROR_MESSAGE": "There was an error creating the document, please try again."
+      },
+      "FORM": {
+        "URL": {
+          "LABEL": "URL:",
+          "PLACEHOLDER": "Enter the URL of the document",
+          "ERROR": "Please provide a valid URL for the document"
+        },
+        "ASSISTANT": {
+          "LABEL": "Assistant",
+          "PLACEHOLDER": "Select the assistant",
+          "ERROR": "The assistant field is required"
+        }
+      },
+      "DELETE": {
+        "TITLE": "Are you sure to delete the document?",
+        "DESCRIPTION": "This action is permanent. Deleting this document will permanently erase all generated knowledge.",
+        "CONFIRM": "Sim, excluir",
+        "SUCCESS_MESSAGE": "The document has been successfully deleted",
+        "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+      },
+      "OPTIONS": {
+        "VIEW_RELATED_RESPONSES": "View Related Responses",
+        "DELETE_DOCUMENT": "Delete Document"
+      }
+    },
+    "RESPONSES": {
+      "HEADER": "Generated FAQs",
+      "ADD_NEW": "Create new FAQ",
+      "DELETE": {
+        "TITLE": "Are you sure to delete the FAQ?",
+        "DESCRIPTION": "",
+        "CONFIRM": "Sim, excluir",
+        "SUCCESS_MESSAGE": "FAQ deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
+      },
+      "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
+      "CREATE": {
+        "TITLE": "Add an FAQ",
+        "SUCCESS_MESSAGE": "The response has been added successfully.",
+        "ERROR_MESSAGE": "An error occurred while adding the response. Please try again."
+      },
+      "FORM": {
+        "QUESTION": {
+          "LABEL": "Question",
+          "PLACEHOLDER": "Enter the question here",
+          "ERROR": "Please provide a valid question."
+        },
+        "ANSWER": {
+          "LABEL": "Answer",
+          "PLACEHOLDER": "Enter the answer here",
+          "ERROR": "Please provide a valid answer."
+        },
+        "ASSISTANT": {
+          "LABEL": "Assistant",
+          "PLACEHOLDER": "Select an assistant",
+          "ERROR": "Please select an assistant."
+        }
+      },
+      "EDIT": {
+        "TITLE": "Update the FAQ",
+        "SUCCESS_MESSAGE": "The FAQ has been successfully updated",
+        "ERROR_MESSAGE": "There was an error updating the FAQ, please try again."
+      },
+      "OPTIONS": {
+        "EDIT_RESPONSE": "Edit FAQ",
+        "DELETE_RESPONSE": "Delete FAQ"
+      }
+    },
+    "INBOXES": {
+      "HEADER": "Connected Inboxes",
+      "ADD_NEW": "Connect a new inbox",
+      "OPTIONS": {
+        "DISCONNECT": "Desconectado"
+      },
+      "DELETE": {
+        "TITLE": "Are you sure to disconnect the inbox?",
+        "DESCRIPTION": "",
+        "CONFIRM": "Sim, excluir",
+        "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
+        "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
+      },
+      "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
+      "CREATE": {
+        "TITLE": "Connect an Inbox",
+        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
+        "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
+      },
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Caixa de Entrada",
+          "PLACEHOLDER": "Choose the inbox to deploy the assistant.",
+          "ERROR": "An inbox selection is required."
+        }
       }
     }
   }
