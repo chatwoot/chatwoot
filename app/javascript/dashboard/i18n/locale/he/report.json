@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "שנה שעברה",
       "CUSTOM_DATE_RANGE": "טווח תאריכים מותאם אישית"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "7 הימים האחרונים"
-      },
-      {
-        "id": 1,
-        "name": "30 הימים האחרונים"
-      },
-      {
-        "id": 2,
-        "name": "3 החודשים האחרונים"
-      },
-      {
-        "id": 3,
-        "name": "6 החודשים האחרונים"
-      },
-      {
-        "id": 4,
-        "name": "שנה שעברה"
-      },
-      {
-        "id": 5,
-        "name": "טווח תאריכים מותאם אישית"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "להגיש מועמדות",
       "PLACEHOLDER": "בחר טווח תאריכים"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "לא נמצאו תוצאות"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -490,7 +468,7 @@
       "NO_AGENTS": "אין שיחות של סוכנים",
       "TABLE_HEADER": {
         "AGENT": "סוכן",
-        "OPEN": "פתוח",
+        "OPEN": "פתח",
         "UNATTENDED": "ללא השגחה",
         "STATUS": "מצב"
       }

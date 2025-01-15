@@ -10,11 +10,11 @@
       "404": "In diesem Konto sind keine Labels verfügbar.",
       "TITLE": "Labels verwalten",
       "DESC": "Mit Labels lassen sich Unterhaltungen zusammenfassen.",
-      "TABLE_HEADER": [
-        "Name",
-        "Beschreibung",
-        "Farbe"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Name",
+        "DESCRIPTION": "Beschreibung",
+        "COLOR": "Farbe"
+      }
     },
     "FORM": {
       "NAME": {

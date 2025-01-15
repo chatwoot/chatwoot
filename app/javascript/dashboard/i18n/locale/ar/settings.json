@@ -61,15 +61,29 @@
         "COPY": "نسخ"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "الإشعارات الصوتية",
-        "NOTE": "تمكين التنبيهات الصوتية في لوحة التحكم للرسائل والمحادثات الجديدة.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "لا شيء",
           "MINE": "المعين",
-          "ALL": "الكل"
+          "ALL": "الكل",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "تنبيه الأحداث للمحادثات:",
+          "TITLE": "تنبيه الأحداث للمحادثات",
           "NONE": "لا شيء",
           "ASSIGNED": "المحادثات المعينة",
           "ALL_CONVERSATIONS": "كل المحادثات"
@@ -81,7 +95,9 @@
           "TITLE": "شروط التنبيه:",
           "CONDITION_ONE": "إرسال تنبيهات صوتية فقط إذا كانت نافذة المتصفح غير نشطة",
           "CONDITION_TWO": "إرسال تنبيهات كل 30 ثانية حتى يتم قراءة جميع المحادثات المعينة"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "اقرأ المزيد"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "إشعارات البريد الإلكتروني",
@@ -145,11 +161,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "التوفر",
-        "STATUSES_LIST": [
-          "متصل",
-          "مشغول",
-          "غير متصل"
-        ],
+        "STATUS": {
+          "ONLINE": "متصل",
+          "BUSY": "مشغول",
+          "OFFLINE": "غير متصل"
+        },
         "SET_AVAILABILITY_SUCCESS": "تم تعيين التوافر بنجاح",
         "SET_AVAILABILITY_ERROR": "تعذر تعيين التوافر، الرجاء المحاولة مرة أخرى"
       },
@@ -177,14 +193,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "يتغيرون",
-    "CHANGE_ACCOUNTS": "تبديل الحساب",
-    "CONTACT_SUPPORT": "تواصل مع الدعم",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "اختر حساباً من القائمة التالية",
-    "PROFILE_SETTINGS": "إعدادات الملف الشخصي",
-    "KEYBOARD_SHORTCUTS": "اختصارات لوحة المفاتيح",
-    "APPEARANCE": "تغيير المظهر",
-    "SUPER_ADMIN_CONSOLE": "وحدة تحكم المدير المتميز",
-    "LOGOUT": "تسجيل الخروج"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "أيام متبقية من الفترة التجريبية.",
@@ -218,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "إرسال"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "جار التحقق...",
@@ -227,11 +249,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "مشاهدة حاليا:",
     "SWITCH": "تبديل",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "المحادثات",
-    "INBOX": "صندوق الوارد",
+    "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "كل المحادثات",
     "MENTIONED_CONVERSATIONS": "الإشارات",
     "PARTICIPATING_CONVERSATIONS": "شارك",
@@ -266,6 +289,8 @@
     "NEW_INBOX": "صندوق الوارد الجديد",
     "REPORTS_CONVERSATION": "المحادثات",
     "CSAT": "تقييم رضاء العملاء",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
     "CAMPAIGNS": "الحملات",
     "ONGOING": "جارية",
     "ONE_OFF": "إيقاف واحد",
@@ -276,6 +301,7 @@
     "REPORTS_INBOX": "صندوق الوارد",
     "REPORTS_TEAM": "الفريق",
     "SET_AVAILABILITY_TITLE": "تعيين نفسك كـ",
+    "SET_YOUR_AVAILABILITY": "قم بتعيين توافرك",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "تجريبي",
@@ -283,17 +309,16 @@
     "REAUTHORIZE": "انتهت صلاحية اتصال صندوق الوارد الخاص بك، يرجى إعادة الاتصال\n لمواصلة تلقي وإرسال الرسائل",
     "HELP_CENTER": {
       "TITLE": "مركز المساعدة",
-      "ALL_ARTICLES": "جميع المقالات",
-      "MY_ARTICLES": "مقالاتي",
-      "DRAFT": "مسودة",
-      "ARCHIVED": "مؤرشفة",
-      "CATEGORY": "الفئة",
-      "SETTINGS": "الإعدادات",
-      "CATEGORY_EMPTY_MESSAGE": "لم يتم العثور على فئات"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "الفئات",
+      "LOCALES": "اللغات",
+      "SETTINGS": "الإعدادات"
     },
+    "CHANNELS": "القنوات",
     "SET_AUTO_OFFLINE": {
       "TEXT": "وضع علامة غير متصل تلقائيا",
-      "INFO_TEXT": "السماح للنظام بوضع علامة غير متصل تلقائياً عند عدم استخدام التطبيق أو لوحة التحكم."
+      "INFO_TEXT": "السماح للنظام بوضع علامة غير متصل تلقائياً عند عدم استخدام التطبيق أو لوحة التحكم.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "قراءة المستندات"
   },

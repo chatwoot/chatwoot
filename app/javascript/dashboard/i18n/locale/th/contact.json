@@ -57,46 +57,6 @@
     "TITLE": "เเก้ไขผู้ติดต่อ",
     "DESC": "เเห้ไขรายละเอียดผู้ติดต่อ"
   },
-  "CREATE_CONTACT": {
-    "BUTTON_LABEL": "การติดต่อใหม่",
-    "TITLE": "สร้างการติดต่อใหม่",
-    "DESC": "เพิ่าข้อความพื้นฐานเกี่ยวกับการติดต่อนี้"
-  },
-  "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "นำเข้า",
-    "TITLE": "นำเข้าผู้ติดต่อ",
-    "DESC": "นำเข้ารายชื่อผู้ติดต่อผ่านไฟล์ CSV",
-    "DOWNLOAD_LABEL": "ดาวน์โหลดตัวอย่าง csv",
-    "FORM": {
-      "LABEL": "ไฟล์ CSV",
-      "SUBMIT": "นำเข้า",
-      "CANCEL": "ยกเลิก"
-    },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
-    "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
-  },
-  "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Export",
-    "TITLE": "Export Contacts",
-    "DESC": "Export contacts to a CSV file.",
-    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง",
-    "CONFIRM": {
-      "TITLE": "Export Contacts",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
-    }
-  },
-  "DELETE_NOTE": {
-    "CONFIRM": {
-      "TITLE": "ยืนยันการลบ",
-      "MESSAGE": "คุณต้องการลบโน๊ตนี้หรือไม่?",
-      "YES": "ลบ",
-      "NO": "เก็บไว้"
-    }
-  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "ลบผู้ติดต่อ",
     "TITLE": "ลบผู้ติดต่อ",
@@ -224,79 +184,14 @@
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "ผู้ติดต่อ",
-    "FIELDS": "ข้อมูลผู้ติดต่อ",
-    "SEARCH_BUTTON": "ค้นหา",
-    "SEARCH_INPUT_PLACEHOLDER": "ค้อนหาผู้ติดต่อ",
-    "FILTER_CONTACTS": "ตัวกรอง",
-    "FILTER_CONTACTS_SAVE": "บันทึกตัวกรอง",
-    "FILTER_CONTACTS_DELETE": "ลบตัวกรอง",
-    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
-      "LOADING_MESSAGE": "กำลังโหลดรายชื่อผู้ติดต่อ",
-      "404": "ไม่มีผู้ติดต่อที่ตรงกัน 🔍",
-      "NO_CONTACTS": "ไม่มีผู้ติดต่อที่ใช้งานได้",
       "TABLE_HEADER": {
-        "NAME": "ชื่อ",
-        "PHONE_NUMBER": "หมายเลขโทรศัพท์",
-        "CONVERSATIONS": "การสนทนา",
-        "LAST_ACTIVITY": "ล่าสุดเมื่อ",
-        "CREATED_AT": "สร้างเมื่อ",
-        "COUNTRY": "ประเทศ",
-        "CITY": "เมือง",
-        "SOCIAL_PROFILES": "โปรไฟล์โซเชียล",
-        "COMPANY": "บริษัท",
-        "EMAIL_ADDRESS": "ที่อยู่อีเมล์"
-      },
-      "VIEW_DETAILS": "ดูรายละเอียด"
-    }
-  },
-  "CONTACT_PROFILE": {
-    "BACK_BUTTON": "ผู้ติดต่อ",
-    "LOADING": "กำลังโหลดโปรไฟล์ผู้ติดต่อ..."
-  },
-  "REMINDER": {
-    "ADD_BUTTON": {
-      "BUTTON": "เพิ่ม",
-      "TITLE": "Shift + Enter เพื่อสร้างงานใหม่"
-    },
-    "FOOTER": {
-      "DUE_DATE": "วันครบกำหนด",
-      "LABEL_TITLE": "ตั้งค่าลักษณะ"
-    }
-  },
-  "NOTES": {
-    "FETCHING_NOTES": "กำลังเรียกโน๊ต...",
-    "NOT_AVAILABLE": "ไม่มีโน๊ตที่สร้างขึ้นสำหรับผู้ติดต่อรายนี้",
-    "HEADER": {
-      "TITLE": "โน้ต"
-    },
-    "LIST": {
-      "LABEL": "เพิ่มโน๊ต"
-    },
-    "ADD": {
-      "BUTTON": "เพิ่ม",
-      "PLACEHOLDER": "เพิ่มโน็ต",
-      "TITLE": "Shift + Enter เพื่อสร้างโน็ต"
-    },
-    "CONTENT_HEADER": {
-      "DELETE": "ลบโน๊ต"
-    }
-  },
-  "EVENTS": {
-    "HEADER": {
-      "TITLE": "กิจกรรม"
-    },
-    "BUTTON": {
-      "PILL_BUTTON_NOTES": "โน้ต",
-      "PILL_BUTTON_EVENTS": "เหตุการณ์",
-      "PILL_BUTTON_CONVO": "การสนทนา"
+        "SOCIAL_PROFILES": "โปรไฟล์โซเชียล"
+      }
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "เพิ่มแอตทริบิวต์",
     "BUTTON": "เพิ่มแอตทริบิวต์เเบบกำหนดเอง",
-    "NOT_AVAILABLE": "ไม่มีแอตทริบิวต์ที่กำหนดเองสำหรับผู้ติดต่อรายนี้",
     "COPY_SUCCESSFUL": "คัดลอกไปยังคริปบอร์ดเเล้ว",
     "SHOW_MORE": "Show all attributes",
     "SHOW_LESS": "Show less attributes",
@@ -384,6 +279,321 @@
     },
     "DROPDOWN_ITEM": {
       "ID": "(ID: {identifier})"
+    }
+  },
+  "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "ผู้ติดต่อ",
+      "SEARCH_TITLE": "Search contacts",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "MESSAGE_BUTTON": "ข้อความ",
+      "SEND_MESSAGE": "ส่วข้อความ",
+      "BREADCRUMB": {
+        "CONTACTS": "ผู้ติดต่อ"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact",
+          "EMAIL_ADDRESS_DUPLICATE": "อีเมล์นี้ถูกใช้ในผู้ติดต่อคนอื่นเเล้ว",
+          "PHONE_NUMBER_DUPLICATE": "หมายเลขนี้ถูกใช้สำหรับผู้ติดต่อคนอื่นเเล้ว",
+          "SUCCESS_MESSAGE": "สร้างการติดต่อเรียบร้อยเเล้ว",
+          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
+        },
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "นำเข้ารายชื่อผู้ติดต่อผ่านไฟล์ CSV",
+          "DOWNLOAD_LABEL": "ดาวน์โหลดตัวอย่าง csv",
+          "LABEL": "ไฟล์ CSV:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "เปลี่ยน",
+          "CANCEL": "ยกเลิก",
+          "IMPORT": "นำเข้า",
+          "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+          "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Export contacts",
+          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "CONFIRM": "Export",
+          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+          "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
+        },
+        "SORT_BY": {
+          "LABEL": "เรียงด้วย",
+          "OPTIONS": {
+            "NAME": "ชื่อ",
+            "EMAIL": "อีเมล์",
+            "PHONE_NUMBER": "หมายเลขโทรศัพท์",
+            "COMPANY": "บริษัท",
+            "COUNTRY": "ประเทศ",
+            "CITY": "เมือง",
+            "LAST_ACTIVITY": "Last activity",
+            "CREATED_AT": "สร้างเมื่อ"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        },
+        "FILTERS": {
+          "CREATE_SEGMENT": {
+            "TITLE": "ต้องการบันทึกตัวกรองนี้หรือไม่?",
+            "CONFIRM": "บันทึกตัวกรอง",
+            "LABEL": "ชื่อ",
+            "PLACEHOLDER": "Enter the name of the filter",
+            "ERROR": "Enter a valid name",
+            "SUCCESS_MESSAGE": "Filter saved successfully",
+            "ERROR_MESSAGE": "Unable to save filter. Please try again later."
+          },
+          "DELETE_SEGMENT": {
+            "TITLE": "ยืนยันการลบ",
+            "DESCRIPTION": "Are you sure you want to delete this filter?",
+            "CONFIRM": "เอาเลย",
+            "CANCEL": "No, Cancel",
+            "SUCCESS_MESSAGE": "Filter deleted successfully",
+            "ERROR_MESSAGE": "Unable to delete filter. Please try again later."
+          }
+        }
+      }
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
+    },
+    "FILTER": {
+      "NAME": "ชื่อ",
+      "EMAIL": "อีเมล์",
+      "PHONE_NUMBER": "หมายเลขโทรศัพท์",
+      "IDENTIFIER": "ตัวระบุ",
+      "COUNTRY": "ประเทศ",
+      "CITY": "เมือง",
+      "CREATED_AT": "สร้างเมื่อ",
+      "LAST_ACTIVITY": "Last activity",
+      "REFERER_LINK": "ลิงก์อ้างอิง",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "จริง",
+      "BLOCKED_FALSE": "เท็จ",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Clear filters",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "ใช้ตัวกรอง",
+        "ADD_FILTER": "Add filter"
+      },
+      "TITLE": "ตัวกรองรายชื่อผู้ติดต่อ",
+      "EDIT_SEGMENT": "Edit segment",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} more filters",
+        "CLEAR_FILTERS": "Clear filters"
+      }
+    },
+    "CARD": {
+      "OF": "of",
+      "VIEW_DETAILS": "ดูรายละเอียด",
+      "EDIT_DETAILS_FORM": {
+        "TITLE": "เเห้ไขรายละเอียดผู้ติดต่อ",
+        "FORM": {
+          "FIRST_NAME": {
+            "PLACEHOLDER": "Enter the first name"
+          },
+          "LAST_NAME": {
+            "PLACEHOLDER": "Enter the last name"
+          },
+          "EMAIL_ADDRESS": {
+            "PLACEHOLDER": "Enter the email address",
+            "DUPLICATE": "อีเมล์นี้ถูกใช้ในผู้ติดต่อคนอื่นเเล้ว"
+          },
+          "PHONE_NUMBER": {
+            "PLACEHOLDER": "Enter the phone number",
+            "DUPLICATE": "หมายเลขนี้ถูกใช้สำหรับผู้ติดต่อคนอื่นเเล้ว"
+          },
+          "CITY": {
+            "PLACEHOLDER": "Enter the city name"
+          },
+          "COUNTRY": {
+            "PLACEHOLDER": "Select country"
+          },
+          "BIO": {
+            "PLACEHOLDER": "Enter the bio"
+          },
+          "COMPANY_NAME": {
+            "PLACEHOLDER": "กรอกชื่อบริษัท"
+          }
+        },
+        "UPDATE_BUTTON": "Update contact",
+        "SUCCESS_MESSAGE": "Contact updated successfully",
+        "ERROR_MESSAGE": "Unable to update contact. Please try again later."
+      },
+      "SOCIAL_MEDIA": {
+        "TITLE": "Edit social links",
+        "FORM": {
+          "FACEBOOK": {
+            "PLACEHOLDER": "Add Facebook"
+          },
+          "GITHUB": {
+            "PLACEHOLDER": "Add Github"
+          },
+          "INSTAGRAM": {
+            "PLACEHOLDER": "Add Instagram"
+          },
+          "LINKEDIN": {
+            "PLACEHOLDER": "Add LinkedIn"
+          },
+          "TWITTER": {
+            "PLACEHOLDER": "Add Twitter"
+          }
+        }
+      }
+    },
+    "DETAILS": {
+      "CREATED_AT": "Created {date}",
+      "LAST_ACTIVITY": "Last active {date}",
+      "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
+      "DELETE_CONTACT": "ลบผู้ติดต่อ",
+      "DELETE_DIALOG": {
+        "TITLE": "ยืนยันการลบ",
+        "DESCRIPTION": "Are you sure you want to delete this {contactName} contact?",
+        "CONFIRM": "เอาเลย",
+        "API": {
+          "SUCCESS_MESSAGE": "ลบผู้ติดต่อสำเร็จแล้ว",
+          "ERROR_MESSAGE": "ไม่สามารถลบผู้ติดต่อได้ โปรดลองใหม่อีกครั้ง"
+        }
+      },
+      "AVATAR": {
+        "UPLOAD": {
+          "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
+          "SUCCESS_MESSAGE": "Avatar uploaded successfully"
+        },
+        "DELETE": {
+          "SUCCESS_MESSAGE": "Avatar deleted successfully",
+          "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
+        }
+      }
+    },
+    "SIDEBAR": {
+      "TABS": {
+        "ATTRIBUTES": "Attributes",
+        "HISTORY": "History",
+        "NOTES": "โน้ต",
+        "MERGE": "Merge"
+      },
+      "HISTORY": {
+        "EMPTY_STATE": "There are no previous conversations associated to this contact"
+      },
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "ใช่",
+        "NO": "ไม่",
+        "TRIGGER": {
+          "SELECT": "เลือกค่า",
+          "INPUT": "Enter value"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "โปรดระบุค่าที่ถูกต้อง",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "URL ไม่ถูกต้อง",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "ไม่พบข้อมูล",
+        "API": {
+          "SUCCESS_MESSAGE": "อัปเดตแอตทริบิวต์เรียบร้อยแล้ว",
+          "DELETE_SUCCESS_MESSAGE": "ลบแอตทริบิวต์สำเร็จแล้ว",
+          "UPDATE_ERROR": "ไม่สามารถอัปเดตแอตทริบิวต์ได้ โปรดลองใหม่อีกครั้ง",
+          "DELETE_ERROR": "ไม่สามารถลบแอตทริบิวต์ได้ โปรดลองใหม่อีกครั้ง"
+        }
+      },
+      "MERGE": {
+        "TITLE": "รวมผู้ติดต่อ",
+        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
+        "PRIMARY": "ผู้ติดต่อหลัก",
+        "PRIMARY_HELP_LABEL": "To be saved",
+        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
+        "PARENT": "To be merged",
+        "PARENT_HELP_LABEL": "ที่จะถูกลบ",
+        "EMPTY_STATE": "No contacts found",
+        "PLACEHOLDER": "Search for primary contact",
+        "SEARCH_PLACEHOLDER": "ค้นหาผู้ติดต่อ",
+        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
+        "SUCCESS_MESSAGE": "รวมผู้ติดต่อสำเร็จเเล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถรวมผู้ติดต่อได้ โปรดลองใหม่อีกครั้ง!",
+        "IS_SEARCHING": "Searching...",
+        "BUTTONS": {
+          "CANCEL": "ยกเลิก",
+          "CONFIRM": "รวมผู้ติดต่อ"
+        }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "เพิ่มโน็ต",
+        "WROTE": "wrote",
+        "YOU": "You",
+        "SAVE": "Save note",
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+      }
+    },
+    "EMPTY_STATE": {
+      "TITLE": "No contacts found in this account",
+      "SUBTITLE": "Start adding new contacts by clicking on the button below",
+      "BUTTON_LABEL": "Add contact",
+      "SEARCH_EMPTY_STATE_TITLE": "ไม่มีผู้ติดต่อที่ตรงกัน 🔍",
+      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋"
+    }
+  },
+  "COMPOSE_NEW_CONVERSATION": {
+    "CONTACT_SEARCH": {
+      "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+    },
+    "FORM": {
+      "GO_TO_CONVERSATION": "ดู",
+      "SUCCESS_MESSAGE": "The message was sent successfully!",
+      "ERROR_MESSAGE": "An error occurred while creating the conversation. Please try again later.",
+      "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
+      "CONTACT_SELECTOR": {
+        "LABEL": "ถึง:",
+        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
+        "CONTACT_CREATING": "Creating contact..."
+      },
+      "INBOX_SELECTOR": {
+        "LABEL": "Via:",
+        "BUTTON": "Show inboxes"
+      },
+      "EMAIL_OPTIONS": {
+        "SUBJECT_LABEL": "หัวเรื่อง :",
+        "SUBJECT_PLACEHOLDER": "Enter your email subject here",
+        "CC_LABEL": "สำเนา:",
+        "CC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_LABEL": "สำเนาลับ:",
+        "BCC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_BUTTON": "สำเนาลับ"
+      },
+      "MESSAGE_EDITOR": {
+        "PLACEHOLDER": "Write your message here..."
+      },
+      "WHATSAPP_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
+          "TEMPLATE_NAME": "WhatsApp template: {templateName}",
+          "VARIABLES": "Variables",
+          "BACK": "Go back",
+          "SEND_MESSAGE": "ส่วข้อความ"
+        }
+      },
+      "ACTION_BUTTONS": {
+        "DISCARD": "Discard",
+        "SEND": "Send ({keyCode})"
+      }
     }
   }
 }

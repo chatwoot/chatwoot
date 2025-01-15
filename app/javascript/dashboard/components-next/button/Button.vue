@@ -1,61 +1,102 @@
 <script setup>
-import { computed, useSlots } from 'vue';
+import { computed, useSlots, useAttrs } from 'vue';
 
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import {
+  VARIANT_OPTIONS,
+  COLOR_OPTIONS,
+  SIZE_OPTIONS,
+  EXCLUDED_ATTRS,
+} from './constants.js';
 
 const props = defineProps({
-  label: {
-    type: String,
-    default: '',
-  },
+  label: { type: [String, Number], default: '' },
   variant: {
     type: String,
-    default: 'solid',
-    validator: value =>
-      ['solid', 'outline', 'faded', 'link', 'ghost'].includes(value),
+    default: null,
+    validator: value => VARIANT_OPTIONS.includes(value) || value === null,
   },
   color: {
     type: String,
-    default: 'blue',
-    validator: value =>
-      ['blue', 'ruby', 'amber', 'slate', 'teal'].includes(value),
+    default: null,
+    validator: value => COLOR_OPTIONS.includes(value) || value === null,
   },
   size: {
     type: String,
-    default: 'md',
-    validator: value => ['xs', 'sm', 'md', 'lg'].includes(value),
+    default: null,
+    validator: value => SIZE_OPTIONS.includes(value) || value === null,
   },
-  icon: {
-    type: String,
-    default: '',
-  },
-  trailingIcon: {
-    type: Boolean,
-    default: false,
-  },
-  isLoading: {
-    type: Boolean,
-    default: false,
-  },
+  icon: { type: [String, Object, Function], default: '' },
+  trailingIcon: { type: Boolean, default: false },
+  isLoading: { type: Boolean, default: false },
 });
 
 const slots = useSlots();
+const attrs = useAttrs();
+
+defineOptions({
+  inheritAttrs: false,
+});
+
+const filteredAttrs = computed(() => {
+  const standardAttrs = {};
+
+  Object.entries(attrs)
+    .filter(([key]) => !EXCLUDED_ATTRS.includes(key))
+    .forEach(([key, value]) => {
+      standardAttrs[key] = value;
+    });
+
+  return standardAttrs;
+});
+
+const computedVariant = computed(() => {
+  if (props.variant) return props.variant;
+  // The useAttrs method returns attributes values an empty string (not boolean value as in props).
+  if (attrs.solid || attrs.solid === '') return 'solid';
+  if (attrs.outline || attrs.outline === '') return 'outline';
+  if (attrs.faded || attrs.faded === '') return 'faded';
+  if (attrs.link || attrs.link === '') return 'link';
+  if (attrs.ghost || attrs.ghost === '') return 'ghost';
+  return 'solid'; // Default variant
+});
+
+const computedColor = computed(() => {
+  if (props.color) return props.color;
+  if (attrs.blue || attrs.blue === '') return 'blue';
+  if (attrs.ruby || attrs.ruby === '') return 'ruby';
+  if (attrs.amber || attrs.amber === '') return 'amber';
+  if (attrs.slate || attrs.slate === '') return 'slate';
+  if (attrs.teal || attrs.teal === '') return 'teal';
+  return 'blue'; // Default color
+});
+
+const computedSize = computed(() => {
+  if (props.size) return props.size;
+  if (attrs.xs || attrs.xs === '') return 'xs';
+  if (attrs.sm || attrs.sm === '') return 'sm';
+  if (attrs.md || attrs.md === '') return 'md';
+  if (attrs.lg || attrs.lg === '') return 'lg';
+  return 'md';
+});
 
 const STYLE_CONFIG = {
   colors: {
     blue: {
       solid: 'bg-n-brand text-white hover:brightness-110 outline-transparent',
       faded:
-        'bg-n-brand/10 text-n-slate-12 hover:bg-n-brand/20 outline-transparent',
+        'bg-n-brand/10 text-n-blue-text hover:bg-n-brand/20 outline-transparent',
       outline: 'text-n-blue-text outline-n-blue-border',
-      link: 'text-n-brand hover:underline outline-transparent',
+      ghost: 'text-n-blue-text hover:bg-n-alpha-2 outline-transparent',
+      link: 'text-n-blue-text hover:underline outline-transparent',
     },
     ruby: {
       solid: 'bg-n-ruby-9 text-white hover:bg-n-ruby-10 outline-transparent',
       faded:
         'bg-n-ruby-9/10 text-n-ruby-11 hover:bg-n-ruby-9/20 outline-transparent',
       outline: 'text-n-ruby-11 hover:bg-n-ruby-9/10 outline-n-ruby-8',
+      ghost: 'text-n-ruby-11 hover:bg-n-alpha-2 outline-transparent',
       link: 'text-n-ruby-9 hover:underline outline-transparent',
     },
     amber: {
@@ -64,6 +105,7 @@ const STYLE_CONFIG = {
         'bg-n-amber-9/10 text-n-slate-12 hover:bg-n-amber-9/20 outline-transparent',
       outline: 'text-n-amber-11 hover:bg-n-amber-9/10 outline-n-amber-9',
       link: 'text-n-amber-9 hover:underline outline-transparent',
+      ghost: 'text-n-amber-9 hover:bg-n-alpha-2 outline-transparent',
     },
     slate: {
       solid:
@@ -72,6 +114,7 @@ const STYLE_CONFIG = {
         'bg-n-slate-9/10 text-n-slate-12 hover:bg-n-slate-9/20 outline-transparent',
       outline: 'text-n-slate-11 outline-n-strong hover:bg-n-slate-9/10',
       link: 'text-n-slate-11 hover:text-n-slate-12 hover:underline outline-transparent',
+      ghost: 'text-n-slate-12 hover:bg-n-alpha-2 outline-transparent',
     },
     teal: {
       solid: 'bg-n-teal-9 text-white hover:bg-n-teal-10 outline-transparent',
@@ -79,6 +122,7 @@ const STYLE_CONFIG = {
         'bg-n-teal-9/10 text-n-slate-12 hover:bg-n-teal-9/20 outline-transparent',
       outline: 'text-n-teal-11 hover:bg-n-teal-9/10 outline-n-teal-9',
       link: 'text-n-teal-9 hover:underline outline-transparent',
+      ghost: 'text-n-teal-9 hover:bg-n-alpha-2 outline-transparent',
     },
   },
   sizes: {
@@ -112,24 +156,25 @@ const STYLE_CONFIG = {
 
 const variantClasses = computed(() => {
   const variantMap = {
-    ghost: 'text-n-slate-12 hover:bg-n-alpha-2 outline-transparent',
-    link: `${STYLE_CONFIG.colors[props.color].link} p-0 font-medium underline-offset-4`,
-    outline: STYLE_CONFIG.colors[props.color].outline,
-    faded: STYLE_CONFIG.colors[props.color].faded,
-    solid: STYLE_CONFIG.colors[props.color].solid,
+    ghost: `${STYLE_CONFIG.colors[computedColor.value].ghost}`,
+    link: `${STYLE_CONFIG.colors[computedColor.value].link} p-0 font-medium underline-offset-4`,
+    outline: STYLE_CONFIG.colors[computedColor.value].outline,
+    faded: STYLE_CONFIG.colors[computedColor.value].faded,
+    solid: STYLE_CONFIG.colors[computedColor.value].solid,
   };
 
-  return variantMap[props.variant];
+  return variantMap[computedVariant.value];
 });
 
 const isIconOnly = computed(() => !props.label && !slots.default);
-const isLink = computed(() => props.variant === 'link');
+const isLink = computed(() => computedVariant.value === 'link');
 
 const buttonClasses = computed(() => {
   const sizeConfig = isIconOnly.value ? 'iconOnly' : 'regular';
   const classes = [
     variantClasses.value,
-    props.variant !== 'link' && STYLE_CONFIG.sizes[sizeConfig][props.size],
+    computedVariant.value !== 'link' &&
+      STYLE_CONFIG.sizes[sizeConfig][computedSize.value],
   ].filter(Boolean);
 
   return classes.join(' ');
@@ -138,7 +183,7 @@ const buttonClasses = computed(() => {
 const linkButtonClasses = computed(() => {
   const classes = [
     variantClasses.value,
-    STYLE_CONFIG.sizes.link[props.size],
+    STYLE_CONFIG.sizes.link[computedSize.value],
   ].filter(Boolean);
 
   return classes.join(' ');
@@ -147,10 +192,11 @@ const linkButtonClasses = computed(() => {
 
 <template>
   <button
+    v-bind="filteredAttrs"
     :class="{
       [STYLE_CONFIG.base]: true,
       [isLink ? linkButtonClasses : buttonClasses]: true,
-      [STYLE_CONFIG.fontSize[size]]: true,
+      [STYLE_CONFIG.fontSize[computedSize]]: true,
       'flex-row-reverse': trailingIcon && !isIconOnly,
     }"
   >
@@ -161,7 +207,7 @@ const linkButtonClasses = computed(() => {
     <Spinner v-if="isLoading" class="!w-5 !h-5 flex-shrink-0" />
 
     <slot v-if="label || $slots.default" name="default">
-      <span class="min-w-0 truncate">{{ label }}</span>
+      <span v-if="label" class="min-w-0 truncate">{{ label }}</span>
     </slot>
   </button>
 </template>

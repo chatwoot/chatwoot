@@ -1,7 +1,7 @@
 {
   "INBOX": {
     "LIST": {
-      "TITLE": "Электронная почта",
+      "TITLE": "Мои Входящие",
       "DISPLAY_DROPDOWN": "Отображать",
       "LOADING": "Загрузка уведомлений",
       "404": "В этой группе нет активных уведомлений.",
@@ -23,10 +23,23 @@
       "CONVERSATION_ASSIGNMENT": "Вам назначен диалог",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Новое сообщение в назначенном диалоге",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Новое сообщение в диалоге, в котором вы участвуете",
-      "SLA_MISSED_FIRST_RESPONSE": "SLA target first response missed for conversation",
-      "SLA_MISSED_NEXT_RESPONSE": "SLA target next response missed for conversation",
-      "SLA_MISSED_RESOLUTION": "SLA target resolution missed for conversation"
+      "SLA_MISSED_FIRST_RESPONSE": "Не выполнен целевой срок разрешения по SLA для разговора",
+      "SLA_MISSED_NEXT_RESPONSE": "Не выполнен целевой срок следующего ответа по SLA для разговора",
+      "SLA_MISSED_RESOLUTION": "Не выполнен целевой срок первого ответа по SLA для разговора"
     },
+    "TYPES_NEXT": {
+      "CONVERSATION_MENTION": "Упоминания",
+      "CONVERSATION_ASSIGNMENT": "Назначено вам",
+      "CONVERSATION_CREATION": "Новый диалог",
+      "SLA_MISSED_FIRST_RESPONSE": "Нарушение SLA",
+      "SLA_MISSED_NEXT_RESPONSE": "Нарушение SLA",
+      "SLA_MISSED_RESOLUTION": "Нарушение SLA",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Новое сообщение",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Новое сообщение",
+      "SNOOZED_UNTIL": "Отложено до {time}",
+      "SNOOZED_ENDS": "Отсрочка закончилась"
+    },
+    "NO_CONTENT": "Содержимое отсутствует",
     "MENU_ITEM": {
       "MARK_AS_READ": "Отметить как прочитанное",
       "MARK_AS_UNREAD": "Отметить как непрочитанное",

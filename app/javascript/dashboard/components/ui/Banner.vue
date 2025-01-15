@@ -116,7 +116,7 @@ export default {
   }
 
   &.secondary {
-    @apply bg-slate-200 dark:bg-slate-300 text-slate-800 dark:text-slate-800;
+    @apply bg-n-slate-3 dark:bg-n-solid-3 text-n-slate-12;
     a {
       @apply text-slate-800 dark:text-slate-800;
     }

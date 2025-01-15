@@ -5,12 +5,12 @@
     "BTN_TEXT": "Обновить профиль",
     "DELETE_AVATAR": "Удалить аватар",
     "AVATAR_DELETE_SUCCESS": "Аватар успешно удалён",
-    "AVATAR_DELETE_FAILED": "При удалении аватара произошла ошибка, попробуйте еще раз",
+    "AVATAR_DELETE_FAILED": "Произошла ошибка при удалении аватара, пожалуйста, попробуйте снова",
     "UPDATE_SUCCESS": "Ваши данные успешно обновлены",
     "PASSWORD_UPDATE_SUCCESS": "Ваш пароль успешно изменен",
     "AFTER_EMAIL_CHANGED": "Ваш профиль был успешно обновлен, пожалуйста, войдите снова, так как ваши учетные данные были изменены",
     "FORM": {
-      "PICTURE": "Profile Picture",
+      "PICTURE": "Фотография профиля",
       "AVATAR": "Изображение",
       "ERROR": "Пожалуйста, исправьте ошибки",
       "REMOVE_IMAGE": "Удалить",
@@ -22,33 +22,33 @@
       },
       "SEND_MESSAGE": {
         "TITLE": "Горячие клавиши для отправки сообщений",
-        "NOTE": "Вы можете выбрать горячую клавишу (Enter или Cmd/Ctrl+Enter), основываясь на вашем предпочтении записи.",
+        "NOTE": "Вы можете выбрать горячую клавишу (Enter или Cmd/Ctrl+Enter) в зависимости от ваших предпочтений при написании.",
         "UPDATE_SUCCESS": "Ваши настройки успешно обновлены",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Отправлять сообщения, нажав клавишу Enter вместо нажатия кнопки Отправить."
+            "CONTENT": "Отправляйте сообщения, нажимая клавишу Enter вместо кнопки отправки."
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Отправлять сообщения нажатием клавиши Cmd/Ctrl + enter вместо нажатия кнопки Отправить."
+            "CONTENT": "Отправляйте сообщения, нажимая Cmd/Ctrl + Enter вместо кнопки отправки."
           }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Подпись личных сообщений",
-        "NOTE": "Создайте уникальную подпись сообщения, которая появится в конце каждого отправленного вами сообщения из любого почтового ящика. Вы также можете включить встроенное изображение, которое поддерживается в live-чате, электронной почты и API почтовых ящиков.",
-        "BTN_TEXT": "Сохранить подпись",
-        "API_ERROR": "Не удалось сохранить подпись! Повторите попытку",
+        "TITLE": "Личная подпись сообщения",
+        "NOTE": "Создайте уникальную подпись, которая будет отображаться в конце каждого сообщения, отправляемого из любого почтового ящика. Вы также можете добавить встроенное изображение, которое поддерживается в чате, электронной почте и API-почтовых ящиках.",
+        "BTN_TEXT": "Сохранить подпись сообщения",
+        "API_ERROR": "Не удалось сохранить подпись! Попробуйте снова",
         "API_SUCCESS": "Подпись успешно сохранена",
-        "IMAGE_UPLOAD_ERROR": "Не удалось загрузить изображение! Попробуйте еще раз",
-        "IMAGE_UPLOAD_SUCCESS": "Изображение успешно добавлено. Нажмите на кнопку \"Сохранить\", чтобы сохранить подпись",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Размер изображения должен быть меньше, чем {size}MB"
+        "IMAGE_UPLOAD_ERROR": "Не удалось загрузить изображение! Попробуйте снова",
+        "IMAGE_UPLOAD_SUCCESS": "Изображение успешно добавлено. Пожалуйста, нажмите сохранить, чтобы сохранить подпись",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Размер изображения должен быть меньше {size}МБ"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Подпись для сообщений",
-        "ERROR": "Подпись не может быть пустой",
-        "PLACEHOLDER": "Вставьте подпись для ваших сообщений здесь."
+        "LABEL": "Подпись сообщения",
+        "ERROR": "Подпись сообщения не может быть пустой",
+        "PLACEHOLDER": "Вставьте вашу личную подпись сообщения здесь."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Пароль",
@@ -61,15 +61,29 @@
         "COPY": "Копировать"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Звуковые уведомления",
-        "NOTE": "Включить звуковые уведомления в панели управления для новых сообщений и разговоров.",
+        "TITLE": "Аудио уведомления",
+        "NOTE": "Включите аудио уведомления на панели управления для новых сообщений и диалогов.",
+        "PLAY": "Воспроизвести звук",
         "ALERT_TYPES": {
-          "NONE": "Ничего",
-          "MINE": "Assigned",
-          "ALL": "Все"
+          "NONE": "Нет",
+          "MINE": "Назначено",
+          "ALL": "Все",
+          "ASSIGNED": "Назначенные диалоги",
+          "UNASSIGNED": "Назначенные диалоги",
+          "NOTME": "Открытые диалоги, назначенные другим"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "Вы не выбрали никаких опций и не будете получать аудио уведомления.",
+          "ASSIGNED": "Вы будете получать уведомления о диалогах, назначенных вам.",
+          "UNASSIGNED": "Вы будете получать уведомления о любых не назначенных диалогах.",
+          "NOTME": "Вы будете получать уведомления о диалогах, назначенных другим.",
+          "ASSIGNED+UNASSIGNED": "Вы будете получать уведомления о назначенных вам диалогах и любых неотвеченных.",
+          "ASSIGNED+NOTME": "Вы будете получать уведомления о диалогах, назначенных вам и другим, но не о неназначенных.",
+          "NOTME+UNASSIGNED": "Вы будете получать уведомления о неотвеченных диалогах и диалогах назначенных другим.",
+          "ASSIGNED+NOTME+UNASSIGNED": "Вы будете получать уведомления о всех диалогах."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "События уведомлений для диалогов",
           "NONE": "Нет",
           "ASSIGNED": "Назначенные беседы",
           "ALL_CONVERSATIONS": "Диалоги"
@@ -81,7 +95,9 @@
           "TITLE": "Условия уведомления:",
           "CONDITION_ONE": "Отправлять звуковые оповещения только в том случае, если окно браузера не активно",
           "CONDITION_TWO": "Отправлять уведомления каждые 30 сек., пока все назначенные диалоги не будут прочитаны"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Автоматическое воспроизведение отключено в вашем браузере. Чтобы автоматически слышать уведомления, включите разрешение на звук в настройках браузера или взаимодействуйте со страницей.",
+        "READ_MORE": "Читать далее"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Email Уведомления",
@@ -90,27 +106,27 @@
         "CONVERSATION_CREATION": "Отправлять email уведомление, когда новый диалог создан",
         "CONVERSATION_MENTION": "Отправлять email уведомление, когда вас упоминают в диалоге",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Отправлять email уведомления при создании нового сообщения в назначенном диалоге",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Отправлять уведомления по электронной почте, когда в разговоре создается новое сообщение",
-        "SLA_MISSED_FIRST_RESPONSE": "Отправить уведомление по электронной почте, если разговор не соответствует SLA первого ответа",
-        "SLA_MISSED_NEXT_RESPONSE": "Отправить уведомление по электронной почте, если разговор не успел получить следующий ответ SLA",
-        "SLA_MISSED_RESOLUTION": "Отправить уведомление по электронной почте, если разговор не соответствует SLA"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Отправлять уведомления по электронной почте, когда в диалоге создается новое сообщение",
+        "SLA_MISSED_FIRST_RESPONSE": "Отправить уведомление по электронной почте, если диалог не соответствует SLA первого ответа",
+        "SLA_MISSED_NEXT_RESPONSE": "Отправить уведомление по электронной почте, если диалог не успел получить следующий ответ SLA",
+        "SLA_MISSED_RESOLUTION": "Отправить уведомление по электронной почте, если диалог не соответствует SLA"
       },
       "NOTIFICATIONS": {
-        "TITLE": "Notification preferences",
-        "TYPE_TITLE": "Notification type",
+        "TITLE": "Настройки уведомлений",
+        "TYPE_TITLE": "Тип уведомления",
         "EMAIL": "Email",
-        "PUSH": "Push notification",
+        "PUSH": "Push-уведомления",
         "TYPES": {
-          "CONVERSATION_CREATED": "A new conversation is created",
-          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
-          "CONVERSATION_MENTION": "You are mentioned in a conversation",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
-          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
-          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "CONVERSATION_CREATED": "Новый диалог создан",
+          "CONVERSATION_ASSIGNED": "Вам назначен диалог",
+          "CONVERSATION_MENTION": "Вас упомянули в диалоге",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Новое сообщение создано в назначенном диалоге",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "В назначенном диалоге создано новое сообщение",
+          "SLA_MISSED_FIRST_RESPONSE": "Разговор не соответствует SLA по первому ответу",
+          "SLA_MISSED_NEXT_RESPONSE": "Диалог не соответствует SLA по следующему ответу",
+          "SLA_MISSED_RESOLUTION": "Диалог не соответствует SLA по разрешению"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "Включите push-уведомления для вашего браузера, чтобы вы могли их получать"
       },
       "API": {
         "UPDATE_SUCCESS": "Настройки уведомлений сохранены",
@@ -123,12 +139,12 @@
         "CONVERSATION_CREATION": "Отправлять push уведомление, когда новый диалог создан",
         "CONVERSATION_MENTION": "Отправлять уведомления при упоминании в разговоре",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Отправлять push уведомления при создании нового сообщения в назначенном диалоге",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Отправлять push-уведомления при создании нового сообщения в участвующем разговоре",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Отправлять push-уведомления при создании нового сообщения в участвующем диалоге",
         "HAS_ENABLED_PUSH": "Вы включили push уведомления для этого браузера.",
         "REQUEST_PUSH": "Включить push-уведомления",
-        "SLA_MISSED_FIRST_RESPONSE": "Отправить push-уведомление, если разговор не соответствует SLA первого ответа",
-        "SLA_MISSED_NEXT_RESPONSE": "Отправить push-уведомление, если разговор не успел получить следующий ответ SLA",
-        "SLA_MISSED_RESOLUTION": "Отправить push-уведомление, если разговор не соответствует уровню разрешения SLA"
+        "SLA_MISSED_FIRST_RESPONSE": "Отправить push-уведомление, если диалог не соответствует SLA первого ответа",
+        "SLA_MISSED_NEXT_RESPONSE": "Отправить push-уведомление, если диалог не успел получить следующий ответ SLA",
+        "SLA_MISSED_RESOLUTION": "Отправить push-уведомление, если диалог не соответствует уровню разрешения SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Изображение профиля"
@@ -145,11 +161,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Доступность",
-        "STATUSES_LIST": [
-          "В сети",
-          "Занят",
-          "Оффлайн"
-        ],
+        "STATUS": {
+          "ONLINE": "В сети",
+          "BUSY": "Занят",
+          "OFFLINE": "Оффлайн"
+        },
         "SET_AVAILABILITY_SUCCESS": "Доступность успешно установлена",
         "SET_AVAILABILITY_ERROR": "Не удалось установить доступность, попробуйте снова"
       },
@@ -177,14 +193,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Изменить",
-    "CHANGE_ACCOUNTS": "Сменить Аккаунт",
+    "CHANGE_ACCOUNTS": "Сменить аккаунт",
+    "SWITCH_WORKSPACE": "Сменить рабочее пространство",
     "CONTACT_SUPPORT": "Связаться с поддержкой",
     "SELECTOR_SUBTITLE": "Выберите аккаунт из списка",
     "PROFILE_SETTINGS": "Настройки профиля",
-    "KEYBOARD_SHORTCUTS": "Клавиши быстрого доступа",
+    "KEYBOARD_SHORTCUTS": "Горячие клавиши",
     "APPEARANCE": "Изменить внешний вид",
     "SUPER_ADMIN_CONSOLE": "Консоль супер администратора",
-    "LOGOUT": "Выйти"
+    "DOCS": "Открыть документацию",
+    "LOGOUT": "Выйти из системы"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "дней до окончания бесплатного периода.",
@@ -218,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Отправить"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "Это изображение больше недоступно.",
+      "LOADING_FAILED": "Не удалось загрузить"
     }
   },
   "CONFIRM_EMAIL": "Проверка...",
@@ -227,11 +249,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "Нет элементов",
     "CURRENTLY_VIEWING_ACCOUNT": "Сейчас просматривается:",
     "SWITCH": "Переключить",
     "INBOX_VIEW": "Просмотр входящих сообщений",
     "CONVERSATIONS": "Диалоги",
-    "INBOX": "Электронная почта",
+    "INBOX": "Мои Входящие",
     "ALL_CONVERSATIONS": "Диалоги",
     "MENTIONED_CONVERSATIONS": "Упоминания",
     "PARTICIPATING_CONVERSATIONS": "Участвующие",
@@ -239,7 +262,7 @@
     "REPORTS": "Отчёты",
     "SETTINGS": "Настройки",
     "CONTACTS": "Контакты",
-    "CAPTAIN": "Captain",
+    "CAPTAIN": "Капитан",
     "HOME": "Главная",
     "AGENTS": "Операторы",
     "AGENT_BOTS": "Боты",
@@ -266,6 +289,8 @@
     "NEW_INBOX": "Новые канал",
     "REPORTS_CONVERSATION": "Диалоги",
     "CSAT": "CSAT",
+    "LIVE_CHAT": "Онлайн чат",
+    "SMS": "SMS",
     "CAMPAIGNS": "Кампании",
     "ONGOING": "Повторяющиеся",
     "ONE_OFF": "Единоразовые",
@@ -276,24 +301,24 @@
     "REPORTS_INBOX": "Электронная почта",
     "REPORTS_TEAM": "Команда",
     "SET_AVAILABILITY_TITLE": "Установить себя",
+    "SET_YOUR_AVAILABILITY": "Настройте ваши рабочие часы",
     "SLA": "SLA",
-    "CUSTOM_ROLES": "Custom Roles",
+    "CUSTOM_ROLES": "Пользовательские роли",
     "BETA": "Бета",
     "REPORTS_OVERVIEW": "Обзор",
-    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "REAUTHORIZE": "Срок действия вашего источника истек, пожалуйста, переподключите\n чтобы снова получать и отправлять сообщения",
     "HELP_CENTER": {
       "TITLE": "Центр поддержки",
-      "ALL_ARTICLES": "Все статьи",
-      "MY_ARTICLES": "Мои статьи",
-      "DRAFT": "Черновик",
-      "ARCHIVED": "Архив",
-      "CATEGORY": "Категория",
-      "SETTINGS": "Настройки",
-      "CATEGORY_EMPTY_MESSAGE": "Категорий не найдено"
+      "ARTICLES": "Статьи",
+      "CATEGORIES": "Категории",
+      "LOCALES": "Locales",
+      "SETTINGS": "Настройки"
     },
+    "CHANNELS": "Источники",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Отметить автоматически",
-      "INFO_TEXT": "Позволить системе автоматически отмечать вас в автономном режиме, если вы не используете приложение или приборную панель."
+      "INFO_TEXT": "Позволить системе автоматически отмечать вас в автономном режиме, если вы не используете приложение или приборную панель.",
+      "INFO_SHORT": "Автоматически отмечать оффлайн, когда вы не используете приложение."
     },
     "DOCS": "Открыть документацию"
   },
@@ -338,8 +363,8 @@
       "OPEN_CONVERSATION": "Открыть беседу",
       "RESOLVE_AND_NEXT": "Решить и перейти к следующему",
       "NAVIGATE_DROPDOWN": "Навигация в выпадающем списке",
-      "RESOLVE_CONVERSATION": "Решить разговор",
-      "GO_TO_CONVERSATION_DASHBOARD": "Перейти к панели разговоров",
+      "RESOLVE_CONVERSATION": "Решить диалог",
+      "GO_TO_CONVERSATION_DASHBOARD": "Перейти к панели диалогов",
       "ADD_ATTACHMENT": "Добавить вложение",
       "GO_TO_CONTACTS_DASHBOARD": "Перейти к панели контактов",
       "TOGGLE_SIDEBAR": "Переключить боковую панель",

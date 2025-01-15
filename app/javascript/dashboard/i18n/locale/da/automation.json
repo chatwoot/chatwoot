@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Navn",
-        "Beskrivelse",
-        "Aktiv",
-        "Oprettet den"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Navn",
+        "DESCRIPTION": "Beskrivelse",
+        "ACTIVE": "Aktiv",
+        "CREATED_ON": "Oprettet den"
+      },
       "404": "Ingen automatiseringsregler fundet"
     },
     "DELETE": {

@@ -10,11 +10,11 @@
       "404": "In diesem Konto sind keine gespeicherten Antworten verfügbar.",
       "TITLE": "Verwalten Sie vordefinierte Antworten",
       "DESC": "Vorgefertigte Antworten sind vorgeschriebene Antwortvorlagen, die verwendet werden können, um schnell auf Gespräche zu antworten.",
-      "TABLE_HEADER": [
-        "Short-Code",
-        "Inhalt",
-        "Aktionen"
-      ]
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Short-Code",
+        "CONTENT": "Inhalt",
+        "ACTIONS": "Aktionen"
+      }
     },
     "ADD": {
       "TITLE": "Vorgefertigte Antwort hinzufügen",

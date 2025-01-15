@@ -1,8 +1,8 @@
 {
   "AUTOMATION": {
     "HEADER": "الأتمتة",
-    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
-    "LEARN_MORE": "Learn more about automation",
+    "DESCRIPTION": "ويمكن للأتمتة أن تحل محل وتبسط العمليات القائمة التي تتطلب جهداً يدوياً، مثل إضافة تسميات وتعيين المحادثات إلى أنسب وكيل. ويسمح ذلك للفريق بالتركيز على مواطن قوتهم مع تقليل الوقت الذي يقضيه في المهام الروتينية.",
+    "LEARN_MORE": "تعلم المزيد عن الأتمتة",
     "HEADER_BTN_TXT": "إضافة قاعدة أتمتة",
     "LOADING": "جلب قواعد الأتمتة",
     "ADD": {
@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "الاسم",
-        "الوصف",
-        "مفعل",
-        "تم إنشاؤها في"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "الاسم",
+        "DESCRIPTION": "الوصف",
+        "ACTIVE": "مفعل",
+        "CREATED_ON": "تم إنشاؤها في"
+      },
       "404": "لم يتم العثور على قواعد أتمتة"
     },
     "DELETE": {
@@ -100,7 +100,7 @@
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "تفعيل قاعدة الأتمتة",
-      "DEACTIVATION_TITLE": "تغطيل قاعدة الأتمتة",
+      "DEACTIVATION_TITLE": "تعطيل قاعدة الأتمتة",
       "ACTIVATION_DESCRIPTION": "سيؤدي هذا الإجراء إلى تنشيط قاعدة الأتمتة '{automationName}'. هل أنت متأكد من أنك تريد المتابعة؟",
       "DEACTIVATION_DESCRIPTION": "سيؤدي هذا الإجراء إلى إلغاء تنشيط قاعدة الأتمتة '{automationName}'. هل أنت متأكد من أنك تريد المتابعة؟",
       "ACTIVATION_SUCCESFUL": "تم تفعيل قاعدة الأتمتة بنجاح",

@@ -137,5 +137,33 @@ describe CustomMarkdownRenderer do
         expect(output).to include('src="https://player.vimeo.com/video/1234567"')
       end
     end
+
+    context 'when link is an Arcade URL' do
+      let(:arcade_url) { 'https://app.arcade.software/share/ARCADE_ID' }
+
+      it 'renders an iframe with Arcade embed code' do
+        output = render_markdown_link(arcade_url)
+        expect(output).to include('src="https://app.arcade.software/embed/ARCADE_ID"')
+        expect(output).to include('<iframe')
+        expect(output).to include('webkitallowfullscreen')
+        expect(output).to include('mozallowfullscreen')
+        expect(output).to include('allowfullscreen')
+      end
+
+      it 'wraps iframe in responsive container' do
+        output = render_markdown_link(arcade_url)
+        expect(output).to include('position: relative; padding-bottom: 62.5%; height: 0;')
+        expect(output).to include('position: absolute; top: 0; left: 0; width: 100%; height: 100%;')
+      end
+    end
+
+    context 'when multiple links including Arcade are present' do
+      it 'renders Arcade embed along with other content types' do
+        markdown = "\n[arcade](https://app.arcade.software/share/ARCADE_ID)\n\n[youtube](https://www.youtube.com/watch?v=VIDEO_ID)\n"
+        output = render_markdown(markdown)
+        expect(output).to include('src="https://app.arcade.software/embed/ARCADE_ID"')
+        expect(output).to include('src="https://www.youtube.com/embed/VIDEO_ID"')
+      end
+    end
   end
 end

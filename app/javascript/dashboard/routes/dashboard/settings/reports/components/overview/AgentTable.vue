@@ -39,28 +39,6 @@ function getAgentInformation(id) {
   return agents?.find(agent => agent.id === Number(id));
 }
 
-// use for debuggin
-function stringToFloat(inputString) {
-  if (!inputString) {
-    return 0.0;
-  }
-
-  // Sum the Unicode values of all characters
-  const unicodeSum = Array.from(inputString).reduce(
-    (sum, char) => sum + char.charCodeAt(0),
-    0
-  );
-
-  // Use a large prime number to create more variance
-  const prime = 2147483647; // Mersenne prime (2^31 - 1)
-
-  // Generate a hash-like value
-  const hashValue = unicodeSum * prime;
-
-  // Normalize to [0, 1] range
-  return (hashValue % 1000000) / 1000000.0;
-}
-
 const totalCount = computed(() => agents.length);
 
 const tableData = computed(() => {
@@ -72,12 +50,8 @@ const tableData = computed(() => {
         agent: agentInformation.name || agentInformation.available_name,
         email: agentInformation.email,
         thumbnail: agentInformation.thumbnail,
-        open:
-          agent.metric.open ||
-          Math.floor(stringToFloat(agentInformation.email) * 50),
-        unattended:
-          agent.metric.unattended ||
-          Math.floor(stringToFloat(agentInformation.email) * 30),
+        open: agent.metric.open ?? 0,
+        unattended: agent.metric.unattended ?? 0,
         status: agentInformation.availability_status,
       };
     });
@@ -144,10 +118,7 @@ const table = useVueTable({
 
 <template>
   <div class="agent-table-container">
-    <Table
-      :table="table"
-      class="max-h-[calc(100vh-21.875rem)] border border-slate-50 dark:border-slate-800"
-    />
+    <Table :table="table" class="max-h-[calc(100vh-21.875rem)]" />
     <Pagination class="mt-2" :table="table" />
     <div v-if="isLoading" class="agents-loader">
       <Spinner />
@@ -169,7 +140,7 @@ const table = useVueTable({
   .ve-table {
     &::v-deep {
       th.ve-table-header-th {
-        font-size: var(--font-size-mini) !important;
+        @apply text-sm rounded-xl;
         padding: var(--space-small) var(--space-two) !important;
       }
 

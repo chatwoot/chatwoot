@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS, 22.04 LTS, 24.04 LTS
-# Script Version: 3.0.0
+# Script Version: 3.1.0
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -19,7 +19,7 @@ fi
 # option --output/-o requires 1 argument
 LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,webserver,version
 OPTIONS=cdhiI:l:rsuwv
-CWCTL_VERSION="3.0.0"
+CWCTL_VERSION="3.1.0"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
 
@@ -171,18 +171,21 @@ EOF
 #   None
 ##############################################################################
 function install_dependencies() {
-  apt update && apt upgrade -y
-  apt install -y curl
+  apt-get update && apt-get upgrade -y
+  apt-get install -y curl
   curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
   mkdir -p /etc/apt/keyrings
   curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
   NODE_MAJOR=20
   echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+  echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
-  apt update
 
-  apt install -y \
+  apt-get update
+
+  apt-get install -y \
       git software-properties-common ca-certificates imagemagick libpq-dev \
       libxml2-dev libxslt1-dev file g++ gcc autoconf build-essential \
       libssl-dev libyaml-dev libreadline-dev gnupg2 \
@@ -203,7 +206,7 @@ function install_dependencies() {
 #   None
 ##############################################################################
 function install_databases() {
-  apt install -y postgresql postgresql-contrib redis-server
+  apt-get install -y postgresql-16 postgresql-16-pgvector postgresql-contrib redis-server
 }
 
 ##############################################################################
@@ -216,7 +219,7 @@ function install_databases() {
 #   None
 ##############################################################################
 function install_webserver() {
-  apt install -y nginx nginx-full certbot python3-certbot-nginx
+  apt-get install -y nginx nginx-full certbot python3-certbot-nginx
 }
 
 ##############################################################################
@@ -752,9 +755,9 @@ function upgrade_redis() {
 
   curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
-  apt update -y
-  apt upgrade redis-server -y
-  apt install libvips -y
+  apt-get update -y
+  apt-get upgrade redis-server -y
+  apt-get install libvips -y
 }
 
 
@@ -787,8 +790,8 @@ function upgrade_node() {
   NODE_MAJOR=20
   echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
 
-  apt update
-  apt install nodejs -y
+  apt-get update
+  apt-get install nodejs -y
 
 }
 
@@ -830,6 +833,21 @@ function upgrade() {
   get_cw_version
   echo "Upgrading Chatwoot to v$CW_VERSION"
   sleep 3
+
+   # Check if CW_VERSION is 4.0 or above
+  if [[ "$(printf '%s\n' "$CW_VERSION" "4.0" | sort -V | head -n 1)" == "4.0" ]]; then
+    echo "Chatwoot v4.0 and above requires pgvector support in PostgreSQL."
+    read -p "Does your postgres support pgvector and want to proceed with the upgrade? [Y/n]: " user_input
+    user_input=${user_input:-Y}
+    if [[ "$user_input" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+      echo "Proceeding with the upgrade..."
+    else
+      echo "Upgrade aborted. Please install pgvector support before upgrading."
+      echo "Read more at https://chwt.app/v4/migration"
+      return 1
+    fi
+  fi
+
   upgrade_prereq
   upgrade_redis
   upgrade_node
@@ -989,7 +1007,7 @@ function cwctl_upgrade_check() {
     #Check if pip is not installed, and install it if not
     if ! command -v pip3 &> /dev/null; then
         echo "Installing pip..."
-        apt install -y python3-pip
+        apt-get install -y python3-pip
     fi
 
     # Check if packaging library is installed, and install it if not
@@ -1025,7 +1043,7 @@ function install_packaging() {
   ubuntu_version=$(lsb_release -r | awk '{print $2}')
   if [[ "$ubuntu_version" == "24.04" ]]; then
     echo "Detected Ubuntu 24.04. Installing packaging library using apt."
-    apt install -y python3-packaging
+    apt-get install -y python3-packaging
   else
     echo "Installing packaging library using pip."
     python3 -m pip install packaging

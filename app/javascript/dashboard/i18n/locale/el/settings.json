@@ -61,15 +61,29 @@
         "COPY": "Αντιγραφή"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Ειδοποιήσεις Ήχου",
-        "NOTE": "Ενεργοποίηση ηχητικών ειδοποιήσεων για νέα μηνύματα και συνομιλίες.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "Κανένα",
           "MINE": "Assigned",
-          "ALL": "Όλες"
+          "ALL": "Όλες",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Alert events for conversations",
           "NONE": "Κανένα",
           "ASSIGNED": "Ανατεθειμένες Συνομιλίες",
           "ALL_CONVERSATIONS": "Όλες Οι Συνομιλίες"
@@ -81,7 +95,9 @@
           "TITLE": "Συνθήκες προειδοποίησης:",
           "CONDITION_ONE": "Αποστολή ειδοποιήσεων ήχου μόνο αν το παράθυρο του προγράμματος περιήγησης δεν είναι ενεργό",
           "CONDITION_TWO": "Ειδοποίηση κάθε 30s μέχρι να διαβαστούν όλες οι αντιστοιχισμένες συνομιλίες"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Read more"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Ειδοποιήσεις Email",
@@ -145,11 +161,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Διαθεσιμότητα",
-        "STATUSES_LIST": [
-          "Στην Γραμμή",
-          "Απασχολημένος",
-          "Εκτός"
-        ],
+        "STATUS": {
+          "ONLINE": "Στην Γραμμή",
+          "BUSY": "Απασχολημένος",
+          "OFFLINE": "Εκτός"
+        },
         "SET_AVAILABILITY_SUCCESS": "Η διαθεσιμότητα ορίστηκε με επιτυχία",
         "SET_AVAILABILITY_ERROR": "Αδυναμία ορισμού διαθεσιμότητας, παρακαλώ προσπαθήστε ξανά"
       },
@@ -177,14 +193,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Να αλλάξει",
-    "CHANGE_ACCOUNTS": "Αλλαγή Λογαριασμού",
-    "CONTACT_SUPPORT": "Υποστήριξη Επαφών",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Επιλέξτε ένα λογαριασμό από την Λίστα",
-    "PROFILE_SETTINGS": "Ρυθμίσεις Προφίλ",
-    "KEYBOARD_SHORTCUTS": "Συντομεύσεις Πληκτρολογίου",
-    "APPEARANCE": "Change Appearance",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Κονσόλα",
-    "LOGOUT": "Έξοδος (Logout)"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "ημέρες δοκιμαστικής περιόδου απομένουν.",
@@ -218,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Καταχώρηση"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "Επιβεβαίωση...",
@@ -227,11 +249,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Τρέχουσα προβολή:",
     "SWITCH": "Εναλλαγή",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Συζητήσεις",
-    "INBOX": "Εισερχόμενα",
+    "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "Όλες Οι Συνομιλίες",
     "MENTIONED_CONVERSATIONS": "Αναφορές",
     "PARTICIPATING_CONVERSATIONS": "Participating",
@@ -266,6 +289,8 @@
     "NEW_INBOX": "Νέο Κιβώτιο εισερχόμενων",
     "REPORTS_CONVERSATION": "Συζητήσεις",
     "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
     "CAMPAIGNS": "Καμπάνιες",
     "ONGOING": "Σε Εξέλιξη",
     "ONE_OFF": "Ένα/μία από",
@@ -276,6 +301,7 @@
     "REPORTS_INBOX": "Εισερχόμενα",
     "REPORTS_TEAM": "Ομάδα",
     "SET_AVAILABILITY_TITLE": "Ορίστε τον εαυτό σας ως",
+    "SET_YOUR_AVAILABILITY": "Ορίστε τη διαθεσιμότητά σας",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
@@ -283,17 +309,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Help Center",
-      "ALL_ARTICLES": "Όλα Τα Άρθρα",
-      "MY_ARTICLES": "Τα Άρθρα Μου",
-      "DRAFT": "Πρόχειρο",
-      "ARCHIVED": "Αρχειοθετημένο",
-      "CATEGORY": "Κατηγορία",
-      "SETTINGS": "Ρυθμίσεις",
-      "CATEGORY_EMPTY_MESSAGE": "Δεν βρέθηκαν κατηγορίες"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Κατηγορίες",
+      "LOCALES": "Γλώσσες",
+      "SETTINGS": "Ρυθμίσεις"
     },
+    "CHANNELS": "Channels",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Αυτόματη σήμανση εκτός σύνδεσης",
-      "INFO_TEXT": "Αφήστε το σύστημα να σας σηματοδοτήσει αυτόματα εκτός σύνδεσης, όταν δεν χρησιμοποιείτε την εφαρμογή ή τον πίνακα ελέγχου."
+      "INFO_TEXT": "Αφήστε το σύστημα να σας σηματοδοτήσει αυτόματα εκτός σύνδεσης, όταν δεν χρησιμοποιείτε την εφαρμογή ή τον πίνακα ελέγχου.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Ανάγνωση εγγράφων"
   },

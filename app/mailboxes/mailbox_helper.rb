@@ -26,14 +26,20 @@ module MailboxHelper
 
     # ensure we don't add more than the permitted number of attachments
     all_attachments = processed_mail.attachments.last(Message::NUMBER_OF_PERMITTED_ATTACHMENTS)
+    grouped_attachments = group_attachments(all_attachments)
 
-    inline_attachments = all_attachments.select { |attachment| attachment[:original].inline? }
-    regular_attachments = all_attachments - inline_attachments
-
-    process_inline_attachments(inline_attachments) if inline_attachments.present?
-    process_regular_attachments(regular_attachments) if regular_attachments.present?
+    process_inline_attachments(grouped_attachments[:inline]) if grouped_attachments[:inline].present?
+    process_regular_attachments(grouped_attachments[:regular]) if grouped_attachments[:regular].present?
 
     @message.save!
+  end
+
+  def group_attachments(attachments)
+    # If the email lacks a text body, treat inline attachments as standard attachments for processing.
+    inline_attachments = attachments.select { |attachment| attachment[:original].inline? && mail_content.present? }
+
+    regular_attachments = attachments - inline_attachments
+    { inline: inline_attachments, regular: regular_attachments }
   end
 
   def process_regular_attachments(attachments)
@@ -102,9 +108,7 @@ module MailboxHelper
       contact_attributes: {
         name: identify_contact_name,
         email: processed_mail.original_sender,
-        additional_attributes: {
-          source_id: "email:#{processed_mail.message_id}"
-        }
+        additional_attributes: { source_id: "email:#{processed_mail.message_id}" }
       }
     ).perform
 

@@ -10,7 +10,7 @@ module Enterprise::SuperAdmin::AppConfigsController
     when 'internal'
       @allowed_configs = internal_config_options
     when 'captain'
-      @allowed_configs = %w[CAPTAIN_API_URL CAPTAIN_APP_URL]
+      @allowed_configs = %w[CAPTAIN_OPEN_AI_API_KEY]
     else
       super
     end

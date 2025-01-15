@@ -1,120 +1,154 @@
-<script>
-import { mapGetters } from 'vuex';
-import ContactInfoPanel from '../components/ContactInfoPanel.vue';
-import ContactNotes from 'dashboard/modules/notes/NotesOnContactPage.vue';
-import SettingsHeader from '../../settings/SettingsHeader.vue';
-import Spinner from 'shared/components/Spinner.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+<script setup>
+import { onMounted, computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { useRoute, useRouter } from 'vue-router';
 
-export default {
-  components: {
-    ContactInfoPanel,
-    ContactNotes,
-    SettingsHeader,
-    Spinner,
-    Thumbnail,
-  },
-  props: {
-    contactId: {
-      type: [String, Number],
-      required: true,
-    },
-  },
-  data() {
-    return {
-      selectedTabIndex: 0,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      uiFlags: 'contacts/getUIFlags',
-    }),
-    tabs() {
-      return [
-        {
-          key: 0,
-          name: this.$t('NOTES.HEADER.TITLE'),
-        },
-      ];
-    },
-    showEmptySearchResult() {
-      const hasEmptyResults = !!this.searchQuery && this.records.length === 0;
-      return hasEmptyResults;
-    },
-    contact() {
-      return this.$store.getters['contacts/getContact'](this.contactId);
-    },
-    backUrl() {
-      return `/app/accounts/${this.$route.params.accountId}/contacts`;
-    },
-  },
-  mounted() {
-    this.fetchContactDetails();
-  },
-  methods: {
-    onClickTabChange(index) {
-      this.selectedTabIndex = index;
-    },
-    fetchContactDetails() {
-      const { contactId: id } = this;
-      this.$store.dispatch('contacts/show', { id });
-    },
-  },
+import ContactsDetailsLayout from 'dashboard/components-next/Contacts/ContactsDetailsLayout.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import ContactDetails from 'dashboard/components-next/Contacts/Pages/ContactDetails.vue';
+import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
+import ContactNotes from 'dashboard/components-next/Contacts/ContactsSidebar/ContactNotes.vue';
+import ContactHistory from 'dashboard/components-next/Contacts/ContactsSidebar/ContactHistory.vue';
+import ContactMerge from 'dashboard/components-next/Contacts/ContactsSidebar/ContactMerge.vue';
+import ContactCustomAttributes from 'dashboard/components-next/Contacts/ContactsSidebar/ContactCustomAttributes.vue';
+
+const store = useStore();
+const route = useRoute();
+const router = useRouter();
+
+const contact = useMapGetter('contacts/getContactById');
+const uiFlags = useMapGetter('contacts/getUIFlags');
+
+const activeTab = ref('attributes');
+const contactMergeRef = ref(null);
+
+const isFetchingItem = computed(() => uiFlags.value.isFetchingItem);
+const isMergingContact = computed(() => uiFlags.value.isMerging);
+
+const selectedContact = computed(() => contact.value(route.params.contactId));
+
+const showSpinner = computed(
+  () => isFetchingItem.value || isMergingContact.value
+);
+
+const { t } = useI18n();
+
+const CONTACT_TABS_OPTIONS = [
+  { key: 'ATTRIBUTES', value: 'attributes' },
+  { key: 'HISTORY', value: 'history' },
+  { key: 'NOTES', value: 'notes' },
+  { key: 'MERGE', value: 'merge' },
+];
+
+const tabs = computed(() => {
+  return CONTACT_TABS_OPTIONS.map(tab => ({
+    label: t(`CONTACTS_LAYOUT.SIDEBAR.TABS.${tab.key}`),
+    value: tab.value,
+  }));
+});
+
+const activeTabIndex = computed(() => {
+  return CONTACT_TABS_OPTIONS.findIndex(v => v.value === activeTab.value);
+});
+
+const goToContactsList = () => {
+  if (window.history.state?.back || window.history.length > 1) {
+    router.back();
+  } else {
+    router.push(`/app/accounts/${route.params.accountId}/contacts?page=1`);
+  }
 };
+
+const fetchActiveContact = async () => {
+  if (route.params.contactId) {
+    await store.dispatch('contacts/show', { id: route.params.contactId });
+    await store.dispatch(
+      'contacts/fetchContactableInbox',
+      route.params.contactId
+    );
+  }
+};
+
+const handleTabChange = tab => {
+  activeTab.value = tab.value;
+};
+
+const fetchContactNotes = () => {
+  const { contactId } = route.params;
+  if (contactId) store.dispatch('contactNotes/get', { contactId });
+};
+
+const fetchContactConversations = () => {
+  const { contactId } = route.params;
+  if (contactId) store.dispatch('contactConversations/get', contactId);
+};
+
+const fetchAttributes = () => {
+  store.dispatch('attributes/get');
+};
+
+onMounted(() => {
+  fetchActiveContact();
+  fetchContactNotes();
+  fetchContactConversations();
+  fetchAttributes();
+});
 </script>
 
 <template>
   <div
-    class="flex justify-between flex-col h-full m-0 flex-1 bg-white dark:bg-slate-900"
+    class="flex flex-col justify-between flex-1 h-full m-0 overflow-auto bg-n-background"
   >
-    <SettingsHeader
-      button-route="new"
-      :header-title="contact.name"
-      show-back-button
-      :back-button-label="$t('CONTACT_PROFILE.BACK_BUTTON')"
-      :back-url="backUrl"
-      :show-new-button="false"
+    <ContactsDetailsLayout
+      :button-label="$t('CONTACTS_LAYOUT.HEADER.SEND_MESSAGE')"
+      :selected-contact="selectedContact"
+      is-detail-view
+      :show-pagination-footer="false"
+      @go-to-contacts-list="goToContactsList"
     >
-      <Thumbnail
-        v-if="contact.thumbnail"
-        :src="contact.thumbnail"
-        :username="contact.name"
-        size="32px"
-        class="mr-2 rtl:mr-0 rtl:ml-2"
-      />
-    </SettingsHeader>
-
-    <div v-if="uiFlags.isFetchingItem" class="text-center p-4 text-base h-full">
-      <Spinner size="" />
-      <span>{{ $t('CONTACT_PROFILE.LOADING') }}</span>
-    </div>
-    <div v-else-if="contact.id" class="overflow-hidden flex-1 min-w-0">
-      <div class="flex flex-wrap ml-auto mr-auto max-w-full h-full">
-        <ContactInfoPanel
-          :show-close-button="false"
-          :show-avatar="false"
-          :contact="contact"
-        />
-        <div class="w-3/4 h-full">
-          <woot-tabs :index="selectedTabIndex" @change="onClickTabChange">
-            <woot-tabs-item
-              v-for="(tab, index) in tabs"
-              :key="tab.key"
-              :index="index"
-              :name="tab.name"
-              :show-badge="false"
-            />
-          </woot-tabs>
-          <div
-            class="bg-slate-25 dark:bg-slate-800 h-[calc(100%-40px)] p-4 overflow-auto"
-          >
-            <ContactNotes
-              v-if="selectedTabIndex === 0"
-              :contact-id="Number(contactId)"
-            />
-          </div>
-        </div>
+      <div
+        v-if="showSpinner"
+        class="flex items-center justify-center py-10 text-n-slate-11"
+      >
+        <Spinner />
       </div>
-    </div>
+      <ContactDetails
+        v-else-if="selectedContact"
+        :selected-contact="selectedContact"
+        @go-to-contacts-list="goToContactsList"
+      />
+      <template #sidebar>
+        <div class="px-6">
+          <TabBar
+            :tabs="tabs"
+            :initial-active-tab="activeTabIndex"
+            class="w-full [&>button]:w-full bg-n-alpha-black2"
+            @tab-changed="handleTabChange"
+          />
+        </div>
+        <div
+          v-if="isFetchingItem"
+          class="flex items-center justify-center py-10 text-n-slate-11"
+        >
+          <Spinner />
+        </div>
+        <template v-else>
+          <ContactCustomAttributes
+            v-if="activeTab === 'attributes'"
+            :selected-contact="selectedContact"
+          />
+          <ContactNotes v-if="activeTab === 'notes'" />
+          <ContactHistory v-if="activeTab === 'history'" />
+          <ContactMerge
+            v-if="activeTab === 'merge'"
+            ref="contactMergeRef"
+            :selected-contact="selectedContact"
+            @go-to-contacts-list="goToContactsList"
+            @reset-tab="handleTabChange(CONTACT_TABS_OPTIONS[0])"
+          />
+        </template>
+      </template>
+    </ContactsDetailsLayout>
   </div>
 </template>

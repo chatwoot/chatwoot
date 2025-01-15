@@ -25,12 +25,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "姓名：",
-        "创建者",
-        "最后更新者",
-        "可视性"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "姓名：",
+        "CREATED BY": "创建者",
+        "LAST_UPDATED_BY": "最后更新者",
+        "VISIBILITY": "可视性"
+      },
       "404": "未找到宏"
     },
     "DELETE": {
@@ -79,10 +79,10 @@
       "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
       "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
       "VALUE_REQUIRED": "必须填写值",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
-      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
-      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "值必须介于 1 到 998 之间。",
+      "ACTION_PARAMETERS_REQUIRED": "需要操作参数",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "至少需要一个条件",
+      "ATLEAST_ONE_ACTION_REQUIRED": "至少需要一个动作"
     }
   }
 }

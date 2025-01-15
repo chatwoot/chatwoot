@@ -92,12 +92,12 @@
       "CONTACT": "Contact"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "名前",
-        "説明",
-        "Type",
-        "Key"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "名前",
+        "DESCRIPTION": "説明",
+        "TYPE": "Type",
+        "KEY": "Key"
+      },
       "BUTTONS": {
         "EDIT": "編集",
         "DELETE": "削除"

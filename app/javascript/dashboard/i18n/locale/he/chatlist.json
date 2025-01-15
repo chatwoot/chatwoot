@@ -6,6 +6,7 @@
     "LIST": {
       "404": "אין שיחות פעילות בקבוצה הזו."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "שיחות",
     "MENTION_HEADING": "תיוגים",
     "UNATTENDED_HEADING": "לא מתוכנן",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "מיקום"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "שיתף קישור"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "אין תוכן זמין",
     "HIDE_QUOTED_TEXT": "הסתר טקסט מצוטט",
     "SHOW_QUOTED_TEXT": "הצג טקסט מצוטט",
-    "MESSAGE_READ": "נקרא"
+    "MESSAGE_READ": "נקרא",
+    "SENDING": "Sending"
   }
 }
