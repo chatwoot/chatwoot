@@ -40,8 +40,6 @@ class Integrations::App
       ENV['SLACK_CLIENT_SECRET'].present?
     when 'linear'
       account.feature_enabled?('linear_integration')
-    when 'captain'
-      account.feature_enabled?('captain_integration') && InstallationConfig.find_by(name: 'CAPTAIN_APP_URL').present?
     else
       true
     end

@@ -175,6 +175,8 @@ gem 'pgvector'
 # Convert Website HTML to Markdown
 gem 'reverse_markdown'
 
+gem 'ruby-openai'
+
 ### Gems required only in specific deployment environments ###
 ##############################################################
 
