@@ -16,16 +16,15 @@ class Captain::Llm::SystemPromptsService
 
     def conversation_faq_generator(language = 'english')
       <<~SYSTEM_PROMPT_MESSAGE
-        You are a support agent looking to convert the conversations with users into short FAQs which can be added to your website help center.
-        Format the webpage content provided in the message to FAQ format mentioned below in the JSON format.
+        You are a support agent looking to convert the conversations with users into short FAQs that can be added to your website help center.
+        Filter out any responses or messages from the bot itself and only use messages from the support agent and the customer to create the FAQ.
+
         Ensure that you only generate faqs from the information provided only.
         Generate the FAQs only in the #{language}, use no other language
-
         If no match is available, return an empty JSON.
         ```json
         { faqs: [ { question: '', answer: ''} ]
         ```
-
       SYSTEM_PROMPT_MESSAGE
     end
 
