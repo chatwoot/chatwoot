@@ -1,63 +1,35 @@
-<script>
-export default {
-  props: {
-    shrink: {
-      type: Boolean,
-      default: false,
-    },
+<script setup>
+defineProps({
+  shrink: {
+    type: Boolean,
+    default: false,
   },
-  emits: ['expand'],
-};
+});
+
+defineEmits(['expand']);
 </script>
 
 <template>
-  <div class="read-more">
+  <div>
     <div
       :class="{
-        'shrink-container after:shrink-gradient-light dark:after:shrink-gradient-dark':
-          shrink,
+        'max-h-[100px] overflow-hidden relative': shrink,
       }"
     >
       <slot />
-      <woot-button
-        v-if="shrink"
-        size="tiny"
-        variant="smooth"
-        color-scheme="primary"
-        class="read-more-button"
-        @click.prevent="$emit('expand')"
+      <div
+        class="bg-n-slate-3 rounded-md dark:bg-n-solid-3 absolute left-0 right-0 z-20 mx-auto mt-0 max-w-max bottom-2 backdrop-blur[100px]"
       >
-        {{ $t('SEARCH.READ_MORE') }}
-      </woot-button>
+        <woot-button
+          v-if="shrink"
+          size="tiny"
+          variant="smooth"
+          color-scheme="primary"
+          @click.prevent="$emit('expand')"
+        >
+          {{ $t('SEARCH.READ_MORE') }}
+        </woot-button>
+      </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-@tailwind components;
-@layer components {
-  .shrink-gradient-light {
-    background: linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0),
-      rgba(255, 255, 255, 1) 100%
-    );
-  }
-
-  .shrink-gradient-dark {
-    background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0),
-      rgb(21, 23, 24) 100%
-    );
-  }
-}
-.shrink-container {
-  @apply max-h-[100px] overflow-hidden relative;
-}
-.shrink-container::after {
-}
-.read-more-button {
-  @apply max-w-max absolute bottom-2 left-0 right-0 mx-auto mt-0 z-20 shadow-sm;
-}
-</style>

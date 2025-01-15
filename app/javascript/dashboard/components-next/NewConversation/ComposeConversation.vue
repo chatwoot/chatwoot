@@ -189,7 +189,10 @@ useKeyboardEvents(keyboardEvents);
 <template>
   <div
     v-on-click-outside="() => (showComposeNewConversation = false)"
-    class="relative z-40"
+    class="relative"
+    :class="{
+      'z-40': showComposeNewConversation,
+    }"
   >
     <slot
       name="trigger"
