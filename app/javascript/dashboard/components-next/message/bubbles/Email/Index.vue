@@ -21,7 +21,7 @@ const showQuotedMessage = ref(false);
 const contentContainer = useTemplateRef('contentContainer');
 
 onMounted(() => {
-  isExpandable.value = contentContainer.value.scrollHeight > 400;
+  isExpandable.value = contentContainer.value?.scrollHeight > 400;
 });
 
 const isOutgoing = computed(() => {
