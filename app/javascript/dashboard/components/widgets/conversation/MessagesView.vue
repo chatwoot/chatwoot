@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useAI } from 'dashboard/composables/useAI';
+import { useMapGetter } from 'dashboard/composables/store';
 
 // components
 import ReplyBox from './ReplyBox.vue';
@@ -34,6 +35,7 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { FEATURE_FLAGS } from '../../../featureFlags';
 
 export default {
   components: {
@@ -82,8 +84,14 @@ export default {
       fetchLabelSuggestions,
     } = useAI();
 
-    const showNextBubbles = LocalStorage.get(
-      LOCAL_STORAGE_KEYS.USE_NEXT_BUBBLE
+    const currentAccountId = useMapGetter('getCurrentAccountId');
+    const isFeatureEnabledonAccount = useMapGetter(
+      'accounts/isFeatureEnabledonAccount'
+    );
+
+    const showNextBubbles = isFeatureEnabledonAccount.value(
+      currentAccountId.value,
+      FEATURE_FLAGS.CHATWOOT_V4
     );
 
     return {
@@ -605,6 +613,7 @@ export default {
 
 <style scoped>
 @tailwind components;
+
 @layer components {
   .rounded-bl-calc {
     border-bottom-left-radius: calc(1.5rem + 1px);
