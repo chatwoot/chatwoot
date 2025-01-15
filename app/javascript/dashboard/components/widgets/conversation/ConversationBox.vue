@@ -11,7 +11,7 @@
       :show-back-button="isOnExpandedLayout && !isInboxView"
       @contact-panel-toggle="onToggleContactPanel"
     />
-    <woot-tabs
+    <!-- <woot-tabs
       v-if="dashboardApps.length && currentChat.id"
       :index="activeIndex"
       class="dashboard-app--tabs bg-white dark:bg-slate-900 -mt-px"
@@ -23,7 +23,7 @@
         :name="tab.name"
         :show-badge="false"
       />
-    </woot-tabs>
+    </woot-tabs> -->
     <div
       v-show="!activeIndex"
       class="flex bg-slate-25 dark:bg-slate-800 m-0 h-full min-h-0"
@@ -41,14 +41,42 @@
       />
       <div
         v-show="showContactPanel"
-        class="conversation-sidebar-wrap basis-full sm:basis-[17.5rem] md:basis-[18.75rem] lg:basis-[19.375rem] xl:basis-[20.625rem] 2xl:basis-[25rem] rtl:border-r border-slate-50 dark:border-slate-700 h-auto overflow-auto z-10 flex-shrink-0 flex-grow-0"
+        class="conversation-sidebar-wrap basis-full sm:basis-[19.5rem] md:basis-[20.75rem] lg:basis-[21.375rem] xl:basis-[22.625rem] 2xl:basis-[27rem] rtl:border-r border-slate-50 dark:border-slate-700 h-auto overflow-auto z-10 flex-shrink-0 flex-grow-0 bg-white overflow-y-hidden"
       >
-        <contact-panel
-          v-if="showContactPanel"
-          :conversation-id="currentChat.id"
-          :inbox-id="currentChat.inbox_id"
-          :on-toggle="onToggleContactPanel"
-        />
+        <woot-tabs
+          v-if="sidebarTabs.length && currentChat.id"
+          :index="contactPanelActiveIndex"
+          class="dashboard-app--tabs bg-white dark:bg-slate-900 -mt-px"
+          @change="onContactPanelTabChange"
+        >
+          <woot-tabs-item
+            v-for="tab in sidebarTabs"
+            :key="tab.key"
+            :name="tab.name"
+            :show-badge="false"
+          />
+        </woot-tabs>
+        <div
+          v-if="contactPanelActiveIndex === 0 && currentChat.id"
+          class="bg-red-500 h-[100%] pb-8"
+        >
+          <contact-panel
+            :conversation-id="currentChat.id"
+            :inbox-id="currentChat.inbox_id"
+            :on-toggle="onToggleContactPanel"
+          />
+        </div>
+        <div class="h-[85vh]">
+          <dashboard-app-frame
+            v-for="(dashboardApp, index) in dashboardApps"
+            v-show="contactPanelActiveIndex - 1 === index"
+            :key="currentChat.id + '-' + dashboardApp.id"
+            :is-visible="contactPanelActiveIndex - 1 === index"
+            :config="dashboardApps[index].content"
+            :position="index"
+            :current-chat="currentChat"
+          />
+        </div>
       </div>
     </div>
     <dashboard-app-frame
@@ -99,18 +127,36 @@ export default {
     },
   },
   data() {
-    return { activeIndex: 0 };
+    return { activeIndex: 0, contactPanelActiveIndex: 0 };
   },
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       dashboardApps: 'dashboardApps/getRecords',
     }),
+    shoppingTabConfig() {
+      return {
+        type: 'frame',
+        url: 'http://localhost:3001',
+      };
+    },
     dashboardAppTabs() {
       return [
         {
           key: 'messages',
           name: this.$t('CONVERSATION.DASHBOARD_APP_TAB_MESSAGES'),
+        },
+        ...this.dashboardApps.map(dashboardApp => ({
+          key: `dashboard-${dashboardApp.id}`,
+          name: dashboardApp.title,
+        })),
+      ];
+    },
+    sidebarTabs() {
+      return [
+        {
+          key: 'profile',
+          name: 'Profile',
         },
         ...this.dashboardApps.map(dashboardApp => ({
           key: `dashboard-${dashboardApp.id}`,
@@ -131,6 +177,7 @@ export default {
     'currentChat.id'() {
       this.fetchLabels();
       this.activeIndex = 0;
+      this.contactPanelActiveIndex = 0;
     },
   },
   mounted() {
@@ -149,6 +196,9 @@ export default {
     },
     onDashboardAppTabChange(index) {
       this.activeIndex = index;
+    },
+    onContactPanelTabChange(index) {
+      this.contactPanelActiveIndex = index;
     },
   },
 };

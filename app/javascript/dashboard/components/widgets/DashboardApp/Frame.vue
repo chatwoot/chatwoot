@@ -47,6 +47,7 @@ export default {
   },
   data() {
     return {
+      // TODO: remove this once we have a way to check if the frame has been opened at least once
       hasOpenedAtleastOnce: false,
       iframeLoading: true,
     };
