@@ -35,7 +35,7 @@ const onToggle = () => {
 <template>
   <div class="-mt-px text-sm">
     <button
-      class="flex items-center select-none w-full rounded-none bg-n-slate-3 border border-l-0 border-r-0 border-n-weak m-0 cursor-grab justify-between py-2 px-4 drag-handle"
+      class="flex items-center select-none w-full rounded-none bg-n-slate-2 border border-l-0 border-r-0 border-n-weak m-0 cursor-grab justify-between py-2 px-4 drag-handle"
       @click.stop="onToggle"
     >
       <div class="flex justify-between mb-0.5">
