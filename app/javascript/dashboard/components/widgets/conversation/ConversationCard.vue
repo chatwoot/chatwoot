@@ -34,7 +34,7 @@ export default {
     },
     chat: {
       type: Object,
-      default: () => {},
+      default: () => { },
     },
     hideInboxName: {
       type: Boolean,
@@ -288,18 +288,21 @@ export default {
         </div>
       </div>
       <h4
-        class="conversation--user font-medium text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap w-[calc(100%-70px)] text-n-slate-12"
+        class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap w-[calc(100%-70px)] text-n-slate-12"
+        :class="hasUnread ? 'font-semibold' : 'font-medium'"
       >
         {{ currentContact.name }}
       </h4>
       <MessagePreview
         v-if="lastMessageInChat"
         :message="lastMessageInChat"
-        class="conversation--message font-medium my-0 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem] text-sm text-n-slate-11"
+        class="conversation--message my-0 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem] text-sm"
+        :class="hasUnread ? 'font-medium text-n-slate-12' : 'text-n-slate-11'"
       />
       <p
         v-else
-        class="conversation--message font-medium text-n-slate-11 text-sm my-0 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem] overflow-hidden text-ellipsis whitespace-nowrap"
+        class="conversation--message text-n-slate-11 text-sm my-0 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem] overflow-hidden text-ellipsis whitespace-nowrap"
+        :class="hasUnread ? 'font-medium text-n-slate-12' : 'text-n-slate-11'"
       >
         <fluent-icon
           size="16"
@@ -362,6 +365,7 @@ export default {
 
   &.compact {
     @apply pl-0;
+
     .conversation--details {
       @apply rounded-sm ml-0 pl-5 pr-2;
     }
@@ -379,9 +383,11 @@ export default {
     &::v-deep .user-thumbnail-box {
       @apply mt-8;
     }
+
     .checkbox-wrapper {
       @apply mt-8;
     }
+
     .conversation--meta {
       @apply mt-4;
     }
