@@ -28,10 +28,7 @@ const senderName = computed(() => {
 </script>
 
 <template>
-  <BaseBubble
-    class="overflow-hidden p-3 !bg-n-solid-2 shadow-[0px_0px_12px_0px_rgba(0,0,0,0.05)]"
-    data-bubble-name="attachment"
-  >
+  <BaseBubble class="overflow-hidden p-3" data-bubble-name="attachment">
     <div class="grid gap-4 min-w-64">
       <div class="grid gap-3 z-20">
         <div
@@ -57,7 +54,7 @@ const senderName = computed(() => {
           </slot>
         </div>
       </div>
-      <div v-if="action">
+      <div v-if="action" class="mb-2">
         <a
           v-if="action.href"
           :href="action.href"

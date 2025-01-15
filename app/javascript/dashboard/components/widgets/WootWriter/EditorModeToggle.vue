@@ -52,7 +52,7 @@ const translateValue = computed(() => {
 
 <template>
   <button
-    class="flex items-center w-auto h-8 p-1 transition-all border rounded-full bg-n-alpha-2 group relative duration-300 ease-in-out"
+    class="flex items-center w-auto h-8 p-1 transition-all border rounded-full bg-n-alpha-2 group relative duration-300 ease-in-out z-0"
     @click="$emit('toggleMode')"
   >
     <div ref="wootEditorReplyMode" class="flex items-center gap-1 px-2 z-20">
@@ -62,11 +62,7 @@ const translateValue = computed(() => {
       {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
     </div>
     <div
-      class="absolute shadow-sm rounded-full h-6 w-[var(--chip-width)] transition-all duration-300 ease-in-out translate-x-[var(--translate-x)] rtl:translate-x-[var(--rtl-translate-x)]"
-      :class="{
-        'bg-n-solid-1': !isPrivate,
-        'bg-n-amber-2': isPrivate,
-      }"
+      class="absolute shadow-sm rounded-full h-6 w-[var(--chip-width)] transition-all duration-300 ease-in-out translate-x-[var(--translate-x)] rtl:translate-x-[var(--rtl-translate-x)] bg-n-solid-1"
       :style="{
         '--chip-width': width,
         '--translate-x': translateValue,

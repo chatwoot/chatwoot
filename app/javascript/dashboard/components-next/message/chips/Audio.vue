@@ -26,7 +26,7 @@ const currentTime = ref(0);
 const duration = ref(0);
 
 const onLoadedMetadata = () => {
-  duration.value = audioPlayer.value.duration;
+  duration.value = audioPlayer.value?.duration;
 };
 
 const formatTime = time => {
