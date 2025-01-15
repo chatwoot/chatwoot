@@ -33,12 +33,13 @@ const onToggle = () => {
 </script>
 
 <template>
-  <div class="-mt-px text-sm">
+  <div class="text-sm">
     <button
-      class="flex items-center select-none w-full rounded-none bg-n-slate-2 border border-l-0 border-r-0 border-n-weak m-0 cursor-grab justify-between py-2 px-4 drag-handle"
+      class="flex items-center select-none w-full rounded-lg bg-n-slate-2 border border-n-weak m-0 cursor-grab justify-between py-2 px-4 drag-handle"
+      :class="{ 'rounded-bl-none rounded-br-none': isOpen }"
       @click.stop="onToggle"
     >
-      <div class="flex justify-between mb-0.5">
+      <div class="flex justify-between">
         <EmojiOrIcon class="inline-block w-5" :icon="icon" :emoji="emoji" />
         <h5 class="text-n-slate-12 text-sm mb-0 py-0 pr-2 pl-0">
           {{ title }}
@@ -54,8 +55,8 @@ const onToggle = () => {
     </button>
     <div
       v-if="isOpen"
-      class="bg-white dark:bg-n-background"
-      :class="compact ? 'p-0' : 'p-4'"
+      class="bg-n-background border border-n-weak dark:border-n-slate-2 border-t-0 rounded-br-lg rounded-bl-lg"
+      :class="compact ? 'p-0' : 'px-2 py-4'"
     >
       <slot />
     </div>

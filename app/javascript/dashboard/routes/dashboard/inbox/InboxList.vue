@@ -206,7 +206,7 @@ export default {
 <template>
   <section class="flex w-full h-full bg-n-solid-1">
     <div
-      class="flex flex-col h-full w-full lg:min-w-[400px] lg:max-w-[400px] ltr:border-r rtl:border-l border-slate-50 dark:border-slate-800/50"
+      class="flex flex-col h-full w-full lg:min-w-[400px] lg:max-w-[400px] ltr:border-r rtl:border-l border-n-weak"
       :class="!currentNotificationId ? 'flex' : 'hidden xl:flex'"
     >
       <InboxListHeader
