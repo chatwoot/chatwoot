@@ -189,7 +189,7 @@ function install_dependencies() {
       git software-properties-common ca-certificates imagemagick libpq-dev \
       libxml2-dev libxslt1-dev file g++ gcc autoconf build-essential \
       libssl-dev libyaml-dev libreadline-dev gnupg2 \
-      postgresql-client redis-tools \
+      postgresql-client-16 redis-tools \
       nodejs patch ruby-dev zlib1g-dev liblzma-dev \
       libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev sudo \
       libvips python3-pip
