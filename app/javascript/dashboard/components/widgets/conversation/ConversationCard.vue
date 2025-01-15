@@ -274,7 +274,7 @@ export default {
     <div
       class="px-0 py-3 border-b group-hover:border-transparent flex-1 border-n-slate-3 w-[calc(100%-40px)]"
     >
-      <div class="flex justify-between">
+      <div class="flex justify-between conversation-card--meta">
         <InboxName v-if="showInboxName" :inbox="inbox" />
         <div class="flex gap-2 ml-2 rtl:mr-2 rtl:ml-0">
           <span
@@ -365,6 +365,10 @@ export default {
 
   &.compact {
     @apply pl-0;
+
+    .conversation-card--meta {
+      @apply pr-4;
+    }
 
     .conversation--details {
       @apply rounded-sm ml-0 pl-5 pr-2;
