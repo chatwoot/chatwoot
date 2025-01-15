@@ -40,7 +40,10 @@ const hasChildren = computed(
 
 const accessibleItems = computed(() => {
   if (!hasChildren.value) return [];
-  return props.children.filter(child => isAllowed(child.to));
+  return props.children.filter(child => {
+    if (!child.to) return false;
+    return isAllowed(child.to);
+  });
 });
 
 const hasAccessibleChildren = computed(() => {
