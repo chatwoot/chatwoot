@@ -482,7 +482,7 @@ export default {
         variant="smooth"
         size="tiny"
         color-scheme="secondary"
-        class="box-border fixed z-10 bg-white border border-r-0 border-solid rounded-bl-calc rtl:rotate-180 rounded-tl-calc dark:bg-slate-700 border-n-weak"
+        class="box-border fixed z-10 bg-white border border-r-0 border-solid rounded-bl-calc rtl:rotate-180 rounded-tl-calc border-n-weak"
         :class="isInboxView ? 'top-52 md:top-40' : 'top-32'"
         :icon="isRightOrLeftIcon"
         @click="onToggleContactPanel"
