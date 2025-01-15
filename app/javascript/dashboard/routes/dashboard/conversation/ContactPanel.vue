@@ -98,7 +98,7 @@ onMounted(() => {
       :channel-type="channelType"
       @toggle-panel="onPanelToggle"
     />
-    <div class="list-group">
+    <div class="list-group pb-8">
       <Draggable
         :list="conversationSidebarItems"
         animation="200"
