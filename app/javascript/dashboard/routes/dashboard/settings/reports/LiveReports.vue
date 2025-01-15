@@ -9,8 +9,8 @@ import endOfDay from 'date-fns/endOfDay';
 import getUnixTime from 'date-fns/getUnixTime';
 import startOfDay from 'date-fns/startOfDay';
 import subDays from 'date-fns/subDays';
-import { emitter } from 'shared/helpers/mitt';
 import ReportHeader from './components/ReportHeader.vue';
+export const FETCH_INTERVAL = 60000;
 
 export default {
   name: 'LiveReports',
@@ -59,13 +59,24 @@ export default {
   },
   mounted() {
     this.$store.dispatch('agents/get');
-    this.fetchAllData();
-
-    emitter.on('fetch_overview_reports', () => {
-      this.fetchAllData();
-    });
+    this.initalizeReport();
+  },
+  beforeUnmount() {
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
   },
   methods: {
+    initalizeReport() {
+      this.fetchAllData();
+      this.scheduleReportRefresh();
+    },
+    scheduleReportRefresh() {
+      this.timeoutId = setTimeout(async () => {
+        await this.fetchAllData();
+        this.scheduleReportRefresh();
+      }, FETCH_INTERVAL);
+    },
     fetchAllData() {
       this.fetchAccountConversationMetric();
       this.fetchAgentConversationMetric();
@@ -134,9 +145,8 @@ export default {
         <MetricCard
           :header="$t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.HEADER')"
           :is-loading="uiFlags.isFetchingAccountConversationMetric"
-          :loading-message="
-            $t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.LOADING_MESSAGE')
-          "
+          :loading-message="$t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.LOADING_MESSAGE')
+            "
         >
           <div
             v-for="(metric, name, index) in conversationMetrics"
