@@ -133,7 +133,7 @@
           "FAILED": "Kunne ikke tildele agent. Prøv venligst igen."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Tildelt etiket #{labelName} til samtale-id {conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Kunne ikke tildele etiket. Prøv venligst igen."
         },
         "TEAM_ASSIGNMENT": {
