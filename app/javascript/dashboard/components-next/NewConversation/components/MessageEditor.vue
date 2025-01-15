@@ -5,18 +5,11 @@ import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 
 defineProps({
-  isEmailOrWebWidgetInbox: {
-    type: Boolean,
-    required: true,
-  },
-  hasErrors: {
-    type: Boolean,
-    default: false,
-  },
-  hasAttachments: {
-    type: Boolean,
-    default: false,
-  },
+  isEmailOrWebWidgetInbox: { type: Boolean, required: true },
+  hasErrors: { type: Boolean, default: false },
+  hasAttachments: { type: Boolean, default: false },
+  sendWithSignature: { type: Boolean, default: false },
+  messageSignature: { type: String, default: '' },
 });
 
 const { t } = useI18n();
@@ -60,6 +53,9 @@ const modelValue = defineModel({
           ? 'placeholder:!text-n-ruby-9 dark:placeholder:!text-n-ruby-9'
           : ''
       "
+      allow-signature
+      :signature="messageSignature"
+      :send-with-signature="sendWithSignature"
     />
   </div>
 </template>
