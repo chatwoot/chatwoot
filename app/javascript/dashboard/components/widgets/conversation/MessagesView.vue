@@ -605,7 +605,6 @@ export default {
       </div>
       <ReplyBox
         v-model:popout-reply-box="isPopOutReplyBox"
-        :conversation-id="currentChat.id"
         @toggle-popout="showPopOutReplyBox"
       />
     </div>
