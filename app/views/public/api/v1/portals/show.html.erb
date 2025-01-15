@@ -1,3 +1,10 @@
+<% content_for :head do %>
+  <title><%= @portal.name %></title>
+  <% if @portal.logo.present? %>
+    <link rel="icon" href="<%= url_for(@portal.logo) %>" type="image/png">
+  <% end %>
+<% end %>
+
 <%= render "public/api/v1/portals/hero", portal: @portal %>
 <div class="max-w-5xl w-full flex flex-col flex-grow mx-auto py-8 px-4 md:px-8 gap-6">
   <%# Featured Articles %>

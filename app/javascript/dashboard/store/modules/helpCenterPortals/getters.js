@@ -2,7 +2,13 @@ export const getters = {
   uiFlagsIn: state => portalId => {
     const uiFlags = state.portals.uiFlags.byId[portalId];
     if (uiFlags) return uiFlags;
-    return { isFetching: false, isUpdating: false, isDeleting: false };
+    return {
+      isFetching: false,
+      isUpdating: false,
+      isDeleting: false,
+      domainValid: false,
+      isValidating: false,
+    };
   },
 
   isFetchingPortals: state => state.uiFlags.isFetching,
