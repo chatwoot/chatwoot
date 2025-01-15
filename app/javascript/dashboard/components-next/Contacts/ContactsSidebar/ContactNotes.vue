@@ -29,7 +29,7 @@ const getWrittenBy = note => {
   const isCurrentUser = note?.user?.id === currentUser.value.id;
   return isCurrentUser
     ? t('CONTACTS_LAYOUT.SIDEBAR.NOTES.YOU')
-    : note.user.name;
+    : note?.user?.name || 'Bot';
 };
 
 const onAdd = content => {
