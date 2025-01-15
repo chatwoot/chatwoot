@@ -125,7 +125,7 @@ export default {
   &.alert {
     @apply bg-n-ruby-3 text-n-ruby-12;
     .banner-action__button {
-      @apply border-none text-n-ruby-12;
+      @apply border-none text-n-ruby-12 bg-n-ruby-5;
 
       &:hover {
         @apply bg-n-ruby-4;
