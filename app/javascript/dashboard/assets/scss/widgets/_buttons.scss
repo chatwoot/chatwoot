@@ -42,7 +42,7 @@ button {
     }
   }
 
-  &:hover {
+  &:hover:not(.secondary):not(.success):not(.alert):not(.warning) {
     @apply bg-n-brand/80 dark:bg-n-brand/80;
   }
 
