@@ -13,6 +13,7 @@ import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ConnectInboxDialog from 'dashboard/components-next/captain/pageComponents/inbox/ConnectInboxDialog.vue';
 import InboxCard from 'dashboard/components-next/captain/assistant/InboxCard.vue';
+import InboxPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/InboxPageEmptyState.vue';
 
 const store = useStore();
 const dialogType = ref('');
@@ -104,7 +105,13 @@ onMounted(() =>
       />
     </div>
 
-    <div v-else>{{ 'There are no connected inboxes' }}</div>
+    <InboxPageEmptyState
+      v-else
+      :title="$t('CAPTAIN.INBOXES.EMPTY_STATE.TITLE')"
+      :subtitle="$t('CAPTAIN.INBOXES.EMPTY_STATE.SUBTITLE')"
+      :button-label="$t('CAPTAIN.INBOXES.ADD_NEW')"
+      @click="handleCreate"
+    />
 
     <DeleteDialog
       v-if="selectedInbox"

@@ -8,6 +8,8 @@ import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import RelatedResponses from 'dashboard/components-next/captain/pageComponents/document/RelatedResponses.vue';
 import CreateDocumentDialog from '../../../../components-next/captain/pageComponents/document/CreateDocumentDialog.vue';
+import DocumentPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/DocumentPageEmptyState.vue';
+
 const store = useStore();
 
 const uiFlags = useMapGetter('captainDocuments/getUIFlags');
@@ -102,7 +104,14 @@ onMounted(() => {
       />
     </div>
 
-    <div v-else>{{ 'No documents found' }}</div>
+    <DocumentPageEmptyState
+      v-else
+      :title="$t('CAPTAIN.DOCUMENTS.EMPTY_STATE.TITLE')"
+      :subtitle="$t('CAPTAIN.DOCUMENTS.EMPTY_STATE.SUBTITLE')"
+      :button-label="$t('CAPTAIN.DOCUMENTS.ADD_NEW')"
+      @click="handleCreateDocument"
+    />
+
     <RelatedResponses
       v-if="showRelatedResponses"
       ref="relationQuestionDialog"

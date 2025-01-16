@@ -360,6 +360,10 @@
         "EDIT_ASSISTANT": "Edit Assistant",
         "DELETE_ASSISTANT": "Delete Assistant",
         "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No Assistants Available",
+        "SUBTITLE": "Get started by adding a new assistant. Click the button below to create one."
       }
     },
     "DOCUMENTS": {
@@ -398,6 +402,10 @@
       "OPTIONS": {
         "VIEW_RELATED_RESPONSES": "View Related Responses",
         "DELETE_DOCUMENT": "Delete Document"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No Documents Found",
+        "SUBTITLE": "Create and manage documents with your assistant. Click the button below to get started."
       }
     },
     "RESPONSES": {
@@ -455,12 +463,16 @@
         "APPROVE": "Mark as approved",
         "EDIT_RESPONSE": "Edit FAQ",
         "DELETE_RESPONSE": "Delete FAQ"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No Responses Found",
+        "SUBTITLE": "Responses will be generated automatically or you can add them manually. Click the button below to get started."
       }
     },
     "INBOXES": {
       "HEADER": "Connected Inboxes",
       "ADD_NEW": "Connect a new inbox",
-      "OPTIONS" :{
+      "OPTIONS": {
         "DISCONNECT": "Disconnect"
       },
       "DELETE": {
@@ -482,6 +494,10 @@
           "PLACEHOLDER": "Choose the inbox to deploy the assistant.",
           "ERROR": "An inbox selection is required."
         }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "There Are No Connected Inboxes",
+        "SUBTITLE": "Connect your inbox to the assistant to generate responses. Click the button below to connect now."
       }
     }
   }

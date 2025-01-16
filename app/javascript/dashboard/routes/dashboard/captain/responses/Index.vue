@@ -12,6 +12,7 @@ import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import ResponseCard from 'dashboard/components-next/captain/assistant/ResponseCard.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CreateResponseDialog from 'dashboard/components-next/captain/pageComponents/response/CreateResponseDialog.vue';
+import ResponsePageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/ResponsePageEmptyState.vue';
 
 const store = useStore();
 const uiFlags = useMapGetter('captainResponses/getUIFlags');
@@ -162,7 +163,7 @@ onMounted(() => {
     @update:current-page="onPageChange"
     @click="handleCreate"
   >
-    <div v-if="!isFetching" class="mb-4 -mt-3 flex gap-3">
+    <div v-if="!isFetching && responses.length" class="mb-4 -mt-3 flex gap-3">
       <OnClickOutside @trigger="isStatusFilterOpen = false">
         <Button
           :label="selectedStatusLabel"
@@ -223,7 +224,13 @@ onMounted(() => {
       />
     </div>
 
-    <div v-else>{{ 'No responses found' }}</div>
+    <ResponsePageEmptyState
+      v-else
+      :title="$t('CAPTAIN.RESPONSES.EMPTY_STATE.TITLE')"
+      :subtitle="$t('CAPTAIN.RESPONSES.EMPTY_STATE.SUBTITLE')"
+      :button-label="$t('CAPTAIN.RESPONSES.ADD_NEW')"
+      @click="handleCreate"
+    />
 
     <DeleteDialog
       v-if="selectedResponse"
