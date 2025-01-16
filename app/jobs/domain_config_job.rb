@@ -1,5 +1,5 @@
   # app/jobs/domain_config_job.rb
-  require 'fileutils'
+  # require 'fileutils'
 
   class DomainConfigJob < ApplicationJob
     queue_as :default
@@ -47,14 +47,18 @@
       # File.write(config_filename, nginx_config)
       sudo_command = "echo '#{nginx_config}' | sudo tee #{config_filename} > /dev/null"
       if system(sudo_command)
-        puts "Nginx config written successfully"
+        Rails.logger.info "Nginx config written successfully"
       else
-        puts "Failed to write Nginx config"
+        Rails.logger.info "Failed to write Nginx config"
       end
 
 
       # Enable the site by creating a symbolic link
-      FileUtils.ln_sf(config_filename, symlink_path)
+      if system("sudo ln -sf #{config_filename} #{symlink_path}")
+        Rails.logger.info "Site enabled successfully"
+      else
+        Rails.logger.info "Failed to enable the site"
+      end
 
       # Reload Nginx
       Rails.logger.info "Testing and reloading Nginx configuration..."
