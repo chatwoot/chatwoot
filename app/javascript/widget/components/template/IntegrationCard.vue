@@ -14,10 +14,6 @@ export default {
       type: Number,
       required: true,
     },
-    meetingData: {
-      type: Object,
-      default: () => ({}),
-    },
   },
   data() {
     return { isLoading: false, dyteAuthToken: '', isSDKMounted: false };
@@ -28,7 +24,7 @@ export default {
       return getContrastingTextColor(this.widgetColor);
     },
     meetingLink() {
-      return buildDyteURL(this.meetingData.room_name, this.dyteAuthToken);
+      return buildDyteURL(this.dyteAuthToken);
     },
   },
   methods: {
