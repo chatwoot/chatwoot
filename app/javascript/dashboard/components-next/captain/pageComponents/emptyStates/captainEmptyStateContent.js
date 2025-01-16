@@ -5,7 +5,8 @@ export const assistantsList = [
     account_id: 2,
     config: { product_name: 'HelpDesk Pro' },
     created_at: 1736033561,
-    description: 'An advanced assistant for customer support solutions',
+    description:
+      'An advanced AI assistant designed to enhance customer support solutions by automating workflows and providing instant responses.',
     id: 4,
     name: 'Support Genie',
   },
@@ -13,7 +14,8 @@ export const assistantsList = [
     account_id: 3,
     config: { product_name: 'CRM Tools' },
     created_at: 1736033562,
-    description: 'Assists in managing customer relationships efficiently',
+    description:
+      'Helps streamline customer relationship management by organizing contacts, automating follow-ups, and providing insights.',
     id: 5,
     name: 'CRM Assistant',
   },
@@ -21,7 +23,8 @@ export const assistantsList = [
     account_id: 4,
     config: { product_name: 'SalesFlow' },
     created_at: 1736033563,
-    description: 'Optimizes sales pipeline tracking and forecasting',
+    description:
+      'Optimizes your sales pipeline by tracking prospects, forecasting sales, and automating administrative tasks.',
     id: 6,
     name: 'SalesBot',
   },
@@ -29,7 +32,8 @@ export const assistantsList = [
     account_id: 5,
     config: { product_name: 'TicketMaster AI' },
     created_at: 1736033564,
-    description: 'Automates ticket assignment and customer query responses',
+    description:
+      'Automates ticket assignment, categorization, and customer query responses to enhance support efficiency.',
     id: 7,
     name: 'TicketBot',
   },
@@ -37,23 +41,17 @@ export const assistantsList = [
     account_id: 6,
     config: { product_name: 'FinanceAssist' },
     created_at: 1736033565,
-    description: 'Provides financial analytics and reporting',
+    description:
+      'Provides financial analytics, reporting, and insights, helping teams make data-driven financial decisions.',
     id: 8,
     name: 'Finance Wizard',
-  },
-  {
-    account_id: 7,
-    config: { product_name: 'MarketingMate' },
-    created_at: 1736033566,
-    description: 'Automates marketing tasks and generates campaign insights',
-    id: 9,
-    name: 'Marketing Guru',
   },
   {
     account_id: 8,
     config: { product_name: 'HR Assistant' },
     created_at: 1736033567,
-    description: 'Streamlines HR operations and employee management',
+    description:
+      'Streamlines HR operations including employee management, payroll, and recruitment processes.',
     id: 10,
     name: 'HR Helper',
   },
@@ -62,11 +60,9 @@ export const assistantsList = [
 export const documentsList = [
   {
     account_id: 1,
-    assistant: {
-      id: 1,
-      name: 'Helper Pro',
-    },
-    content: 'Guide content for using conversation filters.',
+    assistant: { id: 1, name: 'Helper Pro' },
+    content:
+      'Comprehensive guide on using conversation filters to manage chats effectively.',
     created_at: 1736143272,
     external_link:
       'https://www.chatwoot.com/hc/user-guide/articles/1677688192-how-to-use-conversation-filters',
@@ -76,11 +72,9 @@ export const documentsList = [
   },
   {
     account_id: 2,
-    assistant: {
-      id: 2,
-      name: 'Support Genie',
-    },
-    content: 'Guide on automating ticket assignments in Chatwoot.',
+    assistant: { id: 2, name: 'Support Genie' },
+    content:
+      'Step-by-step guide for automating ticket assignments and improving support workflow in Chatwoot.',
     created_at: 1736143273,
     external_link:
       'https://www.chatwoot.com/hc/user-guide/articles/1677688200-automating-ticket-assignments',
@@ -90,11 +84,9 @@ export const documentsList = [
   },
   {
     account_id: 3,
-    assistant: {
-      id: 3,
-      name: 'CRM Assistant',
-    },
-    content: 'Learn how to manage customer profiles efficiently.',
+    assistant: { id: 3, name: 'CRM Assistant' },
+    content:
+      'A detailed guide on managing and organizing customer profiles for better relationship management.',
     created_at: 1736143274,
     external_link:
       'https://www.chatwoot.com/hc/user-guide/articles/1677688210-managing-customer-profiles',
@@ -104,11 +96,9 @@ export const documentsList = [
   },
   {
     account_id: 4,
-    assistant: {
-      id: 4,
-      name: 'SalesBot',
-    },
-    content: 'Optimize sales tracking with advanced features.',
+    assistant: { id: 4, name: 'SalesBot' },
+    content:
+      'Learn how to optimize sales tracking and improve your sales forecasting using advanced features.',
     created_at: 1736143275,
     external_link:
       'https://www.chatwoot.com/hc/user-guide/articles/1677688220-sales-tracking-guide',
@@ -118,11 +108,9 @@ export const documentsList = [
   },
   {
     account_id: 5,
-    assistant: {
-      id: 5,
-      name: 'TicketBot',
-    },
-    content: 'Learn how to create and manage tickets in Chatwoot.',
+    assistant: { id: 5, name: 'TicketBot' },
+    content:
+      'How to efficiently create, manage, and resolve tickets in Chatwoot.',
     created_at: 1736143276,
     external_link:
       'https://www.chatwoot.com/hc/user-guide/articles/1677688230-managing-tickets',
@@ -132,72 +120,14 @@ export const documentsList = [
   },
   {
     account_id: 6,
-    assistant: {
-      id: 6,
-      name: 'Finance Wizard',
-    },
-    content: 'Guide on using financial reporting features.',
+    assistant: { id: 6, name: 'Finance Wizard' },
+    content:
+      'Detailed guide on how to use financial reporting tools and generate insightful analytics.',
     created_at: 1736143277,
     external_link:
       'https://www.chatwoot.com/hc/user-guide/articles/1677688240-financial-reporting',
     id: 3064,
     name: 'Financial Reporting | User Guide | Chatwoot',
-    status: 'available',
-  },
-  {
-    account_id: 7,
-    assistant: {
-      id: 7,
-      name: 'Marketing Guru',
-    },
-    content: 'Learn about campaign automation in Chatwoot.',
-    created_at: 1736143278,
-    external_link:
-      'https://www.chatwoot.com/hc/user-guide/articles/1677688250-campaign-automation',
-    id: 3065,
-    name: 'Campaign Automation | User Guide | Chatwoot',
-    status: 'available',
-  },
-  {
-    account_id: 8,
-    assistant: {
-      id: 8,
-      name: 'HR Helper',
-    },
-    content: 'How to manage employee profiles effectively.',
-    created_at: 1736143279,
-    external_link:
-      'https://www.chatwoot.com/hc/user-guide/articles/1677688260-employee-profile-management',
-    id: 3066,
-    name: 'Employee Profile Management | User Guide | Chatwoot',
-    status: 'available',
-  },
-  {
-    account_id: 9,
-    assistant: {
-      id: 9,
-      name: 'ProjectBot',
-    },
-    content: 'Guide to project management features in Chatwoot.',
-    created_at: 1736143280,
-    external_link:
-      'https://www.chatwoot.com/hc/user-guide/articles/1677688270-project-management',
-    id: 3067,
-    name: 'Project Management | User Guide | Chatwoot',
-    status: 'available',
-  },
-  {
-    account_id: 10,
-    assistant: {
-      id: 10,
-      name: 'ShopBot',
-    },
-    content: 'E-commerce optimization with Chatwoot features.',
-    created_at: 1736143281,
-    external_link:
-      'https://www.chatwoot.com/hc/user-guide/articles/1677688280-ecommerce-optimization',
-    id: 3068,
-    name: 'E-commerce Optimization | User Guide | Chatwoot',
     status: 'available',
   },
 ];
@@ -213,11 +143,9 @@ export const responsesList = [
     status: 'pending',
     assistant: {
       account_id: 1,
-      config: {
-        product_name: 'Chatwoot',
-      },
+      config: { product_name: 'Chatwoot' },
       created_at: 1736033280,
-      description: 'This is a description of the assistant 2',
+      description: 'Assists with general queries and system-wide issues.',
       id: 1,
       name: 'Assistant 2',
     },
@@ -231,11 +159,9 @@ export const responsesList = [
     question: 'How do I integrate WhatsApp with Chatwoot?',
     assistant: {
       account_id: 2,
-      config: {
-        product_name: 'Chatwoot',
-      },
+      config: { product_name: 'Chatwoot' },
       created_at: 1736033281,
-      description: 'Handles integration queries',
+      description: 'Helps with integration and setup-related inquiries.',
       id: 2,
       name: 'Assistant 3',
     },
@@ -249,11 +175,9 @@ export const responsesList = [
     question: 'How can I reset my password in Chatwoot?',
     assistant: {
       account_id: 3,
-      config: {
-        product_name: 'Chatwoot',
-      },
+      config: { product_name: 'Chatwoot' },
       created_at: 1736033282,
-      description: 'Handles account management support',
+      description: 'Handles account management and recovery support.',
       id: 3,
       name: 'Assistant 4',
     },
@@ -267,11 +191,9 @@ export const responsesList = [
     question: 'How do I enable dark mode in Chatwoot?',
     assistant: {
       account_id: 4,
-      config: {
-        product_name: 'Chatwoot',
-      },
+      config: { product_name: 'Chatwoot' },
       created_at: 1736033283,
-      description: 'Helps with UI customization',
+      description: 'Helps with UI and theme-related inquiries.',
       id: 4,
       name: 'Assistant 5',
     },
@@ -285,11 +207,9 @@ export const responsesList = [
     question: 'How do I add a new team member in Chatwoot?',
     assistant: {
       account_id: 5,
-      config: {
-        product_name: 'Chatwoot',
-      },
+      config: { product_name: 'Chatwoot' },
       created_at: 1736033284,
-      description: 'Handles team management queries',
+      description: 'Supports team management and user access-related queries.',
       id: 5,
       name: 'Assistant 6',
     },
@@ -303,31 +223,12 @@ export const responsesList = [
     question: 'What are campaigns in Chatwoot?',
     assistant: {
       account_id: 6,
-      config: {
-        product_name: 'Chatwoot',
-      },
+      config: { product_name: 'Chatwoot' },
       created_at: 1736033285,
-      description: 'Focuses on campaign and marketing queries',
+      description:
+        'Specialized in marketing, campaign management, and messaging strategies.',
       id: 6,
       name: 'Assistant 7',
-    },
-  },
-  {
-    account_id: 7,
-    answer:
-      "To track an agent's performance, use the Analytics dashboard under 'Reports'.",
-    created_at: 1736283390,
-    id: 93,
-    question: "How can I track an agent's performance in Chatwoot?",
-    assistant: {
-      account_id: 7,
-      config: {
-        product_name: 'Chatwoot',
-      },
-      created_at: 1736033286,
-      description: 'Analytics and reporting assistant',
-      id: 7,
-      name: 'Assistant 8',
     },
   },
 ];
