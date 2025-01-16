@@ -48,7 +48,7 @@ const toggleMute = () => {
 };
 
 const onTimeUpdate = () => {
-  currentTime.value = audioPlayer.value?.currentTime;
+  currentTime.value = audioPlayer.value.currentTime;
 };
 
 const seek = event => {
