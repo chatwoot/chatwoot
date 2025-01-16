@@ -18,40 +18,38 @@
         system("sudo openssl dhparam -out #{dhparam_path} 2048")
       end
 
-      # Nginx configuration content (before SSL setup)
       nginx_config = <<~NGINX
-        upstream backend_#{formatted_domain_name} {
-          zone upstreams 64K;
-          server 127.0.0.1:3000;
-          keepalive 32;
-        }
-
-        map $http_upgrade $connection_upgrade {
-          default upgrade;
-          '\'\'' close;
-        }
-
-        server {
-          listen 80;
-          listen [::]:80;
-          server_name #{domain_name};
-
-          access_log /var/log/nginx/#{formatted_domain_name}_access_80.log;
-          error_log /var/log/nginx/#{formatted_domain_name}_error_80.log;
-
-          return 301 https://$host$request_uri;
-        }
-      NGINX
-
-      # Write the Nginx configuration
-      # File.write(config_filename, nginx_config)
-      sudo_command = "echo '#{nginx_config}' | sudo tee #{config_filename} > /dev/null"
-      if system(sudo_command)
-        Rails.logger.info "Nginx config written successfully"
-      else
-        Rails.logger.info "Failed to write Nginx config"
-      end
-
+      upstream backend_#{formatted_domain_name} {
+        zone upstreams 64K;
+        server 127.0.0.1:3000;
+        keepalive 32;
+      }
+    
+      map $http_upgrade $connection_upgrade {
+        default upgrade;
+        '' close;
+      }
+    
+      server {
+        listen 80;
+        listen [::]:80;
+        server_name #{domain_name};
+    
+        access_log /var/log/nginx/#{formatted_domain_name}_access_80.log;
+        error_log /var/log/nginx/#{formatted_domain_name}_error_80.log;
+    
+        return 301 https://$host$request_uri;
+      }
+    NGINX
+    
+    # Using Ruby's file I/O with sudo to write the config file
+    file_write_command = "echo '#{nginx_config}' | sudo tee #{config_filename} > /dev/null"
+    if system(file_write_command)
+      Rails.logger.info "Nginx config written successfully"
+    else
+      Rails.logger.info "Failed to write Nginx config"
+    end
+    
 
       # Enable the site by creating a symbolic link
       if system("sudo ln -sf #{config_filename} #{symlink_path}")
