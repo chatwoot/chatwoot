@@ -105,13 +105,7 @@ onMounted(() =>
       />
     </div>
 
-    <InboxPageEmptyState
-      v-else
-      :title="$t('CAPTAIN.INBOXES.EMPTY_STATE.TITLE')"
-      :subtitle="$t('CAPTAIN.INBOXES.EMPTY_STATE.SUBTITLE')"
-      :button-label="$t('CAPTAIN.INBOXES.ADD_NEW')"
-      @click="handleCreate"
-    />
+    <InboxPageEmptyState v-else @click="handleCreate" />
 
     <DeleteDialog
       v-if="selectedInbox"

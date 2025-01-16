@@ -4,21 +4,6 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import DocumentCard from 'dashboard/components-next/captain/assistant/DocumentCard.vue';
 import { documentsList } from 'dashboard/components-next/captain/pageComponents/emptyStates/captainEmptyStateContent.js';
 
-defineProps({
-  title: {
-    type: String,
-    default: '',
-  },
-  subtitle: {
-    type: String,
-    default: '',
-  },
-  buttonLabel: {
-    type: String,
-    default: '',
-  },
-});
-
 const emit = defineEmits(['click']);
 
 const onClick = () => {
@@ -27,7 +12,10 @@ const onClick = () => {
 </script>
 
 <template>
-  <EmptyStateLayout :title="title" :subtitle="subtitle">
+  <EmptyStateLayout
+    :title="$t('CAPTAIN.DOCUMENTS.EMPTY_STATE.TITLE')"
+    :subtitle="$t('CAPTAIN.DOCUMENTS.EMPTY_STATE.SUBTITLE')"
+  >
     <template #empty-state-item>
       <div class="grid grid-cols-1 gap-4 p-px overflow-hidden">
         <DocumentCard
@@ -42,7 +30,11 @@ const onClick = () => {
       </div>
     </template>
     <template #actions>
-      <Button :label="buttonLabel" icon="i-lucide-plus" @click="onClick" />
+      <Button
+        :label="$t('CAPTAIN.DOCUMENTS.ADD_NEW')"
+        icon="i-lucide-plus"
+        @click="onClick"
+      />
     </template>
   </EmptyStateLayout>
 </template>

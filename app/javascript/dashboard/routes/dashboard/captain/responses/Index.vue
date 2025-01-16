@@ -17,6 +17,7 @@ import ResponsePageEmptyState from 'dashboard/components-next/captain/pageCompon
 
 const store = useStore();
 const uiFlags = useMapGetter('captainResponses/getUIFlags');
+const assistants = useMapGetter('captainAssistants/getRecords');
 const responseMeta = useMapGetter('captainResponses/getMeta');
 const responses = useMapGetter('captainResponses/getRecords');
 const isFetching = computed(() => uiFlags.value.fetchingList);
@@ -32,19 +33,10 @@ const { t } = useI18n();
 const createDialog = ref(null);
 
 const isStatusFilterOpen = ref(false);
-
-const isNotDefaultFilter = computed(
-  () => selectedStatus.value !== 'all' || selectedAssistant.value !== 'all'
-);
-
 const shouldShowDropdown = computed(() => {
-  // Show if filters are not default, regardless of responses
-  if (isNotDefaultFilter.value) {
-    return !isFetching.value;
-  }
+  if (assistants.value.length === 0) return false;
 
-  // Otherwise, show only if we have responses and not fetching
-  return !isFetching.value && responses.value.length > 0;
+  return !isFetching.value;
 });
 
 const statusOptions = computed(() =>
@@ -121,7 +113,7 @@ const fetchResponses = (page = 1) => {
   if (selectedAssistant.value !== 'all') {
     filterParams.assistantId = selectedAssistant.value;
   }
-  store.dispatch('captainResponses/get', page);
+  store.dispatch('captainResponses/get', filterParams);
 };
 
 const onPageChange = page => fetchResponses(page);
@@ -199,13 +191,7 @@ onMounted(() => {
       />
     </div>
 
-    <ResponsePageEmptyState
-      v-else
-      :title="$t('CAPTAIN.RESPONSES.EMPTY_STATE.TITLE')"
-      :subtitle="$t('CAPTAIN.RESPONSES.EMPTY_STATE.SUBTITLE')"
-      :button-label="$t('CAPTAIN.RESPONSES.ADD_NEW')"
-      @click="handleCreate"
-    />
+    <ResponsePageEmptyState v-else @click="handleCreate" />
 
     <DeleteDialog
       v-if="selectedResponse"

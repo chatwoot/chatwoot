@@ -95,13 +95,7 @@ onMounted(() => store.dispatch('captainAssistants/get'));
       />
     </div>
 
-    <AssistantPageEmptyState
-      v-else
-      :title="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.TITLE')"
-      :subtitle="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.SUBTITLE')"
-      :button-label="$t('CAPTAIN.ASSISTANTS.ADD_NEW')"
-      @click="handleCreate"
-    />
+    <AssistantPageEmptyState v-else @click="handleCreate" />
 
     <DeleteDialog
       v-if="selectedAssistant"
