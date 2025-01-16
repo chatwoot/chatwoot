@@ -1,5 +1,5 @@
 <script setup>
-import { computed, useTemplateRef, ref } from 'vue';
+import { computed, onMounted, useTemplateRef, ref } from 'vue';
 import Icon from 'next/icon/Icon.vue';
 import { timeStampAppendedURL } from 'dashboard/helper/URLHelper';
 
@@ -28,6 +28,10 @@ const duration = ref(0);
 const onLoadedMetadata = () => {
   duration.value = audioPlayer.value?.duration;
 };
+
+onMounted(() => {
+  duration.value = audioPlayer.value?.duration;
+});
 
 const formatTime = time => {
   const minutes = Math.floor(time / 60);
