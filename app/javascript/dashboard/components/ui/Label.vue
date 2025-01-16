@@ -113,7 +113,7 @@ export default {
 
 <style scoped lang="scss">
 .label {
-  @apply items-center font-medium text-xs rounded-[4px] gap-1 p-1 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 border border-solid border-slate-75 dark:border-slate-600 h-6;
+  @apply items-center font-medium text-xs rounded-[4px] gap-1 p-1 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 border border-solid border-n-strong h-6;
 
   &.small {
     @apply text-xs py-0.5 px-1 leading-tight h-5;
@@ -143,7 +143,7 @@ export default {
     }
   }
   &.secondary {
-    @apply bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-100 border border-solid border-slate-200 dark:border-slate-600;
+    @apply bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-100 border border-solid border-n-weak;
 
     a {
       @apply text-slate-900 dark:text-slate-100;
@@ -184,11 +184,11 @@ export default {
   }
 
   &.smooth {
-    @apply bg-transparent text-slate-700 dark:text-slate-100 border border-solid border-slate-100 dark:border-slate-700;
+    @apply bg-transparent text-slate-700 dark:text-slate-100 border border-solid border-n-strong;
   }
 
   &.dashed {
-    @apply bg-transparent text-slate-700 dark:text-slate-100 border border-dashed border-slate-100 dark:border-slate-700;
+    @apply bg-transparent text-slate-700 dark:text-slate-100 border border-dashed border-n-strong;
   }
 }
 

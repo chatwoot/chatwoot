@@ -67,7 +67,7 @@ const actionLabel = key => {
 <template>
   <div
     v-on-clickaway="onClose"
-    class="absolute z-20 w-auto origin-top-right bg-white border border-solid rounded-lg shadow-md right-2 top-12 dark:bg-slate-800 border-slate-50 dark:border-slate-700"
+    class="absolute z-20 w-auto origin-top-right border border-solid rounded-lg shadow-md right-2 top-12 bg-n-alpha-3 backdrop-blur-[100px] border-n-weak"
   >
     <div
       class="right-[var(--triangle-position)] block z-10 absolute text-left -top-3"
@@ -77,7 +77,7 @@ const actionLabel = key => {
           d="M20 12l-8-8-12 12"
           fill-rule="evenodd"
           stroke-width="1px"
-          class="fill-white dark:fill-slate-800 stroke-slate-50 dark:stroke-slate-600/50"
+          class="fill-n-alpha-3 backdrop-blur-[100px] stroke-n-weak"
         />
       </svg>
     </div>
@@ -102,6 +102,7 @@ const actionLabel = key => {
               color-scheme="secondary"
               size="small"
               :icon="action.icon"
+              class="hover:!bg-n-slate-3 dark:hover:!bg-n-solid-3"
               @click="updateConversations(action.key)"
             >
               {{ actionLabel(action.key) }}
