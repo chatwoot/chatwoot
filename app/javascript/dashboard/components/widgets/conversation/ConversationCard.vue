@@ -382,7 +382,7 @@ export default {
   }
 
   &.conversation-selected {
-    @apply bg-slate-25 dark:bg-slate-800;
+    @apply bg-n-slate-2 dark:bg-n-slate-3;
   }
 
   &.has-inbox-name {

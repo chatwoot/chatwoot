@@ -200,7 +200,7 @@ export default {
         <div v-if="isAttributeTypeCheckbox" class="flex items-center">
           <input
             v-model="editedValue"
-            class="!my-0 mr-2 ml-0"
+            class="!my-0 ltr:mr-2 ltr:ml-0 rtl:mr-0 rtl:ml-2"
             type="checkbox"
             @change="onUpdate"
           />
