@@ -142,14 +142,14 @@ const variant = computed(() => {
   if (props.private) return MESSAGE_VARIANTS.PRIVATE;
 
   if (props.isEmailInbox) {
-    const emailTypes = [MESSAGE_TYPES.INCOMING, MESSAGE_TYPES.OUTGOING];
-    if (emailTypes.includes(props.messageType)) {
+    const emailInboxTypes = [MESSAGE_TYPES.INCOMING, MESSAGE_TYPES.OUTGOING];
+    if (emailInboxTypes.includes(props.messageType)) {
       return MESSAGE_VARIANTS.EMAIL;
     }
   }
 
   if (props.contentType === CONTENT_TYPES.INCOMING_EMAIL) {
-    return MESSAGE_TYPES.EMAIL;
+    return MESSAGE_VARIANTS.EMAIL;
   }
 
   if (props.status === MESSAGE_STATUS.FAILED) return MESSAGE_VARIANTS.ERROR;
