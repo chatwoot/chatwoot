@@ -9,6 +9,8 @@ import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import RelatedResponses from 'dashboard/components-next/captain/pageComponents/document/RelatedResponses.vue';
 import CreateDocumentDialog from 'dashboard/components-next/captain/pageComponents/document/CreateDocumentDialog.vue';
 import AssistantSelector from 'dashboard/components-next/captain/pageComponents/AssistantSelector.vue';
+import DocumentPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/DocumentPageEmptyState.vue';
+
 const store = useStore();
 
 const uiFlags = useMapGetter('captainDocuments/getUIFlags');
@@ -29,6 +31,12 @@ const showRelatedResponses = ref(false);
 const showCreateDialog = ref(false);
 const createDocumentDialog = ref(null);
 const relationQuestionDialog = ref(null);
+
+const shouldShowAssistantSelector = computed(() => {
+  if (assistants.value.length === 0) return false;
+
+  return !isFetching.value;
+});
 
 const handleShowRelatedDocument = () => {
   showRelatedResponses.value = true;
@@ -95,7 +103,7 @@ onMounted(() => {
     @update:current-page="onPageChange"
     @click="handleCreateDocument"
   >
-    <div v-if="!isFetching" class="mb-4 -mt-3 flex gap-3">
+    <div v-if="shouldShowAssistantSelector" class="mb-4 -mt-3 flex gap-3">
       <AssistantSelector
         :assistant-id="selectedAssistant"
         @update="handleAssistantFilterChange"
@@ -120,7 +128,8 @@ onMounted(() => {
       />
     </div>
 
-    <div v-else>{{ 'No documents found' }}</div>
+    <DocumentPageEmptyState v-else @click="handleCreateDocument" />
+
     <RelatedResponses
       v-if="showRelatedResponses"
       ref="relationQuestionDialog"
