@@ -46,7 +46,7 @@ const onTimeUpdate = () => {
 
 const seek = event => {
   const time = Number(event.target.value);
-  audioPlayer.value?.currentTime = time;
+  audioPlayer.value.currentTime = time;
   currentTime.value = time;
 };
 
