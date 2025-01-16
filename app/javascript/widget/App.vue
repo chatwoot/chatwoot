@@ -231,11 +231,33 @@ export default {
         });
       }
     },
-    handleSendMessage(message){
-      this.sendMessage({
-        content: message.content,
-        replyTo: null,
-      });
+    handleSendMessage(data){
+      let customAttributes = {};
+
+      if (!!this.preChatFormOptions && !!this.preChatFormOptions.preChatFields){
+        this.preChatFormOptions.preChatFields.forEach(option => {
+          if (option.enabled && option.field_type === 'conversation_attribute') {
+            customAttributes[option.name] = data[option.name];
+          }
+        });
+      }
+
+      if (!this.conversationSize) {
+        this.$store.dispatch('conversation/createConversation', {
+          fullName: data.fullName,
+          emailAddress: data.emailAddress,
+          message: data.message,
+          phoneNumber: data.phoneNumber,
+          customAttributes: customAttributes,
+        });
+      } else {
+        this.$store.dispatch('conversation/sendMessage', {
+          content: data.message,
+          reply_to: data.emailAddress,
+        });
+      }
+
+      this.replaceRoute('messages')
     },
 
     handleStartConversation(){

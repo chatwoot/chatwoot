@@ -95,8 +95,13 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       });
     },
 
+    sendMessage(formData) {
+      this.toggle('open');
+      IFrameHelper.sendMessage('send-message', formData);
+    },
+
     populateMessageForm(formData) {
-      this.toggle('open')
+      this.toggle('open');
       IFrameHelper.sendMessage('populate-message-form', formData);
     },
 

@@ -304,6 +304,10 @@ export default {
       return null;
     },
     getFormValue(key){
+      if (!window.preChatFieldValues) {
+        return '';
+      }
+
       return window.preChatFieldValues[key];
     },
     onSubmit() {
