@@ -13,9 +13,11 @@ import AssistantSelector from 'dashboard/components-next/captain/pageComponents/
 import ResponseCard from 'dashboard/components-next/captain/assistant/ResponseCard.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CreateResponseDialog from 'dashboard/components-next/captain/pageComponents/response/CreateResponseDialog.vue';
+import ResponsePageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/ResponsePageEmptyState.vue';
 
 const store = useStore();
 const uiFlags = useMapGetter('captainResponses/getUIFlags');
+const assistants = useMapGetter('captainAssistants/getRecords');
 const responseMeta = useMapGetter('captainResponses/getMeta');
 const responses = useMapGetter('captainResponses/getRecords');
 const isFetching = computed(() => uiFlags.value.fetchingList);
@@ -31,6 +33,11 @@ const { t } = useI18n();
 const createDialog = ref(null);
 
 const isStatusFilterOpen = ref(false);
+const shouldShowDropdown = computed(() => {
+  if (assistants.value.length === 0) return false;
+
+  return !isFetching.value;
+});
 
 const statusOptions = computed(() =>
   ['all', 'pending', 'approved'].map(key => ({
@@ -106,7 +113,7 @@ const fetchResponses = (page = 1) => {
   if (selectedAssistant.value !== 'all') {
     filterParams.assistantId = selectedAssistant.value;
   }
-  store.dispatch('captainResponses/get', page);
+  store.dispatch('captainResponses/get', filterParams);
 };
 
 const onPageChange = page => fetchResponses(page);
@@ -138,7 +145,7 @@ onMounted(() => {
     @update:current-page="onPageChange"
     @click="handleCreate"
   >
-    <div v-if="!isFetching" class="mb-4 -mt-3 flex gap-3">
+    <div v-if="shouldShowDropdown" class="mb-4 -mt-3 flex gap-3">
       <OnClickOutside @trigger="isStatusFilterOpen = false">
         <Button
           :label="selectedStatusLabel"
@@ -184,7 +191,7 @@ onMounted(() => {
       />
     </div>
 
-    <div v-else>{{ 'No responses found' }}</div>
+    <ResponsePageEmptyState v-else @click="handleCreate" />
 
     <DeleteDialog
       v-if="selectedResponse"
