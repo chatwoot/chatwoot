@@ -96,7 +96,7 @@ const replyToPreview = computed(() => {
       class="bg-n-alpha-black1 rounded-lg p-2 -mx-1 mb-2 cursor-pointer"
       @click="scrollToMessage"
     >
-      <span class="line-clamp-2">
+      <span class="line-clamp-2 break-all">
         {{ replyToPreview }}
       </span>
     </div>
