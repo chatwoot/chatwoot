@@ -33,6 +33,20 @@ const createDialog = ref(null);
 const isStatusFilterOpen = ref(false);
 const isAssistantFilterOpen = ref(false);
 
+const isNotDefaultFilter = computed(
+  () => selectedStatus.value !== 'all' || selectedAssistant.value !== 'all'
+);
+
+const shouldShowDropdown = computed(() => {
+  // Show if filters are not default, regardless of responses
+  if (isNotDefaultFilter.value) {
+    return !isFetching.value;
+  }
+
+  // Otherwise, show only if we have responses and not fetching
+  return !isFetching.value && responses.value.length > 0;
+});
+
 const statusOptions = computed(() =>
   ['all', 'pending', 'approved'].map(key => ({
     label: t(`CAPTAIN.RESPONSES.STATUS.${key.toUpperCase()}`),
@@ -163,7 +177,7 @@ onMounted(() => {
     @update:current-page="onPageChange"
     @click="handleCreate"
   >
-    <div v-if="!isFetching && responses.length" class="mb-4 -mt-3 flex gap-3">
+    <div v-if="shouldShowDropdown" class="mb-4 -mt-3 flex gap-3">
       <OnClickOutside @trigger="isStatusFilterOpen = false">
         <Button
           :label="selectedStatusLabel"
