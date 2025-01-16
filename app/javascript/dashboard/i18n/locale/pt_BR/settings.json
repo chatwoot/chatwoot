@@ -61,15 +61,29 @@
         "COPY": "Copiar"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Notificações de Áudio",
+        "TITLE": "Alertas de áudio",
         "NOTE": "Habilitar notificações de áudio no painel para novas mensagens e conversas.",
+        "PLAY": "Reproduzir áudio",
         "ALERT_TYPES": {
           "NONE": "Nenhuma",
           "MINE": "Atribuído",
-          "ALL": "Todos"
+          "ALL": "Todos",
+          "ASSIGNED": "Conversas atribuídas a mim",
+          "UNASSIGNED": "Conversas não atribuídas",
+          "NOTME": "Conversas abertas atribuídas a outras pessoas"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "Você não selecionou nenhuma opção, você não receberá nenhum alerta de áudio.",
+          "ASSIGNED": "Você receberá alertas para conversas atribuídas a você.",
+          "UNASSIGNED": "Você receberá alertas para quaisquer conversas não atribuídas.",
+          "NOTME": "Você receberá alertas para conversas atribuídas a outras pessoas.",
+          "ASSIGNED+UNASSIGNED": "Receberá alertas de conversas atribuídas e de quaisquer conversas não assistidas.",
+          "ASSIGNED+NOTME": "Você receberá alertas para conversas atribuídas a você e a outros, mas não para conversas não atribuídas.",
+          "NOTME+UNASSIGNED": "Você receberá alertas de conversas não assistidas e aqueles atribuídos a outros.",
+          "ASSIGNED+NOTME+UNASSIGNED": "Você receberá alertas para quaisquer conversas não atribuídas."
         },
         "ALERT_TYPE": {
-          "TITLE": "Eventos de alerta para conversas:",
+          "TITLE": "Eventos de alerta para conversas",
           "NONE": "Nenhuma",
           "ASSIGNED": "Conversas atribuídas",
           "ALL_CONVERSATIONS": "Todas as conversas"
@@ -81,7 +95,9 @@
           "TITLE": "Condições:",
           "CONDITION_ONE": "Enviar alertas de áudio apenas se a janela do navegador não estiver ativa",
           "CONDITION_TWO": "Enviar alertas a cada 30 segundos até que todas as conversas atribuídas sejam lidas"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "A reprodução automática está desativada no seu navegador. Para ouvir alertas automaticamente, habilite a permissão de som nas configurações do seu navegador ou interaja com a página.",
+        "READ_MORE": "Saiba mais"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificações por e-mail",
@@ -145,11 +161,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Disponibilidade",
-        "STATUSES_LIST": [
-          "Disponível",
-          "Ocupado",
-          "Desconectado"
-        ],
+        "STATUS": {
+          "ONLINE": "Online",
+          "BUSY": "Ocupado",
+          "OFFLINE": "Offline"
+        },
         "SET_AVAILABILITY_SUCCESS": "Disponibilidade foi definida com sucesso",
         "SET_AVAILABILITY_ERROR": "Não foi possível definir a disponibilidade, por favor tente novamente"
       },
@@ -177,14 +193,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Trocar",
-    "CHANGE_ACCOUNTS": "Trocar Conta",
+    "CHANGE_ACCOUNTS": "Alterar conta",
+    "SWITCH_WORKSPACE": "Trocar workspace",
     "CONTACT_SUPPORT": "Contate o suporte",
     "SELECTOR_SUBTITLE": "Selecione uma conta da lista a seguir",
     "PROFILE_SETTINGS": "Configurações do Perfil",
     "KEYBOARD_SHORTCUTS": "Atalhos do teclado",
     "APPEARANCE": "Alterar Tema",
     "SUPER_ADMIN_CONSOLE": "Console de Super Admin",
-    "LOGOUT": "Sair"
+    "DOCS": "Ler documentação",
+    "LOGOUT": "Encerrar sessão"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dias de teste restantes.",
@@ -218,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Enviar"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "Esta imagem não está mais disponível.",
+      "LOADING_FAILED": "Falha no carregamento"
     }
   },
   "CONFIRM_EMAIL": "Verificando...",
@@ -227,11 +249,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "Nenhum item",
     "CURRENTLY_VIEWING_ACCOUNT": "Visualização atual:",
     "SWITCH": "Trocar",
     "INBOX_VIEW": "",
     "CONVERSATIONS": "Conversas",
-    "INBOX": "Caixa de Entrada",
+    "INBOX": "Minha Caixa de Entrada",
     "ALL_CONVERSATIONS": "Todas as conversas",
     "MENTIONED_CONVERSATIONS": "Menções",
     "PARTICIPATING_CONVERSATIONS": "Participantes",
@@ -239,7 +262,7 @@
     "REPORTS": "Relatórios",
     "SETTINGS": "Configurações",
     "CONTACTS": "Contato",
-    "CAPTAIN": "Capitain",
+    "CAPTAIN": "Capitão",
     "HOME": "Principal",
     "AGENTS": "Agentes",
     "AGENT_BOTS": "Robôs",
@@ -266,34 +289,36 @@
     "NEW_INBOX": "Nova caixa de entrada",
     "REPORTS_CONVERSATION": "Conversas",
     "CSAT": "CSAT",
+    "LIVE_CHAT": "Chat ao vivo",
+    "SMS": "SMS",
     "CAMPAIGNS": "Campanhas",
     "ONGOING": "Em andamento",
     "ONE_OFF": "Única",
-    "REPORTS_SLA": "",
-    "REPORTS_BOT": "Bot",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Robôs",
     "REPORTS_AGENT": "Agentes",
     "REPORTS_LABEL": "Marcadores",
     "REPORTS_INBOX": "Caixa de Entrada",
     "REPORTS_TEAM": "Times",
     "SET_AVAILABILITY_TITLE": "Defina como",
-    "SLA": "",
-    "CUSTOM_ROLES": "Custom Roles",
+    "SET_YOUR_AVAILABILITY": "Definir a sua disponibilidade",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Regras Personalizadas",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Visão geral",
     "REAUTHORIZE": "A conexão com a sua caixa de entrada expirou. Por favor, reconecte para continuar recebendo e enviando mensagens",
     "HELP_CENTER": {
       "TITLE": "Central de Ajuda",
-      "ALL_ARTICLES": "Todos os artigos",
-      "MY_ARTICLES": "Meus Artigos",
-      "DRAFT": "Rascunho",
-      "ARCHIVED": "Arquivado",
-      "CATEGORY": "Categoria",
-      "SETTINGS": "Confirgurações",
-      "CATEGORY_EMPTY_MESSAGE": "Nenhuma categoria encontrada"
+      "ARTICLES": "Artigos",
+      "CATEGORIES": "Categorias",
+      "LOCALES": "Localidades",
+      "SETTINGS": "Confirgurações"
     },
+    "CHANNELS": "Canais",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Marcar offline automaticamente",
-      "INFO_TEXT": "Deixe o sistema marcar você automaticamente quando você não estiver usando o app ou o painel de controle."
+      "INFO_TEXT": "Deixe o sistema marcar você automaticamente quando você não estiver usando o app ou o painel de controle.",
+      "INFO_SHORT": "Marcar off-line automaticamente quando não estiver usando o aplicativo."
     },
     "DOCS": "Ler documentos"
   },

@@ -3,8 +3,8 @@
     "HEADER": "Kullanıcılar",
     "HEADER_BTN_TXT": "Kullanıcı Ekle",
     "LOADING": "Kullanıcı Listesi Alınıyor",
-    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
-    "LEARN_MORE": "Learn about user roles",
+    "DESCRIPTION": "Müşteri temsilcisi; kullanıcı mesajlarını görüntüleyebilen ve yanıtlayabilen müşteri destek ekibinizin bir üyesidir. Aşağıdaki listede tanımlı tüm müşteri temsilcilerini gösterir.",
+    "LEARN_MORE": "Kullanıcı rolleri hakkında bilgi edinin",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Yönetici",
       "AGENT": "Kullanıcı"
@@ -19,7 +19,7 @@
       "ACTIONS": "Hareketler",
       "VERIFIED": "Doğrulandı",
       "VERIFICATION_PENDING": "Doğrulama Bekleniyor",
-      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+      "AVAILABLE_CUSTOM_ROLE": "Kullanılabilir özel rol izinleri"
     },
     "ADD": {
       "TITLE": "Ekibinize temsilci ekleyin",

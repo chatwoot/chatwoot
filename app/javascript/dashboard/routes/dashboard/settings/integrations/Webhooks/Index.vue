@@ -119,7 +119,7 @@ export default {
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 pr-4 text-left font-semibold text-slate-700 dark:text-slate-300 last:text-right last:pr-4"
+            class="py-4 pr-4 text-left font-semibold text-n-slate-11 last:text-right last:pr-4"
           >
             {{ thHeader }}
           </th>

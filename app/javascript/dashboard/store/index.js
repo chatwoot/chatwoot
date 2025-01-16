@@ -45,7 +45,10 @@ import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
 import draftMessages from './modules/draftMessages';
 import SLAReports from './modules/SLAReports';
-
+import captainAssistants from './captain/assistant';
+import captainDocuments from './captain/document';
+import captainResponses from './captain/response';
+import captainInboxes from './captain/inboxes';
 const plugins = [];
 
 export default createStore({
@@ -95,6 +98,10 @@ export default createStore({
     draftMessages,
     sla,
     slaReports: SLAReports,
+    captainAssistants,
+    captainDocuments,
+    captainResponses,
+    captainInboxes,
   },
   plugins,
 });

@@ -20,7 +20,7 @@ export const routes = [
         component: InboxEmptyStateView,
         meta: {
           permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
-          featureFlag: FEATURE_FLAGS.INBOX_VIEW,
+          featureFlag: FEATURE_FLAGS.CHATWOOT_V4,
         },
       },
       {
@@ -29,7 +29,7 @@ export const routes = [
         component: InboxDetailView,
         meta: {
           permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
-          featureFlag: FEATURE_FLAGS.INBOX_VIEW,
+          featureFlag: FEATURE_FLAGS.CHATWOOT_V4,
         },
       },
     ],

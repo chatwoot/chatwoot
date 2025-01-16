@@ -6,6 +6,7 @@
     "LIST": {
       "404": "V této skupině nejsou žádné aktivní konverzace."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Konverzace",
     "MENTION_HEADING": "Zmínky",
     "UNATTENDED_HEADING": "Unattended",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "Poloha"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "sdílel URL"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "Žádný obsah k dispozici",
     "HIDE_QUOTED_TEXT": "Skrýt citovaný text",
     "SHOW_QUOTED_TEXT": "Zobrazit citovaný text",
-    "MESSAGE_READ": "Přečtené"
+    "MESSAGE_READ": "Přečtené",
+    "SENDING": "Sending"
   }
 }

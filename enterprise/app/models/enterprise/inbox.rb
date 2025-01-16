@@ -5,17 +5,8 @@ module Enterprise::Inbox
     super - overloaded_agent_ids
   end
 
-  def get_responses(query)
-    embedding = Openai::EmbeddingsService.new.get_embedding(query)
-    responses.active.nearest_neighbors(:embedding, embedding, distance: 'cosine').first(5)
-  end
-
   def active_bot?
-    super || response_bot_enabled?
-  end
-
-  def response_bot_enabled?
-    account.feature_enabled?('response_bot') && response_sources.any?
+    super || captain_assistant.present?
   end
 
   private

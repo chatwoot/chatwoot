@@ -61,15 +61,29 @@
         "COPY": "Kopiuj"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Powiadomienia dźwiękowe",
-        "NOTE": "Włącz powiadomienia dźwiękowe na pulpicie dla nowych wiadomości i konwersacji.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "Brak",
           "MINE": "Assigned",
-          "ALL": "Wszystkie"
+          "ALL": "Wszystkie",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Alert events for conversations",
           "NONE": "Brak",
           "ASSIGNED": "Przypisane rozmowy",
           "ALL_CONVERSATIONS": "Rozmowy"
@@ -81,7 +95,9 @@
           "TITLE": "Warunki powiadomień:",
           "CONDITION_ONE": "Wysyłaj dźwiękowe powiadomienia tylko wtedy, gdy okno przeglądarki nie jest aktywne",
           "CONDITION_TWO": "Wysyłaj powiadomienia co 30 sekund, dopóki wszystkie przypisane rozmowy nie zostaną odczytane"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Czytaj więcej"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Powiadomienia e-mail",
@@ -145,11 +161,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Dostępność",
-        "STATUSES_LIST": [
-          "Online",
-          "Zajęty",
-          "Offline"
-        ],
+        "STATUS": {
+          "ONLINE": "Dostępny",
+          "BUSY": "Zajęty",
+          "OFFLINE": "Niedostępny"
+        },
         "SET_AVAILABILITY_SUCCESS": "Dostępność została pomyślnie ustawiona",
         "SET_AVAILABILITY_ERROR": "Nie można ustawić dostępności, spróbuj ponownie"
       },
@@ -177,14 +193,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Zmień dostępność",
-    "CHANGE_ACCOUNTS": "Przełącz konto",
-    "CONTACT_SUPPORT": "Skontaktuj się z pomocą techniczną",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Wybierz konto z poniższej listy",
-    "PROFILE_SETTINGS": "Ustawienia profilu",
-    "KEYBOARD_SHORTCUTS": "Skróty klawiszowe",
-    "APPEARANCE": "Change Appearance",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
-    "LOGOUT": "Wyloguj się"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dni pozostało w okresie próbnym.",
@@ -218,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Wyślij"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "Weryfikacja...",
@@ -227,11 +249,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Aktualnie przeglądane konto:",
     "SWITCH": "Przełącz",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Rozmowy",
-    "INBOX": "Skrzynka odbiorcza",
+    "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "Rozmowy",
     "MENTIONED_CONVERSATIONS": "Wzmianki",
     "PARTICIPATING_CONVERSATIONS": "Udział",
@@ -266,6 +289,8 @@
     "NEW_INBOX": "Nowa skrzynka odbiorcza",
     "REPORTS_CONVERSATION": "Rozmowy",
     "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
     "CAMPAIGNS": "Kampanie",
     "ONGOING": "Trwające",
     "ONE_OFF": "Jednorazowe",
@@ -276,6 +301,7 @@
     "REPORTS_INBOX": "Skrzynka odbiorcza",
     "REPORTS_TEAM": "Zespół",
     "SET_AVAILABILITY_TITLE": "Ustaw dostępność jako",
+    "SET_YOUR_AVAILABILITY": "Ustaw swoją dostępność",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
@@ -283,17 +309,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Centrum pomocy",
-      "ALL_ARTICLES": "Wszystkie artykuły",
-      "MY_ARTICLES": "Moje artykuły",
-      "DRAFT": "Szkic",
-      "ARCHIVED": "Zarchiwizowane",
-      "CATEGORY": "Kategoria",
-      "SETTINGS": "Ustawienia",
-      "CATEGORY_EMPTY_MESSAGE": "Nie znaleziono kategorii"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Kategorie",
+      "LOCALES": "Języki",
+      "SETTINGS": "Ustawienia"
     },
+    "CHANNELS": "Channels",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Automatycznie oznaczaj jako offline",
-      "INFO_TEXT": "Pozwól systemowi automatycznie oznaczać Cię jako offline, gdy nie korzystasz z aplikacji lub panelu"
+      "INFO_TEXT": "Pozwól systemowi automatycznie oznaczać Cię jako offline, gdy nie korzystasz z aplikacji lub panelu",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Czytaj dokumentację"
   },

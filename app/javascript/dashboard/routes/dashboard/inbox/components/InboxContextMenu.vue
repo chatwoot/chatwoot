@@ -37,7 +37,7 @@ export default {
     @close="handleClose"
   >
     <div
-      class="bg-white dark:bg-slate-900 w-40 py-1 border shadow-md border-slate-100 dark:border-slate-700/50 rounded-xl"
+      class="bg-n-alpha-3 backdrop-blur-[100px] w-40 py-2 px-2 outline outline-1 outline-n-container shadow-lg rounded-xl"
     >
       <MenuItem
         v-for="item in menuItems"

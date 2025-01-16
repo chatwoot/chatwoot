@@ -6,6 +6,7 @@
     "LIST": {
       "404": "Šioje grupėje nėra aktyvių pokalbių."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Pokalbiai",
     "MENTION_HEADING": "Paminėjimai",
     "UNATTENDED_HEADING": "Be priežiūros",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "Vieta"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "pasidalino URL"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "Nėra turinio",
     "HIDE_QUOTED_TEXT": "Slėpti cituojamą tekstą",
     "SHOW_QUOTED_TEXT": "Rodyti cituojamą tekstą",
-    "MESSAGE_READ": "Skaityti"
+    "MESSAGE_READ": "Skaityti",
+    "SENDING": "Sending"
   }
 }

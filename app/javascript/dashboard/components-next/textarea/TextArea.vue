@@ -1,72 +1,35 @@
 <script setup>
 import { computed, ref, onMounted, nextTick, watch } from 'vue';
+import {
+  appendSignature,
+  removeSignature,
+  extractTextFromMarkdown,
+} from 'dashboard/helper/editorHelper';
 
 const props = defineProps({
-  modelValue: {
-    type: String,
-    default: '',
-  },
-  label: {
-    type: String,
-    default: '',
-  },
-  placeholder: {
-    type: String,
-    default: '',
-  },
-  maxLength: {
-    type: Number,
-    default: 200,
-  },
-  id: {
-    type: String,
-    default: '',
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  customTextAreaClass: {
-    type: String,
-    default: '',
-  },
-  customTextAreaWrapperClass: {
-    type: String,
-    default: '',
-  },
-  showCharacterCount: {
-    type: Boolean,
-    default: false,
-  },
-  autoHeight: {
-    type: Boolean,
-    default: false,
-  },
-  resize: {
-    type: Boolean,
-    default: false,
-  },
-  minHeight: {
-    type: String,
-    default: '4rem',
-  },
-  maxHeight: {
-    type: String,
-    default: '12rem',
-  },
-  autofocus: {
-    type: Boolean,
-    default: false,
-  },
-  message: {
-    type: String,
-    default: '',
-  },
+  modelValue: { type: String, default: '' },
+  label: { type: String, default: '' },
+  placeholder: { type: String, default: '' },
+  maxLength: { type: Number, default: 200 },
+  id: { type: String, default: '' },
+  disabled: { type: Boolean, default: false },
+  customTextAreaClass: { type: String, default: '' },
+  customTextAreaWrapperClass: { type: String, default: '' },
+  showCharacterCount: { type: Boolean, default: false },
+  autoHeight: { type: Boolean, default: false },
+  resize: { type: Boolean, default: false },
+  minHeight: { type: String, default: '4rem' },
+  maxHeight: { type: String, default: '12rem' },
+  autofocus: { type: Boolean, default: false },
+  message: { type: String, default: '' },
   messageType: {
     type: String,
     default: 'info',
     validator: value => ['info', 'error', 'success'].includes(value),
   },
+  signature: { type: String, default: '' },
+  sendWithSignature: { type: Boolean, default: false }, // add this as a prop, so that we won't have to add useUISettings
+  allowSignature: { type: Boolean, default: false }, // allowSignature is a kill switch, ensuring no signature methods are triggered except when this flag is true
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -75,6 +38,9 @@ const textareaRef = ref(null);
 const isFocused = ref(false);
 
 const characterCount = computed(() => props.modelValue.length);
+const cleanedSignature = computed(() =>
+  extractTextFromMarkdown(props.signature)
+);
 
 const messageClass = computed(() => {
   switch (props.messageType) {
@@ -95,6 +61,32 @@ const adjustHeight = () => {
   textareaRef.value.style.height = 'auto';
   // Set the height to the scrollHeight
   textareaRef.value.style.height = `${textareaRef.value.scrollHeight}px`;
+};
+
+const setCursor = () => {
+  if (!textareaRef.value) return;
+
+  const bodyWithoutSignature = removeSignature(
+    props.modelValue,
+    cleanedSignature.value
+  );
+  const bodyEndsAt = bodyWithoutSignature.trimEnd().length;
+
+  textareaRef.value.focus();
+  textareaRef.value.setSelectionRange(bodyEndsAt, bodyEndsAt);
+};
+
+const toggleSignatureInEditor = signatureEnabled => {
+  if (!props.allowSignature) return;
+  const valueWithSignature = signatureEnabled
+    ? appendSignature(props.modelValue, cleanedSignature.value)
+    : removeSignature(props.modelValue, cleanedSignature.value);
+  emit('update:modelValue', valueWithSignature);
+
+  nextTick(() => {
+    adjustHeight();
+    setCursor();
+  });
 };
 
 const handleInput = event => {
@@ -126,13 +118,20 @@ watch(
   }
 );
 
+watch(
+  () => props.sendWithSignature,
+  newValue => {
+    if (props.allowSignature) toggleSignatureInEditor(newValue);
+  }
+);
+
 onMounted(() => {
   if (props.autoHeight) {
     nextTick(adjustHeight);
   }
 
   if (props.autofocus) {
-    textareaRef.value.focus();
+    textareaRef.value?.focus();
   }
 });
 </script>
@@ -161,6 +160,7 @@ onMounted(() => {
         },
       ]"
     >
+      <slot /><!-- Slot for adding popover -->
       <textarea
         :id="id"
         ref="textareaRef"

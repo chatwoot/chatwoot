@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "زمان انتظار مشتری",
-        "TOOLTIP_TEXT": "زمان انتظار {metricValue} (بر اساس {conversationCount} پاسخ)"
+        "TOOLTIP_TEXT": "زمان انتظار {metricValue} (بر اساس {conversationCount} پاسخ)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "پارسال",
       "CUSTOM_DATE_RANGE": "محدوده تاریخ سفارشی"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "در ۷ روز گذشته"
-      },
-      {
-        "id": 1,
-        "name": "در ۳۰ روز گذشته"
-      },
-      {
-        "id": 0,
-        "name": "۳ ماه گذشته"
-      },
-      {
-        "id": 0,
-        "name": "۶ ماه گذشته"
-      },
-      {
-        "id": 0,
-        "name": "پارسال"
-      },
-      {
-        "id": 0,
-        "name": "محدوده تاریخ سفارشی"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "درخواست دادن",
       "PLACEHOLDER": "محدوده تاریخ را انتخاب کنید"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "پاک کردن فیلتر",
       "EMPTY_LIST": "نتیجه‌ای یافت نشد"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -320,7 +298,7 @@
         "name": "در ۷ روز گذشته"
       },
       {
-        "id": 0,
+        "id": "۱",
         "name": "در ۳۰ روز گذشته"
       },
       {
@@ -387,7 +365,7 @@
         "name": "در ۷ روز گذشته"
       },
       {
-        "id": 0,
+        "id": "۱",
         "name": "در ۳۰ روز گذشته"
       },
       {

@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Posledný rok",
       "CUSTOM_DATE_RANGE": "Vlastný rozsah dátumov"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Posledných 7 dní"
-      },
-      {
-        "id": 1,
-        "name": "Posledných 30 dní"
-      },
-      {
-        "id": 2,
-        "name": "Posledné 3 mesiace"
-      },
-      {
-        "id": 3,
-        "name": "Posledných 6 mesiacov"
-      },
-      {
-        "id": 4,
-        "name": "Posledný rok"
-      },
-      {
-        "id": 5,
-        "name": "Vlastný rozsah dátumov"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Použiť",
       "PLACEHOLDER": "Vybrať rozsah dátumov"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Žiadne výsledky neboli nájdené"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -490,7 +468,7 @@
       "NO_AGENTS": "There are no conversations by agents",
       "TABLE_HEADER": {
         "AGENT": "Agent",
-        "OPEN": "OPEN",
+        "OPEN": "Otvoriť",
         "UNATTENDED": "Unattended",
         "STATUS": "Status"
       }

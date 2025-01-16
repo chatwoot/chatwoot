@@ -38,10 +38,17 @@
     "REMOVE_SELECTION": "Verwijder selectie",
     "DOWNLOAD": "Download",
     "UNKNOWN_FILE_TYPE": "Onbekend bestand",
-    "SAVE_CONTACT": "Opslaan",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} has started a meeting"
+    },
     "UPLOADING_ATTACHMENTS": "Bijlagen uploaden...",
     "REPLIED_TO_STORY": "Reageerde op jouw verhaal",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Bericht succesvol verwijderd",
@@ -219,6 +226,10 @@
         "DELETE": "Verwijderen",
         "CANCEL": "Annuleren"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contact",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -310,7 +321,8 @@
     "TO": "Aan",
     "BCC": "BCC",
     "CC": "CC",
-    "SUBJECT": "Onderwerp"
+    "SUBJECT": "Onderwerp",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participating",
@@ -335,5 +347,10 @@
     "ORIGINAL_CONTENT": "Oorspronkelijke inhoud",
     "TRANSLATED_CONTENT": "Vertaalde inhoud",
     "NO_TRANSLATIONS_AVAILABLE": "Geen vertalingen beschikbaar voor deze inhoud"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
   }
 }

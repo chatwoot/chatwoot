@@ -31,7 +31,7 @@
         },
         "END_POINT": {
           "LABEL": "آدرس URL وب هوک",
-          "PLACEHOLDER": "به عنوان مثال: https://example/api/webhook",
+          "PLACEHOLDER": "Example: {webhookExampleURL}",
           "ERROR": "لطفا آدرس URL صحیحی وارد کنید"
         },
         "EDIT_SUBMIT": "به‌روزرسانی وب‌هوک",
@@ -47,10 +47,10 @@
       "LIST": {
         "404": "هیچ وب هوکی برای این حساب ساخته نشده است",
         "TITLE": "مدیریت وب هوک‌ها",
-        "TABLE_HEADER": [
-          "آدرس مقصد وب هوک",
-          "رویدادها"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "آدرس مقصد وب هوک",
+          "ACTIONS": "عملیات"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "ویرایش",
@@ -90,7 +90,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "استفاده از اسلک",
-        "BODY": "<br/> <p> ما اکنون تمام مکالمات ورودی را در کانال <b><i> گفتگوهای مشتری </i> </b> داخل محل کار شما همگام سازی می کنیم. </p> <p> پاسخ به یک رشته مکالمه در کانال مکالمه <b><i> مشتری- مکالمات </ i> </b> از طریق برنامه پاسخی به مشتری ایجاد می کند. </ p> <p> پاسخ ها را با <b> <i> شروع کنید توجه: </i> </b> برای ایجاد یادداشت های خصوصی به جای پاسخ ها. </p> <p> اگر پاسخ دهنده در slack نمایه نماینده ای در برنامه تحت همان ایمیل داشته باشد ، پاسخ ها به همین ترتیب مرتبط می شوند. </ p> <p> وقتی ارسال کننده نمایه نماینده مرتبطی ندارد ، پاسخها از نمایه ربات انجام می شود. </p>",
+        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
         "SELECTED": "انتخاب شد"
       },
       "SELECT_CHANNEL": {
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "هنوز هیچ برنامه داشبوردی روی این حساب پیکربندی نشده است",
         "LOADING": "در حال واکشی برنامه های داشبورد...",
-        "TABLE_HEADER": [
-          "نام",
-          "نقطه پایانی"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "نام",
+          "ENDPOINT": "نقطه پایانی"
+        },
         "EDIT_TOOLTIP": "ویرایش برنامه",
         "DELETE_TOOLTIP": "حذف برنامه"
       },
@@ -301,6 +301,15 @@
         "SUCCESS": "Issue unlinked successfully",
         "ERROR": "There was an error unlinking the issue, please try again"
       }
+    }
+  },
+  "CAPTAIN": {
+    "NAME": "Captain",
+    "COPILOT": {
+      "SEND_MESSAGE": "ارسال پیام...",
+      "LOADER": "Captain is thinking",
+      "YOU": "شما",
+      "USE": "Use this"
     }
   }
 }

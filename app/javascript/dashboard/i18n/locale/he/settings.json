@@ -61,15 +61,29 @@
         "COPY": "עותק"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "התראות קוליות",
-        "NOTE": "אפשר התראות קוליות להודעות ושיחות חדשות.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "כלום",
           "MINE": "הוקצה",
-          "ALL": "הכל"
+          "ALL": "הכל",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "אירועי התראה לשיחות:",
+          "TITLE": "אירועי התראה לשיחות",
           "NONE": "כלום",
           "ASSIGNED": "שיחות משוייכות",
           "ALL_CONVERSATIONS": "כל השיחות"
@@ -81,7 +95,9 @@
           "TITLE": "העדפות התראה:",
           "CONDITION_ONE": "שלח התראות קוליות רק במידה והדפדפן לא פעיל",
           "CONDITION_TWO": "שלח התראות כל 30 שניות עד שכל ההודעות המשוייכות נקראו"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "קרא עוד"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "התראות דוא\"ל",
@@ -145,11 +161,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "זמינות",
-        "STATUSES_LIST": [
-          "מחובר",
-          "עסוק",
-          "לא מחובר"
-        ],
+        "STATUS": {
+          "ONLINE": "מחובר",
+          "BUSY": "עסוק",
+          "OFFLINE": "לא מחובר"
+        },
         "SET_AVAILABILITY_SUCCESS": "זמינות הוגדרה בהצלחה",
         "SET_AVAILABILITY_ERROR": "לא ניתן להגדיר זמינות, אנא נסה שנית"
       },
@@ -177,14 +193,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "שינוי",
-    "CHANGE_ACCOUNTS": "החלף חשבון",
-    "CONTACT_SUPPORT": "צור קשר עם תמיכה",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "בחר חשבון מהרשימה הבאה",
-    "PROFILE_SETTINGS": "הגדרות פרופיל",
-    "KEYBOARD_SHORTCUTS": "קיצורי דרך במקלדת",
-    "APPEARANCE": "Change Appearance",
-    "SUPER_ADMIN_CONSOLE": "מסוף סופר אדמין",
-    "LOGOUT": "התנתק"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "שנותרו ימי ניסיון.",
@@ -218,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "שלח"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "מאמת...",
@@ -227,11 +249,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "צופה כרגע:",
     "SWITCH": "החלף",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "שיחות",
-    "INBOX": "תיבת הדואר הנכנס",
+    "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "כל השיחות",
     "MENTIONED_CONVERSATIONS": "אִזְכּוּרים",
     "PARTICIPATING_CONVERSATIONS": "משתתף",
@@ -266,6 +289,8 @@
     "NEW_INBOX": "תיבת דואר נכנס חדשה",
     "REPORTS_CONVERSATION": "שיחות",
     "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
     "CAMPAIGNS": "קמפיין",
     "ONGOING": "מתמשך",
     "ONE_OFF": "חד פעמי",
@@ -276,6 +301,7 @@
     "REPORTS_INBOX": "תיבת הדואר הנכנס",
     "REPORTS_TEAM": "צוות",
     "SET_AVAILABILITY_TITLE": "הגדר את עצמך בתור",
+    "SET_YOUR_AVAILABILITY": "הגדר את הזמינות שלך",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "בטא",
@@ -283,17 +309,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Help Center",
-      "ALL_ARTICLES": "כל המאמרים",
-      "MY_ARTICLES": "הכתבות שלי",
-      "DRAFT": "טיוטה",
-      "ARCHIVED": "בארכיון",
-      "CATEGORY": "קטגוריה",
-      "SETTINGS": "הגדרות",
-      "CATEGORY_EMPTY_MESSAGE": "לא נמצאו קטגוריות"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "קטגוריות",
+      "LOCALES": "מקומיים",
+      "SETTINGS": "הגדרות"
     },
+    "CHANNELS": "Channels",
     "SET_AUTO_OFFLINE": {
       "TEXT": "סמן באופן לא מקוון באופן אוטומטי",
-      "INFO_TEXT": "תן למערכת לסמן אותך באופן אוטומטי במצב לא מקוון כשאתה לא משתמש באפליקציה או בלוח המחוונים."
+      "INFO_TEXT": "תן למערכת לסמן אותך באופן אוטומטי במצב לא מקוון כשאתה לא משתמש באפליקציה או בלוח המחוונים.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "קרא מסמכים"
   },

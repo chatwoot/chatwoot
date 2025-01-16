@@ -33,8 +33,8 @@ const handleDelete = () => {
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-1.5 py-2.5 min-w-0">
         <Avatar
-          :name="note.user.name"
-          :src="note.user.thumbnail"
+          :name="note?.user?.name || 'Bot'"
+          :src="note?.user?.thumbnail || '/assets/images/chatwoot_bot.png'"
           :size="16"
           rounded-full
         />
