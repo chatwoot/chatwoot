@@ -412,7 +412,9 @@
       },
       "STATUS": {
         "TITLE": "Status",
-        "PENDING": "Pending"
+        "PENDING": "Pending",
+        "APPROVED": "Approved",
+        "ALL": "All"
       },
       "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
       "CREATE": {
