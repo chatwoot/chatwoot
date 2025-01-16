@@ -43,7 +43,7 @@
     NGINX
     
     # Using Ruby's file I/O with sudo to write the config file
-    file_write_command = "echo '#{nginx_config}' | sudo tee #{config_filename} > /dev/null"
+    sudo_command = "printf '#{nginx_config}' | sudo tee #{config_filename} > /dev/null"
     if system(file_write_command)
       Rails.logger.info "Nginx config written successfully"
     else
