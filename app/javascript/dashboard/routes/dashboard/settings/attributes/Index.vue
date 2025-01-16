@@ -99,15 +99,10 @@ const onClickTabChange = index => {
         :attribute-model="attributeModel"
       />
     </template>
-    <woot-modal
-      v-if="showAddPopup"
+    <AddAttribute
       v-model:show="showAddPopup"
       :on-close="hideAddPopup"
-    >
-      <AddAttribute
-        :on-close="hideAddPopup"
-        :selected-attribute-model-tab="selectedTabIndex"
-      />
-    </woot-modal>
+      :selected-attribute-model-tab="selectedTabIndex"
+    />
   </SettingsLayout>
 </template>
