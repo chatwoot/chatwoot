@@ -95,6 +95,11 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       });
     },
 
+    populateMessageForm(formData) {
+      this.toggle('open')
+      IFrameHelper.sendMessage('populate-message-form', formData);
+    },
+
     setUser(identifier, user) {
       if (typeof identifier !== 'string' && typeof identifier !== 'number') {
         throw new Error('Identifier should be a string or a number');

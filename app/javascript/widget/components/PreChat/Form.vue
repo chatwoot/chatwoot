@@ -15,6 +15,7 @@
       :key="item.name"
       :name="item.name"
       :type="item.type"
+      :value="getFormValue(item.name)"
       :label="getLabel(item)"
       :placeholder="getPlaceHolder(item)"
       :validation="getValidation(item)"
@@ -38,6 +39,7 @@
       v-if="!hasActiveCampaign"
       name="message"
       type="textarea"
+      :value="getFormValue('message')"
       :label-class="context => labelClass(context)"
       :input-class="context => inputClass(context)"
       :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
@@ -300,6 +302,9 @@ export default {
         return values;
       }
       return null;
+    },
+    getFormValue(key){
+      return window.preChatFieldValues[key];
     },
     onSubmit() {
       const { emailAddress, fullName, phoneNumber, message } = this.formValues;

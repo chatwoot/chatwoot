@@ -112,7 +112,7 @@ export default {
       'setBubbleVisibility',
       'setColorScheme',
     ]),
-    ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
+    ...mapActions('conversation', ['sendMessage', 'fetchOldConversations', 'setUserLastSeen']),
     ...mapActions('campaign', [
       'initCampaigns',
       'executeCampaign',
@@ -231,6 +231,25 @@ export default {
         });
       }
     },
+    handleSendMessage(message){
+      this.sendMessage({
+        content: message.content,
+        replyTo: null,
+      });
+    },
+
+    handleStartConversation(){
+      if (this.shouldShowPreChatForm && !this.conversationSize) {
+        this.replaceRoute('prechat-form')
+      } else {
+        this.replaceRoute('messages')
+      }
+    },
+
+    handlePopulateMessageForm(data){
+      window.preChatFieldValues = data;
+      this.handleStartConversation()
+    },
     createWidgetEvents(message) {
       const { eventName } = message;
       const isWidgetTriggerEvent = eventName === 'webwidget.triggered';
@@ -327,6 +346,10 @@ export default {
           }
         } else if (message.event === SDK_SET_BUBBLE_VISIBILITY) {
           this.setBubbleVisibility(message.hideMessageBubble);
+        } else if (message.event === 'send-message') {
+          this.handleSendMessage(message);
+        } else if (message.event === 'populate-message-form') {
+          this.handlePopulateMessageForm(message)
         }
       });
     },
