@@ -25,6 +25,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  status: {
+    type: String,
+    default: 'approved',
+  },
   assistant: {
     type: Object,
     default: () => ({}),
@@ -45,7 +49,22 @@ const { t } = useI18n();
 
 const [showActionsDropdown, toggleDropdown] = useToggle();
 
+const statusAction = computed(() => {
+  if (props.status === 'pending') {
+    return [
+      {
+        label: t('CAPTAIN.RESPONSES.OPTIONS.APPROVE'),
+        value: 'approve',
+        action: 'approve',
+        icon: 'i-lucide-circle-check-big',
+      },
+    ];
+  }
+  return [];
+});
+
 const menuItems = computed(() => [
+  ...statusAction.value,
   {
     label: t('CAPTAIN.RESPONSES.OPTIONS.EDIT_RESPONSE'),
     value: 'edit',
@@ -107,6 +126,16 @@ const handleAssistantAction = ({ action, value }) => {
         <i class="i-woot-captain" />
         {{ assistant?.name || '' }}
       </span>
+      <div
+        v-if="status !== 'approved'"
+        class="shrink-0 text-sm text-n-slate-11 line-clamp-1 inline-flex items-center gap-1 ml-3"
+      >
+        <i
+          class="i-ph-stack text-base"
+          :title="t('CAPTAIN.RESPONSES.STATUS.TITLE')"
+        />
+        {{ t(`CAPTAIN.RESPONSES.STATUS.${status.toUpperCase()}`) }}
+      </div>
       <div
         class="shrink-0 text-sm text-n-slate-11 line-clamp-1 inline-flex items-center gap-1 ml-3"
       >

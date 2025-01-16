@@ -84,6 +84,7 @@ class Captain::Llm::AssistantChatService < Captain::Llm::BaseOpenAiService
   def fetch_documentation(query)
     @assistant
       .responses
+      .approved
       .search(query)
       .map { |response| format_response(response) }.join
   end
