@@ -4,7 +4,7 @@ import { useAlert, useTrack } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import wootConstants from 'dashboard/constants/globals';
 
-import InboxCard from './components/InboxCard.vue';
+import InboxCard from 'dashboard/components-next/Inbox/InboxCard.vue';
 import InboxListHeader from './components/InboxListHeader.vue';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
@@ -43,6 +43,8 @@ export default {
       meta: 'notifications/getMeta',
       uiFlags: 'notifications/getUIFlags',
       notification: 'notifications/getFilteredNotifications',
+      notificationV4: 'notifications/getFilteredNotificationsV4',
+      inboxById: 'inboxes/getInboxById',
     }),
     currentNotificationId() {
       return Number(this.$route.params.notification_id);
@@ -57,6 +59,9 @@ export default {
     },
     notifications() {
       return this.notification(this.inboxFilters);
+    },
+    notificationsV4() {
+      return this.notificationV4(this.inboxFilters);
     },
     showEndOfList() {
       return this.uiFlags.isAllNotificationsLoaded && !this.uiFlags.isFetching;
@@ -77,6 +82,9 @@ export default {
     this.fetchNotifications();
   },
   methods: {
+    stateInbox(inboxId) {
+      return this.inboxById(inboxId);
+    },
     fetchNotifications() {
       this.page = 1;
       this.$store.dispatch('notifications/clear');
@@ -164,15 +172,42 @@ export default {
         this.inboxFilters
       );
     },
+    openConversation(notification) {
+      const {
+        id,
+        primaryActorId,
+        primaryActorType,
+        primaryActor: { inboxId },
+        notificationType,
+      } = notification;
+
+      if (this.$route.params.notification_id !== id) {
+        useTrack(INBOX_EVENTS.OPEN_CONVERSATION_VIA_INBOX, {
+          notificationType,
+        });
+
+        this.$store.dispatch('notifications/read', {
+          id,
+          primaryActorId,
+          primaryActorType,
+          unreadCount: this.meta.unreadCount,
+        });
+
+        this.$router.push({
+          name: 'inbox_view_conversation',
+          params: { inboxId, notification_id: id },
+        });
+      }
+    },
   },
 };
 </script>
 
 <template>
-  <section class="flex w-full h-full bg-white dark:bg-slate-900">
+  <section class="flex w-full h-full bg-n-solid-1">
     <div
-      class="flex flex-col h-full w-full md:min-w-[360px] md:max-w-[360px] ltr:border-r border-slate-50 dark:border-slate-800/50"
-      :class="!currentNotificationId ? 'flex' : 'hidden md:flex'"
+      class="flex flex-col h-full w-full lg:min-w-[400px] lg:max-w-[400px] ltr:border-r rtl:border-l border-n-weak"
+      :class="!currentNotificationId ? 'flex' : 'hidden xl:flex'"
     >
       <InboxListHeader
         :is-context-menu-open="isInboxContextMenuOpen"
@@ -181,18 +216,25 @@ export default {
       />
       <div
         ref="notificationList"
-        class="flex flex-col w-full h-[calc(100%-56px)] overflow-x-hidden overflow-y-auto"
+        class="flex flex-col gap-px w-full h-[calc(100%-56px)] pb-3 overflow-x-hidden px-3 overflow-y-auto divide-y divide-n-weak [&>*:hover]:!border-y-transparent [&>*.active]:!border-y-transparent [&>*:hover+*]:!border-t-transparent [&>*.active+*]:!border-t-transparent"
       >
         <InboxCard
-          v-for="notificationItem in notifications"
+          v-for="notificationItem in notificationsV4"
           :key="notificationItem.id"
-          :active="currentNotificationId === notificationItem.id"
-          :notification-item="notificationItem"
+          :inbox-item="notificationItem"
+          :state-inbox="stateInbox(notificationItem.primaryActor?.inboxId)"
+          class="rounded-none hover:rounded-xl hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3"
+          :class="
+            currentNotificationId === notificationItem.id
+              ? 'bg-n-alpha-1 dark:bg-n-alpha-3 click-animation rounded-xl active'
+              : ''
+          "
           @mark-notification-as-read="markNotificationAsRead"
           @mark-notification-as-un-read="markNotificationAsUnRead"
           @delete-notification="deleteNotification"
           @context-menu-open="isInboxContextMenuOpen = true"
           @context-menu-close="isInboxContextMenuOpen = false"
+          @click="openConversation(notificationItem)"
         />
         <div v-if="uiFlags.isFetching" class="text-center">
           <span class="mt-4 mb-4 spinner" />
@@ -214,3 +256,23 @@ export default {
     <CmdBarConversationSnooze />
   </section>
 </template>
+
+<style scoped>
+.click-animation {
+  animation: click-animation 0.2s ease-in-out;
+}
+
+@keyframes click-animation {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.99);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+</style>

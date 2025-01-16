@@ -3,8 +3,8 @@
     "NEW_TEAM": "إنشاء فريق جديد",
     "HEADER": "الفرق",
     "LOADING": "Fetching teams",
-    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
-    "LEARN_MORE": "Learn more about teams",
+    "DESCRIPTION": "الفرق تتيح لك تنظيم الوكلاء في مجموعات بناءً على مسؤولياتهم. يمكن للوكيل أن يكون عضوًا في أكثر من فريق. لتحقيق التعاون في العمل, يمكنك إسناد المحادثات لفرق محددة.",
+    "LEARN_MORE": "لمعرفة المزيد حول الفرق",
     "LIST": {
       "404": "لا يوجد موظفي دعم مرتبطين بهذا الحساب.",
       "EDIT_TEAM": "تعديل الفريق",
@@ -20,23 +20,18 @@
         "TITLE": "إضافة وكلاء للفريق - {teamName}",
         "DESC": "إضافة وكلاء إلى فريقك الجديد. هذا يتيح لكم العمل كفريق في المحادثات، والحصول على إشعار عن الأحداث الجديدة في نفس المحادثة."
       },
-      "WIZARD": [
-        {
-          "title": "إنشاء",
-          "route": "settings_teams_new",
-          "body": "إنشاء فريق جديد للوكلاء."
-        },
-        {
-          "title": "إضافة وكلاء",
-          "route": "settings_teams_add_agents",
-          "body": "إضافة وكيل إلى فريق."
-        },
-        {
-          "title": "إنهاء",
-          "route": "settings_teams_finish",
-          "body": "أصبح كل شيء جاهزاً الآن!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "إنشاء",
+        "BODY": "إنشاء فريق جديد للوكلاء."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "إضافة وكلاء",
+        "BODY": "إضافة وكيل إلى فريق."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "إنهاء",
+        "BODY": "أصبح كل شيء جاهزاً الآن!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "إضافة وكلاء للفريق - {teamName}",
         "DESC": "إضافة وكلاء إلى فريقك الذي تم إنشاؤه حديثاً. سيتم إعلام جميع الوكلاء المضافين عند تعيين محادثة لهذا الفريق."
       },
-      "WIZARD": [
-        {
-          "title": "تفاصيل الفريق",
-          "route": "settings_teams_edit",
-          "body": "تغيير الاسم والوصف والتفاصيل الأخرى."
-        },
-        {
-          "title": "تعديل الوكلاء",
-          "route": "settings_teams_edit_members",
-          "body": "تعديل الوكلاء في فريقك."
-        },
-        {
-          "title": "إنهاء",
-          "route": "settings_teams_edit_finish",
-          "body": "أصبح كل شيء جاهزاً الآن!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "تفاصيل الفريق",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "تغيير الاسم والوصف والتفاصيل الأخرى."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "تعديل الوكلاء",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "تعديل الوكلاء في فريقك."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "إنهاء",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "أصبح كل شيء جاهزاً الآن!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "تعذر حفظ تفاصيل الفريق. حاول مرة أخرى."
@@ -100,7 +93,7 @@
         "ERROR_MESSAGE": "تعذر حذف الفريق. حاول مرة أخرى."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure you want to delete the team?",
+        "TITLE": "هل أنت متأكد من أنك تريد حذف هذا الفريق؟",
         "PLACE_HOLDER": "الرجاء كتابة {teamName} للتأكيد",
         "MESSAGE": "سيؤدي حذف الفريق إلى إزالة مهمة الفريق من المحادثات التي تم تعيينها لهذا الفريق.",
         "YES": "حذف ",

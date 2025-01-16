@@ -21,120 +21,121 @@
   messages:
     reset_password_success: Woot! Forespørsel om tilbakestilling av passord er vellykket. Sjekk innboksen for instruksjoner.
     reset_password_failure: Uff da! Vi fant ingen bruker med den angitte eposten.
-    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
+    inbox_deletetion_response: Innboksen din slettingsforespørsel vil bli behandlet i løpet av en periode.
   errors:
     validations:
-      presence: must not be blank
+      presence: kan ikke være tom
     webhook:
-      invalid: Invalid events
+      invalid: ugyldige hendelser
     signup:
       disposable_email: Vi tillater ikke engangs e-poster
-      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
+      blocked_domain: Dette domenet er ikke tillatt. Hvis du tror dette er en feil, vennligst kontakt kundestøtte.
       invalid_email: Du har angitt en ugyldig e-post
       email_already_exists: "Du har allerede registrert en konto med %{email}"
-      invalid_params: 'Invalid, please check the signup paramters and try again'
+      invalid_params: 'Ugyldig registrering, sjekk registrerings-parametere og prøv på nytt'
       failed: Registrering mislyktes
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: Ugyldig datatype
     contacts:
       import:
-        failed: File is blank
+        failed: Filen er blank
       export:
-        success: We will notify you once contacts export file is ready to view.
+        success: Vi varsler deg når kontaktene tar eksport er klar til visning.
       email:
-        invalid: Invalid email
+        invalid: Ugyldig epost
       phone_number:
-        invalid: should be in e164 format
+        invalid: skal være i e164-format
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: må være unikt i kategorien og portalen
     dyte:
-      invalid_message_type: "Invalid message type. Action not permitted"
+      invalid_message_type: "Ugyldig meldingstype. Handlingen er ikke tillatt"
     slack:
-      invalid_channel_id: "Invalid slack channel. Please try again"
+      invalid_channel_id: "Ugyldig slack kanal. Vennligst prøv på nytt"
     inboxes:
       imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
+        socket_error: Kontroller nettverkstilkoblingen, IMAP-adressen og prøv på nytt.
+        no_response_error: Vennligst sjekk IMAP påloggingsinformasjonen, og prøv på nytt.
+        host_unreachable_error: Verten er ikke tilgjengelig. Vennligst kontroller IMAP-adressen, IMAP-porten og prøv på nytt.
+        connection_timed_out_error: Tilkobling ble tidsavbrutt for %{address}:%{port}
+        connection_closed_error: Forbindelsen ble lukket.
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: ikke kan starte eller slutte med symboler, og den kan ikke ha < > / \ @ tegn.
     custom_filters:
-      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
-      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
-      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
-      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+      number_of_records: Grense nådd. Maksimalt antall tillatte filtre for en bruker per konto er 50.
+      invalid_attribute: Ugyldig attributtnøkkel - [%{key}]. Nøkkelen bør være en av [%{allowed_keys}] eller en egendefinert attributt definert på kontoen.
+      invalid_operator: Ugyldig operatør. De tillatte operatørene for %{attribute_name} er [%{allowed_keys}].
+      invalid_query_operator: Spørrings-operatør må være enten "AND" eller "OR".
+      invalid_value: Ugyldig verdi. Verdiene angitt for %{attribute_name} er ugyldige
   reports:
     period: Rapporteringsperiode %{since} til %{until}
-    utc_warning: The report generated is in UTC timezone
+    utc_warning: Rapporten generert er i UTC tidssone
     agent_csv:
-      agent_name: Agent name
-      conversations_count: Assigned conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      agent_name: Agent navn
+      conversations_count: Tilordnet samtaler
+      avg_first_response_time: Første svartid
+      avg_resolution_time: Gjennomsnittstid for løsning
       resolution_count: Antall løsninger
-      avg_customer_waiting_time: Avg customer waiting time
+      avg_customer_waiting_time: Kunden i snitt venter
     inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      inbox_name: Navn på innboks
+      inbox_type: Innboks type
+      conversations_count: Antall samtaler
+      avg_first_response_time: Første svartid
+      avg_resolution_time: Gjennomsnittstid for løsning
     label_csv:
-      label_title: Label
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      label_title: Etiketter
+      conversations_count: Antall samtaler
+      avg_first_response_time: Første svartid
+      avg_resolution_time: Gjennomsnittstid for løsning
     team_csv:
-      team_name: Team name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      team_name: Gruppe navn
+      conversations_count: Antall samtaler
+      avg_first_response_time: Første svartid
+      avg_resolution_time: Gjennomsnittstid for løsning
       resolution_count: Antall løsninger
-      avg_customer_waiting_time: Avg customer waiting time
+      avg_customer_waiting_time: Gjennomsnittlig ventetid for kunde
     conversation_traffic_csv:
-      timezone: Timezone
+      timezone: Tidssone
     sla_csv:
-      conversation_id: Conversation ID
+      conversation_id: Samtale ID
       sla_policy_breached: SLA Policy
-      assignee: Assignee
-      team: Team
-      inbox: Inbox
+      assignee: Agent
+      team: Gruppe
+      inbox: Innboks
       labels: Etiketter
-      conversation_link: Link to the Conversation
-      breached_events: Breached Events
-    default_group_by: day
+      conversation_link: Lenke til samtalen
+      breached_events: Brytte hendelser
+    default_group_by: dag
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
-        contact_phone_number: Contact Phone Number
-        link_to_the_conversation: Link to the conversation
+        contact_name: Navn på kontakt
+        contact_email_address: E-postadresse for kontakt
+        contact_phone_number: Kontakt telefonnummer
+        link_to_the_conversation: Lenke til samtalen
         agent_name: Agent navn
-        rating: Rating
-        feedback: Feedback Comment
-        recorded_at: Recorded date
+        rating: Vurdering
+        feedback: Tilbakemelding
+        recorded_at: Registrert dato
   notifications:
     notification_title:
-      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
-      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
-      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
-      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
-      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
-      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
-      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
-    attachment: "Attachment"
-    no_content: "No content"
+      conversation_creation: "En samtale (#%{display_id}) har blitt opprettet i %{inbox_name}"
+      conversation_assignment: "En samtale (#%{display_id}) er tildelt deg"
+      assigned_conversation_new_message: "En ny melding er opprettet i samtale (#%{display_id})"
+      conversation_mention: "Du har blitt nevnt i samtale (#%{display_id})"
+      sla_missed_first_response: "SLA mål brutt: første svar for samtale (#%{display_id})"
+      sla_missed_next_response: "SLA mål brutt: neste svar for samtale (#%{display_id})"
+      sla_missed_resolution: "SLA mål brutt: løsning for samtale (#%{display_id})"
+    attachment: "Vedlegg"
+    no_content: "Ingen innhold"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} mentioned you in the story: "
-      instagram_deleted_story_content: This story is no longer available.
+      instagram_story_content: "%{story_sender} nevnte deg i historien: "
+      instagram_deleted_story_content: Denne historien er ikke lenger tilgjengelig.
       deleted: Denne meldingen er slettet
       delivery_status:
-        error_code: "Error code: %{error_code}"
+        error_code: "Feilkode: %{error_code}"
     activity:
       status:
         resolved: "Samtale ble løst av %{user_name}"

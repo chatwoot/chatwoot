@@ -1,46 +1,46 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading..."
+      "DOWNLOAD": "Shkarkoni",
+      "UPLOADING": "Po ngarkohet..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "Dërgo"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "Dërgo mesazh përsëri",
+      "ERROR_MESSAGE": "Nuk mund të dërgohej, provo sërish"
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are away at the moment"
+    "ONLINE": "Ne jemi online",
+    "OFFLINE": "Nuk jemi online për momentin"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day",
-    "BACK_IN": "We will be back online"
+    "IN_A_FEW_MINUTES": "Zakonisht përgjigjet brenda pak minutash",
+    "IN_A_FEW_HOURS": "Zakonisht përgjigjemi brenda disa orësh",
+    "IN_A_DAY": "Zakonisht përgjigjemi brenda një dite",
+    "BACK_IN": "Ne do të kthehemi serish online"
   },
   "DAY_NAMES": [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday"
+    "E diele",
+    "E Hënë",
+    "E Martë",
+    "E Mërkurë",
+    "E Enjte",
+    "E Premte",
+    "E Shtunë"
   ],
-  "START_CONVERSATION": "Start Conversation",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
-  "YOU": "You",
-  "START_NEW_CONVERSATION": "Start a new conversation",
-  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "START_CONVERSATION": "Hap Bisedën",
+  "END_CONVERSATION": "Mbyll bisedën",
+  "CONTINUE_CONVERSATION": "Vazhdo bisedën",
+  "YOU": "Ju",
+  "START_NEW_CONVERSATION": "Hap një bisedë të re",
+  "VIEW_UNREAD_MESSAGES": "Ju keni mesazhe të palexuara",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "See new messages",
-    "CLOSE_MESSAGES_BUTTON": "Close",
-    "COMPANY_FROM": "from",
+    "VIEW_MESSAGES_BUTTON": "Shiko mesazhet e reja",
+    "CLOSE_MESSAGES_BUTTON": "Mbylle",
+    "COMPANY_FROM": "form",
     "BOT": "Bot"
   },
   "BUBBLE": {
@@ -48,13 +48,13 @@
   },
   "POWERED_BY": "Powered by Chatwoot",
   "EMAIL_PLACEHOLDER": "Please enter your email",
-  "CHAT_PLACEHOLDER": "Type your message",
-  "TODAY": "Today",
-  "YESTERDAY": "Yesterday",
+  "CHAT_PLACEHOLDER": "Shkruani mesazhin tuaj",
+  "TODAY": "Sot",
+  "YESTERDAY": "Dje",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "Full Name",
+        "LABEL": "Emri i plotë",
         "PLACEHOLDER": "Please enter your full name",
         "REQUIRED_ERROR": "Full Name is required"
       },

@@ -25,12 +25,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nama",
-        "Dibuat oleh",
-        "Terakhir diperbarui oleh",
-        "Visibilitas"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nama",
+        "CREATED BY": "Dibuat oleh",
+        "LAST_UPDATED_BY": "Terakhir diperbarui oleh",
+        "VISIBILITY": "Visibilitas"
+      },
       "404": "Tidak ditemukan makro"
     },
     "DELETE": {

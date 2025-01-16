@@ -92,12 +92,12 @@
       "CONTACT": "Kontakt"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Név",
-        "Leírás",
-        "Típus",
-        "Kulcs"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Név",
+        "DESCRIPTION": "Leírás",
+        "TYPE": "Típus",
+        "KEY": "Kulcs"
+      },
       "BUTTONS": {
         "EDIT": "Szerkesztés",
         "DELETE": "Törlés"

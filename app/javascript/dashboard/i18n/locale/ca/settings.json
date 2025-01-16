@@ -61,15 +61,29 @@
         "COPY": "Copia"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Notificacions d'àudio",
-        "NOTE": "Activa les notificacions d'àudio al tauler per a missatges i converses nous.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "Ningú",
           "MINE": "Assignat",
-          "ALL": "Totes"
+          "ALL": "Totes",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Esdeveniments d'alerta per a converses:",
+          "TITLE": "Esdeveniments d'alerta per a converses",
           "NONE": "Ningú",
           "ASSIGNED": "Converses assignades",
           "ALL_CONVERSATIONS": "Totes les converses"
@@ -81,7 +95,9 @@
           "TITLE": "Condicions d'alerta:",
           "CONDITION_ONE": "Envia alertes d'àudio només si la finestra del navegador no està activa",
           "CONDITION_TWO": "Envia alertes cada 30 segons fins que es llegeixin totes les converses assignades"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Llegir més"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificacions per correu electrònic",
@@ -145,11 +161,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Disponibilitat",
-        "STATUSES_LIST": [
-          "En línia",
-          "Ocupat",
-          "Fora de línia"
-        ],
+        "STATUS": {
+          "ONLINE": "En línia",
+          "BUSY": "Ocupat",
+          "OFFLINE": "Fora de línia"
+        },
         "SET_AVAILABILITY_SUCCESS": "La disponibilitat s'ha establert correctament",
         "SET_AVAILABILITY_ERROR": "No s'ha pogut establir la disponibilitat, torna-ho a provar"
       },
@@ -177,14 +193,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Canvia",
-    "CHANGE_ACCOUNTS": "Canvia de compte",
-    "CONTACT_SUPPORT": "Contacte de suport",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Selecciona un compte de la llista següent",
-    "PROFILE_SETTINGS": "Configuració del Perfil",
-    "KEYBOARD_SHORTCUTS": "Dreceres de teclat",
-    "APPEARANCE": "Canvia l'aparença",
-    "SUPER_ADMIN_CONSOLE": "Consola de super administració",
-    "LOGOUT": "Sortir"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dies de prova restants.",
@@ -218,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Envia"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "S'està verificant...",
@@ -227,11 +249,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Visualització actual:",
     "SWITCH": "Canvia",
     "INBOX_VIEW": "Vista de la safata d'entrada",
     "CONVERSATIONS": "Converses",
-    "INBOX": "Safata d'entrada",
+    "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "Totes les converses",
     "MENTIONED_CONVERSATIONS": "Mencions",
     "PARTICIPATING_CONVERSATIONS": "Participant",
@@ -266,6 +289,8 @@
     "NEW_INBOX": "Safata d'entrada nova",
     "REPORTS_CONVERSATION": "Converses",
     "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
     "CAMPAIGNS": "Campanyes",
     "ONGOING": "En marxa",
     "ONE_OFF": "Un fora",
@@ -276,6 +301,7 @@
     "REPORTS_INBOX": "Safata d'entrada",
     "REPORTS_TEAM": "Equip",
     "SET_AVAILABILITY_TITLE": "Posa't com",
+    "SET_YOUR_AVAILABILITY": "Estableix la vostra disponibilitat",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
@@ -283,17 +309,16 @@
     "REAUTHORIZE": "La vostra connexió a la safata d'entrada ha caducat, torna a connectar\n per continuar rebent i enviant missatges",
     "HELP_CENTER": {
       "TITLE": "Centre d'ajuda",
-      "ALL_ARTICLES": "Tots els articles",
-      "MY_ARTICLES": "Els articles",
-      "DRAFT": "Esborrany",
-      "ARCHIVED": "Arxivat",
-      "CATEGORY": "Categoria",
-      "SETTINGS": "Configuracions",
-      "CATEGORY_EMPTY_MESSAGE": "No s'han trobat categories"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Categories",
+      "LOCALES": "Localitzacions",
+      "SETTINGS": "Configuracions"
     },
+    "CHANNELS": "Canals",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Marca fora de línia automàticament",
-      "INFO_TEXT": "Permet que el sistema et marqui automàticament fora de línia quan no facis servir l'aplicació o el tauler."
+      "INFO_TEXT": "Permet que el sistema et marqui automàticament fora de línia quan no facis servir l'aplicació o el tauler.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Llegir documents"
   },

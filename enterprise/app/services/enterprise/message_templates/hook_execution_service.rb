@@ -1,10 +1,15 @@
 module Enterprise::MessageTemplates::HookExecutionService
   def trigger_templates
     super
-    ResponseBot::ResponseBotJob.perform_later(conversation) if should_process_response_bot?
+    return unless should_process_captain_response?
+
+    Captain::Conversation::ResponseBuilderJob.perform_later(
+      conversation,
+      conversation.inbox.captain_assistant
+    )
   end
 
-  def should_process_response_bot?
-    conversation.pending? && message.incoming? && inbox.response_bot_enabled?
+  def should_process_captain_response?
+    conversation.pending? && message.incoming? && inbox.captain_assistant.present?
   end
 end

@@ -130,7 +130,7 @@ export default {
 
 <template>
   <div
-    class="flex flex-col items-center justify-between px-4 py-2 bg-white border-b dark:bg-slate-900 border-slate-50 dark:border-slate-800/50 md:flex-row"
+    class="flex flex-col items-center justify-between px-4 py-2 border-b bg-n-background border-n-weak md:flex-row"
   >
     <div
       class="flex flex-col items-center justify-center flex-1 w-full min-w-0"
@@ -140,7 +140,7 @@ export default {
         <BackButton
           v-if="showBackButton"
           :back-url="backButtonUrl"
-          class="ltr:ml-0 rtl:mr-0 rtl:ml-4"
+          class="ltr:mr-2 rtl:ml-2"
         />
         <Thumbnail
           :src="currentContact.thumbnail"
@@ -160,9 +160,7 @@ export default {
               class="[&>span]:overflow-hidden [&>span]:whitespace-nowrap [&>span]:text-ellipsis min-w-0"
               @click.prevent="$emit('contactPanelToggle')"
             >
-              <span
-                class="text-base font-medium leading-tight text-slate-900 dark:text-slate-100"
-              >
+              <span class="text-base font-medium leading-tight text-n-slate-12">
                 {{ currentContact.name }}
               </span>
             </woot-button>
@@ -170,7 +168,7 @@ export default {
               v-if="!isHMACVerified"
               v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
               size="14"
-              class="text-yellow-600 dark:text-yellow-500 my-0 mx-0 min-w-[14px]"
+              class="text-n-amber-10 my-0 mx-0 min-w-[14px]"
               icon="warning"
             />
           </div>
@@ -179,10 +177,7 @@ export default {
             class="flex items-center gap-2 overflow-hidden text-xs conversation--header--actions text-ellipsis whitespace-nowrap"
           >
             <InboxName v-if="hasMultipleInboxes" :inbox="inbox" />
-            <span
-              v-if="isSnoozed"
-              class="font-medium text-yellow-600 dark:text-yellow-500"
-            >
+            <span v-if="isSnoozed" class="font-medium text-n-amber-10">
               {{ snoozedDisplayText }}
             </span>
             <woot-button

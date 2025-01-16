@@ -8,28 +8,24 @@
     "LIST": {
       "404": "Er zijn geen inboxen aan dit account gekoppeld."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Kies kanaal",
-        "route": "settings_inbox_new",
-        "body": "Kies de aanbieder die je wilt integreren met Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Kies kanaal",
+        "BODY": "Kies de aanbieder die je wilt integreren met Chatwoot."
       },
-      {
-        "title": "Maak inbox",
-        "route": "settings_inboxes_page_channel",
-        "body": "Verifieer je account en maak een inbox."
+      "INBOX": {
+        "TITLE": "Maak inbox",
+        "BODY": "Verifieer je account en maak een inbox."
       },
-      {
-        "title": "Agenten toevoegen",
-        "route": "settings_inboxes_add_agents",
-        "body": "Voeg agenten toe aan de aangemaakte inbox."
+      "AGENT": {
+        "TITLE": "Agenten toevoegen",
+        "BODY": "Voeg agenten toe aan de aangemaakte inbox."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "Je bent helemaal klaar om te beginnen!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Je bent helemaal klaar om te beginnen!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Inbox Name",

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, useTemplateRef, ref } from 'vue';
+import { computed, onMounted, useTemplateRef, ref } from 'vue';
 import Icon from 'next/icon/Icon.vue';
 import { timeStampAppendedURL } from 'dashboard/helper/URLHelper';
 
@@ -26,8 +26,15 @@ const currentTime = ref(0);
 const duration = ref(0);
 
 const onLoadedMetadata = () => {
-  duration.value = audioPlayer.value.duration;
+  duration.value = audioPlayer.value?.duration;
 };
+
+// There maybe a chance that the audioPlayer ref is not available
+// When the onLoadMetadata is called, so we need to set the duration
+// value when the component is mounted
+onMounted(() => {
+  duration.value = audioPlayer.value?.duration;
+});
 
 const formatTime = time => {
   const minutes = Math.floor(time / 60);

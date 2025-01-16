@@ -20,23 +20,18 @@
         "TITLE": "Tambahkan agen ke tim - {teamName}",
         "DESC": "Tambahkan agen pada tim baru Anda. Ini memungkinkan Anda berkolaborasi sebagai sebuah tim pada percakapan, mendapatkan notifikasi atas peristiwa baru dalam percakapan yang sama."
       },
-      "WIZARD": [
-        {
-          "title": "Buat",
-          "route": "pengaturan_tim_baru",
-          "body": "Buat tim baru dari agen-agen."
-        },
-        {
-          "title": "Tambahkan Agen",
-          "route": "pengaturan_tim_tambahkan_agen",
-          "body": "Tambahkan agen-agen ke dalam tim."
-        },
-        {
-          "title": "Selesai",
-          "route": "pengaturan_tim_selesai",
-          "body": "Sekarang kotak masuk Anda sudah siap!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "Buat",
+        "BODY": "Buat tim baru dari agen-agen."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Tambahkan Agen",
+        "BODY": "Tambahkan agen-agen ke dalam tim."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Selesai",
+        "BODY": "Sekarang kotak masuk Anda sudah siap!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "Tambahkan agen ke tim - {teamName}",
         "DESC": "Tambahkan agen-agen pada tim baru Anda. Semua agen yang telah ditambahkan akan mendapatkan notifikasi ketika sebuah percakapan dialokasikan pada tim ini."
       },
-      "WIZARD": [
-        {
-          "title": "Detil tim",
-          "route": "pengaturan_tim_edit",
-          "body": "Ubah nama, deskripsi, dan detil lainnya."
-        },
-        {
-          "title": "Edit Agen",
-          "route": "pengaturan_tim_edit_anggota",
-          "body": "Edit agen-agen dalam tim Anda."
-        },
-        {
-          "title": "Selesai",
-          "route": "pengaturan_tim_edit_selesai",
-          "body": "Sekarang kotak masuk Anda sudah siap!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Detil tim",
+        "ROUTE": "pengaturan_tim_edit",
+        "BODY": "Ubah nama, deskripsi, dan detil lainnya."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Edit Agen",
+        "ROUTE": "pengaturan_tim_edit_anggota",
+        "BODY": "Edit agen-agen dalam tim Anda."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Selesai",
+        "ROUTE": "pengaturan_tim_edit_selesai",
+        "BODY": "Sekarang kotak masuk Anda sudah siap!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "Tidak dapat menyimpan detil tim. Coba lagi."

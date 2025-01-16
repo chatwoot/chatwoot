@@ -61,15 +61,29 @@
         "COPY": "Salin"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Pemberitahuan Audio",
-        "NOTE": "Aktifkan pemberitahuan audio di dashboard untuk pesan dan percakapan baru.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "Tidak ada",
           "MINE": "Assigned",
-          "ALL": "Semua"
+          "ALL": "Semua",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Alert events for conversations",
           "NONE": "Tidak ada",
           "ASSIGNED": "Percakapan yang ditetapkan",
           "ALL_CONVERSATIONS": "Semua Percakapan"
@@ -81,7 +95,9 @@
           "TITLE": "Kondisi pemberitahuan:",
           "CONDITION_ONE": "Kirim pemberitahuan audio hanya jika jendela browser tidak aktif",
           "CONDITION_TWO": "Kirim pemberitahuan setiap 30 detik hingga semua percakapan yang ditetapkan dibaca"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Baca lebih lanjut"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifikasi Email",
@@ -145,11 +161,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Ketersediaan",
-        "STATUSES_LIST": [
-          "Online",
-          "Sibuk",
-          "Offline"
-        ],
+        "STATUS": {
+          "ONLINE": "Online",
+          "BUSY": "Sibuk",
+          "OFFLINE": "Offline"
+        },
         "SET_AVAILABILITY_SUCCESS": "Ketersediaan berhasil diatur",
         "SET_AVAILABILITY_ERROR": "Tidak dapat mengatur ketersediaan, silakan coba lagi"
       },
@@ -177,14 +193,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Ubah",
-    "CHANGE_ACCOUNTS": "Ganti Akun",
-    "CONTACT_SUPPORT": "Hubungi Dukungan",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Pilih akun dari daftar berikut",
-    "PROFILE_SETTINGS": "Pengaturan Profil",
-    "KEYBOARD_SHORTCUTS": "Pintasan Keyboard",
-    "APPEARANCE": "Change Appearance",
-    "SUPER_ADMIN_CONSOLE": "Konsol Super Admin",
-    "LOGOUT": "Keluar"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "hari percobaan tersisa.",
@@ -218,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Kirim"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "Memverifikasi...",
@@ -227,11 +249,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Saat ini dilihat:",
     "SWITCH": "Ganti",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Percakapan",
-    "INBOX": "Kotak masuk",
+    "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "Semua Percakapan",
     "MENTIONED_CONVERSATIONS": "Disebutkan",
     "PARTICIPATING_CONVERSATIONS": "Berpartisipasi",
@@ -266,6 +289,8 @@
     "NEW_INBOX": "Kotak Masuk Baru",
     "REPORTS_CONVERSATION": "Percakapan",
     "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
     "CAMPAIGNS": "Kampanye",
     "ONGOING": "Berlangsung",
     "ONE_OFF": "Sekali",
@@ -276,6 +301,7 @@
     "REPORTS_INBOX": "Kotak Masuk",
     "REPORTS_TEAM": "Tim",
     "SET_AVAILABILITY_TITLE": "Atur diri anda sebagai",
+    "SET_YOUR_AVAILABILITY": "Atur ketersediaan Anda",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
@@ -283,17 +309,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Pusat Bantuan",
-      "ALL_ARTICLES": "Semua Artikel",
-      "MY_ARTICLES": "Artikel Saya",
-      "DRAFT": "Konsep",
-      "ARCHIVED": "Arsip",
-      "CATEGORY": "Kategori",
-      "SETTINGS": "Pengaturan",
-      "CATEGORY_EMPTY_MESSAGE": "Tidak ada kategori ditemukan"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Kategori",
+      "LOCALES": "Bahasa",
+      "SETTINGS": "Pengaturan"
     },
+    "CHANNELS": "Channel",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Tandai offline secara otomatis",
-      "INFO_TEXT": "Biarkan sistem secara otomatis menandai Anda offline saat Anda tidak menggunakan aplikasi atau dasbor."
+      "INFO_TEXT": "Biarkan sistem secara otomatis menandai Anda offline saat Anda tidak menggunakan aplikasi atau dasbor.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Baca dokumen"
   },

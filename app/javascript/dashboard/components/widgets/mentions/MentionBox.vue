@@ -73,36 +73,36 @@ const variableKey = (item = {}) => {
 <template>
   <div
     ref="mentionsListContainerRef"
-    class="bg-white dark:bg-slate-800 rounded-md overflow-auto absolute w-full z-20 pb-0 shadow-md left-0 bottom-full max-h-[9.75rem] border border-solid border-slate-100 dark:border-slate-700 mention--box"
+    class="bg-n-solid-1 p-1 rounded-xl overflow-auto absolute w-full z-20 shadow-md left-0 bottom-full max-h-[9.75rem] border border-solid border-n-strong mention--box"
   >
     <ul class="mb-0 vertical dropdown menu">
       <woot-dropdown-item
         v-for="(item, index) in items"
         :id="`mention-item-${index}`"
         :key="item.key"
-        class="!mb-0"
+        class="!mb-1"
         @mouseover="onHover(index)"
       >
         <button
-          class="flex group flex-col gap-0.5 overflow-hidden cursor-pointer items-start rounded-none py-2.5 px-2.5 justify-center w-full h-full text-left hover:bg-woot-50 dark:hover:bg-woot-800 border-x-0 border-t-0 border-b border-solid border-slate-100 dark:border-slate-700"
+          class="flex rounded-lg group flex-col gap-0.5 overflow-hidden cursor-pointer items-start px-3 py-2 justify-center w-full h-full text-left hover:bg-n-alpha-black2"
           :class="{
-            ' bg-woot-25 dark:bg-woot-800': index === selectedIndex,
+            'bg-n-alpha-black2': index === selectedIndex,
           }"
           @click="onListItemSelection(index)"
         >
           <slot :item="item" :index="index" :selected="index === selectedIndex">
             <p
-              class="max-w-full min-w-0 mb-0 overflow-hidden text-sm font-medium text-slate-900 dark:text-slate-100 group-hover:text-woot-500 dark:group-hover:text-woot-500 text-ellipsis whitespace-nowrap"
+              class="max-w-full min-w-0 mb-0 overflow-hidden text-sm font-medium text-n-slate-11 group-hover:text-n-slate-11 text-ellipsis whitespace-nowrap"
               :class="{
-                'text-woot-500 dark:text-woot-500': index === selectedIndex,
+                'text-n-slate-12': index === selectedIndex,
               }"
             >
               {{ item.description }}
             </p>
             <p
-              class="max-w-full min-w-0 mb-0 overflow-hidden text-xs text-slate-500 dark:text-slate-300 group-hover:text-woot-500 dark:group-hover:text-woot-500 text-ellipsis whitespace-nowrap"
+              class="max-w-full min-w-0 mb-0 overflow-hidden text-xs text-slate-500 dark:text-slate-300 group-hover:text-n-slate-11 text-ellipsis whitespace-nowrap"
               :class="{
-                'text-woot-500 dark:text-woot-500': index === selectedIndex,
+                'text-n-slate-12': index === selectedIndex,
               }"
             >
               {{ variableKey(item) }}

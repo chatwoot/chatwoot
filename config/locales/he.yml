@@ -66,6 +66,7 @@ he:
       number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
       invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
       invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
   reports:
     period: Reporting period %{since} to %{until}
@@ -121,7 +122,7 @@ he:
     notification_title:
       conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
       conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
-      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      assigned_conversation_new_message: "הודעה חדשה נוצרה בשיחה (#%{display_id})"
       conversation_mention: "You have been mentioned in conversation (#%{display_id})"
       sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
       sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"

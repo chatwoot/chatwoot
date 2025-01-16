@@ -53,7 +53,7 @@ const textColorClass = computed(() => {
 
 <template>
   <div
-    class="h-9 bg-n-alpha-white gap-2 items-center flex px-2 rounded-lg border border-n-strong"
+    class="h-9 bg-n-alpha-white gap-2 items-center flex px-2 rounded-lg border border-n-container"
   >
     <FileIcon class="flex-shrink-0" :file-type="fileType" />
     <span class="mr-1 max-w-32 truncate" :class="textColorClass">
@@ -62,7 +62,7 @@ const textColorClass = computed(() => {
     <a
       v-tooltip="t('CONVERSATION.DOWNLOAD')"
       class="flex-shrink-0 h-9 grid place-content-center cursor-pointer text-n-slate-11"
-      :href="url"
+      :href="attachment.dataUrl"
       rel="noreferrer noopener nofollow"
       target="_blank"
     >
