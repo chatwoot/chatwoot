@@ -23,7 +23,8 @@ const varaintBaseMap = {
   [MESSAGE_VARIANTS.BOT]: 'bg-n-solid-iris text-n-slate-12',
   [MESSAGE_VARIANTS.TEMPLATE]: 'bg-n-solid-iris text-n-slate-12',
   [MESSAGE_VARIANTS.ERROR]: 'bg-n-ruby-4 text-n-ruby-12',
-  [MESSAGE_VARIANTS.EMAIL]: 'bg-n-gray-3 w-full',
+  [MESSAGE_VARIANTS.INCOMING_EMAIL]: 'bg-n-gray-3 w-full',
+  [MESSAGE_VARIANTS.OUTGOING_EMAIL]: 'bg-n-solid-blue w-full',
   [MESSAGE_VARIANTS.UNSUPPORTED]:
     'bg-n-solid-amber/70 border border-dashed border-n-amber-12 text-n-amber-12',
 };
@@ -87,7 +88,8 @@ const replyToPreview = computed(() => {
     :class="[
       messageClass,
       {
-        'max-w-lg': variant !== MESSAGE_VARIANTS.EMAIL,
+        'max-w-lg': variant !== MESSAGE_VARIANTS.INCOMING_EMAIL,
+        'max-w-lg': variant !== MESSAGE_VARIANTS.OUTGOING_EMAIL,
       },
     ]"
   >
@@ -105,7 +107,8 @@ const replyToPreview = computed(() => {
       v-if="!shouldGroupWithNext && variant !== MESSAGE_VARIANTS.ACTIVITY"
       :class="[
         flexOrientationClass,
-        variant === MESSAGE_VARIANTS.EMAIL ? 'px-3 pb-3' : '',
+        variant === MESSAGE_VARIANTS.INCOMING_EMAIL ? 'px-3 pb-3' : '',
+        variant === MESSAGE_VARIANTS.OUTGOING_EMAIL ? 'px-3 pb-3' : '',
         variant === MESSAGE_VARIANTS.PRIVATE
           ? 'text-n-amber-12/50'
           : 'text-n-slate-11',

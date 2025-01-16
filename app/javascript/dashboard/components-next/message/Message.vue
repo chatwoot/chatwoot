@@ -142,14 +142,16 @@ const variant = computed(() => {
   if (props.private) return MESSAGE_VARIANTS.PRIVATE;
 
   if (props.isEmailInbox) {
-    const emailInboxTypes = [MESSAGE_TYPES.INCOMING, MESSAGE_TYPES.OUTGOING];
-    if (emailInboxTypes.includes(props.messageType)) {
-      return MESSAGE_VARIANTS.EMAIL;
+    if (props.messageType === MESSAGE_TYPES.INCOMING) {
+      return MESSAGE_VARIANTS.INCOMING_EMAIL;
+    }
+    if (props.messageType === MESSAGE_TYPES.OUTGOING) {
+      return MESSAGE_VARIANTS.OUTGOING_EMAIL;
     }
   }
 
   if (props.contentType === CONTENT_TYPES.INCOMING_EMAIL) {
-    return MESSAGE_VARIANTS.EMAIL;
+    return MESSAGE_TYPES.INCOMING;
   }
 
   if (props.status === MESSAGE_STATUS.FAILED) return MESSAGE_VARIANTS.ERROR;
@@ -450,7 +452,8 @@ provideMessageContext({
         gridClass,
         {
           'gap-y-2': contentAttributes.externalError,
-          'w-full': variant === MESSAGE_VARIANTS.EMAIL,
+          'w-full': variant === MESSAGE_VARIANTS.INCOMING_EMAIL,
+          'w-full': variant === MESSAGE_VARIANTS.OUTGOING_EMAIL,
         },
       ]"
       class="gap-x-3"
@@ -468,7 +471,8 @@ provideMessageContext({
         class="[grid-area:bubble] flex"
         :class="{
           'ltr:pl-9 rtl:pl-0 justify-end': orientation === ORIENTATION.RIGHT,
-          'min-w-0': variant === MESSAGE_VARIANTS.EMAIL,
+          'min-w-0': variant === MESSAGE_VARIANTS.INCOMING_EMAIL,
+          'min-w-0': variant === MESSAGE_VARIANTS.OUTGOING_EMAIL,
         }"
         @contextmenu="openContextMenu($event)"
       >
