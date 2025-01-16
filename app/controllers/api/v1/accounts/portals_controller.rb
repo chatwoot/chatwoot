@@ -1,10 +1,9 @@
 require 'resolv'
 
-
 class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   include ::FileTypeHelper
 
-  before_action :fetch_portal, except: [:index, :create,:check]
+  before_action :fetch_portal, except: [:index, :create, :check]
   before_action :check_authorization, except: [:check]  # Skip check_authorization for the check action
   before_action :set_current_page, only: [:index]
 
@@ -61,7 +60,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     @portal.logo.attach(blob)
   end
 
-  def check  
+  def check
     unless params[:domain].present?
       render json: { message: false, error: 'Domain parameter is missing' }, status: :unprocessable_entity
       return
@@ -72,9 +71,9 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
       return
     end
     begin
-      domain_ip = Resolv.getaddress(params[:domain])    
+      domain_ip = Resolv.getaddress(params[:domain])
       if domain_ip == current_ip
-        DomainConfigJob.perform_later(domain_name)
+        DomainConfigJob.perform_later(params[:domain])
         render json: { message: true }, status: :ok
       else
         render json: { message: false, error: 'Domain not configured' }, status: :unprocessable_entity
@@ -83,7 +82,6 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
       render json: { message: false, error: 'Domain could not be resolved' }, status: :unprocessable_entity
     end
   end
-  
 
   private
 
