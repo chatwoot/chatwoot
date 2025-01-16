@@ -9,12 +9,15 @@ import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.v
 
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
+import AssistantSelector from 'dashboard/components-next/captain/pageComponents/AssistantSelector.vue';
 import ResponseCard from 'dashboard/components-next/captain/assistant/ResponseCard.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CreateResponseDialog from 'dashboard/components-next/captain/pageComponents/response/CreateResponseDialog.vue';
+import ResponsePageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/ResponsePageEmptyState.vue';
 
 const store = useStore();
 const uiFlags = useMapGetter('captainResponses/getUIFlags');
+const assistants = useMapGetter('captainAssistants/getRecords');
 const responseMeta = useMapGetter('captainResponses/getMeta');
 const responses = useMapGetter('captainResponses/getRecords');
 const isFetching = computed(() => uiFlags.value.fetchingList);
@@ -30,7 +33,11 @@ const { t } = useI18n();
 const createDialog = ref(null);
 
 const isStatusFilterOpen = ref(false);
-const isAssistantFilterOpen = ref(false);
+const shouldShowDropdown = computed(() => {
+  if (assistants.value.length === 0) return false;
+
+  return !isFetching.value;
+});
 
 const statusOptions = computed(() =>
   ['all', 'pending', 'approved'].map(key => ({
@@ -46,29 +53,6 @@ const selectedStatusLabel = computed(() => {
   );
   return t('CAPTAIN.RESPONSES.FILTER.STATUS', {
     selected: status ? status.label : '',
-  });
-});
-
-const assistants = useMapGetter('captainAssistants/getRecords');
-const assistantOptions = computed(() => [
-  {
-    label: t(`CAPTAIN.RESPONSES.FILTER.ALL_ASSISTANTS`),
-    value: 'all',
-    action: 'filter',
-  },
-  ...assistants.value.map(assistant => ({
-    value: assistant.id,
-    label: assistant.name,
-    action: 'filter',
-  })),
-]);
-
-const selectedAssistantLabel = computed(() => {
-  const assistant = assistantOptions.value.find(
-    option => option.value === selectedAssistant.value
-  );
-  return t('CAPTAIN.RESPONSES.FILTER.ASSISTANT', {
-    selected: assistant ? assistant.label : '',
   });
 });
 
@@ -122,14 +106,14 @@ const handleCreateClose = () => {
 };
 
 const fetchResponses = (page = 1) => {
-  const filterParams = {};
+  const filterParams = { page };
   if (selectedStatus.value !== 'all') {
     filterParams.status = selectedStatus.value;
   }
   if (selectedAssistant.value !== 'all') {
     filterParams.assistantId = selectedAssistant.value;
   }
-  store.dispatch('captainResponses/get', { page, ...filterParams });
+  store.dispatch('captainResponses/get', filterParams);
 };
 
 const onPageChange = page => fetchResponses(page);
@@ -140,9 +124,8 @@ const handleStatusFilterChange = ({ value }) => {
   fetchResponses();
 };
 
-const handleAssistantFilterChange = ({ value }) => {
-  selectedAssistant.value = value;
-  isAssistantFilterOpen.value = false;
+const handleAssistantFilterChange = assistant => {
+  selectedAssistant.value = assistant;
   fetchResponses();
 };
 
@@ -162,7 +145,7 @@ onMounted(() => {
     @update:current-page="onPageChange"
     @click="handleCreate"
   >
-    <div v-if="!isFetching" class="mb-4 -mt-3 flex gap-3">
+    <div v-if="shouldShowDropdown" class="mb-4 -mt-3 flex gap-3">
       <OnClickOutside @trigger="isStatusFilterOpen = false">
         <Button
           :label="selectedStatusLabel"
@@ -181,25 +164,10 @@ onMounted(() => {
           @action="handleStatusFilterChange"
         />
       </OnClickOutside>
-
-      <OnClickOutside @trigger="isAssistantFilterOpen = false">
-        <Button
-          :label="selectedAssistantLabel"
-          icon="i-lucide-chevron-down"
-          size="sm"
-          color="slate"
-          trailing-icon
-          class="max-w-48"
-          @click="isAssistantFilterOpen = !isAssistantFilterOpen"
-        />
-
-        <DropdownMenu
-          v-if="isAssistantFilterOpen"
-          :menu-items="assistantOptions"
-          class="mt-2"
-          @action="handleAssistantFilterChange"
-        />
-      </OnClickOutside>
+      <AssistantSelector
+        :assistant-id="selectedAssistant"
+        @update="handleAssistantFilterChange"
+      />
     </div>
     <div
       v-if="isFetching"
@@ -223,7 +191,7 @@ onMounted(() => {
       />
     </div>
 
-    <div v-else>{{ 'No responses found' }}</div>
+    <ResponsePageEmptyState v-else @click="handleCreate" />
 
     <DeleteDialog
       v-if="selectedResponse"

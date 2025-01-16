@@ -360,6 +360,10 @@
         "EDIT_ASSISTANT": "Edit Assistant",
         "DELETE_ASSISTANT": "Delete Assistant",
         "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No assistants available",
+        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations. Click the button below to get started."
       }
     },
     "DOCUMENTS": {
@@ -398,6 +402,10 @@
       "OPTIONS": {
         "VIEW_RELATED_RESPONSES": "View Related Responses",
         "DELETE_DOCUMENT": "Delete Document"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No documents available",
+        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant. Click the button below to get started."
       }
     },
     "RESPONSES": {
@@ -455,12 +463,16 @@
         "APPROVE": "Mark as approved",
         "EDIT_RESPONSE": "Edit FAQ",
         "DELETE_RESPONSE": "Delete FAQ"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No FAQs Found",
+        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually. Click the button below to create your first FAQ."
       }
     },
     "INBOXES": {
       "HEADER": "Connected Inboxes",
       "ADD_NEW": "Connect a new inbox",
-      "OPTIONS" :{
+      "OPTIONS": {
         "DISCONNECT": "Disconnect"
       },
       "DELETE": {
@@ -482,6 +494,10 @@
           "PLACEHOLDER": "Choose the inbox to deploy the assistant.",
           "ERROR": "An inbox selection is required."
         }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No Connected Inboxes",
+        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you. Click the button below to set it up now."
       }
     }
   }

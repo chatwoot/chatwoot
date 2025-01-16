@@ -7,7 +7,10 @@ import DocumentCard from 'dashboard/components-next/captain/assistant/DocumentCa
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import RelatedResponses from 'dashboard/components-next/captain/pageComponents/document/RelatedResponses.vue';
-import CreateDocumentDialog from '../../../../components-next/captain/pageComponents/document/CreateDocumentDialog.vue';
+import CreateDocumentDialog from 'dashboard/components-next/captain/pageComponents/document/CreateDocumentDialog.vue';
+import AssistantSelector from 'dashboard/components-next/captain/pageComponents/AssistantSelector.vue';
+import DocumentPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/DocumentPageEmptyState.vue';
+
 const store = useStore();
 
 const uiFlags = useMapGetter('captainDocuments/getUIFlags');
@@ -15,6 +18,7 @@ const documents = useMapGetter('captainDocuments/getRecords');
 const assistants = useMapGetter('captainAssistants/getRecords');
 const isFetching = computed(() => uiFlags.value.fetchingList);
 const documentsMeta = useMapGetter('captainDocuments/getMeta');
+const selectedAssistant = ref('all');
 
 const selectedDocument = ref(null);
 const deleteDocumentDialog = ref(null);
@@ -27,6 +31,12 @@ const showRelatedResponses = ref(false);
 const showCreateDialog = ref(false);
 const createDocumentDialog = ref(null);
 const relationQuestionDialog = ref(null);
+
+const shouldShowAssistantSelector = computed(() => {
+  if (assistants.value.length === 0) return false;
+
+  return !isFetching.value;
+});
 
 const handleShowRelatedDocument = () => {
   showRelatedResponses.value = true;
@@ -60,7 +70,17 @@ const handleAction = ({ action, id }) => {
 };
 
 const fetchDocuments = (page = 1) => {
-  store.dispatch('captainDocuments/get', { page });
+  const filterParams = { page };
+
+  if (selectedAssistant.value !== 'all') {
+    filterParams.assistantId = selectedAssistant.value;
+  }
+  store.dispatch('captainDocuments/get', filterParams);
+};
+
+const handleAssistantFilterChange = assistant => {
+  selectedAssistant.value = assistant;
+  fetchDocuments();
 };
 
 const onPageChange = page => fetchDocuments(page);
@@ -83,6 +103,12 @@ onMounted(() => {
     @update:current-page="onPageChange"
     @click="handleCreateDocument"
   >
+    <div v-if="shouldShowAssistantSelector" class="mb-4 -mt-3 flex gap-3">
+      <AssistantSelector
+        :assistant-id="selectedAssistant"
+        @update="handleAssistantFilterChange"
+      />
+    </div>
     <div
       v-if="isFetching"
       class="flex items-center justify-center py-10 text-n-slate-11"
@@ -102,7 +128,8 @@ onMounted(() => {
       />
     </div>
 
-    <div v-else>{{ 'No documents found' }}</div>
+    <DocumentPageEmptyState v-else @click="handleCreateDocument" />
+
     <RelatedResponses
       v-if="showRelatedResponses"
       ref="relationQuestionDialog"
