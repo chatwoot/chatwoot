@@ -29,6 +29,9 @@ const onLoadedMetadata = () => {
   duration.value = audioPlayer.value?.duration;
 };
 
+// There maybe a chance that the audioPlayer ref is not available
+// When the onLoadMetadata is called, so we need to set the duration
+// value when the component is mounted
 onMounted(() => {
   duration.value = audioPlayer.value?.duration;
 });
