@@ -362,8 +362,8 @@
         "VIEW_CONNECTED_INBOXES": "View connected inboxes"
       },
       "EMPTY_STATE": {
-        "TITLE": "No Assistants Available",
-        "SUBTITLE": "Get started by adding a new assistant. Click the button below to create one."
+        "TITLE": "No assistants available",
+        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations. Click the button below to get started."
       }
     },
     "DOCUMENTS": {
@@ -404,8 +404,8 @@
         "DELETE_DOCUMENT": "Delete Document"
       },
       "EMPTY_STATE": {
-        "TITLE": "No Documents Found",
-        "SUBTITLE": "Create and manage documents with your assistant. Click the button below to get started."
+        "TITLE": "No documents available",
+        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant. Click the button below to get started."
       }
     },
     "RESPONSES": {
@@ -465,8 +465,8 @@
         "DELETE_RESPONSE": "Delete FAQ"
       },
       "EMPTY_STATE": {
-        "TITLE": "No Responses Found",
-        "SUBTITLE": "Responses will be generated automatically or you can add them manually. Click the button below to get started."
+        "TITLE": "No FAQs Found",
+        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually. Click the button below to create your first FAQ."
       }
     },
     "INBOXES": {
@@ -496,8 +496,8 @@
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "There Are No Connected Inboxes",
-        "SUBTITLE": "Connect your inbox to the assistant to generate responses. Click the button below to connect now."
+        "TITLE": "No Connected Inboxes",
+        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you. Click the button below to set it up now."
       }
     }
   }
