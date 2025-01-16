@@ -27,6 +27,7 @@ onMounted(() => {
 const isOutgoing = computed(() => {
   return messageType.value === MESSAGE_TYPES.OUTGOING;
 });
+const isIncoming = computed(() => !isOutgoing.value);
 
 const fullHTML = computed(() => {
   return contentAttributes?.value?.email?.htmlContent?.full ?? content.value;
@@ -48,8 +49,21 @@ const textToShow = computed(() => {
 </script>
 
 <template>
-  <BaseBubble class="w-full" data-bubble-name="email">
-    <EmailMeta class="p-3" />
+  <BaseBubble
+    class="w-full"
+    :class="{
+      'bg-n-slate-4': isIncoming,
+      'bg-n-solid-blue': isOutgoing,
+    }"
+    data-bubble-name="email"
+  >
+    <EmailMeta
+      class="p-3"
+      :class="{
+        'border-b border-n-strong': isIncoming,
+        'border-b border-n-slate-8/20': isOutgoing,
+      }"
+    />
     <section ref="contentContainer" class="p-3">
       <div
         :class="{

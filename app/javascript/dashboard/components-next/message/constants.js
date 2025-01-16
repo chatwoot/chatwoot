@@ -13,8 +13,7 @@ export const MESSAGE_VARIANTS = {
   BOT: 'bot',
   ERROR: 'error',
   TEMPLATE: 'template',
-  OUTGOING_EMAIL: 'outgoing_email',
-  INCOMING_EMAIL: 'incoming_email',
+  EMAIL: 'email',
   UNSUPPORTED: 'unsupported',
 };
 
