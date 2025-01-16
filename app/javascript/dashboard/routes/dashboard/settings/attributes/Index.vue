@@ -100,6 +100,7 @@ const onClickTabChange = index => {
       />
     </template>
     <AddAttribute
+      v-if="showAddPopup"
       v-model:show="showAddPopup"
       :on-close="hideAddPopup"
       :selected-attribute-model-tab="selectedTabIndex"
