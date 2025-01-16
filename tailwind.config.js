@@ -53,6 +53,7 @@ const tailwindConfig = {
                 marginTop: '0',
               },
             },
+            overflowWrap: 'anywhere',
 
             'br + br': {
               display: 'none',
