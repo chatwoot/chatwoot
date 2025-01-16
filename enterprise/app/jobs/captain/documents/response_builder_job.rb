@@ -21,7 +21,7 @@ class Captain::Documents::ResponseBuilderJob < ApplicationJob
       question: faq['question'],
       answer: faq['answer'],
       assistant: document.assistant,
-      document: document
+      documentable: document
     )
   rescue ActiveRecord::RecordInvalid => e
     Rails.logger.error "Error in creating response document: #{e.message}"

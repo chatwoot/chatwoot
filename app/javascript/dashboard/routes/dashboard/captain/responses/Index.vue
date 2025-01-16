@@ -13,7 +13,9 @@ import AssistantSelector from 'dashboard/components-next/captain/pageComponents/
 import ResponseCard from 'dashboard/components-next/captain/assistant/ResponseCard.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CreateResponseDialog from 'dashboard/components-next/captain/pageComponents/response/CreateResponseDialog.vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const store = useStore();
 const uiFlags = useMapGetter('captainResponses/getUIFlags');
 const responseMeta = useMapGetter('captainResponses/getMeta');
@@ -91,6 +93,15 @@ const handleAction = ({ action, id }) => {
       handleAccept();
     }
   });
+};
+
+const handleNavigationAction = ({ id, type }) => {
+  if (type === 'Conversation') {
+    router.push({
+      name: 'inbox_conversation',
+      params: { conversation_id: id },
+    });
+  }
 };
 
 const handleCreateClose = () => {
@@ -177,10 +188,12 @@ onMounted(() => {
         :question="response.question"
         :answer="response.answer"
         :assistant="response.assistant"
+        :documentable="response.documentable"
         :status="response.status"
         :created-at="response.created_at"
         :updated-at="response.updated_at"
         @action="handleAction"
+        @navigate="handleNavigationAction"
       />
     </div>
 
