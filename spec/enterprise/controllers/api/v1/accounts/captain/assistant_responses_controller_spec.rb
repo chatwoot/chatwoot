@@ -19,7 +19,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
         create_list(:captain_assistant_response, 30,
                     account: account,
                     assistant: assistant,
-                    document: document)
+                    documentable: document)
       end
 
       it 'returns first page of responses with default pagination' do
@@ -48,11 +48,11 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
         create_list(:captain_assistant_response, 3,
                     account: account,
                     assistant: assistant,
-                    document: document)
+                    documentable: document)
         create_list(:captain_assistant_response, 2,
                     account: account,
                     assistant: another_assistant,
-                    document: document)
+                    documentable: document)
       end
 
       it 'returns only responses for the specified assistant' do
@@ -72,11 +72,11 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
         create_list(:captain_assistant_response, 3,
                     account: account,
                     assistant: assistant,
-                    document: document)
+                    documentable: document)
         create_list(:captain_assistant_response, 2,
                     account: account,
                     assistant: assistant,
-                    document: another_document)
+                    documentable: another_document)
       end
 
       it 'returns only responses for the specified document' do
@@ -87,7 +87,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
 
         expect(response).to have_http_status(:ok)
         expect(json_response[:payload].length).to eq(3)
-        expect(json_response[:payload][0][:document][:id]).to eq(document.id)
+        expect(json_response[:payload][0][:documentable][:id]).to eq(document.id)
       end
     end
   end

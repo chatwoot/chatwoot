@@ -409,8 +409,11 @@
       }
     },
     "RESPONSES": {
-      "HEADER": "Generated FAQs",
+      "HEADER": "FAQs",
       "ADD_NEW": "Create new FAQ",
+      "DOCUMENTABLE" : {
+        "CONVERSATION": "Conversation #{id}"
+      },
       "DELETE": {
         "TITLE": "Are you sure to delete the FAQ?",
         "DESCRIPTION": "",
