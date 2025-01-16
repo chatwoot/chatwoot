@@ -6,6 +6,7 @@
 #  answer       :text             not null
 #  embedding    :vector(1536)
 #  question     :string           not null
+#  status       :integer          default("approved"), not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  account_id   :bigint           not null
@@ -17,6 +18,7 @@
 #  index_captain_assistant_responses_on_account_id    (account_id)
 #  index_captain_assistant_responses_on_assistant_id  (assistant_id)
 #  index_captain_assistant_responses_on_document_id   (document_id)
+#  index_captain_assistant_responses_on_status        (status)
 #  vector_idx_knowledge_entries_embedding             (embedding) USING ivfflat
 #
 class Captain::AssistantResponse < ApplicationRecord
@@ -31,6 +33,7 @@ class Captain::AssistantResponse < ApplicationRecord
   validates :answer, presence: true
 
   before_validation :ensure_account
+  before_validation :ensure_status
   after_commit :update_response_embedding
 
   scope :ordered, -> { order(created_at: :desc) }
@@ -38,12 +41,18 @@ class Captain::AssistantResponse < ApplicationRecord
   scope :by_assistant, ->(assistant_id) { where(assistant_id: assistant_id) }
   scope :with_document, ->(document_id) { where(document_id: document_id) }
 
+  enum status: { pending: 0, approved: 1 }
+
   def self.search(query)
     embedding = Captain::Llm::EmbeddingService.new.get_embedding(query)
     nearest_neighbors(:embedding, embedding, distance: 'cosine').limit(5)
   end
 
   private
+
+  def ensure_status
+    self.status ||= :approved
+  end
 
   def ensure_account
     self.account = assistant&.account

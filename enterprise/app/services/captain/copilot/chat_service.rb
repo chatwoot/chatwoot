@@ -66,6 +66,7 @@ class Captain::Copilot::ChatService
       assistant = Captain::Assistant.find(memory[:assistant_id])
       assistant
         .responses
+        .approved
         .search(inputs['search_query'])
         .map do |response|
         "\n\nQuestion: #{response[:question]}\nAnswer: #{response[:answer]}"
