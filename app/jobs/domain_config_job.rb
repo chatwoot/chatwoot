@@ -24,30 +24,40 @@
         server 127.0.0.1:3000;
         keepalive 32;
       }
-    
+
       map $http_upgrade $connection_upgrade {
         default upgrade;
         '' close;
       }
-    
+
       server {
         listen 80;
         listen [::]:80;
         server_name #{domain_name};
-    
+
         access_log /var/log/nginx/#{formatted_domain_name}_access_80.log;
         error_log /var/log/nginx/#{formatted_domain_name}_error_80.log;
-    
+
         return 301 https://$host$request_uri;
       }
     NGINX
-    
-    # Using Ruby's file I/O with sudo to write the config file
-    file_write_command = "printf '#{nginx_config}' | sudo tee #{config_filename} > /dev/null"
-    if system(file_write_command)
-      Rails.logger.info "Nginx config written successfully"
-    else
-      Rails.logger.info "Failed to write Nginx config"
+
+    config_filename = "/etc/nginx/sites-available/#{formatted_domain_name}.conf"
+
+    # Create the config file with sudo and tee
+    file_write_command = "sudo tee #{config_filename} > /dev/null"
+
+    # Open the file and write the config content
+    Open3.popen3(file_write_command) do |stdin, stdout, stderr|
+      stdin.puts nginx_config
+      stdin.close
+
+      # Capture output and error messages from the tee command
+      if stderr.read.empty?
+        Rails.logger.info "Nginx config written successfully"
+      else
+        Rails.logger.info "Failed to write Nginx config: #{stderr.read}"
+      end
     end
     
 
