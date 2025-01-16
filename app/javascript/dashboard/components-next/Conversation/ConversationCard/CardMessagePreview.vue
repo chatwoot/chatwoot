@@ -21,7 +21,7 @@ const lastNonActivityMessageContent = computed(() => {
     props.conversation;
   const { email: { subject } = {} } = customAttributes;
   return getPlainText(
-    subject || lastNonActivityMessage.content || t('CHAT_LIST.NO_CONTENT')
+    subject || lastNonActivityMessage?.content || t('CHAT_LIST.NO_CONTENT')
   );
 });
 
