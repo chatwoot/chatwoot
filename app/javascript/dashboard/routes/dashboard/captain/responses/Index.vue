@@ -9,6 +9,7 @@ import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.v
 
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
+import AssistantSelector from 'dashboard/components-next/captain/pageComponents/AssistantSelector.vue';
 import ResponseCard from 'dashboard/components-next/captain/assistant/ResponseCard.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CreateResponseDialog from 'dashboard/components-next/captain/pageComponents/response/CreateResponseDialog.vue';
@@ -30,7 +31,6 @@ const { t } = useI18n();
 const createDialog = ref(null);
 
 const isStatusFilterOpen = ref(false);
-const isAssistantFilterOpen = ref(false);
 
 const statusOptions = computed(() =>
   ['all', 'pending', 'approved'].map(key => ({
@@ -46,29 +46,6 @@ const selectedStatusLabel = computed(() => {
   );
   return t('CAPTAIN.RESPONSES.FILTER.STATUS', {
     selected: status ? status.label : '',
-  });
-});
-
-const assistants = useMapGetter('captainAssistants/getRecords');
-const assistantOptions = computed(() => [
-  {
-    label: t(`CAPTAIN.RESPONSES.FILTER.ALL_ASSISTANTS`),
-    value: 'all',
-    action: 'filter',
-  },
-  ...assistants.value.map(assistant => ({
-    value: assistant.id,
-    label: assistant.name,
-    action: 'filter',
-  })),
-]);
-
-const selectedAssistantLabel = computed(() => {
-  const assistant = assistantOptions.value.find(
-    option => option.value === selectedAssistant.value
-  );
-  return t('CAPTAIN.RESPONSES.FILTER.ASSISTANT', {
-    selected: assistant ? assistant.label : '',
   });
 });
 
@@ -122,14 +99,14 @@ const handleCreateClose = () => {
 };
 
 const fetchResponses = (page = 1) => {
-  const filterParams = {};
+  const filterParams = { page };
   if (selectedStatus.value !== 'all') {
     filterParams.status = selectedStatus.value;
   }
   if (selectedAssistant.value !== 'all') {
     filterParams.assistantId = selectedAssistant.value;
   }
-  store.dispatch('captainResponses/get', { page, ...filterParams });
+  store.dispatch('captainResponses/get', page);
 };
 
 const onPageChange = page => fetchResponses(page);
@@ -140,9 +117,8 @@ const handleStatusFilterChange = ({ value }) => {
   fetchResponses();
 };
 
-const handleAssistantFilterChange = ({ value }) => {
-  selectedAssistant.value = value;
-  isAssistantFilterOpen.value = false;
+const handleAssistantFilterChange = assistant => {
+  selectedAssistant.value = assistant;
   fetchResponses();
 };
 
@@ -181,25 +157,10 @@ onMounted(() => {
           @action="handleStatusFilterChange"
         />
       </OnClickOutside>
-
-      <OnClickOutside @trigger="isAssistantFilterOpen = false">
-        <Button
-          :label="selectedAssistantLabel"
-          icon="i-lucide-chevron-down"
-          size="sm"
-          color="slate"
-          trailing-icon
-          class="max-w-48"
-          @click="isAssistantFilterOpen = !isAssistantFilterOpen"
-        />
-
-        <DropdownMenu
-          v-if="isAssistantFilterOpen"
-          :menu-items="assistantOptions"
-          class="mt-2"
-          @action="handleAssistantFilterChange"
-        />
-      </OnClickOutside>
+      <AssistantSelector
+        :assistant-id="selectedAssistant"
+        @update="handleAssistantFilterChange"
+      />
     </div>
     <div
       v-if="isFetching"
