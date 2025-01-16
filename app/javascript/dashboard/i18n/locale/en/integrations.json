@@ -347,7 +347,7 @@
         },
         "FEATURES": {
           "TITLE": "Features",
-          "ALLOW_CONVERSATION_FAQS": "Generate responses from resolved conversations",
+          "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
           "ALLOW_MEMORIES": "Capture key details as memories from customer interactions."
         }
       },
@@ -366,8 +366,8 @@
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
       "RELATED_RESPONSES": {
-        "TITLE": "Related Responses",
-        "DESCRIPTION": "These responses are generated directly from the document."
+        "TITLE": "Related FAQs",
+        "DESCRIPTION": "These FAQs are generated directly from the document."
       },
       "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
       "CREATE": {
@@ -410,6 +410,10 @@
         "SUCCESS_MESSAGE": "FAQ deleted successfully",
         "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
       },
+      "STATUS": {
+        "TITLE": "Status",
+        "PENDING": "Pending"
+      },
       "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
       "CREATE": {
         "TITLE": "Add an FAQ",
@@ -437,10 +441,11 @@
       "EDIT": {
         "TITLE": "Update the FAQ",
         "SUCCESS_MESSAGE": "The FAQ has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the FAQ, please try again."
+        "ERROR_MESSAGE": "There was an error updating the FAQ, please try again",
+        "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
       },
-
       "OPTIONS": {
+        "APPROVE": "Mark as approved",
         "EDIT_RESPONSE": "Edit FAQ",
         "DELETE_RESPONSE": "Delete FAQ"
       }

@@ -9,6 +9,7 @@ const responses = [
     created_at: 1736283330,
     id: 87,
     question: 'Why is my Messenger in Chatwoot deactivated?',
+    status: 'pending',
     assistant: {
       account_id: 1,
       config: {
@@ -148,6 +149,7 @@ const responses = [
           :id="response.id"
           :question="response.question"
           :answer="response.answer"
+          :status="response.status"
           :assistant="response.assistant"
           :created-at="response.created_at"
         />

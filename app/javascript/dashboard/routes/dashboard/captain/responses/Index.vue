@@ -1,6 +1,8 @@
 <script setup>
 import { computed, onMounted, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
+import { useI18n } from 'vue-i18n';
 
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
@@ -17,12 +19,29 @@ const isFetching = computed(() => uiFlags.value.fetchingList);
 const selectedResponse = ref(null);
 const deleteDialog = ref(null);
 const dialogType = ref('');
+const { t } = useI18n();
 
 const handleDelete = () => {
   deleteDialog.value.dialogRef.open();
 };
 
 const createDialog = ref(null);
+
+const handleAccept = async () => {
+  try {
+    await store.dispatch('captainResponses/update', {
+      id: selectedResponse.value.id,
+      status: 'approved',
+    });
+    useAlert(t(`CAPTAIN.RESPONSES.EDIT.APPROVE_SUCCESS_MESSAGE`));
+  } catch (error) {
+    const errorMessage =
+      error?.message || t(`CAPTAIN.RESPONSES.EDIT.ERROR_MESSAGE`);
+    useAlert(errorMessage);
+  } finally {
+    selectedResponse.value = null;
+  }
+};
 
 const handleCreate = () => {
   dialogType.value = 'create';
@@ -42,6 +61,9 @@ const handleAction = ({ action, id }) => {
     }
     if (action === 'edit') {
       handleEdit();
+    }
+    if (action === 'approve') {
+      handleAccept();
     }
   });
 };
@@ -87,6 +109,7 @@ onMounted(() => {
         :question="response.question"
         :answer="response.answer"
         :assistant="response.assistant"
+        :status="response.status"
         :created-at="response.created_at"
         :updated-at="response.updated_at"
         @action="handleAction"

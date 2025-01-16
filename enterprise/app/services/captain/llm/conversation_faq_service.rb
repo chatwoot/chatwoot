@@ -50,7 +50,7 @@ class Captain::Llm::ConversationFaqService < Captain::Llm::BaseOpenAiService
 
   def save_new_faqs(faqs)
     faqs.map do |faq|
-      @assistant.responses.create!(question: faq['question'], answer: faq['answer'])
+      @assistant.responses.create!(question: faq['question'], answer: faq['answer'], status: 'pending')
     end
   end
 
