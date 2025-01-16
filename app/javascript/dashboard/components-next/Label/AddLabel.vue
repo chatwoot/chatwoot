@@ -21,7 +21,7 @@ const showDropdown = ref(false);
 <template>
   <div class="relative">
     <button
-      class="flex items-center gap-1 px-2 py-1 rounded-md outline-dashed h-[26px] outline-1 outline-n-slate-6 hover:bg-n-alpha-2"
+      class="flex items-center gap-1 px-2 py-1 rounded-md outline-dashed h-6 outline-1 outline-n-slate-6 hover:bg-n-alpha-2"
       :class="{ 'bg-n-alpha-2': showDropdown }"
       @click="showDropdown = !showDropdown"
     >
