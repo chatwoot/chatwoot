@@ -196,7 +196,7 @@ export default {
 </script>
 
 <template>
-  <div class="p-1 bg-white rounded-md shadow-xl dark:bg-slate-700">
+  <div class="p-1 rounded-md shadow-xl bg-n-alpha-3/50 backdrop-blur-[100px]">
     <MenuItem
       v-if="!hasUnreadMessages"
       :option="unreadOption"

@@ -86,7 +86,7 @@ export default {
     >
       <div
         v-on-clickaway="closeDropdownLabel"
-        class="label-wrap"
+        class="label-wrap flex flex-wrap"
         @keyup.esc="closeDropdownLabel"
       >
         <AddLabel @add="toggleLabels" />
