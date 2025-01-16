@@ -410,6 +410,11 @@
         "SUCCESS_MESSAGE": "FAQ deleted successfully",
         "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
       },
+      "FILTER" :{
+        "ASSISTANT": "Assistant: {selected}",
+        "STATUS": "Status: {selected}",
+        "ALL_ASSISTANTS": "All"
+      },
       "STATUS": {
         "TITLE": "Status",
         "PENDING": "Pending",
