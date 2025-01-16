@@ -4,16 +4,16 @@ import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { OnClickOutside } from '@vueuse/components';
+import { useRouter } from 'vue-router';
+
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
-
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import AssistantSelector from 'dashboard/components-next/captain/pageComponents/AssistantSelector.vue';
 import ResponseCard from 'dashboard/components-next/captain/assistant/ResponseCard.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CreateResponseDialog from 'dashboard/components-next/captain/pageComponents/response/CreateResponseDialog.vue';
-import { useRouter } from 'vue-router';
 import ResponsePageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/ResponsePageEmptyState.vue';
 
 const router = useRouter();
