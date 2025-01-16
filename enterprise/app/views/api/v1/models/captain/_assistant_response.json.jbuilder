@@ -14,3 +14,4 @@ end
 json.id resource.id
 json.question resource.question
 json.updated_at resource.updated_at.to_i
+json.status resource.status
