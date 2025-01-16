@@ -114,7 +114,7 @@
 
       # Generate SSL certificate using Certbot
       Rails.logger.info "Generating SSL certificate for #{domain_name}..."
-      certbot_command = "sudo certbot --nginx -d #{domain_name} --non-interactive --agree-tos -m support@onehash.ai --redirect"
+      certbot_command = "sudo certbot certonly --nginx -d #{domain_name} --non-interactive --agree-tos -m support@onehash.ai --redirect"
       certbot_test_and_reload_command = "sudo nginx -t && sudo systemctl reload nginx"
       certbot_auto_renewal_test_command = "sudo certbot renew"
 
