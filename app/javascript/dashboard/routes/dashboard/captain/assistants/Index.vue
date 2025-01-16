@@ -7,6 +7,7 @@ import DeleteDialog from 'dashboard/components-next/captain/pageComponents/Delet
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CreateAssistantDialog from 'dashboard/components-next/captain/pageComponents/assistant/CreateAssistantDialog.vue';
+import AssistantPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/AssistantPageEmptyState.vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -94,7 +95,7 @@ onMounted(() => store.dispatch('captainAssistants/get'));
       />
     </div>
 
-    <div v-else>{{ 'No assistants found' }}</div>
+    <AssistantPageEmptyState v-else @click="handleCreate" />
 
     <DeleteDialog
       v-if="selectedAssistant"
