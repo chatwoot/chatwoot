@@ -2,22 +2,23 @@
 #
 # Table name: captain_assistant_responses
 #
-#  id           :bigint           not null, primary key
-#  answer       :text             not null
-#  embedding    :vector(1536)
-#  question     :string           not null
-#  status       :integer          default("approved"), not null
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  account_id   :bigint           not null
-#  assistant_id :bigint           not null
-#  document_id  :bigint
+#  id                :bigint           not null, primary key
+#  answer            :text             not null
+#  documentable_type :string
+#  embedding         :vector(1536)
+#  question          :string           not null
+#  status            :integer          default("approved"), not null
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  account_id        :bigint           not null
+#  assistant_id      :bigint           not null
+#  documentable_id   :bigint
 #
 # Indexes
 #
+#  idx_cap_asst_resp_on_documentable                  (documentable_id,documentable_type)
 #  index_captain_assistant_responses_on_account_id    (account_id)
 #  index_captain_assistant_responses_on_assistant_id  (assistant_id)
-#  index_captain_assistant_responses_on_document_id   (document_id)
 #  index_captain_assistant_responses_on_status        (status)
 #  vector_idx_knowledge_entries_embedding             (embedding) USING ivfflat
 #
@@ -26,7 +27,7 @@ class Captain::AssistantResponse < ApplicationRecord
 
   belongs_to :assistant, class_name: 'Captain::Assistant'
   belongs_to :account
-  belongs_to :document, optional: true, class_name: 'Captain::Document'
+  belongs_to :documentable, polymorphic: true, optional: true
   has_neighbors :embedding, normalize: true
 
   validates :question, presence: true

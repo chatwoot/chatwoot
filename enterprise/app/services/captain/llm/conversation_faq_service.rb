@@ -4,6 +4,7 @@ class Captain::Llm::ConversationFaqService < Captain::Llm::BaseOpenAiService
   def initialize(assistant, conversation, model = DEFAULT_MODEL)
     super()
     @assistant = assistant
+    @conversation = conversation
     @content = conversation.to_llm_text
     @model = model
   end
@@ -19,7 +20,7 @@ class Captain::Llm::ConversationFaqService < Captain::Llm::BaseOpenAiService
 
   private
 
-  attr_reader :content
+  attr_reader :content, :conversation, :assistant
 
   def find_and_separate_duplicates(faqs)
     duplicate_faqs = []
@@ -41,7 +42,7 @@ class Captain::Llm::ConversationFaqService < Captain::Llm::BaseOpenAiService
   end
 
   def find_similar_faqs(embedding)
-    similar_faqs = @assistant
+    similar_faqs = assistant
                    .responses
                    .nearest_neighbors(:embedding, embedding, distance: 'cosine')
     Rails.logger.debug(similar_faqs.map { |faq| [faq.question, faq.neighbor_distance] })
@@ -50,7 +51,12 @@ class Captain::Llm::ConversationFaqService < Captain::Llm::BaseOpenAiService
 
   def save_new_faqs(faqs)
     faqs.map do |faq|
-      @assistant.responses.create!(question: faq['question'], answer: faq['answer'], status: 'pending')
+      assistant.responses.create!(
+        question: faq['question'],
+        answer: faq['answer'],
+        status: 'pending',
+        documentable: conversation
+      )
     end
   end
 

@@ -21,7 +21,7 @@ RSpec.describe Captain::Documents::ResponseBuilderJob, type: :job do
   describe '#perform' do
     context 'when processing a document' do
       it 'deletes previous responses' do
-        existing_response = create(:captain_assistant_response, document: document)
+        existing_response = create(:captain_assistant_response, documentable: document)
 
         described_class.new.perform(document)
 
@@ -40,7 +40,7 @@ RSpec.describe Captain::Documents::ResponseBuilderJob, type: :job do
         expect(first_response.question).to eq('What is Ruby?')
         expect(first_response.answer).to eq('A programming language')
         expect(first_response.assistant).to eq(assistant)
-        expect(first_response.document).to eq(document)
+        expect(first_response.documentable).to eq(document)
       end
     end
   end

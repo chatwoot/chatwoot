@@ -23,7 +23,7 @@ class Captain::Document < ApplicationRecord
   self.table_name = 'captain_documents'
 
   belongs_to :assistant, class_name: 'Captain::Assistant'
-  has_many :responses, class_name: 'Captain::AssistantResponse', dependent: :destroy
+  has_many :responses, class_name: 'Captain::AssistantResponse', dependent: :destroy, as: :documentable
   belongs_to :account
 
   validates :external_link, presence: true
