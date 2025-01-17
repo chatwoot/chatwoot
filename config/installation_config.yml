@@ -138,6 +138,12 @@
   display_title: 'OpenAI API Key'
   description: 'The OpenAI API key for the Captain AI service'
   locked: false
+- name: CAPTAIN_CLOUD_PLAN_LIMITS
+  display_title: 'Captain Cloud Plan Limits'
+  description: 'The limits for the Captain AI service for different plans'
+  value:
+  type: code
+
 # End of Captain Config
 
 # ------- Chatwoot Internal Config for Cloud ----#
