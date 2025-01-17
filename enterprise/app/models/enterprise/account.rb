@@ -1,4 +1,6 @@
 module Enterprise::Account
+  ACCOUNT_RESPONSES_LIMIT = 'ACCOUNT_RESPONSES_LIMIT'.freeze
+
   def usage_limits
     {
       agents: agent_limits.to_i,
@@ -33,7 +35,7 @@ module Enterprise::Account
     consumed = if type == :documents
                  captain_documents.available.count
                else
-                 self[:limits]['ACCOUNT_RESPONSES_LIMIT'] || 0
+                 self[:limits][ACCOUNT_RESPONSES_LIMIT] || 0
                end
 
     {
@@ -44,13 +46,14 @@ module Enterprise::Account
   end
 
   def increment_response_usage
-    config_name = 'ACCOUNT_RESPONSES_LIMIT'
+    config_name = ACCOUNT_RESPONSES_LIMIT
+    self[:limits][config_name] = 0 if self[:limits][config_name].blank?
     self[:limits][config_name] = self[:limits][config_name].to_i + 1
     save
   end
 
   def reset_response_usage
-    config_name = 'ACCOUNT_RESPONSES_LIMIT'
+    config_name = ACCOUNT_RESPONSES_LIMIT
     self[:limits][config_name] = 0
     save
   end
