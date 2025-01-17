@@ -4,7 +4,11 @@
   class DomainConfigJob < ApplicationJob
     queue_as :default
 
-    def perform(domain_name)
+    def perform(domain_name,initial_domain)
+
+      if initial_domain != nil && initial_domain != ''
+        discard_domain(initial_domain)
+      end
       formatted_domain_name = domain_name.tr('.', '_')
 
       # Define paths
@@ -121,4 +125,42 @@
     rescue StandardError => e
       Rails.logger.error "Error occurred: #{e.message}"
     end
+
+    private
+
+    def discard_domain(initial_domain)
+      formatted_initial_domain = initial_domain.tr('.', '_')
+      config_filename = "/etc/nginx/sites-available/#{formatted_initial_domain}.conf"
+      symlink_path = "/etc/nginx/sites-enabled/#{formatted_initial_domain}.conf"
+    
+      # Delete Certbot certificate first
+      Rails.logger.info "Deleting Certbot certificate for #{initial_domain}..."
+      certbot_delete_command = "sudo certbot delete --cert-name #{formatted_initial_domain}"
+      if system(certbot_delete_command)
+        Rails.logger.info "Certbot certificate deleted successfully for #{initial_domain}."
+      else
+        Rails.logger.error "Failed to delete Certbot certificate for #{initial_domain}."
+      end
+    
+      # Delete Nginx configuration
+      if system("sudo rm #{config_filename}")
+        Rails.logger.info "Nginx config removed successfully for #{initial_domain}."
+      else
+        Rails.logger.error "Failed to remove Nginx config for #{initial_domain}."
+      end
+    
+      if system("sudo rm #{symlink_path}")
+        Rails.logger.info "Site disabled successfully for #{initial_domain}."
+      else
+        Rails.logger.error "Failed to disable the site for #{initial_domain}."
+      end
+    
+      # Reload Nginx
+      Rails.logger.info "Testing and reloading Nginx configuration..."
+      unless system("sudo nginx -t && sudo systemctl reload nginx")
+        Rails.logger.error "Nginx configuration test or reload failed."
+      else
+        Rails.logger.info "Nginx reloaded successfully after changes for #{initial_domain}."
+      end
+    end    
   end
