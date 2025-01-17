@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "E-mail",
-      "PLACEHOLDER": "Enter your work email address. E.g., bruce{'@'}wayne{'.'}enterprises",
+      "PLACEHOLDER": "Introduzca su dirección de correo electrónico de trabajo. Por ejemplo, bruce{'@'}wayne{'.'}empresas",
       "ERROR": "Por favor, introduzca una dirección de correo válida"
     },
     "PASSWORD": {
