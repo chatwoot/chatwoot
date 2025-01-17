@@ -109,16 +109,24 @@ class Telegram::IncomingMessageService
       return
     end
 
-    attachment_file = Down.download(
-      inbox.channel.get_telegram_file_path(file[:file_id])
-    )
+    # Use Telegram's 'file_name' if available; otherwise generate a fallback name
+
+    original_name = file[:file_name] || "telegram_file_#{file[:file_id]}"
+    begin
+      original_name = original_name.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
+    rescue Encoding::UndefinedConversionError, Encoding::InvalidByteSequenceError
+      original_name = "telegram_file_#{file[:file_id]}"
+    end
+
+    attachment_file = Down.download(file_download_path)
+
 
     @message.attachments.new(
       account_id: @message.account_id,
       file_type: file_content_type,
       file: {
         io: attachment_file,
-        filename: attachment_file.original_filename,
+        filename: original_name,
         content_type: attachment_file.content_type
       }
     )
