@@ -61,26 +61,26 @@
         "COPY": "Copiar"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Alerts",
-        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
-        "PLAY": "Play sound",
+        "TITLE": "Alertas de audio",
+        "NOTE": "Active las notificaciones de sonido en el tablero para los mensajes nuevos y conversaciones.",
+        "PLAY": "Reproducir sonido",
         "ALERT_TYPES": {
           "NONE": "Ninguna",
           "MINE": "Asignado",
           "ALL": "Todos",
-          "ASSIGNED": "My assigned conversations",
-          "UNASSIGNED": "Unassigned conversations",
-          "NOTME": "Open conversations assigned to others"
+          "ASSIGNED": "Conversaciones asignadas",
+          "UNASSIGNED": "Conversaciones sin asignar",
+          "NOTME": "Conversaciones abiertas asignadas a otros"
         },
         "ALERT_COMBINATIONS": {
-          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
-          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
-          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
-          "NOTME": "You'll receive alerts for conversations assigned to others.",
-          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
-          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
-          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
-          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+          "NONE": "No ha seleccionado ninguna opción, no recibirá ninguna alerta de audio.",
+          "ASSIGNED": "Recibirás alertas sobre las conversaciones que se te hayan asignado.",
+          "UNASSIGNED": "Recibirás alertas sobre cualquier conversación no asignada.",
+          "NOTME": "Recibirás alertas sobre las conversaciones asignadas a otros.",
+          "ASSIGNED+UNASSIGNED": "Recibirás alertas de tus conversaciones asignadas y de las no atendidas.",
+          "ASSIGNED+NOTME": "Recibirás alertas sobre las conversaciones que te han sido asignadas a ti y a otros, pero no sobre las no asignadas.",
+          "NOTME+UNASSIGNED": "Recibirás alertas de conversaciones desatendidas y de las asignadas a otros.",
+          "ASSIGNED+NOTME+UNASSIGNED": "Recibirás alertas de todas las conversaciones."
         },
         "ALERT_TYPE": {
           "TITLE": "Eventos de alerta para conversaciones",
@@ -96,7 +96,7 @@
           "CONDITION_ONE": "Enviar alertas de audio sólo si la ventana del navegador no está activa",
           "CONDITION_TWO": "Enviar alertas cada 30s hasta que todas las conversaciones asignadas sean leídas"
         },
-        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "SOUND_PERMISSION_ERROR": "",
         "READ_MORE": "Leer más"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
