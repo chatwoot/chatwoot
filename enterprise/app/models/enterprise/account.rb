@@ -2,7 +2,11 @@ module Enterprise::Account
   def usage_limits
     {
       agents: agent_limits.to_i,
-      inboxes: get_limits(:inboxes).to_i
+      inboxes: get_limits(:inboxes).to_i,
+      captain: {
+        documents: get_captain_limit(:documents).to_i,
+        generated_responses: get_captain_limit(:responses).to_i
+      }
     }
   end
 
@@ -13,7 +17,25 @@ module Enterprise::Account
     plan_features[plan_name]
   end
 
+  def captain_monthly_limit
+    plan_quota = InstallationConfig.find_by(name: 'CAPTAIN_CLOUD_PLAN_LIMITS')&.value
+    return 0 if plan_quota.blank?
+
+    plan_quota = JSON.parse(plan_quota) if plan_quota.present?
+    plan_quota[plan_name.downcase]
+  end
+
   private
+
+  def get_captain_limit(name)
+    captain_monthly_limit[name.to_s]
+
+    # In case we need to calculate the limit based on the number of agents
+    # available_limit = captain_monthly_limit[name.to_s]
+    # number_of_agents = custom_attributes['subscribed_quantity'] || 1
+
+    # available_limit.to_i * number_of_agents.to_i
+  end
 
   def plan_name
     custom_attributes['plan_name']
