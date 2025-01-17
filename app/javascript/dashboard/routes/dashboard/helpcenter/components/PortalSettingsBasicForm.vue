@@ -107,12 +107,14 @@ const domainExampleHelpText = computed(() => {
 const showDeleteButton = computed(() => {
   return hasValidAvatarUrl(state.logoUrl);
 });
+let initialCustomDomain = '';
 
 onMounted(() => {
   const portal = props.portal || {};
   state.name = portal.name || '';
   state.slug = portal.slug || '';
   state.domain = portal.custom_domain || '';
+  initialCustomDomain = portal.custom_domain;
 
   if (portal.logo) {
     const {
@@ -130,7 +132,7 @@ function onNameChange() {
 async function checkDomainInternal(domain) {
   try {
     isValidating.value = true;
-    const res = await props.checkDomain(domain);
+    const res = await props.checkDomain(domain, initialCustomDomain);
     isDomainValid.value = res;
   } catch (error) {
     isDomainValid.value = false;

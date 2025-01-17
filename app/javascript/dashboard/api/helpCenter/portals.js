@@ -22,8 +22,10 @@ class PortalsAPI extends ApiClient {
     return axios.delete(`${this.url}/${portalSlug}/logo`);
   }
 
-  checkDomain(domain) {
-    return axios.get(`${this.url}/check?domain=${domain}`);
+  checkDomain(domain, initialCustomDomain) {
+    return axios.get(
+      `${this.url}/check?domain=${domain}+initialCustomDomain=${initialCustomDomain}`
+    );
   }
 }
 

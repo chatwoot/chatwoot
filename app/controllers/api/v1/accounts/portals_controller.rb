@@ -73,7 +73,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     begin
       domain_ip = Resolv.getaddress(params[:domain])
       if domain_ip == current_ip
-        DomainConfigJob.perform_later(params[:domain])
+        DomainConfigJob.perform_later(params[:domain], params[:initialCustomDomain])
         render json: { message: true }, status: :ok
       else
         render json: { message: false, error: 'Domain not configured' }, status: :unprocessable_entity
