@@ -28,11 +28,81 @@ RSpec.describe Account, type: :model do
   end
 
   describe 'usage_limits' do
+    let(:captain_limits) do
+      {
+        :startups => { :documents => 100, :responses => 100 },
+        :business => { :documents => 200, :responses => 300 },
+        :enterprise => { :documents => 300, :responses => 500 }
+      }.with_indifferent_access
+    end
+    let!(:account) { create(:account, { custom_attributes: { plan_name: 'startups' } }) }
+    let!(:assistant) { create(:captain_assistant, account: account) }
+    let!(:document) { create(:captain_document, assistant: assistant, account: account, status: :available) }
+
     before do
       create(:installation_config, name: 'ACCOUNT_AGENTS_LIMIT', value: 20)
+      create(:installation_config, name: 'CAPTAIN_CLOUD_PLAN_LIMITS', value: captain_limits.to_json)
     end
 
-    let!(:account) { create(:account) }
+    describe 'captain limits' do
+      it 'returns monthly limit accurately' do
+        %w[startups business enterprise].each do |plan|
+          account.custom_attributes = { 'plan_name': plan }
+          account.save!
+          expect(account.captain_monthly_limit).to eq captain_limits[plan]
+        end
+      end
+
+      it 'incrementing responses updates usage_limits' do
+        account.increment_response_usage
+
+        responses_limits = account.usage_limits[:captain][:generated_responses]
+
+        expect(account.limits['captain_responses']).to eq 1
+        expect(responses_limits[:consumed]).to eq 1
+        expect(responses_limits[:current_available]).to eq captain_limits[:startups][:responses] - 1
+      end
+
+      it 'reseting responses limits updates usage_limits' do
+        account.limits['captain_responses'] = 30
+        account.save!
+
+        responses_limits = account.usage_limits[:captain][:generated_responses]
+
+        expect(responses_limits[:consumed]).to eq 30
+        expect(responses_limits[:current_available]).to eq captain_limits[:startups][:responses] - 30
+
+        account.reset_response_usage
+        responses_limits = account.usage_limits[:captain][:generated_responses]
+
+        expect(account.limits['captain_responses']).to eq 0
+        expect(responses_limits[:consumed]).to eq 0
+        expect(responses_limits[:current_available]).to eq captain_limits[:startups][:responses]
+      end
+
+      it 'reflects document limits' do
+        document_limits = account.usage_limits[:captain][:documents]
+
+        expect(document_limits[:consumed]).to eq 1
+        expect(document_limits[:current_available]).to eq captain_limits[:startups][:documents] - 1
+      end
+
+      it 'current_available is never out of bounds' do
+        account.limits['captain_responses'] = 3000
+        account.save!
+
+        responses_limits = account.usage_limits[:captain][:generated_responses]
+        expect(responses_limits[:consumed]).to eq 3000
+        expect(responses_limits[:current_available]).to eq 0
+
+        account.limits['captain_responses'] = -100
+        account.save!
+
+        responses_limits = account.usage_limits[:captain][:generated_responses]
+        expect(responses_limits[:consumed]).to eq 0
+        expect(responses_limits[:current_available]).to eq captain_limits[:startups][:responses]
+      end
+    end
 
     describe 'audit logs' do
       it 'returns audit logs' do

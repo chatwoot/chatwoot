@@ -1,5 +1,5 @@
 module Enterprise::Account
-  ACCOUNT_RESPONSES_LIMIT = 'ACCOUNT_RESPONSES_LIMIT'.freeze
+  CAPTAIN_RESPONSES = 'captain_responses'.freeze
 
   def usage_limits
     {
@@ -10,6 +10,17 @@ module Enterprise::Account
         generated_responses: get_captain_limits(:responses)
       }
     }
+  end
+
+  def increment_response_usage
+    current_usage = self[:limits][CAPTAIN_RESPONSES].to_i || 0
+    self[:limits][CAPTAIN_RESPONSES] = current_usage + 1
+    save
+  end
+
+  def reset_response_usage
+    self[:limits][CAPTAIN_RESPONSES] = 0
+    save
   end
 
   def subscribed_features
@@ -30,32 +41,22 @@ module Enterprise::Account
   private
 
   def get_captain_limits(type)
-    total_count = captain_monthly_limit[type].to_i
+    total_count = captain_monthly_limit[type.to_s].to_i
 
     consumed = if type == :documents
-                 captain_documents.available.count
+                 captain_documents.count
                else
-                 self[:limits][ACCOUNT_RESPONSES_LIMIT] || 0
+                 self[:limits][CAPTAIN_RESPONSES] || 0
                end
+
+    consumed = 0 if consumed.negative?
 
     {
       total_count: total_count,
-      current_available: [total_count - consumed, 0].max,
+      # ensure current_available is never negative or more than total_count
+      current_available: [[total_count - consumed, 0].max, total_count].min,
       consumed: consumed
     }
-  end
-
-  def increment_response_usage
-    config_name = ACCOUNT_RESPONSES_LIMIT
-    self[:limits][config_name] = 0 if self[:limits][config_name].blank?
-    self[:limits][config_name] = self[:limits][config_name].to_i + 1
-    save
-  end
-
-  def reset_response_usage
-    config_name = ACCOUNT_RESPONSES_LIMIT
-    self[:limits][config_name] = 0
-    save
   end
 
   def plan_name
@@ -84,7 +85,8 @@ module Enterprise::Account
       'type' => 'object',
       'properties' => {
         'inboxes' => { 'type': 'number' },
-        'agents' => { 'type': 'number' }
+        'agents' => { 'type': 'number' },
+        'captain_responses' => { 'type': 'number' }
       },
       'required' => [],
       'additionalProperties' => false
