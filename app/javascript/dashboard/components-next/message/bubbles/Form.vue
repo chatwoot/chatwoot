@@ -30,6 +30,7 @@ const formValues = computed(() => {
 
   if (contentType.value === CONTENT_TYPES.INPUT_SELECT) {
     const [item] = contentAttributes.value?.submittedValues ?? [];
+    if (!item) return [];
 
     return [
       {
