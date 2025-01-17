@@ -159,8 +159,8 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col md:flex-row md:justify-between flex-wrap">
-    <div class="flex flex-col items-center w-full md:w-fit md:flex-row">
+  <div class="flex flex-col md:flex-row">
+    <div class="flex flex-col items-center w-full md:flex-row">
       <div
         v-if="type === 'agent'"
         class="md:w-[240px] w-full multiselect-wrap--small"
