@@ -5,8 +5,9 @@
     queue_as :default
 
     def perform(domain_name,initial_domain)
+      Rails.logger.info "domain_name: #{domain_name}, initial_domain: #{initial_domain.inspect}"
 
-      if initial_domain != nil && initial_domain != ''
+      if initial_domain.present? && initial_domain != "undefined"
         discard_domain(initial_domain)
       end
       formatted_domain_name = domain_name.tr('.', '_')
