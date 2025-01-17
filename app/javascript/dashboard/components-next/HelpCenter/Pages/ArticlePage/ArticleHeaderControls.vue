@@ -101,6 +101,10 @@ const categoryMenuItems = computed(() => {
   return hasCategorySlug ? [defaultMenuItem, ...categoryItems] : categoryItems;
 });
 
+const hasCategoryMenuItems = computed(() => {
+  return categoryMenuItems.value?.length > 0;
+});
+
 const localeMenuItems = computed(() => {
   return props.allowedLocales.map(locale => ({
     label: locale.name,
@@ -160,7 +164,7 @@ const handleTabChange = value => {
             />
           </OnClickOutside>
         </div>
-        <div class="relative group">
+        <div v-if="hasCategoryMenuItems" class="relative group">
           <OnClickOutside @trigger="isCategoryMenuOpen = false">
             <Button
               :label="activeCategoryName"
