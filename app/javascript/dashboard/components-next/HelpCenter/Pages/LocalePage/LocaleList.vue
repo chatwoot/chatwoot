@@ -69,7 +69,7 @@ const updateLastActivePortal = async localeCode => {
     uiSettings.value || {};
   const defaultLocale = props.portal.meta.default_locale;
 
-  // Only update if deleting currently active locale in UI settings
+  // Update UI settings only if deleting locale matches the last active locale in UI settings.
   if (localeCode === lastActiveLocaleCode) {
     await updateUISettings({
       last_active_locale_code: defaultLocale,
