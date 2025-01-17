@@ -51,20 +51,13 @@ const updatePortalLocales = async ({
   }
 };
 
-const changeDefaultLocale = async ({ localeCode }) => {
+const changeDefaultLocale = ({ localeCode }) => {
   const newAllowedLocales = props.locales.map(locale => locale.code);
-  await updatePortalLocales({
+  updatePortalLocales({
     newAllowedLocales,
     defaultLocale: localeCode,
     messageKey: 'CHANGE_DEFAULT_LOCALE',
   });
-
-  // Update the UI settings with default locale
-  // TODO: Remove this when the backend default locale bug is fixed.
-  await updateUISettings({
-    last_active_locale_code: localeCode,
-  });
-
   useTrack(PORTALS_EVENTS.SET_DEFAULT_LOCALE, {
     newLocale: localeCode,
     from: route.name,
