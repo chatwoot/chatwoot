@@ -113,10 +113,10 @@ export const actions = {
 
   checkDomain: async (_, { domain, initialCustomDomain }) => {
     try {
-      const { data } = await portalAPIs.checkDomain(
-        domain,
-        ...(initialCustomDomain && { initialCustomDomain })
-      );
+      const params = initialCustomDomain
+        ? { domain, initialCustomDomain }
+        : { domain };
+      const { data } = await portalAPIs.checkDomain(params);
       return data.message;
     } catch (error) {
       throwErrorMessage(error);
