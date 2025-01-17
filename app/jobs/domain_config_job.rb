@@ -136,7 +136,7 @@
     
       # Delete Certbot certificate first
       Rails.logger.info "Deleting Certbot certificate for #{initial_domain}..."
-      certbot_delete_command = "sudo certbot delete --cert-name #{formatted_initial_domain}"
+      certbot_delete_command = "sudo certbot delete --cert-name #{initial_domain}"
       if system(certbot_delete_command)
         Rails.logger.info "Certbot certificate deleted successfully for #{initial_domain}."
       else
