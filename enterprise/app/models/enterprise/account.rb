@@ -4,8 +4,8 @@ module Enterprise::Account
       agents: agent_limits.to_i,
       inboxes: get_limits(:inboxes).to_i,
       captain: {
-        documents: get_captain_limit(:documents).to_i,
-        generated_responses: get_captain_limit(:responses).to_i
+        documents: get_captain_limits(:documents),
+        generated_responses: get_captain_limits(:responses)
       }
     }
   end
@@ -27,14 +27,32 @@ module Enterprise::Account
 
   private
 
-  def get_captain_limit(name)
-    captain_monthly_limit[name.to_s]
+  def get_captain_limits(type)
+    total_count = captain_monthly_limit[type].to_i
 
-    # In case we need to calculate the limit based on the number of agents
-    # available_limit = captain_monthly_limit[name.to_s]
-    # number_of_agents = custom_attributes['subscribed_quantity'] || 1
+    consumed = if type == :documents
+                 captain_documents.available.count
+               else
+                 self[:limits]['ACCOUNT_RESPONSES_LIMIT'] || 0
+               end
 
-    # available_limit.to_i * number_of_agents.to_i
+    {
+      total_count: total_count,
+      current_available: [total_count - consumed, 0].max,
+      consumed: consumed
+    }
+  end
+
+  def increment_response_usage
+    config_name = 'ACCOUNT_RESPONSES_LIMIT'
+    self[:limits][config_name] = self[:limits][config_name].to_i + 1
+    save
+  end
+
+  def reset_response_usage
+    config_name = 'ACCOUNT_RESPONSES_LIMIT'
+    self[:limits][config_name] = 0
+    save
   end
 
   def plan_name
