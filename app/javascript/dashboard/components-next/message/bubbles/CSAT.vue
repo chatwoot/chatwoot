@@ -36,7 +36,7 @@ const rating = computed(() => {
       </dt>
       <dd>{{ t(rating.translationKey) }}</dd>
 
-      <dt class="text-n-slate-11 italic mt-2">
+      <dt v-if="response.feedbackMessage" class="text-n-slate-11 italic mt-2">
         {{ t('CONVERSATION.FEEDBACK_TITLE') }}
       </dt>
       <dd>{{ response.feedbackMessage }}</dd>
