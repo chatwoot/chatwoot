@@ -2,6 +2,7 @@
 import LocaleCard from 'dashboard/components-next/HelpCenter/LocaleCard/LocaleCard.vue';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert, useTrack } from 'dashboard/composables';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { PORTALS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
@@ -20,6 +21,7 @@ const props = defineProps({
 const store = useStore();
 const { t } = useI18n();
 const route = useRoute();
+const { uiSettings, updateUISettings } = useUISettings();
 
 const isLocaleDefault = code => {
   return props.portal?.meta?.default_locale === code;
@@ -49,12 +51,18 @@ const updatePortalLocales = async ({
   }
 };
 
-const changeDefaultLocale = ({ localeCode }) => {
+const changeDefaultLocale = async ({ localeCode }) => {
   const newAllowedLocales = props.locales.map(locale => locale.code);
-  updatePortalLocales({
+  await updatePortalLocales({
     newAllowedLocales,
     defaultLocale: localeCode,
     messageKey: 'CHANGE_DEFAULT_LOCALE',
+  });
+
+  // Update the UI settings with default locale
+  // TODO: Remove this when the backend default locale bug is fixed.
+  await updateUISettings({
+    last_active_locale_code: localeCode,
   });
 
   useTrack(PORTALS_EVENTS.SET_DEFAULT_LOCALE, {
@@ -63,18 +71,33 @@ const changeDefaultLocale = ({ localeCode }) => {
   });
 };
 
-const deletePortalLocale = ({ localeCode }) => {
+const updateLastActivePortal = async localeCode => {
+  const { last_active_locale_code: lastActiveLocaleCode } =
+    uiSettings.value || {};
+  const defaultLocale = props.portal.meta.default_locale;
+
+  // Only update if deleting currently active locale in UI settings
+  if (localeCode === lastActiveLocaleCode) {
+    await updateUISettings({
+      last_active_locale_code: defaultLocale,
+    });
+  }
+};
+
+const deletePortalLocale = async ({ localeCode }) => {
   const updatedLocales = props.locales
     .filter(locale => locale.code !== localeCode)
     .map(locale => locale.code);
 
   const defaultLocale = props.portal.meta.default_locale;
 
-  updatePortalLocales({
+  await updatePortalLocales({
     newAllowedLocales: updatedLocales,
     defaultLocale,
     messageKey: 'DELETE_LOCALE',
   });
+
+  await updateLastActivePortal(localeCode);
 
   useTrack(PORTALS_EVENTS.DELETE_LOCALE, {
     deletedLocale: localeCode,
