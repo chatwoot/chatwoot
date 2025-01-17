@@ -7,6 +7,7 @@ module Enterprise::Api::V1::Accounts::ConversationsController
   def copilot
     assistant = @conversation.inbox.captain_assistant
     return render json: { message: I18n.t('captain.copilot_error') } unless assistant
+    return render json: { message: I18n.t('captain.copilot_limit') } unless @conversation.inbox.captain_active?
 
     response = Captain::Copilot::ChatService.new(
       assistant,
