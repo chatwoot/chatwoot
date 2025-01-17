@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
+import { downloadFile } from '@chatwoot/utils';
 
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
@@ -117,14 +118,11 @@ const onClickChangeAttachment = (attachment, index) => {
 };
 
 const onClickDownload = () => {
-  const { file_type: type, data_url: url } = activeAttachment.value;
+  const { file_type: type, data_url: url, extension } = activeAttachment.value;
   if (!Object.values(ALLOWED_FILE_TYPES).includes(type)) {
     return;
   }
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = `attachment.${type}`;
-  link.click();
+  downloadFile({ url, type, extension });
 };
 
 const onRotate = type => {
