@@ -4,7 +4,7 @@ class Dyte
   PRESET_NAME = 'group_call_host'.freeze
 
   def initialize(organization_id, api_key)
-    @api_key = Base64.strict_encode64(organization_id + ':' + api_key)
+    @api_key = Base64.strict_encode64("#{organization_id}:#{api_key}")
     @organization_id = organization_id
 
     raise ArgumentError, 'Missing Credentials' if @api_key.blank? || @organization_id.blank?
@@ -12,15 +12,16 @@ class Dyte
 
   def create_a_meeting(title)
     payload = {
-      'title': title,
+      'title': title
     }
-    path = "meetings"
+    path = 'meetings'
     response = post(path, payload)
     process_response(response)
   end
 
   def add_participant_to_meeting(meeting_id, client_id, name, avatar_url)
     raise ArgumentError, 'Missing information' if meeting_id.blank? || client_id.blank? || name.blank? || avatar_url.blank?
+
     payload = {
       'custom_participant_id': client_id.to_s,
       'name': name,
@@ -42,7 +43,7 @@ class Dyte
   def post(path, payload)
     HTTParty.post(
       "#{BASE_URL}/#{path}", {
-        headers: { API_KEY_HEADER => 'Basic ' + @api_key, 'Content-Type' => 'application/json' },
+        headers: { API_KEY_HEADER => "Basic #{@api_key}", 'Content-Type' => 'application/json' },
         body: payload.to_json
       }
     )
