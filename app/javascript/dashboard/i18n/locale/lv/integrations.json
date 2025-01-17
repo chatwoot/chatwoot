@@ -317,159 +317,191 @@
       "EDIT": "Atjaunināt"
     },
     "ASSISTANTS": {
-      "HEADER": "Assistants",
-      "ADD_NEW": "Create a new assistant",
+      "HEADER": "Asistenti",
+      "ADD_NEW": "Izveidot jaunu asistentu",
       "DELETE": {
-        "TITLE": "Are you sure to delete the assistant?",
-        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+        "TITLE": "Vai tiešām vēlaties izdzēst asistentu?",
+        "DESCRIPTION": "Šī darbība ir pastāvīga. Dzēšot šo asistentu, tas tiks noņemts no visām pievienotajām iesūtnēm un neatgriezeniski dzēstas visas ģenerētās zināšanas.",
         "CONFIRM": "Jā, dzēst",
-        "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
+        "SUCCESS_MESSAGE": "Asistents ir veiksmīgi izdzēsts",
+        "ERROR_MESSAGE": "Dzēšot asistentu radās kļūda. Lūdzu, mēģiniet vēlreiz."
       },
-      "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
+      "FORM_DESCRIPTION": "Aizpildiet anketu, lai nosauktu savu asistentu, norādītu tā mērķi un produktu, ko tas atbalstīs.",
       "CREATE": {
-        "TITLE": "Create an assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
+        "TITLE": "Izveidot asistentu",
+        "SUCCESS_MESSAGE": "Asistents ir veiksmīgi izveidots",
+        "ERROR_MESSAGE": "Veidojot asistentu radās kļūda. Lūdzu, mēģiniet vēlreiz."
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Assistant Name",
-          "PLACEHOLDER": "Enter a name for the assistant",
-          "ERROR": "Please provide a name for the assistant"
+          "LABEL": "Asistenta Vārds",
+          "PLACEHOLDER": "Ievadiet asistenta vārdu",
+          "ERROR": "Lūdzu, norādiet asistenta vārdu"
         },
         "DESCRIPTION": {
-          "LABEL": "Assistant Description",
-          "PLACEHOLDER": "Describe how and where this assistant will be used",
-          "ERROR": "A description is required"
+          "LABEL": "Asistenta Apraksts",
+          "PLACEHOLDER": "Aprakstiet, kā un kur šis asistents tiks izmantots",
+          "ERROR": "Nepieciešams apraksts"
         },
         "PRODUCT_NAME": {
-          "LABEL": "Product Name",
-          "PLACEHOLDER": "Enter the name of the product this assistant is designed for",
-          "ERROR": "The product name is required"
+          "LABEL": "Produkta Nosaukums",
+          "PLACEHOLDER": "Ievadiet produkta nosaukumu, kam šis asistents ir paredzēts",
+          "ERROR": "Nepieciešams produkta nosaukums"
         },
         "FEATURES": {
           "TITLE": "Īpašības",
-          "ALLOW_CONVERSATION_FAQS": "Generate responses from resolved conversations",
-          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions."
+          "ALLOW_CONVERSATION_FAQS": "Ģenerēt bieži uzdotos jautājumus no atrisinātajām sarunām",
+          "ALLOW_MEMORIES": "Pārtvert galvenās nianses kā atmiņas no klientu mijiedarbībām."
         }
       },
       "EDIT": {
-        "TITLE": "Update the assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the assistant, please try again."
+        "TITLE": "Atjaunināt asistentu",
+        "SUCCESS_MESSAGE": "Asistents ir veiksmīgi atjaunināts",
+        "ERROR_MESSAGE": "Atjauninot asistentu radās kļūda. Lūdzu, mēģiniet vēlreiz."
       },
       "OPTIONS": {
-        "EDIT_ASSISTANT": "Edit Assistant",
-        "DELETE_ASSISTANT": "Delete Assistant",
-        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+        "EDIT_ASSISTANT": "Rediģēt Asistentu",
+        "DELETE_ASSISTANT": "Dzēst Asistentu",
+        "VIEW_CONNECTED_INBOXES": "Skatīt pievienotās iesūtnes"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "Asistenti nav pieejami",
+        "SUBTITLE": "Izveidot asistentu, lai sniegtu lietotājiem ātras un precīzas atbildes. Tas var mācīties no jūsu palīdzības rakstiem un iepriekšējām sarunām. Lai sāktu, noklikšķiniet uz tālāk esošās pogas."
       }
     },
     "DOCUMENTS": {
-      "HEADER": "Documents",
-      "ADD_NEW": "Create a new document",
+      "HEADER": "Dokumenti",
+      "ADD_NEW": "Izveidot jaunu dokumentu",
       "RELATED_RESPONSES": {
-        "TITLE": "Related Responses",
-        "DESCRIPTION": "These responses are generated directly from the document."
+        "TITLE": "Saistītie bieži uzdotie jautājumi",
+        "DESCRIPTION": "Šie bieži uzdotie jautājumi tiek ģenerēti tieši no dokumenta."
       },
-      "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
+      "FORM_DESCRIPTION": "Ievadiet dokumenta URL, lai to pievienotu kā zināšanu avotu, un izvēlieties asistentu, ar kuru to saistīt.",
       "CREATE": {
-        "TITLE": "Add a document",
-        "SUCCESS_MESSAGE": "The document has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the document, please try again."
+        "TITLE": "Pievienot dokumentu",
+        "SUCCESS_MESSAGE": "Dokuments ir veiksmīgi izveidots",
+        "ERROR_MESSAGE": "Veidojot dokumentu, radās kļūda. Lūdzu, mēģiniet vēlreiz."
       },
       "FORM": {
         "URL": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Enter the URL of the document",
-          "ERROR": "Please provide a valid URL for the document"
+          "PLACEHOLDER": "Ievadiet dokumenta URL",
+          "ERROR": "Lūdzu, norādiet pareizu dokumenta URL"
         },
         "ASSISTANT": {
-          "LABEL": "Assistant",
-          "PLACEHOLDER": "Select the assistant",
-          "ERROR": "The assistant field is required"
+          "LABEL": "Asistents",
+          "PLACEHOLDER": "Izvēlēties asistentu",
+          "ERROR": "Asistenta lauks ir obligāti jāaizpilda"
         }
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the document?",
-        "DESCRIPTION": "This action is permanent. Deleting this document will permanently erase all generated knowledge.",
+        "TITLE": "Vai tiešām vēlaties izdzēst šo dokumentu?",
+        "DESCRIPTION": "Šī darbība ir pastāvīga. Dzēšot šo dokumentu visas ģenerētās zināšanas tiks neatgriezeniski izdzēstas.",
         "CONFIRM": "Jā, dzēst",
-        "SUCCESS_MESSAGE": "The document has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+        "SUCCESS_MESSAGE": "Dokuments ir veiksmīgi izdzēsts",
+        "ERROR_MESSAGE": "Dzēšot dokumentu radās kļūda. Lūdzu, mēģiniet vēlreiz."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "View Related Responses",
-        "DELETE_DOCUMENT": "Delete Document"
+        "VIEW_RELATED_RESPONSES": "Skatīt Saistītās Atbildes",
+        "DELETE_DOCUMENT": "Dzēst Dokumentu"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "Dokumenti nav pieejami",
+        "SUBTITLE": "Jūsu asistents izmanto dokumentus, lai izveidotu bieži uzdotos jautājumus. Jūs varat importēt dokumentus, lai nodrošinātu kontekstu savam asistentam. Lai sāktu, noklikšķiniet uz tālāk esošās pogas."
       }
     },
     "RESPONSES": {
-      "HEADER": "Generated FAQs",
-      "ADD_NEW": "Create new FAQ",
+      "HEADER": "Bieži uzdotie jautājumi",
+      "ADD_NEW": "Izveidot jaunu sarakstu ar bieži uzdotiem jautājumiem",
+      "DOCUMENTABLE": {
+        "CONVERSATION": "Saruna #{id}"
+      },
       "DELETE": {
-        "TITLE": "Are you sure to delete the FAQ?",
+        "TITLE": "Vai tiešām vēlaties izdzēst šos bieži uzdotos jautājumus?",
         "DESCRIPTION": "",
         "CONFIRM": "Jā, dzēst",
-        "SUCCESS_MESSAGE": "FAQ deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
+        "SUCCESS_MESSAGE": "Bieži uzdotie jautājumi ir veiksmīgi izdzēsti",
+        "ERROR_MESSAGE": "Dzēšot bieži uzdotos jautājumus radās kļūda. Lūdzu, mēģiniet vēlreiz."
       },
-      "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
+      "FILTER": {
+        "ASSISTANT": "Asistents: {selected}",
+        "STATUS": "Statuss: {selected}",
+        "ALL_ASSISTANTS": "Visi"
+      },
+      "STATUS": {
+        "TITLE": "Statuss",
+        "PENDING": "Gaida",
+        "APPROVED": "Apstiprināts",
+        "ALL": "Visi"
+      },
+      "FORM_DESCRIPTION": "Pievienot jautājumu un tā atbildi zināšanu bāzei, kā arī izvēlēties asistentu, ar kuru tas būs saistīts.",
       "CREATE": {
-        "TITLE": "Add an FAQ",
-        "SUCCESS_MESSAGE": "The response has been added successfully.",
-        "ERROR_MESSAGE": "An error occurred while adding the response. Please try again."
+        "TITLE": "Pievienot bieži uzdotos jautājumus",
+        "SUCCESS_MESSAGE": "Atbilde ir veiksmīgi pievienota.",
+        "ERROR_MESSAGE": "Pievienojot atbildi radās kļūda. Lūdzu, mēģiniet vēlreiz."
       },
       "FORM": {
         "QUESTION": {
-          "LABEL": "Question",
-          "PLACEHOLDER": "Enter the question here",
-          "ERROR": "Please provide a valid question."
+          "LABEL": "Jautājums",
+          "PLACEHOLDER": "Ievadiet jautājumu šeit",
+          "ERROR": "Lūdzu, ievadiet derīgu jautājumu."
         },
         "ANSWER": {
-          "LABEL": "Answer",
-          "PLACEHOLDER": "Enter the answer here",
-          "ERROR": "Please provide a valid answer."
+          "LABEL": "Atbilde",
+          "PLACEHOLDER": "Ievadiet atbildi šeit",
+          "ERROR": "Lūdzu, ievadiet derīgu atbildi."
         },
         "ASSISTANT": {
-          "LABEL": "Assistant",
-          "PLACEHOLDER": "Select an assistant",
-          "ERROR": "Please select an assistant."
+          "LABEL": "Asistents",
+          "PLACEHOLDER": "Izvēlieties asistentu",
+          "ERROR": "Lūdzu, izvēlieties asistentu."
         }
       },
       "EDIT": {
-        "TITLE": "Update the FAQ",
-        "SUCCESS_MESSAGE": "The FAQ has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the FAQ, please try again."
+        "TITLE": "Atjaunināt bieži uzdotos jautājumus",
+        "SUCCESS_MESSAGE": "Bieži uzdotie jautājumi ir veiksmīgi atjaunināti",
+        "ERROR_MESSAGE": "Atjauninot bieži uzdotos jautājumus, radās kļūda. Lūdzu, mēģiniet vēlreiz",
+        "APPROVE_SUCCESS_MESSAGE": "Bieži uzdotie jautājumi tika atzīmēti kā apstiprināti"
       },
       "OPTIONS": {
-        "EDIT_RESPONSE": "Edit FAQ",
-        "DELETE_RESPONSE": "Delete FAQ"
+        "APPROVE": "Atzīmēt kā apstiprinātu",
+        "EDIT_RESPONSE": "Rediģēt bieži uzdotos jautājumus",
+        "DELETE_RESPONSE": "Dzēst bieži uzdotos jautājumus"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "Bieži uzdoto jautājumu saraksti nav atrasti",
+        "SUBTITLE": "Bieži uzdotie jautājumi palīdz jūsu asistentam sniegt ātras un precīzas atbildes uz jūsu klientu jautājumiem. Tos var ģenerēt automātiski no jūsu satura, vai pievienot manuāli. Noklikšķiniet uz tālāk esošās pogas, lai izveidotu savu pirmo bieži uzdoto jautājumu sarakstu."
       }
     },
     "INBOXES": {
-      "HEADER": "Connected Inboxes",
-      "ADD_NEW": "Connect a new inbox",
+      "HEADER": "Pievienotās Iesūtnes",
+      "ADD_NEW": "Pievienot jaunu iesūtni",
       "OPTIONS": {
         "DISCONNECT": "Atvienot"
       },
       "DELETE": {
-        "TITLE": "Are you sure to disconnect the inbox?",
+        "TITLE": "Vai tiešām vēlaties atvienot iesūtni?",
         "DESCRIPTION": "",
         "CONFIRM": "Jā, dzēst",
-        "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
-        "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
+        "SUCCESS_MESSAGE": "Iesūtne tika veiksmīgi atvienota.",
+        "ERROR_MESSAGE": "Atvienojot iesūtni radās kļūda. Lūdzu, mēģiniet vēlreiz."
       },
-      "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
+      "FORM_DESCRIPTION": "Izvēlieties iesūtni, lai izveidotu savienojumu ar asistentu.",
       "CREATE": {
-        "TITLE": "Connect an Inbox",
-        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
-        "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
+        "TITLE": "Pievienot Iesūtni",
+        "SUCCESS_MESSAGE": "Iesūtne tika veiksmīgi pievienota.",
+        "ERROR_MESSAGE": "Pievienojot iesūtni radās kļūda. Lūdzu, mēģiniet vēlreiz."
       },
       "FORM": {
         "INBOX": {
           "LABEL": "Iesūtne",
-          "PLACEHOLDER": "Choose the inbox to deploy the assistant.",
-          "ERROR": "An inbox selection is required."
+          "PLACEHOLDER": "Izvēlieties iesūtni, lai aktivētu asistentu.",
+          "ERROR": "Nepieciešams izvēlēties iesūtni."
         }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "Nav Pievienotu Iesūtņu",
+        "SUBTITLE": "Iesūtnes pievienošana ļauj asistentam apstrādāt sākotnējos klientu jautājumus, pirms tos pārsūtīt Jums. Noklikšķiniet uz tālāk esošās pogas, lai to iestatītu tūlīt."
       }
     }
   }
