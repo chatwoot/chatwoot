@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "ההודעה נמחקה בהצלחה",
     "FAIL_DELETE_MESSSAGE": "לא ניתן למחוק את ההודעה! נסה שוב",
     "NO_RESPONSE": "אין תגובה",
+    "RESPONSE": "Response",
     "RATING_TITLE": "דירוג",
     "FEEDBACK_TITLE": "משוב",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
