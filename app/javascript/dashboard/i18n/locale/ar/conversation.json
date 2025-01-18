@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "تم حذف الرسالة بنجاح",
     "FAIL_DELETE_MESSSAGE": "تعذر حذف الرسالة! حاول مرة أخرى",
     "NO_RESPONSE": "لا توجد استجابة",
+    "RESPONSE": "Response",
     "RATING_TITLE": "التقييم",
     "FEEDBACK_TITLE": "الملاحظات",
     "REPLY_MESSAGE_NOT_FOUND": "الرسالة غير متوفرة",
