@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "Mensagem apagada com sucesso",
     "FAIL_DELETE_MESSSAGE": "Não foi possível apagar a mensagem! Por favor, tente novamente",
     "NO_RESPONSE": "Sem resposta",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Avaliar",
     "FEEDBACK_TITLE": "Comentários",
     "REPLY_MESSAGE_NOT_FOUND": "Mensagem indisponível",
