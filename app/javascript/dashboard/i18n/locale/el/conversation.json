@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "Το μήνυμα διαγράφηκε επιτυχώς",
     "FAIL_DELETE_MESSSAGE": "Δεν ήταν δυνατή η διαγραφή μηνύματος! Προσπαθήστε ξανά",
     "NO_RESPONSE": "Καμία ανταπόκριση",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Αξιολόγηση",
     "FEEDBACK_TITLE": "Ανατροφοδότηση",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
