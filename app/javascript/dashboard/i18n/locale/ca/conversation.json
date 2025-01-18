@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "El missatge s'ha suprimit correctament",
     "FAIL_DELETE_MESSSAGE": "No s'ha pogut suprimir el missatge! Torna-ho a provar",
     "NO_RESPONSE": "Sense resposta",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Valoració",
     "FEEDBACK_TITLE": "Comentaris",
     "REPLY_MESSAGE_NOT_FOUND": "Missatge no disponible",
