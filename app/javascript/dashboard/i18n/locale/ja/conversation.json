@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "メッセージの削除に成功",
     "FAIL_DELETE_MESSSAGE": "メッセージを削除できませんでした！もう一度お試しください",
     "NO_RESPONSE": "No response",
+    "RESPONSE": "Response",
     "RATING_TITLE": "評価",
     "FEEDBACK_TITLE": "フィードバック",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
