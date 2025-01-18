@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "پیغام کامیابی سے حذف ہو گیا۔",
     "FAIL_DELETE_MESSSAGE": "پیغام کو حذف نہیں کیا جا سکا! دوبارہ کوشش کریں",
     "NO_RESPONSE": "کوئی ردعمل نہیں",
+    "RESPONSE": "Response",
     "RATING_TITLE": "درجہ بندی",
     "FEEDBACK_TITLE": "فیڈ بیک",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
