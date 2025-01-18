@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "Le message a bien été supprimé",
     "FAIL_DELETE_MESSSAGE": "Impossible de supprimer le message ! Veuillez réessayez",
     "NO_RESPONSE": "Pas de réponse",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Note",
     "FEEDBACK_TITLE": "Commentaires",
     "REPLY_MESSAGE_NOT_FOUND": "Message indisponible",
