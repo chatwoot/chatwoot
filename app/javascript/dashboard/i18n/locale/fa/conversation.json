@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "پیام با موفقیت حذف شد",
     "FAIL_DELETE_MESSSAGE": "پیام حذف نشد! دوباره امتحان کنید",
     "NO_RESPONSE": "بدون پاسخ",
+    "RESPONSE": "Response",
     "RATING_TITLE": "رتبه",
     "FEEDBACK_TITLE": "بازخورد",
     "REPLY_MESSAGE_NOT_FOUND": "پیام در دسترس نیست",
