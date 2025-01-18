@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "Wiadomość usunięta pomyślnie",
     "FAIL_DELETE_MESSSAGE": "Nie można usunąć wiadomości! Spróbuj ponownie",
     "NO_RESPONSE": "Brak odpowiedzi",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Ocena",
     "FEEDBACK_TITLE": "Opinia",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
