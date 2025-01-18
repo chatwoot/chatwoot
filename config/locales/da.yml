@@ -246,7 +246,7 @@ da:
         light: Light
         dark: Dark
       featured_articles: Featured Articles
-      uncategorized: Uncategorized
+      uncategorized: Ikke Kategoriseret
     404:
       title: Page not found
       description: We couldn't find the page you were looking for.
