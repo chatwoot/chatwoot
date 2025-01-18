@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "Poruka je uspešno obrisana",
     "FAIL_DELETE_MESSSAGE": "Nije bilo moguće obrisati poruku! Pokušajte ponovo",
     "NO_RESPONSE": "Nema odgovora",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Ocena",
     "FEEDBACK_TITLE": "Povratne informacije",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
