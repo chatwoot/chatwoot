@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "Besked slettet",
     "FAIL_DELETE_MESSSAGE": "Kunne ikke slette beskeden! Prøv igen",
     "NO_RESPONSE": "Intet svar",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Bedømmelse",
     "FEEDBACK_TITLE": "Tilbagemelding",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
