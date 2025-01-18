@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "Meddelandet har tagits bort",
     "FAIL_DELETE_MESSSAGE": "Det gick inte att ta bort meddelande! Försök igen",
     "NO_RESPONSE": "Inget svar",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Betyg",
     "FEEDBACK_TITLE": "Feedback",
     "REPLY_MESSAGE_NOT_FOUND": "Meddelandet är inte tillgängligt",
