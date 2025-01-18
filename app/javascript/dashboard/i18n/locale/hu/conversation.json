@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "Üzenet törölve",
     "FAIL_DELETE_MESSSAGE": "Nem tudtad törölni az üzenetet! Próbáld újra",
     "NO_RESPONSE": "Nincs válasz",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Értékelés",
     "FEEDBACK_TITLE": "Visszajelzés",
     "REPLY_MESSAGE_NOT_FOUND": "Üzenet nem elérhető",
