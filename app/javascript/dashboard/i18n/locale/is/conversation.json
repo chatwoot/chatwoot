@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "Skilaboðum eytt",
     "FAIL_DELETE_MESSSAGE": "Gat ekki eytt skilaboðum! Reynið aftur",
     "NO_RESPONSE": "Ekkert svar",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Endurgjöf",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
