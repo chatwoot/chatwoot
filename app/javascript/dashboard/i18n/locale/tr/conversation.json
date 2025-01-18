@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "Mesaj başarıyla silindi",
     "FAIL_DELETE_MESSSAGE": "Mesaj silinemiyor. Tekrar deneyin",
     "NO_RESPONSE": "Cevap Yok",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Değerlendirme",
     "FEEDBACK_TITLE": "Geribildirim",
     "REPLY_MESSAGE_NOT_FOUND": "Mesaj bulunamadı",
