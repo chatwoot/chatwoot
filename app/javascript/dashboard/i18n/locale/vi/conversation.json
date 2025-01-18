@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "Tin nhắn được xoá thành công",
     "FAIL_DELETE_MESSSAGE": "Không thể xoá tin nhắn! Thử lại",
     "NO_RESPONSE": "Không có phản hồi",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Đánh giá",
     "FEEDBACK_TITLE": "Phản hồi",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
