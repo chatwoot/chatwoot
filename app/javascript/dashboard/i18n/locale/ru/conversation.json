@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "Сообщение успешно удалено",
     "FAIL_DELETE_MESSSAGE": "Не удалось удалить сообщение! Попробуйте еще раз",
     "NO_RESPONSE": "Нет ответа",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Оценка",
     "FEEDBACK_TITLE": "Обратная связь",
     "REPLY_MESSAGE_NOT_FOUND": "Сообщение недоступно",
