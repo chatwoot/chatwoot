@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "已成功删除消息",
     "FAIL_DELETE_MESSSAGE": "无法删除消息，请重试！",
     "NO_RESPONSE": "无响应",
+    "RESPONSE": "Response",
     "RATING_TITLE": "评分",
     "FEEDBACK_TITLE": "Feedback",
     "REPLY_MESSAGE_NOT_FOUND": "消息不可用",
