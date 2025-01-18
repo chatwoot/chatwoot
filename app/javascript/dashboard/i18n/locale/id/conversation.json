@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "Pesan berhasil dihapus",
     "FAIL_DELETE_MESSSAGE": "Tidak dapat menghapus pesan! Coba lagi",
     "NO_RESPONSE": "Tidak ada respon",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Penilaian",
     "FEEDBACK_TITLE": "Umpan Balik",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
