@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "Mesaj şters cu succes",
     "FAIL_DELETE_MESSSAGE": "Mesajul nu a putut fi șters! Încercați din nou",
     "NO_RESPONSE": "Niciun răspuns",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Evaluare",
     "FEEDBACK_TITLE": "Păreri",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
