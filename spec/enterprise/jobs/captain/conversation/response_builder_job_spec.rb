@@ -4,14 +4,15 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
   let(:account) { create(:account, custom_attributes: { plan_name: 'startups' }) }
   let(:inbox) { create(:inbox, account: account) }
   let(:assistant) { create(:captain_assistant, account: account) }
-  let!(:captain_inbox_association) { create(:captain_inbox, captain_assistant: assistant, inbox: inbox) }
+  let(:captain_inbox_association) { create(:captain_inbox, captain_assistant: assistant, inbox: inbox) }
 
   describe '#perform' do
     let(:conversation) { create(:conversation, inbox: inbox, account: account) }
-    let!(:message) { create(:message, conversation: conversation, content: 'Hello', message_type: :incoming) }
     let(:mock_llm_chat_service) { double('Captain::Llm::AssistantChatService') }
 
     before do
+      create(:message, conversation: conversation, content: 'Hello', message_type: :incoming)
+
       allow(inbox).to receive(:captain_active?).and_return(true)
       allow(Captain::Llm::AssistantChatService).to receive(:new).and_return(mock_llm_chat_service)
       allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'Hey, welcome to Captain Specs' })
