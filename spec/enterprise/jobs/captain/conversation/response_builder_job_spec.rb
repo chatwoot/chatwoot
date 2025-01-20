@@ -7,56 +7,27 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
   let!(:captain_inbox_association) { create(:captain_inbox, captain_assistant: assistant, inbox: inbox) }
 
   describe '#perform' do
-    context 'when limits are reached' do
-      let(:conversation) { create(:conversation, inbox: inbox, account: account) }
+    let(:conversation) { create(:conversation, inbox: inbox, account: account) }
+    let!(:message) { create(:message, conversation: conversation, content: 'Hello', message_type: :incoming) }
+    let(:mock_llm_chat_service) { double('Captain::Llm::AssistantChatService') }
 
-      before do
-        allow(inbox).to receive(:captain_active?).and_return(false)
-        allow(account).to receive(:increment_response_usage).and_return(true)
-      end
-
-      it 'processes handoff' do
-        # ensure that a assistant is actually present but is inactive
-        expect(inbox.captain_assistant.present?).to be_truthy
-        expect(inbox.captain_active?).to be_falsey
-
-        expect { described_class.perform_now(conversation, assistant) }.to change { conversation.messages.count }
-        expect(conversation.messages.count).to eq(1)
-        expect(conversation.messages.last.content).to eq('Transferring to another agent for further assistance.')
-      end
-
-      it 'does not increment usage' do
-        # ensure that a assistant is actually present but is inactive
-        expect(inbox.captain_assistant.present?).to be_truthy
-        expect(inbox.captain_active?).to be_falsey
-        expect(account).not_to receive(:increment_response_usage)
-        expect { described_class.perform_now(conversation, assistant) }.to change { conversation.messages.count }
-      end
+    before do
+      allow(inbox).to receive(:captain_active?).and_return(true)
+      allow(Captain::Llm::AssistantChatService).to receive(:new).and_return(mock_llm_chat_service)
+      allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'Hey, welcome to Captain Specs' })
     end
 
-    context 'when limits are not reached' do
-      let(:conversation) { create(:conversation, inbox: inbox, account: account) }
-      let!(:message) { create(:message, conversation: conversation, content: 'Hello', message_type: :incoming) }
-      let(:mock_llm_chat_service) { double('Captain::Llm::AssistantChatService') }
+    it 'generates and processes response' do
+      expect { described_class.perform_now(conversation, assistant) }.to change { conversation.messages.count }
+      expect(conversation.messages.count).to eq(2)
+      expect(conversation.messages.outgoing.count).to eq(1)
+      expect(conversation.messages.last.content).to eq('Hey, welcome to Captain Specs')
+    end
 
-      before do
-        allow(inbox).to receive(:captain_active?).and_return(true)
-        allow(Captain::Llm::AssistantChatService).to receive(:new).and_return(mock_llm_chat_service)
-        allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'Hey, welcome to Captain Specs' })
-      end
-
-      it 'generates and processes response' do
-        expect { described_class.perform_now(conversation, assistant) }.to change { conversation.messages.count }
-        expect(conversation.messages.count).to eq(2)
-        expect(conversation.messages.outgoing.count).to eq(1)
-        expect(conversation.messages.last.content).to eq('Hey, welcome to Captain Specs')
-      end
-
-      it 'increments usage response' do
-        described_class.perform_now(conversation, assistant)
-        account.reload
-        expect(account.usage_limits[:captain][:generated_responses][:consumed]).to eq(1)
-      end
+    it 'increments usage response' do
+      described_class.perform_now(conversation, assistant)
+      account.reload
+      expect(account.usage_limits[:captain][:generated_responses][:consumed]).to eq(1)
     end
   end
 end

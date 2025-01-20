@@ -6,9 +6,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @inbox = conversation.inbox
     @assistant = assistant
 
-    # this ensures that the conversation is not processed if the assistant limits are reached
-    return ActiveRecord::Base.transaction { process_action('handoff') } unless @inbox.captain_active?
-
     ActiveRecord::Base.transaction do
       generate_and_process_response
     end
