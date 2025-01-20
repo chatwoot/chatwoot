@@ -105,7 +105,7 @@
           :inbox-id="data.inbox_id"
           :created-at="createdAt"
         />
-        <div v-if="data.contact_sentiment">
+        <div v-if="data.contact_sentiment && !data.private">
           <small>
             Sentiment: {{ data.contact_sentiment }}
           </small>
