@@ -6,8 +6,8 @@ RSpec.describe Captain::Copilot::ChatService do
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:captain_inbox_association) { create(:captain_inbox, captain_assistant: assistant, inbox: inbox) }
 
-  let(:mock_captain_agent) { instance_double('Captain::Agent') }
-  let(:mock_captain_tool) { instance_double('Captain::Tool') }
+  let(:mock_captain_agent) { instance_double(Captain::Agent) }
+  let(:mock_captain_tool) { instance_double(Captain::Tool) }
 
   describe '#execure' do
     before do

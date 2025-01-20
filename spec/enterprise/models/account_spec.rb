@@ -35,9 +35,9 @@ RSpec.describe Account, type: :model do
         :enterprise => { :documents => 300, :responses => 500 }
       }.with_indifferent_access
     end
-    let!(:account) { create(:account, { custom_attributes: { plan_name: 'startups' } }) }
-    let!(:assistant) { create(:captain_assistant, account: account) }
-    let!(:document) { create(:captain_document, assistant: assistant, account: account, status: :available) }
+    let(:account) { create(:account, { custom_attributes: { plan_name: 'startups' } }) }
+    let(:assistant) { create(:captain_assistant, account: account) }
+    let(:document) { create(:captain_document, assistant: assistant, account: account, status: :available) }
 
     before do
       create(:installation_config, name: 'ACCOUNT_AGENTS_LIMIT', value: 20)

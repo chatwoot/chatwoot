@@ -8,7 +8,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
 
   describe '#perform' do
     let(:conversation) { create(:conversation, inbox: inbox, account: account) }
-    let(:mock_llm_chat_service) { instance_double('Captain::Llm::AssistantChatService') }
+    let(:mock_llm_chat_service) { instance_double(Captain::Llm::AssistantChatService) }
 
     before do
       create(:message, conversation: conversation, content: 'Hello', message_type: :incoming)
@@ -19,7 +19,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
     end
 
     it 'generates and processes response' do
-      expect { described_class.perform_now(conversation, assistant) }.to change { conversation.messages.count }
+      described_class.perform_now(conversation, assistant)
       expect(conversation.messages.count).to eq(2)
       expect(conversation.messages.outgoing.count).to eq(1)
       expect(conversation.messages.last.content).to eq('Hey, welcome to Captain Specs')

@@ -37,7 +37,7 @@ describe Enterprise::Billing::HandleStripeEventService do
   end
 
   describe '#perform' do
-    context 'handle customer.subscription.updated' do
+    context 'when it gets customer.subscription.updated event' do
       it 'updates subscription attributes' do
         allow(event).to receive(:type).and_return('customer.subscription.updated')
         allow(subscription).to receive(:customer).and_return('cus_123')
