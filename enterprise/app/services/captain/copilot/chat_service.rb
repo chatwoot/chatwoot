@@ -9,6 +9,7 @@ class Captain::Copilot::ChatService
 
   def execute(input)
     @agent.execute(input, conversation_history_context)
+    Rails.logger.info("[CAPTAIN][CopilotChatService] Incrementing response usage for #{account.id}")
     @assistant.account.increment_response_usage
   end
 
