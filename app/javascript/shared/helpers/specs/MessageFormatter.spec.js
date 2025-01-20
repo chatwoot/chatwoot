@@ -18,6 +18,38 @@ describe('#MessageFormatter', () => {
     });
   });
 
+  describe('content with links and variables', () => {
+    it('should not convert template variables to links', () => {
+      const message = 'Hey {{customer.name}}, check this out!';
+      expect(new MessageFormatter(message).formattedMessage).toMatch(
+        '<p>Hey {{customer.name}}, check this out!</p>'
+      );
+    });
+
+    it('should not convert template variables to links while still converting normal URLs', () => {
+      const message = 'Hey {{customer.name}}, visit https://example.com';
+      expect(new MessageFormatter(message).formattedMessage).toMatch(
+        '<p>Hey {{customer.name}}, visit <a href="https://example.com" class="link" rel="noreferrer noopener nofollow" target="_blank">https://example.com</a></p>'
+      );
+    });
+
+    it('should handle multiple template variables in the same message', () => {
+      const message =
+        'Hi {{customer.name}}, your order {{order.number}} is ready';
+      expect(new MessageFormatter(message).formattedMessage).toMatch(
+        '<p>Hi {{customer.name}}, your order {{order.number}} is ready</p>'
+      );
+    });
+
+    it('should handle template variables with nested properties', () => {
+      const message =
+        'Welcome {{customer.profile.first_name}} {{customer.profile.last_name}}';
+      expect(new MessageFormatter(message).formattedMessage).toMatch(
+        '<p>Welcome {{customer.profile.first_name}} {{customer.profile.last_name}}</p>'
+      );
+    });
+  });
+
   describe('parses heading to strong', () => {
     it('should format correctly', () => {
       const message = '### opensource \n ## tool';

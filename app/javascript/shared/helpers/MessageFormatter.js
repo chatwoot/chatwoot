@@ -1,6 +1,7 @@
 import mila from 'markdown-it-link-attributes';
 import mentionPlugin from './markdownIt/link';
 import MarkdownIt from 'markdown-it';
+
 const setImageHeight = inlineToken => {
   const imgSrc = inlineToken.attrGet('src');
   if (!imgSrc) return;
@@ -30,6 +31,20 @@ const imgResizeManager = md => {
   });
 };
 
+// Custom plugin to protect template variables from linkification
+const templateProtection = md => {
+  const defaultLinkify = md.linkify.test.bind(md.linkify);
+
+  md.linkify.test = text => {
+    // Check if text is within template syntax {{...}}
+    if (/{{.*}}/.test(text)) {
+      return false;
+    }
+    // Otherwise use the default linkify behavior
+    return defaultLinkify(text);
+  };
+};
+
 const md = MarkdownIt({
   html: false,
   xhtmlOut: true,
@@ -40,6 +55,7 @@ const md = MarkdownIt({
   quotes: '\u201c\u201d\u2018\u2019',
   maxNesting: 20,
 })
+  .use(templateProtection)
   .use(mentionPlugin)
   .use(imgResizeManager)
   .use(mila, {
