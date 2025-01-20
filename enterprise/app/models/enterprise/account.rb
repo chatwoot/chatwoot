@@ -53,8 +53,7 @@ module Enterprise::Account
 
     {
       total_count: total_count,
-      # ensure current_available is never negative or more than total_count
-      current_available: [[total_count - consumed, 0].max, total_count].min,
+      current_available: (total_count - consumed).clamp(0, total_count),
       consumed: consumed
     }
   end
