@@ -129,6 +129,12 @@ const fetchResponses = (page = 1) => {
 
 const onPageChange = page => fetchResponses(page);
 
+const onDeleteSuccess = () => {
+  if (responses.value?.length === 0 && responseMeta.value?.page > 1) {
+    onPageChange(responseMeta.value.page - 1);
+  }
+};
+
 const handleStatusFilterChange = ({ value }) => {
   selectedStatus.value = value;
   isStatusFilterOpen.value = false;
@@ -211,6 +217,7 @@ onMounted(() => {
       ref="deleteDialog"
       :entity="selectedResponse"
       type="Responses"
+      @delete-success="onDeleteSuccess"
     />
 
     <CreateResponseDialog
