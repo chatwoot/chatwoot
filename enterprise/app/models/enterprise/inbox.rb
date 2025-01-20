@@ -10,12 +10,12 @@ module Enterprise::Inbox
   end
 
   def captain_active?
-    captain_assistant.present? && has_more_responses?
+    captain_assistant.present? && more_responses?
   end
 
   private
 
-  def has_more_responses?
+  def more_responses?
     account.usage_limits[:captain][:generated_responses][:current_available].positive?
   end
 
