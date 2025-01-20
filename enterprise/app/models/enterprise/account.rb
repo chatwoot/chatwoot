@@ -49,7 +49,7 @@ module Enterprise::Account
     consumed = if type == :documents
                  captain_documents.count
                else
-                 self[:limits][CAPTAIN_RESPONSES] || 0
+                 self[:limits][CAPTAIN_RESPONSES].to_i || 0
                end
 
     consumed = 0 if consumed.negative?
