@@ -8,7 +8,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
 
   describe '#perform' do
     let(:conversation) { create(:conversation, inbox: inbox, account: account) }
-    let(:mock_llm_chat_service) { double('Captain::Llm::AssistantChatService') }
+    let(:mock_llm_chat_service) { instance_double('Captain::Llm::AssistantChatService') }
 
     before do
       create(:message, conversation: conversation, content: 'Hello', message_type: :incoming)
