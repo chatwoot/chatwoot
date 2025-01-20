@@ -37,6 +37,7 @@ class Dyte
 
   def process_response(response)
     return response.parsed_response['data'].with_indifferent_access if response.success?
+
     { error: response.parsed_response, error_code: response.code }
   end
 
