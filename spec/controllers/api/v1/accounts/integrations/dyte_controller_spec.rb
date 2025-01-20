@@ -127,7 +127,7 @@ RSpec.describe 'Dyte Integration API', type: :request do
              as: :json
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
-        expect(response_body['auth_token']).to eq(
+        expect(response_body).to eq(
           {
             'id' => 'random_uuid', 'auth_token' => 'json-web-token'
           }

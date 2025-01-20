@@ -64,7 +64,7 @@ RSpec.describe '/api/v1/widget/integrations/dyte', type: :request do
           response_body = response.parsed_body
           expect(response_body).to eq(
             {
-              'userAdded' => true, 'id' => 'random_uuid', 'auth_token' => 'json-web-token'
+              'id' => 'random_uuid', 'auth_token' => 'json-web-token'
             }
           )
         end
