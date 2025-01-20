@@ -1,8 +1,11 @@
 <script setup>
 import { computed } from 'vue';
 import { emitter } from 'shared/helpers/mitt';
+import { useTrack } from 'dashboard/composables';
+
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import { COPILOT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from '../avatar/Avatar.vue';
@@ -30,6 +33,7 @@ const useCopilotResponse = () => {
   } else {
     emitter.emit(BUS_EVENTS.INSERT_INTO_NORMAL_EDITOR, props.message?.content);
   }
+  useTrack(COPILOT_EVENTS.USE_CAPTAIN_RESPONSE);
 };
 </script>
 
