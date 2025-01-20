@@ -10,9 +10,6 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def should_process_captain_response?
-    # we don't check the captain usage limits here intentionally
-    # as the usage limits are checked in the job itself
-    # this is to ensure that the handoff can be done there if it's required
-    conversation.pending? && message.incoming? && inbox.captain_assistant.present?
+    conversation.pending? && message.incoming? && inbox.active_bot?
   end
 end
