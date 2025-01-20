@@ -50,7 +50,8 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   end
 
   def ensure_within_plan_limit
-    Current.account.account.usage_limits[:captain][:documents][:current_available].positive?
+    limits = Current.account.usage_limits[:captain][:documents]
+    return render_could_not_create_error('Document limit exceeded') unless limits[:current_available].positive?
   end
 
   def permitted_params
