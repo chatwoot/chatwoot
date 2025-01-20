@@ -220,6 +220,14 @@ export const IFrameHelper = {
       popoutChatWindow(baseUrl, websiteToken, locale, cwCookie);
     },
 
+    sendMessage: formData => {
+      window.$chatwoot.sendMessage(formData);
+    },
+
+    populateMessageForm: formData => {
+      window.$chatwoot.populateMessageForm(formData);
+    },
+
     closeWindow: () => {
       onBubbleClick({ toggleValue: false });
       removeUnreadClass();
