@@ -10,6 +10,6 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def should_process_captain_response?
-    conversation.pending? && message.incoming? && inbox.active_bot?
+    conversation.pending? && message.incoming? && inbox.captain_active?
   end
 end
