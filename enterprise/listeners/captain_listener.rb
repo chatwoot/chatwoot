@@ -1,9 +1,6 @@
 class CaptainListener < BaseListener
   def conversation_resolved(event)
     conversation = extract_conversation_and_account(event)[0]
-    account = conversation.account
-    inbox = conversation.inbox
-
     return unless conversation.inbox.captain_active?
 
     generate_notes(assistant, conversation) if assistant.config['feature_memory'].present?
