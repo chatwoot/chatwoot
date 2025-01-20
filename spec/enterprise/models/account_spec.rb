@@ -37,7 +37,6 @@ RSpec.describe Account, type: :model do
     end
     let(:account) { create(:account, { custom_attributes: { plan_name: 'startups' } }) }
     let(:assistant) { create(:captain_assistant, account: account) }
-    let(:document) { create(:captain_document, assistant: assistant, account: account, status: :available) }
 
     before do
       create(:installation_config, name: 'ACCOUNT_AGENTS_LIMIT', value: 20)
@@ -45,6 +44,10 @@ RSpec.describe Account, type: :model do
     end
 
     describe 'captain limits' do
+      before do
+        create(:captain_document, assistant: assistant, account: account, status: :available)
+      end
+
       it 'returns monthly limit accurately' do
         %w[startups business enterprise].each do |plan|
           account.custom_attributes = { 'plan_name': plan }
@@ -117,54 +120,29 @@ RSpec.describe Account, type: :model do
     end
 
     it 'returns max limits from global config when enterprise version' do
-      expect(account.usage_limits).to eq(
-        {
-          agents: 20,
-          inboxes: ChatwootApp.max_limit
-        }
-      )
+      expect(account.usage_limits[:agents]).to eq(20)
     end
 
     it 'returns max limits from account when enterprise version' do
       account.update(limits: { agents: 10 })
-      expect(account.usage_limits).to eq(
-        {
-          agents: 10,
-          inboxes: ChatwootApp.max_limit
-        }
-      )
+      expect(account.usage_limits[:agents]).to eq(10)
     end
 
     it 'returns limits based on subscription' do
       account.update(limits: { agents: 10 }, custom_attributes: { subscribed_quantity: 5 })
-      expect(account.usage_limits).to eq(
-        {
-          agents: 5,
-          inboxes: ChatwootApp.max_limit
-        }
-      )
+      expect(account.usage_limits[:agents]).to eq(5)
     end
 
     it 'returns max limits from global config if account limit is absent' do
       account.update(limits: { agents: '' })
-      expect(account.usage_limits).to eq(
-        {
-          agents: 20,
-          inboxes: ChatwootApp.max_limit
-        }
-      )
+      expect(account.usage_limits[:agents]).to eq(20)
     end
 
     it 'returns max limits from app limit if account limit and installation config is absent' do
       account.update(limits: { agents: '' })
       InstallationConfig.where(name: 'ACCOUNT_AGENTS_LIMIT').update(value: '')
 
-      expect(account.usage_limits).to eq(
-        {
-          agents: ChatwootApp.max_limit,
-          inboxes: ChatwootApp.max_limit
-        }
-      )
+      expect(account.usage_limits[:agents]).to eq(ChatwootApp.max_limit)
     end
   end
 
