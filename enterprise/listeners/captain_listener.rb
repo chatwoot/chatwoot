@@ -12,16 +12,16 @@ class CaptainListener < BaseListener
   def generate_notes(assistant, conversation)
     Captain::Llm::ContactNotesService.new(assistant, conversation).generate_and_update_notes
 
-    account = conversation.account
-    Rails.logger.info("[CAPTAIN][ContactNotesService] Incrementing response usage for #{account.id}")
-    account.increment_response_usage
+    # account = conversation.account
+    # Rails.logger.info("[CAPTAIN][ContactNotesService] Incrementing response usage for #{account.id}")
+    # account.increment_response_usage
   end
 
   def generate_faqs(assistant, conversation)
     Captain::Llm::ConversationFaqService.new(assistant, conversation).generate_and_deduplicate
 
-    account = conversation.account
-    Rails.logger.info("[CAPTAIN][ConversationFaqService] Incrementing response usage for #{account.id}")
-    account.increment_response_usage
+    # account = conversation.account
+    # Rails.logger.info("[CAPTAIN][ConversationFaqService] Incrementing response usage for #{account.id}")
+    # account.increment_response_usage
   end
 end
