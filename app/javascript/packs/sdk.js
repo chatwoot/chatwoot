@@ -214,4 +214,10 @@ const runSDK = ({ baseUrl, websiteToken }) => {
 
 window.chatwootSDK = {
   run: runSDK,
+  populateMessageForm: formData => {
+    window.$chatwoot.populateMessageForm(formData);
+  },
+  sendMessage: formData => {
+    window.$chatwoot.sendMessage(formData);
+  },
 };
