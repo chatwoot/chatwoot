@@ -32,7 +32,7 @@ module Enterprise::Account
 
   def captain_monthly_limit
     plan_quota = InstallationConfig.find_by(name: 'CAPTAIN_CLOUD_PLAN_LIMITS')&.value
-    return 0 if plan_quota.blank?
+    return { documents: ChatwootApp.max_limit, generated_responses: ChatwootApp.max_limit } if plan_quota.blank?
 
     plan_quota = JSON.parse(plan_quota) if plan_quota.present?
     plan_quota[plan_name.downcase]
