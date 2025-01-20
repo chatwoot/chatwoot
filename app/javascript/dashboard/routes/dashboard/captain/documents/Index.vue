@@ -85,6 +85,12 @@ const handleAssistantFilterChange = assistant => {
 
 const onPageChange = page => fetchDocuments(page);
 
+const onDeleteSuccess = () => {
+  if (documents.value?.length === 0 && documentsMeta.value?.page > 1) {
+    onPageChange(documentsMeta.value.page - 1);
+  }
+};
+
 onMounted(() => {
   if (!assistants.value.length) {
     store.dispatch('captainAssistants/get');
@@ -146,6 +152,7 @@ onMounted(() => {
       ref="deleteDocumentDialog"
       :entity="selectedDocument"
       type="Documents"
+      @delete-success="onDeleteSuccess"
     />
   </PageLayout>
 </template>
