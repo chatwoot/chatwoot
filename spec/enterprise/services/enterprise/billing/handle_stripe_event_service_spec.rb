@@ -37,19 +37,33 @@ describe Enterprise::Billing::HandleStripeEventService do
   end
 
   describe '#perform' do
-    it 'handle customer.subscription.updated' do
-      allow(event).to receive(:type).and_return('customer.subscription.updated')
-      allow(subscription).to receive(:customer).and_return('cus_123')
-      stripe_event_service.new.perform(event: event)
-      expect(account.reload.custom_attributes).to eq({
-                                                       'stripe_customer_id' => 'cus_123',
-                                                       'stripe_price_id' => 'test',
-                                                       'stripe_product_id' => 'plan_id',
-                                                       'plan_name' => 'Hacker',
-                                                       'subscribed_quantity' => '10',
-                                                       'subscription_ends_on' => Time.zone.at(1_686_567_520).as_json,
-                                                       'subscription_status' => 'active'
-                                                     })
+    context 'handle customer.subscription.updated' do
+      it 'updates subscription attributes' do
+        allow(event).to receive(:type).and_return('customer.subscription.updated')
+        allow(subscription).to receive(:customer).and_return('cus_123')
+        stripe_event_service.new.perform(event: event)
+
+        expect(account.reload.custom_attributes).to eq({
+                                                         'stripe_customer_id' => 'cus_123',
+                                                         'stripe_price_id' => 'test',
+                                                         'stripe_product_id' => 'plan_id',
+                                                         'plan_name' => 'Hacker',
+                                                         'subscribed_quantity' => '10',
+                                                         'subscription_ends_on' => Time.zone.at(1_686_567_520).as_json,
+                                                         'subscription_status' => 'active'
+                                                       })
+      end
+
+      it 'resets captain usage' do
+        account.increment_response_usage
+        expect(account.limits['captain_responses']).to eq(1)
+
+        allow(event).to receive(:type).and_return('customer.subscription.updated')
+        allow(subscription).to receive(:customer).and_return('cus_123')
+        stripe_event_service.new.perform(event: event)
+
+        expect(account.reload.limits['captain_responses']).to eq(0)
+      end
     end
 
     it 'disable features on customer.subscription.updated for default plan' do
