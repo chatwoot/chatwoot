@@ -8,7 +8,7 @@ module Enterprise::Account
       inboxes: get_limits(:inboxes).to_i,
       captain: {
         documents: get_captain_limits(:documents),
-        generated_responses: get_captain_limits(:responses)
+        responses: get_captain_limits(:responses)
       }
     }
   end

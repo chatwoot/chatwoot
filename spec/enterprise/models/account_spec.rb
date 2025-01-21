@@ -71,7 +71,7 @@ RSpec.describe Account, type: :model do
       it 'incrementing responses updates usage_limits' do
         account.increment_response_usage
 
-        responses_limits = account.usage_limits[:captain][:generated_responses]
+        responses_limits = account.usage_limits[:captain][:responses]
 
         expect(account.limits['captain_responses']).to eq 1
         expect(responses_limits[:consumed]).to eq 1
@@ -82,13 +82,13 @@ RSpec.describe Account, type: :model do
         account.limits['captain_responses'] = 30
         account.save!
 
-        responses_limits = account.usage_limits[:captain][:generated_responses]
+        responses_limits = account.usage_limits[:captain][:responses]
 
         expect(responses_limits[:consumed]).to eq 30
         expect(responses_limits[:current_available]).to eq captain_limits[:startups][:responses] - 30
 
         account.reset_response_usage
-        responses_limits = account.usage_limits[:captain][:generated_responses]
+        responses_limits = account.usage_limits[:captain][:responses]
 
         expect(account.limits['captain_responses']).to eq 0
         expect(responses_limits[:consumed]).to eq 0
@@ -107,14 +107,14 @@ RSpec.describe Account, type: :model do
         account.limits['captain_responses'] = 3000
         account.save!
 
-        responses_limits = account.usage_limits[:captain][:generated_responses]
+        responses_limits = account.usage_limits[:captain][:responses]
         expect(responses_limits[:consumed]).to eq 3000
         expect(responses_limits[:current_available]).to eq 0
 
         account.limits['captain_responses'] = -100
         account.save!
 
-        responses_limits = account.usage_limits[:captain][:generated_responses]
+        responses_limits = account.usage_limits[:captain][:responses]
         expect(responses_limits[:consumed]).to eq 0
         expect(responses_limits[:current_available]).to eq captain_limits[:startups][:responses]
       end
@@ -138,7 +138,7 @@ RSpec.describe Account, type: :model do
       it 'returns limits based on custom attributes' do
         usage_limits = account.usage_limits
         expect(usage_limits[:captain][:documents][:total_count]).to eq(5555)
-        expect(usage_limits[:captain][:generated_responses][:total_count]).to eq(9999)
+        expect(usage_limits[:captain][:responses][:total_count]).to eq(9999)
       end
     end
 

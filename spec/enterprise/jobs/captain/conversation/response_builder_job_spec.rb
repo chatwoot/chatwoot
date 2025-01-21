@@ -28,7 +28,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
     it 'increments usage response' do
       described_class.perform_now(conversation, assistant)
       account.reload
-      expect(account.usage_limits[:captain][:generated_responses][:consumed]).to eq(1)
+      expect(account.usage_limits[:captain][:responses][:consumed]).to eq(1)
     end
   end
 end
