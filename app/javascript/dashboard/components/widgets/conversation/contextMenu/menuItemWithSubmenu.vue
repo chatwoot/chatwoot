@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, useTemplateRef } from 'vue';
 import { useWindowSize, useElementBounding } from '@vueuse/core';
 
 defineProps({
@@ -13,7 +13,7 @@ defineProps({
   },
 });
 
-const menuRef = ref(null);
+const menuRef = useTemplateRef('menuRef');
 const { width: windowWidth, height: windowHeight } = useWindowSize();
 const { bottom, right } = useElementBounding(menuRef);
 
