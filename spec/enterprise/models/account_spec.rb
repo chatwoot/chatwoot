@@ -120,12 +120,25 @@ RSpec.describe Account, type: :model do
       end
     end
 
-    describe 'captain limits are not configured' do
+    describe 'when captain limits are not configured' do
       it 'returns default values' do
         account.custom_attributes = { 'plan_name': 'unknown' }
         expect(account.captain_monthly_limit).to eq(
           { documents: ChatwootApp.max_limit, responses: ChatwootApp.max_limit }.with_indifferent_access
         )
+      end
+    end
+
+    describe 'when limits are configured for an account' do
+      before do
+        create(:installation_config, name: 'CAPTAIN_CLOUD_PLAN_LIMITS', value: captain_limits.to_json)
+        account.update(custom_attributes: { captain_document_limit: 5555, captain_response_limit: 9999 })
+      end
+
+      it 'returns limits based on custom attributes' do
+        usage_limits = account.usage_limits
+        expect(usage_limits[:captain][:documents][:total_count]).to eq(5555)
+        expect(usage_limits[:captain][:generated_responses][:total_count]).to eq(9999)
       end
     end
 
