@@ -6,6 +6,7 @@
     "LIST": {
       "404": "இந்த குழுவில் செயலில் உள்ள உரையாடல்கள் எதுவும் இல்லை."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "உரையாடல்கள்",
     "MENTION_HEADING": "Mentions",
     "UNATTENDED_HEADING": "Unattended",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "இருப்பிடம்"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "ஒரு URL ஐப் பகிர்ந்துள்ளார்"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "No content available",
     "HIDE_QUOTED_TEXT": "Hide Quoted Text",
     "SHOW_QUOTED_TEXT": "Show Quoted Text",
-    "MESSAGE_READ": "Read"
+    "MESSAGE_READ": "Read",
+    "SENDING": "Sending"
   }
 }

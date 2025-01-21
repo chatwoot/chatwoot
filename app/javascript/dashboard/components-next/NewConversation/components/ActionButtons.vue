@@ -1,6 +1,5 @@
 <script setup>
-import { defineAsyncComponent, ref, computed } from 'vue';
-import { useMapGetter } from 'dashboard/composables/store';
+import { defineAsyncComponent, ref, computed, watch, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useFileUpload } from 'dashboard/composables/useFileUpload';
@@ -8,51 +7,24 @@ import { vOnClickOutside } from '@vueuse/components';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import FileUpload from 'vue-upload-component';
+import { extractTextFromMarkdown } from 'dashboard/helper/editorHelper';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import WhatsAppOptions from './WhatsAppOptions.vue';
 
 const props = defineProps({
-  attachedFiles: {
-    type: Array,
-    default: () => [],
-  },
-  isWhatsappInbox: {
-    type: Boolean,
-    default: false,
-  },
-  isEmailOrWebWidgetInbox: {
-    type: Boolean,
-    default: false,
-  },
-  isTwilioSmsInbox: {
-    type: Boolean,
-    default: false,
-  },
-  messageTemplates: {
-    type: Array,
-    default: () => [],
-  },
-  channelType: {
-    type: String,
-    default: '',
-  },
-  isLoading: {
-    type: Boolean,
-    default: false,
-  },
-  disableSendButton: {
-    type: Boolean,
-    default: false,
-  },
-  hasNoInbox: {
-    type: Boolean,
-    default: false,
-  },
-  isDropdownActive: {
-    type: Boolean,
-    default: false,
-  },
+  attachedFiles: { type: Array, default: () => [] },
+  isWhatsappInbox: { type: Boolean, default: false },
+  isEmailOrWebWidgetInbox: { type: Boolean, default: false },
+  isTwilioSmsInbox: { type: Boolean, default: false },
+  messageTemplates: { type: Array, default: () => [] },
+  channelType: { type: String, default: '' },
+  isLoading: { type: Boolean, default: false },
+  disableSendButton: { type: Boolean, default: false },
+  hasSelectedInbox: { type: Boolean, default: false },
+  hasNoInbox: { type: Boolean, default: false },
+  isDropdownActive: { type: Boolean, default: false },
+  messageSignature: { type: String, default: '' },
 });
 
 const emit = defineEmits([
@@ -74,8 +46,11 @@ const EmojiInput = defineAsyncComponent(
   () => import('shared/components/emoji/EmojiInput.vue')
 );
 
-const messageSignature = useMapGetter('getMessageSignature');
-const signatureToApply = computed(() => messageSignature.value);
+const signatureToApply = computed(() =>
+  props.isEmailOrWebWidgetInbox
+    ? props.messageSignature
+    : extractTextFromMarkdown(props.messageSignature)
+);
 
 const {
   fetchSignatureFlagFromUISettings,
@@ -87,13 +62,9 @@ const sendWithSignature = computed(() => {
   return fetchSignatureFlagFromUISettings(props.channelType);
 });
 
-const isSignatureEnabledForInbox = computed(() => {
-  return props.isEmailOrWebWidgetInbox && sendWithSignature.value;
-});
-
 const setSignature = () => {
   if (signatureToApply.value) {
-    if (isSignatureEnabledForInbox.value) {
+    if (sendWithSignature.value) {
       emit('addSignature', signatureToApply.value);
     } else {
       emit('removeSignature', signatureToApply.value);
@@ -105,6 +76,18 @@ const toggleMessageSignature = () => {
   setSignatureFlagForInbox(props.channelType, !sendWithSignature.value);
   setSignature();
 };
+
+// Added this watch to dynamically set signature.
+// Only targetInbox has value and is Advance Editor(used by isEmailOrWebWidgetInbox)
+// Set the signature only if the inbox based flag is true
+watch(
+  () => props.hasSelectedInbox,
+  newValue => {
+    nextTick(() => {
+      if (newValue && props.isEmailOrWebWidgetInbox) setSignature();
+    });
+  }
+);
 
 const onClickInsertEmoji = emoji => {
   emit('insertEmoji', emoji);
@@ -213,7 +196,7 @@ useKeyboardEvents(keyboardEvents);
         />
       </FileUpload>
       <Button
-        v-if="isEmailOrWebWidgetInbox"
+        v-if="hasSelectedInbox && !isWhatsappInbox"
         icon="i-lucide-signature"
         color="slate"
         size="sm"

@@ -328,7 +328,7 @@ export default {
       <NextButton
         v-if="hasWhatsappTemplates"
         v-tooltip.top-end="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
-        icon="i-ph-whatsapp"
+        icon="i-ph-whatsapp-logo"
         slate
         faded
         sm

@@ -6,6 +6,7 @@
     "LIST": {
       "404": "هیچ گفتگوی فعالی در این گروه نیست."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "گفتگوها",
     "MENTION_HEADING": "اشاره",
     "UNATTENDED_HEADING": "بی سرپرست",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "مکان"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "یک آدرس URL به اشتراک گذاشته شده"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "هیچ محتوایی موجود نیست",
     "HIDE_QUOTED_TEXT": "مخفی کردن متن نقل قول شده",
     "SHOW_QUOTED_TEXT": "نمایش متن نقل قول",
-    "MESSAGE_READ": "خوانده شده"
+    "MESSAGE_READ": "خوانده شده",
+    "SENDING": "Sending"
   }
 }

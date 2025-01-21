@@ -66,6 +66,7 @@ uk:
       number_of_records: Досягнуто ліміту. Максимальна кількість дозволених користувацьких фільтрів для користувача на рахунок становить 50.
       invalid_attribute: Некоректний ключ атрибута - [%{key}]. Ключ повинен бути одним з [%{allowed_keys}] або налаштованим атрибутом, визначеним в обліковому записі.
       invalid_operator: Некоректний оператор. Дозволені оператори для %{attribute_name} є [%{allowed_keys}].
+      invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Невірне значення. Надані значення для %{attribute_name} є неприпустимі
   reports:
     period: Період звіту %{since} до %{until}

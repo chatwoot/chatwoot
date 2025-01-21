@@ -53,6 +53,7 @@ const tailwindConfig = {
                 marginTop: '0',
               },
             },
+            overflowWrap: 'anywhere',
 
             'br + br': {
               display: 'none',
@@ -97,7 +98,7 @@ const tailwindConfig = {
               marginBottom: '1.5em',
             },
             a: {
-              color: 'rgb(var(--text-blue))',
+              color: 'rgb(var(--slate-12))',
               textDecoration: 'underline',
             },
             ul: {
@@ -109,15 +110,31 @@ const tailwindConfig = {
             'ul li': {
               margin: '0 0 0.5em 1em',
               listStyleType: 'disc',
+              '[dir="rtl"] &': {
+                margin: '0 1em 0.5em 0',
+              },
             },
             'ol li': {
               margin: '0 0 0.5em 1em',
               listStyleType: 'decimal',
+              '[dir="rtl"] &': {
+                margin: '0 1em 0.5em 0',
+              },
             },
             blockquote: {
               color: 'rgb(var(--slate-11))',
               borderLeft: `4px solid rgb(var(--black-alpha-1))`,
               paddingLeft: '1em',
+              '[dir="rtl"] &': {
+                borderLeft: 'none',
+                paddingLeft: '0',
+                borderRight: `4px solid rgb(var(--black-alpha-1))`,
+                paddingRight: '1em',
+              },
+              '[dir="ltr"] &': {
+                borderRight: 'none',
+                paddingRight: '0',
+              },
             },
             code: {
               backgroundColor: 'rgb(var(--alpha-3))',
@@ -146,7 +163,7 @@ const tailwindConfig = {
               padding: '0.75em',
               color: 'rgb(var(--slate-12))',
               border: `none`,
-              textAlign: 'left',
+              textAlign: 'start',
               fontWeight: '600',
             },
             tr: {

@@ -1,12 +1,12 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automation",
+    "HEADER": "自動化",
     "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
     "LEARN_MORE": "Learn more about automation",
-    "HEADER_BTN_TXT": "Add Automation Rule",
+    "HEADER_BTN_TXT": "新增自動化規則",
     "LOADING": "Fetching automation rules",
     "ADD": {
-      "TITLE": "Add Automation Rule",
+      "TITLE": "新增自動化規則",
       "SUBMIT": "建立",
       "CANCEL_BUTTON_TEXT": "取消",
       "FORM": {
@@ -40,16 +40,16 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "姓名",
-        "描述資訊",
-        "Active",
-        "Created on"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "姓名",
+        "DESCRIPTION": "描述資訊",
+        "ACTIVE": "Active",
+        "CREATED_ON": "Created on"
+      },
       "404": "No automation rules found"
     },
     "DELETE": {
-      "TITLE": "Delete Automation Rule",
+      "TITLE": "刪除自動化規則",
       "SUBMIT": "刪除",
       "CANCEL_BUTTON_TEXT": "取消",
       "CONFIRM": {
@@ -64,7 +64,7 @@
       }
     },
     "EDIT": {
-      "TITLE": "Edit Automation Rule",
+      "TITLE": "編輯自動化規則",
       "SUBMIT": "更新",
       "CANCEL_BUTTON_TEXT": "取消",
       "API": {
@@ -99,8 +99,8 @@
       "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
-      "ACTIVATION_TITLE": "Activate Automation Rule",
-      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
+      "ACTIVATION_TITLE": "啟用自動化規則",
+      "DEACTIVATION_TITLE": "停用自動化規則",
       "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
       "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
       "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",

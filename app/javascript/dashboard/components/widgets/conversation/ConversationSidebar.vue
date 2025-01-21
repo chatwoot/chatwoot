@@ -1,10 +1,11 @@
 <script setup>
-import { useStoreGetters } from 'dashboard/composables/store';
 import { computed, ref } from 'vue';
 import CopilotContainer from '../../copilot/CopilotContainer.vue';
 import ContactPanel from 'dashboard/routes/dashboard/conversation/ContactPanel.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import { useI18n } from 'vue-i18n';
+import { useMapGetter } from 'dashboard/composables/store';
+import { FEATURE_FLAGS } from '../../../featureFlags';
 
 const props = defineProps({
   currentChat: {
@@ -15,12 +16,7 @@ const props = defineProps({
 
 const emit = defineEmits(['toggleContactPanel']);
 
-const getters = useStoreGetters();
 const { t } = useI18n();
-
-const captainIntegration = computed(() =>
-  getters['integrations/getIntegration'].value('captain', null)
-);
 
 const channelType = computed(() => props.currentChat?.meta?.channel || '');
 
@@ -45,15 +41,19 @@ const handleTabChange = selectedTab => {
     tabItem => tabItem.value === selectedTab.value
   );
 };
+const currentAccountId = useMapGetter('getCurrentAccountId');
+const isFeatureEnabledonAccount = useMapGetter(
+  'accounts/isFeatureEnabledonAccount'
+);
 
-const showCopilotTab = computed(() => {
-  return captainIntegration.value && captainIntegration.value.enabled;
-});
+const showCopilotTab = computed(() =>
+  isFeatureEnabledonAccount.value(currentAccountId.value, FEATURE_FLAGS.CAPTAIN)
+);
 </script>
 
 <template>
   <div
-    class="ltr:border-l rtl:border-r border-n-weak h-full overflow-hidden z-10 min-w-[300px] w-[300px] 2xl:min-w-96 2xl:w-96 flex flex-col bg-n-background"
+    class="ltr:border-l rtl:border-r border-n-weak h-full overflow-hidden z-10 min-w-[320px] w-[320px] 2xl:min-w-96 2xl:w-96 flex flex-col bg-n-background"
   >
     <div v-if="showCopilotTab" class="p-2">
       <TabBar

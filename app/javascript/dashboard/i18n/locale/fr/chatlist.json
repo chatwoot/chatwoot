@@ -6,6 +6,7 @@
     "LIST": {
       "404": "Il n'y a aucune conversation active dans ce groupe."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Conversations",
     "MENTION_HEADING": "Mentions",
     "UNATTENDED_HEADING": "Sans suivi",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "Localisation"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "a partagé une URL"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "Aucun contenu disponible",
     "HIDE_QUOTED_TEXT": "Masquer le texte cité",
     "SHOW_QUOTED_TEXT": "Afficher le texte cité",
-    "MESSAGE_READ": "Lu"
+    "MESSAGE_READ": "Lu",
+    "SENDING": "Sending"
   }
 }

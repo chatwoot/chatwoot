@@ -8,28 +8,24 @@
     "LIST": {
       "404": "Šim kontam nav pievienota neviena Iesūtne."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Izvēlieties Kanālu",
-        "route": "settings_inbox_new",
-        "body": "Izvēlieties pakalpojumu sniedzēju, kuru vēlaties integrēt ar Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Izvēlieties Kanālu",
+        "BODY": "Izvēlieties pakalpojumu sniedzēju, kuru vēlaties integrēt ar Chatwoot."
       },
-      {
-        "title": "Izveidot Iesūtni",
-        "route": "settings_inboxes_page_channel",
-        "body": "Autentificēt savu kontu un izveidot iesūtni."
+      "INBOX": {
+        "TITLE": "Izveidot Iesūtni",
+        "BODY": "Autentificēt savu kontu un izveidot iesūtni."
       },
-      {
-        "title": "Pievienot Aģentus",
-        "route": "settings_inboxes_add_agents",
-        "body": "Pievienojiet aģentus izveidotajai iesūtnei."
+      "AGENT": {
+        "TITLE": "Pievienot Aģentus",
+        "BODY": "Pievienojiet aģentus izveidotajai iesūtnei."
       },
-      {
-        "title": "Gatavs!",
-        "route": "settings_inbox_finish",
-        "body": "Jūs varat sākt darboties!"
+      "FINISH": {
+        "TITLE": "Gatavs!",
+        "BODY": "Jūs varat sākt darboties!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Iesūtnes Nosaukums",

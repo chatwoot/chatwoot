@@ -8,34 +8,6 @@
 # settings_json_schema: the json schema used to validate the settings hash (https://json-schema.org/)
 # settings_form_schema: the formulate schema used in frontend to render settings form (https://vueformulate.com/)
 ########################################################
-captain:
-  id: captain
-  logo: captain.png
-  i18n_key: captain
-  action: /captain
-  hook_type: account
-  allow_multiple_hooks: false
-  settings_json_schema: {
-    "type": "object",
-    "properties": {
-        "access_token": { "type": "string" },
-        "account_id": { "type": "string" },
-        "account_email": { "type": "string" },
-        "assistant_id": { "type": "string" },
-        "inbox_ids": { "type": "strings" },
-      },
-    "required": ["access_token", "account_id", "account_email", "assistant_id"],
-    "additionalProperties": false,
-  }
-  settings_form_schema: [
-    {
-      "label": "Inbox Ids",
-      "type": "text",
-      "name": "inbox_ids",
-      "validation": "",
-    },
-  ]
-  visible_properties: []
 webhooks:
   id: webhook
   logo: webhooks.png
@@ -56,29 +28,32 @@ openai:
   action: /openai
   hook_type: account
   allow_multiple_hooks: false
-  settings_json_schema: {
-    "type": "object",
-    "properties": {
-        "api_key": { "type": "string" },
-        "label_suggestion": { "type": "boolean" },
+  settings_json_schema:
+    {
+      'type': 'object',
+      'properties':
+        {
+          'api_key': { 'type': 'string' },
+          'label_suggestion': { 'type': 'boolean' },
+        },
+      'required': ['api_key'],
+      'additionalProperties': false,
+    }
+  settings_form_schema:
+    [
+      {
+        'label': 'API Key',
+        'type': 'text',
+        'name': 'api_key',
+        'validation': 'required',
       },
-    "required": ["api_key"],
-    "additionalProperties": false,
-  }
-  settings_form_schema: [
-    {
-      "label": "API Key",
-      "type": "text",
-      "name": "api_key",
-      "validation": "required",
-    },
-    {
-      "label": "Show label suggestions",
-      "type": "checkbox",
-      "name": "label_suggestion",
-      "validation": "",
-    },
-  ]
+      {
+        'label': 'Show label suggestions',
+        'type': 'checkbox',
+        'name': 'label_suggestion',
+        'validation': '',
+      },
+    ]
   visible_properties: ['api_key', 'label_suggestion']
 linear:
   id: linear
@@ -87,22 +62,22 @@ linear:
   action: /linear
   hook_type: account
   allow_multiple_hooks: false
-  settings_json_schema: {
-    "type": "object",
-    "properties": {
-        "api_key": { "type": "string" },
-      },
-    "required": ["api_key"],
-    "additionalProperties": false,
-  }
-  settings_form_schema: [
+  settings_json_schema:
     {
-      "label": "API Key",
-      "type": "text",
-      "name": "api_key",
-      "validation": "required",
-    },
-  ]
+      'type': 'object',
+      'properties': { 'api_key': { 'type': 'string' } },
+      'required': ['api_key'],
+      'additionalProperties': false,
+    }
+  settings_form_schema:
+    [
+      {
+        'label': 'API Key',
+        'type': 'text',
+        'name': 'api_key',
+        'validation': 'required',
+      },
+    ]
   visible_properties: []
 slack:
   id: slack
@@ -118,35 +93,36 @@ dialogflow:
   action: /dialogflow
   hook_type: inbox
   allow_multiple_hooks: true
-  settings_json_schema:  {
-    "type": "object",
-    "properties": {
-      "project_id": { "type": "string" },
-      "credentials": { "type": "object" }
-    },
-    "required": ["project_id", "credentials"],
-    "additionalProperties": false
-  }
-  settings_form_schema: [
+  settings_json_schema:
     {
-      "label": "Dialogflow Project ID",
-      "type": "text",
-      "name": "project_id",
-      "validation": "required",
-      "validationName": 'Project Id',
-    },
-    {
-      "label": "Dialogflow Project Key File",
-      "type": "textarea",
-      "name": "credentials",
-      "validation": "required|JSON",
-      "validationName": 'Credentials',
-      "validation-messages": {
-          "JSON": "Invalid JSON",
-          "required": "Credentials is required"
-      }
+      'type': 'object',
+      'properties':
+        {
+          'project_id': { 'type': 'string' },
+          'credentials': { 'type': 'object' },
+        },
+      'required': ['project_id', 'credentials'],
+      'additionalProperties': false,
     }
-  ]
+  settings_form_schema:
+    [
+      {
+        'label': 'Dialogflow Project ID',
+        'type': 'text',
+        'name': 'project_id',
+        'validation': 'required',
+        'validationName': 'Project Id',
+      },
+      {
+        'label': 'Dialogflow Project Key File',
+        'type': 'textarea',
+        'name': 'credentials',
+        'validation': 'required|JSON',
+        'validationName': 'Credentials',
+        'validation-messages':
+          { 'JSON': 'Invalid JSON', 'required': 'Credentials is required' },
+      },
+    ]
   visible_properties: ['project_id']
 google_translate:
   id: google_translate
@@ -155,35 +131,36 @@ google_translate:
   action: /google_translate
   hook_type: account
   allow_multiple_hooks: false
-  settings_json_schema: {
-    "type": "object",
-    "properties": {
-      "project_id": { "type": "string" },
-      "credentials": { "type": "object" },
-    },
-    "required": ["project_id", "credentials"],
-    "additionalProperties": false,
-  }
-  settings_form_schema: [
+  settings_json_schema:
     {
-      "label": "Google Cloud Project ID",
-      "type": "text",
-      "name": "project_id",
-      "validation": "required",
-      "validationName": "Project Id",
-    },
-    {
-      "label": "Google Cloud Project Key File",
-      "type": "textarea",
-      "name": "credentials",
-      "validation": "required|JSON",
-      "validationName": "Credentials",
-      "validation-messages": {
-        "JSON": "Invalid JSON",
-        "required": "Credentials is required"
+      'type': 'object',
+      'properties':
+        {
+          'project_id': { 'type': 'string' },
+          'credentials': { 'type': 'object' },
+        },
+      'required': ['project_id', 'credentials'],
+      'additionalProperties': false,
+    }
+  settings_form_schema:
+    [
+      {
+        'label': 'Google Cloud Project ID',
+        'type': 'text',
+        'name': 'project_id',
+        'validation': 'required',
+        'validationName': 'Project Id',
       },
-    },
-  ]
+      {
+        'label': 'Google Cloud Project Key File',
+        'type': 'textarea',
+        'name': 'credentials',
+        'validation': 'required|JSON',
+        'validationName': 'Credentials',
+        'validation-messages':
+          { 'JSON': 'Invalid JSON', 'required': 'Credentials is required' },
+      },
+    ]
   visible_properties: ['project_id']
 dyte:
   id: dyte
@@ -192,27 +169,30 @@ dyte:
   action: /dyte
   hook_type: account
   allow_multiple_hooks: false
-  settings_json_schema: {
-    "type": "object",
-    "properties": {
-        "api_key": { "type": "string" },
-        "organization_id": { "type": "string" },
+  settings_json_schema:
+    {
+      'type': 'object',
+      'properties':
+        {
+          'api_key': { 'type': 'string' },
+          'organization_id': { 'type': 'string' },
+        },
+      'required': ['api_key', 'organization_id'],
+      'additionalProperties': false,
+    }
+  settings_form_schema:
+    [
+      {
+        'label': 'Organization ID',
+        'type': 'text',
+        'name': 'organization_id',
+        'validation': 'required',
       },
-    "required": ["api_key", "organization_id"],
-    "additionalProperties": false,
-  }
-  settings_form_schema: [
-    {
-      "label": "Organization ID",
-      "type": "text",
-      "name": "organization_id",
-      "validation": "required",
-    },
-    {
-      "label": "API Key",
-      "type": "text",
-      "name": "api_key",
-      "validation": "required",
-    },
-  ]
-  visible_properties: ["organization_id"]
+      {
+        'label': 'API Key',
+        'type': 'text',
+        'name': 'api_key',
+        'validation': 'required',
+      },
+    ]
+  visible_properties: ['organization_id']

@@ -99,9 +99,17 @@ const getStatusMessage = (status, isSuccess) => {
     : '';
 };
 
-const updateMeta = () => {
+const updatePortalMeta = () => {
   const { portalSlug, locale } = route.params;
   return store.dispatch('portals/show', { portalSlug, locale });
+};
+
+const updateArticlesMeta = () => {
+  const { portalSlug, locale } = route.params;
+  return store.dispatch('articles/updateArticleMeta', {
+    portalSlug,
+    locale,
+  });
 };
 
 const handleArticleAction = async (action, { status, id }) => {
@@ -127,7 +135,8 @@ const handleArticleAction = async (action, { status, id }) => {
         useTrack(PORTALS_EVENTS.PUBLISH_ARTICLE);
       }
     }
-    await updateMeta();
+    await updateArticlesMeta();
+    await updatePortalMeta();
   } catch (error) {
     const errorMessage =
       error?.message ||

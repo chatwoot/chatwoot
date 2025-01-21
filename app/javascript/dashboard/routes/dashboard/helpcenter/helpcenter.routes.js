@@ -116,6 +116,15 @@ export default {
     {
       path: getPortalRoute(),
       component: HelpCenterPageRouteView,
+      redirect: to => {
+        return {
+          name: 'portals_index',
+          params: {
+            navigationPath: 'portals_articles_index',
+            ...to.params,
+          },
+        };
+      },
       children: [...portalRoutes],
     },
   ],

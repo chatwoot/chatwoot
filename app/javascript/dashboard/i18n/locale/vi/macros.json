@@ -25,12 +25,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Tên",
-        "Tạo bởi",
-        "Cập nhật lần cuối bởi",
-        "Hiển thị"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Tên",
+        "CREATED BY": "Tạo bởi",
+        "LAST_UPDATED_BY": "Cập nhật lần cuối bởi",
+        "VISIBILITY": "Hiển thị"
+      },
       "404": "Không tìm thấy macro"
     },
     "DELETE": {

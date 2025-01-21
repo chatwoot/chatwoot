@@ -60,7 +60,7 @@ const hasValue = computed(() => {
       <woot-button
         variant="hollow"
         color-scheme="secondary"
-        class="w-full border border-solid border-slate-100 dark:border-slate-700 px-2 hover:border-slate-75 dark:hover:border-slate-600"
+        class="w-full px-2 border border-solid !border-n-weak dark:!border-n-weak hover:!border-n-strong dark:hover:!border-n-strong"
         @click="
           () => toggleDropdown() // ensure that the event is not passed to the button
         "
@@ -73,25 +73,22 @@ const hasValue = computed(() => {
             :status="selectedItem.availability_status"
             :username="selectedItem.name"
           />
-          <div class="flex justify-between w-full min-w-0 items-center">
-            <h4
-              v-if="!hasValue"
-              class="text-ellipsis text-sm text-slate-800 dark:text-slate-100"
-            >
+          <div class="flex items-center justify-between w-full min-w-0">
+            <h4 v-if="!hasValue" class="text-sm text-ellipsis text-n-slate-12">
               {{ multiselectorPlaceholder }}
             </h4>
             <h4
               v-else
-              class="items-center leading-tight overflow-hidden whitespace-nowrap text-ellipsis text-sm text-slate-800 dark:text-slate-100"
+              class="items-center overflow-hidden text-sm leading-tight whitespace-nowrap text-ellipsis text-n-slate-12"
               :title="selectedItem.name"
             >
               {{ selectedItem.name }}
             </h4>
             <i
               v-if="showSearchDropdown"
-              class="icon i-lucide-chevron-up text-slate-600 mr-1"
+              class="mr-1 icon i-lucide-chevron-up text-n-slate-10"
             />
-            <i v-else class="icon i-lucide-chevron-down text-slate-600 mr-1" />
+            <i v-else class="mr-1 icon i-lucide-chevron-down text-n-slate-10" />
           </div>
         </div>
       </woot-button>
@@ -99,9 +96,9 @@ const hasValue = computed(() => {
         :class="{ 'dropdown-pane--open': showSearchDropdown }"
         class="dropdown-pane"
       >
-        <div class="flex justify-between items-center mb-1">
+        <div class="flex items-center justify-between mb-1">
           <h4
-            class="text-sm text-slate-800 dark:text-slate-100 m-0 overflow-hidden whitespace-nowrap text-ellipsis"
+            class="m-0 overflow-hidden text-sm text-n-slate-11 whitespace-nowrap text-ellipsis"
           >
             {{ multiselectorTitle }}
           </h4>

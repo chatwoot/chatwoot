@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Poslednja godina",
       "CUSTOM_DATE_RANGE": "Prilagođen opseg vremena"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Poslednjih 7 dana"
-      },
-      {
-        "id": 1,
-        "name": "Poslednjih 30 dana"
-      },
-      {
-        "id": 2,
-        "name": "Poslednja 3 meseca"
-      },
-      {
-        "id": 3,
-        "name": "Poslednjih 6 meseci"
-      },
-      {
-        "id": 4,
-        "name": "Poslednja godina"
-      },
-      {
-        "id": 5,
-        "name": "Prilagođen opseg vremena"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Primeni",
       "PLACEHOLDER": "Izaberite opseg vremena"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Ništa nije pronađeno"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -490,7 +468,7 @@
       "NO_AGENTS": "Nema razgovora po agentima",
       "TABLE_HEADER": {
         "AGENT": "Agent",
-        "OPEN": "OTVORENI",
+        "OPEN": "Otvoreni",
         "UNATTENDED": "Nedodeljeni",
         "STATUS": "Status"
       }

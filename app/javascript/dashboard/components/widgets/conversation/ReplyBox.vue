@@ -1,6 +1,6 @@
 <script>
 // [TODO] The popout events are needlessly complex and should be simplified
-import { defineAsyncComponent, defineModel } from 'vue';
+import { defineAsyncComponent, defineModel, useTemplateRef } from 'vue';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -80,12 +80,15 @@ export default {
       default: false,
     });
 
+    const replyEditor = useTemplateRef('replyEditor');
+
     return {
       uiSettings,
       popoutReplyBox,
       updateUISettings,
       isEditorHotKeyEnabled,
       fetchSignatureFlagFromUISettings,
+      replyEditor,
     };
   },
   data() {
@@ -552,6 +555,9 @@ export default {
         const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
         this.$store.dispatch('draftMessages/delete', { key });
       }
+    },
+    getElementToBind() {
+      return this.replyEditor;
     },
     getKeyboardEvents() {
       return {
@@ -1071,17 +1077,17 @@ export default {
 </script>
 
 <template>
-  <div class="reply-box" :class="replyBoxClass">
-    <Banner
-      v-if="showSelfAssignBanner"
-      action-button-variant="clear"
-      color-scheme="secondary"
-      class="banner--self-assign"
-      :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
-      has-action-button
-      :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
-      @primary-action="onClickSelfAssign"
-    />
+  <Banner
+    v-if="showSelfAssignBanner"
+    action-button-variant="clear"
+    color-scheme="secondary"
+    class="banner--self-assign mx-2 mb-2 rounded-lg"
+    :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
+    has-action-button
+    :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
+    @primary-action="onClickSelfAssign"
+  />
+  <div ref="replyEditor" class="reply-box" :class="replyBoxClass">
     <ReplyTopPanel
       :mode="replyType"
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"

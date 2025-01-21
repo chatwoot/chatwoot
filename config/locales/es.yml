@@ -29,7 +29,7 @@ es:
       invalid: Eventos inválidos
     signup:
       disposable_email: No permitimos correos electrónicos desechables
-      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
+      blocked_domain: Este dominio no está permitido.  Si cree que esto es un error, póngase en contacto con soporte.
       invalid_email: Ha introducido un correo electrónico no válido
       email_already_exists: "Ya te has registrado en una cuenta con %{email}"
       invalid_params: 'Inválido, por favor comprueba los parámetros de registro e inténtalo de nuevo'
@@ -66,6 +66,7 @@ es:
       number_of_records: Límite alcanzado. El número máximo de filtros personalizados permitidos para un usuario por cuenta es de 50.
       invalid_attribute: Clave de atributo no válida - [%{key}]. La clave debe ser una de [%{allowed_keys}] o un atributo personalizado definido en la cuenta.
       invalid_operator: Operador no válido. Los operadores permitidos para %{attribute_name} son [%{allowed_keys}].
+      invalid_query_operator: El operador de consulta debe ser "AND" o "OR".
       invalid_value: Valor no válido. Los valores proporcionados para %{attribute_name} no son válidos
   reports:
     period: Reportando el periodo desde %{since} hasta %{until}

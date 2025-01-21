@@ -206,7 +206,7 @@ export default {
 <template>
   <section class="flex w-full h-full bg-n-solid-1">
     <div
-      class="flex flex-col h-full w-full lg:min-w-[400px] lg:max-w-[400px] ltr:border-r border-slate-50 dark:border-slate-800/50"
+      class="flex flex-col h-full w-full lg:min-w-[400px] lg:max-w-[400px] ltr:border-r rtl:border-l border-n-weak"
       :class="!currentNotificationId ? 'flex' : 'hidden xl:flex'"
     >
       <InboxListHeader
@@ -216,7 +216,7 @@ export default {
       />
       <div
         ref="notificationList"
-        class="flex flex-col gap-px w-full h-[calc(100%-56px)] pb-3 overflow-x-hidden px-3 overflow-y-auto divide-y divide-n-strong [&>*:hover]:!border-y-transparent [&>*.active]:!border-y-transparent [&>*:hover+*]:!border-t-transparent [&>*.active+*]:!border-t-transparent"
+        class="flex flex-col gap-px w-full h-[calc(100%-56px)] pb-3 overflow-x-hidden px-3 overflow-y-auto divide-y divide-n-weak [&>*:hover]:!border-y-transparent [&>*.active]:!border-y-transparent [&>*:hover+*]:!border-t-transparent [&>*.active+*]:!border-t-transparent"
       >
         <InboxCard
           v-for="notificationItem in notificationsV4"

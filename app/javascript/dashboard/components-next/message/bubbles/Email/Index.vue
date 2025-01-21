@@ -21,12 +21,13 @@ const showQuotedMessage = ref(false);
 const contentContainer = useTemplateRef('contentContainer');
 
 onMounted(() => {
-  isExpandable.value = contentContainer.value.scrollHeight > 400;
+  isExpandable.value = contentContainer.value?.scrollHeight > 400;
 });
 
 const isOutgoing = computed(() => {
   return messageType.value === MESSAGE_TYPES.OUTGOING;
 });
+const isIncoming = computed(() => !isOutgoing.value);
 
 const fullHTML = computed(() => {
   return contentAttributes?.value?.email?.htmlContent?.full ?? content.value;
@@ -48,8 +49,21 @@ const textToShow = computed(() => {
 </script>
 
 <template>
-  <BaseBubble class="w-full" data-bubble-name="email">
-    <EmailMeta class="p-3" />
+  <BaseBubble
+    class="w-full"
+    :class="{
+      'bg-n-slate-4': isIncoming,
+      'bg-n-solid-blue': isOutgoing,
+    }"
+    data-bubble-name="email"
+  >
+    <EmailMeta
+      class="p-3"
+      :class="{
+        'border-b border-n-strong': isIncoming,
+        'border-b border-n-slate-8/20': isOutgoing,
+      }"
+    />
     <section ref="contentContainer" class="p-3">
       <div
         :class="{
@@ -109,7 +123,10 @@ const textToShow = computed(() => {
         </button>
       </div>
     </section>
-    <section v-if="attachments.length" class="px-4 pb-4 space-y-2">
+    <section
+      v-if="Array.isArray(attachments) && attachments.length"
+      class="px-4 pb-4 space-y-2"
+    >
       <AttachmentChips :attachments="attachments" class="gap-1" />
     </section>
   </BaseBubble>

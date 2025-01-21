@@ -6,6 +6,7 @@
     "LIST": {
       "404": "이 그룹에는 활성 대화가 없습니다."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "대화",
     "MENTION_HEADING": "멘션",
     "UNATTENDED_HEADING": "Unattended",
@@ -43,12 +44,12 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Created",
-        "OLDEST": "Created at:"
+        "LATEST": "만들어짐",
+        "OLDEST": "에 만들어짐:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Last activity:",
-        "ACTIVE": "Last activity"
+        "NOT_ACTIVE": "최근 활동:",
+        "ACTIVE": "최근 활동"
       }
     },
     "SORT_ORDER_ITEMS": {
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "장소"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "URL을 공유함"
       }
@@ -103,15 +107,15 @@
       "ITEMS": {
         "LATEST": {
           "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "LABEL": "최근 활동"
         },
         "CREATED_AT": {
-          "NAME": "Created at",
-          "LABEL": "Created at"
+          "NAME": "에 만들어짐",
+          "LABEL": "에 만들어짐"
         },
         "LAST_USER_MESSAGE_AT": {
           "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "LABEL": "최근 메세지"
         }
       }
     },
@@ -126,6 +130,7 @@
     "NO_CONTENT": "콘텐츠 이용 불가",
     "HIDE_QUOTED_TEXT": "인용문 가리기",
     "SHOW_QUOTED_TEXT": "인용문 보이기",
-    "MESSAGE_READ": "읽기"
+    "MESSAGE_READ": "읽기",
+    "SENDING": "Sending"
   }
 }

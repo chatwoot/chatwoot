@@ -5,6 +5,8 @@ import Button from 'next/button/Button.vue';
 import Icon from 'next/icon/Icon.vue';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { useMessageContext } from '../provider.js';
+import { downloadFile } from '@chatwoot/utils';
+
 import GalleryView from 'dashboard/components/widgets/conversation/components/GalleryView.vue';
 
 const emit = defineEmits(['error']);
@@ -23,16 +25,8 @@ const handleError = () => {
 };
 
 const downloadAttachment = async () => {
-  const response = await fetch(attachment.value.dataUrl);
-  const blob = await response.blob();
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `attachment${attachment.value.extension || ''}`;
-  document.body.appendChild(a);
-  a.click();
-  window.URL.revokeObjectURL(url);
-  document.body.removeChild(a);
+  const { fileType, dataUrl, extension } = attachment.value;
+  downloadFile({ url: dataUrl, type: fileType, extension });
 };
 </script>
 

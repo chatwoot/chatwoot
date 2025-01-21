@@ -1,5 +1,12 @@
 # TODO: Move this values to features.yml itself
 # No need to replicate the same values in two places
+captain:
+  name: 'Captain'
+  description: 'Enable AI-powered conversations with your customers.'
+  enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
+  icon: 'icon-captain'
+  config_key: 'captain'
+  enterprise: true
 custom_branding:
   name: 'Custom Branding'
   description: 'Apply your own branding to this installation.'
