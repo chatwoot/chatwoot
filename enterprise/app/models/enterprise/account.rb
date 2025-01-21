@@ -69,17 +69,25 @@ module Enterprise::Account
   end
 
   def default_captain_limits
-    default_value = { documents: ChatwootApp.max_limit, responses: ChatwootApp.max_limit }.with_indifferent_access
-    return default_value if plan_name.blank?
+    max_limits = { documents: ChatwootApp.max_limit, responses: ChatwootApp.max_limit }.with_indifferent_access
+    zero_limits = { documents: 0, responses: 0 }.with_indifferent_access
+    plan_quota = InstallationConfig.find_by(name: 'CAPTAIN_CLOUD_PLAN_LIMITS')&.value
+
+    # If there are no limits configured, we allow max usage
+    return max_limits if plan_quota.blank?
+
+    # if there is plan_quota configred, but plan_name is not present, we return zero limits
+    return zero_limits if plan_name.blank?
 
     begin
-      plan_quota = InstallationConfig.find_by(name: 'CAPTAIN_CLOUD_PLAN_LIMITS')&.value
-      return default_value if plan_quota.blank?
-
+      # Now we parse the plan_quota and return the limits for the plan name
+      # but if there's no plan_name present in the plan_quota, we return zero limits
       plan_quota = JSON.parse(plan_quota) if plan_quota.present?
-      plan_quota[plan_name.downcase]
+      plan_quota[plan_name.downcase] || zero_limits
     rescue StandardError
-      default_value
+      # if there's any error in parsing the plan_quota, we return max limits
+      # this is to ensure that we don't block the user from using the product
+      max_limits
     end
   end
 
