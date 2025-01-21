@@ -80,6 +80,7 @@ module Enterprise::Account
       plan_quota[plan_name.downcase]
     rescue StandardError
       default_value
+    end
   end
 
   def plan_name
