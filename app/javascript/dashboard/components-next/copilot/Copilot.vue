@@ -62,7 +62,7 @@ const promptOptions = [
   },
   {
     label: 'Rate this conversation',
-    prompt: `Review the conversation, assess its effectiveness in addressing the customer's needs, and provide a rating based on clarity, responsiveness, and resolution of the issue`,
+    prompt: `Review the conversation to see how well it meets the customer’s needs. Share a rating out of 5 based on tone, clarity, and effectiveness.`,
   },
 ];
 
