@@ -72,11 +72,14 @@ module Enterprise::Account
     default_value = { documents: ChatwootApp.max_limit, responses: ChatwootApp.max_limit }.with_indifferent_access
     return default_value if plan_name.blank?
 
-    plan_quota = InstallationConfig.find_by(name: 'CAPTAIN_CLOUD_PLAN_LIMITS')&.value
-    return default_value if plan_quota.blank?
+    begin
+      plan_quota = InstallationConfig.find_by(name: 'CAPTAIN_CLOUD_PLAN_LIMITS')&.value
+      return default_value if plan_quota.blank?
 
-    plan_quota = JSON.parse(plan_quota) if plan_quota.present?
-    plan_quota[plan_name.downcase]
+      plan_quota = JSON.parse(plan_quota) if plan_quota.present?
+      plan_quota[plan_name.downcase]
+    rescue StandardError
+      default_value
   end
 
   def plan_name
