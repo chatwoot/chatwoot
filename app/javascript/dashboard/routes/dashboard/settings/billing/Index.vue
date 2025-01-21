@@ -1,60 +1,61 @@
-<script>
+<script setup>
+import { computed, onMounted } from 'vue';
+import { useMapGetter, useStore } from 'dashboard/composables/store.js';
+import { useAccount } from 'dashboard/composables/useAccount';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
-import { mapGetters } from 'vuex';
-import { useAccount } from 'dashboard/composables/useAccount';
 import BillingItem from './components/BillingItem.vue';
 
-export default {
-  components: { BillingItem },
-  setup() {
-    const { accountId } = useAccount();
-    const { formatMessage } = useMessageFormatter();
-    return {
-      accountId,
-      formatMessage,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      getAccount: 'accounts/getAccount',
-      uiFlags: 'accounts/getUIFlags',
-    }),
-    currentAccount() {
-      return this.getAccount(this.accountId) || {};
-    },
-    customAttributes() {
-      return this.currentAccount.custom_attributes || {};
-    },
-    hasABillingPlan() {
-      return !!this.planName;
-    },
-    planName() {
-      return this.customAttributes.plan_name || '';
-    },
-    subscribedQuantity() {
-      return this.customAttributes.subscribed_quantity || 0;
-    },
-  },
-  mounted() {
-    this.fetchAccountDetails();
-  },
-  methods: {
-    async fetchAccountDetails() {
-      if (!this.hasABillingPlan) {
-        this.$store.dispatch('accounts/subscription');
-      }
-    },
-    onClickBillingPortal() {
-      this.$store.dispatch('accounts/checkout');
-    },
-    onToggleChatWindow() {
-      if (window.$chatwoot) {
-        window.$chatwoot.toggle();
-      }
-    },
-  },
+const { currentAccount } = useAccount();
+const { formatMessage } = useMessageFormatter();
+
+const uiFlags = useMapGetter('accounts/getUIFlags');
+const store = useStore();
+const customAttributes = computed(() => {
+  return currentAccount.value.custom_attributes || {};
+});
+
+/**
+ * Computed property for plan name
+ * @returns {string|undefined}
+ */
+const planName = computed(() => {
+  return customAttributes.value.plan_name;
+});
+
+/**
+ * Computed property for subscribed quantity
+ * @returns {number|undefined}
+ */
+const subscribedQuantity = computed(() => {
+  return customAttributes.value.subscribed_quantity;
+});
+
+/**
+ * Computed property indicating if user has a billing plan
+ * @returns {boolean}
+ */
+const hasABillingPlan = computed(() => {
+  return !!planName.value;
+});
+
+const fetchAccountDetails = async () => {
+  if (!hasABillingPlan.value) {
+    store.dispatch('accounts/subscription');
+  }
 };
+
+const onClickBillingPortal = () => {
+  store.dispatch('accounts/checkout');
+};
+
+const onToggleChatWindow = () => {
+  if (window.$chatwoot) {
+    window.$chatwoot.toggle();
+  }
+};
+
+onMounted(fetchAccountDetails);
 </script>
 
 <template>
