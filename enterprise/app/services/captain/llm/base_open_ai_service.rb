@@ -1,5 +1,5 @@
 class Captain::Llm::BaseOpenAiService
-  DEFAULT_MODEL = 'gpt-4o'.freeze
+  DEFAULT_MODEL = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value || 'gpt-4o-mini'
 
   def initialize
     @client = OpenAI::Client.new(

@@ -124,7 +124,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
   describe '#chat_parameters' do
     it 'includes correct model and response format' do
       params = service.send(:chat_parameters)
-      expect(params[:model]).to eq('gpt-4o')
+      expect(params[:model]).to eq('gpt-4o-mini')
       expect(params[:response_format]).to eq({ type: 'json_object' })
     end
 
