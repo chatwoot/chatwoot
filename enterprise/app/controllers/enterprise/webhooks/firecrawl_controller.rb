@@ -3,7 +3,7 @@ class Enterprise::Webhooks::FirecrawlController < ActionController::API
     if crawl_page_event?
       Captain::Tools::FirecrawlParserJob.perform_later(
         assistant_id: permitted_params[:assistant_id],
-        payload: permitted_params[:data]
+        payload: permitted_params[:data].first
       )
     end
     head :ok
@@ -24,7 +24,7 @@ class Enterprise::Webhooks::FirecrawlController < ActionController::API
       :metadata,
       :format,
       :firecrawl,
-      { data: {} }
+      data: [:markdown, { metadata: {} }]
     )
   end
 end
