@@ -44,6 +44,7 @@ describe Enterprise::Billing::HandleStripeEventService do
         stripe_event_service.new.perform(event: event)
 
         expect(account.reload.custom_attributes).to eq({
+                                                         'captain_responses_usage' => 0,
                                                          'stripe_customer_id' => 'cus_123',
                                                          'stripe_price_id' => 'test',
                                                          'stripe_product_id' => 'plan_id',
@@ -55,14 +56,14 @@ describe Enterprise::Billing::HandleStripeEventService do
       end
 
       it 'resets captain usage' do
-        account.increment_response_usage
-        expect(account.limits['captain_responses']).to eq(1)
+        5.times { account.increment_response_usage }
+        expect(account.custom_attributes['captain_responses_usage']).to eq(5)
 
         allow(event).to receive(:type).and_return('customer.subscription.updated')
         allow(subscription).to receive(:customer).and_return('cus_123')
         stripe_event_service.new.perform(event: event)
 
-        expect(account.reload.limits['captain_responses']).to eq(0)
+        expect(account.reload.custom_attributes['captain_responses_usage']).to eq(0)
       end
     end
 
@@ -71,6 +72,7 @@ describe Enterprise::Billing::HandleStripeEventService do
       allow(subscription).to receive(:customer).and_return('cus_123')
       stripe_event_service.new.perform(event: event)
       expect(account.reload.custom_attributes).to eq({
+                                                       'captain_responses_usage' => 0,
                                                        'stripe_customer_id' => 'cus_123',
                                                        'stripe_price_id' => 'test',
                                                        'stripe_product_id' => 'plan_id',
@@ -110,6 +112,7 @@ describe Enterprise::Billing::HandleStripeEventService do
       allow(subscription).to receive(:customer).and_return('cus_123')
       stripe_event_service.new.perform(event: event)
       expect(account.reload.custom_attributes).to eq({
+                                                       'captain_responses_usage' => 0,
                                                        'stripe_customer_id' => 'cus_123',
                                                        'stripe_price_id' => 'test',
                                                        'stripe_product_id' => 'plan_id_2',

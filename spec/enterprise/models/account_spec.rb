@@ -51,13 +51,13 @@ RSpec.describe Account, type: :model do
       ## Document
       it 'updates document count accurately' do
         account.update_document_usage
-        expect(account.limits['captain_documents']).to eq(3)
+        expect(account.custom_attributes['captain_documents_usage']).to eq(3)
       end
 
       it 'handles zero documents' do
         account.captain_documents.destroy_all
         account.update_document_usage
-        expect(account.limits['captain_documents']).to eq(0)
+        expect(account.custom_attributes['captain_documents_usage']).to eq(0)
       end
 
       it 'reflects document limits' do
@@ -73,13 +73,13 @@ RSpec.describe Account, type: :model do
 
         responses_limits = account.usage_limits[:captain][:responses]
 
-        expect(account.limits['captain_responses']).to eq 1
+        expect(account.custom_attributes['captain_responses_usage']).to eq 1
         expect(responses_limits[:consumed]).to eq 1
         expect(responses_limits[:current_available]).to eq captain_limits[:startups][:responses] - 1
       end
 
       it 'reseting responses limits updates usage_limits' do
-        account.limits['captain_responses'] = 30
+        account.custom_attributes['captain_responses_usage'] = 30
         account.save!
 
         responses_limits = account.usage_limits[:captain][:responses]
@@ -90,7 +90,7 @@ RSpec.describe Account, type: :model do
         account.reset_response_usage
         responses_limits = account.usage_limits[:captain][:responses]
 
-        expect(account.limits['captain_responses']).to eq 0
+        expect(account.custom_attributes['captain_responses_usage']).to eq 0
         expect(responses_limits[:consumed]).to eq 0
         expect(responses_limits[:current_available]).to eq captain_limits[:startups][:responses]
       end
@@ -104,14 +104,14 @@ RSpec.describe Account, type: :model do
       end
 
       it 'current_available is never out of bounds' do
-        account.limits['captain_responses'] = 3000
+        account.custom_attributes['captain_responses_usage'] = 3000
         account.save!
 
         responses_limits = account.usage_limits[:captain][:responses]
         expect(responses_limits[:consumed]).to eq 3000
         expect(responses_limits[:current_available]).to eq 0
 
-        account.limits['captain_responses'] = -100
+        account.custom_attributes['captain_responses_usage'] = -100
         account.save!
 
         responses_limits = account.usage_limits[:captain][:responses]
@@ -132,7 +132,7 @@ RSpec.describe Account, type: :model do
     describe 'when limits are configured for an account' do
       before do
         create(:installation_config, name: 'CAPTAIN_CLOUD_PLAN_LIMITS', value: captain_limits.to_json)
-        account.update(custom_attributes: { captain_document_limit: 5555, captain_response_limit: 9999 })
+        account.update(limits: { captain_documents: 5555, captain_responses: 9999 })
       end
 
       it 'returns limits based on custom attributes' do

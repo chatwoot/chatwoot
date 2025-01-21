@@ -1,6 +1,8 @@
 module Enterprise::Account
   CAPTAIN_RESPONSES = 'captain_responses'.freeze
   CAPTAIN_DOCUMENTS = 'captain_documents'.freeze
+  CAPTAIN_RESPONSES_USAGE = 'captain_responses_usage'.freeze
+  CAPTAIN_DOCUMENTS_USAGE = 'captain_documents_usage'.freeze
 
   def usage_limits
     {
@@ -14,19 +16,19 @@ module Enterprise::Account
   end
 
   def increment_response_usage
-    current_usage = self[:limits][CAPTAIN_RESPONSES].to_i || 0
-    self[:limits][CAPTAIN_RESPONSES] = current_usage + 1
+    current_usage = custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i || 0
+    custom_attributes[CAPTAIN_RESPONSES_USAGE] = current_usage + 1
     save
   end
 
   def reset_response_usage
-    self[:limits][CAPTAIN_RESPONSES] = 0
+    custom_attributes[CAPTAIN_RESPONSES_USAGE] = 0
     save
   end
 
   def update_document_usage
     # this will ensure that the document count is always accurate
-    self[:limits][CAPTAIN_DOCUMENTS] = captain_documents.count
+    custom_attributes[CAPTAIN_DOCUMENTS_USAGE] = captain_documents.count
     save
   end
 
@@ -38,11 +40,11 @@ module Enterprise::Account
   end
 
   def captain_monthly_limit
-    default_limits = default_captain_limit
+    default_limits = default_captain_limits
 
     {
-      documents: custom_attributes['captain_document_limit'] || default_limits['documents'],
-      responses: custom_attributes['captain_response_limit'] || default_limits['responses']
+      documents: self[:limits][CAPTAIN_DOCUMENTS] || default_limits['documents'],
+      responses: self[:limits][CAPTAIN_RESPONSES] || default_limits['responses']
     }.with_indifferent_access
   end
 
@@ -52,9 +54,9 @@ module Enterprise::Account
     total_count = captain_monthly_limit[type.to_s].to_i
 
     consumed = if type == :documents
-                 self[:limits][CAPTAIN_DOCUMENTS].to_i || 0
+                 custom_attributes[CAPTAIN_DOCUMENTS_USAGE].to_i || 0
                else
-                 self[:limits][CAPTAIN_RESPONSES].to_i || 0
+                 custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i || 0
                end
 
     consumed = 0 if consumed.negative?
@@ -66,7 +68,7 @@ module Enterprise::Account
     }
   end
 
-  def default_captain_limit
+  def default_captain_limits
     default_value = { documents: ChatwootApp.max_limit, responses: ChatwootApp.max_limit }.with_indifferent_access
     return default_value if plan_name.blank?
 
