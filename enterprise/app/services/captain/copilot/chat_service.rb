@@ -64,11 +64,16 @@ class Captain::Copilot::ChatService
   def register_tool(tool)
     tool.register_method do |inputs, _, memory|
       assistant = Captain::Assistant.find(memory[:assistant_id])
-      assistant
-        .responses
-        .approved
-        .search(inputs['search_query'])
-        .map do |response|
+      responses = assistant
+                  .responses
+                  .approved
+                  .search(inputs['search_query'])
+
+      if responses.empty?
+        return "I have perfomed a search for #{inputs['search_query']} in the documents available. Icouldn't find any related documents."
+      end
+
+      responses.map do |response|
         "\n\nQuestion: #{response[:question]}\nAnswer: #{response[:answer]}"
       end.join
     end

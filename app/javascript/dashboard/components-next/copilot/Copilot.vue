@@ -54,11 +54,11 @@ const scrollToBottom = async () => {
 const promptOptions = [
   {
     label: 'Summarize this conversation',
-    prompt: `Summarize the key points discussed between the customer and the company representative, including the customer's concerns, questions, and the solutions or responses provided by the representative`,
+    prompt: `Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent`,
   },
   {
     label: 'Suggest an answer',
-    prompt: `Analyze the conversation and draft a reply addressing the customer's concerns or questions, ensuring that the response is clear, concise, and helpful`,
+    prompt: `Analyze the customer’s inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information.`,
   },
   {
     label: 'Rate this conversation',
