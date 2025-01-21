@@ -2,12 +2,19 @@
 import { computed, onMounted } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import { useAccount } from 'dashboard/composables/useAccount';
-import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import { useCamelCase } from 'dashboard/composables/useTransformKeys';
+import { format } from 'date-fns';
 
 import BillingItem from './components/BillingItem.vue';
+import BillingMeter from './components/BillingMeter.vue';
+import BillingCard from './components/BillingCard.vue';
+import BillingHeader from './components/BillingHeader.vue';
+import DetailItem from './components/DetailItem.vue';
+import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import SettingsLayout from '../SettingsLayout.vue';
+import ButtonV4 from 'next/button/Button.vue';
 
 const { currentAccount } = useAccount();
-const { formatMessage } = useMessageFormatter();
 
 const uiFlags = useMapGetter('accounts/getUIFlags');
 const store = useStore();
@@ -31,6 +38,33 @@ const subscribedQuantity = computed(() => {
   return customAttributes.value.subscribed_quantity;
 });
 
+const subscriptionRenewsOn = computed(() => {
+  if (!customAttributes.value.subscription_ends_on) return '';
+  const endDate = new Date(customAttributes.value.subscription_ends_on);
+  // return date as 12 Jan, 2034
+  return format(endDate, 'dd MMM, yyyy');
+});
+
+const captainLimits = computed(() => {
+  return currentAccount.value?.limits?.captain;
+});
+
+const documentLimits = computed(() => {
+  if (captainLimits.value?.documents) {
+    return useCamelCase(captainLimits.value.documents);
+  }
+
+  return null;
+});
+
+const responseLimits = computed(() => {
+  if (captainLimits.value?.responses) {
+    return useCamelCase(captainLimits.value.responses);
+  }
+
+  return null;
+});
+
 /**
  * Computed property indicating if user has a billing plan
  * @returns {boolean}
@@ -42,6 +76,7 @@ const hasABillingPlan = computed(() => {
 const fetchAccountDetails = async () => {
   if (!hasABillingPlan.value) {
     store.dispatch('accounts/subscription');
+    store.dispatch('accounts/limits');
   }
 };
 
@@ -59,66 +94,86 @@ onMounted(fetchAccountDetails);
 </script>
 
 <template>
-  <div class="flex-1 p-6 overflow-auto dark:bg-slate-900">
-    <woot-loading-state v-if="uiFlags.isFetchingItem" />
-    <div v-else-if="!hasABillingPlan">
-      <p>{{ $t('BILLING_SETTINGS.NO_BILLING_USER') }}</p>
-    </div>
-    <div v-else class="w-full">
-      <div class="current-plan--details">
-        <h6>{{ $t('BILLING_SETTINGS.CURRENT_PLAN.TITLE') }}</h6>
-        <div
-          v-dompurify-html="
-            formatMessage(
-              $t('BILLING_SETTINGS.CURRENT_PLAN.PLAN_NOTE', {
-                plan: planName,
-                quantity: subscribedQuantity,
-              })
-            )
-          "
-        />
-      </div>
-      <BillingItem
-        :title="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.TITLE')"
-        :description="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.DESCRIPTION')"
-        :button-label="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.BUTTON_TXT')"
-        @open="onClickBillingPortal"
+  <SettingsLayout
+    :is-loading="uiFlags.isFetchingItem"
+    :loading-message="$t('ATTRIBUTES_MGMT.LOADING')"
+    :no-records-found="!hasABillingPlan"
+    :no-records-message="$t('BILLING_SETTINGS.NO_BILLING_USER')"
+    class="max-w-2xl"
+  >
+    <template #header>
+      <BaseSettingsHeader
+        :title="$t('BILLING_SETTINGS.TITLE')"
+        :description="$t('BILLING_SETTINGS.DESCRIPTION')"
+        :link-text="$t('BILLING_SETTINGS.VIEW_PRICING')"
+        feature-name="billing"
       />
-      <BillingItem
-        :title="$t('BILLING_SETTINGS.CHAT_WITH_US.TITLE')"
-        :description="$t('BILLING_SETTINGS.CHAT_WITH_US.DESCRIPTION')"
-        :button-label="$t('BILLING_SETTINGS.CHAT_WITH_US.BUTTON_TXT')"
-        button-icon="chat-multiple"
-        @open="onToggleChatWindow"
-      />
-    </div>
-  </div>
+    </template>
+    <template #body>
+      <section class="grid gap-4">
+        <BillingCard
+          :title="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.TITLE')"
+          :description="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.DESCRIPTION')"
+        >
+          <template #action>
+            <ButtonV4 sm solid blue @click="onClickBillingPortal">
+              {{ $t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.BUTTON_TXT') }}
+            </ButtonV4>
+          </template>
+          <div class="grid grid-cols-3 gap-2 divide-x divide-n-weak">
+            <DetailItem
+              :label="$t('BILLING_SETTINGS.CURRENT_PLAN.TITLE')"
+              :value="planName"
+            />
+            <DetailItem
+              :label="$t('BILLING_SETTINGS.CURRENT_PLAN.SEAT_COUNT')"
+              :value="subscribedQuantity"
+            />
+            <DetailItem
+              :label="$t('BILLING_SETTINGS.CURRENT_PLAN.RENEWS_ON')"
+              :value="subscriptionRenewsOn"
+            />
+          </div>
+        </BillingCard>
+        <BillingCard
+          :title="$t('BILLING_SETTINGS.CAPTAIN.TITLE')"
+          :description="$t('BILLING_SETTINGS.CAPTAIN.DESCRIPTION')"
+        >
+          <template #action>
+            <ButtonV4 sm solid slate disabled>
+              {{ $t('BILLING_SETTINGS.CAPTAIN.BUTTON_TXT') }}
+            </ButtonV4>
+          </template>
+          <div v-if="captainLimits && responseLimits" class="px-5">
+            <BillingMeter
+              :title="$t('BILLING_SETTINGS.CAPTAIN.RESPONSES')"
+              v-bind="responseLimits"
+            />
+          </div>
+          <div v-if="captainLimits && documentLimits" class="px-5">
+            <BillingMeter
+              :title="$t('BILLING_SETTINGS.CAPTAIN.DOCUMENTS')"
+              v-bind="documentLimits"
+            />
+          </div>
+        </BillingCard>
+
+        <BillingHeader
+          class="px-1 mt-5"
+          :title="$t('BILLING_SETTINGS.CHAT_WITH_US.TITLE')"
+          :description="$t('BILLING_SETTINGS.CHAT_WITH_US.DESCRIPTION')"
+        >
+          <ButtonV4
+            sm
+            solid
+            slate
+            icon="i-lucide-life-buoy"
+            @open="onToggleChatWindow"
+          >
+            {{ $t('BILLING_SETTINGS.CHAT_WITH_US.BUTTON_TXT') }}
+          </ButtonV4>
+        </BillingHeader>
+      </section>
+    </template>
+  </SettingsLayout>
 </template>
-
-<style lang="scss">
-.manage-subscription {
-  @apply bg-white dark:bg-slate-800 flex justify-between mb-2 py-6 px-4 items-center rounded-md border border-solid border-slate-75 dark:border-slate-700;
-}
-
-.current-plan--details {
-  @apply border-b border-solid border-slate-75 dark:border-slate-800 mb-4 pb-4;
-
-  h6 {
-    @apply text-slate-800 dark:text-slate-100;
-  }
-
-  p {
-    @apply text-slate-600 dark:text-slate-200;
-  }
-}
-
-.manage-subscription {
-  .manage-subscription--description {
-    @apply mb-0 text-slate-600 dark:text-slate-200;
-  }
-
-  h6 {
-    @apply text-slate-800 dark:text-slate-100;
-  }
-}
-</style>

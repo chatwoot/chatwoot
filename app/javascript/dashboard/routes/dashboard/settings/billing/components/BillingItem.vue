@@ -26,8 +26,8 @@ export default {
 <template>
   <div class="manage-subscription">
     <div>
-      <h6>{{ title }}</h6>
-      <p class="manage-subscription--description">
+      <h6 class="text-n-slate-12">{{ title }}</h6>
+      <p class="text-n-slate-11">
         {{ description }}
       </p>
     </div>
