@@ -10,7 +10,7 @@ module Enterprise::Api::V1::Accounts::ConversationsController
 
     response = Captain::Copilot::ChatService.new(
       assistant,
-      messages: copilot_params[:previous_messages],
+      previous_messages: copilot_params[:previous_messages],
       conversation_history: @conversation.to_llm_text
     ).generate_response(copilot_params[:message])
 
