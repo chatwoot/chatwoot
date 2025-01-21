@@ -124,7 +124,7 @@ RSpec.describe Account, type: :model do
       it 'returns default values' do
         account.custom_attributes = { 'plan_name': 'unknown' }
         expect(account.captain_monthly_limit).to eq(
-          { documents: ChatwootApp.max_limit, generated_responses: ChatwootApp.max_limit }.with_indifferent_access
+          { documents: ChatwootApp.max_limit, responses: ChatwootApp.max_limit }.with_indifferent_access
         )
       end
     end

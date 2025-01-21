@@ -37,8 +37,8 @@ module Enterprise::Account
     plan_features[plan_name]
   end
 
-  def captain_monthly_limit
-    default_value = { documents: ChatwootApp.max_limit, generated_responses: ChatwootApp.max_limit }.with_indifferent_access
+  def default_captain_limit
+    default_value = { documents: ChatwootApp.max_limit, responses: ChatwootApp.max_limit }.with_indifferent_access
     return default_value if plan_name.blank?
 
     plan_quota = InstallationConfig.find_by(name: 'CAPTAIN_CLOUD_PLAN_LIMITS')&.value
@@ -46,6 +46,15 @@ module Enterprise::Account
 
     plan_quota = JSON.parse(plan_quota) if plan_quota.present?
     plan_quota[plan_name.downcase]
+  end
+
+  def captain_monthly_limit
+    default_limits = default_captain_limit
+
+    {
+      documents: custom_attributes['captain_document_limit'] || default_limits['documents'],
+      responses: custom_attributes['captain_response_limit'] || default_limits['responses']
+    }.with_indifferent_access
   end
 
   private
