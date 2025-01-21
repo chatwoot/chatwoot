@@ -1,5 +1,6 @@
 module Enterprise::Account
   CAPTAIN_RESPONSES = 'captain_responses'.freeze
+  CAPTAIN_DOCUMENTS = 'captain_documents'.freeze
 
   def usage_limits
     {
@@ -20,6 +21,12 @@ module Enterprise::Account
 
   def reset_response_usage
     self[:limits][CAPTAIN_RESPONSES] = 0
+    save
+  end
+
+  def update_document_usage
+    # this will ensure that the document count is always accurate
+    self[:limits][CAPTAIN_DOCUMENTS] = captain_documents.count
     save
   end
 
@@ -47,7 +54,7 @@ module Enterprise::Account
     total_count = captain_monthly_limit[type.to_s].to_i
 
     consumed = if type == :documents
-                 captain_documents.count
+                 self[:limits][CAPTAIN_DOCUMENTS].to_i || 0
                else
                  self[:limits][CAPTAIN_RESPONSES].to_i || 0
                end
@@ -88,7 +95,8 @@ module Enterprise::Account
       'properties' => {
         'inboxes' => { 'type': 'number' },
         'agents' => { 'type': 'number' },
-        'captain_responses' => { 'type': 'number' }
+        'captain_responses' => { 'type': 'number' },
+        'captain_documents' => { 'type': 'number' }
       },
       'required' => [],
       'additionalProperties' => false

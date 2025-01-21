@@ -36,6 +36,8 @@ class Captain::Document < ApplicationRecord
   }
 
   after_create_commit :enqueue_crawl_job
+  after_create_commit :update_document_usage
+  after_destroy :update_document_usage
   after_commit :enqueue_response_builder_job
   scope :ordered, -> { order(created_at: :desc) }
 
@@ -54,6 +56,10 @@ class Captain::Document < ApplicationRecord
     return if status != 'available'
 
     Captain::Documents::ResponseBuilderJob.perform_later(self)
+  end
+
+  def update_document_usage
+    account.update_document_usage
   end
 
   def ensure_account_id
