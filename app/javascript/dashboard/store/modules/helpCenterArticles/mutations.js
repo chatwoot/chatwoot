@@ -31,7 +31,10 @@ export const mutations = {
   },
 
   [types.SET_ARTICLES_META]: ($state, meta) => {
-    $state.meta = meta;
+    $state.meta = {
+      ...$state.meta,
+      ...meta,
+    };
   },
 
   [types.ADD_ARTICLE_ID]: ($state, articleId) => {
