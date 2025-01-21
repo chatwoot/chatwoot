@@ -14,11 +14,12 @@ export const useMessageFormatter = () => {
    * @param {boolean} isAPrivateNote - Whether the message is a private note.
    * @returns {string} - The formatted message.
    */
-  const formatMessage = (message, isATweet, isAPrivateNote) => {
+  const formatMessage = (message, isATweet, isAPrivateNote, linkify) => {
     const messageFormatter = new MessageFormatter(
       message,
       isATweet,
-      isAPrivateNote
+      isAPrivateNote,
+      linkify
     );
     return messageFormatter.formattedMessage;
   };
