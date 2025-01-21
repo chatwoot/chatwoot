@@ -12,9 +12,9 @@ module Enterprise::Api::V1::Accounts::ConversationsController
       assistant,
       messages: copilot_params[:previous_messages],
       conversation_history: @conversation.to_llm_text
-    ).execute(copilot_params[:message])
+    ).generate_response(copilot_params[:message])
 
-    render json: { message: response }
+    render json: { message: response['response'] }
   end
 
   def permitted_update_params
