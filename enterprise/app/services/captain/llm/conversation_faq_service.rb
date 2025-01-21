@@ -1,12 +1,11 @@
 class Captain::Llm::ConversationFaqService < Captain::Llm::BaseOpenAiService
   DISTANCE_THRESHOLD = 0.3
 
-  def initialize(assistant, conversation, model = DEFAULT_MODEL)
+  def initialize(assistant, conversation)
     super()
     @assistant = assistant
     @conversation = conversation
     @content = conversation.to_llm_text
-    @model = model
   end
 
   def generate_and_deduplicate
