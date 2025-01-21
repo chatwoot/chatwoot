@@ -27,7 +27,7 @@ RSpec.describe Account, type: :model do
     end
   end
 
-  context 'usage_limits' do
+  context 'with usage_limits' do
     let(:captain_limits) do
       {
         :startups => { :documents => 100, :responses => 100 },
