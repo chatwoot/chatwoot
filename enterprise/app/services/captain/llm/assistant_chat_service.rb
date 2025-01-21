@@ -47,7 +47,7 @@ class Captain::Llm::AssistantChatService < Captain::Llm::BaseOpenAiService
   def request_chat_completion
     response = @client.chat(
       parameters: {
-        model: DEFAULT_MODEL,
+        model: @model,
         messages: @messages,
         tools: [search_documentation_tool],
         response_format: { type: 'json_object' }

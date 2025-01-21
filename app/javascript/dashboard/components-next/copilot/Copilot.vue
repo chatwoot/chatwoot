@@ -28,7 +28,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['sendMessage']);
+const emit = defineEmits(['sendMessage', 'reset']);
 
 const COPILOT_USER_ROLES = ['assistant', 'system'];
 
@@ -40,6 +40,10 @@ const sendMessage = message => {
 const useSuggestion = opt => {
   emit('sendMessage', opt.prompt);
   useTrack(COPILOT_EVENTS.SEND_SUGGESTED);
+};
+
+const handleReset = () => {
+  emit('reset');
 };
 
 const chatContainer = ref(null);
@@ -94,7 +98,7 @@ watch(
       <CopilotLoader v-if="isCaptainTyping" />
     </div>
     <div>
-      <div v-if="messages.length === 0" class="flex-1 px-3 py-3 space-y-1">
+      <div v-if="!messages.length" class="flex-1 px-3 py-3 space-y-1">
         <span class="text-xs text-n-slate-10">
           {{ $t('COPILOT.TRY_THESE_PROMPTS') }}
         </span>
@@ -108,7 +112,17 @@ watch(
           <Icon icon="i-lucide-chevron-right" />
         </button>
       </div>
-      <CopilotInput class="mx-3 mt-px mb-4" @send="sendMessage" />
+      <div class="mx-3 mt-px mb-2 flex flex-col items-end flex-1">
+        <button
+          v-if="messages.length"
+          class="text-xs flex items-center gap-1 hover:underline"
+          @click="handleReset"
+        >
+          <i class="i-lucide-refresh-ccw" />
+          <span>{{ $t('CAPTAIN.COPILOT.RESET') }}</span>
+        </button>
+        <CopilotInput class="mb-1 flex-1 w-full" @send="sendMessage" />
+      </div>
     </div>
   </div>
 </template>
