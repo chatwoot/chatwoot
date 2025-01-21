@@ -35,6 +35,7 @@ class Captain::Document < ApplicationRecord
     available: 1
   }
 
+  before_create :ensure_within_plan_limit
   after_create_commit :enqueue_crawl_job
   after_create_commit :update_document_usage
   after_destroy :update_document_usage
@@ -64,5 +65,10 @@ class Captain::Document < ApplicationRecord
 
   def ensure_account_id
     self.account_id = assistant&.account_id
+  end
+
+  def ensure_within_plan_limit
+    limits = account.usage_limits[:captain][:documents]
+    raise 'Document limit exceeded' unless limits[:current_available].positive?
   end
 end

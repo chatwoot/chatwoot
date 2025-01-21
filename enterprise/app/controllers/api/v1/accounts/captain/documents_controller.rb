@@ -3,7 +3,6 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   before_action -> { check_authorization(Captain::Assistant) }
 
   before_action :set_current_page, only: [:index]
-  before_action :ensure_within_plan_limit, only: [:create]
   before_action :set_documents, except: [:create]
   before_action :set_document, only: [:show, :destroy]
   before_action :set_assistant, only: [:create]
@@ -47,11 +46,6 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
 
   def set_current_page
     @current_page = permitted_params[:page] || 1
-  end
-
-  def ensure_within_plan_limit
-    limits = Current.account.usage_limits[:captain][:documents]
-    return render_could_not_create_error('Document limit exceeded') unless limits[:current_available].positive?
   end
 
   def permitted_params
