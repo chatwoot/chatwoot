@@ -49,8 +49,11 @@ const onCreate = async () => {
 
   try {
     await store.dispatch('portals/update', {
-      portalSlug: props.portal.slug,
-      config: { allowed_locales: updatedLocales },
+      portalSlug: props.portal?.slug,
+      config: {
+        allowed_locales: updatedLocales,
+        default_locale: props.portal?.meta?.default_locale,
+      },
     });
 
     useTrack(PORTALS_EVENTS.CREATE_LOCALE, {
