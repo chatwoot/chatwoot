@@ -309,7 +309,8 @@
       "SEND_MESSAGE": "Skicka meddelande...",
       "LOADER": "Captain is thinking",
       "YOU": "Du",
-      "USE": "Use this"
+      "USE": "Use this",
+      "RESET": "Reset"
     },
     "FORM": {
       "CANCEL": "Avbryt",
