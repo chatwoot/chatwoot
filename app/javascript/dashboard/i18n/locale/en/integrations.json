@@ -309,6 +309,13 @@
       "USE": "Use this",
       "RESET": "Reset"
     },
+    "PAYWALL": {
+      "TITLE": "Upgrade to use Captain AI",
+      "AVAILABLE_ON": "Captain is not available on the free plan.",
+      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "UPGRADE_NOW": "Upgrade now",
+      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+    },
     "FORM": {
       "CANCEL": "Cancel",
       "CREATE": "Create",
@@ -412,7 +419,7 @@
     "RESPONSES": {
       "HEADER": "FAQs",
       "ADD_NEW": "Create new FAQ",
-      "DOCUMENTABLE" : {
+      "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
       },
       "DELETE": {
@@ -422,7 +429,7 @@
         "SUCCESS_MESSAGE": "FAQ deleted successfully",
         "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
       },
-      "FILTER" :{
+      "FILTER": {
         "ASSISTANT": "Assistant: {selected}",
         "STATUS": "Status: {selected}",
         "ALL_ASSISTANTS": "All"
