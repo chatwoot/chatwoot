@@ -309,7 +309,8 @@
       "SEND_MESSAGE": "Išsiųsti pranešimą...",
       "LOADER": "Captain is thinking",
       "YOU": "Jūs",
-      "USE": "Use this"
+      "USE": "Use this",
+      "RESET": "Reset"
     },
     "FORM": {
       "CANCEL": "Atšaukti",
