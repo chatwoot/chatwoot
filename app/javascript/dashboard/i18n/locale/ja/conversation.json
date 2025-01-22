@@ -1,25 +1,25 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "左のリストから会話を選択してください",
-    "CSAT_REPLY_MESSAGE": "Please rate the conversation",
-    "404": "Sorry, we cannot find the conversation. Please try again",
-    "SWITCH_VIEW_LAYOUT": "Switch the layout",
+    "CSAT_REPLY_MESSAGE": "会話を評価してください",
+    "404": "会話が見つかりませんでした。もう一度お試しください。",
+    "SWITCH_VIEW_LAYOUT": "レイアウトを変更",
     "DASHBOARD_APP_TAB_MESSAGES": "メッセージ",
     "UNVERIFIED_SESSION": "このユーザーの身元は確認されていません",
     "NO_MESSAGE_1": "おっと！受信トレイに顧客からのメッセージがないようです。",
-    "NO_MESSAGE_2": " to send a message to your page!",
+    "NO_MESSAGE_2": " あなたのページにメッセージを送る",
     "NO_INBOX_1": "まだ受信トレイを追加していないようです。",
     "NO_INBOX_2": " 始めましょう",
     "NO_INBOX_AGENT": "あなたに受信トレイが設定されていないようです。管理者に問い合わせてください。",
     "SEARCH_MESSAGES": "会話中のメッセージの検索",
     "EMPTY_STATE": {
-      "CMD_BAR": "to open command menu",
-      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+      "CMD_BAR": "コマンドメニューを開く",
+      "KEYBOARD_SHORTCUTS": "キーボードショートカットを表示する"
     },
     "SEARCH": {
       "TITLE": "メッセージを検索",
       "RESULT_TITLE": "検索結果",
-      "LOADING_MESSAGE": "Crunching data...",
+      "LOADING_MESSAGE": "データを集めています...",
       "PLACEHOLDER": "テキストを入力してメッセージを検索します",
       "NO_MATCHING_RESULTS": "該当結果が見つかりませんでした。"
     },
@@ -30,37 +30,37 @@
     "LOADING_CONVERSATIONS": "会話データを読み込んでいます",
     "CANNOT_REPLY": "以下の理由で返信できません：",
     "24_HOURS_WINDOW": "24 hour message window restriction",
-    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "NOT_ASSIGNED_TO_YOU": "この会話はあなたに割り当てられていません。自分に割り当てますか？",
     "ASSIGN_TO_ME": "自分に割り当て",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_CAN_REPLY": "この会話にはテンプレートメッセージでしか返信できません。",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
     "REPLYING_TO": "以下に返信：",
     "REMOVE_SELECTION": "選択項目を削除",
     "DOWNLOAD": "ダウンロード",
     "UNKNOWN_FILE_TYPE": "不明なファイル",
-    "SAVE_CONTACT": "Save Contact",
-    "NO_CONTENT": "No content to display",
+    "SAVE_CONTACT": "連絡先を保存",
+    "NO_CONTENT": "表示するコンテンツがありません",
     "SHARED_ATTACHMENT": {
-      "CONTACT": "{sender} has shared a contact",
-      "LOCATION": "{sender} has shared a location",
-      "FILE": "{sender} has shared a file",
-      "MEETING": "{sender} has started a meeting"
+      "CONTACT": "{sender} が連絡先を共有しました",
+      "LOCATION": "{sender} が位置情報を共有しました",
+      "FILE": "{sender} がファイルを共有しました",
+      "MEETING": "{sender} がミーティングを開始しました"
     },
     "UPLOADING_ATTACHMENTS": "添付ファイルをアップロード中...",
-    "REPLIED_TO_STORY": "Replied to your story",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
-    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
-    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
+    "REPLIED_TO_STORY": "あなたのストーリーに返信",
+    "UNSUPPORTED_MESSAGE": "このメッセージはサポートされていません。Facebook / Instagram で表示できます。",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "このメッセージはサポートされていません。Facebook Messengerでこのメッセージを表示できます。",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "このメッセージはサポートされていません。このメッセージは Instagram で表示できます。",
     "SUCCESS_DELETE_MESSAGE": "メッセージの削除に成功",
     "FAIL_DELETE_MESSSAGE": "メッセージを削除できませんでした！もう一度お試しください",
-    "NO_RESPONSE": "No response",
-    "RESPONSE": "Response",
+    "NO_RESPONSE": "返信なし",
+    "RESPONSE": "回答",
     "RATING_TITLE": "評価",
     "FEEDBACK_TITLE": "フィードバック",
-    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "REPLY_MESSAGE_NOT_FOUND": "メッセージは利用できません",
     "CARD": {
-      "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
+      "SHOW_LABELS": "ラベルを表示",
+      "HIDE_LABELS": "ラベルを隠す"
     },
     "HEADER": {
       "RESOLVE_ACTION": "解決する",
@@ -69,7 +69,7 @@
       "OPEN": "もっと見る",
       "CLOSE": "閉じる",
       "DETAILS": "詳細",
-      "SNOOZED_UNTIL": "Snoozed until",
+      "SNOOZED_UNTIL": "スヌーズ終了まで:",
       "SNOOZED_UNTIL_TOMORROW": "明日までスヌーズしました",
       "SNOOZED_UNTIL_NEXT_WEEK": "来週までスヌーズ",
       "SNOOZED_UNTIL_NEXT_REPLY": "次の返信までうたた寝。",
@@ -77,8 +77,8 @@
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
         "RT": "RT {status}",
-        "MISSED": "missed",
-        "DUE": "due"
+        "MISSED": "不在",
+        "DUE": "期限"
       }
     },
     "RESOLVE_DROPDOWN": {
@@ -86,7 +86,7 @@
       "SNOOZE_UNTIL": "スヌーズ",
       "SNOOZE": {
         "TITLE": "までスヌーズする",
-        "NEXT_REPLY": "Next reply",
+        "NEXT_REPLY": "次の返信",
         "TOMORROW": "明日",
         "NEXT_WEEK": "次週"
       }
@@ -97,30 +97,30 @@
       "CANCEL": "キャンセル"
     },
     "PRIORITY": {
-      "TITLE": "Priority",
+      "TITLE": "優先度",
       "OPTIONS": {
         "NONE": "該当なし",
-        "URGENT": "Urgent",
-        "HIGH": "High",
-        "MEDIUM": "Medium",
-        "LOW": "Low"
+        "URGENT": "緊急",
+        "HIGH": "高",
+        "MEDIUM": "中",
+        "LOW": "低"
       },
       "CHANGE_PRIORITY": {
         "SELECT_PLACEHOLDER": "該当なし",
-        "INPUT_PLACEHOLDER": "Select priority",
-        "NO_RESULTS": "No results found",
-        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
-        "FAILED": "Couldn't change priority. Please try again."
+        "INPUT_PLACEHOLDER": "優先度を選択",
+        "NO_RESULTS": "結果が見つかりませんでした",
+        "SUCCESSFUL": "会話ID {conversationId} の優先度を {priority}に変更しました",
+        "FAILED": "優先度を変更できませんでした。もう一度お試しください。"
       }
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "保留としてマークする",
       "RESOLVED": "解決済みとしてマークする",
-      "MARK_AS_UNREAD": "Mark as unread",
-      "REOPEN": "Reopen conversation",
+      "MARK_AS_UNREAD": "未読にする",
+      "REOPEN": "会話を再開する",
       "SNOOZE": {
         "TITLE": "スヌーズ",
-        "NEXT_REPLY": "Until next reply",
+        "NEXT_REPLY": "次の返信まで",
         "TOMORROW": "明日まで",
         "NEXT_WEEK": "来週まで"
       },
@@ -134,18 +134,18 @@
           "FAILED": "エージェントを割り当てられませんでした。もう一度お試しください。"
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
+          "SUCCESFUL": "会話ID {conversationId} に ラベル #{labelName} を割り当てました",
           "FAILED": "ラベルを割り当てることができませんでした。もう一度やり直してください。"
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"{team}\" to conversation id {conversationId}",
-          "FAILED": "Couldn't assign team. Please try again."
+          "SUCCESFUL": "会話ID {conversationId} に \"{team}\" チームを割り当てました",
+          "FAILED": "チームを割り当てることができませんでした。もう一度お試しください。"
         }
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "MESSAGE_SIGN_TOOLTIP": "メッセージの署名",
+      "ENABLE_SIGN_TOOLTIP": "署名を有効化",
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + Enter で新しい行を作成します。「/」で開始すると、定型文回答を選択できます。",
       "PRIVATE_MSG_INPUT": "Shift + Enter で新しい行を作成します。これは担当者にのみ表示されます。",
@@ -350,8 +350,11 @@
     "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
   },
   "TYPING": {
-    "ONE": "{user} is typing",
-    "TWO": "{user} and {secondUser} are typing",
-    "MULTIPLE": "{user} and {count} others are typing"
+    "ONE": "{user} が入力中...",
+    "TWO": "{user} と {secondUser} が入力中...",
+    "MULTIPLE": "{user} と他 {count} 人が入力中..."
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
   }
 }
