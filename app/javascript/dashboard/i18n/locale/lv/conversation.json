@@ -353,5 +353,8 @@
     "ONE": "{user} raksta",
     "TWO": "{user} un {secondUser} raksta",
     "MULTIPLE": "{user} un {count} citi raksta"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Pamēģiniet"
   }
 }
