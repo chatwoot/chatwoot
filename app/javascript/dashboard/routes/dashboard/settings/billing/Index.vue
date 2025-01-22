@@ -119,16 +119,21 @@ onMounted(fetchAccountDetails);
               {{ $t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.BUTTON_TXT') }}
             </ButtonV4>
           </template>
-          <div class="grid grid-cols-3 gap-2 divide-x divide-n-weak">
+          <div
+            v-if="planName || subscribedQuantity || subscriptionRenewsOn"
+            class="grid grid-cols-3 gap-2 divide-x divide-n-weak"
+          >
             <DetailItem
               :label="$t('BILLING_SETTINGS.CURRENT_PLAN.TITLE')"
               :value="planName"
             />
             <DetailItem
+              v-if="subscribedQuantity"
               :label="$t('BILLING_SETTINGS.CURRENT_PLAN.SEAT_COUNT')"
               :value="subscribedQuantity"
             />
             <DetailItem
+              v-if="subscriptionRenewsOn"
               :label="$t('BILLING_SETTINGS.CURRENT_PLAN.RENEWS_ON')"
               :value="subscriptionRenewsOn"
             />
