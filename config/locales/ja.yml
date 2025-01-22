@@ -21,47 +21,47 @@ ja:
   messages:
     reset_password_success: やりましたね! パスワードのリセットリクエストが成功しました。手順についてはメールを確認してください。
     reset_password_failure: メールアドレスが見つかりませんでした。
-    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
+    inbox_deletetion_response: 受信トレイの削除リクエストは、しばらくしてから処理されます。
   errors:
     validations:
-      presence: must not be blank
+      presence: 空白にはできません。
     webhook:
-      invalid: Invalid events
+      invalid: 無効なイベントです。
     signup:
       disposable_email: 使い捨てメールは許可されません
-      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
+      blocked_domain: このドメインは許可されていません。これが間違いであると思われる場合は、サポートに連絡してください。
       invalid_email: 無効なメールアドレスを入力しました。
       email_already_exists: 'あなたは既に %{email} でアカウントにサインアップしています'
-      invalid_params: 'Invalid, please check the signup paramters and try again'
+      invalid_params: '無効な値が入力されました。確認のうえ再度お試しください。'
       failed: サインアップに失敗しました
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: 無効なデータ型。
     contacts:
       import:
-        failed: File is blank
+        failed: ファイルが空です。
       export:
-        success: We will notify you once contacts export file is ready to view.
+        success: ファイルを表示する準備ができたら通知します。
       email:
-        invalid: Invalid email
+        invalid: 無効なEメールです
       phone_number:
-        invalid: should be in e164 format
+        invalid: e164形式である必要があります
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: カテゴリとポータルで一意である必要があります
     dyte:
-      invalid_message_type: 'Invalid message type. Action not permitted'
+      invalid_message_type: '無効なメッセージタイプです。アクションは許可されていません'
     slack:
-      invalid_channel_id: 'Invalid slack channel. Please try again'
+      invalid_channel_id: '無効なSlackチャンネルです。もう一度お試しください。'
     inboxes:
       imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
+        socket_error: ネットワーク接続、IMAPアドレスを確認の上、再度お試しください。
+        no_response_error: IMAPの資格情報を確認の上、再度お試しください。
+        host_unreachable_error: ホストに接続できません。IMAPアドレス、ポートを確認の上、再度お試しください。
+        connection_timed_out_error: '%{address}:%{port} への接続がタイムアウトしました'
+        connection_closed_error: 接続が閉じられました。
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: 記号で開始または終了しないでください。< > / \ @ を使用しないでください。
     custom_filters:
       number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
       invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
