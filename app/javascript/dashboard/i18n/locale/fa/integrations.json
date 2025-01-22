@@ -309,7 +309,8 @@
       "SEND_MESSAGE": "ارسال پیام...",
       "LOADER": "Captain is thinking",
       "YOU": "شما",
-      "USE": "Use this"
+      "USE": "Use this",
+      "RESET": "Reset"
     },
     "FORM": {
       "CANCEL": "انصراف",
