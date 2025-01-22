@@ -22,22 +22,28 @@ export const actions = {
       const [message = {}] = messages;
       commit('pushMessageToConversation', message);
       dispatch('conversationAttributes/getAttributes', {}, { root: true });
-      // Emit conversation created event that triggers navigation
-      // The isCreating flag will be set to false only after navigation completes
+      // Set routing state flag before navigation starts
       // This prevents a race condition where:
-      // 1. Button becomes clickable after API success but before navigation
-      // 2. User sees no immediate UI change and clicks again
-      // 3. Multiple conversations get created during high latency scenarios
+      // 1. Initial loading state (isCreating) ends after API success
+      // 2. But before navigation completes, leaving a gap where button is clickable
+      // 3. Users could create duplicate conversations during this gap on high latency
+      // See issue: https://github.com/chatwoot/chatwoot/issues/10736
+      commit('setConversationUIFlag', { isReplacingRoute: true });
+      // Emit conversation created event that triggers navigation to message screen
+      // The isReplacingRoute flag will only be set to false after navigation completes
       emitter.emit(ON_CONVERSATION_CREATED);
     } catch (error) {
       // Ignore error
+    } finally {
+      // Reset initial creation state but keep routing state active
+      // Routing state is handled separately after navigation completes
+      commit('setConversationUIFlag', { isCreating: false });
     }
-    // Removed setting setConversationUIFlag from finally block
-    // Now handled in ON_CONVERSATION_CREATED event listener after navigation completes
-    // See issue: https://github.com/chatwoot/chatwoot/issues/10736
   },
-  setConversationIsCreating: async ({ commit }, status) => {
-    commit('setConversationUIFlag', { isCreating: status });
+  setConversationRoutingState: async ({ commit }, status) => {
+    // Handles the routing state during navigation to chat screen
+    // Called after navigation completes to finalize the conversation creation flow
+    commit('setConversationUIFlag', { isReplacingRoute: status });
   },
   sendMessage: async ({ dispatch }, params) => {
     const { content, replyTo } = params;

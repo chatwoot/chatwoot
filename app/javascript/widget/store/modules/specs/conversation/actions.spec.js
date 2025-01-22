@@ -17,6 +17,11 @@ describe('#actions', () => {
           messages: [{ id: 1, content: 'This is a test message' }],
         },
       });
+      const mutations = [];
+      commit.mockImplementation((mutation, payload) => {
+        mutations.push([mutation, payload]);
+      });
+
       let windowSpy = vi.spyOn(window, 'window', 'get');
       windowSpy.mockImplementation(() => ({
         WOOT_WIDGET: {
@@ -31,35 +36,34 @@ describe('#actions', () => {
         },
       }));
       await actions.createConversation(
-        { commit },
+        { commit, dispatch },
         { contact: {}, message: 'This is a test message' }
       );
-      expect(commit.mock.calls).toEqual([
+      expect(mutations).toEqual([
         ['setConversationUIFlag', { isCreating: true }],
         [
           'pushMessageToConversation',
           { id: 1, content: 'This is a test message' },
         ],
-        // ['setConversationUIFlag', { isCreating: false }], This line is removed,
-        // because the isCreating flag set to false in `widget/views/PreChatForm.vue`
-        // After complete the emitter ON_CONVERSATION_CREATED navigation
+        ['setConversationUIFlag', { isReplacingRoute: true }],
+        ['setConversationUIFlag', { isCreating: false }],
       ]);
       windowSpy.mockRestore();
     });
   });
 
-  describe('#setConversationIsCreating', () => {
+  describe('#setConversationRoutingState', () => {
     it('sends correct mutations', () => {
-      actions.setConversationIsCreating({ commit }, true);
+      actions.setConversationRoutingState({ commit }, true);
       expect(commit).toBeCalledWith('setConversationUIFlag', {
-        isCreating: true,
+        isReplacingRoute: true,
       });
     });
 
     it('sends correct mutations', () => {
-      actions.setConversationIsCreating({ commit }, false);
+      actions.setConversationRoutingState({ commit }, false);
       expect(commit).toBeCalledWith('setConversationUIFlag', {
-        isCreating: false,
+        isReplacingRoute: false,
       });
     });
   });

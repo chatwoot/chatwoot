@@ -23,15 +23,15 @@ export default {
       try {
         // Redirect to messages page after conversation is created
         await this.replaceRoute('messages');
-        // Only after successful navigation, reset the isCreating UIflag
+        // Only after successful navigation, reset the isReplacingRoute UIflag
         // Added this to prevent creating multiple conversations
         // See issue: https://github.com/chatwoot/chatwoot/issues/10736
         await this.$store.dispatch(
-          'conversation/setConversationIsCreating',
+          'conversation/setConversationRoutingState',
           false
         );
       } catch (error) {
-        this.$store.dispatch('conversation/setConversationIsCreating', false);
+        this.$store.dispatch('conversation/setConversationRoutingState', false);
       }
     },
 
