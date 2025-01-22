@@ -8,10 +8,14 @@ RSpec.describe Captain::Copilot::ChatService do
 
   let(:mock_captain_agent) { instance_double(Captain::Agent) }
   let(:mock_captain_tool) { instance_double(Captain::Tool) }
+  let(:mock_openai_client) { instance_double(OpenAI::Client) }
 
-  describe '#execure' do
+  describe '#execute' do
     before do
       create(:installation_config) { create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key') }
+      allow(OpenAI::Client).to receive(:new).and_return(mock_openai_client)
+      allow(mock_openai_client).to receive(:chat).and_return({ choices: [{ message: { content: '{ "result": "Hey" }' } }] }.with_indifferent_access)
+
       allow(Captain::Agent).to receive(:new).and_return(mock_captain_agent)
       allow(mock_captain_agent).to receive(:execute).and_return(true)
       allow(mock_captain_agent).to receive(:register_tool).and_return(true)
@@ -23,7 +27,7 @@ RSpec.describe Captain::Copilot::ChatService do
     end
 
     it 'increments usage' do
-      described_class.new(assistant, { previous_messages: ['Hello'], conversation_history: 'Hi' }).execute('Hey')
+      described_class.new(assistant, { previous_messages: ['Hello'], conversation_history: 'Hi' }).generate_response('Hey')
       expect(account).to have_received(:increment_response_usage).once
     end
   end
