@@ -8,7 +8,7 @@
       "NO_NOTIFICATIONS": "No notifications",
       "NOTE": "Notifications from all subscribed inboxes",
       "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
-      "SNOOZED_UNTIL": "Snoozed until",
+      "SNOOZED_UNTIL": "スヌーズ終了まで:",
       "SNOOZED_UNTIL_TOMORROW": "明日までスヌーズしました",
       "SNOOZED_UNTIL_NEXT_WEEK": "来週までスヌーズ"
     },
@@ -42,7 +42,7 @@
     "NO_CONTENT": "No content available",
     "MENU_ITEM": {
       "MARK_AS_READ": "Mark as read",
-      "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_UNREAD": "未読にする",
       "SNOOZE": "スヌーズ",
       "DELETE": "削除",
       "MARK_ALL_READ": "Mark all as read",
