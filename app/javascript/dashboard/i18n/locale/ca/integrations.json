@@ -309,7 +309,8 @@
       "SEND_MESSAGE": "Envia missatge...",
       "LOADER": "Captain is thinking",
       "YOU": "Tu",
-      "USE": "Use this"
+      "USE": "Use this",
+      "RESET": "Reset"
     },
     "FORM": {
       "CANCEL": "Cancel·la",
