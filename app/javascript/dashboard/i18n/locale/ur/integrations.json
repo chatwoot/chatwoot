@@ -309,7 +309,8 @@
       "SEND_MESSAGE": "پیغام بھیجیں...",
       "LOADER": "Captain is thinking",
       "YOU": "You",
-      "USE": "Use this"
+      "USE": "Use this",
+      "RESET": "Reset"
     },
     "FORM": {
       "CANCEL": "منسوخ کریں۔",
