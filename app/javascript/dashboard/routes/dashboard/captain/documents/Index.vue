@@ -11,6 +11,7 @@ import RelatedResponses from 'dashboard/components-next/captain/pageComponents/d
 import CreateDocumentDialog from 'dashboard/components-next/captain/pageComponents/document/CreateDocumentDialog.vue';
 import AssistantSelector from 'dashboard/components-next/captain/pageComponents/AssistantSelector.vue';
 import DocumentPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/DocumentPageEmptyState.vue';
+import LimitBanner from 'dashboard/components-next/captain/pageComponents/document/LimitBanner.vue';
 
 const store = useStore();
 
@@ -127,6 +128,9 @@ onMounted(() => {
         @update="handleAssistantFilterChange"
       />
     </div>
+
+    <LimitBanner class="mb-5" />
+
     <div class="flex flex-col gap-4">
       <DocumentCard
         v-for="doc in documents"

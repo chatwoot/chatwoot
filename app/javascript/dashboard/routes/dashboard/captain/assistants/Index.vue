@@ -9,6 +9,7 @@ import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import CreateAssistantDialog from 'dashboard/components-next/captain/pageComponents/assistant/CreateAssistantDialog.vue';
 import AssistantPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/AssistantPageEmptyState.vue';
+import LimitBanner from 'dashboard/components-next/captain/pageComponents/response/LimitBanner.vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -87,6 +88,8 @@ onMounted(() => store.dispatch('captainAssistants/get'));
     <template #paywall>
       <CaptainPaywall />
     </template>
+
+    <LimitBanner class="mb-5" />
 
     <div class="flex flex-col gap-4">
       <AssistantCard
