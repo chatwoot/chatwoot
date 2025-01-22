@@ -72,6 +72,7 @@ const handlePageChange = event => {
             <slot name="headerTitle" />
           </span>
           <div
+            v-if="!showPaywall"
             v-on-clickaway="() => emit('close')"
             class="relative group/campaign-button"
           >
