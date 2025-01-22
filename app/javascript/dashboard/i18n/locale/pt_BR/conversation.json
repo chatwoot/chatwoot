@@ -353,5 +353,8 @@
     "ONE": "{user} está digitando",
     "TWO": "{user} e {secondUser} estão digitando",
     "MULTIPLE": "{user} e {count} outros estão digitando"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
   }
 }
