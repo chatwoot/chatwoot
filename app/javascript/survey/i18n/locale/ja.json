@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with %{inboxName}.",
+    "DESCRIPTION": "%{inboxName} との会話についてのフィードバックをお聞かせください。もうしばらくお時間をいただけますと幸いです🙇‍♂️",
     "RATING": {
       "LABEL": "Rate your conversation",
       "SUCCESS_MESSAGE": "Thank you for submitting the rating"
