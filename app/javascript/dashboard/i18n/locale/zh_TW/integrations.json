@@ -309,7 +309,8 @@
       "SEND_MESSAGE": "傳送訊息...",
       "LOADER": "Captain is thinking",
       "YOU": "You",
-      "USE": "Use this"
+      "USE": "Use this",
+      "RESET": "Reset"
     },
     "FORM": {
       "CANCEL": "取消",
