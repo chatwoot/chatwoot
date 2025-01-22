@@ -134,7 +134,7 @@
     "prosemirror-model": "^1.22.3",
     "size-limit": "^8.2.4",
     "tailwindcss": "^3.4.13",
-    "vite": "^5.4.8",
+    "vite": "^5.4.12",
     "vite-plugin-ruby": "^5.0.0",
     "vitest": "2.0.1"
   },
@@ -150,7 +150,7 @@
   "pnpm": {
     "overrides": {
       "vite-node": "2.0.1",
-      "vite": "5.4.8",
+      "vite": "5.4.12",
       "vitest": "2.0.1"
     }
   },
