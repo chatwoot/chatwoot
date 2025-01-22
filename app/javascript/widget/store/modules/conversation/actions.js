@@ -22,13 +22,22 @@ export const actions = {
       const [message = {}] = messages;
       commit('pushMessageToConversation', message);
       dispatch('conversationAttributes/getAttributes', {}, { root: true });
-      // Emit event to notify that conversation is created and show the chat screen
+      // Emit conversation created event that triggers navigation
+      // The isCreating flag will be set to false only after navigation completes
+      // This prevents a race condition where:
+      // 1. Button becomes clickable after API success but before navigation
+      // 2. User sees no immediate UI change and clicks again
+      // 3. Multiple conversations get created during high latency scenarios
       emitter.emit(ON_CONVERSATION_CREATED);
     } catch (error) {
       // Ignore error
-    } finally {
-      commit('setConversationUIFlag', { isCreating: false });
     }
+    // Removed setting setConversationUIFlag from finally block
+    // Now handled in ON_CONVERSATION_CREATED event listener after navigation completes
+    // See issue: https://github.com/chatwoot/chatwoot/issues/10736
+  },
+  setConversationIsCreating: async ({ commit }, status) => {
+    commit('setConversationUIFlag', { isCreating: status });
   },
   sendMessage: async ({ dispatch }, params) => {
     const { content, replyTo } = params;

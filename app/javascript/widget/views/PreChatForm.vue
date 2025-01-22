@@ -12,12 +12,29 @@ export default {
   },
   mixins: [configMixin, routerMixin],
   mounted() {
-    emitter.on(ON_CONVERSATION_CREATED, () => {
-      // Redirect to messages page after conversation is created
-      this.replaceRoute('messages');
-    });
+    // Register event listener for conversation creation
+    emitter.on(ON_CONVERSATION_CREATED, this.handleConversationCreated);
+  },
+  beforeUnmount() {
+    emitter.off(ON_CONVERSATION_CREATED, this.handleConversationCreated);
   },
   methods: {
+    async handleConversationCreated() {
+      try {
+        // Redirect to messages page after conversation is created
+        await this.replaceRoute('messages');
+        // Only after successful navigation, reset the isCreating UIflag
+        // Added this to prevent creating multiple conversations
+        // See issue: https://github.com/chatwoot/chatwoot/issues/10736
+        await this.$store.dispatch(
+          'conversation/setConversationIsCreating',
+          false
+        );
+      } catch (error) {
+        this.$store.dispatch('conversation/setConversationIsCreating', false);
+      }
+    },
+
     onSubmit({
       fullName,
       emailAddress,
