@@ -35,7 +35,6 @@ module Captain::ChatHelper
 
   def handle_response(response)
     message = response.dig('choices', 0, 'message')
-
     if message['tool_calls']
       process_tool_calls(message['tool_calls'])
     else
