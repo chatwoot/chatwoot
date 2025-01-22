@@ -353,5 +353,8 @@
     "ONE": "{user} печатает",
     "TWO": "{user} и {secondUser} печатают",
     "MULTIPLE": "{user} и {count} печатают"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
   }
 }
