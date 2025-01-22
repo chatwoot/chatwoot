@@ -309,7 +309,8 @@
       "SEND_MESSAGE": "Sūtīt ziņojumu...",
       "LOADER": "Kapteinis domā",
       "YOU": "Jūs",
-      "USE": "Izmantot šo"
+      "USE": "Izmantot šo",
+      "RESET": "Atiestatīt"
     },
     "FORM": {
       "CANCEL": "Atcelt",
