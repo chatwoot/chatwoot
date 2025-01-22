@@ -2,9 +2,8 @@
 import { computed, onMounted } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import { useAccount } from 'dashboard/composables/useAccount';
-import { useCamelCase } from 'dashboard/composables/useTransformKeys';
+import { useCaptain } from 'dashboard/composables/useCaptain';
 import { format } from 'date-fns';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import BillingMeter from './components/BillingMeter.vue';
 import BillingCard from './components/BillingCard.vue';
@@ -14,7 +13,14 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import ButtonV4 from 'next/button/Button.vue';
 
-const { currentAccount, isCloudFeatureEnabled } = useAccount();
+const { currentAccount } = useAccount();
+const {
+  captainEnabled,
+  captainLimits,
+  documentLimits,
+  responseLimits,
+  fetchLimits,
+} = useCaptain();
 
 const uiFlags = useMapGetter('accounts/getUIFlags');
 const store = useStore();
@@ -45,30 +51,6 @@ const subscriptionRenewsOn = computed(() => {
   return format(endDate, 'dd MMM, yyyy');
 });
 
-const captainEnabled = computed(() => {
-  return isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN);
-});
-
-const captainLimits = computed(() => {
-  return currentAccount.value?.limits?.captain;
-});
-
-const documentLimits = computed(() => {
-  if (captainLimits.value?.documents) {
-    return useCamelCase(captainLimits.value.documents);
-  }
-
-  return null;
-});
-
-const responseLimits = computed(() => {
-  if (captainLimits.value?.responses) {
-    return useCamelCase(captainLimits.value.responses);
-  }
-
-  return null;
-});
-
 /**
  * Computed property indicating if user has a billing plan
  * @returns {boolean}
@@ -80,7 +62,7 @@ const hasABillingPlan = computed(() => {
 const fetchAccountDetails = async () => {
   if (!hasABillingPlan.value) {
     store.dispatch('accounts/subscription');
-    store.dispatch('accounts/limits');
+    fetchLimits();
   }
 };
 
