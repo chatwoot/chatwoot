@@ -1,12 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
-  let(:account) { create(:account) }
+  let(:account) { create(:account, custom_attributes: { plan_name: 'startups' }) }
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:assistant2) { create(:captain_assistant, account: account) }
   let(:document) { create(:captain_document, assistant: assistant, account: account) }
+  let(:captain_limits) do
+    {
+      :startups => { :documents => 1, :responses => 100 }
+    }.with_indifferent_access
+  end
 
   def json_response
     JSON.parse(response.body, symbolize_names: true)
@@ -209,6 +214,21 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
         end
 
         it 'returns unprocessable entity status' do
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+      end
+
+      context 'with limits exceeded' do
+        before do
+          create_list(:captain_document, 5, assistant: assistant, account: account)
+
+          create(:installation_config, name: 'CAPTAIN_CLOUD_PLAN_LIMITS', value: captain_limits.to_json)
+          post "/api/v1/accounts/#{account.id}/captain/documents",
+               params: valid_attributes,
+               headers: admin.create_new_auth_token
+        end
+
+        it 'returns an error' do
           expect(response).to have_http_status(:unprocessable_entity)
         end
       end
