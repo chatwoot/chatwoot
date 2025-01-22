@@ -1,10 +1,12 @@
 <script setup>
 import { computed, onMounted, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import AssistantCard from 'dashboard/components-next/captain/assistant/AssistantCard.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
+import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import CreateAssistantDialog from 'dashboard/components-next/captain/pageComponents/assistant/CreateAssistantDialog.vue';
 import AssistantPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/AssistantPageEmptyState.vue';
 import { useRouter } from 'vue-router';
@@ -74,11 +76,16 @@ onMounted(() => store.dispatch('captainAssistants/get'));
     :button-label="$t('CAPTAIN.ASSISTANTS.ADD_NEW')"
     :show-pagination-footer="false"
     :is-fetching="isFetching"
+    :feature-flag="FEATURE_FLAGS.CAPTAIN"
     :is-empty="!assistants.length"
     @click="handleCreate"
   >
     <template #emptyState>
       <AssistantPageEmptyState @click="handleCreate" />
+    </template>
+
+    <template #paywall>
+      <CaptainPaywall />
     </template>
 
     <div class="flex flex-col gap-4">

@@ -1,11 +1,12 @@
 <script setup>
 import { computed, onMounted, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import DocumentCard from 'dashboard/components-next/captain/assistant/DocumentCard.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
-import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import RelatedResponses from 'dashboard/components-next/captain/pageComponents/document/RelatedResponses.vue';
 import CreateDocumentDialog from 'dashboard/components-next/captain/pageComponents/document/CreateDocumentDialog.vue';
 import AssistantSelector from 'dashboard/components-next/captain/pageComponents/AssistantSelector.vue';
@@ -108,12 +109,18 @@ onMounted(() => {
     :show-pagination-footer="!isFetching && !!documents.length"
     :is-fetching="isFetching"
     :is-empty="!documents.length"
+    :feature-flag="FEATURE_FLAGS.CAPTAIN"
     @update:current-page="onPageChange"
     @click="handleCreateDocument"
   >
     <template #emptyState>
       <DocumentPageEmptyState @click="handleCreateDocument" />
     </template>
+
+    <template #paywall>
+      <CaptainPaywall />
+    </template>
+
     <div v-if="shouldShowAssistantSelector" class="mb-4 -mt-3 flex gap-3">
       <AssistantSelector
         :assistant-id="selectedAssistant"

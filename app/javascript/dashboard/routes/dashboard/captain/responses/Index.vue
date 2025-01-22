@@ -5,14 +5,15 @@ import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { OnClickOutside } from '@vueuse/components';
 import { useRouter } from 'vue-router';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
+import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import AssistantSelector from 'dashboard/components-next/captain/pageComponents/AssistantSelector.vue';
 import ResponseCard from 'dashboard/components-next/captain/assistant/ResponseCard.vue';
-import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CreateResponseDialog from 'dashboard/components-next/captain/pageComponents/response/CreateResponseDialog.vue';
 import ResponsePageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/ResponsePageEmptyState.vue';
 
@@ -160,12 +161,17 @@ onMounted(() => {
     :button-label="$t('CAPTAIN.RESPONSES.ADD_NEW')"
     :is-fetching="isFetching"
     :is-empty="!responses.length"
+    :feature-flag="FEATURE_FLAGS.CAPTAIN"
     :show-pagination-footer="!isFetching && !!responses.length"
     @update:current-page="onPageChange"
     @click="handleCreate"
   >
     <template #emptyState>
       <ResponsePageEmptyState @click="handleCreate" />
+    </template>
+
+    <template #paywall>
+      <CaptainPaywall />
     </template>
 
     <div v-if="shouldShowDropdown" class="mb-4 -mt-3 flex gap-3">
