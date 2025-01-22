@@ -309,7 +309,8 @@
       "SEND_MESSAGE": "Mesajı Gönder...",
       "LOADER": "Captain is thinking",
       "YOU": "Sen",
-      "USE": "Use this"
+      "USE": "Use this",
+      "RESET": "Reset"
     },
     "FORM": {
       "CANCEL": "İptal Et",
