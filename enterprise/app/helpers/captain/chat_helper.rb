@@ -71,7 +71,7 @@ module Captain::ChatHelper
     "
     if response.documentable.present? && response.documentable.try(:external_link)
       formatted_response += "
-      Source: #{response.document.external_link}
+      Source: #{response.documentable.external_link}
       "
     end
 
