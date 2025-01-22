@@ -1,7 +1,18 @@
 <script setup>
+import { useRouter } from 'vue-router';
+import { useAccount } from 'dashboard/composables/useAccount';
+
 import BasePaywallModal from 'dashboard/routes/dashboard/settings/components/BasePaywallModal.vue';
 
-const emit = defineEmits(['upgrade']);
+const router = useRouter();
+const { accountId } = useAccount();
+
+const openBilling = () => {
+  router.push({
+    name: 'billing_settings_index',
+    params: { accountId: accountId.value },
+  });
+};
 </script>
 
 <template>
@@ -13,7 +24,7 @@ const emit = defineEmits(['upgrade']);
       feature-prefix="CAPTAIN"
       i18n-key="PAYWALL"
       is-on-chatwoot-cloud
-      @upgrade="emit('upgrade')"
+      @upgrade="openBilling"
     />
   </div>
 </template>
