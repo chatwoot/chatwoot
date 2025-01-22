@@ -309,7 +309,8 @@
       "SEND_MESSAGE": "Надіслати...",
       "LOADER": "Captain is thinking",
       "YOU": "Ви",
-      "USE": "Use this"
+      "USE": "Use this",
+      "RESET": "Reset"
     },
     "FORM": {
       "CANCEL": "Скасувати",
