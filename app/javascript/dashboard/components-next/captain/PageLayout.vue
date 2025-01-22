@@ -1,9 +1,11 @@
 <script setup>
+import { computed } from 'vue';
+import { useAccount } from 'dashboard/composables/useAccount';
 import Button from 'dashboard/components-next/button/Button.vue';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
-defineProps({
+const { featureFlag } = defineProps({
   currentPage: {
     type: Number,
     default: 1,
@@ -24,6 +26,10 @@ defineProps({
     type: String,
     default: '',
   },
+  featureFlag: {
+    type: String,
+    default: '',
+  },
   isFetching: {
     type: Boolean,
     default: false,
@@ -39,6 +45,12 @@ defineProps({
 });
 
 const emit = defineEmits(['click', 'close', 'update:currentPage']);
+const { isCloudFeatureEnabled } = useAccount();
+
+const showPaywall = computed(() => {
+  return !isCloudFeatureEnabled(featureFlag);
+});
+
 const handleButtonClick = () => {
   emit('click');
 };
@@ -82,6 +94,9 @@ const handlePageChange = event => {
           class="flex items-center justify-center py-10 text-n-slate-11"
         >
           <Spinner />
+        </div>
+        <div v-else-if="showPaywall">
+          <slot name="paywall" />
         </div>
         <div v-else-if="isEmpty">
           <slot name="emptyState" />
