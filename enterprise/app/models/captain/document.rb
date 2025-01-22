@@ -20,6 +20,7 @@
 #  index_captain_documents_on_status                          (status)
 #
 class Captain::Document < ApplicationRecord
+  class LimitExceededError < StandardError; end
   self.table_name = 'captain_documents'
 
   belongs_to :assistant, class_name: 'Captain::Assistant'
@@ -69,6 +70,6 @@ class Captain::Document < ApplicationRecord
 
   def ensure_within_plan_limit
     limits = account.usage_limits[:captain][:documents]
-    raise 'Document limit exceeded' unless limits[:current_available].positive?
+    raise LimitExceededError, 'Document limit exceeded' unless limits[:current_available].positive?
   end
 end
