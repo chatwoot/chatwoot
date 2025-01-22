@@ -309,7 +309,8 @@
       "SEND_MESSAGE": "Kirim Pesan...",
       "LOADER": "Captain is thinking",
       "YOU": "Anda",
-      "USE": "Use this"
+      "USE": "Use this",
+      "RESET": "Reset"
     },
     "FORM": {
       "CANCEL": "Batalkan",
