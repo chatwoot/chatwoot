@@ -4,6 +4,7 @@ import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import { format } from 'date-fns';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import BillingMeter from './components/BillingMeter.vue';
 import BillingCard from './components/BillingCard.vue';
@@ -13,7 +14,7 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import ButtonV4 from 'next/button/Button.vue';
 
-const { currentAccount } = useAccount();
+const { currentAccount, isCloudFeatureEnabled } = useAccount();
 
 const uiFlags = useMapGetter('accounts/getUIFlags');
 const store = useStore();
@@ -42,6 +43,10 @@ const subscriptionRenewsOn = computed(() => {
   const endDate = new Date(customAttributes.value.subscription_ends_on);
   // return date as 12 Jan, 2034
   return format(endDate, 'dd MMM, yyyy');
+});
+
+const captainEnabled = computed(() => {
+  return isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN);
 });
 
 const captainLimits = computed(() => {
@@ -140,6 +145,7 @@ onMounted(fetchAccountDetails);
           </div>
         </BillingCard>
         <BillingCard
+          v-if="captainEnabled"
           :title="$t('BILLING_SETTINGS.CAPTAIN.TITLE')"
           :description="$t('BILLING_SETTINGS.CAPTAIN.DESCRIPTION')"
         >
@@ -160,6 +166,17 @@ onMounted(fetchAccountDetails);
               v-bind="documentLimits"
             />
           </div>
+        </BillingCard>
+        <BillingCard
+          v-else
+          :title="$t('BILLING_SETTINGS.CAPTAIN.TITLE')"
+          :description="$t('BILLING_SETTINGS.CAPTAIN.UPGRADE')"
+        >
+          <template #action>
+            <ButtonV4 sm solid slate @click="onClickBillingPortal">
+              {{ $t('CAPTAIN.PAYWALL.UPGRADE_NOW') }}
+            </ButtonV4>
+          </template>
         </BillingCard>
 
         <BillingHeader
