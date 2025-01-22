@@ -309,7 +309,8 @@
       "SEND_MESSAGE": "메시지 보내기...",
       "LOADER": "Captain is thinking",
       "YOU": "나",
-      "USE": "Use this"
+      "USE": "Use this",
+      "RESET": "Reset"
     },
     "FORM": {
       "CANCEL": "취소",
