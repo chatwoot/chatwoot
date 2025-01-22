@@ -309,7 +309,8 @@
       "SEND_MESSAGE": "Üzenet elküldése...",
       "LOADER": "Captain is thinking",
       "YOU": "Ön",
-      "USE": "Use this"
+      "USE": "Use this",
+      "RESET": "Reset"
     },
     "FORM": {
       "CANCEL": "Mégse",
