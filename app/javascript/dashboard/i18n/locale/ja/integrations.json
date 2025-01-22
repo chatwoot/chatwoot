@@ -263,7 +263,7 @@
           },
           "PRIORITY": {
             "LABEL": "Priority",
-            "PLACEHOLDER": "Select priority",
+            "PLACEHOLDER": "優先度を選択",
             "SEARCH": "Search priority"
           },
           "LABEL": {
@@ -309,7 +309,8 @@
       "SEND_MESSAGE": "Send message...",
       "LOADER": "Captain is thinking",
       "YOU": "You",
-      "USE": "Use this"
+      "USE": "Use this",
+      "RESET": "Reset"
     },
     "FORM": {
       "CANCEL": "キャンセル",
