@@ -40,9 +40,27 @@ describe('#actions', () => {
           'pushMessageToConversation',
           { id: 1, content: 'This is a test message' },
         ],
-        ['setConversationUIFlag', { isCreating: false }],
+        // ['setConversationUIFlag', { isCreating: false }], This line is removed,
+        // because the isCreating flag set to false in `widget/views/PreChatForm.vue`
+        // After complete the emitter ON_CONVERSATION_CREATED navigation
       ]);
       windowSpy.mockRestore();
+    });
+  });
+
+  describe('#setConversationIsCreating', () => {
+    it('sends correct mutations', () => {
+      actions.setConversationIsCreating({ commit }, true);
+      expect(commit).toBeCalledWith('setConversationUIFlag', {
+        isCreating: true,
+      });
+    });
+
+    it('sends correct mutations', () => {
+      actions.setConversationIsCreating({ commit }, false);
+      expect(commit).toBeCalledWith('setConversationUIFlag', {
+        isCreating: false,
+      });
     });
   });
 
