@@ -353,5 +353,8 @@
     "ONE": "{user} מקליד/ה",
     "TWO": "{user} ו-{secondUser} מקלידים",
     "MULTIPLE": "{user} ו {count} משתמשים אחרים מקלידים"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
   }
 }
