@@ -5,6 +5,7 @@ import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
 import { downloadFile } from '@chatwoot/utils';
 
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
 const props = defineProps({
@@ -33,6 +34,7 @@ const ALLOWED_FILE_TYPES = {
 const MAX_ZOOM_LEVEL = 2;
 const MIN_ZOOM_LEVEL = 1;
 
+const isDownloading = ref(false);
 const zoomScale = ref(1);
 const activeAttachment = ref({});
 const activeFileType = ref('');
@@ -117,12 +119,20 @@ const onClickChangeAttachment = (attachment, index) => {
   zoomScale.value = 1;
 };
 
-const onClickDownload = () => {
+const onClickDownload = async () => {
   const { file_type: type, data_url: url, extension } = activeAttachment.value;
   if (!Object.values(ALLOWED_FILE_TYPES).includes(type)) {
     return;
   }
-  downloadFile({ url, type, extension });
+
+  try {
+    isDownloading.value = true;
+    await downloadFile({ url, type, extension });
+  } catch (error) {
+    // error
+  } finally {
+    isDownloading.value = false;
+  }
 };
 
 const onRotate = type => {
@@ -162,6 +172,12 @@ const onZoom = scale => {
 };
 
 const onClickZoomImage = () => {
+  // If already at max zoom, clicking should zoom out to minimum
+  if (zoomScale.value >= MAX_ZOOM_LEVEL) {
+    zoomScale.value = MIN_ZOOM_LEVEL;
+    return;
+  }
+  // Otherwise zoom in
   onZoom(0.1);
 };
 
@@ -211,7 +227,6 @@ onMounted(() => {
     :on-close="onClose"
   >
     <div
-      v-on-clickaway="onClose"
       class="bg-white dark:bg-slate-900 flex flex-col h-[inherit] w-[inherit] overflow-hidden"
       @click="onClose"
     >
@@ -256,63 +271,54 @@ onMounted(() => {
         <div
           class="items-center flex gap-2 justify-end min-w-[8rem] sm:min-w-[15rem]"
         >
-          <woot-button
+          <NextButton
             v-if="isImage"
-            size="large"
-            color-scheme="secondary"
-            variant="clear"
-            icon="zoom-in"
+            icon="i-lucide-zoom-in"
+            slate
+            ghost
             @click="onZoom(0.1)"
           />
-          <woot-button
+          <NextButton
             v-if="isImage"
-            size="large"
-            color-scheme="secondary"
-            variant="clear"
-            icon="zoom-out"
+            icon="i-lucide-zoom-out"
+            slate
+            ghost
             @click="onZoom(-0.1)"
           />
-          <woot-button
+          <NextButton
             v-if="isImage"
-            size="large"
-            color-scheme="secondary"
-            variant="clear"
-            icon="arrow-rotate-counter-clockwise"
+            icon="i-lucide-rotate-ccw"
+            slate
+            ghost
             @click="onRotate('counter-clockwise')"
           />
-          <woot-button
+          <NextButton
             v-if="isImage"
-            size="large"
-            color-scheme="secondary"
-            variant="clear"
-            icon="arrow-rotate-clockwise"
+            icon="i-lucide-rotate-cw"
+            slate
+            ghost
             @click="onRotate('clockwise')"
           />
-          <woot-button
-            size="large"
-            color-scheme="secondary"
-            variant="clear"
-            icon="arrow-download"
+          <NextButton
+            icon="i-lucide-download"
+            slate
+            ghost
+            :is-loading="isDownloading"
+            :disabled="isDownloading"
             @click="onClickDownload"
           />
-          <woot-button
-            size="large"
-            color-scheme="secondary"
-            variant="clear"
-            icon="dismiss"
-            @click="onClose"
-          />
+          <NextButton icon="i-lucide-x" slate ghost @click="onClose" />
         </div>
       </div>
       <div class="flex items-center justify-center w-full h-full">
         <div class="flex justify-center min-w-[6.25rem] w-[6.25rem]">
-          <woot-button
+          <NextButton
             v-if="hasMoreThanOneAttachment"
-            class="z-10"
-            size="large"
-            variant="smooth"
-            color-scheme="primary"
-            icon="chevron-left"
+            icon="i-lucide-chevron-left"
+            class="z-10 disabled:pointer-events-auto"
+            blue
+            faded
+            lg
             :disabled="activeImageIndex === 0"
             @click.stop="
               onClickChangeAttachment(
@@ -354,14 +360,14 @@ onMounted(() => {
           </div>
         </div>
         <div class="flex justify-center min-w-[6.25rem] w-[6.25rem]">
-          <woot-button
+          <NextButton
             v-if="hasMoreThanOneAttachment"
-            class="z-10"
-            size="large"
-            variant="smooth"
-            color-scheme="primary"
+            icon="i-lucide-chevron-right"
+            class="z-10 disabled:pointer-events-auto"
+            blue
+            faded
+            lg
             :disabled="activeImageIndex === allAttachments.length - 1"
-            icon="chevron-right"
             @click.stop="
               onClickChangeAttachment(
                 allAttachments[activeImageIndex + 1],
