@@ -23,7 +23,7 @@ RSpec.describe Captain::Copilot::ChatService do
     end
 
     it 'increments usage' do
-      described_class.new(assistant, { previous_messages: 'Hello', conversation_history: 'Hi' }).execute('Hey')
+      described_class.new(assistant, { previous_messages: ['Hello'], conversation_history: 'Hi' }).execute('Hey')
       expect(account).to have_received(:increment_response_usage).once
     end
   end
