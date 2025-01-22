@@ -158,10 +158,16 @@ onMounted(() => {
     :current-page="responseMeta.page"
     :header-title="$t('CAPTAIN.RESPONSES.HEADER')"
     :button-label="$t('CAPTAIN.RESPONSES.ADD_NEW')"
+    :is-fetching="isFetching"
+    :is-empty="!responses.length"
     :show-pagination-footer="!isFetching && !!responses.length"
     @update:current-page="onPageChange"
     @click="handleCreate"
   >
+    <template #emptyState>
+      <ResponsePageEmptyState @click="handleCreate" />
+    </template>
+
     <div v-if="shouldShowDropdown" class="mb-4 -mt-3 flex gap-3">
       <OnClickOutside @trigger="isStatusFilterOpen = false">
         <Button
@@ -186,14 +192,8 @@ onMounted(() => {
         @update="handleAssistantFilterChange"
       />
     </div>
-    <div
-      v-if="isFetching"
-      class="flex items-center justify-center py-10 text-n-slate-11"
-    >
-      <Spinner />
-    </div>
 
-    <div v-else-if="responses.length" class="flex flex-col gap-4">
+    <div class="flex flex-col gap-4">
       <ResponseCard
         v-for="response in responses"
         :id="response.id"
@@ -209,8 +209,6 @@ onMounted(() => {
         @navigate="handleNavigationAction"
       />
     </div>
-
-    <ResponsePageEmptyState v-else @click="handleCreate" />
 
     <DeleteDialog
       v-if="selectedResponse"

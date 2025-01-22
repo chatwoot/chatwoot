@@ -106,22 +106,21 @@ onMounted(() => {
     :total-count="documentsMeta.totalCount"
     :current-page="documentsMeta.page"
     :show-pagination-footer="!isFetching && !!documents.length"
+    :is-fetching="isFetching"
+    :is-empty="!documents.length"
     @update:current-page="onPageChange"
     @click="handleCreateDocument"
   >
+    <template #emptyState>
+      <DocumentPageEmptyState @click="handleCreateDocument" />
+    </template>
     <div v-if="shouldShowAssistantSelector" class="mb-4 -mt-3 flex gap-3">
       <AssistantSelector
         :assistant-id="selectedAssistant"
         @update="handleAssistantFilterChange"
       />
     </div>
-    <div
-      v-if="isFetching"
-      class="flex items-center justify-center py-10 text-n-slate-11"
-    >
-      <Spinner />
-    </div>
-    <div v-else-if="documents.length" class="flex flex-col gap-4">
+    <div class="flex flex-col gap-4">
       <DocumentCard
         v-for="doc in documents"
         :id="doc.id"
@@ -133,8 +132,6 @@ onMounted(() => {
         @action="handleAction"
       />
     </div>
-
-    <DocumentPageEmptyState v-else @click="handleCreateDocument" />
 
     <RelatedResponses
       v-if="showRelatedResponses"

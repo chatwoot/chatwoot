@@ -5,7 +5,6 @@ import { useMapGetter, useStore } from 'dashboard/composables/store';
 import AssistantCard from 'dashboard/components-next/captain/assistant/AssistantCard.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
-import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CreateAssistantDialog from 'dashboard/components-next/captain/pageComponents/assistant/CreateAssistantDialog.vue';
 import AssistantPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/AssistantPageEmptyState.vue';
 import { useRouter } from 'vue-router';
@@ -74,15 +73,15 @@ onMounted(() => store.dispatch('captainAssistants/get'));
     :header-title="$t('CAPTAIN.ASSISTANTS.HEADER')"
     :button-label="$t('CAPTAIN.ASSISTANTS.ADD_NEW')"
     :show-pagination-footer="false"
+    :is-fetching="isFetching"
+    :is-empty="!assistants.length"
     @click="handleCreate"
   >
-    <div
-      v-if="isFetching"
-      class="flex items-center justify-center py-10 text-n-slate-11"
-    >
-      <Spinner />
-    </div>
-    <div v-else-if="assistants.length" class="flex flex-col gap-4">
+    <template #emptyState>
+      <AssistantPageEmptyState @click="handleCreate" />
+    </template>
+
+    <div class="flex flex-col gap-4">
       <AssistantCard
         v-for="assistant in assistants"
         :id="assistant.id"
@@ -94,8 +93,6 @@ onMounted(() => store.dispatch('captainAssistants/get'));
         @action="handleAction"
       />
     </div>
-
-    <AssistantPageEmptyState v-else @click="handleCreate" />
 
     <DeleteDialog
       v-if="selectedAssistant"
