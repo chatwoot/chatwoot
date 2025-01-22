@@ -18,6 +18,7 @@ const attachment = computed(() => {
 
 const hasError = ref(false);
 const showGallery = ref(false);
+const isDownloading = ref(false);
 
 const handleError = () => {
   hasError.value = true;
@@ -26,7 +27,14 @@ const handleError = () => {
 
 const downloadAttachment = async () => {
   const { fileType, dataUrl, extension } = attachment.value;
-  downloadFile({ url: dataUrl, type: fileType, extension });
+  try {
+    isDownloading.value = true;
+    await downloadFile({ url: dataUrl, type: fileType, extension });
+  } catch (error) {
+    // error
+  } finally {
+    isDownloading.value = false;
+  }
 };
 </script>
 
@@ -60,7 +68,9 @@ const downloadAttachment = async () => {
           slate
           icon="i-lucide-download"
           class="opacity-60"
-          @click="downloadAttachment"
+          :is-loading="isDownloading"
+          :disabled="isDownloading"
+          @click.stop="downloadAttachment"
         />
       </div>
     </div>
