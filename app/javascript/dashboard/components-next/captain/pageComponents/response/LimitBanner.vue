@@ -24,7 +24,7 @@ const showBanner = computed(() => {
   const { consumed, totalCount } = responseLimits.value;
   if (!consumed || !totalCount) return false;
 
-  return consumed / totalCount > 80;
+  return consumed / totalCount > 0.8;
 });
 
 onMounted(fetchLimits);
