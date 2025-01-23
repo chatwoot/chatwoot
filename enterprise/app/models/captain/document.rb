@@ -29,6 +29,7 @@ class Captain::Document < ApplicationRecord
 
   validates :external_link, presence: true
   validates :external_link, uniqueness: { scope: :assistant_id }
+  validates :content, length: { maximum: 200_000 }
   before_validation :ensure_account_id
 
   enum status: {
