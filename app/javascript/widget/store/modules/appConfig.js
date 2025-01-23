@@ -73,7 +73,7 @@ export const actions = {
     commit(SET_BUBBLE_VISIBILITY, hideMessageBubble);
   },
   setRouteTransitionState: async ({ commit }, status) => {
-    // Handles the routing state during navigation to chat screen
+    // Handles the routing state during navigation to different screen
     // Called before the navigation starts and after navigation completes
     // Handling this state in app/javascript/widget/router.js
     // See issue: https://github.com/chatwoot/chatwoot/issues/10736
