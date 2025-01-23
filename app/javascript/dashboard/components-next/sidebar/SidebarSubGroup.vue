@@ -20,7 +20,7 @@ const scrollableContainer = ref(null);
 
 const accessibleItems = computed(() =>
   props.children.filter(child => {
-    if (child.showOnlyOnCloud && isOnChatwootCloud.value) return false;
+    if (child.showOnlyOnCloud && !isOnChatwootCloud.value) return false;
     return child.to && isAllowed(child.to);
   })
 );

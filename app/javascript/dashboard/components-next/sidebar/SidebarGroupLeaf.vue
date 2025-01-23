@@ -17,7 +17,7 @@ const { resolvePermissions, resolveFeatureFlag, isOnChatwootCloud } =
   useSidebarContext();
 
 const allowedToShow = computed(() => {
-  if (props.showOnlyOnCloud && isOnChatwootCloud) return false;
+  if (props.showOnlyOnCloud && !isOnChatwootCloud.value) return false;
 
   return true;
 });
