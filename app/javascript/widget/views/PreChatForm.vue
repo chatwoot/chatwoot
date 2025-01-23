@@ -22,7 +22,7 @@ export default {
     handleConversationCreated() {
       // Redirect to messages page after conversation is created
       this.replaceRoute('messages');
-      // Only after successful navigation, reset the isReplacingRoute UIflag in app/javascript/widget/router.js
+      // Only after successful navigation, reset the isUpdatingRoute UIflag in app/javascript/widget/router.js
       // See issue: https://github.com/chatwoot/chatwoot/issues/10736
     },
 

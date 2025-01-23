@@ -12,7 +12,6 @@ const state = {
     isFetchingList: false,
     isAgentTyping: false,
     isCreating: false,
-    isReplacingRoute: false,
   },
   lastMessageId: null,
 };

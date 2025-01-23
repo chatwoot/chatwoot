@@ -52,7 +52,7 @@ const router = createRouter({
  * especially important in high-latency scenarios.
  *
  * Flow:
- * 1. beforeEach: Sets isReplacingRoute to true at start of navigation
+ * 1. beforeEach: Sets isUpdatingRoute to true at start of navigation
  * 2. Component buttons/actions check this flag to prevent duplicate actions
  * 3. afterEach: Resets the flag once navigation is complete
  *
@@ -65,13 +65,13 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   // Prevent any user interactions during route transition
-  await store.dispatch('conversation/setConversationRoutingState', true);
+  await store.dispatch('appConfig/setRouteTransitionState', true);
   next();
 });
 
 router.afterEach(() => {
   // Re-enable user interactions after navigation is complete
-  store.dispatch('conversation/setConversationRoutingState', false);
+  store.dispatch('appConfig/setRouteTransitionState', false);
 });
 
 export default router;

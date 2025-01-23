@@ -21,11 +21,6 @@ describe('#getters', () => {
     expect(getters.getIsCreating(state)).toEqual(true);
   });
 
-  it('getIsReplacingRoute', () => {
-    const state = { uiFlags: { isReplacingRoute: true } };
-    expect(getters.getIsReplacingRoute(state)).toEqual(true);
-  });
-
   it('getConversationSize', () => {
     const state = {
       conversations: {

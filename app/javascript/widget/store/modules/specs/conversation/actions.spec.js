@@ -47,22 +47,6 @@ describe('#actions', () => {
     });
   });
 
-  describe('#setConversationRoutingState', () => {
-    it('sends correct mutations', () => {
-      actions.setConversationRoutingState({ commit }, true);
-      expect(commit).toBeCalledWith('setConversationUIFlag', {
-        isReplacingRoute: true,
-      });
-    });
-
-    it('sends correct mutations', () => {
-      actions.setConversationRoutingState({ commit }, false);
-      expect(commit).toBeCalledWith('setConversationUIFlag', {
-        isReplacingRoute: false,
-      });
-    });
-  });
-
   describe('#addOrUpdateMessage', () => {
     it('sends correct actions for non-deleted message', () => {
       actions.addOrUpdateMessage(
