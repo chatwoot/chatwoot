@@ -52,9 +52,13 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
       isCreating: 'conversation/getIsCreating',
+      isConversationRouting: 'appConfig/getIsUpdatingRoute',
       activeCampaign: 'campaign/getActiveCampaign',
       currentUser: 'contacts/getCurrentUser',
     }),
+    isCreatingConversation() {
+      return this.isCreating || this.isConversationRouting;
+    },
     textColor() {
       return getContrastingTextColor(this.widgetColor);
     },
@@ -337,9 +341,9 @@ export default {
       block
       :bg-color="widgetColor"
       :text-color="textColor"
-      :disabled="isCreating"
+      :disabled="isCreatingConversation"
     >
-      <Spinner v-if="isCreating" class="p-0" />
+      <Spinner v-if="isCreatingConversation" class="p-0" />
       {{ $t('START_CONVERSATION') }}
     </CustomButton>
   </FormKit>
