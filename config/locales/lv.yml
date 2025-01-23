@@ -215,7 +215,8 @@ lv:
       name: 'Lineārs'
       description: 'Izveidojiet problēmu pieteikumus programmā Linear, tieši no sarunas loga. Varat arī sasaistīt esošos Linear problēmu pieteikumus, lai nodrošinātu racionālāku un efektīvāku problēmu izsekošanas procesu.'
   captain:
-    copilot_error: 'Lai izmantotu kopilotu, lūdzu, pievienojiet šai iesūtnei asistentu'
+    copilot_error: 'Lai izmantotu Copilot, lūdzu, pievienojiet šai iesūtnei palīgu'
+    copilot_limit: 'Jums ir beigušies Copilot kredīti. Vairāk kredītu varat iegādāties norēķinu sadaļā.'
   public_portal:
     search:
       search_placeholder: Meklēt rakstu pēc nosaukuma vai pamatteksta...
