@@ -15,6 +15,7 @@ const onClick = () => {
   <EmptyStateLayout
     :title="$t('CAPTAIN.DOCUMENTS.EMPTY_STATE.TITLE')"
     :subtitle="$t('CAPTAIN.DOCUMENTS.EMPTY_STATE.SUBTITLE')"
+    :action-perms="['administrator']"
   >
     <template #empty-state-item>
       <div class="grid grid-cols-1 gap-4 p-px overflow-hidden">

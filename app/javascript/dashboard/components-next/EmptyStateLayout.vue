@@ -1,4 +1,6 @@
 <script setup>
+import Policy from 'dashboard/components/policy.vue';
+
 defineProps({
   title: {
     type: String,
@@ -7,6 +9,10 @@ defineProps({
   subtitle: {
     type: String,
     required: true,
+  },
+  actionPerms: {
+    type: Array,
+    default: () => [],
   },
 });
 </script>
@@ -39,7 +45,9 @@ defineProps({
               {{ subtitle }}
             </p>
           </div>
-          <slot name="actions" />
+          <Policy :permissions="actionPerms">
+            <slot name="actions" />
+          </Policy>
         </div>
       </div>
     </div>
