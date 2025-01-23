@@ -21,7 +21,6 @@ export function useAccount() {
   const accountId = computed(() => {
     return Number(route.params.accountId);
   });
-
   const currentAccount = computed(() => getAccountFn.value(accountId.value));
 
   /**
@@ -34,9 +33,6 @@ export function useAccount() {
   };
 
   const isCloudFeatureEnabled = feature => {
-    // always return true if not on cloud
-    if (!isOnChatwootCloud.value) return true;
-
     return isFeatureEnabledonAccount.value(currentAccount.value.id, feature);
   };
 
@@ -55,5 +51,6 @@ export function useAccount() {
     accountScopedUrl,
     accountScopedRoute,
     isCloudFeatureEnabled,
+    isOnChatwootCloud,
   };
 }

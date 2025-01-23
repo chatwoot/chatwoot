@@ -316,6 +316,11 @@
       "UPGRADE_NOW": "Upgrade now",
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI feature is only available in a paid plan.",
+      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+    },
     "BANNER": {
       "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
       "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
