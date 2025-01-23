@@ -4,10 +4,10 @@ class Captain::Tools::FirecrawlService
     raise 'Missing API key' if @api_key.nil?
   end
 
-  def perform(url, webhook_url = '')
+  def perform(url, webhook_url, crawl_limit = 10)
     HTTParty.post(
       'https://api.firecrawl.dev/v1/crawl',
-      body: crawl_payload(url, webhook_url),
+      body: crawl_payload(url, webhook_url, crawl_limit),
       headers: headers
     )
   rescue StandardError => e
@@ -16,12 +16,12 @@ class Captain::Tools::FirecrawlService
 
   private
 
-  def crawl_payload(url, webhook_url)
+  def crawl_payload(url, webhook_url, crawl_limit)
     {
       url: url,
       maxDepth: 50,
       ignoreSitemap: false,
-      limit: 10,
+      limit: crawl_limit,
       webhook: webhook_url,
       scrapeOptions: {
         onlyMainContent: false,
