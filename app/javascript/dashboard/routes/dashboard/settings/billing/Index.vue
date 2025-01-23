@@ -85,7 +85,6 @@ onMounted(fetchAccountDetails);
     :loading-message="$t('ATTRIBUTES_MGMT.LOADING')"
     :no-records-found="!hasABillingPlan"
     :no-records-message="$t('BILLING_SETTINGS.NO_BILLING_USER')"
-    class="max-w-2xl"
   >
     <template #header>
       <BaseSettingsHeader
@@ -108,7 +107,7 @@ onMounted(fetchAccountDetails);
           </template>
           <div
             v-if="planName || subscribedQuantity || subscriptionRenewsOn"
-            class="grid grid-cols-3 gap-2 divide-x divide-n-weak"
+            class="grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-1 gap-2 divide-x divide-n-weak"
           >
             <DetailItem
               :label="$t('BILLING_SETTINGS.CURRENT_PLAN.TITLE')"
