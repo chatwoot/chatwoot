@@ -22,27 +22,18 @@ export const actions = {
       const [message = {}] = messages;
       commit('pushMessageToConversation', message);
       dispatch('conversationAttributes/getAttributes', {}, { root: true });
-      // Set routing state flag before navigation starts
-      // This prevents a race condition where:
-      // 1. Initial loading state (isCreating) ends after API success
-      // 2. But before navigation completes, leaving a gap where button is clickable
-      // 3. Users could create duplicate conversations during this gap on high latency
-      // See issue: https://github.com/chatwoot/chatwoot/issues/10736
-      commit('setConversationUIFlag', { isReplacingRoute: true });
-      // Emit conversation created event that triggers navigation to message screen
-      // The isReplacingRoute flag will only be set to false after navigation completes
+      // Emit event to notify that conversation is created and show the chat screen
       emitter.emit(ON_CONVERSATION_CREATED);
     } catch (error) {
       // Ignore error
     } finally {
-      // Reset initial creation state but keep routing state active
-      // Routing state is handled separately after navigation completes
       commit('setConversationUIFlag', { isCreating: false });
     }
   },
   setConversationRoutingState: async ({ commit }, status) => {
     // Handles the routing state during navigation to chat screen
-    // Called after navigation completes to finalize the conversation creation flow
+    // Called before the navigation starts and after navigation completes to finalize the conversation creation flow
+    // See issue: https://github.com/chatwoot/chatwoot/issues/10736
     commit('setConversationUIFlag', { isReplacingRoute: status });
   },
   sendMessage: async ({ dispatch }, params) => {

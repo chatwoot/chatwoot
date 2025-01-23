@@ -17,10 +17,6 @@ describe('#actions', () => {
           messages: [{ id: 1, content: 'This is a test message' }],
         },
       });
-      const mutations = [];
-      commit.mockImplementation((mutation, payload) => {
-        mutations.push([mutation, payload]);
-      });
 
       let windowSpy = vi.spyOn(window, 'window', 'get');
       windowSpy.mockImplementation(() => ({
@@ -36,16 +32,15 @@ describe('#actions', () => {
         },
       }));
       await actions.createConversation(
-        { commit, dispatch },
+        { commit },
         { contact: {}, message: 'This is a test message' }
       );
-      expect(mutations).toEqual([
+      expect(commit.mock.calls).toEqual([
         ['setConversationUIFlag', { isCreating: true }],
         [
           'pushMessageToConversation',
           { id: 1, content: 'This is a test message' },
         ],
-        ['setConversationUIFlag', { isReplacingRoute: true }],
         ['setConversationUIFlag', { isCreating: false }],
       ]);
       windowSpy.mockRestore();
