@@ -142,6 +142,16 @@
   display_title: 'OpenAI Model'
   description: 'The OpenAI model configured for use in Captain AI. Default: gpt-4o-mini'
   locked: false
+- name: CAPTAIN_FIRECRAWL_API_KEY
+  display_title: 'FireCrawl API Key (optional)'
+  description: 'The FireCrawl API key for the Captain AI service'
+  locked: false
+- name: CAPTAIN_CLOUD_PLAN_LIMITS
+  display_title: 'Captain Cloud Plan Limits'
+  description: 'The limits for the Captain AI service for different plans'
+  value:
+  type: code
+
 # End of Captain Config
 
 # ------- Chatwoot Internal Config for Cloud ----#
