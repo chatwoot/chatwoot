@@ -15,7 +15,11 @@ class Captain::Copilot::ChatService < Captain::Llm::BaseOpenAiService
 
   def generate_response(input)
     @messages << { role: 'user', content: input } if input.present?
-    request_chat_completion
+    response = request_chat_completion
+    Rails.logger.info("[CAPTAIN][CopilotChatService] Incrementing response usage for #{@assistant.account.id}")
+    @assistant.account.increment_response_usage
+
+    response
   end
 
   private
