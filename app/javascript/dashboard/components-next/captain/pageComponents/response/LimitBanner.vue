@@ -19,6 +19,8 @@ const openBilling = () => {
 };
 
 const showBanner = computed(() => {
+  if (!responseLimits.value) return false;
+
   const { consumed, totalCount } = responseLimits.value;
   if (!consumed || !totalCount) return false;
 

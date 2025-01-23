@@ -19,6 +19,8 @@ const openBilling = () => {
 };
 
 const showBanner = computed(() => {
+  if (!documentLimits.value) return false;
+
   const { currentAvailable } = documentLimits.value;
   return currentAvailable === 0;
 });
