@@ -4,6 +4,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import Button from 'dashboard/components-next/button/Button.vue';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import Policy from 'dashboard/components/policy.vue';
 
 const { featureFlag } = defineProps({
   currentPage: {
@@ -21,6 +22,10 @@ const { featureFlag } = defineProps({
   headerTitle: {
     type: String,
     default: '',
+  },
+  buttonPolicy: {
+    type: Array,
+    default: () => [],
   },
   buttonLabel: {
     type: String,
@@ -76,13 +81,15 @@ const handlePageChange = event => {
             v-on-clickaway="() => emit('close')"
             class="relative group/campaign-button"
           >
-            <Button
-              :label="buttonLabel"
-              icon="i-lucide-plus"
-              size="sm"
-              class="group-hover/campaign-button:brightness-110"
-              @click="handleButtonClick"
-            />
+            <Policy :permissions="buttonPolicy">
+              <Button
+                :label="buttonLabel"
+                icon="i-lucide-plus"
+                size="sm"
+                class="group-hover/campaign-button:brightness-110"
+                @click="handleButtonClick"
+              />
+            </Policy>
             <slot name="action" />
           </div>
         </div>

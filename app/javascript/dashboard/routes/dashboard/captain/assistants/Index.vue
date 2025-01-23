@@ -75,6 +75,7 @@ onMounted(() => store.dispatch('captainAssistants/get'));
   <PageLayout
     :header-title="$t('CAPTAIN.ASSISTANTS.HEADER')"
     :button-label="$t('CAPTAIN.ASSISTANTS.ADD_NEW')"
+    :button-policy="['administrator']"
     :show-pagination-footer="false"
     :is-fetching="isFetching"
     :feature-flag="FEATURE_FLAGS.CAPTAIN"

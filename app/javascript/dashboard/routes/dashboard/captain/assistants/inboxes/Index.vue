@@ -76,6 +76,7 @@ onMounted(() =>
   <PageLayout
     v-else
     :button-label="$t('CAPTAIN.INBOXES.ADD_NEW')"
+    :button-policy="['administrator']"
     :show-pagination-footer="false"
     @click="handleCreate"
   >

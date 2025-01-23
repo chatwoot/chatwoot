@@ -158,6 +158,7 @@ onMounted(() => {
   <PageLayout
     :total-count="responseMeta.totalCount"
     :current-page="responseMeta.page"
+    :button-policy="['administrator']"
     :header-title="$t('CAPTAIN.RESPONSES.HEADER')"
     :button-label="$t('CAPTAIN.RESPONSES.ADD_NEW')"
     :is-fetching="isFetching"

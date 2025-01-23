@@ -105,6 +105,7 @@ onMounted(() => {
   <PageLayout
     :header-title="$t('CAPTAIN.DOCUMENTS.HEADER')"
     :button-label="$t('CAPTAIN.DOCUMENTS.ADD_NEW')"
+    :button-policy="['administrator']"
     :total-count="documentsMeta.totalCount"
     :current-page="documentsMeta.page"
     :show-pagination-footer="!isFetching && !!documents.length"
