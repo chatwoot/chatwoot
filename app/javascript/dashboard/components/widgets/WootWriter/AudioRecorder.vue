@@ -1,6 +1,12 @@
 <script setup>
 import getUuid from 'widget/helpers/uuid';
-import { ref, onMounted, onUnmounted, defineEmits, defineExpose } from 'vue';
+import {
+  ref,
+  onMounted,
+  onBeforeUnmount,
+  defineEmits,
+  defineExpose,
+} from 'vue';
 import WaveSurfer from 'wavesurfer.js';
 import RecordPlugin from 'wavesurfer.js/dist/plugins/record.js';
 import { format, intervalToDuration } from 'date-fns';
@@ -108,7 +114,7 @@ onMounted(() => {
   startRecording();
 });
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
   if (wavesurfer.value) {
     wavesurfer.value.destroy();
   }
