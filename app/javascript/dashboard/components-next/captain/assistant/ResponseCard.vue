@@ -7,6 +7,7 @@ import { dynamicTime } from 'shared/helpers/timeHelper';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Policy from 'dashboard/components/policy.vue';
 
 const props = defineProps({
   id: {
@@ -107,8 +108,9 @@ const handleDocumentableClick = () => {
         {{ question }}
       </span>
       <div v-if="!compact" class="flex items-center gap-2">
-        <div
+        <Policy
           v-on-clickaway="() => toggleDropdown(false)"
+          :permissions="['administrator']"
           class="relative flex items-center group"
         >
           <Button
@@ -124,7 +126,7 @@ const handleDocumentableClick = () => {
             class="mt-1 ltr:right-0 rtl:right-0 top-full"
             @action="handleAssistantAction($event)"
           />
-        </div>
+        </Policy>
       </div>
     </div>
     <span class="text-n-slate-11 text-sm line-clamp-5">
