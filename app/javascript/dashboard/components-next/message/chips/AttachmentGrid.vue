@@ -43,7 +43,7 @@ const itemClass = computed(() => index => {
   const count = props.attachments.length;
   const base = 'relative overflow-hidden rounded-lg';
 
-  if (count === 1) return `${base} w-full h-auto`;
+  if (count === 1) return `${base} w-fit h-[400px]`; //  w-full h-auto, TODO: check this
 
   if (count === 3 && index === 0) return `${base} row-span-2 h-[392px]`;
   if (count >= 5 && index === 0) return `${base} col-span-2 h-[192px]`;
