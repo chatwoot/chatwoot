@@ -89,10 +89,12 @@ const files = computed(() => {
   </div>
 
   <div v-if="files.length" :class="classToApply">
-    <FileChip
-      v-for="attachment in files"
-      :key="attachment.id"
-      :attachment="attachment"
-    />
+    <div className="grid grid-cols-2 xl:grid-cols-3 gap-3">
+      <FileChip
+        v-for="attachment in files"
+        :key="attachment.id"
+        :attachment="attachment"
+      />
+    </div>
   </div>
 </template>
