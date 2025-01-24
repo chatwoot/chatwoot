@@ -414,14 +414,14 @@
       "SENDER_NAME_SECTION": {
         "TITLE": "送信者名",
         "SUB_TEXT": "担当者からのメールを受け取ったときに顧客に表示される名前を選択してください。",
-        "FOR_EG": "例えば:",
+        "FOR_EG": "例:",
         "FRIENDLY": {
-          "TITLE": "フレンドリー",
-          "FROM": "差出人:",
+          "TITLE": "Friendly",
+          "FROM": "from",
           "SUBTITLE": "返信を送信した担当者の名前を送信者名に追加して、フレンドリーにします。"
         },
         "PROFESSIONAL": {
-          "TITLE": "プロフェッショナル",
+          "TITLE": "Professional",
           "SUBTITLE": "メールヘッダーの送信者名に設定されたビジネス名のみを使用します。"
         },
         "BUSINESS_NAME": {
