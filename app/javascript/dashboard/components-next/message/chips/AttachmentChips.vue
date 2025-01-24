@@ -76,7 +76,7 @@ const files = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-2">
+  <div class="flex flex-col gap-2.5">
     <div v-if="imageAttachments.length" :class="classToApply">
       <ImageGrid :attachments="imageAttachments" type="image" />
     </div>
@@ -86,7 +86,7 @@ const files = computed(() => {
     </div>
 
     <div v-if="recordings.length" :class="classToApply">
-      <div v-for="attachment in recordings" :key="attachment.id">
+      <div v-for="attachment in recordings" :key="attachment.id" class="w-full">
         <AudioChip
           class="bg-n-alpha-3 dark:bg-n-alpha-2 text-n-slate-12"
           :attachment="attachment"

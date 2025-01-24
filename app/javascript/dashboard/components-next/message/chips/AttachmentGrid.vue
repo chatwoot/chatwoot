@@ -27,7 +27,7 @@ const remainingCount = computed(() =>
 
 const gridClass = computed(() => {
   const count = props.attachments.length;
-  const base = 'grid gap-1 w-full';
+  const base = 'grid gap-2 w-full';
 
   if (count === 1) return `${base} grid-cols-1`;
 
@@ -47,10 +47,10 @@ const itemClass = computed(() => index => {
 
   if (count === 1) return `${base} w-full h-auto`;
 
-  if (count === 3 && index === 0) return `${base} row-span-2 h-[400px]`;
-  if (count >= 5 && index === 0) return `${base} col-span-2 h-[200px]`;
+  if (count === 3 && index === 0) return `${base} row-span-2 h-[392px]`;
+  if (count >= 5 && index === 0) return `${base} col-span-2 h-[192px]`;
 
-  return count === 2 ? `${base} h-[400px]` : `${base} h-[200px]`;
+  return count === 2 ? `${base} h-[400px]` : `${base} h-[192px]`;
 });
 
 const shouldShowOverlay = computed(
