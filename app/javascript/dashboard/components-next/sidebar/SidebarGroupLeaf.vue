@@ -9,18 +9,28 @@ const props = defineProps({
   to: { type: [String, Object], required: true },
   icon: { type: [String, Object], default: null },
   active: { type: Boolean, default: false },
+  showOnlyOnCloud: { type: Boolean, default: false },
   component: { type: Function, default: null },
 });
 
-const { resolvePermissions, resolveFeatureFlag } = useSidebarContext();
+const { resolvePermissions, resolveFeatureFlag, isOnChatwootCloud } =
+  useSidebarContext();
+
+const allowedToShow = computed(() => {
+  if (props.showOnlyOnCloud && !isOnChatwootCloud.value) return false;
+
+  return true;
+});
 
 const shouldRenderComponent = computed(() => {
   return typeof props.component === 'function' || isVNode(props.component);
 });
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <Policy
+    v-if="allowedToShow"
     :permissions="resolvePermissions(to)"
     :feature-flag="resolveFeatureFlag(to)"
     as="li"
