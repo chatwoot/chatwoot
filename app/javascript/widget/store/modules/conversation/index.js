@@ -18,6 +18,7 @@ const state = {
   totalSubmittedCsat: 0,
   totalAnsweredCsat: 0,
   csatTemplateEnabled: false,
+  customAttributes: {},
 };
 
 export default {

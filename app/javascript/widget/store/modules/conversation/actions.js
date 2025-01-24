@@ -10,6 +10,7 @@ import {
   deleteCustomAttribute,
   getTotalQuestions,
   getCsatTemplateStatus,
+  getCustomAttributes,
 } from 'widget/api/conversation';
 
 import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
@@ -196,7 +197,10 @@ export const actions = {
       // IgnoreError
     }
   },
-
+  getCustomAttributes: async ({ commit }) => {
+    var response = await getCustomAttributes();
+    commit('setCustomAttributes', response.data);
+  },
   getTotalCsatQuestions: async ({ commit }) => {
     var response = await getTotalQuestions();
     commit('setTotalCsat', response.data.total);

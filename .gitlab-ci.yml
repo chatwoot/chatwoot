@@ -4,6 +4,7 @@ include:
     file: terraform.yml
 
 stages:
+  - pre-checks
   - build_and_publish
   - test
   - plan

@@ -306,7 +306,8 @@ Rails.application.routes.draw do
             post :update_last_seen
             post :toggle_typing
             post :transcript
-            get  :toggle_status
+            get :toggle_status
+            get :get_custom_attributes
             get :total_csat_questions
             get :csat_template_status
           end

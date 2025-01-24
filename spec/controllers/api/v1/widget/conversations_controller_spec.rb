@@ -316,4 +316,28 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v1/widget/conversations/get_custom_attributes' do
+    context 'with invalid website token' do
+      it 'returns unauthorized' do
+        get '/api/v1/widget/conversations/get_custom_attributes', params: { website_token: '' }
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context 'with correct website token' do
+      it 'returns the custom attributes' do
+        conversation.custom_attributes = { 'product_name': 'Chatwoot' }
+        conversation.save!
+
+        get '/api/v1/widget/conversations/get_custom_attributes',
+            headers: { 'X-Auth-Token' => token },
+            params: { website_token: web_widget.website_token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body).to include('product_name' => 'Chatwoot')
+      end
+    end
+  end
 end

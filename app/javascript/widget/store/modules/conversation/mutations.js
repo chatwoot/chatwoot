@@ -122,4 +122,8 @@ export const mutations = {
   setCsatTemplateEnabled($state, status) {
     $state.csatTemplateEnabled = status;
   },
+
+  setCustomAttributes($state, customAttributes) {
+    $state.customAttributes = customAttributes;
+  },
 };

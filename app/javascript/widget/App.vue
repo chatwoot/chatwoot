@@ -262,14 +262,18 @@ export default {
 
     handleStartConversation(){
       if (this.shouldShowPreChatForm && !this.conversationSize) {
-        this.replaceRoute('prechat-form')
+        if (this.$route.path !== '/prechat-form') {
+          this.replaceRoute('prechat-form')
+        }
       } else {
-        this.replaceRoute('messages')
+        if (this.$route.path !== '/messages') {
+          this.replaceRoute('messages')
+        }
       }
     },
 
     handlePopulateMessageForm(data){
-      window.preChatFieldValues = data;
+      window.preChatwootFieldValues = data;
       this.handleStartConversation()
     },
     createWidgetEvents(message) {

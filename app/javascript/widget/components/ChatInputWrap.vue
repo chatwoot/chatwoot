@@ -56,6 +56,7 @@ import configMixin from '../mixins/configMixin';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import { IFrameHelper } from 'widget/helpers/utils';
 
 const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
@@ -92,6 +93,7 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
+      customAttributes: 'conversation/getCustomAttributes',
     }),
     showAttachment() {
       return this.hasAttachmentsEnabled && this.userInput.length === 0;
@@ -124,6 +126,9 @@ export default {
     if (this.isWidgetOpen) {
       this.focusInput();
     }
+    this.$store.dispatch('conversation/getCustomAttributes');
+    this.userInput = window.preChatwootFieldValues?.['message'] || '';
+    this.registerListeners();
   },
 
   methods: {
@@ -133,10 +138,38 @@ export default {
     onFocus() {
       this.isFocused = true;
     },
+
+    updateCustomAttributes(){
+      let attrs = {};
+
+      if (this.customAttributes) {
+        attrs = { ...this.customAttributes };
+
+        if (this.preChatFormOptions?.preChatFields) {
+          this.preChatFormOptions.preChatFields.forEach(option => {
+            if (option.enabled && option.field_type === 'conversation_attribute') {
+              const val = window.preChatwootFieldValues?.[option.name]?.trim();
+              if (val) {
+                attrs[option.name] = val;
+              }
+            }
+          });
+        }
+      }
+      
+      if (!!attrs) {
+        this.$store.dispatch('conversation/setCustomAttributes', attrs);
+      }
+    },
+
     handleButtonClick() {
+      this.updateCustomAttributes();
+
       if (this.userInput && this.userInput.trim()) {
         this.onSendMessage(this.userInput);
       }
+
+      window.preChatwootFieldValues = {};
       this.userInput = '';
       this.focusInput();
     },
@@ -170,6 +203,15 @@ export default {
     focusInput() {
       this.$refs.chatInput.focus();
     },
+    registerListeners() {
+      window.addEventListener('message', e => {
+        const message = IFrameHelper.getMessage(e);
+        if (message.event === 'populate-message-form') {
+          window.preChatwootFieldValues = message;
+          this.userInput = message.message;
+        }
+      });
+    }
   },
 };
 </script>

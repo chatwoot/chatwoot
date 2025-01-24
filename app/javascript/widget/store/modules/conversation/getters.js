@@ -70,4 +70,7 @@ export const getters = {
   getTotalSubmittedCsat: _state => {
     return _state.totalSubmittedCsat;
   },
+  getCustomAttributes: _state => {
+    return _state.customAttributes;
+  }
 };

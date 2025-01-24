@@ -15,7 +15,6 @@
       :key="item.name"
       :name="item.name"
       :type="item.type"
-      :value="getFormValue(item.name)"
       :label="getLabel(item)"
       :placeholder="getPlaceHolder(item)"
       :validation="getValidation(item)"
@@ -39,7 +38,6 @@
       v-if="!hasActiveCampaign"
       name="message"
       type="textarea"
-      :value="getFormValue('message')"
       :label-class="context => labelClass(context)"
       :input-class="context => inputClass(context)"
       :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
@@ -74,6 +72,7 @@ import routerMixin from 'widget/mixins/routerMixin';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 import configMixin from 'widget/mixins/configMixin';
 import customAttributeMixin from '../../../dashboard/mixins/customAttributeMixin';
+import { IFrameHelper } from 'widget/helpers/utils';
 
 export default {
   components: {
@@ -303,13 +302,6 @@ export default {
       }
       return null;
     },
-    getFormValue(key){
-      if (!window.preChatFieldValues) {
-        return '';
-      }
-
-      return window.preChatFieldValues[key];
-    },
     onSubmit() {
       const { emailAddress, fullName, phoneNumber, message } = this.formValues;
       this.$emit('submit', {
@@ -321,7 +313,25 @@ export default {
         conversationCustomAttributes: this.conversationCustomAttributes,
         contactCustomAttributes: this.contactCustomAttributes,
       });
+      window.preChatwootFieldValues = {};
     },
+    registerListeners() {
+      window.addEventListener('message', e => {
+        const message = IFrameHelper.getMessage(e);
+        if (message.event === 'populate-message-form') {
+          this.formValues = message;
+        }
+      });
+    },
+    loadFormValues() {
+      if(window.preChatwootFieldValues) {
+        this.formValues = window.preChatwootFieldValues;
+      }
+    }
+  },
+  mounted() {
+    this.registerListeners();
+    this.loadFormValues();
   },
 };
 </script>

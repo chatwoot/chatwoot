@@ -58,6 +58,11 @@ const setCustomAttributes = async customAttributes => {
   );
 };
 
+const getCustomAttributes = async => {
+  return API.get(
+    `/api/v1/widget/conversations/get_custom_attributes${window.location.search}`);
+}
+
 const deleteCustomAttribute = async customAttribute => {
   return API.post(
     `/api/v1/widget/conversations/destroy_custom_attributes${window.location.search}`,
@@ -93,4 +98,5 @@ export {
   deleteCustomAttribute,
   getTotalQuestions,
   getCsatTemplateStatus,
+  getCustomAttributes,
 };
