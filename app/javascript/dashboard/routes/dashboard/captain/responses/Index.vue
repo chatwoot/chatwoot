@@ -176,30 +176,32 @@ onMounted(() => {
       <CaptainPaywall />
     </template>
 
-    <div v-if="shouldShowDropdown" class="mb-4 -mt-3 flex gap-3">
-      <OnClickOutside @trigger="isStatusFilterOpen = false">
-        <Button
-          :label="selectedStatusLabel"
-          icon="i-lucide-chevron-down"
-          size="sm"
-          color="slate"
-          trailing-icon
-          class="max-w-48"
-          @click="isStatusFilterOpen = !isStatusFilterOpen"
-        />
+    <template #controls>
+      <div v-if="shouldShowDropdown" class="mb-4 -mt-3 flex gap-3">
+        <OnClickOutside @trigger="isStatusFilterOpen = false">
+          <Button
+            :label="selectedStatusLabel"
+            icon="i-lucide-chevron-down"
+            size="sm"
+            color="slate"
+            trailing-icon
+            class="max-w-48"
+            @click="isStatusFilterOpen = !isStatusFilterOpen"
+          />
 
-        <DropdownMenu
-          v-if="isStatusFilterOpen"
-          :menu-items="statusOptions"
-          class="mt-2"
-          @action="handleStatusFilterChange"
+          <DropdownMenu
+            v-if="isStatusFilterOpen"
+            :menu-items="statusOptions"
+            class="mt-2"
+            @action="handleStatusFilterChange"
+          />
+        </OnClickOutside>
+        <AssistantSelector
+          :assistant-id="selectedAssistant"
+          @update="handleAssistantFilterChange"
         />
-      </OnClickOutside>
-      <AssistantSelector
-        :assistant-id="selectedAssistant"
-        @update="handleAssistantFilterChange"
-      />
-    </div>
+      </div>
+    </template>
 
     <template #body>
       <LimitBanner class="mb-5" />

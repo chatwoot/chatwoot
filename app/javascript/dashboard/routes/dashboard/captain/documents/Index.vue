@@ -123,12 +123,14 @@ onMounted(() => {
       <CaptainPaywall />
     </template>
 
-    <div v-if="shouldShowAssistantSelector" class="mb-4 -mt-3 flex gap-3">
-      <AssistantSelector
-        :assistant-id="selectedAssistant"
-        @update="handleAssistantFilterChange"
-      />
-    </div>
+    <template #controls>
+      <div v-if="shouldShowAssistantSelector" class="mb-4 -mt-3 flex gap-3">
+        <AssistantSelector
+          :assistant-id="selectedAssistant"
+          @update="handleAssistantFilterChange"
+        />
+      </div>
+    </template>
 
     <template #body>
       <LimitBanner class="mb-5" />
