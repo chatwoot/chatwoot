@@ -148,8 +148,8 @@ export default {
         if (this.preChatFormOptions?.preChatFields) {
           this.preChatFormOptions.preChatFields.forEach(option => {
             if (option.enabled && option.field_type === 'conversation_attribute') {
-              const val = window.preChatwootFieldValues?.[option.name]?.trim();
-              if (val) {
+              const val = window.preChatwootFieldValues?.[option.name];
+              if (!!val) {
                 attrs[option.name] = val;
               }
             }
