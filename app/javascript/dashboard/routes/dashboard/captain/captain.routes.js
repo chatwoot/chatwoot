@@ -1,4 +1,4 @@
-// import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { frontendURL } from '../../../helper/URLHelper';
 import AssistantIndex from './assistants/Index.vue';
 import AssistantInboxesIndex from './assistants/inboxes/Index.vue';
@@ -12,6 +12,7 @@ export const routes = [
     name: 'captain_assistants_index',
     meta: {
       permissions: ['administrator', 'agent'],
+      featureFlag: FEATURE_FLAGS.CAPTAIN,
     },
   },
   {
@@ -22,6 +23,7 @@ export const routes = [
     name: 'captain_assistants_inboxes_index',
     meta: {
       permissions: ['administrator', 'agent'],
+      featureFlag: FEATURE_FLAGS.CAPTAIN,
     },
   },
   {
@@ -30,6 +32,7 @@ export const routes = [
     name: 'captain_documents_index',
     meta: {
       permissions: ['administrator', 'agent'],
+      featureFlag: FEATURE_FLAGS.CAPTAIN,
     },
   },
   {
@@ -38,6 +41,7 @@ export const routes = [
     name: 'captain_responses_index',
     meta: {
       permissions: ['administrator', 'agent'],
+      featureFlag: FEATURE_FLAGS.CAPTAIN,
     },
   },
 ];
