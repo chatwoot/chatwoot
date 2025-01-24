@@ -6,11 +6,11 @@ import {
   useStoreGetters,
 } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import BackButton from 'dashboard/components/widgets/BackButton.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
-import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ConnectInboxDialog from 'dashboard/components-next/captain/pageComponents/inbox/ConnectInboxDialog.vue';
 import InboxCard from 'dashboard/components-next/captain/assistant/InboxCard.vue';
 import InboxPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/InboxPageEmptyState.vue';
@@ -67,19 +67,16 @@ onMounted(() =>
 </script>
 
 <template>
-  <div
-    v-if="isFetchingAssistant"
-    class="flex items-center justify-center py-10 text-n-slate-11"
-  >
-    <Spinner />
-  </div>
   <PageLayout
-    v-else
     :button-label="$t('CAPTAIN.INBOXES.ADD_NEW')"
+    :button-policy="['administrator']"
+    :is-fetching="isFetchingAssistant || isFetching"
+    :is-empty="!captainInboxes.length"
+    :feature-flag="FEATURE_FLAGS.CAPTAIN"
     :show-pagination-footer="false"
     @click="handleCreate"
   >
-    <template #headerTitle>
+    <template v-if="!isFetchingAssistant" #headerTitle>
       <div class="flex flex-row items-center gap-4">
         <BackButton compact />
         <span class="flex items-center gap-1 text-lg">
@@ -89,23 +86,22 @@ onMounted(() =>
         </span>
       </div>
     </template>
-    <div
-      v-if="isFetching"
-      class="flex items-center justify-center py-10 text-n-slate-11"
-    >
-      <Spinner />
-    </div>
-    <div v-else-if="captainInboxes.length" class="flex flex-col gap-4">
-      <InboxCard
-        v-for="captainInbox in captainInboxes"
-        :id="captainInbox.id"
-        :key="captainInbox.id"
-        :inbox="captainInbox"
-        @action="handleAction"
-      />
-    </div>
 
-    <InboxPageEmptyState v-else @click="handleCreate" />
+    <template #emptyState>
+      <InboxPageEmptyState @click="handleCreate" />
+    </template>
+
+    <template #body>
+      <div class="flex flex-col gap-4">
+        <InboxCard
+          v-for="captainInbox in captainInboxes"
+          :id="captainInbox.id"
+          :key="captainInbox.id"
+          :inbox="captainInbox"
+          @action="handleAction"
+        />
+      </div>
+    </template>
 
     <DeleteDialog
       v-if="selectedInbox"
