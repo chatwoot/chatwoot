@@ -1,8 +1,7 @@
 <script setup>
 import { computed, defineOptions, useAttrs } from 'vue';
 
-import ImageGrid from 'next/message/chips/AttachmentGrid.vue';
-import VideoGrid from 'next/message/chips/AttachmentGrid.vue';
+import ImageVideoChip from 'next/message/chips/AttachmentGrid.vue'; // Image and Video Grids are the same component
 import AudioChip from 'next/message/chips/Audio.vue';
 import FileChip from 'next/message/chips/File.vue';
 import { useMessageContext } from '../provider.js';
@@ -50,15 +49,15 @@ const allAttachments = computed(() => {
   return Array.isArray(props.attachments) ? props.attachments : [];
 });
 
-const imageAttachments = computed(() => {
-  return allAttachments.value.filter(
-    attachment => attachment.fileType === ATTACHMENT_TYPES.IMAGE
+const mediaAttachments = computed(() => {
+  const allowedTypes = [ATTACHMENT_TYPES.IMAGE, ATTACHMENT_TYPES.VIDEO];
+  const mediaTypes = allAttachments.value.filter(attachment =>
+    allowedTypes.includes(attachment.fileType)
   );
-});
 
-const videoAttachments = computed(() => {
-  return allAttachments.value.filter(
-    attachment => attachment.fileType === ATTACHMENT_TYPES.VIDEO
+  return mediaTypes.sort(
+    (a, b) =>
+      allowedTypes.indexOf(a.fileType) - allowedTypes.indexOf(b.fileType)
   );
 });
 
@@ -77,12 +76,8 @@ const files = computed(() => {
 
 <template>
   <div class="flex flex-col gap-2.5">
-    <div v-if="imageAttachments.length" :class="classToApply">
-      <ImageGrid :attachments="imageAttachments" type="image" />
-    </div>
-
-    <div v-if="videoAttachments.length" :class="classToApply">
-      <VideoGrid :attachments="videoAttachments" type="video" />
+    <div v-if="mediaAttachments.length" :class="classToApply">
+      <ImageVideoChip :attachments="mediaAttachments" />
     </div>
 
     <div v-if="recordings.length" :class="classToApply">

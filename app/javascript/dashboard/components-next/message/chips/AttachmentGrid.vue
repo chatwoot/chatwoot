@@ -3,15 +3,13 @@ import { computed } from 'vue';
 import ImageChip from './Image.vue';
 import VideoChip from './Video.vue';
 
+import { ATTACHMENT_TYPES } from '../constants';
+
 const props = defineProps({
   attachments: {
     type: Array,
     required: true,
     validator: value => Array.isArray(value) && value.length > 0,
-  },
-  type: {
-    type: String,
-    default: 'image',
   },
 });
 
@@ -56,6 +54,14 @@ const itemClass = computed(() => index => {
 const shouldShowOverlay = computed(
   () => index => remainingCount.value > 0 && index === MAX_DISPLAYED - 1
 );
+
+const componentMap = {
+  [ATTACHMENT_TYPES.IMAGE]: ImageChip,
+  [ATTACHMENT_TYPES.VIDEO]: VideoChip,
+};
+
+const getComponent = fileType =>
+  componentMap[fileType?.toLowerCase()] || componentMap[ATTACHMENT_TYPES.IMAGE];
 </script>
 
 <template>
@@ -66,7 +72,7 @@ const shouldShowOverlay = computed(
       :class="itemClass(index)"
     >
       <component
-        :is="type === 'image' ? ImageChip : VideoChip"
+        :is="getComponent(attachment.fileType)"
         :attachment="attachment"
         :remaining-count="remainingCount"
         :should-show-overlay="shouldShowOverlay(index)"
