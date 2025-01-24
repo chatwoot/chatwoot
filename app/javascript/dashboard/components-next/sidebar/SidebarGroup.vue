@@ -23,6 +23,7 @@ const {
   resolvePath,
   resolvePermissions,
   resolveFeatureFlag,
+  isOnChatwootCloud,
   isAllowed,
 } = useSidebarContext();
 
@@ -41,6 +42,7 @@ const hasChildren = computed(
 const accessibleItems = computed(() => {
   if (!hasChildren.value) return [];
   return props.children.filter(child => {
+    if (child.showOnlyOnCloud && !isOnChatwootCloud.value) return false;
     // If a item has no link, it means it's just a subgroup header
     // So we don't need to check for permissions here, because there's nothing to
     // access here anyway
