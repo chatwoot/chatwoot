@@ -119,7 +119,7 @@ const props = defineProps({
   },
   conversationId: { type: Number, required: true },
   createdAt: { type: Number, required: true }, // eslint-disable-line vue/no-unused-properties
-  currentUserId: { type: Number, required: true },
+  currentUserId: { type: Number, required: true }, // eslint-disable-line vue/no-unused-properties
   groupWithNext: { type: Boolean, default: false },
   inboxId: { type: Number, default: null }, // eslint-disable-line vue/no-unused-properties
   inboxSupportsReplyTo: { type: Object, default: () => ({}) },
