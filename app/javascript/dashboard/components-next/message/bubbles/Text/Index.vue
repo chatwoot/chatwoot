@@ -25,7 +25,10 @@ const isEmpty = computed(() => {
         {{ $t('CONVERSATION.NO_CONTENT') }}
       </span>
       <FormattedContent v-if="content" :content="content" />
-      <AttachmentChips :attachments="attachments" class="gap-2" />
+      <AttachmentChips
+        :attachments="attachments"
+        class="flex flex-col gap-2.5"
+      />
       <template v-if="isTemplate">
         <div
           v-if="contentAttributes.submittedEmail"

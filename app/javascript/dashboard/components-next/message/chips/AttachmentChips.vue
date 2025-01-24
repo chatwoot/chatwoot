@@ -75,26 +75,24 @@ const files = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-2.5">
-    <div v-if="mediaAttachments.length" :class="classToApply">
-      <ImageVideoChip :attachments="mediaAttachments" />
-    </div>
+  <div v-if="mediaAttachments.length" :class="classToApply">
+    <ImageVideoChip :attachments="mediaAttachments" />
+  </div>
 
-    <div v-if="recordings.length" :class="classToApply">
-      <div v-for="attachment in recordings" :key="attachment.id" class="w-full">
-        <AudioChip
-          class="bg-n-alpha-3 dark:bg-n-alpha-2 text-n-slate-12"
-          :attachment="attachment"
-        />
-      </div>
-    </div>
-
-    <div v-if="files.length" :class="classToApply">
-      <FileChip
-        v-for="attachment in files"
-        :key="attachment.id"
+  <div v-if="recordings.length" :class="classToApply">
+    <div v-for="attachment in recordings" :key="attachment.id" class="w-full">
+      <AudioChip
+        class="bg-n-alpha-3 dark:bg-n-alpha-2 text-n-slate-12"
         :attachment="attachment"
       />
     </div>
+  </div>
+
+  <div v-if="files.length" :class="classToApply">
+    <FileChip
+      v-for="attachment in files"
+      :key="attachment.id"
+      :attachment="attachment"
+    />
   </div>
 </template>

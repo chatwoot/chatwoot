@@ -127,7 +127,10 @@ const textToShow = computed(() => {
       v-if="Array.isArray(attachments) && attachments.length"
       class="px-4 pb-4 space-y-2"
     >
-      <AttachmentChips :attachments="attachments" class="gap-1" />
+      <AttachmentChips
+        :attachments="attachments"
+        class="flex flex-col gap-2.5"
+      />
     </section>
   </BaseBubble>
 </template>
