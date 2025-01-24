@@ -97,6 +97,7 @@ const handlePageChange = event => {
     </header>
     <main class="flex-1 px-6 overflow-y-auto xl:px-0">
       <div class="w-full max-w-[960px] mx-auto py-4">
+        <slot />
         <div
           v-if="isFetching"
           class="flex items-center justify-center py-10 text-n-slate-11"
@@ -109,7 +110,7 @@ const handlePageChange = event => {
         <div v-else-if="isEmpty">
           <slot name="emptyState" />
         </div>
-        <slot v-else name="default" />
+        <slot v-else name="body" />
       </div>
     </main>
     <footer v-if="showPaginationFooter" class="sticky bottom-0 z-10 px-4 pb-4">

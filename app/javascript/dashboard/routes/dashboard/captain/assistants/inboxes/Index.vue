@@ -91,15 +91,17 @@ onMounted(() =>
       <InboxPageEmptyState @click="handleCreate" />
     </template>
 
-    <div class="flex flex-col gap-4">
-      <InboxCard
-        v-for="captainInbox in captainInboxes"
-        :id="captainInbox.id"
-        :key="captainInbox.id"
-        :inbox="captainInbox"
-        @action="handleAction"
-      />
-    </div>
+    <template #body>
+      <div class="flex flex-col gap-4">
+        <InboxCard
+          v-for="captainInbox in captainInboxes"
+          :id="captainInbox.id"
+          :key="captainInbox.id"
+          :inbox="captainInbox"
+          @action="handleAction"
+        />
+      </div>
+    </template>
 
     <DeleteDialog
       v-if="selectedInbox"

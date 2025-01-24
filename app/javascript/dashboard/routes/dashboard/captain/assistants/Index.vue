@@ -90,20 +90,22 @@ onMounted(() => store.dispatch('captainAssistants/get'));
       <CaptainPaywall />
     </template>
 
-    <LimitBanner class="mb-5" />
+    <template #body>
+      <LimitBanner class="mb-5" />
 
-    <div class="flex flex-col gap-4">
-      <AssistantCard
-        v-for="assistant in assistants"
-        :id="assistant.id"
-        :key="assistant.id"
-        :name="assistant.name"
-        :description="assistant.description"
-        :updated-at="assistant.updated_at || assistant.created_at"
-        :created-at="assistant.created_at"
-        @action="handleAction"
-      />
-    </div>
+      <div class="flex flex-col gap-4">
+        <AssistantCard
+          v-for="assistant in assistants"
+          :id="assistant.id"
+          :key="assistant.id"
+          :name="assistant.name"
+          :description="assistant.description"
+          :updated-at="assistant.updated_at || assistant.created_at"
+          :created-at="assistant.created_at"
+          @action="handleAction"
+        />
+      </div>
+    </template>
 
     <DeleteDialog
       v-if="selectedAssistant"

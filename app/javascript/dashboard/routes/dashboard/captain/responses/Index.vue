@@ -201,24 +201,26 @@ onMounted(() => {
       />
     </div>
 
-    <LimitBanner class="mb-5" />
+    <template #body>
+      <LimitBanner class="mb-5" />
 
-    <div class="flex flex-col gap-4">
-      <ResponseCard
-        v-for="response in responses"
-        :id="response.id"
-        :key="response.id"
-        :question="response.question"
-        :answer="response.answer"
-        :assistant="response.assistant"
-        :documentable="response.documentable"
-        :status="response.status"
-        :created-at="response.created_at"
-        :updated-at="response.updated_at"
-        @action="handleAction"
-        @navigate="handleNavigationAction"
-      />
-    </div>
+      <div class="flex flex-col gap-4">
+        <ResponseCard
+          v-for="response in responses"
+          :id="response.id"
+          :key="response.id"
+          :question="response.question"
+          :answer="response.answer"
+          :assistant="response.assistant"
+          :documentable="response.documentable"
+          :status="response.status"
+          :created-at="response.created_at"
+          :updated-at="response.updated_at"
+          @action="handleAction"
+          @navigate="handleNavigationAction"
+        />
+      </div>
+    </template>
 
     <DeleteDialog
       v-if="selectedResponse"

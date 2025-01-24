@@ -130,20 +130,22 @@ onMounted(() => {
       />
     </div>
 
-    <LimitBanner class="mb-5" />
+    <template #body>
+      <LimitBanner class="mb-5" />
 
-    <div class="flex flex-col gap-4">
-      <DocumentCard
-        v-for="doc in documents"
-        :id="doc.id"
-        :key="doc.id"
-        :name="doc.name || doc.external_link"
-        :external-link="doc.external_link"
-        :assistant="doc.assistant"
-        :created-at="doc.created_at"
-        @action="handleAction"
-      />
-    </div>
+      <div class="flex flex-col gap-4">
+        <DocumentCard
+          v-for="doc in documents"
+          :id="doc.id"
+          :key="doc.id"
+          :name="doc.name || doc.external_link"
+          :external-link="doc.external_link"
+          :assistant="doc.assistant"
+          :created-at="doc.created_at"
+          @action="handleAction"
+        />
+      </div>
+    </template>
 
     <RelatedResponses
       v-if="showRelatedResponses"
