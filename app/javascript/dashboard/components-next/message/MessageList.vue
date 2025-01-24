@@ -74,7 +74,11 @@ const shouldGroupWithNext = (index, searchList) => {
     nextMessageType === MESSAGE_TYPES.TEMPLATE &&
     currentMessageType === MESSAGE_TYPES.TEMPLATE;
 
-  if (!hasSameSender || areBothTemplates) return false;
+  const areBothActivity =
+    nextMessageType === MESSAGE_TYPES.ACTIVITY &&
+    currentMessageType === MESSAGE_TYPES.ACTIVITY;
+
+  if (!hasSameSender || areBothTemplates || areBothActivity) return false;
 
   if (currentMessageType !== nextMessageType) return false;
 
@@ -111,6 +115,8 @@ const getInReplyToMessage = parentMessage => {
     <template v-for="(message, index) in read" :key="message.id">
       <Message
         v-bind="message"
+        :messages="read"
+        :index="index"
         :is-email-inbox="isAnEmailChannel"
         :in-reply-to="getInReplyToMessage(message)"
         :group-with-next="shouldGroupWithNext(index, read)"
@@ -123,6 +129,8 @@ const getInReplyToMessage = parentMessage => {
     <template v-for="(message, index) in unread" :key="message.id">
       <Message
         v-bind="message"
+        :messages="unread"
+        :index="index"
         :in-reply-to="getInReplyToMessage(message)"
         :group-with-next="shouldGroupWithNext(index, unread)"
         :inbox-supports-reply-to="inboxSupportsReplyTo"

@@ -97,6 +97,8 @@ import ContextMenu from 'dashboard/modules/conversations/components/MessageConte
 // eslint-disable-next-line vue/define-macros-order
 const props = defineProps({
   id: { type: Number, required: true },
+  messages: { type: Array, default: () => [] },
+  index: { type: Number, required: true },
   messageType: {
     type: Number,
     required: true,
@@ -182,17 +184,19 @@ const isMyMessage = computed(() => {
   ) {
     return true;
   }
+
+  if (props.messageType === MESSAGE_TYPES.ACTIVITY) {
+    return false;
+  }
+
   const senderId = props.senderId ?? props.sender?.id;
   const senderType = props.senderType ?? props.sender?.type;
 
   if (!senderType || !senderId) {
-    return false;
+    return true;
   }
 
-  return (
-    senderType.toLowerCase() === SENDER_TYPES.USER.toLowerCase() &&
-    props.currentUserId === senderId
-  );
+  return senderType.toLowerCase() === SENDER_TYPES.USER.toLowerCase();
 });
 
 /**
@@ -221,8 +225,8 @@ const flexOrientationClass = computed(() => {
 
 const gridClass = computed(() => {
   const map = {
-    [ORIENTATION.LEFT]: 'grid grid-cols-[24px_1fr]',
-    [ORIENTATION.RIGHT]: 'grid grid-cols-1fr',
+    [ORIENTATION.LEFT]: 'grid grid-cols-1fr',
+    [ORIENTATION.RIGHT]: 'grid grid-cols-[1fr_24px]',
   };
 
   return map[orientation.value];
@@ -231,12 +235,12 @@ const gridClass = computed(() => {
 const gridTemplate = computed(() => {
   const map = {
     [ORIENTATION.LEFT]: `
-      "avatar bubble"
-      "spacer meta"
-    `,
-    [ORIENTATION.RIGHT]: `
       "bubble"
       "meta"
+    `,
+    [ORIENTATION.RIGHT]: `
+      "bubble avatar"
+      "meta spacer"
     `,
   };
 
@@ -251,7 +255,7 @@ const shouldGroupWithNext = computed(() => {
 
 const shouldShowAvatar = computed(() => {
   if (props.messageType === MESSAGE_TYPES.ACTIVITY) return false;
-  if (orientation.value === ORIENTATION.RIGHT) return false;
+  if (orientation.value === ORIENTATION.LEFT) return false;
 
   return true;
 });
@@ -361,6 +365,17 @@ const shouldRenderMessage = computed(() => {
   );
 });
 
+const messageSpacingClass = computed(() => {
+  // Non-activity messages only need to check groupWithNext
+  if (props.messageType !== MESSAGE_TYPES.ACTIVITY) {
+    return props.groupWithNext ? 'mb-1' : 'mb-6';
+  }
+
+  // For activity messages, check if next message exists and is also an activity
+  const nextMessage = props.messages?.[props.index + 1];
+  return nextMessage?.messageType === MESSAGE_TYPES.ACTIVITY ? 'mb-2' : 'mb-6';
+});
+
 function openContextMenu(e) {
   const shouldSkipContextMenu =
     e.target?.classList.contains('skip-context-menu') ||
@@ -414,6 +429,11 @@ const avatarInfo = computed(() => {
   };
 });
 
+const avatarTooltip = computed(() => {
+  if (avatarInfo.value.name === '') return '';
+  return `${t('CONVERSATION.SENT_BY')} ${avatarInfo.value.name}`;
+});
+
 const setupHighlightTimer = () => {
   if (Number(route.query.messageId) !== Number(props.id)) {
     return;
@@ -443,10 +463,11 @@ provideMessageContext({
   <div
     v-if="shouldRenderMessage"
     :id="`message${props.id}`"
-    class="flex w-full message-bubble-container mb-2"
+    class="flex w-full message-bubble-container"
     :data-message-id="props.id"
     :class="[
       flexOrientationClass,
+      messageSpacingClass,
       {
         'group-with-next': shouldGroupWithNext,
         'bg-n-alpha-1': showBackgroundHighlight,
@@ -472,6 +493,7 @@ provideMessageContext({
     >
       <div
         v-if="!shouldGroupWithNext && shouldShowAvatar"
+        v-tooltip.left-end="avatarTooltip"
         class="[grid-area:avatar] flex items-end"
       >
         <Avatar v-bind="avatarInfo" :size="24" />
