@@ -10,7 +10,6 @@
       <slot />
     </template>
     <div class="relative w-full">
-
       <div
         ref="inputDiv"
         class="inputDiv"
@@ -100,6 +99,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    selected: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -109,6 +112,25 @@ export default {
       selectedSuggestion: {},
     };
   },
+
+  mounted() {
+    if (this.selected) {
+      console.log(this.selected);
+      this.inputValue = this.selected;
+      this.$nextTick(() => {
+        const element = this.$refs.inputDiv;
+        if (element) {
+          element.textContent = this.selected;
+        }
+        this.suggestions.forEach(suggestion => {
+          if (suggestion.name === this.selected) {
+            this.$refs.inputDiv.innerHTML = `<span class="highlighted-suggestion">${this.selected}</span>`;
+          }
+        });
+      });
+    }
+  },
+
   watch: {
     value(newValue) {
       this.inputValue = newValue;
