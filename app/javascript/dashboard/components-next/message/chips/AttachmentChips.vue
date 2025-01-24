@@ -1,8 +1,8 @@
 <script setup>
 import { computed, defineOptions, useAttrs } from 'vue';
 
-import ImageChip from 'next/message/chips/Image.vue';
-import VideoChip from 'next/message/chips/Video.vue';
+import ImageGrid from 'next/message/chips/AttachmentGrid.vue';
+import VideoGrid from 'next/message/chips/AttachmentGrid.vue';
 import AudioChip from 'next/message/chips/Audio.vue';
 import FileChip from 'next/message/chips/File.vue';
 import { useMessageContext } from '../provider.js';
@@ -37,7 +37,7 @@ const attrs = useAttrs();
 const { orientation } = useMessageContext();
 
 const classToApply = computed(() => {
-  const baseClasses = [attrs.class, 'flex', 'flex-wrap'];
+  const baseClasses = [attrs.class, 'flex', 'flex-wrap', 'gap-2'];
 
   if (orientation.value === 'right') {
     baseClasses.push('justify-end');
@@ -50,15 +50,15 @@ const allAttachments = computed(() => {
   return Array.isArray(props.attachments) ? props.attachments : [];
 });
 
-const mediaAttachments = computed(() => {
-  const allowedTypes = [ATTACHMENT_TYPES.IMAGE, ATTACHMENT_TYPES.VIDEO];
-  const mediaTypes = allAttachments.value.filter(attachment =>
-    allowedTypes.includes(attachment.fileType)
+const imageAttachments = computed(() => {
+  return allAttachments.value.filter(
+    attachment => attachment.fileType === ATTACHMENT_TYPES.IMAGE
   );
+});
 
-  return mediaTypes.sort(
-    (a, b) =>
-      allowedTypes.indexOf(a.fileType) - allowedTypes.indexOf(b.fileType)
+const videoAttachments = computed(() => {
+  return allAttachments.value.filter(
+    attachment => attachment.fileType === ATTACHMENT_TYPES.VIDEO
   );
 });
 
@@ -76,31 +76,30 @@ const files = computed(() => {
 </script>
 
 <template>
-  <div v-if="mediaAttachments.length" :class="classToApply">
-    <template v-for="attachment in mediaAttachments" :key="attachment.id">
-      <ImageChip
-        v-if="attachment.fileType === ATTACHMENT_TYPES.IMAGE"
-        :attachment="attachment"
-      />
-      <VideoChip
-        v-else-if="attachment.fileType === ATTACHMENT_TYPES.VIDEO"
-        :attachment="attachment"
-      />
-    </template>
-  </div>
-  <div v-if="recordings.length" :class="classToApply">
-    <div v-for="attachment in recordings" :key="attachment.id">
-      <AudioChip
-        class="bg-n-alpha-3 dark:bg-n-alpha-2 text-n-slate-12"
+  <div class="flex flex-col gap-2">
+    <div v-if="imageAttachments.length" :class="classToApply">
+      <ImageGrid :attachments="imageAttachments" type="image" />
+    </div>
+
+    <div v-if="videoAttachments.length" :class="classToApply">
+      <VideoGrid :attachments="videoAttachments" type="video" />
+    </div>
+
+    <div v-if="recordings.length" :class="classToApply">
+      <div v-for="attachment in recordings" :key="attachment.id">
+        <AudioChip
+          class="bg-n-alpha-3 dark:bg-n-alpha-2 text-n-slate-12"
+          :attachment="attachment"
+        />
+      </div>
+    </div>
+
+    <div v-if="files.length" :class="classToApply">
+      <FileChip
+        v-for="attachment in files"
+        :key="attachment.id"
         :attachment="attachment"
       />
     </div>
-  </div>
-  <div v-if="files.length" :class="classToApply">
-    <FileChip
-      v-for="attachment in files"
-      :key="attachment.id"
-      :attachment="attachment"
-    />
   </div>
 </template>
