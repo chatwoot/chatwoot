@@ -312,6 +312,22 @@
       "USE": "Izmantot šo",
       "RESET": "Atiestatīt"
     },
+    "PAYWALL": {
+      "TITLE": "Upgrade to use Captain AI",
+      "AVAILABLE_ON": "Captain is not available on the free plan.",
+      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "UPGRADE_NOW": "Pāriet uz maksas versiju tagad",
+      "CANCEL_ANYTIME": "Jūs varat jebkurā laikā mainīt vai atcelt savu versiju"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI feature is only available in a paid plan.",
+      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "ASK_ADMIN": "Lai pārietu uz maksas versiju, lūdzu sazinieties ar savu administratoru."
+    },
+    "BANNER": {
+      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
+      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+    },
     "FORM": {
       "CANCEL": "Atcelt",
       "CREATE": "Izveidot",
@@ -367,7 +383,7 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Asistenti nav pieejami",
-        "SUBTITLE": "Izveidot asistentu, lai sniegtu lietotājiem ātras un precīzas atbildes. Tas var mācīties no jūsu palīdzības rakstiem un iepriekšējām sarunām. Lai sāktu, noklikšķiniet uz tālāk esošās pogas."
+        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations."
       }
     },
     "DOCUMENTS": {
@@ -408,7 +424,7 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Dokumenti nav pieejami",
-        "SUBTITLE": "Jūsu asistents izmanto dokumentus, lai izveidotu bieži uzdotos jautājumus. Jūs varat importēt dokumentus, lai nodrošinātu kontekstu savam asistentam. Lai sāktu, noklikšķiniet uz tālāk esošās pogas."
+        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant."
       }
     },
     "RESPONSES": {
@@ -471,7 +487,7 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Bieži uzdoto jautājumu saraksti nav atrasti",
-        "SUBTITLE": "Bieži uzdotie jautājumi palīdz jūsu asistentam sniegt ātras un precīzas atbildes uz jūsu klientu jautājumiem. Tos var ģenerēt automātiski no jūsu satura, vai pievienot manuāli. Noklikšķiniet uz tālāk esošās pogas, lai izveidotu savu pirmo bieži uzdoto jautājumu sarakstu."
+        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually."
       }
     },
     "INBOXES": {
@@ -502,7 +518,7 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Nav Pievienotu Iesūtņu",
-        "SUBTITLE": "Iesūtnes pievienošana ļauj asistentam apstrādāt sākotnējos klientu jautājumus, pirms tos pārsūtīt Jums. Noklikšķiniet uz tālāk esošās pogas, lai to iestatītu tūlīt."
+        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
       }
     }
   }
