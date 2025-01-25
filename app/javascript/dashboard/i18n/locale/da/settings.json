@@ -327,14 +327,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Fakturering",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Nuværende Abonnement",
-      "PLAN_NOTE": "Du abonnerer i øjeblikket på **{plan}** planen med **{quantity}** licenser"
+      "PLAN_NOTE": "Du abonnerer i øjeblikket på **{plan}** planen med **{quantity}** licenser",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Administrer dit abonnement",
       "DESCRIPTION": "Se dine tidligere fakturaer, rediger dine fakturaoplysninger eller annuller dit abonnement.",
       "BUTTON_TXT": "Gå til faktureringsportalen"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Brug for hjælp?",
