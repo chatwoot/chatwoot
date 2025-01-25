@@ -175,14 +175,14 @@
       "BUTTON_TEXT": "Conectar"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Apps da Dashboard",
-      "HEADER_BTN_TXT": "Adicionar um novo app da dashboard",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps permite que as organizações incorporem um aplicativo dentro da dashboard do Chatwoot para fornecer o contexto para agentes de suporte ao cliente. Este recurso permite-lhe criar uma aplicação independente e incorporá-la dentro da dashboard para fornecer informações do usuário, seus pedidos ou seu histórico de pagamentos anteriores.</p><p>Quando você incorpora seu aplicativo usando a dashboard do Chatwoot, sua aplicação irá obter o contexto da conversa e entrar em contato como um evento de janela. Implementar um ouvinte para o evento de mensagem em sua página receber o contexto.</p><p>Para adicionar um novo aplicativo da dashboard, clique no botão 'Adicionar um novo aplicativo da dashboard'.</p>",
-      "DESCRIPTION": "Aplicativos da dashboard permitem que organizações incorporem um aplicativo dentro do painel para fornecer o contexto para agentes de suporte ao cliente. Este recurso permite que você crie uma aplicação independente e incorpore para fornecer informações de usuário, seus pedidos ou seu histórico de pagamentos anteriores.",
-      "LEARN_MORE": "Saiba mais sobre os aplicativos de Dashboard",
+      "TITLE": "Painel de Aplicativos",
+      "HEADER_BTN_TXT": "Adicionar um novo aplicativo",
+      "SIDEBAR_TXT": "<p><b>Painel de Aplicativos</b></p><p>O Painel de Aplicativos permite que as organizações incorporem um aplicativo dentro do Painel de Aplicativos do Chatwoot para fornecer o contexto para agentes de suporte ao cliente. Este recurso permite-lhe criar uma aplicação independente e incorporá-la dentro da dashboard para fornecer informações do usuário, seus pedidos ou seu histórico de pagamentos anteriores.</p><p>Quando você incorpora seu aplicativo usando o Painel de Aplicativos do Chatwoot, sua aplicação irá obter o contexto da conversa e entrar em contato como um evento de janela. Implementar um ouvinte para o evento de mensagem em sua página receber o contexto.</p><p>Para adicionar um novo aplicativo no Painel de Aplicativos, clique no botão 'Adicionar um novo aplicativo'.</p>",
+      "DESCRIPTION": "O Painel de Aplicativos permite que organizações incorporem um aplicativo dentro do painel para fornecer o contexto para agentes de suporte ao cliente. Este recurso permite que você crie uma aplicação independente e incorpore para fornecer informações de usuário, seus pedidos ou seu histórico de pagamentos anteriores.",
+      "LEARN_MORE": "Saiba mais sobre o Painel de Aplicativos",
       "LIST": {
-        "404": "Ainda não há aplicativos da dashboard nesta conta",
-        "LOADING": "Buscando aplicativos da dashboard...",
+        "404": "Ainda não há aplicativos nesta conta",
+        "LOADING": "Buscando aplicativos...",
         "TABLE_HEADER": {
           "NAME": "Nome",
           "ENDPOINT": "Endpoint"
@@ -192,24 +192,24 @@
       },
       "FORM": {
         "TITLE_LABEL": "Nome",
-        "TITLE_PLACEHOLDER": "Digite um nome para o app da dashboard",
-        "TITLE_ERROR": "É necessário um nome para o aplicativo da dashboard",
+        "TITLE_PLACEHOLDER": "Digite um nome para o aplicativo",
+        "TITLE_ERROR": "É necessário um nome para o aplicativo",
         "URL_LABEL": "Endpoint",
         "URL_PLACEHOLDER": "Digite a URL do endpoint onde seu aplicativo está hospedado",
         "URL_ERROR": "É necessário uma URL válida"
       },
       "CREATE": {
-        "HEADER": "Adicionar um novo app da dashboard",
+        "HEADER": "Adicionar um novo aplicativo",
         "FORM_SUBMIT": "Enviar",
         "FORM_CANCEL": "Cancelar",
-        "API_SUCCESS": "Aplicativo da dashboard configurado com sucesso",
+        "API_SUCCESS": "Aplicativo configurado com sucesso",
         "API_ERROR": "Não conseguimos criar um aplicativo. Por favor, tente novamente mais tarde"
       },
       "UPDATE": {
-        "HEADER": "Editar aplicativo da dashboard",
+        "HEADER": "Editar aplicativo",
         "FORM_SUBMIT": "Atualizar",
         "FORM_CANCEL": "Cancelar",
-        "API_SUCCESS": "Aplicativo da dashboard atualizado com sucesso",
+        "API_SUCCESS": "Aplicativo atualizado com sucesso",
         "API_ERROR": "Não conseguimos atualizar o aplicativo. Por favor, tente novamente mais tarde"
       },
       "DELETE": {
@@ -217,7 +217,7 @@
         "CONFIRM_NO": "Não, mantenha-o",
         "TITLE": "Confirmar exclusão",
         "MESSAGE": "Tem certeza que deseja excluir o aplicativo - {appName}?",
-        "API_SUCCESS": "Aplicativo da dashboard excluído com sucesso",
+        "API_SUCCESS": "Aplicativo excluído com sucesso",
         "API_ERROR": "Não conseguimos excluir o aplicativo. Por favor, tente novamente mais tarde"
       }
     },
@@ -272,7 +272,7 @@
             "SEARCH": "Pesquisar marcador "
           },
           "STATUS": {
-            "LABEL": "SItuação",
+            "LABEL": "Situação",
             "PLACEHOLDER": "Selecione Status",
             "SEARCH": "Pesquisar status"
           },
@@ -290,7 +290,7 @@
         "LOADING_TEAM_ENTITIES_ERROR": "Houve um erro ao buscar as entidades da equipe, por favor, tente novamente"
       },
       "ISSUE": {
-        "STATUS": "SItuação",
+        "STATUS": "Situação",
         "PRIORITY": "Prioridade",
         "ASSIGNEE": "Responsável",
         "LABELS": "Marcadores",
@@ -307,10 +307,26 @@
     "NAME": "Capitão",
     "COPILOT": {
       "SEND_MESSAGE": "Enviar mensagem...",
-      "LOADER": "Captain is thinking",
+      "LOADER": "Captain está pensando",
       "YOU": "Você",
-      "USE": "Use this",
+      "USE": "Use isto",
       "RESET": "Reset"
+    },
+    "PAYWALL": {
+      "TITLE": "Upgrade to use Captain AI",
+      "AVAILABLE_ON": "Captain is not available on the free plan.",
+      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "UPGRADE_NOW": "Atualizar agora",
+      "CANCEL_ANYTIME": "Você pode alterar ou cancelar seu plano a qualquer momento"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI feature is only available in a paid plan.",
+      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "ASK_ADMIN": "Entre em contato com seu administrador para fazer a atualização."
+    },
+    "BANNER": {
+      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
+      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
     },
     "FORM": {
       "CANCEL": "Cancelar",
@@ -318,18 +334,18 @@
       "EDIT": "Atualizar"
     },
     "ASSISTANTS": {
-      "HEADER": "Assistants",
-      "ADD_NEW": "Create a new assistant",
+      "HEADER": "Assistentes",
+      "ADD_NEW": "Criar um novo assistente",
       "DELETE": {
-        "TITLE": "Are you sure to delete the assistant?",
-        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+        "TITLE": "Tem certeza que deseja excluir o assistente?",
+        "DESCRIPTION": "Esta ação é permanente. Excluir este assistente irá removê-lo de todas as caixas de entrada conectadas e apagará permanentemente todo o conhecimento gerado.",
         "CONFIRM": "Sim, excluir",
-        "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
+        "SUCCESS_MESSAGE": "O assistente foi excluído com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro ao excluir o assistente, por favor tente novamente."
       },
       "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
       "CREATE": {
-        "TITLE": "Create an assistant",
+        "TITLE": "Criar um assistente",
         "SUCCESS_MESSAGE": "The assistant has been successfully created",
         "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
       },
@@ -367,7 +383,7 @@
       },
       "EMPTY_STATE": {
         "TITLE": "No assistants available",
-        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations. Click the button below to get started."
+        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations."
       }
     },
     "DOCUMENTS": {
@@ -408,7 +424,7 @@
       },
       "EMPTY_STATE": {
         "TITLE": "No documents available",
-        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant. Click the button below to get started."
+        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant."
       }
     },
     "RESPONSES": {
@@ -430,7 +446,7 @@
         "ALL_ASSISTANTS": "Todos"
       },
       "STATUS": {
-        "TITLE": "SItuação",
+        "TITLE": "Situação",
         "PENDING": "Pendente",
         "APPROVED": "Approved",
         "ALL": "Todos"
@@ -471,7 +487,7 @@
       },
       "EMPTY_STATE": {
         "TITLE": "No FAQs Found",
-        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually. Click the button below to create your first FAQ."
+        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually."
       }
     },
     "INBOXES": {
@@ -502,7 +518,7 @@
       },
       "EMPTY_STATE": {
         "TITLE": "No Connected Inboxes",
-        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you. Click the button below to set it up now."
+        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
       }
     }
   }
