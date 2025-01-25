@@ -327,14 +327,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Χρεώσεις",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Τρέχον Πλάνο",
-      "PLAN_NOTE": "Αυτή τη στιγμή έχετε εγγραφεί στο πλάνο **{plan}** με **{quantity}** άδειες"
+      "PLAN_NOTE": "Αυτή τη στιγμή έχετε εγγραφεί στο πλάνο **{plan}** με **{quantity}** άδειες",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Διαχειριστείτε τη συνδρομή σας",
       "DESCRIPTION": "Δείτε τα προηγούμενα τιμολόγια σας, επεξεργαστείτε τα στοιχεία χρέωσης ή ακυρώστε τη συνδρομή σας.",
       "BUTTON_TXT": "Μετάβαση στην πύλη χρέωσης"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Χρειάζεστε βοήθεια;",
