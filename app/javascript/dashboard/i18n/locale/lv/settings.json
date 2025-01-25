@@ -327,14 +327,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Norēķini",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Pašreizējais Norēķinu Plāns",
-      "PLAN_NOTE": "Šobrīd Jūs abonējat **{plan}** plānu ar **{quantity}** licencēm"
+      "PLAN_NOTE": "Šobrīd Jūs abonējat **{plan}** plānu ar **{quantity}** licencēm",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Pārvaldīt savu abonementu",
       "DESCRIPTION": "Apskatīt iepriekšējos rēķinus, rediģēt norēķinu informāciju vai atcelt abonementu.",
       "BUTTON_TXT": "Doties uz norēķinu portālu"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Dokumenti",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Nepieciešama palīdzība?",
