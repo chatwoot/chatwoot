@@ -1,7 +1,7 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Atalhos",
-    "LEARN_MORE": "Aprenda mais sobre respostas prontas",
+    "LEARN_MORE": "Saiba mais sobre respostas prontas",
     "DESCRIPTION": "Respostas prontas são modelos de resposta pré-escritas que te ajudam a responder rapidamente a uma conversa. Os agentes podem digitar o caractere ' /' seguido pelo atalho para inserir uma resposta pronta durante uma conversa. ",
     "HEADER_BTN_TXT": "Adicionar resposta pronta",
     "LOADING": "Buscando respostas prontas...",
@@ -48,7 +48,7 @@
           "ERROR": "O Atalho é obrigatório."
         },
         "CONTENT": {
-          "LABEL": "Messagem",
+          "LABEL": "Mensagem",
           "PLACEHOLDER": "Por favor, escreva a mensagem que deseja salvar como um modelo para usar posteriormente.",
           "ERROR": "A mensagem é obrigatória."
         },
