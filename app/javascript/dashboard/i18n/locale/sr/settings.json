@@ -327,14 +327,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Plaćanje",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Trenutni plan",
-      "PLAN_NOTE": "Trenutno ste pretplaćeni na **{plan}** plan sa **{quantity}** licenci"
+      "PLAN_NOTE": "Trenutno ste pretplaćeni na **{plan}** plan sa **{quantity}** licenci",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Upravljate vašom pretplatom",
       "DESCRIPTION": "Pregledajte vaše prethodne račune, izmenite podatke o plaćanju ili prekinite vašu pretplatu.",
       "BUTTON_TXT": "Idite na portal za plaćanje"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Treba vam pomoć?",
