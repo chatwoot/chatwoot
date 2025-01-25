@@ -327,14 +327,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Біллінг",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Поточний План",
-      "PLAN_NOTE": "Зараз ви підписані на **{plan}** план з **{quantity}** ліцензій"
+      "PLAN_NOTE": "Зараз ви підписані на **{plan}** план з **{quantity}** ліцензій",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Керування підпискою",
       "DESCRIPTION": "Перегляньте попередні рахунки, відредагуйте платіжні реквізити, або скасуйте вашу підписку.",
       "BUTTON_TXT": "Перейти на портал для платежів"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Потрібна допомога?",
