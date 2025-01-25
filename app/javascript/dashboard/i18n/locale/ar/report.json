@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "وقت انتظار العميل",
-        "TOOLTIP_TEXT": "وقت الانتظار هو {metricValue} (بناء على ردود {conversationCount})"
+        "TOOLTIP_TEXT": "وقت الانتظار هو {metricValue} (بناء على ردود {conversationCount})",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "العام الماضي",
       "CUSTOM_DATE_RANGE": "تحديد نطاق المدة"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "آخر 7 أيام"
-      },
-      {
-        "id": 1,
-        "name": "آخر 30 يوماً"
-      },
-      {
-        "id": 2,
-        "name": "آخر 3 أشهر"
-      },
-      {
-        "id": 3,
-        "name": "آخر 6 أشهر"
-      },
-      {
-        "id": 4,
-        "name": "العام الماضي"
-      },
-      {
-        "id": 5,
-        "name": "تحديد نطاق المدة"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "تطبيق",
       "PLACEHOLDER": "اختر نطاق المدة"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "لم يتم العثور على النتائج"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -482,7 +460,7 @@
       "NO_CONVERSATIONS": "No conversations",
       "CONVERSATION": "{count} conversation",
       "CONVERSATIONS": "{count} conversations",
-      "DOWNLOAD_REPORT": "Download report"
+      "DOWNLOAD_REPORT": "تنزيل التقرير"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "المحادثات من قبل الوكلاء",
@@ -490,7 +468,7 @@
       "NO_AGENTS": "لا توجد أي محادثات من قبل الوكلاء",
       "TABLE_HEADER": {
         "AGENT": "موظف الدعم",
-        "OPEN": "افتتحت",
+        "OPEN": "فتح",
         "UNATTENDED": "بدون حضور",
         "STATUS": "الحالة"
       }
@@ -537,7 +515,7 @@
       "LABELS": "الوسم",
       "TEAMS": "الفريق"
     },
-    "WITH": "with",
+    "WITH": "مع",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

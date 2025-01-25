@@ -166,12 +166,12 @@ onMounted(() => {
 });
 
 const evenClass = [
-  '[&>*:nth-child(odd)]:!bg-white [&>*:nth-child(even)]:!bg-slate-25',
-  'dark:[&>*:nth-child(odd)]:!bg-slate-900 dark:[&>*:nth-child(even)]:!bg-slate-800/50',
+  '[&>*:nth-child(odd)]:!bg-n-background [&>*:nth-child(even)]:!bg-n-slate-2',
+  'dark:[&>*:nth-child(odd)]:!bg-n-background dark:[&>*:nth-child(even)]:!bg-n-solid-1',
 ];
 const oddClass = [
-  '[&>*:nth-child(odd)]:!bg-slate-25 [&>*:nth-child(even)]:!bg-white',
-  'dark:[&>*:nth-child(odd)]:!bg-slate-800/50 dark:[&>*:nth-child(even)]:!bg-slate-900',
+  '[&>*:nth-child(odd)]:!bg-n-slate-2 [&>*:nth-child(even)]:!bg-n-background',
+  'dark:[&>*:nth-child(odd)]:!bg-n-solid-1 dark:[&>*:nth-child(even)]:!bg-n-background',
 ];
 
 const wrapperClass = computed(() => {
@@ -181,10 +181,11 @@ const wrapperClass = computed(() => {
 
 <!-- TODO: After migration to Vue 3, remove the top level div -->
 <template>
-  <div :class="wrapperClass">
+  <div :class="wrapperClass" class="last:rounded-b-lg">
     <CustomAttribute
       v-for="attribute in displayedAttributes"
       :key="attribute.id"
+      class="last:rounded-b-lg border-b border-n-weak/50 dark:border-n-weak/90"
       :attribute-key="attribute.attribute_key"
       :attribute-type="attribute.attribute_display_type"
       :values="attribute.attribute_values"
@@ -195,19 +196,21 @@ const wrapperClass = computed(() => {
       :attribute-regex="attribute.regex_pattern"
       :regex-cue="attribute.regex_cue"
       :contact-id="contactId"
-      class="border-b border-solid border-slate-50 dark:border-slate-700/50"
       @update="onUpdate"
       @delete="onDelete"
       @copy="onCopy"
     />
     <p
       v-if="!displayedAttributes.length && emptyStateMessage"
-      class="p-3 text-center"
+      class="p-3 text-center last:rounded-b-lg"
     >
       {{ emptyStateMessage }}
     </p>
     <!-- Show more and show less buttons show it if the filteredAttributes length is greater than 5 -->
-    <div v-if="filteredAttributes.length > 5" class="flex px-2 py-2">
+    <div
+      v-if="filteredAttributes.length > 5"
+      class="flex px-2 py-2 last:rounded-b-lg"
+    >
       <woot-button
         size="small"
         :icon="showAllAttributes ? 'chevron-up' : 'chevron-down'"

@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
@@ -20,6 +20,8 @@ const props = defineProps({
 
 const { t } = useI18n();
 
+const slaCardLabelRef = ref(null);
+
 const { getPlainText } = useMessageFormatter();
 
 const lastNonActivityMessageContent = computed(() => {
@@ -27,7 +29,7 @@ const lastNonActivityMessageContent = computed(() => {
     props.conversation;
   const { email: { subject } = {} } = customAttributes;
   return getPlainText(
-    subject || lastNonActivityMessage.content || t('CHAT_LIST.NO_CONTENT')
+    subject || lastNonActivityMessage?.content || t('CHAT_LIST.NO_CONTENT')
   );
 });
 
@@ -45,7 +47,15 @@ const unreadMessagesCount = computed(() => {
   return unreadCount;
 });
 
-const hasSlaThreshold = computed(() => props.conversation?.slaPolicyId);
+const hasSlaThreshold = computed(() => {
+  return (
+    slaCardLabelRef.value?.hasSlaThreshold && props.conversation?.slaPolicyId
+  );
+});
+
+defineExpose({
+  hasSlaThreshold,
+});
 </script>
 
 <template>
@@ -73,7 +83,11 @@ const hasSlaThreshold = computed(() => props.conversation?.slaPolicyId);
           : 'grid-cols-[1fr_20px]'
       "
     >
-      <SLACardLabel v-if="hasSlaThreshold" :conversation="conversation" />
+      <SLACardLabel
+        v-show="hasSlaThreshold"
+        ref="slaCardLabelRef"
+        :conversation="conversation"
+      />
       <div v-if="hasSlaThreshold" class="w-px h-3 bg-n-slate-4" />
       <div class="overflow-hidden">
         <CardLabels

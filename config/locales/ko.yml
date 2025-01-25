@@ -66,6 +66,7 @@ ko:
       number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
       invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
       invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
   reports:
     period: 보고 기간 %{since} - %{until}
@@ -218,39 +219,39 @@ ko:
       description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
   public_portal:
     search:
-      search_placeholder: Search for article by title or body...
+      search_placeholder: 게시물을 제목이나 내용으로 검색하세요...
       empty_placeholder: 검색 결과가 없습니다.
-      loading_placeholder: Searching...
-      results_title: Search results
+      loading_placeholder: 검색중...
+      results_title: 검색 결과
     toc_header: 'On this page'
     hero:
-      sub_title: Search for the articles here or browse the categories below.
+      sub_title: 게시물을 여기서 검색하거나 아래에서 카테고리를 탐색해보세요. 
     common:
       home: 홈
-      last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all
-      article: article
-      articles: articles
-      author: author
-      authors: authors
+      last_updated_on: '%{last_updated_on}에 마지막으로 업데이트 됨'
+      view_all_articles: 모두 보기
+      article: 게시물
+      articles: 게시물
+      author: 작성자
+      authors: 작성자
       other: other
       others: others
       by: By
-      no_articles: There are no articles here
+      no_articles: 게시물이 없습니다.
     footer:
       made_with: Made with
     header:
-      go_to_homepage: Website
+      go_to_homepage: 홈페이지
       appearance:
-        system: System
-        light: Light
-        dark: Dark
-      featured_articles: Featured Articles
-      uncategorized: Uncategorized
+        system: 시스템
+        light: 밝게
+        dark: 어둡게
+      featured_articles: 추천 게시물
+      uncategorized: 카테고리가 지정되지 않음
     404:
-      title: Page not found
-      description: We couldn't find the page you were looking for.
-      back_to_home: Go to home page
+      title: 페이지를 찾을 수 없습니다
+      description: 찾고자 하는 페이지를 찾을 수 없었습니다.
+      back_to_home: 홈 화면으로 이동
   slack_unfurl:
     fields:
       name: 이름

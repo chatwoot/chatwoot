@@ -16,35 +16,35 @@
     "SEGMENT_QUERY_LABEL": "Segment Query",
     "TOOLTIP_LABEL": "Filter contacts",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "AND",
-      "OR": "OR"
+      "AND": "IN",
+      "OR": "ALI"
     },
     "OPERATOR_LABELS": {
-      "equal_to": "Equal to",
-      "not_equal_to": "Not equal to",
-      "contains": "Contains",
-      "does_not_contain": "Does not contain",
-      "is_present": "Is present",
-      "is_not_present": "Is not present",
-      "is_greater_than": "Is greater than",
+      "equal_to": "Enako",
+      "not_equal_to": "Ni enako",
+      "contains": "Vsebuje",
+      "does_not_contain": "Ne vsebuje",
+      "is_present": "Je prisoten",
+      "is_not_present": "Ni prisoten",
+      "is_greater_than": "Je večje od",
       "is_lesser_than": "Is lesser than",
-      "days_before": "Is x days before"
+      "days_before": "Je x dni prej"
     },
     "ERRORS": {
       "VALUE_REQUIRED": "Value is required"
     },
     "ATTRIBUTES": {
       "NAME": "Name",
-      "EMAIL": "Email",
+      "EMAIL": "E-pošta",
       "PHONE_NUMBER": "Phone number",
       "IDENTIFIER": "Identifier",
       "CITY": "City",
       "COUNTRY": "Country",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
-      "CUSTOM_ATTRIBUTE_TEXT": "Text",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+      "CUSTOM_ATTRIBUTE_LIST": "Seznam",
+      "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Številka",
       "CUSTOM_ATTRIBUTE_LINK": "Link",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Potrditveno polje",
       "CREATED_AT": "Created At",
       "LAST_ACTIVITY": "Last Activity",
       "REFERER_LINK": "Referrer link",

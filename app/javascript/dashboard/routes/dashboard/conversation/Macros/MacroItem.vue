@@ -86,7 +86,7 @@ export default {
 
 <style scoped lang="scss">
 .macro {
-  @apply relative flex items-center justify-between leading-4;
+  @apply relative flex items-center justify-between leading-4 rounded-md;
 
   .macros-actions {
     @apply flex items-center justify-end;

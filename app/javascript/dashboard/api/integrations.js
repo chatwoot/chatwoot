@@ -32,14 +32,6 @@ class IntegrationsAPI extends ApiClient {
   deleteHook(hookId) {
     return axios.delete(`${this.baseUrl()}/integrations/hooks/${hookId}`);
   }
-
-  requestCaptain(body) {
-    return axios.post(`${this.baseUrl()}/integrations/captain/proxy`, body);
-  }
-
-  requestCaptainCopilot(body) {
-    return axios.post(`${this.baseUrl()}/integrations/captain/copilot`, body);
-  }
 }
 
 export default new IntegrationsAPI();

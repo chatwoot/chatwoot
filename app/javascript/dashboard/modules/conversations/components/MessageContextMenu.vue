@@ -274,7 +274,7 @@ export default {
   }
 
   hr {
-    @apply m-1 border-b border-solid border-slate-50 dark:border-slate-800/50;
+    @apply m-1 border-b border-solid border-n-strong;
   }
 }
 

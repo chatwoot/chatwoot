@@ -153,7 +153,7 @@ const tableHeaders = computed(() => {
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 pr-4 text-left font-semibold text-slate-700 dark:text-slate-300 last:text-right"
+            class="py-4 pr-4 text-left font-semibold text-n-slate-11 last:text-right"
           >
             <span v-if="thHeader !== tableHeaders[0]">
               {{ thHeader }}
@@ -173,9 +173,7 @@ const tableHeaders = computed(() => {
             </button>
           </th>
         </thead>
-        <tbody
-          class="divide-y divide-slate-50 dark:divide-slate-800 text-slate-700 dark:text-slate-300"
-        >
+        <tbody class="divide-y divide-n-weak text-n-slate-11">
           <tr
             v-for="(cannedItem, index) in records"
             :key="cannedItem.short_code"

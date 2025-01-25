@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS, 22.04 LTS, 24.04 LTS
-# Script Version: 3.0.0
+# Script Version: 3.1.0
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -19,7 +19,7 @@ fi
 # option --output/-o requires 1 argument
 LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,webserver,version
 OPTIONS=cdhiI:l:rsuwv
-CWCTL_VERSION="3.0.0"
+CWCTL_VERSION="3.1.0"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
 
@@ -179,6 +179,9 @@ function install_dependencies() {
   curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
   NODE_MAJOR=20
   echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+  echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg 16" > /etc/apt/sources.list.d/pgdg.list
+  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+
 
   apt-get update
 
@@ -186,7 +189,7 @@ function install_dependencies() {
       git software-properties-common ca-certificates imagemagick libpq-dev \
       libxml2-dev libxslt1-dev file g++ gcc autoconf build-essential \
       libssl-dev libyaml-dev libreadline-dev gnupg2 \
-      postgresql-client redis-tools \
+      postgresql-client-16 redis-tools \
       nodejs patch ruby-dev zlib1g-dev liblzma-dev \
       libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev sudo \
       libvips python3-pip
@@ -203,7 +206,7 @@ function install_dependencies() {
 #   None
 ##############################################################################
 function install_databases() {
-  apt-get install -y postgresql postgresql-contrib redis-server
+  apt-get install -y postgresql-16 postgresql-16-pgvector postgresql-contrib redis-server
 }
 
 ##############################################################################
@@ -830,6 +833,21 @@ function upgrade() {
   get_cw_version
   echo "Upgrading Chatwoot to v$CW_VERSION"
   sleep 3
+
+   # Check if CW_VERSION is 4.0 or above
+  if [[ "$(printf '%s\n' "$CW_VERSION" "4.0" | sort -V | head -n 1)" == "4.0" ]]; then
+    echo "Chatwoot v4.0 and above requires pgvector support in PostgreSQL."
+    read -p "Does your postgres support pgvector and want to proceed with the upgrade? [Y/n]: " user_input
+    user_input=${user_input:-Y}
+    if [[ "$user_input" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+      echo "Proceeding with the upgrade..."
+    else
+      echo "Upgrade aborted. Please install pgvector support before upgrading."
+      echo "Read more at https://chwt.app/v4/migration"
+      return 1
+    fi
+  fi
+
   upgrade_prereq
   upgrade_redis
   upgrade_node

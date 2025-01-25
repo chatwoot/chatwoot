@@ -161,9 +161,7 @@ const confirmDeletion = () => {
     </template>
     <template #body>
       <table class="divide-y divide-slate-75 dark:divide-slate-700">
-        <tbody
-          class="divide-y divide-slate-50 dark:divide-slate-800 text-slate-700 dark:text-slate-300"
-        >
+        <tbody class="divide-y divide-n-weak text-n-slate-11">
           <tr v-for="(agent, index) in agentList" :key="agent.email">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               <div class="flex flex-row items-center gap-4">

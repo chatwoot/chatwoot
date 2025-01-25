@@ -61,15 +61,29 @@
         "COPY": "복사"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "음성 알림",
-        "NOTE": "대시보드에서 새 메시지 및 대화에 대한 오디오 알림을 활성화합니다.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "없음",
           "MINE": "Assigned",
-          "ALL": "모두"
+          "ALL": "모두",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Alert events for conversations",
           "NONE": "없음",
           "ASSIGNED": "Assigned Conversations",
           "ALL_CONVERSATIONS": "All Conversations"
@@ -81,7 +95,9 @@
           "TITLE": "Alert conditions:",
           "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
           "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Read more"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "이메일 알림",
@@ -145,11 +161,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "유용성",
-        "STATUSES_LIST": [
-          "온라인",
-          "바쁨",
-          "오프라인"
-        ],
+        "STATUS": {
+          "ONLINE": "온라인",
+          "BUSY": "바쁨",
+          "OFFLINE": "오프라인"
+        },
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
         "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
@@ -177,14 +193,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "변경",
-    "CHANGE_ACCOUNTS": "계정 전환",
-    "CONTACT_SUPPORT": "Contact Support",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "다음 목록에서 계정 선택",
-    "PROFILE_SETTINGS": "프로필 설정",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
-    "APPEARANCE": "Change Appearance",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
-    "LOGOUT": "로그아웃"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "일 평가판이 남아 있습니다.",
@@ -218,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "보내기"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "확인 중...",
@@ -227,11 +249,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "대화",
-    "INBOX": "받은 메시지함",
+    "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "멘션",
     "PARTICIPATING_CONVERSATIONS": "Participating",
@@ -266,6 +289,8 @@
     "NEW_INBOX": "New inbox",
     "REPORTS_CONVERSATION": "대화",
     "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
@@ -276,6 +301,7 @@
     "REPORTS_INBOX": "받은 메시지함",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "SET_YOUR_AVAILABILITY": "영업시간 설정",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
@@ -283,17 +309,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Help Center",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
-      "SETTINGS": "설정",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Categories",
+      "LOCALES": "Locales",
+      "SETTINGS": "설정"
     },
+    "CHANNELS": "채널",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Read docs"
   },

@@ -8,28 +8,24 @@
     "LIST": {
       "404": "Det finns inga inkorgar kopplade till detta konto."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Välj kanal",
-        "route": "settings_inbox_new",
-        "body": "Välj den leverantör du vill integrera med Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Välj kanal",
+        "BODY": "Välj den leverantör du vill integrera med Chatwoot."
       },
-      {
-        "title": "Skapa inkorg",
-        "route": "settings_inboxes_page_channel",
-        "body": "Autentisera ditt konto och skapa en inkorg."
+      "INBOX": {
+        "TITLE": "Skapa inkorg",
+        "BODY": "Autentisera ditt konto och skapa en inkorg."
       },
-      {
-        "title": "Lägg till agenter",
-        "route": "settings_inboxes_add_agents",
-        "body": "Lägg till agenter till den skapade inkorgen."
+      "AGENT": {
+        "TITLE": "Lägg till agenter",
+        "BODY": "Lägg till agenter till den skapade inkorgen."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "Ni är redo att köra!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Ni är redo att köra!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Inkorgsnamn",

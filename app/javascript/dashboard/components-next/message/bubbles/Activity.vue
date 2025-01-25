@@ -13,13 +13,10 @@ const readableTime = computed(() =>
 
 <template>
   <BaseBubble
-    class="px-2 py-0.5 !rounded-full flex items-center gap-2"
+    v-tooltip.top="readableTime"
+    class="px-2 py-0.5 !rounded-full flex min-w-0 items-center gap-2"
     data-bubble-name="activity"
   >
-    <span v-dompurify-html="content" />
-    <div v-if="readableTime" class="w-px h-3 rounded-full bg-n-slate-7" />
-    <span class="text-n-slate-10">
-      {{ readableTime }}
-    </span>
+    <span v-dompurify-html="content" :title="content" />
   </BaseBubble>
 </template>

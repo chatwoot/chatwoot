@@ -61,15 +61,29 @@
         "COPY": "Kopijuoti"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Garsiniai Perspėjimai",
-        "NOTE": "Prietaisų skydelyje įgalinkite garso perspėjimus apie naujus pranešimus ir pokalbius.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "Nėra",
           "MINE": "Assigned",
-          "ALL": "Visi"
+          "ALL": "Visi",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Alert events for conversations",
           "NONE": "Nėra",
           "ASSIGNED": "Priskirti Pokalbiai",
           "ALL_CONVERSATIONS": "Visi Pokalbiai"
@@ -81,7 +95,9 @@
           "TITLE": "Įspėjimo sąlygos:",
           "CONDITION_ONE": "Garsinius įspėjimus siųskite tik tuo atveju, jei naršyklės langas neaktyvus",
           "CONDITION_TWO": "Siųskite įspėjimus kas 30 sekundžių, kol bus perskaityti visi priskirti pokalbiai"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Skaityti daugiau"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "El. pašto Perspėjimai",
@@ -145,11 +161,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Prieinamumas",
-        "STATUSES_LIST": [
-          "Prisijungęs",
-          "Užimta",
-          "Atsijungęs"
-        ],
+        "STATUS": {
+          "ONLINE": "Prisijungęs",
+          "BUSY": "Užimta",
+          "OFFLINE": "Atsijungęs"
+        },
         "SET_AVAILABILITY_SUCCESS": "Pasiekiamumas nustatytas sėkmingai",
         "SET_AVAILABILITY_ERROR": "Nepavyko nustatyti pasiekiamumo, bandykite dar kartą"
       },
@@ -177,14 +193,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Keisti",
-    "CHANGE_ACCOUNTS": "Perjungti Paskyrą",
-    "CONTACT_SUPPORT": "Susisiekite su pagalbos tarnyba",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Pasirinkite paskyrą iš toliau pateikto sąrašo",
-    "PROFILE_SETTINGS": "Profilio Nustatymai",
-    "KEYBOARD_SHORTCUTS": "Spartieji klavišai",
-    "APPEARANCE": "Keisti išvaizdą",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
-    "LOGOUT": "Atsijungti"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "liko bandymo dienų.",
@@ -218,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Pateikti"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "Tikrinama...",
@@ -227,11 +249,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Šiuo metu peržiūri:",
     "SWITCH": "Perjungti",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Pokalbiai",
-    "INBOX": "Gautų laiškų aplankas",
+    "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "Visi Pokalbiai",
     "MENTIONED_CONVERSATIONS": "Paminėjimai",
     "PARTICIPATING_CONVERSATIONS": "Dalyvaujantys",
@@ -266,6 +289,8 @@
     "NEW_INBOX": "Naujas gautų laiškų aplankas",
     "REPORTS_CONVERSATION": "Pokalbiai",
     "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
     "CAMPAIGNS": "Akcijos",
     "ONGOING": "Vykstantis",
     "ONE_OFF": "Vienas iš",
@@ -276,6 +301,7 @@
     "REPORTS_INBOX": "Gautų laiškų aplankas",
     "REPORTS_TEAM": "Komanda",
     "SET_AVAILABILITY_TITLE": "Nustatykite save kaip",
+    "SET_YOUR_AVAILABILITY": "Nustatykite savo pasiekiamumą",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
@@ -283,17 +309,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Palaikymo centras",
-      "ALL_ARTICLES": "Visi Straipsniai",
-      "MY_ARTICLES": "Mano Straipsniai",
-      "DRAFT": "Ruošinys",
-      "ARCHIVED": "Suarchyvuota",
-      "CATEGORY": "Kategorija",
-      "SETTINGS": "Nustatymai",
-      "CATEGORY_EMPTY_MESSAGE": "Kategorijų nerasta"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Kategorijos",
+      "LOCALES": "Lokalizacija",
+      "SETTINGS": "Nustatymai"
     },
+    "CHANNELS": "Channels",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Automatiškai pažymėkite \"neprisijungęs\"",
-      "INFO_TEXT": "Leiskite sistemai automatiškai pažymėti jus \"neprisijungus\", kai nenaudojate programos ar informacinio skydelio."
+      "INFO_TEXT": "Leiskite sistemai automatiškai pažymėti jus \"neprisijungus\", kai nenaudojate programos ar informacinio skydelio.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Skaityti dokumentus"
   },

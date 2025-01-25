@@ -22,6 +22,7 @@ class Enterprise::Billing::HandleStripeEventService
     update_account_attributes(subscription, plan)
 
     change_plan_features
+    reset_captain_usage
   end
 
   def update_account_attributes(subscription, plan)
@@ -54,6 +55,10 @@ class Enterprise::Billing::HandleStripeEventService
       account.enable_features(*features_to_update)
     end
     account.save!
+  end
+
+  def reset_captain_usage
+    account.reset_response_usage
   end
 
   def ensure_event_context(event)
