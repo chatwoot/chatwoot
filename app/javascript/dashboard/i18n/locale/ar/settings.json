@@ -327,14 +327,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "الفواتير",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "الباقة الحالية",
-      "PLAN_NOTE": "أنت مشترك حاليا في باقة**{plan}** مع تراخيص **{quantity}**"
+      "PLAN_NOTE": "أنت مشترك حاليا في باقة**{plan}** مع تراخيص **{quantity}**",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "إدارة الاشتراك الخاص بك",
       "DESCRIPTION": "عرض فواتيرك السابقة، تحرير تفاصيل الفوترة الخاصة بك، أو إلغاء اشتراكك.",
       "BUTTON_TXT": "الذهاب إلى بوابة الفوترة"
+    },
+    "CAPTAIN": {
+      "TITLE": "قائد",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "تحتاج مساعدة؟",
