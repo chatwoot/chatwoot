@@ -318,7 +318,7 @@
           "TITLE": "Exportar contatos",
           "DESCRIPTION": "Exporte rapidamente um arquivo csv com detalhes completos dos seus contatos",
           "CONFIRM": "Exportar",
-          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+          "SUCCESS_MESSAGE": "Exportando. Você será notificado por e-mail quando o arquivo estiver pronto para download.",
           "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
         },
         "SORT_BY": {
