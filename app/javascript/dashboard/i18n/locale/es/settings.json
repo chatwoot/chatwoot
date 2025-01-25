@@ -327,14 +327,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Facturación",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Plan actual",
-      "PLAN_NOTE": "Actualmente está suscrito al plan **{plan}** con **{quantity}** licencias"
+      "PLAN_NOTE": "Actualmente está suscrito al plan **{plan}** con **{quantity}** licencias",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Administre su suscripción",
       "DESCRIPTION": "Vea sus facturas anteriores, edite sus datos de facturación o cancele su suscripción.",
       "BUTTON_TXT": "Ir al portal de facturación"
+    },
+    "CAPTAIN": {
+      "TITLE": "Capitán",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "¿Necesitas ayuda?",
