@@ -312,6 +312,22 @@
       "USE": "これを使用",
       "RESET": "リセット"
     },
+    "PAYWALL": {
+      "TITLE": "Upgrade to use Captain AI",
+      "AVAILABLE_ON": "Captain is not available on the free plan.",
+      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "UPGRADE_NOW": "今すぐアップグレード",
+      "CANCEL_ANYTIME": "プランはいつでも変更またはキャンセルできます"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI feature is only available in a paid plan.",
+      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "ASK_ADMIN": "管理者にアップグレードを依頼してください。"
+    },
+    "BANNER": {
+      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
+      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+    },
     "FORM": {
       "CANCEL": "キャンセル",
       "CREATE": "作成",
@@ -367,7 +383,7 @@
       },
       "EMPTY_STATE": {
         "TITLE": "利用可能なアシスタントがありません",
-        "SUBTITLE": "アシスタントを作成して、ユーザーに迅速かつ正確な応答を提供します。ヘルプ記事や過去の会話から学習できます。開始するには、以下のボタンをクリックしてください。"
+        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations."
       }
     },
     "DOCUMENTS": {
@@ -408,7 +424,7 @@
       },
       "EMPTY_STATE": {
         "TITLE": "利用可能なドキュメントがありません",
-        "SUBTITLE": "ドキュメントはアシスタントがFAQを生成するために使用されます。ドキュメントをインポートしてアシスタントにコンテキストを提供できます。開始するには、以下のボタンをクリックしてください。"
+        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant."
       }
     },
     "RESPONSES": {
@@ -471,7 +487,7 @@
       },
       "EMPTY_STATE": {
         "TITLE": "FAQが見つかりません",
-        "SUBTITLE": "FAQは、アシスタントが顧客からの質問に迅速かつ正確に回答するのに役立ちます。コンテンツから自動的に生成することも、手動で追加することもできます。最初のFAQを作成するには、以下のボタンをクリックしてください。"
+        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually."
       }
     },
     "INBOXES": {
@@ -502,7 +518,7 @@
       },
       "EMPTY_STATE": {
         "TITLE": "接続された受信トレイがありません",
-        "SUBTITLE": "受信トレイを接続すると、アシスタントが顧客からの初期質問に対応し、その後あなたに転送することができます。今すぐ設定するには、以下のボタンをクリックしてください。"
+        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
       }
     }
   }
