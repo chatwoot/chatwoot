@@ -327,14 +327,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "請求設定",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "現在のプラン",
-      "PLAN_NOTE": "現在**{plan}**プランに**{quantity}**ライセンスでご加入中です。"
+      "PLAN_NOTE": "現在**{plan}**プランに**{quantity}**ライセンスでご加入中です。",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "サブスクリプションを管理",
       "DESCRIPTION": "過去の請求書を確認したり、請求情報を編集したり、サブスクリプションをキャンセルしたりできます。",
       "BUTTON_TXT": "請求ポータルへ"
+    },
+    "CAPTAIN": {
+      "TITLE": "キャプテン",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "ドキュメント",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "サポートが必要ですか？",
