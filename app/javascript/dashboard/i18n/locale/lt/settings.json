@@ -327,14 +327,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Atsiskaitymas",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Prenumeratos Dabartinis Planas",
-      "PLAN_NOTE": "Šiuo metu užsiprenumeravote **{plan}** planą su **{quantity}** licencijomis"
+      "PLAN_NOTE": "Šiuo metu užsiprenumeravote **{plan}** planą su **{quantity}** licencijomis",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Tvarkykite savo prenumeratą",
       "DESCRIPTION": "Peržiūrėkite ankstesnes sąskaitas faktūras, redaguokite atsiskaitymo informaciją arba atšaukite prenumeratą.",
       "BUTTON_TXT": "Eiti į mokėjimų portalą"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Reikia pagalbos?",
