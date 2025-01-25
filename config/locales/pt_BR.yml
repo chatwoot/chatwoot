@@ -190,8 +190,8 @@ pt_BR:
       delete: '%{contact_name} está Online, por favor, tente novamente mais tarde'
   integration_apps:
     dashboard_apps:
-      name: 'Aplicativos do Painel'
-      description: 'Aplicativos do Painel permitem que você crie e incorpore aplicativos que exibem informações, pedidos ou histórico de pagamento, fornecendo mais contexto aos seus agentes de suporte ao cliente.'
+      name: 'Painel de Aplicativos'
+      description: 'O Painel de Aplicativos permite que você crie e incorpore aplicativos que exibem informações, pedidos ou histórico de pagamento, fornecendo mais contexto aos seus agentes de suporte ao cliente.'
     dyte:
       name: 'Dyte'
       description: 'Dyte é um produto que integra as funcionalidades de áudio e vídeo em sua aplicação. Com esta integração, os seus agentes podem iniciar chamadas de vídeo/voz com seus clientes diretamente do chatwoot.'
