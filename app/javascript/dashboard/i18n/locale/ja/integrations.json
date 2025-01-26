@@ -313,20 +313,20 @@
       "RESET": "リセット"
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "TITLE": "アップグレードしてCaptain AIを利用する",
+      "AVAILABLE_ON": "Captainは無料プランでは利用できません。",
+      "UPGRADE_PROMPT": "アシスタント、Copilotなどにアクセスするには、プランをアップグレードしてください。",
       "UPGRADE_NOW": "今すぐアップグレード",
       "CANCEL_ANYTIME": "プランはいつでも変更またはキャンセルできます"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI feature is only available in a paid plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "AVAILABLE_ON": "Captain AIは有料プランのみで利用可能です。",
+      "UPGRADE_PROMPT": "アシスタント、Copilotなどにアクセスするには、プランをアップグレードしてください。",
       "ASK_ADMIN": "管理者にアップグレードを依頼してください。"
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "利用制限の 80% を超過しました。引き続き Captain AI を利用するには、アップグレードしてください。",
+      "DOCUMENTS": "ドキュメントの上限に達しました。Captain AI を引き続き利用するには、アップグレードしてください。"
     },
     "FORM": {
       "CANCEL": "キャンセル",
@@ -383,7 +383,7 @@
       },
       "EMPTY_STATE": {
         "TITLE": "利用可能なアシスタントがありません",
-        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations."
+        "SUBTITLE": "アシスタントを作成して、お客様に迅速かつ正確な回答を提供します。アシスタントは、ヘルプ記事や過去の会話から学習します。"
       }
     },
     "DOCUMENTS": {
@@ -424,7 +424,7 @@
       },
       "EMPTY_STATE": {
         "TITLE": "利用可能なドキュメントがありません",
-        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant."
+        "SUBTITLE": "ドキュメントはアシスタントがFAQを生成するために使用されます。ドキュメントをインポートしてアシスタントにコンテキストを提供できます。"
       }
     },
     "RESPONSES": {
@@ -487,7 +487,7 @@
       },
       "EMPTY_STATE": {
         "TITLE": "FAQが見つかりません",
-        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually."
+        "SUBTITLE": "FAQは、アシスタントがお客様からの質問に迅速かつ正確に回答するのに役立ちます。コンテンツから自動的に生成することも、手動で追加することもできます。"
       }
     },
     "INBOXES": {
@@ -518,7 +518,7 @@
       },
       "EMPTY_STATE": {
         "TITLE": "接続された受信トレイがありません",
-        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
+        "SUBTITLE": "受信トレイに接続すると、アシスタントがお客様からの最初の質問を対応し、その後あなたに引き継ぐことができます。"
       }
     }
   }
