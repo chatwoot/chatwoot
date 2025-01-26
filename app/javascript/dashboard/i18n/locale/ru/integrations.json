@@ -412,32 +412,32 @@
         }
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the document?",
-        "DESCRIPTION": "This action is permanent. Deleting this document will permanently erase all generated knowledge.",
+        "TITLE": "Вы уверены, что хотите удалить этот документ?",
+        "DESCRIPTION": "Это действие необратимо. Удаление этого документа навсегда удалит все сгенерированные знания.",
         "CONFIRM": "Да, удалить",
-        "SUCCESS_MESSAGE": "The document has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+        "SUCCESS_MESSAGE": "Документ успешно удалён",
+        "ERROR_MESSAGE": "При удалении документа произошла ошибка, пожалуйста, попробуйте еще раз."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "View Related Responses",
-        "DELETE_DOCUMENT": "Delete Document"
+        "VIEW_RELATED_RESPONSES": "Просмотр связанных ответов",
+        "DELETE_DOCUMENT": "Удалить документ"
       },
       "EMPTY_STATE": {
-        "TITLE": "No documents available",
-        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant."
+        "TITLE": "Нет доступных документов",
+        "SUBTITLE": "Документы используются Вашим ассистентом для создания FAQ. Вы можете импортировать документы для предоставления контекста для Вашего ассистента."
       }
     },
     "RESPONSES": {
-      "HEADER": "FAQs",
-      "ADD_NEW": "Create new FAQ",
+      "HEADER": "FAQ",
+      "ADD_NEW": "Создать новый FAQ",
       "DOCUMENTABLE": {
-        "CONVERSATION": "Conversation #{id}"
+        "CONVERSATION": "Диалог #{id}"
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the FAQ?",
+        "TITLE": "Вы действительно хотите удалить FAQ?",
         "DESCRIPTION": "",
         "CONFIRM": "Да, удалить",
-        "SUCCESS_MESSAGE": "FAQ deleted successfully",
+        "SUCCESS_MESSAGE": "FAQ успешно удален",
         "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
       },
       "FILTER": {
