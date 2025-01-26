@@ -33,7 +33,7 @@ export default {
     },
     selectedGroupByFilter: {
       type: Object,
-      default: () => { },
+      default: () => {},
     },
   },
   emits: [
