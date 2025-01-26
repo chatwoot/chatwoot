@@ -327,14 +327,14 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "請求設定",
-    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
+    "DESCRIPTION": "ここでサブスクリプションを管理し、プランをアップグレードしてチームにさらに多くの機能を提供しましょう。",
     "CURRENT_PLAN": {
       "TITLE": "現在のプラン",
       "PLAN_NOTE": "現在**{plan}**プランに**{quantity}**ライセンスでご加入中です。",
-      "SEAT_COUNT": "Number of seats",
-      "RENEWS_ON": "Renews on"
+      "SEAT_COUNT": "シート数",
+      "RENEWS_ON": "更新日"
     },
-    "VIEW_PRICING": "View Pricing",
+    "VIEW_PRICING": "料金を表示",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "サブスクリプションを管理",
       "DESCRIPTION": "過去の請求書を確認したり、請求情報を編集したり、サブスクリプションをキャンセルしたりできます。",
@@ -342,11 +342,11 @@
     },
     "CAPTAIN": {
       "TITLE": "キャプテン",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
-      "BUTTON_TXT": "Buy more credits",
+      "DESCRIPTION": "Captain AIの使用状況とクレジットを管理する。",
+      "BUTTON_TXT": "クレジットを追加購入する",
       "DOCUMENTS": "ドキュメント",
-      "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
+      "RESPONSES": "応答数",
+      "UPGRADE": "Captainは無料プランでは利用できません。アシスタント、Copilotなどの機能を利用するには、プランをアップグレードしてください。"
     },
     "CHAT_WITH_US": {
       "TITLE": "サポートが必要ですか？",
