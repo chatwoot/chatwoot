@@ -13,11 +13,11 @@ const onDownloadClick = () => {
 
 <template>
   <ReportHeader
-    :header-title="$t('INBOX_REPORTS.HEADER')"
-    :header-description="$t('INBOX_REPORTS.DESCRIPTION')"
+    :header-title="$t('AGENT_REPORTS.HEADER')"
+    :header-description="$t('AGENT_REPORTS.DESCRIPTION')"
   >
     <V4Button
-      :label="$t('INBOX_REPORTS.DOWNLOAD_INBOX_REPORTS')"
+      :label="$t('AGENT_REPORTS.DOWNLOAD_AGENT_REPORTS')"
       icon="i-ph-download-simple"
       size="sm"
       @click="onDownloadClick"
@@ -26,10 +26,10 @@ const onDownloadClick = () => {
 
   <SummaryReports
     ref="summarReportsRef"
-    action-key="summaryReports/fetchInboxSummaryReports"
-    getter-key="inboxes/getInboxes"
-    fetch-items-key="inboxes/get"
-    summary-key="summaryReports/getInboxSummaryReports"
-    type="inbox"
+    action-key="summaryReports/fetchAgentSummaryReports"
+    getter-key="agents/getAgents"
+    fetch-items-key="agents/get"
+    summary-key="summaryReports/getAgentSummaryReports"
+    type="agent"
   />
 </template>

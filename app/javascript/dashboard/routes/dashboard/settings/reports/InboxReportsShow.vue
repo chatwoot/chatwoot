@@ -1,17 +1,16 @@
 <script setup>
 import WootReports from './components/WootReports.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-
-const hasBackButton = true;
-import { useRoute } from 'vue-router';
-const route = useRoute();
-
 import { useStoreGetters } from 'dashboard/composables/store';
 import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 const getters = useStoreGetters();
+const hasBackButton = true;
 
 const inbox = computed(() =>
-  getters['inboxes/getInboxById'].value(route.params.inboxId)
+  getters['inboxes/getInboxById'].value(route.params.id)
 );
 </script>
 

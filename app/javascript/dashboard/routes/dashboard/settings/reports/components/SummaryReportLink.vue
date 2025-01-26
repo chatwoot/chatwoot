@@ -1,15 +1,18 @@
 <script setup>
-defineProps({
+import { computed } from 'vue';
+const props = defineProps({
   row: {
     type: Object,
     required: true,
   },
 });
+
+const routeName = computed(() => `${props.row.original.type}_reports_show`);
 </script>
 
 <template>
   <router-link
-    :to="{ name: 'inbox_reports_show', params: { inboxId: row.original.id } }"
+    :to="{ name: routeName, params: { id: row.original.id } }"
     class="text-n-slate-12 hover:underline"
   >
     {{ row.original.name }}

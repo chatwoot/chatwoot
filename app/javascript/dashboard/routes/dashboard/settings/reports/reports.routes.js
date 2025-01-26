@@ -3,11 +3,15 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import ReportsWrapper from './components/ReportsWrapper.vue';
 import Index from './Index.vue';
-import AgentReports from './AgentReports.vue';
-import LabelReports from './LabelReports.vue';
+import AgentReportsIndex from './AgentReportsIndex.vue';
+import TeamReportsIndex from './TeamReportsIndex.vue';
 import InboxReportsIndex from './InboxReportsIndex.vue';
+
+import AgentReportsShow from './AgentReportsShow.vue';
+import TeamReportsShow from './TeamReportsShow.vue';
 import InboxReportsShow from './InboxReportsShow.vue';
-import TeamReports from './TeamReports.vue';
+import LabelReports from './LabelReports.vue';
+
 import CsatResponses from './CsatResponses.vue';
 import BotReports from './BotReports.vue';
 import LiveReports from './LiveReports.vue';
@@ -47,7 +51,15 @@ export default {
           meta: {
             permissions: ['administrator', 'report_manage'],
           },
-          component: AgentReports,
+          component: AgentReportsIndex,
+        },
+        {
+          path: 'agents/:id',
+          name: 'agent_reports_show',
+          meta: {
+            permissions: ['administrator', 'report_manage'],
+          },
+          component: AgentReportsShow,
         },
         {
           path: 'label',
@@ -66,7 +78,7 @@ export default {
           component: InboxReportsIndex,
         },
         {
-          path: 'inboxes/:inboxId',
+          path: 'inboxes/:id',
           name: 'inbox_reports_show',
           meta: {
             permissions: ['administrator', 'report_manage'],
@@ -79,7 +91,15 @@ export default {
           meta: {
             permissions: ['administrator', 'report_manage'],
           },
-          component: TeamReports,
+          component: TeamReportsIndex,
+        },
+        {
+          path: 'teams/:id',
+          name: 'team_reports_show',
+          meta: {
+            permissions: ['administrator', 'report_manage'],
+          },
+          component: TeamReportsShow,
         },
         {
           path: 'sla',

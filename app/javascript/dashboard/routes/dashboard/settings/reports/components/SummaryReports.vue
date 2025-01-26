@@ -28,6 +28,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  fetchItemsKey: {
+    type: String,
+    required: true,
+  },
 });
 
 const store = useStore();
@@ -36,7 +40,7 @@ const from = ref(0);
 const to = ref(0);
 const businessHours = ref(false);
 import { useI18n } from 'vue-i18n';
-import SummaryInboxLink from './SummaryInboxLink.vue';
+import SummaryReportLink from './SummaryReportLink.vue';
 
 const rowItems = useMapGetter([props.getterKey]) || [];
 const reportMetrics = useMapGetter([props.summaryKey]) || [];
@@ -59,7 +63,7 @@ const columns = [
   columnHelper.accessor('name', {
     header: t(`SUMMARY_REPORTS.${props.type.toUpperCase()}`),
     width: 300,
-    cell: cellProps => h(SummaryInboxLink, cellProps),
+    cell: cellProps => h(SummaryReportLink, cellProps),
   }),
   columnHelper.accessor('conversationsCount', {
     header: t('SUMMARY_REPORTS.CONVERSATIONS'),
@@ -71,7 +75,6 @@ const columns = [
     width: 200,
     cell: defaulSpanRender,
   }),
-
   columnHelper.accessor('avgReplyTime', {
     header: t('SUMMARY_REPORTS.AVG_REPLY_TIME'),
     width: 200,
@@ -106,6 +109,7 @@ const tableData = computed(() =>
     return {
       id: row.id,
       name: row.name,
+      type: props.type,
       conversationsCount: renderCount(conversationsCount),
       avgFirstResponseTime: renderAvgTime(avgFirstResponseTime),
       avgReplyTime: renderAvgTime(avgReplyTime),
@@ -116,6 +120,7 @@ const tableData = computed(() =>
 );
 
 const fetchAllData = () => {
+  store.dispatch(props.fetchItemsKey);
   store.dispatch(props.actionKey, {
     since: from.value,
     until: to.value,
