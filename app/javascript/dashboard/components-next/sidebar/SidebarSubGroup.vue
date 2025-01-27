@@ -15,12 +15,11 @@ const props = defineProps({
   activeChild: { type: Object, default: undefined },
 });
 
-const { isAllowed, isOnChatwootCloud } = useSidebarContext();
+const { isAllowed } = useSidebarContext();
 const scrollableContainer = ref(null);
 
 const accessibleItems = computed(() =>
   props.children.filter(child => {
-    if (child.showOnlyOnCloud && !isOnChatwootCloud.value) return false;
     return child.to && isAllowed(child.to);
   })
 );
