@@ -1,4 +1,4 @@
-// import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { frontendURL } from '../../../helper/URLHelper';
 import AssistantIndex from './assistants/Index.vue';
 import AssistantInboxesIndex from './assistants/inboxes/Index.vue';
