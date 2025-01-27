@@ -95,6 +95,7 @@ const newReportRoutes = [
     name: 'Reports Agent',
     label: t('SIDEBAR.REPORTS_AGENT'),
     to: accountScopedRoute('agent_reports_index'),
+    activeOn: ['agent_reports_show'],
   },
   {
     name: 'Reports Label',
@@ -105,11 +106,13 @@ const newReportRoutes = [
     name: 'Reports Inbox',
     label: t('SIDEBAR.REPORTS_INBOX'),
     to: accountScopedRoute('inbox_reports_index'),
+    activeOn: ['inbox_reports_show'],
   },
   {
     name: 'Reports Team',
     label: t('SIDEBAR.REPORTS_TEAM'),
     to: accountScopedRoute('team_reports_index'),
+    activeOn: ['team_reports_show'],
   },
 ];
 
