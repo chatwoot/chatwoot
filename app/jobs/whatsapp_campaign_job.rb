@@ -116,8 +116,71 @@ class WhatsappCampaignJob < ApplicationJob
       return if campaign_contact.processed?
       
       template = fetch_template(campaign)
-      response = send_template_message(campaign_contact, template)
+      
+
+      # Check if template has an IMAGE header
+      response = if has_image_header?(template)
+        send_media_template_message(campaign_contact, template)
+      else
+        send_template_message(campaign_contact, template)
+      end
+
       update_contact_status(campaign_contact, response)
+    end
+
+    def has_image_header?(template)
+      template['components']&.any? do |component|
+        component['type'] == 'HEADER' && component['format'] == 'IMAGE'
+      end
+    end
+
+    def send_media_template_message(campaign_contact, template)
+      begin
+        header_component = template['components'].find { |c| c['type'] == 'HEADER' }
+        image_url = header_component['example']['header_handle'].first
+
+        
+        whatsapp_client(campaign_contact.campaign.inbox).send_template(
+          campaign_contact.contact.phone_number,
+          build_media_template_payload(template, campaign_contact.contact.name, image_url)
+        )
+      rescue StandardError => e
+        nil
+      end
+    end
+
+    # def valid_media_url?(url)
+    #   return false unless url.present?
+
+    #   response = HTTParty.head(url)
+    #   response.success? && response.headers['content-type']&.start_with?('image/')
+    # rescue StandardError => e
+    #   false
+    # end
+
+    # def ensure_https_url(url)
+    #   url.sub(/^http:/, 'https:')
+    # end
+
+
+    def build_media_template_payload(template, name, url)
+      {
+        name: template['name'],
+        lang_code: template['language'],
+        media: [
+          {
+            type: 'image',
+            image: {
+              link: url
+            }
+          }
+        ],
+        parameters: template['components'].any? { |c| c.key?('example') } ?
+          [{ type: 'text',parameter_name: 'name', text: name }] :
+          []
+      }
+    rescue StandardError => e
+      build_template_payload(template, name)
     end
     
     def send_template_message(campaign_contact, template)
@@ -132,7 +195,7 @@ class WhatsappCampaignJob < ApplicationJob
         name: template['name'],
         lang_code: template['language'],
         parameters: template['components'].any? { |c| c.key?('example') } ?
-          [{ 'type': 'text', 'parameter_name': 'name', 'text': name }] :
+          [{ type: 'text', parameter_name: 'name', text: name }] :  # Changed 'key' to 'parameter_name'
           []
       }
     end

@@ -25,8 +25,18 @@
       "CONTACTS_COUNT": "Total Contacts Scheduled: {count} "
     },
     "CONTACT_SELECTOR": {
+      "FILTER": "Filter",
+      "FILTER_TITLE": "Filter Contacts",
+      "FILTER_SUBTITLE": "Add filters below and click 'Apply' to filter contacts.",
+      "FILTER_VALUE_PLACEHOLDER": "Enter Value",
+      "SELECT_FILTER": "Select",
+      "ADD_FILTER": "Add",
+      "FILTER_VALUE": "Value",
+      "APPLY": "Apply",
+      "RESET": "Reset",
       "SEARCH_PLACEHOLDER": "Search The contacts",
       "SELECT_ALL": "Select All",
+      "SELECT_VISIBLE": "Select",
       "CLEAR": "Clear",
       "SELECTED_CONTACTS": "Selected: {count} contacts",
       "NEXT": "Next",
@@ -36,6 +46,13 @@
       "SELECT_EVERYTHING": "SELECT"
     },
     "ADD": {
+      "PREVIEW": {
+        "TIME": "12:00",
+        "BUSINESS": "OneHash",
+        "META_INFO": "This business uses a secure service from Meta to manage this chat. Tap to learn more",
+        "NO_TEMPLATE": "Select a template to preview",
+        "TITLE": "Preview"
+      },
       "SELECT_ALL": {
         "SUCCESS": "All contacts selected",
         "CLEAR": "Deselected all contacts"

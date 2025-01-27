@@ -6,12 +6,14 @@ import { useAlert } from 'dashboard/composables';
 import campaignMixin from 'shared/mixins/campaignMixin';
 import WootDateTimePicker from 'dashboard/components/ui/DateTimePicker.vue';
 import ContactSelector from './ContactSelector.vue';
+import TemplatePreview from './TemplatePreview.vue';
 import ContactsAPI from 'dashboard/api/contacts';
 
 export default {
   components: {
     WootDateTimePicker,
     ContactSelector,
+    TemplatePreview,
   },
   mixins: [campaignMixin],
   setup() {
@@ -32,6 +34,7 @@ export default {
       totalPages: 1,
       total_count: 0,
       sortAttribute: 'name',
+      isTemplateValid: true,
     };
   },
   validations() {
@@ -39,6 +42,7 @@ export default {
       title: { required },
       selectedInbox: { required },
       selectedTemplate: { required },
+      isTemplateValid: { required },
     };
 
     const step2Validations = {
@@ -53,14 +57,14 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'campaigns/getUIFlags',
-      // contactsList: 'contacts/getContacts', // Add a new getter for contacts
     }),
     templateList() {
-      return this.selectedInbox
+      const templates = this.selectedInbox
         ? this.$store.getters['inboxes/getWhatsAppTemplates'](
             this.selectedInbox
           )
         : [];
+      return templates;
     },
     accountId() {
       return this.$route.params.accountId;
@@ -74,23 +78,32 @@ export default {
       return (
         !this.v$.title.$error &&
         !this.v$.selectedInbox.$error &&
-        !this.v$.selectedTemplate.$error
+        !this.v$.selectedTemplate.$error &&
+        this.isTemplateValid
       );
     },
   },
   methods: {
-    async fetchAllContactIds() {
+    onFilteredContacts(filteredContacts) {
+      this.contactList = filteredContacts;
+    },
+    async fetchAllContactIds(isFiltered = false, filteredContacts = []) {
       try {
         this.isSelectingAll = true;
-
-        const { data } = await ContactsAPI.getAllIds();
-
-        this.total_count = data.total_count;
-
-        this.selectedContacts = data.contact_ids;
+        const contactIds = [];
+        if (isFiltered) {
+          this.total_count = filteredContacts.length;
+          contactIds.push(...filteredContacts.map(contact => contact.id));
+          this.selectedContacts = contactIds;
+        } else {
+          const { data } = await ContactsAPI.getAllIds();
+          this.total_count = data.total_count;
+          this.selectedContacts = data.contact_ids;
+          contactIds.push(...data.contact_ids);
+        }
 
         if (this.$refs.contactSelector) {
-          this.$refs.contactSelector.updateSelectedContacts(data.contact_ids);
+          this.$refs.contactSelector.updateSelectedContacts(contactIds);
         }
 
         useAlert(this.$t('CAMPAIGN.ADD.SELECT_ALL.SUCCESS'));
@@ -100,17 +113,19 @@ export default {
         this.isSelectingAll = false;
       }
     },
+    handleTemplateValidation(isValid) {
+      this.isTemplateValid = isValid;
+    },
     handleInboxSelection() {
+      const baseUrl = window.location.origin;
+
       if (this.selectedInbox === 'create_new') {
         this.selectedInbox = '';
 
-        window.open(
-          `https://chat.onehash.ai/app/accounts/${this.accountId}/settings/inboxes/new/whatsapp`,
-          '_blank',
-          'noopener noreferrer'
-        );
+        window.location.href = `${baseUrl}/app/accounts/${this.accountId}/settings/inboxes/new/whatsapp`;
       }
     },
+
     onClose() {
       this.$emit('onClose');
     },
@@ -122,6 +137,7 @@ export default {
         this.isLoadingContacts = true;
 
         if (search) {
+          this.contactList = [];
           const { data } = await ContactsAPI.search(
             search,
             page,
@@ -182,8 +198,6 @@ export default {
       }
 
       try {
-        // Construct the campaign details as per the backend's expected format
-
         const contactIds =
           this.selectedContacts.length > 0 &&
           typeof this.selectedContacts[0] === 'object'
@@ -192,13 +206,12 @@ export default {
 
         const campaignDetails = {
           campaign: {
-            // Wrap the data in a 'campaign' object to match strong parameters
             title: this.title,
             inbox_id: this.selectedInbox,
             template_id: this.selectedTemplate?.id || null,
             scheduled_at: this.scheduledAt,
             contacts: contactIds,
-            // Add optional fields with default values if needed
+
             enabled: true, // Enable campaign by default
             trigger_only_during_business_hours: false, // Default value
             description: this.description || '', // Optional description
@@ -228,7 +241,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col h-auto overflow-auto">
+  <div class="h-auto">
     <woot-modal-header
       :header-title="$t('CAMPAIGN.ADD.TITLE')"
       :header-content="$t('CAMPAIGN.ADD.DESC')"
@@ -318,6 +331,12 @@ export default {
           </woot-button>
         </div>
       </form>
+
+      <!-- Template Preview for Step 1 -->
+      <TemplatePreview
+        :selectedTemplate="selectedTemplate"
+        @template-validation="handleTemplateValidation"
+      />
     </div>
 
     <!-- Step 2: Contact Selection -->
@@ -331,6 +350,7 @@ export default {
         @contactsSelected="onContactsSelected"
         @loadMore="loadMoreContacts"
         @selectAllContacts="fetchAllContactIds"
+        @filterContacts="onFilteredContacts"
       />
 
       <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
@@ -363,5 +383,25 @@ select option[value='create_new'] {
   background-color: #f0f9ff;
   color: #369eff;
   font-weight: 500;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.pr-4 {
+  padding-right: 1rem;
+}
+
+/* Add responsive styles for smaller screens */
+@media (max-width: 1024px) {
+  .flex-row {
+    flex-direction: column;
+  }
+
+  .pr-4 {
+    padding-right: 0;
+    padding-bottom: 1rem;
+  }
 }
 </style>
