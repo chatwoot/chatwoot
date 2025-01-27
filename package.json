@@ -151,7 +151,7 @@
   },
   "engines": {
     "node": "20.x",
-    "npm": ">=6.x",
+    "npm": ">=6.x"
   },
   "husky": {
     "hooks": {
