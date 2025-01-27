@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_08_211541) do
+ActiveRecord::Schema[7.0].define(version: 2025_01_16_061033) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -250,14 +250,17 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_211541) do
     t.text "answer", null: false
     t.vector "embedding", limit: 1536
     t.bigint "assistant_id", null: false
-    t.bigint "document_id"
+    t.bigint "documentable_id"
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 1, null: false
+    t.string "documentable_type"
     t.index ["account_id"], name: "index_captain_assistant_responses_on_account_id"
     t.index ["assistant_id"], name: "index_captain_assistant_responses_on_assistant_id"
-    t.index ["document_id"], name: "index_captain_assistant_responses_on_document_id"
+    t.index ["documentable_id", "documentable_type"], name: "idx_cap_asst_resp_on_documentable"
     t.index ["embedding"], name: "vector_idx_knowledge_entries_embedding", using: :ivfflat
+    t.index ["status"], name: "index_captain_assistant_responses_on_status"
   end
 
   create_table "captain_assistants", force: :cascade do |t|

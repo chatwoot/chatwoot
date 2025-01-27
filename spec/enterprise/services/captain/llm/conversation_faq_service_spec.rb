@@ -48,9 +48,12 @@ RSpec.describe Captain::Llm::ConversationFaqService do
 
       it 'saves the correct FAQ content' do
         service.generate_and_deduplicate
-        expect(captain_assistant.responses.pluck(:question,
-                                                 :answer)).to contain_exactly(['What is the purpose?', 'To help users.'],
-                                                                              ['How does it work?', 'Through AI.'])
+        expect(
+          captain_assistant.responses.pluck(:question, :answer, :status, :documentable_id)
+        ).to contain_exactly(
+          ['What is the purpose?', 'To help users.', 'pending', conversation.id],
+          ['How does it work?', 'Through AI.', 'pending', conversation.id]
+        )
       end
     end
 

@@ -194,7 +194,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Change",
     "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_WORKSPACE": "Switch workspace",
+    "SWITCH_ACCOUNT": "Switch account",
     "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Select an account from the following list",
     "PROFILE_SETTINGS": "Profile settings",
@@ -265,7 +265,7 @@
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_DOCUMENTS": "Documents",
-    "CAPTAIN_RESPONSES" : "FAQs",
+    "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Home",
     "AGENTS": "Agents",
     "AGENT_BOTS": "Bots",
@@ -327,14 +327,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Billing",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses"
+      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Manage your subscription",
       "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
       "BUTTON_TXT": "Go to the billing portal"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Need help?",

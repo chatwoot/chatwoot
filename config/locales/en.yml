@@ -230,7 +230,8 @@ en:
       name: 'Linear'
       description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
   captain:
-    copilot_error: 'Please connect an assistant to this inbox to use copilot'
+    copilot_error: 'Please connect an assistant to this inbox to use Copilot'
+    copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
   public_portal:
     search:
       search_placeholder: Search for article by title or body...

@@ -12,7 +12,15 @@ class Api::V1::Accounts::Captain::AssistantResponsesController < Api::V1::Accoun
   def index
     base_query = @responses
     base_query = base_query.where(assistant_id: permitted_params[:assistant_id]) if permitted_params[:assistant_id].present?
-    base_query = base_query.where(document_id: permitted_params[:document_id]) if permitted_params[:document_id].present?
+
+    if permitted_params[:document_id].present?
+      base_query = base_query.where(
+        documentable_id: permitted_params[:document_id],
+        documentable_type: 'Captain::Document'
+      )
+    end
+
+    base_query = base_query.where(status: permitted_params[:status]) if permitted_params[:status].present?
 
     @responses_count = base_query.count
 
@@ -23,6 +31,7 @@ class Api::V1::Accounts::Captain::AssistantResponsesController < Api::V1::Accoun
 
   def create
     @response = Current.account.captain_assistant_responses.new(response_params)
+    @response.documentable = Current.user
     @response.save!
   end
 
@@ -42,7 +51,7 @@ class Api::V1::Accounts::Captain::AssistantResponsesController < Api::V1::Accoun
   end
 
   def set_responses
-    @responses = Current.account.captain_assistant_responses.includes(:assistant, :document).ordered
+    @responses = Current.account.captain_assistant_responses.includes(:assistant, :documentable).ordered
   end
 
   def set_response
@@ -54,15 +63,15 @@ class Api::V1::Accounts::Captain::AssistantResponsesController < Api::V1::Accoun
   end
 
   def permitted_params
-    params.permit(:id, :assistant_id, :page, :document_id, :account_id)
+    params.permit(:id, :assistant_id, :page, :document_id, :account_id, :status)
   end
 
   def response_params
     params.require(:assistant_response).permit(
       :question,
       :answer,
-      :document_id,
-      :assistant_id
+      :assistant_id,
+      :status
     )
   end
 end

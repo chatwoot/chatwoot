@@ -1,7 +1,8 @@
 <script setup>
-import { computed, useTemplateRef, ref } from 'vue';
+import { computed, onMounted, useTemplateRef, ref } from 'vue';
 import Icon from 'next/icon/Icon.vue';
 import { timeStampAppendedURL } from 'dashboard/helper/URLHelper';
+import { downloadFile } from '@chatwoot/utils';
 
 const { attachment } = defineProps({
   attachment: {
@@ -28,6 +29,13 @@ const duration = ref(0);
 const onLoadedMetadata = () => {
   duration.value = audioPlayer.value?.duration;
 };
+
+// There maybe a chance that the audioPlayer ref is not available
+// When the onLoadMetadata is called, so we need to set the duration
+// value when the component is mounted
+onMounted(() => {
+  duration.value = audioPlayer.value?.duration;
+});
 
 const formatTime = time => {
   const minutes = Math.floor(time / 60);
@@ -66,17 +74,8 @@ const onEnd = () => {
 };
 
 const downloadAudio = async () => {
-  const response = await fetch(timeStampURL.value);
-  const blob = await response.blob();
-  const url = window.URL.createObjectURL(blob);
-  const anchor = document.createElement('a');
-  anchor.href = url;
-  const filename = timeStampURL.value.split('/').pop().split('?')[0] || 'audio';
-  anchor.download = filename;
-  document.body.appendChild(anchor);
-  anchor.click();
-  window.URL.revokeObjectURL(url);
-  document.body.removeChild(anchor);
+  const { fileType, dataUrl, extension } = attachment;
+  downloadFile({ url: dataUrl, type: fileType, extension });
 };
 </script>
 
