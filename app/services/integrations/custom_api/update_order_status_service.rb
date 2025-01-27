@@ -1,8 +1,9 @@
 class Integrations::CustomApi::UpdateOrderStatusService
-  def initialize(order_key, status, tracking_code)
+  def initialize(order_key, status, tracking_code, payment_status)
     @order_key = order_key
     @status = status
     @tracking_code = tracking_code
+    @payment_status = payment_status
   end
 
   def perform
@@ -14,7 +15,8 @@ class Integrations::CustomApi::UpdateOrderStatusService
   def update_order_status
     order = Order.find_by(order_key: @order_key)
     order.update!(status: map_status(@status),
-                  tracking_code: @tracking_code)
+                  tracking_code: @tracking_code,
+                  payment_status: map_payment_status(@payment_status))
     order
   end
 
@@ -27,6 +29,16 @@ class Integrations::CustomApi::UpdateOrderStatusService
       'PENDING_PHOTOS' => 'Compra confirmada',
       'PENDING_FULFILLMENT' => 'Aguardando atendimento',
       'CANCELED' => 'Cancelado'
+    }.freeze
+
+    status_mapper[status] || status
+  end
+
+  def map_payment_status(status)
+    status_mapper = {
+      'PAID' => 'Pago',
+      'PENDING' => 'Pendente',
+      'VOIDED' => 'Recusado'
     }.freeze
 
     status_mapper[status] || status

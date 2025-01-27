@@ -26,6 +26,7 @@
           class="variable-input"
           :styles="{ marginBottom: 0 }"
           :suggestions="options"
+          :selected="selectedParams && selectedParams[key]"
           @input="variableChanged()"
           @variable="value => eventVariableChanged(value, key)"
         />
@@ -143,6 +144,7 @@ export default {
     }
 
     if (this.selectedEventParams) {
+      console.log(this.selectedEventParams);
       this.eventVariables = this.selectedEventParams;
     }
   },
@@ -177,9 +179,12 @@ export default {
     },
     variableChanged() {
       this.$emit('changeVariable', this.processedParams);
+      Object.keys(this.processedParams).forEach(key => {
+        this.$set(this.processedParams, key, this.processedParams[key]);
+      });
     },
     eventVariableChanged(value, key) {
-      this.eventVariables[key] = value;
+      this.$set(this.eventVariables, key, value);
       this.$emit('changeEventVariable', this.eventVariables);
     },
 
