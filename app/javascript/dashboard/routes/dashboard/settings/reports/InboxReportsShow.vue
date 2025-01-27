@@ -21,5 +21,7 @@ const inbox = useFunctionGetter('inboxes/getInboxById', route.params.id);
     :report-title="$t('INBOX_REPORTS.HEADER')"
     :has-back-button
   />
-  <Spinner v-else />
+  <div v-esle class="w-full py-20">
+    <Spinner class="mx-auto" />
+  </div>
 </template>
