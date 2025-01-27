@@ -1,3 +1,4 @@
+import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useConfig } from 'dashboard/composables/useConfig';
@@ -13,7 +14,7 @@ export function usePolicy() {
   const isFeatureEnabled = useMapGetter('accounts/isFeatureEnabledonAccount');
   const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
 
-  const { isEnterprise } = useConfig();
+  const { isEnterprise, enterprisePlanName } = useConfig();
   const { accountId } = useAccount();
 
   const getUserPermissionsForAccount = () => {
@@ -45,5 +46,16 @@ export function usePolicy() {
     return true;
   };
 
-  return { checkFeatureAllowed, checkPermissions, checkInstallationType };
+  const hasPremiumEnterprise = computed(() => {
+    if (isEnterprise) return enterprisePlanName === 'enterprise';
+
+    return true;
+  });
+
+  return {
+    checkFeatureAllowed,
+    checkPermissions,
+    checkInstallationType,
+    hasPremiumEnterprise,
+  };
 }
