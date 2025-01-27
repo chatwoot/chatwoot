@@ -1,5 +1,8 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
+
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
@@ -21,6 +24,8 @@ const props = defineProps({
 
 const emit = defineEmits(['close']);
 const show = defineModel('show', { type: Boolean, default: false });
+
+const { t } = useI18n();
 
 const getters = useStoreGetters();
 
@@ -129,7 +134,7 @@ const onClickDownload = async () => {
     isDownloading.value = true;
     await downloadFile({ url, type, extension });
   } catch (error) {
-    // error
+    useAlert(t('GALLERY_VIEW.ERROR_DOWNLOADING'));
   } finally {
     isDownloading.value = false;
   }

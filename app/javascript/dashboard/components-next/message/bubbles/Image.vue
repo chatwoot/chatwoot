@@ -1,5 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
 import BaseBubble from './Base.vue';
 import Button from 'next/button/Button.vue';
 import Icon from 'next/icon/Icon.vue';
@@ -10,6 +12,8 @@ import { downloadFile } from '@chatwoot/utils';
 import GalleryView from 'dashboard/components/widgets/conversation/components/GalleryView.vue';
 
 const emit = defineEmits(['error']);
+const { t } = useI18n();
+
 const { filteredCurrentChatAttachments, attachments } = useMessageContext();
 
 const attachment = computed(() => {
@@ -31,7 +35,7 @@ const downloadAttachment = async () => {
     isDownloading.value = true;
     await downloadFile({ url: dataUrl, type: fileType, extension });
   } catch (error) {
-    // error
+    useAlert(t('GALLERY_VIEW.ERROR_DOWNLOADING'));
   } finally {
     isDownloading.value = false;
   }
