@@ -98,7 +98,7 @@ const inboxIcon = computed(() => {
         </span>
       </div>
       <div
-        v-dompurify-html="formatMessage(message)"
+        v-dompurify-html="formatMessage(message, false, false, false)"
         class="text-sm text-n-slate-11 line-clamp-1 [&>p]:mb-0 h-6"
       />
       <div class="flex items-center w-full h-6 gap-2 overflow-hidden">

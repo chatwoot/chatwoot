@@ -148,7 +148,6 @@ onMounted(fetchAccountDetails);
             />
           </div>
         </BillingCard>
-
         <BillingHeader
           class="px-1 mt-5"
           :title="$t('BILLING_SETTINGS.CHAT_WITH_US.TITLE')"
