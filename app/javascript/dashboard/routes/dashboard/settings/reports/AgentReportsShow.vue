@@ -25,7 +25,7 @@ onMounted(() => store.dispatch('agents/get'));
     :report-title="$t('AGENT_REPORTS.HEADER')"
     :has-back-button
   />
-  <div v-esle class="w-full py-20">
+  <div v-else class="w-full py-20">
     <Spinner class="mx-auto" />
   </div>
 </template>
