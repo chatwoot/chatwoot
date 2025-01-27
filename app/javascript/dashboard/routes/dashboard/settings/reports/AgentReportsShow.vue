@@ -1,17 +1,16 @@
 <script setup>
+import { onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { useFunctionGetter, useStore } from 'dashboard/composables/store';
+
 import WootReports from './components/WootReports.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-import { useRoute } from 'vue-router';
-import { useStoreGetters } from 'dashboard/composables/store';
-import { computed } from 'vue';
 
-const hasBackButton = true;
 const route = useRoute();
-const getters = useStoreGetters();
+const store = useStore();
+const agent = useFunctionGetter('agents/getAgentById', route.params.id);
 
-const agent = computed(() =>
-  getters['agents/getAgentById'].value(route.params.id)
-);
+onMounted(() => store.dispatch('agents/get'));
 </script>
 
 <template>
@@ -26,5 +25,7 @@ const agent = computed(() =>
     :report-title="$t('AGENT_REPORTS.HEADER')"
     :has-back-button
   />
-  <Spinner v-else />
+  <div v-esle class="w-full py-20">
+    <Spinner class="mx-auto" />
+  </div>
 </template>
