@@ -313,7 +313,34 @@ const menuItems = computed(() => {
       name: 'Reports',
       label: t('SIDEBAR.REPORTS'),
       icon: 'i-lucide-chart-spline',
-      children: reportRoutes.value,
+      children: [
+        {
+          name: 'Report Overview',
+          label: t('SIDEBAR.REPORTS_OVERVIEW'),
+          to: accountScopedRoute('account_overview_reports'),
+        },
+        {
+          name: 'Report Conversation',
+          label: t('SIDEBAR.REPORTS_CONVERSATION'),
+          to: accountScopedRoute('conversation_reports'),
+        },
+        ...reportRoutes.value,
+        {
+          name: 'Reports CSAT',
+          label: t('SIDEBAR.CSAT'),
+          to: accountScopedRoute('csat_reports'),
+        },
+        {
+          name: 'Reports SLA',
+          label: t('SIDEBAR.REPORTS_SLA'),
+          to: accountScopedRoute('sla_reports'),
+        },
+        {
+          name: 'Reports Bot',
+          label: t('SIDEBAR.REPORTS_BOT'),
+          to: accountScopedRoute('bot_reports'),
+        },
+      ],
     },
     {
       name: 'Campaigns',
