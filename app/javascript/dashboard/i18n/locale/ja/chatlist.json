@@ -39,13 +39,13 @@
     "VIEW_FILTER": "表示",
     "SORT_TOOLTIP_LABEL": "会話を並び替える",
     "CHAT_SORT": {
-      "STATUS": "状況",
+      "STATUS": "ステータス",
       "ORDER_BY": "並び順"
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
         "LATEST": "作成",
-        "OLDEST": "作成日:"
+        "OLDEST": "作成日時:"
       },
       "LAST_ACTIVITY": {
         "NOT_ACTIVE": "最終アクティビティ:",
@@ -60,10 +60,10 @@
         "TEXT": "最終アクティビティ: 新しい順"
       },
       "created_at_desc": {
-        "TEXT": "作成日: 新しい順"
+        "TEXT": "作成日時: 新しい順"
       },
       "created_at_asc": {
-        "TEXT": "作成日: 古い順"
+        "TEXT": "作成日時: 古い順"
       },
       "priority_desc": {
         "TEXT": "優先度: 高い順"
@@ -72,10 +72,10 @@
         "TEXT": "優先度: 低い順"
       },
       "waiting_since_asc": {
-        "TEXT": "応答待ち: 最長"
+        "TEXT": "保留時間: 長い順"
       },
       "waiting_since_desc": {
-        "TEXT": "応答待ち: 最短"
+        "TEXT": "保留時間: 短い順"
       }
     },
     "ATTACHMENTS": {
@@ -95,7 +95,7 @@
         "CONTENT": "場所"
       },
       "ig_reel": {
-        "CONTENT": "Instagram Reel"
+        "CONTENT": "Instagram リール"
       },
       "fallback": {
         "CONTENT": "URLを共有しています"
