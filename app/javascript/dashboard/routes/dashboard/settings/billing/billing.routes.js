@@ -23,6 +23,7 @@ export default {
           name: 'billing_settings_index',
           component: Index,
           meta: {
+            installationTypes: [INSTALLATION_TYPES.CLOUD],
             permissions: ['administrator'],
           },
         },

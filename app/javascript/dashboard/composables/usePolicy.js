@@ -32,13 +32,13 @@ export function usePolicy() {
   };
 
   const checkInstallationType = config => {
-    const installationCheck = {
-      [INSTALLATION_TYPES.ENTERPISE]: isEnterprise,
-      [INSTALLATION_TYPES.CLOUD]: isOnChatwootCloud.value,
-      [INSTALLATION_TYPES.COMMUNITY]: true,
-    };
-
     if (Array.isArray(config) && config.length > 0) {
+      const installationCheck = {
+        [INSTALLATION_TYPES.ENTERPRISE]: isEnterprise,
+        [INSTALLATION_TYPES.CLOUD]: isOnChatwootCloud.value,
+        [INSTALLATION_TYPES.COMMUNITY]: true,
+      };
+
       return config.some(type => installationCheck[type]);
     }
 

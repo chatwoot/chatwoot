@@ -162,7 +162,7 @@ onMounted(async () => {
           :active-child="activeChild"
         />
         <SidebarGroupLeaf
-          v-else
+          v-else-if="isAllowed(child.to)"
           v-show="isExpanded || activeChild?.name === child.name"
           v-bind="child"
           :active="activeChild?.name === child.name"

@@ -64,15 +64,17 @@ useEventListener(scrollableContainer, 'scroll', () => {
       }"
     >
       <template v-if="children.length">
-        <SidebarGroupLeaf
-          v-for="child in children"
-          v-show="isExpanded || activeChild?.name === child.name"
-          v-bind="child"
-          :key="child.name"
-          :active="activeChild?.name === child.name"
-        />
+        <template v-for="child in children">
+          <SidebarGroupLeaf
+            v-if="isAllowed(child.to)"
+            v-show="isExpanded || activeChild?.name === child.name"
+            v-bind="child"
+            :key="child.name"
+            :active="activeChild?.name === child.name"
+          />
+        </template>
       </template>
-      <SidebarGroupEmptyLeaf v-else v-show="isExpanded" class="ml-3 rtl:mr-3" />
+      <SidebarGroupEmptyLeaf v-show="isExpanded" class="ml-3 rtl:mr-3" />
     </div>
     <div
       v-if="isScrollable && isExpanded"
