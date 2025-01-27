@@ -60,7 +60,7 @@ const textToShow = computed(() => {
     <EmailMeta
       class="p-3"
       :class="{
-        'border-b border-n-strong': isIncoming,
+        'border-b border-n-slate-6': isIncoming,
         'border-b border-n-slate-8/20': isOutgoing,
       }"
     />
