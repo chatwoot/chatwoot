@@ -62,10 +62,12 @@ const { checkFeatureAllowed, checkInstallationType, hasPremiumEnterprise } =
   usePolicy();
 
 const showPaywall = computed(() => {
+  console.log(props.ensurePremiumEnterprise, hasPremiumEnterprise.value);
+
   return (
     checkFeatureAllowed(props.featureFlag) &&
     checkInstallationType(props.installationTypes) &&
-    (props.ensurePremiumEnterprise ? hasPremiumEnterprise.value : true)
+    (props.ensurePremiumEnterprise ? !hasPremiumEnterprise.value : true)
   );
 });
 
