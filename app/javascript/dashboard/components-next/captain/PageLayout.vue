@@ -1,12 +1,12 @@
 <script setup>
 import { computed } from 'vue';
-import { useAccount } from 'dashboard/composables/useAccount';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 import Button from 'dashboard/components-next/button/Button.vue';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Policy from 'dashboard/components/policy.vue';
 
-const { featureFlag } = defineProps({
+const props = defineProps({
   currentPage: {
     type: Number,
     default: 1,
@@ -35,6 +35,14 @@ const { featureFlag } = defineProps({
     type: String,
     default: '',
   },
+  installationTypes: {
+    type: Array,
+    default: () => [],
+  },
+  ensurePremiumEnterprise: {
+    type: Boolean,
+    default: false,
+  },
   isFetching: {
     type: Boolean,
     default: false,
@@ -50,10 +58,15 @@ const { featureFlag } = defineProps({
 });
 
 const emit = defineEmits(['click', 'close', 'update:currentPage']);
-const { isCloudFeatureEnabled } = useAccount();
+const { checkFeatureAllowed, checkInstallationType, hasPremiumEnterprise } =
+  usePolicy();
 
 const showPaywall = computed(() => {
-  return !isCloudFeatureEnabled(featureFlag);
+  return (
+    checkFeatureAllowed(props.featureFlag) &&
+    checkInstallationType(props.installationTypes) &&
+    (props.ensurePremiumEnterprise ? hasPremiumEnterprise.value : true)
+  );
 });
 
 const handleButtonClick = () => {
