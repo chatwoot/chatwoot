@@ -16,8 +16,19 @@ export default {
   },
   computed: {
     whatsAppTemplateMessages() {
-      // TODO: Remove the last filter when we support all formats
-      return this.$store.getters['inboxes/getWhatsAppTemplates'](this.inboxId)
+      const templates = this.$store.getters['inboxes/getWhatsAppTemplates'](
+        this.inboxId
+      );
+
+      const filteredTemplates = Array.isArray(templates)
+        ? templates.filter(template => {
+            return !template.components.some(
+              i => i.format === 'IMAGE' || i.format === 'VIDEO'
+            );
+          })
+        : [];
+
+      return filteredTemplates
         .filter(template => template.status.toLowerCase() === 'approved')
         .filter(template => {
           return template.components.every(component => {

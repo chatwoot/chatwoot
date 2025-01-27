@@ -1,4 +1,7 @@
 <script>
+import { useAlert } from 'dashboard/composables';
+import ContactsAPI from 'dashboard/api/contacts';
+
 export default {
   name: 'ContactSelector',
   props: {
@@ -15,22 +18,155 @@ export default {
       default: false,
     },
   },
-  emits: ['contactsSelected', 'loadMore', 'selectAllContacts'],
+  emits: [
+    'contactsSelected',
+    'loadMore',
+    'selectAllContacts',
+    'filterContacts',
+  ],
   data() {
     return {
       searchQuery: '',
       localSelectedContacts: [],
       observer: null,
       isSelectingAll: false,
+      showFiltersModal: false,
+      currentPage: 1,
+      totalPages: 1,
+      contactList: [],
+      allFilteredContacts: [],
+      isLoadingContacts: false,
+      sortAttribute: 'name',
+      appliedFilters: [
+        {
+          attribute_key: 'name',
+          filter_operator: 'equal_to',
+          values: '',
+          query_operator: 'and',
+        },
+      ],
+      filterTypes: [
+        {
+          attributeKey: 'name',
+          attributeI18nKey: 'NAME',
+          inputType: 'text',
+          filterOperators: [
+            { value: 'equal_to', label: 'Equals' },
+            { value: 'not_equal_to', label: 'Does not equal' },
+            { value: 'contains', label: 'Contains' },
+            { value: 'does_not_contain', label: 'Does not contain' },
+          ],
+        },
+        {
+          attributeKey: 'phone_number',
+          attributeI18nKey: 'PHONE',
+          inputType: 'text',
+          filterOperators: [
+            { value: 'equal_to', label: 'Equals' },
+            { value: 'not_equal_to', label: 'Does not equal' },
+            { value: 'contains', label: 'Contains' },
+            { value: 'does_not_contain', label: 'Does not contain' },
+          ],
+        },
+        {
+          attributeKey: 'email',
+          attributeI18nKey: 'EMAIL',
+          inputType: 'text',
+          filterOperators: [
+            { value: 'equal_to', label: 'Equals' },
+            { value: 'not_equal_to', label: 'Does not equal' },
+            { value: 'contains', label: 'Contains' },
+            { value: 'does_not_contain', label: 'Does not contain' },
+          ],
+        },
+        {
+          attributeKey: 'company',
+          attributeI18nKey: 'COMPANY',
+          inputType: 'text',
+          filterOperators: [
+            { value: 'equal_to', label: 'Equals' },
+            { value: 'not_equal_to', label: 'Does not equal' },
+            { value: 'contains', label: 'Contains' },
+            { value: 'does_not_contain', label: 'Does not contain' },
+          ],
+        },
+        {
+          attributeKey: 'city',
+          attributeI18nKey: 'CITY',
+          inputType: 'text',
+          filterOperators: [
+            { value: 'equal_to', label: 'Equals' },
+            { value: 'not_equal_to', label: 'Does not equal' },
+            { value: 'contains', label: 'Contains' },
+            { value: 'does_not_contain', label: 'Does not contain' },
+          ],
+        },
+        {
+          attributeKey: 'country_code',
+          attributeI18nKey: 'COUNTRY',
+          inputType: 'text',
+          filterOperators: [
+            { value: 'equal_to', label: 'Equals' },
+            // { value: 'not_equal_to', label: 'Does not equal' },
+            // { value: 'contains', label: 'Contains' },
+            // { value: 'does_not_contain', label: 'Does not contain' },
+          ],
+        },
+      ],
+      selectAllVisible: false, // Add this new data property
     };
   },
   computed: {
     filteredContacts() {
-      return this.contacts.filter(
-        contact =>
-          contact.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-          contact.phone_number.includes(this.searchQuery)
-      );
+      // Use contactList instead of contacts for filtering
+      const contactsToFilter =
+        this.contactList.length > 0 ? this.contactList : this.contacts;
+
+      if (!this.searchQuery) return contactsToFilter;
+
+      return contactsToFilter.filter(contact => {
+        const searchLower = this.searchQuery.toLowerCase();
+        return (
+          (contact.name && contact.name.toLowerCase().includes(searchLower)) ||
+          (contact.phone_number &&
+            contact.phone_number.includes(this.searchQuery)) ||
+          (contact.email && contact.email.toLowerCase().includes(searchLower))
+        );
+      });
+    },
+  },
+  watch: {
+    contacts() {
+      this.$nextTick(() => {
+        if (this.$refs.loadingTrigger && this.observer) {
+          this.observer.observe(this.$refs.loadingTrigger);
+        }
+      });
+    },
+    // Add this new watcher
+    selectAllVisible(newValue) {
+      if (newValue) {
+        // Select all visible contacts
+        this.filteredContacts.forEach(contact => {
+          if (!this.isSelected(contact)) {
+            this.localSelectedContacts.push(contact);
+          }
+        });
+      } else {
+        // Deselect all visible contacts
+        this.localSelectedContacts = this.localSelectedContacts.filter(
+          selectedContact =>
+            !this.filteredContacts.some(
+              contact => contact.id === selectedContact.id
+            )
+        );
+      }
+      this.$emit('contactsSelected', this.localSelectedContacts);
+    },
+
+    // Add this watcher to reset selectAllVisible when contacts change
+    'filteredContacts.length'() {
+      this.selectAllVisible = false;
     },
   },
   mounted() {
@@ -42,6 +178,66 @@ export default {
     }
   },
   methods: {
+    async selectAll() {
+      this.isSelectingAll = true;
+      const hasActiveFilters = this.appliedFilters.some(
+        filter => filter.values.trim() !== ''
+      );
+
+      try {
+        // Clear previous selection
+        this.localSelectedContacts = [];
+
+        // If we have filtered contacts, use those instead of all contacts
+        if (hasActiveFilters) {
+          // Use the filtered contacts list
+          this.localSelectedContacts = [...this.contactList];
+          await this.$emit('selectAllContacts', true, this.allFilteredContacts);
+        } else {
+          // Use the regular contacts list
+          this.localSelectedContacts = [...this.contacts];
+          await this.$emit('selectAllContacts', false, []);
+        }
+
+        this.$emit('contactsSelected', this.localSelectedContacts);
+      } finally {
+        this.isSelectingAll = false;
+      }
+    },
+
+    handleContactsResponse(data, isFiltered = false) {
+      const { payload = [], meta = {} } = data;
+      const filteredContacts = payload.filter(contact => contact.phone_number);
+
+      if (isFiltered) {
+        this.contactList =
+          this.currentPage === 1
+            ? filteredContacts
+            : [...this.contactList, ...filteredContacts];
+
+        // Update allFilteredContacts only on first page for filtered results
+        if (this.currentPage === 1) {
+          this.allFilteredContacts = filteredContacts;
+        } else {
+          this.allFilteredContacts = [
+            ...this.allFilteredContacts,
+            ...filteredContacts,
+          ];
+        }
+      } else {
+        this.contactList =
+          this.currentPage === 1
+            ? filteredContacts
+            : [...this.contactList, ...filteredContacts];
+      }
+
+      this.$emit('filterContacts', this.contactList);
+
+      // Calculate total pages
+      const totalpages = Math.ceil(meta.count / 30);
+      this.totalPages = Math.min(totalpages, 33);
+    },
+
     setupInfiniteScroll() {
       const options = {
         root: this.$refs.contactsList,
@@ -59,6 +255,7 @@ export default {
         this.observer.observe(this.$refs.loadingTrigger);
       }
     },
+
     toggleContact(contact) {
       const index = this.localSelectedContacts.findIndex(
         c => c.id === contact.id
@@ -70,48 +267,190 @@ export default {
       }
       this.$emit('contactsSelected', this.localSelectedContacts);
     },
+
     isSelected(contact) {
       return (this.localSelectedContacts || []).some(c => c.id === contact.id);
     },
-    async selectAll() {
-      this.isSelectingAll = true;
-      try {
-        // First, select all currently loaded contacts
-        this.contacts.forEach(contact => {
-          if (!this.isSelected(contact)) {
-            this.localSelectedContacts.push(contact);
-          }
-        });
 
-        // Emit the current selection before fetching all IDs
-        this.$emit('contactsSelected', this.localSelectedContacts);
-
-        // Fetch all contact IDs from backend
-        await this.$emit('selectAllContacts');
-      } finally {
-        this.isSelectingAll = false;
-      }
-    },
     clearSelection() {
       this.localSelectedContacts = [];
       this.$emit('contactsSelected', this.localSelectedContacts);
     },
-    // Method to update selected contacts from parent
+
+    toggleFiltersModal() {
+      this.showFiltersModal = !this.showFiltersModal;
+    },
+
+    appendNewFilter() {
+      this.appliedFilters.push({
+        attribute_key: 'name',
+        filter_operator: 'equal_to',
+        values: '',
+        query_operator: 'and',
+      });
+    },
+
+    removeFilter(index) {
+      if (this.appliedFilters.length > 1) {
+        this.appliedFilters.splice(index, 1);
+      }
+    },
+
+    async submitFilters() {
+      try {
+        // Reset pagination and contact list before applying new filters
+        this.contactList = [];
+        this.currentPage = 1;
+
+        const formattedFilters = this.appliedFilters
+          .filter(filter => filter.values.trim() !== '')
+          .map((filter, index, filteredArray) => ({
+            attribute_key: filter.attribute_key,
+            attribute_model: 'standard',
+            custom_attribute_type: '',
+            filter_operator: filter.filter_operator,
+            ...(filteredArray.length > 1 && index < filteredArray.length - 1
+              ? { query_operator: filter.query_operator }
+              : {}),
+            values: [filter.values.trim()],
+          }));
+
+        if (formattedFilters.length === 0) {
+          // If no valid filters, fetch regular contacts
+          await this.fetchContacts(1);
+          this.showFiltersModal = false;
+          return;
+        }
+
+        this.isLoadingContacts = true;
+
+        const queryPayload = {
+          payload: formattedFilters,
+        };
+
+        const { data } = await ContactsAPI.filter(1, 'name', queryPayload);
+        this.handleContactsResponse(data, true); // Note the true flag here
+        this.showFiltersModal = false;
+
+        const { payload = [], meta = {} } = data;
+        const totalpages = Math.ceil(meta.count / 30);
+
+        this.allFilteredContacts = [...payload];
+
+        // Fetch remaining pages
+        // eslint-disable-next-line no-plusplus
+        for (let page = 2; page <= totalpages; page++) {
+          // eslint-disable-next-line no-await-in-loop
+          const response = await ContactsAPI.filter(page, 'name', queryPayload);
+          if (response.data && response.data.payload) {
+            this.allFilteredContacts = [
+              ...this.allFilteredContacts,
+              ...response.data.payload,
+            ];
+          }
+        }
+      } catch (error) {
+        useAlert(this.$t('CAMPAIGN.CONTACT_SELECTOR.FILTER_ERROR'));
+      } finally {
+        this.isLoadingContacts = false;
+      }
+    },
+
+    async loadMoreContacts() {
+      if (this.currentPage < this.totalPages && !this.isLoadingContacts) {
+        // Check if we have active filters
+        const hasActiveFilters = this.appliedFilters.some(
+          filter => filter.values.trim() !== ''
+        );
+
+        if (hasActiveFilters) {
+          await this.loadMoreFilteredContacts();
+        } else {
+          this.currentPage += 1;
+          await this.fetchContacts(this.currentPage);
+        }
+      }
+    },
+
+    async loadMoreFilteredContacts() {
+      if (this.currentPage < this.totalPages && !this.isLoadingContacts) {
+        try {
+          this.isLoadingContacts = true;
+          this.currentPage += 1;
+
+          const formattedFilters = this.appliedFilters
+            .filter(filter => filter.values.trim() !== '')
+            .map((filter, index, filteredArray) => ({
+              attribute_key: filter.attribute_key,
+              attribute_model: 'standard',
+              custom_attribute_type: '',
+              filter_operator: filter.filter_operator,
+              ...(filteredArray.length > 1 && index < filteredArray.length - 1
+                ? { query_operator: filter.query_operator }
+                : {}),
+              values: [filter.values.trim()],
+            }));
+
+          const queryPayload = {
+            payload: formattedFilters,
+          };
+
+          const { data } = await ContactsAPI.filter(
+            this.currentPage,
+            'name',
+            queryPayload
+          );
+
+          this.handleContactsResponse(data, true);
+        } catch (error) {
+          useAlert(this.$t('CAMPAIGN.CONTACT_SELECTOR.FILTER_ERROR'));
+          // Reset the page on error
+          this.currentPage -= 1;
+        } finally {
+          this.isLoadingContacts = false;
+        }
+      }
+    },
+
+    async fetchContacts(page = 1) {
+      try {
+        this.isLoadingContacts = true;
+        const { data } = await ContactsAPI.get(page, this.sortAttribute);
+        this.handleContactsResponse(data, false);
+      } catch (error) {
+        useAlert(this.$t('CAMPAIGN.ADD.API.CONTACTS_ERROR'));
+      } finally {
+        this.isLoadingContacts = false;
+      }
+    },
+
+    clearFilters() {
+      // Reset filters and contact list
+      this.appliedFilters = [
+        {
+          attribute_key: 'name',
+          filter_operator: 'equal_to',
+          values: '',
+          query_operator: 'and',
+        },
+      ];
+      this.contactList = []; // Reset contact list
+      this.currentPage = 1;
+      this.fetchContacts(1);
+      this.showFiltersModal = false;
+    },
+
     updateSelectedContacts(contactIds) {
-      // Convert current selections to a Set of IDs for quick lookup
       const currentSelectedIds = new Set(
         this.localSelectedContacts.map(c => c.id)
       );
 
-      // Add any new IDs from the backend that aren't in our current selection
       contactIds.forEach(id => {
         if (!currentSelectedIds.has(id)) {
-          // If we have the contact object in our loaded contacts, use that
           const contact = this.contacts.find(c => c.id === id);
           if (contact) {
             this.localSelectedContacts.push(contact);
           } else {
-            // If we don't have the contact object, create a minimal one
             this.localSelectedContacts.push({ id: id });
           }
         }
@@ -119,14 +458,12 @@ export default {
 
       this.$emit('contactsSelected', this.localSelectedContacts);
     },
-  },
-  watch: {
-    contacts() {
-      this.$nextTick(() => {
-        if (this.$refs.loadingTrigger && this.observer) {
-          this.observer.observe(this.$refs.loadingTrigger);
-        }
-      });
+
+    getFilterOperators(attributeKey) {
+      const filterType = this.filterTypes.find(
+        type => type.attributeKey === attributeKey
+      );
+      return filterType ? filterType.filterOperators : [];
     },
   },
 };
@@ -135,21 +472,41 @@ export default {
 <template>
   <div class="contact-selector">
     <div class="search-header">
-      <input
-        v-model="searchQuery"
-        type="text"
-        :placeholder="$t('CAMPAIGN.CONTACT_SELECTOR.SEARCH_PLACEHOLDER')"
-        class="search-input"
-      />
-      <div class="selection-controls">
-        <button @click="selectAll">
-          {{ $t('CAMPAIGN.CONTACT_SELECTOR.SELECT_ALL') }}
-        </button>
-        <button @click="clearSelection">
-          {{ $t('CAMPAIGN.CONTACT_SELECTOR.CLEAR') }}
-        </button>
+      <div class="search-controls">
+        <input
+          v-model="searchQuery"
+          type="text"
+          :placeholder="$t('CAMPAIGN.CONTACT_SELECTOR.SEARCH_PLACEHOLDER')"
+          class="search-input"
+        />
+        <woot-button
+          v-tooltip.top-end="$t('CAMPAIGN.CONTACT_SELECTOR.FILTER')"
+          icon="filter"
+          size="medium"
+          color-scheme="secondary"
+          class-names="filter-button"
+          @click="toggleFiltersModal"
+        />
+      </div>
+      <div class="selection-wrapper">
+        <div class="selection-controls">
+          <button @click="selectAll">
+            {{ $t('CAMPAIGN.CONTACT_SELECTOR.SELECT_ALL') }}
+          </button>
+          <button @click="clearSelection">
+            {{ $t('CAMPAIGN.CONTACT_SELECTOR.CLEAR') }}
+          </button>
+        </div>
+        <div class="select-visible-checkbox">
+          <input
+            type="checkbox"
+            :checked="selectAllVisible"
+            @change="selectAllVisible = !selectAllVisible"
+          />
+        </div>
       </div>
     </div>
+
     <div ref="contactsList" class="contacts-list">
       <div
         v-for="contact in filteredContacts"
@@ -161,11 +518,13 @@ export default {
         <div class="contact-info">
           <span class="contact-name">{{ contact.name }}</span>
           <span class="contact-phone">{{ contact.phone_number }}</span>
+          <span v-if="contact.email" class="contact-email">{{
+            contact.email
+          }}</span>
         </div>
         <input type="checkbox" :checked="isSelected(contact)" @click.stop />
       </div>
 
-      <!-- Loading trigger element -->
       <div
         v-if="hasMore"
         ref="loadingTrigger"
@@ -177,6 +536,7 @@ export default {
         }}</span>
       </div>
     </div>
+
     <div class="selection-summary">
       {{
         $t('CAMPAIGN.CONTACT_SELECTOR.SELECTED_CONTACTS', {
@@ -184,6 +544,92 @@ export default {
         })
       }}
     </div>
+
+    <!-- Filters Modal -->
+    <woot-modal
+      :show.sync="showFiltersModal"
+      :on-close="toggleFiltersModal"
+      size="medium"
+    >
+      <div class="filters-modal">
+        <div class="filters-header">
+          <h3>{{ $t('CAMPAIGN.CONTACT_SELECTOR.FILTER_TITLE') }}</h3>
+          <p class="filters-subtitle">
+            {{ $t('CAMPAIGN.CONTACT_SELECTOR.FILTER_SUBTITLE') }}
+          </p>
+        </div>
+
+        <div class="filters-content">
+          <div
+            v-for="(filter, index) in appliedFilters"
+            :key="index"
+            class="filter-row"
+          >
+            <select v-model="filter.attribute_key" class="filter-attribute">
+              <option
+                v-for="type in filterTypes"
+                :key="type.attributeKey"
+                :value="type.attributeKey"
+              >
+                {{ type.attributeKey }}
+              </option>
+            </select>
+
+            <select v-model="filter.filter_operator" class="filter-operator">
+              <option
+                v-for="operator in getFilterOperators(filter.attribute_key)"
+                :key="operator.value"
+                :value="operator.value"
+              >
+                {{ operator.label }}
+              </option>
+            </select>
+
+            <input
+              v-model="filter.values"
+              type="text"
+              class="filter-value"
+              :placeholder="
+                $t('CAMPAIGN.CONTACT_SELECTOR.FILTER_VALUE_PLACEHOLDER')
+              "
+            />
+            <woot-button
+              v-if="appliedFilters.length > 1"
+              icon="delete"
+              size="medium"
+              color-scheme="alert"
+              class="remove-filter"
+              @click="removeFilter(index)"
+            />
+          </div>
+          <woot-button
+            icon="add-circle"
+            size="large"
+            color-scheme="success"
+            @click="appendNewFilter"
+          >
+            {{ $t('CAMPAIGN.CONTACT_SELECTOR.ADD_FILTER') }}
+          </woot-button>
+        </div>
+
+        <div class="filters-footer">
+          <woot-button
+            size="large"
+            color-scheme="secondary"
+            @click="clearFilters"
+          >
+            {{ $t('CAMPAIGN.CONTACT_SELECTOR.CLEAR') }}
+          </woot-button>
+          <woot-button
+            size="large"
+            color-scheme="primary"
+            @click="submitFilters"
+          >
+            {{ $t('CAMPAIGN.CONTACT_SELECTOR.APPLY') }}
+          </woot-button>
+        </div>
+      </div>
+    </woot-modal>
   </div>
 </template>
 
@@ -196,42 +642,62 @@ export default {
            bg-white dark:bg-slate-800 
            border-slate-200 dark:border-slate-700;
 
-    .search-input {
-      @apply w-64 px-3 py-2 border rounded
-             bg-white dark:bg-slate-700 
-             border-slate-300 dark:border-slate-600
-             text-slate-900 dark:text-white
-             placeholder-slate-500 dark:placeholder-slate-400;
-      &:focus {
-        border-color: #17a2b8; // Cyan for focus border
-        box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25); // Cyan shadow for focus
+    .search-controls {
+      @apply flex items-center gap-2;
+
+      .search-input {
+        @apply w-64 px-3 py-2 border rounded
+               bg-white dark:bg-slate-700 
+               border-slate-300 dark:border-slate-600
+               text-slate-900 dark:text-white
+               placeholder-slate-500 dark:placeholder-slate-400;
+        &:focus {
+          @apply outline-none ring-2 ring-black-500;
+        }
+      }
+
+      .filter-button {
+        @apply relative bottom-2;
       }
     }
 
-    .selection-controls {
-      @apply flex gap-2;
+    .selection-wrapper {
+      @apply flex flex-col;
 
-      button {
-        @apply px-3 py-1 text-sm border rounded
-               bg-white dark:bg-slate-700
-               border-slate-300 dark:border-slate-600
-               text-slate-700 dark:text-white
-               hover:bg-slate-50 hover:dark:bg-slate-600;
+      .selection-controls {
+        @apply flex flex-row gap-2;
+
+        button {
+          @apply px-3 py-1 text-sm border rounded
+                 bg-white dark:bg-slate-700
+                 border-slate-300 dark:border-slate-600
+                 text-slate-700 dark:text-white
+                 hover:bg-slate-50 hover:dark:bg-slate-600;
+        }
+      }
+
+      .select-visible-checkbox {
+        @apply flex items-center mt-4 ml-32 text-sm text-slate-700 dark:text-white;
+
+        input[type='checkbox'] {
+          @apply w-4 h-4 cursor-pointer accent-black-600;
+        }
       }
     }
   }
 
   .contacts-list {
     @apply flex-1 overflow-y-auto bg-white dark:bg-slate-900;
-    max-height: 300px; /* Set a max-height to fix modal size */
-    overflow-y: auto; /* Add scrollbar when content overflows */
-    border-bottom: 1px solid #e2e8f0; /* Optional: a bottom border for clarity */
+    max-height: 400px;
 
     .contact-item {
       @apply flex items-center justify-between p-3 cursor-pointer
-           bg-white dark:bg-slate-800 
-           border-b border-slate-100 dark:border-slate-700
-           hover:bg-slate-50 hover:dark:bg-slate-700;
+             border-b border-slate-100 dark:border-slate-700
+             hover:bg-slate-50 dark:hover:bg-slate-800;
+
+      &.selected {
+        @apply bg-black-50 dark:bg-black-900/30;
+      }
 
       .contact-info {
         @apply flex flex-col;
@@ -243,26 +709,112 @@ export default {
         .contact-phone {
           @apply text-sm text-slate-600 dark:text-slate-400;
         }
+
+        .contact-email {
+          @apply text-sm text-slate-500 dark:text-slate-500;
+        }
       }
 
       input[type='checkbox'] {
-        @apply cursor-pointer;
-        accent-color: #17a2b8;
+        @apply w-4 h-4 cursor-pointer accent-black-600;
+      }
+    }
+
+    .loading-trigger {
+      @apply p-4 text-center text-slate-500 dark:text-slate-400;
+
+      &.is-loading {
+        @apply bg-slate-50 dark:bg-slate-800;
       }
     }
   }
 
   .selection-summary {
-    @apply p-4 text-sm font-medium border-t
+    @apply p-4 text-sm font-medium
            bg-white dark:bg-slate-800
            text-slate-700 dark:text-white
-           border-slate-200 dark:border-slate-700;
+           border-t border-slate-200 dark:border-slate-700;
   }
-  .loading-trigger {
-    @apply p-4 text-center text-sm text-slate-600 dark:text-slate-400;
 
-    &.is-loading {
-      @apply bg-slate-50 dark:bg-slate-700;
+  .filters-modal {
+    @apply p-6;
+
+    .filters-header {
+      @apply mb-6;
+
+      h3 {
+        @apply text-lg font-medium text-slate-900 dark:text-white;
+      }
+
+      .filters-subtitle {
+        @apply mt-1 text-sm text-slate-500 dark:text-slate-400;
+      }
+    }
+
+    .filters-content {
+      @apply space-y-4;
+
+      .filter-row {
+        @apply flex items-center gap-2;
+
+        select,
+        input {
+          @apply px-3 py-2 border rounded
+             bg-white dark:bg-slate-700
+             border-slate-300 dark:border-slate-600
+             text-slate-900 dark:text-white;
+
+          &:focus {
+            @apply outline-none ring-2 ring-black-500;
+          }
+        }
+
+        select {
+          /* Reduce the horizontal width */
+          @apply min-w-[100px] w-auto; /* Adjust this value to your desired size */
+        }
+
+        .filter-attribute {
+          @apply flex-shrink-0;
+          width: 230px; /* Override width specifically for attribute dropdown */
+        }
+
+        .filter-operator {
+          @apply flex-shrink-0;
+          width: 230px; /* Override width specifically for operator dropdown */
+        }
+
+        .filter-value {
+          @apply flex-1;
+          width: 230px;
+        }
+
+        .remove-filter {
+          @apply relative top-[-8px];
+        }
+      }
+
+      .add-filter {
+        @apply flex items-center gap-2 px-3 py-2
+           text-black-600 dark:text-black-400
+           hover:text-black-700 dark:hover:text-black-300;
+      }
+    }
+
+    .filters-footer {
+      @apply flex justify-end gap-3 mt-6;
+
+      .clear-filters {
+        @apply px-4 py-2 text-sm
+               text-slate-700 dark:text-slate-300
+               hover:text-slate-900 dark:hover:text-white;
+      }
+
+      .apply-filters {
+        @apply px-4 py-2 text-sm text-white rounded
+               bg-black-600 hover:bg-black-700
+               dark:bg-black-500 dark:hover:bg-black-600;
+      }
     }
   }
 }

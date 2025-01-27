@@ -51,12 +51,20 @@ button {
     @apply opacity-40 cursor-not-allowed;
   }
 
+  &.diabled-icon {
+    @apply cursor-not-allowed;
+  }
+
   &.success {
     @apply bg-[#44ce4b] dark:bg-[#44ce4b] text-white dark:text-white;
   }
 
   &.secondary {
     @apply bg-slate-700 dark:bg-slate-600 text-white dark:text-white;
+  }
+
+  &.secondary-icon {
+    @apply bg-transparent dark:bg-transparent text-white dark:text-white;
   }
 
   &.primary {
@@ -96,7 +104,7 @@ button {
   }
 
   // @TODDO - Remove after moving all buttons to woot-button
-  .icon+.button__content {
+  .icon + .button__content {
     @apply w-auto;
   }
 
@@ -121,6 +129,10 @@ button {
       @apply text-slate-700 border-slate-100 dark:border-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700;
     }
 
+    &.secondary-icon {
+      @apply text-slate-700 border-slate-100 dark:border-slate-800 dark:text-slate-100 hover:bg-transparent dark:hover:bg-transparent;
+    }
+
     &.success {
       @apply text-green-700 dark:text-green-400 border-green-100 dark:border-green-600 hover:bg-green-50 dark:hover:bg-green-800;
     }
@@ -138,6 +150,10 @@ button {
 
       &.secondary {
         @apply border-slate-100 dark:border-slate-700 text-slate-800 dark:text-slate-100;
+      }
+
+      &.secondary-icon {
+        @apply bg-transparent dark:bg-transparent text-white dark:text-white;
       }
 
       &.success {
@@ -182,6 +198,14 @@ button {
       @apply text-slate-700 dark:text-slate-100;
     }
 
+    &.secondary-icon {
+      @apply text-slate-100 dark:text-slate-100 hover:bg-transparent dark:hover:bg-transparent;
+    }
+
+    &.icon {
+      @apply text-slate-700;
+    }
+
     &.success {
       @apply text-green-700 dark:text-green-100;
     }
@@ -201,6 +225,10 @@ button {
         @apply hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-slate-100;
       }
 
+      &.secondary-icon {
+        @apply hover:bg-transparent dark:hover:bg-transparent hover:text-slate-100 dark:hover:text-slate-100;
+      }
+
       &.success {
         @apply hover:bg-green-50 dark:hover:bg-green-800 hover:text-green-800 dark:hover:text-green-100;
       }
@@ -218,11 +246,17 @@ button {
       &.secondary {
         @apply active:bg-slate-100 dark:active:bg-slate-900;
       }
+      &.secondary-icon {
+        @apply active:bg-transparent dark:active:bg-transparent;
+      }
     }
 
     &:focus {
       &.secondary {
         @apply focus:bg-slate-50 dark:focus:bg-slate-700;
+      }
+      &.secondary-icon {
+        @apply focus:bg-transparent dark:focus:bg-transparent;
       }
     }
   }
@@ -234,6 +268,10 @@ button {
 
   &.small {
     @apply h-8 pb-1 pt-1;
+  }
+
+  &.medium {
+    @apply h-10;
   }
 
   &.large {
@@ -249,6 +287,10 @@ button {
 
     &.small {
       @apply w-8;
+    }
+
+    &.medium {
+      @apply w-10;
     }
 
     &.large {

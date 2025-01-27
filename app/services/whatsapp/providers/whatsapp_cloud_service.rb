@@ -1,4 +1,5 @@
 class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService
+
   def send_message(phone_number, message)
     if message.attachments.present?
       send_attachment_message(phone_number, message)
@@ -25,16 +26,33 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def template_body_parameters(template_info)
+    parameters = []
+
+    if template_info[:media].present?
+      media_url = template_info[:media].first[:image][:link]
+      media_id = upload_media_to_whatsapp(media_url)
+      
+      if media_id
+        parameters << { type: 'image', image: { id: media_id } }
+      end
+    end
+
     {
       name: template_info[:name],
       language: {
         policy: 'deterministic',
         code: template_info[:lang_code]
       },
-      components: [{
-        type: 'body',
-        parameters: template_info[:parameters] || []
-      }]
+      components: [
+        {
+          type: 'header',
+          parameters: parameters
+        },
+        {
+          type: 'body',
+          parameters: template_info[:parameters] || []
+        }
+      ]
     }
   end
 
@@ -158,5 +176,73 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     )
 
     process_response(response)
+  end
+
+  private
+
+  def download_from_whatsapp(url)
+    
+    response = HTTParty.get(
+      url,
+      headers: { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}" },
+      follow_redirects: true
+    )
+
+    unless response.success?
+      
+      return nil
+    end
+
+    {
+      content: response.body,
+      content_type: response.headers['content-type']
+    }
+  end
+
+  def upload_media_to_whatsapp(url)
+    # Download the file using existing method
+    media_data = download_from_whatsapp(url)
+    return nil unless media_data
+
+    # Create temporary file with proper extension
+    temp_file = Tempfile.new(['whatsapp_media', mime_to_extension(media_data[:content_type])])
+    temp_file.binmode
+    temp_file.write(media_data[:content])
+    temp_file.rewind
+
+    # Upload to WhatsApp
+    upload_response = HTTParty.post(
+      "#{phone_id_path}/media",
+      headers: { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}" },
+      multipart: true,
+      body: {
+        messaging_product: 'whatsapp',
+        file: File.new(temp_file.path),
+        type: media_data[:content_type]
+      }
+    )
+
+    if upload_response.success?
+      upload_response['id']
+    else
+      nil
+    end
+  rescue StandardError => e
+    nil
+  ensure
+    temp_file&.close
+    temp_file&.unlink
+  end
+
+  def mime_to_extension(content_type)
+    {
+      'image/jpeg' => '.jpg',
+      'image/png' => '.png',
+      'image/gif' => '.gif',
+      'video/mp4' => '.mp4',
+      'audio/mpeg' => '.mp3',
+      'audio/ogg' => '.ogg',
+      'application/pdf' => '.pdf'
+    }[content_type&.downcase] || '.bin'
   end
 end
