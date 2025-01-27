@@ -19,7 +19,7 @@ const inbox = useFunctionGetter('inboxes/getInboxById', route.params.id);
     :selected-item="inbox"
     :download-button-label="$t('INBOX_REPORTS.DOWNLOAD_INBOX_REPORTS')"
     :report-title="$t('INBOX_REPORTS.HEADER')"
-    :has-back-button
+    has-back-button
   />
   <div v-else class="w-full py-20">
     <Spinner class="mx-auto" />

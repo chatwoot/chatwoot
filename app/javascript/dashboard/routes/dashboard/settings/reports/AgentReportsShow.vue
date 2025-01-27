@@ -23,7 +23,7 @@ onMounted(() => store.dispatch('agents/get'));
     :selected-item="agent"
     :download-button-label="$t('AGENT_REPORTS.DOWNLOAD_AGENT_REPORTS')"
     :report-title="$t('AGENT_REPORTS.HEADER')"
-    :has-back-button
+    has-back-button
   />
   <div v-else class="w-full py-20">
     <Spinner class="mx-auto" />
