@@ -7,11 +7,11 @@
     "PLACEHOLDER": "Select an option...",
     "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
     "EMPTY_STATE": "No se encontraron resultados.",
-    "SEARCH_PLACEHOLDER": "Search...",
+    "SEARCH_PLACEHOLDER": "Buscar...",
     "MORE": "+{count} más"
   },
   "DROPDOWN_MENU": {
-    "SEARCH_PLACEHOLDER": "Search...",
+    "SEARCH_PLACEHOLDER": "Buscar...",
     "EMPTY_STATE": "No se encontraron resultados.",
     "SEARCHING": "Buscando..."
   },
