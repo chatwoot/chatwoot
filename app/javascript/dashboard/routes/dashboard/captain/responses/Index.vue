@@ -163,8 +163,13 @@ onMounted(() => {
     :button-label="$t('CAPTAIN.RESPONSES.ADD_NEW')"
     :is-fetching="isFetching"
     :is-empty="!responses.length"
-    :feature-flag="FEATURE_FLAGS.CAPTAIN"
     :show-pagination-footer="!isFetching && !!responses.length"
+    :feature-flag="FEATURE_FLAGS.CAPTAIN"
+    :installation-types="[
+      INSTALLATION_TYPES.CLOUD,
+      INSTALLATION_TYPES.ENTERPRISE,
+    ]"
+    ensure-premium-enterprise
     @update:current-page="onPageChange"
     @click="handleCreate"
   >

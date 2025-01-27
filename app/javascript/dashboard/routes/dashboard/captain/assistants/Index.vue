@@ -79,12 +79,12 @@ onMounted(() => store.dispatch('captainAssistants/get'));
     :button-policy="['administrator']"
     :show-pagination-footer="false"
     :is-fetching="isFetching"
+    :is-empty="!assistants.length"
     :feature-flag="FEATURE_FLAGS.CAPTAIN"
     :installation-types="[
       INSTALLATION_TYPES.CLOUD,
       INSTALLATION_TYPES.ENTERPRISE,
     ]"
-    :is-empty="!assistants.length"
     ensure-premium-enterprise
     @click="handleCreate"
   >

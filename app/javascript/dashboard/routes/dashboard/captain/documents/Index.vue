@@ -112,6 +112,11 @@ onMounted(() => {
     :is-fetching="isFetching"
     :is-empty="!documents.length"
     :feature-flag="FEATURE_FLAGS.CAPTAIN"
+    :installation-types="[
+      INSTALLATION_TYPES.CLOUD,
+      INSTALLATION_TYPES.ENTERPRISE,
+    ]"
+    ensure-premium-enterprise
     @update:current-page="onPageChange"
     @click="handleCreateDocument"
   >
