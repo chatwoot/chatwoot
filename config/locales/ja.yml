@@ -143,11 +143,11 @@ ja:
         open: '%{user_name} によって会話が再開されました'
         pending: '%{user_name} によって会話が保留にされました'
         snoozed: '%{user_name} によって会話がスヌーズされました'
-        auto_resolved: 'システムが %{duration} 日間の非アクティブにより会話を解決済みにしました'
-        system_auto_open: 新しい受信メッセージによりシステムが会話を再開しました
+        auto_resolved: '%{duration} 日間会話が非アクティブだったため、システムにより解決済みにされました'
+        system_auto_open: 新しい受信メッセージを受信したため、システムが会話が再開されました
       priority:
-        added: '%{user_name} が優先度を %{new_priority} に設定しました'
-        updated: '%{user_name} が優先度を %{old_priority} から %{new_priority} に変更しました'
+        added: '%{user_name} が優先度を "%{new_priority}" に設定しました'
+        updated: '%{user_name} が優先度を "%{old_priority}" から "%{new_priority}" に変更しました'
         removed: '%{user_name} が優先度を削除しました'
       assignee:
         self_assigned: '%{user_name} がこの会話を自身に割り当てました'
@@ -158,13 +158,13 @@ ja:
         assigned_with_assignee: '%{user_name} によって %{team_name} 経由で %{assignee_name} に割り当てられました'
         removed: '%{user_name} によって %{team_name} から割り当てが解除されました'
       labels:
-        added: '%{user_name} が %{labels} を追加しました'
-        removed: '%{user_name} が %{labels} を削除しました'
+        added: '%{user_name} がラベル "%{labels}" を追加しました'
+        removed: '%{user_name} がラベル "%{labels}" を削除しました'
       sla:
-        added: '%{user_name} がSLAポリシー %{sla_name} を追加しました'
-        removed: '%{user_name} がSLAポリシー %{sla_name} を削除しました'
+        added: '%{user_name} がSLAポリシー "%{sla_name}" を追加しました'
+        removed: '%{user_name} がSLAポリシー "%{sla_name}" を削除しました'
       muted: '%{user_name} が会話をミュートしました'
-      unmuted: '%{user_name} has unmuted the conversation'
+      unmuted: '%{user_name} が会話のミュートを解除しました'
     templates:
       greeting_message_body: '%{account_name} は通常数時間で返信します。'
       ways_to_reach_you_message_body: 'チームがあなたに連絡する方法を設定してください'
