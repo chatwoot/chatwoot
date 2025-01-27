@@ -111,7 +111,30 @@ Looking to report a vulnerability? Please refer our [SECURITY.md](./SECURITY.md)
 ## Community? Questions? Support ?
 
 If you need help or just want to hang out, come, say hi on our [Discord](https://discord.gg/cJXdrwS) server.
+### Features at a Glance:
+- **Multi-channel communication**: Integrations with WhatsApp, Telegram, Facebook, Twitter, Email, and more.
+- **CRM functionality**: Save customer information and extend workflows with custom attributes.
+- **Collaboration tools**: Shared inbox, private notes, and internal mentions.
+- **Extensibility**: Powerful APIs, webhooks, and third-party integrations.
+- **Multilingual support**: Available in over 10 languages.
 
+For more details, visit the [Chatwoot Documentation](https://chatwoot.com/help-center).
+
+---
+
+## Licensing Information
+
+Chatwoot is primarily distributed under the MIT license. However, the `enterprise/` directory is licensed under a custom license tailored for enterprise-level usage. Please refer to the respective license files in the repository for additional details.
+
+---
+
+## How to Contribute
+
+We welcome contributions from the community! To contribute:
+1. **Fork this repository** and clone it locally.
+2. Create a new branch for your changes:
+   ```bash
+   git checkout -b feature/your-feature-name
 
 ## Contributors ✨
 
