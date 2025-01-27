@@ -428,7 +428,7 @@
       }
     },
     "RESPONSES": {
-      "HEADER": "FAQs",
+      "HEADER": "Preguntas frecuentes",
       "ADD_NEW": "Create new FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
