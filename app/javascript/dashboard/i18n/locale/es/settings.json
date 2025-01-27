@@ -96,7 +96,7 @@
           "CONDITION_ONE": "Enviar alertas de audio sólo si la ventana del navegador no está activa",
           "CONDITION_TWO": "Enviar alertas cada 30s hasta que todas las conversaciones asignadas sean leídas"
         },
-        "SOUND_PERMISSION_ERROR": "",
+        "SOUND_PERMISSION_ERROR": "La reproducción automática está desactivada en su navegador. Para escuchar las alertas automáticamente, habilite el permiso de sonido en la configuración de su navegador o interactúe con la página.",
         "READ_MORE": "Leer más"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
@@ -121,12 +121,12 @@
           "CONVERSATION_ASSIGNED": "Se te ha asignado una conversación",
           "CONVERSATION_MENTION": "Has sido mencionado en una conversación",
           "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Un nuevo mensaje se ha creado en una conversación en la que participas",
           "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
           "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "SLA_MISSED_RESOLUTION": "Una conversación carece de resolución SLA"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "Activa las notificaciones push en tu navegador para que puedas recibirlas"
       },
       "API": {
         "UPDATE_SUCCESS": "Sus preferencias de notificación se actualizaron correctamente",
@@ -193,16 +193,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Cambiar",
-    "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_WORKSPACE": "Switch workspace",
-    "CONTACT_SUPPORT": "Contact support",
+    "CHANGE_ACCOUNTS": "Cambiar de cuenta",
+    "SWITCH_WORKSPACE": "Cambiar área de trabajo",
+    "CONTACT_SUPPORT": "Contactar al soporte",
     "SELECTOR_SUBTITLE": "Seleccione una cuenta de la siguiente lista",
-    "PROFILE_SETTINGS": "Profile settings",
-    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
-    "APPEARANCE": "Change appearance",
-    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
-    "DOCS": "Read documentation",
-    "LOGOUT": "Log out"
+    "PROFILE_SETTINGS": "Ajustes del perfil",
+    "KEYBOARD_SHORTCUTS": "Atajos de teclado",
+    "APPEARANCE": "Cambiar apariencia",
+    "SUPER_ADMIN_CONSOLE": "Consola SuperAdmin",
+    "DOCS": "Leer la documentación",
+    "LOGOUT": "Cerrar sesión"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "días de prueba restantes.",
@@ -238,8 +238,8 @@
       "SUBMIT": "Enviar"
     },
     "MEDIA": {
-      "IMAGE_UNAVAILABLE": "This image is no longer available.",
-      "LOADING_FAILED": "Loading failed"
+      "IMAGE_UNAVAILABLE": "Esta imagen ya no está disponible.",
+      "LOADING_FAILED": "Error al cargar"
     }
   },
   "CONFIRM_EMAIL": "Verificando...",
@@ -254,7 +254,7 @@
     "SWITCH": "Cambiar",
     "INBOX_VIEW": "Vista del buzón",
     "CONVERSATIONS": "Conversaciones",
-    "INBOX": "My Inbox",
+    "INBOX": "Mi bandeja de entrada",
     "ALL_CONVERSATIONS": "Todas las conversaciones",
     "MENTIONED_CONVERSATIONS": "Menciones",
     "PARTICIPATING_CONVERSATIONS": "Participar",
@@ -263,9 +263,9 @@
     "SETTINGS": "Ajustes",
     "CONTACTS": "Contactos",
     "CAPTAIN": "Capitán",
-    "CAPTAIN_ASSISTANTS": "Assistants",
-    "CAPTAIN_DOCUMENTS": "Documents",
-    "CAPTAIN_RESPONSES": "FAQs",
+    "CAPTAIN_ASSISTANTS": "Asistentes",
+    "CAPTAIN_DOCUMENTS": "Documentos",
+    "CAPTAIN_RESPONSES": "Preguntas frecuentes",
     "HOME": "Inicio",
     "AGENTS": "Agentes",
     "AGENT_BOTS": "Bots",
@@ -306,13 +306,13 @@
     "SET_AVAILABILITY_TITLE": "Ponte como",
     "SET_YOUR_AVAILABILITY": "Establecer su disponibilidad",
     "SLA": "SLA",
-    "CUSTOM_ROLES": "Custom Roles",
+    "CUSTOM_ROLES": "Roles personalizados",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Resumen",
-    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "REAUTHORIZE": "Su sesión ha expirado, por favor, vuelva a conectarse para continuar recibiendo y enviando mensajes",
     "HELP_CENTER": {
       "TITLE": "Centro de ayuda",
-      "ARTICLES": "Articles",
+      "ARTICLES": "Artículos",
       "CATEGORIES": "Categorías",
       "LOCALES": "Idiomas",
       "SETTINGS": "Ajustes"
@@ -321,20 +321,20 @@
     "SET_AUTO_OFFLINE": {
       "TEXT": "Marcar como desconectado automáticamente",
       "INFO_TEXT": "Permite que el sistema te marque automáticamente sin conexión cuando no estás usando la aplicación o el tablero.",
-      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
+      "INFO_SHORT": "Marcar automáticamente sin conexión cuando no está usando la aplicación."
     },
     "DOCS": "Leer documentos"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Facturación",
-    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
+    "DESCRIPTION": "Gestiona tu suscripción aquí, mejora tu plan y consigue más para tu equipo.",
     "CURRENT_PLAN": {
       "TITLE": "Plan actual",
       "PLAN_NOTE": "Actualmente está suscrito al plan **{plan}** con **{quantity}** licencias",
       "SEAT_COUNT": "Number of seats",
-      "RENEWS_ON": "Renews on"
+      "RENEWS_ON": "Renueva el"
     },
-    "VIEW_PRICING": "View Pricing",
+    "VIEW_PRICING": "Ver precios",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Administre su suscripción",
       "DESCRIPTION": "Vea sus facturas anteriores, edite sus datos de facturación o cancele su suscripción.",
@@ -342,11 +342,11 @@
     },
     "CAPTAIN": {
       "TITLE": "Capitán",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
-      "BUTTON_TXT": "Buy more credits",
-      "DOCUMENTS": "Documents",
-      "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
+      "DESCRIPTION": "Gestione el uso y los créditos para Captain AI.",
+      "BUTTON_TXT": "Comprar más créditos",
+      "DOCUMENTS": "Documentos",
+      "RESPONSES": "Respuestas",
+      "UPGRADE": "Captain no está disponible en el plan gratuito, actualice su suscripción ahora para tener acceso a asistentes, copilot y más."
     },
     "CHAT_WITH_US": {
       "TITLE": "¿Necesitas ayuda?",
