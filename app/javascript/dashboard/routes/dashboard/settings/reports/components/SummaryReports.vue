@@ -75,13 +75,13 @@ const columns = [
     width: 200,
     cell: defaulSpanRender,
   }),
-  columnHelper.accessor('avgReplyTime', {
-    header: t('SUMMARY_REPORTS.AVG_REPLY_TIME'),
+  columnHelper.accessor('avgResolutionTime', {
+    header: t('SUMMARY_REPORTS.AVG_RESOLUTION_TIME'),
     width: 200,
     cell: defaulSpanRender,
   }),
-  columnHelper.accessor('avgResolutionTime', {
-    header: t('SUMMARY_REPORTS.AVG_RESOLUTION_TIME'),
+  columnHelper.accessor('avgReplyTime', {
+    header: t('SUMMARY_REPORTS.AVG_REPLY_TIME'),
     width: 200,
     cell: defaulSpanRender,
   }),
