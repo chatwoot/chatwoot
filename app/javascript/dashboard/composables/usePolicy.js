@@ -1,13 +1,19 @@
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useConfig } from 'dashboard/composables/useConfig';
 import {
   getUserPermissions,
   hasPermissions,
 } from 'dashboard/helper/permissionsHelper';
 
+import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
+
 export function usePolicy() {
   const user = useMapGetter('getCurrentUser');
   const isFeatureEnabled = useMapGetter('accounts/isFeatureEnabledonAccount');
+  const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
+
+  const { isEnterprise } = useConfig();
   const { accountId } = useAccount();
 
   const getUserPermissionsForAccount = () => {
@@ -25,5 +31,19 @@ export function usePolicy() {
     return hasPermissions(requiredPermissions, userPermissions);
   };
 
-  return { checkFeatureAllowed, checkPermissions };
+  const checkInstallationType = config => {
+    const installationCheck = {
+      [INSTALLATION_TYPES.ENTERPISE]: isEnterprise,
+      [INSTALLATION_TYPES.CLOUD]: isOnChatwootCloud.value,
+      [INSTALLATION_TYPES.COMMUNITY]: true,
+    };
+
+    if (Array.isArray(config) && config.length > 0) {
+      return config.some(type => installationCheck[type]);
+    }
+
+    return true;
+  };
+
+  return { checkFeatureAllowed, checkPermissions, checkInstallationType };
 }
