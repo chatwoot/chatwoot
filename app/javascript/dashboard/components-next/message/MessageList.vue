@@ -107,6 +107,17 @@ const getInReplyToMessage = parentMessage => {
 
   return replyMessage ? useCamelCase(replyMessage) : null;
 };
+
+const getMessageSpacingClass = (message, messages, index) => {
+  // For non-activity messages, use groupWithNext logic
+  if (message.messageType !== MESSAGE_TYPES.ACTIVITY) {
+    return shouldGroupWithNext(index, messages) ? 'mb-1' : 'mb-6';
+  }
+
+  // For activity messages, check next message exists and is also an activity
+  const nextMessage = messages[index + 1];
+  return nextMessage?.messageType === MESSAGE_TYPES.ACTIVITY ? 'mb-2' : 'mb-6';
+};
 </script>
 
 <template>
@@ -115,13 +126,12 @@ const getInReplyToMessage = parentMessage => {
     <template v-for="(message, index) in read" :key="message.id">
       <Message
         v-bind="message"
-        :messages="read"
-        :index="index"
         :is-email-inbox="isAnEmailChannel"
         :in-reply-to="getInReplyToMessage(message)"
         :group-with-next="shouldGroupWithNext(index, read)"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :current-user-id="currentUserId"
+        :class="getMessageSpacingClass(message, read, index)"
         data-clarity-mask="True"
       />
     </template>
@@ -129,13 +139,12 @@ const getInReplyToMessage = parentMessage => {
     <template v-for="(message, index) in unread" :key="message.id">
       <Message
         v-bind="message"
-        :messages="unread"
-        :index="index"
         :in-reply-to="getInReplyToMessage(message)"
         :group-with-next="shouldGroupWithNext(index, unread)"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :current-user-id="currentUserId"
         :is-email-inbox="isAnEmailChannel"
+        :class="getMessageSpacingClass(message, unread, index)"
         data-clarity-mask="True"
       />
     </template>

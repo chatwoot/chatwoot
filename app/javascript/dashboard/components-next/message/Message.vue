@@ -97,8 +97,6 @@ import ContextMenu from 'dashboard/modules/conversations/components/MessageConte
 // eslint-disable-next-line vue/define-macros-order
 const props = defineProps({
   id: { type: Number, required: true },
-  messages: { type: Array, default: () => [] },
-  index: { type: Number, required: true },
   messageType: {
     type: Number,
     required: true,
@@ -176,6 +174,10 @@ const variant = computed(() => {
 });
 
 const isMyMessage = computed(() => {
+  if (props.messageType === MESSAGE_TYPES.ACTIVITY) {
+    return false;
+  }
+
   // if an outgoing message is still processing, then it's definitely a
   // message sent by the current user
   if (
@@ -183,10 +185,6 @@ const isMyMessage = computed(() => {
     props.messageType === MESSAGE_TYPES.OUTGOING
   ) {
     return true;
-  }
-
-  if (props.messageType === MESSAGE_TYPES.ACTIVITY) {
-    return false;
   }
 
   const senderId = props.senderId ?? props.sender?.id;
@@ -365,17 +363,6 @@ const shouldRenderMessage = computed(() => {
   );
 });
 
-const messageSpacingClass = computed(() => {
-  // Non-activity messages only need to check groupWithNext
-  if (props.messageType !== MESSAGE_TYPES.ACTIVITY) {
-    return props.groupWithNext ? 'mb-1' : 'mb-6';
-  }
-
-  // For activity messages, check if next message exists and is also an activity
-  const nextMessage = props.messages?.[props.index + 1];
-  return nextMessage?.messageType === MESSAGE_TYPES.ACTIVITY ? 'mb-2' : 'mb-6';
-});
-
 function openContextMenu(e) {
   const shouldSkipContextMenu =
     e.target?.classList.contains('skip-context-menu') ||
@@ -467,7 +454,6 @@ provideMessageContext({
     :data-message-id="props.id"
     :class="[
       flexOrientationClass,
-      messageSpacingClass,
       {
         'group-with-next': shouldGroupWithNext,
         'bg-n-alpha-1': showBackgroundHighlight,
