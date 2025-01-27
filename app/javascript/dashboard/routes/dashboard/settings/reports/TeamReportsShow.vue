@@ -1,18 +1,12 @@
 <script setup>
+import { useRoute } from 'vue-router';
+import { useFunctionGetter } from 'dashboard/composables/store';
+
 import WootReports from './components/WootReports.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
-const hasBackButton = true;
-import { useRoute } from 'vue-router';
 const route = useRoute();
-
-import { useStoreGetters } from 'dashboard/composables/store';
-import { computed } from 'vue';
-const getters = useStoreGetters();
-
-const team = computed(() =>
-  getters['teams/getTeamById'].value(route.params.id)
-);
+const team = useFunctionGetter('teams/getTeamById', route.params.id);
 </script>
 
 <template>
@@ -27,5 +21,7 @@ const team = computed(() =>
     :report-title="$t('TEAM_REPORTS.HEADER')"
     :has-back-button
   />
-  <Spinner v-else />
+  <div v-else class="w-full py-20">
+    <Spinner class="mx-auto" />
+  </div>
 </template>
