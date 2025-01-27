@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+title: Chatwoot
+authors:
+  - family-names: Chatwoot
+    given-names: Team
+version: 2.0.0
+doi: 10.1234/chatwoot.example
+url: https://github.com/chatwoot/chatwoot
+license: MIT
