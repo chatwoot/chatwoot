@@ -244,7 +244,7 @@ const evenClass = [
           }"
         >
           <template v-if="element.type === 'static_attribute'">
-            <slot name="static-item" :element="element" />
+            <slot name="staticItem" :element="element" />
           </template>
 
           <template v-else>

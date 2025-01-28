@@ -92,7 +92,7 @@ const staticElements = computed(() =>
       attribute-from="conversation_panel"
       attribute-type="conversation_attribute"
     >
-      <template #static-item="{ element }">
+      <template #staticItem="{ element }">
         <ContactDetailsItem
           :key="element.title"
           :title="$t(element.title)"
