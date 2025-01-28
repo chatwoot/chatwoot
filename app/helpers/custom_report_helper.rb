@@ -36,22 +36,18 @@ module CustomReportHelper
 
   def carry_forwarded
     # conversations that were created before the start of the specified time period, but are still not resolved at the start of specified time period
-    not_resolved_conversations_before_time_range = ConversationStatus.from(
-      "(#{latest_conversation_statuses_before_time_range.to_sql}) AS conversation_statuses"
-    ).where.not(status: :resolved)
+    # not_resolved_conversations_before_time_range = ConversationStatus.from(
+    #   "(#{latest_conversation_statuses_before_time_range.to_sql}) AS conversation_statuses"
+    # ).where.not(status: :resolved)
 
-    conversations_without_conversation_status_before_time_range = @account.conversations.where.not(id: ConversationStatus.from(
-      "(#{latest_conversation_statuses_before_time_range.to_sql}) AS conversation_statuses"
-    ).pluck(:conversation_id)).where('created_at < ?', @time_range.begin).where('(updated_at >= ?) OR (updated_at <= ? AND status != ?)', @time_range.begin, @time_range.begin, Conversation.statuses[:resolved])
+    # conversations_without_conversation_status_before_time_range = @account.conversations.where.not(id: ConversationStatus.from(
+    #   "(#{latest_conversation_statuses_before_time_range.to_sql}) AS conversation_statuses"
+    # ).pluck(:conversation_id)).where('created_at < ?', @time_range.begin).where.not(status: Conversation.statuses[:resolved])
 
-    base_query = @account.conversations.where(id: [
-      not_resolved_conversations_before_time_range.pluck(:conversation_id),
-      conversations_without_conversation_status_before_time_range.pluck(:id)
-    ].flatten)
+    # TODO: temp fix, need to refine the new query
+    base_query = @account.conversations.where('created_at < ?', @time_range.begin).where.not(status: Conversation.statuses[:resolved])
 
-    if @config[:filters][:labels].present?
-      base_query = label_filtered_conversations.where(id: not_resolved_conversations_before_time_range.pluck(:conversation_id))
-    end
+    base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
 
     latest_assignments = ConversationAssignment
                          .select('DISTINCT ON (conversation_id) *')
@@ -533,15 +529,18 @@ module CustomReportHelper
     # but split by conversations that moved to resolved from carry_forwarded
     # means need to check the conversations where created before the start of the time range and are still not resolved at the start of the time range for which the report is generated
 
-    not_resolved_conversations_before_time_range = ConversationStatus.from("(#{latest_conversation_statuses_before_time_range.to_sql}) AS conversation_statuses").where.not(status: :resolved)
+    # not_resolved_conversations_before_time_range = ConversationStatus.from("(#{latest_conversation_statuses_before_time_range.to_sql}) AS conversation_statuses").where.not(status: :resolved)
 
-    conversations_without_conversation_status_before_time_range = @account.conversations.where.not(id: ConversationStatus.from(
-      "(#{latest_conversation_statuses_before_time_range.to_sql}) AS conversation_statuses"
-    ).pluck(:conversation_id)).where('created_at < ?', @time_range.begin).where('(updated_at >= ?) OR (updated_at <= ? AND status != ?)', @time_range.begin, @time_range.begin, Conversation.statuses[:resolved])
+    # conversations_without_conversation_status_before_time_range = @account.conversations.where.not(id: ConversationStatus.from(
+    #   "(#{latest_conversation_statuses_before_time_range.to_sql}) AS conversation_statuses"
+    # ).pluck(:conversation_id)).where('created_at < ?', @time_range.begin).where('(updated_at >= ?) OR (updated_at <= ? AND status != ?)', @time_range.begin, @time_range.begin, Conversation.statuses[:resolved])
+
+    # TODO: refine this too
+
+    carry_forwarded_conversations = @account.conversations.where('created_at < ?', @time_range.begin).where.not(status: Conversation.statuses[:resolved])
 
     base_query = @account.reporting_events.where(name: 'conversation_resolved', conversation_id: [
-      not_resolved_conversations_before_time_range.pluck(:conversation_id),
-      conversations_without_conversation_status_before_time_range.pluck(:id)
+      carry_forwarded_conversations.pluck(:id)
     ].flatten, created_at: @time_range)
 
     base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
@@ -644,15 +643,16 @@ module CustomReportHelper
     # but split by conversations that moved to resolved from carry_forwarded
     # means need to check the conversations where created before the start of the time range and are still not resolved at the start of the time range for which the report is generated
 
-    not_resolved_conversations_before_time_range = ConversationStatus.from("(#{latest_conversation_statuses_before_time_range.to_sql}) AS conversation_statuses").where.not(status: :resolved)
+    # not_resolved_conversations_before_time_range = ConversationStatus.from("(#{latest_conversation_statuses_before_time_range.to_sql}) AS conversation_statuses").where.not(status: :resolved)
 
-    conversations_without_conversation_status_before_time_range = @account.conversations.where.not(id: ConversationStatus.from(
-      "(#{latest_conversation_statuses_before_time_range.to_sql}) AS conversation_statuses"
-    ).pluck(:conversation_id)).where('created_at < ?', @time_range.begin).where('(updated_at >= ?) OR (updated_at <= ? AND status != ?)', @time_range.begin, @time_range.begin, Conversation.statuses[:resolved])
+    # conversations_without_conversation_status_before_time_range = @account.conversations.where.not(id: ConversationStatus.from(
+    #   "(#{latest_conversation_statuses_before_time_range.to_sql}) AS conversation_statuses"
+    # ).pluck(:conversation_id)).where('created_at < ?', @time_range.begin).where('(updated_at >= ?) OR (updated_at <= ? AND status != ?)', @time_range.begin, @time_range.begin, Conversation.statuses[:resolved])
+
+    carry_forwarded_conversations = @account.conversations.where('created_at < ?', @time_range.begin).where.not(status: Conversation.statuses[:resolved])
 
     base_query = @account.reporting_events.where(name: 'conversation_resolved', conversation_id: [
-      not_resolved_conversations_before_time_range.pluck(:conversation_id),
-      conversations_without_conversation_status_before_time_range.pluck(:id)
+      carry_forwarded_conversations.pluck(:id)
     ].flatten, created_at: @time_range)
 
     base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?

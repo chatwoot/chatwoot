@@ -24,7 +24,7 @@ class CustomReportJob < ApplicationJob
   private
 
   def set_statement_timeout
-    ActiveRecord::Base.connection.execute("SET statement_timeout = '60s'")
+    ActiveRecord::Base.connection.execute("SET statement_timeout = '180s'")
   end
 
   def parse_date_time(datetime)
