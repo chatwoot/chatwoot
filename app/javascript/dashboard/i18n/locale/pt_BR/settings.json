@@ -194,7 +194,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Trocar",
     "CHANGE_ACCOUNTS": "Alterar conta",
-    "SWITCH_WORKSPACE": "Trocar workspace",
+    "SWITCH_ACCOUNT": "Alterar conta",
     "CONTACT_SUPPORT": "Contate o suporte",
     "SELECTOR_SUBTITLE": "Selecione uma conta da lista a seguir",
     "PROFILE_SETTINGS": "Configurações do Perfil",
