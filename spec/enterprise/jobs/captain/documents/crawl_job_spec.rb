@@ -19,7 +19,7 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
 
       context 'with account usage limits' do
         before do
-          allow(account).to receive(:usage_limits).and_return({ captain: { documents: { available: 20 } } })
+          allow(account).to receive(:usage_limits).and_return({ captain: { documents: { current_available: 20 } } })
         end
 
         it 'uses FirecrawlService with the correct crawl limit' do
@@ -35,7 +35,7 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
 
       context 'when crawl limit exceeds maximum' do
         before do
-          allow(account).to receive(:usage_limits).and_return({ captain: { documents: { available: 1000 } } })
+          allow(account).to receive(:usage_limits).and_return({ captain: { documents: { current_available: 1000 } } })
         end
 
         it 'caps the crawl limit at 500' do
