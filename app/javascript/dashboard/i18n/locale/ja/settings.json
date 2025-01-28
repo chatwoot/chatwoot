@@ -22,7 +22,7 @@
       },
       "SEND_MESSAGE": {
         "TITLE": "メッセージ送信のホットキー",
-        "NOTE": "メッセージ作成の好みに応じて、EnterまたはCmd/Ctrl+Enterを選択できます。",
+        "NOTE": "好みに応じて、EnterまたはCmd/Ctrl+Enterを選択できます。",
         "UPDATE_SUCCESS": "設定が正常に更新されました",
         "CARD": {
           "ENTER_KEY": {
@@ -114,14 +114,14 @@
       "NOTIFICATIONS": {
         "TITLE": "通知設定",
         "TYPE_TITLE": "通知の種類",
-        "EMAIL": "Eメール",
+        "EMAIL": "Eメール通知",
         "PUSH": "プッシュ通知",
         "TYPES": {
-          "CONVERSATION_CREATED": "新しい会話が作成された",
-          "CONVERSATION_ASSIGNED": "会話が自分に割り当てられた",
-          "CONVERSATION_MENTION": "会話でメンションされた",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "割り当てられた会話に新しいメッセージが作成された",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "参加している会話に新しいメッセージが作成された",
+          "CONVERSATION_CREATED": "新しい会話が作成された時",
+          "CONVERSATION_ASSIGNED": "会話が自分に割り当てられた時",
+          "CONVERSATION_MENTION": "会話で自分がメンションされた時",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "割り当てられた会話に新しいメッセージが作成された時",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "参加している会話に新しいメッセージが作成された時",
           "SLA_MISSED_FIRST_RESPONSE": "会話で最初の応答SLAを逃した",
           "SLA_MISSED_NEXT_RESPONSE": "会話で次の応答SLAを逃した",
           "SLA_MISSED_RESOLUTION": "会話で解決SLAを逃した"
@@ -194,7 +194,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "ステータスを変更",
     "CHANGE_ACCOUNTS": "アカウントを切り替え",
-    "SWITCH_WORKSPACE": "ワークスペースを切り替え",
+    "SWITCH_ACCOUNT": "アカウントを切り替え",
     "CONTACT_SUPPORT": "サポートに問い合わせる",
     "SELECTOR_SUBTITLE": "次のリストからアカウントを選択してください",
     "PROFILE_SETTINGS": "プロフィール設定",
