@@ -3,6 +3,7 @@ import {
   CONVERSATION_PERMISSIONS,
 } from 'dashboard/constants/permissions';
 import { getUserPermissions } from 'dashboard/helper/permissionsHelper';
+import wootConstants from 'dashboard/constants/globals';
 
 class AudioNotificationStore {
   constructor(store) {
@@ -16,6 +17,15 @@ class AudioNotificationStore {
     });
 
     return mineConversation.some(conv => conv.unread_count > 0);
+  };
+
+  isMessageFromPendingConversation = ({
+    conversation_id: conversationId,
+  } = {}) => {
+    if (!conversationId) return false;
+    const activeConversation =
+      this.store.getters.getConversationById(conversationId);
+    return activeConversation?.status === wootConstants.STATUS_TYPE.PENDING;
   };
 
   isMessageFromCurrentConversation = message => {
