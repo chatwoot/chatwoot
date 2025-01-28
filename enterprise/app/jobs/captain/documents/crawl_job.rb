@@ -32,7 +32,7 @@ class Captain::Documents::CrawlJob < ApplicationJob
   def perform_firecrawl_crawl(document)
     captain_usage_limits = document.account.usage_limits[:captain] || {}
     document_limit = captain_usage_limits[:documents] || {}
-    crawl_limit = [document_limit[:available] || 10, 500].min
+    crawl_limit = [document_limit[:current_available] || 10, 500].min
 
     Captain::Tools::FirecrawlService
       .new
