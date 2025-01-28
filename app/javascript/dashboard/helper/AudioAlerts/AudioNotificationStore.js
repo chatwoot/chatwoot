@@ -19,10 +19,10 @@ class AudioNotificationStore {
     return mineConversation.some(conv => conv.unread_count > 0);
   };
 
-  isMessageFromPendingConversation = ({
-    conversation_id: conversationId,
-  } = {}) => {
+  isMessageFromPendingConversation = (message = {}) => {
+    const { conversation_id: conversationId } = message || {};
     if (!conversationId) return false;
+
     const activeConversation =
       this.store.getters.getConversationById(conversationId);
     return activeConversation?.status === wootConstants.STATUS_TYPE.PENDING;
