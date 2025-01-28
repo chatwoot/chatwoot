@@ -194,7 +194,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Ändra",
     "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_WORKSPACE": "Switch workspace",
+    "SWITCH_ACCOUNT": "Switch account",
     "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Välj ett konto från följande lista",
     "PROFILE_SETTINGS": "Profile settings",
