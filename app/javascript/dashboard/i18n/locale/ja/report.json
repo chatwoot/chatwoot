@@ -52,16 +52,16 @@
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "過去 7 日間",
       "LAST_30_DAYS": "過去 30 日間",
-      "LAST_3_MONTHS": "過去3か月",
-      "LAST_6_MONTHS": "過去6か月",
-      "LAST_YEAR": "過去1年",
+      "LAST_3_MONTHS": "過去 3 ヶ月",
+      "LAST_6_MONTHS": "過去 6 ヶ月",
+      "LAST_YEAR": "過去 1 年",
       "CUSTOM_DATE_RANGE": "カスタム日付範囲"
     },
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "適用",
       "PLACEHOLDER": "日付範囲を選択"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "グループ化基準",
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "グループ化",
     "DURATION_FILTER_LABEL": "期間",
     "GROUPING_OPTIONS": {
       "DAY": "日",
@@ -102,15 +102,15 @@
     "GROUP_BY_YEAR_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "週"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "月"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "年"
       }
     ],
     "BUSINESS_HOURS": "営業時間",
@@ -169,11 +169,11 @@
       },
       {
         "id": 4,
-        "name": "過去1年"
+        "name": "過去 3 ヶ月"
       },
       {
         "id": 5,
-        "name": "カスタム日付範囲"
+        "name": "過去 6 ヶ月"
       },
       {
         "id": 4,
@@ -190,7 +190,7 @@
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "ラベル概要",
+    "HEADER": "過去 1 年",
     "LOADING_CHART": "グラフデータを読み込んでいます...",
     "NO_ENOUGH_DATA": "レポートを生成するための十分なデータポイントを受信していません。後でもう一度お試しください。",
     "DOWNLOAD_LABEL_REPORTS": "ラベルレポートをダウンロード",
@@ -236,11 +236,11 @@
       },
       {
         "id": 2,
-        "name": "過去1年"
+        "name": "過去 3 ヶ月"
       },
       {
         "id": 3,
-        "name": "カスタム日付範囲"
+        "name": "過去 6 ヶ月"
       },
       {
         "id": 4,
@@ -303,11 +303,11 @@
       },
       {
         "id": 2,
-        "name": "過去1年"
+        "name": "過去 3 ヶ月"
       },
       {
         "id": 3,
-        "name": "カスタム日付範囲"
+        "name": "過去 6 ヶ月"
       },
       {
         "id": 4,
@@ -370,15 +370,15 @@
       },
       {
         "id": 2,
-        "name": "過去1年"
+        "name": "過去 3 ヶ月"
       },
       {
         "id": 3,
-        "name": "カスタム日付範囲"
+        "name": "過去 6 ヶ月"
       },
       {
         "id": 4,
-        "name": "過去1年"
+        "name": "過去 1 年"
       },
       {
         "id": 5,
@@ -446,30 +446,30 @@
   },
   "OVERVIEW_REPORTS": {
     "HEADER": "概要",
-    "LIVE": "ライブ",
+    "LIVE": "Live",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "会話を開く",
-      "LOADING_MESSAGE": "会話メトリクスを読み込んでいます...",
-      "OPEN": "開く",
-      "UNATTENDED": "未割り当て",
+      "HEADER": "未解決の会話",
+      "LOADING_MESSAGE": "会話のメトリクスを読み込んでいます...",
+      "OPEN": "未解決",
+      "UNATTENDED": "未対応",
       "UNASSIGNED": "未割当",
       "PENDING": "保留中"
     },
     "CONVERSATION_HEATMAP": {
-      "HEADER": "会話トラフィック",
+      "HEADER": "会話の流量",
       "NO_CONVERSATIONS": "会話がありません",
       "CONVERSATION": "{count}件の会話",
       "CONVERSATIONS": "{count}件の会話",
       "DOWNLOAD_REPORT": "レポートをダウンロード"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "担当者による会話",
+      "HEADER": "担当者ごとの会話",
       "LOADING_MESSAGE": "担当者メトリクスを読み込んでいます...",
       "NO_AGENTS": "担当者による会話はありません",
       "TABLE_HEADER": {
         "AGENT": "担当者",
-        "OPEN": "開く",
-        "UNATTENDED": "未割り当て",
+        "OPEN": "未解決",
+        "UNATTENDED": "未対応",
         "STATUS": "状況"
       }
     },
