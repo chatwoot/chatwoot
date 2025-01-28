@@ -120,7 +120,7 @@
           "CONVERSATION_CREATED": "Se ha creado una nueva conversación",
           "CONVERSATION_ASSIGNED": "Se te ha asignado una conversación",
           "CONVERSATION_MENTION": "Has sido mencionado en una conversación",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Un nuevo mensaje se ha creado en una conversación asignada",
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Un nuevo mensaje se ha creado en una conversación en la que participas",
           "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
           "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
@@ -194,7 +194,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Cambiar",
     "CHANGE_ACCOUNTS": "Cambiar de cuenta",
-    "SWITCH_WORKSPACE": "Cambiar área de trabajo",
+    "SWITCH_ACCOUNT": "Cambiar de cuenta",
     "CONTACT_SUPPORT": "Contactar al soporte",
     "SELECTOR_SUBTITLE": "Seleccione una cuenta de la siguiente lista",
     "PROFILE_SETTINGS": "Ajustes del perfil",
@@ -249,7 +249,7 @@
     }
   },
   "SIDEBAR": {
-    "NO_ITEMS": "No items",
+    "NO_ITEMS": "No hay elementos",
     "CURRENTLY_VIEWING_ACCOUNT": "Visualizando:",
     "SWITCH": "Cambiar",
     "INBOX_VIEW": "Vista del buzón",
@@ -331,7 +331,7 @@
     "CURRENT_PLAN": {
       "TITLE": "Plan actual",
       "PLAN_NOTE": "Actualmente está suscrito al plan **{plan}** con **{quantity}** licencias",
-      "SEAT_COUNT": "Number of seats",
+      "SEAT_COUNT": "Número de asientos",
       "RENEWS_ON": "Renueva el"
     },
     "VIEW_PRICING": "Ver precios",
