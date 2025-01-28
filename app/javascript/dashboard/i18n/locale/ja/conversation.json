@@ -65,11 +65,11 @@
     "HEADER": {
       "RESOLVE_ACTION": "解決する",
       "REOPEN_ACTION": "再開する",
-      "OPEN_ACTION": "開く",
+      "OPEN_ACTION": "再開する",
       "OPEN": "もっと見る",
       "CLOSE": "閉じる",
       "DETAILS": "詳細",
-      "SNOOZED_UNTIL": "スヌーズ終了まで",
+      "SNOOZED_UNTIL": "次の時間までスヌーズ",
       "SNOOZED_UNTIL_TOMORROW": "明日までスヌーズしました",
       "SNOOZED_UNTIL_NEXT_WEEK": "来週までスヌーズ",
       "SNOOZED_UNTIL_NEXT_REPLY": "次の返信までうたた寝。",
@@ -356,5 +356,8 @@
   },
   "COPILOT": {
     "TRY_THESE_PROMPTS": "これらのプロンプトを試してください"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "添付ファイルをダウンロードできませんでした。もう一度お試しください。"
   }
 }
