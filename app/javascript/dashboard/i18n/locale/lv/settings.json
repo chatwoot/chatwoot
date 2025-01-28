@@ -194,7 +194,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Mainīt",
     "CHANGE_ACCOUNTS": "Pārslēgt kontu",
-    "SWITCH_WORKSPACE": "Pārslēgt darbvietu",
+    "SWITCH_ACCOUNT": "Pārslēgt kontu",
     "CONTACT_SUPPORT": "Sazināties ar atbalstu",
     "SELECTOR_SUBTITLE": "Izvēlieties kontu no šī saraksta",
     "PROFILE_SETTINGS": "Profila iestatījumi",
@@ -327,14 +327,14 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Norēķini",
-    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
+    "DESCRIPTION": "Pārvaldiet savu abonementu šeit. Modernizējiet abonementu un iegūstiet papildu funkcijas savai komandai.",
     "CURRENT_PLAN": {
       "TITLE": "Pašreizējais Norēķinu Plāns",
       "PLAN_NOTE": "Šobrīd Jūs abonējat **{plan}** plānu ar **{quantity}** licencēm",
-      "SEAT_COUNT": "Number of seats",
-      "RENEWS_ON": "Renews on"
+      "SEAT_COUNT": "Lietotāju skaits",
+      "RENEWS_ON": "Atjaunojas"
     },
-    "VIEW_PRICING": "View Pricing",
+    "VIEW_PRICING": "Skatīt Izcenojumu",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Pārvaldīt savu abonementu",
       "DESCRIPTION": "Apskatīt iepriekšējos rēķinus, rediģēt norēķinu informāciju vai atcelt abonementu.",
@@ -342,11 +342,11 @@
     },
     "CAPTAIN": {
       "TITLE": "Captain",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
-      "BUTTON_TXT": "Buy more credits",
+      "DESCRIPTION": "Pārvaldīt Captain AI lietošanu un kredītus.",
+      "BUTTON_TXT": "Iegādāties vairāk kredītu",
       "DOCUMENTS": "Dokumenti",
-      "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
+      "RESPONSES": "Atbildes",
+      "UPGRADE": "Captain nav pieejams bezmaksas abonementā. Modernizējiet abonementu tūlīt, lai piekļūtu asistentiem un copilot."
     },
     "CHAT_WITH_US": {
       "TITLE": "Nepieciešama palīdzība?",
