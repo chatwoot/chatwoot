@@ -173,7 +173,7 @@ const variant = computed(() => {
   return variants[props.messageType] || MESSAGE_VARIANTS.USER;
 });
 
-const isMyMessage = computed(() => {
+const isBotOrAgentMessage = computed(() => {
   if (props.messageType === MESSAGE_TYPES.ACTIVITY) {
     return false;
   }
@@ -202,7 +202,7 @@ const isMyMessage = computed(() => {
  * @returns {import('vue').ComputedRef<'left'|'right'|'center'>} The computed orientation
  */
 const orientation = computed(() => {
-  if (isMyMessage.value) {
+  if (isBotOrAgentMessage.value) {
     return ORIENTATION.RIGHT;
   }
 
@@ -440,7 +440,7 @@ provideMessageContext({
   isPrivate: computed(() => props.private),
   variant,
   orientation,
-  isMyMessage,
+  isBotOrAgentMessage,
   shouldGroupWithNext,
 });
 </script>
