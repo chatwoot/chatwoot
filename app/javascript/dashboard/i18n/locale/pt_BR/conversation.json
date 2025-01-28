@@ -356,5 +356,8 @@
   },
   "COPILOT": {
     "TRY_THESE_PROMPTS": "Experimente estes prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }
