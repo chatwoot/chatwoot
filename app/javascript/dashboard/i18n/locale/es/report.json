@@ -119,7 +119,7 @@
       "EMPTY_LIST": "No se encontraron resultados"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results"
+      "RESULTS": "Mostrando {start} a {end} de {total} resultados"
     }
   },
   "AGENT_REPORTS": {
@@ -492,9 +492,9 @@
   "SLA_REPORTS": {
     "HEADER": "Informes de SLA",
     "NO_RECORDS": "SLA applied conversations are not available.",
-    "LOADING": "Loading SLA data...",
+    "LOADING": "Cargando datos de SLA...",
     "DOWNLOAD_SLA_REPORTS": "Descargar reportes de SLA",
-    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "DOWNLOAD_FAILED": "Error al descargar los informes de SLA",
     "DROPDOWN": {
       "ADD_FIlTER": "Añadir Filtro",
       "CLEAR_ALL": "Limpiar todo",
@@ -518,11 +518,11 @@
     "WITH": "con",
     "METRICS": {
       "HIT_RATE": {
-        "LABEL": "Hit Rate",
+        "LABEL": "Tasa de Aciertos",
         "TOOLTIP": "Percentage of SLAs created were completed successfully"
       },
       "NO_OF_MISSES": {
-        "LABEL": "Number of Misses",
+        "LABEL": "Número de Fallos",
         "TOOLTIP": "Total SLA misses in a certain period"
       },
       "NO_OF_CONVERSATIONS": {
