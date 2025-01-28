@@ -172,6 +172,12 @@ export class DashboardAudioNotificationHelper {
       return;
     }
 
+    // If the conversation status is pending, then dismiss the alert
+    // This case is common for all audio event types
+    if (this.store.isMessageFromPendingConversation(message)) {
+      return;
+    }
+
     // If the message is sent by the current user then dismiss the alert
     if (isMessageFromCurrentUser(message, this.currentUser.id)) {
       return;

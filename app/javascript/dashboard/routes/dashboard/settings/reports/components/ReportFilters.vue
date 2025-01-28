@@ -15,6 +15,10 @@ export default {
     Thumbnail,
   },
   props: {
+    currentFilter: {
+      type: Object,
+      default: () => null,
+    },
     filterItemsList: {
       type: Array,
       default: () => [],
@@ -40,7 +44,7 @@ export default {
   ],
   data() {
     return {
-      currentSelectedFilter: null,
+      currentSelectedFilter: this.currentFilter || null,
       currentDateRangeSelection: {
         id: 0,
         name: this.$t('REPORT.DATE_RANGE_OPTIONS.LAST_7_DAYS'),
@@ -113,7 +117,9 @@ export default {
   },
   watch: {
     filterItemsList(val) {
-      this.currentSelectedFilter = val[0];
+      this.currentSelectedFilter = !this.currentFilter
+        ? val[0]
+        : this.currentFilter;
       this.changeFilterSelection();
     },
     groupByFilterItemsList() {
