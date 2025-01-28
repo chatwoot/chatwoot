@@ -1,5 +1,6 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
+import Draggable from 'vuedraggable';
 import { useToggle } from '@vueuse/core';
 import { useRoute } from 'vue-router';
 import { useStore, useStoreGetters } from 'dashboard/composables/store';
@@ -23,10 +24,11 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  startAt: {
-    type: String,
-    default: 'even',
-    validator: value => value === 'even' || value === 'odd',
+  // Combine static elements with custom attributes components
+  // To allow for custom ordering
+  staticElements: {
+    type: Array,
+    default: () => [],
   },
 });
 
@@ -35,6 +37,8 @@ const getters = useStoreGetters();
 const route = useRoute();
 const { t } = useI18n();
 const { uiSettings, updateUISettings } = useUISettings();
+
+const dragging = ref(false);
 
 const [showAllAttributes, toggleShowAllAttributes] = useToggle(false);
 
@@ -68,7 +72,7 @@ const toggleButtonText = computed(() =>
     : t('CUSTOM_ATTRIBUTES.SHOW_LESS')
 );
 
-const filteredAttributes = computed(() =>
+const filteredCustomAttributes = computed(() =>
   attributes.value.map(attribute => {
     // Check if the attribute key exists in customAttributes
     const hasValue = Object.hasOwnProperty.call(
@@ -80,6 +84,8 @@ const filteredAttributes = computed(() =>
 
     return {
       ...attribute,
+      type: 'custom_attribute',
+      key: attribute.attribute_key,
       // Set value from customAttributes if it exists, otherwise use default value
       value: hasValue
         ? customAttributes.value[attribute.attribute_key]
@@ -88,27 +94,72 @@ const filteredAttributes = computed(() =>
   })
 );
 
-const displayedAttributes = computed(() => {
-  // Show only the first 5 attributes or all depending on showAllAttributes
-  if (showAllAttributes.value || filteredAttributes.value.length <= 5) {
-    return filteredAttributes.value;
-  }
-  return filteredAttributes.value.slice(0, 5);
-});
-
-const showMoreUISettingsKey = computed(
-  () => `show_all_attributes_${props.attributeFrom}`
+// Order key name for UI settings
+const orderKey = computed(
+  () => `conversation_elements_order_${props.attributeFrom}`
 );
 
+const combinedElements = computed(() => {
+  // Get saved order from UI settings
+  const savedOrder = uiSettings.value[orderKey.value] ?? [];
+  const allElements = [
+    ...props.staticElements,
+    ...filteredCustomAttributes.value,
+  ];
+
+  // If no saved order exists, return in default order
+  if (!savedOrder.length) return allElements;
+
+  return allElements.sort((a, b) => {
+    // Find positions of elements in saved order
+    const aPosition = savedOrder.indexOf(a.key);
+    const bPosition = savedOrder.indexOf(b.key);
+
+    // Handle cases where elements are not in saved order:
+    // - New elements (not in saved order) go to the end
+    // - If both elements are new, maintain their relative order
+    if (aPosition === -1 && bPosition === -1) return 0;
+    if (aPosition === -1) return 1;
+    if (bPosition === -1) return -1;
+
+    return aPosition - bPosition;
+  });
+});
+
+const displayedElements = computed(() => {
+  if (showAllAttributes.value || combinedElements.value.length <= 5) {
+    return combinedElements.value;
+  }
+
+  // Show first 5 elements in the order they appear
+  return combinedElements.value.slice(0, 5);
+});
+
+const onDragEnd = () => {
+  dragging.value = false;
+  const newOrder = combinedElements.value.map(element => element.key);
+  updateUISettings({
+    [orderKey.value]: newOrder,
+  });
+};
+
 const initializeSettings = () => {
+  const currentOrder = uiSettings.value[orderKey.value];
+  if (!currentOrder) {
+    const initialOrder = combinedElements.value.map(element => element.key);
+    updateUISettings({
+      [orderKey.value]: initialOrder,
+    });
+  }
+
   showAllAttributes.value =
-    uiSettings.value[showMoreUISettingsKey.value] || false;
+    uiSettings.value[`show_all_attributes_${props.attributeFrom}`] || false;
 };
 
 const onClickToggle = () => {
   toggleShowAllAttributes();
   updateUISettings({
-    [showMoreUISettingsKey.value]: showAllAttributes.value,
+    [`show_all_attributes_${props.attributeFrom}`]: showAllAttributes.value,
   });
 };
 
@@ -169,48 +220,63 @@ const evenClass = [
   '[&>*:nth-child(odd)]:!bg-n-background [&>*:nth-child(even)]:!bg-n-slate-2',
   'dark:[&>*:nth-child(odd)]:!bg-n-background dark:[&>*:nth-child(even)]:!bg-n-solid-1',
 ];
-const oddClass = [
-  '[&>*:nth-child(odd)]:!bg-n-slate-2 [&>*:nth-child(even)]:!bg-n-background',
-  'dark:[&>*:nth-child(odd)]:!bg-n-solid-1 dark:[&>*:nth-child(even)]:!bg-n-background',
-];
-
-const wrapperClass = computed(() => {
-  return props.startAt === 'even' ? evenClass : oddClass;
-});
 </script>
 
-<!-- TODO: After migration to Vue 3, remove the top level div -->
 <template>
-  <div :class="wrapperClass" class="last:rounded-b-lg">
-    <CustomAttribute
-      v-for="attribute in displayedAttributes"
-      :key="attribute.id"
-      class="last:rounded-b-lg border-b border-n-weak/50 dark:border-n-weak/90"
-      :attribute-key="attribute.attribute_key"
-      :attribute-type="attribute.attribute_display_type"
-      :values="attribute.attribute_values"
-      :label="attribute.attribute_display_name"
-      :description="attribute.attribute_description"
-      :value="attribute.value"
-      show-actions
-      :attribute-regex="attribute.regex_pattern"
-      :regex-cue="attribute.regex_cue"
-      :contact-id="contactId"
-      @update="onUpdate"
-      @delete="onDelete"
-      @copy="onCopy"
-    />
+  <div class="conversation--details">
+    <Draggable
+      :list="displayedElements"
+      :disabled="!showAllAttributes"
+      animation="200"
+      ghost-class="ghost"
+      handle=".drag-handle"
+      item-key="key"
+      class="last:rounded-b-lg overflow-hidden"
+      :class="evenClass"
+      @start="dragging = true"
+      @end="onDragEnd"
+    >
+      <template #item="{ element }">
+        <div
+          class="drag-handle relative border-b border-solid border-n-weak/50 dark:border-n-weak/90"
+          :class="{
+            'cursor-grab': showAllAttributes,
+          }"
+        >
+          <template v-if="element.type === 'static_attribute'">
+            <slot name="static-item" :element="element" />
+          </template>
+
+          <template v-else>
+            <CustomAttribute
+              :key="element.id"
+              :attribute-key="element.attribute_key"
+              :attribute-type="element.attribute_display_type"
+              :values="element.attribute_values"
+              :label="element.attribute_display_name"
+              :description="element.attribute_description"
+              :value="element.value"
+              show-actions
+              :attribute-regex="element.regex_pattern"
+              :regex-cue="element.regex_cue"
+              :contact-id="contactId"
+              @update="onUpdate"
+              @delete="onDelete"
+              @copy="onCopy"
+            />
+          </template>
+        </div>
+      </template>
+    </Draggable>
+
     <p
-      v-if="!displayedAttributes.length && emptyStateMessage"
-      class="p-3 text-center last:rounded-b-lg"
+      v-if="!displayedElements.length && emptyStateMessage"
+      class="p-3 text-center"
     >
       {{ emptyStateMessage }}
     </p>
-    <!-- Show more and show less buttons show it if the filteredAttributes length is greater than 5 -->
-    <div
-      v-if="filteredAttributes.length > 5"
-      class="flex px-2 py-2 last:rounded-b-lg"
-    >
+    <!-- Show more and show less buttons show it if the combinedElements length is greater than 5 -->
+    <div v-if="combinedElements.length > 5" class="flex px-2 py-2">
       <woot-button
         size="small"
         :icon="showAllAttributes ? 'chevron-up' : 'chevron-down'"
@@ -224,3 +290,9 @@ const wrapperClass = computed(() => {
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.ghost {
+  @apply opacity-50 bg-n-slate-3 dark:bg-n-slate-9;
+}
+</style>
