@@ -356,5 +356,8 @@
   },
   "COPILOT": {
     "TRY_THESE_PROMPTS": "Pamēģiniet"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Nevar lejupielādēt pielikumu. Lūdzu, mēģiniet vēlreiz"
   }
 }
