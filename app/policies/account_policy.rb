@@ -31,6 +31,10 @@ class AccountPolicy < ApplicationPolicy
     true
   end
 
+  def create_one_click_conversations?
+    true
+  end
+
   def subscription?
     @account_user.administrator?
   end

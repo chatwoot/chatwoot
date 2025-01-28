@@ -13,6 +13,7 @@
           'items-center rounded-none flex h-full justify-center w-full':
             fullWidth,
           [size]: true,
+          '!max-h-[90%]': !fullHeight,
         }"
         @mouse.stop
         @mousedown="event => event.stopPropagation()"
@@ -50,6 +51,10 @@ export default {
     fullWidth: {
       type: Boolean,
       default: false,
+    },
+    fullHeight: {
+      type: Boolean,
+      default: true,
     },
     modalType: {
       type: String,

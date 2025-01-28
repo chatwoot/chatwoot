@@ -23,6 +23,16 @@ class AccountAPI extends ApiClient {
       { inbox_ids: inboxIds }
     );
   }
+
+  async createOneClickConversations(payload) {
+    const url = `/api/v1/accounts/${this.accountIdFromRoute}/create_one_click_conversations`;
+
+    return axios.post(url, payload, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  }
 }
 
 export default new AccountAPI();

@@ -9,6 +9,21 @@
         :account-id="accountId"
         class="m-4 mb-10"
       />
+      <div class="relative">
+        <compose-button
+          name="Compose"
+          icon="speaker"
+          :is-active="showComposeMenu"
+          @toggle-compose-menu="toggleComposeMenu"
+        />
+        <compose-menu
+          :show="showComposeMenu"
+          @close="toggleComposeMenu"
+          @email-broadcast-modal="$emit('email-broadcast-modal')"
+          @whatsapp-broadcast-modal="$emit('whatsapp-broadcast-modal')"
+        />
+      </div>
+
       <primary-nav-item
         v-for="menuItem in menuItems"
         :key="menuItem.toState"
@@ -47,6 +62,8 @@ import NotificationBell from './NotificationBell.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import { ACCOUNT_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import ComposeMenu from './ComposeMenu.vue';
+import ComposeButton from './ComposeButton.vue';
 
 export default {
   components: {
@@ -55,6 +72,8 @@ export default {
     OptionsMenu,
     AgentDetails,
     NotificationBell,
+    ComposeMenu,
+    ComposeButton,
   },
   props: {
     isACustomBrandedInstance: {
@@ -86,12 +105,16 @@ export default {
     return {
       helpDocsURL: wootConstants.DOCS_URL,
       showOptionsMenu: false,
+      showComposeMenu: false,
     };
   },
   methods: {
     frontendURL,
     toggleOptions() {
       this.showOptionsMenu = !this.showOptionsMenu;
+    },
+    toggleComposeMenu() {
+      this.showComposeMenu = !this.showComposeMenu;
     },
     toggleAccountModal() {
       this.$emit('toggle-accounts');

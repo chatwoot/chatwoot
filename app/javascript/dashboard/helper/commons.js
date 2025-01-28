@@ -82,3 +82,16 @@ export const convertToPortalSlug = text => {
     .replace(/[^\w ]+/g, '')
     .replace(/ +/g, '-');
 };
+
+export function validateNonEmptyEntries(section, data) {
+  let isValid = true;
+  let message = 'All entries are non-empty';
+
+  Object.entries(data).forEach(([, value]) => {
+    if (!value.trim()) {
+      isValid = false;
+      message = `Please fill in the following required fields ${section}`;
+    }
+  });
+  return { isValid, message };
+}

@@ -8,6 +8,8 @@
     <template-parser
       v-else
       :template="selectedWaTemplate"
+      :remove-overflow="removeOverflow"
+      :validate-all-field="validateAllField"
       @resetTemplate="onResetTemplate"
       @sendMessage="onSendMessage"
     />
@@ -30,6 +32,14 @@ export default {
     show: {
       type: Boolean,
       default: true,
+    },
+    removeOverflow: {
+      type: Boolean,
+      default: false,
+    },
+    validateAllField: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

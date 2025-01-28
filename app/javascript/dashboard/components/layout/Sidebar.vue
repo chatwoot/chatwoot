@@ -10,6 +10,8 @@
       @toggle-accounts="toggleAccountModal"
       @key-shortcut-modal="toggleKeyShortcutModal"
       @open-notification-panel="openNotificationPanel"
+      @email-broadcast-modal="toggleEmailBroadcastModal"
+      @whatsapp-broadcast-modal="toggleWhatsappBroadcastModal"
     />
     <secondary-sidebar
       v-if="showSecondarySidebar"
@@ -202,6 +204,12 @@ export default {
     },
     openNotificationPanel() {
       this.$emit('open-notification-panel');
+    },
+    toggleEmailBroadcastModal() {
+      this.$emit('open-email-broadcast-modal');
+    },
+    toggleWhatsappBroadcastModal() {
+      this.$emit('open-whatsapp-broadcast-modal');
     },
   },
 };

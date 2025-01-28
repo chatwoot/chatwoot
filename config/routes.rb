@@ -41,6 +41,7 @@ Rails.application.routes.draw do
           post :clear_billing_cache
           post :delete_messages_with_source_id
           post :unassigned_conversations_assignment
+          post :create_one_click_conversations
         end
 
         scope module: :accounts do

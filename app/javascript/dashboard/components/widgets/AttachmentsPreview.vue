@@ -38,47 +38,46 @@
   </div>
 </template>
 
-<script setup>
-import { computed } from 'vue';
+<script>
 import { formatBytes } from 'shared/helpers/FileHelper';
 
-const props = defineProps({
-  attachments: {
-    type: Array,
-    default: () => [],
+export default {
+  props: {
+    attachments: {
+      type: Array,
+      default: () => [],
+    },
   },
-});
-
-const emits = defineEmits(['remove-attachment']);
-
-const nonRecordedAudioAttachments = computed(() => {
-  return props.attachments.filter(attachment => !attachment?.isRecordedAudio);
-});
-
-const recordedAudioAttachments = computed(() =>
-  props.attachments.filter(attachment => attachment.isRecordedAudio)
-);
-
-const onRemoveAttachment = itemIndex => {
-  emits(
-    'remove-attachment',
-    nonRecordedAudioAttachments.value
-      .filter((_, index) => index !== itemIndex)
-      .concat(recordedAudioAttachments.value)
-  );
-};
-
-const formatFileSize = file => {
-  const size = file.byte_size || file.size;
-  return formatBytes(size, 0);
-};
-
-const isTypeImage = file => {
-  const type = file.content_type || file.type;
-  return type.includes('image');
-};
-
-const fileName = file => {
-  return file.filename || file.name;
+  computed: {
+    nonRecordedAudioAttachments() {
+      return this.attachments.filter(
+        attachment => !attachment?.isRecordedAudio
+      );
+    },
+    recordedAudioAttachments() {
+      return this.attachments.filter(attachment => attachment.isRecordedAudio);
+    },
+  },
+  methods: {
+    onRemoveAttachment(itemIndex) {
+      this.$emit(
+        'remove-attachment',
+        this.nonRecordedAudioAttachments
+          .filter((_, index) => index !== itemIndex)
+          .concat(this.recordedAudioAttachments)
+      );
+    },
+    formatFileSize(file) {
+      const size = file.byte_size || file.size;
+      return formatBytes(size, 0);
+    },
+    isTypeImage(file) {
+      const type = file.content_type || file.type;
+      return type.includes('image');
+    },
+    fileName(file) {
+      return file.filename || file.name;
+    },
+  },
 };
 </script>

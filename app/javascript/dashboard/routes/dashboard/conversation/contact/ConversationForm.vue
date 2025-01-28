@@ -153,7 +153,9 @@
             </div>
           </div>
           <whatsapp-templates
-            v-else-if="hasWhatsappTemplates"
+            v-else-if="
+              hasWhatsappTemplates && !hasPreviousConversationsInAPIInbox
+            "
             :inbox-id="selectedInbox.inbox.id"
             @on-select-template="toggleWaTemplate"
             @on-send="onSendWhatsAppReply"
@@ -449,7 +451,8 @@ export default {
       return this.isAnEmailInbox || this.isAnWebWidgetInbox;
     },
     hasWhatsappTemplates() {
-      return !!this.selectedInbox.inbox?.message_templates;
+      return !!this.selectedInbox.inbox?.additional_attributes
+        ?.message_templates;
     },
     hasAttachments() {
       return this.attachedFiles.length;

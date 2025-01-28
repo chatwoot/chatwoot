@@ -10,6 +10,8 @@
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
       @show-add-label-popup="showAddLabelPopup"
+      @open-email-broadcast-modal="toggleEmailBroadcastModal"
+      @open-whatsapp-broadcast-modal="toggleWhatsappBroadcastModal"
     />
     <section class="flex h-full min-h-0 overflow-hidden flex-1 px-0">
       <router-view />
@@ -22,6 +24,14 @@
       <add-account-modal
         :show="showCreateAccountModal"
         @close-account-create-modal="closeCreateAccountModal"
+      />
+      <email-broadcast-modal
+        :show="showEmailBroadcastModal"
+        @close-email-broadcast-modal="closeEmailBroadcastModal"
+      />
+      <whatsapp-broadcast-modal
+        :show="showWhatsappBroadcastModal"
+        @close-whatsapp-broadcast-modal="closeWhatsappBroadcastModal"
       />
       <woot-key-shortcut-modal
         :show.sync="showShortcutModal"
@@ -50,6 +60,8 @@ import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.v
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import wootConstants from 'dashboard/constants/globals';
+import EmailBroadcastModal from '../../components/layout/sidebarComponents/EmailBroadcastModal.vue';
+import WhatsappBroadcastModal from '../../components/layout/sidebarComponents/WhatsappBroadcastModal.vue';
 
 export default {
   components: {
@@ -60,6 +72,8 @@ export default {
     AccountSelector,
     AddLabelModal,
     NotificationPanel,
+    EmailBroadcastModal,
+    WhatsappBroadcastModal,
   },
   mixins: [uiSettingsMixin],
   data() {
@@ -70,6 +84,8 @@ export default {
       showShortcutModal: false,
       isNotificationPanel: false,
       displayLayoutType: '',
+      showEmailBroadcastModal: false,
+      showWhatsappBroadcastModal: false,
     };
   },
   computed: {
@@ -170,6 +186,18 @@ export default {
     },
     closeNotificationPanel() {
       this.isNotificationPanel = false;
+    },
+    toggleEmailBroadcastModal() {
+      this.showEmailBroadcastModal = true;
+    },
+    closeEmailBroadcastModal() {
+      this.showEmailBroadcastModal = false;
+    },
+    toggleWhatsappBroadcastModal() {
+      this.showWhatsappBroadcastModal = true;
+    },
+    closeWhatsappBroadcastModal() {
+      this.showWhatsappBroadcastModal = false;
     },
   },
 };

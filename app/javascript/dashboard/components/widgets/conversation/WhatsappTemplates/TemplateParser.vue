@@ -1,6 +1,6 @@
 <template>
   <div class="w-full">
-    <div class="max-h-[22.75rem] overflow-y-auto">
+    <div :class="{ 'max-h-[22.75rem] overflow-y-auto': !removeOverflow }">
       <div
         v-for="(componentVariables, componentType) in variables"
         :key="componentType"
@@ -11,7 +11,7 @@
         <textarea
           v-if="processedString[componentType]"
           v-model="processedString[componentType]"
-          rows="4"
+          rows="10"
           readonly
           class="template-input"
         />
@@ -55,6 +55,7 @@
               type="text"
               class="variable-input"
               :styles="{ marginBottom: 0 }"
+              required
             />
           </div>
         </div>
@@ -79,15 +80,26 @@ import FileUpload from 'vue-upload-component';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
+import alertMixin from 'shared/mixins/alertMixin';
+import { validateNonEmptyEntries } from '../../../../helper/commons';
 
 export default {
   components: {
     FileUpload,
   },
+  mixins: [alertMixin],
   props: {
     template: {
       type: Object,
       default: () => {},
+    },
+    removeOverflow: {
+      type: Boolean,
+      default: false,
+    },
+    validateAllField: {
+      type: Boolean,
+      default: false,
     },
   },
   validations: {
@@ -276,6 +288,45 @@ export default {
     sendMessage() {
       this.$v.$touch();
       if (this.$v.$invalid) return;
+
+      if (this.validateAllField) {
+        // validate Header
+        const headerValidation = validateNonEmptyEntries(
+          'header',
+          this.processedParams.header
+        );
+
+        if (headerValidation.isValid === false) {
+          this.showAlert(headerValidation.message);
+        }
+
+        // validate Body
+        const bodyValidation = validateNonEmptyEntries(
+          'body',
+          this.processedParams.body
+        );
+        if (bodyValidation.isValid === false) {
+          this.showAlert(bodyValidation.message);
+        }
+
+        // validate Footer
+        const footerValidation = validateNonEmptyEntries(
+          'footer',
+          this.processedParams.footer
+        );
+        if (footerValidation.isValid === false) {
+          this.showAlert(footerValidation.message);
+        }
+
+        if (
+          !footerValidation.isValid ||
+          !bodyValidation.isValid ||
+          !headerValidation.isValid
+        ) {
+          return;
+        }
+      }
+
       const payload = {
         message: this.processedContentString,
         templateParams: {
@@ -336,6 +387,6 @@ footer {
   @apply bg-red-100 dark:bg-red-100 rounded-md text-red-800 dark:text-red-800 p-2.5 text-center;
 }
 .template-input {
-  @apply bg-slate-25 dark:bg-slate-900 text-slate-700 dark:text-slate-100;
+  @apply bg-slate-25 dark:bg-slate-900 text-slate-700 dark:text-slate-100 mt-2 min-h-[250px];
 }
 </style>
