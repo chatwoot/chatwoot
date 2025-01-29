@@ -131,7 +131,7 @@ onMounted(fetchAccountDetails);
           :description="$t('BILLING_SETTINGS.CAPTAIN.DESCRIPTION')"
         >
           <template #action>
-            <ButtonV4 sm solid slate disabled>
+            <ButtonV4 sm faded slate disabled>
               {{ $t('BILLING_SETTINGS.CAPTAIN.BUTTON_TXT') }}
             </ButtonV4>
           </template>
