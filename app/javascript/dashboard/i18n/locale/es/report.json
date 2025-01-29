@@ -124,6 +124,7 @@
   },
   "AGENT_REPORTS": {
     "HEADER": "Resumen de agentes",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
     "LOADING_CHART": "Cargando datos del gráfico...",
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
     "DOWNLOAD_AGENT_REPORTS": "Descargar reportes de agente",
@@ -258,6 +259,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Resumen de bandeja de entrada",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "Cargando datos del gráfico...",
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
     "DOWNLOAD_INBOX_REPORTS": "Descargar reportes de bandeja de entrada",
@@ -325,6 +327,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Vista general del equipo",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Cargando datos del gráfico...",
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
     "DOWNLOAD_TEAM_REPORTS": "Descargar informes del equipo",
@@ -538,5 +541,15 @@
       },
       "VIEW_DETAILS": "Ver detalles"
     }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Bandeja de entrada",
+    "AGENT": "Agente",
+    "TEAM": "Equipo",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "Número de resoluciones",
+    "CONVERSATIONS": "Núm. de conversaciones"
   }
 }
