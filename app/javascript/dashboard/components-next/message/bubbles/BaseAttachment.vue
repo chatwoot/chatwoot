@@ -60,13 +60,13 @@ const senderName = computed(() => {
           :href="action.href"
           rel="noreferrer noopener nofollow"
           target="_blank"
-          class="w-full block bg-n-solid-3 px-4 py-2 rounded-lg text-sm text-center border border-n-container"
+          class="w-full block bg-n-alpha-white px-4 py-2 rounded-lg text-sm text-center border border-n-container"
         >
           {{ action.label }}
         </a>
         <button
           v-else
-          class="w-full bg-n-solid-3 px-4 py-2 rounded-lg text-sm text-center border border-n-container"
+          class="w-full bg-n-alpha-white px-4 py-2 rounded-lg text-sm text-center border border-n-container"
           @click="action.onClick"
         >
           {{ action.label }}

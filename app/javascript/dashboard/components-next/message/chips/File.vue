@@ -27,6 +27,11 @@ const fileType = computed(() => {
   return fileName.value.split('.').pop();
 });
 
+const fileNameWithoutExt = computed(() => {
+  const parts = fileName.value.split('.');
+  return parts.slice(0, -1).join('.') || fileName.value;
+});
+
 const textColorClass = computed(() => {
   const colorMap = {
     '7z': 'dark:text-[#EDEEF0] text-[#2F265F]',
@@ -53,11 +58,17 @@ const textColorClass = computed(() => {
 
 <template>
   <div
-    class="h-9 bg-n-alpha-white gap-2 items-center flex px-2 rounded-lg border border-n-container"
+    class="h-9 bg-n-alpha-white gap-2 overflow-hidden items-center flex px-2 rounded-lg border border-n-container"
   >
     <FileIcon class="flex-shrink-0" :file-type="fileType" />
-    <span class="mr-1 max-w-32 truncate" :class="textColorClass">
-      {{ fileName }}
+    <span
+      :class="textColorClass"
+      class="inline-flex items-center text-sm overflow-hidden"
+    >
+      <span class="truncate min-w-6">
+        {{ fileNameWithoutExt }}
+      </span>
+      <span class="flex-shrink-0 whitespace-nowrap">.{{ fileType }}</span>
     </span>
     <a
       v-tooltip="t('CONVERSATION.DOWNLOAD')"
