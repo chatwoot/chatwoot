@@ -32,8 +32,7 @@ class DashboardController < ActionController::Base
       'LOGOUT_REDIRECT_LINK',
       'DISABLE_USER_PROFILE_UPDATE',
       'DEPLOYMENT_ENV',
-      'CSML_EDITOR_HOST',
-      'INSTALLATION_PRICING_PLAN'
+      'CSML_EDITOR_HOST', 'INSTALLATION_PRICING_PLAN'
     ).merge(app_config)
   end
 
