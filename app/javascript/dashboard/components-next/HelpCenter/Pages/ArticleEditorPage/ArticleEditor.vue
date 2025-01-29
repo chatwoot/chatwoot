@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, watch, onMounted } from 'vue';
 import { debounce } from '@chatwoot/utils';
 import { useI18n } from 'vue-i18n';
 import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
@@ -34,25 +34,32 @@ const emit = defineEmits([
 ]);
 
 const { t } = useI18n();
+const articleTitle = ref('');
 
-const saveAndSync = value => {
+const saveArticle = value => {
   emit('saveArticle', value);
 };
 
-const quickSave = debounce(saveAndSync, 200, false);
+const saveContent = debounce(content => saveArticle({ content }), 200, false);
+const saveTitle = () => {
+  if (articleTitle.value) saveArticle({ title: articleTitle.value });
+};
 
-const articleTitle = computed({
-  get: () => props.article.title,
-  set: value => {
-    quickSave({ title: value });
+watch(
+  () => props.article,
+  () => {
+    articleTitle.value = props.article.title;
   },
+  { immediate: true, deep: true }
+);
+
+onMounted(() => {
+  articleTitle.value = props.article.title;
 });
 
 const articleContent = computed({
   get: () => props.article.content,
-  set: content => {
-    quickSave({ content });
-  },
+  set: saveContent,
 });
 
 const onClickGoBack = () => {
@@ -94,10 +101,11 @@ const previewArticle = () => {
           custom-text-area-wrapper-class="border-0 !bg-transparent dark:!bg-transparent !py-0 !px-0"
           placeholder="Title"
           autofocus
+          @blur="saveTitle"
         />
         <ArticleEditorControls
           :article="article"
-          @save-article="saveAndSync"
+          @save-article="saveArticle"
           @set-author="setAuthorId"
           @set-category="setCategoryId"
         />
@@ -110,6 +118,7 @@ const previewArticle = () => {
         "
         :enabled-menu-options="ARTICLE_EDITOR_MENU_OPTIONS"
         :autofocus="false"
+        @blur="saveContent"
       />
     </template>
   </HelpCenterLayout>
