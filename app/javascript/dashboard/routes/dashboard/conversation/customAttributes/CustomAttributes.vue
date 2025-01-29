@@ -238,9 +238,11 @@ const evenClass = [
     >
       <template #item="{ element }">
         <div
-          class="drag-handle relative border-b border-solid border-n-weak/50 dark:border-n-weak/90"
+          class="drag-handle relative border-b border-n-weak/50 dark:border-n-weak/90"
           :class="{
             'cursor-grab': showAllAttributes,
+            'last:border-transparent dark:last:border-transparent':
+              combinedElements.length <= 5,
           }"
         >
           <template v-if="element.type === 'static_attribute'">

@@ -103,7 +103,7 @@ const staticElements = computed(() =>
             :href="element.content.value"
             rel="noopener noreferrer nofollow"
             target="_blank"
-            class="text-woot-400 dark:text-woot-600"
+            class="text-n-brand"
           >
             {{ element.content.value }}
           </a>
