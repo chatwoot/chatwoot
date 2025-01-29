@@ -6,6 +6,7 @@ import { useAlert } from 'dashboard/composables';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
+import { downloadFile } from '@chatwoot/utils';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
@@ -20,47 +21,6 @@ const props = defineProps({
     required: true,
   },
 });
-
-const downloadFile = async ({ url, type, extension = null }) => {
-  if (!url || !type) {
-    throw new Error('Invalid download parameters');
-  }
-
-  try {
-    const response = await fetch(url, { cache: 'no-store' });
-
-    if (!response.ok) {
-      throw new Error(`Download failed: ${response.status}`);
-    }
-
-    const blobData = await response.blob();
-
-    const contentType = response.headers.get('content-type');
-
-    const fileExtension =
-      extension || (contentType ? contentType.split('/')[1] : type);
-
-    const dispositionHeader = response.headers.get('content-disposition');
-    const filenameMatch = dispositionHeader?.match(/filename="(.*?)"/);
-
-    const filename =
-      filenameMatch?.[1] ?? `attachment_${Date.now()}.${fileExtension}`;
-
-    const blobUrl = URL.createObjectURL(blobData);
-    const link = Object.assign(document.createElement('a'), {
-      href: blobUrl,
-      download: filename,
-      style: 'display: none',
-    });
-
-    document.body.append(link);
-    link.click();
-    link.remove();
-    URL.revokeObjectURL(blobUrl);
-  } catch (error) {
-    throw error instanceof Error ? error : new Error('Download failed');
-  }
-};
 
 const emit = defineEmits(['close']);
 const show = defineModel('show', { type: Boolean, default: false });
