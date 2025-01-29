@@ -20,9 +20,9 @@ const varaintBaseMap = {
     'bg-n-solid-amber text-n-amber-12 [&_.prosemirror-mention-node]:font-semibold',
   [MESSAGE_VARIANTS.USER]: 'bg-n-slate-4 text-n-slate-12',
   [MESSAGE_VARIANTS.ACTIVITY]: 'bg-n-alpha-1 text-n-slate-11 text-sm',
-  [MESSAGE_VARIANTS.BOT]: 'bg-n-solid-iris text-n-slate-12',
-  [MESSAGE_VARIANTS.TEMPLATE]: 'bg-n-solid-iris text-n-slate-12',
-  [MESSAGE_VARIANTS.ERROR]: 'bg-n-ruby-4 text-n-ruby-12',
+  [MESSAGE_VARIANTS.BOT]: 'bg-n-solid-purple text-n-slate-12',
+  [MESSAGE_VARIANTS.TEMPLATE]: 'bg-n-solid-purple text-n-slate-12',
+  [MESSAGE_VARIANTS.ERROR]: 'bg-n-solid-red text-n-ruby-12',
   [MESSAGE_VARIANTS.EMAIL]: 'w-full',
   [MESSAGE_VARIANTS.UNSUPPORTED]:
     'bg-n-solid-amber/70 border border-dashed border-n-amber-12 text-n-amber-12',
