@@ -4,6 +4,8 @@ import {
   CONVERSATION_PERMISSIONS,
 } from 'dashboard/constants/permissions';
 import { getUserPermissions } from 'dashboard/helper/permissionsHelper';
+import wootConstants from 'dashboard/constants/globals';
+
 vi.mock('dashboard/helper/permissionsHelper', () => ({
   getUserPermissions: vi.fn(),
 }));
@@ -18,6 +20,7 @@ describe('AudioNotificationStore', () => {
         getMineChats: vi.fn(),
         getSelectedChat: null,
         getCurrentAccountId: 1,
+        getConversationById: vi.fn(),
       },
     };
     audioNotificationStore = new AudioNotificationStore(store);
@@ -56,6 +59,63 @@ describe('AudioNotificationStore', () => {
         assigneeType: 'me',
         status: 'open',
       });
+    });
+  });
+
+  describe('isMessageFromPendingConversation', () => {
+    it('should return true when conversation status is pending', () => {
+      store.getters.getConversationById.mockReturnValue({
+        id: 123,
+        status: wootConstants.STATUS_TYPE.PENDING,
+      });
+      const message = { conversation_id: 123 };
+
+      expect(
+        audioNotificationStore.isMessageFromPendingConversation(message)
+      ).toBe(true);
+      expect(store.getters.getConversationById).toHaveBeenCalledWith(123);
+    });
+
+    it('should return false when conversation status is not pending', () => {
+      store.getters.getConversationById.mockReturnValue({
+        id: 123,
+        status: wootConstants.STATUS_TYPE.OPEN,
+      });
+      const message = { conversation_id: 123 };
+
+      expect(
+        audioNotificationStore.isMessageFromPendingConversation(message)
+      ).toBe(false);
+      expect(store.getters.getConversationById).toHaveBeenCalledWith(123);
+    });
+
+    it('should return false when conversation is not found', () => {
+      store.getters.getConversationById.mockReturnValue(null);
+      const message = { conversation_id: 123 };
+
+      expect(
+        audioNotificationStore.isMessageFromPendingConversation(message)
+      ).toBe(false);
+      expect(store.getters.getConversationById).toHaveBeenCalledWith(123);
+    });
+
+    it('should return false when message has no conversation_id', () => {
+      const message = {};
+
+      expect(
+        audioNotificationStore.isMessageFromPendingConversation(message)
+      ).toBe(false);
+      expect(store.getters.getConversationById).not.toHaveBeenCalled();
+    });
+
+    it('should return false when message is null or undefined', () => {
+      expect(
+        audioNotificationStore.isMessageFromPendingConversation(null)
+      ).toBe(false);
+      expect(
+        audioNotificationStore.isMessageFromPendingConversation(undefined)
+      ).toBe(false);
+      expect(store.getters.getConversationById).not.toHaveBeenCalled();
     });
   });
 
