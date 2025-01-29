@@ -136,7 +136,7 @@ const displayedElements = computed(() => {
 });
 
 // Reorder elements with static elements position preserved
-// There is case where the static elements will not be available (API, Email channels, etc).
+// There is case where all the static elements will not be available (API, Email channels, etc).
 // In that case, we need to preserve the order of the static elements and
 // insert them in the correct position.
 const reorderElementsWithStaticPreservation = (
