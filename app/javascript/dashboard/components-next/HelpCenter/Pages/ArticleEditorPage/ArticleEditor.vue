@@ -27,7 +27,6 @@ const props = defineProps({
 
 const emit = defineEmits([
   'saveArticle',
-  'saveArticleAsync',
   'goBack',
   'setAuthor',
   'setCategory',
@@ -36,50 +35,23 @@ const emit = defineEmits([
 
 const { t } = useI18n();
 
-const isNewArticle = computed(() => !props.article?.id);
-
 const saveAndSync = value => {
   emit('saveArticle', value);
 };
 
-// this will only send the data to the backend
-// but will not update the local state preventing unnecessary re-renders
-// since the data is already saved and we keep the editor text as the source of truth
-const quickSave = debounce(
-  value => emit('saveArticleAsync', value),
-  400,
-  false
-);
-
-// 2.5 seconds is enough to know that the user has stopped typing and is taking a pause
-// so we can save the data to the backend and retrieve the updated data
-// this will update the local state with response data
-// Only use to save for existing articles
-const saveAndSyncDebounced = debounce(saveAndSync, 2500, false);
-
-// Debounced save for new articles
-const quickSaveNewArticle = debounce(saveAndSync, 400, false);
-
-const handleSave = value => {
-  if (isNewArticle.value) {
-    quickSaveNewArticle(value);
-  } else {
-    quickSave(value);
-    saveAndSyncDebounced(value);
-  }
-};
+const quickSave = debounce(saveAndSync, 200, false);
 
 const articleTitle = computed({
   get: () => props.article.title,
   set: value => {
-    handleSave({ title: value });
+    quickSave({ title: value });
   },
 });
 
 const articleContent = computed({
   get: () => props.article.content,
   set: content => {
-    handleSave({ content });
+    quickSave({ content });
   },
 });
 
