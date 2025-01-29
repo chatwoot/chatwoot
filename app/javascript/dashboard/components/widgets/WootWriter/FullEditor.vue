@@ -248,6 +248,7 @@ export default {
       this.$emit('keydown');
     },
     onBlur() {
+      this.$emit('update:modelValue', this.contentFromEditor());
       this.$emit('blur');
     },
     onFocus() {
