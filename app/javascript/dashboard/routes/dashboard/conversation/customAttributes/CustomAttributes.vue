@@ -135,11 +135,51 @@ const displayedElements = computed(() => {
   return combinedElements.value.slice(0, 5);
 });
 
+// Reorder elements with static elements position preserved
+// There is case where the static elements will not be available (API, Email channels, etc).
+// In that case, we need to preserve the order of the static elements and
+// insert them in the correct position.
+const reorderElementsWithStaticPreservation = (
+  savedOrder = [],
+  currentOrder = []
+) => {
+  const finalOrder = [...currentOrder];
+  const visibleKeys = new Set(currentOrder);
+
+  // Process hidden static elements from saved order
+  savedOrder
+    // Find static elements that aren't currently visible
+    .filter(key => key.startsWith('static-') && !visibleKeys.has(key))
+    .forEach(staticKey => {
+      // Find next visible element after this static element in saved order
+      const nextVisible = savedOrder
+        .slice(savedOrder.indexOf(staticKey))
+        .find(key => visibleKeys.has(key));
+
+      // If next visible element found, insert before it; otherwise add to end
+      if (nextVisible) {
+        finalOrder.splice(finalOrder.indexOf(nextVisible), 0, staticKey);
+      } else {
+        finalOrder.push(staticKey);
+      }
+    });
+
+  return finalOrder;
+};
+
 const onDragEnd = () => {
   dragging.value = false;
-  const newOrder = combinedElements.value.map(element => element.key);
+  // Get the saved and current saved order
+  const savedOrder = uiSettings.value[orderKey.value] ?? [];
+  const currentOrder = combinedElements.value.map(({ key }) => key);
+
+  const finalOrder = reorderElementsWithStaticPreservation(
+    savedOrder,
+    currentOrder
+  );
+
   updateUISettings({
-    [orderKey.value]: newOrder,
+    [orderKey.value]: finalOrder,
   });
 };
 
