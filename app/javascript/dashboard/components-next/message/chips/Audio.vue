@@ -25,22 +25,16 @@ const isPlaying = ref(false);
 const isMuted = ref(false);
 const currentTime = ref(0);
 const duration = ref(0);
-const playbackSpeed = ref(1);
 
 const onLoadedMetadata = () => {
   duration.value = audioPlayer.value?.duration;
 };
-
-const playbackSpeedLabel = computed(() => {
-  return `${playbackSpeed.value}x`;
-});
 
 // There maybe a chance that the audioPlayer ref is not available
 // When the onLoadMetadata is called, so we need to set the duration
 // value when the component is mounted
 onMounted(() => {
   duration.value = audioPlayer.value?.duration;
-  audioPlayer.value.playbackRate = playbackSpeed.value;
 });
 
 const formatTime = time => {
@@ -77,16 +71,6 @@ const playOrPause = () => {
 const onEnd = () => {
   isPlaying.value = false;
   currentTime.value = 0;
-  playbackSpeed.value = 1;
-  audioPlayer.value.playbackRate = 1;
-};
-
-const changePlaybackSpeed = () => {
-  const speeds = [1, 1.5, 2];
-  const currentIndex = speeds.indexOf(playbackSpeed.value);
-  const nextIndex = (currentIndex + 1) % speeds.length;
-  playbackSpeed.value = speeds[nextIndex];
-  audioPlayer.value.playbackRate = playbackSpeed.value;
 };
 
 const downloadAudio = async () => {
@@ -121,7 +105,7 @@ const downloadAudio = async () => {
     <div class="tabular-nums text-xs">
       {{ formatTime(currentTime) }} / {{ formatTime(duration) }}
     </div>
-    <div class="flex-1 items-center flex px-2">
+    <div class="flex items-center px-2">
       <input
         type="range"
         min="0"
@@ -131,14 +115,6 @@ const downloadAudio = async () => {
         @input="seek"
       />
     </div>
-    <button
-      class="border-0 w-10 h-6 grid place-content-center bg-n-alpha-2 hover:bg-alpha-3 rounded-2xl"
-      @click="changePlaybackSpeed"
-    >
-      <span class="text-xs text-n-slate-11 font-medium">
-        {{ playbackSpeedLabel }}
-      </span>
-    </button>
     <button
       class="p-0 border-0 size-8 grid place-content-center"
       @click="toggleMute"
