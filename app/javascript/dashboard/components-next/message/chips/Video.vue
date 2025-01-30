@@ -10,33 +10,17 @@ defineProps({
     type: Object,
     required: true,
   },
-  remainingCount: {
-    type: Number,
-    required: true,
-  },
-  shouldShowOverlay: {
-    type: Boolean,
-    required: true,
-  },
 });
 
 const showGallery = ref(false);
 
 const { filteredCurrentChatAttachments } = useMessageContext();
-
-const handleGalleryClick = () => {
-  showGallery.value = true;
-};
-
-const handleGalleryClose = () => {
-  showGallery.value = false;
-};
 </script>
 
 <template>
   <div
-    class="rounded-lg overflow-hidden contain-content cursor-pointer size-full"
-    @click="handleGalleryClick"
+    class="size-[72px] overflow-hidden contain-content rounded-xl cursor-pointer relative group"
+    @click="showGallery = true"
   >
     <video
       :src="attachment.dataUrl"
@@ -45,7 +29,6 @@ const handleGalleryClose = () => {
       playsInline
     />
     <div
-      v-if="!shouldShowOverlay"
       class="absolute w-full h-full inset-0 p-1 flex items-center justify-center"
     >
       <div
@@ -58,21 +41,12 @@ const handleGalleryClose = () => {
       </div>
     </div>
   </div>
-
-  <div
-    v-if="shouldShowOverlay"
-    class="absolute inset-0 flex items-center cursor-pointer justify-center bg-n-black/25 dark:bg-n-alpha-1 rounded-lg"
-    @click="handleGalleryClick"
-  >
-    <span class="text-white text-2xl font-semibold">
-      +{{ remainingCount }}
-    </span>
-  </div>
   <GalleryView
     v-if="showGallery"
     v-model:show="showGallery"
     :attachment="useSnakeCase(attachment)"
     :all-attachments="filteredCurrentChatAttachments"
-    @close="handleGalleryClose"
+    @error="onError"
+    @close="() => (showGallery = false)"
   />
 </template>
