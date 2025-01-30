@@ -179,7 +179,7 @@ export default {
       );
 
       editorView.updateState(state);
-      editorView.focus();
+      this.focusEditorInputField();
     },
     createEditorView() {
       editorView = new EditorView(this.$refs.editor, {
