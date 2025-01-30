@@ -388,7 +388,6 @@ export default {
   watch: {
     currentChat(conversation) {
       const { can_reply: canReply } = conversation;
-
       this.setCCAndToEmailsFromLastChat();
 
       if (this.isOnPrivateNote) {
@@ -402,6 +401,19 @@ export default {
       }
 
       this.fetchAndSetReplyTo();
+    },
+    // When moving from one conversation to another, the store may not have the
+    // list of all the messages. A fetch is subsequently made to get the messages.
+    // However, this update does not trigger the `currentChat` watcher.
+    // We can add a deep watcher to it, but then, that would be too broad of a net to cast
+    // And would impact performance too. So we watch the messages directly.
+    // The watcher here is `deep` too, because the messages array is mutated and
+    // not replaced. So, a shallow watcher would not catch the change.
+    'currentChat.messages': {
+      handler() {
+        this.setCCAndToEmailsFromLastChat();
+      },
+      deep: true,
     },
     conversationIdByRoute(conversationId, oldConversationId) {
       if (conversationId !== oldConversationId) {
@@ -989,7 +1001,14 @@ export default {
       this.ccEmails = value.ccEmails;
     },
     setCCAndToEmailsFromLastChat() {
-      if (!this.lastEmail) return;
+      if (!this.lastEmail) {
+        // We reset the emails if there is no last email
+        // This is to ensure that the emails are not carried over to the next conversation
+        this.ccEmails = '';
+        this.bccEmails = '';
+        this.toEmails = '';
+        return;
+      }
 
       const {
         content_attributes: { email: emailAttributes = {} },
