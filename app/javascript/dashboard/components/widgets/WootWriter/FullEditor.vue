@@ -170,9 +170,6 @@ export default {
       }
     },
     reloadState() {
-      const oldSelection = editorView.state.selection;
-      const oldDoc = editorView.state.doc;
-
       state = createState(
         this.modelValue,
         this.placeholder,
@@ -181,20 +178,6 @@ export default {
         this.enabledMenuOptions
       );
 
-      const tr = state.tr;
-      // Only try to map and restore selection if there was a previous document
-      if (oldDoc) {
-        try {
-          // Map the old selection to the new document structure
-          const newSelection = Selection.near(
-            tr.doc.resolve(Math.min(oldSelection.from, tr.doc.content.size))
-          );
-          tr.setSelection(newSelection);
-        } catch (error) {
-          console.warn('Could not restore cursor position:', error);
-        }
-      }
-      state = state.apply(tr);
       editorView.updateState(state);
       editorView.focus();
     },
