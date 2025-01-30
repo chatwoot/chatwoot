@@ -117,7 +117,7 @@ const props = defineProps({
   },
   conversationId: { type: Number, required: true },
   createdAt: { type: Number, required: true }, // eslint-disable-line vue/no-unused-properties
-  currentUserId: { type: Number, required: true }, // eslint-disable-line vue/no-unused-properties
+  currentUserId: { type: Number, required: true },
   groupWithNext: { type: Boolean, default: false },
   inboxId: { type: Number, default: null }, // eslint-disable-line vue/no-unused-properties
   inboxSupportsReplyTo: { type: Object, default: () => ({}) },
@@ -173,11 +173,7 @@ const variant = computed(() => {
   return variants[props.messageType] || MESSAGE_VARIANTS.USER;
 });
 
-const isBotOrAgentMessage = computed(() => {
-  if (props.messageType === MESSAGE_TYPES.ACTIVITY) {
-    return false;
-  }
-
+const isMyMessage = computed(() => {
   // if an outgoing message is still processing, then it's definitely a
   // message sent by the current user
   if (
@@ -186,15 +182,17 @@ const isBotOrAgentMessage = computed(() => {
   ) {
     return true;
   }
-
   const senderId = props.senderId ?? props.sender?.id;
   const senderType = props.senderType ?? props.sender?.type;
 
   if (!senderType || !senderId) {
-    return true;
+    return false;
   }
 
-  return senderType.toLowerCase() === SENDER_TYPES.USER.toLowerCase();
+  return (
+    senderType.toLowerCase() === SENDER_TYPES.USER.toLowerCase() &&
+    props.currentUserId === senderId
+  );
 });
 
 /**
@@ -202,7 +200,7 @@ const isBotOrAgentMessage = computed(() => {
  * @returns {import('vue').ComputedRef<'left'|'right'|'center'>} The computed orientation
  */
 const orientation = computed(() => {
-  if (isBotOrAgentMessage.value) {
+  if (isMyMessage.value) {
     return ORIENTATION.RIGHT;
   }
 
@@ -223,8 +221,8 @@ const flexOrientationClass = computed(() => {
 
 const gridClass = computed(() => {
   const map = {
-    [ORIENTATION.LEFT]: 'grid grid-cols-1fr',
-    [ORIENTATION.RIGHT]: 'grid grid-cols-[1fr_24px]',
+    [ORIENTATION.LEFT]: 'grid grid-cols-[24px_1fr]',
+    [ORIENTATION.RIGHT]: 'grid grid-cols-1fr',
   };
 
   return map[orientation.value];
@@ -233,12 +231,12 @@ const gridClass = computed(() => {
 const gridTemplate = computed(() => {
   const map = {
     [ORIENTATION.LEFT]: `
-      "bubble"
-      "meta"
+      "avatar bubble"
+      "spacer meta"
     `,
     [ORIENTATION.RIGHT]: `
-      "bubble avatar"
-      "meta spacer"
+      "bubble"
+      "meta"
     `,
   };
 
@@ -253,7 +251,7 @@ const shouldGroupWithNext = computed(() => {
 
 const shouldShowAvatar = computed(() => {
   if (props.messageType === MESSAGE_TYPES.ACTIVITY) return false;
-  if (orientation.value === ORIENTATION.LEFT) return false;
+  if (orientation.value === ORIENTATION.RIGHT) return false;
 
   return true;
 });
@@ -416,11 +414,6 @@ const avatarInfo = computed(() => {
   };
 });
 
-const avatarTooltip = computed(() => {
-  if (avatarInfo.value.name === '') return '';
-  return `${t('CONVERSATION.SENT_BY')} ${avatarInfo.value.name}`;
-});
-
 const setupHighlightTimer = () => {
   if (Number(route.query.messageId) !== Number(props.id)) {
     return;
@@ -440,7 +433,7 @@ provideMessageContext({
   isPrivate: computed(() => props.private),
   variant,
   orientation,
-  isBotOrAgentMessage,
+  isMyMessage,
   shouldGroupWithNext,
 });
 </script>
@@ -450,7 +443,7 @@ provideMessageContext({
   <div
     v-if="shouldRenderMessage"
     :id="`message${props.id}`"
-    class="flex w-full message-bubble-container"
+    class="flex w-full message-bubble-container mb-2"
     :data-message-id="props.id"
     :class="[
       flexOrientationClass,
@@ -479,7 +472,6 @@ provideMessageContext({
     >
       <div
         v-if="!shouldGroupWithNext && shouldShowAvatar"
-        v-tooltip.left-end="avatarTooltip"
         class="[grid-area:avatar] flex items-end"
       >
         <Avatar v-bind="avatarInfo" :size="24" />
@@ -487,13 +479,7 @@ provideMessageContext({
       <div
         class="[grid-area:bubble] flex"
         :class="{
-          'justify-end': orientation === ORIENTATION.RIGHT,
-          'ltr:pl-12 rtl:pr-12 2xl:ltr:pl-0 2xl:rtl:pr-0':
-            orientation === ORIENTATION.RIGHT &&
-            variant !== MESSAGE_VARIANTS.EMAIL,
-          'ltr:pr-12 rtl:pl-12 2xl:ltr:pr-0 2xl:rtl:pl-0':
-            orientation === ORIENTATION.LEFT &&
-            variant !== MESSAGE_VARIANTS.EMAIL,
+          'ltr:pl-9 rtl:pl-0 justify-end': orientation === ORIENTATION.RIGHT,
           'min-w-0': variant === MESSAGE_VARIANTS.EMAIL,
         }"
         @contextmenu="openContextMenu($event)"
