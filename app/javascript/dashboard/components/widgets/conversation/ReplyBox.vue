@@ -1027,6 +1027,12 @@ export default {
         cc = cc.filter(email => email !== conversationContact);
       }
 
+      // if the existing email has multiple recipients, add them to the "cc" list
+      // this ensures that the recipients are not lost when replying to the conversation
+      if (Array.isArray(emailAttributes.to)) {
+        cc.push(...emailAttributes.to);
+      }
+
       // If the last incoming message sender is different from the conversation contact, add them to the "to"
       // and add the conversation contact to the CC
       if (!emailAttributes.from.includes(conversationContact)) {
@@ -1038,6 +1044,11 @@ export default {
       let bcc = (emailAttributes.bcc || []).filter(
         email => email !== conversationContact
       );
+
+      // Let's remove the inbox email from the CC list
+      // To prevent a redundant email loop, this will be
+      // the `from` address of the email anyway
+      cc = cc.filter(email => email !== this.inbox.email);
 
       // Ensure only unique email addresses are in the CC list
       bcc = [...new Set(bcc)];
