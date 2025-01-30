@@ -15,6 +15,7 @@ const props = defineProps({
   to: { type: Object, default: null },
   activeOn: { type: Array, default: () => [] },
   children: { type: Array, default: undefined },
+  showBadge: { type: Boolean, default: false },
 });
 
 const {
@@ -143,6 +144,7 @@ onMounted(async () => {
       :name
       :label
       :to
+      :show-badge="showBadge"
       :is-active="isActive"
       :has-active-child="hasActiveChild"
       :expandable="hasChildren"
