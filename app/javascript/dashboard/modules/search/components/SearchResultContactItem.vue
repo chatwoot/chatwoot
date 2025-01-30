@@ -39,7 +39,7 @@ const navigateTo = computed(() => {
 <template>
   <router-link
     :to="navigateTo"
-    class="flex items-start p-2 rounded-md cursor-pointer hover:bg-n-slate-3 dark:hover:bg-n-solid-3"
+    class="flex items-start p-2 rounded-xl cursor-pointer hover:bg-n-slate-2"
   >
     <Avatar
       :name="name"
@@ -48,8 +48,8 @@ const navigateTo = computed(() => {
       rounded-full
       class="mt-0.5"
     />
-    <div class="ml-2 rtl:mr-2 rtl:ml-0">
-      <h5 class="text-sm name text-n-slate-12">
+    <div class="ml-2 rtl:mr-2 min-w-0 rtl:ml-0">
+      <h5 class="text-sm name truncate min-w-0 text-n-slate-12">
         {{ name }}
       </h5>
       <p

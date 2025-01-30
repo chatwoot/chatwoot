@@ -54,7 +54,7 @@ const createdAtTime = dynamicTime(props.createdAt);
 <template>
   <router-link
     :to="navigateTo"
-    class="flex p-2 rounded-md cursor-pointer hover:bg-n-slate-3 dark:hover:bg-n-solid-3"
+    class="flex p-2 rounded-xl cursor-pointer hover:bg-n-slate-2"
   >
     <Avatar
       name="chats"
@@ -63,7 +63,7 @@ const createdAtTime = dynamicTime(props.createdAt);
       class="[&>span]:rounded"
     />
     <div class="flex-grow min-w-0 ml-2">
-      <div class="flex items-center justify-between mb-1">
+      <div class="flex items-center min-w-0 justify-between gap-1 mb-1">
         <div class="flex">
           <woot-label
             class="!bg-n-slate-3 dark:!bg-n-solid-3 !border-n-weak dark:!border-n-strong m-0"
@@ -80,29 +80,25 @@ const createdAtTime = dynamicTime(props.createdAt);
             />
           </div>
         </div>
-        <div>
-          <span
-            class="text-xs font-normal text-n-slate-11 dark:text-n-slate-11"
-          >
-            {{ createdAtTime }}
-          </span>
-        </div>
+        <span
+          class="text-xs font-normal min-w-0 truncate text-n-slate-11 dark:text-n-slate-11"
+        >
+          {{ createdAtTime }}
+        </span>
       </div>
       <div class="flex gap-2">
         <h5
           v-if="name"
-          class="m-0 text-sm text-n-slate-12 dark:text-n-slate-12"
+          class="m-0 text-sm min-w-0 truncate text-n-slate-12 dark:text-n-slate-12"
         >
-          <span
-            class="text-xs font-normal text-n-slate-11 dark:text-n-slate-11"
-          >
+          <span class="text-xs font-norma text-n-slate-11 dark:text-n-slate-11">
             {{ $t('SEARCH.FROM') }}:
           </span>
           {{ name }}
         </h5>
         <h5
           v-if="email"
-          class="m-0 overflow-hidden text-sm text-n-slate-12 dark:text-n-slate-12 whitespace-nowrap text-ellipsis"
+          class="m-0 overflow-hidden text-sm text-n-slate-12 dark:text-n-slate-12 truncate"
         >
           <span
             class="text-xs font-normal text-n-slate-11 dark:text-n-slate-11"

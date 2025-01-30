@@ -30,7 +30,7 @@ const accountId = useMapGetter('getCurrentAccountId');
     :title="$t('SEARCH.SECTION.CONVERSATIONS')"
     :empty="!conversations.length"
     :query="query"
-    :show-title="showTitle || isFetching"
+    :show-title="showTitle"
     :is-fetching="isFetching"
   >
     <ul v-if="conversations.length" class="space-y-1.5 list-none">

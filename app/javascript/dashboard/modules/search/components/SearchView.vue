@@ -22,12 +22,12 @@ import SearchTabs from './SearchTabs.vue';
 import SearchResultConversationsList from './SearchResultConversationsList.vue';
 import SearchResultMessagesList from './SearchResultMessagesList.vue';
 import SearchResultContactsList from './SearchResultContactsList.vue';
-import ButtonV4 from 'dashboard/components-next/button/Button.vue';
 
 const router = useRouter();
 const store = useStore();
 const { t } = useI18n();
 
+const PER_PAGE = 15; // Results per page
 const selectedTab = ref('all');
 const query = ref('');
 const pages = ref({
@@ -137,26 +137,55 @@ const activeTabIndex = computed(() => {
   return index >= 0 ? index : 0;
 });
 
+const isFetchingAny = computed(() => {
+  const { contact, message, conversation, isFetching } = uiFlags.value;
+  return (
+    isFetching ||
+    contact.isFetching ||
+    message.isFetching ||
+    conversation.isFetching
+  );
+});
+
 const showEmptySearchResults = computed(
   () =>
     totalSearchResultsCount.value === 0 &&
     uiFlags.value.isSearchCompleted &&
-    !uiFlags.value.isFetching &&
+    isSelectedTabAll.value &&
+    !isFetchingAny.value &&
     query.value
 );
 
 const showResultsSection = computed(
   () =>
     (uiFlags.value.isSearchCompleted && totalSearchResultsCount.value !== 0) ||
-    (uiFlags.value.isFetching && isSelectedTabAll.value)
+    isFetchingAny.value ||
+    (!isSelectedTabAll.value && query.value && !isFetchingAny.value)
 );
 
-const showLoadMore = computed(
-  () =>
-    totalSearchResultsCount.value > 0 &&
-    !uiFlags.value.isFetching &&
-    query.value
-);
+const showLoadMore = computed(() => {
+  if (!query.value || isFetchingAny.value || selectedTab.value === 'all')
+    return false;
+
+  const records = {
+    contacts: mappedContacts.value,
+    conversations: mappedConversations.value,
+    messages: mappedMessages.value,
+  }[selectedTab.value];
+
+  return (
+    records?.length > 0 &&
+    records.length === pages.value[selectedTab.value] * PER_PAGE
+  );
+});
+
+const showViewMore = computed(() => ({
+  // Hide view more button if the number of records is less than 5
+  contacts: mappedContacts.value?.length > 5 && isSelectedTabAll.value,
+  conversations:
+    mappedConversations.value?.length > 5 && isSelectedTabAll.value,
+  messages: mappedMessages.value?.length > 5 && isSelectedTabAll.value,
+}));
 
 const clearSearchResult = () => {
   pages.value = { contacts: 1, conversations: 1, messages: 1 };
@@ -180,13 +209,13 @@ const onBack = () => {
   clearSearchResult();
 };
 
-const SEARCH_ACTIONS = {
-  contacts: 'conversationSearch/contactSearch',
-  conversations: 'conversationSearch/conversationSearch',
-  messages: 'conversationSearch/messageSearch',
-};
-
 const loadMore = () => {
+  const SEARCH_ACTIONS = {
+    contacts: 'conversationSearch/contactSearch',
+    conversations: 'conversationSearch/conversationSearch',
+    messages: 'conversationSearch/messageSearch',
+  };
+
   if (uiFlags.value.isFetching || selectedTab.value === 'all') return;
   const tab = selectedTab.value;
   pages.value[tab] += 1;
@@ -209,7 +238,7 @@ onUnmounted(() => {
 <template>
   <div class="flex flex-col w-full h-full bg-n-background">
     <div class="flex w-full p-4">
-      <ButtonV4
+      <NextButton
         :label="t('GENERAL_SETTINGS.BACK')"
         icon="i-lucide-chevron-left"
         faded
@@ -219,8 +248,8 @@ onUnmounted(() => {
       />
     </div>
     <section class="flex flex-col flex-grow w-full h-full overflow-hidden">
-      <div class="w-full max-w-[45rem] mx-auto">
-        <div class="flex flex-col w-full px-2">
+      <div class="w-full max-w-4xl mx-auto">
+        <div class="flex flex-col w-full px-4">
           <SearchHeader @search="onSearch" />
           <SearchTabs
             v-if="query"
@@ -231,7 +260,7 @@ onUnmounted(() => {
         </div>
       </div>
       <div class="flex-grow w-full h-full overflow-y-auto">
-        <div class="w-full max-w-[45rem] mx-auto px-2">
+        <div class="w-full max-w-4xl mx-auto px-4 pb-6">
           <div v-if="showResultsSection">
             <Policy
               :permissions="[...ROLES, CONTACT_PERMISSIONS]"
@@ -245,7 +274,7 @@ onUnmounted(() => {
                 :show-title="isSelectedTabAll"
               />
               <NextButton
-                v-if="isSelectedTabAll"
+                v-if="showViewMore.contacts"
                 :label="t(`SEARCH.VIEW_MORE`)"
                 icon="i-lucide-eye"
                 slate
@@ -267,7 +296,7 @@ onUnmounted(() => {
                 :show-title="isSelectedTabAll"
               />
               <NextButton
-                v-if="isSelectedTabAll"
+                v-if="showViewMore.messages"
                 :label="t(`SEARCH.VIEW_MORE`)"
                 icon="i-lucide-eye"
                 slate
@@ -289,7 +318,7 @@ onUnmounted(() => {
                 :show-title="isSelectedTabAll"
               />
               <NextButton
-                v-if="isSelectedTabAll"
+                v-if="showViewMore.conversations"
                 :label="t(`SEARCH.VIEW_MORE`)"
                 icon="i-lucide-eye"
                 slate
@@ -321,7 +350,7 @@ onUnmounted(() => {
             </p>
           </div>
           <div
-            v-else
+            v-else-if="!query"
             class="flex flex-col items-center justify-center px-4 py-6 mt-8 text-center rounded-md"
           >
             <p class="text-center margin-bottom-0">
