@@ -8,7 +8,11 @@ class Captain::Llm::ConversationFaqService < Captain::Llm::BaseOpenAiService
     @content = conversation.to_llm_text
   end
 
+  # Generates and deduplicates FAQs from conversation content
+  # Skips processing if there was no human interaction
   def generate_and_deduplicate
+    return [] if no_human_interaction?
+
     new_faqs = generate
     return [] if new_faqs.empty?
 
@@ -20,6 +24,10 @@ class Captain::Llm::ConversationFaqService < Captain::Llm::BaseOpenAiService
   private
 
   attr_reader :content, :conversation, :assistant
+
+  def no_human_interaction?
+    conversation.first_reply_created_at.nil?
+  end
 
   def find_and_separate_duplicates(faqs)
     duplicate_faqs = []
