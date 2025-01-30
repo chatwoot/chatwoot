@@ -1019,14 +1019,6 @@ export default {
       let cc = emailAttributes.cc ? [...emailAttributes.cc] : [];
       let to = [];
 
-      // there might be a situation where the current conversation will include a message from a third person,
-      // and the current conversation contact is in CC.
-      // This is an edge-case, reported here: CW-1511 [ONLY FOR INTERNAL REFERENCE]
-      // So we remove the current conversation contact's email from the CC list if present
-      if (cc.includes(conversationContact)) {
-        cc = cc.filter(email => email !== conversationContact);
-      }
-
       // if the existing email has multiple recipients, add them to the "cc" list
       // this ensures that the recipients are not lost when replying to the conversation
       if (Array.isArray(emailAttributes.to)) {
@@ -1045,10 +1037,20 @@ export default {
         email => email !== conversationContact
       );
 
+      // there might be a situation where the current conversation will include a message from a third person,
+      // and the current conversation contact is in CC.
+      // This is an edge-case, reported here: CW-1511 [ONLY FOR INTERNAL REFERENCE]
+      // So we remove the current conversation contact's email from the CC list if present
+      if (cc.includes(conversationContact)) {
+        cc = cc.filter(email => email !== conversationContact);
+      }
+
       // Let's remove the inbox email from the CC list
       // To prevent a redundant email loop, this will be
       // the `from` address of the email anyway
-      cc = cc.filter(email => email !== this.inbox.email);
+      if (cc.includes(this.inbox.email)) {
+        cc = cc.filter(email => email !== this.inbox.email);
+      }
 
       // Ensure only unique email addresses are in the CC list
       bcc = [...new Set(bcc)];
