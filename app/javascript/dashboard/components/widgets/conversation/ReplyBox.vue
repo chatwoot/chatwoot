@@ -1041,16 +1041,13 @@ export default {
       // and the current conversation contact is in CC.
       // This is an edge-case, reported here: CW-1511 [ONLY FOR INTERNAL REFERENCE]
       // So we remove the current conversation contact's email from the CC list if present
-      if (cc.includes(conversationContact)) {
-        cc = cc.filter(email => email !== conversationContact);
-      }
-
-      // Let's remove the inbox email from the CC list
+      //
+      // We also remove the inbox email from the CC list
       // To prevent a redundant email loop, this will be
       // the `from` address of the email anyway
-      if (cc.includes(this.inbox.email)) {
-        cc = cc.filter(email => email !== this.inbox.email);
-      }
+      cc = cc.filter(
+        email => email !== conversationContact && email !== this.inbox.email
+      );
 
       // Ensure only unique email addresses are in the CC list
       bcc = [...new Set(bcc)];
