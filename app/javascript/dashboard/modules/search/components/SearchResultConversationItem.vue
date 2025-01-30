@@ -1,58 +1,54 @@
-<script>
+<script setup>
+import { computed } from 'vue';
+
 import { frontendURL } from 'dashboard/helper/URLHelper.js';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import InboxName from 'dashboard/components/widgets/InboxName.vue';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 
-export default {
-  components: {
-    InboxName,
+const props = defineProps({
+  id: {
+    type: Number,
+    default: 0,
   },
-  props: {
-    id: {
-      type: Number,
-      default: 0,
-    },
-    inbox: {
-      type: Object,
-      default: () => ({}),
-    },
-    name: {
-      type: String,
-      default: '',
-    },
-    email: {
-      type: String,
-      default: '',
-    },
-    accountId: {
-      type: [String, Number],
-      default: '',
-    },
-    createdAt: {
-      type: [String, Date, Number],
-      default: '',
-    },
-    messageId: {
-      type: Number,
-      default: 0,
-    },
+  inbox: {
+    type: Object,
+    default: () => ({}),
   },
-  computed: {
-    navigateTo() {
-      const params = {};
-      if (this.messageId) {
-        params.messageId = this.messageId;
-      }
-      return frontendURL(
-        `accounts/${this.accountId}/conversations/${this.id}`,
-        params
-      );
-    },
-    createdAtTime() {
-      return dynamicTime(this.createdAt);
-    },
+  name: {
+    type: String,
+    default: '',
   },
-};
+  email: {
+    type: String,
+    default: '',
+  },
+  accountId: {
+    type: [String, Number],
+    default: '',
+  },
+  createdAt: {
+    type: [String, Date, Number],
+    default: '',
+  },
+  messageId: {
+    type: Number,
+    default: 0,
+  },
+});
+
+const navigateTo = computed(() => {
+  const params = {};
+  if (props.messageId) {
+    params.messageId = props.messageId;
+  }
+  return frontendURL(
+    `accounts/${props.accountId}/conversations/${props.id}`,
+    params
+  );
+});
+
+const createdAtTime = dynamicTime(props.createdAt);
 </script>
 
 <template>
@@ -60,11 +56,12 @@ export default {
     :to="navigateTo"
     class="flex p-2 rounded-md cursor-pointer hover:bg-n-slate-3 dark:hover:bg-n-solid-3"
   >
-    <div
-      class="flex items-center justify-center flex-shrink-0 w-6 h-6 rounded bg-n-brand/10 dark:bg-n-brand/40 text-n-blue-text dark:text-n-blue-text"
-    >
-      <fluent-icon icon="chat-multiple" :size="14" />
-    </div>
+    <Avatar
+      name="chats"
+      :size="24"
+      icon-name="i-lucide-messages-square"
+      class="[&>span]:rounded"
+    />
     <div class="flex-grow min-w-0 ml-2">
       <div class="flex items-center justify-between mb-1">
         <div class="flex">

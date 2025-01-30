@@ -1,52 +1,51 @@
-<script>
-export default {
-  emits: ['search'],
+<script setup>
+import { ref, useTemplateRef, onMounted, onUnmounted } from 'vue';
+import { debounce } from '@chatwoot/utils';
 
-  data() {
-    return {
-      searchQuery: '',
-      isInputFocused: false,
-    };
-  },
-  mounted() {
-    this.$refs.searchInput.focus();
-    document.addEventListener('keydown', this.handler);
-  },
-  unmounted() {
-    document.removeEventListener('keydown', this.handler);
-  },
-  methods: {
-    handler(e) {
-      if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
-        e.preventDefault();
-        this.$refs.searchInput.focus();
-      } else if (
-        e.key === 'Escape' &&
-        document.activeElement.tagName === 'INPUT'
-      ) {
-        e.preventDefault();
-        this.$refs.searchInput.blur();
-      }
-    },
-    debounceSearch(e) {
-      this.searchQuery = e.target.value;
-      clearTimeout(this.debounce);
-      this.debounce = setTimeout(async () => {
-        if (this.searchQuery.length > 2 || this.searchQuery.match(/^[0-9]+$/)) {
-          this.$emit('search', this.searchQuery);
-        } else {
-          this.$emit('search', '');
-        }
-      }, 500);
-    },
-    onFocus() {
-      this.isInputFocused = true;
-    },
-    onBlur() {
-      this.isInputFocused = false;
-    },
-  },
+const emit = defineEmits(['search']);
+
+const searchQuery = ref('');
+const isInputFocused = ref(false);
+
+const searchInput = useTemplateRef('searchInput');
+
+const handler = e => {
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+    e.preventDefault();
+    searchInput.value.focus();
+  } else if (e.key === 'Escape' && document.activeElement.tagName === 'INPUT') {
+    e.preventDefault();
+    searchInput.value.blur();
+  }
 };
+
+const debouncedEmit = debounce(
+  value =>
+    emit('search', value.length > 0 || value.match(/^[0-9]+$/) ? value : ''),
+  500
+);
+
+const onInput = e => {
+  searchQuery.value = e.target.value;
+  debouncedEmit(searchQuery.value);
+};
+
+const onFocus = () => {
+  isInputFocused.value = true;
+};
+
+const onBlur = () => {
+  isInputFocused.value = false;
+};
+
+onMounted(() => {
+  searchInput.value.focus();
+  document.addEventListener('keydown', handler);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handler);
+});
 </script>
 
 <template>
@@ -76,7 +75,7 @@ export default {
       :value="searchQuery"
       @focus="onFocus"
       @blur="onBlur"
-      @input="debounceSearch"
+      @input="onInput"
     />
     <woot-label
       :title="$t('SEARCH.PLACEHOLDER_KEYBINDING')"
