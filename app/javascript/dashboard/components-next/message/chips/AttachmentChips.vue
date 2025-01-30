@@ -1,7 +1,8 @@
 <script setup>
 import { computed, defineOptions, useAttrs } from 'vue';
 
-import ImageVideoChip from 'next/message/chips/AttachmentGrid.vue'; // Image and Video Grids are the same component
+import ImageChip from 'next/message/chips/Image.vue';
+import VideoChip from 'next/message/chips/Video.vue';
 import AudioChip from 'next/message/chips/Audio.vue';
 import FileChip from 'next/message/chips/File.vue';
 import { useMessageContext } from '../provider.js';
@@ -36,7 +37,7 @@ const attrs = useAttrs();
 const { orientation } = useMessageContext();
 
 const classToApply = computed(() => {
-  const baseClasses = [attrs.class, 'flex', 'flex-wrap', 'gap-2'];
+  const baseClasses = [attrs.class, 'flex', 'flex-wrap'];
 
   if (orientation.value === 'right') {
     baseClasses.push('justify-end');
@@ -76,25 +77,30 @@ const files = computed(() => {
 
 <template>
   <div v-if="mediaAttachments.length" :class="classToApply">
-    <ImageVideoChip :attachments="mediaAttachments" />
+    <template v-for="attachment in mediaAttachments" :key="attachment.id">
+      <ImageChip
+        v-if="attachment.fileType === ATTACHMENT_TYPES.IMAGE"
+        :attachment="attachment"
+      />
+      <VideoChip
+        v-else-if="attachment.fileType === ATTACHMENT_TYPES.VIDEO"
+        :attachment="attachment"
+      />
+    </template>
   </div>
-
   <div v-if="recordings.length" :class="classToApply">
-    <div v-for="attachment in recordings" :key="attachment.id" class="w-full">
+    <div v-for="attachment in recordings" :key="attachment.id">
       <AudioChip
         class="bg-n-alpha-3 dark:bg-n-alpha-2 text-n-slate-12"
         :attachment="attachment"
       />
     </div>
   </div>
-
   <div v-if="files.length" :class="classToApply">
-    <div className="grid grid-cols-2 xl:grid-cols-3 gap-3">
-      <FileChip
-        v-for="attachment in files"
-        :key="attachment.id"
-        :attachment="attachment"
-      />
-    </div>
+    <FileChip
+      v-for="attachment in files"
+      :key="attachment.id"
+      :attachment="attachment"
+    />
   </div>
 </template>
