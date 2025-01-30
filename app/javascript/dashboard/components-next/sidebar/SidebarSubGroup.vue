@@ -25,6 +25,11 @@ const accessibleItems = computed(() =>
 );
 
 const hasAccessibleItems = computed(() => {
+  if (props.children.length === 0) {
+    // cases like segment, folder and labels where users can create new items
+    return true;
+  }
+
   return accessibleItems.value.length > 0;
 });
 
@@ -49,7 +54,7 @@ useEventListener(scrollableContainer, 'scroll', () => {
     :icon
     class="my-1"
   />
-  <ul v-if="children.length" class="m-0 list-none reset-base relative group">
+  <ul class="m-0 list-none reset-base relative group">
     <!-- Each element has h-8, which is 32px, we will show 7 items with one hidden at the end,
     which is 14rem. Then we add 16px so that we have some text visible from the next item  -->
     <div
@@ -58,13 +63,16 @@ useEventListener(scrollableContainer, 'scroll', () => {
         'max-h-[calc(14rem+16px)] overflow-y-scroll no-scrollbar': isScrollable,
       }"
     >
-      <SidebarGroupLeaf
-        v-for="child in children"
-        v-show="isExpanded || activeChild?.name === child.name"
-        v-bind="child"
-        :key="child.name"
-        :active="activeChild?.name === child.name"
-      />
+      <template v-if="children.length">
+        <SidebarGroupLeaf
+          v-for="child in children"
+          v-show="isExpanded || activeChild?.name === child.name"
+          v-bind="child"
+          :key="child.name"
+          :active="activeChild?.name === child.name"
+        />
+      </template>
+      <SidebarGroupEmptyLeaf v-else v-show="isExpanded" class="ml-3 rtl:mr-3" />
     </div>
     <div
       v-if="isScrollable && isExpanded"
