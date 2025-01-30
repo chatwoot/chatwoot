@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import SidebarGroupLeaf from './SidebarGroupLeaf.vue';
 import SidebarGroupSeparator from './SidebarGroupSeparator.vue';
+import SidebarGroupEmptyLeaf from './SidebarGroupEmptyLeaf.vue';
 
 import { useSidebarContext } from './provider';
 import { useEventListener } from '@vueuse/core';
