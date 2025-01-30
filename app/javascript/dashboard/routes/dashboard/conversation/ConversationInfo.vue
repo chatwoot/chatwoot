@@ -47,63 +47,68 @@ const staticElements = computed(() =>
     {
       content: initiatedAt,
       title: 'CONTACT_PANEL.INITIATED_AT',
+      key: 'static-initiated-at',
+      type: 'static_attribute',
     },
     {
       content: browserLanguage,
       title: 'CONTACT_PANEL.BROWSER_LANGUAGE',
+      key: 'static-browser-language',
+      type: 'static_attribute',
     },
     {
       content: referer,
       title: 'CONTACT_PANEL.INITIATED_FROM',
-      type: 'link',
+      key: 'static-referer',
+      type: 'static_attribute',
     },
     {
       content: browserName,
       title: 'CONTACT_PANEL.BROWSER',
+      key: 'static-browser',
+      type: 'static_attribute',
     },
     {
       content: platformName,
       title: 'CONTACT_PANEL.OS',
+      key: 'static-platform',
+      type: 'static_attribute',
     },
     {
       content: createdAtIp,
       title: 'CONTACT_PANEL.IP_ADDRESS',
+      key: 'static-ip-address',
+      type: 'static_attribute',
     },
   ].filter(attribute => !!attribute.content.value)
 );
-
-const evenClass = [
-  '[&>*:nth-child(odd)]:!bg-white [&>*:nth-child(even)]:!bg-slate-25',
-  'dark:[&>*:nth-child(odd)]:!bg-slate-900 dark:[&>*:nth-child(even)]:!bg-slate-800/50',
-];
 </script>
 
 <template>
   <div class="conversation--details">
-    <div :class="evenClass">
-      <ContactDetailsItem
-        v-for="element in staticElements"
-        :key="element.title"
-        :title="$t(element.title)"
-        :value="element.content.value"
-        class="border-b border-solid border-slate-50 dark:border-slate-700/50"
-      >
-        <a
-          v-if="element.type === 'link'"
-          :href="referer"
-          rel="noopener noreferrer nofollow"
-          target="_blank"
-          class="text-woot-400 dark:text-woot-600"
-        >
-          {{ referer }}
-        </a>
-      </ContactDetailsItem>
-    </div>
     <CustomAttributes
-      :start-at="staticElements.length % 2 === 0 ? 'even' : 'odd'"
+      :static-elements="staticElements"
       attribute-class="conversation--attribute"
       attribute-from="conversation_panel"
       attribute-type="conversation_attribute"
-    />
+    >
+      <template #staticItem="{ element }">
+        <ContactDetailsItem
+          :key="element.title"
+          :title="$t(element.title)"
+          :value="element.content.value"
+        >
+          <a
+            v-if="element.key === 'static-referer'"
+            :href="element.content.value"
+            rel="noopener noreferrer nofollow"
+            target="_blank"
+            class="text-n-brand"
+          >
+            {{ element.content.value }}
+          </a>
+        </ContactDetailsItem>
+      </template>
+    </CustomAttributes>
   </div>
 </template>
