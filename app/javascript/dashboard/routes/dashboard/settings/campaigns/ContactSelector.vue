@@ -247,12 +247,24 @@ export default {
 
       this.observer = new IntersectionObserver(([entry]) => {
         if (entry.isIntersecting && this.hasMore && !this.isLoading) {
-          this.$emit('loadMore');
+          this.onLoadMore();
         }
       }, options);
 
       if (this.$refs.loadingTrigger) {
         this.observer.observe(this.$refs.loadingTrigger);
+      }
+    },
+
+    async onLoadMore() {
+      const hasActiveFilters = this.appliedFilters.some(
+        filter => filter.values.trim() !== ''
+      );
+
+      if (hasActiveFilters) {
+        await this.loadMoreFilteredContacts();
+      } else {
+        this.$emit('loadMore');
       }
     },
 
@@ -332,9 +344,9 @@ export default {
 
         const validContacts = payload.filter(contact => contact.phone_number);
         this.allFilteredContacts = [...validContacts];
-
         // Fetch remaining pages
         const totalpages = Math.ceil(meta.count / 30);
+        this.totalPages = totalpages;
         for (let page = 2; page <= totalpages; page++) {
           const response = await ContactsAPI.filter(page, 'name', queryPayload);
           if (response.data && response.data.payload) {
@@ -347,26 +359,12 @@ export default {
             ];
           }
         }
+        // Reset the observer after filtering
+        // this.resetObserver();
       } catch (error) {
         useAlert(this.$t('CAMPAIGN.CONTACT_SELECTOR.FILTER_ERROR'));
       } finally {
         this.isLoadingContacts = false;
-      }
-    },
-
-    async loadMoreContacts() {
-      if (this.currentPage < this.totalPages && !this.isLoadingContacts) {
-        // Check if we have active filters
-        const hasActiveFilters = this.appliedFilters.some(
-          filter => filter.values.trim() !== ''
-        );
-
-        if (hasActiveFilters) {
-          await this.loadMoreFilteredContacts();
-        } else {
-          this.currentPage += 1;
-          await this.fetchContacts(this.currentPage);
-        }
       }
     },
 

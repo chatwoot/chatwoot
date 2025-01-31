@@ -169,8 +169,8 @@ export default {
         this.contactList = [...this.contactList, ...filteredContacts];
       }
 
-      const totalpages = meta.count / 30;
-      this.totalPages = totalpages < 33 ? totalpages : 33;
+      const totalpages = Math.ceil(meta.count / 30);
+      this.totalPages = totalpages;
     },
 
     async loadMoreContacts() {
