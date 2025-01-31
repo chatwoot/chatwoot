@@ -98,7 +98,6 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
-        Rails.logger.info(response_body)
         expect(response_body['payload'].first['email']).to eq(contact_from_albania.email)
         expect(response_body['payload'].first['id']).to eq(contact_from_albania.id)
         expect(response_body['payload'].last['email']).to eq(contact_4.email)
