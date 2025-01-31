@@ -79,7 +79,7 @@ jobs:
           file: docker/Dockerfile
           platforms: ${{ matrix.platform }}
           push: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
-          outputs: type=image,name=${{ env.DOCKER_TAG }},push-by-digest=true,name-canonical=true,push=true
+          outputs: type=image,name=${{ env.DOCKER_REPO }},push-by-digest=true,name-canonical=true,push=true
 
       - name: Export digest
         run: |
