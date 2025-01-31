@@ -1037,24 +1037,23 @@ export default {
         email => email !== conversationContact
       );
 
-      // there might be a situation where the current conversation will include a message from a third person,
-      // and the current conversation contact is in CC.
-      // This is an edge-case, reported here: CW-1511 [ONLY FOR INTERNAL REFERENCE]
-      // So we remove the current conversation contact's email from the CC list if present
-      //
-      // We also remove the inbox email from the CC list
-      // To prevent a redundant email loop, this will be
-      // the `from` address of the email anyway
+      // ## Clear CC emails
+      const { email: inboxEmail, forward_to_email: forwardToEmail } =
+        this.inbox;
+      // The pattern is reply+<uuid>@<domain> ref: app/mailboxes/application_mailbox.rb
+      const replyUUIDPattern =
+        /^reply\+([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
+
       cc = cc.filter(email => {
-        const { email: inboxEmail, forward_to_email: forwardToEmail } =
-          this.inbox;
-
-        // Ref: REPLY_EMAIL_UUID_PATTERN in app/mailboxes/application_mailbox.rb
-        // The pattern is reply+<uuid>@<domain>
-        const replyUUIDPattern =
-          /^reply\+([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
-
+        // there might be a situation where the current conversation will include a message from a third person,
+        // and the current conversation contact is in CC.
+        // This is an edge-case, reported here: CW-1511 [ONLY FOR INTERNAL REFERENCE]
+        // So we remove the current conversation contact's email from the CC list if present
         if (email === conversationContact) return false;
+
+        // We also remove the inbox email and chatwoot forward to from the CC list
+        // To prevent a redundant email loops, this will be
+        // the `from` address of the email anyway
         if (email === inboxEmail) return false;
         if (email === forwardToEmail) return false;
         if (replyUUIDPattern.test(email)) return false;
