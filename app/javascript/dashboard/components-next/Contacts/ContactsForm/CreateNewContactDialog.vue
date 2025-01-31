@@ -59,6 +59,7 @@ defineExpose({ dialogRef, contactsFormRef, onSuccess });
             t('CONTACTS_LAYOUT.HEADER.ACTIONS.CONTACT_CREATION.SAVE_CONTACT')
           "
           color="blue"
+          :disabled="contactsFormRef?.isFormInvalid"
           :is-loading="isCreatingContact"
           @click="handleDialogConfirm"
         />
