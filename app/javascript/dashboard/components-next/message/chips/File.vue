@@ -16,15 +16,23 @@ const { t } = useI18n();
 
 const fileName = computed(() => {
   const url = attachment.dataUrl;
-  if (url) {
-    const filename = url.substring(url.lastIndexOf('/') + 1);
-    return filename || t('CONVERSATION.UNKNOWN_FILE_TYPE');
+  if (!url) return t('CONVERSATION.UNKNOWN_FILE_TYPE');
+
+  try {
+    const encodedFilename = url.substring(url.lastIndexOf('/') + 1);
+    return decodeURIComponent(encodedFilename);
+  } catch {
+    return t('CONVERSATION.UNKNOWN_FILE_TYPE');
   }
-  return t('CONVERSATION.UNKNOWN_FILE_TYPE');
 });
 
-const fileType = computed(() => {
-  return fileName.value.split('.').pop();
+const fileType = computed(() => fileName.value.split('.').pop()?.toLowerCase());
+
+const fileNameWithoutExt = computed(() => {
+  const parts = fileName.value.split('.');
+  return parts.length > 1
+    ? parts.slice(0, -1).join('.').trim()
+    : fileName.value.trim();
 });
 
 const textColorClass = computed(() => {
@@ -53,11 +61,16 @@ const textColorClass = computed(() => {
 
 <template>
   <div
-    class="h-9 bg-n-alpha-white gap-2 items-center flex px-2 rounded-lg border border-n-container"
+    class="h-9 bg-n-alpha-white gap-2 overflow-hidden items-center flex px-2 rounded-lg border border-n-container"
   >
     <FileIcon class="flex-shrink-0" :file-type="fileType" />
-    <span class="mr-1 max-w-32 truncate" :class="textColorClass">
-      {{ fileName }}
+    <span
+      :title="fileName"
+      :class="textColorClass"
+      class="inline-flex items-center text-sm overflow-hidden flex-1 min-w-0"
+    >
+      <span class="truncate min-w-0 max-w-32">{{ fileNameWithoutExt }}</span>
+      <span class="flex-shrink-0 whitespace-nowrap">.{{ fileType }}</span>
     </span>
     <a
       v-tooltip="t('CONVERSATION.DOWNLOAD')"
