@@ -75,10 +75,6 @@ const contactCustomViews = useMapGetter('customViews/getContactCustomViews');
 const conversationCustomViews = useMapGetter(
   'customViews/getConversationCustomViews'
 );
-const notificationMeta = useMapGetter('notifications/getMeta');
-const hasUnreadNotifications = computed(
-  () => notificationMeta.value.unreadCount > 0
-);
 
 onMounted(() => {
   store.dispatch('labels/get');
@@ -155,7 +151,9 @@ const menuItems = computed(() => {
       icon: 'i-lucide-inbox',
       to: accountScopedRoute('inbox_view'),
       activeOn: ['inbox_view', 'inbox_view_conversation'],
-      showBadge: hasUnreadNotifications.value || false,
+      getterKeys: {
+        badge: 'notifications/getHasUnreadNotifications',
+      },
     },
     {
       name: 'Conversation',
