@@ -425,22 +425,6 @@ export default defineComponent({
                 Processing
               </p>
             </div>
-
-            <!-- Queued Messages -->
-            <!-- <div class="bg-slate-50 dark:bg-slate-700 rounded-lg p-1">
-              <div class="flex items-center justify-between">
-                <span class="text-2xl font-bold text-blue-600 ml-4">{{
-                  metrics.queued
-                }}</span>
-                <woot-button
-                  icon="send-clock"
-                  size="large"
-                  color-scheme="primary"
-                  class-names="button--only-icon mr-10 mt-3"
-                ></woot-button>
-              </div>
-              <p class="text-s text-slate-600 dark:text-slate-300">Queued</p>
-            </div> -->
           </div>
 
           <!-- Controls -->

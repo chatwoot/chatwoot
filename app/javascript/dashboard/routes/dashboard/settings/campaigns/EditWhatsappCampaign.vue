@@ -59,7 +59,6 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'campaigns/getUIFlags',
-      //   contactsList: 'contacts/getContacts',
     }),
     templateList() {
       return this.selectedInbox

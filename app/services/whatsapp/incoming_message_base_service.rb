@@ -8,7 +8,6 @@ class Whatsapp::IncomingMessageBaseService
 
   def perform
     processed_params
-    # CUSTOM_LOGGER.info("Processed params: #{processed_params}")
 
     if processed_params.try(:[], :statuses).present?
       process_statuses
@@ -74,7 +73,7 @@ class Whatsapp::IncomingMessageBaseService
     # Only increment read count if status is 'read'
     status = @processed_params[:statuses].first[:status]
     id = @processed_params[:statuses].first[:id]
-    # error_data = @processed_params[:error_data].first[:details]
+    
     return unless status == 'failed'
 
     # Find the campaign through the message

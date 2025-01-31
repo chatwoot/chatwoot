@@ -149,19 +149,6 @@ class WhatsappCampaignJob < ApplicationJob
       end
     end
 
-    # def valid_media_url?(url)
-    #   return false unless url.present?
-
-    #   response = HTTParty.head(url)
-    #   response.success? && response.headers['content-type']&.start_with?('image/')
-    # rescue StandardError => e
-    #   false
-    # end
-
-    # def ensure_https_url(url)
-    #   url.sub(/^http:/, 'https:')
-    # end
-
 
     def build_media_template_payload(template, name, url)
       {
