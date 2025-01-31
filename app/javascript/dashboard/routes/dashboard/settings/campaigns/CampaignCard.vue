@@ -158,17 +158,6 @@ export default {
               {{ $t('CAMPAIGN.METRICS.FAILED') }}
             </span>
           </div>
-
-          <!-- <div class="flex flex-col items-center">
-            <span
-              class="text-xl font-semibold text-slate-900 dark:text-slate-100"
-            >
-              {{ campaign.replied || '_' }}
-            </span>
-            <span class="text-sm text-slate-600 dark:text-slate-400">
-              {{ $t('CAMPAIGN.METRICS.REPLIED') }}
-            </span>
-          </div> -->
         </div>
 
         <!-- Action Buttons -->

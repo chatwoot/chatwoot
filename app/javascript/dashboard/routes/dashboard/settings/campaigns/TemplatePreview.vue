@@ -96,12 +96,6 @@ export default {
           color-scheme="clear secondary-icon"
           class-names="button--only-icon speaker"
         ></woot-button>
-        <!-- <woot-button
-          icon="mail-unread"
-          size="medium"
-          color-scheme="clear secondary-icon"
-          class-names="button--only-icon mail"
-        ></woot-button> -->
         <woot-button
           icon="wifi"
           size="medium"

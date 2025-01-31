@@ -105,12 +105,7 @@ export default {
           attributeKey: 'country_code',
           attributeI18nKey: 'COUNTRY',
           inputType: 'text',
-          filterOperators: [
-            { value: 'equal_to', label: 'Equals' },
-            // { value: 'not_equal_to', label: 'Does not equal' },
-            // { value: 'contains', label: 'Contains' },
-            // { value: 'does_not_contain', label: 'Does not contain' },
-          ],
+          filterOperators: [{ value: 'equal_to', label: 'Equals' }],
         },
       ],
       selectAllVisible: false, // Add this new data property
@@ -359,8 +354,6 @@ export default {
             ];
           }
         }
-        // Reset the observer after filtering
-        // this.resetObserver();
       } catch (error) {
         useAlert(this.$t('CAMPAIGN.CONTACT_SELECTOR.FILTER_ERROR'));
       } finally {
@@ -400,7 +393,6 @@ export default {
           this.handleContactsResponse(data, true);
         } catch (error) {
           useAlert(this.$t('CAMPAIGN.CONTACT_SELECTOR.FILTER_ERROR'));
-          // Reset the page on error
           this.currentPage -= 1;
         } finally {
           this.isLoadingContacts = false;
