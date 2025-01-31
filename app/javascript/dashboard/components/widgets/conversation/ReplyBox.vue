@@ -1045,9 +1045,22 @@ export default {
       // We also remove the inbox email from the CC list
       // To prevent a redundant email loop, this will be
       // the `from` address of the email anyway
-      cc = cc.filter(
-        email => email !== conversationContact && email !== this.inbox.email
-      );
+      cc = cc.filter(email => {
+        const { email: inboxEmail, forward_to_email: forwardToEmail } =
+          this.inbox;
+
+        // Ref: REPLY_EMAIL_UUID_PATTERN in app/mailboxes/application_mailbox.rb
+        // The pattern is reply+<uuid>@<domain>
+        const replyUUIDPattern =
+          /^reply\+([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
+
+        if (email === conversationContact) return false;
+        if (email === inboxEmail) return false;
+        if (email === forwardToEmail) return false;
+        if (replyUUIDPattern.test(email)) return false;
+
+        return true;
+      });
 
       // Ensure only unique email addresses are in the CC list
       bcc = [...new Set(bcc)];
