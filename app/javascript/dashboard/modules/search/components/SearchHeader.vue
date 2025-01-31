@@ -21,7 +21,7 @@ const handler = e => {
 
 const debouncedEmit = debounce(
   value =>
-    emit('search', value.length > 0 || value.match(/^[0-9]+$/) ? value : ''),
+    emit('search', value.length > 1 || value.match(/^[0-9]+$/) ? value : ''),
   500
 );
 
