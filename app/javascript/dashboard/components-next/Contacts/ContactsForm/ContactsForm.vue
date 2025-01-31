@@ -1,7 +1,7 @@
 <script setup>
 import { computed, reactive, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { required, email, minLength } from '@vuelidate/validators';
+import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import { splitName } from '@chatwoot/utils';
 import countries from 'shared/constants/countries.js';
