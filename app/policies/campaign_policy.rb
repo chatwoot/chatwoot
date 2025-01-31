@@ -7,7 +7,7 @@ class CampaignPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
-  def fetchCampaignContacts?
+  def fetch_campaign_contacts?
     @account_user.administrator?
   end
 

@@ -115,7 +115,7 @@ export default defineComponent({
   },
   mounted() {
     this.$store
-      .dispatch('campaigns/fetchCampaignContacts', this.campaign.id)
+      .dispatch('campaigns/fetchCampaignContacts', this.campaign.display_id)
       .then(() => {
         this.fetchCampaignContacts();
       })

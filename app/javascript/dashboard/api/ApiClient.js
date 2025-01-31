@@ -42,10 +42,6 @@ class ApiClient {
   get() {
     return axios.get(this.url);
   }
-  fetchCampaignContacts(id) {
-    const data = axios.get(`${this.url}/${id}/fetchCampaignContacts`); // Use `const` to define the variable
-    return data;
-  }
 
   show(id) {
     return axios.get(`${this.url}/${id}`);
@@ -56,11 +52,7 @@ class ApiClient {
   }
 
   update(id, data) {
-    const endpoint = `${this.url}/${id}`;
-
-    return axios.patch(endpoint, data).catch(error => {
-      throw error;
-    });
+    return axios.patch(`${this.url}/${id}`, data);
   }
 
   delete(id) {

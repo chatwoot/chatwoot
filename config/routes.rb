@@ -79,9 +79,9 @@ Rails.application.routes.draw do
             post :execute, on: :member
           end
           resources :sla_policies, only: [:index, :create, :show, :update, :destroy]
-          resources :campaigns, only: [:index, :create, :show,:fetchCampaignContacts, :update, :destroy] do
+          resources :campaigns, only: [:index, :create, :show, :update, :destroy, :fetch_campaign_contacts] do
             member do
-              get :fetchCampaignContacts
+              get :fetch_campaign_contacts
             end
           end
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]

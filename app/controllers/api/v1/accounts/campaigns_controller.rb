@@ -61,70 +61,69 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
     }, status: :unprocessable_entity
   end
 
-  # In campaigns_controller.rb
-def fetchCampaignContacts
-  processed_contacts = @campaign.processed_contacts.map do |contact|
-    {
-      id: contact.id,
-      name: contact.name,
-      phone_number: contact.phone_number,
-      processed_at: contact.campaign_contacts.find_by(campaign: @campaign)&.processed_at
+  def fetch_campaign_contacts
+    processed_contacts = @campaign.processed_contacts.map do |contact|
+      {
+        id: contact.id,
+        name: contact.name,
+        phone_number: contact.phone_number,
+        processed_at: contact.campaign_contacts.find_by(campaign: @campaign)&.processed_at
+      }
+    end
+
+    failed_contacts = @campaign.failed_contacts.map do |contact|
+      {
+        id: contact.id,
+        name: contact.name,
+        phone_number: contact.phone_number,
+        error_message: contact.campaign_contacts.find_by(campaign: @campaign)&.error_message
+      }
+    end
+
+    read_contacts = @campaign.read_contacts.map do |contact|
+      {
+        id: contact.id,
+        name: contact.name,
+        phone_number: contact.phone_number,
+        processed_at: contact.campaign_contacts.find_by(campaign: @campaign)&.updated_at
+      }
+    end
+
+    delivered_contacts = @campaign.delivered_contacts.map do |contact|
+      {
+        id: contact.id,
+        name: contact.name,
+        phone_number: contact.phone_number,
+        processed_at: contact.campaign_contacts.find_by(campaign: @campaign)&.updated_at
+      }
+    end
+
+    replied_contacts = @campaign.replied_contacts.map do |contact|
+      {
+        id: contact.id,
+        name: contact.name,
+        phone_number: contact.phone_number,
+        processed_at: contact.campaign_contacts.find_by(campaign: @campaign)&.updated_at
+      }
+    end
+
+    pending_contacts = @campaign.pending_contacts.map do |contact|
+      {
+        id: contact.id,
+        name: contact.name,
+        phone_number: contact.phone_number
+      }
+    end
+
+    render json: {
+      processed_contacts: processed_contacts,
+      failed_contacts: failed_contacts,
+      read_contacts: read_contacts,
+      delivered_contacts: delivered_contacts,
+      replied_contacts: replied_contacts,
+      pending_contacts: pending_contacts
     }
   end
-
-  failed_contacts = @campaign.failed_contacts.map do |contact|
-    {
-      id: contact.id,
-      name: contact.name,
-      phone_number: contact.phone_number,
-      error_message: contact.campaign_contacts.find_by(campaign: @campaign)&.error_message
-    }
-  end
-
-  read_contacts = @campaign.read_contacts.map do |contact|
-    {
-      id: contact.id,
-      name: contact.name,
-      phone_number: contact.phone_number,
-      processed_at: contact.campaign_contacts.find_by(campaign: @campaign)&.updated_at
-    }
-  end
-
-  delivered_contacts = @campaign.delivered_contacts.map do |contact|
-    {
-      id: contact.id,
-      name: contact.name,
-      phone_number: contact.phone_number,
-      processed_at: contact.campaign_contacts.find_by(campaign: @campaign)&.updated_at
-    }
-  end
-
-  replied_contacts = @campaign.replied_contacts.map do |contact|
-    {
-      id: contact.id,
-      name: contact.name,
-      phone_number: contact.phone_number,
-      processed_at: contact.campaign_contacts.find_by(campaign: @campaign)&.updated_at
-    }
-  end
-
-  pending_contacts = @campaign.pending_contacts.map do |contact|
-    {
-      id: contact.id,
-      name: contact.name,
-      phone_number: contact.phone_number
-    }
-  end
-
-  render json: {
-    processed_contacts: processed_contacts,
-    failed_contacts: failed_contacts,
-    read_contacts: read_contacts,
-    delivered_contacts: delivered_contacts,
-    replied_contacts: replied_contacts,
-    pending_contacts: pending_contacts
-  }
-end
 
   def update
     if @campaign.update(campaign_params)
@@ -144,8 +143,6 @@ end
 
   def campaign
     @campaign ||= Current.account.campaigns.find_by!(display_id: params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render json: { error: 'Campaign not found' }, status: :not_found
   end
 
   def campaign_params
