@@ -43,12 +43,14 @@ const fileNameWithoutExt = computed(() => {
 
 const displayFileName = computed(() => {
   const name = fileNameWithoutExt.value;
-  const truncatedName = (str, maxLength) =>
-    str.length > maxLength ? `${str.substring(0, maxLength).trim()}..` : str;
+  const truncatedName = (str, maxLength, hasExt) =>
+    str.length > maxLength
+      ? `${str.substring(0, maxLength).trimEnd()}${hasExt ? '..' : '...'}`
+      : str;
 
   return fileType.value
-    ? `${truncatedName(name, 14)}.${fileType.value}`
-    : truncatedName(name, 23);
+    ? `${truncatedName(name, 14, true)}.${fileType.value}`
+    : truncatedName(name, 16, false);
 });
 
 const textColorClass = computed(() => {
