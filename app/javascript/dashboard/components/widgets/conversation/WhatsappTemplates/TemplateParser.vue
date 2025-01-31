@@ -97,10 +97,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    validateAllField: {
-      type: Boolean,
-      default: false,
-    },
   },
   validations: {
     processedParams: {
@@ -289,42 +285,41 @@ export default {
       this.$v.$touch();
       if (this.$v.$invalid) return;
 
-      if (this.validateAllField) {
-        // validate Header
-        const headerValidation = validateNonEmptyEntries(
-          'header',
-          this.processedParams.header
-        );
+      // validate Header
+      const headerValidation = validateNonEmptyEntries(
+        'header',
+        this.processedParams.header,
+        this.isHeaderMediaFormat
+      );
 
-        if (headerValidation.isValid === false) {
-          this.showAlert(headerValidation.message);
-        }
+      if (headerValidation.isValid === false) {
+        this.showAlert(headerValidation.message);
+      }
 
-        // validate Body
-        const bodyValidation = validateNonEmptyEntries(
-          'body',
-          this.processedParams.body
-        );
-        if (bodyValidation.isValid === false) {
-          this.showAlert(bodyValidation.message);
-        }
+      // validate Body
+      const bodyValidation = validateNonEmptyEntries(
+        'body',
+        this.processedParams.body
+      );
+      if (bodyValidation.isValid === false) {
+        this.showAlert(bodyValidation.message);
+      }
 
-        // validate Footer
-        const footerValidation = validateNonEmptyEntries(
-          'footer',
-          this.processedParams.footer
-        );
-        if (footerValidation.isValid === false) {
-          this.showAlert(footerValidation.message);
-        }
+      // validate Footer
+      const footerValidation = validateNonEmptyEntries(
+        'footer',
+        this.processedParams.footer
+      );
+      if (footerValidation.isValid === false) {
+        this.showAlert(footerValidation.message);
+      }
 
-        if (
-          !footerValidation.isValid ||
-          !bodyValidation.isValid ||
-          !headerValidation.isValid
-        ) {
-          return;
-        }
+      if (
+        !footerValidation.isValid ||
+        !bodyValidation.isValid ||
+        !headerValidation.isValid
+      ) {
+        return;
       }
 
       const payload = {

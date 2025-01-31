@@ -83,15 +83,28 @@ export const convertToPortalSlug = text => {
     .replace(/ +/g, '-');
 };
 
-export function validateNonEmptyEntries(section, data) {
+export function validateNonEmptyEntries(
+  section,
+  data,
+  isHeaderMediaFormat = false
+) {
   let isValid = true;
   let message = 'All entries are non-empty';
+
+  // Check if data is an empty object
+  if (isHeaderMediaFormat && Object.keys(data).length === 0) {
+    return {
+      isValid: false,
+      message: `Please fill in the required fields in the '${section}' section.`,
+    };
+  }
 
   Object.entries(data).forEach(([, value]) => {
     if (!value.trim()) {
       isValid = false;
-      message = `Please fill in the following required fields ${section}`;
+      message = `Please fill in the required fields in the '${section}' section.`;
     }
   });
+
   return { isValid, message };
 }

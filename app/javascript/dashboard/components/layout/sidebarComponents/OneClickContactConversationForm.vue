@@ -319,7 +319,6 @@
               v-else-if="hasWhatsappTemplates"
               :inbox-id="selectedInbox.id"
               :remove-overflow="true"
-              :validate-all-field="true"
               @on-select-template="toggleWaTemplate"
               @on-send="onSendWhatsAppReply"
             />
