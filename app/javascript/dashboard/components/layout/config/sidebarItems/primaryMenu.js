@@ -26,7 +26,7 @@ const primaryMenuItems = accountId => [
     featureFlag: FEATURE_FLAGS.CRM,
     toState: frontendURL(`accounts/${accountId}/contacts`),
     toStateName: 'contacts_dashboard',
-    roles: ['administrator', 'agent'],
+    roles: accountId === 833 ? ['administrator'] : ['administrator', 'agent'],
   },
   {
     icon: 'arrow-trending-lines',
