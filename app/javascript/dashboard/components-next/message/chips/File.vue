@@ -30,9 +30,15 @@ const fileType = computed(() => fileName.value.split('.').pop()?.toLowerCase());
 
 const fileNameWithoutExt = computed(() => {
   const parts = fileName.value.split('.');
-  return parts.length > 1
-    ? parts.slice(0, -1).join('.').trim()
-    : fileName.value.trim();
+  
+  // If there's no extension (no dots in filename)
+  if (parts.length === 1) {
+    return fileName.value.trim();
+  }
+  
+  // Take all parts except the last one (extension)
+  const nameWithoutExt = parts.slice(0, -1).join('.');
+  return nameWithoutExt.trim();
 });
 
 const textColorClass = computed(() => {
