@@ -89,7 +89,7 @@ const files = computed(() => {
   </div>
 
   <div v-if="files.length" :class="classToApply">
-    <div className="grid grid-cols-2 xl:grid-cols-3 gap-3">
+    <div className="grid grid-cols-1 2xl:grid-cols-2 gap-3">
       <FileChip
         v-for="attachment in files"
         :key="attachment.id"

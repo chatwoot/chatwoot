@@ -49,8 +49,8 @@ const displayFileName = computed(() => {
       : str;
 
   return fileType.value
-    ? `${truncatedName(name, 14, true)}.${fileType.value}`
-    : truncatedName(name, 16, false);
+    ? `${truncatedName(name, 12, true)}.${fileType.value}`
+    : truncatedName(name, 14, false);
 });
 
 const textColorClass = computed(() => {
@@ -83,7 +83,7 @@ const textColorClass = computed(() => {
   >
     <FileIcon class="flex-shrink-0" :file-type="fileType" />
     <span
-      class="flex-1 min-w-0 text-sm max-w-36"
+      class="flex-1 min-w-0 whitespace-nowrap overflow-hidden text-sm max-w-36"
       :title="fileName"
       :class="textColorClass"
     >
