@@ -35,6 +35,10 @@ export default {
       total_count: 0,
       sortAttribute: 'name',
       isTemplateValid: true,
+      previewPosition: {
+        right: 0,
+        top: 0,
+      },
     };
   },
   validations() {
@@ -236,6 +240,23 @@ export default {
         useAlert(errorMessage);
       }
     },
+    calculatePreviewPosition() {
+      const campaignForm = this.$el?.querySelector('.campaign-details-form');
+      if (campaignForm) {
+        const rect = campaignForm.getBoundingClientRect();
+        this.previewPosition = {
+          right: window.innerWidth - rect.right - 320,
+          top: rect.top - 112,
+        };
+      }
+    },
+  },
+  mounted() {
+    this.calculatePreviewPosition();
+    window.addEventListener('resize', this.calculatePreviewPosition);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.calculatePreviewPosition);
   },
 };
 </script>
@@ -334,7 +355,9 @@ export default {
 
       <!-- Template Preview for Step 1 -->
       <TemplatePreview
+        v-if="currentStep === 1"
         :selectedTemplate="selectedTemplate"
+        :preview-position="previewPosition"
         @template-validation="handleTemplateValidation"
       />
     </div>

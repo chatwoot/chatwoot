@@ -15,6 +15,13 @@ export default {
       type: Object,
       default: null,
     },
+    previewPosition: {
+      type: Object,
+      default: () => ({
+        right: 90,
+        top: 130,
+      }),
+    },
   },
   data() {
     return {
@@ -27,11 +34,30 @@ export default {
   },
   computed: {
     hasMultipleCurlyBraces() {
-      if (this.selectedTemplate?.parameter_format !== 'NAMED') return true;
-      if (!this.selectedTemplate?.components[1]?.text) return false;
+      if (!this.selectedTemplate?.components) return false;
 
-      const text = this.selectedTemplate.components[1].text;
+      // Find the index of BODY component
+      const bodyIndex = this.selectedTemplate.components.findIndex(
+        component => component.type === 'BODY'
+      );
+
+      if (
+        bodyIndex === -1 ||
+        !this.selectedTemplate.components[bodyIndex].text
+      ) {
+        return false;
+      }
+
+      const text = this.selectedTemplate.components[bodyIndex].text;
       const curlyBraceMatches = text.match(/{{.*?}}/g) || [];
+
+      if (
+        this.selectedTemplate?.parameter_format !== 'NAMED' &&
+        curlyBraceMatches.length > 0
+      ) {
+        return true;
+      }
+
       return curlyBraceMatches.length > 1;
     },
   },
@@ -47,7 +73,13 @@ export default {
 </script>
 
 <template>
-  <div class="template-preview-wrapper">
+  <div
+    class="template-preview-wrapper"
+    :style="{
+      right: `${previewPosition.right}px`,
+      top: `${previewPosition.top}px`,
+    }"
+  >
     <!-- Fixed Header Section -->
     <div class="status-bar">
       <span class="time">
@@ -209,8 +241,6 @@ export default {
 <style scoped>
 .template-preview-wrapper {
   position: fixed;
-  right: 90px;
-  top: 130px;
   width: 300px;
   height: 550px;
   background: #ede4db;
@@ -220,6 +250,7 @@ export default {
   flex-direction: column;
   overflow: hidden;
 }
+
 .example-text {
   display: block; /* Ensures it takes a full line */
   margin-top: 8px; /* Adds space between the text and the span */
