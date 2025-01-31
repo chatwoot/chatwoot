@@ -74,7 +74,7 @@ const defaultState = {
 const state = reactive({ ...defaultState });
 
 const validationRules = {
-  firstName: { required, minLength: minLength(1) },
+  firstName: { required },
   email: { email },
 };
 
