@@ -52,7 +52,6 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       contactDetails: 'campaigns/getContactsForCampaign',
-      uiFlags: 'campaigns/getUIFlags',
     }),
 
     filteredProcessedContacts() {
@@ -131,7 +130,7 @@ export default defineComponent({
       this.error = null;
 
       try {
-        const contacts = this.contactDetails(this.campaign.id);
+        const contacts = this.contactDetails(this.campaign.display_id);
 
         this.repliedContacts = [...(contacts.replied_contacts || [])];
         this.pendingContacts = [...(contacts.pending_contacts || [])];

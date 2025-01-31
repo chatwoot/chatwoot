@@ -58,8 +58,8 @@ export default {
     },
     confirmDeletion() {
       this.closeDeletePopup();
-      const { id } = this.selectedCampaign;
-      this.deleteCampaign(id);
+      const { display_id } = this.selectedCampaign;
+      this.deleteCampaign(display_id);
     },
     async deleteCampaign(id) {
       try {
