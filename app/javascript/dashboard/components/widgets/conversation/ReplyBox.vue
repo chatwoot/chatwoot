@@ -1014,8 +1014,11 @@ export default {
         content_attributes: { email: emailAttributes = {} },
       } = this.lastEmail;
 
-      // Retrieve the email of the current conversation's sender
       const conversationContact = this.currentChat?.meta?.sender?.email || '';
+      const isLastEmailFromContact =
+        emailAttributes.from.includes(conversationContact);
+
+      // Retrieve the email of the current conversation's sender
       let cc = emailAttributes.cc ? [...emailAttributes.cc] : [];
       let to = [];
 
@@ -1027,7 +1030,7 @@ export default {
 
       // If the last incoming message sender is different from the conversation contact, add them to the "to"
       // and add the conversation contact to the CC
-      if (!emailAttributes.from.includes(conversationContact)) {
+      if (!isLastEmailFromContact) {
         to.push(...emailAttributes.from);
         cc.push(conversationContact);
       }
@@ -1049,7 +1052,9 @@ export default {
         // and the current conversation contact is in CC.
         // This is an edge-case, reported here: CW-1511 [ONLY FOR INTERNAL REFERENCE]
         // So we remove the current conversation contact's email from the CC list if present
-        if (email === conversationContact) return false;
+        // However we only do this is the previous email was not from the current conversation contact
+        if (email === conversationContact && isLastEmailFromContact)
+          return false;
 
         // We also remove the inbox email and chatwoot forward to from the CC list
         // To prevent a redundant email loops, this will be
