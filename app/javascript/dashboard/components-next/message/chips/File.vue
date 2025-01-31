@@ -16,20 +16,41 @@ const { t } = useI18n();
 
 const fileName = computed(() => {
   const url = attachment.dataUrl;
-  if (url) {
-    const filename = url.substring(url.lastIndexOf('/') + 1);
-    return filename || t('CONVERSATION.UNKNOWN_FILE_TYPE');
+  if (!url) return t('CONVERSATION.UNKNOWN_FILE_TYPE');
+
+  try {
+    const encodedFilename = url.substring(url.lastIndexOf('/') + 1);
+    return decodeURIComponent(encodedFilename);
+  } catch {
+    return t('CONVERSATION.UNKNOWN_FILE_TYPE');
   }
-  return t('CONVERSATION.UNKNOWN_FILE_TYPE');
 });
 
-const fileType = computed(() => {
-  return fileName.value.split('.').pop();
-});
+const fileType = computed(() => fileName.value.split('.').pop()?.toLowerCase());
 
 const fileNameWithoutExt = computed(() => {
   const parts = fileName.value.split('.');
-  return parts.slice(0, -1).join('.') || fileName.value;
+
+  // If there's no extension (no dots in filename)
+  if (parts.length === 1) {
+    return fileName.value.trim();
+  }
+
+  // Take all parts except the last one (extension)
+  const nameWithoutExt = parts.slice(0, -1).join('.');
+  return nameWithoutExt.trim();
+});
+
+const displayFileName = computed(() => {
+  const name = fileNameWithoutExt.value;
+  const truncatedName = (str, maxLength, hasExt) =>
+    str.length > maxLength
+      ? `${str.substring(0, maxLength).trimEnd()}${hasExt ? '..' : '...'}`
+      : str;
+
+  return fileType.value
+    ? `${truncatedName(name, 14, true)}.${fileType.value}`
+    : truncatedName(name, 16, false);
 });
 
 const textColorClass = computed(() => {
@@ -62,17 +83,15 @@ const textColorClass = computed(() => {
   >
     <FileIcon class="flex-shrink-0" :file-type="fileType" />
     <span
+      class="flex-1 min-w-0 text-sm max-w-36"
+      :title="fileName"
       :class="textColorClass"
-      class="inline-flex items-center text-sm overflow-hidden"
     >
-      <span class="truncate min-w-6">
-        {{ fileNameWithoutExt }}
-      </span>
-      <span class="flex-shrink-0 whitespace-nowrap">.{{ fileType }}</span>
+      {{ displayFileName }}
     </span>
     <a
       v-tooltip="t('CONVERSATION.DOWNLOAD')"
-      class="flex-shrink-0 h-9 grid place-content-center cursor-pointer text-n-slate-11"
+      class="flex-shrink-0 size-9 grid place-content-center cursor-pointer text-n-slate-11 hover:text-n-slate-12 transition-colors"
       :href="attachment.dataUrl"
       rel="noreferrer noopener nofollow"
       target="_blank"
