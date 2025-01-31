@@ -325,16 +325,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_28_183205) do
     t.index ["page_id"], name: "index_channel_facebook_pages_on_page_id"
   end
 
-  create_table "channel_gupshup", force: :cascade do |t|
-    t.string "account_id", null: false
-    t.string "app", null: false
-    t.string "apikey", null: false
-    t.integer "phone_number", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["phone_number", "account_id"], name: "index_channel_gupshup_on_phone_number_and_account_id", unique: true
-  end
-
   create_table "channel_line", force: :cascade do |t|
     t.integer "account_id", null: false
     t.string "line_channel_id", null: false
