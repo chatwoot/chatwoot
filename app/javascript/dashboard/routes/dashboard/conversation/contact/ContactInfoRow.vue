@@ -14,11 +14,18 @@ export default {
     },
     icon: {
       type: String,
-      required: true,
+      required: false,
+      default: '',
     },
     emoji: {
       type: String,
-      required: true,
+      required: false,
+      default: '',
+    },
+    title: {
+      type: String,
+      required: false,
+      default: '',
     },
     value: {
       type: String,
@@ -27,6 +34,11 @@ export default {
     showCopy: {
       type: Boolean,
       default: false,
+    },
+  },
+  computed: {
+    hasContent() {
+      return this.title || this.icon || this.emoji;
     },
   },
   methods: {
@@ -47,11 +59,15 @@ export default {
       class="flex items-center gap-2 text-slate-800 dark:text-slate-100 hover:underline"
     >
       <EmojiOrIcon
+        v-if="icon || emoji"
         :icon="icon"
         :emoji="emoji"
         icon-size="14"
         class="flex-shrink-0 ltr:ml-1 rtl:mr-1"
       />
+      <span v-if="title" :title="title" class="text-sm font-semibold mr-2">{{
+        title
+      }}</span>
       <span
         v-if="value"
         class="overflow-hidden text-sm whitespace-nowrap text-ellipsis"
@@ -80,11 +96,15 @@ export default {
       class="flex items-center gap-2 text-slate-800 dark:text-slate-100"
     >
       <EmojiOrIcon
+        v-if="icon || emoji"
         :icon="icon"
         :emoji="emoji"
         icon-size="14"
         class="flex-shrink-0 ltr:ml-1 rtl:mr-1"
       />
+      <span v-if="title" class="text-sm font-semibold mr-2 w-12">{{
+        title
+      }}</span>
       <span
         v-if="value"
         class="overflow-hidden text-sm whitespace-nowrap text-ellipsis"

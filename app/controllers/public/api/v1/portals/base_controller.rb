@@ -54,7 +54,7 @@ class Public::Api::V1::Portals::BaseController < PublicController
   end
 
   def allow_iframe_requests
-    response.headers.delete('X-Frame-Options') if @is_plain_layout_enabled
+    response.headers.delete('X-Frame-Options')
   end
 
   def render_404

@@ -140,6 +140,18 @@ export default {
       :channel-type="channelType"
       @toggle-panel="onPanelToggle"
     />
+    <div class="conversation--actions bg-slate-50 dark:bg-slate-800 p-4">
+      <ConversationParticipant
+        :conversation-id="conversationId"
+        :inbox-id="inboxId"
+      />
+    </div>
+    <div class="conversation--actions p-4">
+      <ConversationAction
+        :conversation-id="conversationId"
+        :inbox-id="inboxId"
+      />
+    </div>
     <Draggable
       :list="conversationSidebarItems"
       :disabled="!dragEnabled"
@@ -156,42 +168,43 @@ export default {
           :key="element.name"
           class="bg-white dark:bg-gray-800"
         >
-          <div
-            v-if="element.name === 'conversation_actions'"
-            class="conversation--actions"
-          >
-            <AccordionItem
-              :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_ACTIONS')"
-              :is-open="isContactSidebarItemOpen('is_conv_actions_open')"
-              @click="
-                value => toggleSidebarUIState('is_conv_actions_open', value)
-              "
-            >
-              <ConversationAction
-                :conversation-id="conversationId"
-                :inbox-id="inboxId"
-              />
-            </AccordionItem>
-          </div>
-          <div
-            v-else-if="element.name === 'conversation_participants'"
-            class="conversation--actions"
-          >
-            <AccordionItem
-              :title="$t('CONVERSATION_PARTICIPANTS.SIDEBAR_TITLE')"
-              :is-open="isContactSidebarItemOpen('is_conv_participants_open')"
-              @click="
-                value =>
-                  toggleSidebarUIState('is_conv_participants_open', value)
-              "
-            >
-              <ConversationParticipant
-                :conversation-id="conversationId"
-                :inbox-id="inboxId"
-              />
-            </AccordionItem>
-          </div>
-          <div v-else-if="element.name === 'conversation_info'">
+          <!--          <div-->
+          <!--            v-if="element.name === 'conversation_actions'"-->
+          <!--            class="conversation&#45;&#45;actions"-->
+          <!--          >-->
+          <!--            <AccordionItem-->
+          <!--              :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_ACTIONS')"-->
+          <!--              :is-open="isContactSidebarItemOpen('is_conv_actions_open')"-->
+          <!--              @click="-->
+          <!--                value => toggleSidebarUIState('is_conv_actions_open', value)-->
+          <!--              "-->
+          <!--            >-->
+          <!--              <ConversationAction-->
+          <!--                :conversation-id="conversationId"-->
+          <!--                :inbox-id="inboxId"-->
+          <!--              />-->
+          <!--            </AccordionItem>-->
+          <!--          </div>-->
+          <!--          <div-->
+          <!--            v-else-if="element.name === 'conversation_participants'"-->
+          <!--            class="conversation&#45;&#45;actions"-->
+          <!--          >-->
+          <!--            <AccordionItem-->
+          <!--              :title="$t('CONVERSATION_PARTICIPANTS.SIDEBAR_TITLE')"-->
+          <!--              :is-open="isContactSidebarItemOpen('is_conv_participants_open')"-->
+          <!--              @click="-->
+          <!--                value =>-->
+          <!--                  toggleSidebarUIState('is_conv_participants_open', value)-->
+          <!--              "-->
+          <!--            >-->
+          <!--              <ConversationParticipant-->
+          <!--                :conversation-id="conversationId"-->
+          <!--                :inbox-id="inboxId"-->
+          <!--              />-->
+          <!--            </AccordionItem>-->
+          <!--          </div>-->
+
+          <div v-if="element.name === 'conversation_info'">
             <AccordionItem
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_INFO')"
               :is-open="isContactSidebarItemOpen('is_conv_details_open')"

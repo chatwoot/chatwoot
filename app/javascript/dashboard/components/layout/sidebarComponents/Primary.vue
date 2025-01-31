@@ -17,6 +17,7 @@ export default {
     NotificationBell,
   },
   props: {
+    // eslint-disable-next-line
     isACustomBrandedInstance: {
       type: Boolean,
       default: false,
@@ -88,13 +89,13 @@ export default {
       />
     </div>
     <div class="flex flex-col items-center justify-end pb-6">
-      <PrimaryNavItem
-        v-if="!isACustomBrandedInstance"
-        icon="book-open-globe"
-        name="DOCS"
-        open-in-new-page
-        :to="helpDocsURL"
-      />
+      <!--      <PrimaryNavItem-->
+      <!--        v-if="!isACustomBrandedInstance"-->
+      <!--        icon="book-open-globe"-->
+      <!--        name="DOCS"-->
+      <!--        open-in-new-page-->
+      <!--        :to="helpDocsURL"-->
+      <!--      />-->
       <NotificationBell @openNotificationPanel="openNotificationPanel" />
       <AgentDetails @toggleMenu="toggleOptions" />
       <OptionsMenu

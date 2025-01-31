@@ -11,13 +11,13 @@ import {
   ALLOWED_FILE_TYPES_FOR_LINE,
 } from 'shared/constants/messages';
 import VideoCallButton from '../VideoCallButton.vue';
-import AIAssistanceButton from '../AIAssistanceButton.vue';
+// import AIAssistanceButton from '../AIAssistanceButton.vue';
 import { REPLY_EDITOR_MODES } from './constants';
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'ReplyBottomPanel',
-  components: { FileUpload, VideoCallButton, AIAssistanceButton },
+  components: { FileUpload, VideoCallButton },
   mixins: [inboxMixin],
   props: {
     mode: {
@@ -99,6 +99,7 @@ export default {
       type: Number,
       required: true,
     },
+    // eslint-disable-next-line
     message: {
       type: String,
       default: '',
@@ -312,16 +313,16 @@ export default {
       >
         <span>{{ recordingAudioDurationText }}</span>
       </woot-button>
-      <woot-button
-        v-if="showMessageSignatureButton"
-        v-tooltip.top-end="signatureToggleTooltip"
-        icon="signature"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
-        :title="signatureToggleTooltip"
-        @click="toggleMessageSignature"
-      />
+      <!--      <woot-button-->
+      <!--        v-if="showMessageSignatureButton"-->
+      <!--        v-tooltip.top-end="signatureToggleTooltip"-->
+      <!--        icon="signature"-->
+      <!--        color-scheme="secondary"-->
+      <!--        variant="smooth"-->
+      <!--        size="small"-->
+      <!--        :title="signatureToggleTooltip"-->
+      <!--        @click="toggleMessageSignature"-->
+      <!--      />-->
       <woot-button
         v-if="hasWhatsappTemplates"
         v-tooltip.top-end="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
@@ -336,13 +337,13 @@ export default {
         v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
         :conversation-id="conversationId"
       />
-      <AIAssistanceButton
-        v-if="!isFetchingAppIntegrations"
-        :conversation-id="conversationId"
-        :is-private-note="isOnPrivateNote"
-        :message="message"
-        @replaceText="replaceText"
-      />
+      <!--      <AIAssistanceButton-->
+      <!--        v-if="!isFetchingAppIntegrations"-->
+      <!--        :conversation-id="conversationId"-->
+      <!--        :is-private-note="isOnPrivateNote"-->
+      <!--        :message="message"-->
+      <!--        @replaceText="replaceText"-->
+      <!--      />-->
       <transition name="modal-fade">
         <div
           v-show="$refs.uploadRef && $refs.uploadRef.dropActive"

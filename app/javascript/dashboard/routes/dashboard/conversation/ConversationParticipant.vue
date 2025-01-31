@@ -153,7 +153,7 @@ export default {
 </script>
 
 <template>
-  <div class="relative bg-white dark:bg-slate-900">
+  <div class="relative bg-transparent">
     <div class="flex justify-between">
       <div class="flex justify-between w-full mb-1">
         <div>
