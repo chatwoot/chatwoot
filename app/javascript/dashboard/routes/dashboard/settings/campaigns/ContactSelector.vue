@@ -191,7 +191,7 @@ export default {
         // If we have filtered contacts, use those instead of all contacts
         if (hasActiveFilters) {
           // Use the filtered contacts list
-          this.localSelectedContacts = [...this.contactList];
+          this.localSelectedContacts = [...this.allFilteredContacts];
           await this.$emit('selectAllContacts', true, this.allFilteredContacts);
         } else {
           // Use the regular contacts list
@@ -298,9 +298,9 @@ export default {
 
     async submitFilters() {
       try {
-        // Reset pagination and contact list before applying new filters
         this.contactList = [];
         this.currentPage = 1;
+        this.allFilteredContacts = []; // Reset filtered contacts
 
         const formattedFilters = this.appliedFilters
           .filter(filter => filter.values.trim() !== '')
@@ -316,36 +316,34 @@ export default {
           }));
 
         if (formattedFilters.length === 0) {
-          // If no valid filters, fetch regular contacts
           await this.fetchContacts(1);
           this.showFiltersModal = false;
           return;
         }
 
         this.isLoadingContacts = true;
-
-        const queryPayload = {
-          payload: formattedFilters,
-        };
+        const queryPayload = { payload: formattedFilters };
 
         const { data } = await ContactsAPI.filter(1, 'name', queryPayload);
-        this.handleContactsResponse(data, true); // Note the true flag here
+        this.handleContactsResponse(data, true);
         this.showFiltersModal = false;
 
         const { payload = [], meta = {} } = data;
-        const totalpages = Math.ceil(meta.count / 30);
 
-        this.allFilteredContacts = [...payload];
+        const validContacts = payload.filter(contact => contact.phone_number);
+        this.allFilteredContacts = [...validContacts];
 
         // Fetch remaining pages
-        // eslint-disable-next-line no-plusplus
+        const totalpages = Math.ceil(meta.count / 30);
         for (let page = 2; page <= totalpages; page++) {
-          // eslint-disable-next-line no-await-in-loop
           const response = await ContactsAPI.filter(page, 'name', queryPayload);
           if (response.data && response.data.payload) {
+            const validPageContacts = response.data.payload.filter(
+              contact => contact.phone_number
+            );
             this.allFilteredContacts = [
               ...this.allFilteredContacts,
-              ...response.data.payload,
+              ...validPageContacts,
             ];
           }
         }
