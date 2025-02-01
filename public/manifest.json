@@ -1,5 +1,6 @@
 {
- "name": "App",
+"name": "Chatwoot",
+"short_name": "Chatwoot",
  "icons": [
   {
    "src": "\/android-icon-36x36.png",
