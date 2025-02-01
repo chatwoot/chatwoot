@@ -38,7 +38,7 @@ class ConversationFinder
   def perform
     set_up
 
-    mine_count, unassigned_count, all_count, = set_count_for_all_conversations
+    mine_count, unassigned_count, all_count, bot_count = set_count_for_all_conversations
     assigned_count = all_count - unassigned_count
 
     filter_by_assignee_type
@@ -49,7 +49,8 @@ class ConversationFinder
         mine_count: mine_count,
         assigned_count: assigned_count,
         unassigned_count: unassigned_count,
-        all_count: all_count
+        all_count: all_count,
+        bot_count: bot_count
       }
     }
   end
@@ -62,11 +63,16 @@ class ConversationFinder
     set_assignee_type
 
     find_all_conversations
+    filter_only_pending_conversations
     filter_by_status unless params[:q]
     filter_by_team
     filter_by_labels
     filter_by_query
     filter_by_source_id
+  end
+
+  def filter_only_pending_conversations
+    @conversations_pending = @conversations.where(status: 'pending').count
   end
 
   def set_inboxes
@@ -99,6 +105,8 @@ class ConversationFinder
       @conversations = @conversations.unassigned
     when 'assigned'
       @conversations = @conversations.assigned
+    when 'bot'
+      @conversations = @conversations.pending
     end
     @conversations
   end
@@ -153,9 +161,10 @@ class ConversationFinder
 
   def set_count_for_all_conversations
     [
-      @conversations.assigned_to(current_user).count,
+      @conversations.mine_opened.count,
       @conversations.unassigned.count,
-      @conversations.count
+      @conversations.count,
+      @conversations_pending.to_i
     ]
   end
 

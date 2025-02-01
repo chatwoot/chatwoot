@@ -4,6 +4,7 @@ import ConversationApi from '../../api/inbox/conversation';
 const state = {
   mineCount: 0,
   unAssignedCount: 0,
+  botCount: 0,
   allCount: 0,
   updatedOn: null,
 };
@@ -45,12 +46,14 @@ export const mutations = {
     {
       mine_count: mineCount,
       unassigned_count: unAssignedCount,
+      bot_count: botCount,
       all_count: allCount,
     } = {}
   ) {
     $state.mineCount = mineCount;
     $state.allCount = allCount;
     $state.unAssignedCount = unAssignedCount;
+    $state.botCount = botCount;
     $state.updatedOn = new Date();
   },
 };

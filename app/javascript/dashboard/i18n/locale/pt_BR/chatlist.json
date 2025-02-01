@@ -15,9 +15,10 @@
     },
     "FILTER_ALL": "Todos",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Minha",
-      "unassigned": "Não atribuída",
-      "all": "Todos"
+      "me": "Minhas",
+      "unassigned": "Fila",
+      "bot": "Bot",
+      "all": "Todas"
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
