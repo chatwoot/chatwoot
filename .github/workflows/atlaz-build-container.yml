@@ -1,0 +1,31 @@
+name: Publish Docker image
+
+on:
+  push:
+    branches:
+      - chat
+jobs:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          registry: ewr.vultrcr.com
+          username: ${{ secrets.VULTR_REGISTRY_LOGIN }}
+          password: ${{ secrets.VULTR_REGISTRY_PASSWORD }}
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ewr.vultrcr.com/atlaz/chat:latest
