@@ -106,6 +106,7 @@ const advancedFilterTypes = ref(
 
 const currentUser = useMapGetter('getCurrentUser');
 const chatLists = useMapGetter('getAllConversations');
+const botChatsList = useMapGetter('getBotChats');
 const mineChatsList = useMapGetter('getMineChats');
 const allChatList = useMapGetter('getAllStatusChats');
 const unAssignedChatsList = useMapGetter('getUnAssignedChats');
@@ -315,10 +316,16 @@ const conversationList = computed(() => {
   if (!hasAppliedFiltersOrActiveFolders.value) {
     const filters = conversationFilters.value;
     if (activeAssigneeTab.value === 'me') {
+      store.dispatch('setChatStatusFilter', 'open');
       localConversationList = [...mineChatsList.value(filters)];
     } else if (activeAssigneeTab.value === 'unassigned') {
+      store.dispatch('setChatStatusFilter', 'open');
       localConversationList = [...unAssignedChatsList.value(filters)];
+    } else if (activeAssigneeTab.value === 'bot') {
+      store.dispatch('setChatStatusFilter', 'pending');
+      localConversationList = [...botChatsList.value(filters)];
     } else {
+      store.dispatch('setChatStatusFilter', 'all');
       localConversationList = [...allChatList.value(filters)];
     }
   } else {
@@ -594,6 +601,12 @@ function updateAssigneeTab(selectedTab) {
     resetBulkActions();
     emitter.emit('clearSearchInput');
     activeAssigneeTab.value = selectedTab;
+    if(selectedTab === 'me' || selectedTab === 'unassigned') {
+      activeStatus.value = 'open';
+    }
+    if (selectedTab === 'bot') {
+      activeStatus.value = 'pending';
+    }
     if (!currentPage.value) {
       fetchConversations();
     }

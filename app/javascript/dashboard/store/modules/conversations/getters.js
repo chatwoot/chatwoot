@@ -55,6 +55,13 @@ const getters = {
       return isChatMine;
     });
   },
+  getBotChats: _state => activeFilters => {
+    return _state.allConversations.filter(conversation => {
+
+      return conversation.status === 'pending';
+
+    });
+  },
   getAppliedConversationFiltersV2: _state => {
     // TODO: Replace existing one with V2 after migrating the filters to use camelcase
     return _state.appliedFilters.map(camelcaseKeys);

@@ -15,18 +15,18 @@ const {
 
 export const colors = {
   woot: {
-    25: blue.blue2,
-    50: blue.blue3,
-    75: blue.blue4,
-    100: blue.blue5,
-    200: blue.blue7,
-    300: blue.blue8,
-    400: blueDark.blue11,
-    500: blueDark.blue10,
-    600: blueDark.blue9,
-    700: blueDark.blue8,
-    800: blueDark.blue6,
-    900: blueDark.blue2,
+    25: violet.violet2,
+    50: violet.violet3,
+    75: violet.violet4,
+    100: violet.violet5,
+    200: violet.violet7,
+    300: violet.violet8,
+    400: violetDark.violet11,
+    500: violetDark.violet10,
+    600: violetDark.violet9,
+    700: violetDark.violet8,
+    800: violetDark.violet6,
+    900: violetDark.violet2,
   },
   green: {
     50: greenDark.green12,
@@ -376,7 +376,7 @@ export const colors = {
     },
 
     black: '#000000',
-    brand: '#2781F6',
+    brand: '#8724fb',
     background: 'rgb(var(--background-color) / <alpha-value>)',
     solid: {
       1: 'rgb(var(--solid-1) / <alpha-value>)',

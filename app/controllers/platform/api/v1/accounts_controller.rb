@@ -40,4 +40,10 @@ class Platform::Api::V1::AccountsController < PlatformController
   def permitted_params
     params.permit(:name, :locale, :domain, :support_email, :status, features: {}, limits: {}, custom_attributes: {})
   end
+
+  def reset_cache
+    @resource = Account.find(params[:id])
+    @resource.reset_cache_keys
+    head :ok
+  end
 end
