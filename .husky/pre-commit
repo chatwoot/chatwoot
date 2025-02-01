@@ -8,4 +8,4 @@ npx --no-install lint-staged
 git diff --name-only --cached | xargs ls -1 2>/dev/null | grep '\.rb$' | xargs bundle exec rubocop --force-exclusion -a
 
 # stage rubocop changes to files
-git add -u
+git diff --name-only --cached | xargs git add -u
