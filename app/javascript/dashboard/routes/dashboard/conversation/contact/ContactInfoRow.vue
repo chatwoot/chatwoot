@@ -102,7 +102,7 @@ export default {
         icon-size="14"
         class="flex-shrink-0 ltr:ml-1 rtl:mr-1"
       />
-      <span v-if="title" class="text-sm font-semibold mr-2 w-12">{{
+      <span v-if="title" class="text-sm font-semibold mr-2 min-w-[48px]">{{
         title
       }}</span>
       <span
