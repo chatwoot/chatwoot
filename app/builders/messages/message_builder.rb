@@ -161,7 +161,7 @@ class Messages::MessageBuilder
   end
 
   def comment_id
-    @comment_id.present? ? { content_attributes: { comment_id: @comment_id } } : {}
+    @comment_id.present? ? { comment_id: @comment_id } : {}
   end
 
   def automation_rule_id
