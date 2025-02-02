@@ -19,6 +19,7 @@
   - high
   - medium
   - default
+  - [whatsapp_messages, 1]
   - mailers
   - action_mailbox_routing
   - low

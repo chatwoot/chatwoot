@@ -21,6 +21,7 @@ class Whatsapp::IncomingMessageBaseService
   def process_messages
     # We don't support reactions & ephemeral message now, we need to skip processing the message
     # if the webhook event is a reaction or an ephermal message or an unsupported message.
+    update_campaign_replied_count if @processed_params.dig(:messages, 0, :context, :id)
     return if unprocessable_message_type?(message_type)
 
     # Multiple webhook event can be received against the same message due to misconfigurations in the Meta
@@ -38,11 +39,136 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def process_statuses
+    update_campaign_failed_count if @processed_params[:statuses].first[:status] == 'failed'
+    update_campaign_processed_count if @processed_params[:statuses].first[:status] == 'sent'
+    update_campaign_read_count if @processed_params[:statuses].first[:status] == 'read'
+    update_campaign_delivered_count if @processed_params[:statuses].first[:status] == 'delivered'
     return unless find_message_by_source_id(@processed_params[:statuses].first[:id])
 
     update_message_with_status(@message, @processed_params[:statuses].first)
+    status = @processed_params[:statuses].first
   rescue ArgumentError => e
     Rails.logger.error "Error while processing whatsapp status update #{e.message}"
+  end
+
+  def update_campaign_replied_count
+    context_id = @processed_params.dig(:messages, 0, :context, :id)
+    return unless context_id
+  
+    # Find the campaign contact by the message ID
+    campaign_contact = CampaignContact.find_by(message_id: context_id)
+    return unless campaign_contact
+  
+    # Update the campaign contact status to 'replied'
+    campaign_contact.update!(
+      status: 'replied',
+      processed_at: Time.current
+    )
+  
+  rescue StandardError => e
+    Rails.logger.error "Error updating campaign replied status: #{e.message}"
+  end
+
+  def update_campaign_failed_count
+    # Only increment read count if status is 'read'
+    status = @processed_params[:statuses].first[:status]
+    id = @processed_params[:statuses].first[:id]
+    
+    return unless status == 'failed'
+
+    # Find the campaign through the message
+  campaign_contact = CampaignContact.find_by(message_id: id)
+
+  return unless campaign_contact
+  # Update the specific campaign contact status to 'read'
+  campaign_contact.update!(
+    status: 'failed',
+    processed_at: Time.current
+  )
+
+
+    # Find the campaign through the message
+    campaign = CampaignContact.find_campaign_by_message_id(id)
+    return unless campaign
+
+    # Use atomic increment to safely update read count
+    campaign.increment!(:failed_contacts_count)
+  rescue StandardError => e
+    Rails.logger.error "Error updating campaign failed count: #{e.message}"
+  end
+
+  def update_campaign_processed_count
+    # Only increment read count if status is 'read'
+    status = @processed_params[:statuses].first[:status]
+    id = @processed_params[:statuses].first[:id]
+    return unless status == 'sent'
+
+    # Find the campaign through the message
+  campaign_contact = CampaignContact.find_by(message_id: id)
+
+  return unless campaign_contact
+  # Update the specific campaign contact status to 'read'
+  campaign_contact.update!(
+    status: 'processed',
+    processed_at: Time.current
+  )
+
+
+    # Find the campaign through the message
+    campaign = CampaignContact.find_campaign_by_message_id(id)
+    return unless campaign
+
+    # Use atomic increment to safely update read count
+    campaign.increment!(:processed_contacts_count)
+  rescue StandardError => e
+    Rails.logger.error "Error updating campaign read count: #{e.message}"
+  end
+  
+
+  def update_campaign_read_count
+    # Only increment read count if status is 'read'
+    status = @processed_params[:statuses].first[:status]
+    id = @processed_params[:statuses].first[:id]
+    return unless status == 'read'
+
+    # Find the campaign through the message
+  campaign_contact = CampaignContact.find_by(message_id: id)
+
+  return unless campaign_contact
+  # Update the specific campaign contact status to 'read'
+  campaign_contact.update!(
+    status: 'read',
+    processed_at: Time.current
+  )
+
+
+    # Find the campaign through the message
+    campaign = CampaignContact.find_campaign_by_message_id(id)
+    return unless campaign
+
+    # Use atomic increment to safely update read count
+    campaign.increment!(:read_count)
+  rescue StandardError => e
+    Rails.logger.error "Error updating campaign read count: #{e.message}"
+  end
+
+  def update_campaign_delivered_count
+    # Only increment read count if status is 'read'
+    status = @processed_params[:statuses].first[:status]
+    id = @processed_params[:statuses].first[:id]
+    return unless status == 'delivered'
+
+    # Find the campaign through the message
+  campaign_contact = CampaignContact.find_by(message_id: id)
+
+  return unless campaign_contact
+  # Update the specific campaign contact status to 'read'
+  campaign_contact.update!(
+    status: 'delivered',
+    processed_at: Time.current
+  )
+  rescue StandardError => e
+    Rails.logger.error "Error updating campaign delivered count: #{e.message}"
   end
 
   def update_message_with_status(message, status)

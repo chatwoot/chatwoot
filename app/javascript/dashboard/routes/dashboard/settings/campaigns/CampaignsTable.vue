@@ -39,6 +39,9 @@ export default {
       if (this.isOngoingType) {
         return this.$store.getters['inboxes/getWebsiteInboxes'];
       }
+      if (this.isWhatsappType) {
+        return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
+      }
       return this.$store.getters['inboxes/getTwilioInboxes'];
     },
     emptyMessage() {
@@ -47,10 +50,19 @@ export default {
           ? this.$t('CAMPAIGN.ONGOING.404')
           : this.$t('CAMPAIGN.ONGOING.INBOXES_NOT_FOUND');
       }
-
+      if (this.isWhatsappType) {
+        return this.inboxes.length
+          ? this.$t('CAMPAIGN.WHATSAPP.404')
+          : this.$t('CAMPAIGN.WHATSAPP.INBOXES_NOT_FOUND');
+      }
       return this.inboxes.length
         ? this.$t('CAMPAIGN.ONE_OFF.404')
         : this.$t('CAMPAIGN.ONE_OFF.INBOXES_NOT_FOUND');
+    },
+  },
+  methods: {
+    getInbox(inboxId) {
+      return this.$store.getters['inboxes/getInbox'](inboxId);
     },
   },
 };
@@ -69,6 +81,7 @@ export default {
           v-for="campaign in campaigns"
           :key="campaign.id"
           :campaign="campaign"
+          :inbox="getInbox(campaign.inbox_id)"
           :is-ongoing-type="isOngoingType"
           @edit="campaign => $emit('edit', campaign)"
           @delete="campaign => $emit('delete', campaign)"

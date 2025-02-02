@@ -186,8 +186,16 @@ export default {
       return false;
     },
     hasWhatsappTemplates() {
-      return !!this.$store.getters['inboxes/getWhatsAppTemplates'](this.inboxId)
-        .length;
+      let whatsappTemplates = this.$store.getters[
+        'inboxes/getWhatsAppTemplates'
+      ](this.inboxId);
+      return Array.isArray(whatsappTemplates)
+        ? whatsappTemplates.filter(template => {
+            return !template.components.some(
+              i => i.format === 'IMAGE' || i.format === 'VIDEO'
+            );
+          }).length > 0
+        : false;
     },
     isPrivate() {
       if (this.currentChat.can_reply || this.isAWhatsAppChannel) {
