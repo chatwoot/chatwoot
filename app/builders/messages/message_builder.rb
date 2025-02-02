@@ -2,6 +2,7 @@ class Messages::MessageBuilder
   include ::FileTypeHelper
   attr_reader :message
 
+  # rubocop:disable  Metrics/CyclomaticComplexity
   def initialize(user, conversation, params)
     @params = params
     @private = params[:private] || false
@@ -11,6 +12,7 @@ class Messages::MessageBuilder
     @attachments = params[:attachments]
     @url_attachments = params[:url_attachments]
     @automation_rule = content_attributes&.dig(:automation_rule_id)
+    @comment_id = content_attributes&.dig(:comment_id)
     @ignore_automation_rules = params[:ignore_automation_rules]
     @disable_notifications = params[:disable_notifications]
     @disable_webhook_notifications = params[:disable_webhook_notifications]
@@ -22,6 +24,7 @@ class Messages::MessageBuilder
 
     check_parent_source_id
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   def perform
     return @message if duplicate_message
@@ -157,6 +160,10 @@ class Messages::MessageBuilder
     @params[:external_created_at].present? ? { external_created_at: @params[:external_created_at] } : {}
   end
 
+  def comment_id
+    @comment_id.present? ? { content_attributes: { comment_id: @comment_id } } : {}
+  end
+
   def automation_rule_id
     @automation_rule.present? ? { content_attributes: { automation_rule_id: @automation_rule } } : {}
   end
@@ -213,7 +220,7 @@ class Messages::MessageBuilder
       in_reply_to: @in_reply_to,
       echo_id: @params[:echo_id],
       source_id: @params[:source_id]
-    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params).merge(ignore_automation_rules).merge(disable_notifications).merge(disable_webhook_notifications).merge(template_params_stringified)
+    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params).merge(ignore_automation_rules).merge(disable_notifications).merge(disable_webhook_notifications).merge(template_params_stringified).merge(comment_id)
   end
   # rubocop:enable Layout/LineLength
 end
