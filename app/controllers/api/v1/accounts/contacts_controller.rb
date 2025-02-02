@@ -9,12 +9,32 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   sort_on :city, internal_name: :order_on_city, type: :scope, scope_params: [:direction]
   sort_on :country, internal_name: :order_on_country_name, type: :scope, scope_params: [:direction]
 
-  RESULTS_PER_PAGE = 15
+  RESULTS_PER_PAGE = 30 
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search, :filter]
   before_action :fetch_contact, only: [:show, :update, :destroy, :avatar, :contactable_inboxes, :bookings, :destroy_custom_attributes]
   before_action :set_include_contact_inboxes, only: [:index, :search, :filter]
+
+  def get_all_ids
+    begin
+      
+      contacts = resolved_contacts.where.not(phone_number: [nil, ''])
+    
+    
+    contacts = contacts.tagged_with(params[:labels], any: true) if params[:labels].present?
+    
+    contact_ids = contacts.pluck(:id)
+    
+    
+    render json: {
+      contact_ids: contact_ids,
+      total_count: contact_ids.length
+    }
+    rescue StandardError => e
+      render json: { error: 'Unable to fetch contact IDs' }, status: :internal_server_error
+    end
+  end
 
   def index
     @contacts_count = resolved_contacts.count
