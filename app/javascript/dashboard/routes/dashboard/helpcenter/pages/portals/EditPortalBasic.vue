@@ -68,6 +68,21 @@ async function deleteLogo() {
     );
   }
 }
+async function checkDomain(domain, initialCustomDomain) {
+  try {
+    const res = await store.dispatch('portals/checkDomain', {
+      domain,
+      initialCustomDomain,
+    });
+    return res;
+  } catch (error) {
+    this.alertMessage =
+      error?.message ||
+      this.$t('HELP_CENTER.PORTAL.ADD.API.ERROR_MESSAGE_FOR_DOMAIN');
+    useAlert(this.alertMessage);
+    return null;
+  }
+}
 </script>
 
 <template>
@@ -78,6 +93,7 @@ async function deleteLogo() {
     :submit-button-text="
       $t('HELP_CENTER.PORTAL.EDIT.EDIT_BASIC_INFO.BUTTON_TEXT')
     "
+    :check-domain="checkDomain"
     @submit="updatePortalSettings"
     @deleteLogo="deleteLogo"
   />

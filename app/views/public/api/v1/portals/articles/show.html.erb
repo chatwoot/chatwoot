@@ -1,5 +1,8 @@
 <% content_for :head do %>
   <title><%= @article.title %> | <%= @portal.name %></title>
+  <% if @portal.logo.present? %>
+    <link rel="icon" href="<%= url_for(@portal.logo) %>" type="image/png">
+  <% end %>
   <% if @article.meta["title"].present? %>
     <meta name="title" content="<%= @article.meta["title"] %>">
   <% end %>
@@ -10,6 +13,7 @@
     <meta name="tags" content="<%= @article.meta["tags"].join(',') %>">
   <% end %>
 <% end %>
+
 
 <% if !@is_plain_layout_enabled %>
 <div id="portal-bg" class="bg-white dark:bg-slate-900 shadow-inner">

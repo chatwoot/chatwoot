@@ -172,6 +172,20 @@ const settings = accountId => ({
       featureFlag: FEATURE_FLAGS.INTEGRATIONS,
     },
     {
+      icon: 'flash-on',
+      label: 'INTEGRATIONS',
+      hasSubMenu: false,
+      meta: {
+        permissions: ['agent'],
+      },
+      toState: frontendURL(
+        `accounts/${accountId}/settings/integrations/onehash_apps`
+      ),
+      toStateName: 'agent_settings_integrations_onehash_apps',
+      featureFlag: FEATURE_FLAGS.INTEGRATIONS,
+    },
+
+    {
       icon: 'key',
       label: 'AUDIT_LOGS',
       hasSubMenu: false,
