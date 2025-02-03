@@ -91,16 +91,15 @@ RSpec.describe 'Contacts API', type: :request do
       end
 
       it 'returns all contacts with country name desc order with null values at last' do
+        contact_from_albania = create(:contact, :with_email, account: account, additional_attributes: { country_code: 'AL', country: 'Albania' })
         get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=false&sort=country",
             headers: admin.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
-        # TODO: this spec has been flaky for a while, so adding a debug statement to see the response
-        Rails.logger.info(response_body)
-        expect(response_body['payload'].first['email']).to eq(contact.email)
-        expect(response_body['payload'].first['id']).to eq(contact.id)
+        expect(response_body['payload'].first['email']).to eq(contact_from_albania.email)
+        expect(response_body['payload'].first['id']).to eq(contact_from_albania.id)
         expect(response_body['payload'].last['email']).to eq(contact_4.email)
       end
 
