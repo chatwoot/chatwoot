@@ -1,6 +1,8 @@
 <script setup>
-import { frontendURL } from 'dashboard/helper/URLHelper';
 import { computed } from 'vue';
+import { frontendURL } from 'dashboard/helper/URLHelper';
+
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 
 const props = defineProps({
   id: {
@@ -37,28 +39,27 @@ const navigateTo = computed(() => {
 <template>
   <router-link
     :to="navigateTo"
-    class="flex items-center p-2 rounded-md cursor-pointer hover:bg-n-slate-3 dark:hover:bg-n-solid-3"
+    class="flex items-start p-2 rounded-xl cursor-pointer hover:bg-n-slate-2"
   >
-    <woot-thumbnail :src="thumbnail" :username="name" size="24px" />
-    <div class="ml-2 rtl:mr-2 rtl:ml-0">
-      <h5 class="text-sm name text-n-slate-12 dark:text-n-slate-12">
+    <Avatar
+      :name="name"
+      :src="thumbnail"
+      :size="24"
+      rounded-full
+      class="mt-0.5"
+    />
+    <div class="ml-2 rtl:mr-2 min-w-0 rtl:ml-0">
+      <h5 class="text-sm name truncate min-w-0 text-n-slate-12">
         {{ name }}
       </h5>
       <p
-        class="flex items-center gap-1 m-0 text-sm text-slate-600 dark:text-slate-200"
+        class="grid items-center m-0 gap-1 text-sm grid-cols-[minmax(0,1fr)_auto_auto]"
       >
-        <span v-if="email" class="email text-n-slate-12 dark:text-n-slate-12">{{
-          email
-        }}</span>
-        <span
-          v-if="phone"
-          class="separator text-n-slate-10 dark:text-n-slate-10"
-        >
-          •
+        <span v-if="email" class="truncate text-n-slate-12" :title="email">
+          {{ email }}
         </span>
-        <span v-if="phone" class="phone text-n-slate-12 dark:text-n-slate-12">
-          {{ phone }}
-        </span>
+        <span v-if="phone" class="text-n-slate-10">•</span>
+        <span v-if="phone" class="text-n-slate-12">{{ phone }}</span>
       </p>
     </div>
   </router-link>

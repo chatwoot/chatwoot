@@ -1,39 +1,38 @@
-<script>
-export default {
-  props: {
-    tabs: {
-      type: Array,
-      default: () => [],
-    },
-    selectedTab: {
-      type: Number,
-      default: 0,
-    },
+<script setup>
+import { ref, watch } from 'vue';
+
+const props = defineProps({
+  tabs: {
+    type: Array,
+    default: () => [],
   },
-  emits: ['tabChange'],
-  data() {
-    return {
-      activeTab: 0,
-    };
+  selectedTab: {
+    type: Number,
+    default: 0,
   },
-  watch: {
-    selectedTab(value, oldValue) {
-      if (value !== oldValue) {
-        this.activeTab = this.selectedTab;
-      }
-    },
-  },
-  methods: {
-    onTabChange(index) {
-      this.activeTab = index;
-      this.$emit('tabChange', this.tabs[index].key);
-    },
-  },
+});
+
+const emit = defineEmits(['tabChange']);
+
+const activeTab = ref(props.selectedTab);
+
+watch(
+  () => props.selectedTab,
+  (value, oldValue) => {
+    if (value !== oldValue) {
+      activeTab.value = props.selectedTab;
+    }
+  }
+);
+
+const onTabChange = index => {
+  activeTab.value = index;
+  emit('tabChange', props.tabs[index].key);
 };
 </script>
 
 <template>
-  <div class="tab-container">
+  <div class="mt-1 border-b border-n-weak">
     <woot-tabs :index="activeTab" :border="false" @change="onTabChange">
       <woot-tabs-item
         v-for="(item, index) in tabs"
@@ -41,13 +40,8 @@ export default {
         :index="index"
         :name="item.name"
         :count="item.count"
+        :show-badge="item.showBadge"
       />
     </woot-tabs>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.tab-container {
-  @apply mt-1 border-b border-solid border-slate-100 dark:border-slate-800/50;
-}
-</style>
