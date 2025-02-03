@@ -1,72 +1,69 @@
-<script>
+<script setup>
+import { computed } from 'vue';
+
 import { frontendURL } from 'dashboard/helper/URLHelper.js';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import InboxName from 'dashboard/components/widgets/InboxName.vue';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 
-export default {
-  components: {
-    InboxName,
+const props = defineProps({
+  id: {
+    type: Number,
+    default: 0,
   },
-  props: {
-    id: {
-      type: Number,
-      default: 0,
-    },
-    inbox: {
-      type: Object,
-      default: () => ({}),
-    },
-    name: {
-      type: String,
-      default: '',
-    },
-    email: {
-      type: String,
-      default: '',
-    },
-    accountId: {
-      type: [String, Number],
-      default: '',
-    },
-    createdAt: {
-      type: [String, Date, Number],
-      default: '',
-    },
-    messageId: {
-      type: Number,
-      default: 0,
-    },
+  inbox: {
+    type: Object,
+    default: () => ({}),
   },
-  computed: {
-    navigateTo() {
-      const params = {};
-      if (this.messageId) {
-        params.messageId = this.messageId;
-      }
-      return frontendURL(
-        `accounts/${this.accountId}/conversations/${this.id}`,
-        params
-      );
-    },
-    createdAtTime() {
-      return dynamicTime(this.createdAt);
-    },
+  name: {
+    type: String,
+    default: '',
   },
-};
+  email: {
+    type: String,
+    default: '',
+  },
+  accountId: {
+    type: [String, Number],
+    default: '',
+  },
+  createdAt: {
+    type: [String, Date, Number],
+    default: '',
+  },
+  messageId: {
+    type: Number,
+    default: 0,
+  },
+});
+
+const navigateTo = computed(() => {
+  const params = {};
+  if (props.messageId) {
+    params.messageId = props.messageId;
+  }
+  return frontendURL(
+    `accounts/${props.accountId}/conversations/${props.id}`,
+    params
+  );
+});
+
+const createdAtTime = dynamicTime(props.createdAt);
 </script>
 
 <template>
   <router-link
     :to="navigateTo"
-    class="flex p-2 rounded-md cursor-pointer hover:bg-n-slate-3 dark:hover:bg-n-solid-3"
+    class="flex p-2 rounded-xl cursor-pointer hover:bg-n-slate-2"
   >
-    <div
-      class="flex items-center justify-center flex-shrink-0 w-6 h-6 rounded bg-n-brand/10 dark:bg-n-brand/40 text-n-blue-text dark:text-n-blue-text"
-    >
-      <fluent-icon icon="chat-multiple" :size="14" />
-    </div>
+    <Avatar
+      name="chats"
+      :size="24"
+      icon-name="i-lucide-messages-square"
+      class="[&>span]:rounded"
+    />
     <div class="flex-grow min-w-0 ml-2">
-      <div class="flex items-center justify-between mb-1">
+      <div class="flex items-center min-w-0 justify-between gap-1 mb-1">
         <div class="flex">
           <woot-label
             class="!bg-n-slate-3 dark:!bg-n-solid-3 !border-n-weak dark:!border-n-strong m-0"
@@ -83,29 +80,25 @@ export default {
             />
           </div>
         </div>
-        <div>
-          <span
-            class="text-xs font-normal text-n-slate-11 dark:text-n-slate-11"
-          >
-            {{ createdAtTime }}
-          </span>
-        </div>
+        <span
+          class="text-xs font-normal min-w-0 truncate text-n-slate-11 dark:text-n-slate-11"
+        >
+          {{ createdAtTime }}
+        </span>
       </div>
       <div class="flex gap-2">
         <h5
           v-if="name"
-          class="m-0 text-sm text-n-slate-12 dark:text-n-slate-12"
+          class="m-0 text-sm min-w-0 truncate text-n-slate-12 dark:text-n-slate-12"
         >
-          <span
-            class="text-xs font-normal text-n-slate-11 dark:text-n-slate-11"
-          >
+          <span class="text-xs font-norma text-n-slate-11 dark:text-n-slate-11">
             {{ $t('SEARCH.FROM') }}:
           </span>
           {{ name }}
         </h5>
         <h5
           v-if="email"
-          class="m-0 overflow-hidden text-sm text-n-slate-12 dark:text-n-slate-12 whitespace-nowrap text-ellipsis"
+          class="m-0 overflow-hidden text-sm text-n-slate-12 dark:text-n-slate-12 truncate"
         >
           <span
             class="text-xs font-normal text-n-slate-11 dark:text-n-slate-11"
