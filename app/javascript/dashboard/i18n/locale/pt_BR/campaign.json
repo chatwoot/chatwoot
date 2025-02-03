@@ -16,8 +16,8 @@
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No live chat campaigns are available",
-        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+        "TITLE": "Nenhuma campanha de chat ao vivo disponível",
+        "SUBTITLE": "Conecte-se com seus clientes usando mensagens proativas. Clique em 'Criar campanha' para começar."
       },
       "CREATE": {
         "TITLE": "Create a live chat campaign",
@@ -41,7 +41,7 @@
           },
           "SENT_BY": {
             "LABEL": "Enviado por",
-            "PLACEHOLDER": "Please select sender",
+            "PLACEHOLDER": "Por favor, selecione o remetente",
             "ERROR": "Remetente é obrigatório"
           },
           "END_POINT": {
@@ -64,7 +64,7 @@
             "CANCEL": "Cancelar"
           },
           "API": {
-            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
+            "SUCCESS_MESSAGE": "Campanha de chat ao vivo criada com sucesso",
             "ERROR_MESSAGE": "Houve um erro. Por favor, tente novamente."
           }
         }
@@ -139,7 +139,7 @@
     },
     "CONFIRM_DELETE": {
       "TITLE": "Você tem certeza que deseja excluir?",
-      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "DESCRIPTION": "A ação de exclusão é permanente e não pode ser revertida.",
       "CONFIRM": "Excluir",
       "API": {
         "SUCCESS_MESSAGE": "Campanha excluída com sucesso",
