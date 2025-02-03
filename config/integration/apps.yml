@@ -20,6 +20,7 @@ onehash_apps:
       id: onehash_cal
       i18n_key: onehash_cal
       logo: onehash_cal.png
+      allow_multiple_hooks: true
 captain:
   id: captain
   logo: captain.png

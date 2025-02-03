@@ -15,6 +15,8 @@ const state = {
     isCreating: false,
     isDeleting: false,
     isUpdating: false,
+    domainValid: false,
+    isValidating: false,
   },
 };
 

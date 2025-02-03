@@ -7,6 +7,10 @@ class ContactPolicy < ApplicationPolicy
     true
   end
 
+  def get_all_ids?
+    true
+  end
+
   def import?
     @account_user.administrator?
   end

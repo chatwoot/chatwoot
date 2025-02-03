@@ -220,7 +220,7 @@ en:
       description: "Integrate OneHash Chat with other in house OneHash products to keep your team in sync. "
     onehash_cal:
       name: "OneHash Cal"
-      description: "Integrate OneHash Chat with CAL to keep your team in sync. "
+      description: "Integrate OneHash Chat with Cal to keep your team in sync. "
     webhooks:
       name: "Webhooks"
       description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."

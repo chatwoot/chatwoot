@@ -30,7 +30,7 @@ export default {
 <template>
   <div v-if="!uiFlags.isCreating" class="flex flex-col flex-1 overflow-auto">
     <div
-      class="p-4 bg-white border-b border-solid rounded-sm dark:bg-slate-800 border-slate-75 dark:border-slate-700/50"
+      class="p-4 h-full border-b border-solid rounded-sm dark:bg-slate-800 border-slate-75 dark:border-slate-700/50"
     >
       <div
         v-for="(internalApp, key) in integration.internal_apps"
