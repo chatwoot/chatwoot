@@ -138,6 +138,11 @@
   display_title: 'OpenAI API Key'
   description: 'The API key used to authenticate requests to OpenAI services for Captain AI.'
   locked: false
+- name: CAPTAIN_OPEN_AI_BASE_URL
+  display_title: 'API Base URL'
+  description: 'The base URL for the OpenAI API. Default: https://api.openai.com, this is useful when using other OpenAI compliant endpoints like Azure, Ollama or Groq.'
+  value: 'https://api.openai.com'
+  locked: false
 - name: CAPTAIN_OPEN_AI_MODEL
   display_title: 'OpenAI Model'
   description: 'The OpenAI model configured for use in Captain AI. Default: gpt-4o-mini'
