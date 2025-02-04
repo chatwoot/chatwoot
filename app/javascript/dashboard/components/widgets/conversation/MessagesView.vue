@@ -243,6 +243,15 @@ export default {
     unreadMessageCount() {
       return this.currentChat.unread_count || 0;
     },
+    unreadMessageLabel() {
+      const count =
+        this.unreadMessageCount > 9 ? '9+' : this.unreadMessageCount;
+      const label =
+        this.unreadMessageCount > 1
+          ? 'CONVERSATION.UNREAD_MESSAGES'
+          : 'CONVERSATION.UNREAD_MESSAGE';
+      return `${count} ${this.$t(label)}`;
+    },
     isInstagramDM() {
       return this.conversationType === 'instagram_direct_message';
     },
@@ -492,12 +501,12 @@ export default {
     <NextMessageList
       v-if="showNextBubbles"
       class="conversation-panel"
-      :read-messages="readMessages"
-      :un-read-messages="unReadMessages"
+      :style="{ '--unread-label-text': `'${unreadMessageLabel}'` }"
       :current-user-id="currentUserId"
       :is-an-email-channel="isAnEmailChannel"
       :inbox-supports-reply-to="inboxSupportsReplyTo"
-      :messages="currentChat ? currentChat.messages : []"
+      :last-seen-at="getLastSeenAt"
+      :messages="getMessages"
     >
       <template #beforeAll>
         <transition name="slide-up">
@@ -506,18 +515,6 @@ export default {
             <span v-if="shouldShowSpinner" class="spinner message" />
           </li>
         </transition>
-      </template>
-      <template #beforeUnread>
-        <li v-show="unreadMessageCount != 0" class="unread--toast">
-          <span>
-            {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
-            {{
-              unreadMessageCount > 1
-                ? $t('CONVERSATION.UNREAD_MESSAGES')
-                : $t('CONVERSATION.UNREAD_MESSAGE')
-            }}
-          </span>
-        </li>
       </template>
       <template #after>
         <ConversationLabelSuggestion

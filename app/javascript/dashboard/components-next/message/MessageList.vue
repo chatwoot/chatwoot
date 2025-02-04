@@ -15,14 +15,6 @@ import { useCamelCase } from 'dashboard/composables/useTransformKeys';
  * @property {Array} messages - Array of all messages [These are not in camelcase]
  */
 const props = defineProps({
-  readMessages: {
-    type: Array,
-    default: () => [],
-  },
-  unReadMessages: {
-    type: Array,
-    default: () => [],
-  },
   currentUserId: {
     type: Number,
     required: true,
@@ -35,18 +27,18 @@ const props = defineProps({
     type: Object,
     default: () => ({ incoming: false, outgoing: false }),
   },
+  lastSeenAt: {
+    type: Number,
+    default: 0,
+  },
   messages: {
     type: Array,
     default: () => [],
   },
 });
 
-const unread = computed(() => {
-  return useCamelCase(props.unReadMessages, { deep: true });
-});
-
-const read = computed(() => {
-  return useCamelCase(props.readMessages, { deep: true });
+const allMessages = computed(() => {
+  return useCamelCase(props.messages);
 });
 
 /**
@@ -103,34 +95,46 @@ const getInReplyToMessage = parentMessage => {
 
   return replyMessage ? useCamelCase(replyMessage) : null;
 };
+
+const isUnread = message => {
+  return message.createdAt * 1000 > props.lastSeenAt * 1000;
+};
 </script>
 
 <template>
-  <ul class="px-4 bg-n-background">
+  <ul class="px-4 bg-n-background next-messages-list">
     <slot name="beforeAll" />
-    <template v-for="(message, index) in read" :key="message.id">
+    <template v-for="(message, index) in allMessages" :key="message.id">
       <Message
         v-bind="message"
+        :class="{ 'is-unread': isUnread(message) }"
         :is-email-inbox="isAnEmailChannel"
         :in-reply-to="getInReplyToMessage(message)"
-        :group-with-next="shouldGroupWithNext(index, read)"
+        :group-with-next="shouldGroupWithNext(index, allMessages)"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :current-user-id="currentUserId"
-        data-clarity-mask="True"
-      />
-    </template>
-    <slot name="beforeUnread" />
-    <template v-for="(message, index) in unread" :key="message.id">
-      <Message
-        v-bind="message"
-        :in-reply-to="getInReplyToMessage(message)"
-        :group-with-next="shouldGroupWithNext(index, unread)"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :current-user-id="currentUserId"
-        :is-email-inbox="isAnEmailChannel"
         data-clarity-mask="True"
       />
     </template>
     <slot name="after" />
   </ul>
 </template>
+
+<style>
+.message-bubble-container.is-unread:not(.is-unread ~ .is-unread) {
+  margin-top: 3rem;
+  position: relative;
+}
+
+.message-bubble-container.is-unread:not(.is-unread ~ .is-unread)::before {
+  content: var(--unread-label-text, 'Unread');
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  font-size: 11px;
+  color: rgb(var(--text-blue));
+  background: rgb(var(--solid-blue));
+  padding: 3px 8px;
+  border-radius: 100px;
+}
+</style>
