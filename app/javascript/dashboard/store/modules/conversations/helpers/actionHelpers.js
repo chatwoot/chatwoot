@@ -39,6 +39,14 @@ export const isOnCallingNudgesView = ({ route: { name: routeName } }) => {
   return CALLING_NUDGES_ROUTES.includes(routeName);
 };
 
+export const isOnMissedCallsView = ({ route: { name: routeName } }) => {
+  const MISSED_CALLS_ROUTES = [
+    'conversation_missed_calls',
+    'conversation_through_missed_calls',
+  ];
+  return MISSED_CALLS_ROUTES.includes(routeName);
+};
+
 export const isOnFoldersView = ({ route: { name: routeName } }) => {
   const FOLDER_ROUTES = [
     'folder_conversations',

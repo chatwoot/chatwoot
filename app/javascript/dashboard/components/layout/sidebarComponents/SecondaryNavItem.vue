@@ -81,8 +81,12 @@
           ? 'Whatsapp Chatbot'
           : menuItem.label === 'CALLING_NUDGES'
           ? 'Calling Nudges'
+          : menuItem.label === 'MISSED_CALLS'
+          ? 'Missed Calls'
           : menuItem.label === 'CALL_ANALYTICS'
           ? 'Call Analytics'
+          : menuItem.label === 'CALLING_SETTINGS'
+          ? 'Calling'
           : $t(`SIDEBAR.${menuItem.label}`)
       }}
       <span
@@ -161,6 +165,7 @@ import {
   isOnMentionsView,
   isOnUnattendedView,
   isOnCallingNudgesView,
+  isOnMissedCallsView,
 } from '../../../store/modules/conversations/helpers/actionHelpers';
 
 export default {
@@ -240,6 +245,12 @@ export default {
       return (
         isOnCallingNudgesView({ route: this.$route }) &&
         this.menuItem.toStateName === 'conversation_calling_nudges'
+      );
+    },
+    isMissedCalls() {
+      return (
+        isOnMissedCallsView({ route: this.$route }) &&
+        this.menuItem.toStateName === 'conversation_missed_calls'
       );
     },
     isTeamsSettings() {

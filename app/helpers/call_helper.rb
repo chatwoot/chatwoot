@@ -1,5 +1,5 @@
+# rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/ModuleLength
 module CallHelper
-  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
   def get_call_log_string(callback_payload)
     agent_log = callback_payload['Legs'].first
     user_log = callback_payload['Legs'].last
@@ -25,7 +25,6 @@ module CallHelper
       end
     end
   end
-  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
 
   def format_duration_from_seconds(duration_seconds)
     hours = duration_seconds / 3600
@@ -97,4 +96,33 @@ module CallHelper
       customerJourneyId: source_context['customerJourneyId']
     }
   end
+
+  def get_on_call_duration(legs)
+    total_duration = 0
+    legs = legs.values
+    legs.each do |leg|
+      total_duration += leg['OnCallDuration'].to_i
+    end
+
+    total_duration
+  end
+
+  def get_inbound_call_log_string(call_status, legs, recording_url)
+    case call_status
+    when 'busy'
+      'Call was connected but the recipient was busy'
+    when 'no-answer'
+      "Call was connected but recipient didn't pick up the call"
+    when 'failed'
+      'The call failed to connect'
+    when 'completed'
+      call_duration = format_duration_from_seconds(legs['0']['OnCallDuration'].to_i)
+      "Inbound Call completed\n\nCall Duration: #{call_duration}#{recording_url.present? ? "\nCall recording link: #{recording_url}" : ''}"
+    when 'in-progress'
+      'Call is currently in progress'
+    else
+      'Unknown call status'
+    end
+  end
 end
+# rubocop:enable Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/ModuleLength

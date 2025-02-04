@@ -361,6 +361,7 @@ Rails.application.routes.draw do
               get :agents_overview
               get :agent_wise_conversation_states
               get :agent_call_overview
+              get :agent_inbound_call_overview
               post :download_agents_overview
               post :download_agent_wise_conversation_states
               post :download_bot_analytics_sales_overview
@@ -476,6 +477,12 @@ Rails.application.routes.draw do
 
   # webhook for call
   post 'webhooks/call/:account_id/:inbox_id/:conversation_id', to: 'webhooks/call#handle_call_callback'
+
+  get 'webhooks/call/incoming', to: 'webhooks/call#handle_incoming_call'
+  get 'webhooks/call/welcome_message', to: 'webhooks/call#welcome_message'
+  get 'webhooks/call/missed_call_message', to: 'webhooks/call#missed_call_message'
+  get 'webhooks/call/incoming_callback', to: 'webhooks/call#handle_incoming_call_callback'
+  get 'webhooks/call/missed_callback', to: 'webhooks/call#handle_missed_call_callback'
 
   namespace :twitter do
     resource :callback, only: [:show]

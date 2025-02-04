@@ -15,7 +15,15 @@
           :key="label.id"
           :title="label.title"
           :description="label.description"
-          :show-close="true"
+          :show-close="
+            ![
+              'calling-nudge',
+              'pre-sale-query',
+              'support-query',
+              'inbound-call',
+              'missed-call',
+            ].includes(label.title)
+          "
           :color="label.color"
           variant="smooth"
           class="max-w-[calc(100%-0.5rem)]"
@@ -80,19 +88,16 @@ export default {
       labelUiFlags: 'conversationLabels/getUIFlags',
     }),
     filteredActiveLabels() {
-      return this.activeLabels.filter(
-        label =>
-          label.title !== 'calling-nudge' &&
-          label.title !== 'pre-sale-query' &&
-          label.title !== 'support-query'
-      );
+      return this.activeLabels;
     },
     filteredAccountLabels() {
       return this.accountLabels.filter(
         label =>
           label.title !== 'calling-nudge' &&
           label.title !== 'pre-sale-query' &&
-          label.title !== 'support-query'
+          label.title !== 'support-query' &&
+          label.title !== 'inbound-call' &&
+          label.title !== 'missed-call'
       );
     },
     filteredSavedLabels() {
@@ -100,7 +105,9 @@ export default {
         label =>
           label.title !== 'calling-nudge' &&
           label.title !== 'pre-sale-query' &&
-          label.title !== 'support-query'
+          label.title !== 'support-query' &&
+          label.title !== 'inbound-call' &&
+          label.title !== 'missed-call'
       );
     },
   },

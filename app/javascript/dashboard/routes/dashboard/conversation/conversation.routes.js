@@ -1,7 +1,10 @@
 /* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../helper/URLHelper';
 const ConversationView = () => import('./ConversationView');
-import { CALLING_NUDGES_LABEL } from '../../../../sdk/constants';
+import {
+  CALLING_NUDGES_LABEL,
+  MISSED_CALLS_LABEL,
+} from '../../../../sdk/constants';
 
 export default {
   routes: [
@@ -150,6 +153,29 @@ export default {
         conversationId: route.params.conversationId,
         conversationType: 'calling_nudges',
         label: 'calling-nudge',
+      }),
+    },
+    {
+      path: frontendURL('accounts/:accountId/missed_calls/conversations'),
+      name: 'conversation_missed_calls',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: () => ({
+        conversationType: 'missed_calls',
+        label: MISSED_CALLS_LABEL,
+      }),
+    },
+    {
+      path: frontendURL(
+        'accounts/:accountId/missed_calls/conversations/:conversationId'
+      ),
+      name: 'conversation_through_missed_calls',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: route => ({
+        conversationId: route.params.conversationId,
+        conversationType: 'missed_calls',
+        label: 'missed-call',
       }),
     },
     {

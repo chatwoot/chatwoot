@@ -60,6 +60,11 @@ export const actions = {
     try {
       await AccountAPI.update('', updateObj);
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
+      const response = await AccountAPI.get();
+      commit(types.default.ADD_ACCOUNT, response.data);
+      commit(types.default.SET_ACCOUNT_UI_FLAG, {
+        isFetchingItem: false,
+      });
     } catch (error) {
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
       throw new Error(error);

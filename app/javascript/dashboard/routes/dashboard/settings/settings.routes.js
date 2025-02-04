@@ -6,6 +6,7 @@ import attributes from './attributes/attributes.routes';
 import automation from './automation/automation.routes';
 import auditlogs from './auditlogs/audit.routes';
 import billing from './billing/billing.routes';
+import calling from './calling/calling.routes';
 import campaigns from './campaigns/campaigns.routes';
 import canned from './canned/canned.routes';
 import inbox from './inbox/inbox.routes';
@@ -39,6 +40,7 @@ export default {
     ...automation.routes,
     ...auditlogs.routes,
     ...billing.routes,
+    ...calling.routes,
     ...canned.routes,
     ...inbox.routes,
     ...integrations.routes,

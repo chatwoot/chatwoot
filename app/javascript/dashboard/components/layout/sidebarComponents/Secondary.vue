@@ -140,10 +140,17 @@ export default {
         children: this.labels
           .filter(
             label =>
-              label.title !== 'calling-nudge' &&
-              label.title !== 'pre-sale-query' &&
-              label.title !== 'support-query'
+              label.title !== 'calling-nudge' && label.title !== 'missed-call'
           )
+          .sort((a, b) => {
+            if (a.title === 'pre-sale-query') return -1;
+            if (b.title === 'pre-sale-query') return 1;
+            if (a.title === 'support-query') return -1;
+            if (b.title === 'support-query') return 1;
+            if (a.title === 'inbound-call') return -1;
+            if (b.title === 'inbound-call') return 1;
+            return a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1;
+          })
           .map(label => ({
             id: label.id,
             label: label.title,

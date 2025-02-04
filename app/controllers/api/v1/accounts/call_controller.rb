@@ -20,11 +20,10 @@ class Api::V1::Accounts::CallController < Api::V1::Accounts::BaseController
       {}
     end
 
-    api_inboxes = Inbox.where(account_id: params[:account_id], channel_type: 'Channel::Api')
-    api_inboxes_ids = api_inboxes.pluck(:id)
-
-    latest_open_conversation = Conversation.where(account_id: params[:account_id], contact_id: params[:contactId],
-                                                  inbox_id: api_inboxes_ids).order(created_at: :desc).first
+    latest_open_conversation = Conversation.where(
+      contact_id: params[:contactId],
+      account_id: params[:account_id]
+    ).order(created_at: :desc).first
 
     if latest_open_conversation.blank?
       Rails.logger.info("No conversation found for contact #{params[:contactId]}")

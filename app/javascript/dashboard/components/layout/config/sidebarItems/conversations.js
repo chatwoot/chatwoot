@@ -22,6 +22,8 @@ const conversations = accountId => ({
     'conversation_through_unattended',
     'conversation_calling_nudges',
     'conversation_through_calling_nudges',
+    'conversation_missed_calls',
+    'conversation_through_missed_calls',
   ],
   menuItems: [
     {
@@ -47,13 +49,20 @@ const conversations = accountId => ({
       toStateName: 'conversation_unattended',
     },
     {
-      icon: 'call',
+      icon: 'call-outbound',
       label: 'CALLING_NUDGES',
       key: 'conversation_calling_nudges',
       toState: frontendURL(
         `accounts/${accountId}/calling_nudges/conversations`
       ),
       toStateName: 'conversation_calling_nudges',
+    },
+    {
+      icon: 'call-missed',
+      label: 'MISSED_CALLS',
+      key: 'conversation_missed_calls',
+      toState: frontendURL(`accounts/${accountId}/missed_calls/conversations`),
+      toStateName: 'conversation_missed_calls',
     },
   ],
 });

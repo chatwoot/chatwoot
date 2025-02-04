@@ -46,7 +46,15 @@ class Api::V1::AccountsController < Api::BaseController
 
   def update
     @account.assign_attributes(account_params.slice(:name, :locale, :domain, :support_email, :auto_resolve_duration))
-    @account.custom_attributes.merge!(custom_attributes_params)
+
+    # Merge custom attributes
+    new_attributes = custom_attributes_params
+    if new_attributes[:calling_settings].present?
+      existing_settings = @account.custom_attributes['calling_settings'] || {}
+      new_attributes[:calling_settings] = existing_settings.merge(new_attributes[:calling_settings])
+    end
+    @account.custom_attributes.merge!(new_attributes)
+
     @account.custom_attributes['onboarding_step'] = 'invite_team' if @account.custom_attributes['onboarding_step'] == 'account_update'
     @account.save!
   end
@@ -134,7 +142,7 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def custom_attributes_params
-    params.permit(:industry, :company_size, :timezone)
+    params.permit(:industry, :company_size, :timezone, calling_settings: {}).to_h.compact
   end
 
   def check_signup_enabled

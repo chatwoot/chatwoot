@@ -557,6 +557,72 @@ export default {
         return baseColumns;
       }
 
+      if (this.agentTableType === 'inboundCallOverview') {
+        const baseColumns = [
+          {
+            field: 'agent',
+            key: 'agent',
+            title: this.type,
+            fixed: 'left',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 25,
+            renderBodyCell: ({ row }) => (
+              <div class="row-user-block">
+                <div class="user-block">
+                  <h6 class="title overflow-hidden whitespace-nowrap text-ellipsis text-sm capitalize">
+                    {row.name}
+                  </h6>
+                </div>
+              </div>
+            ),
+          },
+          {
+            field: 'totalInboundCallsHandled',
+            key: 'totalInboundCallsHandled',
+            title: 'Total Calls Handled',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          },
+          {
+            field: 'totalCallsConnected',
+            key: 'totalCallsConnected',
+            title: 'Calls Connected',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          },
+          {
+            field: 'totalCallsMissed',
+            key: 'totalCallsMissed',
+            title: 'Calls Missed',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          },
+          {
+            field: 'inboundCallsResolved',
+            key: 'inboundCallsResolved',
+            title: 'Resolved',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          },
+          {
+            field: 'avgCallHandlingTime',
+            key: 'avgCallHandlingTime',
+            title: 'AHT(Avg. Handling Time)',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          },
+          {
+            field: 'avgCallWaitTime',
+            key: 'avgCallWaitTime',
+            title: 'Avg. Wait Time',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          },
+        ];
+
+        return baseColumns;
+      }
+
       const baseColumns = [
         {
           field: 'agent',
@@ -634,8 +700,16 @@ export default {
         team => !team.name.toLowerCase().includes('bitespeed')
       );
       let combinedTeams = otherTeams;
-      if (this.agentTableType !== 'callOverview' && bitespeedTeam) {
-        combinedTeams = [bitespeedTeam, ...otherTeams];
+
+      if (bitespeedTeam) {
+        if (this.agentTableType === 'inboundCallOverview') {
+          // For inbound call overview, rename Bitespeed to Unassigned
+          const unassignedTeam = { ...bitespeedTeam, name: 'Unassigned' };
+          combinedTeams = [unassignedTeam, ...otherTeams];
+        } else if (this.agentTableType !== 'callOverview') {
+          // For all other tables except callOverview, include Bitespeed team as is
+          combinedTeams = [bitespeedTeam, ...otherTeams];
+        }
       }
 
       if (this.agentTableType === 'overview') {
@@ -739,6 +813,30 @@ export default {
         });
       }
 
+      if (this.agentTableType === 'inboundCallOverview') {
+        return combinedTeams.map(team => {
+          const typeMetrics = this.getMetrics(team.id);
+          return {
+            name: team.name,
+            totalInboundCallsHandled:
+              typeMetrics.total_inbound_calls_handled || '--',
+            totalCallsConnected:
+              typeMetrics.total_inbound_calls_handled -
+                typeMetrics.total_calls_missed || '--',
+            totalCallsMissed: typeMetrics.total_calls_missed || '--',
+            inboundCallsResolved:
+              this.renderPercentage(
+                typeMetrics.inbound_calls_resolved,
+                typeMetrics.total_inbound_call_conversations
+              ) || '--',
+            avgCallHandlingTime:
+              this.renderContent(typeMetrics.avg_call_handling_time) || '--',
+            avgCallWaitTime:
+              this.renderContent(typeMetrics.avg_call_wait_time) || '--',
+          };
+        });
+      }
+
       return combinedTeams.map(team => {
         const typeMetrics = this.getMetrics(team.id);
         return {
@@ -775,6 +873,13 @@ export default {
   methods: {
     renderContent(value) {
       return value ? formatTime(value) : '--';
+    },
+    renderPercentage(value, total) {
+      if (total && value) {
+        const percentage = ((value / total) * 100).toFixed(1);
+        return `${percentage}%`;
+      }
+      return value;
     },
     getMetrics(id) {
       return this.typeMetrics.find(metrics => metrics.id === Number(id)) || {};

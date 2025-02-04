@@ -2,7 +2,7 @@ module LabelActivityMessageHandler
   extend ActiveSupport::Concern
 
   # Move constant to module level
-  EXCLUDED_LABEL_PATTERNS = %w[pre-sale-query calling-nudge support-query].freeze
+  EXCLUDED_LABEL_PATTERNS = %w[pre-sale-query calling-nudge support-query inbound-call missed-call].freeze
 
   private
 

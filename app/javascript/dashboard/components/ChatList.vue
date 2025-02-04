@@ -168,6 +168,7 @@ import {
   isOnMentionsView,
   isOnUnattendedView,
   isOnCallingNudgesView,
+  isOnMissedCallsView,
 } from '../store/modules/conversations/helpers/actionHelpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import { CMD_SNOOZE_CONVERSATION } from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
@@ -426,6 +427,9 @@ export default {
       }
       if (this.conversationType === 'calling_nudges') {
         return 'Calling Nudges';
+      }
+      if (this.conversationType === 'missed_calls') {
+        return 'Missed Calls';
       }
       if (this.activeTeam.name) {
         return this.activeTeam.name;
@@ -923,6 +927,8 @@ export default {
           conversationType = 'unattended';
         } else if (isOnCallingNudgesView({ route: { name } })) {
           conversationType = 'calling_nudges';
+        } else if (isOnMissedCallsView({ route: { name } })) {
+          conversationType = 'missed_calls';
         }
         this.$router.push(
           conversationListPageURL({

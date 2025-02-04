@@ -711,6 +711,92 @@ module CustomReportHelper
     get_grouped_median_csat(base_query)
   end
 
+  def total_inbound_calls_handled
+    base_query = @account.reporting_events.where(name: 'conversation_inbound_call', created_at: @time_range)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(total_inbound_calls): #{base_query.to_sql}"
+
+    group_and_count_reporting_events_without_distinct(base_query, @config[:group_by])
+  end
+
+  def total_calls_missed
+    base_query = @account.reporting_events.where(
+      name: %w[conversation_missed_call_ooo conversation_missed_call_busy],
+      created_at: @time_range
+    )
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(total_missed_calls): #{base_query.to_sql}"
+
+    group_and_count_reporting_events_without_distinct(base_query, @config[:group_by])
+  end
+
+  def total_inbound_call_conversations
+    base_query = @account.reporting_events.where(name: 'conversation_inbound_call', created_at: @time_range)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(total_inbound_call_conversations): #{base_query.to_sql}"
+
+    group_and_count_reporting_events(base_query, @config[:group_by])
+  end
+
+  def inbound_calls_resolved
+    inbound_calls = @account.reporting_events.where(name: 'conversation_inbound_call', created_at: @time_range)
+
+    base_query = @account.reporting_events.select('DISTINCT ON (conversation_id) *')
+                         .where(name: 'conversation_resolved', created_at: @time_range)
+                         .where(conversation_id: inbound_calls.pluck(:conversation_id))
+                         .order('created_at DESC')
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(total_inbound_calls_resolved): #{base_query.to_sql}"
+
+    base_query = ReportingEvent.where(id: base_query.pluck(:id))
+
+    group_and_count_reporting_events(base_query, @config[:group_by])
+  end
+
+  def avg_call_wait_time
+    @config[:filters][:labels] = Array(@config[:filters][:labels]) + ['inbound-call']
+
+    base_query = @account.reporting_events.where(name: 'conversation_call_waiting_time', created_at: @time_range)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(avg_call_wait_time): #{base_query.to_sql}"
+
+    get_grouped_average(base_query)
+  end
+
+  def avg_call_handling_time
+    @config[:filters][:labels] = Array(@config[:filters][:labels]) + ['inbound-call']
+
+    base_query = @account.reporting_events.where(name: 'conversation_call_handling_time', created_at: @time_range)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "Base query(avg_call_handling_time): #{base_query.to_sql}"
+
+    get_grouped_average(base_query)
+  end
+
   ### Helper Methods ###
 
   def get_grouped_average(events)
@@ -911,6 +997,32 @@ module CustomReportHelper
       query.group(:inbox_id).distinct.count(:conversation_id)
     else
       query.distinct.count(:conversation_id)
+    end
+  rescue StandardError => e
+    Rails.logger.error "Error in group_and_count_reporting_events: #{e.message}"
+    Rails.logger.error e.backtrace.join("\n")
+    raise e
+  end
+
+  def group_and_count_reporting_events_without_distinct(query, group_by_param)
+    case group_by_param
+    when 'working_hours'
+      conversation_ids = query.distinct.pluck(:conversation_id)
+      result = Conversation.where(id: conversation_ids)
+                           .group("COALESCE((additional_attributes->>'working_hours')::boolean, true)")
+                           .count
+                           .transform_keys { |key| key ? 'working_hours' : 'non_working_hours' }
+
+      {
+        'working_hours' => result['working_hours'] || 0,
+        'non_working_hours' => result['non_working_hours'] || 0
+      }
+    when 'agent'
+      query.group(:user_id).count
+    when 'inbox'
+      query.group(:inbox_id).count
+    else
+      query.count
     end
   rescue StandardError => e
     Rails.logger.error "Error in group_and_count_reporting_events: #{e.message}"

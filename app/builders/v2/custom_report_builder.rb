@@ -240,7 +240,13 @@ class V2::CustomReportBuilder
        avg_time_to_call_after_nudge
        avg_time_to_convert
        avg_time_to_drop
-       avg_follow_up_calls].include?(metric)
+       avg_follow_up_calls
+       total_inbound_calls_handled
+       total_calls_missed
+       inbound_calls_resolved
+       total_inbound_call_conversations
+       avg_call_handling_time
+       avg_call_wait_time].include?(metric)
   end
   # rubocop:enable Metrics/MethodLength
 

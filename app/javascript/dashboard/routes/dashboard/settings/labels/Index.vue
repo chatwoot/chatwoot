@@ -132,7 +132,9 @@ export default {
         label =>
           label.title !== 'calling-nudge' &&
           label.title !== 'pre-sale-query' &&
-          label.title !== 'support-query'
+          label.title !== 'support-query' &&
+          label.title !== 'inbound-call' &&
+          label.title !== 'missed-call'
       );
     },
     // Delete Modal

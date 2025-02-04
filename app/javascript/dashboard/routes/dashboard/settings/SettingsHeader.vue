@@ -66,7 +66,7 @@
 
       <slot />
       <span class="text-slate-900 font-medium text-2xl dark:text-slate-100">
-        {{ headerTitle }}
+        {{ headerTitle === 'CALLING_SETTINGS' ? 'Calling' : headerTitle }}
       </span>
     </h1>
     <router-link

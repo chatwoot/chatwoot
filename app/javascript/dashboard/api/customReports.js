@@ -252,6 +252,31 @@ class CustomReportsAPI extends ApiClient {
 
     return axios.get(`${this.url}/agent_call_overview`, { params });
   }
+
+  getCustomAgentInboundCallOverviewReports({
+    since,
+    until,
+    businessHours,
+    selectedLabel,
+    selectedInbox,
+  } = {}) {
+    const params = {
+      since,
+      until,
+      business_hours: businessHours,
+      timezone_offset: getTimeOffset(),
+    };
+
+    if (selectedInbox) {
+      params.inboxes = [selectedInbox.id];
+    }
+
+    if (selectedLabel) {
+      params.labels = [selectedLabel.title];
+    }
+
+    return axios.get(`${this.url}/agent_inbound_call_overview`, { params });
+  }
 }
 
 export default new CustomReportsAPI();

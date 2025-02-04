@@ -1,5 +1,5 @@
 <template>
-  <div class="column overflow-auto flex-1 pt-4">
+  <div class="column overflow-auto flex-1 pt-4 pb-40">
     <metric-card
       :is-live="false"
       header="Agent wise Call Overview"
@@ -17,6 +17,27 @@
         :download-button-label="$t('REPORT.DOWNLOAD_AGENT_REPORTS')"
         :show-advanced-filters="true"
         :agent-table-type="'callOverview'"
+        @filter-change="handleFilterChange"
+      />
+    </metric-card>
+
+    <metric-card
+      :is-live="false"
+      header="Inbound Call Analytics"
+      :download-filters="filters"
+      :download-type="'inboundCallOverview'"
+    >
+      <woot-summary-reports
+        key="agent-call-overview-reports"
+        class="!p-0"
+        type="agent"
+        getter-key="agents/getAgents"
+        attribute-key="team_id"
+        action-key="summaryReports/fetchCustomAgentInboundCallOverviewReports"
+        summary-key="summaryReports/getCustomAgentInboundCallOverviewReports"
+        :download-button-label="$t('REPORT.DOWNLOAD_AGENT_REPORTS')"
+        :show-advanced-filters="true"
+        :agent-table-type="'inboundCallOverview'"
         @filter-change="handleFilterChange"
       />
     </metric-card>

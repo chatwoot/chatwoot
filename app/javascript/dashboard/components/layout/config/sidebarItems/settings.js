@@ -11,6 +11,7 @@ const settings = accountId => ({
     'auditlogs_list',
     'billing_settings_index',
     'canned_list',
+    'calling_settings_index',
     'general_settings_index',
     'general_settings',
     'labels_list',
@@ -72,6 +73,13 @@ const settings = accountId => ({
       toState: frontendURL(`accounts/${accountId}/settings/inboxes/list`),
       toStateName: 'settings_inbox_list',
       featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
+    },
+    {
+      icon: 'call',
+      label: 'CALLING_SETTINGS',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/settings/calling`),
+      toStateName: 'calling_settings_index',
     },
     {
       icon: 'tag',

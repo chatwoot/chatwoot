@@ -17,6 +17,8 @@ export const conversationUrl = ({
     url = `accounts/${accountId}/inbox/${activeInbox}/conversations/${id}`;
   } else if (conversationType === 'calling_nudges') {
     url = `accounts/${accountId}/calling_nudges/conversations/${id}`;
+  } else if (conversationType === 'missed_calls') {
+    url = `accounts/${accountId}/missed_calls/conversations/${id}`;
   } else if (label) {
     url = `accounts/${accountId}/label/${label}/conversations/${id}`;
   } else if (teamId) {

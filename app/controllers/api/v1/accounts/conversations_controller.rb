@@ -29,6 +29,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def mark_intent
     intent = params[:intent]
     # intent is a string like "PRE_SALES" or "SUPPORT"
@@ -46,6 +47,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
         title: 'pre-sale-query'
       ) do |l|
         l.description = 'Automatically added to conversations with PRE_SALES intent'
+        l.show_on_sidebar = true
         l.color = '#1f93ff' # Default color
       end
       @conversation.add_labels(['pre-sale-query'])
@@ -56,6 +58,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
         title: 'support-query'
       ) do |l|
         l.description = 'Automatically added to conversations with SUPPORT intent'
+        l.show_on_sidebar = true
         l.color = '#1f93ff' # Default color
       end
       @conversation.add_labels(['support-query'])
@@ -63,6 +66,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     head :ok
   end
   # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   def update_source_context
     existing_source_context = @conversation.additional_attributes[:source_context] || {}
