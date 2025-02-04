@@ -11,7 +11,10 @@
       "CONVERSATIONS": "会話データ",
       "MESSAGES": "メッセージ"
     },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
     "SEARCHING_DATA": "検索中",
+    "LOADING_DATA": "読み込み中",
     "EMPTY_STATE": "{item} がクエリ '{query}' に対して見つかりませんでした。",
     "EMPTY_STATE_FULL": "クエリ '{query}' に対して結果が見つかりませんでした。",
     "PLACEHOLDER_KEYBINDING": "/ を押してフォーカス",
