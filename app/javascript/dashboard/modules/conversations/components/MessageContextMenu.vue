@@ -94,7 +94,9 @@
           v-if="enabledOptions['delete']"
           :option="{
             icon: 'delete',
-            label: $t('CONVERSATION.CONTEXT_MENU.DELETE'),
+            label: isInstagramCommentMessage
+              ? 'Delete Instagram Comment'
+              : $t('CONVERSATION.CONTEXT_MENU.DELETE'),
           }"
           variant="icon"
           @click="openDeleteModal"
@@ -168,6 +170,9 @@ export default {
     },
     contentAttributes() {
       return this.message.content_attributes;
+    },
+    isInstagramCommentMessage() {
+      return this.message.content_attributes.comment_id;
     },
   },
   methods: {

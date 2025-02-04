@@ -25,8 +25,15 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def destroy
     ActiveRecord::Base.transaction do
+      if message.content_attributes['comment_id'].present?
+        success = Instagram::DeleteCommentService.new(message).perform
+        raise StandardError, 'Failed to delete Instagram comment' unless success
+      end
+
       message.update!(content: I18n.t('conversations.messages.deleted'), content_attributes: { deleted: true })
       message.attachments.destroy_all
+    rescue StandardError => e
+      render_could_not_create_error(e.message)
     end
   end
 
