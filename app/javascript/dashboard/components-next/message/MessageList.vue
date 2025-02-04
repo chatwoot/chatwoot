@@ -127,7 +127,7 @@ const isUnread = message => {
 }
 
 .message-bubble-container.is-unread:not(.is-unread ~ .is-unread)::before {
-  content: var(--unread-label-text, 'Unread');
+  content: var(--unread-label-text, 'New Messages');
   position: absolute;
   top: -40px;
   left: 50%;
