@@ -2,15 +2,11 @@
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import Integration from './Integration.vue';
-import SelectChannelWarning from './Slack/SelectChannelWarning.vue';
-import SlackIntegrationHelpText from './Slack/SlackIntegrationHelpText.vue';
 import Spinner from 'shared/components/Spinner.vue';
 export default {
   components: {
     Spinner,
     Integration,
-    SelectChannelWarning,
-    SlackIntegrationHelpText,
   },
   mixins: [globalConfigMixin],
   props: {
@@ -21,7 +17,7 @@ export default {
   },
   computed: {
     integration() {
-      return this.$store.getters['integrations/getIntegration']('slack');
+      return this.$store.getters['integrations/getIntegration']('linear');
     },
     areHooksAvailable() {
       const { hooks = [] } = this.integration || {};
@@ -31,19 +27,6 @@ export default {
       const { hooks = [] } = this.integration || {};
       const [hook] = hooks;
       return hook || {};
-    },
-    isIntegrationHookEnabled() {
-      return this.hook.status || false;
-    },
-    hasConnectedAChannel() {
-      return !!this.hook.reference_id;
-    },
-    selectedChannelName() {
-      if (this.hook.status) {
-        const { settings: { channel_name: channelName = '' } = {} } = this.hook;
-        return channelName || 'customer-conversations';
-      }
-      return this.$t('INTEGRATION_SETTINGS.SLACK.HELP_TEXT.SELECTED');
     },
     ...mapGetters({
       uiFlags: 'integrations/getUIFlags',
@@ -57,16 +40,17 @@ export default {
     },
   },
   mounted() {
-    this.intializeSlackIntegration();
+    this.intializeLinearIntegration();
   },
   methods: {
-    async intializeSlackIntegration() {
-      await this.$store.dispatch('integrations/get', 'slack');
+    async intializeLinearIntegration() {
+      await this.$store.dispatch('integrations/get', 'linear');
+      console.log('this.code', this.code);
       if (this.code) {
-        await this.$store.dispatch('integrations/connectSlack', this.code);
-        // Clear the query param `code` from the URL as the 
+        await this.$store.dispatch('integrations/connectLinearApp', this.code);
+        // Clear the query param `code` from the URL as the
         // subsequent reloads would result in an error
-        this.$router.replace(this.$route.path);
+        // this.$router.replace(this.$route.path);
       }
       this.integrationLoaded = true;
     },
@@ -95,13 +79,6 @@ export default {
           message: $t('INTEGRATION_SETTINGS.SLACK.DELETE_CONFIRMATION.MESSAGE'),
         }"
       />
-    </div>
-    <div v-if="areHooksAvailable" class="flex-1 p-6">
-      <SelectChannelWarning
-        v-if="!isIntegrationHookEnabled"
-        :has-connected-a-channel="hasConnectedAChannel"
-      />
-      <SlackIntegrationHelpText :selected-channel-name="selectedChannelName" />
     </div>
   </div>
   <div v-else class="flex items-center justify-center flex-1">

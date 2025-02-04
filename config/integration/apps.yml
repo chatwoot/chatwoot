@@ -59,7 +59,7 @@ linear:
   id: linear
   logo: linear.png
   i18n_key: linear
-  action: /linear
+  action: https://linear.app/oauth/authorize
   hook_type: account
   allow_multiple_hooks: false
   settings_json_schema:

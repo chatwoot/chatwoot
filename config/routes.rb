@@ -233,6 +233,8 @@ Rails.application.routes.draw do
             end
             resource :linear, controller: 'linear', only: [] do
               collection do
+                post :create
+                delete :destroy
                 get :teams
                 get :team_entities
                 post :create_issue

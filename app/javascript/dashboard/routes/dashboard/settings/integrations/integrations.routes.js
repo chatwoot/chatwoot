@@ -6,7 +6,7 @@ import Webhook from './Webhooks/Index.vue';
 import DashboardApps from './DashboardApps/Index.vue';
 import Slack from './Slack.vue';
 import SettingsContent from '../Wrapper.vue';
-
+import Linear from './Linear.vue';
 export default {
   routes: [
     {
@@ -61,6 +61,15 @@ export default {
           path: 'slack',
           name: 'settings_integrations_slack',
           component: Slack,
+          meta: {
+            permissions: ['administrator'],
+          },
+          props: route => ({ code: route.query.code }),
+        },
+        {
+          path: 'linear',
+          name: 'settings_integrations_linear',
+          component: Linear,
           meta: {
             permissions: ['administrator'],
           },

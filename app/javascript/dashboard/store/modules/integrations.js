@@ -48,6 +48,20 @@ export const actions = {
     }
   },
 
+  connectLinearApp: async ({ commit }, code) => {
+    commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isCreatingLinear: true });
+    try {
+      const response = await IntegrationsAPI.connectLinear(code);
+      commit(types.default.ADD_INTEGRATION, response.data);
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
+        isCreatingLinear: false,
+      });
+    }
+  },
+
   connectSlack: async ({ commit }, code) => {
     commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isCreatingSlack: true });
     try {
