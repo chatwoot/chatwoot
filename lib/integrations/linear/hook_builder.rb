@@ -44,7 +44,12 @@ class Integrations::Linear::HookBuilder
       JSON.parse(response.body)['access_token']
     rescue RestClient::Exception => e
       Rails.logger.error "Linear OAuth Error: #{e.response.body}"
-      raise e
+      error_message = begin
+        JSON.parse(e.response.body)['error_description'] || 'Failed to authenticate with Linear'
+      rescue JSON::ParserError
+        'Failed to authenticate with Linear'
+      end
+      raise StandardError, error_message
     end
   
     def linear_redirect_uri

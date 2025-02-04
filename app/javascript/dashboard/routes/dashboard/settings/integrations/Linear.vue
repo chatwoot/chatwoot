@@ -45,7 +45,6 @@ export default {
   methods: {
     async intializeLinearIntegration() {
       await this.$store.dispatch('integrations/get', 'linear');
-      console.log('this.code', this.code);
       if (this.code) {
         await this.$store.dispatch('integrations/connectLinearApp', this.code);
         // Clear the query param `code` from the URL as the
