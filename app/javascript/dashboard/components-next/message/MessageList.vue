@@ -96,8 +96,8 @@ const getInReplyToMessage = parentMessage => {
   return replyMessage ? useCamelCase(replyMessage) : null;
 };
 
-const isUnread = message => {
-  return message.createdAt * 1000 > props.lastSeenAt * 1000;
+const isUnread = (message, lastSeen) => {
+  return message.createdAt * 1000 > lastSeen * 1000;
 };
 </script>
 
@@ -107,7 +107,7 @@ const isUnread = message => {
     <template v-for="(message, index) in allMessages" :key="message.id">
       <Message
         v-bind="message"
-        :class="{ 'is-unread': isUnread(message) }"
+        :class="{ 'is-unread': isUnread(message, lastSeenAt) }"
         :is-email-inbox="isAnEmailChannel"
         :in-reply-to="getInReplyToMessage(message)"
         :group-with-next="shouldGroupWithNext(index, allMessages)"
