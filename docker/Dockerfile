@@ -136,8 +136,7 @@ RUN if [ "$RAILS_ENV" != "production" ]; then \
   && n $NODE_VERSION \
   && ln -sf /usr/local/bin/node /usr/bin/node \
   && ln -sf /usr/local/bin/npm /usr/bin/npm \
-  && ln -sf /usr/local/bin/npx /usr/bin/npx; \
-  # Install pnpm and configure environment
+  && ln -sf /usr/local/bin/npx /usr/bin/npx \
   && wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.shrc" SHELL="$(which sh)" sh - \
   && source /root/.shrc \
   && pnpm --version; \
