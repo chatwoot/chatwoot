@@ -1,6 +1,9 @@
 # pre-build stage
 FROM ruby:3.3.3-alpine3.19 AS pre-builder
 
+ARG NODE_VERSION="23.7.0"
+ENV NODE_VERSION=${NODE_VERSION}
+
 # ARG default to production settings
 # For development docker-compose file overrides ARGS
 ARG BUNDLE_WITHOUT="development:test"
@@ -25,10 +28,21 @@ RUN apk update && apk add --no-cache \
   tzdata \
   postgresql-dev \
   postgresql-client \
-  nodejs=23.7.0 \
   git \
   && mkdir -p /var/app \
   && gem install bundler
+
+
+# Install n (Node.js version manager) and Node.js 23.7
+RUN curl -fsSL https://raw.githubusercontent.com/tj/n/master/bin/n -o /usr/local/bin/n \
+  && chmod +x /usr/local/bin/n \
+  && n $NODE_VERSION \
+  && ln -sf /usr/local/bin/node /usr/bin/node \
+  && ln -sf /usr/local/bin/npm /usr/bin/npm \
+  && ln -sf /usr/local/bin/npx /usr/bin/npx
+
+# Verify installation
+RUN node -v && npm -v
 
 # Install pnpm and configure environment
 RUN wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.shrc" SHELL="$(which sh)" sh - \
@@ -86,6 +100,8 @@ RUN rm -rf /gems/ruby/3.3.0/cache/*.gem \
 # final build stage
 FROM ruby:3.3.3-alpine3.19
 
+ARG NODE_VERSION="23.7.0"
+ENV NODE_VERSION=${NODE_VERSION}
 
 ARG BUNDLE_WITHOUT="development:test"
 ENV BUNDLE_WITHOUT ${BUNDLE_WITHOUT}
@@ -121,6 +137,17 @@ RUN if [ "$RAILS_ENV" != "production" ]; then \
   && source /root/.shrc \
   && pnpm --version; \
   fi
+
+RUN if [ "$RAILS_ENV" != "production" ]; then \
+  apk add --no-cache curl; \
+  curl -fsSL https://raw.githubusercontent.com/tj/n/master/bin/n -o /usr/local/bin/n \
+  && chmod +x /usr/local/bin/n \
+  && n $NODE_VERSION \
+  && ln -sf /usr/local/bin/node /usr/bin/node \
+  && ln -sf /usr/local/bin/npm /usr/bin/npm \
+  && ln -sf /usr/local/bin/npx /usr/bin/npx; \
+  fi
+
 
 COPY --from=pre-builder /gems/ /gems/
 COPY --from=pre-builder /app /app
