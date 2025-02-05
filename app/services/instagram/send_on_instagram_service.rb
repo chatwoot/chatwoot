@@ -29,7 +29,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
 
   def message_params
     params = {
-      recipient: { id: contact.get_source_id(inbox.id), comment_id: message.content_attributes[:reply_to_comment_id] },
+      recipient: build_recipient,
       message: {
         text: message.content
       }
@@ -40,7 +40,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
 
   def attachment_message_params(attachment)
     params = {
-      recipient: { id: contact.get_source_id(inbox.id), comment_id: message.content_attributes[:reply_to_comment_id] },
+      recipient: build_recipient,
       message: {
         attachment: {
           type: attachment_type(attachment),
@@ -52,6 +52,12 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
     }
 
     merge_human_agent_tag(params)
+  end
+
+  def build_recipient
+    recipient = { id: contact.get_source_id(inbox.id) }
+    recipient[:comment_id] = message.content_attributes[:reply_to_comment_id] if message.content_attributes[:reply_to_comment_id].present?
+    recipient
   end
 
   # Deliver a message with the given payload.
