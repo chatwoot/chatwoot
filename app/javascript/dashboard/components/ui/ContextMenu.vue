@@ -57,7 +57,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Teleport to="body">
+  <Teleport to=".app-wrapper">
     <div
       ref="menuRef"
       class="fixed outline-none z-[9999] cursor-pointer"
