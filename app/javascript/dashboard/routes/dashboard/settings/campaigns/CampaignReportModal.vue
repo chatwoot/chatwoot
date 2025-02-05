@@ -172,6 +172,7 @@ export default defineComponent({
         ...(contacts.replied_contacts || []),
       ];
       const failed = contacts.failed_contacts || [];
+
       const read = [
         ...(contacts.read_contacts || []),
         ...(contacts.replied_contacts || []),
@@ -532,9 +533,9 @@ export default defineComponent({
                     </td>
                     <td class="p-4 text-slate-600 dark:text-slate-300">
                       {{
-                        new Date(
-                          contact.processed_at || contact.failed_at
-                        ).toLocaleString()
+                        contact.processed_at
+                          ? new Date(contact.processed_at).toLocaleString()
+                          : '-'
                       }}
                     </td>
                   </tr>
