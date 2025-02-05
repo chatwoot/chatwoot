@@ -33,7 +33,6 @@ RUN apk update && apk add --no-cache \
   && mkdir -p /var/app \
   && gem install bundler
 
-
 # Install n (Node.js version manager) and Node.js 23.7
 RUN curl -fsSL https://raw.githubusercontent.com/tj/n/master/bin/n -o /usr/local/bin/n \
   && chmod +x /usr/local/bin/n \
@@ -42,7 +41,6 @@ RUN curl -fsSL https://raw.githubusercontent.com/tj/n/master/bin/n -o /usr/local
   && ln -sf /usr/local/bin/npm /usr/bin/npm \
   && ln -sf /usr/local/bin/npx /usr/bin/npx
 
-# Verify installation
 RUN node -v && npm -v
 
 # Install pnpm and configure environment
@@ -132,14 +130,6 @@ RUN apk update && apk add --no-cache \
   && gem install bundler
 
 RUN if [ "$RAILS_ENV" != "production" ]; then \
-  apk add --no-cache nodejs=23.7.0; \
-  # Install pnpm and configure environment
-  wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.shrc" SHELL="$(which sh)" sh - \
-  && source /root/.shrc \
-  && pnpm --version; \
-  fi
-
-RUN if [ "$RAILS_ENV" != "production" ]; then \
   apk add --no-cache curl; \
   curl -fsSL https://raw.githubusercontent.com/tj/n/master/bin/n -o /usr/local/bin/n \
   && chmod +x /usr/local/bin/n \
@@ -152,7 +142,6 @@ RUN if [ "$RAILS_ENV" != "production" ]; then \
   && source /root/.shrc \
   && pnpm --version; \
   fi
-
 
 COPY --from=pre-builder /gems/ /gems/
 COPY --from=pre-builder /app /app
