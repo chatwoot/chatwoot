@@ -92,6 +92,15 @@ class Api::V1::AccountsController < Api::BaseController
     end
   end
 
+  def create_instagram_dm_conversations
+    result = Accounts::InstagramDmConversationsCreator.new(@account, @user, params).perform
+    if result[:success]
+      render json: { success: true }, status: :ok
+    else
+      render json: { error: result[:error] }, status: :internal_server_error
+    end
+  end
+
   def delete_messages_with_source_id
     if params[:source_id].blank? || params[:id].blank?
       render json: { error: 'Source ID and Account ID are required' }, status: :bad_request

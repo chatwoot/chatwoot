@@ -42,6 +42,7 @@ Rails.application.routes.draw do
           post :delete_messages_with_source_id
           post :unassigned_conversations_assignment
           post :create_one_click_conversations
+          post :create_instagram_dm_conversations
         end
 
         scope module: :accounts do

@@ -13,6 +13,16 @@ class ConversationApi extends ApiClient {
   updateLabels(conversationID, labels) {
     return axios.post(`${this.url}/${conversationID}/labels`, { labels });
   }
+
+  async createInstagramDmConversation(payload) {
+    const url = `/api/v1/accounts/${this.accountIdFromRoute}/create_instagram_dm_conversations`;
+
+    return axios.post(url, payload, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  }
 }
 
 export default new ConversationApi();

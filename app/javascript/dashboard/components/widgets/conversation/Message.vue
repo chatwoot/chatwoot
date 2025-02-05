@@ -326,6 +326,7 @@ export default {
         delete: this.hasText || this.hasAttachments,
         cannedResponse: this.isOutgoing && this.hasText,
         replyTo: !this.data.private && this.inboxSupportsReplyTo.outgoing,
+        sendInstagramDM: this.isInstagramCommentMessage,
       };
     },
     contentAttributes() {
@@ -480,6 +481,9 @@ export default {
         return name;
       }
       return '';
+    },
+    isInstagramCommentMessage() {
+      return this.contentAttributes.comment_id;
     },
   },
   watch: {

@@ -30,6 +30,14 @@
       :confirm-text="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.DELETE')"
       :reject-text="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.CANCEL')"
     />
+    <!-- Send Instagram DM -->
+    <send-instagram-dm
+      v-if="showInstagramDmModal"
+      class="context-menu--delete-modal"
+      :show="showInstagramDmModal"
+      :instagram-comment-id="instagramCommentId"
+      @cancel="closeInstagramDmModal"
+    />
     <woot-button
       icon="more-vertical"
       color-scheme="secondary"
@@ -70,6 +78,15 @@
           }"
           variant="icon"
           @click="handleTranslate"
+        />
+        <menu-item
+          v-if="enabledOptions['sendInstagramDM'] && instagramCommentId"
+          :option="{
+            icon: 'chat',
+            label: 'Send Instagram DM',
+          }"
+          variant="icon"
+          @click="openInstagramDmModal"
         />
         <hr />
         <menu-item
@@ -118,12 +135,14 @@ import {
 } from '../../../helper/AnalyticsHelper/events';
 import TranslateModal from 'dashboard/components/widgets/conversation/bubble/TranslateModal.vue';
 import MenuItem from '../../../components/widgets/conversation/contextMenu/menuItem.vue';
+import SendInstagramDm from 'dashboard/components/widgets/conversation/bubble/SendInstagramDm.vue';
 
 export default {
   components: {
     AddCannedModal,
     TranslateModal,
     MenuItem,
+    SendInstagramDm,
   },
   mixins: [alertMixin, messageFormatterMixin],
   props: {
@@ -149,6 +168,7 @@ export default {
       isCannedResponseModalOpen: false,
       showTranslateModal: false,
       showDeleteModal: false,
+      showInstagramDmModal: false,
     };
   },
   computed: {
@@ -172,6 +192,9 @@ export default {
       return this.message.content_attributes;
     },
     isInstagramCommentMessage() {
+      return this.message.content_attributes.comment_id;
+    },
+    instagramCommentId() {
       return this.message.content_attributes.comment_id;
     },
   },
@@ -232,6 +255,10 @@ export default {
       this.handleClose();
       this.showDeleteModal = true;
     },
+    openInstagramDmModal() {
+      this.handleClose();
+      this.showInstagramDmModal = true;
+    },
     async confirmDeletion() {
       try {
         await this.$store.dispatch('deleteMessage', {
@@ -246,6 +273,9 @@ export default {
     },
     closeDeleteModal() {
       this.showDeleteModal = false;
+    },
+    closeInstagramDmModal() {
+      this.showInstagramDmModal = false;
     },
   },
 };

@@ -35,6 +35,10 @@ class AccountPolicy < ApplicationPolicy
     true
   end
 
+  def create_instagram_dm_conversations?
+    true
+  end
+
   def subscription?
     @account_user.administrator?
   end

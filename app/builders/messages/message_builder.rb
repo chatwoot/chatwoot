@@ -17,6 +17,7 @@ class Messages::MessageBuilder
     @disable_notifications = params[:disable_notifications]
     @disable_webhook_notifications = params[:disable_webhook_notifications]
     @parent_source_id = params[:parent_source_id]
+    @reply_to_comment_id = content_attributes&.dig(:reply_to_comment_id)
     return unless params.instance_of?(ActionController::Parameters)
 
     @in_reply_to = content_attributes&.dig(:in_reply_to)
@@ -219,8 +220,9 @@ class Messages::MessageBuilder
       items: @items,
       in_reply_to: @in_reply_to,
       echo_id: @params[:echo_id],
-      source_id: @params[:source_id]
-    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params).merge(ignore_automation_rules).merge(disable_notifications).merge(disable_webhook_notifications).merge(template_params_stringified).merge(comment_id)
+      source_id: @params[:source_id],
+      reply_to_comment_id: @reply_to_comment_id
+    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params).merge(ignore_automation_rules).merge(disable_notifications).merge(disable_webhook_notifications).merge(template_params_stringified)
   end
   # rubocop:enable Layout/LineLength
 end

@@ -29,7 +29,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
 
   def message_params
     params = {
-      recipient: { id: contact.get_source_id(inbox.id) },
+      recipient: { id: contact.get_source_id(inbox.id), comment_id: message.content_attributes[:reply_to_comment_id] },
       message: {
         text: message.content
       }
@@ -40,7 +40,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
 
   def attachment_message_params(attachment)
     params = {
-      recipient: { id: contact.get_source_id(inbox.id) },
+      recipient: { id: contact.get_source_id(inbox.id), comment_id: message.content_attributes[:reply_to_comment_id] },
       message: {
         attachment: {
           type: attachment_type(attachment),
