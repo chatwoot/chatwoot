@@ -59,8 +59,8 @@
     "FEEDBACK_TITLE": "Feedback",
     "REPLY_MESSAGE_NOT_FOUND": "Mensagem não disponível",
     "CARD": {
-      "SHOW_LABELS": "Mostrar rótulos",
-      "HIDE_LABELS": "Ocultar os rótulos"
+      "SHOW_LABELS": "Mostrar etiquetas",
+      "HIDE_LABELS": "Ocultar as etiquetas"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
