@@ -111,7 +111,7 @@
     "@iconify-json/ri": "^1.2.3",
     "@iconify-json/teenyicons": "^1.2.1",
     "@size-limit/file": "^8.2.4",
-    "@vitest/coverage-v8": "2.0.1",
+    "@vitest/coverage-v8": "3.0.5",
     "@vue/test-utils": "^2.4.6",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.0",
@@ -136,7 +136,7 @@
     "tailwindcss": "^3.4.13",
     "vite": "^5.4.12",
     "vite-plugin-ruby": "^5.0.0",
-    "vitest": "2.0.1"
+    "vitest": "3.0.5"
   },
   "engines": {
     "node": "23.x",
@@ -151,7 +151,7 @@
     "overrides": {
       "vite-node": "2.0.1",
       "vite": "5.4.12",
-      "vitest": "2.0.1"
+      "vitest": "3.0.5"
     }
   },
   "lint-staged": {
