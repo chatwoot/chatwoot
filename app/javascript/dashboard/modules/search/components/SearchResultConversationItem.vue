@@ -35,6 +35,10 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  emailSubject: {
+    type: String,
+    default: '',
+  },
 });
 
 const navigateTo = computed(() => {
@@ -106,6 +110,19 @@ const createdAtTime = dynamicTime(props.createdAt);
             {{ $t('SEARCH.EMAIL') }}:
           </span>
           {{ email }}
+        </h5>
+      </div>
+      <div class="flex gap-2">
+        <h5
+          v-if="emailSubject"
+          class="m-0 overflow-hidden text-sm text-n-slate-12 dark:text-n-slate-12 truncate"
+        >
+          <span
+            class="text-xs font-normal text-n-slate-11 dark:text-n-slate-11"
+          >
+            {{ $t('SEARCH.EMAIL_SUBJECT') }}:
+          </span>
+          {{ emailSubject }}
         </h5>
       </div>
       <slot />
