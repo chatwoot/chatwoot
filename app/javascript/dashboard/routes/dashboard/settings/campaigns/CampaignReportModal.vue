@@ -440,7 +440,7 @@ export default defineComponent({
             <div class="flex space-x-2 overflow-x-auto">
               <select
                 v-model="activeTab"
-                class="px-4 py-2 border rounded-lg dark:bg-slate-700 dark:border-slate-600"
+                class="px-6 py-2 border rounded-lg dark:bg-slate-700 dark:border-slate-600"
               >
                 <option
                   v-for="type in contactTypes"

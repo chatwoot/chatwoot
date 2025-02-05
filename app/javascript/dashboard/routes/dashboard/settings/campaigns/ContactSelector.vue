@@ -1,9 +1,13 @@
 <script>
 import { useAlert } from 'dashboard/composables';
 import ContactsAPI from 'dashboard/api/contacts';
+import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   name: 'ContactSelector',
+  components: {
+    Spinner,
+  },
   props: {
     contacts: {
       type: Array,
@@ -36,6 +40,7 @@ export default {
       contactList: [],
       allFilteredContacts: [],
       isLoadingContacts: false,
+      isFetchingAllPages: false,
       sortAttribute: 'name',
       appliedFilters: [
         {
@@ -105,10 +110,18 @@ export default {
           attributeKey: 'country_code',
           attributeI18nKey: 'COUNTRY',
           inputType: 'text',
-          filterOperators: [{ value: 'equal_to', label: 'Equals' }],
+          filterOperators: [
+            { value: 'equal_to', label: 'Equals' },
+            // { value: 'not_equal_to', label: 'Does not equal' },
+            // { value: 'contains', label: 'Contains' },
+            // { value: 'does_not_contain', label: 'Does not contain' },
+          ],
         },
       ],
       selectAllVisible: false, // Add this new data property
+      selectVisibleCheckboxStyle: {
+        marginLeft: '0px',
+      },
     };
   },
   computed: {
@@ -128,6 +141,11 @@ export default {
           (contact.email && contact.email.toLowerCase().includes(searchLower))
         );
       });
+    },
+    hasAppliedFilters() {
+      return this.appliedFilters.some(
+        filter => filter.values && filter.values.trim() !== ''
+      );
     },
   },
   watch: {
@@ -163,17 +181,27 @@ export default {
     'filteredContacts.length'() {
       this.selectAllVisible = false;
     },
+    filteredContacts: {
+      handler() {
+        this.updateSelectVisiblePosition();
+      },
+      immediate: true,
+    },
   },
   mounted() {
     this.setupInfiniteScroll();
+    this.updateSelectVisiblePosition();
+    window.addEventListener('resize', this.updateSelectVisiblePosition);
   },
   beforeUnmount() {
     if (this.observer) {
       this.observer.disconnect();
     }
+    window.removeEventListener('resize', this.updateSelectVisiblePosition);
   },
   methods: {
     async selectAll() {
+      if (this.isFetchingAllPages) return;
       this.isSelectingAll = true;
       const hasActiveFilters = this.appliedFilters.some(
         filter => filter.values.trim() !== ''
@@ -214,10 +242,7 @@ export default {
         if (this.currentPage === 1) {
           this.allFilteredContacts = filteredContacts;
         } else {
-          this.allFilteredContacts = [
-            ...this.allFilteredContacts,
-            ...filteredContacts,
-          ];
+          this.allFilteredContacts = [...this.allFilteredContacts];
         }
       } else {
         this.contactList =
@@ -231,6 +256,10 @@ export default {
       // Calculate total pages
       const totalpages = Math.ceil(meta.count / 30);
       this.totalPages = Math.min(totalpages, 33);
+
+      this.$nextTick(() => {
+        this.resetObserver();
+      });
     },
 
     setupInfiniteScroll() {
@@ -240,27 +269,31 @@ export default {
         threshold: 0.5,
       };
 
-      this.observer = new IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting && this.hasMore && !this.isLoading) {
-          this.onLoadMore();
+      this.observer = new IntersectionObserver(async ([entry]) => {
+        if (entry.isIntersecting && !this.isLoading) {
+          const hasActiveFilters = this.appliedFilters.some(
+            filter => filter.values.trim() !== ''
+          );
+
+          if (hasActiveFilters) {
+            // Use internal pagination state for filtered results
+            if (this.currentPage < this.totalPages) {
+              await this.loadMoreFilteredContacts();
+            }
+          } else {
+            // Use parent's hasMore prop for non-filtered results
+            if (this.hasMore) {
+              this.$emit('loadMore');
+            }
+          }
         }
       }, options);
 
-      if (this.$refs.loadingTrigger) {
-        this.observer.observe(this.$refs.loadingTrigger);
-      }
-    },
-
-    async onLoadMore() {
-      const hasActiveFilters = this.appliedFilters.some(
-        filter => filter.values.trim() !== ''
-      );
-
-      if (hasActiveFilters) {
-        await this.loadMoreFilteredContacts();
-      } else {
-        this.$emit('loadMore');
-      }
+      this.$nextTick(() => {
+        if (this.$refs.loadingTrigger) {
+          this.observer.observe(this.$refs.loadingTrigger);
+        }
+      });
     },
 
     toggleContact(contact) {
@@ -329,6 +362,7 @@ export default {
         }
 
         this.isLoadingContacts = true;
+        this.isFetchingAllPages = true;
         const queryPayload = { payload: formattedFilters };
 
         const { data } = await ContactsAPI.filter(1, 'name', queryPayload);
@@ -339,6 +373,7 @@ export default {
 
         const validContacts = payload.filter(contact => contact.phone_number);
         this.allFilteredContacts = [...validContacts];
+
         // Fetch remaining pages
         const totalpages = Math.ceil(meta.count / 30);
         this.totalPages = totalpages;
@@ -354,10 +389,37 @@ export default {
             ];
           }
         }
+        // Reset the observer after filtering
+        this.$nextTick(() => {
+          this.resetObserver();
+        });
       } catch (error) {
         useAlert(this.$t('CAMPAIGN.CONTACT_SELECTOR.FILTER_ERROR'));
       } finally {
+        this.isFetchingAllPages = false;
         this.isLoadingContacts = false;
+      }
+    },
+    resetObserver() {
+      if (this.observer) {
+        this.observer.disconnect();
+      }
+      this.setupInfiniteScroll();
+    },
+
+    async loadMoreContacts() {
+      if (this.currentPage < this.totalPages && !this.isLoadingContacts) {
+        // Check if we have active filters
+        const hasActiveFilters = this.appliedFilters.some(
+          filter => filter.values.trim() !== ''
+        );
+
+        if (hasActiveFilters) {
+          await this.loadMoreFilteredContacts();
+        } else {
+          this.currentPage += 1;
+          await this.fetchContacts(this.currentPage);
+        }
       }
     },
 
@@ -393,6 +455,7 @@ export default {
           this.handleContactsResponse(data, true);
         } catch (error) {
           useAlert(this.$t('CAMPAIGN.CONTACT_SELECTOR.FILTER_ERROR'));
+          // Reset the page on error
           this.currentPage -= 1;
         } finally {
           this.isLoadingContacts = false;
@@ -412,20 +475,38 @@ export default {
       }
     },
 
-    clearFilters() {
-      // Reset filters and contact list
-      this.appliedFilters = [
-        {
-          attribute_key: 'name',
-          filter_operator: 'equal_to',
-          values: '',
-          query_operator: 'and',
-        },
-      ];
-      this.contactList = []; // Reset contact list
-      this.currentPage = 1;
-      this.fetchContacts(1);
-      this.showFiltersModal = false;
+    async clearFilters() {
+      try {
+        // Reset filters
+        this.appliedFilters = [
+          {
+            attribute_key: 'name',
+            filter_operator: 'equal_to',
+            values: '',
+            query_operator: 'and',
+          },
+        ];
+
+        // Reset all contact-related data
+        this.contactList = [];
+        this.allFilteredContacts = [];
+        this.currentPage = 1;
+        this.totalPages = 1;
+
+        // Fetch original contacts
+        // await this.fetchContacts(1);
+
+        // Emit filters cleared event
+        this.$emit('filtersCleared');
+
+        // Reset observer to handle infinite scroll
+        this.resetObserver();
+
+        // Close the modal
+        this.showFiltersModal = false;
+      } catch (error) {
+        useAlert(this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE'));
+      }
     },
 
     updateSelectedContacts(contactIds) {
@@ -453,6 +534,23 @@ export default {
       );
       return filterType ? filterType.filterOperators : [];
     },
+    updateSelectVisiblePosition() {
+      this.$nextTick(() => {
+        const contactCheckbox = document.querySelector(
+          '.contact-item input[type="checkbox"]'
+        );
+        if (contactCheckbox) {
+          const checkboxRect = contactCheckbox.getBoundingClientRect();
+          const containerRect = this.$el.getBoundingClientRect();
+          const marginLeft = `${
+            checkboxRect.left - containerRect.left - 430
+          }px`; // 16px for padding
+          this.selectVisibleCheckboxStyle = {
+            marginLeft,
+          };
+        }
+      });
+    },
   },
 };
 </script>
@@ -467,25 +565,37 @@ export default {
           :placeholder="$t('CAMPAIGN.CONTACT_SELECTOR.SEARCH_PLACEHOLDER')"
           class="search-input"
         />
-        <woot-button
-          v-tooltip.top-end="$t('CAMPAIGN.CONTACT_SELECTOR.FILTER')"
-          icon="filter"
-          size="medium"
-          color-scheme="secondary"
-          class-names="filter-button"
-          @click="toggleFiltersModal"
-        />
+        <div class="filter-button-container">
+          <div
+            v-if="hasAppliedFilters"
+            class="absolute w-2 h-2 rounded-full top-1 right-1"
+            :style="{ backgroundColor: '#369eff' }"
+          />
+          <woot-button
+            v-tooltip.top-end="$t('CAMPAIGN.CONTACT_SELECTOR.FILTER')"
+            icon="filter"
+            size="medium"
+            color-scheme="secondary"
+            class="[&>span]:hidden xs:[&>span]:block"
+            class-name="filter-button"
+            @click="toggleFiltersModal"
+          >
+          </woot-button>
+        </div>
       </div>
       <div class="selection-wrapper">
         <div class="selection-controls">
-          <button @click="selectAll">
+          <button @click="selectAll" :disabled="isFetchingAllPages">
             {{ $t('CAMPAIGN.CONTACT_SELECTOR.SELECT_ALL') }}
           </button>
           <button @click="clearSelection">
             {{ $t('CAMPAIGN.CONTACT_SELECTOR.CLEAR') }}
           </button>
         </div>
-        <div class="select-visible-checkbox">
+        <div
+          class="select-visible-checkbox"
+          :style="selectVisibleCheckboxStyle"
+        >
           <input
             type="checkbox"
             :checked="selectAllVisible"
@@ -495,7 +605,12 @@ export default {
       </div>
     </div>
 
-    <div ref="contactsList" class="contacts-list">
+    <div v-if="isFetchingAllPages" class="loading-state">
+      <Spinner />
+      <span>{{ $t('CAMPAIGN.CONTACT_SELECTOR.LOADING_ALL_CONTACTS') }}</span>
+    </div>
+
+    <div v-else ref="contactsList" class="contacts-list">
       <div
         v-for="contact in filteredContacts"
         :key="contact.id"
@@ -510,7 +625,11 @@ export default {
             contact.email
           }}</span>
         </div>
-        <input type="checkbox" :checked="isSelected(contact)" @click.stop />
+        <input
+          type="checkbox"
+          :checked="isSelected(contact)"
+          @click.stop="toggleContact(contact)"
+        />
       </div>
 
       <div
@@ -622,6 +741,14 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+.loading-state {
+  @apply flex flex-col items-center justify-center p-8 text-slate-500 dark:text-slate-400;
+  min-height: 200px;
+
+  .spinner {
+    @apply mb-4;
+  }
+}
 .contact-selector {
   @apply flex flex-col h-full;
 
@@ -644,8 +771,14 @@ export default {
         }
       }
 
-      .filter-button {
-        @apply relative bottom-2;
+      .filter-button-container {
+        position: relative;
+        display: inline-block;
+        bottom: 7px;
+
+        .filter-button {
+          @apply relative bottom-4;
+        }
       }
     }
 
@@ -665,7 +798,7 @@ export default {
       }
 
       .select-visible-checkbox {
-        @apply flex items-center mt-4 ml-32 text-sm text-slate-700 dark:text-white;
+        @apply flex items-center mt-4 text-sm text-slate-700 dark:text-white;
 
         input[type='checkbox'] {
           @apply w-4 h-4 cursor-pointer accent-black-600;
@@ -764,11 +897,13 @@ export default {
 
         .filter-attribute {
           @apply flex-shrink-0;
+          padding-right: 1.5rem;
           width: 230px; /* Override width specifically for attribute dropdown */
         }
 
         .filter-operator {
           @apply flex-shrink-0;
+          padding-right: 1.5rem;
           width: 230px; /* Override width specifically for operator dropdown */
         }
 
