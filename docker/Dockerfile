@@ -29,6 +29,7 @@ RUN apk update && apk add --no-cache \
   postgresql-dev \
   postgresql-client \
   git \
+  curl \
   && mkdir -p /var/app \
   && gem install bundler
 
@@ -128,7 +129,6 @@ RUN apk update && apk add --no-cache \
   imagemagick \
   git \
   vips \
-  curl \
   && gem install bundler
 
 RUN if [ "$RAILS_ENV" != "production" ]; then \
