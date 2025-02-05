@@ -38,7 +38,7 @@ const props = defineProps({
 });
 
 const allMessages = computed(() => {
-  return useCamelCase(props.messages);
+  return useCamelCase(props.messages, { deep: true });
 });
 
 /**
