@@ -73,19 +73,19 @@ class Whatsapp::IncomingMessageBaseService
     # Only increment read count if status is 'read'
     status = @processed_params[:statuses].first[:status]
     id = @processed_params[:statuses].first[:id]
-    
     return unless status == 'failed'
 
     # Find the campaign through the message
-  campaign_contact = CampaignContact.find_by(message_id: id)
+    campaign_contact = CampaignContact.find_by(message_id: id)
 
-  return unless campaign_contact
-  # Update the specific campaign contact status to 'read'
-  campaign_contact.update!(
-    status: 'failed',
-    processed_at: Time.current
-  )
-
+    return unless campaign_contact
+    # Update the specific campaign contact status to 'read'
+    error_title = @processed_params.dig(:statuses, 0, :errors, 0, :title)
+    campaign_contact.update!(
+      status: 'failed',
+      processed_at: Time.current,
+      error_message: error_title
+    )
 
     # Find the campaign through the message
     campaign = CampaignContact.find_campaign_by_message_id(id)
