@@ -19,9 +19,9 @@ jobs:
         with:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v4
         with:
-          version: 9.3.0
+          version: 9.15.5
 
       - uses: actions/setup-node@v4
         with:
@@ -39,7 +39,7 @@ jobs:
       - name: setup env
         run: |
           cp .env.example .env
- 
+
       - name: Run asset compile
         run: bundle exec rake assets:precompile
         env:
@@ -47,5 +47,3 @@ jobs:
 
       - name: Size Check
         run: pnpm run size
-
-
