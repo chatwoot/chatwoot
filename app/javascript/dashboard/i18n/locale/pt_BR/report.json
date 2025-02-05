@@ -191,10 +191,10 @@
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Visão Geral dos Marcadores",
+    "HEADER": "Visão Geral das Etiquetas",
     "LOADING_CHART": "Carregando dados do gráfico...",
     "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
-    "DOWNLOAD_LABEL_REPORTS": "Baixar relatórios de marcadores",
+    "DOWNLOAD_LABEL_REPORTS": "Baixar relatórios de etiquetas",
     "FILTER_DROPDOWN_LABEL": "Selecionar etiqueta",
     "METRICS": {
       "CONVERSATIONS": {
