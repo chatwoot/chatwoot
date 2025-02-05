@@ -136,7 +136,7 @@
     "tailwindcss": "^3.4.13",
     "vite": "^5.4.12",
     "vite-plugin-ruby": "^5.0.0",
-    "vitest": "2.0.1"
+    "vitest": "2.1.9"
   },
   "engines": {
     "node": "20.x",
@@ -151,7 +151,7 @@
     "overrides": {
       "vite-node": "2.0.1",
       "vite": "5.4.12",
-      "vitest": "2.0.1"
+      "vitest": "2.1.9"
     }
   },
   "lint-staged": {
