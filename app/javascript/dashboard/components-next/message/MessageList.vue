@@ -19,6 +19,10 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  firstUnreadId: {
+    type: Number,
+    default: null,
+  },
   isAnEmailChannel: {
     type: Boolean,
     default: false,
@@ -26,10 +30,6 @@ const props = defineProps({
   inboxSupportsReplyTo: {
     type: Object,
     default: () => ({ incoming: false, outgoing: false }),
-  },
-  lastSeenAt: {
-    type: Number,
-    default: 0,
   },
   messages: {
     type: Array,
@@ -95,19 +95,19 @@ const getInReplyToMessage = parentMessage => {
 
   return replyMessage ? useCamelCase(replyMessage) : null;
 };
-
-const isUnread = (message, lastSeen) => {
-  return message.createdAt * 1000 > lastSeen * 1000;
-};
 </script>
 
 <template>
-  <ul class="px-4 bg-n-background next-messages-list">
+  <ul class="px-4 bg-n-background">
     <slot name="beforeAll" />
+    <slot name="unreadBadge" />
     <template v-for="(message, index) in allMessages" :key="message.id">
+      <slot
+        v-if="firstUnreadId && message.id === firstUnreadId"
+        name="unreadBadge"
+      />
       <Message
         v-bind="message"
-        :class="{ 'is-unread': isUnread(message, lastSeenAt) }"
         :is-email-inbox="isAnEmailChannel"
         :in-reply-to="getInReplyToMessage(message)"
         :group-with-next="shouldGroupWithNext(index, allMessages)"
@@ -119,22 +119,3 @@ const isUnread = (message, lastSeen) => {
     <slot name="after" />
   </ul>
 </template>
-
-<style>
-.message-bubble-container.is-unread:not(.is-unread ~ .is-unread) {
-  margin-top: 3rem;
-  position: relative;
-}
-
-.message-bubble-container.is-unread:not(.is-unread ~ .is-unread)::before {
-  content: var(--unread-label-text, 'New Messages');
-  position: absolute;
-  top: -40px;
-  left: 50%;
-  font-size: 11px;
-  color: rgb(var(--text-blue));
-  background: rgb(var(--solid-blue));
-  padding: 3px 8px;
-  border-radius: 100px;
-}
-</style>
