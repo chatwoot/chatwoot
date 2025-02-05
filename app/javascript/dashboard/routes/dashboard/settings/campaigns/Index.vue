@@ -46,9 +46,6 @@ export default {
     hideAddPopup() {
       this.showAddPopup = false;
     },
-    reloadPage() {
-      window.location.reload();
-    },
   },
 };
 </script>
@@ -56,17 +53,6 @@ export default {
 <template>
   <div class="flex-1 p-4 overflow-auto">
     <div class="flex items-center space-x-2">
-      <!-- Reload button to the left of add campaign button -->
-      <woot-button
-        v-if="isWhatsappType"
-        color-scheme="secondary"
-        class-names="button--fixed-left"
-        icon="repeat"
-        @click="reloadPage"
-      >
-        {{ refresh }}
-      </woot-button>
-
       <!-- Add campaign button -->
       <woot-button
         color-scheme="success"
