@@ -24,6 +24,7 @@
     "READ_MORE": "Tudj meg többet",
     "WROTE": "írta:",
     "FROM": "innen",
-    "EMAIL": "e-mail"
+    "EMAIL": "e-mail",
+    "EMAIL_SUBJECT": "tárgy"
   }
 }
