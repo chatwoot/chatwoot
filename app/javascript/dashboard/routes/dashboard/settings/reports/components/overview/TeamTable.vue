@@ -58,7 +58,9 @@ const defaulSpanRender = cellProps =>
   h(
     'span',
     {
-      class: cellProps.getValue() ? '' : 'text-slate-300 dark:text-slate-700',
+      class: cellProps.getValue()
+        ? 'capitalize text-n-slate-12'
+        : 'capitalize text-n-slate-11',
     },
     cellProps.getValue() ? cellProps.getValue() : '---'
   );
@@ -66,9 +68,8 @@ const defaulSpanRender = cellProps =>
 const columnHelper = createColumnHelper();
 const columns = [
   columnHelper.accessor('agent', {
-    header: t('OVERVIEW_REPORTS.TEAM_CONVERSATIONS.TABLE_HEADER.AGENT'),
+    header: t('OVERVIEW_REPORTS.TEAM_CONVERSATIONS.TABLE_HEADER.TEAM'),
     cell: defaulSpanRender,
-
     size: 250,
   }),
   columnHelper.accessor('open', {

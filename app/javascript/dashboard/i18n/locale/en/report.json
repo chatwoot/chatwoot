@@ -477,11 +477,12 @@
       }
     },
     "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
       "HEADER": "Conversations by teams",
       "LOADING_MESSAGE": "Loading team metrics...",
       "NO_TEAMS": "There is no data available",
       "TABLE_HEADER": {
-        "AGENT": "Team",
+        "TEAM": "Team",
         "OPEN": "Open",
         "UNATTENDED": "Unattended",
         "STATUS": "Status"

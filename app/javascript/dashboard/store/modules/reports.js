@@ -151,9 +151,10 @@ export const actions = {
         commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
       });
   },
-  fetchAccountConversationMetric({ commit }, reportObj) {
+  fetchAccountConversationMetric({ commit }, params = {}) {
     commit(types.default.TOGGLE_ACCOUNT_CONVERSATION_METRIC_LOADING, true);
-    Report.getConversationMetric(reportObj.type)
+    liveReports
+      .getConversationMetric(params)
       .then(accountConversationMetric => {
         commit(
           types.default.SET_ACCOUNT_CONVERSATION_METRIC,

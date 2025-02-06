@@ -61,8 +61,11 @@ const tableData = computed(() =>
 const defaulSpanRender = cellProps =>
   h(
     'span',
+
     {
-      class: cellProps.getValue() ? '' : 'text-slate-300 dark:text-slate-700',
+      class: cellProps.getValue()
+        ? 'capitalize text-n-slate-12'
+        : 'capitalize text-n-slate-11',
     },
     cellProps.getValue() ? cellProps.getValue() : '---'
   );

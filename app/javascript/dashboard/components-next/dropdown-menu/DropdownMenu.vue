@@ -29,6 +29,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  labelClass: {
+    type: String,
+    default: '',
+  },
 });
 
 const emit = defineEmits(['action']);
@@ -97,9 +101,13 @@ onMounted(() => {
       </slot>
       <Icon v-if="item.icon" :icon="item.icon" class="flex-shrink-0 size-3.5" />
       <span v-if="item.emoji" class="flex-shrink-0">{{ item.emoji }}</span>
-      <span v-if="item.label" class="min-w-0 text-sm truncate">{{
-        item.label
-      }}</span>
+      <span
+        v-if="item.label"
+        class="min-w-0 text-sm truncate"
+        :class="labelClass"
+      >
+        {{ item.label }}
+      </span>
     </button>
     <div
       v-if="filteredMenuItems.length === 0"
