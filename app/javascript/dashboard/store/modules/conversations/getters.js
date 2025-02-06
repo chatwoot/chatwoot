@@ -28,6 +28,7 @@ const getters = {
     const { messages = [] } = selectedChat;
     const lastEmail = [...messages].reverse().find(message => {
       const { message_type: messageType } = message;
+      if (message.private) return false;
 
       return [MESSAGE_TYPE.OUTGOING, MESSAGE_TYPE.INCOMING].includes(
         messageType
