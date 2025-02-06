@@ -24,6 +24,7 @@
     "READ_MORE": "Läs mer",
     "WROTE": "skrev:",
     "FROM": "från",
-    "EMAIL": "e-post"
+    "EMAIL": "e-post",
+    "EMAIL_SUBJECT": "ämne"
   }
 }
