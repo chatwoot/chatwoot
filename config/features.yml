@@ -94,3 +94,5 @@
   premium: true
 - name: chatwoot_v4
   enabled: false
+- name: report_v4
+  enabled: false

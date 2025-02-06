@@ -28,7 +28,7 @@ class V2::Reports::Timeseries::AverageReportBuilder < V2::Reports::Timeseries::B
   end
 
   def object_scope
-    scope.reporting_events.where(name: event_name, created_at: range)
+    scope.reporting_events.where(name: event_name, created_at: range, account_id: account.id)
   end
 
   def reporting_events

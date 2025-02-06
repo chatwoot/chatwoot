@@ -33,7 +33,7 @@
     "@breezystack/lamejs": "^1.2.7",
     "@chatwoot/ninja-keys": "1.2.3",
     "@chatwoot/prosemirror-schema": "1.1.1-next",
-    "@chatwoot/utils": "^0.0.32",
+    "@chatwoot/utils": "^0.0.35",
     "@formkit/core": "^1.6.7",
     "@formkit/vue": "^1.6.7",
     "@hcaptcha/vue3-hcaptcha": "^1.3.0",
@@ -111,7 +111,7 @@
     "@iconify-json/ri": "^1.2.3",
     "@iconify-json/teenyicons": "^1.2.1",
     "@size-limit/file": "^8.2.4",
-    "@vitest/coverage-v8": "2.0.1",
+    "@vitest/coverage-v8": "3.0.5",
     "@vue/test-utils": "^2.4.6",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.0",
@@ -134,13 +134,13 @@
     "prosemirror-model": "^1.22.3",
     "size-limit": "^8.2.4",
     "tailwindcss": "^3.4.13",
-    "vite": "^5.4.8",
+    "vite": "^5.4.12",
     "vite-plugin-ruby": "^5.0.0",
-    "vitest": "2.0.1"
+    "vitest": "3.0.5"
   },
   "engines": {
-    "node": "20.x",
-    "pnpm": "9.x"
+    "node": "23.x",
+    "pnpm": "10.x"
   },
   "husky": {
     "hooks": {
@@ -150,8 +150,8 @@
   "pnpm": {
     "overrides": {
       "vite-node": "2.0.1",
-      "vite": "5.4.8",
-      "vitest": "2.0.1"
+      "vite": "5.4.12",
+      "vitest": "3.0.5"
     }
   },
   "lint-staged": {
@@ -162,5 +162,6 @@
     "*.scss": [
       "scss-lint"
     ]
-  }
+  },
+  "packageManager": "pnpm@10.2.0+sha512.0d27364e0139c6aadeed65ada153135e0ca96c8da42123bd50047f961339dc7a758fc2e944b428f52be570d1bd3372455c1c65fa2e7aa0bfbf931190f9552001"
 }
