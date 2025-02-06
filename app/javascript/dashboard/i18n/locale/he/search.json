@@ -24,6 +24,7 @@
     "READ_MORE": "קרא עוד",
     "WROTE": "נכתב:",
     "FROM": "מ",
-    "EMAIL": "אימייל"
+    "EMAIL": "אימייל",
+    "EMAIL_SUBJECT": "נושא"
   }
 }
