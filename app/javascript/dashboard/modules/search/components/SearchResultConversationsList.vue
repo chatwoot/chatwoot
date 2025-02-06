@@ -1,9 +1,10 @@
 <script setup>
+import { defineProps, computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import SearchResultSection from './SearchResultSection.vue';
 import SearchResultConversationItem from './SearchResultConversationItem.vue';
 
-defineProps({
+const props = defineProps({
   conversations: {
     type: Array,
     default: () => [],
@@ -23,6 +24,13 @@ defineProps({
 });
 
 const accountId = useMapGetter('getCurrentAccountId');
+
+const conversationsWithSubject = computed(() => {
+  return props.conversations.map(conversation => ({
+    ...conversation,
+    mail_subject: conversation.additional_attributes?.mail_subject || '',
+  }));
+});
 </script>
 
 <template>
@@ -34,7 +42,10 @@ const accountId = useMapGetter('getCurrentAccountId');
     :is-fetching="isFetching"
   >
     <ul v-if="conversations.length" class="space-y-1.5 list-none">
-      <li v-for="conversation in conversations" :key="conversation.id">
+      <li
+        v-for="conversation in conversationsWithSubject"
+        :key="conversation.id"
+      >
         <SearchResultConversationItem
           :id="conversation.id"
           :name="conversation.contact.name"
@@ -42,6 +53,7 @@ const accountId = useMapGetter('getCurrentAccountId');
           :account-id="accountId"
           :inbox="conversation.inbox"
           :created-at="conversation.created_at"
+          :email-subject="conversation.mail_subject"
         />
       </li>
     </ul>
