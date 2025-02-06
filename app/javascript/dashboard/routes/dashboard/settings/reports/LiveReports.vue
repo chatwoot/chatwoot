@@ -115,8 +115,9 @@ export default {
         <MetricCard
           :header="$t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.HEADER')"
           :is-loading="uiFlags.isFetchingAccountConversationMetric"
-          :loading-message="$t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.LOADING_MESSAGE')
-            "
+          :loading-message="
+            $t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.LOADING_MESSAGE')
+          "
         >
           <div
             v-for="(metric, name, index) in conversationMetrics"
