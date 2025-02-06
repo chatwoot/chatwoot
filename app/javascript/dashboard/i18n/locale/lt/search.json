@@ -24,6 +24,7 @@
     "READ_MORE": "Skaityti daugiau",
     "WROTE": "parašei:",
     "FROM": "nuo",
-    "EMAIL": "el. paštas"
+    "EMAIL": "el. paštas",
+    "EMAIL_SUBJECT": "tema"
   }
 }
