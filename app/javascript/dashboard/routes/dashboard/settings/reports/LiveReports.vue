@@ -6,6 +6,7 @@ import { OVERVIEW_METRICS } from './constants';
 import ReportHeader from './components/ReportHeader.vue';
 import HeatmapContainer from './components/HeatmapContainer.vue';
 import AgentLiveReportContainer from './components/AgentLiveReportContainer.vue';
+import TeamLiveReportContainer from './components/TeamLiveReportContainer.vue';
 export const FETCH_INTERVAL = 60000;
 
 export default {
@@ -15,6 +16,7 @@ export default {
     MetricCard,
     HeatmapContainer,
     AgentLiveReportContainer,
+    TeamLiveReportContainer,
   },
   data() {
     return {
@@ -127,5 +129,6 @@ export default {
     </div>
     <HeatmapContainer />
     <AgentLiveReportContainer />
+    <TeamLiveReportContainer />
   </div>
 </template>

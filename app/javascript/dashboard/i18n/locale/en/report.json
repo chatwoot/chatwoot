@@ -476,6 +476,17 @@
         "STATUS": "Status"
       }
     },
+    "TEAM_CONVERSATIONS": {
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "AGENT": "Team",
+        "OPEN": "Open",
+        "UNATTENDED": "Unattended",
+        "STATUS": "Status"
+      }
+    },
     "AGENT_STATUS": {
       "HEADER": "Agent status",
       "ONLINE": "Online",
