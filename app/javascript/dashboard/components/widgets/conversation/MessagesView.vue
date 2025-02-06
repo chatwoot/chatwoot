@@ -501,7 +501,6 @@ export default {
     <NextMessageList
       v-if="showNextBubbles"
       class="conversation-panel"
-      :style="{ '--unread-label-text': `'${unreadMessageLabel}'` }"
       :current-user-id="currentUserId"
       :first-unread-id="unReadMessages[0]?.id"
       :is-an-email-channel="isAnEmailChannel"
@@ -519,12 +518,7 @@ export default {
       <template #unreadBadge>
         <li v-show="unreadMessageCount != 0" class="unread--toast">
           <span>
-            {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
-            {{
-              unreadMessageCount > 1
-                ? $t('CONVERSATION.UNREAD_MESSAGES')
-                : $t('CONVERSATION.UNREAD_MESSAGE')
-            }}
+            {{ unreadMessageLabel }}
           </span>
         </li>
       </template>
