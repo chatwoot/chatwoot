@@ -24,6 +24,7 @@
     "READ_MORE": "Lasīt vairāk",
     "WROTE": "rakstīja:",
     "FROM": "no",
-    "EMAIL": "e-pasts"
+    "EMAIL": "e-pasts",
+    "EMAIL_SUBJECT": "tēma"
   }
 }
