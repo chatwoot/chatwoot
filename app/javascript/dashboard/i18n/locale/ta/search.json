@@ -24,6 +24,7 @@
     "READ_MORE": "Read more",
     "WROTE": "wrote:",
     "FROM": "from",
-    "EMAIL": "இமெயில்"
+    "EMAIL": "இமெயில்",
+    "EMAIL_SUBJECT": "subject"
   }
 }
