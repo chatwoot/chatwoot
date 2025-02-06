@@ -24,6 +24,7 @@
     "READ_MORE": "Preberite več",
     "WROTE": "je napisal/a:",
     "FROM": "Od",
-    "EMAIL": "e-pošta"
+    "EMAIL": "e-pošta",
+    "EMAIL_SUBJECT": "subject"
   }
 }
