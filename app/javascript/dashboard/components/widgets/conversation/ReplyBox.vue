@@ -1002,87 +1002,84 @@ export default {
       this.ccEmails = value.ccEmails;
     },
     setCCAndToEmailsFromLastChat() {
+      // Reset emails if there's no lastEmail
       if (!this.lastEmail) {
-        // We reset the emails if there is no last email
-        // This is to ensure that the emails are not carried over to the next conversation
         this.ccEmails = '';
         this.bccEmails = '';
         this.toEmails = '';
         return;
       }
 
+      // Extract values from lastEmail and current conversation context
       const {
         content_attributes: { email: emailAttributes = {} },
         message_type: messageType,
       } = this.lastEmail;
 
       const conversationContact = this.currentChat?.meta?.sender?.email || '';
+
+      // this will be false if the last email was outgoing
       const isLastEmailFromContact =
         emailAttributes.from.includes(conversationContact);
 
-      // Retrieve the email of the current conversation's sender
-      let cc = emailAttributes.cc ? [...emailAttributes.cc] : [];
+      // Determine initial "to" list
       let to = [];
+      if (messageType === MESSAGE_TYPE.INCOMING) {
+        // Reply to sender if incoming
+        to.push(...emailAttributes.from);
+      } else {
+        // Otherwise, reply to the last recipient (for outgoing message)
+        to.push(...emailAttributes.to);
+      }
 
-      // if the existing email has multiple recipients, add them to the "cc" list
-      // this ensures that the recipients are not lost when replying to the conversation
+      // Start building the cc list, including additional recipients
+      // If the email had multiple recipients, include them in the cc list
+      let cc = emailAttributes.cc ? [...emailAttributes.cc] : [];
       if (Array.isArray(emailAttributes.to)) {
         cc.push(...emailAttributes.to);
       }
 
-      // If the last incoming message sender is different from the conversation contact, add them to the "to"
-      // and add the conversation contact to the CC
+      // Add the conversation contact to cc if the last email wasn't sent by them
       if (!isLastEmailFromContact) {
-        if (messageType === MESSAGE_TYPE.INCOMING) {
-          // if it's an incoming message, reply to the sender
-          to.push(...emailAttributes.from);
-        } else {
-          // if it's an outgoing message, reply to the last recipient
-          to.push(...emailAttributes.to);
-        }
-
         cc.push(conversationContact);
       }
 
-      // Remove the conversation contact's email from the BCC list if present
+      // Process BCC: Remove conversation contact from bcc as it is already in cc
       let bcc = (emailAttributes.bcc || []).filter(
         email => email !== conversationContact
       );
 
-      // ## Clear CC emails
+      // Filter out undesired emails from cc:
+      // - Remove conversation contact from cc if they sent the last email
+      // - Remove inbox and forward-to email to prevent loops
+      // - Remove emails matching the reply UUID pattern
       const { email: inboxEmail, forward_to_email: forwardToEmail } =
         this.inbox;
-      // The pattern is reply+<uuid>@<domain> ref: app/mailboxes/application_mailbox.rb
       const replyUUIDPattern =
         /^reply\+([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
 
       cc = cc.filter(email => {
-        // there might be a situation where the current conversation will include a message from a third person,
-        // and the current conversation contact is in CC.
-        // This is an edge-case, reported here: CW-1511 [ONLY FOR INTERNAL REFERENCE]
-        // So we remove the current conversation contact's email from the CC list if present
-        // However we only do this is the previous email was not from the current conversation contact
-        if (email === conversationContact && isLastEmailFromContact)
+        if (email === conversationContact && isLastEmailFromContact) {
           return false;
-
-        // We also remove the inbox email and chatwoot forward to from the CC list
-        // To prevent a redundant email loops, this will be
-        // the `from` address of the email anyway
-        if (email === inboxEmail) return false;
-        if (email === forwardToEmail) return false;
-        if (replyUUIDPattern.test(email)) return false;
-
+        }
+        if (email === inboxEmail || email === forwardToEmail) {
+          return false;
+        }
+        if (replyUUIDPattern.test(email)) {
+          return false;
+        }
         return true;
       });
 
-      // Ensure only unique email addresses are in the CC list
-      bcc = [...new Set(bcc)];
-      cc = [...new Set(cc)];
+      // Deduplicate each recipient list by converting to a Set then back to an array
       to = [...new Set(to)];
+      cc = [...new Set(cc)];
+      bcc = [...new Set(bcc)];
 
+      // Final assignment: join the email addresses with a comma and space.
+      this.toEmails = to.join(', ');
       this.ccEmails = cc.join(', ');
       this.bccEmails = bcc.join(', ');
-      this.toEmails = to.join(', ');
     },
     fetchAndSetReplyTo() {
       const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
