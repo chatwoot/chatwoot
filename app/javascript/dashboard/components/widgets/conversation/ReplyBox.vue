@@ -22,7 +22,6 @@ import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vu
 import AudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
 import { AUDIO_FORMATS } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { MESSAGE_TYPE } from 'shared/constants/messages';
 import {
   getMessageVariables,
   getUndefinedVariablesInMessage,
