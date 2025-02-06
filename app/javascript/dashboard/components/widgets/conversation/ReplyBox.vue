@@ -31,7 +31,7 @@ import {
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
-import { trimContent, debounce } from '@chatwoot/utils';
+import { trimContent, debounce, getRecipients } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
@@ -1002,81 +1002,17 @@ export default {
       this.ccEmails = value.ccEmails;
     },
     setCCAndToEmailsFromLastChat() {
-      // Reset emails if there's no lastEmail
-      if (!this.lastEmail) {
-        this.ccEmails = '';
-        this.bccEmails = '';
-        this.toEmails = '';
-        return;
-      }
-
-      // Extract values from lastEmail and current conversation context
-      const {
-        content_attributes: { email: emailAttributes = {} },
-        message_type: messageType,
-      } = this.lastEmail;
-
       const conversationContact = this.currentChat?.meta?.sender?.email || '';
-
-      // this will be false if the last email was outgoing
-      const isLastEmailFromContact =
-        emailAttributes.from.includes(conversationContact);
-
-      // Determine initial "to" list
-      let to = [];
-      if (messageType === MESSAGE_TYPE.INCOMING) {
-        // Reply to sender if incoming
-        to.push(...emailAttributes.from);
-      } else {
-        // Otherwise, reply to the last recipient (for outgoing message)
-        to.push(...emailAttributes.to);
-      }
-
-      // Start building the cc list, including additional recipients
-      // If the email had multiple recipients, include them in the cc list
-      let cc = emailAttributes.cc ? [...emailAttributes.cc] : [];
-      if (Array.isArray(emailAttributes.to)) {
-        cc.push(...emailAttributes.to);
-      }
-
-      // Add the conversation contact to cc if the last email wasn't sent by them
-      if (!isLastEmailFromContact) {
-        cc.push(conversationContact);
-      }
-
-      // Process BCC: Remove conversation contact from bcc as it is already in cc
-      let bcc = (emailAttributes.bcc || []).filter(
-        email => email !== conversationContact
-      );
-
-      // Filter out undesired emails from cc:
-      // - Remove conversation contact from cc if they sent the last email
-      // - Remove inbox and forward-to email to prevent loops
-      // - Remove emails matching the reply UUID pattern
       const { email: inboxEmail, forward_to_email: forwardToEmail } =
         this.inbox;
-      const replyUUIDPattern =
-        /^reply\+([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
 
-      cc = cc.filter(email => {
-        if (email === conversationContact && isLastEmailFromContact) {
-          return false;
-        }
-        if (email === inboxEmail || email === forwardToEmail) {
-          return false;
-        }
-        if (replyUUIDPattern.test(email)) {
-          return false;
-        }
-        return true;
-      });
+      const { cc, bcc, to } = getRecipients(
+        this.lastEmail,
+        conversationContact,
+        inboxEmail,
+        forwardToEmail
+      );
 
-      // Deduplicate each recipient list by converting to a Set then back to an array
-      to = [...new Set(to)];
-      cc = [...new Set(cc)];
-      bcc = [...new Set(bcc)];
-
-      // Final assignment: join the email addresses with a comma and space.
       this.toEmails = to.join(', ');
       this.ccEmails = cc.join(', ');
       this.bccEmails = bcc.join(', ');
