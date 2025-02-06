@@ -1,22 +1,20 @@
 <script>
 import { mapGetters } from 'vuex';
-import AgentTable from './components/overview/AgentTable.vue';
 import MetricCard from './components/overview/MetricCard.vue';
 import { OVERVIEW_METRICS } from './constants';
 
-import endOfDay from 'date-fns/endOfDay';
-import getUnixTime from 'date-fns/getUnixTime';
 import ReportHeader from './components/ReportHeader.vue';
 import HeatmapContainer from './components/HeatmapContainer.vue';
+import AgentLiveReportContainer from './components/AgentLiveReportContainer.vue';
 export const FETCH_INTERVAL = 60000;
 
 export default {
   name: 'LiveReports',
   components: {
     ReportHeader,
-    AgentTable,
     MetricCard,
     HeatmapContainer,
+    AgentLiveReportContainer,
   },
   data() {
     return {
@@ -28,9 +26,7 @@ export default {
   computed: {
     ...mapGetters({
       agentStatus: 'agents/getAgentStatus',
-      agents: 'agents/getAgents',
       accountConversationMetric: 'getAccountConversationMetric',
-      agentConversationMetric: 'getAgentConversationMetric',
       uiFlags: 'getOverviewUIFlags',
     }),
     agentStatusMetrics() {
@@ -55,7 +51,6 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('agents/get');
     this.initalizeReport();
   },
   beforeUnmount() {
@@ -76,30 +71,11 @@ export default {
     },
     fetchAllData() {
       this.fetchAccountConversationMetric();
-      this.fetchAgentConversationMetric();
     },
-    downloadHeatmapData() {
-      let to = endOfDay(new Date());
-
-      this.$store.dispatch('downloadAccountConversationHeatmap', {
-        to: getUnixTime(to),
-      });
-    },
-
     fetchAccountConversationMetric() {
       this.$store.dispatch('fetchAccountConversationMetric', {
         type: 'account',
       });
-    },
-    fetchAgentConversationMetric() {
-      this.$store.dispatch('fetchAgentConversationMetric', {
-        type: 'agent',
-        page: this.pageIndex + 1,
-      });
-    },
-    onPageNumberChange(pageIndex) {
-      this.pageIndex = pageIndex;
-      this.fetchAgentConversationMetric();
     },
   },
 };
@@ -115,9 +91,8 @@ export default {
         <MetricCard
           :header="$t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.HEADER')"
           :is-loading="uiFlags.isFetchingAccountConversationMetric"
-          :loading-message="
-            $t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.LOADING_MESSAGE')
-          "
+          :loading-message="$t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.LOADING_MESSAGE')
+            "
         >
           <div
             v-for="(metric, name, index) in conversationMetrics"
@@ -151,16 +126,6 @@ export default {
       </div>
     </div>
     <HeatmapContainer />
-    <div class="flex flex-row flex-wrap max-w-full">
-      <MetricCard :header="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.HEADER')">
-        <AgentTable
-          :agents="agents"
-          :agent-metrics="agentConversationMetric"
-          :page-index="pageIndex"
-          :is-loading="uiFlags.isFetchingAgentConversationMetric"
-          @page-change="onPageNumberChange"
-        />
-      </MetricCard>
-    </div>
+    <AgentLiveReportContainer />
   </div>
 </template>

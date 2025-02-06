@@ -4,6 +4,7 @@ import {
   useVueTable,
   createColumnHelper,
   getCoreRowModel,
+  getPaginationRowModel,
 } from '@tanstack/vue-table';
 import { useI18n } from 'vue-i18n';
 
@@ -13,7 +14,7 @@ import Table from 'dashboard/components/table/Table.vue';
 import Pagination from 'dashboard/components/table/Pagination.vue';
 import AgentCell from './AgentCell.vue';
 
-const { agents, agentMetrics, pageIndex } = defineProps({
+const { agents, agentMetrics } = defineProps({
   agents: {
     type: Array,
     default: () => [],
@@ -26,36 +27,36 @@ const { agents, agentMetrics, pageIndex } = defineProps({
     type: Boolean,
     default: false,
   },
-  pageIndex: {
-    type: Number,
-    default: 1,
-  },
 });
 
-const emit = defineEmits(['pageChange']);
 const { t } = useI18n();
 
-function getAgentInformation(id) {
-  return agents?.find(agent => agent.id === Number(id));
-}
+const getAgentMetrics = id =>
+  agentMetrics.find(metrics => metrics.assignee_id === Number(id)) || {};
 
-const totalCount = computed(() => agents.length);
-
-const tableData = computed(() => {
-  return agentMetrics
-    .filter(agentMetric => getAgentInformation(agentMetric.id))
+const tableData = computed(() =>
+  agents
     .map(agent => {
-      const agentInformation = getAgentInformation(agent.id);
+      const metric = getAgentMetrics(agent.id);
       return {
-        agent: agentInformation.name || agentInformation.available_name,
-        email: agentInformation.email,
-        thumbnail: agentInformation.thumbnail,
-        open: agent.metric.open ?? 0,
-        unattended: agent.metric.unattended ?? 0,
-        status: agentInformation.availability_status,
+        agent: agent.available_name || agent.name,
+        email: agent.email,
+        thumbnail: agent.thumbnail,
+        open: metric.open || 0,
+        unattended: metric.unattended || 0,
+        status: agent.availability_status,
       };
-    });
-});
+    })
+    .sort((a, b) => {
+      // First sort by open tickets (descending)
+      const openDiff = b.open - a.open;
+      // If open tickets are equal, sort by name (ascending)
+      if (openDiff === 0) {
+        return a.agent.localeCompare(b.agent);
+      }
+      return openDiff;
+    })
+);
 
 const defaulSpanRender = cellProps =>
   h(
@@ -86,100 +87,33 @@ const columns = [
   }),
 ];
 
-const paginationParams = computed(() => {
-  return {
-    pageIndex: pageIndex,
-    pageSize: 25,
-  };
-});
-
 const table = useVueTable({
   get data() {
     return tableData.value;
   },
   columns,
-  manualPagination: true,
   enableSorting: false,
   getCoreRowModel: getCoreRowModel(),
-  get rowCount() {
-    return totalCount.value;
-  },
-  state: {
-    get pagination() {
-      return paginationParams.value;
-    },
-  },
-  onPaginationChange: updater => {
-    const newPagintaion = updater(paginationParams.value);
-    emit('pageChange', newPagintaion.pageIndex);
-  },
+  getPaginationRowModel: getPaginationRowModel(),
 });
 </script>
 
 <template>
-  <div class="agent-table-container">
+  <div class="flex flex-col flex-1">
     <Table :table="table" class="max-h-[calc(100vh-21.875rem)]" />
     <Pagination class="mt-2" :table="table" />
-    <div v-if="isLoading" class="agents-loader">
+    <div
+      v-if="isLoading"
+      class="items-center flex text-base justify-center p-8"
+    >
       <Spinner />
-      <span>{{
-        $t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.LOADING_MESSAGE')
-      }}</span>
+      <span>
+        {{ $t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.LOADING_MESSAGE') }}
+      </span>
     </div>
     <EmptyState
-      v-else-if="!isLoading && !agentMetrics.length"
+      v-else-if="!isLoading && !agents.length"
       :title="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.NO_AGENTS')"
     />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.agent-table-container {
-  @apply flex flex-col flex-1;
-
-  .ve-table {
-    &::v-deep {
-      th.ve-table-header-th {
-        @apply text-sm rounded-xl;
-        padding: var(--space-small) var(--space-two) !important;
-      }
-
-      td.ve-table-body-td {
-        padding: var(--space-one) var(--space-two) !important;
-      }
-    }
-  }
-
-  &::v-deep .ve-pagination {
-    @apply bg-transparent dark:bg-transparent;
-  }
-
-  &::v-deep .ve-pagination-select {
-    @apply hidden;
-  }
-
-  .row-user-block {
-    @apply items-center flex text-left;
-
-    .user-block {
-      @apply items-start flex flex-col min-w-0 my-0 mx-2;
-
-      .title {
-        @apply text-sm m-0 leading-[1.2] text-slate-800 dark:text-slate-100;
-      }
-
-      .sub-title {
-        @apply text-xs text-slate-600 dark:text-slate-200;
-      }
-    }
-  }
-
-  .table-pagination {
-    @apply mt-4 text-right;
-  }
-}
-
-.agents-loader {
-  @apply items-center flex text-base justify-center p-8;
-}
-</style>

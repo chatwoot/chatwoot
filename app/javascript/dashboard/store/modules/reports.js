@@ -5,6 +5,7 @@ import { downloadCsvFile, generateFileName } from '../../helper/downloadHelper';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
 import { clampDataBetweenTimeline } from 'shared/helpers/ReportsDataHelper';
+import liveReports from '../../api/liveReports';
 
 const state = {
   fetchingStatus: false,
@@ -159,9 +160,10 @@ export const actions = {
         commit(types.default.TOGGLE_ACCOUNT_CONVERSATION_METRIC_LOADING, false);
       });
   },
-  fetchAgentConversationMetric({ commit }, reportObj) {
+  fetchAgentConversationMetric({ commit }) {
     commit(types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING, true);
-    Report.getConversationMetric(reportObj.type, reportObj.page)
+    liveReports
+      .getGroupedConversations({ groupBy: 'assignee_id' })
       .then(agentConversationMetric => {
         commit(
           types.default.SET_AGENT_CONVERSATION_METRIC,
