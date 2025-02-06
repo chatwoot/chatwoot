@@ -24,6 +24,7 @@
     "READ_MORE": "Meer lezen",
     "WROTE": "schreef:",
     "FROM": "van",
-    "EMAIL": "e-mailadres"
+    "EMAIL": "e-mailadres",
+    "EMAIL_SUBJECT": "onderwerp"
   }
 }
