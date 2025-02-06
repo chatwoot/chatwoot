@@ -24,6 +24,7 @@
     "READ_MORE": "ادامه مطلب",
     "WROTE": "نوشت:",
     "FROM": "از",
-    "EMAIL": "ایمیل"
+    "EMAIL": "ایمیل",
+    "EMAIL_SUBJECT": "موضوع"
   }
 }
