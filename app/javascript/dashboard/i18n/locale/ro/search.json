@@ -24,6 +24,7 @@
     "READ_MORE": "Citeşte mai mult",
     "WROTE": "scrisese:",
     "FROM": "de la",
-    "EMAIL": "e-mail"
+    "EMAIL": "e-mail",
+    "EMAIL_SUBJECT": "subiect"
   }
 }
