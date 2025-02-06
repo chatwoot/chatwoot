@@ -90,7 +90,7 @@ const createdAtTime = dynamicTime(props.createdAt);
           {{ createdAtTime }}
         </span>
       </div>
-      <div class="flex gap-2">
+      <div class="flex flex-wrap gap-x-2 gap-y-1.5">
         <h5
           v-if="name"
           class="m-0 text-sm min-w-0 truncate text-n-slate-12 dark:text-n-slate-12"
@@ -111,8 +111,6 @@ const createdAtTime = dynamicTime(props.createdAt);
           </span>
           {{ email }}
         </h5>
-      </div>
-      <div class="flex gap-2">
         <h5
           v-if="emailSubject"
           class="m-0 overflow-hidden text-sm text-n-slate-12 dark:text-n-slate-12 truncate"
