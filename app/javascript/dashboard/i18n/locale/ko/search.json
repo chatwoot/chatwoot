@@ -24,6 +24,7 @@
     "READ_MORE": "Read more",
     "WROTE": "wrote:",
     "FROM": "에서",
-    "EMAIL": "이메일"
+    "EMAIL": "이메일",
+    "EMAIL_SUBJECT": "subject"
   }
 }
