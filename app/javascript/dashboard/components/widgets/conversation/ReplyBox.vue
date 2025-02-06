@@ -22,6 +22,7 @@ import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vu
 import AudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
 import { AUDIO_FORMATS } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { MESSAGE_TYPE } from 'shared/constants/messages';
 import {
   getMessageVariables,
   getUndefinedVariablesInMessage,
@@ -1012,6 +1013,7 @@ export default {
 
       const {
         content_attributes: { email: emailAttributes = {} },
+        message_type: messageType,
       } = this.lastEmail;
 
       const conversationContact = this.currentChat?.meta?.sender?.email || '';
@@ -1031,7 +1033,14 @@ export default {
       // If the last incoming message sender is different from the conversation contact, add them to the "to"
       // and add the conversation contact to the CC
       if (!isLastEmailFromContact) {
-        to.push(...emailAttributes.from);
+        if (messageType === MESSAGE_TYPE.INCOMING) {
+          // if it's an incoming message, reply to the sender
+          to.push(...emailAttributes.from);
+        } else {
+          // if it's an outgoing message, reply to the last recipient
+          to.push(...emailAttributes.to);
+        }
+
         cc.push(conversationContact);
       }
 
