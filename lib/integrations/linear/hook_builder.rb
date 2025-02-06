@@ -25,25 +25,19 @@ class Integrations::Linear::HookBuilder
   end
 
   def fetch_access_token
-    response = RestClient.post('https://api.linear.app/oauth/token',
-                               {
-                                 code: params[:code],
-                                 client_id: ENV.fetch('LINEAR_CLIENT_ID', 'TEST_CLIENT_ID'),
-                                 client_secret: ENV.fetch('LINEAR_CLIENT_SECRET', 'TEST_CLIENT_SECRET'),
-                                 redirect_uri: linear_redirect_uri,
-                                 grant_type: 'authorization_code'
-                               },
-                               { content_type: 'application/x-www-form-urlencoded' })
+    response = HTTParty.post('https://api.linear.app/oauth/token',
+                             body: {
+                               code: params[:code],
+                               client_id: ENV.fetch('LINEAR_CLIENT_ID', 'TEST_CLIENT_ID'),
+                               client_secret: ENV.fetch('LINEAR_CLIENT_SECRET', 'TEST_CLIENT_SECRET'),
+                               redirect_uri: linear_redirect_uri,
+                               grant_type: 'authorization_code'
+                             },
+                             headers: { 'Content-Type' => 'application/x-www-form-urlencoded' })
 
-    JSON.parse(response.body)['access_token']
-  rescue RestClient::Exception => e
-    Rails.logger.error "Linear OAuth Error: #{e.response.body}"
-    error_message = begin
-      JSON.parse(e.response.body)['error_description'] || 'Failed to authenticate with Linear'
-    rescue JSON::ParserError
-      'Failed to authenticate with Linear'
-    end
-    raise StandardError, error_message
+    raise StandardError, response['error_description'] || 'Failed to authenticate with Linear' unless response.success?
+
+    response['access_token']
   end
 
   def linear_redirect_uri

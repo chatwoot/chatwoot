@@ -22,4 +22,34 @@ describe Integrations::Linear::HookBuilder do
       expect(hook.inbox_id).to eql(inbox.id)
     end
   end
+
+  context 'when authentication fails' do
+    it 'raises error when Linear returns error description' do
+      builder = described_class.new(account: account, code: code, inbox_id: inbox.id)
+      error_response = instance_double(
+        HTTParty::Response,
+        :success? => false,
+        :body => {},
+        :[] => 'Invalid code'
+      )
+
+      allow(HTTParty).to receive(:post).and_return(error_response)
+
+      expect { builder.perform }.to raise_error(StandardError, 'Invalid code')
+    end
+
+    it 'raises default error when Linear returns no error description' do
+      builder = described_class.new(account: account, code: code, inbox_id: inbox.id)
+      error_response = instance_double(
+        HTTParty::Response,
+        :success? => false,
+        :body => {},
+        :[] => nil
+      )
+
+      allow(HTTParty).to receive(:post).and_return(error_response)
+
+      expect { builder.perform }.to raise_error(StandardError, 'Failed to authenticate with Linear')
+    end
+  end
 end
