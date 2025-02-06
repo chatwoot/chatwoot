@@ -24,6 +24,7 @@
     "READ_MORE": "Baca lebih lanjut",
     "WROTE": "menulis:",
     "FROM": "dari",
-    "EMAIL": "email"
+    "EMAIL": "email",
+    "EMAIL_SUBJECT": "masukkan subjek"
   }
 }
