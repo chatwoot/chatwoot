@@ -35,6 +35,10 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  emailSubject: {
+    type: String,
+    default: '',
+  },
 });
 
 const navigateTo = computed(() => {
@@ -49,6 +53,28 @@ const navigateTo = computed(() => {
 });
 
 const createdAtTime = dynamicTime(props.createdAt);
+
+const infoItems = computed(() => [
+  {
+    label: 'SEARCH.FROM',
+    value: props.name,
+    show: !!props.name,
+  },
+  {
+    label: 'SEARCH.EMAIL',
+    value: props.email,
+    show: !!props.email,
+  },
+  {
+    label: 'SEARCH.EMAIL_SUBJECT',
+    value: props.emailSubject,
+    show: !!props.emailSubject,
+  },
+]);
+
+const visibleInfoItems = computed(() =>
+  infoItems.value.filter(item => item.show)
+);
 </script>
 
 <template>
@@ -86,26 +112,18 @@ const createdAtTime = dynamicTime(props.createdAt);
           {{ createdAtTime }}
         </span>
       </div>
-      <div class="flex gap-2">
+      <div class="flex flex-wrap gap-x-2 gap-y-1.5">
         <h5
-          v-if="name"
-          class="m-0 text-sm min-w-0 truncate text-n-slate-12 dark:text-n-slate-12"
-        >
-          <span class="text-xs font-norma text-n-slate-11 dark:text-n-slate-11">
-            {{ $t('SEARCH.FROM') }}:
-          </span>
-          {{ name }}
-        </h5>
-        <h5
-          v-if="email"
-          class="m-0 overflow-hidden text-sm text-n-slate-12 dark:text-n-slate-12 truncate"
+          v-for="item in visibleInfoItems"
+          :key="item.label"
+          class="m-0 text-sm min-w-0 text-n-slate-12 dark:text-n-slate-12 truncate"
         >
           <span
             class="text-xs font-normal text-n-slate-11 dark:text-n-slate-11"
           >
-            {{ $t('SEARCH.EMAIL') }}:
+            {{ $t(item.label) }}:
           </span>
-          {{ email }}
+          {{ item.value }}
         </h5>
       </div>
       <slot />
