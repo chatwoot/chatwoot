@@ -24,6 +24,7 @@
     "READ_MORE": "Read more",
     "WROTE": "wrote:",
     "FROM": "od",
-    "EMAIL": "e-mailová adresa"
+    "EMAIL": "e-mailová adresa",
+    "EMAIL_SUBJECT": "předmět"
   }
 }
