@@ -11,8 +11,8 @@
       "CONVERSATIONS": "会話データ",
       "MESSAGES": "メッセージ"
     },
-    "VIEW_MORE": "View more",
-    "LOAD_MORE": "Load more",
+    "VIEW_MORE": "さらに表示",
+    "LOAD_MORE": "さらに読み込む",
     "SEARCHING_DATA": "検索中",
     "LOADING_DATA": "読み込み中",
     "EMPTY_STATE": "{item} がクエリ '{query}' に対して見つかりませんでした。",
@@ -24,6 +24,7 @@
     "READ_MORE": "さらに読む",
     "WROTE": "書き込み:",
     "FROM": "差出人:",
-    "EMAIL": "eメール"
+    "EMAIL": "eメール",
+    "EMAIL_SUBJECT": "件名を入力してください"
   }
 }
