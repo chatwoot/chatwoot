@@ -35,9 +35,9 @@ class Integrations::Linear::HookBuilder
                              },
                              headers: { 'Content-Type' => 'application/x-www-form-urlencoded' })
 
-    raise StandardError, response['error_description'] || 'Failed to authenticate with Linear' unless response.success?
+    raise StandardError, response.parsed_response['error_description'] || 'Failed to authenticate with Linear' unless response.success?
 
-    response['access_token']
+    response.parsed_response['access_token']
   end
 
   def linear_redirect_uri

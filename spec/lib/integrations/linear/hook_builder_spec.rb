@@ -28,9 +28,9 @@ describe Integrations::Linear::HookBuilder do
       builder = described_class.new(account: account, code: code, inbox_id: inbox.id)
       error_response = instance_double(
         HTTParty::Response,
-        :success? => false,
-        :body => {},
-        :[] => 'Invalid code'
+        success?: false,
+        body: {},
+        parsed_response: { 'error_description' => 'Invalid code' }
       )
 
       allow(HTTParty).to receive(:post).and_return(error_response)
@@ -42,9 +42,9 @@ describe Integrations::Linear::HookBuilder do
       builder = described_class.new(account: account, code: code, inbox_id: inbox.id)
       error_response = instance_double(
         HTTParty::Response,
-        :success? => false,
-        :body => {},
-        :[] => nil
+        success?: false,
+        body: {},
+        parsed_response: {}
       )
 
       allow(HTTParty).to receive(:post).and_return(error_response)
