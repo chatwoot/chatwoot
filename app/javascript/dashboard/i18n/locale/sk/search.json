@@ -24,6 +24,7 @@
     "READ_MORE": "Read more",
     "WROTE": "wrote:",
     "FROM": "od",
-    "EMAIL": "e-mail"
+    "EMAIL": "e-mail",
+    "EMAIL_SUBJECT": "predmet"
   }
 }
