@@ -24,6 +24,7 @@
     "READ_MORE": "Saiba mais",
     "WROTE": "escreveu:",
     "FROM": "De",
-    "EMAIL": "e-mail"
+    "EMAIL": "e-mail",
+    "EMAIL_SUBJECT": "assunto"
   }
 }
