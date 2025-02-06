@@ -24,6 +24,7 @@
     "READ_MORE": "Детальніше",
     "WROTE": "написав(ла):",
     "FROM": "від",
-    "EMAIL": "email"
+    "EMAIL": "email",
+    "EMAIL_SUBJECT": "тема"
   }
 }
