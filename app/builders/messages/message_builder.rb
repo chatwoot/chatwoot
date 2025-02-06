@@ -3,6 +3,8 @@ class Messages::MessageBuilder
   attr_reader :message
 
   # rubocop:disable  Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/PerceivedComplexity
   def initialize(user, conversation, params)
     @params = params
     @private = params[:private] || false
@@ -26,6 +28,8 @@ class Messages::MessageBuilder
     check_parent_source_id
   end
   # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/PerceivedComplexity
 
   def perform
     return @message if duplicate_message
@@ -222,7 +226,7 @@ class Messages::MessageBuilder
       echo_id: @params[:echo_id],
       source_id: @params[:source_id],
       reply_to_comment_id: @reply_to_comment_id
-    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params).merge(ignore_automation_rules).merge(disable_notifications).merge(disable_webhook_notifications).merge(template_params_stringified)
+    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params).merge(ignore_automation_rules).merge(disable_notifications).merge(disable_webhook_notifications).merge(template_params_stringified).merge(comment_id)
   end
   # rubocop:enable Layout/LineLength
 end
