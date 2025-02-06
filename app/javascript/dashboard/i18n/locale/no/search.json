@@ -24,6 +24,7 @@
     "READ_MORE": "Read more",
     "WROTE": "wrote:",
     "FROM": "fra",
-    "EMAIL": "e-post"
+    "EMAIL": "e-post",
+    "EMAIL_SUBJECT": "subject"
   }
 }
