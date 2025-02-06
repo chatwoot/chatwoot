@@ -166,9 +166,9 @@ ja:
       muted: '%{user_name} が会話をミュートしました'
       unmuted: '%{user_name} が会話のミュートを解除しました'
     templates:
-      greeting_message_body: '%{account_name} は通常数時間で返信します。'
-      ways_to_reach_you_message_body: 'チームがあなたに連絡する方法を設定してください'
-      email_input_box_message_body: 'Eメールで通知を受ける'
+      greeting_message_body: '%{account_name} は通常数時間以内に返信します。'
+      ways_to_reach_you_message_body: 'ご連絡先をご入力ください。'
+      email_input_box_message_body: '通知先Eメールアドレス'
       csat_input_message_body: '会話を評価してください'
     reply:
       email:
