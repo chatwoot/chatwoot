@@ -46,10 +46,10 @@ export default {
     async intializeLinearIntegration() {
       await this.$store.dispatch('integrations/get', 'linear');
       if (this.code) {
-        await this.$store.dispatch('integrations/connectLinearApp', this.code);
+        await this.$store.dispatch('integrations/connectLinear', this.code);
         // Clear the query param `code` from the URL as the
         // subsequent reloads would result in an error
-        // this.$router.replace(this.$route.path);
+        this.$router.replace(this.$route.path);
       }
       this.integrationLoaded = true;
     },

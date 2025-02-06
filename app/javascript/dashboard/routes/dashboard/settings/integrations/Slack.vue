@@ -64,7 +64,7 @@ export default {
       await this.$store.dispatch('integrations/get', 'slack');
       if (this.code) {
         await this.$store.dispatch('integrations/connectSlack', this.code);
-        // Clear the query param `code` from the URL as the 
+        // Clear the query param `code` from the URL as the
         // subsequent reloads would result in an error
         this.$router.replace(this.$route.path);
       }

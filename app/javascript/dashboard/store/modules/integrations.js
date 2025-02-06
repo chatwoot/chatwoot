@@ -48,7 +48,7 @@ export const actions = {
     }
   },
 
-  connectLinearApp: async ({ commit }, code) => {
+  connectLinear: async ({ commit }, code) => {
     commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isCreatingLinear: true });
     try {
       const response = await IntegrationsAPI.connectLinear(code);
