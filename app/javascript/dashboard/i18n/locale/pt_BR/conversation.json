@@ -274,7 +274,7 @@
     },
     "CANNED_RESPONSES": {
       "TITLE": "Criar respostas prontas",
-      "DESCRIPTION": "Os modelos de resposta rápida ajudam você a responder rapidamente a uma conversa. Os agentes podem digitar o caractere '/' seguido pelo atalho para inserir uma resposta.",
+      "DESCRIPTION": "Os modelos de respostas prontas ajudam você a responder rapidamente a uma conversa. Os agentes podem digitar o caractere '/' seguido pelo atalho para inserir uma resposta.",
       "NEW_LINK": "Clique aqui para criar uma resposta pronta"
     }
   },
@@ -355,9 +355,9 @@
     "MULTIPLE": "{user} e {count} outros estão digitando"
   },
   "COPILOT": {
-    "TRY_THESE_PROMPTS": "Experimente estes prompts"
+    "TRY_THESE_PROMPTS": "Experimente estes comandos"
   },
   "GALLERY_VIEW": {
-    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
+    "ERROR_DOWNLOADING": " enter"
   }
 }
