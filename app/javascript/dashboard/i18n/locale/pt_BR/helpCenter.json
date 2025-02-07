@@ -496,7 +496,7 @@
           "DROPDOWN_MENU": {
             "PUBLISH": "Publicar",
             "DRAFT": "Rascunho",
-            "ARCHIVE": "Archive",
+            "ARCHIVE": "Arquivar",
             "DELETE": "Excluir"
           },
           "STATUS": {
@@ -654,8 +654,8 @@
         "PREVIEW": "Pré-visualizar",
         "PUBLISH": "Publicar",
         "DRAFT": "Rascunho",
-        "ARCHIVE": "Archive",
-        "BACK_TO_ARTICLES": "Back to articles"
+        "ARCHIVE": "Arquivar",
+        "BACK_TO_ARTICLES": "Voltar aos artigos"
       },
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "More properties",
