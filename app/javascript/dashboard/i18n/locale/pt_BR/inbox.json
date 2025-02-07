@@ -1,7 +1,7 @@
 {
   "INBOX": {
     "LIST": {
-      "TITLE": "Minha Caixa de Entrada",
+      "TITLE": "Caixa de Entrada",
       "DISPLAY_DROPDOWN": "Exibir",
       "LOADING": "Carregando notificações",
       "404": "Não há conversas ativas neste grupo.",
