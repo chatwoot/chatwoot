@@ -254,7 +254,7 @@
     "SWITCH": "Trocar",
     "INBOX_VIEW": "",
     "CONVERSATIONS": "Conversas",
-    "INBOX": "Minha Caixa de Entrada",
+    "INBOX": "Caixa de Entrada",
     "ALL_CONVERSATIONS": "Todas as conversas",
     "MENTIONED_CONVERSATIONS": "Menções",
     "PARTICIPATING_CONVERSATIONS": "Participantes",
@@ -346,7 +346,7 @@
       "BUTTON_TXT": "Buy more credits",
       "DOCUMENTS": "Documents",
       "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
+      "UPGRADE": "O capitão não está disponível no plano gratuito, faça o upgrade para ter acesso aos assistentes, co-piloto e muito mais."
     },
     "CHAT_WITH_US": {
       "TITLE": "Precisa de ajuda?",
