@@ -22,9 +22,9 @@
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Atalho",
+          "LABEL": "Respostas prontas",
           "PLACEHOLDER": "Por favor, insira um atalho.",
-          "ERROR": "O Atalho é obrigatório."
+          "ERROR": "O atalho é obrigatório."
         },
         "CONTENT": {
           "LABEL": "Messagem",
@@ -43,9 +43,9 @@
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Atalho",
+          "LABEL": "Respostas prontas",
           "PLACEHOLDER": "Por favor, insira um atalho.",
-          "ERROR": "O Atalho é obrigatório."
+          "ERROR": "O atalho é obrigatório."
         },
         "CONTENT": {
           "LABEL": "Mensagem",
