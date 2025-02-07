@@ -1,5 +1,12 @@
 <script setup>
-import { defineAsyncComponent, ref, computed, watch, nextTick } from 'vue';
+import {
+  defineAsyncComponent,
+  ref,
+  computed,
+  watch,
+  nextTick,
+  onMounted,
+} from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useFileUpload } from 'dashboard/composables/useFileUpload';
@@ -77,17 +84,29 @@ const toggleMessageSignature = () => {
   setSignature();
 };
 
-// Added this watch to dynamically set signature.
 // Only targetInbox has value and is Advance Editor(used by isEmailOrWebWidgetInbox)
 // Set the signature only if the inbox based flag is true
+const handleSignatureSetup = () => {
+  nextTick(() => {
+    if (props.hasSelectedInbox && props.isEmailOrWebWidgetInbox) {
+      setSignature();
+    }
+  });
+};
+
+// Added this watch to dynamically set signature on target inbox change.
 watch(
   () => props.hasSelectedInbox,
   newValue => {
-    nextTick(() => {
-      if (newValue && props.isEmailOrWebWidgetInbox) setSignature();
-    });
+    if (newValue) handleSignatureSetup();
   }
 );
+
+// Added mounted to set signature if the signature is enabled for the inbox
+// and the target inbox is selected and is email or web widget.
+onMounted(() => {
+  handleSignatureSetup();
+});
 
 const onClickInsertEmoji = emoji => {
   emit('insertEmoji', emoji);
