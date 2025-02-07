@@ -84,29 +84,18 @@ const toggleMessageSignature = () => {
   setSignature();
 };
 
+// Added this watch to dynamically set signature on target inbox change.
 // Only targetInbox has value and is Advance Editor(used by isEmailOrWebWidgetInbox)
 // Set the signature only if the inbox based flag is true
-const handleSignatureSetup = () => {
-  nextTick(() => {
-    if (props.hasSelectedInbox && props.isEmailOrWebWidgetInbox) {
-      setSignature();
-    }
-  });
-};
-
-// Added this watch to dynamically set signature on target inbox change.
 watch(
   () => props.hasSelectedInbox,
   newValue => {
-    if (newValue) handleSignatureSetup();
-  }
+    nextTick(() => {
+      if (newValue && props.isEmailOrWebWidgetInbox) setSignature();
+    });
+  },
+  { immediate: true }
 );
-
-// Added mounted to set signature if the signature is enabled for the inbox
-// and the target inbox is selected and is email or web widget.
-onMounted(() => {
-  handleSignatureSetup();
-});
 
 const onClickInsertEmoji = emoji => {
   emit('insertEmoji', emoji);
