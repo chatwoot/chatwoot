@@ -17,7 +17,7 @@ trigger_scheduled_items_job:
 trigger_imap_email_inboxes_job:
   cron: '*/1 * * * *'
   class: 'Inboxes::FetchImapEmailInboxesJob'
-  queue: scheduled_jobs
+  queue: one_min_mailer
 
 # executed daily at 2230 UTC
 # which is our lowest traffic time
