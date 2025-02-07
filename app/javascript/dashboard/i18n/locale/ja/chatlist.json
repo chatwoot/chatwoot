@@ -99,6 +99,9 @@
       },
       "fallback": {
         "CONTENT": "URLを共有しています"
+      },
+      "contact": {
+        "CONTENT": "共有連絡先"
       }
     },
     "CHAT_SORT_BY_FILTER": {
