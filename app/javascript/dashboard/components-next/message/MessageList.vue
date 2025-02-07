@@ -127,7 +127,7 @@ const getMessageSpacingClass = (message, messages, index) => {
         :group-with-next="shouldGroupWithNext(index, allMessages)"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :current-user-id="currentUserId"
-        :class="getMessageSpacingClass(message, read, index)"
+        :class="getMessageSpacingClass(message, allMessages, index)"
         data-clarity-mask="True"
       />
     </template>
