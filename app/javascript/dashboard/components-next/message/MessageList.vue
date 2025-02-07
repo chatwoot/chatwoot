@@ -15,17 +15,13 @@ import { useCamelCase } from 'dashboard/composables/useTransformKeys';
  * @property {Array} messages - Array of all messages [These are not in camelcase]
  */
 const props = defineProps({
-  readMessages: {
-    type: Array,
-    default: () => [],
-  },
-  unReadMessages: {
-    type: Array,
-    default: () => [],
-  },
   currentUserId: {
     type: Number,
     required: true,
+  },
+  firstUnreadId: {
+    type: Number,
+    default: null,
   },
   isAnEmailChannel: {
     type: Boolean,
@@ -41,12 +37,8 @@ const props = defineProps({
   },
 });
 
-const unread = computed(() => {
-  return useCamelCase(props.unReadMessages, { deep: true });
-});
-
-const read = computed(() => {
-  return useCamelCase(props.readMessages, { deep: true });
+const allMessages = computed(() => {
+  return useCamelCase(props.messages, { deep: true });
 });
 
 /**
@@ -123,28 +115,19 @@ const getMessageSpacingClass = (message, messages, index) => {
 <template>
   <ul class="px-4 bg-n-background">
     <slot name="beforeAll" />
-    <template v-for="(message, index) in read" :key="message.id">
+    <template v-for="(message, index) in allMessages" :key="message.id">
+      <slot
+        v-if="firstUnreadId && message.id === firstUnreadId"
+        name="unreadBadge"
+      />
       <Message
         v-bind="message"
         :is-email-inbox="isAnEmailChannel"
         :in-reply-to="getInReplyToMessage(message)"
-        :group-with-next="shouldGroupWithNext(index, read)"
+        :group-with-next="shouldGroupWithNext(index, allMessages)"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :current-user-id="currentUserId"
         :class="getMessageSpacingClass(message, read, index)"
-        data-clarity-mask="True"
-      />
-    </template>
-    <slot name="beforeUnread" />
-    <template v-for="(message, index) in unread" :key="message.id">
-      <Message
-        v-bind="message"
-        :in-reply-to="getInReplyToMessage(message)"
-        :group-with-next="shouldGroupWithNext(index, unread)"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :current-user-id="currentUserId"
-        :is-email-inbox="isAnEmailChannel"
-        :class="getMessageSpacingClass(message, unread, index)"
         data-clarity-mask="True"
       />
     </template>
