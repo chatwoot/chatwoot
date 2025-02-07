@@ -73,7 +73,7 @@ class Whatsapp::Providers::BaseService
     rows = create_rows(message.content_attributes['items'])
     section1 = { 'rows' => rows }
     sections = [section1]
-    json_hash = { :button => 'Choose an item', 'sections' => sections }
+    json_hash = { :button => I18n.t('whatsapp.interactive.list.button_label'), 'sections' => sections }
     create_payload('list', message.content, JSON.generate(json_hash))
   end
 end
