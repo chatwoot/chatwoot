@@ -222,18 +222,18 @@
       }
     },
     "LINEAR": {
-      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
+      "ADD_OR_LINK_BUTTON": "Criar/Ligar Issue Linear",
       "LOADING": "Fetching linear issues...",
       "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
       "CREATE": "Criar",
       "LINK": {
-        "SEARCH": "Search issues",
-        "SELECT": "Select issue",
+        "SEARCH": "Pesquisar issues",
+        "SELECT": "Selecionar problema",
         "TITLE": "Link",
         "EMPTY_LIST": "",
         "LOADING": "Carregando",
         "ERROR": "",
-        "LINK_SUCCESS": "Issue linked successfully",
+        "LINK_SUCCESS": "Questão vinculada com sucesso",
         "LINK_ERROR": "There was an error linking the issue, please try again",
         "LINK_TITLE": "Conversa (#{conversationId}) com {name}"
       },
@@ -313,14 +313,14 @@
       "RESET": "Reset"
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
+      "TITLE": "Atualize para usar o Capitão IA",
+      "AVAILABLE_ON": "O Capitão não está disponível no plano gratuito.",
       "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
       "UPGRADE_NOW": "Atualizar agora",
       "CANCEL_ANYTIME": "Você pode alterar ou cancelar seu plano a qualquer momento"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI feature is only available in a paid plan.",
+      "AVAILABLE_ON": "",
       "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
       "ASK_ADMIN": "Entre em contato com seu administrador para fazer a atualização."
     },
@@ -346,22 +346,22 @@
       "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
       "CREATE": {
         "TITLE": "Criar um assistente",
-        "SUCCESS_MESSAGE": "The assistant has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
+        "SUCCESS_MESSAGE": "O assistente foi criado com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro ao criar o assistente, por favor tente novamente."
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Assistant Name",
-          "PLACEHOLDER": "Enter a name for the assistant",
+          "LABEL": "Nome do Assistente",
+          "PLACEHOLDER": "Insira um nome para o assistente",
           "ERROR": "Please provide a name for the assistant"
         },
         "DESCRIPTION": {
-          "LABEL": "Assistant Description",
+          "LABEL": "Descrição do Assistente",
           "PLACEHOLDER": "Describe how and where this assistant will be used",
           "ERROR": "A description is required"
         },
         "PRODUCT_NAME": {
-          "LABEL": "Product Name",
+          "LABEL": "Nome do Produto",
           "PLACEHOLDER": "Enter the name of the product this assistant is designed for",
           "ERROR": "The product name is required"
         },
@@ -377,13 +377,13 @@
         "ERROR_MESSAGE": "There was an error updating the assistant, please try again."
       },
       "OPTIONS": {
-        "EDIT_ASSISTANT": "Edit Assistant",
-        "DELETE_ASSISTANT": "Delete Assistant",
+        "EDIT_ASSISTANT": "Editar Assistente",
+        "DELETE_ASSISTANT": "Excluir Assistente",
         "VIEW_CONNECTED_INBOXES": "View connected inboxes"
       },
       "EMPTY_STATE": {
-        "TITLE": "No assistants available",
-        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations."
+        "TITLE": "Não há assistentes disponíveis",
+        "SUBTITLE": "Crie um assistente para fornecer respostas rápidas e precisas aos seus usuários. Ele pode aprender com seus artigos de ajuda e conversas passadas."
       }
     },
     "DOCUMENTS": {
@@ -494,14 +494,14 @@
       "HEADER": "Connected Inboxes",
       "ADD_NEW": "Connect a new inbox",
       "OPTIONS": {
-        "DISCONNECT": "Desconectado"
+        "DISCONNECT": "Desconectar"
       },
       "DELETE": {
-        "TITLE": "Are you sure to disconnect the inbox?",
+        "TITLE": "Tem certeza que deseja desconectar a caixa de entrada?",
         "DESCRIPTION": "",
         "CONFIRM": "Sim, excluir",
-        "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
-        "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
+        "SUCCESS_MESSAGE": "A caixa de entrada foi desconectada com sucesso.",
+        "ERROR_MESSAGE": "Ocorreu um erro ao desconectar a caixa de entrada, por favor, tente novamente."
       },
       "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
       "CREATE": {
