@@ -61,6 +61,20 @@ describe Whatsapp::Providers::Whatsapp360DialogService do
                                        { title: 'Salad', value: 'Salad' }
                                      ]
                                    })
+
+        expected_action = {
+          button: I18n.t('whatsapp.interactive.list.button_label'),
+          sections: [
+            {
+              rows: [
+                { id: 'Burito', title: 'Burito' },
+                { id: 'Pasta', title: 'Pasta' },
+                { id: 'Sushi', title: 'Sushi' },
+                { id: 'Salad', title: 'Salad' }
+              ]
+            }
+          ]
+        }.to_json
         stub_request(:post, 'https://waba.360dialog.io/v1/messages')
           .with(
             body: {
@@ -70,9 +84,9 @@ describe Whatsapp::Providers::Whatsapp360DialogService do
                 body: {
                   text: 'test'
                 },
-                action: '{"button":"Choose an item","sections":[{"rows":[{"id":"Burito","title":"Burito"},' \
-                        '{"id":"Pasta","title":"Pasta"},{"id":"Sushi","title":"Sushi"},{"id":"Salad","title":"Salad"}]}]}'
-              }, type: 'interactive'
+                action: expected_action
+              },
+              type: 'interactive'
             }.to_json
           ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
         expect(service.send_message('+123456789', message)).to eq 'message_id'
