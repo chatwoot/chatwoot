@@ -110,7 +110,7 @@
         "LABEL": "Nome da empresa"
       },
       "COUNTRY": {
-        "PLACEHOLDER": "Digite o nome do país",
+        "PLACEHOLDER": "Digite o nome do país ",
         "LABEL": "Nome do País",
         "SELECT_PLACEHOLDER": "Selecionar",
         "REMOVE": "Excluir",
@@ -537,7 +537,7 @@
         "PLACEHOLDER": "Adicionar uma nota",
         "WROTE": "escreveu",
         "YOU": "Você",
-        "SAVE": "Salvar anotação",
+        "SAVE": "Salvar nota",
         "EMPTY_STATE": "Não existem notas associadas a este contato. Você pode adicionar uma nota digitando na caixa acima."
       }
     },
