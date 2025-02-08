@@ -119,12 +119,12 @@
       "EMPTY_LIST": "Nenhum resultado encontrado"
     },
     "PAGINATION": {
-      "RESULTS": "Exibindo {start} - {end} de {total} resultados "
+      "RESULTS": "Exibindo {start} — {end} de {total} resultados"
     }
   },
   "AGENT_REPORTS": {
     "HEADER": "Visão Geral de Agentes",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
+    "DESCRIPTION": "Acompanhe facilmente o desempenho do agente com métricas chave, como conversas, tempos de resposta, tempos de resolução e casos resolvidos. Clique no nome de um agente para saber mais.",
     "LOADING_CHART": "Carregando dados do gráfico...",
     "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
     "DOWNLOAD_AGENT_REPORTS": "Baixar relatórios de agentes",
@@ -259,7 +259,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Visualizar Caixa de Entrada",
-    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
+    "DESCRIPTION": "Veja rapidamente o desempenho da caixa de entrada com métricas chave como conversas, tempos de resposta, tempos de resolução, e casos resolvidos - tudo em um só lugar. Clique na caixa de entrada para mais detalhes",
     "LOADING_CHART": "Carregando dados do gráfico...",
     "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
     "DOWNLOAD_INBOX_REPORTS": "Baixar relatórios de entrada",
@@ -327,7 +327,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Resumo da Equipe",
-    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "DESCRIPTION": "Obtenha um instantâneo do desempenho da sua equipe com métricas essenciais, incluindo conversas, tempos de resposta, tempos de resolução e casos resolvidos. Clique no nome da equipe para mais detalhes.",
     "LOADING_CHART": "Carregando dados do gráfico...",
     "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
     "DOWNLOAD_TEAM_REPORTS": "Baixar relatórios da equipe",
@@ -546,9 +546,9 @@
     "INBOX": "Caixa de Entrada",
     "AGENT": "Agente",
     "TEAM": "Times",
-    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
-    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
-    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "AVG_RESOLUTION_TIME": "Tempo médio de resolução",
+    "AVG_FIRST_RESPONSE_TIME": "Tempo médio de primeira resposta",
+    "AVG_REPLY_TIME": "Tempo médio de espera do cliente",
     "RESOLUTION_COUNT": "Contagem de Resolução",
     "CONVERSATIONS": "Nº de Conversas"
   }
