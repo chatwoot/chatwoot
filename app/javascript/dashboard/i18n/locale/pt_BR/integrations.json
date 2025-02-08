@@ -223,8 +223,8 @@
     },
     "LINEAR": {
       "ADD_OR_LINK_BUTTON": "Criar/Ligar Issue Linear",
-      "LOADING": "Fetching linear issues...",
-      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "LOADING": "Buscando problemas lineares...",
+      "LOADING_ERROR": "Houve um erro ao buscar as entidades da equipe, por favor, tente novamente",
       "CREATE": "Criar",
       "LINK": {
         "SEARCH": "Pesquisar issues",
@@ -234,11 +234,11 @@
         "LOADING": "Carregando",
         "ERROR": "",
         "LINK_SUCCESS": "Questão vinculada com sucesso",
-        "LINK_ERROR": "There was an error linking the issue, please try again",
+        "LINK_ERROR": "Houve um erro ao vincular a questão, tente novamente mais tarde",
         "LINK_TITLE": "Conversa (#{conversationId}) com {name}"
       },
       "ADD_OR_LINK": {
-        "TITLE": "Create/link linear issue",
+        "TITLE": "Criar/ligar questão linear",
         "DESCRIPTION": "Crie issues no Linear a partir de conversas, ou vincule às existentes para um rastreamento integrado.",
         "FORM": {
           "TITLE": {
@@ -285,7 +285,7 @@
         "CREATE": "Criar",
         "CANCEL": "Cancelar",
         "CREATE_SUCCESS": "Pasta criada com sucesso",
-        "CREATE_ERROR": "There was an error creating the issue, please try again",
+        "CREATE_ERROR": "Houve um erro ao criar a questão, por favor, tente novamente",
         "LOADING_TEAM_ERROR": "Houve um erro ao buscar as equipes, por favor, tente novamente",
         "LOADING_TEAM_ENTITIES_ERROR": "Houve um erro ao buscar as entidades da equipe, por favor, tente novamente"
       },
@@ -372,7 +372,7 @@
         }
       },
       "EDIT": {
-        "TITLE": "Update the assistant",
+        "TITLE": "Atualizar o assistente",
         "SUCCESS_MESSAGE": "The assistant has been successfully updated",
         "ERROR_MESSAGE": "There was an error updating the assistant, please try again."
       },
@@ -387,40 +387,40 @@
       }
     },
     "DOCUMENTS": {
-      "HEADER": "Documents",
-      "ADD_NEW": "Create a new document",
+      "HEADER": "Documentos",
+      "ADD_NEW": "Criar um novo documento",
       "RELATED_RESPONSES": {
-        "TITLE": "Related FAQs",
-        "DESCRIPTION": "These FAQs are generated directly from the document."
+        "TITLE": "FAQs Relacionadas",
+        "DESCRIPTION": "Estes FAQs são gerados diretamente a partir do documento."
       },
-      "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
+      "FORM_DESCRIPTION": "Digite o URL do documento para adicioná-lo como fonte de conhecimento e escolha o assistente para associá-lo.",
       "CREATE": {
-        "TITLE": "Add a document",
-        "SUCCESS_MESSAGE": "The document has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the document, please try again."
+        "TITLE": "Adicionar um documento",
+        "SUCCESS_MESSAGE": "O documento foi criado com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro ao criar o documento, por favor, tente novamente."
       },
       "FORM": {
         "URL": {
           "LABEL": "URL:",
-          "PLACEHOLDER": "Enter the URL of the document",
-          "ERROR": "Please provide a valid URL for the document"
+          "PLACEHOLDER": "Insira a URL do documento",
+          "ERROR": "Por favor forneça uma URL válida para o documento"
         },
         "ASSISTANT": {
-          "LABEL": "Assistant",
-          "PLACEHOLDER": "Select the assistant",
-          "ERROR": "The assistant field is required"
+          "LABEL": "Assistente",
+          "PLACEHOLDER": "Selecione o assistente",
+          "ERROR": "O campo Assistente é obrigatório"
         }
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the document?",
-        "DESCRIPTION": "This action is permanent. Deleting this document will permanently erase all generated knowledge.",
+        "TITLE": "Tem certeza de que deseja excluir este documento?",
+        "DESCRIPTION": "Esta ação é permanente. Eliminar este documento irá apagar permanentemente todo o conhecimento gerado.",
         "CONFIRM": "Sim, excluir",
-        "SUCCESS_MESSAGE": "The document has been successfully deleted",
+        "SUCCESS_MESSAGE": "O documento foi excluído com sucesso",
         "ERROR_MESSAGE": "There was an error deleting the document, please try again."
       },
       "OPTIONS": {
         "VIEW_RELATED_RESPONSES": "View Related Responses",
-        "DELETE_DOCUMENT": "Delete Document"
+        "DELETE_DOCUMENT": "Excluir Documento"
       },
       "EMPTY_STATE": {
         "TITLE": "No documents available",
@@ -431,10 +431,10 @@
       "HEADER": "FAQs",
       "ADD_NEW": "Create new FAQ",
       "DOCUMENTABLE": {
-        "CONVERSATION": "Conversation #{id}"
+        "CONVERSATION": "Conversação #{id}"
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the FAQ?",
+        "TITLE": "Tem certeza que deseja excluir o FAQ?",
         "DESCRIPTION": "",
         "CONFIRM": "Sim, excluir",
         "SUCCESS_MESSAGE": "FAQ deleted successfully",
@@ -469,7 +469,7 @@
           "ERROR": "Please provide a valid answer."
         },
         "ASSISTANT": {
-          "LABEL": "Assistant",
+          "LABEL": "Assistente",
           "PLACEHOLDER": "Select an assistant",
           "ERROR": "Please select an assistant."
         }
