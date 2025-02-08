@@ -264,7 +264,7 @@
     "CONTACTS": "Contato",
     "CAPTAIN": "Capitão",
     "CAPTAIN_ASSISTANTS": "Assistentes",
-    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_DOCUMENTS": "Documentos",
     "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Principal",
     "AGENTS": "Agentes",
@@ -327,14 +327,14 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Cobrança",
-    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
+    "DESCRIPTION": "Gerencie sua assinatura aqui, faça o upgrade do seu plano e obtenha mais para sua equipe.",
     "CURRENT_PLAN": {
       "TITLE": "Plano Atual",
       "PLAN_NOTE": "Você está atualmente inscrito no plano **{plan}** com **{quantity}** licenças",
-      "SEAT_COUNT": "Number of seats",
-      "RENEWS_ON": "Renews on"
+      "SEAT_COUNT": "Número de assentos",
+      "RENEWS_ON": "Renovações em"
     },
-    "VIEW_PRICING": "View Pricing",
+    "VIEW_PRICING": "Ver Preços",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Gerencie sua assinatura",
       "DESCRIPTION": "Veja suas faturas anteriores, edite seus detalhes de cobrança, ou cancele sua assinatura.",
@@ -342,10 +342,10 @@
     },
     "CAPTAIN": {
       "TITLE": "Capitão",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
-      "BUTTON_TXT": "Buy more credits",
-      "DOCUMENTS": "Documents",
-      "RESPONSES": "Responses",
+      "DESCRIPTION": "Gerenciar uso e créditos para o Captain AI.",
+      "BUTTON_TXT": "Comprar mais créditos",
+      "DOCUMENTS": "Documentos",
+      "RESPONSES": "Respostas",
       "UPGRADE": "O capitão não está disponível no plano gratuito, faça o upgrade para ter acesso aos assistentes, co-piloto e muito mais."
     },
     "CHAT_WITH_US": {
