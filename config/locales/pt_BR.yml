@@ -215,8 +215,8 @@ pt_BR:
       name: 'Linear'
       description: 'Crie issues em Linear diretamente da sua janela de conversa. Alternativamente, vincule as issues lineares existentes para um processo de rastreamento de problemas mais simples e eficiente.'
   captain:
-    copilot_error: 'Please connect an assistant to this inbox to use Copilot'
-    copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
+    copilot_error: 'Conecte com um assistente a esta caixa de entrada para usar Copilot'
+    copilot_limit: 'Você está sem créditos de Copilot. Pode comprar mais créditos na seção de faturamento.'
   public_portal:
     search:
       search_placeholder: Pesquisar por artigo por título ou corpo...
