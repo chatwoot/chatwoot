@@ -107,7 +107,7 @@
             "ERROR": "Título é obrigatório"
           },
           "MESSAGE": {
-            "LABEL": "Messagem",
+            "LABEL": "Mensagem",
             "PLACEHOLDER": "Por favor, insira a mensagem da campanha",
             "ERROR": "A mensagem é obrigatória"
           },
