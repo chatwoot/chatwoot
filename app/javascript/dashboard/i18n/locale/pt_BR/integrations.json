@@ -315,18 +315,18 @@
     "PAYWALL": {
       "TITLE": "Atualize para usar o Capitão IA",
       "AVAILABLE_ON": "O Capitão não está disponível no plano gratuito.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "UPGRADE_PROMPT": "Atualize seu plano para ter acesso aos nossos assistentes, copilots e muito mais.",
       "UPGRADE_NOW": "Atualizar agora",
       "CANCEL_ANYTIME": "Você pode alterar ou cancelar seu plano a qualquer momento"
     },
     "ENTERPRISE_PAYWALL": {
       "AVAILABLE_ON": "",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "UPGRADE_PROMPT": "Atualize seu plano para ter acesso aos nossos assistentes, copilots e muito mais.",
       "ASK_ADMIN": "Entre em contato com seu administrador para fazer a atualização."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "Você usou mais de 80% do seu limite de respostas. Para continuar usando o Captain AI, faça o upgrade.",
+      "DOCUMENTS": "Limite de documentos atingido. Atualize para continuar usando o Captain AI."
     },
     "FORM": {
       "CANCEL": "Cancelar",
@@ -343,7 +343,7 @@
         "SUCCESS_MESSAGE": "O assistente foi excluído com sucesso",
         "ERROR_MESSAGE": "Ocorreu um erro ao excluir o assistente, por favor tente novamente."
       },
-      "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
+      "FORM_DESCRIPTION": "Preencha os detalhes abaixo para nomear seu assistente, descrever sua finalidade e especificar o produto que ele oferecerá suporte.",
       "CREATE": {
         "TITLE": "Criar um assistente",
         "SUCCESS_MESSAGE": "O assistente foi criado com sucesso",
@@ -353,33 +353,33 @@
         "NAME": {
           "LABEL": "Nome do Assistente",
           "PLACEHOLDER": "Insira um nome para o assistente",
-          "ERROR": "Please provide a name for the assistant"
+          "ERROR": "Por favor, forneça um nome para o assistente"
         },
         "DESCRIPTION": {
           "LABEL": "Descrição do Assistente",
-          "PLACEHOLDER": "Describe how and where this assistant will be used",
-          "ERROR": "A description is required"
+          "PLACEHOLDER": "Descreva como e onde este assistente será usado",
+          "ERROR": "É necessária uma descrição"
         },
         "PRODUCT_NAME": {
           "LABEL": "Nome do Produto",
-          "PLACEHOLDER": "Enter the name of the product this assistant is designed for",
-          "ERROR": "The product name is required"
+          "PLACEHOLDER": "Digite o nome do produto para o qual este assistente foi projetado",
+          "ERROR": "O nome do produto é obrigatório"
         },
         "FEATURES": {
           "TITLE": "Funcionalidades",
-          "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
-          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions."
+          "ALLOW_CONVERSATION_FAQS": "Gerar perguntas frequentes a partir de conversas resolvidas",
+          "ALLOW_MEMORIES": "Capture os principais detalhes como memórias de interações do cliente."
         }
       },
       "EDIT": {
         "TITLE": "Atualizar o assistente",
-        "SUCCESS_MESSAGE": "The assistant has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the assistant, please try again."
+        "SUCCESS_MESSAGE": "O assistente foi criado com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro ao criar o assistente, por favor tente novamente."
       },
       "OPTIONS": {
         "EDIT_ASSISTANT": "Editar Assistente",
         "DELETE_ASSISTANT": "Excluir Assistente",
-        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+        "VIEW_CONNECTED_INBOXES": "Ver caixas de entrada conectadas"
       },
       "EMPTY_STATE": {
         "TITLE": "Não há assistentes disponíveis",
@@ -416,20 +416,20 @@
         "DESCRIPTION": "Esta ação é permanente. Eliminar este documento irá apagar permanentemente todo o conhecimento gerado.",
         "CONFIRM": "Sim, excluir",
         "SUCCESS_MESSAGE": "O documento foi excluído com sucesso",
-        "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+        "ERROR_MESSAGE": "Ocorreu um erro ao excluir o documento, por favor, tente novamente."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "View Related Responses",
+        "VIEW_RELATED_RESPONSES": "Visualizar Respostas relacionadas",
         "DELETE_DOCUMENT": "Excluir Documento"
       },
       "EMPTY_STATE": {
-        "TITLE": "No documents available",
-        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant."
+        "TITLE": "Nenhum documento disponível",
+        "SUBTITLE": "Os documentos são usados pelo seu assistente para gerar perguntas frequentes. Pode importar documentos para fornecer um contexto para seu assistente."
       }
     },
     "RESPONSES": {
       "HEADER": "FAQs",
-      "ADD_NEW": "Create new FAQ",
+      "ADD_NEW": "Criar nova FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversação #{id}"
       },
@@ -437,62 +437,62 @@
         "TITLE": "Tem certeza que deseja excluir o FAQ?",
         "DESCRIPTION": "",
         "CONFIRM": "Sim, excluir",
-        "SUCCESS_MESSAGE": "FAQ deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
+        "SUCCESS_MESSAGE": "FAQ excluída com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro ao excluir a FAQ, por favor tente novamente."
       },
       "FILTER": {
-        "ASSISTANT": "Assistant: {selected}",
+        "ASSISTANT": "Assistente: {selected}",
         "STATUS": "Status: {selected}",
         "ALL_ASSISTANTS": "Todos"
       },
       "STATUS": {
         "TITLE": "Situação",
         "PENDING": "Pendente",
-        "APPROVED": "Approved",
+        "APPROVED": "Aceito",
         "ALL": "Todos"
       },
-      "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
+      "FORM_DESCRIPTION": "Adicione uma pergunta e sua resposta correspondente à base de conhecimento e selecione o assistente ao qual deve estar associado.",
       "CREATE": {
-        "TITLE": "Add an FAQ",
-        "SUCCESS_MESSAGE": "The response has been added successfully.",
-        "ERROR_MESSAGE": "An error occurred while adding the response. Please try again."
+        "TITLE": "Adicionar uma FAQ",
+        "SUCCESS_MESSAGE": "A resposta foi adicionada com sucesso.",
+        "ERROR_MESSAGE": "Ocorreu um erro ao adicionar a resposta. Por favor, tente novamente."
       },
       "FORM": {
         "QUESTION": {
-          "LABEL": "Question",
-          "PLACEHOLDER": "Enter the question here",
-          "ERROR": "Please provide a valid question."
+          "LABEL": "Pergunta",
+          "PLACEHOLDER": "Digite a pergunta aqui",
+          "ERROR": "Por favor, forneça uma pergunta válida."
         },
         "ANSWER": {
-          "LABEL": "Answer",
-          "PLACEHOLDER": "Enter the answer here",
-          "ERROR": "Please provide a valid answer."
+          "LABEL": "Responder",
+          "PLACEHOLDER": "Digite a resposta aqui",
+          "ERROR": "Por favor, forneça uma resposta válida."
         },
         "ASSISTANT": {
           "LABEL": "Assistente",
-          "PLACEHOLDER": "Select an assistant",
-          "ERROR": "Please select an assistant."
+          "PLACEHOLDER": "Selecione um assistente",
+          "ERROR": "Por favor, selecione um assistente."
         }
       },
       "EDIT": {
-        "TITLE": "Update the FAQ",
-        "SUCCESS_MESSAGE": "The FAQ has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the FAQ, please try again",
-        "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
+        "TITLE": "Atualizar FAQ",
+        "SUCCESS_MESSAGE": "A FAQ foi atualizado com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro ao atualizar as Perguntas Frequentes, por favor tente novamente",
+        "APPROVE_SUCCESS_MESSAGE": "O FAQ foi marcado como aprovado"
       },
       "OPTIONS": {
-        "APPROVE": "Mark as approved",
-        "EDIT_RESPONSE": "Edit FAQ",
-        "DELETE_RESPONSE": "Delete FAQ"
+        "APPROVE": "Marcar como aprovado",
+        "EDIT_RESPONSE": "Editar FAQ",
+        "DELETE_RESPONSE": "Excluir FAQ"
       },
       "EMPTY_STATE": {
-        "TITLE": "No FAQs Found",
-        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually."
+        "TITLE": "Nenhuma FAQ encontrada",
+        "SUBTITLE": "Perguntas Frequentes ajudam seu assistente a fornecer respostas rápidas e precisas para perguntas de seus clientes. Eles podem ser gerados automaticamente a partir do seu conteúdo ou podem ser adicionados manualmente."
       }
     },
     "INBOXES": {
-      "HEADER": "Connected Inboxes",
-      "ADD_NEW": "Connect a new inbox",
+      "HEADER": "Caixas de entrada conectadas",
+      "ADD_NEW": "Conectar uma nova caixa de entrada",
       "OPTIONS": {
         "DISCONNECT": "Desconectar"
       },
@@ -503,22 +503,22 @@
         "SUCCESS_MESSAGE": "A caixa de entrada foi desconectada com sucesso.",
         "ERROR_MESSAGE": "Ocorreu um erro ao desconectar a caixa de entrada, por favor, tente novamente."
       },
-      "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
+      "FORM_DESCRIPTION": "Escolha uma caixa de entrada para conectar com o assistente.",
       "CREATE": {
-        "TITLE": "Connect an Inbox",
-        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
-        "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
+        "TITLE": "Conecte uma caixa de entrada",
+        "SUCCESS_MESSAGE": "A caixa de entrada foi conectada com sucesso.",
+        "ERROR_MESSAGE": "Ocorreu um erro ao conectar à caixa de entrada. Por favor, tente novamente."
       },
       "FORM": {
         "INBOX": {
           "LABEL": "Caixa de Entrada",
-          "PLACEHOLDER": "Choose the inbox to deploy the assistant.",
-          "ERROR": "An inbox selection is required."
+          "PLACEHOLDER": "Selecione a caixa de entrada para implantar o assistente.",
+          "ERROR": "É obrigatório selecionar uma caixa de entrada."
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No Connected Inboxes",
-        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
+        "TITLE": "Caixa de entrada não conectada",
+        "SUBTITLE": "Conectar uma caixa de entrada permite ao assistente lidar com perguntas iniciais de seus clientes antes de transferi-las para você."
       }
     }
   }
