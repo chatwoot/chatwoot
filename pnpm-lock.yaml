@@ -37,9 +37,6 @@ importers:
       '@highlightjs/vue-plugin':
         specifier: ^2.1.0
         version: 2.1.0(highlight.js@11.10.0)(vue@3.5.12(typescript@5.6.2))
-      '@iconify-json/material-symbols':
-        specifier: ^1.2.10
-        version: 1.2.10
       '@june-so/analytics-next':
         specifier: ^2.0.0
         version: 2.0.0
@@ -239,6 +236,9 @@ importers:
       '@iconify-json/lucide':
         specifier: ^1.2.11
         version: 1.2.11
+      '@iconify-json/material-symbols':
+        specifier: ^1.2.10
+        version: 1.2.10
       '@iconify-json/ph':
         specifier: ^1.2.1
         version: 1.2.1
