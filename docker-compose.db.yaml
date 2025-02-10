@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: always
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres:/data/postgres
+    environment:
+      - POSTGRES_DB=chatwoot
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Qwerty@1234
+
+  redis:
+    image: redis:alpine
+    restart: always
+    volumes:
+      - redis:/data/redis
+    ports:
+      - '6379:6379'
+
+volumes:
+  postgres:
+  redis:
+  bundle:
+  packs:
+  node_modules_rails:
