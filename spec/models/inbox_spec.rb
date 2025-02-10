@@ -48,7 +48,7 @@ RSpec.describe Inbox do
     it do
       expect(inbox.inbox_members.size).to eq(0)
 
-      inbox.add_member(user.id)
+      inbox.send(:add_member, user.id)
       expect(inbox.reload.inbox_members.size).to eq(1)
     end
   end
@@ -57,13 +57,59 @@ RSpec.describe Inbox do
     let(:inbox) { FactoryBot.create(:inbox) }
     let(:user) { FactoryBot.create(:user) }
 
-    before { inbox.add_member(user.id) }
-
     it do
+      inbox.send(:add_member, user.id)
       expect(inbox.inbox_members.size).to eq(1)
 
-      inbox.remove_member(user.id)
+      inbox.send(:remove_member, user.id)
       expect(inbox.reload.inbox_members.size).to eq(0)
+    end
+  end
+
+  describe '#add_members' do
+    let(:inbox) { FactoryBot.create(:inbox) }
+
+    before do
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+    end
+
+    it 'handles adds all members and resets cache keys' do
+      users = FactoryBot.create_list(:user, 3)
+      inbox.add_members(users.map(&:id))
+      expect(inbox.reload.inbox_members.size).to eq(3)
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).at_least(:once)
+                                                                        .with(
+                                                                          'account.cache_invalidated',
+                                                                          kind_of(Time),
+                                                                          account: inbox.account,
+                                                                          cache_keys: inbox.account.cache_keys
+                                                                        )
+    end
+  end
+
+  describe '#remove_members' do
+    let(:inbox) { FactoryBot.create(:inbox) }
+    let(:users) { FactoryBot.create_list(:user, 3) }
+
+    before do
+      inbox.add_members(users.map(&:id))
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+    end
+
+    it 'removes the members and resets cache keys' do
+      expect(inbox.reload.inbox_members.size).to eq(3)
+
+      inbox.remove_members(users.map(&:id))
+      expect(inbox.reload.inbox_members.size).to eq(0)
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).at_least(:once)
+                                                                        .with(
+                                                                          'account.cache_invalidated',
+                                                                          kind_of(Time),
+                                                                          account: inbox.account,
+                                                                          cache_keys: inbox.account.cache_keys
+                                                                        )
     end
   end
 
