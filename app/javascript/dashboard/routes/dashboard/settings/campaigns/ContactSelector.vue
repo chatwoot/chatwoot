@@ -1,4 +1,5 @@
 <script>
+import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import ContactsAPI from 'dashboard/api/contacts';
 import Spinner from 'shared/components/Spinner.vue';
@@ -125,6 +126,27 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      customAttributes: 'attributes/getAttributesByModel',
+    }),
+    mergedFilterTypes() {
+      const standardTypes = this.filterTypes;
+      const customTypes = this.customAttributes('contact_attribute').map(
+        attr => ({
+          attributeKey: attr.attribute_key,
+          attributeI18nKey: attr.attribute_display_name,
+          inputType: attr.attribute_display_type,
+          filterOperators: [
+            { value: 'equal_to', label: 'Equals' },
+            { value: 'not_equal_to', label: 'Does not equal' },
+            { value: 'contains', label: 'Contains' },
+            { value: 'does_not_contain', label: 'Does not contain' },
+          ],
+          attributeModel: 'contact_attribute',
+        })
+      );
+      return [...standardTypes, ...customTypes];
+    },
     filteredContacts() {
       // Use contactList instead of contacts for filtering
       const contactsToFilter =
@@ -346,7 +368,7 @@ export default {
           .filter(filter => filter.values.trim() !== '')
           .map((filter, index, filteredArray) => ({
             attribute_key: filter.attribute_key,
-            attribute_model: 'standard',
+            attribute_model: filter.attributeModel || 'standard',
             custom_attribute_type: '',
             filter_operator: filter.filter_operator,
             ...(filteredArray.length > 1 && index < filteredArray.length - 1
@@ -529,7 +551,7 @@ export default {
     },
 
     getFilterOperators(attributeKey) {
-      const filterType = this.filterTypes.find(
+      const filterType = this.mergedFilterTypes.find(
         type => type.attributeKey === attributeKey
       );
       return filterType ? filterType.filterOperators : [];
@@ -674,7 +696,7 @@ export default {
           >
             <select v-model="filter.attribute_key" class="filter-attribute">
               <option
-                v-for="type in filterTypes"
+                v-for="type in mergedFilterTypes"
                 :key="type.attributeKey"
                 :value="type.attributeKey"
               >

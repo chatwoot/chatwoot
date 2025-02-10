@@ -33,7 +33,30 @@ export default {
     };
   },
   computed: {
+    isButtonComponent() {
+      // Find the index of BUTTONS component
+      const buttonsIndex = this.selectedTemplate.components.findIndex(
+        component => component.type === 'BUTTONS'
+      );
+      if (buttonsIndex === -1) {
+        return false;
+      }
+      return true;
+    },
+    getButtons() {
+      const template = this.selectedTemplate;
+      // Find the index of BUTTONS component
+      const buttonsIndex = template.components.findIndex(
+        component => component.type === 'BUTTONS'
+      );
+      return template &&
+        template.components &&
+        template.components[buttonsIndex]
+        ? template.components[buttonsIndex].buttons || []
+        : [];
+    },
     hasMultipleCurlyBraces() {
+      console.log(this.selectedTemplate);
       if (!this.selectedTemplate?.components) return false;
 
       // Find the index of BODY component
@@ -67,6 +90,13 @@ export default {
       handler(newValue) {
         this.$emit('template-validation', !newValue);
       },
+    },
+  },
+  methods: {
+    openUrl(url) {
+      if (url && typeof window !== 'undefined') {
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }
     },
   },
 };
@@ -189,6 +219,18 @@ export default {
             <div v-if="selectedTemplate.components[2]" class="footer-text">
               {{ selectedTemplate.components[2].text }}
             </div>
+            <div v-if="isButtonComponent" class="buttons-section">
+              <button
+                v-for="(button, index) in getButtons"
+                :key="index"
+                class="template-button"
+                :class="{ 'url-button': button.type === 'URL' }"
+                @click="button.url && openUrl(button.url)"
+              >
+                {{ button.text }}
+              </button>
+            </div>
+
             <div v-if="hasMultipleCurlyBraces" class="error-message">
               Only 'NAMED' templates with up to 1 parameter are allowed.
               (parameter_name: 'name') <br />
@@ -427,6 +469,31 @@ export default {
   border-radius: 4px;
   font-size: 13px;
   border: 1px solid #fee2e2;
+}
+
+.buttons-section {
+  margin-top: 6px;
+  padding-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.template-button {
+  width: 100%;
+  padding: 8px;
+  background-color: #f0f9ff;
+  border: none;
+  text-align: center;
+  color: #0284c7;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.template-button.url-button {
+  color: #0284c7;
 }
 
 .message-input-area {
