@@ -149,6 +149,7 @@ export class DashboardAudioNotificationHelper {
       this.currentUser.id
     );
     const isUnassigned = isConversationUnassigned(message);
+
     const shouldPlayAudio = [];
 
     if (
