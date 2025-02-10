@@ -148,11 +148,15 @@ export class DashboardAudioNotificationHelper {
       message,
       this.currentUser.id
     );
+
     const isUnassigned = isConversationUnassigned(message);
 
     const shouldPlayAudio = [];
 
-    if (audioAlertType.includes(EVENT_TYPES.ASSIGNED)) {
+    if (
+      audioAlertType.includes(EVENT_TYPES.ASSIGNED) ||
+      audioAlertType.includes('mine')
+    ) {
       shouldPlayAudio.push(assignedToMe);
     }
     if (audioAlertType.includes(EVENT_TYPES.UNASSIGNED)) {
