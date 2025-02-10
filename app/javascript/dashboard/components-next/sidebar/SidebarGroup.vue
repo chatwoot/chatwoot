@@ -15,6 +15,7 @@ const props = defineProps({
   to: { type: Object, default: null },
   activeOn: { type: Array, default: () => [] },
   children: { type: Array, default: undefined },
+  getterKeys: { type: Object, default: () => ({}) },
 });
 
 const {
@@ -141,6 +142,7 @@ onMounted(async () => {
       :name
       :label
       :to
+      :getter-keys="getterKeys"
       :is-active="isActive"
       :has-active-child="hasActiveChild"
       :expandable="hasChildren"
