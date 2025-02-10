@@ -136,6 +136,9 @@ importers:
       js-cookie:
         specifier: ^3.0.5
         version: 3.0.5
+      lettersanitizer:
+        specifier: ^1.0.6
+        version: 1.0.6
       libphonenumber-js:
         specifier: ^1.11.9
         version: 1.11.9
@@ -197,8 +200,8 @@ importers:
         specifier: 9.14.2
         version: 9.14.2(vue@3.5.12(typescript@5.6.2))
       vue-letter:
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.2.1
+        version: 0.2.1
       vue-multiselect:
         specifier: 3.1.0
         version: 3.1.0
@@ -3332,8 +3335,8 @@ packages:
   launch-editor@2.9.1:
     resolution: {integrity: sha512-Gcnl4Bd+hRO9P9icCP/RVVT2o8SFlPXofuCxvA2SaZuH45whSvf5p8x5oih5ftLiVhEI4sp5xDY+R+b3zJBh5w==}
 
-  lettersanitizer@1.0.5:
-    resolution: {integrity: sha512-OEJjdlRE96uKB0VfMi4nb3hBctYl1Ss6DQg9SPXRpGcjaBjcmDaibp0ZIdQu1TPwMAEvWC8xRqIcTAooElSDIg==}
+  lettersanitizer@1.0.6:
+    resolution: {integrity: sha512-2vj0tUtBRjlmTCFsgVlFmfi04p049Zwv/4eBGWBUOKropEoL+q+jTQQfFyDu50j7gL76pycMvrqD0uV0vxX2zg==}
 
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
@@ -4844,8 +4847,8 @@ packages:
     peerDependencies:
       vue: ^3.0.0
 
-  vue-letter@0.2.0:
-    resolution: {integrity: sha512-p4qHpw89GKidKyGcg4J4IjUcMQuVaTJq83c6UE4616claaLF9rj2Bg/Hq19uDCmokd+SvzEwxq6/ctfaaednkw==}
+  vue-letter@0.2.1:
+    resolution: {integrity: sha512-IYWp47XUikjKfEniWYlFxeJFKABZwAE5IEjz866qCBytBr2dzqVDdjoMDpBP//krxkzN/QZYyHe6C09y/IODYg==}
 
   vue-multiselect@3.1.0:
     resolution: {integrity: sha512-+i/fjTqFBpaay9NP+lU7obBeNaw2DdFDFs4mqhsM0aEtKRdvIf7CfREAx2o2B4XDmPrBt1r7x1YCM3BOMLaUgQ==}
@@ -8548,7 +8551,7 @@ snapshots:
       picocolors: 1.1.0
       shell-quote: 1.8.1
 
-  lettersanitizer@1.0.5: {}
+  lettersanitizer@1.0.6: {}
 
   levn@0.4.1:
     dependencies:
@@ -10214,9 +10217,9 @@ snapshots:
       '@vue/devtools-api': 6.6.4
       vue: 3.5.12(typescript@5.6.2)
 
-  vue-letter@0.2.0:
+  vue-letter@0.2.1:
     dependencies:
-      lettersanitizer: 1.0.5
+      lettersanitizer: 1.0.6
 
   vue-multiselect@3.1.0: {}
 
