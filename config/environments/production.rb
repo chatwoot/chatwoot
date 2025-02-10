@@ -88,6 +88,11 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  # frequency in seconds to periodically run the Reaper, which attempts
+  # to find and recover connections from dead threads
+  # https://api.rubyonrails.org/v5.1/classes/ActiveRecord/ConnectionAdapters/ConnectionPool.html
+  config.active_record.connection_pool_reaping_frequency = 60
+
   config.action_mailer.perform_caching = false
 
   # Ignore bad email addresses and do not raise email delivery errors.
