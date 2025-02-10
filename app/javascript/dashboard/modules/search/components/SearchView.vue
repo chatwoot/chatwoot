@@ -1,12 +1,9 @@
-<script>
-import SearchHeader from './SearchHeader.vue';
-import SearchTabs from './SearchTabs.vue';
-import SearchResultConversationsList from './SearchResultConversationsList.vue';
-import SearchResultMessagesList from './SearchResultMessagesList.vue';
-import SearchResultContactsList from './SearchResultContactsList.vue';
-import ButtonV4 from 'dashboard/components-next/button/Button.vue';
+<script setup>
+import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { useMapGetter, useStore } from 'dashboard/composables/store.js';
+import { useRouter } from 'vue-router';
 import { useTrack } from 'dashboard/composables';
-import Policy from 'dashboard/components/policy.vue';
+import { useI18n } from 'vue-i18n';
 import {
   ROLES,
   CONVERSATION_PERMISSIONS,
@@ -16,197 +13,233 @@ import {
   getUserPermissions,
   filterItemsByPermission,
 } from 'dashboard/helper/permissionsHelper.js';
-
-import { mapGetters } from 'vuex';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
-export default {
-  components: {
-    SearchHeader,
-    SearchTabs,
-    SearchResultContactsList,
-    SearchResultConversationsList,
-    SearchResultMessagesList,
-    Policy,
-    ButtonV4,
-  },
-  data() {
-    return {
-      selectedTab: 'all',
-      query: '',
-      contactPermissions: CONTACT_PERMISSIONS,
-      conversationPermissions: CONVERSATION_PERMISSIONS,
-      rolePermissions: ROLES,
-    };
-  },
+import Policy from 'dashboard/components/policy.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+import SearchHeader from './SearchHeader.vue';
+import SearchTabs from './SearchTabs.vue';
+import SearchResultConversationsList from './SearchResultConversationsList.vue';
+import SearchResultMessagesList from './SearchResultMessagesList.vue';
+import SearchResultContactsList from './SearchResultContactsList.vue';
 
-  computed: {
-    ...mapGetters({
-      currentUser: 'getCurrentUser',
-      currentAccountId: 'getCurrentAccountId',
-      contactRecords: 'conversationSearch/getContactRecords',
-      conversationRecords: 'conversationSearch/getConversationRecords',
-      messageRecords: 'conversationSearch/getMessageRecords',
-      uiFlags: 'conversationSearch/getUIFlags',
-    }),
-    contacts() {
-      return this.contactRecords.map(contact => ({
-        ...contact,
-        type: 'contact',
-      }));
-    },
-    conversations() {
-      return this.conversationRecords.map(conversation => ({
-        ...conversation,
-        type: 'conversation',
-      }));
-    },
-    messages() {
-      return this.messageRecords.map(message => ({
-        ...message,
-        type: 'message',
-      }));
-    },
-    all() {
-      return [...this.contacts, ...this.conversations, ...this.messages];
-    },
-    filterContacts() {
-      return this.selectedTab === 'contacts' || this.isSelectedTabAll;
-    },
-    filterConversations() {
-      return this.selectedTab === 'conversations' || this.isSelectedTabAll;
-    },
-    filterMessages() {
-      return this.selectedTab === 'messages' || this.isSelectedTabAll;
-    },
-    userPermissions() {
-      return getUserPermissions(this.currentUser, this.currentAccountId);
-    },
-    totalSearchResultsCount() {
-      const permissionCounts = {
-        contacts: {
-          permissions: [...this.rolePermissions, this.contactPermissions],
-          count: () => this.contacts.length,
-        },
-        conversations: {
-          permissions: [
-            ...this.rolePermissions,
-            ...this.conversationPermissions,
-          ],
-          count: () => this.conversations.length + this.messages.length,
-        },
-      };
+const router = useRouter();
+const store = useStore();
+const { t } = useI18n();
 
-      const filteredCounts = filterItemsByPermission(
-        permissionCounts,
-        this.userPermissions,
-        item => item.permissions,
-        (_, item) => item.count
-      );
+const PER_PAGE = 15; // Results per page
+const selectedTab = ref('all');
+const query = ref('');
+const pages = ref({
+  contacts: 1,
+  conversations: 1,
+  messages: 1,
+});
 
-      return filteredCounts.reduce((total, count) => total + count(), 0);
-    },
-    tabs() {
-      const allTabsConfig = {
-        all: {
-          key: 'all',
-          name: this.$t('SEARCH.TABS.ALL'),
-          count: this.totalSearchResultsCount,
-          permissions: [
-            this.contactPermissions,
-            ...this.rolePermissions,
-            ...this.conversationPermissions,
-          ],
-        },
-        contacts: {
-          key: 'contacts',
-          name: this.$t('SEARCH.TABS.CONTACTS'),
-          count: this.contacts.length,
-          permissions: [...this.rolePermissions, this.contactPermissions],
-        },
-        conversations: {
-          key: 'conversations',
-          name: this.$t('SEARCH.TABS.CONVERSATIONS'),
-          count: this.conversations.length,
-          permissions: [
-            ...this.rolePermissions,
-            ...this.conversationPermissions,
-          ],
-        },
-        messages: {
-          key: 'messages',
-          name: this.$t('SEARCH.TABS.MESSAGES'),
-          count: this.messages.length,
-          permissions: [
-            ...this.rolePermissions,
-            ...this.conversationPermissions,
-          ],
-        },
-      };
+const currentUser = useMapGetter('getCurrentUser');
+const currentAccountId = useMapGetter('getCurrentAccountId');
+const contactRecords = useMapGetter('conversationSearch/getContactRecords');
+const conversationRecords = useMapGetter(
+  'conversationSearch/getConversationRecords'
+);
+const messageRecords = useMapGetter('conversationSearch/getMessageRecords');
+const uiFlags = useMapGetter('conversationSearch/getUIFlags');
 
-      return filterItemsByPermission(
-        allTabsConfig,
-        this.userPermissions,
-        item => item.permissions
-      );
-    },
-    activeTabIndex() {
-      const index = this.tabs.findIndex(tab => tab.key === this.selectedTab);
-      return index >= 0 ? index : 0;
-    },
-    showEmptySearchResults() {
-      return (
-        this.totalSearchResultsCount === 0 &&
-        this.uiFlags.isSearchCompleted &&
-        !this.uiFlags.isFetching &&
-        this.query
-      );
-    },
-    showResultsSection() {
-      return (
-        (this.uiFlags.isSearchCompleted &&
-          this.totalSearchResultsCount !== 0) ||
-        this.uiFlags.isFetching
-      );
-    },
-    isSelectedTabAll() {
-      return this.selectedTab === 'all';
-    },
+const addTypeToRecords = (records, type) =>
+  records.value.map(item => ({ ...item, type }));
+
+const mappedContacts = computed(() =>
+  addTypeToRecords(contactRecords, 'contact')
+);
+const mappedConversations = computed(() =>
+  addTypeToRecords(conversationRecords, 'conversation')
+);
+const mappedMessages = computed(() =>
+  addTypeToRecords(messageRecords, 'message')
+);
+
+const isSelectedTabAll = computed(() => selectedTab.value === 'all');
+
+const sliceRecordsIfAllTab = items =>
+  isSelectedTabAll.value ? items.value.slice(0, 5) : items.value;
+
+const contacts = computed(() => sliceRecordsIfAllTab(mappedContacts));
+const conversations = computed(() => sliceRecordsIfAllTab(mappedConversations));
+const messages = computed(() => sliceRecordsIfAllTab(mappedMessages));
+
+const filterByTab = tab =>
+  computed(() => selectedTab.value === tab || isSelectedTabAll.value);
+
+const filterContacts = filterByTab('contacts');
+const filterConversations = filterByTab('conversations');
+const filterMessages = filterByTab('messages');
+
+const userPermissions = computed(() =>
+  getUserPermissions(currentUser.value, currentAccountId.value)
+);
+
+const TABS_CONFIG = {
+  all: {
+    permissions: [CONTACT_PERMISSIONS, ...ROLES, ...CONVERSATION_PERMISSIONS],
+    count: () => null, // No count for all tab
   },
-  unmounted() {
-    this.query = '';
-    this.$store.dispatch('conversationSearch/clearSearchResults');
+  contacts: {
+    permissions: [...ROLES, CONTACT_PERMISSIONS],
+    count: () => mappedContacts.value.length,
   },
-  mounted() {
-    this.$store.dispatch('conversationSearch/clearSearchResults');
+  conversations: {
+    permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
+    count: () => mappedConversations.value.length,
   },
-  methods: {
-    onSearch(q) {
-      this.selectedTab = 'all';
-      this.query = q;
-      if (!q) {
-        this.$store.dispatch('conversationSearch/clearSearchResults');
-        return;
-      }
-      useTrack(CONVERSATION_EVENTS.SEARCH_CONVERSATION);
-      this.$store.dispatch('conversationSearch/fullSearch', { q });
-    },
-    onBack() {
-      if (window.history.length > 2) {
-        this.$router.go(-1);
-      } else {
-        this.$router.push({ name: 'home' });
-      }
-    },
+  messages: {
+    permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
+    count: () => mappedMessages.value.length,
   },
 };
+
+const tabs = computed(() => {
+  const configs = Object.entries(TABS_CONFIG).map(([key, config]) => ({
+    key,
+    name: t(`SEARCH.TABS.${key.toUpperCase()}`),
+    count: config.count(),
+    showBadge: key !== 'all',
+    permissions: config.permissions,
+  }));
+
+  return filterItemsByPermission(
+    configs,
+    userPermissions.value,
+    item => item.permissions
+  );
+});
+
+const totalSearchResultsCount = computed(() => {
+  const permissionCounts = {
+    contacts: {
+      permissions: [...ROLES, CONTACT_PERMISSIONS],
+      count: () => contacts.value.length,
+    },
+    conversations: {
+      permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
+      count: () => conversations.value.length + messages.value.length,
+    },
+  };
+  return filterItemsByPermission(
+    permissionCounts,
+    userPermissions.value,
+    item => item.permissions,
+    (_, item) => item.count
+  ).reduce((total, count) => total + count(), 0);
+});
+
+const activeTabIndex = computed(() => {
+  const index = tabs.value.findIndex(tab => tab.key === selectedTab.value);
+  return index >= 0 ? index : 0;
+});
+
+const isFetchingAny = computed(() => {
+  const { contact, message, conversation, isFetching } = uiFlags.value;
+  return (
+    isFetching ||
+    contact.isFetching ||
+    message.isFetching ||
+    conversation.isFetching
+  );
+});
+
+const showEmptySearchResults = computed(
+  () =>
+    totalSearchResultsCount.value === 0 &&
+    uiFlags.value.isSearchCompleted &&
+    isSelectedTabAll.value &&
+    !isFetchingAny.value &&
+    query.value
+);
+
+const showResultsSection = computed(
+  () =>
+    (uiFlags.value.isSearchCompleted && totalSearchResultsCount.value !== 0) ||
+    isFetchingAny.value ||
+    (!isSelectedTabAll.value && query.value && !isFetchingAny.value)
+);
+
+const showLoadMore = computed(() => {
+  if (!query.value || isFetchingAny.value || selectedTab.value === 'all')
+    return false;
+
+  const records = {
+    contacts: mappedContacts.value,
+    conversations: mappedConversations.value,
+    messages: mappedMessages.value,
+  }[selectedTab.value];
+
+  return (
+    records?.length > 0 &&
+    records.length === pages.value[selectedTab.value] * PER_PAGE
+  );
+});
+
+const showViewMore = computed(() => ({
+  // Hide view more button if the number of records is less than 5
+  contacts: mappedContacts.value?.length > 5 && isSelectedTabAll.value,
+  conversations:
+    mappedConversations.value?.length > 5 && isSelectedTabAll.value,
+  messages: mappedMessages.value?.length > 5 && isSelectedTabAll.value,
+}));
+
+const clearSearchResult = () => {
+  pages.value = { contacts: 1, conversations: 1, messages: 1 };
+  store.dispatch('conversationSearch/clearSearchResults');
+};
+
+const onSearch = q => {
+  query.value = q;
+  clearSearchResult();
+  if (!q) return;
+  useTrack(CONVERSATION_EVENTS.SEARCH_CONVERSATION);
+  store.dispatch('conversationSearch/fullSearch', { q, page: 1 });
+};
+
+const onBack = () => {
+  if (window.history.length > 2) {
+    router.go(-1);
+  } else {
+    router.push({ name: 'home' });
+  }
+  clearSearchResult();
+};
+
+const loadMore = () => {
+  const SEARCH_ACTIONS = {
+    contacts: 'conversationSearch/contactSearch',
+    conversations: 'conversationSearch/conversationSearch',
+    messages: 'conversationSearch/messageSearch',
+  };
+
+  if (uiFlags.value.isFetching || selectedTab.value === 'all') return;
+  const tab = selectedTab.value;
+  pages.value[tab] += 1;
+  store.dispatch(SEARCH_ACTIONS[tab], {
+    q: query.value,
+    page: pages.value[tab],
+  });
+};
+
+onMounted(() => {
+  store.dispatch('conversationSearch/clearSearchResults');
+});
+
+onUnmounted(() => {
+  query.value = '';
+  store.dispatch('conversationSearch/clearSearchResults');
+});
 </script>
 
 <template>
-  <div class="flex flex-col w-full bg-n-background">
-    <div class="flex p-4">
-      <ButtonV4
-        :label="$t('GENERAL_SETTINGS.BACK')"
+  <div class="flex flex-col w-full h-full bg-n-background">
+    <div class="flex w-full p-4">
+      <NextButton
+        :label="t('GENERAL_SETTINGS.BACK')"
         icon="i-lucide-chevron-left"
         faded
         primary
@@ -214,73 +247,119 @@ export default {
         @click="onBack"
       />
     </div>
-    <section
-      class="flex my-0 p-4 relative mx-auto max-w-[45rem] min-h-[20rem] flex-col w-full h-full bg-n-background"
-    >
-      <header>
-        <SearchHeader @search="onSearch" />
-        <SearchTabs
-          v-if="query"
-          :tabs="tabs"
-          :selected-tab="activeTabIndex"
-          @tab-change="tab => (selectedTab = tab)"
-        />
-      </header>
-      <div class="flex-grow h-full px-2 py-0 overflow-y-auto">
-        <div v-if="showResultsSection">
-          <Policy :permissions="[...rolePermissions, contactPermissions]">
-            <SearchResultContactsList
-              v-if="filterContacts"
-              :is-fetching="uiFlags.contact.isFetching"
-              :contacts="contacts"
-              :query="query"
-              :show-title="isSelectedTabAll"
-            />
-          </Policy>
-
-          <Policy
-            :permissions="[...rolePermissions, ...conversationPermissions]"
-          >
-            <SearchResultMessagesList
-              v-if="filterMessages"
-              :is-fetching="uiFlags.message.isFetching"
-              :messages="messages"
-              :query="query"
-              :show-title="isSelectedTabAll"
-            />
-          </Policy>
-
-          <Policy
-            :permissions="[...rolePermissions, ...conversationPermissions]"
-          >
-            <SearchResultConversationsList
-              v-if="filterConversations"
-              :is-fetching="uiFlags.conversation.isFetching"
-              :conversations="conversations"
-              :query="query"
-              :show-title="isSelectedTabAll"
-            />
-          </Policy>
+    <section class="flex flex-col flex-grow w-full h-full overflow-hidden">
+      <div class="w-full max-w-4xl mx-auto">
+        <div class="flex flex-col w-full px-4">
+          <SearchHeader @search="onSearch" />
+          <SearchTabs
+            v-if="query"
+            :tabs="tabs"
+            :selected-tab="activeTabIndex"
+            @tab-change="tab => (selectedTab = tab)"
+          />
         </div>
-        <div
-          v-else-if="showEmptySearchResults"
-          class="flex flex-col items-center justify-center px-4 py-6 mt-8 rounded-md"
-        >
-          <fluent-icon icon="info" size="16px" class="text-n-slate-11" />
-          <p class="m-2 text-center text-n-slate-11">
-            {{ $t('SEARCH.EMPTY_STATE_FULL', { query }) }}
-          </p>
-        </div>
-        <div
-          v-else
-          class="flex flex-col items-center justify-center px-4 py-6 mt-8 text-center rounded-md"
-        >
-          <p class="text-center margin-bottom-0">
-            <fluent-icon icon="search" size="24px" class="text-n-slate-11" />
-          </p>
-          <p class="m-2 text-center text-n-slate-11">
-            {{ $t('SEARCH.EMPTY_STATE_DEFAULT') }}
-          </p>
+      </div>
+      <div class="flex-grow w-full h-full overflow-y-auto">
+        <div class="w-full max-w-4xl mx-auto px-4 pb-6">
+          <div v-if="showResultsSection">
+            <Policy
+              :permissions="[...ROLES, CONTACT_PERMISSIONS]"
+              class="flex flex-col justify-center"
+            >
+              <SearchResultContactsList
+                v-if="filterContacts"
+                :is-fetching="uiFlags.contact.isFetching"
+                :contacts="contacts"
+                :query="query"
+                :show-title="isSelectedTabAll"
+              />
+              <NextButton
+                v-if="showViewMore.contacts"
+                :label="t(`SEARCH.VIEW_MORE`)"
+                icon="i-lucide-eye"
+                slate
+                sm
+                outline
+                @click="selectedTab = 'contacts'"
+              />
+            </Policy>
+
+            <Policy
+              :permissions="[...ROLES, ...CONVERSATION_PERMISSIONS]"
+              class="flex flex-col justify-center"
+            >
+              <SearchResultMessagesList
+                v-if="filterMessages"
+                :is-fetching="uiFlags.message.isFetching"
+                :messages="messages"
+                :query="query"
+                :show-title="isSelectedTabAll"
+              />
+              <NextButton
+                v-if="showViewMore.messages"
+                :label="t(`SEARCH.VIEW_MORE`)"
+                icon="i-lucide-eye"
+                slate
+                sm
+                outline
+                @click="selectedTab = 'messages'"
+              />
+            </Policy>
+
+            <Policy
+              :permissions="[...ROLES, ...CONVERSATION_PERMISSIONS]"
+              class="flex flex-col justify-center"
+            >
+              <SearchResultConversationsList
+                v-if="filterConversations"
+                :is-fetching="uiFlags.conversation.isFetching"
+                :conversations="conversations"
+                :query="query"
+                :show-title="isSelectedTabAll"
+              />
+              <NextButton
+                v-if="showViewMore.conversations"
+                :label="t(`SEARCH.VIEW_MORE`)"
+                icon="i-lucide-eye"
+                slate
+                sm
+                outline
+                @click="selectedTab = 'conversations'"
+              />
+            </Policy>
+
+            <div v-if="showLoadMore" class="flex justify-center mt-4 mb-6">
+              <NextButton
+                v-if="!isSelectedTabAll"
+                :label="t(`SEARCH.LOAD_MORE`)"
+                icon="i-lucide-cloud-download"
+                slate
+                sm
+                faded
+                @click="loadMore"
+              />
+            </div>
+          </div>
+          <div
+            v-else-if="showEmptySearchResults"
+            class="flex flex-col items-center justify-center px-4 py-6 mt-8 rounded-md"
+          >
+            <fluent-icon icon="info" size="16px" class="text-n-slate-11" />
+            <p class="m-2 text-center text-n-slate-11">
+              {{ t('SEARCH.EMPTY_STATE_FULL', { query }) }}
+            </p>
+          </div>
+          <div
+            v-else-if="!query"
+            class="flex flex-col items-center justify-center px-4 py-6 mt-8 text-center rounded-md"
+          >
+            <p class="text-center margin-bottom-0">
+              <fluent-icon icon="search" size="24px" class="text-n-slate-11" />
+            </p>
+            <p class="m-2 text-center text-n-slate-11">
+              {{ t('SEARCH.EMPTY_STATE_DEFAULT') }}
+            </p>
+          </div>
         </div>
       </div>
     </section>
