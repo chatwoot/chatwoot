@@ -150,7 +150,6 @@ export class DashboardAudioNotificationHelper {
     );
 
     const isUnassigned = isConversationUnassigned(message);
-
     const shouldPlayAudio = [];
 
     if (
