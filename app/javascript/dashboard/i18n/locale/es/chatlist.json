@@ -21,7 +21,7 @@
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Abrir"
+        "TEXT": "Abiertas"
       },
       "resolved": {
         "TEXT": "Resueltas"
