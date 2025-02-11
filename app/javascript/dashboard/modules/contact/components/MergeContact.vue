@@ -189,7 +189,7 @@ export default {
   @apply mt-0;
 }
 
-::v-deep {
+:deep {
   .multiselect {
     @apply rounded-md;
   }

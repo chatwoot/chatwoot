@@ -74,8 +74,8 @@ onMounted(() => {
 .message {
   @apply py-0 px-2 mt-2;
 }
-.message-content::v-deep p,
-.message-content::v-deep li::marker {
+.message-content:deep p,
+.message-content:deep li::marker {
   @apply text-n-slate-11 mb-1;
 }
 
@@ -87,7 +87,7 @@ onMounted(() => {
   @apply break-words text-n-slate-11;
 }
 
-.message-content::v-deep .searchkey--highlight {
+.message-content:deep .searchkey--highlight {
   @apply text-n-slate-12 text-sm font-semibold;
 }
 </style>

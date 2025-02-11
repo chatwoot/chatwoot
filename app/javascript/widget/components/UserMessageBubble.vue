@@ -39,7 +39,7 @@ export default {
 <style lang="scss" scoped>
 @import 'widget/assets/scss/variables.scss';
 
-.chat-bubble.user::v-deep {
+.chat-bubble.user:deep {
   p code {
     background-color: var(--w-600);
     color: var(--white);

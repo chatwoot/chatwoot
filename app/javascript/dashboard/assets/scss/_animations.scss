@@ -1,3 +1,5 @@
+@use "dashboard/assets/scss/variables" as variables;
+
 .slide-fade-enter-active {
   transition: all 0.3s var(--ease-in-cubic);
 }

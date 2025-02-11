@@ -274,7 +274,7 @@ export default {
   @apply mt-2 mx-0 mb-0;
 }
 // Prosemirror does not have a native way of hiding the menu bar, hence
-::v-deep .ProseMirror-menubar {
+:deep .ProseMirror-menubar {
   @apply hidden;
 }
 </style>

@@ -289,7 +289,7 @@ export default {
   }
 
   .invalid {
-    ::v-deep {
+    :deep {
       .multiselect__tags {
         border: 1px solid var(--r-400);
       }
@@ -297,7 +297,7 @@ export default {
   }
 }
 
-::v-deep {
+:deep {
   .multiselect {
     margin-bottom: 0;
   }

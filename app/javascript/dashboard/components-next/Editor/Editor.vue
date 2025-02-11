@@ -149,7 +149,7 @@ watch(
 
 <style lang="scss" scoped>
 .editor-wrapper {
-  ::v-deep {
+  :deep {
     .ProseMirror-menubar-wrapper {
       @apply gap-2 !important;
 

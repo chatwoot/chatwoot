@@ -208,7 +208,7 @@ export default {
 
 <style lang="scss" scoped>
 .conversation--header--actions {
-  ::v-deep .inbox--name {
+  :deep .inbox--name {
     @apply m-0;
   }
 }

@@ -30,7 +30,8 @@ import {
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
-import { trimContent, debounce, getRecipients } from '@chatwoot/utils';
+import { trimContent, debounce } from '@chatwoot/utils';
+import { getRecipients } from 'shared/helpers/recipientsHelper';
 import wootConstants from 'dashboard/constants/globals';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';

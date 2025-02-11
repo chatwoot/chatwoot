@@ -77,7 +77,7 @@ export default {
   @apply text-slate-500 dark:text-slate-400 mb-4;
 }
 
-::v-deep .conversation {
+:deep .conversation {
   @apply pr-0;
   .conversation--details {
     @apply pl-2;

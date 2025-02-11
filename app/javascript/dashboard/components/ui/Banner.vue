@@ -156,7 +156,7 @@ export default {
   }
 
   .banner-action__button {
-    ::v-deep .button__content {
+    :deep .button__content {
       @apply whitespace-nowrap;
     }
   }

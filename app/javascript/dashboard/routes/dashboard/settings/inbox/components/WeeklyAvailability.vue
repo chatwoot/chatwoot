@@ -199,12 +199,12 @@ export default {
 .timezone-input-wrap {
   @apply max-w-[37.5rem];
 
-  &::v-deep .multiselect {
+  &:deep .multiselect {
     @apply mt-2;
   }
 }
 
-::v-deep.message-editor {
+:deep.message-editor {
   @apply border-0;
 }
 

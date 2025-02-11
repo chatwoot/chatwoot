@@ -50,7 +50,7 @@ export default {
 .item-wrap {
   @apply flex;
 
-  ::v-deep .button__content {
+  :deep .button__content {
     @apply w-full;
   }
 

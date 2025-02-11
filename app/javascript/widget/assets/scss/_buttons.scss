@@ -1,8 +1,9 @@
+@use "widget/assets/scss/variables" as variables;
 $button-border-width: 1px;
 // Buttons
 .button {
   appearance: none;
-  background: $color-primary;
+  background: variables.$primary-color;
   border: $button-border-width solid $color-primary;
   border-radius: $border-radius;
   color: $color-white;

@@ -1,16 +1,18 @@
+@use "dashboard/assets/scss/variables" as variables;
+@use "dashboard/assets/scss/mixins" as mixins;
 .app-rtl--wrapper {
   direction: rtl;
 
   // Woot Tabs
   .tabs-title {
     &:first-child {
-      margin-left: var(--space-small);
-      margin-right: unset;
+      margin-left: variables.$space-smaller;
+      margin-right: variables.$space-smaller; 
     }
 
     &:last-child {
-      margin-left: unset;
-      margin-right: var(--space-small);
+      margin-left: variables.$space-smaller;
+      margin-right: variables.$space-smaller;
     }
   }
 

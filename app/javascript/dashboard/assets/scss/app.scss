@@ -1,1 +1,3 @@
-@import 'woot';
+@use "sass:color";
+@use 'woot' as *;
+

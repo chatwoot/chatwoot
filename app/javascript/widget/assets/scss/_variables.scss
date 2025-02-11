@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // Font sizes
 $font-size-micro: 0.5rem;
 $font-size-mini: 0.625rem;
@@ -57,7 +59,8 @@ $color-success: #44ce4b;
 // Color-palettes
 
 $color-primary-light: #c7e3ff;
-$color-primary-dark: darken($color-woot, 20%);
+$color-primary-dark: color.adjust($color-woot, $lightness: -20%);
+
 
 // Snackbar default
 $woot-snackbar-bg: #323232;

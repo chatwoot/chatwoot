@@ -218,7 +218,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-.day-wrap::v-deep .multiselect {
+.day-wrap:deep .multiselect {
   @apply m-0 w-[7.5rem];
 
   > .multiselect__tags {

@@ -138,7 +138,7 @@ const table = useVueTable({
   @apply flex flex-col flex-1;
 
   .ve-table {
-    &::v-deep {
+    &:deep {
       th.ve-table-header-th {
         @apply text-sm rounded-xl;
         padding: var(--space-small) var(--space-two) !important;
@@ -150,11 +150,11 @@ const table = useVueTable({
     }
   }
 
-  &::v-deep .ve-pagination {
+  &:deep .ve-pagination {
     @apply bg-transparent dark:bg-transparent;
   }
 
-  &::v-deep .ve-pagination-select {
+  &:deep .ve-pagination-select {
     @apply hidden;
   }
 

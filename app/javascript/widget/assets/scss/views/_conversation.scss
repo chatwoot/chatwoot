@@ -1,3 +1,4 @@
+@use "widget/assets/scss/variables" as variables;
 .file-uploads .attachment-button + label {
   cursor: pointer;
 }
@@ -45,14 +46,14 @@
     font-size: $font-size-small;
     font-weight: $font-weight-medium;
     margin: $space-small 0;
-    padding-left: $space-micro;
+    padding-left: variables.$space-micro;
   }
 
   .has-attachment {
     overflow: hidden;
 
     :not([audio]) {
-      padding: 0;
+      padding: variables.$space-normal;
     }
 
     &.has-text {

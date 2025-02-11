@@ -279,7 +279,7 @@ export default {
 }
 
 .context-menu--delete-modal {
-  ::v-deep {
+  :deep {
     .modal-container {
       @apply max-w-[30rem];
 

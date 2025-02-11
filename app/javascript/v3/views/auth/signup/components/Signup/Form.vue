@@ -215,7 +215,7 @@ export default {
 
 <style scoped lang="scss">
 .h-captcha--box {
-  &::v-deep .error {
+  &:deep .error {
     iframe {
       border: 1px solid var(--r-500);
       border-radius: var(--border-radius-normal);

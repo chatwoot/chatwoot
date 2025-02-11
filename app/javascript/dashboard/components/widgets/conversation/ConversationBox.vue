@@ -161,7 +161,7 @@ export default {
 }
 
 .dashboard-app--tabs {
-  ::v-deep {
+  :deep {
     .tabs-title {
       a {
         @apply pb-2 pt-1;

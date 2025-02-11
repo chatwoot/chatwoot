@@ -377,7 +377,7 @@ export default {
     }
   }
 
-  &::v-deep .user-thumbnail-box {
+  &:deep .user-thumbnail-box {
     @apply mt-4;
   }
 
@@ -386,7 +386,7 @@ export default {
   }
 
   &.has-inbox-name {
-    &::v-deep .user-thumbnail-box {
+    &:deep .user-thumbnail-box {
       @apply mt-8;
     }
 

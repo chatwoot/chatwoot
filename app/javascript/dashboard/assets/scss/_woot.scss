@@ -1,38 +1,40 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@use "sass:color";
+@use 'tailwindcss/base';
+@use 'tailwindcss/components';
+@use 'tailwindcss/utilities';
 
-@import 'shared/assets/fonts/InterDisplay/inter-display';
-@import 'shared/assets/fonts/inter';
+@use 'shared/assets/fonts/InterDisplay/inter-display';
+@use 'shared/assets/fonts/inter';
 
-@import 'shared/assets/stylesheets/animations';
-@import 'shared/assets/stylesheets/colors';
-@import 'shared/assets/stylesheets/spacing';
-@import 'shared/assets/stylesheets/font-size';
-@import 'shared/assets/stylesheets/font-weights';
-@import 'shared/assets/stylesheets/shadows';
-@import 'shared/assets/stylesheets/border-radius';
-@import 'shared/assets/stylesheets/z-index';
+@use 'shared/assets/stylesheets/animations';
+@use 'shared/assets/stylesheets/colors';
+@use 'shared/assets/stylesheets/spacing';
+@use 'shared/assets/stylesheets/font-size';
+@use 'shared/assets/stylesheets/font-weights';
+@use 'shared/assets/stylesheets/shadows';
+@use 'shared/assets/stylesheets/border-radius';
+@use 'shared/assets/stylesheets/z-index';
 
-@import 'variables';
+@use 'variables';
 
-@import 'mixins';
-@import 'helper-classes';
-@import 'formulate';
-@import 'date-picker';
+@use 'mixins';
+@use 'helper-classes';
+@use 'formulate';
+@use 'date-picker';
 
-@import 'layout';
-@import 'animations';
-@import 'rtl';
+@use 'layout';
+@use 'animations';
+@use 'rtl';
 
-@import 'widgets/base';
-@import 'widgets/buttons';
-@import 'widgets/conversation-view';
-@import 'widgets/tabs';
-@import 'widgets/woot-tables';
+@use 'widgets/base';
+@use 'widgets/buttons';
+@use 'widgets/conversation-view';
+@use 'widgets/tabs';
+@use 'widgets/woot-tables';
 
-@import 'plugins/multiselect';
-@import 'plugins/dropdown';
+@use 'plugins/multiselect';
+@use 'plugins/dropdown';
+
 
 .tooltip {
   @apply bg-slate-900 text-white py-1 px-2 z-40 text-xs rounded-md dark:bg-slate-200 dark:text-slate-900 max-w-96;

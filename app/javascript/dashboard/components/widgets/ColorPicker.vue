@@ -52,8 +52,8 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import 'dashboard/assets/scss/variables';
-@import 'dashboard/assets/scss/mixins';
+@use 'dashboard/assets/scss/variables' as *;
+@use 'dashboard/assets/scss/mixins' as *;
 
 .colorpicker {
   position: relative;
@@ -66,7 +66,7 @@ export default {
 .colorpicker--chrome.vc-chrome {
   @apply shadow-lg -mt-2.5 absolute z-[9999] border border-solid border-slate-75 dark:border-slate-600 rounded;
 
-  ::v-deep {
+  :deep {
     input {
       @apply bg-white dark:bg-white;
     }

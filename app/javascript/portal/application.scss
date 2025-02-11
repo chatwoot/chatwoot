@@ -1,13 +1,17 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@use 'tailwindcss/base';
+@use 'tailwindcss/components';
+@use 'tailwindcss/utilities';
 
-@import 'widget/assets/scss/reset';
-@import 'widget/assets/scss/variables';
-@import 'widget/assets/scss/buttons';
-@import 'widget/assets/scss/mixins';
-@import 'widget/assets/scss/forms';
-@import 'shared/assets/fonts/InterDisplay/inter-display';
+@use 'sass:color';
+@use 'sass:math';
+
+@use 'widget/assets/scss/reset';
+@use 'widget/assets/scss/variables' as widget-vars;  // Add namespace
+@use 'widget/assets/scss/buttons';
+@use 'widget/assets/scss/mixins';
+@use 'widget/assets/scss/forms';
+@use 'shared/assets/fonts/InterDisplay/inter-display';
+
 
 html,
 body {

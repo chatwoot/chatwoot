@@ -137,7 +137,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-::v-deep {
+:deep {
   .ProseMirror-menubar {
     @apply hidden;
   }

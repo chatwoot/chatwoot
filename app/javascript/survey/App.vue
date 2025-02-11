@@ -1,3 +1,4 @@
+@use './assets/scss/woot.scss';
 <script>
 import Response from './views/Response.vue';
 
@@ -16,5 +17,4 @@ export default {
 </template>
 
 <style lang="scss">
-@import './assets/scss/woot.scss';
 </style>

@@ -115,11 +115,11 @@ export default {
 </template>
 
 <style scoped lang="scss">
-::v-deep input[type='text'] {
+:deep input[type='text'] {
   @apply mb-0;
 }
 
-::v-deep .error {
+:deep .error {
   .message {
     @apply mb-0;
   }

@@ -416,7 +416,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-::v-deep {
+:deep {
   .multiselect .multiselect__tags .multiselect__single {
     @apply pl-0;
   }

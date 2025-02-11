@@ -632,7 +632,7 @@ export default {
 .modal-mask {
   @apply absolute;
 
-  &::v-deep {
+  &:deep {
     .ProseMirror-woot-style {
       @apply max-h-[25rem];
     }

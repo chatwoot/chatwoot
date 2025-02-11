@@ -1,3 +1,6 @@
+@use './assets/scss/app';
+@use 'dashboard/assets/scss/variables' as *;
+@use 'dashboard/assets/scss/mixins' as *;
 <script>
 import { mapGetters } from 'vuex';
 import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal.vue';
@@ -153,7 +156,6 @@ export default {
 </template>
 
 <style lang="scss">
-@import './assets/scss/app';
 
 .v-popper--theme-tooltip .v-popper__inner {
   background: black !important;
