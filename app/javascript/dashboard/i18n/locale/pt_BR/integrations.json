@@ -268,8 +268,8 @@
           },
           "LABEL": {
             "LABEL": "Nome do campo",
-            "PLACEHOLDER": "Selecione o marcador",
-            "SEARCH": "Pesquisar marcador "
+            "PLACEHOLDER": "Selecione a etiqueta",
+            "SEARCH": "Pesquisar etiqueta"
           },
           "STATUS": {
             "LABEL": "Situação",
