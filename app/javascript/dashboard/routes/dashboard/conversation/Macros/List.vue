@@ -5,6 +5,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 
 import Draggable from 'vuedraggable';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import MacroItem from './MacroItem.vue';
 
 defineProps({
@@ -76,14 +77,16 @@ onMounted(() => {
         </woot-button>
       </router-link>
     </div>
-    <woot-loading-state
+    <div
       v-if="uiFlags.isFetching"
-      :message="$t('MACROS.LOADING')"
-    />
+      class="flex items-center gap-2 justify-center p-6 text-n-slate-12"
+    >
+      <span class="text-sm">{{ $t('MACROS.LOADING') }}</span>
+      <Spinner class="size-5" />
+    </div>
     <Draggable
       v-if="!uiFlags.isFetching && macros.length"
       v-model="orderedMacros"
-      :disabled="isMacroPreviewActive"
       class="p-1"
       animation="200"
       ghost-class="ghost"
