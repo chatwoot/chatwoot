@@ -186,7 +186,7 @@ GEM
     database_cleaner-core (2.0.1)
     datadog-ci (0.8.3)
       msgpack
-    date (3.3.4)
+    date (3.4.1)
     ddtrace (1.23.2)
       datadog-ci (~> 0.8.1)
       debase-ruby_core_source (= 3.3.1)
@@ -487,7 +487,7 @@ GEM
       uri
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
-    net-imap (0.4.17)
+    net-imap (0.4.19)
       date
       net-protocol
     net-pop (0.1.2)
@@ -782,7 +782,7 @@ GEM
     time_diff (0.3.0)
       activesupport
       i18n
-    timeout (0.4.1)
+    timeout (0.4.3)
     trailblazer-option (0.1.2)
     twilio-ruby (5.77.0)
       faraday (>= 0.9, < 3.0)
