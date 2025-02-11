@@ -5,20 +5,16 @@ import { useRouter, useRoute } from 'vue-router';
 import Integration from './Integration.vue';
 import Spinner from 'shared/components/Spinner.vue';
 
-// Props
 const props = defineProps({
   code: { type: String, default: '' },
 });
 
-// Store setup
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
 
-// Reactive state
 const integrationLoaded = ref(false);
 
-// Computed properties
 const integration = computed(() =>
   store.getters['integrations/getIntegration']('linear')
 );
@@ -32,7 +28,6 @@ const integrationAction = computed(() => {
   return integration.value.action;
 });
 
-// Methods
 const intializeLinearIntegration = async () => {
   await store.dispatch('integrations/get', 'linear');
   if (props.code) {
@@ -43,7 +38,6 @@ const intializeLinearIntegration = async () => {
   integrationLoaded.value = true;
 };
 
-// Mounted equivalent
 intializeLinearIntegration();
 </script>
 
