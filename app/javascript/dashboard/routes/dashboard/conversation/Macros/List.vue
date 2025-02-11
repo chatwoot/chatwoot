@@ -28,28 +28,27 @@ const MACROS_ORDER_KEY = 'macros_display_order';
 
 const orderedMacros = computed({
   get: () => {
+    // Get saved order array and current macros
     const savedOrder = uiSettings.value?.[MACROS_ORDER_KEY] ?? [];
     const currentMacros = macros.value ?? [];
 
-    // If no saved order or macros, return the current macros
+    // Return unmodified macros if not present or macro is not available
     if (!savedOrder.length || !currentMacros.length) {
       return currentMacros;
     }
 
-    // Sort macros based on saved order
+    // Create a Map of id -> position for faster lookups
+    const orderMap = new Map(savedOrder.map((id, index) => [id, index]));
+
     return [...currentMacros].sort((a, b) => {
-      const aPos = savedOrder.indexOf(a.id);
-      const bPos = savedOrder.indexOf(b.id);
-
-      // Handle cases where one or both items are not in the saved order
-      if (aPos === -1 && bPos === -1) return 0; // Both not in order
-      if (aPos === -1) return 1; // Only `a` is not in order
-      if (bPos === -1) return -1; // Only `b` is not in order
-
-      return aPos - bPos; // Compare positions
+      // Use Infinity for items not in saved order (pushes them to end)
+      const aPos = orderMap.get(a.id) ?? Infinity;
+      const bPos = orderMap.get(b.id) ?? Infinity;
+      return aPos - bPos;
     });
   },
   set: newOrder => {
+    // Update settings with array of ids from new order
     updateUISettings({
       [MACROS_ORDER_KEY]: newOrder.map(({ id }) => id),
     });

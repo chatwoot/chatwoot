@@ -3,9 +3,11 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
-import MacroPreview from './MacroPreview.vue';
 import { CONVERSATION_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import { useTrack } from 'dashboard/composables';
+
+import NextButton from 'dashboard/components-next/button/Button.vue';
+import MacroPreview from './MacroPreview.vue';
 
 const props = defineProps({
   macro: {
@@ -57,20 +59,20 @@ const closeMacroPreview = () => {
       {{ macro.name }}
     </span>
     <div class="flex items-center gap-1 justify-end">
-      <woot-button
+      <NextButton
         v-tooltip.left-start="$t('MACROS.EXECUTE.PREVIEW')"
-        size="tiny"
-        variant="smooth"
-        color-scheme="secondary"
-        icon="info"
+        icon="i-lucide-info"
+        slate
+        faded
+        xs
         @click="toggleMacroPreview"
       />
-      <woot-button
+      <NextButton
         v-tooltip.left-start="$t('MACROS.EXECUTE.BUTTON_TOOLTIP')"
-        size="tiny"
-        variant="smooth"
-        color-scheme="secondary"
-        icon="play-circle"
+        icon="i-lucide-play"
+        slate
+        faded
+        xs
         :is-loading="isExecuting"
         @click="executeMacro(macro)"
       />
