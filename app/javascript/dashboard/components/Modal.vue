@@ -57,7 +57,7 @@ useEventListener(document.body, 'mouseup', onMouseUp);
 useEventListener(document, 'keydown', onKeydown);
 
 onMounted(() => {
-  if (onClose && typeof onClose === 'function') {
+  if (import.meta.env.DEV && onClose && typeof onClose === 'function') {
     // eslint-disable-next-line no-console
     console.warn(
       "[DEPRECATED] The 'onClose' prop is deprecated. Please use the 'close' event instead."
