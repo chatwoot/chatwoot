@@ -1,26 +1,20 @@
-<script>
+<script setup>
 import Spinner from 'shared/components/Spinner.vue';
 
-export default {
-  name: 'MetricCard',
-  components: {
-    Spinner,
+defineProps({
+  header: {
+    type: String,
+    default: '',
   },
-  props: {
-    header: {
-      type: String,
-      default: '',
-    },
-    isLoading: {
-      type: Boolean,
-      default: false,
-    },
-    loadingMessage: {
-      type: String,
-      default: '',
-    },
+  isLoading: {
+    type: Boolean,
+    default: false,
   },
-};
+  loadingMessage: {
+    type: String,
+    default: '',
+  },
+});
 </script>
 
 <template>
@@ -46,9 +40,7 @@ export default {
             </span>
           </span>
         </div>
-        <div
-          class="transition-opacity duration-200 ease-in-out opacity-20 hover:opacity-100 flex flex-row items-center justify-end gap-2"
-        >
+        <div class="flex flex-row items-center justify-end gap-2">
           <slot name="control" />
         </div>
       </slot>
