@@ -6,13 +6,18 @@ class Integrations::Linear::HookBuilder
   end
 
   def perform
-    token = fetch_access_token
+    token_data = fetch_access_token
 
     hook = account.hooks.new(
-      access_token: token,
+      access_token: token_data['access_token'],
       status: 'enabled',
       inbox_id: params[:inbox_id],
-      app_id: 'linear'
+      app_id: 'linear',
+      settings: {
+        token_type: token_data['token_type'],
+        expires_in: token_data['expires_in'],
+        scope: token_data['scope']
+      }
     )
     hook.save!
     hook
@@ -37,7 +42,7 @@ class Integrations::Linear::HookBuilder
 
     raise StandardError, response.parsed_response['error_description'] || 'Failed to authenticate with Linear' unless response.success?
 
-    response.parsed_response['access_token']
+    response.parsed_response
   end
 
   def linear_redirect_uri
