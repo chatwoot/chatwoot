@@ -10,7 +10,7 @@ defineProps({
   iconBgColor: { type: String, default: 'bg-n-alpha-3' },
   senderTranslationKey: { type: String, required: true },
   content: { type: String, required: true },
-  title: { type: String, default: '' }, // Meta can be any name, description, etc
+  title: { type: String, default: '' }, // Title can be any name, description, etc
   action: {
     type: Object,
     required: true,
