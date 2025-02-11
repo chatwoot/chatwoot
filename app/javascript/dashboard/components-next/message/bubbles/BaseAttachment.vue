@@ -10,6 +10,7 @@ defineProps({
   iconBgColor: { type: String, default: 'bg-n-alpha-3' },
   senderTranslationKey: { type: String, required: true },
   content: { type: String, required: true },
+  title: { type: String, default: '' }, // Title can be any name, description, etc
   action: {
     type: Object,
     required: true,
@@ -48,6 +49,9 @@ const senderName = computed(() => {
             }}
           </div>
           <slot>
+            <div v-if="title" class="truncate text-sm text-n-slate-12">
+              {{ title }}
+            </div>
             <div v-if="content" class="truncate text-sm text-n-slate-11">
               {{ content }}
             </div>

@@ -143,7 +143,11 @@ class Telegram::IncomingMessageService
     @message.attachments.new(
       account_id: @message.account_id,
       file_type: :contact,
-      fallback_title: contact_card['phone_number'].to_s
+      fallback_title: contact_card['phone_number'].to_s,
+      meta: {
+        first_name: contact_card['first_name'],
+        last_name: contact_card['last_name']
+      }
     )
   end
 
