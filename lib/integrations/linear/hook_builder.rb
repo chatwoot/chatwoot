@@ -46,6 +46,6 @@ class Integrations::Linear::HookBuilder
   end
 
   def linear_redirect_uri
-    "#{ENV.fetch('FRONTEND_URL')}/app/accounts/#{account.id}/settings/integrations/linear"
+    "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{account.id}/settings/integrations/linear"
   end
 end
