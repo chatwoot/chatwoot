@@ -1,4 +1,4 @@
-<%= CSVSafe.generate_line [I18n.t('reports.period', since: Date.strptime(params[:since], '%s'), until: Date.strptime(params[:until], '%s'))] %>
+<%= CSV.generate_line [I18n.t('reports.period', since: Date.strptime(params[:since], '%s'), until: Date.strptime(params[:until], '%s'))] %>
 
 <% headers = [
     I18n.t('reports.inbox_csv.inbox_name'),
@@ -8,7 +8,7 @@
     I18n.t('reports.inbox_csv.avg_resolution_time')
   ]
 %>
-<%= CSVSafe.generate_line headers -%>
+<%= CSV.generate_line headers -%>
 <% @report_data.each do |row| %>
-<%= CSVSafe.generate_line row -%>
+<%= CSV.generate_line row -%>
 <% end %>
