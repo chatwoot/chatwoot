@@ -10,6 +10,9 @@ class ActionCableBroadcastJob < ApplicationJob
 
   private
 
+  # Ensures that only the latest available data is sent to prevent UI issues
+  # caused by out-of-order events during high-traffic periods. This prevents
+  # the conversation job from processing outdated data.
   def prepare_broadcast_data(event_name, data)
     return data unless event_name == 'conversation.updated'
 
