@@ -9,9 +9,15 @@ describe Integrations::Linear::HookBuilder do
   describe '#perform' do
     it 'creates hook with valid token' do
       hooks_count = account.hooks.count
+      token_response = {
+        'access_token' => token,
+        'token_type' => 'Bearer',
+        'expires_in' => 3600,
+        'scope' => 'read,write'
+      }
 
       builder = described_class.new(account: account, code: code, inbox_id: inbox.id)
-      allow(builder).to receive(:fetch_access_token).and_return(token)
+      allow(builder).to receive(:fetch_access_token).and_return(token_response)
 
       hook = builder.perform
       expect(account.hooks.count).to eql(hooks_count + 1)
@@ -20,6 +26,11 @@ describe Integrations::Linear::HookBuilder do
       expect(hook.status).to eql('enabled')
       expect(hook.app_id).to eql('linear')
       expect(hook.inbox_id).to eql(inbox.id)
+      expect(hook.settings).to include({
+                                         'token_type' => 'Bearer',
+                                         'expires_in' => 3600,
+                                         'scope' => 'read,write'
+                                       })
     end
   end
 
