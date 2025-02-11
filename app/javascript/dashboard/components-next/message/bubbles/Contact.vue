@@ -101,7 +101,7 @@ const action = computed(() => ({
     icon="i-teenyicons-user-circle-solid"
     icon-bg-color="bg-[#D6409F]"
     sender-translation-key="CONVERSATION.SHARED_ATTACHMENT.CONTACT"
-    :title="contactName"
+    :meta="contactName"
     :content="phoneNumber"
     :action="formattedPhoneNumber ? action : null"
   />
