@@ -1,60 +1,50 @@
-<script>
-import { mapGetters } from 'vuex';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+<script setup>
+import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter, useRoute } from 'vue-router';
 import Integration from './Integration.vue';
 import Spinner from 'shared/components/Spinner.vue';
-export default {
-  components: {
-    Spinner,
-    Integration,
-  },
-  mixins: [globalConfigMixin],
-  props: {
-    code: { type: String, default: '' },
-  },
-  data() {
-    return { integrationLoaded: false };
-  },
-  computed: {
-    integration() {
-      return this.$store.getters['integrations/getIntegration']('linear');
-    },
-    areHooksAvailable() {
-      const { hooks = [] } = this.integration || {};
-      return !!hooks.length;
-    },
-    hook() {
-      const { hooks = [] } = this.integration || {};
-      const [hook] = hooks;
-      return hook || {};
-    },
-    ...mapGetters({
-      uiFlags: 'integrations/getUIFlags',
-    }),
 
-    integrationAction() {
-      if (this.integration.enabled) {
-        return 'disconnect';
-      }
-      return this.integration.action;
-    },
-  },
-  mounted() {
-    this.intializeLinearIntegration();
-  },
-  methods: {
-    async intializeLinearIntegration() {
-      await this.$store.dispatch('integrations/get', 'linear');
-      if (this.code) {
-        await this.$store.dispatch('integrations/connectLinear', this.code);
-        // Clear the query param `code` from the URL as the
-        // subsequent reloads would result in an error
-        this.$router.replace(this.$route.path);
-      }
-      this.integrationLoaded = true;
-    },
-  },
+// Props
+const props = defineProps({
+  code: { type: String, default: '' },
+});
+
+// Store setup
+const store = useStore();
+const router = useRouter();
+const route = useRoute();
+
+// Reactive state
+const integrationLoaded = ref(false);
+
+// Computed properties
+const integration = computed(() =>
+  store.getters['integrations/getIntegration']('linear')
+);
+
+const uiFlags = computed(() => store.getters['integrations/getUIFlags']);
+
+const integrationAction = computed(() => {
+  if (integration.value.enabled) {
+    return 'disconnect';
+  }
+  return integration.value.action;
+});
+
+// Methods
+const intializeLinearIntegration = async () => {
+  await store.dispatch('integrations/get', 'linear');
+  if (props.code) {
+    await store.dispatch('integrations/connectLinear', props.code);
+    // Clear the query param `code` from the URL
+    router.replace(route.path);
+  }
+  integrationLoaded.value = true;
 };
+
+// Mounted equivalent
+intializeLinearIntegration();
 </script>
 
 <template>
@@ -73,7 +63,6 @@ export default {
               :integration-description="integration.description"
               :integration-enabled="integration.enabled"
               :integration-action="integrationAction"
-              :action-button-text="$t('INTEGRATION_SETTINGS.LINEAR.DELETE')"
               :delete-confirmation-text="{
                 title: $t('INTEGRATION_SETTINGS.LINEAR.DELETE.TITLE'),
                 message: $t('INTEGRATION_SETTINGS.LINEAR.DELETE.MESSAGE'),
