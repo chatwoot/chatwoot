@@ -267,6 +267,10 @@ en:
       title: Page not found
       description: We couldn't find the page you were looking for.
       back_to_home: Go to home page
+  whatsapp:
+    interactive:
+      list:
+        button_label: 'Choose an item'
   slack_unfurl:
     fields:
       name: Name
