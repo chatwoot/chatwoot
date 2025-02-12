@@ -2,8 +2,8 @@
 @use 'tailwindcss/components';
 @use 'tailwindcss/utilities';
 
-@use 'sass:color';
-@use 'sass:math';
+@use 'sass:color'; 
+@use 'sass:math';  
 
 @use 'widget/assets/scss/reset';
 @use 'widget/assets/scss/variables' as widget-vars;  // Add namespace
