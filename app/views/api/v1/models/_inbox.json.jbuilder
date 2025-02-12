@@ -42,7 +42,9 @@ json.website_token resource.channel.try(:website_token)
 json.selected_feature_flags resource.channel.try(:selected_feature_flags)
 json.reply_time resource.channel.try(:reply_time)
 if resource.web_widget?
-  json.hmac_token resource.channel.try(:hmac_token) if Current.account_user&.administrator?
+  if Current.account_user&.administrator? && !(defined?(hide_channel_credentials) && hide_channel_credentials)
+    json.hmac_token resource.channel.try(:hmac_token)
+  end
   json.pre_chat_form_enabled resource.channel.try(:pre_chat_form_enabled)
   json.pre_chat_form_options resource.channel.try(:pre_chat_form_options)
   json.continuity_via_email resource.channel.try(:continuity_via_email)
@@ -67,7 +69,7 @@ if resource.email?
   ## IMAP
   if Current.account_user&.administrator?
     json.imap_login resource.channel.try(:imap_login)
-    json.imap_password resource.channel.try(:imap_password)
+    json.imap_password resource.channel.try(:imap_password) unless defined?(hide_channel_credentials) && hide_channel_credentials
     json.imap_address resource.channel.try(:imap_address)
     json.imap_port resource.channel.try(:imap_port)
     json.imap_enabled resource.channel.try(:imap_enabled)
@@ -81,7 +83,7 @@ if resource.email?
   ## SMTP
   if Current.account_user&.administrator?
     json.smtp_login resource.channel.try(:smtp_login)
-    json.smtp_password resource.channel.try(:smtp_password)
+    json.smtp_password resource.channel.try(:smtp_password) unless defined?(hide_channel_credentials) && hide_channel_credentials
     json.smtp_address resource.channel.try(:smtp_address)
     json.smtp_port resource.channel.try(:smtp_port)
     json.smtp_enabled resource.channel.try(:smtp_enabled)
@@ -95,7 +97,9 @@ end
 
 ## API Channel Attributes
 if resource.api?
-  json.hmac_token resource.channel.try(:hmac_token) if Current.account_user&.administrator?
+  if Current.account_user&.administrator? && !(defined?(hide_channel_credentials) && hide_channel_credentials)
+    json.hmac_token resource.channel.try(:hmac_token)
+  end
   json.webhook_url resource.channel.try(:webhook_url)
   json.inbox_identifier resource.channel.try(:identifier)
   json.additional_attributes resource.channel.try(:additional_attributes)
