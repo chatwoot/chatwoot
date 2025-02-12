@@ -9,6 +9,7 @@ if resource.custom_attributes.present?
     json.industry resource.custom_attributes['industry'] if resource.custom_attributes['industry'].present?
     json.call_config resource.custom_attributes['call_config'] if resource.custom_attributes['call_config'].present?
     json.calling_settings resource.custom_attributes['calling_settings'] if resource.custom_attributes['calling_settings'].present?
+    json.show_label_to_agent resource.custom_attributes['show_label_to_agent'] if resource.custom_attributes['show_label_to_agent'].present?
     json.contact_masking resource.custom_attributes['contact_masking'] if resource.custom_attributes['contact_masking'].present?
     json.company_size resource.custom_attributes['company_size'] if resource.custom_attributes['company_size'].present?
     json.timezone resource.custom_attributes['timezone'] if resource.custom_attributes['timezone'].present?
