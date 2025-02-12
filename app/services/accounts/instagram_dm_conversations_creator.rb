@@ -75,7 +75,13 @@ class Accounts::InstagramDmConversationsCreator
     new_conversation_link = "https://chat.bitespeed.co/app/accounts/#{@conversation.account_id}/conversations/#{@conversation.display_id}"
     private_message_params = private_message_params(old_conversation,
                                                     "Conversation Moved to Instagram DM.\n\nNew Conversation: #{new_conversation_link}")
+    comment_message_params = instagram_comment_reply_message_params(old_conversation, 'Check your DM')
     old_conversation.messages.create!(private_message_params)
+    old_conversation.messages.create!(comment_message_params)
+  end
+
+  def instagram_comment_reply_message_params(conversation, content)
+    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :outgoing, private: false, content: content }
   end
 
   def log_error(error)
