@@ -35,6 +35,8 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
       }
     }
 
+    Rails.logger.info("MessageParams #{params.inspect}")
+
     merge_human_agent_tag(params)
   end
 
@@ -56,7 +58,9 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
 
   def build_recipient
     recipient = { id: contact.get_source_id(inbox.id) }
-    recipient[:comment_id] = message.content_attributes[:reply_to_comment_id] if message.content_attributes[:reply_to_comment_id].present?
+    if !message.conversation.can_reply? && message.content_attributes[:reply_to_comment_id].present?
+      recipient[:comment_id] = message.content_attributes[:reply_to_comment_id]
+    end
     recipient
   end
 
