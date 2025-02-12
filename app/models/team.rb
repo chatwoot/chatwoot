@@ -31,8 +31,26 @@ class Team < ApplicationRecord
     self.name = name.downcase if attribute_present?('name')
   end
 
-  def add_member(user_id)
-    team_members.find_or_create_by(user_id: user_id)&.user
+  # Adds multiple members to the team
+  # @param user_ids [Array<Integer>] Array of user IDs to add as members
+  # @return [Array<User>] Array of newly added members
+  def add_members(user_ids)
+    added_users = user_ids.map do |user_id|
+      add_member(user_id)
+    end.compact
+
+    update_account_cache
+    added_users
+  end
+
+  # Removes multiple members from the team
+  # @param user_ids [Array<Integer>] Array of user IDs to remove
+  # @return [void]
+  def remove_members(user_ids)
+    user_ids.each do |user_id|
+      remove_member(user_id)
+    end
+    update_account_cache
   end
 
   def remove_member(user_id)
@@ -52,6 +70,16 @@ class Team < ApplicationRecord
       id: id,
       name: name
     }
+  end
+
+  private
+
+  def add_member(user_id)
+    team_members.find_or_create_by(user_id: user_id)&.user
+  end
+
+  def remove_member(user_id)
+    team_members.find_by(user_id: user_id)&.destroy!
   end
 end
 
