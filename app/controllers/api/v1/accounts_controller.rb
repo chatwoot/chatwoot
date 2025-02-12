@@ -56,6 +56,10 @@ class Api::V1::AccountsController < Api::BaseController
     head :ok
   end
 
+  def destroy
+    render json: { message: 'Account deletion enqueued' }, status: :ok
+  end
+
   private
 
   def ensure_account_name

@@ -1,5 +1,6 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
+import AccountAPI from 'dashboard/api/account';
 import { required, minValue, maxValue } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -9,8 +10,12 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import semver from 'semver';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
+import WootConfirmDeleteModal from 'dashboard/components/widgets/modal/ConfirmDeleteModal.vue';
 
 export default {
+  components: {
+    WootConfirmDeleteModal,
+  },
   setup() {
     const { updateUISettings } = useUISettings();
     const { enabledLanguages } = useConfig();
@@ -29,6 +34,7 @@ export default {
       features: {},
       autoResolveDuration: null,
       latestChatwootVersion: null,
+      showDeletePopup: false,
     };
   },
   validations: {
@@ -95,6 +101,14 @@ export default {
     getAccountId() {
       return this.id.toString();
     },
+    confirmPlaceHolderText() {
+      return `${this.$t(
+        'GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.PLACE_HOLDER',
+        {
+          accountName: this.name,
+        }
+      )}`;
+    },
   },
   mounted() {
     this.initializeAccount();
@@ -155,6 +169,25 @@ export default {
       this.updateUISettings({
         rtl_view: isRTLSupported,
       });
+    },
+    // Delete Function
+    openDeletePopup() {
+      this.showDeletePopup = true;
+    },
+    closeDeletePopup() {
+      this.showDeletePopup = false;
+    },
+    async confirmAccountDeletion() {
+      this.closeDeletePopup();
+      try {
+        const response = await AccountAPI.delete(this.accountId);
+        const message =
+          response.data.message ||
+          this.$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.SUCCESS');
+        useAlert(message);
+      } catch (error) {
+        useAlert(this.$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.FAILURE'));
+      }
     },
   },
 };
@@ -265,6 +298,55 @@ export default {
           <woot-code :script="getAccountId" />
         </div>
       </div>
+
+      <woot-submit-button
+        class="button nice success button--fixed-top"
+        :button-text="$t('GENERAL_SETTINGS.SUBMIT')"
+        :loading="isUpdating"
+      />
+    </form>
+    <div v-if="!uiFlags.isFetchingItem">
+      <div
+        class="flex flex-row p-4 border-t border-slate-25 dark:border-slate-800 text-black-900 dark:text-slate-300"
+      >
+        <div
+          class="flex-grow-0 flex-shrink-0 flex-[25%] min-w-0 py-4 pr-6 pl-0"
+        >
+          <h4 class="text-lg font-medium text-black-900 dark:text-slate-200">
+            {{ $t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.TITLE') }}
+          </h4>
+          <p>
+            {{ $t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.NOTE') }}
+          </p>
+        </div>
+        <div class="p-4 flex-grow-0 flex-shrink-0 flex-[50%]">
+          <woot-submit-button
+            button-class="alert button nice"
+            :button-text="
+              $t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.BUTTON_TEXT')
+            "
+            :loading="showDeletePopup"
+            @click="openDeletePopup()"
+          />
+        </div>
+      </div>
+      <WootConfirmDeleteModal
+        v-if="showDeletePopup"
+        v-model:show="showDeletePopup"
+        :title="$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.TITLE')"
+        :message="$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.MESSAGE')"
+        :confirm-text="
+          $t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.BUTTON_TEXT')
+        "
+        :reject-text="
+          $t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.DISMISS')
+        "
+        :confirm-value="name"
+        :confirm-place-holder-text="confirmPlaceHolderText"
+        @on-confirm="confirmAccountDeletion"
+        @on-close="closeDeletePopup"
+      />
+
       <div class="p-4 text-sm text-center">
         <div>{{ `v${globalConfig.appVersion}` }}</div>
         <div v-if="hasAnUpdateAvailable && globalConfig.displayManifest">
@@ -278,14 +360,7 @@ export default {
           <div>{{ `Build ${globalConfig.gitSha}` }}</div>
         </div>
       </div>
-
-      <woot-submit-button
-        class="button nice success button--fixed-top"
-        :button-text="$t('GENERAL_SETTINGS.SUBMIT')"
-        :loading="isUpdating"
-      />
-    </form>
-
+    </div>
     <woot-loading-state v-if="uiFlags.isFetchingItem" />
   </div>
 </template>
