@@ -5,7 +5,7 @@
     "DESCRIPTION": "Funções personalizadas são funções criadas pelo proprietário ou administrador da conta. Essas funções podem ser atribuídas a agentes para definir seu acesso e permissões dentro da conta. Funções personalizadas podem ser criadas com permissões e níveis de acesso específicos para atender aos requisitos da organização.",
     "HEADER_BTN_TXT": "Adicionar cargo personalizado",
     "LOADING": "Buscando funções personalizadas...",
-    "SEARCH_404": "Não existem itens correspondentes a esta consulta.",
+    "SEARCH_404": "Não há itens correspondentes a esta consulta.",
     "PAYWALL": {
       "TITLE": "Atualize para criar funções personalizadas",
       "AVAILABLE_ON": "O recurso de função personalizada está disponível apenas nos planos \"Business\" e \"Enterprise\".",
