@@ -2,120 +2,120 @@
   "ATTRIBUTES_MGMT": {
     "HEADER": "カスタム属性",
     "HEADER_BTN_TXT": "カスタム属性を追加",
-    "LOADING": "カスタム属性が取得中",
-    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
-    "LEARN_MORE": "Learn more about custom attributes",
+    "LOADING": "カスタム属性を取得中",
+    "DESCRIPTION": "カスタム属性は、連絡先や会話に関する追加の詳細（例：サブスクリプションプランや初回購入日など）を記録します。必要な情報をキャプチャするために、テキスト、リスト、数値など、さまざまなタイプのカスタム属性を追加できます。",
+    "LEARN_MORE": "カスタム属性について詳しく学ぶ",
     "ADD": {
       "TITLE": "カスタム属性を追加",
       "SUBMIT": "作成",
       "CANCEL_BUTTON_TEXT": "キャンセル",
       "FORM": {
         "NAME": {
-          "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter custom attribute display name",
+          "LABEL": "表示名",
+          "PLACEHOLDER": "カスタム属性の表示名を入力してください",
           "ERROR": "名前が必須です"
         },
         "DESC": {
           "LABEL": "説明",
-          "PLACEHOLDER": "Enter custom attribute description",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "カスタム属性の説明を入力してください",
+          "ERROR": "説明は必須です"
         },
         "MODEL": {
-          "LABEL": "Applies to",
-          "PLACEHOLDER": "Please select one",
-          "ERROR": "Model is required"
+          "LABEL": "適用先",
+          "PLACEHOLDER": "選択してください",
+          "ERROR": "モデルは必須です"
         },
         "TYPE": {
-          "LABEL": "Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Type is required",
+          "LABEL": "タイプ",
+          "PLACEHOLDER": "タイプを選択してください",
+          "ERROR": "タイプは必須です",
           "LIST": {
-            "LABEL": "List Values",
-            "PLACEHOLDER": "Please enter value and press enter key",
-            "ERROR": "Must have at least one value"
+            "LABEL": "リストの値",
+            "PLACEHOLDER": "値を入力してEnterキーを押してください",
+            "ERROR": "少なくとも1つの値が必要です"
           }
         },
         "KEY": {
-          "LABEL": "Key",
-          "PLACEHOLDER": "Enter custom attribute key",
-          "ERROR": "Key is required",
-          "IN_VALID": "Invalid key"
+          "LABEL": "キー",
+          "PLACEHOLDER": "カスタム属性のキーを入力してください",
+          "ERROR": "キーは必須です",
+          "IN_VALID": "無効なキー"
         },
         "REGEX_PATTERN": {
-          "LABEL": "Regex Pattern",
-          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+          "LABEL": "正規表現パターン",
+          "PLACEHOLDER": "カスタム属性の正規表現パターンを入力してください（オプション）"
         },
         "REGEX_CUE": {
-          "LABEL": "Regex Cue",
-          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+          "LABEL": "正規表現のヒント",
+          "PLACEHOLDER": "正規表現パターンのヒントを入力してください（オプション）"
         },
         "ENABLE_REGEX": {
-          "LABEL": "Enable regex validation"
+          "LABEL": "正規表現の検証を有効にする"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute added successfully!",
-        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
+        "SUCCESS_MESSAGE": "カスタム属性が正常に追加されました！",
+        "ERROR_MESSAGE": "カスタム属性を作成できませんでした。後でもう一度お試しください。"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "削除",
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+        "SUCCESS_MESSAGE": "カスタム属性が正常に削除されました。",
+        "ERROR_MESSAGE": "カスタム属性を削除できませんでした。再試行してください。"
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - {attributeName}",
-        "PLACE_HOLDER": "Please type {attributeName} to confirm",
-        "MESSAGE": "Deleting will remove the custom attribute",
-        "YES": "削除 ",
+        "TITLE": "{attributeName} を削除してもよろしいですか？",
+        "PLACE_HOLDER": "確認するために {attributeName} を入力してください",
+        "MESSAGE": "削除するとカスタム属性が削除されます",
+        "YES": "削除",
         "NO": "キャンセル"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Custom Attribute",
+      "TITLE": "カスタム属性を編集",
       "UPDATE_BUTTON_TEXT": "更新",
       "TYPE": {
         "LIST": {
-          "LABEL": "List Values",
-          "PLACEHOLDER": "Please enter values and press enter key"
+          "LABEL": "リストの値",
+          "PLACEHOLDER": "値を入力してEnterキーを押してください"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
+        "SUCCESS_MESSAGE": "カスタム属性が正常に更新されました",
+        "ERROR_MESSAGE": "カスタム属性の更新中にエラーが発生しました。再試行してください"
       }
     },
     "TABS": {
       "HEADER": "カスタム属性",
-      "CONVERSATION": "Conversation",
-      "CONTACT": "Contact"
+      "CONVERSATION": "会話",
+      "CONTACT": "連絡先"
     },
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "名前",
         "DESCRIPTION": "説明",
-        "TYPE": "Type",
-        "KEY": "Key"
+        "TYPE": "タイプ",
+        "KEY": "キー"
       },
       "BUTTONS": {
         "EDIT": "編集",
         "DELETE": "削除"
       },
       "EMPTY_RESULT": {
-        "404": "There are no custom attributes created",
-        "NOT_FOUND": "There are no custom attributes configured"
+        "404": "作成されたカスタム属性はありません",
+        "NOT_FOUND": "設定されたカスタム属性はありません"
       },
       "REGEX_PATTERN": {
-        "LABEL": "Regex Pattern",
-        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        "LABEL": "正規表現パターン",
+        "PLACEHOLDER": "カスタム属性の正規表現パターンを入力してください（オプション）"
       },
       "REGEX_CUE": {
-        "LABEL": "Regex Cue",
-        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        "LABEL": "正規表現のヒント",
+        "PLACEHOLDER": "正規表現パターンのヒントを入力してください（オプション）"
       },
       "ENABLE_REGEX": {
-        "LABEL": "Enable regex validation"
+        "LABEL": "正規表現の検証を有効にする"
       }
     }
   }

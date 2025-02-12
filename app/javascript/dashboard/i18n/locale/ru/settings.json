@@ -194,7 +194,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Изменить",
     "CHANGE_ACCOUNTS": "Сменить аккаунт",
-    "SWITCH_WORKSPACE": "Сменить рабочее пространство",
+    "SWITCH_ACCOUNT": "Сменить аккаунт",
     "CONTACT_SUPPORT": "Связаться с поддержкой",
     "SELECTOR_SUBTITLE": "Выберите аккаунт из списка",
     "PROFILE_SETTINGS": "Настройки профиля",
@@ -263,6 +263,9 @@
     "SETTINGS": "Настройки",
     "CONTACTS": "Контакты",
     "CAPTAIN": "Капитан",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Главная",
     "AGENTS": "Операторы",
     "AGENT_BOTS": "Боты",
@@ -324,14 +327,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Платёж",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Текущий план",
-      "PLAN_NOTE": "На данный момент вы подписаны на ** план{plan}** с **{quantity}** лицензиями"
+      "PLAN_NOTE": "На данный момент вы подписаны на ** план{plan}** с **{quantity}** лицензиями",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Управление подпиской",
       "DESCRIPTION": "Просматривайте ваши предыдущие счета, редактируйте платежные реквизиты или отмените подписку.",
       "BUTTON_TXT": "Перейти на платёжный портал"
+    },
+    "CAPTAIN": {
+      "TITLE": "Капитан",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Нужна помощь?",

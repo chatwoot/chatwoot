@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "El missatge s'ha suprimit correctament",
     "FAIL_DELETE_MESSSAGE": "No s'ha pogut suprimir el missatge! Torna-ho a provar",
     "NO_RESPONSE": "Sense resposta",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Valoració",
     "FEEDBACK_TITLE": "Comentaris",
     "REPLY_MESSAGE_NOT_FOUND": "Missatge no disponible",
@@ -108,7 +109,7 @@
         "SELECT_PLACEHOLDER": "Ningú",
         "INPUT_PLACEHOLDER": "Selecciona la prioritat",
         "NO_RESULTS": "No s'ha trobat agents",
-        "SUCCESSFUL": "S'ha canviat la prioritat de l'identificador de conversa {conversationId} a {priority}",
+        "SUCCESSFUL": "S'ha canviat la prioritat de l'ID de conversa {conversationId} a {priority}",
         "FAILED": "No s'ha pogut canviar la prioritat. Si us plau, torna-ho a provar."
       }
     },
@@ -133,7 +134,7 @@
           "FAILED": "No s'ha pogut assignar l'agent. Torna-ho a provar."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "S'ha assignat l'etiqueta #{labelName} a l'id de conversa {conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "No s'ha pogut assignar l'etiqueta. Torna-ho a provar."
         },
         "TEAM_ASSIGNMENT": {
@@ -352,5 +353,11 @@
     "ONE": "{user} is typing",
     "TWO": "{user} and {secondUser} are typing",
     "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }
