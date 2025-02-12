@@ -65,6 +65,7 @@ export default {
     async updateInbox() {
       try {
         this.loading = true;
+
         let payload = {
           id: this.inbox.id,
           formData: false,
@@ -73,10 +74,15 @@ export default {
             imap_address: this.address,
             imap_port: this.port,
             imap_login: this.login,
-            imap_password: this.password,
             imap_enable_ssl: this.isSSLEnabled,
           },
         };
+
+        // If the password is a placeholder, don't send it to the server
+        const isPlaceholderPassword = /^\*+$/.test(this.password);
+        if (!isPlaceholderPassword) {
+          payload.channel.imap_password = this.password;
+        }
 
         if (!this.isIMAPEnabled) {
           payload.channel.smtp_enabled = false;

@@ -134,7 +134,6 @@ export default {
             smtp_address: this.address,
             smtp_port: this.port,
             smtp_login: this.login,
-            smtp_password: this.password,
             smtp_domain: this.domain,
             smtp_enable_ssl_tls: this.ssl,
             smtp_enable_starttls_auto: this.starttls,
@@ -142,6 +141,12 @@ export default {
             smtp_authentication: this.authMechanism,
           },
         };
+
+        const isPlaceholderPassword = /^\*+$/.test(this.password);
+        if (!isPlaceholderPassword) {
+          payload.channel.smtp_password = this.password;
+        }
+
         await this.$store.dispatch('inboxes/updateInboxSMTP', payload);
         useAlert(this.$t('INBOX_MGMT.SMTP.EDIT.SUCCESS_MESSAGE'));
       } catch (error) {
