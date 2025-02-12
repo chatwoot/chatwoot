@@ -9,11 +9,12 @@ json.thumbnail resource.avatar_url
 json.custom_attributes resource.custom_attributes
 json.last_activity_at resource.last_activity_at.to_i if resource[:last_activity_at].present?
 json.created_at resource.created_at.to_i if resource[:created_at].present?
+json.with_contact_inboxes defined?(with_contact_inboxes)
 # we only want to output contact inbox when its /contacts endpoints
 if defined?(with_contact_inboxes) && with_contact_inboxes.present?
   json.contact_inboxes do
     json.array! resource.contact_inboxes do |contact_inbox|
-      json.partial! 'api/v1/models/contact_inbox', formats: [:json], resource: contact_inbox
+      json.partial! 'api/v1/models/contact_inbox', formats: [:json], resource: contact_inbox, hide_channel_credentials: true
     end
   end
 end
