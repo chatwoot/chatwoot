@@ -114,6 +114,9 @@ const tailwindConfig = {
                 margin: '0 1em 0.5em 0',
               },
             },
+            'ul > li::marker': {
+              color: 'rgb(var(--slate-9))',
+            },
             'ol li': {
               margin: '0 0 0.5em 1em',
               listStyleType: 'decimal',
