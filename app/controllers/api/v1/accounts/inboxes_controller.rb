@@ -67,6 +67,22 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     render status: :ok, json: { message: I18n.t('messages.inbox_deletetion_response') }
   end
 
+  def comment_messageable_status
+    messages_to_update = @inbox.messages.where('content_attributes::text LIKE ?', "%#{params[:comment_id]}%")
+    Rails.logger.info "SQL: #{messages_to_update.to_sql}"
+    Rails.logger.info "Messages to update: #{messages_to_update.count}"
+    messages_to_update.find_each do |message|
+      Rails.logger.info "Updating message: #{message.id}"
+      updated_attributes = message.content_attributes || {}
+      updated_attributes[:is_dm_conversation_created] = true
+      message.update!(content_attributes: updated_attributes)
+      Rails.logger.info "Updated message: #{message.id}"
+    end
+    render status: :ok, json: { message: 'Messages updated successfully' }
+  rescue StandardError => e
+    render status: :unprocessable_entity, json: { message: e.message }
+  end
+
   private
 
   def fetch_inbox

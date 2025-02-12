@@ -243,8 +243,6 @@ class Webhooks::CallController < ActionController::API
 
     conversation.update!(assignee: agent)
 
-    mark_conversation_as_inbound_call(conversation)
-
     total_call_duration = params[:DialCallDuration].to_i
     start_time = Time.strptime(params[:StartTime], '%Y-%m-%d %H:%M:%S', 'Asia/Kolkata').utc
 

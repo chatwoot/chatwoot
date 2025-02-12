@@ -58,6 +58,10 @@ class InboxPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def comment_messageable_status?
+    true
+  end
+
   def avatar?
     @account_user.administrator?
   end
