@@ -40,6 +40,7 @@ class Integrations::Linear::HookBuilder
                              },
                              headers: { 'Content-Type' => 'application/x-www-form-urlencoded' })
 
+    Rails.logger.info "Linear response: #{response}"
     raise StandardError, response.parsed_response['error_description'] || 'Failed to authenticate with Linear' unless response.success?
 
     response.parsed_response
