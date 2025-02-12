@@ -1,7 +1,7 @@
 {
   "INBOX": {
     "LIST": {
-      "TITLE": "Minha Caixa de Entrada",
+      "TITLE": "Caixa de Entrada",
       "DISPLAY_DROPDOWN": "Exibir",
       "LOADING": "Carregando notificações",
       "404": "Não há conversas ativas neste grupo.",
@@ -28,7 +28,7 @@
       "SLA_MISSED_RESOLUTION": "A resolução da meta de SLA foi perdida na conversa"
     },
     "TYPES_NEXT": {
-      "CONVERSATION_MENTION": "Mentioned",
+      "CONVERSATION_MENTION": "Mencionado",
       "CONVERSATION_ASSIGNMENT": "Atribuídas a você",
       "CONVERSATION_CREATION": "Nova conversa",
       "SLA_MISSED_FIRST_RESPONSE": "Quebra SLA",
@@ -37,7 +37,7 @@
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nova Mensagem",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nova Mensagem",
       "SNOOZED_UNTIL": "Adiado para {time}",
-      "SNOOZED_ENDS": "Snooze ended"
+      "SNOOZED_ENDS": "Adiamento encerrado"
     },
     "NO_CONTENT": "Nenhum conteúdo disponível",
     "MENU_ITEM": {
@@ -51,7 +51,7 @@
     },
     "DISPLAY_MENU": {
       "SORT": "Ordenar",
-      "DISPLAY": "Exibir :",
+      "DISPLAY": "Exibir:",
       "SORT_OPTIONS": {
         "NEWEST": "Mais recente",
         "OLDEST": "Mais antigo",

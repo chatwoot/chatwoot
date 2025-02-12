@@ -110,7 +110,7 @@
         "LABEL": "Nome da empresa"
       },
       "COUNTRY": {
-        "PLACEHOLDER": "Digite o nome do país",
+        "PLACEHOLDER": "Digite o nome do país ",
         "LABEL": "Nome do País",
         "SELECT_PLACEHOLDER": "Selecionar",
         "REMOVE": "Excluir",
@@ -318,7 +318,7 @@
           "TITLE": "Exportar contatos",
           "DESCRIPTION": "Exporte rapidamente um arquivo csv com detalhes completos dos seus contatos",
           "CONFIRM": "Exportar",
-          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+          "SUCCESS_MESSAGE": "Exportando. Você será notificado por e-mail quando o arquivo estiver pronto para download.",
           "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
         },
         "SORT_BY": {
@@ -482,7 +482,7 @@
       "TABS": {
         "ATTRIBUTES": "Atributos",
         "HISTORY": "Histórico",
-        "NOTES": "Observações",
+        "NOTES": "Notas",
         "MERGE": "Mesclar"
       },
       "HISTORY": {
@@ -537,7 +537,7 @@
         "PLACEHOLDER": "Adicionar uma nota",
         "WROTE": "escreveu",
         "YOU": "Você",
-        "SAVE": "Salvar anotação",
+        "SAVE": "Salvar nota",
         "EMPTY_STATE": "Não existem notas associadas a este contato. Você pode adicionar uma nota digitando na caixa acima."
       }
     },
