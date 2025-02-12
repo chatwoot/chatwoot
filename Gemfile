@@ -178,12 +178,17 @@ gem 'reverse_markdown'
 gem 'iso-639'
 gem 'ruby-openai'
 
+<<<<<<< HEAD
 gem 'shopify_api'
 gem 'blazer'
 gem 'honeybadger', '~> 5.26'
 gem 'blazer'
 gem 'rails_execution'
 gem 'honeybadger', '~> 5.26'
+=======
+gem 'blazer'
+gem 'rails_execution'
+>>>>>>> 05fd450b7 (feat: add Blazer and RailsExecution integrations)
 
 ### Gems required only in specific deployment environments ###
 ##############################################################
