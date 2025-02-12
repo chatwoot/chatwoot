@@ -65,6 +65,14 @@ class Channel::Email < ApplicationRecord
     imap_enabled && imap_address == 'imap.gmail.com'
   end
 
+  def obfuscated_imap_password
+    imap_password.present? ? '********' : nil
+  end
+
+  def obfuscated_smtp_password
+    smtp_password.present? ? '********' : nil
+  end
+
   private
 
   def ensure_forward_to_email
