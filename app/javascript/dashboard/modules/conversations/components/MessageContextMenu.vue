@@ -36,6 +36,7 @@
       class="context-menu--delete-modal"
       :show="showInstagramDmModal"
       :instagram-comment-id="instagramCommentId"
+      :message-id="messageId"
       @cancel="closeInstagramDmModal"
     />
     <woot-button

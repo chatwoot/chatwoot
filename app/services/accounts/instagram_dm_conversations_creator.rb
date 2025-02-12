@@ -20,10 +20,14 @@ class Accounts::InstagramDmConversationsCreator
     @inbox = Inbox.find_by(id: @params[:inbox_id])
     return unless valid_instagram_inbox?
 
+    # check if the dm conversation already created with comment_id then delete it
+    return { error: 'DM conversation has already been created for this comment' } if if_dm_conversation_already_exist
+
     setup_contact_and_conversation
     send_instagram_message
     update_old_conversation
     add_private_note_on_new_conversation
+    update_existing_message_status
 
     { success: true }
   rescue StandardError => e
@@ -142,6 +146,29 @@ class Accounts::InstagramDmConversationsCreator
     process_attachments(message_params)
     message_params[:content_attributes] = { reply_to_comment_id: @params[:comment_id] }
     message_params
+  end
+
+  def update_existing_message_status
+    message_id = @params[:message_id]
+    @message = Message.find_by(id: message_id)
+
+    if @message
+      updated_attributes = @message.content_attributes || {}
+      updated_attributes[:is_dm_conversation_created] = true
+      @message.update!(content_attributes: updated_attributes)
+    else
+      Rails.logger.error "Message not found for ID: #{message_id}"
+    end
+  end
+
+  def if_dm_conversation_already_exist
+    message_id = @params[:message_id]
+    @message = Message.find_by(id: message_id)
+    if @message
+      @message.content_attributes[:is_dm_conversation_created]
+    else
+      Rails.logger.error "Message not found for ID: #{message_id}"
+    end
   end
 
   def process_attachments(message_params)

@@ -15,6 +15,7 @@ class Messages::MessageBuilder
     @url_attachments = params[:url_attachments]
     @automation_rule = content_attributes&.dig(:automation_rule_id)
     @comment_id = content_attributes&.dig(:comment_id)
+    @is_dm_conversation_created = content_attributes&.dig(:is_dm_conversation_created)
     @ignore_automation_rules = params[:ignore_automation_rules]
     @disable_notifications = params[:disable_notifications]
     @disable_webhook_notifications = params[:disable_webhook_notifications]
@@ -225,7 +226,8 @@ class Messages::MessageBuilder
       in_reply_to: @in_reply_to,
       echo_id: @params[:echo_id],
       source_id: @params[:source_id],
-      reply_to_comment_id: @reply_to_comment_id
+      reply_to_comment_id: @reply_to_comment_id,
+      is_dm_conversation_created: @is_dm_conversation_created
     }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params).merge(ignore_automation_rules).merge(disable_notifications).merge(disable_webhook_notifications).merge(template_params_stringified).merge(comment_id)
   end
   # rubocop:enable Layout/LineLength

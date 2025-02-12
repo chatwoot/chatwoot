@@ -9,6 +9,7 @@
         :contact="contact"
         :on-submit="onSubmit"
         :comment-id="instagramCommentId"
+        :message-id="messageId"
         @success="onSuccess"
         @cancel="onCancel"
       />
@@ -32,6 +33,10 @@ export default {
     instagramCommentId: {
       type: String,
       default: '',
+    },
+    messageId: {
+      type: Number,
+      default: NaN,
     },
   },
   computed: {

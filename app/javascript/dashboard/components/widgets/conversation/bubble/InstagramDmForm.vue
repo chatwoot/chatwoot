@@ -225,6 +225,10 @@ export default {
       type: String,
       default: '',
     },
+    messageId: {
+      type: Number,
+      default: NaN,
+    },
   },
   data() {
     return {
@@ -279,6 +283,7 @@ export default {
       payload.append('assignee_id', params.assigneeId);
       payload.append('comment_id', params.commentId);
       payload.append('conversation_id', this.currentChat.id);
+      payload.append('message_id', this.messageId);
       if (this.attachedFiles && this.attachedFiles.length > 0) {
         this.setAttachmentPayload(payload);
       }
@@ -412,14 +417,18 @@ export default {
     async createConversation({ payload }) {
       try {
         await conversationsApi.createInstagramDmConversation(payload);
-        this.onSuccess();
         this.showAlert('Instagram DM conversation Created');
       } catch (error) {
         if (error instanceof ExceptionWithMessage) {
           this.showAlert(error.data);
         } else {
-          this.showAlert(this.$t('NEW_CONVERSATION.FORM.ERROR_MESSAGE'));
+          this.showAlert(
+            error.response.data.error ??
+              this.$t('NEW_CONVERSATION.FORM.ERROR_MESSAGE')
+          );
         }
+      } finally {
+        this.onSuccess();
       }
     },
     inboxReadableIdentifier(inbox) {
