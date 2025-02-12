@@ -1,3 +1,4 @@
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 import SettingsWrapper from '../SettingsWrapper.vue';
@@ -19,6 +20,7 @@ export default {
           path: 'list',
           name: 'auditlogs_list',
           meta: {
+            featureFlag: FEATURE_FLAGS.AUDIT_LOGS,
             permissions: ['administrator'],
           },
           component: AuditLogsHome,
