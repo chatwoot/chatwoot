@@ -29,6 +29,11 @@ class Integrations::App
     case params[:id]
     when 'slack'
       "#{params[:action]}&client_id=#{ENV.fetch('SLACK_CLIENT_ID', nil)}&redirect_uri=#{self.class.slack_integration_url}"
+    when 'linear'
+      base_url = "#{params[:action]}?response_type=code"
+      "#{base_url}&client_id=#{ENV.fetch('LINEAR_CLIENT_ID', nil)}" \
+        "&redirect_uri=#{self.class.linear_integration_url}" \
+        '&state=SECURE_RANDOM&scope=read,write&prompt=consent'
     else
       params[:action]
     end
@@ -62,6 +67,10 @@ class Integrations::App
 
   def self.slack_integration_url
     "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{Current.account.id}/settings/integrations/slack"
+  end
+
+  def self.linear_integration_url
+    "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{Current.account.id}/settings/integrations/linear"
   end
 
   class << self
