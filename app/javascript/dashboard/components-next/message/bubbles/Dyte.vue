@@ -21,15 +21,16 @@ const isLoading = ref(false);
 const dyteAuthToken = ref('');
 
 const meetingLink = computed(() => {
-  return buildDyteURL(meetingData.value.roomName, dyteAuthToken.value);
+  return buildDyteURL(dyteAuthToken.value);
 });
 
 const joinTheCall = async () => {
   isLoading.value = true;
   try {
-    const { data: { authResponse: { authToken } = {} } = {} } =
-      await DyteAPI.addParticipantToMeeting(meetingData.value.messageId);
-    dyteAuthToken.value = authToken;
+    const { data: { token } = {} } = await DyteAPI.addParticipantToMeeting(
+      meetingData.value.messageId
+    );
+    dyteAuthToken.value = token;
   } catch (err) {
     useAlert(t('INTEGRATION_SETTINGS.DYTE.JOIN_ERROR'));
   } finally {
