@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "Bericht succesvol verwijderd",
     "FAIL_DELETE_MESSSAGE": "Kon bericht niet verwijderen! Probeer het opnieuw",
     "NO_RESPONSE": "Geen reactie",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Beoordeling",
     "FEEDBACK_TITLE": "Feedback",
     "REPLY_MESSAGE_NOT_FOUND": "Bericht niet beschikbaar",
@@ -352,5 +353,11 @@
     "ONE": "{user} is typing",
     "TWO": "{user} and {secondUser} are typing",
     "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }
