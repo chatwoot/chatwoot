@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "تم حذف الرسالة بنجاح",
     "FAIL_DELETE_MESSSAGE": "تعذر حذف الرسالة! حاول مرة أخرى",
     "NO_RESPONSE": "لا توجد استجابة",
+    "RESPONSE": "Response",
     "RATING_TITLE": "التقييم",
     "FEEDBACK_TITLE": "الملاحظات",
     "REPLY_MESSAGE_NOT_FOUND": "الرسالة غير متوفرة",
@@ -133,7 +134,7 @@
           "FAILED": "تعذر تعيين الوكيل. الرجاء المحاولة مرة أخرى."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "تعيين تسمية #{labelName} لمعرف المحادثة {conversationId}",
+          "SUCCESFUL": "تعيين تسمية ##{labelName} لمعرف المحادثة {conversationId}",
           "FAILED": "تعذر تعيين التسمية. الرجاء المحاولة مرة أخرى."
         },
         "TEAM_ASSIGNMENT": {
@@ -352,5 +353,11 @@
     "ONE": "{user} is typing",
     "TWO": "{user} and {secondUser} are typing",
     "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

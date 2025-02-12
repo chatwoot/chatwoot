@@ -1,8 +1,8 @@
 {
   "HELP_CENTER": {
-    "TITLE": "Help Center",
+    "TITLE": "Hjælpecenter",
     "NEW_PAGE": {
-      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
+      "DESCRIPTION": "Opret et selvbetjeningscenter til dine kunder. Hjælp dem med at finde svar hurtigt, uden at vente. Strømlin forespørgsler, øge agent effektivitet og øge kundesupport.",
       "CREATE_PORTAL_BUTTON": "Opret Portal"
     },
     "HEADER": {
@@ -23,10 +23,10 @@
         "ARCHIVED": "Arkiverede Artikler"
       },
       "LOCALE_SELECT": {
-        "TITLE": "Select locale",
-        "PLACEHOLDER": "Select locale",
-        "NO_RESULT": "No locale found",
-        "SEARCH_PLACEHOLDER": "Search locale"
+        "TITLE": "Vælg sprog",
+        "PLACEHOLDER": "Vælg sprog",
+        "NO_RESULT": "Ingen sprog fundet",
+        "SEARCH_PLACEHOLDER": "Søg efter sprog"
       }
     },
     "EDIT_HEADER": {
@@ -44,12 +44,12 @@
       "IMAGE_UPLOAD": {
         "TITLE": "Upload billede",
         "UPLOADING": "Uploader...",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "SUCCESS": "Billede blev uploadet",
+        "ERROR": "Fejl under overførsel af billede",
+        "UN_AUTHORIZED_ERROR": "Du har ikke tilladelse til at overføre billeder",
+        "ERROR_FILE_SIZE": "Billedets størrelse skal være mindre end {size}MB",
+        "ERROR_FILE_FORMAT": "Billedformatet skal være jpg, jpeg eller png",
+        "ERROR_FILE_DIMENSIONS": "Billeddimensioner skal være mindre end 2000 x 2000 px"
       }
     },
     "ARTICLE_SETTINGS": {
@@ -88,15 +88,15 @@
       }
     },
     "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Uncategorized",
-      "SEARCH_RESULTS": "Search results for {query}",
-      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "UNCATEGORIZED": "Ikke Kategoriseret",
+      "SEARCH_RESULTS": "Søgeresultater for {query}",
+      "EMPTY_TEXT": "Søg efter artikler at indsætte i svar.",
       "SEARCH_LOADER": "Søger...",
-      "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
-      "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
-      "PREVIEW_LINK": "Preview article"
+      "INSERT_ARTICLE": "Indsæt",
+      "NO_RESULT": "Ingen artikler fundet",
+      "COPY_LINK": "Kopier artikellink til udklipsholder",
+      "OPEN_LINK": "Åbn artikel i ny fane",
+      "PREVIEW_LINK": "Forhåndsvis artikel"
     },
     "PORTAL": {
       "HEADER": "Portals",
@@ -231,9 +231,9 @@
           "LABEL": "Logo",
           "UPLOAD_BUTTON": "Upload logo",
           "HELP_TEXT": "Dette logo vil blive vist i portalens header.",
-          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
-          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+          "IMAGE_UPLOAD_SUCCESS": "Logo uploadet",
+          "IMAGE_UPLOAD_ERROR": "Logo blev slettet",
+          "IMAGE_DELETE_ERROR": "Fejl under sletning af logo"
         },
         "NAME": {
           "LABEL": "Navn",
@@ -249,13 +249,13 @@
         "DOMAIN": {
           "LABEL": "Tilpasset Domæne",
           "PLACEHOLDER": "Portal brugerdefineret domæne",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
+          "HELP_TEXT": "Tilføj kun Hvis du vil bruge et brugerdefineret domæne til dine portaler. Eks.: {exampleURL}",
           "ERROR": "Indtast et gyldigt domæne URL"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Link Til Hjemmeside",
           "PLACEHOLDER": "Link til portalens hjemmeside",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
+          "HELP_TEXT": "Linket, der bruges til at vende tilbage fra portalen til hjemmesiden. Eks.: {exampleURL}",
           "ERROR": "Indtast en gyldig URL til startsiden"
         },
         "THEME_COLOR": {
@@ -319,13 +319,13 @@
       "HEADERS": {
         "TITLE": "Titel",
         "CATEGORY": "Kategori",
-        "READ_COUNT": "Views",
+        "READ_COUNT": "Visninger",
         "STATUS": "Status",
         "LAST_EDITED": "Sidst redigeret"
       },
       "COLUMNS": {
         "BY": "af",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "AUTHOR_NOT_AVAILABLE": "Forfatteren er ikke tilgængelig"
       }
     },
     "EDIT_ARTICLE": {
@@ -339,7 +339,7 @@
     "PUBLISH_ARTICLE": {
       "API": {
         "ERROR": "Fejl under publicering af artikel",
-        "SUCCESS": "Article published successfully"
+        "SUCCESS": "Artiklen er publiceret"
       }
     },
     "ARCHIVE_ARTICLE": {
@@ -350,8 +350,8 @@
     },
     "DRAFT_ARTICLE": {
       "API": {
-        "ERROR": "Error while drafting article",
-        "SUCCESS": "Article drafted successfully"
+        "ERROR": "Fejl under lagring af artikel",
+        "SUCCESS": "Artikel arkiveret"
       }
     },
     "DELETE_ARTICLE": {
@@ -385,7 +385,7 @@
         "NAME": {
           "LABEL": "Navn",
           "PLACEHOLDER": "Kategori navn",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "Kategorinavn og ikon vil blive brugt i den offentlige portal til at kategorisere artikler.",
           "ERROR": "Navn er påkrævet"
         },
         "SLUG": {
@@ -416,7 +416,7 @@
         "NAME": {
           "LABEL": "Navn",
           "PLACEHOLDER": "Kategori navn",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "Kategorinavn og ikon vil blive brugt i den offentlige portal til at kategorisere artikler.",
           "ERROR": "Navn er påkrævet"
         },
         "SLUG": {
@@ -447,39 +447,39 @@
       }
     },
     "ARTICLE_SEARCH": {
-      "TITLE": "Search articles",
-      "PLACEHOLDER": "Search articles",
-      "NO_RESULT": "No articles found",
+      "TITLE": "Søg efter artikler",
+      "PLACEHOLDER": "Søg efter artikler",
+      "NO_RESULT": "Ingen artikler fundet",
       "SEARCHING": "Søger...",
       "SEARCH_BUTTON": "Søg",
-      "INSERT_ARTICLE": "Insert link",
-      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
-      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
-      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
-      "PREVIEW_LINK": "Preview article",
+      "INSERT_ARTICLE": "Indsæt link",
+      "IFRAME_ERROR": "URL er tom eller ugyldig. Kan ikke vise indholdet.",
+      "OPEN_ARTICLE_SEARCH": "Indsæt artikel fra Hjælpecenter",
+      "SUCCESS_ARTICLE_INSERTED": "Artikel indsat",
+      "PREVIEW_LINK": "Forhåndsvis artikel",
       "CANCEL": "Luk",
       "BACK": "Tilbage",
-      "BACK_RESULTS": "Back to results"
+      "BACK_RESULTS": "Tilbage til resultater"
     },
     "UPGRADE_PAGE": {
-      "TITLE": "Help Center",
-      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
-      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "TITLE": "Hjælpecenter",
+      "DESCRIPTION": "Opret brugervenlige selvbetjeningsportaler. Hjælp dine brugere med at få adgang til artiklerne og få support 24/7. Opgrader dit abonnement for at aktivere denne funktion.",
+      "SELF_HOSTED_DESCRIPTION": "Opret brugervenlige selvbetjeningsportaler. Hjælp dine brugere med at få adgang til artiklerne og få support 24/7. Kontakt din administrator for at aktivere denne funktion.",
       "BUTTON": {
         "LEARN_MORE": "Lær mere",
-        "UPGRADE": "Upgrade"
+        "UPGRADE": "Opgrader"
       },
       "FEATURES": {
         "PORTALS": {
-          "TITLE": "Multiple portals",
-          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+          "TITLE": "Flere portaler",
+          "DESCRIPTION": "Opret flere selvbetjeningscentre for forskellige produkter ved hjælp af samme konto."
         },
         "LOCALES": {
-          "TITLE": "Full support for locales",
-          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+          "TITLE": "Fuld understøttelse af flere sprog på samme tid",
+          "DESCRIPTION": "Lokaliser portalen på dit sprog. Vi understøtter alle landestandarder og tillader oversættelser for alle artikler."
         },
         "SEO": {
-          "TITLE": "SEO-friendly design",
+          "TITLE": "SEO venligt design",
           "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
         },
         "API": {
@@ -659,7 +659,7 @@
       },
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "More properties",
-        "UNCATEGORIZED": "Uncategorized",
+        "UNCATEGORIZED": "Ikke Kategoriseret",
         "EDITOR_PLACEHOLDER": "Write something..."
       },
       "ARTICLE_PROPERTIES": {
@@ -705,9 +705,9 @@
           "LABEL": "Logo",
           "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
           "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
-          "IMAGE_DELETE_SUCCESS": "Logo deleted successfully",
+          "IMAGE_DELETE_SUCCESS": "Logo blev slettet",
           "IMAGE_DELETE_ERROR": "Unable to delete logo",
-          "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+          "IMAGE_UPLOAD_SIZE_ERROR": "Billedets størrelse skal være mindre end {size}MB"
         },
         "NAME": {
           "LABEL": "Navn",

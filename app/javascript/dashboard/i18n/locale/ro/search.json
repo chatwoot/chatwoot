@@ -11,7 +11,10 @@
       "CONVERSATIONS": "Conversații",
       "MESSAGES": "Mesaje"
     },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
     "SEARCHING_DATA": "In căutare",
+    "LOADING_DATA": "Loading",
     "EMPTY_STATE": "Nu s-a găsit niciun {item} pentru interogarea \"{query}\"",
     "EMPTY_STATE_FULL": "Nu s-au găsit rezultate pentru interogarea \"{query}\"",
     "PLACEHOLDER_KEYBINDING": "/ să se concentreze",
@@ -21,6 +24,7 @@
     "READ_MORE": "Citeşte mai mult",
     "WROTE": "scrisese:",
     "FROM": "de la",
-    "EMAIL": "e-mail"
+    "EMAIL": "e-mail",
+    "EMAIL_SUBJECT": "subiect"
   }
 }

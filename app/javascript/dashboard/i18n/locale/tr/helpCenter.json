@@ -47,7 +47,7 @@
         "SUCCESS": "Resim başarıyla yüklendi",
         "ERROR": "Resim yüklenirken hata oluştu",
         "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
-        "ERROR_FILE_SIZE": "Resim boyutu {size}MB'dan küçük olmalıdır",
+        "ERROR_FILE_SIZE": "Resim boyutu %{size}MB'dan küçük olmalıdır",
         "ERROR_FILE_FORMAT": "Resim formatı jpg, jpeg veya png olmalıdır",
         "ERROR_FILE_DIMENSIONS": "Resim boyutları 2000 x 2000'den küçük olmalıdır"
       }

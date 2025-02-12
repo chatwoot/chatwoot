@@ -655,7 +655,7 @@
       "OPEN_SSL_VERIFY_MODE": "Abrir modo de verificação SSL",
       "AUTH_MECHANISM": "Autenticação"
     },
-    "NOTE": "Observação: ",
+    "NOTE": "Nota: ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {

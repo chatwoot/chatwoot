@@ -94,7 +94,7 @@
       },
       "CONFIRM": {
         "TITLE": "Are you sure you want to delete the team?",
-        "PLACE_HOLDER": "Silakan ketik {teamName} untuk konfirmasi",
+        "PLACE_HOLDER": "Silakan ketik %{teamName} untuk konfirmasi",
         "MESSAGE": "Menghapus tim akan menghilangkan alokasi tim dari percakapan yang telah ditetapkan terhadap tim ini.",
         "YES": "Hapus ",
         "NO": "Batalkan"
