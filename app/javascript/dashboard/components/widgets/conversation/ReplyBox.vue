@@ -672,6 +672,7 @@ export default {
       if (this.isReplyButtonDisabled) {
         return;
       }
+      this.message = this.removeEmptyOptionFromNumberedList(this.message);
       if (!this.showMentions) {
         const isOnWhatsApp =
           this.isATwilioWhatsAppChannel ||
@@ -1058,6 +1059,9 @@ export default {
       this.attachedFiles = this.attachedFiles.filter(
         file => !file?.isRecordedAudio
       );
+    },
+    removeEmptyOptionFromNumberedList(message) {
+      return message.replace(/\d+\.\s*$/, '');
     },
   },
 };
