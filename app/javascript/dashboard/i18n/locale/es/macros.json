@@ -1,8 +1,8 @@
 {
   "MACROS": {
     "HEADER": "Macros",
-    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
-    "LEARN_MORE": "Learn more about macros",
+    "DESCRIPTION": "Una macro es un conjunto de acciones guardadas que ayudan a los agentes de servicio al cliente a completar fácilmente las tareas. Los agentes pueden definir un conjunto de acciones como etiquetar una conversación con una etiqueta, enviar una transcripción de correo electrónico, actualizar un atributo personalizado, etc. y pueden ejecutar estas acciones en un solo clic.",
+    "LEARN_MORE": "Más información sobre macros",
     "HEADER_BTN_TXT": "Añadir una nueva macro",
     "HEADER_BTN_TXT_SAVE": "Guardar macro",
     "LOADING": "Obteniendo macros",
@@ -79,10 +79,10 @@
       "ATTRIBUTE_KEY_REQUIRED": "Clave de atributo es requerida",
       "FILTER_OPERATOR_REQUIRED": "El operador de filtro es requerido",
       "VALUE_REQUIRED": "El valor es requerido",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
-      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
-      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "El valor debe ser entre 1 y 998",
+      "ACTION_PARAMETERS_REQUIRED": "Se requieren parámetros de acción",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "Se requiere al menos una condición",
+      "ATLEAST_ONE_ACTION_REQUIRED": "Se requiere al menos una acción"
     }
   }
 }
