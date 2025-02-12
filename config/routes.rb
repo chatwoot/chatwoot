@@ -548,6 +548,8 @@ Rails.application.routes.draw do
     end
     authenticated :super_admin do
       mount Sidekiq::Web => '/monitoring/sidekiq'
+      mount Blazer::Engine, at: '/blazer'
+      mount RailsExecution::Engine, at: 'execution'
     end
   end
 

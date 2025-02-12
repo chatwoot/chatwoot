@@ -220,6 +220,62 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.index ["account_id"], name: "index_automation_rules_on_account_id"
   end
 
+  create_table "blazer_audits", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "query_id"
+    t.text "statement"
+    t.string "data_source"
+    t.datetime "created_at"
+    t.index ["query_id"], name: "index_blazer_audits_on_query_id"
+    t.index ["user_id"], name: "index_blazer_audits_on_user_id"
+  end
+
+  create_table "blazer_checks", force: :cascade do |t|
+    t.bigint "creator_id"
+    t.bigint "query_id"
+    t.string "state"
+    t.string "schedule"
+    t.text "emails"
+    t.text "slack_channels"
+    t.string "check_type"
+    t.text "message"
+    t.datetime "last_run_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_blazer_checks_on_creator_id"
+    t.index ["query_id"], name: "index_blazer_checks_on_query_id"
+  end
+
+  create_table "blazer_dashboard_queries", force: :cascade do |t|
+    t.bigint "dashboard_id"
+    t.bigint "query_id"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dashboard_id"], name: "index_blazer_dashboard_queries_on_dashboard_id"
+    t.index ["query_id"], name: "index_blazer_dashboard_queries_on_query_id"
+  end
+
+  create_table "blazer_dashboards", force: :cascade do |t|
+    t.bigint "creator_id"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_blazer_dashboards_on_creator_id"
+  end
+
+  create_table "blazer_queries", force: :cascade do |t|
+    t.bigint "creator_id"
+    t.string "name"
+    t.text "description"
+    t.text "statement"
+    t.string "data_source"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
+  end
+
   create_table "campaigns", force: :cascade do |t|
     t.integer "display_id", null: false
     t.string "title", null: false
@@ -934,6 +990,72 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.index ["portal_id", "user_id"], name: "index_portals_members_on_portal_id_and_user_id", unique: true
     t.index ["portal_id"], name: "index_portals_members_on_portal_id"
     t.index ["user_id"], name: "index_portals_members_on_user_id"
+  end
+
+  create_table "rails_execution_activities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "task_id", null: false
+    t.text "message", null: false
+    t.integer "owner_id"
+    t.string "owner_type"
+    t.index ["owner_id", "owner_type"], name: "activities_owner_index"
+    t.index ["task_id"], name: "index_rails_execution_activities_on_task_id"
+  end
+
+  create_table "rails_execution_comments", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "task_id", null: false
+    t.text "content", null: false
+    t.integer "owner_id"
+    t.string "owner_type"
+    t.index ["owner_id", "owner_type"], name: "comments_owner_index"
+    t.index ["task_id"], name: "index_rails_execution_comments_on_task_id"
+  end
+
+  create_table "rails_execution_labels", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "name"
+    t.index ["name"], name: "index_rails_execution_labels_on_name", unique: true
+  end
+
+  create_table "rails_execution_task_labels", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "task_id", null: false
+    t.integer "label_id", null: false
+    t.index ["label_id"], name: "index_rails_execution_task_labels_on_label_id"
+    t.index ["task_id"], name: "index_rails_execution_task_labels_on_task_id"
+  end
+
+  create_table "rails_execution_task_reviews", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "task_id", null: false
+    t.text "status", null: false
+    t.integer "owner_id"
+    t.string "owner_type"
+    t.index ["owner_id", "owner_type"], name: "reviews_owner_index"
+    t.index ["task_id"], name: "index_rails_execution_task_reviews_on_task_id"
+  end
+
+  create_table "rails_execution_tasks", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "scheduled_at"
+    t.string "title", null: false
+    t.string "status", null: false
+    t.string "syntax_status", default: "bad"
+    t.text "description"
+    t.text "script"
+    t.string "owner_type"
+    t.integer "owner_id"
+    t.string "repeat_mode", default: "none"
+    t.string "jid"
+    t.index ["owner_id", "owner_type"], name: "tasks_owner_index"
+    t.index ["status"], name: "index_rails_execution_tasks_on_status"
   end
 
   create_table "related_categories", force: :cascade do |t|
