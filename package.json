@@ -110,6 +110,7 @@
     "@iconify-json/ph": "^1.2.1",
     "@iconify-json/ri": "^1.2.3",
     "@iconify-json/teenyicons": "^1.2.1",
+    "@intlify/eslint-plugin-vue-i18n": "^3.2.0",
     "@size-limit/file": "^8.2.4",
     "@vitest/coverage-v8": "3.0.5",
     "@vue/test-utils": "^2.4.6",

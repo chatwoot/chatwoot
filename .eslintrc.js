@@ -4,6 +4,7 @@ module.exports = {
     'prettier',
     'plugin:vue/vue3-recommended',
     'plugin:vitest-globals/recommended',
+    'plugin:@intlify/vue-i18n/recommended',
   ],
   overrides: [
     {
@@ -229,6 +230,18 @@ module.exports = {
     'vue/singleline-html-element-content-newline': 'off',
     'import/extensions': ['off'],
     'no-console': 'error',
+    '@intlify/vue-i18n/no-dynamic-keys': 'error',
+    '@intlify/vue-i18n/no-unused-keys': [
+      'error',
+      {
+        extensions: ['.js', '.vue'],
+      },
+    ],
+  },
+  settings: {
+    'vue-i18n': {
+      localeDir: './app/javascript/*/i18n/**.json',
+    },
   },
   env: {
     browser: true,
