@@ -1,3 +1,4 @@
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
 import SettingsWrapper from '../SettingsWrapper.vue';
 import IntegrationHooks from './IntegrationHooks.vue';
@@ -19,6 +20,7 @@ export default {
           name: 'settings_applications',
           component: Index,
           meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
             permissions: ['administrator'],
           },
         },
@@ -27,6 +29,7 @@ export default {
           component: DashboardApps,
           name: 'settings_integrations_dashboard_apps',
           meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
             permissions: ['administrator'],
           },
         },
@@ -35,6 +38,7 @@ export default {
           component: Webhook,
           name: 'settings_integrations_webhook',
           meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
             permissions: ['administrator'],
           },
         },
@@ -62,6 +66,7 @@ export default {
           name: 'settings_integrations_slack',
           component: Slack,
           meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
             permissions: ['administrator'],
           },
           props: route => ({ code: route.query.code }),
@@ -71,6 +76,7 @@ export default {
           name: 'settings_applications_integration',
           component: IntegrationHooks,
           meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
             permissions: ['administrator'],
           },
           props: route => ({

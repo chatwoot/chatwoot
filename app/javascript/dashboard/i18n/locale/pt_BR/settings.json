@@ -194,7 +194,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Trocar",
     "CHANGE_ACCOUNTS": "Alterar conta",
-    "SWITCH_WORKSPACE": "Trocar workspace",
+    "SWITCH_ACCOUNT": "Alterar conta",
     "CONTACT_SUPPORT": "Contate o suporte",
     "SELECTOR_SUBTITLE": "Selecione uma conta da lista a seguir",
     "PROFILE_SETTINGS": "Configurações do Perfil",
@@ -254,7 +254,7 @@
     "SWITCH": "Trocar",
     "INBOX_VIEW": "",
     "CONVERSATIONS": "Conversas",
-    "INBOX": "Minha Caixa de Entrada",
+    "INBOX": "Caixa de Entrada",
     "ALL_CONVERSATIONS": "Todas as conversas",
     "MENTIONED_CONVERSATIONS": "Menções",
     "PARTICIPATING_CONVERSATIONS": "Participantes",
@@ -263,6 +263,9 @@
     "SETTINGS": "Configurações",
     "CONTACTS": "Contato",
     "CAPTAIN": "Capitão",
+    "CAPTAIN_ASSISTANTS": "Assistentes",
+    "CAPTAIN_DOCUMENTS": "Documentos",
+    "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Principal",
     "AGENTS": "Agentes",
     "AGENT_BOTS": "Robôs",
@@ -324,14 +327,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Cobrança",
+    "DESCRIPTION": "Gerencie sua assinatura aqui, faça o upgrade do seu plano e obtenha mais para sua equipe.",
     "CURRENT_PLAN": {
       "TITLE": "Plano Atual",
-      "PLAN_NOTE": "Você está atualmente inscrito no plano **{plan}** com **{quantity}** licenças"
+      "PLAN_NOTE": "Você está atualmente inscrito no plano **{plan}** com **{quantity}** licenças",
+      "SEAT_COUNT": "Número de assentos",
+      "RENEWS_ON": "Renovações em"
     },
+    "VIEW_PRICING": "Ver Preços",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Gerencie sua assinatura",
       "DESCRIPTION": "Veja suas faturas anteriores, edite seus detalhes de cobrança, ou cancele sua assinatura.",
       "BUTTON_TXT": "Ir para o portal de cobrança"
+    },
+    "CAPTAIN": {
+      "TITLE": "Capitão",
+      "DESCRIPTION": "Gerenciar uso e créditos para o Captain AI.",
+      "BUTTON_TXT": "Comprar mais créditos",
+      "DOCUMENTS": "Documentos",
+      "RESPONSES": "Respostas",
+      "UPGRADE": "O capitão não está disponível no plano gratuito, faça o upgrade para ter acesso aos assistentes, co-piloto e muito mais."
     },
     "CHAT_WITH_US": {
       "TITLE": "Precisa de ajuda?",

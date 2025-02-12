@@ -102,7 +102,7 @@
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "هیچکدام",
       "TITLE": {
-        "AGENT": "انتخاب ایجنت",
+        "AGENT": "انتخاب اپراتور",
         "TEAM": "انتخاب تیم"
       },
       "SEARCH": {

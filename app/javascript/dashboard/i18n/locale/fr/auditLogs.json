@@ -11,11 +11,11 @@
       "404": "Il n'y a aucun journal d'audit disponible dans ce compte.",
       "TITLE": "Gérer les journaux d’audit",
       "DESC": "Les journaux d'audit sont des traces pour les événements et les actions dans un système Chatwoot.",
-      "TABLE_HEADER": [
-        "User",
-        "Action",
-        "Adresse IP"
-      ]
+      "TABLE_HEADER": {
+        "ACTIVITY": "User",
+        "TIME": "Action",
+        "IP_ADDRESS": "Adresse IP"
+      }
     },
     "API": {
       "SUCCESS_MESSAGE": "Les journaux d'audit ont bien été récupérés",
@@ -23,9 +23,9 @@
     },
     "DEFAULT_USER": "Système",
     "AUTOMATION_RULE": {
-      "ADD": "{agentName} a créé une nouvelle règle d'automatisation (#{id})",
-      "EDIT": "{agentName} a mis à jour une règle d’automatisation (#{id})",
-      "DELETE": "{agentName} a supprimé une règle d'automatisation (#{id})"
+      "ADD": "{agentName} created a new automation rule (#{id})",
+      "EDIT": "{agentName} updated an automation rule (#{id})",
+      "DELETE": "{agentName} deleted an automation rule (#{id})"
     },
     "ACCOUNT_USER": {
       "ADD": "{agentName} a invité {invitee} à rejoindre le compte en tant que {role}",
@@ -36,39 +36,39 @@
       }
     },
     "INBOX": {
-      "ADD": "{agentName} a créé une nouvelle boîte de réception (#{id})",
-      "EDIT": "{agentName} a mis à jour une boîte de réception (#{id})",
-      "DELETE": "{agentName} a supprimé une boîte de réception (#{id})"
+      "ADD": "{agentName} created a new inbox (#{id})",
+      "EDIT": "{agentName} updated an inbox (#{id})",
+      "DELETE": "{agentName} deleted an inbox (#{id})"
     },
     "WEBHOOK": {
-      "ADD": "{agentName} a créé un nouveau webhook (#{id})",
-      "EDIT": "{agentName} a mis à jour un webhook (#{id})",
-      "DELETE": "{agentName} a supprimé un webhook (#{id})"
+      "ADD": "{agentName} created a new webhook (#{id})",
+      "EDIT": "{agentName} updated a webhook (#{id})",
+      "DELETE": "{agentName} deleted a webhook (#{id})"
     },
     "USER_ACTION": {
       "SIGN_IN": "{agentName} s'est connecté",
       "SIGN_OUT": "{agentName} s'est déconnecté"
     },
     "TEAM": {
-      "ADD": "{agentName} a créé une nouvelle équipe (#{id})",
-      "EDIT": "{agentName} a mis à jour une équipe (#{id})",
-      "DELETE": "{agentName} a supprimé une équipe (#{id})"
+      "ADD": "{agentName} created a new team (#{id})",
+      "EDIT": "{agentName} updated a team (#{id})",
+      "DELETE": "{agentName} deleted a team (#{id})"
     },
     "MACRO": {
-      "ADD": "{agentName} a créé une nouvelle macro (#{id})",
-      "EDIT": "{agentName} a mis à jour une macro (#{id})",
-      "DELETE": "{agentName} a supprimé une macro (#{id})"
+      "ADD": "{agentName} created a new macro (#{id})",
+      "EDIT": "{agentName} updated a macro (#{id})",
+      "DELETE": "{agentName} deleted a macro (#{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "{agentName} a ajouté {user} à la boîte de réception (#{inbox_id})",
-      "REMOVE": "{agentName} a retiré {user} de la boîte de réception (#{inbox_id})"
+      "ADD": "{agentName} added {user} to the inbox(#{inbox_id})",
+      "REMOVE": "{agentName} removed {user} from the inbox(#{inbox_id})"
     },
     "TEAM_MEMBER": {
-      "ADD": "{agentName} a ajouté {user} à la boîte de réception (#{team_id})",
-      "REMOVE": "{agentName} a retiré {user} de la boîte de réception (#{team_id})"
+      "ADD": "{agentName} added {user} to the team(#{team_id})",
+      "REMOVE": "{agentName} removed {user} from the team(#{team_id})"
     },
     "ACCOUNT": {
-      "EDIT": "{agentName} a mis à jour la configuration du compte (#{id})"
+      "EDIT": "{agentName} updated the account configuration (#{id})"
     }
   }
 }

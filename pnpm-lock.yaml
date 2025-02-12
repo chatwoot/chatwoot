@@ -23,8 +23,8 @@ importers:
         specifier: 1.1.1-next
         version: 1.1.1-next
       '@chatwoot/utils':
-        specifier: ^0.0.35
-        version: 0.0.35
+        specifier: ^0.0.39
+        version: 0.0.39
       '@formkit/core':
         specifier: ^1.6.7
         version: 1.6.7
@@ -379,6 +379,10 @@ packages:
     resolution: {integrity: sha512-VBj9MYyDb9tuLq7yzqjgzt6Q+IBQLrGZfdjOekyEirZPHxXWoTSGUTMrpsfi58Up73d13NfYLv8HT9vmznjzhQ==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/runtime@7.26.7':
+    resolution: {integrity: sha512-AOPI3D+a8dXnja+iwsUqGRjr1BbZIe771sXdapOtYI531gSqpi92vXivKcq2asu/DFpdl1ceFAKZyRzK2PCVcQ==}
+    engines: {node: '>=6.9.0'}
+
   '@babel/types@7.26.0':
     resolution: {integrity: sha512-Z/yiTPj+lDVnF7lWeKCIJzaIkI0vYO87dMpZ4bg4TDrFe4XXLFWL1TbXU27gBP3QccxV9mZICCrnjnYlJjXHOA==}
     engines: {node: '>=6.9.0'}
@@ -396,8 +400,8 @@ packages:
   '@chatwoot/prosemirror-schema@1.1.1-next':
     resolution: {integrity: sha512-/M2qZ+ZF7GlQNt1riwVP499fvp3hxSqd5iy8hxyF9pkj9qQ+OKYn5JK+v3qwwqQY3IxhmNOn1Lp6tm7vstrd9Q==}
 
-  '@chatwoot/utils@0.0.35':
-    resolution: {integrity: sha512-uSRbd3pFp+IcEhsRtK1XGcFGFJc+X/YIwQnQrVDXsvsX3Mm7HEANj+Yz6J2clfHotajniwJwH2u5/y48+JrTyA==}
+  '@chatwoot/utils@0.0.39':
+    resolution: {integrity: sha512-m/mt8WhhgEBj0kyfxCQjwyVLVj4Eyb1QRvs1cckL82b6xjyW69zicsVVpTIGd2DLTVdGPu1NzLPKKPaTOnIZgQ==}
     engines: {node: '>=10'}
 
   '@codemirror/commands@6.7.0':
@@ -2375,8 +2379,8 @@ packages:
     resolution: {integrity: sha512-m1WR0xGiC6j6jNFAyW4Nvh4WxAi4JF4w9jRJwSI8nBmNcyZXPcP9VUQG+6gHQXAmqaGEKDKhOqAtENDC941UkA==}
     engines: {node: '>=0.11'}
 
-  date-fns@2.29.3:
-    resolution: {integrity: sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==}
+  date-fns@2.30.0:
+    resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
     engines: {node: '>=0.11'}
 
   date-format-parse@0.2.7:
@@ -5095,6 +5099,10 @@ snapshots:
     dependencies:
       regenerator-runtime: 0.14.1
 
+  '@babel/runtime@7.26.7':
+    dependencies:
+      regenerator-runtime: 0.14.1
+
   '@babel/types@7.26.0':
     dependencies:
       '@babel/helper-string-parser': 7.25.9
@@ -5128,9 +5136,9 @@ snapshots:
       prosemirror-utils: 1.2.2(prosemirror-model@1.22.3)(prosemirror-state@1.4.3)
       prosemirror-view: 1.34.1
 
-  '@chatwoot/utils@0.0.35':
+  '@chatwoot/utils@0.0.39':
     dependencies:
-      date-fns: 2.29.3
+      date-fns: 2.30.0
 
   '@codemirror/commands@6.7.0':
     dependencies:
@@ -6594,7 +6602,7 @@ snapshots:
 
   '@videojs/http-streaming@2.13.1(video.js@7.18.1)':
     dependencies:
-      '@babel/runtime': 7.25.6
+      '@babel/runtime': 7.26.7
       '@videojs/vhs-utils': 3.0.4
       aes-decrypter: 3.1.2
       global: 4.4.0
@@ -6605,19 +6613,19 @@ snapshots:
 
   '@videojs/vhs-utils@3.0.4':
     dependencies:
-      '@babel/runtime': 7.25.6
+      '@babel/runtime': 7.26.7
       global: 4.4.0
       url-toolkit: 2.2.5
 
   '@videojs/vhs-utils@3.0.5':
     dependencies:
-      '@babel/runtime': 7.25.6
+      '@babel/runtime': 7.26.7
       global: 4.4.0
       url-toolkit: 2.2.5
 
   '@videojs/xhr@2.6.0':
     dependencies:
-      '@babel/runtime': 7.25.6
+      '@babel/runtime': 7.26.7
       global: 4.4.0
       is-function: 1.0.2
 
@@ -6900,7 +6908,7 @@ snapshots:
 
   aes-decrypter@3.1.2:
     dependencies:
-      '@babel/runtime': 7.25.6
+      '@babel/runtime': 7.26.7
       '@videojs/vhs-utils': 3.0.5
       global: 4.4.0
       pkcs7: 1.0.4
@@ -7383,7 +7391,9 @@ snapshots:
 
   date-fns@2.21.1: {}
 
-  date-fns@2.29.3: {}
+  date-fns@2.30.0:
+    dependencies:
+      '@babel/runtime': 7.26.7
 
   date-format-parse@0.2.7: {}
 
@@ -8671,7 +8681,7 @@ snapshots:
 
   m3u8-parser@4.7.0:
     dependencies:
-      '@babel/runtime': 7.25.6
+      '@babel/runtime': 7.26.7
       '@videojs/vhs-utils': 3.0.5
       global: 4.4.0
 
@@ -8806,7 +8816,7 @@ snapshots:
 
   mpd-parser@0.21.0:
     dependencies:
-      '@babel/runtime': 7.25.6
+      '@babel/runtime': 7.26.7
       '@videojs/vhs-utils': 3.0.5
       '@xmldom/xmldom': 0.7.13
       global: 4.4.0
@@ -8825,7 +8835,7 @@ snapshots:
 
   mux.js@6.0.1:
     dependencies:
-      '@babel/runtime': 7.25.6
+      '@babel/runtime': 7.26.7
       global: 4.4.0
 
   mz@2.7.0:
@@ -9059,7 +9069,7 @@ snapshots:
 
   pkcs7@1.0.4:
     dependencies:
-      '@babel/runtime': 7.25.6
+      '@babel/runtime': 7.26.7
 
   pkg-dir@7.0.0:
     dependencies:

@@ -1,74 +1,74 @@
 {
   "SLA": {
-    "HEADER": "Service Level Agreements",
-    "ADD_ACTION": "Add SLA",
-    "ADD_ACTION_LONG": "Create a new SLA Policy",
-    "DESCRIPTION": "Service Level Agreements (SLAs) are contracts that define clear expectations between your team and customers. They establish standards for response and resolution times, creating a framework for accountability and ensures a consistent, high-quality experience.",
-    "LEARN_MORE": "Learn more about SLA",
-    "LOADING": "Fetching SLAs",
+    "HEADER": "Service Level Agreement",
+    "ADD_ACTION": "SLAを追加",
+    "ADD_ACTION_LONG": "新しいSLAポリシーを作成",
+    "DESCRIPTION": "サービス水準合意（SLA）は、チームと顧客間で明確な期待を定義する契約です。応答時間や解決時間の基準を設定し、責任を明確にし、一貫した高品質なサービス体験を提供します。",
+    "LEARN_MORE": "SLAについて詳しく学ぶ",
+    "LOADING": "SLAを取得中",
     "PAYWALL": {
-      "TITLE": "Upgrade to create SLAs",
-      "AVAILABLE_ON": "The SLA feature is only available in the Business and Enterprise plans.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "アップグレードしてSLAを作成",
+      "AVAILABLE_ON": "SLA機能はビジネスおよびエンタープライズプランのみで利用可能です。",
+      "UPGRADE_PROMPT": "チーム管理、自動化、カスタム属性などの高度な機能を利用するにはプランをアップグレードしてください。",
+      "UPGRADE_NOW": "今すぐアップグレード",
+      "CANCEL_ANYTIME": "プランはいつでも変更またはキャンセルできます"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "The SLA feature is only available in the paid plans.",
-      "UPGRADE_PROMPT": "Upgrade to a paid plan to access advanced features like audit logs, agent capacity, and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "AVAILABLE_ON": "SLA機能は有料プランのみで利用可能です。",
+      "UPGRADE_PROMPT": "監査ログ、担当者の稼働状況などの高度な機能を利用するには有料プランにアップグレードしてください。",
+      "ASK_ADMIN": "管理者にアップグレードを依頼してください。"
     },
     "LIST": {
-      "404": "There are no SLAs available in this account.",
+      "404": "このアカウントには利用可能なSLAがありません。",
       "EMPTY": {
-        "TITLE_1": "Enterprise P0",
-        "DESC_1": "Issues raised by enterprise customers, that require immediate attention.",
-        "TITLE_2": "Enterprise P1",
-        "DESC_2": "Issues raised by enterprise customers, that needs to be acknowledged quickly."
+        "TITLE_1": "エンタープライズ P0",
+        "DESC_1": "即時対応が必要なエンタープライズ顧客からの問題。",
+        "TITLE_2": "エンタープライズ P1",
+        "DESC_2": "迅速な承認が必要なエンタープライズ顧客からの問題。"
       },
-      "BUSINESS_HOURS_ON": "Business hours on",
-      "BUSINESS_HOURS_OFF": "Business hours off",
+      "BUSINESS_HOURS_ON": "営業時間内",
+      "BUSINESS_HOURS_OFF": "営業時間外",
       "RESPONSE_TYPES": {
-        "FRT": "First response time threshold",
-        "NRT": "Next response time threshold",
-        "RT": "Resolution time threshold",
+        "FRT": "最初の応答時間の基準",
+        "NRT": "次の応答時間の基準",
+        "RT": "解決時間の基準",
         "SHORT_HAND": {
-          "FRT": "FRT",
-          "NRT": "NRT",
-          "RT": "RT"
+          "FRT": "最初の応答",
+          "NRT": "次の応答",
+          "RT": "解決"
         }
       }
     },
     "FORM": {
       "NAME": {
-        "LABEL": "SLA Name",
-        "PLACEHOLDER": "SLA Name",
-        "REQUIRED_ERROR": "SLA name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "LABEL": "SLA名",
+        "PLACEHOLDER": "SLA名",
+        "REQUIRED_ERROR": "SLA名は必須です",
+        "MINIMUM_LENGTH_ERROR": "最小2文字が必要です",
+        "VALID_ERROR": "使用可能なのは英字、数字、ハイフン、アンダースコアのみです"
       },
       "DESCRIPTION": {
         "LABEL": "説明",
-        "PLACEHOLDER": "SLA for premium customers"
+        "PLACEHOLDER": "プレミアム顧客向けのSLA"
       },
       "FIRST_RESPONSE_TIME": {
-        "LABEL": "First Response Time",
+        "LABEL": "最初の応答時間",
         "PLACEHOLDER": "5"
       },
       "NEXT_RESPONSE_TIME": {
-        "LABEL": "Next Response Time",
+        "LABEL": "次の応答時間",
         "PLACEHOLDER": "5"
       },
       "RESOLUTION_TIME": {
-        "LABEL": "処理時間",
+        "LABEL": "解決時間",
         "PLACEHOLDER": "60"
       },
       "BUSINESS_HOURS": {
-        "LABEL": "Business Hours",
-        "PLACEHOLDER": "Only during business hours"
+        "LABEL": "営業時間",
+        "PLACEHOLDER": "営業時間内のみ"
       },
       "THRESHOLD_TIME": {
-        "INVALID_FORMAT_ERROR": "Threshold should be a number and greater than zero"
+        "INVALID_FORMAT_ERROR": "しきい値は数値でゼロより大きい必要があります"
       },
       "EDIT": "編集",
       "CREATE": "作成",
@@ -76,33 +76,33 @@
       "CANCEL": "キャンセル"
     },
     "ADD": {
-      "TITLE": "Add SLA",
-      "DESC": "Friendly promises for great service!",
+      "TITLE": "SLAを追加",
+      "DESC": "素晴らしいサービスのための友好的な約束！",
       "API": {
-        "SUCCESS_MESSAGE": "SLA added successfully",
+        "SUCCESS_MESSAGE": "SLAが正常に追加されました",
         "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
       }
     },
     "DELETE": {
-      "TITLE": "Delete SLA",
+      "TITLE": "SLAを削除",
       "API": {
-        "SUCCESS_MESSAGE": "SLA deleted successfully",
+        "SUCCESS_MESSAGE": "SLAが正常に削除されました",
         "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
       },
       "CONFIRM": {
         "TITLE": "削除の確認",
-        "MESSAGE": "Are you sure you want to delete ",
-        "YES": "削除する ",
-        "NO": "いいえ "
+        "MESSAGE": "本当に削除してもよろしいですか？",
+        "YES": "削除する",
+        "NO": "いいえ"
       }
     },
     "EVENTS": {
-      "TITLE": "SLA Misses",
+      "TITLE": "SLAの逸脱",
       "FRT": "最初の応答時間",
-      "NRT": "Next response time",
-      "RT": "Resolution time",
-      "SHOW_MORE": "{count} more",
-      "HIDE": "Hide {count} rows"
+      "NRT": "次の応答時間",
+      "RT": "解決時間",
+      "SHOW_MORE": "{count}件以上表示",
+      "HIDE": "{count}行を非表示"
     }
   }
 }
