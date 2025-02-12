@@ -1,0 +1,394 @@
+acl.o: acl.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h sha256.h
+adlist.o: adlist.c adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h
+ae.o: ae.c ae.h monotonic.h fmacros.h anet.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h config.h ae_epoll.c
+ae_epoll.o: ae_epoll.c
+ae_evport.o: ae_evport.c
+ae_kqueue.o: ae_kqueue.c
+ae_select.o: ae_select.c
+anet.o: anet.c fmacros.h anet.h
+aof.o: aof.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h bio.h
+bio.o: bio.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h bio.h
+bitops.o: bitops.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h
+blocked.o: blocked.c server.h fmacros.h config.h solarisfixes.h rio.h \
+ sds.h connection.h atomicvar.h ../deps/lua/src/lua.h \
+ ../deps/lua/src/luaconf.h ae.h monotonic.h dict.h mt19937-64.h adlist.h \
+ zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h \
+ intset.h version.h util.h latency.h sparkline.h quicklist.h rax.h \
+ redismodule.h zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h \
+ rdb.h slowlog.h
+childinfo.o: childinfo.c server.h fmacros.h config.h solarisfixes.h rio.h \
+ sds.h connection.h atomicvar.h ../deps/lua/src/lua.h \
+ ../deps/lua/src/luaconf.h ae.h monotonic.h dict.h mt19937-64.h adlist.h \
+ zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h \
+ intset.h version.h util.h latency.h sparkline.h quicklist.h rax.h \
+ redismodule.h zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h \
+ rdb.h
+cli_common.o: cli_common.c cli_common.h ../deps/hiredis/hiredis.h \
+ ../deps/hiredis/read.h ../deps/hiredis/sds.h ../deps/hiredis/alloc.h \
+ ../deps/hiredis/sdscompat.h ../deps/hiredis/sds.h
+cluster.o: cluster.c server.h fmacros.h config.h solarisfixes.h rio.h \
+ sds.h connection.h atomicvar.h ../deps/lua/src/lua.h \
+ ../deps/lua/src/luaconf.h ae.h monotonic.h dict.h mt19937-64.h adlist.h \
+ zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h \
+ intset.h version.h util.h latency.h sparkline.h quicklist.h rax.h \
+ redismodule.h zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h \
+ rdb.h cluster.h
+config.o: config.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h cluster.h
+connection.o: connection.c server.h fmacros.h config.h solarisfixes.h \
+ rio.h sds.h connection.h atomicvar.h ../deps/lua/src/lua.h \
+ ../deps/lua/src/luaconf.h ae.h monotonic.h dict.h mt19937-64.h adlist.h \
+ zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h \
+ intset.h version.h util.h latency.h sparkline.h quicklist.h rax.h \
+ redismodule.h zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h \
+ rdb.h connhelpers.h
+crc16.o: crc16.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h
+crc64.o: crc64.c crc64.h crcspeed.h
+crcspeed.o: crcspeed.c crcspeed.h
+db.o: db.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h cluster.h
+debug.o: debug.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h bio.h
+defrag.o: defrag.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h
+dict.o: dict.c fmacros.h dict.h mt19937-64.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h redisassert.h config.h
+endianconv.o: endianconv.c
+evict.o: evict.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h bio.h
+expire.o: expire.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h
+geo.o: geo.c geo.h server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h \
+ geohash_helper.h geohash.h debugmacro.h pqsort.h
+geohash.o: geohash.c geohash.h
+geohash_helper.o: geohash_helper.c fmacros.h geohash_helper.h geohash.h \
+ debugmacro.h
+gopher.o: gopher.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h
+hyperloglog.o: hyperloglog.c server.h fmacros.h config.h solarisfixes.h \
+ rio.h sds.h connection.h atomicvar.h ../deps/lua/src/lua.h \
+ ../deps/lua/src/luaconf.h ae.h monotonic.h dict.h mt19937-64.h adlist.h \
+ zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h \
+ intset.h version.h util.h latency.h sparkline.h quicklist.h rax.h \
+ redismodule.h zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h \
+ rdb.h
+intset.o: intset.c intset.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h endianconv.h config.h \
+ redisassert.h
+latency.o: latency.c server.h fmacros.h config.h solarisfixes.h rio.h \
+ sds.h connection.h atomicvar.h ../deps/lua/src/lua.h \
+ ../deps/lua/src/luaconf.h ae.h monotonic.h dict.h mt19937-64.h adlist.h \
+ zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h \
+ intset.h version.h util.h latency.h sparkline.h quicklist.h rax.h \
+ redismodule.h zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h \
+ rdb.h
+lazyfree.o: lazyfree.c server.h fmacros.h config.h solarisfixes.h rio.h \
+ sds.h connection.h atomicvar.h ../deps/lua/src/lua.h \
+ ../deps/lua/src/luaconf.h ae.h monotonic.h dict.h mt19937-64.h adlist.h \
+ zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h \
+ intset.h version.h util.h latency.h sparkline.h quicklist.h rax.h \
+ redismodule.h zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h \
+ rdb.h bio.h cluster.h
+listpack.o: listpack.c listpack.h listpack_malloc.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h redisassert.h config.h
+localtime.o: localtime.c
+lolwut.o: lolwut.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h lolwut.h
+lolwut5.o: lolwut5.c server.h fmacros.h config.h solarisfixes.h rio.h \
+ sds.h connection.h atomicvar.h ../deps/lua/src/lua.h \
+ ../deps/lua/src/luaconf.h ae.h monotonic.h dict.h mt19937-64.h adlist.h \
+ zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h \
+ intset.h version.h util.h latency.h sparkline.h quicklist.h rax.h \
+ redismodule.h zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h \
+ rdb.h lolwut.h
+lolwut6.o: lolwut6.c server.h fmacros.h config.h solarisfixes.h rio.h \
+ sds.h connection.h atomicvar.h ../deps/lua/src/lua.h \
+ ../deps/lua/src/luaconf.h ae.h monotonic.h dict.h mt19937-64.h adlist.h \
+ zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h \
+ intset.h version.h util.h latency.h sparkline.h quicklist.h rax.h \
+ redismodule.h zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h \
+ rdb.h lolwut.h
+lzf_c.o: lzf_c.c lzfP.h
+lzf_d.o: lzf_d.c lzfP.h
+memtest.o: memtest.c config.h
+module.o: module.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h cluster.h \
+ slowlog.h
+monotonic.o: monotonic.c monotonic.h fmacros.h
+mt19937-64.o: mt19937-64.c mt19937-64.h
+multi.o: multi.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h
+networking.o: networking.c server.h fmacros.h config.h solarisfixes.h \
+ rio.h sds.h connection.h atomicvar.h ../deps/lua/src/lua.h \
+ ../deps/lua/src/luaconf.h ae.h monotonic.h dict.h mt19937-64.h adlist.h \
+ zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h \
+ intset.h version.h util.h latency.h sparkline.h quicklist.h rax.h \
+ redismodule.h zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h \
+ rdb.h cluster.h
+notify.o: notify.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h
+object.o: object.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h
+pqsort.o: pqsort.c
+pubsub.o: pubsub.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h
+quicklist.o: quicklist.c quicklist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h config.h ziplist.h util.h \
+ sds.h lzf.h redisassert.h
+rand.o: rand.c
+rax.o: rax.c rax.h rax_malloc.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h
+rdb.o: rdb.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h lzf.h
+redis-benchmark.o: redis-benchmark.c fmacros.h version.h \
+ ../deps/hiredis/sdscompat.h ../deps/hiredis/sds.h ae.h monotonic.h \
+ ../deps/hiredis/hiredis.h ../deps/hiredis/read.h ../deps/hiredis/sds.h \
+ ../deps/hiredis/alloc.h adlist.h dict.h mt19937-64.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h atomicvar.h config.h \
+ crc16_slottable.h ../deps/hdr_histogram/hdr_histogram.h cli_common.h
+redis-check-aof.o: redis-check-aof.c server.h fmacros.h config.h \
+ solarisfixes.h rio.h sds.h connection.h atomicvar.h \
+ ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h ae.h monotonic.h dict.h \
+ mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h
+redis-check-rdb.o: redis-check-rdb.c mt19937-64.h server.h fmacros.h \
+ config.h solarisfixes.h rio.h sds.h connection.h atomicvar.h \
+ ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h ae.h monotonic.h dict.h \
+ adlist.h zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h \
+ ziplist.h intset.h version.h util.h latency.h sparkline.h quicklist.h \
+ rax.h redismodule.h zipmap.h sha1.h endianconv.h crc64.h stream.h \
+ listpack.h rdb.h
+redis-cli.o: redis-cli.c fmacros.h version.h ../deps/hiredis/hiredis.h \
+ ../deps/hiredis/read.h ../deps/hiredis/sds.h ../deps/hiredis/alloc.h \
+ ../deps/hiredis/sdscompat.h ../deps/hiredis/sds.h dict.h mt19937-64.h \
+ adlist.h zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h \
+ ../deps/linenoise/linenoise.h help.h anet.h ae.h monotonic.h \
+ cli_common.h
+release.o: release.c release.h version.h crc64.h
+replication.o: replication.c server.h fmacros.h config.h solarisfixes.h \
+ rio.h sds.h connection.h atomicvar.h ../deps/lua/src/lua.h \
+ ../deps/lua/src/luaconf.h ae.h monotonic.h dict.h mt19937-64.h adlist.h \
+ zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h \
+ intset.h version.h util.h latency.h sparkline.h quicklist.h rax.h \
+ redismodule.h zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h \
+ rdb.h cluster.h bio.h
+rio.o: rio.c fmacros.h rio.h sds.h connection.h util.h crc64.h config.h \
+ server.h solarisfixes.h atomicvar.h ../deps/lua/src/lua.h \
+ ../deps/lua/src/luaconf.h ae.h monotonic.h dict.h mt19937-64.h adlist.h \
+ zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h \
+ intset.h version.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h stream.h listpack.h rdb.h
+scripting.o: scripting.c server.h fmacros.h config.h solarisfixes.h rio.h \
+ sds.h connection.h atomicvar.h ../deps/lua/src/lua.h \
+ ../deps/lua/src/luaconf.h ae.h monotonic.h dict.h mt19937-64.h adlist.h \
+ zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h \
+ intset.h version.h util.h latency.h sparkline.h quicklist.h rax.h \
+ redismodule.h zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h \
+ rdb.h rand.h cluster.h ../deps/lua/src/lauxlib.h ../deps/lua/src/lua.h \
+ ../deps/lua/src/lualib.h
+sds.o: sds.c sds.h sdsalloc.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h
+sentinel.o: sentinel.c server.h fmacros.h config.h solarisfixes.h rio.h \
+ sds.h connection.h atomicvar.h ../deps/lua/src/lua.h \
+ ../deps/lua/src/luaconf.h ae.h monotonic.h dict.h mt19937-64.h adlist.h \
+ zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h \
+ intset.h version.h util.h latency.h sparkline.h quicklist.h rax.h \
+ redismodule.h zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h \
+ rdb.h ../deps/hiredis/hiredis.h ../deps/hiredis/read.h \
+ ../deps/hiredis/sds.h ../deps/hiredis/alloc.h ../deps/hiredis/async.h \
+ ../deps/hiredis/hiredis.h
+server.o: server.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h cluster.h \
+ slowlog.h bio.h asciilogo.h
+setcpuaffinity.o: setcpuaffinity.c config.h
+setproctitle.o: setproctitle.c
+sha1.o: sha1.c solarisfixes.h sha1.h config.h
+sha256.o: sha256.c sha256.h
+siphash.o: siphash.c
+slowlog.o: slowlog.c server.h fmacros.h config.h solarisfixes.h rio.h \
+ sds.h connection.h atomicvar.h ../deps/lua/src/lua.h \
+ ../deps/lua/src/luaconf.h ae.h monotonic.h dict.h mt19937-64.h adlist.h \
+ zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h \
+ intset.h version.h util.h latency.h sparkline.h quicklist.h rax.h \
+ redismodule.h zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h \
+ rdb.h slowlog.h
+sort.o: sort.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h pqsort.h
+sparkline.o: sparkline.c server.h fmacros.h config.h solarisfixes.h rio.h \
+ sds.h connection.h atomicvar.h ../deps/lua/src/lua.h \
+ ../deps/lua/src/luaconf.h ae.h monotonic.h dict.h mt19937-64.h adlist.h \
+ zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h \
+ intset.h version.h util.h latency.h sparkline.h quicklist.h rax.h \
+ redismodule.h zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h \
+ rdb.h
+syncio.o: syncio.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h
+t_hash.o: t_hash.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h
+t_list.o: t_list.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h
+t_set.o: t_set.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h
+t_stream.o: t_stream.c server.h fmacros.h config.h solarisfixes.h rio.h \
+ sds.h connection.h atomicvar.h ../deps/lua/src/lua.h \
+ ../deps/lua/src/luaconf.h ae.h monotonic.h dict.h mt19937-64.h adlist.h \
+ zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h \
+ intset.h version.h util.h latency.h sparkline.h quicklist.h rax.h \
+ redismodule.h zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h \
+ rdb.h
+t_string.o: t_string.c server.h fmacros.h config.h solarisfixes.h rio.h \
+ sds.h connection.h atomicvar.h ../deps/lua/src/lua.h \
+ ../deps/lua/src/luaconf.h ae.h monotonic.h dict.h mt19937-64.h adlist.h \
+ zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h \
+ intset.h version.h util.h latency.h sparkline.h quicklist.h rax.h \
+ redismodule.h zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h \
+ rdb.h
+t_zset.o: t_zset.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h
+timeout.o: timeout.c server.h fmacros.h config.h solarisfixes.h rio.h \
+ sds.h connection.h atomicvar.h ../deps/lua/src/lua.h \
+ ../deps/lua/src/luaconf.h ae.h monotonic.h dict.h mt19937-64.h adlist.h \
+ zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h \
+ intset.h version.h util.h latency.h sparkline.h quicklist.h rax.h \
+ redismodule.h zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h \
+ rdb.h cluster.h
+tls.o: tls.c server.h fmacros.h config.h solarisfixes.h rio.h sds.h \
+ connection.h atomicvar.h ../deps/lua/src/lua.h ../deps/lua/src/luaconf.h \
+ ae.h monotonic.h dict.h mt19937-64.h adlist.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h intset.h \
+ version.h util.h latency.h sparkline.h quicklist.h rax.h redismodule.h \
+ zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h rdb.h \
+ connhelpers.h
+tracking.o: tracking.c server.h fmacros.h config.h solarisfixes.h rio.h \
+ sds.h connection.h atomicvar.h ../deps/lua/src/lua.h \
+ ../deps/lua/src/luaconf.h ae.h monotonic.h dict.h mt19937-64.h adlist.h \
+ zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h anet.h ziplist.h \
+ intset.h version.h util.h latency.h sparkline.h quicklist.h rax.h \
+ redismodule.h zipmap.h sha1.h endianconv.h crc64.h stream.h listpack.h \
+ rdb.h
+util.o: util.c fmacros.h util.h sds.h sha256.h
+ziplist.o: ziplist.c zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h util.h sds.h ziplist.h \
+ config.h endianconv.h redisassert.h
+zipmap.o: zipmap.c zmalloc.h ../deps/jemalloc/include/jemalloc/jemalloc.h \
+ endianconv.h config.h
+zmalloc.o: zmalloc.c config.h zmalloc.h \
+ ../deps/jemalloc/include/jemalloc/jemalloc.h atomicvar.h

@@ -1,3 +1,4 @@
+@use 'widget/assets/scss/woot.scss';
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
@@ -356,5 +357,4 @@ export default {
 </template>
 
 <style lang="scss">
-@import 'widget/assets/scss/woot.scss';
 </style>

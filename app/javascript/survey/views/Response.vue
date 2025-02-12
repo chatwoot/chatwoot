@@ -1,3 +1,4 @@
+@use 'widget/assets/scss/variables.scss';
 <script>
 import { useAlert } from 'dashboard/composables';
 import Branding from 'shared/components/Branding.vue';
@@ -180,7 +181,6 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import 'widget/assets/scss/variables.scss';
 
 .logo {
   max-height: $space-larger;

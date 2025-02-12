@@ -1,0 +1,17 @@
+nstime_add
+nstime_compare
+nstime_copy
+nstime_divide
+nstime_iadd
+nstime_idivide
+nstime_imultiply
+nstime_init
+nstime_init2
+nstime_isubtract
+nstime_monotonic
+nstime_msec
+nstime_ns
+nstime_nsec
+nstime_sec
+nstime_subtract
+nstime_update

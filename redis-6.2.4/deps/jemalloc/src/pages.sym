@@ -1,0 +1,15 @@
+init_system_thp_mode
+opt_thp
+pages_boot
+pages_commit
+pages_decommit
+pages_dodump
+pages_dontdump
+pages_huge
+pages_map
+pages_nohuge
+pages_purge_forced
+pages_purge_lazy
+pages_set_thp_state
+pages_unmap
+thp_mode_names

@@ -1,5 +1,5 @@
-@use "sass:color";
-@import 'dashboard/assets/scss/variables';
+@use "sass:color" as *;
+@use 'dashboard/assets/scss/variables';
 
 .formulate-input {
   .formulate-input-errors {

@@ -1,0 +1,1 @@
+setproctitle.o: setproctitle.c

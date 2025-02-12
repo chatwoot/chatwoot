@@ -1,5 +1,5 @@
-@use "sass:color";
-@import 'vue-datepicker-next/scss/index';
+@use "sass:color" as *;
+@use 'vue-datepicker-next/scss/index';
 
 .date-picker {
   // To be removed one SLA reports date picker is created

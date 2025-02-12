@@ -1,3 +1,7 @@
+@use 'shared/assets/stylesheets/colors';
+@use 'shared/assets/stylesheets/spacing';
+@use 'shared/assets/stylesheets/font-size';
+@use 'shared/assets/stylesheets/border-radius';
 <script>
 import SnackbarContainer from './components/SnackBar/Container.vue';
 
@@ -48,11 +52,6 @@ export default {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import 'shared/assets/stylesheets/colors';
-@import 'shared/assets/stylesheets/spacing';
-@import 'shared/assets/stylesheets/font-size';
-@import 'shared/assets/stylesheets/border-radius';
 
 html,
 body {

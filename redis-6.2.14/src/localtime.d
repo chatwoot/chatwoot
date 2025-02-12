@@ -1,0 +1,1 @@
+localtime.o: localtime.c

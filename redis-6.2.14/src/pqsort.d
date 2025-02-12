@@ -1,0 +1,1 @@
+pqsort.o: pqsort.c

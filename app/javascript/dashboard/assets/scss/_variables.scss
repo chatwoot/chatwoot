@@ -1,5 +1,5 @@
-@use "sass:color";
-@use "sass:math";
+@use "sass:color" as *;
+@use "sass:math" as *;
 // Font sizes
 $font-size-nano: 0.5rem;
 $font-size-micro: 0.675rem;
@@ -70,7 +70,7 @@ $masked-bg: rgba(0, 0, 0, .4);
 // Color-palettes
 
 $color-primary-light: #c7e3ff;
-$color-primary-dark: color.adjust($color-woot, $lightness: -20%);
+$color-primary-dark: adjust($color-woot, $lightness: -20%);
 
 // Thumbnail
 $thumbnail-radius: 2.5rem;

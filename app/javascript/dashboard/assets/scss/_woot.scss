@@ -1,7 +1,9 @@
-@use "sass:color";
 @use 'tailwindcss/base';
 @use 'tailwindcss/components';
 @use 'tailwindcss/utilities';
+
+@use "sass:color" as *;
+@use "sass:math" as *;
 
 @use 'shared/assets/fonts/InterDisplay/inter-display';
 @use 'shared/assets/fonts/inter';

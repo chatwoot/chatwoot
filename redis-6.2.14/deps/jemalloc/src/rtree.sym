@@ -1,0 +1,7 @@
+rtree_ctx_data_init
+rtree_leaf_alloc
+rtree_leaf_dalloc
+rtree_leaf_elm_lookup_hard
+rtree_new
+rtree_node_alloc
+rtree_node_dalloc

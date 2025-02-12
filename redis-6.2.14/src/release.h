@@ -1,0 +1,3 @@
+#define REDIS_GIT_SHA1 "c7504130"
+#define REDIS_GIT_DIRTY "932"
+#define REDIS_BUILD_ID "cpaas-1738936541"

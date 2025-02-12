@@ -1,0 +1,11 @@
+malloc_tsd_boot0
+malloc_tsd_boot1
+malloc_tsd_cleanup_register
+malloc_tsd_dalloc
+malloc_tsd_malloc
+tsd_booted
+tsd_cleanup
+tsd_fetch_slow
+tsd_slow_update
+tsd_tls
+tsd_tsd

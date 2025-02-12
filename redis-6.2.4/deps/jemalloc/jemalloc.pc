@@ -1,0 +1,12 @@
+prefix=/usr/local
+exec_prefix=/usr/local
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+install_suffix=
+
+Name: jemalloc
+Description: A general purpose malloc(3) implementation that emphasizes fragmentation avoidance and scalable concurrency support.
+URL: http://jemalloc.net/
+Version: 5.1.0_0
+Cflags: -I${includedir}
+Libs: -L${libdir} -ljemalloc${install_suffix}

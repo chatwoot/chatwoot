@@ -1,4 +1,4 @@
-@use "sass:color";
+@use "sass:color" as *;
 @mixin label-multiselect-hover {
   &::after {
     @apply text-woot-600 dark:text-woot-600;

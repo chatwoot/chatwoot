@@ -1,0 +1,8 @@
+dss_prec_names
+extent_alloc_dss
+extent_dss_boot
+extent_dss_mergeable
+extent_dss_prec_get
+extent_dss_prec_set
+extent_in_dss
+opt_dss

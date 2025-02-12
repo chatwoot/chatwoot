@@ -1,0 +1,14 @@
+b0get
+base_alloc
+base_alloc_extent
+base_boot
+base_delete
+base_extent_hooks_get
+base_extent_hooks_set
+base_new
+base_postfork_child
+base_postfork_parent
+base_prefork
+base_stats_get
+metadata_thp_mode_names
+opt_metadata_thp

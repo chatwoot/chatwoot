@@ -1,0 +1,8 @@
+buferror
+malloc_cprintf
+malloc_printf
+malloc_snprintf
+malloc_strtoumax
+malloc_vcprintf
+malloc_vsnprintf
+malloc_write

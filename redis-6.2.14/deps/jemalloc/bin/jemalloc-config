@@ -1,0 +1,83 @@
+#!/bin/sh
+
+usage() {
+	cat <<EOF
+Usage:
+  /usr/local/bin/jemalloc-config <option>
+Options:
+  --help | -h  : Print usage.
+  --version    : Print jemalloc version.
+  --revision   : Print shared library revision number.
+  --config     : Print configure options used to build jemalloc.
+  --prefix     : Print installation directory prefix.
+  --bindir     : Print binary installation directory.
+  --datadir    : Print data installation directory.
+  --includedir : Print include installation directory.
+  --libdir     : Print library installation directory.
+  --mandir     : Print manual page installation directory.
+  --cc         : Print compiler used to build jemalloc.
+  --cflags     : Print compiler flags used to build jemalloc.
+  --cppflags   : Print preprocessor flags used to build jemalloc.
+  --cxxflags   : Print C++ compiler flags used to build jemalloc.
+  --ldflags    : Print library flags used to build jemalloc.
+  --libs       : Print libraries jemalloc was linked against.
+EOF
+}
+
+prefix="/usr/local"
+exec_prefix="/usr/local"
+
+case "$1" in
+--help | -h)
+	usage
+	exit 0
+	;;
+--version)
+	echo "5.1.0-0-g0"
+	;;
+--revision)
+	echo "2"
+	;;
+--config)
+	echo "--with-version=5.1.0-0-g0 --with-lg-quantum=3 --with-jemalloc-prefix=je_ 'CFLAGS=-std=gnu99 -Wall -pipe -g3 -O3 -funroll-loops ' LDFLAGS="
+	;;
+--prefix)
+	echo "/usr/local"
+	;;
+--bindir)
+	echo "/usr/local/bin"
+	;;
+--datadir)
+	echo "/usr/local/share"
+	;;
+--includedir)
+	echo "/usr/local/include"
+	;;
+--libdir)
+	echo "/usr/local/lib"
+	;;
+--mandir)
+	echo "/usr/local/share/man"
+	;;
+--cc)
+	echo "gcc"
+	;;
+--cflags)
+	echo "-std=gnu11 -Wall -Wsign-compare -Wundef -Wno-format-zero-length -pipe -g3 -fvisibility=hidden -O3 -funroll-loops -std=gnu99 -Wall -pipe -g3 -O3 -funroll-loops "
+	;;
+--cppflags)
+	echo "-D_GNU_SOURCE -D_REENTRANT"
+	;;
+--cxxflags)
+	echo "-Wall -g3 -fvisibility=hidden -O3"
+	;;
+--ldflags)
+	echo " "
+	;;
+--libs)
+	echo "-lm -lstdc++ -lpthread"
+	;;
+*)
+	usage
+	exit 1
+esac

@@ -1,0 +1,13 @@
+large_dalloc
+large_dalloc_finish
+large_dalloc_junk
+large_dalloc_maybe_junk
+large_dalloc_prep_junked_locked
+large_malloc
+large_palloc
+large_prof_tctx_get
+large_prof_tctx_reset
+large_prof_tctx_set
+large_ralloc
+large_ralloc_no_move
+large_salloc
