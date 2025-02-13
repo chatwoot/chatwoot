@@ -165,6 +165,7 @@ pl:
         removed: '%{user_name} removed SLA policy %{sla_name}'
       muted: '%{user_name} wyciszył/a rozmowę'
       unmuted: '%{user_name} cofnął wyciszenie rozmowy'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
       greeting_message_body: '%{account_name} zazwyczaj odpowiada w ciągu kilku godzin.'
       ways_to_reach_you_message_body: 'Daj zespołowi możliwość dotarcia do Ciebie.'
