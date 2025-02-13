@@ -13,7 +13,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search, :filter]
-  before_action :fetch_contact, only: [:show, :update, :destroy, :avatar, :contactable_inboxes, :destroy_custom_attributes, :block, :unblock]
+  before_action :fetch_contact, only: [:show, :update, :destroy, :avatar, :contactable_inboxes, :destroy_custom_attributes]
   before_action :set_include_contact_inboxes, only: [:index, :search, :filter, :show, :update]
 
   def index
@@ -60,16 +60,6 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def show; end
-
-  def block
-    @contact.update!(permitted_params.merge(blocked: true))
-    head :ok
-  end
-
-  def unblock
-    @contact.update!(permitted_params.merge(blocked: false))
-    head :ok
-  end
 
   def filter
     result = ::Contacts::FilterService.new(Current.account, Current.user, params.permit!).perform

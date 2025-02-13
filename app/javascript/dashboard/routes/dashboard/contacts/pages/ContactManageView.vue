@@ -102,8 +102,10 @@ const toggleContactBlock = async isBlocked => {
   };
 
   try {
-    const actionType = isBlocked ? 'unblockContact' : 'blockContact';
-    await store.dispatch(`contacts/${actionType}`, selectedContact.value.id);
+    await store.dispatch(`contacts/update`, {
+      ...selectedContact.value,
+      blocked: !isBlocked,
+    });
     useAlert(
       isBlocked ? ALERT_MESSAGES.success.unblock : ALERT_MESSAGES.success.block
     );

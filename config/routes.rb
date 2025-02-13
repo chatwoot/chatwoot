@@ -141,8 +141,6 @@ Rails.application.routes.draw do
               get :contactable_inboxes
               post :destroy_custom_attributes
               delete :avatar
-              post :block
-              post :unblock
             end
             scope module: :contacts do
               resources :conversations, only: [:index]
