@@ -37,7 +37,7 @@
       }
     },
     "VIEW_FILTER": "Visualizar",
-    "SORT_TOOLTIP_LABEL": "Classificar conversas",
+    "SORT_TOOLTIP_LABEL": "Ordenar conversas",
     "CHAT_SORT": {
       "STATUS": "Situação",
       "ORDER_BY": "Ordenar por"
@@ -105,7 +105,7 @@
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Classificar conversas",
+      "TITLE": "Ordenar conversas",
       "DROPDOWN_TITLE": "Ordenar por",
       "ITEMS": {
         "LATEST": {

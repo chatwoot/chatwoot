@@ -165,6 +165,7 @@ vi:
         removed: '%{user_name} removed SLA policy %{sla_name}'
       muted: '%{user_name} đã tắt tiếng hội thoại'
       unmuted: '%{user_name} đã bật tiếng cuộc trò chuyện'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
       greeting_message_body: '%{account_name} thường trả lời trong vài giờ.'
       ways_to_reach_you_message_body: 'Trong lúc chờ đội ngũ hỗ trợ phản hồi, bạn hãy để lại email để nhận được thông báo nhanh nhất nhé.'
