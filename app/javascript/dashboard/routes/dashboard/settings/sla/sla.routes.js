@@ -1,3 +1,4 @@
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 import SettingsWrapper from '../SettingsWrapper.vue';
@@ -14,6 +15,7 @@ export default {
           path: '',
           name: 'sla_wrapper',
           meta: {
+            featureFlag: FEATURE_FLAGS.SLA,
             permissions: ['administrator'],
           },
           redirect: to => {
@@ -24,6 +26,7 @@ export default {
           path: 'list',
           name: 'sla_list',
           meta: {
+            featureFlag: FEATURE_FLAGS.SLA,
             permissions: ['administrator'],
           },
           component: Index,

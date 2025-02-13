@@ -24,7 +24,7 @@ const { sender } = useMessageContext();
 const { t } = useI18n();
 
 const senderName = computed(() => {
-  return sender?.value.name;
+  return sender?.value?.name || '';
 });
 </script>
 
