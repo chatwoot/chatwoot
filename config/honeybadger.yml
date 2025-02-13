@@ -1,0 +1,30 @@
+---
+# For more options, see https://docs.honeybadger.io/lib/ruby/gem-reference/configuration
+
+api_key: 'hbp_FlHUPclbzFiz9GllpOoKc5WNDyEQje3SaOBB'
+
+# The environment your app is running in.
+env: "<%= Rails.env %>"
+
+# The absolute path to your project folder.
+root: "<%= Rails.root.to_s %>"
+
+# Honeybadger won't report errors in these environments.
+development_environments:
+- test
+- development
+- cucumber
+
+# By default, Honeybadger won't report errors in the development_environments.
+# You can override this by explicitly setting report_data to true or false.
+# report_data: true
+
+# The current Git revision of your project. Defaults to the last commit hash.
+# revision: null
+
+# Enable verbose debug logging (useful for troubleshooting).
+debug: false
+
+# Enable Honeybadger Insights
+insights:
+  enabled: false

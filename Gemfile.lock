@@ -374,6 +374,9 @@ GEM
     hashie (5.0.0)
     html2text (0.4.0)
       nokogiri (>= 1.0, < 2.0)
+    honeybadger (5.26.3)
+      logger
+      ostruct
     http (5.1.1)
       addressable (~> 2.8)
       http-cookie (~> 1.0)
@@ -963,7 +966,8 @@ DEPENDENCIES
   haikunator
   hairtrigger
   hashie
-  html2text
+  honeybadger (~> 5.26)
+  html2text!
   image_processing
   iso-639
   jbuilder
