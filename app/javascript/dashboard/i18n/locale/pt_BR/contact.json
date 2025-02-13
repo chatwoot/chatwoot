@@ -33,7 +33,7 @@
       "LABEL_SELECT": {
         "TITLE": "Adicionar marcador",
         "PLACEHOLDER": "Pesquisar marcador ",
-        "NO_RESULT": "Nenhum rótulo encontrado",
+        "NO_RESULT": "Nenhuma etiqueta encontrada",
         "CREATE_LABEL": "Criar etiqueta"
       }
     },
@@ -53,8 +53,8 @@
     }
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Alterar Contato",
-    "TITLE": "Alterar contato",
+    "BUTTON_LABEL": "Editar Contato",
+    "TITLE": "Editar contato",
     "DESC": "Alterar detalhes do contato"
   },
   "DELETE_CONTACT": {
@@ -113,7 +113,7 @@
         "PLACEHOLDER": "Digite o nome do país ",
         "LABEL": "Nome do País",
         "SELECT_PLACEHOLDER": "Selecionar",
-        "REMOVE": "Excluir",
+        "REMOVE": "Remover",
         "SELECT_COUNTRY": "Selecione o país"
       },
       "CITY": {
@@ -231,7 +231,7 @@
       },
       "ATTRIBUTE_SELECT": {
         "TITLE": "Adicionar atributos",
-        "PLACEHOLDER": "Procurar atributos",
+        "PLACEHOLDER": "Pesquisar atributos",
         "NO_RESULT": "Nenhum atributo encontrado"
       },
       "ATTRIBUTE_TYPE": {
@@ -257,7 +257,7 @@
     },
     "PARENT": {
       "TITLE": "Contato para mesclar",
-      "PLACEHOLDER": "Procurar um contato",
+      "PLACEHOLDER": "Pesquisar um contato",
       "HELP_LABEL": "Para ser mantido"
     },
     "SUMMARY": {
@@ -284,7 +284,7 @@
   "CONTACTS_LAYOUT": {
     "HEADER": {
       "TITLE": "Contato",
-      "SEARCH_TITLE": "Procurar contatos",
+      "SEARCH_TITLE": "Pesquisar contatos",
       "SEARCH_PLACEHOLDER": "Pesquisar...",
       "MESSAGE_BUTTON": "Enviar Mensagem",
       "SEND_MESSAGE": "Enviar mensagem",
@@ -489,7 +489,7 @@
         "EMPTY_STATE": "Não há conversas anteriores associadas a este contato"
       },
       "ATTRIBUTES": {
-        "SEARCH_PLACEHOLDER": "Procurar atributos",
+        "SEARCH_PLACEHOLDER": "Pesquisar atributos",
         "UNUSED_ATTRIBUTES": "{count} atributos utilizados | {count} atributos não utilizados",
         "EMPTY_STATE": "Não há atributos personalizados de contatos disponíveis nesta conta. Você pode criar um atributo personalizado nas configurações.",
         "YES": "Sim",
@@ -523,11 +523,11 @@
         "PARENT_HELP_LABEL": "Para ser excluído",
         "EMPTY_STATE": "Nenhum contato encontrado",
         "PLACEHOLDER": "Pesquisar contato principal",
-        "SEARCH_PLACEHOLDER": "Procurar um contato",
-        "SEARCH_ERROR_MESSAGE": "Não foi possível excluir o contato. Por favor, tente novamente mais tarde.",
+        "SEARCH_PLACEHOLDER": "Pesquisar um contato",
+        "SEARCH_ERROR_MESSAGE": "Não foi possível pesquisar pelo contato. Por favor, tente mais tarde.",
         "SUCCESS_MESSAGE": "Contato mesclado com sucesso",
         "ERROR_MESSAGE": "Não foi possível mesclar contatos, tente novamente!",
-        "IS_SEARCHING": "Procurando...",
+        "IS_SEARCHING": "Pesquisando...",
         "BUTTONS": {
           "CANCEL": "Cancelar",
           "CONFIRM": "Mesclar contatos"
@@ -551,7 +551,7 @@
   },
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
-      "ERROR_MESSAGE": "Não foi possível completar a busca. Por favor, tente novamente."
+      "ERROR_MESSAGE": "Não foi possível completar a pesquisa. Por favor, tente novamente."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "Visualizar",
@@ -560,7 +560,7 @@
       "NO_INBOX_ALERT": "Não há caixas de entrada disponíveis para iniciar uma conversa com este contato.",
       "CONTACT_SELECTOR": {
         "LABEL": "Para:",
-        "TAG_INPUT_PLACEHOLDER": "Procurar um contato com o nome, e-mail ou número de telefone",
+        "TAG_INPUT_PLACEHOLDER": "Pesquisar um contato com o nome, e-mail ou número de telefone",
         "CONTACT_CREATING": "Criando contato..."
       },
       "INBOX_SELECTOR": {
@@ -571,9 +571,9 @@
         "SUBJECT_LABEL": "Assunto :",
         "SUBJECT_PLACEHOLDER": "Digite o assunto do seu e-mail aqui",
         "CC_LABEL": "Cc:",
-        "CC_PLACEHOLDER": "Procure por um contato com seu endereço de e-mail",
+        "CC_PLACEHOLDER": "Pesquisar por um contato com seu endereço de e-mail",
         "BCC_LABEL": "CCO:",
-        "BCC_PLACEHOLDER": "Procure por um contato com seu endereço de e-mail",
+        "BCC_PLACEHOLDER": "Pesquisar por um contato com seu endereço de e-mail",
         "BCC_BUTTON": "CCO"
       },
       "MESSAGE_EDITOR": {
@@ -581,7 +581,7 @@
       },
       "WHATSAPP_OPTIONS": {
         "LABEL": "Selecione o modelo",
-        "SEARCH_PLACEHOLDER": "Pesquisar modelo",
+        "SEARCH_PLACEHOLDER": "Pesquisar modelos",
         "EMPTY_STATE": "Nenhum modelo encontrado",
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "Modelo do WhatsApp: {templateName}",

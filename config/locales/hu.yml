@@ -165,6 +165,7 @@ hu:
         removed: '%{user_name} removed SLA policy %{sla_name}'
       muted: '%{user_name} elnémította a beszélgetést'
       unmuted: '%{user_name} kikapcsolta a beszélgetés elnémítását'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
       greeting_message_body: '%{account_name} általában néhány órán belül válaszol.'
       ways_to_reach_you_message_body: 'Adj egy elérhetőséget hogy megkereshessenek.'

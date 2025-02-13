@@ -307,10 +307,10 @@
     "NAME": "Capitão",
     "COPILOT": {
       "SEND_MESSAGE": "Enviar mensagem...",
-      "LOADER": "Captain está pensando",
+      "LOADER": "Capitão está pensando",
       "YOU": "Você",
       "USE": "Use isto",
-      "RESET": "Reset"
+      "RESET": "Reiniciar"
     },
     "PAYWALL": {
       "TITLE": "Atualize para usar o Capitão IA",

@@ -11,14 +11,14 @@
     "NO_INBOX_1": "Hola! Parece que você não adicionou nenhuma caixa de entrada ainda.",
     "NO_INBOX_2": " para começar",
     "NO_INBOX_AGENT": "Uh Oh! Parece que você não faz parte de nenhuma caixa de entrada. Por favor, contate seu administrador",
-    "SEARCH_MESSAGES": "Procurar por mensagens nas conversas",
+    "SEARCH_MESSAGES": "Pesquisar por mensagens nas conversas",
     "EMPTY_STATE": {
       "CMD_BAR": "para abrir o menu de comando",
       "KEYBOARD_SHORTCUTS": "para ver os atalhos de teclado"
     },
     "SEARCH": {
-      "TITLE": "Procurar mensagens",
-      "RESULT_TITLE": "Resultados da pesquisa",
+      "TITLE": "Pesquisar mensagens",
+      "RESULT_TITLE": "Resultados da Pesquisa",
       "LOADING_MESSAGE": "Preparando dados...",
       "PLACEHOLDER": "Digite qualquer texto para pesquisar mensagens",
       "NO_MATCHING_RESULTS": "Nenhum resultado encontrado."

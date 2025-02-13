@@ -165,6 +165,7 @@ sl:
         removed: '%{user_name} je odstranil politiko SLA %{sla_name}'
       muted: '%{user_name} je utišal pogovor'
       unmuted: '%{user_name} je vklopil sporočila pogovora'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
       greeting_message_body: '%{account_name} običajno odgovori v nekaj urah.'
       ways_to_reach_you_message_body: 'Omogočite ekipi, da stopi v stik z vami.'

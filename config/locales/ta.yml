@@ -165,6 +165,7 @@ ta:
         removed: '%{user_name} removed SLA policy %{sla_name}'
       muted: '%{user_name} has muted the conversation'
       unmuted: '%{user_name} has unmuted the conversation'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
       greeting_message_body: '%{account_name} பொதுவாக சில மணிநேரங்களில் பதிலளிப்பார்.'
       ways_to_reach_you_message_body: 'உங்களை அடைய அணிக்கு ஒரு வழியைக் கொடுங்கள்.'

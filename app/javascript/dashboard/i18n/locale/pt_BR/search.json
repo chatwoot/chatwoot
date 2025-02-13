@@ -13,7 +13,7 @@
     },
     "VIEW_MORE": "Ver mais",
     "LOAD_MORE": "Carregar mais",
-    "SEARCHING_DATA": "Procurando",
+    "SEARCHING_DATA": "Pesquisando",
     "LOADING_DATA": "Carregando",
     "EMPTY_STATE": "Nenhum {item} foi encontrado para a consulta '{query}'",
     "EMPTY_STATE_FULL": "Nenhum resultado encontrado para a consulta '{query}'",
@@ -23,7 +23,7 @@
     "BOT_LABEL": "Robôs",
     "READ_MORE": "Saiba mais",
     "WROTE": "escreveu:",
-    "FROM": "De",
+    "FROM": "de",
     "EMAIL": "e-mail",
     "EMAIL_SUBJECT": "assunto"
   }
