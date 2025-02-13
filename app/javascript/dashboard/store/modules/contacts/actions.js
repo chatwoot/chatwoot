@@ -200,6 +200,24 @@ export const actions = {
     }
   },
 
+  blockContact: async ({ commit }, id) => {
+    try {
+      await ContactAPI.block(id);
+      commit(types.BLOCK_CONTACT, id);
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+
+  unblockContact: async ({ commit }, id) => {
+    try {
+      await ContactAPI.unblock(id);
+      commit(types.UNBLOCK_CONTACT, id);
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+
   fetchContactableInbox: async ({ commit }, id) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetchingInboxes: true });
     try {

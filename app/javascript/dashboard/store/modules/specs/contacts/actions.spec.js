@@ -335,4 +335,38 @@ describe('#actions', () => {
       ).rejects.toThrow(Error);
     });
   });
+
+  describe('#blockContact', () => {
+    it('sends correct mutations if API is success', async () => {
+      axios.post.mockResolvedValue({ data: { payload: contactList[0] } });
+      await actions.blockContact({ commit }, contactList[0].id);
+      expect(commit.mock.calls).toEqual([
+        [types.BLOCK_CONTACT, contactList[0].id],
+      ]);
+    });
+
+    it('sends correct actions if API is error', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.blockContact({ commit }, contactList[0].id)
+      ).rejects.toThrow(Error);
+    });
+  });
+
+  describe('#unblockContact', () => {
+    it('sends correct mutations if API is success', async () => {
+      axios.post.mockResolvedValue({ data: { payload: contactList[0] } });
+      await actions.unblockContact({ commit }, contactList[0].id);
+      expect(commit.mock.calls).toEqual([
+        [types.UNBLOCK_CONTACT, contactList[0].id],
+      ]);
+    });
+
+    it('sends correct actions if API is error', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.unblockContact({ commit }, contactList[0].id)
+      ).rejects.toThrow(Error);
+    });
+  });
 });

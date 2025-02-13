@@ -47,6 +47,14 @@ class ContactPolicy < ApplicationPolicy
     true
   end
 
+  def block?
+    true
+  end
+
+  def unblock?
+    true
+  end
+
   def destroy?
     @account_user.administrator?
   end

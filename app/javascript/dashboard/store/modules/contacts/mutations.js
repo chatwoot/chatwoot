@@ -46,6 +46,24 @@ export const mutations = {
     $state.records[data.id] = data;
   },
 
+  [types.BLOCK_CONTACT]: ($state, id) => {
+    if ($state.records[id]) {
+      $state.records[id] = {
+        ...$state.records[id],
+        blocked: true,
+      };
+    }
+  },
+
+  [types.UNBLOCK_CONTACT]: ($state, id) => {
+    if ($state.records[id]) {
+      $state.records[id] = {
+        ...$state.records[id],
+        blocked: false,
+      };
+    }
+  },
+
   [types.DELETE_CONTACT]: ($state, id) => {
     const index = $state.sortOrder.findIndex(item => item === id);
     $state.sortOrder.splice(index, 1);
