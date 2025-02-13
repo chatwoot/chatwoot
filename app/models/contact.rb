@@ -160,7 +160,6 @@ class Contact < ApplicationRecord
       phone_number: phone_number,
       thumbnail: avatar_url,
       blocked: blocked
-
     }
   end
 
