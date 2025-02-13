@@ -115,9 +115,9 @@ export default {
 
 <template>
   <div
-    class="flex flex-col bg-n-alpha-3 backdrop-blur-[100px] border-0 outline outline-1 outline-n-container shadow-lg z-50 w-[170px] rounded-xl divide-y divide-n-weak dark:divide-n-strong"
+    class="flex flex-col bg-n-alpha-3 backdrop-blur-[100px] border-0 outline outline-1 outline-n-container shadow-lg z-50 max-w-64 min-w-[170px] w-fit rounded-xl divide-y divide-n-weak dark:divide-n-strong"
   >
-    <div class="flex items-center justify-between p-3 rounded-t-lg h-11">
+    <div class="flex items-center gap-2 justify-between p-3 rounded-t-lg h-11">
       <div class="flex gap-1.5 min-w-0">
         <span class="i-lucide-arrow-down-up size-3.5 text-n-slate-12" />
         <span class="text-xs font-medium text-n-slate-12 truncate min-w-0">
@@ -132,18 +132,18 @@ export default {
           trailing-icon
           xs
           outline
-          class="w-20"
+          class="w-fit min-w-20 max-w-32"
           @click="openSortMenu"
         />
         <div
           v-if="showSortMenu"
-          class="absolute flex flex-col gap-0.5 bg-n-alpha-3 backdrop-blur-[100px] z-60 rounded-lg p-0.5 w-20 top-px outline outline-1 outline-n-container dark:outline-n-strong"
+          class="absolute flex flex-col gap-0.5 bg-n-alpha-3 backdrop-blur-[100px] z-60 rounded-lg p-0.5 w-fit min-w-20 max-w-32 top-px outline outline-1 outline-n-container dark:outline-n-strong"
         >
           <div
             v-for="option in sortOptions"
             :key="option.key"
             role="button"
-            class="flex rounded-md h-5 w-full items-center justify-between px-1.5 py-0.5 gap-1"
+            class="flex rounded-md h-5 w-full items-center justify-between px-1.5 py-0.5 gap-2 whitespace-nowrap"
             :class="{
               'bg-n-brand/10 dark:bg-n-brand/10': activeSort === option.key,
             }"
