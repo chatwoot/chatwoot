@@ -17,7 +17,8 @@
     "size": "size-limit",
     "story:dev": "histoire dev",
     "story:build": "histoire build",
-    "story:preview": "histoire preview"
+    "story:preview": "histoire preview",
+    "sync:i18n": "bin/sync_i18n_file_change"
   },
   "size-limit": [
     {

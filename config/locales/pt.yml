@@ -165,6 +165,7 @@ pt:
         removed: '%{user_name} removeu a política de SLA de %{sla_name}'
       muted: '%{user_name} bloqueou a conversa'
       unmuted: '%{user_name} reativou a conversa'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
       greeting_message_body: '%{account_name} normalmente responde em poucas horas.'
       ways_to_reach_you_message_body: 'Dê à equipe um jeito de contatá-lo.'

@@ -165,6 +165,7 @@ zh_CN:
         removed: '%{user_name} removed SLA policy %{sla_name}'
       muted: '%{user_name} 已将会话静音'
       unmuted: '%{user_name} 已将会话取消静音'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
       greeting_message_body: '%{account_name} 通常在几小时内回复。'
       ways_to_reach_you_message_body: '给团队一个联系您的方法。'
