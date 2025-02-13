@@ -11,7 +11,11 @@
       "404": "У цьому акаунті немає логів.",
       "TITLE": "Керувати логами",
       "DESC": " Логи - це історія всіх подій в системі Chatwoot.",
-      "TABLE_HEADER": ["Користувач", "Дія", "IP-адреса"]
+      "TABLE_HEADER": {
+        "ACTIVITY": "Користувач",
+        "TIME": "Дія",
+        "IP_ADDRESS": "IP-адреса"
+      }
     },
     "API": {
       "SUCCESS_MESSAGE": "Логи успішно отримано",
@@ -19,9 +23,9 @@
     },
     "DEFAULT_USER": "Система",
     "AUTOMATION_RULE": {
-      "ADD": "{agentName} створив нове правило автоматизації (#{id})",
-      "EDIT": "{agentName} оновив правило автоматизації (#{id})",
-      "DELETE": "{agentName} видалив правило автоматизації (#{id})"
+      "ADD": "{agentName} created a new automation rule (#{id})",
+      "EDIT": "{agentName} updated an automation rule (#{id})",
+      "DELETE": "{agentName} deleted an automation rule (#{id})"
     },
     "ACCOUNT_USER": {
       "ADD": "{agentName} запросив {invitee} на акаунт як {role}",
@@ -32,39 +36,39 @@
       }
     },
     "INBOX": {
-      "ADD": "{agentName} створив нову папку вхідних (#{id})",
-      "EDIT": "{agentName} оновив папку \"Вхідні\" (#{id})",
-      "DELETE": "{agentName} видалив папку \"Вхідні\" (#{id})"
+      "ADD": "{agentName} created a new inbox (#{id})",
+      "EDIT": "{agentName} updated an inbox (#{id})",
+      "DELETE": "{agentName} deleted an inbox (#{id})"
     },
     "WEBHOOK": {
-      "ADD": "{agentName} створив новий webhook (#{id})",
-      "EDIT": "{agentName} оновив webhook (#{id})",
-      "DELETE": "{agentName} видалив webhook (#{id})"
+      "ADD": "{agentName} created a new webhook (#{id})",
+      "EDIT": "{agentName} updated a webhook (#{id})",
+      "DELETE": "{agentName} deleted a webhook (#{id})"
     },
     "USER_ACTION": {
       "SIGN_IN": "Увійшов {agentName}",
       "SIGN_OUT": "Вийшов {agentName}"
     },
     "TEAM": {
-      "ADD": "{agentName} створив нову команду (#{id})",
-      "EDIT": "{agentName} оновив команду (#{id})",
-      "DELETE": "{agentName} видалив команду (#{id})"
+      "ADD": "{agentName} created a new team (#{id})",
+      "EDIT": "{agentName} updated a team (#{id})",
+      "DELETE": "{agentName} deleted a team (#{id})"
     },
     "MACRO": {
-      "ADD": "{agentName} створив новий макрос (#{id})",
-      "EDIT": "{agentName} оновив макрос (#{id})",
-      "DELETE": "{agentName} видалив макрос (#{id})"
+      "ADD": "{agentName} created a new macro (#{id})",
+      "EDIT": "{agentName} updated a macro (#{id})",
+      "DELETE": "{agentName} deleted a macro (#{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "{agentName} додав {user} до папки \"Вхідні\" (#{inbox_id})",
-      "REMOVE": "{agentName} видалив {user} з папки \"Вхідні\" (#{inbox_id})"
+      "ADD": "{agentName} added {user} to the inbox(#{inbox_id})",
+      "REMOVE": "{agentName} removed {user} from the inbox(#{inbox_id})"
     },
     "TEAM_MEMBER": {
-      "ADD": "{agentName} додав {user} до команди (#{team_id})",
-      "REMOVE": "{agentName} видалив {user} з команди (#{team_id})"
+      "ADD": "{agentName} added {user} to the team(#{team_id})",
+      "REMOVE": "{agentName} removed {user} from the team(#{team_id})"
     },
     "ACCOUNT": {
-      "EDIT": "{agentName} оновив налаштування облікового запису (#{id})"
+      "EDIT": "{agentName} updated the account configuration (#{id})"
     }
   }
 }

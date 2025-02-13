@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_16_061033) do
+ActiveRecord::Schema[7.0].define(version: 2025_02_07_040150) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -174,6 +174,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_16_061033) do
     t.datetime "updated_at", precision: nil, null: false
     t.string "fallback_title"
     t.string "extension"
+    t.jsonb "meta", default: {}
     t.index ["account_id"], name: "index_attachments_on_account_id"
     t.index ["message_id"], name: "index_attachments_on_message_id"
   end

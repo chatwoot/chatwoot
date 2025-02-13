@@ -99,6 +99,9 @@
       },
       "fallback": {
         "CONTENT": "поделился ссылкой"
+      },
+      "contact": {
+        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {

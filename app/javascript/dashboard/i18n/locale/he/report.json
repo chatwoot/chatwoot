@@ -124,6 +124,7 @@
   },
   "AGENT_REPORTS": {
     "HEADER": "סקירה כללית של סוכנים",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
     "LOADING_CHART": "טוען נתוני תרשים...",
     "NO_ENOUGH_DATA": "לא קיבלנו מספיק נקודות נתונים כדי להפיק דוח, אנא נסה שוב מאוחר יותר.",
     "DOWNLOAD_AGENT_REPORTS": "הורד דוחות סוכן",
@@ -258,6 +259,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "סקירה כללית של תיבת הדואר הנכנס",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "טוען נתוני תרשים...",
     "NO_ENOUGH_DATA": "לא קיבלנו מספיק נקודות נתונים כדי להפיק דוח, אנא נסה שוב מאוחר יותר.",
     "DOWNLOAD_INBOX_REPORTS": "הורד דוחות תיבת דואר נכנס",
@@ -325,6 +327,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "סקירת צוות",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "טוען נתוני תרשים...",
     "NO_ENOUGH_DATA": "לא קיבלנו מספיק נקודות נתונים כדי להפיק דוח, אנא נסה שוב מאוחר יותר.",
     "DOWNLOAD_TEAM_REPORTS": "הורד דוחות צוות",
@@ -538,5 +541,15 @@
       },
       "VIEW_DETAILS": "View Details"
     }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "תיבת הדואר הנכנס",
+    "AGENT": "סוכן",
+    "TEAM": "צוות",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "ספירת רזולוציות",
+    "CONVERSATIONS": "No. of conversations"
   }
 }
