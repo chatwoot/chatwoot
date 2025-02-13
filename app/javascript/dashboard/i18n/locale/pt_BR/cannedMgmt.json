@@ -22,7 +22,7 @@
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Respostas prontas",
+          "LABEL": "Atalho",
           "PLACEHOLDER": "Por favor, insira um atalho.",
           "ERROR": "O atalho é obrigatório."
         },
