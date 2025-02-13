@@ -165,6 +165,7 @@
         removed: '%{user_name} removed SLA policy %{sla_name}'
       muted: '%{user_name} har dempet samtalen'
       unmuted: '%{user_name} har opphevet dempingen av samtalen'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
       greeting_message_body: '%{account_name} svarer vanligvis innen et par timer.'
       ways_to_reach_you_message_body: 'Gi oss en måte å ta kontakt med deg på.'
