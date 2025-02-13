@@ -26,6 +26,7 @@ const contactMergeRef = ref(null);
 
 const isFetchingItem = computed(() => uiFlags.value.isFetchingItem);
 const isMergingContact = computed(() => uiFlags.value.isMerging);
+const isUpdatingContact = computed(() => uiFlags.value.isUpdating);
 
 const selectedContact = computed(() => contact.value(route.params.contactId));
 
@@ -133,6 +134,7 @@ onMounted(() => {
       :selected-contact="selectedContact"
       is-detail-view
       :show-pagination-footer="false"
+      :is-updating="isUpdatingContact"
       @go-to-contacts-list="goToContactsList"
       @toggle-block="toggleContactBlock"
     >

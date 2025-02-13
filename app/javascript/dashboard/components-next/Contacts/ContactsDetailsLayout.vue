@@ -12,6 +12,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  isUpdating: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['goToContactsList', 'toggleBlock']);
@@ -77,6 +81,8 @@ const toggleBlock = () => {
                 "
                 size="sm"
                 slate
+                :is-loading="isUpdating"
+                :disabled="isUpdating"
                 @click="toggleBlock"
               />
               <ComposeConversation :contact-id="contactId">
