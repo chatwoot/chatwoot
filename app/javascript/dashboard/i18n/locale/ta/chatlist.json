@@ -99,6 +99,9 @@
       },
       "fallback": {
         "CONTENT": "ஒரு URL ஐப் பகிர்ந்துள்ளார்"
+      },
+      "contact": {
+        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {

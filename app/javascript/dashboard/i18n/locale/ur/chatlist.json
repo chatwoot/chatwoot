@@ -99,6 +99,9 @@
       },
       "fallback": {
         "CONTENT": "نے ایک یو آر ایل بھیجا"
+      },
+      "contact": {
+        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {
