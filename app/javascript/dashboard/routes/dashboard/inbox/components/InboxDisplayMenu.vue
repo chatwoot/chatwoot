@@ -118,9 +118,9 @@ export default {
     class="flex flex-col bg-n-alpha-3 backdrop-blur-[100px] border-0 outline outline-1 outline-n-container shadow-lg z-50 w-[170px] rounded-xl divide-y divide-n-weak dark:divide-n-strong"
   >
     <div class="flex items-center justify-between p-3 rounded-t-lg h-11">
-      <div class="flex gap-1.5">
+      <div class="flex gap-1.5 min-w-0">
         <span class="i-lucide-arrow-down-up size-3.5 text-n-slate-12" />
-        <span class="text-xs font-medium text-n-slate-12">
+        <span class="text-xs font-medium text-n-slate-12 truncate min-w-0">
           {{ $t('INBOX.DISPLAY_MENU.SORT') }}
         </span>
       </div>
@@ -150,7 +150,7 @@ export default {
             @click.stop="onSortOptionClick(option)"
           >
             <span
-              class="text-xs font-medium hover:text-n-brand dark:hover:text-n-brand"
+              class="text-xs font-medium hover:text-n-brand truncate min-w-0 dark:hover:text-n-brand"
               :class="{
                 'text-n-blue-text dark:text-n-blue-text':
                   activeSort === option.key,
@@ -161,7 +161,7 @@ export default {
             </span>
             <span
               v-if="activeSort === option.key"
-              class="i-lucide-check size-2.5 text-n-blue-text"
+              class="i-lucide-check size-2.5 flex-shrink-0 text-n-blue-text"
             />
           </div>
         </div>
