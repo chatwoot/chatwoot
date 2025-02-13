@@ -47,7 +47,7 @@
       "DELETE": "Excluir",
       "MARK_ALL_READ": "Marcar todas como lidas",
       "DELETE_ALL": "Excluir todos",
-      "DELETE_ALL_READ": "Excluir todos os lidos"
+      "DELETE_ALL_READ": "Excluir todas as lidas"
     },
     "DISPLAY_MENU": {
       "SORT": "Ordenar",
@@ -60,8 +60,8 @@
       "DISPLAY_OPTIONS": {
         "SNOOZED": "Adiado",
         "READ": "Lida",
-        "LABELS": "Marcadores",
-        "CONVERSATION_ID": "Conversas"
+        "LABELS": "Etiquetas",
+        "CONVERSATION_ID": "ID da conversa"
       }
     },
     "ALERTS": {

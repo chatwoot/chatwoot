@@ -165,6 +165,7 @@ fa:
         removed: '%{user_name} سیاست SLA %{sla_name} را حذف کرد'
       muted: '%{user_name} مکالمه را بی صدا کرد'
       unmuted: '%{user_name} مکالمه را از حالت بی صدا خراج کرد'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
       greeting_message_body: '%{account_name} معمولا ظرف مدت کوتاهی پاسخ می‌دهد.'
       ways_to_reach_you_message_body: 'راهی برای ارتباط گرفتن تیم با شما قرار دهید'
