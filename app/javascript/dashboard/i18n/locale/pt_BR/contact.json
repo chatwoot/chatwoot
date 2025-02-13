@@ -33,7 +33,7 @@
       "LABEL_SELECT": {
         "TITLE": "Adicionar marcador",
         "PLACEHOLDER": "Pesquisar marcador ",
-        "NO_RESULT": "Nenhum rótulo encontrado",
+        "NO_RESULT": "Nenhuma etiqueta encontrada",
         "CREATE_LABEL": "Criar etiqueta"
       }
     },
@@ -53,8 +53,8 @@
     }
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Alterar Contato",
-    "TITLE": "Alterar contato",
+    "BUTTON_LABEL": "Editar Contato",
+    "TITLE": "Editar contato",
     "DESC": "Alterar detalhes do contato"
   },
   "DELETE_CONTACT": {
@@ -113,7 +113,7 @@
         "PLACEHOLDER": "Digite o nome do país ",
         "LABEL": "Nome do País",
         "SELECT_PLACEHOLDER": "Selecionar",
-        "REMOVE": "Excluir",
+        "REMOVE": "Remover",
         "SELECT_COUNTRY": "Selecione o país"
       },
       "CITY": {
