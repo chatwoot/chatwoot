@@ -1,4 +1,4 @@
-FROM chatwoot:development
+FROM chatwoot/chatwoot
 
 ENV PNPM_HOME="/root/.local/share/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
