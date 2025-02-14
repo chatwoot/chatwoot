@@ -288,6 +288,8 @@
       "SEARCH_PLACEHOLDER": "Buscar...",
       "MESSAGE_BUTTON": "Mensaje",
       "SEND_MESSAGE": "Enviar mensaje",
+      "BLOCK_CONTACT": "Block contact",
+      "UNBLOCK_CONTACT": "Unblock contact",
       "BREADCRUMB": {
         "CONTACTS": "Contactos"
       },
@@ -302,6 +304,10 @@
           "SUCCESS_MESSAGE": "Contacto guardado correctamente",
           "ERROR_MESSAGE": "No se pudo guardar el contacto. Inténtalo de nuevo más tarde."
         },
+        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
+        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
+        "UNBLOCK_SUCCESS_MESSAGE": "Este contacto está desbloqueado correctamente",
+        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
         "IMPORT_CONTACT": {
           "TITLE": "Importar contactos",
           "DESCRIPTION": "Importar contactos a través de un archivo CSV.",
