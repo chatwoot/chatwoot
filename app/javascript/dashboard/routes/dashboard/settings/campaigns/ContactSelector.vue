@@ -129,23 +129,26 @@ export default {
     ...mapGetters({
       customAttributes: 'attributes/getAttributesByModel',
     }),
+    standardFilterTypes() {
+      return this.filterTypes;
+    },
+
+    customFilterTypes() {
+      return this.customAttributes('contact_attribute').map(attr => ({
+        attributeKey: attr.attribute_key,
+        attributeI18nKey: attr.attribute_display_name,
+        inputType: attr.attribute_display_type,
+        filterOperators: [
+          { value: 'equal_to', label: 'Equals' },
+          { value: 'not_equal_to', label: 'Does not equal' },
+          { value: 'contains', label: 'Contains' },
+          { value: 'does_not_contain', label: 'Does not contain' },
+        ],
+        attributeModel: 'contact_attribute',
+      }));
+    },
     mergedFilterTypes() {
-      const standardTypes = this.filterTypes;
-      const customTypes = this.customAttributes('contact_attribute').map(
-        attr => ({
-          attributeKey: attr.attribute_key,
-          attributeI18nKey: attr.attribute_display_name,
-          inputType: attr.attribute_display_type,
-          filterOperators: [
-            { value: 'equal_to', label: 'Equals' },
-            { value: 'not_equal_to', label: 'Does not equal' },
-            { value: 'contains', label: 'Contains' },
-            { value: 'does_not_contain', label: 'Does not contain' },
-          ],
-          attributeModel: 'contact_attribute',
-        })
-      );
-      return [...standardTypes, ...customTypes];
+      return [...this.standardFilterTypes, ...this.customFilterTypes];
     },
     filteredContacts() {
       // Use contactList instead of contacts for filtering
@@ -695,13 +698,24 @@ export default {
             class="filter-row"
           >
             <select v-model="filter.attribute_key" class="filter-attribute">
-              <option
-                v-for="type in mergedFilterTypes"
-                :key="type.attributeKey"
-                :value="type.attributeKey"
-              >
-                {{ type.attributeKey }}
-              </option>
+              <optgroup label="Standard Filters">
+                <option
+                  v-for="type in standardFilterTypes"
+                  :key="type.attributeKey"
+                  :value="type.attributeKey"
+                >
+                  {{ type.attributeKey }}
+                </option>
+              </optgroup>
+              <optgroup label="Custom Attributes">
+                <option
+                  v-for="type in customFilterTypes"
+                  :key="type.attributeKey"
+                  :value="type.attributeKey"
+                >
+                  {{ type.attributeKey }}
+                </option>
+              </optgroup>
             </select>
 
             <select v-model="filter.filter_operator" class="filter-operator">
