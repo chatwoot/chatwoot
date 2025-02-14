@@ -38,6 +38,7 @@ class Linear::CallbacksController < ApplicationController
         scope: parsed_body['scope']
       }
     )
+    # You may wonder why we're not handling the refresh token update, since the token will expire only after 10 years, https://github.com/linear/linear/issues/251
     hook.save!
     redirect_to linear_redirect_uri
   rescue StandardError => e
