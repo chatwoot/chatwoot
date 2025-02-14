@@ -62,9 +62,9 @@
     "TITLE": "Excluir contato",
     "DESC": "Excluir detalhes do contato",
     "CONFIRM": {
-      "TITLE": "Confirmar exclusão",
+      "TITLE": "Confirmar Exclusão",
       "MESSAGE": "Você tem certeza que deseja excluir ",
-      "YES": "Sim, excluir",
+      "YES": "Sim, Excluir",
       "NO": "Não, Mantenha"
     },
     "API": {
@@ -102,7 +102,7 @@
         "DUPLICATE": "Este número de telefone está em uso para outro contato."
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
+        "PLACEHOLDER": "Insira a localização do contato",
         "LABEL": "Localização"
       },
       "COMPANY_NAME": {
@@ -149,7 +149,7 @@
     "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Iniciar Conversa",
+    "BUTTON_LABEL": "Iniciar conversa",
     "TITLE": "Nova conversa",
     "DESC": "Iniciar uma nova conversa enviando uma nova mensagem.",
     "NO_INBOX": "Não foi possível encontrar uma caixa de entrada para iniciar uma nova conversa com este contato.",
@@ -198,7 +198,7 @@
     "ACTIONS": {
       "COPY": "Copiar atributo",
       "DELETE": "Excluir atributo",
-      "EDIT": "Editar atributo"
+      "EDIT": "Alterar atributo"
     },
     "ADD": {
       "TITLE": "Criar atributo personalizado",
@@ -208,13 +208,13 @@
       "CREATE": "Adicionar atributo",
       "CANCEL": "Cancelar",
       "NAME": {
-        "LABEL": "Atributos Personalizados",
+        "LABEL": "Nome do Atributo Personalizado",
         "PLACEHOLDER": "Por exemplo: ID shopify",
         "ERROR": "Nome de atributo personalizado inválido"
       },
       "VALUE": {
         "LABEL": "Valor do atributo",
-        "PLACEHOLDER": "Eg: 11901 "
+        "PLACEHOLDER": "Ex: 11901 "
       },
       "ADD": {
         "TITLE": "Criar novo atributo ",
@@ -288,6 +288,8 @@
       "SEARCH_PLACEHOLDER": "Pesquisar...",
       "MESSAGE_BUTTON": "Enviar Mensagem",
       "SEND_MESSAGE": "Enviar mensagem",
+      "BLOCK_CONTACT": "Bloquear contato",
+      "UNBLOCK_CONTACT": "Desbloquear contato",
       "BREADCRUMB": {
         "CONTACTS": "Contato"
       },
@@ -302,6 +304,10 @@
           "SUCCESS_MESSAGE": "Contato salvo com sucesso",
           "ERROR_MESSAGE": "Não foi possível atualizar o contato. Por favor, tente mais tarde."
         },
+        "BLOCK_SUCCESS_MESSAGE": "Este contato foi bloqueado com sucesso",
+        "BLOCK_ERROR_MESSAGE": "Não foi possível bloquear o contato. Tente novamente mais tarde.",
+        "UNBLOCK_SUCCESS_MESSAGE": "Este contato foi desbloqueado com sucesso",
+        "UNBLOCK_ERROR_MESSAGE": "Não foi possível desbloquear o contato. Tente novamente mais tarde.",
         "IMPORT_CONTACT": {
           "TITLE": "Importar contatos",
           "DESCRIPTION": "Importar contatos através de um arquivo CSV.",
@@ -318,11 +324,11 @@
           "TITLE": "Exportar contatos",
           "DESCRIPTION": "Exporte rapidamente um arquivo csv com detalhes completos dos seus contatos",
           "CONFIRM": "Exportar",
-          "SUCCESS_MESSAGE": "Exportando. Você será notificado por e-mail quando o arquivo estiver pronto para download.",
+          "SUCCESS_MESSAGE": "Exportando. Você será notificado por e-mail quando o arquivo estiver pronto para ser baixado.",
           "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
         },
         "SORT_BY": {
-          "LABEL": "Ordenar por",
+          "LABEL": "Classificar por",
           "OPTIONS": {
             "NAME": "Nome",
             "EMAIL": "e-mail",
@@ -385,7 +391,7 @@
         "ADD_FILTER": "Adicionar filtro"
       },
       "TITLE": "Filtrar contatos",
-      "EDIT_SEGMENT": "Editar segmento",
+      "EDIT_SEGMENT": "Alterar segmento",
       "SEGMENT": {
         "LABEL": "Nome do segmento",
         "INPUT_PLACEHOLDER": "Digite o nome do segmento"
@@ -422,7 +428,7 @@
             "PLACEHOLDER": "Selecione o país"
           },
           "BIO": {
-            "PLACEHOLDER": "Digite uma bio (apresentação)"
+            "PLACEHOLDER": "Digite uma biografia"
           },
           "COMPANY_NAME": {
             "PLACEHOLDER": "Digite o nome da empresa"
@@ -568,7 +574,7 @@
         "BUTTON": "Mostrar Caixas de Entrada"
       },
       "EMAIL_OPTIONS": {
-        "SUBJECT_LABEL": "Assunto :",
+        "SUBJECT_LABEL": "Assunto:",
         "SUBJECT_PLACEHOLDER": "Digite o assunto do seu e-mail aqui",
         "CC_LABEL": "Cc:",
         "CC_PLACEHOLDER": "Pesquisar por um contato com seu endereço de e-mail",
