@@ -1,4 +1,4 @@
-class Linear::CallbacksController < OauthCallbackController
+class Linear::CallbacksController < ApplicationController
   include IntegrationHelper
 
   def show
@@ -45,6 +45,10 @@ class Linear::CallbacksController < OauthCallbackController
     redirect_to linear_redirect_uri
   end
 
+  def account
+    @account ||= Account.find(account_id)
+  end
+
   def account_id
     return unless params[:state]
 
@@ -57,5 +61,9 @@ class Linear::CallbacksController < OauthCallbackController
 
   def parsed_body
     @parsed_body ||= @response.response.parsed
+  end
+
+  def base_url
+    ENV.fetch('FRONTEND_URL', 'http://localhost:3000')
   end
 end
