@@ -144,8 +144,18 @@ const handleCardSelect = id => {
 };
 
 const handleSelectAllClick = () => {
-  const shouldSelectAll = !allResponseSelected.value;
-  toggleSelectAllResponses(shouldSelectAll);
+  // If all items on current page are selected but allResponseSelected is false
+  if (bulkSelectionState.value.allSelected && !allResponseSelected.value) {
+    allResponseSelected.value = true;
+    return;
+  }
+
+  // If allResponseSelected is true, do nothing
+  if (allResponseSelected.value) return;
+
+  // Otherwise, select all items
+  toggleSelectAllResponses(true);
+  allResponseSelected.value = true;
 };
 
 const handleBulkApprove = async () => {
