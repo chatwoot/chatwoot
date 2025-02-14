@@ -18,8 +18,8 @@
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Normalmente responde em alguns minutos",
-    "IN_A_FEW_HOURS": "Responde normalmente em algumas horas",
-    "IN_A_DAY": "Responde normalmente em um dia",
+    "IN_A_FEW_HOURS": "Normalmente responde em algumas horas",
+    "IN_A_DAY": "Normalmente responde em um dia",
     "BACK_IN": "Estaremos de volta on-line"
   },
   "DAY_NAMES": [
@@ -74,7 +74,7 @@
         "DROPDOWN_SEARCH": "Selecione o país"
       },
       "MESSAGE": {
-        "LABEL": "Messagem",
+        "LABEL": "Mensagem",
         "PLACEHOLDER": "Por favor, digite sua mensagem",
         "ERROR": "Mensagem muito curta"
       }
