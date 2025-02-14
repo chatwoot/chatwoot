@@ -8,8 +8,10 @@ import { useRouter } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import Button from 'dashboard/components-next/button/Button.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
+import BulkDeleteDialog from 'dashboard/components-next/captain/pageComponents/BulkDeleteDialog.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import AssistantSelector from 'dashboard/components-next/captain/pageComponents/AssistantSelector.vue';
@@ -28,6 +30,7 @@ const isFetching = computed(() => uiFlags.value.fetchingList);
 
 const selectedResponse = ref(null);
 const deleteDialog = ref(null);
+const bulkDeleteDialog = ref(null);
 
 const selectedStatus = ref('all');
 const selectedAssistant = ref('all');
@@ -87,6 +90,72 @@ const handleCreate = () => {
 const handleEdit = () => {
   dialogType.value = 'edit';
   nextTick(() => createDialog.value.dialogRef.open());
+};
+
+// Bulk action
+const bulkSelected = ref(new Set());
+const allResponseSelected = ref(false); // State for select all response button
+const hoveredCard = ref(null);
+
+const bulkSelectionState = computed(() => {
+  const selectedCount = bulkSelected.value.size;
+  const totalCount = responses.value?.length || 0;
+
+  return {
+    hasSelected: selectedCount > 0,
+    isIndeterminate: selectedCount > 0 && selectedCount < totalCount,
+    allSelected: totalCount > 0 && selectedCount === totalCount,
+  };
+});
+
+const toggleSelectAllResponses = (shouldSelectAll = false) => {
+  bulkSelected.value = shouldSelectAll
+    ? new Set(responses.value.map(r => r.id))
+    : new Set();
+
+  // Update state for select all response button
+  allResponseSelected.value = shouldSelectAll;
+};
+
+const bulkCheckbox = computed({
+  get: () => bulkSelectionState.value.allSelected,
+  set: () => toggleSelectAllResponses(!bulkSelectionState.value.allSelected),
+});
+
+const totalPages = computed(() =>
+  Math.ceil(responseMeta.value.totalCount / 25)
+);
+
+const hasMultiplePages = computed(() => totalPages.value > 1);
+
+const handleCardHover = (isHovered, id) => {
+  hoveredCard.value = isHovered ? id : null;
+};
+
+const handleCardSelect = id => {
+  const selected = new Set(bulkSelected.value);
+  selected[selected.has(id) ? 'delete' : 'add'](id);
+  bulkSelected.value = selected;
+
+  // If any item is unchecked, set allResponseSelected to false
+  if (allResponseSelected.value && selected.size < responses.value.length) {
+    allResponseSelected.value = false;
+  }
+};
+
+const handleSelectAllClick = () => {
+  const shouldSelectAll = !allResponseSelected.value;
+  toggleSelectAllResponses(shouldSelectAll);
+};
+
+const handleBulkApprove = async () => {
+  try {
+    // action
+    // all = allResponseSelected
+    bulkSelected.value = new Set();
+  } catch (error) {
+    // error
+  }
 };
 
 const handleAction = ({ action, id }) => {
@@ -177,29 +246,82 @@ onMounted(() => {
     </template>
 
     <template #controls>
-      <div v-if="shouldShowDropdown" class="mb-4 -mt-3 flex gap-3">
-        <OnClickOutside @trigger="isStatusFilterOpen = false">
-          <Button
-            :label="selectedStatusLabel"
-            icon="i-lucide-chevron-down"
-            size="sm"
-            color="slate"
-            trailing-icon
-            class="max-w-48"
-            @click="isStatusFilterOpen = !isStatusFilterOpen"
-          />
+      <div
+        v-if="shouldShowDropdown"
+        class="mb-4 -mt-3 flex justify-between items-center"
+      >
+        <div v-if="!bulkSelectionState.hasSelected" class="flex gap-3">
+          <OnClickOutside @trigger="isStatusFilterOpen = false">
+            <Button
+              :label="selectedStatusLabel"
+              icon="i-lucide-chevron-down"
+              size="sm"
+              color="slate"
+              trailing-icon
+              class="max-w-48"
+              @click="isStatusFilterOpen = !isStatusFilterOpen"
+            />
 
-          <DropdownMenu
-            v-if="isStatusFilterOpen"
-            :menu-items="statusOptions"
-            class="mt-2"
-            @action="handleStatusFilterChange"
+            <DropdownMenu
+              v-if="isStatusFilterOpen"
+              :menu-items="statusOptions"
+              class="mt-2"
+              @action="handleStatusFilterChange"
+            />
+          </OnClickOutside>
+          <AssistantSelector
+            :assistant-id="selectedAssistant"
+            @update="handleAssistantFilterChange"
           />
-        </OnClickOutside>
-        <AssistantSelector
-          :assistant-id="selectedAssistant"
-          @update="handleAssistantFilterChange"
-        />
+        </div>
+        <div v-else-if="hasMultiplePages">
+          <Button
+            :label="
+              $t('CAPTAIN.RESPONSES.SELECT_ALL', {
+                totalCount: responseMeta.totalCount,
+              })
+            "
+            sm
+            link
+            blue
+            @click="handleSelectAllClick"
+          />
+        </div>
+        <div v-else />
+
+        <div
+          v-if="bulkSelectionState.hasSelected"
+          class="flex items-center gap-3"
+        >
+          <div class="flex items-center gap-2">
+            <Checkbox
+              v-model="bulkCheckbox"
+              :indeterminate="bulkSelectionState.isIndeterminate"
+            />
+            <span class="text-sm text-n-slate-10 tabular-nums">
+              {{
+                $t('CAPTAIN.RESPONSES.SELECTED', {
+                  count: bulkSelected.size,
+                })
+              }}
+            </span>
+          </div>
+          <div class="h-4 w-px bg-n-strong" />
+          <div class="flex gap-2">
+            <Button
+              :label="$t('CAPTAIN.RESPONSES.BULK_APPROVE_BUTTON')"
+              sm
+              slate
+              @click="handleBulkApprove"
+            />
+            <Button
+              :label="$t('CAPTAIN.RESPONSES.BULK_DELETE_BUTTON')"
+              sm
+              slate
+              @click="bulkDeleteDialog.dialogRef.open()"
+            />
+          </div>
+        </div>
       </div>
     </template>
 
@@ -218,8 +340,12 @@ onMounted(() => {
           :status="response.status"
           :created-at="response.created_at"
           :updated-at="response.updated_at"
+          :is-selected="bulkSelected.has(response.id)"
+          :show-checkbox="hoveredCard === response.id || bulkSelected.size > 0"
           @action="handleAction"
           @navigate="handleNavigationAction"
+          @select="handleCardSelect"
+          @hover="isHovered => handleCardHover(isHovered, response.id)"
         />
       </div>
     </template>
@@ -228,6 +354,14 @@ onMounted(() => {
       v-if="selectedResponse"
       ref="deleteDialog"
       :entity="selectedResponse"
+      type="Responses"
+      @delete-success="onDeleteSuccess"
+    />
+
+    <BulkDeleteDialog
+      v-if="bulkSelected"
+      ref="bulkDeleteDialog"
+      :entity="bulkSelected"
       type="Responses"
       @delete-success="onDeleteSuccess"
     />

@@ -7,6 +7,7 @@ import { dynamicTime } from 'shared/helpers/timeHelper';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import Policy from 'dashboard/components/policy.vue';
 
 const props = defineProps({
@@ -46,13 +47,26 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  isSelected: {
+    type: Boolean,
+    default: false,
+  },
+  showCheckbox: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['action', 'navigate']);
+const emit = defineEmits(['action', 'navigate', 'select', 'hover']);
 
 const { t } = useI18n();
 
 const [showActionsDropdown, toggleDropdown] = useToggle();
+
+const modelValue = computed({
+  get: () => props.isSelected,
+  set: () => emit('select', props.id),
+});
 
 const statusAction = computed(() => {
   if (props.status === 'pending') {
@@ -102,12 +116,19 @@ const handleDocumentableClick = () => {
 </script>
 
 <template>
-  <CardLayout :class="{ 'rounded-md': compact }">
+  <CardLayout
+    :class="{ 'rounded-md': compact }"
+    @mouseenter="$emit('hover', true)"
+    @mouseleave="$emit('hover', false)"
+  >
     <div class="flex justify-between w-full gap-1">
       <span class="text-base text-n-slate-12 line-clamp-1">
         {{ question }}
       </span>
       <div v-if="!compact" class="flex items-center gap-2">
+        <div v-show="showCheckbox" class="transition-opacity duration-200">
+          <Checkbox v-model="modelValue" />
+        </div>
         <Policy
           v-on-clickaway="() => toggleDropdown(false)"
           :permissions="['administrator']"
