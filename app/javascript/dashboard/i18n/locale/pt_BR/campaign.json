@@ -30,7 +30,7 @@
             "ERROR": "Título é obrigatório"
           },
           "MESSAGE": {
-            "LABEL": "Messagem",
+            "LABEL": "Mensagem",
             "PLACEHOLDER": "Por favor, insira a mensagem da campanha",
             "ERROR": "A mensagem é obrigatória"
           },
@@ -118,7 +118,7 @@
           },
           "AUDIENCE": {
             "LABEL": "Público",
-            "PLACEHOLDER": "Selecionar marcadores dos clientes",
+            "PLACEHOLDER": "Selecionar etiquetas dos clientes",
             "ERROR": "Público é necessário"
           },
           "SCHEDULED_AT": {
