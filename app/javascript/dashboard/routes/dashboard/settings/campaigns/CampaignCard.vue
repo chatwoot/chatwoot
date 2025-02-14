@@ -87,7 +87,6 @@ export default {
     },
     handleReportError(error) {
       // Optional: Add error handling logic, e.g., showing a toast notification
-      return;
     },
   },
 };
@@ -168,8 +167,8 @@ export default {
             icon="document"
             color-scheme="secondary"
             size="small"
-            @click="openReportModal"
             class="ml-auto"
+            @click="openReportModal"
           >
             {{ $t('CAMPAIGN.LIST.BUTTONS.SHOW_REPORT') }}
           </woot-button>
