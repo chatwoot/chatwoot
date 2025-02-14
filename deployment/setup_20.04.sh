@@ -268,7 +268,7 @@ function save_pgpass() {
   mkdir -p /opt/chatwoot/config
   file="/opt/chatwoot/config/.pg_pass"
   if ! test -f "$file"; then
-    echo $pg_pass > /opt/chatwoot/config/.pg_pass
+    echo "$pg_pass" > /opt/chatwoot/config/.pg_pass
   fi
 }
 
@@ -304,7 +304,7 @@ function configure_db() {
   save_pgpass
   get_pgpass
   sudo -i -u postgres psql << EOF
-    \set pass `echo $pg_pass`
+    \set pass $pg_pass
     CREATE USER chatwoot CREATEDB;
     ALTER USER chatwoot PASSWORD :'pass';
     ALTER ROLE chatwoot SUPERUSER;
@@ -331,7 +331,8 @@ EOF
 #   None
 ##############################################################################
 function setup_chatwoot() {
-  local secret=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 63 ; echo '')
+  local secret
+  secret=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 63 ; echo '')
   local RAILS_ENV=production
   get_pgpass
 
@@ -944,7 +945,8 @@ function report_event() {
   CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
 
   # get installation identifier
-  local installation_identifier=$(get_installation_identifier)
+  local installation_identifier
+  installation_identifier=$(get_installation_identifier)
 
   # Prepare the data for the request
   local data="{\"installation_identifier\":\"$installation_identifier\",\"event_name\":\"$event_name\",\"event_data\":{\"action\":\"$event_data\"}}"
@@ -1002,7 +1004,8 @@ function cwctl_upgrade_check() {
     echo "Checking for cwctl updates..."
 
     local remote_version_url="https://raw.githubusercontent.com/chatwoot/chatwoot/master/VERSION_CWCTL"
-    local remote_version=$(curl -s "$remote_version_url")
+    local remote_version
+    remote_version=$(curl -s "$remote_version_url")
 
     #Check if pip is not installed, and install it if not
     if ! command -v pip3 &> /dev/null; then
