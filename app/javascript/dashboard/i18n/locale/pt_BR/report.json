@@ -20,16 +20,16 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Tempo da Primeira Resposta",
+        "NAME": "Tempo de Primeira Resposta",
         "DESC": "(Média)",
         "INFO_TEXT": "Número total de conversas utilizadas para computação:",
-        "TOOLTIP_TEXT": "O tempo da primeira resposta é de {metricValue} (com base em {conversationCount} conversas)"
+        "TOOLTIP_TEXT": "O Tempo de Primeira Resposta é de {metricValue} (com base em {conversationCount} conversas)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Tempo de resolução",
+        "NAME": "Tempo de Resolução",
         "DESC": "(Média)",
         "INFO_TEXT": "Número total de conversas utilizadas para computação:",
-        "TOOLTIP_TEXT": "O tempo de resolução é de {metricValue} (com base em {conversationCount} conversas)"
+        "TOOLTIP_TEXT": "O Tempo de Resolução é de {metricValue} (com base em {conversationCount} conversas)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de Resolução",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Tempo de espera do cliente",
-        "TOOLTIP_TEXT": "O tempo de espera é {metricValue} (com base em {conversationCount} respostas)",
+        "TOOLTIP_TEXT": "O Tempo de Espera é {metricValue} (com base em {conversationCount} respostas)",
         "DESC": ""
       }
     },
@@ -124,7 +124,7 @@
   },
   "AGENT_REPORTS": {
     "HEADER": "Visão Geral de Agentes",
-    "DESCRIPTION": "Acompanhe facilmente o desempenho do agente com métricas chave, como conversas, tempos de resposta, tempos de resolução e casos resolvidos. Clique no nome de um agente para saber mais.",
+    "DESCRIPTION": "Acompanhe facilmente o desempenho do agente com métricas-chave, como conversas, tempos de resposta, tempos de resolução e casos resolvidos. Clique no nome de um agente para saber mais.",
     "LOADING_CHART": "Carregando dados do gráfico...",
     "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
     "DOWNLOAD_AGENT_REPORTS": "Baixar relatórios de agentes",
@@ -146,13 +146,13 @@
         "NAME": "Tempo da Primeira Resposta",
         "DESC": "(Média)",
         "INFO_TEXT": "Número total de conversas utilizadas para computação:",
-        "TOOLTIP_TEXT": "O tempo da primeira resposta é de {metricValue} (com base em {conversationCount} conversas)"
+        "TOOLTIP_TEXT": "O Tempo de Primeira Resposta é de {metricValue} (com base em {conversationCount} conversas)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Tempo de resolução",
+        "NAME": "Tempo de Resolução",
         "DESC": "(Média)",
         "INFO_TEXT": "Número total de conversas utilizadas para computação:",
-        "TOOLTIP_TEXT": "O tempo de resolução é de {metricValue} (com base em {conversationCount} conversas)"
+        "TOOLTIP_TEXT": "O Tempo de Resolução é de {metricValue} (com base em {conversationCount} conversas)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de Resolução",
@@ -210,16 +210,16 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Tempo da Primeira Resposta",
+        "NAME": "Tempo de Primeira Resposta",
         "DESC": "(Média)",
         "INFO_TEXT": "Número total de conversas utilizadas para computação:",
-        "TOOLTIP_TEXT": "O tempo da primeira resposta é de {metricValue} (com base em {conversationCount} conversas)"
+        "TOOLTIP_TEXT": "O Tempo de Primeira Resposta é de {metricValue} (com base em {conversationCount} conversas)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Tempo de resolução",
+        "NAME": "Tempo de Resolução",
         "DESC": "(Média)",
         "INFO_TEXT": "Número total de conversas utilizadas para computação:",
-        "TOOLTIP_TEXT": "O tempo de resolução é de {metricValue} (com base em {conversationCount} conversas)"
+        "TOOLTIP_TEXT": "O Tempo de Resolução é de {metricValue} (com base em {conversationCount} conversas)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de Resolução",
@@ -259,7 +259,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Visualizar Caixa de Entrada",
-    "DESCRIPTION": "Veja rapidamente o desempenho da caixa de entrada com métricas chave como conversas, tempos de resposta, tempos de resolução, e casos resolvidos - tudo em um só lugar. Clique na caixa de entrada para mais detalhes",
+    "DESCRIPTION": "Veja rapidamente o desempenho da caixa de entrada com métricas-chave como conversas, tempos de resposta, tempos de resolução, e casos resolvidos — tudo em um só lugar. Clique na caixa de entrada para mais detalhes",
     "LOADING_CHART": "Carregando dados do gráfico...",
     "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
     "DOWNLOAD_INBOX_REPORTS": "Baixar relatórios de entrada",
@@ -281,13 +281,13 @@
         "NAME": "Tempo da Primeira Resposta",
         "DESC": "(Média)",
         "INFO_TEXT": "Número total de conversas utilizadas para computação:",
-        "TOOLTIP_TEXT": "O tempo da primeira resposta é de {metricValue} (com base em {conversationCount} conversas)"
+        "TOOLTIP_TEXT": "O Tempo de Primeira Resposta é de {metricValue} (com base em {conversationCount} conversas)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo de resolução",
         "DESC": "(Média)",
         "INFO_TEXT": "Número total de conversas utilizadas para computação:",
-        "TOOLTIP_TEXT": "O tempo de resolução é de {metricValue} (com base em {conversationCount} conversas)"
+        "TOOLTIP_TEXT": "O Tempo de Resolução é de {metricValue} (com base em {conversationCount} conversas)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de Resolução",
@@ -331,7 +331,7 @@
     "LOADING_CHART": "Carregando dados do gráfico...",
     "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
     "DOWNLOAD_TEAM_REPORTS": "Baixar relatórios da equipe",
-    "FILTER_DROPDOWN_LABEL": "Selecionar time",
+    "FILTER_DROPDOWN_LABEL": "Selecionar Equipe",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversas",
@@ -349,13 +349,13 @@
         "NAME": "Tempo da Primeira Resposta",
         "DESC": "(Média)",
         "INFO_TEXT": "Número total de conversas utilizadas para computação:",
-        "TOOLTIP_TEXT": "O tempo da primeira resposta é de {metricValue} (com base em {conversationCount} conversas)"
+        "TOOLTIP_TEXT": "O Tempo de Primeira Resposta é de {metricValue} (com base em {conversationCount} conversas)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Tempo de resolução",
+        "NAME": "Tempo de Resolução",
         "DESC": "(Média)",
         "INFO_TEXT": "Número total de conversas utilizadas para computação:",
-        "TOOLTIP_TEXT": "O tempo de resolução é de {metricValue} (com base em {conversationCount} conversas)"
+        "TOOLTIP_TEXT": "O Tempo de Resolução é de {metricValue} (com base em {conversationCount} conversas)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de Resolução",
@@ -456,7 +456,7 @@
       "OPEN": "Abertas",
       "UNATTENDED": "Não atendidas",
       "UNASSIGNED": "Não atribuída",
-      "PENDING": "Pendente"
+      "PENDING": "Pendentes"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Tráfego de conversa",
@@ -473,7 +473,7 @@
         "AGENT": "Agente",
         "OPEN": "Abrir",
         "UNATTENDED": "Não atendidas",
-        "STATUS": "SItuação"
+        "STATUS": "Situação"
       }
     },
     "AGENT_STATUS": {
@@ -510,13 +510,13 @@
         "AGENTS": "Nome do Agente",
         "INBOXES": "Nome da Caixa de Entrada",
         "LABELS": "Nome do marcador",
-        "TEAMS": "Nome do departamento"
+        "TEAMS": "Nome da equipe"
       },
       "SLA": "Política SLA",
       "INBOXES": "Caixa de Entrada",
       "AGENTS": "Agente",
       "LABELS": "Nome do campo",
-      "TEAMS": "Times"
+      "TEAMS": "Equipe"
     },
     "WITH": "com",
     "METRICS": {
@@ -545,10 +545,10 @@
   "SUMMARY_REPORTS": {
     "INBOX": "Caixa de Entrada",
     "AGENT": "Agente",
-    "TEAM": "Times",
-    "AVG_RESOLUTION_TIME": "Tempo médio de resolução",
-    "AVG_FIRST_RESPONSE_TIME": "Tempo médio de primeira resposta",
-    "AVG_REPLY_TIME": "Tempo médio de espera do cliente",
+    "TEAM": "Equipe",
+    "AVG_RESOLUTION_TIME": "Tempo Médio de Resolução",
+    "AVG_FIRST_RESPONSE_TIME": "Tempo Médio de Primeira Resposta",
+    "AVG_REPLY_TIME": "Tempo Médio de Rspera do Cliente",
     "RESOLUTION_COUNT": "Contagem de Resolução",
     "CONVERSATIONS": "Nº de Conversas"
   }
