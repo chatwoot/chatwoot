@@ -112,9 +112,6 @@ const toggleSelectAllResponses = (shouldSelectAll = false) => {
   bulkSelected.value = shouldSelectAll
     ? new Set(responses.value.map(r => r.id))
     : new Set();
-
-  // Update state for select all response button
-  allResponseSelected.value = shouldSelectAll;
 };
 
 const bulkCheckbox = computed({
@@ -371,7 +368,9 @@ onMounted(() => {
     <BulkDeleteDialog
       v-if="bulkSelected"
       ref="bulkDeleteDialog"
-      :entity="bulkSelected"
+      :bulk-ids="bulkSelected"
+      :has-all-selected="allResponseSelected"
+      :total-responses="responseMeta.totalCount"
       type="Responses"
       @delete-success="onDeleteSuccess"
     />

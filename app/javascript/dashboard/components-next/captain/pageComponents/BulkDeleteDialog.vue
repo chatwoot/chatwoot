@@ -10,8 +10,16 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  entity: {
+  bulkIds: {
     type: Object,
+    required: true,
+  },
+  hasAllSelected: {
+    type: Boolean,
+    default: false,
+  },
+  totalResponses: {
+    type: Number,
     required: true,
   },
 });
@@ -23,7 +31,7 @@ const { t } = useI18n();
 const bulkDeleteDialogRef = ref(null);
 const i18nKey = computed(() => props.type.toUpperCase());
 
-const bulkSelectedCount = computed(() => Array.from(props.entity).length);
+const bulkSelectedCount = computed(() => Array.from(props.bulkIds).length);
 
 const handleBulkDelete = async ids => {
   if (!ids) return;
@@ -34,7 +42,7 @@ const handleBulkDelete = async ids => {
     emit('deleteSuccess');
     useAlert(
       t(`CAPTAIN.${i18nKey.value}.BULK_DELETE.SUCCESS_MESSAGE`, {
-        count: bulkSelectedCount,
+        count: !props.hasAllSelected ? bulkSelectedCount : props.totalResponses,
       })
     );
   } catch (error) {
@@ -43,7 +51,7 @@ const handleBulkDelete = async ids => {
 };
 
 const handleDialogConfirm = async () => {
-  await handleBulkDelete(Array.from(props.entity));
+  await handleBulkDelete(Array.from(props.bulkIds));
   bulkDeleteDialogRef.value?.close();
 };
 
@@ -56,12 +64,12 @@ defineExpose({ dialogRef: bulkDeleteDialogRef });
     type="alert"
     :title="
       t(`CAPTAIN.${i18nKey}.BULK_DELETE.TITLE`, {
-        count: bulkSelectedCount,
+        count: !props.hasAllSelected ? bulkSelectedCount : props.totalResponses,
       })
     "
     :description="
       t(`CAPTAIN.${i18nKey}.BULK_DELETE.DESCRIPTION`, {
-        count: bulkSelectedCount,
+        count: !props.hasAllSelected ? bulkSelectedCount : props.totalResponses,
       })
     "
     :confirm-button-label="t(`CAPTAIN.${i18nKey}.BULK_DELETE.CONFIRM`)"
