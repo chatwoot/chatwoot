@@ -187,7 +187,7 @@
           "NAME": "Nome",
           "ENDPOINT": "Endpoint"
         },
-        "EDIT_TOOLTIP": "Editar aplicativo",
+        "EDIT_TOOLTIP": "Alterar aplicativo",
         "DELETE_TOOLTIP": "Excluir aplicativo"
       },
       "FORM": {
@@ -206,7 +206,7 @@
         "API_ERROR": "Não conseguimos criar um aplicativo. Por favor, tente novamente mais tarde"
       },
       "UPDATE": {
-        "HEADER": "Editar aplicativo",
+        "HEADER": "Alterar aplicativo",
         "FORM_SUBMIT": "Atualizar",
         "FORM_CANCEL": "Cancelar",
         "API_SUCCESS": "Aplicativo atualizado com sucesso",
@@ -232,7 +232,7 @@
         "TITLE": "Link",
         "EMPTY_LIST": "",
         "LOADING": "Carregando",
-        "ERROR": "",
+        "ERROR": "Houve um erro ao buscar as questões lineares, por favor, tente novamente",
         "LINK_SUCCESS": "Questão vinculada com sucesso",
         "LINK_ERROR": "Houve um erro ao vincular a questão, tente novamente mais tarde",
         "LINK_TITLE": "Conversa (#{conversationId}) com {name}"
@@ -251,8 +251,8 @@
             "PLACEHOLDER": "Insira a descrição"
           },
           "TEAM": {
-            "LABEL": "Times",
-            "PLACEHOLDER": "Selecionar time",
+            "LABEL": "Equipes",
+            "PLACEHOLDER": "Selecionar equipe",
             "SEARCH": "Pesquisar equipe",
             "REQUIRED_ERROR": "A equipe é obrigatória"
           },
@@ -293,7 +293,7 @@
         "STATUS": "Situação",
         "PRIORITY": "Prioridade",
         "ASSIGNEE": "Responsável",
-        "LABELS": "Marcadores",
+        "LABELS": "Etiquetas",
         "CREATED_AT": "Criado em {createdAt}"
       },
       "UNLINK": {
@@ -447,7 +447,7 @@
       },
       "STATUS": {
         "TITLE": "Situação",
-        "PENDING": "Pendente",
+        "PENDING": "Pendentes",
         "APPROVED": "Aceito",
         "ALL": "Todos"
       },
@@ -475,14 +475,14 @@
         }
       },
       "EDIT": {
-        "TITLE": "Atualizar FAQ",
-        "SUCCESS_MESSAGE": "A FAQ foi atualizado com sucesso",
+        "TITLE": "Atualizar as Perguntas Frequentes",
+        "SUCCESS_MESSAGE": "As Perguntas Frequentes foram atualizadas com sucesso",
         "ERROR_MESSAGE": "Ocorreu um erro ao atualizar as Perguntas Frequentes, por favor tente novamente",
-        "APPROVE_SUCCESS_MESSAGE": "O FAQ foi marcado como aprovado"
+        "APPROVE_SUCCESS_MESSAGE": "As Perguntas Frequentes foram marcadas como aprovadas"
       },
       "OPTIONS": {
         "APPROVE": "Marcar como aprovado",
-        "EDIT_RESPONSE": "Editar FAQ",
+        "EDIT_RESPONSE": "Editar Perguntas Frequentes",
         "DELETE_RESPONSE": "Excluir FAQ"
       },
       "EMPTY_STATE": {
