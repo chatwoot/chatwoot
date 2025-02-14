@@ -8,8 +8,8 @@ const {
 } = window.globalConfig || {};
 
 export default {
-  mixins: [globalConfigMixin],
   name: 'TemplatePreview',
+  mixins: [globalConfigMixin],
   props: {
     selectedTemplate: {
       type: Object,
@@ -56,7 +56,6 @@ export default {
         : [];
     },
     hasMultipleCurlyBraces() {
-      console.log(this.selectedTemplate);
       if (!this.selectedTemplate?.components) return false;
 
       // Find the index of BODY component
@@ -125,13 +124,13 @@ export default {
           size="medium"
           color-scheme="clear secondary-icon"
           class-names="button--only-icon speaker"
-        ></woot-button>
+        />
         <woot-button
           icon="wifi"
           size="medium"
           color-scheme="clear secondary-icon"
           class-names="button--only-icon wifi"
-        ></woot-button>
+        />
       </div>
     </div>
 
@@ -142,7 +141,7 @@ export default {
           size="small"
           color-scheme="clear secondary-icon"
           class-names="button--only-icon back "
-        ></woot-button>
+        />
         <div class="business-profile">
           <img
             class="profile-img"
@@ -163,7 +162,7 @@ export default {
                 size="small"
                 color-scheme="clear success"
                 class-names="button--only-icon"
-              ></woot-button>
+              />
             </div>
           </div>
         </div>
@@ -173,7 +172,7 @@ export default {
             size="small"
             color-scheme="clear secondary-icon"
             class-names="button--only-icon call"
-          ></woot-button>
+          />
           <span class="more-icon">⋮</span>
         </div>
       </div>
@@ -189,7 +188,7 @@ export default {
             size="small"
             color-scheme="clear"
             class-names="button--only-icon mt-0"
-          ></woot-button>
+          />
           {{
             $t('CAMPAIGN.ADD.PREVIEW.META_INFO', {
               default:
@@ -234,7 +233,7 @@ export default {
             <div v-if="hasMultipleCurlyBraces" class="error-message">
               Only 'NAMED' templates with up to 1 parameter are allowed.
               (parameter_name: 'name') <br />
-              <span class="example-text" v-pre>
+              <span v-pre class="example-text">
                 Example: Hi {{ name }} Thanks for reaching *OneHash* Support! We
                 are looking into your queries.
               </span>
@@ -248,26 +247,26 @@ export default {
     <div class="message-input-area">
       <div class="input-actions">
         <span class="plus-icon">+</span>
-        <div class="input-box"></div>
+        <div class="input-box" />
         <div class="action-buttons">
           <woot-button
             icon="attach"
             size="medium"
             color-scheme="clear primary"
             class-names="button--only-icon action-button"
-          ></woot-button>
+          />
           <woot-button
             icon="emoji"
             size="medium"
             color-scheme="clear primary"
             class-names="button--only-icon action-button"
-          ></woot-button>
+          />
           <woot-button
             icon="microphone"
             size="medium"
             color-scheme="clear primary"
             class-names="button--only-icon action-button"
-          ></woot-button>
+          />
         </div>
       </div>
     </div>

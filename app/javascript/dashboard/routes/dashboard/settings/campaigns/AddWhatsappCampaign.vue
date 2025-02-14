@@ -87,6 +87,13 @@ export default {
       );
     },
   },
+  mounted() {
+    this.calculatePreviewPosition();
+    window.addEventListener('resize', this.calculatePreviewPosition);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.calculatePreviewPosition);
+  },
   methods: {
     handleFiltersCleared() {
       this.currentPage = 1;
@@ -256,13 +263,6 @@ export default {
       }
     },
   },
-  mounted() {
-    this.calculatePreviewPosition();
-    window.addEventListener('resize', this.calculatePreviewPosition);
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.calculatePreviewPosition);
-  },
 };
 </script>
 
@@ -358,7 +358,7 @@ export default {
       <!-- Template Preview for Step 1 -->
       <TemplatePreview
         v-if="currentStep === 1"
-        :selectedTemplate="selectedTemplate"
+        :selected-template="selectedTemplate"
         :preview-position="previewPosition"
         @template-validation="handleTemplateValidation"
       />
@@ -402,6 +402,7 @@ export default {
     </div>
   </div>
 </template>
+
 <style scoped>
 .create-inbox-option {
   background-color: #f0f9ff; /* Light blue background */

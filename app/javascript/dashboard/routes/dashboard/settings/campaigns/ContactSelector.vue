@@ -590,24 +590,21 @@ export default {
         <div class="filter-button-container">
           <div
             v-if="hasAppliedFilters"
-            class="absolute w-2 h-2 rounded-full top-1 right-1"
-            :style="{ backgroundColor: '#369eff' }"
+            class="absolute w-2 h-2 rounded-full top-1 right-1 bg-slate-500 dark:bg-slate-500"
           />
           <woot-button
             v-tooltip.top-end="$t('CAMPAIGN.CONTACT_SELECTOR.FILTER')"
             icon="filter"
             size="medium"
             color-scheme="secondary"
-            class="[&>span]:hidden xs:[&>span]:block"
-            class-name="filter-button"
+            class="clear [&>span]:hidden xs:[&>span]:block"
             @click="toggleFiltersModal"
-          >
-          </woot-button>
+          />
         </div>
       </div>
       <div class="selection-wrapper">
         <div class="selection-controls">
-          <button @click="selectAll" :disabled="isFetchingAllPages">
+          <button :disabled="isFetchingAllPages" @click="selectAll">
             {{ $t('CAMPAIGN.CONTACT_SELECTOR.SELECT_ALL') }}
           </button>
           <button @click="clearSelection">
@@ -797,10 +794,6 @@ export default {
         position: relative;
         display: inline-block;
         bottom: 7px;
-
-        .filter-button {
-          @apply relative bottom-4;
-        }
       }
     }
 
