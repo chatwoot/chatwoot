@@ -288,6 +288,8 @@
       "SEARCH_PLACEHOLDER": "Поиск...",
       "MESSAGE_BUTTON": "Сообщение",
       "SEND_MESSAGE": "Отправить сообщение",
+      "BLOCK_CONTACT": "Block contact",
+      "UNBLOCK_CONTACT": "Unblock contact",
       "BREADCRUMB": {
         "CONTACTS": "Контакты"
       },
@@ -302,6 +304,10 @@
           "SUCCESS_MESSAGE": "Контакт успешно сохранен",
           "ERROR_MESSAGE": "Не удалось сохранить контакт. Пожалуйста, повторите попытку позже."
         },
+        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
+        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
+        "UNBLOCK_SUCCESS_MESSAGE": "Этот контакт успешно разблокирован",
+        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
         "IMPORT_CONTACT": {
           "TITLE": "Импорт контактов",
           "DESCRIPTION": "Импорт контактов из CSV-файла.",
