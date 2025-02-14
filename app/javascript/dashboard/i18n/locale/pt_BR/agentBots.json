@@ -8,14 +8,14 @@
       "NAME": {
         "LABEL": "Nome do Robô",
         "PLACEHOLDER": "Nomeie seu Robô.",
-        "ERROR": "O nome do bot é obrigatório."
+        "ERROR": "O nome do Robô é obrigatório."
       },
       "DESCRIPTION": {
         "LABEL": "Descrição do Robô",
         "PLACEHOLDER": "O que esse robô faz?"
       },
       "BOT_CONFIG": {
-        "ERROR": "Por favor, insira a configuração CSML do bot acima.",
+        "ERROR": "Por favor, insira a configuração CSML do Robô acima.",
         "API_ERROR": "Sua configuração CSML é inválida. Por favor, corrija e tente novamente."
       },
       "SUBMIT": "Validar e salvar"
@@ -58,10 +58,10 @@
     "EDIT": {
       "BUTTON_TEXT": "Alterar",
       "LOADING": "Buscando robôs...",
-      "TITLE": "Editar Robô",
+      "TITLE": "Alterar Robô",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
-        "SUCCESS_MESSAGE": "Bot atualizado com sucesso.",
+        "SUCCESS_MESSAGE": "Robô atualizado com sucesso.",
         "ERROR_MESSAGE": "Não foi possível atualizar o robô. Por favor, tente novamente mais tarde."
       }
     },
