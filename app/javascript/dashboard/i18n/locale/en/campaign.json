@@ -43,7 +43,9 @@
       "PREVIOUS": "Prev",
       "LOADING": "Loading...",
       "SELECTING_EVERYTHING": "SELECTING",
-      "SELECT_EVERYTHING": "SELECT"
+      "SELECT_EVERYTHING": "SELECT",
+      "SELECTING": "Selecting...",
+      "LOADING_ALL_CONTACTS": "Filtering..."
     },
     "ADD": {
       "PREVIEW": {
