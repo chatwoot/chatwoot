@@ -1,17 +1,10 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
-import { useRouter, useRoute } from 'vue-router';
 import Integration from './Integration.vue';
 import Spinner from 'shared/components/Spinner.vue';
 
-const props = defineProps({
-  code: { type: String, default: '' },
-});
-
 const store = useStore();
-const router = useRouter();
-const route = useRoute();
 
 const integrationLoaded = ref(false);
 
@@ -30,11 +23,6 @@ const integrationAction = computed(() => {
 
 const intializeLinearIntegration = async () => {
   await store.dispatch('integrations/get', 'linear');
-  if (props.code) {
-    await store.dispatch('integrations/connectLinear', props.code);
-    // Clear the query param `code` from the URL
-    router.replace(route.path);
-  }
   integrationLoaded.value = true;
 };
 

@@ -2,15 +2,6 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
   before_action :fetch_conversation, only: [:link_issue, :linked_issues]
   before_action :fetch_hook, only: [:destroy]
 
-  def create
-    hook_builder = Integrations::Linear::HookBuilder.new(
-      account: Current.account,
-      code: params[:code],
-      inbox_id: params[:inbox_id]
-    )
-    @hook = hook_builder.perform
-  end
-
   def destroy
     @hook.destroy!
     head :ok

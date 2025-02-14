@@ -11,10 +11,6 @@ class IntegrationsAPI extends ApiClient {
     return axios.post(`${this.baseUrl()}/integrations/slack`, { code });
   }
 
-  connectLinear(code) {
-    return axios.post(`${this.baseUrl()}/integrations/linear`, { code });
-  }
-
   updateSlack({ referenceId }) {
     return axios.patch(`${this.baseUrl()}/integrations/slack`, {
       reference_id: referenceId,

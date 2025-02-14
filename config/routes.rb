@@ -233,7 +233,6 @@ Rails.application.routes.draw do
             end
             resource :linear, controller: 'linear', only: [] do
               collection do
-                post :create
                 delete :destroy
                 get :teams
                 get :team_entities
@@ -443,6 +442,10 @@ Rails.application.routes.draw do
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
 
   namespace :twitter do
+    resource :callback, only: [:show]
+  end
+
+  namespace :linear do
     resource :callback, only: [:show]
   end
 
