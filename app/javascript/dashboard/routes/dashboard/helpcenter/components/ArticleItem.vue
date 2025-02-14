@@ -59,7 +59,7 @@ export default {
       }).format(this.views || 0);
     },
     articleAuthorName() {
-      return this.author.name;
+      return this.author?.name || '-';
     },
     labelColor() {
       switch (this.status) {
