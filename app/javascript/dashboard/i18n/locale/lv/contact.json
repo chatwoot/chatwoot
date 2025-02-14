@@ -288,6 +288,8 @@
       "SEARCH_PLACEHOLDER": "Meklēt...",
       "MESSAGE_BUTTON": "Ziņojums",
       "SEND_MESSAGE": "Sūtīt ziņojumu",
+      "BLOCK_CONTACT": "Block contact",
+      "UNBLOCK_CONTACT": "Unblock contact",
       "BREADCRUMB": {
         "CONTACTS": "Kontaktpersonas"
       },
@@ -302,6 +304,10 @@
           "SUCCESS_MESSAGE": "Kontaktpersona ir veiksmīgi saglabāta",
           "ERROR_MESSAGE": "Nevar saglabāt kontaktpersonu. Lūdzu, vēlāk mēģiniet vēlreiz."
         },
+        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
+        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
+        "UNBLOCK_SUCCESS_MESSAGE": "Šī kontaktpersona ir veiksmīgi atbloķēta",
+        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
         "IMPORT_CONTACT": {
           "TITLE": "Importēt kontaktpersonas",
           "DESCRIPTION": "Importēt kontaktpersonas, izmantojot CSV failu.",
