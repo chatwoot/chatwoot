@@ -15,9 +15,9 @@
     },
     "FILTER_ALL": "Todos",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Minha",
-      "unassigned": "Não atribuída",
-      "all": "Todos"
+      "me": "Minhas",
+      "unassigned": "Não atribuídas",
+      "all": "Todas"
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
@@ -27,7 +27,7 @@
         "TEXT": "Resolvida"
       },
       "pending": {
-        "TEXT": "Pendente"
+        "TEXT": "Pendentes"
       },
       "snoozed": {
         "TEXT": "Adiado"
