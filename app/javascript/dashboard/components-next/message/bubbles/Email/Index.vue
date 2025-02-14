@@ -29,8 +29,15 @@ const isOutgoing = computed(() => {
 });
 const isIncoming = computed(() => !isOutgoing.value);
 
+const textToShow = computed(() => {
+  const text =
+    contentAttributes?.value?.email?.textContent?.full ?? content.value;
+  return text?.replace(/\n/g, '<br>');
+});
+
+// Use TextContent as the default to fullHTML
 const fullHTML = computed(() => {
-  return contentAttributes?.value?.email?.htmlContent?.full ?? content.value;
+  return contentAttributes?.value?.email?.htmlContent?.full ?? textToShow.value;
 });
 
 const unquotedHTML = computed(() => {
@@ -39,12 +46,6 @@ const unquotedHTML = computed(() => {
 
 const hasQuotedMessage = computed(() => {
   return EmailQuoteExtractor.hasQuotes(fullHTML.value);
-});
-
-const textToShow = computed(() => {
-  const text =
-    contentAttributes?.value?.email?.textContent?.full ?? content.value;
-  return text?.replace(/\n/g, '<br>');
 });
 </script>
 
