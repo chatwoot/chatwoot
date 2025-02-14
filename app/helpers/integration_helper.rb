@@ -24,11 +24,19 @@ module IntegrationHelper
   # @return [Integer, nil] The account ID from the token or nil if invalid
   def verify_linear_token(token)
     return nil if token.blank?
+    return nil unless (client_secret = fetch_linear_secret)
 
-    client_secret = fetch_linear_secret
-    return nil unless client_secret
+    decode_token(token, client_secret)
+  end
 
-    decoded = JWT.decode(token, client_secret, true, {
+  private
+
+  def fetch_linear_secret
+    ENV.fetch('LINEAR_CLIENT_SECRET', nil)
+  end
+
+  def decode_token(token, secret)
+    decoded = JWT.decode(token, secret, true, {
                            algorithm: 'HS256',
                            verify_expiration: true
                          })
@@ -36,11 +44,5 @@ module IntegrationHelper
   rescue StandardError => e
     Rails.logger.error("Unexpected error verifying Linear token: #{e.message}")
     nil
-  end
-
-  private
-
-  def fetch_linear_secret
-    ENV.fetch('LINEAR_CLIENT_SECRET', nil)
   end
 end

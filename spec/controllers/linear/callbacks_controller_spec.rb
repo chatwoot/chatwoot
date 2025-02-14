@@ -18,10 +18,11 @@ RSpec.describe Linear::CallbacksController, type: :request do
     end
 
     before do
+      stub_const('ENV', ENV.to_hash.merge('FRONTEND_URL' => 'http://www.example.com'))
+
       controller = described_class.new
-      allow(controller).to receive(:verify_linear_token).and_return(account.id)
+      allow(controller).to receive(:verify_linear_token).with(state).and_return(account.id)
       allow(described_class).to receive(:new).and_return(controller)
-      stub_const('ENV', ENV.to_hash.merge('FRONTEND_URL' => 'http://localhost:3000'))
     end
 
     context 'when successful' do
@@ -48,6 +49,39 @@ RSpec.describe Linear::CallbacksController, type: :request do
           'expires_in' => 7200,
           'scope' => 'read,write'
         )
+        expect(response).to redirect_to(linear_redirect_uri)
+      end
+    end
+
+    context 'when the code is missing' do
+      before do
+        stub_request(:post, 'https://api.linear.app/oauth/token')
+          .to_return(
+            status: 200,
+            body: response_body.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+      end
+
+      it 'redirects to the linear_redirect_uri' do
+        get linear_callback_path, params: { state: state }
+        expect(response).to redirect_to(linear_redirect_uri)
+      end
+    end
+
+    context 'when the token is invalid' do
+      before do
+        stub_request(:post, 'https://api.linear.app/oauth/token')
+          .to_return(
+            status: 400,
+            body: { error: 'invalid_grant' }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+      end
+
+      it 'redirects to the linear_redirect_uri' do
+        get linear_callback_path, params: { code: code, state: state }
+        expect(response).to redirect_to(linear_redirect_uri)
       end
     end
   end
