@@ -82,7 +82,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   def render_not_found_if_empty
-    return head :not_found if conversation.nil?
+    head :not_found if conversation.nil?
   end
 
   def permitted_params

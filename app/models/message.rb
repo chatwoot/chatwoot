@@ -359,9 +359,9 @@ class Message < ApplicationRecord
   end
 
   def can_notify_via_mail?
-    return unless email_notifiable_message?
-    return unless email_notifiable_channel?
-    return if conversation.contact.email.blank?
+    return false unless email_notifiable_message?
+    return false unless email_notifiable_channel?
+    return false if conversation.contact.email.blank?
 
     true
   end

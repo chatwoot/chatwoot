@@ -166,7 +166,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def all_unsupported_files?
-    return if attachments.empty?
+    return false if attachments.empty?
 
     attachments_type = attachments.pluck(:type).uniq.first
     unsupported_file_type?(attachments_type)

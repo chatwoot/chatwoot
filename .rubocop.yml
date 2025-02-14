@@ -154,6 +154,7 @@ CustomCopLocation:
 
 AllCops:
   NewCops: enable
+  SuggestExtensions: false
   Exclude:
     - 'bin/**/*'
     - 'db/schema.rb'
@@ -166,3 +167,6 @@ AllCops:
     - 'tmp/**/*'
     - 'storage/**/*'
     - 'db/migrate/20230426130150_init_schema.rb'
+
+Layout/LeadingCommentSpace:
+  Enabled: false

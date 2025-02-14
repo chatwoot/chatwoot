@@ -72,8 +72,8 @@ class ConversationReplyMailer < ApplicationMailer
 
   def conversation_already_viewed?
     # whether contact already saw the message on widget
-    return unless @conversation.contact_last_seen_at
-    return unless last_outgoing_message&.created_at
+    return false unless @conversation.contact_last_seen_at
+    return false unless last_outgoing_message&.created_at
 
     @conversation.contact_last_seen_at > last_outgoing_message&.created_at
   end
