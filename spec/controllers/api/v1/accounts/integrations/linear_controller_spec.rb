@@ -12,6 +12,16 @@ RSpec.describe 'Linear Integration API', type: :request do
     allow(Integrations::Linear::ProcessorService).to receive(:new).with(account: account).and_return(processor_service)
   end
 
+  describe 'DELETE /api/v1/accounts/:account_id/integrations/linear' do
+    it 'deletes the linear integration' do
+      delete "/api/v1/accounts/#{account.id}/integrations/linear",
+             headers: agent.create_new_auth_token,
+             as: :json
+      expect(response).to have_http_status(:ok)
+      expect(account.hooks.count).to eq(0)
+    end
+  end
+
   describe 'GET /api/v1/accounts/:account_id/integrations/linear/teams' do
     context 'when it is an authenticated user' do
       context 'when data is retrieved successfully' do
