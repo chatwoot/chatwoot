@@ -322,7 +322,7 @@
         },
         "EXPORT_CONTACT": {
           "TITLE": "Exportar contatos",
-          "DESCRIPTION": "Exporte rapidamente um arquivo csv com detalhes completos dos seus contatos",
+          "DESCRIPTION": "Exporte rapidamente um arquivo CSV com detalhes completos dos seus contatos",
           "CONFIRM": "Exportar",
           "SUCCESS_MESSAGE": "Exportando. Você será notificado por e-mail quando o arquivo estiver pronto para ser baixado.",
           "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
@@ -353,14 +353,14 @@
             "CONFIRM": "Salvar filtro",
             "LABEL": "Nome",
             "PLACEHOLDER": "Informe o nome para esse filtro",
-            "ERROR": "Digite um nome válido",
+            "ERROR": "Informe um nome válido",
             "SUCCESS_MESSAGE": "Filtro salvo com sucesso",
             "ERROR_MESSAGE": "Não foi possível salvar o filtro. Por favor, tente mais tarde."
           },
           "DELETE_SEGMENT": {
             "TITLE": "Confirmar exclusão",
             "DESCRIPTION": "Tem certeza de que deseja excluir este filtro?",
-            "CONFIRM": "Sim, excluir",
+            "CONFIRM": "Sim, Excluir",
             "CANCEL": "Não, Cancelar",
             "SUCCESS_MESSAGE": "Filtro excluído com sucesso",
             "ERROR_MESSAGE": "Não foi possível excluir o filtro. Por favor, tente mais tarde."
