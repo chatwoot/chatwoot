@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, nextTick } from 'vue';
+import { computed, onMounted, ref, nextTick, watch } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
@@ -109,14 +109,27 @@ const bulkSelectionState = computed(() => {
 });
 
 const toggleSelectAllResponses = (shouldSelectAll = false) => {
-  bulkSelected.value = shouldSelectAll
-    ? new Set(responses.value.map(r => r.id))
-    : new Set();
+  if (allResponseSelected.value) {
+    // If allResponseSelected is true, always select all items on the current page
+    bulkSelected.value = new Set(responses.value.map(r => r.id));
+  } else {
+    // Original behavior for page-specific selection
+    bulkSelected.value = shouldSelectAll
+      ? new Set(responses.value.map(r => r.id))
+      : new Set();
+  }
 };
 
 const bulkCheckbox = computed({
-  get: () => bulkSelectionState.value.allSelected,
-  set: () => toggleSelectAllResponses(!bulkSelectionState.value.allSelected),
+  get: () => allResponseSelected.value || bulkSelectionState.value.allSelected,
+  set: value => {
+    if (value) {
+      toggleSelectAllResponses(true);
+    } else {
+      allResponseSelected.value = false;
+      bulkSelected.value = new Set();
+    }
+  },
 });
 
 const totalPages = computed(() =>
@@ -134,8 +147,8 @@ const handleCardSelect = id => {
   selected[selected.has(id) ? 'delete' : 'add'](id);
   bulkSelected.value = selected;
 
-  // If any item is unchecked, set allResponseSelected to false
-  if (allResponseSelected.value && selected.size < responses.value.length) {
+  // If any item is unchecked and we're in allResponseSelected mode
+  if (allResponseSelected.value && !selected.has(id)) {
     allResponseSelected.value = false;
   }
 };
@@ -205,7 +218,35 @@ const fetchResponses = (page = 1) => {
   store.dispatch('captainResponses/get', filterParams);
 };
 
-const onPageChange = page => fetchResponses(page);
+const onPageChange = page => {
+  // Store current selection state before fetching new page
+  const wasAllPageSelected = bulkSelectionState.value.allSelected;
+  const hadPartialSelection = bulkSelected.value.size > 0;
+
+  fetchResponses(page);
+
+  // Reset selection if we had any selections but allResponseSelected is false
+  if (
+    !allResponseSelected.value &&
+    (wasAllPageSelected || hadPartialSelection)
+  ) {
+    bulkSelected.value = new Set();
+  }
+  // If allResponseSelected is true, selection will be handled by the watcher
+};
+
+// Add watcher for responses to handle selection on page changes
+watch(
+  responses,
+  newResponses => {
+    if (allResponseSelected.value && newResponses?.length) {
+      // When responses change and allResponseSelected is true,
+      // automatically select all items on the current page
+      bulkSelected.value = new Set(newResponses.map(r => r.id));
+    }
+  },
+  { immediate: true }
+);
 
 const onDeleteSuccess = () => {
   if (responses.value?.length === 0 && responseMeta.value?.page > 1) {
@@ -308,7 +349,9 @@ onMounted(() => {
             <span class="text-sm text-n-slate-10 tabular-nums">
               {{
                 $t('CAPTAIN.RESPONSES.SELECTED', {
-                  count: bulkSelected.size,
+                  count: !allResponseSelected
+                    ? bulkSelected.size
+                    : responseMeta.totalCount,
                 })
               }}
             </span>
