@@ -288,8 +288,8 @@
       "SEARCH_PLACEHOLDER": "検索...",
       "MESSAGE_BUTTON": "メッセージ",
       "SEND_MESSAGE": "メッセージを送信",
-      "BLOCK_CONTACT": "Block contact",
-      "UNBLOCK_CONTACT": "Unblock contact",
+      "BLOCK_CONTACT": "連絡先をブロック",
+      "UNBLOCK_CONTACT": "連絡先のブロックを解除",
       "BREADCRUMB": {
         "CONTACTS": "連絡先"
       },
@@ -304,10 +304,10 @@
           "SUCCESS_MESSAGE": "連絡先が正常に保存されました",
           "ERROR_MESSAGE": "連絡先を保存できませんでした。後でもう一度お試しください。"
         },
-        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
-        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
-        "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
-        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
+        "BLOCK_SUCCESS_MESSAGE": "この連絡先は正常にブロックされました",
+        "BLOCK_ERROR_MESSAGE": "連絡先をブロックできませんでした。再度お試しください。",
+        "UNBLOCK_SUCCESS_MESSAGE": "この連絡先のブロックが正常に解除されました",
+        "UNBLOCK_ERROR_MESSAGE": "連絡先のブロックを解除できませんでした。再度お試しください。",
         "IMPORT_CONTACT": {
           "TITLE": "連絡先をインポート",
           "DESCRIPTION": "CSVファイルを使用して連絡先をインポートします。",
