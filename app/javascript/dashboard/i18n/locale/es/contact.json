@@ -288,8 +288,8 @@
       "SEARCH_PLACEHOLDER": "Buscar...",
       "MESSAGE_BUTTON": "Mensaje",
       "SEND_MESSAGE": "Enviar mensaje",
-      "BLOCK_CONTACT": "Block contact",
-      "UNBLOCK_CONTACT": "Unblock contact",
+      "BLOCK_CONTACT": "Bloquear contacto",
+      "UNBLOCK_CONTACT": "Desbloquear contacto",
       "BREADCRUMB": {
         "CONTACTS": "Contactos"
       },
@@ -304,10 +304,10 @@
           "SUCCESS_MESSAGE": "Contacto guardado correctamente",
           "ERROR_MESSAGE": "No se pudo guardar el contacto. Inténtalo de nuevo más tarde."
         },
-        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
-        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
+        "BLOCK_SUCCESS_MESSAGE": "Este contacto se ha bloqueado correctamente",
+        "BLOCK_ERROR_MESSAGE": "No se pudo bloquear el contacto. Inténtalo de nuevo más tarde.",
         "UNBLOCK_SUCCESS_MESSAGE": "Este contacto está desbloqueado correctamente",
-        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
+        "UNBLOCK_ERROR_MESSAGE": "No se pudo desbloquear el contacto. Inténtalo de nuevo más tarde.",
         "IMPORT_CONTACT": {
           "TITLE": "Importar contactos",
           "DESCRIPTION": "Importar contactos a través de un archivo CSV.",
@@ -352,10 +352,10 @@
             "TITLE": "¿Desea guardar este filtro?",
             "CONFIRM": "Guardar filtro",
             "LABEL": "Nombre",
-            "PLACEHOLDER": "Introduzca el nombre del filtro",
-            "ERROR": "Introduzca un nombre válido",
+            "PLACEHOLDER": "Ingrese el nombre del filtro",
+            "ERROR": "Ingrese un nombre válido",
             "SUCCESS_MESSAGE": "Filtro guardado correctamente",
-            "ERROR_MESSAGE": "No se puede guardar el filtro. Inténtalo de nuevo más tarde."
+            "ERROR_MESSAGE": "No se pudo guardar el filtro. Inténtalo de nuevo más tarde."
           },
           "DELETE_SEGMENT": {
             "TITLE": "Confirmar eliminación",
@@ -363,13 +363,13 @@
             "CONFIRM": "Sí, eliminar",
             "CANCEL": "No, cancelar",
             "SUCCESS_MESSAGE": "Filtro eliminado correctamente",
-            "ERROR_MESSAGE": "No se puede eliminar el filtro. Inténtalo de nuevo más tarde."
+            "ERROR_MESSAGE": "No se pudo eliminar el filtro. Inténtalo de nuevo más tarde."
           }
         }
       }
     },
     "PAGINATION_FOOTER": {
-      "SHOWING": "Mostrando {startItem} - {endItem} de contactos {totalItems}"
+      "SHOWING": "Mostrando {startItem} - {endItem} de {totalItems} contactos"
     },
     "FILTER": {
       "NAME": "Nombre",
@@ -408,27 +408,27 @@
         "TITLE": "Editar detalles del contacto",
         "FORM": {
           "FIRST_NAME": {
-            "PLACEHOLDER": "Introduzca el primer nombre"
+            "PLACEHOLDER": "Ingrese el nombre"
           },
           "LAST_NAME": {
-            "PLACEHOLDER": "Introduzca el apellido"
+            "PLACEHOLDER": "Ingrese el apellido"
           },
           "EMAIL_ADDRESS": {
-            "PLACEHOLDER": "Introduzca la dirección de correo electrónico",
+            "PLACEHOLDER": "Ingrese el correo electrónico",
             "DUPLICATE": "Ésta dirección de correo está siendo utilizada por otro contacto."
           },
           "PHONE_NUMBER": {
-            "PLACEHOLDER": "Introduzca el número de teléfono",
+            "PLACEHOLDER": "Ingrese el número de teléfono",
             "DUPLICATE": "Este número de teléfono está en uso para otro contacto."
           },
           "CITY": {
             "PLACEHOLDER": "Introduzca el nombre de la ciudad"
           },
           "COUNTRY": {
-            "PLACEHOLDER": "Seleccionar país"
+            "PLACEHOLDER": "Seleccione el país"
           },
           "BIO": {
-            "PLACEHOLDER": "Introduzca la biografía"
+            "PLACEHOLDER": "Ingrese la biografía"
           },
           "COMPANY_NAME": {
             "PLACEHOLDER": "Escriba el nombre de la empresa"
@@ -436,25 +436,25 @@
         },
         "UPDATE_BUTTON": "Actualizar contacto",
         "SUCCESS_MESSAGE": "Contacto actualizado correctamente",
-        "ERROR_MESSAGE": "No se puede actualizar el contacto. Inténtalo de nuevo más tarde."
+        "ERROR_MESSAGE": "No se pudo actualizar el contacto. Inténtalo de nuevo más tarde."
       },
       "SOCIAL_MEDIA": {
         "TITLE": "Editar enlaces de redes sociales",
         "FORM": {
           "FACEBOOK": {
-            "PLACEHOLDER": "Añadir Facebook"
+            "PLACEHOLDER": "Agregar Facebook"
           },
           "GITHUB": {
-            "PLACEHOLDER": "Añadir Github"
+            "PLACEHOLDER": "Agregar Github"
           },
           "INSTAGRAM": {
-            "PLACEHOLDER": "Añadir Instagram"
+            "PLACEHOLDER": "Agregar Instagram"
           },
           "LINKEDIN": {
-            "PLACEHOLDER": "Añadir LinkedIn"
+            "PLACEHOLDER": "Agregar LinkedIn"
           },
           "TWITTER": {
-            "PLACEHOLDER": "Añadir Twitter/X"
+            "PLACEHOLDER": "Agregar Twitter/X"
           }
         }
       }
