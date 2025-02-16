@@ -66,7 +66,7 @@ es:
       number_of_records: Límite alcanzado. El número máximo de filtros personalizados permitidos para un usuario por cuenta es de 50.
       invalid_attribute: Clave de atributo no válida - [%{key}]. La clave debe ser una de [%{allowed_keys}] o un atributo personalizado definido en la cuenta.
       invalid_operator: Operador no válido. Los operadores permitidos para %{attribute_name} son [%{allowed_keys}].
-      invalid_query_operator: El operador de consulta debe ser "AND" o "OR".
+      invalid_query_operator: El operador de consulta debe ser "Y" o "O".
       invalid_value: Valor no válido. Los valores proporcionados para %{attribute_name} no son válidos
   reports:
     period: Reportando el periodo desde %{since} hasta %{until}
@@ -165,7 +165,7 @@ es:
         removed: '%{user_name} eliminó la política de SLA %{sla_name}'
       muted: '%{user_name} ha silenciado la conversación'
       unmuted: '%{user_name} ha anulado el silenciado de la conversación'
-      auto_resolution_message: 'Resolviendo la conversación como ha estado inactiva durante un tiempo. Por favor, inicia una nueva conversación si necesitas más ayuda.'
+      auto_resolution_message: 'Resolviendo la conversación, ya que ha estado inactiva durante un tiempo. Por favor, inicia una nueva conversación si necesitas más ayuda.'
     templates:
       greeting_message_body: '%{account_name} normalmente responde en unas pocas horas.'
       ways_to_reach_you_message_body: 'Dale al equipo una forma de llegar a ti.'
