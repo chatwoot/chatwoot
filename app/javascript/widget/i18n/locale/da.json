@@ -23,13 +23,13 @@
     "BACK_IN": "Vi er tilbage online"
   },
   "DAY_NAMES": [
-    "Søndag",
-    "Mandag",
-    "Tirsdag",
-    "Onsdag",
-    "Torsdag",
-    "Fredag",
-    "Lørdag"
+    "søndag",
+    "mandag",
+    "tirsdag",
+    "onsdag",
+    "torsdag",
+    "fredag",
+    "lørdag"
   ],
   "START_CONVERSATION": "Start Samtale",
   "END_CONVERSATION": "Afslut Samtale",
