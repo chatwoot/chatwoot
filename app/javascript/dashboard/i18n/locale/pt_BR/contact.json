@@ -466,7 +466,7 @@
       "DELETE_CONTACT": "Excluir contato",
       "DELETE_DIALOG": {
         "TITLE": "Confirmar exclusão",
-        "DESCRIPTION": "Excluir permanentemente este contato. Esta ação é irreversível",
+        "DESCRIPTION": "Tem certeza de que deseja excluir este contato {contactName}?",
         "CONFIRM": "Sim, excluir",
         "API": {
           "SUCCESS_MESSAGE": "Contato excluído com sucesso",
@@ -475,8 +475,8 @@
       },
       "AVATAR": {
         "UPLOAD": {
-          "ERROR_MESSAGE": "Não foi possível fazer o “upload” do avatar. Por favor, tente novamente mais tarde.",
-          "SUCCESS_MESSAGE": "Avatar carregado com sucesso"
+          "ERROR_MESSAGE": "Não foi possível enviar o avatar. Por favor, tente novamente mais tarde.",
+          "SUCCESS_MESSAGE": "Avatar enviado com sucesso"
         },
         "DELETE": {
           "SUCCESS_MESSAGE": "Avatar excluído com sucesso",
@@ -549,7 +549,7 @@
     },
     "EMPTY_STATE": {
       "TITLE": "Nenhum contato encontrado nesta conta",
-      "SUBTITLE": "Para adicionar novos contatos clicando no botão abaixo",
+      "SUBTITLE": "Comece a adicionar novos contatos clicando no botão abaixo",
       "BUTTON_LABEL": "Adicionar contato",
       "SEARCH_EMPTY_STATE_TITLE": "Nenhum contato corresponde à sua pesquisa 🔍",
       "LIST_EMPTY_STATE_TITLE": "Não há contatos disponíveis nesta visualização 📋"
