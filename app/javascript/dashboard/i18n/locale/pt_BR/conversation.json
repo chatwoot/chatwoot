@@ -312,7 +312,7 @@
       "ERROR": "Não foi possível excluir o atributo. Por favor, tente mais tarde"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Adicionar atributo",
+      "TITLE": "Adicionar atributos",
       "PLACEHOLDER": "Procurar atributos",
       "NO_RESULT": "Nenhum atributo encontrado"
     }
