@@ -5,6 +5,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import Avatar from 'next/avatar/Avatar.vue';
 import SidebarProfileMenuStatus from './SidebarProfileMenuStatus.vue';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import {
   DropdownContainer,
@@ -21,14 +22,27 @@ defineOptions({
 
 const { t } = useI18n();
 
-const globalConfig = useMapGetter('globalConfig/get');
 const currentUser = useMapGetter('getCurrentUser');
 const currentUserAvailability = useMapGetter('getCurrentUserAvailability');
+const accountId = useMapGetter('getCurrentAccountId');
+const globalConfig = useMapGetter('globalConfig/get');
+const isFeatureEnabledonAccount = useMapGetter(
+  'accounts/isFeatureEnabledonAccount'
+);
+
+const showChatSupport = computed(() => {
+  return (
+    isFeatureEnabledonAccount.value(
+      accountId.value,
+      FEATURE_FLAGS.CONTACT_CHATWOOT_SUPPORT_TEAM
+    ) && globalConfig.value.chatwootInboxToken
+  );
+});
 
 const menuItems = computed(() => {
   return [
     {
-      show: !!globalConfig.value.chatwootInboxToken,
+      show: showChatSupport.value,
       label: t('SIDEBAR_ITEMS.CONTACT_SUPPORT'),
       icon: 'i-lucide-life-buoy',
       click: () => {
