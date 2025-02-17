@@ -95,9 +95,6 @@ export default {
       activeInbox: 'getSelectedInbox',
       accountId: 'getCurrentAccountId',
     }),
-    bulkActionCheck() {
-      return !this.hideThumbnail && !this.hovered && !this.selected;
-    },
     chatMetadata() {
       return this.chat.meta || {};
     },
@@ -254,7 +251,11 @@ export default {
     @click="onCardClick"
     @contextmenu="openContextMenu($event)"
   >
-    <label v-if="hovered || selected" class="checkbox-wrapper" @click.stop>
+    <label
+      v-if="hovered || selected"
+      class="checkbox-wrapper h-10 w-10 flex items-center justify-center bg-n-black/20 dark:bg-n-black/25 backdrop-blur-[2px] transition-all duration-300 rounded-full cursor-pointer mt-4 hover:bg-woot-100/50 dark:hover:bg-woot-800/50 absolute ltr:left-4 rtl:right-4 z-10"
+      @click.stop
+    >
       <input
         :value="selected"
         :checked="selected"
@@ -264,7 +265,6 @@ export default {
       />
     </label>
     <Thumbnail
-      v-if="bulkActionCheck"
       :src="currentContact.thumbnail"
       :badge="inboxBadge"
       :username="currentContact.name"
@@ -400,8 +400,6 @@ export default {
   }
 
   .checkbox-wrapper {
-    @apply h-10 w-10 flex items-center justify-center rounded-full cursor-pointer mt-4 hover:bg-woot-100 dark:hover:bg-woot-800;
-
     input[type='checkbox'] {
       @apply m-0 cursor-pointer;
     }
