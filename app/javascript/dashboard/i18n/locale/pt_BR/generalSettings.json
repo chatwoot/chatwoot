@@ -39,7 +39,7 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Depois de quantos dias um ticket deve resolver a si mesmo caso não haja nenhuma atividade",
+        "LABEL": "Depois de quantos dias um ticket deve se resolver mesmo caso não haja nenhuma atividade",
         "PLACEHOLDER": "30",
         "ERROR": "Por favor, insira um período de resolução automática válido (mínimo de 1 dia e máximo de 999 dias)"
       },
