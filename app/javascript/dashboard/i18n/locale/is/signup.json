@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "Vinnu netfang",
-      "PLACEHOLDER": "Sláðu inn vinnunetfangið þitt. td: bruce@wayne.enterprises",
+      "PLACEHOLDER": "Sláðu inn vinnunetfangið þitt. td: bruce{'@'}wayne{'.'}enterprises",
       "ERROR": "Vinsamlegast sláðu inn gilt vinnu netfang"
     },
     "PASSWORD": {

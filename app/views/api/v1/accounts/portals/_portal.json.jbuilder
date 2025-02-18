@@ -17,6 +17,12 @@ json.config do
   end
 end
 
+if portal.channel_web_widget
+  json.inbox do
+    json.partial! 'api/v1/models/inbox', formats: [:json], resource: portal.channel_web_widget.inbox
+  end
+end
+
 json.logo portal.file_base_data if portal.logo.present?
 
 json.portal_members do

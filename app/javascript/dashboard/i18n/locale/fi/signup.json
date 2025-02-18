@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "Työsähköposti",
-      "PLACEHOLDER": "Anna työsähköpostiosoiteeesi, esim: ismo@hassisenkone.fi",
+      "PLACEHOLDER": "Anna työsähköpostiosoiteeesi, esim: ismo{'@'}hassisenkone.fi",
       "ERROR": "Syötä voimassa oleva työsähköpostiosoite."
     },
     "PASSWORD": {

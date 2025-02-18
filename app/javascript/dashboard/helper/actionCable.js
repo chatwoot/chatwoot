@@ -26,7 +26,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.mentioned': this.onConversationMentioned,
       'notification.created': this.onNotificationCreated,
       'notification.deleted': this.onNotificationDeleted,
-      'first.reply.created': this.onFirstReplyCreated,
+      'notification.updated': this.onNotificationUpdated,
       'conversation.read': this.onConversationRead,
       'conversation.updated': this.onConversationUpdated,
       'account.cache_invalidated': this.onCacheInvalidate,
@@ -159,7 +159,6 @@ class ActionCableConnector extends BaseActionCableConnector {
   // eslint-disable-next-line class-methods-use-this
   fetchConversationStats = () => {
     emitter.emit('fetch_conversation_stats');
-    emitter.emit('fetch_overview_reports');
   };
 
   onContactDelete = data => {
@@ -182,9 +181,8 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('notifications/deleteNotification', data);
   };
 
-  // eslint-disable-next-line class-methods-use-this
-  onFirstReplyCreated = () => {
-    emitter.emit('fetch_overview_reports');
+  onNotificationUpdated = data => {
+    this.app.$store.dispatch('notifications/updateNotification', data);
   };
 
   onCacheInvalidate = data => {
@@ -196,7 +194,7 @@ class ActionCableConnector extends BaseActionCableConnector {
 }
 
 export default {
-  init(pubsubToken) {
-    return new ActionCableConnector(window.WOOT, pubsubToken);
+  init(store, pubsubToken) {
+    return new ActionCableConnector({ $store: store }, pubsubToken);
   },
 };

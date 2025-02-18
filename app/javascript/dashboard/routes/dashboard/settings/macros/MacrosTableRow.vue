@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   macro: {

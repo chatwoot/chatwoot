@@ -20,7 +20,7 @@ defineEmits(['edit', 'delete']);
     <td class="max-w-lg py-4 pr-4 text-sm truncate" :title="app.content[0].url">
       {{ app.content[0].url }}
     </td>
-    <td class="flex gap-2 py-4 pr-4 text-sm sm:pr-0">
+    <td class="flex gap-1 py-4 pr-4 text-sm sm:pr-0 justify-end">
       <woot-button
         v-tooltip.top="
           $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.EDIT_TOOLTIP')

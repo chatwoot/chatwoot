@@ -22,6 +22,7 @@ export default {
       default: () => ({}),
     },
   },
+  emits: ['addLabel', 'open'],
   setup() {
     const { isAdmin } = useAdmin();
     const { isEnterprise } = useConfig();
@@ -102,7 +103,7 @@ export default {
     },
     isInboxSettings() {
       return (
-        this.$store.state.route.name === 'settings_inbox_show' &&
+        this.$route.name === 'settings_inbox_show' &&
         this.menuItem.toStateName === 'settings_inbox_list'
       );
     },
@@ -118,6 +119,13 @@ export default {
         this.menuItem.toStateName === 'settings_applications'
       );
     },
+    isContactsDefaultRoute() {
+      return (
+        this.menuItem.toStateName === 'contacts_dashboard_index' &&
+        (this.$store.state.route.name === 'contacts_dashboard_index' ||
+          this.$store.state.route.name === 'contacts_edit')
+      );
+    },
     isCurrentRoute() {
       return this.$store.state.route.name.includes(this.menuItem.toStateName);
     },
@@ -129,6 +137,7 @@ export default {
         this.isAllConversations ||
         this.isMentions ||
         this.isUnattended ||
+        this.isContactsDefaultRoute ||
         this.isCurrentRoute
       ) {
         return 'bg-woot-25 dark:bg-slate-800 text-woot-500 dark:text-woot-500 hover:text-woot-500 dark:hover:text-woot-500 active-view';
@@ -208,7 +217,7 @@ export default {
     </div>
     <router-link
       v-else
-      class="flex items-center p-2 m-0 text-sm font-medium leading-4 rounded-lg text-slate-700 dark:text-slate-100 hover:bg-slate-25 dark:hover:bg-slate-800"
+      class="flex items-center p-2 m-0 text-sm leading-4 rounded-lg text-slate-700 dark:text-slate-100 hover:bg-slate-25 dark:hover:bg-slate-800"
       :class="computedClass"
       :to="menuItem && menuItem.toState"
     >
@@ -220,7 +229,7 @@ export default {
       {{ $t(`SIDEBAR.${menuItem.label}`) }}
       <span
         v-if="showChildCount(menuItem.count)"
-        class="px-1 py-0 mx-1 font-medium rounded-md text-xxs"
+        class="px-1 py-0 mx-1 rounded-md text-xxs"
         :class="{
           'text-slate-300 dark:text-slate-600': isCountZero && !isActiveView,
           'text-slate-600 dark:text-slate-50': !isCountZero && !isActiveView,
@@ -235,13 +244,13 @@ export default {
         v-if="menuItem.beta"
         data-view-component="true"
         label="Beta"
-        class="inline-block px-1 mx-1 font-medium leading-4 text-green-500 border border-green-400 rounded-lg text-xxs"
+        class="inline-block px-1 mx-1 leading-4 text-green-500 border border-green-400 rounded-lg text-xxs"
       >
         {{ $t('SIDEBAR.BETA') }}
       </span>
     </router-link>
 
-    <ul v-if="hasSubMenu" class="mb-0 ml-0 list-none">
+    <ul v-if="hasSubMenu" class="list-none reset-base">
       <SecondaryChildNavItem
         v-for="child in menuItem.children"
         :key="child.id"

@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "البريد الإلكتروني للعمل",
-      "PLACEHOLDER": "أدخل عنوان بريدك الإلكتروني للعمل. مثال: bruce@wayne.enterprises",
+      "PLACEHOLDER": "أدخل عنوان بريدك الإلكتروني للعمل. مثال: bruce{'@'}wayne{'.'}enterprises",
       "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {

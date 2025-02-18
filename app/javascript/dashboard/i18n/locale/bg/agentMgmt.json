@@ -18,7 +18,8 @@
       "STATUS": "Статус",
       "ACTIONS": "Действия",
       "VERIFIED": "Проверен",
-      "VERIFICATION_PENDING": "Предстои проверка"
+      "VERIFICATION_PENDING": "Предстои проверка",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Добави агент в екипа си",

@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "Puhelinnumero vaaditaan",
         "DIAL_CODE_VALID_ERROR": "Ole hyvä ja valitse maakoodi",
         "VALID_ERROR": "Anna kelvollinen puhelinnumero",
-        "DROPDOWN_EMPTY": "Tuloksia ei löytynyt"
+        "DROPDOWN_EMPTY": "Tuloksia ei löytynyt",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "Viesti",
@@ -91,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Etsi emojeista",
-    "NOT_FOUND": "Yksikään emoji ei vastaa hakuasi"
+    "NOT_FOUND": "Yksikään emoji ei vastaa hakuasi",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "Anna arvio palvelusta",
@@ -133,5 +135,8 @@
     "fallback": {
       "CONTENT": "on jakanut URL-osoitteen"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
   }
 }

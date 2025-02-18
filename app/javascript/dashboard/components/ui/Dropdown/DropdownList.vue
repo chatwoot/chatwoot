@@ -38,14 +38,18 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['onSearch']);
+const emit = defineEmits(['onSearch', 'select', 'removeFilter']);
 
 const searchTerm = ref('');
 
-const onSearch = debounce(value => {
-  searchTerm.value = value;
+const debouncedEmit = debounce(value => {
   emit('onSearch', value);
 }, 300);
+
+const onSearch = value => {
+  searchTerm.value = value;
+  debouncedEmit(value);
+};
 
 const filteredListItems = computed(() => {
   if (!searchTerm.value) return props.listItems;
@@ -80,11 +84,11 @@ const shouldShowEmptyState = computed(() => {
     <slot name="search">
       <DropdownSearch
         v-if="enableSearch"
-        :input-value="searchTerm"
+        v-model="searchTerm"
         :input-placeholder="inputPlaceholder"
         :show-clear-filter="showClearFilter"
-        @input="onSearch"
-        @click="$emit('removeFilter')"
+        @update:model-value="onSearch"
+        @remove="$emit('removeFilter')"
       />
     </slot>
     <slot name="listItem">
@@ -103,7 +107,7 @@ const shouldShowEmptyState = computed(() => {
         :button-text="item.name"
         :icon="item.icon"
         :icon-color="item.iconColor"
-        @click="$emit('click', item)"
+        @click.stop.prevent="emit('select', item)"
       />
     </slot>
   </div>

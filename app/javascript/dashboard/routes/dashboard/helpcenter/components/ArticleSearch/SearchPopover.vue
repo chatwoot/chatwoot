@@ -1,13 +1,13 @@
 <script>
 import { debounce } from '@chatwoot/utils';
 import { useAlert } from 'dashboard/composables';
+import allLocales from 'shared/constants/locales.js';
 
 import SearchHeader from './Header.vue';
 import SearchResults from './SearchResults.vue';
 import ArticleView from './ArticleView.vue';
 import ArticlesAPI from 'dashboard/api/helpCenter/articles';
 import { buildPortalArticleURL } from 'dashboard/helper/portalHelper';
-import portalMixin from '../../mixins/portalMixin';
 
 export default {
   name: 'ArticleSearchPopover',
@@ -16,13 +16,13 @@ export default {
     SearchResults,
     ArticleView,
   },
-  mixins: [portalMixin],
   props: {
     selectedPortalSlug: {
       type: String,
       required: true,
     },
   },
+  emits: ['close', 'insert'],
   data() {
     return {
       searchQuery: '',
@@ -67,6 +67,9 @@ export default {
         '',
         article.slug
       );
+    },
+    localeName(code) {
+      return allLocales[code];
     },
     activeArticle(id) {
       return this.searchResultsWithUrl.find(article => article.id === id);

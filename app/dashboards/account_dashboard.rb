@@ -27,7 +27,7 @@ class AccountDashboard < Administrate::BaseDashboard
     locale: Field::Select.with_options(collection: LANGUAGES_CONFIG.map { |_x, y| y[:iso_639_1_code] }),
     status: Field::Select.with_options(collection: [%w[Active active], %w[Suspended suspended]]),
     account_users: Field::HasMany,
-    custom_attributes: CustomAttributeField,
+    custom_attributes: Field::String,
     ltd_attributes: LtdAttributeField
   }.merge(enterprise_attribute_types).freeze
 
@@ -47,7 +47,7 @@ class AccountDashboard < Administrate::BaseDashboard
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
-  enterprise_show_page_attributes = ChatwootApp.enterprise? ? %i[limits all_features] : []
+  enterprise_show_page_attributes = ChatwootApp.enterprise? ? %i[custom_attributes limits all_features] : []
   SHOW_PAGE_ATTRIBUTES = (%i[
     id
     name

@@ -6,6 +6,7 @@
     "LIST": {
       "404": "Bu grupta aktif görüşme yok."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Konuşmalar",
     "MENTION_HEADING": "Bahsedilmeler",
     "UNATTENDED_HEADING": "İlgilenilmemiş",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "Yer"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "bir url paylaştı"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "Kullanılabilir içerik yok",
     "HIDE_QUOTED_TEXT": "Alıntı Yapılan Mesajı Gizle",
     "SHOW_QUOTED_TEXT": "Alıntı Yapılan Mesajı Göster",
-    "MESSAGE_READ": "Oku"
+    "MESSAGE_READ": "Oku",
+    "SENDING": "Sending"
   }
 }

@@ -3,7 +3,8 @@
     "HEADER": "Prilagođeni atributi",
     "HEADER_BTN_TXT": "Dodaj prilagođeni atribut",
     "LOADING": "Prikupljanje prilagođenih atributa",
-    "SIDEBAR_TXT": "<p><b>Prilagođeni atributi</b> <p>Prilagođeni atribut vodi računa o činjenicama o vašim kontaktima/razgovorima - kao što je pretplatni plan, ili kada su prvi put naručili neki proizvod itd. <br /><br />Da bi ste kreirali prilagođeni atribut, samo kliknite na <b>Dodaj prilagođeni atribut.</b> Takođe možete urediti ili obrisati postojeći Prilagođeni atribut klikom na dugme Uredi ili Obriši.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "Dodaj prilagođeni atribut",
       "SUBMIT": "Kreiraj",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "NIje bilo moguće obrisati prilagođeni atribut. Pokušajte ponovo."
       },
       "CONFIRM": {
-        "TITLE": "Da li zaista želite da obrišete - %{attributeName}",
+        "TITLE": "Da li zaista želite da obrišete - {attributeName}",
         "PLACE_HOLDER": "Molim upišite {attributeName} za potvrdu",
         "MESSAGE": "Brisanjem ćete ukloniti prilagođeni atribut",
         "YES": "Obriši ",
@@ -91,12 +92,7 @@
       "CONTACT": "Kontakt"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Ime",
-        "Opis",
-        "Tip",
-        "Ključ"
-      ],
+      "TABLE_HEADER": ["Ime", "Opis", "Tip", "Ključ"],
       "BUTTONS": {
         "EDIT": "Uredi",
         "DELETE": "Izbriši"

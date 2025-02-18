@@ -29,6 +29,7 @@ tr:
       invalid: Hatalı işlem
     signup:
       disposable_email: Tek kullanımlık e-postalara izin vermiyoruz
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Geçersiz bir e-posta girdiniz
       email_already_exists: "%{email} ile zaten bir hesaba kaydoldunuz"
       invalid_params: 'Hata, lütfen kayıt olma parametrelerini kontrol edin ve tekrar deneyin'
@@ -65,6 +66,7 @@ tr:
       number_of_records: Limit aşıldı. Bir kullanıcının bir hesap için izin verilen özel filtre sayısı 50'dir.
       invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
       invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
   reports:
     period: Raporlama aralığı %{since}'dan %{until}'a
@@ -97,7 +99,7 @@ tr:
     conversation_traffic_csv:
       timezone: Zaman dilimi
     sla_csv:
-      conversation_id: Sohbet ID
+      conversation_id: Sohbet Kodu
       sla_policy_breached: SLA Policy
       assignee: Assignee
       team: Ekip

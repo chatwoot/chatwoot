@@ -3,7 +3,8 @@
     "HEADER": "Atribut Kustom",
     "HEADER_BTN_TXT": "Tambah Atribut Kustom",
     "LOADING": "Mengambil atribut kustom",
-    "SIDEBAR_TXT": "<p><b>Atribut Kustom</b> <p>Atribut kustom melacak fakta tentang kontak/percakapan Anda — seperti rencana langganan, atau kapan mereka memesan item pertama, dll.<br /><br />Untuk membuat Atribut Kustom, cukup klik tombol <b>Tambah Atribut Kustom.</b> Anda juga dapat mengedit atau menghapus Atribut Kustom yang sudah ada dengan mengklik tombol Edit atau Hapus.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "Tambah Atribut Kustom",
       "SUBMIT": "Buat",
@@ -64,8 +65,8 @@
         "ERROR_MESSAGE": "Tidak dapat menghapus Atribut Kustom. Coba lagi."
       },
       "CONFIRM": {
-        "TITLE": "Anda yakin akan menghapus - %{attributeName}",
-        "PLACE_HOLDER": "Silakan ketik %{attributeName} untuk konfirmasi",
+        "TITLE": "Anda yakin akan menghapus - {attributeName}",
+        "PLACE_HOLDER": "Silakan ketik {attributeName} untuk konfirmasi",
         "MESSAGE": "Menghapus akan menghapus atribut kustom",
         "YES": "Hapus ",
         "NO": "Batalkan"

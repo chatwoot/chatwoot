@@ -1,5 +1,5 @@
 <script setup>
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { getI18nKey } from 'dashboard/routes/dashboard/settings/helper/settingsHelper';
 
 defineProps({
@@ -25,9 +25,7 @@ const getFormattedPermissions = role => {
 </script>
 
 <template>
-  <tbody
-    class="divide-y divide-slate-50 dark:divide-slate-800 text-slate-700 dark:text-slate-300"
-  >
+  <tbody class="divide-y divide-n-weak text-n-slate-11">
     <tr v-for="(customRole, index) in roles" :key="index">
       <td
         class="max-w-xs py-4 pr-4 font-medium truncate align-baseline"

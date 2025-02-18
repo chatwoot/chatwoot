@@ -29,6 +29,7 @@ sh:
       invalid: Invalid events
     signup:
       disposable_email: We do not allow disposable emails
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: You have entered an invalid email
       email_already_exists: "You have already signed up for an account with %{email}"
       invalid_params: 'Invalid, please check the signup paramters and try again'
@@ -65,6 +66,7 @@ sh:
       number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
       invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
       invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
   reports:
     period: Reporting period %{since} to %{until}

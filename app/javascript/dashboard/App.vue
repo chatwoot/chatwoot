@@ -1,6 +1,5 @@
 <script>
 import { mapGetters } from 'vuex';
-import router from '../dashboard/routes';
 import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal.vue';
 import LoadingState from './components/widgets/LoadingState.vue';
 import NetworkNotification from './components/NetworkNotification.vue';
@@ -8,9 +7,12 @@ import NetworkNotification from './components/NetworkNotification.vue';
 // import UpgradeBanner from './components/app/UpgradeBanner.vue';
 // import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
 import vueActionCable from './helper/actionCable';
+import { useRouter } from 'vue-router';
+import { useStore } from 'dashboard/composables/store';
 import WootSnackbarBox from './components/SnackbarContainer.vue';
 import { setColorTheme } from './helper/themeHelper';
 // import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
+import { useAccount } from 'dashboard/composables/useAccount';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
@@ -31,6 +33,13 @@ export default {
     WootSnackbarBox,
     // UpgradeBanner,
   },
+  setup() {
+    const router = useRouter();
+    const store = useStore();
+    const { accountId } = useAccount();
+
+    return { router, store, currentAccountId: accountId };
+  },
   data() {
     return {
       showAddAccountModal: false,
@@ -38,7 +47,6 @@ export default {
       reconnectService: null,
     };
   },
-
   computed: {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
@@ -46,7 +54,6 @@ export default {
       currentUser: 'getCurrentUser',
       authUIFlags: 'getAuthUIFlags',
       accountUIFlags: 'accounts/getUIFlags',
-      currentAccountId: 'getCurrentAccountId',
     }),
     hasAccounts() {
       const { accounts = [] } = this.currentUser || {};
@@ -63,10 +70,13 @@ export default {
         this.showAddAccountModal = true;
       }
     },
-    currentAccountId() {
-      if (this.currentAccountId) {
-        this.initializeAccount();
-      }
+    currentAccountId: {
+      immediate: true,
+      handler() {
+        if (this.currentAccountId) {
+          this.initializeAccount();
+        }
+      },
     },
   },
   mounted() {
@@ -86,7 +96,7 @@ export default {
       });
     }, 2000);
   },
-  beforeDestroy() {
+  unmounted() {
     if (this.reconnectService) {
       this.reconnectService.disconnect();
     }
@@ -112,8 +122,9 @@ export default {
       const { pubsub_token: pubsubToken } = this.currentUser || {};
       this.setLocale(locale);
       this.latestChatwootVersion = latestChatwootVersion;
-      vueActionCable.init(pubsubToken);
-      this.reconnectService = new ReconnectService(this.$store, router);
+      vueActionCable.init(this.store, pubsubToken);
+      this.reconnectService = new ReconnectService(this.store, this.router);
+      window.reconnectService = this.reconnectService;
 
       verifyServiceWorkerExistence(registration =>
         registration.pushManager.getSubscription().then(subscription => {
@@ -135,15 +146,17 @@ export default {
     :class="{ 'app-rtl--wrapper': isRTL }"
     :dir="isRTL ? 'rtl' : 'ltr'"
   >
-    <!-- <UpdateBanner :latest-chatwoot-version="latestChatwootVersion" /> -->
-    <!-- <template v-if="currentAccountId">
+    <!-- <UpdateBanner :latest-chatwoot-version="latestChatwootVersion" />
+    <template v-if="currentAccountId">
       <PendingEmailVerificationBanner v-if="hideOnOnboardingView" />
       <PaymentPendingBanner v-if="hideOnOnboardingView" />
       <UpgradeBanner />
     </template> -->
-    <transition name="fade" mode="out-in">
-      <router-view />
-    </transition>
+    <router-view v-slot="{ Component }">
+      <transition name="fade" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
     <AddAccountModal :show="showAddAccountModal" :has-accounts="hasAccounts" />
     <WootSnackbarBox />
     <NetworkNotification />
@@ -153,6 +166,22 @@ export default {
 
 <style lang="scss">
 @import './assets/scss/app';
+
+.v-popper--theme-tooltip .v-popper__inner {
+  background: black !important;
+  font-size: 0.75rem;
+  padding: 4px 8px !important;
+  border-radius: 6px;
+  font-weight: 400;
+}
+
+.v-popper--theme-tooltip .v-popper__arrow-container {
+  display: none;
+}
+
+.multiselect__input {
+  margin-bottom: 0px !important;
+}
 </style>
 
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>

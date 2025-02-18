@@ -3,7 +3,7 @@
     "TITLE": "ورود به چت ووت",
     "EMAIL": {
       "LABEL": "ایمیل",
-      "PLACEHOLDER": "ایمیل به عنوان مثال: someone@example.com",
+      "PLACEHOLDER": "ایمیل به عنوان مثال: someone{'@'}example.com",
       "ERROR": "لطفا ایمیل خود را به شکل صحیح وارد کنید"
     },
     "PASSWORD": {
