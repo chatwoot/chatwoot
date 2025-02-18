@@ -87,7 +87,19 @@ export default {
       );
     },
   },
+  mounted() {
+    this.calculatePreviewPosition();
+    window.addEventListener('resize', this.calculatePreviewPosition);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.calculatePreviewPosition);
+  },
   methods: {
+    handleFiltersCleared() {
+      this.currentPage = 1;
+      this.totalPages = 1;
+      this.fetchContacts(1);
+    },
     onFilteredContacts(filteredContacts) {
       this.contactList = filteredContacts;
     },
@@ -251,13 +263,6 @@ export default {
       }
     },
   },
-  mounted() {
-    this.calculatePreviewPosition();
-    window.addEventListener('resize', this.calculatePreviewPosition);
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.calculatePreviewPosition);
-  },
 };
 </script>
 
@@ -285,9 +290,6 @@ export default {
           <label :class="{ error: v$.selectedInbox.$error }">
             {{ $t('CAMPAIGN.ADD.FORM.INBOX.LABEL') }}
             <select v-model="selectedInbox" @change="handleInboxSelection">
-              <option value="" disabled selected>
-                {{ $t('CAMPAIGN.ADD.FORM.INBOX.PLACEHOLDER') }}
-              </option>
               <option value="create_new" class="create-inbox-option">
                 {{
                   $t('CAMPAIGN.ADD.FORM.CREATE_INBOX.LABEL', {
@@ -356,7 +358,7 @@ export default {
       <!-- Template Preview for Step 1 -->
       <TemplatePreview
         v-if="currentStep === 1"
-        :selectedTemplate="selectedTemplate"
+        :selected-template="selectedTemplate"
         :preview-position="previewPosition"
         @template-validation="handleTemplateValidation"
       />
@@ -374,6 +376,7 @@ export default {
         @loadMore="loadMoreContacts"
         @selectAllContacts="fetchAllContactIds"
         @filterContacts="onFilteredContacts"
+        @filtersCleared="handleFiltersCleared"
       />
 
       <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
@@ -387,18 +390,28 @@ export default {
         <woot-button type="button" @click="goBack">
           {{ $t('CAMPAIGN.ADD.BACK_BUTTON_TEXT') }}
         </woot-button>
-        <woot-button type="button" variant="clear" @click.prevent="onClose">
+        <woot-button
+          type="button"
+          variant="clear"
+          class-names="cancel"
+          @click.prevent="onClose"
+        >
           {{ $t('CAMPAIGN.ADD.CANCEL_BUTTON_TEXT') }}
         </woot-button>
       </div>
     </div>
   </div>
 </template>
+
 <style scoped>
 .create-inbox-option {
   background-color: #f0f9ff; /* Light blue background */
   color: #369eff; /* Same blue as your original link */
   font-weight: 500;
+}
+
+.cancel {
+  margin-right: 10px;
 }
 
 /* For Firefox which doesn't support styling option elements directly */

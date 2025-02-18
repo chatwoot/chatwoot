@@ -172,6 +172,7 @@ export default defineComponent({
         ...(contacts.replied_contacts || []),
       ];
       const failed = contacts.failed_contacts || [];
+
       const read = [
         ...(contacts.read_contacts || []),
         ...(contacts.replied_contacts || []),
@@ -309,7 +310,7 @@ export default defineComponent({
         >
           <div
             class="w-16 h-16 border-4 border-t-4 border-blue-600 border-solid rounded-full animate-spin"
-          ></div>
+          />
         </div>
 
         <div
@@ -333,7 +334,7 @@ export default defineComponent({
                   size="large"
                   color-scheme="primary"
                   class-names="button--only-icon mr-10 mt-3"
-                ></woot-button>
+                />
               </div>
               <p class="text-s text-slate-600 dark:text-slate-300 ml-3">Sent</p>
             </div>
@@ -349,7 +350,7 @@ export default defineComponent({
                   size="large"
                   color-scheme="primary"
                   class-names="button--only-icon mr-10 mt-3"
-                ></woot-button>
+                />
               </div>
               <p class="text-s text-slate-600 dark:text-slate-300 ml-2">
                 Delivered
@@ -367,7 +368,7 @@ export default defineComponent({
                   size="large"
                   color-scheme="primary"
                   class-names="button--only-icon mr-10 mt-3"
-                ></woot-button>
+                />
               </div>
               <p class="text-s text-slate-600 dark:text-slate-300 ml-3">Read</p>
             </div>
@@ -383,7 +384,7 @@ export default defineComponent({
                   size="large"
                   color-scheme="primary"
                   class-names="button--only-icon mr-10 mt-3"
-                ></woot-button>
+                />
               </div>
               <p class="text-s text-slate-600 dark:text-slate-300 ml-3">
                 Replied
@@ -401,7 +402,7 @@ export default defineComponent({
                   size="large"
                   color-scheme="primary"
                   class-names="button--only-icon mr-10 mt-3"
-                ></woot-button>
+                />
               </div>
               <p class="text-s text-slate-600 dark:text-slate-300 ml-3">
                 Failed
@@ -419,7 +420,7 @@ export default defineComponent({
                   size="large"
                   color-scheme="primary"
                   class-names="button--only-icon mr-10 mt-3"
-                ></woot-button>
+                />
               </div>
               <p class="text-s text-slate-600 dark:text-slate-300 ml-2">
                 Processing
@@ -438,10 +439,7 @@ export default defineComponent({
               />
             </div>
             <div class="flex space-x-2 overflow-x-auto">
-              <select
-                v-model="activeTab"
-                class="px-4 py-2 border rounded-lg dark:bg-slate-700 dark:border-slate-600"
-              >
+              <select v-model="activeTab">
                 <option
                   v-for="type in contactTypes"
                   :key="type.key"
@@ -471,7 +469,7 @@ export default defineComponent({
                           v-if="sortConfig.key === 'name'"
                           :class="sortConfig.direction === 'asc' ? '▲' : '▼'"
                           class="ml-1"
-                        ></i>
+                        />
                       </div>
                     </th>
                     <th
@@ -486,7 +484,7 @@ export default defineComponent({
                           v-if="sortConfig.key === 'phone_number'"
                           :class="sortConfig.direction === 'asc' ? '▲' : '▼'"
                           class="ml-1"
-                        ></i>
+                        />
                       </div>
                     </th>
                     <th
@@ -507,7 +505,7 @@ export default defineComponent({
                           v-if="sortConfig.key === 'processed_at'"
                           :class="sortConfig.direction === 'asc' ? '▲' : '▼'"
                           class="ml-1"
-                        ></i>
+                        />
                       </div>
                     </th>
                   </tr>
@@ -532,9 +530,9 @@ export default defineComponent({
                     </td>
                     <td class="p-4 text-slate-600 dark:text-slate-300">
                       {{
-                        new Date(
-                          contact.processed_at || contact.failed_at
-                        ).toLocaleString()
+                        contact.processed_at
+                          ? new Date(contact.processed_at).toLocaleString()
+                          : '-'
                       }}
                     </td>
                   </tr>
@@ -576,18 +574,18 @@ export default defineComponent({
           class="p-6 border-t dark:border-slate-700 flex justify-between items-center"
         >
           <woot-button
-            @click="exportContacts"
             varaint="clear"
             color-scheme="success"
             class-names="clear flex items-center"
             icon="download"
+            @click="exportContacts"
           >
             {{ $t('CAMPAIGN.REPORT.EXPORT_CSV') }}
           </woot-button>
 
           <button
-            @click="closeModal"
             class="px-4 py-2 border border-slate-300 rounded-lg text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-700 transition-colors"
+            @click="closeModal"
           >
             {{ $t('CAMPAIGN.REPORT.CLOSE') }}
           </button>

@@ -8,8 +8,8 @@ const {
 } = window.globalConfig || {};
 
 export default {
-  mixins: [globalConfigMixin],
   name: 'TemplatePreview',
+  mixins: [globalConfigMixin],
   props: {
     selectedTemplate: {
       type: Object,
@@ -33,6 +33,28 @@ export default {
     };
   },
   computed: {
+    isButtonComponent() {
+      // Find the index of BUTTONS component
+      const buttonsIndex = this.selectedTemplate.components.findIndex(
+        component => component.type === 'BUTTONS'
+      );
+      if (buttonsIndex === -1) {
+        return false;
+      }
+      return true;
+    },
+    getButtons() {
+      const template = this.selectedTemplate;
+      // Find the index of BUTTONS component
+      const buttonsIndex = template.components.findIndex(
+        component => component.type === 'BUTTONS'
+      );
+      return template &&
+        template.components &&
+        template.components[buttonsIndex]
+        ? template.components[buttonsIndex].buttons || []
+        : [];
+    },
     hasMultipleCurlyBraces() {
       if (!this.selectedTemplate?.components) return false;
 
@@ -69,6 +91,13 @@ export default {
       },
     },
   },
+  methods: {
+    openUrl(url) {
+      if (url && typeof window !== 'undefined') {
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }
+    },
+  },
 };
 </script>
 
@@ -95,13 +124,13 @@ export default {
           size="medium"
           color-scheme="clear secondary-icon"
           class-names="button--only-icon speaker"
-        ></woot-button>
+        />
         <woot-button
           icon="wifi"
           size="medium"
           color-scheme="clear secondary-icon"
           class-names="button--only-icon wifi"
-        ></woot-button>
+        />
       </div>
     </div>
 
@@ -112,7 +141,7 @@ export default {
           size="small"
           color-scheme="clear secondary-icon"
           class-names="button--only-icon back "
-        ></woot-button>
+        />
         <div class="business-profile">
           <img
             class="profile-img"
@@ -133,7 +162,7 @@ export default {
                 size="small"
                 color-scheme="clear success"
                 class-names="button--only-icon"
-              ></woot-button>
+              />
             </div>
           </div>
         </div>
@@ -143,7 +172,7 @@ export default {
             size="small"
             color-scheme="clear secondary-icon"
             class-names="button--only-icon call"
-          ></woot-button>
+          />
           <span class="more-icon">⋮</span>
         </div>
       </div>
@@ -159,7 +188,7 @@ export default {
             size="small"
             color-scheme="clear"
             class-names="button--only-icon mt-0"
-          ></woot-button>
+          />
           {{
             $t('CAMPAIGN.ADD.PREVIEW.META_INFO', {
               default:
@@ -189,10 +218,22 @@ export default {
             <div v-if="selectedTemplate.components[2]" class="footer-text">
               {{ selectedTemplate.components[2].text }}
             </div>
+            <div v-if="isButtonComponent" class="buttons-section">
+              <button
+                v-for="(button, index) in getButtons"
+                :key="index"
+                class="template-button"
+                :class="{ 'url-button': button.type === 'URL' }"
+                @click="button.url && openUrl(button.url)"
+              >
+                {{ button.text }}
+              </button>
+            </div>
+
             <div v-if="hasMultipleCurlyBraces" class="error-message">
               Only 'NAMED' templates with up to 1 parameter are allowed.
               (parameter_name: 'name') <br />
-              <span class="example-text" v-pre>
+              <span v-pre class="example-text">
                 Example: Hi {{ name }} Thanks for reaching *OneHash* Support! We
                 are looking into your queries.
               </span>
@@ -206,26 +247,26 @@ export default {
     <div class="message-input-area">
       <div class="input-actions">
         <span class="plus-icon">+</span>
-        <div class="input-box"></div>
+        <div class="input-box" />
         <div class="action-buttons">
           <woot-button
             icon="attach"
             size="medium"
             color-scheme="clear primary"
             class-names="button--only-icon action-button"
-          ></woot-button>
+          />
           <woot-button
             icon="emoji"
             size="medium"
             color-scheme="clear primary"
             class-names="button--only-icon action-button"
-          ></woot-button>
+          />
           <woot-button
             icon="microphone"
             size="medium"
             color-scheme="clear primary"
             class-names="button--only-icon action-button"
-          ></woot-button>
+          />
         </div>
       </div>
     </div>
@@ -427,6 +468,31 @@ export default {
   border-radius: 4px;
   font-size: 13px;
   border: 1px solid #fee2e2;
+}
+
+.buttons-section {
+  margin-top: 6px;
+  padding-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.template-button {
+  width: 100%;
+  padding: 8px;
+  background-color: #f0f9ff;
+  border: none;
+  text-align: center;
+  color: #0284c7;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.template-button.url-button {
+  color: #0284c7;
 }
 
 .message-input-area {
