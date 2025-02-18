@@ -360,12 +360,42 @@ const actions = {
     }
   },
 
-  updateConversation({ commit, dispatch }, conversation) {
+  updateConversation({ commit, dispatch, state }, conversation) {
     const {
       meta: { sender },
+      id: conversationId,
     } = conversation;
-    commit(types.UPDATE_CONVERSATION, conversation);
 
+    const existingConversation = state.allConversations.find(
+      c => c.id === conversationId
+    );
+
+    if (existingConversation) {
+      // Only update if we have active filters and the conversation matches them
+      if (state.appliedFilters.length > 0) {
+        const shouldFilter = applyPageFilters(
+          conversation,
+          state.conversationFilters
+        );
+        if (shouldFilter) {
+          commit(types.REMOVE_CONVERSATION, conversationId);
+        } else {
+          commit(types.UPDATE_CONVERSATION, conversation);
+        }
+      } else {
+        commit(types.UPDATE_CONVERSATION, conversation);
+      }
+    } else {
+      // For new conversations, only add if they match current filters (if any)
+      const shouldFilter =
+        state.appliedFilters.length === 0 ||
+        applyPageFilters(conversation, state.conversationFilters);
+      if (!shouldFilter) {
+        commit(types.ADD_CONVERSATION, conversation);
+      }
+    }
+
+    // Update related data
     dispatch('conversationLabels/setConversationLabel', {
       id: conversation.id,
       data: conversation.labels,
