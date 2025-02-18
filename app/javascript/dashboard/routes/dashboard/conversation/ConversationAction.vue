@@ -245,32 +245,34 @@ export default {
       };
       this.assignedAgent = selfAssign;
     },
-    async markAsUnread(conversationId) {
+    async markAsUnread(conversationId, shouldRoute = true) {
       try {
         await this.$store.dispatch('markMessagesUnread', {
           id: conversationId,
         });
-        const {
-          params: { accountId, inbox_id: inboxId, label, teamId },
-        } = this.$route;
-        const isFolderView = window.location.pathname.includes('custom_view');
-        const customViewId = isFolderView
-          ? window.location.pathname
-              .split('/')
-              .find(
-                (segment, index, array) =>
-                  array[index - 1] === 'custom_view' && !Number.isNaN(segment)
-              )
-          : null;
-        this.$router.push(
-          conversationListPageURL({
-            accountId,
-            customViewId,
-            inboxId,
-            label,
-            teamId,
-          })
-        );
+        if (shouldRoute) {
+          const {
+            params: { accountId, inbox_id: inboxId, label, teamId },
+          } = this.$route;
+          const isFolderView = window.location.pathname.includes('custom_view');
+          const customViewId = isFolderView
+            ? window.location.pathname
+                .split('/')
+                .find(
+                  (segment, index, array) =>
+                    array[index - 1] === 'custom_view' && !Number.isNaN(segment)
+                )
+            : null;
+          this.$router.push(
+            conversationListPageURL({
+              accountId,
+              customViewId,
+              inboxId,
+              label,
+              teamId,
+            })
+          );
+        }
       } catch (error) {
         // Ignore error
       }
@@ -282,7 +284,10 @@ export default {
         this.assignedAgent = selectedItem;
       }
       // TODO: mark conversation as unread
-      this.markAsUnread(this.currentChat.id);
+      this.markAsUnread(
+        this.currentChat.id,
+        selectedItem.id !== this.currentUser.id
+      );
     },
 
     onClickAssignTeam(selectedItemTeam) {
