@@ -13,8 +13,7 @@ class Api::V1::CallLogsController < ApplicationController
   private
 
   def fetch_and_render_call_logs
-    # url = "https://b3i4zxcefi.execute-api.us-east-1.amazonaws.com/chatwoot/callLogs?accountId=#{params[:account_id]}&phoneNumber=#{params[:phone_number]}"
-    url = 'https://b3i4zxcefi.execute-api.us-east-1.amazonaws.com/chatwoot/callLogs?accountId=966&phoneNumber=+917207414297'
+    url = "https://b3i4zxcefi.execute-api.us-east-1.amazonaws.com/chatwoot/callLogs?accountId=#{params[:account_id]}&phoneNumber=#{params[:phone_number]}"
     response = HTTParty.get(url)
 
     if response.success?
