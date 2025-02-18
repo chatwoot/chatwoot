@@ -101,6 +101,32 @@ class Api::V1::AccountsController < Api::BaseController
     end
   end
 
+  def bulk_import_contacts
+    contacts_params = params.require(:contacts)
+
+    batch_size = 1000
+
+    # Validate basic structure of the request
+    unless contacts_params.is_a?(Array)
+      render json: { error: 'Contacts must be an array' }, status: :bad_request
+      return
+    end
+
+    # Process in batches of 10
+    contacts_params.each_slice(batch_size) do |batch|
+      processed_batch = batch.map { |contact| contact.permit(:name, :email, :phone_number).to_h }
+      Contacts::BulkImportJob.perform_later(processed_batch, @account.id)
+    end
+
+    render json: {
+      message: 'Import jobs queued successfully',
+      total_contacts: contacts_params.size,
+      total_batches: (contacts_params.size / batch_size).ceil
+    }, status: :ok
+  rescue ActionController::ParameterMissing => e
+    render json: { error: e.message }, status: :bad_request
+  end
+
   def delete_messages_with_source_id
     if params[:source_id].blank? || params[:id].blank?
       render json: { error: 'Source ID and Account ID are required' }, status: :bad_request

@@ -43,6 +43,7 @@ Rails.application.routes.draw do
           post :unassigned_conversations_assignment
           post :create_one_click_conversations
           post :create_instagram_dm_conversations
+          post :bulk_import_contacts
         end
 
         scope module: :accounts do

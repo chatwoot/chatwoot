@@ -35,6 +35,10 @@ class AccountPolicy < ApplicationPolicy
     true
   end
 
+  def bulk_import_contacts?
+    true
+  end
+
   def create_instagram_dm_conversations?
     true
   end
