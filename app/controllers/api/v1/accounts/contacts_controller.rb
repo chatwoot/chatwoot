@@ -154,7 +154,6 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
     # Check if request is from campaign route
     if from_campaign_route?
-      CUSTOM_LOGGER.info("from_campaign_route")
       @resolved_contacts = @resolved_contacts.where.not(phone_number: [nil, ''])
     end
 
