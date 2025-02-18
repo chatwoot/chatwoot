@@ -145,14 +145,23 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   private
 
-  # TODO: Move this to a finder class
   def resolved_contacts
     return @resolved_contacts if @resolved_contacts
 
     @resolved_contacts = Current.account.contacts.resolved_contacts
 
     @resolved_contacts = @resolved_contacts.tagged_with(params[:labels], any: true) if params[:labels].present?
+
+    # Check if request is from campaign route
+    if from_campaign_route?
+      @resolved_contacts = @resolved_contacts.where.not(phone_number: [nil, ''])
+    end
+
     @resolved_contacts
+  end
+
+  def from_campaign_route?
+    request.referer&.include?('/campaigns/whatsapp')
   end
 
   def set_current_page
