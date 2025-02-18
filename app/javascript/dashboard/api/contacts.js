@@ -80,6 +80,15 @@ class ContactAPI extends ApiClient {
   exportContacts(queryPayload) {
     return axios.post(`${this.url}/export`, queryPayload);
   }
+
+  getCallLogs(phoneNumber) {
+    return axios.get(`/api/v1/call_logs`, {
+      params: {
+        account_id: this.accountIdFromRoute,
+        phone_number: phoneNumber,
+      },
+    });
+  }
 }
 
 export default new ContactAPI();

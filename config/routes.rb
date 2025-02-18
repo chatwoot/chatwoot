@@ -326,6 +326,8 @@ Rails.application.routes.draw do
           end
         end
       end
+
+      resources :call_logs, only: [:index]
     end
 
     namespace :v2 do

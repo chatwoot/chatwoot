@@ -72,6 +72,10 @@
                 :contact-attributes="contactAdditionalAttributes"
                 :calling-info="true"
               />
+              <contact-call-logs
+                v-if="contact.phone_number"
+                :phone-number="contact.phone_number"
+              />
             </accordion-item>
           </div>
           <div v-else-if="element.name === 'conversation_info'">
@@ -161,6 +165,7 @@ import ConversationInfo from './ConversationInfo.vue';
 import draggable from 'vuedraggable';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import MacrosList from './Macros/List.vue';
+import ContactCallLogs from './ContactCallLogs.vue';
 export default {
   components: {
     AccordionItem,
@@ -172,6 +177,7 @@ export default {
     ConversationParticipant,
     draggable,
     MacrosList,
+    ContactCallLogs,
   },
   mixins: [alertMixin, uiSettingsMixin],
   props: {

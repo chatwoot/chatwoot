@@ -113,52 +113,6 @@
           {{ $t('NEW_CONVERSATION.FORM.MESSAGE.ERROR') }}
         </span>
       </div>
-      <div v-if="targetInbox && targetInbox.id" class="w-full">
-        <div class="w-full">
-          <div class="flex flex-col">
-            <file-upload
-              ref="uploadAttachment"
-              input-id="newConversationAttachment"
-              :size="4096 * 4096"
-              :accept="allowedFileTypes"
-              :multiple="true"
-              :drop="true"
-              :drop-directory="false"
-              :data="{
-                direct_upload_url: '/rails/active_storage/direct_uploads',
-                direct_upload: true,
-              }"
-              @input-file="onFileUpload"
-            >
-              <woot-button
-                class-names="button--upload"
-                icon="attach"
-                emoji="📎"
-                color-scheme="secondary"
-                variant="smooth"
-                size="small"
-              >
-                {{ $t('NEW_CONVERSATION.FORM.ATTACHMENTS.SELECT') }}
-              </woot-button>
-              <span
-                class="text-slate-500 ltr:ml-1 rtl:mr-1 font-medium text-xs dark:text-slate-400"
-              >
-                {{ $t('NEW_CONVERSATION.FORM.ATTACHMENTS.HELP_TEXT') }}
-              </span>
-            </file-upload>
-            <div
-              v-if="hasAttachments"
-              class="max-h-20 overflow-y-auto mb-4 mt-1.5"
-            >
-              <attachment-preview
-                class="[&>.preview-item]:dark:bg-slate-700 flex-row flex-wrap gap-x-3 gap-y-1"
-                :attachments="attachedFiles"
-                :remove-attachment="removeAttachment"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
     <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
@@ -169,23 +123,10 @@
         {{ $t('NEW_CONVERSATION.FORM.SUBMIT') }}
       </woot-button>
     </div>
-
-    <transition name="modal-fade">
-      <div
-        v-show="$refs.uploadAttachment && $refs.uploadAttachment.dropActive"
-        class="flex top-0 bottom-0 z-30 gap-2 right-0 left-0 items-center justify-center flex-col absolute w-full h-full bg-white/80 dark:bg-slate-700/80"
-      >
-        <fluent-icon icon="cloud-backup" size="40" />
-        <h4 class="text-2xl break-words text-slate-600 dark:text-slate-200">
-          {{ $t('CONVERSATION.REPLYBOX.DRAG_DROP') }}
-        </h4>
-      </div>
-    </transition>
   </form>
 </template>
 
 <script>
-import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
 import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
@@ -197,11 +138,9 @@ import {
 import { getInboxSource } from 'dashboard/helper/inbox';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import alertMixin from 'shared/mixins/alertMixin';
 import inboxMixin, { INBOX_TYPES } from 'shared/mixins/inboxMixin';
-import FileUpload from 'vue-upload-component';
 import { required } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import conversationsApi from '../../../../api/conversations';
@@ -211,8 +150,6 @@ export default {
     Thumbnail,
     WootMessageEditor,
     InboxDropdownItem,
-    FileUpload,
-    AttachmentPreview,
     MessageSignatureMissingAlert,
   },
   mixins: [alertMixin, uiSettingsMixin, inboxMixin, fileUploadMixin],
@@ -236,7 +173,6 @@ export default {
       showCannedResponseMenu: false,
       cannedResponseSearchKey: '',
       targetInbox: {},
-      attachedFiles: [],
     };
   },
   validations: {
@@ -252,7 +188,6 @@ export default {
       currentChat: 'getSelectedChat',
       uiFlags: 'contacts/getUIFlags',
       currentUser: 'getCurrentUser',
-      globalConfig: 'globalConfig/get',
       messageSignature: 'getMessageSignature',
       inboxesList: 'inboxes/getInboxes',
     }),
@@ -284,9 +219,6 @@ export default {
       payload.append('comment_id', params.commentId);
       payload.append('conversation_id', this.currentChat.id);
       payload.append('message_id', this.messageId);
-      if (this.attachedFiles && this.attachedFiles.length > 0) {
-        this.setAttachmentPayload(payload);
-      }
 
       return payload;
     },
@@ -326,14 +258,8 @@ export default {
           sourceId: inbox.source_id,
         }));
     },
-    hasAttachments() {
-      return this.attachedFiles.length;
-    },
     inbox() {
       return this.targetInbox;
-    },
-    allowedFileTypes() {
-      return ALLOWED_FILE_TYPES;
     },
   },
   watch: {
@@ -365,33 +291,6 @@ export default {
           this.message = removeSignature(this.message, this.signatureToApply);
         }
       }
-    },
-    setAttachmentPayload(payload) {
-      this.attachedFiles.forEach(attachment => {
-        if (this.globalConfig.directUploadsEnabled) {
-          payload.append('message[attachments][]', attachment.blobSignedId);
-        } else {
-          payload.append('message[attachments][]', attachment.resource.file);
-        }
-      });
-    },
-    attachFile({ blob, file }) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file.file);
-      reader.onloadend = () => {
-        this.attachedFiles.push({
-          currentChatId: this.contact.id,
-          resource: blob || file,
-          isPrivate: this.isPrivate,
-          thumb: reader.result,
-          blobSignedId: blob ? blob.signed_id : undefined,
-        });
-      };
-    },
-    removeAttachment(itemIndex) {
-      this.attachedFiles = this.attachedFiles.filter(
-        (item, index) => itemIndex !== index
-      );
     },
     onCancel() {
       this.$emit('cancel');

@@ -46,6 +46,7 @@ import summaryReports from './modules/summaryReports';
 import webhooks from './modules/webhooks';
 import draftMessages from './modules/draftMessages';
 import SLAReports from './modules/SLAReports';
+import contactCallLogs from './modules/contactCallLogs';
 
 const plugins = [];
 
@@ -66,6 +67,7 @@ export default new Vuex.Store({
     categories,
     contactConversations,
     contactLabels,
+    contactCallLogs,
     contactNotes,
     contacts,
     conversationLabels,
