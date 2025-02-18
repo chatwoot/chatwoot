@@ -18,8 +18,6 @@ const props = defineProps({
 
 const emit = defineEmits(['add', 'remove']);
 
-const labelSelectorWrapRef = ref(null);
-
 const { isAdmin } = useAdmin();
 
 const showSearchDropdownLabel = ref(false);
@@ -57,15 +55,11 @@ const keyboardEvents = {
   },
 };
 
-useKeyboardEvents(keyboardEvents, labelSelectorWrapRef);
+useKeyboardEvents(keyboardEvents);
 </script>
 
 <template>
-  <div
-    ref="labelSelectorWrapRef"
-    v-on-clickaway="closeDropdownLabel"
-    class="relative leading-6"
-  >
+  <div v-on-clickaway="closeDropdownLabel" class="relative leading-6">
     <AddLabel @add="toggleLabels" />
     <woot-label
       v-for="label in savedLabels"
@@ -75,7 +69,7 @@ useKeyboardEvents(keyboardEvents, labelSelectorWrapRef);
       show-close
       :color="label.color"
       variant="smooth"
-      @click="removeItem"
+      @remove="removeItem"
     />
     <div class="absolute w-full top-7">
       <div

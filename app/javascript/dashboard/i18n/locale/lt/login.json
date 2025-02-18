@@ -3,7 +3,7 @@
     "TITLE": "Login to Chatwoot",
     "EMAIL": {
       "LABEL": "El. paštas",
-      "PLACEHOLDER": "email pavyzdys: someone@example.com",
+      "PLACEHOLDER": "email pavyzdys: someone{'@'}example.com",
       "ERROR": "Prašau įveskite teisingą el. pašto adresą"
     },
     "PASSWORD": {

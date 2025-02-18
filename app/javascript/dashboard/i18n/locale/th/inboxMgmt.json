@@ -1,34 +1,31 @@
 {
   "INBOX_MGMT": {
     "HEADER": "กล่องข้อความ",
-    "SIDEBAR_TXT": "<p><b>กล่องข้อความ</b></p> <p> เมื่อคุณเชื่อมต่อเว็บไซต์หรือหน้า Facebook กับ Chatwoot จะเรียกว่า <b>Inbox</b> คุณสามารถมีกล่องจดหมายได้ไม่ จำกัด ในบัญชี Chatwoot ของคุณ </p> <p> คลิกที่ <b> เพิ่มกล่องจดหมาย </b>เพื่อเชื่อมต่อเว็บไซต์หรือเพจ Facebook </p> <p> ในแดชบอร์ดคุณสามารถดูการสนทนาทั้งหมดจากกล่องจดหมายทั้งหมดของคุณในที่เดียวและตอบกลับได้ในแท็บ \"การสนทนา\" </p> <p> คุณยังสามารถดูการสนทนาเฉพาะสำหรับกล่องจดหมายได้โดยคลิกที่ชื่อกล่องจดหมายในบานหน้าต่างด้านซ้ายของแผงควบคุม </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "ไม่มีกล่องข้อความที่เกี่ยวข้องในบัญชีนี้"
     },
-    "CREATE_FLOW": [
-      {
-        "title": "เลือกช่อง",
-        "route": "settings_inbox_new",
-        "body": "เลือกผู้ให้บริการที่คุณต้องการจะใช้สำหรับ Chatwoot"
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "เลือกช่อง",
+        "BODY": "เลือกผู้ให้บริการที่คุณต้องการจะใช้สำหรับ Chatwoot"
       },
-      {
-        "title": "สร้างกล่องข้อความ",
-        "route": "settings_inboxes_page_channel",
-        "body": "ตรวจสอบบัญชีของคุณเเละสร้างกล่องข้อความ"
+      "INBOX": {
+        "TITLE": "สร้างกล่องข้อความ",
+        "BODY": "ตรวจสอบบัญชีของคุณเเละสร้างกล่องข้อความ"
       },
-      {
-        "title": "เพิ่มพนักงาน",
-        "route": "settings_inboxes_add_agents",
-        "body": "เพิ่มพนักงานเพื่อสร้างกล่องข้อความ"
+      "AGENT": {
+        "TITLE": "เพิ่มพนักงาน",
+        "BODY": "เพิ่มพนักงานเพื่อสร้างกล่องข้อความ"
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "คุณพร้อมเเล้ว"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "คุณพร้อมเเล้ว"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "ชื่อกล่องข้อความ",
@@ -367,12 +364,19 @@
         "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
         "EMAIL_PLACEHOLDER": "Enter email address",
         "SIGN_IN": "Sign in with Microsoft",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
         "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "กำลังตรวจสอบสิทธิ์ของคุณกับ Facebook...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "มีข้อผิดพลาดเกิดขึ้น โปรดโหลดหน้านี้ใหม่อีกครั้ง",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
@@ -736,7 +740,20 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Other Providers"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "ทวิตเตอร์",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "อีเมล์",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "ช่อง API"
     }
   }
 }

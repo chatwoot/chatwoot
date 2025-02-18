@@ -23,13 +23,13 @@
         "NAME": "Час першої відповіді",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час першої відповіді %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час першої відповіді {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Час до вирішення",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час рішення %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час рішення {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Кількість вирішень",
@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Час очікування клієнта",
-        "TOOLTIP_TEXT": "Час очікування становить %{metricValue} (на основі відповідей %{conversationCount})"
+        "TOOLTIP_TEXT": "Час очікування становить {metricValue} (на основі відповідей {conversationCount})",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Минулий рік",
       "CUSTOM_DATE_RANGE": "Довільний діапазон дат"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Останні 7 днів"
-      },
-      {
-        "id": 1,
-        "name": "Останні 30 днів"
-      },
-      {
-        "id": 2,
-        "name": "Останні 3 місяці"
-      },
-      {
-        "id": 3,
-        "name": "Останні 6 місяців"
-      },
-      {
-        "id": 4,
-        "name": "Минулий рік"
-      },
-      {
-        "id": 5,
-        "name": "Довільний діапазон дат"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Підтвердити",
       "PLACEHOLDER": "Виберіть діапазон дат"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Очистити фільтр",
       "EMPTY_LIST": "Результатів не знайдено"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -167,13 +145,13 @@
         "NAME": "Час першої відповіді",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час першої відповіді %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час першої відповіді {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Час до вирішення",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час рішення %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час рішення {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Кількість вирішень",
@@ -234,13 +212,13 @@
         "NAME": "Час першої відповіді",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість розмов, що використовуються для обчислень:",
-        "TOOLTIP_TEXT": "Час першої відповіді %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час першої відповіді {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Час до вирішення",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час рішення %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час рішення {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Кількість вирішень",
@@ -301,13 +279,13 @@
         "NAME": "Час першої відповіді",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час першої відповіді %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час першої відповіді {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Час до вирішення",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час рішення %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час рішення {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Кількість вирішень",
@@ -368,13 +346,13 @@
         "NAME": "Час першої відповіді",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час першої відповіді %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час першої відповіді {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Час до вирішення",
         "DESC": "( Середнє )",
         "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час рішення %{metricValue} (на основі %{conversationCount} розмов)"
+        "TOOLTIP_TEXT": "Час рішення {metricValue} (на основі {conversationCount} розмов)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Кількість вирішень",
@@ -480,8 +458,8 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Бесіди",
       "NO_CONVERSATIONS": "Немає бесід",
-      "CONVERSATION": "%{count} бесід",
-      "CONVERSATIONS": "%{count} бесід",
+      "CONVERSATION": "{count} бесід",
+      "CONVERSATIONS": "{count} бесід",
       "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
@@ -490,7 +468,7 @@
       "NO_AGENTS": "Немає розмов, пов'язаних з агентом",
       "TABLE_HEADER": {
         "AGENT": "Агент",
-        "OPEN": "ВІДКРИТИ",
+        "OPEN": "Відкриті",
         "UNATTENDED": "Не зв'язаний",
         "STATUS": "Статус"
       }

@@ -1,5 +1,5 @@
 import { CSAT_RATINGS } from '../../../../../shared/constants/messages';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 
 const generateInputSelectContent = contentAttributes => {
   const { submitted_values: submittedValues = [] } = contentAttributes;

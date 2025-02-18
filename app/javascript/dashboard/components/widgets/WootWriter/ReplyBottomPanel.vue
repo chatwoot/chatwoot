@@ -1,5 +1,5 @@
 <script>
-import { ref, watchEffect, computed } from 'vue';
+import { ref } from 'vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import FileUpload from 'vue-upload-component';
@@ -15,10 +15,11 @@ import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
 import { REPLY_EDITOR_MODES } from './constants';
 import { mapGetters } from 'vuex';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   name: 'ReplyBottomPanel',
-  components: { FileUpload, VideoCallButton, AIAssistanceButton },
+  components: { NextButton, FileUpload, VideoCallButton, AIAssistanceButton },
   mixins: [inboxMixin],
   props: {
     mode: {
@@ -35,7 +36,7 @@ export default {
     },
     recordingAudioDurationText: {
       type: String,
-      default: '',
+      default: '00:00',
     },
     // inbox prop is used in /mixins/inboxMixin,
     // remove this props when refactoring to composable if not needed
@@ -117,19 +118,25 @@ export default {
       default: () => [],
     },
   },
+  emits: [
+    'replaceText',
+    'toggleInsertArticle',
+    'toggleEditor',
+    'selectWhatsappTemplate',
+  ],
   setup() {
     const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
       useUISettings();
 
-    const uploadRef = ref(null);
-    // TODO: This is really hacky, we need to replace the file picker component with
-    // a custom one, where the logic and the component markup is isolated.
-    // Once we have the custom component, we can remove the hacky logic below.
-    const uploadRefElem = computed(() => uploadRef.value?.$el);
+    const uploadRef = ref(false);
 
     const keyboardEvents = {
       'Alt+KeyA': {
         action: () => {
+          // TODO: This is really hacky, we need to replace the file picker component with
+          // a custom one, where the logic and the component markup is isolated.
+          // Once we have the custom component, we can remove the hacky logic below.
+
           const uploadTriggerButton = document.querySelector(
             '#conversationAttachment'
           );
@@ -139,9 +146,7 @@ export default {
       },
     };
 
-    watchEffect(() => {
-      useKeyboardEvents(keyboardEvents, uploadRefElem);
-    });
+    useKeyboardEvents(keyboardEvents);
 
     return {
       setSignatureFlagForInbox,
@@ -176,17 +181,16 @@ export default {
         return false;
       }
       // Disable audio recorder for safari browser as recording is not supported
-      const isSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(
-        navigator.userAgent
-      );
+      // const isSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(
+      //   navigator.userAgent
+      // );
 
       return (
         this.isFeatureEnabledonAccount(
           this.accountId,
           FEATURE_FLAGS.VOICE_RECORDER
-        ) &&
-        this.showAudioRecorder &&
-        !isSafari
+        ) && this.showAudioRecorder
+        // !isSafari
       );
     },
     showAudioPlayStopButton() {
@@ -208,13 +212,13 @@ export default {
       switch (this.recordingAudioState) {
         // playing paused recording stopped inactive destroyed
         case 'playing':
-          return 'microphone-pause';
+          return 'i-ph-pause';
         case 'paused':
-          return 'microphone-play';
+          return 'i-ph-play';
         case 'stopped':
-          return 'microphone-play';
+          return 'i-ph-play';
         default:
-          return 'microphone-stop';
+          return 'i-ph-stop';
       }
     },
     showMessageSignatureButton() {
@@ -230,11 +234,7 @@ export default {
         : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
     },
     enableInsertArticleInReply() {
-      const isFeatEnabled = this.isFeatureEnabledonAccount(
-        this.accountId,
-        FEATURE_FLAGS.INSERT_ARTICLE_IN_REPLY
-      );
-      return isFeatEnabled && this.portalSlug;
+      return this.portalSlug;
     },
     isFetchingAppIntegrations() {
       return this.uiFlags.isFetching;
@@ -258,16 +258,14 @@ export default {
 </script>
 
 <template>
-  <div class="bottom-box" :class="wrapClass">
+  <div class="flex justify-between p-3" :class="wrapClass">
     <div class="left-wrap">
-      <woot-button
+      <NextButton
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
-        :title="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
-        icon="emoji"
-        emoji="😊"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
+        icon="i-ph-smiley-sticker"
+        slate
+        faded
+        sm
         @click="toggleEmojiPicker"
       />
       <FileUpload
@@ -285,66 +283,59 @@ export default {
         }"
         @input-file="onFileUpload"
       >
-        <woot-button
+        <NextButton
           v-if="showAttachButton"
-          class-names="button--upload"
-          :title="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
-          icon="attach"
-          emoji="📎"
-          color-scheme="secondary"
-          variant="smooth"
-          size="small"
+          v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
+          icon="i-ph-paperclip"
+          slate
+          faded
+          sm
         />
       </FileUpload>
-      <woot-button
+      <NextButton
         v-if="showAudioRecorderButton"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
-        :icon="!isRecordingAudio ? 'microphone' : 'microphone-off'"
-        emoji="🎤"
-        :color-scheme="!isRecordingAudio ? 'secondary' : 'alert'"
-        variant="smooth"
-        size="small"
+        :icon="!isRecordingAudio ? 'i-ph-microphone' : 'i-ph-microphone-slash'"
+        slate
+        faded
+        sm
         @click="toggleAudioRecorder"
       />
-      <woot-button
+      <NextButton
         v-if="showEditorToggle"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
-        icon="quote"
-        emoji="🖊️"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
+        icon="i-ph-quotes"
+        slate
+        faded
+        sm
         @click="$emit('toggleEditor')"
       />
-      <woot-button
+      <NextButton
         v-if="showAudioPlayStopButton"
+        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
         :icon="audioRecorderPlayStopIcon"
-        emoji="🎤"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
+        slate
+        faded
+        sm
+        :label="recordingAudioDurationText"
         @click="toggleAudioRecorderPlayPause"
-      >
-        <span>{{ recordingAudioDurationText }}</span>
-      </woot-button>
-      <woot-button
+      />
+      <NextButton
         v-if="showMessageSignatureButton"
         v-tooltip.top-end="signatureToggleTooltip"
-        icon="signature"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
-        :title="signatureToggleTooltip"
+        icon="i-ph-signature"
+        slate
+        faded
+        sm
         @click="toggleMessageSignature"
       />
-      <woot-button
+      <NextButton
         v-if="hasWhatsappTemplates"
         v-tooltip.top-end="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
-        icon="whatsapp"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
-        :title="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
+        icon="i-ph-whatsapp-logo"
+        slate
+        faded
+        sm
         @click="$emit('selectWhatsappTemplate')"
       />
       <woot-button
@@ -366,11 +357,11 @@ export default {
         :conversation-id="conversationId"
         :is-private-note="isOnPrivateNote"
         :message="message"
-        @replaceText="replaceText"
+        @replace-text="replaceText"
       />
       <transition name="modal-fade">
         <div
-          v-show="$refs.uploadRef && $refs.uploadRef.dropActive"
+          v-show="uploadRef && uploadRef.dropActive"
           class="fixed top-0 bottom-0 left-0 right-0 z-20 flex flex-col items-center justify-center w-full h-full gap-2 text-slate-900 dark:text-slate-50 bg-modal-backdrop-light dark:bg-modal-backdrop-dark"
         >
           <fluent-icon icon="cloud-backup" size="40" />
@@ -379,14 +370,13 @@ export default {
           </h4>
         </div>
       </transition>
-      <woot-button
+      <NextButton
         v-if="enableInsertArticleInReply"
         v-tooltip.top-end="$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')"
-        icon="document-text-link"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
-        :title="$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')"
+        icon="i-ph-article-ny-times"
+        slate
+        faded
+        sm
         @click="toggleInsertArticle"
       />
     </div>
@@ -404,14 +394,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-.bottom-box {
-  @apply flex justify-between py-3 px-4;
-
-  &.is-note-mode {
-    @apply bg-yellow-100 dark:bg-yellow-800;
-  }
-}
-
 .left-wrap {
   @apply items-center flex gap-2;
 }
@@ -424,6 +406,7 @@ export default {
   label {
     @apply cursor-pointer;
   }
+
   &:hover button {
     @apply dark:bg-slate-800 bg-slate-100;
   }

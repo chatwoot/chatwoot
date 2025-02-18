@@ -18,7 +18,7 @@ const formatDate = timestamp =>
 <template>
   <div class="flex justify-between w-full">
     <span
-      class="text-sm sticky top-0 h-fit font-normal tracking-[-0.6%] min-w-[140px] truncate text-slate-600 dark:text-slate-200"
+      class="text-sm sticky top-0 h-fit font-normal tracking-[-0.6%] min-w-[140px] truncate text-n-slate-11"
     >
       {{ label }}
     </span>
@@ -26,7 +26,7 @@ const formatDate = timestamp =>
       <span
         v-for="item in items"
         :key="item.id"
-        class="text-sm font-normal text-slate-900 dark:text-slate-25 text-right tabular-nums"
+        class="text-sm font-normal text-n-slate-12 text-right tabular-nums"
       >
         {{ formatDate(item.created_at) }}
       </span>

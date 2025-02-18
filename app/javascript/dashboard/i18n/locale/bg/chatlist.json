@@ -6,6 +6,7 @@
     "LIST": {
       "404": "Няма активни разговори в тази група."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Разговори",
     "MENTION_HEADING": "Споменавания",
     "UNATTENDED_HEADING": "Unattended",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "Локация"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "сподели линк"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "Няма налично съдържание",
     "HIDE_QUOTED_TEXT": "Скриване на цитирания текст",
     "SHOW_QUOTED_TEXT": "Показване на цитирания текст",
-    "MESSAGE_READ": "Read"
+    "MESSAGE_READ": "Read",
+    "SENDING": "Sending"
   }
 }

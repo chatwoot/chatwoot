@@ -81,6 +81,7 @@ export default {
 };
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <Banner
     v-if="shouldShowBanner"
@@ -88,6 +89,6 @@ export default {
     :banner-message="bannerMessage"
     :action-button-label="actionButtonMessage"
     has-action-button
-    @click="routeToBilling"
+    @primary-action="routeToBilling"
   />
 </template>

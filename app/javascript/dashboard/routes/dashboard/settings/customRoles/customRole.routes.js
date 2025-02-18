@@ -1,7 +1,7 @@
 import { frontendURL } from 'dashboard/helper/URLHelper';
 
-const SettingsWrapper = () => import('../SettingsWrapper.vue');
-const CustomRolesHome = () => import('./Index.vue');
+import SettingsWrapper from '../SettingsWrapper.vue';
+import CustomRolesHome from './Index.vue';
 
 export default {
   routes: [

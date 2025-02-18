@@ -23,13 +23,13 @@
         "NAME": "Primul timp de răspuns",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Primul timp de răspuns este %{metricValue} (pe baza conversațiilor %{conversationCount})"
+        "TOOLTIP_TEXT": "Primul timp de răspuns este {metricValue} (pe baza conversațiilor {conversationCount})"
       },
       "RESOLUTION_TIME": {
         "NAME": "Timp Rezolutie",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Timpul de rezolvare este %{metricValue} (pe baza conversațiilor %{conversationCount})"
+        "TOOLTIP_TEXT": "Timpul de rezolvare este {metricValue} (pe baza conversațiilor {conversationCount})"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Număr de rezoluții",
@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Anul trecut",
       "CUSTOM_DATE_RANGE": "Interval de date particularizat"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Ultimele 7 zile"
-      },
-      {
-        "id": 1,
-        "name": "Ultimele 30 zile"
-      },
-      {
-        "id": 2,
-        "name": "Ultimele 3 luni"
-      },
-      {
-        "id": 3,
-        "name": "Ultimele 6 luni"
-      },
-      {
-        "id": 4,
-        "name": "Anul trecut"
-      },
-      {
-        "id": 5,
-        "name": "Interval de date particularizat"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Aplică",
       "PLACEHOLDER": "Selectarea intervalului de date"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Niciun rezultat găsit"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -167,13 +145,13 @@
         "NAME": "Primul timp de răspuns",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Primul timp de răspuns este %{metricValue} (pe baza conversațiilor %{conversationCount})"
+        "TOOLTIP_TEXT": "Primul timp de răspuns este {metricValue} (pe baza conversațiilor {conversationCount})"
       },
       "RESOLUTION_TIME": {
         "NAME": "Timp Rezolutie",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Timpul de rezolvare este %{metricValue} (pe baza conversațiilor %{conversationCount})"
+        "TOOLTIP_TEXT": "Timpul de rezolvare este {metricValue} (pe baza conversațiilor {conversationCount})"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Număr de rezoluții",
@@ -234,13 +212,13 @@
         "NAME": "Primul timp de răspuns",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Primul timp de răspuns este %{metricValue} (pe baza conversațiilor %{conversationCount})"
+        "TOOLTIP_TEXT": "Primul timp de răspuns este {metricValue} (pe baza conversațiilor {conversationCount})"
       },
       "RESOLUTION_TIME": {
         "NAME": "Timp Rezolutie",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Timpul de rezolvare este %{metricValue} (pe baza conversațiilor %{conversationCount})"
+        "TOOLTIP_TEXT": "Timpul de rezolvare este {metricValue} (pe baza conversațiilor {conversationCount})"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Număr de rezoluții",
@@ -301,13 +279,13 @@
         "NAME": "Primul timp de răspuns",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Primul timp de răspuns este %{metricValue} (pe baza conversațiilor %{conversationCount})"
+        "TOOLTIP_TEXT": "Primul timp de răspuns este {metricValue} (pe baza conversațiilor {conversationCount})"
       },
       "RESOLUTION_TIME": {
         "NAME": "Timp Rezolutie",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Timpul de rezolvare este %{metricValue} (pe baza conversațiilor %{conversationCount})"
+        "TOOLTIP_TEXT": "Timpul de rezolvare este {metricValue} (pe baza conversațiilor {conversationCount})"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Număr de rezoluții",
@@ -368,13 +346,13 @@
         "NAME": "Primul timp de răspuns",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Primul timp de răspuns este %{metricValue} (pe baza conversațiilor %{conversationCount})"
+        "TOOLTIP_TEXT": "Primul timp de răspuns este {metricValue} (pe baza conversațiilor {conversationCount})"
       },
       "RESOLUTION_TIME": {
         "NAME": "Timp Rezolutie",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
-        "TOOLTIP_TEXT": "Timpul de rezolvare este %{metricValue} (pe baza conversațiilor %{conversationCount})"
+        "TOOLTIP_TEXT": "Timpul de rezolvare este {metricValue} (pe baza conversațiilor {conversationCount})"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Număr de rezoluții",
@@ -480,8 +458,8 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Trafic de conversație",
       "NO_CONVERSATIONS": "Fără conversații",
-      "CONVERSATION": "%{count} conversație",
-      "CONVERSATIONS": "conversații %{count}",
+      "CONVERSATION": "{count} conversație",
+      "CONVERSATIONS": "conversații {count}",
       "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
@@ -490,7 +468,7 @@
       "NO_AGENTS": "Nu există conversații ale agenților",
       "TABLE_HEADER": {
         "AGENT": "Agent",
-        "OPEN": "DESCHIS",
+        "OPEN": "Deschide",
         "UNATTENDED": "Neasistat",
         "STATUS": "Status"
       }

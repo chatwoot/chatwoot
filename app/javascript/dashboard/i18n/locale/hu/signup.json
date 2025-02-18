@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "Munkahelyi e-mail",
-      "PLACEHOLDER": "Add meg munkahelyi e-mailcímed. Pl. kovacs.janos@email.hu",
+      "PLACEHOLDER": "Add meg munkahelyi e-mailcímed. Pl. kovacs.janos{'@'}email.hu",
       "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {

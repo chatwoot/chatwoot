@@ -13,7 +13,7 @@ export default {
       type: Object,
       default: () => ({}),
     },
-    value: {
+    modelValue: {
       type: Array,
       default: () => [],
     },
@@ -22,13 +22,14 @@ export default {
       default: () => [],
     },
   },
+  emits: ['update:modelValue', 'resetAction', 'deleteNode', 'addNewNode'],
   computed: {
     actionData: {
       get() {
-        return this.value;
+        return this.modelValue;
       },
       set(value) {
-        this.$emit('input', value);
+        this.$emit('update:modelValue', value);
       },
     },
   },
@@ -53,30 +54,33 @@ export default {
     <Draggable
       :list="actionData"
       animation="200"
+      item-key="id"
       ghost-class="ghost"
       tag="div"
       class="macros__nodes-draggable"
       handle=".macros__node-drag-handle"
     >
-      <div v-for="(action, i) in actionData" :key="i" class="macro__node">
-        <MacroNode
-          v-model="actionData[i]"
-          class="macros__node-action"
-          type="add"
-          :index="i"
-          :error-key="errors[`action_${i}`]"
-          :file-name="
-            fileName(
-              actionData[i].action_params[0],
-              actionData[i].action_name,
-              files
-            )
-          "
-          :single-node="actionData.length === 1"
-          @resetAction="$emit('resetAction', i)"
-          @deleteNode="$emit('deleteNode', i)"
-        />
-      </div>
+      <template #item="{ index: i }">
+        <div :key="i" class="macro__node">
+          <MacroNode
+            v-model="actionData[i]"
+            class="macros__node-action"
+            type="add"
+            :index="i"
+            :error-key="errors[`action_${i}`]"
+            :file-name="
+              fileName(
+                actionData[i].action_params[0],
+                actionData[i].action_name,
+                files
+              )
+            "
+            :single-node="actionData.length === 1"
+            @reset-action="$emit('resetAction', i)"
+            @delete-node="$emit('deleteNode', i)"
+          />
+        </div>
+      </template>
     </Draggable>
     <div class="macro__node">
       <div>

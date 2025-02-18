@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "Email kantor",
-      "PLACEHOLDER": "Masukkan alamat email kantor Anda. contoh: bruce@wayne.enterprises",
+      "PLACEHOLDER": "Masukkan alamat email kantor Anda. contoh: bruce{'@'}wayne{'.'}enterprises",
       "ERROR": "Harap masukkan alamat email kantor yang valid"
     },
     "PASSWORD": {

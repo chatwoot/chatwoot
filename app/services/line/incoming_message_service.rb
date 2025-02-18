@@ -4,7 +4,7 @@
 class Line::IncomingMessageService
   include ::FileTypeHelper
   pattr_initialize [:inbox!, :params!]
-  LINE_STICKER_IMAGE_URL = 'https://stickershop.line-scdn.net/stickershop/v1/sticker/%s/iphone/sticker.png'.freeze
+  LINE_STICKER_IMAGE_URL = 'https://stickershop.line-scdn.net/stickershop/v1/sticker/%s/android/sticker.png'.freeze
 
   def perform
     # probably test events
@@ -25,13 +25,14 @@ class Line::IncomingMessageService
       next unless message_created? event
 
       attach_files event['message']
+      @message.save!
     end
   end
 
   def message_created?(event)
     return unless event_type_message?(event)
 
-    @message = @conversation.messages.create!(
+    @message = @conversation.messages.build(
       content: message_content(event),
       account_id: @inbox.account_id,
       content_type: message_content_type(event),
@@ -90,7 +91,6 @@ class Line::IncomingMessageService
         content_type: response.content_type
       }
     )
-    @message.save!
   end
 
   def event_type_message?(event)

@@ -10,11 +10,11 @@
       "404": "No hay respuestas enlatadas disponibles en esta cuenta.",
       "TITLE": "Administrar respuestas predefinidas",
       "DESC": "Las respuestas predefinidas son plantillas de respuesta predefinidas que pueden ser utilizadas para enviar rápidamente respuestas a conversaciones.",
-      "TABLE_HEADER": [
-        "Código corto",
-        "Contenido",
-        "Acciones"
-      ]
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Código corto",
+        "CONTENT": "Contenido",
+        "ACTIONS": "Acciones"
+      }
     },
     "ADD": {
       "TITLE": "Añadir respuesta predefinida",

@@ -3,7 +3,8 @@
     "HEADER": "自定义属性",
     "HEADER_BTN_TXT": "添加自定义属性",
     "LOADING": "正在获取自定义属性",
-    "SIDEBAR_TXT": "<p><b>自定义属性</b> <p>自定义属性跟踪您的联系人/对话 — 就像订阅计划 或者当他们订购第一个物品等时。 <br /><br />要创建自定义属性，只需点击<b>添加自定义属性。</b> 您也可以通过点击编辑或删除按钮编辑或删除现有的自定义属性。</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "添加自定义属性",
       "SUBMIT": "创建",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "无法删除自定义属性。请重试。"
       },
       "CONFIRM": {
-        "TITLE": "您确定要删除 - %{attributeName}",
+        "TITLE": "您确定要删除 - {attributeName}",
         "PLACE_HOLDER": "请输入 {attributeName} 以确认",
         "MESSAGE": "删除将删除自定义属性",
         "YES": "删除 ",
@@ -91,12 +92,7 @@
       "CONTACT": "联系人"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "姓名：",
-        "描述信息",
-        "类型",
-        "关键字"
-      ],
+      "TABLE_HEADER": ["姓名：", "描述信息", "类型", "关键字"],
       "BUTTONS": {
         "EDIT": "编辑",
         "DELETE": "删除"

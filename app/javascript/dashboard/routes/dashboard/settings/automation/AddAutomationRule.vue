@@ -12,11 +12,29 @@ import {
   getCustomAttributeType,
   showActionInput,
 } from 'dashboard/helper/automationHelper';
-import {
-  AUTOMATION_RULE_EVENTS,
-  AUTOMATION_ACTION_TYPES,
-  AUTOMATIONS,
-} from './constants';
+import { AUTOMATION_RULE_EVENTS, AUTOMATION_ACTION_TYPES } from './constants';
+
+const start_value = {
+  name: null,
+  description: null,
+  event_name: 'conversation_created',
+  conditions: [
+    {
+      attribute_key: 'status',
+      filter_operator: 'equal_to',
+      values: '',
+      query_operator: 'and',
+      custom_attribute_type: '',
+    },
+  ],
+  actions: [
+    {
+      action_name: 'assign_agent',
+      action_params: [],
+    },
+  ],
+};
+
 export default {
   components: {
     FilterInputBox,
@@ -28,8 +46,11 @@ export default {
       default: () => {},
     },
   },
+  emits: ['saveAutomation'],
   setup() {
     const {
+      automation,
+      automationTypes,
       onEventChange,
       getConditionDropdownValues,
       appendNewCondition,
@@ -40,8 +61,10 @@ export default {
       resetAction,
       getActionDropdownValues,
       manifestCustomAttributes,
-    } = useAutomation();
+    } = useAutomation(start_value);
     return {
+      automation,
+      automationTypes,
       onEventChange,
       getConditionDropdownValues,
       appendNewCondition,
@@ -56,31 +79,10 @@ export default {
   },
   data() {
     return {
-      automationTypes: JSON.parse(JSON.stringify(AUTOMATIONS)),
       automationRuleEvent: AUTOMATION_RULE_EVENTS[0].key,
       automationRuleEvents: AUTOMATION_RULE_EVENTS,
       automationMutated: false,
       show: true,
-      automation: {
-        name: null,
-        description: null,
-        event_name: 'conversation_created',
-        conditions: [
-          {
-            attribute_key: 'status',
-            filter_operator: 'equal_to',
-            values: '',
-            query_operator: 'and',
-            custom_attribute_type: '',
-          },
-        ],
-        actions: [
-          {
-            action_name: 'assign_agent',
-            action_params: [],
-          },
-        ],
-      },
       showDeleteConfirmationModal: false,
       allCustomAttributes: [],
       mode: 'create',
@@ -237,15 +239,8 @@ export default {
                   ? $t(`AUTOMATION.ERRORS.${errors[`condition_${i}`]}`)
                   : ''
               "
-              @resetFilter="
-                resetFilter(
-                  automation,
-                  automationTypes,
-                  i,
-                  automation.conditions[i]
-                )
-              "
-              @removeFilter="removeFilter(automation, i)"
+              @reset-filter="resetFilter(i, automation.conditions[i])"
+              @remove-filter="removeFilter(i)"
             />
             <div class="mt-4">
               <woot-button
@@ -288,8 +283,8 @@ export default {
                   ? $t(`AUTOMATION.ERRORS.${errors[`action_${i}`]}`)
                   : ''
               "
-              @resetAction="resetAction(automation, i)"
-              @removeAction="removeAction(automation, i)"
+              @reset-action="resetAction(i)"
+              @remove-action="removeAction(i)"
             />
             <div class="mt-4">
               <woot-button

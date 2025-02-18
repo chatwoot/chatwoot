@@ -23,6 +23,7 @@ export default {
 };
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <div v-if="showBannerMessage" :class="`banner ${bannerType}`">
     <span>
@@ -32,16 +33,19 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
+
 .banner {
   color: $color-white;
   font-size: $font-size-default;
   font-weight: $font-weight-bold;
   padding: $space-slab;
   text-align: center;
+
   &.success {
     background: $color-success;
   }
+
   &.error {
     background: $color-error;
   }

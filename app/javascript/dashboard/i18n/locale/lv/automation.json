@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automatizācijas",
+    "HEADER": "Automatizācija",
+    "DESCRIPTION": "Automatizācija var aizstāt un racionalizēt esošos procesus, kuriem nepieciešama manuāla piepūle, piemēram, etiķešu pievienošana un sarunu piešķiršana vispiemērotākajam aģentam. Tas ļauj komandai koncentrēties uz savām stiprajām pusēm, vienlaikus samazinot laiku, kas pavadīts ikdienas uzdevumiem.",
+    "LEARN_MORE": "Uzzināt vairāk par automatizāciju",
     "HEADER_BTN_TXT": "Pievienot Automatizācijas Noteikumu",
     "LOADING": "Notiek automatizācijas noteikumu iegūšana",
-    "SIDEBAR_TXT": "<p><b>Automatizācijas Noteikumi</b> <p>Automatizācija var aizstāt un automatizēt esošos procesus, kuriem nepieciešama manuāla piepūle. Izmantojot automatizāciju, Jūs varat veikt daudzas darbības, tostarp pievienot etiķetes un piešķirt sarunu labākajam aģentam. Šādi komanda koncentrēsies uz to, kas viņiem padodas vislabāk, un mazāk laika veltītīs manuāliem uzdevumiem.</p>",
     "ADD": {
       "TITLE": "Pievienot Automatizācijas Noteikumu",
       "SUBMIT": "Izveidot",
@@ -39,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nosaukums",
-        "Apraksts",
-        "Aktīvs",
-        "Izveidots"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nosaukums",
+        "DESCRIPTION": "Apraksts",
+        "ACTIVE": "Aktīvs",
+        "CREATED_ON": "Izveidots"
+      },
       "404": "Automatizācijas noteikumi nav atrasti"
     },
     "DELETE": {

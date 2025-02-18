@@ -1,8 +1,11 @@
 class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
+  # TODO: let move this regex from here to a config file where we can update this list much more easily
+  # the config file will also have the matching embed template as well.
   YOUTUBE_REGEX = %r{https?://(?:www\.)?(?:youtube\.com/watch\?v=|youtu\.be/)([^&/]+)}
   LOOM_REGEX = %r{https?://(?:www\.)?loom\.com/share/([^&/]+)}
   VIMEO_REGEX = %r{https?://(?:www\.)?vimeo\.com/(\d+)}
   MP4_REGEX = %r{https?://(?:www\.)?.+\.(mp4)}
+  ARCADE_REGEX = %r{https?://(?:www\.)?app\.arcade\.software/share/([^&/]+)}
 
   def text(node)
     content = node.string_content
@@ -46,7 +49,8 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
       YOUTUBE_REGEX => :make_youtube_embed,
       VIMEO_REGEX => :make_vimeo_embed,
       MP4_REGEX => :make_video_embed,
-      LOOM_REGEX => :make_loom_embed
+      LOOM_REGEX => :make_loom_embed,
+      ARCADE_REGEX => :make_arcade_embed
     }
 
     embedding_methods.each do |regex, method|
@@ -117,5 +121,22 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
         Your browser does not support the video tag.
       </video>
     )
+  end
+
+  def make_arcade_embed(arcade_match)
+    video_id = arcade_match[1]
+    %(
+    <div style="position: relative; padding-bottom: 62.5%; height: 0;">
+      <iframe
+        src="https://app.arcade.software/embed/#{video_id}"
+        frameborder="0"
+        webkitallowfullscreen
+        mozallowfullscreen
+        allowfullscreen
+        allow="fullscreen"
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+      </iframe>
+    </div>
+  )
   end
 end

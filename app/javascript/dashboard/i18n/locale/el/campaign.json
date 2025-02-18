@@ -1,126 +1,150 @@
 {
   "CAMPAIGN": {
-    "HEADER": "Καμπάνιες",
-    "SIDEBAR_TXT": "Τα προληπτικά μηνύματα επιτρέπουν την αποστολή εξερχόμενων μηνυμάτων στις επαφές, που θα ενεργοποιούν περισσότερες συνομιλίες. Κάντε κλικ στο <b>Προσθήκη Καμπάνιας</b> για να δημιουργήσετε μια νέα καμπάνια. Μπορείτε επίσης να επεξεργαστείτε ή να διαγράψετε μια ήδη υπάρχουσα καμπάνια κάνοντας κλικ στο κουμπί Επεξεργασία ή Διαγραφή.",
-    "HEADER_BTN_TXT": {
-      "ONE_OFF": "Δημιουργήστε μία ανενεργή καμπάνια",
-      "ONGOING": "Δημιουργήστε μια εν εξελίξει καμπάνια"
-    },
-    "ADD": {
-      "TITLE": "Δημιουργία Καμπάνιας",
-      "DESC": "Τα προληπτικά μηνύματα επιτρέπουν την αποστολή εξερχόμενων μηνυμάτων στις επαφές, που θα ενεργοποιούν περισσότερες συνομιλίες.",
-      "CANCEL_BUTTON_TEXT": "Άκυρο",
-      "CREATE_BUTTON_TEXT": "Δημιουργία",
-      "FORM": {
-        "TITLE": {
-          "LABEL": "Τίτλος",
-          "PLACEHOLDER": "Παρακαλώ εισάγετε τον τίτλο της καμπάνιας",
-          "ERROR": "Ο τίτλος είναι απαραίτητος"
+    "LIVE_CHAT": {
+      "HEADER_TITLE": "Live chat campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "CARD": {
+        "STATUS": {
+          "ENABLED": "Ενεργό",
+          "DISABLED": "Ανενεργό"
         },
-        "SCHEDULED_AT": {
-          "LABEL": "Προγραμματισμένη ώρα",
-          "PLACEHOLDER": "Παρακαλώ επιλέξτε την ώρα",
-          "CONFIRM": "Επιβεβαίωση",
-          "ERROR": "Απαιτείται η προγραμματισμένη ώρα"
-        },
-        "AUDIENCE": {
-          "LABEL": "Ακροατήριο",
-          "PLACEHOLDER": "Επιλέξτε τις ετικέτες του πελάτη",
-          "ERROR": "Το ακροατήριο απαιτείται"
-        },
-        "INBOX": {
-          "LABEL": "Επιλογή Εισερχομένων",
-          "PLACEHOLDER": "Επιλογή Εισερχομένων",
-          "ERROR": "Το κιβώτιο εισερχομένων είναι απαραίτητο"
-        },
-        "MESSAGE": {
-          "LABEL": "Μήνυμα",
-          "PLACEHOLDER": "Παρακαλώ εισάγετε το μήνυμα της καμπάνιας",
-          "ERROR": "Το μήνυμα είναι απαραίτητο"
-        },
-        "SENT_BY": {
-          "LABEL": "Αποστολή από",
-          "PLACEHOLDER": "Παρακαλώ επιλέξτε το περιεχόμενο της καμπάνιας",
-          "ERROR": "Ο αποστολέας είναι απαραίτητος"
-        },
-        "END_POINT": {
-          "LABEL": "URL",
-          "PLACEHOLDER": "Παρακαλώ εισάγετε το URL",
-          "ERROR": "Παρακαλώ εισάγετε ένα έγκυρο URL"
-        },
-        "TIME_ON_PAGE": {
-          "LABEL": "Χρόνος στη σελίδα(δευτερόλεπτα)",
-          "PLACEHOLDER": "Παρακαλώ εισάγετε το χρόνο",
-          "ERROR": "Ο χρόνος στη σελίδα είναι απαραίτητος"
-        },
-        "ENABLED": "Ενεργοποίηση καμπάνιας",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "Ενεργοποίηση μόνο κατά τη διάρκεια ωρών εργασίας",
-        "SUBMIT": "Προσθήκη Καμπάνιας"
+        "CAMPAIGN_DETAILS": {
+          "SENT_BY": "Αποστολή από",
+          "BOT": "Bot",
+          "FROM": "από",
+          "URL": "URL:"
+        }
       },
-      "API": {
-        "SUCCESS_MESSAGE": "Η καμπάνια δημιουργήθηκε επιτυχώς",
-        "ERROR_MESSAGE": "Παρουσιάστηκε σφάλμα. Παρακαλώ δοκιμάστε ξανά."
+      "EMPTY_STATE": {
+        "TITLE": "No live chat campaigns are available",
+        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+      },
+      "CREATE": {
+        "TITLE": "Create a live chat campaign",
+        "CANCEL_BUTTON_TEXT": "Άκυρο",
+        "CREATE_BUTTON_TEXT": "Δημιουργία",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Τίτλος",
+            "PLACEHOLDER": "Παρακαλώ εισάγετε τον τίτλο της καμπάνιας",
+            "ERROR": "Ο τίτλος είναι απαραίτητος"
+          },
+          "MESSAGE": {
+            "LABEL": "Μήνυμα",
+            "PLACEHOLDER": "Παρακαλώ εισάγετε το μήνυμα της καμπάνιας",
+            "ERROR": "Το μήνυμα είναι απαραίτητο"
+          },
+          "INBOX": {
+            "LABEL": "Επιλογή Εισερχομένων",
+            "PLACEHOLDER": "Επιλογή Εισερχομένων",
+            "ERROR": "Το κιβώτιο εισερχομένων είναι απαραίτητο"
+          },
+          "SENT_BY": {
+            "LABEL": "Αποστολή από",
+            "PLACEHOLDER": "Please select sender",
+            "ERROR": "Ο αποστολέας είναι απαραίτητος"
+          },
+          "END_POINT": {
+            "LABEL": "URL",
+            "PLACEHOLDER": "Παρακαλώ εισάγετε το URL",
+            "ERROR": "Παρακαλώ εισάγετε ένα έγκυρο URL"
+          },
+          "TIME_ON_PAGE": {
+            "LABEL": "Χρόνος στη σελίδα(δευτερόλεπτα)",
+            "PLACEHOLDER": "Παρακαλώ εισάγετε το χρόνο",
+            "ERROR": "Ο χρόνος στη σελίδα είναι απαραίτητος"
+          },
+          "OTHER_PREFERENCES": {
+            "TITLE": "Other preferences",
+            "ENABLED": "Ενεργοποίηση καμπάνιας",
+            "TRIGGER_ONLY_BUSINESS_HOURS": "Ενεργοποίηση μόνο κατά τη διάρκεια ωρών εργασίας"
+          },
+          "BUTTONS": {
+            "CREATE": "Δημιουργία",
+            "CANCEL": "Άκυρο"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
+            "ERROR_MESSAGE": "Παρουσιάστηκε σφάλμα. Παρακαλώ δοκιμάστε ξανά."
+          }
+        }
+      },
+      "EDIT": {
+        "TITLE": "Edit live chat campaign",
+        "FORM": {
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
+            "ERROR_MESSAGE": "Παρουσιάστηκε σφάλμα. Παρακαλώ δοκιμάστε ξανά."
+          }
+        }
       }
     },
-    "DELETE": {
-      "BUTTON_TEXT": "Διαγραφή",
-      "CONFIRM": {
-        "TITLE": "Επιβεβαίωση Διαγραφής",
-        "MESSAGE": "Είσαστε σίγουροι για την διαγραφή?",
-        "YES": "Ναι, Διέγραψε τον/την ",
-        "NO": "Όχι, Κράτησε τον/την"
+    "SMS": {
+      "HEADER_TITLE": "SMS campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No SMS campaigns are available",
+        "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
       },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Ολοκληρώθηκε",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create SMS campaign",
+        "CANCEL_BUTTON_TEXT": "Άκυρο",
+        "CREATE_BUTTON_TEXT": "Δημιουργία",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Τίτλος",
+            "PLACEHOLDER": "Παρακαλώ εισάγετε τον τίτλο της καμπάνιας",
+            "ERROR": "Ο τίτλος είναι απαραίτητος"
+          },
+          "MESSAGE": {
+            "LABEL": "Μήνυμα",
+            "PLACEHOLDER": "Παρακαλώ εισάγετε το μήνυμα της καμπάνιας",
+            "ERROR": "Το μήνυμα είναι απαραίτητο"
+          },
+          "INBOX": {
+            "LABEL": "Επιλογή Εισερχομένων",
+            "PLACEHOLDER": "Επιλογή Εισερχομένων",
+            "ERROR": "Το κιβώτιο εισερχομένων είναι απαραίτητο"
+          },
+          "AUDIENCE": {
+            "LABEL": "Ακροατήριο",
+            "PLACEHOLDER": "Επιλέξτε τις ετικέτες του πελάτη",
+            "ERROR": "Το ακροατήριο απαιτείται"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Προγραμματισμένη ώρα",
+            "PLACEHOLDER": "Παρακαλώ επιλέξτε την ώρα",
+            "ERROR": "Απαιτείται η προγραμματισμένη ώρα"
+          },
+          "BUTTONS": {
+            "CREATE": "Δημιουργία",
+            "CANCEL": "Άκυρο"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "SMS campaign created successfully",
+            "ERROR_MESSAGE": "Παρουσιάστηκε σφάλμα. Παρακαλώ δοκιμάστε ξανά."
+          }
+        }
+      }
+    },
+    "CONFIRM_DELETE": {
+      "TITLE": "Είσαστε σίγουροι για την διαγραφή?",
+      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "CONFIRM": "Διαγραφή",
       "API": {
         "SUCCESS_MESSAGE": "Η καμπάνια διαγράφηκε επιτυχώς",
-        "ERROR_MESSAGE": "Δεν ήταν δυνατή η διαγραφή της καμπάνιας. Παρακαλώ προσπαθήστε ξανά αργότερα."
+        "ERROR_MESSAGE": "Παρουσιάστηκε σφάλμα. Παρακαλώ δοκιμάστε ξανά."
       }
-    },
-    "EDIT": {
-      "TITLE": "Επεξεργασία καμπάνιας",
-      "UPDATE_BUTTON_TEXT": "Ενημέρωση",
-      "API": {
-        "SUCCESS_MESSAGE": "Η ετικέτα ενημερώθηκε επιτυχώς",
-        "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
-      }
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Φόρτωση καμπάνιας...",
-      "404": "Δεν υπάρχουν εκστρατείες για αυτό το κιβώτιο εισερχόμενων.",
-      "TABLE_HEADER": {
-        "TITLE": "Τίτλος",
-        "MESSAGE": "Μήνυμα",
-        "INBOX": "Εισερχόμενα",
-        "STATUS": "Κατάσταση",
-        "SENDER": "Αποστολέας",
-        "URL": "URL",
-        "SCHEDULED_AT": "Προγραμματισμένη ώρα",
-        "TIME_ON_PAGE": "Χρόνος (δευτερόλεπτα)",
-        "CREATED_AT": "Δημιουργήθηκε στις"
-      },
-      "BUTTONS": {
-        "ADD": "Προσθήκη",
-        "EDIT": "Επεξεργασία",
-        "DELETE": "Διαγραφή"
-      },
-      "STATUS": {
-        "ENABLED": "Ενεργό",
-        "DISABLED": "Ανενεργό",
-        "COMPLETED": "Ολοκληρώθηκε",
-        "ACTIVE": "Ενεργή"
-      },
-      "SENDER": {
-        "BOT": "Bot"
-      }
-    },
-    "ONE_OFF": {
-      "HEADER": "One off campaigns",
-      "404": "Δεν υπάρχει καμία από τις εκστρατείες (no one) που δημιουργήθηκαν",
-      "INBOXES_NOT_FOUND": "Παρακαλούμε δημιουργήστε ένα κιβώτιο εισερχόμενων sms και αρχίστε να προσθέτετε καμπάνιες"
-    },
-    "ONGOING": {
-      "HEADER": "Σε εξέλιξη καμπάνιες",
-      "404": "Δεν υπάρχουν εν εξελίξει καμπάνιες που δημιουργήθηκαν",
-      "INBOXES_NOT_FOUND": "Παρακαλούμε δημιουργήστε ένα κιβώτιο εισερχομένων ιστοσελίδας και αρχίστε να προσθέτετε καμπάνιες"
     }
   }
 }
