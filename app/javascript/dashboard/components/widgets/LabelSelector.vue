@@ -20,7 +20,7 @@
           v-if="showSearchDropdownLabel"
           :account-labels="allLabels"
           :selected-labels="selectedLabels"
-          :allow-creation="isAdmin"
+          :allow-creation="showAddLabel"
           @add="addItem"
           @remove="removeItem"
         />
@@ -34,6 +34,7 @@ import AddLabel from 'shared/components/ui/dropdown/AddLabel.vue';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
 import adminMixin from 'dashboard/mixins/isAdmin';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -61,8 +62,20 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+      getAccount: 'accounts/getAccount',
+    }),
     selectedLabels() {
       return this.savedLabels.map(label => label.title);
+    },
+
+    showAddLabel() {
+      const currentAccount = this.getAccount(this.accountId);
+      if (currentAccount?.custom_attributes?.show_label_to_agent) {
+        return true;
+      }
+      return this.isAdmin;
     },
   },
 

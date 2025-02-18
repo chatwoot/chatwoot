@@ -183,7 +183,11 @@ export default {
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       globalConfig: 'globalConfig/get',
+      getAccount: 'accounts/getAccount',
     }),
+    currentAccount() {
+      return this.getAccount(this.accountId) || {};
+    },
     isCountZero() {
       return this.menuItem.count === 0;
     },
@@ -335,6 +339,12 @@ export default {
       }
     },
     showItem(item) {
+      if (
+        this.currentAccount?.custom_attributes?.show_label_to_agent &&
+        !!item.newLink
+      ) {
+        return true;
+      }
       return this.isAdmin && !!item.newLink;
     },
     onClickOpen() {

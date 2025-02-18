@@ -39,7 +39,7 @@
               v-if="showSearchDropdownLabel"
               :account-labels="filteredAccountLabels"
               :selected-labels="filteredSavedLabels"
-              :allow-creation="isAdmin"
+              :allow-creation="showAddLabel"
               @add="addLabelToConversation"
               @remove="removeLabelFromConversation"
             />
@@ -86,6 +86,8 @@ export default {
     ...mapGetters({
       conversationUiFlags: 'conversationLabels/getUIFlags',
       labelUiFlags: 'conversationLabels/getUIFlags',
+      accountId: 'getCurrentAccountId',
+      getAccount: 'accounts/getAccount',
     }),
     filteredActiveLabels() {
       return this.activeLabels;
@@ -109,6 +111,13 @@ export default {
           label.title !== 'inbound-call' &&
           label.title !== 'missed-call'
       );
+    },
+    showAddLabel() {
+      const currentAccount = this.getAccount(this.accountId);
+      if (currentAccount?.custom_attributes?.show_label_to_agent) {
+        return true;
+      }
+      return this.isAdmin;
     },
   },
   methods: {

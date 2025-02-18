@@ -12,10 +12,16 @@ class LabelPolicy < ApplicationPolicy
   end
 
   def create?
-    @account_user.administrator?
+    @account_user.administrator? || can_manage_labels?
   end
 
   def destroy?
     @account_user.administrator?
+  end
+
+  private
+
+  def can_manage_labels?
+    @account.custom_attributes['show_label_to_agent']
   end
 end
