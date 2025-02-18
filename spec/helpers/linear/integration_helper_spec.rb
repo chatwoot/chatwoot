@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe IntegrationHelper do
+RSpec.describe Linear::IntegrationHelper do
   include described_class
 
   describe '#generate_linear_token' do

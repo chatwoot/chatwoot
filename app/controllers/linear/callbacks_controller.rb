@@ -1,5 +1,5 @@
 class Linear::CallbacksController < ApplicationController
-  include IntegrationHelper
+  include Linear::IntegrationHelper
 
   def show
     @response = oauth_client.auth_code.get_token(

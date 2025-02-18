@@ -1,4 +1,4 @@
-module IntegrationHelper
+module Linear::IntegrationHelper
   # Generates a signed JWT token for Linear integration
   #
   # @param account_id [Integer] The account ID to encode in the token
