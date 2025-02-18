@@ -141,6 +141,10 @@ class ConversationApi extends ApiClient {
   enableChatbot(conversationId) {
     return axios.post(`${this.url}/${conversationId}/enable_chatbot`);
   }
+
+  requestCopilot(conversationId, body) {
+    return axios.post(`${this.url}/${conversationId}/copilot`, body);
+  }
 }
 
 export default new ConversationApi();

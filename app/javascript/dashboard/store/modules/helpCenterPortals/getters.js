@@ -2,10 +2,18 @@ export const getters = {
   uiFlagsIn: state => portalId => {
     const uiFlags = state.portals.uiFlags.byId[portalId];
     if (uiFlags) return uiFlags;
-    return { isFetching: false, isUpdating: false, isDeleting: false };
+    return {
+      isFetching: false,
+      isUpdating: false,
+      isDeleting: false,
+      domainValid: false,
+      isValidating: false,
+    };
   },
 
   isFetchingPortals: state => state.uiFlags.isFetching,
+  isCreatingPortal: state => state.uiFlags.isCreating,
+  isSwitchingPortal: state => state.uiFlags.isSwitching,
   portalBySlug:
     (...getterArguments) =>
     portalId => {
@@ -23,4 +31,5 @@ export const getters = {
   },
   count: state => state.portals.allIds.length || 0,
   getMeta: state => state.meta,
+  isSwitching: state => state.isSwitching,
 };

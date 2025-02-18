@@ -9,6 +9,7 @@ import AllProducts from './AllProducts.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import { ACCOUNT_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import { useTrack } from 'dashboard/composables';
 
 export default {
   components: {
@@ -46,6 +47,7 @@ export default {
       default: '',
     },
   },
+  emits: ['toggleAccounts', 'openNotificationPanel', 'openKeyShortcutModal'],
   data() {
     return {
       helpDocsURL: wootConstants.DOCS_URL,
@@ -65,7 +67,7 @@ export default {
       window.$chatwoot.toggle();
     },
     openNotificationPanel() {
-      this.$track(ACCOUNT_EVENTS.OPENED_NOTIFICATIONS);
+      useTrack(ACCOUNT_EVENTS.OPENED_NOTIFICATIONS);
       this.$emit('openNotificationPanel');
     },
     toggleProducts() {
@@ -88,6 +90,7 @@ export default {
       />
       <PrimaryNavItem
         v-for="menuItem in menuItems"
+        :id="menuItem.key"
         :key="menuItem.toState"
         :icon="menuItem.icon"
         :name="menuItem.label"
@@ -96,22 +99,24 @@ export default {
       />
     </div>
     <div class="flex flex-col items-center justify-end pb-6">
-      <PrimaryNavItem
+      <a
         v-if="!isACustomBrandedInstance"
-        icon="book-open-globe"
-        name="DOCS"
-        open-in-new-page
-        :to="helpDocsURL"
-      />
-      <AllProducts @toggleMenu="toggleProducts" />
-      <ProductsMenu :show="showProductsMenu" @close="toggleProducts" />
-      <NotificationBell @openNotificationPanel="openNotificationPanel" />
-      <AgentDetails @toggleMenu="toggleOptions" />
+        v-tooltip.right="$t(`SIDEBAR.DOCS`)"
+        :href="helpDocsURL"
+        class="relative flex items-center justify-center w-10 h-10 my-2 rounded-lg text-slate-700 dark:text-slate-100 hover:bg-slate-25 dark:hover:bg-slate-700 dark:hover:text-slate-100 hover:text-slate-600"
+        rel="noopener noreferrer nofollow"
+        target="_blank"
+      >
+        <fluent-icon icon="book-open-globe" />
+        <span class="sr-only">{{ $t(`SIDEBAR.DOCS`) }}</span>
+      </a>
+      <NotificationBell @open-notification-panel="openNotificationPanel" />
+      <AgentDetails @toggle-menu="toggleOptions" />
       <OptionsMenu
         :show="showOptionsMenu"
-        @toggleAccounts="toggleAccountModal"
-        @showSupportChatWindow="toggleSupportChatWindow"
-        @openKeyShortcutModal="$emit('openKeyShortcutModal')"
+        @toggle-accounts="toggleAccountModal"
+        @show-support-chat-window="toggleSupportChatWindow"
+        @open-key-shortcut-modal="$emit('openKeyShortcutModal')"
         @close="toggleOptions"
       />
     </div>

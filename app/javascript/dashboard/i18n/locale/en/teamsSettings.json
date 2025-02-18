@@ -17,26 +17,21 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
+        "TITLE": "Add agents to team - {teamName}",
         "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
       },
-      "WIZARD": [
-        {
-          "title": "Create",
-          "route": "settings_teams_new",
-          "body": "Create a new team of agents."
-        },
-        {
-          "title": "Add Agents",
-          "route": "settings_teams_add_agents",
-          "body": "Add agents to the team."
-        },
-        {
-          "title": "Finish",
-          "route": "settings_teams_finish",
-          "body": "You are all set to go!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "Create",
+        "BODY": "Create a new team of agents."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Add Agents",
+        "BODY": "Add agents to the team."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Finish",
+        "BODY": "You are all set to go!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -46,26 +41,24 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Add agents to team - %{teamName}",
+        "TITLE": "Add agents to team - {teamName}",
         "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
       },
-      "WIZARD": [
-        {
-          "title": "Team details",
-          "route": "settings_teams_edit",
-          "body": "Change name, description and other details."
-        },
-        {
-          "title": "Edit Agents",
-          "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
-        },
-        {
-          "title": "Finish",
-          "route": "settings_teams_edit_finish",
-          "body": "You are all set to go!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Team details",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "Change name, description and other details."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Edit Agents",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "Edit agents in your team."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Finish",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "You are all set to go!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "Couldn't save the team details. Try again."
@@ -77,14 +70,14 @@
       "ADD_AGENTS": "Adding Agents to your Team...",
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "SELECTED_COUNT": "{selected} out of {total} agents selected."
     },
     "ADD": {
-      "TITLE": "Add agents to team - %{teamName}",
+      "TITLE": "Add agents to team - {teamName}",
       "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "SELECTED_COUNT": "{selected} out of {total} agents selected.",
       "BUTTON_TEXT": "Add agents",
       "AGENT_VALIDATION_ERROR": "Select at least one agent."
     },

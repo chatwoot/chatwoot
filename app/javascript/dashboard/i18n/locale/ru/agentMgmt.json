@@ -3,8 +3,8 @@
     "HEADER": "Операторы",
     "HEADER_BTN_TXT": "Добавить оператора",
     "LOADING": "Загружаем список операторов",
-    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
-    "LEARN_MORE": "Learn about user roles",
+    "DESCRIPTION": "Агент является членом вашей службы поддержки, который может просматривать и отвечать на пользовательские сообщения. В приведенном ниже списке показаны все агенты в вашей учетной записи.",
+    "LEARN_MORE": "Узнать о ролях пользователей",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Администратор",
       "AGENT": "Оператор"
@@ -18,7 +18,8 @@
       "STATUS": "Статус",
       "ACTIONS": "Действия",
       "VERIFIED": "Подтвержденный",
-      "VERIFICATION_PENDING": "Неподтвержденный"
+      "VERIFICATION_PENDING": "Неподтвержденный",
+      "AVAILABLE_CUSTOM_ROLE": "Доступные права для пользовательских ролей"
     },
     "ADD": {
       "TITLE": "Добавить оператора",

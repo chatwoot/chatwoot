@@ -23,13 +23,13 @@
         "NAME": "Waktu Respon Pertama",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total jumlah percakapan yang digunakan untuk perhitungan:",
-        "TOOLTIP_TEXT": "Waktu Respon Pertama adalah %{metricValue} (berdasarkan %{conversationCount} percakapan)"
+        "TOOLTIP_TEXT": "Waktu Respon Pertama adalah {metricValue} (berdasarkan {conversationCount} percakapan)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total jumlah percakapan yang digunakan untuk perhitungan:",
-        "TOOLTIP_TEXT": "Waktu Penyelesaian adalah %{metricValue} (berdasarkan %{conversationCount} percakapan)"
+        "TOOLTIP_TEXT": "Waktu Penyelesaian adalah {metricValue} (berdasarkan {conversationCount} percakapan)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Tahun terakhir",
       "CUSTOM_DATE_RANGE": "Rentang tanggal kustom"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "7 hari terakhir"
-      },
-      {
-        "id": 1,
-        "name": "30 hari terakhir"
-      },
-      {
-        "id": 2,
-        "name": "3 bulan terakhir"
-      },
-      {
-        "id": 3,
-        "name": "6 bulan terakhir"
-      },
-      {
-        "id": 4,
-        "name": "Tahun terakhir"
-      },
-      {
-        "id": 5,
-        "name": "Rentang tanggal kustom"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Terapkan",
       "PLACEHOLDER": "Pilih rentang tanggal"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Tidak ada hasil ditemukan"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -167,13 +145,13 @@
         "NAME": "Waktu Respon Pertama",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total jumlah percakapan yang digunakan untuk perhitungan:",
-        "TOOLTIP_TEXT": "Waktu Respon Pertama adalah %{metricValue} (berdasarkan %{conversationCount} percakapan)"
+        "TOOLTIP_TEXT": "Waktu Respon Pertama adalah {metricValue} (berdasarkan {conversationCount} percakapan)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total jumlah percakapan yang digunakan untuk perhitungan:",
-        "TOOLTIP_TEXT": "Waktu Penyelesaian adalah %{metricValue} (berdasarkan %{conversationCount} percakapan)"
+        "TOOLTIP_TEXT": "Waktu Penyelesaian adalah {metricValue} (berdasarkan {conversationCount} percakapan)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -234,13 +212,13 @@
         "NAME": "Waktu Respon Pertama",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total jumlah percakapan yang digunakan untuk perhitungan:",
-        "TOOLTIP_TEXT": "Waktu Respon Pertama adalah %{metricValue} (berdasarkan %{conversationCount} percakapan)"
+        "TOOLTIP_TEXT": "Waktu Respon Pertama adalah {metricValue} (berdasarkan {conversationCount} percakapan)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total jumlah percakapan yang digunakan untuk perhitungan:",
-        "TOOLTIP_TEXT": "Waktu Penyelesaian adalah %{metricValue} (berdasarkan %{conversationCount} percakapan)"
+        "TOOLTIP_TEXT": "Waktu Penyelesaian adalah {metricValue} (berdasarkan {conversationCount} percakapan)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -301,13 +279,13 @@
         "NAME": "Waktu Respon Pertama",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total jumlah percakapan yang digunakan untuk perhitungan:",
-        "TOOLTIP_TEXT": "Waktu Respon Pertama adalah %{metricValue} (berdasarkan %{conversationCount} percakapan)"
+        "TOOLTIP_TEXT": "Waktu Respon Pertama adalah {metricValue} (berdasarkan {conversationCount} percakapan)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total jumlah percakapan yang digunakan untuk perhitungan:",
-        "TOOLTIP_TEXT": "Waktu Penyelesaian adalah %{metricValue} (berdasarkan %{conversationCount} percakapan)"
+        "TOOLTIP_TEXT": "Waktu Penyelesaian adalah {metricValue} (berdasarkan {conversationCount} percakapan)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -368,13 +346,13 @@
         "NAME": "Waktu Respon Pertama",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total jumlah percakapan yang digunakan untuk perhitungan:",
-        "TOOLTIP_TEXT": "Waktu Respon Pertama adalah %{metricValue} (berdasarkan %{conversationCount} percakapan)"
+        "TOOLTIP_TEXT": "Waktu Respon Pertama adalah {metricValue} (berdasarkan {conversationCount} percakapan)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total jumlah percakapan yang digunakan untuk perhitungan:",
-        "TOOLTIP_TEXT": "Waktu Penyelesaian adalah %{metricValue} (berdasarkan %{conversationCount} percakapan)"
+        "TOOLTIP_TEXT": "Waktu Penyelesaian adalah {metricValue} (berdasarkan {conversationCount} percakapan)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -480,8 +458,8 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Lalu Lintas Percakapan",
       "NO_CONVERSATIONS": "Tidak ada percakapan",
-      "CONVERSATION": "%{count} percakapan",
-      "CONVERSATIONS": "%{count} percakapan",
+      "CONVERSATION": "{count} percakapan",
+      "CONVERSATIONS": "{count} percakapan",
       "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
@@ -490,7 +468,7 @@
       "NO_AGENTS": "Tidak ada percakapan oleh agen",
       "TABLE_HEADER": {
         "AGENT": "Agen",
-        "OPEN": "TERBUKA",
+        "OPEN": "Terbuka",
         "UNATTENDED": "Tidak Ditangani",
         "STATUS": "Status"
       }

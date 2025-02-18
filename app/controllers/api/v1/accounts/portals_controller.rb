@@ -1,8 +1,10 @@
+require 'resolv'
+
 class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   include ::FileTypeHelper
 
-  before_action :fetch_portal, except: [:index, :create]
-  before_action :check_authorization
+  before_action :fetch_portal, except: [:index, :create, :check]
+  before_action :check_authorization, except: [:check]  # Skip check_authorization for the check action
   before_action :set_current_page, only: [:index]
 
   def index
@@ -20,7 +22,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   end
 
   def create
-    @portal = Current.account.portals.build(portal_params)
+    @portal = Current.account.portals.build(portal_params.merge(live_chat_widget_params))
     @portal.custom_domain = parsed_custom_domain
     @portal.save!
     process_attached_logo
@@ -28,7 +30,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def update
     ActiveRecord::Base.transaction do
-      @portal.update!(portal_params) if params[:portal].present?
+      @portal.update!(portal_params.merge(live_chat_widget_params)) if params[:portal].present?
       # @portal.custom_domain = parsed_custom_domain
       process_attached_logo if params[:blob_id].present?
     rescue StandardError => e
@@ -58,6 +60,29 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     @portal.logo.attach(blob)
   end
 
+  def check
+    unless params[:domain].present?
+      render json: { message: false, error: 'Domain parameter is missing' }, status: :unprocessable_entity
+      return
+    end
+    current_ip = ENV.fetch('CURRENT_IP', nil)
+    if current_ip.nil?
+      render json: { message: false, error: 'Current IP is not configured' }, status: :unprocessable_entity
+      return
+    end
+    begin
+      domain_ip = Resolv.getaddress(params[:domain])
+      if domain_ip == current_ip
+        DomainConfigJob.perform_later(params[:domain], params[:initialCustomDomain])
+        render json: { message: true }, status: :ok
+      else
+        render json: { message: false, error: 'Domain not configured' }, status: :unprocessable_entity
+      end
+    rescue Resolv::ResolvError => e
+      render json: { message: false, error: 'Domain could not be resolved' }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def fetch_portal
@@ -70,9 +95,19 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def portal_params
     params.require(:portal).permit(
-      :account_id, :color, :custom_domain, :header_text, :homepage_link, :name, :page_title, :slug, :archived, { config: [:default_locale,
-                                                                                                                          { allowed_locales: [] }] }
+      :account_id, :color, :custom_domain, :header_text, :homepage_link,
+      :name, :page_title, :slug, :archived, { config: [:default_locale, { allowed_locales: [] }] }
     )
+  end
+
+  def live_chat_widget_params
+    permitted_params = params.permit(:inbox_id)
+    return {} if permitted_params[:inbox_id].blank?
+
+    inbox = Inbox.find(permitted_params[:inbox_id])
+    return {} unless inbox.web_widget?
+
+    { channel_web_widget_id: inbox.channel.id }
   end
 
   def portal_member_params

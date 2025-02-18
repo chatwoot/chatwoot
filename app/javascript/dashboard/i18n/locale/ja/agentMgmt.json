@@ -18,7 +18,8 @@
       "STATUS": "状況",
       "ACTIONS": "操作",
       "VERIFIED": "確認済み",
-      "VERIFICATION_PENDING": "確認保留中です。"
+      "VERIFICATION_PENDING": "確認保留中です。",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "チームに担当者を追加",

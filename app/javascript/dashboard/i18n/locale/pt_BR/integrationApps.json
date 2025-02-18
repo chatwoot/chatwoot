@@ -1,7 +1,7 @@
 {
   "INTEGRATION_APPS": {
     "FETCHING": "Buscando integrações",
-    "NO_HOOK_CONFIGURED": "Não há integrações %{integrationId} configuradas nesta conta.",
+    "NO_HOOK_CONFIGURED": "Não há integrações {integrationId} configuradas nesta conta.",
     "HEADER": "Aplicações",
     "STATUS": {
       "ENABLED": "Ativado",
@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Desconectado"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow é uma plataforma natural de entendimento em linguagem que torna fácil projetar e integrar uma interface de usuário conversacional em seu aplicativo móvel, aplicativo web, dispositivo, bot, sistema de resposta de voz interativo, etc. <br /> <br /> A integração do fluxo de diálogo com o %{installationName} permite que você configure um bot de Dialogflow com suas caixas de entrada, o que permite que o bot lide inicialmente as consultas e entregue-as a um agente quando necessário. O fluxo de diálogo pode ser usado para qualificar as chumbas, reduzir a carga de trabalho dos agentes, fornecendo perguntas frequentes, etc. <br /> <br /> Para adicionar um fluxo de diálogo, você precisa criar uma Conta de Serviço no seu console do projeto Google e compartilhar as credenciais. Por favor, consulte a documentação do fluxo de diálogo para obter mais informações."
+      "DIALOGFLOW": "Dialogflow é uma plataforma natural de entendimento em linguagem que torna fácil projetar e integrar uma interface de usuário conversacional em seu aplicativo móvel, aplicativo web, dispositivo, bot, sistema de resposta de voz interativo, etc. <br /> <br /> A integração do fluxo de diálogo com o {installationName} permite que você configure um bot de Dialogflow com suas caixas de entrada, o que permite que o bot lide inicialmente as consultas e entregue-as a um agente quando necessário. O fluxo de diálogo pode ser usado para qualificar as chumbas, reduzir a carga de trabalho dos agentes, fornecendo perguntas frequentes, etc. <br /> <br /> Para adicionar um fluxo de diálogo, você precisa criar uma Conta de Serviço no seu console do projeto Google e compartilhar as credenciais. Por favor, consulte a documentação do fluxo de diálogo para obter mais informações."
     }
   }
 }

@@ -67,7 +67,7 @@
 - name: audit_logs
   enabled: true
 - name: response_bot
-  enabled: false
+  enabled: true
 - name: message_reply_to
   enabled: false
   help_url: https://chwt.app/hc/reply-to
@@ -86,3 +86,8 @@
   enabled: true
 - name: captain_integration
   enabled: false
+- name: custom_roles
+  enabled: false
+  premium: true
+- name: chatwoot_v4
+  enabled: true

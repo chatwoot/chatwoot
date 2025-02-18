@@ -1,7 +1,7 @@
 {
   "FILTER": {
     "TITLE": "Фільтрувати діалоги",
-    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
+    "SUBTITLE": "Заповніть фільтри нижче, і натисніть \"Застосувати фільтри\" щоб пробратися через усі ваші чати.",
     "EDIT_CUSTOM_FILTER": "Редагувати папку",
     "CUSTOM_VIEWS_SUBTITLE": "Додайте або видаліть фільтри та оновіть папку.",
     "ADD_NEW_FILTER": "Додати фільтр",
@@ -18,18 +18,27 @@
       "AND": "ТА",
       "OR": "АБО"
     },
-    "INPUT_PLACEHOLDER": "Enter value",
+    "INPUT_PLACEHOLDER": "Введіть значення",
     "OPERATOR_LABELS": {
       "equal_to": "Дорівнює",
       "not_equal_to": "Не дорівнює",
-      "contains": "Містить",
       "does_not_contain": "Не містить",
       "is_present": "Є",
       "is_not_present": "Немає",
       "is_greater_than": "Більше ніж",
       "is_less_than": "Менше ніж",
       "days_before": "X днів до",
-      "starts_with": "Починається з"
+      "starts_with": "Починається з",
+      "equalTo": "Дорівнює",
+      "notEqualTo": "Не дорівнює",
+      "contains": "Містить",
+      "doesNotContain": "Не містить",
+      "isPresent": "Є",
+      "isNotPresent": "Немає",
+      "isGreaterThan": "Більше ніж",
+      "isLessThan": "Менше ніж",
+      "daysBefore": "X днів до",
+      "startsWith": "Починається з"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Так",
@@ -54,6 +63,12 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Прапорець",
       "CREATED_AT": "Створений в",
       "LAST_ACTIVITY": "Остання активність"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Необхідно вказати значення",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Стандартні фільтри",

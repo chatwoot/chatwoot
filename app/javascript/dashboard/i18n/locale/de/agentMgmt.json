@@ -18,7 +18,8 @@
       "STATUS": "Status",
       "ACTIONS": "Aktionen",
       "VERIFIED": "Verifiziert",
-      "VERIFICATION_PENDING": "Überprüfung ausstehend"
+      "VERIFICATION_PENDING": "Überprüfung ausstehend",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Fügen Sie Ihrem Team einen Agenten hinzu",

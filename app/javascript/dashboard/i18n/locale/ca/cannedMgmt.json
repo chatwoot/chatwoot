@@ -10,11 +10,11 @@
       "404": "No hi ha respostes predeterminades disponibles en aquest compte.",
       "TITLE": "Gestiona les respostes predeterminades",
       "DESC": "Les respostes predeterminades són plantilles de resposta predefinides que es poden utilitzar per enviar ràpidament respostes a les converses.",
-      "TABLE_HEADER": [
-        "Codi curt",
-        "Contingut",
-        "Accions"
-      ]
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Codi curt",
+        "CONTENT": "Contingut",
+        "ACTIONS": "Accions"
+      }
     },
     "ADD": {
       "TITLE": "Afegir resposta predeterminada",

@@ -29,6 +29,7 @@ uk:
       invalid: Недійсні події
     signup:
       disposable_email: Ми не дозволяємо використувати одноразові адреси електронної пошти
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Ви ввели неправильну адресу електронної пошти
       email_already_exists: "Ви вже зареєстровані з адресою %{email}"
       invalid_params: 'Неправильно, будь ласка, перевірте параметри реєстрації та повторіть спробу'
@@ -65,6 +66,7 @@ uk:
       number_of_records: Досягнуто ліміту. Максимальна кількість дозволених користувацьких фільтрів для користувача на рахунок становить 50.
       invalid_attribute: Некоректний ключ атрибута - [%{key}]. Ключ повинен бути одним з [%{allowed_keys}] або налаштованим атрибутом, визначеним в обліковому записі.
       invalid_operator: Некоректний оператор. Дозволені оператори для %{attribute_name} є [%{allowed_keys}].
+      invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Невірне значення. Надані значення для %{attribute_name} є неприпустимі
   reports:
     period: Період звіту %{since} до %{until}

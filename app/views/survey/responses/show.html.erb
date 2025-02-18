@@ -7,8 +7,8 @@
     <script>
       window.globalConfig = <%= raw @global_config.to_json %>
     </script>
-    <%= javascript_pack_tag 'survey' %>
-    <%= stylesheet_pack_tag 'survey' %>
+    <%= vite_client_tag %>
+    <%= vite_javascript_tag 'survey' %>
   </head>
   <body>
     <div id="app"></div>

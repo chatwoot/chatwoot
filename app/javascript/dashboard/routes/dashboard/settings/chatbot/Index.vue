@@ -1,6 +1,6 @@
 <script setup>
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useAlert } from 'dashboard/composables';
 import { computed, onMounted, ref } from 'vue';

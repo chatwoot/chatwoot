@@ -1,3 +1,10 @@
+<% content_for :head do %>
+  <title><%= @portal.name %></title>
+  <% if @portal.logo.present? %>
+    <link rel="icon" href="<%= url_for(@portal.logo) %>" type="image/png">
+  <% end %>
+<% end %>
+
 <%= render "public/api/v1/portals/hero", portal: @portal %>
 <div class="max-w-5xl w-full flex flex-col flex-grow mx-auto py-8 px-4 md:px-8 gap-6">
   <%# Featured Articles %>
@@ -12,7 +19,7 @@
   </div>
   <%# Uncategorized articles %>
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-6">
-    <% if @portal.articles.where(status: :published, category_id: nil).count > 0 %>
+    <% if @portal.articles.where(status: :published, category_id: nil, locale: @locale).count > 0 %>
       <%= render "public/api/v1/portals/uncategorized-block", category: "Uncategorized", portal: @portal %>
     <% end %>
   </div>

@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "נדרש מספר טלפון",
         "DIAL_CODE_VALID_ERROR": "Please select a country code",
         "VALID_ERROR": "Please enter a valid phone number",
-        "DROPDOWN_EMPTY": "לא נמצאו תוצאות"
+        "DROPDOWN_EMPTY": "לא נמצאו תוצאות",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "הודעה",
@@ -91,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "חפש אימוג'י",
-    "NOT_FOUND": "אין אמוג'י שתואם את החיפוש שלך"
+    "NOT_FOUND": "אין אמוג'י שתואם את החיפוש שלך",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "דרג את השיחה שלך",
@@ -133,5 +135,8 @@
     "fallback": {
       "CONTENT": "שיתף קישור"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
   }
 }

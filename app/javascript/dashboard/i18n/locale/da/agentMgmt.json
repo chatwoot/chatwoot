@@ -18,7 +18,8 @@
       "STATUS": "Status",
       "ACTIONS": "Handlinger",
       "VERIFIED": "Verificeret",
-      "VERIFICATION_PENDING": "Verifikation Afventer"
+      "VERIFICATION_PENDING": "Verifikation Afventer",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Tilføj agent til dit team",

@@ -30,6 +30,9 @@
       "is_lesser_than": "Nhỏ hơn",
       "days_before": "Khoảng x ngày trước"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Giá trị bắt buộc có"
+    },
     "ATTRIBUTES": {
       "NAME": "Tên",
       "EMAIL": "Thư điện tử",

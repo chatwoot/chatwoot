@@ -95,7 +95,7 @@ export default {
       <Testimonials
         v-if="isAChatwootInstance"
         class="flex-1"
-        @resizeContainers="resizeContainers"
+        @resize-containers="resizeContainers"
       />
     </div>
     <div

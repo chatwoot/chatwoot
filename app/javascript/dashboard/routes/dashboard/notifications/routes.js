@@ -1,7 +1,7 @@
 /* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../helper/URLHelper';
-const SettingsWrapper = () => import('../settings/Wrapper.vue');
-const NotificationsView = () => import('./components/NotificationsView.vue');
+import SettingsWrapper from '../settings/Wrapper.vue';
+import NotificationsView from './components/NotificationsView.vue';
 
 export const routes = [
   {
@@ -19,7 +19,7 @@ export const routes = [
         name: 'notifications_index',
         component: NotificationsView,
         meta: {
-          permissions: ['administrator', 'agent'],
+          permissions: ['administrator', 'agent', 'custom_role'],
         },
       },
     ],

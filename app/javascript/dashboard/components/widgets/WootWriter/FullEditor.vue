@@ -8,6 +8,7 @@ import {
   EditorState,
   Selection,
 } from '@chatwoot/prosemirror-schema';
+import imagePastePlugin from '@chatwoot/prosemirror-schema/src/plugins/image';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -35,14 +36,22 @@ const createState = (
   });
 };
 
+let editorView = null;
+let state;
+
 export default {
   mixins: [keyboardEventListenerMixins],
   props: {
-    value: { type: String, default: '' },
+    modelValue: { type: String, default: '' },
     editorId: { type: String, default: '' },
     placeholder: { type: String, default: '' },
     enabledMenuOptions: { type: Array, default: () => [] },
+    autofocus: {
+      type: Boolean,
+      default: true,
+    },
   },
+  emits: ['blur', 'input', 'update:modelValue', 'keyup', 'focus', 'keydown'],
   setup() {
     const { uiSettings, updateUISettings } = useUISettings();
 
@@ -53,22 +62,13 @@ export default {
   },
   data() {
     return {
-      editorView: null,
-      state: undefined,
-      plugins: [],
+      plugins: [imagePastePlugin(this.handleImageUpload)],
+      isTextSelected: false, // Tracks text selection and prevents unnecessary re-renders on mouse selection
     };
   },
-  computed: {
-    contentFromEditor() {
-      if (this.editorView) {
-        return ArticleMarkdownSerializer.serialize(this.editorView.state.doc);
-      }
-      return '';
-    },
-  },
   watch: {
-    value(newValue = '') {
-      if (newValue !== this.contentFromEditor) {
+    modelValue(newValue = '') {
+      if (newValue !== this.contentFromEditor()) {
         this.reloadState();
       }
     },
@@ -76,9 +76,10 @@ export default {
       this.reloadState();
     },
   },
+
   created() {
-    this.state = createState(
-      this.value,
+    state = createState(
+      this.modelValue,
       this.placeholder,
       this.plugins,
       { onImageUpload: this.openFileBrowser },
@@ -88,12 +89,38 @@ export default {
   mounted() {
     this.createEditorView();
 
-    this.editorView.updateState(this.state);
-    this.focusEditorInputField();
+    editorView.updateState(state);
+    if (this.autofocus) {
+      this.focusEditorInputField();
+    }
   },
   methods: {
+    contentFromEditor() {
+      if (editorView) {
+        return ArticleMarkdownSerializer.serialize(editorView.state.doc);
+      }
+      return '';
+    },
     openFileBrowser() {
       this.$refs.imageUploadInput.click();
+    },
+    async handleImageUpload(url) {
+      try {
+        const fileUrl = await this.$store.dispatch(
+          'articles/uploadExternalImage',
+          {
+            portalSlug: this.$route.params.portalSlug,
+            url,
+          }
+        );
+
+        return fileUrl;
+      } catch (error) {
+        useAlert(
+          this.$t('HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.UN_AUTHORIZED_ERROR')
+        );
+        return '';
+      }
     },
     onFileChange() {
       const file = this.$refs.imageUploadInput.files[0];
@@ -120,78 +147,81 @@ export default {
         if (fileUrl) {
           this.onImageUploadStart(fileUrl);
         }
-        useAlert(this.$t('HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.SUCCESS'));
       } catch (error) {
         useAlert(this.$t('HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.ERROR'));
       }
     },
     onImageUploadStart(fileUrl) {
-      const { selection } = this.editorView.state;
+      const { selection } = editorView.state;
       const from = selection.from;
-      const node = this.editorView.state.schema.nodes.image.create({
+      const node = editorView.state.schema.nodes.image.create({
         src: fileUrl,
       });
-      const paragraphNode = this.editorView.state.schema.node('paragraph');
+      const paragraphNode = editorView.state.schema.node('paragraph');
       if (node) {
         // Insert the image and the caption wrapped inside a paragraph
-        const tr = this.editorView.state.tr
+        const tr = editorView.state.tr
           .replaceSelectionWith(paragraphNode)
           .insert(from + 1, node);
 
-        this.editorView.dispatch(tr.scrollIntoView());
+        editorView.dispatch(tr.scrollIntoView());
         this.focusEditorInputField();
       }
     },
     reloadState() {
-      this.state = createState(
-        this.value,
+      state = createState(
+        this.modelValue,
         this.placeholder,
         this.plugins,
         { onImageUpload: this.openFileBrowser },
         this.enabledMenuOptions
       );
-      this.editorView.updateState(this.state);
+      editorView.updateState(state);
       this.focusEditorInputField();
     },
     createEditorView() {
-      this.editorView = new EditorView(this.$refs.editor, {
-        state: this.state,
+      editorView = new EditorView(this.$refs.editor, {
+        state: state,
         dispatchTransaction: tx => {
-          this.state = this.state.apply(tx);
-          this.emitOnChange();
+          state = state.apply(tx);
+          editorView.updateState(state);
+          if (tx.docChanged) {
+            this.emitOnChange();
+          }
+          this.checkSelection(state);
         },
         handleDOMEvents: {
-          keyup: () => {
-            this.onKeyup();
-          },
-          keydown: (view, event) => {
-            this.onKeydown(event);
-          },
-          focus: () => {
-            this.onFocus();
-          },
-          blur: () => {
-            this.onBlur();
+          keyup: this.onKeyup,
+          focus: this.onFocus,
+          blur: this.onBlur,
+          keydown: this.onKeydown,
+          paste: (view, event) => {
+            const data = event.clipboardData.files;
+            if (data.length > 0) {
+              data.forEach(file => {
+                // Check if the file is an image
+                if (file.type.includes('image')) {
+                  this.uploadImageToStorage(file);
+                }
+              });
+              event.preventDefault();
+            }
           },
         },
       });
     },
-
     handleKeyEvents() {},
     focusEditorInputField() {
-      const { tr } = this.editorView.state;
+      const { tr } = editorView.state;
       const selection = Selection.atEnd(tr.doc);
 
-      this.editorView.dispatch(tr.setSelection(selection));
-      this.editorView.focus();
+      editorView.dispatch(tr.setSelection(selection));
+      editorView.focus();
     },
-
     emitOnChange() {
-      this.editorView.updateState(this.state);
-
-      this.$emit('input', this.contentFromEditor);
+      this.$emit('update:modelValue', this.contentFromEditor());
+      this.$emit('input', this.contentFromEditor());
     },
-
     onKeyup() {
       this.$emit('keyup');
     },
@@ -203,6 +233,56 @@ export default {
     },
     onFocus() {
       this.$emit('focus');
+    },
+    checkSelection(editorState) {
+      const { from, to } = editorState.selection;
+      // Check if there's a selection (from and to are different)
+      const hasSelection = from !== to;
+      // If the selection state is the same as the previous state, do nothing
+      if (hasSelection === this.isTextSelected) return;
+      // Update the selection state
+      this.isTextSelected = hasSelection;
+
+      const { editor } = this.$refs;
+
+      // Toggle the 'has-selection' class based on whether there's a selection
+      editor.classList.toggle('has-selection', hasSelection);
+      // If there's a selection, update the menubar position
+      if (hasSelection) this.setMenubarPosition(editorState);
+    },
+    setMenubarPosition(editorState) {
+      if (!editorState.selection) return;
+
+      // Get the start and end positions of the selection
+      const { from, to } = editorState.selection;
+      const { editor } = this.$refs;
+      // Get the editor's position relative to the viewport
+      const { left: editorLeft, top: editorTop } =
+        editor.getBoundingClientRect();
+
+      // Get the editor's width
+      const editorWidth = editor.offsetWidth;
+      const menubarWidth = 480; // Menubar width (adjust as needed (px))
+
+      // Get the end position of the selection
+      const { bottom: endBottom, right: endRight } = editorView.coordsAtPos(to);
+      // Get the start position of the selection
+      const { left: startLeft } = editorView.coordsAtPos(from);
+
+      // Calculate the top position for the menubar (10px below the selection)
+      const top = endBottom - editorTop + 10;
+      // Calculate the left position for the menubar
+      // This centers the menubar on the selection while keeping it within the editor's bounds
+      const left = Math.max(
+        0,
+        Math.min(
+          (startLeft + endRight) / 2 - editorLeft,
+          editorWidth - menubarWidth
+        )
+      );
+      // Set the CSS custom properties for positioning the menubar
+      editor.style.setProperty('--selection-top', `${top}px`);
+      editor.style.setProperty('--selection-left', `${left}px`);
     },
   },
 };
@@ -224,7 +304,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import '~@chatwoot/prosemirror-schema/src/styles/article.scss';
+@import '@chatwoot/prosemirror-schema/src/styles/article.scss';
 
 .ProseMirror-menubar-wrapper {
   display: flex;
@@ -237,6 +317,7 @@ export default {
 }
 
 .editor-root {
+  position: relative;
   width: 100%;
 }
 

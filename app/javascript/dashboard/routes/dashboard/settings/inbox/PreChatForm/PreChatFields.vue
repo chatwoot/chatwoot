@@ -1,13 +1,15 @@
 <script>
-import draggable from 'vuedraggable';
+import Draggable from 'vuedraggable';
+
 export default {
-  components: { Draggable: draggable },
+  components: { Draggable },
   props: {
     preChatFields: {
       type: Array,
       default: () => [],
     },
   },
+  emits: ['update', 'dragEnd'],
   data() {
     return {
       preChatFieldOptions: this.preChatFields,
@@ -33,45 +35,64 @@ export default {
 </script>
 
 <template>
-  <Draggable v-model="preChatFieldOptions" tag="tbody" @end="onDragEnd">
-    <tr v-for="(item, index) in preChatFieldOptions" :key="index">
-      <td class="pre-chat-field"><fluent-icon icon="drag" /></td>
-      <td class="pre-chat-field">
-        <woot-switch
-          :value="item['enabled']"
-          @input="handlePreChatFieldOptions($event, 'enabled', item)"
-        />
-      </td>
-      <td class="pre-chat-field" :class="{ 'disabled-text': !item['enabled'] }">
-        {{ item.name }}
-      </td>
-      <td class="pre-chat-field" :class="{ 'disabled-text': !item['enabled'] }">
-        {{ item.type }}
-      </td>
-      <td class="pre-chat-field">
-        <input
-          v-model="item['required']"
-          type="checkbox"
-          :value="`${item.name}-required`"
-          :disabled="!item['enabled']"
-          @click="handlePreChatFieldOptions($event, 'required', item)"
-        />
-      </td>
-      <td class="pre-chat-field" :class="{ 'disabled-text': !item['enabled'] }">
-        <input
-          v-model.trim="item.label"
-          type="text"
-          :disabled="isFieldEditable(item)"
-        />
-      </td>
-      <td class="pre-chat-field" :class="{ 'disabled-text': !item['enabled'] }">
-        <input
-          v-model.trim="item.placeholder"
-          type="text"
-          :disabled="isFieldEditable(item)"
-        />
-      </td>
-    </tr>
+  <Draggable
+    v-model="preChatFieldOptions"
+    tag="tbody"
+    item-key="name"
+    @end="onDragEnd"
+  >
+    <template #item="{ element: item }">
+      <tr>
+        <td class="pre-chat-field"><fluent-icon icon="drag" /></td>
+        <td class="pre-chat-field">
+          <woot-switch
+            :model-value="item['enabled']"
+            @input="handlePreChatFieldOptions($event, 'enabled', item)"
+          />
+        </td>
+        <td
+          class="pre-chat-field"
+          :class="{ 'disabled-text': !item['enabled'] }"
+        >
+          {{ item.name }}
+        </td>
+        <td
+          class="pre-chat-field"
+          :class="{ 'disabled-text': !item['enabled'] }"
+        >
+          {{ item.type }}
+        </td>
+        <td class="pre-chat-field">
+          <input
+            v-model="item['required']"
+            type="checkbox"
+            :value="`${item.name}-required`"
+            :disabled="!item['enabled']"
+            @click="handlePreChatFieldOptions($event, 'required', item)"
+          />
+        </td>
+        <td
+          class="pre-chat-field"
+          :class="{ 'disabled-text': !item['enabled'] }"
+        >
+          <input
+            v-model="item.label"
+            type="text"
+            :disabled="isFieldEditable(item)"
+          />
+        </td>
+        <td
+          class="pre-chat-field"
+          :class="{ 'disabled-text': !item['enabled'] }"
+        >
+          <input
+            v-model="item.placeholder"
+            type="text"
+            :disabled="isFieldEditable(item)"
+          />
+        </td>
+      </tr>
+    </template>
   </Draggable>
 </template>
 

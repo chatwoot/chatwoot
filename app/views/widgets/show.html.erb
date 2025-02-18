@@ -33,11 +33,11 @@
       window.authToken = '<%= @token %>'
       window.globalConfig = <%= raw @global_config.to_json %>
     </script>
-    <%= javascript_pack_tag 'widget' %>
-    <%= stylesheet_pack_tag 'widget' %>
+    <%= vite_client_tag %>
+    <%= vite_javascript_tag 'widget' %>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app" class="h-full"></div>
     <%= yield %>
   </body>
 </html>

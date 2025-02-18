@@ -1,0 +1,91 @@
+{
+  "CUSTOM_ROLE": {
+    "HEADER": "Custom Roles",
+    "LEARN_MORE": "Learn more about custom roles",
+    "DESCRIPTION": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
+    "HEADER_BTN_TXT": "Add custom role",
+    "LOADING": "Fetching custom roles...",
+    "SEARCH_404": "هیچ گزینه‌ای با این شرایط پیدا نشد.",
+    "PAYWALL": {
+      "TITLE": "Upgrade to create custom roles",
+      "AVAILABLE_ON": "The custom role feature is only available in the Business and Enterprise plans.",
+      "UPGRADE_PROMPT": "برای دسترسی به ویژگی‌های پیشرفته مانند مدیریت تیم، اتوماسیون، ویژگی‌های سفارشی و موارد دیگر، طرح خود را ارتقا دهید.",
+      "UPGRADE_NOW": "حالا ارتقا دهید",
+      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "The custom role feature is only available in the paid plans.",
+      "UPGRADE_PROMPT": "برای دسترسی به ویژگی‌های پیشرفته مانند گزارش‌های حسابرسی، ظرفیت اپراتور و غیره، به یک طرح پولی ارتقا دهید.",
+      "ASK_ADMIN": "لطفاً برای ارتقا با ادمین خود تماس بگیرید."
+    },
+    "LIST": {
+      "404": "There are no custom roles available in this account.",
+      "TITLE": "Manage custom roles",
+      "DESC": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
+      "TABLE_HEADER": {
+        "NAME": "نام",
+        "DESCRIPTION": "توضیحات",
+        "PERMISSIONS": "Permissions",
+        "ACTIONS": "عملیات"
+      }
+    },
+    "PERMISSIONS": {
+      "CONVERSATION_MANAGE": "Manage all conversations",
+      "CONVERSATION_UNASSIGNED_MANAGE": "Manage unassigned conversations and those assigned to them",
+      "CONVERSATION_PARTICIPATING_MANAGE": "Manage participating conversations and those assigned to them",
+      "CONTACT_MANAGE": "Manage contacts",
+      "REPORT_MANAGE": "Manage reports",
+      "KNOWLEDGE_BASE_MANAGE": "Manage knowledge base"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "نام",
+        "PLACEHOLDER": "Please enter a name.",
+        "ERROR": "نام الزامی است."
+      },
+      "DESCRIPTION": {
+        "LABEL": "توضیحات",
+        "PLACEHOLDER": "Please enter a description.",
+        "ERROR": "توضیحات الزامی است."
+      },
+      "PERMISSIONS": {
+        "LABEL": "Permissions",
+        "ERROR": "Permissions are required."
+      },
+      "CANCEL_BUTTON_TEXT": "انصراف",
+      "API": {
+        "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+      }
+    },
+    "ADD": {
+      "TITLE": "Add custom role",
+      "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
+      "SUBMIT": "ثبت",
+      "API": {
+        "SUCCESS_MESSAGE": "Custom role added successfully."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "ویرایش",
+      "TITLE": "Edit custom role",
+      "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
+      "SUBMIT": "اعمال شود",
+      "API": {
+        "SUCCESS_MESSAGE": "Custom role updated successfully."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "حذف",
+      "API": {
+        "SUCCESS_MESSAGE": "Custom role deleted successfully.",
+        "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+      },
+      "CONFIRM": {
+        "TITLE": "تاییدیه حذف",
+        "MESSAGE": "مطمئن هستید که حذف شود ",
+        "YES": "بله، حذف شود ",
+        "NO": "خیر، نگه‌دار "
+      }
+    }
+  }
+}

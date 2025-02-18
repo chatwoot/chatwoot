@@ -1,8 +1,11 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import { emitter } from 'shared/helpers/mitt';
 import EmailTranscriptModal from './EmailTranscriptModal.vue';
 import ResolveAction from '../../buttons/ResolveAction.vue';
+import ButtonV4 from 'dashboard/components-next/button/Button.vue';
+
 import {
   CMD_MUTE_CONVERSATION,
   CMD_SEND_TRANSCRIPT,
@@ -13,6 +16,7 @@ export default {
   components: {
     EmailTranscriptModal,
     ResolveAction,
+    ButtonV4,
   },
   data() {
     return {
@@ -34,14 +38,14 @@ export default {
     },
   },
   mounted() {
-    this.$emitter.on(CMD_MUTE_CONVERSATION, this.mute);
-    this.$emitter.on(CMD_UNMUTE_CONVERSATION, this.unmute);
-    this.$emitter.on(CMD_SEND_TRANSCRIPT, this.toggleEmailActionsModal);
+    emitter.on(CMD_MUTE_CONVERSATION, this.mute);
+    emitter.on(CMD_UNMUTE_CONVERSATION, this.unmute);
+    emitter.on(CMD_SEND_TRANSCRIPT, this.toggleEmailActionsModal);
   },
-  destroyed() {
-    this.$emitter.off(CMD_MUTE_CONVERSATION, this.mute);
-    this.$emitter.off(CMD_UNMUTE_CONVERSATION, this.unmute);
-    this.$emitter.off(CMD_SEND_TRANSCRIPT, this.toggleEmailActionsModal);
+  unmounted() {
+    emitter.off(CMD_MUTE_CONVERSATION, this.mute);
+    emitter.off(CMD_UNMUTE_CONVERSATION, this.unmute);
+    emitter.off(CMD_SEND_TRANSCRIPT, this.toggleEmailActionsModal);
   },
   methods: {
     mute() {
@@ -70,7 +74,7 @@ export default {
 <template>
   <div class="relative flex items-center gap-2 actions--container">
     <div v-if="isChatbotConnectedToInbox">
-      <woot-button
+      <ButtonV4
         v-if="isChatbotEnabled"
         v-tooltip.left="$t('CHATBOTS.DISABLE_BOT')"
         variant="smooth"
@@ -78,7 +82,7 @@ export default {
         icon="chatbot-icon"
         @click="disableBot"
       />
-      <woot-button
+      <ButtonV4
         v-else
         v-tooltip.left="$t('CHATBOTS.ENABLE_BOT')"
         variant="smooth"
@@ -87,27 +91,30 @@ export default {
         @click="enableBot"
       />
     </div>
-    <woot-button
+    <ButtonV4
       v-if="!currentChat.muted"
       v-tooltip="$t('CONTACT_PANEL.MUTE_CONTACT')"
-      variant="clear"
-      color-scheme="secondary"
-      icon="speaker-mute"
+      size="sm"
+      variant="ghost"
+      color="slate"
+      icon="i-lucide-volume-off"
       @click="mute"
     />
-    <woot-button
+    <ButtonV4
       v-else
       v-tooltip.left="$t('CONTACT_PANEL.UNMUTE_CONTACT')"
-      variant="clear"
-      color-scheme="secondary"
-      icon="speaker-1"
+      size="sm"
+      variant="ghost"
+      color="slate"
+      icon="i-lucide-volume-1"
       @click="unmute"
     />
-    <woot-button
+    <ButtonV4
       v-tooltip="$t('CONTACT_PANEL.SEND_TRANSCRIPT')"
-      variant="clear"
-      color-scheme="secondary"
-      icon="share"
+      size="sm"
+      variant="ghost"
+      color="slate"
+      icon="i-lucide-share"
       @click="toggleEmailActionsModal"
     />
     <ResolveAction

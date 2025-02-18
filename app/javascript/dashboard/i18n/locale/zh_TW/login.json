@@ -3,7 +3,7 @@
     "TITLE": "登入到 Chatwoot",
     "EMAIL": {
       "LABEL": "Email",
-      "PLACEHOLDER": "example@companyname.com",
+      "PLACEHOLDER": "example{'@'}companyname.com",
       "ERROR": "請輸入一個有效的電子信箱"
     },
     "PASSWORD": {

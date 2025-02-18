@@ -44,6 +44,7 @@ const settings = accountId => ({
     'settings_teams_new',
     'sla_list',
     'settings_integrations_onehash_apps',
+    'custom_roles_list',
   ],
   menuItems: [
     {
@@ -207,6 +208,18 @@ const settings = accountId => ({
       },
       toState: frontendURL(`accounts/${accountId}/settings/billing`),
       toStateName: 'billing_settings_index',
+    },
+    {
+      icon: 'scan-person',
+      label: 'CUSTOM_ROLES',
+      hasSubMenu: false,
+      meta: {
+        permissions: ['administrator'],
+      },
+      toState: frontendURL(`accounts/${accountId}/settings/custom-roles/list`),
+      toStateName: 'custom_roles_list',
+      isEnterpriseOnly: true,
+      beta: true,
     },
     {
       icon: 'document-list-clock',

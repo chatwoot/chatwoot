@@ -1,25 +1,22 @@
-<script>
-export default {
-  methods: {
-    onClick() {
-      this.$emit('click');
-    },
-  },
+<script setup>
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
+const emit = defineEmits(['open']);
+
+const onClick = () => {
+  emit('open');
 };
 </script>
 
 <template>
   <div class="relative">
-    <woot-button
-      icon="wand"
-      color-scheme="secondary"
-      variant="smooth"
-      size="small"
-      class-names="cta-btn cta-btn-light dark:cta-btn-dark hover:cta-btn-light-hover dark:hover:cta-btn-dark-hover"
+    <NextButton
+      class="cta-btn cta-btn-light dark:cta-btn-dark hover:cta-btn-light-hover dark:hover:cta-btn-dark-hover"
+      :label="$t('INTEGRATION_SETTINGS.OPEN_AI.AI_ASSIST')"
+      icon="i-ph-magic-wand"
+      sm
       @click="onClick"
-    >
-      {{ $t('INTEGRATION_SETTINGS.OPEN_AI.AI_ASSIST') }}
-    </woot-button>
+    />
 
     <div
       class="radar-ping-animation absolute top-0 right-0 -mt-1 -mr-1 rounded-full w-3 h-3 bg-woot-500 dark:bg-woot-500"
@@ -32,22 +29,26 @@ export default {
 
 <style scoped>
 @tailwind components;
+
 @layer components {
   /* Gradient animation */
   @keyframes gradient {
     0% {
       background-position: 0% 50%;
     }
+
     50% {
       background-position: 100% 50%;
     }
+
     100% {
       background-position: 0% 50%;
     }
   }
+
   .cta-btn {
     animation: gradient 5s ease infinite;
-    border: 0;
+    @apply text-n-slate-12 border-0 text-xs;
   }
 
   .cta-btn-light {
@@ -94,6 +95,7 @@ export default {
       opacity: 0;
     }
   }
+
   .radar-ping-animation {
     animation: ping 1s ease infinite;
   }

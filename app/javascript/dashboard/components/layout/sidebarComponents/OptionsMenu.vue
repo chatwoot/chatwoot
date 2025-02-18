@@ -18,6 +18,12 @@ export default {
       default: false,
     },
   },
+  emits: [
+    'close',
+    'openKeyShortcutModal',
+    'toggleAccounts',
+    'showSupportChatWindow',
+  ],
   computed: {
     ...mapGetters({
       currentUser: 'getCurrentUser',

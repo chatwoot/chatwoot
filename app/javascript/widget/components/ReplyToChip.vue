@@ -22,6 +22,10 @@ export default {
       return this.$t(`ATTACHMENTS.${fileType}.CONTENT`);
     },
   },
+
+  unmounted() {
+    clearTimeout(this.timeOutID);
+  },
   methods: {
     navigateTo(id) {
       const elementId = `cwmsg-${id}`;

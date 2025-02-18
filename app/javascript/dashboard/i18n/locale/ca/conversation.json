@@ -38,10 +38,17 @@
     "REMOVE_SELECTION": "Elimina la selecció",
     "DOWNLOAD": "Descarrega",
     "UNKNOWN_FILE_TYPE": "Fitxer desconegut",
-    "SAVE_CONTACT": "Desar",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} ha iniciat una reunió"
+    },
     "UPLOADING_ATTACHMENTS": "Pujant fitxers adjunts...",
     "REPLIED_TO_STORY": "Va respondre a la teva història",
-    "UNSUPPORTED_MESSAGE": "Aquest missatge no està suportat.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Aquest missatge no està suportat. Pots veure aquest missatge a l'aplicació Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Aquest missatge no està suportat. Pots veure aquest missatge a l'aplicació d'Instagram.",
     "SUCCESS_DELETE_MESSAGE": "El missatge s'ha suprimit correctament",
@@ -101,7 +108,7 @@
         "SELECT_PLACEHOLDER": "Ningú",
         "INPUT_PLACEHOLDER": "Selecciona la prioritat",
         "NO_RESULTS": "No s'ha trobat agents",
-        "SUCCESSFUL": "S'ha canviat la prioritat de l'identificador de conversa %{conversationId} a %{priority}",
+        "SUCCESSFUL": "S'ha canviat la prioritat de l'identificador de conversa {conversationId} a {priority}",
         "FAILED": "No s'ha pogut canviar la prioritat. Si us plau, torna-ho a provar."
       }
     },
@@ -122,15 +129,15 @@
       "ASSIGN_TEAM": "Assigna un equip",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Id de conversa %{conversationId} assignat a \"%{agentName}\"",
+          "SUCCESFUL": "Id de conversa {conversationId} assignat a \"{agentName}\"",
           "FAILED": "No s'ha pogut assignar l'agent. Torna-ho a provar."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "S'ha assignat l'etiqueta #%{labelName} a l'id de conversa %{conversationId}",
+          "SUCCESFUL": "S'ha assignat l'etiqueta #{labelName} a l'id de conversa {conversationId}",
           "FAILED": "No s'ha pogut assignar l'etiqueta. Torna-ho a provar."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "S'ha assignat l'equip \"%{team}\" a l'id de conversa %{conversationId}",
+          "SUCCESFUL": "S'ha assignat l'equip \"{team}\" a l'id de conversa {conversationId}",
           "FAILED": "No s'ha pogut assignar l'equip. Torna-ho a provar."
         }
       }
@@ -219,6 +226,10 @@
         "DELETE": "Esborrar",
         "CANCEL": "Cancel·la"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contacte",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -239,27 +250,31 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hola 👋, Benvingut a %{installationName}!",
-    "DESCRIPTION": "Gràcies per registrar-te. Volem que treguis el màxim profit de %{installationName}. Aquí teniu algunes coses que pots fer a %{installationName} perquè l'experiència sigui agradable.",
+    "TITLE": "Hola 👋, Benvingut a {installationName}!",
+    "DESCRIPTION": "Gràcies per registrar-te. Volem que treguis el màxim profit de {installationName}. Aquí teniu algunes coses que pots fer a {installationName} perquè l'experiència sigui agradable.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Llegiu les nostres últimes actualitzacions",
     "ALL_CONVERSATION": {
       "TITLE": "Totes les teves converses en un sol lloc",
-      "DESCRIPTION": "Consulta totes les converses dels teus clients en un únic tauler. Podeu filtrar les converses pel canal d'entrada, l'etiqueta i l'estat."
+      "DESCRIPTION": "Consulta totes les converses dels teus clients en un únic tauler. Podeu filtrar les converses pel canal d'entrada, l'etiqueta i l'estat.",
+      "NEW_LINK": "Fes clic aquí per crear una safata d'entrada"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Convida els membres del teu equip",
       "DESCRIPTION": "Com que us esteu preparant per parlar amb el vostre client, feu venir els vostres companys d'equip per ajudar-vos. Pots convidar els teus companys d'equip afegint les seves adreces de correu electrònic a la llista d'agents.",
       "NEW_LINK": "Feu clic aquí per convidar un membre de l'equip"
     },
-    "INBOXES": {
-      "TITLE": "Connecta les safates d'entrada",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Fes clic aquí per crear una safata d'entrada"
-    },
     "LABELS": {
       "TITLE": "Organitza converses amb etiquetes",
       "DESCRIPTION": "Les etiquetes proporcionen una manera més fàcil de classificar la vostra conversa. Crea algunes etiquetes com #consulta-suport, #pregunta-facturació, etc., perquè les puguis utilitzar en una conversa més endavant.",
       "NEW_LINK": "Fes clic aquí per crear etiquetes"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -306,17 +321,18 @@
     "TO": "Per",
     "BCC": "Cco",
     "CC": "Cc",
-    "SUBJECT": "Assumpte"
+    "SUBJECT": "Assumpte",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participant",
     "SIDEBAR_TITLE": "Participants de la conversa",
     "NO_RECORDS_FOUND": "No s'ha trobat agents",
     "ADD_PARTICIPANTS": "Selecciona els participants",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} més",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} més",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} persones estan participant.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} persona està participant.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} més",
+    "REMANING_PARTICIPANT_TEXT": "+{count} més",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} persones estan participant.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} persona està participant.",
     "NO_PARTICIPANTS_TEXT": "No hi participa ningú!",
     "WATCH_CONVERSATION": "Uneix-te a la conversa",
     "YOU_ARE_WATCHING": "Estàs participant",
@@ -331,5 +347,10 @@
     "ORIGINAL_CONTENT": "Contingut original",
     "TRANSLATED_CONTENT": "Contingut traduït",
     "NO_TRANSLATIONS_AVAILABLE": "No hi ha traduccions disponibles per a aquest contingut"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
   }
 }
