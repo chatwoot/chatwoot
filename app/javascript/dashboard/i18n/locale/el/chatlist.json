@@ -6,6 +6,7 @@
     "LIST": {
       "404": "Δεν υπάρχουν ενεργές συζητήσεις σε αυτήν την ομάδα."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Συζητήσεις",
     "MENTION_HEADING": "Αναφορές",
     "UNATTENDED_HEADING": "Χωρίς Παρακολούθηση",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "Θέση"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "έχει μοιράσει ένα σύνδεσμο"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "Μη διαθέσιμο περιεχόμενο",
     "HIDE_QUOTED_TEXT": "Απόκρυψη Κειμένου Παράθεσης",
     "SHOW_QUOTED_TEXT": "Απόκρυψη Κειμένου Παράθεσης",
-    "MESSAGE_READ": "Ανάγνωση"
+    "MESSAGE_READ": "Ανάγνωση",
+    "SENDING": "Sending"
   }
 }

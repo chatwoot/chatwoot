@@ -23,13 +23,13 @@
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
-        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er {metricValue} (byggt á {conversationCount} samtölum)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
-        "TOOLTIP_TEXT": "Lausnartími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+        "TOOLTIP_TEXT": "Lausnartími er {metricValue} (byggt á {conversationCount} samtölum)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Síðasta ár",
       "CUSTOM_DATE_RANGE": "Custom date range"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Síðustu 7 daga"
-      },
-      {
-        "id": 1,
-        "name": "Síðustu 30 daga"
-      },
-      {
-        "id": 2,
-        "name": "Síðustu 3 mánuði"
-      },
-      {
-        "id": 3,
-        "name": "Last 6 months"
-      },
-      {
-        "id": 4,
-        "name": "Last year"
-      },
-      {
-        "id": 5,
-        "name": "Custom date range"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Apply",
       "PLACEHOLDER": "Select date range"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Engar niðurstöður fundust"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -167,13 +145,13 @@
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
-        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er {metricValue} (byggt á {conversationCount} samtölum)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
-        "TOOLTIP_TEXT": "Lausnartími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+        "TOOLTIP_TEXT": "Lausnartími er {metricValue} (byggt á {conversationCount} samtölum)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -234,13 +212,13 @@
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
-        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er {metricValue} (byggt á {conversationCount} samtölum)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
-        "TOOLTIP_TEXT": "Lausnartími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+        "TOOLTIP_TEXT": "Lausnartími er {metricValue} (byggt á {conversationCount} samtölum)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -262,11 +240,11 @@
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Síðustu 6 mánuði"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Síðasta ár"
       },
       {
         "id": 5,
@@ -301,13 +279,13 @@
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
-        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er {metricValue} (byggt á {conversationCount} samtölum)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
-        "TOOLTIP_TEXT": "Lausnartími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+        "TOOLTIP_TEXT": "Lausnartími er {metricValue} (byggt á {conversationCount} samtölum)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -368,13 +346,13 @@
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
-        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er {metricValue} (byggt á {conversationCount} samtölum)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
-        "TOOLTIP_TEXT": "Lausnartími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+        "TOOLTIP_TEXT": "Lausnartími er {metricValue} (byggt á {conversationCount} samtölum)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -480,8 +458,8 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
       "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
       "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
@@ -490,7 +468,7 @@
       "NO_AGENTS": "There are no conversations by agents",
       "TABLE_HEADER": {
         "AGENT": "Þjónustufulltrúi",
-        "OPEN": "OPEN",
+        "OPEN": "Opin",
         "UNATTENDED": "Unattended",
         "STATUS": "Staða"
       }

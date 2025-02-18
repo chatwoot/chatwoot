@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automatisering",
+    "HEADER": "Automation",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "Automatiseringsregel toevoegen",
     "LOADING": "Automatiseringsregels ophalen",
-    "SIDEBAR_TXT": "<p><b>Automatiseringsregels</b> <p>Automation kan bestaande processen vervangen en automatiseren die handmatige inspanning vereisen. U kunt veel dingen doen met automatisering, inclusief het toevoegen van labels en het toewijzen van gesprekken aan uw beste agent. Het team concentreert zich dus op wat ze het beste doen en besteedt minder tijd aan handmatige taken.</p>",
     "ADD": {
       "TITLE": "Automatiseringsregel toevoegen",
       "SUBMIT": "Aanmaken",
@@ -39,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Naam",
-        "Beschrijving",
-        "Actief",
-        "Aangemaakt op"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Naam",
+        "DESCRIPTION": "Beschrijving",
+        "ACTIVE": "Actief",
+        "CREATED_ON": "Aangemaakt op"
+      },
       "404": "Geen automatiseringsregels gevonden"
     },
     "DELETE": {

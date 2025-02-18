@@ -61,6 +61,10 @@ class Channel::Email < ApplicationRecord
     provider == 'google'
   end
 
+  def legacy_google?
+    imap_enabled && imap_address == 'imap.gmail.com'
+  end
+
   private
 
   def ensure_forward_to_email

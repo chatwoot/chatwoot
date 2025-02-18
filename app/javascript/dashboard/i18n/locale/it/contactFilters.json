@@ -30,6 +30,9 @@
       "is_lesser_than": "È minore di",
       "days_before": "È x giorni prima"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Il valore è obbligatorio"
+    },
     "ATTRIBUTES": {
       "NAME": "Nome",
       "EMAIL": "Email",

@@ -3,14 +3,14 @@ import { mapGetters } from 'vuex';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import { popoutChatWindow } from '../helpers/popoutHelper';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import darkModeMixin from 'widget/mixins/darkModeMixin';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 import configMixin from 'widget/mixins/configMixin';
 import { CONVERSATION_STATUS } from 'shared/constants/messages';
 
 export default {
   name: 'HeaderActions',
   components: { FluentIcon },
-  mixins: [configMixin, darkModeMixin],
+  mixins: [configMixin],
   props: {
     showPopoutButton: {
       type: Boolean,
@@ -20,6 +20,10 @@ export default {
       type: Boolean,
       default: true,
     },
+  },
+  setup() {
+    const { getThemeClass } = useDarkMode();
+    return { getThemeClass };
   },
   computed: {
     ...mapGetters({
@@ -77,6 +81,7 @@ export default {
 };
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <div v-if="showHeaderActions" class="actions flex items-center">
     <button
@@ -92,7 +97,7 @@ export default {
       <FluentIcon
         icon="sign-out"
         size="22"
-        :class="$dm('text-black-900', 'dark:text-slate-50')"
+        :class="getThemeClass('text-black-900', 'dark:text-slate-50')"
       />
     </button>
     <button
@@ -103,7 +108,7 @@ export default {
       <FluentIcon
         icon="open"
         size="22"
-        :class="$dm('text-black-900', 'dark:text-slate-50')"
+        :class="getThemeClass('text-black-900', 'dark:text-slate-50')"
       />
     </button>
     <button
@@ -116,14 +121,14 @@ export default {
       <FluentIcon
         icon="dismiss"
         size="24"
-        :class="$dm('text-black-900', 'dark:text-slate-50')"
+        :class="getThemeClass('text-black-900', 'dark:text-slate-50')"
       />
     </button>
   </div>
 </template>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .actions {
   button {
@@ -138,6 +143,7 @@ export default {
   .close-button {
     display: none;
   }
+
   .rn-close-button {
     display: block !important;
   }

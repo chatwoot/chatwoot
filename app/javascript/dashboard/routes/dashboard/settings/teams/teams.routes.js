@@ -1,15 +1,16 @@
 import { frontendURL } from '../../../../helper/URLHelper';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
-const TeamsIndex = () => import('./Index.vue');
-const CreateStepWrap = () => import('./Create/Index.vue');
-const EditStepWrap = () => import('./Edit/Index.vue');
-const CreateTeam = () => import('./Create/CreateTeam.vue');
-const EditTeam = () => import('./Edit/EditTeam.vue');
-const AddAgents = () => import('./Create/AddAgents.vue');
-const EditAgents = () => import('./Edit/EditAgents.vue');
-const FinishSetup = () => import('./FinishSetup.vue');
-const SettingsContent = () => import('../Wrapper.vue');
-const SettingsWrapper = () => import('../SettingsWrapper.vue');
+import TeamsIndex from './Index.vue';
+import CreateStepWrap from './Create/Index.vue';
+import EditStepWrap from './Edit/Index.vue';
+import CreateTeam from './Create/CreateTeam.vue';
+import EditTeam from './Edit/EditTeam.vue';
+import AddAgents from './Create/AddAgents.vue';
+import EditAgents from './Edit/EditAgents.vue';
+import FinishSetup from './FinishSetup.vue';
+import SettingsContent from '../Wrapper.vue';
+import SettingsWrapper from '../SettingsWrapper.vue';
 
 export default {
   routes: [
@@ -19,13 +20,16 @@ export default {
       children: [
         {
           path: '',
-          redirect: 'list',
+          redirect: to => {
+            return { name: 'settings_teams_list', params: to.params };
+          },
         },
         {
           path: 'list',
           name: 'settings_teams_list',
           component: TeamsIndex,
           meta: {
+            featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
             permissions: ['administrator'],
           },
         },
@@ -53,6 +57,7 @@ export default {
               name: 'settings_teams_new',
               component: CreateTeam,
               meta: {
+                featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
                 permissions: ['administrator'],
               },
             },
@@ -61,6 +66,7 @@ export default {
               name: 'settings_teams_finish',
               component: FinishSetup,
               meta: {
+                featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
                 permissions: ['administrator'],
               },
             },
@@ -68,6 +74,7 @@ export default {
               path: ':teamId/agents',
               name: 'settings_teams_add_agents',
               meta: {
+                featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
                 permissions: ['administrator'],
               },
               component: AddAgents,
@@ -83,6 +90,7 @@ export default {
               name: 'settings_teams_edit',
               component: EditTeam,
               meta: {
+                featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
                 permissions: ['administrator'],
               },
             },
@@ -91,6 +99,7 @@ export default {
               name: 'settings_teams_edit_members',
               component: EditAgents,
               meta: {
+                featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
                 permissions: ['administrator'],
               },
             },
@@ -98,6 +107,7 @@ export default {
               path: 'finish',
               name: 'settings_teams_edit_finish',
               meta: {
+                featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
                 permissions: ['administrator'],
               },
               component: FinishSetup,

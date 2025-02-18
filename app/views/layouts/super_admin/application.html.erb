@@ -22,8 +22,8 @@ By default, it renders:
     <%= content_for(:title) %> - <%= application_title %>
   </title>
   <%= render "stylesheet" %>
-  <%= javascript_pack_tag 'superadmin' %>
-  <%= stylesheet_pack_tag 'superadmin' %>
+  <%= vite_client_tag %>
+  <%= vite_javascript_tag 'superadmin' %>
   <%= csrf_meta_tags %>
 </head>
 <body class="antialiased w-full h-full">

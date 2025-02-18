@@ -18,7 +18,8 @@
       "STATUS": "Status",
       "ACTIONS": "Åtgärder",
       "VERIFIED": "Verifierad",
-      "VERIFICATION_PENDING": "Verifiering väntar"
+      "VERIFICATION_PENDING": "Verifiering väntar",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Lägg till agent till ditt team",

@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import types from '../mutation-types';
 import ContactAPI from '../../api/contacts';
 
@@ -62,7 +61,6 @@ export const actions = {
       throw new Error(error);
     }
   },
-
   setContactLabel({ commit }, { id, data }) {
     commit(types.SET_CONTACT_LABELS, { id, data });
   },
@@ -76,7 +74,10 @@ export const mutations = {
     };
   },
   [types.SET_CONTACT_LABELS]: ($state, { id, data }) => {
-    Vue.set($state.records, id, data);
+    $state.records = {
+      ...$state.records,
+      [id]: data,
+    };
   },
 };
 

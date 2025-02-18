@@ -10,11 +10,11 @@
       "404": "In diesem Konto sind keine gespeicherten Antworten verfügbar.",
       "TITLE": "Verwalten Sie vordefinierte Antworten",
       "DESC": "Vorgefertigte Antworten sind vorgeschriebene Antwortvorlagen, die verwendet werden können, um schnell auf Gespräche zu antworten.",
-      "TABLE_HEADER": [
-        "Kurzbefehl",
-        "Inhalt",
-        "Aktionen"
-      ]
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Short-Code",
+        "CONTENT": "Inhalt",
+        "ACTIONS": "Aktionen"
+      }
     },
     "ADD": {
       "TITLE": "Vorgefertigte Antwort hinzufügen",
@@ -22,9 +22,9 @@
       "CANCEL_BUTTON_TEXT": "Abbrechen",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Kurzbefehl",
-          "PLACEHOLDER": "Please enter a short code.",
-          "ERROR": "Short Code is required."
+          "LABEL": "Short-Code",
+          "PLACEHOLDER": "Bitte geben Sie einen Short-Code ein.",
+          "ERROR": "Short-Code ist erforderlich."
         },
         "CONTENT": {
           "LABEL": "Nachricht",
@@ -43,9 +43,9 @@
       "CANCEL_BUTTON_TEXT": "Abbrechen",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Kurzbefehl",
-          "PLACEHOLDER": "Please enter a shortcode.",
-          "ERROR": "Short code is required."
+          "LABEL": "Short-Code",
+          "PLACEHOLDER": "Bitte geben Sie einen Short-Code ein.",
+          "ERROR": "Short-Code ist erforderlich."
         },
         "CONTENT": {
           "LABEL": "Nachricht",

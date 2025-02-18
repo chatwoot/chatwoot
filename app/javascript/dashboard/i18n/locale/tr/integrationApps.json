@@ -1,7 +1,7 @@
 {
   "INTEGRATION_APPS": {
     "FETCHING": "Entegrasyonlar alınıyor",
-    "NO_HOOK_CONFIGURED": "Bu hesapta yapılandırılmış %{integrationId} entegrasyonu bulunmuyor.",
+    "NO_HOOK_CONFIGURED": "Bu hesapta yapılandırılmış {integrationId} entegrasyonu bulunmuyor.",
     "HEADER": "Uygulamalar",
     "STATUS": {
       "ENABLED": "Etkin",
@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Bağlantıyı Kes"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow, doğal dil anlama platformudur ve mobil uygulamanıza, web uygulamanıza, cihazınıza, botunuza, etkileşimli sesli yanıt sistemine vb. sohbet kullanıcı arayüzü tasarlamayı ve entegre etmeyi kolaylaştırır. <br /> <br /> Dialogflow'un %{installationName} ile entegrasyonu, botunuzu gelen kutularınızla yapılandırmanıza olanak tanır, bu da bota soruları başlangıçta ele almasını ve gerektiğinde bir temsilciye devretmesini sağlar. Dialogflow, lead'leri nitelendirmek, temsilcilere sıkça sorulan soruları sağlayarak temsilcilerin iş yükünü azaltmak için kullanılabilir. <br /> <br /> Dialogflow eklemek için, Google proje konsolunuzda bir Hizmet Hesabı oluşturmanız ve kimlik bilgilerini paylaşmanız gerekmektedir. Daha fazla bilgi için Dialogflow belgelerine başvurun."
+      "DIALOGFLOW": "Dialogflow, doğal dil anlama platformudur ve mobil uygulamanıza, web uygulamanıza, cihazınıza, botunuza, etkileşimli sesli yanıt sistemine vb. sohbet kullanıcı arayüzü tasarlamayı ve entegre etmeyi kolaylaştırır. <br /> <br /> Dialogflow'un {installationName} ile entegrasyonu, botunuzu gelen kutularınızla yapılandırmanıza olanak tanır, bu da bota soruları başlangıçta ele almasını ve gerektiğinde bir temsilciye devretmesini sağlar. Dialogflow, lead'leri nitelendirmek, temsilcilere sıkça sorulan soruları sağlayarak temsilcilerin iş yükünü azaltmak için kullanılabilir. <br /> <br /> Dialogflow eklemek için, Google proje konsolunuzda bir Hizmet Hesabı oluşturmanız ve kimlik bilgilerini paylaşmanız gerekmektedir. Daha fazla bilgi için Dialogflow belgelerine başvurun."
     }
   }
 }

@@ -4,7 +4,7 @@ import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import HeaderActions from './HeaderActions.vue';
 import routerMixin from 'widget/mixins/routerMixin';
-import darkMixin from 'widget/mixins/darkModeMixin.js';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 
 export default {
   name: 'ChatHeader',
@@ -12,7 +12,7 @@ export default {
     FluentIcon,
     HeaderActions,
   },
-  mixins: [nextAvailabilityTime, availabilityMixin, routerMixin, darkMixin],
+  mixins: [nextAvailabilityTime, availabilityMixin, routerMixin],
   props: {
     avatarUrl: {
       type: String,
@@ -34,6 +34,10 @@ export default {
       type: Array,
       default: () => {},
     },
+  },
+  setup() {
+    const { getThemeClass } = useDarkMode();
+    return { getThemeClass };
   },
   computed: {
     isOnline() {
@@ -57,7 +61,7 @@ export default {
 <template>
   <header
     class="flex justify-between w-full p-5"
-    :class="$dm('bg-white', 'dark:bg-slate-900')"
+    :class="getThemeClass('bg-white', 'dark:bg-slate-900')"
   >
     <div class="flex items-center">
       <button
@@ -68,7 +72,7 @@ export default {
         <FluentIcon
           icon="chevron-left"
           size="24"
-          :class="$dm('text-black-900', 'dark:text-slate-50')"
+          :class="getThemeClass('text-black-900', 'dark:text-slate-50')"
         />
       </button>
       <img
@@ -80,7 +84,7 @@ export default {
       <div>
         <div
           class="flex items-center text-base font-medium leading-4"
-          :class="$dm('text-black-900', 'dark:text-slate-50')"
+          :class="getThemeClass('text-black-900', 'dark:text-slate-50')"
         >
           <span v-dompurify-html="title" class="mr-1" />
           <div
@@ -90,7 +94,7 @@ export default {
         </div>
         <div
           class="mt-1 text-xs leading-3"
-          :class="$dm('text-black-700', 'dark:text-slate-400')"
+          :class="getThemeClass('text-black-700', 'dark:text-slate-400')"
         >
           {{ replyWaitMessage }}
         </div>

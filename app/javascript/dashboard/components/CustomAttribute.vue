@@ -7,6 +7,7 @@ import HelperTextPopup from 'dashboard/components/ui/HelperTextPopup.vue';
 import { isValidURL } from '../helper/URLHelper';
 import { getRegexp } from 'shared/helpers/Validators';
 import { useVuelidate } from '@vuelidate/core';
+import { emitter } from 'shared/helpers/mitt';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
 
@@ -30,6 +31,7 @@ export default {
     attributeKey: { type: String, required: true },
     contactId: { type: Number, default: null },
   },
+  emits: ['update', 'delete', 'copy'],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -135,10 +137,10 @@ export default {
   },
   mounted() {
     this.editedValue = this.formattedValue;
-    this.$emitter.on(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
+    emitter.on(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
   },
-  destroyed() {
-    this.$emitter.off(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
+  unmounted() {
+    emitter.off(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
   },
   methods: {
     onFocusAttribute(focusAttributeKey) {
@@ -198,7 +200,7 @@ export default {
         <div v-if="isAttributeTypeCheckbox" class="flex items-center">
           <input
             v-model="editedValue"
-            class="!my-0 mr-2 ml-0"
+            class="!my-0 ltr:mr-2 ltr:ml-0 rtl:mr-0 rtl:ml-2"
             type="checkbox"
             @change="onUpdate"
           />
@@ -207,9 +209,7 @@ export default {
           <span
             class="w-full inline-flex gap-1.5 items-start font-medium whitespace-nowrap text-sm mb-0"
             :class="
-              v$.editedValue.$error
-                ? 'text-red-400 dark:text-red-500'
-                : 'text-slate-800 dark:text-slate-100'
+              v$.editedValue.$error ? 'text-n-ruby-11' : 'text-n-slate-12'
             "
           >
             {{ label }}
@@ -226,7 +226,7 @@ export default {
             size="medium"
             color-scheme="secondary"
             icon="delete"
-            class-names="flex justify-end w-4"
+            class-names="flex justify-end !w-fit"
             @click="onDelete"
           />
         </div>
@@ -249,14 +249,14 @@ export default {
             <woot-button
               size="small"
               icon="checkmark"
-              class="rounded-l-none rtl:rounded-r-none"
+              class="ltr:rounded-l-none rtl:rounded-r-none"
               @click="onUpdate"
             />
           </div>
         </div>
         <span
           v-if="shouldShowErrorMessage"
-          class="block w-full -mt-px text-sm font-normal text-red-400 dark:text-red-500"
+          class="block w-full -mt-px text-sm font-normal text-n-ruby-11"
         >
           {{ errorMessage }}
         </span>
@@ -271,13 +271,13 @@ export default {
           :href="hrefURL"
           target="_blank"
           rel="noopener noreferrer"
-          class="group-hover:bg-slate-50 group-hover:dark:bg-slate-700 inline-block rounded-sm mb-0 break-all py-0.5 px-1"
+          class="group-hover:bg-n-slate-3 group-hover:dark:bg-n-solid-3 inline-block rounded-sm mb-0 break-all py-0.5 px-1"
         >
           {{ urlValue }}
         </a>
         <p
           v-else
-          class="group-hover:bg-slate-50 group-hover:dark:bg-slate-700 inline-block rounded-sm mb-0 break-all py-0.5 px-1"
+          class="group-hover:bg-n-slate-3 group-hover:dark:bg-n-solid-3 inline-block rounded-sm mb-0 break-all py-0.5 px-1"
         >
           {{ displayValue || '---' }}
         </p>
@@ -321,7 +321,7 @@ export default {
             'CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_TYPE.LIST.SEARCH_INPUT_PLACEHOLDER'
           )
         "
-        @click="onUpdateListValue"
+        @select="onUpdateListValue"
       />
     </div>
   </div>

@@ -35,7 +35,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables';
+@import 'widget/assets/scss/variables.scss';
 
 @mixin color-spinner() {
   @keyframes spinner {

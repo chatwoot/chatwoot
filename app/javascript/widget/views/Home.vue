@@ -4,7 +4,7 @@ import ArticleHero from 'widget/components/ArticleHero.vue';
 import ArticleCardSkeletonLoader from 'widget/components/ArticleCardSkeletonLoader.vue';
 
 import { mapGetters } from 'vuex';
-import darkModeMixin from 'widget/mixins/darkModeMixin';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 import routerMixin from 'widget/mixins/routerMixin';
 import configMixin from 'widget/mixins/configMixin';
 
@@ -15,7 +15,11 @@ export default {
     TeamAvailability,
     ArticleCardSkeletonLoader,
   },
-  mixins: [configMixin, routerMixin, darkModeMixin],
+  mixins: [configMixin, routerMixin],
+  setup() {
+    const { prefersDarkMode } = useDarkMode();
+    return { prefersDarkMode };
+  },
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
@@ -75,7 +79,7 @@ export default {
       }
       this.$router.push({
         name: 'article-viewer',
-        params: { link: linkToOpen },
+        query: { link: linkToOpen },
       });
     },
     viewAllArticles() {
@@ -99,7 +103,7 @@ export default {
         :available-agents="availableAgents"
         :has-conversation="!!conversationSize"
         :unread-count="unreadMessageCount"
-        @startConversation="startConversation"
+        @start-conversation="startConversation"
       />
     </div>
     <div v-if="showArticles" class="w-full px-4 py-2">
@@ -112,7 +116,7 @@ export default {
           "
           :articles="popularArticles"
           @view="openArticleInArticleViewer"
-          @viewAll="viewAllArticles"
+          @view-all="viewAllArticles"
         />
       </div>
     </div>

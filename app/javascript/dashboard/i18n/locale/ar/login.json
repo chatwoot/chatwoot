@@ -3,7 +3,7 @@
     "TITLE": "تسجيل الدخول إلى Chatwoot",
     "EMAIL": {
       "LABEL": "البريد الإلكتروني",
-      "PLACEHOLDER": "مثلاً: someone@example.com",
+      "PLACEHOLDER": "مثلاً: someone{'@'}example.com",
       "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح"
     },
     "PASSWORD": {

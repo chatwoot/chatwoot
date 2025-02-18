@@ -48,7 +48,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "지금 사용자 지정 도메인에서 이메일을 받을 수 있다."
       }
     },
-    "UPDATE_CHATWOOT": "Chatwoot에 대한 %{latestChatwootVersion} 업데이트를 사용할 수 있습니다. 인스턴스를 업데이트하십시오.",
+    "UPDATE_CHATWOOT": "Chatwoot에 대한 {latestChatwootVersion} 업데이트를 사용할 수 있습니다. 인스턴스를 업데이트하십시오.",
     "LEARN_MORE": "Learn more",
     "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",

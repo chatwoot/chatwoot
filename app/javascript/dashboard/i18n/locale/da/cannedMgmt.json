@@ -10,11 +10,11 @@
       "404": "Der er ingen tilgængelige standardsvar på denne konto.",
       "TITLE": "Administrer standardsvar",
       "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
-      "TABLE_HEADER": [
-        "Short code",
-        "Indhold",
-        "Handlinger"
-      ]
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Short code",
+        "CONTENT": "Indhold",
+        "ACTIONS": "Handlinger"
+      }
     },
     "ADD": {
       "TITLE": "Add canned response",

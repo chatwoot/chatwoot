@@ -1,11 +1,11 @@
 import { useBulkActionsHotKeys } from '../useBulkActionsHotKeys';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import wootConstants from 'dashboard/constants/globals';
 import { emitter } from 'shared/helpers/mitt';
 
 vi.mock('dashboard/composables/store');
-vi.mock('dashboard/composables/useI18n');
+vi.mock('vue-i18n');
 vi.mock('shared/helpers/mitt');
 
 describe('useBulkActionsHotKeys', () => {

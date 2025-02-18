@@ -3,16 +3,18 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
-import aiMixin from 'dashboard/mixins/aiMixin';
+import { useAI } from 'dashboard/composables/useAI';
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 export default {
-  mixins: [aiMixin],
+  emits: ['close'],
+
   setup() {
     const { updateUISettings } = useUISettings();
+    const { recordAnalytics } = useAI();
     const v$ = useVuelidate();
 
-    return { updateUISettings, v$ };
+    return { updateUISettings, v$, recordAnalytics };
   },
   data() {
     return {

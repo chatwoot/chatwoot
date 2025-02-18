@@ -1,7 +1,7 @@
 {
   "INTEGRATION_APPS": {
     "FETCHING": "Integrációk lekérése",
-    "NO_HOOK_CONFIGURED": "Ebben a fiókban nincs beállítva %{integrationId} integráció",
+    "NO_HOOK_CONFIGURED": "Ebben a fiókban nincs beállítva {integrationId} integráció",
     "HEADER": "Alkalmazások",
     "STATUS": {
       "ENABLED": "Engedélyezve",
@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Leválasztás"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "A Dialogflow egy természetes nyelvi platform, amely megkönnyíti a társalgási felhasználói felület tervezését és integrálását mobilalkalmazásába, webalkalmazásába, eszközébe, botjába, interaktív hangválaszrendszerébe stb. <br /> <br /> A Dialogflow integráció a %{installationName} szolgáltatással lehetővé teszi egy Dialogflow bot konfigurálását a beérkező leveleihez, amely lehetővé teszi, hogy a bot kezdetben kezelje a lekérdezéseket, és szükség esetén átadja azokat egy ügynöknek. A Dialogflow felhasználható a potenciális ügyfelek minősítésére, az ügynökök munkaterhelésének csökkentésére gyakran ismételt kérdések megadásával stb. <br /> <br /> A Dialogflow hozzáadásához létre kell hoznod egy szolgáltatásfiókot a Google projektkonzoljában, és meg kell osztanod adataidat a hitelesítéshez. További információkért tekintsd meg a Dialogflow dokumentumokat."
+      "DIALOGFLOW": "A Dialogflow egy természetes nyelvi platform, amely megkönnyíti a társalgási felhasználói felület tervezését és integrálását mobilalkalmazásába, webalkalmazásába, eszközébe, botjába, interaktív hangválaszrendszerébe stb. <br /> <br /> A Dialogflow integráció a {installationName} szolgáltatással lehetővé teszi egy Dialogflow bot konfigurálását a beérkező leveleihez, amely lehetővé teszi, hogy a bot kezdetben kezelje a lekérdezéseket, és szükség esetén átadja azokat egy ügynöknek. A Dialogflow felhasználható a potenciális ügyfelek minősítésére, az ügynökök munkaterhelésének csökkentésére gyakran ismételt kérdések megadásával stb. <br /> <br /> A Dialogflow hozzáadásához létre kell hoznod egy szolgáltatásfiókot a Google projektkonzoljában, és meg kell osztanod adataidat a hitelesítéshez. További információkért tekintsd meg a Dialogflow dokumentumokat."
     }
   }
 }

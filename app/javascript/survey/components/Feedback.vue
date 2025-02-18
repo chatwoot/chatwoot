@@ -10,12 +10,18 @@ export default {
     TextArea,
     Spinner,
   },
+  props: {
+    isUpdating: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  emits: ['sendFeedback'],
   data() {
     return {
       feedback: '',
     };
   },
-
   methods: {
     onClick() {
       this.$emit('sendFeedback', this.feedback);
@@ -36,7 +42,7 @@ export default {
     />
     <div class="flex items-center float-right font-medium">
       <CustomButton @click="onClick">
-        <Spinner v-if="feedback" class="p-0" />
+        <Spinner v-if="isUpdating" class="p-0" />
         {{ $t('SURVEY.FEEDBACK.BUTTON_TEXT') }}
       </CustomButton>
     </div>

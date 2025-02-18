@@ -12,8 +12,8 @@
       "MESSAGES": "Poruke"
     },
     "SEARCHING_DATA": "Tražim",
-    "EMPTY_STATE": "Pronađeno %{item} za traženi pojam '%{query}'",
-    "EMPTY_STATE_FULL": "Ništa nije pronađeno za traženi pojam '%{query}'",
+    "EMPTY_STATE": "Pronađeno {item} za traženi pojam '{query}'",
+    "EMPTY_STATE_FULL": "Ništa nije pronađeno za traženi pojam '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ za fokusiranje",
     "INPUT_PLACEHOLDER": "Unesi 3 ili više znakova za pretragu",
     "EMPTY_STATE_DEFAULT": "Traži po conversation id, e-mail, broj telefona, poruke za bolje rezultate pretrage. ",

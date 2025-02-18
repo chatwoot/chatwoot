@@ -1,12 +1,11 @@
 <script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import ReadMore from './ReadMore.vue';
 
 export default {
   components: {
     ReadMore,
   },
-  mixins: [messageFormatterMixin],
   props: {
     author: {
       type: String,
@@ -20,6 +19,13 @@ export default {
       type: String,
       default: '',
     },
+  },
+  setup() {
+    const { formatMessage, highlightContent } = useMessageFormatter();
+    return {
+      formatMessage,
+      highlightContent,
+    };
   },
   data() {
     return {
@@ -65,12 +71,9 @@ export default {
 </script>
 
 <template>
-  <blockquote
-    ref="messageContainer"
-    class="message border-l-2 border-slate-100 dark:border-slate-700"
-  >
+  <blockquote ref="messageContainer" class="message border-l-2 border-n-weak">
     <p class="header">
-      <strong class="text-slate-700 dark:text-slate-100">
+      <strong class="text-n-slate-11">
         {{ author }}
       </strong>
       {{ $t('SEARCH.WROTE') }}
@@ -87,18 +90,18 @@ export default {
 }
 .message-content::v-deep p,
 .message-content::v-deep li::marker {
-  @apply text-slate-700 dark:text-slate-100 mb-1;
+  @apply text-n-slate-11 mb-1;
 }
 
 .header {
-  @apply text-slate-500 dark:text-slate-300 mb-1;
+  @apply text-n-slate-11 mb-1;
 }
 
 .message-content {
-  @apply break-words text-slate-600 dark:text-slate-200;
+  @apply break-words text-n-slate-11;
 }
 
 .message-content::v-deep .searchkey--highlight {
-  @apply text-woot-600 dark:text-woot-500 text-sm font-semibold;
+  @apply text-n-slate-12 text-sm font-semibold;
 }
 </style>

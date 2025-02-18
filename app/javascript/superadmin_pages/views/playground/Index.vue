@@ -1,5 +1,5 @@
 <script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import PlaygroundHeader from '../../components/playground/Header.vue';
 import UserMessage from '../../components/playground/UserMessage.vue';
 import BotMessage from '../../components/playground/BotMessage.vue';
@@ -12,12 +12,17 @@ export default {
     BotMessage,
     TypingIndicator,
   },
-  mixins: [messageFormatterMixin],
   props: {
     componentData: {
       type: Object,
       default: () => ({}),
     },
+  },
+  setup() {
+    const { formatMessage } = useMessageFormatter();
+    return {
+      formatMessage,
+    };
   },
   data() {
     return { messages: [], messageContent: '', isWaiting: false };

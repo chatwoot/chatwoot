@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "Email de treball",
-      "PLACEHOLDER": "Introdueix la teva adreça de correu electrònica de la feina. P. ex.: bruce@wayne.enterprises",
+      "PLACEHOLDER": "Introdueix la teva adreça de correu electrònica de la feina. P. ex.: bruce{'@'}wayne{'.'}enterprises",
       "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {

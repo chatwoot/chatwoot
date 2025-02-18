@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "회사 이메일",
-      "PLACEHOLDER": "회사 이메일 주소를 입력하세요. 예: taeyeon@girls.generation",
+      "PLACEHOLDER": "회사 이메일 주소를 입력하세요. 예: taeyeon{'@'}girls.generation",
       "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {

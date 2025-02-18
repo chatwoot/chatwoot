@@ -3,7 +3,7 @@
     "TITLE": "Login to Chatwoot",
     "EMAIL": {
       "LABEL": "Email",
-      "PLACEHOLDER": "example@companyname.com",
+      "PLACEHOLDER": "example{'@'}companyname.com",
       "ERROR": "Prosím zadajte platnú e-mailovú adresu"
     },
     "PASSWORD": {
