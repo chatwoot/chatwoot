@@ -2,34 +2,30 @@
 import { computed, ref } from 'vue';
 import DyteAPI from 'dashboard/api/integrations/dyte';
 import { buildDyteURL } from 'shared/helpers/IntegrationHelper';
-import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 
 import { useMessageContext } from '../provider.js';
 import BaseAttachmentBubble from './BaseAttachment.vue';
 
-const { content, sender, contentAttributes, id } = useMessageContext();
+const { content, sender, id } = useMessageContext();
 
 const { t } = useI18n();
-
-const meetingData = computed(() => {
-  return useCamelCase(contentAttributes.value.data);
-});
 
 const isLoading = ref(false);
 const dyteAuthToken = ref('');
 
 const meetingLink = computed(() => {
-  return buildDyteURL(meetingData.value.roomName, dyteAuthToken.value);
+  return buildDyteURL(dyteAuthToken.value);
 });
 
 const joinTheCall = async () => {
   isLoading.value = true;
   try {
-    const { data: { authResponse: { authToken } = {} } = {} } =
-      await DyteAPI.addParticipantToMeeting(id.value);
-    dyteAuthToken.value = authToken;
+    const { data: { token } = {} } = await DyteAPI.addParticipantToMeeting(
+      id.value
+    );
+    dyteAuthToken.value = token;
   } catch (err) {
     useAlert(t('INTEGRATION_SETTINGS.DYTE.JOIN_ERROR'));
   } finally {
