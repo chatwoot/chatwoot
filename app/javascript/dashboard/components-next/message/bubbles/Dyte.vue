@@ -2,20 +2,15 @@
 import { computed, ref } from 'vue';
 import DyteAPI from 'dashboard/api/integrations/dyte';
 import { buildDyteURL } from 'shared/helpers/IntegrationHelper';
-import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 
 import { useMessageContext } from '../provider.js';
 import BaseAttachmentBubble from './BaseAttachment.vue';
 
-const { content, sender, contentAttributes } = useMessageContext();
+const { content, sender, id } = useMessageContext();
 
 const { t } = useI18n();
-
-const meetingData = computed(() => {
-  return useCamelCase(contentAttributes.value.data);
-});
 
 const isLoading = ref(false);
 const dyteAuthToken = ref('');
@@ -28,7 +23,7 @@ const joinTheCall = async () => {
   isLoading.value = true;
   try {
     const { data: { token } = {} } = await DyteAPI.addParticipantToMeeting(
-      meetingData.value.messageId
+      id.value
     );
     dyteAuthToken.value = token;
   } catch (err) {
@@ -54,7 +49,7 @@ const action = computed(() => ({
     sender-translation-key="CONVERSATION.SHARED_ATTACHMENT.MEETING"
     :action="action"
   >
-    <div v-if="!sender" class="text-n-slate-12 text-sm truncate">
+    <div v-if="!sender" class="text-sm truncate text-n-slate-12">
       <!-- Added as a fallback, where the sender is not available (Deleted) -->
       <!-- Will show the content, if senderName in BaseAttachment.vue is empty -->
       {{ content }}
@@ -65,7 +60,7 @@ const action = computed(() => ({
         allow="camera;microphone;fullscreen;display-capture;picture-in-picture;clipboard-write;"
       />
       <button
-        class="bg-n-solid-3 px-4 py-2 rounded-lg text-sm"
+        class="px-4 py-2 text-sm rounded-lg bg-n-solid-3"
         @click="leaveTheRoom"
       >
         {{ $t('INTEGRATION_SETTINGS.DYTE.LEAVE_THE_ROOM') }}
