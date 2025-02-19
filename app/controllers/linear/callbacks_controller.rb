@@ -17,8 +17,8 @@ class Linear::CallbacksController < ApplicationController
 
   def oauth_client
     OAuth2::Client.new(
-      ENV.fetch('LINEAR_CLIENT_ID'),
-      ENV.fetch('LINEAR_CLIENT_SECRET'),
+      ENV.fetch('LINEAR_CLIENT_ID', nil),
+      ENV.fetch('LINEAR_CLIENT_SECRET', nil),
       {
         site: 'https://api.linear.app',
         token_url: '/oauth/token',
