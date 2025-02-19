@@ -42,8 +42,6 @@ const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'
 );
 
-const globalConfig = useMapGetter('globalConfig/get');
-
 const showV4Routes = computed(() => {
   return isFeatureEnabledonAccount.value(
     currentAccountId.value,
@@ -527,12 +525,7 @@ const menuItems = computed(() => {
     <section class="grid gap-2 mt-2 mb-4">
       <div class="flex items-center min-w-0 gap-2 px-2">
         <div class="grid flex-shrink-0 size-6 place-content-center">
-          <img
-            v-if="globalConfig.logoThumbnail"
-            :src="globalConfig.logoThumbnail"
-            class="h-5 w-5"
-          />
-          <Logo v-else />
+          <Logo class="size-4" />
         </div>
         <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
         <SidebarAccountSwitcher
