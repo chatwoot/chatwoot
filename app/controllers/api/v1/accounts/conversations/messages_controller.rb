@@ -12,7 +12,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   def update
-    permitted_params = params.require(:message).permit(:content, :source_id, content_attributes: {})
+    permitted_params = params.require(:message).permit(:content, :source_id, :status, content_attributes: {})
     ActiveRecord::Base.transaction do
       if permitted_params[:content_attributes].present?
         new_content_attributes = message.content_attributes.merge(permitted_params[:content_attributes])
@@ -39,7 +39,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def update_with_source_id
     @message = message_via_source_id
-    permitted_params = params.require(:message).permit(:content, content_attributes: {})
+    permitted_params = params.require(:message).permit(:content, :status, content_attributes: {})
     ActiveRecord::Base.transaction do
       if permitted_params[:content_attributes].present?
         new_content_attributes = message.content_attributes.merge(permitted_params[:content_attributes])
@@ -54,7 +54,14 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     return if message.blank?
 
     message.update!(status: :sent, content_attributes: {})
-    ::SendReplyJob.perform_later(message.id)
+
+    channel_name = message.conversation.inbox.channel.class.to_s
+
+    if channel_name == 'Channel::Api'
+      DelayDispatchEventJob.perform_later(event_name: 'message.created', timestamp: Time.zone.now, message_id: message.id)
+    else
+      ::SendReplyJob.perform_later(message.id)
+    end
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end
