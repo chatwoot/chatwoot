@@ -8,17 +8,17 @@ import Breadcrumb from 'dashboard/components-next/breadcrumb/Breadcrumb.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 
 const props = defineProps({
-  buttonLabel: {
-    type: String,
-    default: '',
-  },
   selectedContact: {
     type: Object,
     default: () => ({}),
   },
+  isUpdating: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['goToContactsList']);
+const emit = defineEmits(['goToContactsList', 'toggleBlock']);
 
 const { t } = useI18n();
 const slots = useSlots();
@@ -45,8 +45,16 @@ const breadcrumbItems = computed(() => {
   return items;
 });
 
+const isContactBlocked = computed(() => {
+  return props.selectedContact?.blocked;
+});
+
 const handleBreadcrumbClick = () => {
   emit('goToContactsList');
+};
+
+const toggleBlock = () => {
+  emit('toggleBlock', isContactBlocked.value);
 };
 </script>
 
@@ -64,11 +72,29 @@ const handleBreadcrumbClick = () => {
               :items="breadcrumbItems"
               @click="handleBreadcrumbClick"
             />
-            <ComposeConversation :contact-id="contactId">
-              <template #trigger="{ toggle }">
-                <Button :label="buttonLabel" size="sm" @click="toggle" />
-              </template>
-            </ComposeConversation>
+            <div class="flex items-center gap-2">
+              <Button
+                :label="
+                  !isContactBlocked
+                    ? $t('CONTACTS_LAYOUT.HEADER.BLOCK_CONTACT')
+                    : $t('CONTACTS_LAYOUT.HEADER.UNBLOCK_CONTACT')
+                "
+                size="sm"
+                slate
+                :is-loading="isUpdating"
+                :disabled="isUpdating"
+                @click="toggleBlock"
+              />
+              <ComposeConversation :contact-id="contactId">
+                <template #trigger="{ toggle }">
+                  <Button
+                    :label="$t('CONTACTS_LAYOUT.HEADER.SEND_MESSAGE')"
+                    size="sm"
+                    @click="toggle"
+                  />
+                </template>
+              </ComposeConversation>
+            </div>
           </div>
         </div>
       </header>

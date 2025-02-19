@@ -1,3 +1,4 @@
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
 import ChannelFactory from './ChannelFactory.vue';
 
@@ -27,6 +28,7 @@ export default {
           name: 'settings_inbox_list',
           component: InboxHome,
           meta: {
+            featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
             permissions: ['administrator'],
           },
         },
@@ -55,6 +57,7 @@ export default {
               name: 'settings_inbox_new',
               component: ChannelList,
               meta: {
+                featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
                 permissions: ['administrator'],
               },
             },
@@ -63,6 +66,7 @@ export default {
               name: 'settings_inbox_finish',
               component: FinishSetup,
               meta: {
+                featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
                 permissions: ['administrator'],
               },
             },
@@ -71,6 +75,7 @@ export default {
               name: 'settings_inboxes_page_channel',
               component: ChannelFactory,
               meta: {
+                featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
                 permissions: ['administrator'],
               },
               props: route => {
@@ -81,6 +86,7 @@ export default {
               path: ':inbox_id/agents',
               name: 'settings_inboxes_add_agents',
               meta: {
+                featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
                 permissions: ['administrator'],
               },
               component: AddAgents,
@@ -92,6 +98,7 @@ export default {
           name: 'settings_inbox_show',
           component: Settings,
           meta: {
+            featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
             permissions: ['administrator'],
           },
         },

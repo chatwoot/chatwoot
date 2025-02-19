@@ -11,14 +11,14 @@
       "PLACEHOLDER": "パスワード"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Login successful",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
-      "UNAUTH": "Username or password is incorrect. Please try again."
+      "SUCCESS_MESSAGE": "ログインに成功しました",
+      "ERROR_MESSAGE": "Woot Serverに接続できませんでした。もう一度お試しください。",
+      "UNAUTH": "ユーザー名またはパスワードが間違っています。もう一度お試しください。"
     },
     "OAUTH": {
-      "GOOGLE_LOGIN": "Login with Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+      "GOOGLE_LOGIN": "Googleでログイン",
+      "BUSINESS_ACCOUNTS_ONLY": "会社のメールアドレスを使用してログインしてください",
+      "NO_ACCOUNT_FOUND": "このメールアドレスに該当するアカウントが見つかりませんでした。"
     },
     "FORGOT_PASSWORD": "パスワードをお忘れですか?",
     "CREATE_NEW_ACCOUNT": "新しいアカウントを作成",

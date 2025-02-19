@@ -481,8 +481,6 @@ Rails.application.routes.draw do
       end
 
       resources :access_tokens, only: [:index, :show]
-      resources :response_documents, only: [:index, :show, :new, :create, :edit, :update, :destroy]
-      resources :responses, only: [:index, :show, :new, :create, :edit, :update, :destroy]
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]
       resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update] do
         delete :avatar, on: :member, action: :destroy_avatar

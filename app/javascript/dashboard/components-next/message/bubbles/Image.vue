@@ -1,13 +1,19 @@
 <script setup>
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
 import BaseBubble from './Base.vue';
 import Button from 'next/button/Button.vue';
 import Icon from 'next/icon/Icon.vue';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { useMessageContext } from '../provider.js';
+import { downloadFile } from '@chatwoot/utils';
+
 import GalleryView from 'dashboard/components/widgets/conversation/components/GalleryView.vue';
 
 const emit = defineEmits(['error']);
+const { t } = useI18n();
+
 const { filteredCurrentChatAttachments, attachments } = useMessageContext();
 
 const attachment = computed(() => {
@@ -16,6 +22,7 @@ const attachment = computed(() => {
 
 const hasError = ref(false);
 const showGallery = ref(false);
+const isDownloading = ref(false);
 
 const handleError = () => {
   hasError.value = true;
@@ -23,16 +30,15 @@ const handleError = () => {
 };
 
 const downloadAttachment = async () => {
-  const response = await fetch(attachment.value.dataUrl);
-  const blob = await response.blob();
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `attachment${attachment.value.extension || ''}`;
-  document.body.appendChild(a);
-  a.click();
-  window.URL.revokeObjectURL(url);
-  document.body.removeChild(a);
+  const { fileType, dataUrl, extension } = attachment.value;
+  try {
+    isDownloading.value = true;
+    await downloadFile({ url: dataUrl, type: fileType, extension });
+  } catch (error) {
+    useAlert(t('GALLERY_VIEW.ERROR_DOWNLOADING'));
+  } finally {
+    isDownloading.value = false;
+  }
 };
 </script>
 
@@ -66,7 +72,9 @@ const downloadAttachment = async () => {
           slate
           icon="i-lucide-download"
           class="opacity-60"
-          @click="downloadAttachment"
+          :is-loading="isDownloading"
+          :disabled="isDownloading"
+          @click.stop="downloadAttachment"
         />
       </div>
     </div>

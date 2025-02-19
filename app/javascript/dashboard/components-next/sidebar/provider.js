@@ -1,4 +1,5 @@
 import { inject, provide } from 'vue';
+import { useMapGetter } from 'dashboard/composables/store';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import { useRouter } from 'vue-router';
 
@@ -11,6 +12,8 @@ export function useSidebarContext() {
   }
 
   const router = useRouter();
+  const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
+
   const { checkFeatureAllowed, checkPermissions } = usePolicy();
 
   const resolvePath = to => {
@@ -41,6 +44,7 @@ export function useSidebarContext() {
     resolvePermissions,
     resolveFeatureFlag,
     isAllowed,
+    isOnChatwootCloud,
   };
 }
 

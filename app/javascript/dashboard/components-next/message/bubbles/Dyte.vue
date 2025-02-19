@@ -9,7 +9,7 @@ import { useI18n } from 'vue-i18n';
 import { useMessageContext } from '../provider.js';
 import BaseAttachmentBubble from './BaseAttachment.vue';
 
-const { contentAttributes } = useMessageContext();
+const { content, sender, contentAttributes } = useMessageContext();
 
 const { t } = useI18n();
 
@@ -54,6 +54,11 @@ const action = computed(() => ({
     sender-translation-key="CONVERSATION.SHARED_ATTACHMENT.MEETING"
     :action="action"
   >
+    <div v-if="!sender" class="text-n-slate-12 text-sm truncate">
+      <!-- Added as a fallback, where the sender is not available (Deleted) -->
+      <!-- Will show the content, if senderName in BaseAttachment.vue is empty -->
+      {{ content }}
+    </div>
     <div v-if="dyteAuthToken" class="video-call--container">
       <iframe
         :src="meetingLink"

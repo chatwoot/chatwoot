@@ -10,7 +10,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
           message_type: :outgoing,
           account_id: conversation.account_id,
           inbox_id: conversation.inbox_id,
-          content: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
+          content: I18n.t('conversations.activity.auto_resolution_message')
         }
       )
       conversation.resolved!

@@ -5,16 +5,18 @@ import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { OnClickOutside } from '@vueuse/components';
 import { useRouter } from 'vue-router';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
+import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import AssistantSelector from 'dashboard/components-next/captain/pageComponents/AssistantSelector.vue';
 import ResponseCard from 'dashboard/components-next/captain/assistant/ResponseCard.vue';
-import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CreateResponseDialog from 'dashboard/components-next/captain/pageComponents/response/CreateResponseDialog.vue';
 import ResponsePageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/ResponsePageEmptyState.vue';
+import LimitBanner from 'dashboard/components-next/captain/pageComponents/response/LimitBanner.vue';
 
 const router = useRouter();
 const store = useStore();
@@ -129,6 +131,12 @@ const fetchResponses = (page = 1) => {
 
 const onPageChange = page => fetchResponses(page);
 
+const onDeleteSuccess = () => {
+  if (responses.value?.length === 0 && responseMeta.value?.page > 1) {
+    onPageChange(responseMeta.value.page - 1);
+  }
+};
+
 const handleStatusFilterChange = ({ value }) => {
   selectedStatus.value = value;
   isStatusFilterOpen.value = false;
@@ -150,67 +158,78 @@ onMounted(() => {
   <PageLayout
     :total-count="responseMeta.totalCount"
     :current-page="responseMeta.page"
+    :button-policy="['administrator']"
     :header-title="$t('CAPTAIN.RESPONSES.HEADER')"
     :button-label="$t('CAPTAIN.RESPONSES.ADD_NEW')"
+    :is-fetching="isFetching"
+    :is-empty="!responses.length"
+    :feature-flag="FEATURE_FLAGS.CAPTAIN"
     :show-pagination-footer="!isFetching && !!responses.length"
     @update:current-page="onPageChange"
     @click="handleCreate"
   >
-    <div v-if="shouldShowDropdown" class="mb-4 -mt-3 flex gap-3">
-      <OnClickOutside @trigger="isStatusFilterOpen = false">
-        <Button
-          :label="selectedStatusLabel"
-          icon="i-lucide-chevron-down"
-          size="sm"
-          color="slate"
-          trailing-icon
-          class="max-w-48"
-          @click="isStatusFilterOpen = !isStatusFilterOpen"
+    <template #emptyState>
+      <ResponsePageEmptyState @click="handleCreate" />
+    </template>
+
+    <template #paywall>
+      <CaptainPaywall />
+    </template>
+
+    <template #controls>
+      <div v-if="shouldShowDropdown" class="mb-4 -mt-3 flex gap-3">
+        <OnClickOutside @trigger="isStatusFilterOpen = false">
+          <Button
+            :label="selectedStatusLabel"
+            icon="i-lucide-chevron-down"
+            size="sm"
+            color="slate"
+            trailing-icon
+            class="max-w-48"
+            @click="isStatusFilterOpen = !isStatusFilterOpen"
+          />
+
+          <DropdownMenu
+            v-if="isStatusFilterOpen"
+            :menu-items="statusOptions"
+            class="mt-2"
+            @action="handleStatusFilterChange"
+          />
+        </OnClickOutside>
+        <AssistantSelector
+          :assistant-id="selectedAssistant"
+          @update="handleAssistantFilterChange"
         />
+      </div>
+    </template>
 
-        <DropdownMenu
-          v-if="isStatusFilterOpen"
-          :menu-items="statusOptions"
-          class="mt-2"
-          @action="handleStatusFilterChange"
+    <template #body>
+      <LimitBanner class="mb-5" />
+
+      <div class="flex flex-col gap-4">
+        <ResponseCard
+          v-for="response in responses"
+          :id="response.id"
+          :key="response.id"
+          :question="response.question"
+          :answer="response.answer"
+          :assistant="response.assistant"
+          :documentable="response.documentable"
+          :status="response.status"
+          :created-at="response.created_at"
+          :updated-at="response.updated_at"
+          @action="handleAction"
+          @navigate="handleNavigationAction"
         />
-      </OnClickOutside>
-      <AssistantSelector
-        :assistant-id="selectedAssistant"
-        @update="handleAssistantFilterChange"
-      />
-    </div>
-    <div
-      v-if="isFetching"
-      class="flex items-center justify-center py-10 text-n-slate-11"
-    >
-      <Spinner />
-    </div>
-
-    <div v-else-if="responses.length" class="flex flex-col gap-4">
-      <ResponseCard
-        v-for="response in responses"
-        :id="response.id"
-        :key="response.id"
-        :question="response.question"
-        :answer="response.answer"
-        :assistant="response.assistant"
-        :documentable="response.documentable"
-        :status="response.status"
-        :created-at="response.created_at"
-        :updated-at="response.updated_at"
-        @action="handleAction"
-        @navigate="handleNavigationAction"
-      />
-    </div>
-
-    <ResponsePageEmptyState v-else @click="handleCreate" />
+      </div>
+    </template>
 
     <DeleteDialog
       v-if="selectedResponse"
       ref="deleteDialog"
       :entity="selectedResponse"
       type="Responses"
+      @delete-success="onDeleteSuccess"
     />
 
     <CreateResponseDialog
