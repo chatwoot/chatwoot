@@ -99,7 +99,7 @@ pt_BR:
     conversation_traffic_csv:
       timezone: Fuso horário
     sla_csv:
-      conversation_id: Conversas
+      conversation_id: ID da conversa
       sla_policy_breached: Política SLA
       assignee: Responsável
       team: Times
@@ -165,6 +165,7 @@ pt_BR:
         removed: '%{user_name} removeu a política de SLA %{sla_name}'
       muted: '%{user_name} silenciou a conversa'
       unmuted: '%{user_name} reativou a conversa'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
       greeting_message_body: '%{account_name} normalmente responde em algumas horas.'
       ways_to_reach_you_message_body: 'Informe uma forma para entrarmos em contato com você.'

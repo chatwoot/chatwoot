@@ -165,6 +165,7 @@ ca:
         removed: '%{user_name} ha eliminat la política de SLA %{sla_name}'
       muted: '%{user_name} ha silenciat la conversa'
       unmuted: '%{user_name} ha desactivat el silenci de la conversa'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
       greeting_message_body: '%{account_name} normalment respon a les poques hores.'
       ways_to_reach_you_message_body: 'Fes saber a l''equip la forma de posar-nos en contacte amb tu.'

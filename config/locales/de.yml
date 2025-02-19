@@ -165,6 +165,7 @@ de:
         removed: '%{user_name} hat SLA-Richtlinie %{sla_name} entfernt'
       muted: '%{user_name} hat das Gespräch stumm geschaltet'
       unmuted: '%{user_name} hat das Gespräch laut gestellt'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
       greeting_message_body: '%{account_name} antwortet in der Regel in wenigen Stunden.'
       ways_to_reach_you_message_body: 'Geben Sie dem Team einen Weg, Sie zu erreichen.'
