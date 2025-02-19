@@ -94,7 +94,7 @@ gem 'twitty', '~> 0.1.5'
 # facebook client
 gem 'koala'
 # slack client
-gem 'slack-ruby-client', '~> 2.2.0'
+gem 'slack-ruby-client', '~> 2.5.1'
 # for dialogflow integrations
 gem 'google-cloud-dialogflow-v2', '>= 0.24.0'
 gem 'grpc'
