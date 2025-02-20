@@ -92,6 +92,46 @@ const handleEdit = () => {
   nextTick(() => createDialog.value.dialogRef.open());
 };
 
+const handleAction = ({ action, id }) => {
+  selectedResponse.value = responses.value.find(response => id === response.id);
+  nextTick(() => {
+    if (action === 'delete') {
+      handleDelete();
+    }
+    if (action === 'edit') {
+      handleEdit();
+    }
+    if (action === 'approve') {
+      handleAccept();
+    }
+  });
+};
+
+const handleNavigationAction = ({ id, type }) => {
+  if (type === 'Conversation') {
+    router.push({
+      name: 'inbox_conversation',
+      params: { conversation_id: id },
+    });
+  }
+};
+
+const handleCreateClose = () => {
+  dialogType.value = '';
+  selectedResponse.value = null;
+};
+
+const fetchResponses = (page = 1) => {
+  const filterParams = { page };
+  if (selectedStatus.value !== 'all') {
+    filterParams.status = selectedStatus.value;
+  }
+  if (selectedAssistant.value !== 'all') {
+    filterParams.assistantId = selectedAssistant.value;
+  }
+  store.dispatch('captainResponses/get', filterParams);
+};
+
 // Bulk action
 const bulkSelected = ref(new Set());
 const hoveredCard = ref(null);
@@ -132,51 +172,22 @@ const handleCardSelect = id => {
 
 const handleBulkApprove = async () => {
   try {
-    // action
-    bulkSelected.value = new Set();
-  } catch (error) {
-    // error
-  }
-};
-
-const handleAction = ({ action, id }) => {
-  selectedResponse.value = responses.value.find(response => id === response.id);
-  nextTick(() => {
-    if (action === 'delete') {
-      handleDelete();
-    }
-    if (action === 'edit') {
-      handleEdit();
-    }
-    if (action === 'approve') {
-      handleAccept();
-    }
-  });
-};
-
-const handleNavigationAction = ({ id, type }) => {
-  if (type === 'Conversation') {
-    router.push({
-      name: 'inbox_conversation',
-      params: { conversation_id: id },
+    await store.dispatch('captainBulkActions/process', {
+      type: 'AssistantResponse',
+      ids: Array.from(bulkSelected.value),
+      fields: { status: 'approve' },
     });
-  }
-};
 
-const handleCreateClose = () => {
-  dialogType.value = '';
-  selectedResponse.value = null;
-};
-
-const fetchResponses = (page = 1) => {
-  const filterParams = { page };
-  if (selectedStatus.value !== 'all') {
-    filterParams.status = selectedStatus.value;
+    // Refresh the list after bulk approve
+    fetchResponses(responseMeta.value.page);
+    // Clear selection
+    bulkSelected.value = new Set();
+    useAlert(t('CAPTAIN.RESPONSES.BULK_APPROVE.SUCCESS_MESSAGE'));
+  } catch (error) {
+    useAlert(
+      error?.message || t('CAPTAIN.RESPONSES.BULK_APPROVE.ERROR_MESSAGE')
+    );
   }
-  if (selectedAssistant.value !== 'all') {
-    filterParams.assistantId = selectedAssistant.value;
-  }
-  store.dispatch('captainResponses/get', filterParams);
 };
 
 const onPageChange = page => {
