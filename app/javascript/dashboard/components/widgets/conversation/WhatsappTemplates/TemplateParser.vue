@@ -411,7 +411,10 @@ export default {
 
       const payloadForVariables = {
         accountId: this.currentAccountId,
-        phoneNumber: '918467046560',
+        phoneNumber: this.currentChat.meta.sender.phone_number.replace(
+          /^\+/,
+          ''
+        ),
         templateFallbacks: contactItems.reduce((acc, item, index) => {
           acc[`${index + 1}`] = item.replace(/\.$/, '');
           return acc;
