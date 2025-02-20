@@ -178,7 +178,7 @@ const handleBulkApprove = async () => {
       fields: { status: 'approve' },
     });
 
-    // Refresh the list after bulk approve
+    // Refresh the list with same page after bulk approve
     fetchResponses(responseMeta.value.page);
     // Clear selection
     bulkSelected.value = new Set();
@@ -210,8 +210,13 @@ const onDeleteSuccess = () => {
 };
 
 const onBulkDeleteSuccess = () => {
-  // Refresh the list after bulk approve
-  fetchResponses(responseMeta.value.page);
+  // Refresh the list after bulk delete
+  const page =
+    responses.value?.length === 0 && responseMeta.value?.page > 1
+      ? responseMeta.value.page - 1
+      : responseMeta.value.page;
+
+  fetchResponses(page);
   // Clear selection
   bulkSelected.value = new Set();
 };

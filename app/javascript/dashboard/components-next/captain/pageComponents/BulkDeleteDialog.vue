@@ -34,11 +34,15 @@ const handleBulkDelete = async ids => {
       ids: Array.from(props.bulkIds),
       fields: { status: 'delete' },
     });
+    await store.dispatch(
+      'captainBulkActions/handleBulkDelete',
+      Array.from(props.bulkIds)
+    );
 
     emit('deleteSuccess');
     useAlert(
       t(`CAPTAIN.${i18nKey.value}.BULK_DELETE.SUCCESS_MESSAGE`, {
-        count: bulkSelectedCount,
+        count: bulkSelectedCount.value,
       })
     );
   } catch (error) {

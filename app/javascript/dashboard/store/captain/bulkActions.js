@@ -17,5 +17,11 @@ export default createStore({
         return throwErrorMessage(error);
       }
     },
+
+    handleBulkDelete: async function handleBulkDelete({ dispatch }, ids) {
+      await dispatch('captainResponses/deleteBulkResponse', ids, {
+        root: true,
+      });
+    },
   }),
 });
