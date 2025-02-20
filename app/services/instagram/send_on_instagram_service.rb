@@ -3,6 +3,21 @@ class Instagram::SendOnInstagramService < Instagram::BaseSendService
 
   def channel_class
     Channel::Instagram
+
+  def message_params
+    message_content = message.content
+    if message.content_attributes['in_reply_to'].present?
+      previous_content = conversation.messages.find_by(id: message.content_attributes['in_reply_to'])&.content
+      message_content.prepend("> #{previous_content.truncate(100)} \n\n") if previous_content.present?
+    end
+
+    params = {
+      recipient: { id: contact.get_source_id(inbox.id) },
+      message: {
+        text: message.content
+      }
+    }
+    merge_human_agent_tag(params)
   end
 
   # Deliver a message with the given payload.

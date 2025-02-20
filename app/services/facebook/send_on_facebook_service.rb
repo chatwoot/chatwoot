@@ -54,9 +54,15 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   end
 
   def fb_text_message_payload
+    message_content = message.outgoing_content
+    if message.content_attributes['in_reply_to'].present?
+      previous_content = conversation.messages.find_by(id: message.content_attributes['in_reply_to'])&.content
+      message_content.prepend("> #{previous_content.truncate(100)} \n\n") if previous_content.present?
+    end
+
     if message.content_type == 'input_select' && message.content_attributes['items'].any?
       {
-        text: message.content,
+        text: message_content,
         quick_replies: message.content_attributes['items'].map do |item|
           {
             content_type: 'text',
@@ -66,7 +72,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
         end
       }
     else
-      { text: message.outgoing_content }
+      { text: message_content }
     end
   end
 
