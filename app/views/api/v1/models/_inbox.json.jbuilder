@@ -42,7 +42,7 @@ json.website_token resource.channel.try(:website_token)
 json.selected_feature_flags resource.channel.try(:selected_feature_flags)
 json.reply_time resource.channel.try(:reply_time)
 if resource.web_widget?
-  if Current.account_user&.administrator? && !(defined?(hide_channel_credentials) && hide_channel_credentials)
+  if Current.account_user&.administrator? && !(defined?(hide_credentials) && hide_credentials)
     json.hmac_token resource.channel.try(:hmac_token)
   end
   json.pre_chat_form_enabled resource.channel.try(:pre_chat_form_enabled)
@@ -67,7 +67,7 @@ if resource.email?
   json.email resource.channel.try(:email)
 
   ## IMAP
-  if Current.account_user&.administrator? && !(defined?(hide_channel_credentials) && hide_channel_credentials)
+  if Current.account_user&.administrator? && !(defined?(hide_credentials) && hide_credentials)
     json.imap_login resource.channel.try(:imap_login)
     json.imap_password resource.channel.try(:imap_password)
     json.imap_address resource.channel.try(:imap_address)
@@ -81,7 +81,7 @@ if resource.email?
   end
 
   ## SMTP
-  if Current.account_user&.administrator? && !(defined?(hide_channel_credentials) && hide_channel_credentials)
+  if Current.account_user&.administrator? && !(defined?(hide_credentials) && hide_credentials)
     json.smtp_login resource.channel.try(:smtp_login)
     json.smtp_password resource.channel.try(:smtp_password)
     json.smtp_address resource.channel.try(:smtp_address)
@@ -97,7 +97,7 @@ end
 
 ## API Channel Attributes
 if resource.api?
-  if Current.account_user&.administrator? && !(defined?(hide_channel_credentials) && hide_channel_credentials)
+  if Current.account_user&.administrator? && !(defined?(hide_credentials) && hide_credentials)
     json.hmac_token resource.channel.try(:hmac_token)
   end
   json.webhook_url resource.channel.try(:webhook_url)
@@ -110,7 +110,7 @@ json.provider resource.channel.try(:provider)
 ### WhatsApp Channel
 if resource.whatsapp?
   json.message_templates resource.channel.try(:message_templates)
-  if Current.account_user&.administrator? && !(defined?(hide_channel_credentials) && hide_channel_credentials)
+  if Current.account_user&.administrator? && !(defined?(hide_credentials) && hide_credentials)
     json.provider_config resource.channel.try(:provider_config)
   end
 end
