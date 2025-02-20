@@ -9,4 +9,12 @@ export default {
       message: { submitted_values: values },
     });
   },
+  personaliseMessageVariables: (payload, accessToken) => {
+    console.log(accessToken, 'access token here, testing here.')
+    return API.post('/api/v1/personalise_variables', payload, {
+      headers: {
+        'api_access_token': accessToken,
+      },
+    });
+  },
 };

@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 <template>
   <div class="w-full">
     <div :class="{ 'max-h-[22.75rem] overflow-y-auto': !removeOverflow }">
@@ -49,14 +50,44 @@
               {{ processVariable(variable) }}
             </span>
             <woot-input
+              v-if="isInputMode(variable)"
               v-model="
                 processedParams[componentType][processVariable(variable)]
               "
               type="text"
               class="variable-input"
-              :styles="{ marginBottom: 0 }"
+              :styles="{ marginBottom: 0, width: '94%' }"
               required
             />
+            <select
+              v-else
+              v-model="
+                processedParams[componentType][processVariable(variable)]
+              "
+              class="variable-input"
+              :style="{
+                marginBottom: 0,
+                width: '70% !important',
+                marginRight: '16px',
+              }"
+              required
+            >
+              <option value="" disabled>Select an option</option>
+              <option
+                v-for="option in dropdownOptions"
+                :key="option.value"
+                :value="option.value"
+              >
+                {{ option.label }}
+              </option>
+            </select>
+            <woot-button
+              :style="{ width: 'fit-content' }"
+              type="button"
+              @click="toggleInputMode(variable)"
+            >
+              {{ isInputMode(variable) ? 'Use Variable' : 'Use Input' }}
+            </woot-button>
           </div>
         </div>
       </div>
@@ -64,11 +95,19 @@
         {{ $t('WHATSAPP_TEMPLATES.PARSER.FORM_ERROR_MESSAGE') }}
       </p>
       <footer>
-        <woot-button variant="smooth" @click="$emit('resetTemplate')">
+        <woot-button
+          :disabled="isLoading"
+          variant="smooth"
+          @click="$emit('resetTemplate')"
+        >
           {{ $t('WHATSAPP_TEMPLATES.PARSER.GO_BACK_LABEL') }}
         </woot-button>
-        <woot-button type="button" @click="sendMessage">
-          {{ $t('WHATSAPP_TEMPLATES.PARSER.SEND_MESSAGE_LABEL') }}
+        <woot-button :disabled="isLoading" type="button" @click="sendMessage">
+          {{
+            isLoading
+              ? 'Sending...'
+              : $t('WHATSAPP_TEMPLATES.PARSER.SEND_MESSAGE_LABEL')
+          }}
         </woot-button>
       </footer>
     </div>
@@ -82,6 +121,8 @@ import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
 import alertMixin from 'shared/mixins/alertMixin';
 import { validateNonEmptyEntries } from '../../../../helper/commons';
+import { mapGetters } from 'vuex';
+import message from '../../../../../widget/api/message';
 
 export default {
   components: {
@@ -139,9 +180,16 @@ export default {
         footer: {},
       },
       uploadedFile: null,
+      inputModes: {},
+      isLoading: false,
     };
   },
   computed: {
+    ...mapGetters({
+      currentAccountId: 'getCurrentAccountId',
+      currentChat: 'getSelectedChat',
+      currentUser: 'getCurrentUser',
+    }),
     variables() {
       const allVariables = {};
       ['header', 'body', 'footer'].forEach(componentType => {
@@ -153,6 +201,38 @@ export default {
         }
       });
       return allVariables;
+    },
+    dropdownOptions() {
+      return [
+        {
+          label: 'Last Order Number',
+          value: 'contact.shopping.orderName',
+        },
+        {
+          label: 'Last Order ID',
+          value: 'contact.shopping.id',
+        },
+        {
+          label: 'Tracking Number',
+          value: 'contact.shopping.trackingNumber',
+        },
+        {
+          label: 'Last Order Tracking Link',
+          value: 'contact.shopping.trackingLink',
+        },
+        {
+          label: 'Last Order Status URL',
+          value: 'contact.shopping.orderStatusUrl',
+        },
+        {
+          label: 'Last Order Destination Country',
+          value: 'contact.shopping.destinationCountry',
+        },
+        {
+          label: 'Shipping Address',
+          value: 'contact.shopping.shippingAddress',
+        },
+      ];
     },
     processedString() {
       const processed = {};
@@ -281,7 +361,8 @@ export default {
         });
       }
     },
-    sendMessage() {
+    async sendMessage() {
+      this.isLoading = true;
       this.$v.$touch();
       if (this.$v.$invalid) return;
 
@@ -322,8 +403,63 @@ export default {
         return;
       }
 
+      const text = this.processedContentString;
+
+      // Extract items starting with 'contact.' until a comma or line break
+      const matches = text.match(/contact\.[\w.]+/g);
+      const contactItems = matches || []; // Store in an array
+
+      const payloadForVariables = {
+        accountId: this.currentAccountId,
+        phoneNumber: '918467046560',
+        templateFallbacks: contactItems.reduce((acc, item, index) => {
+          acc[`${index + 1}`] = item.replace(/\.$/, '');
+          return acc;
+        }, {}),
+        templateMetaData: contactItems.reduce((acc, item, index) => {
+          acc[`${index + 1}`] = {
+            variableMapping: item.replace(/\.$/, ''),
+          };
+          return acc;
+        }, {}),
+      };
+
+      const response = await message.personaliseMessageVariables(
+        payloadForVariables,
+        this.currentUser.access_token
+      );
+      const personalisedVariables = Object.values(
+        response?.data?.personalisedVariables
+      );
+
+      // Replace variables in processedParams
+      Object.keys(this.processedParams).forEach(section => {
+        Object.keys(this.processedParams[section]).forEach(key => {
+          const value = this.processedParams[section][key];
+          if (value.startsWith('contact.shopping.')) {
+            const index = contactItems.findIndex(
+              item => item.replace(/\.$/, '') === value.replace(/\.$/, '')
+            );
+            if (index !== -1) {
+              this.processedParams[section][key] =
+                personalisedVariables[index] || value;
+            }
+          }
+        });
+      });
+
+      let textToUse = this.processedContentString;
+      personalisedVariables.forEach((variable, index) => {
+        const pattern = contactItems[index];
+        if (pattern) {
+          // Use regex to replace the exact match of the contact.shopping.* pattern
+          const regex = new RegExp(pattern.replace('.', '\\.'), 'g');
+          textToUse = textToUse.replace(regex, variable);
+        }
+      });
+
       const payload = {
-        message: this.processedContentString,
+        message: textToUse,
         templateParams: {
           name: this.template.name,
           category: this.template.category,
@@ -337,9 +473,22 @@ export default {
         payload.files = [this.uploadedFile.file];
       }
       this.$emit('sendMessage', payload);
+      this.isLoading = false;
     },
     processVariable(str) {
       return str.replace(/{{|}}/g, '');
+    },
+    toggleInputMode(variable) {
+      this.$set(this.inputModes, variable, !this.inputModes[variable]);
+      // Clear the input value when toggling to variable mode
+      if (!this.isInputMode(variable)) {
+        this.processedParams[this.getComponentType(variable)][
+          this.processVariable(variable)
+        ] = '';
+      }
+    },
+    isInputMode(variable) {
+      return this.inputModes[variable] || false;
     },
   },
 };
