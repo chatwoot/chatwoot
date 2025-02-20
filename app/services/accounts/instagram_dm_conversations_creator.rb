@@ -20,10 +20,12 @@ class Accounts::InstagramDmConversationsCreator
     @inbox = Inbox.find_by(id: @params[:inbox_id])
     return unless valid_instagram_inbox?
 
+    setup_contact
+
     # check if the dm conversation already created with comment_id then delete it
     return { error: 'DM conversation has already been created for this comment' } if if_dm_conversation_already_exist
 
-    setup_contact_and_conversation
+    setup_conversation
     send_instagram_message
     update_old_conversation
     add_private_note_on_new_conversation
@@ -41,10 +43,13 @@ class Accounts::InstagramDmConversationsCreator
     @inbox&.channel_type == 'Channel::FacebookPage'
   end
 
-  def setup_contact_and_conversation
+  def setup_contact
     @contact = find_or_update_contact(@params[:contact_id], @account)
     @contact.save!
     @contact_inbox = build_contact_inbox(@contact, @inbox, @contact.identifier)
+  end
+
+  def setup_conversation
     @conversation = create_or_find_conversation
   end
 
@@ -115,12 +120,15 @@ class Accounts::InstagramDmConversationsCreator
     { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity, content: content }
   end
 
+  def find_latest_conversation(contact, contact_inbox)
+    contact.conversations
+           .where(contact_inbox_id: contact_inbox.id)
+           .order(created_at: :desc)
+           .first
+  end
+
   def find_or_create_conversation(contact, _user, _account, contact_inbox)
-    # Find latest conversation for this contact with the specific contact_inbox
-    latest_conversation = contact.conversations
-                                 .where(contact_inbox_id: contact_inbox.id)
-                                 .order(created_at: :desc)
-                                 .first
+    latest_conversation = find_latest_conversation(contact, contact_inbox)
 
     if latest_conversation.blank?
       # Convert the params hash to ActionController::Parameters
@@ -171,9 +179,18 @@ class Accounts::InstagramDmConversationsCreator
     message_id = @params[:message_id]
     @message = Message.find_by(id: message_id)
     if @message
-      @message.content_attributes[:is_dm_conversation_created]
+      @message.content_attributes[:is_dm_conversation_created] && cannot_message_dm_conversation?
     else
       Rails.logger.error "Message not found for ID: #{message_id}"
+    end
+  end
+
+  def cannot_message_dm_conversation?
+    latest_conversation = find_latest_conversation(@contact, @contact_inbox)
+    if latest_conversation.present?
+      !latest_conversation.can_reply
+    else
+      true
     end
   end
 
