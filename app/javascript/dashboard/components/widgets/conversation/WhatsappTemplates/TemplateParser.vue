@@ -50,7 +50,7 @@
               {{ processVariable(variable) }}
             </span>
             <woot-input
-              v-if="isInputMode(variable)"
+              v-if="!isInputMode(variable)"
               v-model="
                 processedParams[componentType][processVariable(variable)]
               "
@@ -86,7 +86,7 @@
               type="button"
               @click="toggleInputMode(variable)"
             >
-              {{ isInputMode(variable) ? 'Use Variable' : 'Use Input' }}
+              {{ !isInputMode(variable) ? 'Use Variable' : 'Use Input' }}
             </woot-button>
           </div>
         </div>
@@ -400,6 +400,7 @@ export default {
         !bodyValidation.isValid ||
         !headerValidation.isValid
       ) {
+        this.isLoading = false;
         return;
       }
 
@@ -484,7 +485,7 @@ export default {
     toggleInputMode(variable) {
       this.$set(this.inputModes, variable, !this.inputModes[variable]);
       // Clear the input value when toggling to variable mode
-      if (!this.isInputMode(variable)) {
+      if (this.isInputMode(variable)) {
         this.processedParams[this.getComponentType(variable)][
           this.processVariable(variable)
         ] = '';
