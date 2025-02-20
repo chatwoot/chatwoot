@@ -432,9 +432,12 @@
         "CONVERSATION": "Conversation #{id}"
       },
       "SELECTED": "{count} selected",
-      "SELECT_ALL": "Select all {totalCount} responses",
       "BULK_APPROVE_BUTTON": "Approve",
       "BULK_DELETE_BUTTON": "Delete",
+      "BULK_APPROVE": {
+        "SUCCESS_MESSAGE": "Responses approved successfully",
+        "ERROR_MESSAGE": "There was an error approving the responses, please try again."
+      },
       "BULK_DELETE": {
         "TITLE": "Delete {count} Responses?",
         "DESCRIPTION": "Are you sure you want to delete {count} selected responses? This action cannot be undone.",
