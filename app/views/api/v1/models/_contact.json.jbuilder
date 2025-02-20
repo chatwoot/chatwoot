@@ -13,7 +13,7 @@ json.created_at resource.created_at.to_i if resource[:created_at].present?
 if defined?(with_contact_inboxes) && with_contact_inboxes.present?
   json.contact_inboxes do
     json.array! resource.contact_inboxes do |contact_inbox|
-      json.partial! 'api/v1/models/contact_inbox', formats: [:json], resource: contact_inbox, hide_channel_credentials: true
+      json.partial! 'api/v1/models/contact_inbox', formats: [:json], resource: contact_inbox
     end
   end
 end
