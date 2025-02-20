@@ -99,6 +99,9 @@
       },
       "fallback": {
         "CONTENT": "har delat en webbadress"
+      },
+      "contact": {
+        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {

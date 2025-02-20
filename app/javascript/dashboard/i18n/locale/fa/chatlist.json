@@ -6,7 +6,7 @@
     "LIST": {
       "404": "هیچ گفتگوی فعالی در این گروه نیست."
     },
-    "FAILED_TO_SEND": "Failed to send",
+    "FAILED_TO_SEND": "ارسال با خطا مواجه شد",
     "TAB_HEADING": "گفتگوها",
     "MENTION_HEADING": "اشاره",
     "UNATTENDED_HEADING": "بی سرپرست",
@@ -99,6 +99,9 @@
       },
       "fallback": {
         "CONTENT": "یک آدرس URL به اشتراک گذاشته شده"
+      },
+      "contact": {
+        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {
@@ -131,6 +134,6 @@
     "HIDE_QUOTED_TEXT": "مخفی کردن متن نقل قول شده",
     "SHOW_QUOTED_TEXT": "نمایش متن نقل قول",
     "MESSAGE_READ": "خوانده شده",
-    "SENDING": "Sending"
+    "SENDING": "در حال ارسال"
   }
 }
