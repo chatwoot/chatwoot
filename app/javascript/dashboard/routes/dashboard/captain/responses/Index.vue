@@ -209,6 +209,13 @@ const onDeleteSuccess = () => {
   }
 };
 
+const onBulkDeleteSuccess = () => {
+  // Refresh the list after bulk approve
+  fetchResponses(responseMeta.value.page);
+  // Clear selection
+  bulkSelected.value = new Set();
+};
+
 const handleStatusFilterChange = ({ value }) => {
   selectedStatus.value = value;
   isStatusFilterOpen.value = false;
@@ -351,7 +358,7 @@ onMounted(() => {
       ref="bulkDeleteDialog"
       :bulk-ids="bulkSelected"
       type="Responses"
-      @delete-success="onDeleteSuccess"
+      @delete-success="onBulkDeleteSuccess"
     />
 
     <CreateResponseDialog

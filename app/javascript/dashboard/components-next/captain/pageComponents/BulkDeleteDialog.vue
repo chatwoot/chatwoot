@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
-// import { useStore } from 'dashboard/composables/store';
+import { useStore } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
@@ -19,7 +19,7 @@ const props = defineProps({
 const emit = defineEmits(['deleteSuccess']);
 
 const { t } = useI18n();
-// const store = useStore();
+const store = useStore();
 const bulkDeleteDialogRef = ref(null);
 const i18nKey = computed(() => props.type.toUpperCase());
 
@@ -29,8 +29,12 @@ const handleBulkDelete = async ids => {
   if (!ids) return;
 
   try {
-    // action
-    // all = allResponseSelected
+    await store.dispatch('captainBulkActions/process', {
+      type: 'AssistantResponse',
+      ids: Array.from(props.bulkIds),
+      fields: { status: 'delete' },
+    });
+
     emit('deleteSuccess');
     useAlert(
       t(`CAPTAIN.${i18nKey.value}.BULK_DELETE.SUCCESS_MESSAGE`, {
