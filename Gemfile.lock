@@ -272,7 +272,8 @@ GEM
       googleauth (~> 1.0)
       grpc (~> 1.36)
     geocoder (1.8.1)
-    gli (2.21.1)
+    gli (2.22.2)
+      ostruct
     globalid (1.2.1)
       activesupport (>= 6.1)
     gmail_xoauth (0.4.3)
@@ -497,14 +498,14 @@ GEM
     newrelic_rpm (9.6.0)
       base64
     nio4r (2.7.3)
-    nokogiri (1.18.2)
+    nokogiri (1.18.3)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.18.2-arm64-darwin)
+    nokogiri (1.18.3-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.18.2-x86_64-darwin)
+    nokogiri (1.18.3-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.18.2-x86_64-linux-gnu)
+    nokogiri (1.18.3-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth (1.1.0)
       oauth-tty (~> 1.0, >= 1.0.1)
@@ -537,6 +538,7 @@ GEM
     openssl (3.2.0)
     orm_adapter (0.5.0)
     os (1.1.4)
+    ostruct (0.6.1)
     parallel (1.23.0)
     parser (3.2.2.1)
       ast (~> 2.4.1)
@@ -745,12 +747,13 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    slack-ruby-client (2.2.0)
+    slack-ruby-client (2.5.1)
       faraday (>= 2.0)
       faraday-mashify
       faraday-multipart
       gli
       hashie
+      logger
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
@@ -951,7 +954,7 @@ DEPENDENCIES
   sidekiq (>= 7.3.1)
   sidekiq-cron (>= 1.12.0)
   simplecov (= 0.17.1)
-  slack-ruby-client (~> 2.2.0)
+  slack-ruby-client (~> 2.5.1)
   spring
   spring-watcher-listen
   squasher
