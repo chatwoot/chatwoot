@@ -188,7 +188,7 @@ class Accounts::InstagramDmConversationsCreator
   def cannot_message_dm_conversation?
     latest_conversation = find_latest_conversation(@contact, @contact_inbox)
     if latest_conversation.present?
-      !latest_conversation.can_reply
+      !latest_conversation.can_reply?
     else
       true
     end
