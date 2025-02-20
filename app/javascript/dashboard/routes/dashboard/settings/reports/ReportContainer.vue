@@ -112,21 +112,32 @@ export default {
       };
     },
     getChartOptions(metric) {
-      let tooltips = {};
-      if (this.isAverageMetricType(metric.KEY)) {
-        tooltips.callbacks = {
-          label: tooltipItem => {
-            return this.$t(metric.TOOLTIP_TEXT, {
-              metricValue: formatTime(tooltipItem.yLabel),
-              conversationCount:
-                this.accountReport.data[metric.KEY][tooltipItem.index].count,
-            });
-          },
-        };
+      const baseOptions = METRIC_CHART[metric.KEY].scales;
+
+      // If not an average metric type, return base options early
+      if (!this.isAverageMetricType(metric.KEY)) {
+        return baseOptions;
       }
+
+      // Only create tooltip config for time-based metrics
       return {
-        scales: METRIC_CHART[metric.KEY].scales,
-        tooltips: tooltips,
+        ...baseOptions,
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: ({ raw, dataIndex }) => {
+                const value = raw || 0;
+                const count =
+                  this.accountReport.data[metric.KEY][dataIndex]?.count || 0;
+
+                return this.$t(metric.TOOLTIP_TEXT, {
+                  metricValue: formatTime(value),
+                  conversationCount: count,
+                });
+              },
+            },
+          },
+        },
       };
     },
   },
