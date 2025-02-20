@@ -1,3 +1,4 @@
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 
 import SettingsWrapper from '../SettingsWrapper.vue';
@@ -17,6 +18,7 @@ export default {
           path: 'list',
           name: 'custom_roles_list',
           meta: {
+            featureFlag: FEATURE_FLAGS.CUSTOM_ROLES,
             permissions: ['administrator'],
           },
           component: CustomRolesHome,

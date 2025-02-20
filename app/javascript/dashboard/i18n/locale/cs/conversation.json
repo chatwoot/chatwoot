@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "Zpráva byla úspěšně smazána",
     "FAIL_DELETE_MESSSAGE": "Zpráva se nepodařilo odstranit! Zkuste to znovu",
     "NO_RESPONSE": "Bez odpovědi",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Hodnocení",
     "FEEDBACK_TITLE": "Zpětná vazba",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
@@ -133,7 +134,7 @@
           "FAILED": "Nelze přiřadit agenta. Zkuste to prosím znovu."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Přiřazený štítek #{labelName} ke konverzaci id {conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Nelze přiřadit štítek. Zkuste to prosím znovu."
         },
         "TEAM_ASSIGNMENT": {
@@ -352,5 +353,11 @@
     "ONE": "{user} is typing",
     "TWO": "{user} and {secondUser} are typing",
     "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

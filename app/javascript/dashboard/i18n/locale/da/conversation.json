@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "Besked slettet",
     "FAIL_DELETE_MESSSAGE": "Kunne ikke slette beskeden! Prøv igen",
     "NO_RESPONSE": "Intet svar",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Bedømmelse",
     "FEEDBACK_TITLE": "Tilbagemelding",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
@@ -133,7 +134,7 @@
           "FAILED": "Kunne ikke tildele agent. Prøv venligst igen."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Tildelt etiket #{labelName} til samtale-id {conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Kunne ikke tildele etiket. Prøv venligst igen."
         },
         "TEAM_ASSIGNMENT": {
@@ -352,5 +353,11 @@
     "ONE": "{user} is typing",
     "TWO": "{user} and {secondUser} are typing",
     "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

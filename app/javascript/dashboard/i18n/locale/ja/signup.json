@@ -1,33 +1,33 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Create an account",
+    "TRY_WOOT": "アカウントを作成",
     "TITLE": "登録",
-    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
-    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
-    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TESTIMONIAL_HEADER": "前進するために必要なのはたった一歩",
+    "TESTIMONIAL_CONTENT": "顧客と関わり、維持し、新たな顧客を見つけるまであと一歩です。",
+    "TERMS_ACCEPT": "アカウントを作成することで、<a href=\"https://www.chatwoot.com/terms\">利用規約</a>および<a href=\"https://www.chatwoot.com/privacy-policy\">プライバシーポリシー</a>に同意したものとみなされます。",
     "OAUTH": {
-      "GOOGLE_SIGNUP": "Sign up with Google"
+      "GOOGLE_SIGNUP": "Googleで登録"
     },
     "COMPANY_NAME": {
-      "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
-      "ERROR": "Company name is too short"
+      "LABEL": "会社名",
+      "PLACEHOLDER": "会社名を入力してください。例: Wayne Enterprises",
+      "ERROR": "会社名が短すぎます"
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "氏名",
+      "PLACEHOLDER": "氏名を入力してください。例: Bruce Wayne",
+      "ERROR": "氏名が短すぎます"
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce{'@'}wayne{'.'}enterprises",
-      "ERROR": "Please enter a valid work email address"
+      "LABEL": "勤務先のメールアドレス",
+      "PLACEHOLDER": "勤務先のメールアドレスを入力してください。例: bruce{'@'}wayne{'.'}enterprises",
+      "ERROR": "有効な勤務先のメールアドレスを入力してください"
     },
     "PASSWORD": {
       "LABEL": "パスワード",
       "PLACEHOLDER": "パスワード",
       "ERROR": "パスワードが短すぎます",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "IS_INVALID_PASSWORD": "パスワードは少なくとも1つの大文字、1つの小文字、1つの数字、1つの特殊文字を含む必要があります"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "パスワードの確認",
@@ -36,9 +36,9 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "登録に成功しました",
-      "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+      "ERROR_MESSAGE": "Wootサーバーに接続できませんでした。後でもう一度お試しください。"
     },
-    "SUBMIT": "Create account",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "SUBMIT": "アカウントを作成",
+    "HAVE_AN_ACCOUNT": "すでにアカウントをお持ちですか？"
   }
 }

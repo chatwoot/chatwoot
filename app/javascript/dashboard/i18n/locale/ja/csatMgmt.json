@@ -1,13 +1,13 @@
 {
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "PLACEHOLDER": "Tell us more...",
+    "TITLE": "会話を評価する",
+    "PLACEHOLDER": "詳細を教えてください...",
     "RATINGS": {
-      "POOR": "😞 Poor",
-      "FAIR": "😑 Fair",
-      "AVERAGE": "😐 Average",
-      "GOOD": "😀 Good",
-      "EXCELLENT": "😍 Excellent"
+      "POOR": "😞 悪かった",
+      "FAIR": "😑 良くなかった",
+      "AVERAGE": "😐 普通",
+      "GOOD": "😀 良かった",
+      "EXCELLENT": "😍 とても良かった"
     }
   }
 }

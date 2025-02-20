@@ -2,25 +2,29 @@
   "SEARCH": {
     "TABS": {
       "ALL": "すべて",
-      "CONTACTS": "Contacts",
+      "CONTACTS": "連絡先",
       "CONVERSATIONS": "会話データ",
       "MESSAGES": "メッセージ"
     },
     "SECTION": {
-      "CONTACTS": "Contacts",
+      "CONTACTS": "連絡先",
       "CONVERSATIONS": "会話データ",
       "MESSAGES": "メッセージ"
     },
-    "SEARCHING_DATA": "Searching",
-    "EMPTY_STATE": "No {item} found for query '{query}'",
-    "EMPTY_STATE_FULL": "No results found for query '{query}'",
-    "PLACEHOLDER_KEYBINDING": "/ to focus",
-    "INPUT_PLACEHOLDER": "Type 3 or more characters to search",
-    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
-    "BOT_LABEL": "Bot",
-    "READ_MORE": "Read more",
-    "WROTE": "wrote:",
+    "VIEW_MORE": "さらに表示",
+    "LOAD_MORE": "さらに読み込む",
+    "SEARCHING_DATA": "検索中",
+    "LOADING_DATA": "読み込み中",
+    "EMPTY_STATE": "{item} がクエリ '{query}' に対して見つかりませんでした。",
+    "EMPTY_STATE_FULL": "クエリ '{query}' に対して結果が見つかりませんでした。",
+    "PLACEHOLDER_KEYBINDING": "/ を押してフォーカス",
+    "INPUT_PLACEHOLDER": "検索するには3文字以上入力してください",
+    "EMPTY_STATE_DEFAULT": "会話ID、メール、電話番号、メッセージで検索すると、より良い検索結果が得られます。",
+    "BOT_LABEL": "ボット",
+    "READ_MORE": "さらに読む",
+    "WROTE": "書き込み:",
     "FROM": "差出人:",
-    "EMAIL": "eメール"
+    "EMAIL": "eメール",
+    "EMAIL_SUBJECT": "件名を入力してください"
   }
 }

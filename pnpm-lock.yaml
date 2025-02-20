@@ -23,8 +23,8 @@ importers:
         specifier: 1.1.1-next
         version: 1.1.1-next
       '@chatwoot/utils':
-        specifier: ^0.0.35
-        version: 0.0.35
+        specifier: ^0.0.39
+        version: 0.0.39
       '@formkit/core':
         specifier: ^1.6.7
         version: 1.6.7
@@ -119,8 +119,8 @@ importers:
         specifier: ^1.3.3
         version: 1.3.8(date-fns@2.21.1)
       dompurify:
-        specifier: 3.1.6
-        version: 3.1.6
+        specifier: 3.2.4
+        version: 3.2.4
       flag-icons:
         specifier: ^7.2.3
         version: 7.2.3
@@ -136,6 +136,9 @@ importers:
       js-cookie:
         specifier: ^3.0.5
         version: 3.0.5
+      lettersanitizer:
+        specifier: ^1.0.6
+        version: 1.0.6
       libphonenumber-js:
         specifier: ^1.11.9
         version: 1.11.9
@@ -197,8 +200,8 @@ importers:
         specifier: 9.14.2
         version: 9.14.2(vue@3.5.12(typescript@5.6.2))
       vue-letter:
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.2.1
+        version: 0.2.1
       vue-multiselect:
         specifier: 3.1.0
         version: 3.1.0
@@ -376,6 +379,10 @@ packages:
     resolution: {integrity: sha512-VBj9MYyDb9tuLq7yzqjgzt6Q+IBQLrGZfdjOekyEirZPHxXWoTSGUTMrpsfi58Up73d13NfYLv8HT9vmznjzhQ==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/runtime@7.26.7':
+    resolution: {integrity: sha512-AOPI3D+a8dXnja+iwsUqGRjr1BbZIe771sXdapOtYI531gSqpi92vXivKcq2asu/DFpdl1ceFAKZyRzK2PCVcQ==}
+    engines: {node: '>=6.9.0'}
+
   '@babel/types@7.26.0':
     resolution: {integrity: sha512-Z/yiTPj+lDVnF7lWeKCIJzaIkI0vYO87dMpZ4bg4TDrFe4XXLFWL1TbXU27gBP3QccxV9mZICCrnjnYlJjXHOA==}
     engines: {node: '>=6.9.0'}
@@ -393,8 +400,8 @@ packages:
   '@chatwoot/prosemirror-schema@1.1.1-next':
     resolution: {integrity: sha512-/M2qZ+ZF7GlQNt1riwVP499fvp3hxSqd5iy8hxyF9pkj9qQ+OKYn5JK+v3qwwqQY3IxhmNOn1Lp6tm7vstrd9Q==}
 
-  '@chatwoot/utils@0.0.35':
-    resolution: {integrity: sha512-uSRbd3pFp+IcEhsRtK1XGcFGFJc+X/YIwQnQrVDXsvsX3Mm7HEANj+Yz6J2clfHotajniwJwH2u5/y48+JrTyA==}
+  '@chatwoot/utils@0.0.39':
+    resolution: {integrity: sha512-m/mt8WhhgEBj0kyfxCQjwyVLVj4Eyb1QRvs1cckL82b6xjyW69zicsVVpTIGd2DLTVdGPu1NzLPKKPaTOnIZgQ==}
     engines: {node: '>=10'}
 
   '@codemirror/commands@6.7.0':
@@ -1730,8 +1737,8 @@ packages:
   '@types/node@22.7.0':
     resolution: {integrity: sha512-MOdOibwBs6KW1vfqz2uKMlxq5xAfAZ98SZjO8e3XnAbFnTJtAspqhWk7hrdSAs9/Y14ZWMiy7/MxMUzAOadYEw==}
 
-  '@types/trusted-types@2.0.2':
-    resolution: {integrity: sha512-F5DIZ36YVLE+PN+Zwws4kJogq47hNgX3Nx6WyDJ3kcplxyke3XIzB8uK5n/Lpm1HBsbGzd6nmGehL8cPekP+Tg==}
+  '@types/trusted-types@2.0.7':
+    resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
 
   '@types/web-bluetooth@0.0.20':
     resolution: {integrity: sha512-g9gZnnXVq7gM7v3tJCWV/qw7w+KeOlSHAhgF9RytFyifW6AF61hdT2ucrYhPq9hLs5JIryeupHV3qGk95dH9ow==}
@@ -2372,8 +2379,8 @@ packages:
     resolution: {integrity: sha512-m1WR0xGiC6j6jNFAyW4Nvh4WxAi4JF4w9jRJwSI8nBmNcyZXPcP9VUQG+6gHQXAmqaGEKDKhOqAtENDC941UkA==}
     engines: {node: '>=0.11'}
 
-  date-fns@2.29.3:
-    resolution: {integrity: sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==}
+  date-fns@2.30.0:
+    resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
     engines: {node: '>=0.11'}
 
   date-format-parse@0.2.7:
@@ -2490,8 +2497,8 @@ packages:
     resolution: {integrity: sha512-cgwlv/1iFQiFnU96XXgROh8xTeetsnJiDsTc7TYCLFd9+/WNkIqPTxiM/8pSd8VIrhXGTf1Ny1q1hquVqDJB5w==}
     engines: {node: '>= 4'}
 
-  dompurify@3.1.6:
-    resolution: {integrity: sha512-cTOAhc36AalkjtBpfG6O8JimdTMWNXjiePT2xQH/ppBGi/4uIpmj8eKyIkMJErXWARyINV/sB38yf8JCLF5pbQ==}
+  dompurify@3.2.4:
+    resolution: {integrity: sha512-ysFSFEDVduQpyhzAob/kkuJjf5zWkZD8/A9ywSp1byueyuCfHamrCBa14/Oc2iiB0e51B+NpxSl5gmzn+Ms/mg==}
 
   domutils@3.1.0:
     resolution: {integrity: sha512-H78uMmQtI2AhgDJjWeQmHwJJ2bLPD3GMmO7Zja/ZZh84wkm+4ut+IUnUdRa8uCGX88DiVx1j6FRe1XfxEgjEZA==}
@@ -3332,8 +3339,8 @@ packages:
   launch-editor@2.9.1:
     resolution: {integrity: sha512-Gcnl4Bd+hRO9P9icCP/RVVT2o8SFlPXofuCxvA2SaZuH45whSvf5p8x5oih5ftLiVhEI4sp5xDY+R+b3zJBh5w==}
 
-  lettersanitizer@1.0.5:
-    resolution: {integrity: sha512-OEJjdlRE96uKB0VfMi4nb3hBctYl1Ss6DQg9SPXRpGcjaBjcmDaibp0ZIdQu1TPwMAEvWC8xRqIcTAooElSDIg==}
+  lettersanitizer@1.0.6:
+    resolution: {integrity: sha512-2vj0tUtBRjlmTCFsgVlFmfi04p049Zwv/4eBGWBUOKropEoL+q+jTQQfFyDu50j7gL76pycMvrqD0uV0vxX2zg==}
 
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
@@ -4165,8 +4172,8 @@ packages:
     resolution: {integrity: sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==}
     engines: {node: '>=8.10.0'}
 
-  readdirp@4.1.1:
-    resolution: {integrity: sha512-h80JrZu/MHUZCyHu5ciuoI0+WxsCxzxJTILn6Fs8rxSnFPh+UVHYfeIxK1nVGugMqkfC4vJcBOYbkfkwYK0+gw==}
+  readdirp@4.1.2:
+    resolution: {integrity: sha512-GDhwkLfywWL2s6vEjyhri+eXmfH6j1L7JE27WhqLeYzoh/A3DBaYGEj2H/HFZCn/kMfim73FXxEJTw06WtxQwg==}
     engines: {node: '>= 14.18.0'}
 
   recordrtc@5.6.2:
@@ -4844,8 +4851,8 @@ packages:
     peerDependencies:
       vue: ^3.0.0
 
-  vue-letter@0.2.0:
-    resolution: {integrity: sha512-p4qHpw89GKidKyGcg4J4IjUcMQuVaTJq83c6UE4616claaLF9rj2Bg/Hq19uDCmokd+SvzEwxq6/ctfaaednkw==}
+  vue-letter@0.2.1:
+    resolution: {integrity: sha512-IYWp47XUikjKfEniWYlFxeJFKABZwAE5IEjz866qCBytBr2dzqVDdjoMDpBP//krxkzN/QZYyHe6C09y/IODYg==}
 
   vue-multiselect@3.1.0:
     resolution: {integrity: sha512-+i/fjTqFBpaay9NP+lU7obBeNaw2DdFDFs4mqhsM0aEtKRdvIf7CfREAx2o2B4XDmPrBt1r7x1YCM3BOMLaUgQ==}
@@ -5092,6 +5099,10 @@ snapshots:
     dependencies:
       regenerator-runtime: 0.14.1
 
+  '@babel/runtime@7.26.7':
+    dependencies:
+      regenerator-runtime: 0.14.1
+
   '@babel/types@7.26.0':
     dependencies:
       '@babel/helper-string-parser': 7.25.9
@@ -5125,9 +5136,9 @@ snapshots:
       prosemirror-utils: 1.2.2(prosemirror-model@1.22.3)(prosemirror-state@1.4.3)
       prosemirror-view: 1.34.1
 
-  '@chatwoot/utils@0.0.35':
+  '@chatwoot/utils@0.0.39':
     dependencies:
-      date-fns: 2.29.3
+      date-fns: 2.30.0
 
   '@codemirror/commands@6.7.0':
     dependencies:
@@ -6583,7 +6594,7 @@ snapshots:
     dependencies:
       undici-types: 6.19.8
 
-  '@types/trusted-types@2.0.2': {}
+  '@types/trusted-types@2.0.7': {}
 
   '@types/web-bluetooth@0.0.20': {}
 
@@ -6591,7 +6602,7 @@ snapshots:
 
   '@videojs/http-streaming@2.13.1(video.js@7.18.1)':
     dependencies:
-      '@babel/runtime': 7.25.6
+      '@babel/runtime': 7.26.7
       '@videojs/vhs-utils': 3.0.4
       aes-decrypter: 3.1.2
       global: 4.4.0
@@ -6602,19 +6613,19 @@ snapshots:
 
   '@videojs/vhs-utils@3.0.4':
     dependencies:
-      '@babel/runtime': 7.25.6
+      '@babel/runtime': 7.26.7
       global: 4.4.0
       url-toolkit: 2.2.5
 
   '@videojs/vhs-utils@3.0.5':
     dependencies:
-      '@babel/runtime': 7.25.6
+      '@babel/runtime': 7.26.7
       global: 4.4.0
       url-toolkit: 2.2.5
 
   '@videojs/xhr@2.6.0':
     dependencies:
-      '@babel/runtime': 7.25.6
+      '@babel/runtime': 7.26.7
       global: 4.4.0
       is-function: 1.0.2
 
@@ -6897,7 +6908,7 @@ snapshots:
 
   aes-decrypter@3.1.2:
     dependencies:
-      '@babel/runtime': 7.25.6
+      '@babel/runtime': 7.26.7
       '@videojs/vhs-utils': 3.0.5
       global: 4.4.0
       pkcs7: 1.0.4
@@ -7214,7 +7225,7 @@ snapshots:
 
   chokidar@4.0.3:
     dependencies:
-      readdirp: 4.1.1
+      readdirp: 4.1.2
     optional: true
 
   cli-boxes@3.0.0: {}
@@ -7380,7 +7391,9 @@ snapshots:
 
   date-fns@2.21.1: {}
 
-  date-fns@2.29.3: {}
+  date-fns@2.30.0:
+    dependencies:
+      '@babel/runtime': 7.26.7
 
   date-format-parse@0.2.7: {}
 
@@ -7467,7 +7480,9 @@ snapshots:
     dependencies:
       domelementtype: 2.3.0
 
-  dompurify@3.1.6: {}
+  dompurify@3.2.4:
+    optionalDependencies:
+      '@types/trusted-types': 2.0.7
 
   domutils@3.1.0:
     dependencies:
@@ -8548,7 +8563,7 @@ snapshots:
       picocolors: 1.1.0
       shell-quote: 1.8.1
 
-  lettersanitizer@1.0.5: {}
+  lettersanitizer@1.0.6: {}
 
   levn@0.4.1:
     dependencies:
@@ -8610,7 +8625,7 @@ snapshots:
 
   lit-html@2.8.0:
     dependencies:
-      '@types/trusted-types': 2.0.2
+      '@types/trusted-types': 2.0.7
 
   lit@2.2.6:
     dependencies:
@@ -8668,7 +8683,7 @@ snapshots:
 
   m3u8-parser@4.7.0:
     dependencies:
-      '@babel/runtime': 7.25.6
+      '@babel/runtime': 7.26.7
       '@videojs/vhs-utils': 3.0.5
       global: 4.4.0
 
@@ -8803,7 +8818,7 @@ snapshots:
 
   mpd-parser@0.21.0:
     dependencies:
-      '@babel/runtime': 7.25.6
+      '@babel/runtime': 7.26.7
       '@videojs/vhs-utils': 3.0.5
       '@xmldom/xmldom': 0.7.13
       global: 4.4.0
@@ -8822,7 +8837,7 @@ snapshots:
 
   mux.js@6.0.1:
     dependencies:
-      '@babel/runtime': 7.25.6
+      '@babel/runtime': 7.26.7
       global: 4.4.0
 
   mz@2.7.0:
@@ -9056,7 +9071,7 @@ snapshots:
 
   pkcs7@1.0.4:
     dependencies:
-      '@babel/runtime': 7.25.6
+      '@babel/runtime': 7.26.7
 
   pkg-dir@7.0.0:
     dependencies:
@@ -9443,7 +9458,7 @@ snapshots:
     dependencies:
       picomatch: 2.3.1
 
-  readdirp@4.1.1:
+  readdirp@4.1.2:
     optional: true
 
   recordrtc@5.6.2: {}
@@ -10191,7 +10206,7 @@ snapshots:
 
   vue-dompurify-html@5.1.0(vue@3.5.12(typescript@5.6.2)):
     dependencies:
-      dompurify: 3.1.6
+      dompurify: 3.2.4
       vue: 3.5.12(typescript@5.6.2)
 
   vue-eslint-parser@9.4.3(eslint@8.57.0):
@@ -10214,9 +10229,9 @@ snapshots:
       '@vue/devtools-api': 6.6.4
       vue: 3.5.12(typescript@5.6.2)
 
-  vue-letter@0.2.0:
+  vue-letter@0.2.1:
     dependencies:
-      lettersanitizer: 1.0.5
+      lettersanitizer: 1.0.6
 
   vue-multiselect@3.1.0: {}
 
