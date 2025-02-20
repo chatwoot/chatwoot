@@ -90,7 +90,7 @@
     "vue": "^3.5.12",
     "vue-chartjs": "5.3.1",
     "vue-datepicker-next": "^1.0.3",
-    "vue-dompurify-html": "^5.1.0",
+    "vue-dompurify-html": "^5.2.0",
     "vue-i18n": "9.14.2",
     "vue-letter": "^0.2.0",
     "vue-multiselect": "3.1.0",
