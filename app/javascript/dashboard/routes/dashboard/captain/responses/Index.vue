@@ -178,8 +178,14 @@ const handleBulkApprove = async () => {
       fields: { status: 'approve' },
     });
 
+    // Update responses in store
+    await store.dispatch(
+      'captainBulkActions/handleBulkApprove',
+      Array.from(bulkSelected.value)
+    );
+
     // Refresh the list with same page after bulk approve
-    fetchResponses(responseMeta.value.page);
+    // fetchResponses(responseMeta.value.page);
     // Clear selection
     bulkSelected.value = new Set();
     useAlert(t('CAPTAIN.RESPONSES.BULK_APPROVE.SUCCESS_MESSAGE'));
@@ -210,13 +216,15 @@ const onDeleteSuccess = () => {
 };
 
 const onBulkDeleteSuccess = () => {
-  // Refresh the list after bulk delete
-  const page =
-    responses.value?.length === 0 && responseMeta.value?.page > 1
-      ? responseMeta.value.page - 1
-      : responseMeta.value.page;
+  // Only fetch if no records left
+  if (responses.value?.length === 0) {
+    const page =
+      responseMeta.value?.page > 1
+        ? responseMeta.value.page - 1
+        : responseMeta.value.page;
+    fetchResponses(page);
+  }
 
-  fetchResponses(page);
   // Clear selection
   bulkSelected.value = new Set();
 };

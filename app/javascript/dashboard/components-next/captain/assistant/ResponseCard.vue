@@ -118,8 +118,8 @@ const handleDocumentableClick = () => {
 <template>
   <CardLayout
     :class="{ 'rounded-md': compact }"
-    @mouseenter="$emit('hover', true)"
-    @mouseleave="$emit('hover', false)"
+    @mouseenter="emit('hover', true)"
+    @mouseleave="emit('hover', false)"
   >
     <div class="flex justify-between w-full gap-1">
       <span class="text-base text-n-slate-12 line-clamp-1">

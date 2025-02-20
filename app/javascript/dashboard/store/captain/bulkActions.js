@@ -23,5 +23,11 @@ export default createStore({
         root: true,
       });
     },
+
+    handleBulkApprove: async function handleBulkApprove({ dispatch }, ids) {
+      await dispatch('captainResponses/approveBulkResponse', ids, {
+        root: true,
+      });
+    },
   }),
 });

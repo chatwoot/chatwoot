@@ -34,6 +34,8 @@ const handleBulkDelete = async ids => {
       ids: Array.from(props.bulkIds),
       fields: { status: 'delete' },
     });
+
+    // Remove responses from the store
     await store.dispatch(
       'captainBulkActions/handleBulkDelete',
       Array.from(props.bulkIds)
