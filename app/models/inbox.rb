@@ -9,23 +9,23 @@
 #  auto_assignment_config        :jsonb
 #  business_name                 :string
 #  channel_type                  :string
-#  csat_survey_enabled           :boolean          default(FALSE)
+#  csat_survey_enabled          :boolean          default(FALSE)
 #  email_address                 :string
-#  enable_auto_assignment        :boolean          default(TRUE)
-#  enable_email_collect          :boolean          default(TRUE)
-#  greeting_enabled              :boolean          default(FALSE)
-#  greeting_message              :string
-#  lock_to_single_conversation   :boolean          default(FALSE), not null
-#  name                          :string           not null
-#  out_of_office_message         :string
-#  sender_name_type              :integer          default("friendly"), not null
-#  timezone                      :string           default("UTC")
-#  working_hours_enabled         :boolean          default(FALSE)
-#  created_at                    :datetime         not null
-#  updated_at                    :datetime         not null
-#  account_id                    :integer          not null
-#  channel_id                    :integer          not null
-#  portal_id                     :bigint
+#  enable_auto_assignment       :boolean          default(TRUE)
+#  enable_email_collect         :boolean          default(TRUE)
+#  greeting_enabled             :boolean          default(FALSE)
+#  greeting_message             :string
+#  lock_to_single_conversation  :boolean          default(FALSE), not null
+#  name                         :string           not null
+#  out_of_office_message        :string
+#  sender_name_type             :integer          default("friendly"), not null
+#  timezone                     :string           default("UTC")
+#  working_hours_enabled        :boolean          default(FALSE)
+#  created_at                   :datetime         not null
+#  updated_at                   :datetime         not null
+#  account_id                   :integer          not null
+#  channel_id                   :integer          not null
+#  portal_id                    :bigint
 #
 # Indexes
 #
@@ -86,9 +86,7 @@ class Inbox < ApplicationRecord
   # @param user_ids [Array<Integer>] Array of user IDs to add as members
   # @return [void]
   def add_members(user_ids)
-    user_ids.each do |user_id|
-      add_member(user_id)
-    end
+    inbox_members.create!(user_ids.map { |user_id| { user_id: user_id } })
     update_account_cache
   end
 
@@ -96,9 +94,7 @@ class Inbox < ApplicationRecord
   # @param user_ids [Array<Integer>] Array of user IDs to remove
   # @return [void]
   def remove_members(user_ids)
-    user_ids.each do |user_id|
-      remove_member(user_id)
-    end
+    inbox_members.where(user_id: user_ids).destroy_all
     update_account_cache
   end
 
