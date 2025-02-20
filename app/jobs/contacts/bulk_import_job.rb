@@ -24,43 +24,61 @@ class Contacts::BulkImportJob < ApplicationJob
       end
     end
 
-    # You might want to store these results or notify via email/webhook
     Rails.logger.info("Batch processed: #{results}")
   end
 
   private
 
-  def process_contact(contact_data, account_id) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
+  def process_contact(contact_data, account_id)
     return { success: false, error: 'Invalid data' } unless valid_contact?(contact_data)
 
     existing_contact = find_existing_contact(contact_data, account_id)
-
-    if existing_contact
-      contact_conversation = Conversation.find_by(contact_id: existing_contact.id, account_id: account_id)
-
-      # If contact has both email, phone and conversations, return as is
-      if existing_contact.phone_number.present? &&
-         existing_contact.email.present? &&
-         contact_conversation.present?
-        return {
-          success: true,
-          contact: existing_contact,
-          action: :unchanged,
-          message: 'Contact already exists with all details'
-        }
-      end
-
-      # Determine what fields to update based on existing data and conversations
-      update_data = contact_data.dup
-      update_data[:phone_number] = nil if existing_contact.phone_number.present? && contact_conversation.present?
-      update_data[:email] = nil if existing_contact.email.present? && contact_conversation.present?
-
-      update_contact(existing_contact, update_data)
-    else
-      create_contact(contact_data, account_id)
-    end
+    existing_contact ? handle_existing_contact(existing_contact, contact_data, account_id) : create_contact(contact_data, account_id)
   rescue StandardError => e
     { success: false, error: e.message }
+  end
+
+  def handle_existing_contact(contact, contact_data, account_id)
+    return unchanged_contact_response(contact) if contact_complete?(contact, account_id)
+
+    return unchanged_contact_response(contact) if contact_matches_data?(contact, contact_data)
+
+    update_data = prepare_update_data(contact, contact_data, account_id)
+    update_contact(contact, update_data)
+  end
+
+  def contact_complete?(contact, account_id)
+    contact.phone_number.present? &&
+      contact.email.present? &&
+      Conversation.exists?(contact_id: contact.id, account_id: account_id)
+  end
+
+  def unchanged_contact_response(contact)
+    {
+      success: true,
+      contact: contact,
+      action: :unchanged,
+      message: 'Contact already exists with all details'
+    }
+  end
+
+  def prepare_update_data(contact, contact_data, account_id)
+    update_data = contact_data.dup
+
+    contact_has_conversation = Conversation.exists?(contact_id: contact.id, account_id: account_id)
+
+    if contact_has_conversation
+      if contact.email.present? && contact.phone_number.blank?
+        update_data.delete(:email)
+      elsif contact.phone_number.present? && contact.email.blank?
+        update_data.delete(:phone_number)
+      end
+    end
+
+    update_data.compact!
+    update_data.reject! { |_, v| v.blank? }
+
+    update_data
   end
 
   def valid_contact?(contact_data)
@@ -109,5 +127,12 @@ class Contacts::BulkImportJob < ApplicationJob
         error: contact.errors.full_messages
       }
     end
+  end
+
+  def contact_matches_data?(contact, contact_data)
+    contact.email.present? &&
+      contact.phone_number.present? &&
+      contact.email == contact_data[:email] &&
+      contact.phone_number == contact_data[:phone_number]
   end
 end
