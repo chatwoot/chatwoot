@@ -51,10 +51,6 @@ class Team < ApplicationRecord
     update_account_cache
   end
 
-  def remove_member(user_id)
-    team_members.find_by(user_id: user_id)&.destroy!
-  end
-
   def messages
     account.messages.where(conversation_id: conversations.pluck(:id))
   end
