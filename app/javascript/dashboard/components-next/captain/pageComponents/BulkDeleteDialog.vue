@@ -14,14 +14,6 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  hasAllSelected: {
-    type: Boolean,
-    default: false,
-  },
-  totalResponses: {
-    type: Number,
-    required: true,
-  },
 });
 
 const emit = defineEmits(['deleteSuccess']);
@@ -42,7 +34,7 @@ const handleBulkDelete = async ids => {
     emit('deleteSuccess');
     useAlert(
       t(`CAPTAIN.${i18nKey.value}.BULK_DELETE.SUCCESS_MESSAGE`, {
-        count: !props.hasAllSelected ? bulkSelectedCount : props.totalResponses,
+        count: bulkSelectedCount,
       })
     );
   } catch (error) {
@@ -64,12 +56,12 @@ defineExpose({ dialogRef: bulkDeleteDialogRef });
     type="alert"
     :title="
       t(`CAPTAIN.${i18nKey}.BULK_DELETE.TITLE`, {
-        count: !props.hasAllSelected ? bulkSelectedCount : props.totalResponses,
+        count: bulkSelectedCount,
       })
     "
     :description="
       t(`CAPTAIN.${i18nKey}.BULK_DELETE.DESCRIPTION`, {
-        count: !props.hasAllSelected ? bulkSelectedCount : props.totalResponses,
+        count: bulkSelectedCount,
       })
     "
     :confirm-button-label="t(`CAPTAIN.${i18nKey}.BULK_DELETE.CONFIRM`)"

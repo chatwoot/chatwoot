@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, nextTick, watch } from 'vue';
+import { computed, onMounted, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
@@ -94,7 +94,6 @@ const handleEdit = () => {
 
 // Bulk action
 const bulkSelected = ref(new Set());
-const allResponseSelected = ref(false); // State for select all response button
 const hoveredCard = ref(null);
 
 const bulkSelectionState = computed(() => {
@@ -109,34 +108,17 @@ const bulkSelectionState = computed(() => {
 });
 
 const toggleSelectAllResponses = (shouldSelectAll = false) => {
-  if (allResponseSelected.value) {
-    // If allResponseSelected is true, always select all items on the current page
-    bulkSelected.value = new Set(responses.value.map(r => r.id));
-  } else {
-    // Original behavior for page-specific selection
-    bulkSelected.value = shouldSelectAll
-      ? new Set(responses.value.map(r => r.id))
-      : new Set();
-  }
+  bulkSelected.value = shouldSelectAll
+    ? new Set(responses.value.map(r => r.id))
+    : new Set();
 };
 
 const bulkCheckbox = computed({
-  get: () => allResponseSelected.value || bulkSelectionState.value.allSelected,
+  get: () => bulkSelectionState.value.allSelected,
   set: value => {
-    if (value) {
-      toggleSelectAllResponses(true);
-    } else {
-      allResponseSelected.value = false;
-      bulkSelected.value = new Set();
-    }
+    toggleSelectAllResponses(value);
   },
 });
-
-const totalPages = computed(() =>
-  Math.ceil(responseMeta.value.totalCount / 25)
-);
-
-const hasMultiplePages = computed(() => totalPages.value > 1);
 
 const handleCardHover = (isHovered, id) => {
   hoveredCard.value = isHovered ? id : null;
@@ -146,32 +128,11 @@ const handleCardSelect = id => {
   const selected = new Set(bulkSelected.value);
   selected[selected.has(id) ? 'delete' : 'add'](id);
   bulkSelected.value = selected;
-
-  // If any item is unchecked and we're in allResponseSelected mode
-  if (allResponseSelected.value && !selected.has(id)) {
-    allResponseSelected.value = false;
-  }
-};
-
-const handleSelectAllClick = () => {
-  // If all items on current page are selected but allResponseSelected is false
-  if (bulkSelectionState.value.allSelected && !allResponseSelected.value) {
-    allResponseSelected.value = true;
-    return;
-  }
-
-  // If allResponseSelected is true, do nothing
-  if (allResponseSelected.value) return;
-
-  // Otherwise, select all items
-  toggleSelectAllResponses(true);
-  allResponseSelected.value = true;
 };
 
 const handleBulkApprove = async () => {
   try {
     // action
-    // all = allResponseSelected
     bulkSelected.value = new Set();
   } catch (error) {
     // error
@@ -225,28 +186,11 @@ const onPageChange = page => {
 
   fetchResponses(page);
 
-  // Reset selection if we had any selections but allResponseSelected is false
-  if (
-    !allResponseSelected.value &&
-    (wasAllPageSelected || hadPartialSelection)
-  ) {
+  // Reset selection if we had any selections on page change
+  if (wasAllPageSelected || hadPartialSelection) {
     bulkSelected.value = new Set();
   }
-  // If allResponseSelected is true, selection will be handled by the watcher
 };
-
-// Add watcher for responses to handle selection on page changes
-watch(
-  responses,
-  newResponses => {
-    if (allResponseSelected.value && newResponses?.length) {
-      // When responses change and allResponseSelected is true,
-      // automatically select all items on the current page
-      bulkSelected.value = new Set(newResponses.map(r => r.id));
-    }
-  },
-  { immediate: true }
-);
 
 const onDeleteSuccess = () => {
   if (responses.value?.length === 0 && responseMeta.value?.page > 1) {
@@ -322,19 +266,6 @@ onMounted(() => {
             @update="handleAssistantFilterChange"
           />
         </div>
-        <div v-else-if="hasMultiplePages">
-          <Button
-            :label="
-              $t('CAPTAIN.RESPONSES.SELECT_ALL', {
-                totalCount: responseMeta.totalCount,
-              })
-            "
-            sm
-            link
-            blue
-            @click="handleSelectAllClick"
-          />
-        </div>
         <div v-else />
 
         <div
@@ -348,11 +279,7 @@ onMounted(() => {
             />
             <span class="text-sm text-n-slate-10 tabular-nums">
               {{
-                $t('CAPTAIN.RESPONSES.SELECTED', {
-                  count: !allResponseSelected
-                    ? bulkSelected.size
-                    : responseMeta.totalCount,
-                })
+                $t('CAPTAIN.RESPONSES.SELECTED', { count: bulkSelected.size })
               }}
             </span>
           </div>
@@ -412,8 +339,6 @@ onMounted(() => {
       v-if="bulkSelected"
       ref="bulkDeleteDialog"
       :bulk-ids="bulkSelected"
-      :has-all-selected="allResponseSelected"
-      :total-responses="responseMeta.totalCount"
       type="Responses"
       @delete-success="onDeleteSuccess"
     />
