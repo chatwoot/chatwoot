@@ -133,11 +133,11 @@ const fetchResponses = (page = 1) => {
 };
 
 // Bulk action
-const bulkSelected = ref(new Set());
+const bulkSelectedIds = ref(new Set());
 const hoveredCard = ref(null);
 
 const bulkSelectionState = computed(() => {
-  const selectedCount = bulkSelected.value.size;
+  const selectedCount = bulkSelectedIds.value.size;
   const totalCount = responses.value?.length || 0;
 
   return {
@@ -147,16 +147,12 @@ const bulkSelectionState = computed(() => {
   };
 });
 
-const toggleSelectAllResponses = (shouldSelectAll = false) => {
-  bulkSelected.value = shouldSelectAll
-    ? new Set(responses.value.map(r => r.id))
-    : new Set();
-};
-
 const bulkCheckbox = computed({
   get: () => bulkSelectionState.value.allSelected,
   set: value => {
-    toggleSelectAllResponses(value);
+    bulkSelectedIds.value = value
+      ? new Set(responses.value.map(r => r.id))
+      : new Set();
   },
 });
 
@@ -165,29 +161,27 @@ const handleCardHover = (isHovered, id) => {
 };
 
 const handleCardSelect = id => {
-  const selected = new Set(bulkSelected.value);
+  const selected = new Set(bulkSelectedIds.value);
   selected[selected.has(id) ? 'delete' : 'add'](id);
-  bulkSelected.value = selected;
+  bulkSelectedIds.value = selected;
 };
 
 const handleBulkApprove = async () => {
   try {
     await store.dispatch('captainBulkActions/process', {
       type: 'AssistantResponse',
-      ids: Array.from(bulkSelected.value),
+      ids: Array.from(bulkSelectedIds.value),
       fields: { status: 'approve' },
     });
 
     // Update responses in store
     await store.dispatch(
       'captainBulkActions/handleBulkApprove',
-      Array.from(bulkSelected.value)
+      Array.from(bulkSelectedIds.value)
     );
 
-    // Refresh the list with same page after bulk approve
-    // fetchResponses(responseMeta.value.page);
     // Clear selection
-    bulkSelected.value = new Set();
+    bulkSelectedIds.value = new Set();
     useAlert(t('CAPTAIN.RESPONSES.BULK_APPROVE.SUCCESS_MESSAGE'));
   } catch (error) {
     useAlert(
@@ -199,13 +193,13 @@ const handleBulkApprove = async () => {
 const onPageChange = page => {
   // Store current selection state before fetching new page
   const wasAllPageSelected = bulkSelectionState.value.allSelected;
-  const hadPartialSelection = bulkSelected.value.size > 0;
+  const hadPartialSelection = bulkSelectedIds.value.size > 0;
 
   fetchResponses(page);
 
   // Reset selection if we had any selections on page change
   if (wasAllPageSelected || hadPartialSelection) {
-    bulkSelected.value = new Set();
+    bulkSelectedIds.value = new Set();
   }
 };
 
@@ -226,7 +220,7 @@ const onBulkDeleteSuccess = () => {
   }
 
   // Clear selection
-  bulkSelected.value = new Set();
+  bulkSelectedIds.value = new Set();
 };
 
 const handleStatusFilterChange = ({ value }) => {
@@ -310,7 +304,9 @@ onMounted(() => {
             />
             <span class="text-sm text-n-slate-10 tabular-nums">
               {{
-                $t('CAPTAIN.RESPONSES.SELECTED', { count: bulkSelected.size })
+                $t('CAPTAIN.RESPONSES.SELECTED', {
+                  count: bulkSelectedIds.size,
+                })
               }}
             </span>
           </div>
@@ -348,8 +344,10 @@ onMounted(() => {
           :status="response.status"
           :created-at="response.created_at"
           :updated-at="response.updated_at"
-          :is-selected="bulkSelected.has(response.id)"
-          :show-checkbox="hoveredCard === response.id || bulkSelected.size > 0"
+          :is-selected="bulkSelectedIds.has(response.id)"
+          :show-checkbox="
+            hoveredCard === response.id || bulkSelectedIds.size > 0
+          "
           @action="handleAction"
           @navigate="handleNavigationAction"
           @select="handleCardSelect"
@@ -367,9 +365,9 @@ onMounted(() => {
     />
 
     <BulkDeleteDialog
-      v-if="bulkSelected"
+      v-if="bulkSelectedIds"
       ref="bulkDeleteDialog"
-      :bulk-ids="bulkSelected"
+      :bulk-ids="bulkSelectedIds"
       type="Responses"
       @delete-success="onBulkDeleteSuccess"
     />
