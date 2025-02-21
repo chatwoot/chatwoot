@@ -110,6 +110,13 @@ export default {
     startNewConversation() {
       this.clearConversations();
       this.clearConversationAttributes();
+      this.setQuickRepliesOptions([]);
+      const ref = new URLSearchParams(window.location.search).get('referral');
+      console.log('1: ref')
+      if (ref) {
+        console.log('1: tiene el ref')
+        this.$store.dispatch('conversation/createConversation', {});
+      }
     },
     async sendTranscript() {
       const { email } = this.currentUser;
