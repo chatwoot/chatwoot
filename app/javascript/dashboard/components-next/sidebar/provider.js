@@ -12,8 +12,12 @@ export function useSidebarContext() {
 
   const router = useRouter();
 
-  const { checkFeatureAllowed, checkPermissions, checkInstallationType } =
-    usePolicy();
+  const {
+    checkFeatureAllowed,
+    checkPermissions,
+    checkInstallationType,
+    isPremiumFeature,
+  } = usePolicy();
 
   const resolvePath = to => {
     if (to) return router.resolve(to)?.path || '/';
@@ -38,11 +42,12 @@ export function useSidebarContext() {
   const isAllowed = to => {
     const permissions = resolvePermissions(to);
     const featureFlag = resolveFeatureFlag(to);
+    const isPremiumWithPaywall = isPremiumFeature(featureFlag);
     const installationType = resolveInstallationType(to);
 
     return (
       checkPermissions(permissions) &&
-      checkFeatureAllowed(featureFlag) &&
+      (checkFeatureAllowed(featureFlag) || isPremiumWithPaywall) &&
       checkInstallationType(installationType)
     );
   };

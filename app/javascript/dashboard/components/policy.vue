@@ -21,22 +21,33 @@ const props = defineProps({
   },
 });
 
-const { checkFeatureAllowed, checkPermissions, checkInstallationType } =
-  usePolicy();
+const {
+  checkFeatureAllowed,
+  checkPermissions,
+  isPremiumFeature,
+  checkInstallationType,
+} = usePolicy();
 
-const isFeatureAllowed = computed(() => checkFeatureAllowed(props.featureFlag));
+const isFeatureFlagEnabled = computed(() =>
+  checkFeatureAllowed(props.featureFlag)
+);
+const isPremium = computed(() => isPremiumFeature(props.featureFlag));
 const hasPermission = computed(() => checkPermissions(props.permissions));
 const matchesInstallationType = computed(() =>
   checkInstallationType(props.installationTypes)
+);
+
+const show = computed(
+  () =>
+    (isFeatureFlagEnabled.value || isPremium.value) &&
+    hasPermission.value &&
+    matchesInstallationType.value
 );
 </script>
 
 <!-- eslint-disable vue/no-root-v-if -->
 <template>
-  <component
-    :is="as"
-    v-if="isFeatureAllowed && hasPermission && matchesInstallationType"
-  >
+  <component :is="as" v-if="show">
     <slot />
   </component>
 </template>

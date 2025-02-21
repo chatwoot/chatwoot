@@ -6,6 +6,7 @@ import {
   getUserPermissions,
   hasPermissions,
 } from 'dashboard/helper/permissionsHelper';
+import { PREMIUM_FEATURES } from 'dashboard/featureFlags';
 
 import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
 
@@ -46,6 +47,11 @@ export function usePolicy() {
     return true;
   };
 
+  const isPremiumFeature = featureFlag => {
+    if (!featureFlag) return true;
+    return PREMIUM_FEATURES.includes(featureFlag);
+  };
+
   const hasPremiumEnterprise = computed(() => {
     if (isEnterprise) return enterprisePlanName === 'enterprise';
 
@@ -55,6 +61,7 @@ export function usePolicy() {
   return {
     checkFeatureAllowed,
     checkPermissions,
+    isPremiumFeature,
     checkInstallationType,
     hasPremiumEnterprise,
   };
