@@ -113,7 +113,7 @@
       "CREATE_ERROR": "Houve um erro ao criar o link da reunião, por favor tente novamente"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "Assistente Open AI",
+      "AI_ASSIST": "Inteligência Artificial",
       "WITH_AI": " {option} com IA ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Sugestão de resposta",
@@ -129,7 +129,7 @@
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Conteúdo do rascunho",
         "GENERATED_TITLE": "Conteúdo gerado",
-        "AI_WRITING": "A IA está escrevendo",
+        "AI_WRITING": "A Inteligência Artificial está escrevendo",
         "BUTTONS": {
           "APPLY": "Use esta sugestão",
           "CANCEL": "Cancelar"
@@ -147,10 +147,10 @@
         "DISMISS_MESSAGE": "Você pode configurar a integração com o OpenAI mais tarde.",
         "SUCCESS_MESSAGE": "Integração com o OpenAI configurada com sucesso"
       },
-      "TITLE": "Melhore com IA",
-      "SUMMARY_TITLE": "Resumo com IA",
+      "TITLE": "Melhorar com IA",
+      "SUMMARY_TITLE": "Resumir com IA",
       "REPLY_TITLE": "Responder sugestão com IA",
-      "SUBTITLE": "Uma resposta melhor será gerada usando AI, com base no seu rascunho atual.",
+      "SUBTITLE": "Uma resposta melhor será gerada usando IA, com base no seu rascunho atual.",
       "TONE": {
         "TITLE": "Tom",
         "OPTIONS": {
