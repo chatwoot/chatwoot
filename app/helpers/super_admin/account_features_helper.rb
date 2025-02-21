@@ -26,6 +26,12 @@ module SuperAdmin::AccountFeaturesHelper
     features.except(*deprecated_features)
   end
 
+  def self.sort_and_transform_features(features, display_names)
+    features.sort_by { |key, _| display_names[key] || key }
+            .to_h
+            .transform_keys { |key| [key, display_names[key]] }
+  end
+
   def self.partition_features(features)
     filtered = filter_internal_features(features)
     filtered = filter_deprecated_features(filtered)
@@ -34,8 +40,8 @@ module SuperAdmin::AccountFeaturesHelper
     regular, premium = filtered.partition { |key, _value| account_premium_features.exclude?(key) }
 
     [
-      regular.sort_by { |key, _| display_names[key] || key }.to_h.transform_keys { |key| [key, display_names[key]] },
-      premium.sort_by { |key, _| display_names[key] || key }.to_h.transform_keys { |key| [key, display_names[key]] }
+      sort_and_transform_features(regular, display_names),
+      sort_and_transform_features(premium, display_names)
     ]
   end
 
