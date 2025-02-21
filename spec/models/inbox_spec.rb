@@ -41,31 +41,6 @@ RSpec.describe Inbox do
     it_behaves_like 'avatarable'
   end
 
-  describe '#add_member' do
-    let(:inbox) { FactoryBot.create(:inbox) }
-    let(:user) { FactoryBot.create(:user) }
-
-    it do
-      expect(inbox.inbox_members.size).to eq(0)
-
-      inbox.send(:add_member, user.id)
-      expect(inbox.reload.inbox_members.size).to eq(1)
-    end
-  end
-
-  describe '#remove_member' do
-    let(:inbox) { FactoryBot.create(:inbox) }
-    let(:user) { FactoryBot.create(:user) }
-
-    it do
-      inbox.send(:add_member, user.id)
-      expect(inbox.inbox_members.size).to eq(1)
-
-      inbox.send(:remove_member, user.id)
-      expect(inbox.reload.inbox_members.size).to eq(0)
-    end
-  end
-
   describe '#add_members' do
     let(:inbox) { FactoryBot.create(:inbox) }
 
