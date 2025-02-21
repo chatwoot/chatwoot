@@ -11,11 +11,11 @@
       "404": "هیچ گزارش حسابرسی در این حساب موجود نیست.",
       "TITLE": "مدیریت گزارش های حسابرسی",
       "DESC": "گزارش های حسابرسی مسیرهایی برای رویدادها و اقدامات در یک سیستم چت ووت هستند.",
-      "TABLE_HEADER": [
-        "کاربر",
-        "اقدام",
-        "آدرس آی‌پی"
-      ]
+      "TABLE_HEADER": {
+        "ACTIVITY": "کاربر",
+        "TIME": "اقدام",
+        "IP_ADDRESS": "آدرس آی‌پی"
+      }
     },
     "API": {
       "SUCCESS_MESSAGE": "گزارش های حسابرسی با موفقیت بازیابی شد",
@@ -23,9 +23,9 @@
     },
     "DEFAULT_USER": "سیستم",
     "AUTOMATION_RULE": {
-      "ADD": "{agentName} یک اتوماسیون ({id}) ایجاد کرد",
-      "EDIT": "{agentName} یک اتوماسیون ({id}) را ویرایش کرد",
-      "DELETE": "{agentName} یک اتوماسیون ({id}) را حذف کرد"
+      "ADD": "{agentName} created a new automation rule (#{id})",
+      "EDIT": "{agentName} updated an automation rule (#{id})",
+      "DELETE": "{agentName} deleted an automation rule (#{id})"
     },
     "ACCOUNT_USER": {
       "ADD": "{agentName} از {invitee} دعوت کرد به عنوان {role} به سیستم اضافه شود",
@@ -36,39 +36,39 @@
       }
     },
     "INBOX": {
-      "ADD": "{agentName} یک صندوق ورودی ({id}) ایجاد کرد",
-      "EDIT": "{agentName} یک صندوق ورودی ({id}) را ویرایش کرد",
-      "DELETE": "{agentName} یک صندوق ورودی ({id}) را حذف کرد"
+      "ADD": "{agentName} created a new inbox (#{id})",
+      "EDIT": "{agentName} updated an inbox (#{id})",
+      "DELETE": "{agentName} deleted an inbox (#{id})"
     },
     "WEBHOOK": {
-      "ADD": "{agentName} یک وب هوک ({id}) ایجاد کرد",
-      "EDIT": "{agentName} یک وب هوک ({id}) را ویرایش کرد",
-      "DELETE": "{agentName} یک وب هوک ({id}) را حذف کرد"
+      "ADD": "{agentName} created a new webhook (#{id})",
+      "EDIT": "{agentName} updated a webhook (#{id})",
+      "DELETE": "{agentName} deleted a webhook (#{id})"
     },
     "USER_ACTION": {
       "SIGN_IN": "{agentName} وارد شد",
       "SIGN_OUT": "{agentName} خارج شد"
     },
     "TEAM": {
-      "ADD": "{agentName} یک تیم ({id}) ایجاد کرد",
-      "EDIT": "{agentName} یک تیم ({id}) را ویرایش کرد",
-      "DELETE": "{agentName} یک تیم ({id}) را حذف کرد"
+      "ADD": "{agentName} created a new team (#{id})",
+      "EDIT": "{agentName} updated a team (#{id})",
+      "DELETE": "{agentName} deleted a team (#{id})"
     },
     "MACRO": {
-      "ADD": "{agentName} یک ماکرو ({id}) ایجاد کرد",
-      "EDIT": "{agentName} یک ماکرو ({id}) را ویرایش کرد",
-      "DELETE": "{agentName} یک ماکرو ({id}) را حذف کرد"
+      "ADD": "{agentName} created a new macro (#{id})",
+      "EDIT": "{agentName} updated a macro (#{id})",
+      "DELETE": "{agentName} deleted a macro (#{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "{agentName} اپراتور {user} را به صندوق ورودی ({inbox_id}) اضافه کرد",
-      "REMOVE": "{agentName} اپراتور {user} را از صندوق ورودی ({inbox_id}) حذف کرد"
+      "ADD": "{agentName} added {user} to the inbox(#{inbox_id})",
+      "REMOVE": "{agentName} removed {user} from the inbox(#{inbox_id})"
     },
     "TEAM_MEMBER": {
-      "ADD": "{agentName} اپراتور {user} را به تیم ({team_id}) اضافه کرد",
-      "REMOVE": "{agentName} اپراتور {user} را از تیم ({team_id}) حذف کرد"
+      "ADD": "{agentName} added {user} to the team(#{team_id})",
+      "REMOVE": "{agentName} removed {user} from the team(#{team_id})"
     },
     "ACCOUNT": {
-      "EDIT": "{agentName} تنظیمات مربوط به حساب ({id}) را ویرایش کرد"
+      "EDIT": "{agentName} updated the account configuration (#{id})"
     }
   }
 }

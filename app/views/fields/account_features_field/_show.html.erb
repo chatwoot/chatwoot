@@ -1,5 +1,5 @@
 <div class='feature-container'>
-  <% field.data.each do |key,val| %>
+  <% SuperAdmin::AccountFeaturesHelper.filtered_features(field.data).each do |key, val| %>
     <div class='feature-cell'>
     <% if SuperAdmin::AccountFeaturesHelper.account_premium_features.include? key %>
     <span class='icon-container'>
