@@ -75,10 +75,13 @@
 - name: message_reply_to
   enabled: false
   help_url: https://chwt.app/hc/reply-to
+  chatwoot_internal: true
 - name: insert_article_in_reply
   enabled: false
+  chatwoot_internal: true
 - name: inbox_view
   enabled: false
+  chatwoot_internal: true
 - name: sla
   enabled: false
   premium: true
@@ -86,10 +89,12 @@
 - name: help_center_embedding_search
   enabled: false
   premium: true
+  chatwoot_internal: true
 - name: linear_integration
   enabled: false
 - name: captain_integration
   enabled: false
+  premium: true
 - name: custom_roles
   enabled: false
   premium: true
