@@ -1,4 +1,4 @@
-import { computed } from 'vue';
+import { computed, unref } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useConfig } from 'dashboard/composables/useConfig';
@@ -58,11 +58,44 @@ export function usePolicy() {
     return true;
   });
 
+  const shouldShow = (featureFlag, permissions, installationTypes) => {
+    const flag = unref(featureFlag);
+    const perms = unref(permissions);
+    const installation = unref(installationTypes);
+
+    // if the user does not have permissions or installation type is not supported
+    // return false;
+    // This supersedes everything
+    if (!checkPermissions(perms)) return false;
+    if (!checkInstallationType(installation)) return false;
+
+    // if on cloud, we should if the feature is allowed
+    // or if the feature is a premium one like SLA to show a paywall
+    // the paywall should be managed by the individual component
+    if (isOnChatwootCloud.value) {
+      return checkFeatureAllowed(flag) || isPremiumFeature(flag);
+    }
+
+    if (isEnterprise) {
+      // in enterprise, we should check if the feature is allowed
+      // or if the feature is a premium one like SLA to show a paywall
+      // // the paywall should be managed by the individual component
+      return (
+        checkFeatureAllowed(flag) ||
+        (isPremiumFeature(flag) && hasPremiumEnterprise.value)
+      );
+    }
+
+    // default to true
+    return true;
+  };
+
   return {
     checkFeatureAllowed,
     checkPermissions,
-    isPremiumFeature,
     checkInstallationType,
     hasPremiumEnterprise,
+    isPremiumFeature,
+    shouldShow,
   };
 }

@@ -21,27 +21,10 @@ const props = defineProps({
   },
 });
 
-const {
-  checkFeatureAllowed,
-  checkPermissions,
-  isPremiumFeature,
-  checkInstallationType,
-} = usePolicy();
+const { shouldShow } = usePolicy();
 
-const isFeatureFlagEnabled = computed(() =>
-  checkFeatureAllowed(props.featureFlag)
-);
-const isPremium = computed(() => isPremiumFeature(props.featureFlag));
-const hasPermission = computed(() => checkPermissions(props.permissions));
-const matchesInstallationType = computed(() =>
-  checkInstallationType(props.installationTypes)
-);
-
-const show = computed(
-  () =>
-    (isFeatureFlagEnabled.value || isPremium.value) &&
-    hasPermission.value &&
-    matchesInstallationType.value
+const show = computed(() =>
+  shouldShow(props.featureFlag, props.permissions, props.installationTypes)
 );
 </script>
 
