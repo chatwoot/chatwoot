@@ -56,7 +56,7 @@ export function usePolicy() {
   };
 
   const hasPremiumEnterprise = computed(() => {
-    if (isEnterprise) return enterprisePlanName === 'enterprise';
+    if (isEnterprise) return enterprisePlanName !== 'community';
 
     return true;
   });
