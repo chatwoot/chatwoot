@@ -6,7 +6,6 @@ import { useI18n } from 'vue-i18n';
 import { OnClickOutside } from '@vueuse/components';
 import { useRouter } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
@@ -166,11 +165,6 @@ onMounted(() => {
     :is-empty="!responses.length"
     :show-pagination-footer="!isFetching && !!responses.length"
     :feature-flag="FEATURE_FLAGS.CAPTAIN"
-    :installation-types="[
-      INSTALLATION_TYPES.CLOUD,
-      INSTALLATION_TYPES.ENTERPRISE,
-    ]"
-    ensure-premium-enterprise
     @update:current-page="onPageChange"
     @click="handleCreate"
   >

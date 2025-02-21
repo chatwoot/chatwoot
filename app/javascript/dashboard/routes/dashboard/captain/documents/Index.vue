@@ -2,7 +2,6 @@
 import { computed, onMounted, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
 
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import DocumentCard from 'dashboard/components-next/captain/assistant/DocumentCard.vue';
@@ -113,11 +112,6 @@ onMounted(() => {
     :is-fetching="isFetching"
     :is-empty="!documents.length"
     :feature-flag="FEATURE_FLAGS.CAPTAIN"
-    :installation-types="[
-      INSTALLATION_TYPES.CLOUD,
-      INSTALLATION_TYPES.ENTERPRISE,
-    ]"
-    ensure-premium-enterprise
     @update:current-page="onPageChange"
     @click="handleCreateDocument"
   >

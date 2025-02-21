@@ -2,7 +2,6 @@
 import { computed, onMounted, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
 
 import AssistantCard from 'dashboard/components-next/captain/assistant/AssistantCard.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
@@ -81,11 +80,6 @@ onMounted(() => store.dispatch('captainAssistants/get'));
     :is-fetching="isFetching"
     :is-empty="!assistants.length"
     :feature-flag="FEATURE_FLAGS.CAPTAIN"
-    :installation-types="[
-      INSTALLATION_TYPES.CLOUD,
-      INSTALLATION_TYPES.ENTERPRISE,
-    ]"
-    ensure-premium-enterprise
     @click="handleCreate"
   >
     <template #emptyState>

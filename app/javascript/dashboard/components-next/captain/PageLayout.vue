@@ -35,14 +35,6 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  installationTypes: {
-    type: Array,
-    default: () => [],
-  },
-  ensurePremiumEnterprise: {
-    type: Boolean,
-    default: false,
-  },
   isFetching: {
     type: Boolean,
     default: false,
@@ -58,15 +50,10 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['click', 'close', 'update:currentPage']);
-const { checkFeatureAllowed, checkInstallationType, hasPremiumEnterprise } =
-  usePolicy();
+const { shouldShowPaywall } = usePolicy();
 
 const showPaywall = computed(() => {
-  return (
-    checkFeatureAllowed(props.featureFlag) &&
-    checkInstallationType(props.installationTypes) &&
-    (props.ensurePremiumEnterprise ? !hasPremiumEnterprise.value : true)
-  );
+  return shouldShowPaywall(props.featureFlag);
 });
 
 const handleButtonClick = () => {

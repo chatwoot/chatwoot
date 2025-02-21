@@ -90,12 +90,32 @@ export function usePolicy() {
     return true;
   };
 
+  const shouldShowPaywall = featureFlag => {
+    const flag = unref(featureFlag);
+    if (!flag) return false;
+
+    if (isPremiumFeature(flag)) {
+      if (isOnChatwootCloud.value) {
+        return !checkFeatureAllowed(flag);
+      }
+
+      if (isEnterprise) {
+        return !hasPremiumEnterprise.value;
+      }
+    }
+
+    return false;
+  };
+
   return {
     checkFeatureAllowed,
     checkPermissions,
     checkInstallationType,
     hasPremiumEnterprise,
     isPremiumFeature,
+
+    // It's best to use these functions directly
+    shouldShowPaywall,
     shouldShow,
   };
 }
