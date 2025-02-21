@@ -14,6 +14,9 @@ export function usePolicy() {
   const user = useMapGetter('getCurrentUser');
   const isFeatureEnabled = useMapGetter('accounts/isFeatureEnabledonAccount');
   const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
+  const isACustomBrandedInstance = useMapGetter(
+    'globalConfig/isACustomBrandedInstance'
+  );
 
   const { isEnterprise, enterprisePlanName } = useConfig();
   const { accountId } = useAccount();
@@ -69,6 +72,11 @@ export function usePolicy() {
     if (!checkPermissions(perms)) return false;
     if (!checkInstallationType(installation)) return false;
 
+    if (isACustomBrandedInstance.value) {
+      // if this is a custom branded instance, we just use the feature flag as a reference
+      return checkFeatureAllowed(flag);
+    }
+
     // if on cloud, we should if the feature is allowed
     // or if the feature is a premium one like SLA to show a paywall
     // the paywall should be managed by the individual component
@@ -93,6 +101,11 @@ export function usePolicy() {
   const shouldShowPaywall = featureFlag => {
     const flag = unref(featureFlag);
     if (!flag) return false;
+
+    if (isACustomBrandedInstance.value) {
+      // custom branded instances never show paywall
+      return false;
+    }
 
     if (isPremiumFeature(flag)) {
       if (isOnChatwootCloud.value) {
