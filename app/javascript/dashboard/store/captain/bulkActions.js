@@ -6,10 +6,17 @@ export default createStore({
   name: 'CaptainBulkAction',
   API: CaptainBulkActionsAPI,
   actions: mutations => ({
-    process: async function processAction({ commit }, payload) {
+    processBulkAction: async function processBulkAction(
+      { commit },
+      { type, actionType, ids }
+    ) {
       commit(mutations.SET_UI_FLAG, { isUpdating: true });
       try {
-        const response = await CaptainBulkActionsAPI.create(payload);
+        const response = await CaptainBulkActionsAPI.create({
+          type: type,
+          ids,
+          fields: { status: actionType },
+        });
         commit(mutations.SET_UI_FLAG, { isUpdating: false });
         return response.data;
       } catch (error) {
@@ -19,15 +26,31 @@ export default createStore({
     },
 
     handleBulkDelete: async function handleBulkDelete({ dispatch }, ids) {
-      await dispatch('captainResponses/deleteBulkResponse', ids, {
+      const response = await dispatch('processBulkAction', {
+        type: 'AssistantResponse',
+        actionType: 'delete',
+        ids,
+      });
+
+      // Update the response store after successful API call
+      await dispatch('captainResponses/removeBulkResponses', ids, {
         root: true,
       });
+      return response;
     },
 
     handleBulkApprove: async function handleBulkApprove({ dispatch }, ids) {
-      await dispatch('captainResponses/approveBulkResponse', ids, {
+      const response = await dispatch('processBulkAction', {
+        type: 'AssistantResponse',
+        actionType: 'approve',
+        ids,
+      });
+
+      // Update response store after successful API call
+      await dispatch('captainResponses/updateBulkResponses', response, {
         root: true,
       });
+      return response;
     },
   }),
 });

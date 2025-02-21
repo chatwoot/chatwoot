@@ -168,13 +168,6 @@ const handleCardSelect = id => {
 
 const handleBulkApprove = async () => {
   try {
-    await store.dispatch('captainBulkActions/process', {
-      type: 'AssistantResponse',
-      ids: Array.from(bulkSelectedIds.value),
-      fields: { status: 'approve' },
-    });
-
-    // Update responses in store
     await store.dispatch(
       'captainBulkActions/handleBulkApprove',
       Array.from(bulkSelectedIds.value)

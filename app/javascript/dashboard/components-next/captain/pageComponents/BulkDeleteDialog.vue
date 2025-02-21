@@ -29,13 +29,6 @@ const handleBulkDelete = async ids => {
   if (!ids) return;
 
   try {
-    await store.dispatch('captainBulkActions/process', {
-      type: 'AssistantResponse',
-      ids: Array.from(props.bulkIds),
-      fields: { status: 'delete' },
-    });
-
-    // Remove responses from the store
     await store.dispatch(
       'captainBulkActions/handleBulkDelete',
       Array.from(props.bulkIds)

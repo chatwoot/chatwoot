@@ -5,20 +5,27 @@ export default createStore({
   name: 'CaptainResponse',
   API: CaptainResponseAPI,
   actions: mutations => ({
-    // Response bulk actions
-    deleteBulkResponse: ({ commit, state }, ids) => {
+    removeBulkResponses: ({ commit, state }, ids) => {
       const updatedRecords = state.records.filter(
         record => !ids.includes(record.id)
       );
       commit(mutations.SET, updatedRecords);
     },
-    approveBulkResponse: ({ commit, state }, ids) => {
+    updateBulkResponses: ({ commit, state }, approvedResponses) => {
+      // Create a map of updated responses for faster lookup
+      const updatedResponsesMap = approvedResponses.reduce((map, response) => {
+        map[response.id] = response;
+        return map;
+      }, {});
+
+      // Update existing records with updated data
       const updatedRecords = state.records.map(record => {
-        if (ids.includes(record.id) && record.status === 'pending') {
-          return { ...record, status: 'approved' };
+        if (updatedResponsesMap[record.id]) {
+          return updatedResponsesMap[record.id]; // Replace with the updated response
         }
         return record;
       });
+
       commit(mutations.SET, updatedRecords);
     },
   }),
