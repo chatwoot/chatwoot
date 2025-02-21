@@ -85,10 +85,19 @@ export function usePolicy() {
     }
 
     if (isEnterprise) {
-      // in enterprise, we should check if the feature is allowed
-      // or if the feature is a premium one like SLA to show a paywall
-      // // the paywall should be managed by the individual component
-      return isFeatureFlagEnabled(flag) || isPremiumFeature(flag);
+      // in enterprise, if the feature is premium but they don't have an enterprise plan
+      // we should it anyway this is to show upsells on enterprise regardless of the feature flag
+      // Feature flag is only honored if they have a premium plan
+      //
+      // In case they have a premium plan, the check on feature flag alone is enough
+      // because the second condition will always be false
+      // That means once subscribed, the feature can be disabled by the admin
+      //
+      // the paywall should be managed by the individual component
+      return (
+        isFeatureFlagEnabled(flag) ||
+        (isPremiumFeature(flag) && !hasPremiumEnterprise.value)
+      );
     }
 
     // default to true
