@@ -7,8 +7,7 @@ class Api::V1::Accounts::Captain::BulkActionsController < Api::V1::Accounts::Bas
   MODEL_TYPE = ['AssistantResponse'].freeze
 
   def create
-    process_bulk_action
-    render json: { success: true }, status: :ok
+    @responses = process_bulk_action
   end
 
   private
@@ -39,8 +38,10 @@ class Api::V1::Accounts::Captain::BulkActionsController < Api::V1::Accounts::Bas
     case params[:fields][:status]
     when 'approve'
       responses.pending.update(status: 'approved')
+      responses
     when 'delete'
       responses.destroy_all
+      []
     end
   end
 

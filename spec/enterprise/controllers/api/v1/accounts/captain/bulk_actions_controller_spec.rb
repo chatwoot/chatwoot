@@ -29,14 +29,15 @@ RSpec.describe 'Api::V1::Accounts::Captain::BulkActions', type: :request do
         }
       end
 
-      it 'approves the responses and returns success' do
+      it 'approves the responses and returns the updated records' do
         post "/api/v1/accounts/#{account.id}/captain/bulk_actions",
              params: valid_params,
              headers: admin.create_new_auth_token,
              as: :json
 
         expect(response).to have_http_status(:ok)
-        expect(json_response[:success]).to be(true)
+        expect(json_response).to be_an(Array)
+        expect(json_response.length).to eq(2)
 
         # Verify responses were approved
         pending_responses.each do |response|
@@ -54,7 +55,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::BulkActions', type: :request do
         }
       end
 
-      it 'deletes the responses and returns success' do
+      it 'deletes the responses and returns an empty array' do
         expect do
           post "/api/v1/accounts/#{account.id}/captain/bulk_actions",
                params: delete_params,
@@ -63,7 +64,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::BulkActions', type: :request do
         end.to change(Captain::AssistantResponse, :count).by(-2)
 
         expect(response).to have_http_status(:ok)
-        expect(json_response[:success]).to be(true)
+        expect(json_response).to eq([])
 
         # Verify responses were deleted
         pending_responses.each do |response|
