@@ -479,7 +479,7 @@ provideMessageContext({
     >
       <div
         v-if="!shouldGroupWithNext && shouldShowAvatar"
-        v-tooltip.right-end="avatarTooltip"
+        v-tooltip.left-end="avatarTooltip"
         class="[grid-area:avatar] flex items-end"
       >
         <Avatar v-bind="avatarInfo" :size="20" />
