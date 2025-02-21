@@ -65,16 +65,6 @@ class Team < ApplicationRecord
       name: name
     }
   end
-
-  private
-
-  def add_member(user_id)
-    team_members.find_or_create_by(user_id: user_id)&.user
-  end
-
-  def remove_member(user_id)
-    team_members.find_by(user_id: user_id)&.destroy!
-  end
 end
 
 Team.include_mod_with('Audit::Team')

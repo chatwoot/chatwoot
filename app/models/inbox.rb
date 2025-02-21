@@ -169,16 +169,6 @@ class Inbox < ApplicationRecord
 
   private
 
-  def add_member(user_id)
-    member = inbox_members.new(user_id: user_id)
-    member.save!
-  end
-
-  def remove_member(user_id)
-    member = inbox_members.find_by!(user_id: user_id)
-    member.try(:destroy)
-  end
-
   def dispatch_create_event
     return if ENV['ENABLE_INBOX_EVENTS'].blank?
 
