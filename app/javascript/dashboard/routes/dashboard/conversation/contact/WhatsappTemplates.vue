@@ -9,6 +9,7 @@
       v-else
       :template="selectedWaTemplate"
       :remove-overflow="removeOverflow"
+      :is-compose-mode="isComposeMode"
       @resetTemplate="onResetTemplate"
       @sendMessage="onSendMessage"
     />
@@ -27,6 +28,10 @@ export default {
     inboxId: {
       type: Number,
       default: undefined,
+    },
+    isComposeMode: {
+      type: Boolean,
+      default: false,
     },
     show: {
       type: Boolean,

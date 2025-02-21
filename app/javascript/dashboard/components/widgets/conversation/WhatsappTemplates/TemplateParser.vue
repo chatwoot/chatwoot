@@ -50,10 +50,11 @@
               {{ processVariable(variable) }}
             </span>
             <woot-input
-              v-if="!isInputMode(variable)"
+              v-if="!isInputMode(variable) || isComposeMode"
               v-model="
                 processedParams[componentType][processVariable(variable)]
               "
+              :autofocus="true"
               type="text"
               class="variable-input"
               :styles="{ marginBottom: 0, width: '94%' }"
@@ -82,6 +83,7 @@
               </option>
             </select>
             <woot-button
+              v-if="!isComposeMode"
               :style="{ width: 'fit-content' }"
               type="button"
               @click="toggleInputMode(variable)"
@@ -133,6 +135,10 @@ export default {
     template: {
       type: Object,
       default: () => {},
+    },
+    isComposeMode: {
+      type: Boolean,
+      default: false,
     },
     removeOverflow: {
       type: Boolean,
@@ -417,7 +423,7 @@ export default {
           ''
         ),
         templateFallbacks: contactItems.reduce((acc, item, index) => {
-          acc[`${index + 1}`] = item.replace(/\.$/, '');
+          acc[`${index + 1}`] = 'N/A';
           return acc;
         }, {}),
         templateMetaData: contactItems.reduce((acc, item, index) => {
@@ -484,11 +490,13 @@ export default {
     },
     toggleInputMode(variable) {
       this.$set(this.inputModes, variable, !this.inputModes[variable]);
-      // Clear the input value when toggling to variable mode
-      if (this.isInputMode(variable)) {
-        this.processedParams[this.getComponentType(variable)][
-          this.processVariable(variable)
-        ] = '';
+      // Find the component type (header, body, or footer) that contains this variable
+      const componentType = Object.keys(this.variables).find(type =>
+        this.variables[type].includes(variable)
+      );
+      if (componentType) {
+        this.processedParams[componentType][this.processVariable(variable)] =
+          '';
       }
     },
     isInputMode(variable) {
