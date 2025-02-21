@@ -25,7 +25,7 @@ export function usePolicy() {
     return getUserPermissions(user.value, accountId.value);
   };
 
-  const checkFeatureAllowed = featureFlag => {
+  const isFeatureFlagEnabled = featureFlag => {
     if (!featureFlag) return true;
     return isFeatureEnabled.value(accountId.value, featureFlag);
   };
@@ -74,24 +74,21 @@ export function usePolicy() {
 
     if (isACustomBrandedInstance.value) {
       // if this is a custom branded instance, we just use the feature flag as a reference
-      return checkFeatureAllowed(flag);
+      return isFeatureFlagEnabled(flag);
     }
 
     // if on cloud, we should if the feature is allowed
     // or if the feature is a premium one like SLA to show a paywall
     // the paywall should be managed by the individual component
     if (isOnChatwootCloud.value) {
-      return checkFeatureAllowed(flag) || isPremiumFeature(flag);
+      return isFeatureFlagEnabled(flag) || isPremiumFeature(flag);
     }
 
     if (isEnterprise) {
       // in enterprise, we should check if the feature is allowed
       // or if the feature is a premium one like SLA to show a paywall
       // // the paywall should be managed by the individual component
-      return (
-        checkFeatureAllowed(flag) ||
-        (isPremiumFeature(flag) && hasPremiumEnterprise.value)
-      );
+      return isFeatureFlagEnabled(flag) || isPremiumFeature(flag);
     }
 
     // default to true
@@ -109,7 +106,7 @@ export function usePolicy() {
 
     if (isPremiumFeature(flag)) {
       if (isOnChatwootCloud.value) {
-        return !checkFeatureAllowed(flag);
+        return !isFeatureFlagEnabled(flag);
       }
 
       if (isEnterprise) {
@@ -121,13 +118,7 @@ export function usePolicy() {
   };
 
   return {
-    checkFeatureAllowed,
     checkPermissions,
-    checkInstallationType,
-    hasPremiumEnterprise,
-    isPremiumFeature,
-
-    // It's best to use these functions directly
     shouldShowPaywall,
     shouldShow,
   };
