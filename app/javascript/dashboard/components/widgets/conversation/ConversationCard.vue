@@ -256,7 +256,7 @@ export default {
     >
       <label
         v-if="hovered || selected"
-        class="checkbox-wrapper absolute inset-0 z-20"
+        class="checkbox-wrapper absolute inset-0 z-20 backdrop-blur-[2px]"
         @click.stop
       >
         <input
