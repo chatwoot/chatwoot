@@ -14,29 +14,33 @@ module SuperAdmin::AccountFeaturesHelper
     end
   end
 
-  # Accepts account.features as argument
-  def self.filtered_features(features)
-    deployment_env = GlobalConfig.get_value('DEPLOYMENT_ENV')
-    filtered = if deployment_env == 'cloud'
-                 features
-               else
-                 # Filter out internal features for non-cloud environments
-                 internal_features = account_features.select { |f| f['chatwoot_internal'] }.pluck('name')
-                 features.except(*internal_features)
-               end
+  def self.filter_internal_features(features)
+    return features if GlobalConfig.get_value('DEPLOYMENT_ENV') == 'cloud'
 
-    # Get display names for sorting
+    internal_features = account_features.select { |f| f['chatwoot_internal'] }.pluck('name')
+    features.except(*internal_features)
+  end
+
+  def self.filter_deprecated_features(features)
+    deprecated_features = account_features.select { |f| f['deprecated'] }.pluck('name')
+    features.except(*deprecated_features)
+  end
+
+  def self.partition_features(features)
+    filtered = filter_internal_features(features)
+    filtered = filter_deprecated_features(filtered)
     display_names = feature_display_names
 
-    # Sort and add features (regular first, then premium)
     regular, premium = filtered.partition { |key, _value| account_premium_features.exclude?(key) }
 
-    # Sort each category by display name
-    regular_sorted = regular.sort_by { |key, _| display_names[key] || key }.to_h
-    premium_sorted = premium.sort_by { |key, _| display_names[key] || key }.to_h
+    [
+      regular.sort_by { |key, _| display_names[key] || key }.to_h.transform_keys { |key| [key, display_names[key]] },
+      premium.sort_by { |key, _| display_names[key] || key }.to_h.transform_keys { |key| [key, display_names[key]] }
+    ]
+  end
 
-    # Return the combined hash with display names
-    regular_sorted.transform_keys { |key| [key, display_names[key]] }
-                  .merge(premium_sorted.transform_keys { |key| [key, display_names[key]] })
+  def self.filtered_features(features)
+    regular, premium = partition_features(features)
+    regular.merge(premium)
   end
 end

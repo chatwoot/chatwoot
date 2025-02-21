@@ -5,7 +5,7 @@
 # enabled: whether the feature is enabled by default
 # help_url: the url to the help center article
 # chatwoot_internal: whether the feature is internal to Chatwoot and should not be shown in the UI for other self hosted installations
-# retired: purpose of feature flag is done, no need to show it in the UI anymore
+# deprecated: purpose of feature flag is done, no need to show it in the UI anymore
 - name: inbound_emails
   display_name: Inbound Emails
   enabled: true
