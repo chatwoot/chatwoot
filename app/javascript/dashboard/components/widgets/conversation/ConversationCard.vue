@@ -405,7 +405,7 @@ export default {
   }
 
   .checkbox-wrapper {
-    @apply h-10 w-10 flex items-center justify-center rounded-full cursor-pointer mt-4 hover:bg-woot-100 dark:hover:bg-woot-800;
+    @apply h-10 w-10 flex items-center justify-center rounded-full cursor-pointer mt-4;
 
     input[type='checkbox'] {
       @apply m-0 cursor-pointer;
