@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "Kontaktoplysninger på <strong>{primaryContactName}</strong> vil blive kopieret til <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "FEJL_MEDDELELSE"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": " Sammenflet kontakter",
