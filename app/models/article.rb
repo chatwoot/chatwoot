@@ -53,7 +53,6 @@ class Article < ApplicationRecord
   validates :account_id, presence: true
   validates :author_id, presence: true
   validates :title, presence: true
-  validates :content, presence: true
 
   # ensuring that the position is always set correctly
   before_create :add_position_to_article
