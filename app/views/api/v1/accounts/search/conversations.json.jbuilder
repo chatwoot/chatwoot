@@ -16,6 +16,8 @@ json.payload do
       json.agent do
         json.partial! 'agent', formats: [:json], agent: conversation.assignee if conversation.try(:assignee).present?
       end
+
+      json.additional_attributes conversation.additional_attributes
     end
   end
 end

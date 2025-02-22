@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { OnClickOutside } from '@vueuse/components';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import {
   ARTICLE_TABS,
   CATEGORY_ALL,
@@ -37,6 +38,7 @@ const emit = defineEmits([
 
 const route = useRoute();
 const { t } = useI18n();
+const { updateUISettings } = useUISettings();
 
 const isCategoryMenuOpen = ref(false);
 const isLocaleMenuOpen = ref(false);
@@ -111,13 +113,12 @@ const localeMenuItems = computed(() => {
   }));
 });
 
-const hasMoreThanOneLocaleMenuItems = computed(() => {
-  return localeMenuItems.value?.length > 1;
-});
-
 const handleLocaleAction = ({ value }) => {
   emit('localeChange', value);
   isLocaleMenuOpen.value = false;
+  updateUISettings({
+    last_active_locale_code: value,
+  });
 };
 
 const handleCategoryAction = ({ value }) => {
@@ -143,7 +144,7 @@ const handleTabChange = value => {
     />
     <div class="flex items-start justify-between w-full gap-2">
       <div class="flex items-center gap-2">
-        <div v-if="hasMoreThanOneLocaleMenuItems" class="relative group">
+        <div class="relative group">
           <OnClickOutside @trigger="isLocaleMenuOpen = false">
             <Button
               :label="activeLocaleName"
@@ -157,6 +158,7 @@ const handleTabChange = value => {
             <DropdownMenu
               v-if="isLocaleMenuOpen"
               :menu-items="localeMenuItems"
+              show-search
               class="left-0 w-40 max-w-[300px] mt-2 overflow-y-auto xl:right-0 top-full max-h-60"
               @action="handleLocaleAction"
             />
@@ -177,6 +179,7 @@ const handleTabChange = value => {
             <DropdownMenu
               v-if="isCategoryMenuOpen"
               :menu-items="categoryMenuItems"
+              show-search
               class="left-0 w-48 mt-2 overflow-y-auto xl:right-0 top-full max-h-60"
               @action="handleCategoryAction"
             />

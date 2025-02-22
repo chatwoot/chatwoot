@@ -124,6 +124,7 @@
   },
   "AGENT_REPORTS": {
     "HEADER": "نظرة عامة للوكلاء",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
     "LOADING_CHART": "جاري جلب بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
     "DOWNLOAD_AGENT_REPORTS": "تنزيل تقارير الوكيل",
@@ -258,6 +259,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "نظرة عامة على صندوق الوارد",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
     "DOWNLOAD_INBOX_REPORTS": "تحميل تقارير صندوق الوارد",
@@ -325,6 +327,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "نظرة عامة للفريق",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
     "DOWNLOAD_TEAM_REPORTS": "تحميل تقارير الفريق",
@@ -538,5 +541,15 @@
       },
       "VIEW_DETAILS": "View Details"
     }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "صندوق الوارد",
+    "AGENT": "وكيل الدعم",
+    "TEAM": "الفريق",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "عدد مرات الإغلاق",
+    "CONVERSATIONS": "عدد المحادثات"
   }
 }

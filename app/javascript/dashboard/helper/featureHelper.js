@@ -18,6 +18,7 @@ const FEATURE_HELP_URLS = {
   sla: 'https://chwt.app/hc/sla',
   team_management: 'https://chwt.app/hc/teams',
   webhook: 'https://chwt.app/hc/webhooks',
+  billing: 'https://chwt.app/pricing',
 };
 
 export function getHelpUrlForFeature(featureName) {

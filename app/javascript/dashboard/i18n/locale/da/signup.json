@@ -1,12 +1,12 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Create an account",
+    "TRY_WOOT": "Opret en konto",
     "TITLE": "Registrer",
     "TESTIMONIAL_HEADER": "Alt, hvad der skal til, er blot et skridt for at komme videre",
     "TESTIMONIAL_CONTENT": "Du er et skridt fra at engagere dine kunder, fastholde dem og finde nye kunder.",
-    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TERMS_ACCEPT": "Ved at oprette en konto, accepterer du vores <a href=\"https://www.chatwoot.com/terms\">T & C</a> og <a href=\"https://www.chatwoot.com/privacy-policy\">Privatlivspolitik</a>",
     "OAUTH": {
-      "GOOGLE_SIGNUP": "Sign up with Google"
+      "GOOGLE_SIGNUP": "Tilmeld dig med Google"
     },
     "COMPANY_NAME": {
       "LABEL": "Firmanavn",
@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "Arbejde e-mail",
-      "PLACEHOLDER": "Indtast din arbejdsmailadresse fx: bruce{'@'}wayne{'.'}enterprises",
+      "PLACEHOLDER": "Indtast din arbejdsmailadresse. F.eks. navn{'@'}eksempel{'.'}dk",
       "ERROR": "Indtast venligst en gyldig arbejdsmail"
     },
     "PASSWORD": {
@@ -38,7 +38,7 @@
       "SUCCESS_MESSAGE": "Registrering Succesfuld",
       "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
     },
-    "SUBMIT": "Create account",
+    "SUBMIT": "Opret en konto",
     "HAVE_AN_ACCOUNT": "Har du allerede en konto?"
   }
 }

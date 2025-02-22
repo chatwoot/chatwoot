@@ -2,9 +2,9 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Opret nyt team",
     "HEADER": "Teams",
-    "LOADING": "Fetching teams",
-    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
-    "LEARN_MORE": "Learn more about teams",
+    "LOADING": "Henter hold",
+    "DESCRIPTION": "Teams giver dig mulighed for at organisere agenter i grupper baseret på deres ansvar. En agent kan tilhøre flere hold. Når du arbejder sammen, kan du tildele samtaler til bestemte teams.",
+    "LEARN_MORE": "Få flere oplysninger om hold funktionen",
     "LIST": {
       "404": "Der er ingen teams oprettet på denne konto.",
       "EDIT_TEAM": "Rediger team",
@@ -93,7 +93,7 @@
         "ERROR_MESSAGE": "Kunne ikke slette teamet. Prøv igen."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure you want to delete the team?",
+        "TITLE": "Er du sikker på du vil slette dette hold?",
         "PLACE_HOLDER": "Skriv venligst {teamName} for at bekræfte",
         "MESSAGE": "Sletning af teamet vil fjerne teamtildelingen fra de samtaler, der er tildelt dette team.",
         "YES": "Slet ",

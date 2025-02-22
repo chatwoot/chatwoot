@@ -15,6 +15,10 @@ export default {
     Thumbnail,
   },
   props: {
+    currentFilter: {
+      type: Object,
+      default: () => null,
+    },
     filterItemsList: {
       type: Array,
       default: () => [],
@@ -40,7 +44,7 @@ export default {
   ],
   data() {
     return {
-      currentSelectedFilter: null,
+      currentSelectedFilter: this.currentFilter || null,
       currentDateRangeSelection: {
         id: 0,
         name: this.$t('REPORT.DATE_RANGE_OPTIONS.LAST_7_DAYS'),
@@ -113,7 +117,9 @@ export default {
   },
   watch: {
     filterItemsList(val) {
-      this.currentSelectedFilter = val[0];
+      this.currentSelectedFilter = !this.currentFilter
+        ? val[0]
+        : this.currentFilter;
       this.changeFilterSelection();
     },
     groupByFilterItemsList() {
@@ -179,18 +185,16 @@ export default {
           @update:model-value="changeFilterSelection"
         >
           <template #singleLabel="props">
-            <div class="flex items-center gap-2">
+            <div class="flex min-w-0 items-center gap-2">
               <Thumbnail
                 :src="props.option.thumbnail"
                 :status="props.option.availability_status"
                 :username="props.option.name"
                 size="22px"
               />
-              <span class="reports-option__desc">
-                <span class="my-0 text-slate-800 dark:text-slate-75">{{
-                  props.option.name
-                }}</span>
-              </span>
+              <span class="my-0 text-slate-800 truncate dark:text-slate-75">{{
+                props.option.name
+              }}</span>
             </div>
           </template>
           <template #options="props">
@@ -226,28 +230,26 @@ export default {
           @update:model-value="changeFilterSelection"
         >
           <template #singleLabel="props">
-            <div class="flex items-center gap-2">
+            <div class="flex items-center min-w-0 gap-2">
               <div
                 :style="{ backgroundColor: props.option.color }"
                 class="w-5 h-5 rounded-full"
               />
-              <span class="reports-option__desc">
-                <span class="my-0 text-slate-800 dark:text-slate-75">
-                  {{ props.option.title }}
-                </span>
+
+              <span class="my-0 text-slate-800 truncate dark:text-slate-75">
+                {{ props.option.title }}
               </span>
             </div>
           </template>
           <template #option="props">
-            <div class="flex items-center gap-2">
+            <div class="flex items-center min-w-0 gap-2">
               <div
                 :style="{ backgroundColor: props.option.color }"
                 class="flex-shrink-0 w-5 h-5 border border-solid rounded-full border-slate-100 dark:border-slate-800"
               />
-              <span class="reports-option__desc">
-                <span class="my-0 text-slate-800 dark:text-slate-75">
-                  {{ props.option.title }}
-                </span>
+
+              <span class="my-0 text-slate-800 truncate dark:text-slate-75">
+                {{ props.option.title }}
               </span>
             </div>
           </template>

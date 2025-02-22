@@ -54,6 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "Správa bola úspešne odstránená",
     "FAIL_DELETE_MESSSAGE": "Správu sa nepodarilo vymazať! Skúste to znova",
     "NO_RESPONSE": "Žiadna odpoveď",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Hodnotenia",
     "FEEDBACK_TITLE": "Spätná väzba",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
@@ -352,5 +353,11 @@
     "ONE": "{user} is typing",
     "TWO": "{user} and {secondUser} are typing",
     "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

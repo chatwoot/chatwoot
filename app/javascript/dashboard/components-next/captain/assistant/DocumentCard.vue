@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { dynamicTime } from 'shared/helpers/timeHelper';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
@@ -32,25 +33,33 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['action']);
+const { checkPermissions } = usePolicy();
 
 const { t } = useI18n();
 
 const [showActionsDropdown, toggleDropdown] = useToggle();
 
-const menuItems = computed(() => [
-  {
-    label: t('CAPTAIN.DOCUMENTS.OPTIONS.VIEW_RELATED_RESPONSES'),
-    value: 'viewRelatedQuestions',
-    action: 'viewRelatedQuestions',
-    icon: 'i-ph-tree-view-duotone',
-  },
-  {
-    label: t('CAPTAIN.DOCUMENTS.OPTIONS.DELETE_DOCUMENT'),
-    value: 'delete',
-    action: 'delete',
-    icon: 'i-lucide-trash',
-  },
-]);
+const menuItems = computed(() => {
+  const allOptions = [
+    {
+      label: t('CAPTAIN.DOCUMENTS.OPTIONS.VIEW_RELATED_RESPONSES'),
+      value: 'viewRelatedQuestions',
+      action: 'viewRelatedQuestions',
+      icon: 'i-ph-tree-view-duotone',
+    },
+  ];
+
+  if (checkPermissions(['administrator'])) {
+    allOptions.push({
+      label: t('CAPTAIN.DOCUMENTS.OPTIONS.DELETE_DOCUMENT'),
+      value: 'delete',
+      action: 'delete',
+      icon: 'i-lucide-trash',
+    });
+  }
+
+  return allOptions;
+});
 
 const createdAt = computed(() => dynamicTime(props.createdAt));
 
