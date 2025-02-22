@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "<strong>{primaryContactName}</strong> の連絡先情報が <strong>{parentContactName}</strong> にコピーされます。"
     },
     "SEARCH": {
-      "ERROR": "エラーが発生しました。"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": "連絡先をマージ",
