@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "Kontakto informacija <strong>{primaryContactName}</strong> bus nukopijuota į <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "KLAIDOS_PRANEŠIMAS"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": " Apjungti kontaktus",
