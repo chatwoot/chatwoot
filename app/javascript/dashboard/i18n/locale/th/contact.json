@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "ข้อมูลผู้ติดต่อของ <strong>{primaryContactName}</strong> จะถูกคัดลอกไปยัง <strong>{parentContactName}</strong>"
     },
     "SEARCH": {
-      "ERROR": "ข้อความผิดพลาด"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": " รวมผู้ติดต่อ",
