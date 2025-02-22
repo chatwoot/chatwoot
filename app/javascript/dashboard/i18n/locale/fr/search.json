@@ -11,7 +11,10 @@
       "CONVERSATIONS": "Conversations",
       "MESSAGES": "Messages"
     },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
     "SEARCHING_DATA": "Recherche en cours",
+    "LOADING_DATA": "Loading",
     "EMPTY_STATE": "Aucun {item} trouvé pour la requête '{query}'",
     "EMPTY_STATE_FULL": "Aucun résultat pour la requête '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ pour cibler",
@@ -21,6 +24,7 @@
     "READ_MORE": "En savoir plus",
     "WROTE": "a écrit :",
     "FROM": "de",
-    "EMAIL": "courriel"
+    "EMAIL": "courriel",
+    "EMAIL_SUBJECT": "objet"
   }
 }

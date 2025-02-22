@@ -3,10 +3,10 @@
     "TITLE": "アカウント設定",
     "SUBMIT": "設定を更新",
     "BACK": "戻る",
-    "DISMISS": "Dismiss",
+    "DISMISS": "閉じる",
     "UPDATE": {
       "ERROR": "設定を更新できませんでした。もう一度お試しください",
-      "SUCCESS": "正常にアカウント設定を更新しました"
+      "SUCCESS": "アカウント設定が正常に更新されました"
     },
     "FORM": {
       "ERROR": "正しくフォームに入力してください",
@@ -15,8 +15,8 @@
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "Account ID",
-        "NOTE": "This ID is required if you are building an API based integration"
+        "TITLE": "アカウントID",
+        "NOTE": "APIベースの統合を構築する場合に必要なIDです"
       },
       "NAME": {
         "LABEL": "アカウント名",
@@ -24,8 +24,8 @@
         "ERROR": "正しいアカウント名を入力してください"
       },
       "LANGUAGE": {
-        "LABEL": "Site language",
-        "PLACEHOLDER": "あなたのアカウント名",
+        "LABEL": "サイト言語",
+        "PLACEHOLDER": "言語を選択",
         "ERROR": ""
       },
       "DOMAIN": {
@@ -35,140 +35,140 @@
       },
       "SUPPORT_EMAIL": {
         "LABEL": "サポートメール",
-        "PLACEHOLDER": "あなたの会社のサポートメール",
+        "PLACEHOLDER": "会社のサポートメールアドレス",
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "LABEL": "アクティビティがない場合にチケットを自動解決するまでの日数",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
+        "ERROR": "有効な自動解決期間を入力してください（最小1日、最大999日）"
       },
       "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "あなたのアカウントでは、メールでの会話が継続できるようになっています。",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "カスタムドメインでメールを受信できるようになりました。"
+        "INBOUND_EMAIL_ENABLED": "あなたのアカウントでは、メールでの会話が継続可能です。",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "カスタムドメインでのメール受信が有効になりました。"
       }
     },
-    "UPDATE_CHATWOOT": "An update {latestChatwootVersion} for Chatwoot is available. Please update your instance.",
-    "LEARN_MORE": "Learn more",
-    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
-    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
-    "OPEN_BILLING": "Open billing"
+    "UPDATE_CHATWOOT": "Chatwootのアップデート {latestChatwootVersion} が利用可能です。インスタンスを更新してください。",
+    "LEARN_MORE": "詳細を見る",
+    "PAYMENT_PENDING": "お支払いが保留中です。支払い情報を更新してChatwootの利用を継続してください。",
+    "LIMITS_UPGRADE": "アカウントの使用制限を超えました。プランをアップグレードして利用を続けてください。",
+    "OPEN_BILLING": "請求情報を開く"
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Press enter to select",
-      "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one",
-      "SELECT": "Select"
+      "ENTER_TO_SELECT": "Enterキーで選択",
+      "ENTER_TO_REMOVE": "Enterキーで削除",
+      "SELECT_ONE": "1つを選択",
+      "SELECT": "選択"
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notifications",
-    "MARK_ALL_DONE": "Mark All Done",
-    "DELETE_TITLE": "deleted",
+    "HEADER": "通知",
+    "MARK_ALL_DONE": "すべて完了としてマーク",
+    "DELETE_TITLE": "削除済み",
     "UNREAD_NOTIFICATION": {
-      "TITLE": "Unread Notifications",
-      "ALL_NOTIFICATIONS": "View all notifications",
-      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
-      "EMPTY_MESSAGE": "You have no unread notifications"
+      "TITLE": "未読通知",
+      "ALL_NOTIFICATIONS": "すべての通知を見る",
+      "LOADING_UNREAD_MESSAGE": "未読通知を読み込み中...",
+      "EMPTY_MESSAGE": "未読通知はありません"
     },
     "LIST": {
-      "LOADING_MESSAGE": "Loading notifications...",
-      "404": "No Notifications",
+      "LOADING_MESSAGE": "通知を読み込み中...",
+      "404": "通知なし",
       "TABLE_HEADER": [
         "名前",
         "電話番号",
         "会話データ",
-        "Last Contacted"
+        "最終連絡日"
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "New conversation",
-      "conversation_assignment": "Conversation Assigned",
-      "assigned_conversation_new_message": "New Message",
-      "participating_conversation_new_message": "New Message",
-      "conversation_mention": "Mention",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
+      "conversation_creation": "新しい会話",
+      "conversation_assignment": "会話の割り当て",
+      "assigned_conversation_new_message": "新しいメッセージ",
+      "participating_conversation_new_message": "新しいメッセージ",
+      "conversation_mention": "メンション",
+      "sla_missed_first_response": "SLA未達",
+      "sla_missed_next_response": "SLA未達",
+      "sla_missed_resolution": "SLA未達"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "オフライン",
-      "RECONNECTING": "Reconnecting...",
-      "RECONNECT_SUCCESS": "Reconnected"
+      "RECONNECTING": "再接続中...",
+      "RECONNECT_SUCCESS": "再接続しました"
     },
     "BUTTON": {
-      "REFRESH": "Refresh"
+      "REFRESH": "再読み込み"
     }
   },
   "COMMAND_BAR": {
-    "SEARCH_PLACEHOLDER": "Search or jump to",
+    "SEARCH_PLACEHOLDER": "検索または移動",
     "SECTIONS": {
-      "GENERAL": "General",
+      "GENERAL": "全般",
       "REPORTS": "レポート",
-      "CONVERSATION": "Conversation",
-      "BULK_ACTIONS": "Bulk Actions",
-      "CHANGE_ASSIGNEE": "Change Assignee",
-      "CHANGE_PRIORITY": "Change Priority",
-      "CHANGE_TEAM": "Change Team",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "ADD_LABEL": "Add label to the conversation",
-      "REMOVE_LABEL": "Remove label from the conversation",
+      "CONVERSATION": "会話",
+      "BULK_ACTIONS": "一括操作",
+      "CHANGE_ASSIGNEE": "割り当てを変更",
+      "CHANGE_PRIORITY": "優先度を変更",
+      "CHANGE_TEAM": "チームを変更",
+      "SNOOZE_CONVERSATION": "会話をスヌーズ",
+      "ADD_LABEL": "会話にラベルを追加",
+      "REMOVE_LABEL": "会話からラベルを削除",
       "SETTINGS": "設定",
-      "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "AI_ASSIST": "AIアシスト",
+      "APPEARANCE": "外観",
+      "SNOOZE_NOTIFICATION": "通知をスヌーズ"
     },
     "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
-      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
-      "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
-      "GO_TO_LABEL_REPORTS": "Go to Label Reports",
-      "GO_TO_INBOX_REPORTS": "Go to Inbox Reports",
-      "GO_TO_TEAM_REPORTS": "Go to Team Reports",
-      "GO_TO_SETTINGS_AGENTS": "Go to Agent Settings",
-      "GO_TO_SETTINGS_TEAMS": "Go to Team Settings",
-      "GO_TO_SETTINGS_INBOXES": "Go to Inbox Settings",
-      "GO_TO_SETTINGS_LABELS": "Go to Label Settings",
-      "GO_TO_SETTINGS_CANNED_RESPONSES": "Go to Canned Response Settings",
-      "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
-      "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
-      "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
-      "GO_TO_NOTIFICATIONS": "Go to Notifications",
-      "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
-      "ASSIGN_AN_AGENT": "Assign an agent",
-      "AI_ASSIST": "AI Assist",
-      "ASSIGN_PRIORITY": "Assign priority",
-      "ASSIGN_A_TEAM": "Assign a team",
-      "MUTE_CONVERSATION": "Mute conversation",
-      "UNMUTE_CONVERSATION": "Unmute conversation",
-      "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",
-      "REOPEN_CONVERSATION": "Reopen conversation",
-      "RESOLVE_CONVERSATION": "Resolve conversation",
-      "SEND_TRANSCRIPT": "Send an email transcript",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "UNTIL_NEXT_REPLY": "Until next reply",
-      "UNTIL_NEXT_WEEK": "Until next week",
-      "UNTIL_TOMORROW": "Until tomorrow",
-      "UNTIL_NEXT_MONTH": "Until next month",
-      "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "UNTIL_CUSTOM_TIME": "Custom...",
-      "CHANGE_APPEARANCE": "Change Appearance",
-      "LIGHT_MODE": "Light",
-      "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "GO_TO_CONVERSATION_DASHBOARD": "会話ダッシュボードに移動",
+      "GO_TO_CONTACTS_DASHBOARD": "連絡先ダッシュボードに移動",
+      "GO_TO_REPORTS_OVERVIEW": "レポート概要に移動",
+      "GO_TO_CONVERSATION_REPORTS": "会話レポートに移動",
+      "GO_TO_AGENT_REPORTS": "担当者レポートに移動",
+      "GO_TO_LABEL_REPORTS": "ラベルレポートに移動",
+      "GO_TO_INBOX_REPORTS": "受信トレイレポートに移動",
+      "GO_TO_TEAM_REPORTS": "チームレポートに移動",
+      "GO_TO_SETTINGS_AGENTS": "担当者設定に移動",
+      "GO_TO_SETTINGS_TEAMS": "チーム設定に移動",
+      "GO_TO_SETTINGS_INBOXES": "受信トレイ設定に移動",
+      "GO_TO_SETTINGS_LABELS": "ラベル設定に移動",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "定型文設定に移動",
+      "GO_TO_SETTINGS_APPLICATIONS": "アプリ設定に移動",
+      "GO_TO_SETTINGS_ACCOUNT": "アカウント設定に移動",
+      "GO_TO_SETTINGS_PROFILE": "プロフィール設定に移動",
+      "GO_TO_NOTIFICATIONS": "通知に移動",
+      "ADD_LABELS_TO_CONVERSATION": "会話にラベルを追加",
+      "ASSIGN_AN_AGENT": "担当者を割り当て",
+      "AI_ASSIST": "AIアシスト",
+      "ASSIGN_PRIORITY": "優先度を割り当て",
+      "ASSIGN_A_TEAM": "チームを割り当て",
+      "MUTE_CONVERSATION": "会話をミュート",
+      "UNMUTE_CONVERSATION": "会話のミュートを解除",
+      "REMOVE_LABEL_FROM_CONVERSATION": "会話からラベルを削除",
+      "REOPEN_CONVERSATION": "会話を再開",
+      "RESOLVE_CONVERSATION": "会話を解決",
+      "SEND_TRANSCRIPT": "メールで会話記録を送信",
+      "SNOOZE_CONVERSATION": "会話をスヌーズ",
+      "UNTIL_NEXT_REPLY": "次の返信まで",
+      "UNTIL_NEXT_WEEK": "来週まで",
+      "UNTIL_TOMORROW": "明日まで",
+      "UNTIL_NEXT_MONTH": "来月まで",
+      "AN_HOUR_FROM_NOW": "1時間後まで",
+      "UNTIL_CUSTOM_TIME": "カスタム...",
+      "CHANGE_APPEARANCE": "外観を変更",
+      "LIGHT_MODE": "ライトモード",
+      "DARK_MODE": "ダークモード",
+      "SYSTEM_MODE": "システム設定",
+      "SNOOZE_NOTIFICATION": "通知をスヌーズ"
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Loading Dashboard App..."
+    "LOADING_MESSAGE": "ダッシュボードアプリを読み込み中..."
   },
   "COMMON": {
-    "OR": "Or",
+    "OR": "または",
     "CLICK_HERE": "ここをクリック"
   }
 }

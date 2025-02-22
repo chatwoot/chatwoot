@@ -1,15 +1,17 @@
 <script setup>
 import { computed, onMounted, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import DocumentCard from 'dashboard/components-next/captain/assistant/DocumentCard.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
-import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import RelatedResponses from 'dashboard/components-next/captain/pageComponents/document/RelatedResponses.vue';
 import CreateDocumentDialog from 'dashboard/components-next/captain/pageComponents/document/CreateDocumentDialog.vue';
 import AssistantSelector from 'dashboard/components-next/captain/pageComponents/AssistantSelector.vue';
 import DocumentPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/DocumentPageEmptyState.vue';
+import LimitBanner from 'dashboard/components-next/captain/pageComponents/document/LimitBanner.vue';
 
 const store = useStore();
 
@@ -85,6 +87,12 @@ const handleAssistantFilterChange = assistant => {
 
 const onPageChange = page => fetchDocuments(page);
 
+const onDeleteSuccess = () => {
+  if (documents.value?.length === 0 && documentsMeta.value?.page > 1) {
+    onPageChange(documentsMeta.value.page - 1);
+  }
+};
+
 onMounted(() => {
   if (!assistants.value.length) {
     store.dispatch('captainAssistants/get');
@@ -97,38 +105,49 @@ onMounted(() => {
   <PageLayout
     :header-title="$t('CAPTAIN.DOCUMENTS.HEADER')"
     :button-label="$t('CAPTAIN.DOCUMENTS.ADD_NEW')"
+    :button-policy="['administrator']"
     :total-count="documentsMeta.totalCount"
     :current-page="documentsMeta.page"
     :show-pagination-footer="!isFetching && !!documents.length"
+    :is-fetching="isFetching"
+    :is-empty="!documents.length"
+    :feature-flag="FEATURE_FLAGS.CAPTAIN"
     @update:current-page="onPageChange"
     @click="handleCreateDocument"
   >
-    <div v-if="shouldShowAssistantSelector" class="mb-4 -mt-3 flex gap-3">
-      <AssistantSelector
-        :assistant-id="selectedAssistant"
-        @update="handleAssistantFilterChange"
-      />
-    </div>
-    <div
-      v-if="isFetching"
-      class="flex items-center justify-center py-10 text-n-slate-11"
-    >
-      <Spinner />
-    </div>
-    <div v-else-if="documents.length" class="flex flex-col gap-4">
-      <DocumentCard
-        v-for="doc in documents"
-        :id="doc.id"
-        :key="doc.id"
-        :name="doc.name || doc.external_link"
-        :external-link="doc.external_link"
-        :assistant="doc.assistant"
-        :created-at="doc.created_at"
-        @action="handleAction"
-      />
-    </div>
+    <template #emptyState>
+      <DocumentPageEmptyState @click="handleCreateDocument" />
+    </template>
 
-    <DocumentPageEmptyState v-else @click="handleCreateDocument" />
+    <template #paywall>
+      <CaptainPaywall />
+    </template>
+
+    <template #controls>
+      <div v-if="shouldShowAssistantSelector" class="mb-4 -mt-3 flex gap-3">
+        <AssistantSelector
+          :assistant-id="selectedAssistant"
+          @update="handleAssistantFilterChange"
+        />
+      </div>
+    </template>
+
+    <template #body>
+      <LimitBanner class="mb-5" />
+
+      <div class="flex flex-col gap-4">
+        <DocumentCard
+          v-for="doc in documents"
+          :id="doc.id"
+          :key="doc.id"
+          :name="doc.name || doc.external_link"
+          :external-link="doc.external_link"
+          :assistant="doc.assistant"
+          :created-at="doc.created_at"
+          @action="handleAction"
+        />
+      </div>
+    </template>
 
     <RelatedResponses
       v-if="showRelatedResponses"
@@ -146,6 +165,7 @@ onMounted(() => {
       ref="deleteDocumentDialog"
       :entity="selectedDocument"
       type="Documents"
+      @delete-success="onDeleteSuccess"
     />
   </PageLayout>
 </template>

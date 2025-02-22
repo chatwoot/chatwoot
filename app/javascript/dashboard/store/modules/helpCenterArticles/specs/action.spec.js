@@ -150,6 +150,42 @@ describe('#actions', () => {
     });
   });
 
+  describe('#updateArticleMeta', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.get.mockResolvedValue({
+        data: {
+          payload: articleList,
+          meta: {
+            all_articles_count: 56,
+            archived_articles_count: 7,
+            articles_count: 56,
+            current_page: '1', // This is not needed, it cause pagination issues.
+            draft_articles_count: 24,
+            mine_articles_count: 44,
+            published_count: 25,
+          },
+        },
+      });
+      await actions.updateArticleMeta(
+        { commit },
+        { pageNumber: 1, portalSlug: 'test', locale: 'en' }
+      );
+      expect(commit.mock.calls).toEqual([
+        [
+          types.default.SET_ARTICLES_META,
+          {
+            allArticlesCount: 56,
+            archivedArticlesCount: 7,
+            articlesCount: 56,
+            draftArticlesCount: 24,
+            mineArticlesCount: 44,
+            publishedCount: 25,
+          },
+        ],
+      ]);
+    });
+  });
+
   describe('#delete', () => {
     it('sends correct actions if API is success', async () => {
       axios.delete.mockResolvedValue({ data: articleList[0] });
