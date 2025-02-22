@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "سيتم نسخ تفاصيل الاتصال من <strong>{primaryContactName}</strong> إلى <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "رسالة_خطأ"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": " دمج جهات الاتصال",
