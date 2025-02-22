@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "Detail kontak dari <strong>{primaryContactName}</strong> akan disalin ke <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "PESAN_KESALAHAN"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": "Gabungkan Kontak",
