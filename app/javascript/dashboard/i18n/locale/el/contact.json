@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "Τα στοιχεία επικοινωνίας του <strong>{primaryContactName}</strong> θα αντιγραφούν στο <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "ERROR_MESSAGE"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": " Συγχώνευση επαφών",
