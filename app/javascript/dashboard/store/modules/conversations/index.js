@@ -227,6 +227,12 @@ export const mutations = {
     }
   },
 
+  [types.REMOVE_CONVERSATION](_state, conversationId) {
+    _state.allConversations = _state.allConversations.filter(
+      c => c.id !== conversationId
+    );
+  },
+
   [types.SET_LIST_LOADING_STATUS](_state) {
     _state.listLoadingStatus = true;
   },
