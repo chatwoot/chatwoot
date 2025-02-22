@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "Contactgegevens van <strong>{primaryContactName}</strong> worden gekopieerd naar <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "FOUT_BERICHT"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": " Contacten samenvoegen",
