@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "Les dades de contacte de <strong>{primaryContactName}</strong> es copiaran a <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "ERROR_MESSAGE"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": " Fusiona contactes",
