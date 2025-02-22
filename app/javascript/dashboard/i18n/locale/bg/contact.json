@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "Детайлите на контакт <strong>{primaryContactName}</strong> ще бъдат копирани в <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "ГРЕШКА"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": " Обединяване на контакти",
