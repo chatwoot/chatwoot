@@ -1,7 +1,6 @@
 class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
   before_action :inbox, only: [:reauthorize_page]
 
-  # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/AbcSize
   def register_facebook_page
     user_access_token = params[:user_access_token]
@@ -18,16 +17,15 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
       set_avatar(@facebook_inbox, page_id)
     end
 
-    if Current.account.custom_attributes['setup_comment_inboxes'].present? && Current.account.custom_attributes['setup_comment_inboxes'] == 'true'
-      setup_comment_inboxes(Current.account.id, instagram_id, page_id, page_access_token, user_access_token, inbox_name)
-    end
+    # if Current.account.custom_attributes['setup_comment_inboxes'].present? && Current.account.custom_attributes['setup_comment_inboxes'] == 'true'
+    setup_comment_inboxes(Current.account.id, instagram_id, page_id, page_access_token, user_access_token, inbox_name)
+    # end
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception
     Rails.logger.error "Error in register_facebook_page: #{e.message}"
     # Additional log statements
     log_additional_info
   end
-  # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/AbcSize
 
   # rubocop:disable Metrics/ParameterLists
