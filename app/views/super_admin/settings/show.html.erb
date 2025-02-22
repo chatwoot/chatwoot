@@ -1,7 +1,7 @@
 <% content_for(:title) do %>
   Settings
 <% end %>
-<header class="flex py-4 items-center border-b border-n-weak max-w-[960px] mx-auto px-4 xl:px-0" role="banner">
+<header class="flex px-8 py-4 items-center border-b border-n-weak" role="banner">
   <div class="border border-n-weak mr-4 p-2 rounded-full">
     <svg width="24" height="24"><use xlink:href="#icon-settings-2-line" /></svg>
   </div>
@@ -12,7 +12,7 @@
     <p class="text-sm font-normal leading-5 text-slate-500 m-0">Update your instance settings, access billing portal</p>
   </div>
 </header>
-<section class="main-content__body max-w-[960px] mx-auto px-4 xl:px-0 pb-24">
+<section class="main-content__body px-8">
   <% if Redis::Alfred.get(Redis::Alfred::CHATWOOT_INSTALLATION_CONFIG_RESET_WARNING) %>
     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-5" role="alert">
     <strong class="font-bold">Alert!</strong>

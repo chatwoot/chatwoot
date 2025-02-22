@@ -19,7 +19,7 @@ as well as a link to its edit page.
     t("administrate.actions.show_resource", name: page.page_title)
   end %>
 
-  <header class="main-content__header max-w-[960px] mx-auto" role="banner">
+  <header class="main-content__header" role="banner">
     <h1 class="main-content__page-title">
       <%= content_for(:title) %>
     </h1>
@@ -31,8 +31,8 @@ as well as a link to its edit page.
     </div>
   </header>
 
-  <section class="main-content__body max-w-[960px] mx-auto">
-    <div>
+  <section class="main-content__body">
+    <div class="pr-16">
       <% page.attributes.each do |title, attributes| %>
         <% if title.present? && title == 'all_features' %>
           <% regular_features, premium_features =
@@ -91,7 +91,7 @@ as well as a link to its edit page.
     </div>
   </section>
 
-  <section class="main-content__body max-w-[960px] mx-auto">
+  <section class="main-content__body">
     <% account_user_page =
       Administrate::Page::Form.new(AccountUserDashboard.new, AccountUser.new) %>
     <%= form_for([namespace, account_user_page.resource], html: { class: "form" }) do |f| %>

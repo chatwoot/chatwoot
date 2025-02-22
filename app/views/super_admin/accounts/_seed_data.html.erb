@@ -1,5 +1,5 @@
 <% if ENV.fetch('ENABLE_ACCOUNT_SEEDING', !Rails.env.production?)  %>
-<section class="main-content__body max-w-[960px] mx-auto">
+<section class="main-content__body">
  <hr/>
   <%= form_for([:seed, namespace, page.resource], method: :post, html: { class: "form" }) do |f| %>
 

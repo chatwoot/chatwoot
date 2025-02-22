@@ -1,7 +1,7 @@
 <div class="w-full">
   <% regular_features, premium_features = SuperAdmin::AccountFeaturesHelper.partition_features(field.data) %>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
     <% regular_features.each do |key_array, val| %>
       <% feature_key, display_name = key_array %>
       <div class="flex items-center justify-between p-3 bg-white rounded-md outline outline-n-container outline-1 shadow-sm">
@@ -15,7 +15,7 @@
 
   <hr class="my-8 border-t border-n-weak">
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
     <% premium_features.each do |key_array, val| %>
       <% feature_key, display_name = key_array %>
       <div class="flex items-center justify-between p-3 bg-white rounded-md outline outline-n-container outline-1 shadow-sm">
