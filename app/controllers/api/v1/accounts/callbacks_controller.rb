@@ -18,7 +18,7 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
     end
 
     # if Current.account.custom_attributes['setup_comment_inboxes'].present? && Current.account.custom_attributes['setup_comment_inboxes'] == 'true'
-    setup_comment_inboxes(Current.account.id, instagram_id, page_id, page_access_token, user_access_token, inbox_name)
+    setup_comment_inboxes(Current.account.id, @instagram_id, page_id, page_access_token, user_access_token, inbox_name)
     # end
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception
@@ -77,7 +77,7 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
     response = fb_object.get_connections('me', '', { fields: 'instagram_business_account' })
     return if response['instagram_business_account'].blank?
 
-    instagram_id = response['instagram_business_account']['id']
+    @instagram_id = response['instagram_business_account']['id']
     facebook_channel.update(instagram_id: instagram_id)
     instagram_id
   rescue StandardError => e
