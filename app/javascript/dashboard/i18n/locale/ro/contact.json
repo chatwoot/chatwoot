@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "Datele de contact ale <strong>{primaryContactName}</strong> vor fi copiate la <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "MESAJ_EROARE"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": " Îmbinare contacte",
