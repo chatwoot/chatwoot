@@ -1,4 +1,5 @@
 class Integrations::App
+  include Linear::IntegrationHelper
   attr_accessor :params
 
   def initialize(params)
@@ -25,10 +26,21 @@ class Integrations::App
     params[:fields]
   end
 
+  # There is not way to get the account_id from the linear callback
+  # so we are using the generate_linear_token method to generate a token and encode it in the state parameter
+  def encode_state
+    generate_linear_token(Current.account.id)
+  end
+
   def action
     case params[:id]
     when 'slack'
       "#{params[:action]}&client_id=#{ENV.fetch('SLACK_CLIENT_ID', nil)}&redirect_uri=#{self.class.slack_integration_url}"
+    when 'linear'
+      base_url = "#{params[:action]}?response_type=code"
+      "#{base_url}&client_id=#{ENV.fetch('LINEAR_CLIENT_ID', nil)}" \
+        "&redirect_uri=#{self.class.linear_integration_url}" \
+        "&state=#{encode_state}&scope=read,write&prompt=consent"
     else
       params[:action]
     end
@@ -62,6 +74,10 @@ class Integrations::App
 
   def self.slack_integration_url
     "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{Current.account.id}/settings/integrations/slack"
+  end
+
+  def self.linear_integration_url
+    "#{ENV.fetch('FRONTEND_URL', nil)}/linear/callback"
   end
 
   class << self
