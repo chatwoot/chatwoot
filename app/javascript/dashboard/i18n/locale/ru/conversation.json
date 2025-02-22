@@ -54,7 +54,7 @@
     "SUCCESS_DELETE_MESSAGE": "Сообщение успешно удалено",
     "FAIL_DELETE_MESSSAGE": "Не удалось удалить сообщение! Попробуйте еще раз",
     "NO_RESPONSE": "Нет ответа",
-    "RESPONSE": "Response",
+    "RESPONSE": "Ответ",
     "RATING_TITLE": "Оценка",
     "FEEDBACK_TITLE": "Обратная связь",
     "REPLY_MESSAGE_NOT_FOUND": "Сообщение недоступно",
@@ -355,9 +355,9 @@
     "MULTIPLE": "{user} и {count} печатают"
   },
   "COPILOT": {
-    "TRY_THESE_PROMPTS": "Try these prompts"
+    "TRY_THESE_PROMPTS": "Попробуйте эти запросы"
   },
   "GALLERY_VIEW": {
-    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
+    "ERROR_DOWNLOADING": "Не удалось загрузить вложение, попробуйте еще раз"
   }
 }

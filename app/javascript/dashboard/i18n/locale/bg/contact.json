@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "Детайлите на контакт <strong>{primaryContactName}</strong> ще бъдат копирани в <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "ГРЕШКА"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": " Обединяване на контакти",
@@ -288,6 +288,8 @@
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "Съобщение",
       "SEND_MESSAGE": "Изпрати съобщение",
+      "BLOCK_CONTACT": "Block contact",
+      "UNBLOCK_CONTACT": "Unblock contact",
       "BREADCRUMB": {
         "CONTACTS": "Контакти"
       },
@@ -302,6 +304,10 @@
           "SUCCESS_MESSAGE": "Успешно запазване на контакта",
           "ERROR_MESSAGE": "Unable to save contact. Please try again later."
         },
+        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
+        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
+        "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
+        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
         "IMPORT_CONTACT": {
           "TITLE": "Import contacts",
           "DESCRIPTION": "Внасяне на контакти чрез CSV файл.",

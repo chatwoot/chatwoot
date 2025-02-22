@@ -165,7 +165,7 @@ ja:
         removed: '%{user_name} がSLAポリシー "%{sla_name}" を削除しました'
       muted: '%{user_name} が会話をミュートしました'
       unmuted: '%{user_name} が会話のミュートを解除しました'
-      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
+      auto_resolution_message: '会話がしばらく非アクティブのため、解決済みとして処理します。引き続きサポートが必要な場合は、新しい会話を開始してください。'
     templates:
       greeting_message_body: '%{account_name} は通常数時間以内に返信します。'
       ways_to_reach_you_message_body: 'ご連絡先をご入力ください。'

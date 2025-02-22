@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "<strong>{primaryContactName}</strong> کے کانٹیکٹ کی تفصیلات <strong>{parentContactName}</strong> پر کاپی کی جائیں گی۔."
     },
     "SEARCH": {
-      "ERROR": "خامی کا پیغام"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": " کانٹیکٹ ضم کریں۔",
@@ -288,6 +288,8 @@
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "پیغام",
       "SEND_MESSAGE": "پیغام بھیجیں",
+      "BLOCK_CONTACT": "Block contact",
+      "UNBLOCK_CONTACT": "Unblock contact",
       "BREADCRUMB": {
         "CONTACTS": "کانٹیکٹس"
       },
@@ -302,6 +304,10 @@
           "SUCCESS_MESSAGE": "کانٹیکٹ کامیابی سے محفوظ ہو گیا۔",
           "ERROR_MESSAGE": "Unable to save contact. Please try again later."
         },
+        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
+        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
+        "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
+        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
         "IMPORT_CONTACT": {
           "TITLE": "Import contacts",
           "DESCRIPTION": "سی ایس وی فائل کے ذریعے کانٹیکٹ درآمد کریں۔.",

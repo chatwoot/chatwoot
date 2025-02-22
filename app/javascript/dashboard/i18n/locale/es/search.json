@@ -11,8 +11,8 @@
       "CONVERSATIONS": "Conversaciones",
       "MESSAGES": "Mensajes"
     },
-    "VIEW_MORE": "View more",
-    "LOAD_MORE": "Load more",
+    "VIEW_MORE": "Ver más",
+    "LOAD_MORE": "Cargar más",
     "SEARCHING_DATA": "Buscando",
     "LOADING_DATA": "Cargando",
     "EMPTY_STATE": "Ningún {item} encontrado para la consulta '{query}'",

@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "Detail kontak dari <strong>{primaryContactName}</strong> akan disalin ke <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "PESAN_KESALAHAN"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": "Gabungkan Kontak",
@@ -288,6 +288,8 @@
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "Pesan",
       "SEND_MESSAGE": "Kirim Pesan",
+      "BLOCK_CONTACT": "Block contact",
+      "UNBLOCK_CONTACT": "Unblock contact",
       "BREADCRUMB": {
         "CONTACTS": "Kontak"
       },
@@ -302,6 +304,10 @@
           "SUCCESS_MESSAGE": "Kontak berhasil disimpan",
           "ERROR_MESSAGE": "Unable to save contact. Please try again later."
         },
+        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
+        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
+        "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
+        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
         "IMPORT_CONTACT": {
           "TITLE": "Impor kontak",
           "DESCRIPTION": "Impor kontak melalui file CSV.",

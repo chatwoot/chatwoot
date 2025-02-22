@@ -310,23 +310,23 @@
       "LOADER": "Капитан думает",
       "YOU": "Вы",
       "USE": "Использовать это",
-      "RESET": "Reset"
+      "RESET": "Сброс"
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "TITLE": "Обновите тарифный план, чтобы использовать Captain AI",
+      "AVAILABLE_ON": "Капитан недоступен на бесплатном тарифном плане.",
+      "UPGRADE_PROMPT": "Обновите тарифный план, чтобы получить доступ к помощникам, Captain AI и другому.",
       "UPGRADE_NOW": "Обновить сейчас",
       "CANCEL_ANYTIME": "Вы можете изменить или отменить ваш тарифный план в любое время"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI feature is only available in a paid plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "AVAILABLE_ON": "Функция Captain AI доступна только в платном плане.",
+      "UPGRADE_PROMPT": "Обновите тарифный план, чтобы получить доступ к помощникам, Captain AI и другому.",
       "ASK_ADMIN": "Пожалуйста, обратитесь к вашему администратору для обновления."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "Вы использовали более 80% лимита ответов. Чтобы продолжить использование Captain AI, пожалуйста, обновите тариф.",
+      "DOCUMENTS": "Достигнут лимит документов. Обновите тарифный план, чтобы продолжить использование Captain AI."
     },
     "FORM": {
       "CANCEL": "Отменить",
@@ -334,81 +334,81 @@
       "EDIT": "Обновить"
     },
     "ASSISTANTS": {
-      "HEADER": "Assistants",
-      "ADD_NEW": "Create a new assistant",
+      "HEADER": "Помощники",
+      "ADD_NEW": "Создать нового помощника",
       "DELETE": {
-        "TITLE": "Are you sure to delete the assistant?",
-        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+        "TITLE": "Вы уверены, что хотите удалить помощника?",
+        "DESCRIPTION": "Это действие необратимо. Удаление этого помощника удалит его из всех подключенных источников и навсегда удалит все сгенерированные знания.",
         "CONFIRM": "Да, удалить",
-        "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
+        "SUCCESS_MESSAGE": "Помощник успешно удален",
+        "ERROR_MESSAGE": "При удалении помощника произошла ошибка. Пожалуйста, попробуйте еще раз."
       },
-      "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
+      "FORM_DESCRIPTION": "Заполните приведенные ниже сведения, чтобы назвать своего помощника, описать его цель и указать поддерживаемый продукт.",
       "CREATE": {
-        "TITLE": "Create an assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
+        "TITLE": "Создать помощника",
+        "SUCCESS_MESSAGE": "Помощник успешно создан",
+        "ERROR_MESSAGE": "При создании помощника произошла ошибка, пожалуйста, попробуйте еще раз."
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Assistant Name",
-          "PLACEHOLDER": "Enter a name for the assistant",
-          "ERROR": "Please provide a name for the assistant"
+          "LABEL": "Имя помощника",
+          "PLACEHOLDER": "Введите имя помощника",
+          "ERROR": "Пожалуйста, укажите имя помощника"
         },
         "DESCRIPTION": {
-          "LABEL": "Assistant Description",
-          "PLACEHOLDER": "Describe how and where this assistant will be used",
-          "ERROR": "A description is required"
+          "LABEL": "Описание помощника",
+          "PLACEHOLDER": "Опишите, как и где будет использоваться этот помощник",
+          "ERROR": "Необходимо описание"
         },
         "PRODUCT_NAME": {
-          "LABEL": "Product Name",
-          "PLACEHOLDER": "Enter the name of the product this assistant is designed for",
-          "ERROR": "The product name is required"
+          "LABEL": "Название продукта",
+          "PLACEHOLDER": "Введите название продукта, для которого предназначен этот помощник",
+          "ERROR": "Требуется название продукта"
         },
         "FEATURES": {
           "TITLE": "Возможности",
-          "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
-          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions."
+          "ALLOW_CONVERSATION_FAQS": "Создать FAQ из решённых диалогов",
+          "ALLOW_MEMORIES": "Сохраняйте ключевые детали в виде воспоминаний о взаимодействии с клиентами."
         }
       },
       "EDIT": {
-        "TITLE": "Update the assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the assistant, please try again."
+        "TITLE": "Обновить помощника",
+        "SUCCESS_MESSAGE": "Помощник успешно обновлен",
+        "ERROR_MESSAGE": "При обновлении помощника произошла ошибка, пожалуйста, попробуйте еще раз."
       },
       "OPTIONS": {
-        "EDIT_ASSISTANT": "Edit Assistant",
-        "DELETE_ASSISTANT": "Delete Assistant",
-        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+        "EDIT_ASSISTANT": "Редактировать помощника",
+        "DELETE_ASSISTANT": "Удалить помощника",
+        "VIEW_CONNECTED_INBOXES": "Просмотр подключенных источников"
       },
       "EMPTY_STATE": {
-        "TITLE": "No assistants available",
-        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations."
+        "TITLE": "Нет доступных помощников",
+        "SUBTITLE": "Создайте помощника, чтобы дать быстрые и точные ответы пользователям. Он может учиться на ваших статьях из центра поддержки и прошлых диалогах."
       }
     },
     "DOCUMENTS": {
-      "HEADER": "Documents",
-      "ADD_NEW": "Create a new document",
+      "HEADER": "Документы",
+      "ADD_NEW": "Создать новый документ",
       "RELATED_RESPONSES": {
-        "TITLE": "Related FAQs",
-        "DESCRIPTION": "These FAQs are generated directly from the document."
+        "TITLE": "Связанные FAQ",
+        "DESCRIPTION": "Эти FAQ генерируются напрямую из документа."
       },
-      "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
+      "FORM_DESCRIPTION": "Введите URL документа, чтобы добавить его в качестве источника знаний и выберите ассистента, с которым он свяжется.",
       "CREATE": {
-        "TITLE": "Add a document",
-        "SUCCESS_MESSAGE": "The document has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the document, please try again."
+        "TITLE": "Добавить документ",
+        "SUCCESS_MESSAGE": "Документ успешно создан",
+        "ERROR_MESSAGE": "Произошла ошибка при создании документа, пожалуйста, попробуйте еще раз."
       },
       "FORM": {
         "URL": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Enter the URL of the document",
-          "ERROR": "Please provide a valid URL for the document"
+          "PLACEHOLDER": "Введите URL документа",
+          "ERROR": "Пожалуйста, укажите корректный URL для документа"
         },
         "ASSISTANT": {
-          "LABEL": "Assistant",
-          "PLACEHOLDER": "Select the assistant",
-          "ERROR": "The assistant field is required"
+          "LABEL": "Помощник",
+          "PLACEHOLDER": "Выберите помощника",
+          "ERROR": "Необходимо заполнить поле помощника"
         }
       },
       "DELETE": {
@@ -438,38 +438,38 @@
         "DESCRIPTION": "",
         "CONFIRM": "Да, удалить",
         "SUCCESS_MESSAGE": "FAQ успешно удален",
-        "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
+        "ERROR_MESSAGE": "Произошла ошибка при удалении FAQ, попробуйте еще раз."
       },
       "FILTER": {
-        "ASSISTANT": "Assistant: {selected}",
-        "STATUS": "Status: {selected}",
+        "ASSISTANT": "Помощник: {selected}",
+        "STATUS": "Статус: {selected}",
         "ALL_ASSISTANTS": "Все"
       },
       "STATUS": {
         "TITLE": "Статус",
         "PENDING": "В ожидании",
-        "APPROVED": "Approved",
+        "APPROVED": "Одобрено",
         "ALL": "Все"
       },
-      "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
+      "FORM_DESCRIPTION": "Добавьте вопрос и соответствующий ему ответ в базу знаний и выберите помощника, с которым он должен связаться.",
       "CREATE": {
-        "TITLE": "Add an FAQ",
-        "SUCCESS_MESSAGE": "The response has been added successfully.",
-        "ERROR_MESSAGE": "An error occurred while adding the response. Please try again."
+        "TITLE": "Добавить FAQ",
+        "SUCCESS_MESSAGE": "Ответ успешно добавлен.",
+        "ERROR_MESSAGE": "При добавлении ответа произошла ошибка. Пожалуйста, попробуйте еще раз."
       },
       "FORM": {
         "QUESTION": {
-          "LABEL": "Question",
-          "PLACEHOLDER": "Enter the question here",
-          "ERROR": "Please provide a valid question."
+          "LABEL": "Вопрос",
+          "PLACEHOLDER": "Введите вопрос",
+          "ERROR": "Пожалуйста, введите корректный вопрос."
         },
         "ANSWER": {
-          "LABEL": "Answer",
-          "PLACEHOLDER": "Enter the answer here",
+          "LABEL": "Ответ",
+          "PLACEHOLDER": "Введите ответ",
           "ERROR": "Please provide a valid answer."
         },
         "ASSISTANT": {
-          "LABEL": "Assistant",
+          "LABEL": "Помощник",
           "PLACEHOLDER": "Select an assistant",
           "ERROR": "Please select an assistant."
         }

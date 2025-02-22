@@ -45,13 +45,13 @@
       "FALSE": "Falso"
     },
     "ATTRIBUTES": {
-      "STATUS": "SItuação",
+      "STATUS": "Situação",
       "ASSIGNEE_NAME": "Nome do responsável",
       "INBOX_NAME": "Nome da Caixa de Entrada",
-      "TEAM_NAME": "Nome do Time",
+      "TEAM_NAME": "Nome da equipe",
       "CONVERSATION_IDENTIFIER": "Identificador da conversa",
       "CAMPAIGN_NAME": "Nome da campanha",
-      "LABELS": "Marcadores",
+      "LABELS": "Etiquetas",
       "BROWSER_LANGUAGE": "Idioma do navegador",
       "PRIORITY": "Prioridade",
       "COUNTRY_NAME": "Nome do País",
@@ -93,7 +93,7 @@
         }
       },
       "EDIT": {
-        "EDIT_BUTTON": "Editar Pasta"
+        "EDIT_BUTTON": "Alterar Pasta"
       },
       "DELETE": {
         "DELETE_BUTTON": "Excluir filtro",
