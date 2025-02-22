@@ -174,9 +174,9 @@ pt_BR:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} de %{inbox_name} <reply+%{from_email}>'
+          from_with_name: '%{assignee_name} de %{inbox_name} <reply%{from_email}>'
           reply_with_name: '%{assignee_name} de %{inbox_name} <reply+%{reply_email}>'
-          friendly_name: '%{sender_name} de %{business_name} <reply+%{from_email}>'
+          friendly_name: '%{sender_name} de %{business_name} <reply%{from_email}>'
           professional_name: '%{business_name} <%{from_email}>'
       channel_email:
         header:
