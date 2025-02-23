@@ -29,20 +29,16 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
   # rubocop:enable Metrics/AbcSize
 
   # rubocop:disable Metrics/ParameterLists
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Layout/LineLength
   def setup_comment_inboxes(account_id, page_id, user_id, page_access_token, user_access_token, page_name)
-    # POST request to https://b3i4zxcefi.execute-api.us-east-1.amazonaws.com/addInboxesOnConnection
-    # with the following payload
-    # {
-    #   "accountId": account_jd,
-    #   "pageId": page_id,
-    #   "userId": user_id,
-    #   "pageAccessToken": page_access_token,
-    #   "userAccessToken": user_access_token,
-    #   "pageName": page_name
-    # }
+    Rails.logger.info "Setting up comment inboxes for account #{account_id}, page #{page_id}, user #{user_id}, page_access_token #{page_access_token}, user_access_token #{user_access_token}, page_name #{page_name}"
 
     response = HTTParty.post(
       'https://b3i4zxcefi.execute-api.us-east-1.amazonaws.com/addInboxesOnConnection',
+      headers: {
+        'Content-Type' => 'application/json'
+      },
       body: {
         accountId: account_id,
         pageId: page_id,
@@ -59,8 +55,10 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
       Rails.logger.error "Error in setting up comment inboxes: #{response.code} - #{response.body}"
     end
   end
-
+  # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/ParameterLists
+  # rubocop:enable Layout/LineLength
+
   def log_additional_info
     Rails.logger.debug do
       "user_access_token: #{params[:user_access_token]} , page_access_token: #{params[:page_access_token]} ,
