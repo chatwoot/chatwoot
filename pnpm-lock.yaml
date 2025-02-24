@@ -23,8 +23,8 @@ importers:
         specifier: 1.1.1-next
         version: 1.1.1-next
       '@chatwoot/utils':
-        specifier: ^0.0.39
-        version: 0.0.39
+        specifier: ^0.0.40
+        version: 0.0.40
       '@formkit/core':
         specifier: ^1.6.7
         version: 1.6.7
@@ -400,8 +400,8 @@ packages:
   '@chatwoot/prosemirror-schema@1.1.1-next':
     resolution: {integrity: sha512-/M2qZ+ZF7GlQNt1riwVP499fvp3hxSqd5iy8hxyF9pkj9qQ+OKYn5JK+v3qwwqQY3IxhmNOn1Lp6tm7vstrd9Q==}
 
-  '@chatwoot/utils@0.0.39':
-    resolution: {integrity: sha512-m/mt8WhhgEBj0kyfxCQjwyVLVj4Eyb1QRvs1cckL82b6xjyW69zicsVVpTIGd2DLTVdGPu1NzLPKKPaTOnIZgQ==}
+  '@chatwoot/utils@0.0.40':
+    resolution: {integrity: sha512-Rg5wwQXi4mnEiv8scw66QVIgal9F1di+UDg4hHCw37zLXrqExQQ9CL7jDvO+ddvzEl6TUXw91Lu5L/qVlEyvdg==}
     engines: {node: '>=10'}
 
   '@codemirror/commands@6.7.0':
@@ -5136,7 +5136,7 @@ snapshots:
       prosemirror-utils: 1.2.2(prosemirror-model@1.22.3)(prosemirror-state@1.4.3)
       prosemirror-view: 1.34.1
 
-  '@chatwoot/utils@0.0.39':
+  '@chatwoot/utils@0.0.40':
     dependencies:
       date-fns: 2.30.0
 
