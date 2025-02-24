@@ -9,26 +9,23 @@ export default {
       type: Number,
       required: true,
     },
-    meetingData: {
-      type: Object,
-      default: () => ({}),
-    },
   },
   data() {
     return { isLoading: false, dyteAuthToken: '', isSDKMounted: false };
   },
   computed: {
     meetingLink() {
-      return buildDyteURL(this.meetingData.room_name, this.dyteAuthToken);
+      return buildDyteURL(this.dyteAuthToken);
     },
   },
   methods: {
     async joinTheCall() {
       this.isLoading = true;
       try {
-        const { data: { authResponse: { authToken } = {} } = {} } =
-          await DyteAPI.addParticipantToMeeting(this.messageId);
-        this.dyteAuthToken = authToken;
+        const { data: { token } = {} } = await DyteAPI.addParticipantToMeeting(
+          this.messageId
+        );
+        this.dyteAuthToken = token;
       } catch (err) {
         useAlert(this.$t('INTEGRATION_SETTINGS.DYTE.JOIN_ERROR'));
       } finally {
