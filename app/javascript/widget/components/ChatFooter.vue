@@ -110,6 +110,15 @@ export default {
     startNewConversation() {
       this.clearConversations();
       this.clearConversationAttributes();
+      this.setQuickRepliesOptions([]);
+      const ref = new URLSearchParams(window.location.search).get('referral');
+      if (ref) {
+        this.$store.dispatch('conversation/createConversation', {});
+      };
+      if (this.preChatFormEnabled && !this.conversationSize) {
+        return this.replaceRoute('prechat-form');
+      }
+      return this.replaceRoute('messages');
     },
     async sendTranscript() {
       const { email } = this.currentUser;
