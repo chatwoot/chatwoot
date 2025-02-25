@@ -20,6 +20,8 @@ module Captain::ChatHelper
   end
 
   def request_chat_completion
+    Rails.logger.debug { "[CAPTAIN][ChatCompletion] #{@messages}" }
+
     response = @client.chat(
       parameters: {
         model: @model,
@@ -43,15 +45,17 @@ module Captain::ChatHelper
   end
 
   def process_tool_calls(tool_calls)
+    append_tool_calls(tool_calls)
     process_tool_call(tool_calls.first)
   end
 
   def process_tool_call(tool_call)
     return unless tool_call['function']['name'] == 'search_documentation'
 
+    tool_call_id = tool_call['id']
     query = JSON.parse(tool_call['function']['arguments'])['search_query']
     sections = fetch_documentation(query)
-    append_tool_response(sections)
+    append_tool_response(sections, tool_call_id)
     request_chat_completion
   end
 
@@ -77,9 +81,17 @@ module Captain::ChatHelper
     formatted_response
   end
 
-  def append_tool_response(sections)
+  def append_tool_calls(tool_calls)
     @messages << {
       role: 'assistant',
+      tool_calls: tool_calls
+    }
+  end
+
+  def append_tool_response(sections, tool_call_id)
+    @messages << {
+      role: 'tool',
+      tool_call_id: tool_call_id,
       content: "Found the following FAQs in the documentation:\n #{sections}"
     }
   end
