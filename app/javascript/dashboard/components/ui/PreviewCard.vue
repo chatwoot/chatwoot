@@ -30,7 +30,7 @@ export default {
     }"
   >
     <div
-      class="flex justify-between items-center px-2 w-full h-10 bg-slate-50 dark:bg-slate-900 rounded-t-[5px] border-b border-solid border-slate-50 dark:border-slate-600"
+      class="flex justify-between items-center rounded-t-md px-2 w-full h-10 bg-slate-50 dark:bg-slate-900 border-b border-solid border-slate-50 dark:border-slate-600"
       :class="{
         'bg-woot-50 border-b border-solid border-woot-75 dark:border-woot-700':
           active,

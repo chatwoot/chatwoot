@@ -236,7 +236,7 @@ export default {
         <button
           v-for="hotKey in hotKeys"
           :key="hotKey.key"
-          class="px-0 reset-base"
+          class="px-0 reset-base w-full sm:flex-1"
         >
           <HotKeyCard
             :key="hotKey.title"
