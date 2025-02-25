@@ -20,7 +20,7 @@ const props = defineProps({
   emptyState: { type: String, default: '' },
   message: { type: String, default: '' },
   hasError: { type: Boolean, default: false },
-  useApiSearch: { type: Boolean, default: false }, // useApiSearch prop to determine if search is handled by API
+  useApiResults: { type: Boolean, default: false }, // useApiResults prop to determine if search is handled by API
 });
 
 const emit = defineEmits(['update:modelValue', 'search']);
@@ -35,7 +35,7 @@ const comboboxRef = ref(null);
 
 const filteredOptions = computed(() => {
   // For API search, don't filter options locally
-  if (props.useApiSearch && search.value) {
+  if (props.useApiResults && search.value) {
     return props.options;
   }
 
