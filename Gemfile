@@ -181,6 +181,7 @@ gem 'ruby-openai'
 gem 'shopify_api'
 gem 'blazer'
 gem 'rails_execution'
+gem 'honeybadger', '~> 5.26'
 
 ### Gems required only in specific deployment environments ###
 ##############################################################
@@ -245,5 +246,3 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
-
-gem "honeybadger", "~> 5.26"
