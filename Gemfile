@@ -183,6 +183,7 @@ gem 'blazer'
 gem 'honeybadger', '~> 5.26'
 gem 'blazer'
 gem 'rails_execution'
+gem 'honeybadger', '~> 5.26'
 
 ### Gems required only in specific deployment environments ###
 ##############################################################
@@ -247,5 +248,3 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
-
-gem "honeybadger", "~> 5.26"
