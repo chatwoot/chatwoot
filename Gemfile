@@ -246,5 +246,3 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
-
-gem "honeybadger", "~> 5.26"
