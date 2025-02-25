@@ -109,10 +109,13 @@ export default {
     },
     startNewConversation() {
       console.log('entra al start conversation del footer')
+      const ref1 = new URLSearchParams(window.location.search).get('referral');
+      console.log('ref desde chat footer al inicio', ref1)
       this.clearConversations();
       this.clearConversationAttributes();
       this.setQuickRepliesOptions([]);
-      const ref = new URLSearchParams(window.location.search).get('referral');
+      const ref2 = new URLSearchParams(window.location.search).get('referral');
+      console.log('ref desde chat footer', ref2)
       if (ref) {
         this.$store.dispatch('conversation/createConversation', {});
       };
