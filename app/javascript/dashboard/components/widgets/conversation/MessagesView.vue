@@ -115,6 +115,7 @@ export default {
       isProgrammaticScroll: false,
       messageSentSinceOpened: false,
       labelSuggestions: [],
+      markReadTimeout: null,
     };
   },
 
@@ -272,6 +273,7 @@ export default {
       }
       this.fetchAllAttachmentsFromCurrentChat();
       this.fetchSuggestions();
+      this.removeMarkReadTimeout();
       this.messageSentSinceOpened = false;
     },
   },
@@ -296,6 +298,7 @@ export default {
   unmounted() {
     this.removeBusListeners();
     this.removeScrollListener();
+    this.removeMarkReadTimeout();
   },
 
   methods: {
@@ -362,7 +365,9 @@ export default {
           this.scrollToBottom();
         }
       });
-      this.makeMessagesRead();
+      this.markReadTimeout = setTimeout(this.makeMessagesRead, 5000, {
+        once: true,
+      });
     },
     addScrollListener() {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');
@@ -472,6 +477,9 @@ export default {
         }
         return false;
       });
+    },
+    removeMarkReadTimeout() {
+      clearTimeout(this.markReadTimeout);
     },
   },
 };
