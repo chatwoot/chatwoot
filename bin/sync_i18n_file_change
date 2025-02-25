@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# Pre-commit hook to sync en/index.js to other locale folders
+# Place this file in .git/hooks/pre-commit and make it executable
+
+# Colors for output
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Path to the source index.js file
+SOURCE_FILE="app/javascript/dashboard/i18n/locale/en/index.js"
+
+# Check if en/index.js is among the staged files
+STAGED_EN_INDEX=$(git diff --cached --name-only | grep "^app/javascript/dashboard/i18n/locale/en/index.js$")
+
+if [ -n "$STAGED_EN_INDEX" ]; then
+    echo -e "${YELLOW}Changes detected in en/index.js. Syncing to other locale folders...${NC}"
+
+    # Check if source file exists
+    if [ ! -f "$SOURCE_FILE" ]; then
+        echo "Error: Source file $SOURCE_FILE not found"
+        exit 1
+    fi
+
+    # Keep track if any copies were made
+    COPIES_MADE=false
+
+    # Loop through all directories in locales folder
+    for dir in app/javascript/dashboard/i18n/locale/*/; do
+        # Skip the 'en' directory since it's the source
+        if [ "$dir" != "app/javascript/dashboard/i18n/locale/en/" ]; then
+            # Copy the file
+            cp "$SOURCE_FILE" "$dir"
+
+            # Stage the copied file
+            git add "${dir}index.js"
+
+            echo "Copied and staged index.js to $dir"
+            COPIES_MADE=true
+        fi
+    done
+
+    if [ "$COPIES_MADE" = true ]; then
+        echo -e "${GREEN}Successfully synced en/index.js to all locale folders${NC}"
+    else
+        echo "No other locale folders found to sync to"
+    fi
+fi
+
+sleep 1
+# exit 0

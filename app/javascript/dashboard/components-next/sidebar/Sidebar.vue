@@ -240,24 +240,20 @@ const menuItems = computed(() => {
       name: 'Captain',
       icon: 'i-woot-captain',
       label: t('SIDEBAR.CAPTAIN'),
-      showOnlyOnCloud: true,
       children: [
         {
           name: 'Assistants',
           label: t('SIDEBAR.CAPTAIN_ASSISTANTS'),
-          showOnlyOnCloud: true,
           to: accountScopedRoute('captain_assistants_index'),
         },
         {
           name: 'Documents',
           label: t('SIDEBAR.CAPTAIN_DOCUMENTS'),
-          showOnlyOnCloud: true,
           to: accountScopedRoute('captain_documents_index'),
         },
         {
           name: 'Responses',
           label: t('SIDEBAR.CAPTAIN_RESPONSES'),
-          showOnlyOnCloud: true,
           to: accountScopedRoute('captain_responses_index'),
         },
       ],
@@ -509,7 +505,6 @@ const menuItems = computed(() => {
           name: 'Settings Billing',
           label: t('SIDEBAR.BILLING'),
           icon: 'i-lucide-credit-card',
-          showOnlyOnCloud: true,
           to: accountScopedRoute('billing_settings_index'),
         },
       ],
@@ -525,7 +520,7 @@ const menuItems = computed(() => {
     <section class="grid gap-2 mt-2 mb-4">
       <div class="flex items-center min-w-0 gap-2 px-2">
         <div class="grid flex-shrink-0 size-6 place-content-center">
-          <Logo />
+          <Logo class="size-4" />
         </div>
         <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
         <SidebarAccountSwitcher

@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Putuskan"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow adalah platform pemahaman bahasa alami yang memungkinkan Anda merancang dan mengintegrasikan antarmuka pengguna percakapan ke aplikasi seluler, aplikasi web, perangkat, bot, sistem respons suara interaktif, dan lain-lain. <br /> <br /> Integrasi Dialogflow dengan {installationName} memungkinkan Anda mengkonfigurasi bot Dialogflow dengan kotak masuk Anda, sehingga bot menangani pertanyaan awal dan menyerahkannya ke agen jika diperlukan. Dialogflow dapat digunakan untuk memfilter prospek, mengurangi beban kerja agen dengan memberikan pertanyaan yang sering diajukan, dan sebagainya. <br /> <br /> Untuk menambahkan Dialogflow, Anda perlu membuat Akun Layanan di konsol proyek Google Anda dan berbagi kredensialnya. Silakan lihat dokumen Dialogflow untuk informasi lebih lanjut."
+      "DIALOGFLOW": "Dialogflow is a natural language understanding platform that makes it easy to design and integrate a conversational user interface into your mobile app, web application, device, bot, interactive voice response system, and so on. <br /> <br /> Dialogflow integration with {installationName} allows you to configure a Dialogflow bot with your inboxes which lets the bot handle the queries initially and hand them over to an agent when needed. Dialogflow can be used to qualifying the leads, reduce the workload of agents by providing frequently asked questions etc. <br /> <br /> To add Dialogflow, you need to create a Service Account in your Google project console and share the credentials. Please refer to the Dialogflow docs for more information."
     }
   }
 }
