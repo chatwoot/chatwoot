@@ -108,6 +108,7 @@ export default {
       this.sendAttachment({ attachment });
     },
     startNewConversation() {
+      console.log('entra al start conversation del footer')
       this.clearConversations();
       this.clearConversationAttributes();
       this.setQuickRepliesOptions([]);
@@ -119,6 +120,7 @@ export default {
         return this.replaceRoute('prechat-form');
       }
       return this.replaceRoute('messages');
+      console.log('entra al start conversation del footer y termina toda la ejecucion')
     },
     async sendTranscript() {
       const { email } = this.currentUser;
