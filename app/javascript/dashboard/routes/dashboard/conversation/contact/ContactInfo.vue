@@ -201,7 +201,7 @@ import timeMixin from 'dashboard/mixins/time';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import SocialIcons from './SocialIcons.vue';
-
+import * as Sentry from '@sentry/vue';
 import EditContact from './EditContact.vue';
 import NewConversation from './NewConversation.vue';
 import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
@@ -371,6 +371,15 @@ export default {
           this.showAlert('Something went wrong in initiating the call.');
         }
       } catch (error) {
+        Sentry.setContext('CallingInitiation', {
+          from: this.currentUser.custom_attributes.phone_number,
+          to: this.contact.phone_number,
+          accountId: this.accountId,
+          contactId: this.contact.id,
+          accessToken: this.currentUser.access_token,
+        });
+        Sentry.captureException(error);
+        Sentry.captureMessage('Error in initiating the call');
         this.showAlert('Something went in intiating the call.');
       }
     },
