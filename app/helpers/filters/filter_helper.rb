@@ -90,7 +90,6 @@ module Filters::FilterHelper
     raise CustomExceptions::CustomFilter::InvalidQueryOperator.new({}) unless %w[AND OR].include?(operator)
   end
 
-  # Additional methods moved from FilterService
   def conversation_status_values(values)
     return Conversation.statuses.values if values.include?('all')
 
