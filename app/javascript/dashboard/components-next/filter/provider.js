@@ -94,6 +94,22 @@ export function useConversationFilterContext() {
       attributeModel: 'standard',
     },
     {
+      attributeKey: 'priority',
+      value: 'priority',
+      attributeName: t('FILTER.ATTRIBUTES.PRIORITY'),
+      label: t('FILTER.ATTRIBUTES.PRIORITY'),
+      inputType: 'multiSelect',
+      options: ['low', 'medium', 'high', 'urgent'].map(id => {
+        return {
+          id,
+          name: t(`CONVERSATION.PRIORITY.OPTIONS.${id.toUpperCase()}`),
+        };
+      }),
+      dataType: 'text',
+      filterOperators: equalityOperators.value,
+      attributeModel: 'standard',
+    },
+    {
       attributeKey: 'assignee_id',
       value: 'assignee_id',
       attributeName: t('FILTER.ATTRIBUTES.ASSIGNEE_NAME'),

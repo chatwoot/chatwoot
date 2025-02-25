@@ -1,4 +1,4 @@
-module FilterHelper
+module Filters::FilterHelper
   def build_condition_query(model_filters, query_hash, current_index)
     current_filter = model_filters[query_hash['attribute_key']]
 
@@ -88,5 +88,20 @@ module FilterHelper
 
     operator = condition['query_operator'].upcase
     raise CustomExceptions::CustomFilter::InvalidQueryOperator.new({}) unless %w[AND OR].include?(operator)
+  end
+
+  # Additional methods moved from FilterService
+  def conversation_status_values(values)
+    return Conversation.statuses.values if values.include?('all')
+
+    values.map { |x| Conversation.statuses[x.to_sym] }
+  end
+
+  def conversation_priority_values(values)
+    values.map { |x| Conversation.priorities[x.to_sym] }
+  end
+
+  def message_type_values(values)
+    values.map { |x| Message.message_types[x.to_sym] }
   end
 end
