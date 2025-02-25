@@ -75,6 +75,7 @@ export default {
     'assignLabel',
     'assignTeam',
     'markAsUnread',
+    'markAsRead',
     'assignPriority',
     'updateConversationStatus',
   ],
@@ -228,6 +229,10 @@ export default {
       this.$emit('markAsUnread', this.chat.id);
       this.closeContextMenu();
     },
+    async markAsRead() {
+      this.$emit('markAsRead', this.chat.id);
+      this.closeContextMenu();
+    },
     async assignPriority(priority) {
       this.$emit('assignPriority', priority, this.chat.id);
       this.closeContextMenu();
@@ -356,6 +361,7 @@ export default {
         @assign-label="onAssignLabel"
         @assign-team="onAssignTeam"
         @mark-as-unread="markAsUnread"
+        @mark-as-read="markAsRead"
         @assign-priority="assignPriority"
       />
     </ContextMenu>
