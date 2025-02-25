@@ -48,6 +48,7 @@ export default {
   methods: {
     startConversation() {
       const ref = new URLSearchParams(window.location.search).get('referral');
+      console.log('ref desde home', ref)
       if (ref) {
         this.$store.dispatch('conversation/createConversation', {});
       }
