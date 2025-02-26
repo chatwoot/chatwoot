@@ -4,23 +4,29 @@
  * This handles font size selection, application to the DOM, and persistence in user settings.
  */
 
-import { computed, ref, watch } from 'vue';
+import { computed, watch } from 'vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 
 /**
- * Mapping of semantic font size names to their pixel values
+ * Font size options with their pixel values
  * @type {Object}
  */
-const FONT_SIZE_MAP = {
-  smaller: '14px',
-  small: '15px',
-  default: null, // null means use browser default
-  large: '18px',
-  larger: '20px',
-  'extra-large': '22px',
+const FONT_SIZE_OPTIONS = {
+  SMALLER: '14px',
+  SMALL: '15px',
+  DEFAULT: '16px',
+  LARGE: '18px',
+  LARGER: '20px',
+  EXTRA_LARGE: '22px',
 };
+
+/**
+ * Array of font size option keys
+ * @type {Array<string>}
+ */
+const FONT_SIZE_NAMES = Object.keys(FONT_SIZE_OPTIONS);
 
 /**
  * Font size management composable
@@ -36,79 +42,34 @@ export const useFontSize = () => {
   const { t } = useI18n();
 
   /**
-   * Cache to avoid unnecessary DOM operations
-   * @type {import('vue').Ref<string|null>}
-   */
-  const lastAppliedFontSize = ref(null);
-
-  /**
    * Font size options for select dropdown
    * @type {Array<{value: string, label: string}>}
    */
-  const fontSizeOptions = [
-    {
-      value: 'smaller',
-      label: 'Smaller',
-    },
-    {
-      value: 'small',
-      label: 'Small',
-    },
-    {
-      value: 'default',
-      label: 'Default',
-    },
-    {
-      value: 'large',
-      label: 'Large',
-    },
-    {
-      value: 'larger',
-      label: 'Larger',
-    },
-    {
-      value: 'extra-large',
-      label: 'Extra Large',
-    },
-  ];
+  const fontSizeOptions = FONT_SIZE_NAMES.map(name => ({
+    value: FONT_SIZE_OPTIONS[name],
+    label: t(
+      `PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.OPTIONS.${name}`
+    ),
+  }));
 
   /**
    * Current font size from UI settings
    * @type {import('vue').ComputedRef<string>}
    */
   const currentFontSize = computed(
-    () => uiSettings.value.font_size || 'default'
+    () => uiSettings.value.font_size || FONT_SIZE_OPTIONS.DEFAULT
   );
-
-  /**
-   * Convert semantic font size to pixel value
-   *
-   * @param {string} semanticSize - Semantic font size name
-   * @returns {string|null} - Pixel value or null for default
-   */
-  const getFontSizePixels = semanticSize => {
-    return FONT_SIZE_MAP[semanticSize] || null;
-  };
 
   /**
    * Apply font size to document root
    *
-   * @param {string} semanticSize - Semantic font size to apply ('smaller', 'small', 'default', etc.)
+   * @param {string} pixelValue - Font size in pixels (e.g., '16px')
    * @returns {void}
    */
-  const applyFontSize = semanticSize => {
-    // For performance, only update DOM when needed
-    if (lastAppliedFontSize.value === semanticSize) return;
-
-    // Cache the last applied size
-    lastAppliedFontSize.value = semanticSize;
-
-    // Get pixel value for the semantic size
-    const pixelValue = getFontSizePixels(semanticSize);
-
+  const applyFontSize = pixelValue => {
     // Use requestAnimationFrame for better performance
     requestAnimationFrame(() => {
-      if (!pixelValue) {
+      if (!pixelValue || pixelValue === FONT_SIZE_OPTIONS.DEFAULT) {
         document.documentElement.style.removeProperty('font-size');
       } else {
         document.documentElement.style.setProperty('font-size', pixelValue);
@@ -120,13 +81,13 @@ export const useFontSize = () => {
    * Update font size in settings and apply to document
    * Shows success/error alerts
    *
-   * @param {string} value - Semantic font size value to set
+   * @param {string} pixelValue - Font size in pixels (e.g., '16px')
    * @returns {Promise<void>}
    */
-  const updateFontSize = async value => {
+  const updateFontSize = async pixelValue => {
     try {
-      await updateUISettings({ font_size: value });
-      applyFontSize(value);
+      await updateUISettings({ font_size: pixelValue });
+      applyFontSize(pixelValue);
       useAlert(
         t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.UPDATE_SUCCESS')
       );

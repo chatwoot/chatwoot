@@ -47,6 +47,7 @@ const selectedValue = computed({
       class="min-w-28 mt-px"
       :value="selectedValue"
       :options="fontSizeOptions"
+      label=""
     >
       <option
         v-for="option in fontSizeOptions"
