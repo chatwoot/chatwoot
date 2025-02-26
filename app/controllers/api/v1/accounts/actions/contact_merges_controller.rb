@@ -9,6 +9,9 @@ class Api::V1::Accounts::Actions::ContactMergesController < Api::V1::Accounts::B
       mergee_contact: @mergee_contact
     )
     contact_merge_action.perform
+  rescue StandardError => e
+    Rails.logger.info("Error merging contacts: #{e.message}")
+    ContactMergeJob.perform_later(Current.account, @base_contact, @mergee_contact)
   end
 
   private
