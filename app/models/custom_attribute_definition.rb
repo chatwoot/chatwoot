@@ -23,9 +23,9 @@
 #
 class CustomAttributeDefinition < ApplicationRecord
   STANDARD_ATTRIBUTES = {
-    :contact => %w[status priority assignee_id inbox_id team_id display_id campaign_id labels browser_language country_code referer created_at
-                   last_activity_at],
-    :conversation => %w[name email phone_number identifier country_code city created_at last_activity_at referer blocked]
+    :conversation => %w[status priority assignee_id inbox_id team_id display_id campaign_id labels browser_language country_code referer created_at
+                        last_activity_at],
+    :contact => %w[name email phone_number identifier country_code city created_at last_activity_at referer blocked]
   }.freeze
 
   scope :with_attribute_model, ->(attribute_model) { attribute_model.presence && where(attribute_model: attribute_model) }
@@ -57,7 +57,7 @@ class CustomAttributeDefinition < ApplicationRecord
   end
 
   def attribute_must_not_conflict
-    model_keys = attribute_model == :conversation_attribute ? :conversation : :contact
+    model_keys = attribute_model.to_sym == :conversation_attribute ? :conversation : :contact
     return unless attribute_key.in?(STANDARD_ATTRIBUTES[model_keys])
 
     errors.add(:attribute_key, I18n.t('errors.custom_attribute_definition.key_conflict'))
