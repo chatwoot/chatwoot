@@ -66,6 +66,10 @@ const applyFontSizeToDOM = pixelValue => {
  * Font size management composable
  *
  * @returns {Object} Font size utilities and state
+ * @property {Array} fontSizeOptions - Array of font size options for select components
+ * @property {import('vue').ComputedRef<string>} currentFontSize - Current font size from UI settings
+ * @property {Function} applyFontSize - Function to apply font size to document
+ * @property {Function} updateFontSize - Function to update font size in settings with alert feedback
  */
 export const useFontSize = () => {
   const { uiSettings, updateUISettings } = useUISettings();
@@ -118,7 +122,13 @@ export const useFontSize = () => {
   };
 
   // Watch for changes to the font size in UI settings
-  watch(() => uiSettings.value.font_size, applyFontSize, { immediate: true });
+  watch(
+    () => uiSettings.value.font_size,
+    newSize => {
+      applyFontSize(newSize);
+    },
+    { immediate: true }
+  );
 
   return {
     fontSizeOptions,
