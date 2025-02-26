@@ -117,6 +117,7 @@
       "PENDING": "Oznacz jako oczekujące",
       "RESOLVED": "Oznacz jako rozwiązane",
       "MARK_AS_UNREAD": "Oznacz jako nieprzeczytane",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Otwórz ponownie",
       "SNOOZE": {
         "TITLE": "Uśpij",
