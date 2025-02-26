@@ -117,6 +117,7 @@
       "PENDING": "Markér som afventende",
       "RESOLVED": "Marker som løst",
       "MARK_AS_UNREAD": "Marker som ulæst",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Genåbn samtale",
       "SNOOZE": {
         "TITLE": "Udsæt",
