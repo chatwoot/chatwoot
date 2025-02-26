@@ -117,6 +117,7 @@
       "PENDING": "Marcar como pendente",
       "RESOLVED": "Marcar como resolvida",
       "MARK_AS_UNREAD": "Marcar como não lida",
+      "MARK_AS_READ": "Marcar como lido",
       "REOPEN": "Reabrir conversa",
       "SNOOZE": {
         "TITLE": "Adiar",
