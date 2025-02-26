@@ -197,6 +197,7 @@ export const mutations = {
       chat.unread_count = unreadCount;
       if (selectedChatId === conversationId) {
         emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
+        emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
     }
   },
