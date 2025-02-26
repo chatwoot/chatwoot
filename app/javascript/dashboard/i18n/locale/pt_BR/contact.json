@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "Detalhes de contato de <strong>{primaryContactName}</strong> serão copiados para <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR_MESSAGE": "Something went wrong. Please try again later."
+      "ERROR_MESSAGE": "Algo deu errado. Por favor, tente novamente mais tarde."
     },
     "FORM": {
       "SUBMIT": " Mesclar contatos",
