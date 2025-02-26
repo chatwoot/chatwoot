@@ -17,6 +17,19 @@ export const CONVERSATION_ATTRIBUTES = {
   LAST_ACTIVITY_AT: 'last_activity_at',
 };
 
+export const CONTACT_ATTRIBUTES = {
+  NAME: 'name',
+  EMAIL: 'email',
+  PHONE_NUMBER: 'phone_number',
+  IDENTIFIER: 'identifier',
+  COUNTRY_CODE: 'country_code',
+  CITY: 'city',
+  CREATED_AT: 'created_at',
+  LAST_ACTIVITY_AT: 'last_activity_at',
+  REFERER: 'referer',
+  BLOCKED: 'blocked',
+};
+
 /**
  * Determines the input type for a custom attribute based on its key
  * @param {string} key - The attribute display type key
@@ -44,8 +57,16 @@ export const getCustomAttributeInputType = key => {
  * @param {Function} getOperatorTypes - Function to get operator types
  * @returns {Array} Array of filter types
  */
-export const buildAttributesFilterTypes = (attributes, getOperatorTypes) => {
-  const standardAttributes = Object.values(CONVERSATION_ATTRIBUTES);
+export const buildAttributesFilterTypes = (
+  attributes,
+  getOperatorTypes,
+  filterModel = 'conversation'
+) => {
+  const standardAttributes = Object.values(
+    filterModel === 'conversation'
+      ? CONVERSATION_ATTRIBUTES
+      : CONTACT_ATTRIBUTES
+  );
 
   return attributes
     .filter(attr => !standardAttributes.includes(attr.attributeKey))

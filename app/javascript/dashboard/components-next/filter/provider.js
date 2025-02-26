@@ -73,7 +73,11 @@ export function useConversationFilterContext() {
    * @type {import('vue').ComputedRef<FilterType[]>}
    */
   const customFilterTypes = computed(() =>
-    buildAttributesFilterTypes(conversationAttributes.value, getOperatorTypes)
+    buildAttributesFilterTypes(
+      conversationAttributes.value,
+      getOperatorTypes,
+      'conversation'
+    )
   );
 
   /**
