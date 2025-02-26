@@ -29,13 +29,43 @@ const FONT_SIZE_OPTIONS = {
 const FONT_SIZE_NAMES = Object.keys(FONT_SIZE_OPTIONS);
 
 /**
+ * Get font size label translation key
+ *
+ * @param {string} name - Font size name
+ * @returns {string} Translation key
+ */
+const getFontSizeLabelKey = name =>
+  `PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.OPTIONS.${name}`;
+
+/**
+ * Create font size option object
+ *
+ * @param {Function} t - Translation function
+ * @param {string} name - Font size name
+ * @returns {Object} Font size option with value and label
+ */
+const createFontSizeOption = (t, name) => ({
+  value: FONT_SIZE_OPTIONS[name],
+  label: t(getFontSizeLabelKey(name)),
+});
+
+/**
+ * Apply font size value to document root
+ *
+ * @param {string} pixelValue - Font size value in pixels
+ */
+const applyFontSizeToDOM = pixelValue => {
+  if (!pixelValue || pixelValue === FONT_SIZE_OPTIONS.DEFAULT) {
+    document.documentElement.style.removeProperty('font-size');
+  } else {
+    document.documentElement.style.setProperty('font-size', pixelValue);
+  }
+};
+
+/**
  * Font size management composable
  *
  * @returns {Object} Font size utilities and state
- * @property {Array} fontSizeOptions - Array of font size options for select components
- * @property {import('vue').ComputedRef<string>} currentFontSize - Current font size from UI settings
- * @property {Function} applyFontSize - Function to apply font size to document
- * @property {Function} updateFontSize - Function to update font size in settings with alert feedback
  */
 export const useFontSize = () => {
   const { uiSettings, updateUISettings } = useUISettings();
@@ -45,12 +75,9 @@ export const useFontSize = () => {
    * Font size options for select dropdown
    * @type {Array<{value: string, label: string}>}
    */
-  const fontSizeOptions = FONT_SIZE_NAMES.map(name => ({
-    value: FONT_SIZE_OPTIONS[name],
-    label: t(
-      `PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.OPTIONS.${name}`
-    ),
-  }));
+  const fontSizeOptions = FONT_SIZE_NAMES.map(name =>
+    createFontSizeOption(t, name)
+  );
 
   /**
    * Current font size from UI settings
@@ -62,25 +89,17 @@ export const useFontSize = () => {
 
   /**
    * Apply font size to document root
-   *
    * @param {string} pixelValue - Font size in pixels (e.g., '16px')
    * @returns {void}
    */
   const applyFontSize = pixelValue => {
     // Use requestAnimationFrame for better performance
-    requestAnimationFrame(() => {
-      if (!pixelValue || pixelValue === FONT_SIZE_OPTIONS.DEFAULT) {
-        document.documentElement.style.removeProperty('font-size');
-      } else {
-        document.documentElement.style.setProperty('font-size', pixelValue);
-      }
-    });
+    requestAnimationFrame(() => applyFontSizeToDOM(pixelValue));
   };
 
   /**
    * Update font size in settings and apply to document
    * Shows success/error alerts
-   *
    * @param {string} pixelValue - Font size in pixels (e.g., '16px')
    * @returns {Promise<void>}
    */
@@ -99,13 +118,7 @@ export const useFontSize = () => {
   };
 
   // Watch for changes to the font size in UI settings
-  watch(
-    () => uiSettings.value.font_size,
-    newSize => {
-      applyFontSize(newSize);
-    },
-    { immediate: true }
-  );
+  watch(() => uiSettings.value.font_size, applyFontSize, { immediate: true });
 
   return {
     fontSizeOptions,
