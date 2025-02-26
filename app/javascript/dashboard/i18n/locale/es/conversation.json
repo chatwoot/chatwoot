@@ -117,6 +117,7 @@
       "PENDING": "Marcar como pendiente",
       "RESOLVED": "Marcar como resuelto",
       "MARK_AS_UNREAD": "Marcar como no leído",
+      "MARK_AS_READ": "Marcar como leído",
       "REOPEN": "Resolver conversación",
       "SNOOZE": {
         "TITLE": "Posponer",
