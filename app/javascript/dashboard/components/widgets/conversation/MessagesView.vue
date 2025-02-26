@@ -360,7 +360,7 @@ export default {
           this.fetchPreviousMessages();
         } else {
           // In case the user has already scrolled to a point in the message, we should
-          // not scroll to the bottom if the user has already scrolled.
+          // not scroll to the bottom against the intent of the user.
           if (this.hasUserScrolled) return;
           this.scrollToBottom();
         }
