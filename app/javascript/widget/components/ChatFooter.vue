@@ -108,26 +108,10 @@ export default {
       this.sendAttachment({ attachment });
     },
     startNewConversation() {
-      console.log('entra al start conversation del footer')
-      const ref1 = new URLSearchParams(window.location.search).get('referral');
-      console.log('ref desde chat footer al inicio', ref1)
       this.clearConversations();
       this.clearConversationAttributes();
       this.setQuickRepliesOptions([]);
-      const ref2 = new URLSearchParams(window.location.search).get('referral');
-      console.log('ref desde chat footer', ref2)
-<<<<<<< HEAD
-      if (ref1) {
-=======
-      if (ref) {
->>>>>>> 8dd6c1f32934bbcf4933e31a9dca750fe41e297e
-        this.$store.dispatch('conversation/createConversation', {});
-      };
-      if (this.preChatFormEnabled && !this.conversationSize) {
-        return this.replaceRoute('prechat-form');
-      }
-      return this.replaceRoute('messages');
-      console.log('entra al start conversation del footer y termina toda la ejecucion')
+      this.$store.dispatch('conversation/createConversation', {});
     },
     async sendTranscript() {
       const { email } = this.currentUser;
