@@ -116,7 +116,7 @@ export default {
       this.setQuickRepliesOptions([]);
       const ref2 = new URLSearchParams(window.location.search).get('referral');
       console.log('ref desde chat footer', ref2)
-      if (ref) {
+      if (ref1) {
         this.$store.dispatch('conversation/createConversation', {});
       };
       if (this.preChatFormEnabled && !this.conversationSize) {
