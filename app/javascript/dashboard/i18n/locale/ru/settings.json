@@ -389,11 +389,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Переключиться на заметку",
       "SWITCH_TO_REPLY": "Переключиться на ответ",
       "TOGGLE_SNOOZE_DROPDOWN": "Вкл/выкл повтор"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }
