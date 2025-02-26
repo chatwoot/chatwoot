@@ -389,11 +389,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "עבור להערה פרטית",
       "SWITCH_TO_REPLY": "עבור לתשובה",
       "TOGGLE_SNOOZE_DROPDOWN": "החלפת תפריט נודניק"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "נצח / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }
