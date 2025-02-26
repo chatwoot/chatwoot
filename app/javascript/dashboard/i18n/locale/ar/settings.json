@@ -389,11 +389,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "التبديل إلى الملاحظة الخاصة",
       "SWITCH_TO_REPLY": "التبديل إلى الرد",
       "TOGGLE_SNOOZE_DROPDOWN": "تبديل القائمة المنسدلة"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘\n",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }
