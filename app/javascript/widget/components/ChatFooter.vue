@@ -110,6 +110,8 @@ export default {
     startNewConversation() {
       this.clearConversations();
       this.clearConversationAttributes();
+      this.setQuickRepliesOptions([]);
+      this.$store.dispatch('conversation/createConversation', {});
     },
     async sendTranscript() {
       const { email } = this.currentUser;
