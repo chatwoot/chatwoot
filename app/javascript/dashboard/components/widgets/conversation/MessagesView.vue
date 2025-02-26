@@ -359,6 +359,9 @@ export default {
           messageElement.scrollIntoView({ behavior: 'smooth' });
           this.fetchPreviousMessages();
         } else {
+          // In case the user has already scrolled to a point in the message, we should
+          // not scroll to the bottom if the user has already scrolled.
+          if (this.hasUserScrolled) return;
           this.scrollToBottom();
         }
       });
