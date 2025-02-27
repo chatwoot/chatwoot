@@ -41,7 +41,7 @@ export default {
 
 <template>
   <div
-    class="flex flex-row overflow-auto p-4 h-full bg-slate-25 dark:bg-slate-800"
+    class="flex flex-row overflow-auto p-4 h-full bg-n-alpha-2 dark:bg-n-solid-1"
   >
     <woot-wizard
       class="hidden md:block w-1/4"
