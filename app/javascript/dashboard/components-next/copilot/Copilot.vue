@@ -134,6 +134,7 @@ watch(
             :active-assistant="activeAssistant"
             @set-assistant="$event => emit('setAssistant', $event)"
           />
+          <div v-else />
           <button
             v-if="messages.length"
             class="text-xs flex items-center gap-1 hover:underline"

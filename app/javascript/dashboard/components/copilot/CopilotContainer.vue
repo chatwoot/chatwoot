@@ -31,11 +31,19 @@ const activeAssistant = computed(() => {
   const preferredId = uiSettings.value.preferred_captain_assistant_id;
 
   if (preferredId) {
-    return assistants.value.find(a => a.id === preferredId);
+    const preferredAssistant = assistants.value.find(a => a.id === preferredId);
+    // Return the preferred assistant if found, otherwise continue to next cases
+    if (preferredAssistant) return preferredAssistant;
   }
+
   if (inboxAssistant.value) {
-    return assistants.value.find(a => a.id === inboxAssistant.value.id);
+    const inboxMatchedAssistant = assistants.value.find(
+      a => a.id === inboxAssistant.value.id
+    );
+    if (inboxMatchedAssistant) return inboxMatchedAssistant;
   }
+
+  // Default to first assistant if no matches found
   return assistants.value[0];
 });
 
