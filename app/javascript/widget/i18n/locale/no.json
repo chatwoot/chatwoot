@@ -22,15 +22,15 @@
     "IN_A_DAY": "Svarer vanligvis innen en dag",
     "BACK_IN": "Vi vil være tilbake online"
   },
-  "DAY_NAMES": [
-    "Søndag",
-    "Mandag",
-    "Tirsdag",
-    "Onsdag",
-    "Torsdag",
-    "Fredag",
-    "Lørdag"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Søndag",
+    "MONDAY": "Mandag",
+    "TUESDAY": "Tirsdag",
+    "WEDNESDAY": "Onsdag",
+    "THURSDAY": "Torsdag",
+    "FRIDAY": "Fredag",
+    "SATURDAY": "Lørdag"
+  },
   "START_CONVERSATION": "Start samtale",
   "END_CONVERSATION": "Avslutt samtale",
   "CONTINUE_CONVERSATION": "Fortsett samtalen",
