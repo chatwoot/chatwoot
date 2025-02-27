@@ -12,7 +12,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="grid grid-cols-[1fr_200px] gap-5">
+  <div class="grid grid-cols-[1fr_auto] gap-5">
     <div>
       <span class="text-base font-medium text-n-slate-12">
         {{ title }}
