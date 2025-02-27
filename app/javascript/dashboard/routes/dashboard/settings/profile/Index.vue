@@ -22,7 +22,6 @@ import {
   ROLES,
   CONVERSATION_PERMISSIONS,
 } from 'dashboard/constants/permissions.js';
-import CaptainAssistantPreference from './CaptainAssistantPreference.vue';
 
 export default {
   components: {
@@ -37,7 +36,6 @@ export default {
     NotificationPreferences,
     AudioNotifications,
     AccessToken,
-    CaptainAssistantPreference,
   },
   mixins: [globalConfigMixin],
   setup() {
@@ -93,9 +91,6 @@ export default {
       currentUserId: 'getCurrentUserID',
       globalConfig: 'globalConfig/get',
     }),
-    showCaptainAssistantPreference() {
-      return this.globalConfig.CAPTAIN;
-    },
   },
   mounted() {
     if (this.currentUserId) {
@@ -254,13 +249,6 @@ export default {
           />
         </button>
       </div>
-    </FormSection>
-    <FormSection
-      v-if="showCaptainAssistantPreference"
-      :title="$t('PROFILE_SETTINGS.FORM.CAPTAIN_ASSISTANT.HEADING')"
-      :description="$t('PROFILE_SETTINGS.FORM.CAPTAIN_ASSISTANT.DESCRIPTION')"
-    >
-      <CaptainAssistantPreference />
     </FormSection>
     <FormSection
       v-if="!globalConfig.disableUserProfileUpdate"
