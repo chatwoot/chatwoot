@@ -410,63 +410,67 @@ export default {
         return;
       }
 
-      const text = this.processedContentString;
+      let textToUse = this.processedContentString;
 
-      // Extract items starting with 'contact.' until a comma or line break
-      const matches = text.match(/contact\.[\w.]+/g);
-      const contactItems = matches || []; // Store in an array
+      if (!this.isComposeMode) {
+        const text = this.processedContentString;
 
-      const payloadForVariables = {
-        accountId: this.currentAccountId,
-        phoneNumber: this.currentChat.meta.sender.phone_number.replace(
-          /^\+/,
-          ''
-        ),
-        templateFallbacks: contactItems.reduce((acc, item, index) => {
-          acc[`${index + 1}`] = 'N/A';
-          return acc;
-        }, {}),
-        templateMetaData: contactItems.reduce((acc, item, index) => {
-          acc[`${index + 1}`] = {
-            variableMapping: item.replace(/\.$/, ''),
-          };
-          return acc;
-        }, {}),
-      };
+        // Extract items starting with 'contact.' until a comma or line break
+        const matches = text.match(/contact\.[\w.]+/g);
+        const contactItems = matches || []; // Store in an array
 
-      const response = await message.personaliseMessageVariables(
-        payloadForVariables,
-        this.currentUser.access_token
-      );
-      const personalisedVariables = Object.values(
-        response?.data?.personalisedVariables
-      );
+        const payloadForVariables = {
+          accountId: this.currentAccountId,
+          phoneNumber: this.currentChat.meta?.sender?.phone_number?.replace(
+            /^\+/,
+            ''
+          ),
+          templateFallbacks: contactItems.reduce((acc, item, index) => {
+            acc[`${index + 1}`] = 'N/A';
+            return acc;
+          }, {}),
+          templateMetaData: contactItems.reduce((acc, item, index) => {
+            acc[`${index + 1}`] = {
+              variableMapping: item.replace(/\.$/, ''),
+            };
+            return acc;
+          }, {}),
+        };
 
-      // Replace variables in processedParams
-      Object.keys(this.processedParams).forEach(section => {
-        Object.keys(this.processedParams[section]).forEach(key => {
-          const value = this.processedParams[section][key];
-          if (value.startsWith('contact.shopping.')) {
-            const index = contactItems.findIndex(
-              item => item.replace(/\.$/, '') === value.replace(/\.$/, '')
-            );
-            if (index !== -1) {
-              this.processedParams[section][key] =
-                personalisedVariables[index] || value;
+        const response = await message.personaliseMessageVariables(
+          payloadForVariables,
+          this.currentUser.access_token
+        );
+        const personalisedVariables = Object.values(
+          response?.data?.personalisedVariables
+        );
+
+        // Replace variables in processedParams
+        Object.keys(this.processedParams).forEach(section => {
+          Object.keys(this.processedParams[section]).forEach(key => {
+            const value = this.processedParams[section][key];
+            if (value.startsWith('contact.shopping.')) {
+              const index = contactItems.findIndex(
+                item => item.replace(/\.$/, '') === value.replace(/\.$/, '')
+              );
+              if (index !== -1) {
+                this.processedParams[section][key] =
+                  personalisedVariables[index] || value;
+              }
             }
+          });
+        });
+
+        textToUse = this.processedContentString;
+        personalisedVariables.forEach((variable, index) => {
+          const pattern = contactItems[index];
+          if (pattern) {
+            // Use regex to replace the exact match of the contact.shopping.* pattern
+            const regex = new RegExp(pattern.replace('.', '\\.'), 'g');
+            textToUse = textToUse.replace(regex, variable);
           }
         });
-      });
-
-      let textToUse = this.processedContentString;
-      personalisedVariables.forEach((variable, index) => {
-        const pattern = contactItems[index];
-        if (pattern) {
-          // Use regex to replace the exact match of the contact.shopping.* pattern
-          const regex = new RegExp(pattern.replace('.', '\\.'), 'g');
-          textToUse = textToUse.replace(regex, variable);
-        }
-      });
+      }
 
       const payload = {
         message: textToUse,
