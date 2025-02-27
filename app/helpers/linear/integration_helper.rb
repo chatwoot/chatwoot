@@ -4,18 +4,19 @@ module Linear::IntegrationHelper
   # @param account_id [Integer] The account ID to encode in the token
   # @return [String, nil] The encoded JWT token or nil if client secret is missing
   def generate_linear_token(account_id)
-    client_secret = fetch_linear_secret
-    return nil unless client_secret
+    return if client_secret.blank?
 
-    payload = {
-      sub: account_id,
-      iat: Time.current.to_i
-    }
-
-    JWT.encode(payload, client_secret, 'HS256')
+    JWT.encode(token_payload(account_id), client_secret, 'HS256')
   rescue StandardError => e
     Rails.logger.error("Failed to generate Linear token: #{e.message}")
     nil
+  end
+
+  def token_payload(account_id)
+    {
+      sub: account_id,
+      iat: Time.current.to_i
+    }
   end
 
   # Verifies and decodes a Linear JWT token
@@ -23,24 +24,22 @@ module Linear::IntegrationHelper
   # @param token [String] The JWT token to verify
   # @return [Integer, nil] The account ID from the token or nil if invalid
   def verify_linear_token(token)
-    return nil if token.blank?
-    return nil unless (client_secret = fetch_linear_secret)
+    return if token.blank? || client_secret.blank?
 
     decode_token(token, client_secret)
   end
 
   private
 
-  def fetch_linear_secret
-    ENV.fetch('LINEAR_CLIENT_SECRET', nil)
+  def client_secret
+    @client_secret ||= ENV.fetch('LINEAR_CLIENT_SECRET', nil)
   end
 
   def decode_token(token, secret)
-    decoded = JWT.decode(token, secret, true, {
-                           algorithm: 'HS256',
-                           verify_expiration: true
-                         })
-    decoded.first['sub']
+    JWT.decode(token, secret, true, {
+                 algorithm: 'HS256',
+                 verify_expiration: true
+               }).first['sub']
   rescue StandardError => e
     Rails.logger.error("Unexpected error verifying Linear token: #{e.message}")
     nil

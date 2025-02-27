@@ -26,7 +26,7 @@ class Integrations::App
     params[:fields]
   end
 
-  # There is not way to get the account_id from the linear callback
+  # There is no way to get the account_id from the linear callback
   # so we are using the generate_linear_token method to generate a token and encode it in the state parameter
   def encode_state
     generate_linear_token(Current.account.id)
@@ -37,10 +37,7 @@ class Integrations::App
     when 'slack'
       "#{params[:action]}&client_id=#{ENV.fetch('SLACK_CLIENT_ID', nil)}&redirect_uri=#{self.class.slack_integration_url}"
     when 'linear'
-      base_url = "#{params[:action]}?response_type=code"
-      "#{base_url}&client_id=#{ENV.fetch('LINEAR_CLIENT_ID', nil)}" \
-        "&redirect_uri=#{self.class.linear_integration_url}" \
-        "&state=#{encode_state}&scope=read,write&prompt=consent"
+      build_linear_action
     else
       params[:action]
     end
@@ -55,6 +52,17 @@ class Integrations::App
     else
       true
     end
+  end
+
+  def build_linear_action
+    [
+      "#{params[:action]}?response_type=code",
+      "client_id=#{ENV.fetch('LINEAR_CLIENT_ID', nil)}",
+      "redirect_uri=#{self.class.linear_integration_url}",
+      "state=#{encode_state}",
+      'scope=read,write',
+      'prompt=consent'
+    ].join('&')
   end
 
   def enabled?(account)

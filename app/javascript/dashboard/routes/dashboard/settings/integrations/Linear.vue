@@ -1,6 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue';
-import { useStore } from 'vuex';
+import { ref, computed, onMounted } from 'vue';
+import { useFunctionGetter, useStore } from 'dashboard/composables/store';
+
 import Integration from './Integration.vue';
 import Spinner from 'shared/components/Spinner.vue';
 
@@ -8,9 +9,7 @@ const store = useStore();
 
 const integrationLoaded = ref(false);
 
-const integration = computed(() =>
-  store.getters['integrations/getIntegration']('linear')
-);
+const integration = useFunctionGetter('integrations/getIntegration', 'linear');
 
 const uiFlags = computed(() => store.getters['integrations/getUIFlags']);
 
@@ -21,12 +20,14 @@ const integrationAction = computed(() => {
   return integration.value.action;
 });
 
-const intializeLinearIntegration = async () => {
+const initializeLinearIntegration = async () => {
   await store.dispatch('integrations/get', 'linear');
   integrationLoaded.value = true;
 };
 
-intializeLinearIntegration();
+onMounted(() => {
+  initializeLinearIntegration();
+});
 </script>
 
 <template>
