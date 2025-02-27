@@ -389,11 +389,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "رفتن به یادداشت خصوصی",
       "SWITCH_TO_REPLY": "رفتن به پاسخ",
       "TOGGLE_SNOOZE_DROPDOWN": "تغییر حالت بازکردن تعویق"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }
