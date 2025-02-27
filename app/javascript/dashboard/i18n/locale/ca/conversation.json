@@ -117,6 +117,7 @@
       "PENDING": "Marca com a pendent",
       "RESOLVED": "Marca com a resolt",
       "MARK_AS_UNREAD": "Marca com a no llegit",
+      "MARK_AS_READ": "Marca com a llegit",
       "REOPEN": "Torna a obrir la conversa",
       "SNOOZE": {
         "TITLE": "Posposat",

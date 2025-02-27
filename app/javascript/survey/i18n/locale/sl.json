@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Draga stranka 👋, vzemite si nekaj trenutkov in nam posredujte povratne informacije o pogovoru, ki ste ga imeli z %{inboxName}.",
+    "DESCRIPTION": "Draga stranka 👋, vzemite si nekaj trenutkov in nam posredujte povratne informacije o pogovoru, ki ste ga imeli z {inboxName}.",
     "RATING": {
       "LABEL": "Ocenite svoj pogovor",
       "SUCCESS_MESSAGE": "Hvala za oddano oceno"

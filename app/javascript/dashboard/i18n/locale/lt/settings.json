@@ -389,11 +389,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Perjungti į Privatų užrašą",
       "SWITCH_TO_REPLY": "Perjungti į Atsakyti",
       "TOGGLE_SNOOZE_DROPDOWN": "Perjungti snooze išskleidžiamąjį meniu"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

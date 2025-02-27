@@ -389,11 +389,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Prepnúť na súkromnú poznámku",
       "SWITCH_TO_REPLY": "Prepnúť na odpoveď",
       "TOGGLE_SNOOZE_DROPDOWN": "Prepínanie módu \"snooze\""
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

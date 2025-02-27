@@ -1,7 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integraciones",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "DESCRIPTION": "Chatwoot se integra con múltiples herramientas y servicios para mejorar la eficiencia de tu equipo. Explora la lista de abajo para configurar tus aplicaciones favoritas.",
     "LEARN_MORE": "Más información acerca de integraciones",
     "LOADING": "Obteniendo integraciones",
     "CAPTAIN": {
@@ -12,7 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventos suscritos",
-      "LEARN_MORE": "Learn more about webhooks",
+      "LEARN_MORE": "Aprenda más sobre webhooks",
       "FORM": {
         "CANCEL": "Cancelar",
         "DESC": "Los eventos Webhook te proporcionan la información en tiempo real sobre lo que está sucediendo en tu cuenta de Chatwoot. Por favor, introduce una URL válida para configurar un callback.",
@@ -31,7 +31,7 @@
         },
         "END_POINT": {
           "LABEL": "URL de Webhook",
-          "PLACEHOLDER": "Example: {webhookExampleURL}",
+          "PLACEHOLDER": "Ejemplo: {webhookExampleURL}",
           "ERROR": "Por favor, introduzca una URL válida"
         },
         "EDIT_SUBMIT": "Actualizar webhook",
@@ -90,7 +90,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "¿Cómo utilizar la Integración Slack?",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
+        "BODY": "Con esta integración, todas tus conversaciones entrantes serán sincronizadas con el canal ***{selectedChannelName}*** en tu espacio de trabajo en Slack. Puedes administrar todas tus conversaciones con los clientes directamente en tu canal y nunca perder un mensaje.\n\nEstas son las principales características de la integración:\n\n**Responda a conversaciones desde Slack:** Para responder a una conversación en el canal Slack ***{selectedChannelName}***, simplemente escriba el mensaje y envíalo como un hilo. Esto creará una respuesta que se enviará al cliente mediante Chatwoot. ¡Es así de simple!\n\n**Crea notas privadas:** Si quieres crear una nota privada en lugar de una respuesta, comience su mensaje con ***`note:`***. Esto asegurará que tu mensaje se mantenga privado y no será visible al cliente.\n\n**Asociar un perfil de agente:** Si la persona que responde en Slack tiene un agente de perfil en Chatwoot bajo el mismo correo electrónico, las respuestas serán asociadas con ese perfil de agente automáticamente. Esto quiere decir que puedes fácilmente estar al tanto de quién dijo qué y cuándo. Por el otro lado, cuando la persona que responde no tiene un perfil de agente, las respuestas aparecerán desde el perfil de bot al cliente.",
         "SELECTED": "seleccionado"
       },
       "SELECT_CHANNEL": {
@@ -114,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "Asistencia AI",
-      "WITH_AI": " {option} with AI ",
+      "WITH_AI": " {option} con IA ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Responder sugerencia",
         "SUMMARIZE": "Resumir",
@@ -233,13 +233,13 @@
         "EMPTY_LIST": "No se encontraron problemas lineales",
         "LOADING": "Cargando",
         "ERROR": "Hubo un error al recuperar los problemas lineales, por favor inténtalo de nuevo",
-        "LINK_SUCCESS": "Issue linked successfully",
-        "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+        "LINK_SUCCESS": "Incidencia enlazada correctamente",
+        "LINK_ERROR": "Ocurrió un error al enlazar la incidencia. Inténtelo de nuevo",
+        "LINK_TITLE": "Conversación (#{conversationId}) con {name}"
       },
       "ADD_OR_LINK": {
-        "TITLE": "Create/link linear issue",
-        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "TITLE": "Crear/enlazar incidencia con Linear",
+        "DESCRIPTION": "Crear incidencias en Linear desde conversaciones, o enlazar existentes para un seguimiento fluido.",
         "FORM": {
           "TITLE": {
             "LABEL": "Título",
@@ -284,17 +284,17 @@
         },
         "CREATE": "Crear",
         "CANCEL": "Cancelar",
-        "CREATE_SUCCESS": "Issue created successfully",
-        "CREATE_ERROR": "There was an error creating the issue, please try again",
-        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
-        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+        "CREATE_SUCCESS": "Incidencia creada correctamente",
+        "CREATE_ERROR": "Hubo un error creando la incidencia. Inténtalo de nuevo",
+        "LOADING_TEAM_ERROR": "Hubo un error al coger los equipos. Inténtalo de nuevo",
+        "LOADING_TEAM_ENTITIES_ERROR": "Hubo un error al coger las entidades del equipo. Inténtalo de nuevo"
       },
       "ISSUE": {
         "STATUS": "Estado",
         "PRIORITY": "Prioridad",
         "ASSIGNEE": "Cesionario",
         "LABELS": "Etiquetas",
-        "CREATED_AT": "Created at {createdAt}"
+        "CREATED_AT": "Creado en {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Desenlazar",

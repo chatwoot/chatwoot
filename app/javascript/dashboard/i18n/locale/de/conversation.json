@@ -117,6 +117,7 @@
       "PENDING": "Als ausstehend markieren",
       "RESOLVED": "Als gelöst markieren",
       "MARK_AS_UNREAD": "Als ungelesen markieren",
+      "MARK_AS_READ": "Als gelesen markieren",
       "REOPEN": "Konversation wieder öffnen",
       "SNOOZE": {
         "TITLE": "Erinnern",

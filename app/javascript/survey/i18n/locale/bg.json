@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with %{inboxName}.",
+    "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with {inboxName}.",
     "RATING": {
       "LABEL": "Оценете този разговор",
       "SUCCESS_MESSAGE": "Благодарим ви, че оценихте разговора"
