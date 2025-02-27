@@ -389,11 +389,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Canvia a la nota privada",
       "SWITCH_TO_REPLY": "Canvia a Respon",
       "TOGGLE_SNOOZE_DROPDOWN": "Commuta el menú desplegable de posposar"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }
