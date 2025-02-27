@@ -20,7 +20,7 @@ export const DEFAULT_CONVERSATION_OPENED_CONDITION = [
 
 export const DEFAULT_WAITING_CONDITION = [
   {
-    attribute_key: 'time',
+    attribute_key: 'contact_wait_time',
     filter_operator: 'is_greater_than',
     values: '5',
     query_operator: 'and',
@@ -42,17 +42,6 @@ export const DEFAULT_ACTIONS = [
   {
     action_name: 'assign_agent',
     action_params: [],
-  },
-];
-
-export const AWAITER_CONDITION_VALUES = [
-  {
-    id: 'agent',
-    name: 'Agent',
-  },
-  {
-    id: 'contact',
-    name: 'Contact',
   },
 ];
 

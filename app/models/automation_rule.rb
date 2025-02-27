@@ -44,7 +44,11 @@ class AutomationRule < ApplicationRecord
 
   def conditions_attributes
     %w[content email country_code status message_type browser_language assignee_id team_id referer city company inbox_id
+<<<<<<< Updated upstream
        mail_subject phone_number priority conversation_language time awaiter label].freeze
+=======
+       mail_subject phone_number priority conversation_language label contact_wait_time agent_wait_time].freeze
+>>>>>>> Stashed changes
   end
 
   def actions_attributes

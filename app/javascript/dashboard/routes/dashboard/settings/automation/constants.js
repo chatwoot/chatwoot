@@ -4,6 +4,7 @@ import {
   OPERATOR_TYPES_3,
   OPERATOR_TYPES_6,
   OPERATOR_TYPES_7,
+  OPERATOR_TYPES_8,
 } from './operators';
 
 export const AUTOMATIONS = {
@@ -472,25 +473,25 @@ export const AUTOMATIONS = {
   waiting: {
     conditions: [
       {
-        key: 'time',
-        name: 'Time (minutes)',
+        key: 'contact_wait_time',
+        name: 'Contact wait time (minutes)',
         attributeI18nKey: 'TIME',
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_7,
       },
       {
-        key: 'awaiter',
-        name: 'Awaiter',
-        attributeI18nKey: 'AWAITER',
-        inputType: 'multi_select',
-        filterOperators: OPERATOR_TYPES_1,
+        key: 'agent_wait_time',
+        name: 'Agent wait time (minutes)',
+        attributeI18nKey: 'TIME',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_7,
       },
       {
         key: 'label',
         name: 'Label',
         attributeI18nKey: 'LABEL',
         inputType: 'multi_select',
-        filterOperators: OPERATOR_TYPES_1,
+        filterOperators: OPERATOR_TYPES_8,
       },
       {
         key: 'inbox_id',
