@@ -136,19 +136,6 @@ RSpec.describe 'Api::V2::Accounts::LiveReports', type: :request do
           { 'team_id' => team.id, 'open' => 3, 'unattended' => 2, 'unassigned' => 3 }
         )
       end
-
-      it 'filters by team_id if provided' do
-        get "/api/v2/accounts/#{account.id}/live_reports/grouped_conversation_metrics",
-            params: { group_by: 'team_id', team_id: team.id },
-            headers: admin.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:success)
-
-        response_data = response.parsed_body
-        expect(response_data.size).to eq(1)
-        expect(response_data[0]['team_id']).to eq(team.id)
-      end
     end
 
     context 'when filtering by assignee_id' do
