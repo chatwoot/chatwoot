@@ -7,6 +7,7 @@ import CopilotInput from './CopilotInput.vue';
 import CopilotLoader from './CopilotLoader.vue';
 import CopilotAgentMessage from './CopilotAgentMessage.vue';
 import CopilotAssistantMessage from './CopilotAssistantMessage.vue';
+import ToggleCopilotAssistant from './ToggleCopilotAssistant.vue';
 import Icon from '../icon/Icon.vue';
 
 const props = defineProps({
@@ -26,9 +27,17 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  assistants: {
+    type: Array,
+    default: () => [],
+  },
+  activeAssistant: {
+    type: Object,
+    default: () => {},
+  },
 });
 
-const emit = defineEmits(['sendMessage', 'reset']);
+const emit = defineEmits(['sendMessage', 'reset', 'setAssistant']);
 
 const COPILOT_USER_ROLES = ['assistant', 'system'];
 
@@ -97,8 +106,11 @@ watch(
 
       <CopilotLoader v-if="isCaptainTyping" />
     </div>
-    <div>
-      <div v-if="!messages.length" class="flex-1 px-3 py-3 space-y-1">
+    <div
+      v-if="!messages.length"
+      class="h-full w-full relative flex items-center justify-center"
+    >
+      <div class="h-fit px-3 py-3 space-y-1">
         <span class="text-xs text-n-slate-10">
           {{ $t('COPILOT.TRY_THESE_PROMPTS') }}
         </span>
@@ -112,15 +124,25 @@ watch(
           <Icon icon="i-lucide-chevron-right" />
         </button>
       </div>
+    </div>
+    <div>
       <div class="mx-3 mt-px mb-2 flex flex-col items-end flex-1">
-        <button
-          v-if="messages.length"
-          class="text-xs flex items-center gap-1 hover:underline"
-          @click="handleReset"
-        >
-          <i class="i-lucide-refresh-ccw" />
-          <span>{{ $t('CAPTAIN.COPILOT.RESET') }}</span>
-        </button>
+        <div class="flex items-center gap-2 justify-between w-full mb-1">
+          <ToggleCopilotAssistant
+            v-if="assistants.length"
+            :assistants="assistants"
+            :active-assistant="activeAssistant"
+            @set-assistant="$event => emit('setAssistant', $event)"
+          />
+          <button
+            v-if="messages.length"
+            class="text-xs flex items-center gap-1 hover:underline"
+            @click="handleReset"
+          >
+            <i class="i-lucide-refresh-ccw" />
+            <span>{{ $t('CAPTAIN.COPILOT.RESET') }}</span>
+          </button>
+        </div>
         <CopilotInput class="mb-1 flex-1 w-full" @send="sendMessage" />
       </div>
     </div>
