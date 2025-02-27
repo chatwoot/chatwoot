@@ -35,7 +35,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Canned response added successfully.",
-        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere."
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot server, Prøv igen senere."
       }
     },
     "EDIT": {

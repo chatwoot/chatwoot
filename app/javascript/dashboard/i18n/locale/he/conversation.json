@@ -117,6 +117,7 @@
       "PENDING": "סמן כממתין",
       "RESOLVED": "סמן כפתור",
       "MARK_AS_UNREAD": "סמן כלא נקרא",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "פתח מחדש את השיחה",
       "SNOOZE": {
         "TITLE": "נודניק",

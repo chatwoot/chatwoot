@@ -117,6 +117,7 @@
       "PENDING": "Marcar como pendiente",
       "RESOLVED": "Marcar como resuelto",
       "MARK_AS_UNREAD": "Marcar como no leído",
+      "MARK_AS_READ": "Marcar como leído",
       "REOPEN": "Resolver conversación",
       "SNOOZE": {
         "TITLE": "Posponer",
@@ -134,7 +135,7 @@
           "FAILED": "No se pudo asignar el agente. Por favor, inténtelo de nuevo."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Etiqueta asignada #{labelName} a la conversación con id {conversationId}",
+          "SUCCESFUL": "Etiqueta #{labelName} asignada a la conversación con id {conversationId}",
           "FAILED": "No se pudo asignar el agente. Por favor, inténtelo de nuevo."
         },
         "TEAM_ASSIGNMENT": {
@@ -358,6 +359,6 @@
     "TRY_THESE_PROMPTS": "Prueba estas sugerencias"
   },
   "GALLERY_VIEW": {
-    "ERROR_DOWNLOADING": "No se puede descargar el archivo adjunto. Por favor, inténtelo de nuevo"
+    "ERROR_DOWNLOADING": "No se pudo descargar el archivo adjunto. Por favor, inténtelo de nuevo"
   }
 }

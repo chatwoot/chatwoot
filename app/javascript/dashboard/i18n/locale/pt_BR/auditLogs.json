@@ -24,14 +24,14 @@
     "DEFAULT_USER": "Sistema",
     "AUTOMATION_RULE": {
       "ADD": "{agentName} nova regra de automação criada (#{id})",
-      "EDIT": "{agentName} atualizada regra de automação (#{id})",
+      "EDIT": "{agentName} atualizou regra de automação (#{id})",
       "DELETE": "{agentName} excluiu uma regra de automação (#{id})"
     },
     "ACCOUNT_USER": {
       "ADD": "{agentName} Convidou {invitee} para sua conta como {role}",
       "EDIT": {
-        "SELF": "{agentName} Alterado de {attributes} para {values}",
-        "OTHER": "{agentName} Alterado {attributes} por {user} para {values}",
+        "SELF": "{agentName} Alterou seu {attributes} para {values}",
+        "OTHER": "{agentName} Alterou {attributes} de {user} para {values}",
         "DELETED": "{agentName} alterou {attributes} de um usuário excluído para {values}"
       }
     },

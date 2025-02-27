@@ -389,11 +389,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "สลับเป็นโน้ตส่วนตัว",
       "SWITCH_TO_REPLY": "สลับเป็นการตอบกลับ",
       "TOGGLE_SNOOZE_DROPDOWN": "เปิดหรือปิดเมนูพักการสนทนา"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

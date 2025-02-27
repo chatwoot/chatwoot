@@ -389,11 +389,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Zu privaten Notizen wechseln",
       "SWITCH_TO_REPLY": "Zur Antwort wechseln",
       "TOGGLE_SNOOZE_DROPDOWN": "Schlummer-Dropdown ein-/ausblenden"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

@@ -389,11 +389,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Alterar para nota privada",
       "SWITCH_TO_REPLY": "Mudar para resposta",
       "TOGGLE_SNOOZE_DROPDOWN": "Ativar/desativar suspensos"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

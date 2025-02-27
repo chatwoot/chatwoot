@@ -117,6 +117,7 @@
       "PENDING": "Označeno na čekanju",
       "RESOLVED": "Označi kao rešeno",
       "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Ponovo otvori razgovor",
       "SNOOZE": {
         "TITLE": "Odloži",
