@@ -52,3 +52,12 @@ agent_report_job:
   cron: '30 1 * * *'
   class: 'AgentReportJob'
   queue: scheduled_jobs
+
+sujatra_report_job:
+  cron: '30 1 1 * *'
+  class: 'CustomReportJob'
+  queue: scheduled_jobs
+  args:
+    - 764
+    - '{"filters":{"time_period":{"type":"custom","start_date":"<%= Time.now.prev_month.beginning_of_month.to_i %>","end_date":"<%= Time.now.prev_month.end_of_month.to_i %>"},"business_hours":false,"inboxes":[],"agents":[],"labels":[]},"group_by":"agent","metrics":["handled","new_assigned","open","reopened","carry_forwarded","waiting_customer_response","waiting_agent_response","resolved","resolved_in_pre_time_range","resolved_in_time_range","snoozed"]}'
+    - 'jaideep@bitespeed.co'

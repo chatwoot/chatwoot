@@ -203,6 +203,8 @@ class V2::CustomReportBuilder
        new_assigned
        open
        reopened
+       resolved_in_pre_time_range
+       resolved_in_time_range
        carry_forwarded
        resolved
        waiting_agent_response
@@ -213,6 +215,8 @@ class V2::CustomReportBuilder
        avg_resolution_time_of_new_assigned_conversations
        avg_resolution_time_of_carry_forwarded_conversations
        avg_resolution_time_of_reopened_conversations
+       avg_resolution_time_of_time_range
+       avg_resolution_time_of_pre_time_range
        avg_response_time
        avg_csat_score
        median_first_response_time

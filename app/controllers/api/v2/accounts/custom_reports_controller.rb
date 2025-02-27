@@ -141,7 +141,8 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
 
   def agent_wise_conversation_states_params
     {
-      metrics: %w[handled new_assigned open reopened carry_forwarded waiting_customer_response waiting_agent_response resolved snoozed],
+      metrics: %w[handled new_assigned open reopened carry_forwarded waiting_customer_response waiting_agent_response resolved
+                  resolved_in_pre_time_range resolved_in_time_range snoozed],
       group_by: 'agent',
       filters: base_filters
     }
@@ -191,7 +192,8 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
   end
 
   def average_metrics
-    %w[avg_first_response_time avg_resolution_time avg_response_time avg_csat_score]
+    %w[avg_first_response_time avg_resolution_time avg_resolution_time_of_time_range avg_resolution_time_of_pre_time_range avg_response_time
+       avg_csat_score]
   end
 
   def median_metrics

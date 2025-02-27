@@ -21,6 +21,36 @@ class CustomReportJob < ApplicationJob
     process_report(account, report, input, email)
   end
 
+  def sujatra_report
+    set_statement_timeout
+
+    input = {
+      filters: {
+        time_period: {
+          type: 'custom',
+          start_date: Time.now.prev_month.beginning_of_month.to_i,
+          end_date: Time.now.prev_month.end_of_month.to_i
+        },
+        business_hours: false,
+        inboxes: [],
+        agents: [],
+        labels: []
+      },
+      group_by: 'agent',
+      metrics: %w[handled new_assigned open reopened carry_forwarded waiting_customer_response waiting_agent_response resolved resolved_in_pre_time_range resolved_in_time_range snoozed]
+    }
+
+    account = Account.find_by(id: 764)
+
+    email = 'jaideep@bitespeed.co'
+
+    report = build_report(account, input)
+
+    Rails.logger.info "CUSTOM_REPORT_JOB: perform: report: #{report}"
+
+    process_report(account, report, input, email)
+  end
+
   private
 
   def set_statement_timeout
@@ -136,7 +166,7 @@ class CustomReportJob < ApplicationJob
   end
 
   def generate_readable_report_metrics(report_metrics)
-    time_based_metric_keys = %w[conversations_count avg_first_response_time avg_resolution_time avg_response_time median_first_response_time
+    time_based_metric_keys = %w[conversations_count avg_first_response_time avg_resolution_time avg_resolution_time_of_time_range avg_resolution_time_of_pre_time_range avg_response_time median_first_response_time
                                 median_resolution_time median_response_time bot_avg_resolution_time]
 
     report_metrics.keys.map do |key|
@@ -550,6 +580,8 @@ class CustomReportJob < ApplicationJob
       'unattended' => 'Unattended conversations',
       'resolved' => 'Resolution Count',
       'new_assigned' => 'New assigned conversations',
+      'resolved_in_pre_time_range' => 'Resolved in pre time range',
+      'resolved_in_time_range' => 'Resolved in time range',
       'reopened' => 'Reopened conversations',
       'carry_forwarded' => 'Carry forwarded conversations',
       'waiting_agent_response' => 'Waiting for agent response',

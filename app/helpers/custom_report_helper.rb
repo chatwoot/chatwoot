@@ -192,6 +192,56 @@ module CustomReportHelper
     group_and_count_reporting_events(base_query, @config[:group_by])
   end
 
+  def resolved_in_time_range
+    # conversations that get resolved at the end of the specified period. we use this so we remove the conversations that get reopened in the time range from reporting events
+    resolved_conversations = ConversationStatus.from("(#{latest_conversation_statuses.to_sql}) AS conversation_statuses")
+                                               .where(status: :resolved)
+                                               .joins(:conversation)
+                                               .where('conversations.created_at BETWEEN ? AND ?', @time_range.begin, @time_range.end)
+
+    # Get conversations that were resolved in the time range
+    base_query = @account.reporting_events.select('DISTINCT ON (conversation_id) *')
+                         .where(name: 'conversation_resolved', created_at: @time_range)
+                         .where(conversation_id: resolved_conversations.pluck(:conversation_id))
+                         .order('created_at DESC')
+
+    # Apply filters
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "resolved conversations query: #{base_query.to_sql}"
+
+    base_query = ReportingEvent.where(id: base_query.pluck(:id))
+
+    group_and_count_reporting_events(base_query, @config[:group_by])
+  end
+
+  def resolved_in_pre_time_range
+    # conversations that get resolved at the end of the specified period. we use this so we remove the conversations that get reopened in the time range from reporting events
+    resolved_conversations = ConversationStatus.from("(#{latest_conversation_statuses.to_sql}) AS conversation_statuses")
+                                               .where(status: :resolved)
+                                               .joins(:conversation)
+                                               .where('conversations.created_at < ?', @time_range.begin)
+
+    # Get conversations that were resolved in the time range
+    base_query = @account.reporting_events.select('DISTINCT ON (conversation_id) *')
+                         .where(name: 'conversation_resolved', created_at: @time_range)
+                         .where(conversation_id: resolved_conversations.pluck(:conversation_id))
+                         .order('created_at DESC')
+
+    # Apply filters
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "resolved conversations query: #{base_query.to_sql}"
+
+    base_query = ReportingEvent.where(id: base_query.pluck(:id))
+
+    group_and_count_reporting_events(base_query, @config[:group_by])
+  end
+
   def bot_resolved
     newly_created_conversations = @account.conversations.where(created_at: @time_range)
 
@@ -485,6 +535,26 @@ module CustomReportHelper
     base_query = base_query.where(user_id: bot_user.id)
 
     Rails.logger.info "Base query(avg_resolution_time): #{base_query.to_sql}"
+
+    get_grouped_average(base_query)
+  end
+
+  def avg_resolution_time_of_time_range
+    base_query = @account.reporting_events.where(name: 'conversation_resolved', created_at: @time_range).joins(:conversation).where('conversations.created_at > ?', @time_range.begin)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    get_grouped_average(base_query)
+  end
+
+  def avg_resolution_time_of_pre_time_range
+    base_query = @account.reporting_events.where(name: 'conversation_resolved', created_at: @time_range).joins(:conversation).where('conversations.created_at < ?', @time_range.begin)
+
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
 
     get_grouped_average(base_query)
   end
