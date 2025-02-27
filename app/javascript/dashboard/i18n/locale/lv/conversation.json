@@ -117,6 +117,7 @@
       "PENDING": "Atzīmēt kā neapstiprinātu",
       "RESOLVED": "Atzīmēt kā atrisinātu",
       "MARK_AS_UNREAD": "Atzīmēt kā nelasītu",
+      "MARK_AS_READ": "Atzīmēt kā lasītu",
       "REOPEN": "Atkārtoti atvērt sarunu",
       "SNOOZE": {
         "TITLE": "Atlikt",
