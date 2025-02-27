@@ -2,7 +2,6 @@ require 'rails_execution/file_uploader'
 require 'rails_execution/file_reader'
 
 RailsExecution.configuration do |config|
-
   config.solo_mode = true # Without reviewing process
 
   config.auto_suggestions = [
@@ -79,5 +78,4 @@ RailsExecution.configuration do |config|
 
   # Notify
   # config.notifier = ::RailsExecution::Services::Notifier
-
 end
