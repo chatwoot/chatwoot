@@ -81,6 +81,7 @@ export default function useAutomationValues() {
   const getConditionDropdownValues = type => {
     return getConditionOptions({
       agents: agents.value,
+      labels: labels.value,
       booleanFilterOptions: booleanFilterOptions.value,
       campaigns: campaigns.value,
       contacts: contacts.value,

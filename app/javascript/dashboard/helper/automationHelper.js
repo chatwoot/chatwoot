@@ -9,6 +9,7 @@ import {
   DEFAULT_WAITING_CONDITION,
   DEFAULT_OTHER_CONDITION,
   DEFAULT_ACTIONS,
+  AWAITER_CONDITION_VALUES,
   MESSAGE_CONDITION_VALUES,
   PRIORITY_CONDITION_VALUES,
 } from 'dashboard/constants/automation';
@@ -119,6 +120,7 @@ export const getActionOptions = ({
 
 export const getConditionOptions = ({
   agents,
+  labels,
   booleanFilterOptions,
   campaigns,
   contacts,
@@ -144,6 +146,8 @@ export const getConditionOptions = ({
     contact: contacts,
     inbox_id: inboxes,
     team_id: teams,
+    awaiter: AWAITER_CONDITION_VALUES,
+    label_id: generateConditionOptions(labels, 'title'),
     campaigns: generateConditionOptions(campaigns),
     browser_language: languages,
     conversation_language: languages,

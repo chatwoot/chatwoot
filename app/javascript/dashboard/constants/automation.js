@@ -45,6 +45,17 @@ export const DEFAULT_ACTIONS = [
   },
 ];
 
+export const AWAITER_CONDITION_VALUES = [
+  {
+    id: 'agent',
+    name: 'Agent',
+  },
+  {
+    id: 'contact',
+    name: 'Contact',
+  },
+];
+
 export const MESSAGE_CONDITION_VALUES = [
   {
     id: 'incoming',
