@@ -2,7 +2,7 @@
   <div
     class="reports--wrapper overflow-auto bg-n-background w-full px-8 xl:px-0"
   >
-    <div class="max-w-[960px] mx-auto pb-12">
+    <div class="max-w-[60rem] mx-auto pb-12">
       <router-view />
     </div>
   </div>
