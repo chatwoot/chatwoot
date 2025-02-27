@@ -161,9 +161,9 @@ export default {
         :class="{ error: v$.name.$error }"
         class="w-full"
         :styles="{
-          borderRadius: '12px',
-          padding: '6px 12px',
-          fontSize: '14px',
+          borderRadius: '0.75rem',
+          padding: '0.375rem 0.75rem',
+          fontSize: '0.875rem',
         }"
         :label="$t('SLA.FORM.NAME.LABEL')"
         :placeholder="$t('SLA.FORM.NAME.PLACEHOLDER')"
@@ -175,9 +175,9 @@ export default {
         v-model="description"
         class="w-full"
         :styles="{
-          borderRadius: '12px',
-          padding: '6px 12px',
-          fontSize: '14px',
+          borderRadius: '0.75rem',
+          padding: '0.375rem 0.75rem',
+          fontSize: '0.875rem',
         }"
         :label="$t('SLA.FORM.DESCRIPTION.LABEL')"
         :placeholder="$t('SLA.FORM.DESCRIPTION.PLACEHOLDER')"
