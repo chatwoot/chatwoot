@@ -39,16 +39,12 @@ class AutomationRule < ApplicationRecord
     conversation_updated: 'conversation_updated',
     conversation_opened: 'conversation_opened',
     message_created: 'message_created',
-    waiting: 'waiting',
+    waiting: 'waiting'
   }, _suffix: :event
 
   def conditions_attributes
     %w[content email country_code status message_type browser_language assignee_id team_id referer city company inbox_id
-<<<<<<< Updated upstream
-       mail_subject phone_number priority conversation_language time awaiter label].freeze
-=======
-       mail_subject phone_number priority conversation_language label contact_wait_time agent_wait_time].freeze
->>>>>>> Stashed changes
+       mail_subject phone_number priority conversation_language labels contact_wait_time agent_wait_time].freeze
   end
 
   def actions_attributes

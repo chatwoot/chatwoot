@@ -4,7 +4,6 @@ import {
   OPERATOR_TYPES_3,
   OPERATOR_TYPES_6,
   OPERATOR_TYPES_7,
-  OPERATOR_TYPES_8,
 } from './operators';
 
 export const AUTOMATIONS = {
@@ -487,11 +486,11 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_7,
       },
       {
-        key: 'label',
+        key: 'labels',
         name: 'Label',
-        attributeI18nKey: 'LABEL',
+        attributeI18nKey: 'LABELS',
         inputType: 'multi_select',
-        filterOperators: OPERATOR_TYPES_8,
+        filterOperators: OPERATOR_TYPES_1,
       },
       {
         key: 'inbox_id',

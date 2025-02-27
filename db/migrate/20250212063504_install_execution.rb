@@ -1,4 +1,5 @@
 class InstallExecution < ActiveRecord::Migration[7.0]
+  # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
   def change
     create_table :rails_execution_tasks, force: true do |t|
       t.timestamps null: false
@@ -62,4 +63,5 @@ class InstallExecution < ActiveRecord::Migration[7.0]
     add_index :rails_execution_task_labels, :task_id
     add_index :rails_execution_task_labels, :label_id
   end
+  # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 end

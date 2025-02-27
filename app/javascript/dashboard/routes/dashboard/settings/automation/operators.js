@@ -118,15 +118,3 @@ export const OPERATOR_TYPES_7 = [
     label: 'Is greater than',
   },
 ];
-
-export const OPERATOR_TYPES_8 = [
-  {
-    value: 'in',
-    label: 'In',
-  },
-  {
-    value: 'not_in',
-    label: 'Not in',
-  },
-];
-

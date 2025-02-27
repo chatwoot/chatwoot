@@ -2,12 +2,13 @@ require 'rails_execution/file_uploader'
 require 'rails_execution/file_reader'
 
 RailsExecution.configuration do |config|
-
   config.solo_mode = true # Without reviewing process
 
   config.auto_suggestions = [
     'app/models',
     'app/jobs',
+    'app/service',
+    'app/workers'
   ]
 
   # Owner display
@@ -34,8 +35,8 @@ RailsExecution.configuration do |config|
 
   # Advanced
   config.file_upload = false
-  config.file_uploader = ::RailsExecution::FileUploader
-  config.file_reader = ::RailsExecution::FileReader
+  config.file_uploader = RailsExecution::FileUploader
+  config.file_reader = RailsExecution::FileReader
   # Defaults of acceptable_file_types: .png, .gif, .jpg, .jpeg, .pdf, .csv
   # config.acceptable_file_types = {
   #   '.jpeg': 'image/jpeg',
@@ -49,7 +50,6 @@ RailsExecution.configuration do |config|
 
   # config.task_background = true
   # config.task_background_executor = ->(task_id) { }
-
 
   # Logger
   # Using Paperclip
@@ -78,5 +78,4 @@ RailsExecution.configuration do |config|
 
   # Notify
   # config.notifier = ::RailsExecution::Services::Notifier
-
 end

@@ -24,23 +24,13 @@ class AutomationRules::ConditionsFilterService < FilterService
 
   def perform
     return false unless rule_valid?
-    return false if @rule.waiting_event? && waiting_event_invalid?
 
     @attribute_changed_query_filter = []
 
     @rule.conditions.each_with_index do |query_hash, current_index|
       @attribute_changed_query_filter << query_hash and next if query_hash['filter_operator'] == 'attribute_changed'
 
-      result = case query_hash['attribute_key']
-               when 'time', 'awaiter'
-                 next # handle time filter in awaiters_filter_service
-               when 'label'
-                 label_filter(query_hash, current_index)
-               else
-                 apply_filter(query_hash, current_index)
-               end
-
-      return false if result == false
+      apply_filter(query_hash, current_index)
     end
 
     records = base_relation.where(@query_string, @filter_values.with_indifferent_access)
@@ -59,10 +49,6 @@ class AutomationRules::ConditionsFilterService < FilterService
     @rule.authorization_error! unless is_valid
 
     is_valid
-  end
-
-  def waiting_event_invalid?
-    AutomationRules::AwaitersFilterService.new(@rule, @conversation, @options).invalid?
   end
 
   def filter_operation(query_hash, current_index)
@@ -88,18 +74,6 @@ class AutomationRules::ConditionsFilterService < FilterService
     elsif custom_attribute(query_hash['attribute_key'], @account, query_hash['custom_attribute_type'])
       # send table name according to attribute key right now we are supporting contact based custom attribute filter
       @query_string += custom_attribute_query(query_hash.with_indifferent_access, query_hash['custom_attribute_type'], current_index)
-    end
-  end
-
-  def label_filter(query_hash, current_index)
-    tagged_labels = @conversation.label_list & query_hash['values']
-    case query_hash['filter_operator']
-    when 'in'
-      tagged_labels.any?
-    when 'not_in'
-      tagged_labels.empty?
-    else
-      false
     end
   end
 
@@ -175,6 +149,8 @@ class AutomationRules::ConditionsFilterService < FilterService
     case current_filter['attribute_type']
     when 'additional_attributes'
       " #{table_name}.additional_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
+    when 'timer'
+      AutomationRules::TimerFilterService.new(@conversation, query_hash).query_string
     when 'standard'
       if attribute_key == 'labels'
         " tags.id #{filter_operator_value} #{query_operator} "
