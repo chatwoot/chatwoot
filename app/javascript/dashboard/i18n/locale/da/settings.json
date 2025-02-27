@@ -389,11 +389,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Skift til privat note",
       "SWITCH_TO_REPLY": "Skift til svar",
       "TOGGLE_SNOOZE_DROPDOWN": "Skift snooze dropdown"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Vind / ¤",
-      "ALT_OR_OPTION_KEY": "Alt. / ¤",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }
