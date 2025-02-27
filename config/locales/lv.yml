@@ -165,7 +165,7 @@ lv:
         removed: '%{user_name} noņēma SLA politiku %{sla_name}'
       muted: '%{user_name} izslēdza sarunu'
       unmuted: '%{user_name} ieslēdza sarunu'
-      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
+      auto_resolution_message: 'Saruna tiek pabeigta, jo tā kādu laiku ir bijusi neaktīva. Ja nepieciešama papildu palīdzība, lūdzu, sāciet jaunu sarunu.'
     templates:
       greeting_message_body: '%{account_name} parasti atbild dažu stundu laikā.'
       ways_to_reach_you_message_body: 'Dodiet komandai iespēju ar jums sazināties.'
