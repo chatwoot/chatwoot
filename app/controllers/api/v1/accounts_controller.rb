@@ -45,7 +45,16 @@ class Api::V1::AccountsController < Api::BaseController
 
   def update
     @account.assign_attributes(account_params.slice(:name, :locale, :domain, :support_email, :auto_resolve_duration))
-    @account.custom_attributes.merge!(custom_attributes_params)
+
+    # Process custom attributes, removing keys with null values
+    custom_attributes_params.each do |key, value|
+      if value.nil?
+        @account.custom_attributes.delete(key)
+      else
+        @account.custom_attributes[key] = value
+      end
+    end
+
     @account.custom_attributes['onboarding_step'] = 'invite_team' if @account.custom_attributes['onboarding_step'] == 'account_update'
     @account.save!
   end
@@ -57,7 +66,17 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def destroy
-    render json: { message: 'Account deletion enqueued' }, status: :ok
+    deletion_date = 7.days.from_now
+    deletion_reason = 'manual_deletion'
+
+    @account.custom_attributes['marked_for_deletion_at'] = deletion_date.iso8601
+    @account.custom_attributes['marked_for_deletion_reason'] = deletion_reason
+
+    if @account.save
+      render json: { message: 'Account marked for deletion' }, status: :ok
+    else
+      render json: { message: @account.errors.full_messages.join(', ') }, status: :unprocessable_entity
+    end
   end
 
   private
@@ -91,7 +110,7 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def custom_attributes_params
-    params.permit(:industry, :company_size, :timezone)
+    params.permit(:industry, :company_size, :timezone, :marked_for_deletion_at, :marked_for_deletion_reason)
   end
 
   def check_signup_enabled

@@ -1,6 +1,5 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import AccountAPI from 'dashboard/api/account';
 import { required, minValue, maxValue } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -109,6 +108,26 @@ export default {
         }
       )}`;
     },
+    isMarkedForDeletion() {
+      const { custom_attributes = {} } = this.currentAccount;
+      return !!custom_attributes.marked_for_deletion_at;
+    },
+    markedForDeletionDate() {
+      const { custom_attributes = {} } = this.currentAccount;
+      if (!custom_attributes.marked_for_deletion_at) return null;
+      return new Date(custom_attributes.marked_for_deletion_at);
+    },
+    markedForDeletionReason() {
+      const { custom_attributes = {} } = this.currentAccount;
+      return custom_attributes.marked_for_deletion_reason || 'manual_deletion';
+    },
+    formattedDeletionDate() {
+      if (!this.markedForDeletionDate) return '';
+      return this.markedForDeletionDate.toLocaleString();
+    },
+    currentAccount() {
+      return this.getAccount(this.accountId) || {};
+    },
   },
   mounted() {
     this.initializeAccount();
@@ -177,16 +196,55 @@ export default {
     closeDeletePopup() {
       this.showDeletePopup = false;
     },
-    async confirmAccountDeletion() {
+    async markAccountForDeletion() {
       this.closeDeletePopup();
       try {
-        const response = await AccountAPI.delete(this.accountId);
-        const message =
-          response.data.message ||
-          this.$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.SUCCESS');
-        useAlert(message);
+        // Set deletion date to 30 days from now
+        const deletionDate = new Date();
+        deletionDate.setDate(deletionDate.getDate() + 30);
+        // Call the destroy action instead of update
+        await this.$store.dispatch('accounts/delete', {
+          id: this.id,
+          reason: 'manual_deletion',
+        });
+        // Refresh account data
+        await this.$store.dispatch('accounts/get');
+        useAlert(this.$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.SUCCESS'));
       } catch (error) {
-        useAlert(this.$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.FAILURE'));
+        // Handle error message
+        this.handleDeletionError(error);
+      }
+    },
+
+    handleDeletionError(error) {
+      const errorKey = error.response?.data?.error_key;
+      if (errorKey) {
+        useAlert(
+          this.$t(`GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.${errorKey}`)
+        );
+        return;
+      }
+
+      const message = error.response?.data?.message;
+      if (message) {
+        useAlert(message);
+        return;
+      }
+
+      useAlert(this.$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.FAILURE'));
+    },
+
+    async clearDeletionMark() {
+      try {
+        await this.$store.dispatch('accounts/update', {
+          marked_for_deletion_at: null,
+          marked_for_deletion_reason: null,
+        });
+        // Refresh account data
+        await this.$store.dispatch('accounts/get');
+        useAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
+      } catch (error) {
+        useAlert(this.$t('GENERAL_SETTINGS.UPDATE.ERROR'));
       }
     },
   },
@@ -320,14 +378,42 @@ export default {
           </p>
         </div>
         <div class="p-4 flex-grow-0 flex-shrink-0 flex-[50%]">
-          <woot-submit-button
-            button-class="alert button nice"
-            :button-text="
-              $t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.BUTTON_TEXT')
-            "
-            :loading="showDeletePopup"
-            @click="openDeletePopup()"
-          />
+          <div v-if="isMarkedForDeletion">
+            <div
+              class="p-4 flex-grow-0 flex-shrink-0 flex-[50%] bg-red-50 dark:bg-red-900 rounded"
+            >
+              <p class="mb-4">
+                {{
+                  $t(
+                    `GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.SCHEDULED_DELETION.MESSAGE_${markedForDeletionReason === 'manual_deletion' ? 'MANUAL' : 'INACTIVITY'}`,
+                    {
+                      deletionDate: formattedDeletionDate,
+                    }
+                  )
+                }}
+              </p>
+              <woot-submit-button
+                button-class="success button nice"
+                :button-text="
+                  $t(
+                    'GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.SCHEDULED_DELETION.CLEAR_BUTTON'
+                  )
+                "
+                :loading="uiFlags.isUpdating"
+                @click="clearDeletionMark"
+              />
+            </div>
+          </div>
+          <div v-if="!isMarkedForDeletion">
+            <woot-submit-button
+              button-class="alert button nice"
+              :button-text="
+                $t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.BUTTON_TEXT')
+              "
+              :loading="showDeletePopup"
+              @click="openDeletePopup()"
+            />
+          </div>
         </div>
       </div>
       <WootConfirmDeleteModal
@@ -343,7 +429,7 @@ export default {
         "
         :confirm-value="name"
         :confirm-place-holder-text="confirmPlaceHolderText"
-        @on-confirm="confirmAccountDeletion"
+        @on-confirm="markAccountForDeletion"
         @on-close="closeDeletePopup"
       />
 
