@@ -14,6 +14,14 @@ class CaptainAssistant extends ApiClient {
       },
     });
   }
+
+  getAll() {
+    return axios.get(this.url, {
+      params: {
+        per_page: 100, // Get a large number to ensure we get all assistants
+      },
+    });
+  }
 }
 
 export default new CaptainAssistant();

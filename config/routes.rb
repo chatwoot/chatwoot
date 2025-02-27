@@ -118,6 +118,7 @@ Rails.application.routes.draw do
               post :custom_attributes
               get :attachments
               post :copilot
+              get :inbox_assistant
             end
           end
 
