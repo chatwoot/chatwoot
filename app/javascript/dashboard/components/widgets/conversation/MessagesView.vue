@@ -359,10 +359,7 @@ export default {
           messageElement.scrollIntoView({ behavior: 'smooth' });
           this.fetchPreviousMessages();
         } else {
-          // In case the user has already scrolled to a point in the message, we should
-          // not scroll to the bottom against the intent of the user.
-          if (this.hasUserScrolled) return;
-          this.scrollToBottom();
+          this.scrollToBottomIfNotScrolled();
         }
       });
       this.makeMessagesRead();
@@ -376,6 +373,27 @@ export default {
     },
     removeScrollListener() {
       this.conversationPanel.removeEventListener('scroll', this.handleScroll);
+    },
+    scrollToBottomIfNotScrolled() {
+      // In case the user has already scrolled to a point in the message, we should
+      // not scroll to the bottom against the intent of the user.
+      const clientHeight = this.conversationPanel.clientHeight;
+      const scrollHeight = this.conversationPanel.scrollHeight;
+      const scrollTop = this.conversationPanel.scrollTop;
+
+      // when scrolled at the bottom completely for any element
+      // scrollHeight = clientHeight + scrollTop
+      // so if we wanna see if the user has scrolled but not significantly
+      // we need to see if scrollTop > scrollHeight - clientHeight
+
+      // if the user is at the bottom or close to the bottom, we can skip scrolling
+      // we add a 200px margin, this has enough space to accomodate new messages
+      // while also resetting position to the bottom if the user has scrolled but not significantly
+      const isNearBottom = scrollTop > scrollHeight - clientHeight - 200;
+
+      if (this.hasUserScrolled && !isNearBottom) return;
+
+      this.scrollToBottom();
     },
     scrollToBottom() {
       this.isProgrammaticScroll = true;
