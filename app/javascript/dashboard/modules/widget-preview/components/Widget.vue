@@ -140,7 +140,7 @@ export default {
     </div>
     <div
       v-if="isWidgetVisible"
-      class="widget-wrapper flex flex-col justify-between rounded-lg shadow-md bg-slate-25 dark:bg-slate-800 h-[500px] w-[320px]"
+      class="widget-wrapper flex flex-col justify-between rounded-lg shadow-md bg-slate-25 dark:bg-slate-800 h-[31.25rem] w-80"
     >
       <WidgetHead :config="getWidgetConfig" />
       <div>
