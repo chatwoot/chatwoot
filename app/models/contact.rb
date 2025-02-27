@@ -142,6 +142,7 @@ class Contact < ApplicationRecord
       name: name,
       phone_number: phone_number,
       thumbnail: avatar_url,
+      blocked: blocked,
       type: 'contact'
     }
   end
@@ -157,7 +158,8 @@ class Contact < ApplicationRecord
       identifier: identifier,
       name: name,
       phone_number: phone_number,
-      thumbnail: avatar_url
+      thumbnail: avatar_url,
+      blocked: blocked
     }
   end
 

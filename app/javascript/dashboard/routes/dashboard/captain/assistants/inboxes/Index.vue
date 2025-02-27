@@ -72,8 +72,8 @@ onMounted(() =>
     :button-policy="['administrator']"
     :is-fetching="isFetchingAssistant || isFetching"
     :is-empty="!captainInboxes.length"
-    :feature-flag="FEATURE_FLAGS.CAPTAIN"
     :show-pagination-footer="false"
+    :feature-flag="FEATURE_FLAGS.CAPTAIN"
     @click="handleCreate"
   >
     <template v-if="!isFetchingAssistant" #headerTitle>

@@ -38,15 +38,23 @@
     "REMOVE_SELECTION": "Pašalinti Pasirinkimą",
     "DOWNLOAD": "Parsisiųsti",
     "UNKNOWN_FILE_TYPE": "Nežinomas failas",
-    "SAVE_CONTACT": "Išsaugoti",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} pradėjo susitikimą"
+    },
     "UPLOADING_ATTACHMENTS": "Įkeliami priedai...",
     "REPLIED_TO_STORY": "Atsakė į tavo pasakojimą",
-    "UNSUPPORTED_MESSAGE": "Ši žinutė nepalaikoma.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Ši žinutė nepalaikoma. Jūs galite peržiūrėti šią žinutę Facebook Messenger programėlėje.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Ši žinutė nepalaikoma. Jūs galite peržiūrėti šią žinutę Instagram programėlėje.",
     "SUCCESS_DELETE_MESSAGE": "Pranešimas ištrintas sėkmingai",
     "FAIL_DELETE_MESSSAGE": "Nepavyko ištrinti pranešimo! Bandykite dar kartą",
     "NO_RESPONSE": "Nėra atsakymo",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Reitingas",
     "FEEDBACK_TITLE": "Grįžtamasis ryšys",
     "REPLY_MESSAGE_NOT_FOUND": "Pranešimas nepasiekiamas",
@@ -126,7 +134,7 @@
           "FAILED": "Nepavyko priskirti agento. Prašau, pabandykite dar kartą."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Priskirta etiketė #{labelName} pokalbiui id {conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Nepavyko priskirti etiketės. Prašau, pabandykite dar kartą."
         },
         "TEAM_ASSIGNMENT": {
@@ -219,6 +227,10 @@
         "DELETE": "Ištrinti",
         "CANCEL": "Atšaukti"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Kontaktas",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -310,7 +322,8 @@
     "TO": "Kam",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Tema"
+    "SUBJECT": "Tema",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Dalyvaujantys",
@@ -335,5 +348,16 @@
     "ORIGINAL_CONTENT": "Originalus turinys",
     "TRANSLATED_CONTENT": "Išverstas turinys",
     "NO_TRANSLATIONS_AVAILABLE": "Nėra šio turinio vertimo"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }
