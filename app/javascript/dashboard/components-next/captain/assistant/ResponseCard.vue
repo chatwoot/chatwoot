@@ -117,18 +117,20 @@ const handleDocumentableClick = () => {
 
 <template>
   <CardLayout
+    show-checkbox
+    class="relative"
     :class="{ 'rounded-md': compact }"
     @mouseenter="emit('hover', true)"
     @mouseleave="emit('hover', false)"
   >
-    <div class="flex justify-between w-full gap-1">
+    <div v-show="showCheckbox" class="absolute top-6 ltr:left-3 rtl:right-3">
+      <Checkbox v-model="modelValue" />
+    </div>
+    <div class="flex relative justify-between w-full gap-1">
       <span class="text-base text-n-slate-12 line-clamp-1">
         {{ question }}
       </span>
       <div v-if="!compact" class="flex items-center gap-2">
-        <div v-show="showCheckbox" class="transition-opacity duration-200">
-          <Checkbox v-model="modelValue" />
-        </div>
         <Policy
           v-on-clickaway="() => toggleDropdown(false)"
           :permissions="['administrator']"

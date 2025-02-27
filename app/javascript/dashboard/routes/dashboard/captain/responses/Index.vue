@@ -284,41 +284,48 @@ onMounted(() => {
             @update="handleAssistantFilterChange"
           />
         </div>
-        <div v-else />
 
-        <div
-          v-if="bulkSelectionState.hasSelected"
-          class="flex items-center gap-3"
+        <transition
+          name="slide-fade"
+          enter-active-class="transition-all duration-300 ease-out"
+          enter-from-class="opacity-0 transform ltr:-translate-x-4 rtl:translate-x-4"
+          enter-to-class="opacity-100 transform translate-x-0"
+          leave-active-class="hidden opacity-0"
         >
-          <div class="flex items-center gap-2">
-            <Checkbox
-              v-model="bulkCheckbox"
-              :indeterminate="bulkSelectionState.isIndeterminate"
-            />
-            <span class="text-sm text-n-slate-10 tabular-nums">
-              {{
-                $t('CAPTAIN.RESPONSES.SELECTED', {
-                  count: bulkSelectedIds.size,
-                })
-              }}
-            </span>
+          <div
+            v-if="bulkSelectionState.hasSelected"
+            class="flex items-center gap-3 ltr:pl-3 rtl:pr-3"
+          >
+            <div class="flex items-center gap-1.5">
+              <Checkbox
+                v-model="bulkCheckbox"
+                :indeterminate="bulkSelectionState.isIndeterminate"
+              />
+              <span class="text-sm text-n-slate-10 tabular-nums">
+                {{
+                  $t('CAPTAIN.RESPONSES.SELECTED', {
+                    count: bulkSelectedIds.size,
+                  })
+                }}
+              </span>
+            </div>
+            <div class="h-4 w-px bg-n-strong" />
+            <div class="flex gap-2">
+              <Button
+                :label="$t('CAPTAIN.RESPONSES.BULK_APPROVE_BUTTON')"
+                sm
+                slate
+                @click="handleBulkApprove"
+              />
+              <Button
+                :label="$t('CAPTAIN.RESPONSES.BULK_DELETE_BUTTON')"
+                sm
+                slate
+                @click="bulkDeleteDialog.dialogRef.open()"
+              />
+            </div>
           </div>
-          <div class="h-4 w-px bg-n-strong" />
-          <div class="flex gap-2">
-            <Button
-              :label="$t('CAPTAIN.RESPONSES.BULK_APPROVE_BUTTON')"
-              sm
-              slate
-              @click="handleBulkApprove"
-            />
-            <Button
-              :label="$t('CAPTAIN.RESPONSES.BULK_DELETE_BUTTON')"
-              sm
-              slate
-              @click="bulkDeleteDialog.dialogRef.open()"
-            />
-          </div>
-        </div>
+        </transition>
       </div>
     </template>
 
