@@ -117,6 +117,7 @@
       "PENDING": "标记为待处理",
       "RESOLVED": "标记为已解决",
       "MARK_AS_UNREAD": "标记为未读",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "重新打开会话",
       "SNOOZE": {
         "TITLE": "推迟",
@@ -151,7 +152,7 @@
       "PRIVATE_MSG_INPUT": "Shift + 输入新行。这只对客服可见",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "未设置消息签名，请在个人资料中进行设置。",
       "CLICK_HERE": "点击此处更新",
-      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
+      "WHATSAPP_TEMPLATES": "Whatsapp 模板列表"
     },
     "REPLYBOX": {
       "REPLY": "回复",
