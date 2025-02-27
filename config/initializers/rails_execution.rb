@@ -35,8 +35,8 @@ RailsExecution.configuration do |config|
 
   # Advanced
   config.file_upload = false
-  config.file_uploader = ::RailsExecution::FileUploader
-  config.file_reader = ::RailsExecution::FileReader
+  config.file_uploader = RailsExecution::FileUploader
+  config.file_reader = RailsExecution::FileReader
   # Defaults of acceptable_file_types: .png, .gif, .jpg, .jpeg, .pdf, .csv
   # config.acceptable_file_types = {
   #   '.jpeg': 'image/jpeg',

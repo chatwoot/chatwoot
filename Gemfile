@@ -182,7 +182,6 @@ gem 'shopify_api'
 gem 'blazer'
 gem 'honeybadger', '~> 5.26'
 gem 'rails_execution'
-gem 'honeybadger', '~> 5.26'
 
 ### Gems required only in specific deployment environments ###
 ##############################################################
