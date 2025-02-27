@@ -111,3 +111,10 @@ export const OPERATOR_TYPES_6 = [
     label: 'Starts With',
   },
 ];
+
+export const OPERATOR_TYPES_7 = [
+  {
+    value: 'is_greater_than',
+    label: 'Is greater than',
+  },
+];

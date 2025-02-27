@@ -18,6 +18,16 @@ export const DEFAULT_CONVERSATION_OPENED_CONDITION = [
   },
 ];
 
+export const DEFAULT_WAITING_CONDITION = [
+  {
+    attribute_key: 'time',
+    filter_operator: 'is_greater_than',
+    values: '5',
+    query_operator: 'and',
+    custom_attribute_type: '',
+  },
+];
+
 export const DEFAULT_OTHER_CONDITION = [
   {
     attribute_key: 'status',

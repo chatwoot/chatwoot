@@ -3,6 +3,7 @@ import {
   OPERATOR_TYPES_2,
   OPERATOR_TYPES_3,
   OPERATOR_TYPES_6,
+  OPERATOR_TYPES_7,
 } from './operators';
 
 export const AUTOMATIONS = {
@@ -468,6 +469,107 @@ export const AUTOMATIONS = {
       },
     ],
   },
+  waiting: {
+    conditions: [
+      {
+        key: 'time',
+        name: 'Time (minutes)',
+        attributeI18nKey: 'TIME',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_7,
+      },
+      {
+        key: 'awaiter',
+        name: 'Awaiter',
+        attributeI18nKey: 'AWAITER',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'label',
+        name: 'Label',
+        attributeI18nKey: 'LABEL',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'inbox_id',
+        name: 'Inbox',
+        attributeI18nKey: 'INBOX',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'priority',
+        name: 'Priority',
+        attributeI18nKey: 'PRIORITY',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+    ],
+    actions: [
+      {
+        key: 'assign_agent',
+        name: 'Assign to agent',
+        attributeI18nKey: 'ASSIGN_AGENT',
+      },
+      {
+        key: 'assign_team',
+        name: 'Assign a team',
+        attributeI18nKey: 'ASSIGN_TEAM',
+      },
+      {
+        key: 'add_label',
+        name: 'Add a label',
+        attributeI18nKey: 'ADD_LABEL',
+      },
+      {
+        key: 'remove_label',
+        name: 'Remove a label',
+        attributeI18nKey: 'REMOVE_LABEL',
+      },
+      {
+        key: 'send_email_to_team',
+        name: 'Send an email to team',
+        attributeI18nKey: 'SEND_EMAIL_TO_TEAM',
+      },
+      {
+        key: 'send_message',
+        name: 'Send a message',
+        attributeI18nKey: 'SEND_MESSAGE',
+      },
+      {
+        key: 'send_email_transcript',
+        name: 'Send an email transcript',
+        attributeI18nKey: 'SEND_EMAIL_TRANSCRIPT',
+      },
+      {
+        key: 'mute_conversation',
+        name: 'Mute conversation',
+        attributeI18nKey: 'MUTE_CONVERSATION',
+      },
+      {
+        key: 'snooze_conversation',
+        name: 'Snooze conversation',
+        attributeI18nKey: 'MUTE_CONVERSATION',
+      },
+      {
+        key: 'resolve_conversation',
+        name: 'Resolve conversation',
+        attributeI18nKey: 'RESOLVE_CONVERSATION',
+      },
+      {
+        key: 'send_webhook_event',
+        name: 'Send Webhook Event',
+        attributeI18nKey: 'SEND_WEBHOOK_EVENT',
+      },
+      {
+        key: 'send_attachment',
+        name: 'Send Attachment',
+        attributeI18nKey: 'SEND_ATTACHMENT',
+      },
+    ],
+  },
 };
 
 export const AUTOMATION_RULE_EVENTS = [
@@ -486,6 +588,10 @@ export const AUTOMATION_RULE_EVENTS = [
   {
     key: 'conversation_opened',
     value: 'CONVERSATION_OPENED',
+  },
+  {
+    key: 'waiting',
+    value: 'Waiting',
   },
 ];
 

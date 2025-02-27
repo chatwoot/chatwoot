@@ -6,6 +6,7 @@ import {
 import {
   DEFAULT_MESSAGE_CREATED_CONDITION,
   DEFAULT_CONVERSATION_OPENED_CONDITION,
+  DEFAULT_WAITING_CONDITION,
   DEFAULT_OTHER_CONDITION,
   DEFAULT_ACTIONS,
   MESSAGE_CONDITION_VALUES,
@@ -170,6 +171,9 @@ export const getDefaultConditions = eventName => {
   }
   if (eventName === 'conversation_opened') {
     return DEFAULT_CONVERSATION_OPENED_CONDITION;
+  }
+  if (eventName === 'waiting') {
+    return DEFAULT_WAITING_CONDITION;
   }
   return DEFAULT_OTHER_CONDITION;
 };

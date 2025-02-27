@@ -165,6 +165,7 @@ export function useAutomation(startValue = null) {
       'conversation_created',
       'conversation_updated',
       'conversation_opened',
+      'waiting',
     ].forEach(eventToUpdate => {
       automationTypes[eventToUpdate].conditions = [
         ...automationTypes[eventToUpdate].conditions,
