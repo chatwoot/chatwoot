@@ -53,7 +53,7 @@ const activeAssistantLabel = computed(() => {
             @click="() => emit('setAssistant', assistant)"
           >
             <template #label>
-              <div class="flex gap-1">
+              <div class="flex gap-1 justify-between w-full">
                 <div class="items-start flex gap-1 flex-col">
                   <span class="text-n-slate-12 text-sm">
                     {{ assistant.name }}
