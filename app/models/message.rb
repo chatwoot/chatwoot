@@ -112,7 +112,7 @@ class Message < ApplicationRecord
   scope :chat, -> { where.not(message_type: :activity).where(private: false) }
   scope :non_activity_messages, -> { where.not(message_type: :activity).reorder('id desc') }
   scope :today, -> { where("date_trunc('day', created_at) = ?", Date.current) }
-  scope :agent, -> { where(sender_type: 'User') }
+  scope :agent, -> { outgoing.where(sender_type: 'User') }
 
   # TODO: Get rid of default scope
   # https://stackoverflow.com/a/1834250/939299

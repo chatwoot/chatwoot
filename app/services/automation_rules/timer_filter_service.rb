@@ -22,7 +22,7 @@ class AutomationRules::TimerFilterService
   end
 
   def contact_wait_since
-    @conversation.messages.incoming.where(created_at: agent_wait_since..).minimum(:created_at) || @conversation.created_at
+    @conversation.messages.incoming.where(created_at: agent_wait_since..).minimum(:created_at) || Time.current
   end
 
   def awaiter_wait_since

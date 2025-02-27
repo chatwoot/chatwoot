@@ -147,10 +147,10 @@ class AutomationRules::ConditionsFilterService < FilterService
     filter_operator_value = filter_operation(query_hash, current_index)
 
     case current_filter['attribute_type']
-    when 'additional_attributes'
-      " #{table_name}.additional_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
     when 'timer'
       AutomationRules::TimerFilterService.new(@conversation, query_hash).query_string
+    when 'additional_attributes'
+      " #{table_name}.additional_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
     when 'standard'
       if attribute_key == 'labels'
         " tags.id #{filter_operator_value} #{query_operator} "
