@@ -33,11 +33,9 @@ const activeAssistant = computed(() => {
   if (preferredId) {
     return assistants.value.find(a => a.id === preferredId);
   }
-
   if (inboxAssistant.value) {
     return assistants.value.find(a => a.id === inboxAssistant.value.id);
   }
-
   return assistants.value[0];
 });
 

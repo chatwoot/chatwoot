@@ -64,7 +64,7 @@ const activeAssistantLabel = computed(() => {
                 </div>
 
                 <div
-                  v-if="assistant.id === activeAssistant.id"
+                  v-if="assistant.id === activeAssistant?.id"
                   class="flex items-center justify-center flex-shrink-0 w-4 h-4 rounded-full bg-n-slate-12 dark:bg-n-slate-11"
                 >
                   <i
