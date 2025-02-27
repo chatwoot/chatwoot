@@ -1,6 +1,10 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import { useFunctionGetter, useStore } from 'dashboard/composables/store';
+import {
+  useFunctionGetter,
+  useMapGetter,
+  useStore,
+} from 'dashboard/composables/store';
 
 import Integration from './Integration.vue';
 import Spinner from 'shared/components/Spinner.vue';
@@ -11,7 +15,7 @@ const integrationLoaded = ref(false);
 
 const integration = useFunctionGetter('integrations/getIntegration', 'linear');
 
-const uiFlags = computed(() => store.getters['integrations/getUIFlags']);
+const uiFlags = useMapGetter('integrations/getUIFlags');
 
 const integrationAction = computed(() => {
   if (integration.value.enabled) {
