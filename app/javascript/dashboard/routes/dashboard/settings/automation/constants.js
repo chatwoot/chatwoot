@@ -486,7 +486,7 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_1,
       },
       {
-        key: 'label_id',
+        key: 'label',
         name: 'Label',
         attributeI18nKey: 'LABEL',
         inputType: 'multi_select',

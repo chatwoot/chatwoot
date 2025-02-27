@@ -69,6 +69,20 @@ class AutomationRuleListener < BaseListener
     end
   end
 
+  def waiting(event)
+    conversation = event.data[:conversation]
+    account = conversation.account
+
+    return unless rule_present?('waiting', account)
+
+    rules = current_account_rules('waiting', account)
+
+    rules.each do |rule|
+      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation).perform
+      ::AutomationRules::ActionService.new(rule, account, conversation).perform if conditions_match.present?
+    end
+  end
+
   def rule_present?(event_name, account)
     return if account.blank?
 

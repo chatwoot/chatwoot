@@ -147,7 +147,7 @@ export const getConditionOptions = ({
     inbox_id: inboxes,
     team_id: teams,
     awaiter: AWAITER_CONDITION_VALUES,
-    label_id: generateConditionOptions(labels, 'title'),
+    label: generateConditionOptions(labels, 'title'),
     campaigns: generateConditionOptions(campaigns),
     browser_language: languages,
     conversation_language: languages,
