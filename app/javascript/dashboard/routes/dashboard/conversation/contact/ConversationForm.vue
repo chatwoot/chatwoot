@@ -154,6 +154,7 @@ export default {
             item => item.id === selectedContactInbox.inbox?.id
           ) || {};
 
+        // The entire inbox payload is not available in this object, so we need to patch it from the store
         return {
           ...selectedContactInbox,
           inbox: {
