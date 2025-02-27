@@ -88,7 +88,7 @@ describe('useFontSize', () => {
     expect(document.documentElement.style.fontSize).toBe('22px');
 
     applyFontSize('16px');
-    expect(document.documentElement.style.fontSize).toBe('');
+    expect(document.documentElement.style.fontSize).toBe('16px');
   });
 
   it('updates UI settings and applies font size', async () => {
@@ -117,16 +117,16 @@ describe('useFontSize', () => {
   it('handles unknown font size values gracefully', () => {
     const { applyFontSize } = useFontSize();
 
-    // Should not throw an error and should not apply any font size
+    // Should not throw an error and should apply the default font size
     applyFontSize('unknown-size');
-    expect(document.documentElement.style.fontSize).toBe('');
+    expect(document.documentElement.style.fontSize).toBe('16px');
   });
 
   it('watches for UI settings changes and applies font size', async () => {
     useFontSize();
 
-    // Initial font size should be default (no style)
-    expect(document.documentElement.style.fontSize).toBe('');
+    // Initial font size should now be 16px instead of empty
+    expect(document.documentElement.style.fontSize).toBe('16px');
 
     // Update UI settings
     mockUISettings.value = { font_size: '18px' };

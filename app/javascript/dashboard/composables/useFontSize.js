@@ -55,11 +55,10 @@ const createFontSizeOption = (t, name) => ({
  * @param {string} pixelValue - Font size value in pixels
  */
 const applyFontSizeToDOM = pixelValue => {
-  if (!pixelValue || pixelValue === FONT_SIZE_OPTIONS.DEFAULT) {
-    document.documentElement.style.removeProperty('font-size');
-  } else {
-    document.documentElement.style.setProperty('font-size', pixelValue);
-  }
+  document.documentElement.style.setProperty(
+    'font-size',
+    pixelValue ?? FONT_SIZE_OPTIONS.DEFAULT
+  );
 };
 
 /**
