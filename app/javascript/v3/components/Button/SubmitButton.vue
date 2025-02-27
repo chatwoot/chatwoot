@@ -40,10 +40,12 @@ export default {
     },
   },
   created() {
-    // eslint-disable-next-line
-    console.warn(
-      '[DEPRECATED] This component has been deprecated and will be removed soon. Please use v3/components/Form/Button.vue instead'
-    );
+    if (import.meta.env.DEV) {
+      // eslint-disable-next-line
+      console.warn(
+        '[DEPRECATED] This component has been deprecated and will be removed soon. Please use v3/components/Form/Button.vue instead'
+      );
+    }
   },
 };
 </script>

@@ -11,11 +11,11 @@
       "404": "Es gibt keine Audit-Protokolle in diesem Konto.",
       "TITLE": "Audit-Protokolle verwalten",
       "DESC": "Auditprotokolle sind Spuren für Ereignisse und Aktionen in einem Chatwoot-System.",
-      "TABLE_HEADER": [
-        "User",
-        "Action",
-        "IP-Adresse"
-      ]
+      "TABLE_HEADER": {
+        "ACTIVITY": "User",
+        "TIME": "Action",
+        "IP_ADDRESS": "IP-Adresse"
+      }
     },
     "API": {
       "SUCCESS_MESSAGE": "Audit-Protokolle erfolgreich abgerufen",

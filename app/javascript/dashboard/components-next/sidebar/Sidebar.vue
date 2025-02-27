@@ -8,6 +8,7 @@ import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useStorage } from '@vueuse/core';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
@@ -35,6 +36,18 @@ const toggleShortcutModalFn = show => {
     emit('closeKeyShortcutModal');
   }
 };
+
+const currentAccountId = useMapGetter('getCurrentAccountId');
+const isFeatureEnabledonAccount = useMapGetter(
+  'accounts/isFeatureEnabledonAccount'
+);
+
+const showV4Routes = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    currentAccountId.value,
+    FEATURE_FLAGS.REPORT_V4
+  );
+});
 
 useSidebarKeyboardShortcuts(toggleShortcutModalFn);
 
@@ -77,6 +90,59 @@ const sortedInboxes = computed(() =>
   inboxes.value.slice().sort((a, b) => a.name.localeCompare(b.name))
 );
 
+const newReportRoutes = [
+  {
+    name: 'Reports Agent',
+    label: t('SIDEBAR.REPORTS_AGENT'),
+    to: accountScopedRoute('agent_reports_index'),
+    activeOn: ['agent_reports_show'],
+  },
+  {
+    name: 'Reports Label',
+    label: t('SIDEBAR.REPORTS_LABEL'),
+    to: accountScopedRoute('label_reports'),
+  },
+  {
+    name: 'Reports Inbox',
+    label: t('SIDEBAR.REPORTS_INBOX'),
+    to: accountScopedRoute('inbox_reports_index'),
+    activeOn: ['inbox_reports_show'],
+  },
+  {
+    name: 'Reports Team',
+    label: t('SIDEBAR.REPORTS_TEAM'),
+    to: accountScopedRoute('team_reports_index'),
+    activeOn: ['team_reports_show'],
+  },
+];
+
+const oldReportRoutes = [
+  {
+    name: 'Reports Agent',
+    label: t('SIDEBAR.REPORTS_AGENT'),
+    to: accountScopedRoute('agent_reports'),
+  },
+  {
+    name: 'Reports Label',
+    label: t('SIDEBAR.REPORTS_LABEL'),
+    to: accountScopedRoute('label_reports'),
+  },
+  {
+    name: 'Reports Inbox',
+    label: t('SIDEBAR.REPORTS_INBOX'),
+    to: accountScopedRoute('inbox_reports'),
+  },
+  {
+    name: 'Reports Team',
+    label: t('SIDEBAR.REPORTS_TEAM'),
+    to: accountScopedRoute('team_reports'),
+  },
+];
+
+const reportRoutes = computed(() =>
+  showV4Routes.value ? newReportRoutes : oldReportRoutes
+);
+
 const menuItems = computed(() => {
   return [
     {
@@ -84,6 +150,10 @@ const menuItems = computed(() => {
       label: t('SIDEBAR.INBOX'),
       icon: 'i-lucide-inbox',
       to: accountScopedRoute('inbox_view'),
+      activeOn: ['inbox_view', 'inbox_view_conversation'],
+      getterKeys: {
+        badge: 'notifications/getHasUnreadNotifications',
+      },
     },
     {
       name: 'Conversation',
@@ -172,19 +242,19 @@ const menuItems = computed(() => {
       label: t('SIDEBAR.CAPTAIN'),
       children: [
         {
+          name: 'Assistants',
+          label: t('SIDEBAR.CAPTAIN_ASSISTANTS'),
+          to: accountScopedRoute('captain_assistants_index'),
+        },
+        {
           name: 'Documents',
-          label: 'Documents',
-          to: accountScopedRoute('captain', { page: 'documents' }),
+          label: t('SIDEBAR.CAPTAIN_DOCUMENTS'),
+          to: accountScopedRoute('captain_documents_index'),
         },
         {
           name: 'Responses',
-          label: 'Responses',
-          to: accountScopedRoute('captain', { page: 'responses' }),
-        },
-        {
-          name: 'Playground',
-          label: 'Playground',
-          to: accountScopedRoute('captain', { page: 'playground' }),
+          label: t('SIDEBAR.CAPTAIN_RESPONSES'),
+          to: accountScopedRoute('captain_responses_index'),
         },
       ],
     },
@@ -260,30 +330,11 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.REPORTS_CONVERSATION'),
           to: accountScopedRoute('conversation_reports'),
         },
+        ...reportRoutes.value,
         {
           name: 'Reports CSAT',
           label: t('SIDEBAR.CSAT'),
           to: accountScopedRoute('csat_reports'),
-        },
-        {
-          name: 'Reports Agent',
-          label: t('SIDEBAR.REPORTS_AGENT'),
-          to: accountScopedRoute('agent_reports'),
-        },
-        {
-          name: 'Reports Label',
-          label: t('SIDEBAR.REPORTS_LABEL'),
-          to: accountScopedRoute('label_reports'),
-        },
-        {
-          name: 'Reports Inbox',
-          label: t('SIDEBAR.REPORTS_INBOX'),
-          to: accountScopedRoute('inbox_reports'),
-        },
-        {
-          name: 'Reports Team',
-          label: t('SIDEBAR.REPORTS_TEAM'),
-          to: accountScopedRoute('team_reports'),
         },
         {
           name: 'Reports SLA',
@@ -469,7 +520,7 @@ const menuItems = computed(() => {
     <section class="grid gap-2 mt-2 mb-4">
       <div class="flex items-center min-w-0 gap-2 px-2">
         <div class="grid flex-shrink-0 size-6 place-content-center">
-          <Logo />
+          <Logo class="size-4" />
         </div>
         <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
         <SidebarAccountSwitcher

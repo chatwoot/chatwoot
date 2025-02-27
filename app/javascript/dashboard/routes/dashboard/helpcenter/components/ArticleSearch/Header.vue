@@ -68,7 +68,7 @@ useKeyboardEvents(keyboardEvents);
         ref="searchInputRef"
         type="text"
         :placeholder="$t('HELP_CENTER.ARTICLE_SEARCH.PLACEHOLDER')"
-        class="block w-full !h-9 ltr:!pl-8 rtl:!pr-8 dark:!bg-slate-700 !bg-slate-25 text-sm rounded-md leading-8 text-slate-700 shadow-sm ring-2 ring-transparent ring-slate-300 border border-solid border-slate-300 placeholder:text-slate-400 focus:border-woot-600 focus:ring-woot-200 !mb-0 focus:bg-slate-25 dark:focus:bg-slate-700 dark:focus:ring-woot-700"
+        class="block w-full !h-9 ltr:!pl-8 rtl:!pr-8 dark:!bg-n-slate-2 !border-n-weak !bg-n-slate-2 text-sm rounded-md leading-8 text-slate-700 shadow-sm ring-2 ring-transparent ring-slate-300 border border-solid placeholder:text-slate-400 focus:border-woot-600 focus:ring-woot-200 !mb-0 focus:bg-slate-25 dark:focus:bg-slate-700 dark:focus:ring-woot-700"
         :value="searchQuery"
         @input="onInput"
       />

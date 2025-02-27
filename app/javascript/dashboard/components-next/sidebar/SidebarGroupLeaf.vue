@@ -19,6 +19,7 @@ const shouldRenderComponent = computed(() => {
 });
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <Policy
     :permissions="resolvePermissions(to)"

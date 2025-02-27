@@ -30,7 +30,7 @@ export default {
 
 <template>
   <div
-    class="p-3 bg-white dark:bg-slate-900 h-[calc(100vh-3.5rem)] flex flex-col border-l border-slate-50 dark:border-slate-800/50"
+    class="p-3 bg-white dark:bg-slate-900 h-[calc(100vh-3.5rem)] flex flex-col border-l border-n-weak"
   >
     <div>
       <woot-input

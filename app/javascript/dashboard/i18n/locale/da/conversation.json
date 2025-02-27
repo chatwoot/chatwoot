@@ -38,15 +38,23 @@
     "REMOVE_SELECTION": "Fjern Markering",
     "DOWNLOAD": "Download",
     "UNKNOWN_FILE_TYPE": "Ukendt Fil",
-    "SAVE_CONTACT": "Save",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} has started a meeting"
+    },
     "UPLOADING_ATTACHMENTS": "Uploader vedhæftede filer...",
     "REPLIED_TO_STORY": "Replied to your story",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Besked slettet",
     "FAIL_DELETE_MESSSAGE": "Kunne ikke slette beskeden! Prøv igen",
     "NO_RESPONSE": "Intet svar",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Bedømmelse",
     "FEEDBACK_TITLE": "Tilbagemelding",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
@@ -126,7 +134,7 @@
           "FAILED": "Kunne ikke tildele agent. Prøv venligst igen."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Tildelt etiket #{labelName} til samtale-id {conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Kunne ikke tildele etiket. Prøv venligst igen."
         },
         "TEAM_ASSIGNMENT": {
@@ -219,6 +227,10 @@
         "DELETE": "Slet",
         "CANCEL": "Annuller"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Kontakt",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -310,7 +322,8 @@
     "TO": "Til",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Emne"
+    "SUBJECT": "Emne",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participating",
@@ -335,5 +348,16 @@
     "ORIGINAL_CONTENT": "Original Content",
     "TRANSLATED_CONTENT": "Translated Content",
     "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

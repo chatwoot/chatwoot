@@ -71,7 +71,7 @@
         "DIAL_CODE_VALID_ERROR": "Vennligst velg landskode",
         "VALID_ERROR": "Tast inn ditt telefonnummer",
         "DROPDOWN_EMPTY": "Ingen resultater funnet",
-        "DROPDOWN_SEARCH": "Search country"
+        "DROPDOWN_SEARCH": "Søk etter land"
       },
       "MESSAGE": {
         "LABEL": "Melding",
@@ -93,7 +93,7 @@
   "EMOJI": {
     "PLACEHOLDER": "Søk emojier",
     "NOT_FOUND": "Ingen emojier samsvarer søket ditt",
-    "ARIA_LABEL": "Emoji picker"
+    "ARIA_LABEL": "Emoji velger"
   },
   "CSAT": {
     "TITLE": "Vurder samtalen din",
@@ -137,6 +137,6 @@
     }
   },
   "FOOTER_REPLY_TO": {
-    "REPLY_TO": "Replying to:"
+    "REPLY_TO": "Svar til:"
   }
 }

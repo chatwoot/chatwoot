@@ -71,7 +71,7 @@ export default {
 
 <template>
   <div class="dropdown-wrap">
-    <div class="mb-2 flex-shrink-0 flex-grow-0 flex-auto max-h-8">
+    <div class="flex-auto flex-grow-0 flex-shrink-0 mb-2 max-h-8">
       <input
         ref="searchbar"
         v-model="search"
@@ -81,7 +81,7 @@ export default {
         :placeholder="inputPlaceholder"
       />
     </div>
-    <div class="flex justify-start items-start flex-auto overflow-auto">
+    <div class="flex items-start justify-start flex-auto overflow-auto mt-2">
       <div class="w-full max-h-[10rem]">
         <WootDropdownMenu>
           <WootDropdownItem v-for="option in filteredOptions" :key="option.id">
@@ -107,7 +107,7 @@ export default {
                   class="flex items-center justify-between w-full min-w-0 gap-2"
                 >
                   <span
-                    class="leading-4 my-0 overflow-hidden whitespace-nowrap text-ellipsis text-sm"
+                    class="my-0 overflow-hidden text-sm leading-4 whitespace-nowrap text-ellipsis"
                     :title="option.name"
                   >
                     {{ option.name }}
@@ -120,7 +120,7 @@ export default {
         </WootDropdownMenu>
         <h4
           v-if="noResult"
-          class="w-full justify-center items-center flex text-slate-500 dark:text-slate-300 py-2 px-2.5 overflow-hidden whitespace-nowrap text-ellipsis text-sm"
+          class="w-full justify-center items-center flex text-n-slate-10 py-2 px-2.5 overflow-hidden whitespace-nowrap text-ellipsis text-sm"
         >
           {{ noSearchResult }}
         </h4>
@@ -142,15 +142,11 @@ export default {
   @apply justify-between w-full;
 
   &.active {
-    @apply bg-slate-25 dark:bg-slate-700 border-slate-50 dark:border-slate-900 font-medium;
-  }
-
-  &:focus {
-    @apply bg-slate-25 dark:bg-slate-700;
+    @apply bg-n-slate-2 dark:bg-n-solid-3 border-n-weak/50 dark:border-n-weak font-medium;
   }
 
   &:hover {
-    @apply bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100;
+    @apply bg-n-slate-2 dark:bg-n-solid-3 text-slate-800 dark:text-slate-100;
   }
 }
 </style>

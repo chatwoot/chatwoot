@@ -61,15 +61,29 @@
         "COPY": "Copiar"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Notificaciones con sonido",
+        "TITLE": "Alertas de audio",
         "NOTE": "Active las notificaciones de sonido en el tablero para los mensajes nuevos y conversaciones.",
+        "PLAY": "Reproducir sonido",
         "ALERT_TYPES": {
           "NONE": "Ninguna",
           "MINE": "Asignado",
-          "ALL": "Todos"
+          "ALL": "Todos",
+          "ASSIGNED": "Conversaciones asignadas",
+          "UNASSIGNED": "Conversaciones sin asignar",
+          "NOTME": "Conversaciones abiertas asignadas a otros"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "No ha seleccionado ninguna opción, no recibirá ninguna alerta de audio.",
+          "ASSIGNED": "Recibirás alertas sobre las conversaciones que se te hayan asignado.",
+          "UNASSIGNED": "Recibirás alertas sobre cualquier conversación no asignada.",
+          "NOTME": "Recibirás alertas sobre las conversaciones asignadas a otros.",
+          "ASSIGNED+UNASSIGNED": "Recibirás alertas de tus conversaciones asignadas y de las no atendidas.",
+          "ASSIGNED+NOTME": "Recibirás alertas sobre las conversaciones que te han sido asignadas a ti y a otros, pero no sobre las no asignadas.",
+          "NOTME+UNASSIGNED": "Recibirás alertas de conversaciones desatendidas y de las asignadas a otros.",
+          "ASSIGNED+NOTME+UNASSIGNED": "Recibirás alertas de todas las conversaciones."
         },
         "ALERT_TYPE": {
-          "TITLE": "Eventos de alerta para conversaciones:",
+          "TITLE": "Eventos de alerta para conversaciones",
           "NONE": "Ninguna",
           "ASSIGNED": "Conversaciones asignadas",
           "ALL_CONVERSATIONS": "Todas las conversaciones"
@@ -81,7 +95,9 @@
           "TITLE": "Condiciones de alerta:",
           "CONDITION_ONE": "Enviar alertas de audio sólo si la ventana del navegador no está activa",
           "CONDITION_TWO": "Enviar alertas cada 30s hasta que todas las conversaciones asignadas sean leídas"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "La reproducción automática está desactivada en su navegador. Para escuchar las alertas automáticamente, habilite el permiso de sonido en la configuración de su navegador o interactúe con la página.",
+        "READ_MORE": "Leer más"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificaciones por email",
@@ -104,13 +120,13 @@
           "CONVERSATION_CREATED": "Se ha creado una nueva conversación",
           "CONVERSATION_ASSIGNED": "Se te ha asignado una conversación",
           "CONVERSATION_MENTION": "Has sido mencionado en una conversación",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Un nuevo mensaje se ha creado en una conversación asignada",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Un nuevo mensaje se ha creado en una conversación en la que participas",
           "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
           "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "SLA_MISSED_RESOLUTION": "Una conversación carece de resolución SLA"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "Activa las notificaciones push en tu navegador para que puedas recibirlas"
       },
       "API": {
         "UPDATE_SUCCESS": "Sus preferencias de notificación se actualizaron correctamente",
@@ -145,11 +161,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Disponibilidad",
-        "STATUSES_LIST": [
-          "En línea",
-          "Ocupado",
-          "Fuera de línea"
-        ],
+        "STATUS": {
+          "ONLINE": "En línea",
+          "BUSY": "Ocupado",
+          "OFFLINE": "Desconectado"
+        },
         "SET_AVAILABILITY_SUCCESS": "La disponibilidad se ha establecido con éxito",
         "SET_AVAILABILITY_ERROR": "No se pudo establecer la disponibilidad, inténtelo de nuevo"
       },
@@ -178,12 +194,14 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Cambiar",
     "CHANGE_ACCOUNTS": "Cambiar de cuenta",
-    "CONTACT_SUPPORT": "Contactar con Soporte",
+    "SWITCH_ACCOUNT": "Cambiar de cuenta",
+    "CONTACT_SUPPORT": "Contactar al soporte",
     "SELECTOR_SUBTITLE": "Seleccione una cuenta de la siguiente lista",
     "PROFILE_SETTINGS": "Ajustes del perfil",
     "KEYBOARD_SHORTCUTS": "Atajos de teclado",
     "APPEARANCE": "Cambiar apariencia",
-    "SUPER_ADMIN_CONSOLE": "Consola de Super Admin",
+    "SUPER_ADMIN_CONSOLE": "Consola SuperAdmin",
+    "DOCS": "Leer la documentación",
     "LOGOUT": "Cerrar sesión"
   },
   "APP_GLOBAL": {
@@ -218,6 +236,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Enviar"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "Esta imagen ya no está disponible.",
+      "LOADING_FAILED": "Error al cargar"
     }
   },
   "CONFIRM_EMAIL": "Verificando...",
@@ -227,11 +249,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No hay elementos",
     "CURRENTLY_VIEWING_ACCOUNT": "Visualizando:",
     "SWITCH": "Cambiar",
     "INBOX_VIEW": "Vista del buzón",
     "CONVERSATIONS": "Conversaciones",
-    "INBOX": "Bandeja de entrada",
+    "INBOX": "Mi bandeja de entrada",
     "ALL_CONVERSATIONS": "Todas las conversaciones",
     "MENTIONED_CONVERSATIONS": "Menciones",
     "PARTICIPATING_CONVERSATIONS": "Participar",
@@ -240,6 +263,9 @@
     "SETTINGS": "Ajustes",
     "CONTACTS": "Contactos",
     "CAPTAIN": "Capitán",
+    "CAPTAIN_ASSISTANTS": "Asistentes",
+    "CAPTAIN_DOCUMENTS": "Documentos",
+    "CAPTAIN_RESPONSES": "Preguntas frecuentes",
     "HOME": "Inicio",
     "AGENTS": "Agentes",
     "AGENT_BOTS": "Bots",
@@ -266,6 +292,8 @@
     "NEW_INBOX": "Nuevo buzón",
     "REPORTS_CONVERSATION": "Conversaciones",
     "CSAT": "Encuestas de Satisfacción",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
     "CAMPAIGNS": "Campañas",
     "ONGOING": "En Curso",
     "ONE_OFF": "One Off",
@@ -276,37 +304,49 @@
     "REPORTS_INBOX": "Bandeja de entrada",
     "REPORTS_TEAM": "Equipo",
     "SET_AVAILABILITY_TITLE": "Ponte como",
+    "SET_YOUR_AVAILABILITY": "Establecer su disponibilidad",
     "SLA": "SLA",
-    "CUSTOM_ROLES": "Custom Roles",
+    "CUSTOM_ROLES": "Roles personalizados",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Resumen",
-    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "REAUTHORIZE": "Su sesión ha expirado, por favor, vuelva a conectarse para continuar recibiendo y enviando mensajes",
     "HELP_CENTER": {
       "TITLE": "Centro de ayuda",
-      "ALL_ARTICLES": "Todos los artículos",
-      "MY_ARTICLES": "Todos los artículos",
-      "DRAFT": "Borrador",
-      "ARCHIVED": "Archivado",
-      "CATEGORY": "Categoría",
-      "SETTINGS": "Ajustes",
-      "CATEGORY_EMPTY_MESSAGE": "No se encontraron categorías"
+      "ARTICLES": "Artículos",
+      "CATEGORIES": "Categorías",
+      "LOCALES": "Idiomas",
+      "SETTINGS": "Ajustes"
     },
+    "CHANNELS": "Canales",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Marcar como desconectado automáticamente",
-      "INFO_TEXT": "Permite que el sistema te marque automáticamente sin conexión cuando no estás usando la aplicación o el tablero."
+      "INFO_TEXT": "Permite que el sistema te marque automáticamente sin conexión cuando no estás usando la aplicación o el tablero.",
+      "INFO_SHORT": "Marcar automáticamente sin conexión cuando no está usando la aplicación."
     },
     "DOCS": "Leer documentos"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Facturación",
+    "DESCRIPTION": "Gestiona tu suscripción aquí, mejora tu plan y consigue más para tu equipo.",
     "CURRENT_PLAN": {
       "TITLE": "Plan actual",
-      "PLAN_NOTE": "Actualmente está suscrito al plan **{plan}** con **{quantity}** licencias"
+      "PLAN_NOTE": "Actualmente está suscrito al plan **{plan}** con **{quantity}** licencias",
+      "SEAT_COUNT": "Número de asientos",
+      "RENEWS_ON": "Renueva el"
     },
+    "VIEW_PRICING": "Ver precios",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Administre su suscripción",
       "DESCRIPTION": "Vea sus facturas anteriores, edite sus datos de facturación o cancele su suscripción.",
       "BUTTON_TXT": "Ir al portal de facturación"
+    },
+    "CAPTAIN": {
+      "TITLE": "Capitán",
+      "DESCRIPTION": "Gestione el uso y los créditos para Captain AI.",
+      "BUTTON_TXT": "Comprar más créditos",
+      "DOCUMENTS": "Documentos",
+      "RESPONSES": "Respuestas",
+      "UPGRADE": "Captain no está disponible en el plan gratuito, actualice su suscripción ahora para tener acceso a asistentes, copilot y más."
     },
     "CHAT_WITH_US": {
       "TITLE": "¿Necesitas ayuda?",

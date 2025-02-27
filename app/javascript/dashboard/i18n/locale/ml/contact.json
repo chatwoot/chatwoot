@@ -57,46 +57,6 @@
     "TITLE": "കോൺ‌ടാക്റ്റ് എഡിറ്റുചെയ്യുക",
     "DESC": "കോൺ‌ടാക്റ്റ് വിശദാംശങ്ങൾ‌ എഡിറ്റുചെയ്യുക"
   },
-  "CREATE_CONTACT": {
-    "BUTTON_LABEL": "New Contact",
-    "TITLE": "Create new contact",
-    "DESC": "കോൺടാക്‌റ്റിനെക്കുറിച്ചുള്ള അടിസ്ഥാന വിവര വിശദാംശങ്ങൾ ചേർക്കുക."
-  },
-  "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Import",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
-    "FORM": {
-      "LABEL": "CSV ഫയൽ",
-      "SUBMIT": "Import",
-      "CANCEL": "റദ്ദാക്കുക"
-    },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
-    "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
-  },
-  "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Export",
-    "TITLE": "Export Contacts",
-    "DESC": "Export contacts to a CSV file.",
-    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക",
-    "CONFIRM": {
-      "TITLE": "Export Contacts",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
-    }
-  },
-  "DELETE_NOTE": {
-    "CONFIRM": {
-      "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
-      "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
-      "NO": "ഇല്ല, സൂക്ഷിക്കുക"
-    }
-  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "കോൺടാക്റ്റ് ഇല്ലാതാക്കുക",
     "TITLE": "കോൺടാക്റ്റ് ഇല്ലാതാക്കുക",
@@ -224,79 +184,14 @@
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "കോൺ‌ടാക്റ്റുകൾ",
-    "FIELDS": "Contact fields",
-    "SEARCH_BUTTON": "തിരയുക",
-    "SEARCH_INPUT_PLACEHOLDER": "കോൺ‌ടാക്റ്റുകൾക്കായി തിരയുക",
-    "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "ഫിൽട്ടർ സേവ് ചെയുക",
-    "FILTER_CONTACTS_DELETE": "ഫിൽട്ടർ ഇല്ലാതാക്കുക",
-    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
-      "LOADING_MESSAGE": "കോൺ‌ടാക്റ്റുകൾ‌ ലോഡുചെയ്യുന്നു...",
-      "404": "കോൺ‌ടാക്റ്റുകളൊന്നും നിങ്ങളുടെ തിരയലുമായി പൊരുത്തപ്പെടുന്നില്ല",
-      "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
-        "NAME": "പേര്",
-        "PHONE_NUMBER": "ഫോൺ നമ്പർ",
-        "CONVERSATIONS": "സംഭാഷണങ്ങൾ",
-        "LAST_ACTIVITY": "അവസാന പ്രവർത്തനം",
-        "CREATED_AT": "Created At",
-        "COUNTRY": "രാജ്യം",
-        "CITY": "നഗരം",
-        "SOCIAL_PROFILES": "സോഷ്യൽ പ്രൊഫൈലുകൾ",
-        "COMPANY": "കമ്പനി",
-        "EMAIL_ADDRESS": "ഇമെയിൽ വിലാസം"
-      },
-      "VIEW_DETAILS": "വിശദാംശങ്ങൾ കാണുക"
-    }
-  },
-  "CONTACT_PROFILE": {
-    "BACK_BUTTON": "കോൺ‌ടാക്റ്റുകൾ",
-    "LOADING": "Loading contact profile..."
-  },
-  "REMINDER": {
-    "ADD_BUTTON": {
-      "BUTTON": "ചേർക്കുക",
-      "TITLE": "Shift + Enter to create a task"
-    },
-    "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
-    }
-  },
-  "NOTES": {
-    "FETCHING_NOTES": "Fetching notes...",
-    "NOT_AVAILABLE": "There are no notes created for this contact",
-    "HEADER": {
-      "TITLE": "Notes"
-    },
-    "LIST": {
-      "LABEL": "added a note"
-    },
-    "ADD": {
-      "BUTTON": "ചേർക്കുക",
-      "PLACEHOLDER": "Add a note",
-      "TITLE": "ഒരു കുറിപ്പ് സൃഷ്ടിക്കാൻ Shift + Enter"
-    },
-    "CONTENT_HEADER": {
-      "DELETE": "കുറിപ്പ് ഇല്ലാതാക്കുക"
-    }
-  },
-  "EVENTS": {
-    "HEADER": {
-      "TITLE": "പ്രവർത്തനങ്ങൾ"
-    },
-    "BUTTON": {
-      "PILL_BUTTON_NOTES": "notes",
-      "PILL_BUTTON_EVENTS": "events",
-      "PILL_BUTTON_CONVO": "സംഭാഷണങ്ങൾ"
+        "SOCIAL_PROFILES": "സോഷ്യൽ പ്രൊഫൈലുകൾ"
+      }
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Add attributes",
     "BUTTON": "Add custom attribute",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "COPY_SUCCESSFUL": "ക്ലിപ്പ്ബോർഡിലേക്ക് വിജയകരമായി പകർത്തി",
     "SHOW_MORE": "Show all attributes",
     "SHOW_LESS": "Show less attributes",
@@ -384,6 +279,321 @@
     },
     "DROPDOWN_ITEM": {
       "ID": "(ID: {identifier})"
+    }
+  },
+  "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "കോൺ‌ടാക്റ്റുകൾ",
+      "SEARCH_TITLE": "Search contacts",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "MESSAGE_BUTTON": "സന്ദേശം",
+      "SEND_MESSAGE": "സന്ദേശം അയയ്ക്കുക",
+      "BREADCRUMB": {
+        "CONTACTS": "കോൺ‌ടാക്റ്റുകൾ"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact",
+          "EMAIL_ADDRESS_DUPLICATE": "ഈ ഇമെയിൽ വിലാസം മറ്റൊരു കോൺ‌ടാക്റ്റിനായി ഉപയോഗത്തിലാണ്.",
+          "PHONE_NUMBER_DUPLICATE": "ഈ ഫോൺ നമ്പർ മറ്റൊരു കോൺടാക്റ്റിനായി ഉപയോഗിക്കുന്നു.",
+          "SUCCESS_MESSAGE": "കോൺടാക്റ്റ് വിജയകരമായി സേവ് ചെയ്തിരിക്കുന്നു",
+          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
+        },
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "Import contacts through a CSV file.",
+          "DOWNLOAD_LABEL": "Download a sample csv.",
+          "LABEL": "CSV ഫയൽ:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "മാറ്റം വരുത്തുക",
+          "CANCEL": "റദ്ദാക്കുക",
+          "IMPORT": "Import",
+          "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+          "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Export contacts",
+          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "CONFIRM": "Export",
+          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+          "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
+        },
+        "SORT_BY": {
+          "LABEL": "Sort by",
+          "OPTIONS": {
+            "NAME": "പേര്",
+            "EMAIL": "ഇമെയിൽ",
+            "PHONE_NUMBER": "ഫോൺ നമ്പർ",
+            "COMPANY": "കമ്പനി",
+            "COUNTRY": "രാജ്യം",
+            "CITY": "നഗരം",
+            "LAST_ACTIVITY": "Last activity",
+            "CREATED_AT": "എന്ന സ്ഥലത്ത് സൃഷ്ടിച്ചു"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        },
+        "FILTERS": {
+          "CREATE_SEGMENT": {
+            "TITLE": "നിങ്ങൾക്ക് ഈ ഫിൽട്ടർ സേവ് ചെയ്യണോ?",
+            "CONFIRM": "ഫിൽട്ടർ സേവ് ചെയുക",
+            "LABEL": "പേര്",
+            "PLACEHOLDER": "Enter the name of the filter",
+            "ERROR": "Enter a valid name",
+            "SUCCESS_MESSAGE": "Filter saved successfully",
+            "ERROR_MESSAGE": "Unable to save filter. Please try again later."
+          },
+          "DELETE_SEGMENT": {
+            "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
+            "DESCRIPTION": "Are you sure you want to delete this filter?",
+            "CONFIRM": "അതെ, ഇല്ലാതാക്കുക",
+            "CANCEL": "No, Cancel",
+            "SUCCESS_MESSAGE": "Filter deleted successfully",
+            "ERROR_MESSAGE": "Unable to delete filter. Please try again later."
+          }
+        }
+      }
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
+    },
+    "FILTER": {
+      "NAME": "പേര്",
+      "EMAIL": "ഇമെയിൽ",
+      "PHONE_NUMBER": "ഫോൺ നമ്പർ",
+      "IDENTIFIER": "Identifier",
+      "COUNTRY": "രാജ്യം",
+      "CITY": "നഗരം",
+      "CREATED_AT": "എന്ന സ്ഥലത്ത് സൃഷ്ടിച്ചു",
+      "LAST_ACTIVITY": "Last activity",
+      "REFERER_LINK": "റഫറർ ലിങ്ക്",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "True",
+      "BLOCKED_FALSE": "False",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Clear filters",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "ഫിൽട്ടറുകൾ പ്രയോഗിക്കുക",
+        "ADD_FILTER": "ഫിൽട്ടർ ചേർക്കുക"
+      },
+      "TITLE": "Filter contacts",
+      "EDIT_SEGMENT": "Edit segment",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} more filters",
+        "CLEAR_FILTERS": "Clear filters"
+      }
+    },
+    "CARD": {
+      "OF": "of",
+      "VIEW_DETAILS": "വിശദാംശങ്ങൾ കാണുക",
+      "EDIT_DETAILS_FORM": {
+        "TITLE": "കോൺ‌ടാക്റ്റ് വിശദാംശങ്ങൾ‌ എഡിറ്റുചെയ്യുക",
+        "FORM": {
+          "FIRST_NAME": {
+            "PLACEHOLDER": "Enter the first name"
+          },
+          "LAST_NAME": {
+            "PLACEHOLDER": "Enter the last name"
+          },
+          "EMAIL_ADDRESS": {
+            "PLACEHOLDER": "Enter the email address",
+            "DUPLICATE": "ഈ ഇമെയിൽ വിലാസം മറ്റൊരു കോൺ‌ടാക്റ്റിനായി ഉപയോഗത്തിലാണ്."
+          },
+          "PHONE_NUMBER": {
+            "PLACEHOLDER": "Enter the phone number",
+            "DUPLICATE": "ഈ ഫോൺ നമ്പർ മറ്റൊരു കോൺടാക്റ്റിനായി ഉപയോഗിക്കുന്നു."
+          },
+          "CITY": {
+            "PLACEHOLDER": "Enter the city name"
+          },
+          "COUNTRY": {
+            "PLACEHOLDER": "Select country"
+          },
+          "BIO": {
+            "PLACEHOLDER": "Enter the bio"
+          },
+          "COMPANY_NAME": {
+            "PLACEHOLDER": "കമ്പനിയുടെ പേര് നൽകുക"
+          }
+        },
+        "UPDATE_BUTTON": "Update contact",
+        "SUCCESS_MESSAGE": "Contact updated successfully",
+        "ERROR_MESSAGE": "Unable to update contact. Please try again later."
+      },
+      "SOCIAL_MEDIA": {
+        "TITLE": "Edit social links",
+        "FORM": {
+          "FACEBOOK": {
+            "PLACEHOLDER": "Add Facebook"
+          },
+          "GITHUB": {
+            "PLACEHOLDER": "Add Github"
+          },
+          "INSTAGRAM": {
+            "PLACEHOLDER": "Add Instagram"
+          },
+          "LINKEDIN": {
+            "PLACEHOLDER": "Add LinkedIn"
+          },
+          "TWITTER": {
+            "PLACEHOLDER": "Add Twitter"
+          }
+        }
+      }
+    },
+    "DETAILS": {
+      "CREATED_AT": "Created {date}",
+      "LAST_ACTIVITY": "Last active {date}",
+      "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
+      "DELETE_CONTACT": "കോൺടാക്റ്റ് ഇല്ലാതാക്കുക",
+      "DELETE_DIALOG": {
+        "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
+        "DESCRIPTION": "Are you sure you want to delete this {contactName} contact?",
+        "CONFIRM": "അതെ, ഇല്ലാതാക്കുക",
+        "API": {
+          "SUCCESS_MESSAGE": "കോൺടാക്റ്റ് വിജയകരമായി ഇല്ലാതാക്കിയിരിക്കുന്നു",
+          "ERROR_MESSAGE": "കോൺടാക്റ്റ് ഇല്ലാതാക്കാൻ കഴിഞ്ഞില്ല. ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക."
+        }
+      },
+      "AVATAR": {
+        "UPLOAD": {
+          "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
+          "SUCCESS_MESSAGE": "Avatar uploaded successfully"
+        },
+        "DELETE": {
+          "SUCCESS_MESSAGE": "Avatar deleted successfully",
+          "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
+        }
+      }
+    },
+    "SIDEBAR": {
+      "TABS": {
+        "ATTRIBUTES": "Attributes",
+        "HISTORY": "History",
+        "NOTES": "Notes",
+        "MERGE": "Merge"
+      },
+      "HISTORY": {
+        "EMPTY_STATE": "ഈ കോൺടാക്റ്റുമായി മുമ്പത്തെ സംഭാഷണങ്ങളൊന്നും ബന്ധപ്പെടുത്തിയിട്ടില്ല"
+      },
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "Yes",
+        "NO": "No",
+        "TRIGGER": {
+          "SELECT": "Select value",
+          "INPUT": "Enter value"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "Valid value is required",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "Invalid URL",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "No attributes found",
+        "API": {
+          "SUCCESS_MESSAGE": "Attribute updated successfully",
+          "DELETE_SUCCESS_MESSAGE": "Attribute deleted successfully",
+          "UPDATE_ERROR": "Unable to update attribute. Please try again later",
+          "DELETE_ERROR": "Unable to delete attribute. Please try again later"
+        }
+      },
+      "MERGE": {
+        "TITLE": "കോൺടാക്റ്റ് ലയിപ്പിക്കുക",
+        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
+        "PRIMARY": "Primary contact",
+        "PRIMARY_HELP_LABEL": "To be saved",
+        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
+        "PARENT": "To be merged",
+        "PARENT_HELP_LABEL": "To be deleted",
+        "EMPTY_STATE": "No contacts found",
+        "PLACEHOLDER": "Search for primary contact",
+        "SEARCH_PLACEHOLDER": "Search for a contact",
+        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
+        "SUCCESS_MESSAGE": "Contact merged successfully",
+        "ERROR_MESSAGE": "Could not merge contacts, try again!",
+        "IS_SEARCHING": "Searching...",
+        "BUTTONS": {
+          "CANCEL": "റദ്ദാക്കുക",
+          "CONFIRM": "കോൺടാക്റ്റ് ലയിപ്പിക്കുക"
+        }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "Add a note",
+        "WROTE": "wrote",
+        "YOU": "You",
+        "SAVE": "Save note",
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+      }
+    },
+    "EMPTY_STATE": {
+      "TITLE": "No contacts found in this account",
+      "SUBTITLE": "Start adding new contacts by clicking on the button below",
+      "BUTTON_LABEL": "Add contact",
+      "SEARCH_EMPTY_STATE_TITLE": "കോൺ‌ടാക്റ്റുകളൊന്നും നിങ്ങളുടെ തിരയലുമായി പൊരുത്തപ്പെടുന്നില്ല",
+      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋"
+    }
+  },
+  "COMPOSE_NEW_CONVERSATION": {
+    "CONTACT_SEARCH": {
+      "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+    },
+    "FORM": {
+      "GO_TO_CONVERSATION": "കാണുക",
+      "SUCCESS_MESSAGE": "The message was sent successfully!",
+      "ERROR_MESSAGE": "An error occurred while creating the conversation. Please try again later.",
+      "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
+      "CONTACT_SELECTOR": {
+        "LABEL": "To:",
+        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
+        "CONTACT_CREATING": "Creating contact..."
+      },
+      "INBOX_SELECTOR": {
+        "LABEL": "Via:",
+        "BUTTON": "Show inboxes"
+      },
+      "EMAIL_OPTIONS": {
+        "SUBJECT_LABEL": "Subject :",
+        "SUBJECT_PLACEHOLDER": "Enter your email subject here",
+        "CC_LABEL": "Cc:",
+        "CC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_LABEL": "Bcc:",
+        "BCC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_BUTTON": "Bcc"
+      },
+      "MESSAGE_EDITOR": {
+        "PLACEHOLDER": "നിങ്ങളുടെ സന്ദേശം ഇവിടെ എഴുതുക..."
+      },
+      "WHATSAPP_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
+          "TEMPLATE_NAME": "WhatsApp template: {templateName}",
+          "VARIABLES": "Variables",
+          "BACK": "Go back",
+          "SEND_MESSAGE": "സന്ദേശം അയയ്ക്കുക"
+        }
+      },
+      "ACTION_BUTTONS": {
+        "DISCARD": "Discard",
+        "SEND": "Send ({keyCode})"
+      }
     }
   }
 }

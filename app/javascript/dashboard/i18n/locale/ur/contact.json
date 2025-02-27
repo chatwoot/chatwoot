@@ -57,46 +57,6 @@
     "TITLE": "کانٹیکٹ میں ترمیم کریں۔",
     "DESC": "کانٹیکٹ کی تفصیلات میں ترمیم کریں۔"
   },
-  "CREATE_CONTACT": {
-    "BUTTON_LABEL": "نیا کانٹیکٹ",
-    "TITLE": "نیا کانٹیکٹ بنائیں",
-    "DESC": "کانٹیکٹ کے بارے میں بنیادی معلومات کی تفصیلات شامل کریں۔."
-  },
-  "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "درآمد کریں۔",
-    "TITLE": "کانٹیکٹ درآمد کریں۔",
-    "DESC": "سی ایس وی فائل کے ذریعے کانٹیکٹ درآمد کریں۔.",
-    "DOWNLOAD_LABEL": "ایک نمونہ سی ایس وی ڈاؤن لوڈ کریں۔.",
-    "FORM": {
-      "LABEL": "سی ایس وی فائل",
-      "SUBMIT": "درآمد کریں۔",
-      "CANCEL": "منسوخ کریں۔"
-    },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
-    "ERROR_MESSAGE": "ایک خامی تھی، براہ کرم دوبارہ کوشش کریں۔"
-  },
-  "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Export",
-    "TITLE": "Export Contacts",
-    "DESC": "Export contacts to a CSV file.",
-    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "ایک خامی تھی، براہ کرم دوبارہ کوشش کریں۔",
-    "CONFIRM": {
-      "TITLE": "Export Contacts",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
-    }
-  },
-  "DELETE_NOTE": {
-    "CONFIRM": {
-      "TITLE": "حذف کرنے کی تصدیق کریں۔",
-      "MESSAGE": "کیا آپ یقینی طور پر اس نوٹ کو حذف کرنا چاہتے ہیں⸮",
-      "YES": "ہاں، حذف کریں۔",
-      "NO": "نہیں ، رہنے دیں"
-    }
-  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "کانٹیکٹ حذف کریں۔",
     "TITLE": "کانٹیکٹ حذف کریں۔",
@@ -224,79 +184,14 @@
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "کانٹیکٹس",
-    "FIELDS": "کانٹیکٹ فیلڈز",
-    "SEARCH_BUTTON": "تلاش کریں۔",
-    "SEARCH_INPUT_PLACEHOLDER": "کانٹیکٹ تلاش کریں",
-    "FILTER_CONTACTS": "فلٹر",
-    "FILTER_CONTACTS_SAVE": "فلٹر محفوظ کریں۔",
-    "FILTER_CONTACTS_DELETE": "فلٹر کو حذف کریں۔",
-    "FILTER_CONTACTS_EDIT": "Edit segment",
     "LIST": {
-      "LOADING_MESSAGE": "کانٹیکٹس لوڈ ہو رہے ہیں...",
-      "404": "کوئی کانٹیکٹ آپ کی تلاش سے میل نہیں کھاتا 🔍",
-      "NO_CONTACTS": "کوئی کانٹیکٹ دستیاب نہیں ہے۔",
       "TABLE_HEADER": {
-        "NAME": "نام",
-        "PHONE_NUMBER": "فون نمبر",
-        "CONVERSATIONS": "مکالمات",
-        "LAST_ACTIVITY": "آخری سرگرمی",
-        "CREATED_AT": "Created At",
-        "COUNTRY": "ملک",
-        "CITY": "شہر",
-        "SOCIAL_PROFILES": "سوشل پروفائلز",
-        "COMPANY": "کمپنی",
-        "EMAIL_ADDRESS": "ای میل اڈریس"
-      },
-      "VIEW_DETAILS": "تفصیلات دیکھیں"
-    }
-  },
-  "CONTACT_PROFILE": {
-    "BACK_BUTTON": "کانٹیکٹس",
-    "LOADING": "کانٹیکٹ پروفائل لوڈ ہورہی ہے..."
-  },
-  "REMINDER": {
-    "ADD_BUTTON": {
-      "BUTTON": "شامل کریں۔",
-      "TITLE": "ٹاسک بنانے کے لیے Shift + Enter"
-    },
-    "FOOTER": {
-      "DUE_DATE": "اخری تاریخ",
-      "LABEL_TITLE": "قسم سیٹ کریں۔"
-    }
-  },
-  "NOTES": {
-    "FETCHING_NOTES": "نوٹس فیچ ہورہے ہیں...",
-    "NOT_AVAILABLE": "اس کانٹیکٹ کے لیے کوئی نوٹس نہیں بنائے گئے ہیں۔",
-    "HEADER": {
-      "TITLE": "نوٹس"
-    },
-    "LIST": {
-      "LABEL": "ایک نوٹ شامل کیا"
-    },
-    "ADD": {
-      "BUTTON": "شامل کریں۔",
-      "PLACEHOLDER": "ایک نوٹ شامل کیا",
-      "TITLE": "نوٹ بنانے کے لیے Shift + Enter دبائیں"
-    },
-    "CONTENT_HEADER": {
-      "DELETE": "نوٹ حذف کریں۔"
-    }
-  },
-  "EVENTS": {
-    "HEADER": {
-      "TITLE": "سرگرمیاں"
-    },
-    "BUTTON": {
-      "PILL_BUTTON_NOTES": "نوٹ",
-      "PILL_BUTTON_EVENTS": "تقریبات",
-      "PILL_BUTTON_CONVO": "مکالمات"
+        "SOCIAL_PROFILES": "سوشل پروفائلز"
+      }
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "صفات شامل کریں۔",
     "BUTTON": "حسب ضرورت صفات شامل کریں۔",
-    "NOT_AVAILABLE": "اس رابطے کے لیے کوئی حسب ضرورت صفات دستیاب نہیں ہیں۔.",
     "COPY_SUCCESSFUL": "کامیابی کے ساتھ کلپ بورڈ پر کاپی ہو گیا۔",
     "SHOW_MORE": "Show all attributes",
     "SHOW_LESS": "Show less attributes",
@@ -384,6 +279,321 @@
     },
     "DROPDOWN_ITEM": {
       "ID": "(ID: {identifier})"
+    }
+  },
+  "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "کانٹیکٹس",
+      "SEARCH_TITLE": "Search contacts",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "MESSAGE_BUTTON": "پیغام",
+      "SEND_MESSAGE": "پیغام بھیجیں",
+      "BREADCRUMB": {
+        "CONTACTS": "کانٹیکٹس"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact",
+          "EMAIL_ADDRESS_DUPLICATE": "یہ ای میل دوسرے کانٹیکٹ کے لیے استعمال میں ہے۔.",
+          "PHONE_NUMBER_DUPLICATE": "یہ فون نمبر دوسرے کانٹیکٹ کے لیے استعمال میں ہے۔.",
+          "SUCCESS_MESSAGE": "کانٹیکٹ کامیابی سے محفوظ ہو گیا۔",
+          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
+        },
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "سی ایس وی فائل کے ذریعے کانٹیکٹ درآمد کریں۔.",
+          "DOWNLOAD_LABEL": "ایک نمونہ سی ایس وی ڈاؤن لوڈ کریں۔.",
+          "LABEL": "سی ایس وی فائل:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "Change",
+          "CANCEL": "منسوخ کریں۔",
+          "IMPORT": "درآمد کریں۔",
+          "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+          "ERROR_MESSAGE": "ایک خامی تھی، براہ کرم دوبارہ کوشش کریں۔"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Export contacts",
+          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "CONFIRM": "Export",
+          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+          "ERROR_MESSAGE": "ایک خامی تھی، براہ کرم دوبارہ کوشش کریں۔"
+        },
+        "SORT_BY": {
+          "LABEL": "Sort by",
+          "OPTIONS": {
+            "NAME": "نام",
+            "EMAIL": "Email",
+            "PHONE_NUMBER": "فون نمبر",
+            "COMPANY": "کمپنی",
+            "COUNTRY": "ملک",
+            "CITY": "شہر",
+            "LAST_ACTIVITY": "Last activity",
+            "CREATED_AT": "Created at"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        },
+        "FILTERS": {
+          "CREATE_SEGMENT": {
+            "TITLE": "Do you want to save this filter?",
+            "CONFIRM": "فلٹر محفوظ کریں۔",
+            "LABEL": "نام",
+            "PLACEHOLDER": "Enter the name of the filter",
+            "ERROR": "Enter a valid name",
+            "SUCCESS_MESSAGE": "Filter saved successfully",
+            "ERROR_MESSAGE": "Unable to save filter. Please try again later."
+          },
+          "DELETE_SEGMENT": {
+            "TITLE": "حذف کرنے کی تصدیق کریں۔",
+            "DESCRIPTION": "Are you sure you want to delete this filter?",
+            "CONFIRM": "ہاں، حذف کریں۔ ",
+            "CANCEL": "No, Cancel",
+            "SUCCESS_MESSAGE": "Filter deleted successfully",
+            "ERROR_MESSAGE": "Unable to delete filter. Please try again later."
+          }
+        }
+      }
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
+    },
+    "FILTER": {
+      "NAME": "نام",
+      "EMAIL": "Email",
+      "PHONE_NUMBER": "فون نمبر",
+      "IDENTIFIER": "Identifier",
+      "COUNTRY": "ملک",
+      "CITY": "شہر",
+      "CREATED_AT": "Created at",
+      "LAST_ACTIVITY": "Last activity",
+      "REFERER_LINK": "Referer link",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "True",
+      "BLOCKED_FALSE": "False",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Clear filters",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "Apply filters",
+        "ADD_FILTER": "Add filter"
+      },
+      "TITLE": "Filter contacts",
+      "EDIT_SEGMENT": "Edit segment",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} more filters",
+        "CLEAR_FILTERS": "Clear filters"
+      }
+    },
+    "CARD": {
+      "OF": "of",
+      "VIEW_DETAILS": "تفصیلات دیکھیں",
+      "EDIT_DETAILS_FORM": {
+        "TITLE": "کانٹیکٹ کی تفصیلات میں ترمیم کریں۔",
+        "FORM": {
+          "FIRST_NAME": {
+            "PLACEHOLDER": "Enter the first name"
+          },
+          "LAST_NAME": {
+            "PLACEHOLDER": "Enter the last name"
+          },
+          "EMAIL_ADDRESS": {
+            "PLACEHOLDER": "Enter the email address",
+            "DUPLICATE": "یہ ای میل دوسرے کانٹیکٹ کے لیے استعمال میں ہے۔."
+          },
+          "PHONE_NUMBER": {
+            "PLACEHOLDER": "Enter the phone number",
+            "DUPLICATE": "یہ فون نمبر دوسرے کانٹیکٹ کے لیے استعمال میں ہے۔."
+          },
+          "CITY": {
+            "PLACEHOLDER": "Enter the city name"
+          },
+          "COUNTRY": {
+            "PLACEHOLDER": "Select country"
+          },
+          "BIO": {
+            "PLACEHOLDER": "Enter the bio"
+          },
+          "COMPANY_NAME": {
+            "PLACEHOLDER": "کمپنی کا نام درج کریں۔"
+          }
+        },
+        "UPDATE_BUTTON": "Update contact",
+        "SUCCESS_MESSAGE": "Contact updated successfully",
+        "ERROR_MESSAGE": "Unable to update contact. Please try again later."
+      },
+      "SOCIAL_MEDIA": {
+        "TITLE": "Edit social links",
+        "FORM": {
+          "FACEBOOK": {
+            "PLACEHOLDER": "Add Facebook"
+          },
+          "GITHUB": {
+            "PLACEHOLDER": "Add Github"
+          },
+          "INSTAGRAM": {
+            "PLACEHOLDER": "Add Instagram"
+          },
+          "LINKEDIN": {
+            "PLACEHOLDER": "Add LinkedIn"
+          },
+          "TWITTER": {
+            "PLACEHOLDER": "Add Twitter"
+          }
+        }
+      }
+    },
+    "DETAILS": {
+      "CREATED_AT": "Created {date}",
+      "LAST_ACTIVITY": "Last active {date}",
+      "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
+      "DELETE_CONTACT": "کانٹیکٹ حذف کریں۔",
+      "DELETE_DIALOG": {
+        "TITLE": "حذف کرنے کی تصدیق کریں۔",
+        "DESCRIPTION": "Are you sure you want to delete this {contactName} contact?",
+        "CONFIRM": "ہاں، حذف کریں۔ ",
+        "API": {
+          "SUCCESS_MESSAGE": "کانٹیکٹ کامیابی سے حذف ہو گیا۔",
+          "ERROR_MESSAGE": "کانٹیکٹ حذف نہیں کیا جا سکا۔ براہ کرم کچھ دیر بعد کوشش کریں."
+        }
+      },
+      "AVATAR": {
+        "UPLOAD": {
+          "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
+          "SUCCESS_MESSAGE": "Avatar uploaded successfully"
+        },
+        "DELETE": {
+          "SUCCESS_MESSAGE": "Avatar deleted successfully",
+          "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
+        }
+      }
+    },
+    "SIDEBAR": {
+      "TABS": {
+        "ATTRIBUTES": "Attributes",
+        "HISTORY": "History",
+        "NOTES": "نوٹس",
+        "MERGE": "Merge"
+      },
+      "HISTORY": {
+        "EMPTY_STATE": "There are no previous conversations associated to this contact"
+      },
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "Yes",
+        "NO": "No",
+        "TRIGGER": {
+          "SELECT": "Select value",
+          "INPUT": "Enter value"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "Valid value is required",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "Invalid URL",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "No attributes found",
+        "API": {
+          "SUCCESS_MESSAGE": "Attribute updated successfully",
+          "DELETE_SUCCESS_MESSAGE": "Attribute deleted successfully",
+          "UPDATE_ERROR": "Unable to update attribute. Please try again later",
+          "DELETE_ERROR": "Unable to delete attribute. Please try again later"
+        }
+      },
+      "MERGE": {
+        "TITLE": "کانٹیکٹ ضم کریں۔",
+        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
+        "PRIMARY": "بنیادی رابطہ",
+        "PRIMARY_HELP_LABEL": "To be saved",
+        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
+        "PARENT": "To be merged",
+        "PARENT_HELP_LABEL": "حذف کیا جائے۔",
+        "EMPTY_STATE": "No contacts found",
+        "PLACEHOLDER": "Search for primary contact",
+        "SEARCH_PLACEHOLDER": "کانٹیکٹ تلاش کریں",
+        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
+        "SUCCESS_MESSAGE": "کانٹیکٹ کامیابی سے ضم ہو گیا۔",
+        "ERROR_MESSAGE": "کانٹیکٹ کو ضم نہیں کیا جا سکا، دوبارہ کوشش کریں!",
+        "IS_SEARCHING": "Searching...",
+        "BUTTONS": {
+          "CANCEL": "منسوخ کریں۔",
+          "CONFIRM": "کانٹیکٹ ضم کریں۔"
+        }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "ایک نوٹ شامل کیا",
+        "WROTE": "wrote",
+        "YOU": "You",
+        "SAVE": "Save note",
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+      }
+    },
+    "EMPTY_STATE": {
+      "TITLE": "No contacts found in this account",
+      "SUBTITLE": "Start adding new contacts by clicking on the button below",
+      "BUTTON_LABEL": "Add contact",
+      "SEARCH_EMPTY_STATE_TITLE": "کوئی کانٹیکٹ آپ کی تلاش سے میل نہیں کھاتا 🔍",
+      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋"
+    }
+  },
+  "COMPOSE_NEW_CONVERSATION": {
+    "CONTACT_SEARCH": {
+      "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+    },
+    "FORM": {
+      "GO_TO_CONVERSATION": "دیکھیں",
+      "SUCCESS_MESSAGE": "The message was sent successfully!",
+      "ERROR_MESSAGE": "An error occurred while creating the conversation. Please try again later.",
+      "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
+      "CONTACT_SELECTOR": {
+        "LABEL": "کو:",
+        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
+        "CONTACT_CREATING": "Creating contact..."
+      },
+      "INBOX_SELECTOR": {
+        "LABEL": "Via:",
+        "BUTTON": "Show inboxes"
+      },
+      "EMAIL_OPTIONS": {
+        "SUBJECT_LABEL": "مضمون :",
+        "SUBJECT_PLACEHOLDER": "Enter your email subject here",
+        "CC_LABEL": "Cc:",
+        "CC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_LABEL": "Bcc:",
+        "BCC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_BUTTON": "Bcc"
+      },
+      "MESSAGE_EDITOR": {
+        "PLACEHOLDER": "Write your message here..."
+      },
+      "WHATSAPP_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
+          "TEMPLATE_NAME": "WhatsApp template: {templateName}",
+          "VARIABLES": "Variables",
+          "BACK": "Go back",
+          "SEND_MESSAGE": "پیغام بھیجیں"
+        }
+      },
+      "ACTION_BUTTONS": {
+        "DISCARD": "Discard",
+        "SEND": "Send ({keyCode})"
+      }
     }
   }
 }

@@ -735,7 +735,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 
   .ProseMirror-menubar {
     min-height: var(--space-two) !important;
-    @apply -ml-2.5 pb-0 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-100;
+    @apply -ml-2.5 pb-0 bg-transparent text-n-slate-11;
 
     .ProseMirror-menu-active {
       @apply bg-slate-75 dark:bg-slate-800;
@@ -783,14 +783,10 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 
 .is-private {
   .prosemirror-mention-node {
-    @apply font-medium bg-yellow-100 dark:bg-yellow-800 text-slate-900 dark:text-slate-25 py-0 px-1;
+    @apply font-medium bg-n-amber-2/80 dark:bg-n-amber-2/80 text-slate-900 dark:text-slate-25 py-0 px-1;
   }
 
   .ProseMirror-menubar-wrapper {
-    .ProseMirror-menubar {
-      @apply bg-yellow-100 dark:bg-yellow-800 text-slate-700 dark:text-slate-25;
-    }
-
     > .ProseMirror {
       @apply text-slate-800 dark:text-slate-25;
 

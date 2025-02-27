@@ -6,6 +6,7 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 import {
   VARIANT_OPTIONS,
   COLOR_OPTIONS,
+  JUSTIFY_OPTIONS,
   SIZE_OPTIONS,
   EXCLUDED_ATTRS,
 } from './constants.js';
@@ -26,6 +27,11 @@ const props = defineProps({
     type: String,
     default: null,
     validator: value => SIZE_OPTIONS.includes(value) || value === null,
+  },
+  justify: {
+    type: String,
+    default: null,
+    validator: value => JUSTIFY_OPTIONS.includes(value) || value === null,
   },
   icon: { type: [String, Object, Function], default: '' },
   trailingIcon: { type: Boolean, default: false },
@@ -79,6 +85,15 @@ const computedSize = computed(() => {
   if (attrs.md || attrs.md === '') return 'md';
   if (attrs.lg || attrs.lg === '') return 'lg';
   return 'md';
+});
+
+const computedJustify = computed(() => {
+  if (props.justify) return props.justify;
+  if (attrs.start || attrs.start === '') return 'start';
+  if (attrs.center || attrs.center === '') return 'center';
+  if (attrs.end || attrs.end === '') return 'end';
+
+  return 'center';
 });
 
 const STYLE_CONFIG = {
@@ -151,7 +166,12 @@ const STYLE_CONFIG = {
     md: 'text-sm font-medium',
     lg: 'text-base',
   },
-  base: 'inline-flex items-center justify-center min-w-0 gap-2 transition-all duration-200 ease-in-out border-0 rounded-lg outline-1 outline disabled:cursor-not-allowed disabled:pointer-events-none disabled:opacity-50',
+  justify: {
+    start: 'justify-start',
+    center: 'justify-center',
+    end: 'justify-end',
+  },
+  base: 'inline-flex items-center min-w-0 gap-2 transition-all duration-200 ease-in-out border-0 rounded-lg outline-1 outline disabled:cursor-not-allowed disabled:pointer-events-none disabled:opacity-50',
 };
 
 const variantClasses = computed(() => {
@@ -197,6 +217,7 @@ const linkButtonClasses = computed(() => {
       [STYLE_CONFIG.base]: true,
       [isLink ? linkButtonClasses : buttonClasses]: true,
       [STYLE_CONFIG.fontSize[computedSize]]: true,
+      [STYLE_CONFIG.justify[computedJustify]]: true,
       'flex-row-reverse': trailingIcon && !isIconOnly,
     }"
   >

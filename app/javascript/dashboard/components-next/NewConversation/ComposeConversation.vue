@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { vOnClickOutside } from '@vueuse/components';
 import { useAlert } from 'dashboard/composables';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
@@ -30,6 +31,8 @@ const props = defineProps({
 const store = useStore();
 const { t } = useI18n();
 
+const { fetchSignatureFlagFromUISettings } = useUISettings();
+
 const contacts = ref([]);
 const selectedContact = ref(null);
 const targetInbox = ref(null);
@@ -43,6 +46,11 @@ const contactsUiFlags = useMapGetter('contacts/getUIFlags');
 const currentUser = useMapGetter('getCurrentUser');
 const globalConfig = useMapGetter('globalConfig/get');
 const uiFlags = useMapGetter('contactConversations/getUIFlags');
+const messageSignature = useMapGetter('getMessageSignature');
+
+const sendWithSignature = computed(() =>
+  fetchSignatureFlagFromUISettings(targetInbox.value?.channelType)
+);
 
 const directUploadsEnabled = computed(
   () => globalConfig.value.directUploadsEnabled
@@ -163,6 +171,10 @@ watch(
   { immediate: true, deep: true }
 );
 
+const handleClickOutside = () => {
+  showComposeNewConversation.value = false;
+};
+
 onMounted(() => resetContacts());
 
 const keyboardEvents = {
@@ -180,8 +192,16 @@ useKeyboardEvents(keyboardEvents);
 
 <template>
   <div
-    v-on-click-outside="() => (showComposeNewConversation = false)"
-    class="relative z-40"
+    v-on-click-outside="[
+      handleClickOutside,
+      // Fixed and edge case https://github.com/chatwoot/chatwoot/issues/10785
+      // This will prevent closing the compose conversation modal when the editor Create link popup is open.
+      { ignore: ['div.ProseMirror-prompt'] },
+    ]"
+    class="relative"
+    :class="{
+      'z-40': showComposeNewConversation,
+    }"
   >
     <slot
       name="trigger"
@@ -202,6 +222,8 @@ useKeyboardEvents(keyboardEvents);
       :contact-conversations-ui-flags="uiFlags"
       :contacts-ui-flags="contactsUiFlags"
       :class="composePopoverClass"
+      :message-signature="messageSignature"
+      :send-with-signature="sendWithSignature"
       @search-contacts="onContactSearch"
       @reset-contact-search="resetContacts"
       @update-selected-contact="handleSelectedContact"

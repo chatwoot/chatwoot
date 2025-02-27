@@ -92,12 +92,12 @@
       "CONTACT": "Contact"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Ime",
-        "Description",
-        "Type",
-        "Key"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Ime",
+        "DESCRIPTION": "Description",
+        "TYPE": "Type",
+        "KEY": "Key"
+      },
       "BUTTONS": {
         "EDIT": "Uredi",
         "DELETE": "Izbriši"

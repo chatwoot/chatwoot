@@ -38,15 +38,23 @@
     "REMOVE_SELECTION": "移除選擇項目",
     "DOWNLOAD": "下載",
     "UNKNOWN_FILE_TYPE": "Unknown File",
-    "SAVE_CONTACT": "Save",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} has started a meeting"
+    },
     "UPLOADING_ATTACHMENTS": "正在上傳附件...",
     "REPLIED_TO_STORY": "Replied to your story",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "已成功刪除訊息",
     "FAIL_DELETE_MESSSAGE": "無法刪除訊息！請再試一次",
     "NO_RESPONSE": "無回應",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
@@ -89,7 +97,7 @@
       "CANCEL": "取消"
     },
     "PRIORITY": {
-      "TITLE": "優先",
+      "TITLE": "優先程度",
       "OPTIONS": {
         "NONE": "無",
         "URGENT": "Urgent",
@@ -219,6 +227,10 @@
         "DELETE": "刪除",
         "CANCEL": "取消"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "聯絡人",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -310,7 +322,8 @@
     "TO": "To",
     "BCC": "密件副本",
     "CC": "副本",
-    "SUBJECT": "主旨"
+    "SUBJECT": "主旨",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participating",
@@ -335,5 +348,16 @@
     "ORIGINAL_CONTENT": "Original Content",
     "TRANSLATED_CONTENT": "Translated Content",
     "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

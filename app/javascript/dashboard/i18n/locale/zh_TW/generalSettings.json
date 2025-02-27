@@ -70,12 +70,17 @@
       "TITLE": "未讀通知",
       "ALL_NOTIFICATIONS": "查看所有通知",
       "LOADING_UNREAD_MESSAGE": "正在讀取未讀通知",
-      "EMPTY_MESSAGE": "You have no unread notifications"
+      "EMPTY_MESSAGE": "你沒有未讀取的通知"
     },
     "LIST": {
       "LOADING_MESSAGE": "載入更多通知...",
       "404": "沒有通知",
-      "TABLE_HEADER": ["姓名", "聯絡人電話", "對話", "最後聯絡"]
+      "TABLE_HEADER": [
+        "姓名",
+        "聯絡人電話",
+        "對話",
+        "最後聯絡"
+      ]
     },
     "TYPE_LABEL": {
       "conversation_creation": "新對話",
@@ -90,12 +95,12 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "OFFLINE": "離線的",
-      "RECONNECTING": "Reconnecting...",
-      "RECONNECT_SUCCESS": "Reconnected"
+      "OFFLINE": "離線",
+      "RECONNECTING": "重新連線...",
+      "RECONNECT_SUCCESS": "連線恢復"
     },
     "BUTTON": {
-      "REFRESH": "Refresh"
+      "REFRESH": "重新整理"
     }
   },
   "COMMAND_BAR": {
@@ -163,7 +168,7 @@
     "LOADING_MESSAGE": "Loading Dashboard App..."
   },
   "COMMON": {
-    "OR": "Or",
+    "OR": "或",
     "CLICK_HERE": "點擊這裡"
   }
 }

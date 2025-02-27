@@ -32,6 +32,7 @@ const tailwindConfig = {
     './app/javascript/dashboard/components-next/**/*.vue',
     './app/javascript/dashboard/helper/**/*.js',
     './app/javascript/dashboard/components-next/**/*.js',
+    './app/javascript/dashboard/routes/dashboard/**/**/*.js',
     './app/views/**/*.html.erb',
   ],
   theme: {
@@ -42,7 +43,7 @@ const tailwindConfig = {
         interDisplay: ['Inter Display', ...defaultSansFonts],
       },
       typography: {
-        email: {
+        bubble: {
           css: {
             color: 'rgb(var(--slate-12))',
             lineHeight: '1.6',
@@ -52,6 +53,7 @@ const tailwindConfig = {
                 marginTop: '0',
               },
             },
+            overflowWrap: 'anywhere',
 
             strong: {
               color: 'rgb(var(--slate-12))',
@@ -92,29 +94,56 @@ const tailwindConfig = {
               marginBottom: '1.5em',
             },
             a: {
-              color: 'rgb(var(--text-blue))',
+              color: 'rgb(var(--slate-12))',
               textDecoration: 'underline',
             },
+            ul: {
+              paddingInlineStart: '0.625em',
+            },
+            ol: {
+              paddingInlineStart: '0.625em',
+            },
             'ul li': {
-              margin: '0 0 0.5em 1.5em',
+              margin: '0 0 0.5em 1em',
               listStyleType: 'disc',
+              '[dir="rtl"] &': {
+                margin: '0 1em 0.5em 0',
+              },
             },
             'ol li': {
-              margin: '0 0 0.5em 1.5em',
+              margin: '0 0 0.5em 1em',
               listStyleType: 'decimal',
+              '[dir="rtl"] &': {
+                margin: '0 1em 0.5em 0',
+              },
             },
             blockquote: {
-              fontStyle: 'italic',
               color: 'rgb(var(--slate-11))',
-              borderLeft: `4px solid rgb(var(--border-strong))`,
+              borderLeft: `4px solid rgb(var(--black-alpha-1))`,
               paddingLeft: '1em',
+              '[dir="rtl"] &': {
+                borderLeft: 'none',
+                paddingLeft: '0',
+                borderRight: `4px solid rgb(var(--black-alpha-1))`,
+                paddingRight: '1em',
+              },
+              '[dir="ltr"] &': {
+                borderRight: 'none',
+                paddingRight: '0',
+              },
             },
             code: {
               backgroundColor: 'rgb(var(--alpha-3))',
-              color: 'rgb(var(--solid-amber))',
+              color: 'rgb(var(--slate-11))',
               padding: '0.2em 0.4em',
               borderRadius: '4px',
               fontSize: '0.95em',
+              '&::before': {
+                content: `none`,
+              },
+              '&::after': {
+                content: `none`,
+              },
             },
             pre: {
               backgroundColor: 'rgb(var(--alpha-3))',
@@ -130,7 +159,7 @@ const tailwindConfig = {
               padding: '0.75em',
               color: 'rgb(var(--slate-12))',
               border: `none`,
-              textAlign: 'left',
+              textAlign: 'start',
               fontWeight: '600',
             },
             tr: {
@@ -143,6 +172,8 @@ const tailwindConfig = {
             img: {
               maxWidth: '100%',
               height: 'auto',
+              marginTop: 'unset',
+              marginBottom: 'unset',
             },
           },
         },
@@ -220,7 +251,14 @@ const tailwindConfig = {
     iconsPlugin({
       collections: {
         woot: { icons },
-        ...getIconCollections(['lucide', 'logos', 'ri', 'ph', 'teenyicons']),
+        ...getIconCollections([
+          'lucide',
+          'logos',
+          'ri',
+          'ph',
+          'material-symbols',
+          'teenyicons',
+        ]),
       },
     }),
   ],

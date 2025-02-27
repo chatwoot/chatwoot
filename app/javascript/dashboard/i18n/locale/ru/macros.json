@@ -1,8 +1,8 @@
 {
   "MACROS": {
     "HEADER": "Макрос",
-    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
-    "LEARN_MORE": "Learn more about macros",
+    "DESCRIPTION": "Макрос — это набор сохраненных действий, которые помогают агентам службы поддержки легко выполнять задачи. Агенты могут определить ряд действий, таких как добавление метки к беседе, отправка транскрипта электронной почты, обновление пользовательского атрибута и т. д., и выполнять их одним щелчком мыши.",
+    "LEARN_MORE": "Узнать больше о макросах",
     "HEADER_BTN_TXT": "Добавить новый макрос",
     "HEADER_BTN_TXT_SAVE": "Сохранить макрос",
     "LOADING": "Получение макроса",
@@ -25,12 +25,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Имя",
-        "Создан",
-        "Обновлено",
-        "Видимость"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Имя",
+        "CREATED BY": "Создан",
+        "LAST_UPDATED_BY": "Обновлено",
+        "VISIBILITY": "Видимость"
+      },
       "404": "Макросы не найдены"
     },
     "DELETE": {
@@ -76,13 +76,13 @@
       "EXECUTED_SUCCESSFULLY": "Макрос успешно выполнен"
     },
     "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "ATTRIBUTE_KEY_REQUIRED": "Необходимо ввести ключ атрибута",
+      "FILTER_OPERATOR_REQUIRED": "Требуется оператор фильтра",
       "VALUE_REQUIRED": "Необходимо указать значение",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
-      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
-      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Значение должно быть между 1 и 998",
+      "ACTION_PARAMETERS_REQUIRED": "Требуются параметры действий",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "Требуется хотя бы одно условие",
+      "ATLEAST_ONE_ACTION_REQUIRED": "Требуется хотя бы одно действие"
     }
   }
 }

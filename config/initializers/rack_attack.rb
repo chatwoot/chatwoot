@@ -154,12 +154,53 @@ class Rack::Attack
     match_data[:account_id] if match_data.present?
   end
 
+  # Throttle by individual user (based on uid)
+  throttle('/api/v2/accounts/:account_id/reports/user', limit: ENV.fetch('RATE_LIMIT_REPORTS_API_USER_LEVEL', '100').to_i, period: 1.minute) do |req|
+    match_data = %r{/api/v2/accounts/(?<account_id>\d+)/reports}.match(req.path)
+    # Extract user identification (uid for web, api_access_token for API requests)
+    user_uid = req.get_header('HTTP_UID')
+    api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
+
+    # Use uid if present, otherwise fallback to api_access_token for tracking
+    user_identifier = user_uid.presence || api_access_token.presence
+
+    "#{user_identifier}:#{match_data[:account_id]}" if match_data.present? && user_identifier.present?
+  end
+
+  ## Prevent abuse of reports api at account level
+  throttle('/api/v2/accounts/:account_id/reports', limit: ENV.fetch('RATE_LIMIT_REPORTS_API_ACCOUNT_LEVEL', '1000').to_i, period: 1.minute) do |req|
+    match_data = %r{/api/v2/accounts/(?<account_id>\d+)/reports}.match(req.path)
+    match_data[:account_id] if match_data.present?
+  end
+
   ## ----------------------------------------------- ##
 end
 
 # Log blocked events
 ActiveSupport::Notifications.subscribe('throttle.rack_attack') do |_name, _start, _finish, _request_id, payload|
-  Rails.logger.warn "[Rack::Attack][Blocked] remote_ip: \"#{payload[:request].remote_ip}\", path: \"#{payload[:request].path}\""
+  req = payload[:request]
+
+  user_uid = req.get_header('HTTP_UID')
+  api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
+
+  # Mask the token if present
+  masked_api_token = api_access_token.present? ? "#{api_access_token[0..4]}...[REDACTED]" : nil
+
+  # Use uid if present, otherwise fallback to masked api_access_token for tracking
+  user_identifier = user_uid.presence || masked_api_token.presence || 'unknown_user'
+
+  # Extract account ID if present
+  account_match = %r{/accounts/(?<account_id>\d+)}.match(req.path)
+  account_id = account_match ? account_match[:account_id] : 'unknown_account'
+
+  Rails.logger.warn(
+    "[Rack::Attack][Blocked] remote_ip: \"#{req.remote_ip}\", " \
+    "path: \"#{req.path}\", " \
+    "user_identifier: \"#{user_identifier}\", " \
+    "account_id: \"#{account_id}\", " \
+    "method: \"#{req.request_method}\", " \
+    "user_agent: \"#{req.user_agent}\""
+  )
 end
 
 Rack::Attack.enabled = Rails.env.production? ? ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK', true)) : false

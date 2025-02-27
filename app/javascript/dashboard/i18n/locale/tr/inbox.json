@@ -1,7 +1,7 @@
 {
   "INBOX": {
     "LIST": {
-      "TITLE": "Gelen Kutusu",
+      "TITLE": "My Inbox",
       "DISPLAY_DROPDOWN": "Görüntüle",
       "LOADING": "Bildirimler yükleniyor",
       "404": "Bu grupta aktif görüşme yok.",
@@ -9,7 +9,7 @@
       "NOTE": "Abone olunan tüm gelen kutularından bildirimler",
       "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
       "SNOOZED_UNTIL": "Susturulacak kadar ertelendi",
-      "SNOOZED_UNTIL_TOMORROW": "yarına ertelendi",
+      "SNOOZED_UNTIL_TOMORROW": "Yarına ertelendi",
       "SNOOZED_UNTIL_NEXT_WEEK": "Önümüzdeki haftaya ertelendi"
     },
     "ACTION_HEADER": {
@@ -27,6 +27,19 @@
       "SLA_MISSED_NEXT_RESPONSE": "SLA target next response missed for conversation",
       "SLA_MISSED_RESOLUTION": "SLA target resolution missed for conversation"
     },
+    "TYPES_NEXT": {
+      "CONVERSATION_MENTION": "Mentioned",
+      "CONVERSATION_ASSIGNMENT": "Assigned to you",
+      "CONVERSATION_CREATION": "New Conversation",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA breach",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA breach",
+      "SLA_MISSED_RESOLUTION": "SLA breach",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Yeni Mesaj",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Yeni Mesaj",
+      "SNOOZED_UNTIL": "Snoozed for {time}",
+      "SNOOZED_ENDS": "Snooze ended"
+    },
+    "NO_CONTENT": "Kullanılabilir içerik yok",
     "MENU_ITEM": {
       "MARK_AS_READ": "Okundu olarak işaretle",
       "MARK_AS_UNREAD": "Okunmamış olarak işaretle",
@@ -48,7 +61,7 @@
         "SNOOZED": "Susturuldu",
         "READ": "Oku",
         "LABELS": "Etiketler",
-        "CONVERSATION_ID": "Sohbet ID"
+        "CONVERSATION_ID": "Sohbet Kodu"
       }
     },
     "ALERTS": {
