@@ -22,15 +22,15 @@
     "IN_A_DAY": "Vastaa tyypillisesti päivässä",
     "BACK_IN": "Tulemme olemaan takaisin linjoilla"
   },
-  "DAY_NAMES": [
-    "Sunnuntai",
-    "Maanantai",
-    "Tiistai",
-    "Keskiviikko",
-    "Torstai",
-    "Perjantai",
-    "Lauantai"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Sunnuntai",
+    "MONDAY": "Maanantai",
+    "TUESDAY": "Tiistai",
+    "WEDNESDAY": "Keskiviikko",
+    "THURSDAY": "Torstai",
+    "FRIDAY": "Perjantai",
+    "SATURDAY": "Lauantai"
+  },
   "START_CONVERSATION": "Aloita keskustelu",
   "END_CONVERSATION": "Lopeta keskustelu",
   "CONTINUE_CONVERSATION": "Jatka keskustelua",

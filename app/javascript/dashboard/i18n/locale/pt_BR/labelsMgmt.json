@@ -1,15 +1,15 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Marcadores",
+    "HEADER": "Etiquetas",
     "HEADER_BTN_TXT": "Adicionar marcador",
-    "LOADING": "Buscando marcadores",
+    "LOADING": "Buscando etiquetas",
     "DESCRIPTION": "As etiquetas ajudam você a categorizar e priorizar conversas e leads. Você pode atribuir uma etiqueta a uma conversa ou contato usando o painel lateral.",
     "LEARN_MORE": "Aprenda mais sobre etiquetas",
     "SEARCH_404": "Não existem itens correspondentes a esta consulta",
     "LIST": {
-      "404": "Não há marcadores disponíveis nesta conta.",
-      "TITLE": "Gerenciar marcadores",
-      "DESC": "Marcadores permitem agrupar as conversas.",
+      "404": "Não há etiquetas disponíveis nesta conta.",
+      "TITLE": "Gerenciar etiquetas",
+      "DESC": "Etiquetas permitem agrupar as conversas.",
       "TABLE_HEADER": {
         "NAME": "Nome",
         "DESCRIPTION": "Descrição",
@@ -55,16 +55,16 @@
     },
     "ADD": {
       "TITLE": "Adicionar marcador",
-      "DESC": "Marcadores permitem agrupar as conversas.",
+      "DESC": "Etiquetas permitem agrupar as conversas.",
       "API": {
         "SUCCESS_MESSAGE": "Marcador adicionado com sucesso",
         "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
       }
     },
     "EDIT": {
-      "TITLE": "Editar marcador",
+      "TITLE": "Alterar etiqueta",
       "API": {
-        "SUCCESS_MESSAGE": "Marcador atualizado com sucesso",
+        "SUCCESS_MESSAGE": "Etiqueta atualizada com sucesso",
         "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
       }
     },

@@ -117,6 +117,7 @@
       "PENDING": "Tandai sebagai tertunda",
       "RESOLVED": "Tandai sebagai terselesaikan",
       "MARK_AS_UNREAD": "Tandai sebagai belum terbaca",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Buka kembali percakapan",
       "SNOOZE": {
         "TITLE": "Tunda",

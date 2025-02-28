@@ -54,6 +54,7 @@ Rails.application.routes.draw do
             end
             resources :documents, only: [:index, :show, :create, :destroy]
             resources :assistant_responses
+            resources :bulk_actions, only: [:create]
           end
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
@@ -336,6 +337,12 @@ Rails.application.routes.draw do
               get :conversations
               get :conversation_traffic
               get :bot_metrics
+            end
+          end
+          resources :live_reports, only: [] do
+            collection do
+              get :conversation_metrics
+              get :grouped_conversation_metrics
             end
           end
         end
