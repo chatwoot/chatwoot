@@ -23,8 +23,6 @@ const store = useStore();
 const bulkDeleteDialogRef = ref(null);
 const i18nKey = computed(() => props.type.toUpperCase());
 
-const bulkSelectedCount = computed(() => Array.from(props.bulkIds).length);
-
 const handleBulkDelete = async ids => {
   if (!ids) return;
 
@@ -35,11 +33,7 @@ const handleBulkDelete = async ids => {
     );
 
     emit('deleteSuccess');
-    useAlert(
-      t(`CAPTAIN.${i18nKey.value}.BULK_DELETE.SUCCESS_MESSAGE`, {
-        count: bulkSelectedCount.value,
-      })
-    );
+    useAlert(t(`CAPTAIN.${i18nKey.value}.BULK_DELETE.SUCCESS_MESSAGE`));
   } catch (error) {
     useAlert(t(`CAPTAIN.${i18nKey.value}.BULK_DELETE.ERROR_MESSAGE`));
   }
@@ -57,16 +51,8 @@ defineExpose({ dialogRef: bulkDeleteDialogRef });
   <Dialog
     ref="bulkDeleteDialogRef"
     type="alert"
-    :title="
-      t(`CAPTAIN.${i18nKey}.BULK_DELETE.TITLE`, {
-        count: bulkSelectedCount,
-      })
-    "
-    :description="
-      t(`CAPTAIN.${i18nKey}.BULK_DELETE.DESCRIPTION`, {
-        count: bulkSelectedCount,
-      })
-    "
+    :title="t(`CAPTAIN.${i18nKey}.BULK_DELETE.TITLE`)"
+    :description="t(`CAPTAIN.${i18nKey}.BULK_DELETE.DESCRIPTION`)"
     :confirm-button-label="t(`CAPTAIN.${i18nKey}.BULK_DELETE.CONFIRM`)"
     @confirm="handleDialogConfirm"
   />
