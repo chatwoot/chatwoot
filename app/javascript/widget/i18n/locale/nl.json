@@ -22,15 +22,15 @@
     "IN_A_DAY": "Reageert meestal binnen een dag",
     "BACK_IN": "We zullen weer online zijn"
   },
-  "DAY_NAMES": [
-    "zondag",
-    "maandag",
-    "dinsdag",
-    "woensdag",
-    "donderdag",
-    "vrijdag",
-    "zaterdag"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "zondag",
+    "MONDAY": "maandag",
+    "TUESDAY": "dinsdag",
+    "WEDNESDAY": "woensdag",
+    "THURSDAY": "donderdag",
+    "FRIDAY": "vrijdag",
+    "SATURDAY": "zaterdag"
+  },
   "START_CONVERSATION": "Start Chat",
   "END_CONVERSATION": "Gesprek beëindigen",
   "CONTINUE_CONVERSATION": "Verdergaan met gesprek",

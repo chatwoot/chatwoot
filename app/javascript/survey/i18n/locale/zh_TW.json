@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "親愛的客戶👋，請花一些時間分享您與 %{inboxName} 對話的反饋。",
+    "DESCRIPTION": "親愛的客戶👋，請花一些時間分享您與 {inboxName} 對話的反饋。",
     "RATING": {
       "LABEL": "為此對話評分",
       "SUCCESS_MESSAGE": "感謝您提交的評分"

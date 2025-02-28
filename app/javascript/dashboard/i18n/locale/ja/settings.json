@@ -389,11 +389,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "プライベートメモに切り替え",
       "SWITCH_TO_REPLY": "返信に切り替え",
       "TOGGLE_SNOOZE_DROPDOWN": "スヌーズドロップダウンを切り替え"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

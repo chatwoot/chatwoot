@@ -7,7 +7,7 @@
     },
     "HEADER": {
       "FILTER": "Filtrar por",
-      "SORT": "Ordenar por",
+      "SORT": "Classificar por",
       "LOCALE": "Localidade",
       "SETTINGS_BUTTON": "Confirgurações",
       "NEW_BUTTON": "Novo artigo",
@@ -160,7 +160,7 @@
         }
       },
       "EDIT": {
-        "HEADER_TEXT": "Editar portal",
+        "HEADER_TEXT": "Alterar portal",
         "TABS": {
           "BASIC_SETTINGS": {
             "TITLE": "Informação Básica"
@@ -184,7 +184,7 @@
             "LOCALE": "Localidade",
             "ARTICLE_COUNT": "No. de artigos",
             "ACTION_BUTTON": {
-              "EDIT": "Editar categoria",
+              "EDIT": "Alterar categoria",
               "DELETE": "Excluir categoria"
             },
             "EMPTY_TEXT": "Nenhuma categoria encontrada"
@@ -320,7 +320,7 @@
         "TITLE": "Título",
         "CATEGORY": "Categoria",
         "READ_COUNT": "Visualizações",
-        "STATUS": "SItuação",
+        "STATUS": "Situação",
         "LAST_EDITED": "Última edição"
       },
       "COLUMNS": {
@@ -409,8 +409,8 @@
         }
       },
       "EDIT": {
-        "TITLE": "Editar uma categoria",
-        "SUB_TITLE": "Editar uma categoria atualizará a categoria no portal voltado ao público.",
+        "TITLE": "Alterar uma categoria",
+        "SUB_TITLE": "Alterar uma categoria atualizará a categoria no portal voltado ao público.",
         "PORTAL": "Portal",
         "LOCALE": "Localidade",
         "NAME": {
@@ -512,7 +512,7 @@
       "ARTICLES_HEADER": {
         "TABS": {
           "ALL": "Todos os artigos",
-          "MINE": "Minha",
+          "MINE": "Minhas",
           "DRAFT": "Rascunho",
           "PUBLISHED": "Publicado",
           "ARCHIVED": "Arquivado"
@@ -556,7 +556,7 @@
     "CATEGORY_PAGE": {
       "CATEGORY_HEADER": {
         "NEW_CATEGORY": "Nova categoria",
-        "EDIT_CATEGORY": "Editar categoria",
+        "EDIT_CATEGORY": "Alterar categoria",
         "CATEGORIES_COUNT": "categoria {n} | {n} categorias",
         "BREADCRUMB": {
           "CATEGORY_LOCALE": "Categorias ({localeCode})",
@@ -591,8 +591,8 @@
         },
         "HEADER": {
           "CREATE": "Criar categoria",
-          "EDIT": "Editar categoria",
-          "DESCRIPTION": "Editar uma categoria atualizará a categoria no portal voltado ao público.",
+          "EDIT": "Alterar categoria",
+          "DESCRIPTION": "Alterar uma categoria atualizará a categoria no portal voltado ao público.",
           "PORTAL": "Portal",
           "LOCALE": "Localidade"
         },
@@ -660,14 +660,14 @@
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "Mais propriedades",
         "UNCATEGORIZED": "Não categorizado",
-        "EDITOR_PLACEHOLDER": "Escrever algo..."
+        "EDITOR_PLACEHOLDER": "Escreva algo..."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Propriedades do artigo",
-        "META_DESCRIPTION": "Meta description",
-        "META_DESCRIPTION_PLACEHOLDER": "Adicionar meta description",
+        "META_DESCRIPTION": "Meta descrição",
+        "META_DESCRIPTION_PLACEHOLDER": "Adicionar meta descrição",
         "META_TITLE": "Meta title",
-        "META_TITLE_PLACEHOLDER": "Adicionar meta title",
+        "META_TITLE_PLACEHOLDER": "Adicionar meta título",
         "META_TAGS": "Meta tags",
         "META_TAGS_PLACEHOLDER": "Adicionar meta tags"
       },
@@ -775,7 +775,7 @@
             "CONFIRM_BUTTON_LABEL": "Excluir"
           }
         },
-        "EDIT_CONFIGURATION": "Editar configuração"
+        "EDIT_CONFIGURATION": "Alterar configuração"
       },
       "API": {
         "CREATE_PORTAL": {

@@ -389,11 +389,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Перейти до приватних заміток",
       "SWITCH_TO_REPLY": "Перейти до відповіді",
       "TOGGLE_SNOOZE_DROPDOWN": "Перемкнути випадаючий список відкладення"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

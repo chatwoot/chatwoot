@@ -27,7 +27,7 @@
           "ERROR": "O atalho é obrigatório."
         },
         "CONTENT": {
-          "LABEL": "Messagem",
+          "LABEL": "Mensagem",
           "PLACEHOLDER": "Por favor, escreva a mensagem que deseja salvar como um modelo para usar posteriormente.",
           "ERROR": "A mensagem é obrigatória."
         },
@@ -35,7 +35,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Resposta pronta adicionada com sucesso.",
-        "ERROR_MESSAGE": "Não foi possível desconectar o agente robô. Por favor, tente novamente mais tarde."
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
       }
     },
     "EDIT": {
@@ -43,7 +43,7 @@
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Respostas prontas",
+          "LABEL": "Atalho",
           "PLACEHOLDER": "Por favor, insira um atalho.",
           "ERROR": "O atalho é obrigatório."
         },
@@ -57,14 +57,14 @@
       "BUTTON_TEXT": "Alterar",
       "API": {
         "SUCCESS_MESSAGE": "Resposta pronta atualizada com sucesso.",
-        "ERROR_MESSAGE": "Não foi possível desconectar o agente robô. Por favor, tente novamente mais tarde."
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Excluir",
       "API": {
-        "SUCCESS_MESSAGE": "Resposta pronta deletada com sucesso.",
-        "ERROR_MESSAGE": "Não foi possível desconectar o agente robô. Por favor, tente novamente mais tarde."
+        "SUCCESS_MESSAGE": "Resposta pronta excluída com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
       },
       "CONFIRM": {
         "TITLE": "Confirmar exclusão",

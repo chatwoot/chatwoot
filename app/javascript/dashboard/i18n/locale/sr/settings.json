@@ -389,11 +389,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Prebaci se na privatnu belešku",
       "SWITCH_TO_REPLY": "Prebaci se na odgovor",
       "TOGGLE_SNOOZE_DROPDOWN": "Uključite padajućim menijom odlaganja"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

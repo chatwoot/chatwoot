@@ -389,11 +389,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Válts privát jegyzetre",
       "SWITCH_TO_REPLY": "Válts a válasz fülre",
       "TOGGLE_SNOOZE_DROPDOWN": "Alvómód bekapcsolása a legördülő menüben"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/\n"
     }
   }
 }
