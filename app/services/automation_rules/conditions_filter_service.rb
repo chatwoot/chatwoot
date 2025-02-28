@@ -153,7 +153,8 @@ class AutomationRules::ConditionsFilterService < FilterService
       " #{table_name}.additional_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
     when 'standard'
       if attribute_key == 'labels'
-        " tags.id #{filter_operator_value} #{query_operator} "
+        label_filter_query = tag_filter_query(query_hash, current_index)
+        " #{label_filter_query} #{query_operator} "
       else
         " #{table_name}.#{attribute_key} #{filter_operator_value} #{query_operator} "
       end
@@ -170,5 +171,12 @@ class AutomationRules::ConditionsFilterService < FilterService
     )
     records = records.where(messages: { id: @options[:message].id }) if @options[:message].present?
     records
+  end
+
+  def filter_config
+    @filter_config ||= {
+      table_name: 'conversations',
+      entity: 'Conversation'
+    }
   end
 end

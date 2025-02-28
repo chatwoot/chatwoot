@@ -14,7 +14,7 @@ class AutomationRules::TimerFilterService
   private
 
   def condition_query(passed: false)
-    passed ? " #{@operator} TRUE" : " #{@operator} FALSE"
+    passed ? " TRUE #{@operator} " : " FALSE #{@operator} "
   end
 
   def agent_wait_since
