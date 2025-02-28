@@ -83,5 +83,5 @@ linear:
   name: 'Linear'
   description: 'Configuration for setting up Linear'
   enabled: true
-  icon: 'icon-issue-tracking-line'
+  icon: 'icon-linear'
   config_key: 'linear'
