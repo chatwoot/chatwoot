@@ -300,6 +300,12 @@
         "TITLE": "リンク解除",
         "SUCCESS": "課題のリンクが正常に解除されました",
         "ERROR": "課題のリンク解除中にエラーが発生しました。もう一度お試しください"
+      },
+      "DELETE": {
+        "TITLE": "Are you sure you want to delete the integration?",
+        "MESSAGE": "Are you sure you want to delete the integration?",
+        "CONFIRM": "はい、削除します",
+        "CANCEL": "キャンセル"
       }
     }
   },
@@ -432,6 +438,20 @@
       "ADD_NEW": "新しいFAQを作成",
       "DOCUMENTABLE": {
         "CONVERSATION": "会話 #{id}"
+      },
+      "SELECTED": "{count} selected",
+      "BULK_APPROVE_BUTTON": "Approve",
+      "BULK_DELETE_BUTTON": "削除",
+      "BULK_APPROVE": {
+        "SUCCESS_MESSAGE": "FAQs approved successfully",
+        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+      },
+      "BULK_DELETE": {
+        "TITLE": "Delete FAQs?",
+        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
+        "CONFIRM": "Yes, delete all",
+        "SUCCESS_MESSAGE": "FAQs deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
       },
       "DELETE": {
         "TITLE": "FAQを削除してもよろしいですか？",
