@@ -12,14 +12,13 @@ import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import Table from 'dashboard/components/table/Table.vue';
 import Pagination from 'dashboard/components/table/Pagination.vue';
-import AgentCell from './AgentCell.vue';
 
-const { agents, agentMetrics } = defineProps({
-  agents: {
+const { teams, teamMetrics } = defineProps({
+  teams: {
     type: Array,
     default: () => [],
   },
-  agentMetrics: {
+  teamMetrics: {
     type: Array,
     default: () => [],
   },
@@ -31,20 +30,17 @@ const { agents, agentMetrics } = defineProps({
 
 const { t } = useI18n();
 
-const getAgentMetrics = id =>
-  agentMetrics.find(metrics => metrics.assignee_id === Number(id)) || {};
+const getTeamMetrics = id =>
+  teamMetrics.find(metrics => metrics.team_id === Number(id)) || {};
 
 const tableData = computed(() =>
-  agents
-    .map(agent => {
-      const metric = getAgentMetrics(agent.id);
+  teams
+    .map(team => {
+      const metric = getTeamMetrics(team.id);
       return {
-        agent: agent.available_name || agent.name,
-        email: agent.email,
-        thumbnail: agent.thumbnail,
+        agent: team.name,
         open: metric.open || 0,
         unattended: metric.unattended || 0,
-        status: agent.availability_status,
       };
     })
     .sort((a, b) => {
@@ -61,7 +57,6 @@ const tableData = computed(() =>
 const defaulSpanRender = cellProps =>
   h(
     'span',
-
     {
       class: cellProps.getValue()
         ? 'capitalize text-n-slate-12'
@@ -73,18 +68,17 @@ const defaulSpanRender = cellProps =>
 const columnHelper = createColumnHelper();
 const columns = [
   columnHelper.accessor('agent', {
-    header: t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.AGENT'),
-    cell: cellProps => h(AgentCell, cellProps),
-
+    header: t('OVERVIEW_REPORTS.TEAM_CONVERSATIONS.TABLE_HEADER.TEAM'),
+    cell: defaulSpanRender,
     size: 250,
   }),
   columnHelper.accessor('open', {
-    header: t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.OPEN'),
+    header: t('OVERVIEW_REPORTS.TEAM_CONVERSATIONS.TABLE_HEADER.OPEN'),
     cell: defaulSpanRender,
     size: 100,
   }),
   columnHelper.accessor('unattended', {
-    header: t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.UNATTENDED'),
+    header: t('OVERVIEW_REPORTS.TEAM_CONVERSATIONS.TABLE_HEADER.UNATTENDED'),
     cell: defaulSpanRender,
     size: 100,
   }),
@@ -111,12 +105,12 @@ const table = useVueTable({
     >
       <Spinner />
       <span>
-        {{ $t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.LOADING_MESSAGE') }}
+        {{ $t('OVERVIEW_REPORTS.TEAM_CONVERSATIONS.LOADING_MESSAGE') }}
       </span>
     </div>
     <EmptyState
-      v-else-if="!isLoading && !agents.length"
-      :title="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.NO_AGENTS')"
+      v-else-if="!isLoading && !teams.length"
+      :title="$t('OVERVIEW_REPORTS.TEAM_CONVERSATIONS.NO_TEAMS')"
     />
   </div>
 </template>
