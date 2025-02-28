@@ -441,15 +441,15 @@
       "BULK_APPROVE_BUTTON": "Approve",
       "BULK_DELETE_BUTTON": "Delete",
       "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "Responses approved successfully",
-        "ERROR_MESSAGE": "There was an error approving the responses, please try again."
+        "SUCCESS_MESSAGE": "FAQs approved successfully",
+        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
       },
       "BULK_DELETE": {
-        "TITLE": "Delete {count} Responses?",
-        "DESCRIPTION": "Are you sure you want to delete {count} selected responses? This action cannot be undone.",
+        "TITLE": "Delete {count} FAQs?",
+        "DESCRIPTION": "Are you sure you want to delete {count} selected FAQ? This action cannot be undone.",
         "CONFIRM": "Yes, delete all",
-        "SUCCESS_MESSAGE": "{count} responses deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the responses, please try again."
+        "SUCCESS_MESSAGE": "{count} FAQs deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
       },
       "DELETE": {
         "TITLE": "Are you sure to delete the FAQ?",
