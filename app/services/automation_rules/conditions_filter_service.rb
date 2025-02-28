@@ -111,9 +111,7 @@ class AutomationRules::ConditionsFilterService < FilterService
   def message_query_string(current_filter, query_hash, current_index)
     attribute_key = query_hash['attribute_key']
     query_operator = query_hash['query_operator']
-
     attribute_key = 'processed_message_content' if attribute_key == 'content'
-
     filter_operator_value = filter_operation(query_hash, current_index)
 
     case current_filter['attribute_type']
@@ -144,20 +142,15 @@ class AutomationRules::ConditionsFilterService < FilterService
   def conversation_query_string(table_name, current_filter, query_hash, current_index)
     attribute_key = query_hash['attribute_key']
     query_operator = query_hash['query_operator']
-    filter_operator_value = filter_operation(query_hash, current_index)
 
     case current_filter['attribute_type']
     when 'timer'
       AutomationRules::TimerFilterService.new(@conversation, query_hash).query_string
     when 'additional_attributes'
+      filter_operator_value = filter_operation(query_hash, current_index)
       " #{table_name}.additional_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
     when 'standard'
-      if attribute_key == 'labels'
-        label_filter_query = tag_filter_query(query_hash, current_index)
-        " #{label_filter_query} #{query_operator} "
-      else
-        " #{table_name}.#{attribute_key} #{filter_operator_value} #{query_operator} "
-      end
+      standard_filter(attribute_key, query_operator, query_hash, current_index)
     end
   end
 
@@ -178,5 +171,18 @@ class AutomationRules::ConditionsFilterService < FilterService
       table_name: 'conversations',
       entity: 'Conversation'
     }
+  end
+
+  def standard_filter(attribute_key, query_operator, query_hash, current_index)
+    case attribute_key
+    when 'labels'
+      label_filter_query = tag_filter_query(query_hash, current_index)
+      return " #{label_filter_query} #{query_operator} "
+    when 'priority'
+      query_hash['values'] = Conversation.priorities.values_at(*query_hash['values'])
+    end
+
+    filter_operator_value = filter_operation(query_hash, current_index)
+    " #{filter_config[:table_name]}.#{attribute_key} #{filter_operator_value} #{query_operator} "
   end
 end
