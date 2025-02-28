@@ -354,6 +354,13 @@
   post:
     $ref: ./application/conversation/toggle_priority.yml
 
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/custom_attributes:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/conversation_id'
+  post:
+    $ref: ./application/conversation/custom_attributes.yml
+
 # Conversations Assignments
 
 /api/v1/accounts/{account_id}/conversations/{conversation_id}/assignments:
