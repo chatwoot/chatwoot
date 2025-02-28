@@ -337,6 +337,12 @@ Rails.application.routes.draw do
               get :bot_metrics
             end
           end
+          resources :live_reports, only: [] do
+            collection do
+              get :conversation_metrics
+              get :grouped_conversation_metrics
+            end
+          end
         end
       end
     end
