@@ -32,7 +32,7 @@ module Linear::IntegrationHelper
   private
 
   def client_secret
-    @client_secret ||= ENV.fetch('LINEAR_CLIENT_SECRET', nil)
+    @client_secret ||= GlobalConfigService.load('LINEAR_CLIENT_SECRET', nil)
   end
 
   def decode_token(token, secret)
