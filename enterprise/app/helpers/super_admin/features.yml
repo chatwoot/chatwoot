@@ -79,3 +79,9 @@ microsoft:
   enabled: true
   icon: 'icon-microsoft'
   config_key: 'microsoft'
+linear:
+  name: 'Linear'
+  description: 'Configuration for setting up Linear'
+  enabled: true
+  icon: 'icon-issue-tracking-line'
+  config_key: 'linear'

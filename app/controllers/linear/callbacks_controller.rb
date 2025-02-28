@@ -16,9 +16,12 @@ class Linear::CallbacksController < ApplicationController
   private
 
   def oauth_client
+    app_id = GlobalConfigService.load('LINEAR_CLIENT_ID', nil)
+    app_secret = GlobalConfigService.load('LINEAR_CLIENT_SECRET', nil)
+
     OAuth2::Client.new(
-      ENV.fetch('LINEAR_CLIENT_ID', nil),
-      ENV.fetch('LINEAR_CLIENT_SECRET', nil),
+      app_id,
+      app_secret,
       {
         site: 'https://api.linear.app',
         token_url: '/oauth/token',
