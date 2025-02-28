@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :automation_rule do
     account
     name { 'Test Automation Rule' }
-    event_name { 'conversation_status_changed' }
+    event_name { :conversation_updated }
     conditions { [{ 'values': ['resolved'], 'attribute_key': 'status', 'query_operator': nil, 'filter_operator': 'equal_to' }] }
     actions do
       [
