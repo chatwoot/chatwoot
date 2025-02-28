@@ -1,6 +1,6 @@
 require 'openai'
 
-class Captain::Llm::EmbeddingService < Captain::Llm::BaseOpenAiService
+class Captain::Llm::EmbeddingService < Llm::BaseOpenAiService
   class EmbeddingsError < StandardError; end
 
   DEFAULT_MODEL = 'text-embedding-3-small'.freeze
