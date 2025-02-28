@@ -24,8 +24,8 @@ RSpec.describe AutomationRules::TimerFilterService do
           create(:message, conversation: conversation, created_at: 15.minutes.ago, message_type: :incoming)
         end
 
-        it 'returns AND TRUE' do
-          expect(query_string).to eq(' and TRUE')
+        it 'returns TRUE AND' do
+          expect(query_string).to eq(' TRUE and ')
         end
       end
 
@@ -36,8 +36,8 @@ RSpec.describe AutomationRules::TimerFilterService do
           create(:message, conversation: conversation, created_at: 15.minutes.ago, message_type: :incoming)
         end
 
-        it 'returns OR TRUE' do
-          expect(query_string).to eq(' or TRUE')
+        it 'returns TRUE OR' do
+          expect(query_string).to eq(' TRUE or ')
         end
       end
 
@@ -46,8 +46,8 @@ RSpec.describe AutomationRules::TimerFilterService do
           create(:message, conversation: conversation, created_at: 5.minutes.ago, message_type: :incoming)
         end
 
-        it 'returns AND FALSE' do
-          expect(query_string).to eq(' and FALSE')
+        it 'returns FALSE AND' do
+          expect(query_string).to eq(' FALSE and ')
         end
       end
 
@@ -58,24 +58,24 @@ RSpec.describe AutomationRules::TimerFilterService do
           create(:message, conversation: conversation, created_at: 5.minutes.ago, message_type: :incoming)
         end
 
-        it 'returns OR FALSE' do
-          expect(query_string).to eq(' or FALSE')
+        it 'returns FALSE OR' do
+          expect(query_string).to eq(' FALSE or ')
         end
       end
 
       context 'when contact wait time is 0' do
         let(:query_value) { 0 }
 
-        it 'returns AND FALSE' do
-          expect(query_string).to eq(' and FALSE')
+        it 'returns FALSE AND' do
+          expect(query_string).to eq(' FALSE and ')
         end
       end
 
       context 'when contact wait time is negative' do
         let(:query_value) { -1 }
 
-        it 'returns AND FALSE' do
-          expect(query_string).to eq(' and FALSE')
+        it 'returns FALSE AND' do
+          expect(query_string).to eq(' FALSE and ')
         end
       end
 
@@ -85,8 +85,8 @@ RSpec.describe AutomationRules::TimerFilterService do
           create(:message, conversation: conversation, created_at: 11.minutes.ago, message_type: :outgoing)
         end
 
-        it 'returns AND FALSE' do
-          expect(query_string).to eq(' and FALSE')
+        it 'returns FALSE AND' do
+          expect(query_string).to eq(' FALSE and ')
         end
       end
 
@@ -96,9 +96,9 @@ RSpec.describe AutomationRules::TimerFilterService do
           create(:message, conversation: conversation, created_at: 11.minutes.ago, message_type: :outgoing)
         end
 
-        it 'returns AND TRUE' do
+        it 'returns TRUE AND' do
           conversation.messages.outgoing.update(sender_type: nil, sender_id: nil) # make all messages bot messages
-          expect(query_string).to eq(' and TRUE')
+          expect(query_string).to eq(' TRUE and ')
         end
       end
     end
@@ -113,8 +113,8 @@ RSpec.describe AutomationRules::TimerFilterService do
           create(:message, conversation: conversation, created_at: 15.minutes.ago, message_type: :outgoing)
         end
 
-        it 'returns AND TRUE' do
-          expect(query_string).to eq(' and TRUE')
+        it 'returns TRUE AND' do
+          expect(query_string).to eq(' TRUE and ')
         end
       end
 
@@ -125,8 +125,8 @@ RSpec.describe AutomationRules::TimerFilterService do
           create(:message, conversation: conversation, created_at: 15.minutes.ago, message_type: :outgoing)
         end
 
-        it 'returns OR TRUE' do
-          expect(query_string).to eq(' or TRUE')
+        it 'returns TRUE OR' do
+          expect(query_string).to eq(' TRUE or ')
         end
       end
 
@@ -135,8 +135,8 @@ RSpec.describe AutomationRules::TimerFilterService do
           create(:message, conversation: conversation, created_at: 5.minutes.ago, message_type: :outgoing)
         end
 
-        it 'returns AND FALSE' do
-          expect(query_string).to eq(' and FALSE')
+        it 'returns FALSE AND' do
+          expect(query_string).to eq(' FALSE and ')
         end
       end
 
@@ -147,24 +147,72 @@ RSpec.describe AutomationRules::TimerFilterService do
           create(:message, conversation: conversation, created_at: 5.minutes.ago, message_type: :outgoing)
         end
 
-        it 'returns OR FALSE' do
-          expect(query_string).to eq(' or FALSE')
+        it 'returns FALSE OR' do
+          expect(query_string).to eq(' FALSE or ')
         end
       end
 
       context 'when agent wait time is 0' do
         let(:query_value) { 0 }
 
-        it 'returns AND FALSE' do
-          expect(query_string).to eq(' and FALSE')
+        it 'returns FALSE AND' do
+          expect(query_string).to eq(' FALSE and ')
         end
       end
 
       context 'when agent wait time is negative' do
         let(:query_value) { -1 }
 
-        it 'returns AND FALSE' do
-          expect(query_string).to eq(' and FALSE')
+        it 'returns FALSE AND' do
+          expect(query_string).to eq(' FALSE and ')
+        end
+      end
+
+      context 'when agent wait time more than 10 minutes and have reply from contact' do
+        before do
+          create(:message, conversation: conversation, created_at: 15.minutes.ago, message_type: :outgoing)
+          create(:message, conversation: conversation, created_at: 11.minutes.ago, message_type: :incoming)
+        end
+
+        it 'returns FALSE AND' do
+          expect(query_string).to eq(' FALSE and ')
+        end
+      end
+
+      context 'when agent wait time more than 10 minutes and have reply from bot' do
+        before do
+          create(:message, conversation: conversation, created_at: 15.minutes.ago, message_type: :outgoing)
+          create(:message, conversation: conversation, created_at: 11.minutes.ago, message_type: :incoming)
+        end
+
+        it 'returns TRUE AND' do
+          conversation.messages.incoming.update(sender_type: nil, sender_id: nil) # make all messages bot messages
+          expect(query_string).to eq(' TRUE and ')
+        end
+      end
+
+      context 'when agent wait time less than 10 minutes and have reply from contact' do
+        before do
+          create(:message, conversation: conversation, created_at: 15.minutes.ago, message_type: :incoming)
+          create(:message, conversation: conversation, created_at: 9.minutes.ago, message_type: :outgoing)
+          create(:message, conversation: conversation, created_at: 5.minutes.ago, message_type: :incoming)
+        end
+
+        it 'returns FALSE AND' do
+          expect(query_string).to eq(' FALSE and ')
+        end
+      end
+
+      context 'when agent wait time less than 10 minutes and have reply from bot' do
+        before do
+          create(:message, conversation: conversation, created_at: 15.minutes.ago, message_type: :incoming)
+          create(:message, conversation: conversation, created_at: 9.minutes.ago, message_type: :outgoing)
+          create(:message, conversation: conversation, created_at: 5.minutes.ago, message_type: :incoming)
+        end
+
+        it 'returns FALSE AND' do
+          conversation.messages.outgoing.update(sender_type: nil, sender_id: nil) # make all messages bot messages
+          expect(query_string).to eq(' FALSE and ')
         end
       end
     end

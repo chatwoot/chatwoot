@@ -177,7 +177,7 @@ class AutomationRules::ConditionsFilterService < FilterService
     case attribute_key
     when 'labels'
       label_filter_query = tag_filter_query(query_hash, current_index)
-      return " #{label_filter_query} #{query_operator} "
+      return " #{label_filter_query} "
     when 'priority'
       query_hash['values'] = Conversation.priorities.values_at(*query_hash['values'])
     end

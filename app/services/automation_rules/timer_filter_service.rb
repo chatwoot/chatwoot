@@ -4,9 +4,12 @@ class AutomationRules::TimerFilterService
     @key = query_hash['attribute_key']
     @value = query_hash['values'].map(&:to_i).max
     @operator = query_hash['query_operator']
+    @last_human_message = @conversation.messages.human.last
   end
 
   def query_string
+    return condition_query(passed: false) if @last_human_message.blank?
+
     passed = @value.positive? && awaiter_wait_since.before?(@value.minutes.ago)
     condition_query(passed: passed)
   end
@@ -18,11 +21,17 @@ class AutomationRules::TimerFilterService
   end
 
   def agent_wait_since
-    @agent_wait_since ||= @conversation.messages.agent.maximum(:created_at) || @conversation.created_at
+    return Time.current if @last_human_message.incoming?
+
+    @agent_wait_since ||= @conversation.messages.agent.maximum(:created_at) || Time.current
   end
 
   def contact_wait_since
-    @conversation.messages.incoming.where(created_at: agent_wait_since..).minimum(:created_at) || Time.current
+    return Time.current if @last_human_message.outgoing?
+    return @contact_wait_since if defined?(@contact_wait_since)
+
+    last_outgoing_at = @conversation.messages.human.outgoing.maximum(:created_at) || @conversation.created_at
+    @contact_wait_since = @conversation.messages.incoming.where(created_at: last_outgoing_at..).minimum(:created_at)
   end
 
   def awaiter_wait_since
