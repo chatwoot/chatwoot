@@ -300,6 +300,12 @@
         "TITLE": "Atsaistīt",
         "SUCCESS": "Problēma ir veiksmīgi atsaistīta",
         "ERROR": "Atsaistot jautājumu radās kļūda. Lūdzu, mēģiniet vēlreiz"
+      },
+      "DELETE": {
+        "TITLE": "Are you sure you want to delete the integration?",
+        "MESSAGE": "Are you sure you want to delete the integration?",
+        "CONFIRM": "Jā, dzēst",
+        "CANCEL": "Atcelt"
       }
     }
   },
@@ -432,6 +438,20 @@
       "ADD_NEW": "Izveidot jaunu sarakstu ar bieži uzdotiem jautājumiem",
       "DOCUMENTABLE": {
         "CONVERSATION": "Saruna #{id}"
+      },
+      "SELECTED": "{count} selected",
+      "BULK_APPROVE_BUTTON": "Approve",
+      "BULK_DELETE_BUTTON": "Dzēst",
+      "BULK_APPROVE": {
+        "SUCCESS_MESSAGE": "FAQs approved successfully",
+        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+      },
+      "BULK_DELETE": {
+        "TITLE": "Delete FAQs?",
+        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
+        "CONFIRM": "Yes, delete all",
+        "SUCCESS_MESSAGE": "FAQs deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
       },
       "DELETE": {
         "TITLE": "Vai tiešām vēlaties izdzēst šos bieži uzdotos jautājumus?",
