@@ -212,6 +212,9 @@
 - name: CHATWOOT_SUPPORT_IDENTIFIER_HASH
   value:
   description: 'The Chatwoot identifier hash, to validate the contact in the live chat window.'
+- name: ACCOUNT_SECURITY_NOTIFICATION_WEBHOOK_URL
+  value:
+  description: Used to notify Chatwoot about account abuses, potential threads (Should be a Discord Webhook URL)
 # ------- End of Chatwoot Internal Config for Self Hosted ----#
 
 ## ------ Configs added for enterprise clients ------ ##
