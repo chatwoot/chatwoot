@@ -34,6 +34,7 @@ class Account < ApplicationRecord
 
   validates :auto_resolve_duration, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 999, allow_nil: true }
   validates :domain, length: { maximum: 100 }
+  validate :validate_deletion_reason, if: -> { custom_attributes && custom_attributes['marked_for_deletion_at'].present? }
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
@@ -147,6 +148,15 @@ class Account < ApplicationRecord
   def remove_account_sequences
     ActiveRecord::Base.connection.exec_query("drop sequence IF EXISTS camp_dpid_seq_#{id}")
     ActiveRecord::Base.connection.exec_query("drop sequence IF EXISTS conv_dpid_seq_#{id}")
+  end
+
+  def validate_deletion_reason
+    valid_reasons = %w[manual_deletion inactivity]
+    reason = custom_attributes['marked_for_deletion_reason']
+
+    return unless reason.blank? || valid_reasons.exclude?(reason)
+
+    errors.add(:base, 'Deletion reason must be either manual_deletion or inactivity')
   end
 end
 
