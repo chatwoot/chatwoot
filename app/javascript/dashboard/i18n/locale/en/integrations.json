@@ -445,10 +445,10 @@
         "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
       },
       "BULK_DELETE": {
-        "TITLE": "Delete {count} FAQs?",
-        "DESCRIPTION": "Are you sure you want to delete {count} selected FAQ? This action cannot be undone.",
+        "TITLE": "Delete FAQs?",
+        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
         "CONFIRM": "Yes, delete all",
-        "SUCCESS_MESSAGE": "{count} FAQs deleted successfully",
+        "SUCCESS_MESSAGE": "FAQs deleted successfully",
         "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
       },
       "DELETE": {
