@@ -117,6 +117,7 @@
       "PENDING": "Segna come in sospeso",
       "RESOLVED": "Contrassegna come risolto",
       "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_READ": "Segna come letto",
       "REOPEN": "Riapri la conversazione",
       "SNOOZE": {
         "TITLE": "Posticipa",
