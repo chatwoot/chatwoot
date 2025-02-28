@@ -35,6 +35,24 @@
           }
         }
       },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "Par défaut",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Signature du message personnel",
         "NOTE": "Créez une signature de message unique qui apparaîtra à la fin de chaque message que vous envoyez à partir de n'importe quelle boîte de réception. Vous pouvez également inclure une image en ligne, qui est prise en charge dans les boîtes de réception en direct, les e-mails et les API.",
@@ -389,11 +407,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Basculer vers une note privée",
       "SWITCH_TO_REPLY": "Basculer vers la réponse",
       "TOGGLE_SNOOZE_DROPDOWN": "Activer/désactiver la liste déroulante de répétition"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

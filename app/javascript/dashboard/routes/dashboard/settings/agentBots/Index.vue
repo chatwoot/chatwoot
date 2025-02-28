@@ -70,7 +70,7 @@ export default {
       </div>
 
       <div class="hidden w-1/3 lg:block">
-        <p v-html="$t('AGENT_BOTS.SIDEBAR_TXT')" />
+        <p v-dompurify-html="$t('AGENT_BOTS.SIDEBAR_TXT')" />
       </div>
     </div>
     <woot-button

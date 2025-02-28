@@ -87,7 +87,7 @@ export default {
 <template>
   <div
     role="dialog"
-    class="emoji-dialog bg-white shadow-lg dark:bg-slate-900 rounded-md border border-solid border-slate-75 dark:border-slate-800/50 box-content h-[300px] absolute right-0 -top-[95px] w-80 z-20"
+    class="emoji-dialog bg-white shadow-lg dark:bg-slate-900 rounded-md border border-solid border-slate-75 dark:border-slate-800/50 box-content h-[18.75rem] absolute right-0 -top-[95px] w-80 z-20"
   >
     <div class="flex flex-col">
       <div class="flex gap-2 emoji-search--wrap">
@@ -230,7 +230,7 @@ export default {
   @apply box-border p-1;
 
   .emoji--item {
-    @apply h-[26px] w-[26px] leading-normal m-1;
+    @apply h-[1.625rem] w-[1.625rem] leading-normal m-1;
   }
 }
 
@@ -243,7 +243,7 @@ export default {
 }
 
 .empty-message {
-  @apply items-center flex flex-col h-[212px] justify-center;
+  @apply items-center flex flex-col h-[13.25rem] justify-center;
 
   .emoji-icon {
     @apply text-slate-200 dark:text-slate-200 mb-2;
@@ -255,7 +255,7 @@ export default {
 }
 
 .emoji-item {
-  @apply h-[212px] overflow-y-auto;
+  @apply h-[13.25rem] overflow-y-auto;
 }
 
 .emoji-category--title {
@@ -263,7 +263,7 @@ export default {
 }
 
 .emoji-dialog--footer {
-  @apply relative w-[322px] -left-px rtl:left-[unset] rtl:-right-px bottom-0 py-0 rounded-b-md border-b border-solid border-slate-75 dark:border-slate-800/50 px-1 bg-slate-75 dark:bg-slate-800;
+  @apply relative w-full py-0 rounded-b-[0.34rem] px-1 bg-slate-75 dark:bg-slate-800;
 
   ul {
     @apply flex relative left-[2px] rtl:left-[unset] rtl:right-[2px] list-none m-0 overflow-auto py-1 px-0;

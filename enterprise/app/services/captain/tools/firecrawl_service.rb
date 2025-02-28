@@ -1,7 +1,7 @@
 class Captain::Tools::FirecrawlService
   def initialize
     @api_key = InstallationConfig.find_by!(name: 'CAPTAIN_FIRECRAWL_API_KEY').value
-    raise 'Missing API key' if @api_key.nil?
+    raise 'Missing API key' if @api_key.empty?
   end
 
   def perform(url, webhook_url, crawl_limit = 10)
