@@ -300,6 +300,12 @@
         "TITLE": "Отвязать",
         "SUCCESS": "Задача успешно отвязана",
         "ERROR": "Произошла ошибка при отвязке задачи, пожалуйста, попробуйте ещё раз"
+      },
+      "DELETE": {
+        "TITLE": "Are you sure you want to delete the integration?",
+        "MESSAGE": "Are you sure you want to delete the integration?",
+        "CONFIRM": "Да, удалить",
+        "CANCEL": "Отменить"
       }
     }
   },
@@ -432,6 +438,20 @@
       "ADD_NEW": "Создать новый FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Диалог #{id}"
+      },
+      "SELECTED": "{count} selected",
+      "BULK_APPROVE_BUTTON": "Approve",
+      "BULK_DELETE_BUTTON": "Удалить",
+      "BULK_APPROVE": {
+        "SUCCESS_MESSAGE": "FAQs approved successfully",
+        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+      },
+      "BULK_DELETE": {
+        "TITLE": "Delete FAQs?",
+        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
+        "CONFIRM": "Yes, delete all",
+        "SUCCESS_MESSAGE": "FAQs deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
       },
       "DELETE": {
         "TITLE": "Вы действительно хотите удалить FAQ?",
