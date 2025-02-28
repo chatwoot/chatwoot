@@ -33,7 +33,7 @@ const props = defineProps({
   },
   activeAssistant: {
     type: Object,
-    default: () => {},
+    default: () => ({}),
   },
 });
 
@@ -106,9 +106,10 @@ watch(
 
       <CopilotLoader v-if="isCaptainTyping" />
     </div>
+
     <div
       v-if="!messages.length"
-      class="h-full w-full relative flex items-center justify-center"
+      class="h-full w-full flex items-center justify-center"
     >
       <div class="h-fit px-3 py-3 space-y-1">
         <span class="text-xs text-n-slate-10">
@@ -116,7 +117,7 @@ watch(
         </span>
         <button
           v-for="prompt in promptOptions"
-          :key="prompt"
+          :key="prompt.label"
           class="px-2 py-1 rounded-md border border-n-weak bg-n-slate-2 text-n-slate-11 flex items-center gap-1"
           @click="() => useSuggestion(prompt)"
         >
@@ -125,27 +126,26 @@ watch(
         </button>
       </div>
     </div>
-    <div>
-      <div class="mx-3 mt-px mb-2 flex flex-col items-end flex-1">
-        <div class="flex items-center gap-2 justify-between w-full mb-1">
-          <ToggleCopilotAssistant
-            v-if="assistants.length"
-            :assistants="assistants"
-            :active-assistant="activeAssistant"
-            @set-assistant="$event => emit('setAssistant', $event)"
-          />
-          <div v-else />
-          <button
-            v-if="messages.length"
-            class="text-xs flex items-center gap-1 hover:underline"
-            @click="handleReset"
-          >
-            <i class="i-lucide-refresh-ccw" />
-            <span>{{ $t('CAPTAIN.COPILOT.RESET') }}</span>
-          </button>
-        </div>
-        <CopilotInput class="mb-1 flex-1 w-full" @send="sendMessage" />
+
+    <div class="mx-3 mt-px mb-2">
+      <div class="flex items-center gap-2 justify-between w-full mb-1">
+        <ToggleCopilotAssistant
+          v-if="assistants.length"
+          :assistants="assistants"
+          :active-assistant="activeAssistant"
+          @set-assistant="$event => emit('setAssistant', $event)"
+        />
+        <div v-else />
+        <button
+          v-if="messages.length"
+          class="text-xs flex items-center gap-1 hover:underline"
+          @click="handleReset"
+        >
+          <i class="i-lucide-refresh-ccw" />
+          <span>{{ $t('CAPTAIN.COPILOT.RESET') }}</span>
+        </button>
       </div>
+      <CopilotInput class="mb-1 w-full" @send="sendMessage" />
     </div>
   </div>
 </template>
