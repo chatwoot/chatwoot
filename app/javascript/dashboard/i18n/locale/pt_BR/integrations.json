@@ -7,8 +7,8 @@
     "CAPTAIN": {
       "DISABLED": "O capitão não está ativado na sua conta.",
       "CLICK_HERE_TO_CONFIGURE": "Clique aqui para configurar",
-      "LOADING_CONSOLE": "Carregando console do Captain...",
-      "FAILED_TO_LOAD_CONSOLE": ""
+      "LOADING_CONSOLE": "Carregando console do Capitão...",
+      "FAILED_TO_LOAD_CONSOLE": "Falha ao carregar o Console do Capitão. Atualize e tente novamente."
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventos Inscritos",
@@ -113,7 +113,7 @@
       "CREATE_ERROR": "Houve um erro ao criar o link da reunião, por favor tente novamente"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "Assistente Open AI",
+      "AI_ASSIST": "Inteligência Artificial",
       "WITH_AI": " {option} com IA ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Sugestão de resposta",
@@ -129,7 +129,7 @@
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Conteúdo do rascunho",
         "GENERATED_TITLE": "Conteúdo gerado",
-        "AI_WRITING": "A IA está escrevendo",
+        "AI_WRITING": "A Inteligência Artificial está escrevendo",
         "BUTTONS": {
           "APPLY": "Use esta sugestão",
           "CANCEL": "Cancelar"
@@ -147,10 +147,10 @@
         "DISMISS_MESSAGE": "Você pode configurar a integração com o OpenAI mais tarde.",
         "SUCCESS_MESSAGE": "Integração com o OpenAI configurada com sucesso"
       },
-      "TITLE": "Melhore com IA",
-      "SUMMARY_TITLE": "Resumo com IA",
+      "TITLE": "Melhorar com IA",
+      "SUMMARY_TITLE": "Resumir com IA",
       "REPLY_TITLE": "Responder sugestão com IA",
-      "SUBTITLE": "Uma resposta melhor será gerada usando AI, com base no seu rascunho atual.",
+      "SUBTITLE": "Uma resposta melhor será gerada usando IA, com base no seu rascunho atual.",
       "TONE": {
         "TITLE": "Tom",
         "OPTIONS": {
@@ -187,7 +187,7 @@
           "NAME": "Nome",
           "ENDPOINT": "Endpoint"
         },
-        "EDIT_TOOLTIP": "Editar aplicativo",
+        "EDIT_TOOLTIP": "Alterar aplicativo",
         "DELETE_TOOLTIP": "Excluir aplicativo"
       },
       "FORM": {
@@ -206,7 +206,7 @@
         "API_ERROR": "Não conseguimos criar um aplicativo. Por favor, tente novamente mais tarde"
       },
       "UPDATE": {
-        "HEADER": "Editar aplicativo",
+        "HEADER": "Alterar aplicativo",
         "FORM_SUBMIT": "Atualizar",
         "FORM_CANCEL": "Cancelar",
         "API_SUCCESS": "Aplicativo atualizado com sucesso",
@@ -232,7 +232,7 @@
         "TITLE": "Link",
         "EMPTY_LIST": "",
         "LOADING": "Carregando",
-        "ERROR": "",
+        "ERROR": "Houve um erro ao buscar as questões lineares, por favor, tente novamente",
         "LINK_SUCCESS": "Questão vinculada com sucesso",
         "LINK_ERROR": "Houve um erro ao vincular a questão, tente novamente mais tarde",
         "LINK_TITLE": "Conversa (#{conversationId}) com {name}"
@@ -251,8 +251,8 @@
             "PLACEHOLDER": "Insira a descrição"
           },
           "TEAM": {
-            "LABEL": "Times",
-            "PLACEHOLDER": "Selecionar time",
+            "LABEL": "Equipes",
+            "PLACEHOLDER": "Selecionar equipe",
             "SEARCH": "Pesquisar equipe",
             "REQUIRED_ERROR": "A equipe é obrigatória"
           },
@@ -293,7 +293,7 @@
         "STATUS": "Situação",
         "PRIORITY": "Prioridade",
         "ASSIGNEE": "Responsável",
-        "LABELS": "Marcadores",
+        "LABELS": "Etiquetas",
         "CREATED_AT": "Criado em {createdAt}"
       },
       "UNLINK": {
@@ -315,18 +315,18 @@
     "PAYWALL": {
       "TITLE": "Atualize para usar o Capitão IA",
       "AVAILABLE_ON": "O Capitão não está disponível no plano gratuito.",
-      "UPGRADE_PROMPT": "Atualize seu plano para ter acesso aos nossos assistentes, copilots e muito mais.",
+      "UPGRADE_PROMPT": "Atualize seu plano para ter acesso aos nossos assistentes, copilotos e muito mais.",
       "UPGRADE_NOW": "Atualizar agora",
       "CANCEL_ANYTIME": "Você pode alterar ou cancelar seu plano a qualquer momento"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "",
-      "UPGRADE_PROMPT": "Atualize seu plano para ter acesso aos nossos assistentes, copilots e muito mais.",
+      "AVAILABLE_ON": "A função de Capitão AI só está disponível num plano pago.",
+      "UPGRADE_PROMPT": "Atualize seu plano para ter acesso aos nossos assistentes, copilotos e muito mais.",
       "ASK_ADMIN": "Entre em contato com seu administrador para fazer a atualização."
     },
     "BANNER": {
-      "RESPONSES": "Você usou mais de 80% do seu limite de respostas. Para continuar usando o Captain AI, faça o upgrade.",
-      "DOCUMENTS": "Limite de documentos atingido. Atualize para continuar usando o Captain AI."
+      "RESPONSES": "Você usou mais de 80% do seu limite de respostas. Para continuar usando o Capitão AI, faça o upgrade.",
+      "DOCUMENTS": "Limite de documentos atingido. Atualize para continuar usando o Capitão AI."
     },
     "FORM": {
       "CANCEL": "Cancelar",
@@ -447,7 +447,7 @@
       },
       "STATUS": {
         "TITLE": "Situação",
-        "PENDING": "Pendente",
+        "PENDING": "Pendentes",
         "APPROVED": "Aceito",
         "ALL": "Todos"
       },
@@ -475,14 +475,14 @@
         }
       },
       "EDIT": {
-        "TITLE": "Atualizar FAQ",
-        "SUCCESS_MESSAGE": "A FAQ foi atualizado com sucesso",
+        "TITLE": "Atualizar as Perguntas Frequentes",
+        "SUCCESS_MESSAGE": "As Perguntas Frequentes foram atualizadas com sucesso",
         "ERROR_MESSAGE": "Ocorreu um erro ao atualizar as Perguntas Frequentes, por favor tente novamente",
-        "APPROVE_SUCCESS_MESSAGE": "O FAQ foi marcado como aprovado"
+        "APPROVE_SUCCESS_MESSAGE": "As Perguntas Frequentes foram marcadas como aprovadas"
       },
       "OPTIONS": {
         "APPROVE": "Marcar como aprovado",
-        "EDIT_RESPONSE": "Editar FAQ",
+        "EDIT_RESPONSE": "Editar Perguntas Frequentes",
         "DELETE_RESPONSE": "Excluir FAQ"
       },
       "EMPTY_STATE": {

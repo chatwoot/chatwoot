@@ -389,11 +389,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Αλλαγή σε Ιδιωτική Σημείωση",
       "SWITCH_TO_REPLY": "Εναλλαγή σε απάντηση",
       "TOGGLE_SNOOZE_DROPDOWN": "Εναλλαγή αναβολής dropdown"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / °C.",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

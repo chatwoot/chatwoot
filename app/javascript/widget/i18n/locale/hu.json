@@ -22,15 +22,15 @@
     "IN_A_DAY": "Általánban egy napon belül válaszol",
     "BACK_IN": "Legközelebb online leszünk ekkor:"
   },
-  "DAY_NAMES": [
-    "vasárnap",
-    "hétfő",
-    "kedd",
-    "szerda",
-    "csütörtök",
-    "péntek",
-    "szombat"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "vasárnap",
+    "MONDAY": "hétfő",
+    "TUESDAY": "kedd",
+    "WEDNESDAY": "szerda",
+    "THURSDAY": "csütörtök",
+    "FRIDAY": "péntek",
+    "SATURDAY": "szombat"
+  },
   "START_CONVERSATION": "Beszélgetés megkezdése",
   "END_CONVERSATION": "Beszélgetés befejezése",
   "CONTINUE_CONVERSATION": "Beszélgetés folytatása",

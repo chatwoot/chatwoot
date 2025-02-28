@@ -1,5 +1,11 @@
 class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::BaseController
   before_action :fetch_conversation, only: [:link_issue, :linked_issues]
+  before_action :fetch_hook, only: [:destroy]
+
+  def destroy
+    @hook.destroy!
+    head :ok
+  end
 
   def teams
     teams = linear_processor_service.teams
@@ -89,5 +95,9 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
 
   def permitted_params
     params.permit(:team_id, :project_id, :conversation_id, :issue_id, :link_id, :title, :description, :assignee_id, :priority, label_ids: [])
+  end
+
+  def fetch_hook
+    @hook = Integrations::Hook.where(account: Current.account).find_by(app_id: 'linear')
   end
 end

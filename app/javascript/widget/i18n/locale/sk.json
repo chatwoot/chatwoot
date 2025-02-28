@@ -22,15 +22,15 @@
     "IN_A_DAY": "Zvyčajne odpovedá do dňa",
     "BACK_IN": "We will be back online"
   },
-  "DAY_NAMES": [
-    "Nedeľa",
-    "Pondelok",
-    "Tuesday",
-    "Streda",
-    "Thursday",
-    "Piatok",
-    "Saturday"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Nedeľa",
+    "MONDAY": "Pondelok",
+    "TUESDAY": "Tuesday",
+    "WEDNESDAY": "Streda",
+    "THURSDAY": "Thursday",
+    "FRIDAY": "Piatok",
+    "SATURDAY": "Saturday"
+  },
   "START_CONVERSATION": "Začať konverzáciu",
   "END_CONVERSATION": "Ukončiť konverzáciu",
   "CONTINUE_CONVERSATION": "Pokračovať v konverzácii",

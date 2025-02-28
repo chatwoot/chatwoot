@@ -42,8 +42,8 @@ const emit = defineEmits(['upgrade']);
       </span>
     </div>
     <p
+      v-dompurify-html="$t(`${featurePrefix}.${i18nKey}.AVAILABLE_ON`)"
       class="text-sm font-normal text-n-slate-11"
-      v-html="$t(`${featurePrefix}.${i18nKey}.AVAILABLE_ON`)"
     />
     <p class="text-sm font-normal text-n-slate-11">
       {{ $t(`${featurePrefix}.${i18nKey}.UPGRADE_PROMPT`) }}

@@ -2,6 +2,8 @@ class Api::V2::Accounts::LiveReportsController < Api::V1::Accounts::BaseControll
   before_action :load_conversations, only: [:conversation_metrics, :grouped_conversation_metrics]
   before_action :set_group_scope, only: [:grouped_conversation_metrics]
 
+  before_action :check_authorization
+
   def conversation_metrics
     render json: {
       open: @conversations.open.count,
@@ -30,6 +32,10 @@ class Api::V2::Accounts::LiveReportsController < Api::V1::Accounts::BaseControll
   end
 
   private
+
+  def check_authorization
+    authorize :report, :view?
+  end
 
   def set_group_scope
     render json: { error: 'invalid group_by' }, status: :unprocessable_entity and return unless %w[
