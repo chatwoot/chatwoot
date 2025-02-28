@@ -294,7 +294,7 @@ onMounted(() => {
         >
           <div
             v-if="bulkSelectionState.hasSelected"
-            class="flex items-center gap-3 ltr:pl-3 rtl:pr-3"
+            class="flex items-center gap-3 ltr:pl-4 rtl:pr-4"
           >
             <div class="flex items-center gap-1.5">
               <Checkbox
@@ -345,9 +345,7 @@ onMounted(() => {
           :created-at="response.created_at"
           :updated-at="response.updated_at"
           :is-selected="bulkSelectedIds.has(response.id)"
-          :show-checkbox="
-            hoveredCard === response.id || bulkSelectedIds.size > 0
-          "
+          :selectable="hoveredCard === response.id || bulkSelectedIds.size > 0"
           @action="handleAction"
           @navigate="handleNavigationAction"
           @select="handleCardSelect"

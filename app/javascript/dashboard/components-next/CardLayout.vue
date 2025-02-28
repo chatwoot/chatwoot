@@ -4,7 +4,7 @@ defineProps({
     type: String,
     default: 'col',
   },
-  showCheckbox: {
+  selectable: {
     type: Boolean,
     default: false,
   },
@@ -25,7 +25,7 @@ const handleClick = () => {
       class="flex w-full gap-3 py-5"
       :class="[
         layout === 'col' ? 'flex-col' : 'flex-row justify-between items-center',
-        showCheckbox ? 'ltr:pl-10 rtl:pr-10 ltr:pr-8 rtl:pl-8' : 'px-6',
+        selectable ? 'px-10 py-6' : 'px-6',
       ]"
       @click="handleClick"
     >

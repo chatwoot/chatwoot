@@ -51,7 +51,7 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  showCheckbox: {
+  selectable: {
     type: Boolean,
     default: false,
   },
@@ -117,13 +117,13 @@ const handleDocumentableClick = () => {
 
 <template>
   <CardLayout
-    show-checkbox
+    selectable
     class="relative"
     :class="{ 'rounded-md': compact }"
     @mouseenter="emit('hover', true)"
     @mouseleave="emit('hover', false)"
   >
-    <div v-show="showCheckbox" class="absolute top-6 ltr:left-3 rtl:right-3">
+    <div v-show="selectable" class="absolute top-7 ltr:left-4 rtl:right-4">
       <Checkbox v-model="modelValue" />
     </div>
     <div class="flex relative justify-between w-full gap-1">
@@ -171,7 +171,7 @@ const handleDocumentableClick = () => {
             v-if="documentable.type === 'Captain::Document'"
             class="inline-flex items-center gap-1 truncate over"
           >
-            <i class="i-ph-chat-circle-dots text-base" />
+            <i class="i-ph-files-light text-base" />
             <span class="max-w-96 truncate" :title="documentable.name">
               {{ documentable.name }}
             </span>
