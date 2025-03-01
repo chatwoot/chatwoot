@@ -316,7 +316,8 @@
       "LOADER": "Capitão está pensando",
       "YOU": "Você",
       "USE": "Use isto",
-      "RESET": "Reiniciar"
+      "RESET": "Reiniciar",
+      "SELECT_ASSISTANT": "Select Assistant"
     },
     "PAYWALL": {
       "TITLE": "Atualize para usar o Capitão IA",

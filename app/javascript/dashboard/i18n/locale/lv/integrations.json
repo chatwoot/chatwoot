@@ -302,8 +302,8 @@
         "ERROR": "Atsaistot jautājumu radās kļūda. Lūdzu, mēģiniet vēlreiz"
       },
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the integration?",
-        "MESSAGE": "Are you sure you want to delete the integration?",
+        "TITLE": "Vai tiešām vēlaties dzēst integrāciju?",
+        "MESSAGE": "Vai tiešām vēlaties dzēst integrāciju?",
         "CONFIRM": "Jā, dzēst",
         "CANCEL": "Atcelt"
       }
@@ -316,7 +316,8 @@
       "LOADER": "Kapteinis domā",
       "YOU": "Jūs",
       "USE": "Izmantot šo",
-      "RESET": "Atiestatīt"
+      "RESET": "Atiestatīt",
+      "SELECT_ASSISTANT": "Select Assistant"
     },
     "PAYWALL": {
       "TITLE": "Modernizējiet abonementu, lai izmantotu Captain AI",
@@ -439,19 +440,19 @@
       "DOCUMENTABLE": {
         "CONVERSATION": "Saruna #{id}"
       },
-      "SELECTED": "{count} selected",
-      "BULK_APPROVE_BUTTON": "Approve",
+      "SELECTED": "Atlasīti {count}",
+      "BULK_APPROVE_BUTTON": "Apstiprināt",
       "BULK_DELETE_BUTTON": "Dzēst",
       "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQs approved successfully",
-        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+        "SUCCESS_MESSAGE": "Bieži uzdotie jautājumi ir veiksmīgi apstiprināti",
+        "ERROR_MESSAGE": "Apstiprinot bieži uzdotos jautājumus radās kļūda. Lūdzu, mēģiniet vēlreiz."
       },
       "BULK_DELETE": {
-        "TITLE": "Delete FAQs?",
-        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
-        "CONFIRM": "Yes, delete all",
-        "SUCCESS_MESSAGE": "FAQs deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
+        "TITLE": "Vai dzēst bieži uzdotos jautājumus?",
+        "DESCRIPTION": "Vai tiešām vēlaties dzēst atlasītos bieži uzdotos jautājumus? Šo darbību nevar atsaukt.",
+        "CONFIRM": "Jā, dzēst visu",
+        "SUCCESS_MESSAGE": "Bieži uzdotie jautājumi ir veiksmīgi izdzēsti",
+        "ERROR_MESSAGE": "Dzēšot bieži uzdotos jautājumus radās kļūda. Lūdzu, mēģiniet vēlreiz."
       },
       "DELETE": {
         "TITLE": "Vai tiešām vēlaties izdzēst šos bieži uzdotos jautājumus?",
