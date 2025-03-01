@@ -88,7 +88,9 @@ export const generateCustomAttributeTypes = (customAttributes, type) => {
 };
 
 export const generateConditionOptions = (options, key = 'id') => {
+  if (options === undefined) return [];
   if (!options || !Array.isArray(options)) return [];
+
   return options.map(i => {
     return {
       id: i[key],
