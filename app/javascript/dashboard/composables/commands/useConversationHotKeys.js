@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
 import { emitter } from 'shared/helpers/mitt';
+import { useConversationMacros } from 'dashboard/composables/useConversationMacros';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
 import { useAI } from 'dashboard/composables/useAI';
 import { useAgentsList } from 'dashboard/composables/useAgentsList';
@@ -12,6 +13,7 @@ import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/cons
 import wootConstants from 'dashboard/constants/globals';
 
 import {
+  ICON_PLAY_MACRO,
   ICON_ADD_LABEL,
   ICON_ASSIGN_AGENT,
   ICON_ASSIGN_PRIORITY,
@@ -150,6 +152,11 @@ export function useConversationHotKeys() {
     addLabelToConversation,
     removeLabelFromConversation,
   } = useConversationLabels();
+
+  const {
+    activeMacros,
+    playMacroToConversation,
+  } = useConversationMacros();
 
   const { isAIIntegrationEnabled } = useAI();
   const { agentsList } = useAgentsList();
@@ -332,6 +339,35 @@ export function useConversationHotKeys() {
     return addLabelActions.value;
   });
 
+  const playMacroActions = computed(() => {
+    const macroOptions = activeMacros.value.map(macro => ({
+      id: `macro-${macro.id}`,
+      title: macro.name,
+      parent: 'play_a_macro',
+      section: t('COMMAND_BAR.SECTIONS.PLAY_MACRO'),
+      icon: ICON_PLAY_MACRO,
+      handler: action => playMacroToConversation(macro.id),
+    }));
+    return [
+      ...macroOptions,
+      {
+        id: 'play_a_macro',
+        title: t('COMMAND_BAR.COMMANDS.PLAY_MACRO'),
+        section: t('COMMAND_BAR.SECTIONS.CONVERSATION'),
+        icon: ICON_PLAY_MACRO,
+        children: macroOptions.map(option => option.id),
+      },
+    ];
+  })
+
+  const macroActions = computed(() => {
+    if (activeMacros.value.length) {
+      return playMacroActions.value;
+    } else {
+      return [];
+    }
+  });
+
   const conversationAdditionalActions = computed(() => {
     return prepareActions(
       [
@@ -385,6 +421,7 @@ export function useConversationHotKeys() {
       ...assignTeamActions.value,
       ...labelActions.value,
       ...assignPriorityActions.value,
+      ...macroActions.value,
     ];
     if (isAIIntegrationEnabled.value) {
       return [...defaultConversationHotKeys, ...AIAssistActions.value];
