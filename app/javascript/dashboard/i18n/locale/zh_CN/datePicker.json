@@ -1,6 +1,6 @@
 {
   "DATE_PICKER": {
-    "APPLY_BUTTON": "Apply",
+    "APPLY_BUTTON": "应用",
     "CLEAR_BUTTON": "Clear",
     "DATE_RANGE_INPUT": {
       "START": "Start Date",
@@ -10,10 +10,10 @@
       "TITLE": "DATE RANGE",
       "LAST_7_DAYS": "最近7天",
       "LAST_30_DAYS": "最近30天",
-      "LAST_3_MONTHS": "Last 3 months",
-      "LAST_6_MONTHS": "Last 6 months",
-      "LAST_YEAR": "Last year",
-      "CUSTOM_RANGE": "Custom date range"
+      "LAST_3_MONTHS": "最近3个月",
+      "LAST_6_MONTHS": "最近6个月",
+      "LAST_YEAR": "最近一年",
+      "CUSTOM_RANGE": "自定义日期范围"
     }
   }
 }

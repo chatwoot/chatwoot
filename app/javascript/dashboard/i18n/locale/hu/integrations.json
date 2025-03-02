@@ -316,7 +316,8 @@
       "LOADER": "Captain is thinking",
       "YOU": "Ön",
       "USE": "Use this",
-      "RESET": "Reset"
+      "RESET": "Reset",
+      "SELECT_ASSISTANT": "Select Assistant"
     },
     "PAYWALL": {
       "TITLE": "Upgrade to use Captain AI",
