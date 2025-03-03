@@ -49,7 +49,7 @@ const isSent = computed(() => {
     isASmsInbox.value ||
     isATelegramChannel.value
   ) {
-    return sourceId.value && status.value === MESSAGE_STATUS.SENT;
+    return status.value === MESSAGE_STATUS.SENT;
   }
 
   // All messages will be mark as sent for the Line channel, as there is no source ID.
@@ -67,7 +67,7 @@ const isDelivered = computed(() => {
     isASmsInbox.value ||
     isAFacebookInbox.value
   ) {
-    return sourceId.value && status.value === MESSAGE_STATUS.DELIVERED;
+    return status.value === MESSAGE_STATUS.DELIVERED;
   }
   // All messages marked as delivered for the web widget inbox and API inbox once they are sent.
   if (isAWebWidgetInbox.value || isAPIInbox.value) {
@@ -88,7 +88,7 @@ const isRead = computed(() => {
     isATwilioChannel.value ||
     isAFacebookInbox.value
   ) {
-    return sourceId.value && status.value === MESSAGE_STATUS.READ;
+    return status.value === MESSAGE_STATUS.READ;
   }
 
   if (isAWebWidgetInbox.value || isAPIInbox.value) {
