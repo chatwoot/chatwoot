@@ -71,24 +71,24 @@
 </section>
 
 <% content_for :javascript do %>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.toggle-password').forEach(function(button) {
-    button.addEventListener('click', function() {
-      const targetId = this.getAttribute('data-target');
-      const input = document.getElementById(targetId);
-      const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
-      input.setAttribute('type', type);
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.toggle-password').forEach(button => {
+      button.addEventListener('click', () => {
+        const targetId = button.dataset.target;
+        const input = document.getElementById(targetId);
+        const type = input.type === 'password' ? 'text' : 'password';
+        input.type = type;
 
-      // Toggle icon
-      const svg = this.querySelector('.eye-icon');
-      if (type === 'password') {
-        svg.classList.remove('eye-hide');
-      } else {
-        svg.classList.add('eye-hide');
-      }
+        // Toggle icon
+        const svg = button.querySelector('.eye-icon');
+        if (type === 'password') {
+          svg.classList.remove('eye-hide')
+        } else {
+          svg.classList.add('eye-hide')
+        }
+      });
     });
   });
-});
-</script>
+  </script>
 <% end %>
