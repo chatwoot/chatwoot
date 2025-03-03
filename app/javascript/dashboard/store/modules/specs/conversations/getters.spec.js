@@ -308,4 +308,21 @@ describe('#getters', () => {
       });
     });
   });
+
+  describe('#getCopilotAssistant', () => {
+    it('get copilot assistant', () => {
+      const state = {
+        copilotAssistant: {
+          id: 1,
+          name: 'Assistant',
+          description: 'Assistant description',
+        },
+      };
+      expect(getters.getCopilotAssistant(state)).toEqual({
+        id: 1,
+        name: 'Assistant',
+        description: 'Assistant description',
+      });
+    });
+  });
 });
