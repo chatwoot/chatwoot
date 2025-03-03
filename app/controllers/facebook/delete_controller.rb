@@ -1,7 +1,7 @@
-class Webhooks::FacebookController < ActionController::API
+class Facebook::DeleteController < ApplicationController
   class InvalidDigestError < StandardError; end
 
-  def process_deletion
+  def create
     signed_request = params['signed_request']
     payload = parse_fb_signed_request(signed_request)
     id_to_process = payload['user_id']
