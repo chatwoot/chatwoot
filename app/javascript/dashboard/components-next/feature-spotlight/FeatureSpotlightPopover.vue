@@ -5,38 +5,14 @@ import { vOnClickOutside } from '@vueuse/components';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 defineProps({
-  buttonLabel: {
-    type: String,
-    default: '',
-  },
-  title: {
-    type: String,
-    default: '',
-  },
-  note: {
-    type: String,
-    default: '',
-  },
-  videoUrl: {
-    type: String,
-    default: '',
-  },
-  thumbnail: {
-    type: String,
-    default: '',
-  },
-  fallbackThumbnail: {
-    type: String,
-    default: '',
-  },
-  fallbackThumbnailDark: {
-    type: String,
-    default: '',
-  },
-  learnMoreUrl: {
-    type: String,
-    default: '',
-  },
+  buttonLabel: { type: String, default: '' },
+  title: { type: String, default: '' },
+  note: { type: String, default: '' },
+  videoUrl: { type: String, default: '' },
+  thumbnail: { type: String, default: '' },
+  fallbackThumbnail: { type: String, default: '' },
+  fallbackThumbnailDark: { type: String, default: '' },
+  learnMoreUrl: { type: String, default: '' },
 });
 
 const imageError = ref(false);
