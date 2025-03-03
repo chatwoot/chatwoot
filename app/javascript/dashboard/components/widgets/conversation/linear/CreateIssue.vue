@@ -2,11 +2,13 @@
 import { reactive, computed, onMounted, ref } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { useI18n } from 'vue-i18n';
+import { useTrack } from 'dashboard/composables';
 import { useAlert } from 'dashboard/composables';
 import LinearAPI from 'dashboard/api/integrations/linear';
 import validations from './validations';
 import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
 import SearchableDropdown from './SearchableDropdown.vue';
+import { LINEAR_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 const props = defineProps({
   conversationId: {
@@ -188,6 +190,7 @@ const createIssue = async () => {
     const { id: issueId } = response.data;
     await LinearAPI.link_issue(props.conversationId, issueId, props.title);
     useAlert(t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CREATE_SUCCESS'));
+    useTrack(LINEAR_EVENTS.CREATE_ISSUE);
     onClose();
   } catch (error) {
     const errorMessage = parseLinearAPIErrorResponse(
