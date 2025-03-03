@@ -316,7 +316,8 @@
       "LOADER": "Капитан думает",
       "YOU": "Вы",
       "USE": "Использовать это",
-      "RESET": "Сброс"
+      "RESET": "Сброс",
+      "SELECT_ASSISTANT": "Select Assistant"
     },
     "PAYWALL": {
       "TITLE": "Обновите тарифный план, чтобы использовать Captain AI",
