@@ -316,7 +316,8 @@
       "LOADER": "Captainが考え中",
       "YOU": "あなた",
       "USE": "これを使用",
-      "RESET": "リセット"
+      "RESET": "リセット",
+      "SELECT_ASSISTANT": "Select Assistant"
     },
     "PAYWALL": {
       "TITLE": "アップグレードしてCaptain AIを利用する",
