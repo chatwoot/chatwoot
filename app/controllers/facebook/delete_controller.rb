@@ -6,9 +6,9 @@ class Facebook::DeleteController < ApplicationController
     payload = parse_fb_signed_request(signed_request)
     id_to_process = payload['user_id']
 
-    set_processing
+    mark_processing(id_to_process)
     Webhooks::MetaDeleteJob.perform_later(id_to_process)
-    status_url = "#{app_url_base}/facebook/confirm?code=#{id_to_process}"
+    status_url = "#{app_url_base}/facebook/confirm/#{id_to_process}"
 
     render json: { status_url: status_url, code: id_to_process }, status: :ok
   rescue InvalidDigestError
@@ -17,7 +17,7 @@ class Facebook::DeleteController < ApplicationController
 
   private
 
-  def set_processing
+  def mark_processing(id_to_process)
     # we use this key to check if the deletion is completed or not
     # Once the key is gone, we know the deletion is completed
     # And we can show as such

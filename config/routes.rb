@@ -455,8 +455,8 @@ Rails.application.routes.draw do
   end
 
   namespace :facebook do
-    resource :delete, only: [:create]
-    resource :confirm, only: [:show]
+    resources :delete, only: [:create]
+    resources :confirm, only: [:show]
   end
 
   namespace :linear do
