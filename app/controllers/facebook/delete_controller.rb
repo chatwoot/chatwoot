@@ -8,7 +8,7 @@ class Facebook::DeleteController < ApplicationController
 
     set_processing
     Webhooks::MetaDeleteJob.perform_later(id_to_process)
-    status_url = "#{app_url_base}/meta/delete-status/#{id_to_process}"
+    status_url = "#{app_url_base}/facebook/confirm?code=#{id_to_process}"
 
     render json: { status_url: status_url, code: id_to_process }, status: :ok
   rescue InvalidDigestError
