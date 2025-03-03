@@ -23,28 +23,28 @@
         </div>
         <div class="-mt-2 field-unit__field ">
           <% if @installation_configs[key]&.dig('type') == 'boolean' %>
-            <%= form.select "app_config[#{key}]", 
-              [["True", true], ["False", false]], 
+            <%= form.select "app_config[#{key}]",
+              [["True", true], ["False", false]],
               { selected: ActiveModel::Type::Boolean.new.cast(@app_config[key]) },
-              class: "mt-2 border border-slate-100 p-1 rounded-md" 
+              class: "mt-2 border border-slate-100 p-1 rounded-md"
             %>
           <% elsif @installation_configs[key]&.dig('type') == 'code' %>
-            <%= form.text_area "app_config[#{key}]", 
-                value: @app_config[key], 
+            <%= form.text_area "app_config[#{key}]",
+                value: @app_config[key],
                 rows: 12,
                 wrap: 'off',
                 class: "mt-2 border font-mono text-xs border-slate-100 p-1 rounded-md overflow-scroll"
             %>
           <% elsif @installation_configs[key]&.dig('type') == 'secret' %>
             <div class="relative">
-              <%= form.password_field "app_config[#{key}]", 
+              <%= form.password_field "app_config[#{key}]",
                   id: "app_config_#{key}",
                   value: @app_config[key],
-                  class: "mt-2 border border-slate-100 p-1.5 pr-8 rounded-md w-full" 
+                  class: "mt-2 border border-slate-100 p-1.5 pr-8 rounded-md w-full"
               %>
-              <button 
-                type="button" 
-                class="absolute reset-base !bg-white top-1/2 !outline-0 !text-n-slate-11 -translate-y-1/2 right-2 p-1 hover:!bg-n-slate-5 rounded-sm toggle-password" 
+              <button
+                type="button"
+                class="absolute reset-base !bg-white top-1/2 !outline-0 !text-n-slate-11 -translate-y-1/2 right-2 p-1 hover:!bg-n-slate-5 rounded-sm toggle-password"
                 data-target="app_config_<%= key %>"
               >
                 <svg class="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const input = document.getElementById(targetId);
       const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
       input.setAttribute('type', type);
-      
+
       // Toggle icon
       const svg = this.querySelector('.eye-icon');
       if (type === 'password') {
