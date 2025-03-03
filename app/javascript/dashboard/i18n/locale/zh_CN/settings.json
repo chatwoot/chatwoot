@@ -184,8 +184,8 @@
           "BUSY": "忙碌中",
           "OFFLINE": "离线"
         },
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+        "SET_AVAILABILITY_SUCCESS": "可用性已成功设置",
+        "SET_AVAILABILITY_ERROR": "无法设置可用性，请重试"
       },
       "EMAIL": {
         "LABEL": "您的电子邮件地址",
