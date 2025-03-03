@@ -1,4 +1,4 @@
-class Captain::Llm::BaseOpenAiService
+class Llm::BaseOpenAiService
   DEFAULT_MODEL = 'gpt-4o-mini'.freeze
 
   def initialize

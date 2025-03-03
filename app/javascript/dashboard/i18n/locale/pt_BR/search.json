@@ -1,13 +1,13 @@
 {
   "SEARCH": {
     "TABS": {
-      "ALL": "Todos",
-      "CONTACTS": "Contato",
+      "ALL": "Tudo",
+      "CONTACTS": "Contatos",
       "CONVERSATIONS": "Conversas",
       "MESSAGES": "Mensagens"
     },
     "SECTION": {
-      "CONTACTS": "Contato",
+      "CONTACTS": "Contatos",
       "CONVERSATIONS": "Conversas",
       "MESSAGES": "Messagem"
     },
@@ -19,7 +19,7 @@
     "EMPTY_STATE_FULL": "Nenhum resultado encontrado para a consulta '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ para focar",
     "INPUT_PLACEHOLDER": "Digite 3 ou mais caracteres para pesquisar",
-    "EMPTY_STATE_DEFAULT": "Procurar por ID de conversa, e-mail, número de telefone, mensagens para melhores resultados de busca. ",
+    "EMPTY_STATE_DEFAULT": "Procurar por ID de conversa, e-mail, número de telefone, mensagens para melhores resultados de busca.",
     "BOT_LABEL": "Robôs",
     "READ_MORE": "Saiba mais",
     "WROTE": "escreveu:",

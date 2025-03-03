@@ -6,6 +6,8 @@ import { useI18n } from 'vue-i18n';
 import LinearAPI from 'dashboard/api/integrations/linear';
 import CreateOrLinkIssue from './CreateOrLinkIssue.vue';
 import Issue from './Issue.vue';
+import { useTrack } from 'dashboard/composables';
+import { LINEAR_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
 
 const props = defineProps({
@@ -56,6 +58,7 @@ const unlinkIssue = async linkId => {
   try {
     isUnlinking.value = true;
     await LinearAPI.unlinkIssue(linkId);
+    useTrack(LINEAR_EVENTS.UNLINK_ISSUE);
     linkedIssue.value = null;
     useAlert(t('INTEGRATION_SETTINGS.LINEAR.UNLINK.SUCCESS'));
   } catch (error) {

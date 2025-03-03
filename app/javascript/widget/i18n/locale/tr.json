@@ -22,15 +22,15 @@
     "IN_A_DAY": "Genellikle bir gün içinde yanıtlar",
     "BACK_IN": "Tekrar çevrim içi olacağız"
   },
-  "DAY_NAMES": [
-    "Pazar",
-    "Pazartesi",
-    "Salı",
-    "Çarşamba",
-    "Perşembe",
-    "Cuma",
-    "Cumartesi"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Pazar",
+    "MONDAY": "Pazartesi",
+    "TUESDAY": "Salı",
+    "WEDNESDAY": "Çarşamba",
+    "THURSDAY": "Perşembe",
+    "FRIDAY": "Cuma",
+    "SATURDAY": "Cumartesi"
+  },
   "START_CONVERSATION": "Görüşmeyi Başlatın",
   "END_CONVERSATION": "Görüşmeyi Sonlandır",
   "CONTINUE_CONVERSATION": "Görüşmeye devam et",
