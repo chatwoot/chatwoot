@@ -8,7 +8,7 @@ import FeatureSpotlightPopover from './FeatureSpotlightPopover.vue';
     :layout="{ type: 'grid', width: '800px' }"
   >
     <Variant title="Default with learn more URL">
-      <div class="p-16 h-[600px] bg-n-background">
+      <div class="p-6 h-[450px] bg-n-background">
         <div class="flex gap-8">
           <FeatureSpotlightPopover
             button-label="Learn about Assistant"
@@ -25,7 +25,7 @@ import FeatureSpotlightPopover from './FeatureSpotlightPopover.vue';
     </Variant>
 
     <Variant title="With Video Thumbnail and URL">
-      <div class="p-16 h-[600px] bg-n-background">
+      <div class="p-6 h-[450px] bg-n-background">
         <div class="flex gap-8">
           <FeatureSpotlightPopover
             button-label="Learn about Assistant"

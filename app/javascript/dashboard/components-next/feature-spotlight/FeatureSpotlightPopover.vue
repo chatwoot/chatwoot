@@ -4,7 +4,7 @@ import { useToggle } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
 import Button from 'dashboard/components-next/button/Button.vue';
 
-const props = defineProps({
+defineProps({
   buttonLabel: {
     type: String,
     default: '',
@@ -46,9 +46,9 @@ const handleImageError = () => {
   imageError.value = true;
 };
 
-const watchVideo = () => {
-  if (props.videoUrl) {
-    window.open(props.videoUrl, '_blank');
+const openLink = link => {
+  if (link) {
+    window.open(link, '_blank');
   }
 };
 </script>
@@ -56,17 +56,21 @@ const watchVideo = () => {
 <template>
   <div class="relative">
     <Button
+      id="togglePopup"
       :label="buttonLabel"
       slate
       ghost
       sm
       :class="{ 'bg-n-alpha-2': isPopupVisible }"
-      @click="togglePopup"
+      @click="togglePopup(!isPopupVisible)"
     />
 
     <div
       v-if="isPopupVisible"
-      v-on-click-outside="() => isPopupVisible && (isPopupVisible = false)"
+      v-on-click-outside="[
+        () => isPopupVisible && (isPopupVisible = false),
+        { ignore: ['#togglePopup'] },
+      ]"
     >
       <section
         class="absolute top-full mt-6 ltr:left-0 rtl:right-0 outline outline-1 outline-n-weak bg-n-alpha-3 backdrop-blur-[100px] rounded-xl p-4 w-80"
@@ -119,26 +123,20 @@ const watchVideo = () => {
                 slate
                 icon="i-lucide-circle-play"
                 class="w-full"
-                @click="watchVideo"
+                @click="openLink(videoUrl)"
               />
 
               <Button
                 v-if="learnMoreUrl"
+                :label="$t('FEATURE_SPOTLIGHT.LEARN_MORE')"
                 sm
                 faded
                 slate
                 trailing-icon
                 class="w-full"
                 icon="i-lucide-arrow-up-right"
-              >
-                <a
-                  :href="learnMoreUrl"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {{ $t('FEATURE_SPOTLIGHT.LEARN_MORE') }}
-                </a>
-              </Button>
+                @click="openLink(learnMoreUrl)"
+              />
             </slot>
           </div>
         </div>

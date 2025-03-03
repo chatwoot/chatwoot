@@ -5,7 +5,7 @@ import FeatureSpotlight from './FeatureSpotlight.vue';
 <template>
   <Story
     title="Components/FeatureSpotlight/Default"
-    :layout="{ type: 'grid', width: '800px' }"
+    :layout="{ type: 'grid', width: '1000px' }"
   >
     <Variant title="Default with learn more URL">
       <div class="p-6 bg-n-background">

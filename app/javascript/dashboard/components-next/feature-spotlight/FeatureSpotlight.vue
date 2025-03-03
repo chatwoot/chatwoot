@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
-const props = defineProps({
+defineProps({
   title: {
     type: String,
     default: '',
@@ -39,9 +39,9 @@ const handleImageError = () => {
   imageError.value = true;
 };
 
-const watchVideo = () => {
-  if (props.videoUrl) {
-    window.open(props.videoUrl, '_blank');
+const openLink = link => {
+  if (link) {
+    window.open(link, '_blank');
   }
 };
 </script>
@@ -92,21 +92,19 @@ const watchVideo = () => {
               faded
               slate
               icon="i-lucide-circle-play"
-              @click="watchVideo"
+              @click="openLink(videoUrl)"
             />
 
             <Button
               v-if="learnMoreUrl"
+              :label="$t('FEATURE_SPOTLIGHT.LEARN_MORE')"
               sm
               faded
               slate
               trailing-icon
               icon="i-lucide-arrow-up-right"
-            >
-              <a :href="learnMoreUrl" target="_blank" rel="noopener noreferrer">
-                {{ $t('FEATURE_SPOTLIGHT.LEARN_MORE') }}
-              </a>
-            </Button>
+              @click="openLink(learnMoreUrl)"
+            />
           </slot>
         </div>
       </div>
