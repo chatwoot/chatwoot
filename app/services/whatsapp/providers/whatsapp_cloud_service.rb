@@ -131,6 +131,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     return if error_message.blank?
 
     @message.external_error = error_message
+    @message.status = :failed
     @message.save!
   end
 

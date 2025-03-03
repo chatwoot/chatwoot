@@ -110,6 +110,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
     return if error_message.blank?
 
     @message.external_error = error_message
+    @message.status = :failed
     @message.save!
   end
 
