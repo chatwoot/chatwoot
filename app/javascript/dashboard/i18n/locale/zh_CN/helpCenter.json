@@ -695,7 +695,7 @@
       },
       "SLUG": {
         "LABEL": "Slug",
-        "PLACEHOLDER": "user-guide",
+        "PLACEHOLDER": "用户指南",
         "ERROR": "Slug是必填项"
       }
     },
