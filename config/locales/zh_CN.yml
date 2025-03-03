@@ -100,7 +100,7 @@ zh_CN:
       timezone: 时区
     sla_csv:
       conversation_id: 对话ID
-      sla_policy_breached: SLA 策略
+      sla_policy_breached: SLA 政策
       assignee: 负责人
       team: 团队
       inbox: 收件箱
