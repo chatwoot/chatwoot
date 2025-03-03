@@ -30,7 +30,7 @@ defineProps({
           :sender="campaign.sender"
           :inbox="campaign.inbox"
           :scheduled-at="campaign.scheduled_at"
-          is-live-chat-type
+          :campaignType="'liveChat'"
         />
       </div>
     </template>

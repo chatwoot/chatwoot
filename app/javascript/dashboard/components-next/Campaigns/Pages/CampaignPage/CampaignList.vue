@@ -1,19 +1,23 @@
 <script setup>
 import CampaignCard from 'dashboard/components-next/Campaigns/CampaignCard/CampaignCard.vue';
-
+import { useStoreGetters } from 'dashboard/composables/store';
 defineProps({
   campaigns: {
     type: Array,
     required: true,
   },
-  isLiveChatType: {
-    type: Boolean,
-    default: false,
+  campaignType: {
+    type: String,
+    default: 'whatsapp',
   },
 });
 
-const emit = defineEmits(['edit', 'delete']);
+const emit = defineEmits(['edit', 'delete', 'report']);
+const getters = useStoreGetters();
+const getInboxByCampaignId = inboxId =>
+  getters['inboxes/getInbox'].value(inboxId);
 
+const handleReport = campaign => emit('report', campaign);
 const handleEdit = campaign => emit('edit', campaign);
 const handleDelete = campaign => emit('delete', campaign);
 </script>
@@ -28,9 +32,14 @@ const handleDelete = campaign => emit('delete', campaign);
       :is-enabled="campaign.enabled"
       :status="campaign.campaign_status"
       :sender="campaign.sender"
-      :inbox="campaign.inbox"
+      :inbox="
+        campaignType === 'whatsapp'
+          ? getInboxByCampaignId(campaign.inbox_id)
+          : campaign.inbox
+      "
       :scheduled-at="campaign.scheduled_at"
-      :is-live-chat-type="isLiveChatType"
+      :campaignType="campaignType"
+      @report="handleReport(campaign)"
       @edit="handleEdit(campaign)"
       @delete="handleDelete(campaign)"
     />
