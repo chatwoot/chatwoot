@@ -56,6 +56,7 @@ const openLink = link => {
           v-if="!imageError && thumbnail"
           :src="thumbnail"
           :alt="title"
+          draggable="false"
           class="w-full h-full object-cover rounded-lg"
           loading="lazy"
           @error="handleImageError"
@@ -66,6 +67,7 @@ const openLink = link => {
             v-if="fallbackThumbnailDark"
             :src="fallbackThumbnailDark"
             :alt="title"
+            draggable="false"
             class="w-full h-full object-cover hidden dark:block rounded-lg"
             loading="lazy"
           />
@@ -74,6 +76,7 @@ const openLink = link => {
             v-if="fallbackThumbnail"
             :src="fallbackThumbnail"
             :alt="title"
+            draggable="false"
             class="w-full h-full object-cover block dark:hidden rounded-lg"
             loading="lazy"
           />
