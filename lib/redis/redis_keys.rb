@@ -41,4 +41,7 @@ module Redis::RedisKeys
   IG_MESSAGE_MUTEX = 'IG_MESSAGE_CREATE_LOCK::%<sender_id>s::%<ig_account_id>s'.freeze
   SLACK_MESSAGE_MUTEX = 'SLACK_MESSAGE_LOCK::%<conversation_id>s::%<reference_id>s'.freeze
   EMAIL_MESSAGE_MUTEX = 'EMAIL_CHANNEL_LOCK::%<inbox_id>s'.freeze
+
+  ## Meta deletion flags
+  META_DELETE_PROCESSING = 'META_DELETE_PROCESSING::%<id>s'.freeze
 end
