@@ -2,6 +2,7 @@
 import EmptyStateLayout from 'dashboard/components-next/EmptyStateLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ResponseCard from 'dashboard/components-next/captain/assistant/ResponseCard.vue';
+import FeatureSpotlight from 'dashboard/components-next/feature-spotlight/FeatureSpotlight.vue';
 import { responsesList } from 'dashboard/components-next/captain/pageComponents/emptyStates/captainEmptyStateContent.js';
 
 const emit = defineEmits(['click']);
@@ -12,6 +13,16 @@ const onClick = () => {
 </script>
 
 <template>
+  <FeatureSpotlight
+    :title="$t('CAPTAIN.RESPONSES.EMPTY_STATE.FEATURE_SPOTLIGHT.TITLE')"
+    :note="$t('CAPTAIN.RESPONSES.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
+    video-url=""
+    thumbnail=""
+    fallback-thumbnail="/assets/images/dashboard/captain/faqs-light.svg"
+    fallback-thumbnail-dark="/assets/images/dashboard/captain/faqs-dark.svg"
+    learn-more-url="https://www.chatwoot.com/hc/user-guide/articles/1738101609-creating-an-faq-with-captain"
+    class="mb-8"
+  />
   <EmptyStateLayout
     :title="$t('CAPTAIN.RESPONSES.EMPTY_STATE.TITLE')"
     :subtitle="$t('CAPTAIN.RESPONSES.EMPTY_STATE.SUBTITLE')"

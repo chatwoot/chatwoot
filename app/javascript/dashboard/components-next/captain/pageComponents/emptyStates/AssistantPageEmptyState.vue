@@ -2,6 +2,7 @@
 import EmptyStateLayout from 'dashboard/components-next/EmptyStateLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import AssistantCard from 'dashboard/components-next/captain/assistant/AssistantCard.vue';
+import FeatureSpotlight from 'dashboard/components-next/feature-spotlight/FeatureSpotlight.vue';
 import { assistantsList } from 'dashboard/components-next/captain/pageComponents/emptyStates/captainEmptyStateContent.js';
 
 const emit = defineEmits(['click']);
@@ -12,6 +13,16 @@ const onClick = () => {
 </script>
 
 <template>
+  <FeatureSpotlight
+    :title="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.FEATURE_SPOTLIGHT.TITLE')"
+    :note="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
+    video-url=""
+    thumbnail=""
+    fallback-thumbnail="/assets/images/dashboard/captain/assistant-light.svg"
+    fallback-thumbnail-dark="/assets/images/dashboard/captain/assistant-dark.svg"
+    learn-more-url="https://www.chatwoot.com/hc/user-guide/articles/1738101547-creating-an-assistant-with-captain"
+    class="mb-8"
+  />
   <EmptyStateLayout
     :title="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.TITLE')"
     :subtitle="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.SUBTITLE')"

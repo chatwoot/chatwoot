@@ -2,6 +2,7 @@
 import EmptyStateLayout from 'dashboard/components-next/EmptyStateLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import DocumentCard from 'dashboard/components-next/captain/assistant/DocumentCard.vue';
+import FeatureSpotlight from 'dashboard/components-next/feature-spotlight/FeatureSpotlight.vue';
 import { documentsList } from 'dashboard/components-next/captain/pageComponents/emptyStates/captainEmptyStateContent.js';
 
 const emit = defineEmits(['click']);
@@ -12,6 +13,16 @@ const onClick = () => {
 </script>
 
 <template>
+  <FeatureSpotlight
+    :title="$t('CAPTAIN.DOCUMENTS.EMPTY_STATE.FEATURE_SPOTLIGHT.TITLE')"
+    :note="$t('CAPTAIN.DOCUMENTS.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
+    video-url=""
+    thumbnail=""
+    fallback-thumbnail="/assets/images/dashboard/captain/document-light.svg"
+    fallback-thumbnail-dark="/assets/images/dashboard/captain/document-dark.svg"
+    learn-more-url="https://www.chatwoot.com/hc/user-guide/articles/1738104411-creating-a-document-in-captain"
+    class="mb-8"
+  />
   <EmptyStateLayout
     :title="$t('CAPTAIN.DOCUMENTS.EMPTY_STATE.TITLE')"
     :subtitle="$t('CAPTAIN.DOCUMENTS.EMPTY_STATE.SUBTITLE')"
