@@ -1,4 +1,4 @@
-class Webhooks::MetaDeleteJob < ApplicationJob
+class Webhooks::FacebookDeleteJob < ApplicationJob
   queue_as :low
 
   attr_reader :id_to_process

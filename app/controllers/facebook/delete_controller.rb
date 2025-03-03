@@ -7,7 +7,7 @@ class Facebook::DeleteController < ApplicationController
     id_to_process = payload['user_id']
 
     mark_processing(id_to_process)
-    Webhooks::MetaDeleteJob.perform_later(id_to_process)
+    Webhooks::FacebookDeleteJob.perform_later(id_to_process)
     status_url = "#{app_url_base}/facebook/confirm/#{id_to_process}"
 
     render json: { status_url: status_url, code: id_to_process }, status: :ok
