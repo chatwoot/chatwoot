@@ -61,21 +61,23 @@ const watchVideo = () => {
           @error="handleImageError"
         />
 
-        <img
-          v-if="fallbackThumbnailDark"
-          :src="fallbackThumbnailDark"
-          :alt="title"
-          class="w-full h-full object-cover hidden dark:block rounded-lg"
-          loading="lazy"
-        />
+        <template v-else>
+          <img
+            v-if="fallbackThumbnailDark"
+            :src="fallbackThumbnailDark"
+            :alt="title"
+            class="w-full h-full object-cover hidden dark:block rounded-lg"
+            loading="lazy"
+          />
 
-        <img
-          v-if="fallbackThumbnail"
-          :src="fallbackThumbnail"
-          :alt="title"
-          class="w-full h-full object-cover block dark:hidden rounded-lg"
-          loading="lazy"
-        />
+          <img
+            v-if="fallbackThumbnail"
+            :src="fallbackThumbnail"
+            :alt="title"
+            class="w-full h-full object-cover block dark:hidden rounded-lg"
+            loading="lazy"
+          />
+        </template>
       </div>
 
       <div class="flex flex-col flex-1 gap-3 ltr:pr-8 rtl:pl-8">
