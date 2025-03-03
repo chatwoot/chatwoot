@@ -1,5 +1,6 @@
 class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseService
   def send_message(phone_number, message)
+    @message = message
     if message.attachments.present?
       send_attachment_message(phone_number, message)
     elsif message.content_type == 'input_select'
@@ -95,9 +96,21 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
     if response.success?
       response['messages'].first['id']
     else
-      Rails.logger.error response.body
+      handle_error(response)
       nil
     end
+  end
+
+  def handle_error(response)
+    Rails.logger.error response.body
+    return if @message.blank?
+
+    # {"meta": {"success": false, "http_code": 400, "developer_message": "errro-message", "360dialog_trace_id": "someid"}}
+    error_message = response.dig('meta', 'developer_message')
+    return if error_message.blank?
+
+    @message.external_error = error_message
+    @message.save!
   end
 
   def template_body_parameters(template_info)

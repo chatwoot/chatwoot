@@ -128,10 +128,10 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
     # https://developers.facebook.com/docs/whatsapp/cloud-api/support/error-codes/#sample-response
     error_message = response.dig('error', 'message')
-    @message.external_error = error_message
-    @message.save
+    return if error_message.blank?
 
-    nil
+    @message.external_error = error_message
+    @message.save!
   end
 
   def template_body_parameters(template_info)
