@@ -5,9 +5,9 @@ class Facebook::ConfirmController < ApplicationController
     @id_to_process = params[:id]
 
     if processing?
-      render json: { status: 'Processing' }, status: :ok
+      render plain: 'Processing', status: :ok
     else
-      render json: { status: 'Data Deleted Successfully' }, status: :ok
+      render plain: 'Data Deleted Successfully', status: :ok
     end
   end
 
