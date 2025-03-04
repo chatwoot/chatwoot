@@ -1,7 +1,6 @@
 <script>
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
-import Papa from 'papaparse';
 
 export default defineComponent({
   name: 'CampaignReportModal',
@@ -226,46 +225,46 @@ export default defineComponent({
       });
     },
 
-    exportContacts() {
-      const contactsToExport = this.activeContacts;
-      const csvData = contactsToExport.map(contact => {
-        const baseData = {
-          Name: contact.name,
-          'Phone Number': contact.phone_number,
-          Status: this.activeTab,
-        };
+    // exportContacts() {
+    //   const contactsToExport = this.activeContacts;
+    //   const csvData = contactsToExport.map(contact => {
+    //     const baseData = {
+    //       Name: contact.name,
+    //       'Phone Number': contact.phone_number,
+    //       Status: this.activeTab,
+    //     };
 
-        if (
-          this.activeTab === 'processed' ||
-          'read' ||
-          'delivered' ||
-          'replied' ||
-          'pending'
-        ) {
-          baseData['Processed At'] = new Date(
-            contact.processed_at
-          ).toLocaleString();
-        } else {
-          baseData['Error Message'] = contact.error_message || 'Unknown Error';
-        }
+    //     if (
+    //       this.activeTab === 'processed' ||
+    //       'read' ||
+    //       'delivered' ||
+    //       'replied' ||
+    //       'pending'
+    //     ) {
+    //       baseData['Processed At'] = new Date(
+    //         contact.processed_at
+    //       ).toLocaleString();
+    //     } else {
+    //       baseData['Error Message'] = contact.error_message || 'Unknown Error';
+    //     }
 
-        return baseData;
-      });
+    //     return baseData;
+    //   });
 
-      const csv = Papa.unparse(csvData);
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
-      const url = URL.createObjectURL(blob);
-      link.setAttribute('href', url);
-      link.setAttribute(
-        'download',
-        `${this.campaign.title}_${this.activeTab}_contacts.csv`
-      );
-      link.style.visibility = 'hidden';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    },
+    //   const csv = Papa.unparse(csvData);
+    //   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    //   const link = document.createElement('a');
+    //   const url = URL.createObjectURL(blob);
+    //   link.setAttribute('href', url);
+    //   link.setAttribute(
+    //     'download',
+    //     `${this.campaign.title}_${this.activeTab}_contacts.csv`
+    //   );
+    //   link.style.visibility = 'hidden';
+    //   document.body.appendChild(link);
+    //   link.click();
+    //   document.body.removeChild(link);
+    // },
 
     closeModal() {
       this.$emit('close');
