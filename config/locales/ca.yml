@@ -68,6 +68,8 @@ ca:
       invalid_operator: Operador no vàlid. Els operadors permesos per a %{attribute_name} son [%{allowed_keys}].
       invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Valor no vàlid. Els valors proporcionats per a %{attribute_name} no són vàlids
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
     period: Període d'informes %{since} a %{until}
     utc_warning: L'informe generat es troba a la zona horària UTC
