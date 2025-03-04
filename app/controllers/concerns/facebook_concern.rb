@@ -6,17 +6,17 @@ module FacebookConcern
   private
 
   def mark_deleting(id)
-    key = processing_key(id)
+    key = delete_key(id)
     ::Redis::Alfred.set(key, true)
   end
 
   def unset_deleting(id)
-    key = processing_key(id)
+    key = delete_key(id)
     ::Redis::Alfred.del(key)
   end
 
   def deleting?(id)
-    key = processing_key(id)
+    key = delete_key(id)
     ::Redis::Alfred.get(key).present?
   end
 
