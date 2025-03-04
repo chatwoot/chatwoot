@@ -10,7 +10,7 @@ class Facebook::DeleteController < ApplicationController
     Webhooks::FacebookDeleteJob.perform_later(id_to_process)
     status_url = "#{app_url_base}/facebook/confirm/#{id_to_process}"
 
-    render json: { status_url: status_url, code: id_to_process }, status: :ok
+    render json: { url: status_url, confirmation_code: id_to_process }, status: :ok
   rescue InvalidDigestError
     render json: { error: 'Invalid signature' }, status: :unprocessable_entity
   end
