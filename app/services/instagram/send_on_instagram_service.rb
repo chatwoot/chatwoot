@@ -82,7 +82,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
     response
   end
 
-  def handle_error(error_type, error_message)
+  def handle_error(error_type, error_message, message_content)
     Rails.logger.error("#{error_type}: #{error_message} : #{message_content}")
     message.status = :failed
     message.external_error = error_message
