@@ -98,12 +98,11 @@ export default {
       v-if="
         !isCards && !isOptions && !isForm && !isArticle && !isCards && !isCSAT
       "
-      class="chat-bubble agent"
-      :class="getThemeClass('bg-white', 'dark:bg-slate-700 has-dark-mode')"
+      class="chat-bubble agent bg-n-background dark:bg-n-slate-6 text-n-slate-12"
     >
       <div
         v-dompurify-html="formatMessage(message, false)"
-        class="message-content text-slate-900 dark:text-slate-50"
+        class="message-content text-n-slate-12"
       />
       <EmailInput
         v-if="isTemplateEmail"

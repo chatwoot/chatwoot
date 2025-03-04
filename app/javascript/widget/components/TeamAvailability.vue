@@ -78,11 +78,11 @@ export default {
       <AvailableAgents v-if="isOnline" :agents="availableAgents" />
     </div>
     <button
-      class="inline-flex items-center justify-between px-2 py-1 mt-2 -ml-2 text-sm font-medium leading-6 rounded-md text-slate-800 dark:text-slate-50 hover:bg-slate-25 dark:hover:bg-slate-800"
+      class="inline-flex items-center justify-between px-2 py-1 mt-2 ltr:-ml-2 rtl:-mr-2 text-sm font-medium leading-6 rounded-md text-slate-800 dark:text-slate-50 hover:bg-slate-25 dark:hover:bg-slate-800"
       :style="{ color: widgetColor }"
       @click="startConversation"
     >
-      <span class="pr-2 text-sm">
+      <span class="ltr:pr-2 rtl:pl-2 text-sm">
         {{
           hasConversation
             ? $t('CONTINUE_CONVERSATION')

@@ -103,7 +103,7 @@ export default {
 
 <template>
   <div
-    class="w-full h-full bg-slate-25 dark:bg-slate-800"
+    class="w-full h-full bg-n-slate-2 dark:bg-n-solid-2"
     :class="{ 'overflow-auto': isOnHomeView }"
     @keydown.esc="closeWindow"
   >

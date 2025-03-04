@@ -83,21 +83,20 @@ export default {
 
 <template>
   <div
-    class="form chat-bubble agent"
-    :class="getThemeClass('bg-white', 'dark:bg-slate-700')"
+    class="form chat-bubble agent w-full p-4 bg-n-background dark:bg-n-slate-6"
   >
     <form @submit.prevent="onSubmit">
       <div
         v-for="item in items"
         :key="item.key"
-        class="form-block"
+        class="pb-2 w-full"
         :class="{
           'has-submitted': hasSubmitted,
         }"
       >
-        <label :class="getThemeClass('text-black-900', 'dark:text-slate-50')">{{
-          item.label
-        }}</label>
+        <label class="text-n-slate-12">
+          {{ item.label }}
+        </label>
         <input
           v-if="item.type === 'email'"
           v-model="formValues[item.name]"
@@ -171,84 +170,24 @@ export default {
 @import 'widget/assets/scss/variables.scss';
 
 .form {
-  padding: $space-normal;
-  width: 80%;
-
-  .form-block {
-    width: 90%;
-    padding-bottom: $space-small;
-  }
-
   label {
-    display: block;
-    font-weight: $font-weight-medium;
-    padding: $space-smaller 0;
-    text-transform: capitalize;
-  }
-
-  input,
-  textarea {
-    border-radius: $space-smaller;
-    border: 1px solid $color-border;
-    display: block;
-    font-family: inherit;
-    font-size: $font-size-default;
-    line-height: 1.5;
-    padding: $space-one;
-    width: 100%;
-
-    &:disabled {
-      background: $color-background-light;
-    }
-  }
-
-  textarea {
-    resize: none;
-  }
-
-  select {
-    width: 110%;
-    padding: $space-smaller;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    border: 1px solid $color-border;
-    border-radius: $space-smaller;
-    font-family: inherit;
-    font-size: $space-normal;
-    font-weight: normal;
-    line-height: 1.5;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb%28110, 111, 115%29'></polygon></svg>");
-    background-origin: content-box;
-    background-position: right -1.6rem center;
-    background-repeat: no-repeat;
-    background-size: 9px 6px;
-    padding-right: 2.4rem;
+    @apply block font-medium py-1 px-0 capitalize;
   }
 
   .button {
-    font-size: $font-size-default;
+    @apply text-sm rounded-lg;
   }
 
   .error-message {
-    display: none;
-    margin-top: $space-smaller;
-    color: $color-error;
+    @apply text-n-ruby-9 mt-1 hidden;
   }
 
   .has-submitted {
-    input:invalid {
-      border: 1px solid $color-error;
-    }
-
-    input:invalid + .error-message {
-      display: block;
-    }
-
+    input:invalid,
     textarea:invalid {
-      border: 1px solid $color-error;
+      @apply border border-n-ruby-8 dark:border-n-ruby-8 hover:border-n-ruby-9 dark:hover:border-n-ruby-9;
     }
-
+    input:invalid + .error-message,
     textarea:invalid + .error-message {
       display: block;
     }

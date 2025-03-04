@@ -144,7 +144,7 @@ export default {
       :rows="1"
       :aria-label="$t('CHAT_PLACEHOLDER')"
       :placeholder="$t('CHAT_PLACEHOLDER')"
-      class="form-input user-message-input is-focused"
+      class="form-input user-message-input is-focused reset-base"
       :class="inputColor"
       @typing-off="onTypingOff"
       @typing-on="onTypingOn"

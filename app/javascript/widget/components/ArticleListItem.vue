@@ -31,10 +31,12 @@ export default {
     role="button"
     @click="onClick"
   >
-    <button class="underline-offset-2 text-sm leading-6 text-left">
+    <button
+      class="underline-offset-2 text-sm leading-6 ltr:text-left rtl:text-right"
+    >
       {{ title }}
     </button>
-    <span class="pl-1 arrow">
+    <span class="ltr:pl-1 rtl:pr-1 arrow">
       <FluentIcon icon="arrow-right" size="14" />
     </span>
   </li>

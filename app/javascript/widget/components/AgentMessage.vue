@@ -183,8 +183,8 @@ export default {
         <div v-if="hasReplyTo" class="flex mt-2 mb-1 text-xs">
           <ReplyToChip :reply-to="replyTo" />
         </div>
-        <div class="flex gap-1">
-          <div class="space-y-2">
+        <div class="flex w-full gap-1">
+          <div class="space-y-2 w-full">
             <AgentMessageBubble
               v-if="shouldDisplayAgentMessage"
               :content-type="contentType"
@@ -195,10 +195,8 @@ export default {
             />
             <div
               v-if="hasAttachments"
-              class="space-y-2 chat-bubble has-attachment agent"
-              :class="
-                (wrapClass, getThemeClass('bg-white', 'dark:bg-slate-700'))
-              "
+              class="space-y-2 chat-bubble has-attachment agent bg-n-background dark:bg-n-slate-6"
+              :class="wrapClass"
             >
               <div
                 v-for="attachment in message.attachments"
