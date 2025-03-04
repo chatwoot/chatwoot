@@ -212,6 +212,10 @@
 - name: CHATWOOT_SUPPORT_IDENTIFIER_HASH
   value:
   description: 'The Chatwoot identifier hash, to validate the contact in the live chat window.'
+- name: ACCOUNT_SECURITY_NOTIFICATION_WEBHOOK_URL
+  display_title: Webhook URL to post security analysis
+  value:
+  description: Used to notify Chatwoot about account abuses, potential threads (Should be a Discord Webhook URL)
 # ------- End of Chatwoot Internal Config for Self Hosted ----#
 
 ## ------ Configs added for enterprise clients ------ ##
@@ -243,3 +247,16 @@
   locked: false
   description: 'Contents on your firebase credentials json file'
 ## ------ End of Configs added for FCM v1 notifications ------ ##
+
+## ------ Configs added for Linear ------ ##
+- name: LINEAR_CLIENT_ID
+  display_title: 'Linear Client ID'
+  value:
+  locked: false
+  description: 'Linear client ID'
+- name: LINEAR_CLIENT_SECRET
+  display_title: 'Linear Client Secret'
+  value:
+  locked: false
+  description: 'Linear client secret'
+## ------ End of Configs added for Linear ------ ##

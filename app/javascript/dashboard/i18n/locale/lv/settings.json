@@ -35,6 +35,24 @@
           }
         }
       },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interfeiss",
+        "NOTE": "Pielāgot sava Chatwoot informācijas paneļa izskatu un darbību.",
+        "FONT_SIZE": {
+          "TITLE": "Fonta lielums",
+          "NOTE": "Pielāgot teksta lielumu informācijas panelī, atbilstoši savām vēlmēm.",
+          "UPDATE_SUCCESS": "Fonta iestatījumi ir veiksmīgi atjaunināti",
+          "UPDATE_ERROR": "Atjauninot fonta iestatījumus radās kļūda. Lūdzu, mēģiniet vēlreiz",
+          "OPTIONS": {
+            "SMALLER": "Mazāks",
+            "SMALL": "Mazs",
+            "DEFAULT": "Noklusējums",
+            "LARGE": "Liels",
+            "LARGER": "Lielāks",
+            "EXTRA_LARGE": "Īpaši Liels"
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Personīgais ziņojuma paraksts",
         "NOTE": "Izveidot unikālu ziņojuma parakstu, kas parādās katra ziņojuma beigās, kuru sūtāt no jebkuras iesūtnes. Varat arī iekļaut attēlu, kas tiek atbalstīts tiešraidē, e-pastā un API iesūtnēs.",
