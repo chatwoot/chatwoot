@@ -12,7 +12,7 @@ module FacebookConcern
 
   def unset_deleting(id)
     key = delete_key(id)
-    ::Redis::Alfred.del(key)
+    ::Redis::Alfred.delete(key)
   end
 
   def deleting?(id)
