@@ -3,7 +3,7 @@ class Channels::Facebook::RedactContactDataJob < ApplicationJob
 
   def perform(id_to_process)
     @id_to_process = id_to_process
-    delete_contact_if_present
+    redact_contact_if_present
 
     unset_processing
   end
@@ -12,10 +12,10 @@ class Channels::Facebook::RedactContactDataJob < ApplicationJob
 
   def unset_processing
     key = format(::Redis::Alfred::META_DELETE_PROCESSING, id: @id_to_process)
-    ::Redis::Alfred.del(key)
+    ::Redis::Alfred.delete(key)
   end
 
-  def remove_contact_if_present
+  def redact_contact_if_present
     contact_inbox = ContactInbox.find_by(source_id: @id_to_process)
     return unless contact_inbox
 
