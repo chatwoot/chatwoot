@@ -1,4 +1,6 @@
 <script setup>
+import Policy from 'dashboard/components/policy.vue';
+
 defineProps({
   title: {
     type: String,
@@ -8,6 +10,10 @@ defineProps({
     type: String,
     required: true,
   },
+  actionPerms: {
+    type: Array,
+    default: () => [],
+  },
 });
 </script>
 
@@ -16,7 +22,7 @@ defineProps({
     class="relative flex flex-col items-center justify-center w-full h-full overflow-hidden"
   >
     <div
-      class="relative w-full max-w-[940px] mx-auto overflow-hidden h-full max-h-[448px]"
+      class="relative w-full max-w-[60rem] mx-auto overflow-hidden h-full max-h-[28rem]"
     >
       <div
         class="w-full h-full space-y-4 overflow-y-hidden opacity-50 pointer-events-none"
@@ -39,7 +45,9 @@ defineProps({
               {{ subtitle }}
             </p>
           </div>
-          <slot name="actions" />
+          <Policy :permissions="actionPerms">
+            <slot name="actions" />
+          </Policy>
         </div>
       </div>
     </div>

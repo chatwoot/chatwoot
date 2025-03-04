@@ -1,7 +1,7 @@
 {
   "SEARCH": {
     "TABS": {
-      "ALL": "所有的",
+      "ALL": "全部",
       "CONTACTS": "联系人",
       "CONVERSATIONS": "会话",
       "MESSAGES": "消息"
@@ -11,16 +11,20 @@
       "CONVERSATIONS": "会话",
       "MESSAGES": "消息"
     },
+    "VIEW_MORE": "查看更多",
+    "LOAD_MORE": "加载更多",
     "SEARCHING_DATA": "搜索中",
-    "EMPTY_STATE": "No {item} found for query '{query}'",
-    "EMPTY_STATE_FULL": "No results found for query '{query}'",
-    "PLACEHOLDER_KEYBINDING": "/ to focus",
-    "INPUT_PLACEHOLDER": "Type 3 or more characters to search",
-    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
+    "LOADING_DATA": "加载中",
+    "EMPTY_STATE": "未找到与查询 '{query}' 相关的 {item}",
+    "EMPTY_STATE_FULL": "未找到与查询 '{query}' 相关的结果",
+    "PLACEHOLDER_KEYBINDING": "/ 聚焦搜索框",
+    "INPUT_PLACEHOLDER": "输入 3 个或更多字符以进行搜索",
+    "EMPTY_STATE_DEFAULT": "通过会话 Id、电子邮件、电话号码、消息等进行搜索以获得更好的搜索结果。 ",
     "BOT_LABEL": "机器人",
-    "READ_MORE": "Read more",
-    "WROTE": "wrote:",
-    "FROM": "发自",
-    "EMAIL": "email"
+    "READ_MORE": "查看更多",
+    "WROTE": "写道：",
+    "FROM": "来自",
+    "EMAIL": "电子邮件",
+    "EMAIL_SUBJECT": "主题"
   }
 }

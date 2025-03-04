@@ -15,11 +15,11 @@
       "DESC": "Você pode adicionar e/ou remover agentes de um time.",
       "NAME": "Nome",
       "EMAIL": "E-mail",
-      "STATUS": "SItuação",
+      "STATUS": "Situação",
       "ACTIONS": "Ações",
       "VERIFIED": "Verificado",
       "VERIFICATION_PENDING": "Verificação Pendente",
-      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+      "AVAILABLE_CUSTOM_ROLE": "Permissões de função personalizada disponíveis"
     },
     "ADD": {
       "TITLE": "Adicionar agente ao seu time",

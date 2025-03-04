@@ -38,15 +38,23 @@
     "REMOVE_SELECTION": "Seçimi Kaldır",
     "DOWNLOAD": "İndir",
     "UNKNOWN_FILE_TYPE": "Bilinmeyen Dosya",
-    "SAVE_CONTACT": "Kaydet",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} bir toplantı başlattı"
+    },
     "UPLOADING_ATTACHMENTS": "Dosyalar gönderiliyor...",
     "REPLIED_TO_STORY": "Hikayene cevap verildi",
-    "UNSUPPORTED_MESSAGE": "Bu mesaj desteklenmiyor.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Bu mesaj desteklenmiyor. Bu mesajı Facebook Messenger uygulamasında görüntüleyebilirsiniz.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Bu mesaj desteklenmiyor. Bu mesajı Instagram uygulamasında görüntüleyebilirsiniz.",
     "SUCCESS_DELETE_MESSAGE": "Mesaj başarıyla silindi",
     "FAIL_DELETE_MESSSAGE": "Mesaj silinemiyor. Tekrar deneyin",
     "NO_RESPONSE": "Cevap Yok",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Değerlendirme",
     "FEEDBACK_TITLE": "Geribildirim",
     "REPLY_MESSAGE_NOT_FOUND": "Mesaj bulunamadı",
@@ -109,6 +117,7 @@
       "PENDING": "Beklemede olarak işaretle",
       "RESOLVED": "Çözüldü olarak işaretle",
       "MARK_AS_UNREAD": "Okunmamış olarak işaretle",
+      "MARK_AS_READ": "Okundu olarak işaretle",
       "REOPEN": "Görüşmeyi yeniden açın",
       "SNOOZE": {
         "TITLE": "Sustur",
@@ -126,7 +135,7 @@
           "FAILED": "Temsilci atanamadı. Lütfen tekrar deneyin."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Sohbet kimliği {conversationId} için etiket #{labelName} atanmış",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Etiket atanamadı. Lütfen tekrar deneyin."
         },
         "TEAM_ASSIGNMENT": {
@@ -219,6 +228,10 @@
         "DELETE": "Sil",
         "CANCEL": "İptal Et"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "İletişim",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -280,7 +293,7 @@
       "CONVERSATION_INFO": "Konuşma Bilgisi",
       "CONTACT_ATTRIBUTES": "İletişim Nitelikleri",
       "PREVIOUS_CONVERSATION": "Önceki Konuşmalar",
-      "MACROS": "Makrolar"
+      "MACROS": "Kısayollar"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -310,7 +323,8 @@
     "TO": "Kime",
     "BCC": "Gizli Kopya",
     "CC": "Kopya",
-    "SUBJECT": "Konu"
+    "SUBJECT": "Konu",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Katılımcılar",
@@ -335,5 +349,16 @@
     "ORIGINAL_CONTENT": "Orijinal İçerik",
     "TRANSLATED_CONTENT": "Çevrilen İçerik",
     "NO_TRANSLATIONS_AVAILABLE": "Bu için çeviri mevcut değil"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { vOnClickOutside } from '@vueuse/components';
 import { useAlert } from 'dashboard/composables';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
@@ -12,6 +13,7 @@ import {
   createNewContact,
   fetchContactableInboxes,
   processContactableInboxes,
+  mergeInboxDetails,
 } from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper';
 
 import ComposeNewConversationForm from 'dashboard/components-next/NewConversation/components/ComposeNewConversationForm.vue';
@@ -30,6 +32,8 @@ const props = defineProps({
 const store = useStore();
 const { t } = useI18n();
 
+const { fetchSignatureFlagFromUISettings } = useUISettings();
+
 const contacts = ref([]);
 const selectedContact = ref(null);
 const targetInbox = ref(null);
@@ -43,6 +47,12 @@ const contactsUiFlags = useMapGetter('contacts/getUIFlags');
 const currentUser = useMapGetter('getCurrentUser');
 const globalConfig = useMapGetter('globalConfig/get');
 const uiFlags = useMapGetter('contactConversations/getUIFlags');
+const messageSignature = useMapGetter('getMessageSignature');
+const inboxesList = useMapGetter('inboxes/getInboxes');
+
+const sendWithSignature = computed(() =>
+  fetchSignatureFlagFromUISettings(targetInbox.value?.channelType)
+);
 
 const directUploadsEnabled = computed(
   () => globalConfig.value.directUploadsEnabled
@@ -96,7 +106,12 @@ const handleSelectedContact = async ({ value, action, ...rest }) => {
     isFetchingInboxes.value = true;
     try {
       const contactableInboxes = await fetchContactableInboxes(contact.id);
-      selectedContact.value.contactInboxes = contactableInboxes;
+      // Merge the processed contactableInboxes with the inboxesList
+      selectedContact.value.contactInboxes = mergeInboxDetails(
+        contactableInboxes,
+        inboxesList.value
+      );
+
       isFetchingInboxes.value = false;
     } catch (error) {
       isFetchingInboxes.value = false;
@@ -154,14 +169,21 @@ watch(
   () => {
     if (activeContact.value && props.contactId) {
       const contactInboxes = activeContact.value?.contactInboxes || [];
+      // First process the contactable inboxes to get the right structure
+      const processedInboxes = processContactableInboxes(contactInboxes);
+      // Then Merge processedInboxes with the inboxes list
       selectedContact.value = {
         ...activeContact.value,
-        contactInboxes: processContactableInboxes(contactInboxes),
+        contactInboxes: mergeInboxDetails(processedInboxes, inboxesList.value),
       };
     }
   },
   { immediate: true, deep: true }
 );
+
+const handleClickOutside = () => {
+  showComposeNewConversation.value = false;
+};
 
 onMounted(() => resetContacts());
 
@@ -180,8 +202,16 @@ useKeyboardEvents(keyboardEvents);
 
 <template>
   <div
-    v-on-click-outside="() => (showComposeNewConversation = false)"
-    class="relative z-40"
+    v-on-click-outside="[
+      handleClickOutside,
+      // Fixed and edge case https://github.com/chatwoot/chatwoot/issues/10785
+      // This will prevent closing the compose conversation modal when the editor Create link popup is open.
+      { ignore: ['div.ProseMirror-prompt'] },
+    ]"
+    class="relative"
+    :class="{
+      'z-40': showComposeNewConversation,
+    }"
   >
     <slot
       name="trigger"
@@ -202,6 +232,8 @@ useKeyboardEvents(keyboardEvents);
       :contact-conversations-ui-flags="uiFlags"
       :contacts-ui-flags="contactsUiFlags"
       :class="composePopoverClass"
+      :message-signature="messageSignature"
+      :send-with-signature="sendWithSignature"
       @search-contacts="onContactSearch"
       @reset-contact-search="resetContacts"
       @update-selected-contact="handleSelectedContact"

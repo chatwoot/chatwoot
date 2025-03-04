@@ -48,6 +48,14 @@ Rails.application.routes.draw do
           resources :agents, only: [:index, :create, :update, :destroy] do
             post :bulk_create, on: :collection
           end
+          namespace :captain do
+            resources :assistants do
+              resources :inboxes, only: [:index, :create, :destroy], param: :inbox_id
+            end
+            resources :documents, only: [:index, :show, :create, :destroy]
+            resources :assistant_responses
+            resources :bulk_actions, only: [:create]
+          end
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
           end
@@ -110,6 +118,8 @@ Rails.application.routes.draw do
               post :unread
               post :custom_attributes
               get :attachments
+              post :copilot
+              get :inbox_assistant
             end
           end
 
@@ -158,7 +168,6 @@ Rails.application.routes.draw do
           resources :inboxes, only: [:index, :show, :create, :update, :destroy] do
             get :assignable_agents, on: :member
             get :campaigns, on: :member
-            get :response_sources, on: :member
             get :agent_bot, on: :member
             post :set_agent_bot, on: :member
             delete :avatar, on: :member
@@ -170,15 +179,6 @@ Rails.application.routes.draw do
             end
           end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
-          resources :response_sources, only: [:create] do
-            collection do
-              post :parse
-            end
-            member do
-              post :add_document
-              post :remove_document
-            end
-          end
 
           resources :notifications, only: [:index, :update, :destroy] do
             collection do
@@ -217,12 +217,6 @@ Rails.application.routes.draw do
           resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
             resources :apps, only: [:index, :show]
-            resource :captain, controller: 'captain', only: [] do
-              collection do
-                post :proxy
-                post :copilot
-              end
-            end
             resources :hooks, only: [:show, :create, :update, :destroy] do
               member do
                 post :process_event
@@ -241,6 +235,7 @@ Rails.application.routes.draw do
             end
             resource :linear, controller: 'linear', only: [] do
               collection do
+                delete :destroy
                 get :teams
                 get :team_entities
                 post :create_issue
@@ -344,6 +339,12 @@ Rails.application.routes.draw do
               get :bot_metrics
             end
           end
+          resources :live_reports, only: [] do
+            collection do
+              get :conversation_metrics
+              get :grouped_conversation_metrics
+            end
+          end
         end
       end
     end
@@ -364,6 +365,7 @@ Rails.application.routes.draw do
       end
 
       post 'webhooks/stripe', to: 'webhooks/stripe#process_payload'
+      post 'webhooks/firecrawl', to: 'webhooks/firecrawl#process_payload'
     end
   end
 
@@ -451,6 +453,10 @@ Rails.application.routes.draw do
     resource :callback, only: [:show]
   end
 
+  namespace :linear do
+    resource :callback, only: [:show]
+  end
+
   namespace :twilio do
     resources :callback, only: [:create]
     resources :delivery_status, only: [:create]
@@ -488,17 +494,11 @@ Rails.application.routes.draw do
       end
 
       resources :access_tokens, only: [:index, :show]
-      resources :response_sources, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
-        get :chat, on: :member
-        post :chat, on: :member, action: :process_chat
-      end
-      resources :response_documents, only: [:index, :show, :new, :create, :edit, :update, :destroy]
-      resources :responses, only: [:index, :show, :new, :create, :edit, :update, :destroy]
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]
       resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update] do
         delete :avatar, on: :member, action: :destroy_avatar
       end
-      resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update]
+      resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update, :destroy]
       resource :instance_status, only: [:show]
 
       resource :settings, only: [:show] do

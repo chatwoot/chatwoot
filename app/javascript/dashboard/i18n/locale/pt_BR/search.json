@@ -1,26 +1,30 @@
 {
   "SEARCH": {
     "TABS": {
-      "ALL": "Todos",
-      "CONTACTS": "Contato",
+      "ALL": "Tudo",
+      "CONTACTS": "Contatos",
       "CONVERSATIONS": "Conversas",
       "MESSAGES": "Mensagens"
     },
     "SECTION": {
-      "CONTACTS": "Contato",
+      "CONTACTS": "Contatos",
       "CONVERSATIONS": "Conversas",
       "MESSAGES": "Messagem"
     },
-    "SEARCHING_DATA": "Procurando",
+    "VIEW_MORE": "Ver mais",
+    "LOAD_MORE": "Carregar mais",
+    "SEARCHING_DATA": "Pesquisando",
+    "LOADING_DATA": "Carregando",
     "EMPTY_STATE": "Nenhum {item} foi encontrado para a consulta '{query}'",
     "EMPTY_STATE_FULL": "Nenhum resultado encontrado para a consulta '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ para focar",
     "INPUT_PLACEHOLDER": "Digite 3 ou mais caracteres para pesquisar",
-    "EMPTY_STATE_DEFAULT": "Procurar por ID de conversa, e-mail, número de telefone, mensagens para melhores resultados de busca. ",
+    "EMPTY_STATE_DEFAULT": "Procurar por ID de conversa, e-mail, número de telefone, mensagens para melhores resultados de busca.",
     "BOT_LABEL": "Robôs",
     "READ_MORE": "Saiba mais",
     "WROTE": "escreveu:",
-    "FROM": "De",
-    "EMAIL": "e-mail"
+    "FROM": "de",
+    "EMAIL": "e-mail",
+    "EMAIL_SUBJECT": "assunto"
   }
 }

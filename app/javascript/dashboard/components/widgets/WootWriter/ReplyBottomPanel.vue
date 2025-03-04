@@ -127,7 +127,7 @@ export default {
     const uploadRef = ref(false);
 
     const keyboardEvents = {
-      'Alt+KeyA': {
+      '$mod+Alt+KeyA': {
         action: () => {
           // TODO: This is really hacky, we need to replace the file picker component with
           // a custom one, where the logic and the component markup is isolated.
@@ -328,7 +328,7 @@ export default {
       <NextButton
         v-if="hasWhatsappTemplates"
         v-tooltip.top-end="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
-        icon="i-ph-whatsapp"
+        icon="i-ph-whatsapp-logo"
         slate
         faded
         sm

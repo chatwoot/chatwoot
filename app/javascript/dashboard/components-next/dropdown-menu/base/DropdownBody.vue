@@ -19,7 +19,7 @@ const beforeClass = computed(() => {
 
   // Add extra blur layer only when strong prop is true, as a hack for Chrome's stacked backdrop-blur limitation
   // https://issues.chromium.org/issues/40835530
-  return "before:content-['\x00A0'] before:absolute before:bottom-0 before:left-0 before:w-full before:h-full before:backdrop-contrast-70 before:backdrop-blur-sm before:z-0 [&>*]:relative";
+  return "before:content-['\x00A0'] before:absolute before:bottom-0 before:left-0 before:w-full before:h-full before:rounded-xl before:backdrop-contrast-70 before:backdrop-blur-sm before:z-0 [&>*]:relative";
 });
 </script>
 

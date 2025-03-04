@@ -1,7 +1,7 @@
 <script setup>
 import { computed, reactive, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { required, email, minLength } from '@vuelidate/validators';
+import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import { splitName } from '@chatwoot/utils';
 import countries from 'shared/constants/countries.js';
@@ -35,7 +35,7 @@ const FORM_CONFIG = {
   EMAIL_ADDRESS: { field: 'email' },
   PHONE_NUMBER: { field: 'phoneNumber' },
   CITY: { field: 'additionalAttributes.city' },
-  COUNTRY: { field: 'additionalAttributes.country' },
+  COUNTRY: { field: 'additionalAttributes.countryCode' },
   BIO: { field: 'additionalAttributes.description' },
   COMPANY_NAME: { field: 'additionalAttributes.companyName' },
 };
@@ -74,7 +74,7 @@ const defaultState = {
 const state = reactive({ ...defaultState });
 
 const validationRules = {
-  firstName: { required, minLength: minLength(2) },
+  firstName: { required },
   email: { email },
 };
 
@@ -123,7 +123,7 @@ const prepareStateBasedOnProps = () => {
 };
 
 const countryOptions = computed(() =>
-  countries.map(({ name }) => ({ label: name, value: name }))
+  countries.map(({ name, id }) => ({ label: name, value: id }))
 );
 
 const editDetailsForm = computed(() =>
@@ -205,8 +205,8 @@ const getMessageType = key => {
 };
 
 const handleCountrySelection = value => {
-  const selectedCountry = countries.find(option => option.name === value);
-  state.additionalAttributes.countryCode = selectedCountry?.id || '';
+  const selectedCountry = countries.find(option => option.id === value);
+  state.additionalAttributes.country = selectedCountry?.name || '';
   emit('update', state);
 };
 
@@ -242,7 +242,7 @@ defineExpose({
         <template v-for="item in editDetailsForm" :key="item.key">
           <ComboBox
             v-if="item.key === 'COUNTRY'"
-            v-model="state.additionalAttributes.country"
+            v-model="state.additionalAttributes.countryCode"
             :options="countryOptions"
             :placeholder="item.placeholder"
             class="[&>div>button]:h-8"

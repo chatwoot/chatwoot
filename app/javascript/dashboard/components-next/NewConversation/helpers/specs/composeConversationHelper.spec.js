@@ -110,6 +110,153 @@ describe('composeConversationHelper', () => {
     });
   });
 
+  describe('mergeInboxDetails', () => {
+    it('returns empty array if inboxesData is empty or null', () => {
+      expect(helpers.mergeInboxDetails(null)).toEqual([]);
+      expect(helpers.mergeInboxDetails([])).toEqual([]);
+      expect(helpers.mergeInboxDetails(undefined)).toEqual([]);
+    });
+
+    it('merges inbox data with matching inboxes from the list', () => {
+      const inboxesData = [
+        { id: 1, sourceId: 'source1' },
+        { id: 2, sourceId: 'source2' },
+      ];
+
+      const inboxesList = [
+        {
+          id: 1,
+          name: 'Inbox 1',
+          channel_type: 'Channel::Email',
+          channel_id: 10,
+          phone_number: null,
+        },
+        {
+          id: 2,
+          name: 'Inbox 2',
+          channel_type: 'Channel::Whatsapp',
+          channel_id: 20,
+          phone_number: '+1234567890',
+        },
+        {
+          id: 3,
+          name: 'Inbox 3',
+          channel_type: 'Channel::Api',
+          channel_id: 30,
+          phone_number: null,
+        },
+      ];
+
+      const result = helpers.mergeInboxDetails(inboxesData, inboxesList);
+
+      expect(result.length).toBe(2);
+      expect(result[0]).toMatchObject({
+        id: 1,
+        sourceId: 'source1',
+        name: 'Inbox 1',
+        channelType: 'Channel::Email',
+        channelId: 10,
+        phoneNumber: null,
+      });
+
+      expect(result[1]).toMatchObject({
+        id: 2,
+        sourceId: 'source2',
+        name: 'Inbox 2',
+        channelType: 'Channel::Whatsapp',
+        channelId: 20,
+        phoneNumber: '+1234567890',
+      });
+    });
+
+    it('handles inboxes not found in the list', () => {
+      const inboxesData = [
+        { id: 1, sourceId: 'source1' },
+        { id: 99, sourceId: 'source99' }, // This doesn't exist in inboxesList
+      ];
+
+      const inboxesList = [
+        {
+          id: 1,
+          name: 'Inbox 1',
+          channel_type: 'Channel::Email',
+        },
+      ];
+
+      const result = helpers.mergeInboxDetails(inboxesData, inboxesList);
+
+      expect(result.length).toBe(2);
+
+      expect(result[0]).toMatchObject({
+        id: 1,
+        sourceId: 'source1',
+        name: 'Inbox 1',
+        channelType: 'Channel::Email',
+      });
+
+      expect(result[1]).toMatchObject({
+        id: 99,
+        sourceId: 'source99',
+      });
+
+      expect(result[1].name).toBeUndefined();
+      expect(result[1].channelType).toBeUndefined();
+    });
+
+    it('camelcases properties from inboxesList', () => {
+      const inboxesData = [{ id: 1, sourceId: 'source1' }];
+
+      const inboxesList = [
+        {
+          id: 1,
+          name: 'Inbox 1',
+          channel_type: 'Channel::Email',
+          avatar_url: 'https://example.com/avatar.png',
+          working_hours: [
+            {
+              day_of_week: 1,
+              closed_all_day: false,
+            },
+          ],
+        },
+      ];
+
+      const result = helpers.mergeInboxDetails(inboxesData, inboxesList);
+
+      expect(result[0]).toMatchObject({
+        id: 1,
+        sourceId: 'source1',
+        name: 'Inbox 1',
+        channelType: 'Channel::Email',
+        avatarUrl: 'https://example.com/avatar.png',
+      });
+
+      expect(result[0].workingHours[0]).toMatchObject({
+        dayOfWeek: 1,
+        closedAllDay: false,
+      });
+    });
+
+    it('preserves original properties when they conflict with inboxesList', () => {
+      const inboxesData = [
+        { id: 1, sourceId: 'source1', name: 'Original Name' },
+      ];
+
+      const inboxesList = [
+        {
+          id: 1,
+          name: 'List Name',
+          channel_type: 'Channel::Email',
+        },
+      ];
+
+      const result = helpers.mergeInboxDetails(inboxesData, inboxesList);
+
+      expect(result[0].name).toBe('Original Name');
+      expect(result[0].channelType).toBe('Channel::Email');
+    });
+  });
+
   describe('prepareAttachmentPayload', () => {
     it('prepares direct upload files', () => {
       const files = [{ blobSignedId: 'signed1' }];

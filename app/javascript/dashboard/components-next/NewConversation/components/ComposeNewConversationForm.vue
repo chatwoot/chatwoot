@@ -6,6 +6,7 @@ import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import {
   appendSignature,
   removeSignature,
+  extractTextFromMarkdown,
 } from 'dashboard/helper/editorHelper';
 import {
   buildContactableInboxesList,
@@ -33,6 +34,8 @@ const props = defineProps({
   isDirectUploadsEnabled: { type: Boolean, default: false },
   contactConversationsUiFlags: { type: Object, default: null },
   contactsUiFlags: { type: Object, default: null },
+  messageSignature: { type: String, default: '' },
+  sendWithSignature: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
@@ -184,6 +187,14 @@ const handleInboxAction = ({ value, action, ...rest }) => {
 
 const removeTargetInbox = value => {
   v$.value.$reset();
+  // Remove the signature from message content
+  // Based on the Advance Editor (used in isEmailOrWebWidget) and Plain editor(all other inboxes except WhatsApp)
+  if (props.sendWithSignature) {
+    const signatureToRemove = inboxTypes.value.isEmailOrWebWidget
+      ? props.messageSignature
+      : extractTextFromMarkdown(props.messageSignature);
+    state.message = removeSignature(state.message, signatureToRemove);
+  }
   emit('updateTargetInbox', value);
   state.attachedFiles = [];
 };
@@ -254,7 +265,7 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
 
 <template>
   <div
-    class="w-[670px] mt-2 divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full justify-between flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl"
+    class="w-[42rem] mt-2 divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full justify-between flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl"
   >
     <ContactSelector
       :contacts="contacts"
@@ -302,6 +313,8 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
     <MessageEditor
       v-if="!inboxTypes.isWhatsapp && !showNoInboxAlert"
       v-model="state.message"
+      :message-signature="messageSignature"
+      :send-with-signature="sendWithSignature"
       :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
       :has-errors="validationStates.isMessageInvalid"
       :has-attachments="state.attachedFiles.length > 0"
@@ -322,8 +335,10 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
       :channel-type="inboxChannelType"
       :is-loading="isCreating"
       :disable-send-button="isCreating"
+      :has-selected-inbox="!!targetInbox"
       :has-no-inbox="showNoInboxAlert"
       :is-dropdown-active="isAnyDropdownActive"
+      :message-signature="messageSignature"
       @insert-emoji="onClickInsertEmoji"
       @add-signature="handleAddSignature"
       @remove-signature="handleRemoveSignature"

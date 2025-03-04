@@ -25,12 +25,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nosaukums",
-        "Izveidoja",
-        "Pēdējo reizi atjaunināja",
-        "Redzamība"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nosaukums",
+        "CREATED BY": "Izveidoja",
+        "LAST_UPDATED_BY": "Pēdējo reizi atjaunināja",
+        "VISIBILITY": "Redzamība"
+      },
       "404": "Nav atrasts neviens makro"
     },
     "DELETE": {

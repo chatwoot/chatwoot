@@ -20,23 +20,18 @@
         "TITLE": "افزودن اپراتور به تیم - {teamName}",
         "DESC": "ایجنت ها را به تیم تازه ایجاد شده خود اضافه کنید. این به شما امکان می دهد به عنوان یک تیم در گفتگوها همکاری کنید ، در رویدادهای جدید در همان مکالمه مطلع شوید."
       },
-      "WIZARD": [
-        {
-          "title": "ايجاد كردن",
-          "route": "settings_teams_new",
-          "body": "یک تیم جدید از ایجنت ها ایجاد نمایید."
-        },
-        {
-          "title": "معرفی اپراتور",
-          "route": "settings_teams_add_agents",
-          "body": "ایجنت ها را به تیم اضافه کنید."
-        },
-        {
-          "title": "پایان",
-          "route": "settings_teams_finish",
-          "body": "دیگه می‌تونی بترکونی"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "ايجاد كردن",
+        "BODY": "یک تیم جدید از ایجنت ها ایجاد نمایید."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "معرفی ایجنت",
+        "BODY": "ایجنت ها را به تیم اضافه کنید."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "پایان",
+        "BODY": "دیگه می‌تونی بترکونی"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "افزودن اپراتور به تیم - {teamName}",
         "DESC": "ایجنت ها را به تیم تازه ایجاد شده خود اضافه کنید. وقتی مکالمه ای به این تیم اختصاص داده شود ، به همه ایجنت ها اضافه شده اطلاع داده می شود."
       },
-      "WIZARD": [
-        {
-          "title": "جزئیات تیم",
-          "route": "settings_teams_edit",
-          "body": "نام ، توضیحات و سایر جزئیات را تغییر دهید."
-        },
-        {
-          "title": "تغییر ایجنت ها",
-          "route": "settings_teams_edit_members",
-          "body": "ایجنت ها تیم خود را ویرایش کنید."
-        },
-        {
-          "title": "پایان",
-          "route": "settings_teams_edit_finish",
-          "body": "دیگه می‌تونی بترکونی"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "جزئیات تیم",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "نام ، توضیحات و سایر جزئیات را تغییر دهید."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "تغییر ایجنت ها",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "ایجنت ها تیم خود را ویرایش کنید."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "پایان",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "دیگه می‌تونی بترکونی"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "جزئیات تیم ذخیره نشد. دوباره امتحان کنید."

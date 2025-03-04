@@ -1,6 +1,7 @@
 <script setup>
 import { computed, useTemplateRef, ref, onMounted } from 'vue';
 import { Letter } from 'vue-letter';
+import { allowedCssProperties } from 'lettersanitizer';
 
 import Icon from 'next/icon/Icon.vue';
 import { EmailQuoteExtractor } from './removeReply.js';
@@ -21,15 +22,23 @@ const showQuotedMessage = ref(false);
 const contentContainer = useTemplateRef('contentContainer');
 
 onMounted(() => {
-  isExpandable.value = contentContainer.value.scrollHeight > 400;
+  isExpandable.value = contentContainer.value?.scrollHeight > 400;
 });
 
 const isOutgoing = computed(() => {
   return messageType.value === MESSAGE_TYPES.OUTGOING;
 });
+const isIncoming = computed(() => !isOutgoing.value);
 
+const textToShow = computed(() => {
+  const text =
+    contentAttributes?.value?.email?.textContent?.full ?? content.value;
+  return text?.replace(/\n/g, '<br>');
+});
+
+// Use TextContent as the default to fullHTML
 const fullHTML = computed(() => {
-  return contentAttributes?.value?.email?.htmlContent?.full ?? content.value;
+  return contentAttributes?.value?.email?.htmlContent?.full ?? textToShow.value;
 });
 
 const unquotedHTML = computed(() => {
@@ -39,17 +48,24 @@ const unquotedHTML = computed(() => {
 const hasQuotedMessage = computed(() => {
   return EmailQuoteExtractor.hasQuotes(fullHTML.value);
 });
-
-const textToShow = computed(() => {
-  const text =
-    contentAttributes?.value?.email?.textContent?.full ?? content.value;
-  return text?.replace(/\n/g, '<br>');
-});
 </script>
 
 <template>
-  <BaseBubble class="w-full" data-bubble-name="email">
-    <EmailMeta class="p-3" />
+  <BaseBubble
+    class="w-full"
+    :class="{
+      'bg-n-slate-4': isIncoming,
+      'bg-n-solid-blue': isOutgoing,
+    }"
+    data-bubble-name="email"
+  >
+    <EmailMeta
+      class="p-3"
+      :class="{
+        'border-b border-n-strong': isIncoming,
+        'border-b border-n-slate-8/20': isOutgoing,
+      }"
+    />
     <section ref="contentContainer" class="p-3">
       <div
         :class="{
@@ -78,6 +94,11 @@ const textToShow = computed(() => {
           <Letter
             v-if="showQuotedMessage"
             class-name="prose prose-bubble !max-w-none"
+            :allowed-css-properties="[
+              ...allowedCssProperties,
+              'transform',
+              'transform-origin',
+            ]"
             :html="fullHTML"
             :text="textToShow"
           />
@@ -85,6 +106,11 @@ const textToShow = computed(() => {
             v-else
             class-name="prose prose-bubble !max-w-none"
             :html="unquotedHTML"
+            :allowed-css-properties="[
+              ...allowedCssProperties,
+              'transform',
+              'transform-origin',
+            ]"
             :text="textToShow"
           />
         </template>
@@ -109,7 +135,10 @@ const textToShow = computed(() => {
         </button>
       </div>
     </section>
-    <section v-if="attachments.length" class="px-4 pb-4 space-y-2">
+    <section
+      v-if="Array.isArray(attachments) && attachments.length"
+      class="px-4 pb-4 space-y-2"
+    >
       <AttachmentChips :attachments="attachments" class="gap-1" />
     </section>
   </BaseBubble>

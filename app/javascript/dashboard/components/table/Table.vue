@@ -40,7 +40,7 @@ const headerClass = computed(() =>
           :style="{
             width: `${header.getSize()}px`,
           }"
-          class="text-left py-3 px-5 font-normal text-sm"
+          class="text-left py-3 px-5 font-medium text-sm text-n-slate-12"
           :class="headerClass"
           @click="header.column.getCanSort() && header.column.toggleSorting()"
         >

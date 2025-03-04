@@ -2,34 +2,30 @@
   "INBOX_MGMT": {
     "HEADER": "Posteingänge",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
-    "LEARN_MORE": "Learn more about inboxes",
+    "LEARN_MORE": "Mehr über Posteingänge erfahren",
     "RECONNECTION_REQUIRED": "Ihr Posteingang ist nicht verbunden. Sie erhalten keine neuen Nachrichten, bis Sie ihn erneut autorisieren.",
     "CLICK_TO_RECONNECT": "Klicken Sie hier, um die Verbindung wiederherzustellen.",
     "LIST": {
       "404": "Diesem Konto sind keine Posteingänge zugeordnet."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Wählen Sie Kanal",
-        "route": "settings_inbox_new",
-        "body": "Wählen Sie den Anbieter, den Sie in Chatwoot integrieren möchten."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Wählen Sie Kanal",
+        "BODY": "Wählen Sie den Anbieter, den Sie in Chatwoot integrieren möchten."
       },
-      {
-        "title": "Posteingang erstellen",
-        "route": "settings_inboxes_page_channel",
-        "body": "Authentifizieren Sie Ihr Konto und erstellen Sie einen Posteingang."
+      "INBOX": {
+        "TITLE": "Posteingang erstellen",
+        "BODY": "Authentifizieren Sie Ihr Konto und erstellen Sie einen Posteingang."
       },
-      {
-        "title": "Agenten hinzufügen",
-        "route": "settings_inboxes_add_agents",
-        "body": "Fügen Sie dem erstellten Posteingang Agenten hinzu."
+      "AGENT": {
+        "TITLE": "Agenten hinzufügen",
+        "BODY": "Fügen Sie dem erstellten Posteingang Agenten hinzu."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "Sie sind bereit zu gehen!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Geschafft!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Posteingang-Name",
@@ -371,9 +367,9 @@
         "ERROR_MESSAGE": "Beim Verbinden mit Microsoft ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
       },
       "GOOGLE": {
-        "TITLE": "Google Email",
-        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "SIGN_IN": "Sign in with Google",
+        "TITLE": "Google E-Mail",
+        "DESCRIPTION": "Klicken Sie auf die Schaltfläche Einloggen mit Google, um loszulegen. Sie werden zur E-Mail-Anmeldeseite weitergeleitet. Sobald Sie die angeforderten Berechtigungen angenommen haben, werden Sie zum Erstellungsschritt für den Posteingang weitergeleitet.",
+        "SIGN_IN": "Mit Google anmelden",
         "EMAIL_PLACEHOLDER": "E-Mail-Adresse eingeben",
         "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
@@ -502,7 +498,7 @@
       "SENDER_NAME_SECTION_TEXT": "Aktivieren/Deaktivieren Sie die Anzeige des Agentennamens in der E-Mail. Wenn deaktiviert, wird der Firmenname angezeigt",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Konversationskontinuität per E-Mail aktivieren",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Konversationen werden per E-Mail fortgesetzt, wenn die Kontakt-E-Mail-Adresse verfügbar ist.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Merere Konversationen zulassen",
+      "LOCK_TO_SINGLE_CONVERSATION": "Mehrere Konversationen zulassen",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Mehrere gleichzeitige Unterhaltungen für denselben Kontakt in diesem Posteingang aktivieren oder deaktivieren",
       "INBOX_UPDATE_TITLE": "Posteingangseinstellungen",
       "INBOX_UPDATE_SUB_TEXT": "Posteingangseinstellungen aktualisieren",

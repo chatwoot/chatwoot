@@ -8,28 +8,24 @@
     "LIST": {
       "404": "Það eru engin innhólf tengd við þennan reikning."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Veldu rás",
-        "route": "settings_inbox_new",
-        "body": "Veldu þjónustuveituna sem þú vilt samþætta við Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Veldu rás",
+        "BODY": "Veldu þjónustuveituna sem þú vilt samþætta við Chatwoot."
       },
-      {
-        "title": "Nýtt innhólf",
-        "route": "settings_inboxes_page_channel",
-        "body": "Staðfestu reikninginn þinn og búðu til pósthólf."
+      "INBOX": {
+        "TITLE": "Nýtt innhólf",
+        "BODY": "Staðfestu reikninginn þinn og búðu til pósthólf."
       },
-      {
-        "title": "Bæta við þjónustufulltrúa",
-        "route": "settings_inboxes_add_agents",
-        "body": "Bæta þjónustufulltrúum á nýja innhólfið."
+      "AGENT": {
+        "TITLE": "Bæta við þjónustufulltrúa",
+        "BODY": "Bæta þjónustufulltrúum á nýja innhólfið."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "Þú ert tilbúin til að halda áfram!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Þú ert tilbúin til að halda áfram!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nafn Innhólfs",

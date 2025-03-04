@@ -92,12 +92,12 @@
       "CONTACT": "مخاطب"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "نام",
-        "توضیحات",
-        "نوع",
-        "کلید"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "نام",
+        "DESCRIPTION": "توضیحات",
+        "TYPE": "نوع",
+        "KEY": "کلید"
+      },
       "BUTTONS": {
         "EDIT": "ویرایش",
         "DELETE": "حذف"

@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Vardas",
-        "Aprašymas",
-        "Aktyvus",
-        "Sukurta"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Vardas",
+        "DESCRIPTION": "Aprašymas",
+        "ACTIVE": "Aktyvus",
+        "CREATED_ON": "Sukurta"
+      },
       "404": "Nerasta jokių automatizavimo taisyklių"
     },
     "DELETE": {

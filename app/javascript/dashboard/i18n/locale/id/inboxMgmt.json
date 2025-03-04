@@ -8,28 +8,24 @@
     "LIST": {
       "404": "Tidak ada kotak masuk yang dilampirkan ke akun ini."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Pilih Channel",
-        "route": "settings_inbox_new",
-        "body": "Pilih penyedia yang ingin Anda integrasikan dengan Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Pilih Channel",
+        "BODY": "Pilih penyedia yang ingin Anda integrasikan dengan Chatwoot."
       },
-      {
-        "title": "Buat Kotak Masuk",
-        "route": "settings_inboxes_page_channel",
-        "body": "Otentikasi akun Anda dan buat kotak masuk."
+      "INBOX": {
+        "TITLE": "Buat Kotak Masuk",
+        "BODY": "Otentikasi akun Anda dan buat kotak masuk."
       },
-      {
-        "title": "Tambahkan Agen",
-        "route": "settings_inboxes_add_agents",
-        "body": "Tambahkan agen ke kotak masuk yang dibuat."
+      "AGENT": {
+        "TITLE": "Tambahkan Agen",
+        "BODY": "Tambahkan agen ke kotak masuk yang dibuat."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "Kotak masuk Anda sudah siap!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Sekarang kotak masuk Anda sudah siap!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nama Kotak Masuk",

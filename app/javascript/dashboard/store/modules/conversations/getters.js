@@ -27,18 +27,12 @@ const getters = {
     const selectedChat = _getters.getSelectedChat;
     const { messages = [] } = selectedChat;
     const lastEmail = [...messages].reverse().find(message => {
-      const {
-        content_attributes: contentAttributes = {},
-        message_type: messageType,
-      } = message;
-      const { email = {} } = contentAttributes;
-      const isIncomingOrOutgoing =
-        messageType === MESSAGE_TYPE.OUTGOING ||
-        messageType === MESSAGE_TYPE.INCOMING;
-      if (email.from && isIncomingOrOutgoing) {
-        return true;
-      }
-      return false;
+      const { message_type: messageType } = message;
+      if (message.private) return false;
+
+      return [MESSAGE_TYPE.OUTGOING, MESSAGE_TYPE.INCOMING].includes(
+        messageType
+      );
     });
 
     return lastEmail;
@@ -113,6 +107,10 @@ const getters = {
 
   getContextMenuChatId: _state => {
     return _state.contextMenuChatId;
+  },
+
+  getCopilotAssistant: _state => {
+    return _state.copilotAssistant;
   },
 };
 
