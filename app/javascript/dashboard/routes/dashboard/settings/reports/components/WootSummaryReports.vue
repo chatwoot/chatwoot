@@ -49,6 +49,7 @@ import { formatTime } from '@chatwoot/utils';
 
 import reportMixin from '../../../../../mixins/reportMixin';
 import alertMixin from 'shared/mixins/alertMixin';
+import getSymbolFromCurrency from 'currency-symbol-map';
 
 import { generateFileName } from '../../../../../helper/downloadHelper';
 import { VeTable } from 'vue-easytable';
@@ -525,6 +526,13 @@ export default {
             width: 20,
           },
           {
+            field: 'agentRevenueGenerated',
+            key: 'agentRevenueGenerated',
+            title: 'Revenue',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          },
+          {
             field: 'avgTimeToCallAfterNudge',
             key: 'avgTimeToCallAfterNudge',
             title: 'Avg. Time to Call after nudge',
@@ -801,6 +809,8 @@ export default {
               typeMetrics.converted_call_conversations || '--',
             droppedCallConversations:
               typeMetrics.dropped_call_conversations || '--',
+            agentRevenueGenerated:
+              this.renderCurrency(typeMetrics.agent_revenue_generated) || '--',
             avgTimeToCallAfterNudge:
               this.renderContent(typeMetrics.avg_time_to_call_after_nudge) ||
               '--',
@@ -880,6 +890,12 @@ export default {
         return `${percentage}%`;
       }
       return value;
+    },
+    renderCurrency(value) {
+      const currencySymbol = getSymbolFromCurrency(
+        this.$store.getters['summaryReports/getCurrency'] || 'INR'
+      );
+      return value ? `${currencySymbol}${value.toFixed(2)}` : '--';
     },
     getMetrics(id) {
       return this.typeMetrics.find(metrics => metrics.id === Number(id)) || {};

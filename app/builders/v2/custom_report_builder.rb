@@ -190,6 +190,8 @@ class V2::CustomReportBuilder
       bot_revenue_generated(@account.id, @time_range)
     when 'bot_total_revenue'
       bot_total_revenue(@account.id, @time_range)
+    when 'agent_revenue_generated'
+      agent_revenue_generated(@account.id, @time_range)
     when 'sales_ooo_hours'
       sales_ooo_hours(@account.id, @time_range)
     else

@@ -601,7 +601,8 @@ class CustomReportJob < ApplicationJob
       'bot_assign_to_agent' => 'Bot assign to agent',
       'pre_sale_queries' => 'Pre sale queries',
       'bot_orders_placed' => 'Bot orders placed',
-      'bot_revenue_generated' => 'Bot revenue generated'
+      'bot_revenue_generated' => 'Bot revenue generated',
+      'agent_revenue_generated' => 'Agent revenue generated'
     }
   end
 end

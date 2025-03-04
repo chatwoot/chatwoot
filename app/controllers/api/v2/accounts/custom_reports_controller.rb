@@ -152,7 +152,7 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
   def agent_call_overview_params
     {
       metrics: %w[total_calling_nudged_conversations scheduled_call_conversations not_picked_up_call_conversations follow_up_call_conversations
-                  converted_call_conversations dropped_call_conversations avg_time_to_call_after_nudge avg_time_to_convert avg_time_to_drop avg_follow_up_calls],
+                  converted_call_conversations dropped_call_conversations agent_revenue_generated avg_time_to_call_after_nudge avg_time_to_convert avg_time_to_drop avg_follow_up_calls],
       group_by: 'agent',
       filters: base_filters
     }

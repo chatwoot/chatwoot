@@ -1,3 +1,7 @@
+# rubocop:disable Metrics/ModuleLength
+# rubocop:disable Metrics/AbcSize
+# rubocop:disable Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/PerceivedComplexity
 module BspdAnalyticsHelper
   include WorkingHoursHelper
 
@@ -39,6 +43,23 @@ module BspdAnalyticsHelper
     }
   end
 
+  def agent_revenue_generated(account_id, time_range)
+    agent_attributions = fetch_agent_attributions(account_id, use_time_qualifier: false, time_range: time_range)
+
+    Rails.logger.info "agent_attributions: #{agent_attributions}"
+
+    revenue_by_agent = {}
+    agent_attributions.each do |agent_id, data|
+      next if agent_id == 'currency'
+
+      revenue_by_agent[agent_id.to_i] = data['revenue'] || 0
+    end
+
+    Rails.logger.info "revenue_by_agent: #{revenue_by_agent}"
+
+    revenue_by_agent
+  end
+
   def bspd_shop_currency(account_id)
     cache_key = "shop_currency:#{account_id}"
     cached_currency = Redis::Alfred.get(cache_key)
@@ -64,7 +85,52 @@ module BspdAnalyticsHelper
     response_data
   end
 
+  def fetch_agent_attributions(account_id, use_time_qualifier: false, time_range: nil)
+    cache_key = "agent_attributions:#{account_id}:#{time_range&.begin}:#{time_range&.end}"
+    cached_data = Redis::Alfred.get(cache_key)
+    return JSON.parse(cached_data) if cached_data.present?
+
+    response_data = fetch_agent_attributions_from_api(account_id, use_time_qualifier, time_range)
+    Redis::Alfred.setex(cache_key, response_data.to_json, BOT_ATTRIBUTIONS_TTL) if response_data.present?
+    response_data
+  end
+
   # rubocop:disable Metrics/MethodLength
+  def fetch_agent_attributions_from_api(account_id, use_time_qualifier, time_range)
+    shop_url = fetch_shop_url(account_id)
+    agents = Account.find(account_id).users
+    agent_ids = agents.map(&:id)
+    time_offset = 330
+
+    params = {
+      shopUrl: shop_url,
+      timeOffset: time_offset,
+      agentIds: "[#{agent_ids.join(',')}]"
+    }
+
+    if use_time_qualifier
+      params[:timeQualifier] = 'Last 7 Days'
+    else
+      params[:timeQualifier] = 'Custom'
+      params[:timeQuantifier] = {
+        from: time_range&.begin&.strftime('%Y-%m-%d'),
+        to: time_range&.end&.strftime('%Y-%m-%d')
+      }.to_json
+    end
+
+    Rails.logger.info "agent_attributions_params: #{params}"
+
+    response = HTTParty.get('https://43r09s4nl9.execute-api.us-east-1.amazonaws.com/chatwoot/agentAttributions', query: params)
+    JSON.parse(response.body)
+  rescue StandardError => e
+    Rails.logger.error("Error fetching agent attributions: #{e.message}")
+    default_response = { 'currency' => nil }
+    agents.each do |agent|
+      default_response[agent.id.to_s] = { 'count' => 0, 'revenue' => 0 }
+    end
+    default_response
+  end
+
   def fetch_bot_attributions_from_api(account_id, use_time_qualifier, time_range)
     shop_url = fetch_shop_url(account_id)
     time_offset = 330
@@ -114,3 +180,8 @@ end
 # Also cache the bot attribution in redis, with ttl of 1 hour and add a default value as 0 if api request fails
 # Add loading indicators for both views(chatbot and agent)
 # Also fix the icons for chatbot.
+
+# rubocop:enable Metrics/ModuleLength
+# rubocop:enable Metrics/AbcSize
+# rubocop:enable Metrics/CyclomaticComplexity
+# rubocop:enable Metrics/PerceivedComplexity
