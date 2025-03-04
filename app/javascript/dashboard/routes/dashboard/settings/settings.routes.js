@@ -22,7 +22,6 @@ import sla from './sla/sla.routes';
 import teams from './teams/teams.routes';
 import customRoles from './customRoles/customRole.routes';
 import profile from './profile/profile.routes';
-import chatbots from './chatbot/chatbots.routes';
 
 export default {
   routes: [
@@ -60,6 +59,5 @@ export default {
     ...teams.routes,
     ...customRoles.routes,
     ...profile.routes,
-    ...chatbots.routes,
   ],
 };

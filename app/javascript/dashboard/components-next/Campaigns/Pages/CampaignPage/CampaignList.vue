@@ -38,7 +38,7 @@ const handleDelete = campaign => emit('delete', campaign);
           : campaign.inbox
       "
       :scheduled-at="campaign.scheduled_at"
-      :campaignType="campaignType"
+      :campaign-type="campaignType"
       @report="handleReport(campaign)"
       @edit="handleEdit(campaign)"
       @delete="handleDelete(campaign)"

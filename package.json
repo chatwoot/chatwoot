@@ -77,8 +77,6 @@
     "md5": "^2.3.0",
     "mitt": "^3.0.1",
     "opus-recorder": "^8.0.5",
-    "papaparse": "^5.5.2",
-    "postcss-import": "^16.1.0",
     "semver": "7.6.3",
     "snakecase-keys": "^8.0.1",
     "timezone-phone-codes": "^0.0.2",
@@ -137,8 +135,8 @@
     "sass-embedded": "^1.85.0",
     "size-limit": "^8.2.4",
     "tailwindcss": "^3.4.13",
-    "vite": "^5.4.14",
-    "vite-plugin-ruby": "^5.1.1",
+    "vite": "^5.4.8",
+    "vite-plugin-ruby": "^5.0.0",
     "vitest": "2.0.1"
   },
   "engines": {

@@ -79,9 +79,6 @@ export default {
     isCalEventConfirmation() {
       return this.contentType === 'cal_event_confirmation';
     },
-    isConnectWithTeam() {
-      return this.contentType === 'input_connect_with_team';
-    },
   },
 
   methods: {

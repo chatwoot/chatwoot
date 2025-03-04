@@ -1,7 +1,6 @@
 <script>
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
-import Papa from 'papaparse';
 
 export default defineComponent({
   name: 'CampaignReportModal',
@@ -213,49 +212,49 @@ export default defineComponent({
         return 0;
       });
     },
-    exportContacts() {
-      const contactsToExport = this.activeContacts;
-      const csvData = contactsToExport.map(contact => {
-        const baseData = {
-          name: contact.name,
-          phone_number: contact.phone_number,
-          status: this.activeTab,
-        };
+    // exportContacts() {
+    //   const contactsToExport = this.activeContacts;
+    //   const csvData = contactsToExport.map(contact => {
+    //     const baseData = {
+    //       name: contact.name,
+    //       phone_number: contact.phone_number,
+    //       status: this.activeTab,
+    //     };
 
-        if (
-          this.activeTab === 'processed' ||
-          'read' ||
-          'delivered' ||
-          'replied' ||
-          'pending'
-        ) {
-          baseData['processed_at'] = new Date(
-            contact.processed_at
-          ).toLocaleString();
-        } else {
-          baseData['error_message'] = contact.error_message || 'Unknown Error';
-        }
+    //     if (
+    //       this.activeTab === 'processed' ||
+    //       'read' ||
+    //       'delivered' ||
+    //       'replied' ||
+    //       'pending'
+    //     ) {
+    //       baseData['processed_at'] = new Date(
+    //         contact.processed_at
+    //       ).toLocaleString();
+    //     } else {
+    //       baseData['error_message'] = contact.error_message || 'Unknown Error';
+    //     }
 
-        return baseData;
-      });
+    //     return baseData;
+    //   });
 
-      const csv = Papa.unparse(csvData);
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
-      const url = URL.createObjectURL(blob);
-      link.setAttribute('href', url);
-      link.setAttribute(
-        'download',
-        `${this.campaign.title}_${this.activeTab}_contacts.csv`
-      );
-      link.style.visibility = 'hidden';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    },
-    closeModal() {
-      this.$emit('close');
-    },
+    //   const csv = Papa.unparse(csvData);
+    //   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    //   const link = document.createElement('a');
+    //   const url = URL.createObjectURL(blob);
+    //   link.setAttribute('href', url);
+    //   link.setAttribute(
+    //     'download',
+    //     `${this.campaign.title}_${this.activeTab}_contacts.csv`
+    //   );
+    //   link.style.visibility = 'hidden';
+    //   document.body.appendChild(link);
+    //   link.click();
+    //   document.body.removeChild(link);
+    // },
+    // closeModal() {
+    //   this.$emit('close');
+    // },
   },
 });
 </script>
@@ -427,7 +426,7 @@ export default defineComponent({
             <div class="flex space-x-2 overflow-x-auto">
               <select
                 v-model="activeTab"
-                class="px-6 py-2 border rounded-lg dark:bg-n-solid-3 dark:border-dark dark:text-dark-primary"
+                class="py-2 border rounded-lg dark:bg-n-solid-3 dark:border-dark dark:text-dark-primary"
               >
                 <option
                   v-for="type in contactTypes"
@@ -550,10 +549,10 @@ export default defineComponent({
                 activeTab === 'pending'
                   ? totalProcessedCount + totalFailedCount
                   : ['processed', 'read', 'delivered', 'replied'].includes(
-                      activeTab
-                    )
-                  ? totalProcessedCount
-                  : totalFailedCount
+                        activeTab
+                      )
+                    ? totalProcessedCount
+                    : totalFailedCount
               }}
               contacts
             </div>
@@ -564,7 +563,7 @@ export default defineComponent({
         <div
           class="p-6 border-t dark:border-dark flex justify-between items-center"
         >
-          <woot-button
+          <!-- <woot-button
             variant="clear"
             color-scheme="success"
             class-names="clear flex items-center"
@@ -572,7 +571,7 @@ export default defineComponent({
             @click="exportContacts"
           >
             {{ $t('CAMPAIGN.WHATSAPP.REPORT.EXPORT_CSV') }}
-          </woot-button>
+          </woot-button> -->
 
           <button
             class="px-4 py-2 border border-slate-300 rounded-lg text-slate-700 hover:bg-slate-50 dark:border-dark dark:text-white dark:hover:bg-n-solid-3 transition-colors"
