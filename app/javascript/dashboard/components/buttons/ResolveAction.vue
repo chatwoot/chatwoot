@@ -105,12 +105,15 @@ const keyboardEvents = {
     allowOnFocusedInput: true,
   },
   'Alt+KeyE': {
-    action: async () => {
+    action: async event => {
+      event.preventDefault(); // This line prevents Chrome from opening its Edit menu
       await toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
     },
+    allowOnFocusedInput: true,
   },
   '$mod+Alt+KeyE': {
     action: async event => {
+      event.preventDefault(); // Already exists here
       const { all, activeIndex, lastIndex } = getConversationParams();
       await toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
 
@@ -120,7 +123,6 @@ const keyboardEvents = {
         all[0].click();
         document.querySelector('.conversations-list').scrollTop = 0;
       }
-      event.preventDefault();
     },
   },
 };

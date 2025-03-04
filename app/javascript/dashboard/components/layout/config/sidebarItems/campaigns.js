@@ -2,7 +2,11 @@ import { frontendURL } from '../../../../helper/URLHelper';
 
 const campaigns = accountId => ({
   parentNav: 'campaigns',
-  routes: ['campaigns_sms_index', 'campaigns_livechat_index', 'whatsapp_campaigns'],
+  routes: [
+    'campaigns_sms_index',
+    'campaigns_livechat_index',
+    'campaigns_whatsapp_index',
+  ],
   menuItems: [
     {
       icon: 'arrow-swap',
@@ -26,7 +30,7 @@ const campaigns = accountId => ({
       label: 'WHATSAPP_CAMPAIGN',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/campaigns/whatsapp`), // Added route for Whatsapp campaigns
-      toStateName: 'whatsapp_campaigns', // New route name
+      toStateName: 'campaigns_whatsapp_index', // New route name
     },
   ],
 });

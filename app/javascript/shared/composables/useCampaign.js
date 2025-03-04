@@ -17,6 +17,7 @@ export const useCampaign = () => {
     const campaignTypeMap = {
       ongoing_campaigns: CAMPAIGN_TYPES.ONGOING,
       one_off: CAMPAIGN_TYPES.ONE_OFF,
+      whatsapp: CAMPAIGN_TYPES.WHATSAPP,
     };
     return campaignTypeMap[route.name];
   });
@@ -27,7 +28,9 @@ export const useCampaign = () => {
   const isOngoingType = computed(() => {
     return campaignType.value === CAMPAIGN_TYPES.ONGOING;
   });
-
+  const isWhatsappType = computed(() => {
+    return campaignType.value === CAMPAIGN_TYPES.WHATSAPP;
+  });
   /**
    * Computed property to check if the current campaign type is 'one-off'.
    */
@@ -39,5 +42,6 @@ export const useCampaign = () => {
     campaignType,
     isOngoingType,
     isOneOffType,
+    isWhatsappType,
   };
 };
