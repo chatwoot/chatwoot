@@ -7,7 +7,7 @@ class Facebook::DeleteController < ApplicationController
     id_to_process = payload['user_id']
 
     mark_deleting(id_to_process)
-    Webhooks::FacebookDeleteJob.perform_later(id_to_process)
+    ::Channels::Facebook::RedactContactDataJob.perform_later(id_to_process)
     status_url = "#{app_url_base}/facebook/confirm/#{id_to_process}"
 
     # IMPORTANT: Do not change the response format below.

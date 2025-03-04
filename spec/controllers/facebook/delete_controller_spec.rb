@@ -20,14 +20,14 @@ RSpec.describe Facebook::DeleteController do
 
       before do
         allow(Redis::Alfred).to receive(:set)
-        allow(Webhooks::FacebookDeleteJob).to receive(:perform_later)
+        allow(Channels::Facebook::RedactContactDataJob).to receive(:perform_later)
       end
 
       it 'processes the delete request and returns status URL' do
         post :create, params: { signed_request: signed_request }
 
         expect(Redis::Alfred).to have_received(:set).with(redis_key, true)
-        expect(Webhooks::FacebookDeleteJob).to have_received(:perform_later).with(user_id)
+        expect(Channels::Facebook::RedactContactDataJob).to have_received(:perform_later).with(user_id)
 
         expect(response).to have_http_status(:ok)
 

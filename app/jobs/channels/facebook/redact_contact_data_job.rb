@@ -1,4 +1,4 @@
-class Webhooks::FacebookDeleteJob < ApplicationJob
+class Channels::Facebook::RedactContactDataJob < ApplicationJob
   queue_as :low
 
   def perform(id_to_process)
