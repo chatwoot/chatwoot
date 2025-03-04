@@ -1,205 +1,232 @@
-<script>
-import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
-
-import { mapGetters } from 'vuex';
+<script setup>
+import { computed, onMounted } from 'vue';
+import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import { useAccount } from 'dashboard/composables/useAccount';
-import BillingItem from './components/BillingItem.vue';
+import { useCaptain } from 'dashboard/composables/useCaptain';
+import { format } from 'date-fns';
 
-export default {
-  components: { BillingItem },
-  setup() {
-    const { accountId } = useAccount();
-    const { formatMessage } = useMessageFormatter();
-    return {
-      accountId,
-      formatMessage,
-    };
-  },
-  data() {
-    return {
-      isValidCouponCode: false,
-      inputValue: '',
-      ltdPlanName: null,
-      ltdQuantity: null,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      getAccount: 'accounts/getAccount',
-      uiFlags: 'accounts/getUIFlags',
-    }),
-    currentAccount() {
-      return this.getAccount(this.accountId) || {};
-    },
-    customAttributes() {
-      return this.currentAccount.custom_attributes || {};
-    },
-    ltdAttributes() {
-      return this.currentAccount.ltd_attributes || {};
-    },
-    hasABillingPlan() {
-      return !!this.planName;
-    },
-    planName() {
-      return this.customAttributes.plan_name || '';
-    },
-  },
-  mounted() {
-    this.fetchAccountDetails();
-    this.fetchLtdDetails();
-  },
-  methods: {
-    async fetchAccountDetails() {
-      if (!this.hasABillingPlan) {
-        this.$store.dispatch('accounts/stripe_subscription');
-      }
-    },
-    async fetchLtdDetails() {
-      AccountAPI.getLtdDetails()
-        .then(response => {
-          this.ltdPlanName = response.data.data.plan_name;
-          this.ltdQuantity = response.data.data.quantity;
-        })
-        .catch(error => {
-          useAlert(error.response.data.message);
-        });
-    },
-    onClickBillingPortal() {
-      this.$store.dispatch('accounts/stripe_checkout');
-    },
-    onToggleChatWindow() {
-      if (window.$chatwoot) {
-        window.$chatwoot.toggle();
-      }
-    },
-    checkInput() {
-      const couponInput = document.getElementById('couponInput');
-      const inputValue = couponInput.value;
-      this.isValidCouponCode =
-        /^(AS|DM)[0-9a-zA-Z]{8}$|^(PG-|RH-|DF-|OH-)([0-9a-zA-Z]{4}-){3}[0-9a-zA-Z]{2}$/.test(
-          inputValue
-        );
-      return this.isValidCouponCode;
-    },
-    async applyCouponCode() {
-      const couponCode = this.inputValue;
-      if (!this.checkInput(couponCode)) {
-        useAlert(this.$t('LTD_SETTINGS.COUPON_ERROR.MESSAGE'));
-        return;
-      }
-      const payload = { coupon_code: couponCode };
-      AccountAPI.getLTD(payload)
-        .then(response => {
-          useAlert(response.data.message);
-          window.location.reload();
-        })
-        .catch(error => {
-          useAlert(error.response.data.message);
-        });
-    },
-  },
+import BillingMeter from './components/BillingMeter.vue';
+import BillingCard from './components/BillingCard.vue';
+import BillingHeader from './components/BillingHeader.vue';
+import DetailItem from './components/DetailItem.vue';
+import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import SettingsLayout from '../SettingsLayout.vue';
+import ButtonV4 from 'next/button/Button.vue';
+
+import AccountAPI from '../../../../api/account';
+import { useAlert } from 'dashboard/composables';
+import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const inputValue = ref('');
+const { t } = useI18n();
+
+const { currentAccount } = useAccount();
+const {
+  captainEnabled,
+  captainLimits,
+  documentLimits,
+  responseLimits,
+  fetchLimits,
+} = useCaptain();
+
+const uiFlags = useMapGetter('accounts/getUIFlags');
+const store = useStore();
+const customAttributes = computed(() => {
+  return currentAccount.value.custom_attributes || {};
+});
+
+/**
+ * Computed property for plan name
+ * @returns {string|undefined}
+ */
+const planName = computed(() => {
+  return customAttributes.value.plan_name;
+});
+
+/**
+ * Computed property for subscribed quantity
+ * @returns {number|undefined}
+ */
+const subscribedQuantity = computed(() => {
+  return customAttributes.value.subscribed_quantity;
+});
+
+const subscriptionRenewsOn = computed(() => {
+  if (!customAttributes.value.subscription_ends_on) return '';
+  const endDate = new Date(customAttributes.value.subscription_ends_on);
+  // return date as 12 Jan, 2034
+  return format(endDate, 'dd MMM, yyyy');
+});
+
+/**
+ * Computed property indicating if user has a billing plan
+ * @returns {boolean}
+ */
+const hasABillingPlan = computed(() => {
+  return !!planName.value;
+});
+
+const fetchAccountDetails = async () => {
+  if (!hasABillingPlan.value) {
+    store.dispatch('accounts/stripe_subscription');
+    fetchLimits();
+  }
 };
+
+const onClickBillingPortal = () => {
+  store.dispatch('accounts/stripe_checkout');
+};
+
+const onToggleChatWindow = () => {
+  if (window.$chatwoot) {
+    window.$chatwoot.toggle();
+  }
+};
+
+const checkInput = couponCode => {
+  const isValidCouponCode =
+    /^(AS|DM)[0-9a-zA-Z]{8}$|^(PG-|RH-|DF-|OH-)([0-9a-zA-Z]{4}-){3}[0-9a-zA-Z]{2}$/.test(
+      couponCode
+    );
+  return isValidCouponCode;
+};
+
+const applyCouponCode = async () => {
+  const couponCode = inputValue.value;
+  if (!(await checkInput(couponCode))) {
+    useAlert(t('LTD_SETTINGS.COUPON_ERROR.MESSAGE'));
+    return;
+  }
+  const payload = { coupon_code: couponCode };
+  AccountAPI.getLTD(payload)
+    .then(response => {
+      useAlert(response.data.message);
+      window.location.reload();
+    })
+    .catch(error => {
+      useAlert(error.response.data.message);
+    });
+};
+
+onMounted(fetchAccountDetails);
 </script>
 
 <template>
-  <div class="overflow-auto flex-1 p-6 dark:bg-slate-900">
-    <woot-loading-state v-if="uiFlags.isFetchingItem" />
-    <div v-else-if="!hasABillingPlan">
-      <p>{{ $t('BILLING_SETTINGS.NO_BILLING_USER') }}</p>
-    </div>
-    <div v-else class="w-full">
-      <div
-        v-if="
-          (['Starter', 'Plus', 'Pro'].includes(planName) &&
-            ltdPlanName === null) ||
-          (['Plus', 'Pro'].includes(planName) && ltdPlanName !== null)
-        "
-        class="current-plan--details"
-      >
-        <h6>{{ $t('BILLING_SETTINGS.CURRENT_PLAN.TITLE') }}</h6>
-        <div
-          v-dompurify-html="
-            formatMessage(
-              $t('BILLING_SETTINGS.CURRENT_PLAN.PLAN_NOTE', {
-                plan: planName,
-                quantity: planName === 'Starter' ? 2 : 'Unlimited',
-              })
-            )
-          "
-        />
-      </div>
-      <div v-else class="current-plan--details">
-        <h6>{{ $t('LTD_SETTINGS.CURRENT_PLAN.TITLE') }}</h6>
-        <div
-          v-dompurify-html="
-            formatMessage(
-              $t('LTD_SETTINGS.CURRENT_PLAN.PLAN_NOTE', {
-                plan: ltdPlanName,
-                quantity: ltdQuantity !== 100000 ? ltdQuantity : 'Unlimited',
-              })
-            )
-          "
-        />
-      </div>
-      <div class="current-plan--details">
-        <h6>{{ $t('LTD_SETTINGS.TITLE') }}</h6>
-        <div class="input-container">
-          <input
-            id="couponInput"
-            v-model="inputValue"
-            type="text"
-            name="coupon_code"
-            :placeholder="$t('LTD_SETTINGS.PLACEHOLDER')"
-          />
-          <woot-submit-button
-            :button-text="$t('LTD_SETTINGS.APPLY')"
-            :loading="uiFlags.isCreating"
-            button-class="medium"
-            @click="applyCouponCode"
-          />
-        </div>
-      </div>
-      <BillingItem
-        :title="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.TITLE')"
-        :description="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.DESCRIPTION')"
-        :button-label="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.BUTTON_TXT')"
-        @open="onClickBillingPortal"
+  <SettingsLayout
+    :is-loading="uiFlags.isFetchingItem"
+    :loading-message="$t('ATTRIBUTES_MGMT.LOADING')"
+    :no-records-found="!hasABillingPlan"
+    :no-records-message="$t('BILLING_SETTINGS.NO_BILLING_USER')"
+  >
+    <template #header>
+      <BaseSettingsHeader
+        :title="$t('BILLING_SETTINGS.TITLE')"
+        :description="$t('BILLING_SETTINGS.DESCRIPTION')"
+        :link-text="$t('BILLING_SETTINGS.VIEW_PRICING')"
+        feature-name="billing"
       />
-      <!-- <billing-item
-        :title="$t('BILLING_SETTINGS.CHAT_WITH_US.TITLE')"
-        :description="$t('BILLING_SETTINGS.CHAT_WITH_US.DESCRIPTION')"
-        :button-label="$t('BILLING_SETTINGS.CHAT_WITH_US.BUTTON_TXT')"
-        button-icon="chat-multiple"
-        @open="onToggleChatWindow"
-      />  -->
-    </div>
-  </div>
+    </template>
+    <template #body>
+      <section class="grid gap-4">
+        <BillingCard
+          :title="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.TITLE')"
+          :description="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.DESCRIPTION')"
+        >
+          <template #action>
+            <ButtonV4 sm solid blue @click="onClickBillingPortal">
+              {{ $t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.BUTTON_TXT') }}
+            </ButtonV4>
+          </template>
+          <div
+            v-if="planName || subscribedQuantity || subscriptionRenewsOn"
+            class="grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-1 gap-2 divide-x divide-n-weak"
+          >
+            <DetailItem
+              :label="$t('BILLING_SETTINGS.CURRENT_PLAN.TITLE')"
+              :value="planName"
+            />
+            <DetailItem
+              v-if="subscribedQuantity"
+              :label="$t('BILLING_SETTINGS.CURRENT_PLAN.SEAT_COUNT')"
+              :value="subscribedQuantity"
+            />
+            <DetailItem
+              v-if="subscriptionRenewsOn"
+              :label="$t('BILLING_SETTINGS.CURRENT_PLAN.RENEWS_ON')"
+              :value="subscriptionRenewsOn"
+            />
+          </div>
+        </BillingCard>
+        <BillingCard
+          :title="$t('LTD_SETTINGS.TITLE')"
+          :description="$t('LTD_SETTINGS.DESCRIPTION')"
+        >
+          <div class="flex justify-between pl-4 pr-4">
+            <input
+              v-model="inputValue"
+              type="text"
+              class="reset-base border bg-slate-25 dark:bg-slate-900 ring-offset-ash-900 border-slate-50 dark:border-slate-700/50 w-1/2 disabled:text-slate-200 dark:disabled:text-slate-700 disabled:cursor-not-allowed text-slate-800 dark:text-slate-50 px-1.5 py-1 text-sm rounded-xl h-10"
+              :placeholder="$t('LTD_SETTINGS.PLACEHOLDER')"
+            />
+            <woot-submit-button
+              :button-text="$t('LTD_SETTINGS.APPLY')"
+              button-class="rounded-xl medium"
+              @click="applyCouponCode"
+            />
+          </div>
+        </BillingCard>
+        <BillingCard
+          v-if="captainEnabled"
+          :title="$t('BILLING_SETTINGS.CAPTAIN.TITLE')"
+          :description="$t('BILLING_SETTINGS.CAPTAIN.DESCRIPTION')"
+        >
+          <template #action>
+            <ButtonV4 sm faded slate disabled>
+              {{ $t('BILLING_SETTINGS.CAPTAIN.BUTTON_TXT') }}
+            </ButtonV4>
+          </template>
+          <div v-if="captainLimits && responseLimits" class="px-5">
+            <BillingMeter
+              :title="$t('BILLING_SETTINGS.CAPTAIN.RESPONSES')"
+              v-bind="responseLimits"
+            />
+          </div>
+          <div v-if="captainLimits && documentLimits" class="px-5">
+            <BillingMeter
+              :title="$t('BILLING_SETTINGS.CAPTAIN.DOCUMENTS')"
+              v-bind="documentLimits"
+            />
+          </div>
+        </BillingCard>
+        <BillingCard
+          v-else
+          :title="$t('BILLING_SETTINGS.CAPTAIN.TITLE')"
+          :description="$t('BILLING_SETTINGS.CAPTAIN.UPGRADE')"
+        >
+          <template #action>
+            <ButtonV4 sm solid slate @click="onClickBillingPortal">
+              {{ $t('CAPTAIN.PAYWALL.UPGRADE_NOW') }}
+            </ButtonV4>
+          </template>
+        </BillingCard>
+
+        <BillingHeader
+          class="px-1 mt-5"
+          :title="$t('BILLING_SETTINGS.CHAT_WITH_US.TITLE')"
+          :description="$t('BILLING_SETTINGS.CHAT_WITH_US.DESCRIPTION')"
+        >
+          <ButtonV4
+            sm
+            solid
+            slate
+            icon="i-lucide-life-buoy"
+            @open="onToggleChatWindow"
+          >
+            {{ $t('BILLING_SETTINGS.CHAT_WITH_US.BUTTON_TXT') }}
+          </ButtonV4>
+        </BillingHeader>
+      </section>
+    </template>
+  </SettingsLayout>
 </template>
-
-<style lang="scss">
-.manage-subscription {
-  @apply bg-white dark:bg-slate-800 flex justify-between mb-2 py-6 px-4 items-center rounded-md border border-solid border-slate-75 dark:border-slate-700;
-}
-
-.current-plan--details {
-  @apply border-b border-solid border-slate-75 dark:border-slate-800 mb-4 pb-4;
-
-  h6 {
-    @apply text-slate-800 dark:text-slate-100;
-  }
-
-  p {
-    @apply text-slate-600 dark:text-slate-200;
-  }
-}
-
-.manage-subscription {
-  .manage-subscription--description {
-    @apply mb-0 text-slate-600 dark:text-slate-200;
-  }
-
-  h6 {
-    @apply text-slate-800 dark:text-slate-100;
-  }
-}
-</style>

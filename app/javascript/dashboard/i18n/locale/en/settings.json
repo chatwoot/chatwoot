@@ -326,14 +326,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Billing",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the OneHash Chat **%{plan}** plan with **%{quantity}** licenses"
+      "PLAN_NOTE": "You are currently subscribed to the OneHash Chat **%{plan}** plan with **%{quantity}** licenses",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Manage your subscription",
       "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
       "BUTTON_TXT": "Go to the billing portal"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Need help?",
@@ -386,6 +398,7 @@
   "LTD_SETTINGS": {
     "PLACEHOLDER": "Enter a single coupon code",
     "TITLE": "Coupon Code",
+    "DESCRIPTION": "Apply coupon if you have one.",
     "CURRENT_PLAN": {
       "TITLE": "Current Plan",
       "PLAN_NOTE": "You are currently subscribed to the OneHash Chat **%{plan}** LTD plan with **%{quantity}** licenses"
@@ -393,20 +406,6 @@
     "APPLY": "Apply",
     "COUPON_ERROR": {
       "MESSAGE": "The provided coupon code is invalid"
-    }
-  },
-  "ALL_PRODUCTS": {
-    "TITLE": "All Apps",
-    "PRODUCTS": {
-      "ONEHASH_CAL": {
-        "TITLE": "OneHash Cal"
-      },
-      "ONEHASH_CRM": {
-        "TITLE": "OneHash CRM"
-      },
-      "ONEHASH_ERP": {
-        "TITLE": "OneHash ERP"
-      }
     }
   },
   "CHATBOT": {

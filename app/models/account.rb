@@ -128,7 +128,6 @@ class Account < ApplicationRecord
   end
 
   def update_usage_limits
-    Rails.logger.info('Executing update_usage_limits...')
     limit = {
       agents: get_agent_limit.to_i,
       inboxes: get_inbox_limit.to_i
