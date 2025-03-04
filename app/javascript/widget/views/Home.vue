@@ -107,7 +107,7 @@ export default {
       />
     </div>
     <div v-if="showArticles" class="w-full px-4 py-2">
-      <div class="w-full p-4 bg-white rounded-md shadow-sm dark:bg-slate-700">
+      <div class="w-full p-4 bg-white rounded-md shadow-sm dark:bg-n-slate-6">
         <ArticleHero
           v-if="
             !articleUiFlags.isFetching &&
@@ -121,7 +121,7 @@ export default {
       </div>
     </div>
     <div v-if="articleUiFlags.isFetching" class="w-full px-4 py-2">
-      <div class="w-full p-4 bg-white rounded-md shadow-sm dark:bg-slate-700">
+      <div class="w-full p-4 bg-white rounded-md shadow-sm dark:bg-n-slate-6">
         <ArticleCardSkeletonLoader />
       </div>
     </div>

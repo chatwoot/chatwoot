@@ -61,24 +61,24 @@ export default {
 </script>
 
 <template>
-  <div class="p-4 bg-white rounded-md shadow-sm dark:bg-slate-700">
+  <div class="p-4 bg-white rounded-md shadow-sm dark:bg-n-slate-6">
     <div class="flex items-center justify-between">
       <div class="">
-        <div class="text-sm font-medium text-slate-700 dark:text-slate-50">
+        <div class="text-sm font-medium text-n-slate-12">
           {{
             isOnline
               ? $t('TEAM_AVAILABILITY.ONLINE')
               : $t('TEAM_AVAILABILITY.OFFLINE')
           }}
         </div>
-        <div class="mt-1 text-sm text-slate-500 dark:text-slate-100">
+        <div class="mt-1 text-sm text-n-slate-11">
           {{ replyWaitMessage }}
         </div>
       </div>
       <AvailableAgents v-if="isOnline" :agents="availableAgents" />
     </div>
     <button
-      class="inline-flex items-center justify-between px-2 py-1 mt-2 ltr:-ml-2 rtl:-mr-2 text-sm font-medium leading-6 rounded-md text-slate-800 dark:text-slate-50 hover:bg-slate-25 dark:hover:bg-slate-800"
+      class="inline-flex items-center justify-between px-2 py-1 mt-2 ltr:-ml-2 rtl:-mr-2 text-sm font-medium leading-6 rounded-md text-n-slate-12 hover:bg-n-alpha-1 dark:hover:bg-n-alpha-black1"
       :style="{ color: widgetColor }"
       @click="startConversation"
     >

@@ -184,7 +184,14 @@ export default {
           <ReplyToChip :reply-to="replyTo" />
         </div>
         <div class="flex w-full gap-1">
-          <div class="space-y-2 w-full">
+          <div
+            class="space-y-2"
+            :class="{
+              'w-full':
+                contentType === 'form' &&
+                !messageContentAttributes?.submitted_values,
+            }"
+          >
             <AgentMessageBubble
               v-if="shouldDisplayAgentMessage"
               :content-type="contentType"

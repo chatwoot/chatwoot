@@ -88,12 +88,11 @@ export default {
   <div>
     <form
       v-if="!hasSubmitted"
-      class="email-input-group"
+      class="email-input-group h-10 flex my-2 mx-0 min-w-[200px]"
       @submit.prevent="onSubmit"
     >
       <input
         v-model="email"
-        class="form-input"
         :placeholder="$t('EMAIL_PLACEHOLDER')"
         :class="inputHasError"
         @input="v$.email.$touch"
@@ -119,31 +118,20 @@ export default {
 @import 'widget/assets/scss/variables.scss';
 
 .email-input-group {
-  display: flex;
-  margin: $space-small 0;
-  min-width: 200px;
-
   input {
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
-    padding: $space-one;
-    width: 100%;
+    @apply border border-n-weak rtl:rounded-tl-[0] ltr:rounded-tr-[0] rtl:rounded-bl-[0] ltr:rounded-br-[0] p-2.5 w-full focus:ring-0 focus:border-n-brand;
 
     &::placeholder {
-      color: $color-light-gray;
+      @apply text-n-slate-10;
     }
 
     &.error {
-      border-color: $color-error;
+      @apply border border-n-ruby-8 dark:border-n-ruby-8 hover:border-n-ruby-9 dark:hover:border-n-ruby-9;
     }
   }
 
   .button {
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
-    font-size: $font-size-large;
-    height: auto;
-    margin-left: -1px;
+    @apply rtl:rounded-tr-[0] ltr:rounded-tl-[0] rtl:rounded-br-[0] ltr:rounded-bl-[0] rounded-lg h-auto ltr:-ml-px rtl:-mr-px text-xl;
 
     .spinner {
       display: block;

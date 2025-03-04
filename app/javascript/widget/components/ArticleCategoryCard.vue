@@ -29,12 +29,12 @@ export default {
 
 <template>
   <div>
-    <h3 class="mb-0 text-sm font-medium text-slate-800 dark:text-slate-50">
+    <h3 class="mb-0 text-sm font-medium text-n-slate-12">
       {{ title }}
     </h3>
     <ArticleList :articles="articles" @select-article="onArticleClick" />
     <button
-      class="inline-flex items-center justify-between px-2 py-1 -ml-2 text-sm font-medium leading-6 rounded-md text-slate-800 dark:text-slate-50 hover:bg-slate-25 dark:hover:bg-slate-800 see-articles"
+      class="inline-flex items-center justify-between px-2 py-1 -ml-2 text-sm font-medium leading-6 rounded-md text-n-slate-12 hover:bg-n-alpha-1 dark:hover:bg-n-alpha-black1 see-articles"
       :style="{ color: widgetColor }"
       @click="$emit('viewAll')"
     >

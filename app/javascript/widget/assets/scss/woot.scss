@@ -88,7 +88,7 @@ label {
 input:not(.reset-base),
 textarea:not(.reset-base) {
   font-family: inherit;
-  @apply rounded-lg bg-n-alpha-black2 dark:bg-n-alpha-black1 border border-n-weak block text-sm leading-[1.5] p-2.5 w-full text-n-slate-12 focus:border-n-brand focus:ring-1 focus:ring-n-brand focus-visible:outline-none transition-all duration-150;
+  @apply rounded-lg bg-n-alpha-black2 dark:bg-n-alpha-black1 border border-n-weak block text-sm leading-[1.5] p-2.5 w-full text-n-slate-12 focus:border-n-brand focus:ring-1 focus:ring-n-brand focus-visible:outline-none;
 
   &:disabled {
     @apply opacity-40 cursor-not-allowed;
@@ -113,11 +113,11 @@ select:not(.reset-base) {
 }
 
 p code {
-  @apply bg-n-alpha-3 text-n-slate-11 text-sm inline-block rounded py-px px-1;
+  @apply bg-n-slate-3 dark:bg-n-alpha-3 text-n-slate-11 text-sm inline-block rounded py-px px-1;
 }
 
 pre {
-  @apply bg-n-alpha-3 text-n-slate-11 overflow-y-auto rounded-md p-2 mt-1 mb-2 block leading-[1.5] whitespace-pre-wrap;
+  @apply bg-n-slate-3 dark:bg-n-alpha-3 text-n-slate-11 overflow-y-auto rounded-md p-2 mt-1 mb-2 block leading-[1.5] whitespace-pre-wrap;
 
   code {
     @apply bg-transparent text-n-slate-11 p-0 text-sm;

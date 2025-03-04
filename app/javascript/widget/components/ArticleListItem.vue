@@ -27,7 +27,7 @@ export default {
 
 <template>
   <li
-    class="py-1 flex items-center justify-between -mx-1 px-1 hover:bg-slate-25 dark:hover:bg-slate-600 rounded cursor-pointer text-slate-700 dark:text-slate-50 dark:hover:text-slate-25 hover:text-slate-900"
+    class="py-1 flex items-center justify-between -mx-1 px-1 hover:bg-n-alpha-1 dark:hover:bg-n-alpha-black1 rounded cursor-pointer text-n-slate-11 dark:text-n-slate-12/80 dark:hover:text-n-slate-12 hover:text-n-slate-12"
     role="button"
     @click="onClick"
   >
