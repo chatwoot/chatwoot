@@ -114,7 +114,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def process_response(response)
-    if response.success?
+    if response.success? && response['error'].blank?
       response['messages'].first['id']
     else
       handle_error(response)

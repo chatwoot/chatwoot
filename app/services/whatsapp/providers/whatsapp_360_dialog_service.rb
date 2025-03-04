@@ -93,7 +93,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
   end
 
   def process_response(response)
-    if response.success?
+    if response.success? && response['error'].blank?
       response['messages'].first['id']
     else
       handle_error(response)
