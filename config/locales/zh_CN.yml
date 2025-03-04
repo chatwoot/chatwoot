@@ -68,6 +68,8 @@ zh_CN:
       invalid_operator: 无效的操作符。%{attribute_name} 允许的操作符为 [%{allowed_keys}]。
       invalid_query_operator: 查询操作符必须为 "AND" 或 "OR"。
       invalid_value: 无效的值。为 %{attribute_name} 提供的值无效
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
     period: 报告周期 %{since} 至 %{until}
     utc_warning: 生成的报表在 UTC 时区
