@@ -17,5 +17,8 @@ class Facebook::DeleteController < ApplicationController
     render json: { url: status_url, confirmation_code: id_to_process }, status: :ok
   rescue InvalidDigestError
     render json: { error: 'Invalid signature' }, status: :unprocessable_entity
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e).capture_exception
+    render json: { error: e.message }, status: :malformed_request
   end
 end
