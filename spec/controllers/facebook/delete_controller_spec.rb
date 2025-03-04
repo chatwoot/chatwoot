@@ -4,7 +4,7 @@ RSpec.describe Facebook::DeleteController do
   describe 'POST #create' do
     let(:user_id) { '12345' }
     let(:app_secret) { 'test_app_secret' }
-    let(:frontend_url) { ENV.fetch('FRONTEND_URL', 'http://localhost:3000') }
+    let(:frontend_url) { ENV.fetch('FRONTEND_URL', nil) }
     let(:redis_key) { format(Redis::Alfred::META_DELETE_PROCESSING, id: user_id) }
 
     before do
