@@ -68,6 +68,8 @@ vi:
       invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
       invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
     period: Thời gian báo cáo từ %{since} đến %{until}
     utc_warning: Báo cáo đã được tạo với múi giờ UTC
