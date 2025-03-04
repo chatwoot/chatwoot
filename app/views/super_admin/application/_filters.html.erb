@@ -1,0 +1,63 @@
+<%#
+# Filters
+
+This partial is used on the `index` page to display available filters
+for a collection of resources.
+
+## Local variables:
+
+- `page`:
+  An instance of [Administrate::Page::Collection][1].
+  Contains helper methods to help display a table,
+  and knows which attributes should be displayed in the resource's table.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Collection
+%>
+
+<% 
+  # Get the dashboard class name from the resource name
+  resource_name = page.resource_name.classify
+  dashboard_class_name = "#{resource_name}Dashboard"
+  dashboard_class = dashboard_class_name.constantize
+  
+  # Get the current filter if any
+  current_filter = nil
+  if params[:search] && params[:search].include?(':')
+    current_filter = params[:search].split(':').first
+  end
+%>
+
+<% if dashboard_class.const_defined?(:COLLECTION_FILTERS) && !dashboard_class::COLLECTION_FILTERS.empty? %>
+  <div class="filters-dropdown">
+    <div class="filters-dropdown-header">
+      <div class="filter-icon" title="Filter by">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+        </svg>
+      </div>
+      <div class="select-wrapper">
+        <select id="filter-select" class="filter-select" onchange="applyFilter(this.value)">
+          <option value="">All records</option>
+          <% dashboard_class::COLLECTION_FILTERS.each do |filter_name, _| %>
+            <option value="<%= filter_name %>" <%= 'selected' if filter_name.to_s == current_filter %>>
+              <%= filter_name.to_s.titleize %>
+            </option>
+          <% end %>
+        </select>
+        <% if current_filter %>
+          <a href="?" class="clear-filter-button" title="Clear filter">×</a>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function applyFilter(filterName) {
+      if (filterName) {
+        window.location.href = "?search=" + filterName + "%3A";
+      } else {
+        window.location.href = "?";
+      }
+    }
+  </script>
+<% end %> 
