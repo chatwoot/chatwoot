@@ -90,7 +90,7 @@ export default {
         hasEndConversationEnabled &&
         showEndConversationButton
       "
-      class="button transparent compact"
+      class="button transparent compact ltr:ml-4 rtl:mr-4"
       :title="$t('END_CONVERSATION')"
       @click="resolveConversation"
     >
@@ -131,10 +131,6 @@ export default {
 @import 'widget/assets/scss/variables.scss';
 
 .actions {
-  button {
-    margin-left: $space-normal;
-  }
-
   span {
     color: $color-heading;
     font-size: $font-size-large;
