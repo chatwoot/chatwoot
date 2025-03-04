@@ -3,6 +3,7 @@ import { frontendURL } from 'dashboard/helper/URLHelper.js';
 import CampaignsPageRouteView from './pages/CampaignsPageRouteView.vue';
 import LiveChatCampaignsPage from './pages/LiveChatCampaignsPage.vue';
 import SMSCampaignsPage from './pages/SMSCampaignsPage.vue';
+import WhatsappCampaignsPage from './pages/WhatsappCampaignsPage.vue';
 
 const campaignsRoutes = {
   routes: [
@@ -51,6 +52,14 @@ const campaignsRoutes = {
             permissions: ['administrator'],
           },
           component: SMSCampaignsPage,
+        },
+        {
+          path: 'whatsapp',
+          name: 'campaigns_whatsapp_index',
+          meta: {
+            permissions: ['administrator'],
+          },
+          component: WhatsappCampaignsPage,
         },
       ],
     },

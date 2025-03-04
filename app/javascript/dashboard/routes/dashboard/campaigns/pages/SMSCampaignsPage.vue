@@ -59,6 +59,7 @@ const handleDelete = campaign => {
     <CampaignList
       v-else-if="!hasNoSMSCampaigns"
       :campaigns="SMSCampaigns"
+      :campaignType="sms"
       @delete="handleDelete"
     />
     <SMSCampaignEmptyState
