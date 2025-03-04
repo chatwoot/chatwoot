@@ -25,7 +25,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
 
     if parsed_result['error'].present?
       message.update!(status: :failed, external_error: external_error(parsed_result))
-      Rails.logger.info "Facebook::SendOnFacebookService: Error sending message to Facebook : Page - #{channel.page_id} : #{result}"
+      Rails.logger.info "Facebook::SendOnFacebookService: Error sending message to Facebook : Page - #{channel.page_id} : #{parsed_result}"
     end
 
     message.update!(source_id: parsed_result['message_id']) if parsed_result['message_id'].present?
