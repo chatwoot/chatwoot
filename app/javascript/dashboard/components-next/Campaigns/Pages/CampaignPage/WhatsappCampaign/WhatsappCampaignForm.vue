@@ -321,9 +321,6 @@ onBeforeUnmount(() => {
                 :class="{ 'border-red-500': v$.selectedInbox.$error }"
                 @change="handleInboxSelection"
               >
-                <option value="create_new" class="create-inbox-option">
-                  {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.CREATE_INBOX.LABEL') }}
-                </option>
                 <option
                   v-for="inbox in inboxes"
                   :key="inbox.id"
@@ -378,7 +375,7 @@ onBeforeUnmount(() => {
                 v-model="formState.scheduledAt"
                 type="datetime-local"
                 :min="currentDateTime"
-                class="w-full p-2 mt-1"
+                class="w-full mt-1"
                 :placeholder="
                   t('CAMPAIGN.WHATSAPP.CREATE.FORM.SCHEDULED_AT.PLACEHOLDER')
                 "

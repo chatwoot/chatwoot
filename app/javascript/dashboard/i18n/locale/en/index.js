@@ -8,7 +8,6 @@ import automation from './automation.json';
 import bulkActions from './bulkActions.json';
 import campaign from './campaign.json';
 import cannedMgmt from './cannedMgmt.json';
-import chatbots from './chatbots.json';
 import chatlist from './chatlist.json';
 import contact from './contact.json';
 import contactFilters from './contactFilters.json';
@@ -48,7 +47,6 @@ export default {
   ...bulkActions,
   ...campaign,
   ...cannedMgmt,
-  ...chatbots,
   ...chatlist,
   ...contact,
   ...contactFilters,
