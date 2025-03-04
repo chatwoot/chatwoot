@@ -68,6 +68,8 @@
       invalid_operator: Ugyldig operatør. De tillatte operatørene for %{attribute_name} er [%{allowed_keys}].
       invalid_query_operator: Spørrings-operatør må være enten "AND" eller "OR".
       invalid_value: Ugyldig verdi. Verdiene angitt for %{attribute_name} er ugyldige
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
     period: Rapporteringsperiode %{since} til %{until}
     utc_warning: Rapporten generert er i UTC tidssone
