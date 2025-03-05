@@ -26,14 +26,14 @@ export default {
   },
   data() {
     return {
-      addCanned: {
-        showLoading: false,
-        message: '',
-      },
       shortCode: '',
       content: this.responseContent || '',
       selectedInboxes: [],
       inboxes: [],
+      addCanned: {
+        showLoading: false,
+        message: '',
+      },
       show: true,
     };
   },
@@ -83,6 +83,9 @@ export default {
           useAlert(errorMessage);
         });
     },
+  },
+  mounted() {
+    this.inboxes = useMapGetter('inboxes/getInboxes');
   },
 };
 </script>
