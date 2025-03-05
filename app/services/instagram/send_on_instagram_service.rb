@@ -71,20 +71,20 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
     )
 
     # in case there's an HTTP error
-    handle_error('Instagram HTTP error', response.dig('error', 'message'), message_content) unless response.success?
+    handle_error('Instagram HTTP error', response, message_content) unless response.success?
 
     parsed_response = response.parsed_response
+    handle_error('Instagram response', parsed_response, message_content) if parsed_response['error'].present?
 
-    # in case there's an error in the response
-    handle_error('Instagram response', external_error(parsed_response), message_content) if parsed_response&.dig('error').present?
-
-    message.source_id = parsed_response['message_id'] if parsed_response&.dig('message_id').present?
+    message.source_id = parsed_response['message_id'] if parsed_response['message_id'].present?
     message.save!
 
     parsed_response
   end
 
-  def handle_error(error_type, error_message, message_content)
+  def handle_error(error_type, response, message_content)
+    error_message = response.is_a?(HTTParty::Response) ? response.message : external_error(response)
+
     Rails.logger.error("#{error_type}: #{error_message} : #{message_content}")
     message.status = :failed
     message.external_error = error_message
@@ -92,8 +92,8 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
 
   def external_error(response)
     # https://developers.facebook.com/docs/instagram-api/reference/error-codes/
-    error_message = response[:error][:message]
-    error_code = response[:error][:code]
+    error_message = response.dig('error', 'message')
+    error_code = response.dig('error', 'code')
 
     "#{error_code} - #{error_message}"
   end

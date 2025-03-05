@@ -24,6 +24,26 @@ describe Instagram::SendOnInstagramService do
     )
   end
 
+  let(:error_body) do
+    {
+      'error' => {
+        'message' => 'The Instagram account is restricted.',
+        'type' => 'OAuthException',
+        'code' => 400,
+        'fbtrace_id' => 'anyrandomfbtraceid1234567890'
+      }
+    }
+  end
+
+  let(:response_with_error) do
+    instance_double(
+      HTTParty::Response,
+      :success? => true,
+      :body => error_body.to_json,
+      :parsed_response => error_body
+    )
+  end
+
   describe '#perform' do
     context 'with reply' do
       before do
@@ -74,16 +94,7 @@ describe Instagram::SendOnInstagramService do
         it 'if message sent from chatwoot is failed' do
           message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
 
-          allow(HTTParty).to receive(:post).and_return(
-            {
-              'error': {
-                'message': 'The Instagram account is restricted.',
-                'type': 'OAuthException',
-                'code': 400,
-                'fbtrace_id': 'anyrandomfbtraceid1234567890'
-              }
-            }
-          )
+          allow(HTTParty).to receive(:post).and_return(response_with_error)
           described_class.new(message: message).perform
           expect(HTTParty).to have_received(:post)
           expect(message.reload.status).to eq('failed')
