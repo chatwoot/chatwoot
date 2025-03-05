@@ -70,24 +70,24 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
       query: query
     )
 
-    # in case there's an HTTP error
-    handle_error('Instagram HTTP error', response, message_content) unless response.success?
+    if response.success?
+      parsed_response = response.parsed_response
+      handle_error('Instagram response', external_error(parsed_response), message_content) if parsed_response['error'].present?
 
-    parsed_response = response.parsed_response
-    handle_error('Instagram response', parsed_response, message_content) if parsed_response['error'].present?
+      message.source_id = parsed_response['message_id'] if parsed_response['message_id'].present?
+      message.save!
 
-    message.source_id = parsed_response['message_id'] if parsed_response['message_id'].present?
-    message.save!
+      parsed_response
+    else
+      handle_error('Instagram HTTP error', response.message, message_content)
 
-    parsed_response
+      nil
+    end
   end
 
-  def handle_error(error_type, response, message_content)
-    error_message = response.is_a?(HTTParty::Response) ? response.message : external_error(response)
-
+  def handle_error(error_type, error_message, message_content)
     Rails.logger.error("#{error_type}: #{error_message} : #{message_content}")
-    message.status = :failed
-    message.external_error = error_message
+    message.update(status: :failed, external_error: error_message)
   end
 
   def external_error(response)
