@@ -73,13 +73,15 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
     # in case there's an HTTP error
     handle_error('Instagram HTTP error', response.dig('error', 'message'), message_content) unless response.success?
 
-    # in case there's an error in the response
-    handle_error('Instagram response', external_error(response), message_content) if response[:error].present?
+    parsed_response = response.parsed_response
 
-    message.source_id = response['message_id'] if response['message_id'].present?
+    # in case there's an error in the response
+    handle_error('Instagram response', external_error(parsed_response), message_content) if parsed_response&.dig('error').present?
+
+    message.source_id = parsed_response['message_id'] if parsed_response&.dig('message_id').present?
     message.save!
 
-    response
+    parsed_response
   end
 
   def handle_error(error_type, error_message, message_content)

@@ -15,16 +15,20 @@ describe Instagram::SendOnInstagramService do
   let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: instagram_inbox) }
   let(:conversation) { create(:conversation, contact: contact, inbox: instagram_inbox, contact_inbox: contact_inbox) }
   let(:response) { double }
+  let(:mock_response) do
+    instance_double(
+      HTTParty::Response,
+      :success? => true,
+      :body => { message_id: 'anyrandommessageid1234567890' }.to_json,
+      :parsed_response => { 'message_id' => 'anyrandommessageid1234567890' }
+    )
+  end
 
   describe '#perform' do
     context 'with reply' do
       before do
         allow(Facebook::Messenger::Configuration::AppSecretProofCalculator).to receive(:call).and_return('app_secret_key', 'access_token')
-        allow(HTTParty).to receive(:post).and_return(
-          {
-            'message_id': 'anyrandommessageid1234567890'
-          }
-        )
+        allow(HTTParty).to receive(:post).and_return(mock_response)
       end
 
       context 'without message_tag HUMAN_AGENT' do
@@ -35,22 +39,8 @@ describe Instagram::SendOnInstagramService do
         it 'if message is sent from chatwoot and is outgoing' do
           message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
 
-          allow(HTTParty).to receive(:post).with(
-            {
-              recipient: { id: contact.get_source_id(instagram_inbox.id) },
-              message: {
-                text: message.content
-              }
-            }
-          ).and_return(
-            {
-              'message_id': 'anyrandommessageid1234567890'
-            }
-          )
-
           response = described_class.new(message: message).perform
-
-          expect(response).to eq({ message_id: 'anyrandommessageid1234567890' })
+          expect(response['message_id']).to eq('anyrandommessageid1234567890')
         end
 
         it 'if message is sent from chatwoot and is outgoing with multiple attachments' do
@@ -78,7 +68,7 @@ describe Instagram::SendOnInstagramService do
           message.save!
           response = described_class.new(message: message).perform
 
-          expect(response).to eq({ message_id: 'anyrandommessageid1234567890' })
+          expect(response['message_id']).to eq('anyrandommessageid1234567890')
         end
 
         it 'if message sent from chatwoot is failed' do
