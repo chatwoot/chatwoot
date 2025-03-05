@@ -224,7 +224,11 @@ export default {
                   @error="onVideoLoadError"
                 />
 
-                <audio v-else-if="attachment.file_type === 'audio'" controls>
+                <audio
+                  v-else-if="attachment.file_type === 'audio'"
+                  controls
+                  class="h-10 dark:invert"
+                >
                   <source :src="attachment.data_url" />
                 </audio>
                 <FileBubble v-else :url="attachment.data_url" />
