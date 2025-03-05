@@ -83,7 +83,7 @@ export default {
 
 <!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
-  <div v-if="showHeaderActions" class="actions flex items-center gap-2">
+  <div v-if="showHeaderActions" class="actions flex items-center gap-3">
     <button
       v-if="
         canLeaveConversation &&
