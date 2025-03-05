@@ -11,7 +11,6 @@ import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import configMixin from '../mixins/configMixin';
 import messageMixin from '../mixins/messageMixin';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
-import { useDarkMode } from 'widget/composables/useDarkMode';
 import ReplyToChip from 'widget/components/ReplyToChip.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
@@ -38,12 +37,6 @@ export default {
       type: Object,
       default: () => {},
     },
-  },
-  setup() {
-    const { getThemeClass } = useDarkMode();
-    return {
-      getThemeClass,
-    };
   },
   data() {
     return {
@@ -245,8 +238,7 @@ export default {
         <p
           v-if="message.showAvatar || hasRecordedResponse"
           v-dompurify-html="agentName"
-          class="agent-name"
-          :class="getThemeClass('text-slate-700', 'dark:text-slate-200')"
+          class="agent-name text-n-slate-11"
         />
       </div>
     </div>

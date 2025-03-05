@@ -95,11 +95,11 @@
 
   .user.has-attachment {
     .icon-wrap {
-      color: $color-white;
+      @apply text-white;
     }
 
     .download {
-      color: $color-white;
+      @apply text-white;
     }
   }
 

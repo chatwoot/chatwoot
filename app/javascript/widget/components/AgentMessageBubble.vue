@@ -6,7 +6,6 @@ import ChatOptions from 'shared/components/ChatOptions.vue';
 import ChatArticle from './template/Article.vue';
 import EmailInput from './template/EmailInput.vue';
 import CustomerSatisfaction from 'shared/components/CustomerSatisfaction.vue';
-import { useDarkMode } from 'widget/composables/useDarkMode';
 import IntegrationCard from './template/IntegrationCard.vue';
 
 export default {
@@ -33,13 +32,11 @@ export default {
   setup() {
     const { formatMessage, getPlainText, truncateMessage, highlightContent } =
       useMessageFormatter();
-    const { getThemeClass } = useDarkMode();
     return {
       formatMessage,
       getPlainText,
       truncateMessage,
       highlightContent,
-      getThemeClass,
     };
   },
   computed: {

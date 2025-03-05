@@ -3,7 +3,6 @@ import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner.vue';
 import { CSAT_RATINGS } from 'shared/constants/messages';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import { useDarkMode } from 'widget/composables/useDarkMode';
 import { getContrastingTextColor } from '@chatwoot/utils';
 
 export default {
@@ -20,10 +19,6 @@ export default {
       type: Number,
       required: true,
     },
-  },
-  setup() {
-    const { getThemeClass } = useDarkMode();
-    return { getThemeClass };
   },
   data() {
     return {
@@ -45,10 +40,6 @@ export default {
     },
     isButtonDisabled() {
       return !(this.selectedRating && this.feedback);
-    },
-    inputColor() {
-      return `${this.getThemeClass('bg-white', 'dark:bg-slate-600')}
-        ${this.getThemeClass('text-black-900', 'dark:text-slate-50')}`;
     },
     textColor() {
       return getContrastingTextColor(this.widgetColor);
@@ -130,7 +121,6 @@ export default {
     >
       <input
         v-model="feedback"
-        :class="inputColor"
         :placeholder="$t('CSAT.PLACEHOLDER')"
         @keydown.enter="onSubmit"
       />

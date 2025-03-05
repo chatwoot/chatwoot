@@ -6,7 +6,6 @@ import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import configMixin from '../mixins/configMixin';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
-import { useDarkMode } from 'widget/composables/useDarkMode';
 
 import EmojiInput from 'shared/components/emoji/EmojiInput.vue';
 
@@ -30,10 +29,6 @@ export default {
       default: () => {},
     },
   },
-  setup() {
-    const { getThemeClass } = useDarkMode();
-    return { getThemeClass };
-  },
   data() {
     return {
       userInput: '',
@@ -52,18 +47,6 @@ export default {
     },
     showSendButton() {
       return this.userInput.length > 0;
-    },
-    inputColor() {
-      return `${this.getThemeClass('bg-white', 'dark:bg-slate-600')}
-        ${this.getThemeClass('text-black-900', 'dark:text-slate-50')}`;
-    },
-    emojiIconColor() {
-      return this.showEmojiPicker
-        ? `text-woot-500 ${this.getThemeClass(
-            'text-black-900',
-            'dark:text-slate-100'
-          )}`
-        : `${this.getThemeClass('text-black-900', 'dark:text-slate-100')}`;
     },
   },
   watch: {
@@ -156,7 +139,7 @@ export default {
     <div class="flex items-center ltr:pl-2 rtl:pr-2">
       <ChatAttachmentButton
         v-if="showAttachment"
-        :class="getThemeClass('text-black-900', 'dark:text-slate-100')"
+        class="text-n-slate-12"
         :on-attach="onSendAttachment"
       />
       <button
@@ -165,7 +148,14 @@ export default {
         :aria-label="$t('EMOJI.ARIA_LABEL')"
         @click="toggleEmojiPicker"
       >
-        <FluentIcon icon="emoji" :class="emojiIconColor" />
+        <FluentIcon
+          icon="emoji"
+          class="transition-all duration-150"
+          :class="{
+            'text-n-slate-12': !showEmojiPicker,
+            'text-n-brand': showEmojiPicker,
+          }"
+        />
       </button>
       <EmojiInput
         v-if="showEmojiPicker"

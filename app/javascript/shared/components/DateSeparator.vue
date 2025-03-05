@@ -1,6 +1,5 @@
 <script>
 import { formatDate } from 'shared/helpers/DateHelper';
-import { useDarkMode } from 'widget/composables/useDarkMode';
 
 export default {
   props: {
@@ -8,10 +7,6 @@ export default {
       type: String,
       required: true,
     },
-  },
-  setup() {
-    const { getThemeClass } = useDarkMode();
-    return { getThemeClass };
   },
   computed: {
     formattedDate() {

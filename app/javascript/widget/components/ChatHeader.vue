@@ -4,7 +4,6 @@ import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import HeaderActions from './HeaderActions.vue';
 import routerMixin from 'widget/mixins/routerMixin';
-import { useDarkMode } from 'widget/composables/useDarkMode';
 
 export default {
   name: 'ChatHeader',
@@ -34,10 +33,6 @@ export default {
       type: Array,
       default: () => {},
     },
-  },
-  setup() {
-    const { getThemeClass } = useDarkMode();
-    return { getThemeClass };
   },
   computed: {
     isOnline() {
@@ -76,8 +71,7 @@ export default {
       />
       <div>
         <div
-          class="flex items-center text-base font-medium leading-4"
-          :class="getThemeClass('text-black-900', 'dark:text-slate-50')"
+          class="flex items-center text-base font-medium leading-4 text-n-slate-12"
         >
           <span v-dompurify-html="title" class="ltr:mr-1 rtl:ml-1" />
           <div
@@ -85,10 +79,7 @@ export default {
               ${isOnline ? 'bg-green-500' : 'hidden'}`"
           />
         </div>
-        <div
-          class="mt-1 text-xs leading-3"
-          :class="getThemeClass('text-black-700', 'dark:text-slate-400')"
-        >
+        <div class="mt-1 text-xs leading-3 text-n-slate-11">
           {{ replyWaitMessage }}
         </div>
       </div>

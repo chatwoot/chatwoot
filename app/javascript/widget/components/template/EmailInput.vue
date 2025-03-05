@@ -6,7 +6,6 @@ import { getContrastingTextColor } from '@chatwoot/utils';
 
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import { useDarkMode } from 'widget/composables/useDarkMode';
 
 export default {
   components: {
@@ -24,8 +23,7 @@ export default {
     },
   },
   setup() {
-    const { getThemeClass } = useDarkMode();
-    return { v$: useVuelidate(), getThemeClass };
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -45,16 +43,6 @@ export default {
         this.messageContentAttributes &&
         this.messageContentAttributes.submitted_email
       );
-    },
-    inputColor() {
-      return `${this.getThemeClass('bg-white', 'dark:bg-slate-600')}
-        ${this.getThemeClass('text-black-900', 'dark:text-slate-50')}
-        ${this.getThemeClass('border-black-200', 'dark:border-black-500')}`;
-    },
-    inputHasError() {
-      return this.v$.email.$error
-        ? `${this.inputColor} error`
-        : `${this.inputColor}`;
     },
   },
   validations: {
@@ -93,8 +81,9 @@ export default {
     >
       <input
         v-model="email"
+        type="email"
         :placeholder="$t('EMAIL_PLACEHOLDER')"
-        :class="inputHasError"
+        :class="{ error: v$.email.$error }"
         @input="v$.email.$touch"
         @keydown.enter="onSubmit"
       />

@@ -1,7 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
-import { useDarkMode } from 'widget/composables/useDarkMode';
 
 export default {
   props: {
@@ -19,10 +18,6 @@ export default {
     },
   },
   emits: ['submit'],
-  setup() {
-    const { getThemeClass } = useDarkMode();
-    return { getThemeClass };
-  },
   data() {
     return {
       formValues: {},
@@ -35,10 +30,6 @@ export default {
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
-    },
-    inputColor() {
-      return `${this.getThemeClass('bg-white', 'dark:bg-slate-600')}
-        ${this.getThemeClass('text-black-900', 'dark:text-slate-50')}`;
     },
     isFormValid() {
       return this.items.reduce((acc, { name }) => {
@@ -100,7 +91,6 @@ export default {
         <input
           v-if="item.type === 'email'"
           v-model="formValues[item.name]"
-          :class="inputColor"
           :type="item.type"
           :pattern="item.regex"
           :title="item.title"
@@ -112,7 +102,6 @@ export default {
         <input
           v-else-if="item.type === 'text'"
           v-model="formValues[item.name]"
-          :class="inputColor"
           :required="item.required && 'required'"
           :pattern="item.pattern"
           :title="item.title"
@@ -124,7 +113,6 @@ export default {
         <textarea
           v-else-if="item.type === 'text_area'"
           v-model="formValues[item.name]"
-          :class="inputColor"
           :required="item.required && 'required'"
           :title="item.title"
           :name="item.name"
@@ -134,7 +122,6 @@ export default {
         <select
           v-else-if="item.type === 'select'"
           v-model="formValues[item.name]"
-          :class="inputColor"
           :required="item.required && 'required'"
         >
           <option
@@ -185,7 +172,7 @@ export default {
   .has-submitted {
     input:invalid,
     textarea:invalid {
-      @apply border border-n-ruby-8 dark:border-n-ruby-8 hover:border-n-ruby-9 dark:hover:border-n-ruby-9;
+      @apply outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9;
     }
     input:invalid + .error-message,
     textarea:invalid + .error-message {

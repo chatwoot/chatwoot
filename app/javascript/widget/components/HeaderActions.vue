@@ -3,7 +3,6 @@ import { mapGetters } from 'vuex';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import { popoutChatWindow } from '../helpers/popoutHelper';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import { useDarkMode } from 'widget/composables/useDarkMode';
 import configMixin from 'widget/mixins/configMixin';
 import { CONVERSATION_STATUS } from 'shared/constants/messages';
 
@@ -20,10 +19,6 @@ export default {
       type: Boolean,
       default: true,
     },
-  },
-  setup() {
-    const { getThemeClass } = useDarkMode();
-    return { getThemeClass };
   },
   computed: {
     ...mapGetters({
@@ -94,22 +89,14 @@ export default {
       :title="$t('END_CONVERSATION')"
       @click="resolveConversation"
     >
-      <FluentIcon
-        icon="sign-out"
-        size="22"
-        :class="getThemeClass('text-black-900', 'dark:text-slate-50')"
-      />
+      <FluentIcon icon="sign-out" size="22" class="text-n-slate-12" />
     </button>
     <button
       v-if="showPopoutButton"
       class="button transparent compact new-window--button"
       @click="popoutWindow"
     >
-      <FluentIcon
-        icon="open"
-        size="22"
-        :class="getThemeClass('text-black-900', 'dark:text-slate-50')"
-      />
+      <FluentIcon icon="open" size="22" class="text-n-slate-12" />
     </button>
     <button
       class="button transparent compact close-button"
@@ -118,11 +105,7 @@ export default {
       }"
       @click="closeWindow"
     >
-      <FluentIcon
-        icon="dismiss"
-        size="24"
-        :class="getThemeClass('text-black-900', 'dark:text-slate-50')"
-      />
+      <FluentIcon icon="dismiss" size="24" class="text-n-slate-12" />
     </button>
   </div>
 </template>

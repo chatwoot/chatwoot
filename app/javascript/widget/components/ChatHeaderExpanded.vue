@@ -1,6 +1,5 @@
 <script>
 import HeaderActions from './HeaderActions.vue';
-import { useDarkMode } from 'widget/composables/useDarkMode';
 
 export default {
   name: 'ChatHeaderExpanded',
@@ -24,10 +23,6 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  setup() {
-    const { getThemeClass } = useDarkMode();
-    return { getThemeClass };
   },
 };
 </script>
@@ -53,13 +48,11 @@ export default {
     </div>
     <h2
       v-dompurify-html="introHeading"
-      class="mt-4 text-2xl mb-1.5 font-medium"
-      :class="getThemeClass('text-slate-900', 'dark:text-slate-50')"
+      class="mt-4 text-2xl mb-1.5 font-medium text-n-slate-12"
     />
     <p
       v-dompurify-html="introBody"
-      class="text-base leading-normal"
-      :class="getThemeClass('text-slate-700', 'dark:text-slate-200')"
+      class="text-base leading-normal text-n-slate-11"
     />
   </header>
 </template>
