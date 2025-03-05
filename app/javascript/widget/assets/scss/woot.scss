@@ -87,6 +87,10 @@ textarea:not(.reset-base) {
   &:disabled {
     @apply opacity-40 cursor-not-allowed;
   }
+
+  &:placeholder-shown {
+    @apply text-ellipsis;
+  }
 }
 
 textarea {

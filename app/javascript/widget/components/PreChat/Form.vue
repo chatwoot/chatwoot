@@ -335,7 +335,7 @@ export default {
     }
 
     input[type='checkbox'] {
-      @apply size-4;
+      @apply size-4 outline-none;
     }
   }
 }
