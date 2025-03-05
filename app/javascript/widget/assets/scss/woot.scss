@@ -88,7 +88,7 @@ label {
 input:not(.reset-base),
 textarea:not(.reset-base) {
   font-family: inherit;
-  @apply rounded-lg bg-n-alpha-black2 dark:bg-n-alpha-black1 border border-n-weak block text-sm leading-[1.5] p-2.5 w-full text-n-slate-12 focus:border-n-brand focus:ring-1 focus:ring-n-brand focus-visible:outline-none;
+  @apply rounded-lg box-border bg-n-alpha-black2 dark:bg-n-alpha-black1 border-none outline outline-1 outline-offset-[-1px] outline-n-weak block text-sm leading-[1.5] p-2.5 w-full text-n-slate-12 focus:outline-n-brand focus:ring-1 focus:ring-n-brand;
 
   &:disabled {
     @apply opacity-40 cursor-not-allowed;
@@ -100,7 +100,7 @@ textarea {
 }
 
 select:not(.reset-base) {
-  @apply bg-n-alpha-black2 dark:bg-n-alpha-black1 w-full px-2.5 py-1.5 border border-n-weak rounded-lg text-base ltr:pr-10 rtl:pl-10 font-normal ltr:bg-[right_-1.6rem_center] rtl:bg-[left_-1.6rem_center] focus:border-n-brand focus:ring-1 focus:ring-n-brand focus-visible:outline-none;
+  @apply bg-n-alpha-black2 dark:bg-n-alpha-black1 w-full px-2.5 py-1.5 border-none outline outline-1 outline-offset-[-1px] outline-n-weak rounded-lg text-base ltr:pr-10 rtl:pl-10 font-normal ltr:bg-[right_-1.6rem_center] rtl:bg-[left_-1.6rem_center] focus:outline-n-brand focus:ring-1 focus:ring-n-brand;
 
   -moz-appearance: none;
   -webkit-appearance: none;
