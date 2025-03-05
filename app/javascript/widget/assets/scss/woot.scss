@@ -128,9 +128,9 @@ blockquote {
 
 // scss-lint:disable PropertySortOrder
 @layer base {
-  /* NEXT COLORS START */
+  // NEXT COLORS START
   :root {
-    /* slate */
+    // slate
     --slate-1: 252 252 253;
     --slate-2: 249 249 251;
     --slate-3: 240 240 243;
@@ -144,6 +144,7 @@ blockquote {
     --slate-11: 96 100 108;
     --slate-12: 28 32 36;
 
+    // iris
     --iris-1: 253 253 255;
     --iris-2: 248 248 255;
     --iris-3: 240 241 254;
@@ -157,6 +158,7 @@ blockquote {
     --iris-11: 87 83 198;
     --iris-12: 39 41 98;
 
+    // ruby
     --ruby-1: 255 252 253;
     --ruby-2: 255 247 248;
     --ruby-3: 254 234 237;
@@ -170,6 +172,7 @@ blockquote {
     --ruby-11: 202 36 77;
     --ruby-12: 100 23 43;
 
+    // amber
     --amber-1: 254 253 251;
     --amber-2: 254 251 233;
     --amber-3: 255 247 194;
@@ -183,6 +186,7 @@ blockquote {
     --amber-11: 171 100 0;
     --amber-12: 79 52 34;
 
+    // teal
     --teal-1: 250 254 253;
     --teal-2: 243 251 249;
     --teal-3: 224 248 243;
@@ -196,6 +200,7 @@ blockquote {
     --teal-11: 0 133 115;
     --teal-12: 13 61 56;
 
+    // gray
     --gray-1: 252 252 252;
     --gray-2: 249 249 249;
     --gray-3: 240 240 240;
@@ -232,7 +237,7 @@ blockquote {
   }
 
   .dark {
-    /* slate */
+    // slate
     --slate-1: 17 17 19;
     --slate-2: 24 25 27;
     --slate-3: 33 34 37;
@@ -246,6 +251,7 @@ blockquote {
     --slate-11: 176 180 186;
     --slate-12: 237 238 240;
 
+    // iris
     --iris-1: 19 19 30;
     --iris-2: 23 22 37;
     --iris-3: 32 34 72;
@@ -259,6 +265,7 @@ blockquote {
     --iris-11: 158 177 255;
     --iris-12: 224 223 254;
 
+    // ruby
     --ruby-1: 25 17 19;
     --ruby-2: 30 21 23;
     --ruby-3: 58 20 30;
@@ -272,6 +279,7 @@ blockquote {
     --ruby-11: 255 148 157;
     --ruby-12: 254 210 225;
 
+    // amber
     --amber-1: 22 18 12;
     --amber-2: 29 24 15;
     --amber-3: 48 32 8;
@@ -285,6 +293,7 @@ blockquote {
     --amber-11: 255 202 22;
     --amber-12: 255 231 179;
 
+    // teal
     --teal-1: 13 21 20;
     --teal-2: 17 28 27;
     --teal-3: 13 45 42;
@@ -298,6 +307,7 @@ blockquote {
     --teal-11: 11 216 182;
     --teal-12: 173 240 221;
 
+    // gray
     --gray-1: 17 17 17;
     --gray-2: 25 25 25;
     --gray-3: 34 34 34;
