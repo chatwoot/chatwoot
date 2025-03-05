@@ -4,7 +4,7 @@ describe Instagram::SendOnInstagramService do
   subject(:send_reply_service) { described_class.new(message: message) }
 
   before do
-    stub_request(:post, /graph.facebook.com/)
+    stub_request(:post, /graph\.facebook\.com/)
     create(:message, message_type: :incoming, inbox: instagram_inbox, account: account, conversation: conversation)
   end
 
@@ -138,7 +138,7 @@ describe Instagram::SendOnInstagramService do
 
       it 'handles HTTP errors' do
         message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
-        stub_request(:post, /graph.facebook.com/).to_return(status: [401, 'Unauthorized'])
+        stub_request(:post, /graph\.facebook\.com/).to_return(status: [401, 'Unauthorized'])
 
         described_class.new(message: message).perform
 
