@@ -32,7 +32,7 @@ class Webhooks::CallController < ActionController::API
     Rails.logger.info "Welcome Message Requested: #{params.inspect}"
 
     account = Account.where("custom_attributes->>'call_config' IS NOT NULL")
-                     .find_by("custom_attributes->'call_config'->>'callerId' = ?", params[:To])
+                     .find_by("custom_attributes->'call_config'->'externalProviderConfig'->>'callerId' = ?", params[:To])
 
     if account.blank?
       render json: { error: 'Account not found for this caller ID' }, status: :bad_request
@@ -56,7 +56,7 @@ class Webhooks::CallController < ActionController::API
     Rails.logger.info "Incoming call received: #{params.inspect}"
 
     account = Account.where("custom_attributes->>'call_config' IS NOT NULL")
-                     .find_by("custom_attributes->'call_config'->>'callerId' = ?", params[:To])
+                     .find_by("custom_attributes->'call_config'->'externalProviderConfig'->>'callerId' = ?", params[:To])
 
     if account.blank?
       render json: { error: 'Account not found for this caller ID' }, status: :bad_request
@@ -188,7 +188,7 @@ class Webhooks::CallController < ActionController::API
      "
 
     account = Account.where("custom_attributes->>'call_config' IS NOT NULL")
-                     .find_by("custom_attributes->'call_config'->>'callerId' = ?", params[:To])
+                     .find_by("custom_attributes->'call_config'->'externalProviderConfig'->>'callerId' = ?", params[:To])
 
     if account.blank?
       render json: { error: 'Account not found for this caller ID' }, status: :bad_request
@@ -208,7 +208,7 @@ class Webhooks::CallController < ActionController::API
     Rails.logger.info "Inbound call callback received: #{params.inspect}"
 
     account = Account.where("custom_attributes->>'call_config' IS NOT NULL")
-                     .find_by("custom_attributes->'call_config'->>'callerId' = ?", params[:To])
+                     .find_by("custom_attributes->'call_config'->'externalProviderConfig'->>'callerId' = ?", params[:To])
 
     if account.blank?
       render json: { error: 'Account not found for this caller ID' }, status: :bad_request
@@ -265,7 +265,7 @@ class Webhooks::CallController < ActionController::API
     Rails.logger.info "Missed call callback received: #{params.inspect}"
 
     account = Account.where("custom_attributes->>'call_config' IS NOT NULL")
-                     .find_by("custom_attributes->'call_config'->>'callerId' = ?", params[:To])
+                     .find_by("custom_attributes->'call_config'->'externalProviderConfig'->>'callerId' = ?", params[:To])
 
     if account.blank?
       render json: { error: 'Account not found for this caller ID' }, status: :bad_request

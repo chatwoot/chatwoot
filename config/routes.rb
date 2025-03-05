@@ -55,7 +55,7 @@ Rails.application.routes.draw do
           resources :agents, only: [:index, :create, :update, :destroy] do
             post :bulk_create, on: :collection
           end
-          resources :call, only: [:create] do
+          resources :call, controller: 'call_v2', only: [:create] do
             collection do
               patch :update_call_config
             end
@@ -483,6 +483,7 @@ Rails.application.routes.draw do
 
   # webhook for call
   post 'webhooks/call/:account_id/:inbox_id/:conversation_id', to: 'webhooks/call#handle_call_callback'
+  post 'webhooks/call/ivrsolutions', to: 'webhooks/call_ivrsolutions#handle_call_callback'
 
   get 'webhooks/call/incoming', to: 'webhooks/call#handle_incoming_call'
   get 'webhooks/call/welcome_message', to: 'webhooks/call#welcome_message'

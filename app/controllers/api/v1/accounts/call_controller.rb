@@ -48,12 +48,14 @@ class Api::V1::Accounts::CallController < Api::V1::Accounts::BaseController
       return
     end
 
-    url = "https://#{call_config['apiKey']}:#{call_config['token']}#{call_config['subDomain']}/v1/Accounts/#{call_config['sid']}/Calls/connect"
+    external_provider_config = call_config['externalProviderConfig']
+
+    url = "https://#{external_provider_config['apiKey']}:#{external_provider_config['token']}#{external_provider_config['subDomain']}/v1/Accounts/#{external_provider_config['sid']}/Calls/connect"
 
     form_data = {
       To: payload['to'],
       From: payload['from'],
-      CallerId: call_config['callerId'],
+      CallerId: external_provider_config['callerId'],
       StatusCallback: status_callback,
       'StatusCallbackEvents[0]': 'terminal',
       'StatusCallbackEvents[1]': 'answered',
@@ -63,7 +65,7 @@ class Api::V1::Accounts::CallController < Api::V1::Accounts::BaseController
 
     response = HTTParty.post(
       url,
-      basic_auth: { username: call_config['apiKey'], password: call_config['token'] },
+      basic_auth: { username: external_provider_config['apiKey'], password: external_provider_config['token'] },
       body: form_data
     )
 

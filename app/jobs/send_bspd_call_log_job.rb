@@ -42,7 +42,7 @@ class SendBspdCallLogJob < ApplicationJob
       recipient: parsed_body['To'],
       senderCallStatus: is_inbound ? parsed_body['Legs'].last['Status'] : parsed_body['Legs'].first['Status'],
       recipientCallStatus: is_inbound ? parsed_body['Legs'].first['Status'] : parsed_body['Legs'].last['Status'],
-      exotel: build_exotel_data(parsed_body),
+      external: build_exotel_data(parsed_body),
       metadata: build_metadata(parsed_body),
       timing: build_timing_data(parsed_body),
       recording: build_recording_data(parsed_body),
