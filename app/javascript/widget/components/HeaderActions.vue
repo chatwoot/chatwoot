@@ -83,14 +83,14 @@ export default {
 
 <!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
-  <div v-if="showHeaderActions" class="actions flex items-center">
+  <div v-if="showHeaderActions" class="actions flex items-center gap-2">
     <button
       v-if="
         canLeaveConversation &&
         hasEndConversationEnabled &&
         showEndConversationButton
       "
-      class="button transparent compact ltr:ml-4 rtl:mr-4"
+      class="button transparent compact"
       :title="$t('END_CONVERSATION')"
       @click="resolveConversation"
     >
@@ -128,14 +128,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import 'widget/assets/scss/variables.scss';
-
 .actions {
-  span {
-    color: $color-heading;
-    font-size: $font-size-large;
-  }
-
   .close-button {
     display: none;
   }
