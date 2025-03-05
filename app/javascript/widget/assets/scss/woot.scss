@@ -14,7 +14,6 @@
 
 html,
 body {
-  font-family: $font-family;
   @apply antialiased h-full bg-n-background;
 }
 
@@ -38,10 +37,6 @@ body {
       display: block !important;
     }
   }
-}
-
-.cursor-pointer {
-  cursor: pointer;
 }
 
 .message-content {
