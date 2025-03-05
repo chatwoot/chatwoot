@@ -94,7 +94,7 @@ textarea {
 }
 
 select:not(.reset-base) {
-  @apply bg-n-alpha-black2 dark:bg-n-alpha-black1 w-full px-2.5 py-1.5 border-none outline outline-1 outline-offset-[-1px] outline-n-weak rounded-lg text-base ltr:pr-10 rtl:pl-10 font-normal ltr:bg-[right_-1.6rem_center] rtl:bg-[left_-1.6rem_center] focus:outline-n-brand focus:ring-1 focus:ring-n-brand;
+  @apply bg-n-alpha-black2 dark:bg-n-alpha-black1 w-full p-2.5 border-none outline outline-1 outline-offset-[-1px] outline-n-weak rounded-lg text-n-slate-12 text-sm ltr:pr-10 rtl:pl-10 font-normal ltr:bg-[right_-1.6rem_center] rtl:bg-[left_-1.6rem_center] focus:outline-n-brand focus:ring-1 focus:ring-n-brand;
 
   -moz-appearance: none;
   -webkit-appearance: none;
