@@ -28,7 +28,7 @@ module SwitchLocale
     @portal = Portal.find_by(custom_domain: domain)
     return unless @portal
 
-    @portal.default_locale
+    I18n.available_locales.map(&:to_s).include?(@portal.default_locale) ? @portal.default_locale : nil
   end
 
   def set_locale(locale, &)
