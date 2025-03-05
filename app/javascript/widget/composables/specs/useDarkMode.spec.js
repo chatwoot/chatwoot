@@ -47,25 +47,4 @@ describe('useDarkMode', () => {
       expect(prefersDarkMode.value).toBe(false);
     });
   });
-
-  describe('getThemeClass', () => {
-    it('returns light class when darkMode is light', () => {
-      const { getThemeClass } = useDarkMode();
-      expect(getThemeClass('light-class', 'dark-class')).toBe('light-class');
-    });
-
-    it('returns dark class when darkMode is dark', () => {
-      mockDarkMode.value = 'dark';
-      const { getThemeClass } = useDarkMode();
-      expect(getThemeClass('light-class', 'dark-class')).toBe('dark-class');
-    });
-
-    it('returns both classes when darkMode is auto', () => {
-      mockDarkMode.value = 'auto';
-      const { getThemeClass } = useDarkMode();
-      expect(getThemeClass('light-class', 'dark-class')).toBe(
-        'light-class dark-class'
-      );
-    });
-  });
 });
