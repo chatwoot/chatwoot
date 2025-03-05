@@ -18,6 +18,7 @@ export default {
     id: { type: Number, default: null },
     edcontent: { type: String, default: '' },
     edshortCode: { type: String, default: '' },
+    edinboxIds: { type: Array, default: () => [] },
     onClose: { type: Function, default: () => {} },
   },
   setup() {
@@ -31,7 +32,7 @@ export default {
       },
       shortCode: this.edshortCode,
       content: this.edcontent,
-      selectedInboxes: [],
+      selectedInboxes: this.edinboxIds,
       inboxes: [],
       show: true,
     };
