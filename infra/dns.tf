@@ -1,8 +1,8 @@
-resource "cloudflare_record" "handesk-digitaltolk-net" {
-  zone_id = data.cloudflare_zone.digitaltolknet.zone_id
+resource "cloudflare_dns_record" "service" {
+  zone_id = local.cloudflare_zones["digitaltolk.net"]
   name    = var.chatwoot_domain
-  value   = module.service.lb_dns_name
+  content = module.service.lb_dns_name
   type    = "CNAME"
-  ttl     = 1
   proxied = true
+  ttl     = 1
 }

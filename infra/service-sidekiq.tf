@@ -3,10 +3,8 @@ module "container-sidekiq" {
   name   = "sidekiq"
   image  = "178432136258.dkr.ecr.eu-north-1.amazonaws.com/${local.system_name}:${var.docker_image_tag}"
 
-  cpu    = 512
-  memory = 1024
-
-  publish = [3000]
+  cpu    = 512 - local.container_reserved_sidecar_cpu
+  memory = 2048 - local.container_reserved_sidecar_memory
 
   command = ["bundle", "exec", "sidekiq -C config/sidekiq.yml"]
 
@@ -29,6 +27,9 @@ module "container-sidekiq" {
     start_period = 90
     timeout      = 10
   }
+
+  log_driver = "datadog"
+  log_source = "sidekiq"
 }
 
 module "service-sidekiq" {
@@ -40,10 +41,12 @@ module "service-sidekiq" {
 
   cpu_architecture = "X86_64"
   service_cpu      = 512
-  service_memory   = 1024
+  service_memory   = 2048
 
   service_count_desired  = 1
   service_count_min      = 1
-  service_count_max      = 6
-  scale_target_value_cpu = 80
+  service_count_max      = 9
+  scale_target_value_cpu = 75
+
+  datadog_enable_logs = true
 }

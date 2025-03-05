@@ -1,6 +1,9 @@
 module "redis" {
-  source = "git@gitlab.digitaltolk.net:dtolk/dope/terraform-aws-elasticache.git"
-  name   = local.system_name
+  source         = "git@gitlab.digitaltolk.net:dtolk/dope/terraform-aws-elasticache.git"
+  name           = local.system_name
+  engine_version = "7.1"
+
+  create_subnet_group = true
 }
 
 resource "aws_security_group_rule" "ingress_cluster" {

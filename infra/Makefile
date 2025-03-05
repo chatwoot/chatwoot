@@ -6,6 +6,7 @@ SHELL := bash
 
 TF_UPGRADE_BRANCH ?= main
 TF_UPGRADE_TMP    ?= tmp
+TF_PARALLELISM    ?= 10
 
 ifdef CI_ENVIRONMENT_NAME
 	ENV := $(CI_ENVIRONMENT_NAME)
@@ -21,6 +22,11 @@ else
 	WORKSPACE := $(ENV)
 	TFENV_FILE := $(CURDIR)/env/$(ENV).tfvars
 endif
+
+# EFS: stale NFS file handle
+# ifeq ($(CI),true)
+#	export TF_PLUGIN_CACHE_DIR=/cache/terraform
+# endif
 
 
 export TF_DATA_DIR=$(CURDIR)/.terraform_$(WORKSPACE)
@@ -63,7 +69,7 @@ endif
 
 # cleanups
 ifneq (,$(findstring /infra,$(PWD)))
-	rm -rf .git README.md templates
+	rm -rf .git .gitlab-ci.yml README.md templates
 endif
 
 
@@ -100,6 +106,9 @@ lock:
 
 .PHONY: init
 init: check-env
+ifeq ($(CI),true)
+	printf 'provider_installation {\n  filesystem_mirror {\n    path    = "/cache/terraform/providers"\n    include = ["*/*/*"]\n  }\n}\n' | tee ~/.terraformrc
+endif
 	terraform init
 	terraform get -update
 
@@ -111,6 +120,7 @@ init: check-env
 .PHONY: plan
 plan: check-env
 	terraform plan  \
+		-parallelism=$(TF_PARALLELISM) \
 		-lock-timeout=600s \
 		-var-file='$(TFENV_FILE)' \
 		-out '$(ENV).plan'
@@ -119,6 +129,7 @@ plan: check-env
 .PHONY: apply
 apply: check-env
 	terraform apply \
+		-parallelism=$(TF_PARALLELISM) \
 		-lock-timeout=600s \
 		'$(ENV).plan'
 
@@ -145,6 +156,11 @@ unlock: check-env
 	terraform force-unlock '$(LOCK_ID)'
 
 
+.PHONY: console
+console: check-env
+	terraform console -var-file='$(TFENV_FILE)'
+
+
 .PHONY: taint
 taint: check-env
 	terraform taint -lock-timeout=600s '$(ADDR)'
@@ -154,10 +170,19 @@ taint: check-env
 fmt:
 	terraform fmt
 
+.PHONY: vfmt
+vfmt:
+	terraform validate && terraform fmt
+
+.PHONY: providers
+providers:
+	terraform providers
+
 
 .PHONY: destroy
 destroy: check-env
 	terraform destroy \
+		-parallelism=$(TF_PARALLELISM) \
 		-var-file='$(TFENV_FILE)' \
 		-lock-timeout=600s
 

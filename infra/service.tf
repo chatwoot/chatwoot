@@ -3,12 +3,10 @@ module "container" {
   name   = "main"
   image  = "178432136258.dkr.ecr.eu-north-1.amazonaws.com/${local.system_name}:${var.docker_image_tag}"
 
-  cpu    = 512
-  memory = 2048
+  cpu    = 1024 - local.container_reserved_sidecar_cpu
+  memory = 3072 - local.container_reserved_sidecar_memory
 
   publish = [3000]
-
-  # command = ["RAILS_ENV=production bundle exec rake db:migrate", "bundle exec bundle exec rails s -b 0.0.0.0 -p 3000"]
 
   secrets = {
     POSTGRES_USERNAME = "${module.postgres.master_user_secret_arn}:username::"
@@ -29,6 +27,9 @@ module "container" {
     start_period = 90
     timeout      = 10
   }
+
+  log_driver = "datadog"
+  log_source = "ror"
 }
 
 module "service" {
@@ -36,19 +37,19 @@ module "service" {
 
   container_definitions = [module.container.definition]
 
-  name         = local.system_name
-  listen_hosts = [var.chatwoot_domain]
+  name             = local.system_name
+  listen_hosts     = [var.chatwoot_domain]
   enable_public_lb = true
 
   service_port = 3000
 
   cpu_architecture = "X86_64"
-  service_cpu      = 512
-  service_memory   = 2048
+  service_cpu      = 1024
+  service_memory   = 3072
 
   service_count_desired  = 1
   service_count_min      = 1
-  service_count_max      = 6
+  service_count_max      = 9
   scale_target_value_cpu = 33
 
   health_check = {
@@ -57,6 +58,5 @@ module "service" {
     timeout  = 10
   }
 
-  # avoids pressure on puma killing containers
-  health_check_grace_period_seconds = 2147483647
+  datadog_enable_logs = true
 }

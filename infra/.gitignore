@@ -1,5 +1,6 @@
 .DS_Store
 /.idea/
+/.vscode/
 
 # terraform specific
 /terraform.tfstate*

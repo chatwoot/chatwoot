@@ -3,6 +3,9 @@ module "bucket" {
   name   = "files"
 
   cors_allowed_origins = ["https://${var.chatwoot_domain}"]
+
+  versioning                           = true
+  lifecycle_noncurrent_expiration_days = 90
 }
 
 module "exports_bucket" {

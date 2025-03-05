@@ -6,10 +6,6 @@ data "aws_kms_alias" "main" {
   name = "alias/${terraform.workspace}/main"
 }
 
-data "cloudflare_zone" "digitaltolknet" {
-  name = "digitaltolk.net"
-}
-
 data "cloudflare_ip_ranges" "all" {
 }
 
@@ -44,6 +40,6 @@ locals {
 
     RACK_ATTACK_LIMIT             = "1024"
     ENABLE_RACK_ATTACK_WIDGET_API = "false"
-    TRUSTED_PROXY_IPS             = "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,${join(",", data.cloudflare_ip_ranges.all.cidr_blocks)}"
+    TRUSTED_PROXY_IPS             = "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,${join(",", concat(data.cloudflare_ip_ranges.all.ipv4_cidrs, data.cloudflare_ip_ranges.all.ipv6_cidrs))}"
   }
 }
