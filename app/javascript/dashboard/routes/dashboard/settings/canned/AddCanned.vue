@@ -6,6 +6,7 @@ import { useAlert } from 'dashboard/composables';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Modal from '../../../../components/Modal.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+import { useMapGetter } from 'dashboard/composables/store';
 
 export default {
   name: 'AddCanned',
@@ -31,6 +32,8 @@ export default {
     return {
       shortCode: '',
       content: this.responseContent || '',
+      selectedInboxes: [],
+      inboxes: [],
       addCanned: {
         showLoading: false,
         message: '',
@@ -51,8 +54,10 @@ export default {
     resetForm() {
       this.shortCode = '';
       this.content = '';
+      this.selectedInboxes = [];
       this.v$.shortCode.$reset();
       this.v$.content.$reset();
+      this.v$.selectedInboxes.$reset();
     },
     addCannedResponse() {
       // Show loading on button
@@ -62,6 +67,7 @@ export default {
         .dispatch('createCannedResponse', {
           short_code: this.shortCode,
           content: this.content,
+          inbox_ids: this.selectedInboxes,
         })
         .then(() => {
           // Reset Form, Show success message
@@ -77,6 +83,9 @@ export default {
           useAlert(errorMessage);
         });
     },
+  },
+  mounted() {
+    this.inboxes = useMapGetter('inboxes/getInboxes');
   },
 };
 </script>
@@ -117,6 +126,24 @@ export default {
             />
           </div>
         </div>
+
+        <div class="w-full">
+          <label> Select Inboxes </label>
+          <div v-if="inboxes.length > 0">
+            <div v-for="inbox in inboxes" :key="inbox.id" class="flex items-center">
+              <input
+                  type="checkbox"
+                  :value="inbox.id"
+                  v-model="selectedInboxes"
+                  />
+              <span class="ml-2">{{ inbox.name }}</span>
+            </div>
+          </div>
+          <div v-else>
+            <p>No inboxes available</p>
+          </div>
+        </div>
+
         <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <NextButton
             faded

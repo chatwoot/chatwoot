@@ -7,13 +7,16 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
 
   def create
     @canned_response = Current.account.canned_responses.new(canned_response_params)
+    @canned_response.inboxes = Current.account.inboxes.where(id: params[:inbox_ids])
     @canned_response.save!
     render json: @canned_response
   end
 
   def update
     @canned_response.update!(canned_response_params)
-    render json: @canned_response
+    @canned_response.inboxes = Current.account.inboxes.where(id: params[:inbox_ids])
+    @canned_response.save!
+    render json: @canned_response.as_json(include: { inboxed: { only: [:id] } })
   end
 
   def destroy

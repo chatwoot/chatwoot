@@ -300,6 +300,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.index ["scheduled_at"], name: "index_campaigns_on_scheduled_at"
   end
 
+  create_table "canned_response_inboxes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "canned_response_id", null: false
+    t.bigint "inbox_id", null: false
+    t.index ["canned_response_id"], name: "index_canned_response_inboxes_on_canned_response_id"
+    t.index ["inbox_id"], name: "index_canned_response_inboxes_on_inbox_id"
+  end
+
   create_table "canned_responses", id: :serial, force: :cascade do |t|
     t.integer "account_id", null: false
     t.string "short_code"
@@ -1236,6 +1245,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "canned_response_inboxes", "canned_responses"
+  add_foreign_key "canned_response_inboxes", "inboxes"
   add_foreign_key "inboxes", "portals"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
