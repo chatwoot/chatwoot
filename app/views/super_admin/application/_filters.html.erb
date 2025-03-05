@@ -54,7 +54,7 @@ for a collection of resources.
   <script>
     function applyFilter(filterName) {
       if (filterName) {
-        window.location.href = "?search=" + filterName + "%3A";
+        window.location.href = "?search=" + encodeURIComponent(filterName) + "%3A";
       } else {
         window.location.href = "?";
       }
