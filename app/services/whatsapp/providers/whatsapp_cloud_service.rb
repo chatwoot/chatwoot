@@ -127,7 +127,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     return if @message.blank?
 
     # https://developers.facebook.com/docs/whatsapp/cloud-api/support/error-codes/#sample-response
-    error_message = response.dig('error', 'message')
+    error_message = response.parsed_response&.dig('error', 'message')
     return if error_message.blank?
 
     @message.external_error = error_message
