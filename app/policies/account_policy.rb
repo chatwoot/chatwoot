@@ -28,11 +28,11 @@ class AccountPolicy < ApplicationPolicy
   end
 
   def get_ltd?
-    account_user.administrator?
+    @account_user.administrator?
   end
 
   def get_ltd_details?
-    account_user.administrator?
+    @account_user.administrator?
   end
 
   def stripe_checkout?

@@ -11,7 +11,12 @@ if resource.custom_attributes.present?
     json.timezone resource.custom_attributes['timezone'] if resource.custom_attributes['timezone'].present?
     json.logo resource.custom_attributes['logo'] if resource.custom_attributes['logo'].present?
     json.onboarding_step resource.custom_attributes['onboarding_step'] if resource.custom_attributes['onboarding_step'].present?
-    json.chatbot_char_limit resource.custom_attributes['chatbot_char_limit'] if resource.custom_attributes['chatbot_char_limit'].present?
+  end
+end
+if resource.ltd_attributes.present?
+  json.ltd_attributes do
+    json.ltd_plan_name resource.ltd_attributes['ltd_plan_name']
+    json.ltd_quantity resource.ltd_attributes['ltd_quantity']
   end
 end
 json.domain @account.domain

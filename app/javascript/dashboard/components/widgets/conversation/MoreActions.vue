@@ -25,17 +25,6 @@ export default {
   },
   computed: {
     ...mapGetters({ currentChat: 'getSelectedChat' }),
-    isChatbotConnectedToInbox() {
-      if (this.currentChat && this.currentChat.chatbot_attributes) {
-        return !!this.currentChat.chatbot_attributes.id;
-      }
-      return false;
-    },
-    isChatbotEnabled() {
-      return (
-        this.currentChat?.chatbot_attributes?.status === 'Enabled' || false
-      );
-    },
   },
   mounted() {
     emitter.on(CMD_MUTE_CONVERSATION, this.mute);

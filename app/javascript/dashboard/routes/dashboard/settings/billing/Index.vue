@@ -5,7 +5,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { format } from 'date-fns';
 
-import BillingMeter from './components/BillingMeter.vue';
+// import BillingMeter from './components/BillingMeter.vue';
 import BillingCard from './components/BillingCard.vue';
 import BillingHeader from './components/BillingHeader.vue';
 import DetailItem from './components/DetailItem.vue';
@@ -23,10 +23,10 @@ const { t } = useI18n();
 
 const { currentAccount } = useAccount();
 const {
-  captainEnabled,
-  captainLimits,
-  documentLimits,
-  responseLimits,
+  // captainEnabled,
+  // captainLimits,
+  // documentLimits,
+  // responseLimits,
   fetchLimits,
 } = useCaptain();
 
@@ -34,6 +34,9 @@ const uiFlags = useMapGetter('accounts/getUIFlags');
 const store = useStore();
 const customAttributes = computed(() => {
   return currentAccount.value.custom_attributes || {};
+});
+const ltdAttributes = computed(() => {
+  return currentAccount.value.ltd_attributes || {};
 });
 
 /**
@@ -57,6 +60,26 @@ const subscriptionRenewsOn = computed(() => {
   const endDate = new Date(customAttributes.value.subscription_ends_on);
   // return date as 12 Jan, 2034
   return format(endDate, 'dd MMM, yyyy');
+});
+
+const ltdPlanName = computed(() => {
+  if (!ltdAttributes.value.ltd_plan_name) return '';
+  return ltdAttributes.value.ltd_plan_name;
+});
+
+const ltdQuantity = computed(() => {
+  if (!ltdAttributes.value.ltd_quantity) return '';
+  return ltdAttributes.value.ltd_quantity;
+});
+
+const seatCount = computed(() => {
+  return customAttributes.value.plan_name === 'Starter' ? '2' : 'Unlimited';
+});
+
+const ltdSeatCount = computed(() => {
+  return ltdAttributes.value.ltd_quantity !== 100000
+    ? ltdAttributes.value.ltd_quantity
+    : 'Unlimited';
 });
 
 /**
@@ -139,23 +162,46 @@ onMounted(fetchAccountDetails);
             </ButtonV4>
           </template>
           <div
-            v-if="planName || subscribedQuantity || subscriptionRenewsOn"
-            class="grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-1 gap-2 divide-x divide-n-weak"
+            v-if="
+              (['Starter', 'Plus', 'Pro'].includes(planName) &&
+                ltdPlanName === '') ||
+              (['Plus', 'Pro'].includes(planName) && ltdPlanName !== '')
+            "
           >
-            <DetailItem
-              :label="$t('BILLING_SETTINGS.CURRENT_PLAN.TITLE')"
-              :value="planName"
-            />
-            <DetailItem
-              v-if="subscribedQuantity"
-              :label="$t('BILLING_SETTINGS.CURRENT_PLAN.SEAT_COUNT')"
-              :value="subscribedQuantity"
-            />
-            <DetailItem
-              v-if="subscriptionRenewsOn"
-              :label="$t('BILLING_SETTINGS.CURRENT_PLAN.RENEWS_ON')"
-              :value="subscriptionRenewsOn"
-            />
+            <div
+              v-if="planName || subscribedQuantity || subscriptionRenewsOn"
+              class="grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-1 gap-2 divide-x divide-n-weak"
+            >
+              <DetailItem
+                :label="$t('BILLING_SETTINGS.CURRENT_PLAN.TITLE')"
+                :value="planName"
+              />
+              <DetailItem
+                :label="$t('BILLING_SETTINGS.CURRENT_PLAN.SEAT_COUNT')"
+                :value="seatCount"
+              />
+              <DetailItem
+                v-if="subscriptionRenewsOn"
+                :label="$t('BILLING_SETTINGS.CURRENT_PLAN.RENEWS_ON')"
+                :value="subscriptionRenewsOn"
+              />
+            </div>
+          </div>
+          <div v-else>
+            <div
+              v-if="ltdPlanName || ltdQuantity"
+              class="grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-1 gap-2 divide-x divide-n-weak"
+            >
+              <DetailItem
+                :label="$t('BILLING_SETTINGS.CURRENT_PLAN.TITLE')"
+                :value="ltdPlanName"
+              />
+              <DetailItem
+                v-if="ltdQuantity"
+                :label="$t('BILLING_SETTINGS.CURRENT_PLAN.SEAT_COUNT')"
+                :value="ltdSeatCount"
+              />
+            </div>
           </div>
         </BillingCard>
         <BillingCard
@@ -176,7 +222,7 @@ onMounted(fetchAccountDetails);
             />
           </div>
         </BillingCard>
-        <BillingCard
+        <!-- <BillingCard
           v-if="captainEnabled"
           :title="$t('BILLING_SETTINGS.CAPTAIN.TITLE')"
           :description="$t('BILLING_SETTINGS.CAPTAIN.DESCRIPTION')"
@@ -209,7 +255,7 @@ onMounted(fetchAccountDetails);
               {{ $t('CAPTAIN.PAYWALL.UPGRADE_NOW') }}
             </ButtonV4>
           </template>
-        </BillingCard>
+        </BillingCard> -->
 
         <BillingHeader
           class="px-1 mt-5"

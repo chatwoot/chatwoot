@@ -280,7 +280,6 @@
     "MACROS": "Macros",
     "TEAMS": "Teams",
     "BILLING": "Billing",
-    "CHATBOTS": "Chatbots",
     "CUSTOM_VIEWS_FOLDER": "Folders",
     "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
@@ -408,8 +407,5 @@
     "COUPON_ERROR": {
       "MESSAGE": "The provided coupon code is invalid"
     }
-  },
-  "CHATBOT": {
-    "TITLE": "Chatbot"
   }
 }
