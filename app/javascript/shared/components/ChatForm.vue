@@ -169,6 +169,12 @@ export default {
     @apply text-n-ruby-9 mt-1 hidden;
   }
 
+  input,
+  textarea,
+  select {
+    @apply dark:bg-n-alpha-black1;
+  }
+
   .has-submitted {
     input:invalid,
     textarea:invalid {
