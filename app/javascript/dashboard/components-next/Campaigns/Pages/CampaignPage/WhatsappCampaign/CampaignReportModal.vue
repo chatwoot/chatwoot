@@ -252,9 +252,9 @@ export default defineComponent({
     //   link.click();
     //   document.body.removeChild(link);
     // },
-    // closeModal() {
-    //   this.$emit('close');
-    // },
+    closeModal() {
+      this.$emit('close');
+    },
   },
 });
 </script>

@@ -62,7 +62,7 @@ const menuItems = computed(() => {
       show: true,
       label: t('SIDEBAR_ITEMS.DOCS'),
       icon: 'i-lucide-book',
-      link: 'https://www.chatwoot.com/hc/user-guide/en',
+      link: 'https://chat.onehash.ai/hc/onehash-help-center/en',
       nativeLink: true,
       target: '_blank',
     },
