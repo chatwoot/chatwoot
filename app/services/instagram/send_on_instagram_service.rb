@@ -82,7 +82,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
 
       parsed_response
     else
-      handle_error('Instagram HTTP error', response.message, message_content)
+      handle_error('Instagram HTTP error', external_error(response), message_content)
       nil
     end
   end
