@@ -173,29 +173,5 @@ describe Instagram::SendOnInstagramService do
         expect(message.reload.external_error).to eq('100 - Invalid message format')
       end
     end
-
-    describe '#send_to_facebook_page' do
-      let(:message) { create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation) }
-      let(:message_content) do
-        {
-          recipient: { id: contact.get_source_id(instagram_inbox.id) },
-          message: { text: 'Test message' }
-        }
-      end
-
-      before do
-        allow(Facebook::Messenger::Configuration::AppSecretProofCalculator).to receive(:call).and_return('app_secret_proof')
-      end
-
-      it 'handles error logging' do
-        error_message = 'Test error message'
-
-        expect(Rails.logger).to receive(:error).with("Instagram HTTP error: #{error_message} : #{message_content}")
-
-        send_reply_service.send(:handle_error, 'Instagram HTTP error', error_message, message_content)
-        expect(message.status).to eq('failed')
-        expect(message.external_error).to eq(error_message)
-      end
-    end
   end
 end
