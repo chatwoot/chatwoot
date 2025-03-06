@@ -3,6 +3,7 @@ class ActionCableBroadcastJob < ApplicationJob
   include Events::Types
 
   CONVERSATION_UPDATE_EVENTS = [
+    CONVERSATION_CREATED,
     CONVERSATION_READ,
     CONVERSATION_UPDATED,
     TEAM_CHANGED,
