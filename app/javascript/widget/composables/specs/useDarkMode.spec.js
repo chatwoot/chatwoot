@@ -14,11 +14,10 @@ describe('useDarkMode', () => {
     vi.mocked(useMapGetter).mockReturnValue(mockDarkMode);
   });
 
-  it('returns darkMode, prefersDarkMode, and getThemeClass', () => {
+  it('returns darkMode, prefersDarkMode', () => {
     const result = useDarkMode();
     expect(result).toHaveProperty('darkMode');
     expect(result).toHaveProperty('prefersDarkMode');
-    expect(result).toHaveProperty('getThemeClass');
   });
 
   describe('prefersDarkMode', () => {
