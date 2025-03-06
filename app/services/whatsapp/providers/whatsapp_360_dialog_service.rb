@@ -79,6 +79,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
     }
     type_content['caption'] = message.content unless %w[audio sticker].include?(type)
     type_content['filename'] = attachment.file.filename if type == 'document'
+
     response = HTTParty.post(
       "#{api_base_path}/messages",
       headers: api_headers,
@@ -93,8 +94,10 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
   end
 
   def process_response(response)
-    if response.success? && response['error'].blank?
-      response['messages'].first['id']
+    parsed_response = response.parsed_response
+
+    if response.success? && parsed_response['error'].blank?
+      parsed_response['messages'].first['id']
     else
       handle_error(response)
       nil
