@@ -102,6 +102,7 @@ const statusToShow = computed(() => {
   if (isRead.value) return MESSAGE_STATUS.READ;
   if (isDelivered.value) return MESSAGE_STATUS.DELIVERED;
   if (isSent.value) return MESSAGE_STATUS.SENT;
+  if (status.value === MESSAGE_STATUS.FAILED) return MESSAGE_STATUS.FAILED;
 
   return MESSAGE_STATUS.PROGRESS;
 });
