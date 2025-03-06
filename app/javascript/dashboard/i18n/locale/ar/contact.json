@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "سيتم نسخ تفاصيل الاتصال من <strong>{primaryContactName}</strong> إلى <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "رسالة_خطأ"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": " دمج جهات الاتصال",
@@ -288,6 +288,8 @@
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "رسالة",
       "SEND_MESSAGE": "إرسال الرسالة",
+      "BLOCK_CONTACT": "Block contact",
+      "UNBLOCK_CONTACT": "Unblock contact",
       "BREADCRUMB": {
         "CONTACTS": "جهات الاتصال"
       },
@@ -302,6 +304,10 @@
           "SUCCESS_MESSAGE": "تم حفظ جهة الاتصال بنجاح",
           "ERROR_MESSAGE": "Unable to save contact. Please try again later."
         },
+        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
+        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
+        "UNBLOCK_SUCCESS_MESSAGE": "تم إلغاء حجب جهة الاتصال بنجاح",
+        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
         "IMPORT_CONTACT": {
           "TITLE": "Import contacts",
           "DESCRIPTION": "استيراد جهات الاتصال من خلال ملف CSV.",

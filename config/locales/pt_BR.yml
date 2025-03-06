@@ -85,12 +85,12 @@ pt_BR:
       avg_first_response_time: Tempo médio de primeira resposta
       avg_resolution_time: Tempo médio de resolução
     label_csv:
-      label_title: Nome do campo
+      label_title: Etiqueta
       conversations_count: Nº de Conversas
       avg_first_response_time: Tempo médio de primeira resposta
       avg_resolution_time: Tempo médio de resolução
     team_csv:
-      team_name: Nome do departamento
+      team_name: Nome da equipe
       conversations_count: Contagem de conversas
       avg_first_response_time: Tempo médio de primeira resposta
       avg_resolution_time: Tempo médio de resolução
@@ -102,10 +102,10 @@ pt_BR:
       conversation_id: ID da conversa
       sla_policy_breached: Política SLA
       assignee: Responsável
-      team: Times
+      team: Equipe
       inbox: Caixa de Entrada
-      labels: Marcadores
-      conversation_link: Link para a conversa
+      labels: Etiquetas
+      conversation_link: Link para a Conversa
       breached_events: Eventos Violados
     default_group_by: dia
     csat:
@@ -124,9 +124,9 @@ pt_BR:
       conversation_assignment: 'Uma conversa (#%{display_id}) foi atribuída a você'
       assigned_conversation_new_message: 'Uma nova mensagem foi criada na conversa (#%{display_id})'
       conversation_mention: 'Você foi mencionado em uma conversa (#%{display_id})'
-      sla_missed_first_response: 'Primeira resposta da meta de SLA perdida para conversa (#%{display_id})'
-      sla_missed_next_response: ''
-      sla_missed_resolution: 'Resolução de meta de SLA perdida para conversa (#%{display_id})'
+      sla_missed_first_response: 'Meta de SLA de Primeira Resposta não alcançada para a conversa (#%{display_id})'
+      sla_missed_next_response: 'Meta de SLA de Próxima Resposta não alcançada para a conversa (#%{display_id})'
+      sla_missed_resolution: 'Meta de SLA de Resolução não alcançada para a conversa (#%{display_id})'
     attachment: 'Anexo'
     no_content: 'Sem conteúdo'
   conversations:
@@ -142,7 +142,7 @@ pt_BR:
         contact_resolved: 'A conversa foi resolvida por %{contact_name}'
         open: 'Conversa foi reaberta por %{user_name}'
         pending: 'Conversa foi marcada como pendente por %{user_name}'
-        snoozed: 'Conversa não atribuída por %{user_name}'
+        snoozed: 'Conversa foi adiada por %{user_name}'
         auto_resolved: 'Conversa foi marcada como resolvida pelo sistema por ter %{duration} dias de inatividade'
         system_auto_open: O sistema reabriu a conversa devido a uma nova mensagem recebida.
       priority:
@@ -152,7 +152,7 @@ pt_BR:
       assignee:
         self_assigned: '%{user_name} atribuiu a si mesmo essa conversa'
         assigned: 'Atribuído a %{assignee_name} por %{user_name}'
-        removed: 'Conversa não atribuída por %{user_name}'
+        removed: 'Conversa desatribuída por %{user_name}'
       team:
         assigned: 'Atribuído a %{team_name} por %{user_name}'
         assigned_with_assignee: 'Atribuído a %{assignee_name} via %{team_name} por %{user_name}'
@@ -165,7 +165,7 @@ pt_BR:
         removed: '%{user_name} removeu a política de SLA %{sla_name}'
       muted: '%{user_name} silenciou a conversa'
       unmuted: '%{user_name} reativou a conversa'
-      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
+      auto_resolution_message: 'Resolvendo a conversa dado que está inativa por um tempo. Por favor, inicie uma nova conversa se precisar de mais ajuda.'
     templates:
       greeting_message_body: '%{account_name} normalmente responde em algumas horas.'
       ways_to_reach_you_message_body: 'Informe uma forma para entrarmos em contato com você.'
@@ -180,7 +180,7 @@ pt_BR:
           professional_name: '%{business_name} <%{from_email}>'
       channel_email:
         header:
-          reply_with_name: '%{assignee_name} de %{inbox_name} <reply+%{from_email}>'
+          reply_with_name: '%{assignee_name} de %{inbox_name} <%{from_email}>'
           reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
       email_subject: 'Novas mensagens nesta conversa'
       transcript_subject: 'Transcrição da conversa'
@@ -204,7 +204,7 @@ pt_BR:
       name: 'Webhooks'
       description: 'Eventos webhook fornecem atualizações sobre atividades em tempo real na sua conta Chatwoot. Você pode se inscrever em seus eventos preferidos, e o Chatwoot enviará as chamadas HTTP com as atualizações.'
     dialogflow:
-      name: 'Fluxo de diálogo'
+      name: 'Dialogflow'
       description: 'Construa chatbots com o Dialogflow e integre-os facilmente na sua caixa de entrada. Esses bots podem lidar com as consultas iniciais antes de transferi-las para um agente de atendimento ao cliente.'
     google_translate:
       name: 'Tradutor do Google'

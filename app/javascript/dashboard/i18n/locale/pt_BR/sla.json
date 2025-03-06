@@ -3,7 +3,7 @@
     "HEADER": "Termos do Serviço",
     "ADD_ACTION": "Adicionar SLA",
     "ADD_ACTION_LONG": "Criar uma nova Política de SLA",
-    "DESCRIPTION": "Contratos de Nível de Serviço são contratos que definem expectativas claras entre sua equipe e os clientes. Estabelecem normas para tempos de resposta e de resolução, criando um quadro de responsabilização e garantindo uma experiência coerente e de qualidade.",
+    "DESCRIPTION": "Contratos de Nível de Serviço (SLAs em inglês) são contratos que definem expectativas claras entre sua equipe e os clientes. Estabelecem normas para tempos de resposta e de resolução, criando um quadro de responsabilização e garantindo uma experiência coerente e de qualidade.",
     "LEARN_MORE": "Saiba mais sobre SLA",
     "LOADING": "Buscando SLAs",
     "PAYWALL": {
@@ -52,15 +52,15 @@
         "PLACEHOLDER": ""
       },
       "FIRST_RESPONSE_TIME": {
-        "LABEL": "Tempo da Primeira Resposta",
+        "LABEL": "Tempo de Primeira Resposta",
         "PLACEHOLDER": "5"
       },
       "NEXT_RESPONSE_TIME": {
-        "LABEL": "Próximo tempo de resposta",
+        "LABEL": "Próximo Tempo de Resposta",
         "PLACEHOLDER": "5"
       },
       "RESOLUTION_TIME": {
-        "LABEL": "Tempo de resolução",
+        "LABEL": "Tempo de Resolução",
         "PLACEHOLDER": "60"
       },
       "BUSINESS_HOURS": {

@@ -72,7 +72,7 @@ const openFilter = () => {
         @clear-filters="emit('clearFilters')"
       />
       <main class="flex-1 overflow-y-auto">
-        <div class="w-full mx-auto max-w-[960px]">
+        <div class="w-full mx-auto max-w-[60rem]">
           <ContactsActiveFiltersPreview
             v-if="
               (hasAppliedFilters || !isNotSegmentView) &&

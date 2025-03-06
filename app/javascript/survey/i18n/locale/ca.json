@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Benvolgut client 👋, preneu-vos un moment per compartir uns comentaris sobre la conversa que heu tingut amb %{inboxName}.",
+    "DESCRIPTION": "Benvolgut client 👋, preneu-vos un moment per compartir uns comentaris sobre la conversa que heu tingut amb {inboxName}.",
     "RATING": {
       "LABEL": "Valora la teva conversa",
       "SUCCESS_MESSAGE": "Gràcies per enviar la qualificació"

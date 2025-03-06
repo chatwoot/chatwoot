@@ -117,6 +117,7 @@
       "PENDING": "保留としてマークする",
       "RESOLVED": "解決済みとしてマークする",
       "MARK_AS_UNREAD": "未読にする",
+      "MARK_AS_READ": "既読にする",
       "REOPEN": "会話を再開する",
       "SNOOZE": {
         "TITLE": "スヌーズ",

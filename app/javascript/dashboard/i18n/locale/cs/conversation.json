@@ -117,6 +117,7 @@
       "PENDING": "Označit jako nevyřízené",
       "RESOLVED": "Označit jako vyřešené",
       "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Znovu otevřít konverzaci",
       "SNOOZE": {
         "TITLE": "Odložit",

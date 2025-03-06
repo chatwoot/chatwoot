@@ -65,8 +65,8 @@ const toggleBlock = () => {
     <div
       class="flex flex-col w-full h-full transition-all duration-300 ltr:2xl:ml-56 rtl:2xl:mr-56"
     >
-      <header class="sticky top-0 z-10 px-6 xl:px-0">
-        <div class="w-full mx-auto max-w-[650px]">
+      <header class="sticky top-0 z-10 px-6 3xl:px-0">
+        <div class="w-full mx-auto max-w-[40.625rem]">
           <div class="flex items-center justify-between w-full h-20 gap-2">
             <Breadcrumb
               :items="breadcrumbItems"
@@ -98,8 +98,8 @@ const toggleBlock = () => {
           </div>
         </div>
       </header>
-      <main class="flex-1 px-6 overflow-y-auto xl:px-px">
-        <div class="w-full py-4 mx-auto max-w-[650px]">
+      <main class="flex-1 px-6 overflow-y-auto 3xl:px-px">
+        <div class="w-full py-4 mx-auto max-w-[40.625rem]">
           <slot name="default" />
         </div>
       </main>
@@ -107,7 +107,7 @@ const toggleBlock = () => {
 
     <div
       v-if="slots.sidebar"
-      class="overflow-y-auto justify-end min-w-[200px] w-full py-6 max-w-[440px] border-l border-n-weak bg-n-solid-2"
+      class="overflow-y-auto justify-end min-w-52 w-full py-6 max-w-md border-l border-n-weak bg-n-solid-2"
     >
       <slot name="sidebar" />
     </div>

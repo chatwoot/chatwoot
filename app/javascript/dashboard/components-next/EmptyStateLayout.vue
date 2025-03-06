@@ -22,7 +22,7 @@ defineProps({
     class="relative flex flex-col items-center justify-center w-full h-full overflow-hidden"
   >
     <div
-      class="relative w-full max-w-[960px] mx-auto overflow-hidden h-full max-h-[448px]"
+      class="relative w-full max-w-[60rem] mx-auto overflow-hidden h-full max-h-[28rem]"
     >
       <div
         class="w-full h-full space-y-4 overflow-y-hidden opacity-50 pointer-events-none"

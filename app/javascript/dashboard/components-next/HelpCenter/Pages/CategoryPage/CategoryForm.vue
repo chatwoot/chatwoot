@@ -201,7 +201,7 @@ defineExpose({ state, isSubmitDisabled });
                 color="slate"
                 size="sm"
                 :icon="!state.icon ? 'i-lucide-smile-plus' : ''"
-                class="!h-[38px] !w-[38px] absolute top-[31px] !outline-none !rounded-[7px] border-0 ltr:left-px rtl:right-px ltr:!rounded-r-none rtl:!rounded-l-none"
+                class="!h-[2.4rem] !w-[2.375rem] absolute top-[1.94rem] !outline-none !rounded-[0.438rem] border-0 ltr:left-px rtl:right-px ltr:!rounded-r-none rtl:!rounded-l-none"
                 @click="isEmojiPickerOpen = !isEmojiPickerOpen"
               />
               <EmojiInput

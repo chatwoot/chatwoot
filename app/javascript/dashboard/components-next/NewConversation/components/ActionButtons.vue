@@ -148,7 +148,7 @@ useKeyboardEvents(keyboardEvents);
 
 <template>
   <div
-    class="flex items-center justify-between w-full h-[52px] gap-2 px-4 py-3"
+    class="flex items-center justify-between w-full h-[3.25rem] gap-2 px-4 py-3"
   >
     <div class="flex items-center gap-2">
       <WhatsAppOptions

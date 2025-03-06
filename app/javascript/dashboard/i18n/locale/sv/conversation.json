@@ -117,6 +117,7 @@
       "PENDING": "Markera som väntande",
       "RESOLVED": "Markera som löst",
       "MARK_AS_UNREAD": "Markera som oläst",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Återöppna konversationen",
       "SNOOZE": {
         "TITLE": "Snooza",

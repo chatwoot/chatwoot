@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "ข้อมูลผู้ติดต่อของ <strong>{primaryContactName}</strong> จะถูกคัดลอกไปยัง <strong>{parentContactName}</strong>"
     },
     "SEARCH": {
-      "ERROR": "ข้อความผิดพลาด"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": " รวมผู้ติดต่อ",
@@ -288,6 +288,8 @@
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "ข้อความ",
       "SEND_MESSAGE": "ส่วข้อความ",
+      "BLOCK_CONTACT": "Block contact",
+      "UNBLOCK_CONTACT": "Unblock contact",
       "BREADCRUMB": {
         "CONTACTS": "ผู้ติดต่อ"
       },
@@ -302,6 +304,10 @@
           "SUCCESS_MESSAGE": "สร้างการติดต่อเรียบร้อยเเล้ว",
           "ERROR_MESSAGE": "Unable to save contact. Please try again later."
         },
+        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
+        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
+        "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
+        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
         "IMPORT_CONTACT": {
           "TITLE": "Import contacts",
           "DESCRIPTION": "นำเข้ารายชื่อผู้ติดต่อผ่านไฟล์ CSV",

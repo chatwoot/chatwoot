@@ -35,6 +35,24 @@
           }
         }
       },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "Default",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "個人メッセージ署名",
         "NOTE": "送信するすべてのメッセージの末尾に表示されるユニークな署名を作成します。インライン画像を含めることができ、ライブチャット、メール、API受信トレイでサポートされています。",
@@ -389,11 +407,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "プライベートメモに切り替え",
       "SWITCH_TO_REPLY": "返信に切り替え",
       "TOGGLE_SNOOZE_DROPDOWN": "スヌーズドロップダウンを切り替え"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }
