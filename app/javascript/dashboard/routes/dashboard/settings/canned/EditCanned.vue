@@ -36,6 +36,7 @@ export default {
       shortCode: this.edshortCode,
       content: this.edcontent,
       selectedInboxIds: [...this.edinboxIds],
+      selectedInboxIds: this.edinboxIds,
       selectedInboxes: [],
       inboxes: [],
       show: true,
@@ -106,9 +107,6 @@ export default {
           );
         });
     },
-  },
-  mounted() {
-    this.inboxes = useMapGetter('inboxes/getInboxes');
   },
 };
 </script>

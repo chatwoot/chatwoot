@@ -26,14 +26,14 @@ export default {
   },
   data() {
     return {
-      shortCode: '',
-      content: this.responseContent || '',
-      selectedInboxes: [],
-      inboxes: [],
       addCanned: {
         showLoading: false,
         message: '',
       },
+      shortCode: '',
+      content: this.responseContent || '',
+      selectedInboxes: [],
+      inboxes: [],
       show: true,
     };
   },
@@ -127,6 +127,7 @@ export default {
           </div>
         </div>
 
+<<<<<<< HEAD
         <div class="w-full">
           <label>{{ $t('CANNED_MGMT.ADD.FORM.SELECT_INBOXES.LABEL') }}</label>
           <MultiSelect
@@ -139,6 +140,20 @@ export default {
             placeholder="Select Inboxes"
           />
         </div>
+=======
+      <div class="w-full">
+        <label> Select Inboxes </label>
+        <MultiSelect
+            v-model="selectedInboxes"
+            :options="inboxes"
+            :multiple="true"
+            :close-on-select="false"
+            label="name"
+            track-by="id"
+            placeholder="Select Inboxes"
+            />
+      </div>
+>>>>>>> 71c92f998 (feat: Add multi-select for canned response inboxes)
 
         <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <NextButton
