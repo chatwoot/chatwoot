@@ -2,7 +2,7 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
   before_action :fetch_canned_response, only: [:update, :destroy]
 
   def index
-    render json: canned_responses
+    render json: canned_responses.to_json(methods: :inbox_ids)
   end
 
   def create
@@ -31,7 +31,7 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
   end
 
   def canned_response_params
-    params.require(:canned_response).permit(:short_code, :content)
+    params.require(:canned_response).permit(:short_code, :content, :inbox_ids)
   end
 
   def canned_responses

@@ -7,12 +7,14 @@ import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vu
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Modal from '../../../../components/Modal.vue';
 import { useMapGetter } from 'dashboard/composables/store';
+import MultiSelect from 'vue-multiselect';
 
 export default {
   components: {
     NextButton,
     Modal,
     WootMessageEditor,
+    MultiSelect,
   },
   props: {
     id: { type: Number, default: null },
@@ -32,7 +34,8 @@ export default {
       },
       shortCode: this.edshortCode,
       content: this.edcontent,
-      selectedInboxes: this.edinboxIds,
+      selectedInboxIds: this.edinboxIds,
+      selectedInboxes: [],
       inboxes: [],
       show: true,
     };
@@ -52,17 +55,16 @@ export default {
     },
   },
   methods: {
-    setPageName({ name }) {
-      this.v$.content.$touch();
-      this.content = name;
+    getSelectedInboxes() {
+      return this.inboxes.filter(inbox => this.selectedInboxIds.includes(inbox.id));
     },
     resetForm() {
       this.shortCode = '';
       this.content = '';
-      this.selectedInboxes = [];
-      this.v$.shortCode.$reset();
-      this.v$.content.$reset();
-      this.v$.selectedInboxes.$reset();
+      this.selectedInboxIds = [];
+      if (this.id) {
+        this.$emit('reset');
+      }
     },
     editCannedResponse() {
       // Show loading on button
@@ -73,7 +75,7 @@ export default {
           id: this.id,
           short_code: this.shortCode,
           content: this.content,
-          inbox_ids: this.selectedInboxes,
+          inbox_ids: this.selectedInboxIds,
         })
         .then(() => {
           // Reset Form, Show success message
@@ -94,6 +96,7 @@ export default {
   },
   mounted() {
     this.inboxes = useMapGetter('inboxes/getInboxes');
+    this.selectedInboxes = this.getSelectedInboxes();
   },
 };
 </script>
@@ -134,21 +137,15 @@ export default {
 
         <div class="w-full">
           <label> Select Inboxes </label>
-          <div class="flex flex-row flex-wrap gap-2">
-            <div
-              v-for="inbox in inboxes"
-              :key="inbox.id"
-              class="flex items-center gap-2"
-            >
-              <input
-                type="checkbox"
-                :id="inbox.id"
-                :value="inbox.id"
-                v-model="selectedInboxes"
-              />
-              <label :for="inbox.id">{{ inbox.name }}</label>
-            </div>
-          </div>
+          <MultiSelect
+            v-model="selectedInboxes"
+            :options="inboxes"
+            :multiple="true"
+            :close-on-select="false"
+            label="name"
+            track-by="id"
+            placeholder="Select inboxes"
+          />
         </div>
 
         <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
