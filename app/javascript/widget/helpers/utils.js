@@ -6,7 +6,7 @@ export const isEmptyObject = obj =>
 export const sendMessage = msg => {
   window.parent.postMessage(
     `chatwoot-widget:${JSON.stringify({ ...msg })}`,
-    '*'
+    window.chatwootWebChannel.websiteDomain
   );
 };
 

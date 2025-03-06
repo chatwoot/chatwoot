@@ -8,7 +8,7 @@
     <iframe
       id="csml-editor--frame"
       :src="globalConfig.csmlEditorHost"
-      @load="onEditorLoad"
+      @load="onEditorLoad(globalConfig.csmlEditorHost)"
     />
   </div>
 </template>
@@ -47,13 +47,13 @@ export default {
     };
   },
   methods: {
-    onEditorLoad() {
+    onEditorLoad(editorHost) {
       const frameElement = document.getElementById(`csml-editor--frame`);
       const eventData = {
         event: 'editorContext',
         data: this.value || '',
       };
-      frameElement.contentWindow.postMessage(JSON.stringify(eventData), '*');
+      frameElement.contentWindow.postMessage(JSON.stringify(eventData), editorHost);
       this.iframeLoading = false;
     },
   },

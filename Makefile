@@ -67,54 +67,6 @@ pull:
 
 	docker pull '$(DOCKER_REPO):$(DOCKER_TAG)'
 
-.PHONY: test-setup
-test-setup:
-	$(info )
-	$(info 🔨 $(bold)Setting up test environment$(sgr0) 🔨)
-	$(info )
-	apk update && apk add --no-cache \
-		openssl \
-		tar \
-		build-base \
-		tzdata \
-		postgresql-dev \
-		postgresql-client \
-		nodejs-current \
-		yarn \
-		git \
-		glib \
-		gobject-introspection \
-		gobject-introspection-dev \
-		libarrow \
-		libarrow_acero \
-		libparquet \
-		&& apk add --no-cache --virtual=.build-dependencies\
-		apache-arrow-dev \
-		glib-dev \
-		meson \
-		pkgconf \
-		samurai \
-		libc6-compat
-
-	wget "https://www.apache.org/dyn/closer.lua?action=download&filename=arrow/arrow-16.1.0/apache-arrow-16.1.0.tar.gz" \
-		&& tar xf apache-arrow-16.1.0.tar.gz && \
-		meson setup \
-			apache-arrow-16.1.0/c_glib.build \
-			apache-arrow-16.1.0/c_glib \
-			--prefix=/usr \
-			--buildtype=minsize
-	meson install -C apache-arrow-16.1.0/c_glib.build
-	rm -rf apache-arrow-16.1.0 \
-		&& mkdir -p /var/app \
-		&& gem install bundler
-	bundle install
-	apk add --no-cache nodejs npm yarn chromium
-	npm install --global yarn
-	yarn install --check-files
-	bundle exec rails webpacker:compile
-	bundle exec rake db:create
-	bundle exec rake db:schema:load
-
 .PHONY: test_spec_1
 test_spec_1:
 	$(info )

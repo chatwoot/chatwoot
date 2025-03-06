@@ -317,6 +317,9 @@ export default {
     },
     registerListeners() {
       window.addEventListener('message', e => {
+        if (e.origin !== window.chatwootWebChannel.websiteDomain) {
+          return;
+        }
         const message = IFrameHelper.getMessage(e);
         if (message.event === 'populate-message-form') {
           this.formValues = message;

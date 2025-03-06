@@ -14,7 +14,7 @@
         v-if="configItem.type === 'frame' && configItem.url"
         :id="getFrameId(index)"
         :src="configItem.url"
-        @load="() => onIframeLoad(index)"
+        @load="() => onIframeLoad(index, configItem.url)"
       />
     </div>
   </div>
@@ -82,20 +82,20 @@ export default {
       ) {
         return;
       }
-      this.onIframeLoad(0);
+      this.onIframeLoad(0, e.origin);
     };
   },
   methods: {
     getFrameId(index) {
       return `dashboard-app--frame-${this.position}-${index}`;
     },
-    onIframeLoad(index) {
+    onIframeLoad(index, iframeOrigin) {
       // A possible alternative is to use ref instead of document.getElementById
       // However, when ref is used together with v-for, the ref you get will be
       // an array containing the child components mirroring the data source.
       const frameElement = document.getElementById(this.getFrameId(index));
       const eventData = { event: 'appContext', data: this.dashboardAppContext };
-      frameElement.contentWindow.postMessage(JSON.stringify(eventData), '*');
+      frameElement.contentWindow.postMessage(JSON.stringify(eventData), iframeOrigin);
       this.iframeLoading = false;
     },
   },

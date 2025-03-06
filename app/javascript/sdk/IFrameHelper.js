@@ -91,7 +91,7 @@ export const IFrameHelper = {
     const element = IFrameHelper.getAppFrame();
     element.contentWindow.postMessage(
       `chatwoot-widget:${JSON.stringify({ event: key, ...value })}`,
-      '*'
+      window.$chatwoot?.baseUrl || '/'
     );
   },
   initPostMessageCommunication: () => {

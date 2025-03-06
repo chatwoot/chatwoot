@@ -293,6 +293,9 @@ export default {
         if (!IFrameHelper.isAValidEvent(e)) {
           return;
         }
+        if (e.origin !== window.chatwootWebChannel.websiteDomain) {
+          return;
+        }
         const message = IFrameHelper.getMessage(e);
         if (message.event === 'config-set') {
           this.setLocale(message.locale);
