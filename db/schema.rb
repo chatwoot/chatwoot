@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_02_28_185548) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_06_081627) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -637,6 +637,20 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_28_185548) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_data_imports_on_account_id"
+  end
+
+  create_table "delete_requests", force: :cascade do |t|
+    t.string "fb_id", null: false
+    t.string "status", null: false
+    t.string "confirmation_code", null: false
+    t.datetime "completed_at"
+    t.string "deleted_type"
+    t.integer "deleted_id"
+    t.bigint "account_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_delete_requests_on_account_id"
+    t.index ["confirmation_code"], name: "index_delete_requests_on_confirmation_code", unique: true
   end
 
   create_table "email_templates", force: :cascade do |t|
