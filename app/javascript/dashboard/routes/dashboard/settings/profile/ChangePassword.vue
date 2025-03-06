@@ -88,7 +88,7 @@ export default {
 <template>
   <form @submit.prevent="changePassword()">
     <div class="flex flex-col w-full gap-4">
-      <div class="w-1/4">
+      <div>
         <h4 class="text-lg text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE') }}
         </h4>
