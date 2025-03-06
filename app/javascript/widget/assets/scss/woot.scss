@@ -5,10 +5,6 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-@import 'variables';
-@import 'buttons';
-@import 'mixins';
-@import 'utilities';
 @import 'shared/assets/fonts/widget_fonts';
 @import 'views/conversation';
 
@@ -124,6 +120,50 @@ pre {
 
 blockquote {
   @apply ltr:border-l-4 rtl:border-r-4 border-n-slate-3 dark:border-n-alpha-2 border-solid my-1 px-0 text-n-slate-11 py-1 ltr:pr-2 rtl:pr-4 ltr:pl-4 rtl:pl-2;
+}
+
+.button {
+  @apply appearance-none bg-n-brand border border-solid border-n-brand text-white cursor-pointer inline-block text-sm h-10 leading-none outline-none outline-0 py-1 px-4 text-center no-underline select-none align-middle whitespace-nowrap;
+
+  &:focus,
+  &:hover {
+    @apply no-underline border-n-brand brightness-110;
+  }
+
+  &:active,
+  &.active {
+    @apply no-underline border-n-brand brightness-125;
+  }
+
+  &[disabled],
+  &:disabled,
+  &.disabled {
+    cursor: default;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &.small {
+    @apply text-xs h-6 py-1 px-3;
+  }
+
+  &.large {
+    @apply text-base h-12 py-2 px-6;
+  }
+
+  &.block {
+    width: 100%;
+  }
+
+  &.transparent {
+    background: transparent;
+    border: 0;
+    height: auto;
+  }
+
+  &.compact {
+    padding: 0;
+  }
 }
 
 // scss-lint:disable PropertySortOrder
