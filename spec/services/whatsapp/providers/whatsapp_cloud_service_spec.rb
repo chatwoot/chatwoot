@@ -263,4 +263,56 @@ describe Whatsapp::Providers::WhatsappCloudService do
       end
     end
   end
+
+  describe '#handle_error' do
+    let(:error_message) { 'Invalid message format' }
+    let(:error_response) do
+      {
+        'error' => {
+          'message' => error_message,
+          'code' => 100
+        }
+      }
+    end
+
+    let(:error_response_object) do
+      instance_double(
+        HTTParty::Response,
+        body: error_response.to_json,
+        parsed_response: error_response
+      )
+    end
+
+    before do
+      allow(Rails.logger).to receive(:error)
+    end
+
+    context 'when there is a message' do
+      it 'logs error and updates message status' do
+        service.instance_variable_set(:@message, message)
+        service.send(:handle_error, error_response_object)
+
+        expect(message.reload.status).to eq('failed')
+        expect(message.reload.external_error).to eq(error_message)
+      end
+    end
+
+    context 'when error message is blank' do
+      let(:error_response_object) do
+        instance_double(
+          HTTParty::Response,
+          body: '{}',
+          parsed_response: {}
+        )
+      end
+
+      it 'logs error but does not update message' do
+        service.instance_variable_set(:@message, message)
+        service.send(:handle_error, error_response_object)
+
+        expect(message.reload.status).not_to eq('failed')
+        expect(message.reload.external_error).to be_nil
+      end
+    end
+  end
 end
