@@ -9,7 +9,7 @@ import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAc
 import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector.vue';
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
-
+import PaymentPaywall from 'dashboard/components/app/PaymentPaywall.vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAccount } from 'dashboard/composables/useAccount';
 
@@ -29,6 +29,7 @@ export default {
     CommandBar,
     WootKeyShortcutModal,
     AddAccountModal,
+    PaymentPaywall,
     AccountSelector,
     AddLabelModal,
     NotificationPanel,
@@ -194,7 +195,9 @@ export default {
       @show-add-label-popup="showAddLabelPopup"
     />
     <main class="flex flex-1 h-full min-h-0 px-0 overflow-hidden">
-      <router-view />
+      <PaymentPaywall>
+        <router-view />
+      </PaymentPaywall>
       <CommandBar />
       <AccountSelector
         :show-account-modal="showAccountModal"

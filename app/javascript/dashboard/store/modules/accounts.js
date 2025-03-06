@@ -23,6 +23,7 @@ const state = {
 
 export const getters = {
   getAccount: $state => id => {
+    console.log('account', id);
     return findRecordById($state, id);
   },
   getUIFlags($state) {
