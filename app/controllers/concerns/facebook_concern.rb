@@ -5,23 +5,11 @@ module FacebookConcern
 
   private
 
-  def mark_deleting(id)
-    key = delete_key(id)
-    ::Redis::Alfred.set(key, true)
-  end
-
-  def unset_deleting(id)
-    key = delete_key(id)
-    ::Redis::Alfred.delete(key)
-  end
-
-  def deleting?(id)
-    key = delete_key(id)
-    ::Redis::Alfred.get(key).present?
-  end
-
-  def delete_key(id)
-    format(::Redis::Alfred::META_DELETE_PROCESSING, id: id)
+  def deletion_processed?(code)
+    request = DeleteRequest.find_by!(confirmation_code: code)
+    request.completed?
+  rescue ActiveRecord::RecordNotFound
+    false
   end
 
   def parse_fb_signed_request(signed_request)

@@ -19,5 +19,32 @@
 #  index_delete_requests_on_confirmation_code  (confirmation_code) UNIQUE
 #
 class DeleteRequest < ApplicationRecord
-  belongs_to :account
+  belongs_to :account, optional: true
+  enum :status, %w[pending processing completed].index_by(&:itself), default: :pending
+
+  before_create :ensure_unqiue_confirmation_code
+
+  private
+
+  def ensure_unqiue_confirmation_code
+    max_retries = 3
+    retry_count = 0
+
+    begin
+      self.confirmation_code = generate_confirmation_code
+      raise ActiveRecord::RecordNotUnique if self.class.exists?(confirmation_code: confirmation_code)
+    rescue ActiveRecord::RecordNotUnique
+      retry_count += 1
+      if retry_count > max_retries
+        # it's really really unlikely that we'll ever ever hit this case, but just in case
+        self.confirmation_code = generate_confirmation_code + SecureRandom.alphanumeric(3)
+      else
+        retry
+      end
+    end
+  end
+
+  def generate_confirmation_code
+    SecureRandom.uuid.delete('-')
+  end
 end
