@@ -135,7 +135,7 @@ pt_BR:
     messages:
       instagram_story_content: '%{story_sender} mencionou você na conversa: '
       instagram_deleted_story_content: Este Story não está mais disponível.
-      deleted: Esta mensagem foi apagada
+      deleted: Esta mensagem foi excluída
       delivery_status:
         error_code: 'Código de erro: %{error_code}'
     activity:
