@@ -10,6 +10,7 @@ import { useDarkMode } from 'widget/composables/useDarkMode';
 
 const store = useStore();
 const router = useRouter();
+const i18n = useI18n();
 const { prefersDarkMode } = useDarkMode();
 
 const portal = computed(() => window.chatwootWebChannel.portal);
@@ -18,7 +19,7 @@ const popularArticles = useMapGetter('article/popularArticles');
 const articleUiFlags = useMapGetter('article/uiFlags');
 
 const locale = computed(() => {
-  const { locale: selectedLocale } = useI18n();
+  const { locale: selectedLocale } = i18n;
   const {
     allowed_locales: allowedLocales,
     default_locale: defaultLocale = 'en',

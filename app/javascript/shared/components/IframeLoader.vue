@@ -38,17 +38,6 @@ export default {
 
                 if (iframeDocument) {
                   iframeDocument.documentElement.dir = value ? 'rtl' : 'ltr';
-
-                  // Set direction for body and app container if they exist
-                  if (iframeDocument.body) {
-                    iframeDocument.body.dir = value ? 'rtl' : 'ltr';
-                  }
-
-                  // Set direction for portal element
-                  const portalElement = iframeDocument.getElementById('portal');
-                  if (portalElement) {
-                    portalElement.dir = value ? 'rtl' : 'ltr';
-                  }
                 }
               } catch (e) {
                 // error

@@ -72,11 +72,6 @@ export default {
       immediate: true,
       handler(value) {
         document.documentElement.dir = value ? 'rtl' : 'ltr';
-
-        const appElement = document.getElementById('app');
-        if (appElement) {
-          appElement.dir = value ? 'rtl' : 'ltr';
-        }
       },
     },
   },
