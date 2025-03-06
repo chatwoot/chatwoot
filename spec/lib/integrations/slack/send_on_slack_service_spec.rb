@@ -278,7 +278,7 @@ describe Integrations::Slack::SendOnSlackService do
           .with(unflur_payload)
           .and_raise(error)
 
-        expect(Rails.logger).to receive(:error).with(error)
+        expect(Rails.logger).to receive(:warn).with('Slack: Missing scope error: Missing required scope')
 
         link_builder.link_unfurl(unflur_payload)
       end
