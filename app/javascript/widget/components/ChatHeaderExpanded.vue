@@ -1,40 +1,36 @@
-<script>
+<script setup>
 import HeaderActions from './HeaderActions.vue';
+import { computed } from 'vue';
 
-export default {
-  name: 'ChatHeaderExpanded',
-  components: {
-    HeaderActions,
+const props = defineProps({
+  avatarUrl: {
+    type: String,
+    default: '',
   },
-  props: {
-    avatarUrl: {
-      type: String,
-      default: '',
-    },
-    introHeading: {
-      type: String,
-      default: '',
-    },
-    introBody: {
-      type: String,
-      default: '',
-    },
-    showPopoutButton: {
-      type: Boolean,
-      default: false,
-    },
+  introHeading: {
+    type: String,
+    default: '',
   },
-};
+  introBody: {
+    type: String,
+    default: '',
+  },
+  showPopoutButton: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const containerClasses = computed(() => [
+  props.avatarUrl ? 'justify-between' : 'justify-end',
+]);
 </script>
 
 <template>
   <header
     class="header-expanded pt-6 pb-4 px-5 relative box-border w-full bg-transparent"
   >
-    <div
-      class="flex items-start"
-      :class="[avatarUrl ? 'justify-between' : 'justify-end']"
-    >
+    <div class="flex items-start" :class="containerClasses">
       <img
         v-if="avatarUrl"
         class="h-12 rounded-full"
@@ -52,7 +48,7 @@ export default {
     />
     <p
       v-dompurify-html="introBody"
-      class="text-base leading-normal text-n-slate-11"
+      class="text-lg leading-normal text-n-slate-11"
     />
   </header>
 </template>
