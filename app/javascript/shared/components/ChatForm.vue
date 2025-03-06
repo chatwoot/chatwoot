@@ -154,8 +154,6 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import 'widget/assets/scss/variables.scss';
-
 .form {
   label {
     @apply block font-medium py-1 px-0 capitalize;

@@ -133,7 +133,7 @@
     }
 
     .chat-bubble {
-      border: 1px solid $color-border-dark;
+      @apply border border-solid border-n-strong text-n-black;
     }
 
     + .chat-bubble-wrap {
@@ -173,9 +173,8 @@
 }
 
 .chat-bubble {
-  @apply shadow-[0_0.25rem_6px_rgba(50,50,93,0.08),0_1px_3px_rgba(0,0,0,0.05)] rounded-[1.25rem] inline-block text-sm leading-[1.5] max-w-full ltr:text-left rtl:text-right py-3 px-4;
+  @apply shadow-[0_0.25rem_6px_rgba(50,50,93,0.08),0_1px_3px_rgba(0,0,0,0.05)] rounded-[1.25rem] inline-block text-sm leading-[1.5] max-w-full ltr:text-left rtl:text-right py-3 px-4 text-white;
 
-  color: $color-white;
   word-break: break-word;
 
   :not([audio]) {
@@ -183,7 +182,7 @@
   }
 
   > a {
-    color: $color-primary;
+    @apply text-n-brand;
     word-break: break-all;
   }
 
@@ -195,16 +194,15 @@
     @apply ltr:rounded-br-[0.25rem] rtl:rounded-bl-[0.25rem];
 
     > a {
-      color: $color-white;
+      @apply text-white;
     }
   }
 
   &.agent {
-    @apply ltr:rounded-bl-[0.25rem] rtl:rounded-br-[0.25rem];
-    color: $color-body;
+    @apply ltr:rounded-bl-[0.25rem] rtl:rounded-br-[0.25rem] text-n-slate-12;
 
     .link {
-      color: $color-woot;
+      @apply text-n-brand;
       word-break: break-word;
     }
   }

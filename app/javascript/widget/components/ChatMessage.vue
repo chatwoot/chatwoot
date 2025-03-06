@@ -53,7 +53,3 @@ export default {
   max-width: 90%;
 }
 </style>
-
-<style lang="scss">
-@import 'widget/assets/scss/variables.scss';
-</style>

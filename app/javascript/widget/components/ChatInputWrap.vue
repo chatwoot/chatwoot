@@ -144,7 +144,7 @@ export default {
       />
       <button
         v-if="hasEmojiPickerEnabled"
-        class="flex items-center justify-center icon-button"
+        class="flex items-center justify-center min-h-8 min-w-8"
         :aria-label="$t('EMOJI.ARIA_LABEL')"
         @click="toggleEmojiPicker"
       >

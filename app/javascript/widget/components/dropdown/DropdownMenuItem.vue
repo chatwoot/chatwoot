@@ -54,10 +54,8 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import 'widget/assets/scss/variables.scss';
-
 .menu-item {
-  margin-left: $zero !important;
+  margin-left: 0 !important;
   outline: none;
 
   &:last-child {

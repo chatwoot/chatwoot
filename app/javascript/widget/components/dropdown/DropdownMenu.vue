@@ -76,8 +76,6 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import 'widget/assets/scss/variables.scss';
-
 .menu-content {
   width: max-content;
 }
