@@ -74,15 +74,15 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
   end
 
   def process_response(response, message_content)
+    parsed_response = response.parsed_response
     if response.success?
-      parsed_response = response.parsed_response
       handle_error('Instagram response', external_error(parsed_response), message_content) if parsed_response['error'].present?
       message.source_id = parsed_response['message_id'] if parsed_response['message_id'].present?
       message.save!
 
       parsed_response
     else
-      handle_error('Instagram HTTP error', external_error(response), message_content)
+      handle_error('Instagram HTTP error', external_error(parsed_response), message_content) if parsed_response['error'].present?
       nil
     end
   end

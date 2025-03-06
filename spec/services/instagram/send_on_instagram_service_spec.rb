@@ -35,6 +35,15 @@ describe Instagram::SendOnInstagramService do
     }
   end
 
+  let(:error_response) do
+    instance_double(
+      HTTParty::Response,
+      :success? => false,
+      :body => error_body.to_json,
+      :parsed_response => error_body
+    )
+  end
+
   let(:response_with_error) do
     instance_double(
       HTTParty::Response,
@@ -138,12 +147,12 @@ describe Instagram::SendOnInstagramService do
 
       it 'handles HTTP errors' do
         message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
-        stub_request(:post, /graph\.facebook\.com/).to_return(status: [401, 'Unauthorized'])
+        allow(HTTParty).to receive(:post).and_return(error_response)
 
         described_class.new(message: message).perform
 
         expect(message.reload.status).to eq('failed')
-        expect(message.reload.external_error).to eq('Unauthorized')
+        expect(message.reload.external_error).to eq('400 - The Instagram account is restricted.')
       end
 
       it 'handles response errors' do
