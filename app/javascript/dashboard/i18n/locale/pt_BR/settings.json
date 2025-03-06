@@ -26,7 +26,7 @@
         "UPDATE_SUCCESS": "Suas configurações foram atualizadas com sucesso",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Inserir (↵)",
+            "HEADING": "Enter (↵)",
             "CONTENT": "Enviar mensagens pressionando a tecla Enter em vez de clicar no botão de enviar."
           },
           "CMD_ENTER_KEY": {
