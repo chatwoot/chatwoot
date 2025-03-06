@@ -560,7 +560,7 @@
       "ERROR_MESSAGE": "Wir konnten die Suche nicht abschließen. Bitte versuch es erneut."
     },
     "FORM": {
-      "GO_TO_CONVERSATION": "Aussicht",
+      "GO_TO_CONVERSATION": "Anzeigen",
       "SUCCESS_MESSAGE": "Die Nachricht wurde erfolgreich versendet!",
       "ERROR_MESSAGE": "Beim Erstellen der Unterhaltung ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.",
       "NO_INBOX_ALERT": "Es sind keine Posteingänge vorhanden, um eine Unterhaltung mit diesem Kontakt zu starten.",
