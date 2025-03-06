@@ -93,28 +93,9 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
     process_response(response)
   end
 
-  def process_response(response)
-    parsed_response = response.parsed_response
-
-    if response.success? && parsed_response['error'].blank?
-      parsed_response['messages'].first['id']
-    else
-      handle_error(response)
-      nil
-    end
-  end
-
-  def handle_error(response)
-    Rails.logger.error response.body
-    return if @message.blank?
-
+  def error_message(response)
     # {"meta": {"success": false, "http_code": 400, "developer_message": "errro-message", "360dialog_trace_id": "someid"}}
-    error_message = response.dig('meta', 'developer_message')
-    return if error_message.blank?
-
-    @message.external_error = error_message
-    @message.status = :failed
-    @message.save!
+    response.parsed_response.dig('meta', 'developer_message')
   end
 
   def template_body_parameters(template_info)

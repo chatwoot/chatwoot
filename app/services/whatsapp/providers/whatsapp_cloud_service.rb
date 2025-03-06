@@ -113,26 +113,9 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     process_response(response)
   end
 
-  def process_response(response)
-    if response.success? && response['error'].blank?
-      response['messages'].first['id']
-    else
-      handle_error(response)
-      nil
-    end
-  end
-
-  def handle_error(response)
-    Rails.logger.error response.body
-    return if @message.blank?
-
+  def error_message(response)
     # https://developers.facebook.com/docs/whatsapp/cloud-api/support/error-codes/#sample-response
-    error_message = response.parsed_response&.dig('error', 'message')
-    return if error_message.blank?
-
-    @message.external_error = error_message
-    @message.status = :failed
-    @message.save!
+    response.parsed_response&.dig('error', 'message')
   end
 
   def template_body_parameters(template_info)
