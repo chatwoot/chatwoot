@@ -28,7 +28,7 @@ export default {
 
 <template>
   <div
-    class="card-message chat-bubble agent bg-n-background dark:bg-n-slate-6 max-w-56 rounded-lg overflow-hidden"
+    class="card-message chat-bubble agent bg-n-background dark:bg-n-solid-3 max-w-56 rounded-lg overflow-hidden"
   >
     <img
       class="w-full object-contain max-h-[150px] rounded-[5px]"

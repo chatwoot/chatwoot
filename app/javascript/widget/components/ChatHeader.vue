@@ -69,7 +69,7 @@ export default {
         :src="avatarUrl"
         alt="avatar"
       />
-      <div>
+      <div class="flex flex-col gap-1">
         <div
           class="flex items-center text-base font-medium leading-4 text-n-slate-12"
         >
@@ -79,7 +79,7 @@ export default {
               ${isOnline ? 'bg-green-500' : 'hidden'}`"
           />
         </div>
-        <div class="mt-1 text-xs leading-3 text-n-slate-11">
+        <div class="text-xs leading-3 text-n-slate-11">
           {{ replyWaitMessage }}
         </div>
       </div>

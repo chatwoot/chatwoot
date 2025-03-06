@@ -67,7 +67,7 @@ export default {
 
 <template>
   <div
-    class="flex flex-col gap-3 w-full shadow outline-1 outline outline-n-container rounded-xl bg-n-background dark:bg-n-solid-3 px-5 py-4"
+    class="flex flex-col gap-3 w-full shadow outline-1 outline outline-n-container rounded-xl bg-n-background dark:bg-n-solid-2 px-5 py-4"
   >
     <div class="flex items-center justify-between gap-2">
       <div class="flex flex-col gap-1">

@@ -23,7 +23,7 @@ export default {
 <template>
   <div
     v-if="!!items.length"
-    class="chat-bubble agent bg-n-background dark:bg-n-slate-6"
+    class="chat-bubble agent bg-n-background dark:bg-n-solid-3"
   >
     <div
       v-for="item in items"

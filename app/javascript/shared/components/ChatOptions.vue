@@ -44,7 +44,7 @@ export default {
 
 <template>
   <div
-    class="chat-bubble agent max-w-64 !py-2 !px-4 rounded-lg overflow-hidden mt-1 bg-n-background dark:bg-n-slate-6"
+    class="chat-bubble agent max-w-64 !py-2 !px-4 rounded-lg overflow-hidden mt-1 bg-n-background dark:bg-n-solid-3"
   >
     <h4 class="text-n-slate-12 text-sm font-normal my-1 leading-[1.5]">
       <div

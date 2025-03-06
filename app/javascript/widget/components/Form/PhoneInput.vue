@@ -166,7 +166,7 @@ function onSelect() {
 <template>
   <div class="relative mt-2 phone-input--wrap">
     <div
-      class="flex items-center justify-start outline-none phone-input rounded-lg box-border bg-n-alpha-black2 dark:bg-n-alpha-2 border-none outline outline-1 outline-offset-[-1px] text-sm w-full text-n-slate-12 focus-within:outline-n-brand focus-within:ring-1 focus-within:ring-n-brand"
+      class="flex items-center justify-start outline-none phone-input rounded-lg box-border bg-n-background dark:bg-n-alpha-2 border-none outline outline-1 outline-offset-[-1px] text-sm w-full text-n-slate-12 focus-within:outline-n-brand focus-within:ring-1 focus-within:ring-n-brand"
       :class="{
         'outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9':
           hasErrorInPhoneInput,
@@ -174,7 +174,7 @@ function onSelect() {
       }"
     >
       <div
-        class="flex items-center justify-between h-full px-2 py-2 cursor-pointer bg-n-alpha-1 dark:bg-n-solid-1 ltr:rounded-bl-lg rtl:rounded-br-lg ltr:rounded-tl-lg rtl:rounded-tr-lg min-w-[3.6rem] w-[3.6rem]"
+        class="flex items-center justify-between h-[2.625rem] px-2 py-2 cursor-pointer bg-n-alpha-1 dark:bg-n-solid-1 ltr:rounded-bl-lg rtl:rounded-br-lg ltr:rounded-tl-lg rtl:rounded-tr-lg min-w-[3.6rem] w-[3.6rem]"
         @click="toggleCountryDropdown"
       >
         <h5 v-if="activeCountry.emoji" class="mb-0 text-xl">
@@ -185,7 +185,7 @@ function onSelect() {
       </div>
       <span
         v-if="activeDialCode"
-        class="py-2 ltr:pl-2 rtl:pr-2 text-sm text-n-slate-12"
+        class="py-2 ltr:pl-2 rtl:pr-2 text-base text-n-slate-11"
       >
         {{ activeDialCode }}
       </span>

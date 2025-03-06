@@ -103,7 +103,7 @@ export default {
 
 <template>
   <div
-    class="w-full h-full bg-n-slate-2 dark:bg-n-solid-2"
+    class="w-full h-full bg-n-slate-2 dark:bg-n-solid-1"
     :class="{ 'overflow-auto': isOnHomeView }"
     @keydown.esc="closeWindow"
   >
@@ -112,7 +112,8 @@ export default {
         :class="{
           expanded: !isHeaderCollapsed,
           collapsed: isHeaderCollapsed,
-          'custom-header-shadow': isHeaderCollapsed,
+          'shadow-[0_10px_15px_-16px_rgba(50,50,93,0.08),0_4px_6px_-8px_rgba(50,50,93,0.04)]':
+            isHeaderCollapsed,
           ...opacityClass,
         }"
       >
@@ -139,12 +140,3 @@ export default {
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-@import 'widget/assets/scss/variables';
-@import 'widget/assets/scss/mixins';
-
-.custom-header-shadow {
-  @include shadow-large;
-}
-</style>

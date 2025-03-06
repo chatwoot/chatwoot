@@ -74,7 +74,7 @@ export default {
 
 <template>
   <div
-    class="form chat-bubble agent w-full p-4 bg-n-background dark:bg-n-slate-6"
+    class="form chat-bubble agent w-full p-4 bg-n-background dark:bg-n-solid-3"
   >
     <form @submit.prevent="onSubmit">
       <div

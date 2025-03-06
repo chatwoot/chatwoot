@@ -261,7 +261,7 @@ export default {
     <div
       v-if="shouldShowHeaderMessage"
       v-dompurify-html="formatMessage(headerMessage, false)"
-      class="mb-4 text-sm leading-5 pre-chat-header-message text-n-slate-12"
+      class="mb-4 text-base leading-5 pre-chat-header-message text-n-slate-12"
     />
     <!-- Why do the v-bind shenanigan? Because Formkit API is really bad.
     If we just pass the options as is even with null or undefined or false,
@@ -281,7 +281,7 @@ export default {
             }
           : undefined
       "
-      :label-class="context => `text-xs font-medium ${labelClass(context)}`"
+      :label-class="context => `text-sm font-medium ${labelClass(context)}`"
       :input-class="context => inputClass(context)"
       :validation-messages="{
         startsWithPlus: $t(
@@ -300,7 +300,7 @@ export default {
       v-if="!hasActiveCampaign"
       name="message"
       type="textarea"
-      :label-class="context => `text-xs font-medium ${labelClass(context)}`"
+      :label-class="context => `text-sm font-medium ${labelClass(context)}`"
       :input-class="context => inputClass(context)"
       :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
       :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"

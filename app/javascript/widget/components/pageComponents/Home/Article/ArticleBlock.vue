@@ -22,7 +22,7 @@ const onArticleClick = link => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-3 pb-4">
+  <div class="flex flex-col gap-3">
     <h3 class="font-medium text-n-slate-12">
       {{ $t('PORTAL.POPULAR_ARTICLES') }}
     </h3>
