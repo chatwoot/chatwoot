@@ -20,7 +20,7 @@
 #
 class DeleteRequest < ApplicationRecord
   belongs_to :account, optional: true
-  enum :status, %w[pending processing completed].index_by(&:itself), default: :pending
+  enum :status, %w[pending complete].index_by(&:itself), default: :pending
 
   before_create :ensure_unqiue_confirmation_code
 

@@ -7,7 +7,7 @@ module FacebookConcern
 
   def deletion_processed?(code)
     request = DeleteRequest.find_by!(confirmation_code: code)
-    request.completed?
+    request.complete?
   rescue ActiveRecord::RecordNotFound
     false
   end
