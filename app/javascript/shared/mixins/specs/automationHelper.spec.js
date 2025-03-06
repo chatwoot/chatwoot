@@ -179,6 +179,7 @@ describe('automationMethodsMixin', () => {
         campaigns: [],
         statusFilterOptions: testOptions,
         type: 'status',
+        labels: [],
       })
     ).toEqual(expectedOptions);
   });

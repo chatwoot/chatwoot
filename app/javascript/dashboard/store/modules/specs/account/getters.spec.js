@@ -5,7 +5,7 @@ const accountData = {
   name: 'Company one',
   locale: 'en',
   features: {
-    auto_resolve_conversations: false,
+    auto_resolve_conversations: true,
     agent_management: false,
   },
 };

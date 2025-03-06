@@ -21,13 +21,15 @@ describe V2::ReportBuilder do
             conversation = create(:conversation, account: account,
                                                  inbox: inbox, assignee: user,
                                                  created_at: Time.zone.today)
-            create_list(:message, 5, message_type: 'outgoing',
+            messages = build_list(:message, 5, message_type: 'outgoing',
                                      account: account, inbox: inbox,
                                      conversation: conversation, created_at: Time.zone.today + 2.hours)
-            create_list(:message, 2, message_type: 'incoming',
+            messages += build_list(:message, 2, message_type: 'incoming',
                                      account: account, inbox: inbox,
                                      conversation: conversation,
                                      created_at: Time.zone.today + 3.hours)
+            Message.import(messages)
+            create(:reporting_event, account: account, inbox: inbox, user: user, conversation: conversation, name: 'first_response', value: 7200)
             conversation.update_labels('label_1')
             conversation.label_list
             conversation.save!
@@ -37,14 +39,16 @@ describe V2::ReportBuilder do
             conversation = create(:conversation, account: account,
                                                  inbox: inbox, assignee: user,
                                                  created_at: (Time.zone.today - 2.days))
-            create_list(:message, 3, message_type: 'outgoing',
+            messages = build_list(:message, 3, message_type: 'outgoing',
                                      account: account, inbox: inbox,
                                      conversation: conversation,
                                      created_at: (Time.zone.today - 2.days))
-            create_list(:message, 1, message_type: 'incoming',
+            messages += build_list(:message, 1, message_type: 'incoming',
                                      account: account, inbox: inbox,
                                      conversation: conversation,
                                      created_at: (Time.zone.today - 2.days))
+            Message.import(messages)
+            create(:reporting_event, account: account, inbox: inbox, user: user, conversation: conversation, name: 'first_response', value: 0)
             conversation.update_labels('label_2')
             conversation.label_list
             conversation.save!

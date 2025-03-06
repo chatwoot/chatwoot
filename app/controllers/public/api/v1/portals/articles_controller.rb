@@ -1,4 +1,5 @@
 class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::BaseController
+  skip_before_action :authenticate_user!, only: [:index]
   before_action :ensure_custom_domain_request, only: [:show, :index]
   before_action :portal
   before_action :set_category, except: [:index, :show]
@@ -17,10 +18,15 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   private
 
   def search_articles
-    @articles = @articles.search(list_params) if list_params.present?
+    return if list_params.blank?
+    return if @articles.blank?
+
+    @articles = @articles.search(list_params)
   end
 
   def order_by_sort_param
+    return if @articles.blank?
+
     @articles = if list_params[:sort].present? && list_params[:sort] == 'views'
                   @articles.order_by_views
                 else

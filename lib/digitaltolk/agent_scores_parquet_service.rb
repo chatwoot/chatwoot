@@ -14,7 +14,6 @@ class Digitaltolk::AgentScoresParquetService
     report.in_progress!(record_count: record_count)
     export_parquet
   rescue StandardError => e
-    debugger
     report.failed!("#{e.message}: #{e.backtrace.first}")
     nil
   end

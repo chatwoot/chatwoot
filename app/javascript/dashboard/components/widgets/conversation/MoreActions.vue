@@ -82,7 +82,6 @@ export default {
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       currentChat: 'getSelectedChat',
       accountId: 'getCurrentAccountId',
-      showSmartActions: 'showSmartActions',
     }),
     enableSmartActions() {
       const isFeatEnabled = this.isFeatureEnabledonAccount(

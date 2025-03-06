@@ -20,11 +20,9 @@ describe('#generateBotMessageContent', () => {
   it('return correct input_csat content', () => {
     expect(
       generateBotMessageContent('input_csat', {
-        submitted_values: {
-          csat_survey_response: {
-            rating: 5,
-            feedback_message: 'Great Service',
-          },
+        csat_survey_response: {
+          rating: 5,
+          feedback_message: 'Great Service',
         },
       })
     ).toEqual(
@@ -35,9 +33,7 @@ describe('#generateBotMessageContent', () => {
       generateBotMessageContent(
         'input_csat',
         {
-          submitted_values: {
-            csat_survey_response: { rating: 1, feedback_message: '' },
-          },
+          csat_survey_response: { rating: 1, feedback_message: '' },
         },
         { csat: { ratingTitle: 'റേറ്റിംഗ്', feedbackTitle: 'പ്രതികരണം' } }
       )

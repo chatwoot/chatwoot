@@ -42,6 +42,15 @@ describe('#Reports API', () => {
       });
       expect(axiosMock.get).toHaveBeenCalledWith('/api/v2/reports', {
         params: {
+          business_hours: undefined,
+          custom_filter: {
+            selected_inbox: undefined,
+            selected_label: undefined,
+            selected_rating: undefined,
+            selected_team: undefined,
+          },
+          group_by: undefined,
+          id: undefined,
           metric: 'conversations_count',
           since: 1621103400,
           until: 1621621800,
@@ -55,6 +64,12 @@ describe('#Reports API', () => {
       reportsAPI.getSummary(1621103400, 1621621800);
       expect(axiosMock.get).toHaveBeenCalledWith('/api/v2/reports/summary', {
         params: {
+          custom_filter: {
+            selected_inbox: undefined,
+            selected_label: undefined,
+            selected_rating: undefined,
+            selected_team: undefined,
+          },
           business_hours: undefined,
           group_by: undefined,
           id: undefined,

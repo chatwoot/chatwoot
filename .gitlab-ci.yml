@@ -5,8 +5,8 @@ include:
 
 stages:
   - pre-checks
-  - build_and_publish
   - test
+  - build_and_publish
   - plan
   - comment
   - apply
@@ -32,19 +32,9 @@ cache:
     - vendor/bundle
     - vendor/ruby
 
-build_and_publish:
-  stage: build_and_publish
-  script:
-    - make build
-    - make publish
-  only:
-    - main
-    - merge_request
-
-# TODO: improve test stage to work with Docker in Docker
 test:
   stage: test
-  image: public.ecr.aws/ubuntu/ubuntu:20.04
+  image: public.ecr.aws/docker/library/ruby:3.2.4-alpine3.20
   services:
     - name: postgres:15
       alias: db
@@ -60,46 +50,16 @@ test:
     POSTGRES_HOST: db
     RAILS_ENV: test
   before_script:
-    # install parquet libraries
-    - apt update
-    - apt install -y -V ca-certificates lsb-release wget
-    - wget https://apache.jfrog.io/artifactory/arrow/$(lsb_release --id --short | tr 'A-Z' 'a-z')/apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb
-    - apt install -y -V ./apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb
-    - export DEBIAN_FRONTEND=noninteractive
-    - ln -fs /usr/share/zoneinfo/Europe/Stockholm /etc/localtime
-    - apt update
-    - apt-get install -y  libarrow-dev libarrow-glib-dev libparquet-glib-dev libgirepository-1.0-1 libgirepository1.0-dev libpq-dev
-    - sed -i -e 's/-std=c++11//g' /usr/lib/x86_64-linux-gnu/pkgconfig/re2.pc
-    # install ruby dependencies
-    - apt-get update -y
-    - apt-get install -y curl git build-essential libssl-dev libreadline-dev zlib1g-dev libyaml-dev
-    - git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-    - echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
-    - echo 'eval "$(rbenv init -)"' >> ~/.bashrc
-    - export PATH="$HOME/.rbenv/bin:$PATH"
-    - eval "$(rbenv init -)"
-    - git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
-    - ~/.rbenv/plugins/ruby-build/install.sh
-    # Install Ruby 3.2.4
-    - rbenv install 3.2.4
-    - rbenv global 3.2.4
-    # Verify Ruby installation
-    - ruby -v
-    - gem install bundler
-    - bundle install
-    # install node.js and yarn
-    - curl -fsSL https://deb.nodesource.com/setup_21.x | bash -
-    - apt-get install -y nodejs
-    - npm install --global yarn
-    - yarn install --check-files
-    # Prepare the application
-    - rm -rf enterprise spec/enterprise
-    - bundle exec rails webpacker:compile
-    - bundle exec rake db:create
-    - bundle exec rake db:schema:load
+    - apk update && apk add --no-cache make bash
+    - make test-setup
+  parallel:
+    matrix:
+      - JOB_NAME: test_spec_1
+      - JOB_NAME: test_spec_2
+      - JOB_NAME: test_frontend
   script:
-    # Run the tests
-    - bundle exec rspec --profile=10 --format documentation
+    - echo "Running $JOB_NAME tests"
+    - make ${JOB_NAME}
   after_script:
     # Collect logs
     - mkdir -p artifacts
@@ -109,6 +69,16 @@ test:
       - artifacts/
   only:
     - merge_request
+
+build_and_publish:
+  stage: build_and_publish
+  script:
+    - make build
+    - make publish
+  only:
+    - main
+    - merge_request
+  needs: []
 
 plan_infra:
   stage: plan

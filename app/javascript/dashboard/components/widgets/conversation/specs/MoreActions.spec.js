@@ -18,8 +18,9 @@ localVue.component('woot-button', Button);
 
 const i18nConfig = new VueI18n({ locale: 'en', messages: i18n });
 
-describe('MoveActions', () => {
-  let currentChat = { id: 8, muted: false };
+describe('MoreActions', () => {
+  let inbox = { id: 1 }
+  let currentChat = { id: 8, muted: false, inbox_id: inbox.id };
   let state = null;
   let muteConversation = null;
   let unmuteConversation = null;
@@ -27,6 +28,8 @@ describe('MoveActions', () => {
   let getters = null;
   let store = null;
   let moreActions = null;
+  let featureEnabled = () => { return true };
+  let getInbox = () => { return inbox };
 
   beforeEach(() => {
     window.bus = {
@@ -47,7 +50,14 @@ describe('MoveActions', () => {
       conversations: { actions: { muteConversation, unmuteConversation } },
     };
 
-    getters = { getSelectedChat: () => currentChat };
+    getters = { 
+      getSelectedChat: () => currentChat,
+      getCurrentAccountId: () => 1,
+      showSmartActions: () => true,
+      getSmartActions: () => [],
+      'accounts/isFeatureEnabledonAccount': () => featureEnabled,
+      'inboxes/getInbox': () => getInbox,
+    };
 
     store = new Vuex.Store({ state, modules, getters });
 
