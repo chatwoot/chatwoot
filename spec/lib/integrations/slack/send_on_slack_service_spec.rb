@@ -270,29 +270,17 @@ describe Integrations::Slack::SendOnSlackService do
         expect(hook).to have_received(:prompt_reauthorization!)
       end
 
-      it 'disables hook on Slack MissingScope error during link unfurl' do
-        unflur_payload = {
-          channel: 'channel',
-          ts: 'timestamp',
-          unfurls: {
-            'https://qa.chatwoot.com/app/accounts/1/conversations/1' => {
-              blocks: [{
-                type: 'section',
-                text: { type: 'plain_text', text: 'This is a plain text section block.', emoji: true }
-              }]
-            }
-          }
-        }
+      it 'logs MissingScope error during link unfurl' do
+        unflur_payload = { channel: 'channel', ts: 'timestamp', unfurls: {} }
+        error = Slack::Web::Api::Errors::MissingScope.new('Missing required scope')
 
         expect(slack_client).to receive(:chat_unfurl)
           .with(unflur_payload)
-          .and_raise(Slack::Web::Api::Errors::MissingScope.new('Account disconnected'))
+          .and_raise(error)
 
-        allow(hook).to receive(:prompt_reauthorization!)
+        expect(Rails.logger).to receive(:error).with(error)
 
         link_builder.link_unfurl(unflur_payload)
-        expect(hook).to be_disabled
-        expect(hook).to have_received(:prompt_reauthorization!)
       end
     end
 
