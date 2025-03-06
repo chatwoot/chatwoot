@@ -6,15 +6,20 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   end
 
   def perform_reply
-    send_message_to_facebook fb_text_message_params if message.content.present?
+    if message.content_type == 'input_select'
+      send_message_to_facebook(fb_select_message_params)
+    elsif message.content_type == 'cards' 
+      send_message_to_facebook(fb_card_message_params)
+    elsif message.content.present?
+      send_message_to_facebook(fb_text_message_params)
+    end
 
     if message.attachments.present?
       message.attachments.each do |attachment|
-        send_message_to_facebook fb_attachment_message_params(attachment)
+        send_message_to_facebook(fb_attachment_message_params(attachment))
       end
     end
   rescue Facebook::Messenger::FacebookError => e
-    # TODO : handle specific errors or else page will get disconnected
     handle_facebook_error(e)
     message.update!(status: :failed, external_error: e.message)
   end
@@ -74,9 +79,93 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   end
 
   def handle_facebook_error(exception)
-    # Refer: https://github.com/jgorset/facebook-messenger/blob/64fe1f5cef4c1e3fca295b205037f64dfebdbcab/lib/facebook/messenger/error.rb
-    return unless exception.to_s.include?('The session has been invalidated') || exception.to_s.include?('Error validating access token')
+    error_message = exception.message
+    
+    if error_message.include?('The session has been invalidated') || 
+       error_message.include?('Error validating access token') ||
+       error_message.include?('Invalid OAuth access token')
+      channel.authorization_error!
+      raise exception
+    end
 
-    channel.authorization_error!
+    # Log lỗi chi tiết
+    Rails.logger.error "Facebook::SendOnFacebookService Error: #{error_message}"
+    
+    # Cập nhật trạng thái message
+    message.update!(
+      status: :failed,
+      external_error: "Facebook Error: #{error_message}"
+    )
+  end
+
+  def fb_select_message_params
+    {
+      recipient: { id: contact.get_source_id(inbox.id) },
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'button',
+            text: message.content,
+            buttons: message.content_attributes['items'].map do |item|
+              # Kiểm tra nếu value là một URL
+              if item['value'].to_s.match?(/\A#{URI::DEFAULT_PARSER.make_regexp}\z/)
+                {
+                  type: 'web_url',
+                  title: item['title'],
+                  url: item['value']
+                }
+              else
+                {
+                  type: 'postback',
+                  title: item['title'],
+                  payload: item['value']
+                }
+              end
+            end
+          }
+        }
+      },
+      messaging_type: 'MESSAGE_TAG',
+      tag: 'ACCOUNT_UPDATE'
+    }
+  end
+
+  def fb_card_message_params
+    {
+      recipient: { id: contact.get_source_id(inbox.id) },
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: message.content_attributes['items'].map do |item|
+              {
+                title: item['title'],
+                subtitle: item['description'],
+                image_url: item['media_url'],
+                buttons: item['actions'].map do |action|
+                  if action['type'] == 'link'
+                    {
+                      type: 'web_url',
+                      title: action['text'],
+                      url: action['uri']
+                    }
+                  else
+                    {
+                      type: 'postback',
+                      title: action['text'], 
+                      payload: action['payload']
+                    }
+                  end
+                end
+              }
+            end
+          }
+        }
+      },
+      messaging_type: 'MESSAGE_TAG',
+      tag: 'ACCOUNT_UPDATE'
+    }
   end
 end

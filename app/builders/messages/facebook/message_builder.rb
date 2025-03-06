@@ -105,7 +105,7 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def message_params
-    {
+    params = {
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       message_type: @message_type,
@@ -116,6 +116,13 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
       },
       sender: @outgoing_echo ? nil : @contact_inbox.contact
     }
+    
+    # Thêm payload vào content_attributes nếu là postback message
+    if response.respond_to?(:postback?) && response.postback?
+      params[:content_attributes][:postback_payload] = response.postback_payload
+    end
+    
+    params
   end
 
   def process_contact_params_result(result)

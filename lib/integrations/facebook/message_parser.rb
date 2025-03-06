@@ -19,6 +19,9 @@ class Integrations::Facebook::MessageParser
   end
 
   def content
+    # Nếu là postback message, lấy title từ postback
+    return @messaging.dig('postback', 'title') if postback?
+    
     @messaging.dig('message', 'text')
   end
 
@@ -31,6 +34,8 @@ class Integrations::Facebook::MessageParser
   end
 
   def identifier
+    return @messaging.dig('postback', 'mid') if postback?
+    
     @messaging.dig('message', 'mid')
   end
 
@@ -52,6 +57,16 @@ class Integrations::Facebook::MessageParser
 
   def echo?
     @messaging.dig('message', 'is_echo')
+  end
+
+  # Thêm phương thức kiểm tra postback
+  def postback?
+    @messaging['postback'].present?
+  end
+  
+  # Lấy payload từ postback
+  def postback_payload
+    @messaging.dig('postback', 'payload')
   end
 
   # TODO : i don't think the payload contains app_id. if not remove
@@ -85,5 +100,21 @@ end
 #     "quick_reply": {
 #       "payload": "DEVELOPER_DEFINED_PAYLOAD"
 #     }
+#   }
+# }
+
+# Sample Postback Response
+# {
+#   "sender":{
+#     "id":"USER_ID"
+#   },
+#   "recipient":{
+#     "id":"PAGE_ID"
+#   },
+#   "timestamp":1458692752478,
+#   "postback":{
+#     "mid":"mid.1457764197618:41d102a3e1ae206a38",
+#     "title":"TITLE-FOR-THE-CTA",
+#     "payload":"USER-DEFINED-PAYLOAD"
 #   }
 # }
