@@ -799,7 +799,7 @@ GEM
     unf_ext (0.0.8.2)
     unicode-display_width (2.4.2)
     uniform_notifier (1.16.0)
-    uri (0.13.0)
+    uri (1.0.3)
     uri_template (0.7.0)
     valid_email2 (5.2.6)
       activemodel (>= 3.2)
