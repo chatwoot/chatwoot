@@ -5,9 +5,10 @@ export const isEmptyObject = obj =>
 
 export const sendMessage = msg => {
   let websiteDomain = window.chatwootWebChannel.websiteDomain;
-  
-  if (window.location.origin.includes('digitaltolk')) {
-    websiteDomain = window.location.origin;
+  let referrer = document.referrer || '';
+
+  if (referrer.includes('digitaltolk')) {
+    websiteDomain = referrer;
   }
 
   window.parent.postMessage(
