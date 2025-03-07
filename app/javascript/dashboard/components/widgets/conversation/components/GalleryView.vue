@@ -1,12 +1,12 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
-import { downloadFile } from '@chatwoot/utils';
+import { downloadFile, debounce } from '@chatwoot/utils';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
@@ -26,7 +26,6 @@ const emit = defineEmits(['close']);
 const show = defineModel('show', { type: Boolean, default: false });
 
 const { t } = useI18n();
-
 const getters = useStoreGetters();
 
 const ALLOWED_FILE_TYPES = {
@@ -35,8 +34,7 @@ const ALLOWED_FILE_TYPES = {
   IG_REEL: 'ig_reel',
   AUDIO: 'audio',
 };
-
-const MAX_ZOOM_LEVEL = 2;
+const MAX_ZOOM_LEVEL = 3;
 const MIN_ZOOM_LEVEL = 1;
 
 const isDownloading = ref(false);
@@ -50,8 +48,10 @@ const activeImageIndex = ref(
 );
 const activeImageRotation = ref(0);
 
-const currentUser = computed(() => getters.getCurrentUser.value);
+const containerRef = useTemplateRef('containerRef');
+const imageRef = useTemplateRef('imageRef');
 
+const currentUser = computed(() => getters.getCurrentUser.value);
 const hasMoreThanOneAttachment = computed(
   () => props.allAttachments.length > 1
 );
@@ -65,10 +65,10 @@ const readableTime = computed(() => {
 const isImage = computed(
   () => activeFileType.value === ALLOWED_FILE_TYPES.IMAGE
 );
-const isVideo = computed(
-  () =>
-    activeFileType.value === ALLOWED_FILE_TYPES.VIDEO ||
-    activeFileType.value === ALLOWED_FILE_TYPES.IG_REEL
+const isVideo = computed(() =>
+  [ALLOWED_FILE_TYPES.VIDEO, ALLOWED_FILE_TYPES.IG_REEL].includes(
+    activeFileType.value
+  )
 );
 const isAudio = computed(
   () => activeFileType.value === ALLOWED_FILE_TYPES.AUDIO
@@ -82,9 +82,9 @@ const senderDetails = computed(() => {
     thumbnail,
     id,
   } = activeAttachment.value?.sender || props.attachment?.sender || {};
-  const currentUserID = currentUser.value?.id;
+
   return {
-    name: currentUserID === id ? 'You' : name || availableName || '',
+    name: currentUser.value?.id === id ? 'You' : name || availableName || '',
     avatar: thumbnail || avatar_url || '',
   };
 });
@@ -92,43 +92,49 @@ const senderDetails = computed(() => {
 const fileNameFromDataUrl = computed(() => {
   const { data_url: dataUrl } = activeAttachment.value;
   if (!dataUrl) return '';
-  const fileName = dataUrl?.split('/').pop();
-  return decodeURIComponent(fileName || '');
+
+  const fileName = dataUrl.split('/').pop();
+  return fileName ? decodeURIComponent(fileName) : '';
 });
 
-const imageRotationStyle = computed(() => ({
-  transform: `rotate(${activeImageRotation.value}deg) scale(${zoomScale.value})`,
+const imageWrapperStyle = computed(() => ({
+  transform: `rotate(${activeImageRotation.value}deg)`,
+}));
+
+const imageStyle = computed(() => ({
+  transform: `scale(${zoomScale.value})`,
   cursor: zoomScale.value < MAX_ZOOM_LEVEL ? 'zoom-in' : 'zoom-out',
 }));
 
-const onClose = () => {
-  emit('close');
+const onClose = () => emit('close');
+
+const resetTransformOrigin = () => {
+  if (imageRef.value) {
+    imageRef.value.style.transformOrigin = 'center';
+  }
 };
 
 const setImageAndVideoSrc = attachment => {
   const { file_type: type } = attachment;
-  if (!Object.values(ALLOWED_FILE_TYPES).includes(type)) {
-    return;
-  }
+  if (!Object.values(ALLOWED_FILE_TYPES).includes(type)) return;
+
   activeAttachment.value = attachment;
   activeFileType.value = type;
 };
 
 const onClickChangeAttachment = (attachment, index) => {
-  if (!attachment) {
-    return;
-  }
+  if (!attachment) return;
+
   activeImageIndex.value = index;
   setImageAndVideoSrc(attachment);
   activeImageRotation.value = 0;
   zoomScale.value = 1;
+  resetTransformOrigin();
 };
 
 const onClickDownload = async () => {
   const { file_type: type, data_url: url, extension } = activeAttachment.value;
-  if (!Object.values(ALLOWED_FILE_TYPES).includes(type)) {
-    return;
-  }
+  if (!Object.values(ALLOWED_FILE_TYPES).includes(type)) return;
 
   try {
     isDownloading.value = true;
@@ -141,9 +147,8 @@ const onClickDownload = async () => {
 };
 
 const onRotate = type => {
-  if (!isImage.value) {
-    return;
-  }
+  if (!isImage.value || !imageRef.value) return;
+  resetTransformOrigin();
 
   const rotation = type === 'clockwise' ? 90 : -90;
 
@@ -153,53 +158,108 @@ const onRotate = type => {
   } else {
     activeImageRotation.value += rotation;
   }
+
+  // Reset zoom when rotating
+  zoomScale.value = 1;
+  resetTransformOrigin();
 };
 
-const onZoom = scale => {
-  if (!isImage.value) {
-    return;
-  }
+const getZoomOrigin = (x, y) => {
+  if (!isImage.value || !imageRef.value) return { x: 50, y: 50 };
 
-  const newZoomScale = zoomScale.value + scale;
-  // Check if the new zoom scale is within the allowed range
-  if (newZoomScale > MAX_ZOOM_LEVEL) {
-    // Set zoom to max but do not reset to default
-    zoomScale.value = MAX_ZOOM_LEVEL;
-    return;
-  }
-  if (newZoomScale < MIN_ZOOM_LEVEL) {
-    // Set zoom to min but do not reset to default
-    zoomScale.value = MIN_ZOOM_LEVEL;
-    return;
-  }
-  // If within bounds, update the zoom scale
-  zoomScale.value = newZoomScale;
+  const { left, top, width, height } = imageRef.value.getBoundingClientRect();
+  const centerX = left + width / 2;
+  const centerY = top + height / 2;
+
+  // Calculate relative position from the center
+  const relativeX = x - centerX;
+  const relativeY = y - centerY;
+
+  // Apply rotation transformation
+  const angle = (activeImageRotation.value * Math.PI) / 180;
+  const cos = Math.cos(-angle);
+  const sin = Math.sin(-angle);
+
+  const rotatedX = relativeX * cos - relativeY * sin;
+  const rotatedY = relativeX * sin + relativeY * cos;
+
+  // Convert to percentages and clamp between 0-100%
+  return {
+    x: Math.max(0, Math.min(100, 50 + (rotatedX / (width / 2)) * 50)),
+    y: Math.max(0, Math.min(100, 50 + (rotatedY / (height / 2)) * 50)),
+  };
 };
 
-const onClickZoomImage = () => {
-  // If already at max zoom, clicking should zoom out to minimum
-  if (zoomScale.value >= MAX_ZOOM_LEVEL) {
-    zoomScale.value = MIN_ZOOM_LEVEL;
-    return;
+const onZoom = (scale, x, y) => {
+  if (!isImage.value || !imageRef.value) return;
+
+  // Calculate new scale within bounds
+  const newScale = Math.max(
+    MIN_ZOOM_LEVEL,
+    Math.min(MAX_ZOOM_LEVEL, zoomScale.value + scale)
+  );
+
+  // Skip if no change
+  if (newScale === zoomScale.value) return;
+
+  // Update transform origin based on mouse position
+  if (x != null && y != null) {
+    const { x: originX, y: originY } = getZoomOrigin(x, y);
+    imageRef.value.style.transformOrigin = `${originX}% ${originY}%`;
   }
-  // Otherwise zoom in
-  onZoom(0.1);
+
+  // Apply the new scale
+  zoomScale.value = newScale;
+};
+
+const onDoubleClickZoomImage = e => {
+  if (!isImage.value || !imageRef.value) return;
+  e.preventDefault();
+
+  // Toggle between max zoom and min zoom
+  const newScale =
+    zoomScale.value >= MAX_ZOOM_LEVEL ? MIN_ZOOM_LEVEL : MAX_ZOOM_LEVEL;
+
+  // Update transform origin based on mouse position
+  const origin = getZoomOrigin(e.clientX, e.clientY);
+  imageRef.value.style.transformOrigin = `${origin.x}% ${origin.y}%`;
+
+  // Apply the new scale
+  zoomScale.value = newScale;
 };
 
 const onWheelImageZoom = e => {
-  if (!isImage.value) {
-    return;
-  }
-  const scale = e.deltaY > 0 ? -0.1 : 0.1;
-  onZoom(scale);
+  if (!isImage.value || !imageRef.value) return;
+  e.preventDefault();
+
+  const scale = e.deltaY > 0 ? -0.2 : 0.2;
+  onZoom(scale, e.clientX, e.clientY);
 };
 
-const keyboardEvents = {
-  Escape: {
-    action: () => {
-      onClose();
-    },
+const onMouseMove = debounce(
+  e => {
+    if (!isImage.value || !imageRef.value) return;
+    if (zoomScale.value !== MIN_ZOOM_LEVEL) return;
+
+    const { x, y } = getZoomOrigin(e.clientX, e.clientY);
+    imageRef.value.style.transformOrigin = `${x}% ${y}%`;
   },
+  100,
+  false
+);
+
+const onMouseLeave = debounce(
+  () => {
+    if (!isImage.value || !imageRef.value) return;
+    if (zoomScale.value !== MIN_ZOOM_LEVEL) return;
+    imageRef.value.style.transformOrigin = 'center';
+  },
+  110,
+  false
+);
+
+const keyboardEvents = {
+  Escape: { action: onClose },
   ArrowLeft: {
     action: () => {
       onClickChangeAttachment(
@@ -217,6 +277,7 @@ const keyboardEvents = {
     },
   },
 };
+
 useKeyboardEvents(keyboardEvents);
 
 onMounted(() => {
@@ -232,50 +293,46 @@ onMounted(() => {
     :on-close="onClose"
   >
     <div
-      class="bg-white dark:bg-slate-900 flex flex-col h-[inherit] w-[inherit] overflow-hidden"
+      class="bg-n-background flex flex-col h-[inherit] w-[inherit] overflow-hidden select-none"
       @click="onClose"
     >
-      <div
-        class="z-10 flex items-center justify-between w-full h-16 px-6 py-2 bg-white dark:bg-slate-900"
+      <header
+        class="z-10 flex items-center justify-between w-full h-16 px-6 py-2 bg-n-background border-b border-n-weak"
         @click.stop
       >
         <div
           v-if="senderDetails"
-          class="items-center flex justify-start min-w-[15rem]"
+          class="flex items-center min-w-[15rem] shrink-0"
         >
           <Thumbnail
             v-if="senderDetails.avatar"
             :username="senderDetails.name"
             :src="senderDetails.avatar"
+            class="flex-shrink-0"
           />
-          <div
-            class="flex flex-col items-start justify-center ml-2 rtl:ml-0 rtl:mr-2"
-          >
-            <h3 class="text-base inline-block leading-[1.4] m-0 p-0 capitalize">
+          <div class="flex flex-col ml-2 rtl:ml-0 rtl:mr-2 overflow-hidden">
+            <h3 class="text-base leading-5 m-0 font-medium">
               <span
-                class="overflow-hidden text-slate-800 dark:text-slate-100 whitespace-nowrap text-ellipsis"
+                class="overflow-hidden text-n-slate-12 whitespace-nowrap text-ellipsis"
               >
                 {{ senderDetails.name }}
               </span>
             </h3>
             <span
-              class="p-0 m-0 overflow-hidden text-xs text-slate-400 dark:text-slate-200 whitespace-nowrap text-ellipsis"
+              class="text-xs text-n-slate-11 whitespace-nowrap text-ellipsis"
             >
               {{ readableTime }}
             </span>
           </div>
         </div>
+
         <div
-          class="flex items-center justify-start w-auto min-w-0 p-1 text-sm font-semibold text-slate-700 dark:text-slate-100"
+          class="flex-1 mx-2 px-2 truncate text-sm font-medium text-center text-n-slate-12"
         >
-          <span
-            v-dompurify-html="fileNameFromDataUrl"
-            class="overflow-hidden text-slate-700 dark:text-slate-100 whitespace-nowrap text-ellipsis"
-          />
+          <span v-dompurify-html="fileNameFromDataUrl" class="truncate" />
         </div>
-        <div
-          class="items-center flex gap-2 justify-end min-w-[8rem] sm:min-w-[15rem]"
-        >
+
+        <div class="flex items-center gap-2 ml-2 shrink-0">
           <NextButton
             v-if="isImage"
             icon="i-lucide-zoom-in"
@@ -314,13 +371,14 @@ onMounted(() => {
           />
           <NextButton icon="i-lucide-x" slate ghost @click="onClose" />
         </div>
-      </div>
-      <div class="flex items-center justify-center w-full h-full">
-        <div class="flex justify-center min-w-[6.25rem] w-[6.25rem]">
+      </header>
+
+      <main class="flex items-stretch flex-1 h-full overflow-hidden">
+        <div class="flex items-center justify-center w-16 shrink-0">
           <NextButton
             v-if="hasMoreThanOneAttachment"
             icon="i-lucide-chevron-left"
-            class="z-10 disabled:pointer-events-auto"
+            class="z-10"
             blue
             faded
             lg
@@ -333,42 +391,56 @@ onMounted(() => {
             "
           />
         </div>
-        <div class="flex flex-col items-center justify-center w-full h-full">
-          <div>
+
+        <div
+          ref="containerRef"
+          class="flex-1 flex items-center justify-center overflow-auto"
+        >
+          <div
+            :style="imageWrapperStyle"
+            class="w-full h-full flex items-center justify-center origin-center"
+          >
             <img
               v-if="isImage"
+              ref="imageRef"
               :key="activeAttachment.message_id"
               :src="activeAttachment.data_url"
-              class="mx-auto my-0 duration-150 ease-in-out transform modal-image skip-context-menu"
-              :style="imageRotationStyle"
-              @click.stop="onClickZoomImage"
-              @wheel.stop="onWheelImageZoom"
+              :style="imageStyle"
+              class="max-h-full max-w-full object-contain duration-100 ease-in-out transform shadow-lg select-none"
+              @click.stop
+              @dblclick.stop="onDoubleClickZoomImage"
+              @wheel.prevent.stop="onWheelImageZoom"
+              @mousemove="onMouseMove"
+              @mouseleave="onMouseLeave"
             />
+
             <video
               v-if="isVideo"
               :key="activeAttachment.message_id"
               :src="activeAttachment.data_url"
               controls
               playsInline
-              class="mx-auto my-0 modal-video skip-context-menu"
+              class="max-h-full max-w-full object-contain"
               @click.stop
             />
+
             <audio
               v-if="isAudio"
               :key="activeAttachment.message_id"
               controls
-              class="skip-context-menu"
+              class="w-full max-w-md"
               @click.stop
             >
               <source :src="`${activeAttachment.data_url}?t=${Date.now()}`" />
             </audio>
           </div>
         </div>
-        <div class="flex justify-center min-w-[6.25rem] w-[6.25rem]">
+
+        <div class="flex items-center justify-center w-16 shrink-0">
           <NextButton
             v-if="hasMoreThanOneAttachment"
             icon="i-lucide-chevron-right"
-            class="z-10 disabled:pointer-events-auto"
+            class="z-10"
             blue
             faded
             lg
@@ -381,16 +453,17 @@ onMounted(() => {
             "
           />
         </div>
-      </div>
-      <div class="z-10 flex items-center justify-center w-full h-16 px-6 py-2">
+      </main>
+
+      <footer
+        class="z-10 flex items-center justify-center h-12 border-t border-n-weak"
+      >
         <div
-          class="items-center rounded-sm flex font-semibold justify-center min-w-[5rem] p-1 bg-slate-25 dark:bg-slate-800 text-slate-600 dark:text-slate-200 text-sm"
+          class="rounded-md flex items-center justify-center px-3 py-1 bg-n-slate-3 text-n-slate-12 text-sm font-medium"
         >
-          <span class="count">
-            {{ `${activeImageIndex + 1} / ${allAttachments.length}` }}
-          </span>
+          {{ `${activeImageIndex + 1} / ${allAttachments.length}` }}
         </div>
-      </div>
+      </footer>
     </div>
   </woot-modal>
 </template>
