@@ -30,7 +30,9 @@ gem 'haikunator'
 # Template parsing safely
 gem 'liquid'
 # Parse Markdown to HTML
-gem 'commonmarker'
+# ref: https://github.com/gjtorikian/commonmarker/issues/358
+# can upgrade one this issue is fixed
+gem 'commonmarker', '2.0.4'
 # Validate Data against JSON Schema
 gem 'json_schemer'
 # Rack middleware for blocking & throttling abusive requests
@@ -46,9 +48,7 @@ gem 'csv-safe'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
-# original gem isn't maintained actively
-# we wanted updated version of faraday which is a dependency for slack-ruby-client
-gem 'azure-storage-blob', git: 'https://github.com/chatwoot/azure-storage-ruby', branch: 'chatwoot', require: false
+gem 'azure-blob', require: false
 gem 'google-cloud-storage', '>= 1.48.0', require: false
 gem 'image_processing'
 
