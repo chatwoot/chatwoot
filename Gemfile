@@ -4,7 +4,7 @@ ruby '3.3.3'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 7.1.5.1'
+gem 'rails', '~> 7.2.0'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -188,7 +188,7 @@ end
 
 group :development do
   gem 'annotate'
-  gem 'bullet', '~> 7.1.0'
+  gem 'bullet', '~> 7.2.0'
   gem 'letter_opener'
   gem 'scss_lint', require: false
   gem 'web-console', '>= 4.2.1'
