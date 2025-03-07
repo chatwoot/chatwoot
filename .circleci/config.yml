@@ -3,43 +3,36 @@ version: 2.1
 orbs:
   node: circleci/node@6.1.0
 
-# Define reusable defaults
-defaults: &defaults
-  working_directory: ~/build
-  machine:
-    image: ubuntu-2204:2024.05.1
-  resource_class: large
-  environment:
-    RAILS_LOG_TO_STDOUT: false
-    COVERAGE: true
-    LOG_LEVEL: warn
-  parallelism: 4
-
 jobs:
   build:
-    <<: *defaults
-    
+    working_directory: ~/build
+    machine:
+      image: ubuntu-2204:2024.05.1
+    resource_class: large
+    environment:
+      RAILS_LOG_TO_STDOUT: false
+      COVERAGE: true
+      LOG_LEVEL: warn
+    parallelism: 4
     steps:
-      # Initial setup
       - checkout
       
       # Node.js setup with caching
-      - node/install:
-          node-version: '23.7'
-      - node/install-pnpm
       - restore_cache:
           keys:
             - v1-node-{{ checksum "package.json" }}-{{ checksum "pnpm-lock.yaml" }}
-            - v1-node-
+      - node/install:
+          node-version: '23.7'
+      - node/install-pnpm
       - node/install-packages:
           pkg-manager: pnpm
-          override-ci-command: pnpm i
+          override-ci-command: pnpm i --frozen-lockfile
       - save_cache:
           key: v1-node-{{ checksum "package.json" }}-{{ checksum "pnpm-lock.yaml" }}
           paths:
             - node_modules
       
-      # System dependencies (combined into one step with caching)
+      # System dependencies with caching
       - restore_cache:
           keys:
             - v1-system-deps-{{ .Environment.CIRCLE_JOB }}
@@ -48,8 +41,8 @@ jobs:
           command: |
             sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
             wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-            sudo apt-get update -y
-            DEBIAN_FRONTEND=noninteractive sudo apt-get install -y \
+            sudo apt-get update -y -qq
+            DEBIAN_FRONTEND=noninteractive sudo apt-get install -y -qq \
               libpq-dev redis-server postgresql-common postgresql-16 postgresql-16-pgvector \
               build-essential git curl libssl-dev zlib1g-dev libreadline-dev libyaml-dev \
               openjdk-11-jdk jq software-properties-common ca-certificates imagemagick \
@@ -67,13 +60,13 @@ jobs:
       - run:
           name: Install RVM and Ruby
           command: |
-            gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-            curl -sSL https://get.rvm.io | bash -s stable
+            gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB --quiet
+            curl -sSL https://get.rvm.io | bash -s stable --quiet
             echo 'source ~/.rvm/scripts/rvm' >> $BASH_ENV
             source ~/.rvm/scripts/rvm
-            rvm install "3.3.3"
+            rvm install "3.3.3" --quiet
             rvm use 3.3.3 --default
-            gem install bundler -v 2.5.16
+            gem install bundler -v 2.5.16 --quiet
       - save_cache:
           key: v1-rvm-ruby-3.3.3
           paths:
@@ -83,41 +76,27 @@ jobs:
       - restore_cache:
           keys:
             - v1-gems-{{ checksum "Gemfile" }}-{{ checksum "Gemfile.lock" }}
-            - v1-gems-
       - run:
           name: Install Ruby Dependencies
           command: |
             source ~/.rvm/scripts/rvm
-            bundle install --jobs=4 --retry=3
+            bundle install --jobs=4 --retry=3 --quiet
       - save_cache:
           key: v1-gems-{{ checksum "Gemfile" }}-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
 
-      # Setup tools
+      # Setup tools and database
       - run:
-          name: Setup Tools
+          name: Setup Tools and Database
           command: |
-            mkdir -p ~/tmp
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ~/tmp/cc-test-reporter
+            mkdir -p ~/tmp ~/build/coverage/{frontend,backend} ~/tmp/test-results
+            curl -sL https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ~/tmp/cc-test-reporter
             chmod +x ~/tmp/cc-test-reporter
-            curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.3.0/openapi-generator-cli-6.3.0.jar > ~/tmp/openapi-generator-cli-6.3.0.jar
-
-      # Swagger verification
-      - run:
-          name: Verify Swagger API Specification
-          command: |
-            bundle exec rake swagger:build
-            git diff --exit-code swagger/swagger.json || (echo "ERROR: swagger.json is out of sync" && exit 1)
-            java -jar ~/tmp/openapi-generator-cli-6.3.0.jar validate -i swagger/swagger.json
-
-      # Database setup
-      - run:
-          name: Database Setup
-          command: |
+            curl -sL https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.3.0/openapi-generator-cli-6.3.0.jar > ~/tmp/openapi-generator-cli-6.3.0.jar
             pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15)
             sed -i "s/REPLACE_WITH_PASSWORD/${pg_pass}/g" .circleci/setup_chatwoot.sql
-            sudo -u postgres psql -f .circleci/setup_chatwoot.sql
+            sudo -u postgres psql -f .circleci/setup_chatwoot.sql -q
             cp .env.example .env
             sed -i '/^FRONTEND_URL/d' .env
             sed -i "s|REDIS_URL=.*|REDIS_URL=redis://localhost:6379|" .env
@@ -125,39 +104,47 @@ jobs:
             sed -i "s|POSTGRES_USERNAME=.*|POSTGRES_USERNAME=chatwoot|" .env
             sed -i "s|POSTGRES_PASSWORD=.*|POSTGRES_PASSWORD=${pg_pass}|" .env
             echo "INSTALLATION_ENV=circleci" >> .env
-            bundle exec rails db:chatwoot_prepare
+            bundle exec rails db:chatwoot_prepare --quiet
 
-      # Quality checks
+      # Quality checks (run on node 0 only)
       - run:
-          name: Run Linting and Security Checks
+          name: Run Quality Checks
           command: |
-            bundle exec bundle audit update && bundle exec bundle audit check -v
-            bundle exec rubocop
-            pnpm run eslint
+            if [ "$CIRCLE_NODE_INDEX" = "0" ]; then
+              bundle exec rake swagger:build --quiet
+              git diff --exit-code swagger/swagger.json || (echo "ERROR: swagger.json is out of sync" && exit 1)
+              java -jar ~/tmp/openapi-generator-cli-6.3.0.jar validate -i swagger/swagger.json -q
+              bundle exec bundle audit update -q && bundle exec bundle audit check -v -q
+              bundle exec rubocop --parallel
+              pnpm run eslint --max-warnings=0 --quiet
+            fi
 
-      # Tests
+      # All tests and coverage
       - run:
-          name: Run Tests
+          name: Run Tests and Coverage
           command: |
-            mkdir -p ~/build/coverage/{frontend,backend} ~/tmp/test-{results,artifacts}
             ~/tmp/cc-test-reporter before-build
-            pnpm run test:coverage
-            TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+            # Frontend tests (run on node 0 only)
+            if [ "$CIRCLE_NODE_INDEX" = "0" ]; then
+              pnpm run test:coverage --ci --maxWorkers=50%
+              ~/tmp/cc-test-reporter format-coverage -t lcov -o "~/build/coverage/frontend/codeclimate.json" -q
+            fi
+            # Backend tests (split across all nodes)
+            TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings --timings-type=file)
             bundle exec rspec --format progress \
                             --format RspecJunitFormatter \
                             --out ~/tmp/test-results/rspec.xml \
                             -- ${TESTFILES}
+            ~/tmp/cc-test-reporter format-coverage -t simplecov -o "~/build/coverage/backend/codeclimate.$CIRCLE_NODE_INDEX.json" -q
           no_output_timeout: 30m
 
-      # Coverage reporting
-      - run:
-          name: Process Test Coverage
-          command: |
-            ~/tmp/cc-test-reporter format-coverage -t lcov -o "~/build/coverage/frontend/codeclimate.frontend_$CIRCLE_NODE_INDEX.json"
-            ~/tmp/cc-test-reporter format-coverage -t simplecov -o "~/build/coverage/backend/codeclimate.$CIRCLE_NODE_INDEX.json"
-
       # Store results
-      - persist_to_workspace:
-          root: ~/build
-          paths:
-            - coverage
+      - store_test_results:
+          path: ~/tmp/test-results
+      - store_artifacts:
+          path: ~/build/coverage
+
+workflows:
+  build_and_test:
+    jobs:
+      - build
