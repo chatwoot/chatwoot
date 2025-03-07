@@ -1,146 +1,199 @@
 version: 2.1
+
 orbs:
   node: circleci/node@6.1.0
+
+parameters:
+  ruby-version:
+    type: string
+    default: "3.3.3"
+  node-version:
+    type: string
+    default: "23.7"
+  bundler-version:
+    type: string
+    default: "2.5.16"
 
 defaults: &defaults
   working_directory: ~/build
   machine:
     image: ubuntu-2204:2024.05.1
-  resource_class: large
+    resource_class: large
   environment:
     RAILS_LOG_TO_STDOUT: false
     COVERAGE: true
     LOG_LEVEL: warn
+    BUNDLE_JOBS: 4
+    BUNDLE_RETRY: 3
+
+caches:
+  apt-cache: &apt-cache
+    key: v1-apt-{{ .Branch }}-{{ epoch }}
+  ruby-cache: &ruby-cache
+    key: v1-ruby-{{ checksum ".ruby-version" }}-{{ checksum "Gemfile.lock" }}
+  node-cache: &node-cache
+    key: v1-node-{{ checksum "package.json" }}-{{ checksum "pnpm-lock.yaml" }}
 
 jobs:
   setup:
     <<: *defaults
     steps:
       - checkout
+      - restore_cache: *apt-cache
+      - restore_cache: *ruby-cache
+      - restore_cache: *node-cache
+      
       - node/install:
-          node-version: '23.7'
+          node-version: << pipeline.parameters.node-version >>
       - node/install-pnpm
       - node/install-packages:
           pkg-manager: pnpm
-          override-ci-command: pnpm i
+          cache-key: *node-cache
 
       - run:
-          name: Add PostgreSQL Repository
-          command: |
-            curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo gpg --dearmor -o /usr/share/keyrings/pgdg.gpg
-            echo "deb [signed-by=/usr/share/keyrings/pgdg.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
-
-      - run:
-          name: Install System Dependencies
+          name: Setup System Dependencies
           command: |
             sudo apt-get update
+            sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+            wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+            sudo apt-get update
             DEBIAN_FRONTEND=noninteractive sudo apt-get install -y \
-              libpq-dev \
-              redis-server \
-              postgresql-common \
-              postgresql-16 \
-              postgresql-16-pgvector \
-              build-essential \
-              git \
-              curl \
-              libssl-dev \
-              zlib1g-dev \
-              libreadline-dev \
-              libyaml-dev \
-              openjdk-11-jdk \
-              jq \
-              software-properties-common \
-              ca-certificates \
-              imagemagick \
-              libxml2-dev \
-              libxslt1-dev \
-              file \
-              g++ \
-              gcc \
-              autoconf \
-              gnupg2 \
-              patch \
-              ruby-dev \
-              liblzma-dev \
-              libgmp-dev \
-              libncurses5-dev \
-              libffi-dev \
-              libgdbm6 \
-              libgdbm-dev \
-              libvips
+              libpq-dev redis-server postgresql-common postgresql-16 postgresql-16-pgvector \
+              build-essential git curl libssl-dev zlib1g-dev libreadline-dev libyaml-dev \
+              openjdk-11-jdk jq software-properties-common ca-certificates imagemagick \
+              libxml2-dev libxslt1-dev file g++ gcc autoconf gnupg2 patch ruby-dev \
+              liblzma-dev libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev libvips
 
       - run:
-          name: Install RVM and Ruby 3.3.3
+          name: Install Ruby
           command: |
-            sudo apt-get install -y gpg
-            gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-            \curl -sSL https://get.rvm.io | bash -s stable
-            echo 'source ~/.rvm/scripts/rvm' >> $BASH_ENV
+            curl -sSL https://get.rvm.io | bash -s stable
             source ~/.rvm/scripts/rvm
-            rvm install "3.3.3"
-            rvm use 3.3.3 --default
-            gem install bundler -v 2.5.16
+            rvm install << pipeline.parameters.ruby-version >>
+            rvm use << pipeline.parameters.ruby-version >> --default
+            gem install bundler -v << pipeline.parameters.bundler-version >>
+
+      - run:
+          name: Install Dependencies
+          command: |
+            bundle config set --local path 'vendor/bundle'
             bundle install
 
       - run:
-          name: Download cc-test-reporter
+          name: Setup Environment
           command: |
-            mkdir -p ~/tmp
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ~/tmp/cc-test-reporter
             chmod +x ~/tmp/cc-test-reporter
-
-      - run:
-          name: Setup services and Database
-          command: |
-            sudo service postgresql start
-            sudo service redis-server start
-            pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15; echo '')
-            sed -i "s/REPLACE_WITH_PASSWORD/${pg_pass}/g" ${PWD}/.circleci/setup_chatwoot.sql
-            sudo -u postgres psql -f ${PWD}/.circleci/setup_chatwoot.sql
+            pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15)
+            sed -i "s/REPLACE_WITH_PASSWORD/${pg_pass}/g" .circleci/setup_chatwoot.sql
+            sudo -u postgres psql -f .circleci/setup_chatwoot.sql
             cp .env.example .env
             sed -i '/^FRONTEND_URL/d' .env
-            sed -i -e '/REDIS_URL/ s/=.*/=redis:\/\/localhost:6379/' .env
-            sed -i -e '/POSTGRES_HOST/ s/=.*/=localhost/' .env
-            sed -i -e '/POSTGRES_USERNAME/ s/=.*/=chatwoot/' .env
-            sed -i -e "/POSTGRES_PASSWORD/ s/=.*/=${pg_pass}/" .env
-            echo -en "\nINSTALLATION_ENV=circleci" >> ".env"
+            sed -i "s|^REDIS_URL=.*|REDIS_URL=redis://localhost:6379|" .env
+            sed -i "s|^POSTGRES_HOST=.*|POSTGRES_HOST=localhost|" .env
+            sed -i "s|^POSTGRES_USERNAME=.*|POSTGRES_USERNAME=chatwoot|" .env
+            sed -i "s|^POSTGRES_PASSWORD=.*|POSTGRES_PASSWORD=${pg_pass}|" .env
+            echo "INSTALLATION_ENV=circleci" >> .env
             bundle exec rails db:chatwoot_prepare
 
-      - run:
-          name: Linting & Security Checks
-          command: |
-            bundle exec rubocop
-            pnpm run eslint
-            bundle exec bundle audit update && bundle exec bundle audit check -v
-
-      - run:
-          name: Verify Swagger
-          command: |
-            bundle exec rake swagger:build
-            curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.3.0/openapi-generator-cli-6.3.0.jar > ~/tmp/openapi-generator-cli-6.3.0.jar
-            java -jar ~/tmp/openapi-generator-cli-6.3.0.jar validate -i swagger/swagger.json
-
-      - run:
-          name: Run frontend tests & Report Coverage
-          command: |
-            ~/tmp/cc-test-reporter before-build
-            pnpm run test:coverage
-            ~/tmp/cc-test-reporter format-coverage -t lcov -o coverage/codeclimate-frontend.json
-
-      - run:
-          name: Run backend tests & Report Coverage
-          command: |
-            ~/tmp/cc-test-reporter before-build
-            TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-            bundle exec rspec ${TESTFILES}
-            ~/tmp/cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.backend_${CIRCLE_NODE_INDEX}.json"
-
+      - save_cache: *apt-cache
+      - save_cache: *ruby-cache
+      - save_cache: *node-cache
+      
       - persist_to_workspace:
           root: ~/build
           paths:
-            - coverage
+            - .
+
+  lint:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/build
+      - run:
+          name: Run Linting
+          command: |
+            bundle exec rubocop --parallel
+            pnpm run eslint
+            bundle exec bundle audit check --update
+            bundle exec rake swagger:build
+            curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.3.0/openapi-generator-cli-6.3.0.jar > ~/tmp/openapi-generator-cli.jar
+            java -jar ~/tmp/openapi-generator-cli.jar validate -i swagger/swagger.json
+
+  test-frontend:
+    <<: *defaults
+    parallelism: 4
+    steps:
+      - attach_workspace:
+          at: ~/build
+      - run:
+          name: Run Frontend Tests
+          command: |
+            mkdir -p coverage/frontend
+            TEST_FILES=$(circleci tests glob "**/*.test.js" | circleci tests split --split-by=timings)
+            ~/tmp/cc-test-reporter before-build
+            pnpm run test:coverage -- --test-files="${TEST_FILES}"
+            ~/tmp/cc-test-reporter format-coverage -t lcov -o "coverage/frontend/codeclimate.frontend_$CIRCLE_NODE_INDEX.json"
+      - persist_to_workspace:
+          root: ~/build
+          paths:
+            - coverage/frontend
+
+  test-backend:
+    <<: *defaults
+    parallelism: 4
+    steps:
+      - attach_workspace:
+          at: ~/build
+      - run:
+          name: Run Backend Tests
+          command: |
+            mkdir -p coverage/backend tmp/test-results
+            TEST_FILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+            ~/tmp/cc-test-reporter before-build
+            bundle exec rspec --format progress \
+                            --format RspecJunitFormatter \
+                            --out tmp/test-results/rspec.$CIRCLE_NODE_INDEX.xml \
+                            --profile \
+                            -- ${TEST_FILES}
+            ~/tmp/cc-test-reporter format-coverage -t simplecov -o "coverage/backend/codeclimate.$CIRCLE_NODE_INDEX.json"
+      - persist_to_workspace:
+          root: ~/build
+          paths:
+            - coverage/backend
+            - tmp/test-results
+
+  report:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/build
+      - store_test_results:
+          path: ~/build/tmp/test-results
+      - store_artifacts:
+          path: ~/build/coverage
+      - run:
+          name: Upload Coverage
+          command: |
+            ~/tmp/cc-test-reporter sum-coverage coverage/*/codeclimate.*.json -p 8 -o coverage/total.json
+            ~/tmp/cc-test-reporter upload-coverage -i coverage/total.json
 
 workflows:
-  build_and_test:
+  build-and-test:
     jobs:
       - setup
+      - lint:
+          requires:
+            - setup
+      - test-frontend:
+          requires:
+            - setup
+      - test-backend:
+          requires:
+            - setup
+      - report:
+          requires:
+            - lint
+            - test-frontend
+            - test-backend
+          context: github-status # Assumes you have a context with GitHub token
