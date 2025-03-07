@@ -23,15 +23,21 @@ jobs:
       - node/install-packages:
           pkg-manager: pnpm
           override-ci-command: pnpm i
+
       - run:
-          name: Install PostgreSQL repository & Dependencies
+          name: Add PostgreSQL Repository
           command: |
             curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo gpg --dearmor -o /usr/share/keyrings/pgdg.gpg
             echo "deb [signed-by=/usr/share/keyrings/pgdg.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
+
+      - run:
+          name: Install System Dependencies
+          command: |
             sudo apt-get update
             DEBIAN_FRONTEND=noninteractive sudo apt-get install -y \
               libpq-dev \
               redis-server \
+              postgresql-common \
               postgresql-16 \
               postgresql-16-pgvector \
               build-essential \
@@ -75,54 +81,16 @@ jobs:
             rvm use 3.3.3 --default
             gem install bundler -v 2.5.16
             bundle install
-      - persist_to_workspace:
-          root: ~/build
-          paths:
-            - .
 
-  lint:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/build
       - run:
-          name: Linting & Swagger Validation
+          name: Download cc-test-reporter
           command: |
-            source ~/.rvm/scripts/rvm
-            bundle exec rubocop
-            pnpm run eslint
-            bundle exec rake swagger:build
+            mkdir -p ~/tmp
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ~/tmp/cc-test-reporter
+            chmod +x ~/tmp/cc-test-reporter
 
-  security_audit:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/build
       - run:
-          name: Bundle Audit
-          command: |
-            bundle exec bundle audit update
-            bundle exec bundle audit check -v
-
-  frontend_tests:
-    <<: *defaults
-    parallelism: 2
-    steps:
-      - attach_workspace:
-          at: ~/build
-      - run:
-          name: Run frontend tests
-          command: |
-            pnpm run test:coverage -- --maxWorkers=2 --shard=${CIRCLE_NODE_INDEX}/${CIRCLE_NODE_TOTAL}
-
-  backend_tests:
-    <<: *defaults
-    parallelism: 4
-    steps:
-      - attach_workspace:
-          at: ~/build
-      - run:
-          name: Start services and Setup DB
+          name: Setup services and Database
           command: |
             sudo service postgresql start
             sudo service redis-server start
@@ -133,26 +101,46 @@ jobs:
             sed -i '/^FRONTEND_URL/d' .env
             sed -i -e '/REDIS_URL/ s/=.*/=redis:\/\/localhost:6379/' .env
             sed -i -e '/POSTGRES_HOST/ s/=.*/=localhost/' .env
+            sed -i -e '/POSTGRES_USERNAME/ s/=.*/=chatwoot/' .env
             sed -i -e "/POSTGRES_PASSWORD/ s/=.*/=${pg_pass}/" .env
+            echo -en "\nINSTALLATION_ENV=circleci" >> ".env"
             bundle exec rails db:chatwoot_prepare
+
       - run:
-          name: Run backend tests
+          name: Linting & Security Checks
           command: |
+            bundle exec rubocop
+            pnpm run eslint
+            bundle exec bundle audit update && bundle exec bundle audit check -v
+
+      - run:
+          name: Verify Swagger
+          command: |
+            bundle exec rake swagger:build
+            curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.3.0/openapi-generator-cli-6.3.0.jar > ~/tmp/openapi-generator-cli-6.3.0.jar
+            java -jar ~/tmp/openapi-generator-cli-6.3.0.jar validate -i swagger/swagger.json
+
+      - run:
+          name: Run frontend tests & Report Coverage
+          command: |
+            ~/tmp/cc-test-reporter before-build
+            pnpm run test:coverage
+            ~/tmp/cc-test-reporter format-coverage -t lcov -o coverage/codeclimate-frontend.json
+
+      - run:
+          name: Run backend tests & Report Coverage
+          command: |
+            ~/tmp/cc-test-reporter before-build
             TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
             bundle exec rspec ${TESTFILES}
+            ~/tmp/cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.backend_${CIRCLE_NODE_INDEX}.json"
+
+      - persist_to_workspace:
+          root: ~/build
+          paths:
+            - coverage
 
 workflows:
   build_and_test:
     jobs:
       - setup
-      - lint:
-          requires: [setup]
-      - security_audit:
-          requires:
-            - setup
-      - frontend_tests:
-          requires:
-            - setup
-      - backend_tests:
-          requires:
-            - setup
