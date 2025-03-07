@@ -58,7 +58,7 @@ commands:
           name: Create apt packages list
           command: |
             mkdir -p .circleci
-            cat > .circleci/apt-packages.txt << EOF
+            cat > .circleci/apt-packages.txt \<< EOF
             libpq-dev
             redis-server
             postgresql-common
