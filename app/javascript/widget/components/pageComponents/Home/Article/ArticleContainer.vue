@@ -58,14 +58,17 @@ const viewAllArticles = () => {
 };
 
 const hasArticles = computed(
-  () => !articleUiFlags.value.isFetching && !!popularArticles.value.length
+  () =>
+    !articleUiFlags.value.isFetching &&
+    !articleUiFlags.value.isError &&
+    !!popularArticles.value.length
 );
 onMounted(() => fetchArticles());
 </script>
 
 <template>
   <div
-    v-if="portal"
+    v-if="portal && (articleUiFlags.isFetching || !!popularArticles.length)"
     class="w-full shadow outline-1 outline outline-n-container rounded-xl bg-n-background dark:bg-n-solid-2 px-5 py-4"
   >
     <ArticleBlock
@@ -74,7 +77,7 @@ onMounted(() => fetchArticles());
       @view="openArticleInArticleViewer"
       @view-all="viewAllArticles"
     />
-    <ArticleCardSkeletonLoader v-else />
+    <ArticleCardSkeletonLoader v-if="articleUiFlags.isFetching" />
   </div>
-  <div v-else />
+  <div v-else class="hidden" />
 </template>

@@ -133,7 +133,7 @@
     }
 
     .chat-bubble {
-      @apply border border-solid border-n-strong text-n-black;
+      @apply border border-solid border-n-slate-5 dark:border-n-slate-11/50 text-n-black;
     }
 
     + .chat-bubble-wrap {
