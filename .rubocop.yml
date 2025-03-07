@@ -1,13 +1,14 @@
-require:
+plugins:
   - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
+  - rubocop-factory_bot
+
+require:
   - ./rubocop/use_from_email.rb
   - ./rubocop/custom_cop_location.rb
-
 Layout/LineLength:
   Max: 150
-
 Metrics/ClassLength:
   Max: 175
   Exclude:
@@ -101,7 +102,6 @@ RSpec/MessageSpies:
   Enabled: false
 RSpec/StubbedMock:
   Enabled: false
-RSpec/FactoryBot/SyntaxMethods:
   Enabled: false
 Naming/VariableNumber:
   Enabled: false
@@ -135,23 +135,19 @@ RSpec/IndexedLet:
   Enabled: false
 RSpec/NamedSubject:
   Enabled: false
-
 # we should bring this down
 RSpec/MultipleExpectations:
   Max: 7
 RSpec/MultipleMemoizedHelpers:
   Max: 14
-
 # custom rules
 UseFromEmail:
   Enabled: true
   Exclude:
     - 'app/models/user.rb'
     - 'app/models/contact.rb'
-
 CustomCopLocation:
   Enabled: true
-
 AllCops:
   NewCops: enable
   Exclude:
@@ -166,3 +162,5 @@ AllCops:
     - 'tmp/**/*'
     - 'storage/**/*'
     - 'db/migrate/20230426130150_init_schema.rb'
+FactoryBot/SyntaxMethods:
+  Enabled: false

@@ -3,8 +3,8 @@ source 'https://rubygems.org'
 ruby '3.3.3'
 
 ##-- base gems for rails --##
-gem 'rack-cors', '2.0.0', require: 'rack/cors'
-gem 'rails', '~> 7.0.8.4'
+gem 'rack-cors', require: 'rack/cors'
+gem 'rails', '~> 7.1.5.1'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -188,7 +188,7 @@ end
 
 group :development do
   gem 'annotate'
-  gem 'bullet'
+  gem 'bullet', '~> 7.1.0'
   gem 'letter_opener'
   gem 'scss_lint', require: false
   gem 'web-console', '>= 4.2.1'
@@ -234,6 +234,7 @@ group :development, :test do
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
+  gem 'rubocop-factory_bot', require: false
   gem 'seed_dump'
   gem 'shoulda-matchers'
   gem 'simplecov', '0.17.1', require: false
