@@ -15,11 +15,6 @@ defaults: &defaults
     LOG_LEVEL: warn
   parallelism: 4
 
-# Cache keys
-cache_keys: &cache_keys
-  node_cache_key: v1-node-{{ checksum "package.json" }}-{{ checksum "pnpm-lock.yaml" }}
-  gem_cache_key: v1-gems-{{ checksum "Gemfile" }}-{{ checksum "Gemfile.lock" }}
-
 jobs:
   build:
     <<: *defaults
@@ -34,12 +29,13 @@ jobs:
       - node/install-pnpm
       - restore_cache:
           keys:
-            - *node_cache_keys
+            - v1-node-{{ checksum "package.json" }}-{{ checksum "pnpm-lock.yaml" }}
+            - v1-node-
       - node/install-packages:
           pkg-manager: pnpm
           override-ci-command: pnpm i
       - save_cache:
-          key: *node_cache_keys
+          key: v1-node-{{ checksum "package.json" }}-{{ checksum "pnpm-lock.yaml" }}
           paths:
             - node_modules
       
@@ -86,14 +82,15 @@ jobs:
       # Bundle install with caching
       - restore_cache:
           keys:
-            - *gem_cache_key
+            - v1-gems-{{ checksum "Gemfile" }}-{{ checksum "Gemfile.lock" }}
+            - v1-gems-
       - run:
           name: Install Ruby Dependencies
           command: |
             source ~/.rvm/scripts/rvm
             bundle install --jobs=4 --retry=3
       - save_cache:
-          key: *gem_cache_key
+          key: v1-gems-{{ checksum "Gemfile" }}-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
 
