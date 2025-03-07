@@ -68,6 +68,8 @@ ja:
       invalid_operator: 無効な演算子です。%{attribute_name} に許可されている演算子は [%{allowed_keys}] です。
       invalid_query_operator: クエリ演算子は "AND" または "OR" でなければなりません。
       invalid_value: 無効な値です。%{attribute_name} に提供された値は無効です。
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
     period: レポート期間 %{since} から %{until} まで
     utc_warning: 生成されたレポートはUTCタイムゾーンです

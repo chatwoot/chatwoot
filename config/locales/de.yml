@@ -68,6 +68,8 @@ de:
       invalid_operator: Ungültiger Operator. Die erlaubten Operatoren für %{attribute_name} sind [%{allowed_keys}].
       invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Ungültiger Wert. Die Werte für %{attribute_name} sind ungültig
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
     period: Berichtszeitraum von %{since} bis %{until}
     utc_warning: Der generierte Bericht ist in UTC-Zeitzone
