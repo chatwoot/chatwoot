@@ -32,7 +32,7 @@ gem 'liquid'
 # Parse Markdown to HTML
 # ref: https://github.com/gjtorikian/commonmarker/issues/358
 # can upgrade one this issue is fixed
-gem 'commonmarker', '2.0.4'
+gem 'commonmarker', '~> 0.23.11'
 # Validate Data against JSON Schema
 gem 'json_schemer'
 # Rack middleware for blocking & throttling abusive requests
