@@ -4,9 +4,15 @@ export const isEmptyObject = obj =>
   Object.keys(obj).length === 0 && obj.constructor === Object;
 
 export const sendMessage = msg => {
+  let websiteDomain = window.chatwootWebChannel.websiteDomain;
+  
+  if (window.location.origin.includes('digitaltolk')) {
+    websiteDomain = window.location.origin;
+  }
+
   window.parent.postMessage(
     `chatwoot-widget:${JSON.stringify({ ...msg })}`,
-    window.chatwootWebChannel.websiteDomain
+    websiteDomain
   );
 };
 
