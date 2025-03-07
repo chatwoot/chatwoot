@@ -1,3 +1,7 @@
+json.meta do
+  json.total_count @attachments_count
+end
+
 json.payload @attachments do |attachment|
   json.message_id attachment.push_event_data[:message_id]
   json.thumb_url attachment.push_event_data[:thumb_url]
