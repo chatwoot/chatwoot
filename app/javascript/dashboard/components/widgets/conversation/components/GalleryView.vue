@@ -108,6 +108,7 @@ const imageStyle = computed(() => ({
 
 const onClose = () => emit('close');
 
+// Resets the transform origin to center
 const resetTransformOrigin = () => {
   if (imageRef.value) {
     imageRef.value.style.transformOrigin = 'center';
@@ -146,6 +147,7 @@ const onClickDownload = async () => {
   }
 };
 
+// Rotates the current image
 const onRotate = type => {
   if (!isImage.value || !imageRef.value) return;
   resetTransformOrigin();
@@ -164,6 +166,7 @@ const onRotate = type => {
   resetTransformOrigin();
 };
 
+// Calculates the zoom origin based on cursor position and image rotation
 const getZoomOrigin = (x, y) => {
   if (!isImage.value || !imageRef.value) return { x: 50, y: 50 };
 
@@ -190,6 +193,7 @@ const getZoomOrigin = (x, y) => {
   };
 };
 
+// Handles zooming the image
 const onZoom = (scale, x, y) => {
   if (!isImage.value || !imageRef.value) return;
 
@@ -212,6 +216,7 @@ const onZoom = (scale, x, y) => {
   zoomScale.value = newScale;
 };
 
+// Handles double-click zoom toggling
 const onDoubleClickZoomImage = e => {
   if (!isImage.value || !imageRef.value) return;
   e.preventDefault();
@@ -228,6 +233,7 @@ const onDoubleClickZoomImage = e => {
   zoomScale.value = newScale;
 };
 
+// Handles mouse wheel zooming for images
 const onWheelImageZoom = e => {
   if (!isImage.value || !imageRef.value) return;
   e.preventDefault();
@@ -236,6 +242,12 @@ const onWheelImageZoom = e => {
   onZoom(scale, e.clientX, e.clientY);
 };
 
+/**
+ * Sets transform origin to mouse position during hover.
+ * Enables precise scroll/double-click zoom targeting by updating the
+ * transform origin to cursor position. Only active at minimum zoom level.
+ * Debounced (100ms) to improve performance during rapid mouse movement.
+ */
 const onMouseMove = debounce(
   e => {
     if (!isImage.value || !imageRef.value) return;
@@ -248,6 +260,11 @@ const onMouseMove = debounce(
   false
 );
 
+/**
+ * Resets transform origin to center when mouse leaves image.
+ * Ensures button-based zooming works predictably after hover ends.
+ * Uses slightly longer debounce (110ms) to avoid conflicts with onMouseMove.
+ */
 const onMouseLeave = debounce(
   () => {
     if (!isImage.value || !imageRef.value) return;
@@ -394,14 +411,21 @@ onMounted(() => {
 
         <div
           ref="containerRef"
-          class="flex-1 flex items-center justify-center overflow-auto"
+          class="flex-1 flex items-center justify-center overflow-hidden"
         >
           <div
+            v-if="isImage"
             :style="imageWrapperStyle"
-            class="w-full h-full flex items-center justify-center origin-center"
+            class="flex items-center justify-center origin-center"
+            :class="{
+              // Adjust dimensions when rotated 90/270 degrees to maintain visibility
+              // and prevent image from overflowing container in different aspect ratios
+              'w-[calc(100dvh-8rem)] h-[calc(100dvh-7rem)]':
+                activeImageRotation % 180 !== 0,
+              'size-full': activeImageRotation % 180 === 0,
+            }"
           >
             <img
-              v-if="isImage"
               ref="imageRef"
               :key="activeAttachment.message_id"
               :src="activeAttachment.data_url"
@@ -413,27 +437,27 @@ onMounted(() => {
               @mousemove="onMouseMove"
               @mouseleave="onMouseLeave"
             />
-
-            <video
-              v-if="isVideo"
-              :key="activeAttachment.message_id"
-              :src="activeAttachment.data_url"
-              controls
-              playsInline
-              class="max-h-full max-w-full object-contain"
-              @click.stop
-            />
-
-            <audio
-              v-if="isAudio"
-              :key="activeAttachment.message_id"
-              controls
-              class="w-full max-w-md"
-              @click.stop
-            >
-              <source :src="`${activeAttachment.data_url}?t=${Date.now()}`" />
-            </audio>
           </div>
+
+          <video
+            v-if="isVideo"
+            :key="activeAttachment.message_id"
+            :src="activeAttachment.data_url"
+            controls
+            playsInline
+            class="max-h-full max-w-full object-contain"
+            @click.stop
+          />
+
+          <audio
+            v-if="isAudio"
+            :key="activeAttachment.message_id"
+            controls
+            class="w-full max-w-md"
+            @click.stop
+          >
+            <source :src="`${activeAttachment.data_url}?t=${Date.now()}`" />
+          </audio>
         </div>
 
         <div class="flex items-center justify-center w-16 shrink-0">
