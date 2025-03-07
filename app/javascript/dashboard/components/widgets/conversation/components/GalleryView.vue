@@ -36,9 +36,11 @@ const ALLOWED_FILE_TYPES = {
 };
 const MAX_ZOOM_LEVEL = 3;
 const MIN_ZOOM_LEVEL = 1;
+const DEFAULT_IMG_TRANSFORM_ORIGIN = 'center center';
 
 const isDownloading = ref(false);
 const zoomScale = ref(1);
+const imgTransformOriginPoint = ref(DEFAULT_IMG_TRANSFORM_ORIGIN);
 const activeAttachment = ref({});
 const activeFileType = ref('');
 const activeImageIndex = ref(
@@ -104,6 +106,7 @@ const imageWrapperStyle = computed(() => ({
 const imageStyle = computed(() => ({
   transform: `scale(${zoomScale.value})`,
   cursor: zoomScale.value < MAX_ZOOM_LEVEL ? 'zoom-in' : 'zoom-out',
+  transformOrigin: `${imgTransformOriginPoint.value}`,
 }));
 
 const onClose = () => emit('close');
@@ -111,7 +114,7 @@ const onClose = () => emit('close');
 // Resets the transform origin to center
 const resetTransformOrigin = () => {
   if (imageRef.value) {
-    imageRef.value.style.transformOrigin = 'center';
+    imgTransformOriginPoint.value = DEFAULT_IMG_TRANSFORM_ORIGIN;
   }
 };
 
@@ -209,7 +212,7 @@ const onZoom = (scale, x, y) => {
   // Update transform origin based on mouse position
   if (x != null && y != null) {
     const { x: originX, y: originY } = getZoomOrigin(x, y);
-    imageRef.value.style.transformOrigin = `${originX}% ${originY}%`;
+    imgTransformOriginPoint.value = `${originX}% ${originY}%`;
   }
 
   // Apply the new scale
@@ -226,8 +229,8 @@ const onDoubleClickZoomImage = e => {
     zoomScale.value >= MAX_ZOOM_LEVEL ? MIN_ZOOM_LEVEL : MAX_ZOOM_LEVEL;
 
   // Update transform origin based on mouse position
-  const origin = getZoomOrigin(e.clientX, e.clientY);
-  imageRef.value.style.transformOrigin = `${origin.x}% ${origin.y}%`;
+  const { x: originX, y: originY } = getZoomOrigin(e.clientX, e.clientY);
+  imgTransformOriginPoint.value = `${originX}% ${originY}%`;
 
   // Apply the new scale
   zoomScale.value = newScale;
@@ -253,8 +256,8 @@ const onMouseMove = debounce(
     if (!isImage.value || !imageRef.value) return;
     if (zoomScale.value !== MIN_ZOOM_LEVEL) return;
 
-    const { x, y } = getZoomOrigin(e.clientX, e.clientY);
-    imageRef.value.style.transformOrigin = `${x}% ${y}%`;
+    const { x: originX, y: originY } = getZoomOrigin(e.clientX, e.clientY);
+    imgTransformOriginPoint.value = `${originX}% ${originY}%`;
   },
   100,
   false
@@ -269,7 +272,7 @@ const onMouseLeave = debounce(
   () => {
     if (!isImage.value || !imageRef.value) return;
     if (zoomScale.value !== MIN_ZOOM_LEVEL) return;
-    imageRef.value.style.transformOrigin = 'center';
+    imgTransformOriginPoint.value = DEFAULT_IMG_TRANSFORM_ORIGIN;
   },
   110,
   false
