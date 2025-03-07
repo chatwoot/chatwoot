@@ -17,41 +17,44 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - node/install:
-          node-version: '23.7'
-      - node/install-pnpm
-      - node/install-packages:
-          pkg-manager: pnpm
-          override-ci-command: pnpm i
       - run:
-          name: Install System Dependencies and Ruby
+          name: Install Dependencies
           command: |
-            sudo apt-get update -y && sudo apt-get install -y \
-              gpg libssl-dev zlib1g-dev libyaml-dev libreadline-dev libpq-dev libxml2-dev libxslt1-dev \
-              imagemagick libvips redis-server postgresql-14 postgresql-14-pgextwlist build-essential openjdk-11-jdk
-            gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+            sudo apt-get update && sudo apt-get install -y \
+              curl gpg build-essential libpq-dev redis-server postgresql-16 postgresql-16-pgvector \
+              libssl-dev zlib1g-dev libyaml-dev libxml2-dev libxslt1-dev imagemagick \
+              libreadline-dev libvips libffi-dev liblzma-dev
+
+            # Ruby installation via RVM
             curl -sSL https://get.rvm.io | bash -s stable --ruby=3.3.3
             source ~/.rvm/scripts/rvm
             gem install bundler -v 2.5.16
             bundle install
+
+            # Node setup
+            curl -fsSL https://get.pnpm.io/install.sh | sh -
+            export PNPM_HOME=~/build/.pnpm-store
+            export PATH=$PATH:~/.local/share/pnpm
+            pnpm i
+
       - persist_to_workspace:
           root: ~/build
           paths:
-            - .
-            - ~/.rvm
-            - ~/.pnpm-store
+            - .bundle
+            - node_modules
+            - .pnpm-store
 
   lint:
     <<: *defaults
     steps:
       - attach_workspace:
           at: ~/build
+      - checkout
       - run:
-          name: Linting & Swagger
+          name: Linting & Swagger Check
           command: |
-            source ~/.rvm/scripts/rvm
             bundle exec rubocop
-            pnpm eslint .
+            pnpm run eslint
             bundle exec rake swagger:build
 
   security_audit:
@@ -60,11 +63,10 @@ jobs:
       - attach_workspace:
           at: ~/build
       - run:
-          name: Security audit
+          name: Bundle Audit
           command: |
-            source ~/.rvm/scripts/rvm
             bundle exec bundle audit update
-            bundle exec bundle audit check --verbose
+            bundle exec bundle audit check -v
 
   frontend_tests:
     <<: *defaults
@@ -75,7 +77,7 @@ jobs:
       - run:
           name: Run frontend tests
           command: |
-            pnpm test
+            pnpm run test:coverage -- --maxWorkers=2 --shard=${CIRCLE_NODE_INDEX}/${CIRCLE_NODE_TOTAL}
 
   backend_tests:
     <<: *defaults
@@ -84,37 +86,38 @@ jobs:
       - attach_workspace:
           at: ~/build
       - run:
-          name: Setup and start services
+          name: DB Setup & Migration
           command: |
-            sudo service postgresql start
-            sudo service redis-server start
-      - run:
-          name: Configure DB & Environment
-          command: |
-            source ~/.rvm/scripts/rvm
-            cp .circleci/setup_chatwoot.sql /tmp/
-            sudo -u postgres psql < .circleci/setup_chatwoot.sql
-            bundle exec rails db:setup
+            pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15; echo '')
+            sed -i "s/REPLACE_WITH_PASSWORD/${pg_pass}/g" ${PWD}/.circleci/setup_chatwoot.sql
+            sudo -u postgres psql -f ${PWD}/.circleci/setup_chatwoot.sql
+            cp .env.example .env
+            sed -i '/^FRONTEND_URL/d' .env
+            sed -i -e '/REDIS_URL/ s/=.*/=redis:\/\/localhost:6379/' .env
+            sed -i -e '/POSTGRES_HOST/ s/=.*/=localhost/' .env
+            sed -i -e '/POSTGRES_USERNAME/ s/=.*/=chatwoot/' .env
+            sed -i -e "/POSTGRES_PASSWORD/ s/=.*/=$pg_pass/" .env
+            echo -en "\nINSTALLATION_ENV=circleci" >> ".env"
+            bundle exec rails db:chatwoot_prepare
+
       - run:
           name: Run backend tests
           command: |
-            source ~/.rvm/scripts/rvm
-            TEST_FILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-            bundle exec rspec $TEST_FILES --format progress
+            TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+            bundle exec rspec ${TESTFILES}
 
 workflows:
   build_and_test:
     jobs:
       - setup
       - lint:
+          requires: [setup]
+      - security_audit:
           requires:
             - setup
       - frontend_tests:
           requires:
             - setup
       - backend_tests:
-          requires:
-            - setup
-      - security_audit:
           requires:
             - setup
