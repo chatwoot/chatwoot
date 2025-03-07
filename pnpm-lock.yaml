@@ -197,8 +197,8 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0(vue@3.5.12(typescript@5.6.2))
       vue-i18n:
-        specifier: 9.14.2
-        version: 9.14.2(vue@3.5.12(typescript@5.6.2))
+        specifier: 9.14.3
+        version: 9.14.3(vue@3.5.12(typescript@5.6.2))
       vue-letter:
         specifier: ^0.2.1
         version: 0.2.1
@@ -903,6 +903,10 @@ packages:
     resolution: {integrity: sha512-DZyQ4Hk22sC81MP4qiCDuU+LdaYW91A6lCjq8AWPvY3+mGMzhGDfOCzvyR6YBQxtlPjFqMoFk9ylnNYRAQwXtQ==}
     engines: {node: '>= 16'}
 
+  '@intlify/core-base@9.14.3':
+    resolution: {integrity: sha512-nbJ7pKTlXFnaXPblyfiH6awAx1C0PWNNuqXAR74yRwgi5A/Re/8/5fErLY0pv4R8+EHj3ZaThMHdnuC/5OBa6g==}
+    engines: {node: '>= 16'}
+
   '@intlify/eslint-plugin-vue-i18n@3.2.0':
     resolution: {integrity: sha512-TOIrD4tJE48WMyVIB8bNeQJJPYo1Prpqnm9Xpn1UZmcqlELhm8hmP8QyJnkgesfbG7hyiX/kvo63W7ClEQmhpg==}
     engines: {node: '>=18.0.0'}
@@ -913,8 +917,16 @@ packages:
     resolution: {integrity: sha512-YsKKuV4Qv4wrLNsvgWbTf0E40uRv+Qiw1BeLQ0LAxifQuhiMe+hfTIzOMdWj/ZpnTDj4RSZtkXjJM7JDiiB5LQ==}
     engines: {node: '>= 16'}
 
+  '@intlify/message-compiler@9.14.3':
+    resolution: {integrity: sha512-ANwC226BQdd+MpJ36rOYkChSESfPwu3Ss2Faw0RHTOknYLoHTX6V6e/JjIKVDMbzs0/H/df/rO6yU0SPiWHqNg==}
+    engines: {node: '>= 16'}
+
   '@intlify/shared@9.14.2':
     resolution: {integrity: sha512-uRAHAxYPeF+G5DBIboKpPgC/Waecd4Jz8ihtkpJQD5ycb5PwXp0k/+hBGl5dAjwF7w+l74kz/PKA8r8OK//RUw==}
+    engines: {node: '>= 16'}
+
+  '@intlify/shared@9.14.3':
+    resolution: {integrity: sha512-hJXz9LA5VG7qNE00t50bdzDv8Z4q9fpcL81wj4y4duKavrv0KM8YNLTwXNEFINHjTsfrG9TXvPuEjVaAvZ7yWg==}
     engines: {node: '>= 16'}
 
   '@isaacs/cliui@8.0.2':
@@ -1970,6 +1982,11 @@ packages:
 
   acorn@8.14.0:
     resolution: {integrity: sha512-cl669nCJTZBsL97OF4kUQm5g5hC2uihk0NxY3WENAC0TYdILVkAyHymAntgxGkl7K+t0cXIrH5siy5S4XkFycA==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
+
+  acorn@8.14.1:
+    resolution: {integrity: sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg==}
     engines: {node: '>=0.4.0'}
     hasBin: true
 
@@ -4896,8 +4913,8 @@ packages:
     peerDependencies:
       eslint: '>=6.0.0'
 
-  vue-i18n@9.14.2:
-    resolution: {integrity: sha512-JK9Pm80OqssGJU2Y6F7DcM8RFHqVG4WkuCqOZTVsXkEzZME7ABejAUqUdA931zEBedc4thBgSUWxeQh4uocJAQ==}
+  vue-i18n@9.14.3:
+    resolution: {integrity: sha512-C+E0KE8ihKjdYCQx8oUkXX+8tBItrYNMnGJuzEPevBARQFUN2tKez6ZVOvBrWH0+KT5wEk3vOWjNk7ygb2u9ig==}
     engines: {node: '>= 16'}
     peerDependencies:
       vue: ^3.0.0
@@ -5714,6 +5731,11 @@ snapshots:
       '@intlify/message-compiler': 9.14.2
       '@intlify/shared': 9.14.2
 
+  '@intlify/core-base@9.14.3':
+    dependencies:
+      '@intlify/message-compiler': 9.14.3
+      '@intlify/shared': 9.14.3
+
   '@intlify/eslint-plugin-vue-i18n@3.2.0(eslint@8.57.0)':
     dependencies:
       '@eslint/eslintrc': 3.2.0
@@ -5744,7 +5766,14 @@ snapshots:
       '@intlify/shared': 9.14.2
       source-map-js: 1.2.1
 
+  '@intlify/message-compiler@9.14.3':
+    dependencies:
+      '@intlify/shared': 9.14.3
+      source-map-js: 1.2.1
+
   '@intlify/shared@9.14.2': {}
+
+  '@intlify/shared@9.14.3': {}
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -6998,6 +7027,9 @@ snapshots:
   acorn@8.12.1: {}
 
   acorn@8.14.0: {}
+
+  acorn@8.14.1:
+    optional: true
 
   activestorage@5.2.8:
     dependencies:
@@ -9997,7 +10029,7 @@ snapshots:
   terser@5.33.0:
     dependencies:
       '@jridgewell/source-map': 0.3.6
-      acorn: 8.14.0
+      acorn: 8.14.1
       commander: 2.20.3
       source-map-support: 0.5.21
     optional: true
@@ -10351,10 +10383,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vue-i18n@9.14.2(vue@3.5.12(typescript@5.6.2)):
+  vue-i18n@9.14.3(vue@3.5.12(typescript@5.6.2)):
     dependencies:
-      '@intlify/core-base': 9.14.2
-      '@intlify/shared': 9.14.2
+      '@intlify/core-base': 9.14.3
+      '@intlify/shared': 9.14.3
       '@vue/devtools-api': 6.6.4
       vue: 3.5.12(typescript@5.6.2)
 
