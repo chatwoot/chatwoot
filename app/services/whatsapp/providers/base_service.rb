@@ -27,6 +27,33 @@ class Whatsapp::Providers::BaseService
     raise 'Overwrite this method in child class'
   end
 
+  def error_message
+    raise 'Overwrite this method in child class'
+  end
+
+  def process_response(response)
+    parsed_response = response.parsed_response
+    if response.success? && parsed_response['error'].blank?
+      parsed_response['messages'].first['id']
+    else
+      handle_error(response)
+      nil
+    end
+  end
+
+  def handle_error(response)
+    Rails.logger.error response.body
+    return if @message.blank?
+
+    # https://developers.facebook.com/docs/whatsapp/cloud-api/support/error-codes/#sample-response
+    error_message = error_message(response)
+    return if error_message.blank?
+
+    @message.external_error = error_message
+    @message.status = :failed
+    @message.save!
+  end
+
   def create_buttons(items)
     buttons = []
     items.each do |item|

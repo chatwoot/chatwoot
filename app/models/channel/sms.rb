@@ -37,7 +37,7 @@ class Channel::Sms < ApplicationRecord
     body = message_body(contact_number, message.content)
     body['media'] = message.attachments.map(&:download_url) if message.attachments.present?
 
-    send_to_bandwidth(body)
+    send_to_bandwidth(body, message)
   end
 
   def send_text_message(contact_number, message_content)
@@ -56,7 +56,7 @@ class Channel::Sms < ApplicationRecord
     }
   end
 
-  def send_to_bandwidth(body)
+  def send_to_bandwidth(body, message = nil)
     response = HTTParty.post(
       "#{api_base_path}/users/#{provider_config['account_id']}/messages",
       basic_auth: bandwidth_auth,
@@ -64,7 +64,22 @@ class Channel::Sms < ApplicationRecord
       body: body.to_json
     )
 
-    response.success? ? response.parsed_response['id'] : nil
+    if response.success?
+      response.parsed_response['id']
+    else
+      handle_error(response, message)
+      nil
+    end
+  end
+
+  def handle_error(response, message)
+    Rails.logger.error("[#{account_id}] Error sending SMS: #{response.parsed_response['description']}")
+    return if message.blank?
+
+    # https://dev.bandwidth.com/apis/messaging-apis/messaging/#tag/Messages/operation/createMessage
+    message.external_error = response.parsed_response['description']
+    message.status = :failed
+    message.save!
   end
 
   def bandwidth_auth
