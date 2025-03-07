@@ -69,16 +69,16 @@ gem 'vite_rails'
 gem 'barnes'
 
 ##--- gems for authentication & authorization ---##
-gem 'devise', '>= 4.9.4'
-gem 'devise-secure_password', git: 'https://github.com/chatwoot/devise-secure_password', branch: 'chatwoot'
-gem 'devise_token_auth', '>= 1.2.3'
+gem 'devise'
+gem 'devise-secure_password'
+gem 'devise_token_auth'
 # authorization
 gem 'jwt'
 gem 'pundit'
 # super admin
-gem 'administrate', '>= 0.20.1'
-gem 'administrate-field-active_storage', '>= 1.0.3'
-gem 'administrate-field-belongs_to_search', '>= 0.9.0'
+gem 'administrate'
+gem 'administrate-field-active_storage'
+gem 'administrate-field-belongs_to_search'
 
 ##--- gems for pubsub service ---##
 # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
