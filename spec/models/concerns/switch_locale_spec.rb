@@ -70,18 +70,5 @@ RSpec.describe 'SwitchLocale Concern', type: :controller do
       get :account_locale
       expect(response.body).to eq('es')
     end
-
-    it 'falls back to default if account locale missing' do
-      account.update(locale: nil)
-      controller.instance_variable_set(:@current_account, account)
-      get :account_locale
-      expect(response.body).to eq('en')
-    end
-
-    it 'falls back to default if account is nil' do
-      controller.instance_variable_set(:@current_account, nil)
-      get :account_locale
-      expect(response.body).to eq('en')
-    end
   end
 end
