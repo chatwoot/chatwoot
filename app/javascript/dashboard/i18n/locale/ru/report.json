@@ -124,7 +124,7 @@
   },
   "AGENT_REPORTS": {
     "HEADER": "Обзор агентов",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
+    "DESCRIPTION": "Легко отслеживайте эффективность работы агентов с помощью ключевых метрик, таких как количество бесед, время ответа, время решения проблем и количество решённых случаев. Нажмите на имя агента, чтобы узнать подробности.",
     "LOADING_CHART": "Загрузка данных графика...",
     "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
     "DOWNLOAD_AGENT_REPORTS": "Сказать отчёт по агентам",
@@ -259,7 +259,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Обзор входящих",
-    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
+    "DESCRIPTION": "Быстро просматривайте эффективность источника входящих с основными метриками — количеством бесед, временем ответа, временем решения проблем и количеством решённых случаев — всё в одном месте. Нажмите на имя источника для получения подробной информации.",
     "LOADING_CHART": "Загрузка данных графика...",
     "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
     "DOWNLOAD_INBOX_REPORTS": "Скачать отчет по входящим",
@@ -327,7 +327,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Обзор команды",
-    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "DESCRIPTION": "Получите обзор работы вашей команды с основными метриками, такими как количество бесед, время ответа, время решения проблем и количество решённых случаев. Нажмите на имя команды для подробностей.",
     "LOADING_CHART": "Загрузка данных графика...",
     "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
     "DOWNLOAD_TEAM_REPORTS": "Скачать отчет по команде",
@@ -546,9 +546,9 @@
     "INBOX": "Электронная почта",
     "AGENT": "Оператор",
     "TEAM": "Команда",
-    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
-    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
-    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "AVG_RESOLUTION_TIME": "Среднее время решения",
+    "AVG_FIRST_RESPONSE_TIME": "Среднее время первого ответа",
+    "AVG_REPLY_TIME": "Среднее время ожидания клиента",
     "RESOLUTION_COUNT": "Количество завершенных",
     "CONVERSATIONS": "Количество диалогов"
   }

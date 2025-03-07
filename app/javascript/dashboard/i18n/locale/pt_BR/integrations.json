@@ -302,8 +302,8 @@
         "ERROR": "Houve um erro ao desvincular o atributo, por favor, tente novamente"
       },
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the integration?",
-        "MESSAGE": "Are you sure you want to delete the integration?",
+        "TITLE": "Tem certeza que deseja excluir esta integração?",
+        "MESSAGE": "Tem certeza que deseja excluir esta integração?",
         "CONFIRM": "Sim, excluir",
         "CANCEL": "Cancelar"
       }
@@ -317,7 +317,7 @@
       "YOU": "Você",
       "USE": "Use isto",
       "RESET": "Reiniciar",
-      "SELECT_ASSISTANT": "Select Assistant"
+      "SELECT_ASSISTANT": "Selecione o Assistente"
     },
     "PAYWALL": {
       "TITLE": "Atualize para usar o Capitão IA",
@@ -440,19 +440,19 @@
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversação #{id}"
       },
-      "SELECTED": "{count} selected",
-      "BULK_APPROVE_BUTTON": "Approve",
+      "SELECTED": "{count} selecionado",
+      "BULK_APPROVE_BUTTON": "Aprovar",
       "BULK_DELETE_BUTTON": "Excluir",
       "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQs approved successfully",
-        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+        "SUCCESS_MESSAGE": "Perguntas Frequentes aprovadas com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro ao aprovar as Perguntas Frequentes. Tente novamente."
       },
       "BULK_DELETE": {
-        "TITLE": "Delete FAQs?",
-        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
-        "CONFIRM": "Yes, delete all",
-        "SUCCESS_MESSAGE": "FAQs deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
+        "TITLE": "Excluir as Perguntas Frequentes?",
+        "DESCRIPTION": "Tem certeza que deseja excluir as Perguntas Frequentes selecionadas? Esta ação não pode ser desfeita.",
+        "CONFIRM": "Sim, excluir todas",
+        "SUCCESS_MESSAGE": "Perguntas Frequentes excluídas com sucesso/",
+        "ERROR_MESSAGE": "Ocorreu um erro ao excluir as Perguntas Frequentes, por favor tente novamente."
       },
       "DELETE": {
         "TITLE": "Tem certeza que deseja excluir o FAQ?",

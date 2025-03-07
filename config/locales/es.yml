@@ -68,6 +68,8 @@ es:
       invalid_operator: Operador no válido. Los operadores permitidos para %{attribute_name} son [%{allowed_keys}].
       invalid_query_operator: El operador de consulta debe ser "Y" o "O".
       invalid_value: Valor no válido. Los valores proporcionados para %{attribute_name} no son válidos
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
     period: Reportando el periodo desde %{since} hasta %{until}
     utc_warning: El informe generado está en zona horaria UTC
