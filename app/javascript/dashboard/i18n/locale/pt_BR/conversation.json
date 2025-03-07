@@ -65,7 +65,7 @@
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
-      "OPEN_ACTION": "Abertas",
+      "OPEN_ACTION": "Abrir",
       "OPEN": "Mais",
       "CLOSE": "Fechar",
       "DETAILS": "detalhes",
@@ -148,7 +148,7 @@
       "MESSAGE_SIGN_TOOLTIP": "Assinatura de mensagem",
       "ENABLE_SIGN_TOOLTIP": "Ativar assinatura",
       "DISABLE_SIGN_TOOLTIP": "Desativar assinatura",
-      "MSG_INPUT": "Shift + enter para nova linha. Digite '/' para atalhos.",
+      "MSG_INPUT": "Shift + enter para nova linha. Digite '/' para selecionar uma Resposta Pronta.",
       "PRIVATE_MSG_INPUT": "A mensagem será visível apenas para agentes",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "A assinatura da mensagem não está configurada. Por favor, configure-a nas configurações do perfil.",
       "CLICK_HERE": "Clique aqui para atualizar",

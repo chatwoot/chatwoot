@@ -68,6 +68,8 @@ uk:
       invalid_operator: Некоректний оператор. Дозволені оператори для %{attribute_name} є [%{allowed_keys}].
       invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Невірне значення. Надані значення для %{attribute_name} є неприпустимі
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
     period: Період звіту %{since} до %{until}
     utc_warning: Звіт створено в часовій зоні UTC
