@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "允许为这个团队自动分配。"
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": " Slack提及代码",
+        "PLACEHOLDER": "Example: U11D91NUR"
+      },
       "SUBMIT_CREATE": "创建新团队"
     }
   }

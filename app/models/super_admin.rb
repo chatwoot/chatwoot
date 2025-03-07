@@ -23,6 +23,7 @@
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
 #  sign_in_count          :integer          default(0), not null
+#  slack_mention_code     :string
 #  tokens                 :json
 #  type                   :string
 #  ui_settings            :jsonb

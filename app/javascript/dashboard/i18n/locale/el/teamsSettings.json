@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "Επιτρέψτε την αυτόματη ανάθεση σε αυτήν την ομάδα."
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "Κωδικός αναφοράς στο Slack",
+        "PLACEHOLDER": "Παράδειγμα: U11D91NUR"
+      },
       "SUBMIT_CREATE": "Δημιουργία Ομάδας"
     }
   }

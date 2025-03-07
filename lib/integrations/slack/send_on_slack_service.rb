@@ -47,13 +47,15 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def message_content
+    return @message_content if defined?(@message_content)
+
     private_indicator = message.private? ? 'private: ' : ''
     sanitized_content = ActionView::Base.full_sanitizer.sanitize(format_message_content)
-
+    reload_slack_mentions(sanitized_content)
     if conversation.identifier.present?
-      "#{private_indicator}#{sanitized_content}"
+      @message_content = "#{private_indicator}#{sanitized_content}"
     else
-      "#{formatted_inbox_name}#{formatted_conversation_link}#{email_subject_line}\n#{sanitized_content}"
+      @message_content = "#{formatted_inbox_name}#{formatted_conversation_link}#{email_subject_line}\n#{sanitized_content}"
     end
   end
 
@@ -63,11 +65,29 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def message_text
     content = message.processed_message_content || message.content
+    prepare_mentions(content)
+    content.present? ? content.gsub(MENTION_REGEX, '\1') : content
+  end
 
-    if content.present?
-      content.gsub(MENTION_REGEX, '\1')
-    else
-      content
+  def prepare_mentions(content)
+    @slack_mention_codes = {}
+    mapping = { 'user' => User, 'team' => Team }
+
+    content.scan(SLACK_MENTION_REGEX).each do |original, type, id|
+      type, id = id.split('-') if id.start_with?('team-')
+
+      slack_code = mapping[type]&.find_by(id: id)&.slack_mention_code
+      next if slack_code.blank?
+
+      render_key = Digest::MD5.hexdigest(slack_code)
+      @slack_mention_codes[render_key] ||= slack_mention(slack_code.upcase)
+      content.gsub!(original, render_key)
+    end
+  end
+
+  def reload_slack_mentions(content)
+    @slack_mention_codes.each do |render_key, slack_tag|
+      content.gsub!(render_key, slack_tag)
     end
   end
 
@@ -112,11 +132,14 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   def post_message
     @slack_message = slack_client.chat_postMessage(
       channel: hook.reference_id,
-      text: message_content,
       username: sender_name(message.sender),
       thread_ts: conversation.identifier,
       icon_url: avatar_url(message.sender),
-      unfurl_links: conversation.identifier.present?
+      unfurl_links: conversation.identifier.present?,
+      blocks: [{
+        type: :section,
+        text: { type: :mrkdwn, text: message_content },
+      }]
     )
   end
 
@@ -180,6 +203,14 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def link_to_conversation
     "<#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{conversation.account_id}/conversations/#{conversation.display_id}|Click here>"
+  end
+
+  def slack_mention(code)
+    if code.start_with?('U', 'W')
+      "<@#{code}>"
+    elsif code.start_with?('S')
+      "<!subteam^#{code}>"
+    end
   end
 
   # Determines whether the conversation identifier should be updated with the ts value.

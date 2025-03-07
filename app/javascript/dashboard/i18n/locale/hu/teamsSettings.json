@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "Automatikus hozzárendelés ehhez a csapathoz."
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "Slack említési kód",
+        "PLACEHOLDER": "Példa: U11D91NUR"
+      },
       "SUBMIT_CREATE": "Új csapat létrehozása"
     }
   }

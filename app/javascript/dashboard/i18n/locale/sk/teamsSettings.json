@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "Allow auto assign for this team."
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "Slack mention code",
+        "PLACEHOLDER": "Príklad: U11D91NUR"
+      },
       "SUBMIT_CREATE": "Vytvoriť tím"
     }
   }

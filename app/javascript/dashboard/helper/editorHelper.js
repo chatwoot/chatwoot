@@ -313,6 +313,11 @@ const createNode = (editorView, nodeType, content) => {
 
       return mentionNode;
     }
+    case 'teamMention':
+      return state.schema.nodes.mention.create({
+        userId: `team-${content.id}`,
+        userFullName: content.name,
+      });
     case 'cannedResponse':
       return new MessageMarkdownTransformer(messageSchema).parse(content);
     case 'variable':
@@ -330,6 +335,11 @@ const createNode = (editorView, nodeType, content) => {
 const nodeCreators = {
   mention: (editorView, content, from, to) => ({
     node: createNode(editorView, 'mention', content),
+    from,
+    to,
+  }),
+  teamMention: (editorView, content, from, to, variables) => ({
+    node: createNode(editorView, 'teamMention', content),
     from,
     to,
   }),

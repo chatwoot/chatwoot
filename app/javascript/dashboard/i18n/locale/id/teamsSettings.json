@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "Izinkan penugasan otomatis untuk tim ini."
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "Kode Slack mention",
+        "PLACEHOLDER": "Contoh: U11D91NUR"
+      },
       "SUBMIT_CREATE": "Buat tim"
     }
   }

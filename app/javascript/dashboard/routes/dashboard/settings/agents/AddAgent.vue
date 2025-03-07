@@ -15,21 +15,25 @@ const { t } = useI18n();
 const agentName = ref('');
 const agentEmail = ref('');
 const selectedRoleId = ref('agent');
+const agentSlackMentionCode = ref('');
 
 const rules = {
   agentName: { required },
   agentEmail: { required, email },
   selectedRoleId: { required },
+  agentSlackMentionCode: {},
 };
 
 const v$ = useVuelidate(rules, {
   agentName,
   agentEmail,
   selectedRoleId,
+  agentSlackMentionCode,
 });
 
 const uiFlags = useMapGetter('agents/getUIFlags');
 const getCustomRoles = useMapGetter('customRole/getCustomRoles');
+const appIntegrations = useMapGetter('integrations/getAppIntegrations');
 
 const roles = computed(() => {
   const defaultRoles = [
@@ -69,6 +73,7 @@ const addAgent = async () => {
     const payload = {
       name: agentName.value,
       email: agentEmail.value,
+      slack_mention_code: agentSlackMentionCode.value,
     };
 
     if (selectedRole.value.name.startsWith('custom_')) {
@@ -100,6 +105,10 @@ const addAgent = async () => {
     useAlert(errorResponse || attrError || errorMessage);
   }
 };
+
+const slackEnabled = computed(() =>
+  appIntegrations.value.some(integration => integration.id === 'slack' && integration.enabled)
+);
 </script>
 
 <template>
@@ -143,6 +152,18 @@ const addAgent = async () => {
             type="email"
             :placeholder="$t('AGENT_MGMT.ADD.FORM.EMAIL.PLACEHOLDER')"
             @input="v$.agentEmail.$touch"
+          />
+        </label>
+      </div>
+
+      <div class="w-full" v-if="slackEnabled">
+        <label :class="{ error: v$.agentSlackMentionCode.$error }">
+          {{ $t('AGENT_MGMT.ADD.FORM.SLACK_MENTION_CODE.LABEL') }}
+          <input
+            v-model="agentSlackMentionCode"
+            type="text"
+            :placeholder="$t('AGENT_MGMT.ADD.FORM.SLACK_MENTION_CODE.PLACEHOLDER')"
+            @input="v$.agentSlackMentionCode.$touch"
           />
         </label>
       </div>

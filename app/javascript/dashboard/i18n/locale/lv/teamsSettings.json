@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "Atļaut automātiskai piešķirt šai komandai."
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "Slack atsauces kods",
+        "PLACEHOLDER": "Piemēram: U11D91NUR"
+      },
       "SUBMIT_CREATE": "Izveidot komandu"
     }
   }

@@ -34,6 +34,10 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  slackMentionCode: {
+    type: String,
+    default: '',
+  },
 });
 
 const emit = defineEmits(['close']);
@@ -47,17 +51,20 @@ const agentName = ref(props.name);
 const agentAvailability = ref(props.availability);
 const selectedRoleId = ref(props.customRoleId || props.type);
 const agentCredentials = ref({ email: props.email });
+const agentSlackMentionCode = ref(props.slackMentionCode);
 
 const rules = {
   agentName: { required, minLength: minLength(1) },
   selectedRoleId: { required },
   agentAvailability: { required },
+  agentSlackMentionCode: {},
 };
 
 const v$ = useVuelidate(rules, {
   agentName,
   selectedRoleId,
   agentAvailability,
+  agentSlackMentionCode,
 });
 
 const pageTitle = computed(
@@ -66,6 +73,7 @@ const pageTitle = computed(
 
 const uiFlags = useMapGetter('agents/getUIFlags');
 const getCustomRoles = useMapGetter('customRole/getCustomRoles');
+const appIntegrations = useMapGetter('integrations/getAppIntegrations');
 
 const roles = computed(() => {
   const defaultRoles = [
@@ -122,6 +130,7 @@ const editAgent = async () => {
       id: props.id,
       name: agentName.value,
       availability: agentAvailability.value,
+      slack_mention_code: agentSlackMentionCode.value,
     };
 
     if (selectedRole.value.name.startsWith('custom_')) {
@@ -147,6 +156,10 @@ const resetPassword = async () => {
     useAlert(t('AGENT_MGMT.EDIT.PASSWORD_RESET.ERROR_MESSAGE'));
   }
 };
+
+const slackEnabled = computed(() =>
+  appIntegrations.value.some(integration => integration.id === 'slack' && integration.enabled)
+);
 </script>
 
 <template>
@@ -197,6 +210,17 @@ const resetPassword = async () => {
           <span v-if="v$.agentAvailability.$error" class="message">
             {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_AVAILABILITY.ERROR') }}
           </span>
+        </label>
+      </div>
+      <div class="w-full" v-if="slackEnabled">
+        <label :class="{ error: v$.agentSlackMentionCode.$error }">
+          {{ $t('AGENT_MGMT.EDIT.FORM.SLACK_MENTION_CODE.LABEL') }}
+          <input
+            v-model="agentSlackMentionCode"
+            type="text"
+            :placeholder="$t('AGENT_MGMT.EDIT.FORM.SLACK_MENTION_CODE.PLACEHOLDER')"
+            @input="v$.agentSlackMentionCode.$touch"
+          />
         </label>
       </div>
 

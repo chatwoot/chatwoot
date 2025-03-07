@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "مجاز به تعیین خودکار برای این تیم."
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "کد اشاره به Slack",
+        "PLACEHOLDER": "مثال: U11D91NUR"
+      },
       "SUBMIT_CREATE": "ایجاد تیم"
     }
   }

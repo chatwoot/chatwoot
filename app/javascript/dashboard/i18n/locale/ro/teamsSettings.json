@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "Permiteți atribuirea automată pentru această echipă."
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "Codul de menționare Slack",
+        "PLACEHOLDER": "Exemplu: U11D91NUR"
+      },
       "SUBMIT_CREATE": "Creați o echipă"
     }
   }

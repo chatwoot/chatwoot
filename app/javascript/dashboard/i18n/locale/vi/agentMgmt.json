@@ -39,6 +39,10 @@
           "LABEL": "Email",
           "PLACEHOLDER": "Vui lòng nhập email"
         },
+        "SLACK_MENTION_CODE": {
+          "LABEL": "Slack Mention Code",
+          "PLACEHOLDER": "Vui lòng nhập mã Slack của nhà cung cấp"
+        },
         "SUBMIT": "Thêm nhà cung cấp"
       },
       "API": {
@@ -75,6 +79,10 @@
         "EMAIL": {
           "LABEL": "Emails",
           "PLACEHOLDER": "Vui lòng nhập email"
+        },
+        "SLACK_MENTION_CODE": {
+          "LABEL": "Slack Mention Code",
+          "PLACEHOLDER": "Vui lòng nhập mã Slack của nhà cung cấp"
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "Khả dụng",

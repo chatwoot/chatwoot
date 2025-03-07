@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "Automatische Zuweisung in diesem Team aktivieren."
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "Slack-Mentionscode",
+        "PLACEHOLDER": "Beispiel: U11D91NUR"
+      },
       "SUBMIT_CREATE": "Neues Team erstellen"
     }
   }

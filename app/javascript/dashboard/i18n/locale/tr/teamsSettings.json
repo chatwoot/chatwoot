@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "Bu ekip için otomatik atamayı etkinleştir."
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "Slack bahsetme kodu",
+        "PLACEHOLDER": "Örneğin: U11D91NUR"
+      },
       "SUBMIT_CREATE": "Ekip oluştur"
     }
   }

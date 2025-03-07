@@ -39,6 +39,10 @@
           "LABEL": "عنوان البريد الإلكتروني",
           "PLACEHOLDER": "الرجاء إدخال عنوان البريد الإلكتروني للوكيل"
         },
+        "SLACK_MENTION_CODE": {
+          "LABEL": "رمز الإشارة على Slack",
+          "PLACEHOLDER": "الرجاء إدخال رمز الإشارة على Slack للوكيل"
+        },
         "SUBMIT": "إضافة وكيل"
       },
       "API": {
@@ -75,6 +79,10 @@
         "EMAIL": {
           "LABEL": "عنوان البريد الإلكتروني",
           "PLACEHOLDER": "الرجاء إدخال عنوان البريد الإلكتروني للوكيل"
+        },
+        "SLACK_MENTION_CODE": {
+          "LABEL": "رمز الإشارة على Slack",
+          "PLACEHOLDER": "الرجاء إدخال رمز الإشارة على Slack للوكيل"
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "التوفر",

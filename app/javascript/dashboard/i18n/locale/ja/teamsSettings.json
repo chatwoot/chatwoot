@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "このチームで自動割り当てを許可する"
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "Slackでのメンションコード",
+        "PLACEHOLDER": "例: U11D91NUR"
+      },
       "SUBMIT_CREATE": "チームを作成"
     }
   }

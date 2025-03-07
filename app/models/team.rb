@@ -2,13 +2,14 @@
 #
 # Table name: teams
 #
-#  id                :bigint           not null, primary key
-#  allow_auto_assign :boolean          default(TRUE)
-#  description       :text
-#  name              :string           not null
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  account_id        :bigint           not null
+#  id                 :bigint           not null, primary key
+#  allow_auto_assign  :boolean          default(TRUE)
+#  description        :text
+#  name               :string           not null
+#  slack_mention_code :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  account_id         :bigint           not null
 #
 # Indexes
 #
@@ -17,6 +18,7 @@
 #
 class Team < ApplicationRecord
   include AccountCacheRevalidator
+  include SlackMentionable
 
   belongs_to :account
   has_many :team_members, dependent: :destroy_async

@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "Cho phép tự động phân công đối với nhóm này."
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "Mã nhắc nhở trên Slack",
+        "PLACEHOLDER": "VD: U11D91NUR"
+      },
       "SUBMIT_CREATE": "Tạo nhóm"
     }
   }

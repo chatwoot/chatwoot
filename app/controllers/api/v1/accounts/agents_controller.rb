@@ -13,6 +13,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
       email: new_agent_params['email'],
       name: new_agent_params['name'],
       role: new_agent_params['role'],
+      slack_mention_code: new_agent_params['slack_mention_code'],
       availability: new_agent_params['availability'],
       auto_offline: new_agent_params['auto_offline'],
       inviter: current_user,
@@ -23,7 +24,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def update
-    @agent.update!(agent_params.slice(:name).compact)
+    @agent.update!(agent_params.slice(:name, :slack_mention_code).compact)
     @agent.current_account_user.update!(agent_params.slice(*account_user_attributes).compact)
   end
 
@@ -72,15 +73,15 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def allowed_agent_params
-    [:name, :email, :role, :availability, :auto_offline]
+    [:name, :email, :role, :availability, :auto_offline, :slack_mention_code]
   end
 
   def agent_params
-    params.require(:agent).permit(allowed_agent_params)
+    params.require(:agent).permit(*allowed_agent_params)
   end
 
   def new_agent_params
-    params.require(:agent).permit(:email, :name, :role, :availability, :auto_offline)
+    params.require(:agent).permit(:email, :name, :role, :availability, :auto_offline, :slack_mention_code)
   end
 
   def agents

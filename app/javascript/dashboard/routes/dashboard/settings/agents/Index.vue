@@ -263,6 +263,7 @@ const confirmDeletion = () => {
         :email="currentAgent.email"
         :availability="currentAgent.availability_status"
         :custom-role-id="currentAgent.custom_role_id"
+        :slack-mention-code="currentAgent.slack_mention_code"
         @close="hideEditPopup"
       />
     </woot-modal>

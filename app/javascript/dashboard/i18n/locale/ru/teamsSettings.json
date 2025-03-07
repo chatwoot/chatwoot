@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "Разрешить автоматическое назначение для этой команды."
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "Код упоминания в Slack",
+        "PLACEHOLDER": "Пример: U11D91NUR"
+      },
       "SUBMIT_CREATE": "Создать команду"
     }
   }

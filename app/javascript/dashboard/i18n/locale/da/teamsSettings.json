@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "Tillad automatisk tildeling af dette team."
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "Slack nævningskode",
+        "PLACEHOLDER": "Eksempel: U11D91NUR"
+      },
       "SUBMIT_CREATE": "Opret team"
     }
   }

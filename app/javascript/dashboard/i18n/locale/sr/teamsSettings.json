@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "Dozvoli automatsku dodelu ovom timu."
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "Kod za pominjanje na Slack-u",
+        "PLACEHOLDER": "Primer: U11D91NUR"
+      },
       "SUBMIT_CREATE": "Napravi tim"
     }
   }

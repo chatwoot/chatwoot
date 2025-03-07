@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "Permitir atribuição automática para este time."
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "Código de menção do Slack",
+        "PLACEHOLDER": "Exemplo: U11D91NUR"
+      },
       "SUBMIT_CREATE": "Criar novo time"
     }
   }

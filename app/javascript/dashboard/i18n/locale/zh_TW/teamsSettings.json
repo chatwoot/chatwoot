@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "允許在團隊中自動指派"
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "Slack 提及代碼",
+        "PLACEHOLDER": "Example: U11D91NUR"
+      },
       "SUBMIT_CREATE": "建立團隊"
     }
   }

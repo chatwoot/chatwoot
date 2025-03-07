@@ -39,6 +39,10 @@
           "LABEL": "Email Address",
           "PLACEHOLDER": "Please enter an email address of the agent"
         },
+        "SLACK_MENTION_CODE": {
+          "LABEL": "رمز الإشارة على Slack",
+          "PLACEHOLDER": "الرجاء إدخال رمز الإشارة على Slack للوكيل"
+        },
         "SUBMIT": "Add Agent"
       },
       "API": {
@@ -75,6 +79,10 @@
         "EMAIL": {
           "LABEL": "Email Address",
           "PLACEHOLDER": "Please enter an email address of the agent"
+        },
+        "SLACK_MENTION_CODE": {
+          "LABEL": "رمز الإشارة على Slack",
+          "PLACEHOLDER": "الرجاء إدخال رمز الإشارة على Slack للوكيل"
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "Availability",

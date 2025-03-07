@@ -131,7 +131,7 @@
     "histoire": "0.17.15",
     "husky": "^7.0.0",
     "jsdom": "^24.1.3",
-    "lint-staged": "14.0.1",
+    "lint-staged": "^14.0.1",
     "postcss": "^8.4.47",
     "postcss-preset-env": "^8.5.1",
     "prettier": "^3.3.3",

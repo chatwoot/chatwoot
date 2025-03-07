@@ -31,7 +31,7 @@ module Integrations::Slack::SlackMessageHelper
       message_type: :outgoing,
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
-      content: Slack::Messages::Formatting.unescape(params[:event][:text] || ''),
+      content: text_message.to_s,
       external_source_id_slack: params[:event][:ts],
       private: private_note?,
       sender: sender
@@ -85,6 +85,27 @@ module Integrations::Slack::SlackMessageHelper
   end
 
   def private_note?
-    params[:event][:text].strip.downcase.starts_with?('note:', 'private:')
+    text_message.strip.downcase.starts_with?('note:', 'private:') || @has_mention
+  end
+
+  def text_message
+    return @text_message if defined?(@text_message)
+
+    @text_message = Slack::Messages::Formatting.unescape(params[:event][:text])
+    load_mentions(@text_message)
+    return @text_message
+  end
+
+  def load_mentions(text)
+    mention_codes = text.scan(/(@(?:subteam\^)?([\w]+))/).to_h
+    user_codes = User.where(slack_mention_code: mention_codes.values).index_by(&:slack_mention_code)
+    team_codes = Team.where(slack_mention_code: mention_codes.values).index_by(&:slack_mention_code)
+
+    @has_mention = user_codes.present? || team_codes.present?
+
+    mention_codes.map do |original, code|
+      markdown_link = user_codes[code]&.markdown_link || team_codes[code]&.markdown_link || original
+      text.gsub!(original, markdown_link)
+    end
   end
 end

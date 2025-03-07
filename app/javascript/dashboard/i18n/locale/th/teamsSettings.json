@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "เปิดใช้การมอบหมายงานอัตโนมัติสำหรับทีมนี้"
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "รหัสการอ้างอิงใน Slack",
+        "PLACEHOLDER": "ตัวอย่าง: U11D91NUR"
+      },
       "SUBMIT_CREATE": "สร้างทีม"
     }
   }

@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "Consenti l'assegnazione automatica per questo team."
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "Codice di menzione Slack",
+        "PLACEHOLDER": "Esemio: U11D91NUR"
+      },
       "SUBMIT_CREATE": "Crea un nuovo team"
     }
   }

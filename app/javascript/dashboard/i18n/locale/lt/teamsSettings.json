@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "Leisti automatiškai priskirti šiai komandai."
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "Slack paminėjimo kodas",
+        "PLACEHOLDER": "Pavyzdys: U11D91NUR"
+      },
       "SUBMIT_CREATE": "Sukurti komandą"
     }
   }

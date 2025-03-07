@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "Włącz automatyczne przypisywanie dla tego zespołu."
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "Kod wzmianki na Slacku",
+        "PLACEHOLDER": "Przykład: U11D91NUR"
+      },
       "SUBMIT_CREATE": "Utwórz zespół"
     }
   }

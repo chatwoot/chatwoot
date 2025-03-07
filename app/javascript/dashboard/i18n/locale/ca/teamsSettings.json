@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "Permet l'assignació automàtica d'aquest equip."
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "Codi de menció de Slack",
+        "PLACEHOLDER": "Exemple: U11D91NUR"
+      },
       "SUBMIT_CREATE": "Crea l'equip"
     }
   }

@@ -14,6 +14,7 @@ import {
 import CannedResponse from '../conversation/CannedResponse.vue';
 import KeyboardEmojiSelector from './keyboardEmojiSelector.vue';
 import TagAgents from '../conversation/TagAgents.vue';
+import TagTeams from '../conversation/TagTeams.vue';
 import VariableList from '../conversation/VariableList.vue';
 
 import { useEmitter } from 'dashboard/composables/emitter';
@@ -87,6 +88,7 @@ const emit = defineEmits([
   'typingOn',
   'typingOff',
   'toggleUserMention',
+  'toggleTeamMention',
   'toggleCannedMenu',
   'toggleVariablesMenu',
   'clearSelection',
@@ -137,6 +139,7 @@ let editorView = null;
 let state = null;
 
 const showUserMentions = ref(false);
+const showTeamMentions = ref(false);
 const showCannedMenu = ref(false);
 const showVariables = ref(false);
 const showEmojiMenu = ref(false);
@@ -223,6 +226,11 @@ const plugins = computed(() => {
       isAllowed: () => props.isPrivate,
     }),
     createSuggestionPlugin({
+      trigger: '#',
+      showMenu: showTeamMentions,
+      searchTerm: mentionSearchKey,
+    }),
+    createSuggestionPlugin({
       trigger: '/',
       showMenu: showCannedMenu,
       searchTerm: cannedSearchTerm,
@@ -255,6 +263,9 @@ const sendWithSignature = computed(() => {
 
 watch(showUserMentions, updatedValue => {
   emit('toggleUserMention', props.isPrivate && updatedValue);
+});
+watch(showTeamMentions, updatedValue => {
+  emit('toggleTeamMention', props.isPrivate && updatedValue);
 });
 watch(showCannedMenu, updatedValue => {
   emit('toggleCannedMenu', !props.isPrivate && updatedValue);
@@ -535,6 +546,7 @@ function insertSpecialContent(type, content) {
 
   const event_map = {
     mention: CONVERSATION_EVENTS.USED_MENTIONS,
+    teamMention: CONVERSATION_EVENTS.USED_TEAM_MENTIONS,
     cannedResponse: CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE,
     variable: CONVERSATION_EVENTS.INSERTED_A_VARIABLE,
     emoji: CONVERSATION_EVENTS.INSERTED_AN_EMOJI,
@@ -683,6 +695,11 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
       v-if="showUserMentions && isPrivate"
       :search-key="mentionSearchKey"
       @select-agent="content => insertSpecialContent('mention', content)"
+    />
+    <TagTeams
+      v-if="showTeamMentions && isPrivate"
+      :search-key="mentionSearchKey"
+      @select-team="content => insertSpecialContent('teamMention', content)"
     />
     <CannedResponse
       v-if="shouldShowCannedResponses"

@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "אפשר הקצאה אוטומטית עבור הצוות הזה."
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "קוד הזכירה ב-Slack",
+        "PLACEHOLDER": "קוד הזכירה ב-Slack"
+      },
       "SUBMIT_CREATE": "צור צוות"
     }
   }

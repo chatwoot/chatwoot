@@ -115,6 +115,10 @@
       "AUTO_ASSIGN": {
         "LABEL": "السماح بالتكليف التلقائي لهذا الفريق."
       },
+      "SLACK_MENTION_CODE": {
+        "LABEL": "رمز الإشارة على Slack",
+        "PLACEHOLDER": "على سبيل المثال: U11D91NUR"
+      },
       "SUBMIT_CREATE": "إنشاء فريق جديد"
     }
   }
