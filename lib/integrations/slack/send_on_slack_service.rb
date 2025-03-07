@@ -205,6 +205,14 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
     "<#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{conversation.account_id}/conversations/#{conversation.display_id}|Click here>"
   end
 
+  def slack_mention(code)
+    if code.start_with?('U', 'W')
+      "<@#{code}>"
+    elsif code.start_with?('S')
+      "<!subteam^#{code}>"
+    end
+  end
+
   # Determines whether the conversation identifier should be updated with the ts value.
   # The identifier should be updated in the following cases:
   # - If the conversation identifier is blank, it means a new conversation is being created.

@@ -231,6 +231,11 @@ const plugins = computed(() => {
       searchTerm: mentionSearchKey,
     }),
     createSuggestionPlugin({
+      trigger: '#',
+      showMenu: showTeamMentions,
+      searchTerm: mentionSearchKey,
+    }),
+    createSuggestionPlugin({
       trigger: '/',
       showMenu: showCannedMenu,
       searchTerm: cannedSearchTerm,
