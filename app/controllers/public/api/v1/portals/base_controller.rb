@@ -1,4 +1,6 @@
 class Public::Api::V1::Portals::BaseController < PublicController
+  include SwitchLocale
+
   before_action :show_plain_layout
   before_action :set_color_scheme
   before_action :set_global_config
@@ -44,21 +46,6 @@ class Public::Api::V1::Portals::BaseController < PublicController
                      end
     @locale = validate_and_get_locale(article_locale)
     I18n.with_locale(@locale, &)
-  end
-
-  def validate_and_get_locale(locale)
-    return I18n.default_locale.to_s if locale.blank?
-
-    available_locales = I18n.available_locales.map(&:to_s)
-    locale_without_variant = locale.split('_')[0]
-
-    if available_locales.include?(locale)
-      locale
-    elsif available_locales.include?(locale_without_variant)
-      locale_without_variant
-    else
-      I18n.default_locale.to_s
-    end
   end
 
   def allow_iframe_requests
