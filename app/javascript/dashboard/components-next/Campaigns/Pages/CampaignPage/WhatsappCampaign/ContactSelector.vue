@@ -13,6 +13,8 @@ import { useAlert } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
 import Spinner from 'shared/components/Spinner.vue';
 import ContactsAPI from 'dashboard/api/contacts';
+import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
+import ContactsFilter from 'dashboard/components-next/filter/ContactsFilter.vue';
 
 const props = defineProps({
   contacts: {
@@ -64,10 +66,11 @@ const loadingMoreFiltered = ref(false);
 
 const appliedFilters = ref([
   {
-    attribute_key: 'name',
-    filter_operator: 'equal_to',
+    attributeKey: 'name',
+    filterOperator: 'equal_to',
     values: '',
-    query_operator: 'and',
+    queryOperator: 'and',
+    attributeModel: 'standard',
   },
 ]);
 
@@ -128,12 +131,12 @@ const standardFilterTypes = [
       { value: 'does_not_contain', label: 'Does not contain' },
     ],
   },
-  {
-    attributeKey: 'country_code',
-    attributeI18nKey: 'COUNTRY',
-    inputType: 'text',
-    filterOperators: [{ value: 'equal_to', label: 'Equals' }],
-  },
+  // {
+  //   attributeKey: 'country_code',
+  //   attributeI18nKey: 'COUNTRY',
+  //   inputType: 'text',
+  //   filterOperators: [{ value: 'equal_to', label: 'Equals' }],
+  // },
 ];
 
 const customAttributes = computed(() =>
@@ -301,21 +304,6 @@ const selectAll = async () => {
   }
 };
 
-const appendNewFilter = () => {
-  appliedFilters.value.push({
-    attribute_key: 'name',
-    filter_operator: 'equal_to',
-    values: '',
-    query_operator: 'and',
-  });
-};
-
-const removeFilter = index => {
-  if (appliedFilters.value.length > 1) {
-    appliedFilters.value.splice(index, 1);
-  }
-};
-
 const submitFilters = async () => {
   try {
     contactList.value = [];
@@ -324,16 +312,20 @@ const submitFilters = async () => {
 
     const formattedFilters = appliedFilters.value
       .filter(filter => filter.values.trim() !== '')
-      .map((filter, index, filteredArray) => ({
-        attribute_key: filter.attribute_key,
-        attribute_model: filter.attributeModel || 'standard',
-        custom_attribute_type: '',
-        filter_operator: filter.filter_operator,
-        ...(filteredArray.length > 1 && index < filteredArray.length - 1
-          ? { query_operator: filter.query_operator }
-          : {}),
-        values: [filter.values.trim()],
-      }));
+      .map((filter, index, filteredArray) => {
+        const baseFilter = {
+          attributeKey: filter.attributeKey,
+          attributeModel: filter.attributeModel || 'standard',
+          filterOperator: filter.filterOperator,
+          values: [filter.values.trim()],
+        };
+
+        if (filteredArray.length > 1 && index < filteredArray.length - 1) {
+          baseFilter.queryOperator = filter.queryOperator;
+        }
+
+        return useSnakeCase(baseFilter);
+      });
 
     if (formattedFilters.length === 0) {
       await fetchContacts(1);
@@ -381,10 +373,11 @@ const submitFilters = async () => {
 const clearFilters = async () => {
   appliedFilters.value = [
     {
-      attribute_key: 'name',
-      filter_operator: 'equal_to',
+      attributeKey: 'name',
+      filterOperator: 'equal_to',
       values: '',
-      query_operator: 'and',
+      queryOperator: 'and',
+      attributeModel: 'standard',
     },
   ];
   contactList.value = [];
@@ -419,16 +412,20 @@ const loadMoreFilteredContacts = async () => {
 
       const formattedFilters = appliedFilters.value
         .filter(filter => filter.values.trim() !== '')
-        .map((filter, index, filteredArray) => ({
-          attribute_key: filter.attribute_key,
-          attribute_model: filter.attributeModel || 'standard',
-          custom_attribute_type: '',
-          filter_operator: filter.filter_operator,
-          ...(filteredArray.length > 1 && index < filteredArray.length - 1
-            ? { query_operator: filter.query_operator }
-            : {}),
-          values: [filter.values.trim()],
-        }));
+        .map((filter, index, filteredArray) => {
+          const baseFilter = {
+            attributeKey: filter.attributeKey,
+            attributeModel: filter.attributeModel || 'standard',
+            filterOperator: filter.filterOperator,
+            values: [filter.values.trim()],
+          };
+
+          if (filteredArray.length > 1 && index < filteredArray.length - 1) {
+            baseFilter.queryOperator = filter.queryOperator;
+          }
+
+          return useSnakeCase(baseFilter);
+        });
 
       const queryPayload = { payload: formattedFilters };
       const { data } = await ContactsAPI.filter(
@@ -648,127 +645,60 @@ defineExpose({
         })
       }}
     </div>
-
-    <!-- Filters Modal -->
     <woot-modal
       :show="showFiltersModal"
-      :close-on-click-outside="false"
-      @close="showFiltersModal = false"
       size="medium"
+      class="contacts-filter-modal"
     >
-      <div class="filters-modal" @click.stop>
-        <div class="filters-header">
-          <h3>{{ t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.FILTER_TITLE') }}</h3>
-          <p class="filters-subtitle">
-            {{ t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.FILTER_SUBTITLE') }}
-          </p>
-        </div>
-        <div class="filters-content">
-          <div
-            v-for="(filter, index) in appliedFilters"
-            :key="index"
-            class="filter-row"
-          >
-            <select v-model="filter.attribute_key" class="filter-attribute">
-              <optgroup label="Standard Filters">
-                <option
-                  v-for="type in standardFilterTypes"
-                  :key="type.attributeKey"
-                  :value="type.attributeKey"
-                >
-                  {{ type.attributeKey }}
-                </option>
-              </optgroup>
-              <optgroup label="Custom Attributes">
-                <option
-                  v-for="type in customFilterTypes"
-                  :key="type.attributeKey"
-                  :value="type.attributeKey"
-                >
-                  {{ type.attributeKey }}
-                </option>
-              </optgroup>
-            </select>
-            <select v-model="filter.filter_operator" class="filter-operator">
-              <option
-                v-for="operator in getFilterOperators(filter.attribute_key)"
-                :key="operator.value"
-                :value="operator.value"
-              >
-                {{ operator.label }}
-              </option>
-            </select>
-            <input
-              v-model="filter.values"
-              type="text"
-              class="filter-value"
-              :placeholder="
-                t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.FILTER_VALUE_PLACEHOLDER')
-              "
-            />
-            <woot-button
-              v-if="appliedFilters.length > 1"
-              icon="delete"
-              size="medium"
-              color-scheme="alert"
-              class="remove-filter"
-              @click.stop="removeFilter(index)"
-            />
-          </div>
-          <woot-button
-            icon="add-circle"
-            size="large"
-            color-scheme="success"
-            @click.stop="appendNewFilter"
-          >
-            {{ t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.ADD_FILTER') }}
-          </woot-button>
-        </div>
-        <div class="filters-footer">
-          <woot-button
-            size="large"
-            color-scheme="secondary"
-            @click.stop="clearFilters"
-          >
-            {{ t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.CLEAR') }}
-          </woot-button>
-          <woot-button
-            size="large"
-            color-scheme="primary"
-            @click.stop="submitFilters"
-          >
-            {{ t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.APPLY') }}
-          </woot-button>
-        </div>
-      </div>
+      <ContactsFilter
+        v-if="showFiltersModal"
+        v-model="appliedFilters"
+        class="w-full"
+        @apply-filter="submitFilters"
+        @clear-filters="clearFilters"
+        @close="showFiltersModal = false"
+      />
     </woot-modal>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.contacts-filter-modal {
+  :deep(.modal-container) {
+    overflow: visible;
+    max-height: none !important;
+
+    .modal-content {
+      overflow: visible;
+      max-height: none;
+      min-height: auto;
+    }
+  }
+}
+
 .contact-selector {
   @apply flex flex-col h-full;
 
   .search-header {
     @apply flex items-center justify-between p-4 border-b;
-    background-color: #f8f9fa; /* Light gray background for light mode */
-    border-color: #e2e8f0; /* Light gray border for light mode */
-    @apply dark:bg-[#23242b] dark:border-[#23242b]; /* Dark mode styles */
+    background-color: #f8f9fa;
+    border-color: #e2e8f0;
+    @apply dark:bg-[#23242b] dark:border-[#23242b];
 
     .search-controls {
       @apply flex items-center gap-2;
 
       .search-input {
         @apply w-64 px-3 py-2 border rounded;
-        background-color: #ffffff; /* White background for light mode */
-        border-color: #d1d5db; /* Light gray border for light mode */
-        color: #000000; /* Black text for light mode */
-        @apply dark:bg-[#23242b] dark:border-[#4a5568] dark:text-[#ffffff]; /* Dark mode styles */
+        background-color: #ffffff;
+        border-color: #d1d5db;
+        color: #000000;
+        @apply dark:bg-[#23242b] dark:border-[#4a5568] dark:text-[#ffffff];
         &::placeholder {
-          color: #a0a0a0; /* Light gray placeholder for both modes */
+          color: #a0a0a0;
         }
         &:focus {
-          @apply outline-none ring-2 ring-slate-500; /* Focus ring */
+          @apply outline-none ring-2 ring-slate-500;
         }
       }
 
@@ -785,25 +715,25 @@ defineExpose({
 
         button {
           @apply px-3 py-1 text-sm border rounded;
-          background-color: #ffffff; /* White background for light mode */
+          background-color: #ffffff;
           border-color: #e2e8f0;
-          color: #000000; /* Black text for light mode */
-          @apply dark:bg-[#23242b] dark:border-[#4a5568] dark:text-[#ffffff]; /* Dark mode styles */
+          color: #000000;
+          @apply dark:bg-[#23242b] dark:border-[#4a5568] dark:text-[#ffffff];
           &:hover {
-            @apply bg-slate-50 dark:bg-[#2d2e33]; /* Hover effects */
+            @apply bg-slate-50 dark:bg-[#2d2e33];
           }
         }
       }
 
       .select-visible-checkbox {
         @apply flex items-center mt-4 text-sm;
-        color: #000000; /* Black text for light mode */
-        @apply dark:text-[#ffffff]; /* White text for dark mode */
+        color: #000000;
+        @apply dark:text-[#ffffff];
         input[type='checkbox'] {
           @apply w-4 h-4 cursor-pointer;
-          accent-color: #0078d4; /* Blue checkbox fill */
-          border-color: #d1d5db; /* Light gray border for light mode */
-          @apply dark:border-[#4a5568]; /* Dark mode border */
+          accent-color: #0078d4;
+          border-color: #d1d5db;
+          @apply dark:border-[#4a5568];
         }
       }
     }
@@ -811,29 +741,30 @@ defineExpose({
 
   .loading-state {
     @apply flex flex-col items-center justify-center p-8;
-    background-color: #f8f9fa; /* Light gray background for light mode */
-    color: #a0a0a0; /* Light gray text for both modes */
+    background-color: #f8f9fa;
+    color: #a0a0a0;
     min-height: 200px;
-    @apply dark:bg-[#1b1c21]; /* Dark mode background */
+    @apply dark:bg-[#1b1c21];
   }
 
   .contacts-list {
     @apply flex-1 overflow-y-auto;
-    background-color: #ffffff; /* White background for light mode */
+    background-color: #ffffff;
     max-height: 400px;
-    @apply dark:bg-[#1b1c21]; /* Dark mode background */
+    min-height: 150px;
+    @apply dark:bg-[#1b1c21];
 
     .contact-item {
       @apply flex items-center justify-between p-3 cursor-pointer border-b;
-      border-color: #e2e8f0; /* Light gray border for light mode */
-      @apply dark:border-[#23242b]; /* Dark mode border */
+      border-color: #e2e8f0;
+      @apply dark:border-[#23242b];
       &:hover {
-        background-color: #f1f5f9; /* Light gray hover for light mode */
-        @apply dark:bg-n-solid-3; /* Dark mode hover */
+        background-color: #f1f5f9;
+        @apply dark:bg-n-solid-3;
       }
       &.selected {
-        background-color: #e2e8f0; /* Light gray selected state for light mode */
-        @apply dark:bg-n-solid-3; /* Dark mode selected state */
+        background-color: #e2e8f0;
+        @apply dark:bg-n-solid-3;
       }
 
       .contact-info {
@@ -841,112 +772,42 @@ defineExpose({
 
         .contact-name {
           @apply font-medium;
-          color: #000000; /* Black text for light mode */
-          @apply dark:text-[#ffffff]; /* White text for dark mode */
+          color: #000000;
+          @apply dark:text-[#ffffff];
         }
 
         .contact-phone,
         .contact-email {
           @apply text-sm;
-          color: #4b5563; /* Dark gray for light mode */
-          @apply dark:text-[#a0a0a0]; /* Light gray for dark mode */
+          color: #4b5563;
+          @apply dark:text-[#a0a0a0];
         }
       }
 
       input[type='checkbox'] {
         @apply w-4 h-4 cursor-pointer;
-        accent-color: #0078d4; /* Blue checkbox fill */
-        border-color: #d1d5db; /* Light gray border for light mode */
-        @apply dark:border-[#4a5568]; /* Dark mode border */
+        accent-color: #0078d4;
+        border-color: #d1d5db;
+        @apply dark:border-[#4a5568];
       }
     }
 
     .loading-trigger {
       @apply p-4 text-center;
-      color: #a0a0a0; /* Light gray text for both modes */
+      color: #a0a0a0;
       &.is-loading {
-        background-color: #f1f5f9; /* Light gray loading state for light mode */
-        @apply dark:bg-[#23242b]; /* Dark mode loading state */
+        background-color: #f1f5f9;
+        @apply dark:bg-[#23242b];
       }
     }
   }
 
   .selection-summary {
     @apply p-4 text-sm font-medium;
-    background-color: #f8f9fa; /* Light gray background for light mode */
-    color: #000000; /* Black text for light mode */
-    border-top: 1px solid #e2e8f0; /* Light gray border for light mode */
-    @apply dark:bg-[#23242b] dark:text-[#ffffff] dark:border-[#23242b]; /* Dark mode styles */
-  }
-
-  .filters-modal {
-    @apply p-6;
-    background-color: #ffffff; /* White background for light mode */
-    @apply dark:bg-[#1b1c21]; /* Dark mode background */
-
-    .filters-header {
-      @apply mb-6 p-4 rounded;
-      background-color: #ffffff; /* Light gray header for light mode */
-      @apply dark:bg-[#1b1c21]; /* Dark mode header */
-
-      h3 {
-        @apply text-lg font-medium;
-        color: #000000; /* Black text for light mode */
-        @apply dark:text-[#ffffff]; /* White text for dark mode */
-      }
-
-      .filters-subtitle {
-        @apply mt-1 text-sm;
-        color: #4b5563; /* Dark gray for light mode */
-        @apply dark:text-[#a0a0a0]; /* Light gray for dark mode */
-      }
-    }
-
-    .filters-content {
-      @apply space-y-4;
-
-      .filter-row {
-        @apply flex items-center gap-2;
-
-        select,
-        input {
-          @apply px-3 py-2 border rounded;
-          background-color: #ffffff; /* White background for light mode */
-          border-color: #d1d5db; /* Light gray border for light mode */
-          color: #000000; /* Black text for light mode */
-          @apply dark:bg-[#23242b] dark:border-[#4a5568] dark:text-[#ffffff]; /* Dark mode styles */
-          &:focus {
-            @apply outline-none ring-2;
-            ring-color: #e2e8f0; /* Light gray ring for light mode */
-            @apply dark:ring-[#1b1c21]; /* Dark mode ring */
-          }
-        }
-        select {
-          /* Reduce the horizontal width */
-          @apply min-w-[100px] w-auto; /* Adjust this value to your desired size */
-        }
-
-        .filter-attribute,
-        .filter-operator {
-          @apply flex-shrink-0;
-          padding-right: 1.5rem;
-          width: 230px;
-        }
-
-        .filter-value {
-          @apply flex-1;
-          width: 230px;
-        }
-
-        .remove-filter {
-          @apply relative top-[-8px];
-        }
-      }
-    }
-
-    .filters-footer {
-      @apply flex justify-end gap-3 mt-6;
-    }
+    background-color: #f8f9fa;
+    color: #000000;
+    border-top: 1px solid #e2e8f0;
+    @apply dark:bg-[#23242b] dark:text-[#ffffff] dark:border-[#23242b];
   }
 }
 </style>
