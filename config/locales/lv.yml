@@ -68,6 +68,8 @@ lv:
       invalid_operator: Nederīgs operators. Atļautie operatori priekš %{attribute_name} ir [%{allowed_keys}].
       invalid_query_operator: Vaicājuma operatoram ir jābūt "UN" vai "VAI".
       invalid_value: Nederīga vērtība. Norādītās vērtības priekš %{attribute_name} nav derīgas
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
     period: Ziņošanas periods %{since} līdz %{until}
     utc_warning: Izveidotais pārskats atbilst UTC laika joslai

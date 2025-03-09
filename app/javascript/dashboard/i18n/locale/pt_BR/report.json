@@ -471,7 +471,7 @@
       "NO_AGENTS": "Não há conversas por agentes",
       "TABLE_HEADER": {
         "AGENT": "Agente",
-        "OPEN": "Abertas",
+        "OPEN": "Abrir",
         "UNATTENDED": "Não atendidas",
         "STATUS": "Situação"
       }
@@ -509,7 +509,7 @@
         "SLA": "Nome do SLA",
         "AGENTS": "Nome do Agente",
         "INBOXES": "Nome da Caixa de Entrada",
-        "LABELS": "Nome do marcador",
+        "LABELS": "Nome da etiqueta",
         "TEAMS": "Nome da equipe"
       },
       "SLA": "Política SLA",
