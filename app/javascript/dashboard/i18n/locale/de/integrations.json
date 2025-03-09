@@ -12,7 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Abonnierte Events",
-      "LEARN_MORE": "Learn more about webhooks",
+      "LEARN_MORE": "Mehr über Webhooks erfahren",
       "FORM": {
         "CANCEL": "Stornieren",
         "DESC": "Webhook-Ereignisse bieten Ihnen Echtzeitinformationen darüber, was in Ihrem Chatwoot-Konto passiert. Bitte geben Sie eine gültige URL ein, um einen Rückruf zu konfigurieren.",
@@ -31,7 +31,7 @@
         },
         "END_POINT": {
           "LABEL": "Webhook-URL",
-          "PLACEHOLDER": "Example: {webhookExampleURL}",
+          "PLACEHOLDER": "Beispiel: {webhookExampleURL}",
           "ERROR": "Bitte geben Sie eine gültige URL ein"
         },
         "EDIT_SUBMIT": "Webhook aktualisieren",
@@ -114,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI-Assistent",
-      "WITH_AI": " {option} with AI ",
+      "WITH_AI": " {option} mit KI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Antwortvorschlag",
         "SUMMARIZE": "Zusammenfassen",
@@ -235,7 +235,7 @@
         "ERROR": "Beim Abrufen der linearen Probleme ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
         "LINK_SUCCESS": "Problem erfolgreich verknüpft",
         "LINK_ERROR": "Beim Verknüpfen des Problems ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
-        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+        "LINK_TITLE": "Unterhaltung (#{conversationId}) mit {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Lineares Problem erstellen/verknüpfen",
@@ -294,7 +294,7 @@
         "PRIORITY": "Priorität",
         "ASSIGNEE": "Zugewiesener",
         "LABELS": "Labels",
-        "CREATED_AT": "Created at {createdAt}"
+        "CREATED_AT": "Erstellt am {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Verknüpfung aufheben",
@@ -302,8 +302,8 @@
         "ERROR": "Beim Aufheben der Verknüpfung des Problems ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
       },
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the integration?",
-        "MESSAGE": "Are you sure you want to delete the integration?",
+        "TITLE": "Sind Sie sicher, dass Sie die Integration löschen möchten?",
+        "MESSAGE": "Sind Sie sicher, dass Sie die Integration löschen möchten?",
         "CONFIRM": "Ja, löschen",
         "CANCEL": "Stornieren"
       }
@@ -313,27 +313,27 @@
     "NAME": "Kapitän",
     "COPILOT": {
       "SEND_MESSAGE": "Nachricht senden...",
-      "LOADER": "Captain is thinking",
+      "LOADER": "Captain denkt nach",
       "YOU": "Sie",
-      "USE": "Use this",
-      "RESET": "Reset",
-      "SELECT_ASSISTANT": "Select Assistant"
+      "USE": "Verwenden",
+      "RESET": "Zurücksetzen",
+      "SELECT_ASSISTANT": "Assistent auswählen"
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
+      "TITLE": "Upgrade auf Captain AI",
       "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "UPGRADE_PROMPT": "Tarif upgraden, um Zugang zu unseren Assistenten, Copilot und mehr zu erhalten.",
+      "UPGRADE_NOW": "Jetzt upgraden",
+      "CANCEL_ANYTIME": "Sie können Ihr Paket jederzeit ändern oder kündigen"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI feature is only available in a paid plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "AVAILABLE_ON": "Captain AI Funktion ist nur mit einem kostenpflichtigen Tarif verfügbar.",
+      "UPGRADE_PROMPT": "Tarif upgraden, um Zugang zu unseren Assistenten, Copilot und mehr zu erhalten.",
+      "ASK_ADMIN": "Bitte kontaktieren Sie Ihren Administrator für das Upgrade."
     },
     "BANNER": {
       "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "DOCUMENTS": "Dokumentenlimit erreicht. Upgraden um Cpatain AI weiter zu verwenden."
     },
     "FORM": {
       "CANCEL": "Stornieren",
