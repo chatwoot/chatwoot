@@ -11,8 +11,8 @@
       "CONVERSATIONS": "Диалоги",
       "MESSAGES": "Сообщения"
     },
-    "VIEW_MORE": "View more",
-    "LOAD_MORE": "Load more",
+    "VIEW_MORE": "Посмотреть больше",
+    "LOAD_MORE": "Загрузить ещё",
     "SEARCHING_DATA": "Идёт поиск",
     "LOADING_DATA": "Загрузка",
     "EMPTY_STATE": "Не найдено {item} для запроса '{query}'",
