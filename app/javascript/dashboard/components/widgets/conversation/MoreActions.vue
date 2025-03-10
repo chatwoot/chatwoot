@@ -2,6 +2,7 @@
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { emitter } from 'shared/helpers/mitt';
+
 import EmailTranscriptModal from './EmailTranscriptModal.vue';
 import ResolveAction from '../../buttons/ResolveAction.vue';
 import ButtonV4 from 'dashboard/components-next/button/Button.vue';
@@ -24,7 +25,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ currentChat: 'getSelectedChat' }),
+    ...mapGetters({
+      currentChat: 'getSelectedChat',
+      currentUser: 'getCurrentUser',
+    }),
   },
   mounted() {
     emitter.on(CMD_MUTE_CONVERSATION, this.mute);
@@ -47,6 +51,41 @@ export default {
     },
     toggleEmailActionsModal() {
       this.showEmailActionsModal = !this.showEmailActionsModal;
+    },
+    assignAgent() {
+      const {
+        account_id,
+        availability_status,
+        available_name,
+        email,
+        id,
+        name,
+        role,
+        avatar_url,
+      } = this.currentUser;
+
+      const selfAssign = {
+        account_id,
+        availability_status,
+        available_name,
+        email,
+        id,
+        name,
+        role,
+        thumbnail: avatar_url,
+      };
+
+      const agentId = selfAssign ? selfAssign.id : 0;
+      this.$store.dispatch('setCurrentChatAssignee', selfAssign);
+
+      this.$store
+        .dispatch('assignAgent', {
+          conversationId: this.currentChat.id,
+          agentId,
+        })
+        .then(() => {
+          useAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
+        });
     },
   },
 };
@@ -80,6 +119,15 @@ export default {
       icon="i-lucide-share"
       @click="toggleEmailActionsModal"
     />
+    <ButtonV4
+      v-tooltip="$t('CONTACT_PANEL.SEND_TRANSCRIPT')"
+      size="sm"
+      variant="ghost"
+      color="slate"
+      icon="i-lucide-user-round"
+      @click="assignAgent"
+    />
+
     <ResolveAction
       :conversation-id="currentChat.id"
       :status="currentChat.status"
