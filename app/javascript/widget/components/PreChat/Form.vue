@@ -311,7 +311,7 @@ export default {
     />
 
     <CustomButton
-      class="mt-2 mb-5 font-medium flex items-center justify-center gap-2"
+      class="mt-3 mb-5 font-medium flex items-center justify-center gap-2"
       block
       :bg-color="widgetColor"
       :text-color="textColor"
