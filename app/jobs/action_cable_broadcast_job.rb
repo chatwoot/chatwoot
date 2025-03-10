@@ -10,11 +10,11 @@ class ActionCableBroadcastJob < ApplicationJob
     CONVERSATION_STATUS_CHANGED
   ].freeze
 
-  def perform(members, event_name, data)
+  def perform(members, event_name, data, event_timestamp)
     return if members.blank?
 
     broadcast_data = prepare_broadcast_data(event_name, data)
-    broadcast_to_members(members, event_name, broadcast_data)
+    broadcast_to_members(members, event_name, broadcast_data, event_timestamp)
   end
 
   private
@@ -30,13 +30,17 @@ class ActionCableBroadcastJob < ApplicationJob
     conversation.push_event_data.merge(account_id: data[:account_id])
   end
 
-  def broadcast_to_members(members, event_name, broadcast_data)
+  # A timestamp is added to the broadcast data, this timestamp is
+  # generated in the main app thread when the job is enqueued.
+  # This is used as a "sequence number" to ensure we ignore out of order events
+  def broadcast_to_members(members, event_name, broadcast_data, event_timestamp)
     members.each do |member|
       ActionCable.server.broadcast(
         member,
         {
           event: event_name,
-          data: broadcast_data
+          data: broadcast_data,
+          event_timestamp: event_timestamp
         }
       )
     end

@@ -58,7 +58,8 @@ class ActionCableListener < BaseListener
     conversation, account = extract_conversation_and_account(event)
     tokens = user_tokens(account, conversation.inbox.members) + contact_inbox_tokens(conversation.contact_inbox)
 
-    broadcast(account, tokens, CONVERSATION_CREATED, conversation.push_event_data)
+    # Include the original event timestamp to ensure correct ordering on frontend
+    broadcast(account, tokens, CONVERSATION_CREATED, conversation.push_event_data, event.timestamp.to_f)
   end
 
   def conversation_read(event)
@@ -72,14 +73,16 @@ class ActionCableListener < BaseListener
     conversation, account = extract_conversation_and_account(event)
     tokens = user_tokens(account, conversation.inbox.members) + contact_inbox_tokens(conversation.contact_inbox)
 
-    broadcast(account, tokens, CONVERSATION_STATUS_CHANGED, conversation.push_event_data)
+    # Include the original event timestamp to ensure correct ordering on frontend
+    broadcast(account, tokens, CONVERSATION_STATUS_CHANGED, conversation.push_event_data, event.timestamp.to_f)
   end
 
   def conversation_updated(event)
     conversation, account = extract_conversation_and_account(event)
     tokens = user_tokens(account, conversation.inbox.members) + contact_inbox_tokens(conversation.contact_inbox)
 
-    broadcast(account, tokens, CONVERSATION_UPDATED, conversation.push_event_data)
+    # Include the original event timestamp to ensure correct ordering on frontend
+    broadcast(account, tokens, CONVERSATION_UPDATED, conversation.push_event_data, event.timestamp.to_f)
   end
 
   def conversation_typing_on(event)
@@ -118,14 +121,16 @@ class ActionCableListener < BaseListener
     conversation, account = extract_conversation_and_account(event)
     tokens = user_tokens(account, conversation.inbox.members)
 
-    broadcast(account, tokens, ASSIGNEE_CHANGED, conversation.push_event_data)
+    # Include the original event timestamp to ensure correct ordering on frontend
+    broadcast(account, tokens, ASSIGNEE_CHANGED, conversation.push_event_data, event.timestamp.to_f)
   end
 
   def team_changed(event)
     conversation, account = extract_conversation_and_account(event)
     tokens = user_tokens(account, conversation.inbox.members)
 
-    broadcast(account, tokens, TEAM_CHANGED, conversation.push_event_data)
+    # Include the original event timestamp to ensure correct ordering on frontend
+    broadcast(account, tokens, TEAM_CHANGED, conversation.push_event_data, event.timestamp.to_f)
   end
 
   def conversation_contact_changed(event)
@@ -197,7 +202,7 @@ class ActionCableListener < BaseListener
     contact_inbox.hmac_verified? ? contact.contact_inboxes.where(hmac_verified: true).filter_map(&:pubsub_token) : [contact_inbox.pubsub_token]
   end
 
-  def broadcast(account, tokens, event_name, data)
+  def broadcast(account, tokens, event_name, data, event_timestamp = nil)
     return if tokens.blank?
 
     payload = data.merge(account_id: account.id)
@@ -205,6 +210,6 @@ class ActionCableListener < BaseListener
     # Useful in cases like conversation assignment for generating a notification with assigner name.
     payload[:performer] = Current.user&.push_event_data if Current.user.present?
 
-    ::ActionCableBroadcastJob.perform_later(tokens.uniq, event_name, payload)
+    ::ActionCableBroadcastJob.perform_later(tokens.uniq, event_name, payload, event_timestamp)
   end
 end
