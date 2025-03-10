@@ -1,9 +1,14 @@
 class Instagram::WebhooksBaseService
+  attr_reader :channel
+
+  def initialize(channel)
+    @channel = channel
+  end
+
   private
 
-  def inbox_channel(instagram_id)
-    messenger_channel = Channel::FacebookPage.where(instagram_id: instagram_id)
-    @inbox = ::Inbox.find_by(channel: messenger_channel)
+  def inbox_channel(_instagram_id)
+    @inbox = ::Inbox.find_by(channel: @channel)
   end
 
   def find_or_create_contact(user)

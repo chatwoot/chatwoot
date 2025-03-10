@@ -19,6 +19,7 @@ const {
   isAWebWidgetInbox,
   isAWhatsAppChannel,
   isAnEmailChannel,
+  isAInstagramChannel,
 } = useInbox();
 
 const { status, isPrivate, createdAt, sourceId, messageType } =
@@ -47,7 +48,8 @@ const isSent = computed(() => {
     isATwilioChannel.value ||
     isAFacebookInbox.value ||
     isASmsInbox.value ||
-    isATelegramChannel.value
+    isATelegramChannel.value ||
+    isAInstagramChannel.value
   ) {
     return sourceId.value && status.value === MESSAGE_STATUS.SENT;
   }
@@ -86,7 +88,8 @@ const isRead = computed(() => {
   if (
     isAWhatsAppChannel.value ||
     isATwilioChannel.value ||
-    isAFacebookInbox.value
+    isAFacebookInbox.value ||
+    isAInstagramChannel.value
   ) {
     return sourceId.value && status.value === MESSAGE_STATUS.READ;
   }
@@ -102,7 +105,6 @@ const statusToShow = computed(() => {
   if (isRead.value) return MESSAGE_STATUS.READ;
   if (isDelivered.value) return MESSAGE_STATUS.DELIVERED;
   if (isSent.value) return MESSAGE_STATUS.SENT;
-  if (status.value === MESSAGE_STATUS.FAILED) return MESSAGE_STATUS.FAILED;
 
   return MESSAGE_STATUS.PROGRESS;
 });

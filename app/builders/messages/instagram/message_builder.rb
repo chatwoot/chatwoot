@@ -15,6 +15,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def perform
+    Rails.logger.info("Performing message builder for Instagram Direct Message: #{@messaging}")
     return if @inbox.channel.reauthorization_required?
 
     ActiveRecord::Base.transaction do
@@ -106,6 +107,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def build_message
+    Rails.logger.info("Building message for Instagram Direct Message: #{@messaging}")
     return if @outgoing_echo && already_sent_from_chatwoot?
     return if message_content.blank? && all_unsupported_files?
 

@@ -1,28 +1,27 @@
-class Instagram::SendOnInstagramService < Base::SendOnChannelService
+class Instagram::SendOnIgService < Base::SendOnChannelService
   include HTTParty
 
   pattr_initialize [:message!]
-
-  base_uri 'https://graph.facebook.com/v11.0/me'
 
   private
 
   delegate :additional_attributes, to: :contact
 
   def channel_class
-    Channel::FacebookPage
+    Channel::Instagram
   end
 
   def perform_reply
     Rails.logger.info("Sending message to Instagram: #{message.inspect}")
     if message.attachments.present?
       message.attachments.each do |attachment|
-        send_to_facebook_page attachment_message_params(attachment)
+        send_to_instagram attachment_message_params(attachment)
       end
     end
 
-    send_to_facebook_page message_params if message.content.present?
+    send_to_instagram message_params if message.content.present?
   rescue StandardError => e
+    Rails.logger.info("Instagram Error: #{e.inspect}")
     ChatwootExceptionTracker.new(e, account: message.account, user: message.sender).capture_exception
     # TODO : handle specific errors or else page will get disconnected
     # channel.authorization_error!
@@ -57,25 +56,44 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
 
   # Deliver a message with the given payload.
   # @see https://developers.facebook.com/docs/messenger-platform/instagram/features/send-message
-  def send_to_facebook_page(message_content)
-    access_token = channel.page_access_token
-    app_secret_proof = calculate_app_secret_proof(GlobalConfigService.load('FB_APP_SECRET', ''), access_token)
+  def send_to_instagram(message_content)
+    access_token = channel.access_token
+
+    app_secret_proof = calculate_app_secret_proof(ENV.fetch('INSTAGRAM_APP_SECRET', nil), access_token)
     query = { access_token: access_token }
     query[:appsecret_proof] = app_secret_proof if app_secret_proof
 
-    # url = "https://graph.facebook.com/v11.0/me/messages?access_token=#{access_token}"
+    instagram_id = channel.instagram_id.presence || 'me'
 
+    Rails.logger.info("instagram_id #{instagram_id}")
+
+    Rails.logger.info("message_content #{message_content}")
+    # Both approaches are working fine. Please use the best approach.
+    # response = HTTParty.post(
+    #   "https://graph.instagram.com/v22.0/#{instagram_id}/messages",
+    #   body: message_content,
+    #   query: query
+    # )
     response = HTTParty.post(
-      'https://graph.facebook.com/v11.0/me/messages',
+      "https://graph.instagram.com/v22.0/#{instagram_id}/messages",
       body: message_content,
+      headers: {
+        'Authorization': "Bearer #{access_token}",
+        'Content-Type': 'application/json'
+      },
       query: query
     )
+
+    Rails.logger.info("I.G:response #{response}")
 
     if response[:error].present?
       Rails.logger.error("Instagram response: #{response['error']} : #{message_content}")
       message.status = :failed
       message.external_error = external_error(response)
     end
+
+    Rails.logger.info("Instagram response: #{response.inspect}")
+    Rails.logger.info("message_id #{response['message_id']}")
 
     message.source_id = response['message_id'] if response['message_id'].present?
     message.save!
