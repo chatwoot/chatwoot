@@ -9,6 +9,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     const { websocketURL = '' } = window.chatwootConfig || {};
     super(app, pubsubToken, websocketURL);
     this.CancelTyping = [];
+    this.conversationEventTimestamps = new Map();
     this.events = {
       'message.created': this.onMessageCreated,
       'message.updated': this.onMessageUpdated,
@@ -31,6 +32,23 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.updated': this.onConversationUpdated,
       'account.cache_invalidated': this.onCacheInvalidate,
     };
+  }
+
+  /**
+   * Checks if a conversation event is out of sequence by comparing timestamps
+   * @param {number} conversationId - The ID of the conversation to check
+   * @param {number} eventTimestamp - The timestamp of the current event
+   * @returns {boolean} Returns true if event is out of sequence, false otherwise
+   */
+  eventOutOfSequence(conversationId, eventTimestamp) {
+    if (!eventTimestamp) return false;
+    const lastTimestamp = this.conversationEventTimestamps.get(conversationId);
+    if (!lastTimestamp || eventTimestamp > lastTimestamp) {
+      this.conversationEventTimestamps.set(conversationId, eventTimestamp);
+      return false;
+    }
+
+    return true;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -68,8 +86,10 @@ class ActionCableConnector extends BaseActionCableConnector {
     }
   };
 
-  onAssigneeChanged = payload => {
+  onAssigneeChanged = (payload, eventTimestamp) => {
     const { id } = payload;
+    if (this.eventOutOfSequence(id, eventTimestamp)) return;
+
     if (id) {
       this.app.$store.dispatch('updateConversation', payload);
     }
@@ -81,7 +101,8 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.fetchConversationStats();
   };
 
-  onConversationRead = data => {
+  onConversationRead = (data, eventTimestamp) => {
+    if (this.eventOutOfSequence(data.id, eventTimestamp)) return;
     this.app.$store.dispatch('updateConversation', data);
   };
 
@@ -104,12 +125,14 @@ class ActionCableConnector extends BaseActionCableConnector {
   // eslint-disable-next-line class-methods-use-this
   onReload = () => window.location.reload();
 
-  onStatusChange = data => {
+  onStatusChange = (data, eventTimestamp) => {
+    if (this.eventOutOfSequence(data.id, eventTimestamp)) return;
     this.app.$store.dispatch('updateConversation', data);
     this.fetchConversationStats();
   };
 
-  onConversationUpdated = data => {
+  onConversationUpdated = (data, eventTimestamp) => {
+    if (this.eventOutOfSequence(data.id, eventTimestamp)) return;
     this.app.$store.dispatch('updateConversation', data);
     this.fetchConversationStats();
   };
