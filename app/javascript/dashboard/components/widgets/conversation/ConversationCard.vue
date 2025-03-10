@@ -13,6 +13,8 @@ import CardLabels from './conversationCardComponents/CardLabels.vue';
 import PriorityMark from './PriorityMark.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
+import ButtonV4 from 'dashboard/components-next/button/Button.vue';
+import { useAlert } from 'dashboard/composables';
 
 export default {
   components: {
@@ -25,6 +27,7 @@ export default {
     PriorityMark,
     SLACardLabel,
     ContextMenu,
+    ButtonV4,
   },
   mixins: [inboxMixin],
   props: {
@@ -95,6 +98,7 @@ export default {
       inboxesList: 'inboxes/getInboxes',
       activeInbox: 'getSelectedInbox',
       accountId: 'getCurrentAccountId',
+      currentUser: 'getCurrentUser',
     }),
     chatMetadata() {
       return this.chat.meta || {};
@@ -237,6 +241,42 @@ export default {
       this.$emit('assignPriority', priority, this.chat.id);
       this.closeContextMenu();
     },
+
+    assignAgent() {
+      const {
+        account_id,
+        availability_status,
+        available_name,
+        email,
+        id,
+        name,
+        role,
+        avatar_url,
+      } = this.currentUser;
+
+      const selfAssign = {
+        account_id,
+        availability_status,
+        available_name,
+        email,
+        id,
+        name,
+        role,
+        thumbnail: avatar_url,
+      };
+
+      const agentId = selfAssign ? selfAssign.id : 0;
+      this.$store.dispatch('setCurrentChatAssignee', selfAssign);
+
+      this.$store
+        .dispatch('assignAgent', {
+          conversationId: this.currentChat.id,
+          agentId,
+        })
+        .then(() => {
+          useAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
+        });
+    },
   },
 };
 </script>
@@ -332,6 +372,17 @@ export default {
             :created-at-timestamp="chat.created_at"
           />
         </span>
+        <span class="ml-auto font-normal leading-4 text-xxs">
+          <ButtonV4
+            v-tooltip="$t('CONTACT_PANEL.SEND_TRANSCRIPT')"
+            size="sm"
+            variant="ghost"
+            color="slate"
+            icon="i-lucide-user-round"
+            @click="assignAgent"
+          />
+        </span>
+
         <span
           class="unread shadow-lg rounded-full hidden text-xxs font-semibold h-4 leading-4 ml-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"
         >
