@@ -423,7 +423,7 @@ onMounted(() => {
             :class="{
               // Adjust dimensions when rotated 90/270 degrees to maintain visibility
               // and prevent image from overflowing container in different aspect ratios
-              'w-[calc(100dvh-8rem)] h-[calc(100dvh-7rem)]':
+              'w-[calc(100dvh-8rem)] h-[calc(100dvw-7rem)]':
                 activeImageRotation % 180 !== 0,
               'size-full': activeImageRotation % 180 === 0,
             }"
@@ -433,7 +433,7 @@ onMounted(() => {
               :key="activeAttachment.message_id"
               :src="activeAttachment.data_url"
               :style="imageStyle"
-              class="max-h-full max-w-full object-contain duration-100 ease-in-out transform shadow-lg select-none"
+              class="max-h-full max-w-full object-contain duration-100 ease-in-out transform select-none"
               @click.stop
               @dblclick.stop="onDoubleClickZoomImage"
               @wheel.prevent.stop="onWheelImageZoom"
