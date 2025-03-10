@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Arvoisa asiakas 👋, käytäthän hetken aikaasi ja annat palautetta keskustelusta, jonka kävit %{inboxName} kanssa.",
+    "DESCRIPTION": "Arvoisa asiakas 👋, käytäthän hetken aikaasi ja annat palautetta keskustelusta, jonka kävit {inboxName} kanssa.",
     "RATING": {
       "LABEL": "Anna arvio palvelusta",
       "SUCCESS_MESSAGE": "Kiitos, että lähetit arvion"

@@ -117,6 +117,7 @@
       "PENDING": "Pažymėti kaip laukiantį",
       "RESOLVED": "Pažymėti kaip išspręstą",
       "MARK_AS_UNREAD": "Pažymėti kaip neperskaitytą",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Atidaryti pokalbį",
       "SNOOZE": {
         "TITLE": "Atidėti",

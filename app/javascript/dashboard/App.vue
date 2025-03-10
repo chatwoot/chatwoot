@@ -14,6 +14,7 @@ import WootSnackbarBox from './components/SnackbarContainer.vue';
 import { setColorTheme } from './helper/themeHelper';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useFontSize } from 'dashboard/composables/useFontSize';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
@@ -37,8 +38,15 @@ export default {
     const router = useRouter();
     const store = useStore();
     const { accountId } = useAccount();
+    // Use the font size composable (it automatically sets up the watcher)
+    const { currentFontSize } = useFontSize();
 
-    return { router, store, currentAccountId: accountId };
+    return {
+      router,
+      store,
+      currentAccountId: accountId,
+      currentFontSize,
+    };
   },
   data() {
     return {

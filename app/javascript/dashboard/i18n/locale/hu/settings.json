@@ -35,6 +35,24 @@
           }
         }
       },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "Alapértelmezett",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Személyes üzenet aláírás",
         "NOTE": "Hozzon létre egyedi üzenetaláírást, amely bármelyik postafiókból küldött üzenet végén megjelenik. Beilleszthet egy soron belüli képet is, amelyet az élő chat, az e-mail és az API bejövő üzenetek támogatnak.",
@@ -389,11 +407,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Válts privát jegyzetre",
       "SWITCH_TO_REPLY": "Válts a válasz fülre",
       "TOGGLE_SNOOZE_DROPDOWN": "Alvómód bekapcsolása a legördülő menüben"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/\n"
     }
   }
 }

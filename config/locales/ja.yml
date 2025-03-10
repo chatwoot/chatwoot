@@ -68,6 +68,8 @@ ja:
       invalid_operator: 無効な演算子です。%{attribute_name} に許可されている演算子は [%{allowed_keys}] です。
       invalid_query_operator: クエリ演算子は "AND" または "OR" でなければなりません。
       invalid_value: 無効な値です。%{attribute_name} に提供された値は無効です。
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
     period: レポート期間 %{since} から %{until} まで
     utc_warning: 生成されたレポートはUTCタイムゾーンです
@@ -165,7 +167,7 @@ ja:
         removed: '%{user_name} がSLAポリシー "%{sla_name}" を削除しました'
       muted: '%{user_name} が会話をミュートしました'
       unmuted: '%{user_name} が会話のミュートを解除しました'
-      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
+      auto_resolution_message: '会話がしばらく非アクティブのため、解決済みとして処理します。引き続きサポートが必要な場合は、新しい会話を開始してください。'
     templates:
       greeting_message_body: '%{account_name} は通常数時間以内に返信します。'
       ways_to_reach_you_message_body: 'ご連絡先をご入力ください。'

@@ -1,3 +1,4 @@
+import { describe } from 'vitest';
 import types from '../../../mutation-types';
 import { mutations } from '../../conversations';
 
@@ -551,6 +552,21 @@ describe('#mutations', () => {
         conversationType: 'mention',
         updatedWithin: 20,
       });
+    });
+  });
+
+  describe('#SET_INBOX_CAPTAIN_ASSISTANT', () => {
+    it('set inbox captain assistant', () => {
+      const state = { copilotAssistant: {} };
+      const data = {
+        assistant: {
+          id: 1,
+          name: 'Assistant',
+          description: 'Assistant description',
+        },
+      };
+      mutations[types.SET_INBOX_CAPTAIN_ASSISTANT](state, data);
+      expect(state.copilotAssistant).toEqual(data.assistant);
     });
   });
 });

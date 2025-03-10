@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "לקוח יקר 👋, אנא הקדישו כמה רגעים כדי לשתף משוב על השיחה שניהלתם עם %{inboxName}.",
+    "DESCRIPTION": "לקוח יקר 👋, אנא הקדישו כמה רגעים כדי לשתף משוב על השיחה שניהלתם עם {inboxName}.",
     "RATING": {
       "LABEL": "דרג את השיחה",
       "SUCCESS_MESSAGE": "תודה על שליחת הדירוג"

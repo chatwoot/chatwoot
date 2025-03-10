@@ -300,6 +300,12 @@
         "TITLE": "Unlink",
         "SUCCESS": "Issue unlinked successfully",
         "ERROR": "There was an error unlinking the issue, please try again"
+      },
+      "DELETE": {
+        "TITLE": "Are you sure you want to delete the integration?",
+        "MESSAGE": "Are you sure you want to delete the integration?",
+        "CONFIRM": "Yes, delete",
+        "CANCEL": "Отмени"
       }
     }
   },
@@ -310,7 +316,8 @@
       "LOADER": "Captain is thinking",
       "YOU": "You",
       "USE": "Use this",
-      "RESET": "Reset"
+      "RESET": "Reset",
+      "SELECT_ASSISTANT": "Select Assistant"
     },
     "PAYWALL": {
       "TITLE": "Upgrade to use Captain AI",
@@ -432,6 +439,20 @@
       "ADD_NEW": "Create new FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
+      },
+      "SELECTED": "{count} selected",
+      "BULK_APPROVE_BUTTON": "Approve",
+      "BULK_DELETE_BUTTON": "Изтрий",
+      "BULK_APPROVE": {
+        "SUCCESS_MESSAGE": "FAQs approved successfully",
+        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+      },
+      "BULK_DELETE": {
+        "TITLE": "Delete FAQs?",
+        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
+        "CONFIRM": "Yes, delete all",
+        "SUCCESS_MESSAGE": "FAQs deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
       },
       "DELETE": {
         "TITLE": "Are you sure to delete the FAQ?",

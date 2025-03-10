@@ -117,6 +117,7 @@
       "PENDING": "Marquer comme en attente",
       "RESOLVED": "Marquer comme résolu",
       "MARK_AS_UNREAD": "Marquer comme non lu",
+      "MARK_AS_READ": "Marquer comme lu",
       "REOPEN": "Reprendre la conversation",
       "SNOOZE": {
         "TITLE": "Reporter",

@@ -117,6 +117,7 @@
       "PENDING": "Σήμανση ως εκκρεμής",
       "RESOLVED": "Σήμανση ως επιλυμένου",
       "MARK_AS_UNREAD": "Σήμανση ως μη αναγνωσμένο",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Άνοιγμα συνομιλίας",
       "SNOOZE": {
         "TITLE": "Αναβολή",

@@ -1,11 +1,13 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useTrack } from 'dashboard/composables';
 import { useAlert } from 'dashboard/composables';
 import LinearAPI from 'dashboard/api/integrations/linear';
 import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
 import FilterListDropdown from 'dashboard/components/ui/Dropdown/DropdownList.vue';
 import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
+import { LINEAR_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 const props = defineProps({
   conversationId: {
@@ -85,6 +87,7 @@ const linkIssue = async () => {
     searchQuery.value = '';
     issues.value = [];
     onClose();
+    useTrack(LINEAR_EVENTS.LINK_ISSUE);
   } catch (error) {
     const errorMessage = parseLinearAPIErrorResponse(
       error,

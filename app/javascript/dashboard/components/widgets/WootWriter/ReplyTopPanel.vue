@@ -85,7 +85,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex justify-between h-[52px] gap-2 ltr:pl-3 rtl:pr-3">
+  <div class="flex justify-between h-[3.25rem] gap-2 ltr:pl-3 rtl:pr-3">
     <EditorModeToggle
       :mode="mode"
       class="mt-3"

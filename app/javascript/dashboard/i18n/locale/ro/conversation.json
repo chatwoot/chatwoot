@@ -117,6 +117,7 @@
       "PENDING": "Marchează ca în așteptare",
       "RESOLVED": "Marcați ca rezolvat",
       "MARK_AS_UNREAD": "Marcheaza ca necitit",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Redeschiderea conversației",
       "SNOOZE": {
         "TITLE": "Amânați",

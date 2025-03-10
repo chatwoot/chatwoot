@@ -91,9 +91,9 @@ export default {
       :class="{ error: v$.thresholdTime.$error }"
       class="flex-grow"
       :styles="{
-        borderRadius: '12px',
-        padding: '6px 12px',
-        fontSize: '14px',
+        borderRadius: '0.75rem',
+        padding: '0.375rem 0.75rem',
+        fontSize: '0.875rem',
       }"
       :label="label"
       :placeholder="placeholder"

@@ -117,6 +117,7 @@
       "PENDING": "Beklemede olarak işaretle",
       "RESOLVED": "Çözüldü olarak işaretle",
       "MARK_AS_UNREAD": "Okunmamış olarak işaretle",
+      "MARK_AS_READ": "Okundu olarak işaretle",
       "REOPEN": "Görüşmeyi yeniden açın",
       "SNOOZE": {
         "TITLE": "Sustur",

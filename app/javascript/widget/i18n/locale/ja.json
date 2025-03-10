@@ -22,15 +22,15 @@
     "IN_A_DAY": "通常数日以内にご返信します。",
     "BACK_IN": "オンラインに戻ります"
   },
-  "DAY_NAMES": [
-    "日曜日",
-    "月曜日",
-    "火曜日",
-    "水曜日",
-    "木曜日",
-    "金曜日",
-    "土曜日"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "日",
+    "MONDAY": "月",
+    "TUESDAY": "火",
+    "WEDNESDAY": "水",
+    "THURSDAY": "木",
+    "FRIDAY": "金",
+    "SATURDAY": "土"
+  },
   "START_CONVERSATION": "チャットを開始する",
   "END_CONVERSATION": "会話を終了",
   "CONTINUE_CONVERSATION": "会話を続行",
