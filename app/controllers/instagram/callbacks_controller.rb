@@ -3,6 +3,7 @@ class Instagram::CallbacksController < ApplicationController
   include Instagram::IntegrationHelper
 
   def show
+    Rails.logger.info("Instagram callback params: #{params}")
     Rails.logger.info("Instagram OAuth Code: #{oauth_code}")
 
     @response = oauth_client.auth_code.get_token(
@@ -10,17 +11,39 @@ class Instagram::CallbacksController < ApplicationController
       redirect_uri: "#{base_url}/#{provider_name}/callback",
       grant_type: 'authorization_code'
     )
-    Rails.logger.info("Initial token response: #{@response.inspect}")
 
     @long_lived_token_response = exchange_for_long_lived_token(@response.token)
-    Rails.logger.info("Long-lived token response: #{@long_lived_token_response}")
-
     inbox, already_exists = create_channel_with_inbox
     redirect_to app_instagram_inbox_agents_url(account_id: account_id, inbox_id: inbox.id)
+  rescue OAuth2::Error => e
+    Rails.logger.error("Instagram OAuth Error: #{e.message}")
+    error_response = {
+      error_type: 'OAuthException',
+      code: 400,
+      error_message: 'Invalid authorization code'
+    }
+    
+    redirect_to app_new_instagram_inbox_url(
+      account_id: account_id,
+      error_type: error_response[:error_type],
+      code: error_response[:code],
+      error_message: error_response[:error_message]
+    )
   rescue StandardError => e
     Rails.logger.error("Instagram Channel creation Error: #{e.message}")
     ChatwootExceptionTracker.new(e).capture_exception
-    redirect_to '/'
+    error_response = {
+      error_type: 'GeneralException',
+      code: 500,
+      error_message: e.message
+    }
+    
+    redirect_to app_new_instagram_inbox_url(
+      account_id: account_id,
+      error_type: error_response[:error_type],
+      code: error_response[:code],
+      error_message: error_response[:error_message]
+    )
   end
 
   private
