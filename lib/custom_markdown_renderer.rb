@@ -79,7 +79,7 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
     %(
       <div style="position: relative; padding-bottom: 62.5%; height: 0;">
        <iframe
-        src="https://www.youtube.com/embed/#{video_id}"
+        src="https://www.youtube-nocookie.com/embed/#{video_id}"
         frameborder="0"
         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
