@@ -1129,7 +1129,7 @@ export default {
       <CannedResponse
         v-if="showMentions && hasSlashCommand"
         v-on-clickaway="hideMentions"
-        class="normal-editor__canned-box"
+        class="normal-editor__canned-box canned-response__box"
         :search-key="mentionSearchKey"
         @replace="replaceText"
       />
@@ -1311,5 +1311,11 @@ export default {
 .normal-editor__canned-box {
   width: calc(100% - 2 * 1rem);
   left: 1rem;
+}
+
+.canned-response__box {
+  max-height: 300px;
+  min-height: auto;
+  overflow-y: auto;
 }
 </style>

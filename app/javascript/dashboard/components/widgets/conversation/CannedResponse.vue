@@ -33,7 +33,8 @@ export default {
   },
   methods: {
     fetchCannedResponses() {
-      this.$store.dispatch('getCannedResponse', { searchKey: this.searchKey });
+      const inboxId = this.$route.params.inbox_id;
+      this.$store.dispatch('getCannedResponse', { searchKey: this.searchKey, inboxId });
     },
     handleMentionClick(item = {}) {
       this.$emit('replace', item.description);

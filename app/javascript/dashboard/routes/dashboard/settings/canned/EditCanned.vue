@@ -23,6 +23,7 @@ export default {
     edinboxIds: { type: Array, default: () => [] },
     onClose: { type: Function, default: () => {} },
   },
+  emits: ['updated'],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -34,7 +35,7 @@ export default {
       },
       shortCode: this.edshortCode,
       content: this.edcontent,
-      selectedInboxIds: this.edinboxIds,
+      selectedInboxIds: [...this.edinboxIds],
       selectedInboxes: [],
       inboxes: [],
       show: true,
@@ -49,19 +50,20 @@ export default {
       required,
     },
   },
-  computed: {
-    pageTitle() {
-      return `${this.$t('CANNED_MGMT.EDIT.TITLE')} - ${this.edshortCode}`;
+  watch: {
+    selectedInboxes: {
+      handler(newVal) {
+        this.selectedInboxIds = newVal.map(inbox => inbox.id);
+      },
+      deep: true,
     },
   },
   methods: {
-    getSelectedInboxes() {
-      return this.inboxes.filter(inbox => this.selectedInboxIds.includes(inbox.id));
-    },
     resetForm() {
       this.shortCode = '';
       this.content = '';
       this.selectedInboxIds = [];
+      this.selectedInboxes = [];
       if (this.id) {
         this.$emit('reset');
       }
@@ -81,22 +83,29 @@ export default {
           // Reset Form, Show success message
           this.editCanned.showLoading = false;
           useAlert(this.$t('CANNED_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+          this.$emit('updated', {
+            id: this.id,
+            short_code: this.shortCode,
+            content: this.content,
+            inbox_ids: this.selectedInboxIds,
+          });
           this.resetForm();
-          setTimeout(() => {
-            this.onClose();
-          }, 10);
+          setTimeout(this.onClose, 10);
         })
         .catch(error => {
           this.editCanned.showLoading = false;
-          const errorMessage =
-            error?.message || this.$t('CANNED_MGMT.EDIT.API.ERROR_MESSAGE');
-          useAlert(errorMessage);
+          useAlert(error?.message || this.$t('CANNED_MGMT.EDIT.API.ERROR_MESSAGE'));
         });
+    },
+    refreshInboxes() {
+      this.inboxes = useMapGetter('inboxes/getInboxes');
+      this.selectedInboxes = this.inboxes.filter(inbox => this.selectedInboxIds.includes(inbox.id));
     },
   },
   mounted() {
     this.inboxes = useMapGetter('inboxes/getInboxes');
-    this.selectedInboxes = this.getSelectedInboxes();
+    this.selectedInboxes = this.inboxes.filter(inbox => this.edinboxIds.includes(inbox.id));
+    this.selectedInboxIds = this.selectedInboxes.map(inbox => inbox.id);
   },
 };
 </script>
@@ -104,8 +113,9 @@ export default {
 <template>
   <Modal v-model:show="show" :on-close="onClose">
     <div class="flex flex-col h-auto overflow-auto">
-      <woot-modal-header :header-title="pageTitle" />
-      <form class="flex flex-col w-full" @submit.prevent="editCannedResponse()">
+      <woot-modal-header :header-title="$t('CANNED_MGMT.EDIT.TITLE') + ' - ' + edshortCode" />
+
+      <form class="flex flex-col w-full" @submit.prevent="editCannedResponse">
         <div class="w-full">
           <label :class="{ error: v$.shortCode.$error }">
             {{ $t('CANNED_MGMT.EDIT.FORM.SHORT_CODE.LABEL') }}

@@ -7,14 +7,14 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
 
   def create
     @canned_response = Current.account.canned_responses.new(canned_response_params)
-    @canned_response.inboxes = Current.account.inboxes.where(id: params[:inbox_ids])
+    @canned_response.inbox_ids = params[:inbox_ids]
     @canned_response.save!
     render json: @canned_response
   end
 
   def update
     @canned_response.update!(canned_response_params)
-    @canned_response.inboxes = Current.account.inboxes.where(id: params[:inbox_ids])
+    @canned_response.inbox_ids = params[:inbox_ids]
     @canned_response.save!
     render json: @canned_response
   end
@@ -35,13 +35,6 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
   end
 
   def canned_responses
-    if params[:search]
-      Current.account.canned_responses
-             .where('short_code ILIKE :search OR content ILIKE :search', search: "%#{params[:search]}%")
-             .order_by_search(params[:search])
-
-    else
-      Current.account.canned_responses
-    end
+    Current.account.canned_responses.by_inbox(params[:inbox_id]).search(params[:search])
   end
 end

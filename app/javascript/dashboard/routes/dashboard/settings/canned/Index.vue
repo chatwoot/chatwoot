@@ -115,6 +115,13 @@ const tableHeaders = computed(() => {
     t('CANNED_MGMT.LIST.TABLE_HEADER.ACTIONS'),
   ];
 });
+
+const updateCannedItem = updatedResponse => {
+    const index = records.value.findIndex(
+    response => response.id === updatedResponse.id
+  );
+  records.value[index] = updatedResponse;
+};
 </script>
 
 <template>
@@ -220,6 +227,7 @@ const tableHeaders = computed(() => {
         :edcontent="activeResponse.content"
         :edinbox-ids="activeResponse.inbox_ids"
         :on-close="hideEditPopup"
+        @updated="updateCannedItem"
       />
     </woot-modal>
 

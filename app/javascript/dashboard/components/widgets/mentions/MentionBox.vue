@@ -73,7 +73,8 @@ const variableKey = (item = {}) => {
 <template>
   <div
     ref="mentionsListContainerRef"
-    class="bg-n-solid-1 p-1 rounded-xl overflow-auto absolute w-full z-20 shadow-md left-0 bottom-full max-h-[9.75rem] border border-solid border-n-strong mention--box"
+    class="bg-n-solid-1 p-1 rounded-xl overflow-auto absolute w-full z-20 shadow-md left-0 bottom-full border border-solid border-n-strong mention--box"
+    :class="{ 'canned-response__box': type === 'canned' }"
   >
     <ul class="mb-0 vertical dropdown menu">
       <woot-dropdown-item

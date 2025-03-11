@@ -35,11 +35,11 @@ const getters = {
 const actions = {
   getCannedResponse: async function getCannedResponse(
     { commit },
-    { searchKey } = {}
+    { searchKey, inboxId } = {}
   ) {
     commit(types.default.SET_CANNED_UI_FLAG, { fetchingList: true });
     try {
-      const response = await CannedResponseAPI.get({ searchKey });
+      const response = await CannedResponseAPI.get({ searchKey, inboxId });
       commit(types.default.SET_CANNED, response.data);
       commit(types.default.SET_CANNED_UI_FLAG, { fetchingList: false });
     } catch (error) {
