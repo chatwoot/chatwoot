@@ -43,10 +43,13 @@ const fetchArticles = () => {
 };
 
 const openArticleInArticleViewer = link => {
-  let linkToOpen = `${link}?show_plain_layout=true`;
-  if (prefersDarkMode) {
-    linkToOpen = `${linkToOpen}&theme=dark`;
-  }
+  const params = new URLSearchParams({
+    show_plain_layout: 'true',
+    theme: prefersDarkMode.value ? 'dark' : 'light',
+  });
+
+  // Combine link with query parameters
+  const linkToOpen = `${link}?${params.toString()}`;
   router.push({ name: 'article-viewer', query: { link: linkToOpen } });
 };
 
