@@ -134,6 +134,12 @@ export default {
       currentChat: 'getSelectedChat',
       dashboardApps: 'dashboardApps/getRecords',
     }),
+    shoppingTabConfig() {
+      return {
+        type: 'frame',
+        url: 'http://localhost:3001',
+      };
+    },
     dashboardAppTabs() {
       return [
         {
@@ -152,12 +158,10 @@ export default {
           key: 'profile',
           name: 'Profile',
         },
-        ...this.dashboardApps
-          .filter(dashboardApp => dashboardApp.title !== 'Whatsapp Templates')
-          .map(dashboardApp => ({
-            key: `dashboard-${dashboardApp.id}`,
-            name: dashboardApp.title,
-          })),
+        ...this.dashboardApps.map(dashboardApp => ({
+          key: `dashboard-${dashboardApp.id}`,
+          name: dashboardApp.title,
+        })),
       ];
     },
     showContactPanel() {
