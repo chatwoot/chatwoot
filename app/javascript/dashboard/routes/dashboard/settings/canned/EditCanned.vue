@@ -97,10 +97,6 @@ export default {
           useAlert(error?.message || this.$t('CANNED_MGMT.EDIT.API.ERROR_MESSAGE'));
         });
     },
-    refreshInboxes() {
-      this.inboxes = useMapGetter('inboxes/getInboxes');
-      this.selectedInboxes = this.inboxes.filter(inbox => this.selectedInboxIds.includes(inbox.id));
-    },
   },
   mounted() {
     this.inboxes = useMapGetter('inboxes/getInboxes');
