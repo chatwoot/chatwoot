@@ -105,7 +105,7 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
     %(
       <div style="position: relative; padding-bottom: 62.5%; height: 0;">
        <iframe
-        src="https://player.vimeo.com/video/#{video_id}"
+        src="https://player.vimeo.com/video/#{video_id}?dnt=true"
         frameborder="0"
         allow="autoplay; fullscreen; picture-in-picture"
         allowfullscreen

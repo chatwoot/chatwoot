@@ -98,7 +98,7 @@ describe CustomMarkdownRenderer do
         output = render_markdown_link(vimeo_url)
         expect(output).to include(`
           <iframe
-            src="https://player.vimeo.com/video/1234567"
+            src="https://player.vimeo.com/video/1234567?dnt=true"
         `)
       end
     end
