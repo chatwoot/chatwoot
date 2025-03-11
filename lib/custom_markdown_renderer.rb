@@ -1,7 +1,7 @@
 class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   # TODO: let move this regex from here to a config file where we can update this list much more easily
   # the config file will also have the matching embed template as well.
-  YOUTUBE_REGEX = %r{https?://(?:www\.)?(?:youtube\.com/watch\?v=|youtu\.be/)([^&/]+)}
+  YOUTUBE_REGEX = %r{https?://(?:www\.)?(?:youtube(?:-nocookie)?\.com/watch\?v=|youtu\.be/)([^&/]+)}
   LOOM_REGEX = %r{https?://(?:www\.)?loom\.com/share/([^&/]+)}
   VIMEO_REGEX = %r{https?://(?:www\.)?vimeo\.com/(\d+)}
   MP4_REGEX = %r{https?://(?:www\.)?.+\.(mp4)}
@@ -79,7 +79,7 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
     %(
       <div style="position: relative; padding-bottom: 62.5%; height: 0;">
        <iframe
-        src="https://www.youtube.com/embed/#{video_id}"
+        src="https://www.youtube-nocookie.com/embed/#{video_id}"
         frameborder="0"
         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
