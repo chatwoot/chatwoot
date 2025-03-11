@@ -17,6 +17,9 @@ class Channel::Instagram < ApplicationRecord
   include Reauthorizable
   self.table_name = 'channel_instagram'
 
+  validates :access_token, presence: true
+  validates :instagram_id, uniqueness: true, presence: true
+
   def name
     'Instagram'
   end
