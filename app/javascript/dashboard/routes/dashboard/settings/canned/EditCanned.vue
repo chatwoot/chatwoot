@@ -36,7 +36,6 @@ export default {
       shortCode: this.edshortCode,
       content: this.edcontent,
       selectedInboxIds: [...this.edinboxIds],
-      selectedInboxIds: this.edinboxIds,
       selectedInboxes: [],
       inboxes: [],
       show: true,
@@ -106,6 +105,10 @@ export default {
             error?.message || this.$t('CANNED_MGMT.EDIT.API.ERROR_MESSAGE')
           );
         });
+    },
+    refreshInboxes() {
+      this.inboxes = useMapGetter('inboxes/getInboxes');
+      this.selectedInboxes = this.inboxes.filter(inbox => this.selectedInboxIds.includes(inbox.id));
     },
   },
 };

@@ -33,7 +33,6 @@ class CannedResponse < ApplicationRecord
 
   scope :by_inbox, lambda { |inbox_id|
     return all if inbox_id.blank?
-
     left_joins(:inboxes).where(inboxes: { id: [inbox_id, nil] })
   }
 
