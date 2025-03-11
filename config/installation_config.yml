@@ -274,3 +274,25 @@
   description: 'Linear client secret'
   type: secret
 ## ------ End of Configs added for Linear ------ ##
+
+
+# ------- Instagram Channel Related Config ------- #
+- name: INSTAGRAM_APP_ID
+  display_title: 'Instagram App ID'
+  locked: false
+- name: INSTAGRAM_APP_SECRET
+  display_title: 'Instagram App Secret'
+  description: 'The App Secret used for Instagram authentication'
+  locked: false
+  type: secret
+- name: INSTAGRAM_VERIFY_TOKEN
+  display_title: 'Instagram Verify Token'
+  description: 'The verify token used for Instagram Webhook'
+  locked: false
+  type: secret
+- name: INSTAGRAM_API_VERSION
+  display_title: 'Instagram API Version'
+  description: 'Configure this if you want to use a different Instagram API version. Make sure its prefixed with `v`'
+  value: 'v22.0'
+  locked: false
+# ------- End of Instagram Channel Related Config ------- #

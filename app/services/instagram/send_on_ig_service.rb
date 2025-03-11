@@ -59,7 +59,7 @@ class Instagram::SendOnIgService < Base::SendOnChannelService
   def send_to_instagram(message_content)
     access_token = channel.access_token
 
-    app_secret_proof = calculate_app_secret_proof(ENV.fetch('INSTAGRAM_APP_SECRET', nil), access_token)
+    app_secret_proof = calculate_app_secret_proof(GlobalConfigService.load('INSTAGRAM_APP_SECRET', nil), access_token)
     query = { access_token: access_token }
     query[:appsecret_proof] = app_secret_proof if app_secret_proof
 
