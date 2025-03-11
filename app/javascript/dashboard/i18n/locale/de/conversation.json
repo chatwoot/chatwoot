@@ -38,23 +38,23 @@
     "REMOVE_SELECTION": "Auswahl entfernen",
     "DOWNLOAD": "Herunterladen",
     "UNKNOWN_FILE_TYPE": "Unbekannte Datei",
-    "SAVE_CONTACT": "Save Contact",
-    "NO_CONTENT": "No content to display",
+    "SAVE_CONTACT": "Kontakt speichern",
+    "NO_CONTENT": "Kein Inhalt zum Anzeigen",
     "SHARED_ATTACHMENT": {
-      "CONTACT": "{sender} has shared a contact",
-      "LOCATION": "{sender} has shared a location",
-      "FILE": "{sender} has shared a file",
+      "CONTACT": "{sender} hat einen Kontakt geteilt",
+      "LOCATION": "{sender} hat einen Standort geteilt",
+      "FILE": "{sender} hat eine Datei geteilt",
       "MEETING": "{sender} hat ein Meeting begonnen"
     },
     "UPLOADING_ATTACHMENTS": "Anhänge werden hochgeladen...",
     "REPLIED_TO_STORY": "Auf deine Geschichte geantwortet",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
+    "UNSUPPORTED_MESSAGE": "Diese Nachricht wird nicht unterstützt. Sie können diese Nachricht in der Facebook/Instagram-App sehen.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Diese Nachricht wird nicht unterstützt. Sie können diese Nachricht in der Facebook-Messenger-App sehen.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Diese Nachricht wird nicht unterstützt. Sie können diese Nachricht in der Instagram-App sehen.",
     "SUCCESS_DELETE_MESSAGE": "Nachricht erfolgreich gelöscht",
     "FAIL_DELETE_MESSSAGE": "Nachricht konnte nicht gelöscht werden! Versuchen Sie es erneut",
     "NO_RESPONSE": "Keine Antwort",
-    "RESPONSE": "Response",
+    "RESPONSE": "Antwort",
     "RATING_TITLE": "Bewertung",
     "FEEDBACK_TITLE": "Feedback",
     "REPLY_MESSAGE_NOT_FOUND": "Nachricht nicht verfügbar",
@@ -135,7 +135,7 @@
           "FAILED": "Agent konnte nicht zugewiesen werden. Bitte versuche es erneut."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
+          "SUCCESFUL": "Label #{labelName} der Konversations-ID {conversationId} zugewiesen",
           "FAILED": "Label konnte nicht zugewiesen werden. Bitte versuche es erneut."
         },
         "TEAM_ASSIGNMENT": {
@@ -324,7 +324,7 @@
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Betreff",
-    "EXPAND": "Expand email"
+    "EXPAND": "E-Mail erweitern"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Zugewiesen",
@@ -351,14 +351,14 @@
     "NO_TRANSLATIONS_AVAILABLE": "Für diesen Inhalt sind keine Übersetzungen verfügbar"
   },
   "TYPING": {
-    "ONE": "{user} is typing",
-    "TWO": "{user} and {secondUser} are typing",
-    "MULTIPLE": "{user} and {count} others are typing"
+    "ONE": "{user} tippt",
+    "TWO": "{user} und {secondUser} tippen",
+    "MULTIPLE": "{user} und {count} andere tippen"
   },
   "COPILOT": {
-    "TRY_THESE_PROMPTS": "Try these prompts"
+    "TRY_THESE_PROMPTS": "Probiere diese Prompts"
   },
   "GALLERY_VIEW": {
-    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
+    "ERROR_DOWNLOADING": "Anhang konnte nicht heruntergeladen werden. Bitte versuche es erneut"
   }
 }

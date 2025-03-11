@@ -33,6 +33,16 @@ RSpec.describe Captain::Tools::FirecrawlService do
       end
 
       it 'raises an error' do
+        expect { described_class.new }.to raise_error(NoMethodError)
+      end
+    end
+
+    context 'when API key is empty' do
+      before do
+        InstallationConfig.find_by(name: 'CAPTAIN_FIRECRAWL_API_KEY').update(value: '')
+      end
+
+      it 'raises an error' do
         expect { described_class.new }.to raise_error('Missing API key')
       end
     end

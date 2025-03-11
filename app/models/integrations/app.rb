@@ -55,9 +55,10 @@ class Integrations::App
   end
 
   def build_linear_action
+    app_id = GlobalConfigService.load('LINEAR_CLIENT_ID', nil)
     [
       "#{params[:action]}?response_type=code",
-      "client_id=#{ENV.fetch('LINEAR_CLIENT_ID', nil)}",
+      "client_id=#{app_id}",
       "redirect_uri=#{self.class.linear_integration_url}",
       "state=#{encode_state}",
       'scope=read,write',

@@ -21,6 +21,7 @@ const state = {
   conversationLastSeen: null,
   syncConversationsMessages: {},
   conversationFilters: {},
+  copilotAssistant: {},
 };
 
 // mutations
@@ -308,6 +309,9 @@ export const mutations = {
   },
   [types.UPDATE_CHAT_LIST_FILTERS](_state, data) {
     _state.conversationFilters = { ..._state.conversationFilters, ...data };
+  },
+  [types.SET_INBOX_CAPTAIN_ASSISTANT](_state, data) {
+    _state.copilotAssistant = data.assistant;
   },
 };
 
