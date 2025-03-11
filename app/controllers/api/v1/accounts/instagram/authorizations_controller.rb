@@ -1,5 +1,6 @@
 class Api::V1::Accounts::Instagram::AuthorizationsController < Api::V1::Accounts::BaseController
   include InstagramConcern
+  include Instagram::IntegrationHelper
   before_action :check_authorization
 
   def create
@@ -9,9 +10,12 @@ class Api::V1::Accounts::Instagram::AuthorizationsController < Api::V1::Accounts
         scope: 'instagram_business_basic instagram_business_manage_messages instagram_business_manage_comments instagram_business_content_publish instagram_business_manage_insights',
         enable_fb_login: '0',
         force_authentication: '1',
-        response_type: 'code'
+        response_type: 'code',
+        state: generate_instagram_token(Current.account.id)
       }
     )
+    Rails.logger.info("Account ID: #{Current.account.id}")
+    Rails.logger.info("Instagram Authorization URL: #{redirect_url}")
     if redirect_url
       render json: { success: true, url: redirect_url }
     else

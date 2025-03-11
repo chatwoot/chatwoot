@@ -1,5 +1,6 @@
 class Instagram::CallbacksController < ApplicationController
   include InstagramConcern
+  include Instagram::IntegrationHelper
 
   def show
     Rails.logger.info("Instagram OAuth Code: #{oauth_code}")
@@ -55,8 +56,9 @@ class Instagram::CallbacksController < ApplicationController
   end
 
   def account_id
-    # TODO: Get the account id from the user details via cache
-    1
+    return unless params[:state]
+
+    verify_instagram_token(params[:state])
   end
 
   def provider_name
