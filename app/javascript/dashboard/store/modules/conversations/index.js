@@ -216,13 +216,17 @@ export const mutations = {
       const selectedConversation = allConversations[index];
 
       // ignore out of order events
-      if (conversation.updated_at <= selectedConversation.updated_at) {
+      if (conversation.updated_at < selectedConversation.updated_at) {
         Sentry.withScope(scope => {
           scope.setContext('incoming', conversation);
           scope.setContext('stored', selectedConversation);
           Sentry.captureMessage('Conversation update mismatch');
         });
 
+        return;
+      }
+
+      if (conversation.updated_at === selectedConversation.updated_at) {
         return;
       }
 
