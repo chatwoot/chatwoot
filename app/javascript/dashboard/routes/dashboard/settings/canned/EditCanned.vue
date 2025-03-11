@@ -106,6 +106,10 @@ export default {
           );
         });
     },
+    refreshInboxes() {
+      this.inboxes = useMapGetter('inboxes/getInboxes');
+      this.selectedInboxes = this.inboxes.filter(inbox => this.selectedInboxIds.includes(inbox.id));
+    },
   },
 };
 </script>
