@@ -57,7 +57,6 @@ export function useAgentsList(includeNoneAgent = true) {
       agentsByUpdatedPresence
     );
 
-    // Use the local createNoneAgent function
     return [
       ...(includeNoneAgent && isAgentSelected.value ? [createNoneAgent()] : []),
       ...filteredAgentsByAvailability,
