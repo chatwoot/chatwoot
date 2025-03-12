@@ -147,10 +147,10 @@ RSpec.describe Captain::Llm::ConversationFaqService do
     end
 
     context 'when conversation has different language' do
+      let(:account) { create(:account, locale: 'fr') }
       let(:conversation) do
-        create(:conversation,
-               first_reply_created_at: Time.zone.now,
-               additional_attributes: { conversation_language: 'fr' })
+        create(:conversation, account: account,
+                              first_reply_created_at: Time.zone.now)
       end
 
       it 'includes system prompt with correct language' do

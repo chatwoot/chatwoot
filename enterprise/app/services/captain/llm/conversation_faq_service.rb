@@ -89,7 +89,7 @@ class Captain::Llm::ConversationFaqService < Llm::BaseOpenAiService
   end
 
   def chat_parameters
-    prompt = Captain::Llm::SystemPromptsService.conversation_faq_generator(conversation_language)
+    prompt = Captain::Llm::SystemPromptsService.conversation_faq_generator(account_language)
 
     {
       model: @model,
@@ -107,8 +107,8 @@ class Captain::Llm::ConversationFaqService < Llm::BaseOpenAiService
     }
   end
 
-  def conversation_language
-    conversation_language = @conversation.additional_attributes['conversation_language']
+  def account_language
+    conversation_language = @conversation.account.locale
     ISO_639.find(conversation_language)&.english_name&.downcase || 'english'
   end
 
