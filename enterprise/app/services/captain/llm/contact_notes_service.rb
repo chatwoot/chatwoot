@@ -26,7 +26,8 @@ class Captain::Llm::ContactNotesService < Llm::BaseOpenAiService
   end
 
   def chat_parameters
-    prompt = Captain::Llm::SystemPromptsService.notes_generator
+    prompt = Captain::Llm::SystemPromptsService.notes_generator(account_language)
+
     {
       model: @model,
       response_format: { type: 'json_object' },
@@ -41,6 +42,11 @@ class Captain::Llm::ContactNotesService < Llm::BaseOpenAiService
         }
       ]
     }
+  end
+
+  def account_language
+    account_locale = @conversation.account.locale
+    ISO_639.find(account_locale)&.english_name&.downcase || 'english'
   end
 
   def parse_response(response)
