@@ -3,7 +3,7 @@ import ChatMessage from 'widget/components/ChatMessage.vue';
 import AgentTypingBubble from 'widget/components/AgentTypingBubble.vue';
 import DateSeparator from 'shared/components/DateSeparator.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import darkModeMixin from 'widget/mixins/darkModeMixin';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { mapActions, mapGetters } from 'vuex';
 
@@ -15,12 +15,15 @@ export default {
     DateSeparator,
     Spinner,
   },
-  mixins: [darkModeMixin],
   props: {
     groupedMessages: {
       type: Array,
       default: () => [],
     },
+  },
+  setup() {
+    const { darkMode } = useDarkMode();
+    return { darkMode };
   },
   data() {
     return {
@@ -119,8 +122,8 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
-@import '~widget/assets/scss/mixins.scss';
+@import 'widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/mixins.scss';
 
 .conversation--container {
   display: flex;
@@ -132,6 +135,7 @@ export default {
   &.light-scheme {
     color-scheme: light;
   }
+
   &.dark-scheme {
     color-scheme: dark;
   }

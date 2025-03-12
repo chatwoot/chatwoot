@@ -3,7 +3,7 @@
         "MODAL": {
             "TITLE": "WhatsApp Veidnes",
             "SUBTITLE": "Izvēlieties WhatsApp veidni, kuru vēlaties nosūtīt",
-            "TEMPLATE_SELECTED_SUBTITLE": "Apstrādāt %{templateName}"
+            "TEMPLATE_SELECTED_SUBTITLE": "Apstrādāt {templateName}"
         },
         "PICKER": {
             "SEARCH_PLACEHOLDER": "Meklēt Veidnes",
@@ -16,7 +16,7 @@
         },
         "PARSER": {
             "VARIABLES_LABEL": "Mainīgie",
-            "VARIABLE_PLACEHOLDER": "Ievadiet %{variable} vērtību",
+            "VARIABLE_PLACEHOLDER": "Ievadiet {variable} vērtību",
             "GO_BACK_LABEL": "Atgriezties",
             "SEND_MESSAGE_LABEL": "Sūtīt Ziņojumu",
             "FORM_ERROR_MESSAGE": "Lūdzu, pirms nosūtīšanas aizpildiet visus mainīgos"

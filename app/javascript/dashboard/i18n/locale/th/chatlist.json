@@ -6,6 +6,7 @@
     "LIST": {
       "404": "ไม่มีการสนทนาที่ใช้งานในกลุ่มนี้"
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "การสนทนา",
     "MENTION_HEADING": "กล่าวถึง",
     "UNATTENDED_HEADING": "ไม่ได้เข้าร่วม",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "สถานที่"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "ได้เเชร์ลิ้ง"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "ไม่มีเนื้อหา",
     "HIDE_QUOTED_TEXT": "ซ่อนข้อความในเครื่องหมายคำพูด",
     "SHOW_QUOTED_TEXT": "แสดงข้อความในเครื่องหมายคำพูด",
-    "MESSAGE_READ": "อ่านแล้ว"
+    "MESSAGE_READ": "อ่านแล้ว",
+    "SENDING": "Sending"
   }
 }

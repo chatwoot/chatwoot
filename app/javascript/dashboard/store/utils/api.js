@@ -1,15 +1,15 @@
 import fromUnixTime from 'date-fns/fromUnixTime';
 import differenceInDays from 'date-fns/differenceInDays';
 import Cookies from 'js-cookie';
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { LocalStorage } from 'shared/helpers/localStorage';
+import { emitter } from 'shared/helpers/mitt';
 import {
   ANALYTICS_IDENTITY,
   ANALYTICS_RESET,
   CHATWOOT_RESET,
   CHATWOOT_SET_USER,
-} from '../../helper/scriptHelpers';
-import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
-import { LocalStorage } from 'shared/helpers/localStorage';
-import { emitter } from 'shared/helpers/mitt';
+} from '../../constants/appEvents';
 
 Cookies.defaults = { sameSite: 'Lax' };
 

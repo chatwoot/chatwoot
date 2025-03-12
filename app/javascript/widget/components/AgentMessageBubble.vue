@@ -1,16 +1,15 @@
 <script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import ChatCard from 'shared/components/ChatCard.vue';
 import ChatForm from 'shared/components/ChatForm.vue';
 import ChatOptions from 'shared/components/ChatOptions.vue';
 import ChatArticle from './template/Article.vue';
 import EmailInput from './template/EmailInput.vue';
 import CustomerSatisfaction from 'shared/components/CustomerSatisfaction.vue';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 import IntegrationCard from './template/IntegrationCard.vue';
 import CalEventCard from './template/CalEventCard.vue';
 import CalEventConfirmationCard from './template/CalEventConfirmationCard.vue';
-import ConnectWithTeamInput from './template/ConnectWithTeamInput.vue';
 
 export default {
   name: 'AgentMessageBubble',
@@ -24,9 +23,7 @@ export default {
     IntegrationCard,
     CalEventCard,
     CalEventConfirmationCard,
-    ConnectWithTeamInput,
   },
-  mixins: [messageFormatterMixin, darkModeMixin],
   props: {
     message: { type: String, default: null },
     contentType: { type: String, default: null },
@@ -37,7 +34,18 @@ export default {
       default: () => {},
     },
   },
-
+  setup() {
+    const { formatMessage, getPlainText, truncateMessage, highlightContent } =
+      useMessageFormatter();
+    const { getThemeClass } = useDarkMode();
+    return {
+      formatMessage,
+      getPlainText,
+      truncateMessage,
+      highlightContent,
+      getThemeClass,
+    };
+  },
   computed: {
     isTemplate() {
       return this.messageType === 3;
@@ -68,9 +76,6 @@ export default {
     },
     isCalEventConfirmation() {
       return this.contentType === 'cal_event_confirmation';
-    },
-    isConnectWithTeam() {
-      return this.contentType === 'input_connect_with_team';
     },
   },
 
@@ -105,7 +110,7 @@ export default {
         !isCards && !isOptions && !isForm && !isArticle && !isCards && !isCSAT
       "
       class="chat-bubble agent"
-      :class="$dm('bg-white', 'dark:bg-slate-700 has-dark-mode')"
+      :class="getThemeClass('bg-white', 'dark:bg-slate-700 has-dark-mode')"
     >
       <div
         v-dompurify-html="formatMessage(message, false)"
@@ -133,15 +138,13 @@ export default {
         v-if="isCalEventConfirmation"
         :event-payload="messageContentAttributes.event_payload"
       />
-      
-      <ConnectWithTeamInput v-if="isConnectWithTeam" :message-id="messageId" />
     </div>
     <div v-if="isOptions">
       <ChatOptions
         :title="message"
         :options="messageContentAttributes.items"
         :hide-fields="!!messageContentAttributes.submitted_values"
-        @click="onOptionSelect"
+        @option-select="onOptionSelect"
       />
     </div>
     <ChatForm

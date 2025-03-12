@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automatisierungen",
+    "HEADER": "Automatisierung",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "Automatisierungsregel hinzufügen",
     "LOADING": "Automatisierungsregeln abrufen",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation kann bestehende Prozesse ersetzen und automatisieren, die manuellen Aufwand erfordern. Mit der Automatisierung kannst Du viele Dinge tun, darunter das Hinzufügen von Labels und das Zuweisen von Gesprächen zum besten Agenten. Das Team konzentriert sich also auf das, was es am besten kann, und verbringt weniger Zeit mit manuellen Aufgaben.</p>",
     "ADD": {
       "TITLE": "Automatisierungsregel hinzufügen",
       "SUBMIT": "Erstellen",
@@ -39,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Name",
-        "Beschreibung",
-        "Aktiv",
-        "Erstellt am"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Name",
+        "DESCRIPTION": "Beschreibung",
+        "ACTIVE": "Aktiv",
+        "CREATED_ON": "Erstellt am"
+      },
       "404": "Keine Automatisierungsregeln gefunden"
     },
     "DELETE": {

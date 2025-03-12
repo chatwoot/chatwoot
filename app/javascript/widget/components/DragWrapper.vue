@@ -12,6 +12,7 @@ export default {
       default: false,
     },
   },
+  emits: ['dragged'],
   data() {
     return {
       startX: null,

@@ -6,6 +6,7 @@
     "LIST": {
       "404": "Não há conversas ativas neste grupo."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Conversas",
     "MENTION_HEADING": "Menções",
     "UNATTENDED_HEADING": "Por responder",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "Local:"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "partilhou um URL"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "Sem conteúdo disponível",
     "HIDE_QUOTED_TEXT": "Ocultar texto citado",
     "SHOW_QUOTED_TEXT": "Mostrar texto citado",
-    "MESSAGE_READ": "Lida"
+    "MESSAGE_READ": "Lida",
+    "SENDING": "Sending"
   }
 }

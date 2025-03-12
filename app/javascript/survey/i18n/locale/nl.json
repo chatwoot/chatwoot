@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Beste klant 👋, neem even de tijd om feedback te delen over het gesprek dat u met %{inboxName} hebt gehad.",
+    "DESCRIPTION": "Beste klant 👋, neem even de tijd om feedback te delen over het gesprek dat u met {inboxName} hebt gehad.",
     "RATING": {
       "LABEL": "Beoordeel uw gesprek",
       "SUCCESS_MESSAGE": "Bedankt voor het indienen van een beoordeling"

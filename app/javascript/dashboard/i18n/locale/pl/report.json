@@ -23,13 +23,13 @@
         "NAME": "Czas pierwszej odpowiedzi",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Czas rozwiązania",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas rozwiązania to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas rozwiązania to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Liczba rozwiązań",
@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Ostatni rok",
       "CUSTOM_DATE_RANGE": "Niestandardowy zakres dat"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Ostatnie 7 dni"
-      },
-      {
-        "id": 1,
-        "name": "Ostatnie 30 dni"
-      },
-      {
-        "id": 2,
-        "name": "Ostatnie 3 miesiące"
-      },
-      {
-        "id": 3,
-        "name": "Ostatnie 6 miesięcy"
-      },
-      {
-        "id": 4,
-        "name": "Ostatni rok"
-      },
-      {
-        "id": 5,
-        "name": "Niestandardowy zakres dat"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Zastosuj",
       "PLACEHOLDER": "Wybierz zakres dat"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Nie znaleziono rekordów"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -167,13 +145,13 @@
         "NAME": "Czas pierwszej odpowiedzi",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Czas rozwiązania",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas rozwiązania to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas rozwiązania to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Liczba rozwiązań",
@@ -234,13 +212,13 @@
         "NAME": "Czas pierwszej odpowiedzi",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Czas rozwiązania",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas rozwiązania to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas rozwiązania to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Liczba rozwiązań",
@@ -301,13 +279,13 @@
         "NAME": "Czas pierwszej odpowiedzi",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Czas rozwiązania",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas rozwiązania to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas rozwiązania to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Liczba rozwiązań",
@@ -368,13 +346,13 @@
         "NAME": "Czas pierwszej odpowiedzi",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Czas rozwiązania",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas rozwiązania to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas rozwiązania to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Liczba rozwiązań",
@@ -480,8 +458,8 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Ruch rozmów",
       "NO_CONVERSATIONS": "Brak rozmów",
-      "CONVERSATION": "%{count} rozmowa",
-      "CONVERSATIONS": "%{count} rozmowy",
+      "CONVERSATION": "{count} rozmowa",
+      "CONVERSATIONS": "{count} rozmowy",
       "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
@@ -490,16 +468,16 @@
       "NO_AGENTS": "Brak rozmów według agentów",
       "TABLE_HEADER": {
         "AGENT": "Agent",
-        "OPEN": "OTWARTE",
+        "OPEN": "Otwórz",
         "UNATTENDED": "Nieobsługiwane",
         "STATUS": "Status"
       }
     },
     "AGENT_STATUS": {
       "HEADER": "Status agenta",
-      "ONLINE": "Online",
+      "ONLINE": "Dostępny",
       "BUSY": "Zajęty",
-      "OFFLINE": "Offline"
+      "OFFLINE": "Niedostępny"
     }
   },
   "DAYS_OF_WEEK": {

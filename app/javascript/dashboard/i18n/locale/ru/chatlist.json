@@ -6,6 +6,7 @@
     "LIST": {
       "404": "В этой группе нет активных диалогов."
     },
+    "FAILED_TO_SEND": "Не удалось отправить",
     "TAB_HEADING": "Диалоги",
     "MENTION_HEADING": "Упоминания",
     "UNATTENDED_HEADING": "Неотвеченные",
@@ -93,12 +94,15 @@
       "location": {
         "CONTENT": "Местоположение"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "поделился ссылкой"
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Сортировать разговор",
+      "TITLE": "Сортировать диалог",
       "DROPDOWN_TITLE": "Сортировать по",
       "ITEMS": {
         "LATEST": {
@@ -126,6 +130,7 @@
     "NO_CONTENT": "Содержимое отсутствует",
     "HIDE_QUOTED_TEXT": "Скрыть цитируемый текст",
     "SHOW_QUOTED_TEXT": "Показать цитируемый текст",
-    "MESSAGE_READ": "Прочитано"
+    "MESSAGE_READ": "Прочитано",
+    "SENDING": "Отправка"
   }
 }

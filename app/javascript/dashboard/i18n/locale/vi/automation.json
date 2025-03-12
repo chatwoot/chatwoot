@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
     "HEADER": "Tự động hoá",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "Thêm luật Tự động hoá",
     "LOADING": "Đang lấy luật tự động hoá",
-    "SIDEBAR_TXT": "<p><b>Luật tự động hóa</b> <p>Tự động hóa có thể thay thế và tự động hóa các quy trình hiện có mà cần thao tác thủ công. Bạn có thể làm nhiều việc với tự động hóa, bao gồm thêm nhãn và gán cuộc trò chuyện cho người đại diện tốt nhất. Vì vậy, nhóm tập trung vào những gì họ làm tốt nhất và dành ít thời gian hơn cho các công việc thủ công.</p>",
     "ADD": {
       "TITLE": "Thêm Quy tắc Tự động hoá",
       "SUBMIT": "Tạo",
@@ -39,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Tên",
-        "Mô tả",
-        "Có hiệu lực",
-        "Được tạo trên"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Tên",
+        "DESCRIPTION": "Mô tả",
+        "ACTIVE": "Có hiệu lực",
+        "CREATED_ON": "Được tạo trên"
+      },
       "404": "Không tìm thấy luật tự động hoá"
     },
     "DELETE": {

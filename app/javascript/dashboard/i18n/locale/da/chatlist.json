@@ -6,6 +6,7 @@
     "LIST": {
       "404": "Der er ingen aktive samtaler i denne gruppe."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Samtaler",
     "MENTION_HEADING": "Omtaler",
     "UNATTENDED_HEADING": "Unattet",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "Lokation"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "har delt en URL"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "Intet tilgængeligt indhold",
     "HIDE_QUOTED_TEXT": "Skjul Citeret Tekst",
     "SHOW_QUOTED_TEXT": "Vis Citeret Tekst",
-    "MESSAGE_READ": "Læst"
+    "MESSAGE_READ": "Læst",
+    "SENDING": "Sending"
   }
 }

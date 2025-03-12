@@ -12,6 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "אירועים מנויים",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "ביטול",
         "DESC": "אירועי Webhook מספקים לך מידע בזמן אמת על מה שקורה בחשבון OneHash Chat שלך. אנא הזן כתובת אתר חוקית כדי להגדיר התקשרות חוזרת.",
@@ -30,7 +31,7 @@
         },
         "END_POINT": {
           "LABEL": "כתובת אתר של Webhook",
-          "PLACEHOLDER": "דוגמה: https://example/api/webhook",
+          "PLACEHOLDER": "Example: {webhookExampleURL}",
           "ERROR": "אנא הכנס כתובת URL חוקית"
         },
         "EDIT_SUBMIT": "עדכון webhook",
@@ -46,10 +47,10 @@
       "LIST": {
         "404": "לא הוגדרו webhooks עבור חשבון זה.",
         "TITLE": "נהל webhooks",
-        "TABLE_HEADER": [
-          "נקודת קצה של Webhook",
-          "פעולות"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "נקודת קצה של Webhook",
+          "ACTIONS": "פעולות"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "ערוך",
@@ -75,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "אשר מחיקה",
-          "MESSAGE": "האם אתה בטוח שתמחק את ה-webhook? (%{webhookURL})",
+          "MESSAGE": "האם אתה בטוח שתמחק את ה-webhook? ({webhookURL})",
           "YES": "כן, מחק ",
           "NO": "לא, השאר"
         }
@@ -89,7 +90,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "שימוש ב-Slack Integration",
-        "BODY": "<br/><p>OneHash Chat תסנכרן כעת את כל השיחות הנכנסות לערוץ <b><i>שיחות-לקוח</i></b> בתוך מקום העבודה הרפוי שלך.</p><p>משיב ל- שרשור שיחה ב<b><i>שיחות לקוח</i></b> ערוץ רפוי ייצור תגובה חזרה ללקוח באמצעות OneHash Chat.</p><p>התחל את התשובות עם <b><i> הערה:</i></b> כדי ליצור הערות פרטיות במקום תשובות.</p><p>אם למשיב ב-slack יש פרופיל סוכן ב-OneHash Chat תחת אותו דוא\"ל, התשובות ישויכו בהתאם.</b> p><p>כאשר למשיב אין פרופיל סוכן משויך, התשובות ייעשו מפרופיל הבוט.</p>",
+        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through OneHash Chat. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in OneHash Chat under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
         "SELECTED": "selected"
       },
       "SELECT_CHANNEL": {
@@ -113,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "WITH_AI": " {option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
         "SUMMARIZE": "Summarize",
@@ -182,10 +183,10 @@
       "LIST": {
         "404": "אין עדיין אפליקציות לוח מחוונים מוגדרות בחשבון זה",
         "LOADING": "מביא אפליקציות לוח מחוונים...",
-        "TABLE_HEADER": [
-          "שם",
-          "נקודת קצה"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "שם",
+          "ENDPOINT": "נקודת קצה"
+        },
         "EDIT_TOOLTIP": "ערוך אפליקציה",
         "DELETE_TOOLTIP": "מחק אפליקציה"
       },
@@ -215,7 +216,7 @@
         "CONFIRM_YES": "כן, מחק את זה",
         "CONFIRM_NO": "לא, שמור את זה",
         "TITLE": "אשר מחיקה",
-        "MESSAGE": "האם אתה בטוח שתמחק את האפליקציה - %{appName}?",
+        "MESSAGE": "האם אתה בטוח שתמחק את האפליקציה - {appName}?",
         "API_SUCCESS": "אפליקציית לוח המחוונים נמחקה בהצלחה",
         "API_ERROR": "לא הצלחנו למחוק את האפליקציה. אנא נסה שוב מאוחר יותר"
       }
@@ -234,7 +235,7 @@
         "ERROR": "There was an error fetching the linear issues, please try again",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -293,13 +294,22 @@
         "PRIORITY": "Priority",
         "ASSIGNEE": "Assignee",
         "LABELS": "תוויות",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Unlink",
         "SUCCESS": "Issue unlinked successfully",
         "ERROR": "There was an error unlinking the issue, please try again"
       }
+    }
+  },
+  "CAPTAIN": {
+    "NAME": "Captain",
+    "COPILOT": {
+      "SEND_MESSAGE": "שלח הודעה...",
+      "LOADER": "Captain is thinking",
+      "YOU": "You",
+      "USE": "Use this"
     }
   }
 }

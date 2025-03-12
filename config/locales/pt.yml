@@ -29,6 +29,7 @@ pt:
       invalid: Eventos inválidos
     signup:
       disposable_email: Não permitimos e-mails descartáveis
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Digitou um email inválido
       email_already_exists: "Já existe uma conta com o %{email}"
       invalid_params: 'Inválido, por favor, verifique os parâmetros de subscrição e tente novamente'
@@ -65,6 +66,7 @@ pt:
       number_of_records: Limite atingido. O número máximo de filtros personalizados permitidos para um utilizador por conta é de 50.
       invalid_attribute: Chave de atributo inválida - [%{key}]. A chave deve ser uma das [%{allowed_keys}] ou um atributo personalizado definido na conta.
       invalid_operator: Operador inválido. Os operadores permitidos para %{attribute_name} são [%{allowed_keys}].
+      invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Valor inválido. Os valores fornecidos para %{attribute_name} são inválidos
   reports:
     period: Período do relatório de %{since} a %{until}
@@ -189,7 +191,7 @@ pt:
       delete: "%{contact_name} está Online, por favor, tente novamente mais tarde"
   integration_apps:
     dashboard_apps:
-      name: "Dashboard Apps"
+      name: "Apps de dashboard"
       description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
     dyte:
       name: "Dyte"

@@ -86,8 +86,5 @@ $swift-ease-out-duration: .4s !default;
 $swift-ease-out-timing-function: cubic-bezier(.25, .8, .25, 1) !default;
 $swift-ease-out: all $swift-ease-out-duration $swift-ease-out-timing-function !default;
 
-// Ionicons
-$ionicons-font-path: '~ionicons/fonts';
-
 // Transitions
 $transition-ease-in: all 0.250s ease-in;

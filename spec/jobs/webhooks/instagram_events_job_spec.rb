@@ -81,9 +81,7 @@ describe Webhooks::InstagramEventsJob do
       end
 
       it 'handle instagram unsend message event' do
-        create(:message,
-               source_id: 'message-id-to-delete',
-               inbox_id: instagram_inbox.id)
+        message = create(:message, inbox_id: instagram_inbox.id, source_id: 'message-id-to-delete')
         allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
         allow(fb_object).to receive(:get_object).and_return(
           {
@@ -93,10 +91,15 @@ describe Webhooks::InstagramEventsJob do
             profile_pic: 'https://chatwoot-assets.local/sample.png'
           }.with_indifferent_access
         )
+        message.attachments.new(file_type: :image, external_url: 'https://www.example.com/test.jpeg')
+
         expect(instagram_inbox.messages.count).to be 1
+
         instagram_webhook.perform_now(unsend_event[:entry])
 
         expect(instagram_inbox.messages.last.content).to eq 'This message was deleted'
+        expect(instagram_inbox.messages.last.deleted).to be true
+        expect(instagram_inbox.messages.last.attachments.count).to be 0
         expect(instagram_inbox.messages.last.reload.deleted).to be true
       end
 

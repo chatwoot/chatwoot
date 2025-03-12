@@ -10,11 +10,11 @@
       "404": "Bu hesapta mevcut etiket yok.",
       "TITLE": "Etiketleri yönet",
       "DESC": "Etiketler, konuşmaları birlikte gruplamanıza olanak tanır.",
-      "TABLE_HEADER": [
-        "İsim",
-        "Açıklama",
-        "Renk"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "İsim",
+        "DESCRIPTION": "Açıklama",
+        "COLOR": "Renk"
+      }
     },
     "FORM": {
       "NAME": {

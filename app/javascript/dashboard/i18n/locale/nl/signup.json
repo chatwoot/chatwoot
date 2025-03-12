@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "Werk e-mail",
-      "PLACEHOLDER": "Voer je werk-e-mailadres in, bijvoorbeeld: bruce@wayne.enterprises",
+      "PLACEHOLDER": "Voer je werk-e-mailadres in, bijvoorbeeld: bruce{'@'}wayne{'.'}enterprises",
       "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {

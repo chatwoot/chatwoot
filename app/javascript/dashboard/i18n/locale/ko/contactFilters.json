@@ -30,6 +30,9 @@
       "is_lesser_than": "Is lesser than",
       "days_before": "x 일 전에"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "값이 필요합니다."
+    },
     "ATTRIBUTES": {
       "NAME": "이름",
       "EMAIL": "이메일",

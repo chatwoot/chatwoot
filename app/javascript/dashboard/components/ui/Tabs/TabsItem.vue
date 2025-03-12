@@ -1,47 +1,40 @@
-<script>
-export default {
-  name: 'WootTabsItem',
-  props: {
-    index: {
-      type: Number,
-      default: 0,
-    },
-    name: {
-      type: String,
-      required: true,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    count: {
-      type: Number,
-      default: 0,
-    },
-    showBadge: {
-      type: Boolean,
-      default: true,
-    },
-  },
+<script setup>
+import { computed, inject } from 'vue';
 
-  computed: {
-    active() {
-      return this.index === this.$parent.index;
-    },
-
-    getItemCount() {
-      return this.count;
-    },
+const props = defineProps({
+  index: {
+    type: Number,
+    default: 0,
   },
-
-  methods: {
-    onTabClick(event) {
-      event.preventDefault();
-      if (!this.disabled) {
-        this.$parent.$emit('change', this.index);
-      }
-    },
+  name: {
+    type: String,
+    required: true,
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+  count: {
+    type: Number,
+    default: 0,
+  },
+  showBadge: {
+    type: Boolean,
+    default: true,
+  },
+});
+
+const activeIndex = inject('activeIndex');
+const updateActiveIndex = inject('updateActiveIndex');
+
+const active = computed(() => props.index === activeIndex.value);
+const getItemCount = computed(() => props.count);
+
+const onTabClick = event => {
+  event.preventDefault();
+  if (!props.disabled) {
+    updateActiveIndex(props.index);
+  }
 };
 </script>
 

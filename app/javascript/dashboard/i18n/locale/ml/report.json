@@ -23,13 +23,13 @@
         "NAME": "First Response Time",
         "DESC": "( ശരാശരി )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "മിഴിവ് സമയം",
         "DESC": "( ശരാശരി )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "മിഴിവ് എണ്ണം",
@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "കഴിഞ്ഞ വർഷം",
       "CUSTOM_DATE_RANGE": "ഇഷ്‌ടാനുസൃത തീയതി ശ്രേണി"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "കഴിഞ്ഞ 7 ദിവസം"
-      },
-      {
-        "id": 1,
-        "name": "കഴിഞ്ഞ 30 ദിവസം"
-      },
-      {
-        "id": 2,
-        "name": "കഴിഞ്ഞ 3 മാസം"
-      },
-      {
-        "id": 3,
-        "name": "കഴിഞ്ഞ 6 മാസം"
-      },
-      {
-        "id": 4,
-        "name": "കഴിഞ്ഞ വർഷം"
-      },
-      {
-        "id": 5,
-        "name": "ഇഷ്‌ടാനുസൃത തീയതി ശ്രേണി"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "അപേക്ഷിക്കുക",
       "PLACEHOLDER": "തീയതി ശ്രേണി തിരഞ്ഞെടുക്കുക"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "ഒരു ഫലവും കണ്ടെത്താനായില്ല"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -167,13 +145,13 @@
         "NAME": "First Response Time",
         "DESC": "( ശരാശരി )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "മിഴിവ് സമയം",
         "DESC": "( ശരാശരി )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "മിഴിവ് എണ്ണം",
@@ -234,13 +212,13 @@
         "NAME": "First Response Time",
         "DESC": "( ശരാശരി )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "മിഴിവ് സമയം",
         "DESC": "( ശരാശരി )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "മിഴിവ് എണ്ണം",
@@ -301,13 +279,13 @@
         "NAME": "First Response Time",
         "DESC": "( ശരാശരി )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "മിഴിവ് സമയം",
         "DESC": "( ശരാശരി )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "മിഴിവ് എണ്ണം",
@@ -368,13 +346,13 @@
         "NAME": "First Response Time",
         "DESC": "( ശരാശരി )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "മിഴിവ് സമയം",
         "DESC": "( ശരാശരി )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "മിഴിവ് എണ്ണം",
@@ -480,8 +458,8 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
       "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
       "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
@@ -490,7 +468,7 @@
       "NO_AGENTS": "There are no conversations by agents",
       "TABLE_HEADER": {
         "AGENT": "ഏജന്റ്",
-        "OPEN": "OPEN",
+        "OPEN": "സജീവം",
         "UNATTENDED": "Unattended",
         "STATUS": "സ്റ്റാറ്റസ്"
       }

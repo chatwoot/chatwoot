@@ -1,8 +1,8 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Atalhos",
-    "LEARN_MORE": "Learn more about canned responses",
-    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
+    "LEARN_MORE": "Aprenda mais sobre respostas prontas",
+    "DESCRIPTION": "Respostas prontas são modelos de resposta pré-escritas que te ajudam a responder rapidamente a uma conversa. Os agentes podem digitar o caractere ' /' seguido pelo atalho para inserir uma resposta pronta durante uma conversa. ",
     "HEADER_BTN_TXT": "Adicionar resposta pronta",
     "LOADING": "Buscando respostas prontas...",
     "SEARCH_404": "Não existem itens correspondentes a esta consulta.",
@@ -10,11 +10,11 @@
       "404": "Não há atalhos disponíveis nesta conta.",
       "TITLE": "Gerenciar Atalhos",
       "DESC": "Respostas Prontas são modelos de resposta predefinidas que podem ser usados para enviar respostas rapidamente durante conversas.",
-      "TABLE_HEADER": [
-        "Atalho",
-        "Conteúdo",
-        "Ações"
-      ]
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Atalho",
+        "CONTENT": "Conteúdo",
+        "ACTIONS": "Ações"
+      }
     },
     "ADD": {
       "TITLE": "Adicionar resposta pronta",
@@ -35,7 +35,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Resposta pronta adicionada com sucesso.",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Tente novamente."
+        "ERROR_MESSAGE": "Não foi possível desconectar o agente robô. Por favor, tente novamente mais tarde."
       }
     },
     "EDIT": {
@@ -57,14 +57,14 @@
       "BUTTON_TEXT": "Alterar",
       "API": {
         "SUCCESS_MESSAGE": "Resposta pronta atualizada com sucesso.",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Tente novamente."
+        "ERROR_MESSAGE": "Não foi possível desconectar o agente robô. Por favor, tente novamente mais tarde."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Excluir",
       "API": {
         "SUCCESS_MESSAGE": "Resposta pronta deletada com sucesso.",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Tente novamente."
+        "ERROR_MESSAGE": "Não foi possível desconectar o agente robô. Por favor, tente novamente mais tarde."
       },
       "CONFIRM": {
         "TITLE": "Confirmar exclusão",

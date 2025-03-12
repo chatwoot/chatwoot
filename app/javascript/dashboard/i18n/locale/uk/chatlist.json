@@ -6,6 +6,7 @@
     "LIST": {
       "404": "В цій групі немає активних бесід."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Бесіди",
     "MENTION_HEADING": "Згадування",
     "UNATTENDED_HEADING": "Не зв'язаний",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "Місцезнаходження"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "поділився посиланням"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "Немає вмісту",
     "HIDE_QUOTED_TEXT": "Приховати цитований текст",
     "SHOW_QUOTED_TEXT": "Показати цитований текст",
-    "MESSAGE_READ": "Прочитано"
+    "MESSAGE_READ": "Прочитано",
+    "SENDING": "Sending"
   }
 }

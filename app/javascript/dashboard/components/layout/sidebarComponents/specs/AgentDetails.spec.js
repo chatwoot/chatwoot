@@ -1,28 +1,10 @@
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
 import AgentDetails from '../AgentDetails.vue';
-import { createLocalVue, shallowMount } from '@vue/test-utils';
-import Vuex from 'vuex';
-import VueI18n from 'vue-i18n';
-import VTooltip from 'v-tooltip';
-
-import i18n from 'dashboard/i18n';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import WootButton from 'dashboard/components/ui/WootButton.vue';
-const localVue = createLocalVue();
-localVue.use(Vuex);
-localVue.use(VueI18n);
-localVue.component('thumbnail', Thumbnail);
-localVue.component('woot-button', WootButton);
-localVue.component('woot-button', WootButton);
-localVue.use(VTooltip, {
-  defaultHtml: false,
-});
 
-const i18nConfig = new VueI18n({
-  locale: 'en',
-  messages: i18n,
-});
-
-describe('agentDetails', () => {
+describe('AgentDetails', () => {
   const currentUser = {
     name: 'Neymar Junior',
     avatar_url: '',
@@ -30,37 +12,46 @@ describe('agentDetails', () => {
   };
   const currentRole = 'agent';
   let store = null;
-  let actions = null;
-  let modules = null;
   let agentDetails = null;
 
-  beforeEach(() => {
-    actions = {};
+  const mockTooltipDirective = {
+    mounted: (el, binding) => {
+      // You can mock the behavior here if necessary
+      el.setAttribute('data-tooltip', binding.value || '');
+    },
+  };
 
-    modules = {
-      auth: {
-        getters: {
-          getCurrentUser: () => currentUser,
-          getCurrentRole: () => currentRole,
-          getCurrentUserAvailability: () => currentUser.availability_status,
+  beforeEach(() => {
+    store = createStore({
+      modules: {
+        auth: {
+          namespaced: false,
+          getters: {
+            getCurrentUser: () => currentUser,
+            getCurrentRole: () => currentRole,
+            getCurrentUserAvailability: () => currentUser.availability_status,
+          },
         },
       },
-    };
-
-    store = new Vuex.Store({
-      actions,
-      modules,
     });
 
     agentDetails = shallowMount(AgentDetails, {
-      store,
-      localVue,
-      i18n: i18nConfig,
+      global: {
+        plugins: [store],
+        components: {
+          Thumbnail,
+          WootButton,
+        },
+        directives: {
+          tooltip: mockTooltipDirective, // Mocking the tooltip directive
+        },
+        stubs: { WootButton: { template: '<button><slot /></button>' } },
+      },
     });
   });
 
-  it(' the agent status', () => {
-    expect(agentDetails.find('thumbnail-stub').vm.status).toBe('online');
+  it('shows the correct agent status', () => {
+    expect(agentDetails.findComponent(Thumbnail).vm.status).toBe('online');
   });
 
   it('agent thumbnail exists', () => {

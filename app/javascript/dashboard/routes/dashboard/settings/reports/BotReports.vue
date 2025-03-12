@@ -1,20 +1,20 @@
 <script>
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import BotMetrics from './components/BotMetrics.vue';
 import ReportFilterSelector from './components/FilterSelector.vue';
 import { GROUP_BY_FILTER } from './constants';
-import reportMixin from 'dashboard/mixins/reportMixin';
 import ReportContainer from './ReportContainer.vue';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+import ReportHeader from './components/ReportHeader.vue';
 
 export default {
   name: 'BotReports',
   components: {
     BotMetrics,
+    ReportHeader,
     ReportFilterSelector,
     ReportContainer,
   },
-  mixins: [reportMixin],
   data() {
     return {
       from: 0,
@@ -76,7 +76,7 @@ export default {
       this.businessHours = businessHours;
       this.fetchAllData();
 
-      this.$track(REPORTS_EVENTS.FILTER_REPORT, {
+      useTrack(REPORTS_EVENTS.FILTER_REPORT, {
         filterValue: { from, to, groupBy, businessHours },
         reportType: 'bots',
       });
@@ -86,12 +86,13 @@ export default {
 </script>
 
 <template>
-  <div class="flex-1 p-4 overflow-auto">
+  <ReportHeader :header-title="$t('BOT_REPORTS.HEADER')" />
+  <div class="flex flex-col gap-4">
     <ReportFilterSelector
       :show-agents-filter="false"
       show-group-by-filter
       :show-business-hours-switch="false"
-      @filterChange="onFilterChange"
+      @filter-change="onFilterChange"
     />
 
     <BotMetrics :filters="requestPayload" />

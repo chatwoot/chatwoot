@@ -1,34 +1,31 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Posteingänge",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> Wenn Sie eine Website oder eine Facebook-Seite mit Chatwoot verbinden, wird diese als bInbox</b> bezeichnet. Sie können unbegrenzte Posteingänge in Ihrem Chatwoot-Konto haben. </p><p Klicken Sie auf <b>Posteingang hinzufügen</b>, um eine Website oder eine Facebook-Seite zu verbinden. </p><p> Im Dashboard können Sie alle Konversationen aus all Ihren Posteingängen an einem einzigen Ort sehen und unter der Registerkarte 'Konversationen' darauf antworten. </p><p> Sie können auch zu einem Posteingang spezifische Konversationen anzeigen, indem Sie auf den Namen des Posteingangs im linken Bereich des Dashboards klicken. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Ihr Posteingang ist nicht verbunden. Sie erhalten keine neuen Nachrichten, bis Sie ihn erneut autorisieren.",
     "CLICK_TO_RECONNECT": "Klicken Sie hier, um die Verbindung wiederherzustellen.",
     "LIST": {
       "404": "Diesem Konto sind keine Posteingänge zugeordnet."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Wählen Sie Kanal",
-        "route": "settings_inbox_new",
-        "body": "Wählen Sie den Anbieter, den Sie in Chatwoot integrieren möchten."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Wählen Sie Kanal",
+        "BODY": "Wählen Sie den Anbieter, den Sie in Chatwoot integrieren möchten."
       },
-      {
-        "title": "Posteingang erstellen",
-        "route": "settings_inboxes_page_channel",
-        "body": "Authentifizieren Sie Ihr Konto und erstellen Sie einen Posteingang."
+      "INBOX": {
+        "TITLE": "Posteingang erstellen",
+        "BODY": "Authentifizieren Sie Ihr Konto und erstellen Sie einen Posteingang."
       },
-      {
-        "title": "Agenten hinzufügen",
-        "route": "settings_inboxes_add_agents",
-        "body": "Fügen Sie dem erstellten Posteingang Agenten hinzu."
+      "AGENT": {
+        "TITLE": "Agenten hinzufügen",
+        "BODY": "Fügen Sie dem erstellten Posteingang Agenten hinzu."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "Sie sind bereit zu gehen!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Geschafft!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Posteingang-Name",
@@ -367,12 +364,19 @@
         "DESCRIPTION": "Klicken Sie auf die Schaltfläche Einloggen mit Microsoft, um loszulegen. Sie werden zur E-Mail-Anmeldeseite weitergeleitet. Sobald Sie die angeforderten Berechtigungen angenommen haben, werden Sie zum Erstellungsschritt für den Posteingang weitergeleitet.",
         "EMAIL_PLACEHOLDER": "E-Mail-Adresse eingeben",
         "SIGN_IN": "Mit Microsoft anmelden",
-        "HELP": "Um Ihr Microsoft-Konto als Kanal hinzuzufügen, müssen Sie Ihr Microsoft-Konto authentifizieren, indem Sie auf 'Mit Microsoft anmelden' klicken ",
         "ERROR_MESSAGE": "Beim Verbinden mit Microsoft ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "E-Mail-Adresse eingeben",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Authentifizierung mit Facebook ...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Es ist ein Fehler aufgetreten. Bitte Seite aktualisieren ...",
       "ERROR_FB_UNAUTHORIZED": "Sie sind nicht berechtigt, diese Aktion auszuführen. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Bitte stellen Sie sicher, dass Sie vollen Zugriff auf die Facebook-Seite haben. Weitere Informationen zu Facebook-Rollen finden Sie <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
@@ -494,7 +498,7 @@
       "SENDER_NAME_SECTION_TEXT": "Aktivieren/Deaktivieren Sie die Anzeige des Agentennamens in der E-Mail. Wenn deaktiviert, wird der Firmenname angezeigt",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Konversationskontinuität per E-Mail aktivieren",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Konversationen werden per E-Mail fortgesetzt, wenn die Kontakt-E-Mail-Adresse verfügbar ist.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Merere Konversationen zulassen",
+      "LOCK_TO_SINGLE_CONVERSATION": "Mehrere Konversationen zulassen",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Mehrere gleichzeitige Unterhaltungen für denselben Kontakt in diesem Posteingang aktivieren oder deaktivieren",
       "INBOX_UPDATE_TITLE": "Posteingangseinstellungen",
       "INBOX_UPDATE_SUB_TEXT": "Posteingangseinstellungen aktualisieren",
@@ -736,7 +740,20 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Andere Anbieter"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Webseite",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "E-Mail",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API-Kanal"
     }
   }
 }

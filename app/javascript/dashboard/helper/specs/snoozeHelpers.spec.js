@@ -5,6 +5,8 @@ import {
   findStartOfNextMonth,
   findNextDay,
   setHoursToNine,
+  snoozedReopenTimeToTimestamp,
+  shortenSnoozeTime,
 } from '../snoozeHelpers';
 
 describe('#Snooze Helpers', () => {
@@ -105,6 +107,47 @@ describe('#Snooze Helpers', () => {
       const today = new Date('06/16/2023');
       const nextDay = new Date('06/17/2023');
       expect(findNextDay(today)).toEqual(nextDay);
+    });
+  });
+
+  describe('snoozedReopenTimeToTimestamp', () => {
+    it('should return timestamp if snoozedUntil is not nil', () => {
+      expect(snoozedReopenTimeToTimestamp('2023-06-07T09:00:00.000Z')).toEqual(
+        1686128400
+      );
+    });
+    it('should return nil if snoozedUntil is nil', () => {
+      expect(snoozedReopenTimeToTimestamp(null)).toEqual(null);
+    });
+  });
+
+  describe('shortenSnoozeTime', () => {
+    it('should return shortened time if snoozedUntil is not nil and day is passed', () => {
+      expect(shortenSnoozeTime('1 day')).toEqual('1d');
+    });
+
+    it('should return shortened time if snoozedUntil is not nil and month is passed', () => {
+      expect(shortenSnoozeTime('1 month')).toEqual('1mo');
+    });
+
+    it('should return shortened time if snoozedUntil is not nil and year is passed', () => {
+      expect(shortenSnoozeTime('1 year')).toEqual('1y');
+    });
+
+    it('should return shortened time if snoozedUntil is not nil and hour is passed', () => {
+      expect(shortenSnoozeTime('1 hour')).toEqual('1h');
+    });
+
+    it('should return shortened time if snoozedUntil is not nil and minutes is passed', () => {
+      expect(shortenSnoozeTime('1 minutes')).toEqual('1m');
+    });
+
+    it('should return shortened time if snoozedUntil is not nil and in is passed', () => {
+      expect(shortenSnoozeTime('in 1 hour')).toEqual('1h');
+    });
+
+    it('should return nil if snoozedUntil is nil', () => {
+      expect(shortenSnoozeTime(null)).toEqual(null);
     });
   });
 });

@@ -7,7 +7,7 @@ import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 
 import { useStoreGetters } from 'dashboard/composables/store';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 
 const provider = ref('');
 
@@ -47,7 +47,7 @@ const emailProviderList = computed(() => {
 
 function onClick(emailProvider) {
   if (emailProvider.isEnabled) {
-    this.provider = emailProvider.key;
+    provider.value = emailProvider.key;
   }
 }
 </script>

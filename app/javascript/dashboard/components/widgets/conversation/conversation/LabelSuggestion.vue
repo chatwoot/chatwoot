@@ -2,7 +2,10 @@
 // components
 import WootButton from '../../../ui/WootButton.vue';
 import Avatar from '../../Avatar.vue';
-import aiMixin from 'dashboard/mixins/aiMixin';
+
+// composables
+import { useAI } from 'dashboard/composables/useAI';
+import { useTrack } from 'dashboard/composables';
 
 // store & api
 import { mapGetters } from 'vuex';
@@ -18,7 +21,6 @@ export default {
     Avatar,
     WootButton,
   },
-  mixins: [aiMixin],
   props: {
     suggestedLabels: {
       type: Array,
@@ -29,6 +31,11 @@ export default {
       required: false,
       default: () => [],
     },
+  },
+  setup() {
+    const { isAIIntegrationEnabled } = useAI();
+
+    return { isAIIntegrationEnabled };
   },
   data() {
     return {
@@ -41,7 +48,11 @@ export default {
     ...mapGetters({
       allLabels: 'labels/getLabels',
       currentAccountId: 'getCurrentAccountId',
+      currentChat: 'getSelectedChat',
     }),
+    conversationId() {
+      return this.currentChat?.id;
+    },
     labelTooltip() {
       if (this.preparedLabels.length > 1) {
         return this.$t('LABEL_MGMT.SUGGESTIONS.TOOLTIP.MULTIPLE_SUGGESTION');
@@ -133,12 +144,13 @@ export default {
           : this.suggestedLabels,
       };
 
-      this.$track(event, payload);
+      useTrack(event, payload);
     },
   },
 };
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <li
     v-if="shouldShowSuggestions"
@@ -162,7 +174,7 @@ export default {
               delay: { show: 600, hide: 0 },
               hideOnClick: true,
             }"
-            class="label-suggestion--option"
+            class="label-suggestion--option !px-0"
             @click="pushOrAddLabel(label.title)"
           >
             <woot-label

@@ -25,28 +25,30 @@ export default {
 
 <template>
   <div
-    class="metric-card flex flex-col m-2 p-4 border border-solid overflow-hidden rounded-md flex-grow shadow-sm text-slate-700 dark:text-slate-100 bg-white dark:bg-slate-800 border-slate-75 dark:border-slate-700 min-h-[10rem]"
+    class="flex flex-col m-0.5 px-6 py-5 overflow-hidden rounded-xl flex-grow text-n-slate-12 shadow outline-1 outline outline-n-container bg-n-solid-2 min-h-[10rem]"
   >
-    <div class="card-header">
+    <div
+      class="card-header grid w-full mb-6 grid-cols-[repeat(auto-fit,minmax(max-content,50%))] gap-y-2"
+    >
       <slot name="header">
-        <div class="flex items-center gap-0.5 flex-row">
-          <h5
-            class="mb-0 text-slate-800 dark:text-slate-100 font-medium text-xl"
-          >
+        <div class="flex items-center gap-2 flex-row">
+          <h5 class="mb-0 text-n-slate-12 font-medium text-lg">
             {{ header }}
           </h5>
           <span
-            class="flex flex-row items-center pr-2 pl-2 m-1 rounded-sm text-green-400 dark:text-green-400 text-xs bg-green-100/30 dark:bg-green-100/20"
+            class="flex flex-row items-center py-0.5 px-2 rounded bg-n-teal-3 text-xs"
           >
             <span
-              class="bg-green-500 dark:bg-green-500 h-1 w-1 rounded-full mr-1 rtl:mr-0 rtl:ml-0"
+              class="bg-n-teal-9 h-1 w-1 rounded-full mr-1 rtl:mr-0 rtl:ml-0"
             />
-            <span>
+            <span class="text-xs text-n-teal-11">
               {{ $t('OVERVIEW_REPORTS.LIVE') }}
             </span>
           </span>
         </div>
-        <div class="card-header--control-area">
+        <div
+          class="transition-opacity duration-200 ease-in-out opacity-20 hover:opacity-100 flex flex-row items-center justify-end gap-2"
+        >
           <slot name="control" />
         </div>
       </slot>
@@ -62,48 +64,9 @@ export default {
       class="items-center flex text-base justify-center px-12 py-6"
     >
       <Spinner />
-      <span class="text-slate-300 dark:text-slate-200">
+      <span class="text-n-slate-11">
         {{ loadingMessage }}
       </span>
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.metric-card {
-  @apply flex flex-col mb-2 p-4 border border-solid overflow-hidden rounded-md flex-grow shadow-sm text-slate-700 dark:text-slate-100 bg-white dark:bg-slate-800 border-slate-75 dark:border-slate-700 min-h-[10rem];
-
-  .card-header--control-area {
-    transition: opacity 0.2s ease-in-out;
-    @apply opacity-20;
-  }
-
-  &:hover {
-    .card-header--control-area {
-      @apply opacity-100;
-    }
-  }
-}
-
-.card-header {
-  grid-template-columns: repeat(auto-fit, minmax(max-content, 50%));
-  gap: var(--space-small) 0px;
-  @apply grid flex-grow w-full mb-6;
-
-  .card-header--control-area {
-    @apply flex flex-row items-center justify-end gap-2;
-  }
-}
-
-.card-body {
-  .metric-content {
-    @apply pb-2;
-    .heading {
-      @apply text-base text-slate-700 dark:text-slate-100;
-    }
-    .metric {
-      @apply text-woot-800 dark:text-woot-300 text-3xl mb-0 mt-1;
-    }
-  }
-}
-</style>

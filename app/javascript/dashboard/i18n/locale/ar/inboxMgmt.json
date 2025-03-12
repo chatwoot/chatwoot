@@ -1,34 +1,31 @@
 {
   "INBOX_MGMT": {
     "HEADER": "قنوات التواصل",
-    "SIDEBAR_TXT": "<p><b>قنوات التواصل</b></p> <p> عند ربطك لموقع ويب أو صفحة فيسبوك إلى Chatwoot، يتم تسميتها <b>قناة تواصل</b>. يمكنك إنشاء قنوات تواصل غير محدودة من مختلف الأنواع في حساب Chatwoot الخاص بك. </p><p> انقر فوق <b>إضافة قناة تواصل</b> لربط موقع الويب أو صفحة فيسبوك الخاصة بك. </p><p> من لوحة الإدارة، يمكنك رؤية جميع المحادثات من جميع صناديق الوارد الخاصة بك والرد عليها من مكان موّحد عبر الضغط على علامة التبويب \"المحادثات\". </p><p> يمكنك أيضًا مشاهدة المحادثات الخاصة بصندوق وارد معين بالنقر على اسم صندوق الوارد على الجزء الجانبي من لوحة الإدارة. </p>",
+    "DESCRIPTION": "القناة هي وضع الاتصال الذي يختاره العميل للتفاعل معك. صندوق الوارد هو المكان الذي تدير فيه التفاعلات لقناة معينة. ويمكن أن تشمل الاتصالات من مصادر مختلفة مثل البريد الإلكتروني، والمحادثة الحية، ووسائط الإعلام الاجتماعية.",
+    "LEARN_MORE": "تعلم المزيد عن صناديق البريد",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "لا توجد صناديق وارد لقنوات تواصل مرتبطة بهذا الحساب."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "اختر قناة",
-        "route": "settings_inbox_new",
-        "body": "اختر الخدمة التي تود ربطها مع حسابك في Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "اختر قناة",
+        "BODY": "اختر الخدمة التي تود ربطها مع حسابك في Chatwoot."
       },
-      {
-        "title": "إنشاء قناة تواصل",
-        "route": "settings_inboxes_page_channel",
-        "body": "قم بالمصادقة على حسابك وإنشاء قناة التواصل."
+      "INBOX": {
+        "TITLE": "إنشاء قناة تواصل",
+        "BODY": "قم بالمصادقة على حسابك وإنشاء قناة التواصل."
       },
-      {
-        "title": "إضافة وكيل",
-        "route": "settings_inboxes_add_agents",
-        "body": "إضافة وكلاء إلى صندوق الوارد الخاص بقناة التواصل التي تم إنشاؤها."
+      "AGENT": {
+        "TITLE": "إضافة وكلاء",
+        "BODY": "إضافة وكلاء إلى صندوق الوارد الخاص بقناة التواصل التي تم إنشاؤها."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "أصبح كل شيء جاهزاً الآن!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "أصبح كل شيء جاهزاً الآن!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "اسم صندوق الوارد لقناة التواصل",
@@ -230,13 +227,13 @@
           "ERROR": "الرجاء تقديم رقم هاتف صالح يبدأ بإشارة '+' ولا يحتوي على أي مسافات."
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "رقم الهاتف",
+          "LABEL": "مُعرف رَقَم الهاتف",
           "PLACEHOLDER": "الرجاء إدخال رقم الهاتف الذي تم الحصول عليه من لوحة تحكم مطور الفيسبوك.",
           "ERROR": "الرجاء إدخال اسم صالح."
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "معرف حساب الأعمال",
-          "PLACEHOLDER": "الرجاء إدخال معرف حساب الأعمال الذي تم الحصول عليه من لوحة تحكم مطور الفيسبوك.",
+          "LABEL": "مُعرف حساب الأعمال",
+          "PLACEHOLDER": "الرجاء إدخال مُعرف حساب الأعمال الذي تم الحصول عليه من لوحة تحكم مطور الفيسبوك.",
           "ERROR": "الرجاء إدخال اسم صالح."
         },
         "WEBHOOK_VERIFY_TOKEN": {
@@ -367,12 +364,19 @@
         "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
         "EMAIL_PLACEHOLDER": "Enter email address",
         "SIGN_IN": "تسجيل الدخول باستخدام Microsoft",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
         "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
+      "GOOGLE": {
+        "TITLE": "البريد الإلكتروني لجوجل",
+        "DESCRIPTION": "انقر على تسجيل الدخول باستخدام زر جوجل للبدء. سيتم إعادة توجيهك إلى صفحة تسجيل الدخول بالبريد الإلكتروني. بمجرد قبول الأذونات المطلوبة، سيتم إعادة توجيهك إلى خطوة إنشاء علبة الوارد.",
+        "SIGN_IN": "تسجيل الدخول باستخدام Google",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "ERROR_MESSAGE": "حدث خطأ أثناء الاتصال بجوجل، الرجاء المحاولة مرة أخرى"
       }
     },
     "DETAILS": {
       "LOADING_FB": "جار المصادقة والربط مع الفيسبوك...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "حدث خطأ ما، الرجاء تحديث الصفحة...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
@@ -736,7 +740,20 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Other Providers"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "الموقع الإلكتروني",
+      "TWITTER_PROFILE": "تويتر",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "واتساب",
+      "SMS": "SMS",
+      "EMAIL": "البريد الإلكتروني",
+      "TELEGRAM": "تيليجرام",
+      "LINE": "Line",
+      "API": "قناة API"
     }
   }
 }

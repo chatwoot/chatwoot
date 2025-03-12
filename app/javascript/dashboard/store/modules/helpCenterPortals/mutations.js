@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import { defaultPortalFlags } from './index';
 
 export const types = {
@@ -13,6 +12,7 @@ export const types = {
   REMOVE_PORTAL_ENTRY: 'removePortalEntry',
   REMOVE_PORTAL_ID: 'removePortalId',
   SET_HELP_PORTAL_UI_FLAG: 'setHelpCenterUIFlag',
+  SET_PORTAL_SWITCHING_FLAG: 'setPortalSwitchingFlag',
 };
 
 export const mutations = {
@@ -24,9 +24,12 @@ export const mutations = {
   },
 
   [types.ADD_PORTAL_ENTRY]($state, portal) {
-    Vue.set($state.portals.byId, portal.slug, {
-      ...portal,
-    });
+    $state.portals.byId = {
+      ...$state.portals.byId,
+      [portal.slug]: {
+        ...portal,
+      },
+    };
   },
 
   [types.ADD_MANY_PORTALS_ENTRY]($state, portals) {
@@ -34,13 +37,13 @@ export const mutations = {
     portals.forEach(portal => {
       allPortals[portal.slug] = portal;
     });
-    Vue.set($state.portals, 'byId', allPortals);
+    $state.portals.byId = allPortals;
   },
 
   [types.CLEAR_PORTALS]: $state => {
-    Vue.set($state.portals, 'byId', {});
-    Vue.set($state.portals, 'allIds', []);
-    Vue.set($state.portals.uiFlags, 'byId', {});
+    $state.portals.byId = {};
+    $state.portals.allIds = [];
+    $state.portals.uiFlags.byId = {};
   },
 
   [types.SET_PORTALS_META]: ($state, data) => {
@@ -50,10 +53,13 @@ export const mutations = {
       draft_articles_count: draftArticlesCount = 0,
       archived_articles_count: archivedArticlesCount = 0,
     } = data;
-    Vue.set($state.meta, 'allArticlesCount', allArticlesCount);
-    Vue.set($state.meta, 'archivedArticlesCount', archivedArticlesCount);
-    Vue.set($state.meta, 'mineArticlesCount', mineArticlesCount);
-    Vue.set($state.meta, 'draftArticlesCount', draftArticlesCount);
+    $state.meta = {
+      ...$state.meta,
+      allArticlesCount,
+      archivedArticlesCount,
+      mineArticlesCount,
+      draftArticlesCount,
+    };
   },
 
   [types.ADD_PORTAL_ID]($state, portalSlug) {
@@ -68,16 +74,19 @@ export const mutations = {
     const portalSlug = portal.slug;
     if (!$state.portals.allIds.includes(portalSlug)) return;
 
-    Vue.set($state.portals.byId, portalSlug, {
-      ...portal,
-    });
+    $state.portals.byId = {
+      ...$state.portals.byId,
+      [portalSlug]: {
+        ...portal,
+      },
+    };
   },
 
   [types.REMOVE_PORTAL_ENTRY]($state, portalSlug) {
     if (!portalSlug) return;
 
     const { [portalSlug]: toBeRemoved, ...newById } = $state.portals.byId;
-    Vue.set($state.portals, 'byId', newById);
+    $state.portals.byId = newById;
   },
 
   [types.REMOVE_PORTAL_ID]($state, portalSlug) {
@@ -88,10 +97,17 @@ export const mutations = {
 
   [types.SET_HELP_PORTAL_UI_FLAG]($state, { portalSlug, uiFlags }) {
     const flags = $state.portals.uiFlags.byId[portalSlug];
-    Vue.set($state.portals.uiFlags.byId, portalSlug, {
-      ...defaultPortalFlags,
-      ...flags,
-      ...uiFlags,
-    });
+    $state.portals.uiFlags.byId = {
+      ...$state.portals.uiFlags.byId,
+      [portalSlug]: {
+        ...defaultPortalFlags,
+        ...flags,
+        ...uiFlags,
+      },
+    };
+  },
+
+  [types.SET_PORTAL_SWITCHING_FLAG]($state, { isSwitching }) {
+    $state.uiFlags.isSwitching = isSwitching;
   },
 };

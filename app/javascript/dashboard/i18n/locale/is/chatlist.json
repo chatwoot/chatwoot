@@ -6,6 +6,7 @@
     "LIST": {
       "404": "Það eru engin virk spjöll í þessum hóp."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Samtöl",
     "MENTION_HEADING": "Mentions",
     "UNATTENDED_HEADING": "Unattended",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "Staðsetning"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "hefur deilt vefslóð"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "Ekkert efni fannst",
     "HIDE_QUOTED_TEXT": "Fela tilvitnaðan texta",
     "SHOW_QUOTED_TEXT": "Sýna tilvitnaðan texta",
-    "MESSAGE_READ": "Lesið"
+    "MESSAGE_READ": "Lesið",
+    "SENDING": "Sending"
   }
 }

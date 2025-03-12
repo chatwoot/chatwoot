@@ -10,11 +10,11 @@
       "404": "Không có nhãn nào có sẵn trong tài khoản này.",
       "TITLE": "Quản lý nhãn",
       "DESC": "Nhãn cho phép bạn nhóm các cuộc trò chuyện lại với nhau.",
-      "TABLE_HEADER": [
-        "Tên",
-        "Mô tả",
-        "Màu sắc"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Tên",
+        "DESCRIPTION": "Mô tả",
+        "COLOR": "Màu sắc"
+      }
     },
     "FORM": {
       "NAME": {

@@ -3,7 +3,8 @@
     "HEADER": "自訂屬性",
     "HEADER_BTN_TXT": "新增自訂屬性",
     "LOADING": "正在取得自訂屬性",
-    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "新增自訂屬性",
       "SUBMIT": "建立",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
       },
       "CONFIRM": {
-        "TITLE": "確定要刪除 - %{attributeName} ？",
+        "TITLE": "確定要刪除 - {attributeName} ？",
         "PLACE_HOLDER": "請輸入 {attributeName} 以確認",
         "MESSAGE": "Deleting will remove the custom attribute",
         "YES": "刪除 ",
@@ -91,12 +92,7 @@
       "CONTACT": "聯絡人"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "姓名",
-        "描述資訊",
-        "類別",
-        "Key"
-      ],
+      "TABLE_HEADER": ["姓名", "描述資訊", "類別", "Key"],
       "BUTTONS": {
         "EDIT": "編輯",
         "DELETE": "刪除"

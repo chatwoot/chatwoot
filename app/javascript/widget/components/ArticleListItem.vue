@@ -13,12 +13,13 @@ export default {
       default: '',
     },
   },
+  emits: ['selectArticle'],
   data() {
     return {};
   },
   methods: {
     onClick() {
-      this.$emit('click', this.link);
+      this.$emit('selectArticle', this.link);
     },
   },
 };

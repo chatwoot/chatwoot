@@ -80,7 +80,6 @@ class Account < ApplicationRecord
   has_many :working_hours, dependent: :destroy_async
   # has_many :account_billing_subscriptions, dependent: :destroy_async, class_name: '::Enterprise::AccountBillingSubscription'
   has_many :coupon_codes, dependent: :destroy_async
-  has_many :chatbots, dependent: :destroy_async
 
   has_one_attached :contacts_export
 
@@ -128,7 +127,6 @@ class Account < ApplicationRecord
   end
 
   def update_usage_limits
-    Rails.logger.info('Executing update_usage_limits...')
     limit = {
       agents: get_agent_limit.to_i,
       inboxes: get_inbox_limit.to_i

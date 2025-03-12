@@ -1,10 +1,11 @@
 <script>
 import emojis from './emojisGroup.json';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import WootButton from 'dashboard/components/ui/WootButton.vue';
 const SEARCH_KEY = 'Search';
 
 export default {
-  components: { FluentIcon },
+  components: { FluentIcon, WootButton },
   props: {
     onClick: {
       type: Function,
@@ -97,7 +98,7 @@ export default {
           class="emoji-search--input focus:box-shadow-blue dark:focus:box-shadow-dark !mb-0 !h-8 !text-sm"
           :placeholder="$t('EMOJI.PLACEHOLDER')"
         />
-        <woot-button
+        <WootButton
           v-if="showRemoveButton"
           size="small"
           variant="smooth"
@@ -106,7 +107,7 @@ export default {
           @click="onClick('')"
         >
           {{ $t('EMOJI.REMOVE') }}
-        </woot-button>
+        </WootButton>
       </div>
       <div v-if="hasNoSearch" ref="emojiItem" class="emoji-item">
         <h5 class="emoji-category--title">
@@ -184,6 +185,7 @@ export default {
 
 <style scoped>
 @tailwind components;
+
 @layer components {
   .box-shadow-blue {
     box-shadow:
@@ -200,7 +202,7 @@ export default {
 </style>
 
 <style lang="scss">
-@import '~dashboard/assets/scss/mixins';
+@import 'dashboard/assets/scss/mixins';
 
 .emoji-dialog {
   &::before {
@@ -210,6 +212,7 @@ export default {
       $color-bg-dark: #26292b;
       @include arrow(bottom, $color-bg-dark, $space-slab);
     }
+
     @media (prefers-color-scheme: light) {
       $color-bg: #ebf0f5;
       @include arrow(bottom, $color-bg, $space-slab);
@@ -245,6 +248,7 @@ export default {
   .emoji-icon {
     @apply text-slate-200 dark:text-slate-200 mb-2;
   }
+
   .empty-message--text {
     @apply text-slate-200 dark:text-slate-200 text-sm font-medium;
   }
@@ -271,6 +275,7 @@ export default {
     li .active {
       @apply bg-white dark:bg-slate-900;
     }
+
     .emoji--item {
       @apply items-center flex text-sm;
 

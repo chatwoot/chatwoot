@@ -1,18 +1,27 @@
 import { computed } from 'vue';
-import { useStoreGetters } from 'dashboard/composables/store';
+import { useRoute } from 'vue-router';
+import { useMapGetter } from './store';
 
 /**
  * Composable for account-related operations.
  * @returns {Object} An object containing account-related properties and methods.
  */
 export function useAccount() {
-  const getters = useStoreGetters();
-
   /**
    * Computed property for the current account ID.
    * @type {import('vue').ComputedRef<number>}
    */
-  const accountId = computed(() => getters.getCurrentAccountId.value);
+  const route = useRoute();
+  const getAccountFn = useMapGetter('accounts/getAccount');
+  const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
+  const isFeatureEnabledonAccount = useMapGetter(
+    'accounts/isFeatureEnabledonAccount'
+  );
+
+  const accountId = computed(() => {
+    return Number(route.params.accountId);
+  });
+  const currentAccount = computed(() => getAccountFn.value(accountId.value));
 
   /**
    * Generates an account-scoped URL.
@@ -23,8 +32,25 @@ export function useAccount() {
     return `/app/accounts/${accountId.value}/${url}`;
   };
 
+  const isCloudFeatureEnabled = feature => {
+    return isFeatureEnabledonAccount.value(currentAccount.value.id, feature);
+  };
+
+  const accountScopedRoute = (name, params, query) => {
+    return {
+      name,
+      params: { accountId: accountId.value, ...params },
+      query: { ...query },
+    };
+  };
+
   return {
     accountId,
+    route,
+    currentAccount,
     accountScopedUrl,
+    accountScopedRoute,
+    isCloudFeatureEnabled,
+    isOnChatwootCloud,
   };
 }

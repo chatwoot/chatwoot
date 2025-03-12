@@ -170,7 +170,7 @@ export default {
         <p>{{ $t('INBOX_MGMT.SMTP.TOGGLE_HELP') }}</p>
         <div v-if="isSMTPEnabled" class="mb-6">
           <woot-input
-            v-model.trim="address"
+            v-model="address"
             :class="{ error: v$.address.$error }"
             class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.SMTP.ADDRESS.LABEL')"
@@ -204,7 +204,7 @@ export default {
             @blur="v$.password.$touch"
           />
           <woot-input
-            v-model.trim="domain"
+            v-model="domain"
             :class="{ error: v$.domain.$error }"
             class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.SMTP.DOMAIN.LABEL')"

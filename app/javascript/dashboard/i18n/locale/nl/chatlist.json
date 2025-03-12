@@ -6,6 +6,7 @@
     "LIST": {
       "404": "Er zijn geen actieve gesprekken in deze groep."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Gesprekken",
     "MENTION_HEADING": "Vermeldingen",
     "UNATTENDED_HEADING": "Onbeheer",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "Locatie"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "heeft een url gedeeld"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "Geen inhoud beschikbaar",
     "HIDE_QUOTED_TEXT": "Verberg geciteerde tekst",
     "SHOW_QUOTED_TEXT": "Toon geciteerde tekst",
-    "MESSAGE_READ": "Lezen"
+    "MESSAGE_READ": "Lezen",
+    "SENDING": "Sending"
   }
 }

@@ -12,6 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Feliratkozott események",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Mégse",
         "DESC": "Webhook események valós idejű információt adnak arról, hogy mi történik a Chatwoot fiókodban. Kérünk a visszahívás beállításánál egy helyes URL-t adj meg.",
@@ -75,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Törlés megerősítése",
-          "MESSAGE": "Biztosan törölni szeretnéd a webhookot? (%{webhookURL})",
+          "MESSAGE": "Biztosan törölni szeretnéd a webhookot? ({webhookURL})",
           "YES": "Igen, Törlés ",
           "NO": "Nem, tartsa meg"
         }
@@ -113,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI segítség",
-      "WITH_AI": " %{option} AI-al ",
+      "WITH_AI": " {option} AI-al ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Válasz lehetőségek",
         "SUMMARIZE": "Összefoglalás",
@@ -215,7 +216,7 @@
         "CONFIRM_YES": "Igen, töröld",
         "CONFIRM_NO": "Nem, tartsd meg",
         "TITLE": "Törlés megerősítése",
-        "MESSAGE": "Biztosan törölni szeretnéd az appot? (%{appName}?",
+        "MESSAGE": "Biztosan törölni szeretnéd az appot? ({appName}?",
         "API_SUCCESS": "Kezdőlapi applikációk sikeresen törölve",
         "API_ERROR": "Nem tudtuk törölni az appot, kérlek próbáld újra"
       }
@@ -234,7 +235,7 @@
         "ERROR": "There was an error fetching the linear issues, please try again",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -293,7 +294,7 @@
         "PRIORITY": "Prioritás",
         "ASSIGNEE": "Assignee",
         "LABELS": "Cimkék",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Unlink",

@@ -6,6 +6,7 @@
     "LIST": {
       "404": "V tejto skupine neprebiehajú žiadne aktívne rozhovory."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Rozhovory",
     "MENTION_HEADING": "Zmienky",
     "UNATTENDED_HEADING": "Unattended",
@@ -68,7 +69,7 @@
         "TEXT": "Priority: Highest first"
       },
       "priority_asc": {
-        "TEXT": "Priority: Lowest first"
+        "TEXT": ""
       },
       "waiting_since_asc": {
         "TEXT": "Pending Response: Longest first"
@@ -92,6 +93,9 @@
       },
       "location": {
         "CONTENT": "Lokácia"
+      },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
       },
       "fallback": {
         "CONTENT": "zdieľal/a url"
@@ -126,6 +130,7 @@
     "NO_CONTENT": "Žiaden obsah nie je k dispozícii",
     "HIDE_QUOTED_TEXT": "Skryť citovaný text",
     "SHOW_QUOTED_TEXT": "Ukázať citovaný text",
-    "MESSAGE_READ": "Read"
+    "MESSAGE_READ": "Read",
+    "SENDING": "Sending"
   }
 }

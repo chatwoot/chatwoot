@@ -2,8 +2,12 @@
 import { useAlert } from 'dashboard/composables';
 import { computed, onMounted, ref } from 'vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import { useI18n } from 'dashboard/composables/useI18n';
-import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import { useI18n } from 'vue-i18n';
+import {
+  useStoreGetters,
+  useStore,
+  useMapGetter,
+} from 'dashboard/composables/store';
 
 import AddAgent from './AddAgent.vue';
 import EditAgent from './EditAgent.vue';
@@ -34,10 +38,31 @@ const deleteMessage = computed(() => {
 const agentList = computed(() => getters['agents/getAgents'].value);
 const uiFlags = computed(() => getters['agents/getUIFlags'].value);
 const currentUserId = computed(() => getters.getCurrentUserID.value);
+const customRoles = useMapGetter('customRole/getCustomRoles');
 
 onMounted(() => {
   store.dispatch('agents/get');
+  store.dispatch('customRole/getCustomRole');
 });
+
+const findCustomRole = agent =>
+  customRoles.value.find(role => role.id === agent.custom_role_id);
+
+const getAgentRoleName = agent => {
+  if (!agent.custom_role_id) {
+    return t(`AGENT_MGMT.AGENT_TYPES.${agent.role.toUpperCase()}`);
+  }
+  const customRole = findCustomRole(agent);
+  return customRole ? customRole.name : '';
+};
+
+const getAgentRolePermissions = agent => {
+  if (!agent.custom_role_id) {
+    return [];
+  }
+  const customRole = findCustomRole(agent);
+  return customRole?.permissions || [];
+};
 
 const verifiedAdministrators = computed(() => {
   return agentList.value.filter(
@@ -63,6 +88,7 @@ const showDeleteAction = agent => {
   }
   return true;
 };
+
 const showAlertMessage = message => {
   loading.value[currentAgent.value.id] = false;
   currentAgent.value = {};
@@ -124,7 +150,7 @@ const confirmDeletion = () => {
       >
         <template #actions>
           <woot-button
-            class="button nice rounded-md"
+            class="rounded-md button nice"
             icon="add-circle"
             @click="openAddPopup"
           >
@@ -135,12 +161,10 @@ const confirmDeletion = () => {
     </template>
     <template #body>
       <table class="divide-y divide-slate-75 dark:divide-slate-700">
-        <tbody
-          class="divide-y divide-slate-50 dark:divide-slate-800 text-slate-700 dark:text-slate-300"
-        >
+        <tbody class="divide-y divide-n-weak text-n-slate-11">
           <tr v-for="(agent, index) in agentList" :key="agent.email">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
-              <div class="flex items-center flex-row gap-4">
+              <div class="flex flex-row items-center gap-4">
                 <Thumbnail
                   :src="agent.thumbnail"
                   :username="agent.name"
@@ -156,9 +180,39 @@ const confirmDeletion = () => {
               </div>
             </td>
 
-            <td class="py-4 ltr:pr-4 rtl:pl-4">
-              <span class="block font-medium capitalize">
-                {{ $t(`AGENT_MGMT.AGENT_TYPES.${agent.role.toUpperCase()}`) }}
+            <td class="relative py-4 ltr:pr-4 rtl:pl-4">
+              <span
+                class="block font-medium w-fit"
+                :class="{
+                  'hover:text-gray-900 group cursor-pointer':
+                    agent.custom_role_id,
+                }"
+              >
+                {{ getAgentRoleName(agent) }}
+
+                <div
+                  class="absolute left-0 z-10 hidden max-w-[300px] w-auto bg-white rounded-xl border border-slate-50 shadow-lg top-14 md:top-12 dark:bg-slate-800 dark:border-slate-700"
+                  :class="{ 'group-hover:block': agent.custom_role_id }"
+                >
+                  <div class="flex flex-col gap-1 p-4">
+                    <span class="font-semibold">
+                      {{ $t('AGENT_MGMT.LIST.AVAILABLE_CUSTOM_ROLE') }}
+                    </span>
+                    <ul class="pl-4 mb-0 list-disc">
+                      <li
+                        v-for="permission in getAgentRolePermissions(agent)"
+                        :key="permission"
+                        class="font-normal"
+                      >
+                        {{
+                          $t(
+                            `CUSTOM_ROLE.PERMISSIONS.${permission.toUpperCase()}`
+                          )
+                        }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </span>
             </td>
             <td class="py-4 ltr:pr-4 rtl:pl-4">
@@ -199,11 +253,11 @@ const confirmDeletion = () => {
       </table>
     </template>
 
-    <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <AddAgent :on-close="hideAddPopup" />
+    <woot-modal v-model:show="showAddPopup" :on-close="hideAddPopup">
+      <AddAgent @close="hideAddPopup" />
     </woot-modal>
 
-    <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
+    <woot-modal v-model:show="showEditPopup" :on-close="hideEditPopup">
       <EditAgent
         v-if="showEditPopup"
         :id="currentAgent.id"
@@ -211,12 +265,13 @@ const confirmDeletion = () => {
         :type="currentAgent.role"
         :email="currentAgent.email"
         :availability="currentAgent.availability_status"
-        :on-close="hideEditPopup"
+        :custom-role-id="currentAgent.custom_role_id"
+        @close="hideEditPopup"
       />
     </woot-modal>
 
     <woot-delete-modal
-      :show.sync="showDeletePopup"
+      v-model:show="showDeletePopup"
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
       :title="$t('AGENT_MGMT.DELETE.CONFIRM.TITLE')"

@@ -10,11 +10,11 @@
       "404": "このアカウントには、利用可能な定型文の回答はありません",
       "TITLE": "定型文回答を管理する",
       "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
-      "TABLE_HEADER": [
-        "Short code",
-        "内容",
-        "操作"
-      ]
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Short code",
+        "CONTENT": "内容",
+        "ACTIONS": "操作"
+      }
     },
     "ADD": {
       "TITLE": "Add canned response",

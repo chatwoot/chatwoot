@@ -1,12 +1,11 @@
 <script>
 import CardButton from 'shared/components/CardButton.vue';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 
 export default {
   components: {
     CardButton,
   },
-  mixins: [darkModeMixin],
   props: {
     title: {
       type: String,
@@ -25,21 +24,30 @@ export default {
       default: () => [],
     },
   },
-  computed: {},
+  setup() {
+    const { getThemeClass } = useDarkMode();
+    return { getThemeClass };
+  },
 };
 </script>
 
 <template>
   <div
     class="card-message chat-bubble agent"
-    :class="$dm('bg-white', 'dark:bg-slate-700')"
+    :class="getThemeClass('bg-white', 'dark:bg-slate-700')"
   >
     <img class="media" :src="mediaUrl" />
     <div class="card-body">
-      <h4 class="title" :class="$dm('text-black-900', 'dark:text-slate-50')">
+      <h4
+        class="title"
+        :class="getThemeClass('text-black-900', 'dark:text-slate-50')"
+      >
         {{ title }}
       </h4>
-      <p class="body" :class="$dm('text-black-700', 'dark:text-slate-100')">
+      <p
+        class="body"
+        :class="getThemeClass('text-black-700', 'dark:text-slate-100')"
+      >
         {{ description }}
       </p>
       <CardButton v-for="action in actions" :key="action.id" :action="action" />
@@ -48,8 +56,8 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
-@import '~dashboard/assets/scss/mixins.scss';
+@import 'widget/assets/scss/variables.scss';
+@import 'dashboard/assets/scss/mixins.scss';
 
 .card-message {
   max-width: 220px;

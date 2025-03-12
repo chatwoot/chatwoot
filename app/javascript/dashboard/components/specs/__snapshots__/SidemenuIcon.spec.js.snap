@@ -7,5 +7,8 @@ exports[`SidemenuIcon > matches snapshot 1`] = `
   icon="list"
   size="small"
   variant="clear"
-/>
+>
+  
+  
+</button>
 `;

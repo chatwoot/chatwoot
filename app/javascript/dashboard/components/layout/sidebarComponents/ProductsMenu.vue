@@ -1,5 +1,4 @@
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 
@@ -8,13 +7,13 @@ export default {
     WootDropdownMenu,
     WootDropdownItem,
   },
-  mixins: [clickaway],
   props: {
     show: {
       type: Boolean,
       default: false,
     },
   },
+  emits: ['close'],
   methods: {
     handleProfileSettingClick(e, navigate) {
       this.$emit('close');

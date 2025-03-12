@@ -23,13 +23,13 @@
         "NAME": "Tempo da Primeira Resposta",
         "DESC": "(Média)",
         "INFO_TEXT": "Número total de conversas utilizadas para computação:",
-        "TOOLTIP_TEXT": "O tempo da primeira resposta é de %{metricValue} (com base em %{conversationCount} conversas)"
+        "TOOLTIP_TEXT": "O tempo da primeira resposta é de {metricValue} (com base em {conversationCount} conversas)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo de resolução",
         "DESC": "(Média)",
         "INFO_TEXT": "Número total de conversas utilizadas para computação:",
-        "TOOLTIP_TEXT": "O tempo de resolução é de %{metricValue} (com base em %{conversationCount} conversas)"
+        "TOOLTIP_TEXT": "O tempo de resolução é de {metricValue} (com base em {conversationCount} conversas)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de Resolução",
@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Tempo de espera do cliente",
-        "TOOLTIP_TEXT": "O tempo de espera é %{metricValue} (com base em %{conversationCount} respostas)"
+        "TOOLTIP_TEXT": "O tempo de espera é {metricValue} (com base em {conversationCount} respostas)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Ano passado",
       "CUSTOM_DATE_RANGE": "Intervalo de datas personalizado"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Últimos 7 dias"
-      },
-      {
-        "id": 1,
-        "name": "Últimos 30 dias"
-      },
-      {
-        "id": 2,
-        "name": "Últimos 3 meses"
-      },
-      {
-        "id": 3,
-        "name": "Últimos 6 meses"
-      },
-      {
-        "id": 4,
-        "name": "Ano passado"
-      },
-      {
-        "id": 5,
-        "name": "Intervalo de datas personalizado"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Aplicar",
       "PLACEHOLDER": "Selecionar intervalo de datas"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Limpar filtros",
       "EMPTY_LIST": "Nenhum resultado encontrado"
+    },
+    "PAGINATION": {
+      "RESULTS": "Exibindo {start} - {end} de {total} resultados "
     }
   },
   "AGENT_REPORTS": {
@@ -167,13 +145,13 @@
         "NAME": "Tempo da Primeira Resposta",
         "DESC": "(Média)",
         "INFO_TEXT": "Número total de conversas utilizadas para computação:",
-        "TOOLTIP_TEXT": "O tempo da primeira resposta é de %{metricValue} (com base em %{conversationCount} conversas)"
+        "TOOLTIP_TEXT": "O tempo da primeira resposta é de {metricValue} (com base em {conversationCount} conversas)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo de resolução",
         "DESC": "(Média)",
         "INFO_TEXT": "Número total de conversas utilizadas para computação:",
-        "TOOLTIP_TEXT": "O tempo de resolução é de %{metricValue} (com base em %{conversationCount} conversas)"
+        "TOOLTIP_TEXT": "O tempo de resolução é de {metricValue} (com base em {conversationCount} conversas)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de Resolução",
@@ -234,13 +212,13 @@
         "NAME": "Tempo da Primeira Resposta",
         "DESC": "(Média)",
         "INFO_TEXT": "Número total de conversas utilizadas para computação:",
-        "TOOLTIP_TEXT": "O tempo da primeira resposta é de %{metricValue} (com base em %{conversationCount} conversas)"
+        "TOOLTIP_TEXT": "O tempo da primeira resposta é de {metricValue} (com base em {conversationCount} conversas)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo de resolução",
         "DESC": "(Média)",
         "INFO_TEXT": "Número total de conversas utilizadas para computação:",
-        "TOOLTIP_TEXT": "O tempo de resolução é de %{metricValue} (com base em %{conversationCount} conversas)"
+        "TOOLTIP_TEXT": "O tempo de resolução é de {metricValue} (com base em {conversationCount} conversas)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de Resolução",
@@ -301,13 +279,13 @@
         "NAME": "Tempo da Primeira Resposta",
         "DESC": "(Média)",
         "INFO_TEXT": "Número total de conversas utilizadas para computação:",
-        "TOOLTIP_TEXT": "O tempo da primeira resposta é de %{metricValue} (com base em %{conversationCount} conversas)"
+        "TOOLTIP_TEXT": "O tempo da primeira resposta é de {metricValue} (com base em {conversationCount} conversas)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo de resolução",
         "DESC": "(Média)",
         "INFO_TEXT": "Número total de conversas utilizadas para computação:",
-        "TOOLTIP_TEXT": "O tempo de resolução é de %{metricValue} (com base em %{conversationCount} conversas)"
+        "TOOLTIP_TEXT": "O tempo de resolução é de {metricValue} (com base em {conversationCount} conversas)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de Resolução",
@@ -368,13 +346,13 @@
         "NAME": "Tempo da Primeira Resposta",
         "DESC": "(Média)",
         "INFO_TEXT": "Número total de conversas utilizadas para computação:",
-        "TOOLTIP_TEXT": "O tempo da primeira resposta é de %{metricValue} (com base em %{conversationCount} conversas)"
+        "TOOLTIP_TEXT": "O tempo da primeira resposta é de {metricValue} (com base em {conversationCount} conversas)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo de resolução",
         "DESC": "(Média)",
         "INFO_TEXT": "Número total de conversas utilizadas para computação:",
-        "TOOLTIP_TEXT": "O tempo de resolução é de %{metricValue} (com base em %{conversationCount} conversas)"
+        "TOOLTIP_TEXT": "O tempo de resolução é de {metricValue} (com base em {conversationCount} conversas)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de Resolução",
@@ -480,9 +458,9 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Tráfego de conversa",
       "NO_CONVERSATIONS": "Não há conversas",
-      "CONVERSATION": "%{count} conversa",
-      "CONVERSATIONS": "%{count} conversas",
-      "DOWNLOAD_REPORT": "Download report"
+      "CONVERSATION": "{count} conversa",
+      "CONVERSATIONS": "{count} conversas",
+      "DOWNLOAD_REPORT": "Baixar relatório"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversas por agentes",
@@ -490,7 +468,7 @@
       "NO_AGENTS": "Não há conversas por agentes",
       "TABLE_HEADER": {
         "AGENT": "Agente",
-        "OPEN": "ABERTO",
+        "OPEN": "Abrir",
         "UNATTENDED": "Não atendidas",
         "STATUS": "SItuação"
       }
@@ -537,7 +515,7 @@
       "LABELS": "Nome do campo",
       "TEAMS": "Times"
     },
-    "WITH": "with",
+    "WITH": "com",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Taxa de acerto",

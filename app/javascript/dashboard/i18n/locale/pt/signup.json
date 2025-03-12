@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "E-mail de trabalho",
-      "PLACEHOLDER": "Digite o seu endereço de e-mail profissional. Por exemplo: geral@informatico.pt",
+      "PLACEHOLDER": "Digite o seu endereço de e-mail profissional. Por exemplo: geral{'@'}informatico.pt",
       "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {

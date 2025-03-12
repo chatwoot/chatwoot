@@ -8,7 +8,7 @@
       "NAME": {
         "LABEL": "機器人名稱",
         "PLACEHOLDER": "命名你的機器人",
-        "ERROR": "機器人名稱為必填."
+        "ERROR": "機器人名稱為必填"
       },
       "DESCRIPTION": {
         "LABEL": "機器人描述",
@@ -16,19 +16,19 @@
       },
       "BOT_CONFIG": {
         "ERROR": "請在上方輸入你的CSML機器人設定",
-        "API_ERROR": "你的CSML設定是無效的. 請修正後再試."
+        "API_ERROR": "你的CSML設定是無效的。請修正後再試"
       },
       "SUBMIT": "驗證並儲存"
     },
     "BOT_CONFIGURATION": {
-      "TITLE": "選擇一個客服機器人",
-      "DESC": "Assign an Agent Bot to your inbox. They can handle initial conversations and transfer them to a live agent when necessary.",
+      "TITLE": "選擇一個機器人",
+      "DESC": "將機器人分配到您的收件匣中。它們可以處理初始對話，並在必要時轉接給真人客服",
       "SUBMIT": "更新",
       "DISCONNECT": "取消機器人連結",
-      "SUCCESS_MESSAGE": "成功更新客服機器人.",
-      "DISCONNECTED_SUCCESS_MESSAGE": "成功解除客服機器人連結.",
-      "ERROR_MESSAGE": "Could not update the agent bot. Please try again.",
-      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot. Please try again.",
+      "SUCCESS_MESSAGE": "成功更新機器人",
+      "DISCONNECTED_SUCCESS_MESSAGE": "成功解除機器人連結",
+      "ERROR_MESSAGE": "無法更新機器人，請再試一次",
+      "DISCONNECTED_ERROR_MESSAGE": "無法斷開機器人，請再試一次",
       "SELECT_PLACEHOLDER": "選擇機器人"
     },
     "ADD": {
@@ -49,10 +49,10 @@
       "TITLE": "刪除機器人",
       "SUBMIT": "刪除",
       "CANCEL_BUTTON_TEXT": "取消",
-      "DESCRIPTION": "Are you sure you want to delete this bot? This action is irreversible.",
+      "DESCRIPTION": "您確定要刪除此機器人嗎？此操作無法恢復",
       "API": {
-        "SUCCESS_MESSAGE": "機器人刪除成功.",
-        "ERROR_MESSAGE": "Could not delete bot. Please try again."
+        "SUCCESS_MESSAGE": "機器人刪除成功",
+        "ERROR_MESSAGE": "無法刪除機器人，請再試一次"
       }
     },
     "EDIT": {

@@ -31,22 +31,23 @@ const conversationLabels = computed(() => {
 
 <template>
   <div
-    class="grid items-center content-center w-full h-16 grid-cols-12 gap-4 px-6 py-0 bg-white border-b last:border-b-0 last:rounded-b-xl border-slate-75 dark:border-slate-800/50 dark:bg-slate-900"
+    class="grid items-center content-center w-full h-16 grid-cols-12 gap-4 px-6 py-0 border-b last:border-b-0 last:rounded-b-xl border-n-weak"
   >
     <div
       class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] text-slate-700 dark:text-slate-100 rtl:text-right"
     >
-      <span class="text-slate-700 dark:text-slate-200">
+      <span class="text-n-slate-12">
         {{ `#${conversationId} ` }}
       </span>
-      <span class="text-slate-600 dark:text-slate-300">
+      <span class="text-slate-11">
         {{ $t('SLA_REPORTS.WITH') }}
       </span>
-      <span class="capitalize truncate text-slate-700 dark:text-slate-200">{{
+      <span class="capitalize truncate text-n-slate-12">{{
         conversation.contact.name
       }}</span>
       <CardLabels
-        class="w-[80%]"
+        v-if="conversationLabels.length"
+        class="w-[60%]"
         :conversation-id="conversationId"
         :conversation-labels="conversationLabels"
       />
@@ -61,7 +62,7 @@ const conversationLabels = computed(() => {
         v-if="conversation.assignee"
         :user="conversation.assignee"
       />
-      <span v-else class="text-slate-600 dark:text-slate-200"> --- </span>
+      <span v-else class="text-n-slate-11"> --- </span>
     </div>
     <SLAViewDetails :sla-events="slaEvents" />
   </div>

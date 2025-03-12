@@ -6,11 +6,11 @@ import VideoBubble from 'widget/components/VideoBubble.vue';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import FileBubble from 'widget/components/FileBubble.vue';
 import { messageStamp } from 'shared/helpers/timeHelper';
-import { useMessage } from '../composables/useMessage';
+import messageMixin from '../mixins/messageMixin';
 import ReplyToChip from 'widget/components/ReplyToChip.vue';
 import DragWrapper from 'widget/components/DragWrapper.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-
+import { emitter } from 'shared/helpers/mitt';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -25,6 +25,7 @@ export default {
     ReplyToChip,
     DragWrapper,
   },
+  mixins: [messageMixin],
   props: {
     message: {
       type: Object,
@@ -34,12 +35,6 @@ export default {
       type: Object,
       default: () => {},
     },
-  },
-  setup(props) {
-    const { hasAttachments } = useMessage(props.message);
-    return {
-      hasAttachments,
-    };
   },
   data() {
     return {
@@ -102,7 +97,7 @@ export default {
       this.hasVideoError = true;
     },
     toggleReply() {
-      this.$emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.message);
+      emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.message);
     },
   },
 };

@@ -15,6 +15,7 @@ export default {
       default: () => [],
     },
   },
+  emits: ['view', 'viewAll'],
   computed: {
     ...mapGetters({ widgetColor: 'appConfig/getWidgetColor' }),
   },
@@ -31,7 +32,7 @@ export default {
     <h3 class="mb-0 text-sm font-medium text-slate-800 dark:text-slate-50">
       {{ title }}
     </h3>
-    <ArticleList :articles="articles" @click="onArticleClick" />
+    <ArticleList :articles="articles" @select-article="onArticleClick" />
     <button
       class="inline-flex items-center justify-between px-2 py-1 -ml-2 text-sm font-medium leading-6 rounded-md text-slate-800 dark:text-slate-50 hover:bg-slate-25 dark:hover:bg-slate-800 see-articles"
       :style="{ color: widgetColor }"

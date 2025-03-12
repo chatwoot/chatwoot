@@ -5,8 +5,9 @@ if ActiveModel::Type::Boolean.new.cast(ENV.fetch('LOGRAGE_ENABLED', false)).pres
     config.lograge.enabled = true
     config.lograge.formatter = Lograge::Formatters::Json.new
     config.lograge.custom_payload do |controller|
-      # Fixes https://github.com/chatwoot/chatwoot/issues/6922
-      user_id = controller.try(:current_user).try(:id) unless controller.is_a?(SuperAdmin::Devise::SessionsController)
+      # We only need user_id for API requests
+      # might error out for other controller - ref: https://github.com/chatwoot/chatwoot/issues/6922
+      user_id = controller&.try(:current_user)&.id if controller.is_a?(Api::BaseController) && controller&.try(:current_user).is_a?(User)
       {
         host: controller.request.host,
         remote_ip: controller.request.remote_ip,

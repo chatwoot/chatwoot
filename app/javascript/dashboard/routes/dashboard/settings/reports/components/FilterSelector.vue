@@ -52,6 +52,7 @@ export default {
       default: true,
     },
   },
+  emits: ['filterChange'],
   data() {
     return {
       // default value, need not be translated
@@ -177,7 +178,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col justify-between gap-3 mb-4 md:flex-row">
+  <div class="flex flex-col justify-between gap-3 md:flex-row">
     <div
       class="w-full grid gap-y-2 gap-x-1.5 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]"
     >
@@ -195,27 +196,27 @@ export default {
         v-if="showGroupByFilter && isGroupByPossible"
         :valid-group-options="validGroupOptions"
         :selected-option="selectedGroupByFilter"
-        @onGroupingChange="onGroupingChange"
+        @on-grouping-change="onGroupingChange"
       />
       <ReportsFiltersAgents
         v-if="showAgentsFilter"
-        @agentsFilterSelection="handleAgentsFilterSelection"
+        @agents-filter-selection="handleAgentsFilterSelection"
       />
       <ReportsFiltersLabels
         v-if="showLabelsFilter"
-        @labelsFilterSelection="handleLabelsFilterSelection"
+        @labels-filter-selection="handleLabelsFilterSelection"
       />
       <ReportsFiltersTeams
         v-if="showTeamFilter"
-        @teamFilterSelection="handleTeamFilterSelection"
+        @team-filter-selection="handleTeamFilterSelection"
       />
       <ReportsFiltersInboxes
         v-if="showInboxFilter"
-        @inboxFilterSelection="handleInboxFilterSelection"
+        @inbox-filter-selection="handleInboxFilterSelection"
       />
       <ReportsFiltersRatings
         v-if="showRatingFilter"
-        @ratingFilterSelection="handleRatingFilterSelection"
+        @rating-filter-selection="handleRatingFilterSelection"
       />
     </div>
     <div v-if="showBusinessHoursSwitch" class="flex items-center">

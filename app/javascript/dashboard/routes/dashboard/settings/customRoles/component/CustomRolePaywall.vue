@@ -1,9 +1,10 @@
 <script setup>
 import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
-import { useRouter } from 'dashboard/composables/route';
+import { useRouter } from 'vue-router';
 import BasePaywallModal from 'dashboard/routes/dashboard/settings/components/BasePaywallModal.vue';
 import CustomRoleListItem from './CustomRoleTableBody.vue';
+import { useI18n } from 'vue-i18n';
 
 const dummyCustomRolesData = [
   {
@@ -59,6 +60,16 @@ const goToBillingSettings = () => {
     params: { accountId: currentAccountId.value },
   });
 };
+
+const { t } = useI18n();
+const tableHeaders = computed(() => {
+  return [
+    t('CUSTOM_ROLE.LIST.TABLE_HEADER.NAME'),
+    t('CUSTOM_ROLE.LIST.TABLE_HEADER.DESCRIPTION'),
+    t('CUSTOM_ROLE.LIST.TABLE_HEADER.PERMISSIONS'),
+    t('CUSTOM_ROLE.LIST.TABLE_HEADER.ACTIONS'),
+  ];
+});
 </script>
 
 <template>
@@ -66,7 +77,7 @@ const goToBillingSettings = () => {
     <div class="w-full space-y-3 text-sm">
       <thead class="opacity-30 dark:opacity-30">
         <th
-          v-for="thHeader in $t('CUSTOM_ROLE.LIST.TABLE_HEADER')"
+          v-for="thHeader in tableHeaders"
           :key="thHeader"
           class="py-4 pr-4 font-semibold text-left text-slate-700 dark:text-slate-300"
         >
@@ -89,7 +100,7 @@ const goToBillingSettings = () => {
         :i18n-key="i18nKey"
         :is-on-chatwoot-cloud="isOnChatwootCloud"
         :is-super-admin="isSuperAdmin"
-        @click="goToBillingSettings"
+        @upgrade="goToBillingSettings"
       />
     </div>
   </div>

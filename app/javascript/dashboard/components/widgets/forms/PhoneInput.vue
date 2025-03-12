@@ -1,10 +1,14 @@
 <script>
 import countries from 'shared/constants/countries.js';
 import parsePhoneNumber from 'libphonenumber-js';
+import {
+  getActiveCountryCode,
+  getActiveDialCode,
+} from 'shared/components/PhoneInput/helper';
 
 export default {
   props: {
-    value: {
+    modelValue: {
       type: [String, Number],
       default: '',
     },
@@ -25,14 +29,15 @@ export default {
       default: false,
     },
   },
+  emits: ['blur', 'setCode', 'update:modelValue'],
   data() {
     return {
       selectedIndex: -1,
       showDropdown: false,
       searchCountry: '',
-      activeCountryCode: '',
-      activeDialCode: '',
-      phoneNumber: this.value,
+      activeCountryCode: getActiveCountryCode(),
+      activeDialCode: getActiveDialCode(),
+      phoneNumber: this.modelValue,
     };
   },
   computed: {
@@ -71,12 +76,12 @@ export default {
     },
   },
   watch: {
-    value() {
-      const number = parsePhoneNumber(this.value);
+    modelValue() {
+      const number = parsePhoneNumber(this.modelValue);
       if (number) {
         this.activeCountryCode = number.country;
         this.activeDialCode = `+${number.countryCallingCode}`;
-        this.phoneNumber = this.value.replace(
+        this.phoneNumber = this.modelValue.replace(
           `+${number.countryCallingCode}`,
           ''
         );
@@ -98,7 +103,8 @@ export default {
     },
     onChange(e) {
       this.phoneNumber = e.target.value;
-      this.$emit('input', e.target.value, this.activeDialCode);
+      this.$emit('update:modelValue', e.target.value);
+      this.$emit('setCode', this.activeDialCode);
     },
     onBlur(e) {
       this.$emit('blur', e.target.value);

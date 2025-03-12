@@ -1,82 +1,67 @@
-<script>
-import { computed } from 'vue';
+<script setup>
+import { ref, computed, watch, onMounted, nextTick, useSlots } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 
-export default {
-  props: {
-    conversationLabels: {
-      type: Array,
-      required: true,
-    },
+const props = defineProps({
+  conversationLabels: {
+    type: Array,
+    required: true,
   },
-  setup(props) {
-    const accountLabels = useMapGetter('labels/getLabels');
+});
 
-    const activeLabels = computed(() => {
-      return accountLabels.value.filter(({ title }) =>
-        props.conversationLabels.includes(title)
-      );
-    });
+const slots = useSlots();
+const accountLabels = useMapGetter('labels/getLabels');
 
-    return {
-      activeLabels,
-    };
-  },
-  data() {
-    return {
-      showAllLabels: false,
-      showExpandLabelButton: false,
-      labelPosition: -1,
-    };
-  },
-  watch: {
-    activeLabels() {
-      this.$nextTick(() => this.computeVisibleLabelPosition());
-    },
-  },
-  mounted() {
-    // the problem here is that there is a certain amount of delay between the conversation
-    // card being mounted and the resize event eventually being triggered
-    // This means we need to run the function immediately after the component is mounted
-    // Happens especially when used in a virtual list.
-    // We can make the first trigger, a standard part of the directive, in case
-    // we face this issue again
-    this.computeVisibleLabelPosition();
-  },
-  methods: {
-    onShowLabels(e) {
-      e.stopPropagation();
-      this.showAllLabels = !this.showAllLabels;
-      this.$nextTick(() => this.computeVisibleLabelPosition());
-    },
-    computeVisibleLabelPosition() {
-      const beforeSlot = this.$slots.before ? 100 : 0;
-      const labelContainer = this.$refs.labelContainer;
-      if (!labelContainer) return;
+const activeLabels = computed(() => {
+  return accountLabels.value.filter(({ title }) =>
+    props.conversationLabels.includes(title)
+  );
+});
 
-      const labels = Array.from(labelContainer.querySelectorAll('.label'));
-      let labelOffset = 0;
-      this.showExpandLabelButton = false;
-      labels.forEach((label, index) => {
-        labelOffset += label.offsetWidth + 8;
-        if (labelOffset < labelContainer.clientWidth - 16 - beforeSlot) {
-          this.labelPosition = index;
-        } else {
-          this.showExpandLabelButton = labels.length > 1;
-        }
-      });
-    },
-  },
+const showAllLabels = ref(false);
+const showExpandLabelButton = ref(false);
+const labelPosition = ref(-1);
+const labelContainer = ref(null);
+
+const computeVisibleLabelPosition = () => {
+  const beforeSlot = slots.before ? 100 : 0;
+  if (!labelContainer.value) {
+    return;
+  }
+
+  const labels = Array.from(labelContainer.value.querySelectorAll('.label'));
+  let labelOffset = 0;
+  showExpandLabelButton.value = false;
+  labels.forEach((label, index) => {
+    labelOffset += label.offsetWidth + 8;
+
+    if (labelOffset < labelContainer.value.clientWidth - beforeSlot) {
+      labelPosition.value = index;
+    } else {
+      showExpandLabelButton.value = labels.length > 1;
+    }
+  });
+};
+
+watch(activeLabels, () => {
+  nextTick(() => computeVisibleLabelPosition());
+});
+
+onMounted(() => {
+  computeVisibleLabelPosition();
+});
+
+const onShowLabels = e => {
+  e.stopPropagation();
+  showAllLabels.value = !showAllLabels.value;
+  nextTick(() => computeVisibleLabelPosition());
 };
 </script>
 
 <template>
-  <div
-    v-if="activeLabels.length || $slots.before"
-    ref="labelContainer"
-    v-resize="computeVisibleLabelPosition"
-  >
+  <div ref="labelContainer" v-resize="computeVisibleLabelPosition">
     <div
+      v-if="activeLabels.length || $slots.before"
       class="flex items-end flex-shrink min-w-0 gap-y-1"
       :class="{ 'h-auto overflow-visible flex-row flex-wrap': showAllLabels }"
     >
@@ -90,41 +75,25 @@ export default {
         variant="smooth"
         class="!mb-0 max-w-[calc(100%-0.5rem)]"
         small
-        :class="{ hidden: !showAllLabels && index > labelPosition }"
+        :class="{
+          'invisible absolute': !showAllLabels && index > labelPosition,
+        }"
       />
-      <woot-button
+      <button
         v-if="showExpandLabelButton"
         :title="
           showAllLabels
             ? $t('CONVERSATION.CARD.HIDE_LABELS')
             : $t('CONVERSATION.CARD.SHOW_LABELS')
         "
-        class="sticky right-0 flex-shrink-0 mr-6 show-more--button rtl:rotate-180"
-        color-scheme="secondary"
-        variant="hollow"
-        :icon="showAllLabels ? 'chevron-left' : 'chevron-right'"
-        size="tiny"
+        class="h-5 py-0 px-1 flex-shrink-0 mr-6 ml-0 rtl:ml-6 rtl:mr-0 rtl:rotate-180 text-slate-700 dark:text-slate-200 border-n-strong dark:border-n-strong"
         @click="onShowLabels"
-      />
+      >
+        <fluent-icon
+          :icon="showAllLabels ? 'chevron-left' : 'chevron-right'"
+          size="12"
+        />
+      </button>
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.show-more--button {
-  @apply h-5;
-  &.secondary:focus {
-    @apply text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-700;
-  }
-}
-
-.labels-wrap {
-  .secondary {
-    @apply border border-solid border-slate-100 dark:border-slate-700;
-  }
-}
-
-.hidden {
-  @apply invisible absolute;
-}
-</style>

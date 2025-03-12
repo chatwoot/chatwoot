@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
     "HEADER": "เงื่อนไขอัตโนมัติ",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "เพิ่มเงื่อนไขอัตโนมัติ",
     "LOADING": "กำลังโหลดเงื่อนไขอัตโนมัติ",
-    "SIDEBAR_TXT": "<p><b>เงื่อนไขอัตโนมัติ</b> <p>เงื่อนไขอัตโนมัติช่วยให้คุณไม่ต้องทำงานเดิมซ้ำๆ คุณสามารถใช้เงื่อนไขอัตโนมัติทำได้หลายอย่าง เช่น การเพิ่มป้ายกำกับ และมอบหมายงานให้พนักงานที่เกี่ยวข้องโดยอัตโนมัติ ช่วยให้ทีมโฟกัสกับงานที่เหมาะสมและลดเวลาที่ใช้ในการทำงานที่คุณต้องคลิกเอง </p>",
     "ADD": {
       "TITLE": "เพิ่มเงื่อนไขอัตโนมัติ",
       "SUBMIT": "สร้าง",
@@ -39,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "ชื่อ",
-        "คำอธิบาย",
-        "ใช้งานอยู่",
-        "สร้างเมื่อ"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "ชื่อ",
+        "DESCRIPTION": "คำอธิบาย",
+        "ACTIVE": "ใช้งานอยู่",
+        "CREATED_ON": "สร้างเมื่อ"
+      },
       "404": "ไม่พบเงื่อนไขอัตโนมัติ"
     },
     "DELETE": {

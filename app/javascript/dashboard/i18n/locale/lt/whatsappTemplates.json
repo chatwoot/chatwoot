@@ -3,7 +3,7 @@
         "MODAL": {
             "TITLE": "Whatsapp Šablonai",
             "SUBTITLE": "Pasirinkite WhatsApp šabloną, kurį norite siųsti",
-            "TEMPLATE_SELECTED_SUBTITLE": "Apdoroti %{templateName}"
+            "TEMPLATE_SELECTED_SUBTITLE": "Apdoroti {templateName}"
         },
         "PICKER": {
             "SEARCH_PLACEHOLDER": "Ieškoti šablonų",
@@ -16,7 +16,7 @@
         },
         "PARSER": {
             "VARIABLES_LABEL": "Kintamieji",
-            "VARIABLE_PLACEHOLDER": "Įveskite %{variable} reikšmę",
+            "VARIABLE_PLACEHOLDER": "Įveskite {variable} reikšmę",
             "GO_BACK_LABEL": "Grįžti",
             "SEND_MESSAGE_LABEL": "Išsiųsti pranešimą",
             "FORM_ERROR_MESSAGE": "Prieš siųsdami užpildykite visus kintamuosius"
