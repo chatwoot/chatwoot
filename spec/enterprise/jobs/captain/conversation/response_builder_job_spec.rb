@@ -19,7 +19,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'Hey, welcome to Captain Specs' })
 
       allow(Captain::Llm::LanguageDetectionService).to receive(:new).and_return(mock_language_detection_service)
-      allow(mock_language_detection_service).to receive(:detect).with('Hello').and_return('English')
+      allow(mock_language_detection_service).to receive(:detect).with('Hello').and_return('en')
     end
 
     it 'generates and processes response' do
@@ -44,7 +44,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
     end
 
     context 'when language is already detected' do
-      let(:conversation) { create(:conversation, inbox: inbox, account: account, additional_attributes: { 'language' => 'fr' }) }
+      let(:conversation) { create(:conversation, inbox: inbox, account: account, additional_attributes: { 'conversation_language' => 'fr' }) }
 
       it 'does not detect language again' do
         expect(mock_language_detection_service).not_to receive(:detect)
