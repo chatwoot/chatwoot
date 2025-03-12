@@ -5,6 +5,7 @@ import { downloadCsvFile, generateFileName } from '../../helper/downloadHelper';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
 import { clampDataBetweenTimeline } from 'shared/helpers/ReportsDataHelper';
+import liveReports from '../../api/liveReports';
 
 const state = {
   fetchingStatus: false,
@@ -54,10 +55,12 @@ const state = {
       isFetchingAccountConversationMetric: false,
       isFetchingAccountConversationsHeatmap: false,
       isFetchingAgentConversationMetric: false,
+      isFetchingTeamConversationMetric: false,
     },
     accountConversationMetric: {},
     accountConversationHeatmap: [],
     agentConversationMetric: [],
+    teamConversationMetric: [],
   },
 };
 
@@ -79,6 +82,9 @@ const getters = {
   },
   getAgentConversationMetric(_state) {
     return _state.overview.agentConversationMetric;
+  },
+  getTeamConversationMetric(_state) {
+    return _state.overview.teamConversationMetric;
   },
   getOverviewUIFlags($state) {
     return $state.overview.uiFlags;
@@ -145,9 +151,10 @@ export const actions = {
         commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
       });
   },
-  fetchAccountConversationMetric({ commit }, reportObj) {
+  fetchAccountConversationMetric({ commit }, params = {}) {
     commit(types.default.TOGGLE_ACCOUNT_CONVERSATION_METRIC_LOADING, true);
-    Report.getConversationMetric(reportObj.type)
+    liveReports
+      .getConversationMetric(params)
       .then(accountConversationMetric => {
         commit(
           types.default.SET_ACCOUNT_CONVERSATION_METRIC,
@@ -159,9 +166,10 @@ export const actions = {
         commit(types.default.TOGGLE_ACCOUNT_CONVERSATION_METRIC_LOADING, false);
       });
   },
-  fetchAgentConversationMetric({ commit }, reportObj) {
+  fetchAgentConversationMetric({ commit }) {
     commit(types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING, true);
-    Report.getConversationMetric(reportObj.type, reportObj.page)
+    liveReports
+      .getGroupedConversations({ groupBy: 'assignee_id' })
       .then(agentConversationMetric => {
         commit(
           types.default.SET_AGENT_CONVERSATION_METRIC,
@@ -171,6 +179,18 @@ export const actions = {
       })
       .catch(() => {
         commit(types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING, false);
+      });
+  },
+  fetchTeamConversationMetric({ commit }) {
+    commit(types.default.TOGGLE_TEAM_CONVERSATION_METRIC_LOADING, true);
+    liveReports
+      .getGroupedConversations({ groupBy: 'team_id' })
+      .then(teamMetric => {
+        commit(types.default.SET_TEAM_CONVERSATION_METRIC, teamMetric.data);
+        commit(types.default.TOGGLE_TEAM_CONVERSATION_METRIC_LOADING, false);
+      })
+      .catch(() => {
+        commit(types.default.TOGGLE_TEAM_CONVERSATION_METRIC_LOADING, false);
       });
   },
   downloadAgentReports(_, reportObj) {
@@ -277,6 +297,12 @@ const mutations = {
   },
   [types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingAgentConversationMetric = flag;
+  },
+  [types.default.SET_TEAM_CONVERSATION_METRIC](_state, metricData) {
+    _state.overview.teamConversationMetric = metricData;
+  },
+  [types.default.TOGGLE_TEAM_CONVERSATION_METRIC_LOADING](_state, flag) {
+    _state.overview.uiFlags.isFetchingTeamConversationMetric = flag;
   },
 };
 
