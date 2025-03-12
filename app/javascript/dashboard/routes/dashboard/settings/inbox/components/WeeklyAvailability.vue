@@ -144,13 +144,12 @@ export default {
             </label>
             <div
               v-if="isRichEditorEnabled"
-              class="px-4 py-0 mx-0 mt-0 mb-4 bg-white border border-solid rounded-md border-slate-200 dark:border-slate-600 dark:bg-slate-900"
+              class="px-4 py-0 mx-0 mt-0 mb-4 rounded-lg outline outline-1 outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 bg-n-alpha-black2"
             >
               <WootMessageEditor
                 v-model="unavailableMessage"
                 enable-variables
                 is-format-mode
-                class="message-editor"
                 :min-height="4"
               />
             </div>
