@@ -64,7 +64,7 @@ class Integrations::Hook < ApplicationRecord
   private
 
   def ensure_hook_type
-    self.hook_type = app.params[:hook_type] if app.present?
+    self.hook_type ||= app.params[:hook_type] if app.present?
   end
 
   def validate_settings_json_schema
