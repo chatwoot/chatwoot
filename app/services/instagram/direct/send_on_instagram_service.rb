@@ -1,4 +1,4 @@
-class Instagram::SendOnIgService < Base::SendOnChannelService
+class Instagram::Direct::SendOnInstagramService < Base::SendOnChannelService
   include HTTParty
 
   pattr_initialize [:message!]
