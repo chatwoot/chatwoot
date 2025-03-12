@@ -27,8 +27,13 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
   def system_message
     {
       role: 'system',
-      content: Captain::Llm::SystemPromptsService.copilot_response_generator(@assistant.config['product_name'])
+      content: Captain::Llm::SystemPromptsService.copilot_response_generator(@assistant.config['product_name'], account_language)
     }
+  end
+
+  def account_language
+    account_locale = @assistant.account.locale
+    ISO_639.find(account_locale)&.english_name&.downcase || 'english'
   end
 
   def conversation_history_context
