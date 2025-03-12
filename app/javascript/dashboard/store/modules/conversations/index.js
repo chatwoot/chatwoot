@@ -231,11 +231,11 @@ export const mutations = {
 
       if (conversation.updated_at === selectedConversation.updated_at) {
         const differentAssignee =
-          conversation.meta.assignee?.id !==
-          selectedConversation.meta.assignee?.id;
+          conversation.meta?.assignee?.id !==
+          selectedConversation.meta?.assignee?.id;
 
         const differentTeams =
-          conversation.meta.team?.id !== selectedConversation.meta.team?.id;
+          conversation.meta?.team?.id !== selectedConversation.meta?.team?.id;
 
         if (differentTeams || differentAssignee) {
           Sentry.withScope(scope => {
