@@ -223,7 +223,7 @@ export const mutations = {
           scope.setContext('incoming_meta', conversation.meta);
           scope.setContext('stored_meta', selectedConversation.meta);
 
-          const diff = deepObjectDiff(selectedConversation, conversation);
+          const diff = deepObjectDiff(conversation, selectedConversation);
           scope.setContext('added', diff.added);
           scope.setContext('removed', diff.removed);
           scope.setContext('modified', diff.modified);
@@ -241,7 +241,7 @@ export const mutations = {
           scope.setContext('incoming_meta', conversation.meta);
           scope.setContext('stored_meta', selectedConversation.meta);
 
-          const diff = deepObjectDiff(selectedConversation, conversation);
+          const diff = deepObjectDiff(conversation, selectedConversation);
           scope.setContext('added', diff.added);
           scope.setContext('removed', diff.removed);
           scope.setContext('modified', diff.modified);
