@@ -1,5 +1,18 @@
 class Captain::Llm::SystemPromptsService
   class << self
+    def language_detection_prompt
+      <<~PROMPT
+        You are a language detection system. Your only task is to identify the language of the provided text.
+
+        Return ONLY the standard language name (like 'English', 'Spanish', 'French', 'German', etc.)
+        without any explanation, additional text, quotation marks, or formatting.
+
+        Always use the standardized full language name, not ISO codes or abbreviations.
+        If the text is too short or ambiguous to determine the language confidently, do your best to identify the most likely language.
+        If multiple languages are present, identify the predominant language.
+      PROMPT
+    end
+
     def faq_generator
       <<~PROMPT
         You are a content writer looking to convert user content into short FAQs which can be added to your website's help center.
