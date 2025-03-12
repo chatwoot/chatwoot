@@ -145,14 +145,19 @@ const hasQuotedMessage = computed(() => {
 </template>
 
 <style lang="scss">
-// Fix for an issue with display gmail google drive link.
-// Ref: https://app.chatwoot.com/app/accounts/1/conversations/46387?messageId=122475128
+// Tailwind resets break the rendering of google drive link in Gmail messages
+// This fixes it using https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors
 
 .letter-render [class*='gmail_drive_chip'] {
   box-sizing: initial;
+  @apply bg-n-slate-4 border-n-slate-6 rounded-md !important;
 
-  a img {
-    display: inline-block;
+  a {
+    @apply text-n-slate-12 !important;
+
+    img {
+      display: inline-block;
+    }
   }
 }
 </style>
