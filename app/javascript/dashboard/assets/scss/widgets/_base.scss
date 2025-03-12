@@ -144,7 +144,6 @@ label:has(.help-text) {
 .error {
   #{$form-input-selector},
   input:not([type]),
-  input:not(.multiselect__input),
   textarea,
   select,
   .multiselect > .multiselect__tags,
