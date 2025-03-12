@@ -108,8 +108,8 @@ class Captain::Llm::ConversationFaqService < Llm::BaseOpenAiService
   end
 
   def account_language
-    conversation_language = @conversation.account.locale
-    ISO_639.find(conversation_language)&.english_name&.downcase || 'english'
+    account_locale = @conversation.account.locale
+    ISO_639.find(account_locale)&.english_name&.downcase || 'english'
   end
 
   def parse_response(response)
