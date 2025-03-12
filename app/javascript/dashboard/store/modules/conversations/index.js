@@ -220,6 +220,8 @@ export const mutations = {
         Sentry.withScope(scope => {
           scope.setContext('incoming', conversation);
           scope.setContext('stored', selectedConversation);
+          scope.setContext('incoming_meta', conversation.meta);
+          scope.setContext('stored_meta', selectedConversation.meta);
           Sentry.captureMessage('Conversation update mismatch');
         });
 
