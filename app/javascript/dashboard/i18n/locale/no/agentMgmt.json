@@ -105,6 +105,9 @@
         "AGENT": "Velg agent",
         "TEAM": "Velg gruppe"
       },
+      "LIST": {
+        "NONE": "Ingen"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Ingen agenter funnet",

@@ -105,6 +105,9 @@
         "AGENT": "選擇客服",
         "TEAM": "選擇團隊"
       },
+      "LIST": {
+        "NONE": "無"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "查無客服",
