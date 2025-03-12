@@ -109,7 +109,7 @@ RSpec.describe 'Linear Integration API', type: :request do
         let(:created_issue) { { data: { 'id' => 'issue1', 'title' => 'Sample Issue' } } }
 
         it 'returns the created issue' do
-          allow(processor_service).to receive(:create_issue).with(issue_params.stringify_keys).and_return(created_issue)
+          allow(processor_service).to receive(:create_issue).with(kind_of(ActionController::Parameters)).and_return(created_issue)
           post "/api/v1/accounts/#{account.id}/integrations/linear/create_issue",
                params: issue_params,
                headers: agent.create_new_auth_token,
@@ -121,7 +121,7 @@ RSpec.describe 'Linear Integration API', type: :request do
 
       context 'when issue creation fails' do
         it 'returns error message' do
-          allow(processor_service).to receive(:create_issue).with(issue_params.stringify_keys).and_return(error: 'error message')
+          allow(processor_service).to receive(:create_issue).with(kind_of(ActionController::Parameters)).and_return(error: 'error message')
           post "/api/v1/accounts/#{account.id}/integrations/linear/create_issue",
                params: issue_params,
                headers: agent.create_new_auth_token,
