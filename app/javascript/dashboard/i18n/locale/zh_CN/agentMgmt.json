@@ -105,6 +105,9 @@
         "AGENT": "选择客服代表",
         "TEAM": "选择团队"
       },
+      "LIST": {
+        "NONE": "啥都没有"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "未找到客服代表",
