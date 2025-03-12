@@ -1,27 +1,27 @@
-<script>
+<script setup>
+import { defineProps, defineEmits } from 'vue';
 import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
-export default {
-  props: {
-    integrationId: {
-      type: String,
-      required: true,
-    },
+import Button from 'dashboard/components-next/button/Button.vue';
+
+const props = defineProps({
+  integrationId: {
+    type: String,
+    required: true,
   },
-  emits: ['add', 'delete'],
-  setup(props) {
-    const { integration, hasConnectedHooks } = useIntegrationHook(
-      props.integrationId
-    );
-    return { integration, hasConnectedHooks };
-  },
-};
+});
+
+defineEmits(['add', 'delete']);
+
+const { integration, hasConnectedHooks } = useIntegrationHook(
+  props.integrationId
+);
 </script>
 
 <template>
   <div
-    class="outline outline-n-container outline-1 bg-n-alpha-3 rounded-md shadow flex-shrink flex-grow overflow-auto p-4"
+    class="outline outline-n-container outline-1 bg-n-alpha-3 rounded-md shadow flex-grow overflow-auto p-4"
   >
-    <div class="flex">
+    <div class="flex items-center justify-center">
       <div class="flex h-16 w-16 items-center justify-center">
         <img
           :src="`/dashboard/images/integrations/${integrationId}.png`"
@@ -43,15 +43,20 @@ export default {
       <div class="flex justify-center items-center mb-0 w-[15%]">
         <div v-if="hasConnectedHooks">
           <div @click="$emit('delete', integration.hooks[0])">
-            <woot-button class="nice alert">
-              {{ $t('INTEGRATION_APPS.DISCONNECT.BUTTON_TEXT') }}
-            </woot-button>
+            <Button
+              ruby
+              faded
+              :label="$t('INTEGRATION_APPS.DISCONNECT.BUTTON_TEXT')"
+            />
           </div>
         </div>
         <div v-else>
-          <woot-button class="button nice" @click="$emit('add')">
-            {{ $t('INTEGRATION_APPS.CONNECT.BUTTON_TEXT') }}
-          </woot-button>
+          <Button
+            blue
+            faded
+            :label="$t('INTEGRATION_APPS.CONNECT.BUTTON_TEXT')"
+            @click="$emit('add')"
+          />
         </div>
       </div>
     </div>
