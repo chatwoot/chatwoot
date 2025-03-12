@@ -32,6 +32,13 @@ Rails.application.routes.draw do
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
+
+      # ----------------------------------
+      # start of pricing plan scoped api routes
+      resources :pricing_plans, only: [:index, :show]
+      # end of pricing plan scoped api routes
+      # ----------------------------------
+
       # ----------------------------------
       # start of account scoped api routes
       resources :accounts, only: [:create, :show, :update] do

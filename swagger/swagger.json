@@ -52,6 +52,68 @@
     }
   ],
   "paths": {
+    "/api/v1/pricing_plans": {
+      "get": {
+        "tags": [
+          "Pricing Plans"
+        ],
+        "operationId": "getPricingPlans",
+        "summary": "Get Pricing Plans",
+        "description": "Get Pricing Plans",
+        "security": [
+          {
+            "platformAppApiKey": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PricingPlan"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/pricing_plans/{id}": {
+      "get": {
+        "tags": [
+          "Pricing Plans"
+        ],
+        "summary": "Get Pricing Plan by ID",
+        "description": "Mengambil detail pricing plan berdasarkan ID",
+        "operationId": "getPricingPlanById",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID dari pricing plan"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Berhasil mengambil pricing plan",
+            "schema": {
+              "$ref": "#/definitions/PricingPlan"
+            }
+          },
+          "404": {
+            "description": "Pricing Plan tidak ditemukan"
+          }
+        }
+      }
+    },
     "/platform/api/v1/accounts": {
       "post": {
         "tags": [
@@ -5342,6 +5404,31 @@
     }
   },
   "definitions": {
+    "PricingPlan": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "example": 1
+        },
+        "name": {
+          "type": "string",
+          "example": "Basic Plan"
+        },
+        "price": {
+          "type": "number",
+          "format": "float",
+          "example": 9.99
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": ["Feature 1", "Feature 2"]
+        }
+      }
+    },
     "bad_request_error": {
       "title": "data",
       "type": "object",
@@ -7484,6 +7571,12 @@
     }
   },
   "x-tagGroups": [
+    {
+      "name": "Pricings",
+      "tags": [
+        "Pricing Plans"
+      ]
+    },
     {
       "name": "Platform",
       "tags": [
