@@ -230,14 +230,23 @@ export const mutations = {
       }
 
       if (conversation.updated_at === selectedConversation.updated_at) {
-        Sentry.withScope(scope => {
-          scope.setContext('incoming', conversation);
-          scope.setContext('stored', selectedConversation);
-          scope.setContext('incoming_meta', conversation.meta);
-          scope.setContext('stored_meta', selectedConversation.meta);
+        const differentAssignee =
+          conversation.meta.assignee?.id !==
+          selectedConversation.meta.assignee?.id;
 
-          Sentry.captureMessage('Conversation update overlap');
-        });
+        const differentTeams =
+          conversation.meta.team?.id !== selectedConversation.meta.team?.id;
+
+        if (differentTeams || differentAssignee) {
+          Sentry.withScope(scope => {
+            scope.setContext('incoming', conversation);
+            scope.setContext('stored', selectedConversation);
+            scope.setContext('incoming_meta', conversation.meta);
+            scope.setContext('stored_meta', selectedConversation.meta);
+
+            Sentry.captureMessage('Conversation update overlap');
+          });
+        }
 
         return;
       }
