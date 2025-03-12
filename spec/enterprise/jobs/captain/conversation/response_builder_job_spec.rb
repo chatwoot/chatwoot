@@ -40,7 +40,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       described_class.perform_now(conversation, assistant)
 
       conversation.reload
-      expect(conversation.additional_attributes['language']).to eq('en')
+      expect(conversation.additional_attributes['conversation_language']).to eq('en')
     end
 
     context 'when language is already detected' do
@@ -51,7 +51,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         described_class.perform_now(conversation, assistant)
 
         conversation.reload
-        expect(conversation.additional_attributes['language']).to eq('fr')
+        expect(conversation.additional_attributes['conversation_language']).to eq('fr')
       end
     end
 

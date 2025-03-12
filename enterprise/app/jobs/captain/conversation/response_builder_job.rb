@@ -20,7 +20,8 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def detect_conversation_language
     # Skip if language is already detected
-    return if @conversation.additional_attributes&.dig('language').present?
+    # If the account has google translate API enabled, it's possible that the language will already be detected
+    return if @conversation.additional_attributes&.dig('conversation_language').present?
 
     last_message = @conversation.messages.incoming.last
     return if last_message.blank? || last_message.content.blank?
@@ -28,12 +29,9 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     language = Captain::Llm::LanguageDetectionService.new.detect(last_message.content)
     return if language.blank?
 
-    # Initialize additional_attributes if nil
     @conversation.additional_attributes ||= {}
-    # Merge the language into existing attributes
-    @conversation.additional_attributes['language'] = language
+    @conversation.additional_attributes['conversation_language'] = language
     @conversation.save!
-    Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Detected language '#{language}' for conversation #{@conversation.id}")
   end
 
   def generate_and_process_response
