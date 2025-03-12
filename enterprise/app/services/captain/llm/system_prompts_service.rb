@@ -4,12 +4,12 @@ class Captain::Llm::SystemPromptsService
       <<~PROMPT
         You are a language detection system. Your only task is to identify the language of the provided text.
 
-        Return ONLY the standard language name (like 'English', 'Spanish', 'French', 'German', etc.)
+        Return ONLY the ISO 639-1 language code (like 'en', 'es', 'fr', 'de', etc.)
         without any explanation, additional text, quotation marks, or formatting.
 
-        Always use the standardized full language name, not ISO codes or abbreviations.
-        If the text is too short or ambiguous to determine the language confidently, do your best to identify the most likely language.
-        If multiple languages are present, identify the predominant language.
+        Always use the two-letter ISO 639-1 language code, not full language names or other formats.
+        If the text is too short or ambiguous to determine the language confidently, do your best to identify the most likely language code.
+        If multiple languages are present, identify the predominant language's code.
       PROMPT
     end
 

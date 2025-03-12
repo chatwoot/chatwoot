@@ -15,13 +15,13 @@ RSpec.describe Captain::Llm::LanguageDetectionService do
     allow(client).to receive(:chat).and_return({ 'choices' => [{ 'message' => { 'content' => nil } }] })
     allow(client).to receive(:chat).with(
       parameters: hash_including(messages: array_including({ role: 'user', content: english_text }))
-    ).and_return({ 'choices' => [{ 'message' => { 'content' => 'English' } }] })
+    ).and_return({ 'choices' => [{ 'message' => { 'content' => 'en' } }] })
     allow(client).to receive(:chat).with(
       parameters: hash_including(messages: array_including({ role: 'user', content: spanish_text }))
-    ).and_return({ 'choices' => [{ 'message' => { 'content' => 'Spanish' } }] })
+    ).and_return({ 'choices' => [{ 'message' => { 'content' => 'es' } }] })
     allow(client).to receive(:chat).with(
       parameters: hash_including(messages: array_including({ role: 'user', content: french_text }))
-    ).and_return({ 'choices' => [{ 'message' => { 'content' => 'French' } }] })
+    ).and_return({ 'choices' => [{ 'message' => { 'content' => 'fr' } }] })
     allow(client).to receive(:chat)
       .with(parameters: hash_including(messages: array_including({ role: 'user', content: 'text that will cause an error' })))
       .and_raise(StandardError.new('API error'))
@@ -35,20 +35,20 @@ RSpec.describe Captain::Llm::LanguageDetectionService do
     end
 
     context 'when text is in English' do
-      it 'returns "English"' do
-        expect(service.detect(english_text)).to eq('English')
+      it 'returns "en"' do
+        expect(service.detect(english_text)).to eq('en')
       end
     end
 
     context 'when text is in Spanish' do
-      it 'returns "Spanish"' do
-        expect(service.detect(spanish_text)).to eq('Spanish')
+      it 'returns "es"' do
+        expect(service.detect(spanish_text)).to eq('es')
       end
     end
 
     context 'when text is in French' do
-      it 'returns "French"' do
-        expect(service.detect(french_text)).to eq('French')
+      it 'returns "fr"' do
+        expect(service.detect(french_text)).to eq('fr')
       end
     end
 
