@@ -93,7 +93,7 @@ const hasQuotedMessage = computed(() => {
         <template v-else>
           <Letter
             v-if="showQuotedMessage"
-            class-name="prose prose-bubble !max-w-none"
+            class-name="prose prose-bubble !max-w-none letter-render"
             :allowed-css-properties="[
               ...allowedCssProperties,
               'transform',
@@ -104,7 +104,7 @@ const hasQuotedMessage = computed(() => {
           />
           <Letter
             v-else
-            class-name="prose prose-bubble !max-w-none"
+            class-name="prose prose-bubble !max-w-none letter-render"
             :html="unquotedHTML"
             :allowed-css-properties="[
               ...allowedCssProperties,
@@ -143,3 +143,16 @@ const hasQuotedMessage = computed(() => {
     </section>
   </BaseBubble>
 </template>
+
+<style lang="scss">
+// Fix for an issue with display gmail google drive link.
+// Ref: https://app.chatwoot.com/app/accounts/1/conversations/46387?messageId=122475128
+
+.letter-render [class*='gmail_drive_chip'] {
+  box-sizing: initial;
+
+  a img {
+    display: inline-block;
+  }
+}
+</style>
