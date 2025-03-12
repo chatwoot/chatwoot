@@ -40,7 +40,7 @@ RSpec.describe 'Webhooks::WhatsappController', type: :request do
         expect(Rails.logger).to receive(:warn).with('Rejected webhook for inactive WhatsApp number: +1234567890')
 
         post '/webhooks/whatsapp/+1234567890', params: { content: 'hello' }
-        expect(response).to have_http_status(:service_unavailable)
+        expect(response).to have_http_status(:unprocessable_entity)
         expect(response.parsed_body['error']).to eq('Inactive WhatsApp number')
       end
     end

@@ -4,7 +4,7 @@ class Webhooks::WhatsappController < ActionController::API
   def process_payload
     if inactive_whatsapp_number?
       Rails.logger.warn("Rejected webhook for inactive WhatsApp number: #{params[:phone_number]}")
-      render json: { error: 'Inactive WhatsApp number' }, status: :service_unavailable
+      render json: { error: 'Inactive WhatsApp number' }, status: :unprocessable_entity
       return
     end
 

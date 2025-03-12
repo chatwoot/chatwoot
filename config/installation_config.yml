@@ -207,7 +207,7 @@
 - name: INACTIVE_WHATSAPP_NUMBERS
   value: ''
   display_title: 'Inactive WhatsApp Numbers'
-  description: 'Comma-separated list of WhatsApp numbers that should be rejected with a 503 error'
+  description: 'Comma-separated list of WhatsApp numbers that should be rejected with a 422 error'
   type: code
 # ------- End of Chatwoot Internal Config for Cloud ----#
 
