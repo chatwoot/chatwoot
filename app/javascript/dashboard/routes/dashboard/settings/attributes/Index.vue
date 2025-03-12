@@ -4,7 +4,7 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import AddAttribute from './AddAttribute.vue';
 import CustomAttribute from './CustomAttribute.vue';
 import SettingsLayout from '../SettingsLayout.vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 
 const { t } = useI18n();
@@ -85,8 +85,9 @@ const onClickTabChange = index => {
         @change="onClickTabChange"
       >
         <woot-tabs-item
-          v-for="tab in tabs"
+          v-for="(tab, index) in tabs"
           :key="tab.key"
+          :index="index"
           :name="tab.name"
           :show-badge="false"
         />
@@ -98,15 +99,11 @@ const onClickTabChange = index => {
         :attribute-model="attributeModel"
       />
     </template>
-    <woot-modal
+    <AddAttribute
       v-if="showAddPopup"
-      :show.sync="showAddPopup"
+      v-model:show="showAddPopup"
       :on-close="hideAddPopup"
-    >
-      <AddAttribute
-        :on-close="hideAddPopup"
-        :selected-attribute-model-tab="selectedTabIndex"
-      />
-    </woot-modal>
+      :selected-attribute-model-tab="selectedTabIndex"
+    />
   </SettingsLayout>
 </template>

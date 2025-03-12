@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "電話號碼為必填",
         "DIAL_CODE_VALID_ERROR": "Please select a country code",
         "VALID_ERROR": "Please enter a valid phone number",
-        "DROPDOWN_EMPTY": "No results found"
+        "DROPDOWN_EMPTY": "No results found",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "訊息",
@@ -91,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "搜尋 emojis",
-    "NOT_FOUND": "查無相符的 emoji"
+    "NOT_FOUND": "查無相符的 emoji",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "為此對話評分",
@@ -133,5 +135,8 @@
     "fallback": {
       "CONTENT": "分享了一個網址"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
   }
 }

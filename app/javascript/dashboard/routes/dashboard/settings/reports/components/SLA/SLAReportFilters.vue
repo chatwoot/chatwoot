@@ -8,6 +8,7 @@ export default {
   components: {
     SLAFilter,
   },
+  emits: ['filterChange'],
 
   data() {
     return {
@@ -66,7 +67,7 @@ export default {
 
 <template>
   <div class="flex flex-col flex-wrap w-full gap-3 md:flex-row">
-    <woot-date-picker @dateRangeChanged="onDateRangeChange" />
-    <SLAFilter @filterChange="emitFilterChange" />
+    <woot-date-picker @date-range-changed="onDateRangeChange" />
+    <SLAFilter @filter-change="emitFilterChange" />
   </div>
 </template>

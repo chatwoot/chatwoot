@@ -11,10 +11,6 @@ const settings = accountId => ({
     'auditlogs_list',
     'billing_settings_index',
     'canned_list',
-    'chatbots_wrapper',
-    'chatbots_new',
-    'chatbots_setting',
-    'chatbots_connect_inbox',
     'general_settings_index',
     'general_settings',
     'labels_list',
@@ -44,6 +40,7 @@ const settings = accountId => ({
     'settings_teams_new',
     'sla_list',
     'settings_integrations_onehash_apps',
+    'custom_roles_list',
   ],
   menuItems: [
     {
@@ -209,6 +206,18 @@ const settings = accountId => ({
       toStateName: 'billing_settings_index',
     },
     {
+      icon: 'scan-person',
+      label: 'CUSTOM_ROLES',
+      hasSubMenu: false,
+      meta: {
+        permissions: ['administrator'],
+      },
+      toState: frontendURL(`accounts/${accountId}/settings/custom-roles/list`),
+      toStateName: 'custom_roles_list',
+      isEnterpriseOnly: true,
+      beta: true,
+    },
+    {
       icon: 'document-list-clock',
       label: 'SLA',
       hasSubMenu: false,
@@ -219,18 +228,6 @@ const settings = accountId => ({
       toStateName: 'sla_list',
       isEnterpriseOnly: true,
       featureFlag: FEATURE_FLAGS.SLA,
-      beta: true,
-    },
-    // Added for OneHash's AI Bot
-    {
-      icon: 'chatbot-icon',
-      label: 'CHATBOTS',
-      hasSubMenu: false,
-      meta: {
-        permissions: ['administrator'],
-      },
-      toState: frontendURL(`accounts/${accountId}/settings/chatbots`),
-      toStateName: 'chatbots_wrapper',
       beta: true,
     },
     {

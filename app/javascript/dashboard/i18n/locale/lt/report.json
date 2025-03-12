@@ -23,13 +23,13 @@
         "NAME": "Pirmojo atsakymo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Sprendimo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Sprendimo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Sprendimo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Sprendimų skaičius",
@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Kliento laukimo laikas",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Paskutinius metus",
       "CUSTOM_DATE_RANGE": "Pritaikytas datos intervalas"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Paskutines 7 dienas"
-      },
-      {
-        "id": 1,
-        "name": "Paskutines 30 dienų"
-      },
-      {
-        "id": 2,
-        "name": "Paskutinius 3 mėnesius"
-      },
-      {
-        "id": 3,
-        "name": "Paskutinius 6 mėnesius"
-      },
-      {
-        "id": 4,
-        "name": "Paskutinius metus"
-      },
-      {
-        "id": 5,
-        "name": "Pritaikytas datos intervalas"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Taikyti",
       "PLACEHOLDER": "Pasirinkti datos intervalą"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Nieko nerasta"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -167,13 +145,13 @@
         "NAME": "Pirmojo atsakymo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Sprendimo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Sprendimo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Sprendimo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Sprendimų skaičius",
@@ -234,13 +212,13 @@
         "NAME": "Pirmojo atsakymo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Sprendimo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Sprendimo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Sprendimo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Sprendimų skaičius",
@@ -301,13 +279,13 @@
         "NAME": "Pirmojo atsakymo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Sprendimo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Sprendimo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Sprendimo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Sprendimų skaičius",
@@ -368,13 +346,13 @@
         "NAME": "Pirmojo atsakymo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Sprendimo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Sprendimo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Sprendimo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Sprendimų skaičius",
@@ -480,8 +458,8 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Pokalbių srautas",
       "NO_CONVERSATIONS": "Pokalbių nėra",
-      "CONVERSATION": "%{count} pokalbis",
-      "CONVERSATIONS": "%{count} pokalbiai",
+      "CONVERSATION": "{count} pokalbis",
+      "CONVERSATIONS": "{count} pokalbiai",
       "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
@@ -490,7 +468,7 @@
       "NO_AGENTS": "Agentų pokalbių nėra",
       "TABLE_HEADER": {
         "AGENT": "Agentas",
-        "OPEN": "ATIDARYTI",
+        "OPEN": "Atidaryti",
         "UNATTENDED": "Be priežiūros",
         "STATUS": "Būsena"
       }

@@ -42,7 +42,7 @@ export default {
     :show-title="showTitle || isFetching"
     :is-fetching="isFetching"
   >
-    <ul v-if="conversations.length" class="search-list">
+    <ul v-if="conversations.length" class="space-y-1.5">
       <li v-for="conversation in conversations" :key="conversation.id">
         <SearchResultConversationItem
           :id="conversation.id"

@@ -3,7 +3,7 @@
         "MODAL": {
             "TITLE": "Modelli Whatsapp",
             "SUBTITLE": "Seleziona il modello whatsapp che vuoi inviare",
-            "TEMPLATE_SELECTED_SUBTITLE": "Elabora %{templateName}"
+            "TEMPLATE_SELECTED_SUBTITLE": "Elabora {templateName}"
         },
         "PICKER": {
             "SEARCH_PLACEHOLDER": "Cerca modelli",
@@ -16,7 +16,7 @@
         },
         "PARSER": {
             "VARIABLES_LABEL": "Variabili",
-            "VARIABLE_PLACEHOLDER": "Inserisci il valore di %{variable}",
+            "VARIABLE_PLACEHOLDER": "Inserisci il valore di {variable}",
             "GO_BACK_LABEL": "Torna indietro",
             "SEND_MESSAGE_LABEL": "Invia messaggio",
             "FORM_ERROR_MESSAGE": "Si prega di compilare tutte le variabili prima di inviare"

@@ -49,7 +49,10 @@ export default {
 <template>
   <div class="contact-conversation--panel">
     <div v-if="!uiFlags.isFetching" class="contact-conversation__wrap">
-      <div v-if="!previousConversations.length" class="no-label-message">
+      <div
+        v-if="!previousConversations.length"
+        class="no-label-message px-4 p-3"
+      >
         <span>
           {{ $t('CONTACT_PANEL.CONVERSATIONS.NO_RECORDS_FOUND') }}
         </span>

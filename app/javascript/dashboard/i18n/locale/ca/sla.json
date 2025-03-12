@@ -1,6 +1,6 @@
 {
   "SLA": {
-    "HEADER": "SLA",
+    "HEADER": "Service Level Agreements",
     "ADD_ACTION": "Afegeix SLA",
     "ADD_ACTION_LONG": "Crea una nova política de SLA",
     "DESCRIPTION": "Els acords de nivell de servei (SLA) són contractes que defineixen expectatives clares entre el vostre equip i els clients. Estableixen estàndards de temps de resposta i resolució, creen un marc de responsabilitat i garanteixen una experiència coherent i d'alta qualitat.",

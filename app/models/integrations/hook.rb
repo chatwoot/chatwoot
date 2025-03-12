@@ -24,6 +24,7 @@ class Integrations::Hook < ApplicationRecord
 
   attr_readonly :app_id, :account_id, :inbox_id, :account_user_id, :hook_type
   before_validation :ensure_hook_type
+
   validates :account_id, presence: true
   validates :app_id, presence: true
   validates :inbox_id, presence: true, if: -> { hook_type == 'inbox' }
@@ -69,7 +70,7 @@ class Integrations::Hook < ApplicationRecord
     when 'openai'
       Integrations::Openai::ProcessorService.new(hook: self, event: event).perform if app_id == 'openai'
     else
-      'No processor found'
+      { error: 'No processor found' }
     end
   end
 

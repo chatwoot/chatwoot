@@ -52,7 +52,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           .to_return(status: 200, body: openai_response, headers: {})
 
         result = subject.perform
-        expect(result).to eq('This is a reply from openai.')
+        expect(result).to eq({ :message => 'This is a reply from openai.' })
       end
 
       it 'returns empty string if openai response is blank' do
@@ -61,7 +61,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           .to_return(status: 200, body: '{}', headers: {})
 
         result = subject.perform
-        expect(result).to eq('')
+        expect(result).to eq({ :message => '' })
       end
     end
 

@@ -6,6 +6,7 @@
     "LIST": {
       "404": "Nincs aktív üzenetváltás ebben a csoportban."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Beszélgetések",
     "MENTION_HEADING": "Megemlítések",
     "UNATTENDED_HEADING": "Figyelmen kívül hagyott",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "Hely"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "megosztott URL-t tartalmaz"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "Nincs elérhető tartalom",
     "HIDE_QUOTED_TEXT": "Idézett szöveg eltűntetése",
     "SHOW_QUOTED_TEXT": "Idézett szöveg megjelenítése",
-    "MESSAGE_READ": "Olvasott"
+    "MESSAGE_READ": "Olvasott",
+    "SENDING": "Sending"
   }
 }

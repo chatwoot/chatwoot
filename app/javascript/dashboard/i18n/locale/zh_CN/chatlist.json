@@ -6,6 +6,7 @@
     "LIST": {
       "404": "没有有效的对话在这个群组里面"
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "会话",
     "MENTION_HEADING": "提及",
     "UNATTENDED_HEADING": "未处理",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "位置"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "分享了一个网址"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "没有可用的内容",
     "HIDE_QUOTED_TEXT": "隐藏引用文字",
     "SHOW_QUOTED_TEXT": "显示引用文字",
-    "MESSAGE_READ": "已读"
+    "MESSAGE_READ": "已读",
+    "SENDING": "Sending"
   }
 }

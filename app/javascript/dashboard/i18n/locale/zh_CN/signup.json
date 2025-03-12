@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "工作邮箱",
-      "PLACEHOLDER": "请输入您有效的电子邮件地址，例如 bruce@wayne.enterprises",
+      "PLACEHOLDER": "请输入您有效的电子邮件地址，例如 bruce{'@'}wayne{'.'}enterprises",
       "ERROR": "请输入一个有效的电子邮件."
     },
     "PASSWORD": {

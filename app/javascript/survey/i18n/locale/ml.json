@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with %{inboxName}.",
+    "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with {inboxName}.",
     "RATING": {
       "LABEL": "നിങ്ങളുടെ സംഭാഷണം റേറ്റുചെയ്യുക",
       "SUCCESS_MESSAGE": "റേറ്റിംഗ് സമർപ്പിച്ചതിന് നന്ദി"

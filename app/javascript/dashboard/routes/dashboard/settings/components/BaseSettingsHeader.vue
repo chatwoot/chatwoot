@@ -2,6 +2,9 @@
 import CustomBrandPolicyWrapper from 'dashboard/components/CustomBrandPolicyWrapper.vue';
 import { getHelpUrlForFeature } from '../../../../helper/featureHelper';
 import BackButton from '../../../../components/widgets/BackButton.vue';
+import ButtonV4 from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+
 const props = defineProps({
   title: {
     type: String,
@@ -72,7 +75,7 @@ const openInNewTab = url => {
         <slot name="actions" />
       </div>
     </div>
-    <div class="flex flex-col gap-3 text-slate-600 dark:text-slate-300 w-full">
+    <div class="flex flex-col w-full gap-3 text-slate-600 dark:text-slate-300">
       <p
         class="mb-0 text-base font-normal line-clamp-5 sm:line-clamp-none max-w-3xl tracking-[-0.1px]"
       >
@@ -84,32 +87,30 @@ const openInNewTab = url => {
           :href="helpURL"
           target="_blank"
           rel="noopener noreferrer"
-          class="sm:inline-flex hidden gap-1 w-fit items-center text-woot-500 dark:text-woot-500 text-sm font-medium hover:underline"
+          class="items-center hidden gap-1 text-sm font-medium sm:inline-flex w-fit text-n-brand dark:text-n-brand hover:underline"
         >
           {{ linkText }}
-          <fluent-icon
-            size="16"
-            icon="chevron-right"
-            type="outline"
-            class="flex-shrink-0 text-woot-500 dark:text-woot-500"
+          <Icon
+            icon="i-lucide-chevron-right"
+            class="flex-shrink-0 text-n-blue-text size-4"
           />
         </a>
       </CustomBrandPolicyWrapper>
     </div>
     <div
-      class="flex items-start justify-start w-full gap-3 sm:hidden flex-wrap"
+      class="flex flex-wrap items-start justify-start w-full gap-3 sm:hidden"
     >
       <slot name="actions" />
       <CustomBrandPolicyWrapper :show-on-custom-branded-instance="false">
-        <woot-button
+        <ButtonV4
           v-if="helpURL && linkText"
-          color-scheme="secondary"
-          icon="arrow-outwards"
-          class="flex-row-reverse rounded-md min-w-0 !bg-slate-50 !text-slate-900 dark:!text-white dark:!bg-slate-800"
+          link
+          primary
+          icon="i-lucide-chevron-right"
+          trailing-icon
+          :label="linkText"
           @click="openInNewTab(helpURL)"
-        >
-          {{ linkText }}
-        </woot-button>
+        />
       </CustomBrandPolicyWrapper>
     </div>
   </div>

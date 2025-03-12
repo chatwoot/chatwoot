@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Attachment do
+  let!(:message) { create(:message) }
+
   describe 'external url validations' do
-    let(:message) { create(:message) }
     let(:attachment) { message.attachments.new(account_id: message.account_id, file_type: :image) }
 
     before do
@@ -25,10 +26,22 @@ RSpec.describe Attachment do
 
   describe 'download_url' do
     it 'returns valid download url' do
-      message = create(:message)
       attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
       attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
       expect(attachment.download_url).not_to be_nil
+    end
+  end
+
+  describe 'with_attached_file?' do
+    it 'returns true if its an attachment with file' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      expect(attachment.with_attached_file?).to be true
+    end
+
+    it 'returns false if its an attachment with out a file' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :fallback)
+      expect(attachment.with_attached_file?).to be false
     end
   end
 

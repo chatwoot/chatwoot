@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automatizacije",
+    "HEADER": "Automatizacija",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "Dodaj pravilo automatizacije",
     "LOADING": "Prikupljanje pravila automatizacije",
-    "SIDEBAR_TXT": "<p><b>Pravila automatizacije</b> <p>Automatizacija može da zameni i automatizuje postojeće procese koji zahtevaju ručnu aktivnost. Možete odraditi puno stvari sa automatizacijom, uključujući dodavanje oznaka i dodeljivanje razgovora najboljem agentu. Tako tim može da se usresredi na ono što rade najbolje i provedu što je manje vremena na ručne zadatke.</p>",
     "ADD": {
       "TITLE": "Dodaj pravilo automatizacije",
       "SUBMIT": "Napravi",
@@ -39,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Ime",
-        "Opis",
-        "Aktivno",
-        "Napravljeno"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Ime",
+        "DESCRIPTION": "Opis",
+        "ACTIVE": "Aktivno",
+        "CREATED_ON": "Napravljeno"
+      },
       "404": "Nisu pronađena pravila automatizacije"
     },
     "DELETE": {

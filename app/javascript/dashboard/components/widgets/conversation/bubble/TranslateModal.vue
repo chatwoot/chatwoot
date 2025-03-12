@@ -10,6 +10,7 @@ export default {
       default: '',
     },
   },
+  emits: ['close'],
   computed: {
     translationsAvailable() {
       return !!Object.keys(this.translations).length;

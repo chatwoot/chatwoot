@@ -3,7 +3,8 @@
     "HEADER": "Atributos Personalizados",
     "HEADER_BTN_TXT": "Criar atributo personalizado",
     "LOADING": "Buscando atributos personalizados",
-    "SIDEBAR_TXT": "<p><b>Atributos personalizados</b> <p>Um atributo personalizado rastreia fatos sobre seus contatos/conversas — como o plano de inscrição, ou quando eles compraram o primeiro item, etc. <br /><br />Para criar um atributo personalizado, basta clicar em <b>\"Criar atributo\"</b> Você também pode editar ou apagar um atributo já criado.</p>",
+    "DESCRIPTION": "Um atributo personalizado controla detalhes adicionais sobre seus contatos ou conversas — como o plano de assinatura ou a data de sua primeira compra. Você pode adicionar diferentes tipos de atributos personalizados, como texto, listas ou números, para capturar as informações específicas que você precisa.",
+    "LEARN_MORE": "Saiba mais sobre atributos personalizados",
     "ADD": {
       "TITLE": "Adicionar atributo personalizado",
       "SUBMIT": "Criar",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "Não foi possível excluir o atributo personalizado. Tente novamente."
       },
       "CONFIRM": {
-        "TITLE": "Tem certeza que deseja excluir - %{attributeName}",
+        "TITLE": "Tem certeza que deseja excluir - {attributeName}",
         "PLACE_HOLDER": "Digite {attributeName} para confirmar",
         "MESSAGE": "Excluindo removerá o atributo personalizado",
         "YES": "Excluir ",
@@ -91,12 +92,12 @@
       "CONTACT": "Contato"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nome",
-        "Descrição",
-        "Tipo",
-        "Chave"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nome",
+        "DESCRIPTION": "Descrição",
+        "TYPE": "Tipo",
+        "KEY": "Chave"
+      },
       "BUTTONS": {
         "EDIT": "Alterar",
         "DELETE": "Excluir"

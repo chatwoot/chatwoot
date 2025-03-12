@@ -6,6 +6,7 @@
     "LIST": {
       "404": "Tidak ada percakapan aktif di grup ini."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Percakapan",
     "MENTION_HEADING": "Sebutkan",
     "UNATTENDED_HEADING": "Belum dihadiri",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "Lokasi"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "telah membagikan url"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "Tidak ada konten yang tersedia",
     "HIDE_QUOTED_TEXT": "Sembunyikan Teks yang Dikutip",
     "SHOW_QUOTED_TEXT": "Tampilkan Teks yang Dikutip",
-    "MESSAGE_READ": "Dibaca"
+    "MESSAGE_READ": "Dibaca",
+    "SENDING": "Sending"
   }
 }

@@ -3,8 +3,8 @@
     "HEADER": "الوكلاء",
     "HEADER_BTN_TXT": "إضافة وكيل",
     "LOADING": "جار جلب قائمة الوكلاء",
-    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
-    "LEARN_MORE": "Learn about user roles",
+    "DESCRIPTION": "الوكيل هو عضو في فريق دعم العملاء الذي يمكنه عرض رسائل المستخدم والرد عليها. القائمة أدناه تظهر جميع الوكلاء في حسابك.",
+    "LEARN_MORE": "تعرف على أدوار المستخدم",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "المدير",
       "AGENT": "وكيل الدعم"
@@ -18,7 +18,8 @@
       "STATUS": "الحالة",
       "ACTIONS": "الإجراءات",
       "VERIFIED": "تم التحقق",
-      "VERIFICATION_PENDING": "بانتظار التحقق"
+      "VERIFICATION_PENDING": "بانتظار التحقق",
+      "AVAILABLE_CUSTOM_ROLE": "صلاحيات الدور المخصص المتاحة"
     },
     "ADD": {
       "TITLE": "إضافة وكيل دعم فني إلى فريقك",

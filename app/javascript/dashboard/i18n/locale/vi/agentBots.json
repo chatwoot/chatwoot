@@ -12,10 +12,10 @@
       },
       "DESCRIPTION": {
         "LABEL": "Bot description",
-        "PLACEHOLDER": "What does this bot do?"
+        "PLACEHOLDER": "Bot này sẽ làm gì?"
       },
       "BOT_CONFIG": {
-        "ERROR": "Please enter your CSML bot configuration above.",
+        "ERROR": "",
         "API_ERROR": "Your CSML configuration is invalid. Please fix it and try again."
       },
       "SUBMIT": "Validate and save"

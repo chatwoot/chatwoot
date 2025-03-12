@@ -23,13 +23,13 @@
         "NAME": "اولین زمان پاسخگویی",
         "DESC": "( میانگین )",
         "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان پاسخ اول %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "TOOLTIP_TEXT": "زمان پاسخ اول {metricValue} (بر اساس {conversationCount} گفتگو)"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
         "DESC": "( میانگین )",
         "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان اتمام گفتگو %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "TOOLTIP_TEXT": "زمان اتمام گفتگو {metricValue} (بر اساس {conversationCount} گفتگو)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "زمان انتظار مشتری",
-        "TOOLTIP_TEXT": "زمان انتظار %{metricValue} (بر اساس %{conversationCount} پاسخ)"
+        "TOOLTIP_TEXT": "زمان انتظار {metricValue} (بر اساس {conversationCount} پاسخ)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "پارسال",
       "CUSTOM_DATE_RANGE": "محدوده تاریخ سفارشی"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "در ۷ روز گذشته"
-      },
-      {
-        "id": 1,
-        "name": "در ۳۰ روز گذشته"
-      },
-      {
-        "id": 0,
-        "name": "۳ ماه گذشته"
-      },
-      {
-        "id": 0,
-        "name": "۶ ماه گذشته"
-      },
-      {
-        "id": 0,
-        "name": "پارسال"
-      },
-      {
-        "id": 0,
-        "name": "محدوده تاریخ سفارشی"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "درخواست دادن",
       "PLACEHOLDER": "محدوده تاریخ را انتخاب کنید"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "پاک کردن فیلتر",
       "EMPTY_LIST": "نتیجه‌ای یافت نشد"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -167,13 +145,13 @@
         "NAME": "اولین زمان پاسخگویی",
         "DESC": "« میانگین »",
         "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان پاسخ اول %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "TOOLTIP_TEXT": "زمان پاسخ اول {metricValue} (بر اساس {conversationCount} گفتگو)"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
         "DESC": "« میانگین »",
         "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان اتمام گفتگو %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "TOOLTIP_TEXT": "زمان اتمام گفتگو {metricValue} (بر اساس {conversationCount} گفتگو)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -234,13 +212,13 @@
         "NAME": "اولین زمان پاسخگویی",
         "DESC": "( میانگین )",
         "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان پاسخ اول %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "TOOLTIP_TEXT": "زمان پاسخ اول {metricValue} (بر اساس {conversationCount} گفتگو)"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
         "DESC": "( میانگین )",
         "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان اتمام گفتگو %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "TOOLTIP_TEXT": "زمان اتمام گفتگو {metricValue} (بر اساس {conversationCount} گفتگو)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -301,13 +279,13 @@
         "NAME": "اولین زمان پاسخگویی",
         "DESC": "« میانگین »",
         "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان پاسخ اول %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "TOOLTIP_TEXT": "زمان پاسخ اول {metricValue} (بر اساس {conversationCount} گفتگو)"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
         "DESC": "« میانگین »",
         "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان اتمام گفتگو %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "TOOLTIP_TEXT": "زمان اتمام گفتگو {metricValue} (بر اساس {conversationCount} گفتگو)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -320,7 +298,7 @@
         "name": "در ۷ روز گذشته"
       },
       {
-        "id": 0,
+        "id": "۱",
         "name": "در ۳۰ روز گذشته"
       },
       {
@@ -368,13 +346,13 @@
         "NAME": "اولین زمان پاسخگویی",
         "DESC": "« میانگین »",
         "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان پاسخ اول %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "TOOLTIP_TEXT": "زمان پاسخ اول {metricValue} (بر اساس {conversationCount} گفتگو)"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
         "DESC": "« میانگین »",
         "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان اتمام گفتگو %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "TOOLTIP_TEXT": "زمان اتمام گفتگو {metricValue} (بر اساس {conversationCount} گفتگو)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -387,7 +365,7 @@
         "name": "در ۷ روز گذشته"
       },
       {
-        "id": 0,
+        "id": "۱",
         "name": "در ۳۰ روز گذشته"
       },
       {
@@ -480,8 +458,8 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "ترافیک گفتگو",
       "NO_CONVERSATIONS": "بدون هیچ گفتگویی",
-      "CONVERSATION": "%{count} گفتگو",
-      "CONVERSATIONS": "%{count} گفتگو",
+      "CONVERSATION": "{count} گفتگو",
+      "CONVERSATIONS": "{count} گفتگو",
       "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {

@@ -18,6 +18,7 @@ export default {
       default: '',
     },
   },
+  emits: ['open', 'close'],
   methods: {
     onClickOpenPath() {
       this.$emit('open');

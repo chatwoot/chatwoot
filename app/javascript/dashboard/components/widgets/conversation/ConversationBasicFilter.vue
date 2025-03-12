@@ -3,11 +3,39 @@ import wootConstants from 'dashboard/constants/globals';
 import { mapGetters } from 'vuex';
 import FilterItem from './FilterItem.vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
+const CHAT_STATUS_FILTER_ITEMS = Object.freeze([
+  'open',
+  'resolved',
+  'pending',
+  'snoozed',
+  'all',
+]);
+
+const SORT_ORDER_ITEMS = Object.freeze([
+  'last_activity_at_asc',
+  'last_activity_at_desc',
+  'created_at_desc',
+  'created_at_asc',
+  'priority_desc',
+  'priority_asc',
+  'waiting_since_asc',
+  'waiting_since_desc',
+]);
 
 export default {
   components: {
     FilterItem,
+    NextButton,
   },
+  props: {
+    isOnExpandedLayout: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  emits: ['changeFilter'],
   setup() {
     const { updateUISettings } = useUISettings();
 
@@ -18,8 +46,8 @@ export default {
   data() {
     return {
       showActionsDropdown: false,
-      chatStatusItems: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS'),
-      chatSortItems: this.$t('CHAT_LIST.SORT_ORDER_ITEMS'),
+      chatStatusItems: CHAT_STATUS_FILTER_ITEMS,
+      chatSortItems: SORT_ORDER_ITEMS,
     };
   },
   computed: {
@@ -65,22 +93,25 @@ export default {
 
 <template>
   <div class="relative flex">
-    <woot-button
+    <NextButton
       v-tooltip.right="$t('CHAT_LIST.SORT_TOOLTIP_LABEL')"
-      variant="smooth"
-      size="tiny"
-      color-scheme="secondary"
-      class="selector-button"
-      icon="sort-icon"
+      icon="i-lucide-arrow-up-down"
+      slate
+      faded
+      xs
       @click="toggleDropdown"
     />
     <div
       v-if="showActionsDropdown"
       v-on-clickaway="closeDropdown"
-      class="right-0 mt-1 dropdown-pane dropdown-pane--open basic-filter"
+      class="mt-1 dropdown-pane dropdown-pane--open !w-52 !p-4 top-6 border !border-n-weak dark:!border-n-weak !bg-n-alpha-3 dark:!bg-n-alpha-3 backdrop-blur-[100px]"
+      :class="{
+        'ltr:left-0 rtl:right-0': !isOnExpandedLayout,
+        'ltr:right-0 rtl:left-0': isOnExpandedLayout,
+      }"
     >
       <div class="flex items-center justify-between last:mt-4">
-        <span class="text-xs font-medium text-slate-800 dark:text-slate-100">{{
+        <span class="text-xs font-medium text-n-slate-12">{{
           $t('CHAT_LIST.CHAT_SORT.STATUS')
         }}</span>
         <FilterItem
@@ -88,11 +119,11 @@ export default {
           :selected-value="chatStatus"
           :items="chatStatusItems"
           path-prefix="CHAT_LIST.CHAT_STATUS_FILTER_ITEMS"
-          @onChangeFilter="onChangeFilter"
+          @on-change-filter="onChangeFilter"
         />
       </div>
       <div class="flex items-center justify-between last:mt-4">
-        <span class="text-xs font-medium text-slate-800 dark:text-slate-100">{{
+        <span class="text-xs font-medium text-n-slate-12">{{
           $t('CHAT_LIST.CHAT_SORT.ORDER_BY')
         }}</span>
         <FilterItem
@@ -100,15 +131,9 @@ export default {
           :selected-value="sortFilter"
           :items="chatSortItems"
           path-prefix="CHAT_LIST.SORT_ORDER_ITEMS"
-          @onChangeFilter="onChangeFilter"
+          @on-change-filter="onChangeFilter"
         />
       </div>
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.basic-filter {
-  @apply w-52 p-4 top-6;
-}
-</style>

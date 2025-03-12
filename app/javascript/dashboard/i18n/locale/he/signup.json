@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "מייל עבודה",
-      "PLACEHOLDER": "הזן את כתובת הדוא\"ל שלך בעבודה. למשל: bruce@wayne.enterprises",
+      "PLACEHOLDER": "הזן את כתובת הדוא\"ל שלך בעבודה. למשל: bruce{'@'}wayne{'.'}enterprises",
       "ERROR": "אנא הזן כתובת דוא\"ל חוקית לעבודה"
     },
     "PASSWORD": {

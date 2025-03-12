@@ -2,6 +2,8 @@
 import { mapGetters } from 'vuex';
 
 export default {
+  emits: ['openNotificationPanel'],
+
   computed: {
     ...mapGetters({
       notificationMetadata: 'notifications/getMeta',

@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
     "HEADER": "Otomatisasi",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "Tambah Aturan Otomatisasi",
     "LOADING": "Mengambil aturan otomatisasi",
-    "SIDEBAR_TXT": "<p><b>Aturan Otomatisasi</b> <p>Otomatisasi dapat menggantikan dan mengotomatisasi proses yang memerlukan upaya manual. Anda dapat melakukan banyak hal dengan otomatisasi, termasuk menambahkan label dan menugaskan percakapan kepada agen terbaik. Dengan begitu, tim fokus pada hal-hal yang mereka lakukan dengan baik dan menghabiskan lebih sedikit waktu untuk tugas-tugas manual.</p>",
     "ADD": {
       "TITLE": "Tambah Aturan Otomatisasi",
       "SUBMIT": "Buat",
@@ -39,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nama",
-        "Deskripsi",
-        "Aktif",
-        "Dibuat pada"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nama",
+        "DESCRIPTION": "Deskripsi",
+        "ACTIVE": "Aktif",
+        "CREATED_ON": "Dibuat pada"
+      },
       "404": "Tidak ada aturan otomatisasi ditemukan"
     },
     "DELETE": {

@@ -1,9 +1,9 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} conversas selecionadas",
+    "CONVERSATIONS_SELECTED": "{conversationCount} conversas selecionadas",
     "AGENT_SELECT_LABEL": "Selecionar agente",
-    "ASSIGN_CONFIRMATION_LABEL": "Você tem certeza que quer atribuir %{conversationCount} %{conversationLabel} para",
-    "UNASSIGN_CONFIRMATION_LABEL": "Você tem certeza que quer remover a atribuição de %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "Você tem certeza que quer atribuir {conversationCount} {conversationLabel} para",
+    "UNASSIGN_CONFIRMATION_LABEL": "Você tem certeza que quer remover a atribuição de {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Voltar atrás",
     "ASSIGN_LABEL": "Atribua",
     "YES": "Sim",

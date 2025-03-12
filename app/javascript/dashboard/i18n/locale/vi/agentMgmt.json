@@ -18,7 +18,8 @@
       "STATUS": "Trạng thái",
       "ACTIONS": "Hành động",
       "VERIFIED": "Đã xác minh",
-      "VERIFICATION_PENDING": "Đang chờ xác minh"
+      "VERIFICATION_PENDING": "Đang chờ xác minh",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Thêm đại lý vào nhóm của bạn",
@@ -110,9 +111,9 @@
           "TEAM": "Không tìm thấy nhóm nào"
         },
         "PLACEHOLDER": {
-          "AGENT": "Tìm kiếm tổng đài viên",
+          "AGENT": "Tìm kiếm nhân viên",
           "TEAM": "Tìm kiếm nhóm",
-          "INPUT": "Tìm thành viên"
+          "INPUT": "Tìm nhân viên"
         }
       }
     }

@@ -146,6 +146,19 @@ describe Contacts::FilterService do
         expect(result[:contacts].length).to be 1
         expect(result[:contacts].first.id).to eq el_contact.id
       end
+
+      it 'handles invalid query conditions' do
+        params[:payload] = [
+          {
+            attribute_key: 'labels',
+            filter_operator: 'is_not_present',
+            values: [],
+            query_operator: 'INVALID'
+          }.with_indifferent_access
+        ]
+
+        expect { filter_service.new(account, first_user, params).perform }.to raise_error(CustomExceptions::CustomFilter::InvalidQueryOperator)
+      end
     end
 
     context 'with standard attributes - last_activity_at' do

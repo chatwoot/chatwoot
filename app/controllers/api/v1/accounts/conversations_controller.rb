@@ -46,6 +46,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @conversations_count = result[:count]
   rescue CustomExceptions::CustomFilter::InvalidAttribute,
          CustomExceptions::CustomFilter::InvalidOperator,
+         CustomExceptions::CustomFilter::InvalidQueryOperator,
          CustomExceptions::CustomFilter::InvalidValue => e
     render_could_not_create_error(e.message)
   end
@@ -114,20 +115,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def custom_attributes
     @conversation.custom_attributes = params.permit(custom_attributes: {})[:custom_attributes]
     @conversation.save!
-  end
-
-  def disable_chatbot
-    @conversation.chatbot_attributes['status'] = 'Disabled'
-    @conversation.chatbot_attributes['connect_with_team'] = false
-    @conversation.save!
-    head :ok
-  end
-
-  def enable_chatbot
-    @conversation.chatbot_attributes['status'] = 'Enabled'
-    @conversation.chatbot_attributes['connect_with_team'] = true
-    @conversation.save!
-    head :ok
   end
 
   private

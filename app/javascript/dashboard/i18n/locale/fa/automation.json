@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
-    "HEADER": "اتوماسیون ها",
+    "HEADER": "خودکارسازی",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "افزودن قانون خودکارسازی",
     "LOADING": "واکشی قوانین اتوماسیون",
-    "SIDEBAR_TXT": "<p><b>قوانین خودکارسازی</b> <p>اتوماسیون می‌تواند جایگزین و خودکار فرآیندهای موجودی باشد که نیاز به تلاش دستی دارند. شما می توانید بسیاری از کارها را با اتوماسیون انجام دهید، از جمله افزودن برچسب ها و اختصاص مکالمه به بهترین نماینده. بنابراین تیم روی کارهایی که به بهترین شکل انجام می‌دهند تمرکز می‌کنند و زمان کمی را برای کارهای دستی صرف می‌کنند.</p>",
     "ADD": {
       "TITLE": "افزودن قانون خودکارسازی",
       "SUBMIT": "ايجاد كردن",
@@ -39,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "نام",
-        "توضیحات",
-        "فعال",
-        "ایجاد شده در"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "نام",
+        "DESCRIPTION": "توضیحات",
+        "ACTIVE": "فعال",
+        "CREATED_ON": "ایجاد شده در"
+      },
       "404": "هیچ قانون اتوماسیون یافت نشد"
     },
     "DELETE": {

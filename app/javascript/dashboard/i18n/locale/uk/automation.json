@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
     "HEADER": "Автоматизація",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "Додати правило автоматизації",
     "LOADING": "Отримання правил автоматизації",
-    "SIDEBAR_TXT": "<p><b>Правила автоматизації</b> <p>Автоматизація може замінити і автоматизувати існуючі процеси, які потребують ручних зусиль. За допомогою автоматизації можна зробити багато речей, включаючи додавання ярликів і призначення бесід найкращому агенту. Тож команда зосереджена на тому, що вона робить найкраще, та витрачає мало часу на завдання з ручної роботи.</p>",
     "ADD": {
       "TITLE": "Додати правило автоматизації",
       "SUBMIT": "Створити",
@@ -39,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Ім'я",
-        "Опис",
-        "Активний",
-        "Створено"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Ім'я",
+        "DESCRIPTION": "Опис",
+        "ACTIVE": "Активний",
+        "CREATED_ON": "Створено"
+      },
       "404": "Не знайдено правил автоматизації"
     },
     "DELETE": {

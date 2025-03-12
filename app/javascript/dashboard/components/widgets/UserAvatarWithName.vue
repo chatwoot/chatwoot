@@ -1,25 +1,20 @@
-<script>
+<script setup>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
-export default {
-  components: {
-    Thumbnail,
+defineProps({
+  user: {
+    type: Object,
+    default: () => ({}),
   },
-  props: {
-    user: {
-      type: Object,
-      default: () => {},
-    },
-    size: {
-      type: String,
-      default: '20px',
-    },
-    textClass: {
-      type: String,
-      default: 'text-xs text-slate-600',
-    },
+  size: {
+    type: String,
+    default: '20px',
   },
-};
+  textClass: {
+    type: String,
+    default: 'text-sm text-n-slate-12',
+  },
+});
 </script>
 
 <template>
@@ -30,11 +25,11 @@ export default {
       :username="user.name"
       :status="user.availability_status"
     />
-    <h6
-      class="my-0 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis text-capitalize"
+    <span
+      class="my-0 overflow-hidden whitespace-nowrap text-ellipsis text-capitalize"
       :class="textClass"
     >
       {{ user.name }}
-    </h6>
+    </span>
   </div>
 </template>

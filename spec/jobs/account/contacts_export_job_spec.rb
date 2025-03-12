@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Account::ContactsExportJob do
-  subject(:job) { described_class.perform_later }
+  subject(:job) { described_class.perform_later(account.id, user.id, [], {}) }
 
   let(:account) { create(:account) }
   let(:user) { create(:user, account: account, email: 'account-user-test@test.com') }

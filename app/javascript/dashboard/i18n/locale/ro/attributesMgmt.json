@@ -3,7 +3,8 @@
     "HEADER": "Editează atribut personalizat",
     "HEADER_BTN_TXT": "Adauga atributii personalizate",
     "LOADING": "Preluarea atributelor particularizate",
-    "SIDEBAR_TXT": "<p><b>Atribute personalizate</b> <p>Un atribut personalizat urmărește fapte despre persoanele de contact/conversație - cum ar fi planul de abonament sau când au comandat primul element etc. <br /><br />Pentru a crea un atribut personalizat, trebuie doar să faceți clic pe <b>Adăugare atribut personalizat.</b> De asemenea, puteți edita sau șterge un atribut personalizat existent făcând clic pe butonul Editare sau Ștergere.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "Adauga atributii personalizate",
       "SUBMIT": "Creeaza",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "Nu s-a putut șterge atributul personalizat. Încercați din nou."
       },
       "CONFIRM": {
-        "TITLE": "Ești sigur că vrei să ștergi - %{attributeName}",
+        "TITLE": "Ești sigur că vrei să ștergi - {attributeName}",
         "PLACE_HOLDER": "Te rugăm să introduci {attributeName} pentru a confirma",
         "MESSAGE": "Ștergerea va elimina atributul personalizat",
         "YES": "Şterge ",

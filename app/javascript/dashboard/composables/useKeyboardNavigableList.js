@@ -84,7 +84,6 @@ const updateSelectionIndex = (currentIndex, itemsLength, direction) => {
  * }} An object containing functions to move the selection up and down.
  */
 export function useKeyboardNavigableList({
-  elementRef,
   items,
   onSelect,
   adjustScroll,
@@ -109,7 +108,7 @@ export function useKeyboardNavigableList({
     items
   );
 
-  useKeyboardEvents(keyboardEvents, elementRef);
+  useKeyboardEvents(keyboardEvents);
 
   return {
     moveSelectionUp,

@@ -1,9 +1,10 @@
 <script>
 export default {
+  name: 'FilterInput',
   props: {
-    value: {
+    modelValue: {
       type: Object,
-      default: () => null,
+      default: () => {},
     },
     filterAttributes: {
       type: Array,
@@ -46,45 +47,46 @@ export default {
       default: '',
     },
   },
+  emits: ['update:modelValue', 'removeFilter', 'resetFilter'],
   computed: {
     attributeKey: {
       get() {
-        if (!this.value) return null;
-        return this.value.attribute_key;
+        if (!this.modelValue) return null;
+        return this.modelValue.attribute_key;
       },
       set(value) {
-        const payload = this.value || {};
-        this.$emit('input', { ...payload, attribute_key: value });
+        const payload = this.modelValue || {};
+        this.$emit('update:modelValue', { ...payload, attribute_key: value });
       },
     },
     filterOperator: {
       get() {
-        if (!this.value) return null;
-        return this.value.filter_operator;
+        if (!this.modelValue) return null;
+        return this.modelValue.filter_operator;
       },
       set(value) {
-        const payload = this.value || {};
-        this.$emit('input', { ...payload, filter_operator: value });
+        const payload = this.modelValue || {};
+        this.$emit('update:modelValue', { ...payload, filter_operator: value });
       },
     },
     values: {
       get() {
-        if (!this.value) return null;
-        return this.value.values;
+        if (!this.modelValue) return null;
+        return this.modelValue.values;
       },
       set(value) {
-        const payload = this.value || {};
-        this.$emit('input', { ...payload, values: value });
+        const payload = this.modelValue || {};
+        this.$emit('update:modelValue', { ...payload, values: value });
       },
     },
     query_operator: {
       get() {
-        if (!this.value) return null;
-        return this.value.query_operator;
+        if (!this.modelValue) return null;
+        return this.modelValue.query_operator;
       },
       set(value) {
-        const payload = this.value || {};
-        this.$emit('input', { ...payload, query_operator: value });
+        const payload = this.modelValue || {};
+        this.$emit('update:modelValue', { ...payload, query_operator: value });
       },
     },
     custom_attribute_type: {
@@ -93,8 +95,8 @@ export default {
         return this.customAttributeType;
       },
       set() {
-        const payload = this.value || {};
-        this.$emit('input', {
+        const payload = this.modelValue || {};
+        this.$emit('update:modelValue', {
           ...payload,
           custom_attribute_type: this.customAttributeType,
         });
@@ -109,9 +111,9 @@ export default {
           value === 'contact_attribute'
         ) {
           // eslint-disable-next-line vue/no-mutating-props
-          this.value.custom_attribute_type = this.customAttributeType;
+          this.modelValue.custom_attribute_type = this.customAttributeType;
           // eslint-disable-next-line vue/no-mutating-props
-        } else this.value.custom_attribute_type = '';
+        } else this.modelValue.custom_attribute_type = '';
       },
       immediate: true,
     },
@@ -155,6 +157,7 @@ export default {
               v-for="attribute in group.attributes"
               :key="attribute.key"
               :value="attribute.key"
+              :selected="true"
             >
               {{ attribute.name }}
             </option>

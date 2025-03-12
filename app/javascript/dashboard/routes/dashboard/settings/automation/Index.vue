@@ -5,7 +5,7 @@ import EditAutomationRule from './EditAutomationRule.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import { computed, onMounted, ref } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import AutomationRuleRow from './AutomationRuleRow.vue';
 const getters = useStoreGetters();
@@ -159,6 +159,15 @@ const toggleAutomation = async ({ id, name, status }) => {
     useAlert(t('AUTOMATION.EDIT.API.ERROR_MESSAGE'));
   }
 };
+
+const tableHeaders = computed(() => {
+  return [
+    t('AUTOMATION.LIST.TABLE_HEADER.NAME'),
+    t('AUTOMATION.LIST.TABLE_HEADER.DESCRIPTION'),
+    t('AUTOMATION.LIST.TABLE_HEADER.ACTIVE'),
+    t('AUTOMATION.LIST.TABLE_HEADER.CREATED_ON'),
+  ];
+});
 </script>
 
 <template>
@@ -190,16 +199,14 @@ const toggleAutomation = async ({ id, name, status }) => {
       <table class="min-w-full divide-y divide-slate-75 dark:divide-slate-700">
         <thead>
           <th
-            v-for="thHeader in $t('AUTOMATION.LIST.TABLE_HEADER')"
+            v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 pr-4 text-left font-semibold text-slate-700 dark:text-slate-300"
+            class="py-4 pr-4 text-left font-semibold text-n-slate-11"
           >
             {{ thHeader }}
           </th>
         </thead>
-        <tbody
-          class="divide-y divide-slate-50 dark:divide-slate-800 text-slate-700 dark:text-slate-300"
-        >
+        <tbody class="divide-y divide-n-weak text-n-slate-11">
           <AutomationRuleRow
             v-for="automation in records"
             :key="automation.id"
@@ -215,19 +222,19 @@ const toggleAutomation = async ({ id, name, status }) => {
     </template>
 
     <woot-modal
-      :show.sync="showAddPopup"
+      v-model:show="showAddPopup"
       size="medium"
       :on-close="hideAddPopup"
     >
       <AddAutomationRule
         v-if="showAddPopup"
         :on-close="hideAddPopup"
-        @saveAutomation="submitAutomation"
+        @save-automation="submitAutomation"
       />
     </woot-modal>
 
     <woot-delete-modal
-      :show.sync="showDeleteConfirmationPopup"
+      v-model:show="showDeleteConfirmationPopup"
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
       :title="$t('LABEL_MGMT.DELETE.CONFIRM.TITLE')"
@@ -238,7 +245,7 @@ const toggleAutomation = async ({ id, name, status }) => {
     />
 
     <woot-modal
-      :show.sync="showEditPopup"
+      v-model:show="showEditPopup"
       size="medium"
       :on-close="hideEditPopup"
     >
@@ -246,7 +253,7 @@ const toggleAutomation = async ({ id, name, status }) => {
         v-if="showEditPopup"
         :on-close="hideEditPopup"
         :selected-response="selectedAutomation"
-        @saveAutomation="submitAutomation"
+        @save-automation="submitAutomation"
       />
     </woot-modal>
     <woot-confirm-modal

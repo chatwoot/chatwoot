@@ -2,8 +2,14 @@
 
 require 'rails_helper'
 
-RSpec.describe Account do
+RSpec.describe Account, type: :model do
   include ActiveJob::TestHelper
+
+  describe 'associations' do
+    it { is_expected.to have_many(:sla_policies).dependent(:destroy_async) }
+    it { is_expected.to have_many(:applied_slas).dependent(:destroy_async) }
+    it { is_expected.to have_many(:custom_roles).dependent(:destroy_async) }
+  end
 
   describe 'sla_policies' do
     let!(:account) { create(:account) }

@@ -27,6 +27,14 @@ export default {
       records: 'dashboardApps/getRecords',
       uiFlags: 'dashboardApps/getUIFlags',
     }),
+    tableHeaders() {
+      return [
+        this.$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.TABLE_HEADER.NAME'),
+        this.$t(
+          'INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.TABLE_HEADER.ENDPOINT'
+        ),
+      ];
+    },
   },
   mounted() {
     this.$store.dispatch('dashboardApps/get');
@@ -111,9 +119,7 @@ export default {
       >
         <thead>
           <th
-            v-for="thHeader in $t(
-              'INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.TABLE_HEADER'
-            )"
+            v-for="thHeader in tableHeaders"
             :key="thHeader"
             class="py-4 pr-4 font-semibold text-left text-slate-700 dark:text-slate-300"
           >
@@ -142,7 +148,7 @@ export default {
     />
 
     <woot-delete-modal
-      :show.sync="showDeleteConfirmationPopup"
+      v-model:show="showDeleteConfirmationPopup"
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
       :title="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DELETE.TITLE')"

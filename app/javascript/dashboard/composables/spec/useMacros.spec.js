@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { useMacros } from '../useMacros';
 import { useStoreGetters } from 'dashboard/composables/store';
-import { PRIORITY_CONDITION_VALUES } from 'dashboard/helper/automationHelper.js';
+import { PRIORITY_CONDITION_VALUES } from 'dashboard/constants/automation';
 
 vi.mock('dashboard/composables/store');
 vi.mock('dashboard/helper/automationHelper.js');

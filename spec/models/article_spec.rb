@@ -40,6 +40,25 @@ RSpec.describe Article do
     end
   end
 
+  describe 'add_locale_to_article' do
+    let(:portal) { create(:portal, config: { allowed_locales: %w[en es pt], default_locale: 'es' }) }
+    let(:category) { create(:category, slug: 'category_1', locale: 'pt', portal_id: portal.id) }
+
+    it 'adds locale to article from category' do
+      article = create(:article, category_id: category.id, content: 'This is the content', description: 'this is the description',
+                                 slug: 'this-is-title', title: 'this is title',
+                                 portal_id: portal.id, author_id: user.id)
+      expect(article.locale).to eq(category.locale)
+    end
+
+    it 'adds locale to article from portal' do
+      article = create(:article, content: 'This is the content', description: 'this is the description',
+                                 slug: 'this-is-title', title: 'this is title',
+                                 portal_id: portal.id, author_id: user.id, locale: '')
+      expect(article.locale).to eq(portal.default_locale)
+    end
+  end
+
   describe 'search' do
     let!(:portal_2) { create(:portal, account_id: account.id, config: { allowed_locales: %w[en es] }) }
     let!(:category_2) { create(:category, slug: 'category_2', locale: 'es', portal_id: portal_1.id) }

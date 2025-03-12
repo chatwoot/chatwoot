@@ -30,6 +30,9 @@
       "is_lesser_than": "Is lesser than",
       "days_before": "是 x 天前"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "必须填写值"
+    },
     "ATTRIBUTES": {
       "NAME": "姓名：",
       "EMAIL": "Email",

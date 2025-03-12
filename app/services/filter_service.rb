@@ -204,4 +204,10 @@ class FilterService
     end
     base_relation.where(@query_string, @filter_values.with_indifferent_access)
   end
+
+  def validate_query_operator
+    @params[:payload].each do |query_hash|
+      validate_single_condition(query_hash)
+    end
+  end
 end

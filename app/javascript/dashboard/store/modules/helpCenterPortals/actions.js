@@ -117,10 +117,9 @@ export const actions = {
         ? { domain, initialCustomDomain }
         : { domain };
       const { data } = await portalAPIs.checkDomain(params);
-      return data.message;
+      return data;
     } catch (error) {
-      throwErrorMessage(error);
-      return null;
+      return error.response.data;
     }
   },
 };

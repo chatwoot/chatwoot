@@ -17,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Pievienot komandai aģentus",
-        "TITLE": "Pievienot aģentus komandai - %{teamName}",
+        "TITLE": "Pievienot aģentus komandai - {teamName}",
         "DESC": "Pievienot aģentus savai jaunizveidotajai komandai. Tas ļauj sarunās sadarboties kā komandai, kā arī saņemt paziņojumus par jauniem notikumiem tajā pašā sarunā."
       },
       "WIZARD": [
@@ -46,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Atjaunināt aģentus komandā",
-        "TITLE": "Pievienot aģentus komandai - %{teamName}",
+        "TITLE": "Pievienot aģentus komandai - {teamName}",
         "DESC": "Pievienot aģentus savai jaunizveidotajai komandai. Visi pievienotie aģenti tiks informēti, kad saruna tiks piešķirta šai komandai."
       },
       "WIZARD": [
@@ -77,14 +77,14 @@
       "ADD_AGENTS": "Notiek aģentu pievienošana Jūsu komandai...",
       "SELECT": "izvēlēties",
       "SELECT_ALL": "izvēlēties visus aģentus",
-      "SELECTED_COUNT": "%{selected} no %{total} aģentiem ir izvēlēti."
+      "SELECTED_COUNT": "{selected} no {total} aģentiem ir izvēlēti."
     },
     "ADD": {
-      "TITLE": "Pievienot aģentus komandai - %{teamName}",
+      "TITLE": "Pievienot aģentus komandai - {teamName}",
       "DESC": "Pievienot aģentus savai jaunizveidotajai komandai. Tas ļauj sarunās sadarboties kā komandai, tā arī saņemt paziņojumus par jauniem notikumiem tajā pašā sarunā.",
       "SELECT": "izvēlēties",
       "SELECT_ALL": "izvēlēties visus aģentus",
-      "SELECTED_COUNT": "%{selected} no %{total} aģentiem ir atlasīti.",
+      "SELECTED_COUNT": "{selected} no {total} aģentiem ir atlasīti.",
       "BUTTON_TEXT": "Pievienot aģentus",
       "AGENT_VALIDATION_ERROR": "Izvēlieties vismaz vienu aģentu."
     },

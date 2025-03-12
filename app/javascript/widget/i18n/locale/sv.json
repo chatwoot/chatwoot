@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "Telefonnummer är obligatoriskt",
         "DIAL_CODE_VALID_ERROR": "Välj en landskod",
         "VALID_ERROR": "Vänligen ange ett giltigt telefonnummer",
-        "DROPDOWN_EMPTY": "Inga resultat hittades"
+        "DROPDOWN_EMPTY": "Inga resultat hittades",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "Meddelande",
@@ -91,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Sök emoji",
-    "NOT_FOUND": "Ingen emoji matchar din sökning"
+    "NOT_FOUND": "Ingen emoji matchar din sökning",
+    "ARIA_LABEL": "Emoji-väljare"
   },
   "CSAT": {
     "TITLE": "Betygsätt din konversation",
@@ -133,5 +135,8 @@
     "fallback": {
       "CONTENT": "har delat en webbadress"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Svarar till:"
   }
 }

@@ -30,6 +30,9 @@
       "is_lesser_than": "Este mai mică decât",
       "days_before": "Este x zile înainte"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Este necesară o valoare validă"
+    },
     "ATTRIBUTES": {
       "NAME": "Nume",
       "EMAIL": "Email",

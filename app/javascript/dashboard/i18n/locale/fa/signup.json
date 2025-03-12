@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "ایمیل کاری",
-      "PLACEHOLDER": "ایمیل کاری خود را وارد کنید به عنوان مثال: jafari@wayne.enterprises",
+      "PLACEHOLDER": "ایمیل کاری خود را وارد کنید به عنوان مثال: jafari{'@'}wayne.enterprises",
       "ERROR": "لطفا یک آدرس ایمیل کاری معتبر وارد کنید"
     },
     "PASSWORD": {

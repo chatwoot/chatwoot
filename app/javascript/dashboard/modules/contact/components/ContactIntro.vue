@@ -13,6 +13,7 @@ export default {
       default: () => ({}),
     },
   },
+  emits: ['edit', 'message'],
 
   computed: {
     additionalAttributes() {
@@ -57,7 +58,7 @@ export default {
       </h2>
       <h3 class="text-base contact--work">
         {{ contact.title }}
-        <i v-if="company.name" class="icon ion-minus-round" />
+        <i v-if="company.name" class="i-lucide-circle-minus" />
         <span class="company-name">{{ company.name }}</span>
       </h3>
       <p v-if="additionalAttributes.description" class="contact--bio">

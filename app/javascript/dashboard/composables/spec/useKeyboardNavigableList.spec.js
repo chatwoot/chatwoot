@@ -9,7 +9,6 @@ vi.mock('../useKeyboardEvents', () => ({
 }));
 
 describe('useKeyboardNavigableList', () => {
-  let elementRef;
   let items;
   let onSelect;
   let adjustScroll;
@@ -18,7 +17,6 @@ describe('useKeyboardNavigableList', () => {
   const createMockEvent = () => ({ preventDefault: vi.fn() });
 
   beforeEach(() => {
-    elementRef = ref(null);
     items = ref(['item1', 'item2', 'item3']);
     onSelect = vi.fn();
     adjustScroll = vi.fn();
@@ -28,7 +26,6 @@ describe('useKeyboardNavigableList', () => {
 
   it('should return moveSelectionUp and moveSelectionDown functions', () => {
     const result = useKeyboardNavigableList({
-      elementRef,
       items,
       onSelect,
       adjustScroll,
@@ -43,7 +40,6 @@ describe('useKeyboardNavigableList', () => {
 
   it('should move selection up correctly', () => {
     const { moveSelectionUp } = useKeyboardNavigableList({
-      elementRef,
       items,
       onSelect,
       adjustScroll,
@@ -65,7 +61,6 @@ describe('useKeyboardNavigableList', () => {
 
   it('should move selection down correctly', () => {
     const { moveSelectionDown } = useKeyboardNavigableList({
-      elementRef,
       items,
       onSelect,
       adjustScroll,
@@ -87,7 +82,6 @@ describe('useKeyboardNavigableList', () => {
 
   it('should call adjustScroll after moving selection', () => {
     const { moveSelectionUp, moveSelectionDown } = useKeyboardNavigableList({
-      elementRef,
       items,
       onSelect,
       adjustScroll,
@@ -103,7 +97,6 @@ describe('useKeyboardNavigableList', () => {
 
   it('should include Enter key handler when onSelect is provided', () => {
     useKeyboardNavigableList({
-      elementRef,
       items,
       onSelect,
       adjustScroll,
@@ -118,7 +111,6 @@ describe('useKeyboardNavigableList', () => {
 
   it('should not include Enter key handler when onSelect is not provided', () => {
     useKeyboardNavigableList({
-      elementRef,
       items,
       adjustScroll,
       selectedIndex,
@@ -131,7 +123,6 @@ describe('useKeyboardNavigableList', () => {
 
   it('should not trigger onSelect when items are empty', () => {
     const { moveSelectionUp, moveSelectionDown } = useKeyboardNavigableList({
-      elementRef,
       items: ref([]),
       onSelect,
       adjustScroll,
@@ -145,23 +136,18 @@ describe('useKeyboardNavigableList', () => {
 
   it('should call useKeyboardEvents with correct parameters', () => {
     useKeyboardNavigableList({
-      elementRef,
       items,
       onSelect,
       adjustScroll,
       selectedIndex,
     });
 
-    expect(useKeyboardEvents).toHaveBeenCalledWith(
-      expect.any(Object),
-      elementRef
-    );
+    expect(useKeyboardEvents).toHaveBeenCalledWith(expect.any(Object));
   });
 
   // Keyboard event handlers
   it('should handle ArrowUp key', () => {
     useKeyboardNavigableList({
-      elementRef,
       items,
       onSelect,
       adjustScroll,
@@ -178,7 +164,6 @@ describe('useKeyboardNavigableList', () => {
 
   it('should handle Control+KeyP', () => {
     useKeyboardNavigableList({
-      elementRef,
       items,
       onSelect,
       adjustScroll,
@@ -195,7 +180,6 @@ describe('useKeyboardNavigableList', () => {
 
   it('should handle ArrowDown key', () => {
     useKeyboardNavigableList({
-      elementRef,
       items,
       onSelect,
       adjustScroll,
@@ -212,7 +196,6 @@ describe('useKeyboardNavigableList', () => {
 
   it('should handle Control+KeyN', () => {
     useKeyboardNavigableList({
-      elementRef,
       items,
       onSelect,
       adjustScroll,
@@ -229,7 +212,6 @@ describe('useKeyboardNavigableList', () => {
 
   it('should handle Enter key when onSelect is provided', () => {
     useKeyboardNavigableList({
-      elementRef,
       items,
       onSelect,
       adjustScroll,
@@ -245,7 +227,6 @@ describe('useKeyboardNavigableList', () => {
 
   it('should not have Enter key handler when onSelect is not provided', () => {
     useKeyboardNavigableList({
-      elementRef,
       items,
       adjustScroll,
       selectedIndex,
@@ -257,7 +238,6 @@ describe('useKeyboardNavigableList', () => {
 
   it('should set allowOnFocusedInput to true for all key handlers', () => {
     useKeyboardNavigableList({
-      elementRef,
       items,
       onSelect,
       adjustScroll,

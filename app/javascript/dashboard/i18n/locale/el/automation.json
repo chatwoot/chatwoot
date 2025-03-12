@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
-    "HEADER": "Αυτοματισμοί",
+    "HEADER": "Αυτοματισμός",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "Προσθήκη Κανόνα Αυτοματισμού",
     "LOADING": "Λήψη κανόνων αυτοματισμού",
-    "SIDEBAR_TXT": "<p><b>Κανόνες Αυτοματισμού</b> <p>Ο Αυτοματισμός μπορεί να αντικαταστήσει και να αυτοματοποιήσει διαδικασίες που απαιτούν χειροκίνητη προσπάθεια. Μπορείτε να κάνετε πολλά πράγματα με την αυτοματοποίηση, συμπεριλαμβανομένης της προσθήκης ετικετών και την ανάθεση συνομιλίας στον καλύτερο πράκτορα. Έτσι, η ομάδα επικεντρώνεται σε αυτό που κάνουν καλύτερα και ξοδεύει λίγο χρόνο για χειρωνακτικές εργασίες.</p>",
     "ADD": {
       "TITLE": "Προσθήκη Κανόνα Αυτοματισμού",
       "SUBMIT": "Δημιουργία",
@@ -39,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Όνομα",
-        "Περιγραφή",
-        "Ενεργή",
-        "Δημιουργήθηκε στις"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Όνομα",
+        "DESCRIPTION": "Περιγραφή",
+        "ACTIVE": "Ενεργή",
+        "CREATED_ON": "Δημιουργήθηκε στις"
+      },
       "404": "Δεν βρέθηκαν κανόνες αυτοματισμού"
     },
     "DELETE": {

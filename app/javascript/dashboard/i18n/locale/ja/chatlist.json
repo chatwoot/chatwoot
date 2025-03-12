@@ -6,6 +6,7 @@
     "LIST": {
       "404": "このグループには有効な会話データがありません"
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "会話データ",
     "MENTION_HEADING": "Mentions",
     "UNATTENDED_HEADING": "Unattended",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "場所"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "URLを共有しています"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "No content available",
     "HIDE_QUOTED_TEXT": "Hide Quoted Text",
     "SHOW_QUOTED_TEXT": "Show Quoted Text",
-    "MESSAGE_READ": "Read"
+    "MESSAGE_READ": "Read",
+    "SENDING": "Sending"
   }
 }

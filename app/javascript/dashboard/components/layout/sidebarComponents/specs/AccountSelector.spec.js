@@ -1,79 +1,62 @@
+import { mount } from '@vue/test-utils';
+import { createStore } from 'vuex';
 import AccountSelector from '../AccountSelector.vue';
-import { createLocalVue, mount } from '@vue/test-utils';
-import Vuex from 'vuex';
-import VueI18n from 'vue-i18n';
-
-import i18n from 'dashboard/i18n';
 import WootModal from 'dashboard/components/Modal.vue';
 import WootModalHeader from 'dashboard/components/ModalHeader.vue';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
-const localVue = createLocalVue();
-localVue.component('woot-modal', WootModal);
-localVue.component('woot-modal-header', WootModalHeader);
-localVue.component('fluent-icon', FluentIcon);
-
-localVue.use(Vuex);
-localVue.use(VueI18n);
-
-const i18nConfig = new VueI18n({
-  locale: 'en',
-  messages: i18n,
+const store = createStore({
+  modules: {
+    auth: {
+      namespaced: false,
+      getters: {
+        getCurrentAccountId: () => 1,
+        getCurrentUser: () => ({
+          accounts: [
+            { id: 1, name: 'Chatwoot', role: 'administrator' },
+            { id: 2, name: 'GitX', role: 'agent' },
+          ],
+        }),
+      },
+    },
+    globalConfig: {
+      namespaced: true,
+      getters: {
+        get: () => ({ createNewAccountFromDashboard: false }),
+      },
+    },
+  },
 });
 
-describe('accountSelctor', () => {
+describe('AccountSelector', () => {
   let accountSelector = null;
-  const currentUser = {
-    accounts: [
-      {
-        id: 1,
-        name: 'Chatwoot',
-        role: 'administrator',
-      },
-      {
-        id: 2,
-        name: 'GitX',
-        role: 'agent',
-      },
-    ],
-  };
-
-  let actions = null;
-  let modules = null;
 
   beforeEach(() => {
-    actions = {};
-    modules = {
-      auth: {
-        getters: {
-          getCurrentAccountId: () => 1,
-          getCurrentUser: () => currentUser,
-        },
-      },
-      globalConfig: {
-        getters: {
-          'globalConfig/get': () => ({ createNewAccountFromDashboard: false }),
-        },
-      },
-    };
-
-    let store = new Vuex.Store({ actions, modules });
     accountSelector = mount(AccountSelector, {
-      store,
-      localVue,
-      i18n: i18nConfig,
-      propsData: { showAccountModal: true },
-      stubs: { WootButton: { template: '<button />' } },
+      global: {
+        plugins: [store],
+        components: {
+          'woot-modal': WootModal,
+          'woot-modal-header': WootModalHeader,
+          'fluent-icon': FluentIcon,
+        },
+        stubs: {
+          WootButton: { template: '<button />' },
+          // override global stub
+          WootModalHeader: false,
+        },
+      },
+      props: { showAccountModal: true },
     });
   });
 
   it('title and sub title exist', () => {
     const headerComponent = accountSelector.findComponent(WootModalHeader);
-    const title = headerComponent.findComponent({ ref: 'modalHeaderTitle' });
-    expect(title.text()).toBe('Switch Account');
-    const content = headerComponent.findComponent({
-      ref: 'modalHeaderContent',
-    });
+    const title = headerComponent.find('[data-test-id="modal-header-title"]');
+    expect(title.text()).toBe('Switch account');
+    const content = headerComponent.find(
+      '[data-test-id="modal-header-content"]'
+    );
     expect(content.text()).toBe('Select an account from the following list');
   });
 

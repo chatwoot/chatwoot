@@ -32,6 +32,16 @@ master.key
 
 public/uploads
 public/packs*
+public/assets/administrate*
+public/assets/action*.js
+public/assets/activestorage*.js
+public/assets/trix*
+public/assets/belongs_to*.js
+public/assets/manifest*.js
+public/assets/manifest*.js
+public/assets/*.js.gz
+public/assets/secretField*
+public/assets/.sprockets-manifest-*.json
 
 # VIM files
 *.swp
@@ -75,4 +85,8 @@ yalc.lock
 yarn-debug.log*
 .yarn-integrity
 
-/storybook-static
+# Vite Ruby
+/public/vite*
+# Vite uses dotenv and suggests to ignore local-only env files. See
+# https://vitejs.dev/guide/env-and-mode.html#env-files
+*.local

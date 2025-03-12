@@ -37,7 +37,7 @@ RSpec.describe Integrations::Hook do
 
     it 'returns no processor found for hooks with out processor defined' do
       hook = create(:integrations_hook, account: account)
-      expect(hook.process_event(params)).to eq('No processor found')
+      expect(hook.process_event(params)).to eq({ :error => 'No processor found' })
     end
 
     it 'returns results from procesor for openai hook' do

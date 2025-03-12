@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "Phone Number is required",
         "DIAL_CODE_VALID_ERROR": "Please select a country code",
         "VALID_ERROR": "Please enter a valid phone number",
-        "DROPDOWN_EMPTY": "Няма намерени резултати"
+        "DROPDOWN_EMPTY": "Няма намерени резултати",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "Съобщение",
@@ -91,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "NOT_FOUND": "No emoji match your search",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "Оценете този разговор",
@@ -133,5 +135,8 @@
     "fallback": {
       "CONTENT": "сподели линк"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
   }
 }

@@ -1,6 +1,6 @@
 import { computed } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
-import { useRoute } from 'dashboard/composables/route';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 import wootConstants from 'dashboard/constants/globals';
 
 import { CMD_SNOOZE_NOTIFICATION } from 'dashboard/helper/commandbar/events';

@@ -54,7 +54,7 @@ export default {
 
 <template>
   <div
-    class="flex justify-between items-center h-14 min-h-[3.5rem] px-4 py-2 bg-white dark:bg-slate-900 border-b border-slate-50 dark:border-slate-800/50"
+    class="flex justify-between items-center h-14 min-h-[3.5rem] px-4 py-2 bg-n-background border-b border-n-weak"
   >
     <h1
       class="flex items-center mb-0 text-2xl text-slate-900 dark:text-slate-100"

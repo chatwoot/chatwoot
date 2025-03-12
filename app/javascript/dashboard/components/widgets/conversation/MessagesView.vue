@@ -3,10 +3,13 @@ import { ref } from 'vue';
 // composable
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { useAI } from 'dashboard/composables/useAI';
+import { useMapGetter } from 'dashboard/composables/store';
 
 // components
 import ReplyBox from './ReplyBox.vue';
 import Message from './Message.vue';
+import NextMessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 
@@ -15,9 +18,9 @@ import { mapGetters } from 'vuex';
 
 // mixins
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
-import aiMixin from 'dashboard/mixins/aiMixin';
 
 // utils
+import { emitter } from 'shared/helpers/mitt';
 import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { LocalStorage } from 'shared/helpers/localStorage';
@@ -32,15 +35,17 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { FEATURE_FLAGS } from '../../../featureFlags';
 
 export default {
   components: {
     Message,
+    NextMessageList,
     ReplyBox,
     Banner,
     ConversationLabelSuggestion,
   },
-  mixins: [inboxMixin, aiMixin],
+  mixins: [inboxMixin],
   props: {
     isContactPanelOpen: {
       type: Boolean,
@@ -51,8 +56,8 @@ export default {
       default: false,
     },
   },
+  emits: ['contactPanelToggle'],
   setup() {
-    const conversationFooterRef = ref(null);
     const isPopOutReplyBox = ref(false);
     const { isEnterprise } = useConfig();
 
@@ -70,14 +75,35 @@ export default {
       },
     };
 
-    useKeyboardEvents(keyboardEvents, conversationFooterRef);
+    useKeyboardEvents(keyboardEvents);
+
+    const {
+      isAIIntegrationEnabled,
+      isLabelSuggestionFeatureEnabled,
+      fetchIntegrationsIfRequired,
+      fetchLabelSuggestions,
+    } = useAI();
+
+    const currentAccountId = useMapGetter('getCurrentAccountId');
+    const isFeatureEnabledonAccount = useMapGetter(
+      'accounts/isFeatureEnabledonAccount'
+    );
+
+    const showNextBubbles = isFeatureEnabledonAccount.value(
+      currentAccountId.value,
+      FEATURE_FLAGS.CHATWOOT_V4
+    );
 
     return {
       isEnterprise,
-      conversationFooterRef,
       isPopOutReplyBox,
       closePopOutReplyBox,
       showPopOutReplyBox,
+      isAIIntegrationEnabled,
+      isLabelSuggestionFeatureEnabled,
+      fetchIntegrationsIfRequired,
+      fetchLabelSuggestions,
+      showNextBubbles,
     };
   },
   data() {
@@ -95,6 +121,7 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
+      currentUserId: 'getCurrentUserID',
       listLoadingStatus: 'getAllMessagesLoaded',
       currentAccountId: 'getCurrentAccountId',
     }),
@@ -127,10 +154,9 @@ export default {
     },
     typingUserNames() {
       const userList = this.typingUsersList;
-
       if (this.isAnyoneTyping) {
-        const userListAsName = getTypingUsersText(userList);
-        return userListAsName;
+        const [i18nKey, params] = getTypingUsersText(userList);
+        return this.$t(i18nKey, params);
       }
 
       return '';
@@ -242,12 +268,12 @@ export default {
   },
 
   created() {
-    this.$emitter.on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+    emitter.on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
     // when a new message comes in, we refetch the label suggestions
-    this.$emitter.on(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS, this.fetchSuggestions);
+    emitter.on(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS, this.fetchSuggestions);
     // when a message is sent we set the flag to true this hides the label suggestions,
     // until the chat is changed and the flag is reset in the watch for currentChat
-    this.$emitter.on(BUS_EVENTS.MESSAGE_SENT, () => {
+    emitter.on(BUS_EVENTS.MESSAGE_SENT, () => {
       this.messageSentSinceOpened = true;
     });
   },
@@ -258,7 +284,7 @@ export default {
     this.fetchSuggestions();
   },
 
-  beforeDestroy() {
+  unmounted() {
     this.removeBusListeners();
     this.removeScrollListener();
   },
@@ -314,7 +340,7 @@ export default {
       this.$store.dispatch('fetchAllAttachments', this.currentChat.id);
     },
     removeBusListeners() {
-      this.$emitter.off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+      emitter.off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
     },
     onScrollToMessage({ messageId = '' } = {}) {
       this.$nextTick(() => {
@@ -419,14 +445,13 @@ export default {
       } else {
         this.hasUserScrolled = true;
       }
-      this.$emitter.emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
+      emitter.emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
       this.fetchPreviousMessages(e.target.scrollTop);
     },
 
     makeMessagesRead() {
       this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
     },
-
     getInReplyToMessage(parentMessage) {
       if (!parentMessage) return {};
       const inReplyToMessageId = parentMessage.content_attributes?.in_reply_to;
@@ -448,6 +473,7 @@ export default {
     <Banner
       v-if="!currentChat.can_reply"
       color-scheme="alert"
+      class="mt-2 mx-2 rounded-lg overflow-hidden"
       :banner-message="replyWindowBannerMessage"
       :href-link="replyWindowLink"
       :href-link-text="replyWindowLinkText"
@@ -457,16 +483,54 @@ export default {
         variant="smooth"
         size="tiny"
         color-scheme="secondary"
-        class="box-border fixed z-10 bg-white border border-r-0 border-solid rounded-bl-calc rtl:rotate-180 rounded-tl-calc dark:bg-slate-700 border-slate-50 dark:border-slate-600"
-        :class="
-          isInboxView ? 'top-52 md:top-40' : 'top-[9.5rem] md:top-[6.25rem]'
-        "
+        class="box-border fixed z-10 bg-white border border-r-0 border-solid rounded-bl-calc rtl:rotate-180 rounded-tl-calc border-n-weak"
+        :class="isInboxView ? 'top-52 md:top-40' : 'top-32'"
         :icon="isRightOrLeftIcon"
         @click="onToggleContactPanel"
       />
     </div>
-    <ul class="conversation-panel">
+    <NextMessageList
+      v-if="showNextBubbles"
+      class="conversation-panel"
+      :read-messages="readMessages"
+      :un-read-messages="unReadMessages"
+      :current-user-id="currentUserId"
+      :is-an-email-channel="isAnEmailChannel"
+      :inbox-supports-reply-to="inboxSupportsReplyTo"
+      :messages="currentChat ? currentChat.messages : []"
+    >
+      <template #beforeAll>
+        <transition name="slide-up">
+          <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
+          <li class="min-h-[4rem]">
+            <span v-if="shouldShowSpinner" class="spinner message" />
+          </li>
+        </transition>
+      </template>
+      <template #beforeUnread>
+        <li v-show="unreadMessageCount != 0" class="unread--toast">
+          <span>
+            {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
+            {{
+              unreadMessageCount > 1
+                ? $t('CONVERSATION.UNREAD_MESSAGES')
+                : $t('CONVERSATION.UNREAD_MESSAGE')
+            }}
+          </span>
+        </li>
+      </template>
+      <template #after>
+        <ConversationLabelSuggestion
+          v-if="shouldShowLabelSuggestions"
+          :suggested-labels="labelSuggestions"
+          :chat-labels="currentChat.labels"
+          :conversation-id="currentChat.id"
+        />
+      </template>
+    </NextMessageList>
+    <ul v-else class="conversation-panel">
       <transition name="slide-up">
+        <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
         <li class="min-h-[4rem]">
           <span v-if="shouldShowSpinner" class="spinner message" />
         </li>
@@ -518,29 +582,30 @@ export default {
       />
     </ul>
     <div
-      ref="conversationFooterRef"
       class="conversation-footer"
-      :class="{ 'modal-mask': isPopOutReplyBox }"
+      :class="{
+        'modal-mask': isPopOutReplyBox,
+        'bg-n-background': showNextBubbles && !isPopOutReplyBox,
+      }"
     >
       <div
         v-if="isAnyoneTyping"
         class="absolute flex items-center w-full h-0 -top-7"
       >
         <div
-          class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 text-xs font-semibold my-2.5 mx-auto"
+          class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-slate-700 text-n-slate-11 text-xs font-semibold my-2.5 mx-auto"
         >
           {{ typingUserNames }}
           <img
             class="w-6 ltr:ml-2 rtl:mr-2"
-            src="~dashboard/assets/images/typing.gif"
+            src="assets/images/typing.gif"
             alt="Someone is typing"
           />
         </div>
       </div>
       <ReplyBox
-        :conversation-id="currentChat.id"
-        :popout-reply-box.sync="isPopOutReplyBox"
-        @click="showPopOutReplyBox"
+        v-model:popout-reply-box="isPopOutReplyBox"
+        @toggle-popout="showPopOutReplyBox"
       />
     </div>
   </div>
@@ -548,6 +613,7 @@ export default {
 
 <style scoped>
 @tailwind components;
+
 @layer components {
   .rounded-bl-calc {
     border-bottom-left-radius: calc(1.5rem + 1px);
@@ -569,7 +635,11 @@ export default {
     }
 
     .reply-box {
-      @apply border border-solid border-slate-75 dark:border-slate-600 max-w-[75rem] w-[70%];
+      @apply border border-n-weak max-w-[75rem] w-[70%];
+
+      &.is-private {
+        @apply dark:border-n-amber-3/30 border-n-amber-12/5;
+      }
     }
 
     .reply-box .reply-box__top {

@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
 import ContactAPI from '../../api/contacts';
 
@@ -53,7 +53,7 @@ export const mutations = {
     };
   },
   [types.default.SET_CONTACT_BOOKINGS]: ($state, { id, data }) => {
-    Vue.set($state.records, id, data);
+    MutationHelpers.set($state.records, id, data);
   },
 };
 

@@ -1,4 +1,3 @@
-import { unref } from 'vue';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 
 describe('useKeyboardEvents', () => {
@@ -11,15 +10,13 @@ describe('useKeyboardEvents', () => {
   });
 
   it('should set up listeners on mount and remove them on unmount', async () => {
-    const el = document.createElement('div');
-    const elRef = unref({ value: el });
     const events = {
       'ALT+KeyL': () => {},
     };
 
     const mountedMock = vi.fn();
     const unmountedMock = vi.fn();
-    useKeyboardEvents(events, elRef);
+    useKeyboardEvents(events);
     mountedMock();
     unmountedMock();
 

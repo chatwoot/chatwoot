@@ -69,6 +69,10 @@ class Attachment < ApplicationRecord
     end
   end
 
+  def with_attached_file?
+    [:image, :audio, :video, :file].include?(file_type.to_sym)
+  end
+
   private
 
   def file_metadata

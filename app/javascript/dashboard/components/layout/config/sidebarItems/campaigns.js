@@ -2,23 +2,27 @@ import { frontendURL } from '../../../../helper/URLHelper';
 
 const campaigns = accountId => ({
   parentNav: 'campaigns',
-  routes: ['ongoing_campaigns', 'one_off', 'whatsapp_campaigns'], // Added 'whatsapp_campaigns'
+  routes: [
+    'campaigns_sms_index',
+    'campaigns_livechat_index',
+    'campaigns_whatsapp_index',
+  ],
   menuItems: [
     {
       icon: 'arrow-swap',
-      label: 'ONGOING',
+      label: 'LIVE_CHAT',
       key: 'ongoingCampaigns',
       hasSubMenu: false,
-      toState: frontendURL(`accounts/${accountId}/campaigns/ongoing`),
-      toStateName: 'ongoing_campaigns',
+      toState: frontendURL(`accounts/${accountId}/campaigns/live_chat`),
+      toStateName: 'campaigns_livechat_index',
     },
     {
       key: 'oneOffCampaigns',
       icon: 'sound-source',
-      label: 'ONE_OFF',
+      label: 'SMS',
       hasSubMenu: false,
-      toState: frontendURL(`accounts/${accountId}/campaigns/one_off`),
-      toStateName: 'one_off',
+      toState: frontendURL(`accounts/${accountId}/campaigns/sms`),
+      toStateName: 'campaigns_sms_index',
     },
     {
       key: 'whatsappCampaigns', // New entry for Whatsapp campaigns
@@ -26,7 +30,7 @@ const campaigns = accountId => ({
       label: 'WHATSAPP_CAMPAIGN',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/campaigns/whatsapp`), // Added route for Whatsapp campaigns
-      toStateName: 'whatsapp_campaigns', // New route name
+      toStateName: 'campaigns_whatsapp_index', // New route name
     },
   ],
 });

@@ -7,21 +7,30 @@ export default {
     TemplateParser,
   },
   props: {
+    show: {
+      type: Boolean,
+      default: false,
+    },
     inboxId: {
       type: Number,
       default: undefined,
     },
-    show: {
-      type: Boolean,
-      default: true,
-    },
   },
+  emits: ['onSend', 'cancel', 'update:show'],
   data() {
     return {
       selectedWaTemplate: null,
     };
   },
   computed: {
+    localShow: {
+      get() {
+        return this.show;
+      },
+      set(value) {
+        this.$emit('update:show', value);
+      },
+    },
     modalHeaderContent() {
       return this.selectedWaTemplate
         ? this.$t('WHATSAPP_TEMPLATES.MODAL.TEMPLATE_SELECTED_SUBTITLE', {
@@ -47,9 +56,8 @@ export default {
 };
 </script>
 
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <woot-modal :show.sync="show" :on-close="onClose" size="modal-big">
+  <woot-modal v-model:show="localShow" :on-close="onClose" size="modal-big">
     <woot-modal-header
       :header-title="$t('WHATSAPP_TEMPLATES.MODAL.TITLE')"
       :header-content="modalHeaderContent"
@@ -58,13 +66,13 @@ export default {
       <TemplatesPicker
         v-if="!selectedWaTemplate"
         :inbox-id="inboxId"
-        @onSelect="pickTemplate"
+        @on-select="pickTemplate"
       />
       <TemplateParser
         v-else
         :template="selectedWaTemplate"
-        @resetTemplate="onResetTemplate"
-        @sendMessage="onSendMessage"
+        @reset-template="onResetTemplate"
+        @send-message="onSendMessage"
       />
     </div>
   </woot-modal>

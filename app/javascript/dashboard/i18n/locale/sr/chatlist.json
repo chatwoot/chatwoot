@@ -6,6 +6,7 @@
     "LIST": {
       "404": "Ne postoje aktivni razgovori u ovoj grupi."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Razgovori",
     "MENTION_HEADING": "Spominjanja",
     "UNATTENDED_HEADING": "Nedodeljeni",
@@ -93,6 +94,9 @@
       "location": {
         "CONTENT": "Lokacija"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "je podelio link"
       }
@@ -126,6 +130,7 @@
     "NO_CONTENT": "Nema sadržaja",
     "HIDE_QUOTED_TEXT": "Sakriji citirani tekst",
     "SHOW_QUOTED_TEXT": "Prikaži citirani tekst",
-    "MESSAGE_READ": "Pročitane"
+    "MESSAGE_READ": "Pročitane",
+    "SENDING": "Sending"
   }
 }

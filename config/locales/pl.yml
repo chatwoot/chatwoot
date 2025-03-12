@@ -29,6 +29,7 @@ pl:
       invalid: Nieprawidłowe zdarzenia
     signup:
       disposable_email: Nie zezwalamy na jednorazowe konta e-mail
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Wprowadzono nieprawidłowy adres e-mail
       email_already_exists: "Już zarejestrowałeś się na konto %{email}"
       invalid_params: 'Invalid, please check the signup paramters and try again'
@@ -65,6 +66,7 @@ pl:
       number_of_records: Osiągnięto limit. Maksymalna liczba dozwolonych filtrów niestandardowych dla użytkownika na konto wynosi 50.
       invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
       invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
   reports:
     period: Okres raportowania od %{since} do %{until}

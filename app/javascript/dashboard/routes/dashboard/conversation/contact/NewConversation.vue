@@ -15,6 +15,17 @@ export default {
       default: () => ({}),
     },
   },
+  emits: ['cancel', 'update:show'],
+  computed: {
+    localShow: {
+      get() {
+        return this.show;
+      },
+      set(value) {
+        this.$emit('update:show', value);
+      },
+    },
+  },
   watch: {
     'contact.id'(id) {
       this.$store.dispatch('contacts/fetchContactableInbox', id);
@@ -42,9 +53,8 @@ export default {
 };
 </script>
 
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <woot-modal :show.sync="show" :on-close="onCancel">
+  <woot-modal v-model:show="localShow" :on-close="onCancel">
     <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header
         :header-title="$t('NEW_CONVERSATION.TITLE')"
