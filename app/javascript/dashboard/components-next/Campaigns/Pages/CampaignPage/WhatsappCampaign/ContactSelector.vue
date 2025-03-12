@@ -2,7 +2,6 @@
 import {
   ref,
   computed,
-  reactive,
   onMounted,
   onBeforeUnmount,
   watch,
@@ -131,12 +130,6 @@ const standardFilterTypes = [
       { value: 'does_not_contain', label: 'Does not contain' },
     ],
   },
-  // {
-  //   attributeKey: 'country_code',
-  //   attributeI18nKey: 'COUNTRY',
-  //   inputType: 'text',
-  //   filterOperators: [{ value: 'equal_to', label: 'Equals' }],
-  // },
 ];
 
 const customAttributes = computed(() =>
@@ -247,10 +240,8 @@ const setupInfiniteScroll = () => {
         ) {
           await loadMoreFilteredContacts();
         }
-      } else {
-        if (props.hasMore && !props.isLoading) {
-          emit('load-more');
-        }
+      } else if (props.hasMore && !props.isLoading) {
+        emit('load-more');
       }
     }
   }, options);
@@ -592,7 +583,7 @@ defineExpose({
           class="select-visible-checkbox"
           :style="selectVisibleCheckboxStyle"
         >
-          <input type="checkbox" v-model="selectAllVisible" />
+          <input v-model="selectAllVisible" type="checkbox" />
         </div>
       </div>
     </div>
@@ -633,8 +624,9 @@ defineExpose({
       >
         <span
           v-if="props.isLoading || loadingMoreFiltered || isLoadingContacts"
-          >{{ t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.LOADING') }}</span
         >
+          {{ t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.LOADING') }}
+        </span>
       </div>
     </div>
 
@@ -653,7 +645,7 @@ defineExpose({
       <ContactsFilter
         v-if="showFiltersModal"
         v-model="appliedFilters"
-        class="w-full"
+        class="contacts-filter"
         @apply-filter="submitFilters"
         @clear-filters="clearFilters"
         @close="showFiltersModal = false"
@@ -674,6 +666,10 @@ defineExpose({
       min-height: auto;
     }
   }
+}
+
+.contacts-filter {
+  @apply border-0 shadow-none;
 }
 
 .contact-selector {

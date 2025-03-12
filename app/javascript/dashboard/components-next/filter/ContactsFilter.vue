@@ -29,7 +29,6 @@ const filters = defineModel({
   default: [],
 });
 const segmentNameLocal = ref(props.segmentName);
-const filterModalRef = ref(null);
 
 const DEFAULT_FILTER = {
   attributeKey: 'name',
@@ -95,31 +94,16 @@ const filterModalHeaderTitle = computed(() => {
 });
 
 onBeforeUnmount(() => emit('close'));
-
-const handleClickOutside = event => {
-  const parentComponent = getCurrentInstance()?.parent?.type?.name;
-  const clickedElement = event.target;
-
-  const isDropdown =
-    clickedElement.closest('.filter-select-dropdown') ||
-    clickedElement.closest('.multiselect-dropdown') ||
-    clickedElement.closest('.singleselect-dropdown');
-
-  const isInside =
-    filterModalRef.value &&
-    (filterModalRef.value.contains(clickedElement) || isDropdown);
-
-  if (!isInside && clickedElement.id !== 'toggleContactsFilterButton') {
-    emit('close');
-  }
-};
+const outsideClickHandler = [
+  () => emit('close'),
+  { ignore: ['#toggleContactsFilterButton'] },
+];
 </script>
 
 <template>
   <div
-    ref="filterModalRef"
+    v-on-click-outside="outsideClickHandler"
     class="z-40 max-w-3xl lg:w-[750px] overflow-visible w-full border border-n-weak bg-n-alpha-3 backdrop-blur-[100px] shadow-lg rounded-xl p-6 grid gap-6"
-    @click.stop
   >
     <h3 class="text-base font-medium leading-6 text-n-slate-12">
       {{ filterModalHeaderTitle }}
