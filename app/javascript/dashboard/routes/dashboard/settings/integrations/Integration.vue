@@ -61,18 +61,24 @@ export default {
 
 <template>
   <div
-    class="flex flex-col items-start justify-between md:flex-row md:items-center"
+    class="flex flex-col items-start justify-between md:flex-row md:items-center p-4 outline outline-n-container outline-1 bg-n-alpha-3 rounded-md shadow"
   >
-    <div class="flex items-center justify-start flex-1 m-0 mx-4">
-      <img
-        :src="`/dashboard/images/integrations/${integrationId}.png`"
-        class="w-16 h-16 p-2 mr-4"
-      />
+    <div class="flex items-center justify-start flex-1 m-0 mx-4 gap-6">
+      <div class="flex h-16 w-16 items-center justify-center">
+        <img
+          :src="`/dashboard/images/integrations/${integrationId}.png`"
+          class="max-w-full rounded-md border border-n-weak shadow-sm block dark:hidden bg-n-alpha-3 dark:bg-n-alpha-2"
+        />
+        <img
+          :src="`/dashboard/images/integrations/${integrationId}-dark.png`"
+          class="max-w-full rounded-md border border-n-weak shadow-sm hidden dark:block bg-n-alpha-3 dark:bg-n-alpha-2"
+        />
+      </div>
       <div>
-        <h3 class="mb-1 text-xl font-medium text-slate-800 dark:text-slate-100">
+        <h3 class="mb-1 text-xl font-medium text-n-slate-12">
           {{ integrationName }}
         </h3>
-        <p class="text-slate-700 dark:text-slate-200">
+        <p class="text-n-slate-11 text-sm leading-6">
           {{
             useInstallationName(
               integrationDescription,
