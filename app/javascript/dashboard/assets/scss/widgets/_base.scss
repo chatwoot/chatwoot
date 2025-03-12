@@ -53,8 +53,7 @@ label {
 
 // Focus outline removal
 .button,
-textarea,
-input:focus {
+textarea {
   outline: none;
 }
 
