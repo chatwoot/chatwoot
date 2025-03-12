@@ -99,7 +99,7 @@
     @apply bg-white dark:bg-slate-900 border border-solid border-slate-200 dark:border-slate-600 m-0 min-h-[2.875rem] pt-0;
 
     input {
-      @apply border-0 border-none;
+      @apply border-0 border-none bg-transparent dark:bg-transparent text-n-slate-12 placeholder:text-n-slate-10;
     }
   }
 
@@ -222,7 +222,7 @@
 
   .multiselect__input {
     @apply h-[2.875rem] min-h-[2.875rem];
-    margin-bottom: 0px !important;
+    margin-bottom: 0 !important;
   }
 
   .multiselect__single {
