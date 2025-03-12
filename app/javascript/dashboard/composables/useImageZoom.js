@@ -87,8 +87,8 @@ export const useImageZoom = imageRef => {
     // Skip if no change
     if (newScale === zoomScale.value) return;
 
-    // Update transform origin based on mouse position
-    if (x != null && y != null) {
+    // Update transform origin based on mouse position and zoom scale is minimum
+    if (x != null && y != null && zoomScale.value === MIN_ZOOM_LEVEL) {
       const { x: originX, y: originY } = getZoomOrigin(x, y);
       imgTransformOriginPoint.value = `${originX}% ${originY}%`;
     }
