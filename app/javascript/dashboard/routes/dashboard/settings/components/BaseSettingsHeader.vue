@@ -64,7 +64,7 @@ const openInNewTab = url => {
             />
           </div>
         </div>
-        <h1 class="text-xl font-semibold tracking-tight text-n-slate-12">
+        <h1 class="text-xl font-medium tracking-tight text-n-slate-12">
           {{ title }}
         </h1>
       </div>
@@ -75,7 +75,7 @@ const openInNewTab = url => {
     </div>
     <div class="flex flex-col w-full gap-3 text-n-slate-11">
       <p
-        class="mb-0 text-base font-normal line-clamp-5 sm:line-clamp-none max-w-3xl leading-6"
+        class="mb-0 text-sm font-normal line-clamp-5 sm:line-clamp-none max-w-3xl"
       >
         <slot name="description">{{ description }}</slot>
       </p>
