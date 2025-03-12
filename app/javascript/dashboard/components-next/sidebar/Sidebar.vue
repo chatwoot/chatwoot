@@ -90,7 +90,7 @@ const sortedInboxes = computed(() =>
   inboxes.value.slice().sort((a, b) => a.name.localeCompare(b.name))
 );
 
-const newReportRoutes = [
+const newReportRoutes = () => [
   {
     name: 'Reports Agent',
     label: t('SIDEBAR.REPORTS_AGENT'),
@@ -116,7 +116,7 @@ const newReportRoutes = [
   },
 ];
 
-const oldReportRoutes = [
+const oldReportRoutes = () => [
   {
     name: 'Reports Agent',
     label: t('SIDEBAR.REPORTS_AGENT'),
@@ -140,7 +140,7 @@ const oldReportRoutes = [
 ];
 
 const reportRoutes = computed(() =>
-  showV4Routes.value ? newReportRoutes : oldReportRoutes
+  showV4Routes.value ? newReportRoutes() : oldReportRoutes()
 );
 
 const menuItems = computed(() => {
