@@ -3,7 +3,7 @@
     "HEADER": "Auditoria",
     "HEADER_BTN_TXT": "Adicionar Logs de Auditoria",
     "LOADING": "Buscando Logs de Auditoria",
-    "DESCRIPTION": "Logs de Auditoria mantêm um registro de atividades em sua conta, permitindo que você acompanhe e auditoria de sua conta, equipe ou serviços.",
+    "DESCRIPTION": "Logs de Auditoria mantêm um registro de atividades em sua conta, permitindo que você acompanhe e auditore sua conta, equipe ou serviços.",
     "LEARN_MORE": "Saiba mais sobre os logs de auditoria",
     "SEARCH_404": "Não existem itens correspondentes a esta consulta",
     "SIDEBAR_TXT": "<p><b>Logs de Auditoria</b> </p><p> Os Logs de Auditoria são rastros para eventos e ações em um Sistema Chatwoot. </p>",
