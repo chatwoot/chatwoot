@@ -119,12 +119,12 @@
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "属性键是必需的",
-      "FILTER_OPERATOR_REQUIRED": "需要过滤器操作符",
+      "FILTER_OPERATOR_REQUIRED": "过滤操作符是必需的",
       "VALUE_REQUIRED": "必须填写值",
       "VALUE_MUST_BE_BETWEEN_1_AND_998": "值必须介于 1 到 998 之间。",
       "ACTION_PARAMETERS_REQUIRED": "需要操作参数",
       "ATLEAST_ONE_CONDITION_REQUIRED": "至少需要一个条件",
       "ATLEAST_ONE_ACTION_REQUIRED": "至少需要一个动作"
-    }
+}
   }
 }

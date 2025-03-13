@@ -1,20 +1,20 @@
 {
   "CONTACTS_FILTER": {
-    "TITLE": "过滤联系人",
-    "SUBTITLE": "添加过滤器并点击“提交”以过滤联系人。",
-    "EDIT_CUSTOM_SEGMENT": "编辑分段",
-    "CUSTOM_VIEWS_SUBTITLE": "添加或删除过滤器并更新您的分段。",
+    "TITLE": "筛选联系人",
+    "SUBTITLE": "在下方添加筛选条件并点击'提交'来筛选联系人。",
+    "EDIT_CUSTOM_SEGMENT": "编辑细分群组",
+    "CUSTOM_VIEWS_SUBTITLE": "添加或删除筛选条件并更新您的细分群组。",
     "ADD_NEW_FILTER": "添加过滤器",
-    "CLEAR_ALL_FILTERS": "清除所有过滤器",
+    "CLEAR_ALL_FILTERS": "清除所有筛选条件",
     "FILTER_DELETE_ERROR": "您至少需要一个过滤器来保存",
     "SUBMIT_BUTTON_LABEL": "提交",
-    "UPDATE_BUTTON_LABEL": "更新分段",
+    "UPDATE_BUTTON_LABEL": "更新细分群组",
     "CANCEL_BUTTON_LABEL": "取消",
     "CLEAR_BUTTON_LABEL": "清除过滤器",
     "EMPTY_VALUE_ERROR": "必须填写值",
-    "SEGMENT_LABEL": "分段名称",
-    "SEGMENT_QUERY_LABEL": "分段查询",
-    "TOOLTIP_LABEL": "过滤联系人",
+    "SEGMENT_LABEL": "细分群组名称",
+    "SEGMENT_QUERY_LABEL": "细分群组查询",
+    "TOOLTIP_LABEL": "筛选联系人",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "和",
       "OR": "或"
@@ -47,8 +47,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "复选框",
       "CREATED_AT": "创建于",
       "LAST_ACTIVITY": "最后一次活动",
-      "REFERER_LINK": "引用链接",
-      "BLOCKED": "已阻止"
+      "REFERER_LINK": "引荐链接",
+      "BLOCKED": "已屏蔽"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "标准过滤器",

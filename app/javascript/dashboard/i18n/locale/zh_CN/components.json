@@ -1,19 +1,19 @@
 {
   "PAGINATION_FOOTER": {
-    "SHOWING": "显示第 {startItem} - {endItem} 项，共 {totalItems} 项",
+    "SHOWING": "显示 {startItem} - {endItem} 条，共 {totalItems} 条",
     "CURRENT_PAGE_INFO": "第 {currentPage} 页，共 {totalPages} 页"
   },
   "COMBOBOX": {
-    "PLACEHOLDER": "请选择一个选项……",
-    "EMPTY_SEARCH_RESULTS": "未找到与搜索词 `{searchTerm}` 匹配的项",
+    "PLACEHOLDER": "请选择...",
+    "EMPTY_SEARCH_RESULTS": "未找到与\"{searchTerm}\"相关的结果",
     "EMPTY_STATE": "未找到结果。",
-    "SEARCH_PLACEHOLDER": "搜索……",
-    "MORE": "+{count} 更多"
+    "SEARCH_PLACEHOLDER": "搜索...",
+    "MORE": "还有 {count} 项"
   },
   "DROPDOWN_MENU": {
-    "SEARCH_PLACEHOLDER": "搜索……",
+    "SEARCH_PLACEHOLDER": "搜索...",
     "EMPTY_STATE": "未找到结果。",
-    "SEARCHING": "搜索中……"
+    "SEARCHING": "搜索中..."
   },
   "DIALOG": {
     "BUTTONS": {
@@ -23,12 +23,12 @@
   },
   "PHONE_INPUT": {
     "SEARCH_PLACEHOLDER": "搜索国家/地区",
-    "ERROR": "电话号码应为空或E.164格式",
+    "ERROR": "电话号码应为空或符合E.164格式",
     "DIAL_CODE_ERROR": "请从列表中选择拨号代码"
   },
   "THUMBNAIL": {
     "AUTHOR": {
-      "NOT_AVAILABLE": "作者不可用"
+      "NOT_AVAILABLE": "作者信息不可用"
     }
   },
   "BREADCRUMB": {

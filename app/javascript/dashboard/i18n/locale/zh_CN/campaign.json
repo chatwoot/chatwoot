@@ -1,7 +1,7 @@
 {
   "CAMPAIGN": {
     "LIVE_CHAT": {
-      "HEADER_TITLE": "实时聊天活动",
+      "HEADER_TITLE": "在线聊天活动",
       "NEW_CAMPAIGN": "创建活动",
       "CARD": {
         "STATUS": {
@@ -16,43 +16,43 @@
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "暂无实时聊天活动",
-        "SUBTITLE": "通过主动消息与您的客户连接。点击 '创建活动' 开始。"
+        "TITLE": "暂无在线聊天活动",
+        "SUBTITLE": "使用主动消息与您的客户建立联系。点击\"创建活动\"开始。"
       },
       "CREATE": {
-        "TITLE": "创建实时聊天活动",
+        "TITLE": "创建在线聊天活动",
         "CANCEL_BUTTON_TEXT": "取消",
         "CREATE_BUTTON_TEXT": "创建",
         "FORM": {
           "TITLE": {
             "LABEL": "标题",
             "PLACEHOLDER": "请输入活动标题",
-            "ERROR": "标题是必填项"
+            "ERROR": "标题为必填项"
           },
           "MESSAGE": {
             "LABEL": "消息",
-            "PLACEHOLDER": "请输入活动消息",
-            "ERROR": "消息是必填项"
+            "PLACEHOLDER": "请输入活动消息内容",
+            "ERROR": "消息为必填项"
           },
           "INBOX": {
             "LABEL": "选择收件箱",
             "PLACEHOLDER": "选择收件箱",
-            "ERROR": "收件箱是必填项"
+            "ERROR": "收件箱为必填项"
           },
           "SENT_BY": {
             "LABEL": "发送者",
             "PLACEHOLDER": "请选择发送者",
-            "ERROR": "发送者是必填项"
+            "ERROR": "发送者为必填项"
           },
           "END_POINT": {
             "LABEL": "网址",
             "PLACEHOLDER": "请输入网址",
-            "ERROR": "请输入有效的网址"
+            "ERROR": "请输入一个有效的网址"
           },
           "TIME_ON_PAGE": {
             "LABEL": "页面停留时间（秒）",
             "PLACEHOLDER": "请输入时间",
-            "ERROR": "页面停留时间是必填项"
+            "ERROR": "页面停留时间为必填项"
           },
           "OTHER_PREFERENCES": {
             "TITLE": "其他设置",
@@ -64,17 +64,17 @@
             "CANCEL": "取消"
           },
           "API": {
-            "SUCCESS_MESSAGE": "实时聊天活动创建成功",
-            "ERROR_MESSAGE": "发生错误，请重试。"
+            "SUCCESS_MESSAGE": "在线聊天活动创建成功",
+            "ERROR_MESSAGE": "出现错误，请重试。"
           }
         }
       },
       "EDIT": {
-        "TITLE": "编辑实时聊天活动",
+        "TITLE": "编辑在线聊天活动",
         "FORM": {
           "API": {
-            "SUCCESS_MESSAGE": "实时聊天活动更新成功",
-            "ERROR_MESSAGE": "发生错误，请重试。"
+            "SUCCESS_MESSAGE": "在线聊天活动更新成功",
+            "ERROR_MESSAGE": "出现错误，请重试。"
           }
         }
       }
@@ -84,7 +84,7 @@
       "NEW_CAMPAIGN": "创建活动",
       "EMPTY_STATE": {
         "TITLE": "暂无短信活动",
-        "SUBTITLE": "启动短信活动直接与客户沟通。轻松发送优惠或公告。点击 '创建活动' 开始。"
+        "SUBTITLE": "发起短信活动直接触达您的客户。轻松发送优惠或公告。点击\"创建活动\"开始。"
       },
       "CARD": {
         "STATUS": {
@@ -92,7 +92,7 @@
           "SCHEDULED": "已计划"
         },
         "CAMPAIGN_DETAILS": {
-          "SENT_FROM": "发自",
+          "SENT_FROM": "发送自",
           "ON": "于"
         }
       },
@@ -104,27 +104,27 @@
           "TITLE": {
             "LABEL": "标题",
             "PLACEHOLDER": "请输入活动标题",
-            "ERROR": "标题是必填项"
+            "ERROR": "标题为必填项"
           },
           "MESSAGE": {
             "LABEL": "消息",
-            "PLACEHOLDER": "请输入活动消息",
-            "ERROR": "消息是必填项"
+            "PLACEHOLDER": "请输入活动消息内容",
+            "ERROR": "消息为必填项"
           },
           "INBOX": {
             "LABEL": "选择收件箱",
             "PLACEHOLDER": "选择收件箱",
-            "ERROR": "收件箱是必填项"
+            "ERROR": "收件箱为必填项"
           },
           "AUDIENCE": {
             "LABEL": "受众",
             "PLACEHOLDER": "选择客户标签",
-            "ERROR": "受众是必填项"
+            "ERROR": "受众为必填项"
           },
           "SCHEDULED_AT": {
             "LABEL": "计划时间",
             "PLACEHOLDER": "请选择时间",
-            "ERROR": "计划时间是必填项"
+            "ERROR": "计划时间为必填项"
           },
           "BUTTONS": {
             "CREATE": "创建",
@@ -132,18 +132,18 @@
           },
           "API": {
             "SUCCESS_MESSAGE": "短信活动创建成功",
-            "ERROR_MESSAGE": "发生错误，请重试。"
+            "ERROR_MESSAGE": "出现错误，请重试。"
           }
         }
       }
     },
     "CONFIRM_DELETE": {
-      "TITLE": "确定删除吗？",
-      "DESCRIPTION": "删除操作是永久性的，无法恢复。",
+      "TITLE": "确定要删除吗？",
+      "DESCRIPTION": "删除操作是永久性的，无法撤销。",
       "CONFIRM": "删除",
       "API": {
         "SUCCESS_MESSAGE": "活动删除成功",
-        "ERROR_MESSAGE": "发生错误，请重试。"
+        "ERROR_MESSAGE": "出现错误，请重试。"
       }
     }
   }

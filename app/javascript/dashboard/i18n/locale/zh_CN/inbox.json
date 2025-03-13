@@ -4,10 +4,10 @@
       "TITLE": "我的收件箱",
       "DISPLAY_DROPDOWN": "显示",
       "LOADING": "正在获取通知",
-      "404": "此组中没有活跃的通知。",
+      "404": "此组中没有活动通知。",
       "NO_NOTIFICATIONS": "没有通知",
-      "NOTE": "来自所有订阅收件箱的通知",
-      "NO_MESSAGES_AVAILABLE": "哎呀！无法获取消息",
+      "NOTE": "来自所有已订阅收件箱的通知",
+      "NO_MESSAGES_AVAILABLE": "糟糕！无法获取消息",
       "SNOOZED_UNTIL": "推迟到",
       "SNOOZED_UNTIL_TOMORROW": "推迟到明天",
       "SNOOZED_UNTIL_NEXT_WEEK": "推迟到下周"
@@ -15,28 +15,28 @@
     "ACTION_HEADER": {
       "SNOOZE": "推迟通知",
       "DELETE": "删除通知",
-      "BACK": "返回"
+      "BACK": "后退"
     },
     "TYPES": {
-      "CONVERSATION_MENTION": "您被提及在对话中",
+      "CONVERSATION_MENTION": "您在对话中被提及",
       "CONVERSATION_CREATION": "新对话已创建",
-      "CONVERSATION_ASSIGNMENT": "对话已分配给您",
-      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "分配的对话中有新消息",
+      "CONVERSATION_ASSIGNMENT": "一个对话已分配给您",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "分配给您的对话中有新消息",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "您参与的对话中有新消息",
-      "SLA_MISSED_FIRST_RESPONSE": "对话的首次响应SLA目标未达成",
-      "SLA_MISSED_NEXT_RESPONSE": "对话的下次响应SLA目标未达成",
-      "SLA_MISSED_RESOLUTION": "对话的解决SLA目标未达成"
+      "SLA_MISSED_FIRST_RESPONSE": "对话的SLA首次响应目标已错过",
+      "SLA_MISSED_NEXT_RESPONSE": "对话的SLA下一次响应目标已错过",
+      "SLA_MISSED_RESOLUTION": "对话的SLA解决目标已错过"
     },
     "TYPES_NEXT": {
       "CONVERSATION_MENTION": "被提及",
       "CONVERSATION_ASSIGNMENT": "分配给您",
       "CONVERSATION_CREATION": "新对话",
-      "SLA_MISSED_FIRST_RESPONSE": "SLA违约",
-      "SLA_MISSED_NEXT_RESPONSE": "SLA违约",
-      "SLA_MISSED_RESOLUTION": "SLA违约",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA违规",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA违规",
+      "SLA_MISSED_RESOLUTION": "SLA违规",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "新消息",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "新消息",
-      "SNOOZED_UNTIL": "推迟至{time}",
+      "SNOOZED_UNTIL": "推迟 {time}",
       "SNOOZED_ENDS": "推迟结束"
     },
     "NO_CONTENT": "没有可用的内容",
@@ -65,11 +65,11 @@
       }
     },
     "ALERTS": {
-      "MARK_AS_READ": "通知标记为已读",
-      "MARK_AS_UNREAD": "通知标记为未读",
+      "MARK_AS_READ": "通知已标记为已读",
+      "MARK_AS_UNREAD": "通知已标记为未读",
       "SNOOZE": "通知已推迟",
       "DELETE": "通知已删除",
-      "MARK_ALL_READ": "所有通知标记为已读",
+      "MARK_ALL_READ": "所有通知已标记为已读",
       "DELETE_ALL": "所有通知已删除",
       "DELETE_ALL_READ": "所有已读通知已删除"
     }

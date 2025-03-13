@@ -1,6 +1,6 @@
 {
   "GENERAL": {
-    "SHOWING_RESULTS": "显示第 {firstIndex} - {lastIndex} 项，共 {totalCount} 项",
+    "SHOWING_RESULTS": "显示第 {firstIndex}-{lastIndex} 条，共 {totalCount} 条",
     "PHONE_INPUT": {
       "PLACEHOLDER": "搜索",
       "EMPTY_STATE": "没有检索到相关信息"

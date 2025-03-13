@@ -39,16 +39,16 @@
     "DOWNLOAD": "下载",
     "UNKNOWN_FILE_TYPE": "未知文件",
     "SAVE_CONTACT": "保存联系人",
-    "NO_CONTENT": "没有要显示的内容",
+    "NO_CONTENT": "没有可显示的内容",
     "SHARED_ATTACHMENT": {
-      "CONTACT": "{sender} 分享了一个联系人",
-      "LOCATION": "{sender} 分享了一个地址",
-      "FILE": "{sender} 分享了一个文件",
+      "CONTACT": "{sender} 已分享一个联系人",
+      "LOCATION": "{sender} 已分享一个位置",
+      "FILE": "{sender} 已分享一个文件",
       "MEETING": "{sender} 已开始会议"
     },
     "UPLOADING_ATTACHMENTS": "正在上传附件...",
     "REPLIED_TO_STORY": "回复您的故事",
-    "UNSUPPORTED_MESSAGE": "不支持此消息。您可以在 Facebook Messenger 应用上查看此消息。",
+    "UNSUPPORTED_MESSAGE": "不支持此消息。您可以在 Facebook / Instagram 应用上查看此消息。",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "不支持此消息。您可以在 Facebook Messenger 应用上查看此消息。",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "不支持此消息。您可以在 Instagram 应用上查看此消息。",
     "SUCCESS_DELETE_MESSAGE": "已成功删除消息",
@@ -56,7 +56,7 @@
     "NO_RESPONSE": "无响应",
     "RESPONSE": "回复",
     "RATING_TITLE": "评分",
-    "FEEDBACK_TITLE": "Feedback",
+    "FEEDBACK_TITLE": "反馈",
     "REPLY_MESSAGE_NOT_FOUND": "消息不可用",
     "CARD": {
       "SHOW_LABELS": "显示标签",
@@ -77,8 +77,8 @@
         "FRT": "第一响应时间 {status}",
         "NRT": "净响应时间 {status}",
         "RT": "响应时间 {status}",
-        "MISSED": "遗漏",
-        "DUE": "过期"
+        "MISSED": "已错过",
+        "DUE": "到期"
       }
     },
     "RESOLVE_DROPDOWN": {
@@ -99,17 +99,17 @@
     "PRIORITY": {
       "TITLE": "优先级",
       "OPTIONS": {
-        "NONE": "啥都没有",
-        "URGENT": "紧急的",
+        "NONE": "无",
+        "URGENT": "紧急",
         "HIGH": "高",
         "MEDIUM": "中",
         "LOW": "低"
       },
       "CHANGE_PRIORITY": {
-        "SELECT_PLACEHOLDER": "啥都没有",
+        "SELECT_PLACEHOLDER": "无",
         "INPUT_PLACEHOLDER": "选择优先级",
         "NO_RESULTS": "没有检索到相关信息",
-        "SUCCESSFUL": "已将对话 Id {conversationId} 的优先级更改为 {priority}",
+        "SUCCESSFUL": "已将对话 ID {conversationId} 的优先级更改为 {priority}",
         "FAILED": "无法更改优先级。请重试。"
       }
     },
@@ -135,7 +135,7 @@
           "FAILED": "无法分配客服，请再试。"
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "已为对话 Id {conversationId} 分配标签 #{labelName}",
+          "SUCCESFUL": "已将标签 #{labelName} 分配给对话 ID {conversationId}",
           "FAILED": "无法分配标签。请再试。"
         },
         "TEAM_ASSIGNMENT": {
@@ -148,7 +148,7 @@
       "MESSAGE_SIGN_TOOLTIP": "消息签名",
       "ENABLE_SIGN_TOOLTIP": "启用签名",
       "DISABLE_SIGN_TOOLTIP": "禁用签名",
-      "MSG_INPUT": "输入“/”开始选择快捷回复",
+      "MSG_INPUT": "输入'/'开始选择快捷回复",
       "PRIVATE_MSG_INPUT": "Shift + 输入新行。这只对客服可见",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "未设置消息签名，请在个人资料中进行设置。",
       "CLICK_HERE": "点击此处更新",
@@ -231,7 +231,7 @@
     },
     "SIDEBAR": {
       "CONTACT": "联系人",
-      "COPILOT": "Copilot"
+      "COPILOT": "智能助手"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -275,8 +275,8 @@
     },
     "CANNED_RESPONSES": {
       "TITLE": "创建预设回复",
-      "DESCRIPTION": "预定义的快捷回复模板可以帮助您快速响应对话。客服人员只需输入“/”符号，后跟快捷代码，即可插入回复。",
-      "NEW_LINK": "点击这里创建预设回复"
+      "DESCRIPTION": "预先编写的快速回复模板可帮助您迅速回应对话。客服可以输入'/'字符后跟快捷代码来插入回复。",
+      "NEW_LINK": "点击此处创建预设回复"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -284,7 +284,7 @@
     "SELF_ASSIGN": "分配给我",
     "TEAM_LABEL": "已分配的团队",
     "SELECT": {
-      "PLACEHOLDER": "啥都没有"
+      "PLACEHOLDER": "无"
     },
     "ACCORDION": {
       "CONTACT_DETAILS": "联系人详细信息",
@@ -324,7 +324,7 @@
     "BCC": "密送",
     "CC": "抄送",
     "SUBJECT": "主题",
-    "EXPAND": "展开邮箱"
+    "EXPAND": "展开邮件"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "参与者",
@@ -353,12 +353,12 @@
   "TYPING": {
     "ONE": "{user} 正在输入",
     "TWO": "{user} 和 {secondUser} 正在输入",
-    "MULTIPLE": "{user} 等 {count} 人正在输入"
+    "MULTIPLE": "{user} 和其他 {count} 人正在输入"
   },
   "COPILOT": {
-    "TRY_THESE_PROMPTS": "尝试这些提示信息"
+    "TRY_THESE_PROMPTS": "尝试这些提示"
   },
   "GALLERY_VIEW": {
-    "ERROR_DOWNLOADING": "无法上传附件。请重试"
+    "ERROR_DOWNLOADING": "无法下载附件。请重试"
   }
 }
