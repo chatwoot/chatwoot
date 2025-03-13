@@ -96,11 +96,15 @@
   }
 
   .multiselect__tags {
-    @apply bg-n-alpha-black2 border-0 grid items-center w-full border-none outline-1 outline outline-n-weak hover:enabled:outline-n-slate-6 m-0 min-h-[2.875rem] rounded-lg pt-0;
+    @apply bg-n-alpha-black2 border-0 grid items-center w-full border-none outline-1 outline outline-n-weak hover:outline-n-slate-6 m-0 min-h-[2.875rem] rounded-lg pt-0;
 
     input {
       @apply border-0 border-none bg-transparent dark:bg-transparent text-n-slate-12 placeholder:text-n-slate-10;
     }
+  }
+
+  .multiselect__spinner {
+    background-color: transparent;
   }
 
   .multiselect__tags-wrap {
@@ -210,6 +214,10 @@
 
 .multiselect--disabled {
   background-color: rgba(var(--black-alpha-2)) !important;
+
+  .multiselect__tags {
+    @apply hover:outline-n-weak;
+  }
 }
 
 .multiselect--active {
@@ -240,7 +248,7 @@
   }
 
   .multiselect__single {
-    @apply items-center flex m-0 text-sm py-1 px-0.5 bg-n-alpha-black2 text-n-slate-12;
+    @apply items-center flex m-0 text-sm py-1 px-0.5 bg-transparent text-n-slate-12;
   }
 
   .multiselect__placeholder {
