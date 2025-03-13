@@ -8,6 +8,21 @@ import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 import * as Sentry from '@sentry/vue';
 
+const makeCompactJson = obj => {
+  // get rid of irrelevant data
+  const { messages, additional_attributes, sla_events, ...remaining } = obj;
+  const strinRep = JSON.stringify(remaining);
+
+  // replace active storage URLs with a placeholder
+  const activeStorageUrlRegex =
+    /https?:\/\/[^/]+\/rails\/active_storage[^\s]+/g;
+  const replacedStr = strinRep.replace(
+    activeStorageUrlRegex,
+    '[ACTIVE_STORAGE_URL]'
+  );
+  return replacedStr;
+};
+
 const state = {
   allConversations: [],
   attachments: {},
@@ -211,21 +226,6 @@ export const mutations = {
   [types.UPDATE_CONVERSATION](_state, conversation) {
     const { allConversations } = _state;
     const index = allConversations.findIndex(c => c.id === conversation.id);
-
-    const makeCompactJson = obj => {
-      // get rid of messages
-      const { messages, ...remaining } = obj;
-      const strinRep = JSON.stringify(remaining);
-
-      // replace active storage URLs with a placeholder
-      const activeStorageUrlRegex =
-        /https?:\/\/[^/]+\/rails\/active_storage[^\s]+/g;
-      const replacedStr = strinRep.replace(
-        activeStorageUrlRegex,
-        '[ACTIVE_STORAGE_URL]'
-      );
-      return replacedStr;
-    };
 
     if (index > -1) {
       const selectedConversation = allConversations[index];
