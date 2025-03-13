@@ -10,7 +10,13 @@ import * as Sentry from '@sentry/vue';
 
 const makeCompactJson = obj => {
   // get rid of irrelevant data
-  const { messages, additional_attributes, sla_events, ...remaining } = obj;
+  const {
+    messages,
+    additional_attributes,
+    sla_events,
+    contact_inbox,
+    ...remaining
+  } = obj;
   const strinRep = JSON.stringify(remaining);
 
   // replace active storage URLs with a placeholder
