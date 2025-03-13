@@ -15,16 +15,19 @@ RSpec.describe Captain::Llm::LanguageDetectionService do
     allow(client).to receive(:chat).and_return({ 'choices' => [{ 'message' => { 'content' => nil } }] })
     allow(client).to receive(:chat).with(
       parameters: hash_including(messages: array_including({ role: 'user', content: english_text }))
-    ).and_return({ 'choices' => [{ 'message' => { 'content' => 'en' } }] })
+    ).and_return({ 'choices' => [{ 'message' => { 'content' => '{"language_code": "en"}' } }] })
     allow(client).to receive(:chat).with(
       parameters: hash_including(messages: array_including({ role: 'user', content: spanish_text }))
-    ).and_return({ 'choices' => [{ 'message' => { 'content' => 'es' } }] })
+    ).and_return({ 'choices' => [{ 'message' => { 'content' => '{"language_code": "es"}' } }] })
     allow(client).to receive(:chat).with(
       parameters: hash_including(messages: array_including({ role: 'user', content: french_text }))
-    ).and_return({ 'choices' => [{ 'message' => { 'content' => 'fr' } }] })
+    ).and_return({ 'choices' => [{ 'message' => { 'content' => '{"language_code": "fr"}' } }] })
     allow(client).to receive(:chat)
-      .with(parameters: hash_including(messages: array_including({ role: 'user', content: 'text that will cause an error' })))
-      .and_raise(StandardError.new('API error'))
+      .with(parameters: hash_including(messages: array_including({ role: 'user', content: 'text that will return bad response' })))
+      .and_return({ 'choices' => [{ 'message' => { 'content' => 'en' } }] })
+    allow(client).to receive(:chat)
+      .with(parameters: hash_including(messages: array_including({ role: 'user', content: 'text that will throw an error' })))
+      .and_raise(StandardError.new('Bad Request'))
   end
 
   describe '#detect' do
@@ -52,10 +55,17 @@ RSpec.describe Captain::Llm::LanguageDetectionService do
       end
     end
 
-    context 'when API call throws an error' do
+    context 'when API call returns a bad response' do
+      it 'logs the error and returns nil' do
+        expect(Rails.logger).to receive(:error).with(/Error parsing response/)
+        expect(service.detect('text that will return bad response')).to be_nil
+      end
+    end
+
+    context 'when API call fails' do
       it 'logs the error and returns nil' do
         expect(Rails.logger).to receive(:error).with(/Error detecting language/)
-        expect(service.detect('text that will cause an error')).to be_nil
+        expect(service.detect('text that will throw an error')).to be_nil
       end
     end
   end
