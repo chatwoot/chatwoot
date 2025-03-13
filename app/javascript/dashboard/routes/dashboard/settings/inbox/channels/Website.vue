@@ -73,7 +73,7 @@ export default {
 
 <template>
   <div
-    class="border border-n-weak bg-n-background h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class="border border-n-weak bg-n-background h-full w-full p-6 col-span-6 overflow-auto"
   >
     <PageHeader
       :header-title="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.TITLE')"
@@ -85,7 +85,7 @@ export default {
     />
     <form
       v-if="!uiFlags.isCreating"
-      class="flex flex-wrap mx-0"
+      class="flex flex-wrap flex-col mx-0"
       @submit.prevent="createChannel"
     >
       <div class="w-full">

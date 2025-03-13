@@ -19,13 +19,13 @@ export default {
 
 <template>
   <div
-    class="border border-n-weak bg-n-background h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class="border border-n-weak bg-n-background h-full w-full p-6 col-span-6 overflow-auto"
   >
     <PageHeader
       :header-title="$t('INBOX_MGMT.ADD.SMS.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.SMS.DESC')"
     />
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+    <div class="flex-shrink-0 flex-grow-0">
       <label>
         {{ $t('INBOX_MGMT.ADD.SMS.PROVIDERS.LABEL') }}
         <select v-model="provider">

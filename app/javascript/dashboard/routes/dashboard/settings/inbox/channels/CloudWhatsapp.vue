@@ -72,8 +72,8 @@ export default {
 </script>
 
 <template>
-  <form class="flex flex-wrap mx-0" @submit.prevent="createChannel()">
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+  <form class="flex flex-wrap flex-col mx-0" @submit.prevent="createChannel()">
+    <div class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.inboxName.$error }">
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.INBOX_NAME.LABEL') }}
         <input
@@ -88,7 +88,7 @@ export default {
       </label>
     </div>
 
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+    <div class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.phoneNumber.$error }">
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.PHONE_NUMBER.LABEL') }}
         <input
@@ -103,7 +103,7 @@ export default {
       </label>
     </div>
 
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+    <div class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.phoneNumberId.$error }">
         <span>
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.PHONE_NUMBER_ID.LABEL') }}
@@ -122,7 +122,7 @@ export default {
       </label>
     </div>
 
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+    <div class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.businessAccountId.$error }">
         <span>
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.BUSINESS_ACCOUNT_ID.LABEL') }}
@@ -141,7 +141,7 @@ export default {
       </label>
     </div>
 
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+    <div class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.apiKey.$error }">
         <span>
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.API_KEY.LABEL') }}

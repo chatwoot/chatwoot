@@ -113,8 +113,8 @@ export default {
 </script>
 
 <template>
-  <form class="flex flex-wrap mx-0" @submit.prevent="createChannel()">
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+  <form class="flex flex-wrap flex-col mx-0" @submit.prevent="createChannel()">
+    <div class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.channelName.$error }">
         {{ $t('INBOX_MGMT.ADD.TWILIO.CHANNEL_NAME.LABEL') }}
         <input
@@ -129,7 +129,7 @@ export default {
       </label>
     </div>
 
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+    <div class="flex-shrink-0 flex-grow-0">
       <label
         v-if="useMessagingService"
         :class="{ error: v$.messagingServiceSID.$error }"
@@ -149,10 +149,7 @@ export default {
       </label>
     </div>
 
-    <div
-      v-if="!useMessagingService"
-      class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]"
-    >
+    <div v-if="!useMessagingService" class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.phoneNumber.$error }">
         {{ $t('INBOX_MGMT.ADD.TWILIO.PHONE_NUMBER.LABEL') }}
         <input
@@ -183,7 +180,7 @@ export default {
       </label>
     </div>
 
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+    <div class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.accountSID.$error }">
         {{ $t('INBOX_MGMT.ADD.TWILIO.ACCOUNT_SID.LABEL') }}
         <input
@@ -208,7 +205,7 @@ export default {
         {{ $t('INBOX_MGMT.ADD.TWILIO.API_KEY.USE_API_KEY') }}
       </label>
     </div>
-    <div v-if="useAPIKey" class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+    <div v-if="useAPIKey" class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.apiKeySID.$error }">
         {{ $t('INBOX_MGMT.ADD.TWILIO.API_KEY.LABEL') }}
         <input
@@ -222,7 +219,7 @@ export default {
         }}</span>
       </label>
     </div>
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+    <div class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.authToken.$error }">
         {{ $t(`INBOX_MGMT.ADD.TWILIO.${authTokeni18nKey}.LABEL`) }}
         <input

@@ -69,14 +69,17 @@ export default {
 
 <template>
   <div
-    class="border border-n-weak bg-n-background h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class="border border-n-weak bg-n-background h-full w-full p-6 col-span-6 overflow-auto"
   >
     <PageHeader
       :header-title="$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.DESC')"
     />
-    <form class="flex flex-wrap mx-0" @submit.prevent="createChannel()">
-      <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+    <form
+      class="flex flex-wrap flex-col mx-0"
+      @submit.prevent="createChannel()"
+    >
+      <div class="flex-shrink-0 flex-grow-0">
         <label :class="{ error: v$.channelName.$error }">
           {{ $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.CHANNEL_NAME.LABEL') }}
           <input
@@ -93,7 +96,7 @@ export default {
         </label>
       </div>
 
-      <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%] mb-4">
+      <div class="flex-shrink-0 flex-grow-0 mb-4">
         <label :class="{ error: v$.email.$error }">
           {{ $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.EMAIL.LABEL') }}
           <input

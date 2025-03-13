@@ -62,16 +62,16 @@ export default {
 
 <template>
   <div
-    class="border border-n-weak bg-n-background h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class="border border-n-weak bg-n-background h-full w-full p-6 col-span-6 overflow-auto"
   >
-    <form class="flex flex-wrap mx-0" @submit.prevent="addAgents()">
+    <form class="flex flex-wrap flex-col mx-0" @submit.prevent="addAgents()">
       <div class="w-full">
         <PageHeader
           :header-title="$t('INBOX_MGMT.ADD.AGENTS.TITLE')"
           :header-content="$t('INBOX_MGMT.ADD.AGENTS.DESC')"
         />
       </div>
-      <div class="w-3/5">
+      <div>
         <div class="w-full">
           <label :class="{ error: v$.selectedAgents.$error }">
             {{ $t('INBOX_MGMT.ADD.AGENTS.TITLE') }}
