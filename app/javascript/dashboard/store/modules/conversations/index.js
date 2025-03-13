@@ -212,6 +212,21 @@ export const mutations = {
     const { allConversations } = _state;
     const index = allConversations.findIndex(c => c.id === conversation.id);
 
+    const makeCompactJson = obj => {
+      // get rid of messages
+      const { messages, ...remaining } = obj;
+      const strinRep = JSON.stringify(remaining);
+
+      // replace active storage URLs with a placeholder
+      const activeStorageUrlRegex =
+        /https?:\/\/[^/]+\/rails\/active_storage[^\s]+/g;
+      const replacedStr = strinRep.replace(
+        activeStorageUrlRegex,
+        '[ACTIVE_STORAGE_URL]'
+      );
+      return replacedStr;
+    };
+
     if (index > -1) {
       const selectedConversation = allConversations[index];
 
@@ -231,7 +246,7 @@ export const mutations = {
 
         if (window.newrelic) {
           window.newrelic.log(
-            `conversation update mismatch for ${conversation.id} with incoming ${JSON.stringify(conversation, null, 2)} and stored ${JSON.stringify(selectedConversation, null, 2)}`,
+            `conversation update mismatch for ${conversation.id} with incoming ${makeCompactJson(conversation)} and stored ${makeCompactJson(selectedConversation)}`,
             { level: 'DEBUG' }
           );
         }
@@ -255,7 +270,7 @@ export const mutations = {
 
         if (window.newrelic) {
           window.newrelic.log(
-            `conversation update overlap for ${conversation.id} with incoming ${JSON.stringify(conversation, null, 2)} and stored ${JSON.stringify(selectedConversation, null, 2)}`,
+            `conversation update overlap for ${conversation.id} with incoming ${makeCompactJson(conversation)} and stored ${makeCompactJson(selectedConversation)}`,
             { level: 'DEBUG' }
           );
         }
