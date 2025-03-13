@@ -17,7 +17,7 @@ const props = defineProps({
 const { t } = useI18n();
 
 const showNewButton = computed(
-  () => props.newButtonRoutes.length !== 0 && !props.showBackButton
+  () => props.newButtonRoutes.length && !props.showBackButton
 );
 </script>
 
@@ -25,21 +25,24 @@ const showNewButton = computed(
   <div
     class="flex flex-1 h-full justify-between flex-col m-0 bg-n-background overflow-auto"
   >
-    <SettingsHeader
-      button-route="new"
-      :icon="icon"
-      :header-title="t(headerTitle)"
-      :button-text="t(headerButtonText)"
-      :show-back-button="showBackButton"
-      :back-url="backUrl"
-      :show-new-button="showNewButton"
-      :show-sidemenu-icon="showSidemenuIcon"
-    />
-    <router-view v-slot="{ Component }">
-      <keep-alive v-if="keepAlive">
-        <component :is="Component" />
-      </keep-alive>
-      <component :is="Component" v-else />
-    </router-view>
+    <div class="max-w-6xl mx-auto w-full h-full">
+      <SettingsHeader
+        button-route="new"
+        :icon="icon"
+        :header-title="t(headerTitle)"
+        :button-text="t(headerButtonText)"
+        :show-back-button="showBackButton"
+        :back-url="backUrl"
+        :show-new-button="showNewButton"
+        :show-sidemenu-icon="showSidemenuIcon"
+      />
+
+      <router-view v-slot="{ Component }" class="px-5">
+        <component :is="Component" v-if="!keepAlive" :key="$route.fullPath" />
+        <keep-alive v-else>
+          <component :is="Component" :key="$route.fullPath" />
+        </keep-alive>
+      </router-view>
+    </div>
   </div>
 </template>
