@@ -195,5 +195,14 @@ describe ConversationFinder do
         expect(result[:conversations].length).to be 2
       end
     end
+
+    context 'with recently_resolved' do
+      let(:params) { { status: 'all', assignee_type: 'me', conversation_type: 'recently_resolved' } }
+
+      it 'returns recently resolved conversations' do
+        result = conversation_finder.perform
+        expect(result[:conversations].length).to be 1
+      end
+    end
   end
 end

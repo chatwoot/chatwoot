@@ -9,6 +9,7 @@
     "TAB_HEADING": "Conversations",
     "MENTION_HEADING": "Mentions",
     "UNATTENDED_HEADING": "Unattended",
+    "RECENTLY_RESOLVED_HEADING": "Recently Resolved",
     "SEARCH": {
       "INPUT": "Search for People, Chats, Saved Replies .."
     },

@@ -62,6 +62,7 @@ export const isAConversationRoute = routeName =>
     'conversations_through_team',
     'conversations_through_folders',
     'conversation_through_participating',
+    'conversation_through_recently_resolved',
   ].includes(routeName);
 
 export const getConversationDashboardRoute = routeName => {
@@ -72,7 +73,7 @@ export const getConversationDashboardRoute = routeName => {
       return 'conversation_mentions';
     case 'conversation_through_unattended':
       return 'conversation_unattended';
-    case 'conversation_recently_resolved':
+    case 'conversation_through_recently_resolved':
       return 'conversation_recently_resolved';
     case 'conversations_through_label':
       return 'label_conversations';

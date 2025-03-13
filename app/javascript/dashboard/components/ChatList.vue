@@ -412,11 +412,17 @@ export default {
       ).count;
       return count;
     },
+    customActiveStatus(){
+      if ('recently_resolved' === this.conversationType) {
+        return wootConstants.STATUS_TYPE.RESOLVED;
+      }
+      return this.activeStatus;
+    },
     conversationFilters() {
       return {
         inboxId: this.conversationInbox ? this.conversationInbox : undefined,
         assigneeType: this.activeAssigneeTab,
-        status: this.activeStatus,
+        status: this.customActiveStatus,
         sortBy: this.activeSortBy,
         page: this.conversationListPagination,
         labels: this.label ? [this.label] : undefined,
@@ -464,6 +470,9 @@ export default {
       }
       if (this.conversationType === 'unattended') {
         return this.$t('CHAT_LIST.UNATTENDED_HEADING');
+      }
+      if (this.conversationType === 'recently_resolved') {
+        return this.$t('CHAT_LIST.RECENTLY_RESOLVED_HEADING');
       }
       if (this.hasActiveFolders) {
         return this.activeFolder.name;
@@ -534,10 +543,6 @@ export default {
     conversationType() {
       this.resetAndFetchData();
       this.updateVirtualListProps('conversationType', this.conversationType);
-      if (this.conversationType === 'recently_resolved') {
-        this.onBasicFilterChange('all', 'status');
-        this.onBasicFilterChange('created_at_desc', 'sort');
-      }
     },
     activeFolder() {
       this.resetAndFetchData();

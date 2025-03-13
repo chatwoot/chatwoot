@@ -205,7 +205,7 @@ export default {
     },
     registerListeners() {
       window.addEventListener('message', e => {
-        if (e.origin !== window.chatwootWebChannel.websiteDomain) {
+        if (!IFrameHelper.allowedDomain(e.origin, window.chatwootWebChannel.websiteDomain)) {
           return;
         }
         const message = IFrameHelper.getMessage(e);

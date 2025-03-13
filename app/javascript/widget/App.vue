@@ -288,12 +288,12 @@ export default {
       this.$store.dispatch('events/create', { name: eventName });
     },
     registerListeners() {
-      const { websiteToken } = window.chatwootWebChannel;
+      const { websiteToken, websiteDomain } = window.chatwootWebChannel;
       window.addEventListener('message', e => {
         if (!IFrameHelper.isAValidEvent(e)) {
           return;
         }
-        if (e.origin !== window.chatwootWebChannel.websiteDomain) {
+        if (!IFrameHelper.allowedDomain(e.origin, websiteDomain)) {
           return;
         }
         const message = IFrameHelper.getMessage(e);

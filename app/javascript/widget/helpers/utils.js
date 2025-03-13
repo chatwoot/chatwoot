@@ -25,6 +25,21 @@ export const IFrameHelper = {
     return isDataAString && e.data.indexOf(WOOT_PREFIX) === 0;
   },
   getMessage: e => JSON.parse(e.data.replace(WOOT_PREFIX, '')),
+  allowedDomain: (origin, currentDomain) => {
+    try {
+      const eventHostname = new URL(origin).hostname;
+      const websiteHostname = new URL(currentDomain).hostname;
+
+      if (eventHostname !== websiteHostname) {
+        if (!eventHostname.includes('digitaltolk') || !eventHostname.includes('local')) {
+          return false;
+        }
+      }
+      return true;
+    } catch(e) {
+      return false;
+    }
+  },
 };
 export const RNHelper = {
   isRNWebView: () => window.ReactNativeWebView,

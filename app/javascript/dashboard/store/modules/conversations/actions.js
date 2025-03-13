@@ -8,6 +8,7 @@ import {
   buildConversationList,
   isOnMentionsView,
   isOnUnattendedView,
+  isOnRecentlyResolvedView,
   isOnFoldersView,
 } from './helpers/actionHelpers';
 import messageReadActions from './actions/messageReadActions';
@@ -338,6 +339,7 @@ const actions = {
       !isOnFoldersView(rootState) &&
       !isOnMentionsView(rootState) &&
       !isOnUnattendedView(rootState) &&
+      !isOnRecentlyResolvedView(rootState) &&
       isMatchingInboxFilter
     ) {
       commit(types.ADD_CONVERSATION, conversation);
@@ -353,6 +355,12 @@ const actions = {
 
   addUnattended({ dispatch, rootState }, conversation) {
     if (isOnUnattendedView(rootState)) {
+      dispatch('updateConversation', conversation);
+    }
+  },
+
+  addRecentlyResolved({ dispatch, rootState }, conversation) {
+    if (isOnRecentlyResolvedView(rootState)) {
       dispatch('updateConversation', conversation);
     }
   },

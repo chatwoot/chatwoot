@@ -20,7 +20,8 @@ const conversations = accountId => ({
     'conversations_through_folders',
     'conversation_unattended',
     'conversation_through_unattended',
-    'conversation_recently_resolved'
+    'conversation_recently_resolved',
+    'conversation_through_recently_resolved',
   ],
   menuItems: [
     {

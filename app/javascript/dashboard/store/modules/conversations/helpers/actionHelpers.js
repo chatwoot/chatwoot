@@ -33,6 +33,7 @@ export const isOnUnattendedView = ({ route: { name: routeName } }) => {
 export const isOnRecentlyResolvedView = ({ route: {name: routeName}}) => {
   const RECENTLY_RESOLVED_ROUTES = [
     'conversation_recently_resolved',
+    'conversation_through_recently_resolved',
   ];
   return RECENTLY_RESOLVED_ROUTES.includes(routeName);
 };

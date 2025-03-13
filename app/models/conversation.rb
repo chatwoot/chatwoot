@@ -87,6 +87,10 @@ class Conversation < ApplicationRecord
     open.where('last_activity_at < ? ', Time.now.utc - auto_resolve_duration.days)
   }
 
+  scope :recently_resolved, lambda {
+    resolved.where('last_activity_at > ?', 7.days.ago)
+  }
+
   scope :last_user_message_at, lambda {
     joins(
       "INNER JOIN (#{last_messaged_conversations.to_sql}) AS grouped_conversations
@@ -239,7 +243,9 @@ class Conversation < ApplicationRecord
     return if assignee_id.present?
     return if latest_agent.blank?
 
+    # rubocop:disable Rails/SkipsModelValidations
     update_column(:assignee_id, latest_agent.id)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   def latest_agent
