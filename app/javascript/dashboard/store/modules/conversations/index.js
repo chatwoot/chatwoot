@@ -229,6 +229,15 @@ export const mutations = {
           Sentry.captureMessage('Conversation update mismatch');
         });
 
+        window.logrelic(
+          `conversation update mismatch with incoming ${conversation} and stored ${selectedConversation}`,
+          {
+            customAttributes: {
+              conversation_id: conversation.id,
+            },
+          }
+        );
+
         return;
       }
 
@@ -245,6 +254,15 @@ export const mutations = {
 
           Sentry.captureMessage('Conversation update overlap');
         });
+
+        window.logrelic(
+          `conversation update overlap with incoming ${conversation} and stored ${selectedConversation}`,
+          {
+            customAttributes: {
+              conversation_id: conversation.id,
+            },
+          }
+        );
       }
 
       const { messages, ...updates } = conversation;
