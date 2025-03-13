@@ -82,9 +82,12 @@ class BaseActionCableConnector {
   onReceived = ({ event, data } = {}) => {
     if (this.isAValidEvent(data)) {
       if (this.events[event] && typeof this.events[event] === 'function') {
-        window.logrelic(
-          `processing actioncable ${event} with ${JSON.stringify(data, null, 2)} at ${Number(Date.now())}`
-        );
+        if (window.newrelic) {
+          window.newrelic.log(
+            `processing actioncable ${event} with ${JSON.stringify(data, null, 2)} at ${Number(Date.now())}`,
+            { level: 'DEBUG' }
+          );
+        }
         this.events[event](data);
       }
     }

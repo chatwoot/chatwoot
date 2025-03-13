@@ -21,7 +21,6 @@ import router, { initalizeRouter } from 'dashboard/routes';
 import store from 'dashboard/store';
 import constants from 'dashboard/constants/globals';
 import * as Sentry from '@sentry/vue';
-
 import {
   initializeAnalyticsEvents,
   initializeChatwootEvents,
@@ -47,12 +46,6 @@ const app = createApp(App);
 app.use(i18n);
 app.use(store);
 app.use(router);
-
-window.logrelic = (message, options = {}) => {
-  if (window.newrelic) {
-    window.newrelic.log(message, { level: 'debug' }, options);
-  }
-};
 
 // [VITE] Disabled this, need to renable later
 if (window.errorLoggingConfig) {

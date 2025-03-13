@@ -229,9 +229,12 @@ export const mutations = {
           Sentry.captureMessage('Conversation update mismatch');
         });
 
-        window.logrelic(
-          `conversation update mismatch for ${conversation.id} with incoming ${JSON.stringify(conversation, null, 2)} and stored ${JSON.stringify(selectedConversation, null, 2)}`
-        );
+        if (window.newrelic) {
+          window.newrelic.log(
+            `conversation update mismatch for ${conversation.id} with incoming ${JSON.stringify(conversation, null, 2)} and stored ${JSON.stringify(selectedConversation, null, 2)}`,
+            { level: 'DEBUG' }
+          );
+        }
 
         return;
       }
@@ -250,9 +253,12 @@ export const mutations = {
           Sentry.captureMessage('Conversation update overlap');
         });
 
-        window.logrelic(
-          `conversation update overlap for ${conversation.id} with incoming ${JSON.stringify(conversation, null, 2)} and stored ${JSON.stringify(selectedConversation, null, 2)}`
-        );
+        if (window.newrelic) {
+          window.newrelic.log(
+            `conversation update overlap for ${conversation.id} with incoming ${JSON.stringify(conversation, null, 2)} and stored ${JSON.stringify(selectedConversation, null, 2)}`,
+            { level: 'DEBUG' }
+          );
+        }
       }
 
       const { messages, ...updates } = conversation;
