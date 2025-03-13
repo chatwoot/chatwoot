@@ -23,7 +23,7 @@ class Instagram::Direct::SendOnInstagramService < Base::SendOnChannelService
   rescue StandardError => e
     Rails.logger.info("Instagram Error: #{e.inspect}")
     ChatwootExceptionTracker.new(e, account: message.account, user: message.sender).capture_exception
-    # TODO : handle specific errors or else page will get disconnected
+    # TODO : handle specific auth errors
     # channel.authorization_error!
   end
 
@@ -55,32 +55,17 @@ class Instagram::Direct::SendOnInstagramService < Base::SendOnChannelService
   end
 
   # Deliver a message with the given payload.
-  # @see https://developers.facebook.com/docs/messenger-platform/instagram/features/send-message
+  # https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/messaging-api
   def send_to_instagram(message_content)
     access_token = channel.access_token
 
-    app_secret_proof = calculate_app_secret_proof(GlobalConfigService.load('INSTAGRAM_APP_SECRET', nil), access_token)
     query = { access_token: access_token }
-    query[:appsecret_proof] = app_secret_proof if app_secret_proof
 
     instagram_id = channel.instagram_id.presence || 'me'
 
-    Rails.logger.info("instagram_id #{instagram_id}")
-
-    Rails.logger.info("message_content #{message_content}")
-    # Both approaches are working fine. Please use the best approach.
-    # response = HTTParty.post(
-    #   "https://graph.instagram.com/v22.0/#{instagram_id}/messages",
-    #   body: message_content,
-    #   query: query
-    # )
     response = HTTParty.post(
       "https://graph.instagram.com/v22.0/#{instagram_id}/messages",
       body: message_content,
-      headers: {
-        'Authorization': "Bearer #{access_token}",
-        'Content-Type': 'application/json'
-      },
       query: query
     )
 
@@ -93,26 +78,31 @@ class Instagram::Direct::SendOnInstagramService < Base::SendOnChannelService
     end
 
     Rails.logger.info("Instagram response: #{response.inspect}")
-    Rails.logger.info("message_id #{response['message_id']}")
 
-    message.source_id = response['message_id'] if response['message_id'].present?
-    message.save!
+    handle_response(response, message_content)
+  end
 
-    response
+  def handle_response(response, message_content)
+    parsed_response = response.parsed_response
+    if response.success? && parsed_response['error'].blank?
+      message.update!(source_id: parsed_response['message_id'])
+
+      parsed_response
+    else
+      external_error = external_error(parsed_response)
+      Rails.logger.error("Instagram response: #{external_error} : #{message_content}")
+      message.update!(status: :failed, external_error: external_error)
+
+      nil
+    end
   end
 
   def external_error(response)
     # https://developers.facebook.com/docs/instagram-api/reference/error-codes/
-    error_message = response[:error][:message]
-    error_code = response[:error][:code]
+    error_message = response.dig('error', 'message')
+    error_code = response.dig('error', 'code')
 
     "#{error_code} - #{error_message}"
-  end
-
-  def calculate_app_secret_proof(app_secret, access_token)
-    Facebook::Messenger::Configuration::AppSecretProofCalculator.call(
-      app_secret, access_token
-    )
   end
 
   def attachment_type(attachment)
@@ -125,22 +115,28 @@ class Instagram::Direct::SendOnInstagramService < Base::SendOnChannelService
     conversation.additional_attributes['type']
   end
 
-  def sent_first_outgoing_message_after_24_hours?
-    # we can send max 1 message after 24 hour window
-    conversation.messages.outgoing.where('id > ?', conversation.last_incoming_message.id).count == 1
-  end
-
-  def config
-    Facebook::Messenger.config
-  end
-
   def merge_human_agent_tag(params)
-    global_config = GlobalConfig.get('ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT')
+    global_config = GlobalConfig.get('ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT')
 
-    return params unless global_config['ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT']
+    return params unless global_config['ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT']
+    return params unless should_add_human_agent_tag?
 
+    # Add human agent tag to enable responses outside the standard 24-hour window
+    # This allows human agents to respond within 7 days of the last user message
+    # Requires business verification and app review approval
     params[:messaging_type] = 'MESSAGE_TAG'
-    params[:tag] = 'HUMAN_AGENT'
+    params[:tag] = 'human_agent'
     params
+  end
+
+  # Determines if the human agent tag should be added to the message
+  # @return [Boolean] true if the message qualifies for human agent tag
+  def should_add_human_agent_tag?
+    return false unless conversation.last_incoming_message
+
+    # Instagram allows human agent responses within 7 days of the last user message
+    # https://developers.facebook.com/docs/features-reference/human-agent
+    seven_days_ago = 7.days.ago
+    conversation.last_incoming_message.created_at > seven_days_ago
   end
 end

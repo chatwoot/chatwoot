@@ -1,4 +1,4 @@
-class Instagram::ReadStatusService
+class Instagram::Direct::ReadStatusService
   pattr_initialize [:params!, :channel!]
 
   def perform

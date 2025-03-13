@@ -295,6 +295,12 @@
   description: 'The verify token used for Instagram Webhook'
   locked: false
   type: secret
+- name: ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT
+  display_title: 'Enable human agent'
+  value: false
+  locked: false
+  description: 'Enable human agent for messenger channel for longer message back period. Needs additional app approval: https://developers.facebook.com/docs/features-reference/human-agent/'
+  type: boolean
 - name: INSTAGRAM_API_VERSION
   display_title: 'Instagram API Version'
   description: 'Configure this if you want to use a different Instagram API version. Make sure its prefixed with `v`'
