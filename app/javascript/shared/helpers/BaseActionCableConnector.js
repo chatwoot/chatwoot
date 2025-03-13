@@ -80,9 +80,19 @@ class BaseActionCableConnector {
   }
 
   onReceived = ({ event, data } = {}) => {
+    const loggableEvents = [
+      'conversation.created',
+      'conversation.status_changed',
+      'team.changed',
+      'conversation.contact_changed',
+      'conversation.mentioned',
+      'conversation.read',
+      'conversation.updated',
+    ];
+
     if (this.isAValidEvent(data)) {
       if (this.events[event] && typeof this.events[event] === 'function') {
-        if (window.newrelic) {
+        if (window.newrelic && loggableEvents.includes(event)) {
           window.newrelic.log(
             `processing actioncable ${event} with ${JSON.stringify(data, null, 2)} at ${Number(Date.now())}`,
             { level: 'DEBUG' }
