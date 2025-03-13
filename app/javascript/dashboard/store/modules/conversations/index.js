@@ -256,18 +256,6 @@ export const mutations = {
 
       // in case the timestamp is the same, we track it and let it update
       if (conversation.updated_at === selectedConversation.updated_at) {
-        Sentry.withScope(scope => {
-          scope.setTag('account_id', conversation.account_id);
-          scope.setTag('conversation_id', conversation.id);
-
-          scope.setContext('incoming', conversation);
-          scope.setContext('stored', selectedConversation);
-          scope.setContext('incoming_meta', conversation.meta);
-          scope.setContext('stored_meta', selectedConversation.meta);
-
-          Sentry.captureMessage('Conversation update overlap');
-        });
-
         if (window.newrelic) {
           window.newrelic.log(
             `conversation update overlap for ${conversation.id} with incoming ${makeCompactJson(conversation)} and stored ${makeCompactJson(selectedConversation)}`,
