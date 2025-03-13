@@ -84,6 +84,7 @@ class BaseActionCableConnector {
       'conversation.created',
       'conversation.status_changed',
       'team.changed',
+      'assignee.changed',
       'conversation.contact_changed',
       'conversation.mentioned',
       'conversation.read',
