@@ -7,7 +7,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @assistant = assistant
 
     ActiveRecord::Base.transaction do
-      process_conversation_language if @conversation.language.present?
       generate_and_process_response
     end
   rescue StandardError => e
