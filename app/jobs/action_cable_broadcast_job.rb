@@ -13,8 +13,12 @@ class ActionCableBroadcastJob < ApplicationJob
   def perform(members, event_name, data)
     return if members.blank?
 
+    Rails.logger.info("[RealtimeBroadcastJob] Broadcasting event=#{event_name} members=#{members.size}")
+
     broadcast_data = prepare_broadcast_data(event_name, data)
+    Rails.logger.info('[RealtimeBroadcastJob] Prepared event data')
     broadcast_to_members(members, event_name, broadcast_data)
+    Rails.logger.info('[RealtimeBroadcastJob] Broadcast completed')
   end
 
   private
@@ -32,6 +36,7 @@ class ActionCableBroadcastJob < ApplicationJob
 
   def broadcast_to_members(members, event_name, broadcast_data)
     members.each do |member|
+      Rails.logger.info("[RealtimeBroadcastJob] Broadcasting to member #{member}")
       ActionCable.server.broadcast(
         member,
         {
