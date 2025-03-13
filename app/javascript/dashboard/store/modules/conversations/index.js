@@ -230,12 +230,7 @@ export const mutations = {
         });
 
         window.logrelic(
-          `conversation update mismatch with incoming ${conversation} and stored ${selectedConversation}`,
-          {
-            customAttributes: {
-              conversation_id: conversation.id,
-            },
-          }
+          `conversation update mismatch for ${conversation.id} with incoming ${JSON.stringify(conversation, null, 2)} and stored ${JSON.stringify(selectedConversation, null, 2)}`
         );
 
         return;
@@ -256,12 +251,7 @@ export const mutations = {
         });
 
         window.logrelic(
-          `conversation update overlap with incoming ${conversation} and stored ${selectedConversation}`,
-          {
-            customAttributes: {
-              conversation_id: conversation.id,
-            },
-          }
+          `conversation update overlap for ${conversation.id} with incoming ${JSON.stringify(conversation, null, 2)} and stored ${JSON.stringify(selectedConversation, null, 2)}`
         );
       }
 

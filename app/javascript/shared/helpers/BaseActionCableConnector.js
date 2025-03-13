@@ -83,7 +83,7 @@ class BaseActionCableConnector {
     if (this.isAValidEvent(data)) {
       if (this.events[event] && typeof this.events[event] === 'function') {
         window.logrelic(
-          `processing actioncable ${event} with ${data} at ${Number(Date.now())}`
+          `processing actioncable ${event} with ${JSON.stringify(data, null, 2)} at ${Number(Date.now())}`
         );
         this.events[event](data);
       }
