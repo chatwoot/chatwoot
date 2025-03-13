@@ -29,9 +29,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class="p-3 bg-white dark:bg-slate-900 h-[calc(100vh-3.5rem)] flex flex-col border-l border-n-weak"
-  >
+  <div class="p-3 bg-n-background h-full flex flex-col">
     <div>
       <woot-input
         :model-value="macroName"
