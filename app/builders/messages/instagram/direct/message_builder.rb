@@ -21,7 +21,7 @@ class Messages::Instagram::Direct::MessageBuilder < Messages::Instagram::Direct:
     ActiveRecord::Base.transaction do
       build_message
     end
-    # TODO: Handle authentication error later
+  # TODO: Handle authentication error later
   # rescue Koala::Facebook::AuthenticationError => e
   #   Rails.logger.warn("Instagram authentication error for inbox: #{@inbox.id} with error: #{e.message}")
   #   Rails.logger.error e
@@ -121,6 +121,7 @@ class Messages::Instagram::Direct::MessageBuilder < Messages::Instagram::Direct:
   end
 
   def save_story_id
+    Rails.logger.info("Saving story id for Instagram Direct Message: #{@messaging}")
     return if story_reply_attributes.blank?
 
     @message.save_story_info(story_reply_attributes)
@@ -175,29 +176,51 @@ class Messages::Instagram::Direct::MessageBuilder < Messages::Instagram::Direct:
     unsupported_file_type?(attachments_type)
   end
 
-  ### Sample response
+  # Sample message response
   # {
-  #   "object": "instagram",
-  #   "entry": [
+  #   "time": <timestamp>,
+  #   "id": <CONNECT_CHANNEL_INSTAGRAM_USER_ID>, // Connect channel Instagram User ID
+  #   "messaging": [
   #     {
-  #       "id": "<IG_ID>",// ig id of the business
-  #       "time": 1569262486134,
-  #       "messaging": [
-  #         {
-  #           "sender": {
-  #             "id": "<IG_SENDER_ID>"
-  #           },
-  #           "recipient": {
-  #             "id": "<IG_RECIPIENT_ID>"
-  #           },
-  #           "timestamp": 1569262485349,
-  #           "message": {
-  #             "mid": "<MESSAGE_ID>",
-  #             "text": "<MESSAGE_CONTENT>"
-  #           }
-  #         }
-  #       ]
+  #       "sender": {
+  #         "id": <INSTAGRAM_USER_ID>
+  #       },
+  #       "recipient": {
+  #         "id": <CONNECT_CHANNEL_INSTAGRAM_USER_ID>
+  #       },
+  #       "timestamp": <timestamp>,
+  #       "message": {
+  #         "mid": <MESSAGE_ID>,
+  #         "text": <MESSAGE_TEXT>
+  #       }
   #     }
-  #   ],
+  #   ]
+  # }
+
+  # Sample story mention response
+  # {
+  #   "id": <CONNECT_CHANNEL_INSTAGRAM_USER_ID>, // Connect channel Instagram User ID
+  #   "messaging": [
+  #     {
+  #       "sender": {
+  #         "id": <SENDER_ID>
+  #       },
+  #       "recipient": {
+  #         "id": <RECIPIENT_ID>
+  #       },
+  #       "timestamp": 1741856516834,
+  #       "message": {
+  #         "mid": <MESSAGE_ID>,
+  #         "attachments": [
+  #           {
+  #             "type": "story_mention",
+  #             "payload": {
+  #               "url": <attachment_url>
+  #             }
+  #           }
+  #         ]
+  #       }
+  #     }
+  #   ]
   # }
 end
