@@ -360,7 +360,7 @@ export default {
 
 <template>
   <div
-    class="flex-grow flex-shrink w-full min-w-0 pl-0 pr-0 overflow-auto settings bg-n-solid-1"
+    class="flex-grow flex-shrink w-full min-w-0 pl-0 pr-0 overflow-auto settings"
   >
     <SettingIntroBanner
       :header-image="inbox.avatarUrl"
