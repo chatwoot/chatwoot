@@ -134,12 +134,6 @@ export default {
       currentChat: 'getSelectedChat',
       dashboardApps: 'dashboardApps/getRecords',
     }),
-    shoppingTabConfig() {
-      return {
-        type: 'frame',
-        url: 'http://localhost:3001',
-      };
-    },
     dashboardAppTabs() {
       return [
         {

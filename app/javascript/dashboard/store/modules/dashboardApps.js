@@ -25,7 +25,12 @@ export const actions = {
     commit(types.SET_DASHBOARD_APPS_UI_FLAG, { isFetching: true });
     try {
       const response = await DashboardAppsAPI.get();
-      commit(types.SET_DASHBOARD_APPS, response.data);
+
+      const filteredResponse = response.data.filter(
+        app => app.title !== 'Whatsapp Templates'
+      );
+
+      commit(types.SET_DASHBOARD_APPS, filteredResponse);
     } catch (error) {
       // Ignore error
     } finally {
