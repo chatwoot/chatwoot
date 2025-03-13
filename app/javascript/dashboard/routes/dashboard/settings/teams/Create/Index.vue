@@ -24,7 +24,7 @@ export default {
 
 <template>
   <div
-    class="overflow-auto p-4 max-w-full my-auto flex flex-row flex-nowrap h-full bg-n-slate-2 dark:bg-n-solid-1"
+    class="overflow-auto p-4 max-w-full my-auto flex flex-row flex-nowrap h-full"
   >
     <woot-wizard class="hidden md:block w-1/4" :items="items" />
     <router-view />
