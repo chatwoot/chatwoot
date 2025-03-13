@@ -12,6 +12,8 @@
     "NO_INBOX_2": " 始めましょう",
     "NO_INBOX_AGENT": "あなたに受信トレイが設定されていないようです。管理者に問い合わせてください。",
     "SEARCH_MESSAGES": "会話中のメッセージの検索",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "コマンドメニューを開く",
       "KEYBOARD_SHORTCUTS": "キーボードショートカットを表示する"
