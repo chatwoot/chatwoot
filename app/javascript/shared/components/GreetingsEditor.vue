@@ -19,7 +19,7 @@ const greetingsMessage = computed({
 </script>
 
 <template>
-  <section class="w-3/4">
+  <section>
     <div
       v-if="richtext"
       class="px-4 py-0 mx-0 mt-0 mb-4 rounded-lg outline outline-1 outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 bg-n-alpha-black2"

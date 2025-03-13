@@ -83,7 +83,7 @@ export default {
         :title="$t('AGENT_BOTS.BOT_CONFIGURATION.TITLE')"
         :sub-title="$t('AGENT_BOTS.BOT_CONFIGURATION.DESC')"
       >
-        <div class="w-3/5">
+        <div>
           <label>
             <select v-model="selectedAgentBotId">
               <option value="" disabled selected>

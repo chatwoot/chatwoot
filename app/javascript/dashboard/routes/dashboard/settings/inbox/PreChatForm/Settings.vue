@@ -110,7 +110,7 @@ export default {
         </select>
       </label>
       <div v-if="preChatFormEnabled">
-        <div class="w-[70%]">
+        <div>
           <label>
             {{ $t('INBOX_MGMT.PRE_CHAT_FORM.PRE_CHAT_MESSAGE.LABEL') }}
           </label>
@@ -122,7 +122,7 @@ export default {
             "
           />
         </div>
-        <div class="w-[70%] mt-4">
+        <div class="mt-4">
           <label>{{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS') }}</label>
           <table class="table w-full table-striped woot-table">
             <thead class="thead-dark">

@@ -138,7 +138,7 @@ export default {
           {{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_HELP') }}
         </p>
         <div v-if="isBusinessHoursEnabled" class="mb-6">
-          <div class="max-w-[37.5rem]">
+          <div>
             <label class="unavailable-input-wrap">
               {{ $t('INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_LABEL') }}
             </label>
@@ -196,8 +196,6 @@ export default {
 
 <style lang="scss" scoped>
 .timezone-input-wrap {
-  @apply max-w-[37.5rem];
-
   &::v-deep .multiselect {
     @apply mt-2;
   }
@@ -208,8 +206,6 @@ export default {
 }
 
 .unavailable-input-wrap {
-  @apply max-w-[37.5rem];
-
   textarea {
     @apply min-h-[4rem] mt-2;
   }

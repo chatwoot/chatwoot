@@ -401,7 +401,7 @@ export default {
         />
         <woot-input
           v-model="selectedInboxName"
-          class="w-3/4 pb-4"
+          class="pb-4"
           :class="{ error: v$.selectedInboxName.$error }"
           :label="inboxNameLabel"
           :placeholder="inboxNamePlaceHolder"
@@ -415,7 +415,7 @@ export default {
         <woot-input
           v-if="isAPIInbox"
           v-model="webhookUrl"
-          class="w-3/4 pb-4"
+          class="pb-4"
           :class="{ error: v$.webhookUrl.$error }"
           :label="
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.LABEL')
@@ -433,7 +433,7 @@ export default {
         <woot-input
           v-if="isAWebWidgetInbox"
           v-model="channelWebsiteUrl"
-          class="w-3/4 pb-4"
+          class="pb-4"
           :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.LABEL')"
           :placeholder="
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.PLACEHOLDER')
@@ -442,7 +442,7 @@ export default {
         <woot-input
           v-if="isAWebWidgetInbox"
           v-model="channelWelcomeTitle"
-          class="w-3/4 pb-4"
+          class="pb-4"
           :label="
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TITLE.LABEL')
           "
@@ -456,7 +456,7 @@ export default {
         <woot-input
           v-if="isAWebWidgetInbox"
           v-model="channelWelcomeTagline"
-          class="w-3/4 pb-4"
+          class="pb-4"
           :label="
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.LABEL')
           "
@@ -467,17 +467,17 @@ export default {
           "
         />
 
-        <label v-if="isAWebWidgetInbox" class="w-3/4 pb-4">
+        <label v-if="isAWebWidgetInbox" class="pb-4">
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
           <woot-color-picker v-model="inbox.widget_color" />
         </label>
 
-        <label v-if="isAWhatsAppChannel" class="w-3/4 pb-4">
+        <label v-if="isAWhatsAppChannel" class="pb-4">
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.LABEL') }}
           <input v-model="whatsAppAPIProviderName" type="text" disabled />
         </label>
 
-        <label class="w-3/4 pb-4">
+        <label class="pb-4">
           {{
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.LABEL')
           }}
@@ -521,7 +521,7 @@ export default {
             :richtext="!textAreaChannels"
           />
         </div>
-        <label v-if="isAWebWidgetInbox" class="w-3/4 pb-4">
+        <label v-if="isAWebWidgetInbox" class="pb-4">
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.TITLE') }}
           <select v-model="replyTime">
             <option key="in_a_few_minutes" value="in_a_few_minutes">
@@ -544,7 +544,7 @@ export default {
           </p>
         </label>
 
-        <label v-if="isAWebWidgetInbox" class="w-3/4 pb-4">
+        <label v-if="isAWebWidgetInbox" class="pb-4">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_EMAIL_COLLECT_BOX') }}
           <select v-model="emailCollectEnabled">
             <option :value="true">
@@ -561,7 +561,7 @@ export default {
           </p>
         </label>
 
-        <label class="w-3/4 pb-4">
+        <label class="pb-4">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT') }}
           <select v-model="csatSurveyEnabled">
             <option :value="true">
@@ -576,7 +576,7 @@ export default {
           </p>
         </label>
 
-        <label v-if="isAWebWidgetInbox" class="w-3/4 pb-4">
+        <label v-if="isAWebWidgetInbox" class="pb-4">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED') }}
           <select v-model="allowMessagesAfterResolved">
             <option :value="true">
@@ -595,7 +595,7 @@ export default {
           </p>
         </label>
 
-        <label v-if="isAWebWidgetInbox" class="w-3/4 pb-4">
+        <label v-if="isAWebWidgetInbox" class="pb-4">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CONTINUITY_VIA_EMAIL') }}
           <select v-model="continuityViaEmail">
             <option :value="true">
@@ -613,7 +613,7 @@ export default {
             }}
           </p>
         </label>
-        <div class="w-3/4 pb-4">
+        <div class="pb-4">
           <label>
             {{ $t('INBOX_MGMT.HELP_CENTER.LABEL') }}
           </label>
@@ -629,7 +629,7 @@ export default {
             {{ $t('INBOX_MGMT.HELP_CENTER.SUB_TEXT') }}
           </p>
         </div>
-        <label v-if="canLocktoSingleConversation" class="w-3/4 pb-4">
+        <label v-if="canLocktoSingleConversation" class="pb-4">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION') }}
           <select v-model="locktoSingleConversation">
             <option :value="true">
@@ -702,7 +702,7 @@ export default {
         :sub-title="$t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.SUB_TEXT')"
         :show-border="false"
       >
-        <div class="w-3/4 pb-4">
+        <div class="pb-4">
           <SenderNameExamplePreview
             :sender-name-type="senderNameType"
             :business-name="businessName"
