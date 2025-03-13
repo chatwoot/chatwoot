@@ -11,7 +11,7 @@ module CallIvrsolutionsHelper # rubocop:disable Metrics/ModuleLength
     if is_c2c
       case [agent_attended, customer_attended]
       when [ATTENDED, ATTENDED]
-        "Call completed with user\n\nCall Duration: #{call_duration}\nCall recording link: #{parsed_body['recording_url']}"
+        "Call completed with user\n\nCall Duration: #{call_duration} sec\nCall recording link: #{parsed_body['recording_url']}\nCall Id: #{parsed_body['recordid']}" # rubocop:disable Layout/LineLength
       when [ATTENDED, NOT_ATTENDED]
         "The call failed, as it couldn't be connected to the user."
       when [NOT_ATTENDED, NOT_ATTENDED], [NOT_ATTENDED, ATTENDED]
@@ -24,7 +24,7 @@ module CallIvrsolutionsHelper # rubocop:disable Metrics/ModuleLength
       when '0'
         "The call failed, as it couldn't be connected to the user."
       else
-        "Call completed with user\n\nCall Duration: #{call_duration}\nCall recording link: #{parsed_body['recording_url']}"
+        "Call completed with user\n\nCall Duration: #{call_duration} sec\nCall recording link: #{parsed_body['recording_url']}\nCall Id: #{parsed_body['recordid']}" # rubocop:disable Layout/LineLength
       end
     end
   end
@@ -38,7 +38,7 @@ module CallIvrsolutionsHelper # rubocop:disable Metrics/ModuleLength
       recipient: determine_recipient(parsed_body, is_c2c),
       senderCallStatus: determine_sender_status(parsed_body, is_c2c),
       recipientCallStatus: determine_recipient_status(parsed_body, is_c2c),
-      external: build_ivrsolutions_data(parsed_body, account.id),
+      external: build_ivrsolutions_data(parsed_body),
       metadata: build_metadata(parsed_body),
       timing: build_timing_data(parsed_body),
       recording: build_recording_data(parsed_body),
@@ -73,14 +73,14 @@ module CallIvrsolutionsHelper # rubocop:disable Metrics/ModuleLength
   def build_timing_data(parsed_body)
     {
       callInitiatedAt: parsed_body['call_time'],
-      onCallDuration: parsed_body['call_duration']
+      onCallDuration: parsed_body['call_duration'].to_i
     }
   end
 
-  def build_ivrsolutions_data(parsed_body, account_id)
+  def build_ivrsolutions_data(parsed_body)
     {
       callId: parsed_body['recordid'],
-      accountId: account_id,
+      accountId: parsed_body['did_no'].gsub(/^\+/, ''),
       phoneNumber: parsed_body['did_no'].gsub(/^\+/, '')
     }
   end

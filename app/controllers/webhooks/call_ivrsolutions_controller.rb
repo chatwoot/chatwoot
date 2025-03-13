@@ -50,17 +50,25 @@ class Webhooks::CallIvrsolutionsController < ActionController::API
 
   def create_call_log_message(conversation, parsed_body)
     call_log_message = get_call_log_string_ivr(parsed_body)
-    conversation.messages.create!(private_message_params(call_log_message, conversation))
+    conversation.messages.create!(private_message_params(call_log_message, conversation, parsed_body))
   end
 
-  def private_message_params(content, conversation)
-    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :outgoing, content: content, private: true }
+  def private_message_params(content, conversation, parsed_body)
+    time = Time.zone.parse(parsed_body['call_time'])
+    new_time = time - ((5 * 3600) + (30 * 60))
+    {
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      message_type: :outgoing,
+      content: content, private: true,
+      content_attributes: { external_created_at: new_time.to_i }
+    }
   end
 
   def send_call_log_to_bspd(parsed_body, conversation, account)
     Rails.logger.info "Sending call log to BSPD: #{parsed_body.inspect}"
     call_report = build_call_report_ivr_outbound(parsed_body, conversation, account)
-    Rails.logger.info "Call log sent to BSPD: #{call_report.inspect}"
+    Rails.logger.info "Call log sent to BSPD: #{call_report.to_json}"
     send_report_to_bspd(call_report)
   rescue StandardError => e
     handle_error(e)
