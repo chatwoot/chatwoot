@@ -264,6 +264,13 @@ export const mutations = {
         }
       }
 
+      if (window.newrelic) {
+        window.newrelic.log(
+          `processing conversation update for ${conversation.id} with incoming ${makeCompactJson(conversation)} and stored ${makeCompactJson(selectedConversation)}`,
+          { level: 'DEBUG' }
+        );
+      }
+
       const { messages, ...updates } = conversation;
       allConversations[index] = { ...selectedConversation, ...updates };
       if (_state.selectedChatId === conversation.id) {
