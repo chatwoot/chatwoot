@@ -54,21 +54,11 @@
             is-expanded
             class="button-new-label"
             :is-disabled="hasExactMatchInResults"
-            @click="showCreateModal"
+            @click="handleCreateClick"
           >
             {{ createLabelPlaceholder }}
             {{ parsedSearch }}
           </woot-button>
-
-          <woot-modal
-            :show.sync="createModalVisible"
-            :on-close="hideCreateModal"
-          >
-            <add-label-modal
-              :prefill-title="parsedSearch"
-              @close="hideCreateModal"
-            />
-          </woot-modal>
         </div>
       </div>
     </div>
@@ -78,14 +68,12 @@
 <script>
 import LabelDropdownItem from './LabelDropdownItem.vue';
 import Hotkey from 'dashboard/components/base/Hotkey.vue';
-import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
 import { picoSearch } from '@scmmishra/pico-search';
 import { sanitizeLabel } from 'shared/helpers/sanitizeData';
 
 export default {
   components: {
     LabelDropdownItem,
-    AddLabelModal,
     Hotkey,
   },
 
@@ -107,7 +95,6 @@ export default {
   data() {
     return {
       search: '',
-      createModalVisible: false,
     };
   },
 
@@ -172,13 +159,11 @@ export default {
         this.onAdd(label);
       }
     },
-
-    showCreateModal() {
-      this.createModalVisible = true;
-    },
-
-    hideCreateModal() {
-      this.createModalVisible = false;
+    handleCreateClick() {
+      this.$store.dispatch('createLabelModal/toggleShowCreateLabelModal', {
+        value: true,
+        title: this.parsedSearch,
+      });
     },
   },
 };

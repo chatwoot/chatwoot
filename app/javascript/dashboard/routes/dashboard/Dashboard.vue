@@ -42,8 +42,11 @@
         v-if="isNotificationPanel"
         @close="closeNotificationPanel"
       />
-      <woot-modal :show.sync="showAddLabelModal" :on-close="hideAddLabelPopup">
-        <add-label-modal @close="hideAddLabelPopup" />
+      <woot-modal :show.sync="createModalVisible" :on-close="hideAddLabelPopup">
+        <add-label-modal
+          :prefill-title="preFillTitle"
+          @close="hideAddLabelPopup"
+        />
       </woot-modal>
     </section>
   </div>
@@ -62,6 +65,7 @@ import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import wootConstants from 'dashboard/constants/globals';
 import EmailBroadcastModal from '../../components/layout/sidebarComponents/EmailBroadcastModal.vue';
 import WhatsappBroadcastModal from '../../components/layout/sidebarComponents/WhatsappBroadcastModal.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -80,7 +84,6 @@ export default {
     return {
       showAccountModal: false,
       showCreateAccountModal: false,
-      showAddLabelModal: false,
       showShortcutModal: false,
       isNotificationPanel: false,
       displayLayoutType: '',
@@ -89,6 +92,10 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      createModalVisible: 'createLabelModal/getShowCreateLabelModal',
+      preFillTitle: 'createLabelModal/getPreFillTitle',
+    }),
     currentRoute() {
       return ' ';
     },
@@ -176,10 +183,12 @@ export default {
       this.showShortcutModal = false;
     },
     showAddLabelPopup() {
-      this.showAddLabelModal = true;
+      this.$store.dispatch('createLabelModal/toggleShowCreateLabelModal', {
+        value: true,
+      });
     },
     hideAddLabelPopup() {
-      this.showAddLabelModal = false;
+      this.$store.dispatch('createLabelModal/closeShowCreateLabelModal');
     },
     openNotificationPanel() {
       this.isNotificationPanel = true;

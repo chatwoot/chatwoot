@@ -47,6 +47,7 @@ import webhooks from './modules/webhooks';
 import draftMessages from './modules/draftMessages';
 import SLAReports from './modules/SLAReports';
 import contactCallLogs from './modules/contactCallLogs';
+import createLabelModal from './modules/createLabelModal';
 
 const plugins = [];
 
@@ -66,6 +67,7 @@ export default new Vuex.Store({
     cannedResponse,
     categories,
     contactConversations,
+    createLabelModal,
     contactLabels,
     contactCallLogs,
     contactNotes,
