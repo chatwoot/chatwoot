@@ -120,6 +120,6 @@ class Instagram::Direct::MessageText < Instagram::WebhooksBaseService
   def create_message
     return unless @contact_inbox
 
-    Messages::Instagram::MessageBuilder.new(@messaging, @inbox, outgoing_echo: agent_message_via_echo?).perform
+    Messages::Instagram::Direct::MessageBuilder.new(@messaging, @inbox, outgoing_echo: agent_message_via_echo?).perform
   end
 end

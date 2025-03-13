@@ -4,7 +4,7 @@
 #    based on this we are showing "not sent from chatwoot" message in frontend
 #    Hence there is no need to set user_id in message for outgoing echo messages.
 
-class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
+class Messages::Instagram::Direct::MessageBuilder < Messages::Instagram::Direct::BaseBuilder
   attr_reader :messaging
 
   def initialize(messaging, inbox, outgoing_echo: false)
@@ -15,16 +15,18 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def perform
+    Rails.logger.info("Performing message builder for Instagram Direct Message: #{@messaging}")
     return if @inbox.channel.reauthorization_required?
 
     ActiveRecord::Base.transaction do
       build_message
     end
-  rescue Koala::Facebook::AuthenticationError => e
-    Rails.logger.warn("Instagram authentication error for inbox: #{@inbox.id} with error: #{e.message}")
-    Rails.logger.error e
-    @inbox.channel.authorization_error!
-    raise
+    # TODO: Handle authentication error later
+  # rescue Koala::Facebook::AuthenticationError => e
+  #   Rails.logger.warn("Instagram authentication error for inbox: #{@inbox.id} with error: #{e.message}")
+  #   Rails.logger.error e
+  #   @inbox.channel.authorization_error!
+  #   raise
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     true
@@ -106,6 +108,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def build_message
+    Rails.logger.info("Building message for Instagram Direct Message: #{@messaging}")
     return if @outgoing_echo && already_sent_from_chatwoot?
     return if message_content.blank? && all_unsupported_files?
 
@@ -177,15 +180,15 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   #   "object": "instagram",
   #   "entry": [
   #     {
-  #       "id": "<IGID>",// ig id of the business
+  #       "id": "<IG_ID>",// ig id of the business
   #       "time": 1569262486134,
   #       "messaging": [
   #         {
   #           "sender": {
-  #             "id": "<IGSID>"
+  #             "id": "<IG_SENDER_ID>"
   #           },
   #           "recipient": {
-  #             "id": "<IGID>"
+  #             "id": "<IG_RECIPIENT_ID>"
   #           },
   #           "timestamp": 1569262485349,
   #           "message": {

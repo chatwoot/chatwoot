@@ -2,7 +2,7 @@ class Messages::Messenger::MessageBuilder
   include ::FileTypeHelper
 
   def process_attachment(attachment)
-    # This check handles very rare case if there are multiple files to attach with only one usupported file
+    # This check handles very rare case if there are multiple files to attach with only one unsupported file
     return if unsupported_file_type?(attachment['type'])
 
     attachment_obj = @message.attachments.new(attachment_params(attachment).except(:remote_file_url))
