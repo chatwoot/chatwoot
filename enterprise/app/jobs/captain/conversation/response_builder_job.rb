@@ -7,7 +7,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @assistant = assistant
 
     ActiveRecord::Base.transaction do
-      detect_conversation_language
       generate_and_process_response
     end
   rescue StandardError => e
@@ -17,22 +16,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   private
 
   delegate :account, :inbox, to: :@conversation
-
-  def detect_conversation_language
-    # Skip if language is already detected
-    # If the account has google translate API enabled, it's possible that the language will already be detected
-    return if @conversation.additional_attributes&.dig('conversation_language').present?
-
-    last_message = @conversation.messages.incoming.last
-    return if last_message.blank? || last_message.content.blank?
-
-    language = Captain::Llm::LanguageDetectionService.new.detect(last_message.content)
-    return if language.blank?
-
-    @conversation.additional_attributes ||= {}
-    @conversation.additional_attributes['conversation_language'] = language
-    @conversation.save!
-  end
 
   def generate_and_process_response
     @response = Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
