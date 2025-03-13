@@ -34,6 +34,11 @@
       "PLACEHOLDER": "Confirm Password",
       "ERROR": "Password doesnot match"
     },
+    "PHONE_NUMBER": {
+      "LABEL": "Phone Number",
+      "PLACEHOLDER": "Phone Number",
+      "ERROR": "Please enter a valid phone number."
+    },
     "API": {
       "SUCCESS_MESSAGE": "Registration Successfull",
       "ERROR_MESSAGE": "Не можа да се свърже с Woot сървър. Моля, опитайте отново по-късно"

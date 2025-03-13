@@ -28,7 +28,8 @@ class Api::V1::AccountsController < Api::BaseController
       email: account_params[:email],
       user_password: account_params[:password],
       locale: account_params[:locale],
-      user: current_user
+      user: current_user,
+      phoneNumber:account_params[:phoneNumber]
     ).perform
     if @user
       send_auth_headers(@user)
@@ -83,7 +84,7 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def account_params
-    params.permit(:account_name, :email, :name, :password, :locale, :domain, :support_email, :auto_resolve_duration, :user_full_name)
+    params.permit(:account_name, :email, :name, :password, :locale, :domain, :support_email, :auto_resolve_duration, :user_full_name,:phoneNumber)
   end
 
   def custom_attributes_params
