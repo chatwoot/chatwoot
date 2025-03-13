@@ -3,7 +3,7 @@ class Instagram::Direct::MessageText < Instagram::WebhooksBaseService
 
   attr_reader :messaging
 
-  base_uri 'https://graph.instagram.com/v22.0/'
+  base_uri "https://graph.instagram.com/#{GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v22.0')}"
 
   def initialize(messaging, channel)
     super(channel)
@@ -11,6 +11,7 @@ class Instagram::Direct::MessageText < Instagram::WebhooksBaseService
   end
 
   def perform
+    Rails.logger.info("Instagram Direct Message Text: #{@messaging}")
     instagram_id, contact_id = instagram_and_contact_ids
     inbox_channel(instagram_id)
 
@@ -24,9 +25,6 @@ class Instagram::Direct::MessageText < Instagram::WebhooksBaseService
     return un_send_message if message_is_deleted?
 
     ensure_contact(contact_id) if contacts_first_message?(contact_id)
-
-    Rails.logger.info("Instagram Direct Message Text: #{@messaging}")
-
     create_message
   end
 
@@ -40,41 +38,60 @@ class Instagram::Direct::MessageText < Instagram::WebhooksBaseService
     end
   end
 
-  # rubocop:disable Metrics/AbcSize
   def ensure_contact(ig_scope_id)
-    begin
-      fields = 'name,username,profile_pic'
-      url = "https://graph.instagram.com/v22.0/#{ig_scope_id}?fields=#{fields}&access_token=#{@inbox.channel.access_token}"
-      Rails.logger.info("Instagram ID: #{ig_scope_id}")
-      Rails.logger.info("URL: #{url}")
-      response = HTTParty.get(url)
-
-      if response.success?
-        result = JSON.parse(response.body).with_indifferent_access
-        # Ensure all fields are present and in the same format
-        result = {
-          'name' => result['name'],
-          'username' => result['username'],
-          'profile_pic' => result['profile_pic'],
-          'id' => result['id']
-        }.with_indifferent_access
-      else
-        Rails.logger.error("Instagram API Error: #{response.code} - #{response.body}")
-        result = {}
-      end
-    rescue HTTParty::Error => e
-      @inbox.channel.authorization_error! if e.response&.code == 401
-      Rails.logger.warn("Authorization error for account #{@inbox.account_id} for inbox #{@inbox.id}")
-      ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
-    rescue StandardError => e
-      Rails.logger.warn("[InstagramUserFetchError]: account_id #{@inbox.account_id} inbox_id #{@inbox.id}")
-      Rails.logger.warn("[InstagramUserFetchError]: #{e.message}")
-      ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
-    end
-
-    find_or_create_contact(result) if defined?(result) && result.present?
+    result = fetch_instagram_user(ig_scope_id)
+    find_or_create_contact(result) if result.present?
   end
-  # rubocop:enable Metrics/AbcSize
+
+  def fetch_instagram_user(ig_scope_id)
+    fields = 'name,username,profile_pic,follower_count,is_user_follow_business,is_business_follow_user'
+    url = "#{self.class.base_uri}/#{ig_scope_id}?fields=#{fields}&access_token=#{@inbox.channel.access_token}"
+
+    response = HTTParty.get(url)
+    Rails.logger.info("Instagram Contact Response: #{response.body}")
+
+    return process_successful_response(response) if response.success?
+
+    handle_error_response(response)
+    {}
+  rescue HTTParty::Error => e
+    handle_auth_error(e)
+    {}
+  rescue StandardError => e
+    handle_standard_error(e)
+    {}
+  end
+
+  def process_successful_response(response)
+    result = JSON.parse(response.body).with_indifferent_access
+    {
+      'name' => result['name'],
+      'username' => result['username'],
+      'profile_pic' => result['profile_pic'],
+      'id' => result['id'],
+      'follower_count' => result['follower_count'],
+      'is_user_follow_business' => result['is_user_follow_business'],
+      'is_business_follow_user' => result['is_business_follow_user']
+    }.with_indifferent_access
+  end
+
+  def handle_error_response(response)
+    Rails.logger.error("Instagram API Error: #{response.code} - #{response.body}")
+  end
+
+  def handle_auth_error(error)
+    if error.response&.code == 401
+      @inbox.channel.authorization_error!
+      Rails.logger.warn("Authorization error for account #{@inbox.account_id} for inbox #{@inbox.id}")
+    end
+    ChatwootExceptionTracker.new(error, account: @inbox.account).capture_exception
+  end
+
+  def handle_standard_error(error)
+    Rails.logger.warn("[InstagramUserFetchError]: account_id #{@inbox.account_id} inbox_id #{@inbox.id}")
+    Rails.logger.warn("[InstagramUserFetchError]: #{error.message}")
+    ChatwootExceptionTracker.new(error, account: @inbox.account).capture_exception
+  end
 
   def agent_message_via_echo?
     @messaging[:message][:is_echo].present?
@@ -101,9 +118,6 @@ class Instagram::Direct::MessageText < Instagram::WebhooksBaseService
   end
 
   def create_message
-    Rails.logger.info("Contact Inbox: #{@contact_inbox}")
-    Rails.logger.info("Inbox: #{@inbox}")
-    Rails.logger.info("Agent Message via Echo: #{agent_message_via_echo?}")
     return unless @contact_inbox
 
     Messages::Instagram::MessageBuilder.new(@messaging, @inbox, outgoing_echo: agent_message_via_echo?).perform

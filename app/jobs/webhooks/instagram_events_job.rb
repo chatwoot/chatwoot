@@ -14,7 +14,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
     end
   end
 
-  # @see https://developers.facebook.com/docs/messenger-platform/instagram/features/webhook
+  # https://developers.facebook.com/docs/messenger-platform/instagram/features/webhook
   def process_entries(entries)
     entries.each do |entry|
       entry = entry.with_indifferent_access
@@ -44,7 +44,9 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   end
 
   def find_channel(instagram_account_id)
-    # First try to find Instagram direct channel
+    # There will be chances for the instagram account to be connected to a facebook page,
+    # so we need to check for both instagram and facebook page channels
+    # priority is instagram direct channel
     channel = Channel::Instagram.find_by(instagram_id: instagram_account_id)
     # If not found, fallback to Facebook page channel
     channel ||= Channel::FacebookPage.find_by(instagram_id: instagram_account_id)
@@ -77,7 +79,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   end
 end
 
-# Sample response
+# Actual response from Instagram webhook if the user has sent a message
 # [
 #   {
 #     "time": <timestamp>,
@@ -94,6 +96,32 @@ end
 #         "message": {
 #           "mid": <MESSAGE_ID>,
 #           "text": <MESSAGE_TEXT>
+#         }
+#       }
+#     ]
+#   }
+# ]
+
+# Test response from Instagram webhook via developer platform
+# [
+#   {
+#     "id": "0",
+#     "time": <timestamp>,
+#     "changes": [
+#       {
+#         "field": "messages",
+#         "value": {
+#           "sender": {
+#             "id": "12334"
+#           },
+#           "recipient": {
+#             "id": "23245"
+#           },
+#           "timestamp": "1527459824",
+#           "message": {
+#             "mid": "random_mid",
+#             "text": "random_text"
+#           }
 #         }
 #       }
 #     ]

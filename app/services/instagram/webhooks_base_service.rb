@@ -30,8 +30,15 @@ class Instagram::WebhooksBaseService
     return unless user['username']
 
     # TODO: Remove this once we show the social_instagram_user_name in the UI instead of the username
-    @contact.additional_attributes = @contact.additional_attributes.merge({ 'social_profiles': { 'instagram': user['username'] } })
-    @contact.additional_attributes = @contact.additional_attributes.merge({ 'social_instagram_user_name': user['username'] })
-    @contact.save
+    instagram_attributes = {
+      'social_profiles': { 'instagram': user['username'] },
+      'social_instagram_user_name': user['username']
+    }
+
+    instagram_attributes['social_instagram_follower_count'] = user['follower_count'] if user['follower_count']
+    instagram_attributes['social_instagram_is_user_follow_business'] = user['is_user_follow_business'] if user['is_user_follow_business']
+    instagram_attributes['social_instagram_is_business_follow_user'] = user['is_business_follow_user'] if user['is_business_follow_user']
+
+    @contact.update!(additional_attributes: @contact.additional_attributes.merge(instagram_attributes))
   end
 end
