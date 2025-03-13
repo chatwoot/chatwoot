@@ -33,7 +33,7 @@ const showNewButton = computed(
         :back-url="backUrl"
         :show-new-button="showNewButton"
         :show-sidemenu-icon="showSidemenuIcon"
-        class="sticky top-0 z-10"
+        class="sticky top-0 z-20"
       />
 
       <router-view v-slot="{ Component }" class="px-5 flex-1 overflow-hidden">
