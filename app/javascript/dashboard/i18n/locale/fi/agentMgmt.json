@@ -105,6 +105,9 @@
         "AGENT": "Select agent",
         "TEAM": "Select team"
       },
+      "LIST": {
+        "NONE": "None"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Edustajia ei löytynyt",

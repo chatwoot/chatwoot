@@ -6,6 +6,7 @@ import { MESSAGE_STATUS } from 'shared/constants/messages';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
+import * as Sentry from '@sentry/vue';
 
 const state = {
   allConversations: [],
@@ -209,16 +210,30 @@ export const mutations = {
 
   [types.UPDATE_CONVERSATION](_state, conversation) {
     const { allConversations } = _state;
-    const currentConversationIndex = allConversations.findIndex(
-      c => c.id === conversation.id
-    );
-    if (currentConversationIndex > -1) {
-      const { messages, ...conversationAttributes } = conversation;
-      const currentConversation = {
-        ...allConversations[currentConversationIndex],
-        ...conversationAttributes,
-      };
-      allConversations[currentConversationIndex] = currentConversation;
+    const index = allConversations.findIndex(c => c.id === conversation.id);
+
+    if (index > -1) {
+      const selectedConversation = allConversations[index];
+
+      // ignore out of order events
+      if (conversation.updated_at < selectedConversation.updated_at) {
+        Sentry.withScope(scope => {
+          scope.setContext('incoming', conversation);
+          scope.setContext('stored', selectedConversation);
+          scope.setContext('incoming_meta', conversation.meta);
+          scope.setContext('stored_meta', selectedConversation.meta);
+          Sentry.captureMessage('Conversation update mismatch');
+        });
+
+        return;
+      }
+
+      if (conversation.updated_at === selectedConversation.updated_at) {
+        return;
+      }
+
+      const { messages, ...updates } = conversation;
+      allConversations[index] = { ...selectedConversation, ...updates };
       if (_state.selectedChatId === conversation.id) {
         emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
         emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
