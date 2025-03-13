@@ -63,11 +63,11 @@ const dropdownValues = () => {
       class="absolute cursor-move -left-8 macros__node-drag-handle"
     />
     <div
-      class="flex-grow p-2 mr-2 rounded-md shadow-sm"
+      class="flex-grow p-2 mr-2 rounded-md shadow-sm outline outline-1 outline-n-weak"
       :class="
         errorKey
-          ? 'bg-red-50 animate-shake dark:bg-red-800'
-          : 'bg-n-slate-2 dark:bg-n-solid-3'
+          ? 'animate-shake bg-n-ruby-8/20 outline-n-ruby-5 dark:outline-n-ruby-5'
+          : 'bg-n-background dark:bg-n-solid-1'
       "
     >
       <ActionInput
