@@ -218,6 +218,7 @@ export const mutations = {
       // ignore out of order events
       if (conversation.updated_at < selectedConversation.updated_at) {
         Sentry.withScope(scope => {
+          scope.setTag('conversation_id', conversation.id);
           scope.setContext('incoming', conversation);
           scope.setContext('stored', selectedConversation);
           scope.setContext('incoming_meta', conversation.meta);
@@ -229,26 +230,17 @@ export const mutations = {
         return;
       }
 
+      // in case the timestamp is the same, we track it and let it update
       if (conversation.updated_at === selectedConversation.updated_at) {
-        const differentAssignee =
-          conversation.meta?.assignee?.id !==
-          selectedConversation.meta?.assignee?.id;
+        Sentry.withScope(scope => {
+          scope.setTag('conversation_id', conversation.id);
+          scope.setContext('incoming', conversation);
+          scope.setContext('stored', selectedConversation);
+          scope.setContext('incoming_meta', conversation.meta);
+          scope.setContext('stored_meta', selectedConversation.meta);
 
-        const differentTeams =
-          conversation.meta?.team?.id !== selectedConversation.meta?.team?.id;
-
-        if (differentTeams || differentAssignee) {
-          Sentry.withScope(scope => {
-            scope.setContext('incoming', conversation);
-            scope.setContext('stored', selectedConversation);
-            scope.setContext('incoming_meta', conversation.meta);
-            scope.setContext('stored_meta', selectedConversation.meta);
-
-            Sentry.captureMessage('Conversation update overlap');
-          });
-        }
-
-        return;
+          Sentry.captureMessage('Conversation update overlap');
+        });
       }
 
       const { messages, ...updates } = conversation;
