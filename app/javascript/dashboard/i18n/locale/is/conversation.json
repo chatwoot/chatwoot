@@ -12,6 +12,8 @@
     "NO_INBOX_2": " til að byrja",
     "NO_INBOX_AGENT": "Uh Ó! Þú virðist ekki vera hluti af neinu innhólfi. Vinsamlegast hafðu samband við kerfisstjóra",
     "SEARCH_MESSAGES": "Leita að skilaboðum í samtölum",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "to open command menu",
       "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
