@@ -25,6 +25,8 @@ class MessageTemplates::HookExecutionService
     return false if conversation.tweet?
     # should not send for outbound messages
     return false unless message.incoming?
+    # should not send if there are outgoing messages in last 5 minutes
+    return false if conversation.messages.outgoing.exists?(['created_at > ?', 5.minutes.ago])
 
     inbox.out_of_office? && conversation.messages.today.template.empty? && inbox.out_of_office_message.present?
   end
