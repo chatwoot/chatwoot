@@ -34,6 +34,11 @@
       "PLACEHOLDER": "Konfirmasi Kata Sandi",
       "ERROR": "Kata Sandi tidak cocok"
     },
+    "PHONE_NUMBER": {
+    "LABEL": "Nomor Telepon",
+    "PLACEHOLDER": "Masukkan nomor telepon",
+    "ERROR": "Silakan masukkan nomor telepon yang valid."
+    },
     "API": {
       "SUCCESS_MESSAGE": "Pendaftaran Berhasil",
       "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"

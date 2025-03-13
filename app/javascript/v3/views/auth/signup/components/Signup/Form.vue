@@ -30,6 +30,7 @@ export default {
         accountName: '',
         fullName: '',
         email: '',
+        phoneNumber: '',
         password: '',
         hCaptchaClientResponse: '',
       },
@@ -55,6 +56,10 @@ export default {
           businessEmailValidator(value) {
             return CompanyEmailValidator.isCompanyEmail(value);
           },
+        },
+        phoneNumber: {
+          required,
+          minLength: minLength(10),
         },
         password: {
           required,
@@ -170,6 +175,17 @@ export default {
         :has-error="v$.credentials.email.$error"
         :error-message="$t('REGISTER.EMAIL.ERROR')"
         @blur="v$.credentials.email.$touch"
+      />
+      <FormInput
+        v-model="credentials.phoneNumber"
+        type="tel"
+        name="phone_number"
+        :class="{ error: v$.credentials.phoneNumber.$error }"
+        :label="$t('REGISTER.PHONE_NUMBER.LABEL')"
+        :placeholder="$t('REGISTER.PHONE_NUMBER.PLACEHOLDER')"
+        :has-error="v$.credentials.phoneNumber.$error"
+        :error-message="$t('REGISTER.PHONE_NUMBER.ERROR')"
+        @blur="v$.credentials.phoneNumber.$touch"
       />
       <FormInput
         v-model="credentials.password"
