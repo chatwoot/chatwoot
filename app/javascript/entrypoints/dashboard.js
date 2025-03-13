@@ -21,8 +21,6 @@ import router, { initalizeRouter } from 'dashboard/routes';
 import store from 'dashboard/store';
 import constants from 'dashboard/constants/globals';
 import * as Sentry from '@sentry/vue';
-import { BrowserAgent } from '@newrelic/browser-agent/loaders/browser-agent';
-import { Logging } from '@newrelic/browser-agent/features/logging';
 
 import {
   initializeAnalyticsEvents,
@@ -49,13 +47,6 @@ const app = createApp(App);
 app.use(i18n);
 app.use(store);
 app.use(router);
-
-window.startNewRelic = options => {
-  return new BrowserAgent({
-    ...options,
-    features: [Logging],
-  });
-};
 
 window.logrelic = (message, options = {}) => {
   if (window.newrelic) {
