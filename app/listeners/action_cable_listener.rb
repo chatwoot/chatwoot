@@ -23,136 +23,76 @@ class ActionCableListener < BaseListener
 
   def account_cache_invalidated(event)
     account = event.data[:account]
-    tokens = user_tokens(account, account.agents)
-
-    broadcast(account, tokens, ACCOUNT_CACHE_INVALIDATED, {
-                cache_keys: event.data[:cache_keys]
-              })
+    broadcast(account, account_stream(account), ACCOUNT_CACHE_INVALIDATED, { cache_keys: event.data[:cache_keys] })
   end
 
   def message_created(event)
-    message, account = extract_message_and_account(event)
-    conversation = message.conversation
-    tokens = user_tokens(account, conversation.inbox.members) + contact_tokens(conversation.contact_inbox, message)
-
-    broadcast(account, tokens, MESSAGE_CREATED, message.push_event_data)
+    broadcast_message_event(MESSAGE_CREATED, event)
+    broadcast_message_event_to_contact(MESSAGE_CREATED, event)
   end
 
   def message_updated(event)
-    message, account = extract_message_and_account(event)
-    conversation = message.conversation
-    tokens = user_tokens(account, conversation.inbox.members) + contact_tokens(conversation.contact_inbox, message)
-
-    broadcast(account, tokens, MESSAGE_UPDATED, message.push_event_data.merge(previous_changes: event.data[:previous_changes]))
+    broadcast_message_event(MESSAGE_UPDATED, event)
+    broadcast_message_event_to_contact(MESSAGE_UPDATED, event)
   end
 
   def first_reply_created(event)
-    message, account = extract_message_and_account(event)
-    conversation = message.conversation
-    tokens = user_tokens(account, conversation.inbox.members)
-
-    broadcast(account, tokens, FIRST_REPLY_CREATED, message.push_event_data)
+    broadcast_message_event(FIRST_REPLY_CREATED, event)
   end
 
   def conversation_created(event)
-    conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members) + contact_inbox_tokens(conversation.contact_inbox)
-
-    broadcast(account, tokens, CONVERSATION_CREATED, conversation.push_event_data)
+    broadcast_conversation_event_to_contact(CONVERSATION_CREATED, event)
+    broadcast_conversation_event(CONVERSATION_CREATED, event)
   end
 
   def conversation_read(event)
-    conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members)
-
-    broadcast(account, tokens, CONVERSATION_READ, conversation.push_event_data)
+    broadcast_conversation_event(CONVERSATION_READ, event)
   end
 
   def conversation_status_changed(event)
-    conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members) + contact_inbox_tokens(conversation.contact_inbox)
-
-    broadcast(account, tokens, CONVERSATION_STATUS_CHANGED, conversation.push_event_data)
+    broadcast_conversation_event_to_contact(CONVERSATION_STATUS_CHANGED, event)
+    broadcast_conversation_event(CONVERSATION_STATUS_CHANGED, event)
   end
 
   def conversation_updated(event)
-    conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members) + contact_inbox_tokens(conversation.contact_inbox)
-
-    broadcast(account, tokens, CONVERSATION_UPDATED, conversation.push_event_data)
+    broadcast_conversation_event_to_contact(CONVERSATION_UPDATED, event)
+    broadcast_conversation_event(CONVERSATION_UPDATED, event)
   end
 
   def conversation_typing_on(event)
-    conversation = event.data[:conversation]
-    account = conversation.account
-    user = event.data[:user]
-    tokens = typing_event_listener_tokens(account, conversation, user)
-
-    broadcast(
-      account,
-      tokens,
-      CONVERSATION_TYPING_ON,
-      conversation: conversation.push_event_data,
-      user: user.push_event_data,
-      is_private: event.data[:is_private] || false
-    )
+    broadcast_typing_event(CONVERSATION_TYPING_ON, event)
   end
 
   def conversation_typing_off(event)
-    conversation = event.data[:conversation]
-    account = conversation.account
-    user = event.data[:user]
-    tokens = typing_event_listener_tokens(account, conversation, user)
-
-    broadcast(
-      account,
-      tokens,
-      CONVERSATION_TYPING_OFF,
-      conversation: conversation.push_event_data,
-      user: user.push_event_data,
-      is_private: event.data[:is_private] || false
-    )
+    broadcast_typing_event(CONVERSATION_TYPING_OFF, event)
   end
 
   def assignee_changed(event)
-    conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members)
-
-    broadcast(account, tokens, ASSIGNEE_CHANGED, conversation.push_event_data)
+    broadcast_conversation_event(ASSIGNEE_CHANGED, event)
   end
 
   def team_changed(event)
-    conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members)
-
-    broadcast(account, tokens, TEAM_CHANGED, conversation.push_event_data)
+    broadcast_conversation_event(TEAM_CHANGED, event)
   end
 
   def conversation_contact_changed(event)
-    conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members)
-
-    broadcast(account, tokens, CONVERSATION_CONTACT_CHANGED, conversation.push_event_data)
+    broadcast_conversation_event(CONVERSATION_CONTACT_CHANGED, event)
   end
 
   def contact_created(event)
-    contact, account = extract_contact_and_account(event)
-    broadcast(account, [account_token(account)], CONTACT_CREATED, contact.push_event_data)
+    broadcast_contact_event(CONTACT_CREATED, event)
   end
 
   def contact_updated(event)
-    contact, account = extract_contact_and_account(event)
-    broadcast(account, [account_token(account)], CONTACT_UPDATED, contact.push_event_data)
+    broadcast_contact_event(CONTACT_UPDATED, event)
   end
 
   def contact_merged(event)
-    contact, account = extract_contact_and_account(event)
-    broadcast(account, [account_token(account)], CONTACT_MERGED, contact.push_event_data)
+    broadcast_contact_event(CONTACT_MERGED, event)
   end
 
   def contact_deleted(event)
-    contact, account = extract_contact_and_account(event)
-    broadcast(account, [account_token(account)], CONTACT_DELETED, contact.push_event_data)
+    broadcast_contact_event(CONTACT_DELETED, event)
   end
 
   def conversation_mentioned(event)
@@ -164,19 +104,55 @@ class ActionCableListener < BaseListener
 
   private
 
-  def account_token(account)
-    "account_#{account.id}"
+  def account_stream(account)
+    ["account_#{account.id}"]
   end
 
-  def typing_event_listener_tokens(account, conversation, user)
-    current_user_token = user.is_a?(Contact) ? conversation.contact_inbox.pubsub_token : user.pubsub_token
-    (user_tokens(account, conversation.inbox.members) + [conversation.contact_inbox.pubsub_token]) - [current_user_token]
+  def inbox_stream(inbox)
+    ["inbox_#{inbox.id}"]
   end
 
-  def user_tokens(account, agents)
-    agent_tokens = agents.pluck(:pubsub_token)
-    admin_tokens = account.administrators.pluck(:pubsub_token)
-    (agent_tokens + admin_tokens).uniq
+  def broadcast_contact_event(event_name, event_data)
+    contact, account = extract_contact_and_account(event_data)
+    broadcast(account, account_stream(account), event_name, contact.push_event_data)
+  end
+
+  def broadcast_conversation_event(event_name, event_data)
+    conversation, account = extract_conversation_and_account(event_data)
+    broadcast(account, inbox_stream(conversation.inbox), event_name, conversation.push_event_data)
+  end
+
+  def broadcast_message_event(event_name, event_data)
+    message, account = extract_message_and_account(event_data)
+    broadcast(account, inbox_stream(message.inbox), event_name, message.push_event_data)
+  end
+
+  def broadcast_conversation_event_to_contact(event_name, event_data)
+    conversation, account = extract_conversation_and_account(event_data)
+    tokens = contact_inbox_tokens(conversation.contact_inbox)
+    broadcast(account, tokens, event_name, conversation.push_event_data)
+  end
+
+  def broadcast_message_event_to_contact(event_name, event_data)
+    message, account = extract_message_and_account(event_data)
+    tokens = contact_tokens(message.conversation.contact_inbox, message)
+    broadcast(account, tokens, event_name, message.push_event_data)
+  end
+
+  def broadcast_typing_event(event_name, event_data)
+    conversation = event_data[:conversation]
+    account = conversation.account
+    user = event_data[:user]
+    tokens = typing_event_listener_tokens(account, conversation, user)
+
+    broadcast(
+      account,
+      tokens,
+      event_name,
+      conversation: conversation.push_event_data,
+      user: user.push_event_data,
+      is_private: event.data[:is_private] || false
+    )
   end
 
   def contact_tokens(contact_inbox, message)
