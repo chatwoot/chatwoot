@@ -48,6 +48,14 @@ export default {
       path: frontendURL('accounts/:accountId/settings/integrations'),
       component: SettingsContent,
       props: params => {
+        const integrationId = params.params?.integration_id;
+        const hideHeader = ['dialogflow'].includes(integrationId);
+
+        // Don't show header
+        if (hideHeader) {
+          return {};
+        }
+
         const showBackButton = params.name !== 'settings_integrations';
         const backUrl =
           params.name === 'settings_integrations_integration'
