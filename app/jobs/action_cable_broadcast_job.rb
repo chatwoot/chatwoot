@@ -13,8 +13,13 @@ class ActionCableBroadcastJob < ApplicationJob
   def perform(members, event_name, data)
     return if members.blank?
 
+    log_message = "[RealtimeBroadcastJob] Broadcasting event=#{event_name} members=#{members.size}"
+    log_message += " member_list=#{members}" if event_name.to_s.start_with?('contact')
+    Rails.logger.info(log_message)
+
     broadcast_data = prepare_broadcast_data(event_name, data)
     broadcast_to_members(members, event_name, broadcast_data)
+    Rails.logger.info('[RealtimeBroadcastJob] Broadcast completed')
   end
 
   private
