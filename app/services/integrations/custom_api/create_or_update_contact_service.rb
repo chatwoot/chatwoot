@@ -29,7 +29,7 @@ class Integrations::CustomApi::CreateOrUpdateContactService
       email: @account_data['email'],
       phone_number: @formated_phone_number,
       identifier: @account_data['document'],
-      custom_attributes: { :shipping_address => create_address_line(@data['shippingAddress']) },
+      custom_attributes: { :shipping_address => @data && @data['shippingAddress'] ? create_address_line(@data['shippingAddress']) : nil },
       additional_attributes: { :integration => @custom_api['name'], :id_from_integration => @account_data['id'] }
     )
   end
