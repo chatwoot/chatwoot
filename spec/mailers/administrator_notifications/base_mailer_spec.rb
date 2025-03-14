@@ -38,6 +38,10 @@ RSpec.describe AdministratorNotifications::BaseMailer do
   end
 
   describe 'send_notification' do
+    before do
+      allow(mailer).to receive(:smtp_config_set_or_development?).and_return(true)
+    end
+
     it 'sends email with correct parameters' do
       subject = 'Test Subject'
       action_url = 'https://example.com'
