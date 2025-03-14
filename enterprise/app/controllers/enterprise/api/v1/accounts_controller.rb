@@ -82,10 +82,7 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   end
 
   def unmark_for_deletion
-    @account.custom_attributes.delete('marked_for_deletion_at')
-    @account.custom_attributes.delete('marked_for_deletion_reason')
-
-    if @account.save
+    if @account.unmark_for_deletion
       render json: { message: 'Account unmarked for deletion' }, status: :ok
     else
       render json: { message: @account.errors.full_messages.join(', ') }, status: :unprocessable_entity
