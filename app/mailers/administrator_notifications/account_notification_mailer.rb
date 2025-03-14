@@ -1,8 +1,5 @@
 class AdministratorNotifications::AccountNotificationMailer < AdministratorNotifications::BaseMailer
   def account_deletion(account, reason = 'manual_deletion')
-    @account = account
-    Current.account = account
-
     subject = 'Your account has been marked for deletion'
     action_url = settings_url('general')
     meta = {
