@@ -1,14 +1,23 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
+import BaseSettingsHeader from 'dashboard/routes/dashboard/settings/components/BaseSettingsHeader.vue';
+
 export default {
+  components: {
+    BaseSettingsHeader,
+  },
   props: {
     integrationId: {
       type: String,
       required: true,
     },
+    showAddButton: {
+      type: Boolean,
+      default: false,
+    },
   },
-  emits: ['delete'],
+  emits: ['delete', 'add'],
   setup(props) {
     const { integration, isHookTypeInbox, hasConnectedHooks } =
       useIntegrationHook(props.integrationId);
@@ -45,11 +54,37 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-row gap-4">
-    <div class="w-full lg:w-3/5">
+  <div class="flex flex-col flex-1 gap-8 overflow-auto">
+    <BaseSettingsHeader
+      :title="integration.name"
+      :description="
+        $t(
+          `INTEGRATION_APPS.SIDEBAR_DESCRIPTION.${integration.name.toUpperCase()}`,
+          { installationName: globalConfig.installationName }
+        )
+      "
+      :feature-name="integrationId"
+      :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
+    >
+      <template #actions>
+        <woot-button
+          v-if="showAddButton"
+          class="rounded-md button nice"
+          icon="add-circle"
+          @click="$emit('add')"
+        >
+          {{ $t('INTEGRATION_APPS.ADD_BUTTON') }}
+        </woot-button>
+      </template>
+    </BaseSettingsHeader>
+    <div class="w-full">
       <table v-if="hasConnectedHooks" class="woot-table">
         <thead>
-          <th v-for="hookHeader in hookHeaders" :key="hookHeader">
+          <th
+            v-for="hookHeader in hookHeaders"
+            :key="hookHeader"
+            class="ltr:!pl-0 rtl:!pr-0"
+          >
             {{ hookHeader }}
           </th>
           <th v-if="isHookTypeInbox">
@@ -61,7 +96,7 @@ export default {
             <td
               v-for="property in hook.properties"
               :key="property"
-              class="break-words"
+              class="ltr:!pl-0 rtl:!pr-0"
             >
               {{ property }}
             </td>
@@ -89,19 +124,6 @@ export default {
           })
         }}
       </p>
-    </div>
-    <div class="hidden w-1/3 lg:block">
-      <p>
-        <b>{{ integration.name }}</b>
-      </p>
-      <p
-        v-dompurify-html="
-          $t(
-            `INTEGRATION_APPS.SIDEBAR_DESCRIPTION.${integration.name.toUpperCase()}`,
-            { installationName: globalConfig.installationName }
-          )
-        "
-      />
     </div>
   </div>
 </template>

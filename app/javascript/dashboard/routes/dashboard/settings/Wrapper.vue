@@ -25,6 +25,7 @@ const showNewButton = computed(
   <div class="flex flex-1 flex-col m-0 bg-n-background overflow-auto">
     <div class="max-w-6xl mx-auto w-full flex flex-col flex-1">
       <SettingsHeader
+        v-if="headerTitle || icon || showBackButton || showNewButton"
         button-route="new"
         :icon="icon"
         :header-title="t(headerTitle)"
