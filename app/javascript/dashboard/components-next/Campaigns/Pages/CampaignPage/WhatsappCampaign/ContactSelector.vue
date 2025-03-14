@@ -181,15 +181,47 @@ const filteredContacts = computed(() => {
 });
 
 const hasAppliedFilters = computed(() =>
-  appliedFilters.value.some(
-    filter => filter.values && filter.values.trim() !== ''
-  )
+  appliedFilters.value.some(filter => {
+    if (filter.values === null || filter.values === undefined) {
+      return false;
+    }
+
+    if (typeof filter.values === 'string') {
+      return filter.values.trim() !== '';
+    }
+
+    if (Array.isArray(filter.values)) {
+      return filter.values.length > 0;
+    }
+
+    if (typeof filter.values === 'object') {
+      return Object.keys(filter.values).length > 0;
+    }
+
+    return !!filter.values;
+  })
 );
 
 const shouldShowLoadingTrigger = computed(() => {
-  const hasActiveFilters = appliedFilters.value.some(
-    filter => filter.values.trim() !== ''
-  );
+  const hasActiveFilters = appliedFilters.value.some(filter => {
+    if (filter.values === null || filter.values === undefined) {
+      return false;
+    }
+
+    if (typeof filter.values === 'string') {
+      return filter.values.trim() !== '';
+    }
+
+    if (Array.isArray(filter.values)) {
+      return filter.values.length > 0;
+    }
+
+    if (typeof filter.values === 'object') {
+      return Object.keys(filter.values).length > 0;
+    }
+
+    return !!filter.values;
+  });
   return hasActiveFilters
     ? currentPage.value < totalPages.value
     : props.hasMore;
@@ -235,9 +267,25 @@ const setupInfiniteScroll = () => {
 
   observer.value = new IntersectionObserver(async ([entry]) => {
     if (entry && entry.isIntersecting) {
-      const hasActiveFilters = appliedFilters.value.some(
-        filter => filter.values.trim() !== ''
-      );
+      const hasActiveFilters = appliedFilters.value.some(filter => {
+        if (filter.values === null || filter.values === undefined) {
+          return false;
+        }
+
+        if (typeof filter.values === 'string') {
+          return filter.values.trim() !== '';
+        }
+
+        if (Array.isArray(filter.values)) {
+          return filter.values.length > 0;
+        }
+
+        if (typeof filter.values === 'object') {
+          return Object.keys(filter.values).length > 0;
+        }
+
+        return !!filter.values;
+      });
 
       if (hasActiveFilters) {
         if (
@@ -285,9 +333,25 @@ const clearSelection = () => {
 const selectAll = async () => {
   if (isFetchingAllPages.value) return;
   isSelectingAll.value = true;
-  const hasActiveFilters = appliedFilters.value.some(
-    filter => filter.values.trim() !== ''
-  );
+  const hasActiveFilters = appliedFilters.value.some(filter => {
+    if (filter.values === null || filter.values === undefined) {
+      return false;
+    }
+
+    if (typeof filter.values === 'string') {
+      return filter.values.trim() !== '';
+    }
+
+    if (Array.isArray(filter.values)) {
+      return filter.values.length > 0;
+    }
+
+    if (typeof filter.values === 'object') {
+      return Object.keys(filter.values).length > 0;
+    }
+
+    return !!filter.values;
+  });
 
   try {
     localSelectedContacts.value = [];
@@ -304,6 +368,46 @@ const selectAll = async () => {
   }
 };
 
+const isFilterValueValid = filter => {
+  if (filter.values === null || filter.values === undefined) {
+    return false;
+  }
+
+  if (typeof filter.values === 'string') {
+    return filter.values.trim() !== '';
+  }
+
+  if (Array.isArray(filter.values)) {
+    return filter.values.length > 0;
+  }
+
+  if (typeof filter.values === 'object') {
+    return Object.keys(filter.values).length > 0;
+  }
+
+  return !!filter.values;
+};
+
+const formatFilterValue = filter => {
+  if (typeof filter.values === 'string') {
+    return [filter.values.trim()];
+  } else if (Array.isArray(filter.values)) {
+    return filter.values;
+  } else if (
+    typeof filter.values === 'object' &&
+    Object.keys(filter.values).length > 0
+  ) {
+    return [
+      filter.values.id ||
+        filter.values.value ||
+        Object.values(filter.values)[0],
+    ];
+  } else if (typeof filter.values === 'boolean') {
+    return [filter.values.toString()];
+  }
+  return [filter.values];
+};
+
 const submitFilters = async () => {
   try {
     contactList.value = [];
@@ -311,13 +415,13 @@ const submitFilters = async () => {
     allFilteredContacts.value = [];
 
     const formattedFilters = appliedFilters.value
-      .filter(filter => filter.values.trim() !== '')
+      .filter(filter => isFilterValueValid(filter))
       .map((filter, index, filteredArray) => {
         const baseFilter = {
           attributeKey: filter.attributeKey,
           attributeModel: filter.attributeModel || 'standard',
           filterOperator: filter.filterOperator,
-          values: [filter.values.trim()],
+          values: formatFilterValue(filter),
         };
 
         if (filteredArray.length > 1 && index < filteredArray.length - 1) {
@@ -411,13 +515,13 @@ const loadMoreFilteredContacts = async () => {
       currentPage.value += 1;
 
       const formattedFilters = appliedFilters.value
-        .filter(filter => filter.values.trim() !== '')
+        .filter(filter => isFilterValueValid(filter))
         .map((filter, index, filteredArray) => {
           const baseFilter = {
             attributeKey: filter.attributeKey,
             attributeModel: filter.attributeModel || 'standard',
             filterOperator: filter.filterOperator,
-            values: [filter.values.trim()],
+            values: formatFilterValue(filter),
           };
 
           if (filteredArray.length > 1 && index < filteredArray.length - 1) {
@@ -654,6 +758,7 @@ defineExpose({
         v-if="showFiltersModal"
         v-model="appliedFilters"
         class="w-full"
+        :is-campaign="true"
         @apply-filter="submitFilters"
         @clear-filters="clearFilters"
         @close="showFiltersModal = false"
