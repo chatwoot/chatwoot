@@ -48,6 +48,10 @@ module Enterprise::Account
     }.with_indifferent_access
   end
 
+  def mark_for_deletion(reason = 'manual_deletion')
+    custom_attributes.merge!('marked_for_deletion_at' => 7.days.from_now.iso8601, 'marked_for_deletion_reason' => reason) && save
+  end
+
   private
 
   def get_captain_limits(type)

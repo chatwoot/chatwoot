@@ -2,7 +2,7 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   include BillingHelper
   before_action :fetch_account
   before_action :check_authorization
-  before_action :check_cloud_env, only: [:limits]
+  before_action :check_cloud_env, only: [:limits, :toggle_deletion]
 
   def subscription
     if stripe_customer_id.blank? && @account.custom_attributes['is_creating_customer'].blank?
@@ -42,12 +42,25 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     render_invalid_billing_details
   end
 
+  def toggle_deletion
+    action_type = params[:action_type]
+
+    case action_type
+    when 'delete'
+      mark_for_deletion
+    when 'undelete'
+      unmark_for_deletion
+    else
+      render json: { error: 'Invalid action_type. Must be either "delete" or "undelete"' }, status: :unprocessable_entity
+    end
+  end
+
+  private
+
   def check_cloud_env
     installation_config = InstallationConfig.find_by(name: 'DEPLOYMENT_ENV')
     render json: { error: 'Not found' }, status: :not_found unless installation_config&.value == 'cloud'
   end
-
-  private
 
   def fetch_account
     @account = current_user.accounts.find(params[:id])
@@ -56,6 +69,27 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
 
   def stripe_customer_id
     @account.custom_attributes['stripe_customer_id']
+  end
+
+  def mark_for_deletion
+    reason = 'manual_deletion'
+
+    if @account.mark_for_deletion(reason)
+      render json: { message: 'Account marked for deletion' }, status: :ok
+    else
+      render json: { message: @account.errors.full_messages.join(', ') }, status: :unprocessable_entity
+    end
+  end
+
+  def unmark_for_deletion
+    @account.custom_attributes.delete('marked_for_deletion_at')
+    @account.custom_attributes.delete('marked_for_deletion_reason')
+
+    if @account.save
+      render json: { message: 'Account unmarked for deletion' }, status: :ok
+    else
+      render json: { message: @account.errors.full_messages.join(', ') }, status: :unprocessable_entity
+    end
   end
 
   def render_invalid_billing_details

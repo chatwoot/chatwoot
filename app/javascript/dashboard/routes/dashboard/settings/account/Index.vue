@@ -37,7 +37,7 @@ export default {
       features: {},
       autoResolveDuration: null,
       latestChatwootVersion: null,
-       showDeletePopup: false,
+      showDeletePopup: false,
     };
   },
   validations: {
@@ -58,6 +58,7 @@ export default {
       getAccount: 'accounts/getAccount',
       uiFlags: 'accounts/getUIFlags',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
     }),
     showAutoResolutionConfig() {
       return this.isFeatureEnabledonAccount(
@@ -104,7 +105,7 @@ export default {
     getAccountId() {
       return this.id.toString();
     },
-        confirmPlaceHolderText() {
+    confirmPlaceHolderText() {
       return `${this.$t(
         'GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.PLACE_HOLDER',
         {
@@ -203,13 +204,9 @@ export default {
     async markAccountForDeletion() {
       this.closeDeletePopup();
       try {
-        // Set deletion date to 30 days from now
-        const deletionDate = new Date();
-        deletionDate.setDate(deletionDate.getDate() + 30);
-        // Call the destroy action instead of update
-        await this.$store.dispatch('accounts/delete', {
-          id: this.id,
-          reason: 'manual_deletion',
+        // Use the enterprise API to toggle deletion with delete action
+        await this.$store.dispatch('accounts/toggleDeletion', {
+          action_type: 'delete',
         });
         // Refresh account data
         await this.$store.dispatch('accounts/get');
@@ -236,9 +233,9 @@ export default {
     },
     async clearDeletionMark() {
       try {
-        await this.$store.dispatch('accounts/update', {
-          marked_for_deletion_at: null,
-          marked_for_deletion_reason: null,
+        // Use the enterprise API to toggle deletion with undelete action
+        await this.$store.dispatch('accounts/toggleDeletion', {
+          action_type: 'undelete',
         });
         // Refresh account data
         await this.$store.dispatch('accounts/get');
@@ -364,9 +361,9 @@ export default {
         <woot-code :script="getAccountId" />
       </div>
     </div>
-    <div v-if="!uiFlags.isFetchingItem">
+    <div v-if="!uiFlags.isFetchingItem && isOnChatwootCloud">
       <div
-        class="flex flex-row p-4 border-t border-slate-25 dark:border-slate-800 text-black-900 dark:text-slate-300"
+        class="flex flex-row pt-4 mt-2 border-t border-slate-25 dark:border-slate-800 text-black-900 dark:text-slate-300"
       >
         <div
           class="flex-grow-0 flex-shrink-0 flex-[25%] min-w-0 py-4 pr-6 pl-0"
