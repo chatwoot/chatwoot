@@ -7,6 +7,7 @@ import {
 const state = {
   records: [],
   uiFlags: {
+    hasFetched: false,
     isError: false,
   },
   activeCampaign: {},
@@ -30,6 +31,7 @@ const resetCampaignTimers = (
 
 export const getters = {
   getCampaigns: $state => $state.records,
+  getUIFlags: $state => $state.uiFlags,
   getActiveCampaign: $state => $state.activeCampaign,
 };
 
@@ -53,15 +55,17 @@ export const actions = {
     }
   },
   initCampaigns: async (
-    { getters: { getCampaigns: campaigns }, dispatch },
+    { getters: { getCampaigns: campaigns, getUIFlags: uiFlags }, dispatch },
     { currentURL, websiteToken, isInBusinessHours }
   ) => {
     if (!campaigns.length) {
-      dispatch('fetchCampaigns', {
-        websiteToken,
-        currentURL,
-        isInBusinessHours,
-      });
+      if (!uiFlags.hasFetched) {
+        dispatch('fetchCampaigns', {
+          websiteToken,
+          currentURL,
+          isInBusinessHours,
+        });
+      }
     } else {
       resetCampaignTimers(
         campaigns,
@@ -127,6 +131,7 @@ export const actions = {
 export const mutations = {
   setCampaigns($state, data) {
     $state.records = data;
+    $state.uiFlags.hasFetched = true;
   },
   setActiveCampaign($state, data) {
     $state.activeCampaign = data;
