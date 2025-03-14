@@ -27,7 +27,14 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  displayMode: {
+    type: String,
+    default: 'popover',
+    validator: value => ['popover', 'modal'].includes(value),
+  },
 });
+
+const emit = defineEmits(['close']);
 
 const store = useStore();
 const { t } = useI18n();
@@ -50,6 +57,8 @@ const uiFlags = useMapGetter('contactConversations/getUIFlags');
 const messageSignature = useMapGetter('getMessageSignature');
 const inboxesList = useMapGetter('inboxes/getInboxes');
 
+const isModalView = computed(() => props.displayMode === 'modal');
+
 const sendWithSignature = computed(() =>
   fetchSignatureFlagFromUISettings(targetInbox.value?.channelType)
 );
@@ -61,6 +70,8 @@ const directUploadsEnabled = computed(
 const activeContact = computed(() => contactById.value(props.contactId));
 
 const composePopoverClass = computed(() => {
+  if (props.isModalView) return '';
+
   return props.alignPosition === 'right'
     ? 'absolute ltr:left-0 ltr:right-[unset] rtl:right-0 rtl:left-[unset]'
     : 'absolute rtl:left-0 rtl:right-[unset] ltr:right-0 ltr:left-[unset]';
@@ -131,9 +142,14 @@ const clearSelectedContact = () => {
 
 const closeCompose = () => {
   showComposeNewConversation.value = false;
-  selectedContact.value = null;
+  if (!props.contactId) {
+    // If contactId is passed as prop
+    // Then don't allow to remove the selected contact
+    selectedContact.value = null;
+  }
   targetInbox.value = null;
   resetContacts();
+  emit('close');
 };
 
 const createConversation = async ({ payload, isFromWhatsApp }) => {
@@ -183,6 +199,7 @@ watch(
 
 const handleClickOutside = () => {
   showComposeNewConversation.value = false;
+  emit('close');
 };
 
 onMounted(() => resetContacts());
@@ -202,6 +219,7 @@ useKeyboardEvents(keyboardEvents);
 
 <template>
   <div
+    v-if="!isModalView"
     v-on-click-outside="[
       handleClickOutside,
       // Fixed and edge case https://github.com/chatwoot/chatwoot/issues/10785
@@ -220,6 +238,7 @@ useKeyboardEvents(keyboardEvents);
     />
     <ComposeNewConversationForm
       v-if="showComposeNewConversation"
+      class="mt-2"
       :contacts="contacts"
       :contact-id="contactId"
       :is-loading="isSearching"
@@ -243,4 +262,45 @@ useKeyboardEvents(keyboardEvents);
       @discard="closeCompose"
     />
   </div>
+
+  <template v-else>
+    <slot
+      name="trigger"
+      :is-open="showComposeNewConversation"
+      :toggle="toggle"
+    />
+    <div
+      v-if="showComposeNewConversation"
+      class="fixed z-50 bg-n-alpha-black1 backdrop-blur-[4px] flex items-center justify-center inset-0"
+    >
+      <ComposeNewConversationForm
+        v-on-click-outside="[
+          handleClickOutside,
+          // Fixed and edge case https://github.com/chatwoot/chatwoot/issues/10785
+          // This will prevent closing the compose conversation modal when the editor Create link popup is open
+          { ignore: ['div.ProseMirror-prompt'] },
+        ]"
+        :contacts="contacts"
+        :contact-id="contactId"
+        :is-loading="isSearching"
+        :current-user="currentUser"
+        :selected-contact="selectedContact"
+        :target-inbox="targetInbox"
+        :is-creating-contact="isCreatingContact"
+        :is-fetching-inboxes="isFetchingInboxes"
+        :is-direct-uploads-enabled="directUploadsEnabled"
+        :contact-conversations-ui-flags="uiFlags"
+        :contacts-ui-flags="contactsUiFlags"
+        :message-signature="messageSignature"
+        :send-with-signature="sendWithSignature"
+        @search-contacts="onContactSearch"
+        @reset-contact-search="resetContacts"
+        @update-selected-contact="handleSelectedContact"
+        @update-target-inbox="handleTargetInbox"
+        @clear-selected-contact="clearSelectedContact"
+        @create-conversation="createConversation"
+        @discard="closeCompose"
+      />
+    </div>
+  </template>
 </template>
