@@ -477,10 +477,10 @@
       }
     },
     "TEAM_CONVERSATIONS": {
-      "ALL_TEAMS": "All Teams",
-      "HEADER": "Conversations by teams",
-      "LOADING_MESSAGE": "Loading team metrics...",
-      "NO_TEAMS": "There is no data available",
+      "ALL_TEAMS": "Visas Komandas",
+      "HEADER": "Komandu sarunas",
+      "LOADING_MESSAGE": "Notiek komandu metrikas ielāde...",
+      "NO_TEAMS": "Dati nav pieejami",
       "TABLE_HEADER": {
         "TEAM": "Komanda",
         "OPEN": "Atvērt",
