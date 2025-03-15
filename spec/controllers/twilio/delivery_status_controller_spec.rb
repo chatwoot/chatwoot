@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Twilio::DeliveryStatusController', type: :request do
   include Rails.application.routes.url_helpers
 
-  describe 'POST /twilio/delivery' do
+  describe 'POST /twilio/delivery_status' do
     let(:params) do
       {
         'MessageSid' => 'SM123',
