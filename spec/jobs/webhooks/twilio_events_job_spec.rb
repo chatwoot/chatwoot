@@ -25,4 +25,20 @@ RSpec.describe Webhooks::TwilioEventsJob do
     expect(service).to receive(:perform)
     described_class.new.perform(params)
   end
+
+  context 'when Body parameter is not present' do
+    let(:params_without_body) do
+      {
+        'From' => '+1234567890',
+        'To' => '+0987654321',
+        'AccountSid' => 'AC123',
+        'SmsSid' => 'SM123'
+      }
+    end
+
+    it 'does not process the event' do
+      expect(Twilio::IncomingMessageService).not_to receive(:new)
+      described_class.new.perform(params_without_body)
+    end
+  end
 end
