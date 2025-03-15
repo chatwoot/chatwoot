@@ -2,8 +2,8 @@
   "AGENT_BOTS": {
     "HEADER": "Robôs",
     "LOADING_EDITOR": "Carregando Editor...",
-    "HEADER_BTN_TXT": "Adicionar configuração do robô",
-    "SIDEBAR_TXT": "<p><b>Bots Agentes</b></p> <p>Bots Agentes são como os melhores membros da sua equipe. Eles podem lidar com coisas pequenas, para que você possa se concentrar no que realmente importa. Experimente-os.</p> <p>Você pode gerenciar seus bots desta página ou criar novos usando o botão 'Adicionar configuração de bot'.</p> <p>Abra o <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"_blank\">Manual do Bot Agente</a> em outra aba para obter ajuda.</p>",
+    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.You can manage your bots from this page or create new ones using the 'Configure new bot' button.",
+    "LEARN_MORE": "Learn about agent bots",
     "CSML_BOT_EDITOR": {
       "NAME": {
         "LABEL": "Nome do Robô",
