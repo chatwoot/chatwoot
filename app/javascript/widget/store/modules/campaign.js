@@ -59,6 +59,10 @@ export const actions = {
     { currentURL, websiteToken, isInBusinessHours }
   ) => {
     if (!campaigns.length) {
+      // This check is added to ensure that the campaigns are fetched once
+      // On high traffic sites, if the campaigns are empty, the API is called
+      // every time the user changes the URL (in case of the SPA)
+      // So, we need to ensure that the campaigns are fetched only once
       if (!uiFlags.hasFetched) {
         dispatch('fetchCampaigns', {
           websiteToken,
