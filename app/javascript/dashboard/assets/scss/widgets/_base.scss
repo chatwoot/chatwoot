@@ -82,7 +82,7 @@ input[type='url']:not(.reset-base) {
 }
 
 input[type='file'] {
-  @apply bg-white dark:bg-n-solid-1 leading-[1.15] mb-4;
+  @apply bg-n-background leading-[1.15] mb-4;
 }
 
 // Select
