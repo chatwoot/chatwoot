@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Atvienot"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow ir dabiska valodas izpratnes platforma, kas ļauj viegli izveidot un integrēt sarunvalodas lietotāja interfeisu jūsu mobilajā lietotnē, tīmekļa lietojumprogrammā, ierīcē, robotprogrammā, interaktīvā balss atbildes sistēmā utt. <br /> <br /> Dialogflow integrācija ar {installationName} ļauj konfigurēt Dialogflow robotu ar iesūtnēm, kas ļauj robotam sākotnēji apstrādāt vaicājumus un vajadzības gadījumā tos nodot aģentam. Dialogflow var izmantot, lai kvalificētu potenciālos klientus, šādi samazinot aģentu darba slodzi, apstrādājot bieži uzdotos jautājumus utt. <br /> <br /> Lai pievienotu Dialogflow, jums ir jāizveido Service Account savā Google projekta konsolē un jākopīgo akreditācijas dati. Lai iegūtu papildinformāciju, lūdzu, skatiet Dialogflow dokumentāciju."
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
     }
   }
 }
