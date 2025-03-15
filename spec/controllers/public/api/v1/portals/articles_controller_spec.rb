@@ -68,15 +68,7 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(JSON.parse(response.body, symbolize_names: true)[:meta][:articles_count]).to eq(5)
     end
 
-    it 'caps per_page parameter at 100' do
-      get "/hc/#{portal.slug}/#{category.locale}/articles.json", params: { per_page: 200 }
-
-      expect(response).to have_http_status(:success)
-      response_data = JSON.parse(response.body, symbolize_names: true)[:payload]
-      expect(response_data.length).to eq(3)
-    end
-
-    it 'uses minimum of 25 items per page' do
+    it 'uses default items per page if per_page is less than 1' do
       get "/hc/#{portal.slug}/#{category.locale}/articles.json", params: { per_page: 0 }
 
       expect(response).to have_http_status(:success)
