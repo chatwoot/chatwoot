@@ -81,7 +81,7 @@ describe('#actions', () => {
         },
         actionParams
       );
-      expect(dispatch.mock.calls).toEqual([[]]);
+      expect(dispatch.mock.calls).toEqual([]);
       expect(campaignTimer.initTimers).not.toHaveBeenCalled();
     });
 
