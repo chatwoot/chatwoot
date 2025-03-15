@@ -1,5 +1,5 @@
 class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::BaseController
-  # before_action :ensure_custom_domain_request, only: [:show, :index]
+  before_action :ensure_custom_domain_request, only: [:show, :index]
   before_action :portal
   before_action :set_category, except: [:index, :show]
   before_action :set_article, only: [:show]
