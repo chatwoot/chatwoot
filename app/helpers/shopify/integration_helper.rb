@@ -1,4 +1,6 @@
 module Shopify::IntegrationHelper
+  REQUIRED_SCOPES = %w[read_customers read_orders read_fulfillments].freeze
+
   # Generates a signed JWT token for Shopify integration
   #
   # @param account_id [Integer] The account ID to encode in the token
@@ -30,6 +32,10 @@ module Shopify::IntegrationHelper
   end
 
   private
+
+  def client_id
+    @client_id ||= GlobalConfigService.load('SHOPIFY_CLIENT_ID', nil)
+  end
 
   def client_secret
     @client_secret ||= GlobalConfigService.load('SHOPIFY_CLIENT_SECRET', nil)
