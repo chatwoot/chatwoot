@@ -263,7 +263,7 @@ export default {
       <div class="flex items-center w-full mt-0.5 gap-2">
         <ComposeConversation
           :contact-id="String(contact.id)"
-          display-mode="modal"
+          is-modal
           @close="closeComposeConversationModal"
         >
           <template #trigger="{ toggle }">
