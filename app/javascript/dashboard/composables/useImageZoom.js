@@ -1,6 +1,70 @@
 import { ref, computed } from 'vue';
 import { debounce } from '@chatwoot/utils';
 
+/**
+ * Calculates the relative position of a point from the center of an element
+ *
+ * @param {number} mouseX - The x-coordinate of the mouse pointer
+ * @param {number} mouseY - The y-coordinate of the mouse pointer
+ * @param {DOMRect} rect - The bounding client rectangle of the target element
+ * @returns {{relativeX: number, relativeY: number}} Object containing x and y distances from center
+ */
+const calculateCenterOffset = (mouseX, mouseY, rect) => {
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+
+  return {
+    relativeX: mouseX - centerX,
+    relativeY: mouseY - centerY,
+  };
+};
+
+/**
+ * Applies a rotation matrix to coordinates
+ * Used to adjust mouse coordinates based on the current rotation of the image
+ * This function implements a standard 2D rotation matrix transformation:
+ * [x']   [cos(θ) -sin(θ)] [x]
+ * [y'] = [sin(θ)  cos(θ)] [y]
+ *
+ * @see {@link https://mathworld.wolfram.com/RotationMatrix.html} for mathematical derivation
+ *
+ * @param {number} relativeX - X-coordinate relative to center before rotation
+ * @param {number} relativeY - Y-coordinate relative to center before rotation
+ * @param {number} angle - Rotation angle in degrees
+ * @returns {{rotatedX: number, rotatedY: number}} Coordinates after applying rotation matrix
+ */
+const applyRotationTransform = (relativeX, relativeY, angle) => {
+  const radians = (angle * Math.PI) / 180;
+  const cos = Math.cos(-radians);
+  const sin = Math.sin(-radians);
+
+  return {
+    rotatedX: relativeX * cos - relativeY * sin,
+    rotatedY: relativeX * sin + relativeY * cos,
+  };
+};
+
+/**
+ * Converts absolute rotated coordinates to percentage values relative to image dimensions
+ * Ensures values are clamped between 0-100% for valid CSS transform-origin properties
+ *
+ * @param {number} rotatedX - X-coordinate after rotation transformation
+ * @param {number} rotatedY - Y-coordinate after rotation transformation
+ * @param {number} width - Width of the target element
+ * @param {number} height - Height of the target element
+ * @returns {{x: number, y: number}} Normalized coordinates as percentages (0-100%)
+ */
+const normalizeToPercentage = (rotatedX, rotatedY, width, height) => {
+  // Convert to percentages (0-100%) relative to image dimensions
+  // 50% represents the center point
+  // The division by (width/2) maps the range [-width/2, width/2] to [-50%, 50%]
+  // Adding 50% shifts this to [0%, 100%]
+  return {
+    x: Math.max(0, Math.min(100, 50 + (rotatedX / (width / 2)) * 50)),
+    y: Math.max(0, Math.min(100, 50 + (rotatedY / (height / 2)) * 50)),
+  };
+};
+
 // Composable for images in gallery view
 export const useImageZoom = imageRef => {
   const MAX_ZOOM_LEVEL = 3;
@@ -43,31 +107,32 @@ export const useImageZoom = imageRef => {
     resetTransformOrigin();
   };
 
-  // Calculates the zoom origin based on cursor position and image rotation
+  /**
+   * Calculates the appropriate transform origin point based on mouse position and image rotation
+   * Used to create a natural zoom behavior where the image zooms toward/from the cursor position
+   *
+   * @param {number} x - The client X coordinate of the mouse pointer
+   * @param {number} y - The client Y coordinate of the mouse pointer
+   * @returns {{x: number, y: number}} Object containing the transform origin coordinates as percentages
+   */
   const getZoomOrigin = (x, y) => {
+    // Default to center
     if (!imageRef.value) return { x: 50, y: 50 };
 
-    const { left, top, width, height } = imageRef.value.getBoundingClientRect();
-    const centerX = left + width / 2;
-    const centerY = top + height / 2;
+    const rect = imageRef.value.getBoundingClientRect();
 
-    // Calculate relative position from the center
-    const relativeX = x - centerX;
-    const relativeY = y - centerY;
+    // Step 1: Calculate offset from center
+    const { relativeX, relativeY } = calculateCenterOffset(x, y, rect);
 
-    // Apply rotation transformation
-    const angle = (activeImageRotation.value * Math.PI) / 180;
-    const cos = Math.cos(-angle);
-    const sin = Math.sin(-angle);
+    // Step 2: Apply rotation transformation
+    const { rotatedX, rotatedY } = applyRotationTransform(
+      relativeX,
+      relativeY,
+      activeImageRotation.value
+    );
 
-    const rotatedX = relativeX * cos - relativeY * sin;
-    const rotatedY = relativeX * sin + relativeY * cos;
-
-    // Convert to percentages and clamp between 0-100%
-    return {
-      x: Math.max(0, Math.min(100, 50 + (rotatedX / (width / 2)) * 50)),
-      y: Math.max(0, Math.min(100, 50 + (rotatedY / (height / 2)) * 50)),
-    };
+    // Step 3: Convert to percentage coordinates
+    return normalizeToPercentage(rotatedX, rotatedY, rect.width, rect.height);
   };
 
   // Handles zooming the image
