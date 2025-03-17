@@ -170,7 +170,7 @@ useKeyboardEvents(keyboardEvents);
         />
         <EmojiInput
           v-if="isEmojiPickerOpen"
-          class="ltr:left-11 rtl:right-11 !-top-[16.875rem]"
+          class="left-0 top-full mt-1.5"
           :on-click="onClickInsertEmoji"
         />
       </div>
