@@ -3,6 +3,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
     {
       additional_attributes: additional_attributes,
       can_reply: can_reply?,
+      can_reply_by_custom_message: can_reply_by_custom_message?,
       channel: inbox.try(:channel_type),
       contact_inbox: contact_inbox,
       id: display_id,

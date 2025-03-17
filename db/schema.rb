@@ -805,6 +805,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.integer "sender_name_type", default: 0, null: false
     t.string "business_name"
     t.jsonb "csat_config", default: {}, null: false
+    t.integer "allowed_custom_message_user_ids", default: [], array: true
     t.index ["account_id"], name: "index_inboxes_on_account_id"
     t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
     t.index ["portal_id"], name: "index_inboxes_on_portal_id"
@@ -1134,6 +1135,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.string "description"
     t.float "resolution_time_threshold"
     t.index ["account_id"], name: "index_sla_policies_on_account_id"
+  end
+
+  create_table "smart_variables", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "name", null: false
+    t.jsonb "data", default: {}
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|

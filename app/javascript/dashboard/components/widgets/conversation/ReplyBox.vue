@@ -189,7 +189,7 @@ export default {
         .length;
     },
     isPrivate() {
-      if (this.currentChat.can_reply || this.isAWhatsAppChannel) {
+      if ((this.currentChat.can_reply && this.currentChat.can_reply_by_custom_message) || this.isAWhatsAppChannel) {
         return this.isOnPrivateNote;
       }
       return true;
@@ -793,11 +793,11 @@ export default {
       }, 100);
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
-      const { can_reply: canReply } = this.currentChat;
+      const { can_reply: canReply, can_reply_by_custom_message: canReplyByCustom } = this.currentChat;
       this.$store.dispatch('draftMessages/setReplyEditorMode', {
         mode,
       });
-      if (canReply || this.isAWhatsAppChannel) this.replyType = mode;
+      if ((canReply && canReplyByCustom) || this.isAWhatsAppChannel) this.replyType = mode;
       if (this.showRichContentEditor) {
         if (this.isRecordingAudio) {
           this.toggleAudioRecorder();

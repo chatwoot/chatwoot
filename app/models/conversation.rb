@@ -7,7 +7,6 @@
 #  agent_last_seen_at     :datetime
 #  assignee_last_seen_at  :datetime
 #  cached_label_list      :text
-#  code                   :string
 #  contact_last_seen_at   :datetime
 #  custom_attributes      :jsonb
 #  first_reply_created_at :datetime
@@ -37,7 +36,6 @@
 #  index_conversations_on_account_id_and_display_id   (account_id,display_id) UNIQUE
 #  index_conversations_on_assignee_id_and_account_id  (assignee_id,account_id)
 #  index_conversations_on_campaign_id                 (campaign_id)
-#  index_conversations_on_code                        (code) UNIQUE
 #  index_conversations_on_contact_id                  (contact_id)
 #  index_conversations_on_contact_inbox_id            (contact_inbox_id)
 #  index_conversations_on_first_reply_created_at      (first_reply_created_at)
@@ -128,6 +126,10 @@ class Conversation < ApplicationRecord
 
   def language
     additional_attributes&.dig('conversation_language')
+  end
+
+  def can_reply_by_custom_message?
+    self.inbox.allowed_custom_message_user_ids.include?(Current.user.id)
   end
 
   # Be aware: The precision of created_at and last_activity_at may differ from Ruby's Time precision.

@@ -176,10 +176,11 @@ export default {
     },
 
     replyWindowBannerMessage() {
-      if (this.isAWhatsAppChannel) {
+      const can_not_reply = !this.currentChat.can_reply;
+      if (this.isAWhatsAppChannel && can_not_reply) {
         return this.$t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY');
       }
-      if (this.isAPIInbox) {
+      if (this.isAPIInbox && can_not_reply) {
         const { additional_attributes: additionalAttributes = {} } = this.inbox;
         if (additionalAttributes) {
           const {
@@ -193,12 +194,26 @@ export default {
             })
           );
         }
-        return '';
+        return additionalAttributes?.agent_reply_time_window_message || '';
       }
-      return this.$t('CONVERSATION.CANNOT_REPLY');
+      if (can_not_reply) {
+        return this.$t('CONVERSATION.CANNOT_REPLY');
+      }
+
+      const can_not_reply_by_custom_message = !this.currentChat.can_reply_by_custom_message;
+      if (can_not_reply_by_custom_message) {
+        return "You can only reply to this conversation using a template message.";
+      }
+
+      return '';
     },
     replyWindowLink() {
+      const canNotReply = !this.currentChat.can_reply;
+      if (!canNotReply) return '';
       if (this.isAFacebookInbox || this.isAnInstagramChannel) {
+        return REPLY_POLICY.FACEBOOK;
+      }
+      if (this.isAWhatsAppChannel) {
         return REPLY_POLICY.FACEBOOK;
       }
       if (this.isAWhatsAppCloudChannel) {
@@ -210,6 +225,9 @@ export default {
       return '';
     },
     replyWindowLinkText() {
+      const canNotReply = !this.currentChat.can_reply;
+      if (!canNotReply) return '';
+
       if (
         this.isAWhatsAppChannel ||
         this.isAFacebookInbox ||
@@ -444,7 +462,7 @@ export default {
 <template>
   <div class="flex flex-col justify-between flex-grow h-full min-w-0 m-0">
     <Banner
-      v-if="!currentChat.can_reply"
+      v-if="!currentChat.can_reply || !currentChat.can_reply_by_custom_message"
       color-scheme="alert"
       class="mx-2 mt-2 overflow-hidden rounded-lg"
       :banner-message="replyWindowBannerMessage"
