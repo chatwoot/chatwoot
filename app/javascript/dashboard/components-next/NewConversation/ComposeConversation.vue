@@ -71,7 +71,7 @@ const composePopoverClass = computed(() => {
 
   return props.alignPosition === 'right'
     ? 'absolute ltr:left-0 ltr:right-[unset] rtl:right-0 rtl:left-[unset]'
-    : 'absolute rtl:left-0 rtl:right-[unset] ltr:right-0 ltr:left-[unset] bg-red/50';
+    : 'absolute rtl:left-0 rtl:right-[unset] ltr:right-0 ltr:left-[unset]';
 });
 
 const onContactSearch = debounce(
