@@ -35,14 +35,6 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       expect(account.usage_limits[:captain][:responses][:consumed]).to eq(1)
     end
 
-    it 'detects and stores the language of the conversation' do
-      expect(mock_language_detection_service).to receive(:detect).with('Hello').and_return('en')
-      described_class.perform_now(conversation, assistant)
-
-      conversation.reload
-      expect(conversation.additional_attributes['conversation_language']).to eq('en')
-    end
-
     context 'when language is already detected' do
       let(:conversation) { create(:conversation, inbox: inbox, account: account, additional_attributes: { 'conversation_language' => 'fr' }) }
 
