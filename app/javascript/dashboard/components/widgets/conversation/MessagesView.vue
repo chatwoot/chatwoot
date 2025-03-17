@@ -4,11 +4,11 @@ import { ref } from 'vue';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useAI } from 'dashboard/composables/useAI';
-import { useMapGetter } from 'dashboard/composables/store';
 
 // components
 import ReplyBox from './ReplyBox.vue';
-import Message from './Message.vue';
+// TODO: Delete this component
+// import Message from './Message.vue';
 import NextMessageList from 'next/message/MessageList.vue';
 import TypingIndicator from 'next/Conversation/Chips/TypingIndicator.vue';
 import UnreadIndicator from 'next/Conversation/Chips/UnreadIndicator.vue';
@@ -37,11 +37,9 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
-import { FEATURE_FLAGS } from '../../../featureFlags';
 
 export default {
   components: {
-    Message,
     NextMessageList,
     ReplyBox,
     TypingIndicator,
@@ -88,16 +86,6 @@ export default {
       fetchLabelSuggestions,
     } = useAI();
 
-    const currentAccountId = useMapGetter('getCurrentAccountId');
-    const isFeatureEnabledonAccount = useMapGetter(
-      'accounts/isFeatureEnabledonAccount'
-    );
-
-    const showNextBubbles = isFeatureEnabledonAccount.value(
-      currentAccountId.value,
-      FEATURE_FLAGS.CHATWOOT_V4
-    );
-
     return {
       isEnterprise,
       isPopOutReplyBox,
@@ -107,7 +95,6 @@ export default {
       isLabelSuggestionFeatureEnabled,
       fetchIntegrationsIfRequired,
       fetchLabelSuggestions,
-      showNextBubbles,
     };
   },
   data() {
@@ -538,7 +525,6 @@ export default {
       />
     </div>
     <NextMessageList
-      v-if="showNextBubbles"
       class="conversation-panel"
       :current-user-id="currentUserId"
       :first-unread-id="unReadMessages[0]?.id"
@@ -573,59 +559,6 @@ export default {
         />
       </template>
     </NextMessageList>
-    <ul v-else class="conversation-panel">
-      <transition name="slide-up">
-        <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
-        <li class="min-h-[4rem]">
-          <span v-if="shouldShowSpinner" class="spinner message" />
-        </li>
-      </transition>
-      <Message
-        v-for="message in readMessages"
-        :key="message.id"
-        class="message--read ph-no-capture"
-        data-clarity-mask="True"
-        :data="message"
-        :is-a-tweet="isATweet"
-        :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :is-web-widget-inbox="isAWebWidgetInbox"
-        :is-a-facebook-inbox="isAFacebookInbox"
-        :is-an-email-inbox="isAnEmailChannel"
-        :is-instagram="isInstagramDM"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :in-reply-to="getInReplyToMessage(message)"
-      />
-      <li v-show="unreadMessageCount != 0" class="unread--toast">
-        <span>
-          {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
-          {{
-            unreadMessageCount > 1
-              ? $t('CONVERSATION.UNREAD_MESSAGES')
-              : $t('CONVERSATION.UNREAD_MESSAGE')
-          }}
-        </span>
-      </li>
-      <Message
-        v-for="message in unReadMessages"
-        :key="message.id"
-        class="message--unread ph-no-capture"
-        data-clarity-mask="True"
-        :data="message"
-        :is-a-tweet="isATweet"
-        :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :is-web-widget-inbox="isAWebWidgetInbox"
-        :is-a-facebook-inbox="isAFacebookInbox"
-        :is-instagram-dm="isInstagramDM"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :in-reply-to="getInReplyToMessage(message)"
-      />
-      <ConversationLabelSuggestion
-        v-if="shouldShowLabelSuggestions"
-        :suggested-labels="labelSuggestions"
-        :chat-labels="currentChat.labels"
-        :conversation-id="currentChat.id"
-      />
-    </ul>
     <div
       class="conversation-footer"
       :class="{
