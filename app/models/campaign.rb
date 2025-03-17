@@ -96,7 +96,7 @@ class Campaign < ApplicationRecord
   def inbox_must_belong_to_account
     return unless inbox
 
-    return if account.inboxes.exists?(id: inbox.id)
+    return if inbox.account_id == account_id
 
     errors.add(:inbox_id, 'must belong to the same account as the campaign')
   end
