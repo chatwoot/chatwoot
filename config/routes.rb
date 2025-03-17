@@ -35,6 +35,12 @@ Rails.application.routes.draw do
 
       # ----------------------------------
       # start of pricing plan scoped api routes
+      post 'duitku/webhook', to: 'duitku#webhook'
+      # end of pricing plan scoped api routes
+      # ----------------------------------
+      
+      # ----------------------------------
+      # start of pricing plan scoped api routes
       resources :pricing_plans, only: [:index, :show]
       # end of pricing plan scoped api routes
       # ----------------------------------
