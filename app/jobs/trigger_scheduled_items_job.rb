@@ -24,7 +24,7 @@ class TriggerScheduledItemsJob < ApplicationJob
     Notification::RemoveOldNotificationJob.perform_later
 
     # Job to close conversations
-    Internal::RemoveStaleConversationsJob.perform_later
+    Internal::CloseStaleConversationsJob.perform_later
 
     # Job to auto assign conversations
     Internal::AutoAssignConversationsJob.perform_later

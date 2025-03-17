@@ -1,8 +1,8 @@
 class Digitaltolk::CloseResolvedConversationService
   attr_accessor :account
 
-  def initialize
-    @account = Account.first
+  def initialize(account_id)
+    @account = Account.find_by(id: account_id)
   end
 
   def perform
@@ -21,16 +21,20 @@ class Digitaltolk::CloseResolvedConversationService
            .joins(:messages)
   end
 
+  def chat_inboxes_ids
+    account.inboxes.where(channel_type: 'Channel::WebWidget').select(:id)
+  end
+
+  def email_inboxes_ids
+    account.inboxes.where(channel_type: 'Channel::Email').select(:id)
+  end
+
   def chat_conversations
-    conversations.distinct.joins(:inbox).where(inboxes: { channel_type: 'Channel::WebWidget' })
-                 .where.not(messages: { created_at: chat_span })
-                 .limit(50)
+    conversations.where(inbox_id: chat_inboxes_ids).where('last_activity_at < ?', stale_chat_age).limit(50)
   end
 
   def email_conversations
-    conversations.distinct.joins(:inbox).where(inboxes: { channel_type: 'Channel::Email' })
-                 .where.not(messages: { created_at: email_span })
-                 .limit(50)
+    conversations.where(inbox_id: email_inboxes_ids).where('last_activity_at < ?', stale_email_age).limit(50)
   end
 
   def closed_emails!
@@ -45,11 +49,11 @@ class Digitaltolk::CloseResolvedConversationService
     end
   end
 
-  def chat_span
-    (1.day.ago)..Time.current
+  def stale_chat_age
+    1.day.ago
   end
 
-  def email_span
-    (7.days.ago)..Time.current
+  def stale_email_age
+    7.days.ago
   end
 end
