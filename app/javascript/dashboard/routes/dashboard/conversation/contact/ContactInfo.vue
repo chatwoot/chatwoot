@@ -92,13 +92,12 @@ export default {
     },
   },
   watch: {
-    'contact.id'(id) {
-      this.$store.dispatch('contacts/fetchContactableInbox', id);
+    'contact.id': {
+      handler(id) {
+        this.$store.dispatch('contacts/fetchContactableInbox', id);
+      },
+      immediate: true,
     },
-  },
-  mounted() {
-    const { id } = this.contact;
-    this.$store.dispatch('contacts/fetchContactableInbox', id);
   },
   methods: {
     dynamicTime,
