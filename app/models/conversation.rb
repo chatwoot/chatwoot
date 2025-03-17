@@ -261,10 +261,6 @@ class Conversation < ApplicationRecord
     )
   end
 
-  def self_assign?(assignee_id)
-    assignee_id.present? && Current.user&.id == assignee_id
-  end
-
   def load_attributes_created_by_db_triggers
     # Display id is set via a trigger in the database
     # So we need to specifically fetch it after the record is created
