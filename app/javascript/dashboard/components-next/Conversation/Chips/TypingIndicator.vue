@@ -30,15 +30,14 @@ const typingUsersList = useFunctionGetter(
 );
 
 const isAnyoneTyping = computed(() => {
-  return true;
-  // return typingUsersList.value.length !== 0;
+  return typingUsersList.value.length !== 0;
 });
 
 const typingUserNames = computed(() => {
   if (typingUsersList.value.length) {
     return getTypingUsersText(typingUsersList.value);
   }
-  return 'Shivam Mishra is typing';
+  return '';
 });
 </script>
 
