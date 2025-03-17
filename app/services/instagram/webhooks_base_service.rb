@@ -35,9 +35,9 @@ class Instagram::WebhooksBaseService
       'social_instagram_user_name': user['username']
     }
 
-    instagram_attributes['social_instagram_follower_count'] = user['follower_count'] if user['follower_count']
-    instagram_attributes['social_instagram_is_user_follow_business'] = user['is_user_follow_business'] if user['is_user_follow_business']
-    instagram_attributes['social_instagram_is_business_follow_user'] = user['is_business_follow_user'] if user['is_business_follow_user']
+    instagram_attributes['social_instagram_follower_count'] = user['follower_count'] unless user['follower_count'].nil?
+    instagram_attributes['social_instagram_is_user_follow_business'] = user['is_user_follow_business'] unless user['is_user_follow_business'].nil?
+    instagram_attributes['social_instagram_is_business_follow_user'] = user['is_business_follow_user'] unless user['is_business_follow_user'].nil?
 
     @contact.update!(additional_attributes: @contact.additional_attributes.merge(instagram_attributes))
   end
