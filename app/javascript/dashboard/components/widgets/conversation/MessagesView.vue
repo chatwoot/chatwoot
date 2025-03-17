@@ -177,10 +177,11 @@ export default {
     },
 
     replyWindowBannerMessage() {
-      if (this.isAWhatsAppChannel) {
+      const can_not_reply = !this.currentChat.can_reply;
+      if (this.isAWhatsAppChannel && can_not_reply) {
         return this.$t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY');
       }
-      if (this.isAPIInbox) {
+      if (this.isAPIInbox && can_not_reply) {
         const { additional_attributes: additionalAttributes = {} } = this.inbox;
         if (additionalAttributes) {
           const {

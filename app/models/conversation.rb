@@ -7,7 +7,6 @@
 #  agent_last_seen_at     :datetime
 #  assignee_last_seen_at  :datetime
 #  cached_label_list      :text
-#  code                   :string
 #  contact_last_seen_at   :datetime
 #  custom_attributes      :jsonb
 #  first_reply_created_at :datetime
@@ -37,7 +36,6 @@
 #  index_conversations_on_account_id_and_display_id   (account_id,display_id) UNIQUE
 #  index_conversations_on_assignee_id_and_account_id  (assignee_id,account_id)
 #  index_conversations_on_campaign_id                 (campaign_id)
-#  index_conversations_on_code                        (code) UNIQUE
 #  index_conversations_on_contact_id                  (contact_id)
 #  index_conversations_on_contact_inbox_id            (contact_inbox_id)
 #  index_conversations_on_first_reply_created_at      (first_reply_created_at)
@@ -140,6 +138,10 @@ class Conversation < ApplicationRecord
   # if you compare or copy these values in Ruby, also in our specs
   # So in specs rely on to be_with(1.second) instead of to eq()
   # TODO: Migrate to use a timestamp with microsecond precision
+  def can_reply_by_custom_message?
+    self.inbox.allowed_custom_message_user_ids.include?(Current.user.id)
+  end
+
   def last_activity_at
     self[:last_activity_at] || created_at
   end
