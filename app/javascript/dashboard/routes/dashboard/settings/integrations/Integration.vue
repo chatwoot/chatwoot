@@ -108,9 +108,11 @@ const confirmDeletion = () => {
         </div>
       </router-link>
       <div v-if="!integrationEnabled">
-        <a :href="integrationAction" class="rounded button success nice">
-          {{ $t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT') }}
-        </a>
+        <slot name="action">
+          <a :href="integrationAction" class="rounded button success nice">
+            {{ $t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT') }}
+          </a>
+        </slot>
       </div>
     </div>
     <woot-delete-modal

@@ -8,9 +8,18 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
     return render json: { error: 'Shop domain is required' }, status: :unprocessable_entity if shop_domain.blank?
 
     state = generate_shopify_token(Current.account.id)
-    auth_response = ShopifyAPI::Auth::Oauth.begin_auth(shop: shop_domain, redirect_path: redirect_uri, state: state)
+    client_id = GlobalConfigService.load('SHOPIFY_CLIENT_ID', nil)
+    scopes = %w[read_customers read_orders read_fulfillments].join(',')
 
-    render json: { redirect_url: auth_response[:auth_route] }
+    auth_url = "https://#{shop_domain}/admin/oauth/authorize?"
+    auth_url += URI.encode_www_form(
+      client_id: client_id,
+      scope: scopes,
+      redirect_uri: redirect_uri,
+      state: state
+    )
+
+    render json: { redirect_url: auth_url }
   end
 
   private
@@ -34,7 +43,9 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
       api_key: shopify_client_id,
       api_secret_key: shopify_client_secret,
       api_version: '2025-01'.freeze,
-      scope: required_scopes.join(',')
+      scope: required_scopes.join(','),
+      is_embedded: true,
+      is_private: false
     )
   end
 end
