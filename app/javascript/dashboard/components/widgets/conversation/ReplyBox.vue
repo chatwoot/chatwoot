@@ -1314,7 +1314,7 @@ export default {
 }
 
 .canned-response__box {
-  max-height: 300px;
+  max-height: 600px;
   min-height: auto;
   overflow-y: auto;
 }
