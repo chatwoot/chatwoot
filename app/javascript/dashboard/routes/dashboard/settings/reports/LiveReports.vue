@@ -35,6 +35,7 @@ export default {
       agentConversationMetric: 'getAgentConversationMetric',
       accountConversationHeatmap: 'getAccountConversationHeatmapData',
       uiFlags: 'getOverviewUIFlags',
+      creditUsageMetric: 'getCreditUsageMetric',
     }),
     agentStatusMetrics() {
       let metric = {};
@@ -81,6 +82,7 @@ export default {
       this.fetchAccountConversationMetric();
       this.fetchAgentConversationMetric();
       this.fetchHeatmapData();
+      this.fetchCreditUsageMetric();
     },
     downloadHeatmapData() {
       let to = endOfDay(new Date());
@@ -125,6 +127,11 @@ export default {
       this.$store.dispatch('fetchAgentConversationMetric', {
         type: 'agent',
         page: this.pageIndex + 1,
+      });
+    },
+    fetchCreditUsageMetric() {
+      this.$store.dispatch('fetchCreditUsageMetric', {
+        type: 'account',
       });
     },
     onPageNumberChange(pageIndex) {
@@ -175,6 +182,19 @@ export default {
             </h3>
             <p class="text-n-slate-12 text-3xl mb-0 mt-1">
               {{ metric }}
+            </p>
+          </div>
+        </MetricCard>
+      </div>
+    </div>
+    <div class="flex flex-col items-center md:flex-row gap-4">
+      <div class="flex-1 w-full max-w-full">
+        <MetricCard
+          :header="'Credit Usage'"
+          :is-loading="uiFlags.isFetchingCreditUsage">
+          <div class="flex-1 min-w-0 pb-2">
+            <p class="text-n-slate-12 text-3xl mb-0 mt-1">
+              {{ creditUsageMetric?.credit_usage || '-' }}
             </p>
           </div>
         </MetricCard>

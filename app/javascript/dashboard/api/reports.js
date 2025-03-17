@@ -102,6 +102,10 @@ class ReportsAPI extends ApiClient {
       },
     });
   }
+
+  getCreditUsage() {
+    return axios.get(`${this.url}/credit_usage`);
+  }
 }
 
 export default new ReportsAPI();
