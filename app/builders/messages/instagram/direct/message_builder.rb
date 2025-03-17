@@ -74,21 +74,17 @@ class Messages::Instagram::Direct::MessageBuilder < Messages::Instagram::Direct:
     @conversation ||= set_conversation_based_on_inbox_config
   end
 
-  def instagram_direct_message_conversation
-    Conversation.where(conversation_params)
-                .where("additional_attributes ->> 'type' = 'instagram_direct_message'")
-  end
-
   def set_conversation_based_on_inbox_config
     if @inbox.lock_to_single_conversation
-      instagram_direct_message_conversation.order(created_at: :desc).first || build_conversation
+      Conversation.where(conversation_params).order(created_at: :desc).first || build_conversation
     else
       find_or_build_for_multiple_conversations
     end
   end
 
   def find_or_build_for_multiple_conversations
-    last_conversation = instagram_direct_message_conversation.where.not(status: :resolved).order(created_at: :desc).first
+    # If lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
+    last_conversation = Conversation.where(conversation_params).where.not(status: :resolved).order(created_at: :desc).first
 
     return build_conversation if last_conversation.nil?
 
@@ -131,8 +127,7 @@ class Messages::Instagram::Direct::MessageBuilder < Messages::Instagram::Direct:
     @contact_inbox ||= contact.contact_inboxes.find_by!(source_id: message_source_id)
 
     Conversation.create!(conversation_params.merge(
-                           contact_inbox_id: @contact_inbox.id,
-                           additional_attributes: { type: 'instagram_direct_message' }
+                           contact_inbox_id: @contact_inbox.id
                          ))
   end
 
