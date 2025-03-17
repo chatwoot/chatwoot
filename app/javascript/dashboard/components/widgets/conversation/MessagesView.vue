@@ -10,6 +10,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 import ReplyBox from './ReplyBox.vue';
 import Message from './Message.vue';
 import NextMessageList from 'next/message/MessageList.vue';
+import TypingIndicator from 'next/Conversation/Chips/TypingIndicator.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 
@@ -21,7 +22,6 @@ import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 
 // utils
 import { emitter } from 'shared/helpers/mitt';
-import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import {
@@ -42,6 +42,7 @@ export default {
     Message,
     NextMessageList,
     ReplyBox,
+    TypingIndicator,
     Banner,
     ConversationLabelSuggestion,
   },
@@ -141,25 +142,6 @@ export default {
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.inboxId);
-    },
-    typingUsersList() {
-      const userList = this.$store.getters[
-        'conversationTypingStatus/getUserList'
-      ](this.currentChat.id);
-      return userList;
-    },
-    isAnyoneTyping() {
-      const userList = this.typingUsersList;
-      return userList.length !== 0;
-    },
-    typingUserNames() {
-      const userList = this.typingUsersList;
-      if (this.isAnyoneTyping) {
-        const [i18nKey, params] = getTypingUsersText(userList);
-        return this.$t(i18nKey, params);
-      }
-
-      return '';
     },
     getMessages() {
       const messages = this.currentChat.messages || [];
@@ -613,19 +595,9 @@ export default {
       }"
     >
       <div
-        v-if="isAnyoneTyping"
-        class="absolute flex items-center w-full h-0 -top-7"
+        class="flex items-center justify-center gap-1 absolute w-full -top-7 h-0"
       >
-        <div
-          class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-slate-700 text-n-slate-11 text-xs font-semibold my-2.5 mx-auto"
-        >
-          {{ typingUserNames }}
-          <img
-            class="w-6 ltr:ml-2 rtl:mr-2"
-            src="assets/images/typing.gif"
-            alt="Someone is typing"
-          />
-        </div>
+        <TypingIndicator />
       </div>
       <ReplyBox
         v-model:popout-reply-box="isPopOutReplyBox"
