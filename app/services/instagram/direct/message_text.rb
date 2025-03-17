@@ -44,7 +44,7 @@ class Instagram::Direct::MessageText < Instagram::WebhooksBaseService
   end
 
   def fetch_instagram_user(ig_scope_id)
-    fields = 'name,username,profile_pic,follower_count,is_user_follow_business,is_business_follow_user'
+    fields = 'name,username,profile_pic,follower_count,is_user_follow_business,is_business_follow_user,is_verified_user'
     url = "#{self.class.base_uri}/#{ig_scope_id}?fields=#{fields}&access_token=#{@inbox.channel.access_token}"
 
     response = HTTParty.get(url)
@@ -71,7 +71,8 @@ class Instagram::Direct::MessageText < Instagram::WebhooksBaseService
       'id' => result['id'],
       'follower_count' => result['follower_count'],
       'is_user_follow_business' => result['is_user_follow_business'],
-      'is_business_follow_user' => result['is_business_follow_user']
+      'is_business_follow_user' => result['is_business_follow_user'],
+      'is_verified_user' => result['is_verified_user']
     }.with_indifferent_access
   end
 
