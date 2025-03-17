@@ -69,6 +69,9 @@ const normalizeToPercentage = (rotatedX, rotatedY, width, height) => {
 export const useImageZoom = imageRef => {
   const MAX_ZOOM_LEVEL = 3;
   const MIN_ZOOM_LEVEL = 1;
+  const ZOOM_INCREMENT = 0.2;
+  const MOUSE_MOVE_DEBOUNCE_MS = 100;
+  const MOUSE_LEAVE_DEBOUNCE_MS = 110;
   const DEFAULT_IMG_TRANSFORM_ORIGIN = 'center center';
 
   const zoomScale = ref(1);
@@ -180,7 +183,7 @@ export const useImageZoom = imageRef => {
     if (!imageRef.value) return;
     e.preventDefault();
 
-    const scale = e.deltaY > 0 ? -0.2 : 0.2;
+    const scale = e.deltaY > 0 ? -ZOOM_INCREMENT : ZOOM_INCREMENT;
     onZoom(scale, e.clientX, e.clientY);
   };
 
@@ -198,7 +201,7 @@ export const useImageZoom = imageRef => {
       const { x: originX, y: originY } = getZoomOrigin(e.clientX, e.clientY);
       imgTransformOriginPoint.value = `${originX}% ${originY}%`;
     },
-    100,
+    MOUSE_MOVE_DEBOUNCE_MS,
     false
   );
 
@@ -213,7 +216,7 @@ export const useImageZoom = imageRef => {
       if (zoomScale.value !== MIN_ZOOM_LEVEL) return;
       imgTransformOriginPoint.value = DEFAULT_IMG_TRANSFORM_ORIGIN;
     },
-    110,
+    MOUSE_LEAVE_DEBOUNCE_MS,
     false
   );
 
