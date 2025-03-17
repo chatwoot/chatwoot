@@ -11,6 +11,7 @@ import ReplyBox from './ReplyBox.vue';
 import Message from './Message.vue';
 import NextMessageList from 'next/message/MessageList.vue';
 import TypingIndicator from 'next/Conversation/Chips/TypingIndicator.vue';
+import UnreadIndicator from 'next/Conversation/Chips/UnreadIndicator.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 
@@ -43,6 +44,7 @@ export default {
     NextMessageList,
     ReplyBox,
     TypingIndicator,
+    UnreadIndicator,
     Banner,
     ConversationLabelSuggestion,
   },
@@ -110,6 +112,9 @@ export default {
   data() {
     return {
       isLoadingPrevious: true,
+      // this is only used to show a chip if the user has scrolled far enough
+      // we will hide this the moment the user reaches the start of the unread messages
+      showFloatingUnreadIndicator: false,
       heightBeforeLoad: null,
       conversationPanel: null,
       hasUserScrolled: false,
@@ -230,9 +235,9 @@ export default {
         this.unreadMessageCount > 9 ? '9+' : this.unreadMessageCount;
       const label =
         this.unreadMessageCount > 1
-          ? 'CONVERSATION.UNREAD_MESSAGES'
-          : 'CONVERSATION.UNREAD_MESSAGE';
-      return `${count} ${this.$t(label)}`;
+          ? this.$t('CONVERSATION.UNREAD_MESSAGES')
+          : this.$t('CONVERSATION.UNREAD_MESSAGE');
+      return `${count} ${label}`;
     },
     isInstagramDM() {
       return this.conversationType === 'instagram_direct_message';
@@ -344,7 +349,6 @@ export default {
           this.scrollToBottomIfNotScrolled();
         }
       });
-      this.makeMessagesRead();
     },
     addScrollListener() {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');
@@ -356,7 +360,7 @@ export default {
     removeScrollListener() {
       this.conversationPanel.removeEventListener('scroll', this.handleScroll);
     },
-    scrollToBottomIfNotScrolled() {
+    isNearBottom(offset = 200) {
       // In case the user has already scrolled to a point in the message, we should
       // not scroll to the bottom against the intent of the user.
       const clientHeight = this.conversationPanel.clientHeight;
@@ -371,13 +375,20 @@ export default {
       // if the user is at the bottom or close to the bottom, we can skip scrolling
       // we add a 200px margin, this has enough space to accomodate new messages
       // while also resetting position to the bottom if the user has scrolled but not significantly
-      const isNearBottom = scrollTop > scrollHeight - clientHeight - 200;
+      return scrollTop > scrollHeight - clientHeight - offset;
+    },
+    scrollToBottomIfNotScrolled() {
+      const isNearBottom = this.isNearBottom();
 
-      if (this.hasUserScrolled && !isNearBottom) return;
+      if (this.hasUserScrolled && !isNearBottom) {
+        this.showFloatingUnreadIndicator = true;
+        return;
+      }
 
       this.scrollToBottom();
     },
     scrollToBottom() {
+      this.showFloatingUnreadIndicator = false;
       this.isProgrammaticScroll = true;
       let relevantMessages = [];
 
@@ -402,6 +413,10 @@ export default {
         relevantMessages = Array.from(
           this.conversationPanel.querySelectorAll('.message--read')
         ).slice(-1);
+      }
+
+      if (this.unreadMessageCount !== 0) {
+        this.makeMessagesRead();
       }
 
       this.conversationPanel.scrollTop = calculateScrollTop(
@@ -457,12 +472,28 @@ export default {
       } else {
         this.hasUserScrolled = true;
       }
+
+      // in case the user has scrolled to the bottom manually
+      // we trigger the makeMessagesRead method if there are unread messages
+      // TODO: debounce this check to ensure this does not affect performance
+      if (this.isNearBottom(50) && this.unreadMessageCount !== 0) {
+        this.makeMessagesRead();
+      }
+
       emitter.emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
       this.fetchPreviousMessages(e.target.scrollTop);
     },
 
     makeMessagesRead() {
       this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
+    },
+    // when the fixed unread badge is visible
+    // we trigger the makeMessagesRead method
+    onUnreadBadgeIntersect(visible) {
+      if (visible) {
+        this.showFloatingUnreadIndicator = false;
+        this.makeMessagesRead();
+      }
     },
     getInReplyToMessage(parentMessage) {
       if (!parentMessage) return {};
@@ -520,9 +551,12 @@ export default {
       </template>
       <template #unreadBadge>
         <li v-show="unreadMessageCount != 0" class="unread--toast">
-          <span>
-            {{ unreadMessageLabel }}
-          </span>
+          <UnreadIndicator
+            :label="unreadMessageLabel"
+            variant="primary"
+            class="mx-auto"
+            @intersect="onUnreadBadgeIntersect"
+          />
         </li>
       </template>
       <template #after>
@@ -598,6 +632,13 @@ export default {
         class="flex items-center justify-center gap-1 absolute w-full -top-7 h-0"
       >
         <TypingIndicator />
+        <UnreadIndicator
+          v-if="showFloatingUnreadIndicator && unreadMessageCount > 0"
+          variant="secondary"
+          class="cursor-pointer"
+          :label="unreadMessageLabel"
+          @click="scrollToBottom"
+        />
       </div>
       <ReplyBox
         v-model:popout-reply-box="isPopOutReplyBox"
