@@ -30,6 +30,7 @@ import {
   getReadMessages,
   getUnreadMessages,
 } from 'dashboard/helper/conversationHelper';
+import { debounce } from '@chatwoot/utils';
 
 // constants
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -278,6 +279,7 @@ export default {
     this.addScrollListener();
     this.fetchAllAttachmentsFromCurrentChat();
     this.fetchSuggestions();
+    this.debouncedMarkReadIfRequired = debounce(this.markReadIfRequired, 100);
   },
 
   unmounted() {
@@ -475,13 +477,16 @@ export default {
 
       // in case the user has scrolled to the bottom manually
       // we trigger the makeMessagesRead method if there are unread messages
-      // TODO: debounce this check to ensure this does not affect performance
-      if (this.isNearBottom(50) && this.unreadMessageCount !== 0) {
-        this.makeMessagesRead();
-      }
+      this.debouncedMarkReadIfRequired();
 
       emitter.emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
       this.fetchPreviousMessages(e.target.scrollTop);
+    },
+
+    markReadIfRequired() {
+      if (this.isNearBottom(50) && this.unreadMessageCount !== 0) {
+        this.makeMessagesRead();
+      }
     },
 
     makeMessagesRead() {
