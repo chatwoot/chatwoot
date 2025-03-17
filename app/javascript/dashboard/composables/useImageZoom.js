@@ -35,12 +35,8 @@ export const useImageZoom = imageRef => {
 
     const rotation = type === 'clockwise' ? 90 : -90;
 
-    // Reset rotation if it is 360
-    if (Math.abs(activeImageRotation.value) === 360) {
-      activeImageRotation.value = rotation;
-    } else {
-      activeImageRotation.value += rotation;
-    }
+    // ensure that the value of the rotation is within the range of -360 to 360 degrees
+    activeImageRotation.value = (activeImageRotation.value + rotation) % 360;
 
     // Reset zoom when rotating
     zoomScale.value = 1;
