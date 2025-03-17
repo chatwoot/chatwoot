@@ -170,7 +170,7 @@ useKeyboardEvents(keyboardEvents);
         />
         <EmojiInput
           v-if="isEmojiPickerOpen"
-          class="left-0 top-full mt-1.5"
+          class="ltr:left-11 rtl:right-11 -top-[16.875rem]"
           :on-click="onClickInsertEmoji"
         />
       </div>
@@ -231,5 +231,21 @@ useKeyboardEvents(keyboardEvents);
 <style scoped lang="scss">
 .emoji-dialog::before {
   @apply hidden;
+}
+
+// The <label> tag inside the file-upload component overlaps the button due to its position.
+// This causes the button's hover state to not work, as it's positioned below the label (z-index).
+// Increasing the button's z-index would break the file upload functionality.
+// This style ensures the label remains clickable while preserving the button's hover effect.
+:deep() {
+  .file-uploads.file-uploads-html5 {
+    label {
+      @apply hover:cursor-pointer;
+    }
+
+    &:hover button {
+      @apply dark:bg-n-solid-2 bg-n-alpha-2;
+    }
+  }
 }
 </style>
