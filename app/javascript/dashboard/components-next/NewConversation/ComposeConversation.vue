@@ -195,8 +195,15 @@ watch(
 );
 
 const handleClickOutside = () => {
+  if (!showComposeNewConversation.value) return;
+
   showComposeNewConversation.value = false;
   emit('close');
+};
+
+const onModalBackdropClick = () => {
+  if (!props.isModal) return;
+  handleClickOutside();
 };
 
 onMounted(() => resetContacts());
@@ -216,6 +223,12 @@ useKeyboardEvents(keyboardEvents);
 
 <template>
   <div
+    v-on-click-outside="[
+      handleClickOutside,
+      // Fixed and edge case https://github.com/chatwoot/chatwoot/issues/10785
+      // This will prevent closing the compose conversation modal when the editor Create link popup is open
+      { ignore: ['div.ProseMirror-prompt'] },
+    ]"
     class="relative"
     :class="{
       'z-40': showComposeNewConversation,
@@ -232,14 +245,9 @@ useKeyboardEvents(keyboardEvents);
         'fixed z-50 bg-n-alpha-black1 backdrop-blur-[4px] flex items-center justify-center inset-0':
           isModal,
       }"
+      @click.self="onModalBackdropClick"
     >
       <ComposeNewConversationForm
-        v-on-click-outside="[
-          handleClickOutside,
-          // Fixed and edge case https://github.com/chatwoot/chatwoot/issues/10785
-          // This will prevent closing the compose conversation modal when the editor Create link popup is open
-          { ignore: ['div.ProseMirror-prompt'] },
-        ]"
         :class="[{ 'mt-2': !isModal }, composePopoverClass]"
         :contacts="contacts"
         :contact-id="contactId"
