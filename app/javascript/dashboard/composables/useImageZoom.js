@@ -1,69 +1,10 @@
 import { ref, computed } from 'vue';
-import { debounce } from '@chatwoot/utils';
-
-/**
- * Calculates the relative position of a point from the center of an element
- *
- * @param {number} mouseX - The x-coordinate of the mouse pointer
- * @param {number} mouseY - The y-coordinate of the mouse pointer
- * @param {DOMRect} rect - The bounding client rectangle of the target element
- * @returns {{relativeX: number, relativeY: number}} Object containing x and y distances from center
- */
-const calculateCenterOffset = (mouseX, mouseY, rect) => {
-  const centerX = rect.left + rect.width / 2;
-  const centerY = rect.top + rect.height / 2;
-
-  return {
-    relativeX: mouseX - centerX,
-    relativeY: mouseY - centerY,
-  };
-};
-
-/**
- * Applies a rotation matrix to coordinates
- * Used to adjust mouse coordinates based on the current rotation of the image
- * This function implements a standard 2D rotation matrix transformation:
- * [x']   [cos(θ) -sin(θ)] [x]
- * [y'] = [sin(θ)  cos(θ)] [y]
- *
- * @see {@link https://mathworld.wolfram.com/RotationMatrix.html} for mathematical derivation
- *
- * @param {number} relativeX - X-coordinate relative to center before rotation
- * @param {number} relativeY - Y-coordinate relative to center before rotation
- * @param {number} angle - Rotation angle in degrees
- * @returns {{rotatedX: number, rotatedY: number}} Coordinates after applying rotation matrix
- */
-const applyRotationTransform = (relativeX, relativeY, angle) => {
-  const radians = (angle * Math.PI) / 180;
-  const cos = Math.cos(-radians);
-  const sin = Math.sin(-radians);
-
-  return {
-    rotatedX: relativeX * cos - relativeY * sin,
-    rotatedY: relativeX * sin + relativeY * cos,
-  };
-};
-
-/**
- * Converts absolute rotated coordinates to percentage values relative to image dimensions
- * Ensures values are clamped between 0-100% for valid CSS transform-origin properties
- *
- * @param {number} rotatedX - X-coordinate after rotation transformation
- * @param {number} rotatedY - Y-coordinate after rotation transformation
- * @param {number} width - Width of the target element
- * @param {number} height - Height of the target element
- * @returns {{x: number, y: number}} Normalized coordinates as percentages (0-100%)
- */
-const normalizeToPercentage = (rotatedX, rotatedY, width, height) => {
-  // Convert to percentages (0-100%) relative to image dimensions
-  // 50% represents the center point
-  // The division by (width/2) maps the range [-width/2, width/2] to [-50%, 50%]
-  // Adding 50% shifts this to [0%, 100%]
-  return {
-    x: Math.max(0, Math.min(100, 50 + (rotatedX / (width / 2)) * 50)),
-    y: Math.max(0, Math.min(100, 50 + (rotatedY / (height / 2)) * 50)),
-  };
-};
+import {
+  debounce,
+  calculateCenterOffset,
+  applyRotationTransform,
+  normalizeToPercentage,
+} from '@chatwoot/utils';
 
 // Composable for images in gallery view
 export const useImageZoom = imageRef => {
