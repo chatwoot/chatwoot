@@ -100,10 +100,13 @@
       "NO_RESULTS": "Nenhum resultado encontrado."
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "Nenhuma",
+      "PLACEHOLDER": "Nenhum",
       "TITLE": {
         "AGENT": "Selecionar agente",
         "TEAM": "Selecionar time"
+      },
+      "LIST": {
+        "NONE": "Nenhuma"
       },
       "SEARCH": {
         "NO_RESULTS": {

@@ -26,7 +26,7 @@
         "UPDATE_SUCCESS": "Suas configurações foram atualizadas com sucesso",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Inserir (↵)",
+            "HEADING": "Enter (↵)",
             "CONTENT": "Enviar mensagens pressionando a tecla Enter em vez de clicar no botão de enviar."
           },
           "CMD_ENTER_KEY": {
@@ -37,19 +37,19 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Personalize a aparência do seu painel do Chatwoot.",
         "FONT_SIZE": {
-          "TITLE": "Font size",
-          "NOTE": "Adjust the text size across the dashboard based on your preference.",
-          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "TITLE": "Tamanho da fonte",
+          "NOTE": "Ajuste o tamanho do texto do painel com base na sua preferência.",
+          "UPDATE_SUCCESS": "As configurações de sua fonte foram atualizadas com sucesso",
+          "UPDATE_ERROR": "Ocorreu um erro ao atualizar as configurações de fonte, por favor, tente novamente",
           "OPTIONS": {
-            "SMALLER": "Smaller",
-            "SMALL": "Small",
+            "SMALLER": "Menor",
+            "SMALL": "Pequeno",
             "DEFAULT": "Padrão",
-            "LARGE": "Large",
-            "LARGER": "Larger",
-            "EXTRA_LARGE": "Extra Large"
+            "LARGE": "Grande",
+            "LARGER": "Maior",
+            "EXTRA_LARGE": "Muito Grande"
           }
         }
       },
@@ -287,13 +287,13 @@
     "HOME": "Principal",
     "AGENTS": "Agentes",
     "AGENT_BOTS": "Robôs",
-    "AUDIT_LOGS": "Registros de Auditoria",
+    "AUDIT_LOGS": "Auditoria",
     "INBOXES": "Caixas de Entrada",
     "NOTIFICATIONS": "Notificações",
     "CANNED_RESPONSES": "Respostas Prontas",
     "INTEGRATIONS": "Integrações",
     "PROFILE_SETTINGS": "Configurações do Perfil",
-    "ACCOUNT_SETTINGS": "Configurações da conta",
+    "ACCOUNT_SETTINGS": "Conta",
     "APPLICATIONS": "Aplicações",
     "LABELS": "Etiquetas",
     "CUSTOM_ATTRIBUTES": "Atributos Personalizados",
@@ -322,7 +322,7 @@
     "REPORTS_INBOX": "Caixa de Entrada",
     "REPORTS_TEAM": "Equipe",
     "SET_AVAILABILITY_TITLE": "Defina como",
-    "SET_YOUR_AVAILABILITY": "Definir a sua disponibilidade",
+    "SET_YOUR_AVAILABILITY": "Disponibilidade",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Regras Personalizadas",
     "BETA": "Beta",
