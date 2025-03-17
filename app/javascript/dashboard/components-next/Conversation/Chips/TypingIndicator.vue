@@ -3,24 +3,24 @@ import { useFunctionGetter, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
 
-const { $t } = useI18n();
+const { t } = useI18n();
 
 const getTypingUsersText = (users = []) => {
   const count = users.length;
   const [firstUser, secondUser] = users;
 
   if (count === 1) {
-    return $t('TYPING.ONE', { user: firstUser.name });
+    return t('TYPING.ONE', { user: firstUser.name });
   }
 
   if (count === 2) {
-    return $t('TYPING.TWO', {
+    return t('TYPING.TWO', {
       user: firstUser.name,
       secondUser: secondUser.name,
     });
   }
 
-  return $t('TYPING.MULTIPLE', { user: firstUser.name, count: count - 1 });
+  return t('TYPING.MULTIPLE', { user: firstUser.name, count: count - 1 });
 };
 
 const currentChat = useMapGetter('getSelectedChat');
