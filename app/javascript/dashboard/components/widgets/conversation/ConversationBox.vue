@@ -66,7 +66,7 @@
             :on-toggle="onToggleContactPanel"
           />
         </div>
-        <div class="h-[95vh]">
+        <div class="h-[90vh] md:h-[85vh]">
           <dashboard-app-frame
             v-for="(dashboardApp, index) in dashboardApps"
             v-show="contactPanelActiveIndex - 1 === index"
