@@ -184,41 +184,5 @@ shopify:
   id: shopify
   logo: shopify.png
   i18n_key: shopify
-  action: https://shopify.com/oauth/authorize
   hook_type: account
   allow_multiple_hooks: false
-  settings_json_schema:
-    {
-      'type': 'object',
-      'properties':
-        {
-          'shop_domain': { 'type': 'string' },
-          'api_key': { 'type': 'string' },
-          'api_secret': { 'type': 'string' }
-        },
-      'required': ['shop_domain', 'api_key', 'api_secret'],
-      'additionalProperties': false,
-    }
-  settings_form_schema:
-    [
-      {
-        'label': 'Shop Domain',
-        'type': 'text',
-        'name': 'shop_domain',
-        'validation': 'required',
-        'placeholder': 'your-store.myshopify.com'
-      },
-      {
-        'label': 'API Key',
-        'type': 'text',
-        'name': 'api_key',
-        'validation': 'required'
-      },
-      {
-        'label': 'API Secret',
-        'type': 'text',
-        'name': 'api_secret',
-        'validation': 'required'
-      }
-    ]
-  visible_properties: ['shop_domain']
