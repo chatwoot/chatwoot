@@ -207,7 +207,7 @@ export default {
 
 <template>
   <div
-    class="border border-n-weak bg-n-solid-1 rounded-lg h-full w-full p-6 col-span-6 overflow-auto"
+    class="border border-n-weak bg-n-solid-1 rounded-t-lg border-b-0 h-full w-full p-6 col-span-6 overflow-auto"
   >
     <div
       v-if="!hasLoginStarted"
