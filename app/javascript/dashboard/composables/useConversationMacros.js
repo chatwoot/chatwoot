@@ -23,9 +23,8 @@ export function useConversationMacros() {
 
   const activeMacros = computed(() => getters['macros/getMacros'].value);
 
-  const playMacroToConversation = (macroId) => {
+  const playMacroToConversation = macroId => {
     store.dispatch('macros/execute', {
-      macroId: macroId,
       conversationIds: [conversationId.value],
       macroId,
     });

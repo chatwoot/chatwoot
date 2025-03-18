@@ -153,10 +153,7 @@ export function useConversationHotKeys() {
     removeLabelFromConversation,
   } = useConversationLabels();
 
-  const {
-    activeMacros,
-    playMacroToConversation,
-  } = useConversationMacros();
+  const { activeMacros, playMacroToConversation } = useConversationMacros();
 
   const { isAIIntegrationEnabled } = useAI();
   const { agentsList } = useAgentsList();
@@ -346,7 +343,7 @@ export function useConversationHotKeys() {
       parent: 'play_a_macro',
       section: t('COMMAND_BAR.SECTIONS.PLAY_MACRO'),
       icon: ICON_PLAY_MACRO,
-      handler: action => playMacroToConversation(macro.id),
+      handler: () => playMacroToConversation(macro.id),
     }));
     return [
       ...macroOptions,
@@ -358,14 +355,13 @@ export function useConversationHotKeys() {
         children: macroOptions.map(option => option.id),
       },
     ];
-  })
+  });
 
   const macroActions = computed(() => {
     if (activeMacros.value.length) {
       return playMacroActions.value;
-    } else {
-      return [];
     }
+    return [];
   });
 
   const conversationAdditionalActions = computed(() => {

@@ -58,6 +58,13 @@ export default {
       deep: true,
     },
   },
+  mounted() {
+    this.inboxes = useMapGetter('inboxes/getInboxes');
+    this.selectedInboxes = this.inboxes.filter(inbox =>
+      this.edinboxIds.includes(inbox.id)
+    );
+    this.selectedInboxIds = this.selectedInboxes.map(inbox => inbox.id);
+  },
   methods: {
     resetForm() {
       this.shortCode = '';
@@ -94,14 +101,11 @@ export default {
         })
         .catch(error => {
           this.editCanned.showLoading = false;
-          useAlert(error?.message || this.$t('CANNED_MGMT.EDIT.API.ERROR_MESSAGE'));
+          useAlert(
+            error?.message || this.$t('CANNED_MGMT.EDIT.API.ERROR_MESSAGE')
+          );
         });
     },
-  },
-  mounted() {
-    this.inboxes = useMapGetter('inboxes/getInboxes');
-    this.selectedInboxes = this.inboxes.filter(inbox => this.edinboxIds.includes(inbox.id));
-    this.selectedInboxIds = this.selectedInboxes.map(inbox => inbox.id);
   },
 };
 </script>
@@ -109,7 +113,9 @@ export default {
 <template>
   <Modal v-model:show="show" :on-close="onClose">
     <div class="flex flex-col h-auto overflow-auto">
-      <woot-modal-header :header-title="$t('CANNED_MGMT.EDIT.TITLE') + ' - ' + edshortCode" />
+      <woot-modal-header
+        :header-title="$t('CANNED_MGMT.EDIT.TITLE') + ' - ' + edshortCode"
+      />
 
       <form class="flex flex-col w-full" @submit.prevent="editCannedResponse">
         <div class="w-full">
@@ -142,12 +148,12 @@ export default {
         </div>
 
         <div class="w-full">
-          <label> Select Inboxes </label>
+          <label>{{ $t('CANNED_MGMT.EDIT.FORM.SELECT_INBOXES.LABEL') }}</label>
           <MultiSelect
             v-model="selectedInboxes"
             :options="inboxes"
-            :multiple="true"
             :close-on-select="false"
+            multiple="true"
             label="name"
             track-by="id"
             placeholder="Select inboxes"

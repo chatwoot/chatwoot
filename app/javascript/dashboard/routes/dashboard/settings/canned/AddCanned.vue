@@ -19,8 +19,6 @@ export default {
   },
   props: {
     responseContent: { type: String, default: '' },
-    responseShortCode: { type: String, default: '' },
-    responseInboxes: { type: Array, default: () => [] },
     onClose: { type: Function, default: () => {} },
   },
   setup() {
@@ -47,6 +45,9 @@ export default {
     content: {
       required,
     },
+  },
+  mounted() {
+    this.inboxes = useMapGetter('inboxes/getInboxes');
   },
   methods: {
     resetForm() {
@@ -82,9 +83,6 @@ export default {
           useAlert(errorMessage);
         });
     },
-  },
-  mounted() {
-    this.inboxes = useMapGetter('inboxes/getInboxes');
   },
 };
 </script>
@@ -126,18 +124,18 @@ export default {
           </div>
         </div>
 
-      <div class="w-full">
-        <label> Select Inboxes </label>
-        <MultiSelect
+        <div class="w-full">
+          <label>{{ $t('CANNED_MGMT.ADD.FORM.SELECT_INBOXES.LABEL') }}</label>
+          <MultiSelect
             v-model="selectedInboxes"
             :options="inboxes"
-            :multiple="true"
             :close-on-select="false"
+            multiple="true"
             label="name"
             track-by="id"
             placeholder="Select Inboxes"
-            />
-      </div>
+          />
+        </div>
 
         <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <NextButton

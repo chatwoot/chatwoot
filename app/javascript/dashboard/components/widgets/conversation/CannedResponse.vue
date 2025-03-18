@@ -13,6 +13,7 @@ export default {
   emits: ['replace'],
   computed: {
     ...mapGetters({
+      currentChat: 'getSelectedChat',
       cannedMessages: 'getCannedResponses',
     }),
     items() {
@@ -33,8 +34,11 @@ export default {
   },
   methods: {
     fetchCannedResponses() {
-      const inboxId = this.$route.params.inbox_id;
-      this.$store.dispatch('getCannedResponse', { searchKey: this.searchKey, inboxId });
+      const inboxId = this.currentChat.inbox_id;
+      this.$store.dispatch('getCannedResponse', {
+        searchKey: this.searchKey,
+        inboxId,
+      });
     },
     handleMentionClick(item = {}) {
       this.$emit('replace', item.description);

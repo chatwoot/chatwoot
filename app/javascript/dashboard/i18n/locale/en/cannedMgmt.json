@@ -31,6 +31,9 @@
           "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
           "ERROR": "Message is required."
         },
+        "SELECT_INBOXES": {
+          "LABEL": "Select Inboxes"
+        },
         "SUBMIT": "Submit"
       },
       "API": {
@@ -51,6 +54,9 @@
           "LABEL": "Message",
           "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
           "ERROR": "Message is required."
+        },
+        "SELECT_INBOXES": {
+          "LABEL": "Select Inboxes"
         },
         "SUBMIT": "Submit"
       },

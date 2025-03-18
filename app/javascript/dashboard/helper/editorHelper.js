@@ -338,7 +338,7 @@ const nodeCreators = {
     from,
     to,
   }),
-  teamMention: (editorView, content, from, to, variables) => ({
+  teamMention: (editorView, content, from, to) => ({
     node: createNode(editorView, 'teamMention', content),
     from,
     to,

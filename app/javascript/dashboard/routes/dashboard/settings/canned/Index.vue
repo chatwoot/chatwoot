@@ -117,7 +117,7 @@ const tableHeaders = computed(() => {
 });
 
 const updateCannedItem = updatedResponse => {
-    const index = records.value.findIndex(
+  const index = records.value.findIndex(
     response => response.id === updatedResponse.id
   );
   records.value[index] = updatedResponse;

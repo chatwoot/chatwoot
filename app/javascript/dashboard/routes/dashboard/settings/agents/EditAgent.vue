@@ -158,7 +158,9 @@ const resetPassword = async () => {
 };
 
 const slackEnabled = computed(() =>
-  appIntegrations.value.some(integration => integration.id === 'slack' && integration.enabled)
+  appIntegrations.value.some(
+    integration => integration.id === 'slack' && integration.enabled
+  )
 );
 </script>
 
@@ -212,13 +214,15 @@ const slackEnabled = computed(() =>
           </span>
         </label>
       </div>
-      <div class="w-full" v-if="slackEnabled">
+      <div v-if="slackEnabled" class="w-full">
         <label :class="{ error: v$.agentSlackMentionCode.$error }">
           {{ $t('AGENT_MGMT.EDIT.FORM.SLACK_MENTION_CODE.LABEL') }}
           <input
             v-model="agentSlackMentionCode"
             type="text"
-            :placeholder="$t('AGENT_MGMT.EDIT.FORM.SLACK_MENTION_CODE.PLACEHOLDER')"
+            :placeholder="
+              $t('AGENT_MGMT.EDIT.FORM.SLACK_MENTION_CODE.PLACEHOLDER')
+            "
             @input="v$.agentSlackMentionCode.$touch"
           />
         </label>

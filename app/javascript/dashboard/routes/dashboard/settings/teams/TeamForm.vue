@@ -32,7 +32,6 @@ export default {
   },
   setup(props) {
     const formData = props.formData || {};
-    console.log('formData', formData);
     const {
       description = '',
       name: title = '',
@@ -59,7 +58,7 @@ export default {
       return this.appIntegrations.some(
         integration => integration.id === 'slack' && integration.enabled
       );
-    }
+    },
   },
   methods: {
     handleSubmit() {
@@ -115,7 +114,9 @@ export default {
           name="slack_mention_code"
           spacing="compact"
           :label="$t('TEAMS_SETTINGS.FORM.SLACK_MENTION_CODE.LABEL')"
-          :placeholder="$t('TEAMS_SETTINGS.FORM.SLACK_MENTION_CODE.PLACEHOLDER')"
+          :placeholder="
+            $t('TEAMS_SETTINGS.FORM.SLACK_MENTION_CODE.PLACEHOLDER')
+          "
         />
       </div>
       <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
