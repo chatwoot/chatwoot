@@ -72,7 +72,7 @@ textarea {
   }
 }
 
-$form-input-selector: "input[type]:not([type='file']):not([type='checkbox']):not([type='radio']):not([type='button']):not([type='submit']):not([type='reset']):not(.reset-base):not(.multiselect__input)";
+$form-input-selector: "input[type]:not([type='file']):not([type='checkbox']):not([type='radio']):not([type='button']):not([type='submit']):not([type='reset']):not(.reset-base):not(.multiselect__input):not(.no-margin)";
 
 #{$form-input-selector} {
   @apply field-base h-10;
@@ -151,8 +151,9 @@ label:has(.help-text) {
   }
 
   // Only add mb-1 when .message exists within the same .error container
+  // And exclude no-margin from the margin-bottom
   &:has(.message) {
-    input,
+    input:not(.no-margin),
     textarea,
     select {
       margin-bottom: 0.25rem !important;
