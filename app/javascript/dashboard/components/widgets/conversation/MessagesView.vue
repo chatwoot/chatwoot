@@ -238,13 +238,17 @@ export default {
       return this.currentChat.unread_count || 0;
     },
     unreadMessageLabel() {
-      const count =
-        this.unreadMessageCount > 9 ? '9+' : this.unreadMessageCount;
-      const label =
-        this.unreadMessageCount > 1
-          ? this.$t('CONVERSATION.UNREAD_MESSAGES')
-          : this.$t('CONVERSATION.UNREAD_MESSAGE');
-      return `${count} ${label}`;
+      if (this.unreadMessageCount <= 1) {
+        return this.$t('CONVERSATION.SINGLE_UNREAD_MESSAGE');
+      }
+
+      if (this.unreadMessageCount > 9) {
+        return this.$t('CONVERSATION.UNREAD_COUNT_OVERFLOW');
+      }
+
+      return this.$t('CONVERSATION.UNREAD_COUNT', {
+        count: this.unreadMessageCount,
+      });
     },
     isInstagramDM() {
       return this.conversationType === 'instagram_direct_message';
