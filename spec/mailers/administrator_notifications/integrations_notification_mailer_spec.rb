@@ -1,6 +1,9 @@
 require 'rails_helper'
+require Rails.root.join 'spec/mailers/administrator_notifications/shared/smtp_config_shared.rb'
 
 RSpec.describe AdministratorNotifications::IntegrationsNotificationMailer do
+  include_context 'with smtp config'
+
   let!(:account) { create(:account) }
   let!(:administrator) { create(:user, :administrator, email: 'admin@example.com', account: account) }
 

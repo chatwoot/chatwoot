@@ -1,16 +1,14 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require Rails.root.join 'spec/mailers/administrator_notifications/shared/smtp_config_shared.rb'
 
 RSpec.describe AdministratorNotifications::ChannelNotificationsMailer do
+  include_context 'with smtp config'
+
   let(:class_instance) { described_class.new }
   let!(:account) { create(:account) }
   let!(:administrator) { create(:user, :administrator, email: 'agent1@example.com', account: account) }
-
-  before do
-    allow(described_class).to receive(:new).and_return(class_instance)
-    allow(class_instance).to receive(:smtp_config_set_or_development?).and_return(true)
-  end
 
   describe 'facebook_disconnect' do
     before do
