@@ -2,8 +2,8 @@
   "AGENT_BOTS": {
     "HEADER": "Robôs",
     "LOADING_EDITOR": "Carregando Editor...",
-    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.You can manage your bots from this page or create new ones using the 'Configure new bot' button.",
-    "LEARN_MORE": "Learn about agent bots",
+    "DESCRIPTION": "Robôs agentes são como os membros mais fabulosos da sua equipe. Eles podem lidar com as pequenas coisas, assim você pode focar nas coisas que importam. Dê uma oportunidade a eles. Você pode gerenciar seus robôs a partir desta página ou criar novos usando o botão 'Configurar novo robô'.",
+    "LEARN_MORE": "Aprenda sobre os robôs agentes",
     "CSML_BOT_EDITOR": {
       "NAME": {
         "LABEL": "Nome do Robô",
