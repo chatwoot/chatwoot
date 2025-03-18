@@ -6,7 +6,6 @@ import { MESSAGE_STATUS } from 'shared/constants/messages';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
-import * as Sentry from '@sentry/vue';
 
 const makeCompactJson = obj => {
   // get rid of irrelevant data
@@ -238,18 +237,6 @@ export const mutations = {
 
       // ignore out of order events
       if (conversation.updated_at < selectedConversation.updated_at) {
-        Sentry.withScope(scope => {
-          scope.setTag('account_id', conversation.account_id);
-          scope.setTag('conversation_id', conversation.id);
-
-          scope.setContext('incoming', conversation);
-          scope.setContext('stored', selectedConversation);
-          scope.setContext('incoming_meta', conversation.meta);
-          scope.setContext('stored_meta', selectedConversation.meta);
-
-          Sentry.captureMessage('Conversation update mismatch');
-        });
-
         if (window.newrelic) {
           window.newrelic.log(
             `conversation update mismatch for ${conversation.id} with incoming ${makeCompactJson(conversation)} and stored ${makeCompactJson(selectedConversation)}`,
