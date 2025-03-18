@@ -100,13 +100,7 @@ const hasValue = computed(() => {
           >
             {{ multiselectorTitle }}
           </h4>
-          <woot-button
-            icon="dismiss"
-            size="tiny"
-            color-scheme="secondary"
-            variant="clear"
-            @click="onCloseDropdown"
-          />
+          <Button ghost slate xs icon="i-lucide-x" @click="onCloseDropdown" />
         </div>
         <MultiselectDropdownItems
           v-if="showSearchDropdown"
