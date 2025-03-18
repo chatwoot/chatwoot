@@ -88,11 +88,9 @@ onMounted(() => store.dispatch('captainAssistants/get'));
         :button-label="$t('CAPTAIN.HEADER_KNOW_MORE')"
         :title="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.FEATURE_SPOTLIGHT.TITLE')"
         :note="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
-        video-url=""
-        thumbnail=""
         fallback-thumbnail="/assets/images/dashboard/captain/assistant-popover-light.svg"
         fallback-thumbnail-dark="/assets/images/dashboard/captain/assistant-popover-dark.svg"
-        learn-more-url="https://www.chatwoot.com/hc/user-guide/articles/1738101547-creating-an-assistant-with-captain"
+        learn-more-url="https://chwt.app/captain-assistant"
       />
     </template>
     <template #emptyState>

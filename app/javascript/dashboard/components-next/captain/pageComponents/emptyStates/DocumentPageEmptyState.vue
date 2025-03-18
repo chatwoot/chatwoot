@@ -16,11 +16,9 @@ const onClick = () => {
   <FeatureSpotlight
     :title="$t('CAPTAIN.DOCUMENTS.EMPTY_STATE.FEATURE_SPOTLIGHT.TITLE')"
     :note="$t('CAPTAIN.DOCUMENTS.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
-    video-url=""
-    thumbnail=""
     fallback-thumbnail="/assets/images/dashboard/captain/document-light.svg"
     fallback-thumbnail-dark="/assets/images/dashboard/captain/document-dark.svg"
-    learn-more-url="https://www.chatwoot.com/hc/user-guide/articles/1738104411-creating-a-document-in-captain"
+    learn-more-url="https://chwt.app/captain-document"
     class="mb-8"
   />
   <EmptyStateLayout

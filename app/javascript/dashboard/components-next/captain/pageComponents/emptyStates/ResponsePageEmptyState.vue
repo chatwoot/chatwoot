@@ -16,11 +16,9 @@ const onClick = () => {
   <FeatureSpotlight
     :title="$t('CAPTAIN.RESPONSES.EMPTY_STATE.FEATURE_SPOTLIGHT.TITLE')"
     :note="$t('CAPTAIN.RESPONSES.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
-    video-url=""
-    thumbnail=""
     fallback-thumbnail="/assets/images/dashboard/captain/faqs-light.svg"
     fallback-thumbnail-dark="/assets/images/dashboard/captain/faqs-dark.svg"
-    learn-more-url="https://www.chatwoot.com/hc/user-guide/articles/1738101609-creating-an-faq-with-captain"
+    learn-more-url="https://chwt.app/captain-faq"
     class="mb-8"
   />
   <EmptyStateLayout
