@@ -297,7 +297,7 @@ export default {
     </div>
 
     <div
-      class="flex items-center h-10 self-center order-3 md:order-2 md:justify-self-end"
+      class="flex items-center h-10 self-center order-5 md:order-2 md:justify-self-end"
     >
       <span class="mr-2 text-sm whitespace-nowrap">
         {{ $t('REPORT.BUSINESS_HOURS') }}
@@ -307,7 +307,7 @@ export default {
       </span>
     </div>
 
-    <div v-if="isDateRangeSelected" class="order-4">
+    <div v-if="isDateRangeSelected" class="order-3 md:order-4">
       <p class="mb-2 text-xs font-medium">
         {{ $t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER') }}
       </p>
@@ -321,7 +321,7 @@ export default {
       />
     </div>
 
-    <div v-if="notLast7Days" class="multiselect-wrap--small order-5">
+    <div v-if="notLast7Days" class="multiselect-wrap--small order-4 md:order-5">
       <p class="mb-2 text-xs font-medium">
         {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
       </p>
