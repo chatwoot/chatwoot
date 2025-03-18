@@ -88,25 +88,23 @@ const openDelete = inbox => {
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table
-        class="min-w-full overflow-x-auto divide-y divide-slate-75 dark:divide-slate-700"
-      >
+      <table class="min-w-full overflow-x-auto">
         <tbody
-          class="divide-y divide-slate-25 dark:divide-slate-800 flex-1 text-slate-700 dark:text-slate-100"
+          class="divide-y divide-n-weak flex-1 text-slate-700 dark:text-slate-100"
         >
           <tr v-for="inbox in inboxesList" :key="inbox.id">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               <div class="flex items-center flex-row gap-4">
                 <Thumbnail
                   v-if="inbox.avatar_url"
-                  class="bg-n-alpha-3 rounded-full p-2 ring ring-opacity-20 dark:ring-opacity-80 ring-black-100 dark:ring-black-900 border border-slate-100 dark:border-slate-700/50 shadow-sm"
+                  class="bg-n-alpha-3 rounded-full p-2 ring ring-n-solid-1 border border-n-strong shadow-sm"
                   :src="inbox.avatar_url"
                   :username="inbox.name"
                   size="48px"
                 />
                 <div
                   v-else
-                  class="w-[48px] h-[48px] flex justify-center items-center bg-n-alpha-3 rounded-full p-2 ring ring-opacity-20 dark:ring-opacity-80 ring-black-100 dark:ring-black-900 border border-slate-100 dark:border-slate-700/50 shadow-sm"
+                  class="w-[48px] h-[48px] flex justify-center items-center bg-n-alpha-3 rounded-full p-2 ring ring-n-solid-1 border border-n-strong shadow-sm"
                 >
                   <ChannelIcon class="size-5" :inbox="inbox" />
                 </div>
