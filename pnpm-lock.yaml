@@ -121,9 +121,6 @@ importers:
       dompurify:
         specifier: 3.2.4
         version: 3.2.4
-      eslint:
-        specifier: ^9.21.0
-        version: 9.21.0(jiti@1.21.6)
       flag-icons:
         specifier: ^7.2.3
         version: 7.2.3
@@ -2067,11 +2064,6 @@ packages:
 
   acorn@8.15.0:
     resolution: {integrity: sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
-
-  acorn@8.14.1:
-    resolution: {integrity: sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg==}
     engines: {node: '>=0.4.0'}
     hasBin: true
 
@@ -7343,9 +7335,6 @@ snapshots:
   acorn@8.14.0: {}
 
   acorn@8.15.0:
-    optional: true
-
-  acorn@8.14.1:
     optional: true
 
   activestorage@5.2.8:

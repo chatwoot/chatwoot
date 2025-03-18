@@ -84,9 +84,6 @@ export default {
         });
     },
   },
-  mounted() {
-    this.inboxes = useMapGetter('inboxes/getInboxes');
-  },
 };
 </script>
 
