@@ -93,6 +93,11 @@ export default {
       'accounts/isFeatureEnabledonAccount'
     );
 
+    const useNewScrollBehavior = isFeatureEnabledonAccount.value(
+      currentAccountId.value,
+      FEATURE_FLAGS.CHAT_PRESERVE_USER_SCROLL
+    );
+
     const showNextBubbles = isFeatureEnabledonAccount.value(
       currentAccountId.value,
       FEATURE_FLAGS.CHATWOOT_V4
@@ -107,6 +112,7 @@ export default {
       isLabelSuggestionFeatureEnabled,
       fetchIntegrationsIfRequired,
       fetchLabelSuggestions,
+      useNewScrollBehavior,
       showNextBubbles,
     };
   },
@@ -348,9 +354,20 @@ export default {
           messageElement.scrollIntoView({ behavior: 'smooth' });
           this.fetchPreviousMessages();
         } else {
+          // if there is not message id, that means, we are meant to scroll to bottom
+          // this is done when we get a new unread message
+          // however if the user has scrolled away to a certain degree
+          // we should preserve the scroll position
           this.scrollToBottomIfNotScrolled();
         }
       });
+
+      // when new scroll behavior is activated
+      // we don't mark the message as read automatically
+      // since we preserve the user scroll position
+      if (!this.useNewScrollBehavior) {
+        this.makeMessagesRead();
+      }
     },
     addScrollListener() {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');
@@ -380,11 +397,15 @@ export default {
       return scrollTop > scrollHeight - clientHeight - offset;
     },
     scrollToBottomIfNotScrolled() {
-      const isNearBottom = this.isNearBottom();
+      // we disable this behavior with a feature flag
+      // once the feature has been stable for a while, we can remove this guard
+      if (this.useNewScrollBehavior) {
+        const isNearBottom = this.isNearBottom();
 
-      if (this.hasUserScrolled && !isNearBottom) {
-        this.showFloatingUnreadIndicator = true;
-        return;
+        if (this.hasUserScrolled && !isNearBottom) {
+          this.showFloatingUnreadIndicator = true;
+          return;
+        }
       }
 
       this.scrollToBottom();
@@ -417,7 +438,7 @@ export default {
         ).slice(-1);
       }
 
-      if (this.unreadMessageCount !== 0) {
+      if (this.unreadMessageCount !== 0 && this.useNewScrollBehavior) {
         this.makeMessagesRead();
       }
 
@@ -477,7 +498,11 @@ export default {
 
       // in case the user has scrolled to the bottom manually
       // we trigger the makeMessagesRead method if there are unread messages
-      this.debouncedMarkReadIfRequired();
+      //
+      // for now this is activated by a feature flag only
+      if (this.useNewScrollBehavior) {
+        this.debouncedMarkReadIfRequired();
+      }
 
       emitter.emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
       this.fetchPreviousMessages(e.target.scrollTop);
@@ -492,10 +517,12 @@ export default {
     makeMessagesRead() {
       this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
     },
-    // when the fixed unread badge is visible
-    // we trigger the makeMessagesRead method
     onUnreadBadgeIntersect(visible) {
+      if (!this.useNewScrollBehavior) return;
+
       if (visible) {
+        // when the fixed unread badge is visible
+        // we trigger the makeMessagesRead method
         this.showFloatingUnreadIndicator = false;
         this.makeMessagesRead();
       }
@@ -596,14 +623,12 @@ export default {
         :in-reply-to="getInReplyToMessage(message)"
       />
       <li v-show="unreadMessageCount != 0" class="unread--toast">
-        <span>
-          {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
-          {{
-            unreadMessageCount > 1
-              ? $t('CONVERSATION.UNREAD_MESSAGES')
-              : $t('CONVERSATION.UNREAD_MESSAGE')
-          }}
-        </span>
+        <UnreadIndicator
+          :label="unreadMessageLabel"
+          variant="primary"
+          class="mx-auto"
+          @intersect="onUnreadBadgeIntersect"
+        />
       </li>
       <Message
         v-for="message in unReadMessages"
