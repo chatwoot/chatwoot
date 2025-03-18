@@ -4,6 +4,7 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 
 import InboxMembersAPI from '../../../../api/inboxMembers';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import router from '../../../index';
 import PageHeader from '../SettingsSubPageHeader.vue';
 import { useVuelidate } from '@vuelidate/core';
@@ -11,6 +12,7 @@ import { useVuelidate } from '@vuelidate/core';
 export default {
   components: {
     PageHeader,
+    NextButton,
   },
   validations: {
     selectedAgents: {
@@ -96,9 +98,12 @@ export default {
           </label>
         </div>
         <div class="w-full">
-          <woot-submit-button
-            :button-text="$t('INBOX_MGMT.AGENTS.BUTTON_TEXT')"
-            :loading="isCreating"
+          <NextButton
+            type="submit"
+            :is-loading="isCreating"
+            solid
+            blue
+            :label="$t('INBOX_MGMT.AGENTS.BUTTON_TEXT')"
           />
         </div>
       </div>

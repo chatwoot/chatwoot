@@ -1,9 +1,11 @@
 <script>
 import EmptyState from '../../../../components/widgets/EmptyState.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     EmptyState,
+    NextButton,
   },
   computed: {
     currentInbox() {
@@ -130,22 +132,28 @@ export default {
         </div>
         <div class="flex justify-center gap-2 mt-4">
           <router-link
-            class="rounded button hollow primary"
             :to="{
               name: 'settings_inbox_show',
               params: { inboxId: $route.params.inbox_id },
             }"
           >
-            {{ $t('INBOX_MGMT.FINISH.MORE_SETTINGS') }}
+            <NextButton
+              outline
+              slate
+              :label="$t('INBOX_MGMT.FINISH.MORE_SETTINGS')"
+            />
           </router-link>
           <router-link
-            class="rounded button success"
             :to="{
               name: 'inbox_dashboard',
               params: { inboxId: $route.params.inbox_id },
             }"
           >
-            {{ $t('INBOX_MGMT.FINISH.BUTTON_TEXT') }}
+            <NextButton
+              solid
+              teal
+              :label="$t('INBOX_MGMT.FINISH.BUTTON_TEXT')"
+            />
           </router-link>
         </div>
       </div>

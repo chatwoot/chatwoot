@@ -5,10 +5,12 @@ import { useAlert } from 'dashboard/composables';
 import { required, email } from '@vuelidate/validators';
 import router from '../../../../../index';
 import PageHeader from '../../../SettingsSubPageHeader.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     PageHeader,
+    NextButton,
   },
   setup() {
     return { v$: useVuelidate() };
@@ -111,10 +113,13 @@ export default {
         </label>
       </div>
 
-      <div class="w-full">
-        <woot-submit-button
-          :loading="uiFlags.isCreating"
-          :button-text="$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.SUBMIT_BUTTON')"
+      <div class="w-full mt-4">
+        <NextButton
+          :is-loading="uiFlags.isCreating"
+          type="submit"
+          solid
+          blue
+          :label="$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.SUBMIT_BUTTON')"
         />
       </div>
     </form>

@@ -4,6 +4,7 @@ import { ref, computed } from 'vue';
 import microsoftClient from 'dashboard/api/channel/microsoftClient';
 import googleClient from 'dashboard/api/channel/googleClient';
 import SettingsSubPageHeader from '../../../SettingsSubPageHeader.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 import { useAlert } from 'dashboard/composables';
 
@@ -79,11 +80,12 @@ async function requestAuthorization() {
         type="email"
         :placeholder="inputPlaceholder"
       />
-      <woot-submit-button
-        icon="brand-twitter"
+      <NextButton
+        :is-loading="isRequestingAuthorization"
         type="submit"
-        :button-text="submitButtonText"
-        :loading="isRequestingAuthorization"
+        solid
+        blue
+        :label="submitButtonText"
       />
     </form>
   </div>
