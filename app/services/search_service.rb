@@ -35,12 +35,22 @@ class SearchService
   end
 
   def filter_messages
-    @messages = current_account.messages.where(inbox_id: accessable_inbox_ids)
-                               .where('messages.content ILIKE :search', search: "%#{search_query}%")
-                               .where('created_at >= ?', 3.months.ago)
-                               .reorder('created_at DESC')
-                               .page(params[:page])
-                               .per(15)
+    base_query = current_account.messages.where(inbox_id: accessable_inbox_ids)
+                                .where('created_at >= ?', 3.months.ago)
+
+    @messages = if search_query.present?
+                  # Use the @@ operator with to_tsquery for better GIN index utilization
+                  # Convert search query to tsquery format with prefix matching
+                  tsquery = search_query.split.map { |word| "#{word}:*" }.join(' & ')
+
+                  # Apply the text search using the GIN index
+                  base_query.where('content @@ to_tsquery(?)', tsquery)
+                else
+                  base_query
+                end
+                .reorder('created_at DESC')
+                .page(params[:page])
+                .per(15)
   end
 
   def filter_contacts
