@@ -32,11 +32,13 @@ class CannedResponse < ApplicationRecord
 
   scope :by_inbox, lambda { |inbox_id|
     return all if inbox_id.blank?
-    joins(:inboxes).where(inboxes: { id: inbox_id })
+
+    left_joins(:inboxes).where(inboxes: { id: [inbox_id, nil] })
   }
 
   scope :search, lambda { |search|
     return all if search.blank?
+
     where('short_code ILIKE :search OR content ILIKE :search', search: "%#{search}%")
       .order_by_search(search)
   }
