@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Atvienot"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+      "DIALOGFLOW": "Dialogflow ir dabiskas valodas apstrādes platforma, sarunvalodas interfeisa veidošanai. Integrējot to ar {installationName}, roboti vispirms apstrādās vaicājumus un vajadzības gadījumā pārsūtīs tos aģentiem. Tas palīdz kvalificēt potenciālos klientus un samazināt aģentu darba slodzi, atbildot uz bieži uzdotajiem jautājimiem. Lai pievienotu Dialogflow, pakalpojumā Google Console izveidojiet Service Account un kopīgojiet akreditācijas datus. Sīkāku informāciju skatiet dokumentācijā"
     }
   }
 }
