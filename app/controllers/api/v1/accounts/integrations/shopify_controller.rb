@@ -1,23 +1,8 @@
 class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::BaseController
   include Shopify::IntegrationHelper
-  before_action :setup_shopify_context
+  before_action :setup_shopify_context, only: [:orders]
   before_action :fetch_hook, except: [:auth]
   before_action :set_contact, only: [:orders]
-
-  def orders
-    customers = fetch_customers
-    return render json: { orders: [] } if customers.empty?
-
-    orders = fetch_orders(customers.first['id'])
-    render json: { orders: orders }
-  rescue ShopifyAPI::Errors::HttpResponseError => e
-    render json: { error: e.message }, status: :unprocessable_entity
-  end
-
-  def destroy
-    @hook.destroy!
-    head :ok
-  end
 
   def auth
     shop_domain = params[:shop_domain]
@@ -34,6 +19,21 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
     )
 
     render json: { redirect_url: auth_url }
+  end
+
+  def orders
+    customers = fetch_customers
+    return render json: { orders: [] } if customers.empty?
+
+    orders = fetch_orders(customers.first['id'])
+    render json: { orders: orders }
+  rescue ShopifyAPI::Errors::HttpResponseError => e
+    render json: { error: e.message }, status: :unprocessable_entity
+  end
+
+  def destroy
+    @hook.destroy!
+    head :ok
   end
 
   private

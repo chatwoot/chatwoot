@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router';
 import { frontendURL } from '../../../../helper/URLHelper';
 import { useAlert } from 'dashboard/composables';
 import { useInstallationName } from 'shared/mixins/globalConfigMixin';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   integrationId: {
@@ -18,6 +19,8 @@ const props = defineProps({
   actionButtonText: { type: String, default: '' },
   deleteConfirmationText: { type: Object, default: () => ({}) },
 });
+
+const { t } = useI18n();
 
 const store = useStore();
 const router = useRouter();
@@ -38,9 +41,9 @@ const closeDeletePopup = () => {
 const deleteIntegration = async () => {
   try {
     await store.dispatch('integrations/deleteIntegration', props.integrationId);
-    useAlert('INTEGRATION_SETTINGS.DELETE.API.SUCCESS_MESSAGE');
+    useAlert(t('INTEGRATION_SETTINGS.DELETE.API.SUCCESS_MESSAGE'));
   } catch (error) {
-    useAlert('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.ERROR_MESSAGE');
+    useAlert(t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.ERROR_MESSAGE'));
   }
 };
 
@@ -53,10 +56,12 @@ const confirmDeletion = () => {
 
 <template>
   <div
-    class="flex flex-col items-start justify-between md:flex-row md:items-center p-4 outline outline-n-container outline-1 bg-n-alpha-3 rounded-md shadow"
+    class="flex flex-col items-start justify-between lg:flex-row lg:items-center p-6 outline outline-n-container outline-1 bg-n-alpha-3 rounded-md shadow gap-6"
   >
-    <div class="flex items-center justify-start flex-1 m-0 mx-4 gap-6">
-      <div class="flex h-16 w-16 items-center justify-center">
+    <div
+      class="flex items-start lg:items-center justify-start flex-1 m-0 gap-6 flex-col lg:flex-row"
+    >
+      <div class="flex h-16 w-16 items-center justify-center flex-shrink-0">
         <img
           :src="`/dashboard/images/integrations/${integrationId}.png`"
           class="max-w-full rounded-md border border-n-weak shadow-sm block dark:hidden bg-n-alpha-3 dark:bg-n-alpha-2"
@@ -80,7 +85,7 @@ const confirmDeletion = () => {
         </p>
       </div>
     </div>
-    <div class="flex justify-center items-center mb-0 w-[15%]">
+    <div class="flex justify-center items-center mb-0">
       <router-link
         :to="
           frontendURL(

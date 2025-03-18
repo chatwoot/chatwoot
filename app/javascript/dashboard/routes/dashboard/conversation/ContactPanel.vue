@@ -1,6 +1,10 @@
 <script setup>
 import { computed, watch, onMounted, ref } from 'vue';
-import { useMapGetter, useStore } from 'dashboard/composables/store';
+import {
+  useMapGetter,
+  useFunctionGetter,
+  useStore,
+} from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
@@ -39,6 +43,14 @@ const {
 
 const dragging = ref(false);
 const conversationSidebarItems = ref([]);
+const shopifyIntegration = useFunctionGetter(
+  'integrations/getIntegration',
+  'shopify'
+);
+
+const isShopifyFeatureEnabled = computed(
+  () => shopifyIntegration.value.enabled
+);
 
 const store = useStore();
 const currentChat = useMapGetter('getSelectedChat');
@@ -217,7 +229,11 @@ onMounted(() => {
                 <MacrosList :conversation-id="conversationId" />
               </AccordionItem>
             </woot-feature-toggle>
-            <div v-else-if="element.name === 'shopify_orders'">
+            <div
+              v-else-if="
+                element.name === 'shopify_orders' && isShopifyFeatureEnabled
+              "
+            >
               <AccordionItem
                 :title="$t('CONVERSATION_SIDEBAR.ACCORDION.SHOPIFY_ORDERS')"
                 :is-open="isContactSidebarItemOpen('is_shopify_orders_open')"

@@ -302,6 +302,7 @@
       "ORDER_ID": "Order #{id}",
       "ERROR": "Error loading Shopify orders",
       "NO_SHOPIFY_ORDERS": "No Shopify orders found",
+      "NO_SEARCHABLE_INFO": "No searchable information found",
       "FINANCIAL_STATUS": {
         "PENDING": "Pending",
         "AUTHORIZED": "Authorized",
