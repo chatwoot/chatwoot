@@ -41,6 +41,7 @@ export default {
     'updateConversation',
     'assignPriority',
     'markAsUnread',
+    'markAsRead',
     'assignAgent',
     'assignTeam',
     'assignLabel',
@@ -48,6 +49,10 @@ export default {
   data() {
     return {
       STATUS_TYPE: wootConstants.STATUS_TYPE,
+      readOption: {
+        label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.MARK_AS_READ'),
+        icon: 'mail',
+      },
       unreadOption: {
         label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.MARK_AS_UNREAD'),
         icon: 'mail',
@@ -59,14 +64,14 @@ export default {
           icon: 'checkmark',
         },
         {
-          key: wootConstants.STATUS_TYPE.PENDING,
-          label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.PENDING'),
-          icon: 'book-clock',
-        },
-        {
           key: wootConstants.STATUS_TYPE.OPEN,
           label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.REOPEN'),
           icon: 'arrow-redo',
+        },
+        {
+          key: wootConstants.STATUS_TYPE.PENDING,
+          label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.PENDING'),
+          icon: 'book-clock',
         },
       ],
       snoozeOption: {
@@ -203,6 +208,13 @@ export default {
       variant="icon"
       @click.stop="$emit('markAsUnread')"
     />
+    <MenuItem
+      v-else
+      :option="readOption"
+      variant="icon"
+      @click.stop="$emit('markAsRead')"
+    />
+    <hr class="m-1 rounded border-b border-n-weak dark:border-n-weak" />
     <template v-for="option in statusMenuConfig">
       <MenuItem
         v-if="show(option.key)"
@@ -218,7 +230,7 @@ export default {
       variant="icon"
       @click.stop="snoozeConversation()"
     />
-
+    <hr class="m-1 rounded border-b border-n-weak dark:border-n-weak" />
     <MenuItemWithSubmenu :option="priorityConfig">
       <MenuItem
         v-for="(option, i) in priorityConfig.options"

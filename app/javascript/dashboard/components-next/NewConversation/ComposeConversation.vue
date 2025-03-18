@@ -13,6 +13,7 @@ import {
   createNewContact,
   fetchContactableInboxes,
   processContactableInboxes,
+  mergeInboxDetails,
 } from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper';
 
 import ComposeNewConversationForm from 'dashboard/components-next/NewConversation/components/ComposeNewConversationForm.vue';
@@ -47,6 +48,7 @@ const currentUser = useMapGetter('getCurrentUser');
 const globalConfig = useMapGetter('globalConfig/get');
 const uiFlags = useMapGetter('contactConversations/getUIFlags');
 const messageSignature = useMapGetter('getMessageSignature');
+const inboxesList = useMapGetter('inboxes/getInboxes');
 
 const sendWithSignature = computed(() =>
   fetchSignatureFlagFromUISettings(targetInbox.value?.channelType)
@@ -104,7 +106,12 @@ const handleSelectedContact = async ({ value, action, ...rest }) => {
     isFetchingInboxes.value = true;
     try {
       const contactableInboxes = await fetchContactableInboxes(contact.id);
-      selectedContact.value.contactInboxes = contactableInboxes;
+      // Merge the processed contactableInboxes with the inboxesList
+      selectedContact.value.contactInboxes = mergeInboxDetails(
+        contactableInboxes,
+        inboxesList.value
+      );
+
       isFetchingInboxes.value = false;
     } catch (error) {
       isFetchingInboxes.value = false;
@@ -162,9 +169,12 @@ watch(
   () => {
     if (activeContact.value && props.contactId) {
       const contactInboxes = activeContact.value?.contactInboxes || [];
+      // First process the contactable inboxes to get the right structure
+      const processedInboxes = processContactableInboxes(contactInboxes);
+      // Then Merge processedInboxes with the inboxes list
       selectedContact.value = {
         ...activeContact.value,
-        contactInboxes: processContactableInboxes(contactInboxes),
+        contactInboxes: mergeInboxDetails(processedInboxes, inboxesList.value),
       };
     }
   },

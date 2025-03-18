@@ -127,7 +127,7 @@ export default {
     const uploadRef = ref(false);
 
     const keyboardEvents = {
-      'Alt+KeyA': {
+      '$mod+Alt+KeyA': {
         action: () => {
           // TODO: This is really hacky, we need to replace the file picker component with
           // a custom one, where the logic and the component markup is isolated.

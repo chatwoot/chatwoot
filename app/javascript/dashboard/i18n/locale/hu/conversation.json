@@ -117,6 +117,7 @@
       "PENDING": "Függőben levőként megjelölés",
       "RESOLVED": "Megjelölés megoldottként",
       "MARK_AS_UNREAD": "Megjelölés olvasatlanként",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Beszélgetés újranyitása",
       "SNOOZE": {
         "TITLE": "Halasztás",

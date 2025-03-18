@@ -413,7 +413,10 @@ export default {
             :widget-bubble-type="widgetBubbleType"
           />
         </div>
-        <div v-else class="mx-5 p-2.5 bg-slate-50 rounded-lg dark:bg-slate-700">
+        <div
+          v-else
+          class="mx-5 p-2.5 bg-n-slate-3 rounded-lg dark:bg-n-solid-3"
+        >
           <woot-code :script="widgetScript" />
         </div>
       </div>

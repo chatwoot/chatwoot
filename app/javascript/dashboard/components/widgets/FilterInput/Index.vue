@@ -128,7 +128,7 @@ export default {
     getInputErrorClass(errorMessage) {
       return errorMessage
         ? 'bg-red-50 dark:bg-red-800/50 border-red-100 dark:border-red-700/50'
-        : 'bg-slate-50 dark:bg-slate-800 border-slate-75 dark:border-slate-700/50';
+        : 'bg-n-slate-3 dark:bg-n-solid-3 border-n-strong dark:border-n-strong';
     },
   },
 };

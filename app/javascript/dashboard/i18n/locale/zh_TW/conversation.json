@@ -117,6 +117,7 @@
       "PENDING": "標記為待處理",
       "RESOLVED": "Mark as resolved",
       "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_READ": "標記為已讀取",
       "REOPEN": "重新開啟對話",
       "SNOOZE": {
         "TITLE": "Snooze",

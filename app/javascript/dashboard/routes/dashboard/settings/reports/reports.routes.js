@@ -22,37 +22,34 @@ import BotReports from './BotReports.vue';
 import LiveReports from './LiveReports.vue';
 import SLAReports from './SLAReports.vue';
 
+const meta = {
+  featureFlag: FEATURE_FLAGS.REPORTS,
+  permissions: ['administrator', 'report_manage'],
+};
+
 const oldReportRoutes = [
   {
     path: 'agent',
     name: 'agent_reports',
-    meta: {
-      permissions: ['administrator', 'report_manage'],
-    },
+    meta,
     component: AgentReports,
   },
   {
     path: 'inboxes',
     name: 'inbox_reports',
-    meta: {
-      permissions: ['administrator', 'report_manage'],
-    },
+    meta,
     component: InboxReports,
   },
   {
     path: 'label',
     name: 'label_reports',
-    meta: {
-      permissions: ['administrator', 'report_manage'],
-    },
+    meta,
     component: LabelReports,
   },
   {
     path: 'teams',
     name: 'team_reports',
-    meta: {
-      permissions: ['administrator', 'report_manage'],
-    },
+    meta,
     component: TeamReports,
   },
 ];
@@ -124,17 +121,13 @@ export default {
         {
           path: 'overview',
           name: 'account_overview_reports',
-          meta: {
-            permissions: ['administrator', 'report_manage'],
-          },
+          meta,
           component: LiveReports,
         },
         {
           path: 'conversation',
           name: 'conversation_reports',
-          meta: {
-            permissions: ['administrator', 'report_manage'],
-          },
+          meta,
           component: Index,
         },
         ...oldReportRoutes,
@@ -142,26 +135,19 @@ export default {
         {
           path: 'sla',
           name: 'sla_reports',
-          meta: {
-            permissions: ['administrator', 'report_manage'],
-            featureFlag: FEATURE_FLAGS.SLA,
-          },
+          meta,
           component: SLAReports,
         },
         {
           path: 'csat',
           name: 'csat_reports',
-          meta: {
-            permissions: ['administrator', 'report_manage'],
-          },
+          meta,
           component: CsatResponses,
         },
         {
           path: 'bot',
           name: 'bot_reports',
-          meta: {
-            permissions: ['administrator', 'report_manage'],
-          },
+          meta,
           component: BotReports,
         },
       ],

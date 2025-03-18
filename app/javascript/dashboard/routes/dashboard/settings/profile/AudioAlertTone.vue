@@ -86,7 +86,7 @@ const playAudio = async () => {
       v-tooltip.top="
         $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.PLAY')
       "
-      class="border-0 shadow-sm outline-none flex justify-center items-center size-10 appearance-none rounded-xl ring-ash-200 ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-primary-500 flex-shrink-0 mt-[28px]"
+      class="border-0 shadow-sm outline-none flex justify-center items-center size-10 appearance-none rounded-xl ring-ash-200 ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-primary-500 flex-shrink-0 mt-[1.75rem]"
       @click="playAudio"
     >
       <Icon icon="i-lucide-volume-2" />

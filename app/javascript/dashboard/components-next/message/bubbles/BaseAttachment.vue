@@ -31,7 +31,7 @@ const senderName = computed(() => {
 <template>
   <BaseBubble class="overflow-hidden p-3" data-bubble-name="attachment">
     <div class="grid gap-4 min-w-64">
-      <div class="grid gap-3 z-20">
+      <div class="grid gap-3">
         <div
           class="size-8 rounded-lg grid place-content-center"
           :class="iconBgColor"

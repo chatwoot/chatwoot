@@ -29,9 +29,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class="p-3 bg-white dark:bg-slate-900 h-[calc(100vh-3.5rem)] flex flex-col border-l border-n-weak"
-  >
+  <div class="p-3 bg-n-background h-full flex flex-col">
     <div>
       <woot-input
         :model-value="macroName"
@@ -91,9 +89,9 @@ export default {
         </button>
       </div>
       <div
-        class="mt-2 flex items-start p-2 bg-slate-50 dark:bg-slate-700 rounded-md"
+        class="mt-2 flex items-start p-2 bg-n-slate-3 dark:bg-n-solid-3 rounded-md"
       >
-        <fluent-icon icon="info" size="20" class="flex-shrink" />
+        <fluent-icon icon="info" size="16" class="flex-shrink-0 mt-0.5" />
         <p
           class="ml-2 rtl:ml-0 rtl:mr-2 mb-0 text-slate-600 dark:text-slate-200"
         >

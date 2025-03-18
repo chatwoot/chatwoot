@@ -414,6 +414,11 @@ const avatarInfo = computed(() => {
   };
 });
 
+const avatarTooltip = computed(() => {
+  if (avatarInfo.value.name === '') return '';
+  return `${t('CONVERSATION.SENT_BY')} ${avatarInfo.value.name}`;
+});
+
 const setupHighlightTimer = () => {
   if (Number(route.query.messageId) !== Number(props.id)) {
     return;
@@ -472,6 +477,7 @@ provideMessageContext({
     >
       <div
         v-if="!shouldGroupWithNext && shouldShowAvatar"
+        v-tooltip.right-end="avatarTooltip"
         class="[grid-area:avatar] flex items-end"
       >
         <Avatar v-bind="avatarInfo" :size="24" />

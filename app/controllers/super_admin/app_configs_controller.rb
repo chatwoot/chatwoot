@@ -39,6 +39,8 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
                          %w[AZURE_APP_ID AZURE_APP_SECRET]
                        when 'email'
                          ['MAILER_INBOUND_EMAIL_DOMAIN']
+                       when 'linear'
+                         %w[LINEAR_CLIENT_ID LINEAR_CLIENT_SECRET]
                        else
                          %w[ENABLE_ACCOUNT_SIGNUP FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS]
                        end

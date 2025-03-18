@@ -112,33 +112,28 @@ export default {
       };
     },
     getChartOptions(metric) {
-      const baseOptions = METRIC_CHART[metric.KEY].scales;
+      const options = {
+        scales: METRIC_CHART[metric.KEY].scales,
+      };
 
-      // If not an average metric type, return base options early
-      if (!this.isAverageMetricType(metric.KEY)) {
-        return baseOptions;
-      }
-
-      // Only create tooltip config for time-based metrics
-      return {
-        ...baseOptions,
-        plugins: {
+      // Only add tooltip configuration for time-based metrics
+      if (this.isAverageMetricType(metric.KEY)) {
+        options.plugins = {
           tooltip: {
             callbacks: {
               label: ({ raw, dataIndex }) => {
-                const value = raw || 0;
-                const count =
-                  this.accountReport.data[metric.KEY][dataIndex]?.count || 0;
-
                 return this.$t(metric.TOOLTIP_TEXT, {
-                  metricValue: formatTime(value),
-                  conversationCount: count,
+                  metricValue: formatTime(raw || 0),
+                  conversationCount:
+                    this.accountReport.data[metric.KEY][dataIndex]?.count || 0,
                 });
               },
             },
           },
-        },
-      };
+        };
+      }
+
+      return options;
     },
   },
 };

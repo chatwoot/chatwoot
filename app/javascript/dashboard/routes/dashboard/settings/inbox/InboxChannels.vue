@@ -40,9 +40,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class="flex flex-row overflow-auto p-4 h-full bg-slate-25 dark:bg-slate-800"
-  >
+  <div class="flex flex-row overflow-auto h-full">
     <woot-wizard
       class="hidden md:block w-1/4"
       :global-config="globalConfig"

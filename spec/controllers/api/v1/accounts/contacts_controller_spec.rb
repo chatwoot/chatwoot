@@ -67,6 +67,38 @@ RSpec.describe 'Contacts API', type: :request do
         expect(contact_inboxes).to eq([])
       end
 
+      it 'returns limited information on inboxes' do
+        get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=true",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_body = response.parsed_body
+
+        contact_emails = response_body['payload'].pluck('email')
+        contact_inboxes = response_body['payload'].pluck('contact_inboxes').flatten.compact
+        expect(contact_emails).to include(contact.email)
+        first_inbox = contact_inboxes[0]['inbox']
+        expect(first_inbox).to be_a(Hash)
+        expect(first_inbox).to include('id', 'channel_id', 'channel_type', 'name', 'avatar_url', 'provider')
+
+        expect(first_inbox).not_to include('imap_login',
+                                           'imap_password',
+                                           'imap_address',
+                                           'imap_port',
+                                           'imap_enabled',
+                                           'imap_enable_ssl')
+
+        expect(first_inbox).not_to include('smtp_login',
+                                           'smtp_password',
+                                           'smtp_address',
+                                           'smtp_port',
+                                           'smtp_enabled',
+                                           'smtp_domain')
+
+        expect(first_inbox).not_to include('hmac_token', 'provider_config')
+      end
+
       it 'returns all contacts with company name desc order' do
         get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=false&sort=-company",
             headers: admin.create_new_auth_token,

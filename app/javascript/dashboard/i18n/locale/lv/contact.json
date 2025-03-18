@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "Kontaktpersonas <strong>{primaryContactName}</strong> informācija tiks kopēta uz <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "KĻŪDAS_PAZIŅOJUMS"
+      "ERROR_MESSAGE": "Radās kļūda. Lūdzu, vēlāk mēģiniet vēlreiz."
     },
     "FORM": {
       "SUBMIT": " Apvienot kontaktpersonas",
@@ -288,6 +288,8 @@
       "SEARCH_PLACEHOLDER": "Meklēt...",
       "MESSAGE_BUTTON": "Ziņojums",
       "SEND_MESSAGE": "Sūtīt ziņojumu",
+      "BLOCK_CONTACT": "Bloķēt kontaktpersonu",
+      "UNBLOCK_CONTACT": "Atbloķēt kontaktpersonu",
       "BREADCRUMB": {
         "CONTACTS": "Kontaktpersonas"
       },
@@ -302,6 +304,10 @@
           "SUCCESS_MESSAGE": "Kontaktpersona ir veiksmīgi saglabāta",
           "ERROR_MESSAGE": "Nevar saglabāt kontaktpersonu. Lūdzu, vēlāk mēģiniet vēlreiz."
         },
+        "BLOCK_SUCCESS_MESSAGE": "Šī kontaktpersona ir veiksmīgi bloķēta",
+        "BLOCK_ERROR_MESSAGE": "Nevar bloķēt kontaktpersonu. Lūdzu, vēlāk mēģiniet vēlreiz.",
+        "UNBLOCK_SUCCESS_MESSAGE": "Šī kontaktpersona ir veiksmīgi atbloķēta",
+        "UNBLOCK_ERROR_MESSAGE": "Nevar atbloķēt kontaktpersonu. Lūdzu, vēlāk mēģiniet vēlreiz.",
         "IMPORT_CONTACT": {
           "TITLE": "Importēt kontaktpersonas",
           "DESCRIPTION": "Importēt kontaktpersonas, izmantojot CSV failu.",

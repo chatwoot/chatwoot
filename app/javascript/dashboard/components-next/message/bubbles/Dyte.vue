@@ -34,7 +34,7 @@ const joinTheCall = async () => {
 };
 
 const leaveTheRoom = () => {
-  this.dyteAuthToken = '';
+  dyteAuthToken.value = '';
 };
 const action = computed(() => ({
   label: t('INTEGRATION_SETTINGS.DYTE.CLICK_HERE_TO_JOIN'),
@@ -60,7 +60,7 @@ const action = computed(() => ({
         allow="camera;microphone;fullscreen;display-capture;picture-in-picture;clipboard-write;"
       />
       <button
-        class="px-4 py-2 text-sm rounded-lg bg-n-solid-3"
+        class="px-4 py-2 text-sm rounded-lg bg-n-solid-3 mt-3"
         @click="leaveTheRoom"
       >
         {{ $t('INTEGRATION_SETTINGS.DYTE.LEAVE_THE_ROOM') }}

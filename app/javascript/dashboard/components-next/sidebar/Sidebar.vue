@@ -90,7 +90,7 @@ const sortedInboxes = computed(() =>
   inboxes.value.slice().sort((a, b) => a.name.localeCompare(b.name))
 );
 
-const newReportRoutes = [
+const newReportRoutes = () => [
   {
     name: 'Reports Agent',
     label: t('SIDEBAR.REPORTS_AGENT'),
@@ -116,7 +116,7 @@ const newReportRoutes = [
   },
 ];
 
-const oldReportRoutes = [
+const oldReportRoutes = () => [
   {
     name: 'Reports Agent',
     label: t('SIDEBAR.REPORTS_AGENT'),
@@ -140,7 +140,7 @@ const oldReportRoutes = [
 ];
 
 const reportRoutes = computed(() =>
-  showV4Routes.value ? newReportRoutes : oldReportRoutes
+  showV4Routes.value ? newReportRoutes() : oldReportRoutes()
 );
 
 const menuItems = computed(() => {
@@ -240,24 +240,20 @@ const menuItems = computed(() => {
       name: 'Captain',
       icon: 'i-woot-captain',
       label: t('SIDEBAR.CAPTAIN'),
-      showOnlyOnCloud: true,
       children: [
         {
           name: 'Assistants',
           label: t('SIDEBAR.CAPTAIN_ASSISTANTS'),
-          showOnlyOnCloud: true,
           to: accountScopedRoute('captain_assistants_index'),
         },
         {
           name: 'Documents',
           label: t('SIDEBAR.CAPTAIN_DOCUMENTS'),
-          showOnlyOnCloud: true,
           to: accountScopedRoute('captain_documents_index'),
         },
         {
           name: 'Responses',
           label: t('SIDEBAR.CAPTAIN_RESPONSES'),
-          showOnlyOnCloud: true,
           to: accountScopedRoute('captain_responses_index'),
         },
       ],
@@ -509,7 +505,6 @@ const menuItems = computed(() => {
           name: 'Settings Billing',
           label: t('SIDEBAR.BILLING'),
           icon: 'i-lucide-credit-card',
-          showOnlyOnCloud: true,
           to: accountScopedRoute('billing_settings_index'),
         },
       ],
@@ -520,7 +515,7 @@ const menuItems = computed(() => {
 
 <template>
   <aside
-    class="w-[200px] bg-n-solid-2 rtl:border-l ltr:border-r border-n-weak h-screen flex flex-col text-sm pb-1"
+    class="w-[12.5rem] bg-n-solid-2 rtl:border-l ltr:border-r border-n-weak h-screen flex flex-col text-sm pb-1"
   >
     <section class="grid gap-2 mt-2 mb-4">
       <div class="flex items-center min-w-0 gap-2 px-2">

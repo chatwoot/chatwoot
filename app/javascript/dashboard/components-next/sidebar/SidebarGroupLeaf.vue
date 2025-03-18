@@ -9,18 +9,10 @@ const props = defineProps({
   to: { type: [String, Object], required: true },
   icon: { type: [String, Object], default: null },
   active: { type: Boolean, default: false },
-  showOnlyOnCloud: { type: Boolean, default: false },
   component: { type: Function, default: null },
 });
 
-const { resolvePermissions, resolveFeatureFlag, isOnChatwootCloud } =
-  useSidebarContext();
-
-const allowedToShow = computed(() => {
-  if (props.showOnlyOnCloud && !isOnChatwootCloud.value) return false;
-
-  return true;
-});
+const { resolvePermissions, resolveFeatureFlag } = useSidebarContext();
 
 const shouldRenderComponent = computed(() => {
   return typeof props.component === 'function' || isVNode(props.component);
@@ -30,7 +22,6 @@ const shouldRenderComponent = computed(() => {
 <!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <Policy
-    v-if="allowedToShow"
     :permissions="resolvePermissions(to)"
     :feature-flag="resolveFeatureFlag(to)"
     as="li"
@@ -40,7 +31,7 @@ const shouldRenderComponent = computed(() => {
       :is="to ? 'router-link' : 'div'"
       :to="to"
       :title="label"
-      class="flex h-8 items-center gap-2 px-2 py-1 rounded-lg max-w-[151px] hover:bg-gradient-to-r from-transparent via-n-slate-3/70 to-n-slate-3/70 group"
+      class="flex h-8 items-center gap-2 px-2 py-1 rounded-lg max-w-[9.438rem] hover:bg-gradient-to-r from-transparent via-n-slate-3/70 to-n-slate-3/70 group"
       :class="{
         'n-blue-text bg-n-alpha-2 active': active,
       }"

@@ -300,6 +300,12 @@
         "TITLE": "Atsaistīt",
         "SUCCESS": "Problēma ir veiksmīgi atsaistīta",
         "ERROR": "Atsaistot jautājumu radās kļūda. Lūdzu, mēģiniet vēlreiz"
+      },
+      "DELETE": {
+        "TITLE": "Vai tiešām vēlaties dzēst integrāciju?",
+        "MESSAGE": "Vai tiešām vēlaties dzēst integrāciju?",
+        "CONFIRM": "Jā, dzēst",
+        "CANCEL": "Atcelt"
       }
     }
   },
@@ -310,7 +316,8 @@
       "LOADER": "Kapteinis domā",
       "YOU": "Jūs",
       "USE": "Izmantot šo",
-      "RESET": "Atiestatīt"
+      "RESET": "Atiestatīt",
+      "SELECT_ASSISTANT": "Izvēlēties Asistentu"
     },
     "PAYWALL": {
       "TITLE": "Modernizējiet abonementu, lai izmantotu Captain AI",
@@ -432,6 +439,20 @@
       "ADD_NEW": "Izveidot jaunu sarakstu ar bieži uzdotiem jautājumiem",
       "DOCUMENTABLE": {
         "CONVERSATION": "Saruna #{id}"
+      },
+      "SELECTED": "Atlasīti {count}",
+      "BULK_APPROVE_BUTTON": "Apstiprināt",
+      "BULK_DELETE_BUTTON": "Dzēst",
+      "BULK_APPROVE": {
+        "SUCCESS_MESSAGE": "Bieži uzdotie jautājumi ir veiksmīgi apstiprināti",
+        "ERROR_MESSAGE": "Apstiprinot bieži uzdotos jautājumus radās kļūda. Lūdzu, mēģiniet vēlreiz."
+      },
+      "BULK_DELETE": {
+        "TITLE": "Vai dzēst bieži uzdotos jautājumus?",
+        "DESCRIPTION": "Vai tiešām vēlaties dzēst atlasītos bieži uzdotos jautājumus? Šo darbību nevar atsaukt.",
+        "CONFIRM": "Jā, dzēst visu",
+        "SUCCESS_MESSAGE": "Bieži uzdotie jautājumi ir veiksmīgi izdzēsti",
+        "ERROR_MESSAGE": "Dzēšot bieži uzdotos jautājumus radās kļūda. Lūdzu, mēģiniet vēlreiz."
       },
       "DELETE": {
         "TITLE": "Vai tiešām vēlaties izdzēst šos bieži uzdotos jautājumus?",

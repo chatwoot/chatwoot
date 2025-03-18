@@ -10,7 +10,7 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
   def create
     authorize @inbox, :create?
     ActiveRecord::Base.transaction do
-      agents_to_be_added_ids.map { |user_id| @inbox.add_member(user_id) }
+      @inbox.add_members(agents_to_be_added_ids)
     end
     fetch_updated_agents
   end
@@ -24,7 +24,7 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
   def destroy
     authorize @inbox, :destroy?
     ActiveRecord::Base.transaction do
-      params[:user_ids].map { |user_id| @inbox.remove_member(user_id) }
+      @inbox.remove_members(params[:user_ids])
     end
     head :ok
   end
@@ -41,8 +41,8 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
     # the missing ones are the agents which are to be deleted from the inbox
     # the new ones are the agents which are to be added to the inbox
     ActiveRecord::Base.transaction do
-      agents_to_be_added_ids.each { |user_id| @inbox.add_member(user_id) }
-      agents_to_be_removed_ids.each { |user_id| @inbox.remove_member(user_id) }
+      @inbox.add_members(agents_to_be_added_ids)
+      @inbox.remove_members(agents_to_be_removed_ids)
     end
   end
 

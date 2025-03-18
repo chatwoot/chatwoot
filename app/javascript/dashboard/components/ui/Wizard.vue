@@ -72,32 +72,32 @@ export default {
 
     &.active {
       h3 {
-        @apply text-woot-500 dark:text-woot-500;
+        @apply text-n-blue-text dark:text-n-blue-text;
       }
 
       .step {
-        @apply bg-woot-500 dark:bg-woot-500;
+        @apply bg-n-brand dark:bg-n-brand;
       }
     }
 
     &.over {
       &::after {
-        @apply bg-woot-500 dark:bg-woot-500;
+        @apply bg-n-brand dark:bg-n-brand;
       }
 
       .step {
-        @apply bg-woot-500 dark:bg-woot-500;
+        @apply bg-n-brand dark:bg-n-brand;
       }
 
       & + .item {
         &::before {
-          @apply bg-woot-500 dark:bg-woot-500;
+          @apply bg-n-brand dark:bg-n-brand;
         }
       }
     }
 
     .step {
-      @apply bg-slate-75 dark:bg-slate-600 rounded-2xl font-medium w-4 left-4 leading-4 z-[999] absolute text-center text-white dark:text-white text-xxs top-5;
+      @apply bg-slate-75 dark:bg-slate-600 rounded-2xl font-medium w-4 left-4 leading-4 z-10 absolute text-center text-white dark:text-white text-xxs top-5;
     }
   }
 }

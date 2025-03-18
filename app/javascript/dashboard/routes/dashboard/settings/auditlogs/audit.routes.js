@@ -1,4 +1,5 @@
 import { FEATURE_FLAGS } from '../../../../featureFlags';
+import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 import SettingsWrapper from '../SettingsWrapper.vue';
@@ -21,6 +22,10 @@ export default {
           name: 'auditlogs_list',
           meta: {
             featureFlag: FEATURE_FLAGS.AUDIT_LOGS,
+            installationTypes: [
+              INSTALLATION_TYPES.CLOUD,
+              INSTALLATION_TYPES.ENTERPRISE,
+            ],
             permissions: ['administrator'],
           },
           component: AuditLogsHome,

@@ -561,7 +561,7 @@ GEM
       activesupport (>= 3.0.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (2.2.11)
+    rack (2.2.13)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-contrib (2.5.0)
@@ -747,7 +747,7 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    slack-ruby-client (2.5.1)
+    slack-ruby-client (2.5.2)
       faraday (>= 2.0)
       faraday-mashify
       faraday-multipart
@@ -799,7 +799,7 @@ GEM
     unf_ext (0.0.8.2)
     unicode-display_width (2.4.2)
     uniform_notifier (1.16.0)
-    uri (0.13.0)
+    uri (1.0.3)
     uri_template (0.7.0)
     valid_email2 (5.2.6)
       activemodel (>= 3.2)
@@ -954,7 +954,7 @@ DEPENDENCIES
   sidekiq (>= 7.3.1)
   sidekiq-cron (>= 1.12.0)
   simplecov (= 0.17.1)
-  slack-ruby-client (~> 2.5.1)
+  slack-ruby-client (~> 2.5.2)
   spring
   spring-watcher-listen
   squasher
