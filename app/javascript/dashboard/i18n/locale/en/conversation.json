@@ -295,7 +295,14 @@
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "Previous Conversations",
-      "MACROS": "Macros"
+      "MACROS": "Macros",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading Shopify orders",
+      "NO_SHOPIFY_ORDERS": "No Shopify orders found"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
