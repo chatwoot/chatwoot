@@ -84,7 +84,7 @@ const handleSendMessage = template => {
     />
     <div
       v-if="showTemplatesMenu"
-      class="absolute top-full mt-1.5 max-h-96 overflow-y-auto left-0 flex flex-col gap-2 p-4 items-center w-[350px] h-auto bg-n-solid-2 border border-n-strong shadow-sm rounded-lg"
+      class="absolute top-full mt-1.5 max-h-96 overflow-y-auto left-0 flex flex-col gap-2 p-4 items-center w-[21.875rem] h-auto bg-n-solid-2 border border-n-strong shadow-sm rounded-lg"
     >
       <div class="relative w-full">
         <span class="absolute i-lucide-search size-3.5 top-2 left-3" />
