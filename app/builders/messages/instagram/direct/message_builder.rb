@@ -21,13 +21,12 @@ class Messages::Instagram::Direct::MessageBuilder < Messages::Instagram::Direct:
     ActiveRecord::Base.transaction do
       build_message
     end
-  # TODO: Handle authentication error later
-  # rescue Koala::Facebook::AuthenticationError => e
-  #   Rails.logger.warn("Instagram authentication error for inbox: #{@inbox.id} with error: #{e.message}")
-  #   Rails.logger.error e
-  #   @inbox.channel.authorization_error!
-  #   raise
   rescue StandardError => e
+    Rails.logger.error("Error performing message builder for Instagram Direct Message: #{@messaging}")
+    if e.response&.unauthorized?
+      @inbox.channel.authorization_error!
+      raise
+    end
     ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     true
   end

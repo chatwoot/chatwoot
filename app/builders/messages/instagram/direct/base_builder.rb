@@ -83,9 +83,6 @@ class Messages::Instagram::Direct::BaseBuilder
 
     handle_error_response(response)
     {}
-  rescue HTTParty::Error => e
-    handle_auth_error(e)
-    {}
   rescue StandardError => e
     handle_standard_error(e)
     {}
@@ -105,15 +102,11 @@ class Messages::Instagram::Direct::BaseBuilder
     @message.update(content: I18n.t('conversations.messages.instagram_deleted_story_content'))
   end
 
-  def handle_auth_error(error)
-    if error.response&.code == 401
+  def handle_standard_error(error)
+    if error.response&.unauthorized?
       @inbox.channel.authorization_error!
       raise
     end
-    ChatwootExceptionTracker.new(error, account: @inbox.account).capture_exception
-  end
-
-  def handle_standard_error(error)
     Rails.logger.error("Instagram Story Error: #{error.message}")
     ChatwootExceptionTracker.new(error, account: @inbox.account).capture_exception
   end
