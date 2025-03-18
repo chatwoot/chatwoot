@@ -43,12 +43,14 @@ class Integrations::App
     end
   end
 
-  def active?(account)
+  def active?(_account)
     case params[:id]
     when 'slack'
       ENV['SLACK_CLIENT_SECRET'].present?
     when 'linear'
-      account.feature_enabled?('linear_integration')
+      GlobalConfigService.load('LINEAR_CLIENT_ID', nil).present?
+    when 'shopify'
+      GlobalConfigService.load('SHOPIFY_CLIENT_ID', nil).present?
     else
       true
     end
