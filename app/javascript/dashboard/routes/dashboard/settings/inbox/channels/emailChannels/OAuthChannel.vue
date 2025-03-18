@@ -67,7 +67,7 @@ async function requestAuthorization() {
 
 <template>
   <div
-    class="border border-n-weak bg-n-background h-full w-full p-6 col-span-6 overflow-auto"
+    class="border border-n-weak bg-n-solid-1 rounded-lg h-full w-full p-6 col-span-6 overflow-auto"
   >
     <SettingsSubPageHeader
       :header-title="title"

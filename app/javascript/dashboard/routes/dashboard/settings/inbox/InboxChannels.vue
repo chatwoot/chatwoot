@@ -46,6 +46,8 @@ export default {
       :global-config="globalConfig"
       :items="items"
     />
-    <router-view />
+    <div class="col-span-6">
+      <router-view />
+    </div>
   </div>
 </template>
