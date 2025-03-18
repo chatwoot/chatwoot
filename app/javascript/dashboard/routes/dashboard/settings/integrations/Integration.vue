@@ -47,7 +47,7 @@ const deleteIntegration = async () => {
 const confirmDeletion = () => {
   closeDeletePopup();
   deleteIntegration();
-  router.push({ name: 'settings_integrations' });
+  router.push({ name: 'settings_applications' });
 };
 </script>
 
