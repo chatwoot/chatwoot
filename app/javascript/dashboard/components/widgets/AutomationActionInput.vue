@@ -177,6 +177,7 @@ export default {
         icon="dismiss"
         variant="clear"
         color-scheme="secondary"
+        class="flex-shrink-0"
         @click="removeAction"
       />
     </div>
@@ -201,10 +202,10 @@ export default {
 
 <style lang="scss" scoped>
 .filter {
-  @apply bg-n-slate-3 dark:bg-n-solid-3 p-2 border border-solid border-n-strong dark:border-n-strong rounded-md mb-2;
+  @apply bg-n-background p-2 border border-solid border-n-strong dark:border-n-strong rounded-lg mb-2;
 
   &.is-a-macro {
-    @apply mb-0 bg-n-slate-2 dark:bg-n-solid-3 p-0 border-0 rounded-none;
+    @apply mb-0 bg-n-background dark:bg-n-solid-1 p-0 border-0 rounded-none;
   }
 }
 
@@ -213,15 +214,19 @@ export default {
 }
 
 .filter.has-error {
-  @apply bg-red-50 dark:bg-red-800/50 border-red-100 dark:border-red-700/50;
+  @apply bg-n-ruby-8/20 border-n-ruby-5 dark:border-n-ruby-5;
+
+  &.is-a-macro {
+    @apply bg-transparent;
+  }
 }
 
 .filter-inputs {
-  @apply flex;
+  @apply flex gap-1;
 }
 
 .filter-error {
-  @apply text-red-500 dark:text-red-200 block my-1 mx-0;
+  @apply text-n-ruby-9 dark:text-n-ruby-9 block my-1 mx-0;
 }
 
 .action__question,
