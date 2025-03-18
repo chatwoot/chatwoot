@@ -84,7 +84,7 @@
       }
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Marcar como pendente",
+      "MARK_PENDING": "Deixar pendente",
       "SNOOZE_UNTIL": "Adiar",
       "SNOOZE": {
         "TITLE": "Suspender até",
@@ -116,7 +116,7 @@
       }
     },
     "CARD_CONTEXT_MENU": {
-      "PENDING": "Marcar como pendente",
+      "PENDING": "Deixar pendente",
       "RESOLVED": "Marcar como resolvida",
       "MARK_AS_UNREAD": "Marcar como não lida",
       "MARK_AS_READ": "Marcar como lida",
