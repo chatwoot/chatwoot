@@ -6,7 +6,6 @@ import { MESSAGE_STATUS } from 'shared/constants/messages';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
-import * as Sentry from '@sentry/vue';
 
 const state = {
   allConversations: [],
@@ -217,18 +216,6 @@ export const mutations = {
 
       // ignore out of order events
       if (conversation.updated_at < selectedConversation.updated_at) {
-        Sentry.withScope(scope => {
-          scope.setContext('incoming', conversation);
-          scope.setContext('stored', selectedConversation);
-          scope.setContext('incoming_meta', conversation.meta);
-          scope.setContext('stored_meta', selectedConversation.meta);
-          Sentry.captureMessage('Conversation update mismatch');
-        });
-
-        return;
-      }
-
-      if (conversation.updated_at === selectedConversation.updated_at) {
         return;
       }
 
