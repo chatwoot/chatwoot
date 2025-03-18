@@ -91,7 +91,7 @@ Rails.application.configure do
   # frequency in seconds to periodically run the Reaper, which attempts
   # to find and recover connections from dead threads
   # https://api.rubyonrails.org/v5.1/classes/ActiveRecord/ConnectionAdapters/ConnectionPool.html
-  config.active_record.connection_pool_reaping_frequency = ENV.fetch('DB_POOL_REAPING_FREQUENCY', 60).to_i
+  config.active_record.connection_pool_reaping_frequency = ENV.fetch('DB_POOL_REAPING_FREQUENCY', 30).to_i
 
   config.action_mailer.perform_caching = false
 
