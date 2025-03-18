@@ -246,8 +246,10 @@ export default {
         return this.$t('CONVERSATION.UNREAD_COUNT_OVERFLOW');
       }
 
+      const formatter = new Intl.NumberFormat(navigator.language);
+
       return this.$t('CONVERSATION.UNREAD_COUNT', {
-        count: this.unreadMessageCount,
+        count: formatter.format(this.unreadMessageCount),
       });
     },
     isInstagramDM() {
