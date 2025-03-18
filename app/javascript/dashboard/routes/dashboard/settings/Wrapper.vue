@@ -19,12 +19,21 @@ const { t } = useI18n();
 const showNewButton = computed(
   () => props.newButtonRoutes.length && !props.showBackButton
 );
+
+const showSettingsHeader = computed(
+  () =>
+    props.headerTitle ||
+    props.icon ||
+    props.showBackButton ||
+    showNewButton.value
+);
 </script>
 
 <template>
   <div class="flex flex-1 flex-col m-0 bg-n-background overflow-auto">
     <div class="max-w-6xl mx-auto w-full flex flex-col flex-1">
       <SettingsHeader
+        v-if="showSettingsHeader"
         button-route="new"
         :icon="icon"
         :header-title="t(headerTitle)"
