@@ -7,6 +7,8 @@ import { useAlert } from 'dashboard/composables';
 import { useInstallationName } from 'shared/mixins/globalConfigMixin';
 import { useI18n } from 'vue-i18n';
 
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+
 const props = defineProps({
   integrationId: {
     type: [String, Number],
@@ -25,17 +27,21 @@ const { t } = useI18n();
 const store = useStore();
 const router = useRouter();
 
-const showDeleteConfirmationPopup = ref(false);
+const dialogRef = ref(null);
 
 const accountId = computed(() => store.getters.getCurrentAccountId);
 const globalConfig = computed(() => store.getters['globalConfig/get']);
 
 const openDeletePopup = () => {
-  showDeleteConfirmationPopup.value = true;
+  if (dialogRef.value) {
+    dialogRef.value.open();
+  }
 };
 
 const closeDeletePopup = () => {
-  showDeleteConfirmationPopup.value = false;
+  if (dialogRef.value) {
+    dialogRef.value.close();
+  }
 };
 
 const deleteIntegration = async () => {
@@ -120,20 +126,24 @@ const confirmDeletion = () => {
         </slot>
       </div>
     </div>
-    <woot-delete-modal
-      v-model:show="showDeleteConfirmationPopup"
-      :on-close="closeDeletePopup"
-      :on-confirm="confirmDeletion"
+    <Dialog
+      ref="dialogRef"
+      type="alert"
       :title="
         deleteConfirmationText.title ||
         $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.TITLE')
       "
-      :message="
+      :description="
         deleteConfirmationText.message ||
         $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.MESSAGE')
       "
-      :confirm-text="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.YES')"
-      :reject-text="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.NO')"
+      :confirm-button-label="
+        $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.YES')
+      "
+      :cancel-button-label="
+        $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.NO')
+      "
+      @confirm="confirmDeletion"
     />
   </div>
 </template>

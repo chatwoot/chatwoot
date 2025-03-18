@@ -9,11 +9,15 @@ import Integration from './Integration.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import integrationAPI from 'dashboard/api/integrations';
 
+import Input from 'dashboard/components-next/input/Input.vue';
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+
 const store = useStore();
 
+const dialogRef = ref(null);
 const integrationLoaded = ref(false);
-const showStoreUrlModal = ref(false);
 const storeUrl = ref('');
+const isSubmitting = ref(false);
 const storeUrlError = ref('');
 
 const integration = useFunctionGetter('integrations/getIntegration', 'shopify');
@@ -27,14 +31,20 @@ const integrationAction = computed(() => {
 });
 
 const hideStoreUrlModal = () => {
-  showStoreUrlModal.value = false;
   storeUrl.value = '';
   storeUrlError.value = '';
+  isSubmitting.value = false;
 };
 
 const validateStoreUrl = url => {
   const pattern = /^[a-zA-Z0-9][a-zA-Z0-9-]*\.myshopify\.com$/;
   return pattern.test(url);
+};
+
+const openStoreUrlDialog = () => {
+  if (dialogRef.value) {
+    dialogRef.value.open();
+  }
 };
 
 const handleStoreUrlSubmit = async () => {
@@ -46,6 +56,7 @@ const handleStoreUrlSubmit = async () => {
       return;
     }
 
+    isSubmitting.value = true;
     const { data } = await integrationAPI.connectShopify({
       shopDomain: storeUrl.value,
     });
@@ -55,6 +66,8 @@ const handleStoreUrlSubmit = async () => {
     }
   } catch (error) {
     storeUrlError.value = error.message;
+  } finally {
+    isSubmitting.value = false;
   }
 };
 
@@ -86,54 +99,34 @@ onMounted(() => {
         <template #action>
           <button
             class="rounded button success nice"
-            @click="showStoreUrlModal = true"
+            @click="openStoreUrlDialog"
           >
             {{ $t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT') }}
           </button>
         </template>
       </Integration>
 
-      <woot-modal
-        v-if="!integration.enabled"
-        v-model:show="showStoreUrlModal"
-        :on-close="hideStoreUrlModal"
+      <Dialog
+        ref="dialogRef"
+        :title="$t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.TITLE')"
+        :is-loading="isSubmitting"
+        @confirm="handleStoreUrlSubmit"
+        @close="hideStoreUrlModal"
       >
-        <div class="p-4">
-          <h2 class="text-lg font-medium mb-4">
-            {{ $t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.TITLE') }}
-          </h2>
-          <form class="space-y-4" @submit.prevent="handleStoreUrlSubmit">
-            <div>
-              <label class="block text-sm font-medium text-slate-700">
-                {{ $t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.LABEL') }}
-              </label>
-              <woot-input
-                v-model="storeUrl"
-                :placeholder="
-                  $t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.PLACEHOLDER')
-                "
-                type="text"
-                :error="storeUrlError"
-              />
-              <p class="mt-1 text-sm text-slate-500">
-                {{ $t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.HELP') }}
-              </p>
-            </div>
-            <div class="flex justify-end space-x-2">
-              <woot-button
-                variant="clear"
-                size="small"
-                @click="hideStoreUrlModal"
-              >
-                {{ $t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.CANCEL') }}
-              </woot-button>
-              <woot-button variant="primary" size="small" type="submit">
-                {{ $t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.SUBMIT') }}
-              </woot-button>
-            </div>
-          </form>
-        </div>
-      </woot-modal>
+        <Input
+          v-model="storeUrl"
+          :label="$t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.LABEL')"
+          :placeholder="
+            $t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.PLACEHOLDER')
+          "
+          :message="
+            !storeUrlError
+              ? $t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.HELP')
+              : storeUrlError
+          "
+          :message-type="storeUrlError ? 'error' : 'info'"
+        />
+      </Dialog>
     </div>
     <div v-else class="flex items-center justify-center flex-1">
       <Spinner size="" color-scheme="primary" />
