@@ -2,8 +2,8 @@
   "AGENT_BOTS": {
     "HEADER": "Roboti",
     "LOADING_EDITOR": "Notiek redaktora ielāde...",
-    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.You can manage your bots from this page or create new ones using the 'Configure new bot' button.",
-    "LEARN_MORE": "Learn about agent bots",
+    "DESCRIPTION": "Aģenti Roboti ir kā pasakainākie jūsu komandas locekļi. Viņi var tikt galā ar sīkumiem, lai jūs varētu koncentrēties uz svarīgām lietām. Jūs varat pārvaldīt savus robotus šajā lapā vai izveidot jaunus, izmantojot pogu 'Konfigurēt jaunu robotu'.",
+    "LEARN_MORE": "Uzzināt vairāk par aģentiem robotiem",
     "CSML_BOT_EDITOR": {
       "NAME": {
         "LABEL": "Robota nosaukums",
