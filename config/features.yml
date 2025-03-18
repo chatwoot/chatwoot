@@ -154,3 +154,6 @@
   display_name: Contact Chatwoot Support Team
   enabled: true
   chatwoot_internal: true
+- name: chat_preserve_user_scroll
+  display_name: Preserve User Scroll on Chat
+  enabled: false
