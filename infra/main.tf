@@ -34,6 +34,8 @@ locals {
     S3_BUCKET_NAME            = module.bucket.bucket_name
     S3_EXPORT_BUCKET_NAME     = module.exports_bucket.bucket_name
     DIRECT_UPLOADS_ENABLED    = "true"
+    DT_LLM_HUB_URL            = "https://api-gateway.digitaltolk.se"
+    DT_LLM_HUB_API_VERSION    = "api/v3/llm-hub"
     RAILS_MAX_THREADS         = "10"
     WEB_CONCURRENCY           = "2"
     SIDEKIQ_CONCURRENCY       = "10"

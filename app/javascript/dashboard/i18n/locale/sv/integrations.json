@@ -114,15 +114,29 @@
         "EXPAND": "Expand",
         "MAKE_FRIENDLY": "Change message tone to friendly",
         "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "SIMPLIFY": "Simplify",
+        "QUALITY_CHECK": "Kvalitetskontroll"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Draft content",
         "GENERATED_TITLE": "Generated content",
         "AI_WRITING": "AI is writing",
+        "AI_CHECKING": "AI utför en kvalitetskontroll.",
         "BUTTONS": {
           "APPLY": "Use this suggestion",
-          "CANCEL": "Avbryt"
+          "CANCEL": "Avbryt",
+          "REVISE": "Revidera manuellt",
+          "SEND_ANYWAY": "Ignorera kontroll och skicka"
+        },
+        "QUALITY_CHECK": {
+          "RESPONSE": "Svar",
+          "SUGGESTION": "Förslag",
+          "FEEDBACK": "Feedback",
+          "HEADERS": {
+            "QUALITY_CHECK": "Svarskvalitet",
+            "LANGUAGE_GRAMMAR_CHECK": "Språk & grammatik",
+            "CUSTOMER_CENTRICITY_CHECK": "Kundfokuserad"
+          }
         }
       },
       "CTA_MODAL": {

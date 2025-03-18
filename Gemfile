@@ -178,6 +178,7 @@ gem 'reverse_markdown'
 gem 'gobject-introspection'
 gem 'red-arrow'
 gem 'red-parquet'
+gem 'ruby-openai'
 
 ### Gems required only in specific deployment environments ###
 ##############################################################

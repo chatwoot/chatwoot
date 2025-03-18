@@ -121,21 +121,37 @@
       />
     </div>
     <div class="right-wrap">
-      <reply-to-multiple-action 
+      <reply-to-multiple-action
+        v-if="!isOnPrivateNote"
+        ref="replyToMultipleAction"
         :inbox="inbox"
         :conversation-id="conversationId"
         :is-disabled="isSendDisabled"
         :message="message"
         :on-send="onSend"
+        :is-on-private-note="isOnPrivateNote"
       />
       <woot-button
         size="small"
         :class-names="buttonClass"
         :is-disabled="isSendDisabled"
-        @click="onSend"
+        @click="onSendReply"
       >
+         <AIButtonLoader v-if="displayAIAssistanceLoader"/>
         {{ sendButtonText }}
       </woot-button>
+
+      <woot-modal
+        :show.sync="showAIAssistanceModal"
+        :on-close="hideAIAssistanceModal"
+      >
+        <AIQualityCheckModal
+          :ai-check-response="aiCheckResponse"
+          @apply-text="replaceText"
+          @close="hideAIAssistanceModal"
+          @proceed-with-sending-message="proceedWithSendingMessage"
+        />
+      </woot-modal>
     </div>
   </div>
 </template>
@@ -146,6 +162,7 @@ import * as ActiveStorage from 'activestorage';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import inboxMixin from 'shared/mixins/inboxMixin';
+import aiMessageCheckMixin from 'shared/mixins/aiMessageCheckMixin';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import {
   ALLOWED_FILE_TYPES,
@@ -157,11 +174,13 @@ import AIAssistanceButton from '../AIAssistanceButton.vue';
 import { REPLY_EDITOR_MODES } from './constants';
 import { mapGetters } from 'vuex';
 import ReplyToMultipleAction from './ReplyToMultipleAction.vue';
+import AIQualityCheckModal from '../AIQualityCheckModal.vue';
+import AIButtonLoader from '../AIButtonLoader.vue';
 
 export default {
   name: 'ReplyBottomPanel',
-  components: { FileUpload, VideoCallButton, AIAssistanceButton, ReplyToMultipleAction },
-  mixins: [keyboardEventListenerMixins, uiSettingsMixin, inboxMixin],
+  components: { FileUpload, VideoCallButton, AIAssistanceButton, ReplyToMultipleAction, AIQualityCheckModal, AIButtonLoader },
+  mixins: [keyboardEventListenerMixins, uiSettingsMixin, inboxMixin, aiMessageCheckMixin],
   props: {
     mode: {
       type: String,
@@ -342,6 +361,19 @@ export default {
       );
       return isFeatEnabled && this.portalSlug;
     },
+    displayAIAssistanceLoader(){
+      return this.showAiLoader && this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.AI_QUALITY_CHECK
+      );
+    }
+  },
+  data() {
+    return {
+      showAIAssistanceModal: false,
+      showAiLoader: false,
+      aiCheckResponse: {},
+    }
   },
   mounted() {
     ActiveStorage.start();
@@ -366,6 +398,36 @@ export default {
     toggleInsertArticle() {
       this.$emit('toggle-insert-article');
     },
+    proceedWithSendingMessage() {
+      this.$emit('confirm-on-send-reply');
+    },
+    async performQualityCheck() {
+      const qualityResult = await this.$store.dispatch('performQualityCheck', {
+        conversationId: this.conversationId,
+        draftMessage: this.message,
+      });
+
+      this.aiCheckResponse = qualityResult.data;
+      this.showAiLoader = false;
+      this.showAIAssistanceModal = this.shouldShowAIAssistanceModal;
+
+      if (this.$refs.replyToMultipleAction) {
+        this.$refs.replyToMultipleAction.hideAILoader();
+      }
+
+      if (this.withResponse && this.checkPassed) {
+        this.proceedWithSendingMessage();
+      }
+    },
+    hideAIAssistanceModal() {
+      this.showAIAssistanceModal = false;
+    },
+    onSendReply() {
+      if (!this.isOnPrivateNote) {
+        this.showAiLoader = true;
+      }
+      this.onSend()
+    }
   },
 };
 </script>

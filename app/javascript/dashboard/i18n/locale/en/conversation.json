@@ -347,7 +347,14 @@
     "DESC": "You can view the translated content in each langauge.",
     "ORIGINAL_CONTENT": "Original Content",
     "TRANSLATED_CONTENT": "Translated Content",
-    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content",
+    "LOADING_TRANSLATIONS": "Loading translations..."
+  },
+  "SUMMARY_MODAL": {
+    "SUMMARY": "Summary",
+    "TRANSLATED_SUMMARY": "Translated Summary",
+    "NO_SUMMARY": "No summary available",
+    "GENERATING_SUMMARY": "Generating summary..."
   },
   "TICKET": {
     "NEW": {

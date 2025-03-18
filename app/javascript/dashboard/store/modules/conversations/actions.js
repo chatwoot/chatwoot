@@ -513,6 +513,12 @@ const actions = {
   clearTicket({ commit }){
     commit(types.CLEAR_NEW_TICKET)
   },
+  performQualityCheck(_, { conversationId, draftMessage }) {
+    return ConversationApi.performQualityCheck(conversationId, draftMessage);
+  },
+  performConversationSummary(_, { conversationId }) {
+    return ConversationApi.performConversationSummary(conversationId);
+  },
 
   ...smartActions,
   ...messageReadActions,

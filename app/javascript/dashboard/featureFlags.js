@@ -34,5 +34,7 @@ export const FEATURE_FLAGS = {
   SMART_ACTIONS: 'smart_actions',
   REQUIRED_CONTACT_TYPE: 'required_contact_type',
   TICKETS: 'tickets',
+  AI_QUALITY_CHECK: 'ai_quality_check',
+  AI_CONVERSATION_SUMMARY: 'ai_conversation_summary',
   PRE_RELEASE_FEATURE: 'pre_release_feature',
 };

@@ -111,15 +111,29 @@
         "EXPAND": "Expand",
         "MAKE_FRIENDLY": "Change message tone to friendly",
         "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "SIMPLIFY": "Simplify",
+        "QUALITY_CHECK": "Quality Check"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Draft content",
         "GENERATED_TITLE": "Generated content",
         "AI_WRITING": "AI is writing",
+        "AI_CHECKING": "AI is quality checking",
         "BUTTONS": {
           "APPLY": "Use this suggestion",
-          "CANCEL": "Cancel"
+          "CANCEL": "Cancel",
+          "REVISE": "Manually Revise",
+          "SEND_ANYWAY": "Ignore Check and Send"
+        },
+        "QUALITY_CHECK": {
+          "RESPONSE": "Response",
+          "SUGGESTION": "Suggestion",
+          "FEEDBACK": "Feedback",
+          "HEADERS": {
+            "QUALITY_CHECK": "Answer Quality",
+            "LANGUAGE_GRAMMAR_CHECK": "Language & Grammar",
+            "CUSTOMER_CENTRICITY_CHECK": "Customer-Centric"
+          }
         }
       },
       "CTA_MODAL": {

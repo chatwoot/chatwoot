@@ -3,7 +3,17 @@
     <div class="button-group">
       <woot-button
         :is-disabled="isDisabled"
-        v-if="showReplyAndResolve"
+        v-if="showAiLoader"
+        size="small"
+        color-scheme="primary"
+        emoji="✅"
+      >
+        <AIButtonLoader />
+        and Resolve
+      </woot-button>
+      <woot-button
+        :is-disabled="isDisabled"
+        v-else-if="showReplyAndResolve"
         size="small"
         color-scheme="primary"
         icon="send"
@@ -75,12 +85,14 @@
   import alertMixin from 'shared/mixins/alertMixin';
   import uiSettingsMixin from 'dashboard/mixins/uiSettings';
   import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+  import AIButtonLoader from '../AIButtonLoader.vue';
 
   export default {
     name: 'ReplyTopMultipleAction',
     components: {
       WootDropdownItem,
       WootDropdownMenu,
+      AIButtonLoader,
     },
     mixins: [alertMixin, uiSettingsMixin],
     props: {
@@ -104,7 +116,7 @@
       isDisabled: {
         type: Boolean,
         default: false,
-      }
+      },
     },
     data() {
       return {
@@ -113,6 +125,7 @@
         selectedAction: '',
         STATUS_TYPE: wootConstants.STATUS_TYPE,
         currentConversationId: 0,
+        showAiLoader: false,
       };
     },
     computed: {
@@ -168,6 +181,9 @@
       },
     },
     methods: {
+      hideAILoader(){
+        this.showAiLoader = false;
+      },
       setSelectedAction(action){
         this.selectedAction = action;
         this.closeDropdown()
@@ -179,7 +195,12 @@
         });
       },
       onReplyAndResolve(){
+        this.showAiLoader = true;
         this.onSend();
+
+        if (this.isResolved) {
+          return;
+        }
 
         if (this.inbox.label_required){
           if (this.currentChat.labels.length === 0){

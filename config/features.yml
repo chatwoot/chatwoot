@@ -93,3 +93,9 @@
   enabled: false
 - name: pre_release_feature
   enabled: false
+- name: ai_quality_check
+  enabled: false
+- name: ai_translation
+  enabled: false
+- name: ai_conversation_summary
+  enabled: false

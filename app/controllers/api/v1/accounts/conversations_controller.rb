@@ -25,6 +25,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     end
   end
 
+  def show; end
+
   def new
     @conversation = Conversation.new
   end
@@ -43,8 +45,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def attachments
     @attachments = @conversation.attachments
   end
-
-  def show; end
 
   def create
     ActiveRecord::Base.transaction do
@@ -197,6 +197,14 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def handled_by_tags
     @tags = @conversation.conversation_handled_by_tags.order(created_at: :desc)
+  end
+
+  def quality_check
+    render json: Digitaltolk::Openai::QualityCheck.new.perform(@conversation, params[:response])
+  end
+
+  def summary
+    render json: Digitaltolk::Openai::ConversationSummary.new.perform(@conversation)
   end
 
   private

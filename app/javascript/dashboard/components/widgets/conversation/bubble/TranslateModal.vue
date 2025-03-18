@@ -24,9 +24,15 @@
           <br />
         </div>
       </div>
-      <p v-else>
-        {{ $t('TRANSLATE_MODAL.NO_TRANSLATIONS_AVAILABLE') }}
-      </p>
+      <div v-else>
+        <div v-if="showLoader">
+          {{ $t('TRANSLATE_MODAL.LOADING_TRANSLATIONS') }}
+          <span class="mt-4 mb-4 spinner" />
+        </div>
+        <p v-else>
+          {{ $t('TRANSLATE_MODAL.NO_TRANSLATIONS_AVAILABLE') }}
+        </p>
+      </div>
     </div>
   </woot-modal>
 </template>
@@ -49,6 +55,14 @@ export default {
     translations() {
       return this.contentAttributes.translations || {};
     },
+  },
+  data: () => ({
+    showLoader: true,
+  }),
+  mounted() {
+    setTimeout(() => {
+      this.showLoader = false;
+    }, 3000);
   },
   methods: {
     onClose() {

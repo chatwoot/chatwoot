@@ -189,6 +189,16 @@ class ConversationApi extends ApiClient {
   getAllAttachments(conversationId) {
     return axios.get(`${this.url}/${conversationId}/attachments`);
   }
+
+  performQualityCheck(conversationId, draftMessage) {
+    return axios.post(`${this.url}/${conversationId}/quality_check`, {
+      response: draftMessage,
+    });
+  }
+
+  performConversationSummary(conversationId) {
+    return axios.post(`${this.url}/${conversationId}/summary`);
+  }
 }
 
 export default new ConversationApi();

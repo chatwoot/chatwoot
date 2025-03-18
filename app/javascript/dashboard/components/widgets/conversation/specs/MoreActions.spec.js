@@ -45,9 +45,10 @@ describe('MoreActions', () => {
 
     muteConversation = jest.fn(() => Promise.resolve());
     unmuteConversation = jest.fn(() => Promise.resolve());
+    performConversationSummary = jest.fn(() => Promise.resolve());
 
     modules = {
-      conversations: { actions: { muteConversation, unmuteConversation } },
+      conversations: { actions: { muteConversation, unmuteConversation, performConversationSummary } },
     };
 
     getters = { 
@@ -74,7 +75,7 @@ describe('MoreActions', () => {
 
   describe('muting discussion', () => {
     it('triggers "muteConversation"', async () => {
-      await moreActions.find('button:first-child').trigger('click');
+      await moreActions.find('button:nth-child(2)').trigger('click');
 
       expect(muteConversation).toBeCalledWith(
         expect.any(Object),
@@ -84,7 +85,7 @@ describe('MoreActions', () => {
     });
 
     it('shows alert', async () => {
-      await moreActions.find('button:first-child').trigger('click');
+      await moreActions.find('button:nth-child(2)').trigger('click');
 
       expect(window.bus.$emit).toBeCalledWith(
         'newToastMessage',
@@ -100,7 +101,7 @@ describe('MoreActions', () => {
     });
 
     it('triggers "unmuteConversation"', async () => {
-      await moreActions.find('button:first-child').trigger('click');
+      await moreActions.find('button:nth-child(2)').trigger('click');
 
       expect(unmuteConversation).toBeCalledWith(
         expect.any(Object),
@@ -110,7 +111,7 @@ describe('MoreActions', () => {
     });
 
     it('shows alert', async () => {
-      await moreActions.find('button:first-child').trigger('click');
+      await moreActions.find('button:nth-child(2)').trigger('click');
 
       expect(window.bus.$emit).toBeCalledWith(
         'newToastMessage',

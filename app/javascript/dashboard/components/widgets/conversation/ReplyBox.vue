@@ -108,6 +108,7 @@
       v-if="isSignatureEnabledForInbox && !isSignatureAvailable"
     />
     <reply-bottom-panel
+      ref="replyBottomPanel"
       :conversation-id="conversationId"
       :enable-multiple-file-upload="enableMultipleFileUpload"
       :has-whatsapp-templates="hasWhatsappTemplates"
@@ -135,6 +136,7 @@
       @toggle-editor="toggleRichContentEditor"
       @replace-text="replaceText"
       @toggle-insert-article="toggleInsertArticle"
+      @confirm-on-send-reply="confirmOnSendReply"
     />
     <whatsapp-templates
       :inbox-id="inbox.id"
@@ -545,6 +547,12 @@ export default {
       const { slug = '' } = portal;
       return slug;
     },
+    qualityCheckFeatureEnabled(){
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.AI_QUALITY_CHECK
+      );
+    }
   },
   watch: {
     currentChat(conversation) {
@@ -836,6 +844,16 @@ export default {
       };
       this.assignedAgent = selfAssign;
     },
+    decideOnSendReply(){
+      if (this.isPrivate || !this.qualityCheckFeatureEnabled) {
+        this.confirmOnSendReply();
+      } else {
+        this.performQualityCheck();
+      }
+    },
+    performQualityCheck(){
+      this.$refs.replyBottomPanel.performQualityCheck();
+    },
     confirmOnSendReply() {
       if (this.isReplyButtonDisabled) {
         return;
@@ -895,10 +913,10 @@ export default {
 
         const ok = await this.$refs.confirmDialog.showConfirmation();
         if (ok) {
-          this.confirmOnSendReply();
+          this.decideOnSendReply();
         }
       } else {
-        this.confirmOnSendReply();
+        this.decideOnSendReply();
       }
     },
     async sendMessage(messagePayload) {

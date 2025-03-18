@@ -54,3 +54,13 @@ resource "aws_ssm_parameter" "main" {
     ignore_changes = [value]
   }
 }
+
+resource "aws_ssm_parameter" "dt_admin_token" {
+  name  = "/${terraform.workspace}/${local.system_name}/DT_ADMIN_TOKEN"
+  type  = "SecureString"
+  value = "bar"
+
+  lifecycle {
+    ignore_changes = [value]
+  }
+}

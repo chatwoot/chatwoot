@@ -224,5 +224,25 @@ describe('#ConversationAPI', () => {
         '/api/v1/conversations/1/attachments'
       );
     });
+
+    it('#performQualityCheck', () => {
+      const testResponse = 'This is a test response';
+      conversationAPI.performQualityCheck(1, testResponse);
+
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/conversations/1/quality_check',
+        {
+          response: testResponse,
+        }
+      );
+    })
+
+    it('#performConversationSummary', () => {
+      conversationAPI.performConversationSummary(1);
+      
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/conversations/1/summary'
+      );
+    });
   });
 });

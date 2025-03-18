@@ -122,6 +122,8 @@ Rails.application.routes.draw do
               get :attachments
               get :related_emails
               get :handled_by_tags
+              post :quality_check
+              post :summary
               post :reply
               post :close
               post :takeover

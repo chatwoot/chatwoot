@@ -30,18 +30,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   def translate
     return head :ok if already_translated_content_available?
 
-    translated_content = Integrations::GoogleTranslate::ProcessorService.new(
-      message: message,
-      target_language: permitted_params[:target_language]
-    ).perform
-
-    if translated_content.present?
-      translations = {}
-      translations[permitted_params[:target_language]] = translated_content
-      translations = message.translations.merge!(translations) if message.translations.present?
-      message.update!(translations: translations)
-    end
-
+    translated_content = Digitaltolk::TranslationService.new(message, permitted_params[:target_language]).perform
     render json: { content: translated_content }
   end
 

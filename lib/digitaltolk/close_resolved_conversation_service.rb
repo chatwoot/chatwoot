@@ -18,7 +18,6 @@ class Digitaltolk::CloseResolvedConversationService
     account.conversations
            .resolved
            .unclosed
-           .joins(:messages)
   end
 
   def chat_inboxes_ids
@@ -39,12 +38,16 @@ class Digitaltolk::CloseResolvedConversationService
 
   def closed_emails!
     email_conversations.each do |convo|
+      next if convo.closed?
+
       convo.update(closed: true)
     end
   end
 
   def close_chats!
     chat_conversations.each do |convo|
+      next if convo.closed?
+
       convo.update(closed: true)
     end
   end

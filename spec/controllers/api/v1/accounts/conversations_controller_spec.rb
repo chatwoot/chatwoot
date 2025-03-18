@@ -905,4 +905,66 @@ RSpec.describe 'Conversations API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/{account.id}/conversations/:id/quality_check' do
+    let(:conversation) { create(:conversation, account: account) }
+    let(:agent) { create(:user, account: account, role: :agent) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/quality_check"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+        create(:message, conversation: conversation, account: account, content: 'test1', message_type: 'incoming')
+      end
+
+      it 'requests quality check' do
+        stub_request(:post, "#{Digitaltolk::Openai::Base::API_BASE_URL}/#{Digitaltolk::Openai::Base::API_VERSION}/chat/completions")
+          .to_return(status: 200, body: '', headers: {})
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/quality_check",
+             headers: agent.create_new_auth_token,
+             params: { response: 'test' },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/conversations/:id/summary' do
+    let(:conversation) { create(:conversation, account: account) }
+    let(:agent) { create(:user, account: account, role: :agent) }
+    
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/summary"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
+
+      it 'requests quality check' do
+        stub_request(:post, "#{Digitaltolk::Openai::Base::API_BASE_URL}/#{Digitaltolk::Openai::Base::API_VERSION}/chat/completions")
+          .to_return(status: 200, body: "", headers: {})
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/summary",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
 end

@@ -1,6 +1,15 @@
 <template>
   <div class="flex actions--container relative items-center gap-2">
     <woot-button
+      v-if="enableSummary"
+      variant="hollow"
+      color-scheme="secondary"
+      icon="star-glitters"
+      @click="toggleSummary"
+    >
+      Summary
+    </woot-button>
+    <woot-button
       v-if="enableSmartActions"
       variant="hollow"
       color-scheme="secondary"
@@ -48,6 +57,11 @@
     >
       <smart-actions />
     </transition>
+    <summary-modal
+      v-if="showSummary"
+      :summary="summary"
+      @close="hideSummary"
+    />
   </div>
 </template>
 <script>
@@ -58,6 +72,7 @@ import ResolveAction from '../../buttons/ResolveAction.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import SmartActions from './SmartActions.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
+import SummaryModal from './SummaryModal.vue';
 
 import {
   CMD_MUTE_CONVERSATION,
@@ -70,11 +85,14 @@ export default {
     EmailTranscriptModal,
     ResolveAction,
     SmartActions,
+    SummaryModal,
   },
   mixins: [alertMixin, inboxMixin],
   data() {
     return {
       showEmailActionsModal: false,
+      showSummary: false,
+      summary: {},
     };
   },
   computed: {
@@ -92,6 +110,15 @@ export default {
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.currentChat.inbox_id);
+    },
+    summaryFeatureEnabled() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.AI_CONVERSATION_SUMMARY
+      );
+    },
+    enableSummary() {
+      return this.summaryFeatureEnabled;
     },
   },
   mounted() {
@@ -126,6 +153,25 @@ export default {
       });
       this.$store.dispatch('showSmartActions', true);
     },
+    toggleSummary() {
+      this.showSummary = true;
+
+      if (Object.keys(this.summary).length === 0) {
+        this.fetchSummary();
+      }
+    },
+    hideSummary() {
+      this.showSummary = false;
+    },
+    async fetchSummary(){
+      const result = await this.$store.dispatch('performConversationSummary', {
+        conversationId: this.currentChat.id,
+      });
+
+      if (result?.status === 200) {
+        this.summary = result.data;
+      }
+    }
   },
 };
 </script>

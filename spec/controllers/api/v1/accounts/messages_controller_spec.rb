@@ -45,7 +45,7 @@ RSpec.describe 'Messages API', type: :request do
       context 'when filtered by date range' do
         before do
           messages.first(5).each_with_index do |message, index|
-            message.update(created_at: Time.now - index.days)
+            message.update(created_at: (Time.now - index.days).beginning_of_day)
           end
         end
 
