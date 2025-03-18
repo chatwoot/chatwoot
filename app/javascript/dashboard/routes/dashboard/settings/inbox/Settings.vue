@@ -18,6 +18,7 @@ import WidgetBuilder from './WidgetBuilder.vue';
 import BotConfiguration from './components/BotConfiguration.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
+import LockToSingleConversationPreview from './components/LockToSingleConversationPreview.vue';
 
 export default {
   components: {
@@ -32,6 +33,7 @@ export default {
     WeeklyAvailability,
     WidgetBuilder,
     SenderNameExamplePreview,
+    LockToSingleConversationPreview,
     MicrosoftReauthorize,
     GoogleReauthorize,
   },
@@ -176,7 +178,9 @@ export default {
         this.isASmsInbox ||
         this.isAWhatsAppChannel ||
         this.isAFacebookInbox ||
-        this.isAPIInbox
+        this.isAPIInbox ||
+        this.isATelegramChannel ||
+        this.isALineChannel
       );
     },
     inboxNameLabel() {
@@ -347,6 +351,9 @@ export default {
           this.$refs.businessNameInput.focus();
         });
       }
+    },
+    toggleLockToSingleConversation(value) {
+      this.locktoSingleConversation = value;
     },
   },
   validations: {
@@ -629,24 +636,6 @@ export default {
             {{ $t('INBOX_MGMT.HELP_CENTER.SUB_TEXT') }}
           </p>
         </div>
-        <label v-if="canLocktoSingleConversation" class="w-3/4 pb-4">
-          {{ $t('INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION') }}
-          <select v-model="locktoSingleConversation">
-            <option :value="true">
-              {{ $t('INBOX_MGMT.EDIT.LOCK_TO_SINGLE_CONVERSATION.ENABLED') }}
-            </option>
-            <option :value="false">
-              {{ $t('INBOX_MGMT.EDIT.LOCK_TO_SINGLE_CONVERSATION.DISABLED') }}
-            </option>
-          </select>
-          <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
-            {{
-              $t(
-                'INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT'
-              )
-            }}
-          </p>
-        </label>
 
         <label v-if="isAWebWidgetInbox">
           {{ $t('INBOX_MGMT.FEATURES.LABEL') }}
@@ -743,6 +732,23 @@ export default {
           </div>
         </div>
       </SettingsSection>
+
+      <SettingsSection
+        v-if="canLocktoSingleConversation"
+        :title="$t('INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION')"
+        :sub-title="
+          $t('INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT')
+        "
+        :show-border="false"
+      >
+        <div class="w-3/4 pb-4">
+          <LockToSingleConversationPreview
+            :lock-to-single-conversation="locktoSingleConversation"
+            @update="toggleLockToSingleConversation"
+          />
+        </div>
+      </SettingsSection>
+
       <SettingsSection :show-border="false">
         <woot-submit-button
           v-if="isAPIInbox"
