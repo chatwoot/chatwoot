@@ -201,7 +201,7 @@ const tableHeaders = computed(() => {
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 pr-4 text-left font-semibold text-n-slate-11"
+            class="py-4 ltr:pr-4 rtl:pl-4 rtl:text-right ltr:text-left font-semibold text-n-slate-11"
           >
             {{ thHeader }}
           </th>

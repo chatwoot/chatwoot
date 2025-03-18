@@ -127,8 +127,8 @@ export default {
     },
     getInputErrorClass(errorMessage) {
       return errorMessage
-        ? 'bg-red-50 dark:bg-red-800/50 border-red-100 dark:border-red-700/50'
-        : 'bg-n-slate-3 dark:bg-n-solid-3 border-n-strong dark:border-n-strong';
+        ? 'bg-n-ruby-8/20 border-n-ruby-5 dark:border-n-ruby-5'
+        : 'bg-n-background border-n-weak dark:border-n-weak';
     },
   },
 };
@@ -138,14 +138,14 @@ export default {
 <template>
   <div>
     <div
-      class="p-2 border border-solid rounded-md"
+      class="p-2 border border-solid rounded-lg"
       :class="getInputErrorClass(errorMessage)"
     >
-      <div class="flex">
+      <div class="flex gap-1">
         <select
           v-if="groupedFilters"
           v-model="attributeKey"
-          class="bg-white max-w-[30%] dark:bg-slate-900 mb-0 mr-1 text-slate-800 dark:text-slate-100 border-slate-75 dark:border-slate-600"
+          class="max-w-[30%] mb-0 mr-1"
           @change="resetFilter()"
         >
           <optgroup
@@ -166,7 +166,7 @@ export default {
         <select
           v-else
           v-model="attributeKey"
-          class="bg-white max-w-[30%] dark:bg-slate-900 mb-0 mr-1 text-slate-800 dark:text-slate-100 border-slate-75 dark:border-slate-600"
+          class="max-w-[30%] mb-0 mr-1"
           @change="resetFilter()"
         >
           <option
@@ -179,10 +179,7 @@ export default {
           </option>
         </select>
 
-        <select
-          v-model="filterOperator"
-          class="bg-white dark:bg-slate-900 max-w-[20%] mb-0 mr-1 text-slate-800 dark:text-slate-100 border-slate-75 dark:border-slate-600"
-        >
+        <select v-model="filterOperator" class="max-w-[20%] mb-0 mr-1">
           <option
             v-for="(operator, o) in operators"
             :key="o"
@@ -234,14 +231,14 @@ export default {
               v-model="values"
               type="date"
               :editable="false"
-              class="mb-0 datepicker"
+              class="!mb-0 datepicker"
             />
           </div>
           <input
             v-else
             v-model="values"
             type="text"
-            class="mb-0"
+            class="!mb-0"
             :placeholder="$t('FILTER.INPUT_PLACEHOLDER')"
           />
         </div>
@@ -287,7 +284,7 @@ export default {
 }
 
 .filter-error {
-  @apply text-red-500 dark:text-red-200 block my-1 mx-0;
+  @apply text-n-ruby-9 dark:text-n-ruby-9 block my-1 mx-0;
 }
 
 .multiselect {
