@@ -61,12 +61,9 @@ class AutomationRules::ConditionsFilterService < FilterService
   end
 
   def apply_filter(query_hash, current_index)
+    normalize_priority_values(query_hash) if query_hash['attribute_key'] == 'priority'
+
     conversation_filter = @conversation_filters[query_hash['attribute_key']]
-
-    if query_hash['attribute_key'] == 'priority'
-      query_hash['values'] = query_hash['values'].map { |v| Conversation.priorities[v] }
-    end
-
     contact_filter = @contact_filters[query_hash['attribute_key']]
     message_filter = @message_filters[query_hash['attribute_key']]
 
@@ -80,6 +77,11 @@ class AutomationRules::ConditionsFilterService < FilterService
       # send table name according to attribute key right now we are supporting contact based custom attribute filter
       @query_string += custom_attribute_query(query_hash.with_indifferent_access, query_hash['custom_attribute_type'], current_index)
     end
+  end
+
+  # Converts priority values from string format to their corresponding enum integer values
+  def normalize_priority_values(query_hash)
+    query_hash['values'] = query_hash['values'].map { |v| Conversation.priorities[v] }
   end
 
   # If attribute_changed type filter is present perform this against array
