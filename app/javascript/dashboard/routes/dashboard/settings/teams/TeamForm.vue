@@ -32,7 +32,6 @@ export default {
   },
   setup(props) {
     const formData = props.formData || {};
-    console.log('formData', formData);
     const {
       description = '',
       name: title = '',
