@@ -20,8 +20,15 @@ class Channel::Instagram < ApplicationRecord
   validates :access_token, presence: true
   validates :instagram_id, uniqueness: true, presence: true
 
+  after_create_commit :subscribe
+  before_destroy :unsubscribe
+
   def name
     'Instagram'
+  end
+
+  def messaging_window_enabled?
+    false
   end
 
   def create_contact_inbox(instagram_id, name)
@@ -30,5 +37,32 @@ class Channel::Instagram < ApplicationRecord
                                                             inbox: inbox,
                                                             contact_attributes: { name: name }
                                                           }).perform
+  end
+
+  def subscribe
+    # ref https://developers.facebook.com/docs/instagram-platform/webhooks#enable-subscriptions
+    HTTParty.post(
+      "https://graph.instagram.com/v22.0/#{instagram_id}/subscribed_apps",
+      query: {
+        subscribed_fields: %w[messages message_reactions messaging_seen],
+        access_token: access_token
+      }
+    )
+  rescue StandardError => e
+    Rails.logger.debug { "Rescued: #{e.inspect}" }
+    true
+  end
+
+  def unsubscribe
+    HTTParty.delete(
+      "https://graph.instagram.com/v22.0/#{instagram_id}/subscribed_apps",
+      query: {
+        access_token: access_token
+      }
+    )
+    true
+  rescue StandardError => e
+    Rails.logger.debug { "Rescued: #{e.inspect}" }
+    true
   end
 end
