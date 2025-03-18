@@ -235,7 +235,13 @@ module.exports = {
     'vue/singleline-html-element-content-newline': 'off',
     'import/extensions': ['off'],
     'no-console': 'error',
-    '@intlify/vue-i18n/no-dynamic-keys': 'warn',
+    '@intlify/vue-i18n/no-dynamic-keys': 'off',
+    '@intlify/vue-i18n/no-raw-text': [
+      'warn',
+      {
+        "ignorePattern": "^([:.•-]|⌘K)+$",
+      },
+    ],
     '@intlify/vue-i18n/no-unused-keys': [
       'warn',
       {
