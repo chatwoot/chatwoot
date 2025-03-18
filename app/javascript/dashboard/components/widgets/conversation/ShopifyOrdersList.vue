@@ -12,9 +12,7 @@ const props = defineProps({
   },
 });
 
-const contact = computed(() =>
-  useFunctionGetter('contacts/getContact', props.contactId)
-);
+const contact = useFunctionGetter('contacts/getContact', props.contactId);
 
 const hasSearchableInfo = computed(
   () => !!contact.value?.email || !!contact.value?.phone_number
@@ -51,7 +49,7 @@ watch(
 <template>
   <div class="px-4 py-2 text-n-slate-12">
     <div v-if="!hasSearchableInfo" class="text-center text-n-slate-12">
-      {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.NO_SEARCHABLE_INFO') }}
+      {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.NO_SHOPIFY_ORDERS') }}
     </div>
     <div v-else-if="loading" class="flex justify-center items-center p-4">
       <Spinner size="32" class="text-n-brand" />
