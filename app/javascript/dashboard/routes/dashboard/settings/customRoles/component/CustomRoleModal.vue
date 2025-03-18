@@ -160,13 +160,13 @@ const isSubmitDisabled = computed(
     />
     <form class="flex flex-col w-full" @submit.prevent="handleCustomRole">
       <div class="w-full">
-        <label :class="{ 'text-red-500': v$.name.$error }">
+        <label>
           {{ $t('CUSTOM_ROLE.FORM.NAME.LABEL') }}
           <input
             ref="nameInput"
             v-model.trim="name"
             type="text"
-            :class="{ '!border-red-500': v$.name.$error }"
+            :class="{ error: v$.name.$error }"
             :placeholder="$t('CUSTOM_ROLE.FORM.NAME.PLACEHOLDER')"
             @blur="v$.name.$touch"
           />
@@ -174,7 +174,7 @@ const isSubmitDisabled = computed(
       </div>
 
       <div class="w-full">
-        <label :class="{ 'text-red-500': v$.description.$error }">
+        <label>
           {{ $t('CUSTOM_ROLE.FORM.DESCRIPTION.LABEL') }}
 
           <textarea

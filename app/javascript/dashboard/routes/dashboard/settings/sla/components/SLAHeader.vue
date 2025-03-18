@@ -22,7 +22,7 @@ defineEmits(['add']);
       <woot-button
         color-scheme="primary"
         icon="plus-sign"
-        class="rounded-xl"
+        class="rounded-md"
         @click="$emit('add')"
       >
         {{ $t('SLA.ADD_ACTION') }}

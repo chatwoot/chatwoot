@@ -1,5 +1,10 @@
 <script>
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
+  components: {
+    NextButton,
+  },
   inject: ['v$'],
   props: {
     macroName: {
@@ -29,7 +34,9 @@ export default {
 </script>
 
 <template>
-  <div class="p-3 bg-n-background h-full flex flex-col">
+  <div
+    class="p-4 bg-n-solid-2 border border-n-weak rounded-lg shadow-sm h-full flex flex-col"
+  >
     <div>
       <woot-input
         :model-value="macroName"
@@ -100,14 +107,9 @@ export default {
       </div>
     </div>
     <div class="mt-auto w-full">
-      <woot-button
-        size="expanded"
-        color-scheme="success"
-        class="w-full"
-        @click="$emit('submit')"
-      >
+      <NextButton blue solid class="w-full" @click="$emit('submit')">
         {{ $t('MACROS.HEADER_BTN_TXT_SAVE') }}
-      </woot-button>
+      </NextButton>
     </div>
   </div>
 </template>
