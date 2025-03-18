@@ -35,7 +35,7 @@ const classToApply = computed(() => {
     <div
       v-intersection-observer="onIntersectionObserver"
       :class="classToApply"
-      class="flex py-1.5 pr-2 pl-3 rounded-full text-xs font-semibold my-2.5 mx-auto"
+      class="flex py-1.5 px-3 rounded-full text-xs font-semibold my-2.5 mx-auto"
       @click="emit('click')"
     >
       {{ label }}
