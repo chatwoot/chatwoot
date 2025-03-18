@@ -63,6 +63,22 @@ RSpec.describe AutomationRules::ConditionsFilterService do
       end
     end
 
+    context 'when filtering by priority' do
+      before do
+        rule.conditions = [{ 'values': ['urgent'], 'attribute_key': 'priority', 'query_operator': nil, 'filter_operator': 'equal_to' }]
+        rule.save
+      end
+
+      it 'converts priority string to enum integer' do
+        expect(described_class.new(rule, conversation, { changed_attributes: { priority: ['medium', 'urgent'] } }).perform).to be(true)
+      end
+
+      it 'ignores invalid priority values' do
+        rule.update(conditions: [{ 'values': ['nonexistent'], 'attribute_key': 'priority', 'query_operator': nil, 'filter_operator': 'equal_to' }])
+        expect(described_class.new(rule, conversation, { changed_attributes: { priority: ['medium', 'urgent'] } }).perform).to be(false)
+      end
+    end
+
     context 'when conditions based on messages attributes' do
       context 'when filter_operator is equal_to' do
         before do

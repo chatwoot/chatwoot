@@ -62,6 +62,11 @@ class AutomationRules::ConditionsFilterService < FilterService
 
   def apply_filter(query_hash, current_index)
     conversation_filter = @conversation_filters[query_hash['attribute_key']]
+
+    if query_hash['attribute_key'] == 'priority'
+      query_hash['values'] = query_hash['values'].map { |v| Conversation.priorities[v] }
+    end
+
     contact_filter = @contact_filters[query_hash['attribute_key']]
     message_filter = @message_filters[query_hash['attribute_key']]
 
