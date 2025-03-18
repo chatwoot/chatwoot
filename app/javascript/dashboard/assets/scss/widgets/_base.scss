@@ -60,7 +60,7 @@ textarea {
 // Field base styles (Input, TextArea, Select)
 @layer components {
   .field-base {
-    @apply block box-border w-full transition-colors duration-[0.25s] ease-[ease-in-out] focus:outline-n-brand dark:focus:outline-n-brand appearance-none mx-0 mt-0 mb-4 p-2 rounded-lg text-base font-normal bg-n-alpha-black2 placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 text-n-slate-12 border-none outline outline-1 outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6;
+    @apply block box-border w-full transition-colors duration-[0.25s] ease-[ease-in-out] focus:outline-n-brand dark:focus:outline-n-brand appearance-none mx-0 mt-0 mb-4 py-2 px-3 rounded-lg text-base font-normal bg-n-alpha-black2 placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 text-n-slate-12 border-none outline outline-1 outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6;
   }
 
   .field-disabled {
@@ -96,7 +96,7 @@ select {
   background-position: right -1rem center;
   background-size: 9px 6px;
 
-  @apply field-base h-10 bg-origin-content focus-visible:outline-none bg-no-repeat py-2 pr-6 pl-2;
+  @apply field-base h-10 bg-origin-content focus-visible:outline-none bg-no-repeat py-2 pr-6 pl-3;
 
   &[disabled] {
     @apply field-disabled;
