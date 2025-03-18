@@ -11,6 +11,9 @@ import startOfDay from 'date-fns/startOfDay';
 import subDays from 'date-fns/subDays';
 import ReportHeader from './components/ReportHeader.vue';
 export const FETCH_INTERVAL = 60000;
+import ConversationAnalytics from './Index.vue'
+import Csat from './CsatResponses.vue'
+import AgentReports from './AgentReports.vue'
 
 export default {
   name: 'LiveReports',
@@ -19,6 +22,9 @@ export default {
     AgentTable,
     MetricCard,
     ReportHeatmap,
+    ConversationAnalytics,
+    Csat,
+    AgentReports,
   },
   data() {
     return {
@@ -210,5 +216,8 @@ export default {
         />
       </MetricCard>
     </div>
+    <ConversationAnalytics/>
+    <Csat />
+    <AgentReports />
   </div>
 </template>
