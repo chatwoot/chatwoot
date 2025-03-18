@@ -18,6 +18,7 @@ import WidgetBuilder from './WidgetBuilder.vue';
 import BotConfiguration from './components/BotConfiguration.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
@@ -34,6 +35,7 @@ export default {
     SenderNameExamplePreview,
     MicrosoftReauthorize,
     GoogleReauthorize,
+    NextButton,
   },
   mixins: [inboxMixin],
   setup() {
@@ -754,20 +756,20 @@ export default {
           </div>
         </SettingsSection>
         <SettingsSection :show-border="false">
-          <woot-submit-button
+          <NextButton
             v-if="isAPIInbox"
             type="submit"
             :disabled="v$.webhookUrl.$invalid"
-            :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-            :loading="uiFlags.isUpdating"
+            :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+            :is-loading="uiFlags.isUpdating"
             @click="updateInbox"
           />
-          <woot-submit-button
+          <NextButton
             v-else
             type="submit"
             :disabled="v$.$invalid"
-            :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-            :loading="uiFlags.isUpdating"
+            :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+            :is-loading="uiFlags.isUpdating"
             @click="updateInbox"
           />
         </SettingsSection>

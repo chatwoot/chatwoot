@@ -11,6 +11,7 @@ import {
   defaultTimeSlot,
   timeZoneOptions,
 } from '../helpers/businessHour';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const DEFAULT_TIMEZONE = {
   label: 'Pacific Time (US & Canada) (GMT-07:00)',
@@ -21,6 +22,7 @@ export default {
   components: {
     SettingsSection,
     BusinessDay,
+    NextButton,
     WootMessageEditor,
   },
   mixins: [inboxMixin],
@@ -184,9 +186,10 @@ export default {
             @update="data => onSlotUpdate(timeSlot.day, data)"
           />
         </div>
-        <woot-submit-button
-          :button-text="$t('INBOX_MGMT.BUSINESS_HOURS.UPDATE')"
-          :loading="uiFlags.isUpdating"
+        <NextButton
+          type="submit"
+          :label="$t('INBOX_MGMT.BUSINESS_HOURS.UPDATE')"
+          :is-loading="uiFlags.isUpdating"
           :disabled="hasError"
         />
       </form>

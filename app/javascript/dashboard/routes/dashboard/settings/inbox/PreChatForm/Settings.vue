@@ -4,10 +4,13 @@ import { useAlert } from 'dashboard/composables';
 import PreChatFields from './PreChatFields.vue';
 import { getPreChatFields, standardFieldKeys } from 'dashboard/helper/preChat';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
   components: {
     PreChatFields,
     WootMessageEditor,
+    NextButton,
   },
   props: {
     inbox: {
@@ -161,11 +164,10 @@ export default {
         </div>
       </div>
       <div class="w-auto my-4">
-        <woot-submit-button
-          :button-text="
-            $t('INBOX_MGMT.SETTINGS_POPUP.UPDATE_PRE_CHAT_FORM_SETTINGS')
-          "
-          :loading="uiFlags.isUpdating"
+        <NextButton
+          type="submit"
+          :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE_PRE_CHAT_FORM_SETTINGS')"
+          :is-loading="uiFlags.isUpdating"
         />
       </div>
     </form>

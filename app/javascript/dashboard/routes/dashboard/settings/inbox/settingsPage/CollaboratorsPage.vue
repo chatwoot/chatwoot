@@ -5,10 +5,12 @@ import { minValue } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import { useConfig } from 'dashboard/composables/useConfig';
 import SettingsSection from '../../../../../components/SettingsSection.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     SettingsSection,
+    NextButton,
   },
   props: {
     inbox: {
@@ -139,9 +141,9 @@ export default {
         @select="v$.selectedAgents.$touch"
       />
 
-      <woot-submit-button
-        :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-        :loading="isAgentListUpdating"
+      <NextButton
+        :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+        :is-loading="isAgentListUpdating"
         @click="updateAgents"
       />
     </SettingsSection>
@@ -185,8 +187,8 @@ export default {
           {{ $t('INBOX_MGMT.AUTO_ASSIGNMENT.MAX_ASSIGNMENT_LIMIT_SUB_TEXT') }}
         </p>
 
-        <woot-submit-button
-          :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+        <NextButton
+          :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
           :disabled="v$.maxAssignmentLimit.$invalid"
           @click="updateInbox"
         />
