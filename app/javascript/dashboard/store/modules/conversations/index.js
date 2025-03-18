@@ -215,11 +215,7 @@ export const mutations = {
       const selectedConversation = allConversations[index];
 
       // ignore out of order events
-      if (conversation.updated_at <= selectedConversation.updated_at) {
-        return;
-      }
-
-      if (conversation.updated_at === selectedConversation.updated_at) {
+      if (conversation.updated_at < selectedConversation.updated_at) {
         return;
       }
 
