@@ -25,7 +25,7 @@ module RequestExceptionHandler
     # to address the thread variable leak issues in Puma/Thin webserver
     Current.reset
   end
-  
+
   def log_connection_pool_stats(connection_pool)
     {
       pool_size: connection_pool.size,
@@ -38,7 +38,7 @@ module RequestExceptionHandler
 
   def fetch_active_queries
     query_data = ActiveRecord::Base.connection.execute(<<~SQL.squish)
-      SELECT pid, 
+      SELECT pid,#{' '}
              now() - pg_stat_activity.query_start AS duration,
              query,
              state,
@@ -48,12 +48,12 @@ module RequestExceptionHandler
              application_name,
              client_addr,
              usename
-      FROM pg_stat_activity 
+      FROM pg_stat_activity#{' '}
       WHERE state <> 'idle'
         AND query NOT ILIKE '%pg_stat_activity%'
       ORDER BY duration DESC;
     SQL
-    
+
     query_data.map do |row|
       {
         pid: row['pid'],
@@ -81,7 +81,7 @@ module RequestExceptionHandler
              now() - blocking_activity.query_start AS blocking_duration
       FROM pg_catalog.pg_locks blocked_locks
       JOIN pg_catalog.pg_stat_activity blocked_activity ON blocked_activity.pid = blocked_locks.pid
-      JOIN pg_catalog.pg_locks blocking_locks 
+      JOIN pg_catalog.pg_locks blocking_locks#{' '}
           ON blocking_locks.locktype = blocked_locks.locktype
           AND blocking_locks.DATABASE IS NOT DISTINCT FROM blocked_locks.DATABASE
           AND blocking_locks.relation IS NOT DISTINCT FROM blocked_locks.relation
@@ -96,9 +96,9 @@ module RequestExceptionHandler
       JOIN pg_catalog.pg_stat_activity blocking_activity ON blocking_activity.pid = blocking_locks.pid
       WHERE NOT blocked_locks.granted;
     SQL
-    
+
     return [] if lock_data.count.zero?
-    
+
     lock_data.map do |row|
       {
         blocked_pid: row['blocked_pid'],
@@ -147,33 +147,33 @@ module RequestExceptionHandler
     begin
       active_queries = fetch_active_queries
       locked_queries = fetch_locked_queries
-      
+
       connection_info[:connection_status] = ActiveRecord::Base.connection.execute(<<~SQL.squish).to_a
-        SELECT count(*) as connection_count, state 
-        FROM pg_stat_activity 
+        SELECT count(*) as connection_count, state#{' '}
+        FROM pg_stat_activity#{' '}
         GROUP BY state;
       SQL
     rescue StandardError => e
       Rails.logger.error "Error fetching active query data: #{e.message}"
     end
-    
+
     connection_info[:active_queries] = active_queries
     connection_info[:locked_queries] = locked_queries
-    
+
     # Get the process/thread ID that's experiencing the timeout
     connection_info[:caller_info] = {
       process_id: Process.pid,
       thread_id: Thread.current.object_id,
       backtrace: exception.backtrace&.first(15) || []
     }
-    
+
     # Log details about the error
     Rails.logger.error "ActiveRecord::ConnectionTimeoutError: #{exception.message}"
     Rails.logger.error "Connection Pool Stats: #{connection_info.except(:active_queries, :locked_queries).inspect}"
-    
+
     log_active_queries(active_queries)
     log_locked_queries(locked_queries)
-    
+
     # Report to exception tracker with additional context
     ChatwootExceptionTracker.new(
       exception,
@@ -181,7 +181,7 @@ module RequestExceptionHandler
       account: Current.account,
       additional_context: { connection_info: connection_info }
     ).capture_exception
-    
+
     render_service_unavailable('Database connection timeout. Please try again later.')
   end
 
@@ -204,7 +204,7 @@ module RequestExceptionHandler
   def render_internal_server_error(message)
     render json: { error: message }, status: :internal_server_error
   end
-  
+
   def render_service_unavailable(message)
     render json: { error: message }, status: :service_unavailable
   end
