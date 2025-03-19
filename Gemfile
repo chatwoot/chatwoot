@@ -176,6 +176,8 @@ gem 'reverse_markdown'
 gem 'iso-639'
 gem 'ruby-openai'
 
+gem 'shopify_api'
+
 ### Gems required only in specific deployment environments ###
 ##############################################################
 
