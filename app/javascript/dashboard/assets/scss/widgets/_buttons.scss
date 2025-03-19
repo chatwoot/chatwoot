@@ -42,7 +42,7 @@ button {
     }
   }
 
-  &:hover:not(.secondary):not(.success):not(.alert):not(.warning):not(
+  &:hover:not(:disabled):not(.success):not(.alert):not(.warning):not(
       .clear
     ):not(.smooth):not(.hollow) {
     @apply bg-n-brand/80 dark:bg-n-brand/80;
@@ -117,63 +117,63 @@ button {
   }
 
   &.hollow {
-    @apply border border-n-brand/40 bg-transparent text-n-blue-text hover:bg-n-brand/20;
+    @apply border border-n-brand/40 bg-transparent text-n-blue-text hover:enabled:bg-n-brand/20;
 
     &.secondary {
-      @apply text-n-slate-12 border-n-slate-5 hover:bg-n-slate-5;
+      @apply text-n-slate-12 border-n-slate-5 hover:enabled:bg-n-slate-5;
     }
 
     &.success {
-      @apply text-n-teal-9 border-n-teal-8 hover:bg-n-teal-5;
+      @apply text-n-teal-9 border-n-teal-8 hover:enabled:bg-n-teal-5;
     }
 
     &.alert {
-      @apply text-n-ruby-9 border-n-ruby-8 hover:bg-n-ruby-5;
+      @apply text-n-ruby-9 border-n-ruby-8 hover:enabled:bg-n-ruby-5;
     }
 
     &.warning {
-      @apply text-n-amber-9 border-n-amber-8 hover:bg-n-amber-5;
+      @apply text-n-amber-9 border-n-amber-8 hover:enabled:bg-n-amber-5;
     }
   }
 
   // Smooth style
   &.smooth {
-    @apply bg-n-brand/10 dark:bg-n-brand/30 text-n-blue-text hover:bg-n-brand/20 dark:hover:bg-n-brand/40;
+    @apply bg-n-brand/10 dark:bg-n-brand/30 text-n-blue-text hover:enabled:bg-n-brand/20 dark:hover:enabled:bg-n-brand/40;
 
     &.secondary {
-      @apply bg-n-slate-4 text-n-slate-11 hover:text-n-slate-11 hover:bg-n-slate-5;
+      @apply bg-n-slate-4 text-n-slate-11 hover:enabled:text-n-slate-11 hover:enabled:bg-n-slate-5;
     }
 
     &.success {
-      @apply bg-n-teal-4 text-n-teal-11 hover:text-n-teal-11 hover:bg-n-teal-5;
+      @apply bg-n-teal-4 text-n-teal-11 hover:enabled:text-n-teal-11 hover:enabled:bg-n-teal-5;
     }
 
     &.alert {
-      @apply bg-n-ruby-4 text-n-ruby-11 hover:text-n-ruby-11 hover:bg-n-ruby-5;
+      @apply bg-n-ruby-4 text-n-ruby-11 hover:enabled:text-n-ruby-11 hover:enabled:bg-n-ruby-5;
     }
 
     &.warning {
-      @apply bg-n-amber-4 text-n-amber-11 hover:text-n-amber-11 hover:bg-n-amber-5;
+      @apply bg-n-amber-4 text-n-amber-11 hover:enabled:text-n-amber-11 hover:enabled:bg-n-amber-5;
     }
   }
 
   &.clear {
-    @apply text-n-blue-text hover:bg-n-brand/10 dark:hover:bg-n-brand/30;
+    @apply text-n-blue-text hover:enabled:bg-n-brand/10 dark:hover:enabled:bg-n-brand/30;
 
     &.secondary {
-      @apply text-n-slate-12 hover:bg-n-slate-4;
+      @apply text-n-slate-12 hover:enabled:bg-n-slate-4;
     }
 
     &.success {
-      @apply text-n-teal-10 hover:bg-n-teal-4;
+      @apply text-n-teal-10 hover:enabled:bg-n-teal-4;
     }
 
     &.alert {
-      @apply text-n-ruby-11 hover:bg-n-ruby-4;
+      @apply text-n-ruby-11 hover:enabled:bg-n-ruby-4;
     }
 
     &.warning {
-      @apply text-n-amber-11 hover:bg-n-amber-4;
+      @apply text-n-amber-11 hover:enabled:bg-n-amber-4;
     }
 
     &:active {

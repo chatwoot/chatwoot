@@ -28,15 +28,19 @@ const getFormattedPermissions = role => {
   <tbody class="divide-y divide-n-weak text-n-slate-11">
     <tr v-for="(customRole, index) in roles" :key="index">
       <td
-        class="max-w-xs py-4 pr-4 font-medium truncate align-baseline"
+        class="max-w-xs py-4 ltr:pr-4 rtl:pl-4 font-medium truncate align-baseline"
         :title="customRole.name"
       >
         {{ customRole.name }}
       </td>
-      <td class="py-4 pr-4 whitespace-normal align-baseline md:break-words">
+      <td
+        class="py-4 ltr:pr-4 rtl:pl-4 whitespace-normal align-baseline md:break-words"
+      >
         {{ customRole.description }}
       </td>
-      <td class="py-4 pr-4 whitespace-normal align-baseline md:break-words">
+      <td
+        class="py-4 ltr:pr-4 rtl:pl-4 whitespace-normal align-baseline md:break-words"
+      >
         {{ getFormattedPermissions(customRole) }}
       </td>
       <td class="flex justify-end gap-1 py-4">

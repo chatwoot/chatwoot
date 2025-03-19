@@ -783,15 +783,15 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 
 .is-private {
   .prosemirror-mention-node {
-    @apply font-medium bg-n-amber-2/80 dark:bg-n-amber-2/80 text-slate-900 dark:text-slate-25 py-0 px-1;
+    @apply font-medium bg-n-amber-2/80 dark:bg-n-amber-2/80 text-n-slate-12 py-0 px-1;
   }
 
   .ProseMirror-menubar-wrapper {
     > .ProseMirror {
-      @apply text-slate-800 dark:text-slate-25;
+      @apply text-n-slate-12;
 
       p {
-        @apply text-slate-800 dark:text-slate-25;
+        @apply text-n-slate-12;
       }
     }
   }
@@ -802,11 +802,11 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 }
 
 .message-editor {
-  @apply border border-solid border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 rounded-md py-0 px-1 mb-0;
+  @apply rounded-lg outline outline-1 outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 bg-n-alpha-black2 py-0 px-1 mb-0;
 }
 
 .editor_warning {
-  @apply border border-solid border-red-400 dark:border-red-400;
+  @apply outline outline-1 outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9;
 }
 
 .editor-warning__message {
