@@ -56,6 +56,7 @@ const downloadAttachment = async () => {
     </div>
     <div v-else class="relative group rounded-lg overflow-hidden">
       <img
+        class="skip-context-menu"
         :src="attachment.dataUrl"
         :width="attachment.width"
         :height="attachment.height"
@@ -63,7 +64,7 @@ const downloadAttachment = async () => {
         @error="handleError"
       />
       <div
-        class="inset-0 p-2 absolute bg-gradient-to-tl from-n-slate-12/30 dark:from-n-slate-1/50 via-transparent to-transparent hidden group-hover:flex items-end justify-end gap-1.5"
+        class="inset-0 p-2 pointer-events-none absolute bg-gradient-to-tl from-n-slate-12/30 dark:from-n-slate-1/50 via-transparent to-transparent hidden group-hover:flex items-end justify-end gap-1.5"
       >
         <Button xs solid slate icon="i-lucide-expand" class="opacity-60" />
         <Button
