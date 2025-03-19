@@ -139,7 +139,7 @@ class Conversation < ApplicationRecord
   # So in specs rely on to be_with(1.second) instead of to eq()
   # TODO: Migrate to use a timestamp with microsecond precision
   def can_reply_by_custom_message?
-    self.inbox.allowed_custom_message_user_ids.include?(Current.user.id)
+    self.inbox.allowed_custom_message_user_ids&.include?(Current.user.id)
   end
 
   def last_activity_at
