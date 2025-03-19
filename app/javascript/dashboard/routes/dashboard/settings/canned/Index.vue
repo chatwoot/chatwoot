@@ -153,7 +153,7 @@ const tableHeaders = computed(() => {
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 pr-4 text-left font-semibold text-n-slate-11 last:text-right"
+            class="py-4 ltr:pr-4 rtl:pl-4 text-left font-semibold text-n-slate-11 last:text-right"
           >
             <span v-if="thHeader !== tableHeaders[0]">
               {{ thHeader }}
@@ -179,12 +179,12 @@ const tableHeaders = computed(() => {
             :key="cannedItem.short_code"
           >
             <td
-              class="py-4 pr-4 truncate max-w-xs font-medium"
+              class="py-4 ltr:pr-4 rtl:pl-4 truncate max-w-xs font-medium"
               :title="cannedItem.short_code"
             >
               {{ cannedItem.short_code }}
             </td>
-            <td class="py-4 pr-4 md:break-all whitespace-normal">
+            <td class="py-4 ltr:pr-4 rtl:pl-4 md:break-all whitespace-normal">
               {{ cannedItem.content }}
             </td>
             <td class="py-4 flex justify-end gap-1">
