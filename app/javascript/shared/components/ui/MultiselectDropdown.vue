@@ -3,6 +3,7 @@ import { computed, defineEmits } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
 import { useToggle } from '@vueuse/core';
 
+import Button from 'dashboard/components-next/button/Button.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems.vue';
 
@@ -57,41 +58,38 @@ const hasValue = computed(() => {
 <template>
   <OnClickOutside @trigger="onCloseDropdown">
     <div class="relative w-full mb-2" @keyup.esc="onCloseDropdown">
-      <woot-button
-        variant="hollow"
-        color-scheme="secondary"
-        class="w-full px-2 border border-solid !border-n-weak dark:!border-n-weak hover:!border-n-strong dark:hover:!border-n-strong"
+      <Button
+        slate
+        outline
+        trailing-icon
+        :icon="
+          showSearchDropdown ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'
+        "
+        class="w-full !px-2"
         @click="
           () => toggleDropdown() // ensure that the event is not passed to the button
         "
       >
-        <div class="flex gap-1">
-          <Thumbnail
-            v-if="hasValue && hasThumbnail"
-            :src="selectedItem.thumbnail"
-            size="24px"
-            :status="selectedItem.availability_status"
-            :username="selectedItem.name"
-          />
-          <div class="flex items-center justify-between w-full min-w-0">
-            <h4 v-if="!hasValue" class="text-sm text-ellipsis text-n-slate-12">
-              {{ multiselectorPlaceholder }}
-            </h4>
-            <h4
-              v-else
-              class="items-center overflow-hidden text-sm leading-tight whitespace-nowrap text-ellipsis text-n-slate-12"
-              :title="selectedItem.name"
-            >
-              {{ selectedItem.name }}
-            </h4>
-            <i
-              v-if="showSearchDropdown"
-              class="mr-1 icon i-lucide-chevron-up text-n-slate-10"
-            />
-            <i v-else class="mr-1 icon i-lucide-chevron-down text-n-slate-10" />
-          </div>
+        <div class="flex items-center justify-between w-full min-w-0">
+          <h4 v-if="!hasValue" class="text-sm text-ellipsis text-n-slate-12">
+            {{ multiselectorPlaceholder }}
+          </h4>
+          <h4
+            v-else
+            class="items-center overflow-hidden text-sm leading-tight whitespace-nowrap text-ellipsis text-n-slate-12"
+            :title="selectedItem.name"
+          >
+            {{ selectedItem.name }}
+          </h4>
         </div>
-      </woot-button>
+        <Thumbnail
+          v-if="hasValue && hasThumbnail"
+          :src="selectedItem.thumbnail"
+          size="24px"
+          :status="selectedItem.availability_status"
+          :username="selectedItem.name"
+        />
+      </Button>
       <div
         :class="{ 'dropdown-pane--open': showSearchDropdown }"
         class="dropdown-pane"
@@ -102,13 +100,7 @@ const hasValue = computed(() => {
           >
             {{ multiselectorTitle }}
           </h4>
-          <woot-button
-            icon="dismiss"
-            size="tiny"
-            color-scheme="secondary"
-            variant="clear"
-            @click="onCloseDropdown"
-          />
+          <Button ghost slate xs icon="i-lucide-x" @click="onCloseDropdown" />
         </div>
         <MultiselectDropdownItems
           v-if="showSearchDropdown"
