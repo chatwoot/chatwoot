@@ -39,5 +39,9 @@
   },
   "LABEL": {
     "TAG_BUTTON": "etiqueta"
+  },
+  "FEATURE_SPOTLIGHT": {
+    "LEARN_MORE": "Más información",
+    "WATCH_VIDEO": "Watch video"
   }
 }

@@ -39,5 +39,9 @@
   },
   "LABEL": {
     "TAG_BUTTON": "标签"
+  },
+  "FEATURE_SPOTLIGHT": {
+    "LEARN_MORE": "了解更多",
+    "WATCH_VIDEO": "Watch video"
   }
 }

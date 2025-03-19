@@ -150,7 +150,7 @@
         },
         "DELETE_PORTAL": {
           "TITLE": "删除门户",
-          "MESSAGE": "您确定要删除此门户吗？",
+          "MESSAGE": "您确定要删除此门户吗",
           "YES": "是，删除门户",
           "NO": "否，保留门户",
           "API": {
@@ -400,7 +400,7 @@
           "ERROR": "描述是必需的"
         },
         "BUTTONS": {
-          "CREATE": "创建类别",
+          "CREATE": "类别的 URL Slug",
           "CANCEL": "取消"
         },
         "API": {
@@ -598,14 +598,14 @@
         },
         "FORM": {
           "NAME": {
-            "LABEL": "姓名：",
+            "LABEL": "姓名",
             "PLACEHOLDER": "类别名称",
             "ERROR": "名字必填"
           },
           "SLUG": {
             "LABEL": "Slug",
             "PLACEHOLDER": "类别的URL Slug",
-            "ERROR": "Slug是必填项",
+            "ERROR": "Slug 是必填项",
             "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
@@ -688,7 +688,7 @@
       "DESCRIPTION": "为您的门户命名并创建一个用户友好的URL Slug。您稍后可以在设置中修改它们。",
       "CONFIRM_BUTTON_LABEL": "创建",
       "NAME": {
-        "LABEL": "姓名：",
+        "LABEL": "姓名",
         "PLACEHOLDER": "用户指南 | Chatwoot",
         "MESSAGE": "为您的门户选择一个名称。",
         "ERROR": "名字必填"
@@ -710,7 +710,7 @@
           "IMAGE_UPLOAD_SIZE_ERROR": "图片大小应小于 {size}MB"
         },
         "NAME": {
-          "LABEL": "姓名：",
+          "LABEL": "姓名",
           "PLACEHOLDER": "门户名称",
           "ERROR": "名字必填"
         },
@@ -760,7 +760,7 @@
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "DNS配置",
-            "DESCRIPTION": "登录您的DNS提供商账户，并添加一个指向 chatwoot.help 的子域名的CNAME记录。",
+            "DESCRIPTION": "登录您的 DNS 提供商账户，并添加一个指向 chatwoot.help 的子域名的 CNAME 记录",
             "HELP_TEXT": "完成后，您可以联系我们的支持团队以请求自动生成的SSL证书。",
             "CONFIRM_BUTTON_LABEL": "明白了！"
           }

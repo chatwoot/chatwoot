@@ -12,6 +12,8 @@
     "NO_INBOX_2": "başlamak",
     "NO_INBOX_AGENT": "Görünüşe göre herhangi bir gelen kutusunun parçası değilsiniz. Lütfen yöneticinizle iletişime geçin",
     "SEARCH_MESSAGES": "Sohbetlerde ara",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "komut menüsünü açmak için",
       "KEYBOARD_SHORTCUTS": "klavye kısayollarını görmek için"
