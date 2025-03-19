@@ -196,7 +196,7 @@ export default {
       />
 
       <div
-        class="mt-3 flex h-10 items-center text-sm w-full gap-2 border border-solid border-slate-200 dark:border-slate-600 px-3 py-1.5 rounded-xl justify-between"
+        class="mt-3 flex h-10 items-center text-sm w-full gap-2 border border-solid border-n-strong px-3 py-1.5 rounded-xl justify-between"
       >
         <span for="sla_bh" class="text-slate-700 dark:text-slate-200">
           {{ $t('SLA.FORM.BUSINESS_HOURS.PLACEHOLDER') }}

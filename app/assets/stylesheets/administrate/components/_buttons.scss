@@ -9,7 +9,7 @@ input[type='submit']:not(.reset-base),
   border-radius: $base-border-radius;
   color: $white;
   cursor: pointer;
-  display: inline-block;
+  display: inline-flex;
   font-size: $font-size-small;
   -webkit-font-smoothing: antialiased;
   font-weight: $font-weight-medium;

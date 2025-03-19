@@ -778,7 +778,7 @@ describe('#mutations', () => {
       expect(state.allConversations[0].status).toEqual('open');
     });
 
-    it('should ignore updates with same timestamps', () => {
+    it('should allow updates with same timestamps', () => {
       const state = {
         allConversations: [
           {
@@ -796,7 +796,7 @@ describe('#mutations', () => {
       };
 
       mutations[types.UPDATE_CONVERSATION](state, conversation);
-      expect(state.allConversations[0].status).toEqual('open');
+      expect(state.allConversations[0].status).toEqual('resolved');
     });
   });
 
