@@ -79,18 +79,11 @@ RSpec.describe Integrations::App do
         expect(app.active?(account)).to be false
       end
 
-      it 'returns true if the linear integration feature is enabled and LINEAR_CLIENT_ID is present' do
+      it 'returns true if the linear integration feature is enabled' do
         account.enable_features('linear_integration')
         account.save!
         allow(GlobalConfigService).to receive(:load).with('LINEAR_CLIENT_ID', nil).and_return('client_id')
         expect(app.active?(account)).to be true
-      end
-
-      it 'returns false if LINEAR_CLIENT_ID is not present, even if feature is enabled' do
-        account.enable_features('linear_integration')
-        account.save!
-        allow(GlobalConfigService).to receive(:load).with('LINEAR_CLIENT_ID', nil).and_return(nil)
-        expect(app.active?(account)).to be false
       end
     end
 

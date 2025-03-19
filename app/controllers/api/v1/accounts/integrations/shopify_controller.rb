@@ -2,7 +2,7 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
   include Shopify::IntegrationHelper
   before_action :setup_shopify_context, only: [:orders]
   before_action :fetch_hook, except: [:auth]
-  before_action :set_contact, only: [:orders]
+  before_action :validate_contact, only: [:orders]
 
   def auth
     shop_domain = params[:shop_domain]
@@ -34,6 +34,8 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
   def destroy
     @hook.destroy!
     head :ok
+  rescue StandardError => e
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   private
@@ -43,7 +45,7 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
   end
 
   def contact
-    @contact ||= Current.account.contacts.find(params[:contact_id])
+    @contact ||= Current.account.contacts.find_by(id: params[:contact_id])
   end
 
   def fetch_hook
@@ -61,7 +63,7 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
         query: query.join(' OR '),
         fields: 'id,email,phone'
       }
-    ).body['customers']
+    ).body['customers'] || []
   end
 
   def fetch_orders(customer_id)
@@ -72,7 +74,7 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
         status: 'any',
         fields: 'id,email,created_at,total_price,currency,fulfillment_status,financial_status'
       }
-    ).body['orders']
+    ).body['orders'] || []
 
     orders.map do |order|
       order.merge('admin_url' => "https://#{@hook.reference_id}/admin/orders/#{order['id']}")
@@ -100,7 +102,7 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
     @shopify_client ||= ShopifyAPI::Clients::Rest::Admin.new(session: shopify_session)
   end
 
-  def set_contact
+  def validate_contact
     return unless contact.blank? || (contact.email.blank? && contact.phone_number.blank?)
 
     render json: { error: 'Contact information missing' },
