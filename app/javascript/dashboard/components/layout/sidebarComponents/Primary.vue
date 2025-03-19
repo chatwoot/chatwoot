@@ -48,8 +48,13 @@ export default {
     return {
       helpDocsURL: wootConstants.DOCS_URL,
       showOptionsMenu: false,
-      pinSidebar: false,
+      pinSidebar: localStorage.getItem('pin-sidebar') ? true : false,
     };
+  },
+  watch: {
+    pinSidebar(value) {
+      localStorage.setItem('pin-sidebar', value ? '1' : '')  
+    },
   },
   methods: {
     frontendURL,
