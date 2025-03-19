@@ -10,6 +10,8 @@
  *    both top-level properties and nested attributes.
  * 2. matchesCondition: Evaluates a single filter condition against a value.
  * 3. matchesFilters: Evaluates a complete filter chain against a conversation.
+ * 4. buildJsonLogicRule: Transforms evaluated filters into a JSON Logic rule that
+ *    respects SQL-like operator precedence.
  *
  * Filter Structure:
  * -----------------
@@ -23,14 +25,19 @@
  *
  * Operator Precedence:
  * --------------------
- * The filter evaluation respects SQL-like operator precedence:
+ * The filter evaluation respects SQL-like operator precedence using JSON Logic:
  * https://www.postgresql.org/docs/17/sql-syntax-lexical.html#SQL-PRECEDENCE
  * 1. First evaluates individual conditions
- * 2. Then applies AND operators
- * 3. Finally applies OR operators
+ * 2. Then applies AND operators (groups consecutive AND conditions)
+ * 3. Finally applies OR operators (connects AND groups with OR operations)
  *
  * This means that a filter chain like "A AND B OR C" is evaluated as "(A AND B) OR C",
  * and "A OR B AND C" is evaluated as "A OR (B AND C)".
+ *
+ * The implementation uses json-logic-js to apply these rules. The JsonLogic format is designed
+ * to allow you to share rules (logic) between front-end and back-end code
+ * Here we use json-logic-js to transform filter conditions into a nested JSON Logic structure that preserves proper
+ * operator precedence, effectively mimicking SQL-like operator precedence.
  *
  * Conversation Object Structure:
  * -----------------------------
