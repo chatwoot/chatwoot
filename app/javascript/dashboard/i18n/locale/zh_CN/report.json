@@ -124,7 +124,7 @@
   },
   "AGENT_REPORTS": {
     "HEADER": "客服概览",
-    "DESCRIPTION": "通过关键指标（如会话、响应时间、解决时间和已解决案例）轻松跟踪客服表现。点击客服姓名以了解更多信息。",
+    "DESCRIPTION": "通过关键指标如会话数量、响应时间、解决时间和已解决案例数，轻松跟踪客服人员的表现。点击客服人员姓名了解更多信息。",
     "LOADING_CHART": "正在载入图表数据...",
     "NO_ENOUGH_DATA": "我们没有收到足够的数据点来生成报告，请稍后再试。",
     "DOWNLOAD_AGENT_REPORTS": "下载客服报表",
@@ -471,6 +471,18 @@
       "NO_AGENTS": "没有客服的会话",
       "TABLE_HEADER": {
         "AGENT": "客服",
+        "OPEN": "打开",
+        "UNATTENDED": "未处理",
+        "STATUS": "状态"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "所有团队",
+      "HEADER": "团队对话统计",
+      "LOADING_MESSAGE": "正在加载团队指标...",
+      "NO_TEAMS": "没有可用数据",
+      "TABLE_HEADER": {
+        "TEAM": "团队",
         "OPEN": "打开",
         "UNATTENDED": "未处理",
         "STATUS": "状态"

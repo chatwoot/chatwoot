@@ -311,6 +311,7 @@
   },
   "CAPTAIN": {
     "NAME": "Captain",
+    "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
       "SEND_MESSAGE": "发送消息...",
       "LOADER": "Captain 正在思考",
@@ -390,7 +391,11 @@
       },
       "EMPTY_STATE": {
         "TITLE": "没有可用的文档",
-        "SUBTITLE": "文档用于为您的助手生成常见问题。您可以导入文档以为您的助手提供上下文。"
+        "SUBTITLE": "文档用于为您的助手生成常见问题。您可以导入文档以为您的助手提供上下文。",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain Assistant",
+          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+        }
       }
     },
     "DOCUMENTS": {
@@ -431,7 +436,11 @@
       },
       "EMPTY_STATE": {
         "TITLE": "没有可用的文档",
-        "SUBTITLE": "文档用于为您的助手生成常见问题。您可以导入文档以为您的助手提供上下文。"
+        "SUBTITLE": "文档用于为您的助手生成常见问题。您可以导入文档以为您的助手提供上下文。",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain Document",
+          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+        }
       }
     },
     "RESPONSES": {
@@ -508,7 +517,11 @@
       },
       "EMPTY_STATE": {
         "TITLE": "未找到常见问题",
-        "SUBTITLE": "常见问题帮助您的助手为客户提供快速准确的答案。它们可以从您的内容自动生成，也可以手动添加。"
+        "SUBTITLE": "常见问题帮助您的助手为客户提供快速准确的答案。它们可以从您的内容自动生成，也可以手动添加。",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain FAQ",
+          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+        }
       }
     },
     "INBOXES": {
