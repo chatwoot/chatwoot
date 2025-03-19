@@ -7,6 +7,10 @@ defineProps({
     type: String,
     required: true,
   },
+  type: {
+    type: String,
+    default: 'text',
+  },
   icon: {
     type: String,
     default: '',
@@ -51,7 +55,7 @@ const model = defineModel({
     <input
       v-bind="$attrs"
       v-model="model"
-      type="text"
+      :type="type"
       class="block w-full border-none rounded-md shadow-sm bg-n-alpha-black2 appearance-none outline outline-1 focus:outline focus:outline-1 text-n-slate-12 placeholder:text-n-slate-10 sm:text-sm sm:leading-6 px-3 py-3"
       :class="{
         'error outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 disabled:outline-n-ruby-8 dark:disabled:outline-n-ruby-8':
