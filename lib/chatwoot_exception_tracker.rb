@@ -5,10 +5,11 @@
 ############
 
 class ChatwootExceptionTracker
-  def initialize(exception, user: nil, account: nil)
+  def initialize(exception, user: nil, account: nil, additional_context: {})
     @exception = exception
     @user = user
     @account = account
+    @additional_context = additional_context
   end
 
   def capture_exception
@@ -26,6 +27,12 @@ class ChatwootExceptionTracker
       end
 
       scope.set_user(id: @user.id, email: @user.email) if @user.is_a?(User)
+
+      # Add additional context if provided
+      @additional_context.each do |context_name, context_data|
+        scope.set_context(context_name.to_s, context_data)
+      end
+
       Sentry.capture_exception(@exception)
     end
   end
