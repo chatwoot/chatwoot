@@ -64,7 +64,10 @@ export default {
       return !isEmptyObject(this.activeCampaign);
     },
     shouldShowHeaderMessage() {
-      return this.hasActiveCampaign || this.preChatFormEnabled;
+      return (
+        this.hasActiveCampaign ||
+        (this.preChatFormEnabled && !!this.headerMessage)
+      );
     },
     headerMessage() {
       if (this.preChatFormEnabled) {
