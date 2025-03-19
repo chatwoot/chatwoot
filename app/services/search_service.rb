@@ -35,12 +35,66 @@ class SearchService
   end
 
   def filter_messages
-    @messages = current_account.messages.where(inbox_id: accessable_inbox_ids)
-                               .where('messages.content ILIKE :search', search: "%#{search_query}%")
-                               .where('created_at >= ?', 3.months.ago)
-                               .reorder('created_at DESC')
-                               .page(params[:page])
-                               .per(15)
+    start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+
+    @messages = if use_gin_search
+                  filter_messages_with_gin
+                else
+                  filter_messages_with_like
+                end
+
+    log_search_performance(start_time)
+    @messages
+  end
+
+  def filter_messages_with_gin
+    base_query = message_base_query
+
+    if search_query.present?
+      # Use the @@ operator with to_tsquery for better GIN index utilization
+      # Convert search query to tsquery format with prefix matching
+
+      # Use this if we wanna match splitting the words
+      # split_query = search_query.split.map { |term| "#{term} | #{term}:*" }.join(' & ')
+
+      # This will do entire sentence matching using phrase distance operator
+      tsquery = search_query.split.join(' <-> ')
+
+      # Apply the text search using the GIN index
+      base_query.where('content @@ to_tsquery(?)', tsquery)
+                .reorder('created_at DESC')
+                .page(params[:page])
+                .per(15)
+    else
+      base_query.reorder('created_at DESC')
+                .page(params[:page])
+                .per(15)
+    end
+  end
+
+  def filter_messages_with_like
+    message_base_query
+      .where('messages.content ILIKE :search', search: "%#{search_query}%")
+      .reorder('created_at DESC')
+      .page(params[:page])
+      .per(15)
+  end
+
+  def message_base_query
+    current_account.messages.where(inbox_id: accessable_inbox_ids)
+                   .where('created_at >= ?', 3.months.ago)
+  end
+
+  def log_search_performance(start_time)
+    end_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+    search_type = use_gin_search ? 'GIN' : 'ILIKE'
+    duration_ms = (end_time - start_time) * 1000
+
+    Rails.logger.info "[SearchService][#{current_account.id}] #{search_type} search query time: #{duration_ms}ms for #{search_query}"
+  end
+
+  def use_gin_search
+    current_account.feature_enabled?('search_with_gin')
   end
 
   def filter_contacts

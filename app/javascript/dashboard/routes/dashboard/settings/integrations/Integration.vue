@@ -2,9 +2,11 @@
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { frontendURL } from '../../../../helper/URLHelper';
 import { useAlert } from 'dashboard/composables';
 import { useInstallationName } from 'shared/mixins/globalConfigMixin';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   integrationId: {
@@ -19,6 +21,7 @@ const props = defineProps({
   deleteConfirmationText: { type: Object, default: () => ({}) },
 });
 
+const { t } = useI18n();
 const store = useStore();
 const router = useRouter();
 
@@ -38,9 +41,9 @@ const closeDeletePopup = () => {
 const deleteIntegration = async () => {
   try {
     await store.dispatch('integrations/deleteIntegration', props.integrationId);
-    useAlert('INTEGRATION_SETTINGS.DELETE.API.SUCCESS_MESSAGE');
+    useAlert(t('INTEGRATION_SETTINGS.DELETE.API.SUCCESS_MESSAGE'));
   } catch (error) {
-    useAlert('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.ERROR_MESSAGE');
+    useAlert(t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.ERROR_MESSAGE'));
   }
 };
 
@@ -90,26 +93,28 @@ const confirmDeletion = () => {
       >
         <div v-if="integrationEnabled">
           <div v-if="integrationAction === 'disconnect'">
-            <div @click="openDeletePopup">
-              <woot-submit-button
-                :button-text="
-                  actionButtonText ||
-                  $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
-                "
-                button-class="smooth alert"
-              />
-            </div>
+            <NextButton
+              :label="
+                actionButtonText ||
+                $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
+              "
+              faded
+              ruby
+              @click="openDeletePopup"
+            />
           </div>
           <div v-else>
-            <button class="button nice">
+            <NextButton faded blue>
               {{ $t('INTEGRATION_SETTINGS.WEBHOOK.CONFIGURE') }}
-            </button>
+            </NextButton>
           </div>
         </div>
       </router-link>
       <div v-if="!integrationEnabled">
-        <a :href="integrationAction" class="rounded button success nice">
-          {{ $t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT') }}
+        <a :href="integrationAction">
+          <NextButton faded blue>
+            {{ $t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT') }}
+          </NextButton>
         </a>
       </div>
     </div>

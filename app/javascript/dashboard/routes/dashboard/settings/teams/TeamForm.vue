@@ -63,7 +63,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex-shrink-0 w-full max-w-lg">
+  <div class="flex-shrink-0 w-full">
     <form class="mx-0 grid gap-4" @submit.prevent="handleSubmit">
       <FormInput
         v-model="state.title"

@@ -5,10 +5,12 @@ import { useAlert } from 'dashboard/composables';
 import { required } from '@vuelidate/validators';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     PageHeader,
+    NextButton,
   },
   setup() {
     return { v$: useVuelidate() };
@@ -70,14 +72,17 @@ export default {
 
 <template>
   <div
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class="border border-n-weak bg-n-solid-1 rounded-t-lg border-b-0 h-full w-full p-6 col-span-6 overflow-auto"
   >
     <PageHeader
       :header-title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.LINE_CHANNEL.DESC')"
     />
-    <form class="flex flex-wrap mx-0" @submit.prevent="createChannel()">
-      <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+    <form
+      class="flex flex-wrap flex-col mx-0"
+      @submit.prevent="createChannel()"
+    >
+      <div class="flex-shrink-0 flex-grow-0">
         <label :class="{ error: v$.channelName.$error }">
           {{ $t('INBOX_MGMT.ADD.LINE_CHANNEL.CHANNEL_NAME.LABEL') }}
           <input
@@ -94,7 +99,7 @@ export default {
         </label>
       </div>
 
-      <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+      <div class="flex-shrink-0 flex-grow-0">
         <label :class="{ error: v$.lineChannelId.$error }">
           {{ $t('INBOX_MGMT.ADD.LINE_CHANNEL.LINE_CHANNEL_ID.LABEL') }}
           <input
@@ -108,7 +113,7 @@ export default {
         </label>
       </div>
 
-      <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+      <div class="flex-shrink-0 flex-grow-0">
         <label :class="{ error: v$.lineChannelSecret.$error }">
           {{ $t('INBOX_MGMT.ADD.LINE_CHANNEL.LINE_CHANNEL_SECRET.LABEL') }}
           <input
@@ -122,7 +127,7 @@ export default {
         </label>
       </div>
 
-      <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+      <div class="flex-shrink-0 flex-grow-0">
         <label :class="{ error: v$.lineChannelToken.$error }">
           {{ $t('INBOX_MGMT.ADD.LINE_CHANNEL.LINE_CHANNEL_TOKEN.LABEL') }}
           <input
@@ -136,10 +141,13 @@ export default {
         </label>
       </div>
 
-      <div class="w-full">
-        <woot-submit-button
-          :loading="uiFlags.isCreating"
-          :button-text="$t('INBOX_MGMT.ADD.LINE_CHANNEL.SUBMIT_BUTTON')"
+      <div class="w-full mt-4">
+        <NextButton
+          :is-loading="uiFlags.isCreating"
+          type="submit"
+          solid
+          blue
+          :label="$t('INBOX_MGMT.ADD.LINE_CHANNEL.SUBMIT_BUTTON')"
         />
       </div>
     </form>
