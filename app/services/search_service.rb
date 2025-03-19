@@ -1,5 +1,5 @@
 class SearchService
-  pattr_initialize [:current_user!, :current_account!, :params!, :search_type!]
+  pattr_initialize [:current_user!, :current_account!, :current_account_user!, :params!, :search_type!]
 
   def perform
     case search_type
@@ -15,6 +15,10 @@ class SearchService
   end
 
   private
+
+  def user_is_admin?
+    @current_account_user.administrator?
+  end
 
   def accessable_inbox_ids
     @accessable_inbox_ids ||= @current_user.assigned_inboxes.pluck(:id)
