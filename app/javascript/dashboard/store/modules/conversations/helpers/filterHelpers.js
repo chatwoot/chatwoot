@@ -39,6 +39,7 @@
  * 2. Nested properties in additional_attributes (browser_language, referer, etc.)
  * 3. Nested properties in custom_attributes (conversation_type, etc.)
  */
+import jsonLogic from 'json-logic-js';
 
 /**
  * Gets a value from a conversation based on the attribute key
@@ -151,55 +152,111 @@ const matchesCondition = (value, filter) => {
 };
 
 /**
+ * Converts an array of evaluated filters into a JSON Logic rule
+ * that respects SQL-like operator precedence (AND before OR)
+ *
+ * This function transforms the linear sequence of filter results and operators
+ * into a nested JSON Logic structure that correctly implements SQL-like precedence:
+ * - AND operators are evaluated before OR operators
+ * - Consecutive AND conditions are grouped together
+ * - These AND groups are then connected with OR operators
+ *
+ * For example:
+ * - "A AND B AND C" becomes { "and": [A, B, C] }
+ * - "A OR B OR C" becomes { "or": [A, B, C] }
+ * - "A AND B OR C" becomes { "or": [{ "and": [A, B] }, C] }
+ * - "A OR B AND C" becomes { "or": [A, { "and": [B, C] }] }
+ *
+ * FILTER CHAIN:  A --AND--> B --OR--> C --AND--> D --AND--> E --OR--> F
+ *                |         |         |         |         |         |
+ *                v         v         v         v         v         v
+ * EVALUATED:    true      false     true      false     true      false
+ *                \         /         \         \         /         /
+ *                 \       /           \         \       /         /
+ *                  \     /             \         \     /         /
+ *                   \   /               \         \   /         /
+ *                    \ /                 \         \ /         /
+ * AND GROUPS:      [true,false]          [true,false,true]    [false]
+ *                     |                       |                  |
+ *                     v                       v                  v
+ * JSON LOGIC:    {"and":[true,false]}   {"and":[true,false,true]}  false
+ *                   \                      |                  /
+ *                    \                     |                 /
+ *                     \                    |                /
+ *                      \                   |               /
+ *                       \                  |              /
+ * FINAL RULE:            {"or":[{"and":[true,false]},{"and":[true,false,true]},false]}
+ *
+ * {
+ *  "or": [
+ *    { "and": [true, false] },
+ *    { "and": [true, false, true] },
+ *    { "and": [false] }
+ *  ]
+ * }
+ * @param {Array} evaluatedFilters - Array of evaluated filter conditions with results and operators
+ * @returns {Object} - JSON Logic rule
+ */
+const buildJsonLogicRule = evaluatedFilters => {
+  // Step 1: Group consecutive AND conditions into logical units
+  // This implements the higher precedence of AND over OR
+  const andGroups = [];
+  let currentAndGroup = [evaluatedFilters[0].result];
+
+  for (let i = 0; i < evaluatedFilters.length - 1; i += 1) {
+    if (evaluatedFilters[i].operator === 'and') {
+      // When we see an AND operator, we add the next filter to the current AND group
+      // This builds up chains of AND conditions that will be evaluated together
+      currentAndGroup.push(evaluatedFilters[i + 1].result);
+    } else {
+      // When we see an OR operator, it marks the boundary between AND groups
+      // We finalize the current AND group and start a new one
+
+      // If the AND group has only one item, don't wrap it in an "and" operator
+      // Otherwise, create a proper "and" JSON Logic expression
+      andGroups.push(
+        currentAndGroup.length === 1
+          ? currentAndGroup[0] // Single item doesn't need an "and" wrapper
+          : { and: currentAndGroup } // Multiple items need to be AND-ed together
+      );
+
+      // Start a new AND group with the next filter's result
+      currentAndGroup = [evaluatedFilters[i + 1].result];
+    }
+  }
+
+  // Step 2: Add the final AND group that wasn't followed by an OR
+  if (currentAndGroup.length > 0) {
+    andGroups.push(
+      currentAndGroup.length === 1
+        ? currentAndGroup[0] // Single item doesn't need an "and" wrapper
+        : { and: currentAndGroup } // Multiple items need to be AND-ed together
+    );
+  }
+
+  // Step 3: Combine all AND groups with OR operators
+  // If we have multiple AND groups, they are separated by OR operators
+  // in the original filter chain, so we combine them with an "or" operation
+  if (andGroups.length > 1) {
+    return { or: andGroups };
+  }
+
+  // If there's only one AND group (which might be a single condition
+  // or multiple AND-ed conditions), just return it directly
+  return andGroups[0];
+};
+
+/**
  * Checks if a conversation matches the given filters
  * @param {Object} conversation - The conversation object to check
  * @param {Array} filters - Array of filter conditions
  * @returns {Boolean} - Returns true if conversation matches filters, false otherwise
- *
- * This function implements a SQL-like evaluation of filter chains:
- * 1. Each filter is evaluated individually
- * 2. Filters are grouped based on their operators (AND/OR)
- * 3. AND operators take precedence over OR operators
- * 4. The final result respects the proper operator precedence
- *
- * Example filter chains and their evaluation:
- * - "A AND B AND C": All conditions must be true
- * - "A OR B OR C": At least one condition must be true
- * - "A AND B OR C": (A AND B) OR C - Either both A and B are true, or C is true
- * - "A OR B AND C": A OR (B AND C) - Either A is true, or both B and C are true
- * - "A AND (B OR C) AND D": A must be true, either B or C must be true, and D must be true
  */
 export const matchesFilters = (conversation, filters) => {
   // If no filters, return true
   if (!filters || filters.length === 0) {
     return true;
   }
-
-  /**
-   * IMPORTANT: Backend-Frontend Filter Processing Alignment
-   *
-   * The backend (FilterService in app/services/filter_service.rb) builds SQL queries by
-   * concatenating conditions with the appropriate operators. In the backend:
-   *
-   * 1. Each filter specifies its own queryOperator (AND/OR) which determines how it
-   *    connects to the NEXT filter in the chain.
-   *
-   * 2. The query_builder method in filter_service.rb iterates through each filter and
-   *    appends it to the query string with its specified operator.
-   *
-   * 3. SQL evaluates expressions from left to right, but respects operator precedence:
-   *    - First evaluates individual conditions
-   *    - Then applies AND operators
-   *    - Finally applies OR operators
-   *
-   * To maintain alignment with the backend, this frontend implementation:
-   *
-   * 1. Evaluates each condition individually
-   * 2. Processes the conditions in the same order as the backend would
-   * 3. Respects operator precedence as SQL would
-   *
-   * This ensures consistent filtering behavior between frontend and backend.
-   */
 
   // First, evaluate all conditions and collect their results and operators
   const evaluatedFilters = filters.map((filter, index) => {
@@ -220,46 +277,5 @@ export const matchesFilters = (conversation, filters) => {
     return evaluatedFilters[0].result;
   }
 
-  // Process the filters in a way that respects SQL's operator precedence
-  // We'll use a recursive approach to handle nested expressions
-
-  // First, identify all the OR boundaries
-  const orIndices = [];
-  for (let i = 0; i < evaluatedFilters.length - 1; i += 1) {
-    if (evaluatedFilters[i].operator === 'or') {
-      orIndices.push(i);
-    }
-  }
-
-  // If there are no OR operators, it's a simple AND chain
-  if (orIndices.length === 0) {
-    return evaluatedFilters.every(filter => filter.result);
-  }
-
-  // Split the filters into segments based on OR operators
-  const segments = [];
-  let startIndex = 0;
-
-  orIndices.forEach(orIndex => {
-    segments.push(evaluatedFilters.slice(startIndex, orIndex + 1));
-    startIndex = orIndex + 1;
-  });
-
-  // Add the last segment if there is one
-  if (startIndex < evaluatedFilters.length) {
-    segments.push(evaluatedFilters.slice(startIndex));
-  }
-
-  // Evaluate each segment (AND conditions within each segment)
-  const segmentResults = segments.map(segment => {
-    // For segments ending with OR, we only care about the result of the conditions
-    if (segment[segment.length - 1].operator === 'or') {
-      return segment.every(item => item.result);
-    }
-    // For the last segment, we evaluate all conditions
-    return segment.every(item => item.result);
-  });
-
-  // Combine segment results with OR logic
-  return segmentResults.some(result => result);
+  return jsonLogic.apply(buildJsonLogicRule(evaluatedFilters));
 };
