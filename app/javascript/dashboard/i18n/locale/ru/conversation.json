@@ -12,6 +12,8 @@
     "NO_INBOX_2": " для начала",
     "NO_INBOX_AGENT": "Ой! Похоже, вы не добавлены ни к одному источнику сообщений. Обратитесь к администратору",
     "SEARCH_MESSAGES": "Поиск по сообщениям в диалогах",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "открыть меню команд",
       "KEYBOARD_SHORTCUTS": "для просмотра быстрых клавиш"

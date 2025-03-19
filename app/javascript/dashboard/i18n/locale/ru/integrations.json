@@ -311,6 +311,7 @@
   },
   "CAPTAIN": {
     "NAME": "Капитан",
+    "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
       "SEND_MESSAGE": "Отправить сообщение...",
       "LOADER": "Капитан думает",
@@ -390,7 +391,11 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Нет доступных ассистентов",
-        "SUBTITLE": "Создайте ассистента, чтобы дать быстрые и точные ответы пользователям. Он может учиться на ваших статьях из центра поддержки и прошлых диалогах."
+        "SUBTITLE": "Создайте ассистента, чтобы дать быстрые и точные ответы пользователям. Он может учиться на ваших статьях из центра поддержки и прошлых диалогах.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain Assistant",
+          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+        }
       }
     },
     "DOCUMENTS": {
@@ -431,7 +436,11 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Нет доступных документов",
-        "SUBTITLE": "Документы используются Вашим ассистентом для создания FAQ. Вы можете импортировать документы для предоставления контекста для Вашего ассистента."
+        "SUBTITLE": "Документы используются Вашим ассистентом для создания FAQ. Вы можете импортировать документы для предоставления контекста для Вашего ассистента.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain Document",
+          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+        }
       }
     },
     "RESPONSES": {
@@ -508,7 +517,11 @@
       },
       "EMPTY_STATE": {
         "TITLE": "FAQ не найдены",
-        "SUBTITLE": "FAQ помогают вашему ассистенту быстро и точно отвечать на вопросы клиентов. Их можно генерировать автоматически из вашего контента или добавлять вручную."
+        "SUBTITLE": "FAQ помогают вашему ассистенту быстро и точно отвечать на вопросы клиентов. Их можно генерировать автоматически из вашего контента или добавлять вручную.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain FAQ",
+          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+        }
       }
     },
     "INBOXES": {
