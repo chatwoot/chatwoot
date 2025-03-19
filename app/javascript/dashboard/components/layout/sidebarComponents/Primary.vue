@@ -48,6 +48,7 @@ export default {
     return {
       helpDocsURL: wootConstants.DOCS_URL,
       showOptionsMenu: false,
+      pinSidebar: false,
     };
   },
   methods: {
@@ -71,18 +72,31 @@ export default {
 
 <template>
   <div
-    class="flex flex-col justify-between w-16 h-full bg-white border-r dark:bg-slate-900 border-slate-50 dark:border-slate-800/50 rtl:border-l rtl:border-r-0"
+    class="flex flex-col justify-between h-full bg-white border-r dark:bg-slate-900 border-slate-50 dark:border-slate-800/50 rtl:border-l rtl:border-r-0 w-16 hover:w-[210px]"
+    :class="{
+      'w-[210px]': pinSidebar,
+    }"
+    :style="{
+      transition: 'width 0.25s',
+      'transition-timing-function': 'ease-in-out',
+    }"
   >
   <div class="flex-1 flex flex-col justify-stretch h-full">
-    <Logo
-        :source="logoSource"
-        :name="installationName"
-        :account-id="accountId"
-        class="m-4 mb-10"
-      />
+    <div class="flex flex-row m-4 mb-5">
+      <div class="flex-1">
+        <Logo
+          :source="logoSource"
+          :name="installationName"
+          :account-id="accountId"
+        />
+      </div>
+      <button class="ml-4" @click="() => pinSidebar = !pinSidebar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 20 20"><!-- Icon from Fluent UI System Icons by Microsoft Corporation - https://github.com/microsoft/fluentui-system-icons/blob/main/LICENSE --><path fill="currentColor" d="M5 3a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3zm10 1a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H8.5V4z"></path></svg>
+      </button>
+    </div>
     <div
       class="flex-1 flex flex-col overflow-auto">
-      <div class="flex flex-col items-center">
+      <div class="flex flex-col items-stretch">
         <PrimaryNavItem
           v-for="menuItem in menuItems"
           :id="menuItem.key"
@@ -94,20 +108,27 @@ export default {
         />
       </div>
     </div>
-    <div class="flex flex-col items-center justify-end pb-6">
+    <div class="flex flex-col items-stretch justify-stretch pb-6">
       <a
         v-if="!isACustomBrandedInstance"
         v-tooltip.right="$t(`SIDEBAR.DOCS`)"
         :href="helpDocsURL"
-        class="relative flex items-center justify-center w-10 h-10 my-2 rounded-lg text-slate-700 dark:text-slate-100 hover:bg-slate-25 dark:hover:bg-slate-700 dark:hover:text-slate-100 hover:text-slate-600"
+        class="relative flex flex-row items-center m-3 px-2 gap-2 h-10 my-1 rounded-lg text-slate-700 dark:text-slate-100 hover:bg-slate-25 dark:hover:bg-slate-700 dark:hover:text-slate-100 hover:text-slate-600"
         rel="noopener noreferrer nofollow"
         target="_blank"
       >
-        <fluent-icon icon="book-open-globe" />
+        <div :style="{
+          marginLeft: '1.5px',
+        }">
+          <fluent-icon icon="book-open-globe" />
+        </div>
+        <span class="flex-1 line-clamp-1">{{ $t(`SIDEBAR.DOCS`) }}</span>
         <span class="sr-only">{{ $t(`SIDEBAR.DOCS`) }}</span>
       </a>
-      <NotificationBell @open-notification-panel="openNotificationPanel" />
-      <AgentDetails @toggle-menu="toggleOptions" />
+      <NotificationBell class="mx-3" @open-notification-panel="openNotificationPanel" />
+      <div class="mx-4">
+        <AgentDetails @toggle-menu="toggleOptions" />
+      </div>
       <OptionsMenu
         :show="showOptionsMenu"
         @toggle-accounts="toggleAccountModal"
