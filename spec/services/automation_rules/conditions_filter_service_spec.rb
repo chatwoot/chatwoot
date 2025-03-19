@@ -67,7 +67,7 @@ RSpec.describe AutomationRules::ConditionsFilterService do
       before do
         rule.conditions = [{ 'values': ['urgent'], 'attribute_key': 'priority', 'query_operator': nil, 'filter_operator': 'equal_to' }]
         rule.save
-        conversation.update(priority: 'urgent')
+        conversation.update(priority: 'medium')
       end
 
       it 'converts priority string to enum integer' do
