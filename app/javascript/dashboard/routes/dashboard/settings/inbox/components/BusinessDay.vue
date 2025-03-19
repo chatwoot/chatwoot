@@ -135,7 +135,7 @@ export default {
 
 <template>
   <div
-    class="day-wrap flex py-2 px-0 min-h-[3rem] box-content border-b border-solid border-slate-50 dark:border-slate-600"
+    class="day-wrap flex py-2 gap-1 items-center px-0 min-h-[3rem] box-content border-b border-solid border-n-weak"
   >
     <div class="checkbox-wrap flex items-center">
       <input

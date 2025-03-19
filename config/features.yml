@@ -154,3 +154,6 @@
   display_name: Contact Chatwoot Support Team
   enabled: true
   chatwoot_internal: true
+- name: search_with_gin
+  display_name: Search messages with GIN
+  enabled: false
