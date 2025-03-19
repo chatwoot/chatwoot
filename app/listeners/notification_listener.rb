@@ -30,6 +30,11 @@ class NotificationListener < BaseListener
   def assignee_changed(event)
     conversation, account = extract_conversation_and_account(event)
     assignee = conversation.assignee
+
+    # NOTE: This occurs when the conversation is created and assignee is added
+    # but a subsequent change to the assignee is triggered which makes it nil
+    # We need to debug this properly, but for now no need to pollute the jobs
+    return if assignee.blank?
     return if event.data[:notifiable_assignee_change].blank?
     return if conversation.pending?
 
