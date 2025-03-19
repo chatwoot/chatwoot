@@ -1,12 +1,5 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-
-defineProps({
-  error: {
-    type: String,
-    default: '',
-  },
-});
 import {
   useFunctionGetter,
   useMapGetter,
@@ -19,14 +12,19 @@ import integrationAPI from 'dashboard/api/integrations';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 
-const store = useStore();
+defineProps({
+  error: {
+    type: String,
+    default: '',
+  },
+});
 
+const store = useStore();
 const dialogRef = ref(null);
 const integrationLoaded = ref(false);
 const storeUrl = ref('');
 const isSubmitting = ref(false);
 const storeUrlError = ref('');
-
 const integration = useFunctionGetter('integrations/getIntegration', 'shopify');
 const uiFlags = useMapGetter('integrations/getUIFlags');
 
