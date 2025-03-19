@@ -31,5 +31,11 @@ FactoryBot.define do
       app_id { 'linear' }
       access_token { SecureRandom.hex }
     end
+
+    trait :shopify do
+      app_id { 'shopify' }
+      access_token { SecureRandom.hex }
+      reference_id { 'test-store.myshopify.com' }
+    end
   end
 end
