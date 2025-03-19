@@ -16,10 +16,6 @@ class SearchService
 
   private
 
-  def user_is_admin?
-    @current_account_user.administrator?
-  end
-
   def accessable_inbox_ids
     @accessable_inbox_ids ||= @current_user.assigned_inboxes.pluck(:id)
   end
@@ -29,13 +25,15 @@ class SearchService
   end
 
   def filter_conversations
-    @conversations = current_account.conversations.where(inbox_id: accessable_inbox_ids)
-                                    .joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
-                                    .where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
-                            ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier ILIKE :search", search: "%#{search_query}%")
-                                    .order('conversations.created_at DESC')
-                                    .page(params[:page])
-                                    .per(15)
+    query = current_account.conversations
+    query = query.where(inbox_id: accessable_inbox_ids) unless @current_account_user.administrator?
+
+    @conversations = query.joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
+                          .where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
+                      ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier ILIKE :search", search: "%#{search_query}%")
+                          .order('conversations.created_at DESC')
+                          .page(params[:page])
+                          .per(15)
   end
 
   def filter_messages
@@ -80,8 +78,9 @@ class SearchService
   end
 
   def message_base_query
-    current_account.messages.where(inbox_id: accessable_inbox_ids)
-                   .where('created_at >= ?', 3.months.ago)
+    query = current_account.messages
+    query = query.where(inbox_id: accessable_inbox_ids) unless @current_account_user.administrator?
+    query.where('created_at >= ?', 3.months.ago)
   end
 
   def use_gin_search
