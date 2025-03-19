@@ -1,5 +1,5 @@
 import Facebook from './channels/Facebook';
-// import Website from './channels/Website';
+import Website from './channels/Website';
 // import Twitter from './channels/Twitter';
 // import Api from './channels/Api';
 import Email from './channels/Email';
@@ -10,7 +10,7 @@ import Email from './channels/Email';
 
 const channelViewList = {
   facebook: Facebook,
-  // website: Website,
+  website: Website,
   // twitter: Twitter,
   // api: Api,
   email: Email,

@@ -27,6 +27,9 @@
               :message-id="message.id"
               :message-type="messageType"
               :message="message.content"
+              :selected-products="selectedProducts"
+              :update-selected-products="updateSelectedProducts"
+              :open-checkout-page="openCheckoutPage"
             />
             <div
               v-if="hasAttachments"
@@ -61,6 +64,7 @@
           </div>
           <div class="flex flex-col justify-end">
             <message-reply-button
+              v-if="!isProductCarousel"
               class="transition-opacity delay-75 opacity-0 group-hover:opacity-100 sm:opacity-0"
               @click="toggleReply"
             />
@@ -126,6 +130,18 @@ export default {
       type: Object,
       default: () => {},
     },
+    selectedProducts: {
+      type: Array,
+      default: () => [],
+    },
+    updateSelectedProducts: {
+      type: Function,
+      default: () => {},
+    },
+    openCheckoutPage: {
+      type: Function,
+      default: () => {},
+    },
   },
   data() {
     return {
@@ -185,6 +201,7 @@ export default {
     hasRecordedResponse() {
       return (
         this.messageContentAttributes.submitted_email ||
+        this.messageContentAttributes.submitted_phone ||
         (this.messageContentAttributes.submitted_values &&
           !['form', 'input_csat'].includes(this.contentType))
       );
@@ -192,6 +209,25 @@ export default {
     responseMessage() {
       if (this.messageContentAttributes.submitted_email) {
         return { content: this.messageContentAttributes.submitted_email };
+      }
+
+      if (this.messageContentAttributes.submitted_phone) {
+        return { content: this.messageContentAttributes.submitted_phone };
+      }
+
+      if (
+        this.messageContentAttributes.user_phone_number ||
+        this.messageContentAttributes.user_order_id
+      ) {
+        const content = `Order Details:\nOrderId: ${this.messageContentAttributes.user_order_id}\nContact: ${this.messageContentAttributes.user_phone_number}`;
+        return { content };
+      }
+
+      if (this.messageContentAttributes.selected_reply) {
+        const selectedReply = this.messageContentAttributes.items.find(
+          reply => reply.id === this.messageContentAttributes.selected_reply
+        );
+        return { content: selectedReply.text };
       }
 
       if (this.messageContentAttributes.submitted_values) {
@@ -221,6 +257,9 @@ export default {
     },
     hasReplyTo() {
       return this.replyTo && (this.replyTo.content || this.replyTo.attachments);
+    },
+    isProductCarousel() {
+      return this.contentType === 'product_carousel';
     },
   },
   watch: {

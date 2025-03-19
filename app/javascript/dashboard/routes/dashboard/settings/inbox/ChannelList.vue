@@ -51,7 +51,7 @@ export default {
     channelList() {
       // const { apiChannelName, apiChannelThumbnail } = this.globalConfig;
       return [
-        // { key: 'website', name: 'Website' },
+        { key: 'website', name: 'Website' },
         { key: 'facebook', name: 'Messenger' },
         // { key: 'twitter', name: 'Twitter' },
         // { key: 'whatsapp', name: 'WhatsApp' },

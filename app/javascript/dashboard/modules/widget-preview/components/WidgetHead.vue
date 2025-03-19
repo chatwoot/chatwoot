@@ -1,5 +1,5 @@
 <template>
-  <div class="header-wrapper">
+  <div :style="{ background: config.color }" class="header-wrapper">
     <div class="header-branding">
       <div class="header">
         <img
@@ -9,16 +9,29 @@
           :class="{ small: !isDefaultScreen }"
         />
         <div v-if="!isDefaultScreen">
-          <div class="title-block">
+          <div style="color: white" class="title-block">
             <span>{{ config.websiteName }}</span>
             <div v-if="config.isOnline" class="online-dot" />
           </div>
-          <div>{{ config.replyTime }}</div>
+          <div style="color: white">{{ config.replyTime }}</div>
         </div>
       </div>
       <div v-if="isDefaultScreen" class="header-expanded">
         <h2>{{ config.welcomeHeading }}</h2>
         <p>{{ config.welcomeTagline }}</p>
+        <div class="track-order-card">
+          <img
+            class="delivery-icon"
+            src="~dashboard/assets/images/delivery_icon.svg"
+            alt="No Page Image"
+          />
+          <p>Track Order</p>
+          <fluent-icon
+            icon="chevron-right"
+            size="14"
+            class="text-slate-900 dark:text-slate-50"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -63,7 +76,7 @@ export default {
       justify-content: flex-start;
 
       .logo {
-        border-radius: 100%;
+        border-radius: 4px;
         height: var(--space-larger);
         margin-right: var(--space-small);
         transition: all 0.5s ease;
@@ -77,18 +90,52 @@ export default {
     }
 
     .header-expanded {
-      max-height: var(--space-giga);
-      overflow: auto;
+      max-height: var(--space-giga-plus);
+      overflow: visible;
+      padding-bottom: var(--space-medium);
+      position: relative;
+
+      .delivery-icon {
+        height: var(--space-large);
+        width: var(--space-large);
+      }
+
+      .track-order-card {
+        align-items: center;
+        background-color: var(--white);
+        border-radius: var(--border-radius-large);
+        display: flex;
+        position: absolute;
+        top: 100%;
+        width: 95%;
+        gap: 10px;
+        max-width: 100%;
+        padding: 16px;
+        overflow: hidden;
+        box-shadow: 0px 2px 10px 0px #0000001a;
+        box-shadow: 0px 0px 2px 0px #00000033;
+
+        p {
+          font-size: var(--font-size-small);
+          font-weight: 500;
+          margin: 0;
+          color: var(--light-grey-new);
+          margin-right: auto;
+        }
+      }
+
       h2 {
         font-size: var(--font-size-big);
-        margin-bottom: var(--space-small);
         margin-top: var(--space-two);
         overflow-wrap: break-word;
+        color: var(--white);
+        font-weight: 500;
       }
 
       p {
         font-size: var(--font-size-small);
         overflow-wrap: break-word;
+        color: var(--light-gray);
       }
     }
   }

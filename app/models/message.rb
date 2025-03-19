@@ -92,19 +92,25 @@ class Message < ApplicationRecord
     incoming_email: 8,
     input_csat: 9,
     integrations: 10,
-    sticker: 11
+    sticker: 11,
+    quick_reply: 12,
+    order_input: 13,
+    product_carousel: 14,
+    input_phone: 15
   }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
-  # [:submitted_email, :items, :submitted_values] : Used for bot message types
+  # [:submitted_email, :submitted_phone, :submitted_phone, :items, :submitted_values] : Used for bot message types
   # [:email] : Used by conversation_continuity incoming email messages
   # [:in_reply_to] : Used to reply to a particular tweet in threads
   # [:deleted] : Used to denote whether the message was deleted by the agent
   # [:external_created_at] : Can specify if the message was created at a different timestamp externally
   # [:external_error : Can specify if the message creation failed due to an error at external API
+
+  # rubocop:disable Layout/LineLength
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :comment_id, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
                                          :translations, :in_reply_to_external_id, :is_unsupported,
-                                         :reply_to_comment_id, :is_dm_conversation_created], coder: JSON
+                                         :reply_to_comment_id, :is_dm_conversation_created, :user_phone_number, :user_order_id, :selected_reply], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -112,6 +118,7 @@ class Message < ApplicationRecord
   scope :chat, -> { where.not(message_type: :activity).where(private: false) }
   scope :non_activity_messages, -> { where.not(message_type: :activity).reorder('id desc') }
   scope :today, -> { where("date_trunc('day', created_at) = ?", Date.current) }
+  # rubocop:enable Layout/LineLength
 
   # TODO: Get rid of default scope
   # https://stackoverflow.com/a/1834250/939299
@@ -227,8 +234,8 @@ class Message < ApplicationRecord
 
     true
   end
-  # rubocop:enable Layout/LineLength
 
+  # rubocop:enable Layout/LineLength
   def save_story_info(story_info)
     self.content_attributes = content_attributes.merge(
       {

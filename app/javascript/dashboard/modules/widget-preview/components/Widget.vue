@@ -7,9 +7,17 @@
         :action="handleScreenChange"
       />
     </div>
-    <div v-if="isWidgetVisible" class="widget-wrapper">
+    <div
+      v-if="isWidgetVisible"
+      :style="
+        getWidgetBodyConfig.isDefaultScreen
+          ? {}
+          : { justifyContent: 'space-between' }
+      "
+      class="widget-wrapper"
+    >
       <WidgetHead :config="getWidgetHeadConfig" />
-      <div>
+      <div style="height: 100%">
         <WidgetBody :config="getWidgetBodyConfig" />
         <WidgetFooter :config="getWidgetFooterConfig" />
         <div class="branding">
@@ -68,6 +76,10 @@ export default {
     welcomeHeading: {
       type: String,
       default: '',
+    },
+    faqs: {
+      type: Array,
+      default: () => [],
     },
     welcomeTagline: {
       type: String,
@@ -148,6 +160,7 @@ export default {
         replyTime: this.replyTimeText,
         color: this.color,
         logo: this.logo,
+        faqs: this.faqs,
       };
     },
     getWidgetFooterConfig() {
@@ -208,12 +221,11 @@ export default {
 .widget-wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   box-shadow: var(--shadow-widget-builder);
   border-radius: var(--border-radius-large);
   background-color: #f4f6fb;
-  width: calc(var(--space-large) * 10);
-  height: calc(var(--space-mega) * 5);
+  width: calc(var(--space-large) * 11);
+  height: calc(var(--space-mega) * 6.5);
 
   .branding {
     padding-top: var(--space-one);

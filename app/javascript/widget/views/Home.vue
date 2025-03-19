@@ -1,54 +1,84 @@
 <template>
   <div
-    class="z-50 rounded-md w-full flex flex-1 flex-col"
+    class="rounded-md w-full flex flex-1 flex-col justify-center items-center pt-4 gap-2"
     :class="{ 'pb-2': showArticles, 'justify-end': !showArticles }"
   >
-    <div class="px-4 pt-4 w-full">
+    <div
+      v-if="
+        channelConfig &&
+        channelConfig.faqs &&
+        JSON.parse(channelConfig.faqs.length) > 0
+      "
+      class="faq-card h-['fit-content'] max-h-[180px] overflow-y-auto bg-white rounded-lg flex flex-col w-[95%] p-2.5 mt-6 shadow-md"
+    >
+      <h2 class="mb-2 text-[14px] font-medium">FAQs</h2>
+      <div
+        v-for="(faq, index) in JSON.parse(channelConfig.faqs)"
+        :key="index"
+        class="faq-card-main w-full flex flex-col gap-1"
+      >
+        <div
+          v-if="index !== 0"
+          style="border-top: 1px solid #e0e0e0; margin-top: 2px"
+        />
+        <div
+          role="button"
+          class="p-2.5 w-full flex justify-between items-center cursor-pointer"
+          @click="handleFaqClick(faq)"
+        >
+          <h3 class="m-0 text-[12px] text-gray-800 font-medium">
+            {{ faq.question }}
+          </h3>
+          <fluent-icon icon="chevron-right" size="14" />
+        </div>
+      </div>
+    </div>
+    <form
+      class="h-[fit-content] bg-white rounded-lg flex flex-col w-[95%] p-4 shadow-[0px_2px_10px_rgba(0,0,0,0.1)] gap-2.5"
+      @submit.prevent="handleAskQuestion"
+    >
+      <h2 class="text-[14px] font-medium">Ask a question</h2>
+      <form
+        class="flex flex-row justify-between items-center"
+        @submit.prevent="handleMessageInput"
+      >
+        <input
+          v-model="question"
+          class="border border-[#D9D9D9] p-2 w-[85%] m-0 rounded-md font-[12px]"
+          type="text"
+          placeholder="Ask a question"
+        />
+        <button
+          type="submit"
+          class="m-0 bg-[#F0F0F0] shadow-[0px_1.25px_0px_rgba(0,0,0,0.05)] p-2 rounded-md"
+        >
+          <img src="~dashboard/assets/images/send-icon.svg" alt="send" />
+        </button>
+      </form>
+    </form>
+    <!-- <div class="px-4 pt-4 w-full">
       <team-availability
         :available-agents="availableAgents"
         :has-conversation="!!conversationSize"
         :unread-count="unreadMessageCount"
         @start-conversation="startConversation"
       />
-    </div>
-    <div v-if="showArticles" class="px-4 py-2 w-full">
-      <div class="p-4 rounded-md bg-white dark:bg-slate-700 shadow-sm w-full">
-        <article-hero
-          v-if="
-            !articleUiFlags.isFetching &&
-            !articleUiFlags.isError &&
-            popularArticles.length
-          "
-          :articles="popularArticles"
-          @view="openArticleInArticleViewer"
-          @view-all="viewAllArticles"
-        />
-      </div>
-    </div>
-    <div v-if="articleUiFlags.isFetching" class="px-4 py-2 w-full">
-      <div class="p-4 rounded-md bg-white dark:bg-slate-700 shadow-sm w-full">
-        <article-card-skeleton-loader />
-      </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-import TeamAvailability from 'widget/components/TeamAvailability.vue';
-import ArticleHero from 'widget/components/ArticleHero.vue';
-import ArticleCardSkeletonLoader from 'widget/components/ArticleCardSkeletonLoader.vue';
-
 import { mapGetters } from 'vuex';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 import routerMixin from 'widget/mixins/routerMixin';
 import configMixin from 'widget/mixins/configMixin';
+import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'Home',
   components: {
-    ArticleHero,
-    TeamAvailability,
-    ArticleCardSkeletonLoader,
+    FluentIcon,
   },
   mixins: [configMixin, routerMixin, darkModeMixin],
   props: {
@@ -60,6 +90,11 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  data() {
+    return {
+      question: '',
+    };
   },
   computed: {
     ...mapGetters({
@@ -107,6 +142,23 @@ export default {
     }
   },
   methods: {
+    ...mapActions('conversation', ['sendMessage']),
+    ...mapActions('conversationAttributes', ['getAttributes']),
+    handleMessage(message) {
+      this.sendMessage({
+        content: message,
+      });
+      if (this.conversationSize === 0) {
+        this.getAttributes();
+      }
+      return this.replaceRoute('messages');
+    },
+    handleFaqClick(faq) {
+      this.handleMessage(faq.question);
+    },
+    handleMessageInput() {
+      this.handleMessage(this.question);
+    },
     startConversation() {
       if (this.preChatFormEnabled && !this.conversationSize) {
         return this.replaceRoute('prechat-form');
@@ -122,6 +174,14 @@ export default {
       this.$router.push({
         name: 'article-viewer',
         params: { link: linkToOpen },
+      });
+    },
+    handleAskQuestion() {
+      this.$router.push({
+        name: 'messages',
+        query: {
+          question: this.question,
+        },
       });
     },
     viewAllArticles() {

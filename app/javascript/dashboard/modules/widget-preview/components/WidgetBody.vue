@@ -1,15 +1,34 @@
 <template>
   <div class="widget-body-container">
-    <div v-if="config.isDefaultScreen" class="availability-content">
-      <div class="availability-info">
-        <div class="team-status">
-          {{ getStatusText }}
+    <div v-if="config.isDefaultScreen">
+      <div class="default-screen-content">
+        <div class="faq-card">
+          <h2>FAQs</h2>
+          <div
+            v-for="(faq, index) in config.faqs"
+            :key="index"
+            class="faq-card-main"
+          >
+            <div
+              v-if="index !== 0"
+              style="border-top: 1px solid #e0e0e0; margin-top: 2px"
+            />
+            <div class="faq-question">
+              <h3>{{ faq.question }}</h3>
+              <fluent-icon icon="chevron-right" size="14" />
+            </div>
+          </div>
         </div>
-        <div class="reply-wait-message">
-          {{ config.replyTime }}
+        <div class="ask-question-card">
+          <h2>Ask a question</h2>
+          <div class="ask-question-input-wrap">
+            <input type="text" placeholder="Ask a question" />
+            <button>
+              <img src="~dashboard/assets/images/send-icon.svg" alt="send" />
+            </button>
+          </div>
         </div>
       </div>
-      <thumbnail username="J" size="40px" />
     </div>
     <div v-else class="conversation-content">
       <div class="conversation-wrap">
@@ -47,12 +66,8 @@
 </template>
 
 <script>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 export default {
   name: 'WidgetBody',
-  components: {
-    Thumbnail,
-  },
   props: {
     config: {
       type: Object,
@@ -87,6 +102,81 @@ export default {
 
 <style scoped lang="scss">
 .widget-body-container {
+  height: 80%;
+  .default-screen-content {
+    height: fit-content;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+    .faq-card {
+      height: 100%;
+      max-height: 200px;
+      overflow-y: auto;
+      background-color: var(--white);
+      border-radius: var(--border-radius-large);
+      display: flex;
+      flex-direction: column;
+      width: 95%;
+      padding: 16px;
+      box-shadow: 0px 2px 10px 0px #0000001a;
+
+      h2 {
+        margin-bottom: 10px;
+      }
+      .faq-card-main {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        .faq-question {
+          padding: 5px 10px;
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          h3 {
+            margin: 0;
+            font-size: 12px;
+            color: #262626;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+    .ask-question-card {
+      height: 100%;
+      background-color: var(--white);
+      border-radius: var(--border-radius-large);
+      display: flex;
+      flex-direction: column;
+      width: 95%;
+      padding: 16px;
+      box-shadow: 0px 2px 10px 0px #0000001a;
+      gap: 10px;
+
+      .ask-question-input-wrap {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        input {
+          border: 1px solid #d9d9d9;
+          padding: 10px 16px;
+          width: 80%;
+          margin: 0;
+        }
+        button {
+          margin: 0;
+          background-color: #f0f0f0;
+          box-shadow: 0px 1.25px 0px 0px #0000000d;
+          padding: 10px 16px;
+        }
+      }
+    }
+  }
   .availability-content {
     align-items: flex-end;
     display: flex;
@@ -129,27 +219,26 @@ export default {
         max-width: 100%;
 
         .chat-bubble {
-          border-radius: 1.25rem;
           box-shadow: var(--shadow-medium);
           color: var(--white);
           display: inline-block;
           font-size: var(--font-size-nano);
           line-height: 1.5;
-          padding: 0.8125rem 1.09375rem;
+          padding: 10px;
+          border-radius: 10px;
           text-align: left;
-
+          width: 120px;
+          margin-top: 10px;
           p {
             margin: var(--space-zero);
           }
 
           &.user {
-            border-bottom-right-radius: var(--border-radius-small);
             background: var(--color-woot);
           }
 
           &.agent {
             background: var(--white);
-            border-bottom-left-radius: var(--border-radius-small);
             color: var(--b-900);
           }
         }

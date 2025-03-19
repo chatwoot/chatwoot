@@ -56,6 +56,7 @@ class Api::V1::Widget::BaseController < ApplicationController
   end
 
   def contact_phone_number
+    Rails.logger.info("Permitted params: #{permitted_params}")
     permitted_params.dig(:contact, :phone_number)
   end
 
@@ -79,8 +80,12 @@ class Api::V1::Widget::BaseController < ApplicationController
       sender: @contact,
       content: permitted_params[:message][:content],
       inbox_id: conversation.inbox_id,
+      private: permitted_params[:message][:private],
       content_attributes: {
-        in_reply_to: permitted_params[:message][:reply_to]
+        in_reply_to: permitted_params[:message][:reply_to],
+        selected_reply: permitted_params[:message][:selected_reply],
+        phone_number: permitted_params[:message][:phone_number],
+        order_id: permitted_params[:message][:order_id]
       },
       echo_id: permitted_params[:message][:echo_id],
       message_type: :incoming

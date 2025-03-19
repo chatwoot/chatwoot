@@ -1,25 +1,15 @@
 <template>
-  <div
-    v-if="globalConfig.brandName && !disableBranding"
-    class="px-0 py-3 flex justify-center"
-  >
+  <div class="px-0 py-3 flex justify-center">
     <a
       :href="brandRedirectURL"
       rel="noreferrer noopener nofollow"
       target="_blank"
-      class="branding--link justify-center items-center leading-3"
+      class="branding--link justify-center items-center leading-3 gap-2"
     >
-      <img
-        class="branding--image"
-        :alt="globalConfig.brandName"
-        :src="globalConfig.logoThumbnail"
-      />
-      <span>
-        {{ useInstallationName($t('POWERED_BY'), globalConfig.brandName) }}
-      </span>
+      <span> Powered by </span>
+      <img src="~dashboard/assets/bitespeed-logo.svg" alt="logo" class="m-0" />
     </a>
   </div>
-  <div v-else class="p-3" />
 </template>
 
 <script>

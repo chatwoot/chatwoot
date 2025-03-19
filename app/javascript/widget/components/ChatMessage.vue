@@ -10,6 +10,9 @@
     :id="`cwmsg-${message.id}`"
     :message="message"
     :reply-to="replyTo"
+    :selected-products="selectedProducts"
+    :update-selected-products="updateSelectedProducts"
+    :open-checkout-page="openCheckoutPage"
   />
 </template>
 
@@ -27,6 +30,18 @@ export default {
   props: {
     message: {
       type: Object,
+      default: () => {},
+    },
+    selectedProducts: {
+      type: Array,
+      default: () => [],
+    },
+    updateSelectedProducts: {
+      type: Function,
+      default: () => {},
+    },
+    openCheckoutPage: {
+      type: Function,
       default: () => {},
     },
   },

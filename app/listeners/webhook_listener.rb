@@ -115,8 +115,24 @@ class WebhookListener < BaseListener
     WebhookJob.perform_later(inbox.channel.webhook_url, payload, :api_inbox_webhook)
   end
 
+  def deliver_instagram_inbox_webhooks(payload, inbox)
+    return unless inbox.channel_type == 'Channel::FacebookPage'
+    return if inbox.channel.webhook_url.blank?
+
+    WebhookJob.perform_later(inbox.channel.webhook_url, payload, :instagram_inbox_webhook)
+  end
+
+  def deliver_web_widget_webhooks(payload, inbox)
+    return unless inbox.channel_type == 'Channel::WebWidget'
+    return if inbox.channel.webhook_url.blank?
+
+    WebhookJob.perform_later(inbox.channel.webhook_url, payload, :web_widget_webhook)
+  end
+
   def deliver_webhook_payloads(payload, inbox)
     deliver_account_webhooks(payload, inbox.account)
     deliver_api_inbox_webhooks(payload, inbox)
+    deliver_instagram_inbox_webhooks(payload, inbox)
+    deliver_web_widget_webhooks(payload, inbox)
   end
 end

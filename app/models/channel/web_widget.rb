@@ -4,12 +4,14 @@
 #
 #  id                    :integer          not null, primary key
 #  continuity_via_email  :boolean          default(TRUE), not null
+#  faqs                  :jsonb            not null
 #  feature_flags         :integer          default(7), not null
 #  hmac_mandatory        :boolean          default(FALSE)
 #  hmac_token            :string
 #  pre_chat_form_enabled :boolean          default(FALSE)
 #  pre_chat_form_options :jsonb
 #  reply_time            :integer          default("in_a_few_minutes")
+#  webhook_url           :string
 #  website_token         :string
 #  website_url           :string
 #  welcome_tagline       :string
@@ -30,7 +32,7 @@ class Channel::WebWidget < ApplicationRecord
   include FlagShihTzu
 
   self.table_name = 'channel_web_widgets'
-  EDITABLE_ATTRS = [:website_url, :widget_color, :welcome_title, :welcome_tagline, :reply_time, :pre_chat_form_enabled,
+  EDITABLE_ATTRS = [:website_url, :faqs, :widget_color, :welcome_title, :welcome_tagline, :reply_time, :pre_chat_form_enabled,
                     :continuity_via_email, :hmac_mandatory,
                     { pre_chat_form_options: [:pre_chat_message, :require_email,
                                               { pre_chat_fields:

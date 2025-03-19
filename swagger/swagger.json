@@ -15,15 +15,9 @@
   },
   "host": "app.chatwoot.com",
   "basePath": "/",
-  "schemes": [
-    "https"
-  ],
-  "produces": [
-    "application/json; charset=utf-8"
-  ],
-  "consumes": [
-    "application/json; charset=utf-8"
-  ],
+  "schemes": ["https"],
+  "produces": ["application/json; charset=utf-8"],
+  "consumes": ["application/json; charset=utf-8"],
   "securityDefinitions": {
     "userApiKey": {
       "type": "apiKey",
@@ -46,25 +40,19 @@
   },
   "security": [
     {
-      "userApiKey": [
-
-      ]
+      "userApiKey": []
     }
   ],
   "paths": {
     "/platform/api/v1/accounts": {
       "post": {
-        "tags": [
-          "Accounts"
-        ],
+        "tags": ["Accounts"],
         "operationId": "create-an-account",
         "summary": "Create an Account",
         "description": "Create an Account",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -97,17 +85,13 @@
         }
       ],
       "get": {
-        "tags": [
-          "Accounts"
-        ],
+        "tags": ["Accounts"],
         "operationId": "get-details-of-an-account",
         "summary": "Get an account details",
         "description": "Get the details of an account",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -126,17 +110,13 @@
         }
       },
       "patch": {
-        "tags": [
-          "Accounts"
-        ],
+        "tags": ["Accounts"],
         "operationId": "update-an-account",
         "summary": "Update an account",
         "description": "Update an account's attributes",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -162,17 +142,13 @@
         }
       },
       "delete": {
-        "tags": [
-          "Accounts"
-        ],
+        "tags": ["Accounts"],
         "operationId": "delete-an-account",
         "summary": "Delete an Account",
         "description": "Delete an Account",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -195,17 +171,13 @@
         }
       ],
       "get": {
-        "tags": [
-          "Account Users"
-        ],
+        "tags": ["Account Users"],
         "operationId": "list-all-account-users",
         "summary": "List all Account Users",
         "description": "List all account users",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -239,17 +211,13 @@
         }
       },
       "post": {
-        "tags": [
-          "Account Users"
-        ],
+        "tags": ["Account Users"],
         "operationId": "create-an-account-user",
         "summary": "Create an Account User",
         "description": "Create an Account User",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -259,10 +227,7 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": [
-                "user_id",
-                "role"
-              ],
+              "required": ["user_id", "role"],
               "properties": {
                 "user_id": {
                   "type": "integer",
@@ -302,17 +267,13 @@
         }
       },
       "delete": {
-        "tags": [
-          "Account Users"
-        ],
+        "tags": ["Account Users"],
         "operationId": "delete-an-account-user",
         "summary": "Delete an Account User",
         "description": "Delete an Account User",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -322,9 +283,7 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": [
-                "user_id"
-              ],
+              "required": ["user_id"],
               "properties": {
                 "user_id": {
                   "type": "integer",
@@ -349,17 +308,13 @@
     },
     "/platform/api/v1/agent_bots": {
       "get": {
-        "tags": [
-          "AgentBots"
-        ],
+        "tags": ["AgentBots"],
         "operationId": "list-all-agent-bots",
         "summary": "List all AgentBots",
         "description": "List all agent bots available",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -379,17 +334,13 @@
         }
       },
       "post": {
-        "tags": [
-          "AgentBots"
-        ],
+        "tags": ["AgentBots"],
         "operationId": "create-an-agent-bot",
         "summary": "Create an Agent Bot",
         "description": "Create an agent bot",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -422,17 +373,13 @@
         }
       ],
       "get": {
-        "tags": [
-          "AgentBots"
-        ],
+        "tags": ["AgentBots"],
         "operationId": "get-details-of-a-single-agent-bot",
         "summary": "Get an agent bot details",
         "description": "Get the details of an agent bot",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -451,17 +398,13 @@
         }
       },
       "patch": {
-        "tags": [
-          "AgentBots"
-        ],
+        "tags": ["AgentBots"],
         "operationId": "update-an-agent-bot",
         "summary": "Update an agent bot",
         "description": "Update an agent bot's attributes",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -487,17 +430,13 @@
         }
       },
       "delete": {
-        "tags": [
-          "AgentBots"
-        ],
+        "tags": ["AgentBots"],
         "operationId": "delete-an-agent-bot",
         "summary": "Delete an AgentBot",
         "description": "Delete an AgentBot",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -515,17 +454,13 @@
     },
     "/platform/api/v1/users": {
       "post": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "operationId": "create-a-user",
         "summary": "Create a User",
         "description": "Create a User",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -558,17 +493,13 @@
         }
       ],
       "get": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "operationId": "get-details-of-a-user",
         "summary": "Get an user details",
         "description": "Get the details of an user",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -587,17 +518,13 @@
         }
       },
       "patch": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "operationId": "update-a-user",
         "summary": "Update a user",
         "description": "Update a user's attributes",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -623,17 +550,13 @@
         }
       },
       "delete": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "operationId": "delete-a-user",
         "summary": "Delete a User",
         "description": "Delete a User",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -656,17 +579,13 @@
         }
       ],
       "get": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "operationId": "get-sso-url-of-a-user",
         "summary": "Get User SSO Link",
         "description": "Get the sso link of a user",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -698,15 +617,11 @@
         }
       ],
       "get": {
-        "tags": [
-          "Inbox API"
-        ],
+        "tags": ["Inbox API"],
         "operationId": "get-details-of-a-inbox",
         "summary": "Inbox details",
         "description": "Get the details of an inbox",
-        "security": [
-
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Success",
@@ -730,15 +645,11 @@
         }
       ],
       "post": {
-        "tags": [
-          "Contacts API"
-        ],
+        "tags": ["Contacts API"],
         "operationId": "create-a-contact",
         "summary": "Create a contact",
         "description": "Create a contact",
-        "security": [
-
-        ],
+        "security": [],
         "parameters": [
           {
             "name": "data",
@@ -772,15 +683,11 @@
         }
       ],
       "get": {
-        "tags": [
-          "Contacts API"
-        ],
+        "tags": ["Contacts API"],
         "operationId": "get-details-of-a-contact",
         "summary": "Get a contact",
         "description": "Get the details of a contact",
-        "security": [
-
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Success",
@@ -797,15 +704,11 @@
         }
       },
       "patch": {
-        "tags": [
-          "Contacts API"
-        ],
+        "tags": ["Contacts API"],
         "operationId": "update-a-contact",
         "summary": "Update a contact",
         "description": "Update a contact's attributes",
-        "security": [
-
-        ],
+        "security": [],
         "parameters": [
           {
             "name": "data",
@@ -839,15 +742,11 @@
         }
       ],
       "post": {
-        "tags": [
-          "Conversations API"
-        ],
+        "tags": ["Conversations API"],
         "operationId": "create-a-conversation",
         "summary": "Create a conversation",
         "description": "Create a conversation",
-        "security": [
-
-        ],
+        "security": [],
         "parameters": [
           {
             "name": "data",
@@ -871,9 +770,7 @@
         }
       },
       "get": {
-        "tags": [
-          "Conversations API"
-        ],
+        "tags": ["Conversations API"],
         "operationId": "list-all-contact-conversations",
         "summary": "List all conversations",
         "description": "List all conversations for the contact",
@@ -907,9 +804,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "Conversations API"
-        ],
+        "tags": ["Conversations API"],
         "operationId": "get-single-conversation",
         "summary": "Get a single conversation",
         "description": "Retrieves the details of a specific conversation",
@@ -942,9 +837,7 @@
         }
       ],
       "post": {
-        "tags": [
-          "Conversations API"
-        ],
+        "tags": ["Conversations API"],
         "operationId": "resolve-conversation",
         "summary": "Resolve a conversation",
         "description": "Marks a conversation as resolved",
@@ -977,9 +870,7 @@
         }
       ],
       "post": {
-        "tags": [
-          "Conversations API"
-        ],
+        "tags": ["Conversations API"],
         "operationId": "toggle-typing-status",
         "summary": "Toggle typing status",
         "description": "Toggles the typing status in a conversation",
@@ -1018,9 +909,7 @@
         }
       ],
       "post": {
-        "tags": [
-          "Conversations API"
-        ],
+        "tags": ["Conversations API"],
         "operationId": "update-last-seen",
         "summary": "Update last seen",
         "description": "Updates the last seen time of the contact in a conversation",
@@ -1050,15 +939,11 @@
         }
       ],
       "post": {
-        "tags": [
-          "Messages API"
-        ],
+        "tags": ["Messages API"],
         "operationId": "create-a-message",
         "summary": "Create a message",
         "description": "Create a message",
-        "security": [
-
-        ],
+        "security": [],
         "parameters": [
           {
             "name": "data",
@@ -1082,9 +967,7 @@
         }
       },
       "get": {
-        "tags": [
-          "Messages API"
-        ],
+        "tags": ["Messages API"],
         "operationId": "list-all-converation-messages",
         "summary": "List all messages",
         "description": "List all messages in the conversation",
@@ -1121,15 +1004,11 @@
         }
       ],
       "patch": {
-        "tags": [
-          "Messages API"
-        ],
+        "tags": ["Messages API"],
         "operationId": "update-a-message",
         "summary": "Update a message",
         "description": "Update a message",
-        "security": [
-
-        ],
+        "security": [],
         "parameters": [
           {
             "name": "data",
@@ -1163,9 +1042,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "Contact Labels"
-        ],
+        "tags": ["Contact Labels"],
         "operationId": "list-all-labels-of-a-contact",
         "summary": "List Labels",
         "description": "Lists all the labels of a contact",
@@ -1185,9 +1062,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Contact Labels"
-        ],
+        "tags": ["Contact Labels"],
         "operationId": "contact-add-labels",
         "summary": "Add Labels",
         "description": "Add labels to a contact. Note that this API would overwrite the existing list of labels associated to the conversation.",
@@ -1233,15 +1108,11 @@
         }
       ],
       "get": {
-        "tags": [
-          "CSAT Survey Page"
-        ],
+        "tags": ["CSAT Survey Page"],
         "operationId": "get-csat-survey-page",
         "summary": "Get CSAT survey page",
         "description": "You can redirect the client to this URL, instead of implementing the CSAT survey component yourself.",
-        "security": [
-
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Success"
@@ -1256,9 +1127,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "Account AgentBots"
-        ],
+        "tags": ["Account AgentBots"],
         "operationId": "list-all-account-agent-bots",
         "summary": "List all AgentBots",
         "description": "List all agent bots available for the current account",
@@ -1279,9 +1148,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Account AgentBots"
-        ],
+        "tags": ["Account AgentBots"],
         "operationId": "create-an-account-agent-bot",
         "summary": "Create an Agent Bot",
         "description": "Create an agent bot in the account",
@@ -1321,9 +1188,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "Account AgentBots"
-        ],
+        "tags": ["Account AgentBots"],
         "operationId": "get-details-of-a-single-account-agent-bot",
         "summary": "Get an agent bot details",
         "description": "Get the details of an agent bot in the account",
@@ -1343,9 +1208,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "Account AgentBots"
-        ],
+        "tags": ["Account AgentBots"],
         "operationId": "update-an-account-agent-bot",
         "summary": "Update an agent bot",
         "description": "Update an agent bot's attributes",
@@ -1372,9 +1235,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Account AgentBots"
-        ],
+        "tags": ["Account AgentBots"],
         "operationId": "delete-an-account-agent-bot",
         "summary": "Delete an AgentBot",
         "description": "Delete an AgentBot from the account",
@@ -1398,17 +1259,13 @@
         }
       ],
       "get": {
-        "tags": [
-          "Agents"
-        ],
+        "tags": ["Agents"],
         "operationId": "get-account-agents",
         "summary": "List Agents in Account",
         "description": "Get Details of Agents in an Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -1428,17 +1285,13 @@
         }
       },
       "post": {
-        "tags": [
-          "Agents"
-        ],
+        "tags": ["Agents"],
         "operationId": "add-new-agent-to-account",
         "summary": "Add a New Agent",
         "description": "Add a new Agent to Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -1448,11 +1301,7 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": [
-                "name",
-                "email",
-                "role"
-              ],
+              "required": ["name", "email", "role"],
               "properties": {
                 "name": {
                   "type": "string",
@@ -1464,19 +1313,12 @@
                 },
                 "role": {
                   "type": "string",
-                  "enum": [
-                    "agent",
-                    "administrator"
-                  ],
+                  "enum": ["agent", "administrator"],
                   "description": "Whether its administrator or agent"
                 },
                 "availability_status": {
                   "type": "string",
-                  "enum": [
-                    "available",
-                    "busy",
-                    "offline"
-                  ],
+                  "enum": ["available", "busy", "offline"],
                   "description": "The availability setting of the agent."
                 },
                 "auto_offline": {
@@ -1507,17 +1349,13 @@
         }
       ],
       "patch": {
-        "tags": [
-          "Agents"
-        ],
+        "tags": ["Agents"],
         "operationId": "update-agent-in-account",
         "summary": "Update Agent in Account",
         "description": "Update an Agent in Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -1534,25 +1372,16 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": [
-                "role"
-              ],
+              "required": ["role"],
               "properties": {
                 "role": {
                   "type": "string",
-                  "enum": [
-                    "agent",
-                    "administrator"
-                  ],
+                  "enum": ["agent", "administrator"],
                   "description": "Whether its administrator or agent"
                 },
                 "availability": {
                   "type": "string",
-                  "enum": [
-                    "available",
-                    "busy",
-                    "offline"
-                  ],
+                  "enum": ["available", "busy", "offline"],
                   "description": "The availability setting of the agent."
                 },
                 "auto_offline": {
@@ -1579,17 +1408,13 @@
         }
       },
       "delete": {
-        "tags": [
-          "Agents"
-        ],
+        "tags": ["Agents"],
         "operationId": "delete-agent-from-account",
         "summary": "Remove an Agent from Account",
         "description": "Remove an Agent from Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -1621,17 +1446,13 @@
         }
       ],
       "get": {
-        "tags": [
-          "Canned Responses"
-        ],
+        "tags": ["Canned Responses"],
         "operationId": "get-account-canned-response",
         "summary": "List all Canned Responses in an Account",
         "description": "Get Details of Canned Responses in an Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -1651,17 +1472,13 @@
         }
       },
       "post": {
-        "tags": [
-          "Canned Responses"
-        ],
+        "tags": ["Canned Responses"],
         "operationId": "add-new-canned-response-to-account",
         "summary": "Add a New Canned Response",
         "description": "Add a new Canned Response to Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -1694,17 +1511,13 @@
         }
       ],
       "patch": {
-        "tags": [
-          "Canned Response"
-        ],
+        "tags": ["Canned Response"],
         "operationId": "update-canned-response-in-account",
         "summary": "Update Canned Response in Account",
         "description": "Update a Canned Response in Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -1740,17 +1553,13 @@
         }
       },
       "delete": {
-        "tags": [
-          "Canned Responses"
-        ],
+        "tags": ["Canned Responses"],
         "operationId": "delete-canned-response-from-account",
         "summary": "Remove a Canned Response from Account",
         "description": "Remove a Canned Response from Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -1782,9 +1591,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "Custom Attributes"
-        ],
+        "tags": ["Custom Attributes"],
         "operationId": "get-account-custom-attribute",
         "summary": "List all custom attributes in an account",
         "parameters": [
@@ -1792,10 +1599,7 @@
             "name": "attribute_model",
             "in": "query",
             "type": "string",
-            "enum": [
-              "0",
-              "1"
-            ],
+            "enum": ["0", "1"],
             "description": "conversation_attribute(0)/contact_attribute(1)",
             "required": true
           }
@@ -1803,9 +1607,7 @@
         "description": "Get details of custom attributes in an Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -1825,17 +1627,13 @@
         }
       },
       "post": {
-        "tags": [
-          "Custom Attributes"
-        ],
+        "tags": ["Custom Attributes"],
         "operationId": "add-new-custom-attribute-to-account",
         "summary": "Add a new custom attribute",
         "description": "Add a new custom attribute to account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -1875,9 +1673,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "Custom Attributes"
-        ],
+        "tags": ["Custom Attributes"],
         "operationId": "get-details-of-a-single-custom-attribute",
         "summary": "Get a custom attribute details",
         "description": "Get the details of a custom attribute in the account",
@@ -1909,17 +1705,13 @@
         }
       },
       "patch": {
-        "tags": [
-          "Custom Attributes"
-        ],
+        "tags": ["Custom Attributes"],
         "operationId": "update-custom-attribute-in-account",
         "summary": "Update custom attribute in Account",
         "description": "Update a custom attribute in account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -1955,17 +1747,13 @@
         }
       },
       "delete": {
-        "tags": [
-          "Custom Attributes"
-        ],
+        "tags": ["Custom Attributes"],
         "operationId": "delete-custom-attribute-from-account",
         "summary": "Remove a custom attribute from account",
         "description": "Remove a custom attribute from account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -1995,9 +1783,7 @@
     },
     "/api/v1/accounts/{account_id}/contacts": {
       "get": {
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "operationId": "contactList",
         "description": "Listing all the resolved contacts with pagination (Page size = 15) . Resolved contacts are the ones with a value for identifier, email or phone number",
         "summary": "List Contacts",
@@ -2028,9 +1814,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "operationId": "contactCreate",
         "description": "Create a new Contact",
         "summary": "Create Contact",
@@ -2077,9 +1861,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "operationId": "contactDetails",
         "summary": "Show Contact",
         "description": "Get a contact belonging to the account using ID",
@@ -2099,9 +1881,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "operationId": "contactUpdate",
         "summary": "Update Contact",
         "description": "Update a contact belonging to the account using ID",
@@ -2131,9 +1911,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "operationId": "contactDelete",
         "summary": "Delete Contact",
         "responses": {
@@ -2151,9 +1929,7 @@
     },
     "/api/v1/accounts/{account_id}/contacts/{id}/conversations": {
       "get": {
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "operationId": "contactConversations",
         "summary": "Contact Conversations",
         "description": "Get conversations associated to that contact",
@@ -2187,9 +1963,7 @@
     },
     "/api/v1/accounts/{account_id}/contacts/search": {
       "get": {
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "operationId": "contactSearch",
         "description": "Search the resolved contacts using a search key, currently supports email search (Page size = 15). Resolved contacts are the ones with a value for identifier, email or phone number",
         "summary": "Search Contacts",
@@ -2238,22 +2012,16 @@
         }
       ],
       "post": {
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "operationId": "contactFilter",
         "description": "Filter contacts with custom filter options and pagination",
         "summary": "Contact Filter",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "parameters": [
@@ -2298,10 +2066,7 @@
                       "query_operator": {
                         "type": "string",
                         "description": "query operator name",
-                        "enum": [
-                          "AND",
-                          "OR"
-                        ]
+                        "enum": ["AND", "OR"]
                       }
                     }
                   },
@@ -2309,17 +2074,13 @@
                     {
                       "attribute_key": "name",
                       "filter_operator": "equal_to",
-                      "values": [
-                        "en"
-                      ],
+                      "values": ["en"],
                       "query_operator": "AND"
                     },
                     {
                       "attribute_key": "country_code",
                       "filter_operator": "equal_to",
-                      "values": [
-                        "us"
-                      ],
+                      "values": ["us"],
                       "query_operator": null
                     }
                   ]
@@ -2346,9 +2107,7 @@
     },
     "/api/v1/accounts/{account_id}/contacts/{id}/contact_inboxes": {
       "post": {
-        "tags": [
-          "Contact"
-        ],
+        "tags": ["Contact"],
         "operationId": "contactInboxCreation",
         "description": "Create a contact inbox record for an inbox",
         "summary": "Create contact inbox",
@@ -2369,9 +2128,7 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": [
-                "inbox_id"
-              ],
+              "required": ["inbox_id"],
               "properties": {
                 "inbox_id": {
                   "type": "number",
@@ -2406,9 +2163,7 @@
     },
     "/api/v1/accounts/{account_id}/contacts/{id}/contactable_inboxes": {
       "get": {
-        "tags": [
-          "Contact"
-        ],
+        "tags": ["Contact"],
         "operationId": "contactableInboxesGet",
         "description": "Get List of contactable Inboxes",
         "summary": "Get Contactable Inboxes",
@@ -2450,9 +2205,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "Automation Rule"
-        ],
+        "tags": ["Automation Rule"],
         "operationId": "get-account-automation-rule",
         "summary": "List all automation rules in an account",
         "parameters": [
@@ -2466,9 +2219,7 @@
         "description": "Get details of automation rules in an Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -2488,17 +2239,13 @@
         }
       },
       "post": {
-        "tags": [
-          "Automation Rule"
-        ],
+        "tags": ["Automation Rule"],
         "operationId": "add-new-automation-rule-to-account",
         "summary": "Add a new automation rule",
         "description": "Add a new automation rule to account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2538,9 +2285,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "Automation Rule"
-        ],
+        "tags": ["Automation Rule"],
         "operationId": "get-details-of-a-single-automation-rule",
         "summary": "Get a automation rule details",
         "description": "Get the details of a automation rule in the account",
@@ -2569,17 +2314,13 @@
         }
       },
       "patch": {
-        "tags": [
-          "Automation Rule"
-        ],
+        "tags": ["Automation Rule"],
         "operationId": "update-automation-rule-in-account",
         "summary": "Update automation rule in Account",
         "description": "Update a automation rule in account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2615,17 +2356,13 @@
         }
       },
       "delete": {
-        "tags": [
-          "Automation Rule"
-        ],
+        "tags": ["Automation Rule"],
         "operationId": "delete-automation-rule-from-account",
         "summary": "Remove a automation rule from account",
         "description": "Remove a automation rule from account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2657,17 +2394,13 @@
         }
       ],
       "post": {
-        "tags": [
-          "Help Center"
-        ],
+        "tags": ["Help Center"],
         "operationId": "add-new-portal-to-account",
         "summary": "Add a new portal",
         "description": "Add a new portal to account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2693,9 +2426,7 @@
         }
       },
       "get": {
-        "tags": [
-          "Help Center"
-        ],
+        "tags": ["Help Center"],
         "operationId": "get-portal",
         "summary": "List all portals in an account",
         "parameters": [
@@ -2706,9 +2437,7 @@
         "description": "Get details of portals in an Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -2728,17 +2457,13 @@
         }
       },
       "patch": {
-        "tags": [
-          "Help Center"
-        ],
+        "tags": ["Help Center"],
         "operationId": "update-new-portal-to-account",
         "summary": "update a new portal",
         "description": "update a new portal to account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2774,17 +2499,13 @@
         }
       ],
       "post": {
-        "tags": [
-          "Help Center"
-        ],
+        "tags": ["Help Center"],
         "operationId": "add-new-category-to-account",
         "summary": "Add a new category",
         "description": "Add a new category to portal",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2820,17 +2541,13 @@
         }
       ],
       "post": {
-        "tags": [
-          "Help Center"
-        ],
+        "tags": ["Help Center"],
         "operationId": "add-new-article-to-account",
         "summary": "Add a new article",
         "description": "Add a new article to portal",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2863,9 +2580,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "Conversations"
-        ],
+        "tags": ["Conversations"],
         "operationId": "conversationListMeta",
         "description": "Get open, unassigned and all Conversation counts",
         "summary": "Get Conversation Counts",
@@ -2874,13 +2589,7 @@
             "name": "status",
             "in": "query",
             "type": "string",
-            "enum": [
-              "all",
-              "open",
-              "resolved",
-              "pending",
-              "snoozed"
-            ],
+            "enum": ["all", "open", "resolved", "pending", "snoozed"],
             "default": "open",
             "description": "Filter by conversation status."
           },
@@ -2951,9 +2660,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "Conversations"
-        ],
+        "tags": ["Conversations"],
         "operationId": "conversationList",
         "description": "List all the conversations with pagination",
         "summary": "Conversations List",
@@ -2962,12 +2669,7 @@
             "name": "assignee_type",
             "in": "query",
             "type": "string",
-            "enum": [
-              "me",
-              "unassigned",
-              "all",
-              "assigned"
-            ],
+            "enum": ["me", "unassigned", "all", "assigned"],
             "default": "all",
             "description": "Filter conversations by assignee type."
           },
@@ -2975,13 +2677,7 @@
             "name": "status",
             "in": "query",
             "type": "string",
-            "enum": [
-              "all",
-              "open",
-              "resolved",
-              "pending",
-              "snoozed"
-            ],
+            "enum": ["all", "open", "resolved", "pending", "snoozed"],
             "default": "open",
             "description": "Filter by conversation status."
           },
@@ -3033,22 +2729,16 @@
         }
       },
       "post": {
-        "tags": [
-          "Conversations"
-        ],
+        "tags": ["Conversations"],
         "operationId": "newConversation",
         "summary": "Create New Conversation",
         "description": "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://github.com/chatwoot/chatwoot/wiki/Building-on-Top-of-Chatwoot:-Importing-Existing-Contacts-and-Creating-Conversations",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "parameters": [
@@ -3058,10 +2748,7 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": [
-                "source_id",
-                "inbox_id"
-              ],
+              "required": ["source_id", "inbox_id"],
               "properties": {
                 "source_id": {
                   "type": "string",
@@ -3089,11 +2776,7 @@
                 },
                 "status": {
                   "type": "string",
-                  "enum": [
-                    "open",
-                    "resolved",
-                    "pending"
-                  ],
+                  "enum": ["open", "resolved", "pending"],
                   "description": "Specify the conversation whether it's pending, open, closed"
                 },
                 "assignee_id": {
@@ -3107,9 +2790,7 @@
                 "message": {
                   "type": "object",
                   "description": "The initial message to be sent to the conversation",
-                  "required": [
-                    "content"
-                  ],
+                  "required": ["content"],
                   "properties": {
                     "content": {
                       "type": "string",
@@ -3183,22 +2864,16 @@
         }
       ],
       "post": {
-        "tags": [
-          "Conversations"
-        ],
+        "tags": ["Conversations"],
         "operationId": "conversationFilter",
         "description": "Filter conversations with custom filter options and pagination",
         "summary": "Conversations Filter",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "parameters": [
@@ -3243,10 +2918,7 @@
                       "query_operator": {
                         "type": "string",
                         "description": "query operator name",
-                        "enum": [
-                          "AND",
-                          "OR"
-                        ]
+                        "enum": ["AND", "OR"]
                       }
                     }
                   },
@@ -3254,17 +2926,13 @@
                     {
                       "attribute_key": "browser_language",
                       "filter_operator": "not_eq",
-                      "values": [
-                        "en"
-                      ],
+                      "values": ["en"],
                       "query_operator": "AND"
                     },
                     {
                       "attribute_key": "status",
                       "filter_operator": "eq",
-                      "values": [
-                        "pending"
-                      ],
+                      "values": ["pending"],
                       "query_operator": null
                     }
                   ]
@@ -3299,9 +2967,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "Conversations"
-        ],
+        "tags": ["Conversations"],
         "operationId": "get-details-of-a-conversation",
         "summary": "Conversation Details",
         "description": "Get all details regarding a conversation with all messages in the conversation",
@@ -3321,22 +2987,16 @@
         }
       },
       "patch": {
-        "tags": [
-          "Conversations"
-        ],
+        "tags": ["Conversations"],
         "operationId": "update-conversation",
         "summary": "Update Conversation",
         "description": "Update Conversation Attributes",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "parameters": [
@@ -3349,13 +3009,7 @@
               "properties": {
                 "priority": {
                   "type": "string",
-                  "enum": [
-                    "urgent",
-                    "high",
-                    "medium",
-                    "low",
-                    "none"
-                  ],
+                  "enum": ["urgent", "high", "medium", "low", "none"],
                   "description": "The priority of the conversation"
                 },
                 "sla_policy_id": {
@@ -3389,22 +3043,16 @@
         }
       ],
       "post": {
-        "tags": [
-          "Conversations"
-        ],
+        "tags": ["Conversations"],
         "operationId": "toggle-status-of-a-conversation",
         "summary": "Toggle Status",
         "description": "Toggles the status of the conversation between open and resolved",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "parameters": [
@@ -3414,17 +3062,11 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": [
-                "status"
-              ],
+              "required": ["status"],
               "properties": {
                 "status": {
                   "type": "string",
-                  "enum": [
-                    "open",
-                    "resolved",
-                    "pending"
-                  ],
+                  "enum": ["open", "resolved", "pending"],
                   "description": "The status of the conversation"
                 }
               }
@@ -3457,22 +3099,16 @@
         }
       ],
       "post": {
-        "tags": [
-          "Conversations"
-        ],
+        "tags": ["Conversations"],
         "operationId": "toggle-priority-of-a-conversation",
         "summary": "Toggle Priority",
         "description": "Toggles the priority of conversation",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "parameters": [
@@ -3482,19 +3118,11 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": [
-                "priority"
-              ],
+              "required": ["priority"],
               "properties": {
                 "priority": {
                   "type": "string",
-                  "enum": [
-                    "urgent",
-                    "high",
-                    "medium",
-                    "low",
-                    "none"
-                  ],
+                  "enum": ["urgent", "high", "medium", "low", "none"],
                   "description": "The priority of the conversation"
                 }
               }
@@ -3524,22 +3152,16 @@
         }
       ],
       "post": {
-        "tags": [
-          "Conversation Assignment"
-        ],
+        "tags": ["Conversation Assignment"],
         "operationId": "assign-a-conversation",
         "summary": "Assign Conversation",
         "description": "Assign a conversation to an agent or a team",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "parameters": [
@@ -3588,9 +3210,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "Conversation Labels"
-        ],
+        "tags": ["Conversation Labels"],
         "operationId": "list-all-labels-of-a-conversation",
         "summary": "List Labels",
         "description": "Lists all the labels of a conversation",
@@ -3610,9 +3230,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Conversation Labels"
-        ],
+        "tags": ["Conversation Labels"],
         "operationId": "conversation-add-labels",
         "summary": "Add Labels",
         "description": "Add labels to a conversation. Note that this API would overwrite the existing list of labels associated to the conversation.",
@@ -3653,9 +3271,7 @@
     },
     "/api/v1/accounts/{account_id}/inboxes": {
       "get": {
-        "tags": [
-          "Inboxes"
-        ],
+        "tags": ["Inboxes"],
         "operationId": "listAllInboxes",
         "summary": "List all inboxes",
         "description": "List all inboxes available in the current account",
@@ -3686,9 +3302,7 @@
     },
     "/api/v1/accounts/{account_id}/inboxes/{id}/": {
       "get": {
-        "tags": [
-          "Inboxes"
-        ],
+        "tags": ["Inboxes"],
         "operationId": "GetInbox",
         "summary": "Get an inbox",
         "description": "Get an inbox available in the current account",
@@ -3722,9 +3336,7 @@
     },
     "/api/v1/accounts/{account_id}/inboxes/": {
       "post": {
-        "tags": [
-          "Inboxes"
-        ],
+        "tags": ["Inboxes"],
         "operationId": "inboxCreation",
         "summary": "Create an inbox",
         "description": "You can create more than one website inbox in each account",
@@ -3753,9 +3365,7 @@
                   "properties": {
                     "type": {
                       "type": "string",
-                      "enum": [
-                        "web_widget"
-                      ]
+                      "enum": ["web_widget"]
                     },
                     "website_url": {
                       "type": "string",
@@ -3801,9 +3411,7 @@
     },
     "/api/v1/accounts/{account_id}/inboxes/{id}": {
       "patch": {
-        "tags": [
-          "Inboxes"
-        ],
+        "tags": ["Inboxes"],
         "operationId": "updateInbox",
         "summary": "Update Inbox",
         "description": "Add avatar and disable auto assignment for an inbox",
@@ -3824,9 +3432,7 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": [
-                "enable_auto_assignment"
-              ],
+              "required": ["enable_auto_assignment"],
               "properties": {
                 "name": {
                   "type": "string",
@@ -3888,9 +3494,7 @@
     },
     "/api/v1/accounts/{account_id}/inboxes/{id}/agent_bot": {
       "get": {
-        "tags": [
-          "Inboxes"
-        ],
+        "tags": ["Inboxes"],
         "operationId": "getInboxAgentBot",
         "summary": "Show Inbox Agent Bot",
         "description": "See if an agent bot is associated to the Inbox",
@@ -3924,9 +3528,7 @@
     },
     "/api/v1/accounts/{account_id}/inboxes/{id}/set_agent_bot": {
       "post": {
-        "tags": [
-          "Inboxes"
-        ],
+        "tags": ["Inboxes"],
         "operationId": "updateAgentBot",
         "summary": "Add or remove agent bot",
         "description": "To add an agent bot pass agent_bot id, to remove agent bot from an inbox pass null",
@@ -3947,9 +3549,7 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": [
-                "agent_bot"
-              ],
+              "required": ["agent_bot"],
               "properties": {
                 "agent_bot": {
                   "type": "number",
@@ -3982,17 +3582,13 @@
         }
       ],
       "get": {
-        "tags": [
-          "Inboxes"
-        ],
+        "tags": ["Inboxes"],
         "operationId": "get-inbox-members",
         "summary": "List Agents in Inbox",
         "description": "Get Details of Agents in an Inbox",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -4027,17 +3623,13 @@
         }
       ],
       "post": {
-        "tags": [
-          "Inboxes"
-        ],
+        "tags": ["Inboxes"],
         "operationId": "add-new-agent-to-inbox",
         "summary": "Add a New Agent",
         "description": "Add a new Agent to Inbox",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -4047,10 +3639,7 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": [
-                "inbox_id",
-                "user_ids"
-              ],
+              "required": ["inbox_id", "user_ids"],
               "properties": {
                 "inbox_id": {
                   "type": "string",
@@ -4090,17 +3679,13 @@
         }
       },
       "patch": {
-        "tags": [
-          "Inboxes"
-        ],
+        "tags": ["Inboxes"],
         "operationId": "update-agents-in-inbox",
         "summary": "Update Agents in Inbox",
         "description": "All agents except the one passed in params will be removed",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -4110,10 +3695,7 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": [
-                "inbox_id",
-                "user_ids"
-              ],
+              "required": ["inbox_id", "user_ids"],
               "properties": {
                 "inbox_id": {
                   "type": "string",
@@ -4153,17 +3735,13 @@
         }
       },
       "delete": {
-        "tags": [
-          "Inboxes"
-        ],
+        "tags": ["Inboxes"],
         "operationId": "delete-agent-in-inbox",
         "summary": "Remove an Agent from Inbox",
         "description": "Remove an Agent from Inbox",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -4173,10 +3751,7 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": [
-                "inbox_id",
-                "user_ids"
-              ],
+              "required": ["inbox_id", "user_ids"],
               "properties": {
                 "inbox_id": {
                   "type": "string",
@@ -4219,9 +3794,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "Messages"
-        ],
+        "tags": ["Messages"],
         "operationId": "list-all-messages",
         "summary": "Get messages",
         "description": "List all messages of a conversation",
@@ -4252,22 +3825,16 @@
         }
       },
       "post": {
-        "tags": [
-          "Messages"
-        ],
+        "tags": ["Messages"],
         "operationId": "create-a-new-message-in-a-conversation",
         "summary": "Create New Message",
         "description": "Create a new message in the conversation",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "parameters": [
@@ -4316,9 +3883,7 @@
         }
       ],
       "delete": {
-        "tags": [
-          "Messages"
-        ],
+        "tags": ["Messages"],
         "operationId": "delete-a-message",
         "summary": "Delete a message",
         "description": "Delete a message and it's attachments from the conversation.",
@@ -4342,9 +3907,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "Integrations"
-        ],
+        "tags": ["Integrations"],
         "operationId": "get-details-of-all-integrations",
         "summary": "List all the Integrations",
         "description": "Get the details of all Integrations available for the account",
@@ -4370,9 +3933,7 @@
     },
     "/api/v1/accounts/{account_id}/integrations/hooks": {
       "post": {
-        "tags": [
-          "Integrations"
-        ],
+        "tags": ["Integrations"],
         "operationId": "create-an-integration-hook",
         "summary": "Create an integration hook",
         "description": "Create an integration hook",
@@ -4404,9 +3965,7 @@
     },
     "/api/v1/accounts/{account_id}/integrations/hooks/{hook_id}": {
       "patch": {
-        "tags": [
-          "Integrations"
-        ],
+        "tags": ["Integrations"],
         "operationId": "update-an-integrations-hook",
         "summary": "Update an Integration Hook",
         "description": "Update an Integration Hook",
@@ -4439,9 +3998,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Integrations"
-        ],
+        "tags": ["Integrations"],
         "operationId": "delete-an-integration-hook",
         "summary": "Delete an Integration Hook",
         "description": "Delete an Integration Hook",
@@ -4468,9 +4025,7 @@
     },
     "/api/v1/profile": {
       "get": {
-        "tags": [
-          "Profile"
-        ],
+        "tags": ["Profile"],
         "operationId": "fetchProfile",
         "summary": "Fetch user profile",
         "description": "Get the user profile details",
@@ -4494,9 +4049,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "Teams"
-        ],
+        "tags": ["Teams"],
         "operationId": "list-all-teams",
         "summary": "List all teams",
         "description": "List all teams available in the current account",
@@ -4517,9 +4070,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Teams"
-        ],
+        "tags": ["Teams"],
         "operationId": "create-a-team",
         "summary": "Create a team",
         "description": "Create a team in the account",
@@ -4559,9 +4110,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "Teams"
-        ],
+        "tags": ["Teams"],
         "operationId": "get-details-of-a-single-team",
         "summary": "Get a team details",
         "description": "Get the details of a team in the account",
@@ -4581,9 +4130,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "Teams"
-        ],
+        "tags": ["Teams"],
         "operationId": "update-a-team",
         "summary": "Update a team",
         "description": "Update a team's attributes",
@@ -4610,9 +4157,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Teams"
-        ],
+        "tags": ["Teams"],
         "operationId": "delete-a-team",
         "summary": "Delete a team",
         "description": "Delete a team from the account",
@@ -4639,17 +4184,13 @@
         }
       ],
       "get": {
-        "tags": [
-          "Teams"
-        ],
+        "tags": ["Teams"],
         "operationId": "get-team-members",
         "summary": "List Agents in Team",
         "description": "Get Details of Agents in an Team",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -4680,17 +4221,13 @@
         }
       },
       "post": {
-        "tags": [
-          "Teams"
-        ],
+        "tags": ["Teams"],
         "operationId": "add-new-agent-to-team",
         "summary": "Add a New Agent",
         "description": "Add a new Agent to Team",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -4700,9 +4237,7 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": [
-                "user_ids"
-              ],
+              "required": ["user_ids"],
               "properties": {
                 "user_ids": {
                   "type": "array",
@@ -4738,17 +4273,13 @@
         }
       },
       "patch": {
-        "tags": [
-          "Teams"
-        ],
+        "tags": ["Teams"],
         "operationId": "update-agents-in-team",
         "summary": "Update Agents in Team",
         "description": "All agents except the one passed in params will be removed",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -4758,9 +4289,7 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": [
-                "user_ids"
-              ],
+              "required": ["user_ids"],
               "properties": {
                 "user_ids": {
                   "type": "array",
@@ -4796,17 +4325,13 @@
         }
       },
       "delete": {
-        "tags": [
-          "Teams"
-        ],
+        "tags": ["Teams"],
         "operationId": "delete-agent-in-team",
         "summary": "Remove an Agent from Team",
         "description": "Remove an Agent from Team",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -4816,10 +4341,7 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": [
-                "team_id",
-                "user_ids"
-              ],
+              "required": ["team_id", "user_ids"],
               "properties": {
                 "user_ids": {
                   "type": "array",
@@ -4857,19 +4379,13 @@
           "in": "query",
           "name": "filter_type",
           "type": "string",
-          "enum": [
-            "conversation",
-            "contact",
-            "report"
-          ],
+          "enum": ["conversation", "contact", "report"],
           "required": false,
           "description": "The type of custom filter"
         }
       ],
       "get": {
-        "tags": [
-          "Custom Filters"
-        ],
+        "tags": ["Custom Filters"],
         "operationId": "list-all-filters",
         "summary": "List all custom filters",
         "description": "List all custom filters in a category of a user",
@@ -4890,9 +4406,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Custom Filters"
-        ],
+        "tags": ["Custom Filters"],
         "operationId": "create-a-custom-filter",
         "summary": "Create a custom filter",
         "description": "Create a custom filter in the account",
@@ -4932,9 +4446,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "Custom Filters"
-        ],
+        "tags": ["Custom Filters"],
         "operationId": "get-details-of-a-single-custom-filter",
         "summary": "Get a custom filter details",
         "description": "Get the details of a custom filter in the account",
@@ -4954,9 +4466,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "Custom Filters"
-        ],
+        "tags": ["Custom Filters"],
         "operationId": "update-a-custom-filter",
         "summary": "Update a custom filter",
         "description": "Update a custom filter's attributes",
@@ -4983,9 +4493,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Custom Filters"
-        ],
+        "tags": ["Custom Filters"],
         "operationId": "delete-a-custom-filter",
         "summary": "Delete a custom filter",
         "description": "Delete a custom filter from the account",
@@ -5009,9 +4517,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "Webhooks"
-        ],
+        "tags": ["Webhooks"],
         "operationId": "list-all-webhooks",
         "summary": "List all webhooks",
         "description": "List all webhooks in the account",
@@ -5032,9 +4538,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Webhooks"
-        ],
+        "tags": ["Webhooks"],
         "operationId": "create-a-webhook",
         "summary": "Add a webhook",
         "description": "Add a webhook subscription to the account",
@@ -5074,9 +4578,7 @@
         }
       ],
       "patch": {
-        "tags": [
-          "Webhooks"
-        ],
+        "tags": ["Webhooks"],
         "operationId": "update-a-webhook",
         "summary": "Update a webhook object",
         "description": "Update a webhook object in the account",
@@ -5106,9 +4608,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Webhooks"
-        ],
+        "tags": ["Webhooks"],
         "operationId": "delete-a-webhook",
         "summary": "Delete a webhook",
         "description": "Delete a webhook from the account",
@@ -5156,9 +4656,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "Reports"
-        ],
+        "tags": ["Reports"],
         "operationId": "list-all-conversation-statistics",
         "summary": "Get Account reports",
         "description": "Get Account reports for a specific type, metric and date range",
@@ -5218,9 +4716,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "Reports"
-        ],
+        "tags": ["Reports"],
         "operationId": "list-all-conversation-statistics-summary",
         "summary": "Get Account reports summary",
         "description": "Get Account reports summary for a specific type and date range",
@@ -5249,17 +4745,13 @@
           "in": "query",
           "name": "type",
           "type": "string",
-          "enum": [
-            "account"
-          ],
+          "enum": ["account"],
           "required": true,
           "description": "Type of report"
         }
       ],
       "get": {
-        "tags": [
-          "Reports"
-        ],
+        "tags": ["Reports"],
         "operationId": "get-account-conversation-metrics",
         "summary": "Account Conversation Metrics",
         "description": "Get conversation metrics for Account",
@@ -5300,9 +4792,7 @@
           "in": "query",
           "name": "type",
           "type": "string",
-          "enum": [
-            "agent"
-          ],
+          "enum": ["agent"],
           "required": true,
           "description": "Type of report"
         },
@@ -5314,9 +4804,7 @@
         }
       ],
       "get": {
-        "tags": [
-          "Reports"
-        ],
+        "tags": ["Reports"],
         "operationId": "get-agent-conversation-metrics",
         "summary": "Agent Conversation Metrics",
         "description": "Get conversation metrics for Agent",
@@ -5475,10 +4963,7 @@
             "type": "object",
             "example": {
               "action_name": "add_label",
-              "action_params": [
-                "support",
-                "sales"
-              ]
+              "action_params": ["support", "sales"]
             }
           }
         },
@@ -5490,9 +4975,7 @@
             "example": {
               "attribute_key": "content",
               "filter_operator": "contains",
-              "values": [
-                "help"
-              ],
+              "values": ["help"],
               "query_operator": "nil"
             }
           }
@@ -5611,11 +5094,7 @@
         },
         "status": {
           "type": "integer",
-          "enum": [
-            "draft",
-            "published",
-            "archived"
-          ]
+          "enum": ["draft", "published", "archived"]
         },
         "title": {
           "type": "string"
@@ -5719,11 +5198,7 @@
         },
         "status": {
           "type": "string",
-          "enum": [
-            "open",
-            "resolved",
-            "pending"
-          ],
+          "enum": ["open", "resolved", "pending"],
           "description": "The status of the conversation"
         },
         "timestamp": {
@@ -5763,12 +5238,7 @@
         },
         "content_type": {
           "type": "string",
-          "enum": [
-            "text",
-            "input_select",
-            "cards",
-            "form"
-          ],
+          "enum": ["text", "input_select", "cards", "form"],
           "description": "The type of the template message"
         },
         "content_attributes": {
@@ -5777,12 +5247,7 @@
         },
         "message_type": {
           "type": "string",
-          "enum": [
-            "incoming",
-            "outgoing",
-            "activity",
-            "template"
-          ],
+          "enum": ["incoming", "outgoing", "activity", "template"],
           "description": "The type of the message"
         },
         "created_at": {
@@ -5833,10 +5298,7 @@
         },
         "role": {
           "type": "string",
-          "enum": [
-            "agent",
-            "administrator"
-          ]
+          "enum": ["agent", "administrator"]
         },
         "confirmed": {
           "type": "boolean"
@@ -5879,21 +5341,14 @@
         },
         "role": {
           "type": "string",
-          "enum": [
-            "agent",
-            "administrator"
-          ]
+          "enum": ["agent", "administrator"]
         },
         "confirmed": {
           "type": "boolean"
         },
         "availability_status": {
           "type": "string",
-          "enum": [
-            "available",
-            "busy",
-            "offline"
-          ],
+          "enum": ["available", "busy", "offline"],
           "description": "The availability status of the agent computed by Chatwoot."
         },
         "auto_offline": {
@@ -6025,11 +5480,7 @@
         },
         "type": {
           "type": "string",
-          "enum": [
-            "conversation",
-            "contact",
-            "report"
-          ],
+          "enum": ["conversation", "contact", "report"],
           "description": "The description about the custom filter"
         },
         "query": {
@@ -6095,10 +5546,7 @@
         },
         "role": {
           "type": "string",
-          "enum": [
-            "administrator",
-            "agent"
-          ],
+          "enum": ["administrator", "agent"],
           "description": "The user role in the account"
         }
       }
@@ -6471,9 +5919,7 @@
     },
     "contact_create": {
       "type": "object",
-      "required": [
-        "inbox_id"
-      ],
+      "required": ["inbox_id"],
       "properties": {
         "inbox_id": {
           "type": "number"
@@ -6545,9 +5991,7 @@
     },
     "conversation_message_create": {
       "type": "object",
-      "required": [
-        "content"
-      ],
+      "required": ["content"],
       "properties": {
         "content": {
           "type": "string",
@@ -6555,10 +5999,7 @@
         },
         "message_type": {
           "type": "string",
-          "enum": [
-            "outgoing",
-            "incoming"
-          ]
+          "enum": ["outgoing", "incoming"]
         },
         "private": {
           "type": "boolean",
@@ -6572,7 +6013,8 @@
             "cards",
             "input_select",
             "form",
-            "article"
+            "article",
+            "input_phone"
           ],
           "example": "cards",
           "description": "if you want to create custom message types"
@@ -6637,11 +6079,7 @@
         },
         "type": {
           "type": "string",
-          "enum": [
-            "conversation",
-            "contact",
-            "report"
-          ],
+          "enum": ["conversation", "contact", "report"],
           "description": "The description about the custom filter"
         },
         "query": {
@@ -6734,9 +6172,7 @@
             "type": "object",
             "example": {
               "action_name": "add_label",
-              "action_params": [
-                "support"
-              ]
+              "action_params": ["support"]
             }
           }
         },
@@ -6749,9 +6185,7 @@
               "attribute_key": "content",
               "filter_operator": "contains",
               "query_operator": "nil",
-              "values": [
-                "help"
-              ]
+              "values": ["help"]
             }
           }
         }
@@ -6773,10 +6207,7 @@
           "type": "object",
           "description": "Configuration about supporting locales",
           "example": {
-            "allowed_locales": [
-              "en",
-              "es"
-            ],
+            "allowed_locales": ["en", "es"],
             "default_locale": "en"
           }
         },
@@ -6863,9 +6294,7 @@
           "type": "object",
           "description": "Use for search",
           "example": {
-            "tags": [
-              "article_name"
-            ],
+            "tags": ["article_name"],
             "title": "article title",
             "description": "article description"
           }
@@ -6876,11 +6305,7 @@
         },
         "status": {
           "type": "integer",
-          "example": [
-            "draft",
-            "published",
-            "archived"
-          ]
+          "example": ["draft", "published", "archived"]
         },
         "title": {
           "type": "string"
@@ -6990,10 +6415,7 @@
             },
             "availability_status": {
               "type": "string",
-              "enum": [
-                "online",
-                "offline"
-              ],
+              "enum": ["online", "offline"],
               "description": "Availability status of the user"
             }
           }
@@ -7220,10 +6642,7 @@
             },
             "current_status": {
               "type": "string",
-              "enum": [
-                "open",
-                "resolved"
-              ]
+              "enum": ["open", "resolved"]
             },
             "conversation_id": {
               "type": "number"
@@ -7436,13 +6855,7 @@
       "in": "query",
       "name": "type",
       "type": "string",
-      "enum": [
-        "account",
-        "agent",
-        "inbox",
-        "label",
-        "team"
-      ],
+      "enum": ["account", "agent", "inbox", "label", "team"],
       "required": true,
       "description": "Type of report"
     },
@@ -7486,12 +6899,7 @@
   "x-tagGroups": [
     {
       "name": "Platform",
-      "tags": [
-        "Accounts",
-        "Account Users",
-        "AgentBots",
-        "Users"
-      ]
+      "tags": ["Accounts", "Account Users", "AgentBots", "Users"]
     },
     {
       "name": "Application",
@@ -7519,17 +6927,11 @@
     },
     {
       "name": "Client",
-      "tags": [
-        "Contacts API",
-        "Conversations API",
-        "Messages API"
-      ]
+      "tags": ["Contacts API", "Conversations API", "Messages API"]
     },
     {
       "name": "Others",
-      "tags": [
-        "CSAT Survey Page"
-      ]
+      "tags": ["CSAT Survey Page"]
     }
   ]
 }

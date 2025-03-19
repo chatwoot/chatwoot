@@ -13,7 +13,7 @@ export const getters = {
 export const actions = {
   update: async (
     { commit, dispatch, getters: { getUIFlags: uiFlags } },
-    { email, messageId, submittedValues }
+    { email, messageId, submittedValues, phone, orderId, selectedReply }
   ) => {
     if (uiFlags.isUpdating) {
       return;
@@ -22,8 +22,12 @@ export const actions = {
     try {
       await MessageAPI.update({
         email,
+        phone,
         messageId,
         values: submittedValues,
+        phone,
+        orderId,
+        selectedReply,
       });
       commit(
         'conversation/updateMessage',
@@ -32,6 +36,9 @@ export const actions = {
           content_attributes: {
             submitted_email: email,
             submitted_values: email ? null : submittedValues,
+            user_phone_number: phone,
+            selected_reply: selectedReply,
+            user_order_id: orderId,
           },
         },
         { root: true }

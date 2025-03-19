@@ -2,7 +2,7 @@
   <div
     v-dompurify-html="formatMessage(message, false)"
     class="chat-bubble user"
-    :style="{ background: widgetColor, color: textColor }"
+    :style="{ background: widgetColor, color: textColor, borderRadius: '4px' }"
   />
 </template>
 

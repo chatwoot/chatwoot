@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full h-full bg-slate-25 dark:bg-slate-800"
+    class="w-full h-full bg-slate-25 dark:bg-slate-800 border-2 border-red-500"
     :class="{ 'overflow-auto': isOnHomeView }"
     @keydown.esc="closeWindow"
   >
@@ -20,6 +20,8 @@
           :intro-body="channelConfig.welcomeTagline"
           :avatar-url="channelConfig.avatarUrl"
           :show-popout-button="appConfig.showPopoutButton"
+          :faqs="channelConfig.faqs"
+          :color="channelConfig.widgetColor"
         />
         <chat-header
           v-if="isHeaderCollapsed"
@@ -28,6 +30,7 @@
           :show-popout-button="appConfig.showPopoutButton"
           :available-agents="availableAgents"
           :show-back-button="showBackButton"
+          :color="channelConfig.widgetColor"
         />
       </div>
       <banner />

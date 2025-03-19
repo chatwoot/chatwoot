@@ -55,6 +55,38 @@
                 )
               "
             />
+            <!-- there can be number of input for faq question and answer. -->
+            <div class="faq-section-header">
+              <label> FAQs </label>
+              <woot-button class="add-faq-button" @click="addFaq">
+                Add FAQ
+              </woot-button>
+            </div>
+            <div
+              v-for="(faq, index) in faqs"
+              :key="index"
+              class="faq-container"
+            >
+              <woot-button
+                class="delete-faq-button"
+                variant="link"
+                size="medium"
+                color-scheme="secondary"
+                icon="delete"
+                class-names="flex justify-end w-4"
+                @click="deleteFaq(index)"
+              />
+              <woot-input
+                v-model.trim="faq.question"
+                :label="'FAQ Question'"
+                :placeholder="'FAQ Question'"
+              />
+              <woot-input
+                v-model.trim="faq.answer"
+                :label="'FAQ Answer'"
+                :placeholder="'FAQ Answer'"
+              />
+            </div>
             <label>
               {{
                 $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.REPLY_TIME.LABEL')
@@ -142,6 +174,7 @@
             :widget-bubble-position="widgetBubblePosition"
             :widget-bubble-launcher-title="widgetBubbleLauncherTitle"
             :widget-bubble-type="widgetBubbleType"
+            :faqs="faqs"
           />
         </div>
         <div v-else class="widget-script">
@@ -188,6 +221,7 @@ export default {
         'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_LAUNCHER_TITLE.DEFAULT'
       ),
       widgetBubbleType: 'standard',
+      faqs: [],
       widgetBubblePositions: [
         {
           id: 'left',
@@ -309,6 +343,7 @@ export default {
         widget_color,
         reply_time,
         avatar_url,
+        faqs,
       } = this.inbox;
       this.websiteName = name;
       this.welcomeHeading = welcome_title;
@@ -316,6 +351,7 @@ export default {
       this.color = widget_color;
       this.replyTime = reply_time;
       this.avatarUrl = avatar_url;
+      this.faqs = JSON.parse(faqs);
 
       const savedInformation = this.getSavedInboxInformation();
       if (savedInformation) {
@@ -388,6 +424,7 @@ export default {
             welcome_title: this.welcomeHeading,
             welcome_tagline: this.welcomeTagline,
             reply_time: this.replyTime,
+            faqs: JSON.stringify(this.faqs),
           },
         };
         if (this.avatarFile) {
@@ -410,6 +447,13 @@ export default {
     },
     getSavedInboxInformation() {
       return LocalStorage.get(this.storageKey);
+    },
+    addFaq(event) {
+      event.preventDefault();
+      this.faqs.push({ question: '', answer: '' });
+    },
+    deleteFaq(index) {
+      this.faqs.splice(index, 1);
     },
   },
 };
@@ -458,5 +502,35 @@ export default {
   .widget-script {
     @apply mx-5 p-2.5 bg-slate-50 dark:bg-slate-700;
   }
+}
+
+.faq-container {
+  margin-bottom: var(--space-normal);
+  position: relative;
+  padding: var(--space-normal);
+  border: 1px solid #e0e0e0; // Light border for separation
+  border-radius: 4px; // Rounded corners
+  background-color: #f9f9f9;
+}
+
+.faq-section-header {
+  display: flex;
+  align-items: center; // Aligns items vertically centered
+  justify-content: space-between; // Space between title and button
+  margin-bottom: var(--space-normal); // Space below the header
+}
+
+.add-faq-button {
+  margin-left: var(--space-normal);
+  background-color: transparent !important  ;
+  padding: 0;
+  cursor: pointer;
+  color: #1f93ff !important;
+}
+
+.delete-faq-button {
+  position: absolute;
+  right: 5px;
+  top: 5px;
 }
 </style>

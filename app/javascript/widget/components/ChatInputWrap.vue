@@ -19,12 +19,12 @@
       @blur="onBlur"
     />
     <div class="button-wrap">
-      <chat-attachment-button
+      <!-- <chat-attachment-button
         v-if="showAttachment"
         :class="$dm('text-black-900', 'dark:text-slate-100')"
         :on-attach="onSendAttachment"
-      />
-      <button
+      /> -->
+      <!-- <button
         v-if="hasEmojiPickerEnabled"
         class="flex items-center justify-center icon-button"
         aria-label="Emoji picker"
@@ -37,7 +37,7 @@
         v-on-clickaway="hideEmojiPicker"
         :on-click="emojiOnClick"
         @keydown.esc="hideEmojiPicker"
-      />
+      /> -->
       <chat-send-button
         v-if="showSendButton"
         :on-click="handleButtonClick"
@@ -50,22 +50,15 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import configMixin from '../mixins/configMixin';
-import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
-
-const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
 export default {
   name: 'ChatInputWrap',
   components: {
-    ChatAttachmentButton,
     ChatSendButton,
-    EmojiInput,
-    FluentIcon,
     ResizableTextArea,
   },
   mixins: [configMixin, darkModeMixin],

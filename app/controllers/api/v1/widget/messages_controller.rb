@@ -12,6 +12,8 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     @message.save!
   end
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
   def update
     if @message.content_type == 'input_email'
       @message.update!(submitted_email: contact_email)
@@ -20,12 +22,24 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
         params: { email: contact_email, name: contact_name },
         retain_original_contact_name: true
       ).perform
+    elsif @message.content_type == 'input_phone'
+      Rails.logger.info("Contact phone number: #{contact_phone_number}")
+      Rails.logger.info("Contact name: #{contact_name}")
+      Rails.logger.info("Contact email: #{contact_email}")
+      @message.update!(submitted_phone: contact_phone_number)
+      ContactIdentifyAction.new(
+        contact: @contact,
+        params: { phone_number: contact_phone_number, name: contact_name },
+        retain_original_contact_name: true
+      ).perform
     else
       @message.update!(message_update_params[:message])
     end
   rescue StandardError => e
     render json: { error: @contact.errors, message: e.message }.to_json, status: :internal_server_error
   end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
 
   private
 
@@ -59,14 +73,26 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def message_update_params
-    params.permit(message: [{ submitted_values: [:name, :title, :value, { csat_survey_response: [:feedback_message, :rating] }] }])
+    # rubocop:disable Layout/LineLength
+    params.permit(message: [
+                    { submitted_values: [:name, :title, :value, { csat_survey_response: [:feedback_message, :rating] }, :user_phone_number, :user_order_id,
+                                         :selected_reply] },
+                    :user_phone_number,
+                    :user_order_id,
+                    :selected_reply
+                  ])
+    # rubocop:enable Layout/LineLength
   end
 
+  # rubocop:disable Layout/LineLength
   def permitted_params
     # timestamp parameter is used in create conversation method
-    params.permit(:id, :before, :after, :website_token, contact: [:name, :email], message: [:content, :referer_url, :timestamp, :echo_id, :reply_to])
+
+    params.permit(:id, :before, :after, :website_token, contact: [:name, :email],
+                                                        message: [:content, :referer_url, :timestamp, :echo_id, :reply_to, :selected_reply, :phone_number, :order_id, :private])
   end
 
+  # rubocop:enable Layout/LineLength
   def set_message
     @message = @web_widget.inbox.messages.find(permitted_params[:id])
   end

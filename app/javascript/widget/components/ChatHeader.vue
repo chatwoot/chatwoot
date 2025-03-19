@@ -1,7 +1,7 @@
 <template>
   <header
     class="flex justify-between p-5 w-full"
-    :class="$dm('bg-white', 'dark:bg-slate-900')"
+    :style="{ backgroundColor: color }"
   >
     <div class="flex items-center">
       <button
@@ -9,22 +9,17 @@
         class="-ml-3 px-2"
         @click="onBackButtonClick"
       >
-        <fluent-icon
-          icon="chevron-left"
-          size="24"
-          :class="$dm('text-black-900', 'dark:text-slate-50')"
-        />
+        <fluent-icon icon="chevron-left" size="24" class="text-white" />
       </button>
       <img
         v-if="avatarUrl"
-        class="h-8 w-8 rounded-full mr-3"
+        class="h-8 w-8 rounded-[4px] mr-3"
         :src="avatarUrl"
         alt="avatar"
       />
       <div>
         <div
-          class="font-medium text-base leading-4 flex items-center"
-          :class="$dm('text-black-900', 'dark:text-slate-50')"
+          class="font-medium text-base leading-4 flex items-center text-white"
         >
           <span v-dompurify-html="title" class="mr-1" />
           <div
@@ -32,10 +27,7 @@
               ${isOnline ? 'bg-green-500' : 'hidden'}`"
           />
         </div>
-        <div
-          class="text-xs mt-1 leading-3"
-          :class="$dm('text-black-700', 'dark:text-slate-400')"
-        >
+        <div class="text-xs mt-1 leading-3 text-white">
           {{ replyWaitMessage }}
         </div>
       </div>
@@ -81,6 +73,10 @@ export default {
     availableAgents: {
       type: Array,
       default: () => {},
+    },
+    color: {
+      type: String,
+      default: '',
     },
   },
   computed: {

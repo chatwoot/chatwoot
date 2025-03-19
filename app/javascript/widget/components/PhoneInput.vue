@@ -20,7 +20,7 @@
       </div>
       <span
         v-if="activeDialCode"
-        class="flex bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-normal text-base leading-normal py-2 pl-2 pr-0"
+        class="flex bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-normal leading-normal py-2 pl-2 pr-0 text-[14px]"
       >
         {{ activeDialCode }}
       </span>
@@ -28,7 +28,7 @@
         ref="phoneNumberInput"
         :value="phoneNumber"
         type="tel"
-        class="!mb-0 !rounded-tl-none !rounded-bl-none !border-0 font-normal !w-full dark:!bg-slate-900 text-base !px-1.5 placeholder:font-normal outline-none"
+        class="!mb-0 !rounded-tl-none !rounded-bl-none !border-0 font-normal !w-full dark:!bg-slate-900 !px-1.5 placeholder:font-normal outline-none text-[14px]"
         :placeholder="placeholder"
         :readonly="readonly"
         :style="styles"

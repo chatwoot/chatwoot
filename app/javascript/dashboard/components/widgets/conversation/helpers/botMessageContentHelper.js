@@ -18,6 +18,14 @@ const generateInputEmailContent = contentAttributes => {
   return '';
 };
 
+const generateInputPhoneContent = contentAttributes => {
+  const { submitted_phone: submittedPhone = '' } = contentAttributes;
+  if (submittedPhone) {
+    return `<strong>${submittedPhone}</strong>`;
+  }
+  return '';
+};
+
 const generateFormContent = (contentAttributes, { noResponseText }) => {
   const { items, submitted_values: submittedValues = [] } = contentAttributes;
   if (submittedValues.length) {
@@ -71,6 +79,7 @@ export const generateBotMessageContent = (
   const contentTypeMethods = {
     input_select: generateInputSelectContent,
     input_email: generateInputEmailContent,
+    input_phone: generateInputPhoneContent,
     form: generateFormContent,
     input_csat: generateCSATContent,
   };

@@ -31,17 +31,46 @@ export const actions = {
     }
   },
   sendMessage: async ({ dispatch }, params) => {
-    const { content, replyTo } = params;
-    const message = createTemporaryMessage({ content, replyTo });
+    const {
+      content,
+      replyTo,
+      selectedReply,
+      phoneNumber,
+      orderId,
+      isPrivate = false,
+    } = params;
+    const message = createTemporaryMessage({
+      content,
+      replyTo,
+      selectedReply,
+      phoneNumber,
+      orderId,
+      isPrivate,
+    });
     dispatch('sendMessageWithData', message);
   },
   sendMessageWithData: async ({ commit }, message) => {
-    const { id, content, replyTo, meta = {} } = message;
-
+    const {
+      id,
+      content,
+      replyTo,
+      meta = {},
+      selectedReply,
+      phoneNumber,
+      orderId,
+      isPrivate,
+    } = message;
     commit('pushMessageToConversation', message);
     commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
     try {
-      const { data } = await sendMessageAPI(content, replyTo);
+      const { data } = await sendMessageAPI(
+        content,
+        replyTo,
+        selectedReply,
+        phoneNumber,
+        orderId,
+        isPrivate
+      );
 
       commit('deleteMessage', message.id);
       commit('pushMessageToConversation', { ...data, status: 'sent' });

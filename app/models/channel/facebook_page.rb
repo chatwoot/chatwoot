@@ -5,6 +5,7 @@
 #  id                :integer          not null, primary key
 #  page_access_token :string           not null
 #  user_access_token :string           not null
+#  webhook_url       :string
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  account_id        :integer          not null

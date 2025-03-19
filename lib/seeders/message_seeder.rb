@@ -10,6 +10,17 @@ module Seeders::MessageSeeder
     )
   end
 
+  def self.create_sample_phone_collect_message(conversation)
+    Message.create!(
+      account: conversation.account,
+      inbox: conversation.inbox,
+      conversation: conversation,
+      message_type: :template,
+      content_type: :input_phone,
+      content: 'Get notified by phone'
+    )
+  end
+
   def self.create_sample_csat_collect_message(conversation)
     Message.create!(
       account: conversation.account,

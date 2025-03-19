@@ -17,6 +17,7 @@ class MessageTemplates::HookExecutionService
     ::MessageTemplates::Template::OutOfOffice.new(conversation: conversation).perform if should_send_out_of_office_message?
     ::MessageTemplates::Template::Greeting.new(conversation: conversation).perform if should_send_greeting?
     ::MessageTemplates::Template::EmailCollect.new(conversation: conversation).perform if inbox.enable_email_collect && should_send_email_collect?
+    # ::MessageTemplates::Template::PhoneCollect.new(conversation: conversation).perform if inbox.enable_email_collect && should_send_phone_collect?
     ::MessageTemplates::Template::CsatSurvey.new(conversation: conversation).perform if should_send_csat_survey?
   end
 
@@ -44,13 +45,25 @@ class MessageTemplates::HookExecutionService
     conversation.messages.where(content_type: 'input_email').present?
   end
 
+  def phone_collect_was_sent?
+    conversation.messages.where(content_type: 'input_phone').present?
+  end
+
   # TODO: we should be able to reduce this logic once we have a toggle for email collect messages
   def should_send_email_collect?
     !contact_has_email? && inbox.web_widget? && !email_collect_was_sent?
   end
 
+  def should_send_phone_collect?
+    !contact_has_phone? && inbox.web_widget? && !phone_collect_was_sent?
+  end
+
   def contact_has_email?
     contact.email
+  end
+
+  def contact_has_phone?
+    contact.phone_number
   end
 
   def csat_enabled_conversation?

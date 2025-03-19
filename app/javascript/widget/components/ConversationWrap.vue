@@ -14,9 +14,27 @@
           v-for="message in groupedMessage.messages"
           :key="message.id"
           :message="message"
+          :selected-products="selectedProducts"
+          :update-selected-products="updateSelectedProducts"
+          :open-checkout-page="openCheckoutPage"
         />
       </div>
       <agent-typing-bubble v-if="showStatusIndicator" />
+      <div v-if="selectedProducts.length > 0" class="cart-icon-container">
+        <button
+          :style="{ backgroundColor: channelConfig.widgetColor }"
+          class="cart-icon"
+          @click="openCheckoutPage(selectedProducts)"
+        >
+          <img
+            width="20"
+            height="20"
+            src="~dashboard/assets/cart-icon.svg"
+            alt="cart"
+          />
+          <span class="cart-count">{{ totalCartItems }}</span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -29,6 +47,7 @@ import Spinner from 'shared/components/Spinner.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { mapActions, mapGetters } from 'vuex';
+import configMixin from 'widget/mixins/configMixin';
 
 export default {
   name: 'ConversationWrap',
@@ -38,17 +57,19 @@ export default {
     DateSeparator,
     Spinner,
   },
-  mixins: [darkModeMixin],
+  mixins: [darkModeMixin, configMixin],
   props: {
     groupedMessages: {
       type: Array,
       default: () => [],
     },
   },
+
   data() {
     return {
       previousScrollHeight: 0,
       previousConversationSize: 0,
+      selectedProducts: [],
     };
   },
   computed: {
@@ -61,6 +82,15 @@ export default {
       isAgentTyping: 'conversation/getIsAgentTyping',
       conversationAttributes: 'conversationAttributes/getConversationParams',
     }),
+    totalCartItems() {
+      if (this.selectedProducts.length === 0) {
+        return 0;
+      }
+      return this.selectedProducts.reduce(
+        (acc, product) => acc + product.quantity,
+        0
+      );
+    },
     colorSchemeClass() {
       return `${this.darkMode === 'dark' ? 'dark-scheme' : 'light-scheme'}`;
     },
@@ -81,6 +111,7 @@ export default {
     },
   },
   mounted() {
+    // how to get the url of the page in which this page is rendered as a iframe
     this.$el.addEventListener('scroll', this.handleScroll);
     this.scrollToBottom();
   },
@@ -93,12 +124,59 @@ export default {
   unmounted() {
     this.$el.removeEventListener('scroll', this.handleScroll);
   },
+
   methods: {
     ...mapActions('conversation', ['fetchOldConversations']),
     scrollToBottom() {
       const container = this.$el;
       container.scrollTop = container.scrollHeight - this.previousScrollHeight;
       this.previousScrollHeight = 0;
+    },
+    openCheckoutPage(selectedProducts) {
+      const shopUrl = selectedProducts[0].shopUrl;
+      const lineItems = selectedProducts.map(product => ({
+        variant_id: product.id,
+        quantity: product.quantity,
+        price: product.price,
+        currency: product.currency,
+      }));
+      window.open(
+        `https://mcfsmik3g0.execute-api.us-east-1.amazonaws.com/chatbot/checkout?shopUrl=${shopUrl}&lineItems=${encodeURIComponent(
+          JSON.stringify(lineItems)
+        )}`,
+        '_blank'
+      );
+    },
+
+    updateSelectedProducts(
+      productId,
+      quantity,
+      currency,
+      price,
+      shopUrl,
+      event
+    ) {
+      event.stopPropagation();
+      const existingProduct = this.selectedProducts.find(
+        p => p.id === productId
+      );
+      if (existingProduct) {
+        if (quantity === 0) {
+          this.selectedProducts = this.selectedProducts.filter(
+            p => p.id !== productId
+          );
+        } else {
+          existingProduct.quantity = quantity;
+        }
+      } else {
+        this.selectedProducts.push({
+          id: productId,
+          quantity,
+          currency,
+          price,
+          shopUrl,
+        });
+      }
     },
     handleScroll() {
       if (
@@ -128,6 +206,7 @@ export default {
   flex: 1;
   overflow-y: auto;
   color-scheme: light dark;
+  overflow-x: hidden;
 
   &.light-scheme {
     color-scheme: light;
@@ -137,9 +216,43 @@ export default {
   }
 }
 
+.cart-icon-container {
+  position: fixed;
+  bottom: 120px;
+  right: 10px;
+  margin-right: 10px;
+}
+
+.cart-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.cart-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 10px;
+  color: white;
+  background-color: red;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .conversation-wrap {
   flex: 1;
   padding: $space-large $space-small $space-small $space-small;
+  position: relative;
+  width: 100%;
 }
 
 .message--loader {

@@ -2,10 +2,17 @@
   <div class="chat-bubble-wrap">
     <div
       v-if="
-        !isCards && !isOptions && !isForm && !isArticle && !isCards && !isCSAT
+        !isCards &&
+        !isOptions &&
+        !isForm &&
+        !isArticle &&
+        !isCards &&
+        !isCSAT &&
+        !isProductCarousel
       "
       class="chat-bubble agent"
       :class="$dm('bg-white', 'dark:bg-slate-700 has-dark-mode')"
+      style="border-radius: 4px; border: 1px solid #f0f0f0"
     >
       <div
         v-dompurify-html="formatMessage(message, false)"
@@ -16,13 +23,36 @@
         :message-id="messageId"
         :message-content-attributes="messageContentAttributes"
       />
-
+      <phone-input
+        v-if="isTemplatePhone"
+        :message-id="messageId"
+        :message-content-attributes="messageContentAttributes"
+      />
       <integration-card
         v-if="isIntegrations"
         :message-id="messageId"
         :meeting-data="messageContentAttributes.data"
       />
     </div>
+
+    <order-details-card
+      v-if="shouldShowOrderDetailsCard"
+      :message-id="messageId"
+    />
+    <product-carousel
+      v-if="isProductCarousel"
+      :items="messageContentAttributes.items"
+      :selected-products="selectedProducts"
+      :update-selected-products="updateSelectedProducts"
+      :open-checkout-page="openCheckoutPage"
+      :message="message"
+    />
+    <tags
+      v-if="shouldShowQuickReply"
+      class="mt-2"
+      :tags="messageContentAttributes.items"
+      :message-id="messageId"
+    />
     <div v-if="isOptions">
       <chat-options
         :title="message"
@@ -66,9 +96,14 @@ import ChatForm from 'shared/components/ChatForm.vue';
 import ChatOptions from 'shared/components/ChatOptions.vue';
 import ChatArticle from './template/Article.vue';
 import EmailInput from './template/EmailInput.vue';
+import PhoneInput from './template/PhoneInput.vue';
 import CustomerSatisfaction from 'shared/components/CustomerSatisfaction.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 import IntegrationCard from './template/IntegrationCard.vue';
+import Tags from './Tags.vue';
+import ProductCarousel from 'shared/components/ProductCarousel.vue';
+// import PhoneInput from 'dashboard/components/widgets/forms/PhoneInput.vue';
+import OrderDetailsCard from './OrderDetailsCard.vue';
 
 export default {
   name: 'AgentMessageBubble',
@@ -78,8 +113,13 @@ export default {
     ChatForm,
     ChatOptions,
     EmailInput,
+    PhoneInput,
     CustomerSatisfaction,
     IntegrationCard,
+    Tags,
+    ProductCarousel,
+    // PhoneInput,
+    OrderDetailsCard,
   },
   mixins: [messageFormatterMixin, darkModeMixin],
   props: {
@@ -91,13 +131,52 @@ export default {
       type: Object,
       default: () => {},
     },
+    selectedProducts: {
+      type: Array,
+      default: () => [],
+    },
+    updateSelectedProducts: {
+      type: Function,
+      default: () => {},
+    },
+    openCheckoutPage: {
+      type: Function,
+      default: () => {},
+    },
   },
   computed: {
     isTemplate() {
       return this.messageType === 3;
     },
+    shouldShowQuickReply() {
+      if (
+        this.contentType === 'quick_reply' &&
+        !this.messageContentAttributes.selected_reply
+      ) {
+        return true;
+      }
+      return false;
+    },
+    isProductCarousel() {
+      if (this.contentType === 'product_carousel') {
+        return true;
+      }
+      return false;
+    },
+    shouldShowOrderDetailsCard() {
+      return (
+        this.contentType === 'order_input' &&
+        !(
+          this.messageContentAttributes.user_phone_number ||
+          this.messageContentAttributes.user_order_id
+        )
+      );
+    },
     isTemplateEmail() {
       return this.contentType === 'input_email';
+    },
+    isTemplatePhone() {
+      return this.contentType === 'input_phone';
     },
     isCards() {
       return this.contentType === 'cards';

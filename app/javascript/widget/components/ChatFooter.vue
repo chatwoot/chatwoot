@@ -1,7 +1,7 @@
 <template>
   <footer
     v-if="!hideReplyBox"
-    class="relative z-50 mb-1"
+    class="relative z-50 mb-1 p-4"
     :class="{
       'rounded-lg': !isWidgetStyleFlat,
       'pt-2.5 shadow-[0px_-20px_20px_1px_rgba(0,_0,_0,_0.05)] dark:shadow-[0px_-20px_20px_1px_rgba(0,_0,_0,_0.15)] rounded-t-none':
@@ -19,7 +19,15 @@
       :on-send-attachment="handleSendAttachment"
     />
   </footer>
-  <div v-else>
+  <footer v-else class="flex justify-center">
+    <div
+      class="flex flex-col justify-center items-center shadow-[0px_2px_10px_#0000001A] shadow-[0px_0px_2px_#00000033] w-[90%] p-4 gap-2 rounded-lg"
+    >
+      <h2 class="text-[14px] font-medium">Rate your experience</h2>
+      <rating :value="1" @selectRating="() => {}" />
+    </div>
+  </footer>
+  <!-- <div v-else>
     <custom-button
       class="font-medium"
       block
@@ -37,13 +45,12 @@
     >
       {{ $t('EMAIL_TRANSCRIPT.BUTTON_TEXT') }}
     </custom-button>
-  </div>
+  </div> -->
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
-import CustomButton from 'shared/components/Button.vue';
 import FooterReplyTo from 'widget/components/FooterReplyTo.vue';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -51,12 +58,13 @@ import { sendEmailTranscript } from 'widget/api/conversation';
 import routerMixin from 'widget/mixins/routerMixin';
 import { IFrameHelper } from '../helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
+import Rating from '../components/Rating.vue';
 
 export default {
   components: {
     ChatInputWrap,
-    CustomButton,
     FooterReplyTo,
+    Rating,
   },
   mixins: [routerMixin],
   props: {
