@@ -64,8 +64,9 @@ const downloadAttachment = async () => {
         @error="handleError"
       />
       <div
-        class="inset-0 p-2 pointer-events-none absolute bg-gradient-to-tl from-n-slate-12/30 dark:from-n-slate-1/50 via-transparent to-transparent hidden group-hover:flex items-end justify-end gap-1.5"
-      >
+        class="inset-0 p-2 pointer-events-none absolute bg-gradient-to-tl from-n-slate-12/30 dark:from-n-slate-1/50 via-transparent to-transparent hidden group-hover:flex"
+      />
+      <div class="absolute right-2 bottom-2 hidden group-hover:flex gap-2">
         <Button xs solid slate icon="i-lucide-expand" class="opacity-60" />
         <Button
           xs
