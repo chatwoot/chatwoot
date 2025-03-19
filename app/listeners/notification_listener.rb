@@ -31,8 +31,9 @@ class NotificationListener < BaseListener
     conversation, account = extract_conversation_and_account(event)
     assignee = conversation.assignee
 
-    # NOTE: This occurs when the conversation is created and assignee is added
-    # but a subsequent change to the assignee is triggered which makes it nil
+    # NOTE:  The issue was that when a team change results in an assignee being set to nil, 
+    # the system was still trying to create a notification about the assignment change, 
+    # but there was no assignee to notify, causing potential issues in the notification system.
     # We need to debug this properly, but for now no need to pollute the jobs
     return if assignee.blank?
     return if event.data[:notifiable_assignee_change].blank?
