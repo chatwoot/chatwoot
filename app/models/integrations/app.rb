@@ -50,7 +50,7 @@ class Integrations::App
     when 'linear'
       GlobalConfigService.load('LINEAR_CLIENT_ID', nil).present?
     when 'shopify'
-      GlobalConfigService.load('SHOPIFY_CLIENT_ID', nil).present?
+      account.feature_enabled?('shopify_integration') && GlobalConfigService.load('SHOPIFY_CLIENT_ID', nil).present?
     else
       true
     end

@@ -119,11 +119,13 @@ const confirmDeletion = () => {
         </div>
       </router-link>
       <div v-if="!integrationEnabled">
-        <a :href="integrationAction">
-          <NextButton faded blue>
-            {{ t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT') }}
-          </NextButton>
-        </a>
+        <slot name="action">
+          <a :href="integrationAction">
+            <NextButton faded blue>
+              {{ t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT') }}
+            </NextButton>
+          </a>
+        </slot>
       </div>
     </div>
     <Dialog
