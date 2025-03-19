@@ -10,7 +10,7 @@ export default {
 
 <template>
   <div
-    class="border border-n-weak bg-n-background h-full w-full p-6 col-span-6 overflow-auto"
+    class="border border-n-weak bg-n-solid-1 rounded-t-lg border-b-0 h-full w-full p-6 col-span-6 overflow-auto"
   >
     <EmptyState
       :title="$t('TEAMS_SETTINGS.FINISH.TITLE')"
