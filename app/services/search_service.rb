@@ -53,7 +53,12 @@ class SearchService
     if search_query.present?
       # Use the @@ operator with to_tsquery for better GIN index utilization
       # Convert search query to tsquery format with prefix matching
-      tsquery = search_query.split.map { |word| "#{word}:*" }.join(' & ')
+
+      # Use this if we wanna match splitting the words
+      # split_query = search_query.split.map { |term| "#{term} | #{term}:*" }.join(' & ')
+
+      # This will do entire sentence matching using phrase distance operator
+      tsquery = search_query.split.join(' <-> ')
 
       # Apply the text search using the GIN index
       base_query.where('content @@ to_tsquery(?)', tsquery)
