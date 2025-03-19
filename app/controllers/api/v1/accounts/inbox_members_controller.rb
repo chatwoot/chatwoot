@@ -5,6 +5,11 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
   def show
     authorize @inbox, :show?
     fetch_updated_agents
+
+    render json: {
+      agents: @agents,
+      allowed_custom_message_agents: @agents.where(id: @inbox.allowed_custom_message_user_ids)
+    }
   end
 
   def create
@@ -19,6 +24,12 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
     authorize @inbox, :update?
     update_agents_list
     fetch_updated_agents
+    update_allowed_custom_message_list
+    render json: {
+      success: true,
+      agents: @agents,
+      allowed_custom_message_agents: @agents.where(id: @inbox.allowed_custom_message_user_ids)
+    }
   end
 
   def destroy
@@ -44,6 +55,12 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
       @inbox.add_members(agents_to_be_added_ids)
       @inbox.remove_members(agents_to_be_removed_ids)
     end
+  end
+
+  def update_allowed_custom_message_list
+    allowed_agent_ids = params[:user_ids] & params[:allowed_user_ids]
+
+    @inbox.update(allowed_custom_message_user_ids: allowed_agent_ids)
   end
 
   def agents_to_be_added_ids

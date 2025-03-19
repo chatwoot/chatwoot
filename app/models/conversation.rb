@@ -129,7 +129,7 @@ class Conversation < ApplicationRecord
   end
 
   def can_reply_by_custom_message?
-    self.inbox.allowed_custom_message_user_ids.include?(Current.user.id)
+    self.inbox.allowed_custom_message_user_ids&.include?(Current.user.id)
   end
 
   # Be aware: The precision of created_at and last_activity_at may differ from Ruby's Time precision.

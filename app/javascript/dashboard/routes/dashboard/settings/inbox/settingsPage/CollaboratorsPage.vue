@@ -26,6 +26,7 @@ export default {
   data() {
     return {
       selectedAgents: [],
+      selectedCustomMessageAgents: [],
       isAgentListUpdating: false,
       enableAutoAssignment: false,
       maxAssignmentLimit: null,
@@ -65,11 +66,12 @@ export default {
           inboxId: this.inbox.id,
         });
         const {
-          data: { payload: inboxMembers },
+          data: { agents, allowed_custom_message_agents }
         } = response;
-        this.selectedAgents = inboxMembers;
+        this.selectedAgents = agents;
+        this.selectedCustomMessageAgents = allowed_custom_message_agents;
       } catch (error) {
-        //  Handle error
+        // Handle error
       }
     },
     handleEnableAutoAssignment() {
@@ -77,11 +79,13 @@ export default {
     },
     async updateAgents() {
       const agentList = this.selectedAgents.map(el => el.id);
+      const customMessageAgentList = this.selectedCustomMessageAgents.map(el => el.id);
       this.isAgentListUpdating = true;
       try {
         await this.$store.dispatch('inboxMembers/create', {
           inboxId: this.inbox.id,
           agentList,
+          allowedAgents: customMessageAgentList,
         });
         useAlert(this.$t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
@@ -125,6 +129,9 @@ export default {
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS_SUB_TEXT')"
     >
+      <label class="font-semibold text-gray-700">
+        {{ $t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS') }}
+      </label>
       <multiselect
         v-model="selectedAgents"
         :options="agentList"
@@ -138,10 +145,33 @@ export default {
         selected-label
         :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
         :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
-        @select="v$.selectedAgents.$touch"
+        @select="v$?.selectedAgents?.$touch"
+      />
+
+      <label class="mt-4 font-semibold text-gray-700">
+        {{ $t('INBOX_MGMT.SETTINGS_POPUP.ALLOWED_CUSTOM_MESSAGE_AGENTS') }}
+      </label>
+      <p class="text-sm text-gray-500">
+        {{ $t('INBOX_MGMT.SETTINGS_POPUP.ALLOWED_CUSTOM_MESSAGE_AGENTS_SUB_TEXT') }}
+      </p>
+      <multiselect
+        v-model="selectedCustomMessageAgents"
+        :options="selectedAgents"
+        track-by="id"
+        label="name"
+        multiple
+        :close-on-select="false"
+        :clear-on-select="false"
+        hide-selected
+        placeholder="Select agents"
+        selected-label
+        :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+        :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+        @select="v$?.selectedCustomMessageAgents?.$touch"
       />
 
       <NextButton
+        class="mt-4"
         :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
         :is-loading="isAgentListUpdating"
         @click="updateAgents"
@@ -177,7 +207,7 @@ export default {
           :class="{ error: v$.maxAssignmentLimit.$error }"
           :error="maxAssignmentLimitErrors"
           :label="$t('INBOX_MGMT.AUTO_ASSIGNMENT.MAX_ASSIGNMENT_LIMIT')"
-          @blur="v$.maxAssignmentLimit.$touch"
+          @blur="v$?.maxAssignmentLimit?.$touch"
         />
 
         <p class="pb-1 text-sm not-italic text-n-slate-11">
