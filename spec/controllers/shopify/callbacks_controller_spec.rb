@@ -15,8 +15,6 @@ RSpec.describe Shopify::CallbacksController, type: :request do
     let(:response_body) do
       {
         'access_token' => access_token,
-        'token_type' => 'Bearer',
-        'expires_in' => 7200,
         'scope' => 'read_products,write_products'
       }
     end
@@ -50,8 +48,6 @@ RSpec.describe Shopify::CallbacksController, type: :request do
         expect(hook.status).to eq('enabled')
         expect(hook.reference_id).to eq(shop)
         expect(hook.settings).to eq(
-          'token_type' => 'Bearer',
-          'expires_in' => 7200,
           'scope' => 'read_products,write_products'
         )
         expect(response).to redirect_to(shopify_redirect_uri)

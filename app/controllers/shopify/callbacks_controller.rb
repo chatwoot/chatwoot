@@ -29,8 +29,6 @@ class Shopify::CallbacksController < ApplicationController
       status: 'enabled',
       reference_id: params[:shop],
       settings: {
-        token_type: parsed_body['token_type'],
-        expires_in: parsed_body['expires_in'],
         scope: parsed_body['scope']
       }
     )
