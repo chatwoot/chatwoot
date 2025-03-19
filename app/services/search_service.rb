@@ -35,16 +35,11 @@ class SearchService
   end
 
   def filter_messages
-    start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-
     @messages = if use_gin_search
                   filter_messages_with_gin
                 else
                   filter_messages_with_like
                 end
-
-    log_search_performance(start_time)
-    @messages
   end
 
   def filter_messages_with_gin
@@ -83,14 +78,6 @@ class SearchService
   def message_base_query
     current_account.messages.where(inbox_id: accessable_inbox_ids)
                    .where('created_at >= ?', 3.months.ago)
-  end
-
-  def log_search_performance(start_time)
-    end_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-    search_type = use_gin_search ? 'GIN' : 'ILIKE'
-    duration_ms = (end_time - start_time) * 1000
-
-    Rails.logger.info "[SearchService][#{current_account.id}] #{search_type} search query time: #{duration_ms}ms for #{search_query}"
   end
 
   def use_gin_search
