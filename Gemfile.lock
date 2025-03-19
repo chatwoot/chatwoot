@@ -352,6 +352,7 @@ GEM
       ruby2ruby (~> 2.4)
       ruby_parser (~> 3.10)
     hana (1.3.7)
+    hash_diff (1.1.1)
     hashdiff (1.1.0)
     hashie (5.0.0)
     html2text (0.4.0)
@@ -520,6 +521,9 @@ GEM
       rack (>= 1.2, < 4)
       snaky_hash (~> 2.0)
       version_gem (~> 1.1)
+    oj (3.16.10)
+      bigdecimal (>= 3.0)
+      ostruct (>= 0.2)
     omniauth (2.1.2)
       hashie (>= 3.4.6)
       rack (>= 2.2.3)
@@ -711,6 +715,7 @@ GEM
       parser
     scss_lint (0.60.0)
       sass (~> 3.5, >= 3.5.5)
+    securerandom (0.4.1)
     seed_dump (3.3.1)
       activerecord (>= 4)
       activesupport (>= 4)
@@ -725,6 +730,17 @@ GEM
       sentry-ruby (~> 5.19.0)
       sidekiq (>= 3.0)
     sexp_processor (4.17.0)
+    shopify_api (14.8.0)
+      activesupport
+      concurrent-ruby
+      hash_diff
+      httparty
+      jwt
+      oj
+      openssl
+      securerandom
+      sorbet-runtime
+      zeitwerk (~> 2.5)
     shoulda-matchers (5.3.0)
       activesupport (>= 5.2.0)
     sidekiq (7.3.1)
@@ -757,6 +773,7 @@ GEM
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
+    sorbet-runtime (0.5.11934)
     spring (4.1.1)
     spring-watcher-listen (2.1.0)
       listen (>= 2.7, < 4.0)
@@ -950,6 +967,7 @@ DEPENDENCIES
   sentry-rails (>= 5.19.0)
   sentry-ruby
   sentry-sidekiq (>= 5.19.0)
+  shopify_api
   shoulda-matchers
   sidekiq (>= 7.3.1)
   sidekiq-cron (>= 1.12.0)
