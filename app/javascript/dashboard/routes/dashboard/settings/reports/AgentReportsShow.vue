@@ -21,7 +21,7 @@ onMounted(() => store.dispatch('agents/get'));
     getter-key="agents/getAgents"
     action-key="agents/get"
     :selected-item="agent"
-    :download-button-label="'fdsafds'"
+    :download-button-label="$t('AGENT_REPORTS.DOWNLOAD_AGENT_REPORTS')"
     :report-title="$t('AGENT_REPORTS.HEADER')"
     has-back-button
   />
