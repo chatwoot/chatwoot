@@ -1,5 +1,14 @@
 require 'rails_helper'
 
+# Stub class for ShopifyAPI response
+class ShopifyAPIResponse
+  attr_reader :body
+
+  def initialize(body)
+    @body = body
+  end
+end
+
 RSpec.describe 'Shopify Integration API', type: :request do
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
@@ -42,87 +51,112 @@ RSpec.describe 'Shopify Integration API', type: :request do
     end
   end
 
-  #   describe 'GET /api/v1/accounts/:account_id/integrations/shopify/orders' do
-  #     before do
-  #       create(:integrations_hook, :shopify, account: account)
-  #     end
+  describe 'GET /api/v1/accounts/:account_id/integrations/shopify/orders' do
+    before do
+      create(:integrations_hook, :shopify, account: account)
+    end
 
-  #     context 'when it is an authenticated user' do
-  #       let(:shopify_client) { instance_double(ShopifyAPI::Clients::Rest::Admin) }
-  #       let(:customers_response) { double('ShopifyResponse', body: { 'customers' => [{ 'id' => '123' }] }) }
-  #       let(:orders_response) do
-  #         double('ShopifyResponse', body: { 'orders' => [{ 'id' => '456', 'email' => 'test@example.com', 'created_at' => Time.now.iso8601, 'total_price' => '100.00',
-  #                                                        'currency' => 'USD', 'fulfillment_status' => 'fulfilled', 'financial_status' => 'paid' }] })
-  #       end
+    context 'when it is an authenticated user' do
+      # rubocop:disable RSpec/AnyInstance
+      let(:shopify_client) { instance_double(ShopifyAPI::Clients::Rest::Admin) }
 
-  #       before do
-  #         controller_instance = instance_double(Api::V1::Accounts::Integrations::ShopifyController)
-  #         allow(Api::V1::Accounts::Integrations::ShopifyController).to receive(:new).and_return(controller_instance)
-  #         allow(controller_instance).to receive(:shopify_client).and_return(shopify_client)
-  #         allow(controller_instance).to receive(:client_id).and_return('test_client_id')
-  #         allow(controller_instance).to receive(:client_secret).and_return('test_client_secret')
-  #         allow(shopify_client).to receive(:get).with(
-  #           path: 'customers/search.json',
-  #           query: { query: "email:#{contact.email} OR phone:#{contact.phone_number}", fields: 'id,email,phone' }
-  #         ).and_return(customers_response)
+      let(:customers_response) do
+        instance_double(
+          ShopifyAPIResponse,
+          body: { 'customers' => [{ 'id' => '123' }] }
+        )
+      end
 
-  #         allow(shopify_client).to receive(:get).with(
-  #           path: 'orders.json',
-  #           query: { customer_id: '123', status: 'any', fields: 'id,email,created_at,total_price,currency,fulfillment_status,financial_status' }
-  #         ).and_return(orders_response)
-  #       end
+      let(:orders_response) do
+        instance_double(
+          ShopifyAPIResponse,
+          body: {
+            'orders' => [{
+              'id' => '456',
+              'email' => 'test@example.com',
+              'created_at' => Time.now.iso8601,
+              'total_price' => '100.00',
+              'currency' => 'USD',
+              'fulfillment_status' => 'fulfilled',
+              'financial_status' => 'paid'
+            }]
+          }
+        )
+      end
 
-  #       it 'returns orders for the contact' do
-  #         get "/api/v1/accounts/#{account.id}/integrations/shopify/orders",
-  #             params: { contact_id: contact.id },
-  #             headers: agent.create_new_auth_token,
-  #             as: :json
+      before do
+        allow_any_instance_of(Api::V1::Accounts::Integrations::ShopifyController).to receive(:shopify_client).and_return(shopify_client)
 
-  #         expect(response).to have_http_status(:ok)
-  #         expect(response.parsed_body).to have_key('orders')
-  #         expect(response.parsed_body['orders'].length).to eq(1)
-  #         expect(response.parsed_body['orders'][0]['id']).to eq('456')
-  #       end
+        allow_any_instance_of(Api::V1::Accounts::Integrations::ShopifyController).to receive(:client_id).and_return('test_client_id')
+        allow_any_instance_of(Api::V1::Accounts::Integrations::ShopifyController).to receive(:client_secret).and_return('test_client_secret')
 
-  #       it 'returns error when contact has no email or phone' do
-  #         contact_without_info = create(:contact, account: account)
+        allow(shopify_client).to receive(:get).with(
+          path: 'customers/search.json',
+          query: { query: "email:#{contact.email} OR phone:#{contact.phone_number}", fields: 'id,email,phone' }
+        ).and_return(customers_response)
 
-  #         get "/api/v1/accounts/#{account.id}/integrations/shopify/orders",
-  #             params: { contact_id: contact_without_info.id },
-  #             headers: agent.create_new_auth_token,
-  #             as: :json
+        allow(shopify_client).to receive(:get).with(
+          path: 'orders.json',
+          query: { customer_id: '123', status: 'any', fields: 'id,email,created_at,total_price,currency,fulfillment_status,financial_status' }
+        ).and_return(orders_response)
+      end
 
-  #         expect(response).to have_http_status(:unprocessable_entity)
-  #         expect(response.parsed_body['error']).to eq('Contact information missing')
-  #       end
+      it 'returns orders for the contact' do
+        get "/api/v1/accounts/#{account.id}/integrations/shopify/orders",
+            params: { contact_id: contact.id },
+            headers: agent.create_new_auth_token,
+            as: :json
 
-  #       it 'returns empty array when no customers found' do
-  #         empty_customers_response = double('ShopifyResponse', body: { 'customers' => [] })
-  #         allow(shopify_client).to receive(:get).with(
-  #           path: 'customers/search.json',
-  #           query: { query: "email:#{contact.email} OR phone:#{contact.phone_number}", fields: 'id,email,phone' }
-  #         ).and_return(empty_customers_response)
+        expect(response).to have_http_status(:ok)
+        expect(response.parsed_body).to have_key('orders')
+        expect(response.parsed_body['orders'].length).to eq(1)
+        expect(response.parsed_body['orders'][0]['id']).to eq('456')
+      end
 
-  #         get "/api/v1/accounts/#{account.id}/integrations/shopify/orders",
-  #             params: { contact_id: contact.id },
-  #             headers: agent.create_new_auth_token,
-  #             as: :json
+      it 'returns error when contact has no email or phone' do
+        contact_without_info = create(:contact, account: account)
 
-  #         expect(response).to have_http_status(:ok)
-  #         expect(response.parsed_body['orders']).to eq([])
-  #       end
-  #     end
+        get "/api/v1/accounts/#{account.id}/integrations/shopify/orders",
+            params: { contact_id: contact_without_info.id },
+            headers: agent.create_new_auth_token,
+            as: :json
 
-  #     context 'when it is an unauthenticated user' do
-  #       it 'returns unauthorized' do
-  #         get "/api/v1/accounts/#{account.id}/integrations/shopify/orders",
-  #             params: { contact_id: contact.id },
-  #             as: :json
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Contact information missing')
+      end
 
-  #         expect(response).to have_http_status(:unauthorized)
-  #       end
-  #     end
-  #   end
+      it 'returns empty array when no customers found' do
+        empty_customers_response = instance_double(
+          ShopifyAPIResponse,
+          body: { 'customers' => [] }
+        )
+
+        allow(shopify_client).to receive(:get).with(
+          path: 'customers/search.json',
+          query: { query: "email:#{contact.email} OR phone:#{contact.phone_number}", fields: 'id,email,phone' }
+        ).and_return(empty_customers_response)
+
+        get "/api/v1/accounts/#{account.id}/integrations/shopify/orders",
+            params: { contact_id: contact.id },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:ok)
+        expect(response.parsed_body['orders']).to eq([])
+      end
+      # rubocop:enable RSpec/AnyInstance
+    end
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/integrations/shopify/orders",
+            params: { contact_id: contact.id },
+            as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
 
   describe 'DELETE /api/v1/accounts/:account_id/integrations/shopify' do
     before do
