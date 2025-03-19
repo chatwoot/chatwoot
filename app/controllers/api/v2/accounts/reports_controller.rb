@@ -57,6 +57,12 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: bot_metrics
   end
 
+  def credit_usage
+    render json: {
+      credit_usage: rand(1..300)
+    }
+  end
+
   private
 
   def generate_csv(filename, template)
