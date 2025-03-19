@@ -1,6 +1,8 @@
 <script setup>
 import { computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
+
+import Button from 'dashboard/components-next/button/Button.vue';
 import FilterSelect from 'dashboard/components-next/filter/inputs/FilterSelect.vue';
 
 const props = defineProps({
@@ -117,35 +119,35 @@ onMounted(() => {
           v-model="currentPageSize"
           variant="outline"
           hide-icon
-          class="[&>button]:text-n-slate-11 [&>button]:hover:text-n-slate-12"
+          class="[&>button]:text-n-slate-11 [&>button]:hover:text-n-slate-12 [&>button]:h-6"
           :options="pageSizeOptions"
         />
-        <nav class="isolate inline-flex gap-1">
-          <woot-button
+        <nav class="isolate inline-flex items-center gap-1.5">
+          <Button
+            icon="i-lucide-chevrons-left"
+            ghost
+            slate
+            sm
+            class="!size-6"
             :disabled="!table.getCanPreviousPage()"
-            variant="clear"
-            class="h-8 border-0 flex items-center"
-            color-scheme="secondary"
             @click="table.setPageIndex(0)"
-          >
-            <span class="i-lucide-chevrons-left size-3" aria-hidden="true" />
-          </woot-button>
-          <woot-button
-            variant="clear"
-            class="h-8 border-0 flex items-center"
-            color-scheme="secondary"
+          />
+          <Button
+            icon="i-lucide-chevron-left"
+            ghost
+            slate
+            sm
+            class="!size-6"
             :disabled="!table.getCanPreviousPage()"
             @click="table.previousPage()"
-          >
-            <span class="i-lucide-chevron-left size-3" aria-hidden="true" />
-          </woot-button>
-          <woot-button
+          />
+          <Button
             v-for="page in visiblePages"
             :key="page"
-            variant="clear"
-            class="h-8 flex items-center justify-center text-xs leading-none text-center"
-            :class="page == currentPage ? 'border-n-brand' : 'border-slate-50'"
-            color-scheme="secondary"
+            xs
+            outline
+            :color="page == currentPage ? 'blue' : 'slate'"
+            class="!h-6 min-w-6"
             @click="table.setPageIndex(page - 1)"
           >
             <span
@@ -154,25 +156,25 @@ onMounted(() => {
             >
               {{ page }}
             </span>
-          </woot-button>
-          <woot-button
+          </Button>
+          <Button
+            icon="i-lucide-chevron-right"
+            ghost
+            slate
+            sm
+            class="!size-6"
             :disabled="!table.getCanNextPage()"
-            variant="clear"
-            class="h-8 border-0 flex items-center"
-            color-scheme="secondary"
             @click="table.nextPage()"
-          >
-            <span class="i-lucide-chevron-right size-3" aria-hidden="true" />
-          </woot-button>
-          <woot-button
+          />
+          <Button
+            icon="i-lucide-chevrons-right"
+            ghost
+            slate
+            sm
+            class="!size-6"
             :disabled="!table.getCanNextPage()"
-            variant="clear"
-            class="h-8 border-0 flex items-center"
-            color-scheme="secondary"
             @click="table.setPageIndex(table.getPageCount() - 1)"
-          >
-            <span class="i-lucide-chevrons-right size-3" aria-hidden="true" />
-          </woot-button>
+          />
         </nav>
       </div>
     </div>
