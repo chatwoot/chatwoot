@@ -72,7 +72,7 @@ textarea {
   }
 }
 
-$form-input-selector: "input[type]:not([type='file']):not([type='checkbox']):not([type='radio']):not([type='button']):not([type='submit']):not([type='reset']):not(.reset-base):not(.multiselect__input):not(.no-margin)";
+$form-input-selector: "input[type]:not([type='file']):not([type='checkbox']):not([type='radio']):not([type='range']):not([type='button']):not([type='submit']):not([type='reset']):not([type='color']):not([type='image']):not([type='hidden']):not(.reset-base):not(.multiselect__input):not(.no-margin)";
 
 #{$form-input-selector} {
   @apply field-base h-10;
