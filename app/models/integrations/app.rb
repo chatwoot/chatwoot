@@ -43,7 +43,7 @@ class Integrations::App
     end
   end
 
-  def active?(_account)
+  def active?(account)
     case params[:id]
     when 'slack'
       ENV['SLACK_CLIENT_SECRET'].present?
