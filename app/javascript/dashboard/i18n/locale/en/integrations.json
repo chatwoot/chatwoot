@@ -12,7 +12,8 @@
         "HELP": "Enter your Shopify store's myshopify.com URL",
         "CANCEL": "Cancel",
         "SUBMIT": "Connect Store"
-      }
+      },
+      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
     },
     "HEADER": "Integrations",
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",

@@ -98,7 +98,7 @@ export default {
             featureFlag: FEATURE_FLAGS.INTEGRATIONS,
             permissions: ['administrator'],
           },
-          props: route => ({ code: route.query.code }),
+          props: route => ({ error: route.query.error }),
         },
         {
           path: ':integration_id',

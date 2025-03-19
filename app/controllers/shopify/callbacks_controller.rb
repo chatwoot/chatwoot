@@ -12,7 +12,7 @@ class Shopify::CallbacksController < ApplicationController
     handle_response
   rescue StandardError => e
     Rails.logger.error("Shopify callback error: #{e.message}")
-    redirect_to base_url
+    redirect_to "#{redirect_uri}?error=true"
   end
 
   private
@@ -35,7 +35,7 @@ class Shopify::CallbacksController < ApplicationController
       }
     )
 
-    redirect_to "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{account.id}/settings/integrations/shopify"
+    redirect_to shopify_integration_url
   end
 
   def parsed_body
@@ -62,7 +62,13 @@ class Shopify::CallbacksController < ApplicationController
     @account_id ||= params[:state].split('_').first
   end
 
-  def base_url
+  def shopify_integration_url
+    "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{account.id}/settings/integrations/shopify"
+  end
+
+  def redirect_uri
+    return shopify_integration_url if account
+
     ENV.fetch('FRONTEND_URL', nil)
   end
 end

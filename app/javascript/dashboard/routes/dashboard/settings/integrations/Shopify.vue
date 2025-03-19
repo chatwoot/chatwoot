@@ -1,5 +1,12 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+
+defineProps({
+  error: {
+    type: String,
+    default: '',
+  },
+});
 import {
   useFunctionGetter,
   useMapGetter,
@@ -83,7 +90,10 @@ onMounted(() => {
 
 <template>
   <div class="flex-grow flex-shrink p-4 overflow-auto max-w-6xl mx-auto">
-    <div v-if="integrationLoaded && !uiFlags.isCreatingShopify">
+    <div
+      v-if="integrationLoaded && !uiFlags.isCreatingShopify"
+      class="flex flex-col gap-6"
+    >
       <Integration
         :integration-id="integration.id"
         :integration-logo="integration.logo"
@@ -105,7 +115,14 @@ onMounted(() => {
           </button>
         </template>
       </Integration>
-
+      <div
+        v-if="error"
+        class="flex items-center justify-center flex-1 outline outline-n-container outline-1 bg-n-alpha-3 rounded-md shadow p-6"
+      >
+        <p class="text-red-500">
+          {{ $t('INTEGRATION_SETTINGS.SHOPIFY.ERROR') }}
+        </p>
+      </div>
       <Dialog
         ref="dialogRef"
         :title="$t('INTEGRATION_SETTINGS.SHOPIFY.STORE_URL.TITLE')"
@@ -128,6 +145,7 @@ onMounted(() => {
         />
       </Dialog>
     </div>
+
     <div v-else class="flex items-center justify-center flex-1">
       <Spinner size="" color-scheme="primary" />
     </div>
