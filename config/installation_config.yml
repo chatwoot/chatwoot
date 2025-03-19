@@ -279,3 +279,16 @@
   description: 'Linear client secret'
   type: secret
 ## ------ End of Configs added for Linear ------ ##
+
+# ------- Shopify Integration Config ------- #
+- name: SHOPIFY_CLIENT_ID
+  display_title: 'Shopify Client ID'
+  description: 'The Client ID (API Key) from your Shopify Partner account'
+  locked: false
+  type: secret
+- name: SHOPIFY_CLIENT_SECRET
+  display_title: 'Shopify Client Secret'
+  description: 'The Client Secret (API Secret Key) from your Shopify Partner account'
+  locked: false
+  type: secret
+# ------- End of Shopify Related Config ------- #

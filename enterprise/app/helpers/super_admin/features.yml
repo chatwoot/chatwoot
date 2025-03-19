@@ -85,3 +85,9 @@ linear:
   enabled: true
   icon: 'icon-linear'
   config_key: 'linear'
+shopify:
+  name: 'Shopify'
+  description: 'Configuration for setting up Shopify'
+  enabled: true
+  icon: 'icon-shopify'
+  config_key: 'shopify'

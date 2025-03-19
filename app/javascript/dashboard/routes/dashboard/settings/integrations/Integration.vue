@@ -6,6 +6,8 @@ import { useI18n } from 'vue-i18n';
 import { frontendURL } from '../../../../helper/URLHelper';
 import { useAlert } from 'dashboard/composables';
 import { useInstallationName } from 'shared/mixins/globalConfigMixin';
+
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -25,17 +27,21 @@ const { t } = useI18n();
 const store = useStore();
 const router = useRouter();
 
-const showDeleteConfirmationPopup = ref(false);
+const dialogRef = ref(null);
 
 const accountId = computed(() => store.getters.getCurrentAccountId);
 const globalConfig = computed(() => store.getters['globalConfig/get']);
 
 const openDeletePopup = () => {
-  showDeleteConfirmationPopup.value = true;
+  if (dialogRef.value) {
+    dialogRef.value.open();
+  }
 };
 
 const closeDeletePopup = () => {
-  showDeleteConfirmationPopup.value = false;
+  if (dialogRef.value) {
+    dialogRef.value.close();
+  }
 };
 
 const deleteIntegration = async () => {
@@ -50,16 +56,18 @@ const deleteIntegration = async () => {
 const confirmDeletion = () => {
   closeDeletePopup();
   deleteIntegration();
-  router.push({ name: 'settings_integrations' });
+  router.push({ name: 'settings_applications' });
 };
 </script>
 
 <template>
   <div
-    class="flex flex-col items-start justify-between md:flex-row md:items-center p-4 outline outline-n-container outline-1 bg-n-alpha-3 rounded-md shadow"
+    class="flex flex-col items-start justify-between lg:flex-row lg:items-center p-6 outline outline-n-container outline-1 bg-n-alpha-3 rounded-md shadow gap-6"
   >
-    <div class="flex items-center justify-start flex-1 m-0 mx-4 gap-6">
-      <div class="flex h-16 w-16 items-center justify-center">
+    <div
+      class="flex items-start lg:items-center justify-start flex-1 m-0 gap-6 flex-col lg:flex-row"
+    >
+      <div class="flex h-16 w-16 items-center justify-center flex-shrink-0">
         <img
           :src="`/dashboard/images/integrations/${integrationId}.png`"
           class="max-w-full rounded-md border border-n-weak shadow-sm block dark:hidden bg-n-alpha-3 dark:bg-n-alpha-2"
@@ -83,7 +91,7 @@ const confirmDeletion = () => {
         </p>
       </div>
     </div>
-    <div class="flex justify-center items-center mb-0 w-[15%]">
+    <div class="flex justify-center items-center mb-0">
       <router-link
         :to="
           frontendURL(
@@ -105,33 +113,37 @@ const confirmDeletion = () => {
           </div>
           <div v-else>
             <NextButton faded blue>
-              {{ $t('INTEGRATION_SETTINGS.WEBHOOK.CONFIGURE') }}
+              {{ t('INTEGRATION_SETTINGS.WEBHOOK.CONFIGURE') }}
             </NextButton>
           </div>
         </div>
       </router-link>
       <div v-if="!integrationEnabled">
-        <a :href="integrationAction">
-          <NextButton faded blue>
-            {{ $t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT') }}
-          </NextButton>
-        </a>
+        <slot name="action">
+          <a :href="integrationAction">
+            <NextButton faded blue>
+              {{ t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT') }}
+            </NextButton>
+          </a>
+        </slot>
       </div>
     </div>
-    <woot-delete-modal
-      v-model:show="showDeleteConfirmationPopup"
-      :on-close="closeDeletePopup"
-      :on-confirm="confirmDeletion"
+    <Dialog
+      ref="dialogRef"
+      type="alert"
       :title="
         deleteConfirmationText.title ||
-        $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.TITLE')
+        t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.TITLE')
       "
-      :message="
+      :description="
         deleteConfirmationText.message ||
-        $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.MESSAGE')
+        t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.MESSAGE')
       "
-      :confirm-text="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.YES')"
-      :reject-text="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.NO')"
+      :confirm-button-label="
+        t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.YES')
+      "
+      :cancel-button-label="t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.NO')"
+      @confirm="confirmDeletion"
     />
   </div>
 </template>
