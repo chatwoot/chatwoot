@@ -29,8 +29,7 @@ export default {
         if (IFrameHelper.isIFrame()) {
           IFrameHelper.sendMessage({
             event: 'postback',
-            payload: this.action.payload,
-            text: this.action.text,
+            data: { payload: this.action.payload },
           });
         }
       }

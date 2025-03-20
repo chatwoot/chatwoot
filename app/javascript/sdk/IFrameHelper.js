@@ -203,11 +203,10 @@ export const IFrameHelper = {
       updateCampaignReadStatus(window.$chatwoot.baseDomain);
     },
 
-    postback({ payload, text }) {
-      // Handle postback from card buttons
+    postback(data) {
       dispatchWindowEvent({
         eventName: 'chatwoot:postback',
-        data: { payload, text },
+        data,
       });
     },
 
