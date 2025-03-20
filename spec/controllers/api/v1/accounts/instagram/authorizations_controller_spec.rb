@@ -25,24 +25,29 @@ RSpec.describe 'Instagram Authorization API', type: :request do
       end
 
       it 'creates a new authorization and returns the redirect url' do
-        mock_url = 'https://api.instagram.com/oauth/authorize?mock=true'
-        auth_code_double = instance_double(OAuth2::Strategy::AuthCode)
-        allow(auth_code_double).to receive(:authorize_url).and_return(mock_url)
-
-        client_double = instance_double(OAuth2::Client)
-        allow(client_double).to receive(:auth_code).and_return(auth_code_double)
-
-        allow_any_instance_of(Api::V1::Accounts::Instagram::AuthorizationsController)
-          .to receive(:instagram_client)
-          .and_return(client_double)
-
         post "/api/v1/accounts/#{account.id}/instagram/authorization",
              headers: administrator.create_new_auth_token,
              as: :json
 
         expect(response).to have_http_status(:success)
         expect(response.parsed_body['success']).to be true
-        expect(response.parsed_body['url']).to eq mock_url
+
+        instagram_service = Class.new do
+          extend InstagramConcern
+          extend Instagram::IntegrationHelper
+        end
+        frontend_url = ENV.fetch('FRONTEND_URL', 'http://localhost:3000')
+        response_url = instagram_service.instagram_client.auth_code.authorize_url(
+          {
+            redirect_uri: "#{frontend_url}/instagram/callback",
+            scope: Instagram::IntegrationHelper::REQUIRED_SCOPES.join(','),
+            enable_fb_login: '0',
+            force_authentication: '1',
+            response_type: 'code',
+            state: instagram_service.generate_instagram_token(account.id)
+          }
+        )
+        expect(response.parsed_body['url']).to eq response_url
       end
     end
   end
