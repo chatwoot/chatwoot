@@ -89,7 +89,9 @@ class Captain::Llm::ConversationFaqService < Llm::BaseOpenAiService
   end
 
   def chat_parameters
-    prompt = Captain::Llm::SystemPromptsService.conversation_faq_generator
+    account_language = @conversation.account.locale_english_name
+    prompt = Captain::Llm::SystemPromptsService.conversation_faq_generator(account_language)
+
     {
       model: @model,
       response_format: { type: 'json_object' },
