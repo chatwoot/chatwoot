@@ -10,6 +10,7 @@ import AgentBotRow from './components/AgentBotRow.vue';
 
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const router = useRouter();
 const store = useStore();
@@ -68,13 +69,11 @@ const onEditAgentBot = bot => {
         feature-name="agent_bots"
       >
         <template #actions>
-          <woot-button
-            class="rounded-md button nice"
-            icon="add-circle"
+          <Button
+            icon="i-lucide-circle-plus"
+            :label="$t('AGENT_BOTS.ADD.TITLE')"
             @click="onConfigureNewBot"
-          >
-            {{ $t('AGENT_BOTS.ADD.TITLE') }}
-          </woot-button>
+          />
         </template>
       </BaseSettingsHeader>
     </template>
