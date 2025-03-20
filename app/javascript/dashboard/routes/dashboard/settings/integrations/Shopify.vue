@@ -11,6 +11,7 @@ import integrationAPI from 'dashboard/api/integrations';
 
 import Input from 'dashboard/components-next/input/Input.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 defineProps({
   error: {
@@ -105,12 +106,11 @@ onMounted(() => {
         }"
       >
         <template #action>
-          <button
-            class="rounded button success nice"
+          <Button
+            teal
+            :label="$t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT')"
             @click="openStoreUrlDialog"
-          >
-            {{ $t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT') }}
-          </button>
+          />
         </template>
       </Integration>
       <div
