@@ -16,7 +16,7 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'status',
           filter_operator: 'equal_to',
-          values: ['open'],
+          values: [{ id: 'open', name: 'Open' }],
           query_operator: 'and',
         },
       ];
@@ -29,7 +29,7 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'status',
           filter_operator: 'not_equal_to',
-          values: ['open'],
+          values: [{ id: 'open', name: 'Open' }],
           query_operator: 'and',
         },
       ];
@@ -43,7 +43,7 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'assignee_id',
           filter_operator: 'equal_to',
-          values: [1],
+          values: { id: 1, name: 'John Doe' },
           query_operator: 'and',
         },
       ];
@@ -56,7 +56,7 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'assignee_id',
           filter_operator: 'not_equal_to',
-          values: [2],
+          values: { id: 2, name: 'Jane Smith' },
           query_operator: 'and',
         },
       ];
@@ -109,7 +109,7 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'priority',
           filter_operator: 'equal_to',
-          values: ['urgent'],
+          values: [{ id: 'urgent', name: 'Urgent' }],
           query_operator: 'and',
         },
       ];
@@ -122,7 +122,7 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'priority',
           filter_operator: 'not_equal_to',
-          values: ['urgent'],
+          values: [{ id: 'urgent', name: 'Urgent' }],
           query_operator: 'and',
         },
       ];
@@ -136,7 +136,7 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'display_id',
           filter_operator: 'equal_to',
-          values: ['12345'],
+          values: '12345',
           query_operator: 'and',
         },
       ];
@@ -149,7 +149,7 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'display_id',
           filter_operator: 'contains',
-          values: ['234'],
+          values: '234',
           query_operator: 'and',
         },
       ];
@@ -162,7 +162,7 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'display_id',
           filter_operator: 'does_not_contain',
-          values: ['234'],
+          values: '234',
           query_operator: 'and',
         },
       ];
@@ -175,7 +175,7 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'display_id',
           filter_operator: 'does_not_contain',
-          values: ['678'],
+          values: '678',
           query_operator: 'and',
         },
       ];
@@ -189,7 +189,7 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'labels',
           filter_operator: 'equal_to',
-          values: ['urgent'],
+          values: [{ id: 'urgent', name: 'Urgent' }],
           query_operator: 'and',
         },
       ];
@@ -202,7 +202,7 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'labels',
           filter_operator: 'equal_to',
-          values: ['billing'],
+          values: [{ id: 'billing', name: 'Billing' }],
           query_operator: 'and',
         },
       ];
@@ -215,7 +215,7 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'labels',
           filter_operator: 'not_equal_to',
-          values: ['billing'],
+          values: [{ id: 'billing', name: 'Billing' }],
           query_operator: 'and',
         },
       ];
@@ -270,7 +270,7 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'browser_language',
           filter_operator: 'equal_to',
-          values: ['en-US'],
+          values: 'en-US',
           query_operator: 'and',
         },
       ];
@@ -285,7 +285,7 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'referer',
           filter_operator: 'contains',
-          values: ['chatwoot'],
+          values: 'chatwoot',
           query_operator: 'and',
         },
       ];
@@ -300,7 +300,7 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'referer',
           filter_operator: 'does_not_contain',
-          values: ['chatwoot'],
+          values: 'chatwoot',
           query_operator: 'and',
         },
       ];
@@ -314,7 +314,7 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'created_at',
           filter_operator: 'is_greater_than',
-          values: [1647691200000], // March 19, 2022
+          values: '2022-03-19',
           query_operator: 'and',
         },
       ];
@@ -327,7 +327,7 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'created_at',
           filter_operator: 'is_greater_than',
-          values: [1647777600000], // March 20, 2022
+          values: '2022-03-20',
           query_operator: 'and',
         },
       ];
@@ -340,7 +340,7 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'created_at',
           filter_operator: 'is_less_than',
-          values: [1647864000000], // March 21, 2022
+          values: '2022-03-21', // March 21, 2022
           query_operator: 'and',
         },
       ];
@@ -364,7 +364,7 @@ describe('filterHelpers', () => {
           {
             attribute_key: 'created_at',
             filter_operator: 'days_before',
-            values: [3], // 3 days before March 25 = March 22
+            values: '3', // 3 days before March 25 = March 22
             query_operator: 'and',
           },
         ];
@@ -383,19 +383,22 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'status',
           filter_operator: 'equal_to',
-          values: ['open'],
+          values: [{ id: 'open', name: 'Open' }],
           query_operator: 'and',
         },
         {
           attribute_key: 'priority',
           filter_operator: 'equal_to',
-          values: ['urgent'],
+          values: [{ id: 'urgent', name: 'Urgent' }],
           query_operator: 'and',
         },
         {
           attribute_key: 'assignee_id',
           filter_operator: 'equal_to',
-          values: [1],
+          values: {
+            id: 1,
+            name: 'Agent',
+          },
           query_operator: 'and',
         },
       ];
@@ -412,19 +415,22 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'status',
           filter_operator: 'equal_to',
-          values: ['open'],
+          values: [{ id: 'open', name: 'Open' }],
           query_operator: 'and',
         },
         {
           attribute_key: 'priority',
           filter_operator: 'equal_to',
-          values: ['low'], // This doesn't match
+          values: [{ id: 'low', name: 'Low' }], // This doesn't match
           query_operator: 'and',
         },
         {
           attribute_key: 'assignee_id',
           filter_operator: 'equal_to',
-          values: [1],
+          values: {
+            id: 1,
+            name: 'Agent',
+          },
           query_operator: 'and',
         },
       ];
@@ -440,13 +446,13 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'status',
           filter_operator: 'equal_to',
-          values: ['closed'],
+          values: [{ id: 'closed', name: 'Closed' }],
           query_operator: 'or',
         },
         {
           attribute_key: 'priority',
           filter_operator: 'equal_to',
-          values: ['low'],
+          values: [{ id: 'low', name: 'Low' }],
           query_operator: 'and',
         },
       ];
@@ -462,13 +468,13 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'status',
           filter_operator: 'equal_to',
-          values: ['open'], // This matches
+          values: [{ id: 'open', name: 'Open' }], // This matches
           query_operator: 'or',
         },
         {
           attribute_key: 'priority',
           filter_operator: 'equal_to',
-          values: ['urgent'], // This doesn't match
+          values: [{ id: 'urgent', name: 'Urgent' }], // This doesn't match
           query_operator: 'and',
         },
       ];
@@ -489,7 +495,7 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'team_id',
           filter_operator: 'equal_to',
-          values: [5],
+          values: { id: 5, name: 'Support' },
           query_operator: 'and',
         },
       ];
@@ -554,7 +560,7 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'customer_type',
           filter_operator: 'equal_to',
-          values: ['premium'],
+          values: 'premium',
           query_operator: 'and',
           attributeModel: 'customAttributes',
         },
@@ -572,7 +578,7 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'notes',
           filter_operator: 'contains',
-          values: ['refund'],
+          values: 'refund',
           query_operator: 'and',
           attributeModel: 'customAttributes',
         },
@@ -593,19 +599,19 @@ describe('filterHelpers', () => {
         {
           attribute_key: 'status',
           filter_operator: 'equal_to',
-          values: ['open'],
+          values: [{ id: 'open', name: 'Open' }],
           query_operator: 'and',
         },
         {
           attribute_key: 'created_at',
           filter_operator: 'is_greater_than',
-          values: [1647691200000], // March 19, 2022
+          values: '2022-03-19', // March 19, 2022
           query_operator: 'and',
         },
         {
           attribute_key: 'customer_type',
           filter_operator: 'equal_to',
-          values: ['premium'],
+          values: 'premium',
           query_operator: 'and',
           attributeModel: 'customAttributes',
         },
@@ -629,19 +635,19 @@ describe('filterHelpers', () => {
             {
               attribute_key: 'status',
               filter_operator: 'equal_to',
-              values: ['open'],
+              values: [{ id: 'open', name: 'Open' }],
               query_operator: 'and',
             },
             {
               attribute_key: 'priority',
               filter_operator: 'equal_to',
-              values: ['urgent'],
+              values: [{ id: 'urgent', name: 'Urgent' }],
               query_operator: 'or',
             },
             {
               attribute_key: 'display_id',
               filter_operator: 'equal_to',
-              values: ['12345'],
+              values: '12345',
               query_operator: null,
             },
           ];
@@ -662,19 +668,19 @@ describe('filterHelpers', () => {
             {
               attribute_key: 'status',
               filter_operator: 'equal_to',
-              values: ['open'],
+              values: [{ id: 'open', name: 'Open' }],
               query_operator: 'and',
             },
             {
               attribute_key: 'priority',
               filter_operator: 'equal_to',
-              values: ['urgent'],
+              values: [{ id: 'urgent', name: 'Urgent' }],
               query_operator: 'or',
             },
             {
               attribute_key: 'display_id',
               filter_operator: 'equal_to',
-              values: ['12345'],
+              values: '12345',
               query_operator: null,
             },
           ];
@@ -695,19 +701,19 @@ describe('filterHelpers', () => {
             {
               attribute_key: 'status',
               filter_operator: 'equal_to',
-              values: ['open'],
+              values: [{ id: 'open', name: 'Open' }],
               query_operator: 'and',
             },
             {
               attribute_key: 'priority',
               filter_operator: 'equal_to',
-              values: ['urgent'],
+              values: [{ id: 'urgent', name: 'Urgent' }],
               query_operator: 'or',
             },
             {
               attribute_key: 'display_id',
               filter_operator: 'equal_to',
-              values: ['12345'],
+              values: '12345',
               query_operator: null,
             },
           ];
@@ -728,19 +734,24 @@ describe('filterHelpers', () => {
             {
               attribute_key: 'status',
               filter_operator: 'equal_to',
-              values: ['open'],
+              values: [{ id: 'open', name: 'Open' }],
               query_operator: 'and',
             },
             {
               attribute_key: 'priority',
               filter_operator: 'equal_to',
-              values: ['urgent'],
+              values: [
+                {
+                  id: 'urgent',
+                  name: 'Urgent',
+                },
+              ],
               query_operator: 'or',
             },
             {
               attribute_key: 'display_id',
               filter_operator: 'equal_to',
-              values: ['12345'],
+              values: '12345',
               query_operator: null,
             },
           ];
@@ -764,19 +775,19 @@ describe('filterHelpers', () => {
             {
               attribute_key: 'status',
               filter_operator: 'equal_to',
-              values: ['open'],
+              values: [{ id: 'open', name: 'Open' }],
               query_operator: 'or',
             },
             {
               attribute_key: 'priority',
               filter_operator: 'equal_to',
-              values: ['low'],
+              values: [{ id: 'low', name: 'Low' }],
               query_operator: 'and',
             },
             {
               attribute_key: 'display_id',
               filter_operator: 'equal_to',
-              values: ['67890'],
+              values: '67890',
               query_operator: null,
             },
           ];
@@ -797,19 +808,19 @@ describe('filterHelpers', () => {
             {
               attribute_key: 'status',
               filter_operator: 'equal_to',
-              values: ['open'],
+              values: [{ id: 'open', name: 'Open' }],
               query_operator: 'or',
             },
             {
               attribute_key: 'priority',
               filter_operator: 'equal_to',
-              values: ['low'],
+              values: [{ id: 'low', name: 'Low' }],
               query_operator: 'and',
             },
             {
               attribute_key: 'display_id',
               filter_operator: 'equal_to',
-              values: ['67890'],
+              values: '67890',
               query_operator: null,
             },
           ];
@@ -836,25 +847,25 @@ describe('filterHelpers', () => {
             {
               attribute_key: 'status',
               filter_operator: 'equal_to',
-              values: ['open'],
+              values: [{ id: 'open', name: 'Open' }],
               query_operator: 'and',
             },
             {
               attribute_key: 'priority',
               filter_operator: 'equal_to',
-              values: ['urgent'],
+              values: [{ id: 'urgent', name: 'Urgent' }],
               query_operator: 'or',
             },
             {
               attribute_key: 'display_id',
               filter_operator: 'equal_to',
-              values: ['67890'],
+              values: '67890',
               query_operator: 'and',
             },
             {
               attribute_key: 'browser_language',
               filter_operator: 'equal_to',
-              values: ['tr'],
+              values: 'tr',
               query_operator: null,
             },
           ];
@@ -878,25 +889,25 @@ describe('filterHelpers', () => {
             {
               attribute_key: 'status',
               filter_operator: 'equal_to',
-              values: ['open'],
+              values: [{ id: 'open', name: 'Open' }],
               query_operator: 'and',
             },
             {
               attribute_key: 'priority',
               filter_operator: 'equal_to',
-              values: ['urgent'],
+              values: [{ id: 'urgent', name: 'Urgent' }],
               query_operator: 'or',
             },
             {
               attribute_key: 'display_id',
               filter_operator: 'equal_to',
-              values: ['67890'],
+              values: '67890',
               query_operator: 'and',
             },
             {
               attribute_key: 'browser_language',
               filter_operator: 'equal_to',
-              values: ['tr'],
+              values: 'tr',
               query_operator: null,
             },
           ];
@@ -923,26 +934,27 @@ describe('filterHelpers', () => {
             {
               attribute_key: 'status',
               filter_operator: 'equal_to',
-              values: ['open'],
+              values: [{ id: 'open', name: 'Open' }],
               query_operator: 'and',
             },
             {
               attribute_key: 'priority',
               filter_operator: 'equal_to',
-              values: ['urgent'],
+              values: [{ id: 'urgent', name: 'Urgent' }],
               query_operator: 'or',
             },
             {
               attribute_key: 'display_id',
               filter_operator: 'equal_to',
-              values: ['67890'],
+              values: '67890',
               query_operator: 'and',
             },
             {
               attribute_key: 'conversation_type',
               filter_operator: 'equal_to',
-              values: ['platinum'],
+              values: 'platinum',
               query_operator: null,
+              attributeModel: 'customAttributes',
             },
           ];
 
@@ -965,26 +977,27 @@ describe('filterHelpers', () => {
             {
               attribute_key: 'status',
               filter_operator: 'equal_to',
-              values: ['open'],
+              values: [{ id: 'open', name: 'Open' }],
               query_operator: 'and',
             },
             {
               attribute_key: 'priority',
               filter_operator: 'equal_to',
-              values: ['urgent'],
+              values: [{ id: 'urgent', name: 'Urgent' }],
               query_operator: 'or',
             },
             {
               attribute_key: 'display_id',
               filter_operator: 'equal_to',
-              values: ['67890'],
+              values: '67890',
               query_operator: 'and',
             },
             {
               attribute_key: 'conversation_type',
               filter_operator: 'equal_to',
-              values: ['platinum'],
+              values: 'platinum',
               query_operator: null,
+              attributeModel: 'customAttributes',
             },
           ];
 
