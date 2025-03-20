@@ -12,6 +12,8 @@
     "NO_INBOX_2": " norint pradėti",
     "NO_INBOX_AGENT": "Oi! Atrodo, kad nesate jokio gautų laiškų aplanko dalis. Susisiekite su administratoriumi",
     "SEARCH_MESSAGES": "Ieškokite pranešimų pokalbiuose",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "norėdami atidaryti komandų meniu",
       "KEYBOARD_SHORTCUTS": "norėdami peržiūrėti sparčiuosius klavišus"

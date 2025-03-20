@@ -2,8 +2,8 @@
   "AGENT_BOTS": {
     "HEADER": "機器人",
     "LOADING_EDITOR": "正在載入編輯器...",
-    "HEADER_BTN_TXT": "新增機器人設定",
-    "SIDEBAR_TXT": "<p><b>代理機器人</b> <p>代理機器人就像您團隊中最出色的成員。他們可以幫助您處理小事情，因此您可以專注於其他更重要的事情。嘗試一下。</p> <p> 您可以從此頁面管理您的機器人，或使用「新增機器人配置」按鈕建立新機器人。</p> <p> 打開 <a href=\"https:/ /www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">代理機器人手冊</a>在另一個選項卡中尋求協助。</p>",
+    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.You can manage your bots from this page or create new ones using the 'Configure new bot' button.",
+    "LEARN_MORE": "Learn about agent bots",
     "CSML_BOT_EDITOR": {
       "NAME": {
         "LABEL": "機器人名稱",

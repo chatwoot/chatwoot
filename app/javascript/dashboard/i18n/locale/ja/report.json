@@ -476,6 +476,18 @@
         "STATUS": "状況"
       }
     },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "チーム",
+        "OPEN": "再開する",
+        "UNATTENDED": "未対応",
+        "STATUS": "状況"
+      }
+    },
     "AGENT_STATUS": {
       "HEADER": "担当者ステータス",
       "ONLINE": "オンライン",
