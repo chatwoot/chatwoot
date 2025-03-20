@@ -2,6 +2,8 @@
 import { useI18n } from 'vue-i18n';
 import { getI18nKey } from 'dashboard/routes/dashboard/settings/helper/settingsHelper';
 
+import Button from 'dashboard/components-next/button/Button.vue';
+
 defineProps({
   roles: {
     type: Array,
@@ -44,22 +46,20 @@ const getFormattedPermissions = role => {
         {{ getFormattedPermissions(customRole) }}
       </td>
       <td class="flex justify-end gap-1 py-4">
-        <woot-button
+        <Button
           v-tooltip.top="$t('CUSTOM_ROLE.EDIT.BUTTON_TEXT')"
-          variant="smooth"
-          size="tiny"
-          color-scheme="secondary"
-          class-names="grey-btn"
-          icon="edit"
+          icon="i-lucide-pen"
+          slate
+          xs
+          faded
           @click="emit('edit', customRole)"
         />
-        <woot-button
+        <Button
           v-tooltip.top="$t('CUSTOM_ROLE.DELETE.BUTTON_TEXT')"
-          variant="smooth"
-          color-scheme="alert"
-          size="tiny"
-          icon="dismiss-circle"
-          class-names="grey-btn"
+          icon="i-lucide-trash-2"
+          xs
+          ruby
+          faded
           :is-loading="loading[customRole.id]"
           @click="emit('delete', customRole)"
         />
