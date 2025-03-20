@@ -214,6 +214,7 @@ const isSubmitDisabled = computed(
         <Button
           faded
           slate
+          type="reset"
           :label="$t('CUSTOM_ROLE.FORM.CANCEL_BUTTON_TEXT')"
           @click.prevent="emit('close')"
         />
