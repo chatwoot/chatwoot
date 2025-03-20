@@ -10,7 +10,7 @@
  *    both top-level properties and nested attributes.
  * 2. matchesCondition: Evaluates a single filter condition against a value.
  * 3. matchesFilters: Evaluates a complete filter chain against a conversation.
- * 4. buildJsonLogicRule: Transforms evaluated filters into a JSON Logic rule that
+ * 4. buildJsonLogicRule: Transforms evaluated filters into a JSON Logic frule that
  *    respects SQL-like operator precedence.
  *
  * Filter Structure:
@@ -97,30 +97,48 @@ const getValueFromConversation = (conversation, attributeKey) => {
  * @returns {Boolean} - Returns true if the value matches the filter
  */
 const matchesCondition = (value, filter) => {
-  const { filterOperator, values } = filter;
+  const { filter_operator: filterOperator, values } = filter;
 
   // Handle null/undefined values
   if (value === null || value === undefined) {
     return filterOperator === 'is_not_present';
   }
 
+  const resolvedValue = candidate => {
+    if (
+      typeof candidate === 'object' &&
+      candidate !== null &&
+      'id' in candidate
+    ) {
+      return candidate.id;
+    }
+
+    return candidate;
+  };
+
+  const valuesInFilter = Array.isArray(values)
+    ? values.map(resolvedValue)
+    : resolvedValue(values);
+
   switch (filterOperator) {
     case 'equal_to':
       if (Array.isArray(value)) {
         // For array values like labels, check if any of the filter values exist in the array
-        return values.some(val => value.includes(val));
+        return valuesInFilter.some(val => value.includes(val));
       }
-      return values.includes(value);
+
+      return valuesInFilter.includes(value);
 
     case 'not_equal_to':
       if (Array.isArray(value)) {
-        return !values.some(val => value.includes(val));
+        return !valuesInFilter.some(val => value.includes(val));
       }
-      return !values.includes(value);
+
+      return !valuesInFilter.includes(value);
 
     case 'contains':
       if (typeof value === 'string') {
-        return values.some(val =>
+        return valuesInFilter.some(val =>
           value.toLowerCase().includes(val.toLowerCase())
         );
       }
@@ -128,7 +146,7 @@ const matchesCondition = (value, filter) => {
 
     case 'does_not_contain':
       if (typeof value === 'string') {
-        return !values.some(val =>
+        return !valuesInFilter.some(val =>
           value.toLowerCase().includes(val.toLowerCase())
         );
       }
@@ -141,14 +159,14 @@ const matchesCondition = (value, filter) => {
       return false; // We already handled null/undefined above
 
     case 'is_greater_than':
-      return value > values[0];
+      return value > valuesInFilter;
 
     case 'is_less_than':
-      return value < values[0];
+      return value < valuesInFilter;
 
     case 'days_before': {
       const today = new Date();
-      const daysInMilliseconds = values[0] * 24 * 60 * 60 * 1000;
+      const daysInMilliseconds = valuesInFilter * 24 * 60 * 60 * 1000;
       const targetDate = new Date(today.getTime() - daysInMilliseconds);
       return value < targetDate.getTime();
     }
@@ -267,11 +285,11 @@ export const matchesFilters = (conversation, filters) => {
 
   // First, evaluate all conditions and collect their results and operators
   const evaluatedFilters = filters.map((filter, index) => {
-    const value = getValueFromConversation(conversation, filter.attributeKey);
+    const value = getValueFromConversation(conversation, filter.attribute_key);
     const result = matchesCondition(value, filter);
     // The operator is used to connect to the next filter (if any)
     const operator =
-      index < filters.length - 1 ? filter.queryOperator || 'and' : null;
+      index < filters.length - 1 ? filter.query_operator || 'and' : null;
 
     return {
       result,
