@@ -476,6 +476,18 @@
         "STATUS": "Statuss"
       }
     },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "Visas Komandas",
+      "HEADER": "Komandu sarunas",
+      "LOADING_MESSAGE": "Notiek komandu metrikas ielāde...",
+      "NO_TEAMS": "Dati nav pieejami",
+      "TABLE_HEADER": {
+        "TEAM": "Komanda",
+        "OPEN": "Atvērt",
+        "UNATTENDED": "Bez uzraudzības",
+        "STATUS": "Statuss"
+      }
+    },
     "AGENT_STATUS": {
       "HEADER": "Aģenta statuss",
       "ONLINE": "Tiešsaistē",

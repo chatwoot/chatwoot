@@ -12,6 +12,8 @@
     "NO_INBOX_2": " per començar",
     "NO_INBOX_AGENT": "Uh Oh! Sembla que no ets a cap safata d'entrada. Si us plau, poseu-vos en contacte amb l'administrador",
     "SEARCH_MESSAGES": "Cerca missatges a les converses",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "per obrir el menú d'ordres",
       "KEYBOARD_SHORTCUTS": "per veure les dreceres del teclat"

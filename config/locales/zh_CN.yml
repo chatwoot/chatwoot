@@ -69,7 +69,7 @@ zh_CN:
       invalid_query_operator: 查询操作符必须为 "AND" 或 "OR"。
       invalid_value: 无效的值。为 %{attribute_name} 提供的值无效
     custom_attribute_definition:
-      key_conflict: The provided key is not allowed as it might conflict with default attributes.
+      key_conflict: 提供的键不允许使用，因为它可能与默认属性冲突。
   reports:
     period: 报告周期 %{since} 至 %{until}
     utc_warning: 生成的报表在 UTC 时区
@@ -203,7 +203,7 @@ zh_CN:
       name: 'Slack'
       description: "将 Chatwoot 与 Slack 集成，以保持团队的同步。此集成允许您接收新对话的通知并直接在 Slack 界面中响应它们。"
     webhooks:
-      name: ''
+      name: 'Webhooks'
       description: 'Webhook 事件提供有关 Chatwoot 帐户中活动的实时更新。您可以订阅您喜欢的事件，Chatwoot 将向您发送带有更新的 HTTP 回调。'
     dialogflow:
       name: 'Dialogflow'
