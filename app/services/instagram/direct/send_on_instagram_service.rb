@@ -12,17 +12,30 @@ class Instagram::Direct::SendOnInstagramService < Base::SendOnChannelService
   end
 
   def perform_reply
-    Rails.logger.info("Sending message to Instagram: #{message.inspect}")
-    if message.attachments.present?
-      message.attachments.each do |attachment|
-        send_to_instagram attachment_message_params(attachment)
-      end
-    end
-
-    send_to_instagram message_params if message.content.present?
+    log_instagram_message
+    send_attachments if message.attachments.present?
+    send_content if message.content.present?
   rescue StandardError => e
-    Rails.logger.info("Instagram Error: #{e.inspect}")
-    ChatwootExceptionTracker.new(e, account: message.account, user: message.sender).capture_exception
+    handle_error(e)
+  end
+
+  def send_attachments
+    message.attachments.each do |attachment|
+      send_to_instagram attachment_message_params(attachment)
+    end
+  end
+
+  def send_content
+    send_to_instagram message_params
+  end
+
+  def log_instagram_message
+    Rails.logger.info("Sending message to Instagram: #{message.inspect}")
+  end
+
+  def handle_error(error)
+    Rails.logger.info("Instagram Error: #{error.inspect}")
+    ChatwootExceptionTracker.new(error, account: message.account, user: message.sender).capture_exception
     # TODO : handle specific auth errors
     # channel.authorization_error!
   end
