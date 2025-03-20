@@ -5,14 +5,32 @@ module Redis::Config
       config
     end
 
+    def sidekiq
+      sidekiq_config
+    end
+
     def config
       @config ||= sentinel? ? sentinel_config : base_config
+    end
+
+    def sidekiq_config
+      @sidekiq_config ||= sentinel? ? sentinel_config : base_sidekiq_config
     end
 
     def base_config
       {
         url: ENV.fetch('REDIS_URL', 'redis://127.0.0.1:6379'),
         password: ENV.fetch('REDIS_PASSWORD', nil).presence,
+        ssl_params: { verify_mode: Chatwoot.redis_ssl_verify_mode },
+        reconnect_attempts: 2,
+        timeout: 1
+      }
+    end
+
+    def base_sidekiq_config
+      {
+        url: ENV.fetch('SIDEKIQ_REDIS_URL', ENV.fetch('REDIS_URL', 'redis://127.0.0.1:6379')),
+        password: ENV.fetch('SIDEKIQ_REDIS_PASSWORD', ENV.fetch('REDIS_PASSWORD', nil)).presence,
         ssl_params: { verify_mode: Chatwoot.redis_ssl_verify_mode },
         reconnect_attempts: 2,
         timeout: 1
