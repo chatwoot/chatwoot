@@ -119,7 +119,8 @@
       "EMPTY_LIST": "Kayıt bulunamadı"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results"
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
