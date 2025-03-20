@@ -1,5 +1,5 @@
 class Inboxes::FetchImapEmailInboxesJob < ApplicationJob
-  queue_as :scheduled_jobs
+  queue_as :one_min_mailer
 
   def perform
     email_inboxes = Inbox.where(channel_type: 'Channel::Email')
