@@ -3,11 +3,13 @@ import { mapGetters } from 'vuex';
 import { convertSecondsToTimeUnit } from '@chatwoot/utils';
 import validations from './validations';
 import SlaTimeInput from './SlaTimeInput.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import { useVuelidate } from '@vuelidate/core';
 
 export default {
   components: {
     SlaTimeInput,
+    NextButton,
   },
   props: {
     selectedResponse: {
@@ -205,19 +207,19 @@ export default {
       </div>
 
       <div class="flex items-center justify-end w-full gap-2 mt-8">
-        <woot-button
-          class="px-4 rounded-xl button clear outline-woot-200/50 outline"
+        <NextButton
+          faded
+          slate
+          type="reset"
+          :label="$t('SLA.FORM.CANCEL')"
           @click.prevent="onClose"
-        >
-          {{ $t('SLA.FORM.CANCEL') }}
-        </woot-button>
-        <woot-button
-          :is-disabled="isSubmitDisabled"
-          class="px-4 rounded-xl"
+        />
+        <NextButton
+          type="submit"
+          :label="submitLabel"
+          :disabled="isSubmitDisabled"
           :is-loading="uiFlags.isUpdating"
-        >
-          {{ submitLabel }}
-        </woot-button>
+        />
       </div>
     </form>
   </div>
