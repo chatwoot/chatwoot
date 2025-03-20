@@ -8,5 +8,7 @@ class AddInstagramChannel < ActiveRecord::Migration[7.0]
       t.string :instagram_id, null: false
       t.timestamps
     end
+
+    add_index :channel_instagram, :instagram_id, unique: true
   end
 end

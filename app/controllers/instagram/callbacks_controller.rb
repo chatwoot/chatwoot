@@ -10,6 +10,15 @@ class Instagram::CallbacksController < ApplicationController
       return
     end
 
+    process_successful_authorization
+  rescue StandardError => e
+    handle_error(e)
+  end
+
+  private
+
+  # Process the authorization code and create inbox
+  def process_successful_authorization
     @response = oauth_client.auth_code.get_token(
       oauth_code,
       redirect_uri: "#{base_url}/#{provider_name}/callback",
@@ -17,31 +26,35 @@ class Instagram::CallbacksController < ApplicationController
     )
 
     @long_lived_token_response = exchange_for_long_lived_token(@response.token)
-    inbox, already_exists = create_channel_with_inbox
+    inbox, = create_channel_with_inbox
     redirect_to app_instagram_inbox_agents_url(account_id: account_id, inbox_id: inbox.id)
-  rescue StandardError => e
-    Rails.logger.error("Instagram Channel creation Error: #{e.message}")
-    ChatwootExceptionTracker.new(e).capture_exception
+  end
 
-    # Handle API rejection response errors
-    # See: https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/business-login#sample-rejected-response
-    error_info = if e.is_a?(OAuth2::Error)
-                   begin
-                     # Instagram returns JSON error response which we parse to extract error details
-                     JSON.parse(e.message)
-                   rescue JSON::ParseError
-                     # Fall back to a generic OAuth error if JSON parsing fails
-                     { 'error_type' => 'OAuthException', 'code' => 400, 'error_message' => e.message }
-                   end
-                 else
-                   # For other unexpected errors
-                   { 'error_type' => e.class.name, 'code' => 500, 'error_message' => e.message }
-                 end
+  # Handle all errors that might occur during authorization
+  # See: https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/business-login#sample-rejected-response
+  def handle_error(error)
+    Rails.logger.error("Instagram Channel creation Error: #{error.message}")
+    ChatwootExceptionTracker.new(error).capture_exception
 
+    error_info = extract_error_info(error)
     redirect_to_error_page(error_info)
   end
 
-  private
+  # Extract error details from the exception
+  def extract_error_info(error)
+    if error.is_a?(OAuth2::Error)
+      begin
+        # Instagram returns JSON error response which we parse to extract error details
+        JSON.parse(error.message)
+      rescue JSON::ParseError
+        # Fall back to a generic OAuth error if JSON parsing fails
+        { 'error_type' => 'OAuthException', 'code' => 400, 'error_message' => error.message }
+      end
+    else
+      # For other unexpected errors
+      { 'error_type' => error.class.name, 'code' => 500, 'error_message' => error.message }
+    end
+  end
 
   # Handles the case when a user denies permissions or cancels the authorization flow
   # Error parameters are documented at:

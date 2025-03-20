@@ -11,6 +11,10 @@
 #  account_id    :integer          not null
 #  instagram_id  :string           not null
 #
+# Indexes
+#
+#  index_channel_instagram_on_instagram_id  (instagram_id) UNIQUE
+#
 
 class Channel::Instagram < ApplicationRecord
   include Channelable
