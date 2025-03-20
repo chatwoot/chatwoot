@@ -119,7 +119,8 @@
       "EMPTY_LIST": "没有检索到相关信息"
     },
     "PAGINATION": {
-      "RESULTS": "显示 {start} 到 {end} 条，共 {total} 条结果"
+      "RESULTS": "显示 {start} 到 {end} 条，共 {total} 条结果",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {

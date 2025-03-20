@@ -119,7 +119,8 @@
       "EMPTY_LIST": "結果が見つかりません"
     },
     "PAGINATION": {
-      "RESULTS": "{start}件から{end}件まで表示中（全{total}件）"
+      "RESULTS": "{start}件から{end}件まで表示中（全{total}件）",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
