@@ -12,6 +12,8 @@
     "NO_INBOX_2": " 開始吧",
     "NO_INBOX_AGENT": "看起來你還沒有分配到收件匣。請聯絡你的管理員",
     "SEARCH_MESSAGES": "在對話中搜尋訊息",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "to open command menu",
       "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"

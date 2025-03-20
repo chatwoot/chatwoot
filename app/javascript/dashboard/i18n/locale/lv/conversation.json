@@ -12,6 +12,8 @@
     "NO_INBOX_2": " lai sāktu",
     "NO_INBOX_AGENT": "Ak, vai! Izskatās, ka Jūs neesat nevienas iesūtnes dalībnieks. Lūdzu, sazinieties ar savu administratoru",
     "SEARCH_MESSAGES": "Meklēt ziņojumus sarunās",
+    "VIEW_ORIGINAL": "Skatīt oriģinālu",
+    "VIEW_TRANSLATED": "Skatīt tulkoto",
     "EMPTY_STATE": {
       "CMD_BAR": "lai atvērtu komandu izvēlni",
       "KEYBOARD_SHORTCUTS": "lai skatītu klaviatūras īsinājumtaustiņus"

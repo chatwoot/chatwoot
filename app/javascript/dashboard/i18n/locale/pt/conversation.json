@@ -12,6 +12,8 @@
     "NO_INBOX_2": " para começar",
     "NO_INBOX_AGENT": "Não faz parte de nenhuma caixa de entrada. Por favor, contacte o administrador",
     "SEARCH_MESSAGES": "Procurar mensagens em conversas",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "para abrir o menu de comandos",
       "KEYBOARD_SHORTCUTS": "para ver atalhos de teclado"

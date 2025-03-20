@@ -1,9 +1,9 @@
 {
   "CUSTOM_ROLE": {
-    "HEADER": "Regras Personalizadas",
+    "HEADER": "Funções Personalizadas",
     "LEARN_MORE": "Aprenda mais sobre funções personalizadas",
     "DESCRIPTION": "Funções personalizadas são funções criadas pelo proprietário ou administrador da conta. Essas funções podem ser atribuídas a agentes para definir seu acesso e permissões dentro da conta. Funções personalizadas podem ser criadas com permissões e níveis de acesso específicos para atender aos requisitos da organização.",
-    "HEADER_BTN_TXT": "Adicionar cargo personalizado",
+    "HEADER_BTN_TXT": "Adicionar função personalizada",
     "LOADING": "Buscando funções personalizadas...",
     "SEARCH_404": "Não há itens correspondentes a esta consulta.",
     "PAYWALL": {
@@ -32,7 +32,7 @@
     "PERMISSIONS": {
       "CONVERSATION_MANAGE": "Gerenciar todas conversas",
       "CONVERSATION_UNASSIGNED_MANAGE": "Gerenciar conversas não atribuídas e aquelas atribuídas a elas",
-      "CONVERSATION_PARTICIPATING_MANAGE": "Gerenciar conversas não atribuídas e aquelas atribuídas a elas",
+      "CONVERSATION_PARTICIPATING_MANAGE": "Gerenciar conversas que participa e aquelas atribuídas a elas",
       "CONTACT_MANAGE": "Gerenciar contatos",
       "REPORT_MANAGE": "Gerenciar relatórios",
       "KNOWLEDGE_BASE_MANAGE": "Gerenciar base de conhecimento"
@@ -58,7 +58,7 @@
       }
     },
     "ADD": {
-      "TITLE": "Adicionar cargo personalizado",
+      "TITLE": "Adicionar função personalizada",
       "DESC": " Funções personalizadas permitem criar funções com permissões e níveis de acesso específicos para atender aos requisitos da organização.",
       "SUBMIT": "Enviar",
       "API": {

@@ -12,6 +12,8 @@
     "NO_INBOX_2": " برای شروع",
     "NO_INBOX_AGENT": "اوه اوه! به نظر می‌رسد شما عضو هیچ صندوق ورودی نیستید. لطفا با مدیر خود تماس بگیرید",
     "SEARCH_MESSAGES": "پیام‌ها را در گفتگوها جستجو کنید",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "برای باز کردن منوی فرمان",
       "KEYBOARD_SHORTCUTS": "برای مشاهده میانبرهای صفحه کلید"
