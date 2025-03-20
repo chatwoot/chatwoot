@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 describe SearchService do
-  subject(:search) { described_class.new(current_user: user, current_account: account, params: params, search_type: search_type) }
+  subject(:search) do
+    described_class.new(current_user: user, current_account: account, current_account_user: user.account_users.find_by(account: account),
+                        params: params, search_type: search_type)
+  end
 
   let(:search_type) { 'all' }
   let!(:account) { create(:account) }
@@ -26,25 +29,33 @@ describe SearchService do
 
       it 'returns all for all' do
         search_type = 'all'
-        search = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+        search = described_class.new(current_user: user, current_account: account,
+                                     current_account_user: user.account_users.find_by(account: account),
+                                     params: params, search_type: search_type)
         expect(search.perform.keys).to match_array(%i[contacts messages conversations])
       end
 
       it 'returns contacts for contacts' do
         search_type = 'Contact'
-        search = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+        search = described_class.new(current_user: user, current_account: account,
+                                     current_account_user: user.account_users.find_by(account: account),
+                                     params: params, search_type: search_type)
         expect(search.perform.keys).to match_array(%i[contacts])
       end
 
       it 'returns messages for messages' do
         search_type = 'Message'
-        search = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+        search = described_class.new(current_user: user, current_account: account,
+                                     current_account_user: user.account_users.find_by(account: account),
+                                     params: params, search_type: search_type)
         expect(search.perform.keys).to match_array(%i[messages])
       end
 
       it 'returns conversations for conversations' do
         search_type = 'Conversation'
-        search = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+        search = described_class.new(current_user: user, current_account: account,
+                                     current_account_user: user.account_users.find_by(account: account),
+                                     params: params, search_type: search_type)
         expect(search.perform.keys).to match_array(%i[conversations])
       end
     end
@@ -61,7 +72,8 @@ describe SearchService do
         harry4 = create(:contact, identifier: 'Potter1235', account_id: account.id, last_activity_at: 2.minutes.ago)
 
         params = { q: 'Potter ' }
-        search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Contact')
+        search = described_class.new(current_user: user, current_account: account,
+                                     current_account_user: user.account_users.find_by(account: account), params: params, search_type: 'Contact')
         expect(search.perform[:contacts].map(&:id)).to eq([harry4.id, harry3.id, harry2.id, harry.id])
       end
     end
@@ -75,17 +87,19 @@ describe SearchService do
         # random messsage in inbox with out access
         create(:message, account: account, inbox: create(:inbox, account: account), content: 'Harry Potter is a wizard')
         params = { q: 'Harry' }
-        search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Message')
+        search = described_class.new(current_user: user, current_account: account,
+                                     current_account_user: user.account_users.find_by(account: account), params: params, search_type: 'Message')
         expect(search.perform[:messages].map(&:id)).to eq([message2.id, message.id])
       end
 
-      context 'with feature flag for search type' do
-        let(:params) { { q: 'Harry' } }
+      context 'with different search methods' do
         let(:search_type) { 'Message' }
 
-        it 'uses LIKE search when search_with_gin feature is disabled' do
-          allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
-          search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+        it 'uses LIKE search for multi-word queries' do
+          params = { q: 'Harry Potter' }
+          search_service = described_class.new(current_user: user, current_account: account,
+                                               current_account_user: user.account_users.find_by(account: account),
+                                               params: params, search_type: search_type)
 
           expect(search_service).to receive(:filter_messages_with_like).and_call_original
           expect(search_service).not_to receive(:filter_messages_with_gin)
@@ -93,9 +107,11 @@ describe SearchService do
           search_service.perform
         end
 
-        it 'uses GIN search when search_with_gin feature is enabled' do
-          allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(true)
-          search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+        it 'uses GIN search for single-word queries' do
+          params = { q: 'Harry' }
+          search_service = described_class.new(current_user: user, current_account: account,
+                                               current_account_user: user.account_users.find_by(account: account),
+                                               params: params, search_type: search_type)
 
           expect(search_service).to receive(:filter_messages_with_gin).and_call_original
           expect(search_service).not_to receive(:filter_messages_with_like)
@@ -103,23 +119,38 @@ describe SearchService do
           search_service.perform
         end
 
-        it 'returns same results regardless of search type' do
+        it 'returns same results for single word regardless of search method' do
           # Create test messages
           message3 = create(:message, account: account, inbox: inbox, content: 'Harry is a wizard apprentice')
+          params = { q: 'Harry' }
 
-          # Test with GIN search
-          allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(true)
-          gin_search = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+          # Test with GIN search (single word)
+          gin_search = described_class.new(current_user: user, current_account: account,
+                                           current_account_user: user.account_users.find_by(account: account),
+                                           params: params, search_type: search_type)
+          allow(gin_search).to receive(:use_gin_search).and_return(true)
           gin_results = gin_search.perform[:messages].map(&:id)
 
-          # Test with LIKE search
-          allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
-          like_search = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+          # Test with LIKE search (forcing LIKE for comparison)
+          like_search = described_class.new(current_user: user, current_account: account,
+                                            current_account_user: user.account_users.find_by(account: account),
+                                            params: params, search_type: search_type)
+          allow(like_search).to receive(:use_gin_search).and_return(false)
           like_results = like_search.perform[:messages].map(&:id)
 
           # Both search types should return the same messages
           expect(gin_results).to match_array(like_results)
           expect(gin_results).to include(message.id, message2.id, message3.id)
+        end
+
+        it 'handles empty search queries' do
+          params = { q: '' }
+          search_service = described_class.new(current_user: user, current_account: account,
+                                               current_account_user: user.account_users.find_by(account: account),
+                                               params: params, search_type: search_type)
+
+          results = search_service.perform[:messages]
+          expect(results).to be_a(ActiveRecord::Relation)
         end
       end
     end
@@ -131,7 +162,8 @@ describe SearchService do
         create(:conversation, contact: random, inbox: inbox, account: account)
         conv2 = create(:conversation, contact: harry, inbox: inbox, account: account)
         params = { q: 'Harry' }
-        search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
+        search = described_class.new(current_user: user, current_account: account,
+                                     current_account_user: user.account_users.find_by(account: account), params: params, search_type: 'Conversation')
         expect(search.perform[:conversations].map(&:id)).to eq([conv2.id, conversation.id])
       end
 
@@ -139,28 +171,86 @@ describe SearchService do
         random = create(:contact, account_id: account.id, name: 'random', email: 'random@random.test', identifier: 'random')
         new_converstion = create(:conversation, contact: random, inbox: inbox, account: account)
         params = { q: new_converstion.display_id }
-        search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
+        search = described_class.new(current_user: user, current_account: account,
+                                     current_account_user: user.account_users.find_by(account: account), params: params, search_type: 'Conversation')
         expect(search.perform[:conversations].map(&:id)).to include new_converstion.id
       end
     end
   end
 
   describe '#use_gin_search' do
-    let(:params) { { q: 'test' } }
-
-    it 'checks if the account has the search_with_gin feature enabled' do
-      expect(account).to receive(:feature_enabled?).with('search_with_gin')
-      search.send(:use_gin_search)
-    end
-
-    it 'returns true when search_with_gin feature is enabled' do
-      allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(true)
+    it 'returns true for single-word queries' do
+      params = { q: 'test' }
+      search = described_class.new(current_user: user, current_account: account, current_account_user: user.account_users.find_by(account: account),
+                                   params: params, search_type: 'Message')
       expect(search.send(:use_gin_search)).to be true
     end
 
-    it 'returns false when search_with_gin feature is disabled' do
-      allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
+    it 'returns false for multi-word queries' do
+      params = { q: 'test query' }
+      search = described_class.new(current_user: user, current_account: account, current_account_user: user.account_users.find_by(account: account),
+                                   params: params, search_type: 'Message')
       expect(search.send(:use_gin_search)).to be false
+    end
+
+    it 'returns false for empty queries' do
+      params = { q: '' }
+      search = described_class.new(current_user: user, current_account: account, current_account_user: user.account_users.find_by(account: account),
+                                   params: params, search_type: 'Message')
+      expect(search.send(:use_gin_search)).to be false
+    end
+
+    it 'returns false for nil queries' do
+      params = { q: nil }
+      search = described_class.new(current_user: user, current_account: account, current_account_user: user.account_users.find_by(account: account),
+                                   params: params, search_type: 'Message')
+      expect(search.send(:use_gin_search)).to be false
+    end
+  end
+
+  describe '#accessable_inbox_ids' do
+    it 'returns inbox ids assigned to the user' do
+      search = described_class.new(current_user: user, current_account: account, current_account_user: user.account_users.find_by(account: account),
+                                   params: {}, search_type: 'Message')
+      expect(search.send(:accessable_inbox_ids)).to eq([inbox.id])
+    end
+  end
+
+  describe '#message_base_query' do
+    it 'returns messages from the last 3 months' do
+      old_message = create(:message, account: account, inbox: inbox, content: 'old message', created_at: 4.months.ago)
+      recent_message = create(:message, account: account, inbox: inbox, content: 'recent message', created_at: 2.months.ago)
+
+      search = described_class.new(current_user: user, current_account: account, current_account_user: user.account_users.find_by(account: account),
+                                   params: {}, search_type: 'Message')
+      base_query = search.send(:message_base_query)
+
+      expect(base_query).to include(recent_message)
+      expect(base_query).not_to include(old_message)
+    end
+
+    it 'filters by inbox_id for non-administrators' do
+      other_inbox = create(:inbox, account: account)
+      other_inbox_message = create(:message, account: account, inbox: other_inbox, content: 'other inbox message')
+
+      search = described_class.new(current_user: user, current_account: account, current_account_user: user.account_users.find_by(account: account),
+                                   params: {}, search_type: 'Message')
+      base_query = search.send(:message_base_query)
+
+      expect(base_query).not_to include(other_inbox_message)
+    end
+
+    it 'does not filter by inbox_id for administrators' do
+      # Create a new user with administrator role
+      admin_user = create(:user, account: account, role: :administrator)
+      other_inbox = create(:inbox, account: account)
+      other_inbox_message = create(:message, account: account, inbox: other_inbox, content: 'other inbox message')
+
+      search = described_class.new(current_user: admin_user, current_account: account,
+                                   current_account_user: admin_user.account_users.find_by(account: account), params: {}, search_type: 'Message')
+      base_query = search.send(:message_base_query)
+
+      expect(base_query).to include(other_inbox_message)
     end
   end
 end
