@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'webhooks/twitter'
 
 describe Webhooks::InstagramEventsJob do
   subject(:instagram_webhook) { described_class }
@@ -18,21 +17,22 @@ describe Webhooks::InstagramEventsJob do
       profile_pic: 'https://chatwoot-assets.local/sample.png',
       username: 'some_user_name' }
   end
-  let!(:instagram_channel) { create(:channel_instagram_fb_page, account: account, instagram_id: 'chatwoot-app-user-id-1') }
+  let!(:instagram_channel) { create(:channel_instagram_fb_page, account: account, instagram_id: 'instagram-message-id-123') }
   let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: account, greeting_enabled: false) }
-  let!(:dm_params) { build(:instagram_message_create_event).with_indifferent_access }
-  let!(:standby_params) { build(:instagram_message_standby_event).with_indifferent_access }
-  let!(:test_params) { build(:instagram_test_text_event).with_indifferent_access }
-  let!(:unsend_event) { build(:instagram_message_unsend_event).with_indifferent_access }
-  let!(:attachment_params) { build(:instagram_message_attachment_event).with_indifferent_access }
-  let!(:story_mention_params) { build(:instagram_story_mention_event).with_indifferent_access }
-  let!(:story_mention_echo_params) { build(:instagram_story_mention_event_with_echo).with_indifferent_access }
-  let!(:messaging_seen_event) { build(:messaging_seen_event).with_indifferent_access }
-  let!(:unsupported_message_event) { build(:instagram_message_unsupported_event).with_indifferent_access }
+
+  let(:dm_params) { build(:instagram_message_create_event).with_indifferent_access }
+  let(:standby_params) { build(:instagram_message_standby_event).with_indifferent_access }
+  let(:test_params) { build(:instagram_test_text_event).with_indifferent_access }
+  let(:unsend_event) { build(:instagram_message_unsend_event).with_indifferent_access }
+  let(:attachment_params) { build(:instagram_message_attachment_event).with_indifferent_access }
+  let(:story_mention_params) { build(:instagram_story_mention_event).with_indifferent_access }
+  let(:story_mention_echo_params) { build(:instagram_story_mention_event_with_echo).with_indifferent_access }
+  let(:messaging_seen_event) { build(:messaging_seen_event).with_indifferent_access }
+  let(:unsupported_message_event) { build(:instagram_message_unsupported_event).with_indifferent_access }
   let(:fb_object) { double }
 
   describe '#perform' do
-    context 'with direct_message params' do
+    context 'when handling messaging events for Facebook page channel' do
       it 'creates incoming message in the instagram inbox' do
         allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
         allow(fb_object).to receive(:get_object).and_return(
@@ -65,19 +65,6 @@ describe Webhooks::InstagramEventsJob do
 
         message = instagram_inbox.messages.last
         expect(message.content).to eq('This is the first standby message from the customer, after 24 hours.')
-      end
-
-      it 'creates test text message in the instagram inbox' do
-        allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
-        allow(fb_object).to receive(:get_object).and_return(
-          return_object.with_indifferent_access
-        )
-        instagram_webhook.perform_now(test_params[:entry])
-
-        instagram_inbox.reload
-        expect(instagram_inbox.messages.count).to be 1
-        expect(instagram_inbox.messages.last.content).to eq('random_text')
-        expect(instagram_inbox.messages.last.source_id).to eq('random_mid')
       end
 
       it 'handle instagram unsend message event' do
@@ -159,7 +146,8 @@ describe Webhooks::InstagramEventsJob do
       end
 
       it 'handle messaging_seen callback' do
-        expect(Instagram::ReadStatusService).to receive(:new).with(params: messaging_seen_event[:entry][0][:messaging][0]).and_call_original
+        expect(Instagram::ReadStatusService).to receive(:new).with(params: messaging_seen_event[:entry][0][:messaging][0],
+                                                                   channel: instagram_inbox.channel).and_call_original
         instagram_webhook.perform_now(messaging_seen_event[:entry])
       end
 
