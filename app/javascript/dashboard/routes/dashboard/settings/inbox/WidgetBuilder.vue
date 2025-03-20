@@ -81,11 +81,6 @@
                 :label="'FAQ Question'"
                 :placeholder="'FAQ Question'"
               />
-              <woot-input
-                v-model.trim="faq.answer"
-                :label="'FAQ Answer'"
-                :placeholder="'FAQ Answer'"
-              />
             </div>
             <label>
               {{
