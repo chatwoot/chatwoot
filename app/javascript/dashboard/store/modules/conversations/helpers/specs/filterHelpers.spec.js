@@ -14,10 +14,10 @@ describe('filterHelpers', () => {
       const conversation = { status: 'open' };
       const filters = [
         {
-          attributeKey: 'status',
-          filterOperator: 'equal_to',
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
           values: ['open'],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -27,10 +27,10 @@ describe('filterHelpers', () => {
       const conversation = { status: 'open' };
       const filters = [
         {
-          attributeKey: 'status',
-          filterOperator: 'not_equal_to',
+          attribute_key: 'status',
+          filter_operator: 'not_equal_to',
           values: ['open'],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(false);
@@ -41,10 +41,10 @@ describe('filterHelpers', () => {
       const conversation = { meta: { assignee: { id: 1 } } };
       const filters = [
         {
-          attributeKey: 'assignee_id',
-          filterOperator: 'equal_to',
+          attribute_key: 'assignee_id',
+          filter_operator: 'equal_to',
           values: [1],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -54,10 +54,10 @@ describe('filterHelpers', () => {
       const conversation = { meta: { assignee: { id: 1 } } };
       const filters = [
         {
-          attributeKey: 'assignee_id',
-          filterOperator: 'not_equal_to',
+          attribute_key: 'assignee_id',
+          filter_operator: 'not_equal_to',
           values: [2],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -67,10 +67,10 @@ describe('filterHelpers', () => {
       const conversation = { meta: { assignee: { id: 1 } } };
       const filters = [
         {
-          attributeKey: 'assignee_id',
-          filterOperator: 'is_present',
+          attribute_key: 'assignee_id',
+          filter_operator: 'is_present',
           values: [],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -80,10 +80,10 @@ describe('filterHelpers', () => {
       const conversation = { meta: { assignee: null } };
       const filters = [
         {
-          attributeKey: 'assignee_id',
-          filterOperator: 'is_not_present',
+          attribute_key: 'assignee_id',
+          filter_operator: 'is_not_present',
           values: [],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -93,10 +93,10 @@ describe('filterHelpers', () => {
       const conversation = { meta: { assignee: null } };
       const filters = [
         {
-          attributeKey: 'assignee_id',
-          filterOperator: 'is_present',
+          attribute_key: 'assignee_id',
+          filter_operator: 'is_present',
           values: [],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(false);
@@ -107,10 +107,10 @@ describe('filterHelpers', () => {
       const conversation = { priority: 'urgent' };
       const filters = [
         {
-          attributeKey: 'priority',
-          filterOperator: 'equal_to',
+          attribute_key: 'priority',
+          filter_operator: 'equal_to',
           values: ['urgent'],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -120,10 +120,10 @@ describe('filterHelpers', () => {
       const conversation = { priority: 'urgent' };
       const filters = [
         {
-          attributeKey: 'priority',
-          filterOperator: 'not_equal_to',
+          attribute_key: 'priority',
+          filter_operator: 'not_equal_to',
           values: ['urgent'],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(false);
@@ -134,10 +134,10 @@ describe('filterHelpers', () => {
       const conversation = { display_id: '12345' };
       const filters = [
         {
-          attributeKey: 'display_id',
-          filterOperator: 'equal_to',
+          attribute_key: 'display_id',
+          filter_operator: 'equal_to',
           values: ['12345'],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -147,10 +147,10 @@ describe('filterHelpers', () => {
       const conversation = { display_id: '12345' };
       const filters = [
         {
-          attributeKey: 'display_id',
-          filterOperator: 'contains',
+          attribute_key: 'display_id',
+          filter_operator: 'contains',
           values: ['234'],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -160,10 +160,10 @@ describe('filterHelpers', () => {
       const conversation = { display_id: '12345' };
       const filters = [
         {
-          attributeKey: 'display_id',
-          filterOperator: 'does_not_contain',
+          attribute_key: 'display_id',
+          filter_operator: 'does_not_contain',
           values: ['234'],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(false);
@@ -173,10 +173,10 @@ describe('filterHelpers', () => {
       const conversation = { display_id: '12345' };
       const filters = [
         {
-          attributeKey: 'display_id',
-          filterOperator: 'does_not_contain',
+          attribute_key: 'display_id',
+          filter_operator: 'does_not_contain',
           values: ['678'],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -187,10 +187,10 @@ describe('filterHelpers', () => {
       const conversation = { labels: ['support', 'urgent', 'new'] };
       const filters = [
         {
-          attributeKey: 'labels',
-          filterOperator: 'equal_to',
+          attribute_key: 'labels',
+          filter_operator: 'equal_to',
           values: ['urgent'],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -200,10 +200,10 @@ describe('filterHelpers', () => {
       const conversation = { labels: ['support', 'urgent', 'new'] };
       const filters = [
         {
-          attributeKey: 'labels',
-          filterOperator: 'equal_to',
+          attribute_key: 'labels',
+          filter_operator: 'equal_to',
           values: ['billing'],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(false);
@@ -213,10 +213,10 @@ describe('filterHelpers', () => {
       const conversation = { labels: ['support', 'urgent', 'new'] };
       const filters = [
         {
-          attributeKey: 'labels',
-          filterOperator: 'not_equal_to',
+          attribute_key: 'labels',
+          filter_operator: 'not_equal_to',
           values: ['billing'],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -226,10 +226,10 @@ describe('filterHelpers', () => {
       const conversation = { labels: ['support', 'urgent', 'new'] };
       const filters = [
         {
-          attributeKey: 'labels',
-          filterOperator: 'is_present',
+          attribute_key: 'labels',
+          filter_operator: 'is_present',
           values: [],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -239,10 +239,10 @@ describe('filterHelpers', () => {
       const conversation = { labels: null };
       const filters = [
         {
-          attributeKey: 'labels',
-          filterOperator: 'is_not_present',
+          attribute_key: 'labels',
+          filter_operator: 'is_not_present',
           values: [],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -252,10 +252,10 @@ describe('filterHelpers', () => {
       const conversation = {};
       const filters = [
         {
-          attributeKey: 'labels',
-          filterOperator: 'is_not_present',
+          attribute_key: 'labels',
+          filter_operator: 'is_not_present',
           values: [],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -268,10 +268,10 @@ describe('filterHelpers', () => {
       };
       const filters = [
         {
-          attributeKey: 'browser_language',
-          filterOperator: 'equal_to',
+          attribute_key: 'browser_language',
+          filter_operator: 'equal_to',
           values: ['en-US'],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -283,10 +283,10 @@ describe('filterHelpers', () => {
       };
       const filters = [
         {
-          attributeKey: 'referer',
-          filterOperator: 'contains',
+          attribute_key: 'referer',
+          filter_operator: 'contains',
           values: ['chatwoot'],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -298,10 +298,10 @@ describe('filterHelpers', () => {
       };
       const filters = [
         {
-          attributeKey: 'referer',
-          filterOperator: 'does_not_contain',
+          attribute_key: 'referer',
+          filter_operator: 'does_not_contain',
           values: ['chatwoot'],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(false);
@@ -312,10 +312,10 @@ describe('filterHelpers', () => {
       const conversation = { created_at: 1647777600000 }; // March 20, 2022
       const filters = [
         {
-          attributeKey: 'created_at',
-          filterOperator: 'is_greater_than',
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
           values: [1647691200000], // March 19, 2022
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -325,10 +325,10 @@ describe('filterHelpers', () => {
       const conversation = { created_at: 1647691200000 }; // March 19, 2022
       const filters = [
         {
-          attributeKey: 'created_at',
-          filterOperator: 'is_greater_than',
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
           values: [1647777600000], // March 20, 2022
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(false);
@@ -338,10 +338,10 @@ describe('filterHelpers', () => {
       const conversation = { created_at: 1647777600000 }; // March 20, 2022
       const filters = [
         {
-          attributeKey: 'created_at',
-          filterOperator: 'is_less_than',
+          attribute_key: 'created_at',
+          filter_operator: 'is_less_than',
           values: [1647864000000], // March 21, 2022
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -362,10 +362,10 @@ describe('filterHelpers', () => {
         const conversation = { created_at: 1647777600000 }; // March 20, 2022
         const filters = [
           {
-            attributeKey: 'created_at',
-            filterOperator: 'days_before',
+            attribute_key: 'created_at',
+            filter_operator: 'days_before',
             values: [3], // 3 days before March 25 = March 22
-            queryOperator: 'and',
+            query_operator: 'and',
           },
         ];
         expect(matchesFilters(conversation, filters)).toBe(true);
@@ -381,22 +381,22 @@ describe('filterHelpers', () => {
       };
       const filters = [
         {
-          attributeKey: 'status',
-          filterOperator: 'equal_to',
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
           values: ['open'],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
         {
-          attributeKey: 'priority',
-          filterOperator: 'equal_to',
+          attribute_key: 'priority',
+          filter_operator: 'equal_to',
           values: ['urgent'],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
         {
-          attributeKey: 'assignee_id',
-          filterOperator: 'equal_to',
+          attribute_key: 'assignee_id',
+          filter_operator: 'equal_to',
           values: [1],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -410,22 +410,22 @@ describe('filterHelpers', () => {
       };
       const filters = [
         {
-          attributeKey: 'status',
-          filterOperator: 'equal_to',
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
           values: ['open'],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
         {
-          attributeKey: 'priority',
-          filterOperator: 'equal_to',
+          attribute_key: 'priority',
+          filter_operator: 'equal_to',
           values: ['low'], // This doesn't match
-          queryOperator: 'and',
+          query_operator: 'and',
         },
         {
-          attributeKey: 'assignee_id',
-          filterOperator: 'equal_to',
+          attribute_key: 'assignee_id',
+          filter_operator: 'equal_to',
           values: [1],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(false);
@@ -438,16 +438,16 @@ describe('filterHelpers', () => {
       };
       const filters = [
         {
-          attributeKey: 'status',
-          filterOperator: 'equal_to',
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
           values: ['closed'],
-          queryOperator: 'or',
+          query_operator: 'or',
         },
         {
-          attributeKey: 'priority',
-          filterOperator: 'equal_to',
+          attribute_key: 'priority',
+          filter_operator: 'equal_to',
           values: ['low'],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -460,16 +460,16 @@ describe('filterHelpers', () => {
       };
       const filters = [
         {
-          attributeKey: 'status',
-          filterOperator: 'equal_to',
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
           values: ['open'], // This matches
-          queryOperator: 'or',
+          query_operator: 'or',
         },
         {
-          attributeKey: 'priority',
-          filterOperator: 'equal_to',
+          attribute_key: 'priority',
+          filter_operator: 'equal_to',
           values: ['urgent'], // This doesn't match
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -487,10 +487,10 @@ describe('filterHelpers', () => {
       };
       const filters = [
         {
-          attributeKey: 'team_id',
-          filterOperator: 'equal_to',
+          attribute_key: 'team_id',
+          filter_operator: 'equal_to',
           values: [5],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -504,10 +504,10 @@ describe('filterHelpers', () => {
       };
       const filters = [
         {
-          attributeKey: 'status',
-          filterOperator: 'is_not_present',
+          attribute_key: 'status',
+          filter_operator: 'is_not_present',
           values: [],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -519,10 +519,10 @@ describe('filterHelpers', () => {
       };
       const filters = [
         {
-          attributeKey: 'labels',
-          filterOperator: 'is_present',
+          attribute_key: 'labels',
+          filter_operator: 'is_present',
           values: [],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -534,10 +534,10 @@ describe('filterHelpers', () => {
       };
       const filters = [
         {
-          attributeKey: 'display_id',
-          filterOperator: 'is_present',
+          attribute_key: 'display_id',
+          filter_operator: 'is_present',
           values: [],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
@@ -552,10 +552,10 @@ describe('filterHelpers', () => {
       };
       const filters = [
         {
-          attributeKey: 'customer_type',
-          filterOperator: 'equal_to',
+          attribute_key: 'customer_type',
+          filter_operator: 'equal_to',
           values: ['premium'],
-          queryOperator: 'and',
+          query_operator: 'and',
           attributeModel: 'customAttributes',
         },
       ];
@@ -570,10 +570,10 @@ describe('filterHelpers', () => {
       };
       const filters = [
         {
-          attributeKey: 'notes',
-          filterOperator: 'contains',
+          attribute_key: 'notes',
+          filter_operator: 'contains',
           values: ['refund'],
-          queryOperator: 'and',
+          query_operator: 'and',
           attributeModel: 'customAttributes',
         },
       ];
@@ -591,22 +591,22 @@ describe('filterHelpers', () => {
       };
       const filters = [
         {
-          attributeKey: 'status',
-          filterOperator: 'equal_to',
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
           values: ['open'],
-          queryOperator: 'and',
+          query_operator: 'and',
         },
         {
-          attributeKey: 'created_at',
-          filterOperator: 'is_greater_than',
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
           values: [1647691200000], // March 19, 2022
-          queryOperator: 'and',
+          query_operator: 'and',
         },
         {
-          attributeKey: 'customer_type',
-          filterOperator: 'equal_to',
+          attribute_key: 'customer_type',
+          filter_operator: 'equal_to',
           values: ['premium'],
-          queryOperator: 'and',
+          query_operator: 'and',
           attributeModel: 'customAttributes',
         },
       ];
@@ -627,22 +627,22 @@ describe('filterHelpers', () => {
           // This filter chain is: (status='open' AND priority='urgent') OR display_id='12345'
           const filters = [
             {
-              attributeKey: 'status',
-              filterOperator: 'equal_to',
+              attribute_key: 'status',
+              filter_operator: 'equal_to',
               values: ['open'],
-              queryOperator: 'and',
+              query_operator: 'and',
             },
             {
-              attributeKey: 'priority',
-              filterOperator: 'equal_to',
+              attribute_key: 'priority',
+              filter_operator: 'equal_to',
               values: ['urgent'],
-              queryOperator: 'or',
+              query_operator: 'or',
             },
             {
-              attributeKey: 'display_id',
-              filterOperator: 'equal_to',
+              attribute_key: 'display_id',
+              filter_operator: 'equal_to',
               values: ['12345'],
-              queryOperator: null,
+              query_operator: null,
             },
           ];
 
@@ -660,22 +660,22 @@ describe('filterHelpers', () => {
           // This filter chain is: (status='open' AND priority='urgent') OR display_id='12345'
           const filters = [
             {
-              attributeKey: 'status',
-              filterOperator: 'equal_to',
+              attribute_key: 'status',
+              filter_operator: 'equal_to',
               values: ['open'],
-              queryOperator: 'and',
+              query_operator: 'and',
             },
             {
-              attributeKey: 'priority',
-              filterOperator: 'equal_to',
+              attribute_key: 'priority',
+              filter_operator: 'equal_to',
               values: ['urgent'],
-              queryOperator: 'or',
+              query_operator: 'or',
             },
             {
-              attributeKey: 'display_id',
-              filterOperator: 'equal_to',
+              attribute_key: 'display_id',
+              filter_operator: 'equal_to',
               values: ['12345'],
-              queryOperator: null,
+              query_operator: null,
             },
           ];
 
@@ -693,22 +693,22 @@ describe('filterHelpers', () => {
           // This filter chain is: (status='open' AND priority='urgent') OR display_id='12345'
           const filters = [
             {
-              attributeKey: 'status',
-              filterOperator: 'equal_to',
+              attribute_key: 'status',
+              filter_operator: 'equal_to',
               values: ['open'],
-              queryOperator: 'and',
+              query_operator: 'and',
             },
             {
-              attributeKey: 'priority',
-              filterOperator: 'equal_to',
+              attribute_key: 'priority',
+              filter_operator: 'equal_to',
               values: ['urgent'],
-              queryOperator: 'or',
+              query_operator: 'or',
             },
             {
-              attributeKey: 'display_id',
-              filterOperator: 'equal_to',
+              attribute_key: 'display_id',
+              filter_operator: 'equal_to',
               values: ['12345'],
-              queryOperator: null,
+              query_operator: null,
             },
           ];
 
@@ -726,22 +726,22 @@ describe('filterHelpers', () => {
           // This filter chain is: (status='open' AND priority='urgent') OR display_id='12345'
           const filters = [
             {
-              attributeKey: 'status',
-              filterOperator: 'equal_to',
+              attribute_key: 'status',
+              filter_operator: 'equal_to',
               values: ['open'],
-              queryOperator: 'and',
+              query_operator: 'and',
             },
             {
-              attributeKey: 'priority',
-              filterOperator: 'equal_to',
+              attribute_key: 'priority',
+              filter_operator: 'equal_to',
               values: ['urgent'],
-              queryOperator: 'or',
+              query_operator: 'or',
             },
             {
-              attributeKey: 'display_id',
-              filterOperator: 'equal_to',
+              attribute_key: 'display_id',
+              filter_operator: 'equal_to',
               values: ['12345'],
-              queryOperator: null,
+              query_operator: null,
             },
           ];
 
@@ -762,22 +762,22 @@ describe('filterHelpers', () => {
           // This filter chain is: status='open' OR (priority='low' AND display_id='67890')
           const filters = [
             {
-              attributeKey: 'status',
-              filterOperator: 'equal_to',
+              attribute_key: 'status',
+              filter_operator: 'equal_to',
               values: ['open'],
-              queryOperator: 'or',
+              query_operator: 'or',
             },
             {
-              attributeKey: 'priority',
-              filterOperator: 'equal_to',
+              attribute_key: 'priority',
+              filter_operator: 'equal_to',
               values: ['low'],
-              queryOperator: 'and',
+              query_operator: 'and',
             },
             {
-              attributeKey: 'display_id',
-              filterOperator: 'equal_to',
+              attribute_key: 'display_id',
+              filter_operator: 'equal_to',
               values: ['67890'],
-              queryOperator: null,
+              query_operator: null,
             },
           ];
 
@@ -795,22 +795,22 @@ describe('filterHelpers', () => {
           // This filter chain is: status='open' OR (priority='low' AND display_id='67890')
           const filters = [
             {
-              attributeKey: 'status',
-              filterOperator: 'equal_to',
+              attribute_key: 'status',
+              filter_operator: 'equal_to',
               values: ['open'],
-              queryOperator: 'or',
+              query_operator: 'or',
             },
             {
-              attributeKey: 'priority',
-              filterOperator: 'equal_to',
+              attribute_key: 'priority',
+              filter_operator: 'equal_to',
               values: ['low'],
-              queryOperator: 'and',
+              query_operator: 'and',
             },
             {
-              attributeKey: 'display_id',
-              filterOperator: 'equal_to',
+              attribute_key: 'display_id',
+              filter_operator: 'equal_to',
               values: ['67890'],
-              queryOperator: null,
+              query_operator: null,
             },
           ];
 
@@ -834,28 +834,28 @@ describe('filterHelpers', () => {
           // This filter chain is: (status='open' AND priority='urgent') OR (display_id='67890' AND browser_language='tr')
           const filters = [
             {
-              attributeKey: 'status',
-              filterOperator: 'equal_to',
+              attribute_key: 'status',
+              filter_operator: 'equal_to',
               values: ['open'],
-              queryOperator: 'and',
+              query_operator: 'and',
             },
             {
-              attributeKey: 'priority',
-              filterOperator: 'equal_to',
+              attribute_key: 'priority',
+              filter_operator: 'equal_to',
               values: ['urgent'],
-              queryOperator: 'or',
+              query_operator: 'or',
             },
             {
-              attributeKey: 'display_id',
-              filterOperator: 'equal_to',
+              attribute_key: 'display_id',
+              filter_operator: 'equal_to',
               values: ['67890'],
-              queryOperator: 'and',
+              query_operator: 'and',
             },
             {
-              attributeKey: 'browser_language',
-              filterOperator: 'equal_to',
+              attribute_key: 'browser_language',
+              filter_operator: 'equal_to',
               values: ['tr'],
-              queryOperator: null,
+              query_operator: null,
             },
           ];
 
@@ -876,28 +876,28 @@ describe('filterHelpers', () => {
           // This filter chain is: (status='open' AND priority='urgent') OR (display_id='67890' AND browser_language='tr')
           const filters = [
             {
-              attributeKey: 'status',
-              filterOperator: 'equal_to',
+              attribute_key: 'status',
+              filter_operator: 'equal_to',
               values: ['open'],
-              queryOperator: 'and',
+              query_operator: 'and',
             },
             {
-              attributeKey: 'priority',
-              filterOperator: 'equal_to',
+              attribute_key: 'priority',
+              filter_operator: 'equal_to',
               values: ['urgent'],
-              queryOperator: 'or',
+              query_operator: 'or',
             },
             {
-              attributeKey: 'display_id',
-              filterOperator: 'equal_to',
+              attribute_key: 'display_id',
+              filter_operator: 'equal_to',
               values: ['67890'],
-              queryOperator: 'and',
+              query_operator: 'and',
             },
             {
-              attributeKey: 'browser_language',
-              filterOperator: 'equal_to',
+              attribute_key: 'browser_language',
+              filter_operator: 'equal_to',
               values: ['tr'],
-              queryOperator: null,
+              query_operator: null,
             },
           ];
 
@@ -921,28 +921,28 @@ describe('filterHelpers', () => {
           // This filter chain is: status='open' AND (priority='urgent' OR display_id='67890') AND conversation_type='platinum'
           const filters = [
             {
-              attributeKey: 'status',
-              filterOperator: 'equal_to',
+              attribute_key: 'status',
+              filter_operator: 'equal_to',
               values: ['open'],
-              queryOperator: 'and',
+              query_operator: 'and',
             },
             {
-              attributeKey: 'priority',
-              filterOperator: 'equal_to',
+              attribute_key: 'priority',
+              filter_operator: 'equal_to',
               values: ['urgent'],
-              queryOperator: 'or',
+              query_operator: 'or',
             },
             {
-              attributeKey: 'display_id',
-              filterOperator: 'equal_to',
+              attribute_key: 'display_id',
+              filter_operator: 'equal_to',
               values: ['67890'],
-              queryOperator: 'and',
+              query_operator: 'and',
             },
             {
-              attributeKey: 'conversation_type',
-              filterOperator: 'equal_to',
+              attribute_key: 'conversation_type',
+              filter_operator: 'equal_to',
               values: ['platinum'],
-              queryOperator: null,
+              query_operator: null,
             },
           ];
 
@@ -963,28 +963,28 @@ describe('filterHelpers', () => {
           // This filter chain is: status='open' AND (priority='urgent' OR display_id='67890') AND conversation_type='platinum'
           const filters = [
             {
-              attributeKey: 'status',
-              filterOperator: 'equal_to',
+              attribute_key: 'status',
+              filter_operator: 'equal_to',
               values: ['open'],
-              queryOperator: 'and',
+              query_operator: 'and',
             },
             {
-              attributeKey: 'priority',
-              filterOperator: 'equal_to',
+              attribute_key: 'priority',
+              filter_operator: 'equal_to',
               values: ['urgent'],
-              queryOperator: 'or',
+              query_operator: 'or',
             },
             {
-              attributeKey: 'display_id',
-              filterOperator: 'equal_to',
+              attribute_key: 'display_id',
+              filter_operator: 'equal_to',
               values: ['67890'],
-              queryOperator: 'and',
+              query_operator: 'and',
             },
             {
-              attributeKey: 'conversation_type',
-              filterOperator: 'equal_to',
+              attribute_key: 'conversation_type',
+              filter_operator: 'equal_to',
               values: ['platinum'],
-              queryOperator: null,
+              query_operator: null,
             },
           ];
 
