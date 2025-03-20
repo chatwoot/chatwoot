@@ -23,6 +23,7 @@ class Messages::Instagram::Direct::MessageBuilder < Messages::Instagram::Direct:
     end
   rescue StandardError => e
     Rails.logger.error("Error performing message builder for Instagram Direct Message: #{@messaging}")
+    # TODO: Check if this is the correct way to handle the error
     if e.response&.unauthorized?
       @inbox.channel.authorization_error!
       raise

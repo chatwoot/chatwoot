@@ -211,6 +211,91 @@ describe Webhooks::InstagramEventsJob do
         expect(instagram_direct_inbox.messages.count).to be 1
         expect(instagram_direct_inbox.messages.last.content_attributes['is_unsupported']).to be_nil
       end
+
+      it 'creates standby message in the instagram direct inbox' do
+        instagram_webhook.perform_now(message_events[:standby][:entry])
+
+        instagram_direct_inbox.reload
+
+        expect(instagram_direct_inbox.contacts.count).to be 1
+        expect(instagram_direct_inbox.contacts.last.additional_attributes['social_instagram_user_name']).to eq 'some_user_name'
+        expect(instagram_direct_inbox.conversations.count).to be 1
+        expect(instagram_direct_inbox.messages.count).to be 1
+
+        message = instagram_direct_inbox.messages.last
+        expect(message.content).to eq('This is the first standby message from the customer, after 24 hours.')
+      end
+
+      it 'handle instagram unsend message event' do
+        message = create(:message, inbox_id: instagram_direct_inbox.id, source_id: 'message-id-to-delete')
+        message.attachments.new(file_type: :image, external_url: 'https://www.example.com/test.jpeg')
+
+        expect(instagram_direct_inbox.messages.count).to be 1
+
+        instagram_webhook.perform_now(message_events[:unsend][:entry])
+
+        expect(instagram_direct_inbox.messages.last.content).to eq 'This message was deleted'
+        expect(instagram_direct_inbox.messages.last.deleted).to be true
+        expect(instagram_direct_inbox.messages.last.attachments.count).to be 0
+        expect(instagram_direct_inbox.messages.last.reload.deleted).to be true
+      end
+
+      it 'creates incoming message with attachments in the instagram direct inbox' do
+        instagram_webhook.perform_now(message_events[:attachment][:entry])
+
+        instagram_direct_inbox.reload
+
+        expect(instagram_direct_inbox.contacts.count).to be 1
+        expect(instagram_direct_inbox.messages.count).to be 1
+        expect(instagram_direct_inbox.messages.last.attachments.count).to be 1
+      end
+
+      # it 'creates incoming message with attachments in the instagram direct inbox for story mention' do
+      #   stub_request(:get, %r{https://graph.instagram.com/v22.0/.*\?.*})
+      #     .to_return(
+      #       status: 200,
+      #       body: {
+      #         story: {
+      #           mention: {
+      #             link: 'https://www.example.com/test.jpeg',
+      #             id: '17920786367196703'
+      #           }
+      #         },
+      #         from: {
+      #           username: 'Sender-id-1', id: 'Sender-id-1'
+      #         },
+      #         id: 'instagram-message-id-1234'
+      #       }.to_json,
+      #       headers: { 'Content-Type' => 'application/json' }
+      #     )
+
+      #   instagram_webhook.perform_now(message_events[:story_mention][:entry])
+
+      #   instagram_direct_inbox.reload
+
+      #   expect(instagram_direct_inbox.messages.count).to be 1
+      #   expect(instagram_direct_inbox.messages.last.attachments.count).to be 1
+
+      #   attachment = instagram_direct_inbox.messages.last.attachments.last
+      #   expect(attachment.push_event_data[:data_url]).to eq(attachment.external_url)
+      # end
+
+      it 'handle messaging_seen callback' do
+        expect(Instagram::Direct::ReadStatusService).to receive(:new).with(params: message_events[:messaging_seen][:entry][0][:messaging][0],
+                                                                           channel: instagram_direct_inbox.channel).and_call_original
+        instagram_webhook.perform_now(message_events[:messaging_seen][:entry])
+      end
+
+      it 'handles unsupported message' do
+        instagram_webhook.perform_now(message_events[:unsupported][:entry])
+        instagram_direct_inbox.reload
+
+        expect(instagram_direct_inbox.contacts.count).to be 1
+        expect(instagram_direct_inbox.contacts.last.additional_attributes['social_instagram_user_name']).to eq 'some_user_name'
+        expect(instagram_direct_inbox.conversations.count).to be 1
+        expect(instagram_direct_inbox.messages.count).to be 1
+        expect(instagram_direct_inbox.messages.last.content_attributes['is_unsupported']).to be true
+      end
     end
   end
 end
