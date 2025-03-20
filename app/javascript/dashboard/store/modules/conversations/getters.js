@@ -1,6 +1,7 @@
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { applyPageFilters, sortComparator } from './helpers';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
+import { matchFilter } from './helpers/filterHelpers';
 import camelcaseKeys from 'camelcase-keys';
 
 export const getSelectedChatConversation = ({
@@ -12,6 +13,15 @@ export const getSelectedChatConversation = ({
 const getters = {
   getAllConversations: ({ allConversations, chatSortFilter: sortKey }) => {
     return allConversations.sort((a, b) => sortComparator(a, b, sortKey));
+  },
+  getFilteredConversat: ({
+    allConversations,
+    appliedFilters,
+    chatSortFilter: sortKey,
+  }) => {
+    return allConversations
+      .filter(c => matchFilter(c, appliedFilters))
+      .sort((a, b) => sortComparator(a, b, sortKey));
   },
   getSelectedChat: ({ selectedChatId, allConversations }) => {
     const selectedChat = allConversations.find(
