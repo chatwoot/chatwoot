@@ -1,6 +1,96 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { matchesFilters } from '../filterHelpers';
 
+// SAMPLE PAYLOAD
+//
+// {
+//   attribute_key: 'status',
+//   attribute_model: 'standard',
+//   filter_operator: 'equal_to',
+//   values: [
+//     {
+//       id: 'open',
+//       name: 'Open',
+//     },
+//     {
+//       id: 'resolved',
+//       name: 'Resolved',
+//     },
+//     {
+//       id: 'pending',
+//       name: 'Pending',
+//     },
+//     {
+//       id: 'snoozed',
+//       name: 'Snoozed',
+//     },
+//     {
+//       id: 'all',
+//       name: 'All',
+//     },
+//   ],
+//   query_operator: 'and',
+//   custom_attribute_type: '',
+// },
+// {
+//   attribute_key: 'priority',
+//   filter_operator: 'equal_to',
+//   values: [
+//     {
+//       id: 'low',
+//       name: 'Low',
+//     },
+//     {
+//       id: 'medium',
+//       name: 'Medium',
+//     },
+//     {
+//       id: 'high',
+//       name: 'High',
+//     },
+//   ],
+//   query_operator: 'and',
+// },
+// {
+//   attribute_key: 'assignee_id',
+//   filter_operator: 'equal_to',
+//   values: {
+//     id: 12345,
+//     name: 'Agent Name',
+//   },
+//   query_operator: 'and',
+// },
+// {
+//   attribute_key: 'inbox_id',
+//   filter_operator: 'equal_to',
+//   values: {
+//     id: 37,
+//     name: 'Support Inbox',
+//   },
+//   query_operator: 'and',
+// },
+// {
+//   attribute_key: 'team_id',
+//   filter_operator: 'equal_to',
+//   values: {
+//     id: 220,
+//     name: 'support-team',
+//   },
+//   query_operator: 'and',
+// },
+// {
+//   attribute_key: 'created_at',
+//   filter_operator: 'is_greater_than',
+//   values: '2023-01-20',
+//   query_operator: 'and',
+// },
+// {
+//   attribute_key: 'last_activity_at',
+//   filter_operator: 'days_before',
+//   values: '998',
+//   query_operator: 'and',
+// },
+
 describe('filterHelpers', () => {
   describe('#matchesFilters', () => {
     it('returns true by default when no filters are provided', () => {
