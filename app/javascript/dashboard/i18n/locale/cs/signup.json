@@ -34,6 +34,11 @@
       "PLACEHOLDER": "Potvrzení hesla",
       "ERROR": "Heslo se neshoduje"
     },
+    "PHONE_NUMBER": {
+    "LABEL": "Telefonní číslo",
+    "PLACEHOLDER": "Zadejte telefonní číslo",
+    "ERROR": "Zadejte prosím platné telefonní číslo."
+    },
     "API": {
       "SUCCESS_MESSAGE": "Registrace byla úspěšná",
       "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"

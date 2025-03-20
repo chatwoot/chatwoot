@@ -34,6 +34,11 @@
       "PLACEHOLDER": "Bekræft Adgangskode",
       "ERROR": "Adgangskode stemmer ikke overens"
     },
+    "PHONE_NUMBER": {
+    "LABEL": "Telefonnummer",
+    "PLACEHOLDER": "Indtast telefonnummer",
+    "ERROR": "Indtast venligst et gyldigt telefonnummer."
+    },
     "API": {
       "SUCCESS_MESSAGE": "Registrering Succesfuld",
       "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"

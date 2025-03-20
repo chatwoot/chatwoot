@@ -34,6 +34,11 @@
       "PLACEHOLDER": "Confirma la contrasenya",
       "ERROR": "La contrasenya no coincideix."
     },
+    "PHONE_NUMBER": {
+      "LABEL": "Número de telèfon",
+      "PLACEHOLDER": "Introdueix el número de telèfon",
+      "ERROR": "Si us plau, introdueix un número de telèfon vàlid."
+    },
     "API": {
       "SUCCESS_MESSAGE": "Registrat correctament",
       "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"

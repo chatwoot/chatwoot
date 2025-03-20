@@ -38,6 +38,8 @@ user:
   $ref: ./resource/user.yml
 agent:
   $ref: ./resource/agent.yml
+ai_agent:
+  $ref: ./resource/ai_agent.yml
 inbox:
   $ref: ./resource/inbox.yml
 agent_bot:

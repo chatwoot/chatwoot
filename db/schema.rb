@@ -121,6 +121,23 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_19_110353) do
     t.index ["account_id"], name: "index_agent_bots_on_account_id"
   end
 
+  create_table "ai_agents", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "name", null: false
+    t.text "system_prompts", null: false
+    t.text "welcoming_message", null: false
+    t.text "routing_conditions"
+    t.boolean "control_flow_rules", default: false, null: false
+    t.string "model_name", default: "gpt-4o"
+    t.integer "history_limit", default: 20
+    t.integer "context_limit", default: 10
+    t.integer "message_await", default: 5
+    t.integer "message_limit", default: 1000
+    t.string "timezone", default: "UTC", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "applied_slas", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "sla_policy_id", null: false
@@ -1142,6 +1159,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_19_110353) do
     t.jsonb "custom_attributes", default: {}
     t.string "type"
     t.text "message_signature"
+    t.string "phone"
     t.index ["email"], name: "index_users_on_email"
     t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

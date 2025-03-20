@@ -1,0 +1,26 @@
+tags:
+  - AI Agents
+operationId: add-new-ai-agent-to-account
+summary: Add a New AI Agent
+description: Add a new AI Agent to Account
+security:
+  - userApiKey: []
+parameters:
+  - name: data
+    in: body
+    required: true
+    schema:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Full Name of the agent
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/ai_agent'
+  403:
+    description: Access denied
