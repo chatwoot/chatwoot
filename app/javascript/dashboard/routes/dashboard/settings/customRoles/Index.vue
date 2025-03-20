@@ -5,6 +5,7 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import CustomRoleModal from './component/CustomRoleModal.vue';
 import CustomRoleTableBody from './component/CustomRoleTableBody.vue';
 import CustomRolePaywall from './component/CustomRolePaywall.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
@@ -134,14 +135,12 @@ const confirmDeletion = () => {
         feature-name="canned_responses"
       >
         <template #actions>
-          <woot-button
-            class="rounded-md button nice"
-            icon="add-circle"
+          <Button
+            icon="i-lucide-circle-plus"
+            :label="$t('CUSTOM_ROLE.HEADER_BTN_TXT')"
             :disabled="isBehindAPaywall"
             @click="openAddModal"
-          >
-            {{ $t('CUSTOM_ROLE.HEADER_BTN_TXT') }}
-          </woot-button>
+          />
         </template>
       </BaseSettingsHeader>
     </template>
