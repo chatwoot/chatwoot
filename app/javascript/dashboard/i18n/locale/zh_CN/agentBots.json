@@ -2,8 +2,8 @@
   "AGENT_BOTS": {
     "HEADER": "机器人",
     "LOADING_EDITOR": "正在加载编辑器...",
-    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.You can manage your bots from this page or create new ones using the 'Configure new bot' button.",
-    "LEARN_MORE": "Learn about agent bots",
+    "DESCRIPTION": "客服机器人就像您团队中最出色的成员。它们可以处理琐事，让您专注于重要的事情。试试看吧。您可以在此页面管理您的机器人，或使用“配置新机器人”按钮创建新的机器人。",
+    "LEARN_MORE": "了解客服机器人",
     "CSML_BOT_EDITOR": {
       "NAME": {
         "LABEL": "机器人名称",
@@ -28,7 +28,7 @@
       "SUCCESS_MESSAGE": "成功更新代理机器人。",
       "DISCONNECTED_SUCCESS_MESSAGE": "成功断开代理机器人。",
       "ERROR_MESSAGE": "无法更新代理机器人。请再试一次。",
-      "DISCONNECTED_ERROR_MESSAGE": "无法断开代理机器人。请再试一次。",
+      "DISCONNECTED_ERROR_MESSAGE": "无法断开客服机器人。请再试一次。",
       "SELECT_PLACEHOLDER": "选择机器人"
     },
     "ADD": {

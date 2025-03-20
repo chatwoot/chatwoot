@@ -119,7 +119,8 @@
       "EMPTY_LIST": "No se encontraron resultados"
     },
     "PAGINATION": {
-      "RESULTS": "Mostrando {start} a {end} de {total} resultados"
+      "RESULTS": "Mostrando {start} a {end} de {total} resultados",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
