@@ -14,7 +14,7 @@ const getters = {
   getAllConversations: ({ allConversations, chatSortFilter: sortKey }) => {
     return allConversations.sort((a, b) => sortComparator(a, b, sortKey));
   },
-  getFilteredConversat: ({
+  getFilteredConversations: ({
     allConversations,
     appliedFilters,
     chatSortFilter: sortKey,
