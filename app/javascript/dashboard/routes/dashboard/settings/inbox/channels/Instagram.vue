@@ -25,7 +25,8 @@ export default {
 
   mounted() {
     const urlParams = new URLSearchParams(window.location.search);
-    const errorType = urlParams.get('error_type');
+    //  TODO: Handle error type
+    // const errorType = urlParams.get('error_type');
     const errorCode = urlParams.get('code');
     const errorMessage = urlParams.get('error_message');
 
@@ -47,10 +48,6 @@ export default {
     const cleanURL = window.location.pathname;
     window.history.replaceState({}, document.title, cleanURL);
   },
-
-  validations: {},
-
-  computed: {},
 
   methods: {
     async requestAuthorization() {
