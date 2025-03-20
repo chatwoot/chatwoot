@@ -3,9 +3,6 @@ class Instagram::CallbacksController < ApplicationController
   include Instagram::IntegrationHelper
 
   def show
-    Rails.logger.info("Instagram callback params: #{params}")
-    Rails.logger.info("Instagram OAuth Code: #{oauth_code}")
-
     @response = oauth_client.auth_code.get_token(
       oauth_code,
       redirect_uri: "#{base_url}/#{provider_name}/callback",
@@ -40,14 +37,9 @@ class Instagram::CallbacksController < ApplicationController
 
   def create_channel_with_inbox
     ActiveRecord::Base.transaction do
-      Rails.logger.info('Creating channel with inbox')
-
       expires_at = Time.current + @long_lived_token_response['expires_in'].seconds
-      Rails.logger.info("Expires at: #{expires_at}")
 
-      # Get Instagram user details
       user_details = fetch_instagram_user_details(@long_lived_token_response['access_token'])
-      Rails.logger.info("Instagram user details: #{user_details.inspect}")
 
       channel_instagram = Channel::Instagram.create!(
         access_token: @long_lived_token_response['access_token'],
@@ -72,10 +64,6 @@ class Instagram::CallbacksController < ApplicationController
     return unless params[:state]
 
     verify_instagram_token(params[:state])
-  end
-
-  def provider_name
-    raise NotImplementedError
   end
 
   def oauth_code
