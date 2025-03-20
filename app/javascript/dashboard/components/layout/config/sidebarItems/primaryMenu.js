@@ -42,6 +42,16 @@ const primaryMenuItems = accountId => [
     toStateName: 'account_overview_reports',
   },
   {
+    icon: 'bot',
+    label: 'AI_AGENTS',
+    hasSubMenu: false,
+    meta: {
+      permissions: ['administrator'],
+    },
+    toState: frontendURL(`accounts/${accountId}/ai-agents`),
+    toStateName: 'ai_agents_index',
+  },
+  {
     icon: 'people',
     label: 'AGENTS',
     hasSubMenu: true,
@@ -120,7 +130,7 @@ const primaryMenuItems = accountId => [
     },
     toState: frontendURL(`accounts/${accountId}/settings/billing`),
     toStateName: 'billing_settings_index',
-  },
+  }
 ];
 
 export default primaryMenuItems;

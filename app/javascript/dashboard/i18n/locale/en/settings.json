@@ -323,7 +323,8 @@
       "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard.",
       "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
-    "DOCS": "Read docs"
+    "DOCS": "Read docs",
+    "AI_AGENTS": "AI Agents"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Billing",
