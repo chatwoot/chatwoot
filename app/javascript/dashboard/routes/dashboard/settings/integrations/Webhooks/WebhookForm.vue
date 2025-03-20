@@ -130,6 +130,7 @@ export default {
       <NextButton
         faded
         slate
+        type="reset"
         :label="$t('INTEGRATION_SETTINGS.WEBHOOK.FORM.CANCEL')"
         @click.prevent="$emit('cancel')"
       />

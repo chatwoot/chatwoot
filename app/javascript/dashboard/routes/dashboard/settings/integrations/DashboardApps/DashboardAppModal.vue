@@ -153,6 +153,7 @@ export default {
           <NextButton
             faded
             slate
+            type="reset"
             :label="
               $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.CREATE.FORM_CANCEL')
             "
