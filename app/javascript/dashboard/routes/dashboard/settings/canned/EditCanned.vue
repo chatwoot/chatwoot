@@ -125,6 +125,7 @@ export default {
           <NextButton
             faded
             slate
+            type="reset"
             :label="$t('CANNED_MGMT.EDIT.CANCEL_BUTTON_TEXT')"
             @click.prevent="onClose"
           />
