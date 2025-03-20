@@ -38,8 +38,7 @@ class Webhooks::Trigger
   end
 
   def should_handle_error?
-    [:api_inbox_webhook, :web_widget_webhook, :instagram_inbox_webhook].include?(@webhook_type) &&
-      SUPPORTED_ERROR_HANDLE_EVENTS.include?(@payload[:event])
+    @webhook_type == :api_inbox_webhook && SUPPORTED_ERROR_HANDLE_EVENTS.include?(@payload[:event])
   end
 
   def update_message_status(error)
