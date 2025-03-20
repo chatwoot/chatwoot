@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "断开连接"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+      "DIALOGFLOW": "Dialogflow 是一个用于构建对话界面的自然语言处理平台。将其与 {installationName} 集成可以让机器人优先处理查询，并在需要时转接给客服代理。它通过回答常见问题来帮助筛选潜在客户并减少客服代理工作量。要添加 Dialogflow，请在 Google 控制台中创建服务帐户并共享凭据。详情请参阅文档"
     }
   }
 }
