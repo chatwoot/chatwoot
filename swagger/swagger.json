@@ -52,6 +52,221 @@
     }
   ],
   "paths": {
+    "/api/v1/accounts/subscriptions": {
+      "get": {
+        "summary": "Get list of subscriptions",
+        "operationId": "getSubscriptions",
+        "tags": ["Subscriptions"],
+        "responses": {
+          "200": {
+            "description": "List of subscriptions",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Subscription"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new subscription",
+        "operationId": "createSubscription",
+        "tags": ["Subscriptions"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Subscription"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Subscription created",
+            "schema": {
+              "$ref": "#/definitions/Subscription"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/subscriptions/{id}": {
+      "get": {
+        "summary": "Get a specific subscription",
+        "operationId": "getSubscription",
+        "tags": ["Subscriptions"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subscription details",
+            "schema": {
+              "$ref": "#/definitions/Subscription"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a subscription",
+        "operationId": "updateSubscription",
+        "tags": ["Subscriptions"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Subscription"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subscription updated",
+            "schema": {
+              "$ref": "#/definitions/Subscription"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/subscriptions/{id}/cancel": {
+      "put": {
+        "summary": "Cancel a subscription",
+        "operationId": "cancelSubscription",
+        "tags": ["Subscriptions"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subscription cancelled"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/subscriptions/{subscription_id}/subscription_payments": {
+      "get": {
+        "summary": "Get list of payments for a subscription",
+        "operationId": "getSubscriptionPayments",
+        "tags": ["Subscription Payments"],
+        "parameters": [
+          {
+            "name": "subscription_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of payments",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SubscriptionPayment"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a payment for a subscription",
+        "operationId": "createSubscriptionPayment",
+        "tags": ["Subscription Payments"],
+        "parameters": [
+          {
+            "name": "subscription_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SubscriptionPayment"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Payment created",
+            "schema": {
+              "$ref": "#/definitions/SubscriptionPayment"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/subscriptions/{subscription_id}/subscription_payments/{id}/check_status": {
+      "get": {
+        "summary": "Check payment status",
+        "operationId": "checkPaymentStatus",
+        "tags": ["Subscription Payments"],
+        "parameters": [
+          {
+            "name": "subscription_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payment status",
+            "schema": {
+              "$ref": "#/definitions/PaymentStatus"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/subscriptions/plans": {
+      "get": {
+        "summary": "Get available subscription plans",
+        "operationId": "getPlans",
+        "tags": ["Subscriptions"],
+        "responses": {
+          "200": {
+            "description": "List of subscription plans",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SubscriptionPlan"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/pricing_plans": {
       "get": {
         "tags": [
@@ -5404,6 +5619,44 @@
     }
   },
   "definitions": {
+    "Subscription": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer" },
+        "name": { "type": "string" },
+        "status": { "type": "string" },
+        "plan_id": { "type": "integer" },
+        "user_id": { "type": "integer" }
+      }
+    },
+    "SubscriptionPlan": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer" },
+        "name": { "type": "string" },
+        "monthly_price": { "type": "number" },
+        "annual_price": { "type": "number" },
+        "max_mau": { "type": "integer" },
+        "max_ai_agents": { "type": "integer" },
+        "max_human_agents": { "type": "integer" }
+      }
+    },
+    "SubscriptionPayment": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer" },
+        "subscription_id": { "type": "integer" },
+        "amount": { "type": "number" },
+        "status": { "type": "string" }
+      }
+    },
+    "PaymentStatus": {
+      "type": "object",
+      "properties": {
+        "status": { "type": "string" },
+        "message": { "type": "string" }
+      }
+    },
     "PricingPlan": {
       "type": "object",
       "properties": {
@@ -7571,6 +7824,13 @@
     }
   },
   "x-tagGroups": [
+    {
+      "name": "Subscriptions",
+      "tags": [
+        "Subscriptions",
+        "Subscription Payments"
+      ]
+    },
     {
       "name": "Pricings",
       "tags": [

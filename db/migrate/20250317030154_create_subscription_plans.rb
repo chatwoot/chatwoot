@@ -9,8 +9,8 @@ class CreateSubscriptionPlans < ActiveRecord::Migration[7.0]
       t.text :available_channels, array: true, default: []
       t.string :support_level
       t.integer :duration_days
-      t.decimal :monthly_price, precision: 10, scale: 2, null: false
-      t.decimal :annual_price, precision: 10, scale: 2, null: false
+      t.decimal :monthly_price, precision: 16, scale: 2, null: false
+      t.decimal :annual_price, precision: 16, scale: 2, null: false
       t.boolean :is_active, default: true
       t.timestamps
     end

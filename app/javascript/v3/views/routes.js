@@ -2,11 +2,26 @@ import { frontendURL } from 'dashboard/helper/URLHelper';
 
 import Login from './login/Index.vue';
 import Signup from './auth/signup/Index.vue';
+import Pricing from './pricing/Index.vue';
 import ResetPassword from './auth/reset/password/Index.vue';
 import Confirmation from './auth/confirmation/Index.vue';
 import PasswordEdit from './auth/password/Edit.vue';
 
 export default [
+  {
+    path: frontendURL('pricing'),
+    name: 'pricing',
+    component: Pricing,
+    meta: { requiresAuth: false },
+    // props: route => ({
+    //   config: route.query.config,
+    //   // email: route.query.email,
+    //   // ssoAuthToken: route.query.sso_auth_token,
+    //   // ssoAccountId: route.query.sso_account_id,
+    //   // ssoConversationId: route.query.sso_conversation_id,
+    //   // authError: route.query.error,
+    // }),
+  },
   {
     path: frontendURL('login'),
     name: 'login',

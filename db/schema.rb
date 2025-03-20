@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_16_061033) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_19_110353) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -57,6 +57,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_16_061033) do
     t.jsonb "limits", default: {}
     t.jsonb "custom_attributes", default: {}
     t.integer "status", default: 0
+    t.bigint "active_subscription_id"
+    t.string "subscription_status", default: "free_trial"
+    t.index ["active_subscription_id"], name: "index_accounts_on_active_subscription_id"
     t.index ["status"], name: "index_accounts_on_status"
   end
 
@@ -891,6 +894,26 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_16_061033) do
     t.index ["user_id"], name: "index_portals_members_on_user_id"
   end
 
+  create_table "pricing_plans", force: :cascade do |t|
+    t.string "name"
+    t.integer "price"
+    t.text "description"
+    t.integer "max_active_users"
+    t.integer "human_agents"
+    t.integer "ai_responses"
+    t.boolean "dedicated_support", default: false
+    t.boolean "openapi_access", default: false
+    t.string "tag", default: "regular"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "ai_agents", default: 0
+    t.integer "monthly_price", default: 0
+    t.integer "annual_price", default: 0
+    t.text "integration_channels"
+    t.string "support_level"
+    t.integer "sequence_number"
+  end
+
   create_table "related_categories", force: :cascade do |t|
     t.bigint "category_id"
     t.bigint "related_category_id"
@@ -949,6 +972,91 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_16_061033) do
     t.string "description"
     t.float "resolution_time_threshold"
     t.index ["account_id"], name: "index_sla_policies_on_account_id"
+  end
+
+  create_table "subscription_payments", force: :cascade do |t|
+    t.bigint "subscription_id", null: false
+    t.decimal "amount", precision: 10, scale: 2, null: false
+    t.string "duitku_transaction_id"
+    t.string "duitku_order_id", null: false
+    t.string "payment_method"
+    t.string "payment_url"
+    t.string "status", default: "pending", null: false
+    t.datetime "paid_at"
+    t.datetime "expires_at"
+    t.text "payment_details"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["duitku_order_id"], name: "index_subscription_payments_on_duitku_order_id"
+    t.index ["subscription_id"], name: "index_subscription_payments_on_subscription_id"
+  end
+
+  create_table "subscription_plans", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "max_mau", default: 0, null: false
+    t.integer "max_ai_agents", default: 0, null: false
+    t.integer "max_ai_responses", default: 0, null: false
+    t.integer "max_human_agents", default: 0, null: false
+    t.text "available_channels", default: [], array: true
+    t.string "support_level"
+    t.integer "duration_days"
+    t.decimal "monthly_price", precision: 16, scale: 2, null: false
+    t.decimal "annual_price", precision: 16, scale: 2, null: false
+    t.boolean "is_active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.jsonb "features", default: [], null: false
+    t.text "description"
+  end
+
+  create_table "subscription_plans_copy1", id: :bigint, default: -> { "nextval('subscription_plans_id_seq'::regclass)" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "max_mau", default: 0, null: false
+    t.integer "max_ai_agents", default: 0, null: false
+    t.integer "max_ai_responses", default: 0, null: false
+    t.integer "max_human_agents", default: 0, null: false
+    t.text "available_channels", default: [], array: true
+    t.string "support_level"
+    t.integer "duration_days"
+    t.decimal "monthly_price", precision: 16, scale: 2, null: false
+    t.decimal "annual_price", precision: 16, scale: 2, null: false
+    t.boolean "is_active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "subscription_usage", force: :cascade do |t|
+    t.bigint "subscription_id", null: false
+    t.integer "mau_count", default: 0
+    t.integer "ai_responses_count", default: 0
+    t.datetime "last_reset_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["subscription_id"], name: "index_subscription_usage_on_subscription_id"
+  end
+
+  create_table "subscriptions", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "plan_name", null: false
+    t.integer "max_mau", default: 0, null: false
+    t.integer "max_ai_agents", default: 0, null: false
+    t.integer "max_ai_responses", default: 0, null: false
+    t.integer "max_human_agents", default: 0, null: false
+    t.text "available_channels", default: [], array: true
+    t.string "support_level"
+    t.datetime "starts_at", null: false
+    t.datetime "ends_at", null: false
+    t.string "status", default: "pending", null: false
+    t.string "payment_status", default: "pending", null: false
+    t.string "billing_cycle", default: "monthly", null: false
+    t.string "duitku_order_id"
+    t.decimal "amount_paid", precision: 10, scale: 2
+    t.decimal "price", precision: 10, scale: 2, null: false
+    t.bigint "subscription_plan_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_subscriptions_on_account_id"
+    t.index ["subscription_plan_id"], name: "index_subscriptions_on_subscription_plan_id"
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|
@@ -1067,9 +1175,13 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_16_061033) do
     t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
   end
 
+  add_foreign_key "accounts", "subscriptions", column: "active_subscription_id"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "subscription_payments", "subscriptions"
+  add_foreign_key "subscription_usage", "subscriptions"
+  add_foreign_key "subscriptions", "accounts"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).
