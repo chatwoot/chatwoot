@@ -104,7 +104,7 @@ const matchesCondition = (value, filter) => {
     return filterOperator === 'is_not_present';
   }
 
-  const resolvedValue = candidate => {
+  const resolveValue = candidate => {
     if (
       typeof candidate === 'object' &&
       candidate !== null &&
@@ -117,8 +117,8 @@ const matchesCondition = (value, filter) => {
   };
 
   const valuesInFilter = Array.isArray(values)
-    ? values.map(resolvedValue)
-    : resolvedValue(values);
+    ? values.map(resolveValue)
+    : resolveValue(values);
 
   switch (filterOperator) {
     case 'equal_to':
