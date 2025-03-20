@@ -119,7 +119,8 @@
       "EMPTY_LIST": "Nav atrasts"
     },
     "PAGINATION": {
-      "RESULTS": "Rāda {start} līdz {end} no {total} rezultātiem"
+      "RESULTS": "Rāda {start} līdz {end} no {total} rezultātiem",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {

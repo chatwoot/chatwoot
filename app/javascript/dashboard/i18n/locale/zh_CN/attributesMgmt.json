@@ -93,7 +93,7 @@
     },
     "LIST": {
       "TABLE_HEADER": {
-        "NAME": "姓名：",
+        "NAME": "名称",
         "DESCRIPTION": "描述信息",
         "TYPE": "类型",
         "KEY": "键"
