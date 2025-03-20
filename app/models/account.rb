@@ -128,6 +128,14 @@ class Account < ApplicationRecord
     }
   end
 
+  def locale_english_name
+    # the locale can also be something like pt_BR, en_US, fr_FR, etc.
+    # the format is `<locale_code>_<country_code>`
+    # we need to extract the language code from the locale
+    account_locale = locale&.split('_')&.first
+    ISO_639.find(account_locale)&.english_name&.downcase || 'english'
+  end
+
   private
 
   def notify_creation

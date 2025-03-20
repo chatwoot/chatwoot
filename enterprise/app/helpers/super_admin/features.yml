@@ -91,3 +91,9 @@ instagram:
   enabled: true
   icon: 'icon-instagram'
   config_key: 'instagram'
+shopify:
+  name: 'Shopify'
+  description: 'Configuration for setting up Shopify'
+  enabled: true
+  icon: 'icon-shopify'
+  config_key: 'shopify'

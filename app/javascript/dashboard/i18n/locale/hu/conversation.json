@@ -12,6 +12,8 @@
     "NO_INBOX_2": " Első lépések",
     "NO_INBOX_AGENT": "O-Ó! Úgy tűnik, hogy egyetlen fióknak sem vagy tagja. Kérjük lépj kapcsolatba az adminisztrátoroddal",
     "SEARCH_MESSAGES": "Üzenetek keresése a beszélgetésekben",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "menü megnyitása",
       "KEYBOARD_SHORTCUTS": "billentyűparancs megtekintése"

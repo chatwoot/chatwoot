@@ -12,6 +12,8 @@
     "NO_INBOX_2": " للبدء",
     "NO_INBOX_AGENT": "يبدو أنه لم يتم إسنادك لأي قنوات تواصل بعد. الرجاء التواصل مع المدير لإضافتك لصناديق الوارد الخاصة بقنوات التواصل",
     "SEARCH_MESSAGES": "ابحث عن رسائل في المحادثات",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "لفتح قائمة الأوامر",
       "KEYBOARD_SHORTCUTS": "لعرض اختصارات لوحة المفاتيح"
