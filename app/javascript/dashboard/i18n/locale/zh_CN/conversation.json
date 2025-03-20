@@ -12,6 +12,8 @@
     "NO_INBOX_2": " 开始吧",
     "NO_INBOX_AGENT": "看起来您还没有分配到收件箱。请联系您的管理员",
     "SEARCH_MESSAGES": "搜索对话中的消息",
+    "VIEW_ORIGINAL": "查看原始内容",
+    "VIEW_TRANSLATED": "查看翻译",
     "EMPTY_STATE": {
       "CMD_BAR": "打开命令菜单",
       "KEYBOARD_SHORTCUTS": "查看键盘快捷键"

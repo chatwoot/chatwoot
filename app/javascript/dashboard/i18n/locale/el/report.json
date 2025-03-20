@@ -476,6 +476,18 @@
         "STATUS": "Κατάσταση"
       }
     },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Ομάδα",
+        "OPEN": "Ανοιχτές",
+        "UNATTENDED": "Χωρίς Παρακολούθηση",
+        "STATUS": "Κατάσταση"
+      }
+    },
     "AGENT_STATUS": {
       "HEADER": "Κατάσταση πράκτορα",
       "ONLINE": "Στην Γραμμή",

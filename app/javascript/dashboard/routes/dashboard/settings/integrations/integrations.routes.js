@@ -8,6 +8,8 @@ import DashboardApps from './DashboardApps/Index.vue';
 import Slack from './Slack.vue';
 import SettingsContent from '../Wrapper.vue';
 import Linear from './Linear.vue';
+import Shopify from './Shopify.vue';
+
 export default {
   routes: [
     {
@@ -87,6 +89,16 @@ export default {
             permissions: ['administrator'],
           },
           props: route => ({ code: route.query.code }),
+        },
+        {
+          path: 'shopify',
+          name: 'settings_integrations_shopify',
+          component: Shopify,
+          meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
+            permissions: ['administrator'],
+          },
+          props: route => ({ error: route.query.error }),
         },
         {
           path: ':integration_id',

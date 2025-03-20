@@ -476,6 +476,18 @@
         "STATUS": "상태"
       }
     },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Team",
+        "OPEN": "열기",
+        "UNATTENDED": "Unattended",
+        "STATUS": "상태"
+      }
+    },
     "AGENT_STATUS": {
       "HEADER": "Agent status",
       "ONLINE": "온라인",

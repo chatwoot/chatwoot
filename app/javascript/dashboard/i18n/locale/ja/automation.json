@@ -125,6 +125,7 @@
       "ACTION_PARAMETERS_REQUIRED": "アクションパラメータが必須です",
       "ATLEAST_ONE_CONDITION_REQUIRED": "少なくとも1つの条件が必要です",
       "ATLEAST_ONE_ACTION_REQUIRED": "少なくとも1つのアクションが必要です"
-    }
+    },
+    "NONE_OPTION": "なし"
   }
 }
