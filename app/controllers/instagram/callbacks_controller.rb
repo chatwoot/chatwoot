@@ -3,6 +3,13 @@ class Instagram::CallbacksController < ApplicationController
   include Instagram::IntegrationHelper
 
   def show
+    # Check if Instagram redirected with an error (user canceled authorization)
+    # See: https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/business-login#canceled-authorization
+    if params[:error].present?
+      handle_authorization_error
+      return
+    end
+
     @response = oauth_client.auth_code.get_token(
       oauth_code,
       redirect_uri: "#{base_url}/#{provider_name}/callback",
@@ -15,16 +22,44 @@ class Instagram::CallbacksController < ApplicationController
   rescue StandardError => e
     Rails.logger.error("Instagram Channel creation Error: #{e.message}")
     ChatwootExceptionTracker.new(e).capture_exception
+
+    # Handle API rejection response errors
+    # See: https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/business-login#sample-rejected-response
     error_info = if e.is_a?(OAuth2::Error)
                    begin
+                     # Instagram returns JSON error response which we parse to extract error details
                      JSON.parse(e.message)
                    rescue JSON::ParseError
+                     # Fall back to a generic OAuth error if JSON parsing fails
                      { 'error_type' => 'OAuthException', 'code' => 400, 'error_message' => e.message }
                    end
                  else
+                   # For other unexpected errors
                    { 'error_type' => e.class.name, 'code' => 500, 'error_message' => e.message }
                  end
 
+    redirect_to_error_page(error_info)
+  end
+
+  private
+
+  # Handles the case when a user denies permissions or cancels the authorization flow
+  # Error parameters are documented at:
+  # https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/business-login#canceled-authorization
+  def handle_authorization_error
+    error_info = {
+      'error_type' => params[:error] || 'authorization_error',
+      'code' => 400,
+      'error_message' => params[:error_description] || 'Authorization was denied'
+    }
+
+    Rails.logger.error("Instagram Authorization Error: #{error_info['error_message']}")
+    redirect_to_error_page(error_info)
+  end
+
+  # Centralized method to redirect to error page with appropriate parameters
+  # This ensures consistent error handling across different error scenarios
+  def redirect_to_error_page(error_info)
     redirect_to app_new_instagram_inbox_url(
       account_id: account_id,
       error_type: error_info['error_type'],
@@ -32,8 +67,6 @@ class Instagram::CallbacksController < ApplicationController
       error_message: error_info['error_message']
     )
   end
-
-  private
 
   def create_channel_with_inbox
     ActiveRecord::Base.transaction do
