@@ -30,6 +30,11 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  contact_inboxes:
+    source_change:
+      email_changed: 'Email changed from %{previous} to %{current}'
+      phone_number_changed: 'Phone number changed from %{previous} to %{current}'
+      identifier_changed: 'Source identifier changed from %{previous} to %{current}'
   hello: 'Hello world'
   messages:
     reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.

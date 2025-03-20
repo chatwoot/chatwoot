@@ -31,6 +31,8 @@ class ContactInbox < ApplicationRecord
   belongs_to :contact
   belongs_to :inbox
 
+  after_update_commit :create_source_change_activity, if: :source_id_changed?
+
   has_many :conversations, dependent: :destroy_async
 
   # contact_inboxes that are not associated with any conversation
@@ -56,6 +58,10 @@ class ContactInbox < ApplicationRecord
   end
 
   private
+
+  def create_source_change_activity
+    ContactInbox::SourceChangeActivityJob.perform_later(id, source_id_was, source_id)
+  end
 
   def validate_twilio_source_id
     # https://www.twilio.com/docs/glossary/what-e164#regex-matching-for-e164
