@@ -32,7 +32,6 @@ Rails.application.routes.draw do
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
-
       # ----------------------------------
       # start of pricing plan scoped api routes
       resources :pricing_plans, only: [:index, :show]
@@ -52,6 +51,9 @@ Rails.application.routes.draw do
             resource :contact_merge, only: [:create]
           end
           resource :bulk_actions, only: [:create]
+          resources :ai_agents, only: [:index, :create, :show, :update, :destroy] do
+            delete :avatar, on: :member
+          end
           resources :agents, only: [:index, :create, :update, :destroy] do
             post :bulk_create, on: :collection
           end

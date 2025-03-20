@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_12_125251) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_19_022625) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -116,6 +116,23 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_12_125251) do
     t.integer "bot_type", default: 0
     t.jsonb "bot_config", default: {}
     t.index ["account_id"], name: "index_agent_bots_on_account_id"
+  end
+
+  create_table "ai_agents", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "name", null: false
+    t.text "system_prompts", null: false
+    t.text "welcoming_message", null: false
+    t.text "routing_conditions"
+    t.boolean "control_flow_rules", default: false, null: false
+    t.string "model_name", default: "gpt-4o"
+    t.integer "history_limit", default: 20
+    t.integer "context_limit", default: 10
+    t.integer "message_await", default: 5
+    t.integer "message_limit", default: 1000
+    t.string "timezone", default: "UTC", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "applied_slas", force: :cascade do |t|
@@ -889,6 +906,26 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_12_125251) do
     t.index ["portal_id", "user_id"], name: "index_portals_members_on_portal_id_and_user_id", unique: true
     t.index ["portal_id"], name: "index_portals_members_on_portal_id"
     t.index ["user_id"], name: "index_portals_members_on_user_id"
+  end
+
+  create_table "pricing_plans", force: :cascade do |t|
+    t.string "name"
+    t.integer "price"
+    t.text "description"
+    t.integer "max_active_users"
+    t.integer "human_agents"
+    t.integer "ai_responses"
+    t.boolean "dedicated_support", default: false
+    t.boolean "openapi_access", default: false
+    t.string "tag", default: "regular"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "ai_agents", default: 0
+    t.integer "monthly_price", default: 0
+    t.integer "annual_price", default: 0
+    t.text "integration_channels"
+    t.string "support_level"
+    t.integer "sequence_number"
   end
 
   create_table "related_categories", force: :cascade do |t|
