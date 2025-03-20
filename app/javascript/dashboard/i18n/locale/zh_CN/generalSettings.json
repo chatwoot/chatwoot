@@ -15,7 +15,7 @@
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "帐号 ID",
+        "TITLE": "账号 ID",
         "NOTE": "如果您正在构建基于 API 的集成，那么此 ID 是必需的"
       },
       "NAME": {
@@ -90,7 +90,7 @@
       "conversation_mention": "提及",
       "sla_missed_first_response": "未满足SLA要求",
       "sla_missed_next_response": "未满足SLA要求",
-      "sla_missed_resolution": "未满足SLA要求"
+      "sla_missed_resolution": "未满足 SLA 要求"
     }
   },
   "NETWORK": {

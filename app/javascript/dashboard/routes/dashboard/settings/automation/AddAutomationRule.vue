@@ -2,6 +2,7 @@
 import { mapGetters } from 'vuex';
 import FilterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
 import AutomationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import { useAutomation } from 'dashboard/composables/useAutomation';
 import { validateAutomation } from 'dashboard/helper/validations';
 import {
@@ -39,6 +40,7 @@ export default {
   components: {
     FilterInputBox,
     AutomationActionInput,
+    NextButton,
   },
   props: {
     onClose: {
@@ -184,7 +186,7 @@ export default {
           </label>
           <p
             v-if="hasAutomationMutated"
-            class="text-xs text-right text-green-500 dark:text-green-500"
+            class="text-xs text-right text-green-500 pt-1 dark:text-green-500"
           >
             {{ $t('AUTOMATION.FORM.RESET_MESSAGE') }}
           </p>
@@ -243,15 +245,15 @@ export default {
               @remove-filter="removeFilter(i)"
             />
             <div class="mt-4">
-              <woot-button
-                icon="add"
-                color-scheme="success"
-                variant="smooth"
-                size="small"
+              <NextButton
+                icon="i-lucide-plus"
+                blue
+                faded
+                sm
                 @click="appendNewCondition"
               >
                 {{ $t('AUTOMATION.ADD.CONDITION_BUTTON_LABEL') }}
-              </woot-button>
+              </NextButton>
             </div>
           </div>
         </section>
@@ -287,27 +289,27 @@ export default {
               @remove-action="removeAction(i)"
             />
             <div class="mt-4">
-              <woot-button
-                icon="add"
-                color-scheme="success"
-                variant="smooth"
-                size="small"
+              <NextButton
+                icon="i-lucide-plus"
+                blue
+                faded
+                sm
                 @click="appendNewAction"
               >
                 {{ $t('AUTOMATION.ADD.ACTION_BUTTON_LABEL') }}
-              </woot-button>
+              </NextButton>
             </div>
           </div>
         </section>
         <!-- // Actions End -->
         <div class="w-full">
           <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-            <woot-button class="button clear" @click.prevent="onClose">
+            <NextButton ghost blue @click.prevent="onClose">
               {{ $t('AUTOMATION.ADD.CANCEL_BUTTON_TEXT') }}
-            </woot-button>
-            <woot-button @click="emitSaveAutomation">
+            </NextButton>
+            <NextButton solid blue @click="emitSaveAutomation">
               {{ $t('AUTOMATION.ADD.SUBMIT') }}
-            </woot-button>
+            </NextButton>
           </div>
         </div>
       </div>

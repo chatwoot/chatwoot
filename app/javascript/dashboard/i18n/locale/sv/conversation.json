@@ -12,6 +12,8 @@
     "NO_INBOX_2": " för att komma igång",
     "NO_INBOX_AGENT": "Oj då! Ser ut som om du inte är del av någon inkorg. Kontakta administratören",
     "SEARCH_MESSAGES": "Sök meddelanden i konversationer",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "för att öppna kommandomenyn",
       "KEYBOARD_SHORTCUTS": "för att visa kortkommandon"

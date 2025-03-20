@@ -476,6 +476,18 @@
         "STATUS": "Státusz"
       }
     },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Csapat",
+        "OPEN": "Megnyitás",
+        "UNATTENDED": "Figyelmen kívül hagyott",
+        "STATUS": "Státusz"
+      }
+    },
     "AGENT_STATUS": {
       "HEADER": "Ügynök státusz",
       "ONLINE": "Online",

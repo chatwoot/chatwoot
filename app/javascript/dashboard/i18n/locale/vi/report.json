@@ -476,6 +476,18 @@
         "STATUS": "Trạng thái"
       }
     },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Nhóm",
+        "OPEN": "Mở",
+        "UNATTENDED": "Không giám sát",
+        "STATUS": "Trạng thái"
+      }
+    },
     "AGENT_STATUS": {
       "HEADER": "Trạng thái tổng đài viên",
       "ONLINE": "Trực Tuyến",

@@ -65,7 +65,7 @@
       },
       "BUSINESS_HOURS": {
         "LABEL": "Horário de funcionamento",
-        "PLACEHOLDER": ""
+        "PLACEHOLDER": "Apenas durante o horário comercial"
       },
       "THRESHOLD_TIME": {
         "INVALID_FORMAT_ERROR": "O limite deve ser um número e maior que zero"

@@ -12,6 +12,8 @@
     "NO_INBOX_2": " um loszulegen",
     "NO_INBOX_AGENT": "Oh oh! Sieht so aus, als wären Sie nicht Teil eines Posteingangs. Bitte wenden Sie sich an Ihren Administrator",
     "SEARCH_MESSAGES": "Nachrichten in Unterhaltungen suchen",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "zum Öffnen des Kommandomenüs",
       "KEYBOARD_SHORTCUTS": "um Tastenkürzel anzuzeigen"
