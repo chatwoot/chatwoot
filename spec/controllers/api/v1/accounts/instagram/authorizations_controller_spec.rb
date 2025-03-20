@@ -25,13 +25,13 @@ RSpec.describe 'Instagram Authorization API', type: :request do
       end
 
       it 'creates a new authorization and returns the redirect url' do
-        mock_url = "https://api.instagram.com/oauth/authorize?mock=true"
+        mock_url = 'https://api.instagram.com/oauth/authorize?mock=true'
         auth_code_double = instance_double(OAuth2::Strategy::AuthCode)
         allow(auth_code_double).to receive(:authorize_url).and_return(mock_url)
-        
+
         client_double = instance_double(OAuth2::Client)
         allow(client_double).to receive(:auth_code).and_return(auth_code_double)
-        
+
         allow_any_instance_of(Api::V1::Accounts::Instagram::AuthorizationsController)
           .to receive(:instagram_client)
           .and_return(client_double)

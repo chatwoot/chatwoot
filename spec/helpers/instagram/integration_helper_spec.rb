@@ -9,7 +9,7 @@ RSpec.describe Instagram::IntegrationHelper do
     let(:current_time) { Time.current }
 
     before do
-      allow(ENV).to receive(:fetch).with('INSTAGRAM_APP_SECRET', nil).and_return(client_secret)
+      allow(GlobalConfigService).to receive(:load).with('INSTAGRAM_APP_SECRET', nil).and_return(client_secret)
       allow(Time).to receive(:current).and_return(current_time)
     end
 
@@ -66,7 +66,7 @@ RSpec.describe Instagram::IntegrationHelper do
     end
 
     before do
-      allow(ENV).to receive(:fetch).with('INSTAGRAM_APP_SECRET', nil).and_return(client_secret)
+      allow(GlobalConfigService).to receive(:load).with('INSTAGRAM_APP_SECRET', nil).and_return(client_secret)
     end
 
     it 'successfully verifies and returns account_id from valid token' do

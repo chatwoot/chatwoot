@@ -34,7 +34,7 @@ module Instagram::IntegrationHelper
   private
 
   def client_secret
-    @client_secret ||= ENV.fetch('INSTAGRAM_APP_SECRET', nil)
+    @client_secret ||= GlobalConfigService.load('INSTAGRAM_APP_SECRET', nil)
   end
 
   def decode_token(token, secret)
