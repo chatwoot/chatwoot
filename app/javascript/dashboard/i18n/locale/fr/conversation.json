@@ -12,6 +12,8 @@
     "NO_INBOX_2": " pour commencer",
     "NO_INBOX_AGENT": "Oh Oh ! Il semble que vous ne faites parti d'aucune boîte de réception. Veuillez contacter votre administrateur",
     "SEARCH_MESSAGES": "Rechercher des messages dans les conversations",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "pour ouvrir le menu de commande",
       "KEYBOARD_SHORTCUTS": "pour afficher les raccourcis clavier"

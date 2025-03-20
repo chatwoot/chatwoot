@@ -476,6 +476,18 @@
         "STATUS": "สถานะ"
       }
     },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "ทีม",
+        "OPEN": "เปิด",
+        "UNATTENDED": "ไม่ได้เข้าร่วม",
+        "STATUS": "สถานะ"
+      }
+    },
     "AGENT_STATUS": {
       "HEADER": "สถานะพนักงาน",
       "ONLINE": "ออนไลน์",

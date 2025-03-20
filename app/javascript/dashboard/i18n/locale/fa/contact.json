@@ -284,12 +284,12 @@
   "CONTACTS_LAYOUT": {
     "HEADER": {
       "TITLE": "مخاطبین",
-      "SEARCH_TITLE": "Search contacts",
-      "SEARCH_PLACEHOLDER": "Search...",
+      "SEARCH_TITLE": "جستجوی مخاطبین",
+      "SEARCH_PLACEHOLDER": "جستجو...",
       "MESSAGE_BUTTON": "پیام",
       "SEND_MESSAGE": "ارسال پیام",
-      "BLOCK_CONTACT": "Block contact",
-      "UNBLOCK_CONTACT": "Unblock contact",
+      "BLOCK_CONTACT": "مسدود کردن مخاطب",
+      "UNBLOCK_CONTACT": "رفع انسداد مخاطب",
       "BREADCRUMB": {
         "CONTACTS": "مخاطبین"
       },

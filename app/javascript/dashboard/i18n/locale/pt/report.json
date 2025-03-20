@@ -476,6 +476,18 @@
         "STATUS": "Estado"
       }
     },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Equipa",
+        "OPEN": "Abertas",
+        "UNATTENDED": "Por responder",
+        "STATUS": "Situação"
+      }
+    },
     "AGENT_STATUS": {
       "HEADER": "Estado do agente",
       "ONLINE": "Disponível",

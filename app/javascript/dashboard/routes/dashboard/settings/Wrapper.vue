@@ -12,6 +12,7 @@ const props = defineProps({
   showBackButton: { type: Boolean, default: false },
   backUrl: { type: [String, Object], default: '' },
   showSidemenuIcon: { type: Boolean, default: true },
+  fullWidth: { type: Boolean, default: false },
 });
 
 const { t } = useI18n();
@@ -31,7 +32,10 @@ const showSettingsHeader = computed(
 
 <template>
   <div class="flex flex-1 flex-col m-0 bg-n-background overflow-auto">
-    <div class="max-w-6xl mx-auto w-full flex flex-col flex-1">
+    <div
+      class="mx-auto w-full flex flex-col flex-1"
+      :class="{ 'max-w-6xl': !fullWidth }"
+    >
       <SettingsHeader
         v-if="showSettingsHeader"
         button-route="new"
@@ -43,6 +47,7 @@ const showSettingsHeader = computed(
         :show-new-button="showNewButton"
         :show-sidemenu-icon="showSidemenuIcon"
         class="sticky top-0 z-20"
+        :class="{ 'max-w-6xl w-full mx-auto': fullWidth }"
       />
 
       <router-view v-slot="{ Component }" class="px-5 flex-1 overflow-hidden">
