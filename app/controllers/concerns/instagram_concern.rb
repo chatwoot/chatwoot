@@ -6,8 +6,6 @@ module InstagramConcern
     client_id = GlobalConfigService.load('INSTAGRAM_APP_ID', nil)
     client_secret = GlobalConfigService.load('INSTAGRAM_APP_SECRET', nil)
 
-    Rails.logger.info "Instagram OAuth Setup - Client ID: #{client_id.present? ? 'Present' : 'Missing'}"
-
     ::OAuth2::Client.new(
       client_id,
       client_secret,
@@ -24,76 +22,53 @@ module InstagramConcern
   private
 
   def exchange_for_long_lived_token(short_lived_token)
-    response = HTTParty.get(
-      'https://graph.instagram.com/access_token',
-      query: {
-        grant_type: 'ig_exchange_token',
-        client_secret: GlobalConfigService.load('INSTAGRAM_APP_SECRET', nil),
-        access_token: short_lived_token,
-        client_id: GlobalConfigService.load('INSTAGRAM_APP_ID', nil)
-      },
-      headers: {
-        'Accept' => 'application/json'
-      }
-    )
+    endpoint = 'https://graph.instagram.com/access_token'
+    params = {
+      grant_type: 'ig_exchange_token',
+      client_secret: GlobalConfigService.load('INSTAGRAM_APP_SECRET', nil),
+      access_token: short_lived_token,
+      client_id: GlobalConfigService.load('INSTAGRAM_APP_ID', nil)
+    }
 
-    Rails.logger.info "Long-lived token exchange raw response: #{response.inspect}"
-
-    unless response.success?
-      Rails.logger.error "Failed to exchange token. Status: #{response.code}, Body: #{response.body}"
-      raise "Failed to exchange token: #{response.body}"
-    end
-
-    begin
-      JSON.parse(response.body)
-    rescue JSON::ParserError => e
-      Rails.logger.error "Invalid JSON response: #{response.body}"
-      raise e
-    end
+    make_api_request(endpoint, params, 'Failed to exchange token')
   end
 
   def refresh_long_lived_token(long_lived_token)
-    response = HTTParty.get(
-      'https://graph.instagram.com/refresh_access_token',
-      query: {
-        grant_type: 'ig_refresh_token',
-        access_token: long_lived_token
-      },
-      headers: {
-        'Accept' => 'application/json'
-      }
-    )
+    endpoint = 'https://graph.instagram.com/refresh_access_token'
+    params = {
+      grant_type: 'ig_refresh_token',
+      access_token: long_lived_token
+    }
 
-    unless response.success?
-      Rails.logger.error "Failed to refresh token. Status: #{response.code}, Body: #{response.body}"
-      raise "Failed to refresh token: #{response.body}"
-    end
-
-    JSON.parse(response.body)
+    make_api_request(endpoint, params, 'Failed to refresh token')
   end
 
   def fetch_instagram_user_details(access_token)
+    endpoint = 'https://graph.instagram.com/v22.0/me'
+    params = {
+      fields: 'id,username,user_id,name,profile_picture_url,account_type',
+      access_token: access_token
+    }
+
+    make_api_request(endpoint, params, 'Failed to fetch Instagram user details')
+  end
+
+  def make_api_request(endpoint, params, error_prefix)
     response = HTTParty.get(
-      'https://graph.instagram.com/v22.0/me',
-      query: {
-        fields: 'id,username,user_id,name,profile_picture_url,account_type',
-        access_token: access_token
-      },
-      headers: {
-        'Accept' => 'application/json'
-      }
+      endpoint,
+      query: params,
+      headers: { 'Accept' => 'application/json' }
     )
 
-    Rails.logger.info "Instagram user details raw response: #{response.inspect}"
-
     unless response.success?
-      Rails.logger.error "Failed to fetch Instagram user details. Status: #{response.code}, Body: #{response.body}"
-      raise "Failed to fetch Instagram user details: #{response.body}"
+      Rails.logger.error "#{error_prefix}. Status: #{response.code}, Body: #{response.body}"
+      raise "#{error_prefix}: #{response.body}"
     end
 
     begin
       JSON.parse(response.body)
     rescue JSON::ParserError => e
+      ChatwootExceptionTracker.new(e).capture_exception
       Rails.logger.error "Invalid JSON response: #{response.body}"
       raise e
     end
