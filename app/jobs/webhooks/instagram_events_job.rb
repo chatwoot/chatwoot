@@ -46,9 +46,9 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   def find_channel(instagram_account_id)
     # There will be chances for the instagram account to be connected to a facebook page,
     # so we need to check for both instagram and facebook page channels
-    # priority is instagram direct channel
+    # priority is for instagram channel which connected via instagram login
     channel = Channel::Instagram.find_by(instagram_id: instagram_account_id)
-    # If not found, fallback to Facebook page channel
+    # If not found, fallback to the facebook page channel
     channel ||= Channel::FacebookPage.find_by(instagram_id: instagram_account_id)
 
     channel
