@@ -22,7 +22,7 @@ defineEmits(['add']);
     <template v-if="showActions" #actions>
       <Button
         :label="$t('SLA.ADD_ACTION')"
-        icon="i-lucide-plus"
+        icon="i-lucide-circle-plus"
         @click="$emit('add')"
       />
     </template>
