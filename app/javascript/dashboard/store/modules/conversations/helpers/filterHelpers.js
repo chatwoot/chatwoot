@@ -122,33 +122,37 @@ const matchesCondition = (value, filter) => {
 
   switch (filterOperator) {
     case 'equal_to':
-      if (Array.isArray(value)) {
+      if (Array.isArray(valuesInFilter) && Array.isArray(value)) {
         // For array values like labels, check if any of the filter values exist in the array
-        return valuesInFilter.some(val => value.includes(val));
+        return valuesInFilter.every(val => value.includes(val));
       }
 
-      return valuesInFilter.includes(value);
+      if (Array.isArray(valuesInFilter) && !Array.isArray(value)) {
+        return valuesInFilter[0] === value;
+      }
+
+      return value === valuesInFilter;
 
     case 'not_equal_to':
-      if (Array.isArray(value)) {
-        return !valuesInFilter.some(val => value.includes(val));
+      if (Array.isArray(valuesInFilter) && Array.isArray(value)) {
+        return !valuesInFilter.every(val => value.includes(val));
       }
 
-      return !valuesInFilter.includes(value);
+      if (Array.isArray(valuesInFilter) && !Array.isArray(value)) {
+        return valuesInFilter[0] !== value;
+      }
+
+      return value !== valuesInFilter;
 
     case 'contains':
       if (typeof value === 'string') {
-        return valuesInFilter.some(val =>
-          value.toLowerCase().includes(val.toLowerCase())
-        );
+        return value.toLowerCase().includes(valuesInFilter.toLowerCase());
       }
       return false;
 
     case 'does_not_contain':
       if (typeof value === 'string') {
-        return !valuesInFilter.some(val =>
-          value.toLowerCase().includes(val.toLowerCase())
-        );
+        return !value.toLowerCase().includes(valuesInFilter.toLowerCase());
       }
       return true;
 
@@ -159,10 +163,10 @@ const matchesCondition = (value, filter) => {
       return false; // We already handled null/undefined above
 
     case 'is_greater_than':
-      return value > valuesInFilter;
+      return new Date(value) > new Date(valuesInFilter);
 
     case 'is_less_than':
-      return value < valuesInFilter;
+      return new Date(value) < new Date(valuesInFilter);
 
     case 'days_before': {
       const today = new Date();
