@@ -26,6 +26,7 @@ class SearchService
 
   def filter_conversations
     query = current_account.conversations
+    # admins can see all conversations anyway, so no need to add the heavy IN clause
     query = query.where(inbox_id: accessable_inbox_ids) unless @current_account_user.administrator?
 
     @conversations = query.joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
@@ -70,6 +71,7 @@ class SearchService
 
   def message_base_query
     query = current_account.messages
+    # admins can see all conversations anyway, so no need to add the heavy IN clause
     query = query.where(inbox_id: accessable_inbox_ids) unless @current_account_user.administrator?
     query.where('created_at >= ?', 3.months.ago)
   end
