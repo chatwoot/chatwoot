@@ -173,6 +173,7 @@ gem 'pgvector'
 # Convert Website HTML to Markdown
 gem 'reverse_markdown'
 
+gem 'iso-639'
 gem 'ruby-openai'
 
 gem 'shopify_api'

@@ -378,6 +378,8 @@ GEM
     io-console (0.6.0)
     irb (1.7.2)
       reline (>= 0.3.6)
+    iso-639 (0.3.8)
+      csv
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
@@ -913,6 +915,7 @@ DEPENDENCIES
   hashie
   html2text
   image_processing
+  iso-639
   jbuilder
   json_refs
   json_schemer
