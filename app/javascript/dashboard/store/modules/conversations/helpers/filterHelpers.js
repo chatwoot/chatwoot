@@ -91,68 +91,82 @@ const getValueFromConversation = (conversation, attributeKey) => {
 };
 
 /**
+ * Resolves the value from an input candidate
+ * @param {*} candidate - The input value to resolve
+ * @returns {*} - If the candidate is an object with an id property, returns the id;
+ *                otherwise returns the candidate unchanged
+ *
+ * This helper function is used to normalize values, particularly when dealing with
+ * objects that represent entities like users, teams, or inboxes where we want to
+ * compare by ID rather than by the whole object.
+ */
+const resolveValue = candidate => {
+  if (
+    typeof candidate === 'object' &&
+    candidate !== null &&
+    'id' in candidate
+  ) {
+    return candidate.id;
+  }
+
+  return candidate;
+};
+
+/**
  * Checks if a value matches a filter condition
- * @param {*} value - The value to check
+ * @param {*} conversationValue - The value to check
  * @param {Object} filter - The filter condition
  * @returns {Boolean} - Returns true if the value matches the filter
  */
-const matchesCondition = (value, filter) => {
+const matchesCondition = (conversationValue, filter) => {
   const { filter_operator: filterOperator, values } = filter;
 
   // Handle null/undefined values
-  if (value === null || value === undefined) {
+  if (conversationValue === null || conversationValue === undefined) {
     return filterOperator === 'is_not_present';
   }
 
-  const resolveValue = candidate => {
-    if (
-      typeof candidate === 'object' &&
-      candidate !== null &&
-      'id' in candidate
-    ) {
-      return candidate.id;
-    }
-
-    return candidate;
-  };
-
-  const valuesInFilter = Array.isArray(values)
+  const filterValue = Array.isArray(values)
     ? values.map(resolveValue)
     : resolveValue(values);
 
   switch (filterOperator) {
     case 'equal_to':
-      if (Array.isArray(valuesInFilter) && Array.isArray(value)) {
+      if (Array.isArray(filterValue) && Array.isArray(conversationValue)) {
         // For array values like labels, check if any of the filter values exist in the array
-        return valuesInFilter.every(val => value.includes(val));
+        return filterValue.every(val => conversationValue.includes(val));
       }
 
-      if (Array.isArray(valuesInFilter) && !Array.isArray(value)) {
-        return valuesInFilter[0] === value;
+      if (Array.isArray(filterValue) && !Array.isArray(conversationValue)) {
+        return filterValue[0] === conversationValue;
       }
 
-      return value === valuesInFilter;
+      return conversationValue === filterValue;
 
     case 'not_equal_to':
-      if (Array.isArray(valuesInFilter) && Array.isArray(value)) {
-        return !valuesInFilter.every(val => value.includes(val));
+      if (Array.isArray(filterValue) && Array.isArray(conversationValue)) {
+        return !filterValue.every(val => conversationValue.includes(val));
       }
 
-      if (Array.isArray(valuesInFilter) && !Array.isArray(value)) {
-        return valuesInFilter[0] !== value;
+      if (Array.isArray(filterValue) && !Array.isArray(conversationValue)) {
+        return filterValue[0] !== conversationValue;
       }
 
-      return value !== valuesInFilter;
+      return conversationValue !== filterValue;
 
     case 'contains':
-      if (typeof value === 'string') {
-        return value.toLowerCase().includes(valuesInFilter.toLowerCase());
+      if (typeof conversationValue === 'string') {
+        return conversationValue
+          .toLowerCase()
+          .includes(filterValue.toLowerCase());
       }
       return false;
 
     case 'does_not_contain':
-      if (typeof value === 'string') {
-        return !value.toLowerCase().includes(valuesInFilter.toLowerCase());
+      if (typeof conversationValue === 'string') {
+        return !conversationValue
+          .toLowerCase()
+          .includes(filterValue.toLowerCase());
       }
       return true;
 
@@ -163,16 +177,16 @@ const matchesCondition = (value, filter) => {
       return false; // We already handled null/undefined above
 
     case 'is_greater_than':
-      return new Date(value) > new Date(valuesInFilter);
+      return new Date(conversationValue) > new Date(filterValue);
 
     case 'is_less_than':
-      return new Date(value) < new Date(valuesInFilter);
+      return new Date(conversationValue) < new Date(filterValue);
 
     case 'days_before': {
       const today = new Date();
-      const daysInMilliseconds = valuesInFilter * 24 * 60 * 60 * 1000;
+      const daysInMilliseconds = filterValue * 24 * 60 * 60 * 1000;
       const targetDate = new Date(today.getTime() - daysInMilliseconds);
-      return value < targetDate.getTime();
+      return conversationValue < targetDate.getTime();
     }
 
     default:
