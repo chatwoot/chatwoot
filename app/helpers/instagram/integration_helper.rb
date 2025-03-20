@@ -1,4 +1,6 @@
 module Instagram::IntegrationHelper
+  REQUIRED_SCOPES = %w[instagram_business_basic instagram_business_manage_messages].freeze
+
   # Generates a signed JWT token for Instagram integration
   #
   # @param account_id [Integer] The account ID to encode in the token

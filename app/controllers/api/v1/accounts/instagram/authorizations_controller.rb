@@ -7,7 +7,7 @@ class Api::V1::Accounts::Instagram::AuthorizationsController < Api::V1::Accounts
     redirect_url = instagram_client.auth_code.authorize_url(
       {
         redirect_uri: "#{base_url}/instagram/callback",
-        scope: 'instagram_business_basic instagram_business_manage_messages',
+        scope: REQUIRED_SCOPES,
         enable_fb_login: '0',
         force_authentication: '1',
         response_type: 'code',
