@@ -284,12 +284,14 @@ export default {
             <NextButton
               faded
               slate
+              type="reset"
               :label="$t('AUTOMATION.EDIT.CANCEL_BUTTON_TEXT')"
               @click.prevent="onClose"
             />
             <NextButton
               solid
               blue
+              type="submit"
               :label="$t('AUTOMATION.EDIT.SUBMIT')"
               @click="emitSaveAutomation"
             />
