@@ -36,8 +36,8 @@ module RequestExceptionHandler
     }
   end
 
-  def fetch_active_queries
-    query_data = ActiveRecord::Base.connection.execute(<<~SQL.squish)
+  def active_queries_sql
+    <<~SQL.squish
       SELECT pid,#{' '}
              now() - pg_stat_activity.query_start AS duration,
              query,
@@ -53,25 +53,30 @@ module RequestExceptionHandler
         AND query NOT ILIKE '%pg_stat_activity%'
       ORDER BY duration DESC;
     SQL
-
-    query_data.map do |row|
-      {
-        pid: row['pid'],
-        duration: row['duration'].to_s,
-        state: row['state'],
-        query: row['query'],
-        wait_event_type: row['wait_event_type'],
-        wait_event: row['wait_event'],
-        backend_type: row['backend_type'],
-        application_name: row['application_name'],
-        client_addr: row['client_addr'],
-        username: row['usename']
-      }
-    end
   end
 
-  def fetch_locked_queries
-    lock_data = ActiveRecord::Base.connection.execute(<<~SQL.squish)
+  def process_active_query_row(row)
+    {
+      pid: row['pid'],
+      duration: row['duration'].to_s,
+      state: row['state'],
+      query: row['query'],
+      wait_event_type: row['wait_event_type'],
+      wait_event: row['wait_event'],
+      backend_type: row['backend_type'],
+      application_name: row['application_name'],
+      client_addr: row['client_addr'],
+      username: row['usename']
+    }
+  end
+
+  def fetch_active_queries
+    query_data = ActiveRecord::Base.connection.execute(active_queries_sql)
+    query_data.map { |row| process_active_query_row(row) }
+  end
+
+  def locked_queries_sql
+    <<~SQL.squish
       SELECT blocked_locks.pid AS blocked_pid,
              blocked_activity.usename AS blocked_user,
              blocking_locks.pid AS blocking_pid,
@@ -96,38 +101,45 @@ module RequestExceptionHandler
       JOIN pg_catalog.pg_stat_activity blocking_activity ON blocking_activity.pid = blocking_locks.pid
       WHERE NOT blocked_locks.granted;
     SQL
+  end
 
+  def process_lock_row(row)
+    {
+      blocked_pid: row['blocked_pid'],
+      blocked_user: row['blocked_user'],
+      blocking_pid: row['blocking_pid'],
+      blocking_user: row['blocking_user'],
+      blocked_statement: row['blocked_statement'],
+      blocking_statement: row['blocking_statement'],
+      blocking_duration: row['blocking_duration'].to_s
+    }
+  end
+
+  def fetch_locked_queries
+    lock_data = ActiveRecord::Base.connection.execute(locked_queries_sql)
     return [] if lock_data.count.zero?
 
-    lock_data.map do |row|
-      {
-        blocked_pid: row['blocked_pid'],
-        blocked_user: row['blocked_user'],
-        blocking_pid: row['blocking_pid'],
-        blocking_user: row['blocking_user'],
-        blocked_statement: row['blocked_statement'],
-        blocking_statement: row['blocking_statement'],
-        blocking_duration: row['blocking_duration'].to_s
-      }
-    end
+    lock_data.map { |row| process_lock_row(row) }
+  end
+
+  def log_query_details(query_info, index)
+    Rails.logger.error "Query ##{index + 1} [PID: #{query_info[:pid]}] [Duration: #{query_info[:duration]}] [State: #{query_info[:state]}]:"
+    Rails.logger.error "App: #{query_info[:application_name]} User: #{query_info[:username]} Client: #{query_info[:client_addr]}"
+    Rails.logger.error "Waiting: #{query_info[:wait_event_type]} / #{query_info[:wait_event]}" if query_info[:wait_event_type].present?
+    Rails.logger.error query_info[:query]
   end
 
   def log_active_queries(active_queries)
     if active_queries.any?
       Rails.logger.error "Active Database Queries (#{active_queries.count}):"
-      active_queries.each_with_index do |query_info, index|
-        Rails.logger.error "Query ##{index + 1} [PID: #{query_info[:pid]}] [Duration: #{query_info[:duration]}] [State: #{query_info[:state]}]:"
-        Rails.logger.error "App: #{query_info[:application_name]} User: #{query_info[:username]} Client: #{query_info[:client_addr]}"
-        Rails.logger.error "Waiting: #{query_info[:wait_event_type]} / #{query_info[:wait_event]}" if query_info[:wait_event_type].present?
-        Rails.logger.error query_info[:query]
-      end
+      active_queries.each_with_index { |query_info, index| log_query_details(query_info, index) }
     else
       Rails.logger.error 'No active queries found or unable to retrieve query information'
     end
   end
 
   def log_locked_queries(locked_queries)
-    return unless locked_queries.present?
+    return if locked_queries.blank?
 
     Rails.logger.error "Locked Queries (#{locked_queries.count}):"
     locked_queries.each_with_index do |lock_info, index|
@@ -138,43 +150,53 @@ module RequestExceptionHandler
     end
   end
 
-  def handle_connection_timeout(exception)
-    connection_pool = ActiveRecord::Base.connection_pool
-    connection_info = log_connection_pool_stats(connection_pool)
-    active_queries = []
-    locked_queries = []
+  def connection_status_sql
+    <<~SQL.squish
+      SELECT count(*) as connection_count, state#{' '}
+      FROM pg_stat_activity#{' '}
+      GROUP BY state;
+    SQL
+  end
 
-    begin
-      active_queries = fetch_active_queries
-      locked_queries = fetch_locked_queries
+  def fetch_connection_diagnostics
+    {
+      active_queries: fetch_active_queries,
+      locked_queries: fetch_locked_queries,
+      connection_status: ActiveRecord::Base.connection.execute(connection_status_sql).to_a
+    }
+  rescue StandardError => e
+    Rails.logger.error "Error fetching active query data: #{e.message}"
+    { active_queries: [], locked_queries: [] }
+  end
 
-      connection_info[:connection_status] = ActiveRecord::Base.connection.execute(<<~SQL.squish).to_a
-        SELECT count(*) as connection_count, state#{' '}
-        FROM pg_stat_activity#{' '}
-        GROUP BY state;
-      SQL
-    rescue StandardError => e
-      Rails.logger.error "Error fetching active query data: #{e.message}"
-    end
-
-    connection_info[:active_queries] = active_queries
-    connection_info[:locked_queries] = locked_queries
-
-    # Get the process/thread ID that's experiencing the timeout
-    connection_info[:caller_info] = {
+  def caller_info(exception)
+    {
       process_id: Process.pid,
       thread_id: Thread.current.object_id,
       backtrace: exception.backtrace&.first(15) || []
     }
+  end
 
-    # Log details about the error
+  def log_timeout_error(exception, connection_info)
     Rails.logger.error "ActiveRecord::ConnectionTimeoutError: #{exception.message}"
     Rails.logger.error "Connection Pool Stats: #{connection_info.except(:active_queries, :locked_queries).inspect}"
+    log_active_queries(connection_info[:active_queries])
+    log_locked_queries(connection_info[:locked_queries])
+  end
 
-    log_active_queries(active_queries)
-    log_locked_queries(locked_queries)
+  def handle_connection_timeout(exception)
+    connection_pool = ActiveRecord::Base.connection_pool
+    connection_info = log_connection_pool_stats(connection_pool)
 
-    # Report to exception tracker with additional context
+    # Gather diagnostic info
+    diagnostics = fetch_connection_diagnostics
+    connection_info.merge!(diagnostics)
+    connection_info[:caller_info] = caller_info(exception)
+
+    # Log error details
+    log_timeout_error(exception, connection_info)
+
+    # Report to exception tracker
     ChatwootExceptionTracker.new(
       exception,
       user: Current.user,
