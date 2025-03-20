@@ -1,6 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import NewWebhook from './NewWebHook.vue';
 import EditWebhook from './EditWebHook.vue';
 import WebhookRow from './WebhookRow.vue';
@@ -10,6 +11,7 @@ import SettingsLayout from '../../SettingsLayout.vue';
 export default {
   components: {
     SettingsLayout,
+    NextButton,
     BaseSettingsHeader,
     NewWebhook,
     EditWebhook,
@@ -103,13 +105,12 @@ export default {
         :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
       >
         <template #actions>
-          <woot-button
-            class="button nice rounded-md"
-            icon="add-circle"
+          <NextButton
+            blue
+            icon="i-lucide-circle-plus"
+            :label="$t('INTEGRATION_SETTINGS.WEBHOOK.HEADER_BTN_TXT')"
             @click="openAddPopup"
-          >
-            {{ $t('INTEGRATION_SETTINGS.WEBHOOK.HEADER_BTN_TXT') }}
-          </woot-button>
+          />
         </template>
       </BaseSettingsHeader>
     </template>
