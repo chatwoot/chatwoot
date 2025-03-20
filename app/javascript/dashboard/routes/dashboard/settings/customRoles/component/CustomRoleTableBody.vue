@@ -56,7 +56,7 @@ const getFormattedPermissions = role => {
         />
         <Button
           v-tooltip.top="$t('CUSTOM_ROLE.DELETE.BUTTON_TEXT')"
-          icon="i-lucide-circle-plus"
+          icon="i-lucide-trash-2"
           xs
           ruby
           faded
