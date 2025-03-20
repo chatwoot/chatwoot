@@ -210,6 +210,7 @@ export default {
         <NextButton
           faded
           slate
+          type="reset"
           :label="$t('SLA.FORM.CANCEL')"
           @click.prevent="onClose"
         />
