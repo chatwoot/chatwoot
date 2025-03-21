@@ -11,7 +11,7 @@ import SubmitButton from '../../../../../components/Button/SubmitButton.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
 import { register } from '../../../../../api/auth';
-import * as CompanyEmailValidator from 'company-email-validator';
+// import * as CompanyEmailValidator from 'company-email-validator';
 
 export default {
   components: {
@@ -53,9 +53,9 @@ export default {
         email: {
           required,
           email,
-          businessEmailValidator(value) {
-            return CompanyEmailValidator.isCompanyEmail(value);
-          },
+          // businessEmailValidator(value) {
+          //   return CompanyEmailValidator.isCompanyEmail(value);
+          // },
         },
         phoneNumber: {
           required,
