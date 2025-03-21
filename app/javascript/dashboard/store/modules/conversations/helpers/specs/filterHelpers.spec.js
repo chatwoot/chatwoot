@@ -571,6 +571,42 @@ describe('filterHelpers', () => {
       expect(matchesFilters(conversation, filters)).toBe(true);
     });
 
+    it('should match conversation with multiple status and priority', () => {
+      const conversation = {
+        status: 'open',
+        priority: 'high',
+        meta: {
+          assignee: {
+            id: 83235,
+          },
+        },
+      };
+
+      const filters = [
+        {
+          values: ['open', 'resolved'],
+          attribute_key: 'status',
+          query_operator: 'and',
+          attribute_model: 'standard',
+          filter_operator: 'equal_to',
+          custom_attribute_type: '',
+        },
+        {
+          values: [83235],
+          attribute_key: 'assignee_id',
+          query_operator: 'and',
+          filter_operator: 'equal_to',
+        },
+        {
+          values: ['high', 'urgent'],
+          attribute_key: 'priority',
+          filter_operator: 'equal_to',
+        },
+      ];
+
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
     // Nested property tests
     it('should match conversation with filter on nested property in meta', () => {
       const conversation = {

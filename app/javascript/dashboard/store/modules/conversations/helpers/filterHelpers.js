@@ -138,7 +138,7 @@ const matchesCondition = (conversationValue, filter) => {
       }
 
       if (Array.isArray(filterValue) && !Array.isArray(conversationValue)) {
-        return filterValue[0] === conversationValue;
+        return filterValue.includes(conversationValue);
       }
 
       return conversationValue === filterValue;
@@ -149,7 +149,7 @@ const matchesCondition = (conversationValue, filter) => {
       }
 
       if (Array.isArray(filterValue) && !Array.isArray(conversationValue)) {
-        return filterValue[0] !== conversationValue;
+        return !filterValue.includes(conversationValue);
       }
 
       return conversationValue !== filterValue;
@@ -305,6 +305,7 @@ export const matchesFilters = (conversation, filters) => {
   const evaluatedFilters = filters.map((filter, index) => {
     const value = getValueFromConversation(conversation, filter.attribute_key);
     const result = matchesCondition(value, filter);
+
     // The operator is used to connect to the next filter (if any)
     const operator =
       index < filters.length - 1 ? filter.query_operator || 'and' : null;
