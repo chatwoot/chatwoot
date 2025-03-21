@@ -65,6 +65,7 @@ class ContactInboxBuilder
       source_id: @source_id
     )
   rescue ActiveRecord::RecordNotUnique
+    Rails.logger.info("[ContactInboxBuilder] RecordNotUnique #{@source_id} #{@contact.id} #{@inbox.id}")
     update_old_contact_inbox
     retry
   end
