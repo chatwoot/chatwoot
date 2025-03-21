@@ -61,6 +61,7 @@ import {
   getUserPermissions,
   filterItemsByPermission,
 } from 'dashboard/helper/permissionsHelper.js';
+import { matchesFilters } from '../store/modules/conversations/helpers/filterHelpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
 
@@ -105,7 +106,7 @@ const advancedFilterTypes = ref(
 );
 
 const currentUser = useMapGetter('getCurrentUser');
-const chatListFilterFn = useMapGetter('getFilteredConversations');
+const chatLists = useMapGetter('getAllConversations');
 const mineChatsList = useMapGetter('getMineChats');
 const allChatList = useMapGetter('getAllStatusChats');
 const unAssignedChatsList = useMapGetter('getUnAssignedChats');
@@ -179,14 +180,6 @@ const hasActiveFolders = computed(() => {
 
 const hasAppliedFiltersOrActiveFolders = computed(() => {
   return hasAppliedFilters.value || hasActiveFolders.value;
-});
-
-const chatLists = computed(() => {
-  if (hasActiveFolders.value) {
-    const { payload } = activeFolder.value.query;
-    return chatListFilterFn.value(payload);
-  }
-  return chatListFilterFn.value(appliedFilters.value);
 });
 
 const currentUserDetails = computed(() => {
@@ -332,6 +325,20 @@ const conversationList = computed(() => {
   } else {
     localConversationList = [...chatLists.value];
   }
+
+  if (appliedFilters.value) {
+    localConversationList = localConversationList.filter(conversation => {
+      return matchesFilters(conversation, appliedFilters.value);
+    });
+  }
+
+  if (activeFolder.value) {
+    const { payload } = activeFolder.value.query;
+    localConversationList = localConversationList.filter(conversation => {
+      return matchesFilters(conversation, payload);
+    });
+  }
+
   return localConversationList;
 });
 
