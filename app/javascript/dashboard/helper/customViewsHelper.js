@@ -21,6 +21,7 @@ export const getAttributeInputType = (key, allCustomAttributes) => {
   const customAttribute = allCustomAttributes.find(
     attr => attr.attribute_key === key
   );
+
   const { attribute_display_type } = customAttribute;
   const filterInputTypes = generateCustomAttributesInputType(
     attribute_display_type
@@ -100,9 +101,9 @@ export const getValuesForFilter = (filter, params) => {
 export const generateValuesForEditCustomViews = (filter, params) => {
   const { attribute_key, filter_operator, values } = filter;
   const { filterTypes, allCustomAttributes } = params;
-  const inboxType = getInputType(attribute_key, filter_operator, filterTypes);
+  const inputType = getInputType(attribute_key, filter_operator, filterTypes);
 
-  if (inboxType === undefined) {
+  if (inputType === undefined) {
     const filterInputTypes = getAttributeInputType(
       attribute_key,
       allCustomAttributes
@@ -112,7 +113,7 @@ export const generateValuesForEditCustomViews = (filter, params) => {
       : { id: values[0], name: values[0] };
   }
 
-  return inboxType === 'multi_select' || inboxType === 'search_select'
+  return inputType === 'multi_select' || inputType === 'search_select'
     ? getValuesForFilter(filter, params)
     : values[0].toString();
 };
