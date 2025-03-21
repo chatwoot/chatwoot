@@ -106,7 +106,7 @@ const advancedFilterTypes = ref(
 );
 
 const currentUser = useMapGetter('getCurrentUser');
-const chatLists = useMapGetter('getAllConversations');
+const chatLists = useMapGetter('getFilteredConversations');
 const mineChatsList = useMapGetter('getMineChats');
 const allChatList = useMapGetter('getAllStatusChats');
 const unAssignedChatsList = useMapGetter('getUnAssignedChats');
@@ -324,12 +324,6 @@ const conversationList = computed(() => {
     }
   } else {
     localConversationList = [...chatLists.value];
-  }
-
-  if (appliedFilters.value) {
-    localConversationList = localConversationList.filter(conversation => {
-      return matchesFilters(conversation, appliedFilters.value);
-    });
   }
 
   if (activeFolder.value) {
