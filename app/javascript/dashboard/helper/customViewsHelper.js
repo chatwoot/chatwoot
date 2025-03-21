@@ -69,10 +69,22 @@ const getValuesForCountries = (values, countries) => {
   }));
 };
 
+const getValuesForPriority = (values, priority) => {
+  return priority.filter(option => values.includes(option.id));
+};
+
 export const getValuesForFilter = (filter, params) => {
   const { attribute_key, values } = filter;
-  const { languages, countries, agents, inboxes, teams, campaigns, labels } =
-    params;
+  const {
+    languages,
+    countries,
+    agents,
+    inboxes,
+    teams,
+    campaigns,
+    labels,
+    priority,
+  } = params;
   switch (attribute_key) {
     case 'status':
       return getValuesForStatus(values);
@@ -84,15 +96,14 @@ export const getValuesForFilter = (filter, params) => {
       return getValuesName(values, teams, 'id', 'name');
     case 'campaign_id':
       return getValuesName(values, campaigns, 'id', 'title');
-    case 'labels': {
+    case 'labels':
       return getValuesForLabels(values, labels);
-    }
-    case 'browser_language': {
+    case 'priority':
+      return getValuesForPriority(values, priority);
+    case 'browser_language':
       return getValuesForLanguages(values, languages);
-    }
-    case 'country_code': {
+    case 'country_code':
       return getValuesForCountries(values, countries);
-    }
     default:
       return { id: values[0], name: values[0] };
   }
