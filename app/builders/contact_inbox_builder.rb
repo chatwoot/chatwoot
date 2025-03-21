@@ -86,13 +86,15 @@ class ContactInboxBuilder
     contact_inbox = ::ContactInbox.find_by(inbox_id: @inbox.id, source_id: @source_id)
     return if contact_inbox.blank?
 
-    new_source_id = if @inbox.whatsapp? || @inbox.sms? || @inbox.twilio?
-                      "whatsapp:#{@source_id}#{rand(100)}"
-                    else
-                      "#{rand(10)}#{@source_id}"
-                    end
-
     contact_inbox.update!(source_id: new_source_id)
+  end
+
+  def new_source_id
+    if @inbox.whatsapp? || @inbox.sms? || @inbox.twilio?
+      "whatsapp:#{@source_id}#{rand(100)}"
+    else
+      "#{rand(10)}#{@source_id}"
+    end
   end
 
   def allowed_channels?
