@@ -75,6 +75,8 @@ class ContactInboxBuilder
     # this issue is a flaw in the contact inbox model design.
     # Contact inbox is essentially tracking a session and is not
     # needed for non-live chat channels.
+    raise ActiveRecord::RecordNotUnique unless @inbox.email? || @inbox.sms? || @inbox.twilio? || @inbox.whatsapp?
+
     update_old_contact_inbox
     retry
   end
