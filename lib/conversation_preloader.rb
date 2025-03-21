@@ -25,8 +25,7 @@ module ConversationPreloader
         conversations,
         conversation_id,
         message_data[:last_messages],
-        message_data[:last_non_activity_messages],
-        account_id
+        message_data[:last_non_activity_messages]
       )
     end
   rescue StandardError => e
@@ -82,11 +81,11 @@ module ConversationPreloader
     { ids_by_conversation: ids_by_conversation, messages: messages }
   end
 
-  def attach_preloaded_data(conversations, conversation_id, last_messages, last_non_activity_messages, account_id)
+  def attach_preloaded_data(conversations, conversation_id, last_messages, last_non_activity_messages)
     conversation = conversations.find { |c| c.id == conversation_id }
     return unless conversation
 
-    unread_count = calculate_unread_count(conversation, conversation_id, account_id)
+    unread_count = calculate_unread_count(conversation, conversation_id)
 
     # Set instance variables on the conversation object
     conversation.instance_variable_set(:@preloaded_last_message, last_messages[conversation_id])
@@ -102,14 +101,13 @@ module ConversationPreloader
     Rails.logger.error("Error attaching preloaded data to conversation #{conversation_id}: #{e.message}")
   end
 
-  def calculate_unread_count(conversation, conversation_id, account_id)
+  def calculate_unread_count(conversation, conversation_id)
     last_seen_time = conversation.agent_last_seen_at || 30.days.ago
     cutoff_time = [last_seen_time, 30.days.ago].max
 
     # Limit count to 10 for performance
     count = Message.where(
       conversation_id: conversation_id,
-      account_id: account_id,
       message_type: Message.message_types[:incoming]
     ).where('created_at > ?', cutoff_time).limit(11).count
 

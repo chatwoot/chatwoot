@@ -53,9 +53,7 @@ json.timestamp conversation.last_activity_at.to_i
 json.first_reply_created_at conversation.first_reply_created_at.to_i
 
 # Use the preloaded unread count if available
-json.unread_count conversation.respond_to?(:preloaded_unread_count) ? 
-                  conversation.preloaded_unread_count : 
-                  conversation.unread_incoming_messages.count
+json.unread_count conversation.respond_to?(:preloaded_unread_count) ? conversation.preloaded_unread_count : conversation.unread_incoming_messages.count
 
 # Use the preloaded last non-activity message if available
 message_data = nil
