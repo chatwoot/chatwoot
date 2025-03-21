@@ -72,11 +72,11 @@ export default {
       return this.replaceRoute('messages');
     },
     openArticleInArticleViewer(link) {
-      let linkToOpen = `${link}?show_plain_layout=true`;
-      const isDark = this.prefersDarkMode;
-      if (isDark) {
-        linkToOpen = `${linkToOpen}&theme=dark`;
-      }
+      const params = new URLSearchParams({
+        show_plain_layout: 'true',
+        theme: this.prefersDarkMode ? 'dark' : 'light',
+      });
+      const linkToOpen = `${link}?${params.toString()}`;
       this.$router.push({
         name: 'article-viewer',
         query: { link: linkToOpen },
