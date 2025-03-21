@@ -1,5 +1,20 @@
 {
   "INTEGRATION_SETTINGS": {
+    "SHOPIFY": {
+      "DELETE": {
+        "TITLE": "Delete Shopify Integration",
+        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+      },
+      "STORE_URL": {
+        "TITLE": "Connect Shopify Store",
+        "LABEL": "Store URL",
+        "PLACEHOLDER": "your-store.myshopify.com",
+        "HELP": "Enter your Shopify store's myshopify.com URL",
+        "CANCEL": "取消",
+        "SUBMIT": "Connect Store"
+      },
+      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+    },
     "HEADER": "集成设置",
     "DESCRIPTION": "Chatwoot 集成了多种工具和服务，以提高团队效率。浏览以下列表以配置您喜欢的应用程序。",
     "LEARN_MORE": "了解更多关于集成的信息",
@@ -311,7 +326,7 @@
   },
   "CAPTAIN": {
     "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "HEADER_KNOW_MORE": "了解更多",
     "COPILOT": {
       "SEND_MESSAGE": "发送消息...",
       "LOADER": "Captain 正在思考",
@@ -393,8 +408,8 @@
         "TITLE": "没有可用的文档",
         "SUBTITLE": "文档用于为您的助手生成常见问题。您可以导入文档以为您的助手提供上下文。",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Assistant",
-          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+          "TITLE": "助理队长",
+          "NOTE": "助理队长直接与客户互动，从您的帮助文档和过去的对话中学习，并提供即时、准确的回复。它处理初始查询，快速解决问题，在需要时再转接给客服人员。"
         }
       }
     },
@@ -438,8 +453,8 @@
         "TITLE": "没有可用的文档",
         "SUBTITLE": "文档用于为您的助手生成常见问题。您可以导入文档以为您的助手提供上下文。",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Document",
-          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+          "TITLE": "Captain 文档",
+          "NOTE": "在 Captain 中的文档作为助理的知识资源。通过连接您的帮助中心或指南，Captain 可以分析内容并为客户询问提供准确的回答。"
         }
       }
     },
@@ -519,8 +534,8 @@
         "TITLE": "未找到常见问题",
         "SUBTITLE": "常见问题帮助您的助手为客户提供快速准确的答案。它们可以从您的内容自动生成，也可以手动添加。",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain FAQ",
-          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+          "TITLE": "Captain 常见问题",
+          "NOTE": "Captain FAQs 检测常见的客户问题——无论是知识库中缺失的问题还是经常被问到的问题——并生成相关的常见问题以改善支持。您可以查看每个建议，并决定是否批准或拒绝它。"
         }
       }
     },

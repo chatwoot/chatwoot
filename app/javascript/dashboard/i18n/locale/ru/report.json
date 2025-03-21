@@ -119,7 +119,8 @@
       "EMPTY_LIST": "Результаты не найдены"
     },
     "PAGINATION": {
-      "RESULTS": "Показаны {start} - {end} из {total} результатов"
+      "RESULTS": "Показаны {start} - {end} из {total} результатов",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
