@@ -71,7 +71,7 @@ const getValueFromConversation = (conversation, attributeKey) => {
     case 'assignee_id':
       return conversation.meta?.assignee?.id;
     case 'inbox_id':
-      return conversation.inbox_id;
+      return conversation.inbox_id; // TODO: Cover this in test
     case 'team_id':
       return conversation.meta?.team?.id;
     case 'browser_language':
@@ -86,7 +86,7 @@ const getValueFromConversation = (conversation, attributeKey) => {
       ) {
         return conversation.custom_attributes[attributeKey];
       }
-      return null;
+      return null; // TODO: Cover this in test
   }
 };
 
@@ -160,7 +160,7 @@ const matchesCondition = (conversationValue, filter) => {
           .toLowerCase()
           .includes(filterValue.toLowerCase());
       }
-      return false;
+      return false; // TODO: Cover this in test
 
     case 'does_not_contain':
       if (typeof conversationValue === 'string') {
@@ -168,7 +168,7 @@ const matchesCondition = (conversationValue, filter) => {
           .toLowerCase()
           .includes(filterValue.toLowerCase());
       }
-      return true;
+      return true; // TODO: Cover this in test
 
     case 'is_present':
       return true; // We already handled null/undefined above
@@ -190,7 +190,7 @@ const matchesCondition = (conversationValue, filter) => {
     }
 
     default:
-      return false;
+      return false; // TODO: Cover this in test
   }
 };
 
@@ -290,6 +290,28 @@ const buildJsonLogicRule = evaluatedFilters => {
 };
 
 /**
+ * Evaluates each filter against the conversation and prepares the results array
+ * @param {Object} conversation - The conversation to evaluate
+ * @param {Array} filters - Filters to apply
+ * @returns {Array} - Array of evaluated filter results with operators
+ */
+const evaluateFilters = (conversation, filters) => {
+  return filters.map((filter, index) => {
+    const value = getValueFromConversation(conversation, filter.attribute_key);
+    const result = matchesCondition(value, filter);
+
+    // This part determines the logical operator that connects this filter to the next one:
+    // - If this is not the last filter (index < filters.length - 1), use the filter's query_operator
+    //   or default to 'and' if query_operator is not specified
+    // - If this is the last filter, set operator to null since there's no next filter to connect to
+    const isLastFilter = index === filters.length - 1;
+    const operator = isLastFilter ? null : filter.query_operator || 'and';
+
+    return { result, operator };
+  });
+};
+
+/**
  * Checks if a conversation matches the given filters
  * @param {Object} conversation - The conversation object to check
  * @param {Array} filters - Array of filter conditions
@@ -301,25 +323,16 @@ export const matchesFilters = (conversation, filters) => {
     return true;
   }
 
-  // First, evaluate all conditions and collect their results and operators
-  const evaluatedFilters = filters.map((filter, index) => {
-    const value = getValueFromConversation(conversation, filter.attribute_key);
-    const result = matchesCondition(value, filter);
-
-    // The operator is used to connect to the next filter (if any)
-    const operator =
-      index < filters.length - 1 ? filter.query_operator || 'and' : null;
-
-    return {
-      result,
-      operator,
-    };
-  });
-
-  // If we only have one filter, return its result
-  if (evaluatedFilters.length === 1) {
-    return evaluatedFilters[0].result;
+  // Handle single filter case
+  if (filters.length === 1) {
+    const value = getValueFromConversation(
+      conversation,
+      filters[0].attribute_key
+    );
+    return matchesCondition(value, filters[0]);
   }
 
+  // Evaluate all conditions and prepare for jsonLogic
+  const evaluatedFilters = evaluateFilters(conversation, filters);
   return jsonLogic.apply(buildJsonLogicRule(evaluatedFilters));
 };
