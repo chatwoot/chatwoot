@@ -45,6 +45,7 @@ const openIssue = () => {
         xs
         slate
         icon="i-lucide-unlink"
+        class="!transition-none"
         :is-loading="isUnlinking"
         @click="unlinkIssue"
       />
@@ -52,6 +53,7 @@ const openIssue = () => {
         ghost
         xs
         slate
+        class="!transition-none"
         icon="i-lucide-arrow-up-right"
         @click="openIssue"
       />
