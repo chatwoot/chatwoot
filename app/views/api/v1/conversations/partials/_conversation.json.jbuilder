@@ -21,13 +21,17 @@ json.meta do
 end
 
 json.id conversation.display_id
-if conversation.messages.where(account_id: conversation.account_id).last.blank?
+
+if conversation.respond_to?(:preloaded_last_message) && conversation.preloaded_last_message.present?
+  message_data = conversation.preloaded_last_message.try(:push_event_data)
+  json.messages message_data ? [message_data] : []
+elsif conversation.messages.where(account_id: conversation.account_id).last.blank?
   json.messages []
 else
-  json.messages [
-    conversation.messages.where(account_id: conversation.account_id)
-                .includes([{ attachments: [{ file_attachment: [:blob] }] }]).last.try(:push_event_data)
-  ]
+  message = conversation.messages.where(account_id: conversation.account_id)
+                        .includes([{ attachments: [{ file_attachment: [:blob] }] }]).last
+  message_data = message.try(:push_event_data)
+  json.messages message_data ? [message_data] : []
 end
 
 json.account_id conversation.account_id
@@ -47,8 +51,22 @@ json.created_at conversation.created_at.to_i
 json.updated_at conversation.updated_at.to_f
 json.timestamp conversation.last_activity_at.to_i
 json.first_reply_created_at conversation.first_reply_created_at.to_i
-json.unread_count conversation.unread_incoming_messages.count
-json.last_non_activity_message conversation.messages.where(account_id: conversation.account_id).non_activity_messages.first.try(:push_event_data)
+
+# Use the preloaded unread count if available
+json.unread_count conversation.respond_to?(:preloaded_unread_count) ? 
+                  conversation.preloaded_unread_count : 
+                  conversation.unread_incoming_messages.count
+
+# Use the preloaded last non-activity message if available
+message_data = nil
+if conversation.respond_to?(:preloaded_last_non_activity_message) && conversation.preloaded_last_non_activity_message.present?
+  message_data = conversation.preloaded_last_non_activity_message.try(:push_event_data)
+else
+  non_activity_message = conversation.messages.where(account_id: conversation.account_id).non_activity_messages.first
+  message_data = non_activity_message.try(:push_event_data) if non_activity_message
+end
+json.last_non_activity_message message_data
+
 json.last_activity_at conversation.last_activity_at.to_i
 json.priority conversation.priority
 json.waiting_since conversation.waiting_since.to_i.to_i

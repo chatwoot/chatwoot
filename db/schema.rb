@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_15_202035) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_21_184840) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -777,11 +777,12 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_15_202035) do
     t.jsonb "additional_attributes", default: {}
     t.text "processed_message_content"
     t.jsonb "sentiment", default: {}
+    t.tsvector "content_tsvector", default: -> { "to_tsvector('english'::regconfig, ''::text)" }
     t.index "((additional_attributes -> 'campaign_id'::text))", name: "index_messages_on_additional_attributes_campaign_id", using: :gin
     t.index ["account_id", "created_at", "message_type"], name: "index_messages_on_account_created_type"
     t.index ["account_id", "inbox_id"], name: "index_messages_on_account_id_and_inbox_id"
     t.index ["account_id"], name: "index_messages_on_account_id"
-    t.index ["content"], name: "index_messages_on_content", opclass: :gin_trgm_ops, using: :gin
+    t.index ["content_tsvector"], name: "index_messages_on_content_tsvector", using: :gin
     t.index ["conversation_id", "account_id", "message_type", "created_at"], name: "index_messages_on_conversation_account_type_created"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
     t.index ["created_at"], name: "index_messages_on_created_at"
@@ -1076,6 +1077,22 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_15_202035) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
+  # no candidate create_trigger statement could be found, creating an adapter-specific one
+  execute(<<-SQL)
+CREATE OR REPLACE FUNCTION public.messages_content_trigger()
+ RETURNS trigger
+ LANGUAGE plpgsql
+AS $function$
+      BEGIN
+        NEW.content_tsvector := to_tsvector('english', coalesce(NEW.content, ''));
+        RETURN NEW;
+      END
+      $function$
+  SQL
+
+  # no candidate create_trigger statement could be found, creating an adapter-specific one
+  execute("CREATE TRIGGER messages_content_update_trigger BEFORE INSERT OR UPDATE OF content ON messages FOR EACH ROW EXECUTE FUNCTION messages_content_trigger()")
+
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

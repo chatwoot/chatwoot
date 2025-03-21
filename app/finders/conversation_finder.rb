@@ -92,63 +92,36 @@ class ConversationFinder
   end
 
   def filter_by_assignee_type
-    case @assignee_type
-    when 'me'
-      @conversations = @conversations.assigned_to(current_user)
-    when 'unassigned'
-      @conversations = @conversations.unassigned
-    when 'assigned'
-      @conversations = @conversations.assigned
-    end
-    @conversations
+    @conversations = filter_service.filter_by_assignee_type(@conversations, @assignee_type, current_user)
   end
 
   def filter_by_conversation_type
-    case @params[:conversation_type]
-    when 'mention'
-      conversation_ids = current_account.mentions.where(user: current_user).pluck(:conversation_id)
-      @conversations = @conversations.where(id: conversation_ids)
-    when 'participating'
-      @conversations = current_user.participating_conversations.where(account_id: current_account.id)
-    when 'unattended'
-      @conversations = @conversations.unattended
-    end
-    @conversations
+    @conversations = filter_service.filter_by_conversation_type(
+      @conversations,
+      @params[:conversation_type],
+      current_user,
+      current_account
+    )
   end
 
   def filter_by_query
-    return unless params[:q]
-
-    allowed_message_types = [Message.message_types[:incoming], Message.message_types[:outgoing]]
-    @conversations = conversations.joins(:messages).where('messages.content ILIKE :search', search: "%#{params[:q]}%")
-                                  .where(messages: { message_type: allowed_message_types }).includes(:messages)
-                                  .where('messages.content ILIKE :search', search: "%#{params[:q]}%")
-                                  .where(messages: { message_type: allowed_message_types })
+    @conversations = filter_service.filter_by_query(@conversations, params[:q])
   end
 
   def filter_by_status
-    return if params[:status] == 'all'
-
-    @conversations = @conversations.where(status: params[:status] || DEFAULT_STATUS)
+    @conversations = filter_service.filter_by_status(@conversations, params[:status], DEFAULT_STATUS)
   end
 
   def filter_by_team
-    return unless @team
-
-    @conversations = @conversations.where(team: @team)
+    @conversations = filter_service.filter_by_team(@conversations, @team)
   end
 
   def filter_by_labels
-    return unless params[:labels]
-
-    @conversations = @conversations.tagged_with(params[:labels], any: true)
+    @conversations = filter_service.filter_by_labels(@conversations, params[:labels])
   end
 
   def filter_by_source_id
-    return unless params[:source_id]
-
-    @conversations = @conversations.joins(:contact_inbox)
-    @conversations = @conversations.where(contact_inboxes: { source_id: params[:source_id] })
+    @conversations = filter_service.filter_by_source_id(@conversations, params[:source_id])
   end
 
   def set_count_for_all_conversations
@@ -171,15 +144,45 @@ class ConversationFinder
 
   def conversations
     @conversations = conversations_base_query
+    apply_sorting_and_filtering
+    result_conversations = apply_pagination
+    preloader.preload_data_if_needed(result_conversations, params)
+    result_conversations
+  end
 
-    sort_by, sort_order = SORT_OPTIONS[params[:sort_by]] || SORT_OPTIONS['last_activity_at_desc']
-    @conversations = @conversations.send(sort_by, sort_order)
+  def apply_sorting_and_filtering
+    @conversations = filter_service.apply_sorting(@conversations, params[:sort_by], SORT_OPTIONS)
+    @conversations = filter_service.filter_by_updated_date(@conversations, params[:updated_within]) if params[:updated_within].present?
+  end
 
-    if params[:updated_within].present?
-      @conversations.where('conversations.updated_at > ?', Time.zone.now - params[:updated_within].to_i.seconds)
-    else
-      @conversations.page(current_page).per(ENV.fetch('CONVERSATION_RESULTS_PER_PAGE', '25').to_i)
+  def apply_pagination
+    per_page = ENV.fetch('CONVERSATION_RESULTS_PER_PAGE', '25').to_i
+    @conversations.page(current_page).per(per_page)
+  end
+
+  def filter_service
+    @filter_service ||= filter_service_class.new
+  end
+
+  def preloader
+    @preloader ||= preloader_class.new
+  end
+
+  def filter_service_class
+    Class.new do
+      include ConversationFilterService
+    end
+  end
+
+  def preloader_class
+    Class.new do
+      include ConversationPreloader
     end
   end
 end
+
+# Load the modules
+require 'conversation_preloader'
+require 'conversation_filter_service'
+
 ConversationFinder.prepend_mod_with('ConversationFinder')
