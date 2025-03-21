@@ -7,7 +7,24 @@ class Api::V1::Accounts::AIAgentsController < Api::V1::Accounts::BaseController
   end
 
   def show
-    render json: @ai_agent
+    render json: @ai_agent.as_json(
+      only: [
+        :id, :uid, :name, :system_prompts, :welcoming_message,
+        :routing_conditions, :control_flow_rules, :model_name,
+        :history_limit, :context_limit, :message_await, :message_limit,
+        :timezone, :created_at, :updated_at, :account_id
+      ],
+      include: {
+        ai_agent_selected_labels: {
+          only: [:id, :label_id, :label_conditions],
+          include: {
+            label: {
+              only: [:id, :name]
+            }
+          }
+        }
+      }
+    ).transform_keys { |key| key == 'ai_agent_selected_labels' ? 'selected_labels' : key }
   end
 
   def create
@@ -21,7 +38,9 @@ class Api::V1::Accounts::AIAgentsController < Api::V1::Accounts::BaseController
 
   def update
     if @ai_agent.update(ai_agent_params)
-      render json: @ai_agent
+      update_selected_labels
+
+      render json: @ai_agent.as_json(include: :ai_agent_selected_labels)
     else
       render json: @ai_agent.errors, status: :unprocessable_entity
     end
@@ -45,6 +64,21 @@ class Api::V1::Accounts::AIAgentsController < Api::V1::Accounts::BaseController
     render json: { error: 'AI Agent not found' }, status: :not_found
   end
 
+  def update_selected_labels
+    label_data = Array.wrap(params.dig(:ai_agent, :selected_labels))
+    return if label_ids.blank?
+
+    ActiveRecord::Base.transaction do
+      @ai_agent.ai_agent_selected_labels.destroy_all
+      label_data.each do |label_entry|
+        @ai_agent.ai_agent_selected_labels.create!(
+          label_id: label_entry[:label_id],
+          label_condition: label_entry[:label_condition]
+        )
+      end
+    end
+  end
+
   def ai_agent_params
     params.require(:ai_agent).permit(
       :name,
@@ -57,7 +91,8 @@ class Api::V1::Accounts::AIAgentsController < Api::V1::Accounts::BaseController
       :context_limit,
       :message_await,
       :message_limit,
-      :timezone
+      :timezone,
+      selected_labels: %i[label_id label_condition]
     )
   end
 end

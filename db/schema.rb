@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_19_022625) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_20_071934) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -116,6 +116,16 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_19_022625) do
     t.integer "bot_type", default: 0
     t.jsonb "bot_config", default: {}
     t.index ["account_id"], name: "index_agent_bots_on_account_id"
+  end
+
+  create_table "ai_agent_selected_labels", force: :cascade do |t|
+    t.bigint "ai_agent_id"
+    t.bigint "label_id"
+    t.text "label_condition"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ai_agent_id"], name: "index_ai_agent_selected_labels_on_ai_agent_id"
+    t.index ["label_id"], name: "index_ai_agent_selected_labels_on_label_id"
   end
 
   create_table "ai_agents", force: :cascade do |t|
@@ -1107,6 +1117,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_19_022625) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "ai_agent_selected_labels", "ai_agents"
+  add_foreign_key "ai_agent_selected_labels", "labels"
   add_foreign_key "inboxes", "portals"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

@@ -20,6 +20,8 @@
 #
 class AIAgent < ApplicationRecord
   belongs_to :account
+  has_many :ai_agent_selected_labels, dependent: :destroy
+  has_many :labels, through: :ai_agent_selected_labels
 
   validates :name, :system_prompts, :welcoming_message, presence: true
   validates :timezone, presence: true, inclusion: { in: ActiveSupport::TimeZone.all.map(&:name) }

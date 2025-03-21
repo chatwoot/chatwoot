@@ -32,3 +32,21 @@ properties:
     type: string
   account_id:
     type: integer
+  selected_labels:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+        label_id:
+          type: integer
+        label_conditions:
+          type: string
+        label:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
