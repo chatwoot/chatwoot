@@ -29,7 +29,6 @@ class Instagram::Direct::SendOnInstagramService < Base::SendOnChannelService
   end
 
   def handle_error(error)
-    Rails.logger.info("Instagram Error: #{error.inspect}")
     ChatwootExceptionTracker.new(error, account: message.account, user: message.sender).capture_exception
     # TODO : handle specific auth errors
     # channel.authorization_error!
@@ -76,8 +75,6 @@ class Instagram::Direct::SendOnInstagramService < Base::SendOnChannelService
       body: message_content,
       query: query
     )
-
-    Rails.logger.info("Instagram response: #{response.inspect}")
 
     process_response(response, message_content)
   end
