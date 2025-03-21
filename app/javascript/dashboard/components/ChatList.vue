@@ -460,6 +460,12 @@ function setParamsForEditFolderModal() {
     campaigns: campaigns.value,
     languages: languages,
     countries: countries,
+    priority: ['low', 'medium', 'high', 'urgent'].map(id => {
+      return {
+        id,
+        name: t(`CONVERSATION.PRIORITY.OPTIONS.${id.toUpperCase()}`),
+      };
+    }),
     filterTypes: advancedFilterTypes.value,
     allCustomAttributes: conversationCustomAttributes.value,
   };
