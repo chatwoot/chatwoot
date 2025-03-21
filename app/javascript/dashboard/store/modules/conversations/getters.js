@@ -20,9 +20,7 @@ const getters = {
     appliedFilters,
   }) => {
     return allConversations
-      .filter(conversation =>
-        matchesFilters(conversation, appliedFilters.value)
-      )
+      .filter(conversation => matchesFilters(conversation, appliedFilters))
       .sort((a, b) => sortComparator(a, b, chatSortFilter));
   },
   getSelectedChat: ({ selectedChatId, allConversations }) => {
