@@ -1,5 +1,7 @@
 <script setup>
 import { defineEmits, defineModel } from 'vue';
+import Button from 'dashboard/components-next/button/Button.vue';
+
 defineProps({
   inputPlaceholder: {
     type: String,
@@ -33,19 +35,17 @@ const value = defineModel({
         v-model="value"
         :placeholder="inputPlaceholder"
         type="text"
-        class="w-full mb-0 text-sm bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-75 reset-base"
+        class="w-full mb-0 text-sm !outline-0 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-75 reset-base"
       />
     </div>
     <!-- Clear filter button -->
-    <woot-button
+    <Button
       v-if="!modelValue && showClearFilter"
-      size="small"
-      variant="clear"
-      color-scheme="primary"
-      class="!px-1 !py-1.5"
+      faded
+      xs
+      class="flex-shrink-0"
+      :label="$t('REPORT.FILTER_ACTIONS.CLEAR_FILTER')"
       @click="emit('remove')"
-    >
-      {{ $t('REPORT.FILTER_ACTIONS.CLEAR_FILTER') }}
-    </woot-button>
+    />
   </div>
 </template>
