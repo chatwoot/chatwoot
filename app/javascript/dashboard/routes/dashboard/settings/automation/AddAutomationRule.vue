@@ -250,10 +250,9 @@ export default {
                 blue
                 faded
                 sm
+                :label="$t('AUTOMATION.ADD.CONDITION_BUTTON_LABEL')"
                 @click="appendNewCondition"
-              >
-                {{ $t('AUTOMATION.ADD.CONDITION_BUTTON_LABEL') }}
-              </NextButton>
+              />
             </div>
           </div>
         </section>
@@ -294,22 +293,29 @@ export default {
                 blue
                 faded
                 sm
+                :label="$t('AUTOMATION.ADD.ACTION_BUTTON_LABEL')"
                 @click="appendNewAction"
-              >
-                {{ $t('AUTOMATION.ADD.ACTION_BUTTON_LABEL') }}
-              </NextButton>
+              />
             </div>
           </div>
         </section>
         <!-- // Actions End -->
         <div class="w-full">
           <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-            <NextButton ghost blue @click.prevent="onClose">
-              {{ $t('AUTOMATION.ADD.CANCEL_BUTTON_TEXT') }}
-            </NextButton>
-            <NextButton solid blue @click="emitSaveAutomation">
-              {{ $t('AUTOMATION.ADD.SUBMIT') }}
-            </NextButton>
+            <NextButton
+              faded
+              slate
+              type="reset"
+              :label="$t('AUTOMATION.ADD.CANCEL_BUTTON_TEXT')"
+              @click.prevent="onClose"
+            />
+            <NextButton
+              solid
+              blue
+              type="submit"
+              :label="$t('AUTOMATION.ADD.SUBMIT')"
+              @click="emitSaveAutomation"
+            />
           </div>
         </div>
       </div>

@@ -217,6 +217,9 @@ sl:
     linear:
       name: 'Linear'
       description: 'Ustvarite issue v Linearju neposredno iz pogovornega okna. Druga možnost je, da povežete obstoječe Linear issue za bolj poenostavljen in učinkovit postopek sledenja težavam.'
+    shopify:
+      name: 'Shopify'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
   captain:
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
     copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'

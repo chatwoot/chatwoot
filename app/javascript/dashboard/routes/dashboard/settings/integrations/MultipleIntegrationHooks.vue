@@ -2,10 +2,12 @@
 import { mapGetters } from 'vuex';
 import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
 import BaseSettingsHeader from 'dashboard/routes/dashboard/settings/components/BaseSettingsHeader.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     BaseSettingsHeader,
+    NextButton,
   },
   props: {
     integrationId: {
@@ -67,14 +69,12 @@ export default {
       :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
     >
       <template #actions>
-        <woot-button
+        <NextButton
           v-if="showAddButton"
-          class="rounded-md button nice"
-          icon="add-circle"
+          icon="i-lucide-circle-plus"
+          :label="$t('INTEGRATION_APPS.ADD_BUTTON')"
           @click="$emit('add')"
-        >
-          {{ $t('INTEGRATION_APPS.ADD_BUTTON') }}
-        </woot-button>
+        />
       </template>
     </BaseSettingsHeader>
     <div class="w-full">
@@ -104,13 +104,12 @@ export default {
               {{ inboxName(hook) }}
             </td>
             <td class="flex justify-end gap-1">
-              <woot-button
+              <NextButton
                 v-tooltip.top="$t('INTEGRATION_APPS.LIST.DELETE.BUTTON_TEXT')"
-                variant="smooth"
-                color-scheme="alert"
-                size="tiny"
-                icon="dismiss-circle"
-                class-names="grey-btn"
+                icon="i-lucide-trash-2"
+                xs
+                ruby
+                faded
                 @click="$emit('delete', hook)"
               />
             </td>

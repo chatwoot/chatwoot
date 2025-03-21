@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "断开连接"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow 是一个自然语言理解平台，可以轻松设计会话用户界面并将其集成到移动应用程序、Web 应用程序、设备、机器人、交互式语音应答系统等中。 <br /> <br /> Dialogflow 与 {installationName} 集成允许您使用收件箱配置 Dialogflow 机器人，让机器人最初处理查询并在需要时将其移交给代理。 Dialogflow 可用于确定潜在客户资格，通过提供常见问题等来减少客服人员的工作量。<br /> <br />要添加 Dialogflow，您需要在 Google 项目控制台中创建一个服务帐户并共享凭据。请参阅 Dialogflow 文档以获取更多信息。"
+      "DIALOGFLOW": "Dialogflow 是一个用于构建对话界面的自然语言处理平台。将其与 {installationName} 集成可以让机器人优先处理查询，并在需要时转接给客服代理。它通过回答常见问题来帮助筛选潜在客户并减少客服代理工作量。要添加 Dialogflow，请在 Google 控制台中创建服务帐户并共享凭据。详情请参阅文档"
     }
   }
 }
