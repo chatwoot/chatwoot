@@ -20,7 +20,7 @@ class Instagram::Direct::SendOnInstagramService < Base::SendOnChannelService
 
   def send_attachments
     message.attachments.each do |attachment|
-      send_to_instagram attachment_message_params(attachment)
+      send_to_instagram direct_attachment_message_params(attachment)
     end
   end
 
@@ -46,7 +46,7 @@ class Instagram::Direct::SendOnInstagramService < Base::SendOnChannelService
     merge_human_agent_tag(params)
   end
 
-  def attachment_message_params(attachment)
+  def direct_attachment_message_params(attachment)
     params = {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {
@@ -79,10 +79,10 @@ class Instagram::Direct::SendOnInstagramService < Base::SendOnChannelService
 
     Rails.logger.info("Instagram response: #{response.inspect}")
 
-    handle_response(response, message_content)
+    process_response(response, message_content)
   end
 
-  def handle_response(response, message_content)
+  def process_response(response, message_content)
     parsed_response = response.parsed_response
     if response.success? && parsed_response['error'].blank?
       message.update!(source_id: parsed_response['message_id'])
