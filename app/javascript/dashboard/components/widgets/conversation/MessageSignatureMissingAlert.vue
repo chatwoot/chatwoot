@@ -18,7 +18,6 @@ const openProfileSettings = () => {
 
       <Button
         link
-        class="!underline-offset-1"
         :label="$t('CONVERSATION.FOOTER.CLICK_HERE')"
         @click="openProfileSettings"
       />
