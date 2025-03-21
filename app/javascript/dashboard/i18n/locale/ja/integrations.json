@@ -1,5 +1,20 @@
 {
   "INTEGRATION_SETTINGS": {
+    "SHOPIFY": {
+      "DELETE": {
+        "TITLE": "Delete Shopify Integration",
+        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+      },
+      "STORE_URL": {
+        "TITLE": "Connect Shopify Store",
+        "LABEL": "Store URL",
+        "PLACEHOLDER": "your-store.myshopify.com",
+        "HELP": "Enter your Shopify store's myshopify.com URL",
+        "CANCEL": "キャンセル",
+        "SUBMIT": "Connect Store"
+      },
+      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+    },
     "HEADER": "連携",
     "DESCRIPTION": "Chatwootは、チームの効率を向上させるために複数のツールやサービスと連携します。以下のリストを探索して、お気に入りのアプリを設定してください。",
     "LEARN_MORE": "連携について詳しく知る",

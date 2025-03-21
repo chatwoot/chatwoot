@@ -1,5 +1,20 @@
 {
   "INTEGRATION_SETTINGS": {
+    "SHOPIFY": {
+      "DELETE": {
+        "TITLE": "Delete Shopify Integration",
+        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+      },
+      "STORE_URL": {
+        "TITLE": "Connect Shopify Store",
+        "LABEL": "Store URL",
+        "PLACEHOLDER": "your-store.myshopify.com",
+        "HELP": "Enter your Shopify store's myshopify.com URL",
+        "CANCEL": "Atcelt",
+        "SUBMIT": "Connect Store"
+      },
+      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+    },
     "HEADER": "Integrācijas",
     "DESCRIPTION": "Chatwoot integrējas ar vairākiem rīkiem un pakalpojumiem, lai uzlabotu jūsu komandas efektivitāti. Izpētiet tālāk esošo sarakstu, lai konfigurētu savas iecienītākās lietotnes.",
     "LEARN_MORE": "Uzzināt vairāk par integrācijām",

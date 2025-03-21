@@ -2,11 +2,14 @@
 import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
 import AutomationActionFileInput from './AutomationFileInput.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
   components: {
     AutomationActionTeamMessageInput,
     AutomationActionFileInput,
     WootMessageEditor,
+    NextButton,
   },
   props: {
     modelValue: {
@@ -172,11 +175,11 @@ export default {
           />
         </div>
       </div>
-      <woot-button
+      <NextButton
         v-if="!isMacro"
-        icon="dismiss"
-        variant="clear"
-        color-scheme="secondary"
+        icon="i-lucide-x"
+        slate
+        ghost
         class="flex-shrink-0"
         @click="removeAction"
       />
