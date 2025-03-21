@@ -65,6 +65,11 @@ class ContactInboxBuilder
       source_id: @source_id
     )
   rescue ActiveRecord::RecordNotUnique
+    update_old_contact_inbox
+    retry
+  end
+
+  def update_old_contact_inbox
     # The race condition occurs when there’s a contact inbox with the
     # same source ID but linked to a different contact. This can happen
     # if the agent updates the contact’s email or phone number, or
@@ -77,12 +82,6 @@ class ContactInboxBuilder
     # needed for non-live chat channels.
     raise ActiveRecord::RecordNotUnique unless allowed_channels?
 
-    update_old_contact_inbox
-
-    retry
-  end
-
-  def update_old_contact_inbox
     contact_inbox = ::ContactInbox.find_by(inbox_id: @inbox.id, source_id: @source_id)
     return if contact_inbox.blank?
 
