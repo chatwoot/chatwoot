@@ -1134,5 +1134,143 @@ describe('filterHelpers', () => {
         });
       });
     });
+
+    // Test for inbox_id in getValueFromConversation
+    it('should match conversation with equal_to operator for inbox_id', () => {
+      const conversation = { inbox_id: 123 };
+      const filters = [
+        {
+          attribute_key: 'inbox_id',
+          filter_operator: 'equal_to',
+          values: { id: 123, name: 'Support Inbox' },
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should not match conversation with equal_to operator for inbox_id when values differ', () => {
+      const conversation = { inbox_id: 123 };
+      const filters = [
+        {
+          attribute_key: 'inbox_id',
+          filter_operator: 'equal_to',
+          values: { id: 456, name: 'Sales Inbox' },
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
+    // Test for default case (returning null) in getValueFromConversation
+    it('should not match conversation when attribute key is not recognized', () => {
+      const conversation = { status: 'open' };
+      const filters = [
+        {
+          attribute_key: 'unknown_attribute',
+          filter_operator: 'equal_to',
+          values: 'some_value',
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
+    it('should match conversation with is_not_present operator for unknown attribute', () => {
+      const conversation = { status: 'open' };
+      const filters = [
+        {
+          attribute_key: 'unknown_attribute',
+          filter_operator: 'is_not_present',
+          values: [],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    // Test for contains operator when value is not a string
+    it('should not match conversation with contains operator when value is not a string', () => {
+      const conversation = {
+        custom_attributes: {
+          numeric_value: 12345,
+        },
+      };
+      const filters = [
+        {
+          attribute_key: 'numeric_value',
+          filter_operator: 'contains',
+          values: '123',
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
+    it('should not match conversation with contains operator when value is an array', () => {
+      const conversation = {
+        custom_attributes: {
+          array_value: [1, 2, 3, 4, 5],
+        },
+      };
+      const filters = [
+        {
+          attribute_key: 'array_value',
+          filter_operator: 'contains',
+          values: '3',
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
+    // Test for does_not_contain operator when value is not a string
+    it('should match conversation with does_not_contain operator when value is not a string', () => {
+      const conversation = {
+        custom_attributes: {
+          numeric_value: 12345,
+        },
+      };
+      const filters = [
+        {
+          attribute_key: 'numeric_value',
+          filter_operator: 'does_not_contain',
+          values: '123',
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should match conversation with does_not_contain operator when value is an array', () => {
+      const conversation = {
+        custom_attributes: {
+          array_value: [1, 2, 3, 4, 5],
+        },
+      };
+      const filters = [
+        {
+          attribute_key: 'array_value',
+          filter_operator: 'does_not_contain',
+          values: '3',
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    // Test for default case in matchesCondition
+    it('should not match conversation with unknown filter operator', () => {
+      const conversation = { status: 'open' };
+      const filters = [
+        {
+          attribute_key: 'status',
+          filter_operator: 'unknown_operator',
+          values: 'open',
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
   });
 });

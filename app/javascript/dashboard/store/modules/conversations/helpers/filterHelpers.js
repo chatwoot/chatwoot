@@ -71,7 +71,7 @@ const getValueFromConversation = (conversation, attributeKey) => {
     case 'assignee_id':
       return conversation.meta?.assignee?.id;
     case 'inbox_id':
-      return conversation.inbox_id; // TODO: Cover this in test
+      return conversation.inbox_id;
     case 'team_id':
       return conversation.meta?.team?.id;
     case 'browser_language':
@@ -86,7 +86,7 @@ const getValueFromConversation = (conversation, attributeKey) => {
       ) {
         return conversation.custom_attributes[attributeKey];
       }
-      return null; // TODO: Cover this in test
+      return null;
   }
 };
 
@@ -160,7 +160,7 @@ const matchesCondition = (conversationValue, filter) => {
           .toLowerCase()
           .includes(filterValue.toLowerCase());
       }
-      return false; // TODO: Cover this in test
+      return false;
 
     case 'does_not_contain':
       if (typeof conversationValue === 'string') {
@@ -168,7 +168,7 @@ const matchesCondition = (conversationValue, filter) => {
           .toLowerCase()
           .includes(filterValue.toLowerCase());
       }
-      return true; // TODO: Cover this in test
+      return true;
 
     case 'is_present':
       return true; // We already handled null/undefined above
@@ -190,7 +190,7 @@ const matchesCondition = (conversationValue, filter) => {
     }
 
     default:
-      return false; // TODO: Cover this in test
+      return false;
   }
 };
 
