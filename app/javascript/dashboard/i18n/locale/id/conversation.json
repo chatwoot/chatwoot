@@ -12,8 +12,8 @@
     "NO_INBOX_2": " untuk memulai",
     "NO_INBOX_AGENT": "Aduh! Sepertinya Anda bukan bagian dari kotak masuk mana pun. Silakan hubungi administrator Anda",
     "SEARCH_MESSAGES": "Mencari pesan dalam percakapan",
-    "VIEW_ORIGINAL": "View original",
-    "VIEW_TRANSLATED": "View translated",
+    "VIEW_ORIGINAL": "Lihat asli",
+    "VIEW_TRANSLATED": "Lihat terjemahan",
     "EMPTY_STATE": {
       "CMD_BAR": "to open command menu",
       "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
@@ -40,12 +40,12 @@
     "REMOVE_SELECTION": "Hapus Pilihan",
     "DOWNLOAD": "Unduh",
     "UNKNOWN_FILE_TYPE": "Jenis Berkas Tidak Dikenal",
-    "SAVE_CONTACT": "Save Contact",
-    "NO_CONTENT": "No content to display",
+    "SAVE_CONTACT": "Simpan Kontak",
+    "NO_CONTENT": "Tidak ada konten untuk ditampilkan",
     "SHARED_ATTACHMENT": {
-      "CONTACT": "{sender} has shared a contact",
-      "LOCATION": "{sender} has shared a location",
-      "FILE": "{sender} has shared a file",
+      "CONTACT": "{sender} membagikan sebuah kontak",
+      "LOCATION": "{sender} membagikan lokasi",
+      "FILE": "{sender} membagikan sebuah berkas",
       "MEETING": "{sender} memulai percakapan"
     },
     "UPLOADING_ATTACHMENTS": "Mengunggah lampiran...",
@@ -119,7 +119,7 @@
       "PENDING": "Tandai sebagai tertunda",
       "RESOLVED": "Tandai sebagai terselesaikan",
       "MARK_AS_UNREAD": "Tandai sebagai belum terbaca",
-      "MARK_AS_READ": "Mark as read",
+      "MARK_AS_READ": "Tanda telah dibaca",
       "REOPEN": "Buka kembali percakapan",
       "SNOOZE": {
         "TITLE": "Tunda",
@@ -218,7 +218,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Salin",
-      "REPLY_TO": "Reply to this message",
+      "REPLY_TO": "Balas pesan ini",
       "DELETE": "Hapus",
       "CREATE_A_CANNED_RESPONSE": "Tambahkan ke respon siap pakai",
       "TRANSLATE": "Terjemahkan",
@@ -295,7 +295,27 @@
       "CONVERSATION_INFO": "Informasi Percakapan",
       "CONTACT_ATTRIBUTES": "Atribut Kontak",
       "PREVIOUS_CONVERSATION": "Percakapan Sebelumnya",
-      "MACROS": "Makro"
+      "MACROS": "Makro",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Ditunda",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
