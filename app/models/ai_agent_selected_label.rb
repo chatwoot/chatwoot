@@ -19,7 +19,7 @@
 #  fk_rails_...  (ai_agent_id => ai_agents.id)
 #  fk_rails_...  (label_id => labels.id)
 #
-class AIAgentSelectedLabel < ApplicationRecord
+class AiAgentSelectedLabel < ApplicationRecord
   belongs_to :ai_agent, optional: true
   belongs_to :label, optional: true
 end

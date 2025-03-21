@@ -18,7 +18,7 @@
 #  updated_at         :datetime         not null
 #  account_id         :integer          not null
 #
-class AIAgent < ApplicationRecord
+class AiAgent < ApplicationRecord
   belongs_to :account
   has_many :ai_agent_selected_labels, dependent: :destroy
   has_many :labels, through: :ai_agent_selected_labels
