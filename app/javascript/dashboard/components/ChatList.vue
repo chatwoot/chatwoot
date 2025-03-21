@@ -105,7 +105,7 @@ const advancedFilterTypes = ref(
 );
 
 const currentUser = useMapGetter('getCurrentUser');
-const chatLists = useMapGetter('getFilteredConversations');
+const chatListFilterFn = useMapGetter('getFilteredConversations');
 const mineChatsList = useMapGetter('getMineChats');
 const allChatList = useMapGetter('getAllStatusChats');
 const unAssignedChatsList = useMapGetter('getUnAssignedChats');
@@ -179,6 +179,14 @@ const hasActiveFolders = computed(() => {
 
 const hasAppliedFiltersOrActiveFolders = computed(() => {
   return hasAppliedFilters.value || hasActiveFolders.value;
+});
+
+const chatLists = computed(() => {
+  if (hasActiveFolders.value) {
+    const { payload } = activeFolder.value.query;
+    return chatListFilterFn.value(payload);
+  }
+  return chatListFilterFn.value(appliedFilters.value);
 });
 
 const currentUserDetails = computed(() => {

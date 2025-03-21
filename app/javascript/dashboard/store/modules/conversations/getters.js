@@ -14,16 +14,13 @@ const getters = {
   getAllConversations: ({ allConversations, chatSortFilter: sortKey }) => {
     return allConversations.sort((a, b) => sortComparator(a, b, sortKey));
   },
-  getFilteredConversations: ({
-    allConversations,
-    appliedFilters,
-    chatSortFilter: sortKey,
-  }) => {
-    return allConversations
-      .filter(conversation => {
-        return matchesFilters(conversation, appliedFilters);
-      })
-      .sort((a, b) => sortComparator(a, b, sortKey));
+  getFilteredConversations: ({ allConversations, chatSortFilter: sortKey }) => {
+    return filtersToApply =>
+      allConversations
+        .filter(conversation => {
+          return matchesFilters(conversation, filtersToApply);
+        })
+        .sort((a, b) => sortComparator(a, b, sortKey));
   },
   getSelectedChat: ({ selectedChatId, allConversations }) => {
     const selectedChat = allConversations.find(
