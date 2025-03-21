@@ -13,6 +13,8 @@ import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import Linear from './linear/index.vue';
 
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
   components: {
     BackButton,
@@ -21,6 +23,7 @@ export default {
     Thumbnail,
     SLACardLabel,
     Linear,
+    NextButton,
   },
   mixins: [inboxMixin],
   props: {
@@ -154,16 +157,18 @@ export default {
           <div
             class="flex flex-row items-center max-w-full gap-1 p-0 m-0 w-fit"
           >
-            <woot-button
-              variant="link"
-              color-scheme="secondary"
-              class="[&>span]:overflow-hidden [&>span]:whitespace-nowrap [&>span]:text-ellipsis min-w-0"
+            <NextButton
+              link
+              slate
+              class="!underline-offset-1"
               @click.prevent="$emit('contactPanelToggle')"
             >
-              <span class="text-base font-medium leading-tight text-n-slate-12">
+              <span
+                class="text-base font-medium truncate leading-tight text-n-slate-12"
+              >
                 {{ currentContact.name }}
               </span>
-            </woot-button>
+            </NextButton>
             <fluent-icon
               v-if="!isHMACVerified"
               v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
@@ -180,14 +185,14 @@ export default {
             <span v-if="isSnoozed" class="font-medium text-n-amber-10">
               {{ snoozedDisplayText }}
             </span>
-            <woot-button
-              class="p-0"
-              size="small"
-              variant="link"
+            <NextButton
+              link
+              xs
+              blue
+              :label="contactPanelToggleText"
+              class="!underline-offset-1"
               @click="$emit('contactPanelToggle')"
-            >
-              {{ contactPanelToggleText }}
-            </woot-button>
+            />
           </div>
         </div>
       </div>

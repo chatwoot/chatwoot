@@ -247,7 +247,13 @@ export default {
             :placeholder="$t('FILTER.INPUT_PLACEHOLDER')"
           />
         </div>
-        <NextButton icon="i-lucide-x" slate ghost @click="removeFilter" />
+        <NextButton
+          icon="i-lucide-x"
+          slate
+          ghost
+          class="flex-shrink-0"
+          @click="removeFilter"
+        />
       </div>
       <p v-if="errorMessage" class="filter-error">
         {{ errorMessage }}

@@ -164,11 +164,6 @@ export default {
         'is-note-mode': this.isNote,
       };
     },
-    buttonClass() {
-      return {
-        warning: this.isNote,
-      };
-    },
     showAttachButton() {
       return this.showFileUpload || this.isNote;
     },
@@ -367,14 +362,15 @@ export default {
       />
     </div>
     <div class="right-wrap">
-      <woot-button
-        size="small"
-        :class-names="buttonClass"
-        :is-disabled="isSendDisabled"
+      <NextButton
+        :label="sendButtonText"
+        type="submit"
+        sm
+        :color="isNote ? 'amber' : 'blue'"
+        :disabled="isSendDisabled"
+        class="flex-shrink-0"
         @click="onSend"
-      >
-        {{ sendButtonText }}
-      </woot-button>
+      />
     </div>
   </div>
 </template>
