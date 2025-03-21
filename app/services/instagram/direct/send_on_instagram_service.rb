@@ -12,7 +12,6 @@ class Instagram::Direct::SendOnInstagramService < Base::SendOnChannelService
   end
 
   def perform_reply
-    log_instagram_message
     send_attachments if message.attachments.present?
     send_content if message.content.present?
   rescue StandardError => e
@@ -27,10 +26,6 @@ class Instagram::Direct::SendOnInstagramService < Base::SendOnChannelService
 
   def send_content
     send_to_instagram message_params
-  end
-
-  def log_instagram_message
-    Rails.logger.info("Sending message to Instagram: #{message.inspect}")
   end
 
   def handle_error(error)
@@ -82,14 +77,6 @@ class Instagram::Direct::SendOnInstagramService < Base::SendOnChannelService
       query: query
     )
 
-    Rails.logger.info("I.G:response #{response}")
-
-    if response[:error].present?
-      Rails.logger.error("Instagram response: #{response['error']} : #{message_content}")
-      message.status = :failed
-      message.external_error = external_error(response)
-    end
-
     Rails.logger.info("Instagram response: #{response.inspect}")
 
     handle_response(response, message_content)
@@ -124,32 +111,17 @@ class Instagram::Direct::SendOnInstagramService < Base::SendOnChannelService
     'file'
   end
 
-  def conversation_type
-    conversation.additional_attributes['type']
-  end
-
   def merge_human_agent_tag(params)
     global_config = GlobalConfig.get('ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT')
 
     return params unless global_config['ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT']
-    return params unless should_add_human_agent_tag?
 
     # Add human agent tag to enable responses outside the standard 24-hour window
     # This allows human agents to respond within 7 days of the last user message
     # Requires business verification and app review approval
-    params[:messaging_type] = 'MESSAGE_TAG'
-    params[:tag] = 'human_agent'
-    params
-  end
-
-  # Determines if the human agent tag should be added to the message
-  # @return [Boolean] true if the message qualifies for human agent tag
-  def should_add_human_agent_tag?
-    return false unless conversation.last_incoming_message
-
-    # Instagram allows human agent responses within 7 days of the last user message
     # https://developers.facebook.com/docs/features-reference/human-agent
-    seven_days_ago = 7.days.ago
-    conversation.last_incoming_message.created_at > seven_days_ago
+    params[:messaging_type] = 'MESSAGE_TAG'
+    params[:tag] = 'HUMAN_AGENT'
+    params
   end
 end
