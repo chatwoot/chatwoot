@@ -7,11 +7,13 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     Widget,
     InputRadioGroup,
+    NextButton,
   },
   props: {
     inbox: {
@@ -268,7 +270,7 @@ export default {
   <div class="mx-8">
     <div class="flex p-2.5">
       <div class="w-100 lg:w-[40%]">
-        <div class="min-h-full py-4 overflow-y-scroll">
+        <div class="min-h-full py-4 overflow-y-scroll px-px">
           <form @submit.prevent="updateWidget">
             <woot-avatar-uploader
               :label="
@@ -376,14 +378,15 @@ export default {
                 )
               "
             />
-            <woot-submit-button
+            <NextButton
+              type="submit"
               class="mt-4"
-              :button-text="
+              :label="
                 $t(
                   'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.UPDATE.BUTTON_TEXT'
                 )
               "
-              :loading="uiFlags.isUpdating"
+              :is-loading="uiFlags.isUpdating"
               :disabled="v$.$invalid || uiFlags.isUpdating"
             />
           </form>

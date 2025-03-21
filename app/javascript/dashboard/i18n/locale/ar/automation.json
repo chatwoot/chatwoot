@@ -125,6 +125,7 @@
       "ACTION_PARAMETERS_REQUIRED": "معلمات الإجراء مطلوبة",
       "ATLEAST_ONE_CONDITION_REQUIRED": "شرط واحد على الأقل مطلوب",
       "ATLEAST_ONE_ACTION_REQUIRED": "إجراء واحد على الأقل مطلوب"
-    }
+    },
+    "NONE_OPTION": "لا شيء"
   }
 }

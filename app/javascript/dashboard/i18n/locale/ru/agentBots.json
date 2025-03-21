@@ -2,8 +2,8 @@
   "AGENT_BOTS": {
     "HEADER": "Боты",
     "LOADING_EDITOR": "Загрузка редактора...",
-    "HEADER_BTN_TXT": "Добавить бота",
-    "SIDEBAR_TXT": "<p><b>Агенты боты</b> <p>Агенты боты это лучшие участники вашей команды. Они могут заняться мелкой рутиной пока вы фокусируетесь на чём-то действительно важно. Попробуйте их.</p> <p> Вы можете управлять своими ботами с этой страницы или создать новых кнопкой \"Добавить бота\".</p> <p> Откройте<a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">Гайд по агентам ботам</a> в другой вкладке для помощи.</p>",
+    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.You can manage your bots from this page or create new ones using the 'Configure new bot' button.",
+    "LEARN_MORE": "Learn about agent bots",
     "CSML_BOT_EDITOR": {
       "NAME": {
         "LABEL": "Имя бота",

@@ -2,8 +2,8 @@
   "AGENT_BOTS": {
     "HEADER": "Roboti",
     "LOADING_EDITOR": "Notiek redaktora ielāde...",
-    "HEADER_BTN_TXT": "Pievienot robota konfigurāciju",
-    "SIDEBAR_TXT": "<p><b>Aģentu Roboti</b> <p>Aģentu Roboti ir kā visbrīnišķīgākie jūsu komandas locekļi. Viņi var tikt galā ar sīkumiem, lai jūs varētu koncentrēties uz svarīgākajām lietām. Izmēģiniet viņus.</p> <p> Jūs varat pārvaldīt savus robotus šajā lapā vai izveidot jaunus, izmantojot pogu 'Pievienot robota konfigurāciju'.</p> <p> Atveriet <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">Aģentu robotu rokasgrāmatu</a> jaunā cilnē, lai saņemtu palīdzību.</p>",
+    "DESCRIPTION": "Aģenti Roboti ir kā pasakainākie jūsu komandas locekļi. Viņi var tikt galā ar sīkumiem, lai jūs varētu koncentrēties uz svarīgām lietām. Jūs varat pārvaldīt savus robotus šajā lapā vai izveidot jaunus, izmantojot pogu 'Konfigurēt jaunu robotu'.",
+    "LEARN_MORE": "Uzzināt vairāk par aģentiem robotiem",
     "CSML_BOT_EDITOR": {
       "NAME": {
         "LABEL": "Robota nosaukums",

@@ -1253,7 +1253,7 @@ export default {
   @apply relative py-0 px-4 -mt-px;
 
   textarea {
-    @apply shadow-none border-transparent bg-transparent m-0 max-h-60 min-h-[3rem] pt-4 pb-0 px-0 resize-none;
+    @apply shadow-none outline-none border-transparent bg-transparent m-0 max-h-60 min-h-[3rem] pt-4 pb-0 px-0 resize-none;
   }
 }
 
