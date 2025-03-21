@@ -721,17 +721,16 @@ export default {
               @update="toggleSenderNameType"
             />
             <div class="flex flex-col items-start gap-2 mt-2">
-              <woot-button
-                variant="clear"
-                color-scheme="primary"
-                @click="onClickShowBusinessNameInput"
-              >
-                {{
+              <NextButton
+                ghost
+                blue
+                :label="
                   $t(
                     'INBOX_MGMT.EDIT.SENDER_NAME_SECTION.BUSINESS_NAME.BUTTON_TEXT'
                   )
-                }}
-              </woot-button>
+                "
+                @click="onClickShowBusinessNameInput"
+              />
               <div v-if="showBusinessNameInput" class="flex gap-2 w-[80%]">
                 <input
                   ref="businessNameInput"
@@ -744,13 +743,15 @@ export default {
                   class="mb-0"
                   type="text"
                 />
-                <woot-button color-scheme="primary" @click="updateInbox">
-                  {{
+                <NextButton
+                  :label="
                     $t(
                       'INBOX_MGMT.EDIT.SENDER_NAME_SECTION.BUSINESS_NAME.SAVE_BUTTON_TEXT'
                     )
-                  }}
-                </woot-button>
+                  "
+                  class="flex-shrink-0"
+                  @click="updateInbox"
+                />
               </div>
             </div>
           </div>

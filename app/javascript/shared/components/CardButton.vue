@@ -1,6 +1,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
+import { IFrameHelper } from 'widget/helpers/utils';
+
 export default {
   components: {},
   props: {
@@ -22,7 +24,15 @@ export default {
   },
   methods: {
     onClick() {
-      // Do postback here
+      if (this.action.type === 'postback') {
+        // Send message to parent iframe
+        if (IFrameHelper.isIFrame()) {
+          IFrameHelper.sendMessage({
+            event: 'postback',
+            data: { payload: this.action.payload },
+          });
+        }
+      }
     },
   },
 };
