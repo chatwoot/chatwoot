@@ -12,7 +12,7 @@ class Instagram::Direct::MessageText < Instagram::WebhooksBaseService
 
   def perform
     Rails.logger.info("Instagram Direct Message Text: #{@messaging}")
-    instagram_id, contact_id = instagram_and_contact_ids
+    instagram_id, contact_id = direct_instagram_and_contact_ids
     inbox_channel(instagram_id)
 
     return if @inbox.blank?
@@ -30,7 +30,7 @@ class Instagram::Direct::MessageText < Instagram::WebhooksBaseService
 
   private
 
-  def instagram_and_contact_ids
+  def direct_instagram_and_contact_ids
     if agent_message_via_echo?
       [@messaging[:sender][:id], @messaging[:recipient][:id]]
     else

@@ -108,11 +108,11 @@ class Messages::Instagram::Direct::MessageBuilder < Messages::Instagram::Direct:
     return if @outgoing_echo && already_sent_from_chatwoot?
     return if message_content.blank? && all_unsupported_files?
 
-    @message = conversation.messages.create!(message_params)
+    @message = conversation.messages.create!(direct_message_params)
     save_story_id
 
     attachments.each do |attachment|
-      process_attachment(attachment)
+      process_direct_attachment(attachment)
     end
   end
 
@@ -139,7 +139,7 @@ class Messages::Instagram::Direct::MessageBuilder < Messages::Instagram::Direct:
     }
   end
 
-  def message_params
+  def direct_message_params
     params = {
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,

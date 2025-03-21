@@ -200,16 +200,27 @@ describe Webhooks::InstagramEventsJob do
           )
       end
 
-      it 'creates incoming message in the instagram direct inbox' do
+      it 'creates incoming message with correct contact info in the instagram direct inbox' do
         instagram_webhook.perform_now(message_events[:dm][:entry])
-
         instagram_direct_inbox.reload
 
-        expect(instagram_direct_inbox.contacts.count).to be 1
+        expect(instagram_direct_inbox.contacts.count).to eq 1
         expect(instagram_direct_inbox.contacts.last.additional_attributes['social_instagram_user_name']).to eq 'some_user_name'
-        expect(instagram_direct_inbox.conversations.count).to be 1
-        expect(instagram_direct_inbox.messages.count).to be 1
+        expect(instagram_direct_inbox.conversations.count).to eq 1
+        expect(instagram_direct_inbox.messages.count).to eq 1
         expect(instagram_direct_inbox.messages.last.content_attributes['is_unsupported']).to be_nil
+      end
+
+      it 'sets correct instagram attributes on contact' do
+        instagram_webhook.perform_now(message_events[:dm][:entry])
+        instagram_direct_inbox.reload
+
+        contact = instagram_direct_inbox.contacts.last
+
+        expect(contact.additional_attributes['social_instagram_follower_count']).to eq 100
+        expect(contact.additional_attributes['social_instagram_is_user_follow_business']).to be true
+        expect(contact.additional_attributes['social_instagram_is_business_follow_user']).to be true
+        expect(contact.additional_attributes['social_instagram_is_verified_user']).to be false
       end
 
       it 'creates standby message in the instagram direct inbox' do

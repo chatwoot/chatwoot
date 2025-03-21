@@ -4,15 +4,15 @@ class Messages::Instagram::Direct::BaseBuilder
 
   base_uri "https://graph.instagram.com/#{GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v22.0')}"
 
-  def process_attachment(attachment)
+  def process_direct_attachment(attachment)
     # This check handles very rare case if there are multiple files to attach with only one unsupported file
     return if unsupported_file_type?(attachment['type'])
 
-    attachment_obj = @message.attachments.new(attachment_params(attachment).except(:remote_file_url))
+    attachment_obj = @message.attachments.new(direct_attachment_params(attachment).except(:remote_file_url))
     attachment_obj.save!
-    attach_file(attachment_obj, attachment_params(attachment)[:remote_file_url]) if attachment_params(attachment)[:remote_file_url]
+    attach_file(attachment_obj, direct_attachment_params(attachment)[:remote_file_url]) if direct_attachment_params(attachment)[:remote_file_url]
     fetch_story_link(attachment_obj) if attachment_obj.file_type == 'story_mention'
-    update_attachment_file_type(attachment_obj)
+    update_direct_attachment_file_type(attachment_obj)
   end
 
   def attach_file(attachment, file_url)
@@ -26,7 +26,7 @@ class Messages::Instagram::Direct::BaseBuilder
     )
   end
 
-  def attachment_params(attachment)
+  def direct_attachment_params(attachment)
     file_type = attachment['type'].to_sym
     params = { file_type: file_type, account_id: @message.account_id }
 
@@ -48,7 +48,7 @@ class Messages::Instagram::Direct::BaseBuilder
     }
   end
 
-  def update_attachment_file_type(attachment)
+  def update_direct_attachment_file_type(attachment)
     return if @message.reload.attachments.blank?
     return unless attachment.file_type == 'share' || attachment.file_type == 'story_mention'
 

@@ -29,16 +29,31 @@ class Instagram::WebhooksBaseService
   def update_instagram_profile_link(user)
     return unless user['username']
 
-    # TODO: Remove this once we show the social_instagram_user_name in the UI instead of the username
-    instagram_attributes = {
+    instagram_attributes = build_instagram_attributes(user)
+    @contact.update!(additional_attributes: @contact.additional_attributes.merge(instagram_attributes))
+  end
+
+  def build_instagram_attributes(user)
+    attributes = {
+      # TODO: Remove this once we show the social_instagram_user_name in the UI instead of the username
       'social_profiles': { 'instagram': user['username'] },
       'social_instagram_user_name': user['username']
     }
 
-    instagram_attributes['social_instagram_follower_count'] = user['follower_count'] unless user['follower_count'].nil?
-    instagram_attributes['social_instagram_is_user_follow_business'] = user['is_user_follow_business'] unless user['is_user_follow_business'].nil?
-    instagram_attributes['social_instagram_is_business_follow_user'] = user['is_business_follow_user'] unless user['is_business_follow_user'].nil?
-    instagram_attributes['social_instagram_is_verified_user'] = user['is_verified_user'] unless user['is_verified_user'].nil?
-    @contact.update!(additional_attributes: @contact.additional_attributes.merge(instagram_attributes))
+    # Add optional attributes if present
+    optional_fields = %w[
+      follower_count
+      is_user_follow_business
+      is_business_follow_user
+      is_verified_user
+    ]
+
+    optional_fields.each do |field|
+      next if user[field].nil?
+
+      attributes["social_instagram_#{field}"] = user[field]
+    end
+
+    attributes
   end
 end

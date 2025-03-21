@@ -17,23 +17,30 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   # https://developers.facebook.com/docs/messenger-platform/instagram/features/webhook
   def process_entries(entries)
     entries.each do |entry|
-      entry = entry.with_indifferent_access
-      instagram_account_id = entry[:id]
-
-      # Find the appropriate channel
-      @channel = find_channel(instagram_account_id)
-
-      # Skip processing if no channel found
-      next if @channel.blank?
-
-      messages(entry).each do |messaging|
-        Rails.logger.info("Instagram Events Job: messaging: #{messaging}")
-        send(@event_name, messaging) if event_name(messaging)
-      end
+      process_single_entry(entry.with_indifferent_access)
     end
   end
 
   private
+
+  def process_single_entry(entry)
+    instagram_account_id = entry[:id]
+    @channel = find_channel(instagram_account_id)
+
+    return if @channel.blank?
+
+    process_messages(entry)
+  end
+
+  def process_messages(entry)
+    messages(entry).each do |messaging|
+      Rails.logger.info("Instagram Events Job: messaging: #{messaging}")
+
+      if (event_name = event_name(messaging))
+        send(event_name, messaging)
+      end
+    end
+  end
 
   def ig_account_id
     @entries&.first&.dig(:id)
