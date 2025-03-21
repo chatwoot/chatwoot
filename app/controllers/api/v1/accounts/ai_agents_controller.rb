@@ -1,4 +1,4 @@
-class Api::V1::Accounts::AIAgentsController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   before_action :set_ai_agent, only: %i[show update destroy]
 
   def index
