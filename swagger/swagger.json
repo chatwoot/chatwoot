@@ -1803,6 +1803,24 @@
                   "type": "string",
                   "description": "The welcome message to be used by the agent bot"
                 },
+                "selected_labels": {
+                  "type": "array",
+                  "description": "The labels and their conditions for the agent bot",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "label_id": {
+                        "type": "integer",
+                        "description": "The ID of the label"
+                      },
+                      "label_conditions": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "The conditions associated with the label"
+                      }
+                    }
+                  }
+                },
                 "routing_conditions": {
                   "type": "string",
                   "description": "The routing conditions to be used by the agent bot"
@@ -6257,6 +6275,34 @@
         },
         "account_id": {
           "type": "integer"
+        },
+        "selected_labels": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "label_id": {
+                "type": "integer"
+              },
+              "label_conditions": {
+                "type": "string"
+              },
+              "label": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
