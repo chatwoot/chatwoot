@@ -1,4 +1,6 @@
 class SubscriptionUsage < ApplicationRecord
+    self.table_name = 'subscription_usage'
+    
     belongs_to :subscription
     
     # Method untuk mereset penggunaan AI response setiap bulan
