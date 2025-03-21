@@ -4,7 +4,7 @@ describe Webhooks::InstagramEventsJob do
   subject(:instagram_webhook) { described_class }
 
   before do
-    stub_request(:post, /graph.facebook.com/)
+    stub_request(:post, /graph\.facebook\.com/)
     stub_request(:get, 'https://www.example.com/test.jpeg')
       .to_return(status: 200, body: '', headers: {})
   end
@@ -183,7 +183,7 @@ describe Webhooks::InstagramEventsJob do
       before do
         instagram_direct_channel.update(access_token: 'valid_instagram_token')
 
-        stub_request(:get, %r{https://graph.instagram.com/v22.0/Sender-id-1\?.*})
+        stub_request(:get, %r{https://graph\.instagram\.com/v22\.0/Sender-id-1\?.*})
           .to_return(
             status: 200,
             body: {
