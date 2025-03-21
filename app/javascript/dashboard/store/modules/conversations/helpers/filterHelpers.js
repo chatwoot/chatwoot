@@ -113,6 +113,46 @@ const resolveValue = candidate => {
 };
 
 /**
+ * Checks if two values are equal in the context of filtering
+ * @param {*} filterValue - The filterValue value
+ * @param {*} conversationValue - The conversationValue value
+ * @returns {Boolean} - Returns true if the values are considered equal according to filtering rules
+ *
+ * This function handles various equality scenarios:
+ * 1. When both values are arrays: checks if all items in filterValue exist in conversationValue
+ * 2. When filterValue is an array but conversationValue is not: checks if conversationValue is included in filterValue
+ * 3. Otherwise: performs strict equality comparison
+ */
+const equalTo = (filterValue, conversationValue) => {
+  if (Array.isArray(filterValue) && Array.isArray(conversationValue)) {
+    // For array values like labels, check if any of the filter values exist in the array
+    return filterValue.every(val => conversationValue.includes(val));
+  }
+
+  if (Array.isArray(filterValue) && !Array.isArray(conversationValue)) {
+    return filterValue.includes(conversationValue);
+  }
+
+  return conversationValue === filterValue;
+};
+
+/**
+ * Checks if the filterValue value is contained within the conversationValue value
+ * @param {*} filterValue - The value to look for
+ * @param {*} conversationValue - The value to search within
+ * @returns {Boolean} - Returns true if filterValue is contained within conversationValue
+ *
+ * This function performs case-insensitive string containment checks.
+ * It only works with string values and returns false for non-string types.
+ */
+const contains = (filterValue, conversationValue) => {
+  if (typeof conversationValue === 'string') {
+    return conversationValue.toLowerCase().includes(filterValue.toLowerCase());
+  }
+  return false;
+};
+
+/**
  * Checks if a value matches a filter condition
  * @param {*} conversationValue - The value to check
  * @param {Object} filter - The filter condition
@@ -132,43 +172,16 @@ const matchesCondition = (conversationValue, filter) => {
 
   switch (filterOperator) {
     case 'equal_to':
-      if (Array.isArray(filterValue) && Array.isArray(conversationValue)) {
-        // For array values like labels, check if any of the filter values exist in the array
-        return filterValue.every(val => conversationValue.includes(val));
-      }
-
-      if (Array.isArray(filterValue) && !Array.isArray(conversationValue)) {
-        return filterValue.includes(conversationValue);
-      }
-
-      return conversationValue === filterValue;
+      return equalTo(filterValue, conversationValue);
 
     case 'not_equal_to':
-      if (Array.isArray(filterValue) && Array.isArray(conversationValue)) {
-        return !filterValue.every(val => conversationValue.includes(val));
-      }
-
-      if (Array.isArray(filterValue) && !Array.isArray(conversationValue)) {
-        return !filterValue.includes(conversationValue);
-      }
-
-      return conversationValue !== filterValue;
+      return !equalTo(filterValue, conversationValue);
 
     case 'contains':
-      if (typeof conversationValue === 'string') {
-        return conversationValue
-          .toLowerCase()
-          .includes(filterValue.toLowerCase());
-      }
-      return false;
+      return contains(filterValue, conversationValue);
 
     case 'does_not_contain':
-      if (typeof conversationValue === 'string') {
-        return !conversationValue
-          .toLowerCase()
-          .includes(filterValue.toLowerCase());
-      }
-      return true;
+      return !contains(filterValue, conversationValue);
 
     case 'is_present':
       return true; // We already handled null/undefined above
