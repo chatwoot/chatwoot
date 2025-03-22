@@ -53,6 +53,8 @@ ar:
       invalid_message_type: 'نوع الرسالة غير صالح. الإجراء غير مسموح به'
     slack:
       invalid_channel_id: 'قناة Slack غير صحيحة. الرجاء المحاولة مرة أخرى'
+    channel_service:
+      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: الرجاء التحقق من اتصال الشبكة وعنوان IMAP ثم حاول مرة أخرى.
