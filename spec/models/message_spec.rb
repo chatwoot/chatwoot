@@ -74,6 +74,7 @@ RSpec.describe Message do
         content_attributes: message.content_attributes,
         content_type: message.content_type,
         content: message.content,
+        content_tsvector: message.content_tsvector,
         conversation_id: message.conversation.display_id,
         created_at: message.created_at.to_i,
         external_source_ids: message.external_source_ids,

@@ -23,10 +23,12 @@ RSpec.describe Mention do
     let!(:mention_3) { create(:mention, account: account, conversation: conversation_3, user: user_1) }
 
     it 'Sort mentioned conversations based on created_at' do
-      records = described_class.sort_on_created_at
+      records = described_class.sort_on_created_at.to_a
 
-      expect(records.first.id).to eq(mention_1.id)
-      expect(records.first.conversation_id).to eq(conversation_1.id)
+      # We expect the newest conversation (conversation_2, mentioned by mention_2) to be first
+      expect(records.first.id).to eq(mention_2.id)
+      expect(records.first.conversation_id).to eq(conversation_2.id)
+      # And the oldest conversation (conversation_3, mentioned by mention_3) to be last
       expect(records.last.conversation_id).to eq(conversation_3.id)
     end
 

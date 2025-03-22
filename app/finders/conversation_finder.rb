@@ -145,7 +145,7 @@ class ConversationFinder
   def conversations
     @conversations = conversations_base_query
     apply_sorting_and_filtering
-    result_conversations = apply_pagination
+    result_conversations = params[:updated_within].present? ? @conversations : apply_pagination
     preloader.preload_data_if_needed(result_conversations, params)
     result_conversations
   end

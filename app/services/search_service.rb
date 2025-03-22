@@ -44,7 +44,7 @@ class SearchService
                 elsif use_full_text_search?
                   perform_full_text_search(inbox_ids, time_filter, limit)
                 else
-                  perform_like_search(inbox_ids, time_filter, limit)
+                  filter_messages_with_like(inbox_ids, time_filter, limit)
                 end
 
     @messages
@@ -68,7 +68,7 @@ class SearchService
     messages
   end
 
-  def perform_like_search(_inbox_ids, _time_filter, limit)
+  def filter_messages_with_like(_inbox_ids, _time_filter, limit)
     base_query = message_base_query
 
     base_query.where('messages.content ILIKE :search', search: "%#{search_query}%")
