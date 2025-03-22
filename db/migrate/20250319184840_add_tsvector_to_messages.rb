@@ -36,7 +36,7 @@ class AddTsvectorToMessages < ActiveRecord::Migration[7.0]
   end
 
   def update_messages_with_tsvector
-    say_with_time 'Updating messages with tsvector in batches (last 3 months, id > 49M)' do
+    say_with_time 'Updating messages with tsvector in batches (last 3 months)' do
       batch_size = 10_000
       total_count = 0
 
@@ -51,7 +51,6 @@ class AddTsvectorToMessages < ActiveRecord::Migration[7.0]
 
   def messages_to_update
     Message.where(content_tsvector: nil)
-           .where('id > 49000000')
            .where("created_at >= NOW() - INTERVAL '3 months'")
   end
 
