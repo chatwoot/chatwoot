@@ -11,6 +11,7 @@ import {
   defaultTimeSlot,
   timeZoneOptions,
 } from '../helpers/businessHour';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const DEFAULT_TIMEZONE = {
   label: 'Pacific Time (US & Canada) (GMT-07:00)',
@@ -21,6 +22,7 @@ export default {
   components: {
     SettingsSection,
     BusinessDay,
+    NextButton,
     WootMessageEditor,
   },
   mixins: [inboxMixin],
@@ -138,19 +140,18 @@ export default {
           {{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_HELP') }}
         </p>
         <div v-if="isBusinessHoursEnabled" class="mb-6">
-          <div class="max-w-[37.5rem]">
+          <div>
             <label class="unavailable-input-wrap">
               {{ $t('INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_LABEL') }}
             </label>
             <div
               v-if="isRichEditorEnabled"
-              class="px-4 py-0 mx-0 mt-0 mb-4 bg-white border border-solid rounded-md border-slate-200 dark:border-slate-600 dark:bg-slate-900"
+              class="px-4 py-0 mx-0 mt-0 mb-4 rounded-lg outline outline-1 outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 bg-n-alpha-black2"
             >
               <WootMessageEditor
                 v-model="unavailableMessage"
                 enable-variables
                 is-format-mode
-                class="message-editor"
                 :min-height="4"
               />
             </div>
@@ -185,9 +186,10 @@ export default {
             @update="data => onSlotUpdate(timeSlot.day, data)"
           />
         </div>
-        <woot-submit-button
-          :button-text="$t('INBOX_MGMT.BUSINESS_HOURS.UPDATE')"
-          :loading="uiFlags.isUpdating"
+        <NextButton
+          type="submit"
+          :label="$t('INBOX_MGMT.BUSINESS_HOURS.UPDATE')"
+          :is-loading="uiFlags.isUpdating"
           :disabled="hasError"
         />
       </form>
@@ -197,8 +199,6 @@ export default {
 
 <style lang="scss" scoped>
 .timezone-input-wrap {
-  @apply max-w-[37.5rem];
-
   &::v-deep .multiselect {
     @apply mt-2;
   }
@@ -209,8 +209,6 @@ export default {
 }
 
 .unavailable-input-wrap {
-  @apply max-w-[37.5rem];
-
   textarea {
     @apply min-h-[4rem] mt-2;
   }

@@ -20,13 +20,28 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   end
 
   def send_message_to_facebook(delivery_params)
-    result = Facebook::Messenger::Bot.deliver(delivery_params, page_id: channel.page_id)
-    parsed_result = JSON.parse(result)
+    parsed_result = deliver_message(delivery_params)
+    return if parsed_result.nil?
+
     if parsed_result['error'].present?
       message.update!(status: :failed, external_error: external_error(parsed_result))
-      Rails.logger.info "Facebook::SendOnFacebookService: Error sending message to Facebook : Page - #{channel.page_id} : #{result}"
+      Rails.logger.info "Facebook::SendOnFacebookService: Error sending message to Facebook : Page - #{channel.page_id} : #{parsed_result}"
     end
+
     message.update!(source_id: parsed_result['message_id']) if parsed_result['message_id'].present?
+  end
+
+  def deliver_message(delivery_params)
+    result = Facebook::Messenger::Bot.deliver(delivery_params, page_id: channel.page_id)
+    JSON.parse(result)
+  rescue JSON::ParserError
+    message.update!(status: :failed, external_error: 'Facebook was unable to process this request')
+    Rails.logger.error "Facebook::SendOnFacebookService: Error parsing JSON response from Facebook : Page - #{channel.page_id} : #{result}"
+    nil
+  rescue Net::OpenTimeout
+    message.update!(status: :failed, external_error: 'Request timed out, please try again later')
+    Rails.logger.error "Facebook::SendOnFacebookService: Timeout error sending message to Facebook : Page - #{channel.page_id}"
+    nil
   end
 
   def fb_text_message_params

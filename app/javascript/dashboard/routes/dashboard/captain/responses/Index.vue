@@ -18,6 +18,7 @@ import AssistantSelector from 'dashboard/components-next/captain/pageComponents/
 import ResponseCard from 'dashboard/components-next/captain/assistant/ResponseCard.vue';
 import CreateResponseDialog from 'dashboard/components-next/captain/pageComponents/response/CreateResponseDialog.vue';
 import ResponsePageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/ResponsePageEmptyState.vue';
+import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue';
 import LimitBanner from 'dashboard/components-next/captain/pageComponents/response/LimitBanner.vue';
 
 const router = useRouter();
@@ -247,6 +248,17 @@ onMounted(() => {
     @update:current-page="onPageChange"
     @click="handleCreate"
   >
+    <template #knowMore>
+      <FeatureSpotlightPopover
+        :button-label="$t('CAPTAIN.HEADER_KNOW_MORE')"
+        :title="$t('CAPTAIN.RESPONSES.EMPTY_STATE.FEATURE_SPOTLIGHT.TITLE')"
+        :note="$t('CAPTAIN.RESPONSES.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
+        fallback-thumbnail="/assets/images/dashboard/captain/faqs-popover-light.svg"
+        fallback-thumbnail-dark="/assets/images/dashboard/captain/faqs-popover-dark.svg"
+        learn-more-url="https://chwt.app/captain-faq"
+      />
+    </template>
+
     <template #emptyState>
       <ResponsePageEmptyState @click="handleCreate" />
     </template>

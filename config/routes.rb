@@ -119,6 +119,7 @@ Rails.application.routes.draw do
               post :custom_attributes
               get :attachments
               post :copilot
+              get :inbox_assistant
             end
           end
 
@@ -230,6 +231,12 @@ Rails.application.routes.draw do
               collection do
                 post :create_a_meeting
                 post :add_participant_to_meeting
+              end
+            end
+            resource :shopify, controller: 'shopify', only: [:destroy] do
+              collection do
+                post :auth
+                get :orders
               end
             end
             resource :linear, controller: 'linear', only: [] do
@@ -453,6 +460,10 @@ Rails.application.routes.draw do
   end
 
   namespace :linear do
+    resource :callback, only: [:show]
+  end
+
+  namespace :shopify do
     resource :callback, only: [:show]
   end
 

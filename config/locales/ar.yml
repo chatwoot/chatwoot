@@ -53,6 +53,8 @@ ar:
       invalid_message_type: 'نوع الرسالة غير صالح. الإجراء غير مسموح به'
     slack:
       invalid_channel_id: 'قناة Slack غير صحيحة. الرجاء المحاولة مرة أخرى'
+    channel_service:
+      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: الرجاء التحقق من اتصال الشبكة وعنوان IMAP ثم حاول مرة أخرى.
@@ -68,6 +70,8 @@ ar:
       invalid_operator: مشغل غير صالح. المشغل المسموح به لـ %{attribute_name} هو [%{allowed_keys}].
       invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: قيمة غير صالحة. القيم المقدمة ل %{attribute_name} غير صالحة
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
     period: فترة التبليغ %{since} إلى %{until}
     utc_warning: التقرير الذي تم إنشاؤه في التوقيت العالمي الموحّد
@@ -215,6 +219,9 @@ ar:
     linear:
       name: 'Linear'
       description: 'إنشاء مشكلات في Linear مباشرة من نافذة المحادثة الخاصة بك. بدلاً من ذلك، قم بربط مشكلات Linear القائمة من أجل عملية تتبع أكثر تبسيطاً وكفاءة.'
+    shopify:
+      name: 'Shopify'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
   captain:
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
     copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'

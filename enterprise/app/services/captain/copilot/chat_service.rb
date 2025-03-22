@@ -1,6 +1,6 @@
 require 'openai'
 
-class Captain::Copilot::ChatService < Captain::Llm::BaseOpenAiService
+class Captain::Copilot::ChatService < Llm::BaseOpenAiService
   include Captain::ChatHelper
 
   def initialize(assistant, config)
@@ -9,6 +9,7 @@ class Captain::Copilot::ChatService < Captain::Llm::BaseOpenAiService
     @assistant = assistant
     @conversation_history = config[:conversation_history]
     @previous_messages = config[:previous_messages] || []
+    @language = config[:language] || 'english'
     @messages = [system_message, conversation_history_context] + @previous_messages
     @response = ''
   end
@@ -27,7 +28,7 @@ class Captain::Copilot::ChatService < Captain::Llm::BaseOpenAiService
   def system_message
     {
       role: 'system',
-      content: Captain::Llm::SystemPromptsService.copilot_response_generator(@assistant.config['product_name'])
+      content: Captain::Llm::SystemPromptsService.copilot_response_generator(@assistant.config['product_name'], @language)
     }
   end
 

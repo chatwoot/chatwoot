@@ -12,6 +12,8 @@
     "NO_INBOX_2": " для початку",
     "NO_INBOX_AGENT": "Ой! Схоже, ви не маєте доступу до скриньки \"Вхідні\". Будь ласка, зверніться до адміністратора",
     "SEARCH_MESSAGES": "Пошук повідомлень у розмовах",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "відкрити командне меню",
       "KEYBOARD_SHORTCUTS": "переглянути комбінації клавіш"
@@ -293,7 +295,27 @@
       "CONVERSATION_INFO": "Інформація про бесіду",
       "CONTACT_ATTRIBUTES": "Атрибути контакту",
       "PREVIOUS_CONVERSATION": "Попередні бесіди",
-      "MACROS": "Макрос"
+      "MACROS": "Макрос",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Очікує",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
