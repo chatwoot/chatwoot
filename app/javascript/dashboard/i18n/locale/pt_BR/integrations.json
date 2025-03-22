@@ -325,7 +325,7 @@
     }
   },
   "CAPTAIN": {
-    "NAME": "Capitão",
+    "NAME": "Captain",
     "HEADER_KNOW_MORE": "Saiba mais",
     "COPILOT": {
       "SEND_MESSAGE": "Enviar mensagem...",
@@ -408,7 +408,7 @@
         "TITLE": "Não há assistentes disponíveis",
         "SUBTITLE": "Crie um assistente para fornecer respostas rápidas e precisas aos seus usuários. Ele pode aprender com seus artigos de ajuda e conversas passadas.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Assistente Capitão",
+          "TITLE": "Assistente Captain",
           "NOTE": "O Assistente Capitão interage diretamente com os clientes, aprende com seus documentos de ajuda e conversas passadas, e fornece respostas instantâneas e precisas. Ele lida com as consultas iniciais, oferecendo soluções rápidas antes de transferir para um agente quando necessário."
         }
       }
@@ -453,8 +453,8 @@
         "TITLE": "Nenhum documento disponível",
         "SUBTITLE": "Os documentos são usados pelo seu assistente para gerar perguntas frequentes. Pode importar documentos para fornecer um contexto para seu assistente.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Documentos do Capitão",
-          "NOTE": "Um documento no Capitão serve como um recurso de conhecimento para o assistente. Ao conectar seu centro de ajuda ou guias, o Capitão pode analisar o conteúdo e fornecer respostas precisas para as perguntas dos clientes."
+          "TITLE": "Documentos Captain",
+          "NOTE": "Um documento no Captain serve como um recurso de conhecimento para o assistente. Ao conectar sua central de ajuda ou guias, o Captain pode analisar o conteúdo e fornecer respostas precisas para as perguntas dos clientes."
         }
       }
     },
@@ -534,8 +534,8 @@
         "TITLE": "Nenhuma FAQ encontrada",
         "SUBTITLE": "Perguntas Frequentes ajudam seu assistente a fornecer respostas rápidas e precisas para perguntas de seus clientes. Eles podem ser gerados automaticamente a partir do seu conteúdo ou podem ser adicionados manualmente.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Perguntas Frequentes do Capitão",
-          "NOTE": "As Perguntas Frequentes do Capitão detectam dúvidas comuns dos clientes — sejam elas ausentes da sua base de conhecimento ou frequentemente feitas — e geram respostas relevantes para melhorar o suporte. Você pode revisar cada sugestão e decidir se deseja aprová-la ou rejeitá-la."
+          "TITLE": "Perguntas Frequentes do Captain",
+          "NOTE": "As Perguntas Frequentes do Captain detectam dúvidas comuns dos clientes — sejam elas ausentes da sua base de conhecimento ou frequentemente feitas — e geram respostas relevantes para melhorar o suporte. Você pode revisar cada sugestão e decidir se deseja aprová-la ou rejeitá-la."
         }
       }
     },
