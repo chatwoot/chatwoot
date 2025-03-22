@@ -122,10 +122,14 @@ export const actions = {
       // also set can_reply based on the response
       const conversations = response.data.payload;
       conversations.forEach(conversation => {
-        commit(types.default.SET_CONVERSATION_CAN_REPLY, {
-          conversationId: conversation.id,
-          canReply: conversation.can_reply,
-        });
+        commit(
+          'conversations/SET_CONVERSATION_CAN_REPLY',
+          {
+            conversationId: conversation.id,
+            canReply: conversation.can_reply,
+          },
+          { root: true }
+        );
       });
     } catch (error) {
       commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
