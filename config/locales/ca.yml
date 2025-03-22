@@ -53,6 +53,8 @@ ca:
       invalid_message_type: 'Tipus de missatge no vàlid. Acció no permesa'
     slack:
       invalid_channel_id: 'Canal slack no vàlid. Torna-ho a provar'
+    channel_service:
+      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: Comprova la connexió de xarxa, l'adreça IMAP i torna-ho a provar.
