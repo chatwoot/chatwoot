@@ -37,19 +37,19 @@ The modern customer support platform, an open-source alternative to Intercom, Ze
 
 Chatwoot is the modern, open-source, and self-hosted customer support platform designed to help businesses deliver exceptional customer support experience. Built for scale and flexibility, Chatwoot gives you full control over your customer data while providing powerful tools to manage conversations across channels.
 
-### Captain – AI Agent for Support
+### ✨ Captain – AI Agent for Support
 
 Supercharge your support with Captain, Chatwoot’s AI agent. Captain helps automate responses, handle common queries, and reduce agent workload—ensuring customers get instant, accurate answers. With Captain, your team can focus on complex conversations while routine questions are resolved automatically. Read more about Captain [here](https://chwt.app/captain-docs).
 
-### Omnichannel Support Desk
+### 💬 Omnichannel Support Desk
 
 Chatwoot centralizes all customer conversations into one powerful inbox, no matter where your customers reach out from. It supports live chat on your website, email, Facebook, Instagram, Twitter, WhatsApp, Telegram, Line, SMS etc.
 
-### Help center portal
+### 📚 Help center portal
 
 Publish help articles, FAQs, and guides through the built-in Help Center Portal. Enable customers to find answers on their own, reduce repetitive queries, and keep your support team focused on more complex issues.
 
-### Other features
+### 🗂️ Other features
 
 #### Collaboration & Productivity
 
@@ -126,17 +126,15 @@ For other supported options, checkout our [deployment page](https://chatwoot.com
 
 Looking to report a vulnerability? Please refer our [SECURITY.md](./SECURITY.md) file.
 
-
 ## Community
 
 If you need help or just want to hang out, come, say hi on our [Discord](https://discord.gg/cJXdrwS) server.
 
-
-## Contributors ✨
+## Contributors
 
 Thanks goes to all these [wonderful people](https://www.chatwoot.com/docs/contributors):
 
-<a href="https://github.com/chatwoot/chatwoot/graphs/contributors"><img src="https://contributors.chatwoot.com/api/graph.svg?columns=30&size=32" /></a>
+<a href="https://github.com/chatwoot/chatwoot/graphs/contributors"><img src="https://opencollective.com/chatwoot/contributors.svg?width=890&button=false" /></a>
 
 
 *Chatwoot* &copy; 2017-2025, Chatwoot Inc - Released under the MIT License.
