@@ -1,11 +1,14 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useTrack } from 'dashboard/composables';
 import { useAlert } from 'dashboard/composables';
 import LinearAPI from 'dashboard/api/integrations/linear';
 import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
 import FilterListDropdown from 'dashboard/components/ui/Dropdown/DropdownList.vue';
 import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
+import { LINEAR_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   conversationId: {
@@ -85,6 +88,7 @@ const linkIssue = async () => {
     searchQuery.value = '';
     issues.value = [];
     onClose();
+    useTrack(LINEAR_EVENTS.LINK_ISSUE);
   } catch (error) {
     const errorMessage = parseLinearAPIErrorResponse(
       error,
@@ -126,20 +130,20 @@ const linkIssue = async () => {
       </template>
     </FilterButton>
     <div class="flex items-center justify-end w-full gap-2 mt-2">
-      <woot-button
-        class="px-4 rounded-xl button clear outline-woot-200/50 outline"
+      <Button
+        faded
+        slate
+        type="reset"
+        :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CANCEL')"
         @click.prevent="onClose"
-      >
-        {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CANCEL') }}
-      </woot-button>
-      <woot-button
-        :is-disabled="isSubmitDisabled"
-        class="px-4 rounded-xl"
+      />
+      <Button
+        type="submit"
+        :label="$t('INTEGRATION_SETTINGS.LINEAR.LINK.TITLE')"
+        :disabled="isSubmitDisabled"
         :is-loading="isLinking"
         @click.prevent="linkIssue"
-      >
-        {{ $t('INTEGRATION_SETTINGS.LINEAR.LINK.TITLE') }}
-      </woot-button>
+      />
     </div>
   </div>
 </template>

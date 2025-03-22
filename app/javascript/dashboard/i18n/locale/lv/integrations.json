@@ -1,5 +1,20 @@
 {
   "INTEGRATION_SETTINGS": {
+    "SHOPIFY": {
+      "DELETE": {
+        "TITLE": "Delete Shopify Integration",
+        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+      },
+      "STORE_URL": {
+        "TITLE": "Connect Shopify Store",
+        "LABEL": "Store URL",
+        "PLACEHOLDER": "your-store.myshopify.com",
+        "HELP": "Enter your Shopify store's myshopify.com URL",
+        "CANCEL": "Atcelt",
+        "SUBMIT": "Connect Store"
+      },
+      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+    },
     "HEADER": "Integrācijas",
     "DESCRIPTION": "Chatwoot integrējas ar vairākiem rīkiem un pakalpojumiem, lai uzlabotu jūsu komandas efektivitāti. Izpētiet tālāk esošo sarakstu, lai konfigurētu savas iecienītākās lietotnes.",
     "LEARN_MORE": "Uzzināt vairāk par integrācijām",
@@ -302,8 +317,8 @@
         "ERROR": "Atsaistot jautājumu radās kļūda. Lūdzu, mēģiniet vēlreiz"
       },
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the integration?",
-        "MESSAGE": "Are you sure you want to delete the integration?",
+        "TITLE": "Vai tiešām vēlaties dzēst integrāciju?",
+        "MESSAGE": "Vai tiešām vēlaties dzēst integrāciju?",
         "CONFIRM": "Jā, dzēst",
         "CANCEL": "Atcelt"
       }
@@ -311,12 +326,14 @@
   },
   "CAPTAIN": {
     "NAME": "Kapteinis",
+    "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
       "SEND_MESSAGE": "Sūtīt ziņojumu...",
       "LOADER": "Kapteinis domā",
       "YOU": "Jūs",
       "USE": "Izmantot šo",
-      "RESET": "Atiestatīt"
+      "RESET": "Atiestatīt",
+      "SELECT_ASSISTANT": "Izvēlēties Asistentu"
     },
     "PAYWALL": {
       "TITLE": "Modernizējiet abonementu, lai izmantotu Captain AI",
@@ -389,7 +406,11 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Asistenti nav pieejami",
-        "SUBTITLE": "Izveidot palīgu, lai sniegtu lietotājiem ātras un precīzas atbildes. Tas var mācīties no Jūsu palīdzības rakstiem un iepriekšējām sarunām."
+        "SUBTITLE": "Izveidot palīgu, lai sniegtu lietotājiem ātras un precīzas atbildes. Tas var mācīties no Jūsu palīdzības rakstiem un iepriekšējām sarunām.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain Assistant",
+          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+        }
       }
     },
     "DOCUMENTS": {
@@ -430,7 +451,11 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Dokumenti nav pieejami",
-        "SUBTITLE": "Jūsu palīgs izmanto dokumentus, lai izveidotu bieži uzdotos jautājumus. Jūs varat importēt dokumentus, lai nodrošinātu kontekstu savam palīgam."
+        "SUBTITLE": "Jūsu palīgs izmanto dokumentus, lai izveidotu bieži uzdotos jautājumus. Jūs varat importēt dokumentus, lai nodrošinātu kontekstu savam palīgam.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain Document",
+          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+        }
       }
     },
     "RESPONSES": {
@@ -439,19 +464,19 @@
       "DOCUMENTABLE": {
         "CONVERSATION": "Saruna #{id}"
       },
-      "SELECTED": "{count} selected",
-      "BULK_APPROVE_BUTTON": "Approve",
+      "SELECTED": "Atlasīti {count}",
+      "BULK_APPROVE_BUTTON": "Apstiprināt",
       "BULK_DELETE_BUTTON": "Dzēst",
       "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQs approved successfully",
-        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+        "SUCCESS_MESSAGE": "Bieži uzdotie jautājumi ir veiksmīgi apstiprināti",
+        "ERROR_MESSAGE": "Apstiprinot bieži uzdotos jautājumus radās kļūda. Lūdzu, mēģiniet vēlreiz."
       },
       "BULK_DELETE": {
-        "TITLE": "Delete FAQs?",
-        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
-        "CONFIRM": "Yes, delete all",
-        "SUCCESS_MESSAGE": "FAQs deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
+        "TITLE": "Vai dzēst bieži uzdotos jautājumus?",
+        "DESCRIPTION": "Vai tiešām vēlaties dzēst atlasītos bieži uzdotos jautājumus? Šo darbību nevar atsaukt.",
+        "CONFIRM": "Jā, dzēst visu",
+        "SUCCESS_MESSAGE": "Bieži uzdotie jautājumi ir veiksmīgi izdzēsti",
+        "ERROR_MESSAGE": "Dzēšot bieži uzdotos jautājumus radās kļūda. Lūdzu, mēģiniet vēlreiz."
       },
       "DELETE": {
         "TITLE": "Vai tiešām vēlaties izdzēst šos bieži uzdotos jautājumus?",
@@ -507,7 +532,11 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Bieži uzdoto jautājumu saraksti nav atrasti",
-        "SUBTITLE": "Bieži uzdotie jautājumi palīdz Jūsu asistentam sniegt ātras un precīzas atbildes uz Jūsu klientu jautājumiem. Tos var ģenerēt automātiski no jūsu satura vai pievienot manuāli."
+        "SUBTITLE": "Bieži uzdotie jautājumi palīdz Jūsu asistentam sniegt ātras un precīzas atbildes uz Jūsu klientu jautājumiem. Tos var ģenerēt automātiski no jūsu satura vai pievienot manuāli.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain FAQ",
+          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+        }
       }
     },
     "INBOXES": {

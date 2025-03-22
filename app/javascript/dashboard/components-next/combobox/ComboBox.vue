@@ -96,7 +96,7 @@ watch(
         :label="selectedLabel"
         trailing-icon
         :disabled="disabled"
-        class="justify-between w-full !px-3 !py-2.5 text-n-slate-12 font-normal group-hover/combobox:border-n-slate-6"
+        class="justify-between w-full !px-3 !py-2.5 text-n-slate-12 font-normal group-hover/combobox:border-n-slate-6 [&:not(.focused)]:hover:enabled:outline-n-slate-6 [&:not(.focused)]:dark:hover:enabled:outline-n-slate-6 [&:not(.focused)]:dark:outline-n-weak focus:outline-n-brand"
         :class="{ focused: open }"
         :icon="open ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
         @click="toggleDropdown"

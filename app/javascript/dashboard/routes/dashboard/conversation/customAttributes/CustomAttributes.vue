@@ -271,7 +271,7 @@ const evenClass = [
       ghost-class="ghost"
       handle=".drag-handle"
       item-key="key"
-      class="last:rounded-b-lg overflow-hidden"
+      class="last:rounded-b-lg"
       :class="evenClass"
       @start="dragging = true"
       @end="onDragEnd"

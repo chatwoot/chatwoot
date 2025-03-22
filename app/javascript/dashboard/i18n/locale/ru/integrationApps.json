@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Отключиться"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow — это платформа обработки естественного языка, которая упрощает проектирование и интеграцию разговорного пользовательского интерфейса в ваше мобильное приложение, веб-приложение, устройство, бота, систему интерактивного голосового ответа и так далее. Интеграция Dialogflow с {installationName} позволяет вам настроить бота Dialogflow для работы с вашими почтовыми ящиками, что позволяет боту сначала обрабатывать запросы, а затем передавать их агенту по мере необходимости. Dialogflow может использоваться для квалификации лидов, снижения нагрузки на агентов с помощью часто задаваемых вопросов и т. д. Чтобы добавить Dialogflow, вам нужно создать учетную запись службы в консоли вашего Google-проекта и предоставить учетные данные. Пожалуйста, обратитесь к документации Dialogflow для получения дополнительной информации."
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
     }
   }
 }

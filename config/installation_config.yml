@@ -103,13 +103,16 @@
   display_title: 'Facebook Verify Token'
   description: 'The verify token used for Facebook Messenger Webhook'
   locked: false
+  type: secret
 - name: FB_APP_SECRET
   display_title: 'Facebook App Secret'
   locked: false
+  type: secret
 - name: IG_VERIFY_TOKEN
   display_title: 'Instagram Verify Token'
   description: 'The verify token used for Instagram Webhook'
   locked: false
+  type: secret
 - name: FACEBOOK_API_VERSION
   display_title: 'Facebook API Version'
   description: 'Configure this if you want to use a different Facebook API version. Make sure its prefixed with `v`'
@@ -131,6 +134,7 @@
 - name: AZURE_APP_SECRET
   display_title: 'Azure App Secret'
   locked: false
+  type: secret
 # End of Microsoft Email Channel Config
 
 # MARK: Captain Config
@@ -138,6 +142,7 @@
   display_title: 'OpenAI API Key'
   description: 'The API key used to authenticate requests to OpenAI services for Captain AI.'
   locked: false
+  type: secret
 - name: CAPTAIN_OPEN_AI_MODEL
   display_title: 'OpenAI Model'
   description: 'The OpenAI model configured for use in Captain AI. Default: gpt-4o-mini'
@@ -146,6 +151,7 @@
   display_title: 'FireCrawl API Key (optional)'
   description: 'The FireCrawl API key for the Captain AI service'
   locked: false
+  type: secret
 - name: CAPTAIN_CLOUD_PLAN_LIMITS
   display_title: 'Captain Cloud Plan Limits'
   description: 'The limits for the Captain AI service for different plans'
@@ -160,11 +166,13 @@
   display_title: 'Inbox Token'
   description: 'The Chatwoot Inbox Token for Contact Support in Cloud'
   locked: false
+  type: secret
 - name: CHATWOOT_INBOX_HMAC_KEY
   value:
   display_title: 'Inbox HMAC Key'
   description: 'The Chatwoot Inbox HMAC Key for Contact Support in Cloud'
   locked: false
+  type: secret
 - name: CHATWOOT_CLOUD_PLANS
   display_title: 'Cloud Plans'
   value:
@@ -180,10 +188,12 @@
   value:
   display_title: 'Analytics Token'
   description: 'The June.so analytics token for Chatwoot cloud'
+  type: secret
 - name: CLEARBIT_API_KEY
   value:
   display_title: 'Clearbit API Key'
   description: 'This API key is used for onboarding the users, to pre-fill account data.'
+  type: secret
 - name: DASHBOARD_SCRIPTS
   value:
   display_title: 'Dashboard Scripts'
@@ -193,6 +203,11 @@
   value:
   display_title: 'Blocked Email Domains'
   description: 'Add a domain per line to block them from signing up, accepts Regex'
+  type: code
+- name: INACTIVE_WHATSAPP_NUMBERS
+  value: ''
+  display_title: 'Inactive WhatsApp Numbers'
+  description: 'Comma-separated list of WhatsApp numbers that should be rejected with a 422 error'
   type: code
 # ------- End of Chatwoot Internal Config for Cloud ----#
 
@@ -206,12 +221,18 @@
 - name: CHATWOOT_SUPPORT_WEBSITE_TOKEN
   value:
   description: 'The Chatwoot website token, used to identify the Chatwoot inbox and display the "Contact Support" option on the billing page'
+  type: secret
 - name: CHATWOOT_SUPPORT_SCRIPT_URL
   value:
   description: 'The Chatwoot script base URL, to display the "Contact Support" option on the billing page'
 - name: CHATWOOT_SUPPORT_IDENTIFIER_HASH
   value:
   description: 'The Chatwoot identifier hash, to validate the contact in the live chat window.'
+  type: secret
+- name: ACCOUNT_SECURITY_NOTIFICATION_WEBHOOK_URL
+  display_title: Webhook URL to post security analysis
+  value:
+  description: Used to notify Chatwoot about account abuses, potential threads (Should be a Discord Webhook URL)
 # ------- End of Chatwoot Internal Config for Self Hosted ----#
 
 ## ------ Configs added for enterprise clients ------ ##
@@ -241,5 +262,33 @@
   display_title: 'Firebase Credentials'
   value:
   locked: false
+  type: secret
   description: 'Contents on your firebase credentials json file'
 ## ------ End of Configs added for FCM v1 notifications ------ ##
+
+## ------ Configs added for Linear ------ ##
+- name: LINEAR_CLIENT_ID
+  display_title: 'Linear Client ID'
+  value:
+  locked: false
+  description: 'Linear client ID'
+- name: LINEAR_CLIENT_SECRET
+  display_title: 'Linear Client Secret'
+  value:
+  locked: false
+  description: 'Linear client secret'
+  type: secret
+## ------ End of Configs added for Linear ------ ##
+
+# ------- Shopify Integration Config ------- #
+- name: SHOPIFY_CLIENT_ID
+  display_title: 'Shopify Client ID'
+  description: 'The Client ID (API Key) from your Shopify Partner account'
+  locked: false
+  type: secret
+- name: SHOPIFY_CLIENT_SECRET
+  display_title: 'Shopify Client Secret'
+  description: 'The Client Secret (API Secret Key) from your Shopify Partner account'
+  locked: false
+  type: secret
+# ------- End of Shopify Related Config ------- #

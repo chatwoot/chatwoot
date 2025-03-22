@@ -35,82 +35,41 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import 'widget/assets/scss/variables.scss';
-
-@mixin color-spinner() {
-  @keyframes spinner {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  &:before {
-    content: '';
-    box-sizing: border-box;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: $space-medium;
-    height: $space-medium;
-    margin-top: -$space-one;
-    margin-left: -$space-one;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.8);
-    border-top-color: rgba(255, 255, 255, 0.3);
-    animation: spinner 0.9s linear infinite;
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
   }
 }
 
 .spinner {
-  @include color-spinner();
-  position: relative;
-  display: inline-block;
-  width: $space-medium;
-  height: $space-medium;
-  padding: $zero $space-medium;
-  vertical-align: middle;
+  @apply relative inline-block w-6 h-6 align-middle;
+
+  &:before {
+    @apply border-n-slate-10 border-2 border-solid content-[''] box-border absolute top-[50%] left-[50%] rounded-full border-t-n-strong -ml-2.5 -mt-2.5 w-6 h-6 animate-[spinner_0.9s_linear_infinite];
+  }
 
   &.message {
-    padding: $space-one;
-    top: 0;
-    left: 0;
-    margin: 0 auto;
-    margin-top: $space-slab;
-    background: $color-white;
-    border-radius: $space-large;
+    @apply p-2.5 top-0 left-0 mx-auto my-0 mt-3 bg-n-background rounded-[2rem];
 
     &:before {
-      margin-top: -$space-slab;
-      margin-left: -$space-slab;
+      @apply -mt-3 -ml-3;
     }
   }
 
   &.small {
-    width: $space-normal;
-    height: $space-normal;
+    @apply w-4 h-4;
 
     &:before {
-      width: $space-normal;
-      height: $space-normal;
-      margin-top: -$space-small;
+      @apply w-4 h-4 -mt-2;
     }
   }
 
   &.tiny {
-    width: $space-one;
-    height: $space-one;
-    padding: 0 $space-smaller;
+    @apply w-2.5 h-2.5 py-0 px-1;
 
     &:before {
-      width: $space-one;
-      height: $space-one;
-      margin-top: -$space-small + $space-micro;
+      @apply w-2.5 h-2.5 -mt-1.5;
     }
-  }
-
-  &.dark::before {
-    border-color: rgba(0, 0, 0, 0.7);
-    border-top-color: rgba(0, 0, 0, 0.2);
   }
 }
 </style>
