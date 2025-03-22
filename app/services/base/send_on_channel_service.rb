@@ -56,7 +56,7 @@ class Base::SendOnChannelService
 
     return false if contact_inbox.source_id == expected_source_id
 
-    message.update!(status: :failed, external_error: I18n.t('channel_service.contact_merge'))
+    message.update!(status: :failed, external_error: I18n.t('errors.channel_service.invalid_source_id'))
     true
   end
 

@@ -115,7 +115,7 @@ describe Whatsapp::SendOnWhatsappService do
           contact_inbox.update!(source_id: '1234567890')
           described_class.new(message: message).perform
           expect(message.reload.status).to eq('failed')
-          expect(message.external_error).to include(I18n.t('channel_service.contact_merge'))
+          expect(message.external_error).to include('This conversation may have originally belonged to a different contact')
         end
       end
     end
