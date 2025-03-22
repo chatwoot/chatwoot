@@ -53,6 +53,8 @@ es:
       invalid_message_type: 'Tipo de mensaje inválido. Acción no permitida'
     slack:
       invalid_channel_id: 'Canal de slack inválido. Por favor, inténtalo de nuevo'
+    channel_service:
+      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: Verifique la conexión de red, la dirección IMAP y vuelva a intentarlo.
