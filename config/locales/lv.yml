@@ -48,7 +48,7 @@ lv:
         invalid: vajadzētu būt E.164 formātā
     categories:
       locale:
-        unique: vajadzētu būt unikālai, kategorijā un portālā 
+        unique: vajadzētu būt unikālai, kategorijā un portālā
     dyte:
       invalid_message_type: 'Nederīgs ziņojuma veids. Darbība nav atļauta'
     slack:
