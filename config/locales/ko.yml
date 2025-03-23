@@ -233,7 +233,7 @@ ko:
       results_title: 검색 결과
     toc_header: 'On this page'
     hero:
-      sub_title: 게시물을 여기서 검색하거나 아래에서 카테고리를 탐색해보세요. 
+      sub_title: 게시물을 여기서 검색하거나 아래에서 카테고리를 탐색해보세요.
     common:
       home: 홈
       last_updated_on: '%{last_updated_on}에 마지막으로 업데이트 됨'
