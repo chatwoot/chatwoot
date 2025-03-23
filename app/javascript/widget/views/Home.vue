@@ -1,7 +1,7 @@
 <template>
   <div
-    class="rounded-md w-full flex flex-1 flex-col justify-center items-center pt-4 gap-2"
-    :class="{ 'pb-2': showArticles, 'justify-end': !showArticles }"
+    class="rounded-md w-full flex flex-1 flex-col items-center pt-4 gap-4"
+    :class="{ 'pb-2': showArticles }"
   >
     <div
       v-if="
@@ -9,7 +9,7 @@
         channelConfig.faqs &&
         JSON.parse(channelConfig.faqs.length) > 0
       "
-      class="faq-card h-['fit-content'] max-h-[180px] overflow-y-auto bg-white rounded-lg flex flex-col w-[95%] p-2.5 mt-6 shadow-md"
+      class="faq-card h-['fit-content'] max-h-[180px] overflow-y-auto bg-white rounded-lg flex flex-col w-[95%] p-2.5 mt-[4rem] mb-[1rem] shadow-md"
     >
       <h2 class="mb-2 text-[14px] font-medium">FAQs</h2>
       <div
