@@ -25,7 +25,6 @@ export const actions = {
         phone,
         messageId,
         values: submittedValues,
-        phone,
         orderId,
         selectedReply,
       });

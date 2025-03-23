@@ -179,6 +179,7 @@ export default {
       return product ? +product.quantity : 0;
     },
     onAddToCart(item) {
+      // eslint-disable-next-line no-alert
       alert(`Added ${item.title} to cart.`);
     },
   },

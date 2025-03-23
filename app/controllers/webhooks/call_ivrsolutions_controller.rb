@@ -16,13 +16,121 @@ class Webhooks::CallIvrsolutionsController < ActionController::API
     conversation = find_latest_conversation(contact, account)
     return render json: { error: 'Conversation not found' }, status: :not_found if conversation.blank?
 
-    create_call_log_message(conversation, parsed_body)
+    is_inbound = parsed_body['call_type'] == 'incoming'
+
+    if is_inbound
+      handle_incoming_callback(conversation, parsed_body, account)
+    else
+      create_call_log_message(conversation, parsed_body)
+      send_call_log_to_bspd(parsed_body, conversation, account)
+
+      head :ok
+    end
+  end
+
+  private
+
+  def handle_incoming_callback(conversation, parsed_body, account) # rubocop:disable Metrics/AbcSize
+    mark_conversation_as_inbound_call(conversation)
+
+    agent_phone = parsed_body['attended_by']
+
+    if agent_phone.blank?
+      render json: { error: 'Agent phone number not found' }, status: :bad_request
+      return
+    end
+
+    agent = account.users.find_by("custom_attributes->>'phone_number' LIKE ?", "%#{agent_phone.gsub(/^0/, '')}%")
+
+    conversation.update!(assignee: agent)
+
+    total_call_duration = parsed_body['call_duration'].to_i
+
+    start_time = Time.parse(parsed_body['call_time']).in_time_zone('Asia/Kolkata').utc
+
+    handled_call_duration = parsed_body['call_duration'].to_i
+
+    add_handling_time_reporting_event(conversation, handled_call_duration, start_time) if handled_call_duration.positive?
+
+    wait_time = total_call_duration - handled_call_duration
+
+    add_waiting_time_reporting_event(conversation, wait_time, start_time) if wait_time.positive?
+
+    call_log_message = get_inbound_call_log_string(parsed_body)
+
+    conversation.messages.create!(private_message_params(call_log_message, conversation, parsed_body))
+
     send_call_log_to_bspd(parsed_body, conversation, account)
 
     head :ok
   end
 
-  private
+  def add_waiting_time_reporting_event(conversation, wait_time, start_time)
+    reporting_event = ReportingEvent.new(
+      name: 'conversation_call_waiting_time',
+      value: wait_time,
+      value_in_business_hours: wait_time,
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      user_id: conversation.assignee_id || bot_user(conversation.account).id,
+      conversation_id: conversation.id,
+      event_start_time: start_time,
+      event_end_time: conversation.updated_at
+    )
+
+    reporting_event.save!
+  end
+
+  def add_handling_time_reporting_event(conversation, handled_time, start_time)
+    reporting_event = ReportingEvent.new(
+      name: 'conversation_call_handling_time',
+      value: handled_time,
+      value_in_business_hours: handled_time,
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      user_id: conversation.assignee_id || bot_user(conversation.account).id,
+      conversation_id: conversation.id,
+      event_start_time: start_time,
+      event_end_time: conversation.updated_at
+    )
+
+    reporting_event.save!
+  end
+
+  def mark_conversation_as_inbound_call(conversation)
+    add_inbound_call_label(conversation)
+
+    add_inbound_reporting_event(conversation)
+  end
+
+  def add_inbound_call_label(conversation)
+    Label.find_or_create_by!(
+      account: conversation.account,
+      title: 'inbound-call'
+    ) do |l|
+      l.description = 'Automatically added to conversations with inbound calls'
+      l.show_on_sidebar = true
+      l.color = '#7C21D7' # Default color
+    end
+
+    conversation.add_labels(['inbound-call'])
+  end
+
+  def add_inbound_reporting_event(conversation)
+    reporting_event = ReportingEvent.new(
+      name: 'conversation_inbound_call',
+      value: 1,
+      value_in_business_hours: 1,
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      user_id: conversation.assignee_id || bot_user(conversation.account).id,
+      conversation_id: conversation.id,
+      event_start_time: conversation.updated_at,
+      event_end_time: conversation.updated_at
+    )
+
+    reporting_event.save!
+  end
 
   def parse_request_body
     JSON.parse(request.body.read)
@@ -35,9 +143,12 @@ class Webhooks::CallIvrsolutionsController < ActionController::API
   end
 
   def find_contact(account, parsed_body)
-    is_c2c = parsed_body['call_type'] == 'c2c'
-    Rails.logger.info("is_c2c, #{is_c2c}")
-    client_no = is_c2c ? parsed_body['client_no'].gsub(/^0/, '+91') : parsed_body['outgoing_ext'].gsub(/^0/, '+91')
+    is_outgoing = parsed_body['call_type'] == 'outgoing'
+    client_no = if is_outgoing
+                  parsed_body['outgoing_ext'].gsub(/^0/, '+91')
+                else
+                  parsed_body['client_no'].gsub(/^0/, '+91')
+                end
     Contact.find_by(account_id: account.id, phone_number: client_no)
   end
 
@@ -94,5 +205,10 @@ class Webhooks::CallIvrsolutionsController < ActionController::API
   def handle_error(error)
     Rails.logger.error "Error sending call log to BSPD: #{error.message}"
     raise error
+  end
+
+  def bot_user(account)
+    query = account.users.where('email LIKE ?', 'cx.%@bitespeed.co')
+    query.first
   end
 end

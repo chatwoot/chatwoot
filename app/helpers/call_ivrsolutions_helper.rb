@@ -29,15 +29,25 @@ module CallIvrsolutionsHelper # rubocop:disable Metrics/ModuleLength
     end
   end
 
+  def get_inbound_call_log_string(parsed_body)
+    call_duration = parsed_body['call_duration']
+
+    case call_duration
+    when '0'
+      "The call failed, as it couldn't be connected to the user."
+    else
+      "Inbound Call completed\n\nCall Duration: #{call_duration}#{parsed_body['recording_url'].present? ? "\nCall recording link: #{parsed_body['recording_url']}" : ''}" # rubocop:disable Layout/LineLength
+    end
+  end
+
   def build_call_report_ivr_outbound(parsed_body, conversation, account)
-    is_c2c = parsed_body['call_type'] == 'c2c'
     {
       conversationId: conversation.display_id,
       accountId: account.id.to_i,
-      sender: determine_sender(parsed_body, account, is_c2c),
-      recipient: determine_recipient(parsed_body, is_c2c),
-      senderCallStatus: determine_sender_status(parsed_body, is_c2c),
-      recipientCallStatus: determine_recipient_status(parsed_body, is_c2c),
+      sender: determine_sender(parsed_body, account),
+      recipient: determine_recipient(parsed_body),
+      senderCallStatus: determine_sender_status(parsed_body),
+      recipientCallStatus: determine_recipient_status(parsed_body),
       external: build_ivrsolutions_data(parsed_body),
       metadata: build_metadata(parsed_body),
       timing: build_timing_data(parsed_body),
@@ -48,24 +58,42 @@ module CallIvrsolutionsHelper # rubocop:disable Metrics/ModuleLength
 
   private
 
-  def determine_sender(parsed_body, account, is_c2c)
-    is_c2c ? parsed_body['agent_no'] : find_sender_number_by_ext_no(parsed_body, account)
+  def determine_sender(parsed_body, account)
+    case parsed_body['call_type']
+    when 'c2c'
+      parsed_body['agent_no']
+    when 'outgoing'
+      find_sender_number_by_ext_no(parsed_body, account)
+    when 'incoming'
+      parsed_body['client_no']
+    end
   end
 
-  def determine_recipient(parsed_body, is_c2c)
-    is_c2c ? parsed_body['client_no'] : parsed_body['outgoing_ext']
+  def determine_recipient(parsed_body)
+    case parsed_body['call_type']
+    when 'c2c'
+      parsed_body['client_no']
+    when 'outgoing'
+      parsed_body['outgoing_ext']
+    when 'incoming'
+      parsed_body['attended_by']
+    end
   end
 
-  def determine_sender_status(parsed_body, is_c2c)
-    return 'completed' unless is_c2c
-
-    parsed_body['agent_attended'] == ATTENDED ? 'completed' : 'failed'
+  def determine_sender_status(parsed_body)
+    case parsed_body['call_type']
+    when 'c2c'
+      parsed_body['agent_attended'] == ATTENDED ? 'completed' : 'failed'
+    when 'outgoing', 'incoming'
+      'completed'
+    end
   end
 
-  def determine_recipient_status(parsed_body, is_c2c)
-    if is_c2c
+  def determine_recipient_status(parsed_body)
+    case parsed_body['call_type']
+    when 'c2c'
       parsed_body['customer_attended'] == ATTENDED ? 'completed' : 'failed'
-    else
+    when 'outgoing', 'incoming'
       determine_softphone_status(parsed_body['call_duration'])
     end
   end
@@ -92,17 +120,27 @@ module CallIvrsolutionsHelper # rubocop:disable Metrics/ModuleLength
   end
 
   def build_metadata(parsed_body)
-    {
-      direction: 'outbound-api',
-      eventType: 'terminal',
-      status: determine_call_status(parsed_body)
-    }
+    case parsed_body['call_type']
+    when 'incoming'
+      {
+        direction: 'inbound',
+        eventType: 'terminal',
+        status: determine_call_status(parsed_body)
+      }
+    when 'outgoing', 'c2c'
+      {
+        direction: 'outbound-api',
+        eventType: 'terminal',
+        status: determine_call_status(parsed_body)
+      }
+    end
   end
 
   def determine_call_status(parsed_body)
-    if parsed_body['call_type'] == 'c2c'
+    case parsed_body['call_type']
+    when 'c2c'
       determine_c2c_status(parsed_body)
-    else
+    when 'outgoing', 'incoming'
       determine_softphone_status(parsed_body['call_duration'])
     end
   end
