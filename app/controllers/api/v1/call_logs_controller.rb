@@ -10,9 +10,31 @@ class Api::V1::CallLogsController < ApplicationController
     handle_error(e)
   end
 
+  def update_call_report
+    unless params[:callId].present? && params[:account_id].present?
+      render json: { error: 'callId or phone number are required parameters' }, status: :bad_request
+      return
+    end
+
+    url = 'https://b3i4zxcefi.execute-api.us-east-1.amazonaws.com/chatwoot/callLogs/update'
+    body = build_request_body
+
+    response = HTTParty.patch(url, body: body, headers: { 'Content-Type' => 'application/json' })
+
+    if response.success?
+      render json: response.body
+    else
+      Rails.logger.error("Update call report API error: #{response.code} - #{response.body}")
+      render json: { error: 'Failed to update call report' }, status: response.code
+    end
+  rescue StandardError => e
+    handle_error(e)
+  end
+
   private
 
   def fetch_and_render_call_logs
+    # url = 'https://b3i4zxcefi.execute-api.us-east-1.amazonaws.com/chatwoot/callLogs?accountId=966&phoneNumber=917207414297'
     url = "https://b3i4zxcefi.execute-api.us-east-1.amazonaws.com/chatwoot/callLogs?accountId=#{params[:account_id]}&phoneNumber=#{params[:phone_number]}"
     response = HTTParty.get(url)
 
@@ -22,6 +44,13 @@ class Api::V1::CallLogsController < ApplicationController
       Rails.logger.error("Call logs API error: #{response.code} - #{response.body}")
       render json: { error: 'Failed to fetch call logs' }, status: response.code
     end
+  end
+
+  def build_request_body
+    body = { account_id: params[:account_id], callId: params[:callId] }
+    body[:agentCallStatus] = params[:agentCallStatus] if params[:agentCallStatus].present? || params[:agentCallStatus] == ''
+    body[:agentCallNote] = params[:agentCallNote] if params[:agentCallNote].present? || params[:agentCallNote] == ''
+    body.to_json
   end
 
   def handle_error(error)

@@ -1,5 +1,5 @@
 <template>
-  <div class="py-3 px-4">
+  <div :class="{ 'py-3 px-4': !isCallLog }">
     <div class="flex items-center mb-1">
       <h4 class="text-sm flex items-center m-0 w-full error">
         <div v-if="isAttributeTypeCheckbox" class="flex items-center">
@@ -13,17 +13,18 @@
         <div class="flex items-center justify-between w-full">
           <span
             class="w-full inline-flex gap-1.5 items-start font-medium whitespace-nowrap text-sm mb-0"
-            :class="
+            :class="[
               $v.editedValue.$error
                 ? 'text-red-400 dark:text-red-500'
-                : 'text-slate-800 dark:text-slate-100'
-            "
+                : 'text-slate-800 dark:text-slate-100',
+              isCallLog ? 'text-xs' : 'text-sm',
+            ]"
           >
             {{ label }}
             <helper-text-popup
               v-if="description"
               :message="description"
-              class="mt-0.5"
+              :class="{ 'mt-0.5': !isCallLog }"
             />
           </span>
           <woot-button
@@ -165,6 +166,7 @@ export default {
     regexEnabled: { type: Boolean, default: false },
     attributeKey: { type: String, required: true },
     contactId: { type: Number, default: null },
+    isCallLog: { type: Boolean, default: false },
   },
   data() {
     return {

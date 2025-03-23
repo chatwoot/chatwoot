@@ -20,9 +20,11 @@
     <div v-if="!uiFlags.isFetching">
       <div v-if="callLogs && callLogs.length" class="flex flex-col gap-2 mt-2">
         <call-log-card
-          v-for="log in callLogs"
+          v-for="(log, index) in callLogs"
           :key="log.callId"
           :call-log="log"
+          :index="index"
+          :phone-number="phoneNumber"
         />
       </div>
       <div v-else class="no-label-message">

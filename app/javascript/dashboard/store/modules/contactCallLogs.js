@@ -6,6 +6,8 @@ const state = {
   records: {},
   uiFlags: {
     isFetching: false,
+    isUpdating: false,
+    isError: false,
   },
 };
 
@@ -38,6 +40,45 @@ export const actions = {
       commit(types.default.SET_CONTACT_CALL_LOGS_UI_FLAG, {
         isFetching: false,
       });
+    }
+  },
+  update: async (
+    { commit },
+    { phoneNumber, index, agentCallStatus, agentCallNote }
+  ) => {
+    commit(types.default.SET_CONTACT_CALL_LOGS_UI_FLAG, {
+      isUpdating: true,
+    });
+    try {
+      const callLog = state.records[phoneNumber][index];
+      const response = await ContactAPI.updateCallLog(callLog.callId, {
+        agentCallStatus,
+        agentCallNote,
+      });
+
+      if (response?.data) {
+        const updatedLogs = [...state.records[phoneNumber]];
+        updatedLogs[index] = {
+          ...updatedLogs[index],
+          ...(agentCallStatus !== undefined && { agentCallStatus }),
+          ...(agentCallNote !== undefined && { agentCallNote }),
+        };
+
+        commit(types.default.SET_CONTACT_CALL_LOGS, {
+          phoneNumber,
+          data: updatedLogs,
+        });
+
+        commit(types.default.SET_CONTACT_CALL_LOGS_UI_FLAG, {
+          isUpdating: false,
+        });
+      }
+    } catch (error) {
+      commit(types.default.SET_CONTACT_CALL_LOGS_UI_FLAG, {
+        isUpdating: false,
+        isError: true,
+      });
+      throw new Error(error);
     }
   },
 };

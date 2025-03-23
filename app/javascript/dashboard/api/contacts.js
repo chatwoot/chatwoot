@@ -89,6 +89,15 @@ class ContactAPI extends ApiClient {
       },
     });
   }
+
+  updateCallLog(callId, { agentCallStatus, agentCallNote }) {
+    return axios.patch(`/api/v1/call_logs/update_call_report`, {
+      account_id: this.accountIdFromRoute,
+      callId: callId,
+      agentCallStatus: agentCallStatus,
+      agentCallNote: agentCallNote,
+    });
+  }
 }
 
 export default new ContactAPI();

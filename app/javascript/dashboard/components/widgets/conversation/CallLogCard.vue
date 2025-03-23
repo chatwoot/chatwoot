@@ -78,6 +78,22 @@
         {{ callLog.sentiment }}
       </woot-button>
     </div>
+    <custom-attribute
+      v-for="attribute in callAttributes"
+      :key="attribute.id"
+      :attribute-key="attribute.attributeKey"
+      :attribute-type="attribute.attributeType"
+      :values="attribute.values"
+      :label="attribute.label"
+      :description="attribute.description"
+      :value="attribute.value"
+      :show-actions="attribute.showActions"
+      :class="'conversation--attribute'"
+      :is-call-log="true"
+      @update="onUpdate"
+      @delete="onDelete"
+      @copy="onCopy"
+    />
     <call-transcript-modal
       v-if="showTranscriptModal"
       :show="showTranscriptModal"
@@ -92,15 +108,35 @@
 <script>
 import CallTranscriptModal from './CallTranscriptModal.vue';
 import timeMixin from '../../../mixins/time';
+import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import alertMixin from 'shared/mixins/alertMixin';
+
+const CALL_STATUS_VALUES = [
+  'Scheduled',
+  'Not Picked',
+  'Follow-up',
+  'Converted',
+  'Dropped',
+];
 
 export default {
   components: {
     CallTranscriptModal,
+    CustomAttribute,
   },
-  mixins: [timeMixin],
+  mixins: [timeMixin, alertMixin],
   props: {
     callLog: {
       type: Object,
+      required: true,
+    },
+    index: {
+      type: Number,
+      required: true,
+    },
+    phoneNumber: {
+      type: String,
       required: true,
     },
   },
@@ -141,6 +177,29 @@ export default {
       }
       return `${remainingSeconds} sec`;
     },
+    callAttributes() {
+      return [
+        {
+          id: '1',
+          attributeKey: 'calling_status',
+          attributeType: 'list',
+          values: CALL_STATUS_VALUES,
+          label: 'Calling Status',
+          description: 'Notes related to call for this conversations',
+          value: this.callLog.agentCallStatus,
+          showActions: true,
+        },
+        {
+          id: '2',
+          attributeKey: 'calling_notes',
+          attributeType: 'text',
+          label: 'Calling Notes',
+          description: 'Notes related to call for this conversations',
+          value: this.callLog.agentCallNote,
+          showActions: true,
+        },
+      ];
+    },
   },
   methods: {
     toggleSummary() {
@@ -148,6 +207,58 @@ export default {
     },
     toggleTranscriptModal() {
       this.showTranscriptModal = !this.showTranscriptModal;
+    },
+    handleStatusChange(value) {
+      this.selectedStatus = value;
+      this.isStatusChanged = value.name !== this.callLog.agentCallStatus;
+    },
+    async onUpdate(key, value) {
+      const updatePayload = {
+        phoneNumber: this.phoneNumber,
+        index: this.index,
+        [key === 'calling_status' ? 'agentCallStatus' : 'agentCallNote']: value,
+      };
+      try {
+        await this.$store.dispatch('contactCallLogs/update', updatePayload);
+        this.showAlert(
+          this.$t(
+            `Call Log ${
+              key === 'calling_status' ? 'Status' : 'Note'
+            } updated successfully`
+          )
+        );
+      } catch (error) {
+        this.showAlert(
+          this.$t(
+            `Error Updating Call ${
+              key === 'calling_status' ? 'Status' : 'Note'
+            }`
+          )
+        );
+      }
+    },
+    async onDelete(key) {
+      const updatePayload = {
+        phoneNumber: this.phoneNumber,
+        index: this.index,
+        [key === 'calling_status' ? 'agentCallStatus' : 'agentCallNote']: '',
+      };
+      try {
+        await this.$store.dispatch('contactCallLogs/update', updatePayload);
+        this.showAlert(
+          `Call Log ${
+            key === 'calling_status' ? 'Status' : 'Note'
+          } Delete successfully`
+        );
+      } catch (error) {
+        this.showAlert(
+          `Error Deleting Call ${key === 'calling_status' ? 'Status' : 'Note'}`
+        );
+      }
+    },
+    async onCopy(attributeValue) {
+      await copyTextToClipboard(attributeValue);
+      this.showAlert(this.$t('CUSTOM_ATTRIBUTES.COPY_SUCCESSFUL'));
     },
   },
 };
