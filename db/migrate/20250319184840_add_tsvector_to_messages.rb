@@ -9,6 +9,7 @@ class AddTsvectorToMessages < ActiveRecord::Migration[7.0]
     set_default_value
     create_gin_index
     create_supporting_index
+    create_update_trigger
     reset_statement_timeout
     say 'Migration completed successfully'
   end
@@ -85,30 +86,64 @@ class AddTsvectorToMessages < ActiveRecord::Migration[7.0]
 
   def create_gin_index
     say_with_time 'Creating GIN index on content_tsvector if not exists' do
-      create_gin_index_if_not_exists
-    end
-  end
+      # Check if index exists
+      index_exists = connection.select_value(
+        "SELECT 1 FROM pg_indexes WHERE indexname = 'index_messages_on_content_tsvector'"
+      ).present?
 
-  def create_gin_index_if_not_exists
-    execute <<-SQL.squish
-      DO $$#{' '}
-      BEGIN
-        IF NOT EXISTS (
-          SELECT 1 FROM pg_indexes WHERE indexname = 'index_messages_on_content_tsvector'
-        ) THEN
-          CREATE INDEX CONCURRENTLY index_messages_on_content_tsvector
-          ON messages USING GIN (content_tsvector);
-        END IF;
-      END $$;
-    SQL
+      # Create index only if it doesn't exist
+      if index_exists
+        say 'GIN index on content_tsvector already exists'
+      else
+        say 'Creating GIN index on content_tsvector'
+        execute 'CREATE INDEX CONCURRENTLY index_messages_on_content_tsvector ON messages USING GIN (content_tsvector);'
+      end
+    end
   end
 
   def create_supporting_index
     say_with_time 'Creating index on inbox_id and created_at' do
+      # Check if index exists
+      index_exists = connection.select_value(
+        "SELECT 1 FROM pg_indexes WHERE indexname = 'index_messages_inbox_created_at'"
+      ).present?
+
+      # Create index only if it doesn't exist
+      if index_exists
+        say 'Index on inbox_id and created_at already exists'
+      else
+        say 'Creating index on inbox_id and created_at'
+        execute 'CREATE INDEX CONCURRENTLY index_messages_inbox_created_at ON messages (inbox_id, created_at DESC);'
+      end
+    end
+  end
+
+  def create_update_trigger
+    say_with_time 'Creating trigger for automatic tsvector updates' do
       execute <<-SQL.squish
-        CREATE INDEX CONCURRENTLY index_messages_inbox_created_at ON messages
-        (inbox_id, created_at DESC);
+        CREATE OR REPLACE FUNCTION messages_content_trigger() RETURNS trigger AS $$
+        BEGIN
+          NEW.content_tsvector := to_tsvector('english', coalesce(NEW.content, ''));
+          RETURN NEW;
+        END;
+        $$ LANGUAGE plpgsql;
       SQL
+
+      trigger_exists = connection.select_value(
+        "SELECT 1 FROM pg_trigger WHERE tgname = 'messages_content_update_trigger'"
+      ).present?
+
+      if trigger_exists
+        say 'Trigger for automatic tsvector updates already exists'
+      else
+        execute <<-SQL.squish
+          CREATE TRIGGER messages_content_update_trigger
+          BEFORE INSERT OR UPDATE OF content ON messages
+          FOR EACH ROW
+          EXECUTE FUNCTION messages_content_trigger();
+        SQL
+        say 'Created trigger for automatic tsvector updates'
+      end
     end
   end
 

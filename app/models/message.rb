@@ -6,7 +6,7 @@
 #  additional_attributes     :jsonb
 #  content                   :text
 #  content_attributes        :json
-#  content_tsvector          :tsvector
+#  content_tsvector          :tsvector         not null
 #  content_type              :integer          default("text"), not null
 #  external_source_ids       :jsonb
 #  message_type              :integer          not null
@@ -25,12 +25,12 @@
 #
 # Indexes
 #
+#  index_messages_inbox_created_at                      (inbox_id,created_at DESC)
 #  index_messages_on_account_created_type               (account_id,created_at,message_type)
 #  index_messages_on_account_id                         (account_id)
 #  index_messages_on_account_id_and_inbox_id            (account_id,inbox_id)
 #  index_messages_on_additional_attributes_campaign_id  (((additional_attributes -> 'campaign_id'::text))) USING gin
 #  index_messages_on_content_tsvector                   (content_tsvector) USING gin
-#  index_messages_inbox_created_at                      (inbox_id,created_at DESC)
 #  index_messages_on_conversation_account_type_created  (conversation_id,account_id,message_type,created_at)
 #  index_messages_on_conversation_id                    (conversation_id)
 #  index_messages_on_created_at                         (created_at)
@@ -65,6 +65,7 @@ class Message < ApplicationRecord
   before_validation :prevent_message_flooding
   before_save :ensure_processed_message_content
   before_save :ensure_in_reply_to
+  before_save :ensure_content_tsvector
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -265,6 +266,12 @@ class Message < ApplicationRecord
 
   def ensure_content_type
     self.content_type ||= Message.content_types[:text]
+  end
+
+  def ensure_content_tsvector
+    self.content_tsvector = ActiveRecord::Base.connection.execute(
+      "SELECT to_tsvector('english', #{ActiveRecord::Base.connection.quote(content || '')})"
+    ).first['to_tsvector']
   end
 
   def execute_after_create_commit_callbacks
