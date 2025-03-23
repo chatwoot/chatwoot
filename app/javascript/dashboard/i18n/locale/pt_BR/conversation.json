@@ -296,25 +296,25 @@
       "CONTACT_ATTRIBUTES": "Atributos do contato",
       "PREVIOUS_CONVERSATION": "Conversas anteriores",
       "MACROS": "Macros",
-      "SHOPIFY_ORDERS": "Pedidos Shopify"
+      "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {
-      "ORDER_ID": "Pedido #{id}",
-      "ERROR": "Erro ao carregar pedidos",
-      "NO_SHOPIFY_ORDERS": "Nenhum pedido encontrado",
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
       "FINANCIAL_STATUS": {
         "PENDING": "Pendentes",
-        "AUTHORIZED": "Autorizado",
-        "PARTIALLY_PAID": "Parcialmente pago",
-        "PAID": "Pago",
-        "PARTIALLY_REFUNDED": "Parcialmente reembolsado",
-        "REFUNDED": "Reembolsado",
-        "VOIDED": "Anulado"
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
       },
       "FULFILLMENT_STATUS": {
-        "FULFILLED": "Processado",
-        "PARTIALLY_FULFILLED": "Parcialmente processado",
-        "UNFULFILLED": "Não processado"
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
       }
     }
   },
