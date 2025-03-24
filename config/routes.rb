@@ -54,6 +54,10 @@ Rails.application.routes.draw do
           resources :ai_agents, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
             patch :update_followups, on: :member
+
+            collection do
+              get :ai_agent_templates
+            end
           end
           resources :agents, only: [:index, :create, :update, :destroy] do
             post :bulk_create, on: :collection

@@ -82,6 +82,11 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
     render json: { error: e.message }, status: :unprocessable_entity
   end
 
+  def ai_agent_templates
+    agent_templates = AiAgentTemplate.select(:id, :name)
+    render json: agent_templates, status: :ok
+  end
+
   private
 
   def remove_deleted_followups(received_followups)
