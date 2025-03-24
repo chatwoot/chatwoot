@@ -2,7 +2,7 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   before_action :set_ai_agent, only: %i[show update destroy]
 
   def index
-    @ai_agents = Current.account.ai_agents
+    @ai_agents = Current.account.ai_agents.select(:id, :account_id, :name)
     render json: @ai_agents
   end
 
@@ -36,7 +36,7 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
     end
 
     @ai_agent = Current.account.ai_agents.new(
-      ai_agent_params.marge(
+      ai_agent_params.merge(
         system_prompts: ai_agent_template.system_prompt,
         welcoming_message: ai_agent_template.welcoming_message
       )
@@ -100,7 +100,7 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
       :welcoming_message,
       :routing_conditions,
       :control_flow_rules,
-      :model_name,
+      :llm_model,
       :history_limit,
       :context_limit,
       :message_await,

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_24_025639) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_24_044719) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -133,6 +133,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_24_025639) do
     t.text "welcoming_message", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
   end
 
   create_table "ai_agents", force: :cascade do |t|
@@ -142,7 +143,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_24_025639) do
     t.text "welcoming_message", null: false
     t.text "routing_conditions"
     t.boolean "control_flow_rules", default: false, null: false
-    t.string "model_name", default: "gpt-4o"
+    t.string "llm_model", default: "gpt-4o"
     t.integer "history_limit", default: 20
     t.integer "context_limit", default: 10
     t.integer "message_await", default: 5
