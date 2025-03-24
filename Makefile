@@ -20,6 +20,9 @@ db_seed:
 db_reset:
 	RAILS_ENV=$(RAILS_ENV) bundle exec rails db:reset
 
+db_rollback:
+	RAILS_ENV=$(RAILS_ENV) bundle exec rails db:rollback
+
 db:
 	RAILS_ENV=$(RAILS_ENV) bundle exec rails db:chatwoot_prepare
 

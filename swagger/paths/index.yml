@@ -228,6 +228,11 @@
     $ref: ./application/ai_agents/update.yml
   delete:
     $ref: ./application/ai_agents/delete.yml
+/api/v1/accounts/{account_id}/ai_agents/{id}/update_followups:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  patch:
+    $ref: ./application/ai_agents/update_followup.yml
 
 # Canned Responses
 /api/v1/accounts/{account_id}/canned_responses:
