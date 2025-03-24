@@ -143,7 +143,7 @@ describe Webhooks::InstagramEventsJob do
         expect(attachment.push_event_data[:data_url]).to eq(attachment.external_url)
       end
 
-      it 'creates does not create contact or messages' do
+      it 'does not create contact or messages when Facebook API call fails' do
         allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
         allow(fb_object).to receive(:get_object).and_raise(Koala::Facebook::ClientError)
 
@@ -261,36 +261,6 @@ describe Webhooks::InstagramEventsJob do
         expect(instagram_direct_inbox.messages.last.attachments.count).to be 1
       end
 
-      # it 'creates incoming message with attachments in the instagram direct inbox for story mention' do
-      #   stub_request(:get, %r{https://graph.instagram.com/v22.0/.*\?.*})
-      #     .to_return(
-      #       status: 200,
-      #       body: {
-      #         story: {
-      #           mention: {
-      #             link: 'https://www.example.com/test.jpeg',
-      #             id: '17920786367196703'
-      #           }
-      #         },
-      #         from: {
-      #           username: 'Sender-id-1', id: 'Sender-id-1'
-      #         },
-      #         id: 'instagram-message-id-1234'
-      #       }.to_json,
-      #       headers: { 'Content-Type' => 'application/json' }
-      #     )
-
-      #   instagram_webhook.perform_now(message_events[:story_mention][:entry])
-
-      #   instagram_direct_inbox.reload
-
-      #   expect(instagram_direct_inbox.messages.count).to be 1
-      #   expect(instagram_direct_inbox.messages.last.attachments.count).to be 1
-
-      #   attachment = instagram_direct_inbox.messages.last.attachments.last
-      #   expect(attachment.push_event_data[:data_url]).to eq(attachment.external_url)
-      # end
-
       it 'handle messaging_seen callback' do
         expect(Instagram::Direct::ReadStatusService).to receive(:new).with(params: message_events[:messaging_seen][:entry][0][:messaging][0],
                                                                            channel: instagram_direct_inbox.channel).and_call_original
@@ -306,6 +276,19 @@ describe Webhooks::InstagramEventsJob do
         expect(instagram_direct_inbox.conversations.count).to be 1
         expect(instagram_direct_inbox.messages.count).to be 1
         expect(instagram_direct_inbox.messages.last.content_attributes['is_unsupported']).to be true
+      end
+
+      it 'does not create contact or messages when Instagram API call fails' do
+        stub_request(:get, %r{https://graph.instagram.com/v22.0/.*\?.*})
+          .to_return(status: 401, body: { error: { message: 'Invalid OAuth access token' } }.to_json)
+
+        instagram_webhook.perform_now(message_events[:story_mention_echo][:entry])
+
+        instagram_direct_inbox.reload
+
+        expect(instagram_direct_inbox.contacts.count).to be 0
+        expect(instagram_direct_inbox.contact_inboxes.count).to be 0
+        expect(instagram_direct_inbox.messages.count).to be 0
       end
     end
   end
