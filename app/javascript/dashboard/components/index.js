@@ -17,7 +17,6 @@ import ModalHeader from './ModalHeader.vue';
 import Modal from './Modal.vue';
 import SidemenuIcon from './SidemenuIcon.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import SubmitButton from './buttons/FormSubmitButton.vue';
 import Tabs from './ui/Tabs/Tabs.vue';
 import TabsItem from './ui/Tabs/TabsItem.vue';
 import Thumbnail from './widgets/Thumbnail.vue';
@@ -41,7 +40,6 @@ const WootUIKit = {
   ModalHeader,
   SidemenuIcon,
   Spinner,
-  SubmitButton,
   Tabs,
   TabsItem,
   Thumbnail,
