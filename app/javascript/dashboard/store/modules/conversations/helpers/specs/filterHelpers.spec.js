@@ -113,6 +113,32 @@ describe('filterHelpers', () => {
       expect(matchesFilters(conversation, filters)).toBe(true);
     });
 
+    it('should match conversation with equal_to operator for status "all"', () => {
+      const conversation = { status: 'open' };
+      const filters = [
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: [{ id: 'all', name: 'all' }],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should not match conversation with not_equal_to operator for status "all"', () => {
+      const conversation = { status: 'open' };
+      const filters = [
+        {
+          attribute_key: 'status',
+          filter_operator: 'not_equal_to',
+          values: [{ id: 'all', name: 'all' }],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
     it('should not match conversation with not_equal_to operator for status', () => {
       const conversation = { status: 'open' };
       const filters = [

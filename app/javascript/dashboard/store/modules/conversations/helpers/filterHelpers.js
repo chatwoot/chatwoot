@@ -124,15 +124,18 @@ const resolveValue = candidate => {
  * 3. Otherwise: performs strict equality comparison
  */
 const equalTo = (filterValue, conversationValue) => {
-  if (filterValue.includes('all')) return true;
+  if (Array.isArray(filterValue)) {
+    if (filterValue.includes('all')) return true;
+    if (filterValue === 'all') return true;
 
-  if (Array.isArray(filterValue) && Array.isArray(conversationValue)) {
-    // For array values like labels, check if any of the filter values exist in the array
-    return filterValue.every(val => conversationValue.includes(val));
-  }
+    if (Array.isArray(conversationValue)) {
+      // For array values like labels, check if any of the filter values exist in the array
+      return filterValue.every(val => conversationValue.includes(val));
+    }
 
-  if (Array.isArray(filterValue) && !Array.isArray(conversationValue)) {
-    return filterValue.includes(conversationValue);
+    if (!Array.isArray(conversationValue)) {
+      return filterValue.includes(conversationValue);
+    }
   }
 
   return conversationValue === filterValue;
