@@ -1993,6 +1993,53 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/ai_agents/ai_agent_templates": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
+      "patch": {
+        "tags": [
+          "AI Agents"
+        ],
+        "operationId": "list-all-agent-templates",
+        "summary": "List all Agent Templates",
+        "description": "List all agent templates available for the current account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of agent bots",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Template A"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/canned_responses": {
       "parameters": [
         {

@@ -233,6 +233,11 @@
     - $ref: '#/parameters/account_id'
   patch:
     $ref: ./application/ai_agents/update_followup.yml
+/api/v1/accounts/{account_id}/ai_agents/ai_agent_templates:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  patch:
+    $ref: ./application/ai_agents/agent_templates.yml
 
 # Canned Responses
 /api/v1/accounts/{account_id}/canned_responses:
