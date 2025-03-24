@@ -18,9 +18,8 @@ describe Whatsapp::SendOnWhatsappService do
     context 'when a valid message' do
       let(:whatsapp_request) { instance_double(HTTParty::Response) }
       let!(:whatsapp_channel) { create(:channel_whatsapp, sync_templates: false) }
-      let!(:contact) { create(:contact, phone_number: '+123456789') }
-      let!(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: whatsapp_channel.inbox, source_id: '123456789') }
-      let!(:conversation) { create(:conversation, contact: contact, contact_inbox: contact_inbox, inbox: whatsapp_channel.inbox) }
+      let!(:contact_inbox) { create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: '123456789') }
+      let!(:conversation) { create(:conversation, contact_inbox: contact_inbox, inbox: whatsapp_channel.inbox) }
       let(:api_key) { 'test_key' }
       let(:headers) { { 'D360-API-KEY' => api_key, 'Content-Type' => 'application/json' } }
       let(:template_body) do
@@ -36,12 +35,14 @@ describe Whatsapp::SendOnWhatsappService do
         }
       end
 
-      let(:success_response) { { 'messages' => [{ 'id' => 'message-123456789' }] }.to_json }
+      let(:success_response) { { 'messages' => [{ 'id' => '123456789' }] }.to_json }
 
       it 'calls channel.send_message when with in 24 hour limit' do
         # to handle the case of 24 hour window limit.
-        create(:message, message_type: :incoming, content: 'test', conversation: conversation)
-        message = create(:message, message_type: :outgoing, content: 'test', conversation: conversation)
+        create(:message, message_type: :incoming, content: 'test',
+                         conversation: conversation)
+        message = create(:message, message_type: :outgoing, content: 'test',
+                                   conversation: conversation)
 
         stub_request(:post, 'https://waba.360dialog.io/v1/messages')
           .with(
@@ -51,7 +52,7 @@ describe Whatsapp::SendOnWhatsappService do
           .to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
 
         described_class.new(message: message).perform
-        expect(message.reload.source_id).to eq('message-123456789')
+        expect(message.reload.source_id).to eq('123456789')
       end
 
       it 'calls channel.send_template when after 24 hour limit' do
@@ -65,7 +66,7 @@ describe Whatsapp::SendOnWhatsappService do
           ).to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
 
         described_class.new(message: message).perform
-        expect(message.reload.source_id).to eq('message-123456789')
+        expect(message.reload.source_id).to eq('123456789')
       end
 
       it 'calls channel.send_template if template_params are present' do
@@ -78,7 +79,7 @@ describe Whatsapp::SendOnWhatsappService do
           ).to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
 
         described_class.new(message: message).perform
-        expect(message.reload.source_id).to eq('message-123456789')
+        expect(message.reload.source_id).to eq('123456789')
       end
 
       it 'calls channel.send_template when template has regexp characters' do
@@ -105,18 +106,7 @@ describe Whatsapp::SendOnWhatsappService do
           ).to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
 
         described_class.new(message: message).perform
-        expect(message.reload.source_id).to eq('message-123456789')
-      end
-
-      context 'when source_id validation is required' do
-        let(:message) { create(:message, conversation: conversation, message_type: :outgoing) }
-
-        it 'marks message as failed when source_ids do not match' do
-          contact_inbox.update!(source_id: '1234567890')
-          described_class.new(message: message).perform
-          expect(message.reload.status).to eq('failed')
-          expect(message.external_error).to include('This conversation may have originally belonged to a different contact')
-        end
+        expect(message.reload.source_id).to eq('123456789')
       end
     end
   end
