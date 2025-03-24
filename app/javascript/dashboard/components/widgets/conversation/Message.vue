@@ -663,10 +663,10 @@ export default {
     }
 
     &.is-failed {
-      @apply bg-red-200 dark:bg-red-200;
+      @apply bg-n-ruby-4 dark:bg-n-ruby-4 text-n-slate-12;
 
       .message-text--metadata .time {
-        @apply text-red-50 dark:text-red-50;
+        @apply text-n-ruby-12 dark:text-n-ruby-12;
       }
     }
   }
@@ -727,7 +727,7 @@ li.right {
   }
 
   .wrap.is-failed {
-    @apply flex items-end ml-auto;
+    @apply flex items-end ltr:ml-auto rtl:mr-auto;
   }
 }
 
