@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_20_071934) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_24_025639) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -128,6 +128,13 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_20_071934) do
     t.index ["label_id"], name: "index_ai_agent_selected_labels_on_label_id"
   end
 
+  create_table "ai_agent_templates", force: :cascade do |t|
+    t.text "system_prompt", null: false
+    t.text "welcoming_message", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "ai_agents", force: :cascade do |t|
     t.integer "account_id", null: false
     t.string "name", null: false
@@ -143,6 +150,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_20_071934) do
     t.string "timezone", default: "UTC", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "template_id"
   end
 
   create_table "applied_slas", force: :cascade do |t|
