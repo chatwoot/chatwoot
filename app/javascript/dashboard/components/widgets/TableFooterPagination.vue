@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-import Button from 'dashboard/components-next/button/Button.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   currentPage: {
@@ -51,7 +51,7 @@ const onLastPage = () => {
   <div
     class="flex items-center h-8 outline outline-1 outline-n-weak rounded-lg"
   >
-    <Button
+    <NextButton
       faded
       sm
       slate
@@ -63,7 +63,7 @@ const onLastPage = () => {
     <div class="flex items-center justify-center bg-n-slate-9/10 h-full">
       <div class="w-px h-4 rounded-sm bg-n-strong" />
     </div>
-    <Button
+    <NextButton
       faded
       sm
       slate
@@ -83,7 +83,7 @@ const onLastPage = () => {
         {{ totalPages }}
       </span>
     </div>
-    <Button
+    <NextButton
       faded
       sm
       slate
@@ -95,7 +95,7 @@ const onLastPage = () => {
     <div class="flex items-center justify-center bg-n-slate-9/10 h-full">
       <div class="w-px h-4 rounded-sm bg-n-strong" />
     </div>
-    <Button
+    <NextButton
       faded
       sm
       slate
