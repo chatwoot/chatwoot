@@ -1,14 +1,14 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`SidemenuIcon > matches snapshot 1`] = `
-<next-button-stub
+<button
   class="-ml-3"
   ghost=""
   icon="i-lucide-menu"
-  isloading="false"
-  label=""
   size="sm"
   slate=""
-  trailingicon="false"
-/>
+>
+  
+  
+</button>
 `;
