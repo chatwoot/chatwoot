@@ -1,6 +1,7 @@
 import { LocalStorage } from './localStorage';
 
-const DEFAULT_EXPIRY = 3 * 60 * 60 * 1000; // 3 hours in milliseconds
+// Default cache expiry is 24 hours
+const DEFAULT_EXPIRY = 24 * 60 * 60 * 1000;
 
 export const getFromCache = (key, expiry = DEFAULT_EXPIRY) => {
   try {

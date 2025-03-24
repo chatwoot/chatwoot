@@ -21,7 +21,12 @@ const CACHE_KEY_PREFIX = 'chatwoot_available_agents_';
 export const actions = {
   fetchAvailableAgents: async ({ commit }, websiteToken) => {
     try {
-      const cachedData = getFromCache(`${CACHE_KEY_PREFIX}${websiteToken}`);
+      // Cache for 3 hours
+      const CACHE_EXPIRY = 3 * 60 * 60 * 1000;
+      const cachedData = getFromCache(
+        `${CACHE_KEY_PREFIX}${websiteToken}`,
+        CACHE_EXPIRY
+      );
       if (cachedData) {
         commit('setAgents', cachedData);
         commit('setError', false);
