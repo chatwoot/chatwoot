@@ -9,7 +9,6 @@ import {
 } from '../constants/widgetBusEvents';
 import { emitter } from 'shared/helpers/mitt';
 
-import { useDarkMode } from 'widget/composables/useDarkMode';
 export default {
   name: 'UnreadMessage',
   components: { Thumbnail },
@@ -35,13 +34,11 @@ export default {
   setup() {
     const { formatMessage, getPlainText, truncateMessage, highlightContent } =
       useMessageFormatter();
-    const { getThemeClass } = useDarkMode();
     return {
       formatMessage,
       getPlainText,
       truncateMessage,
       highlightContent,
-      getThemeClass,
     };
   },
   computed: {
@@ -96,11 +93,7 @@ export default {
 
 <template>
   <div class="chat-bubble-wrap">
-    <button
-      class="chat-bubble agent"
-      :class="getThemeClass('bg-white', 'dark:bg-slate-50')"
-      @click="onClickMessage"
-    >
+    <button class="chat-bubble agent bg-white" @click="onClickMessage">
       <div v-if="showSender" class="row--agent-block">
         <Thumbnail
           :src="avatarUrl"
@@ -120,29 +113,19 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@import 'widget/assets/scss/variables.scss';
-
 .chat-bubble {
-  max-width: 85%;
-  padding: $space-normal;
-  cursor: pointer;
+  @apply max-w-[85%] cursor-pointer p-4;
 }
 
 .row--agent-block {
-  align-items: center;
-  display: flex;
-  text-align: left;
-  padding-bottom: $space-small;
-  font-size: $font-size-small;
+  @apply items-center flex text-left pb-2 text-xs;
 
   .agent--name {
-    font-weight: $font-weight-medium;
-    margin-left: $space-smaller;
+    @apply font-medium ml-1;
   }
 
   .company--name {
-    color: $color-light-gray;
-    margin-left: $space-smaller;
+    @apply text-n-slate-11 dark:text-n-slate-10 ml-1;
   }
 }
 </style>
