@@ -9,7 +9,7 @@ import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
-import Button from 'dashboard/components-next/button/Button.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   attributeType: {
@@ -320,7 +320,7 @@ const evenClass = [
     </p>
     <!-- Show more and show less buttons show it if the combinedElements length is greater than 5 -->
     <div v-if="combinedElements.length > 5" class="flex items-center px-2 py-2">
-      <Button
+      <NextButton
         ghost
         xs
         :icon="
