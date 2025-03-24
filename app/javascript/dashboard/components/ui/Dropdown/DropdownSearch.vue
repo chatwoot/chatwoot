@@ -1,6 +1,6 @@
 <script setup>
 import { defineEmits, defineModel } from 'vue';
-import Button from 'dashboard/components-next/button/Button.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 defineProps({
   inputPlaceholder: {
@@ -39,7 +39,7 @@ const value = defineModel({
       />
     </div>
     <!-- Clear filter button -->
-    <Button
+    <NextButton
       v-if="!modelValue && showClearFilter"
       faded
       xs
