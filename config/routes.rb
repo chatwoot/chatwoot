@@ -53,6 +53,7 @@ Rails.application.routes.draw do
           resource :bulk_actions, only: [:create]
           resources :ai_agents, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
+            patch :update_followups, on: :member
           end
           resources :agents, only: [:index, :create, :update, :destroy] do
             post :bulk_create, on: :collection

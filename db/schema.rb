@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_24_044719) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_24_052332) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -116,6 +116,17 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_24_044719) do
     t.integer "bot_type", default: 0
     t.jsonb "bot_config", default: {}
     t.index ["account_id"], name: "index_agent_bots_on_account_id"
+  end
+
+  create_table "ai_agent_followups", force: :cascade do |t|
+    t.bigint "ai_agent_id", null: false
+    t.text "prompts", null: false
+    t.integer "delay", default: 5
+    t.boolean "send_as_exact_message", default: false, null: false
+    t.boolean "handoff_to_agent_after_sending", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ai_agent_id"], name: "index_ai_agent_followups_on_ai_agent_id"
   end
 
   create_table "ai_agent_selected_labels", force: :cascade do |t|
@@ -1126,6 +1137,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_24_044719) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "ai_agent_followups", "ai_agents"
   add_foreign_key "ai_agent_selected_labels", "ai_agents"
   add_foreign_key "ai_agent_selected_labels", "labels"
   add_foreign_key "inboxes", "portals"
