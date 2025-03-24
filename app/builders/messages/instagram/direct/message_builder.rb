@@ -15,14 +15,12 @@ class Messages::Instagram::Direct::MessageBuilder < Messages::Instagram::Direct:
   end
 
   def perform
-    Rails.logger.info("Performing message builder for Instagram Direct Message: #{@messaging}")
     return if @inbox.channel.reauthorization_required?
 
     ActiveRecord::Base.transaction do
       build_message
     end
   rescue StandardError => e
-    Rails.logger.error("Error performing message builder for Instagram Direct Message: #{@messaging}")
     # TODO: Check if this is the correct way to handle the error
     if e.response&.unauthorized?
       @inbox.channel.authorization_error!
@@ -104,7 +102,6 @@ class Messages::Instagram::Direct::MessageBuilder < Messages::Instagram::Direct:
   end
 
   def build_message
-    Rails.logger.info("Building message for Instagram Direct Message: #{@messaging}")
     return if @outgoing_echo && already_sent_from_chatwoot?
     return if message_content.blank? && all_unsupported_files?
 
@@ -117,7 +114,6 @@ class Messages::Instagram::Direct::MessageBuilder < Messages::Instagram::Direct:
   end
 
   def save_story_id
-    Rails.logger.info("Saving story id for Instagram Direct Message: #{@messaging}")
     return if story_reply_attributes.blank?
 
     @message.save_story_info(story_reply_attributes)
