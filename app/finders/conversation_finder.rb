@@ -150,9 +150,7 @@ class ConversationFinder
     @conversations = conversations_base_query
     apply_sorting_and_filtering
     result_conversations = params[:updated_within].present? ? @conversations : apply_pagination
-    Rails.logger.info("PRELOADER: Result conversations: #{result_conversations.count}")
     preload_data_if_needed(result_conversations, params)
-    Rails.logger.info("PRELOADER: Conversations after preloading: #{@conversations.count}")
     result_conversations
   end
 
