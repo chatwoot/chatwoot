@@ -245,7 +245,7 @@
         "SEARCH": "Pesquisar issues",
         "SELECT": "Selecionar problema",
         "TITLE": "Link",
-        "EMPTY_LIST": "",
+        "EMPTY_LIST": "Nenhum problema linear encontrado",
         "LOADING": "Carregando",
         "ERROR": "Houve um erro ao buscar as questões lineares, por favor, tente novamente",
         "LINK_SUCCESS": "Questão vinculada com sucesso",
