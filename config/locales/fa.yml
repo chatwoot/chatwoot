@@ -53,6 +53,8 @@ fa:
       invalid_message_type: 'نوع پیام نامعتبر است. اقدام مجاز نیست'
     slack:
       invalid_channel_id: 'کانال اسلک نامعتبر است. لطفا دوباره تلاش کنید'
+    channel_service:
+      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: لطفا اتصال شبکه، آدرس IMAP را بررسی کنید و دوباره امتحان کنید.
