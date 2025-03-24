@@ -28,7 +28,20 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   def create
-    @ai_agent = Current.account.ai_agents.new(ai_agent_params)
+    ai_agent_template = AiAgentTemplate.find(params[:ai_agent][:template_id])
+
+    unless ai_agent_template
+      render json: { error: 'AI Agent Template not found' }, status: :not_found
+      return
+    end
+
+    @ai_agent = Current.account.ai_agents.new(
+      ai_agent_params.marge(
+        system_prompts: ai_agent_template.system_prompt,
+        welcoming_message: ai_agent_template.welcoming_message
+      )
+    )
+
     if @ai_agent.save
       render json: @ai_agent, status: :created
     else
@@ -38,7 +51,7 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
 
   def update
     if @ai_agent.update(ai_agent_params)
-      update_selected_labels
+      update_selected_labels if params[:ai_agent].key?(:selected_labels)
 
       render json: @ai_agent.as_json(include: :ai_agent_selected_labels)
     else
@@ -66,7 +79,7 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
 
   def update_selected_labels
     label_data = Array.wrap(params.dig(:ai_agent, :selected_labels))
-    return if label_ids.blank?
+    return if label_data.blank?
 
     ActiveRecord::Base.transaction do
       @ai_agent.ai_agent_selected_labels.destroy_all
@@ -82,6 +95,7 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   def ai_agent_params
     params.require(:ai_agent).permit(
       :name,
+      :template_id,
       :system_prompts,
       :welcoming_message,
       :routing_conditions,

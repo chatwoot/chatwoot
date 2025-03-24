@@ -17,6 +17,7 @@
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  account_id         :integer          not null
+#  template_id        :bigint
 #
 class AiAgent < ApplicationRecord
   belongs_to :account
