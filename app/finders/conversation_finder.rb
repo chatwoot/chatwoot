@@ -1,6 +1,10 @@
 class ConversationFinder
   attr_reader :current_user, :current_account, :params
 
+  # Add this at the top to ensure module is loaded
+  require 'conversation_preloader'
+  include ConversationPreloader
+
   DEFAULT_STATUS = 'open'.freeze
   SORT_OPTIONS = {
     'last_activity_at_asc' => %w[sort_on_last_activity_at asc],
@@ -138,7 +142,7 @@ class ConversationFinder
 
   def conversations_base_query
     @conversations.includes(
-      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox
+      :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox
     )
   end
 
@@ -146,12 +150,15 @@ class ConversationFinder
     @conversations = conversations_base_query
     apply_sorting_and_filtering
     result_conversations = params[:updated_within].present? ? @conversations : apply_pagination
-    preloader.preload_data_if_needed(result_conversations, params)
+    Rails.logger.info("PRELOADER: Result conversations: #{result_conversations.count}")
+    preload_data_if_needed(result_conversations, params)
+    Rails.logger.info("PRELOADER: Conversations after preloading: #{@conversations.count}")
     result_conversations
   end
 
   def apply_sorting_and_filtering
-    @conversations = filter_service.apply_sorting(@conversations, params[:sort_by], SORT_OPTIONS)
+    sort_by = params[:sort_by] || 'last_activity_at_desc'
+    @conversations = filter_service.apply_sorting(@conversations, sort_by, SORT_OPTIONS)
     @conversations = filter_service.filter_by_updated_date(@conversations, params[:updated_within]) if params[:updated_within].present?
   end
 
@@ -164,19 +171,9 @@ class ConversationFinder
     @filter_service ||= filter_service_class.new
   end
 
-  def preloader
-    @preloader ||= preloader_class.new
-  end
-
   def filter_service_class
     Class.new do
       include ConversationFilterService
-    end
-  end
-
-  def preloader_class
-    Class.new do
-      include ConversationPreloader
     end
   end
 end

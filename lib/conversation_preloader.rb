@@ -11,7 +11,7 @@ module ConversationPreloader
   def preload_conversation_data(conversations)
     return if conversations.empty?
 
-    conversation_ids = conversations.pluck('conversations.id')
+    conversation_ids = conversations.map(&:id)
     account_id = conversations.first.account_id
 
     # Process in batches to improve memory usage
@@ -24,18 +24,19 @@ module ConversationPreloader
   # Fetches and attaches data for a batch of conversations
   def process_conversation_batch(conversations, batch_ids, account_id)
     message_data = fetch_message_data(batch_ids, account_id)
-
+    unread_counts = calculate_unread_counts_for_batch(conversations, batch_ids)
     batch_ids.each do |conversation_id|
       attach_preloaded_data(
         conversations,
         conversation_id,
         message_data[:last_messages],
-        message_data[:last_non_activity_messages]
+        message_data[:last_non_activity_messages],
+        unread_counts[conversation_id] || 0
       )
     end
   rescue StandardError => e
     # Log errors but continue processing
-    Rails.logger.error("Error in conversation preloading for batch: #{e.message}")
+    Rails.logger.error("PRELOADER: Error in conversation preloading for batch: #{e.message}")
     Rails.logger.error(e.backtrace.join("\n"))
   end
 
@@ -54,21 +55,24 @@ module ConversationPreloader
   end
 
   # Gets latest messages for all conversations in one query
-  def fetch_latest_messages(batch_ids, account_id)
-    # Use raw SQL to safely handle GROUP BY
+  def fetch_latest_messages(batch_ids, _account_id)
+    # Use a more explicit query that avoids ORDER BY issues
     query = <<-SQL.squish
-      WITH latest_ids AS (
-        SELECT conversation_id, MAX(id) AS max_id
-        FROM messages
-        WHERE conversation_id IN (?) AND account_id = ?
-        GROUP BY conversation_id
-      )
-      SELECT m.*
-      FROM messages m
-      JOIN latest_ids li ON m.id = li.max_id
+      SELECT DISTINCT ON (conversation_id) *#{' '}
+      FROM messages#{' '}
+      WHERE conversation_id IN (?)
+      ORDER BY conversation_id, created_at DESC
     SQL
 
-    messages = Message.find_by_sql([query, batch_ids, account_id])
+    # Execute raw SQL to avoid ActiveRecord adding additional ordering
+    result = ActiveRecord::Base.connection.execute(
+      ActiveRecord::Base.send(:sanitize_sql_array, [query, batch_ids])
+    )
+
+    # Convert result to Message objects
+    messages = result.map do |row|
+      Message.instantiate(row)
+    end
 
     # Build the hash structures matching the original method
     ids_by_conversation = {}
@@ -79,41 +83,36 @@ module ConversationPreloader
       message_hash[message.conversation_id] = message
     end
 
-    # Load attachments separately to maintain the includes functionality
-    Message.where(id: ids_by_conversation.values)
-           .includes(attachments: [{ file_attachment: [:blob] }])
-           .each do |message_with_attachments|
-      message_hash[message_with_attachments.conversation_id] = message_with_attachments
+    # Load attachments in a single query to reduce database round trips
+    if ids_by_conversation.present?
+      Message.where(id: ids_by_conversation.values)
+             .includes(attachments: [{ file_attachment: [:blob] }])
+             .each do |message_with_attachments|
+        message_hash[message_with_attachments.conversation_id] = message_with_attachments
+      end
     end
 
     { ids_by_conversation: ids_by_conversation, messages: message_hash }
   end
 
   # Gets latest non-system messages in one query
-  def fetch_latest_non_activity_messages(batch_ids, account_id)
-    # Use raw SQL to safely handle GROUP BY
+  def fetch_latest_non_activity_messages(batch_ids, _account_id)
     query = <<-SQL.squish
-      WITH latest_ids AS (
-        SELECT conversation_id, MAX(id) AS max_id
-        FROM messages
-        WHERE conversation_id IN (?)#{' '}
-          AND account_id = ?#{' '}
-          AND message_type != ?
-        GROUP BY conversation_id
-      )
-      SELECT m.*
-      FROM messages m
-      JOIN latest_ids li ON m.id = li.max_id
+      SELECT DISTINCT ON (conversation_id) *#{' '}
+      FROM messages#{' '}
+      WHERE conversation_id IN (?)
+        AND message_type != ?
+      ORDER BY conversation_id, created_at DESC
     SQL
 
-    messages = Message.find_by_sql([
-                                     query,
-                                     batch_ids,
-                                     account_id,
-                                     Message.message_types[:activity]
-                                   ])
+    result = ActiveRecord::Base.connection.execute(
+      ActiveRecord::Base.send(:sanitize_sql_array, [query, batch_ids, Message.message_types[:activity]])
+    )
 
-    # Build the hash structures matching the original method
+    messages = result.map do |row|
+      Message.instantiate(row)
+    end
+
     ids_by_conversation = {}
     message_hash = {}
 
@@ -126,14 +125,15 @@ module ConversationPreloader
   end
 
   # Attaches preloaded data to a conversation object
-  def attach_preloaded_data(conversations, conversation_id, last_messages, last_non_activity_messages)
+  def attach_preloaded_data(conversations, conversation_id, last_messages, last_non_activity_messages, unread_count = 0)
     conversation = conversations.find { |c| c.id == conversation_id }
     return unless conversation
 
-    unread_count = calculate_unread_count(conversation, conversation_id)
+    # Debug: Log the last message for the conversation
+    last_message = last_messages[conversation_id]
 
     # Store data as instance variables
-    conversation.instance_variable_set(:@preloaded_last_message, last_messages[conversation_id])
+    conversation.instance_variable_set(:@preloaded_last_message, last_message)
     conversation.instance_variable_set(
       :@preloaded_last_non_activity_message,
       last_non_activity_messages[conversation_id]
@@ -143,7 +143,7 @@ module ConversationPreloader
     # Add methods to access preloaded data
     define_accessor_methods(conversation)
   rescue StandardError => e
-    Rails.logger.error("Error attaching preloaded data to conversation #{conversation_id}: #{e.message}")
+    Rails.logger.error("PRELOADER: Error attaching preloaded data to conversation #{conversation_id}: #{e.message}")
   end
 
   # Calculates unread message count, capped at 10
@@ -158,6 +158,16 @@ module ConversationPreloader
     ).where('created_at > ?', cutoff_time).limit(11).count
 
     [count, 10].min
+  end
+
+  # Calculates unread counts for a batch of conversations in a single query
+  def calculate_unread_counts_for_batch(conversations, _conversation_ids)
+    # Get all seen times in one go
+    counts = {}
+    conversations.each do |conversation|
+      counts[conversation.id] = calculate_unread_count(conversation, conversation.id)
+    end
+    counts
   end
 
   # Adds accessor methods to retrieve preloaded data

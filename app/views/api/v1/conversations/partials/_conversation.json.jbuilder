@@ -22,14 +22,18 @@ end
 
 json.id conversation.display_id
 
-if conversation.respond_to?(:preloaded_last_message) && conversation.preloaded_last_message.present?
+if conversation.respond_to?(:preloaded_last_message)
   message_data = conversation.preloaded_last_message.try(:push_event_data)
   json.messages message_data ? [message_data] : []
 elsif conversation.messages.where(account_id: conversation.account_id).last.blank?
   json.messages []
 else
+  # Add limits to prevent timeout in the fallback case
   message = conversation.messages.where(account_id: conversation.account_id)
-                        .includes([{ attachments: [{ file_attachment: [:blob] }] }]).last
+                      .order(created_at: :desc)
+                      .limit(1)
+                      .includes([{ attachments: [{ file_attachment: [:blob] }] }])
+                      .first
   message_data = message.try(:push_event_data)
   json.messages message_data ? [message_data] : []
 end
@@ -53,22 +57,27 @@ json.timestamp conversation.last_activity_at.to_i
 json.first_reply_created_at conversation.first_reply_created_at.to_i
 
 # Use the preloaded unread count if available
-json.unread_count conversation.respond_to?(:preloaded_unread_count) ? conversation.preloaded_unread_count : conversation.unread_incoming_messages.count
-
 unread_count = 0
-unread_count = if conversation.respond_to?(:preloaded_unread_count)
-                 conversation.preloaded_unread_count
-               else
-                 conversation.unread_incoming_messages.count
-               end
+if conversation.respond_to?(:preloaded_unread_count)
+  unread_count = conversation.preloaded_unread_count
+else
+  unread_count = conversation.unread_incoming_messages.count
+end
 json.unread_count unread_count
 
-# Use the preloaded last non-activity message if available
+# Handle last non-activity message for conversation - with nil safety
 message_data = nil
-if conversation.respond_to?(:preloaded_last_non_activity_message) && conversation.preloaded_last_non_activity_message.present?
+if conversation.respond_to?(:preloaded_last_non_activity_message)
+  # Preloaded data is available, even if the message itself is nil
   message_data = conversation.preloaded_last_non_activity_message.try(:push_event_data)
 else
-  non_activity_message = conversation.messages.where(account_id: conversation.account_id).non_activity_messages.first
+  # Optimize this query to prevent timeouts
+  non_activity_message = conversation.messages
+                                    .where(account_id: conversation.account_id)
+                                    .where.not(message_type: Message.message_types[:activity])
+                                    .order(created_at: :desc)
+                                    .limit(1)
+                                    .first
   message_data = non_activity_message.try(:push_event_data) if non_activity_message
 end
 json.last_non_activity_message message_data
