@@ -23,8 +23,7 @@ describe('#actions', () => {
       await actions.fetchAvailableAgents({ commit }, websiteToken);
 
       expect(getFromCache).toHaveBeenCalledWith(
-        `chatwoot_available_agents_${websiteToken}`,
-        3 * 60 * 60 * 1000
+        `chatwoot_available_agents_${websiteToken}`
       );
       expect(getAvailableAgents).not.toHaveBeenCalled();
       expect(setCache).not.toHaveBeenCalled();
@@ -40,8 +39,7 @@ describe('#actions', () => {
       await actions.fetchAvailableAgents({ commit }, websiteToken);
 
       expect(getFromCache).toHaveBeenCalledWith(
-        `chatwoot_available_agents_${websiteToken}`,
-        3 * 60 * 60 * 1000
+        `chatwoot_available_agents_${websiteToken}`
       );
       expect(getAvailableAgents).toHaveBeenCalledWith(websiteToken);
       expect(setCache).toHaveBeenCalledWith(
