@@ -22,7 +22,7 @@ class Messages::Instagram::Direct::MessageBuilder < Messages::Instagram::Direct:
     end
   rescue StandardError => e
     # TODO: Check if this is the correct way to handle the error
-    if e.response&.unauthorized?
+    if e.is_a?(StandardError) && e.message.include?('unauthorized')
       @inbox.channel.authorization_error!
       raise
     end
