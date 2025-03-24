@@ -222,6 +222,8 @@
 /api/v1/accounts/{account_id}/ai_agents/{id}:
   parameters:
     - $ref: '#/parameters/account_id'
+  get:
+    $ref: ./application/ai_agents/show.yml
   patch:
     $ref: ./application/ai_agents/update.yml
   delete:

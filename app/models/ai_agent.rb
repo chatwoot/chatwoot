@@ -6,9 +6,9 @@
 #  context_limit      :integer          default(10)
 #  control_flow_rules :boolean          default(FALSE), not null
 #  history_limit      :integer          default(20)
+#  llm_model          :string           default("gpt-4o")
 #  message_await      :integer          default(5)
 #  message_limit      :integer          default(1000)
-#  model_name         :string           default("gpt-4o")
 #  name               :string           not null
 #  routing_conditions :text
 #  system_prompts     :text             not null

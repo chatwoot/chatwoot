@@ -1707,6 +1707,45 @@
           "$ref": "#/parameters/account_id"
         }
       ],
+      "get": {
+        "tags": [
+          "AI Agents"
+        ],
+        "operationId": "details-of-an-account-ai-agent",
+        "summary": "Details of an AI Agent",
+        "description": "Get the details of an AI Agent",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the ai agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of agent bots",
+              "items": {
+                "$ref": "#/definitions/ai_agent"
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
       "patch": {
         "tags": [
           "AI Agents"
@@ -1722,6 +1761,13 @@
           }
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the ai agent to be updated"
+          },
           {
             "name": "data",
             "in": "body",
@@ -1772,7 +1818,7 @@
                   "type": "boolean",
                   "description": "Whether to enable control flow rules for the agent bot"
                 },
-                "model_name": {
+                "llm_model": {
                   "type": "string",
                   "description": "The model name to be used by the agent bot"
                 },
@@ -6167,7 +6213,7 @@
         "control_flow_rules": {
           "type": "boolean"
         },
-        "model_name": {
+        "llm_model": {
           "type": "string"
         },
         "history_limit": {
