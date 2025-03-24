@@ -13,19 +13,6 @@ button {
   }
 }
 
-.button-group {
-  @apply mb-0 flex flex-nowrap items-stretch;
-
-  .button {
-    flex: 0 0 auto;
-    @apply m-0 text-sm rounded-none first:rounded-tl-[0.3125rem] first:rounded-bl-[0.3125rem] last:rounded-tr-[0.3125rem] last:rounded-br-[0.3125rem] rtl:space-x-reverse;
-  }
-
-  .button--only-icon {
-    @apply w-10 justify-center pl-0 pr-0;
-  }
-}
-
 .back-button {
   @apply m-0;
 }
