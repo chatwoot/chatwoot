@@ -70,15 +70,15 @@ module RequestExceptionHandler
 
   def report_to_apms(exception)
     apm_reporters = {
-      ::NewRelic::Agent => -> { ::NewRelic::Agent.notice_error(exception) },
-      ::Datadog::Tracing => -> { ::Datadog::Tracing.active_span&.set_error(exception) },
-      ::ElasticAPM => -> { ::ElasticAPM.report(exception) },
-      ::ScoutApm::Error => -> { ::ScoutApm::Error.capture(exception) },
-      ::Sentry => -> { ::Sentry.capture_exception(exception) }
+      'NewRelic::Agent' => -> { ::NewRelic::Agent.notice_error(exception) },
+      'Datadog::Tracing' => -> { ::Datadog::Tracing.active_trace&.set_error(exception) },
+      'ElasticAPM' => -> { ::ElasticAPM.report(exception) },
+      'ScoutApm::Error' => -> { ::ScoutApm::Error.capture(exception) },
+      'Sentry' => -> { ::Sentry.capture_exception(exception) }
     }
 
-    apm_reporters.each do |apm_module, reporter|
-      reporter.call if defined?(apm_module)
+    apm_reporters.each do |module_name, reporter|
+      reporter.call if Object.const_defined?(module_name)
     end
   end
 end
