@@ -1,11 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import ViewWithHeader from './components/layouts/ViewWithHeader.vue';
-import UnreadMessages from './views/UnreadMessages.vue';
-import Campaigns from './views/Campaigns.vue';
-import Home from './views/Home.vue';
-import PreChatForm from './views/PreChatForm.vue';
-import Messages from './views/Messages.vue';
-import ArticleViewer from './views/ArticleViewer.vue';
 import store from './store';
 
 const router = createRouter({
@@ -14,12 +8,12 @@ const router = createRouter({
     {
       path: '/unread-messages',
       name: 'unread-messages',
-      component: UnreadMessages,
+      component: () => import('./views/UnreadMessages.vue'),
     },
     {
       path: '/campaigns',
       name: 'campaigns',
-      component: Campaigns,
+      component: () => import('./views/Campaigns.vue'),
     },
     {
       path: '/',
@@ -28,22 +22,22 @@ const router = createRouter({
         {
           path: '',
           name: 'home',
-          component: Home,
+          component: () => import('./views/Home.vue'),
         },
         {
           path: '/prechat-form',
           name: 'prechat-form',
-          component: PreChatForm,
+          component: () => import('./views/PreChatForm.vue'),
         },
         {
           path: '/messages',
           name: 'messages',
-          component: Messages,
+          component: () => import('./views/Messages.vue'),
         },
         {
           path: '/article',
           name: 'article-viewer',
-          component: ArticleViewer,
+          component: () => import('./views/ArticleViewer.vue'),
         },
       ],
     },
