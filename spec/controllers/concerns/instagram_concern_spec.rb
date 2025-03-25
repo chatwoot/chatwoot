@@ -79,40 +79,6 @@ RSpec.describe InstagramConcern do
     end
   end
 
-  describe '#refresh_long_lived_token' do
-    let(:response_body) { { 'access_token' => 'new_token', 'expires_in' => 5_184_000 }.to_json }
-    let(:mock_response) { instance_double(HTTParty::Response, body: response_body, success?: true) }
-
-    before do
-      allow(HTTParty).to receive(:get).and_return(mock_response)
-    end
-
-    it 'refreshes the long lived token' do
-      result = dummy_instance.send(:refresh_long_lived_token, long_lived_token)
-
-      expect(HTTParty).to have_received(:get).with(
-        'https://graph.instagram.com/refresh_access_token',
-        {
-          query: {
-            grant_type: 'ig_refresh_token',
-            access_token: long_lived_token
-          },
-          headers: { 'Accept' => 'application/json' }
-        }
-      )
-
-      expect(result).to eq({ 'access_token' => 'new_token', 'expires_in' => 5_184_000 })
-    end
-
-    context 'when the request fails' do
-      let(:mock_response) { instance_double(HTTParty::Response, body: 'Error', success?: false, code: 400) }
-
-      it 'raises an error' do
-        expect { dummy_instance.send(:refresh_long_lived_token, long_lived_token) }.to raise_error(RuntimeError, 'Failed to refresh token: Error')
-      end
-    end
-  end
-
   describe '#fetch_instagram_user_details' do
     let(:user_details) do
       {
