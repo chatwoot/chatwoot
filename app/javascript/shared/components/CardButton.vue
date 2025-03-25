@@ -57,7 +57,7 @@ export default {
   <button
     v-else
     :key="action.payload"
-    class="action-button button"
+    class="action-button button !bg-n-background dark:!bg-n-alpha-black1 text-n-brand"
     :style="{ borderColor: widgetColor, color: widgetColor }"
     @click="onClick"
   >
@@ -66,17 +66,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import 'widget/assets/scss/variables.scss';
-
 .action-button {
-  align-items: center;
-  border-radius: $space-micro;
-  display: flex;
-  font-weight: $font-weight-medium;
-  justify-content: center;
-  margin-top: $space-smaller;
-  max-height: 34px;
-  padding: 0;
-  width: 100%;
+  @apply items-center rounded-lg flex font-medium justify-center mt-1 p-0 w-full;
 }
 </style>
