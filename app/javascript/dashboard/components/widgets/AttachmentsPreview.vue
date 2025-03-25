@@ -98,12 +98,7 @@ const fileName = file => {
         <span
           class="h-4 overflow-hidden text-sm font-medium text-ellipsis whitespace-nowrap"
         >
-          {{
-            item.isRecordedAudio
-              ? fileName(item.attachment.resource) ||
-                $t('CONVERSATION.REPLYBOX.AUDIO_RECORDING')
-              : fileName(item.attachment.resource)
-          }}
+          {{ fileName(item.attachment.resource) }}
         </span>
       </div>
       <div class="w-[30%] justify-center">

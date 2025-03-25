@@ -454,6 +454,10 @@ export default {
       // Autosave the current message draft.
       this.doAutoSaveDraft();
     },
+    replyType(updatedReplyType, oldReplyType) {
+      this.setToDraft(this.conversationIdByRoute, oldReplyType);
+      this.getFromDraft();
+    },
   },
 
   mounted() {
@@ -572,6 +576,14 @@ export default {
       if (this.hasRecordedAudio && this.attachedFiles.length) {
         const audioFile = this.attachedFiles.find(file => file.isRecordedAudio);
         if (audioFile) {
+          // Check if the audio file size exceeds the 5MB limit for localStorage
+          // If it does, show an error message and do not save
+          if (audioFile.resource.file.size > 5 * 1024 * 1024) {
+            useAlert(
+              this.$t('CONVERSATION.REPLYBOX.DRAFT_AUDIO_SIZE_LIMIT_ERROR')
+            );
+            return;
+          }
           saveAudioToDraft(oldConversationId, this.replyType, audioFile);
         }
       }
@@ -600,7 +612,6 @@ export default {
         // ensure that the message has signature set based on the ui setting
         this.message = this.toggleSignatureForDraft(messageFromStore);
         // get audio recording from draft
-
         this.getAudioRecordingFromDraft(this.conversationIdByRoute);
       }
     },

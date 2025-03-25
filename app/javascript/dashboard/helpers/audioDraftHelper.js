@@ -63,6 +63,11 @@ export const saveAudioToDraft = async (
     if (!audioFile?.resource?.file) {
       return;
     }
+    // Check if the audio file size exceeds the 5MB limit for localStorage
+    // If it does, show an error message and do not save
+    if (audioFile.resource.file.size > 5 * 1024 * 1024) {
+      return;
+    }
 
     const key = getAudioStorageKey(conversationId, replyType);
 
