@@ -24,9 +24,22 @@ class Conversations::FilterService < FilterService
   end
 
   def base_relation
-    @account.conversations.includes(
+    conversations = @account.conversations.includes(
       :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :messages, :contact_inbox
     )
+
+    # Ensure we only include conversations from inboxes the user has access to
+    unless @user.administrator?
+      inbox_ids = @user.assigned_inboxes.pluck(:id)
+      conversations = conversations.where(inbox_id: inbox_ids)
+    end
+
+    # Apply permission-based filtering
+    Conversations::PermissionFilterService.new(
+      conversations,
+      @user,
+      @account
+    ).perform
   end
 
   def current_page

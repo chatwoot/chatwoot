@@ -87,6 +87,14 @@ class ConversationFinder
 
   def find_all_conversations
     @conversations = current_account.conversations.where(inbox_id: @inbox_ids)
+
+    # Apply permission-based filtering
+    @conversations = Conversations::PermissionFilterService.new(
+      @conversations,
+      current_user,
+      current_account
+    ).perform
+
     filter_by_conversation_type if params[:conversation_type]
     @conversations
   end
