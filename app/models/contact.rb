@@ -68,6 +68,8 @@ class Contact < ApplicationRecord
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 
+  scope :resolved_contacts, -> { where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> ''") }
+
   scope :order_on_last_activity_at, lambda { |direction|
     order(
       Arel::Nodes::SqlLiteral.new(
@@ -162,10 +164,6 @@ class Contact < ApplicationRecord
       thumbnail: avatar_url,
       blocked: blocked
     }
-  end
-
-  def self.resolved_contacts
-    where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> ''")
   end
 
   def discard_invalid_attrs
