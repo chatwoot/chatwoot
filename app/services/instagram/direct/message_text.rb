@@ -11,7 +11,7 @@ class Instagram::Direct::MessageText < Instagram::WebhooksBaseService
   end
 
   def perform
-    Rails.logger.info("Instagram Direct Message Text: #{@messaging}")
+    create_test_text
     instagram_id, contact_id = direct_instagram_and_contact_ids
     inbox_channel(instagram_id)
 
@@ -25,6 +25,7 @@ class Instagram::Direct::MessageText < Instagram::WebhooksBaseService
     return un_send_message if message_is_deleted?
 
     ensure_contact(contact_id) if contacts_first_message?(contact_id)
+
     create_message
   end
 
@@ -108,6 +109,10 @@ class Instagram::Direct::MessageText < Instagram::WebhooksBaseService
     @contact_inbox.blank? && @inbox.channel.instagram_id.present?
   end
 
+  def sent_via_test_webhook?
+    @messaging[:sender][:id] == '12334' && @messaging[:recipient][:id] == '23245'
+  end
+
   def un_send_message
     message_to_delete = @inbox.messages.find_by(
       source_id: @messaging[:message][:mid]
@@ -116,6 +121,62 @@ class Instagram::Direct::MessageText < Instagram::WebhooksBaseService
 
     message_to_delete.attachments.destroy_all
     message_to_delete.update!(content: I18n.t('conversations.messages.deleted'), deleted: true)
+  end
+
+  def create_test_contact
+    @contact_inbox = @inbox.contact_inboxes.where(source_id: @messaging[:sender][:id]).first
+    unless @contact_inbox
+      @contact_inbox ||= @inbox.channel.create_contact_inbox(
+        'sender_username', 'sender_username'
+      )
+    end
+
+    @contact_inbox.contact
+  end
+
+  def create_test_text
+    return unless sent_via_test_webhook?
+
+    instagram_channel = Channel::Instagram.last
+    @inbox = ::Inbox.find_by(channel: instagram_channel)
+    return unless @inbox
+
+    @contact = create_test_contact
+
+    @conversation ||= create_test_conversation(conversation_params)
+
+    @message = @conversation.messages.create!(test_message_params)
+  end
+
+  def create_test_conversation(conversation_params)
+    Conversation.find_by(conversation_params) || build_conversation(conversation_params)
+  end
+
+  def test_message_params
+    {
+      account_id: @conversation.account_id,
+      inbox_id: @conversation.inbox_id,
+      message_type: 'incoming',
+      source_id: @messaging[:message][:mid],
+      content: @messaging[:message][:text],
+      sender: @contact
+    }
+  end
+
+  def build_conversation(conversation_params)
+    Conversation.create!(
+      conversation_params.merge(
+        contact_inbox_id: @contact_inbox.id
+      )
+    )
+  end
+
+  def conversation_params
+    {
+      account_id: @inbox.account_id,
+      inbox_id: @inbox.id,
+      contact_id: @contact.id
+    }
   end
 
   def create_message

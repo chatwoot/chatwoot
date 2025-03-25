@@ -87,12 +87,6 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
     message_to_delete.update!(content: I18n.t('conversations.messages.deleted'), deleted: true)
   end
 
-  def create_message
-    return unless @contact_inbox
-
-    Messages::Instagram::MessageBuilder.new(@messaging, @inbox, outgoing_echo: agent_message_via_echo?).perform
-  end
-
   def create_test_text
     return unless sent_via_test_webhook?
 
@@ -152,5 +146,11 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
         type: 'instagram_direct_message'
       }
     }
+  end
+
+  def create_message
+    return unless @contact_inbox
+
+    Messages::Instagram::MessageBuilder.new(@messaging, @inbox, outgoing_echo: agent_message_via_echo?).perform
   end
 end
