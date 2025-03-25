@@ -262,8 +262,8 @@ describe Webhooks::InstagramEventsJob do
       end
 
       it 'handle messaging_seen callback' do
-        expect(Instagram::Direct::ReadStatusService).to receive(:new).with(params: message_events[:messaging_seen][:entry][0][:messaging][0],
-                                                                           channel: instagram_direct_inbox.channel).and_call_original
+        expect(Instagram::ReadStatusService).to receive(:new).with(params: message_events[:messaging_seen][:entry][0][:messaging][0],
+                                                                   channel: instagram_direct_inbox.channel).and_call_original
         instagram_webhook.perform_now(message_events[:messaging_seen][:entry])
       end
 
