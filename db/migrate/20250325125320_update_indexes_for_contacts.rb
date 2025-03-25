@@ -21,19 +21,19 @@ class UpdateIndexesForContacts < ActiveRecord::Migration[7.0]
   private
 
   def add_searchable_index
-    add_index :contacts,
-              [:name, :email, :phone_number, :identifier, "(additional_attributes->>'company_name')"],
-              name: 'index_contacts_searchable_fields_gin',
-              using: :gin,
-              opclass: {
-                name: :gin_trgm_ops,
-                email: :gin_trgm_ops,
-                phone_number: :gin_trgm_ops,
-                identifier: :gin_trgm_ops,
-                "(additional_attributes->>'company_name')": :gin_trgm_ops
-              },
-              where: "(email <> '' OR phone_number <> '' OR identifier <> '')",
-              algorithm: :concurrently
+    execute "SET statement_timeout = '3600000';"
+    execute 'DROP INDEX IF EXISTS index_contacts_searchable_fields_gin;'
+    execute <<-SQL.squish
+      CREATE INDEX CONCURRENTLY index_contacts_searchable_fields_gin
+      ON contacts USING gin (
+        name gin_trgm_ops,
+        email gin_trgm_ops,
+        phone_number gin_trgm_ops,
+        identifier gin_trgm_ops,
+        (additional_attributes->>'company_name') gin_trgm_ops
+      )
+      WHERE (email <> '' OR phone_number <> '' OR identifier <> '');
+    SQL
   end
 
   def remove_old_index
