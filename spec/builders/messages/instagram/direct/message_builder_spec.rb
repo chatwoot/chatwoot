@@ -250,4 +250,63 @@ describe Messages::Instagram::Direct::MessageBuilder do
       expect(Conversation.count).to eq(initial_count)
     end
   end
+
+  describe '#fetch_story_link' do
+    let(:story_data) do
+      {
+        'story' => {
+          'mention' => {
+            'link' => 'https://example.com/story-link',
+            'id' => '18094414321535710'
+          }
+        },
+        'from' => {
+          'username' => 'instagram_user',
+          'id' => '2450757355263608'
+        },
+        'id' => 'story-source-id-123'
+      }.with_indifferent_access
+    end
+
+    before do
+      # Stub the HTTP request to Instagram API
+      stub_request(:get, %r{https://graph\.instagram\.com/.*?fields=story,from})
+        .to_return(
+          status: 200,
+          body: story_data.to_json,
+          headers: { 'Content-Type' => 'application/json' }
+        )
+    end
+
+    it 'saves story information when story mention is processed' do
+      messaging = story_mention_params[:entry][0][:messaging][0]
+      described_class.new(messaging, instagram_direct_inbox).perform
+
+      message = instagram_direct_inbox.messages.first
+
+      expect(message.content).to include('instagram_user')
+      expect(message.attachments.count).to eq(1)
+      expect(message.content_attributes[:story_sender]).to eq('instagram_user')
+      expect(message.content_attributes[:story_id]).to eq('18094414321535710')
+      expect(message.content_attributes[:image_type]).to eq('story_mention')
+    end
+
+    it 'handles deleted stories' do
+      # Override the stub for this test to return a 404 error
+      stub_request(:get, %r{https://graph\.instagram\.com/.*?fields=story,from})
+        .to_return(
+          status: 404,
+          body: { error: { message: 'Story not found' } }.to_json,
+          headers: { 'Content-Type' => 'application/json' }
+        )
+
+      messaging = story_mention_params[:entry][0][:messaging][0]
+      described_class.new(messaging, instagram_direct_inbox).perform
+
+      message = instagram_direct_inbox.messages.first
+
+      expect(message.content).to eq('This story is no longer available.')
+      expect(message.attachments.count).to eq(0)
+    end
+  end
 end
