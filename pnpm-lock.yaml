@@ -136,6 +136,9 @@ importers:
       js-cookie:
         specifier: ^3.0.5
         version: 3.0.5
+      json-logic-js:
+        specifier: ^2.0.5
+        version: 2.0.5
       lettersanitizer:
         specifier: ^1.0.6
         version: 1.0.6
@@ -3397,6 +3400,9 @@ packages:
 
   json-buffer@3.0.1:
     resolution: {integrity: sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ==}
+
+  json-logic-js@2.0.5:
+    resolution: {integrity: sha512-rTT2+lqcuUmj4DgWfmzupZqQDA64AdmYqizzMPWj3DxGdfFNsxPpcNVSaTj4l8W2tG/+hg7/mQhxjU3aPacO6g==}
 
   json-schema-traverse@0.4.1:
     resolution: {integrity: sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==}
@@ -8760,6 +8766,8 @@ snapshots:
       - utf-8-validate
 
   json-buffer@3.0.1: {}
+
+  json-logic-js@2.0.5: {}
 
   json-schema-traverse@0.4.1: {}
 
