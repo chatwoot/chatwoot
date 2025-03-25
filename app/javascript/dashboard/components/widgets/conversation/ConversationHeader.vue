@@ -157,12 +157,7 @@ export default {
           <div
             class="flex flex-row items-center max-w-full gap-1 p-0 m-0 w-fit"
           >
-            <NextButton
-              link
-              slate
-              class="!underline-offset-1"
-              @click.prevent="$emit('contactPanelToggle')"
-            >
+            <NextButton link slate @click.prevent="$emit('contactPanelToggle')">
               <span
                 class="text-base font-medium truncate leading-tight text-n-slate-12"
               >
@@ -190,7 +185,6 @@ export default {
               xs
               blue
               :label="contactPanelToggleText"
-              class="!underline-offset-1"
               @click="$emit('contactPanelToggle')"
             />
           </div>
