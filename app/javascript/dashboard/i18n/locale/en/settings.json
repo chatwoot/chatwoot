@@ -168,6 +168,11 @@
         "LABEL": "Confirm new password",
         "ERROR": "Confirm password should match the password",
         "PLACEHOLDER": "Please re-enter your new password"
+      },
+      "AI_TRANSLATION_SUMMARY": {
+        "DESCRIPTION": "Turn on this setting to enable AI-powered translation for conversation responses and summaries. When activated, verified responses will be automatically translated into the site selected language for smooth communication.",
+        "TITLE": "AI Conversation Translation & Summary",
+        "UPDATE_SUCCESS": "Your AI translation settings have been updated successfully"
       }
     }
   },

@@ -235,7 +235,19 @@ describe('#ConversationAPI', () => {
           response: testResponse,
         }
       );
-    })
+    });
+
+    it('#translateDraftMessage', () => {
+      const testMessage = 'This is a test message';
+      conversationAPI.translateDraftMessage(1, testMessage);
+
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/conversations/1/translate_draft',
+        {
+          draft_message: testMessage,
+        }
+      );
+    });
 
     it('#performConversationSummary', () => {
       conversationAPI.performConversationSummary(1);

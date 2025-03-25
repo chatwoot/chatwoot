@@ -122,8 +122,11 @@
         "BUTTONS": {
           "APPLY": "Use this suggestion",
           "CANCEL": "Cancel",
+          "CLOSE": "Close",
           "REVISE": "Manually Revise",
-          "SEND_ANYWAY": "Ignore Check and Send"
+          "SEND_ANYWAY": "Ignore Check and Send",
+          "TRANSLATE": "Translate Response",
+          "SEND_TRANSLATED": "Send Translated Response"
         },
         "QUALITY_CHECK": {
           "RESPONSE": "Response",
@@ -133,6 +136,12 @@
             "QUALITY_CHECK": "Answer Quality",
             "LANGUAGE_GRAMMAR_CHECK": "Language & Grammar",
             "CUSTOMER_CENTRICITY_CHECK": "Customer-Centric"
+          },
+          "TRANSLATION": {
+            "ORIGINAL_RESPONSE": "Original Response",
+            "TRANSLATED_RESPONSE": "Translated Response",
+            "TRANSLATION_MESSAGE": "The message is validated. Review the translated message below before sending.",
+            "GENERATING_TRANSLATION": "Generating translation..."
           }
         }
       },

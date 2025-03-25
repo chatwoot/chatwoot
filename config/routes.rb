@@ -124,6 +124,7 @@ Rails.application.routes.draw do
               get :handled_by_tags
               post :quality_check
               post :summary
+              post :translate_draft
               post :reply
               post :close
               post :takeover

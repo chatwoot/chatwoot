@@ -12,26 +12,46 @@
           </dl>
         </div>
       </div>
-      <div>
+      <div v-if="needsRevision">
+        <h4 class="text-base mt-1 text-slate-700 dark:text-slate-100">
+          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.FEEDBACK') }}
+        </h4>
+        <p v-dompurify-html="formatMessage(answerQualityCheck.feedback, false)" />
+      </div>
+      <div v-if="needsSuggestion">
+        <h4 class="text-base mt-1 text-slate-700 dark:text-slate-100">
+          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.SUGGESTION') }}
+        </h4>
+        <p v-dompurify-html="formatMessage(suggestedContent, false)" />
+      </div>
+      <div v-if="canShowTranslation">
+        <p>
+          {{
+            $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.TRANSLATION.TRANSLATION_MESSAGE')
+          }}
+        </p>
         <div>
-          <div v-if="needsSuggestion">
-            <h4 class="text-base mt-1 text-slate-700 dark:text-slate-100">
-              {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.SUGGESTION') }}
-            </h4>
-            <p v-dompurify-html="formatMessage(suggestedContent, false)" />
+          <h4 class="text-base mt-1 text-slate-700 dark:text-slate-100">
+            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.TRANSLATION.ORIGINAL_RESPONSE') }}
+          </h4>
+          <p v-dompurify-html="formatMessage(message, false)" />
+        </div>
+        <div>
+          <h4 class="text-base mt-1 text-slate-700 dark:text-slate-100">
+            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.TRANSLATION.TRANSLATED_RESPONSE') }}
+          </h4>
+          <div v-if="!translatedMessage">
+            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.TRANSLATION.GENERATING_TRANSLATION') }}
           </div>
-          <div v-else-if="needsRevision">
-            <h4 class="text-base mt-1 text-slate-700 dark:text-slate-100">
-              {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.FEEDBACK') }}
-            </h4>
-            <p v-dompurify-html="formatMessage(answerQualityCheck.feedback, false)" />
+          <div v-else>
+            <p v-dompurify-html="formatMessage(translatedMessage, false)" />
           </div>
         </div>
       </div>
       <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
         <woot-button variant="clear" @click.prevent="onClose">
           {{
-            $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.CANCEL')
+            $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.CLOSE')
           }}
         </woot-button>
         <woot-button :disabled="!suggestedContent" v-if="needsSuggestion" @click.prevent="applyText">
@@ -47,6 +67,11 @@
         <woot-button v-if="canSendDespiteCheckFailure" @click.prevent="ignoreCheckAndSend">
           {{
             $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.SEND_ANYWAY')
+          }}
+        </woot-button>
+        <woot-button v-if="canSendTranslatedMessage" @click.prevent="sendTranslatedMessage">
+          {{
+            $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.SEND_TRANSLATED')
           }}
         </woot-button>
       </div>
@@ -65,8 +90,19 @@ export default {
     aiCheckResponse: {
       type: Object,
       required: true,
+    },
+    conversationId: {
+      type: Number,
+      required: true,
+    },
+    message: {
+      type: String,
+      required: true,
     }
   },
+  data: () => ({
+    translatedMessage: '',
+  }),
   mixins: [messageFormatterMixin, aiMessageCheckMixin],
   computed: {
     headerTitle() {
@@ -81,6 +117,14 @@ export default {
     suggestedContent(){
       return this.languageGrammarCheck?.corrected_message || '';
     },
+    canSendTranslatedMessage(){
+      return this.canShowTranslation && this.translatedMessage !== '';
+    },
+  },
+  mounted() {
+    if (this.canShowTranslation) {
+      this.translateMessage()
+    }
   },
   methods: {
     applyText() {
@@ -106,6 +150,20 @@ export default {
         `INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.HEADERS.${type.toUpperCase()}`
       );
     },
+    async translateMessage(){
+      const response = await this.$store.dispatch('translateDraftMessage', {
+        conversationId: this.conversationId,
+        message: this.message,
+      });
+      this.translatedMessage = response?.data?.message?.translated_message || '';
+    },
+    sendTranslatedMessage(){
+      this.$emit('apply-text', this.translatedMessage);
+      setTimeout(() => {
+        this.$emit('proceed-with-sending-message');
+        this.onClose();
+      }, 500);
+    }
   },
 };
 </script>

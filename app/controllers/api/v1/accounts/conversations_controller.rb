@@ -207,6 +207,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     render json: Digitaltolk::Openai::ConversationSummary.new.perform(@conversation)
   end
 
+  def translate_draft
+    render json: { message: Digitaltolk::Openai::Translation.new.perform(params[:draft_message]) }
+  end
+
   private
 
   def permitted_update_params

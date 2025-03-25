@@ -199,6 +199,12 @@ class ConversationApi extends ApiClient {
   performConversationSummary(conversationId) {
     return axios.post(`${this.url}/${conversationId}/summary`);
   }
+
+  translateDraftMessage(conversationId, draftMessage){
+    return axios.post(`${this.url}/${conversationId}/translate_draft`, {
+      draft_message: draftMessage,
+    });
+  }
 }
 
 export default new ConversationApi();

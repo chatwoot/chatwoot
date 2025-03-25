@@ -22,7 +22,7 @@ class Digitaltolk::Openai::Translation < Digitaltolk::Openai::Base
     @content = content
     @target_language = target_language
 
-    response = call_openai
+    response = parse_response(call_openai)
     JSON.parse response.with_indifferent_access.dig(:choices, 0, :message, :content)
   rescue StandardError => e
     Rails.logger.error e

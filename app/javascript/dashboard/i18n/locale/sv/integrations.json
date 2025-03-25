@@ -126,7 +126,9 @@
           "APPLY": "Use this suggestion",
           "CANCEL": "Avbryt",
           "REVISE": "Revidera manuellt",
-          "SEND_ANYWAY": "Ignorera kontroll och skicka"
+          "SEND_ANYWAY": "Ignorera kontroll och skicka",
+          "TRANSLATE": "Översätt svar",
+          "SEND_TRANSLATED": "Skicka översatt svar"
         },
         "QUALITY_CHECK": {
           "RESPONSE": "Svar",
@@ -136,6 +138,12 @@
             "QUALITY_CHECK": "Svarskvalitet",
             "LANGUAGE_GRAMMAR_CHECK": "Språk & grammatik",
             "CUSTOMER_CENTRICITY_CHECK": "Kundfokuserad"
+          },
+          "TRANSLATION": {
+            "ORIGINAL_RESPONSE": "Ursprungligt svar",
+            "TRANSLATED_RESPONSE": "Översätt svar",
+            "TRANSLATION_MESSAGE": "Meddelandet har validerats. Granska det översatta meddelandet nedan innan du skickar det.",
+            "GENERATING_TRANSLATION": "Genererar översättning..."
           }
         }
       },

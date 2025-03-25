@@ -25,7 +25,7 @@ RSpec.describe Digitaltolk::ChangeContactKindService do
     context 'when contact_kind is a string that is not in KIND_LABELS' do
       it 'converts contact_kind string to integer' do
         service = described_class.new(account, conversation, 'new_contact')
-        expect(service.instance_variable_get(:@contact_kind)).to eq(nil)
+        expect(service.instance_variable_get(:@contact_kind)).to be_nil
       end
     end
 

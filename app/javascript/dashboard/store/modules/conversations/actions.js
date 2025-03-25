@@ -516,6 +516,9 @@ const actions = {
   performQualityCheck(_, { conversationId, draftMessage }) {
     return ConversationApi.performQualityCheck(conversationId, draftMessage);
   },
+  translateDraftMessage(_, { conversationId, message }) {
+    return ConversationApi.translateDraftMessage(conversationId, message);
+  },
   performConversationSummary(_, { conversationId }) {
     return ConversationApi.performConversationSummary(conversationId);
   },

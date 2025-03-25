@@ -53,6 +53,23 @@
         </button>
       </div>
     </form-section>
+    <form-section :title="$t('PROFILE_SETTINGS.FORM.AI_TRANSLATION_SUMMARY.TITLE')" :description="$t('PROFILE_SETTINGS.FORM.AI_TRANSLATION_SUMMARY.DESCRIPTION')">
+      <!-- <div class="flex flex-row items-center gap-2">
+        <fluent-icon
+          icon="alert"
+          class="flex-shrink-0 text-ash-900"
+          size="18"
+        />
+        <span class="text-sm text-ash-900">
+          {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.BROWSER_PERMISSION') }}
+        </span>
+      </div> -->
+      <form-switch
+        :value="aiTranslationEnabled"
+        @input="onToggleAITranslation"
+      />
+    <!-- </div> -->
+    </form-section>
     <form-section :title="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE')">
       <change-password v-if="!globalConfig.disableUserProfileUpdate" />
     </form-section>
@@ -99,6 +116,7 @@ import NotificationPreferences from './NotificationPreferences.vue';
 import AudioNotifications from './AudioNotifications.vue';
 import FormSection from 'dashboard/components/FormSection.vue';
 import AccessToken from './AccessToken.vue';
+import FormSwitch from 'v3/components/Form/Switch.vue';
 
 export default {
   components: {
@@ -111,6 +129,7 @@ export default {
     NotificationPreferences,
     AudioNotifications,
     AccessToken,
+    FormSwitch,
   },
   mixins: [alertMixin, globalConfigMixin, uiSettingsMixin],
   data() {
@@ -121,6 +140,7 @@ export default {
       displayName: '',
       email: '',
       messageSignature: '',
+      aiTranslationEnabled: false,
       hotKeys: [
         {
           key: 'enter',
@@ -167,6 +187,7 @@ export default {
       this.avatarUrl = this.currentUser.avatar_url;
       this.displayName = this.currentUser.display_name;
       this.messageSignature = this.currentUser.message_signature;
+      this.aiTranslationEnabled = this.uiSettings.ai_translation_enabled !== false;
     },
     isEditorHotKeyEnabled,
     async dispatchUpdate(payload, successMessage, errorMessage) {
@@ -247,6 +268,13 @@ export default {
     async onCopyToken(value) {
       await copyTextToClipboard(value);
       this.showAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
+    },
+    onToggleAITranslation(value) {
+      this.aiTranslationEnabled = value;
+      this.showAlert(
+        this.$t('PROFILE_SETTINGS.FORM.AI_TRANSLATION_SUMMARY.UPDATE_SUCCESS')
+      );
+      this.updateUISettings({ ai_translation_enabled: value });
     },
   },
 };

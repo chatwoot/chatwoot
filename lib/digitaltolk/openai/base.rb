@@ -43,4 +43,14 @@ class Digitaltolk::Openai::Base
       }
     )
   end
+
+  def parse_response(response)
+    return {} if response.blank?
+
+    if response.is_a?(Hash)
+      response
+    else
+      JSON.parse(response)
+    end
+  end
 end

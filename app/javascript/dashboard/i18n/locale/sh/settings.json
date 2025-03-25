@@ -172,6 +172,11 @@
         "LABEL": "Confirm new password",
         "ERROR": "Confirm password should match the password",
         "PLACEHOLDER": "Please re-enter your new password"
+      },
+      "AI_TRANSLATION_SUMMARY": {
+        "DESCRIPTION": "Slå på den här inställningen för att aktivera AI-driven översättning för samtalssvar. När den är aktiverad kommer verifierade svar automatiskt att översättas till webbplatsens valda språk för smidig kommunikation.",
+        "TITLE": "AI-samtalsöversättning och sammanfattning",
+        "UPDATE_SUCCESS": "Dina AI-översättningsinställningar har uppdaterats framgångsrikt."
       }
     }
   },

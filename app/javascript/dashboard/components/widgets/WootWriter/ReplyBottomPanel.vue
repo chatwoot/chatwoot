@@ -147,6 +147,8 @@
       >
         <AIQualityCheckModal
           :ai-check-response="aiCheckResponse"
+          :conversation-id="conversationId"
+          :message="message"
           @apply-text="replaceText"
           @close="hideAIAssistanceModal"
           @proceed-with-sending-message="proceedWithSendingMessage"
@@ -415,7 +417,7 @@ export default {
         this.$refs.replyToMultipleAction.hideAILoader();
       }
 
-      if (this.withResponse && this.checkPassed) {
+      if (this.withResponse && this.checkPassed && !this.needsTranslation) {
         this.proceedWithSendingMessage();
       }
     },
