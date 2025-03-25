@@ -4,7 +4,7 @@ describe Messages::Instagram::Direct::MessageBuilder do
   subject(:instagram_direct_message_builder) { described_class }
 
   before do
-    stub_request(:post, /graph.instagram.com/)
+    stub_request(:post, /graph\.instagram\.com/)
     stub_request(:get, 'https://www.example.com/test.jpeg')
       .to_return(status: 200, body: '', headers: {})
   end

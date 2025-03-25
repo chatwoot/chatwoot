@@ -21,16 +21,20 @@ class Messages::Instagram::Direct::MessageBuilder < Messages::Instagram::Direct:
       build_message
     end
   rescue StandardError => e
-    # TODO: Check if this is the correct way to handle the error
-    if e.is_a?(StandardError) && e.message.include?('unauthorized')
-      @inbox.channel.authorization_error!
-      raise
-    end
-    ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
-    true
+    handle_error(e)
   end
 
   private
+
+  def handle_error(error)
+    # TODO: Check if this is the correct way to handle the error
+    if error.message.include?('unauthorized')
+      @inbox.channel.authorization_error!
+      raise
+    end
+    ChatwootExceptionTracker.new(error, account: @inbox.account).capture_exception
+    true
+  end
 
   def attachments
     @messaging[:message][:attachments] || {}

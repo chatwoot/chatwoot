@@ -279,7 +279,7 @@ describe Webhooks::InstagramEventsJob do
       end
 
       it 'does not create contact or messages when Instagram API call fails' do
-        stub_request(:get, %r{https://graph.instagram.com/v22.0/.*\?.*})
+        stub_request(:get, %r{https://graph\.instagram\.com/v22\.0/.*\?.*})
           .to_return(status: 401, body: { error: { message: 'Invalid OAuth access token' } }.to_json)
 
         instagram_webhook.perform_now(message_events[:story_mention_echo][:entry])
