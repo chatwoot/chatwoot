@@ -40,7 +40,11 @@ import {
   replaceSignature,
   extractTextFromMarkdown,
 } from 'dashboard/helper/editorHelper';
-
+import {
+  saveAudioToDraft,
+  getAudioFromDraft,
+  removeAudioDraft,
+} from 'dashboard/helpers/audioDraftHelper';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { emitter } from 'shared/helpers/mitt';
@@ -215,7 +219,11 @@ export default {
     },
     isReplyButtonDisabled() {
       if (this.isATwitterInbox) return true;
-      if (this.hasAttachments || this.hasRecordedAudio) return false;
+
+      const hasActualAttachments =
+        this.attachedFiles && this.attachedFiles.length > 0;
+
+      if (hasActualAttachments) return false;
 
       return (
         this.isMessageEmpty ||
@@ -418,7 +426,9 @@ export default {
     },
     conversationIdByRoute(conversationId, oldConversationId) {
       if (conversationId !== oldConversationId) {
+        this.saveAudioDraft(oldConversationId);
         this.setToDraft(oldConversationId, this.replyType);
+        this.resetAudioRecorderUIState();
         this.getFromDraft();
       }
     },
@@ -443,10 +453,6 @@ export default {
 
       // Autosave the current message draft.
       this.doAutoSaveDraft();
-    },
-    replyType(updatedReplyType, oldReplyType) {
-      this.setToDraft(this.conversationIdByRoute, oldReplyType);
-      this.getFromDraft();
     },
   },
 
@@ -529,6 +535,47 @@ export default {
         );
       }
     },
+    resetAudioRecorderUIState() {
+      this.recordingAudioDurationText = '00:00';
+      this.isRecordingAudio = false;
+      this.recordingAudioState = '';
+    },
+    async getAudioRecordingFromDraft(
+      conversationId,
+      replyType = this.replyType
+    ) {
+      try {
+        // First remove any existing audio recordings to prevent duplicates
+        this.attachedFiles = this.attachedFiles.filter(
+          file => !file.isRecordedAudio
+        );
+        const audioFile = await getAudioFromDraft(conversationId, replyType);
+        if (audioFile) {
+          // Add to attachedFiles
+          this.attachedFiles.push({
+            currentChatId: conversationId,
+            ...audioFile,
+          });
+
+          // Update UI state
+          this.hasRecordedAudio = true;
+          this.recordingAudioState = 'stopped';
+        }
+      } catch (error) {
+        // If there's an error, cleanup to prevent UI issues
+        this.resetAudioRecorderInput();
+      }
+    },
+    saveAudioDraft(oldConversationId) {
+      // Save audio draft for the old conversation if any
+      // When switching between conversations, save the audio to draft for the old conversation
+      if (this.hasRecordedAudio && this.attachedFiles.length) {
+        const audioFile = this.attachedFiles.find(file => file.isRecordedAudio);
+        if (audioFile) {
+          saveAudioToDraft(oldConversationId, this.replyType, audioFile);
+        }
+      }
+    },
     saveDraft(conversationId, replyType) {
       if (this.message || this.message === '') {
         const key = `draft-${conversationId}-${replyType}`;
@@ -552,6 +599,9 @@ export default {
 
         // ensure that the message has signature set based on the ui setting
         this.message = this.toggleSignatureForDraft(messageFromStore);
+        // get audio recording from draft
+
+        this.getAudioRecordingFromDraft(this.conversationIdByRoute);
       }
     },
     toggleSignatureForDraft(message) {
@@ -816,6 +866,12 @@ export default {
         // if signature is enabled, append it to the message
         this.message = appendSignature(this.message, this.signatureToApply);
       }
+
+      // Remove audio draft on clear
+      if (this.hasRecordedAudio && this.conversationIdByRoute) {
+        removeAudioDraft(this.conversationIdByRoute, this.replyType);
+      }
+
       this.attachedFiles = [];
       this.isRecordingAudio = false;
       this.resetReplyToMessage();
@@ -873,6 +929,15 @@ export default {
       this.recordingAudioDurationText = duration;
     },
     onFinishRecorder(file) {
+      // Remove audio from draft on new recording
+      if (file && this.conversationIdByRoute) {
+        removeAudioDraft(this.conversationIdByRoute, this.replyType);
+        // remove from attached files and isRecordedAudio
+        this.attachedFiles = this.attachedFiles.filter(
+          f => f.id !== file.id && !f.isRecordedAudio
+        );
+      }
+
       this.recordingAudioState = 'stopped';
       this.hasRecordedAudio = true;
       // Added a new key isRecordedAudio to the file to find it's and recorded audio
@@ -913,6 +978,16 @@ export default {
     },
     removeAttachment(attachments) {
       this.attachedFiles = attachments;
+      // If there are no attachments or if there are recorded audio attachments
+      // then remove the audio draft
+      if (
+        attachments?.some(attachment => attachment.isRecordedAudio) ||
+        !attachments.length
+      ) {
+        if (this.conversationIdByRoute) {
+          removeAudioDraft(this.conversationIdByRoute, this.replyType);
+        }
+      }
     },
     setReplyToInPayload(payload) {
       if (this.inReplyTo?.id) {

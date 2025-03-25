@@ -21,13 +21,45 @@ const recordedAudioAttachments = computed(() =>
   props.attachments.filter(attachment => attachment.isRecordedAudio)
 );
 
-const onRemoveAttachment = itemIndex => {
-  emit(
-    'removeAttachment',
-    nonRecordedAudioAttachments.value
-      .filter((_, index) => index !== itemIndex)
-      .concat(recordedAudioAttachments.value)
+// Create unified list of attachments with metadata for rendering
+const allAttachments = computed(() => {
+  const audioAttachments = recordedAudioAttachments.value.map(
+    (attachment, index) => ({
+      attachment,
+      isRecordedAudio: true,
+      index,
+      key: `audio-${index}`,
+    })
   );
+
+  const otherAttachments = nonRecordedAudioAttachments.value.map(
+    (attachment, index) => ({
+      attachment,
+      isRecordedAudio: false,
+      index,
+      key: attachment.id,
+    })
+  );
+
+  return [...audioAttachments, ...otherAttachments];
+});
+
+const removeAttachment = (isRecordedAudio, itemIndex) => {
+  if (isRecordedAudio) {
+    emit(
+      'removeAttachment',
+      nonRecordedAudioAttachments.value.concat(
+        recordedAudioAttachments.value.filter((_, index) => index !== itemIndex)
+      )
+    );
+  } else {
+    emit(
+      'removeAttachment',
+      nonRecordedAudioAttachments.value
+        .filter((_, index) => index !== itemIndex)
+        .concat(recordedAudioAttachments.value)
+    );
+  }
 };
 
 const formatFileSize = file => {
@@ -46,32 +78,37 @@ const fileName = file => {
 </script>
 
 <template>
-  <div class="flex overflow-auto max-h-[12.5rem]">
+  <div class="flex flex-col overflow-auto max-h-[12.5rem]">
     <div
-      v-for="(attachment, index) in nonRecordedAudioAttachments"
-      :key="attachment.id"
-      class="preview-item flex items-center p-1 bg-slate-50 dark:bg-slate-800 gap-1 rounded-md w-[15rem] mb-1"
+      v-for="item in allAttachments"
+      :key="item.key"
+      class="preview-item flex items-center p-1 bg-n-slate-9/10 gap-1 rounded-md w-[15rem] mb-1"
     >
       <div class="max-w-[4rem] flex-shrink-0 w-6 flex items-center">
         <img
-          v-if="isTypeImage(attachment.resource)"
+          v-if="!item.isRecordedAudio && isTypeImage(item.attachment.resource)"
           class="object-cover w-6 h-6 rounded-sm"
-          :src="attachment.thumb"
+          :src="item.attachment.thumb"
         />
         <span v-else class="relative w-6 h-6 text-lg text-left -top-px">
-          📄
+          {{ item.isRecordedAudio ? '🎤' : '📄' }}
         </span>
       </div>
       <div class="max-w-3/5 min-w-[50%] overflow-hidden text-ellipsis">
         <span
           class="h-4 overflow-hidden text-sm font-medium text-ellipsis whitespace-nowrap"
         >
-          {{ fileName(attachment.resource) }}
+          {{
+            item.isRecordedAudio
+              ? fileName(item.attachment.resource) ||
+                $t('CONVERSATION.REPLYBOX.AUDIO_RECORDING')
+              : fileName(item.attachment.resource)
+          }}
         </span>
       </div>
       <div class="w-[30%] justify-center">
         <span class="overflow-hidden text-xs text-ellipsis whitespace-nowrap">
-          {{ formatFileSize(attachment.resource) }}
+          {{ formatFileSize(item.attachment.resource) }}
         </span>
       </div>
       <div class="flex items-center justify-center">
@@ -80,7 +117,7 @@ const fileName = file => {
           slate
           xs
           icon="i-lucide-x"
-          @click="onRemoveAttachment(index)"
+          @click="removeAttachment(item.isRecordedAudio, item.index)"
         />
       </div>
     </div>

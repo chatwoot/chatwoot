@@ -195,7 +195,8 @@
           "YES": "Send",
           "CANCEL": "Cancel"
         }
-      }
+      },
+      "AUDIO_RECORDING": "Recorded Audio"
     },
     "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
     "CHANGE_STATUS": "Conversation status changed",
