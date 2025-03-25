@@ -1,16 +1,18 @@
-class Instagram::MessageText < Instagram::BaseMessageText
-  include HTTParty
+class Instagram::BaseMessageText < Instagram::WebhooksBaseService
+  attr_reader :messaging
 
-  base_uri 'https://graph.facebook.com/v11.0/'
+  def initialize(messaging, channel)
+    @messaging = messaging
+    super(channel)
+  end
 
   def perform
     create_test_text
-    instagram_id, contact_id = instagram_and_contact_ids
-    inbox_channel(instagram_id)
-    # person can connect the channel and then delete the inbox
+    service_id, contact_id = service_and_contact_ids
+    inbox_channel(service_id)
+
     return if @inbox.blank?
 
-    # This channel might require reauthorization, may be owner might have changed the fb password
     if @inbox.channel.reauthorization_required?
       Rails.logger.info("Skipping message processing as reauthorization is required for inbox #{@inbox.id}")
       return
@@ -25,32 +27,13 @@ class Instagram::MessageText < Instagram::BaseMessageText
 
   private
 
-  def instagram_and_contact_ids
+  def service_and_contact_ids
     if agent_message_via_echo?
       [@messaging[:sender][:id], @messaging[:recipient][:id]]
     else
       [@messaging[:recipient][:id], @messaging[:sender][:id]]
     end
   end
-
-  # rubocop:disable Metrics/AbcSize
-  def ensure_contact(ig_scope_id)
-    begin
-      k = Koala::Facebook::API.new(@inbox.channel.page_access_token) if @inbox.facebook?
-      result = k.get_object(ig_scope_id) || {}
-    rescue Koala::Facebook::AuthenticationError => e
-      @inbox.channel.authorization_error!
-      Rails.logger.warn("Authorization error for account #{@inbox.account_id} for inbox #{@inbox.id}")
-      ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
-    rescue StandardError, Koala::Facebook::ClientError => e
-      Rails.logger.warn("[FacebookUserFetchClientError]: account_id #{@inbox.account_id} inbox_id #{@inbox.id}")
-      Rails.logger.warn("[FacebookUserFetchClientError]: #{e.message}")
-      ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
-    end
-
-    find_or_create_contact(result) if defined?(result) && result.present?
-  end
-  # rubocop:enable Metrics/AbcSize
 
   def agent_message_via_echo?
     @messaging[:message][:is_echo].present?
@@ -78,22 +61,6 @@ class Instagram::MessageText < Instagram::BaseMessageText
 
     message_to_delete.attachments.destroy_all
     message_to_delete.update!(content: I18n.t('conversations.messages.deleted'), deleted: true)
-  end
-
-  def create_test_text
-    return unless sent_via_test_webhook?
-
-    Rails.logger.info('Probably Test data.')
-
-    messenger_channel = Channel::FacebookPage.last
-    @inbox = ::Inbox.find_by(channel: messenger_channel)
-    return unless @inbox
-
-    @contact = create_test_contact
-
-    @conversation ||= create_test_conversation(conversation_params)
-
-    @message = @conversation.messages.create!(test_message_params)
   end
 
   def create_test_contact
@@ -131,16 +98,23 @@ class Instagram::MessageText < Instagram::BaseMessageText
   end
 
   def conversation_params
-    super.merge(
-      additional_attributes: {
-        type: 'instagram_direct_message'
-      }
-    )
+    {
+      account_id: @inbox.account_id,
+      inbox_id: @inbox.id,
+      contact_id: @contact.id
+    }
+  end
+
+  # Methods to be implemented by subclasses
+  def ensure_contact(contact_id)
+    raise NotImplementedError, "#{self.class} must implement #ensure_contact"
+  end
+
+  def create_test_text
+    raise NotImplementedError, "#{self.class} must implement #create_test_text"
   end
 
   def create_message
-    return unless @contact_inbox
-
-    Messages::Instagram::MessageBuilder.new(@messaging, @inbox, outgoing_echo: agent_message_via_echo?).perform
+    raise NotImplementedError, "#{self.class} must implement #create_message"
   end
 end

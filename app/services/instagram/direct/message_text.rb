@@ -1,14 +1,9 @@
-class Instagram::Direct::MessageText < Instagram::WebhooksBaseService
+class Instagram::Direct::MessageText < Instagram::BaseMessageText
   include HTTParty
 
   attr_reader :messaging
 
   base_uri "https://graph.instagram.com/#{GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v22.0')}"
-
-  def initialize(messaging, channel)
-    super(channel)
-    @messaging = messaging
-  end
 
   def perform
     create_test_text
