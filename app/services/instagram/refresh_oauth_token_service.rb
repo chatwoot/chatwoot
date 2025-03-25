@@ -37,12 +37,14 @@ class Instagram::RefreshOauthTokenService
   # https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/business-login#refresh-a-long-lived-token
 
   def token_eligible_for_refresh?
+    return false if channel.expires_at.blank?
+
     # Three conditions must be met:
     # 1. Token is still valid
     token_is_valid = Time.current < channel.expires_at
 
     # 2. Token is at least 24 hours old (based on updated_at)
-    token_is_old_enough = channel.updated_at < 24.hours.ago
+    token_is_old_enough = channel.updated_at.present? && channel.updated_at < 24.hours.ago
 
     # 3. Token is approaching expiry (within 10 days)
     approaching_expiry = channel.expires_at < 10.days.from_now

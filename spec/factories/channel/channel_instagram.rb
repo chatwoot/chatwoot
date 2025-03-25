@@ -1,10 +1,10 @@
 FactoryBot.define do
   factory :channel_instagram, class: 'Channel::Instagram' do
     account
-
-    sequence(:instagram_id) { |n| "instagram-id-#{n}" }
-    access_token { SecureRandom.uuid }
-    expires_at { 1.day.from_now }
+    access_token { SecureRandom.hex(32) }
+    instagram_id { SecureRandom.hex(16) }
+    expires_at { 60.days.from_now }
+    updated_at { 25.hours.ago }  # Ensure token is old enough by default
     refresh_token { SecureRandom.uuid }
 
     before :create do |channel|
