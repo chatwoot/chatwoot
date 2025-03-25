@@ -297,4 +297,64 @@ describe Messages::Instagram::MessageBuilder do
       expect(Conversation.count).to eq(inital_count)
     end
   end
+
+  describe '#fetch_story_link' do
+    before do
+      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+    end
+
+    let(:story_data) do
+      {
+        'story' => {
+          'mention' => {
+            'link' => 'https://example.com/story-link',
+            'id' => '18094414321535710'
+          }
+        },
+        'from' => {
+          'username' => 'instagram_user',
+          'id' => '2450757355263608'
+        },
+        'id' => 'story-source-id-123'
+      }.with_indifferent_access
+    end
+
+    it 'saves story information when story mention is processed' do
+      allow(fb_object).to receive(:get_object).and_return(story_data)
+
+      messaging = story_mention_params[:entry][0][:messaging][0]
+      contact_inbox
+      builder = described_class.new(messaging, instagram_inbox)
+      builder.perform
+
+      message = instagram_inbox.messages.first
+
+      expect(message.content).to include('instagram_user')
+      expect(message.attachments.count).to eq(1)
+      expect(message.content_attributes[:story_sender]).to eq('instagram_user')
+      expect(message.content_attributes[:story_id]).to eq('18094414321535710')
+      expect(message.content_attributes[:image_type]).to eq('story_mention')
+    end
+
+    it 'handles story mentions specifically in the Instagram builder' do
+      # First allow contact info fetch
+      allow(fb_object).to receive(:get_object).and_return({
+        name: 'Jane',
+        id: 'Sender-id-1'
+      }.with_indifferent_access)
+
+      # Then allow story data fetch
+      allow(fb_object).to receive(:get_object).with(anything, fields: %w[story from])
+                                              .and_return(story_data)
+
+      messaging = story_mention_params[:entry][0][:messaging][0]
+      contact_inbox
+      described_class.new(messaging, instagram_inbox).perform
+
+      message = instagram_inbox.messages.first
+
+      expect(message.content_attributes[:story_sender]).to eq('instagram_user')
+      expect(message.content_attributes[:image_type]).to eq('story_mention')
+    end
+  end
 end
