@@ -330,7 +330,7 @@
         "SORT_BY": {
           "LABEL": "排序方式",
           "OPTIONS": {
-            "NAME": "姓名：",
+            "NAME": "姓名",
             "EMAIL": "电子邮件",
             "PHONE_NUMBER": "电话号码",
             "COMPANY": "公司",
@@ -351,7 +351,7 @@
           "CREATE_SEGMENT": {
             "TITLE": "您想要保存此过滤器吗？",
             "CONFIRM": "保存过滤器",
-            "LABEL": "姓名：",
+            "LABEL": "姓名",
             "PLACEHOLDER": "输入过滤器的名称",
             "ERROR": "请输入有效的名称",
             "SUCCESS_MESSAGE": "过滤器保存成功",
@@ -372,7 +372,7 @@
       "SHOWING": "显示 {startItem} - {endItem} 个联系人，共 {totalItems} 个"
     },
     "FILTER": {
-      "NAME": "姓名：",
+      "NAME": "姓名",
       "EMAIL": "电子邮件",
       "PHONE_NUMBER": "电话号码",
       "IDENTIFIER": "标识符",
@@ -516,7 +516,7 @@
           "SUCCESS_MESSAGE": "已成功更新属性",
           "DELETE_SUCCESS_MESSAGE": "已成功删除属性",
           "UPDATE_ERROR": "无法更新属性，请稍后再试。",
-          "DELETE_ERROR": "无法删除属性，请稍后再试。"
+          "DELETE_ERROR": "无法删除属性，请稍后再试"
         }
       },
       "MERGE": {
@@ -533,7 +533,7 @@
         "SEARCH_ERROR_MESSAGE": "无法搜索联系人，请稍后再试。",
         "SUCCESS_MESSAGE": "已成功合并联系人",
         "ERROR_MESSAGE": "无法合并联系人，请重试！",
-        "IS_SEARCHING": "搜索中...",
+        "IS_SEARCHING": "搜索中……",
         "BUTTONS": {
           "CANCEL": "取消",
           "CONFIRM": "合并联系人"
@@ -567,7 +567,7 @@
       "CONTACT_SELECTOR": {
         "LABEL": "发送至:",
         "TAG_INPUT_PLACEHOLDER": "通过姓名、电子邮件或电话号码搜索联系人",
-        "CONTACT_CREATING": "正在创建联系人..."
+        "CONTACT_CREATING": "正在创建联系人……"
       },
       "INBOX_SELECTOR": {
         "LABEL": "通过:",

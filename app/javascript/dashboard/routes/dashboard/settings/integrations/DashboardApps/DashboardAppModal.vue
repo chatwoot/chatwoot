@@ -3,7 +3,12 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, url } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
+  components: {
+    NextButton,
+  },
   props: {
     show: {
       type: Boolean,
@@ -145,16 +150,21 @@ export default {
           @blur="v$.app.content.url.$touch"
         />
         <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-          <woot-button
+          <NextButton
+            faded
+            slate
+            type="reset"
+            :label="
+              $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.CREATE.FORM_CANCEL')
+            "
+            @click.prevent="closeModal"
+          />
+          <NextButton
+            type="submit"
+            :label="submitButtonLabel"
+            :disabled="v$.$invalid"
             :is-loading="isLoading"
-            :is-disabled="v$.$invalid"
-            data-testid="label-submit"
-          >
-            {{ submitButtonLabel }}
-          </woot-button>
-          <woot-button class="button clear" @click.prevent="closeModal">
-            {{ $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.CREATE.FORM_CANCEL') }}
-          </woot-button>
+          />
         </div>
       </form>
     </div>

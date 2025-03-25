@@ -1,6 +1,11 @@
 <script>
 import { mapGetters } from 'vuex';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
+  components: {
+    NextButton,
+  },
   emits: ['assignTeam', 'close'],
 
   data() {
@@ -40,13 +45,7 @@ export default {
     </div>
     <div class="flex items-center justify-between header">
       <span>{{ $t('BULK_ACTION.TEAMS.TEAM_SELECT_LABEL') }}</span>
-      <woot-button
-        size="tiny"
-        variant="clear"
-        color-scheme="secondary"
-        icon="dismiss"
-        @click="onClose"
-      />
+      <NextButton ghost xs slate icon="i-lucide-x" @click="onClose" />
     </div>
     <div class="container">
       <div class="team__list-container">
@@ -60,7 +59,7 @@ export default {
                 v-model="query"
                 type="search"
                 :placeholder="$t('BULK_ACTION.SEARCH_INPUT_PLACEHOLDER')"
-                class="agent--search_input"
+                class="reset-base !outline-0 !text-sm agent--search_input"
               />
             </div>
           </li>

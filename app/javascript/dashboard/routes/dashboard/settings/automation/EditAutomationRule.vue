@@ -3,6 +3,7 @@ import { mapGetters } from 'vuex';
 import { useAutomation } from 'dashboard/composables/useAutomation';
 import { useEditableAutomation } from 'dashboard/composables/useEditableAutomation';
 import FilterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import AutomationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
 import {
   getFileName,
@@ -20,6 +21,7 @@ import { AUTOMATION_RULE_EVENTS, AUTOMATION_ACTION_TYPES } from './constants';
 export default {
   components: {
     FilterInputBox,
+    NextButton,
     AutomationActionInput,
   },
   props: {
@@ -226,15 +228,14 @@ export default {
               @remove-filter="removeFilter(i)"
             />
             <div class="mt-4">
-              <woot-button
-                icon="add"
-                color-scheme="success"
-                variant="smooth"
-                size="small"
+              <NextButton
+                icon="i-lucide-plus"
+                blue
+                faded
+                sm
+                :label="$t('AUTOMATION.ADD.CONDITION_BUTTON_LABEL')"
                 @click="appendNewCondition"
-              >
-                {{ $t('AUTOMATION.ADD.CONDITION_BUTTON_LABEL') }}
-              </woot-button>
+              />
             </div>
           </div>
         </section>
@@ -266,31 +267,34 @@ export default {
               @remove-action="removeAction(i)"
             />
             <div class="mt-4">
-              <woot-button
-                icon="add"
-                color-scheme="success"
-                variant="smooth"
-                size="small"
+              <NextButton
+                icon="i-lucide-plus"
+                blue
+                faded
+                sm
+                :label="$t('AUTOMATION.ADD.ACTION_BUTTON_LABEL')"
                 @click="appendNewAction"
-              >
-                {{ $t('AUTOMATION.ADD.ACTION_BUTTON_LABEL') }}
-              </woot-button>
+              />
             </div>
           </div>
         </section>
         <!-- // Actions End -->
         <div class="w-full">
           <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-            <woot-button
-              class="button"
-              variant="clear"
+            <NextButton
+              faded
+              slate
+              type="reset"
+              :label="$t('AUTOMATION.EDIT.CANCEL_BUTTON_TEXT')"
               @click.prevent="onClose"
-            >
-              {{ $t('AUTOMATION.EDIT.CANCEL_BUTTON_TEXT') }}
-            </woot-button>
-            <woot-button @click="emitSaveAutomation">
-              {{ $t('AUTOMATION.EDIT.SUBMIT') }}
-            </woot-button>
+            />
+            <NextButton
+              solid
+              blue
+              type="submit"
+              :label="$t('AUTOMATION.EDIT.SUBMIT')"
+              @click="emitSaveAutomation"
+            />
           </div>
         </div>
       </div>

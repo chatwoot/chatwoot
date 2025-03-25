@@ -23,8 +23,8 @@ importers:
         specifier: 1.1.1-next
         version: 1.1.1-next
       '@chatwoot/utils':
-        specifier: ^0.0.40
-        version: 0.0.40
+        specifier: ^0.0.41
+        version: 0.0.41
       '@formkit/core':
         specifier: ^1.6.7
         version: 1.6.7
@@ -136,6 +136,9 @@ importers:
       js-cookie:
         specifier: ^3.0.5
         version: 3.0.5
+      json-logic-js:
+        specifier: ^2.0.5
+        version: 2.0.5
       lettersanitizer:
         specifier: ^1.0.6
         version: 1.0.6
@@ -403,8 +406,8 @@ packages:
   '@chatwoot/prosemirror-schema@1.1.1-next':
     resolution: {integrity: sha512-/M2qZ+ZF7GlQNt1riwVP499fvp3hxSqd5iy8hxyF9pkj9qQ+OKYn5JK+v3qwwqQY3IxhmNOn1Lp6tm7vstrd9Q==}
 
-  '@chatwoot/utils@0.0.40':
-    resolution: {integrity: sha512-Rg5wwQXi4mnEiv8scw66QVIgal9F1di+UDg4hHCw37zLXrqExQQ9CL7jDvO+ddvzEl6TUXw91Lu5L/qVlEyvdg==}
+  '@chatwoot/utils@0.0.41':
+    resolution: {integrity: sha512-f0D+XArVYbc9m9M7KZpCaVJ+EUVzobX+D9P5Vt/h2jUipg706GoBhGwsP8kjfWhUdNdcS+H+OB4ZCKGF1NIkTQ==}
     engines: {node: '>=10'}
 
   '@codemirror/commands@6.7.0':
@@ -3398,6 +3401,9 @@ packages:
   json-buffer@3.0.1:
     resolution: {integrity: sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ==}
 
+  json-logic-js@2.0.5:
+    resolution: {integrity: sha512-rTT2+lqcuUmj4DgWfmzupZqQDA64AdmYqizzMPWj3DxGdfFNsxPpcNVSaTj4l8W2tG/+hg7/mQhxjU3aPacO6g==}
+
   json-schema-traverse@0.4.1:
     resolution: {integrity: sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==}
 
@@ -5244,7 +5250,7 @@ snapshots:
       prosemirror-utils: 1.2.2(prosemirror-model@1.22.3)(prosemirror-state@1.4.3)
       prosemirror-view: 1.34.1
 
-  '@chatwoot/utils@0.0.40':
+  '@chatwoot/utils@0.0.41':
     dependencies:
       date-fns: 2.30.0
 
@@ -8760,6 +8766,8 @@ snapshots:
       - utf-8-validate
 
   json-buffer@3.0.1: {}
+
+  json-logic-js@2.0.5: {}
 
   json-schema-traverse@0.4.1: {}
 
