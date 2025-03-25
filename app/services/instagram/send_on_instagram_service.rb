@@ -3,8 +3,6 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
 
   pattr_initialize [:message!]
 
-  base_uri 'https://graph.facebook.com/v11.0/me'
-
   private
 
   delegate :additional_attributes, to: :contact
@@ -106,15 +104,6 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
     return attachment.file_type if %w[image audio video file].include? attachment.file_type
 
     'file'
-  end
-
-  def conversation_type
-    conversation.additional_attributes['type']
-  end
-
-  def sent_first_outgoing_message_after_24_hours?
-    # we can send max 1 message after 24 hour window
-    conversation.messages.outgoing.where('id > ?', conversation.last_incoming_message.id).count == 1
   end
 
   def config
