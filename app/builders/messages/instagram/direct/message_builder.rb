@@ -7,6 +7,8 @@
 class Messages::Instagram::Direct::MessageBuilder < Messages::Instagram::Direct::BaseBuilder
   attr_reader :messaging
 
+  include HTTParty
+
   base_uri "https://graph.instagram.com/#{GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v22.0')}"
 
   def initialize(messaging, inbox, outgoing_echo: false)
