@@ -189,21 +189,6 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     unsupported_file_type?(attachments_type)
   end
 
-  def fetch_story_link(attachment)
-    message = attachment.message
-    result = get_story_object_from_source_id(message.source_id)
-
-    return if result.blank?
-
-    story_id = result['story']['mention']['id']
-    story_sender = result['from']['username']
-    message.content_attributes[:story_sender] = story_sender
-    message.content_attributes[:story_id] = story_id
-    message.content_attributes[:image_type] = 'story_mention'
-    message.content = I18n.t('conversations.messages.instagram_story_content', story_sender: story_sender)
-    message.save!
-  end
-
   ### Sample response
   # {
   #   "object": "instagram",
