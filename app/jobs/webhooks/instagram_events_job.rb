@@ -74,11 +74,8 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   end
 
   def read(messaging)
-    if @channel.is_a?(Channel::Instagram)
-      ::Instagram::Direct::ReadStatusService.new(params: messaging, channel: @channel).perform
-    else
-      ::Instagram::ReadStatusService.new(params: messaging, channel: @channel).perform
-    end
+    # Use a single service to handle read status for both channel types since the params are same
+    ::Instagram::ReadStatusService.new(params: messaging, channel: @channel).perform
   end
 
   def messages(entry)
