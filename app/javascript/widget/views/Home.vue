@@ -15,12 +15,22 @@ export default {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
       conversationSize: 'conversation/getConversationSize',
+      conversationAttributes: 'conversationAttributes/getConversationParams',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
     }),
+    isConversationResolved() {
+      return this.conversationAttributes?.status === 'resolved';
+    },
+    hasActiveConversation() {
+      return !!this.conversationSize && !this.isConversationResolved;
+    },
+    shouldShowPreChatForm() {
+      return this.preChatFormEnabled && !this.hasActiveConversation;
+    },
   },
   methods: {
     startConversation() {
-      if (this.preChatFormEnabled && !this.conversationSize) {
+      if (this.shouldShowPreChatForm) {
         return this.replaceRoute('prechat-form');
       }
       return this.replaceRoute('messages');
@@ -33,7 +43,7 @@ export default {
   <div class="z-50 flex flex-col justify-end flex-1 w-full p-4 gap-4">
     <TeamAvailability
       :available-agents="availableAgents"
-      :has-conversation="!!conversationSize"
+      :has-conversation="hasActiveConversation"
       :unread-count="unreadMessageCount"
       @start-conversation="startConversation"
     />

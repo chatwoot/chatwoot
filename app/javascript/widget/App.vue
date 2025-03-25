@@ -43,6 +43,7 @@ export default {
     ...mapGetters({
       activeCampaign: 'campaign/getActiveCampaign',
       conversationSize: 'conversation/getConversationSize',
+      conversationAttributes: 'conversationAttributes/getConversationParams',
       hideMessageBubble: 'appConfig/getHideMessageBubble',
       isFetchingList: 'conversation/getIsFetchingList',
       isRightAligned: 'appConfig/isRightAligned',
@@ -62,6 +63,12 @@ export default {
       return this.$root.$i18n.locale
         ? getLanguageDirection(this.$root.$i18n.locale)
         : false;
+    },
+    isConversationResolved() {
+      return this.conversationAttributes?.status === 'resolved';
+    },
+    hasActiveConversation() {
+      return !!this.messageCount && !this.isConversationResolved;
     },
   },
   watch: {
@@ -308,7 +315,7 @@ export default {
           const shouldShowMessageView =
             ['home'].includes(this.$route.name) &&
             message.isOpen &&
-            this.messageCount;
+            this.hasActiveConversation;
           const shouldShowHomeView =
             !message.isOpen &&
             ['unread-messages', 'campaigns'].includes(this.$route.name);
