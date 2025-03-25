@@ -12,6 +12,8 @@
     "NO_INBOX_2": " ที่จะเริ่มต้น",
     "NO_INBOX_AGENT": "เอ่อโอ้! ดูเหมือนว่าคุณไม่ได้เป็นส่วนหนึ่งของกล่องจดหมายใด ๆ โปรดติดต่อผู้ดูแลระบบของคุณ",
     "SEARCH_MESSAGES": "ค้นหาข้อความในการสนทนา",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "to open command menu",
       "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
@@ -293,7 +295,27 @@
       "CONVERSATION_INFO": "ข้อมูลการสนทนา",
       "CONTACT_ATTRIBUTES": "แอตทริบิวต์ผู้ติดต่อ",
       "PREVIOUS_CONVERSATION": "การสนทนาก่อนหน้า",
-      "MACROS": "คีย์ลัด"
+      "MACROS": "คีย์ลัด",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "กำลังร้องขอ",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

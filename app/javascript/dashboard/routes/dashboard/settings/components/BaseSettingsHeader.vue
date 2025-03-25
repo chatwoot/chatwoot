@@ -2,7 +2,7 @@
 import CustomBrandPolicyWrapper from 'dashboard/components/CustomBrandPolicyWrapper.vue';
 import { getHelpUrlForFeature } from '../../../../helper/featureHelper';
 import BackButton from '../../../../components/widgets/BackButton.vue';
-import ButtonV4 from 'dashboard/components-next/button/Button.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
@@ -85,7 +85,7 @@ const openInNewTab = url => {
           :href="helpURL"
           target="_blank"
           rel="noopener noreferrer"
-          class="items-center hidden gap-1 text-sm font-medium sm:inline-flex w-fit text-n-brand hover:underline"
+          class="items-center hidden gap-1 text-sm font-medium sm:inline-flex w-fit text-n-blue-text hover:underline"
         >
           {{ linkText }}
           <Icon
@@ -100,10 +100,10 @@ const openInNewTab = url => {
     >
       <slot name="actions" />
       <CustomBrandPolicyWrapper :show-on-custom-branded-instance="false">
-        <ButtonV4
+        <Button
           v-if="helpURL && linkText"
+          blue
           link
-          primary
           icon="i-lucide-chevron-right"
           trailing-icon
           :label="linkText"

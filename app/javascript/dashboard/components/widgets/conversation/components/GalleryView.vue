@@ -166,188 +166,190 @@ onMounted(() => {
 </script>
 
 <template>
-  <woot-modal
-    v-model:show="show"
-    full-width
-    :show-close-button="false"
-    :on-close="onClose"
-  >
-    <div
-      class="bg-n-background flex flex-col h-[inherit] w-[inherit] overflow-hidden select-none"
-      @click="onClose"
+  <Teleport to="body">
+    <woot-modal
+      v-model:show="show"
+      full-width
+      :show-close-button="false"
+      :on-close="onClose"
     >
-      <header
-        class="z-10 flex items-center justify-between w-full h-16 px-6 py-2 bg-n-background border-b border-n-weak"
-        @click.stop
+      <div
+        class="bg-n-background flex flex-col h-[inherit] w-[inherit] overflow-hidden select-none"
+        @click="onClose"
       >
-        <div
-          v-if="senderDetails"
-          class="flex items-center min-w-[15rem] shrink-0"
+        <header
+          class="z-10 flex items-center justify-between w-full h-16 px-6 py-2 bg-n-background border-b border-n-weak"
+          @click.stop
         >
-          <Thumbnail
-            v-if="senderDetails.avatar"
-            :username="senderDetails.name"
-            :src="senderDetails.avatar"
-            class="flex-shrink-0"
-          />
-          <div class="flex flex-col ml-2 rtl:ml-0 rtl:mr-2 overflow-hidden">
-            <h3 class="text-base leading-5 m-0 font-medium">
-              <span
-                class="overflow-hidden text-n-slate-12 whitespace-nowrap text-ellipsis"
-              >
-                {{ senderDetails.name }}
-              </span>
-            </h3>
-            <span
-              class="text-xs text-n-slate-11 whitespace-nowrap text-ellipsis"
-            >
-              {{ readableTime }}
-            </span>
-          </div>
-        </div>
-
-        <div
-          class="flex-1 mx-2 px-2 truncate text-sm font-medium text-center text-n-slate-12"
-        >
-          <span v-dompurify-html="fileNameFromDataUrl" class="truncate" />
-        </div>
-
-        <div class="flex items-center gap-2 ml-2 shrink-0">
-          <NextButton
-            v-if="isImage"
-            icon="i-lucide-zoom-in"
-            slate
-            ghost
-            @click="onZoom(0.1)"
-          />
-          <NextButton
-            v-if="isImage"
-            icon="i-lucide-zoom-out"
-            slate
-            ghost
-            @click="onZoom(-0.1)"
-          />
-          <NextButton
-            v-if="isImage"
-            icon="i-lucide-rotate-ccw"
-            slate
-            ghost
-            @click="onRotate('counter-clockwise')"
-          />
-          <NextButton
-            v-if="isImage"
-            icon="i-lucide-rotate-cw"
-            slate
-            ghost
-            @click="onRotate('clockwise')"
-          />
-          <NextButton
-            icon="i-lucide-download"
-            slate
-            ghost
-            :is-loading="isDownloading"
-            :disabled="isDownloading"
-            @click="onClickDownload"
-          />
-          <NextButton icon="i-lucide-x" slate ghost @click="onClose" />
-        </div>
-      </header>
-
-      <main class="flex items-stretch flex-1 h-full overflow-hidden">
-        <div class="flex items-center justify-center w-16 shrink-0">
-          <NextButton
-            v-if="hasMoreThanOneAttachment"
-            icon="i-lucide-chevron-left"
-            class="z-10"
-            blue
-            faded
-            lg
-            :disabled="activeImageIndex === 0"
-            @click.stop="
-              onClickChangeAttachment(
-                allAttachments[activeImageIndex - 1],
-                activeImageIndex - 1
-              )
-            "
-          />
-        </div>
-
-        <div class="flex-1 flex items-center justify-center overflow-hidden">
           <div
-            v-if="isImage"
-            :style="imageWrapperStyle"
-            class="flex items-center justify-center origin-center"
-            :class="{
-              // Adjust dimensions when rotated 90/270 degrees to maintain visibility
-              // and prevent image from overflowing container in different aspect ratios
-              'w-[calc(100dvh-8rem)] h-[calc(100dvw-7rem)]':
-                activeImageRotation % 180 !== 0,
-              'size-full': activeImageRotation % 180 === 0,
-            }"
+            v-if="senderDetails"
+            class="flex items-center min-w-[15rem] shrink-0"
           >
-            <img
-              ref="imageRef"
-              :key="activeAttachment.message_id"
-              :src="activeAttachment.data_url"
-              :style="imageStyle"
-              class="max-h-full max-w-full object-contain duration-100 ease-in-out transform select-none"
-              @click.stop
-              @dblclick.stop="onDoubleClickZoomImage"
-              @wheel.prevent.stop="onWheelImageZoom"
-              @mousemove="onMouseMove"
-              @mouseleave="onMouseLeave"
+            <Thumbnail
+              v-if="senderDetails.avatar"
+              :username="senderDetails.name"
+              :src="senderDetails.avatar"
+              class="flex-shrink-0"
+            />
+            <div class="flex flex-col ml-2 rtl:ml-0 rtl:mr-2 overflow-hidden">
+              <h3 class="text-base leading-5 m-0 font-medium">
+                <span
+                  class="overflow-hidden text-n-slate-12 whitespace-nowrap text-ellipsis"
+                >
+                  {{ senderDetails.name }}
+                </span>
+              </h3>
+              <span
+                class="text-xs text-n-slate-11 whitespace-nowrap text-ellipsis"
+              >
+                {{ readableTime }}
+              </span>
+            </div>
+          </div>
+
+          <div
+            class="flex-1 mx-2 px-2 truncate text-sm font-medium text-center text-n-slate-12"
+          >
+            <span v-dompurify-html="fileNameFromDataUrl" class="truncate" />
+          </div>
+
+          <div class="flex items-center gap-2 ml-2 shrink-0">
+            <NextButton
+              v-if="isImage"
+              icon="i-lucide-zoom-in"
+              slate
+              ghost
+              @click="onZoom(0.1)"
+            />
+            <NextButton
+              v-if="isImage"
+              icon="i-lucide-zoom-out"
+              slate
+              ghost
+              @click="onZoom(-0.1)"
+            />
+            <NextButton
+              v-if="isImage"
+              icon="i-lucide-rotate-ccw"
+              slate
+              ghost
+              @click="onRotate('counter-clockwise')"
+            />
+            <NextButton
+              v-if="isImage"
+              icon="i-lucide-rotate-cw"
+              slate
+              ghost
+              @click="onRotate('clockwise')"
+            />
+            <NextButton
+              icon="i-lucide-download"
+              slate
+              ghost
+              :is-loading="isDownloading"
+              :disabled="isDownloading"
+              @click="onClickDownload"
+            />
+            <NextButton icon="i-lucide-x" slate ghost @click="onClose" />
+          </div>
+        </header>
+
+        <main class="flex items-stretch flex-1 h-full overflow-hidden">
+          <div class="flex items-center justify-center w-16 shrink-0">
+            <NextButton
+              v-if="hasMoreThanOneAttachment"
+              icon="i-lucide-chevron-left"
+              class="z-10"
+              blue
+              faded
+              lg
+              :disabled="activeImageIndex === 0"
+              @click.stop="
+                onClickChangeAttachment(
+                  allAttachments[activeImageIndex - 1],
+                  activeImageIndex - 1
+                )
+              "
             />
           </div>
 
-          <video
-            v-if="isVideo"
-            :key="activeAttachment.message_id"
-            :src="activeAttachment.data_url"
-            controls
-            playsInline
-            class="max-h-full max-w-full object-contain"
-            @click.stop
-          />
+          <div class="flex-1 flex items-center justify-center overflow-hidden">
+            <div
+              v-if="isImage"
+              :style="imageWrapperStyle"
+              class="flex items-center justify-center origin-center"
+              :class="{
+                // Adjust dimensions when rotated 90/270 degrees to maintain visibility
+                // and prevent image from overflowing container in different aspect ratios
+                'w-[calc(100dvh-8rem)] h-[calc(100dvw-7rem)]':
+                  activeImageRotation % 180 !== 0,
+                'size-full': activeImageRotation % 180 === 0,
+              }"
+            >
+              <img
+                ref="imageRef"
+                :key="activeAttachment.message_id"
+                :src="activeAttachment.data_url"
+                :style="imageStyle"
+                class="max-h-full max-w-full object-contain duration-100 ease-in-out transform select-none"
+                @click.stop
+                @dblclick.stop="onDoubleClickZoomImage"
+                @wheel.prevent.stop="onWheelImageZoom"
+                @mousemove="onMouseMove"
+                @mouseleave="onMouseLeave"
+              />
+            </div>
 
-          <audio
-            v-if="isAudio"
-            :key="activeAttachment.message_id"
-            controls
-            class="w-full max-w-md"
-            @click.stop
-          >
-            <source :src="`${activeAttachment.data_url}?t=${Date.now()}`" />
-          </audio>
-        </div>
+            <video
+              v-if="isVideo"
+              :key="activeAttachment.message_id"
+              :src="activeAttachment.data_url"
+              controls
+              playsInline
+              class="max-h-full max-w-full object-contain"
+              @click.stop
+            />
 
-        <div class="flex items-center justify-center w-16 shrink-0">
-          <NextButton
-            v-if="hasMoreThanOneAttachment"
-            icon="i-lucide-chevron-right"
-            class="z-10"
-            blue
-            faded
-            lg
-            :disabled="activeImageIndex === allAttachments.length - 1"
-            @click.stop="
-              onClickChangeAttachment(
-                allAttachments[activeImageIndex + 1],
-                activeImageIndex + 1
-              )
-            "
-          />
-        </div>
-      </main>
+            <audio
+              v-if="isAudio"
+              :key="activeAttachment.message_id"
+              controls
+              class="w-full max-w-md"
+              @click.stop
+            >
+              <source :src="`${activeAttachment.data_url}?t=${Date.now()}`" />
+            </audio>
+          </div>
 
-      <footer
-        class="z-10 flex items-center justify-center h-12 border-t border-n-weak"
-      >
-        <div
-          class="rounded-md flex items-center justify-center px-3 py-1 bg-n-slate-3 text-n-slate-12 text-sm font-medium"
+          <div class="flex items-center justify-center w-16 shrink-0">
+            <NextButton
+              v-if="hasMoreThanOneAttachment"
+              icon="i-lucide-chevron-right"
+              class="z-10"
+              blue
+              faded
+              lg
+              :disabled="activeImageIndex === allAttachments.length - 1"
+              @click.stop="
+                onClickChangeAttachment(
+                  allAttachments[activeImageIndex + 1],
+                  activeImageIndex + 1
+                )
+              "
+            />
+          </div>
+        </main>
+
+        <footer
+          class="z-10 flex items-center justify-center h-12 border-t border-n-weak"
         >
-          {{ `${activeImageIndex + 1} / ${allAttachments.length}` }}
-        </div>
-      </footer>
-    </div>
-  </woot-modal>
+          <div
+            class="rounded-md flex items-center justify-center px-3 py-1 bg-n-slate-3 text-n-slate-12 text-sm font-medium"
+          >
+            {{ `${activeImageIndex + 1} / ${allAttachments.length}` }}
+          </div>
+        </footer>
+      </div>
+    </woot-modal>
+  </Teleport>
 </template>

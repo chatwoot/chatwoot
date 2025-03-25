@@ -16,7 +16,7 @@
         "DESC": "Adicione um título e uma descrição à sua nova equipe."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Adicionar agente ao seu time",
+        "BUTTON_TEXT": "Adicionar agente à sua equipe",
         "TITLE": "Adicionar agentes a equipe: {teamName}",
         "DESC": "Adicione agentes à sua equipe recém-criada. Isso permite que você colabore como uma equipe em conversas, seja notificado sobre novos eventos na mesma conversa."
       },
