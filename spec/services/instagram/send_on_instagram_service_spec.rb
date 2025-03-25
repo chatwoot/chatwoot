@@ -82,12 +82,12 @@ describe Instagram::SendOnInstagramService do
 
           service = described_class.new(message: message)
 
-          # Stub the send_to_facebook_page method on the service instance
-          allow(service).to receive(:send_to_facebook_page)
+          # Stub the send_message method on the service instance
+          allow(service).to receive(:send_message)
           service.perform
 
           # Now you can set expectations on the stubbed method for each attachment
-          expect(service).to have_received(:send_to_facebook_page).exactly(:twice)
+          expect(service).to have_received(:send_message).exactly(:twice)
         end
 
         it 'if message with attachment is sent from chatwoot and is outgoing' do
