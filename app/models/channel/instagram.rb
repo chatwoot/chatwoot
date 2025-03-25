@@ -69,4 +69,8 @@ class Channel::Instagram < ApplicationRecord
     Rails.logger.debug { "Rescued: #{e.inspect}" }
     true
   end
+
+  def access_token
+    Instagram::RefreshOauthTokenService.new(channel: self).access_token
+  end
 end
