@@ -89,37 +89,13 @@ class Instagram::MessageText < Instagram::BaseMessageText
     @inbox = ::Inbox.find_by(channel: messenger_channel)
     return unless @inbox
 
-    @contact = create_test_contact
-
     @conversation ||= create_test_conversation(conversation_params)
 
     @message = @conversation.messages.create!(test_message_params)
   end
 
-  def create_test_contact
-    @contact_inbox = @inbox.contact_inboxes.where(source_id: @messaging[:sender][:id]).first
-    unless @contact_inbox
-      @contact_inbox ||= @inbox.channel.create_contact_inbox(
-        'sender_username', 'sender_username'
-      )
-    end
-
-    @contact_inbox.contact
-  end
-
   def create_test_conversation(conversation_params)
     Conversation.find_by(conversation_params) || build_conversation(conversation_params)
-  end
-
-  def test_message_params
-    {
-      account_id: @conversation.account_id,
-      inbox_id: @conversation.inbox_id,
-      message_type: 'incoming',
-      source_id: @messaging[:message][:mid],
-      content: @messaging[:message][:text],
-      sender: @contact
-    }
   end
 
   def build_conversation(conversation_params)

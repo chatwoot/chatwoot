@@ -118,17 +118,6 @@ class Instagram::Direct::MessageText < Instagram::BaseMessageText
     message_to_delete.update!(content: I18n.t('conversations.messages.deleted'), deleted: true)
   end
 
-  def create_test_contact
-    @contact_inbox = @inbox.contact_inboxes.where(source_id: @messaging[:sender][:id]).first
-    unless @contact_inbox
-      @contact_inbox ||= @inbox.channel.create_contact_inbox(
-        'sender_username', 'sender_username'
-      )
-    end
-
-    @contact_inbox.contact
-  end
-
   def create_test_text
     return unless sent_via_test_webhook?
 
