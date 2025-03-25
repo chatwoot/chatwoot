@@ -6,6 +6,8 @@ properties:
     type: string
   name:
     type: string
+  description:
+    type: string
   system_prompts:
     type: string
   welcoming_message:

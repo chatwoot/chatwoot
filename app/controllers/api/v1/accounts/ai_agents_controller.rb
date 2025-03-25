@@ -2,14 +2,14 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   before_action :set_ai_agent, only: %i[show update destroy avatar update_followups]
 
   def index
-    @ai_agents = Current.account.ai_agents.select(:id, :account_id, :name)
+    @ai_agents = Current.account.ai_agents.select(:id, :account_id, :name, :description)
     render json: @ai_agents
   end
 
   def show
     render json: @ai_agent.as_json(
       only: [
-        :id, :uid, :name, :system_prompts, :welcoming_message,
+        :id, :uid, :name, :description, :system_prompts, :welcoming_message,
         :routing_conditions, :control_flow_rules, :model_name,
         :history_limit, :context_limit, :message_await, :message_limit,
         :timezone, :created_at, :updated_at, :account_id
@@ -149,6 +149,7 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   def ai_agent_params
     params.require(:ai_agent).permit(
       :name,
+      :description,
       :template_id,
       :system_prompts,
       :welcoming_message,

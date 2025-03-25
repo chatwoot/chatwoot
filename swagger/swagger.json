@@ -1641,7 +1641,21 @@
               "type": "array",
               "description": "Array of agent bots",
               "items": {
-                "$ref": "#/definitions/ai_agent"
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Agent Bot A"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Agent Bot A is a bot that can help you with your queries"
+                  }
+                }
               }
             }
           },
@@ -6342,6 +6356,9 @@
           "type": "string"
         },
         "name": {
+          "type": "string"
+        },
+        "description": {
           "type": "string"
         },
         "system_prompts": {

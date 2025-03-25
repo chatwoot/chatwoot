@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_24_052332) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_24_103350) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -163,6 +163,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_24_052332) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "template_id"
+    t.string "description"
   end
 
   create_table "applied_slas", force: :cascade do |t|
