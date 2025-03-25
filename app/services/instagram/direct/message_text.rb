@@ -136,17 +136,6 @@ class Instagram::Direct::MessageText < Instagram::BaseMessageText
     Conversation.find_by(conversation_params) || build_conversation(conversation_params)
   end
 
-  def test_message_params
-    {
-      account_id: @conversation.account_id,
-      inbox_id: @conversation.inbox_id,
-      message_type: 'incoming',
-      source_id: @messaging[:message][:mid],
-      content: @messaging[:message][:text],
-      sender: @contact
-    }
-  end
-
   def build_conversation(conversation_params)
     Conversation.create!(
       conversation_params.merge(
