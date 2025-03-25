@@ -12,10 +12,8 @@ class Base::SendOnChannelService
 
   def perform
     validate_target_channel
-
     return unless outgoing_message?
     return if invalid_message?
-    return if invalid_source_id?
 
     perform_reply
   end
@@ -49,29 +47,6 @@ class Base::SendOnChannelService
     # private notes aren't send to the channels
     # we should also avoid the case of message loops, when outgoing messages are created from channel
     message.private? || outgoing_message_originated_from_channel?
-  end
-
-  def invalid_source_id?
-    return false unless channels_to_validate?
-
-    return false if contact_inbox.source_id == expected_source_id
-
-    message.update!(status: :failed, external_error: I18n.t('errors.channel_service.invalid_source_id'))
-    true
-  end
-
-  def expected_source_id
-    ContactInbox::SourceIdService.new(
-      contact: contact,
-      channel_type: inbox.channel_type,
-      medium: inbox.channel.try(:medium)
-    ).generate
-  rescue ArgumentError
-    nil
-  end
-
-  def channels_to_validate?
-    inbox.sms? || inbox.whatsapp? || inbox.email? || inbox.twilio?
   end
 
   def validate_target_channel
