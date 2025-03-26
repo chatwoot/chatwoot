@@ -15,9 +15,16 @@ class Instagram::RefreshOauthTokenService
 
     # Only attempt refresh if eligible, otherwise just return current token
     if token_eligible_for_refresh?
-      refreshed_token_data = refresh_long_lived_token
-      update_channel_tokens(refreshed_token_data)
-      channel.reload[:access_token]
+      begin
+        refreshed_token_data = refresh_long_lived_token
+        update_channel_tokens(refreshed_token_data)
+        channel.reload[:access_token]
+      rescue StandardError => e
+        Rails.logger.error("Token refresh failed: #{e.message}")
+        # Notify admins if this is recurring?
+        # Return existing token even if near expiration
+        channel[:access_token]
+      end
     else
       channel[:access_token]
     end
