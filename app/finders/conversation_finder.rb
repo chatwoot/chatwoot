@@ -201,7 +201,7 @@ class ConversationFinder
   end
 
   def additional_filters?
-    params[:q].present? || params[:conversation_type].present? || params[:team_id].present? || params[:labels].present? || params[:source_id].present?
+    [:q, :conversation_type, :team_id, :labels, :source_id, :inbox_id].any? { |key| params[key].present? }
   end
 
   def current_page
