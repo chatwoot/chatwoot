@@ -101,7 +101,7 @@ export default {
       recordingAudioState: '',
       recordingAudioDurationText: '',
       isUploading: false,
-      replyType: REPLY_EDITOR_MODES.REPLY,
+      replyType: null,
       mentionSearchKey: '',
       hasSlashCommand: false,
       bccEmails: '',
@@ -119,6 +119,9 @@ export default {
       showArticleSearchPopover: false,
       hasRecordedAudio: false,
     };
+  },
+  created() {
+    this.setInitialReplyType();
   },
   computed: {
     ...mapGetters({
@@ -189,10 +192,16 @@ export default {
         .length;
     },
     isPrivate() {
-      if ((this.currentChat.can_reply && this.currentChat.can_reply_by_custom_message) || this.isAWhatsAppChannel) {
+      if (this.currentChat.can_reply || this.isAWhatsAppChannel) {
         return this.isOnPrivateNote;
       }
       return true;
+    },
+    isTemplate() {
+      if ((this.currentChat.can_reply && !this.currentChat.can_reply_by_custom_message)) {
+        return this.isOnTemplate;
+      }
+      return false;
     },
     inboxId() {
       return this.currentChat.inbox_id;
@@ -201,9 +210,12 @@ export default {
       return this.$store.getters['inboxes/getInbox'](this.inboxId);
     },
     messagePlaceHolder() {
-      return this.isPrivate
-        ? this.$t('CONVERSATION.FOOTER.PRIVATE_MSG_INPUT')
-        : this.$t('CONVERSATION.FOOTER.MSG_INPUT');
+      if (this.isPrivate) {
+        return this.$t('CONVERSATION.FOOTER.PRIVATE_MSG_INPUT');
+      } else if (this.isTemplate) {
+        return this.$t('CONVERSATION.FOOTER.TEMPLATE_MSG_INPUT');
+      }
+      return this.$t('CONVERSATION.FOOTER.MSG_INPUT');
     },
     isMessageLengthReachingThreshold() {
       return this.message.length > this.maxLength - 50;
@@ -279,6 +291,8 @@ export default {
       let sendMessageText = this.$t('CONVERSATION.REPLYBOX.SEND');
       if (this.isPrivate) {
         sendMessageText = this.$t('CONVERSATION.REPLYBOX.CREATE');
+      } else if (this.isTemplate) {
+        sendMessageText = this.$t('CONVERSATION.REPLYBOX.SEND_TEMPLATE');
       }
       const keyLabel = this.isEditorHotKeyEnabled('cmd_enter')
         ? '(⌘ + ↵)'
@@ -289,6 +303,7 @@ export default {
       return {
         'is-private': this.isPrivate,
         'is-focused': this.isFocused || this.hasAttachments,
+        'is-template': this.isTemplate,
       };
     },
     hasAttachments() {
@@ -305,6 +320,9 @@ export default {
     },
     isOnPrivateNote() {
       return this.replyType === REPLY_EDITOR_MODES.NOTE;
+    },
+    isOnTemplate() {
+      return this.replyType === REPLY_EDITOR_MODES.TEMPLATE;
     },
     isOnExpandedLayout() {
       const {
@@ -389,8 +407,18 @@ export default {
     },
   },
   watch: {
+    'currentChat.can_reply_by_custom_message': {
+      immediate: true,
+      handler() {
+        this.setInitialReplyType();
+      },
+    },
     currentChat(conversation, oldConversation) {
-      const { can_reply: canReply } = conversation;
+      const {
+        can_reply: canReply,
+        can_reply_by_custom_message: canReplyByCustom,
+      } = conversation;
+
       if (oldConversation && oldConversation.id !== conversation.id) {
         // Only update email fields when switching to a completely different conversation (by ID)
         // This prevents overwriting user input (e.g., CC/BCC fields) when performing actions
@@ -404,6 +432,8 @@ export default {
 
       if (canReply || this.isAWhatsAppChannel) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
+      } else if (!canReplyByCustom) {
+        this.replyType = REPLY_EDITOR_MODES.TEMPLATE;
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
       }
@@ -792,16 +822,21 @@ export default {
         this.message = updatedMessage;
       }, 100);
     },
-    setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
+    setInitialReplyType() {
+      this.replyType = this.currentChat.can_reply_by_custom_message
+        ? REPLY_EDITOR_MODES.REPLY
+        : REPLY_EDITOR_MODES.TEMPLATE;
+    },
+    setReplyMode(mode) {
       const { can_reply: canReply, can_reply_by_custom_message: canReplyByCustom } = this.currentChat;
-      this.$store.dispatch('draftMessages/setReplyEditorMode', {
-        mode,
-      });
-      if ((canReply && canReplyByCustom) || this.isAWhatsAppChannel) this.replyType = mode;
-      if (this.showRichContentEditor) {
-        if (this.isRecordingAudio) {
-          this.toggleAudioRecorder();
-        }
+      if (!canReply) return;
+      const validModes = canReplyByCustom
+        ? [REPLY_EDITOR_MODES.REPLY, REPLY_EDITOR_MODES.NOTE]
+        : [REPLY_EDITOR_MODES.TEMPLATE, REPLY_EDITOR_MODES.NOTE];
+      if (validModes.includes(mode)) this.replyType = mode;
+      this.$store.dispatch('draftMessages/setReplyEditorMode', { mode });
+      if (this.showRichContentEditor && this.isRecordingAudio) {
+        this.toggleAudioRecorder();
         return;
       }
       this.$nextTick(() => this.$refs.messageInput.focus());
@@ -1111,6 +1146,7 @@ export default {
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
       :popout-reply-box="popOutReplyBox"
+      :can-reply-by-custom-message="currentChat.can_reply_by_custom_message"
       @set-reply-mode="setReplyMode"
       @toggle-popout="togglePopout"
     />
@@ -1275,6 +1311,10 @@ export default {
 
   &.is-private {
     @apply bg-n-solid-amber dark:border-n-amber-3/10 border-n-amber-12/5;
+  }
+
+  &.is-template {
+    @apply bg-n-solid-blue dark:bg-opacity-50 dark:border-n-blue-3/10 border-n-blue-12/5;
   }
 }
 

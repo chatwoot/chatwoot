@@ -199,6 +199,8 @@ const tailwindConfig = {
       current: 'currentColor',
       ...colors,
       body: slateDark.slate7,
+      'n-blue-3': '#3b82f6',
+      'n-blue-12': '#1E3A8A',
     },
     keyframes: {
       ...defaultTheme.keyframes,

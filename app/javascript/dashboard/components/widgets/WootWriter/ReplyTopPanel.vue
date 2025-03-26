@@ -23,6 +23,10 @@ export default {
       type: Number,
       default: () => 0,
     },
+    canReplyByCustomMessage: {
+      type: Boolean,
+      default: () => false,
+    },
   },
   emits: ['setReplyMode', 'togglePopout'],
   setup(props, { emit }) {
@@ -35,11 +39,15 @@ export default {
     const handleNoteClick = () => {
       setReplyMode(REPLY_EDITOR_MODES.NOTE);
     };
+    const handleTemplateClick = () => {
+      setReplyMode(REPLY_EDITOR_MODES.TEMPLATE);
+    };
     const handleModeToggle = () => {
-      const newMode =
-        props.mode === REPLY_EDITOR_MODES.REPLY
-          ? REPLY_EDITOR_MODES.NOTE
-          : REPLY_EDITOR_MODES.REPLY;
+      const availableModes = props.canReplyByCustomMessage
+        ? [REPLY_EDITOR_MODES.REPLY, REPLY_EDITOR_MODES.NOTE]
+        : [REPLY_EDITOR_MODES.TEMPLATE, REPLY_EDITOR_MODES.NOTE];
+      const currentIndex = availableModes.indexOf(props.mode);
+      const newMode = availableModes[(currentIndex + 1) % availableModes.length];
       setReplyMode(newMode);
     };
     const keyboardEvents = {
@@ -58,6 +66,7 @@ export default {
       handleModeToggle,
       handleReplyClick,
       handleNoteClick,
+      handleTemplateClick,
       REPLY_EDITOR_MODES,
     };
   },
@@ -70,6 +79,11 @@ export default {
     noteButtonClass() {
       return {
         'is-active': this.mode === REPLY_EDITOR_MODES.NOTE,
+      };
+    },
+    templateButtonClass() {
+      return {
+        'is-active': this.mode === REPLY_EDITOR_MODES.TEMPLATE,
       };
     },
     charLengthClass() {
@@ -88,6 +102,7 @@ export default {
   <div class="flex justify-between h-[3.25rem] gap-2 ltr:pl-3 rtl:pr-3">
     <EditorModeToggle
       :mode="mode"
+      :canReplyByCustomMessage="canReplyByCustomMessage"
       class="mt-3"
       @toggle-mode="handleModeToggle"
     />
@@ -106,3 +121,52 @@ export default {
     />
   </div>
 </template>
+
+<style lang="scss" scoped>
+.button-group {
+  @apply flex border-0 p-0 m-0;
+
+  .button {
+    @apply text-sm font-medium py-2.5 px-4 m-0 relative z-10;
+
+    &.is-active {
+      @apply bg-white dark:bg-slate-900;
+    }
+  }
+
+  .button--reply {
+    @apply border-r rounded-none border-b-0 border-l-0 border-t-0 border-slate-50 dark:border-slate-700;
+
+    &:hover,
+    &:focus {
+      @apply border-r border-slate-50 dark:border-slate-700;
+    }
+  }
+
+  .button--note {
+    @apply border-l-0 rounded-none;
+
+    &.is-active {
+      @apply border-r border-b-0 bg-yellow-100 dark:bg-yellow-800 border-t-0 border-slate-50 dark:border-slate-700;
+    }
+
+    &:hover,
+    &:active {
+      @apply text-yellow-700 dark:text-yellow-700;
+    }
+  }
+
+  .button--template {
+    @apply border-r rounded-none border-b-0 border-l-0 border-t-0 border-slate-50 dark:border-slate-700;
+
+    &:hover,
+    &:focus {
+      @apply border-r border-slate-50 dark:border-slate-700;
+    }
+  }
+}
+
+.button--note {
+  @apply text-yellow-600 dark:text-yellow-600 bg-transparent dark:bg-transparent;
+}
+</style>

@@ -8,21 +8,28 @@ const props = defineProps({
     type: String,
     default: REPLY_EDITOR_MODES.REPLY,
   },
+  canReplyByCustomMessage: {
+    type: Boolean,
+    default: () => false,
+  },
 });
 
 defineEmits(['toggleMode']);
 
 const wootEditorReplyMode = useTemplateRef('wootEditorReplyMode');
 const wootEditorPrivateMode = useTemplateRef('wootEditorPrivateMode');
+const wootEditorTemplateMode = useTemplateRef('wootEditorTemplateMode');
 
 const replyModeSize = useElementSize(wootEditorReplyMode);
 const privateModeSize = useElementSize(wootEditorPrivateMode);
+const templateModeSize = useElementSize(wootEditorTemplateMode);
 
 /**
  * Computed boolean indicating if the editor is in private note mode
  * @type {ComputedRef<boolean>}
  */
 const isPrivate = computed(() => props.mode === REPLY_EDITOR_MODES.NOTE);
+const isTemplate = computed(() => props.mode === REPLY_EDITOR_MODES.TEMPLATE);
 
 /**
  * Computes the width of the sliding background chip in pixels
@@ -30,12 +37,17 @@ const isPrivate = computed(() => props.mode === REPLY_EDITOR_MODES.NOTE);
  * @type {ComputedRef<string>}
  */
 const width = computed(() => {
-  const widthToUse = isPrivate.value
-    ? privateModeSize.width.value
-    : replyModeSize.width.value;
+  let widthToUse;
 
-  const widthWithPadding = widthToUse + 16;
-  return `${widthWithPadding}px`;
+  if (isTemplate.value) {
+    widthToUse = templateModeSize.width.value;
+  } else if (isPrivate.value) {
+    widthToUse = privateModeSize.width.value;
+  } else {
+    widthToUse = replyModeSize.width.value;
+  }
+
+  return `${widthToUse + 16}px`;
 });
 
 /**
@@ -44,9 +56,19 @@ const width = computed(() => {
  * @type {ComputedRef<string>}
  */
 const translateValue = computed(() => {
-  const xTranslate = isPrivate.value ? replyModeSize.width.value + 16 : 0;
+  if (isPrivate.value) {
+    return props.canReplyByCustomMessage
+      ? `${replyModeSize.width.value + 16}px`
+      : `0px`;
+  }
 
-  return `${xTranslate}px`;
+  if (isTemplate.value) {
+    return props.canReplyByCustomMessage
+      ? `${replyModeSize.width.value + privateModeSize.width.value + 32}px`
+      : `${privateModeSize.width.value + 16}px`;
+  }
+
+  return `0px`;
 });
 </script>
 
@@ -55,11 +77,14 @@ const translateValue = computed(() => {
     class="flex items-center w-auto h-8 p-1 transition-all border rounded-full bg-n-alpha-2 group relative duration-300 ease-in-out z-0"
     @click="$emit('toggleMode')"
   >
-    <div ref="wootEditorReplyMode" class="flex items-center gap-1 px-2 z-20">
+    <div ref="wootEditorReplyMode" v-if="canReplyByCustomMessage" class="flex items-center gap-1 px-2 z-20">
       {{ $t('CONVERSATION.REPLYBOX.REPLY') }}
     </div>
     <div ref="wootEditorPrivateMode" class="flex items-center gap-1 px-2 z-20">
       {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
+    </div>
+    <div ref="wootEditorTemplateMode" v-if="!canReplyByCustomMessage" class="flex items-center gap-1 px-2 z-20">
+      {{ $t('CONVERSATION.REPLYBOX.TEMPLATE') }}
     </div>
     <div
       class="absolute shadow-sm rounded-full h-6 w-[var(--chip-width)] transition-all duration-300 ease-in-out translate-x-[var(--translate-x)] rtl:translate-x-[var(--rtl-translate-x)] bg-n-solid-1"

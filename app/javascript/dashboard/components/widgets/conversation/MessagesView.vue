@@ -202,7 +202,7 @@ export default {
 
       const can_not_reply_by_custom_message = !this.currentChat.can_reply_by_custom_message;
       if (can_not_reply_by_custom_message) {
-        return "You can only reply to this conversation using a template message.";
+        return this.$t('CONVERSATION.CANNOT_REPLY_BY_CUSTOM_MESSAGE');
       }
 
       return '';
