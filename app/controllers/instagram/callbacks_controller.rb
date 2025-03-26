@@ -19,7 +19,7 @@ class Instagram::CallbacksController < ApplicationController
 
   # Process the authorization code and create inbox
   def process_successful_authorization
-    @response = oauth_client.auth_code.get_token(
+    @response = instagram_client.auth_code.get_token(
       oauth_code,
       redirect_uri: "#{base_url}/#{provider_name}/callback",
       grant_type: 'authorization_code'
@@ -31,7 +31,7 @@ class Instagram::CallbacksController < ApplicationController
   end
 
   # Handle all errors that might occur during authorization
-  # See: https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/business-login#sample-rejected-response
+  # https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/business-login#sample-rejected-response
   def handle_error(error)
     Rails.logger.error("Instagram Channel creation Error: #{error.message}")
     ChatwootExceptionTracker.new(error).capture_exception
@@ -72,6 +72,7 @@ class Instagram::CallbacksController < ApplicationController
 
   # Centralized method to redirect to error page with appropriate parameters
   # This ensures consistent error handling across different error scenarios
+  # Frontend will handle the error page based on the error_type
   def redirect_to_error_page(error_info)
     redirect_to app_new_instagram_inbox_url(
       account_id: account_id,
@@ -100,10 +101,6 @@ class Instagram::CallbacksController < ApplicationController
         name: user_details['username']
       )
     end
-  end
-
-  def oauth_client
-    instagram_client
   end
 
   def account_id
