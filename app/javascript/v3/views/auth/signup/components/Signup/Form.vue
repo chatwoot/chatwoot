@@ -195,7 +195,7 @@ export default {
         :label="$t('LOGIN.PASSWORD.LABEL')"
         :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
         :has-error="v$.credentials.password.$error"
-        :error-message="passwordErrorText"
+        :error-message="$t('REGISTER.PASSWORD.IS_INVALID_PASSWORD')"
         @blur="v$.credentials.password.$touch"
       />
       <div v-if="globalConfig.hCaptchaSiteKey" class="mb-3">
