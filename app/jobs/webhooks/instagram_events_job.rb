@@ -24,6 +24,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   private
 
   def process_single_entry(entry)
+    # TODO: Handle test events
     instagram_account_id = entry[:id]
     @channel = find_channel(instagram_account_id)
 
