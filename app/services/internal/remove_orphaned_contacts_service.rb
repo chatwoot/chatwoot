@@ -39,5 +39,12 @@ class Internal::RemoveOrphanedContactsService
 
   def base_query
     account.contacts.where('created_at < ?', Time.zone.now - offset)
+
+    # Alternative
+    # orphaned_contact_ids = account.contacts
+    #                               .left_outer_joins(:conversations)
+    #                               .where('contacts.created_at < ?', Time.zone.now - offset)
+    #                               .where(conversations: { id: nil }) # Select contacts with no conversations
+    #                               .pluck('contacts.id') # Get only the IDs
   end
 end
