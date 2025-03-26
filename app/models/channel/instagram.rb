@@ -2,20 +2,18 @@
 #
 # Table name: channel_instagram
 #
-#  id            :bigint           not null, primary key
-#  access_token  :string           not null
-#  expires_at    :datetime         not null
-#  refresh_token :string
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  account_id    :integer          not null
-#  instagram_id  :string           not null
+#  id           :bigint           not null, primary key
+#  access_token :string           not null
+#  expires_at   :datetime         not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  account_id   :integer          not null
+#  instagram_id :string           not null
 #
 # Indexes
 #
 #  index_channel_instagram_on_instagram_id  (instagram_id) UNIQUE
 #
-
 class Channel::Instagram < ApplicationRecord
   include Channelable
   include Reauthorizable
@@ -29,18 +27,6 @@ class Channel::Instagram < ApplicationRecord
 
   def name
     'Instagram'
-  end
-
-  def messaging_window_enabled?
-    false
-  end
-
-  def create_contact_inbox(instagram_id, name)
-    @contact_inbox = ::ContactInboxWithContactBuilder.new({
-                                                            source_id: instagram_id,
-                                                            inbox: inbox,
-                                                            contact_attributes: { name: name }
-                                                          }).perform
   end
 
   def subscribe

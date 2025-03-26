@@ -4,8 +4,7 @@ FactoryBot.define do
     access_token { SecureRandom.hex(32) }
     instagram_id { SecureRandom.hex(16) }
     expires_at { 60.days.from_now }
-    updated_at { 25.hours.ago }  # Ensure token is old enough by default
-    refresh_token { SecureRandom.uuid }
+    updated_at { 25.hours.ago }
 
     before :create do |channel|
       WebMock::API.stub_request(:post, "https://graph.instagram.com/v22.0/#{channel.instagram_id}/subscribed_apps")
