@@ -4,7 +4,7 @@ class RoomChannel < ApplicationCable::Channel
     # for now going ahead with guard clauses in update_subscription and broadcast_presence
     current_user
     current_account
-    ensure_stream
+    prepare_stream
     update_subscription
     broadcast_presence
   end
@@ -24,9 +24,18 @@ class RoomChannel < ApplicationCable::Channel
     ActionCable.server.broadcast(pubsub_token, { event: 'presence.update', data: data })
   end
 
-  def ensure_stream
+  def prepare_stream
     stream_from pubsub_token
     stream_from "account_#{@current_account.id}" if @current_account.present? && @current_user.is_a?(User)
+    stream_from_inboxes
+  end
+
+  def stream_from_inboxes
+    return if current_user.blank?
+
+    current_user.assigned_inboxes.each do |inbox|
+      stream_from "inbox_#{inbox.id}"
+    end
   end
 
   def update_subscription
