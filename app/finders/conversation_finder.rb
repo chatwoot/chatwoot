@@ -184,7 +184,7 @@ class ConversationFinder
   end
 
   def should_cache?
-    true
+    current_account.feature_enabled?('cache_meta_counts')
   end
 
   def cache_key
@@ -192,6 +192,7 @@ class ConversationFinder
   end
 
   def cache_expiry(unassigned_count)
+    # these numbers are intentionally chosen to balance between cache hit rate and freshness
     return 5.seconds if unassigned_count < 100
     return 10.seconds if unassigned_count < 200
     return 15.seconds if unassigned_count < 500
