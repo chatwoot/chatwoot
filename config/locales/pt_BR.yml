@@ -92,7 +92,7 @@ pt_BR:
       avg_first_response_time: Tempo médio de primeira resposta
       avg_resolution_time: Tempo médio de resolução
     team_csv:
-      team_name: Nome da equipe
+      team_name: Nome da Equipe
       conversations_count: Contagem de conversas
       avg_first_response_time: Tempo médio de primeira resposta
       avg_resolution_time: Tempo médio de resolução
@@ -103,7 +103,7 @@ pt_BR:
     sla_csv:
       conversation_id: ID da conversa
       sla_policy_breached: Política SLA
-      assignee: Responsável
+      assignee: Agente atribuído
       team: Equipe
       inbox: Caixa de Entrada
       labels: Etiquetas
