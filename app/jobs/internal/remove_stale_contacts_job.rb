@@ -5,9 +5,9 @@
 # - are older than 30 days
 
 class Internal::RemoveStaleContactsJob < ApplicationJob
-  queue_as :scheduled_jobs
+  queue_as :low
 
-  def perform
-    Internal::RemoveStaleContactsService.new.perform
+  def perform(account)
+    Internal::RemoveStaleContactsService.new(account: account).perform
   end
 end
