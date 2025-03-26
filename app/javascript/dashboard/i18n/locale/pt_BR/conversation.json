@@ -200,7 +200,7 @@
     "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e sua equipe",
     "CHANGE_STATUS": "Estado da conversa mudou",
     "CHANGE_STATUS_FAILED": "Mudança de situação da conversa falhou",
-    "CHANGE_AGENT": "Responsável da conversa alterado",
+    "CHANGE_AGENT": "Novo agente atribuído",
     "CHANGE_AGENT_FAILED": "Falha ao atribuir outro agente",
     "ASSIGN_LABEL_SUCCESFUL": "Etiqueta atribuída com sucesso",
     "ASSIGN_LABEL_FAILED": "Falha ao atribuir etiqueta",
