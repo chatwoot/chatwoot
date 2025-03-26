@@ -32,13 +32,15 @@ class ConversationFinder
   def initialize(current_user, params)
     @current_user = current_user
     @current_account = current_user.account
+    @is_admin = current_account.account_users.find_by(user_id: current_user.id)&.administrator?
     @params = params
   end
 
   def perform
     set_up
 
-    mine_count, unassigned_count, all_count, = set_count_for_all_conversations
+    mine_count = compute_mine_count
+    unassigned_count, all_count = compute_unassigned_and_all_count
     assigned_count = all_count - unassigned_count
 
     filter_by_assignee_type
@@ -86,7 +88,8 @@ class ConversationFinder
   end
 
   def find_all_conversations
-    @conversations = current_account.conversations.where(inbox_id: @inbox_ids)
+    @conversations = current_account.conversations
+    @conversations = @conversations.where(inbox_id: @inbox_ids) unless @is_admin
     filter_by_conversation_type if params[:conversation_type]
     @conversations
   end
@@ -151,12 +154,53 @@ class ConversationFinder
     @conversations = @conversations.where(contact_inboxes: { source_id: params[:source_id] })
   end
 
-  def set_count_for_all_conversations
-    [
-      @conversations.assigned_to(current_user).count,
-      @conversations.unassigned.count,
-      @conversations.count
-    ]
+  def compute_mine_count
+    # Mine count is always computed fresh, never cached
+    @conversations.assigned_to(current_user).count
+  end
+
+  def compute_unassigned_and_all_count
+    return compute_unassigned_and_all_count_without_cache if additional_filters? || !should_cache?
+
+    cached_counts = ::Redis::Alfred.get(cache_key)
+    if cached_counts.present?
+      begin
+        return JSON.parse(cached_counts)
+      rescue JSON::ParserError
+        compute_unassigned_and_all_count_without_cache
+      end
+    end
+
+    counts = compute_unassigned_and_all_count_without_cache
+    ::Redis::Alfred.setex(cache_key, counts, cache_expiry(counts[0]))
+
+    counts
+  end
+
+  def compute_unassigned_and_all_count_without_cache
+    unassigned_count = @conversations.unassigned.count
+    all_count = @conversations.count
+    [unassigned_count, all_count]
+  end
+
+  def should_cache?
+    true
+  end
+
+  def cache_key
+    @cache_key ||= format(::Redis::Alfred::CONVERSATION_COUNTS, inbox_ids: @inbox_ids.sort.join('-'), status: params[:status] || DEFAULT_STATUS)
+  end
+
+  def cache_expiry(unassigned_count)
+    return 5.seconds if unassigned_count < 100
+    return 10.seconds if unassigned_count < 200
+    return 15.seconds if unassigned_count < 500
+
+    20.seconds
+  end
+
+  def additional_filters?
+    params[:q].present? || params[:conversation_type].present? || params[:team_id].present? || params[:labels].present? || params[:source_id].present?
   end
 
   def current_page
