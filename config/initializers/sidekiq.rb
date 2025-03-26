@@ -3,11 +3,11 @@ require Rails.root.join('lib/redis/config')
 schedule_file = 'config/schedule.yml'
 
 Sidekiq.configure_client do |config|
-  config.redis = Redis::Config.app
+  config.redis = Redis::Config.sidekiq
 end
 
 Sidekiq.configure_server do |config|
-  config.redis = Redis::Config.app
+  config.redis = Redis::Config.sidekiq
 
   # skip the default start stop logging
   if Rails.env.production?
