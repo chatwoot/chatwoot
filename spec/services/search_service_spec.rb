@@ -83,22 +83,32 @@ describe SearchService do
         let(:params) { { q: 'Harry' } }
         let(:search_type) { 'Message' }
 
-        it 'uses LIKE search when search_with_gin feature is disabled' do
-          allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
-          search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
-
-          expect(search_service).to receive(:filter_messages_with_like).and_call_original
-          expect(search_service).not_to receive(:filter_messages_with_gin)
-
-          search_service.perform
-        end
-
         it 'uses GIN search when search_with_gin feature is enabled' do
           allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(true)
           search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
 
           expect(search_service).to receive(:filter_messages_with_gin).and_call_original
           expect(search_service).not_to receive(:filter_messages_with_like)
+
+          search_service.perform
+        end
+
+        it 'uses perform_full_text_search when use_full_text_search is true' do
+          allow_any_instance_of(described_class).to receive(:use_full_text_search?).and_return(true)
+          search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+          expect(search_service).to receive(:perform_full_text_search).and_call_original
+          expect(search_service).not_to receive(:filter_messages_with_like)
+
+          search_service.perform
+        end
+
+        it 'uses filter_messages_with_like when use_full_text_search is false' do
+          allow_any_instance_of(described_class).to receive(:use_full_text_search?).and_return(false)
+          search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+          expect(search_service).to receive(:filter_messages_with_like).and_call_original
+          expect(search_service).not_to receive(:perform_full_text_search)
 
           search_service.perform
         end

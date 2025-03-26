@@ -18,7 +18,7 @@
 #  index_mentions_on_user_id_and_conversation_id  (user_id,conversation_id) UNIQUE
 #
 class Mention < ApplicationRecord
-  include SortHandler
+  include MentionSortHandler
 
   before_validation :ensure_account_id
   validates :mentioned_at, presence: true
