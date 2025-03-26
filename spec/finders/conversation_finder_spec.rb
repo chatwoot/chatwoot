@@ -20,6 +20,7 @@ describe ConversationFinder do
     create(:conversation, account: account, inbox: inbox, assignee: user_2, contact_inbox: contact_inbox)
     # unassigned conversation
     create(:conversation, account: account, inbox: inbox)
+    account.disable_features!('cache_meta_counts')
     Current.account = account
   end
 
@@ -191,6 +192,82 @@ describe ConversationFinder do
 
         result = conversation_finder.perform
         expect(result[:conversations].length).to be 2
+      end
+    end
+
+    describe 'caching behavior' do
+      let(:params) { { status: 'open' } }
+      let(:cache_key) { format(Redis::Alfred::CONVERSATION_COUNTS, inbox_ids: inbox.id, status: 'open') }
+
+      before do
+        account.enable_features!('cache_meta_counts')
+      end
+
+      context 'when should_cache? returns true' do
+        before do
+          Redis::Alfred.delete(cache_key) if cache_key
+        end
+
+        it 'caches the unassigned and all counts' do
+          expect(Redis::Alfred).to receive(:setex).with(
+            cache_key,
+            [1, 4], # unassigned_count and all_count
+            instance_of(Integer)
+          )
+
+          conversation_finder.perform
+        end
+
+        it 'uses cached counts on subsequent calls' do
+          # First call should cache the counts
+          first_result = conversation_finder.perform
+
+          # Create a new conversation that shouldn't be counted due to caching
+          create(:conversation, account: account, inbox: inbox)
+
+          # Second call should use cached counts
+          second_result = conversation_finder.perform
+
+          expect(second_result[:count][:unassigned_count]).to eq(first_result[:count][:unassigned_count])
+          expect(second_result[:count][:all_count]).to eq(first_result[:count][:all_count])
+        end
+
+        it 'always computes mine_count fresh' do
+          # First call
+          first_result = conversation_finder.perform
+
+          # Create a new conversation assigned to user_1
+          create(:conversation, account: account, inbox: inbox, assignee: user_1)
+
+          # Second call should have updated mine_count
+          second_result = conversation_finder.perform
+
+          expect(second_result[:count][:mine_count]).to eq(first_result[:count][:mine_count] + 1)
+        end
+      end
+
+      context 'when has_additional_filters? returns true' do
+        let(:params) { { status: 'open', labels: ['test'] } }
+
+        it 'does not use cache' do
+          expect(Redis::Alfred).not_to receive(:get)
+          expect(Redis::Alfred).not_to receive(:setex)
+
+          conversation_finder.perform
+        end
+      end
+
+      context 'when should_cache? returns false' do
+        before do
+          account.disable_features!('cache_meta_counts')
+        end
+
+        it 'does not use cache' do
+          expect(Redis::Alfred).not_to receive(:get)
+          expect(Redis::Alfred).not_to receive(:setex)
+
+          conversation_finder.perform
+        end
       end
     end
   end
