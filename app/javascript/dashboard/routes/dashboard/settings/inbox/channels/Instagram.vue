@@ -25,7 +25,8 @@ export default {
 
   mounted() {
     const urlParams = new URLSearchParams(window.location.search);
-
+    //  TODO: Handle error type
+    // const errorType = urlParams.get('error_type');
     const errorCode = urlParams.get('code');
     const errorMessage = urlParams.get('error_message');
 
