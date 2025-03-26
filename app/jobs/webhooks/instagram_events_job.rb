@@ -145,7 +145,7 @@ end
 # Test response via Facebook page
 # [
 #   {
-#     "time": 1743011846423,
+#     "time": <timestamp>,,
 #     "id": "0",
 #     "messaging": [
 #       {
@@ -155,7 +155,7 @@ end
 #         "recipient": {
 #           "id": "23245"
 #         },
-#         "timestamp": 233445667,
+#         "timestamp": <timestamp>,
 #         "message": {
 #             "mid": "random_mid",
 #             "text": "random_text"
