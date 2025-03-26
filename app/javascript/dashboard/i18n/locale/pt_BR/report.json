@@ -119,7 +119,8 @@
       "EMPTY_LIST": "Nenhum resultado encontrado"
     },
     "PAGINATION": {
-      "RESULTS": "Exibindo {start} — {end} de {total} resultados"
+      "RESULTS": "Exibindo {start} — {end} de {total} resultados",
+      "PER_PAGE_TEMPLATE": "{size} / página"
     }
   },
   "AGENT_REPORTS": {
@@ -471,7 +472,19 @@
       "NO_AGENTS": "Não há conversas por agentes",
       "TABLE_HEADER": {
         "AGENT": "Agente",
-        "OPEN": "Abertas",
+        "OPEN": "Abrir",
+        "UNATTENDED": "Não atendidas",
+        "STATUS": "Situação"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "Todas as equipes",
+      "HEADER": "Conversas por equipes",
+      "LOADING_MESSAGE": "Carregando métricas de equipe...",
+      "NO_TEAMS": "Não há dados disponíveis",
+      "TABLE_HEADER": {
+        "TEAM": "Equipe",
+        "OPEN": "Abrir",
         "UNATTENDED": "Não atendidas",
         "STATUS": "Situação"
       }
@@ -509,7 +522,7 @@
         "SLA": "Nome do SLA",
         "AGENTS": "Nome do Agente",
         "INBOXES": "Nome da Caixa de Entrada",
-        "LABELS": "Nome do marcador",
+        "LABELS": "Nome da etiqueta",
         "TEAMS": "Nome da equipe"
       },
       "SLA": "Política SLA",

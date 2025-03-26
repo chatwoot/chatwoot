@@ -1,8 +1,8 @@
 {
   "MACROS": {
     "HEADER": "宏",
-    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
-    "LEARN_MORE": "Learn more about macros",
+    "DESCRIPTION": "宏是一组预设操作，帮助客服人员快速完成任务。客服人员可以定义诸如标记对话、发送邮件记录、更新自定义属性等操作，并一键执行。",
+    "LEARN_MORE": "了解更多关于宏的信息",
     "HEADER_BTN_TXT": "添加一个新宏文件",
     "HEADER_BTN_TXT_SAVE": "保存宏文件",
     "LOADING": "获取宏中",
@@ -76,8 +76,8 @@
       "EXECUTED_SUCCESSFULLY": "宏成功执行"
     },
     "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "ATTRIBUTE_KEY_REQUIRED": "属性键是必需的",
+      "FILTER_OPERATOR_REQUIRED": "需要过滤器操作符",
       "VALUE_REQUIRED": "必须填写值",
       "VALUE_MUST_BE_BETWEEN_1_AND_998": "值必须介于 1 到 998 之间。",
       "ACTION_PARAMETERS_REQUIRED": "需要操作参数",

@@ -1,81 +1,59 @@
-<script>
+<script setup>
+import { computed } from 'vue';
 import ShowMore from 'dashboard/components/widgets/ShowMore.vue';
 import AgentBotType from './AgentBotType.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
-export default {
-  components: { ShowMore, AgentBotType },
-  props: {
-    agentBot: {
-      type: Object,
-      required: true,
-    },
-    index: {
-      type: Number,
-      required: true,
-    },
+const props = defineProps({
+  agentBot: {
+    type: Object,
+    required: true,
   },
-  emits: ['edit', 'delete'],
-  computed: {
-    isACSMLTypeBot() {
-      const { bot_type: botType } = this.agentBot;
-      return botType === 'csml';
-    },
+  index: {
+    type: Number,
+    required: true,
   },
-};
+});
+
+const emit = defineEmits(['edit', 'delete']);
+
+const isACSMLTypeBot = computed(() => {
+  const { bot_type: botType } = props.agentBot;
+  return botType === 'csml';
+});
 </script>
 
 <template>
   <tr class="space-x-2">
-    <td class="agent-bot--details">
-      <div class="agent-bot--link">
+    <td class="py-4 ltr:pl-0 ltr:pr-4 rtl:pl-4 rtl:pr-0">
+      <div class="flex items-center break-words font-medium">
         {{ agentBot.name }}
         (<AgentBotType :bot-type="agentBot.bot_type" />)
       </div>
-      <div class="agent-bot--description">
+      <div class="text-sm">
         <ShowMore :text="agentBot.description || ''" :limit="120" />
       </div>
     </td>
-    <td class="flex justify-end gap-1">
-      <woot-button
-        v-if="isACSMLTypeBot"
-        v-tooltip.top="$t('AGENT_BOTS.EDIT.BUTTON_TEXT')"
-        variant="smooth"
-        size="tiny"
-        color-scheme="secondary"
-        icon="edit"
-        @click="$emit('edit', agentBot)"
-      />
-      <woot-button
-        v-tooltip.top="$t('AGENT_BOTS.DELETE.BUTTON_TEXT')"
-        variant="smooth"
-        color-scheme="alert"
-        size="tiny"
-        icon="dismiss-circle"
-        @click="$emit('delete', agentBot, index)"
-      />
+    <td class="align-middle">
+      <div class="flex justify-end gap-1 h-full items-center">
+        <Button
+          v-if="isACSMLTypeBot"
+          v-tooltip.top="$t('AGENT_BOTS.EDIT.BUTTON_TEXT')"
+          icon="i-lucide-pen"
+          slate
+          xs
+          faded
+          @click="emit('edit', agentBot)"
+        />
+        <Button
+          v-tooltip.top="$t('AGENT_BOTS.DELETE.BUTTON_TEXT')"
+          icon="i-lucide-trash-2"
+          xs
+          ruby
+          faded
+          @click="emit('delete', agentBot, index)"
+        />
+      </div>
     </td>
   </tr>
 </template>
-
-<style scoped lang="scss">
-.agent-bot--link {
-  align-items: center;
-  display: flex;
-  font-weight: var(--font-weight-medium);
-  word-break: break-word;
-}
-
-.agent-bot--description {
-  font-size: var(--font-size-mini);
-}
-
-.agent-bot--type {
-  color: var(--s-600);
-  font-weight: var(--font-weight-medium);
-  margin-bottom: var(--space-small);
-}
-
-.agent-bot--details {
-  width: 90%;
-}
-</style>

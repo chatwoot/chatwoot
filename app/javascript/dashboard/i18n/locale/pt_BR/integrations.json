@@ -1,5 +1,20 @@
 {
   "INTEGRATION_SETTINGS": {
+    "SHOPIFY": {
+      "DELETE": {
+        "TITLE": "Excluir integração com Shopify",
+        "MESSAGE": "Tem certeza de que deseja excluir a integração com Shopify?"
+      },
+      "STORE_URL": {
+        "TITLE": "Conectar loja Shopify",
+        "LABEL": "URL da loja",
+        "PLACEHOLDER": "sua-loja.myshopify.com",
+        "HELP": "Insira a URL myshopify.com da sua loja Shopify",
+        "CANCEL": "Cancelar",
+        "SUBMIT": "Conectar loja"
+      },
+      "ERROR": "Ocorreu um erro ao conectar com o Shopify. Por favor, tente novamente ou entre em contato com o suporte se o problema persistir."
+    },
     "HEADER": "Integrações",
     "DESCRIPTION": "Chatwoot se integra com várias ferramentas e serviços para melhorar a eficiência da sua equipe. Explore a lista abaixo para configurar seus aplicativos favoritos.",
     "LEARN_MORE": "Aprenda mais sobre integrações",
@@ -302,21 +317,23 @@
         "ERROR": "Houve um erro ao desvincular o atributo, por favor, tente novamente"
       },
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the integration?",
-        "MESSAGE": "Are you sure you want to delete the integration?",
+        "TITLE": "Tem certeza que deseja excluir esta integração?",
+        "MESSAGE": "Tem certeza que deseja excluir esta integração?",
         "CONFIRM": "Sim, excluir",
         "CANCEL": "Cancelar"
       }
     }
   },
   "CAPTAIN": {
-    "NAME": "Capitão",
+    "NAME": "Captain",
+    "HEADER_KNOW_MORE": "Saiba mais",
     "COPILOT": {
       "SEND_MESSAGE": "Enviar mensagem...",
       "LOADER": "Capitão está pensando",
       "YOU": "Você",
       "USE": "Use isto",
-      "RESET": "Reiniciar"
+      "RESET": "Reiniciar",
+      "SELECT_ASSISTANT": "Selecione o Assistente"
     },
     "PAYWALL": {
       "TITLE": "Atualize para usar o Capitão IA",
@@ -389,7 +406,11 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Não há assistentes disponíveis",
-        "SUBTITLE": "Crie um assistente para fornecer respostas rápidas e precisas aos seus usuários. Ele pode aprender com seus artigos de ajuda e conversas passadas."
+        "SUBTITLE": "Crie um assistente para fornecer respostas rápidas e precisas aos seus usuários. Ele pode aprender com seus artigos de ajuda e conversas passadas.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Assistente Captain",
+          "NOTE": "O Assistente Capitão interage diretamente com os clientes, aprende com seus documentos de ajuda e conversas passadas, e fornece respostas instantâneas e precisas. Ele lida com as consultas iniciais, oferecendo soluções rápidas antes de transferir para um agente quando necessário."
+        }
       }
     },
     "DOCUMENTS": {
@@ -430,7 +451,11 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Nenhum documento disponível",
-        "SUBTITLE": "Os documentos são usados pelo seu assistente para gerar perguntas frequentes. Pode importar documentos para fornecer um contexto para seu assistente."
+        "SUBTITLE": "Os documentos são usados pelo seu assistente para gerar perguntas frequentes. Pode importar documentos para fornecer um contexto para seu assistente.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Documentos Captain",
+          "NOTE": "Um documento no Captain serve como um recurso de conhecimento para o assistente. Ao conectar sua central de ajuda ou guias, o Captain pode analisar o conteúdo e fornecer respostas precisas para as perguntas dos clientes."
+        }
       }
     },
     "RESPONSES": {
@@ -439,19 +464,19 @@
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversação #{id}"
       },
-      "SELECTED": "{count} selected",
-      "BULK_APPROVE_BUTTON": "Approve",
+      "SELECTED": "{count} selecionado",
+      "BULK_APPROVE_BUTTON": "Aprovar",
       "BULK_DELETE_BUTTON": "Excluir",
       "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQs approved successfully",
-        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+        "SUCCESS_MESSAGE": "Perguntas Frequentes aprovadas com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro ao aprovar as Perguntas Frequentes. Tente novamente."
       },
       "BULK_DELETE": {
-        "TITLE": "Delete FAQs?",
-        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
-        "CONFIRM": "Yes, delete all",
-        "SUCCESS_MESSAGE": "FAQs deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
+        "TITLE": "Excluir as Perguntas Frequentes?",
+        "DESCRIPTION": "Tem certeza que deseja excluir as Perguntas Frequentes selecionadas? Esta ação não pode ser desfeita.",
+        "CONFIRM": "Sim, excluir todas",
+        "SUCCESS_MESSAGE": "Perguntas Frequentes excluídas com sucesso/",
+        "ERROR_MESSAGE": "Ocorreu um erro ao excluir as Perguntas Frequentes, por favor tente novamente."
       },
       "DELETE": {
         "TITLE": "Tem certeza que deseja excluir o FAQ?",
@@ -507,7 +532,11 @@
       },
       "EMPTY_STATE": {
         "TITLE": "Nenhuma FAQ encontrada",
-        "SUBTITLE": "Perguntas Frequentes ajudam seu assistente a fornecer respostas rápidas e precisas para perguntas de seus clientes. Eles podem ser gerados automaticamente a partir do seu conteúdo ou podem ser adicionados manualmente."
+        "SUBTITLE": "Perguntas Frequentes ajudam seu assistente a fornecer respostas rápidas e precisas para perguntas de seus clientes. Eles podem ser gerados automaticamente a partir do seu conteúdo ou podem ser adicionados manualmente.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Perguntas Frequentes do Captain",
+          "NOTE": "As Perguntas Frequentes do Captain detectam dúvidas comuns dos clientes — sejam elas ausentes da sua base de conhecimento ou frequentemente feitas — e geram respostas relevantes para melhorar o suporte. Você pode revisar cada sugestão e decidir se deseja aprová-la ou rejeitá-la."
+        }
       }
     },
     "INBOXES": {

@@ -2,8 +2,8 @@
   "HELP_CENTER": {
     "TITLE": "帮助中心",
     "NEW_PAGE": {
-      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
-      "CREATE_PORTAL_BUTTON": "Create Portal"
+      "DESCRIPTION": "为您的客户创建自助服务帮助中心门户。帮助他们快速找到答案，无需等待。简化查询，提高代理效率，提升客户支持。",
+      "CREATE_PORTAL_BUTTON": "创建门户"
     },
     "HEADER": {
       "FILTER": "过滤条件",
@@ -23,10 +23,10 @@
         "ARCHIVED": "已存档的文章"
       },
       "LOCALE_SELECT": {
-        "TITLE": "Select locale",
-        "PLACEHOLDER": "Select locale",
-        "NO_RESULT": "No locale found",
-        "SEARCH_PLACEHOLDER": "Search locale"
+        "TITLE": "选择语言环境",
+        "PLACEHOLDER": "选择语言环境",
+        "NO_RESULT": "未找到语言环境",
+        "SEARCH_PLACEHOLDER": "搜索语言环境"
       }
     },
     "EDIT_HEADER": {
@@ -44,12 +44,12 @@
       "IMAGE_UPLOAD": {
         "TITLE": "上传头像",
         "UPLOADING": "上传中...",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "SUCCESS": "图片上传成功",
+        "ERROR": "上传图片时出错",
+        "UN_AUTHORIZED_ERROR": "您无权上传图片",
+        "ERROR_FILE_SIZE": "图片大小应小于 {size}MB",
+        "ERROR_FILE_FORMAT": "图片格式应为 jpg、jpeg 或 png",
+        "ERROR_FILE_DIMENSIONS": "图片尺寸应小于 2000 x 2000"
       }
     },
     "ARTICLE_SETTINGS": {
@@ -75,7 +75,7 @@
         },
         "META_DESCRIPTION": {
           "LABEL": "Meta描述",
-          "PLACEHOLDER": "Add your meta description for better SEO results..."
+          "PLACEHOLDER": "添加您的Meta描述以获得更好的SEO效果……"
         },
         "META_TAGS": {
           "LABEL": "Meta标签",
@@ -88,15 +88,15 @@
       }
     },
     "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Uncategorized",
-      "SEARCH_RESULTS": "Search results for {query}",
-      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "UNCATEGORIZED": "未分类",
+      "SEARCH_RESULTS": "搜索 {query} 的结果",
+      "EMPTY_TEXT": "搜索文章以插入回复。",
       "SEARCH_LOADER": "搜索中...",
-      "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
-      "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
-      "PREVIEW_LINK": "Preview article"
+      "INSERT_ARTICLE": "插入",
+      "NO_RESULT": "未找到文章",
+      "COPY_LINK": "复制文章链接到剪贴板",
+      "OPEN_LINK": "在新标签页中打开文章",
+      "PREVIEW_LINK": "预览文章"
     },
     "PORTAL": {
       "HEADER": "门户网站",
@@ -106,7 +106,7 @@
       "CHOOSE_LOCALE_LABEL": "选择一个语言环境",
       "LOADING_MESSAGE": "正在加载门户...",
       "ARTICLES_LABEL": "文章",
-      "NO_PORTALS_MESSAGE": "There are no available portals",
+      "NO_PORTALS_MESSAGE": "没有可用的门户",
       "ADD_NEW_LOCALE": "添加一个新的语言环境",
       "POPOVER": {
         "TITLE": "门户网站",
@@ -119,196 +119,196 @@
         "LIST_ITEM": {
           "HEADER": {
             "COUNT_LABEL": "文章",
-            "ADD": "Add locale",
-            "VISIT": "Visit site",
+            "ADD": "添加语言环境",
+            "VISIT": "访问网站",
             "SETTINGS": "设置",
             "DELETE": "删除"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Portal Configurations",
+            "TITLE": "门户配置",
             "ITEMS": {
               "NAME": "姓名：",
-              "DOMAIN": "Custom domain",
+              "DOMAIN": "自定义域名",
               "SLUG": "Slug",
-              "TITLE": "Portal title",
-              "THEME": "Theme color",
-              "SUB_TEXT": "Portal sub text"
+              "TITLE": "门户标题",
+              "THEME": "主题颜色",
+              "SUB_TEXT": "门户副文本"
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Available locales",
+            "TITLE": "可用的语言环境",
             "TABLE": {
-              "NAME": "Locale name",
-              "CODE": "Locale code",
-              "ARTICLE_COUNT": "No. of articles",
-              "CATEGORIES": "No. of categories",
-              "SWAP": "Swap",
+              "NAME": "语言环境名称",
+              "CODE": "语言环境代码",
+              "ARTICLE_COUNT": "文章数量",
+              "CATEGORIES": "类别数量",
+              "SWAP": "交换",
               "DELETE": "删除",
-              "DEFAULT_LOCALE": "Default"
+              "DEFAULT_LOCALE": "默认"
             }
           }
         },
         "DELETE_PORTAL": {
-          "TITLE": "Delete portal",
-          "MESSAGE": "Are you sure you want to delete this portal",
-          "YES": "Yes, delete portal",
-          "NO": "No, keep portal",
+          "TITLE": "删除门户",
+          "MESSAGE": "您确定要删除此门户吗",
+          "YES": "是，删除门户",
+          "NO": "否，保留门户",
           "API": {
-            "DELETE_SUCCESS": "Portal deleted successfully",
-            "DELETE_ERROR": "Error while deleting portal"
+            "DELETE_SUCCESS": "门户删除成功",
+            "DELETE_ERROR": "删除门户时出错"
           }
         }
       },
       "EDIT": {
-        "HEADER_TEXT": "Edit portal",
+        "HEADER_TEXT": "编辑门户",
         "TABS": {
           "BASIC_SETTINGS": {
-            "TITLE": "Basic information"
+            "TITLE": "基本信息"
           },
           "CUSTOMIZATION_SETTINGS": {
-            "TITLE": "Portal customization"
+            "TITLE": "门户定制"
           },
           "CATEGORY_SETTINGS": {
-            "TITLE": "Categories"
+            "TITLE": "类别"
           },
           "LOCALE_SETTINGS": {
-            "TITLE": "Locales"
+            "TITLE": "语言环境"
           }
         },
         "CATEGORIES": {
-          "TITLE": "Categories in",
-          "NEW_CATEGORY": "New category",
+          "TITLE": "类别",
+          "NEW_CATEGORY": "新建类别",
           "TABLE": {
             "NAME": "姓名：",
             "DESCRIPTION": "描述信息",
             "LOCALE": "语言环境",
-            "ARTICLE_COUNT": "No. of articles",
+            "ARTICLE_COUNT": "文章数量",
             "ACTION_BUTTON": {
-              "EDIT": "Edit category",
-              "DELETE": "Delete category"
+              "EDIT": "编辑类别",
+              "DELETE": "删除类别"
             },
             "EMPTY_TEXT": "未找到类别"
           }
         },
         "EDIT_BASIC_INFO": {
-          "BUTTON_TEXT": "Update basic settings"
+          "BUTTON_TEXT": "更新基本设置"
         }
       },
       "ADD": {
         "CREATE_FLOW": {
           "BASIC": {
-            "TITLE": "Help center information",
-            "BODY": "Basic information about portal"
+            "TITLE": "帮助中心信息",
+            "BODY": "关于门户的基本信息"
           },
           "CUSTOMIZATION": {
-            "TITLE": "Help center customization",
-            "BODY": "Customize portal"
+            "TITLE": "帮助中心定制",
+            "BODY": "定制门户"
           },
           "FINISH": {
-            "TITLE": "Voila! 🎉",
-            "BODY": "You're all set!"
+            "TITLE": "完成！🎉",
+            "BODY": "您已全部设置完成！"
           }
         },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "后退",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Create Portal",
-            "TITLE": "Help center information",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "HEADER": "创建门户",
+            "TITLE": "帮助中心信息",
+            "CREATE_BASIC_SETTING_BUTTON": "创建门户基本设置"
           },
           "CUSTOMIZATION_PAGE": {
-            "HEADER": "Portal customisation",
-            "TITLE": "Help center customization",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "HEADER": "门户定制",
+            "TITLE": "帮助中心定制",
+            "UPDATE_PORTAL_BUTTON": "更新门户设置"
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila!🎉 You're all set up!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "TITLE": "完成！🎉 您已全部设置完成！",
+            "MESSAGE": "您现在可以在所有门户页面中看到此创建的门户。",
+            "FINISH": "转到所有门户页面"
           }
         },
         "LOGO": {
           "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header.",
-          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
-          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+          "UPLOAD_BUTTON": "上传Logo",
+          "HELP_TEXT": "此Logo将显示在门户标题中。",
+          "IMAGE_UPLOAD_SUCCESS": "Logo上传成功",
+          "IMAGE_UPLOAD_ERROR": "Logo删除成功",
+          "IMAGE_DELETE_ERROR": "删除Logo时出错"
         },
         "NAME": {
           "LABEL": "姓名：",
-          "PLACEHOLDER": "Portal name",
-          "HELP_TEXT": "The name will be used in the public facing portal internally.",
+          "PLACEHOLDER": "门户名称",
+          "HELP_TEXT": "该名称将用于面向公众的门户内部。",
           "ERROR": "名字必填"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug for urls",
-          "ERROR": "Slug is required"
+          "PLACEHOLDER": "门户的URL Slug",
+          "ERROR": "Slug是必填项"
         },
         "DOMAIN": {
-          "LABEL": "Custom Domain",
-          "PLACEHOLDER": "Portal custom domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
-          "ERROR": "Enter a valid domain URL"
+          "LABEL": "自定义域名",
+          "PLACEHOLDER": "门户自定义域名",
+          "HELP_TEXT": "仅在您希望为门户使用自定义域名时添加。例如：{exampleURL}",
+          "ERROR": "请输入有效的域名URL"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home Page Link",
-          "PLACEHOLDER": "Portal home page link",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
-          "ERROR": "Enter a valid home page URL"
+          "LABEL": "主页链接",
+          "PLACEHOLDER": "门户主页链接",
+          "HELP_TEXT": "用于从门户返回到主页的链接。例如：{exampleURL}",
+          "ERROR": "请输入有效的主页URL"
         },
         "THEME_COLOR": {
-          "LABEL": "Portal theme color",
-          "HELP_TEXT": "This color will show as the theme color for the portal."
+          "LABEL": "门户主题颜色",
+          "HELP_TEXT": "此颜色将作为门户的主题颜色显示。"
         },
         "PAGE_TITLE": {
-          "LABEL": "Page Title",
-          "PLACEHOLDER": "Portal page title",
-          "HELP_TEXT": "The page title will be used in the public facing portal.",
-          "ERROR": "Page title is required"
+          "LABEL": "页面标题",
+          "PLACEHOLDER": "门户页面标题",
+          "HELP_TEXT": "页面标题将用于面向公众的门户。",
+          "ERROR": "页面标题是必填项"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header Text",
-          "PLACEHOLDER": "Portal header text",
-          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
-          "ERROR": "Portal header text is required"
+          "LABEL": "标题文本",
+          "PLACEHOLDER": "门户标题文本",
+          "HELP_TEXT": "门户标题文本将用于面向公众的门户。",
+          "ERROR": "门户标题文本是必填项"
         },
         "API": {
-          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
-          "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
-          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
-          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+          "SUCCESS_MESSAGE_FOR_BASIC": "门户创建成功。",
+          "ERROR_MESSAGE_FOR_BASIC": "无法创建门户，请重试。",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "门户更新成功。",
+          "ERROR_MESSAGE_FOR_UPDATE": "无法更新门户，请重试。"
         }
       },
       "ADD_LOCALE": {
         "TITLE": "添加一个新的语言环境",
-        "SUB_TITLE": "This adds a new locale to your available translation list.",
+        "SUB_TITLE": "这将向您的可用翻译列表中添加一个新的语言环境。",
         "PORTAL": "门户网站",
         "LOCALE": {
           "LABEL": "语言环境",
           "PLACEHOLDER": "选择一个语言环境",
-          "ERROR": "Locale is required"
+          "ERROR": "语言环境是必填项"
         },
         "BUTTONS": {
-          "CREATE": "Create locale",
+          "CREATE": "创建语言环境",
           "CANCEL": "取消"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "语言环境添加成功",
+          "ERROR_MESSAGE": "无法添加语言环境，请重试。"
         }
       },
       "CHANGE_DEFAULT_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Default locale updated successfully",
-          "ERROR_MESSAGE": "Unable to update default locale. Try again."
+          "SUCCESS_MESSAGE": "默认语言环境更新成功",
+          "ERROR_MESSAGE": "无法更新默认语言环境，请重试。"
         }
       },
       "DELETE_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Locale removed from portal successfully",
-          "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
+          "SUCCESS_MESSAGE": "语言环境从门户中移除成功",
+          "ERROR_MESSAGE": "无法从门户中移除语言环境，请重试。"
         }
       }
     },
@@ -319,57 +319,57 @@
       "HEADERS": {
         "TITLE": "标题",
         "CATEGORY": "类别",
-        "READ_COUNT": "Views",
+        "READ_COUNT": "浏览量",
         "STATUS": "状态",
-        "LAST_EDITED": "Last edited"
+        "LAST_EDITED": "最后编辑"
       },
       "COLUMNS": {
-        "BY": "by",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "BY": "由",
+        "AUTHOR_NOT_AVAILABLE": "作者不可用"
       }
     },
     "EDIT_ARTICLE": {
-      "LOADING": "Loading article...",
+      "LOADING": "正在加载文章...",
       "TITLE_PLACEHOLDER": "文章标题在此处显示",
       "CONTENT_PLACEHOLDER": "在此处写下您的文章",
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "保存文章时出错"
       }
     },
     "PUBLISH_ARTICLE": {
       "API": {
-        "ERROR": "Error while publishing article",
-        "SUCCESS": "Article published successfully"
+        "ERROR": "发布文章时出错",
+        "SUCCESS": "文章发布成功"
       }
     },
     "ARCHIVE_ARTICLE": {
       "API": {
-        "ERROR": "Error while archiving article",
-        "SUCCESS": "Article archived successfully"
+        "ERROR": "归档文章时出错",
+        "SUCCESS": "文章归档成功"
       }
     },
     "DRAFT_ARTICLE": {
       "API": {
-        "ERROR": "Error while drafting article",
-        "SUCCESS": "Article drafted successfully"
+        "ERROR": "草稿文章时出错",
+        "SUCCESS": "文章草稿成功"
       }
     },
     "DELETE_ARTICLE": {
       "MODAL": {
         "CONFIRM": {
           "TITLE": "确认删除",
-          "MESSAGE": "Are you sure to delete the article?",
+          "MESSAGE": "您确定要删除这篇文章吗？",
           "YES": "是，删除",
           "NO": "否，保留它"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Article deleted successfully",
-        "ERROR_MESSAGE": "Error while deleting article"
+        "SUCCESS_MESSAGE": "文章删除成功",
+        "ERROR_MESSAGE": "删除文章时出错"
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
+      "ERROR_MESSAGE": "请添加文章标题和内容，然后才能更新设置"
     },
     "SIDEBAR": {
       "SEARCH": {
@@ -381,18 +381,18 @@
         "TITLE": "创建一个类别",
         "SUB_TITLE": "类别将用于公共门户来对文章进行归类。",
         "PORTAL": "门户网站",
-        "LOCALE": "Locale",
+        "LOCALE": "语言环境",
         "NAME": {
           "LABEL": "姓名：",
           "PLACEHOLDER": "类别名称",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "类别名称和图标将用于面向公众的门户以对文章进行分类。",
           "ERROR": "名字必填"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "PLACEHOLDER": "类别的URL Slug",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "Slug是必填项"
         },
         "DESCRIPTION": {
           "LABEL": "描述信息",
@@ -400,30 +400,30 @@
           "ERROR": "描述是必需的"
         },
         "BUTTONS": {
-          "CREATE": "创建类别",
+          "CREATE": "类别的 URL Slug",
           "CANCEL": "取消"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category created successfully",
-          "ERROR_MESSAGE": "Unable to create category"
+          "SUCCESS_MESSAGE": "类别创建成功",
+          "ERROR_MESSAGE": "无法创建类别"
         }
       },
       "EDIT": {
-        "TITLE": "Edit a category",
-        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
+        "TITLE": "编辑类别",
+        "SUB_TITLE": "编辑类别将更新面向公众的门户中的类别。",
         "PORTAL": "门户网站",
         "LOCALE": "语言环境",
         "NAME": {
           "LABEL": "姓名：",
           "PLACEHOLDER": "类别名称",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "类别名称和图标将用于面向公众的门户以对文章进行分类。",
           "ERROR": "名字必填"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "PLACEHOLDER": "类别的URL Slug",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "Slug是必填项"
         },
         "DESCRIPTION": {
           "LABEL": "描述信息",
@@ -431,181 +431,181 @@
           "ERROR": "描述是必需的"
         },
         "BUTTONS": {
-          "CREATE": "Update category",
+          "CREATE": "更新类别",
           "CANCEL": "取消"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category updated successfully",
-          "ERROR_MESSAGE": "Unable to update category"
+          "SUCCESS_MESSAGE": "类别更新成功",
+          "ERROR_MESSAGE": "无法更新类别"
         }
       },
       "DELETE": {
         "API": {
-          "SUCCESS_MESSAGE": "Category deleted successfully",
-          "ERROR_MESSAGE": "Unable to delete category"
+          "SUCCESS_MESSAGE": "类别删除成功",
+          "ERROR_MESSAGE": "无法删除类别"
         }
       }
     },
     "ARTICLE_SEARCH": {
-      "TITLE": "Search articles",
-      "PLACEHOLDER": "Search articles",
-      "NO_RESULT": "No articles found",
+      "TITLE": "搜索文章",
+      "PLACEHOLDER": "搜索文章",
+      "NO_RESULT": "未找到文章",
       "SEARCHING": "搜索中...",
       "SEARCH_BUTTON": "搜索",
-      "INSERT_ARTICLE": "Insert link",
-      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
-      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
-      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
-      "PREVIEW_LINK": "Preview article",
+      "INSERT_ARTICLE": "插入链接",
+      "IFRAME_ERROR": "URL为空或无效，无法显示内容。",
+      "OPEN_ARTICLE_SEARCH": "从帮助中心插入文章",
+      "SUCCESS_ARTICLE_INSERTED": "文章插入成功",
+      "PREVIEW_LINK": "预览文章",
       "CANCEL": "关闭",
       "BACK": "后退",
-      "BACK_RESULTS": "Back to results"
+      "BACK_RESULTS": "返回结果"
     },
     "UPGRADE_PAGE": {
       "TITLE": "帮助中心",
-      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
-      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "DESCRIPTION": "创建用户友好的自助服务门户。帮助您的用户访问文章并获得24/7支持。升级您的订阅以启用此功能。",
+      "SELF_HOSTED_DESCRIPTION": "创建用户友好的自助服务门户。帮助您的用户访问文章并获得24/7支持。请联系您的管理员以启用此功能。",
       "BUTTON": {
         "LEARN_MORE": "了解更多",
-        "UPGRADE": "Upgrade"
+        "UPGRADE": "升级"
       },
       "FEATURES": {
         "PORTALS": {
-          "TITLE": "Multiple portals",
-          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+          "TITLE": "多门户支持",
+          "DESCRIPTION": "使用同一账户为不同产品创建多个帮助中心门户。"
         },
         "LOCALES": {
-          "TITLE": "Full support for locales",
-          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+          "TITLE": "全面支持多语言环境",
+          "DESCRIPTION": "将门户本地化为您的语言。我们支持所有语言环境，并允许为每篇文章提供翻译。"
         },
         "SEO": {
-          "TITLE": "SEO-friendly design",
-          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+          "TITLE": "SEO友好设计",
+          "DESCRIPTION": "自定义您的Meta标签，通过我们的SEO友好页面提高在搜索引擎中的可见性。"
         },
         "API": {
-          "TITLE": "Full API support",
-          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
+          "TITLE": "全面API支持",
+          "DESCRIPTION": "使用我们的API将门户作为无头CMS与第三方前端框架集成。"
         }
       }
     },
-    "LOADING": "Loading...",
+    "LOADING": "加载中...",
     "ARTICLES_PAGE": {
       "ARTICLE_CARD": {
         "CARD": {
-          "VIEWS": "{count} view | {count} views",
+          "VIEWS": "{count} 次浏览 | {count} 次浏览",
           "DROPDOWN_MENU": {
             "PUBLISH": "发布",
             "DRAFT": "草稿",
-            "ARCHIVE": "Archive",
+            "ARCHIVE": "归档",
             "DELETE": "删除"
           },
           "STATUS": {
             "DRAFT": "草稿",
             "PUBLISHED": "已发布",
-            "ARCHIVED": "已存档"
+            "ARCHIVED": "已归档"
           },
           "CATEGORY": {
-            "UNCATEGORISED": "Uncategorised"
+            "UNCATEGORISED": "未分类"
           }
         }
       },
       "ARTICLES_HEADER": {
         "TABS": {
-          "ALL": "All articles",
-          "MINE": "我的",
+          "ALL": "所有文章",
+          "MINE": "我的文章",
           "DRAFT": "草稿",
           "PUBLISHED": "已发布",
-          "ARCHIVED": "已存档"
+          "ARCHIVED": "已归档"
         },
         "CATEGORY": {
-          "ALL": "All categories"
+          "ALL": "所有类别"
         },
         "LOCALE": {
-          "ALL": "All locales"
+          "ALL": "所有语言环境"
         },
-        "NEW_ARTICLE": "New article"
+        "NEW_ARTICLE": "新建文章"
       },
       "EMPTY_STATE": {
         "ALL": {
-          "TITLE": "Write an article",
-          "SUBTITLE": "Write a rich article, let’s get started!",
-          "BUTTON_LABEL": "New article"
+          "TITLE": "撰写一篇文章",
+          "SUBTITLE": "撰写一篇丰富的文章，让我们开始吧！",
+          "BUTTON_LABEL": "新建文章"
         },
         "MINE": {
-          "TITLE": "You haven't written any articles here",
-          "SUBTITLE": "All articles written by you show up here for quick access."
+          "TITLE": "您尚未在此撰写任何文章",
+          "SUBTITLE": "您撰写的所有文章将显示在此处以便快速访问。"
         },
         "DRAFT": {
-          "TITLE": "There are no articles in drafts",
-          "SUBTITLE": "Draft articles will appear here"
+          "TITLE": "草稿中没有文章",
+          "SUBTITLE": "草稿文章将显示在此处"
         },
         "PUBLISHED": {
-          "TITLE": "There are no published articles",
-          "SUBTITLE": "Published articles will appear here"
+          "TITLE": "没有已发布的文章",
+          "SUBTITLE": "已发布的文章将显示在此处"
         },
         "ARCHIVED": {
-          "TITLE": "There are no articles in the archive",
-          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+          "TITLE": "归档中没有文章",
+          "SUBTITLE": "归档文章不会显示在门户上，您可以用它标记已弃用或过时的页面"
         },
         "CATEGORY": {
-          "TITLE": "There are no articles in this category",
-          "SUBTITLE": "Articles in this category will appear here"
+          "TITLE": "此类别中没有文章",
+          "SUBTITLE": "此类别中的文章将显示在此处"
         }
       }
     },
     "CATEGORY_PAGE": {
       "CATEGORY_HEADER": {
-        "NEW_CATEGORY": "New category",
-        "EDIT_CATEGORY": "Edit category",
-        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "NEW_CATEGORY": "新建类别",
+        "EDIT_CATEGORY": "编辑类别",
+        "CATEGORIES_COUNT": "{n} 个类别 | {n} 个类别",
         "BREADCRUMB": {
-          "CATEGORY_LOCALE": "Categories ({localeCode})",
-          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+          "CATEGORY_LOCALE": "类别 ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} 篇文章) | {categoryName} ({categoryCount} 篇文章)"
         }
       },
       "CATEGORY_EMPTY_STATE": {
         "TITLE": "未找到类别",
-        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+        "SUBTITLE": "类别将显示在此处。您可以点击“新建类别”按钮添加类别。"
       },
       "CATEGORY_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles"
+        "ARTICLES_COUNT": "{count} 篇文章 | {count} 篇文章"
       },
       "CATEGORY_DIALOG": {
         "CREATE": {
           "API": {
-            "SUCCESS_MESSAGE": "Category created successfully",
-            "ERROR_MESSAGE": "Unable to create category"
+            "SUCCESS_MESSAGE": "类别创建成功",
+            "ERROR_MESSAGE": "无法创建类别"
           }
         },
         "EDIT": {
           "API": {
-            "SUCCESS_MESSAGE": "Category updated successfully",
-            "ERROR_MESSAGE": "Unable to update category"
+            "SUCCESS_MESSAGE": "类别更新成功",
+            "ERROR_MESSAGE": "无法更新类别"
           }
         },
         "DELETE": {
           "API": {
-            "SUCCESS_MESSAGE": "Category deleted successfully",
-            "ERROR_MESSAGE": "Unable to delete category"
+            "SUCCESS_MESSAGE": "类别删除成功",
+            "ERROR_MESSAGE": "无法删除类别"
           }
         },
         "HEADER": {
           "CREATE": "创建类别",
-          "EDIT": "Edit category",
-          "DESCRIPTION": "Editing a category will update the category in the public facing portal.",
+          "EDIT": "编辑类别",
+          "DESCRIPTION": "编辑类别将更新面向公众的门户中的类别。",
           "PORTAL": "门户网站",
           "LOCALE": "语言环境"
         },
         "FORM": {
           "NAME": {
-            "LABEL": "姓名：",
+            "LABEL": "姓名",
             "PLACEHOLDER": "类别名称",
             "ERROR": "名字必填"
           },
           "SLUG": {
             "LABEL": "Slug",
-            "PLACEHOLDER": "Category slug for urls",
-            "ERROR": "Slug is required",
+            "PLACEHOLDER": "类别的URL Slug",
+            "ERROR": "Slug 是必填项",
             "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
@@ -622,26 +622,26 @@
       }
     },
     "LOCALES_PAGE": {
-      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
-      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALES_COUNT": "没有可用的语言环境 | {n} 个语言环境 | {n} 个语言环境",
+      "NEW_LOCALE_BUTTON_TEXT": "新建语言环境",
       "LOCALE_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles",
-        "CATEGORIES_COUNT": "{count} category | {count} categories",
+        "ARTICLES_COUNT": "{count} 篇文章 | {count} 篇文章",
+        "CATEGORIES_COUNT": "{count} 个类别 | {count} 个类别",
         "DEFAULT": "默认",
         "DROPDOWN_MENU": {
-          "MAKE_DEFAULT": "Make default",
+          "MAKE_DEFAULT": "设为默认",
           "DELETE": "删除"
         }
       },
       "ADD_LOCALE_DIALOG": {
         "TITLE": "添加一个新的语言环境",
-        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "DESCRIPTION": "选择此文章将使用的语言。这将添加到您的翻译列表中，您可以稍后添加更多。",
         "COMBOBOX": {
-          "PLACEHOLDER": "Select locale..."
+          "PLACEHOLDER": "选择语言环境..."
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "语言环境添加成功",
+          "ERROR_MESSAGE": "无法添加语言环境，请重试。"
         }
       }
     },
@@ -654,137 +654,137 @@
         "PREVIEW": "预览",
         "PUBLISH": "发布",
         "DRAFT": "草稿",
-        "ARCHIVE": "Archive",
-        "BACK_TO_ARTICLES": "Back to articles"
+        "ARCHIVE": "归档",
+        "BACK_TO_ARTICLES": "返回文章"
       },
       "EDIT_ARTICLE": {
-        "MORE_PROPERTIES": "More properties",
+        "MORE_PROPERTIES": "更多属性",
         "UNCATEGORIZED": "未分类",
-        "EDITOR_PLACEHOLDER": "Write something..."
+        "EDITOR_PLACEHOLDER": "写点什么..."
       },
       "ARTICLE_PROPERTIES": {
-        "ARTICLE_PROPERTIES": "Article properties",
+        "ARTICLE_PROPERTIES": "文章属性",
         "META_DESCRIPTION": "Meta描述",
-        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
-        "META_TITLE": "Meta 标题",
-        "META_TITLE_PLACEHOLDER": "Add meta title",
+        "META_DESCRIPTION_PLACEHOLDER": "添加Meta描述",
+        "META_TITLE": "Meta标题",
+        "META_TITLE_PLACEHOLDER": "添加Meta标题",
         "META_TAGS": "Meta标签",
-        "META_TAGS_PLACEHOLDER": "Add meta tags"
+        "META_TAGS_PLACEHOLDER": "添加Meta标签"
       },
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "保存文章时出错"
       }
     },
     "PORTAL_SWITCHER": {
-      "NEW_PORTAL": "New portal",
+      "NEW_PORTAL": "新建门户",
       "PORTALS": "门户网站",
-      "CREATE_PORTAL": "Create and manage multiple portals",
+      "CREATE_PORTAL": "创建和管理多个门户",
       "ARTICLES": "文章",
-      "DOMAIN": "domain",
-      "PORTAL_NAME": "Portal name"
+      "DOMAIN": "域名",
+      "PORTAL_NAME": "门户名称"
     },
     "CREATE_PORTAL_DIALOG": {
-      "TITLE": "Create new portal",
-      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
+      "TITLE": "创建新门户",
+      "DESCRIPTION": "为您的门户命名并创建一个用户友好的URL Slug。您稍后可以在设置中修改它们。",
       "CONFIRM_BUTTON_LABEL": "创建",
       "NAME": {
-        "LABEL": "姓名：",
-        "PLACEHOLDER": "User Guide | Chatwoot",
-        "MESSAGE": "Choose an name for your portal.",
+        "LABEL": "姓名",
+        "PLACEHOLDER": "用户指南 | Chatwoot",
+        "MESSAGE": "为您的门户选择一个名称。",
         "ERROR": "名字必填"
       },
       "SLUG": {
         "LABEL": "Slug",
-        "PLACEHOLDER": "user-guide",
-        "ERROR": "Slug is required"
+        "PLACEHOLDER": "用户指南",
+        "ERROR": "Slug是必填项"
       }
     },
     "PORTAL_SETTINGS": {
       "FORM": {
         "AVATAR": {
-          "LABEL": "Logo",
+          "LABEL": "头像",
           "IMAGE_UPLOAD_ERROR": "无法上传图片！请再试一次",
-          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
-          "IMAGE_DELETE_SUCCESS": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Unable to delete logo",
-          "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+          "IMAGE_UPLOAD_SUCCESS": "图片上传成功，请点击保存更改以保存Logo",
+          "IMAGE_DELETE_SUCCESS": "Logo删除成功",
+          "IMAGE_DELETE_ERROR": "无法删除Logo",
+          "IMAGE_UPLOAD_SIZE_ERROR": "图片大小应小于 {size}MB"
         },
         "NAME": {
-          "LABEL": "姓名：",
-          "PLACEHOLDER": "Portal name",
+          "LABEL": "姓名",
+          "PLACEHOLDER": "门户名称",
           "ERROR": "名字必填"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header text",
-          "PLACEHOLDER": "Portal header text"
+          "LABEL": "标题文本",
+          "PLACEHOLDER": "门户标题文本"
         },
         "PAGE_TITLE": {
-          "LABEL": "Page title",
-          "PLACEHOLDER": "Portal page title"
+          "LABEL": "页面标题",
+          "PLACEHOLDER": "门户页面标题"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home page link",
-          "PLACEHOLDER": "Portal home page link",
-          "ERROR": "Invalid URL. The Home page link must start with 'http://' or 'https://'."
+          "LABEL": "主页链接",
+          "PLACEHOLDER": "门户主页链接",
+          "ERROR": "无效的URL。主页链接必须以 'http://' 或 'https://' 开头。"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug"
+          "PLACEHOLDER": "门户Slug"
         },
         "LIVE_CHAT_WIDGET": {
-          "LABEL": "Live chat widget",
-          "PLACEHOLDER": "Select live chat widget",
-          "HELP_TEXT": "Select a live chat widget that will appear on your help center"
+          "LABEL": "在线聊天小部件",
+          "PLACEHOLDER": "选择在线聊天小部件",
+          "HELP_TEXT": "选择将显示在您的帮助中心上的在线聊天小部件"
         },
         "BRAND_COLOR": {
-          "LABEL": "Brand color"
+          "LABEL": "品牌颜色"
         },
-        "SAVE_CHANGES": "Save changes"
+        "SAVE_CHANGES": "保存更改"
       },
       "CONFIGURATION_FORM": {
         "CUSTOM_DOMAIN": {
-          "HEADER": "Custom domain",
-          "LABEL": "Custom domain:",
-          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
-          "PLACEHOLDER": "Portal custom domain",
-          "EDIT_BUTTON": "Edit custom domain",
-          "ADD_BUTTON": "Add custom domain",
+          "HEADER": "自定义域名",
+          "LABEL": "自定义域名：",
+          "DESCRIPTION": "您可以在自定义域名上托管您的门户。例如，如果您的网站是 yourdomain.com，并且您希望您的门户在 docs.yourdomain.com 上可用，只需在此字段中输入即可。",
+          "PLACEHOLDER": "门户自定义域名",
+          "EDIT_BUTTON": "编辑自定义域名",
+          "ADD_BUTTON": "添加自定义域名",
           "DIALOG": {
-            "ADD_HEADER": "Add custom domain",
-            "EDIT_HEADER": "Edit custom domain",
-            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
-            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
-            "LABEL": "Custom domain",
-            "PLACEHOLDER": "Portal custom domain",
-            "ERROR": "Custom domain is required"
+            "ADD_HEADER": "添加自定义域名",
+            "EDIT_HEADER": "编辑自定义域名",
+            "ADD_CONFIRM_BUTTON_LABEL": "添加域名",
+            "EDIT_CONFIRM_BUTTON_LABEL": "更新域名",
+            "LABEL": "自定义域名",
+            "PLACEHOLDER": "门户自定义域名",
+            "ERROR": "自定义域名是必填项"
           },
           "DNS_CONFIGURATION_DIALOG": {
-            "HEADER": "DNS configuration",
-            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
-            "HELP_TEXT": "Once this is done, you can reach out to our support to request for the auto-generated SSL certificate.",
-            "CONFIRM_BUTTON_LABEL": "Got it!"
+            "HEADER": "DNS配置",
+            "DESCRIPTION": "登录您的 DNS 提供商账户，并添加一个指向 chatwoot.help 的子域名的 CNAME 记录",
+            "HELP_TEXT": "完成后，您可以联系我们的支持团队以请求自动生成的SSL证书。",
+            "CONFIRM_BUTTON_LABEL": "明白了！"
           }
         },
         "DELETE_PORTAL": {
-          "BUTTON": "Delete {portalName}",
-          "HEADER": "Delete portal",
-          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "BUTTON": "删除 {portalName}",
+          "HEADER": "删除门户",
+          "DESCRIPTION": "永久删除此门户。此操作不可逆",
           "DIALOG": {
-            "HEADER": "Sure you want to delete {portalName}?",
-            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
+            "HEADER": "确定要删除 {portalName} 吗？",
+            "DESCRIPTION": "这是一个永久操作，无法撤销。",
             "CONFIRM_BUTTON_LABEL": "删除"
           }
         },
-        "EDIT_CONFIGURATION": "Edit configuration"
+        "EDIT_CONFIGURATION": "编辑配置"
       },
       "API": {
         "CREATE_PORTAL": {
-          "SUCCESS_MESSAGE": "Portal created successfully",
-          "ERROR_MESSAGE": "Unable to create portal"
+          "SUCCESS_MESSAGE": "门户创建成功",
+          "ERROR_MESSAGE": "无法创建门户"
         },
         "UPDATE_PORTAL": {
-          "SUCCESS_MESSAGE": "Portal updated successfully",
-          "ERROR_MESSAGE": "Unable to update portal"
+          "SUCCESS_MESSAGE": "门户更新成功",
+          "ERROR_MESSAGE": "无法更新门户"
         }
       }
     }

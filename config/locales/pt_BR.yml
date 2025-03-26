@@ -53,6 +53,8 @@ pt_BR:
       invalid_message_type: 'Tipo de mensagem inválido. Ação não permitida'
     slack:
       invalid_channel_id: 'Canal de slack inválido. Por favor, tente novamente'
+    channel_service:
+      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: Por favor, verifique a conexão de rede, endereço IMAP e tente novamente.
@@ -68,6 +70,8 @@ pt_BR:
       invalid_operator: Operador inválido. Os operadores permitidos para %{attribute_name} são [%{allowed_keys}].
       invalid_query_operator: Operador de consulta deve ser "E" ou "OU".
       invalid_value: Valor inválido. Os valores fornecidos para %{attribute_name} são inválidos
+    custom_attribute_definition:
+      key_conflict: A chave fornecida não é permitida pois pode entrar em conflito com os atributos padrão.
   reports:
     period: Reportando o período %{since} a %{until}
     utc_warning: O relatório gerado está em fuso horário UTC
@@ -133,7 +137,7 @@ pt_BR:
     messages:
       instagram_story_content: '%{story_sender} mencionou você na conversa: '
       instagram_deleted_story_content: Este Story não está mais disponível.
-      deleted: Esta mensagem foi apagada
+      deleted: Esta mensagem foi excluída
       delivery_status:
         error_code: 'Código de erro: %{error_code}'
     activity:
@@ -215,6 +219,9 @@ pt_BR:
     linear:
       name: 'Linear'
       description: 'Crie issues em Linear diretamente da sua janela de conversa. Alternativamente, vincule as issues lineares existentes para um processo de rastreamento de problemas mais simples e eficiente.'
+    shopify:
+      name: 'Shopify'
+      description: 'Conecte sua loja Shopify para acessar detalhes de pedidos, informações de clientes e dados de produtos diretamente em suas conversas e ajudar sua equipe de suporte a fornecer um atendimento mais rápido e contextual aos seus clientes.'
   captain:
     copilot_error: 'Conecte com um assistente a esta caixa de entrada para usar Copilot'
     copilot_limit: 'Você está sem créditos de Copilot. Pode comprar mais créditos na seção de faturamento.'

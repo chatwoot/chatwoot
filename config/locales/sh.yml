@@ -53,6 +53,8 @@ sh:
       invalid_message_type: 'Invalid message type. Action not permitted'
     slack:
       invalid_channel_id: 'Invalid slack channel. Please try again'
+    channel_service:
+      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
@@ -68,6 +70,8 @@ sh:
       invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
       invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
     period: Reporting period %{since} to %{until}
     utc_warning: The report generated is in UTC timezone
@@ -215,6 +219,9 @@ sh:
     linear:
       name: 'Linear'
       description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
+    shopify:
+      name: 'Shopify'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
   captain:
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
     copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'

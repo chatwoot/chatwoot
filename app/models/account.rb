@@ -2,18 +2,20 @@
 #
 # Table name: accounts
 #
-#  id                    :integer          not null, primary key
-#  auto_resolve_duration :integer
-#  custom_attributes     :jsonb
-#  domain                :string(100)
-#  feature_flags         :bigint           default(0), not null
-#  limits                :jsonb
-#  locale                :integer          default("en")
-#  name                  :string           not null
-#  status                :integer          default("active")
-#  support_email         :string(100)
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
+#  id                         :integer          not null, primary key
+#  auto_resolve_duration      :integer
+#  contactable_contacts_count :integer          default(0)
+#  custom_attributes          :jsonb
+#  domain                     :string(100)
+#  feature_flags              :bigint           default(0), not null
+#  internal_attributes        :jsonb            not null
+#  limits                     :jsonb
+#  locale                     :integer          default("en")
+#  name                       :string           not null
+#  status                     :integer          default("active")
+#  support_email              :string(100)
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
 #
 # Indexes
 #
@@ -54,6 +56,7 @@ class Account < ApplicationRecord
   has_many :data_imports, dependent: :destroy_async
   has_many :email_channels, dependent: :destroy_async, class_name: '::Channel::Email'
   has_many :facebook_pages, dependent: :destroy_async, class_name: '::Channel::FacebookPage'
+  has_many :instagram_channels, dependent: :destroy_async, class_name: '::Channel::Instagram'
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
   has_many :inboxes, dependent: :destroy_async
   has_many :labels, dependent: :destroy_async
@@ -124,6 +127,14 @@ class Account < ApplicationRecord
       agents: ChatwootApp.max_limit.to_i,
       inboxes: ChatwootApp.max_limit.to_i
     }
+  end
+
+  def locale_english_name
+    # the locale can also be something like pt_BR, en_US, fr_FR, etc.
+    # the format is `<locale_code>_<country_code>`
+    # we need to extract the language code from the locale
+    account_locale = locale&.split('_')&.first
+    ISO_639.find(account_locale)&.english_name&.downcase || 'english'
   end
 
   private
