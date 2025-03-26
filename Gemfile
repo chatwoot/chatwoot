@@ -212,6 +212,8 @@ group :development do
   gem 'stackprof'
   # Should install the associated chrome extension to view query logs
   gem 'meta_request', '>= 0.8.3'
+
+  gem 'tapioca', require: false
 end
 
 group :test do
@@ -248,3 +250,5 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
+
+gem 'sorbet', '~> 0.5.11953'
