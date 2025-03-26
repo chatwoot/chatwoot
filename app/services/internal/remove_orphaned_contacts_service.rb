@@ -1,7 +1,7 @@
 class Internal::RemoveOrphanedContactsService
-  # by default, purge contacts older than 6 months
   attr_reader :account_id, :offset, :account, :deleted_count
 
+  # by default, purge contacts older than 6 months
   def initialize(account_id:, offset: 180.days)
     @account_id = account_id
     @account = Account.find(account_id)
