@@ -194,7 +194,7 @@ export default {
         .length;
     },
     isPrivate() {
-      if ((this.currentChat.can_reply && this.currentChat.can_reply_by_custom_message) || this.isAWhatsAppChannel) {
+      if (this.currentChat.can_reply || this.isAWhatsAppChannel) {
         return this.isOnPrivateNote;
       }
       return true;
@@ -436,6 +436,8 @@ export default {
         this.replyType = REPLY_EDITOR_MODES.TEMPLATE;
       } else if (canReply || this.isAWhatsAppChannel) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
+      } else if (!canReplyByCustom) {
+        this.replyType = REPLY_EDITOR_MODES.TEMPLATE;
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
       }
