@@ -84,7 +84,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   end
 end
 
-# Actual response from Instagram webhook if the user has sent a message
+# Actual response from Instagram webhook (both via Facebook page and Instagram direct)
 # [
 #   {
 #     "time": <timestamp>,
@@ -107,7 +107,16 @@ end
 #   }
 # ]
 
-# Test response from Instagram webhook via developer platform
+# Instagram's webhook via Instagram direct testing quirk: Test payloads vs Actual payloads
+# When testing in Facebook's developer dashboard, you'll get a Page-style
+# payload with a "changes" object. But don't be fooled! Real Instagram DMs
+# arrive in the familiar Messenger format with a "messaging" array.
+# This apparent inconsistency is actually by design - Instagram's webhooks
+# use different formats for testing vs production to maintain compatibility
+# with both Instagram Direct and Facebook Page integrations.
+# See: https://developers.facebook.com/docs/instagram-platform/webhooks#event-notifications
+
+# Test response from via Instagram direct
 # [
 #   {
 #     "id": "0",
@@ -127,6 +136,29 @@ end
 #             "mid": "random_mid",
 #             "text": "random_text"
 #           }
+#         }
+#       }
+#     ]
+#   }
+# ]
+
+# Test response via Facebook page
+# [
+#   {
+#     "time": 1743011846423,
+#     "id": "0",
+#     "messaging": [
+#       {
+#         "sender": {
+#           "id": "12334"
+#         },
+#         "recipient": {
+#           "id": "23245"
+#         },
+#         "timestamp": 233445667,
+#         "message": {
+#             "mid": "random_mid",
+#             "text": "random_text"
 #         }
 #       }
 #     ]
