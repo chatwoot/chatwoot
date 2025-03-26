@@ -1,8 +1,10 @@
 module RequestExceptionHandler
   extend ActiveSupport::Concern
+  include Database::ConnectionDiagnostics
 
   included do
     rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid
+    rescue_from ActiveRecord::ConnectionTimeoutError, with: :handle_connection_timeout
   end
 
   private
@@ -18,9 +20,34 @@ module RequestExceptionHandler
   rescue ActionController::ParameterMissing => e
     log_handled_error(e)
     render_could_not_create_error(e.message)
+  rescue ActiveRecord::ConnectionTimeoutError => e
+    handle_connection_timeout(e)
   ensure
     # to address the thread variable leak issues in Puma/Thin webserver
     Current.reset
+  end
+
+  def handle_connection_timeout(exception)
+    connection_pool = ActiveRecord::Base.connection_pool
+    connection_info = log_connection_pool_stats(connection_pool)
+
+    # Gather diagnostic info
+    diagnostics = fetch_connection_diagnostics
+    connection_info.merge!(diagnostics)
+    connection_info[:caller_info] = caller_info(exception)
+
+    # Log error details
+    log_timeout_error(exception, connection_info)
+
+    # Report to exception tracker
+    ChatwootExceptionTracker.new(
+      exception,
+      user: Current.user,
+      account: Current.account,
+      additional_context: { connection_info: connection_info }
+    ).capture_exception
+
+    render_service_unavailable('Database connection timeout. Please try again later.')
   end
 
   def render_unauthorized(message)
@@ -41,6 +68,10 @@ module RequestExceptionHandler
 
   def render_internal_server_error(message)
     render json: { error: message }, status: :internal_server_error
+  end
+
+  def render_service_unavailable(message)
+    render json: { error: message }, status: :service_unavailable
   end
 
   def render_record_invalid(exception)
