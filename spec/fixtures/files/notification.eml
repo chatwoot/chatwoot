@@ -40,7 +40,7 @@ Authentication-Results: mx.google.com;
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; s=jywwku4pypva75vx2ayl2qfvg46arq6j; d=chatwoot.com; t=1580563433; h=Date:From:To:Message-ID:Subject:Mime-Version:Content-Type:Content-Transfer-Encoding; bh=sidGViYBMVWvZmddU9y4tJbPdSakZIQ0SRFD7VFPP88=; b=S/vIfBFOWSSX45lxfB5jZsT0/Jb9NZefnlLdmF8yicPNiV2/H8HtDAqyO3JqHLfM fPefZPKhYhzBqfxoEEFAY/vr7ov8XT+D4Y+VCv1zl0fiyytTntJ/uQztF5Eg61j+Tqj JPgRqJRdfW0g+E06CH1vhVPVzD8jIpUGnZ6gVEl4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1580563433; h=Date:From:To:Message-ID:Subject:Mime-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID; bh=sidGViYBMVWvZmddU9y4tJbPdSakZIQ0SRFD7VFPP88=; b=b0rWlX4Vo8FpaGzSe57iuHhxj/d57qliYmPmv0mBn/0ZEmGjkBlNYbE0An7T3Jmk Pu2TIOr71f9H/DLnMw9n8ro4Orl/ISn26uYfttP4u6iCOCEDV6/BC3xvlpSvg7R9Sin yHhY0LWM/F5zTFPO7EfOt+ibS33LXOKFseQVzpfI=
 Date: Sat, 1 Feb 2020 13:23:53 +0000
-From: accounts@chatwoot.com
+From: support@getcruisecontrol.com
 To: sojan@chatwoot.com
 Message-ID: <0101017000ec0605-2b97eb32-482d-4357-8715-29b1d4a7c38b-000000@us-west-2.amazonses.com>
 Subject: Sojan, A new conversation [ID - 873] has been assigned to you.
