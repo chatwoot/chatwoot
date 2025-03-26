@@ -195,7 +195,8 @@
           "YES": "Send",
           "CANCEL": "Cancel"
         }
-      }
+      },
+      "DRAFT_AUDIO_SIZE_LIMIT_ERROR": "Audio recording exceeds the 5MB size limit and cannot be saved as a draft"
     },
     "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
     "CHANGE_STATUS": "Conversation status changed",
