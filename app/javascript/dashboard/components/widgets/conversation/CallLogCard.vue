@@ -3,7 +3,9 @@
     class="border border-solid border-slate-100 dark:border-slate-700 rounded-md p-2 flex flex-col gap-2"
   >
     <div class="flex justify-between items-center">
-      <p class="mb-0 text-xs">Call Summary</p>
+      <p class="mb-0 text-xs">
+        Call Summary ({{ callLog.inbound ? 'Inbound' : 'outbound' }})
+      </p>
       <div class="flex gap-2">
         <woot-button
           v-if="callLog.transcript"
@@ -111,6 +113,7 @@ import timeMixin from '../../../mixins/time';
 import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import alertMixin from 'shared/mixins/alertMixin';
+import accountMixin from 'dashboard/mixins/account';
 
 const CALL_STATUS_VALUES = [
   'Scheduled',
@@ -120,12 +123,24 @@ const CALL_STATUS_VALUES = [
   'Dropped',
 ];
 
+const CALL_STATUS_VALUES_BSC = [
+  'Ringing, No Response',
+  'Hung up after intro',
+  'Conversation Happened',
+  'Asked to Whatsapp',
+  'Not interested',
+  'Asked to call Later',
+  'Other',
+];
+
+const BombayShavingAccountIds = [1058, 1126, 1125];
+
 export default {
   components: {
     CallTranscriptModal,
     CustomAttribute,
   },
-  mixins: [timeMixin, alertMixin],
+  mixins: [timeMixin, alertMixin, accountMixin],
   props: {
     callLog: {
       type: Object,
@@ -183,7 +198,9 @@ export default {
           id: '1',
           attributeKey: 'calling_status',
           attributeType: 'list',
-          values: CALL_STATUS_VALUES,
+          values: BombayShavingAccountIds.includes(this.accountId)
+            ? CALL_STATUS_VALUES_BSC
+            : CALL_STATUS_VALUES,
           label: 'Calling Status',
           description: 'Notes related to call for this conversations',
           value: this.callLog.agentCallStatus,

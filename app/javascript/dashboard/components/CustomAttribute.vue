@@ -22,13 +22,13 @@
           >
             {{ label }}
             <helper-text-popup
-              v-if="description"
+              v-if="description && !isCallLog"
               :message="description"
               :class="{ 'mt-0.5': !isCallLog }"
             />
           </span>
           <woot-button
-            v-if="showActions && value"
+            v-if="showActions && value && !isCallLog"
             v-tooltip.left="$t('CUSTOM_ATTRIBUTES.ACTIONS.DELETE')"
             variant="link"
             size="medium"
