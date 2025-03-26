@@ -1,5 +1,5 @@
 class SearchService
-  pattr_initialize [:current_user!, :current_account!, :params!, :search_type!]
+  pattr_initialize [:current_user!, :current_account!, :current_account_user!, :params!, :search_type!]
 
   def perform
     case search_type
@@ -25,13 +25,16 @@ class SearchService
   end
 
   def filter_conversations
-    @conversations = current_account.conversations.where(inbox_id: accessable_inbox_ids)
-                                    .joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
-                                    .where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
-                            ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier ILIKE :search", search: "%#{search_query}%")
-                                    .order('conversations.created_at DESC')
-                                    .page(params[:page])
-                                    .per(15)
+    query = current_account.conversations
+    # admins can see all conversations anyway, so no need to add the heavy IN clause
+    query = query.where(inbox_id: accessable_inbox_ids) unless @current_account_user.administrator?
+
+    @conversations = query.joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
+                          .where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
+                      ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier ILIKE :search", search: "%#{search_query}%")
+                          .order('conversations.created_at DESC')
+                          .page(params[:page])
+                          .per(15)
   end
 
   def filter_messages
@@ -47,16 +50,7 @@ class SearchService
 
     if search_query.present?
       # Use the @@ operator with to_tsquery for better GIN index utilization
-      # Convert search query to tsquery format with prefix matching
-
-      # Use this if we wanna match splitting the words
-      # split_query = search_query.split.map { |term| "#{term} | #{term}:*" }.join(' & ')
-
-      # This will do entire sentence matching using phrase distance operator
-      tsquery = search_query.split.join(' <-> ')
-
-      # Apply the text search using the GIN index
-      base_query.where('content @@ to_tsquery(?)', tsquery)
+      base_query.where('content @@ to_tsquery(?)', search_query)
                 .reorder('created_at DESC')
                 .page(params[:page])
                 .per(15)
@@ -76,12 +70,14 @@ class SearchService
   end
 
   def message_base_query
-    current_account.messages.where(inbox_id: accessable_inbox_ids)
-                   .where('created_at >= ?', 3.months.ago)
+    query = current_account.messages
+    # admins can see all conversations anyway, so no need to add the heavy IN clause
+    query = query.where(inbox_id: accessable_inbox_ids) unless @current_account_user.administrator?
+    query.where('created_at >= ?', 3.months.ago)
   end
 
   def use_gin_search
-    current_account.feature_enabled?('search_with_gin')
+    search_query.split.size == 1
   end
 
   def filter_contacts
