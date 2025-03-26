@@ -19,7 +19,7 @@ export const shouldThrottle = conversationCount => {
   // Large accounts: 10 seconds
   // We would only update the conversation stats based on the threshold above.
   // This is done to reduce the number of /meta request made to the server.
-  const NORMAL_USER_THRESHOLD = 2000;
+  const NORMAL_USER_THRESHOLD = 500;
   const LARGE_ACCOUNT_THRESHOLD = 10000;
 
   const threshold =
