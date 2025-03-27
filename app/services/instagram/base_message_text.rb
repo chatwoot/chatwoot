@@ -7,7 +7,6 @@ class Instagram::BaseMessageText < Instagram::WebhooksBaseService
   end
 
   def perform
-    create_test_text
     service_id, contact_id = service_and_contact_ids
     inbox_channel(service_id)
 
@@ -108,10 +107,6 @@ class Instagram::BaseMessageText < Instagram::WebhooksBaseService
   # Methods to be implemented by subclasses
   def ensure_contact(contact_id)
     raise NotImplementedError, "#{self.class} must implement #ensure_contact"
-  end
-
-  def create_test_text
-    raise NotImplementedError, "#{self.class} must implement #create_test_text"
   end
 
   def create_message

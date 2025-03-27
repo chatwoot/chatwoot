@@ -6,7 +6,6 @@ class Instagram::Direct::MessageText < Instagram::BaseMessageText
   base_uri "https://graph.instagram.com/#{GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v22.0')}"
 
   def perform
-    create_test_text
     instagram_id, contact_id = direct_instagram_and_contact_ids
     inbox_channel(instagram_id)
 
@@ -116,40 +115,6 @@ class Instagram::Direct::MessageText < Instagram::BaseMessageText
 
     message_to_delete.attachments.destroy_all
     message_to_delete.update!(content: I18n.t('conversations.messages.deleted'), deleted: true)
-  end
-
-  def create_test_text
-    return unless sent_via_test_webhook?
-
-    instagram_channel = Channel::Instagram.last
-    @inbox = ::Inbox.find_by(channel: instagram_channel)
-    return unless @inbox
-
-    @contact = create_test_contact
-
-    @conversation ||= create_test_conversation(conversation_params)
-
-    @message = @conversation.messages.create!(test_message_params)
-  end
-
-  def create_test_conversation(conversation_params)
-    Conversation.find_by(conversation_params) || build_conversation(conversation_params)
-  end
-
-  def build_conversation(conversation_params)
-    Conversation.create!(
-      conversation_params.merge(
-        contact_inbox_id: @contact_inbox.id
-      )
-    )
-  end
-
-  def conversation_params
-    {
-      account_id: @inbox.account_id,
-      inbox_id: @inbox.id,
-      contact_id: @contact.id
-    }
   end
 
   def create_message

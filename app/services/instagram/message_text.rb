@@ -4,7 +4,6 @@ class Instagram::MessageText < Instagram::BaseMessageText
   base_uri 'https://graph.facebook.com/v11.0/'
 
   def perform
-    create_test_text
     instagram_id, contact_id = instagram_and_contact_ids
     inbox_channel(instagram_id)
     # person can connect the channel and then delete the inbox
@@ -78,40 +77,6 @@ class Instagram::MessageText < Instagram::BaseMessageText
 
     message_to_delete.attachments.destroy_all
     message_to_delete.update!(content: I18n.t('conversations.messages.deleted'), deleted: true)
-  end
-
-  def create_test_text
-    return unless sent_via_test_webhook?
-
-    Rails.logger.info('Probably Test data.')
-
-    messenger_channel = Channel::FacebookPage.last
-    @inbox = ::Inbox.find_by(channel: messenger_channel)
-    return unless @inbox
-
-    @conversation ||= create_test_conversation(conversation_params)
-
-    @message = @conversation.messages.create!(test_message_params)
-  end
-
-  def create_test_conversation(conversation_params)
-    Conversation.find_by(conversation_params) || build_conversation(conversation_params)
-  end
-
-  def build_conversation(conversation_params)
-    Conversation.create!(
-      conversation_params.merge(
-        contact_inbox_id: @contact_inbox.id
-      )
-    )
-  end
-
-  def conversation_params
-    super.merge(
-      additional_attributes: {
-        type: 'instagram_direct_message'
-      }
-    )
   end
 
   def create_message
