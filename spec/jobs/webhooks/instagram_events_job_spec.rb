@@ -226,7 +226,15 @@ describe Webhooks::InstagramEventsJob do
 
       it 'handle instagram un_send message event' do
         message = create(:message, inbox_id: instagram_direct_inbox.id, source_id: 'message-id-to-delete', content: 'random_text')
-        message.attachments.new(file_type: :image, external_url: 'https://www.example.com/test.jpeg')
+
+        # Create attachment correctly with account association
+        message.attachments.create!(
+          file_type: :image,
+          external_url: 'https://www.example.com/test.jpeg',
+          account_id: instagram_direct_inbox.account_id
+        )
+
+        instagram_direct_inbox.reload
 
         expect(instagram_direct_inbox.messages.count).to be 1
 
