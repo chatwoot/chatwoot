@@ -24,22 +24,33 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   private
 
   def process_single_entry(entry)
-    # TODO: Handle test events
-    instagram_account_id = entry[:id]
-    @channel = find_channel(instagram_account_id)
-
-    return if @channel.blank?
-
     process_messages(entry)
   end
 
   def process_messages(entry)
     messages(entry).each do |messaging|
-      Rails.logger.info("Instagram Events Job: messaging: #{messaging}")
+      Rails.logger.info("Instagram Events Job Messaging: #{messaging}")
+
+      instagram_id, _contact_id = instagram_and_contact_ids(messaging)
+      channel = find_channel(instagram_id)
+
+      next if channel.blank?
 
       if (event_name = event_name(messaging))
-        send(event_name, messaging)
+        send(event_name, messaging, channel)
       end
+    end
+  end
+
+  def agent_message_via_echo?(messaging)
+    messaging[:message].present? && messaging[:message][:is_echo].present?
+  end
+
+  def instagram_and_contact_ids(messaging)
+    if agent_message_via_echo?(messaging)
+      [messaging[:sender][:id], messaging[:recipient][:id]]
+    else
+      [messaging[:recipient][:id], messaging[:sender][:id]]
     end
   end
 
@@ -51,13 +62,13 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
     @entries&.dig(0, :messaging, 0, :sender, :id)
   end
 
-  def find_channel(instagram_account_id)
+  def find_channel(instagram_id)
     # There will be chances for the instagram account to be connected to a facebook page,
     # so we need to check for both instagram and facebook page channels
     # priority is for instagram channel which created via instagram login
-    channel = Channel::Instagram.find_by(instagram_id: instagram_account_id)
+    channel = Channel::Instagram.find_by(instagram_id: instagram_id)
     # If not found, fallback to the facebook page channel
-    channel ||= Channel::FacebookPage.find_by(instagram_id: instagram_account_id)
+    channel ||= Channel::FacebookPage.find_by(instagram_id: instagram_id)
 
     channel
   end
@@ -66,17 +77,17 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
     @event_name ||= SUPPORTED_EVENTS.find { |key| messaging.key?(key) }
   end
 
-  def message(messaging)
-    if @channel.is_a?(Channel::Instagram)
-      ::Instagram::Direct::MessageText.new(messaging, @channel).perform
+  def message(messaging, channel)
+    if channel.is_a?(Channel::Instagram)
+      ::Instagram::Direct::MessageText.new(messaging, channel).perform
     else
-      ::Instagram::MessageText.new(messaging, @channel).perform
+      ::Instagram::MessageText.new(messaging, channel).perform
     end
   end
 
-  def read(messaging)
+  def read(messaging, channel)
     # Use a single service to handle read status for both channel types since the params are same
-    ::Instagram::ReadStatusService.new(params: messaging, channel: @channel).perform
+    ::Instagram::ReadStatusService.new(params: messaging, channel: channel).perform
   end
 
   def messages(entry)
@@ -88,14 +99,14 @@ end
 # [
 #   {
 #     "time": <timestamp>,
-#     "id": <CONNECT_CHANNEL_INSTAGRAM_USER_ID>, // Connect channel Instagram User ID
+#     "id": <INSTAGRAM_USER_ID>,
 #     "messaging": [
 #       {
 #         "sender": {
 #           "id": <INSTAGRAM_USER_ID>
 #         },
 #         "recipient": {
-#           "id": <CONNECT_CHANNEL_INSTAGRAM_USER_ID>
+#           "id": <INSTAGRAM_USER_ID>
 #         },
 #         "timestamp": <timestamp>,
 #         "message": {

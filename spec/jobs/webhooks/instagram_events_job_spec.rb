@@ -17,9 +17,9 @@ describe Webhooks::InstagramEventsJob do
       profile_pic: 'https://chatwoot-assets.local/sample.png',
       username: 'some_user_name' }
   end
-  let!(:instagram_channel) { create(:channel_instagram_fb_page, account: account, instagram_id: 'instagram-message-id-123') }
+  let!(:instagram_channel) { create(:channel_instagram_fb_page, account: account, instagram_id: 'chatwoot-app-user-id-1') }
   let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: account, greeting_enabled: false) }
-  let!(:instagram_direct_channel) { create(:channel_instagram, account: account, instagram_id: 'instagram-message-id-123') }
+  let!(:instagram_direct_channel) { create(:channel_instagram, account: account, instagram_id: 'chatwoot-app-user-id-1') }
   let!(:instagram_direct_inbox) { create(:inbox, channel: instagram_direct_channel, account: account, greeting_enabled: false) }
 
   # Combined message events into one helper
@@ -222,20 +222,6 @@ describe Webhooks::InstagramEventsJob do
         expect(contact.additional_attributes['social_instagram_is_business_follow_user']).to be true
         expect(contact.additional_attributes['social_instagram_is_verified_user']).to be false
       end
-      # TODO: Fix this test
-      # it 'creates standby message in the instagram direct inbox' do
-      #   instagram_webhook.perform_now(message_events[:standby][:entry])
-
-      #   instagram_direct_inbox.reload
-
-      #   expect(instagram_direct_inbox.contacts.count).to be 1
-      #   expect(instagram_direct_inbox.contacts.last.additional_attributes['social_instagram_user_name']).to eq 'some_user_name'
-      #   expect(instagram_direct_inbox.conversations.count).to be 1
-      #   expect(instagram_direct_inbox.messages.count).to be 1
-
-      #   message = instagram_direct_inbox.messages.last
-      #   expect(message.content).to eq('This is the first standby message from the customer, after 24 hours.')
-      # end
 
       it 'handle instagram unsend message event' do
         message = create(:message, inbox_id: instagram_direct_inbox.id, source_id: 'message-id-to-delete')
@@ -261,12 +247,6 @@ describe Webhooks::InstagramEventsJob do
         expect(instagram_direct_inbox.messages.last.attachments.count).to be 1
       end
 
-      it 'handle messaging_seen callback' do
-        expect(Instagram::ReadStatusService).to receive(:new).with(params: message_events[:messaging_seen][:entry][0][:messaging][0],
-                                                                   channel: instagram_direct_inbox.channel).and_call_original
-        instagram_webhook.perform_now(message_events[:messaging_seen][:entry])
-      end
-
       it 'handles unsupported message' do
         instagram_webhook.perform_now(message_events[:unsupported][:entry])
         instagram_direct_inbox.reload
@@ -289,6 +269,12 @@ describe Webhooks::InstagramEventsJob do
         expect(instagram_direct_inbox.contacts.count).to be 0
         expect(instagram_direct_inbox.contact_inboxes.count).to be 0
         expect(instagram_direct_inbox.messages.count).to be 0
+      end
+
+      it 'handle messaging_seen callback' do
+        expect(Instagram::ReadStatusService).to receive(:new).with(params: message_events[:messaging_seen][:entry][0][:messaging][0],
+                                                                   channel: instagram_direct_inbox.channel).and_call_original
+        instagram_webhook.perform_now(message_events[:messaging_seen][:entry])
       end
     end
   end
