@@ -161,3 +161,6 @@
 - name: search_with_gin
   display_name: Search messages with GIN
   enabled: false
+- name: cache_meta_counts
+  display_name: Cache Meta Counts
+  enabled: false
