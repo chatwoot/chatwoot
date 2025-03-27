@@ -1,28 +1,40 @@
 import types from '../mutation-types';
 import ConversationApi from '../../api/inbox/conversation';
 
+import ConversationMetaThrottleManager from 'dashboard/helper/ConversationMetaThrottleManager';
+
 const state = {
   mineCount: 0,
   unAssignedCount: 0,
   allCount: 0,
-  updatedOn: null,
 };
 
 export const getters = {
   getStats: $state => $state,
 };
 
+export const shouldThrottle = conversationCount => {
+  // The threshold for throttling is different for normal users and large accounts
+  // Normal users: 2 seconds
+  // Large accounts: 10 seconds
+  // We would only update the conversation stats based on the threshold above.
+  // This is done to reduce the number of /meta request made to the server.
+  const NORMAL_USER_THRESHOLD = 2000;
+  const LARGE_ACCOUNT_THRESHOLD = 10000;
+
+  const threshold =
+    conversationCount > 100 ? LARGE_ACCOUNT_THRESHOLD : NORMAL_USER_THRESHOLD;
+  return ConversationMetaThrottleManager.shouldThrottle(threshold);
+};
+
 export const actions = {
   get: async ({ commit, state: $state }, params) => {
-    const currentTime = new Date();
-    const lastUpdatedTime = new Date($state.updatedOn);
-
-    // Skip large accounts from making too many requests
-    if (currentTime - lastUpdatedTime < 10000 && $state.allCount > 100) {
+    if (shouldThrottle($state.allCount)) {
       // eslint-disable-next-line no-console
-      console.warn('Skipping conversation meta fetch');
+      console.warn('Throttle /meta fetch, will resume after threshold');
       return;
     }
+    ConversationMetaThrottleManager.markUpdate();
 
     try {
       const response = await ConversationApi.meta(params);

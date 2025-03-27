@@ -32,6 +32,7 @@ class ConversationFinder
   def initialize(current_user, params)
     @current_user = current_user
     @current_account = current_user.account
+    @is_admin = current_account.account_users.find_by(user_id: current_user.id)&.administrator?
     @params = params
   end
 
@@ -86,7 +87,8 @@ class ConversationFinder
   end
 
   def find_all_conversations
-    @conversations = current_account.conversations.where(inbox_id: @inbox_ids)
+    @conversations = current_account.conversations
+    @conversations = @conversations.where(inbox_id: @inbox_ids) unless @is_admin
     filter_by_conversation_type if params[:conversation_type]
     @conversations
   end
