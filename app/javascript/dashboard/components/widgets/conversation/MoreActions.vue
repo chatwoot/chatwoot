@@ -120,7 +120,7 @@ export default {
       @click="toggleEmailActionsModal"
     />
     <ButtonV4
-      v-tooltip="$t('CONTACT_PANEL.SEND_TRANSCRIPT')"
+      v-tooltip="$t('CONVERSATION.ASSIGNMENT.ASSIGN')"
       size="sm"
       variant="ghost"
       color="slate"

@@ -372,9 +372,12 @@ export default {
             :created-at-timestamp="chat.created_at"
           />
         </span>
-        <span class="ml-auto font-normal leading-4 text-xxs">
+        <span
+          v-if="!assignee.name"
+          class="ml-auto font-normal leading-4 text-xxs"
+        >
           <ButtonV4
-            v-tooltip="$t('CONTACT_PANEL.SEND_TRANSCRIPT')"
+            v-tooltip="$t('CONVERSATION.ASSIGNMENT.ASSIGN')"
             size="sm"
             variant="ghost"
             color="slate"
@@ -382,7 +385,6 @@ export default {
             @click="assignAgent"
           />
         </span>
-
         <span
           class="unread shadow-lg rounded-full hidden text-xxs font-semibold h-4 leading-4 ml-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"
         >
