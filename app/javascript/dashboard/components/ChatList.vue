@@ -61,7 +61,7 @@ import {
   getUserPermissions,
   filterItemsByPermission,
 } from 'dashboard/helper/permissionsHelper.js';
-import { matchesFilters } from '../store/modules/conversations/helpers/filterHelpers';
+// import { matchesFilters } from '../store/modules/conversations/helpers/filterHelpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
 
@@ -326,12 +326,12 @@ const conversationList = computed(() => {
     localConversationList = [...chatLists.value];
   }
 
-  if (activeFolder.value) {
-    const { payload } = activeFolder.value.query;
-    localConversationList = localConversationList.filter(conversation => {
-      return matchesFilters(conversation, payload);
-    });
-  }
+  // if (activeFolder.value) {
+  //   const { payload } = activeFolder.value.query;
+  //   localConversationList = localConversationList.filter(conversation => {
+  //     return matchesFilters(conversation, payload);
+  //   });
+  // }
 
   return localConversationList;
 });
