@@ -48,10 +48,6 @@ class Instagram::BaseMessageText < Instagram::WebhooksBaseService
     @contact_inbox.blank? && @inbox.channel.instagram_id.present?
   end
 
-  def sent_via_test_webhook?
-    @messaging[:sender][:id] == '12334' && @messaging[:recipient][:id] == '23245'
-  end
-
   def unsend_message
     message_to_delete = @inbox.messages.find_by(
       source_id: @messaging[:message][:mid]
