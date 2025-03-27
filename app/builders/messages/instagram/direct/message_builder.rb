@@ -24,22 +24,27 @@ class Messages::Instagram::Direct::MessageBuilder < Messages::Messenger::Message
 
   private
 
-  def handle_error(error)
-    # TODO: Check if this is the correct way to handle the error
-    if error.message.include?('unauthorized')
-      @inbox.channel.authorization_error!
-      raise
-    end
-    ChatwootExceptionTracker.new(error, account: @inbox.account).capture_exception
-    true
-  end
-
   def attachments
     @messaging[:message][:attachments] || {}
   end
 
   def message_type
     @outgoing_echo ? :outgoing : :incoming
+  end
+
+  def get_story_object_from_source_id(source_id)
+    url = "#{self.class.base_uri}/#{source_id}?fields=story,from&access_token=#{@inbox.channel.access_token}"
+    response = HTTParty.get(url)
+
+    Rails.logger.info("Instagram Story Response: #{response.body}")
+
+    return JSON.parse(response.body).with_indifferent_access if response.success?
+
+    handle_error_response(response)
+    {}
+  rescue StandardError => e
+    handle_standard_error(e)
+    {}
   end
 
   def message_identifier
@@ -83,7 +88,6 @@ class Messages::Instagram::Direct::MessageBuilder < Messages::Messenger::Message
   end
 
   def find_or_build_for_multiple_conversations
-    # If lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
     last_conversation = Conversation.where(conversation_params).where.not(status: :resolved).order(created_at: :desc).first
 
     return build_conversation if last_conversation.nil?
@@ -169,19 +173,14 @@ class Messages::Instagram::Direct::MessageBuilder < Messages::Messenger::Message
     unsupported_file_type?(attachments_type)
   end
 
-  def get_story_object_from_source_id(source_id)
-    url = "#{self.class.base_uri}/#{source_id}?fields=story,from&access_token=#{@inbox.channel.access_token}"
-    response = HTTParty.get(url)
-
-    Rails.logger.info("Instagram Story Response: #{response.body}")
-
-    return JSON.parse(response.body).with_indifferent_access if response.success?
-
-    handle_error_response(response)
-    {}
-  rescue StandardError => e
-    handle_standard_error(e)
-    {}
+  def handle_error(error)
+    # TODO: Check if this is the correct way to handle the error
+    if error.message.include?('unauthorized')
+      @inbox.channel.authorization_error!
+      raise
+    end
+    ChatwootExceptionTracker.new(error, account: @inbox.account).capture_exception
+    true
   end
 
   def handle_error_response(response)
@@ -199,52 +198,4 @@ class Messages::Instagram::Direct::MessageBuilder < Messages::Messenger::Message
     Rails.logger.error("Instagram Story Error: #{error.message}")
     ChatwootExceptionTracker.new(error, account: @inbox.account).capture_exception
   end
-
-  # Sample message response
-  # {
-  #   "time": <timestamp>,
-  #   "id": <INSTAGRAM_USER_ID>,
-  #   "messaging": [
-  #     {
-  #       "sender": {
-  #         "id": <INSTAGRAM_USER_ID>
-  #       },
-  #       "recipient": {
-  #         "id": <CONNECT_CHANNEL_INSTAGRAM_USER_ID>
-  #       },
-  #       "timestamp": <timestamp>,
-  #       "message": {
-  #         "mid": <MESSAGE_ID>,
-  #         "text": <MESSAGE_TEXT>
-  #       }
-  #     }
-  #   ]
-  # }
-
-  # Sample story mention response
-  # {
-  #   "id": <INSTAGRAM_USER_ID>,
-  #   "messaging": [
-  #     {
-  #       "sender": {
-  #         "id": <SENDER_ID>
-  #       },
-  #       "recipient": {
-  #         "id": <RECIPIENT_ID>
-  #       },
-  #       "timestamp": 1741856516834,
-  #       "message": {
-  #         "mid": <MESSAGE_ID>,
-  #         "attachments": [
-  #           {
-  #             "type": "story_mention",
-  #             "payload": {
-  #               "url": <attachment_url>
-  #             }
-  #           }
-  #         ]
-  #       }
-  #     }
-  #   ]
-  # }
 end

@@ -1,9 +1,3 @@
-# This class creates both outgoing messages from chatwoot and echo outgoing messages based on the flag `outgoing_echo`
-# Assumptions
-# 1. Incase of an outgoing message which is echo, source_id will NOT be nil,
-#    based on this we are showing "not sent from chatwoot" message in frontend
-#    Hence there is no need to set user_id in message for outgoing echo messages.
-
 class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   attr_reader :messaging
 
@@ -188,30 +182,4 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     attachments_type = attachments.pluck(:type).uniq.first
     unsupported_file_type?(attachments_type)
   end
-
-  ### Sample response
-  # {
-  #   "object": "instagram",
-  #   "entry": [
-  #     {
-  #       "id": "<IGID>",// ig id of the business
-  #       "time": 1569262486134,
-  #       "messaging": [
-  #         {
-  #           "sender": {
-  #             "id": "<IGSID>"
-  #           },
-  #           "recipient": {
-  #             "id": "<IGID>"
-  #           },
-  #           "timestamp": 1569262485349,
-  #           "message": {
-  #             "mid": "<MESSAGE_ID>",
-  #             "text": "<MESSAGE_CONTENT>"
-  #           }
-  #         }
-  #       ]
-  #     }
-  #   ],
-  # }
 end
