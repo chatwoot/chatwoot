@@ -12,7 +12,8 @@ const sendMessageAPI = async (
   selectedReply = null,
   phoneNumber = null,
   orderId = null,
-  isPrivate = false
+  isPrivate = false,
+  productId = null
 ) => {
   const urlData = endPoints.sendMessage(
     content,
@@ -20,7 +21,8 @@ const sendMessageAPI = async (
     selectedReply,
     phoneNumber,
     orderId,
-    isPrivate
+    isPrivate,
+    productId
   );
   return API.post(urlData.url, urlData.params);
 };

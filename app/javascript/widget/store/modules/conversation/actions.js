@@ -38,6 +38,7 @@ export const actions = {
       phoneNumber,
       orderId,
       isPrivate = false,
+      productId,
     } = params;
     const message = createTemporaryMessage({
       content,
@@ -46,6 +47,7 @@ export const actions = {
       phoneNumber,
       orderId,
       isPrivate,
+      productId,
     });
     dispatch('sendMessageWithData', message);
   },
@@ -59,6 +61,7 @@ export const actions = {
       phoneNumber,
       orderId,
       isPrivate,
+      productId,
     } = message;
     commit('pushMessageToConversation', message);
     commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
@@ -69,7 +72,8 @@ export const actions = {
         selectedReply,
         phoneNumber,
         orderId,
-        isPrivate
+        isPrivate,
+        productId
       );
 
       commit('deleteMessage', message.id);

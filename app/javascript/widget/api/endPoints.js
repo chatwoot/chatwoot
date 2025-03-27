@@ -28,7 +28,8 @@ const sendMessage = (
   selectedReply,
   phoneNumber,
   orderId,
-  isPrivate
+  isPrivate,
+  productId
 ) => {
   const referrerURL = window.referrerURL || '';
   const search = buildSearchParamsWithLocale(window.location.search);
@@ -44,6 +45,7 @@ const sendMessage = (
         phone_number: phoneNumber,
         order_id: orderId,
         private: isPrivate,
+        product_id: productId,
       },
     },
   };

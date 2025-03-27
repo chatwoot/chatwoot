@@ -2,7 +2,15 @@ import authEndPoint from 'widget/api/endPoints';
 import { API } from 'widget/helpers/axios';
 
 export default {
-  update: ({ messageId, email, values, phone, orderId, selectedReply }) => {
+  update: ({
+    messageId,
+    email,
+    values,
+    phone,
+    orderId,
+    selectedReply,
+    productId,
+  }) => {
     const urlData = authEndPoint.updateMessage(messageId);
     return API.patch(urlData.url, {
       contact: { email },
@@ -11,6 +19,7 @@ export default {
         user_phone_number: phone,
         selected_reply: selectedReply,
         user_order_id: orderId,
+        product_id: productId,
       },
     });
   },

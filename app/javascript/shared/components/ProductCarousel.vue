@@ -81,7 +81,11 @@
             </button>
           </div>
         </div>
-        <div class="more-variants">
+        <div
+          v-if="item.shouldShowMoreVariantsButton"
+          class="more-variants"
+          @click="onViewMoreVariants(item)"
+        >
           More variants
           <div class="more-variants-icon">
             <fluent-icon icon="chevron-right" size="14" />
@@ -94,6 +98,7 @@
 
 <script>
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
+import { mapActions } from 'vuex';
 
 export default {
   components: {
@@ -122,11 +127,13 @@ export default {
     },
   },
   methods: {
+    ...mapActions('conversation', ['sendMessage']),
     onProductClick(item) {
-      window.open(
-        `https://${item.shopUrl}/products/${item.productHandle}`,
-        '_blank'
-      );
+      let productUrl = `https://${item.shopUrl}/products/${item.productHandle}`;
+      if (item.variant_id) {
+        productUrl += `?variant=${item.variant_id}`;
+      }
+      window.open(productUrl, '_blank');
     },
     isProductInSelectedProducts(product) {
       return this.selectedProducts.some(
@@ -145,6 +152,13 @@ export default {
         product.shopUrl,
         event
       );
+    },
+    onViewMoreVariants(item) {
+      this.sendMessage({
+        content: 'More variants',
+        productId: item.id,
+        replyTo: this.message.id,
+      });
     },
     onBuyNow(item, event) {
       event.stopPropagation();

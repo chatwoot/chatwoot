@@ -74,6 +74,7 @@ class Api::V1::Widget::BaseController < ApplicationController
     { timestamp: permitted_params[:message][:timestamp] }
   end
 
+  # rubocop:disable Metrics/AbcSize
   def message_params
     {
       account_id: conversation.account_id,
@@ -85,10 +86,12 @@ class Api::V1::Widget::BaseController < ApplicationController
         in_reply_to: permitted_params[:message][:reply_to],
         selected_reply: permitted_params[:message][:selected_reply],
         phone_number: permitted_params[:message][:phone_number],
-        order_id: permitted_params[:message][:order_id]
+        order_id: permitted_params[:message][:order_id],
+        product_id: permitted_params[:message][:product_id]
       },
       echo_id: permitted_params[:message][:echo_id],
       message_type: :incoming
     }
   end
+  # rubocop:enable Metrics/AbcSize
 end
