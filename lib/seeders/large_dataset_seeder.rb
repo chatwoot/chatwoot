@@ -232,8 +232,8 @@ class Seeders::LargeDatasetSeeder
         # Save the conversation - skip validations to avoid callbacks
         conversation.save(validate: false)
 
-        # Add random labels (1-5 labels per conversation)
-        labels_to_add = @labels.sample(rand(1..5))
+        # Add random labels (5-20 labels per conversation)
+        labels_to_add = @labels.sample(rand(5..20))
         conversation.update_labels(labels_to_add.map(&:title))
 
         # Create messages for the conversation
