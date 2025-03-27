@@ -177,9 +177,6 @@ describe Messages::Instagram::Direct::MessageBuilder do
       expect do
         described_class.new(messaging, instagram_direct_inbox).perform
       end.not_to raise_error
-
-      # TODO: Uncomment this once the authorization error is handled in the message builder
-      # expect(instagram_direct_channel.reload.reauthorization_required?).to be true
     end
   end
 

@@ -162,7 +162,6 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
   end
 
   def handle_error(error)
-    # Handle error for Instagram Direct API
     if error.respond_to?(:message) && error.message.include?('unauthorized')
       @inbox.channel.authorization_error!
       raise
