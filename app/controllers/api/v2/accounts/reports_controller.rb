@@ -29,7 +29,8 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def labels
-    @report_data = generate_labels_report
+    @report_data = generate_labels_report_optimized
+    # @report_data = generate_labels_report
     generate_csv('labels_report', 'api/v2/accounts/reports/labels')
   end
 
