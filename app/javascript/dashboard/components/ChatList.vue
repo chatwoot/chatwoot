@@ -106,7 +106,7 @@ const advancedFilterTypes = ref(
 );
 
 const currentUser = useMapGetter('getCurrentUser');
-const chatLists = useMapGetter('getFilteredConversations');
+const chatLists = useMapGetter('getAllConversations');
 const mineChatsList = useMapGetter('getMineChats');
 const allChatList = useMapGetter('getAllStatusChats');
 const unAssignedChatsList = useMapGetter('getUnAssignedChats');
