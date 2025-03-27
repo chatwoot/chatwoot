@@ -4,7 +4,7 @@ require 'faker'
 class Seeders::LargeDatasetSeeder
   # Constants for configuring the seeder
   TOTAL_CONVERSATIONS = 10_000
-  TOTAL_CONTACTS = 100
+  TOTAL_CONTACTS = 1000
   TOTAL_AGENTS = 200
   TOTAL_TEAMS = 8
   TOTAL_LABELS = 100
