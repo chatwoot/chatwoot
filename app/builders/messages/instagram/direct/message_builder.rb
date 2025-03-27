@@ -203,7 +203,7 @@ class Messages::Instagram::Direct::MessageBuilder < Messages::Messenger::Message
   # Sample message response
   # {
   #   "time": <timestamp>,
-  #   "id": <CONNECT_CHANNEL_INSTAGRAM_USER_ID>, // Connect channel Instagram User ID
+  #   "id": <INSTAGRAM_USER_ID>,
   #   "messaging": [
   #     {
   #       "sender": {
@@ -223,7 +223,7 @@ class Messages::Instagram::Direct::MessageBuilder < Messages::Messenger::Message
 
   # Sample story mention response
   # {
-  #   "id": <CONNECT_CHANNEL_INSTAGRAM_USER_ID>, // Connect channel Instagram User ID
+  #   "id": <INSTAGRAM_USER_ID>,
   #   "messaging": [
   #     {
   #       "sender": {
