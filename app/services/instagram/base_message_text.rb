@@ -7,8 +7,8 @@ class Instagram::BaseMessageText < Instagram::WebhooksBaseService
   end
 
   def perform
-    service_id, contact_id = service_and_contact_ids
-    inbox_channel(service_id)
+    connected_instagram_id, contact_id = instagram_and_contact_ids
+    inbox_channel(connected_instagram_id)
 
     return if @inbox.blank?
 
@@ -26,7 +26,7 @@ class Instagram::BaseMessageText < Instagram::WebhooksBaseService
 
   private
 
-  def service_and_contact_ids
+  def instagram_and_contact_ids
     if agent_message_via_echo?
       [@messaging[:sender][:id], @messaging[:recipient][:id]]
     else
