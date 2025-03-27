@@ -3,14 +3,14 @@ require 'faker'
 
 class Seeders::LargeDatasetSeeder
   # Constants for configuring the seeder
-  TOTAL_CONVERSATIONS = 1_000
-  TOTAL_CONTACTS = 300
-  TOTAL_AGENTS = 100
+  TOTAL_CONVERSATIONS = 10_000
+  TOTAL_CONTACTS = 100
+  TOTAL_AGENTS = 200
   TOTAL_TEAMS = 8
-  TOTAL_LABELS = 50
+  TOTAL_LABELS = 100
   TOTAL_INBOXES = 3
   MESSAGES_PER_CONVERSATION = 5
-  START_DATE = 1.month.ago
+  START_DATE = 1.year.ago
   END_DATE = Time.current
 
   def initialize(account:)
