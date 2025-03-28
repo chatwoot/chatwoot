@@ -5,6 +5,8 @@ import { useMapGetter } from 'dashboard/composables/store.js';
 import { useRouter } from 'vue-router';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { differenceInDays } from 'date-fns';
+import { useAdmin } from 'dashboard/composables/useAdmin';
+import { useI18n } from 'vue-i18n';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -18,7 +20,9 @@ const props = defineProps({
 
 const router = useRouter();
 const store = useStore();
+const { t } = useI18n();
 const { accountId, currentAccount } = useAccount();
+const { isAdmin } = useAdmin();
 
 const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
 
@@ -37,15 +41,42 @@ const isTrialAccount = computed(() => {
   return diffDays <= 15;
 });
 
+const limitExceededMessage = computed(() => {
+  const account = currentAccount.value;
+  if (!account?.limits) return '';
+
+  const {
+    conversation,
+    non_web_inboxes: nonWebInboxes,
+    agents,
+  } = account.limits;
+
+  let message = '';
+
+  if (testLimit(conversation)) {
+    message = t('GENERAL_SETTINGS.LIMIT_MESSAGES.CONVERSATION');
+  } else if (testLimit(nonWebInboxes)) {
+    message = t('GENERAL_SETTINGS.LIMIT_MESSAGES.INBOXES');
+  } else if (testLimit(agents)) {
+    message = t('GENERAL_SETTINGS.LIMIT_MESSAGES.AGENTS');
+  }
+
+  return message;
+});
+
 const isLimitExceeded = computed(() => {
   const account = currentAccount.value;
-  if (!account) return false;
+  if (!account?.limits) return false;
 
-  const { limits } = account;
-  if (!limits) return false;
+  const {
+    conversation,
+    non_web_inboxes: nonWebInboxes,
+    agents,
+  } = account.limits;
 
-  const { conversation, non_web_inboxes: nonWebInboxes } = limits;
-  return testLimit(conversation) || testLimit(nonWebInboxes);
+  return (
+    testLimit(conversation) || testLimit(nonWebInboxes) || testLimit(agents)
+  );
 });
 
 const shouldShowUpgradePage = computed(() => {
@@ -67,13 +98,9 @@ const routeToBilling = () => {
   });
 };
 
-onMounted(() => {
-  fetchLimits();
-});
+onMounted(() => fetchLimits());
 
-defineExpose({
-  shouldShowUpgradePage,
-});
+defineExpose({ shouldShowUpgradePage });
 </script>
 
 <template>
@@ -82,7 +109,7 @@ defineExpose({
       <div
         class="flex flex-col gap-4 max-w-md px-8 py-6 shadow-lg bg-n-solid-1 rounded-xl outline outline-1 outline-n-container"
       >
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-4">
           <div class="flex items-center w-full gap-2">
             <span
               class="flex items-center justify-center w-6 h-6 rounded-full bg-n-solid-blue"
@@ -96,11 +123,17 @@ defineExpose({
               {{ $t('GENERAL_SETTINGS.UPGRADE') }}
             </span>
           </div>
-          <p class="text-sm font-normal text-n-slate-11">
-            {{ $t('GENERAL_SETTINGS.LIMITS_UPGRADE') }}
-          </p>
+          <div>
+            <p class="text-sm font-normal text-n-slate-11 mb-3">
+              {{ limitExceededMessage }}
+            </p>
+            <p v-if="!isAdmin">
+              {{ t('GENERAL_SETTINGS.LIMIT_MESSAGES.NON_ADMIN') }}
+            </p>
+          </div>
         </div>
         <NextButton
+          v-if="isAdmin"
           :label="$t('GENERAL_SETTINGS.OPEN_BILLING')"
           icon="i-lucide-credit-card"
           @click="routeToBilling()"
