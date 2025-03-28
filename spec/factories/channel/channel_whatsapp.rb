@@ -30,7 +30,39 @@ FactoryBot.define do
          'components' =>
          [{ 'text' => 'Your package has been shipped. It will be delivered in {{1}} business days.', 'type' => 'BODY' },
           { 'text' => 'This message is from an unverified business.', 'type' => 'FOOTER' }],
-         'rejected_reason' => 'NONE' }]
+         'rejected_reason' => 'NONE' },
+       {
+         'name' => 'ticket_status_updated',
+         'status' => 'APPROVED',
+         'category' => 'UTILITY',
+         'language' => 'en',
+         'components' => [
+           { 'text' => "Hello {{name}},  Your support ticket with ID: \#{{ticket_id}} has been updated by the support agent.",
+             'type' => 'BODY',
+             'example' => { 'body_text_named_params' => [
+               { 'example' => 'John', 'param_name' => 'name' },
+               { 'example' => '2332', 'param_name' => 'ticket_id' }
+             ] } }
+         ],
+         'sub_category' => 'CUSTOM',
+         'parameter_format' => 'NAMED'
+       },
+       {
+         'name' => 'ticket_status_updated',
+         'status' => 'APPROVED',
+         'category' => 'UTILITY',
+         'language' => 'en_US',
+         'components' => [
+           { 'text' => "Hello {{last_name}},  Your support ticket with ID: \#{{ticket_id}} has been updated by the support agent.",
+             'type' => 'BODY',
+             'example' => { 'body_text_named_params' => [
+               { 'example' => 'Dale', 'param_name' => 'last_name' },
+               { 'example' => '2332', 'param_name' => 'ticket_id' }
+             ] } }
+         ],
+         'sub_category' => 'CUSTOM',
+         'parameter_format' => 'NAMED'
+       }]
     end
     message_templates_last_updated { Time.now.utc }
 
