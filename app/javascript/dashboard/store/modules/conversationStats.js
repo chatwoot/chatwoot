@@ -25,11 +25,16 @@ const fetchMetaData = async (commit, params) => {
   }
 };
 
-const debouncedFetchMetaData = debounce(fetchMetaData, 500, false, 2500);
+const debouncedFetchMetaData = debounce(fetchMetaData, 500, false, 1000);
+const longDebouncedFetchMetaData = debounce(fetchMetaData, 500, false, 5000);
 
 export const actions = {
-  get: async ({ commit }, params) => {
-    debouncedFetchMetaData(commit, params);
+  get: async ({ commit, store: $store }, params) => {
+    if ($store.allCount > 100) {
+      longDebouncedFetchMetaData(commit, params);
+    } else {
+      debouncedFetchMetaData(commit, params);
+    }
   },
   set({ commit }, meta) {
     commit(types.SET_CONV_TAB_META, meta);
