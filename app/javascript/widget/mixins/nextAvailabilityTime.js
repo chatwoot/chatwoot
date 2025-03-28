@@ -30,6 +30,12 @@ export default {
     workingHours() {
       return this.channelConfig.workingHours;
     },
+    workingHoursEnabled() {
+      if (this.channelConfig.workingHoursEnabled) {
+        return this.workingHours.find(slot => !slot.closed_all_day) !== null;
+      }
+      return false;
+    },
     newDateWithTimeZone() {
       return utcToZonedTime(new Date(), this.timeZoneValue);
     },
@@ -67,6 +73,10 @@ export default {
       while (!nextWorkingHour) {
         nextDay = this.getNextDay(nextDay);
         nextWorkingHour = this.getNextWorkingHour(nextDay);
+        if (nextDay === this.currentDay) {
+          // we have done a loop and not found any working hours
+          break;
+        }
       }
       return nextWorkingHour;
     },
@@ -224,7 +234,9 @@ export default {
     },
     setTimeSlot() {
       // It checks if the working hours feature is enabled for the store.
-
+      if (!this.workingHoursEnabled) {
+        return;
+      }
       const timeSlots = this.workingHours;
 
       // If the present hour is after the closing hour of the current day,
