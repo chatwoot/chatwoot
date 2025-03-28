@@ -1,7 +1,7 @@
 <script setup>
-import { computed, defineExpose, defineProps } from 'vue';
+import { computed, defineExpose } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store.js';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { differenceInDays } from 'date-fns';
 import { useAdmin } from 'dashboard/composables/useAdmin';
@@ -10,14 +10,8 @@ import { useI18n } from 'vue-i18n';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 
-const props = defineProps({
-  bypassUpgradePage: {
-    type: Boolean,
-    default: false,
-  },
-});
-
 const router = useRouter();
+const route = useRoute();
 const { t } = useI18n();
 const { accountId, currentAccount } = useAccount();
 const { isAdmin } = useAdmin();
@@ -38,6 +32,14 @@ const isTrialAccount = computed(() => {
   const diffDays = differenceInDays(new Date(), createdAt);
 
   return diffDays <= 15;
+});
+
+const bypassUpgradePage = computed(() => {
+  return [
+    'billing_settings_index',
+    'settings_inbox_list',
+    'agent_list',
+  ].includes(route.name);
 });
 
 const limitExceededMessage = computed(() => {
@@ -82,7 +84,7 @@ const shouldShowUpgradePage = computed(() => {
   // Hide upgrade page while fetching limits
   if (accountUIFlags.isFetchingLimits) return false;
   // Skip upgrade page in Billing, Inbox, and Agent pages
-  if (props.bypassUpgradePage) return false;
+  if (bypassUpgradePage.value) return false;
   if (!isOnChatwootCloud.value) return false;
   if (isTrialAccount.value) return false;
   return isLimitExceeded.value;
