@@ -489,6 +489,7 @@ Rails.application.routes.draw do
   post 'webhooks/call/:account_id/:inbox_id/:conversation_id', to: 'webhooks/call#handle_call_callback'
   post 'webhooks/call/ivrsolutions', to: 'webhooks/call_ivrsolutions#handle_call_callback'
   post 'webhooks/call/ivrsolutionsincoming', to: 'webhooks/call_ivrsolutions_incoming#handle_incoming_call'
+  post 'webhooks/call/myoperator', to: 'webhooks/call_myoperator#handle_call_callback'
 
   get 'webhooks/call/incoming', to: 'webhooks/call#handle_incoming_call'
   get 'webhooks/call/welcome_message', to: 'webhooks/call#welcome_message'

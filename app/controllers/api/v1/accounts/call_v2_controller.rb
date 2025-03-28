@@ -2,7 +2,7 @@ require 'httparty'
 require 'json'
 require 'rexml/document'
 
-class Api::V1::Accounts::CallV2Controller < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::CallV2Controller < Api::V1::Accounts::BaseController # rubocop:disable Metrics/ClassLength
   def create # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
     account = Account.find_by(id: params[:account_id])
 
@@ -43,12 +43,16 @@ class Api::V1::Accounts::CallV2Controller < Api::V1::Accounts::BaseController
                  handle_exotel_provider_call(call_config, payload, latest_open_conversation)
                when 'ivrsolutions'
                  handle_ivrsolutions_provider_call(call_config, payload)
+               when 'myoperator'
+                 handle_myoperator_provider_call(call_config, payload)
                else
                  render json: { success: false, error: 'Invalid provider configuration' }, status: :bad_request
                  return
                end
 
     conversation = latest_open_conversation
+
+    Rails.logger.info("responseData, #{response}")
 
     if response.code != 200
       error_message = extract_error_message(response, provider)
@@ -60,7 +64,7 @@ class Api::V1::Accounts::CallV2Controller < Api::V1::Accounts::BaseController
     case provider
     when 'exotel'
       create_follow_up_call_reporting_event(conversation)
-    when 'ivrsolutions'
+    when 'ivrsolutions', 'myoperator'
       conversation.messages.create!(private_message_params('Call Initiated', conversation))
       create_follow_up_call_reporting_event(conversation)
     end
@@ -184,12 +188,55 @@ class Api::V1::Accounts::CallV2Controller < Api::V1::Accounts::BaseController
     )
   end
 
+  def handle_myoperator_provider_call(call_config, payload) # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
+    Rails.logger.info('Inside My Operator')
+    external_provider_config = call_config['externalProviderConfig']
+
+    unless payload['to'] && payload['from']
+      render json: { success: false, error: 'Missing required fields: to or from' }, status: :bad_request
+      return
+    end
+
+    user_id = external_provider_config['agentNoMapping'][payload['from'].gsub(/^\+91/, '')]
+
+    Rails.logger.info("user_id #{user_id}")
+
+    unless user_id
+      Rails.logger.error("No userid found for number: #{payload['from']}")
+      return { success: false, error: "No userid found for number: #{payload['from']}" }
+    end
+
+    Rails.logger.info("formatted_to_number #{payload['to']}")
+
+    url = 'https://obd-api.myoperator.co/obd-api-v1'
+
+    params = {
+      company_id: external_provider_config['company_id'],
+      secret_token: external_provider_config['secret_token'],
+      type: '1',
+      user_id: user_id,
+      number: payload['to'],
+      public_ivr_id: external_provider_config['public_ivr_id']
+    }
+
+    Rails.logger.info("params, #{params.to_json.inspect}")
+
+    HTTParty.post(
+      url,
+      body: params.to_json,
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': external_provider_config['x_api_key']
+      }
+    )
+  end
+
   def extract_error_message(response, provider)
     case provider
     when 'exotel'
       xml_data = REXML::Document.new(response.body)
       xml_data.elements['//Message']&.text || 'Unknown error'
-    when 'ivrsolutions'
+    when 'ivrsolutions', 'myoperator'
       begin
         result = JSON.parse(response.body)
         result['message'] || 'Unknown error'
