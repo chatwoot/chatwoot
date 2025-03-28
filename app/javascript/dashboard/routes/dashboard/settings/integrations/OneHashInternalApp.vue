@@ -107,7 +107,7 @@ export default {
 <template>
   <div>
     <div
-      class="flex flex-col items-start bg-n-solid-2 justify-between md:flex-row md:items-center shadow-lg outline-n-container outline-2 outline dark:border-gray-700 rounded-md py-2"
+      class="flex flex-col items-start bg-n-solid-2 justify-between md:flex-row md:items-center shadow-lg outline-n-container outline-2 outline rounded-md py-2"
     >
       <div class="flex items-center justify-start flex-1 m-0 mx-4">
         <img
@@ -177,7 +177,7 @@ export default {
         v-model:show="showCalIntegrationPopup"
         :on-close="closeCalIntegrationPopup"
       >
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg text-center">
+        <div class="bg-n-solid-2 p-6 rounded-lg text-center">
           <h2
             class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100"
           >
@@ -194,10 +194,7 @@ export default {
             @keydown.enter="addCalIntegration"
           />
 
-          <button
-            class="button nice dark:bg-gray-700 dark:text-gray-100"
-            @click="addCalIntegration"
-          >
+          <button class="button nice" @click="addCalIntegration">
             {{ $t('INTEGRATION_SETTINGS.ONEHASH_CAL.PROCEED') }}
           </button>
         </div>
