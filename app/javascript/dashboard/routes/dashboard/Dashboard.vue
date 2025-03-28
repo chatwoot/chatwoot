@@ -229,7 +229,7 @@ export default {
         v-if="accountUIFlags.isFetchingLimits"
         class="flex items-center justify-center w-full h-full"
       >
-        <Spinner size="32" class="text-n-brand" />
+        <Spinner size="24" class="text-n-brand" />
       </div>
       <template v-else-if="!showUpgradePage">
         <router-view />
