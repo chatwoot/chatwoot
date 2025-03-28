@@ -221,4 +221,53 @@ RSpec.describe Account, type: :model do
       end
     end
   end
+
+  describe 'account deletion' do
+    let(:account) { create(:account) }
+    let(:admin) { create(:user, account: account, role: :administrator) }
+
+    describe '#mark_for_deletion' do
+      it 'sets the marked_for_deletion_at and marked_for_deletion_reason attributes' do
+        expect do
+          account.mark_for_deletion('test_reason')
+        end.to change { account.reload.custom_attributes['marked_for_deletion_at'] }.from(nil).to(be_present)
+           .and change { account.reload.custom_attributes['marked_for_deletion_reason'] }.from(nil).to('test_reason')
+      end
+
+      it 'sends a notification email to admin users' do
+        mailer = double
+        expect(AdministratorNotifications::AccountNotificationMailer).to receive(:with).with(account: account).and_return(mailer)
+        expect(mailer).to receive(:account_deletion).with(account, 'test_reason').and_return(mailer)
+        expect(mailer).to receive(:deliver_later)
+
+        account.mark_for_deletion('test_reason')
+      end
+
+      it 'returns true when successful' do
+        expect(account.mark_for_deletion).to be_truthy
+      end
+    end
+
+    describe '#unmark_for_deletion' do
+      before do
+        account.update!(
+          custom_attributes: {
+            'marked_for_deletion_at' => 7.days.from_now.iso8601,
+            'marked_for_deletion_reason' => 'test_reason'
+          }
+        )
+      end
+
+      it 'removes the marked_for_deletion_at and marked_for_deletion_reason attributes' do
+        expect do
+          account.unmark_for_deletion
+        end.to change { account.reload.custom_attributes['marked_for_deletion_at'] }.from(be_present).to(nil)
+           .and change { account.reload.custom_attributes['marked_for_deletion_reason'] }.from('test_reason').to(nil)
+      end
+
+      it 'returns true when successful' do
+        expect(account.unmark_for_deletion).to be_truthy
+      end
+    end
+  end
 end
