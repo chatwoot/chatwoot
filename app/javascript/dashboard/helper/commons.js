@@ -25,24 +25,6 @@ export const isJSONValid = value => {
   return true;
 };
 
-export const getTypingUsersText = (users = []) => {
-  const count = users.length;
-  const [firstUser, secondUser] = users;
-
-  if (count === 1) {
-    return ['TYPING.ONE', { user: firstUser.name }];
-  }
-
-  if (count === 2) {
-    return [
-      'TYPING.TWO',
-      { user: firstUser.name, secondUser: secondUser.name },
-    ];
-  }
-
-  return ['TYPING.MULTIPLE', { user: firstUser.name, count: count - 1 }];
-};
-
 export const createPendingMessage = data => {
   const timestamp = Math.floor(new Date().getTime() / 1000);
   const tempMessageId = getUuid();

@@ -161,3 +161,6 @@
 - name: search_with_gin
   display_name: Search messages with GIN
   enabled: false
+- name: chat_preserve_user_scroll
+  display_name: Preserve User Scroll on Chat
+  enabled: false
