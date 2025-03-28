@@ -20,12 +20,6 @@ const props = defineProps({
 
 const emit = defineEmits(['change']);
 
-// Map the languages array to the format expected by FormSelect
-const languageOptions = languages.map(language => ({
-  value: language.id,
-  label: language.name,
-}));
-
 const selectedValue = computed({
   get: () => props.value,
   set: value => {
@@ -50,16 +44,16 @@ const selectedValue = computed({
       spacing="compact"
       class="min-w-28 mt-px"
       :value="selectedValue"
-      :options="languageOptions"
+      :options="languages"
       label=""
     >
       <option
-        v-for="option in languageOptions"
-        :key="option.value"
-        :value="option.value"
-        :selected="option.value === selectedValue"
+        v-for="option in languages"
+        :key="option.id"
+        :value="option.id"
+        :selected="option.id === selectedValue"
       >
-        {{ option.label }}
+        {{ option.name }}
       </option>
     </FormSelect>
   </div>
