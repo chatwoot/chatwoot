@@ -1,7 +1,11 @@
 <script>
 import { mapGetters } from 'vuex';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
+  components: {
+    NextButton,
+  },
   emits: ['toggleAccounts'],
   data() {
     return { showSwitchButton: false };
@@ -46,14 +50,13 @@ export default {
         class="absolute top-0 right-0 flex items-center justify-end w-full h-full rounded-md ltr:overlay-shadow ltr:dark:overlay-shadow-dark rtl:rtl-overlay-shadow rtl:dark:rtl-overlay-shadow-dark"
       >
         <div class="mx-2 my-0">
-          <woot-button
-            variant="clear"
-            size="tiny"
-            icon="arrow-swap"
+          <NextButton
+            ghost
+            xs
+            icon="i-lucide-arrow-right-left"
+            :label="$t('SIDEBAR.SWITCH')"
             @click="$emit('toggleAccounts')"
-          >
-            {{ $t('SIDEBAR.SWITCH') }}
-          </woot-button>
+          />
         </div>
       </div>
     </transition>
