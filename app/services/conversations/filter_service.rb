@@ -1,8 +1,8 @@
 class Conversations::FilterService < FilterService
   ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
 
-  def initialize(params, user, filter_account = nil)
-    @account = filter_account || Current.account
+  def initialize(params, user, account)
+    @account = account
     super(params, user)
   end
 
@@ -30,7 +30,7 @@ class Conversations::FilterService < FilterService
 
     # Ensure we only include conversations from inboxes the user has access to
     unless @user.administrator?
-      inbox_ids = @user.assigned_inboxes.pluck(:id)
+      inbox_ids = @user.inboxes.where(account_id: @account.id).pluck(:id)
       conversations = conversations.where(inbox_id: inbox_ids)
     end
 
