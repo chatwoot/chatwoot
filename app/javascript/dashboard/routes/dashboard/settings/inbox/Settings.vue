@@ -159,7 +159,13 @@
         </div>
         <label v-if="isAWebWidgetInbox" class="w-3/4 pb-4">
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.TITLE') }}
-          <select v-model="replyTime">
+          <input
+            type="text"
+            v-model="replyTimeText"
+            v-if="replyTimeTextEnabled"
+            class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600"
+          >
+          <select v-model="replyTime" v-else>
             <option key="in_a_few_minutes" value="in_a_few_minutes">
               {{
                 $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.IN_A_FEW_MINUTES')
@@ -557,6 +563,7 @@ export default {
       channelWelcomeTagline: '',
       selectedFeatureFlags: [],
       replyTime: '',
+      replyTimeText: '',
       defaultReplyAction: 'reply_and_resolve',
       selectedTabIndex: 0,
       selectedPortalSlug: '',
@@ -698,6 +705,12 @@ export default {
         return true;
       return false;
     },
+    replyTimeTextEnabled() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.REPLY_TIME_TEXT,
+      );
+    },
   },
   watch: {
     $route(to) {
@@ -760,6 +773,7 @@ export default {
         this.channelWelcomeTagline = this.inbox.welcome_tagline;
         this.selectedFeatureFlags = this.inbox.selected_feature_flags || [];
         this.replyTime = this.inbox.reply_time;
+        this.replyTimeText = this.inbox.reply_time_text;
         this.defaultReplyAction = this.inbox.default_reply_action;
         this.locktoSingleConversation = this.inbox.lock_to_single_conversation;
         this.selectedPortalSlug = this.inbox.help_center
@@ -799,6 +813,7 @@ export default {
             welcome_tagline: this.channelWelcomeTagline || '',
             selectedFeatureFlags: this.selectedFeatureFlags,
             reply_time: this.replyTime || 'in_a_few_minutes',
+            reply_time_text: this.replyTimeText || '',
             continuity_via_email: this.continuityViaEmail,
           },
         };

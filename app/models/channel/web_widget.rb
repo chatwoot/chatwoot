@@ -10,6 +10,7 @@
 #  pre_chat_form_enabled :boolean          default(FALSE)
 #  pre_chat_form_options :jsonb
 #  reply_time            :integer          default("in_a_few_minutes")
+#  reply_time_text       :string           default("We answer as fast as possible")
 #  website_token         :string
 #  website_url           :string
 #  welcome_tagline       :string
@@ -30,7 +31,7 @@ class Channel::WebWidget < ApplicationRecord
   include FlagShihTzu
 
   self.table_name = 'channel_web_widgets'
-  EDITABLE_ATTRS = [:website_url, :widget_color, :welcome_title, :welcome_tagline, :reply_time, :pre_chat_form_enabled,
+  EDITABLE_ATTRS = [:website_url, :widget_color, :welcome_title, :welcome_tagline, :reply_time, :reply_time_text, :pre_chat_form_enabled,
                     :continuity_via_email, :hmac_mandatory,
                     { pre_chat_form_options: [:pre_chat_message, :require_email,
                                               { pre_chat_fields:

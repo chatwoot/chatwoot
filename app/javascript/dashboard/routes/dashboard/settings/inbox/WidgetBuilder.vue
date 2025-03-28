@@ -59,7 +59,13 @@
               {{
                 $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.REPLY_TIME.LABEL')
               }}
-              <select v-model="replyTime">
+              <input
+                type="text"
+                v-model="replyTimeText"
+                v-if="replyTimeTextEnabled"
+                class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600"
+              >
+              <select v-else v-model="replyTime">
                 <option
                   v-for="option in getReplyTimeOptions"
                   :key="option.key"
@@ -138,6 +144,7 @@
             :logo="avatarUrl"
             is-online
             :reply-time="replyTime"
+            :reply-time-text-value="replyTimeText"
             :color="color"
             :widget-bubble-position="widgetBubblePosition"
             :widget-bubble-launcher-title="widgetBubbleLauncherTitle"
@@ -160,6 +167,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 
 export default {
   components: {
@@ -181,6 +189,7 @@ export default {
       welcomeHeading: '',
       welcomeTagline: '',
       replyTime: 'in_a_few_minutes',
+      replyTimeText: 'We answer as fast as possible',
       avatarFile: null,
       avatarUrl: '',
       widgetBubblePosition: 'right',
@@ -224,6 +233,8 @@ export default {
   },
   computed: {
     ...mapGetters({
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       uiFlags: 'inboxes/getUIFlags',
     }),
     storageKey() {
@@ -292,6 +303,12 @@ export default {
         ? this.$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WEBSITE_NAME.ERROR')
         : '';
     },
+    replyTimeTextEnabled() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.REPLY_TIME_TEXT,
+      );
+    },
   },
   mounted() {
     this.setDefaults();
@@ -308,6 +325,7 @@ export default {
         welcome_tagline,
         widget_color,
         reply_time,
+        reply_time_text,
         avatar_url,
       } = this.inbox;
       this.websiteName = name;
@@ -315,6 +333,7 @@ export default {
       this.welcomeTagline = welcome_tagline;
       this.color = widget_color;
       this.replyTime = reply_time;
+      this.replyTimeText = reply_time_text;
       this.avatarUrl = avatar_url;
 
       const savedInformation = this.getSavedInboxInformation();
@@ -388,6 +407,7 @@ export default {
             welcome_title: this.welcomeHeading,
             welcome_tagline: this.welcomeTagline,
             reply_time: this.replyTime,
+            reply_time_text: this.replyTimeText,
           },
         };
         if (this.avatarFile) {

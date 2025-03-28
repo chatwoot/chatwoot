@@ -19,6 +19,8 @@
         enabledFeatures: <%= @web_widget.selected_feature_flags.to_json.html_safe %>,
         enabledLanguages: <%= available_locales_with_name.to_json.html_safe %>,
         replyTime: '<%= @web_widget.reply_time %>',
+        replyTimeText: '<%= @web_widget.reply_time_text %>',
+        replyTimeTextEnabled: <%= @web_widget.account.feature_enabled?('reply_time_text') %>,
         preChatFormEnabled: <%= @web_widget.pre_chat_form_enabled %>,
         preChatFormOptions: <%= @web_widget.pre_chat_form_options.to_json.html_safe %>,
         workingHoursEnabled: <%= @web_widget.inbox.working_hours_enabled %>,

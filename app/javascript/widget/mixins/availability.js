@@ -10,6 +10,9 @@ export default {
       return window.chatwootWebChannel.replyTime;
     },
     replyTimeStatus() {
+      if (window.chatwootWebChannel.replyTimeTextEnabled) {
+        return window.chatwootWebChannel.replyTimeText;
+      }
       switch (this.replyTime) {
         case 'in_a_few_minutes':
           return this.$t('REPLY_TIME.IN_A_FEW_MINUTES');

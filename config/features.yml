@@ -99,3 +99,5 @@
   enabled: false
 - name: ai_conversation_summary
   enabled: false
+- name: reply_time_text
+  enabled: false

@@ -54,6 +54,7 @@ import WidgetFooter from './WidgetFooter.vue';
 import InputRadioGroup from 'dashboard/routes/dashboard/settings/inbox/components/InputRadioGroup.vue';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import { mapGetters } from 'vuex';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 export default {
   name: 'Widget',
@@ -87,6 +88,10 @@ export default {
       default: true,
     },
     replyTime: {
+      type: String,
+      default: '',
+    },
+    replyTimeTextValue: {
       type: String,
       default: '',
     },
@@ -126,7 +131,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ globalConfig: 'globalConfig/get' }),
+    ...mapGetters({
+      globalConfig: 'globalConfig/get',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      accountId: 'getCurrentAccountId',
+    }),
     getWidgetHeadConfig() {
       return {
         welcomeHeading: this.welcomeHeading,
@@ -157,7 +166,10 @@ export default {
       };
     },
     replyTimeText() {
-      switch (this.replyTime) {
+      if (this.replyTimeTextInputEnabled) {
+        return this.replyTimeTextValue;
+      } else {
+        switch (this.replyTime) {
         case 'in_a_few_minutes':
           return this.$t(
             'INBOX_MGMT.WIDGET_BUILDER.REPLY_TIME.IN_A_FEW_MINUTES'
@@ -166,7 +178,14 @@ export default {
           return this.$t('INBOX_MGMT.WIDGET_BUILDER.REPLY_TIME.IN_A_DAY');
         default:
           return this.$t('INBOX_MGMT.WIDGET_BUILDER.REPLY_TIME.IN_A_FEW_HOURS');
+        }
       }
+    },
+    replyTimeTextInputEnabled() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.REPLY_TIME_TEXT
+      );
     },
     getBubblePositionStyle() {
       return {

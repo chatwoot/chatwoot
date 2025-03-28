@@ -37,4 +37,5 @@ export const FEATURE_FLAGS = {
   AI_QUALITY_CHECK: 'ai_quality_check',
   AI_CONVERSATION_SUMMARY: 'ai_conversation_summary',
   PRE_RELEASE_FEATURE: 'pre_release_feature',
+  REPLY_TIME_TEXT: 'reply_time_text',
 };
