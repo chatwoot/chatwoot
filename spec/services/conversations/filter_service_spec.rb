@@ -23,7 +23,6 @@ describe Conversations::FilterService do
   before do
     create(:inbox_member, user: user_1, inbox: inbox)
     create(:inbox_member, user: user_2, inbox: inbox)
-    Current.account = account
 
     en_conversation_1.update!(custom_attributes: { conversation_additional_information: 'test custom data' })
     en_conversation_2.update!(custom_attributes: { conversation_additional_information: 'test custom data', conversation_type: 'platinum' })
@@ -72,7 +71,7 @@ describe Conversations::FilterService do
 
       it 'filter conversations by additional_attributes and status' do
         params[:payload] = payload
-        result = filter_service.new(params, user_1).perform
+        result = filter_service.new(params, user_1, account).perform
         conversations = Conversation.where("additional_attributes ->> 'browser_language' IN (?) AND status IN (?)", ['en'], [1, 2])
         expect(result[:count][:all_count]).to be conversations.count
       end
@@ -88,7 +87,7 @@ describe Conversations::FilterService do
             custom_attribute_type: ''
           }.with_indifferent_access
         ]
-        result = filter_service.new(params, user_1).perform
+        result = filter_service.new(params, user_1, account).perform
         expect(result[:conversations].length).to eq 1
         expect(result[:conversations][0][:id]).to eq conversation.id
       end
@@ -107,7 +106,7 @@ describe Conversations::FilterService do
             custom_attribute_type: ''
           }.with_indifferent_access
         ]
-        result = filter_service.new(params, user_1).perform
+        result = filter_service.new(params, user_1, account).perform
         expect(result[:conversations].length).to eq 2
         expect(result[:conversations].pluck(:id)).to include(high_priority.id, urgent_priority.id)
       end
@@ -127,7 +126,7 @@ describe Conversations::FilterService do
             custom_attribute_type: ''
           }.with_indifferent_access
         ]
-        result = filter_service.new(params, user_1).perform
+        result = filter_service.new(params, user_1, account).perform
 
         # Only include conversations with medium and low priority, excluding high and urgent
         expect(result[:conversations].length).to eq 2
@@ -137,7 +136,7 @@ describe Conversations::FilterService do
       it 'filter conversations by additional_attributes and status with pagination' do
         params[:payload] = payload
         params[:page] = 2
-        result = filter_service.new(params, user_1).perform
+        result = filter_service.new(params, user_1, account).perform
         conversations = Conversation.where("additional_attributes ->> 'browser_language' IN (?) AND status IN (?)", ['en'], [1, 2])
         expect(result[:count][:all_count]).to be conversations.count
       end
@@ -156,7 +155,7 @@ describe Conversations::FilterService do
         create(:conversation, account: account, inbox: inbox, assignee: user_1, campaign_id: campaign_1.id,
                               status: 'pending', additional_attributes: { 'browser_language': 'tr' })
 
-        result = filter_service.new(params, user_1).perform
+        result = filter_service.new(params, user_1, account).perform
         expect(result[:count][:all_count]).to be 2
       end
 
@@ -174,7 +173,7 @@ describe Conversations::FilterService do
         create(:conversation, account: account, inbox: inbox, assignee: user_1, campaign_id: campaign_1.id,
                               status: 'pending', additional_attributes: { 'browser_language': 'tr' })
 
-        result = filter_service.new(params, user_1).perform
+        result = filter_service.new(params, user_1, account).perform
 
         expect(result[:count][:all_count]).to be 1
         expect(result[:conversations].first.additional_attributes['browser_language']).to eq 'fr'
@@ -184,7 +183,7 @@ describe Conversations::FilterService do
         payload = [{ attribute_key: 'conversation_type', filter_operator: 'not_equal_to', values: 'platinum', query_operator: nil,
                      custom_attribute_type: 'conversation_attribute' }.with_indifferent_access]
         params[:payload] = payload
-        result = filter_service.new(params, user_1).perform
+        result = filter_service.new(params, user_1, account).perform
         conversations = Conversation.where(
           "custom_attributes ->> 'conversation_type' NOT IN (?) OR custom_attributes ->> 'conversation_type' IS NULL", ['platinum']
         )
@@ -213,7 +212,7 @@ describe Conversations::FilterService do
             query_operator: nil
           }.with_indifferent_access
         ]
-        result = filter_service.new(params, user_1).perform
+        result = filter_service.new(params, user_1, account).perform
         expect(result[:count][:all_count]).to be 1
       end
 
@@ -237,7 +236,7 @@ describe Conversations::FilterService do
             custom_attribute_type: ''
           }.with_indifferent_access
         ]
-        result = filter_service.new(params, user_1).perform
+        result = filter_service.new(params, user_1, account).perform
 
         expect(result[:count][:all_count]).to be 2
         expect(result[:conversations].pluck(:campaign_id).sort).to eq [campaign_2.id, campaign_1.id].sort
@@ -264,7 +263,7 @@ describe Conversations::FilterService do
           }.with_indifferent_access
         ]
 
-        expect { filter_service.new(params, user_1).perform }.to raise_error(CustomExceptions::CustomFilter::InvalidQueryOperator)
+        expect { filter_service.new(params, user_1, account).perform }.to raise_error(CustomExceptions::CustomFilter::InvalidQueryOperator)
       end
     end
   end
@@ -296,7 +295,7 @@ describe Conversations::FilterService do
             query_operator: nil
           }.with_indifferent_access
         ]
-        result = filter_service.new(params, user_1).perform
+        result = filter_service.new(params, user_1, account).perform
         expect(result[:conversations].length).to be 1
         expect(result[:conversations][0][:id]).to be user_2_assigned_conversation.id
       end
@@ -324,7 +323,7 @@ describe Conversations::FilterService do
             query_operator: nil
           }.with_indifferent_access
         ]
-        result = filter_service.new(params, user_1).perform
+        result = filter_service.new(params, user_1, account).perform
         expect(result[:conversations].length).to be 1
         expect(result[:conversations][0][:id]).to be user_2_assigned_conversation.id
       end
@@ -346,7 +345,7 @@ describe Conversations::FilterService do
             custom_attribute_type: ''
           }.with_indifferent_access
         ]
-        result = filter_service.new(params, user_1).perform
+        result = filter_service.new(params, user_1, account).perform
         expect(result[:conversations].length).to be 1
       end
 
@@ -367,7 +366,7 @@ describe Conversations::FilterService do
             custom_attribute_type: nil
           }.with_indifferent_access
         ]
-        result = filter_service.new(params, user_1).perform
+        result = filter_service.new(params, user_1, account).perform
         expect(result[:conversations].length).to be 1
       end
 
@@ -393,7 +392,7 @@ describe Conversations::FilterService do
             custom_attribute_type: ''
           }.with_indifferent_access
         ]
-        result = filter_service.new(params, user_1).perform
+        result = filter_service.new(params, user_1, account).perform
         expect(result[:conversations].length).to be 1
       end
     end
@@ -413,7 +412,7 @@ describe Conversations::FilterService do
             custom_attribute_type: ''
           }.with_indifferent_access
         ]
-        result = filter_service.new(params, user_1).perform
+        result = filter_service.new(params, user_1, account).perform
         expected_count = Conversation.where('created_at > ?', DateTime.parse('2022-01-20')).count
         expect(result[:conversations].length).to be expected_count
       end
@@ -435,7 +434,7 @@ describe Conversations::FilterService do
             custom_attribute_type: ''
           }.with_indifferent_access
         ]
-        result = filter_service.new(params, user_1).perform
+        result = filter_service.new(params, user_1, account).perform
         expected_count = Conversation.where("created_at > ? AND custom_attributes->>'conversation_type' = ?", DateTime.parse('2022-01-20'),
                                             'platinum').count
 
@@ -471,7 +470,7 @@ describe Conversations::FilterService do
           expected_count = Conversation.where("last_activity_at < ? AND custom_attributes->>'conversation_type' = ?", (Time.zone.today - 3.days),
                                               'platinum').count
 
-          result = filter_service.new(params, user_1).perform
+          result = filter_service.new(params, user_1, account).perform
           expect(result[:conversations].length).to be expected_count
         end
 
@@ -488,7 +487,7 @@ describe Conversations::FilterService do
 
           expected_count = Conversation.where('last_activity_at < ?', (Time.zone.today - 2.days)).count
 
-          result = filter_service.new(params, user_1).perform
+          result = filter_service.new(params, user_1, account).perform
           expect(result[:conversations].length).to be expected_count
         end
       end
@@ -568,28 +567,28 @@ describe Conversations::FilterService do
 
       it 'matches when all conditions are true' do
         params[:payload] = filter_payload
-        result = described_class.new(params, user_1).perform
+        result = described_class.new(params, user_1, account).perform
         expect(result[:conversations].length).to be 1
       end
 
       it 'matches when first condition is false but third is true' do
         conversation.update!(status: 'resolved', priority: 'urgent', display_id: '12345')
         params[:payload] = filter_payload
-        result = described_class.new(params, user_1).perform
+        result = described_class.new(params, user_1, account).perform
         expect(result[:conversations].length).to be 1
       end
 
       it 'matches when first and second condition is false but third is true' do
         conversation.update!(status: 'resolved', priority: 'low', display_id: '12345')
         params[:payload] = filter_payload
-        result = described_class.new(params, user_1).perform
+        result = described_class.new(params, user_1, account).perform
         expect(result[:conversations].length).to be 1
       end
 
       it 'does not match when all conditions are false' do
         conversation.update!(status: 'resolved', priority: 'low', display_id: '67890')
         params[:payload] = filter_payload
-        result = described_class.new(params, user_1).perform
+        result = described_class.new(params, user_1, account).perform
         expect(result[:conversations].length).to be 0
       end
     end
@@ -630,14 +629,14 @@ describe Conversations::FilterService do
 
       it 'matches when first condition is true' do
         params[:payload] = filter_payload
-        result = described_class.new(params, user_1).perform
+        result = described_class.new(params, user_1, account).perform
         expect(result[:conversations].length).to be 1
       end
 
       it 'matches when second and third conditions are true' do
         conversation.update!(status: 'resolved', priority: 'low', display_id: '67890')
         params[:payload] = filter_payload
-        result = described_class.new(params, user_1).perform
+        result = described_class.new(params, user_1, account).perform
         expect(result[:conversations].length).to be 1
       end
     end
@@ -685,7 +684,7 @@ describe Conversations::FilterService do
 
       it 'matches when first two conditions are true' do
         params[:payload] = filter_payload
-        result = described_class.new(params, user_1).perform
+        result = described_class.new(params, user_1, account).perform
         expect(result[:conversations].length).to be 1
       end
 
@@ -697,7 +696,7 @@ describe Conversations::FilterService do
           additional_attributes: { 'browser_language': 'tr' }
         )
         params[:payload] = filter_payload
-        result = described_class.new(params, user_1).perform
+        result = described_class.new(params, user_1, account).perform
         expect(result[:conversations].length).to be 1
       end
     end
@@ -746,14 +745,14 @@ describe Conversations::FilterService do
 
       it 'matches when all conditions in the chain are true' do
         params[:payload] = filter_payload
-        result = described_class.new(params, user_1).perform
+        result = described_class.new(params, user_1, account).perform
         expect(result[:conversations].length).to be 1
       end
 
       it 'does not match when the last condition is false' do
         conversation.update!(custom_attributes: { conversation_type: 'silver' })
         params[:payload] = filter_payload
-        result = described_class.new(params, user_1).perform
+        result = described_class.new(params, user_1, account).perform
         expect(result[:conversations].length).to be 1
       end
     end
