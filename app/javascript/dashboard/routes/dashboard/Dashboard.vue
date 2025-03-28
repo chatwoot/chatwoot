@@ -212,18 +212,18 @@ export default {
     />
     <main class="flex flex-1 h-full min-h-0 px-0 overflow-hidden">
       <UpgradePage
+        v-show="showUpgradePage"
         ref="upgradePageRef"
         :bypass-upgrade-page="bypassUpgradePage"
       />
       <template v-if="!showUpgradePage">
         <router-view />
-        <CommandBar v-if="!bypassUpgradePage" />
+        <CommandBar />
         <NotificationPanel
-          v-if="isNotificationPanel && !bypassUpgradePage"
+          v-if="isNotificationPanel"
           @close="closeNotificationPanel"
         />
         <woot-modal
-          v-if="!bypassUpgradePage"
           v-model:show="showAddLabelModal"
           :on-close="hideAddLabelPopup"
         >
