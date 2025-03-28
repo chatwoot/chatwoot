@@ -6,7 +6,8 @@ import { parseBoolean } from '@chatwoot/utils';
 import { useAlert } from 'dashboard/composables';
 import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
-
+import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
+import SessionStorage from 'shared/helpers/sessionStorage';
 // mixins
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
@@ -20,6 +21,8 @@ const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
   'business-account-only': 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY',
 };
+
+const IMPERSONATION_URL_SEARCH_KEY = 'impersonation';
 
 export default {
   components: {
@@ -78,6 +81,7 @@ export default {
     },
   },
   created() {
+    this.handleImpersonation();
     if (this.ssoAuthToken) {
       this.submitLogin();
     }
@@ -111,6 +115,18 @@ export default {
       this.loginApi.showLoading = false;
       this.loginApi.message = message;
       useAlert(this.loginApi.message);
+    },
+    handleImpersonation() {
+      // Check if the user is accessing the login page with an impersonation token
+      // If the user is impersonating, set the impersonation flag in session storage
+      // This is used to prevent updating UI settings and availability status
+      const urlParams = new URLSearchParams(window.location.search);
+      const impersonation = urlParams.get(IMPERSONATION_URL_SEARCH_KEY);
+      // If URL has "impersonation" query param
+      if (impersonation) {
+        // Set the impersonation flag in session storage
+        SessionStorage.set(SESSION_STORAGE_KEYS.IMPERSONATION_USER, true);
+      }
     },
     submitLogin() {
       this.loginApi.hasErrored = false;

@@ -1,6 +1,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import SessionStorage from 'shared/helpers/sessionStorage';
+import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import WootDropdownHeader from 'shared/components/ui/dropdown/DropdownHeader.vue';
@@ -31,6 +33,9 @@ export default {
       currentAccountId: 'getCurrentAccountId',
       currentUserAutoOffline: 'getCurrentUserAutoOffline',
     }),
+    isImpersonating() {
+      return SessionStorage.get(SESSION_STORAGE_KEYS.IMPERSONATION_USER);
+    },
     statusList() {
       return [
         this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUS.ONLINE'),
@@ -71,6 +76,13 @@ export default {
       });
     },
     changeAvailabilityStatus(availability) {
+      if (this.isImpersonating) {
+        useAlert(
+          this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.IMPERSONATING_ERROR')
+        );
+        return;
+      }
+
       if (this.isUpdating) {
         return;
       }
