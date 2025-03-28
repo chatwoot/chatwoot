@@ -260,6 +260,10 @@ pt_BR:
       title: Página não encontrada
       description: Não conseguimos encontrar a página que você estava procurando.
       back_to_home: Ir para a página inicial
+  whatsapp:
+    interactive:
+      list:
+        button_label: 'Escolha um item'
   slack_unfurl:
     fields:
       name: Nome
