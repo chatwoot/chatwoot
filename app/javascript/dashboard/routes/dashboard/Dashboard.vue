@@ -222,18 +222,18 @@ export default {
       </div>
       <template v-else-if="!showUpgradePage">
         <router-view />
+        <CommandBar />
+        <NotificationPanel
+          v-if="isNotificationPanel"
+          @close="closeNotificationPanel"
+        />
+        <woot-modal
+          v-model:show="showAddLabelModal"
+          :on-close="hideAddLabelPopup"
+        >
+          <AddLabelModal @close="hideAddLabelPopup" />
+        </woot-modal>
       </template>
-      <CommandBar />
-      <NotificationPanel
-        v-if="isNotificationPanel"
-        @close="closeNotificationPanel"
-      />
-      <woot-modal
-        v-model:show="showAddLabelModal"
-        :on-close="hideAddLabelPopup"
-      >
-        <AddLabelModal @close="hideAddLabelPopup" />
-      </woot-modal>
       <AccountSelector
         :show-account-modal="showAccountModal"
         @close-account-modal="toggleAccountModal"
