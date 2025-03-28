@@ -51,6 +51,10 @@
             "LARGER": "Larger",
             "EXTRA_LARGE": "Extra Large"
           }
+        },
+        "LANGUAGE": {
+          "TITLE": "Preferred Language",
+          "NOTE": "Choose the language you want to use."
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {

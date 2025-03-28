@@ -46,7 +46,6 @@ export default {
     const { currentFontSize, updateFontSize } = useFontSize();
     const { languageOptions, currentLanguage, updateLanguage } =
       useLanguageSelection();
-
     return {
       currentFontSize,
       updateFontSize,
@@ -228,8 +227,10 @@ export default {
       <LanguageSelect
         v-model="currentLanguage"
         :options="languageOptions"
-        label="Preferred Language"
-        description="Choose the language you want to use."
+        :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.TITLE')"
+        :description="
+          $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.NOTE')
+        "
         @change="updateLanguage"
       />
     </FormSection>
