@@ -3,6 +3,7 @@
     <metric-card
       :is-live="false"
       header="Agent wise Call Overview"
+      :show-download-button="true"
       :download-filters="filters"
       :download-type="'callOverview'"
     >

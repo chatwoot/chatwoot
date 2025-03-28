@@ -332,6 +332,7 @@ Rails.application.routes.draw do
       resources :call_logs, only: [:index] do
         collection do
           patch :update_call_report
+          post :export_call_report
         end
       end
     end

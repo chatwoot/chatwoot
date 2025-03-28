@@ -172,6 +172,18 @@ export default {
             email: this.emailAddress,
           }
         );
+      } else if (this.downloadType === 'callOverview') {
+        const endDate = new Date(this.downloadFilters.until * 1000)
+          .toISOString()
+          .split('T')[0];
+        const startDate = new Date(this.downloadFilters.since * 1000)
+          .toISOString()
+          .split('T')[0];
+        await CustomReportsAPI.getCallLogsReport({
+          startDate,
+          endDate,
+          email: this.emailAddress,
+        });
       }
 
       this.showAlert('Report sent successfully!');

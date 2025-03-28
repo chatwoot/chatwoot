@@ -277,6 +277,15 @@ class CustomReportsAPI extends ApiClient {
 
     return axios.get(`${this.url}/agent_inbound_call_overview`, { params });
   }
+
+  getCallLogsReport({ startDate, endDate, email } = {}) {
+    return axios.post(`/api/v1/call_logs/export_call_report`, {
+      startDate,
+      endDate,
+      account_id: this.accountIdFromRoute,
+      email,
+    });
+  }
 }
 
 export default new CustomReportsAPI();
