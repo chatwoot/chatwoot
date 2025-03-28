@@ -326,6 +326,7 @@ GEM
     google-cloud-translate-v3 (0.10.0)
       gapic-common (>= 0.20.0, < 2.a)
       google-cloud-errors (~> 1.0)
+    google-protobuf (3.25.5-arm64-darwin)
     google-protobuf (3.25.5-x86_64-linux)
     googleapis-common-protos (1.6.0)
       google-protobuf (>= 3.18, < 5.a)
@@ -342,6 +343,9 @@ GEM
       signet (>= 0.16, < 2.a)
     groupdate (6.2.1)
       activesupport (>= 5.2)
+    grpc (1.62.0-arm64-darwin)
+      google-protobuf (~> 3.25)
+      googleapis-common-protos-types (~> 1.0)
     grpc (1.62.0-x86_64-linux)
       google-protobuf (~> 3.25)
       googleapis-common-protos-types (~> 1.0)
@@ -433,7 +437,10 @@ GEM
       addressable (~> 2.8)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
+    libdatadog (7.0.0.1.0)
     libdatadog (7.0.0.1.0-x86_64-linux)
+    libddwaf (1.14.0.0.0-arm64-darwin)
+      ffi (~> 1.0)
     libddwaf (1.14.0.0.0-x86_64-linux)
       ffi (~> 1.0)
     line-bot-api (1.28.0)
@@ -499,6 +506,8 @@ GEM
     newrelic_rpm (9.6.0)
       base64
     nio4r (2.7.3)
+    nokogiri (1.17.1-arm64-darwin)
+      racc (~> 1.4)
     nokogiri (1.17.1-x86_64-linux)
       racc (~> 1.4)
     oauth (1.1.0)
@@ -854,6 +863,7 @@ GEM
     zeitwerk (2.6.17)
 
 PLATFORMS
+  arm64-darwin-24
   x86_64-linux
 
 DEPENDENCIES
