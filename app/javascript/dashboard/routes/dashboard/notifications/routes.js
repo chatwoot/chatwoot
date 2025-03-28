@@ -8,8 +8,8 @@ export const routes = [
     path: frontendURL('accounts/:accountId/notifications'),
     component: SettingsWrapper,
     props: {
-      headerTitle: 'NOTIFICATIONS_PAGE.HEADER',
-      icon: 'alert',
+      headerTitle: '',
+      icon: '',
       showNewButton: false,
       showSidemenuIcon: false,
     },
