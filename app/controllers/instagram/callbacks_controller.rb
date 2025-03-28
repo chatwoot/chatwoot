@@ -26,8 +26,13 @@ class Instagram::CallbacksController < ApplicationController
     )
 
     @long_lived_token_response = exchange_for_long_lived_token(@response.token)
-    inbox, = create_channel_with_inbox
-    redirect_to app_instagram_inbox_agents_url(account_id: account_id, inbox_id: inbox.id)
+    inbox, already_exists = find_or_create_inbox
+
+    if already_exists
+      redirect_to app_instagram_inbox_settings_url(account_id: account_id, inbox_id: inbox.id)
+    else
+      redirect_to app_instagram_inbox_agents_url(account_id: account_id, inbox_id: inbox.id)
+    end
   end
 
   # Handle all errors that might occur during authorization
@@ -82,11 +87,44 @@ class Instagram::CallbacksController < ApplicationController
     )
   end
 
-  def create_channel_with_inbox
+  def find_or_create_inbox
+    user_details = fetch_instagram_user_details(@long_lived_token_response['access_token'])
+    channel_instagram = find_channel_by_instagram_id(user_details['user_id'].to_s)
+    channel_exists = channel_instagram.present?
+
+    if channel_instagram
+      update_channel(channel_instagram, user_details)
+    else
+      channel_instagram = create_channel_with_inbox(user_details)
+    end
+
+    # reauthorize channel, this code path only triggers when instagram auth is successful
+    # reauthorized will also update cache keys for the associated inbox
+    channel_instagram.reauthorized!
+
+    [channel_instagram.inbox, channel_exists]
+  end
+
+  def find_channel_by_instagram_id(instagram_id)
+    Channel::Instagram.find_by(instagram_id: instagram_id, account: account)
+  end
+
+  def update_channel(channel_instagram, user_details)
+    expires_at = Time.current + @long_lived_token_response['expires_in'].seconds
+
+    channel_instagram.update!(
+      access_token: @long_lived_token_response['access_token'],
+      expires_at: expires_at
+    )
+
+    # Update inbox name if username changed
+    channel_instagram.inbox.update!(name: user_details['username'])
+    channel_instagram
+  end
+
+  def create_channel_with_inbox(user_details)
     ActiveRecord::Base.transaction do
       expires_at = Time.current + @long_lived_token_response['expires_in'].seconds
-
-      user_details = fetch_instagram_user_details(@long_lived_token_response['access_token'])
 
       channel_instagram = Channel::Instagram.create!(
         access_token: @long_lived_token_response['access_token'],
@@ -100,6 +138,8 @@ class Instagram::CallbacksController < ApplicationController
         channel: channel_instagram,
         name: user_details['username']
       )
+
+      channel_instagram
     end
   end
 

@@ -85,15 +85,15 @@ linear:
   enabled: true
   icon: 'icon-linear'
   config_key: 'linear'
-shopify:
-  name: 'Shopify'
-  description: 'Configuration for setting up Shopify'
-  enabled: true
-  icon: 'icon-shopify'
-  config_key: 'shopify'
 instagram:
   name: 'Instagram'
   description: 'Configuration for setting up Instagram'
   enabled: true
   icon: 'icon-instagram'
   config_key: 'instagram'
+shopify:
+  name: 'Shopify'
+  description: 'Configuration for setting up Shopify'
+  enabled: true
+  icon: 'icon-shopify'
+  config_key: 'shopify'
