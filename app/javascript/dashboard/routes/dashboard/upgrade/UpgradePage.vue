@@ -27,8 +27,6 @@ const { isAdmin } = useAdmin();
 const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
 
 const testLimit = ({ allowed, consumed }) => {
-  if (!allowed || !consumed) return false;
-
   return consumed > allowed;
 };
 
