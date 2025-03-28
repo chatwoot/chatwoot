@@ -32,7 +32,7 @@ export const useLanguageSelection = () => {
    * Current language from UI settings
    * @type {import('vue').ComputedRef<string>}
    */
-  const currentLanguage = computed(() => uiSettings.value.language || 'en');
+  const currentLanguage = computed(() => uiSettings.value.locale || 'en');
 
   /**
    * Update language in settings and apply to i18n instance
@@ -51,11 +51,10 @@ export const useLanguageSelection = () => {
       }
 
       // Update the language in the UI settings
-      await updateUISettings({ language: languageCode });
+      await updateUISettings({ locale: languageCode });
 
       // Apply the language to the i18n instance
       locale.value = languageCode;
-
       // Show a success alert
       useAlert(t('PROFILE_SETTINGS.LANGUAGE_UPDATE_SUCCESS'));
     } catch (error) {
@@ -66,7 +65,7 @@ export const useLanguageSelection = () => {
 
   // Watch for changes to the language in UI settings and apply them
   watch(
-    () => uiSettings.value.language,
+    () => uiSettings.value.locale,
     newLanguage => {
       locale.value = newLanguage || 'en'; // Fallback to 'en' if undefined
     },
