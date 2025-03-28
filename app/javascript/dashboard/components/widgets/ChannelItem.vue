@@ -20,6 +20,9 @@ export default {
     hasInstagramConfigured() {
       return window.chatwootConfig?.instagramAppId;
     },
+    hasShopeeConfigured() {
+      return window.chatwootConfig?.shopeePartnerId;
+    },
     isActive() {
       const { key } = this.channel;
       if (Object.keys(this.enabledFeatures).length === 0) {
@@ -33,6 +36,9 @@ export default {
       }
       if (key === 'email') {
         return this.enabledFeatures.channel_email;
+      }
+      if (key === 'shopee') {
+        return this.hasShopeeConfigured;
       }
 
       if (key === 'instagram') {

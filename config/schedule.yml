@@ -7,10 +7,17 @@ internal_check_new_versions_job:
   cron: '0 12 */1 * *'
   class: 'Internal::CheckNewVersionsJob'
   queue: scheduled_jobs
-# # executed At every 5th minute..
+
+# executed At every 5th minute..
 trigger_scheduled_items_job:
   cron: '*/5 * * * *'
   class: 'TriggerScheduledItemsJob'
+  queue: scheduled_jobs
+
+# executed At every 30th minute..
+trigger_inbox_refresh_token_job:
+  cron: '*/30 * * * *'
+  class: 'Inboxes::RefreshAccessTokensJob'
   queue: scheduled_jobs
 
 # executed At every minute..
@@ -27,14 +34,14 @@ trigger_automation_rules_job:
 
 # executed daily at 2230 UTC
 # which is our lowest traffic time
-remove_stale_contact_inboxes_job.rb:
+remove_stale_contact_inboxes_job:
   cron: '30 22 * * *'
   class: 'Internal::RemoveStaleContactInboxesJob'
   queue: scheduled_jobs
 
 # executed daily at 2230 UTC
 # which is our lowest traffic time
-remove_stale_redis_keys_job.rb:
+remove_stale_redis_keys_job:
   cron: '30 22 * * *'
   class: 'Internal::RemoveStaleRedisKeysJob'
   queue: scheduled_jobs

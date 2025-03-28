@@ -37,6 +37,7 @@ export default {
         { key: 'line', name: 'Line' },
         { key: 'instagram', name: 'Instagram' },
         { key: 'voice', name: 'Voice' },
+        { key: 'shopee', name: 'Shopee' },
       ];
     },
     ...mapGetters({

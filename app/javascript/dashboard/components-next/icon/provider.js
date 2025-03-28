@@ -1,10 +1,12 @@
 import { computed } from 'vue';
 
 export function useChannelIcon(inbox) {
+  // Icons: https://remixicon.com/
   const channelTypeIconMap = {
     'Channel::Api': 'i-ri-cloudy-fill',
     'Channel::Email': 'i-ri-mail-fill',
     'Channel::FacebookPage': 'i-ri-messenger-fill',
+    'Channel::Shopee': 'i-ri-shopping-bag-fill',
     'Channel::Line': 'i-ri-line-fill',
     'Channel::Sms': 'i-ri-chat-1-fill',
     'Channel::Telegram': 'i-ri-telegram-fill',

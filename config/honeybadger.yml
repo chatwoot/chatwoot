@@ -28,3 +28,9 @@ debug: false
 # Enable Honeybadger Insights
 insights:
   enabled: false
+
+exceptions:
+  ignore_only:
+    - 'Net::SMTPAuthenticationError'
+    - 'Slack::Web::Api::Errors::CannotUnfurlUrl'
+    - 'ViteRuby::MissingEntrypointError'

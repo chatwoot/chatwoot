@@ -11,7 +11,7 @@ class Twitter::CallbacksController < Twitter::BaseController
       inbox = create_inbox
       ::Redis::Alfred.delete(permitted_params[:oauth_token])
       ::Twitter::WebhookSubscribeService.new(inbox_id: inbox.id).perform
-      redirect_to app_twitter_inbox_agents_url(account_id: account.id, inbox_id: inbox.id)
+      redirect_to app_inbox_agents_url(account_id: account.id, inbox_id: inbox.id)
     end
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception

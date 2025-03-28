@@ -1,6 +1,7 @@
 <script setup>
 import { h, isVNode } from 'vue';
 
+// Icons code: https://remixicon.com
 const props = defineProps({
   icon: { type: [String, Object, Function], required: true },
 });

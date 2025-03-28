@@ -17,9 +17,9 @@ class OauthCallbackController < ApplicationController
     inbox, already_exists = find_or_create_inbox
 
     if already_exists
-      redirect_to app_email_inbox_settings_url(account_id: account.id, inbox_id: inbox.id)
+      redirect_to app_inbox_settings_url(account_id: account.id, inbox_id: inbox.id)
     else
-      redirect_to app_email_inbox_agents_url(account_id: account.id, inbox_id: inbox.id)
+      redirect_to app_inbox_agents_url(account_id: account.id, inbox_id: inbox.id)
     end
   end
 

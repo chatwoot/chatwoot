@@ -32,7 +32,7 @@ RSpec.describe 'Twitter::CallbacksController', type: :request do
       expect(Avatar::AvatarFromUrlJob).to receive(:perform_later).once
       get twitter_callback_url
       account.reload
-      expect(response).to redirect_to app_twitter_inbox_agents_url(account_id: account.id, inbox_id: account.inboxes.last.id)
+      expect(response).to redirect_to app_inbox_agents_url(account_id: account.id, inbox_id: account.inboxes.last.id)
       expect(account.inboxes.count).to be 1
       expect(account.twitter_profiles.last.inbox.name).to eq 'chatwoot'
       expect(account.twitter_profiles.last.profile_id).to eq '100'

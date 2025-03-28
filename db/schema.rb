@@ -463,6 +463,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.index ["line_channel_id"], name: "index_channel_line_on_line_channel_id", unique: true
   end
 
+  create_table "channel_shopees", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "account_id", null: false
+    t.string "refresh_token", null: false
+    t.string "access_token", null: false
+    t.datetime "expires_at", null: false
+    t.integer "shop_id", null: false
+    t.integer "partner_id", null: false
+    t.index ["account_id", "shop_id"], name: "index_channel_shopees_on_account_id_and_shop_id", unique: true
+  end
+
   create_table "channel_sms", force: :cascade do |t|
     t.integer "account_id", null: false
     t.string "phone_number", null: false
