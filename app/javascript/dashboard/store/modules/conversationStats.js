@@ -29,8 +29,8 @@ const debouncedFetchMetaData = debounce(fetchMetaData, 500, false, 1000);
 const longDebouncedFetchMetaData = debounce(fetchMetaData, 500, false, 5000);
 
 export const actions = {
-  get: async ({ commit, store: $store }, params) => {
-    if ($store.allCount > 100) {
+  get: async ({ commit, state: $state }, params) => {
+    if ($state.allCount > 100) {
       longDebouncedFetchMetaData(commit, params);
     } else {
       debouncedFetchMetaData(commit, params);
