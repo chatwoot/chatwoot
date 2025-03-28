@@ -774,4 +774,82 @@ RSpec.describe 'Inboxes API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/:account_id/inboxes/:id/setup_channel_provider' do
+    let(:channel) { create(:channel_whatsapp, account: account, provider: 'baileys', validate_provider_config: false) }
+    let(:inbox) { channel.inbox }
+
+    context 'when unauthenticated' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/setup_channel_provider"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when authenticated' do
+      it 'returns unprocessable entity when channel does not support setup' do
+        inbox = create(:inbox, account: account)
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/setup_channel_provider",
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Channel does not support setup')
+      end
+
+      it 'calls setup_channel_provider when supported and returns ok' do
+        service_double = instance_double(Whatsapp::Providers::WhatsappBaileysService, setup_channel_provider: true)
+        allow(Whatsapp::Providers::WhatsappBaileysService).to receive(:new)
+          .with(whatsapp_channel: channel)
+          .and_return(service_double)
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/setup_channel_provider",
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:ok)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/:account_id/inboxes/:id/disconnect_channel_provider' do
+    let(:channel) { create(:channel_whatsapp, account: account, provider: 'baileys', validate_provider_config: false) }
+    let(:inbox) { channel.inbox }
+
+    context 'when unauthenticated' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/disconnect_channel_provider"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when authenticated' do
+      it 'returns unprocessable entity when channel does not support disconnect' do
+        inbox = create(:inbox, account: account)
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/disconnect_channel_provider",
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Channel does not support disconnect')
+      end
+
+      it 'calls disconnect_channel_provider when supported and returns ok' do
+        service_double = instance_double(Whatsapp::Providers::WhatsappBaileysService, disconnect_channel_provider: true)
+        allow(Whatsapp::Providers::WhatsappBaileysService).to receive(:new)
+          .with(whatsapp_channel: channel)
+          .and_return(service_double)
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/disconnect_channel_provider",
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:ok)
+      end
+    end
+  end
 end

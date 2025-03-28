@@ -214,7 +214,8 @@
           "LABEL": "Provedor de API",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "Cloud do WhatsApp",
-          "360_DIALOG": "360Dialog"
+          "360_DIALOG": "360Dialog",
+          "BAILEYS": "Baileys"
         },
         "INBOX_NAME": {
           "LABEL": "Nome da Caixa de Entrada",
@@ -252,6 +253,25 @@
           "SUBTITLE": "Você deve configurar a URL do webhook e o token de verificação no portal do desenvolvedor do Facebook com os valores mostrados abaixo.",
           "WEBHOOK_URL": "URL do Webhook",
           "WEBHOOK_VERIFICATION_TOKEN": "Token de verificação Webhook"
+        },
+        "PROVIDER_URL": {
+          "LABEL": "URL do provedor",
+          "PLACEHOLDER": "Se o provedor não está rodando localmente, por favor, insira a URL do provedor",
+          "ERROR":"Por favor, insira uma URL válida"
+        },
+        "ADVANCED_OPTIONS": "Opções avançadas",
+        "BAILEYS": {
+          "SUBTITLE": "Clique abaixo para configurar o canal do WhatsApp usando o Baileys.",
+          "LINK_BUTTON": "Conectar dispositivo",
+          "LINK_DEVICE_MODAL": {
+            "TITLE": "Conecte o seu dispositivo",
+            "SUBTITLE": "Escaneie o QR code para conectar seu dispositivo. Certifique-se de que o número de telefone esteja correto antes de escanear.",
+            "LOADING_QRCODE": "Carregando QR code...",
+            "RECONNECTING": "Conectando...",
+            "LINK_DEVICE": "Conectar dispositivo",
+            "DISCONNECT": "Desconectar",
+            "CONNECTED": "Seu dispositivo foi conectado com sucesso. Agora você pode começar a enviar e receber mensagens."
+          }
         },
         "SUBMIT_BUTTON": "Criar canal do WhatsApp",
         "API": {
@@ -522,6 +542,13 @@
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Atualizar",
       "WHATSAPP_WEBHOOK_TITLE": "Token de verificação Webhook",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Este token é usado para verificar a autenticidade do webhook endpoint.",
+      "WHATSAPP_MANAGE_PROVIDER_CONNECTION_TITLE": "Gerenciar Conexão do Provedor",
+      "WHATSAPP_MANAGE_PROVIDER_CONNECTION_SUBHEADER": "Conecte o seu dispositivo e gerencie a conexão do provedor.",
+      "WHATSAPP_MANAGE_PROVIDER_CONNECTION_BUTTON": "Gerenciar conexão",
+      "WHATSAPP_PROVIDER_URL_TITLE": "URL do provedor",
+      "WHATSAPP_PROVIDER_URL_SUBHEADER": "Se o provedor não estiver rodando localmente, por favor, forneça a URL.",
+      "WHATSAPP_PROVIDER_URL_PLACEHOLDER": "Digite a URL do provedor",
+      "WHATSAPP_PROVIDER_URL_ERROR": "Por favor, insira uma URL válida",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atualizar configurações do Formulário Pre Chat"
     },
     "HELP_CENTER": {

@@ -10,6 +10,6 @@ module CacheKeysHelper
     return value_from_cache if value_from_cache.present?
 
     # zero epoch time: 1970-01-01 00:00:00 UTC
-    '0000000000'
+    '0000000000000'
   end
 end
