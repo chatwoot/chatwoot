@@ -1,6 +1,5 @@
 <script setup>
-import { onMounted, computed, defineExpose, defineProps } from 'vue';
-import { useStore } from 'dashboard/composables/store';
+import { computed, defineExpose, defineProps } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useRouter } from 'vue-router';
 import { useAccount } from 'dashboard/composables/useAccount';
@@ -19,12 +18,12 @@ const props = defineProps({
 });
 
 const router = useRouter();
-const store = useStore();
 const { t } = useI18n();
 const { accountId, currentAccount } = useAccount();
 const { isAdmin } = useAdmin();
 
 const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
+const accountUIFlags = useMapGetter('accounts/getUIFlags');
 
 const testLimit = ({ allowed, consumed }) => {
   return consumed > allowed;
@@ -80,25 +79,20 @@ const isLimitExceeded = computed(() => {
 });
 
 const shouldShowUpgradePage = computed(() => {
+  // Hide upgrade page while fetching limits
+  if (accountUIFlags.isFetchingLimits) return false;
   // Skip upgrade page in Billing, Inbox, and Agent pages
   if (props.bypassUpgradePage) return false;
   if (!isOnChatwootCloud.value) return false;
   if (isTrialAccount.value) return false;
   return isLimitExceeded.value;
 });
-
-const fetchLimits = () => {
-  store.dispatch('accounts/limits');
-};
-
 const routeToBilling = () => {
   router.push({
     name: 'billing_settings_index',
     params: { accountId: accountId.value },
   });
 };
-
-onMounted(() => fetchLimits());
 
 defineExpose({ shouldShowUpgradePage });
 </script>

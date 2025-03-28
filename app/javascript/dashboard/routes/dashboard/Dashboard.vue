@@ -9,6 +9,7 @@ import AccountSelector from 'dashboard/components/layout/sidebarComponents/Accou
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
 import UpgradePage from 'dashboard/routes/dashboard/upgrade/UpgradePage.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAccount } from 'dashboard/composables/useAccount';
@@ -37,6 +38,7 @@ export default {
     AddLabelModal,
     NotificationPanel,
     UpgradePage,
+    Spinner,
   },
   setup() {
     const upgradePageRef = ref(null);
@@ -64,6 +66,8 @@ export default {
   computed: {
     ...mapGetters({
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      accountUIFlags: 'accounts/getUIFlags',
+      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
     }),
     currentRoute() {
       return ' ';
@@ -116,6 +120,7 @@ export default {
     },
   },
   mounted() {
+    this.fetchLimits();
     this.handleResize();
     this.$nextTick(this.checkBanner);
     window.addEventListener('resize', this.handleResize);
@@ -129,6 +134,10 @@ export default {
   },
 
   methods: {
+    fetchLimits() {
+      if (!this.isOnChatwootCloud) return;
+      this.$store.dispatch('accounts/limits');
+    },
     checkBanner() {
       this.hasBanner =
         document.getElementsByClassName('woot-banner').length > 0;
@@ -216,7 +225,13 @@ export default {
         ref="upgradePageRef"
         :bypass-upgrade-page="bypassUpgradePage"
       />
-      <template v-if="!showUpgradePage">
+      <div
+        v-if="accountUIFlags.isFetchingLimits"
+        class="flex items-center justify-center w-full h-full"
+      >
+        <Spinner size="32" class="text-n-brand" />
+      </div>
+      <template v-else-if="!showUpgradePage">
         <router-view />
         <CommandBar />
         <NotificationPanel
