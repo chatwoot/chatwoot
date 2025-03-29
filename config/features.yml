@@ -161,3 +161,7 @@
 - name: search_with_gin
   display_name: Search messages with GIN
   enabled: false
+- name: channel_instagram
+  display_name: Instagram Channel
+  enabled: false
+  chatwoot_internal: true

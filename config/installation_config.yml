@@ -292,3 +292,30 @@
   locked: false
   type: secret
 # ------- End of Shopify Related Config ------- #
+
+# ------- Instagram Channel Related Config ------- #
+- name: INSTAGRAM_APP_ID
+  display_title: 'Instagram App ID'
+  locked: false
+- name: INSTAGRAM_APP_SECRET
+  display_title: 'Instagram App Secret'
+  description: 'The App Secret used for Instagram authentication'
+  locked: false
+  type: secret
+- name: INSTAGRAM_VERIFY_TOKEN
+  display_title: 'Instagram Verify Token'
+  description: 'The verify token used for Instagram Webhook'
+  locked: false
+  type: secret
+- name: ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT
+  display_title: 'Enable human agent for instagram channel'
+  value: false
+  locked: false
+  description: 'Enable human agent for instagram channel for longer message back period. Needs additional app approval: https://developers.facebook.com/docs/features-reference/human-agent/'
+  type: boolean
+- name: INSTAGRAM_API_VERSION
+  display_title: 'Instagram API Version'
+  description: 'Configure this if you want to use a different Instagram API version. Make sure its prefixed with `v`'
+  value: 'v22.0'
+  locked: true
+# ------- End of Instagram Channel Related Config ------- #

@@ -43,6 +43,8 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
                          ['MAILER_INBOUND_EMAIL_DOMAIN']
                        when 'linear'
                          %w[LINEAR_CLIENT_ID LINEAR_CLIENT_SECRET]
+                       when 'instagram'
+                         %w[INSTAGRAM_APP_ID INSTAGRAM_APP_SECRET INSTAGRAM_VERIFY_TOKEN INSTAGRAM_API_VERSION ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT]
                        else
                          %w[ENABLE_ACCOUNT_SIGNUP FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS]
                        end
