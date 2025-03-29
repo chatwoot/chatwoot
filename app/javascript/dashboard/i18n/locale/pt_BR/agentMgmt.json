@@ -12,7 +12,7 @@
     "LIST": {
       "404": "Não existem agentes associados a esta conta",
       "TITLE": "Gerenciar agentes da sua equipe",
-      "DESC": "Você pode adicionar e/ou remover agentes de um time.",
+      "DESC": "Você pode adicionar e/ou remover agentes de uma equipe.",
       "NAME": "Nome",
       "EMAIL": "E-mail",
       "STATUS": "Situação",
@@ -22,7 +22,7 @@
       "AVAILABLE_CUSTOM_ROLE": "Permissões de função personalizada disponíveis"
     },
     "ADD": {
-      "TITLE": "Adicionar agente ao seu time",
+      "TITLE": "Adicionar agente à sua equipe",
       "DESC": "Você pode adicionar pessoas que poderão acompanhar o suporte de suas caixas de entrada.",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {

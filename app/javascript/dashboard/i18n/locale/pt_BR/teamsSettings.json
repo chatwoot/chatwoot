@@ -105,7 +105,7 @@
       "UPDATE": "Atualizar equipe",
       "CREATE": "Criar nova equipe",
       "NAME": {
-        "LABEL": "Nome da equipe",
+        "LABEL": "Nome da Equipe",
         "PLACEHOLDER": "Exemplo: Vendas, Suporte ao Cliente"
       },
       "DESCRIPTION": {

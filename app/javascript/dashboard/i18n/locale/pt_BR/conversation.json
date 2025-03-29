@@ -200,7 +200,7 @@
     "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e sua equipe",
     "CHANGE_STATUS": "Estado da conversa mudou",
     "CHANGE_STATUS_FAILED": "Mudança de situação da conversa falhou",
-    "CHANGE_AGENT": "Responsável da conversa alterado",
+    "CHANGE_AGENT": "Novo agente atribuído",
     "CHANGE_AGENT_FAILED": "Falha ao atribuir outro agente",
     "ASSIGN_LABEL_SUCCESFUL": "Etiqueta atribuída com sucesso",
     "ASSIGN_LABEL_FAILED": "Falha ao atribuir etiqueta",
@@ -296,25 +296,25 @@
       "CONTACT_ATTRIBUTES": "Atributos do contato",
       "PREVIOUS_CONVERSATION": "Conversas anteriores",
       "MACROS": "Macros",
-      "SHOPIFY_ORDERS": "Pedidos Shopify"
+      "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {
-      "ORDER_ID": "Pedido #{id}",
-      "ERROR": "Erro ao carregar pedidos",
-      "NO_SHOPIFY_ORDERS": "Nenhum pedido encontrado",
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
       "FINANCIAL_STATUS": {
         "PENDING": "Pendentes",
-        "AUTHORIZED": "Autorizado",
-        "PARTIALLY_PAID": "Parcialmente pago",
-        "PAID": "Pago",
-        "PARTIALLY_REFUNDED": "Parcialmente reembolsado",
-        "REFUNDED": "Reembolsado",
-        "VOIDED": "Anulado"
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
       },
       "FULFILLMENT_STATUS": {
-        "FULFILLED": "Processado",
-        "PARTIALLY_FULFILLED": "Parcialmente processado",
-        "UNFULFILLED": "Não processado"
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
       }
     }
   },

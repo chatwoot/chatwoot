@@ -49,7 +49,7 @@
       },
       "DESCRIPTION": {
         "LABEL": "Descrição",
-        "PLACEHOLDER": ""
+        "PLACEHOLDER": "SLA para clientes premium"
       },
       "FIRST_RESPONSE_TIME": {
         "LABEL": "Tempo de Primeira Resposta",
