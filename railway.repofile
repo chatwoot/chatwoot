@@ -1,0 +1,37 @@
+services:
+  - name: chatwood
+    buildCommand: |
+      bundle install
+      yarn install
+      yarn build
+    startCommand: bin/rails server -b 0.0.0.0 -p $PORT
+    postdeploy: |
+      mkdir -p log tmp/pids tmp/cache tmp/sockets
+      touch log/production.log
+      bundle exec rails db:migrate
+      bundle exec rails assets:precompile
+    envVars:
+      - key: RAILS_ENV
+        value: production
+      - key: NODE_ENV
+        value: production
+      - key: SECRET_KEY_BASE
+        generate: true
+      - key: DATABASE_URL
+        fromDatabase: chatwood-db
+      - key: REDIS_URL
+        fromService: chatwood-redis
+      - key: ASSET_HOST
+        value: $RAILWAY_STATIC_URL
+
+databases:
+  - name: chatwood-db
+    type: postgresql
+
+services:
+  - name: chatwood-redis
+    type: redis
+
+install:
+  - mkdir -p log
+  - touch log/development.log
