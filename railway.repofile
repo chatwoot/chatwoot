@@ -1,0 +1,26 @@
+# railway.repofile
+services:
+  - name: chatwood
+    buildCommand: bundle install && yarn install && yarn build
+    startCommand: bin/rails server -b 0.0.0.0 -p $PORT
+    envVars:
+      - key: RAILS_ENV
+        value: production
+      - key: SECRET_KEY_BASE
+        generate: true
+      - key: DATABASE_URL
+        fromDatabase: chatwood-db
+      - key: REDIS_URL
+        fromService: chatwood-redis
+      - key: NODE_ENV
+        value: production
+      - key: ASSET_HOST
+        value: $RAILWAY_STATIC_URL
+
+databases:
+  - name: chatwood-db
+    type: postgresql
+
+services:
+  - name: chatwood-redis
+    type: redis
