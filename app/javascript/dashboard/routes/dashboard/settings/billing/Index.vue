@@ -14,13 +14,8 @@ import SettingsLayout from '../SettingsLayout.vue';
 import ButtonV4 from 'next/button/Button.vue';
 
 const { currentAccount } = useAccount();
-const {
-  captainEnabled,
-  captainLimits,
-  documentLimits,
-  responseLimits,
-  fetchLimits,
-} = useCaptain();
+const { captainEnabled, captainLimits, documentLimits, responseLimits } =
+  useCaptain();
 
 const uiFlags = useMapGetter('accounts/getUIFlags');
 const store = useStore();
@@ -62,7 +57,6 @@ const hasABillingPlan = computed(() => {
 const fetchAccountDetails = async () => {
   if (!hasABillingPlan.value) {
     store.dispatch('accounts/subscription');
-    fetchLimits();
   }
 };
 

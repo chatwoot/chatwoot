@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, computed } from 'vue';
+import { computed } from 'vue';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useRouter } from 'vue-router';
@@ -9,7 +9,7 @@ import Banner from 'dashboard/components-next/banner/Banner.vue';
 const router = useRouter();
 const { accountId } = useAccount();
 
-const { documentLimits, fetchLimits } = useCaptain();
+const { documentLimits } = useCaptain();
 
 const openBilling = () => {
   router.push({
@@ -24,8 +24,6 @@ const showBanner = computed(() => {
   const { currentAvailable } = documentLimits.value;
   return currentAvailable === 0;
 });
-
-onMounted(fetchLimits);
 </script>
 
 <template>
