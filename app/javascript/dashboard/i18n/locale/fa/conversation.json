@@ -12,6 +12,8 @@
     "NO_INBOX_2": " برای شروع",
     "NO_INBOX_AGENT": "اوه اوه! به نظر می‌رسد شما عضو هیچ صندوق ورودی نیستید. لطفا با مدیر خود تماس بگیرید",
     "SEARCH_MESSAGES": "پیام‌ها را در گفتگوها جستجو کنید",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "برای باز کردن منوی فرمان",
       "KEYBOARD_SHORTCUTS": "برای مشاهده میانبرهای صفحه کلید"
@@ -38,15 +40,23 @@
     "REMOVE_SELECTION": "حذف انتخاب‌شده‌ها",
     "DOWNLOAD": "دانلود",
     "UNKNOWN_FILE_TYPE": "فایل ناشناخته",
-    "SAVE_CONTACT": "ذخیره",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} جلسه ای را آغاز کرده است"
+    },
     "UPLOADING_ATTACHMENTS": "در حال بارگذاری پیوست‌ها...",
     "REPLIED_TO_STORY": "به استوری شما پاسخ داده",
-    "UNSUPPORTED_MESSAGE": "از این پیام پشتیبانی نمی شود.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "این پیام پشتیبانی نمی شود. می توانید این پیام را در برنامه فیس بوک مسنجر مشاهده کنید.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "این پیام پشتیبانی نمی شود. می توانید این پیام را در برنامه اینستاگرام مشاهده کنید.",
     "SUCCESS_DELETE_MESSAGE": "پیام با موفقیت حذف شد",
     "FAIL_DELETE_MESSSAGE": "پیام حذف نشد! دوباره امتحان کنید",
     "NO_RESPONSE": "بدون پاسخ",
+    "RESPONSE": "Response",
     "RATING_TITLE": "رتبه",
     "FEEDBACK_TITLE": "بازخورد",
     "REPLY_MESSAGE_NOT_FOUND": "پیام در دسترس نیست",
@@ -109,6 +119,7 @@
       "PENDING": "علامت گذاری به عنوان در انتظار",
       "RESOLVED": "علامت زدن به عنوان حل شده",
       "MARK_AS_UNREAD": "علامت گذاری به عنوان خوانده نشده",
+      "MARK_AS_READ": "ثبت به عنوان خوانده شده",
       "REOPEN": "مکالمه را دوباره باز کنید",
       "SNOOZE": {
         "TITLE": "به تعویق انداختن",
@@ -126,7 +137,7 @@
           "FAILED": "اپراتور تعیین نشد. لطفا دوباره تلاش کنید."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "برچسب #{labelName} را به شناسه مکالمه {conversationId} اختصاص داد",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "برچسب اختصاص داده نشد. لطفا دوباره تلاش کنید."
         },
         "TEAM_ASSIGNMENT": {
@@ -219,6 +230,10 @@
         "DELETE": "حذف",
         "CANCEL": "انصراف"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "مخاطب",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -280,7 +295,27 @@
       "CONVERSATION_INFO": "اطلاعات مکالمه",
       "CONTACT_ATTRIBUTES": "ویژگی‌های تماس",
       "PREVIOUS_CONVERSATION": "گفتگوهای قبلی",
-      "MACROS": "ماکروها"
+      "MACROS": "ماکروها",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "در انتظار",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -310,7 +345,8 @@
     "TO": "به",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "موضوع"
+    "SUBJECT": "موضوع",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "شرکت کنندگان",
@@ -335,5 +371,16 @@
     "ORIGINAL_CONTENT": "محتوای اصلی",
     "TRANSLATED_CONTENT": "مطالب ترجمه شده",
     "NO_TRANSLATIONS_AVAILABLE": "هیچ ترجمه‌ای برای این مطلب موجود نیست"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

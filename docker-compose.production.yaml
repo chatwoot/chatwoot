@@ -35,7 +35,7 @@ services:
     restart: always
 
   postgres:
-    image: postgres:12
+    image: pgvector/pgvector:pg16
     restart: always
     ports:
       - '127.0.0.1:5432:5432'

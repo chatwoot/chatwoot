@@ -10,11 +10,11 @@
       "404": "Il n'y a aucune réponse standardisée disponible dans ce compte.",
       "TITLE": "Gérer les réponses standardisées",
       "DESC": "Les réponses prédéfinies sont des modèles de réponse prédéfinis qui peuvent être utilisés pour envoyer rapidement des réponses aux conversations.",
-      "TABLE_HEADER": [
-        "Code court",
-        "Contenu",
-        "Actions"
-      ]
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Code court",
+        "CONTENT": "Contenu",
+        "ACTIONS": "Actions"
+      }
     },
     "ADD": {
       "TITLE": "Ajouter une réponse prédéfinie",

@@ -97,16 +97,14 @@ defineExpose({ dialogRef });
     :disable-confirm-button="isUpdatingCategory || isInvalidForm"
     @confirm="onUpdateCategory"
   >
-    <template #form>
-      <CategoryForm
-        ref="categoryFormRef"
-        mode="edit"
-        :selected-category="selectedCategory"
-        :active-locale-code="activeLocaleCode"
-        :portal-name="route.params.portalSlug"
-        :active-locale-name="activeLocaleName"
-        :show-action-buttons="false"
-      />
-    </template>
+    <CategoryForm
+      ref="categoryFormRef"
+      mode="edit"
+      :selected-category="selectedCategory"
+      :active-locale-code="activeLocaleCode"
+      :portal-name="route.params.portalSlug"
+      :active-locale-name="activeLocaleName"
+      :show-action-buttons="false"
+    />
   </Dialog>
 </template>

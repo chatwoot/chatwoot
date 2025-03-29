@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nom",
-        "Descripció",
-        "Actiu",
-        "Creat el"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nom",
+        "DESCRIPTION": "Descripció",
+        "ACTIVE": "Actiu",
+        "CREATED_ON": "Creat el"
+      },
       "404": "No s'han trobat regles d'automatització"
     },
     "DELETE": {
@@ -125,6 +125,7 @@
       "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
-    }
+    },
+    "NONE_OPTION": "Ningú"
   }
 }

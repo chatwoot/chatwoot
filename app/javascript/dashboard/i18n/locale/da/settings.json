@@ -35,6 +35,24 @@
           }
         }
       },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "Standard",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Personlig beskedsignatur",
         "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
@@ -43,7 +61,7 @@
         "API_SUCCESS": "Signatur gemt",
         "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
         "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+        "IMAGE_UPLOAD_SIZE_ERROR": "Billedets størrelse skal være mindre end {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Besked Signatur",
@@ -61,15 +79,29 @@
         "COPY": "Kopiér"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Lyd Notifikationer",
-        "NOTE": "Aktivér lydmeddelelser i dashboard for nye beskeder og samtaler.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "Ingen",
           "MINE": "Assigned",
-          "ALL": "Alle"
+          "ALL": "Alle",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Alert events for conversations",
           "NONE": "Ingen",
           "ASSIGNED": "Tildelte Samtaler",
           "ALL_CONVERSATIONS": "Alle Samtaler"
@@ -81,7 +113,9 @@
           "TITLE": "Alert conditions:",
           "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
           "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Read more"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-Mail Notifikationer",
@@ -145,11 +179,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Tilgængelighed",
-        "STATUSES_LIST": [
-          "Online",
-          "Optaget",
-          "Offline"
-        ],
+        "STATUS": {
+          "ONLINE": "Online",
+          "BUSY": "Optaget",
+          "OFFLINE": "Offline"
+        },
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
         "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
@@ -177,14 +211,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Skift",
-    "CHANGE_ACCOUNTS": "Skift Konto",
-    "CONTACT_SUPPORT": "Kontakt Support",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_ACCOUNT": "Switch account",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Vælg en konto fra følgende liste",
-    "PROFILE_SETTINGS": "Profilindstillinger",
-    "KEYBOARD_SHORTCUTS": "Tastaturgenveje",
-    "APPEARANCE": "Change Appearance",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
-    "LOGOUT": "Log Ud"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dage prøveperiode tilbage.",
@@ -218,6 +254,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Send"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "Verificerer...",
@@ -227,11 +267,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Vises nu:",
     "SWITCH": "Skift",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Samtaler",
-    "INBOX": "Indbakke",
+    "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "Alle Samtaler",
     "MENTIONED_CONVERSATIONS": "Omtaler",
     "PARTICIPATING_CONVERSATIONS": "Participating",
@@ -240,6 +281,9 @@
     "SETTINGS": "Indstillinger",
     "CONTACTS": "Kontakter",
     "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Hjem",
     "AGENTS": "Agenter",
     "AGENT_BOTS": "Bots",
@@ -266,6 +310,8 @@
     "NEW_INBOX": "Ny indbakke",
     "REPORTS_CONVERSATION": "Samtaler",
     "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
     "CAMPAIGNS": "Kampagner",
     "ONGOING": "Igangværende",
     "ONE_OFF": "En rabat",
@@ -276,6 +322,7 @@
     "REPORTS_INBOX": "Indbakke",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Sæt dig selv som",
+    "SET_YOUR_AVAILABILITY": "Indstil din tilgængelighed",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
@@ -283,30 +330,41 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Help Center",
-      "ALL_ARTICLES": "Alle Artikler",
-      "MY_ARTICLES": "Alle Artikler",
-      "DRAFT": "Kladde",
-      "ARCHIVED": "Arkiveret",
-      "CATEGORY": "Kategori",
-      "SETTINGS": "Indstillinger",
-      "CATEGORY_EMPTY_MESSAGE": "Ingen kategorier fundet"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Kategorier",
+      "LOCALES": "Locales",
+      "SETTINGS": "Indstillinger"
     },
+    "CHANNELS": "Kanaler",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Læs dokumenter"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Fakturering",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Nuværende Abonnement",
-      "PLAN_NOTE": "Du abonnerer i øjeblikket på **{plan}** planen med **{quantity}** licenser"
+      "PLAN_NOTE": "Du abonnerer i øjeblikket på **{plan}** planen med **{quantity}** licenser",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Administrer dit abonnement",
       "DESCRIPTION": "Se dine tidligere fakturaer, rediger dine fakturaoplysninger eller annuller dit abonnement.",
       "BUTTON_TXT": "Gå til faktureringsportalen"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Brug for hjælp?",
@@ -349,11 +407,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Skift til privat note",
       "SWITCH_TO_REPLY": "Skift til svar",
       "TOGGLE_SNOOZE_DROPDOWN": "Skift snooze dropdown"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Vind / ¤",
-      "ALT_OR_OPTION_KEY": "Alt. / ¤",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

@@ -83,7 +83,7 @@ services:
     command: bin/vite dev
 
   postgres:
-    image: postgres:12
+    image: pgvector/pgvector:pg16
     restart: always
     ports:
       - '5432:5432'

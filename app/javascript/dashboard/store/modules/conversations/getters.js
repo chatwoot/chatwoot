@@ -1,6 +1,8 @@
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { applyPageFilters, sortComparator } from './helpers';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
+import { matchesFilters } from './helpers/filterHelpers';
+import camelcaseKeys from 'camelcase-keys';
 
 export const getSelectedChatConversation = ({
   allConversations,
@@ -11,6 +13,15 @@ export const getSelectedChatConversation = ({
 const getters = {
   getAllConversations: ({ allConversations, chatSortFilter: sortKey }) => {
     return allConversations.sort((a, b) => sortComparator(a, b, sortKey));
+  },
+  getFilteredConversations: ({
+    allConversations,
+    chatSortFilter,
+    appliedFilters,
+  }) => {
+    return allConversations
+      .filter(conversation => matchesFilters(conversation, appliedFilters))
+      .sort((a, b) => sortComparator(a, b, chatSortFilter));
   },
   getSelectedChat: ({ selectedChatId, allConversations }) => {
     const selectedChat = allConversations.find(
@@ -26,18 +37,12 @@ const getters = {
     const selectedChat = _getters.getSelectedChat;
     const { messages = [] } = selectedChat;
     const lastEmail = [...messages].reverse().find(message => {
-      const {
-        content_attributes: contentAttributes = {},
-        message_type: messageType,
-      } = message;
-      const { email = {} } = contentAttributes;
-      const isIncomingOrOutgoing =
-        messageType === MESSAGE_TYPE.OUTGOING ||
-        messageType === MESSAGE_TYPE.INCOMING;
-      if (email.from && isIncomingOrOutgoing) {
-        return true;
-      }
-      return false;
+      const { message_type: messageType } = message;
+      if (message.private) return false;
+
+      return [MESSAGE_TYPE.OUTGOING, MESSAGE_TYPE.INCOMING].includes(
+        messageType
+      );
     });
 
     return lastEmail;
@@ -53,6 +58,10 @@ const getters = {
 
       return isChatMine;
     });
+  },
+  getAppliedConversationFiltersV2: _state => {
+    // TODO: Replace existing one with V2 after migrating the filters to use camelcase
+    return _state.appliedFilters.map(camelcaseKeys);
   },
   getAppliedConversationFilters: _state => {
     return _state.appliedFilters;
@@ -108,6 +117,10 @@ const getters = {
 
   getContextMenuChatId: _state => {
     return _state.contextMenuChatId;
+  },
+
+  getCopilotAssistant: _state => {
+    return _state.copilotAssistant;
   },
 };
 

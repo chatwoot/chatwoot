@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nama",
-        "Deskripsi",
-        "Aktif",
-        "Dibuat pada"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nama",
+        "DESCRIPTION": "Deskripsi",
+        "ACTIVE": "Aktif",
+        "CREATED_ON": "Dibuat pada"
+      },
       "404": "Tidak ada aturan otomatisasi ditemukan"
     },
     "DELETE": {
@@ -125,6 +125,7 @@
       "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
-    }
+    },
+    "NONE_OPTION": "Tidak ada"
   }
 }

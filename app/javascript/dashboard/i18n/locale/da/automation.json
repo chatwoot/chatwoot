@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Navn",
-        "Beskrivelse",
-        "Aktiv",
-        "Oprettet den"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Navn",
+        "DESCRIPTION": "Beskrivelse",
+        "ACTIVE": "Aktiv",
+        "CREATED_ON": "Oprettet den"
+      },
       "404": "Ingen automatiseringsregler fundet"
     },
     "DELETE": {
@@ -125,6 +125,7 @@
       "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
-    }
+    },
+    "NONE_OPTION": "Ingen"
   }
 }

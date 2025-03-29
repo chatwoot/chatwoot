@@ -8,28 +8,24 @@
     "LIST": {
       "404": "K tomuto účtu nejsou připojeny žádné doručené schránky."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Vybrat kanál",
-        "route": "settings_inbox_new",
-        "body": "Vyberte si poskytovatele, který chcete integrovat do Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Vybrat kanál",
+        "BODY": "Vyberte si poskytovatele, který chcete integrovat do Chatwoot."
       },
-      {
-        "title": "Vytvořit doručenou poštu",
-        "route": "settings_inboxes_page_channel",
-        "body": "Ověřte si svůj účet a vytvořte si doručenou poštu."
+      "INBOX": {
+        "TITLE": "Vytvořit doručenou poštu",
+        "BODY": "Ověřte si svůj účet a vytvořte si doručenou poštu."
       },
-      {
-        "title": "Přidat agenty",
-        "route": "settings_inboxes_add_agents",
-        "body": "Přidat agenty do vytvořené schránky."
+      "AGENT": {
+        "TITLE": "Přidat agenty",
+        "BODY": "Přidat agenty do vytvořené schránky."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "Vše je nastaveno!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Vše je nastaveno!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Název schránky",

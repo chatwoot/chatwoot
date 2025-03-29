@@ -25,6 +25,8 @@ import * as Sentry from '@sentry/vue';
 import { useTrack } from 'dashboard/composables';
 import { emitter } from 'shared/helpers/mitt';
 
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
   components: {
     BubbleActions,
@@ -40,6 +42,7 @@ export default {
     InstagramStory,
     InstagramStoryReply,
     Spinner,
+    NextButton,
   },
   props: {
     data: {
@@ -452,12 +455,12 @@ export default {
         v-if="isFailed && !hasOneDayPassed && !isAnEmailInbox"
         class="message-failed--alert"
       >
-        <woot-button
+        <NextButton
           v-tooltip.top-end="$t('CONVERSATION.TRY_AGAIN')"
-          size="tiny"
-          color-scheme="alert"
-          variant="clear"
-          icon="arrow-clockwise"
+          ghost
+          xs
+          ruby
+          icon="i-lucide-refresh-ccw"
           @click="retrySendMessage"
         />
       </div>
@@ -660,10 +663,10 @@ export default {
     }
 
     &.is-failed {
-      @apply bg-red-200 dark:bg-red-200;
+      @apply bg-n-ruby-4 dark:bg-n-ruby-4 text-n-slate-12;
 
       .message-text--metadata .time {
-        @apply text-red-50 dark:text-red-50;
+        @apply text-n-ruby-12 dark:text-n-ruby-12;
       }
     }
   }
@@ -724,7 +727,7 @@ li.right {
   }
 
   .wrap.is-failed {
-    @apply flex items-end ml-auto;
+    @apply flex items-end ltr:ml-auto rtl:mr-auto;
   }
 }
 

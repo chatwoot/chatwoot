@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "שם",
-        "תיאור",
-        "פעיל",
-        "נוצר ב"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "שם",
+        "DESCRIPTION": "תיאור",
+        "ACTIVE": "פעיל",
+        "CREATED_ON": "נוצר ב"
+      },
       "404": "לא נמצאו אוטומציות"
     },
     "DELETE": {
@@ -125,6 +125,7 @@
       "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
-    }
+    },
+    "NONE_OPTION": "כלום"
   }
 }

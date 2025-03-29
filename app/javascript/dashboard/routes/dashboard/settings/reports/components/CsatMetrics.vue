@@ -86,7 +86,7 @@ export default {
 <!-- Added ref for writing specs -->
 <template>
   <div
-    class="flex-col lg:flex-row flex flex-wrap mx-0 bg-white dark:bg-slate-800 rounded-[4px] p-4 mb-5 border border-solid border-slate-75 dark:border-slate-700"
+    class="flex-col lg:flex-row flex flex-wrap mx-0 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-6 py-8 gap-4"
   >
     <CsatMetricCard
       :label="$t('CSAT_REPORTS.METRIC.TOTAL_RESPONSES.LABEL')"
@@ -111,10 +111,10 @@ export default {
     <div
       v-if="metrics.totalResponseCount && !ratingFilterEnabled"
       ref="csatBarChart"
-      class="w-full md:w-1/2 md:max-w-[50%] flex-1 rtl:[direction:initial] p-4"
+      class="w-full md:w-1/2 md:max-w-[50%] flex-1 rtl:[direction:initial]"
     >
       <h3
-        class="flex items-center m-0 text-xs font-medium md:text-sm text-slate-800 dark:text-slate-100"
+        class="flex items-center m-0 text-xs font-medium md:text-sm text-n-slate-12"
       >
         <div class="flex flex-row-reverse justify-end">
           <div

@@ -24,15 +24,15 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Atribuir rótulo",
-      "NO_LABELS_FOUND": "Não há rótulos encontrados para",
-      "ASSIGN_SELECTED_LABELS": "Atribuir rótulos selecionados",
+      "NO_LABELS_FOUND": "Não há etiquetas encontradas para",
+      "ASSIGN_SELECTED_LABELS": "Atribuir etiquetas selecionadas",
       "ASSIGN_SUCCESFUL": "Rótulos atribuídos com sucesso.",
-      "ASSIGN_FAILED": "Falha ao atribuir rótulos. Por favor, tente novamente."
+      "ASSIGN_FAILED": "Falha ao atribuir etiquetas. Por favor, tente novamente."
     },
     "TEAMS": {
-      "TEAM_SELECT_LABEL": "Selecionar time",
-      "NONE": "Nenhuma",
-      "NO_TEAMS_AVAILABLE": "Ainda não há equipes adicionadas a esta conta ainda.",
+      "TEAM_SELECT_LABEL": "Selecionar equipe",
+      "NONE": "Nenhum",
+      "NO_TEAMS_AVAILABLE": "Ainda não há equipes adicionadas a esta conta.",
       "ASSIGN_SELECTED_TEAMS": "Atribuir equipe selecionada.",
       "ASSIGN_SUCCESFUL": "Times atribuídos com sucesso.",
       "ASSIGN_FAILED": "Falha ao atribuir equipe. Por favor, tente novamente."

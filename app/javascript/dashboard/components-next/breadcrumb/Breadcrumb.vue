@@ -8,14 +8,6 @@ defineProps({
   items: {
     type: Array,
     required: true,
-    validator: value => {
-      return value.every(
-        item =>
-          typeof item.label === 'string' &&
-          (item.link === undefined || typeof item.link === 'string') &&
-          (item.count === undefined || typeof item.count === 'number')
-      );
-    },
   },
 });
 

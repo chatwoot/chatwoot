@@ -34,7 +34,7 @@
       "NONE": "Ничего",
       "NO_TEAMS_AVAILABLE": "Нет команд, добавленных в этот аккаунт.",
       "ASSIGN_SELECTED_TEAMS": "Назначить выбранную команду.",
-      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
+      "ASSIGN_SUCCESFUL": "Команды, назначены успешно.",
       "ASSIGN_FAILED": "Не удалось назначить команду, попробуйте еще раз."
     }
   }

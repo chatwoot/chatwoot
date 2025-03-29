@@ -25,12 +25,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Navn",
-        "Oprettet af",
-        "Last updated by",
-        "Synlighed"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Navn",
+        "CREATED BY": "Oprettet af",
+        "LAST_UPDATED_BY": "Last updated by",
+        "VISIBILITY": "Synlighed"
+      },
       "404": "No macros found"
     },
     "DELETE": {

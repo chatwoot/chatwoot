@@ -8,28 +8,24 @@
     "LIST": {
       "404": "Nu există căsuțe poștale atașate acestui cont."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Alege canalul",
-        "route": "setare_inbox_nou",
-        "body": "Alegeți serviciul pe care doriți să-l integrați cu Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Alege canalul",
+        "BODY": "Alegeți serviciul pe care doriți să-l integrați cu Chatwoot."
       },
-      {
-        "title": "Crează căsuța",
-        "route": "pagina_setari_casute_serviciu",
-        "body": "Autentifică-te cu contul tău și creează un inbox."
+      "INBOX": {
+        "TITLE": "Crează căsuța",
+        "BODY": "Autentifică-te cu contul tău și creează un inbox."
       },
-      {
-        "title": "Adaugă Agent",
-        "route": "setări_inbox_adaug_agent",
-        "body": "Adaugă agenți la inbox-ul creat."
+      "AGENT": {
+        "TITLE": "Adaugă Agent",
+        "BODY": "Adaugă agenți la inbox-ul creat."
       },
-      {
-        "title": "Voilà!",
-        "route": "finalizare_setari_inbox",
-        "body": "Toate setarile sunt facute!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Toate setarile sunt facute!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nume Inbox",

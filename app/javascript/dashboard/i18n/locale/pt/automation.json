@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nome",
-        "Descrição",
-        "Ativa",
-        "Criado em"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nome:",
+        "DESCRIPTION": "Descrição",
+        "ACTIVE": "Ativa",
+        "CREATED_ON": "Criado em"
+      },
       "404": "Nenhuma regra de automação encontrada"
     },
     "DELETE": {
@@ -125,6 +125,7 @@
       "ACTION_PARAMETERS_REQUIRED": "Os parâmetros de ação são obrigatórios",
       "ATLEAST_ONE_CONDITION_REQUIRED": "Pelo menos uma condição é obrigatória",
       "ATLEAST_ONE_ACTION_REQUIRED": "Pelo menos uma ação é obrigatória"
-    }
+    },
+    "NONE_OPTION": "Nenhuma"
   }
 }

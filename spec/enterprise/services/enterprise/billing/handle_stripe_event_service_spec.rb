@@ -37,19 +37,34 @@ describe Enterprise::Billing::HandleStripeEventService do
   end
 
   describe '#perform' do
-    it 'handle customer.subscription.updated' do
-      allow(event).to receive(:type).and_return('customer.subscription.updated')
-      allow(subscription).to receive(:customer).and_return('cus_123')
-      stripe_event_service.new.perform(event: event)
-      expect(account.reload.custom_attributes).to eq({
-                                                       'stripe_customer_id' => 'cus_123',
-                                                       'stripe_price_id' => 'test',
-                                                       'stripe_product_id' => 'plan_id',
-                                                       'plan_name' => 'Hacker',
-                                                       'subscribed_quantity' => '10',
-                                                       'subscription_ends_on' => Time.zone.at(1_686_567_520).as_json,
-                                                       'subscription_status' => 'active'
-                                                     })
+    context 'when it gets customer.subscription.updated event' do
+      it 'updates subscription attributes' do
+        allow(event).to receive(:type).and_return('customer.subscription.updated')
+        allow(subscription).to receive(:customer).and_return('cus_123')
+        stripe_event_service.new.perform(event: event)
+
+        expect(account.reload.custom_attributes).to eq({
+                                                         'captain_responses_usage' => 0,
+                                                         'stripe_customer_id' => 'cus_123',
+                                                         'stripe_price_id' => 'test',
+                                                         'stripe_product_id' => 'plan_id',
+                                                         'plan_name' => 'Hacker',
+                                                         'subscribed_quantity' => '10',
+                                                         'subscription_ends_on' => Time.zone.at(1_686_567_520).as_json,
+                                                         'subscription_status' => 'active'
+                                                       })
+      end
+
+      it 'resets captain usage' do
+        5.times { account.increment_response_usage }
+        expect(account.custom_attributes['captain_responses_usage']).to eq(5)
+
+        allow(event).to receive(:type).and_return('customer.subscription.updated')
+        allow(subscription).to receive(:customer).and_return('cus_123')
+        stripe_event_service.new.perform(event: event)
+
+        expect(account.reload.custom_attributes['captain_responses_usage']).to eq(0)
+      end
     end
 
     it 'disable features on customer.subscription.updated for default plan' do
@@ -57,6 +72,7 @@ describe Enterprise::Billing::HandleStripeEventService do
       allow(subscription).to receive(:customer).and_return('cus_123')
       stripe_event_service.new.perform(event: event)
       expect(account.reload.custom_attributes).to eq({
+                                                       'captain_responses_usage' => 0,
                                                        'stripe_customer_id' => 'cus_123',
                                                        'stripe_price_id' => 'test',
                                                        'stripe_product_id' => 'plan_id',
@@ -96,6 +112,7 @@ describe Enterprise::Billing::HandleStripeEventService do
       allow(subscription).to receive(:customer).and_return('cus_123')
       stripe_event_service.new.perform(event: event)
       expect(account.reload.custom_attributes).to eq({
+                                                       'captain_responses_usage' => 0,
                                                        'stripe_customer_id' => 'cus_123',
                                                        'stripe_price_id' => 'test',
                                                        'stripe_product_id' => 'plan_id_2',

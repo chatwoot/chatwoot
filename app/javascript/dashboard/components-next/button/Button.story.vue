@@ -114,8 +114,13 @@ const SIZES = ['default', 'sm', 'lg'];
     <!-- Ghost & Link Variants -->
     <Variant title="Ghost & Link Variants">
       <div class="flex flex-wrap gap-2 p-4 bg-white dark:bg-slate-900">
-        <Button label="Ghost Button" variant="ghost" />
-        <Button label="Ghost with Icon" variant="ghost" icon="i-lucide-plus" />
+        <Button label="Ghost Button" variant="ghost" color="slate" />
+        <Button
+          label="Ghost with Icon"
+          variant="ghost"
+          color="slate"
+          icon="i-lucide-plus"
+        />
         <Button label="Link Button" variant="link" />
         <Button label="Link with Icon" variant="link" icon="i-lucide-plus" />
       </div>

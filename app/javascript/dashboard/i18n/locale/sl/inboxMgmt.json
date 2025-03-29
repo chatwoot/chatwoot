@@ -8,28 +8,24 @@
     "LIST": {
       "404": "There are no inboxes attached to this account."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Choose Channel",
-        "route": "settings_inbox_new",
-        "body": "Choose the provider you want to integrate with Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Choose Channel",
+        "BODY": "Choose the provider you want to integrate with Chatwoot."
       },
-      {
-        "title": "Create Inbox",
-        "route": "settings_inboxes_page_channel",
-        "body": "Authenticate your account and create an inbox."
+      "INBOX": {
+        "TITLE": "Create Inbox",
+        "BODY": "Authenticate your account and create an inbox."
       },
-      {
-        "title": "Add Agents",
-        "route": "settings_inboxes_add_agents",
-        "body": "Add agents to the created inbox."
+      "AGENT": {
+        "TITLE": "Add Agents",
+        "BODY": "Add agents to the created inbox."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "You are all set to go!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "You are all set to go!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Inbox Name",
@@ -289,9 +285,9 @@
           "ERROR": "This field is required"
         },
         "EMAIL": {
-          "LABEL": "Email",
+          "LABEL": "E-pošta",
           "SUBTITLE": "Provide the email address where your customers send support requests.",
-          "PLACEHOLDER": "Email"
+          "PLACEHOLDER": "E-pošta"
         },
         "SUBMIT_BUTTON": "Create Email Channel",
         "API": {
@@ -421,7 +417,7 @@
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
-          "FROM": "from",
+          "FROM": "Od",
           "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
         },
         "PROFESSIONAL": {
@@ -610,12 +606,12 @@
         "PLACE_HOLDER": "Port"
       },
       "LOGIN": {
-        "LABEL": "Login",
-        "PLACE_HOLDER": "Login"
+        "LABEL": "Prijava",
+        "PLACE_HOLDER": "Prijava"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "PLACE_HOLDER": "Password"
+        "LABEL": "Geslo",
+        "PLACE_HOLDER": "Geslo"
       },
       "ENABLE_SSL": "Enable SSL"
     },
@@ -642,12 +638,12 @@
         "PLACE_HOLDER": "Port"
       },
       "LOGIN": {
-        "LABEL": "Login",
-        "PLACE_HOLDER": "Login"
+        "LABEL": "Prijava",
+        "PLACE_HOLDER": "Prijava"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "PLACE_HOLDER": "Password"
+        "LABEL": "Geslo",
+        "PLACE_HOLDER": "Geslo"
       },
       "DOMAIN": {
         "LABEL": "Domain",
@@ -694,9 +690,9 @@
         "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
         "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
-          "DEFAULT": "Chat with us",
+          "DEFAULT": "Klepetajte z nami",
           "LABEL": "Widget Bubble Launcher Title",
-          "PLACE_HOLDER": "Chat with us"
+          "PLACE_HOLDER": "Klepetajte z nami"
         },
         "UPDATE": {
           "BUTTON_TEXT": "Update Widget Settings",
@@ -723,23 +719,23 @@
         "CHAT": "Chat"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-        "IN_A_FEW_HOURS": "Typically replies in a few hours",
-        "IN_A_DAY": "Typically replies in a day"
+        "IN_A_FEW_MINUTES": "Običajno odgovorimo v nekaj minutah",
+        "IN_A_FEW_HOURS": "Običajno odgovorimo v nekaj urah",
+        "IN_A_DAY": "Običajno odgovorimo v enem dnevu"
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Start Conversation",
-        "CHAT_INPUT_PLACEHOLDER": "Type your message"
+        "START_CONVERSATION_BUTTON_TEXT": "Začni pogovor",
+        "CHAT_INPUT_PLACEHOLDER": "Vnesite svoje sporočilo"
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
           "ONLINE": "We are Online",
-          "OFFLINE": "We are away at the moment"
+          "OFFLINE": "Trenutno nismo na voljo"
         },
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Powered by Chatwoot",
+      "BRANDING_TEXT": "Poganja Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
@@ -749,12 +745,12 @@
     },
     "CHANNELS": {
       "MESSENGER": "Messenger",
-      "WEB_WIDGET": "Website",
+      "WEB_WIDGET": "Spletna stran",
       "TWITTER_PROFILE": "Twitter",
       "TWILIO_SMS": "Twilio SMS",
       "WHATSAPP": "WhatsApp",
       "SMS": "SMS",
-      "EMAIL": "Email",
+      "EMAIL": "E-pošta",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
       "API": "API Channel"

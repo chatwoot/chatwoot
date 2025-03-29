@@ -22,14 +22,23 @@
     "OPERATOR_LABELS": {
       "equal_to": "Vienāds ar",
       "not_equal_to": "Nav vienāds ar",
-      "contains": "Satur",
       "does_not_contain": "Nesatur",
       "is_present": "Iekļauj sevī",
       "is_not_present": "Neiekļauj sevī",
       "is_greater_than": "Ir lielāks par",
       "is_less_than": "Ir mazāks par",
       "days_before": "Ir x dienas pirms",
-      "starts_with": "Sākas ar"
+      "starts_with": "Sākas ar",
+      "equalTo": "Vienāds ar",
+      "notEqualTo": "Nav vienāds ar",
+      "contains": "Satur",
+      "doesNotContain": "Nesatur",
+      "isPresent": "Iekļauj sevī",
+      "isNotPresent": "Neiekļauj sevī",
+      "isGreaterThan": "Ir lielāks par",
+      "isLessThan": "Ir mazāks par",
+      "daysBefore": "Ir x dienas pirms",
+      "startsWith": "Sākas ar"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Patiesi",
@@ -56,7 +65,10 @@
       "LAST_ACTIVITY": "Pēdējā darbība"
     },
     "ERRORS": {
-      "VALUE_REQUIRED": "Nepieciešama vērtība"
+      "VALUE_REQUIRED": "Nepieciešama vērtība",
+      "ATTRIBUTE_KEY_REQUIRED": "Nepieciešama atribūta atslēga",
+      "FILTER_OPERATOR_REQUIRED": "Nepieciešams filtra operators",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Vērtībai ir jābūt no 1 līdz 998"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standarta filtri",

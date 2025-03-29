@@ -20,17 +20,17 @@
     "IN_A_FEW_MINUTES": "معمولاً در عرض چند دقیقه پاسخ می دهند",
     "IN_A_FEW_HOURS": "معمولاً در عرض چند ساعت پاسخ می دهند",
     "IN_A_DAY": "به طور معمول در یک روز پاسخ می دهند",
-    "BACK_IN": "دوباره آنلاین خواهیم بود"
+    "BACK_IN": "دوباره آنلاین خواهیم شد"
   },
-  "DAY_NAMES": [
-    "یک‌شنبه",
-    "دوشنبه",
-    "سه‌شنبه",
-    "چهارشنبه",
-    "پنج‌شنبه",
-    "جمعه",
-    "شنبه"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "یک‌شنبه",
+    "MONDAY": "دوشنبه",
+    "TUESDAY": "سه‌شنبه",
+    "WEDNESDAY": "چهارشنبه",
+    "THURSDAY": "پنج‌شنبه",
+    "FRIDAY": "جمعه",
+    "SATURDAY": "شنبه"
+  },
   "START_CONVERSATION": "شروع گفتگو",
   "END_CONVERSATION": "پایان گفتگو",
   "CONTINUE_CONVERSATION": "ادامه گفتگو",
@@ -71,7 +71,7 @@
         "DIAL_CODE_VALID_ERROR": "لطفا\" یک کد کشور انتخاب کنید",
         "VALID_ERROR": "لطفا\" یک شماره موبایل معتبر وارد نمایید",
         "DROPDOWN_EMPTY": "نتیجه‌ای یافت نشد",
-        "DROPDOWN_SEARCH": "Search country"
+        "DROPDOWN_SEARCH": "جستجوی کشور"
       },
       "MESSAGE": {
         "LABEL": "پیام",
@@ -91,9 +91,9 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "جستجوی ایموجی",
-    "NOT_FOUND": "هیچ ایموجی با جستجوی شما مطابقت ندارد",
-    "ARIA_LABEL": "Emoji picker"
+    "PLACEHOLDER": "جستجوی اموجی",
+    "NOT_FOUND": "هیچ اموجی با جستجوی شما مطابقت ندارد",
+    "ARIA_LABEL": "انتخاب اموجی"
   },
   "CSAT": {
     "TITLE": "به گفتگوی خود امتیاز دهید",

@@ -27,7 +27,6 @@ const handleDelete = campaign => emit('delete', campaign);
       :message="campaign.message"
       :is-enabled="campaign.enabled"
       :status="campaign.campaign_status"
-      :trigger-rules="campaign.trigger_rules"
       :sender="campaign.sender"
       :inbox="campaign.inbox"
       :scheduled-at="campaign.scheduled_at"

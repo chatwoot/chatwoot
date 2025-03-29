@@ -34,10 +34,11 @@ const portalLink = computed(() => {
   );
 });
 
-const saveArticle = async ({ ...values }) => {
+const saveArticle = async ({ ...values }, isAsync = false) => {
+  const actionToDispatch = isAsync ? 'articles/updateAsync' : 'articles/update';
   isUpdating.value = true;
   try {
-    await store.dispatch('articles/update', {
+    await store.dispatch(actionToDispatch, {
       portalSlug,
       articleId: articleSlug,
       ...values,
@@ -53,6 +54,10 @@ const saveArticle = async ({ ...values }) => {
       isSaved.value = true;
     }, 1500);
   }
+};
+
+const saveArticleAsync = async ({ ...values }) => {
+  saveArticle({ ...values }, true);
 };
 
 const isCategoryArticles = computed(() => {
@@ -92,9 +97,7 @@ const previewArticle = () => {
   });
 };
 
-onMounted(() => {
-  fetchArticleDetails();
-});
+onMounted(fetchArticleDetails);
 </script>
 
 <template>
@@ -103,6 +106,7 @@ onMounted(() => {
     :is-updating="isUpdating"
     :is-saved="isSaved"
     @save-article="saveArticle"
+    @save-article-async="saveArticleAsync"
     @preview-article="previewArticle"
     @go-back="goBackToArticles"
   />

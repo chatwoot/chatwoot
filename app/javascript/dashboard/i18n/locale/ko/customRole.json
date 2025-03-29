@@ -22,12 +22,12 @@
       "404": "There are no custom roles available in this account.",
       "TITLE": "Manage custom roles",
       "DESC": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
-      "TABLE_HEADER": [
-        "이름",
-        "내용",
-        "Permissions",
-        "액션"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "이름",
+        "DESCRIPTION": "내용",
+        "PERMISSIONS": "Permissions",
+        "ACTIONS": "액션"
+      }
     },
     "PERMISSIONS": {
       "CONVERSATION_MANAGE": "Manage all conversations",
@@ -83,8 +83,8 @@
       "CONFIRM": {
         "TITLE": "Confirm deletion",
         "MESSAGE": "삭제하시겠습니까? ",
-        "YES": "Yes, delete ",
-        "NO": "No, keep "
+        "YES": "예, 삭제합니다. ",
+        "NO": "아니요, 유지합니다 "
       }
     }
   }

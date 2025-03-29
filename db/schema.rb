@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
-  # These are extensions that must be enabled in order to support this database
+ActiveRecord::Schema[7.0].define(version: 2025_03_26_034635) do
+  # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+  enable_extension "vector"
 
   create_table "access_tokens", force: :cascade do |t|
     t.string "owner_type"
@@ -56,6 +57,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.jsonb "limits", default: {}
     t.jsonb "custom_attributes", default: {}
     t.integer "status", default: 0
+    t.jsonb "internal_attributes", default: {}, null: false
     t.index ["status"], name: "index_accounts_on_status"
   end
 
@@ -130,6 +132,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.index ["sla_policy_id"], name: "index_applied_slas_on_sla_policy_id"
   end
 
+  create_table "article_embeddings", force: :cascade do |t|
+    t.bigint "article_id", null: false
+    t.text "term", null: false
+    t.vector "embedding", limit: 1536
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["embedding"], name: "index_article_embeddings_on_embedding", using: :ivfflat
+  end
+
   create_table "articles", force: :cascade do |t|
     t.integer "account_id", null: false
     t.integer "portal_id", null: false
@@ -148,9 +159,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.string "slug", null: false
     t.integer "position"
     t.string "locale", default: "en", null: false
+    t.index ["account_id"], name: "index_articles_on_account_id"
     t.index ["associated_article_id"], name: "index_articles_on_associated_article_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
+    t.index ["portal_id"], name: "index_articles_on_portal_id"
     t.index ["slug"], name: "index_articles_on_slug", unique: true
+    t.index ["status"], name: "index_articles_on_status"
+    t.index ["views"], name: "index_articles_on_views"
   end
 
   create_table "attachments", id: :serial, force: :cascade do |t|
@@ -164,6 +179,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.datetime "updated_at", precision: nil, null: false
     t.string "fallback_title"
     t.string "extension"
+    t.jsonb "meta", default: {}
     t.index ["account_id"], name: "index_attachments_on_account_id"
     t.index ["message_id"], name: "index_attachments_on_message_id"
   end
@@ -233,6 +249,59 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.text "content"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+  end
+
+  create_table "captain_assistant_responses", force: :cascade do |t|
+    t.string "question", null: false
+    t.text "answer", null: false
+    t.vector "embedding", limit: 1536
+    t.bigint "assistant_id", null: false
+    t.bigint "documentable_id"
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "status", default: 1, null: false
+    t.string "documentable_type"
+    t.index ["account_id"], name: "index_captain_assistant_responses_on_account_id"
+    t.index ["assistant_id"], name: "index_captain_assistant_responses_on_assistant_id"
+    t.index ["documentable_id", "documentable_type"], name: "idx_cap_asst_resp_on_documentable"
+    t.index ["embedding"], name: "vector_idx_knowledge_entries_embedding", using: :ivfflat
+    t.index ["status"], name: "index_captain_assistant_responses_on_status"
+  end
+
+  create_table "captain_assistants", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "account_id", null: false
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.jsonb "config", default: {}, null: false
+    t.index ["account_id"], name: "index_captain_assistants_on_account_id"
+  end
+
+  create_table "captain_documents", force: :cascade do |t|
+    t.string "name"
+    t.string "external_link", null: false
+    t.text "content"
+    t.bigint "assistant_id", null: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "status", default: 0, null: false
+    t.index ["account_id"], name: "index_captain_documents_on_account_id"
+    t.index ["assistant_id", "external_link"], name: "index_captain_documents_on_assistant_id_and_external_link", unique: true
+    t.index ["assistant_id"], name: "index_captain_documents_on_assistant_id"
+    t.index ["status"], name: "index_captain_documents_on_status"
+  end
+
+  create_table "captain_inboxes", force: :cascade do |t|
+    t.bigint "captain_assistant_id", null: false
+    t.bigint "inbox_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["captain_assistant_id", "inbox_id"], name: "index_captain_inboxes_on_captain_assistant_id_and_inbox_id", unique: true
+    t.index ["captain_assistant_id"], name: "index_captain_inboxes_on_captain_assistant_id"
+    t.index ["inbox_id"], name: "index_captain_inboxes_on_inbox_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -306,6 +375,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.string "instagram_id"
     t.index ["page_id", "account_id"], name: "index_channel_facebook_pages_on_page_id_and_account_id", unique: true
     t.index ["page_id"], name: "index_channel_facebook_pages_on_page_id"
+  end
+
+  create_table "channel_instagram", force: :cascade do |t|
+    t.string "access_token", null: false
+    t.datetime "expires_at", null: false
+    t.integer "account_id", null: false
+    t.string "instagram_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["instagram_id"], name: "index_channel_instagram_on_instagram_id", unique: true
   end
 
   create_table "channel_line", force: :cascade do |t|

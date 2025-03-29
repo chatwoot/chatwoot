@@ -1,29 +1,44 @@
 {
   "INTEGRATION_SETTINGS": {
-    "HEADER": "集成方式",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
-    "LEARN_MORE": "Learn more about integrations",
-    "LOADING": "Fetching integrations",
+    "SHOPIFY": {
+      "DELETE": {
+        "TITLE": "Delete Shopify Integration",
+        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+      },
+      "STORE_URL": {
+        "TITLE": "Connect Shopify Store",
+        "LABEL": "Store URL",
+        "PLACEHOLDER": "your-store.myshopify.com",
+        "HELP": "Enter your Shopify store's myshopify.com URL",
+        "CANCEL": "取消",
+        "SUBMIT": "Connect Store"
+      },
+      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+    },
+    "HEADER": "集成设置",
+    "DESCRIPTION": "Chatwoot 集成了多种工具和服务，以提高团队效率。浏览以下列表以配置您喜欢的应用程序。",
+    "LEARN_MORE": "了解更多关于集成的信息",
+    "LOADING": "正在获取集成",
     "CAPTAIN": {
-      "DISABLED": "Captain is not enabled on your account.",
-      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
-      "LOADING_CONSOLE": "Loading Captain Console...",
-      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+      "DISABLED": "您的账户未启用 Captain。",
+      "CLICK_HERE_TO_CONFIGURE": "点击此处配置",
+      "LOADING_CONSOLE": "正在加载 Captain 控制台……",
+      "FAILED_TO_LOAD_CONSOLE": "加载 Captain 控制台失败。请刷新页面并重试。"
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "订阅事件",
-      "LEARN_MORE": "Learn more about webhooks",
+      "LEARN_MORE": "了解更多关于 Webhooks 的信息",
       "FORM": {
         "CANCEL": "取消",
-        "DESC": "Webhook 事件为您提供了有关Chatwoot 帐户中发生的事情的实时信息。请输入一个有效的URL来配置回调。",
+        "DESC": "Webhook 事件为您提供了有关 Chatwoot 账户中发生的事情的实时信息。请输入一个有效的 URL 来配置回调。",
         "SUBSCRIPTIONS": {
           "LABEL": "事件",
           "EVENTS": {
             "CONVERSATION_CREATED": "对话创建",
             "CONVERSATION_STATUS_CHANGED": "对话状态已更改",
             "CONVERSATION_UPDATED": "对话已更新",
-            "MESSAGE_CREATED": "信息已创建",
-            "MESSAGE_UPDATED": "信息已更新",
+            "MESSAGE_CREATED": "消息已创建",
+            "MESSAGE_UPDATED": "消息已更新",
             "WEBWIDGET_TRIGGERED": "用户打开实时聊天小部件",
             "CONTACT_CREATED": "联系人已创建",
             "CONTACT_UPDATED": "联系人已更新"
@@ -31,27 +46,30 @@
         },
         "END_POINT": {
           "LABEL": "Webhook 网址",
-          "PLACEHOLDER": "例如：https://example/api/webhook",
+          "PLACEHOLDER": "例如：{webhookExampleURL}",
           "ERROR": "请输入一个有效的 URL"
         },
-        "EDIT_SUBMIT": "更新 webhook",
-        "ADD_SUBMIT": "创建 webhook"
+        "EDIT_SUBMIT": "更新 Webhook",
+        "ADD_SUBMIT": "创建 Webhook"
       },
       "TITLE": "回调接口地址",
       "CONFIGURE": "配置",
-      "HEADER": "Webhook设置",
-      "HEADER_BTN_TXT": "添加新的 webhook",
-      "LOADING": "正在获取已添加的 webhooks",
+      "HEADER": "Webhook 设置",
+      "HEADER_BTN_TXT": "添加新的 Webhook",
+      "LOADING": "正在获取已添加的 Webhooks",
       "SEARCH_404": "没有任何项目符合此查询",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks 是 HTTP 回调，可以为每个账户定义的。 他们是由诸如在Chatwoot 中创建消息等事件所触发的。您可以为此帐户创建多个web钩子。 <br /><br /> 创建一个 <b>webhook</b>, 点击 <b>添加新的 webhook</b> 按钮。 您也可以通过点击删除按钮删除任何现有的网络钩子。</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks 是 HTTP 回调，可以为每个账户定义。它们由诸如在 Chatwoot 中创建消息等事件触发。您可以为此账户创建多个 Webhooks。<br /><br /> 要创建一个 <b>Webhook</b>，点击 <b>添加新的 Webhook</b> 按钮。您也可以通过点击删除按钮删除任何现有的 Webhook。</p>",
       "LIST": {
-        "404": "此帐户没有配置Webhooks。",
-        "TITLE": "管理 webhooks",
-        "TABLE_HEADER": ["Webhook 端点", "操作"]
+        "404": "此账户没有配置 Webhooks。",
+        "TITLE": "管理 Webhooks",
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Webhook 端点",
+          "ACTIONS": "操作"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "编辑",
-        "TITLE": "编辑 webhook",
+        "TITLE": "编辑 Webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook 配置更新成功",
           "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
@@ -59,7 +77,7 @@
       },
       "ADD": {
         "CANCEL": "取消操作",
-        "TITLE": "添加新的 webhook",
+        "TITLE": "添加新的 Webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook 配置添加成功",
           "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
@@ -73,8 +91,8 @@
         },
         "CONFIRM": {
           "TITLE": "确认删除",
-          "MESSAGE": "Are you sure to delete the webhook? ({webhookURL})",
-          "YES": "是，删除 ",
+          "MESSAGE": "您确定要删除该 Webhook 吗？({webhookURL})",
+          "YES": "是，删除",
           "NO": "否，保留它"
         }
       }
@@ -82,85 +100,85 @@
     "SLACK": {
       "DELETE": "删除",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Delete the integration",
-        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+        "TITLE": "删除集成",
+        "MESSAGE": "您确定要删除该集成吗？这样做将导致您无法在 Slack 工作区中访问对话。"
       },
       "HELP_TEXT": {
-        "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>",
-        "SELECTED": "selected"
+        "TITLE": "使用 Slack 集成？",
+        "BODY": "通过此集成，所有传入的对话将同步到您的 Slack 工作区中的 ***{selectedChannelName}*** 频道。您可以直接在频道中管理所有客户对话，再也不会错过任何消息。\n\n以下是该集成的主要功能：\n\n**从 Slack 回复对话：** 要在 ***{selectedChannelName}*** Slack 频道中回复对话，只需输入您的消息并将其作为线程发送。这将通过 Chatwoot 创建对客户的回复。就是这么简单！\n\n**创建私密笔记：** 如果您想创建私密笔记而不是回复，请在消息开头加上 ***`note:`***。这将确保您的消息保持私密，不会对客户可见。\n\n**关联客服资料：** 如果在 Slack 上回复的人拥有与 Chatwoot 中相同电子邮件的客服资料，回复将自动与该客服资料关联。这意味着您可以轻松跟踪谁在何时说了什么。另一方面，如果回复者没有关联的客服资料，回复将显示为机器人资料。",
+        "SELECTED": "已选择"
       },
       "SELECT_CHANNEL": {
-        "OPTION_LABEL": "Select a channel",
+        "OPTION_LABEL": "选择一个频道",
         "UPDATE": "更新",
-        "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Attention required",
-        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+        "BUTTON_TEXT": "连接频道",
+        "DESCRIPTION": "您的 Slack 工作区现已与 Chatwoot 连接。但是，集成当前处于非活动状态。要激活集成并将频道连接到 Chatwoot，请点击下面的按钮。\n\n**注意：** 如果您尝试连接私有频道，请在进行此步骤之前将 Chatwoot 应用添加到 Slack 频道。",
+        "ATTENTION_REQUIRED": "需要关注",
+        "EXPIRED": "您的 Slack 集成已过期。要继续在 Slack 上接收消息，请删除该集成并重新连接您的工作区。"
       },
-      "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
-      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+      "UPDATE_ERROR": "更新集成时出错，请重试",
+      "UPDATE_SUCCESS": "频道连接成功",
+      "FAILED_TO_FETCH_CHANNELS": "获取 Slack 频道时出错，请重试"
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+      "CLICK_HERE_TO_JOIN": "点击此处加入",
+      "LEAVE_THE_ROOM": "离开房间",
+      "START_VIDEO_CALL_HELP_TEXT": "与客户开始新的视频通话",
+      "JOIN_ERROR": "加入通话时出错，请重试",
+      "CREATE_ERROR": "创建会议链接时出错，请重试"
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI 助手",
-      "WITH_AI": " {option} with AI ",
+      "WITH_AI": " 使用 AI {option} ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
-        "REPHRASE": "Improve Writing",
-        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
-        "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
-        "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "REPLY_SUGGESTION": "回复建议",
+        "SUMMARIZE": "总结",
+        "REPHRASE": "改进写作",
+        "FIX_SPELLING_GRAMMAR": "修正拼写和语法",
+        "SHORTEN": "缩短",
+        "EXPAND": "扩展",
+        "MAKE_FRIENDLY": "将消息语气改为友好",
+        "MAKE_FORMAL": "使用正式语气",
+        "SIMPLIFY": "简化"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
-        "AI_WRITING": "AI is writing",
+        "DRAFT_TITLE": "草稿内容",
+        "GENERATED_TITLE": "生成内容",
+        "AI_WRITING": "AI 正在写作",
         "BUTTONS": {
-          "APPLY": "Use this suggestion",
+          "APPLY": "使用此建议",
           "CANCEL": "取消"
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
-        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "TITLE": "集成 OpenAI",
+        "DESC": "通过 OpenAI 的 GPT 模型为您的仪表板带来高级 AI 功能。要开始，请输入您 OpenAI 账户的 API 密钥。",
+        "KEY_PLACEHOLDER": "输入您的 OpenAI API 密钥",
         "BUTTONS": {
-          "NEED_HELP": "Need help?",
+          "NEED_HELP": "需要帮助？",
           "DISMISS": "取消",
-          "FINISH": "Finish Setup"
+          "FINISH": "完成设置"
         },
-        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "DISMISS_MESSAGE": "您可以稍后随时设置 OpenAI 集成。",
+        "SUCCESS_MESSAGE": "OpenAI 集成设置成功"
       },
-      "TITLE": "Improve With AI",
-      "SUMMARY_TITLE": "Summary with AI",
-      "REPLY_TITLE": "Reply suggestion with AI",
-      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TITLE": "通过 AI 改进",
+      "SUMMARY_TITLE": "通过 AI 总结",
+      "REPLY_TITLE": "通过 AI 回复建议",
+      "SUBTITLE": "将根据您的当前草稿生成改进的回复。",
       "TONE": {
-        "TITLE": "Tone",
+        "TITLE": "语气",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "PROFESSIONAL": "专业",
+          "FRIENDLY": "友好"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
+        "GENERATE": "生成",
+        "GENERATING": "生成中...",
         "CANCEL": "取消"
       },
-      "GENERATE_ERROR": "There was an error processing the content, please try again"
+      "GENERATE_ERROR": "处理内容时出错，请重试"
     },
     "DELETE": {
       "BUTTON_TEXT": "删除",
@@ -172,128 +190,384 @@
       "BUTTON_TEXT": "连接"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
-      "LEARN_MORE": "Learn more about Dashboard Apps",
+      "TITLE": "仪表板应用",
+      "HEADER_BTN_TXT": "添加新的仪表板应用",
+      "SIDEBAR_TXT": "<p><b>仪表板应用</b></p><p>仪表板应用允许组织将应用程序嵌入 Chatwoot 仪表板中，以便为客服人员提供上下文信息。此功能允许您独立创建应用程序并将其嵌入仪表板中，以提供用户信息、他们的订单或以前的付款历史记录。</p><p>当您使用 Chatwoot 仪表板嵌入应用程序时，您的应用程序将作为窗口事件获取对话和联系人的上下文信息。在您的页面上实现消息事件的监听器以接收上下文信息。</p><p>要添加新的仪表板应用，请点击“添加新的仪表板应用”按钮。</p>",
+      "DESCRIPTION": "仪表板应用允许组织将应用程序嵌入仪表板中，以便为客服人员提供上下文信息。此功能允许您独立创建应用程序并将其嵌入仪表板中，以提供用户信息、他们的订单或以前的付款历史记录。",
+      "LEARN_MORE": "了解更多关于仪表板应用的信息",
       "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": ["姓名：", "Endpoint"],
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "404": "此账户尚未配置任何仪表板应用",
+        "LOADING": "正在获取仪表板应用...",
+        "TABLE_HEADER": {
+          "NAME": "姓名",
+          "ENDPOINT": "端点"
+        },
+        "EDIT_TOOLTIP": "编辑应用",
+        "DELETE_TOOLTIP": "删除应用"
       },
       "FORM": {
-        "TITLE_LABEL": "姓名：",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
-        "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "TITLE_LABEL": "姓名",
+        "TITLE_PLACEHOLDER": "输入您的仪表板应用的名称",
+        "TITLE_ERROR": "仪表板应用的名称是必需的",
+        "URL_LABEL": "端点",
+        "URL_PLACEHOLDER": "输入您的应用托管的端点 URL",
+        "URL_ERROR": "需要有效的 URL"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
+        "HEADER": "添加新的仪表板应用",
         "FORM_SUBMIT": "提交",
         "FORM_CANCEL": "取消",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "API_SUCCESS": "仪表板应用配置成功",
+        "API_ERROR": "无法创建应用，请稍后重试"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
+        "HEADER": "编辑仪表板应用",
         "FORM_SUBMIT": "更新",
         "FORM_CANCEL": "取消",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "API_SUCCESS": "仪表板应用更新成功",
+        "API_ERROR": "无法更新应用，请稍后重试"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
-        "TITLE": "Confirm deletion",
-        "MESSAGE": "Are you sure to delete the app - {appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "CONFIRM_YES": "是，删除它",
+        "CONFIRM_NO": "否，保留它",
+        "TITLE": "确认删除",
+        "MESSAGE": "您确定要删除该应用 - {appName} 吗？",
+        "API_SUCCESS": "仪表板应用删除成功",
+        "API_ERROR": "无法删除应用，请稍后重试"
       }
     },
     "LINEAR": {
-      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
-      "LOADING": "Fetching linear issues...",
-      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "ADD_OR_LINK_BUTTON": "创建/链接 Linear 问题",
+      "LOADING": "正在获取 Linear 问题...",
+      "LOADING_ERROR": "获取 Linear 问题时出错，请重试",
       "CREATE": "创建",
       "LINK": {
-        "SEARCH": "Search issues",
-        "SELECT": "Select issue",
+        "SEARCH": "搜索问题",
+        "SELECT": "选择问题",
         "TITLE": "链接",
-        "EMPTY_LIST": "No linear issues found",
-        "LOADING": "Loading",
-        "ERROR": "There was an error fetching the linear issues, please try again",
-        "LINK_SUCCESS": "Issue linked successfully",
-        "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+        "EMPTY_LIST": "未找到 Linear 问题",
+        "LOADING": "加载中",
+        "ERROR": "获取 Linear 问题时出错，请重试",
+        "LINK_SUCCESS": "问题链接成功",
+        "LINK_ERROR": "链接问题时出错，请重试",
+        "LINK_TITLE": "对话 (#{conversationId}) 与 {name}"
       },
       "ADD_OR_LINK": {
-        "TITLE": "Create/link linear issue",
-        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "TITLE": "创建/链接 Linear 问题",
+        "DESCRIPTION": "从对话中创建 Linear 问题，或链接现有问题以进行无缝跟踪。",
         "FORM": {
           "TITLE": {
             "LABEL": "标题",
-            "PLACEHOLDER": "Enter title",
-            "REQUIRED_ERROR": "Title is required"
+            "PLACEHOLDER": "输入标题",
+            "REQUIRED_ERROR": "标题是必填项"
           },
           "DESCRIPTION": {
-            "LABEL": "描述信息",
-            "PLACEHOLDER": "Enter description"
+            "LABEL": "描述",
+            "PLACEHOLDER": "输入描述"
           },
           "TEAM": {
-            "LABEL": "Team",
+            "LABEL": "团队",
             "PLACEHOLDER": "选择团队",
-            "SEARCH": "Search team",
-            "REQUIRED_ERROR": "Team is required"
+            "SEARCH": "搜索团队",
+            "REQUIRED_ERROR": "团队是必填项"
           },
           "ASSIGNEE": {
-            "LABEL": "Assignee",
-            "PLACEHOLDER": "Select assignee",
-            "SEARCH": "Search assignee"
+            "LABEL": "负责人",
+            "PLACEHOLDER": "选择负责人",
+            "SEARCH": "搜索负责人"
           },
           "PRIORITY": {
             "LABEL": "优先级",
             "PLACEHOLDER": "选择优先级",
-            "SEARCH": "Search priority"
+            "SEARCH": "搜索优先级"
           },
           "LABEL": {
             "LABEL": "标签",
-            "PLACEHOLDER": "Select label",
-            "SEARCH": "Search label"
+            "PLACEHOLDER": "选择标签",
+            "SEARCH": "搜索标签"
           },
           "STATUS": {
             "LABEL": "状态",
-            "PLACEHOLDER": "Select status",
-            "SEARCH": "Search status"
+            "PLACEHOLDER": "选择状态",
+            "SEARCH": "搜索状态"
           },
           "PROJECT": {
-            "LABEL": "Project",
-            "PLACEHOLDER": "Select project",
-            "SEARCH": "Search project"
+            "LABEL": "项目",
+            "PLACEHOLDER": "选择项目",
+            "SEARCH": "搜索项目"
           }
         },
         "CREATE": "创建",
         "CANCEL": "取消",
-        "CREATE_SUCCESS": "Issue created successfully",
-        "CREATE_ERROR": "There was an error creating the issue, please try again",
-        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
-        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+        "CREATE_SUCCESS": "问题创建成功",
+        "CREATE_ERROR": "创建问题时出错，请重试",
+        "LOADING_TEAM_ERROR": "获取团队时出错，请重试",
+        "LOADING_TEAM_ENTITIES_ERROR": "获取团队实体时出错，请重试"
       },
       "ISSUE": {
         "STATUS": "状态",
         "PRIORITY": "优先级",
-        "ASSIGNEE": "Assignee",
+        "ASSIGNEE": "负责人",
         "LABELS": "标签",
-        "CREATED_AT": "Created at {createdAt}"
+        "CREATED_AT": "创建于 {createdAt}"
       },
       "UNLINK": {
-        "TITLE": "Unlink",
-        "SUCCESS": "Issue unlinked successfully",
-        "ERROR": "There was an error unlinking the issue, please try again"
+        "TITLE": "取消链接",
+        "SUCCESS": "问题取消链接成功",
+        "ERROR": "取消链接问题时出错，请重试"
+      },
+      "DELETE": {
+        "TITLE": "您确定要删除该集成吗？",
+        "MESSAGE": "您确定要删除该集成吗？",
+        "CONFIRM": "是，删除",
+        "CANCEL": "取消"
+      }
+    }
+  },
+  "CAPTAIN": {
+    "NAME": "Captain",
+    "HEADER_KNOW_MORE": "了解更多",
+    "COPILOT": {
+      "SEND_MESSAGE": "发送消息...",
+      "LOADER": "Captain 正在思考",
+      "YOU": "您",
+      "USE": "使用此",
+      "RESET": "重置",
+      "SELECT_ASSISTANT": "选择助手"
+    },
+    "PAYWALL": {
+      "TITLE": "升级以使用 Captain AI",
+      "AVAILABLE_ON": "Captain 在免费计划中不可用。",
+      "UPGRADE_PROMPT": "升级您的计划以获取我们的助手、副驾驶等功能。",
+      "UPGRADE_NOW": "立即升级",
+      "CANCEL_ANYTIME": "您可以随时更改或取消您的计划"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI 功能仅在付费计划中可用。",
+      "UPGRADE_PROMPT": "升级您的计划以获取我们的助手、副驾驶等功能。",
+      "ASK_ADMIN": "请联系您的管理员进行升级。"
+    },
+    "BANNER": {
+      "RESPONSES": "您已使用超过 80% 的回复限制。要继续使用 Captain AI，请升级。",
+      "DOCUMENTS": "文档限制已满。升级以继续使用 Captain AI。"
+    },
+    "FORM": {
+      "CANCEL": "取消",
+      "CREATE": "创建",
+      "EDIT": "更新"
+    },
+    "ASSISTANTS": {
+      "HEADER": "助手",
+      "ADD_NEW": "创建新的助手",
+      "DELETE": {
+        "TITLE": "您确定要删除该文档吗？",
+        "DESCRIPTION": "此操作是永久性的。删除此文档将永久删除所有生成的知识。",
+        "CONFIRM": "是，删除",
+        "SUCCESS_MESSAGE": "文档已成功删除",
+        "ERROR_MESSAGE": "删除文档时出错，请重试。"
+      },
+      "FORM_DESCRIPTION": "填写以下详细信息以命名您的助手，描述其用途，并指定它将支持的产品。",
+      "CREATE": {
+        "TITLE": "创建助手",
+        "SUCCESS_MESSAGE": "助手已成功创建",
+        "ERROR_MESSAGE": "创建助手时出错，请重试。"
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "助手名称",
+          "PLACEHOLDER": "为助手输入一个名称",
+          "ERROR": "请提供助手的名称"
+        },
+        "DESCRIPTION": {
+          "LABEL": "助手描述",
+          "PLACEHOLDER": "描述助手的用途和使用场景",
+          "ERROR": "描述是必需的"
+        },
+        "PRODUCT_NAME": {
+          "LABEL": "产品名称",
+          "PLACEHOLDER": "输入此助手设计用于的产品名称",
+          "ERROR": "产品名称是必需的"
+        },
+        "FEATURES": {
+          "TITLE": "特性",
+          "ALLOW_CONVERSATION_FAQS": "从已解决的对话中生成常见问题",
+          "ALLOW_MEMORIES": "从客户互动中捕获关键细节作为记忆"
+        }
+      },
+      "EDIT": {
+        "TITLE": "更新助手",
+        "SUCCESS_MESSAGE": "助手已成功更新",
+        "ERROR_MESSAGE": "更新助手时出错，请重试"
+      },
+      "OPTIONS": {
+        "EDIT_ASSISTANT": "编辑助手",
+        "DELETE_ASSISTANT": "删除助手",
+        "VIEW_CONNECTED_INBOXES": "查看连接的收件箱"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "没有可用的文档",
+        "SUBTITLE": "文档用于为您的助手生成常见问题。您可以导入文档以为您的助手提供上下文。",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "助理队长",
+          "NOTE": "助理队长直接与客户互动，从您的帮助文档和过去的对话中学习，并提供即时、准确的回复。它处理初始查询，快速解决问题，在需要时再转接给客服人员。"
+        }
+      }
+    },
+    "DOCUMENTS": {
+      "HEADER": "文档",
+      "ADD_NEW": "创建新文档",
+      "RELATED_RESPONSES": {
+        "TITLE": "相关常见问题",
+        "DESCRIPTION": "这些常见问题直接从文档生成。"
+      },
+      "FORM_DESCRIPTION": "输入文档的 URL 以将其添加为知识源，并选择要关联的助手。",
+      "CREATE": {
+        "TITLE": "添加文档",
+        "SUCCESS_MESSAGE": "文档已成功创建",
+        "ERROR_MESSAGE": "创建文档时出错，请重试"
+      },
+      "FORM": {
+        "URL": {
+          "LABEL": "网址",
+          "PLACEHOLDER": "输入文档的 URL",
+          "ERROR": "请提供有效的文档 URL"
+        },
+        "ASSISTANT": {
+          "LABEL": "助手",
+          "PLACEHOLDER": "选择助手",
+          "ERROR": "助手字段是必需的"
+        }
+      },
+      "DELETE": {
+        "TITLE": "您确定要删除该文档吗？",
+        "DESCRIPTION": "此操作是永久性的。删除此文档将永久删除所有生成的知识。",
+        "CONFIRM": "是，删除",
+        "SUCCESS_MESSAGE": "文档已成功删除",
+        "ERROR_MESSAGE": "删除文档时出错，请重试"
+      },
+      "OPTIONS": {
+        "VIEW_RELATED_RESPONSES": "查看相关常见问题",
+        "DELETE_DOCUMENT": "删除文档"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "没有可用的文档",
+        "SUBTITLE": "文档用于为您的助手生成常见问题。您可以导入文档以为您的助手提供上下文。",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain 文档",
+          "NOTE": "在 Captain 中的文档作为助理的知识资源。通过连接您的帮助中心或指南，Captain 可以分析内容并为客户询问提供准确的回答。"
+        }
+      }
+    },
+    "RESPONSES": {
+      "HEADER": "常见问题",
+      "ADD_NEW": "创建新常见问题",
+      "DOCUMENTABLE": {
+        "CONVERSATION": "对话 #{id}"
+      },
+      "SELECTED": "{count} 已选择",
+      "BULK_APPROVE_BUTTON": "批准",
+      "BULK_DELETE_BUTTON": "删除",
+      "BULK_APPROVE": {
+        "SUCCESS_MESSAGE": "常见问题已成功批准",
+        "ERROR_MESSAGE": "批准常见问题时出错，请重试"
+      },
+      "BULK_DELETE": {
+        "TITLE": "删除常见问题？",
+        "DESCRIPTION": "您确定要删除选中的常见问题吗？此操作无法撤销。",
+        "CONFIRM": "是，全部删除",
+        "SUCCESS_MESSAGE": "常见问题已成功删除",
+        "ERROR_MESSAGE": "删除常见问题时出错，请重试"
+      },
+      "DELETE": {
+        "TITLE": "您确定要删除该常见问题吗？",
+        "DESCRIPTION": "",
+        "CONFIRM": "是，删除",
+        "SUCCESS_MESSAGE": "常见问题已成功删除",
+        "ERROR_MESSAGE": "删除常见问题时出错，请重试"
+      },
+      "FILTER": {
+        "ASSISTANT": "助手：{selected}",
+        "STATUS": "状态：{selected}",
+        "ALL_ASSISTANTS": "所有"
+      },
+      "STATUS": {
+        "TITLE": "状态",
+        "PENDING": "待处理",
+        "APPROVED": "已批准",
+        "ALL": "所有"
+      },
+      "FORM_DESCRIPTION": "将问题及其对应的答案添加到知识库，并选择应关联的助手。",
+      "CREATE": {
+        "TITLE": "添加常见问题",
+        "SUCCESS_MESSAGE": "响应已成功添加",
+        "ERROR_MESSAGE": "添加响应时出错，请重试"
+      },
+      "FORM": {
+        "QUESTION": {
+          "LABEL": "问题",
+          "PLACEHOLDER": "在此输入问题",
+          "ERROR": "请提供有效的问题"
+        },
+        "ANSWER": {
+          "LABEL": "答案",
+          "PLACEHOLDER": "在此输入答案",
+          "ERROR": "请提供有效的答案"
+        },
+        "ASSISTANT": {
+          "LABEL": "助手",
+          "PLACEHOLDER": "选择助手",
+          "ERROR": "请选择助手"
+        }
+      },
+      "EDIT": {
+        "TITLE": "更新常见问题",
+        "SUCCESS_MESSAGE": "常见问题已成功更新",
+        "ERROR_MESSAGE": "更新常见问题时出错，请重试",
+        "APPROVE_SUCCESS_MESSAGE": "常见问题已标记为已批准"
+      },
+      "OPTIONS": {
+        "APPROVE": "标记为已批准",
+        "EDIT_RESPONSE": "编辑常见问题",
+        "DELETE_RESPONSE": "删除常见问题"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "未找到常见问题",
+        "SUBTITLE": "常见问题帮助您的助手为客户提供快速准确的答案。它们可以从您的内容自动生成，也可以手动添加。",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain 常见问题",
+          "NOTE": "Captain FAQs 检测常见的客户问题——无论是知识库中缺失的问题还是经常被问到的问题——并生成相关的常见问题以改善支持。您可以查看每个建议，并决定是否批准或拒绝它。"
+        }
+      }
+    },
+    "INBOXES": {
+      "HEADER": "连接的收件箱",
+      "ADD_NEW": "连接新收件箱",
+      "OPTIONS": {
+        "DISCONNECT": "断开连接"
+      },
+      "DELETE": {
+        "TITLE": "您确定要断开收件箱的连接吗？",
+        "DESCRIPTION": "",
+        "CONFIRM": "是，删除",
+        "SUCCESS_MESSAGE": "收件箱已成功断开连接",
+        "ERROR_MESSAGE": "断开收件箱连接时出错，请重试"
+      },
+      "FORM_DESCRIPTION": "选择要与助手连接的收件箱。",
+      "CREATE": {
+        "TITLE": "连接收件箱",
+        "SUCCESS_MESSAGE": "收件箱已成功连接",
+        "ERROR_MESSAGE": "连接收件箱时出错，请重试"
+      },
+      "FORM": {
+        "INBOX": {
+          "LABEL": "收件箱",
+          "PLACEHOLDER": "选择收件箱以部署助手",
+          "ERROR": "需要选择收件箱"
+        }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "没有连接的收件箱",
+        "SUBTITLE": "连接收件箱允许助手在处理客户初始问题后将对话转交给您。"
       }
     }
   }

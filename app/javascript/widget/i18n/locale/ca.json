@@ -22,15 +22,15 @@
     "IN_A_DAY": "Normalment respon en un dia",
     "BACK_IN": "Tornarem a estar en línia"
   },
-  "DAY_NAMES": [
-    "Diumenge",
-    "Dilluns",
-    "Dimarts",
-    "Dimecres",
-    "Dijous",
-    "Divendres",
-    "Dissabte"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Diumenge",
+    "MONDAY": "Dilluns",
+    "TUESDAY": "Dimarts",
+    "WEDNESDAY": "Dimecres",
+    "THURSDAY": "Dijous",
+    "FRIDAY": "Divendres",
+    "SATURDAY": "Dissabte"
+  },
   "START_CONVERSATION": "Inicia la conversa",
   "END_CONVERSATION": "Finalitzar la conversa",
   "CONTINUE_CONVERSATION": "Continua la conversa",

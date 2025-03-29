@@ -22,7 +22,7 @@ const primaryMenuItems = accountId => [
     key: 'captain',
     label: 'CAPTAIN',
     featureFlag: FEATURE_FLAGS.CAPTAIN,
-    toState: frontendURL(`accounts/${accountId}/captain`),
+    toState: frontendURL(`accounts/${accountId}/captain/documents`),
     toStateName: 'captain',
   },
   {
@@ -31,7 +31,7 @@ const primaryMenuItems = accountId => [
     label: 'CONTACTS',
     featureFlag: FEATURE_FLAGS.CRM,
     toState: frontendURL(`accounts/${accountId}/contacts`),
-    toStateName: 'contacts_dashboard',
+    toStateName: 'contacts_dashboard_index',
   },
   {
     icon: 'arrow-trending-lines',

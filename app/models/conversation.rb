@@ -51,6 +51,7 @@
 
 class Conversation < ApplicationRecord
   include Labelable
+  include LlmFormattable
   include AssignmentHandler
   include AutoAssignmentHandler
   include ActivityMessageHandler
@@ -122,6 +123,10 @@ class Conversation < ApplicationRecord
 
     messaging_window = inbox.api? ? channel.additional_attributes['agent_reply_time_window'].to_i : 24
     last_message_in_messaging_window?(messaging_window)
+  end
+
+  def language
+    additional_attributes&.dig('conversation_language')
   end
 
   def last_activity_at
@@ -254,10 +259,6 @@ class Conversation < ApplicationRecord
       previous_changes.keys.intersect?(list_of_keys) ||
       (previous_changes['additional_attributes'].present? && previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language]))
     )
-  end
-
-  def self_assign?(assignee_id)
-    assignee_id.present? && Current.user&.id == assignee_id
   end
 
   def load_attributes_created_by_db_triggers

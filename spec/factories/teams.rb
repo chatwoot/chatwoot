@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :team do
-    name { 'MyString' }
+    sequence(:name) { |n| "Team #{n}" }
     description { 'MyText' }
     allow_auto_assign { true }
     account

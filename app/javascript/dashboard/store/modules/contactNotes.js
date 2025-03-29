@@ -1,5 +1,6 @@
 import types from '../mutation-types';
 import ContactNotesAPI from '../../api/contactNotes';
+import camelcaseKeys from 'camelcase-keys';
 
 export const state = {
   records: {},
@@ -17,6 +18,11 @@ export const getters = {
   },
   getUIFlags(_state) {
     return _state.uiFlags;
+  },
+  getAllNotesByContactId: _state => contactId => {
+    const records = _state.records[contactId] || [];
+    const contactNotes = records.sort((r1, r2) => r2.id - r1.id);
+    return camelcaseKeys(contactNotes);
   },
 };
 

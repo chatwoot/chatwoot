@@ -22,15 +22,15 @@
     "IN_A_DAY": "通常在一天內回覆",
     "BACK_IN": "We will be back online"
   },
-  "DAY_NAMES": [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "星期日",
+    "MONDAY": "星期一",
+    "TUESDAY": "Tuesday",
+    "WEDNESDAY": "Wednesday",
+    "THURSDAY": "Thursday",
+    "FRIDAY": "Friday",
+    "SATURDAY": "Saturday"
+  },
   "START_CONVERSATION": "開始對話",
   "END_CONVERSATION": "結束對話",
   "CONTINUE_CONVERSATION": "繼續對話",
@@ -82,7 +82,7 @@
     "CAMPAIGN_HEADER": "在開始對話之前請提供您的名字及電郵",
     "IS_REQUIRED": "必填",
     "REQUIRED": "Required",
-    "REGEX_ERROR": "Please provide a valid input"
+    "REGEX_ERROR": "請輸入有效的字符"
   },
   "FILE_SIZE_LIMIT": "{MAXIMUM_FILE_UPLOAD_SIZE} 已超出檔案大小限制",
   "CHAT_FORM": {
@@ -93,7 +93,7 @@
   "EMOJI": {
     "PLACEHOLDER": "搜尋 emojis",
     "NOT_FOUND": "查無相符的 emoji",
-    "ARIA_LABEL": "Emoji picker"
+    "ARIA_LABEL": "表情選擇"
   },
   "CSAT": {
     "TITLE": "為此對話評分",
@@ -108,13 +108,13 @@
   "INTEGRATIONS": {
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "點擊這裡加入",
-      "LEAVE_THE_ROOM": "Leave the call"
+      "LEAVE_THE_ROOM": "留下電話"
     }
   },
   "PORTAL": {
-    "POPULAR_ARTICLES": "Popular Articles",
-    "VIEW_ALL_ARTICLES": "View all articles",
-    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+    "POPULAR_ARTICLES": "熱門文章",
+    "VIEW_ALL_ARTICLES": "查看所有文章",
+    "IFRAME_LOAD_ERROR": "載入文章時出錯，請重新整理頁面並重試。"
   },
   "ATTACHMENTS": {
     "image": {
@@ -137,6 +137,6 @@
     }
   },
   "FOOTER_REPLY_TO": {
-    "REPLY_TO": "Replying to:"
+    "REPLY_TO": "回覆:"
   }
 }

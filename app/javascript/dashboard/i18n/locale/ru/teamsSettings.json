@@ -2,9 +2,9 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Создать новую команду",
     "HEADER": "Команды",
-    "LOADING": "Fetching teams",
-    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
-    "LEARN_MORE": "Learn more about teams",
+    "LOADING": "Получение команд",
+    "DESCRIPTION": "Команды позволяют вам организовывать агентов в группы, основываясь на их обязанностях. Агент может состоять в нескольких командах. При совместной работе вы можете назначить разговоры конкретным командам.",
+    "LEARN_MORE": "Узнать больше о командах",
     "LIST": {
       "404": "В этом аккаунте нет ни одной команды.",
       "EDIT_TEAM": "Редактировать команду",
@@ -20,23 +20,18 @@
         "TITLE": "Добавить операторов в команду - {teamName}",
         "DESC": "Добавьте операторов в вашу только что созданную команду. Это позволит вам сотрудничать как команде при разговорах, получать уведомления о новых событиях в том же разговоре."
       },
-      "WIZARD": [
-        {
-          "title": "Создать",
-          "route": "settings_teams_new",
-          "body": "Создайте новую команду операторов."
-        },
-        {
-          "title": "Добавить операторов",
-          "route": "settings_teams_add_agents",
-          "body": "Добавить операторов в команду."
-        },
-        {
-          "title": "Завершить",
-          "route": "settings_teams_finish",
-          "body": "Все готово!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "Создать",
+        "BODY": "Создайте новую команду операторов."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Добавить операторов",
+        "BODY": "Добавить операторов в команду."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Завершить",
+        "BODY": "Все готово!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "Добавить операторов в команду - {teamName}",
         "DESC": "Добавьте операторов в вашу только что созданную команду. Все добавленные операторы будут уведомлены, когда беседа будет назначена этой команде."
       },
-      "WIZARD": [
-        {
-          "title": "Информация о команде",
-          "route": "settings_teams_edit",
-          "body": "Изменить имя, описание и другие сведения."
-        },
-        {
-          "title": "Редактировать операторов",
-          "route": "settings_teams_edit_members",
-          "body": "Управляйте операторами вашей команды."
-        },
-        {
-          "title": "Завершить",
-          "route": "settings_teams_edit_finish",
-          "body": "Все готово!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Информация о команде",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "Изменить имя, описание и другие сведения."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Редактировать операторов",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "Управляйте операторами вашей команды."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Завершить",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "Все готово!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "Не удалось сохранить информацию о команде. Попробуйте еще раз."
@@ -100,7 +93,7 @@
         "ERROR_MESSAGE": "Не удалось удалить команду. Повторите попытку."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure you want to delete the team?",
+        "TITLE": "Вы уверены, что хотите удалить команду?",
         "PLACE_HOLDER": "Пожалуйста, введите {teamName} для подтверждения",
         "MESSAGE": "Удаление команды снимет назначение команды из бесед, связанных с этой командой.",
         "YES": "Удалить ",

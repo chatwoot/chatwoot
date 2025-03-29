@@ -20,23 +20,18 @@
         "TITLE": "Dodajte agente timu - {teamName}",
         "DESC": "Dodajte agente vašem novokreiranom timu. Ovo vam omogućava da sarađujete kao tim u razgovorima, budete obavešteni o novim događajima u istim razgovorima."
       },
-      "WIZARD": [
-        {
-          "title": "Napravi",
-          "route": "settings_teams_new",
-          "body": "Napravi novi tim agenata."
-        },
-        {
-          "title": "Dodaj agente",
-          "route": "settings_teams_add_agents",
-          "body": "Dodaj agente timu."
-        },
-        {
-          "title": "Završi",
-          "route": "settings_teams_finish",
-          "body": "Sve je spremno za početak!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "Napravi",
+        "BODY": "Napravi novi tim agenata."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Dodaj agente",
+        "BODY": "Dodaj agente timu."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Završi",
+        "BODY": "Sve je spremno za početak!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "Dodajte agente timu - {teamName}",
         "DESC": "Dodajte agente vašem novokreiranom timu. Svi dodati agenti će biti obavešteni kada je razgovor dodeljen ovom timu."
       },
-      "WIZARD": [
-        {
-          "title": "Detalji tima",
-          "route": "settings_teams_edit",
-          "body": "Promenite naziv, opis i ostale detalje."
-        },
-        {
-          "title": "Uredi agente",
-          "route": "settings_teams_edit_members",
-          "body": "Uredite agente u vašem timu."
-        },
-        {
-          "title": "Završi",
-          "route": "settings_teams_edit_finish",
-          "body": "Sve je spremno za početak!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Detalji tima",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "Promenite naziv, opis i ostale detalje."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Uredi agente",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "Uredite agente u vašem timu."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Završi",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "Sve je spremno za početak!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "Nije bilo moguće sačuvati detalje tima. Pokušajte ponovo."

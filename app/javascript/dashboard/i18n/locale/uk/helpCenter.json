@@ -1,5 +1,10 @@
 {
   "HELP_CENTER": {
+    "TITLE": "Довідковий центр",
+    "NEW_PAGE": {
+      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
+      "CREATE_PORTAL_BUTTON": "Створити портал"
+    },
     "HEADER": {
       "FILTER": "Фільтрувати за",
       "SORT": "Сортувати за",
@@ -190,26 +195,20 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [
-          {
-            "title": "Інформація по центру допомоги",
-            "route": "new_portal_information",
-            "body": "Основна інформація про портал",
-            "CREATE_BASIC_SETTING_BUTTON": "Створити базові налаштування порталу"
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Інформація по центру допомоги",
+            "BODY": "Основна інформація про портал"
           },
-          {
-            "title": "Інформація по центру допомоги",
-            "route": "portal_customization",
-            "body": "Настройка порталу",
-            "UPDATE_PORTAL_BUTTON": "Оновити налаштування порталу"
+          "CUSTOMIZATION": {
+            "TITLE": "Інформація по центру допомоги",
+            "BODY": "Настройка порталу"
           },
-          {
-            "title": "Ура! 🎉",
-            "route": "portal_finish",
-            "body": "Все готово!",
-            "FINISH": "Закінчити"
+          "FINISH": {
+            "TITLE": "Ура! 🎉",
+            "BODY": "Все готово!"
           }
-        ],
+        },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Назад",
           "BASIC_SETTINGS_PAGE": {
@@ -250,13 +249,13 @@
         "DOMAIN": {
           "LABEL": "Домен для користувача",
           "PLACEHOLDER": "Власний домен порталу",
-          "HELP_TEXT": "Додайте лише якщо ви хочете використовувати власний домен для своїх порталів. Наприклад: https://example.com",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
           "ERROR": "Введіть дійсну URL-адресу домену"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Посилання на головну сторінку",
           "PLACEHOLDER": "Посилання на головну сторінку порталу",
-          "HELP_TEXT": "Посилання буде використане для повернення з порталу на домашню сторінку. Наприклад: https://example.com",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
           "ERROR": "Введіть дійсний URL домашньої сторінки"
         },
         "THEME_COLOR": {
@@ -347,6 +346,12 @@
       "API": {
         "ERROR": "Помилка при збереженні статті",
         "SUCCESS": "Статтю успішно архівовано"
+      }
+    },
+    "DRAFT_ARTICLE": {
+      "API": {
+        "ERROR": "Error while drafting article",
+        "SUCCESS": "Article drafted successfully"
       }
     },
     "DELETE_ARTICLE": {
@@ -483,6 +488,305 @@
         }
       }
     },
-    "LOADING": "Loading..."
+    "LOADING": "Loading...",
+    "ARTICLES_PAGE": {
+      "ARTICLE_CARD": {
+        "CARD": {
+          "VIEWS": "{count} view | {count} views",
+          "DROPDOWN_MENU": {
+            "PUBLISH": "Опублікувати",
+            "DRAFT": "Чернетка",
+            "ARCHIVE": "Archive",
+            "DELETE": "Видалити"
+          },
+          "STATUS": {
+            "DRAFT": "Чернетка",
+            "PUBLISHED": "Опубліковано",
+            "ARCHIVED": "Архівовано"
+          },
+          "CATEGORY": {
+            "UNCATEGORISED": "Uncategorised"
+          }
+        }
+      },
+      "ARTICLES_HEADER": {
+        "TABS": {
+          "ALL": "All articles",
+          "MINE": "Мої",
+          "DRAFT": "Чернетка",
+          "PUBLISHED": "Опубліковано",
+          "ARCHIVED": "Архівовано"
+        },
+        "CATEGORY": {
+          "ALL": "All categories"
+        },
+        "LOCALE": {
+          "ALL": "All locales"
+        },
+        "NEW_ARTICLE": "New article"
+      },
+      "EMPTY_STATE": {
+        "ALL": {
+          "TITLE": "Write an article",
+          "SUBTITLE": "Write a rich article, let’s get started!",
+          "BUTTON_LABEL": "New article"
+        },
+        "MINE": {
+          "TITLE": "You haven't written any articles here",
+          "SUBTITLE": "All articles written by you show up here for quick access."
+        },
+        "DRAFT": {
+          "TITLE": "There are no articles in drafts",
+          "SUBTITLE": "Draft articles will appear here"
+        },
+        "PUBLISHED": {
+          "TITLE": "There are no published articles",
+          "SUBTITLE": "Published articles will appear here"
+        },
+        "ARCHIVED": {
+          "TITLE": "There are no articles in the archive",
+          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+        },
+        "CATEGORY": {
+          "TITLE": "There are no articles in this category",
+          "SUBTITLE": "Articles in this category will appear here"
+        }
+      }
+    },
+    "CATEGORY_PAGE": {
+      "CATEGORY_HEADER": {
+        "NEW_CATEGORY": "Нова категорія",
+        "EDIT_CATEGORY": "Редагувати категорію",
+        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "BREADCRUMB": {
+          "CATEGORY_LOCALE": "Categories ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+        }
+      },
+      "CATEGORY_EMPTY_STATE": {
+        "TITLE": "Категорій не знайдено",
+        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+      },
+      "CATEGORY_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles"
+      },
+      "CATEGORY_DIALOG": {
+        "CREATE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Категорію успішно створено",
+            "ERROR_MESSAGE": "Не вдалося створити категорію"
+          }
+        },
+        "EDIT": {
+          "API": {
+            "SUCCESS_MESSAGE": "Категорію успішно оновлено",
+            "ERROR_MESSAGE": "Не вдалося оновити категорію"
+          }
+        },
+        "DELETE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Категорію успішно видалено",
+            "ERROR_MESSAGE": "Не вдалося видалити категорію"
+          }
+        },
+        "HEADER": {
+          "CREATE": "Створити категорію",
+          "EDIT": "Редагувати категорію",
+          "DESCRIPTION": "Редагування категорії оновить категорію в порталі.",
+          "PORTAL": "Портал",
+          "LOCALE": "Локаль"
+        },
+        "FORM": {
+          "NAME": {
+            "LABEL": "Ім'я",
+            "PLACEHOLDER": "Назва категорії",
+            "ERROR": "Назва обов'язкова"
+          },
+          "SLUG": {
+            "LABEL": "Мітка",
+            "PLACEHOLDER": "Мітка категорії для URL-адрес",
+            "ERROR": "Необхідно вказати мітку",
+            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Опис",
+            "PLACEHOLDER": "Залиште короткий опис категорії.",
+            "ERROR": "Необхідний опис"
+          }
+        },
+        "BUTTONS": {
+          "CREATE": "Створити",
+          "EDIT": "Оновити",
+          "CANCEL": "Скасувати"
+        }
+      }
+    },
+    "LOCALES_PAGE": {
+      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
+      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALE_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles",
+        "CATEGORIES_COUNT": "{count} category | {count} categories",
+        "DEFAULT": "За замовчуванням",
+        "DROPDOWN_MENU": {
+          "MAKE_DEFAULT": "Make default",
+          "DELETE": "Видалити"
+        }
+      },
+      "ADD_LOCALE_DIALOG": {
+        "TITLE": "Додати нову локаль",
+        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "COMBOBOX": {
+          "PLACEHOLDER": "Виберіть мову..."
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Локаль успішно додано",
+          "ERROR_MESSAGE": "Не вдалося додати локаль. Спробуйте ще раз."
+        }
+      }
+    },
+    "EDIT_ARTICLE_PAGE": {
+      "HEADER": {
+        "STATUS": {
+          "SAVING": "Збереження...",
+          "SAVED": "Збережено"
+        },
+        "PREVIEW": "Попередній перегляд",
+        "PUBLISH": "Опублікувати",
+        "DRAFT": "Чернетка",
+        "ARCHIVE": "Archive",
+        "BACK_TO_ARTICLES": "Back to articles"
+      },
+      "EDIT_ARTICLE": {
+        "MORE_PROPERTIES": "More properties",
+        "UNCATEGORIZED": "Без категорії",
+        "EDITOR_PLACEHOLDER": "Write something..."
+      },
+      "ARTICLE_PROPERTIES": {
+        "ARTICLE_PROPERTIES": "Article properties",
+        "META_DESCRIPTION": "Мета-опис",
+        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
+        "META_TITLE": "Мета-заголовок",
+        "META_TITLE_PLACEHOLDER": "Add meta title",
+        "META_TAGS": "Meta tags",
+        "META_TAGS_PLACEHOLDER": "Add meta tags"
+      },
+      "API": {
+        "ERROR": "Помилка при збереженні статті"
+      }
+    },
+    "PORTAL_SWITCHER": {
+      "NEW_PORTAL": "New portal",
+      "PORTALS": "Портали",
+      "CREATE_PORTAL": "Create and manage multiple portals",
+      "ARTICLES": "статті",
+      "DOMAIN": "домен",
+      "PORTAL_NAME": "Назва порталу"
+    },
+    "CREATE_PORTAL_DIALOG": {
+      "TITLE": "Create new portal",
+      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
+      "CONFIRM_BUTTON_LABEL": "Створити",
+      "NAME": {
+        "LABEL": "Ім'я",
+        "PLACEHOLDER": "User Guide | Chatwoot",
+        "MESSAGE": "Choose an name for your portal.",
+        "ERROR": "Назва обов'язкова"
+      },
+      "SLUG": {
+        "LABEL": "Мітка",
+        "PLACEHOLDER": "user-guide",
+        "ERROR": "Необхідно вказати мітку"
+      }
+    },
+    "PORTAL_SETTINGS": {
+      "FORM": {
+        "AVATAR": {
+          "LABEL": "Логотип",
+          "IMAGE_UPLOAD_ERROR": "Не вдалося завантажити зображення! Повторіть спробу",
+          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
+          "IMAGE_DELETE_SUCCESS": "Логотип успішно видалено",
+          "IMAGE_DELETE_ERROR": "Unable to delete logo",
+          "IMAGE_UPLOAD_SIZE_ERROR": "Зображення має бути менше {size}Мб"
+        },
+        "NAME": {
+          "LABEL": "Ім'я",
+          "PLACEHOLDER": "Назва порталу",
+          "ERROR": "Назва обов'язкова"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Header text",
+          "PLACEHOLDER": "Текст заголовку порталу"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Page title",
+          "PLACEHOLDER": "Заголовок сторінки порталу"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Home page link",
+          "PLACEHOLDER": "Посилання на головну сторінку порталу",
+          "ERROR": "Invalid URL. The Home page link must start with 'http://' or 'https://'."
+        },
+        "SLUG": {
+          "LABEL": "Мітка",
+          "PLACEHOLDER": "Portal slug"
+        },
+        "LIVE_CHAT_WIDGET": {
+          "LABEL": "Live chat widget",
+          "PLACEHOLDER": "Select live chat widget",
+          "HELP_TEXT": "Select a live chat widget that will appear on your help center"
+        },
+        "BRAND_COLOR": {
+          "LABEL": "Brand color"
+        },
+        "SAVE_CHANGES": "Save changes"
+      },
+      "CONFIGURATION_FORM": {
+        "CUSTOM_DOMAIN": {
+          "HEADER": "Користувацький домен",
+          "LABEL": "Користувацький домен:",
+          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
+          "PLACEHOLDER": "Власний домен порталу",
+          "EDIT_BUTTON": "Edit custom domain",
+          "ADD_BUTTON": "Add custom domain",
+          "DIALOG": {
+            "ADD_HEADER": "Add custom domain",
+            "EDIT_HEADER": "Edit custom domain",
+            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
+            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
+            "LABEL": "Користувацький домен",
+            "PLACEHOLDER": "Власний домен порталу",
+            "ERROR": "Custom domain is required"
+          },
+          "DNS_CONFIGURATION_DIALOG": {
+            "HEADER": "DNS configuration",
+            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
+            "HELP_TEXT": "Once this is done, you can reach out to our support to request for the auto-generated SSL certificate.",
+            "CONFIRM_BUTTON_LABEL": "Got it!"
+          }
+        },
+        "DELETE_PORTAL": {
+          "BUTTON": "Delete {portalName}",
+          "HEADER": "Видалити портал",
+          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "DIALOG": {
+            "HEADER": "Sure you want to delete {portalName}?",
+            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
+            "CONFIRM_BUTTON_LABEL": "Видалити"
+          }
+        },
+        "EDIT_CONFIGURATION": "Edit configuration"
+      },
+      "API": {
+        "CREATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Портал успішно створено",
+          "ERROR_MESSAGE": "Unable to create portal"
+        },
+        "UPDATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Портал успішно оновлено",
+          "ERROR_MESSAGE": "Unable to update portal"
+        }
+      }
+    }
   }
 }

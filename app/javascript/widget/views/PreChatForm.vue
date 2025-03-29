@@ -12,12 +12,20 @@ export default {
   },
   mixins: [configMixin, routerMixin],
   mounted() {
-    emitter.on(ON_CONVERSATION_CREATED, () => {
-      // Redirect to messages page after conversation is created
-      this.replaceRoute('messages');
-    });
+    // Register event listener for conversation creation
+    emitter.on(ON_CONVERSATION_CREATED, this.handleConversationCreated);
+  },
+  beforeUnmount() {
+    emitter.off(ON_CONVERSATION_CREATED, this.handleConversationCreated);
   },
   methods: {
+    handleConversationCreated() {
+      // Redirect to messages page after conversation is created
+      this.replaceRoute('messages');
+      // Only after successful navigation, reset the isUpdatingRoute UIflag in app/javascript/widget/router.js
+      // See issue: https://github.com/chatwoot/chatwoot/issues/10736
+    },
+
     onSubmit({
       fullName,
       emailAddress,

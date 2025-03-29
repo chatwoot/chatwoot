@@ -64,5 +64,40 @@ class ContactInboxBuilder
       inbox_id: @inbox.id,
       source_id: @source_id
     )
+  rescue ActiveRecord::RecordNotUnique
+    Rails.logger.info("[ContactInboxBuilder] RecordNotUnique #{@source_id} #{@contact.id} #{@inbox.id}")
+    update_old_contact_inbox
+    retry
+  end
+
+  def update_old_contact_inbox
+    # The race condition occurs when there’s a contact inbox with the
+    # same source ID but linked to a different contact. This can happen
+    # if the agent updates the contact’s email or phone number, or
+    # if the contact is merged with another.
+    #
+    # We update the old contact inbox source_id to a random value to
+    # avoid disrupting the current flow. However, the root cause of
+    # this issue is a flaw in the contact inbox model design.
+    # Contact inbox is essentially tracking a session and is not
+    # needed for non-live chat channels.
+    raise ActiveRecord::RecordNotUnique unless allowed_channels?
+
+    contact_inbox = ::ContactInbox.find_by(inbox_id: @inbox.id, source_id: @source_id)
+    return if contact_inbox.blank?
+
+    contact_inbox.update!(source_id: new_source_id)
+  end
+
+  def new_source_id
+    if @inbox.whatsapp? || @inbox.sms? || @inbox.twilio?
+      "whatsapp:#{@source_id}#{rand(100)}"
+    else
+      "#{rand(10)}#{@source_id}"
+    end
+  end
+
+  def allowed_channels?
+    @inbox.email? || @inbox.sms? || @inbox.twilio? || @inbox.whatsapp?
   end
 end

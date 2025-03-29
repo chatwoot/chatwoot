@@ -1,3 +1,4 @@
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 
 import {
@@ -20,6 +21,7 @@ export default {
           name: 'macros_wrapper',
           component: Macros,
           meta: {
+            featureFlag: FEATURE_FLAGS.MACROS,
             permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
           },
         },
@@ -41,6 +43,7 @@ export default {
           name: 'macros_edit',
           component: MacroEditor,
           meta: {
+            featureFlag: FEATURE_FLAGS.MACROS,
             permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
           },
         },
@@ -49,6 +52,7 @@ export default {
           name: 'macros_new',
           component: MacroEditor,
           meta: {
+            featureFlag: FEATURE_FLAGS.MACROS,
             permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
           },
         },

@@ -11,7 +11,10 @@
       "CONVERSATIONS": "Beszélgetések",
       "MESSAGES": "Üzenetek"
     },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
     "SEARCHING_DATA": "Keresés",
+    "LOADING_DATA": "Loading",
     "EMPTY_STATE": "Nem található {item}, a keresésre: '{query}'",
     "EMPTY_STATE_FULL": "Nincs eredménye a következő keresésnek: '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ a fókuszáláshoz",
@@ -21,6 +24,7 @@
     "READ_MORE": "Tudj meg többet",
     "WROTE": "írta:",
     "FROM": "innen",
-    "EMAIL": "e-mail"
+    "EMAIL": "e-mail",
+    "EMAIL_SUBJECT": "tárgy"
   }
 }

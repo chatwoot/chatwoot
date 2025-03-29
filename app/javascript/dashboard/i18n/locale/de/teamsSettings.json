@@ -17,26 +17,21 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Agenten zum Team hinzufügen",
-        "TITLE": "Agenten zum Team hinzufügen - {teamName}",
+        "TITLE": "Agenten zum Team {teamName} hinzufügen",
         "DESC": "Fügen Sie Agenten zu Ihrem neu erstellten Team hinzu. So können Sie bei Konversationen als Team zusammenarbeiten, erhalten Sie Benachrichtigungen über neue Ereignisse in der gleichen Konversation."
       },
-      "WIZARD": [
-        {
-          "title": "Erstellen",
-          "route": "settings_team_new",
-          "body": "Erstellen Sie ein neues Team aus Agenten."
-        },
-        {
-          "title": "Agenten hinzufügen",
-          "route": "settings_teams_add_agents",
-          "body": "Agenten zum Team hinzufügen."
-        },
-        {
-          "title": "Abschließen",
-          "route": "settings_teams_finish",
-          "body": "Sie sind bereit zu gehen!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "Erstellen",
+        "BODY": "Erstellen Sie ein neues Team aus Agenten."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Agenten hinzufügen",
+        "BODY": "Agenten zum Team hinzufügen."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Fertig",
+        "BODY": "Geschafft!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "Agenten zum Team {teamName} hinzufügen",
         "DESC": "Fügen Sie Agenten zu Ihrem neu erstellten Team hinzu. Alle hinzugefügten Agenten werden benachrichtigt, wenn diesem Team eine Unterhaltung zugewiesen wird."
       },
-      "WIZARD": [
-        {
-          "title": "Teamdetails",
-          "route": "settings_teams_edit",
-          "body": "Name, Beschreibung und andere Details ändern."
-        },
-        {
-          "title": "Agenten bearbeiten",
-          "route": "settings_teams_edit_members",
-          "body": "Verwalten Sie Agenten in Ihrem Team."
-        },
-        {
-          "title": "Fertig",
-          "route": "settings_teams_edit_finish",
-          "body": "Geschafft!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Teamdetails",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "Name, Beschreibung und andere Details ändern."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Agenten bearbeiten",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "Verwalten Sie Agenten in Ihrem Team."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Fertig",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "Geschafft!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "Die Teamdetails konnten nicht gespeichert werden. Versuchen Sie es nochmal."
