@@ -12,6 +12,8 @@
     "NO_INBOX_2": " per començar",
     "NO_INBOX_AGENT": "Uh Oh! Sembla que no ets a cap safata d'entrada. Si us plau, poseu-vos en contacte amb l'administrador",
     "SEARCH_MESSAGES": "Cerca missatges a les converses",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "per obrir el menú d'ordres",
       "KEYBOARD_SHORTCUTS": "per veure les dreceres del teclat"
@@ -54,6 +56,7 @@
     "SUCCESS_DELETE_MESSAGE": "El missatge s'ha suprimit correctament",
     "FAIL_DELETE_MESSSAGE": "No s'ha pogut suprimir el missatge! Torna-ho a provar",
     "NO_RESPONSE": "Sense resposta",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Valoració",
     "FEEDBACK_TITLE": "Comentaris",
     "REPLY_MESSAGE_NOT_FOUND": "Missatge no disponible",
@@ -108,7 +111,7 @@
         "SELECT_PLACEHOLDER": "Ningú",
         "INPUT_PLACEHOLDER": "Selecciona la prioritat",
         "NO_RESULTS": "No s'ha trobat agents",
-        "SUCCESSFUL": "S'ha canviat la prioritat de l'identificador de conversa {conversationId} a {priority}",
+        "SUCCESSFUL": "S'ha canviat la prioritat de l'ID de conversa {conversationId} a {priority}",
         "FAILED": "No s'ha pogut canviar la prioritat. Si us plau, torna-ho a provar."
       }
     },
@@ -116,6 +119,7 @@
       "PENDING": "Marca com a pendent",
       "RESOLVED": "Marca com a resolt",
       "MARK_AS_UNREAD": "Marca com a no llegit",
+      "MARK_AS_READ": "Marca com a llegit",
       "REOPEN": "Torna a obrir la conversa",
       "SNOOZE": {
         "TITLE": "Posposat",
@@ -133,7 +137,7 @@
           "FAILED": "No s'ha pogut assignar l'agent. Torna-ho a provar."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "S'ha assignat l'etiqueta #{labelName} a l'id de conversa {conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "No s'ha pogut assignar l'etiqueta. Torna-ho a provar."
         },
         "TEAM_ASSIGNMENT": {
@@ -291,7 +295,27 @@
       "CONVERSATION_INFO": "Informació de la conversa",
       "CONTACT_ATTRIBUTES": "Atributs de contacte",
       "PREVIOUS_CONVERSATION": "Converses prèvies",
-      "MACROS": "Macros"
+      "MACROS": "Macros",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Pendent",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -352,5 +376,11 @@
     "ONE": "{user} is typing",
     "TWO": "{user} and {secondUser} are typing",
     "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

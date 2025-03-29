@@ -26,12 +26,30 @@
         "UPDATE_SUCCESS": "Suas configurações foram atualizadas com sucesso",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Inserir (↵)",
+            "HEADING": "Enter (↵)",
             "CONTENT": "Enviar mensagens pressionando a tecla Enter em vez de clicar no botão de enviar."
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
             "CONTENT": "Pressione a tecla Cmd/Ctrl + Enter ao invés de clicar no botão enviar."
+          }
+        }
+      },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Personalize a aparência do seu painel do Chatwoot.",
+        "FONT_SIZE": {
+          "TITLE": "Tamanho da fonte",
+          "NOTE": "Ajuste o tamanho do texto do painel com base na sua preferência.",
+          "UPDATE_SUCCESS": "As configurações de sua fonte foram atualizadas com sucesso",
+          "UPDATE_ERROR": "Ocorreu um erro ao atualizar as configurações de fonte, por favor, tente novamente",
+          "OPTIONS": {
+            "SMALLER": "Menor",
+            "SMALL": "Pequeno",
+            "DEFAULT": "Padrão",
+            "LARGE": "Grande",
+            "LARGER": "Maior",
+            "EXTRA_LARGE": "Muito Grande"
           }
         }
       },
@@ -77,9 +95,9 @@
           "ASSIGNED": "Você receberá alertas para conversas atribuídas a você.",
           "UNASSIGNED": "Você receberá alertas para quaisquer conversas não atribuídas.",
           "NOTME": "Você receberá alertas para conversas atribuídas a outras pessoas.",
-          "ASSIGNED+UNASSIGNED": "Receberá alertas de conversas atribuídas e de quaisquer conversas não assistidas.",
+          "ASSIGNED+UNASSIGNED": "Receberá alertas de conversas atribuídas e de quaisquer conversas não atendidas.",
           "ASSIGNED+NOTME": "Você receberá alertas para conversas atribuídas a você e a outros, mas não para conversas não atribuídas.",
-          "NOTME+UNASSIGNED": "Você receberá alertas de conversas não assistidas e aqueles atribuídos a outros.",
+          "NOTME+UNASSIGNED": "Você receberá alertas de conversas não atendidas e aquelas atribuídas a outros.",
           "ASSIGNED+NOTME+UNASSIGNED": "Você receberá alertas para quaisquer conversas não atribuídas."
         },
         "ALERT_TYPE": {
@@ -108,8 +126,8 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envie notificações por e-mail quando uma nova mensagem for criada numa conversa já atribuída",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Enviar notificações por email quando uma nova mensagem é criada em uma conversa que você participa",
         "SLA_MISSED_FIRST_RESPONSE": "Enviar notificações por e-mail quando uma conversa perder a primeira resposta SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Enviar notificações por e-mail quando uma conversa perder a próxima resposta SLA",
-        "SLA_MISSED_RESOLUTION": "Enviar notificações por e-mail quando uma conversa perder resolução de resolução SLA"
+        "SLA_MISSED_NEXT_RESPONSE": "Enviar notificações por e-mail quando uma conversa perder o próximo SLA de resposta",
+        "SLA_MISSED_RESOLUTION": "Enviar notificações por e-mail quando uma conversa perder o SLA de resolução"
       },
       "NOTIFICATIONS": {
         "TITLE": "Preferências de notificação",
@@ -121,7 +139,7 @@
           "CONVERSATION_ASSIGNED": "Uma conversa foi atribuída a você",
           "CONVERSATION_MENTION": "Você foi mencionado em uma conversa",
           "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Uma nova mensagem foi criada e atribuída",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Uma nova mensagem foi criada em uma conversa participante",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Uma nova mensagem foi criada em uma conversa que você participa",
           "SLA_MISSED_FIRST_RESPONSE": "Uma conversa perde o SLA de primeira resposta",
           "SLA_MISSED_NEXT_RESPONSE": "Uma conversa perde o SLA da próxima resposta",
           "SLA_MISSED_RESOLUTION": "Uma conversa perde o SLA de resolução"
@@ -194,7 +212,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Trocar",
     "CHANGE_ACCOUNTS": "Alterar conta",
-    "SWITCH_WORKSPACE": "Trocar workspace",
+    "SWITCH_ACCOUNT": "Alterar conta",
     "CONTACT_SUPPORT": "Contate o suporte",
     "SELECTOR_SUBTITLE": "Selecione uma conta da lista a seguir",
     "PROFILE_SETTINGS": "Configurações do Perfil",
@@ -209,7 +227,7 @@
     "TRAIL_BUTTON": "Comprar agora",
     "DELETED_USER": "Deletar Usuário",
     "EMAIL_VERIFICATION_PENDING": "Parece que você ainda não verificou seu endereço de e-mail. Por favor, verifique sua caixa de entrada pelo e-mail de verificação.",
-    "RESEND_VERIFICATION_MAIL": "Reenviar email de verificação",
+    "RESEND_VERIFICATION_MAIL": "Reenviar e-mail de verificação",
     "EMAIL_VERIFICATION_SENT": "O e-mail de verificação foi enviado. Por favor, verifique sua caixa de entrada.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Conta Suspensa",
@@ -254,7 +272,7 @@
     "SWITCH": "Trocar",
     "INBOX_VIEW": "",
     "CONVERSATIONS": "Conversas",
-    "INBOX": "Minha Caixa de Entrada",
+    "INBOX": "Caixa de Entrada",
     "ALL_CONVERSATIONS": "Todas as conversas",
     "MENTIONED_CONVERSATIONS": "Menções",
     "PARTICIPATING_CONVERSATIONS": "Participantes",
@@ -263,29 +281,32 @@
     "SETTINGS": "Configurações",
     "CONTACTS": "Contato",
     "CAPTAIN": "Capitão",
+    "CAPTAIN_ASSISTANTS": "Assistentes",
+    "CAPTAIN_DOCUMENTS": "Documentos",
+    "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Principal",
     "AGENTS": "Agentes",
     "AGENT_BOTS": "Robôs",
-    "AUDIT_LOGS": "Registros de Auditoria",
+    "AUDIT_LOGS": "Auditoria",
     "INBOXES": "Caixas de Entrada",
     "NOTIFICATIONS": "Notificações",
-    "CANNED_RESPONSES": "Atalhos",
+    "CANNED_RESPONSES": "Respostas Prontas",
     "INTEGRATIONS": "Integrações",
     "PROFILE_SETTINGS": "Configurações do Perfil",
-    "ACCOUNT_SETTINGS": "Configurações da conta",
+    "ACCOUNT_SETTINGS": "Conta",
     "APPLICATIONS": "Aplicações",
-    "LABELS": "Marcadores",
+    "LABELS": "Etiquetas",
     "CUSTOM_ATTRIBUTES": "Atributos Personalizados",
     "AUTOMATION": "Automação",
     "MACROS": "Macros",
-    "TEAMS": "Times",
+    "TEAMS": "Equipes",
     "BILLING": "Cobrança",
     "CUSTOM_VIEWS_FOLDER": "Pastas",
     "CUSTOM_VIEWS_SEGMENTS": "Segmentos",
     "ALL_CONTACTS": "Todos os Contatos",
     "TAGGED_WITH": "Marcado com",
     "NEW_LABEL": "Nova etiqueta",
-    "NEW_TEAM": "Novo time",
+    "NEW_TEAM": "Nova equipe",
     "NEW_INBOX": "Nova caixa de entrada",
     "REPORTS_CONVERSATION": "Conversas",
     "CSAT": "CSAT",
@@ -297,13 +318,13 @@
     "REPORTS_SLA": "SLA",
     "REPORTS_BOT": "Robôs",
     "REPORTS_AGENT": "Agentes",
-    "REPORTS_LABEL": "Marcadores",
+    "REPORTS_LABEL": "Etiquetas",
     "REPORTS_INBOX": "Caixa de Entrada",
-    "REPORTS_TEAM": "Times",
+    "REPORTS_TEAM": "Equipe",
     "SET_AVAILABILITY_TITLE": "Defina como",
-    "SET_YOUR_AVAILABILITY": "Definir a sua disponibilidade",
+    "SET_YOUR_AVAILABILITY": "Disponibilidade",
     "SLA": "SLA",
-    "CUSTOM_ROLES": "Regras Personalizadas",
+    "CUSTOM_ROLES": "Funções Personalizadas",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Visão geral",
     "REAUTHORIZE": "A conexão com a sua caixa de entrada expirou. Por favor, reconecte para continuar recebendo e enviando mensagens",
@@ -312,7 +333,7 @@
       "ARTICLES": "Artigos",
       "CATEGORIES": "Categorias",
       "LOCALES": "Localidades",
-      "SETTINGS": "Confirgurações"
+      "SETTINGS": "Configurações"
     },
     "CHANNELS": "Canais",
     "SET_AUTO_OFFLINE": {
@@ -324,14 +345,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Cobrança",
+    "DESCRIPTION": "Gerencie sua assinatura aqui, faça o upgrade do seu plano e obtenha mais para sua equipe.",
     "CURRENT_PLAN": {
       "TITLE": "Plano Atual",
-      "PLAN_NOTE": "Você está atualmente inscrito no plano **{plan}** com **{quantity}** licenças"
+      "PLAN_NOTE": "Você está atualmente inscrito no plano **{plan}** com **{quantity}** licenças",
+      "SEAT_COUNT": "Número de assentos",
+      "RENEWS_ON": "Renovações em"
     },
+    "VIEW_PRICING": "Ver Preços",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Gerencie sua assinatura",
       "DESCRIPTION": "Veja suas faturas anteriores, edite seus detalhes de cobrança, ou cancele sua assinatura.",
       "BUTTON_TXT": "Ir para o portal de cobrança"
+    },
+    "CAPTAIN": {
+      "TITLE": "Capitão",
+      "DESCRIPTION": "Gerenciar uso e créditos para o Captain AI.",
+      "BUTTON_TXT": "Comprar mais créditos",
+      "DOCUMENTS": "Documentos",
+      "RESPONSES": "Respostas",
+      "UPGRADE": "O Captain não está disponível no plano gratuito, faça o upgrade para ter acesso aos assistentes, copilot e muito mais."
     },
     "CHAT_WITH_US": {
       "TITLE": "Precisa de ajuda?",
@@ -374,11 +407,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Mudar para Nota Privada",
       "SWITCH_TO_REPLY": "Mudar para resposta",
       "TOGGLE_SNOOZE_DROPDOWN": "Ativar/desativar soneca"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

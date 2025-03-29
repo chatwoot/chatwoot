@@ -12,6 +12,8 @@
     "NO_INBOX_2": " pentru a începe",
     "NO_INBOX_AGENT": "Uh Oh! Se pare că nu faci parte din nici o căsuță de e-mail. Te rugăm să contactezi administratorul",
     "SEARCH_MESSAGES": "Caută mesaje în conversații",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "to open command menu",
       "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
@@ -38,15 +40,23 @@
     "REMOVE_SELECTION": "Elimină selecția",
     "DOWNLOAD": "Descărcare",
     "UNKNOWN_FILE_TYPE": "Fișier necunoscut",
-    "SAVE_CONTACT": "Salvează",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} a început o întâlnire"
+    },
     "UPLOADING_ATTACHMENTS": "Se încarcă atașamentele...",
     "REPLIED_TO_STORY": "A răspuns la povestea ta",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Mesaj şters cu succes",
     "FAIL_DELETE_MESSSAGE": "Mesajul nu a putut fi șters! Încercați din nou",
     "NO_RESPONSE": "Niciun răspuns",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Evaluare",
     "FEEDBACK_TITLE": "Păreri",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
@@ -109,6 +119,7 @@
       "PENDING": "Marchează ca în așteptare",
       "RESOLVED": "Marcați ca rezolvat",
       "MARK_AS_UNREAD": "Marcheaza ca necitit",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Redeschiderea conversației",
       "SNOOZE": {
         "TITLE": "Amânați",
@@ -126,7 +137,7 @@
           "FAILED": "Nu s-a putut atribui agentul. Vă rugăm încercați din nou."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Etichetă atribuită #{labelName} la conversația cu id {conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Nu s-a putut atribui eticheta. Vă rugăm încercați din nou."
         },
         "TEAM_ASSIGNMENT": {
@@ -219,6 +230,10 @@
         "DELETE": "Şterge",
         "CANCEL": "Renunță"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contact",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -280,7 +295,27 @@
       "CONVERSATION_INFO": "Informații despre conversație",
       "CONTACT_ATTRIBUTES": "Atribute Contacte",
       "PREVIOUS_CONVERSATION": "Conversații anterioare",
-      "MACROS": "Macrocomenzi"
+      "MACROS": "Macrocomenzi",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "În aşteptare",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -310,7 +345,8 @@
     "TO": "Către",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Subiect"
+    "SUBJECT": "Subiect",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participante",
@@ -335,5 +371,16 @@
     "ORIGINAL_CONTENT": "Conținut original",
     "TRANSLATED_CONTENT": "Conținut tradus",
     "NO_TRANSLATIONS_AVAILABLE": "Nu sunt disponibile traduceri pentru acest conținut"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

@@ -17,7 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 fr:
-  hello: "Bonjour le monde"
+  hello: 'Bonjour le monde'
   messages:
     reset_password_success: Super ! La demande de réinitialisation du mot de passe a réussi. Consultez vos e-mails pour obtenir des instructions.
     reset_password_failure: Oh oh ! Nous n'avons trouvé aucun utilisateur avec le courriel spécifié.
@@ -31,7 +31,7 @@ fr:
       disposable_email: Nous n'autorisons pas les courriels jetables
       blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Vous avez entré un courriel non valide
-      email_already_exists: "Vous avez déjà créé un compte avec %{email}"
+      email_already_exists: 'Vous avez déjà créé un compte avec %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: L'inscription a échoué
     data_import:
@@ -50,9 +50,11 @@ fr:
       locale:
         unique: Doit être unique dans la catégorie et le portail
     dyte:
-      invalid_message_type: "Type de message invalide. Action non autorisée"
+      invalid_message_type: 'Type de message invalide. Action non autorisée'
     slack:
-      invalid_channel_id: "Canal Slack invalide. Veuillez réessayer"
+      invalid_channel_id: 'Canal Slack invalide. Veuillez réessayer'
+    channel_service:
+      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: Veuillez vérifier la connexion, l'adresse IMAP et réessayez.
@@ -68,6 +70,8 @@ fr:
       invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
       invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
     period: Période de rapport %{since} à %{until}
     utc_warning: Le rapport généré est dans le fuseau horaire UTC
@@ -120,103 +124,107 @@ fr:
         recorded_at: Date d'enregistrement
   notifications:
     notification_title:
-      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
-      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
-      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
-      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
-      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
-      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
-      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
-    attachment: "Attachment"
-    no_content: "No content"
+      conversation_creation: 'A conversation (#%{display_id}) has been created in %{inbox_name}'
+      conversation_assignment: 'A conversation (#%{display_id}) has been assigned to you'
+      assigned_conversation_new_message: 'A new message is created in conversation (#%{display_id})'
+      conversation_mention: 'You have been mentioned in conversation (#%{display_id})'
+      sla_missed_first_response: 'SLA target first response missed for conversation (#%{display_id})'
+      sla_missed_next_response: 'SLA target next response missed for conversation (#%{display_id})'
+      sla_missed_resolution: 'SLA target resolution missed for conversation (#%{display_id})'
+    attachment: 'Attachment'
+    no_content: 'No content'
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} vous a mentionné dans la story: "
+      instagram_story_content: '%{story_sender} vous a mentionné dans la story: '
       instagram_deleted_story_content: Cette Story n'est plus disponible.
       deleted: Ce message a été supprimé
       delivery_status:
-        error_code: "Code d'erreur : %{error_code}"
+        error_code: 'Code d''erreur : %{error_code}'
     activity:
       status:
-        resolved: "La conversation a été marquée résolue par %{user_name}"
-        contact_resolved: "La conversation a été résolue par %{contact_name}"
-        open: "La conversation a été ré-ouverte par %{user_name}"
-        pending: "La conversation a été marquée comme en attente par %{user_name}"
-        snoozed: "La conversation a été reportée par %{user_name}"
-        auto_resolved: "La conversation a été marquée comme résolue par le système en raison de %{duration} jours d'inactivité"
+        resolved: 'La conversation a été marquée résolue par %{user_name}'
+        contact_resolved: 'La conversation a été résolue par %{contact_name}'
+        open: 'La conversation a été ré-ouverte par %{user_name}'
+        pending: 'La conversation a été marquée comme en attente par %{user_name}'
+        snoozed: 'La conversation a été reportée par %{user_name}'
+        auto_resolved: 'La conversation a été marquée comme résolue par le système en raison de %{duration} jours d''inactivité'
         system_auto_open: Le système a rouvert la conversation en raison d'un nouveau message entrant.
       priority:
         added: '%{user_name} fixe la priorité à %{new_priority}'
         updated: '%{user_name} a modifié la priorité de %{old_priority} à %{new_priority}'
         removed: '%{user_name} a supprimé la priorité'
       assignee:
-        self_assigned: "%{user_name} s'est auto-assigné cette conversation"
-        assigned: "Assigné à %{assignee_name} par %{user_name}"
-        removed: "Responsable de la conversation supprimé par %{user_name}"
+        self_assigned: '%{user_name} s''est auto-assigné cette conversation'
+        assigned: 'Assigné à %{assignee_name} par %{user_name}'
+        removed: 'Responsable de la conversation supprimé par %{user_name}'
       team:
-        assigned: "Assigné à %{team_name} par %{user_name}"
-        assigned_with_assignee: "Assigné à %{assignee_name} via %{team_name} par %{user_name}"
-        removed: "Non assigné de %{team_name} par %{user_name}"
+        assigned: 'Assigné à %{team_name} par %{user_name}'
+        assigned_with_assignee: 'Assigné à %{assignee_name} via %{team_name} par %{user_name}'
+        removed: 'Non assigné de %{team_name} par %{user_name}'
       labels:
-        added: "%{user_name} a ajouté %{labels}"
-        removed: "%{user_name} a supprimé %{labels}"
+        added: '%{user_name} a ajouté %{labels}'
+        removed: '%{user_name} a supprimé %{labels}'
       sla:
-        added: "%{user_name} added SLA policy %{sla_name}"
-        removed: "%{user_name} removed SLA policy %{sla_name}"
-      muted: "%{user_name} a mis la conversation en sourdine"
-      unmuted: "%{user_name} a rétabli le son de la conversation"
+        added: '%{user_name} added SLA policy %{sla_name}'
+        removed: '%{user_name} removed SLA policy %{sla_name}'
+      muted: '%{user_name} a mis la conversation en sourdine'
+      unmuted: '%{user_name} a rétabli le son de la conversation'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
-      greeting_message_body: "%{account_name} répond généralement en quelques heures."
-      ways_to_reach_you_message_body: "Donnez à l'équipe un moyen de vous recontacter."
-      email_input_box_message_body: "Recevez des notifications par courriel"
-      csat_input_message_body: "Veuillez évaluer la conversation"
+      greeting_message_body: '%{account_name} répond généralement en quelques heures.'
+      ways_to_reach_you_message_body: 'Donnez à l''équipe un moyen de vous recontacter.'
+      email_input_box_message_body: 'Recevez des notifications par courriel'
+      csat_input_message_body: 'Veuillez évaluer la conversation'
     reply:
       email:
         header:
-          from_with_name: "%{assignee_name} de %{inbox_name} <%{from_email}>"
-          reply_with_name: "%{assignee_name} de %{inbox_name} <reply+%{reply_email}>"
-          friendly_name: "%{sender_name} de %{business_name} <%{from_email}>"
-          professional_name: "%{business_name} <%{from_email}>"
+          from_with_name: '%{assignee_name} de %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} de %{inbox_name} <reply+%{reply_email}>'
+          friendly_name: '%{sender_name} de %{business_name} <%{from_email}>'
+          professional_name: '%{business_name} <%{from_email}>'
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} de %{inbox_name} <%{from_email}>"
-          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
-      email_subject: "Nouveaux messages dans cette conversation"
-      transcript_subject: "Transcription de conversation"
+          reply_with_name: '%{assignee_name} de %{inbox_name} <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+      email_subject: 'Nouveaux messages dans cette conversation'
+      transcript_subject: 'Transcription de conversation'
     survey:
-      response: "Merci de noter cette conversation, %{link}"
+      response: 'Merci de noter cette conversation, %{link}'
   contacts:
     online:
-      delete: "%{contact_name} est en ligne, veuillez réessayer plus tard"
+      delete: '%{contact_name} est en ligne, veuillez réessayer plus tard'
   integration_apps:
     dashboard_apps:
-      name: "Applications du tableau de bord"
-      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+      name: 'Applications du tableau de bord'
+      description: 'Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents.'
     dyte:
-      name: "Dyte"
-      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
-      meeting_name: "%{agent_name} a démarré une réunion"
+      name: 'Dyte'
+      description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot.'
+      meeting_name: '%{agent_name} a démarré une réunion'
     slack:
-      name: "Slack"
+      name: 'Slack'
       description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
-      name: "Webhooks"
-      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+      name: 'Webhooks'
+      description: 'Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates.'
     dialogflow:
-      name: "Dialogflow"
-      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+      name: 'Dialogflow'
+      description: 'Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent.'
     google_translate:
-      name: "Google Translate"
+      name: 'Google Translate'
       description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
     openai:
-      name: "OpenAI"
-      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+      name: 'OpenAI'
+      description: 'Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification.'
     linear:
-      name: "Linear"
-      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
-    captain:
-      name: "Captain"
-      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+      name: 'Linear'
+      description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
+    shopify:
+      name: 'Shopify'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+  captain:
+    copilot_error: 'Please connect an assistant to this inbox to use Copilot'
+    copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
   public_portal:
     search:
       search_placeholder: Rechercher un article par titre ou contenu...
@@ -263,14 +271,14 @@ fr:
     button: Ouvrir la conversation
   time_units:
     days:
-      one: "%{count} jour"
-      other: "%{count} days"
+      one: '%{count} jour'
+      other: '%{count} days'
     hours:
-      one: "%{count} heure"
-      other: "%{count} hours"
+      one: '%{count} heure'
+      other: '%{count} hours'
     minutes:
-      one: "%{count} minute"
-      other: "%{count} minutes"
+      one: '%{count} minute'
+      other: '%{count} minutes'
     seconds:
-      one: "%{count} seconde"
-      other: "%{count} seconds"
+      one: '%{count} seconde'
+      other: '%{count} seconds'

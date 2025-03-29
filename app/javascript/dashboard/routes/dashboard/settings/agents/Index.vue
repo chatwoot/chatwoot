@@ -13,6 +13,7 @@ import AddAgent from './AddAgent.vue';
 import EditAgent from './EditAgent.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -149,21 +150,17 @@ const confirmDeletion = () => {
         feature-name="agents"
       >
         <template #actions>
-          <woot-button
-            class="rounded-md button nice"
-            icon="add-circle"
+          <Button
+            icon="i-lucide-circle-plus"
+            :label="$t('AGENT_MGMT.HEADER_BTN_TXT')"
             @click="openAddPopup"
-          >
-            {{ $t('AGENT_MGMT.HEADER_BTN_TXT') }}
-          </woot-button>
+          />
         </template>
       </BaseSettingsHeader>
     </template>
     <template #body>
       <table class="divide-y divide-slate-75 dark:divide-slate-700">
-        <tbody
-          class="divide-y divide-slate-50 dark:divide-slate-800 text-slate-700 dark:text-slate-300"
-        >
+        <tbody class="divide-y divide-n-weak text-n-slate-11">
           <tr v-for="(agent, index) in agentList" :key="agent.email">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               <div class="flex flex-row items-center gap-4">
@@ -227,24 +224,22 @@ const confirmDeletion = () => {
             </td>
             <td class="py-4">
               <div class="flex justify-end gap-1">
-                <woot-button
+                <Button
                   v-if="showEditAction(agent)"
                   v-tooltip.top="$t('AGENT_MGMT.EDIT.BUTTON_TEXT')"
-                  variant="smooth"
-                  size="tiny"
-                  color-scheme="secondary"
-                  icon="edit"
-                  class-names="grey-btn"
+                  icon="i-lucide-pen"
+                  slate
+                  xs
+                  faded
                   @click="openEditPopup(agent)"
                 />
-                <woot-button
+                <Button
                   v-if="showDeleteAction(agent)"
                   v-tooltip.top="$t('AGENT_MGMT.DELETE.BUTTON_TEXT')"
-                  variant="smooth"
-                  color-scheme="alert"
-                  size="tiny"
-                  icon="dismiss-circle"
-                  class-names="grey-btn"
+                  icon="i-lucide-trash-2"
+                  xs
+                  ruby
+                  faded
                   :is-loading="loading[agent.id]"
                   @click="openDeletePopup(agent, index)"
                 />

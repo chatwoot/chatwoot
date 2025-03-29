@@ -12,6 +12,8 @@
     "NO_INBOX_2": " for at komme i gang",
     "NO_INBOX_AGENT": "Åh Åh! Det ser ud til, at du ikke er en del af en indbakke. Kontakt venligst din administrator",
     "SEARCH_MESSAGES": "Søg efter beskeder i samtaler",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "to open command menu",
       "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
@@ -54,6 +56,7 @@
     "SUCCESS_DELETE_MESSAGE": "Besked slettet",
     "FAIL_DELETE_MESSSAGE": "Kunne ikke slette beskeden! Prøv igen",
     "NO_RESPONSE": "Intet svar",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Bedømmelse",
     "FEEDBACK_TITLE": "Tilbagemelding",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
@@ -116,6 +119,7 @@
       "PENDING": "Markér som afventende",
       "RESOLVED": "Marker som løst",
       "MARK_AS_UNREAD": "Marker som ulæst",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Genåbn samtale",
       "SNOOZE": {
         "TITLE": "Udsæt",
@@ -133,7 +137,7 @@
           "FAILED": "Kunne ikke tildele agent. Prøv venligst igen."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Tildelt etiket #{labelName} til samtale-id {conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Kunne ikke tildele etiket. Prøv venligst igen."
         },
         "TEAM_ASSIGNMENT": {
@@ -291,7 +295,27 @@
       "CONVERSATION_INFO": "Samtale Information",
       "CONTACT_ATTRIBUTES": "Kontakt Attributter",
       "PREVIOUS_CONVERSATION": "Tidligere Samtaler",
-      "MACROS": "Macros"
+      "MACROS": "Macros",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Afventer",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -352,5 +376,11 @@
     "ONE": "{user} is typing",
     "TWO": "{user} and {secondUser} are typing",
     "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

@@ -17,7 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 "no":
-  hello: "Hallo, verden"
+  hello: 'Hallo, verden'
   messages:
     reset_password_success: Woot! Forespørsel om tilbakestilling av passord er vellykket. Sjekk innboksen for instruksjoner.
     reset_password_failure: Uff da! Vi fant ingen bruker med den angitte eposten.
@@ -31,7 +31,7 @@
       disposable_email: Vi tillater ikke engangs e-poster
       blocked_domain: Dette domenet er ikke tillatt. Hvis du tror dette er en feil, vennligst kontakt kundestøtte.
       invalid_email: Du har angitt en ugyldig e-post
-      email_already_exists: "Du har allerede registrert en konto med %{email}"
+      email_already_exists: 'Du har allerede registrert en konto med %{email}'
       invalid_params: 'Ugyldig registrering, sjekk registrerings-parametere og prøv på nytt'
       failed: Registrering mislyktes
     data_import:
@@ -50,9 +50,11 @@
       locale:
         unique: må være unikt i kategorien og portalen
     dyte:
-      invalid_message_type: "Ugyldig meldingstype. Handlingen er ikke tillatt"
+      invalid_message_type: 'Ugyldig meldingstype. Handlingen er ikke tillatt'
     slack:
-      invalid_channel_id: "Ugyldig slack kanal. Vennligst prøv på nytt"
+      invalid_channel_id: 'Ugyldig slack kanal. Vennligst prøv på nytt'
+    channel_service:
+      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: Kontroller nettverkstilkoblingen, IMAP-adressen og prøv på nytt.
@@ -68,6 +70,8 @@
       invalid_operator: Ugyldig operatør. De tillatte operatørene for %{attribute_name} er [%{allowed_keys}].
       invalid_query_operator: Spørrings-operatør må være enten "AND" eller "OR".
       invalid_value: Ugyldig verdi. Verdiene angitt for %{attribute_name} er ugyldige
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
     period: Rapporteringsperiode %{since} til %{until}
     utc_warning: Rapporten generert er i UTC tidssone
@@ -120,103 +124,107 @@
         recorded_at: Registrert dato
   notifications:
     notification_title:
-      conversation_creation: "En samtale (#%{display_id}) har blitt opprettet i %{inbox_name}"
-      conversation_assignment: "En samtale (#%{display_id}) er tildelt deg"
-      assigned_conversation_new_message: "En ny melding er opprettet i samtale (#%{display_id})"
-      conversation_mention: "Du har blitt nevnt i samtale (#%{display_id})"
-      sla_missed_first_response: "SLA mål brutt: første svar for samtale (#%{display_id})"
-      sla_missed_next_response: "SLA mål brutt: neste svar for samtale (#%{display_id})"
-      sla_missed_resolution: "SLA mål brutt: løsning for samtale (#%{display_id})"
-    attachment: "Vedlegg"
-    no_content: "Ingen innhold"
+      conversation_creation: 'En samtale (#%{display_id}) har blitt opprettet i %{inbox_name}'
+      conversation_assignment: 'En samtale (#%{display_id}) er tildelt deg'
+      assigned_conversation_new_message: 'En ny melding er opprettet i samtale (#%{display_id})'
+      conversation_mention: 'Du har blitt nevnt i samtale (#%{display_id})'
+      sla_missed_first_response: 'SLA mål brutt: første svar for samtale (#%{display_id})'
+      sla_missed_next_response: 'SLA mål brutt: neste svar for samtale (#%{display_id})'
+      sla_missed_resolution: 'SLA mål brutt: løsning for samtale (#%{display_id})'
+    attachment: 'Vedlegg'
+    no_content: 'Ingen innhold'
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} nevnte deg i historien: "
+      instagram_story_content: '%{story_sender} nevnte deg i historien: '
       instagram_deleted_story_content: Denne historien er ikke lenger tilgjengelig.
       deleted: Denne meldingen er slettet
       delivery_status:
-        error_code: "Feilkode: %{error_code}"
+        error_code: 'Feilkode: %{error_code}'
     activity:
       status:
-        resolved: "Samtale ble løst av %{user_name}"
-        contact_resolved: "Conversation was resolved by %{contact_name}"
-        open: "Samtalen ble gjenåpnet av %{user_name}"
-        pending: "Conversation was marked as pending by %{user_name}"
-        snoozed: "Conversation was snoozed by %{user_name}"
-        auto_resolved: "Samtale ble automatisk merket løst på grunn av %{duration} dager med inaktivitet"
+        resolved: 'Samtale ble løst av %{user_name}'
+        contact_resolved: 'Conversation was resolved by %{contact_name}'
+        open: 'Samtalen ble gjenåpnet av %{user_name}'
+        pending: 'Conversation was marked as pending by %{user_name}'
+        snoozed: 'Conversation was snoozed by %{user_name}'
+        auto_resolved: 'Samtale ble automatisk merket løst på grunn av %{duration} dager med inaktivitet'
         system_auto_open: System reopened the conversation due to a new incoming message.
       priority:
         added: '%{user_name} set the priority to %{new_priority}'
         updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
         removed: '%{user_name} removed the priority'
       assignee:
-        self_assigned: "%{user_name} tilordnet seg denne samtalen"
-        assigned: "Tildelt til %{assignee_name} av %{user_name}"
-        removed: "%{user_name} fjernet tildelingen til samtalen"
+        self_assigned: '%{user_name} tilordnet seg denne samtalen'
+        assigned: 'Tildelt til %{assignee_name} av %{user_name}'
+        removed: '%{user_name} fjernet tildelingen til samtalen'
       team:
-        assigned: "Tildelt til %{team_name} av %{user_name}"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
+        assigned: 'Tildelt til %{team_name} av %{user_name}'
+        assigned_with_assignee: 'Assigned to %{assignee_name} via %{team_name} by %{user_name}'
+        removed: 'Unassigned from %{team_name} by %{user_name}'
       labels:
-        added: "%{user_name} la til %{labels}"
-        removed: "%{user_name} fjernet %{labels}"
+        added: '%{user_name} la til %{labels}'
+        removed: '%{user_name} fjernet %{labels}'
       sla:
-        added: "%{user_name} added SLA policy %{sla_name}"
-        removed: "%{user_name} removed SLA policy %{sla_name}"
-      muted: "%{user_name} har dempet samtalen"
-      unmuted: "%{user_name} har opphevet dempingen av samtalen"
+        added: '%{user_name} added SLA policy %{sla_name}'
+        removed: '%{user_name} removed SLA policy %{sla_name}'
+      muted: '%{user_name} har dempet samtalen'
+      unmuted: '%{user_name} har opphevet dempingen av samtalen'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
-      greeting_message_body: "%{account_name} svarer vanligvis innen et par timer."
-      ways_to_reach_you_message_body: "Gi oss en måte å ta kontakt med deg på."
-      email_input_box_message_body: "Få beskjed via e-post"
-      csat_input_message_body: "Please rate the conversation"
+      greeting_message_body: '%{account_name} svarer vanligvis innen et par timer.'
+      ways_to_reach_you_message_body: 'Gi oss en måte å ta kontakt med deg på.'
+      email_input_box_message_body: 'Få beskjed via e-post'
+      csat_input_message_body: 'Please rate the conversation'
     reply:
       email:
         header:
-          from_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
-          reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
-          friendly_name: "%{sender_name} from %{business_name} <%{from_email}>"
-          professional_name: "%{business_name} <%{from_email}>"
+          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
+          friendly_name: '%{sender_name} from %{business_name} <%{from_email}>'
+          professional_name: '%{business_name} <%{from_email}>'
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
-          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
-      email_subject: "Nye meldinger i denne samtalen"
-      transcript_subject: "Kopi av samtale"
+          reply_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+      email_subject: 'Nye meldinger i denne samtalen'
+      transcript_subject: 'Kopi av samtale'
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: 'Please rate this conversation, %{link}'
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: '%{contact_name} is Online, please try again later'
   integration_apps:
     dashboard_apps:
-      name: "Dashboard Apps"
-      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+      name: 'Dashboard Apps'
+      description: 'Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents.'
     dyte:
-      name: "Dyte"
-      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
-      meeting_name: "%{agent_name} has started a meeting"
+      name: 'Dyte'
+      description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot.'
+      meeting_name: '%{agent_name} has started a meeting'
     slack:
-      name: "Slack"
+      name: 'Slack'
       description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
-      name: "Webhooks"
-      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+      name: 'Webhooks'
+      description: 'Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates.'
     dialogflow:
-      name: "Dialogflow"
-      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+      name: 'Dialogflow'
+      description: 'Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent.'
     google_translate:
-      name: "Google Translate"
+      name: 'Google Translate'
       description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
     openai:
-      name: "OpenAI"
-      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+      name: 'OpenAI'
+      description: 'Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification.'
     linear:
-      name: "Linear"
-      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
-    captain:
-      name: "Captain"
-      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+      name: 'Linear'
+      description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
+    shopify:
+      name: 'Shopify'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+  captain:
+    copilot_error: 'Please connect an assistant to this inbox to use Copilot'
+    copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
@@ -263,14 +271,14 @@
     button: Open conversation
   time_units:
     days:
-      one: "%{count} day"
-      other: "%{count} days"
+      one: '%{count} day'
+      other: '%{count} days'
     hours:
-      one: "%{count} hour"
-      other: "%{count} hours"
+      one: '%{count} hour'
+      other: '%{count} hours'
     minutes:
-      one: "%{count} minute"
-      other: "%{count} minutes"
+      one: '%{count} minute'
+      other: '%{count} minutes'
     seconds:
-      one: "%{count} second"
-      other: "%{count} seconds"
+      one: '%{count} second'
+      other: '%{count} seconds'

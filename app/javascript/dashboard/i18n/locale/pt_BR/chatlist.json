@@ -15,8 +15,8 @@
     },
     "FILTER_ALL": "Todos",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Minha",
-      "unassigned": "Não atribuída",
+      "me": "Minhas",
+      "unassigned": "Não atribuídas",
       "all": "Todos"
     },
     "CHAT_STATUS_FILTER_ITEMS": {
@@ -24,20 +24,20 @@
         "TEXT": "Abertas"
       },
       "resolved": {
-        "TEXT": "Resolvida"
+        "TEXT": "Resolvidas"
       },
       "pending": {
-        "TEXT": "Pendente"
+        "TEXT": "Pendentes"
       },
       "snoozed": {
-        "TEXT": "Adiado"
+        "TEXT": "Adiadas"
       },
       "all": {
-        "TEXT": "Todos"
+        "TEXT": "Todas"
       }
     },
     "VIEW_FILTER": "Visualizar",
-    "SORT_TOOLTIP_LABEL": "Classificar conversas",
+    "SORT_TOOLTIP_LABEL": "Ordenar conversas",
     "CHAT_SORT": {
       "STATUS": "Situação",
       "ORDER_BY": "Ordenar por"
@@ -99,10 +99,13 @@
       },
       "fallback": {
         "CONTENT": "compartilhou uma URL"
+      },
+      "contact": {
+        "CONTENT": "Contato compartilhado"
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Classificar conversas",
+      "TITLE": "Ordenar conversas",
       "DROPDOWN_TITLE": "Ordenar por",
       "ITEMS": {
         "LATEST": {

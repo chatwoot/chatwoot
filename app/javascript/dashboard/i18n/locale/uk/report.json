@@ -119,11 +119,13 @@
       "EMPTY_LIST": "Результатів не знайдено"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results"
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
     "HEADER": "Огляд Агентів",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
     "LOADING_CHART": "Завантаження даних діаграми...",
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
     "DOWNLOAD_AGENT_REPORTS": "Завантажити звіти агентів",
@@ -258,6 +260,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Огляд вхідних повідомлень",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "Завантаження даних діаграми...",
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
     "DOWNLOAD_INBOX_REPORTS": "Завантажити звіти вхідних повідомлень",
@@ -325,6 +328,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Огляд команди",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Завантаження даних діаграми...",
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
     "DOWNLOAD_TEAM_REPORTS": "Завантажити звіти команд",
@@ -473,6 +477,18 @@
         "STATUS": "Статус"
       }
     },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Команда",
+        "OPEN": "Відкриті",
+        "UNATTENDED": "Не зв'язаний",
+        "STATUS": "Статус"
+      }
+    },
     "AGENT_STATUS": {
       "HEADER": "Статус агента",
       "ONLINE": "Онлайн",
@@ -538,5 +554,15 @@
       },
       "VIEW_DETAILS": "Переглянути деталі"
     }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Вхідні",
+    "AGENT": "Агент",
+    "TEAM": "Команда",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "Кількість вирішень",
+    "CONVERSATIONS": "№ розмов"
   }
 }

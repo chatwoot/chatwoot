@@ -119,11 +119,13 @@
       "EMPTY_LIST": "Ništa nije pronađeno"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results"
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
     "HEADER": "Pregled agenata",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
     "LOADING_CHART": "Učitavanje podataka grafikona...",
     "NO_ENOUGH_DATA": "Nismo primili dovoljno podataka da bi smo generisali izveštaj, Molim vas pokušajte ponovo.",
     "DOWNLOAD_AGENT_REPORTS": "Preuzmi izveštaj o agentima",
@@ -258,6 +260,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Pregled prijemnih sandučića",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "Učitavanje podataka grafikona...",
     "NO_ENOUGH_DATA": "Nismo primili dovoljno podataka da bi smo generisali izveštaj, Molim vas pokušajte ponovo.",
     "DOWNLOAD_INBOX_REPORTS": "Preuzmi izveštaj o prijemnim sandučićima",
@@ -325,6 +328,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Pregled tima",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Učitavanje podataka grafikona...",
     "NO_ENOUGH_DATA": "Nismo primili dovoljno podataka da bi smo generisali izveštaj, Molim vas pokušajte ponovo.",
     "DOWNLOAD_TEAM_REPORTS": "Preuzmi izveštaj o timu",
@@ -473,6 +477,18 @@
         "STATUS": "Status"
       }
     },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Tim",
+        "OPEN": "Otvoreni",
+        "UNATTENDED": "Nedodeljeni",
+        "STATUS": "Status"
+      }
+    },
     "AGENT_STATUS": {
       "HEADER": "Status agenta",
       "ONLINE": "Dostupan",
@@ -538,5 +554,15 @@
       },
       "VIEW_DETAILS": "View Details"
     }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Prijemno sanduče",
+    "AGENT": "Agent",
+    "TEAM": "Tim",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "Broj rešenih",
+    "CONVERSATIONS": "Broj razgovora"
   }
 }

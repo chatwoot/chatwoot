@@ -11,7 +11,10 @@
       "CONVERSATIONS": "Konverzace",
       "MESSAGES": "Zprávy"
     },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
     "SEARCHING_DATA": "Searching",
+    "LOADING_DATA": "Loading",
     "EMPTY_STATE": "No {item} found for query '{query}'",
     "EMPTY_STATE_FULL": "No results found for query '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ to focus",
@@ -21,6 +24,7 @@
     "READ_MORE": "Read more",
     "WROTE": "wrote:",
     "FROM": "od",
-    "EMAIL": "e-mailová adresa"
+    "EMAIL": "e-mailová adresa",
+    "EMAIL_SUBJECT": "předmět"
   }
 }

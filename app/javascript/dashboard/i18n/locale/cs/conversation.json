@@ -12,6 +12,8 @@
     "NO_INBOX_2": " začít",
     "NO_INBOX_AGENT": "Uh Oh! Vypadá to, že nejste součástí žádné schránky. Obraťte se na správce",
     "SEARCH_MESSAGES": "Hledat zprávy v konverzacích",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "to open command menu",
       "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
@@ -54,6 +56,7 @@
     "SUCCESS_DELETE_MESSAGE": "Zpráva byla úspěšně smazána",
     "FAIL_DELETE_MESSSAGE": "Zpráva se nepodařilo odstranit! Zkuste to znovu",
     "NO_RESPONSE": "Bez odpovědi",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Hodnocení",
     "FEEDBACK_TITLE": "Zpětná vazba",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
@@ -116,6 +119,7 @@
       "PENDING": "Označit jako nevyřízené",
       "RESOLVED": "Označit jako vyřešené",
       "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Znovu otevřít konverzaci",
       "SNOOZE": {
         "TITLE": "Odložit",
@@ -133,7 +137,7 @@
           "FAILED": "Nelze přiřadit agenta. Zkuste to prosím znovu."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Přiřazený štítek #{labelName} ke konverzaci id {conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Nelze přiřadit štítek. Zkuste to prosím znovu."
         },
         "TEAM_ASSIGNMENT": {
@@ -291,7 +295,27 @@
       "CONVERSATION_INFO": "Informace o konverzaci",
       "CONTACT_ATTRIBUTES": "Atributy kontaktu",
       "PREVIOUS_CONVERSATION": "Předchozí konverzace",
-      "MACROS": "Macros"
+      "MACROS": "Macros",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Čekající",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -352,5 +376,11 @@
     "ONE": "{user} is typing",
     "TWO": "{user} and {secondUser} are typing",
     "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

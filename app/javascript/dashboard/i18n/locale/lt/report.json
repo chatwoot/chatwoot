@@ -119,11 +119,13 @@
       "EMPTY_LIST": "Nieko nerasta"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results"
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
     "HEADER": "Agentų apžvalga",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
     "LOADING_CHART": "Įkeliami diagramos duomenys...",
     "NO_ENOUGH_DATA": "Negavome pakankamai duomenų, kad galėtume sugeneruoti ataskaitą. Bandykite dar kartą vėliau.",
     "DOWNLOAD_AGENT_REPORTS": "Parsisiųsti agentų ataskaitas",
@@ -258,6 +260,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Gautų Laiškų Aplanko Apžvalga",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "Įkeliami diagramos duomenys...",
     "NO_ENOUGH_DATA": "Negavome pakankamai duomenų, kad galėtume sugeneruoti ataskaitą. Bandykite dar kartą vėliau.",
     "DOWNLOAD_INBOX_REPORTS": "Parsisiųsti gautų laiškų aplanko ataskaitas",
@@ -325,6 +328,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Komandos apžvalga",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Įkeliami diagramos duomenys...",
     "NO_ENOUGH_DATA": "Negavome pakankamai duomenų, kad galėtume sugeneruoti ataskaitą. Bandykite dar kartą vėliau.",
     "DOWNLOAD_TEAM_REPORTS": "Parsisiųsti komandos ataskaitas",
@@ -473,6 +477,18 @@
         "STATUS": "Būsena"
       }
     },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Komanda",
+        "OPEN": "Atidaryti",
+        "UNATTENDED": "Be priežiūros",
+        "STATUS": "Būsena"
+      }
+    },
     "AGENT_STATUS": {
       "HEADER": "Agento būsena",
       "ONLINE": "Prisijungęs",
@@ -538,5 +554,15 @@
       },
       "VIEW_DETAILS": "View Details"
     }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Gautų laiškų aplankas",
+    "AGENT": "Agentas",
+    "TEAM": "Komanda",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "Sprendimų skaičius",
+    "CONVERSATIONS": "Pokalbių kiekis"
   }
 }

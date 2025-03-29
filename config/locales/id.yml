@@ -17,7 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 id:
-  hello: "Hello world"
+  hello: 'Hello world'
   messages:
     reset_password_success: Woot! Permintaan pengaturan ulang kata sandi berhasil. Periksa email Anda untuk mendapatkan petunjuk.
     reset_password_failure: Aduh! Kami tidak dapat menemukan pengguna dengan email yang dimasukkan.
@@ -31,7 +31,7 @@ id:
       disposable_email: Kami tidak mengizinkan email sekali pakai
       blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Anda telah memasukkan email yang tidak valid
-      email_already_exists: "Anda telah mendaftar untuk sebuah akun dengan %{email}"
+      email_already_exists: 'Anda telah mendaftar untuk sebuah akun dengan %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Pendaftaran gagal
     data_import:
@@ -50,9 +50,11 @@ id:
       locale:
         unique: harus unik dalam kategori dan portal
     dyte:
-      invalid_message_type: "Jenis pesan tidak valid. Tindakan tidak diizinkan"
+      invalid_message_type: 'Jenis pesan tidak valid. Tindakan tidak diizinkan'
     slack:
-      invalid_channel_id: "Invalid slack channel. Please try again"
+      invalid_channel_id: 'Invalid slack channel. Please try again'
+    channel_service:
+      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: Periksa sambungan jaringan, alamat IMAP, dan coba lagi.
@@ -68,6 +70,8 @@ id:
       invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
       invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
     period: Periode pelaporan %{since} hingga %{until}
     utc_warning: Laporan yang dihasilkan berada dalam zona waktu UTC
@@ -120,103 +124,107 @@ id:
         recorded_at: Tanggal rekaman
   notifications:
     notification_title:
-      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
-      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
-      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
-      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
-      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
-      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
-      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
-    attachment: "Attachment"
-    no_content: "No content"
+      conversation_creation: 'A conversation (#%{display_id}) has been created in %{inbox_name}'
+      conversation_assignment: 'A conversation (#%{display_id}) has been assigned to you'
+      assigned_conversation_new_message: 'A new message is created in conversation (#%{display_id})'
+      conversation_mention: 'You have been mentioned in conversation (#%{display_id})'
+      sla_missed_first_response: 'SLA target first response missed for conversation (#%{display_id})'
+      sla_missed_next_response: 'SLA target next response missed for conversation (#%{display_id})'
+      sla_missed_resolution: 'SLA target resolution missed for conversation (#%{display_id})'
+    attachment: 'Attachment'
+    no_content: 'No content'
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} menyebutmu dalam story: "
+      instagram_story_content: '%{story_sender} menyebutmu dalam story: '
       instagram_deleted_story_content: Story ini tidak lagi tersedia.
       deleted: Pesan ini telah terhapus
       delivery_status:
-        error_code: "Error code: %{error_code}"
+        error_code: 'Error code: %{error_code}'
     activity:
       status:
-        resolved: "Percakapan ditandai selesai oleh %{user_name}"
-        contact_resolved: "Percakapan diselesaikan oleh %{contact_name}"
-        open: "Percakapan telah dibuka kembali oleh %{user_name}"
-        pending: "Percakapan telah ditandai sebagai tertunda oleh %{user_name}"
-        snoozed: "Percakapan telah ditunda oleh %{user_name}"
-        auto_resolved: "Percakapan ditandai terselesaikan oleh sistem karena tidak ada aktifitas dalam %{duration} hari"
+        resolved: 'Percakapan ditandai selesai oleh %{user_name}'
+        contact_resolved: 'Percakapan diselesaikan oleh %{contact_name}'
+        open: 'Percakapan telah dibuka kembali oleh %{user_name}'
+        pending: 'Percakapan telah ditandai sebagai tertunda oleh %{user_name}'
+        snoozed: 'Percakapan telah ditunda oleh %{user_name}'
+        auto_resolved: 'Percakapan ditandai terselesaikan oleh sistem karena tidak ada aktifitas dalam %{duration} hari'
         system_auto_open: Sistem membuka kembali percakapan karena pesan masuk baru.
       priority:
         added: '%{user_name} tetapkan prioritas untuk %{new_priority}'
         updated: '%{user_name} mengubah prioritas dari %{old_priority} ke %{new_priority}'
         removed: '%{user_name} menghapus prioritasnya'
       assignee:
-        self_assigned: "%{user_name} menetapkan sendiri percakapan ini"
-        assigned: "Ditugaskan ke %{assignee_name} oleh %{user_name}"
-        removed: "Percakapan batal ditetapkan oleh %{user_name}"
+        self_assigned: '%{user_name} menetapkan sendiri percakapan ini'
+        assigned: 'Ditugaskan ke %{assignee_name} oleh %{user_name}'
+        removed: 'Percakapan batal ditetapkan oleh %{user_name}'
       team:
-        assigned: "Ditugaskan ke %{team_name} oleh %{user_name}"
-        assigned_with_assignee: "Ditugaskan ke %{assignee_name} melalui %{team_name} oleh %{user_name}"
-        removed: "Dibebastugaskan dari %{team_name} oleh %{user_name}"
+        assigned: 'Ditugaskan ke %{team_name} oleh %{user_name}'
+        assigned_with_assignee: 'Ditugaskan ke %{assignee_name} melalui %{team_name} oleh %{user_name}'
+        removed: 'Dibebastugaskan dari %{team_name} oleh %{user_name}'
       labels:
-        added: "%{user_name} menambahkan %{labels}"
-        removed: "%{user_name} menghapus %{labels}"
+        added: '%{user_name} menambahkan %{labels}'
+        removed: '%{user_name} menghapus %{labels}'
       sla:
-        added: "%{user_name} added SLA policy %{sla_name}"
-        removed: "%{user_name} removed SLA policy %{sla_name}"
-      muted: "%{user_name} me-mute percakapan"
-      unmuted: "%{user_name} telah un-mute percakapan"
+        added: '%{user_name} added SLA policy %{sla_name}'
+        removed: '%{user_name} removed SLA policy %{sla_name}'
+      muted: '%{user_name} me-mute percakapan'
+      unmuted: '%{user_name} telah un-mute percakapan'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
-      greeting_message_body: "%{account_name} biasanya membalas dalam beberapa jam."
-      ways_to_reach_you_message_body: "Beri tim cara untuk menghubungi Anda."
-      email_input_box_message_body: "Dapatkan pemberitahuan melalui email"
-      csat_input_message_body: "Silakan beri peringkat percakapan ini"
+      greeting_message_body: '%{account_name} biasanya membalas dalam beberapa jam.'
+      ways_to_reach_you_message_body: 'Beri tim cara untuk menghubungi Anda.'
+      email_input_box_message_body: 'Dapatkan pemberitahuan melalui email'
+      csat_input_message_body: 'Silakan beri peringkat percakapan ini'
     reply:
       email:
         header:
-          from_with_name: "%{assignee_name} dari %{inbox_name} <%{from_email}>"
-          reply_with_name: "%{assignee_name} dari %{inbox_name} <reply+%{reply_email}>"
-          friendly_name: "%{sender_name} dari %{business_name} <%{from_email}>"
-          professional_name: "%{business_name} <%{from_email}>"
+          from_with_name: '%{assignee_name} dari %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} dari %{inbox_name} <reply+%{reply_email}>'
+          friendly_name: '%{sender_name} dari %{business_name} <%{from_email}>'
+          professional_name: '%{business_name} <%{from_email}>'
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} dari %{inbox_name} <%{from_email}>"
-          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
-      email_subject: "Pesan baru pada percakapan ini"
-      transcript_subject: "Transkrip Percakapan"
+          reply_with_name: '%{assignee_name} dari %{inbox_name} <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+      email_subject: 'Pesan baru pada percakapan ini'
+      transcript_subject: 'Transkrip Percakapan'
     survey:
-      response: "Silakan beri peringkat percakapan ini, %{link}"
+      response: 'Silakan beri peringkat percakapan ini, %{link}'
   contacts:
     online:
-      delete: "%{contact_name} sedang Online, silakan coba lagi nanti"
+      delete: '%{contact_name} sedang Online, silakan coba lagi nanti'
   integration_apps:
     dashboard_apps:
-      name: "Aplikasi Dasbor"
-      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+      name: 'Aplikasi Dasbor'
+      description: 'Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents.'
     dyte:
-      name: "Dyte"
-      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
-      meeting_name: "%{agent_name} memulai percakapan"
+      name: 'Dyte'
+      description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot.'
+      meeting_name: '%{agent_name} memulai percakapan'
     slack:
-      name: "Slack"
+      name: 'Slack'
       description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
-      name: "Webhooks"
-      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+      name: 'Webhooks'
+      description: 'Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates.'
     dialogflow:
-      name: "Dialogflow"
-      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+      name: 'Dialogflow'
+      description: 'Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent.'
     google_translate:
-      name: "Google Terjemahan"
+      name: 'Google Terjemahan'
       description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
     openai:
-      name: "OpenAI"
-      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+      name: 'OpenAI'
+      description: 'Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification.'
     linear:
-      name: "Linear"
-      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
-    captain:
-      name: "Captain"
-      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+      name: 'Linear'
+      description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
+    shopify:
+      name: 'Shopify'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+  captain:
+    copilot_error: 'Please connect an assistant to this inbox to use Copilot'
+    copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
   public_portal:
     search:
       search_placeholder: Telusuri artikel menurut judul atau isi...
@@ -263,14 +271,10 @@ id:
     button: Buka percakapan
   time_units:
     days:
-      one: "%{count} day"
-      other: "%{count} days"
+      other: '%{count} days'
     hours:
-      one: "%{count} hour"
-      other: "%{count} hours"
+      other: '%{count} hours'
     minutes:
-      one: "%{count} minute"
-      other: "%{count} minutes"
+      other: '%{count} minutes'
     seconds:
-      one: "%{count} second"
-      other: "%{count} seconds"
+      other: '%{count} seconds'

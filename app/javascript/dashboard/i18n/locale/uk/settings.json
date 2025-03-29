@@ -35,6 +35,24 @@
           }
         }
       },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "За замовчуванням",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Підпис особистого повідомлення",
         "NOTE": "Створити унікальний підпис повідомлення для кожного повідомлення, яке ви надсилаєте з будь-якої поштової скриньки. Ви також можете включити вбудоване зображення, яке підтримується у живому чаті, електронній пошті та API-поштових скриньках.",
@@ -194,7 +212,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Змінити",
     "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_WORKSPACE": "Switch workspace",
+    "SWITCH_ACCOUNT": "Switch account",
     "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Виберіть обліковий запис із наступного списку",
     "PROFILE_SETTINGS": "Profile settings",
@@ -263,6 +281,9 @@
     "SETTINGS": "Налаштування",
     "CONTACTS": "Контакти",
     "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Головна",
     "AGENTS": "Агенти",
     "AGENT_BOTS": "Боти",
@@ -324,14 +345,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Біллінг",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Поточний План",
-      "PLAN_NOTE": "Зараз ви підписані на **{plan}** план з **{quantity}** ліцензій"
+      "PLAN_NOTE": "Зараз ви підписані на **{plan}** план з **{quantity}** ліцензій",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Керування підпискою",
       "DESCRIPTION": "Перегляньте попередні рахунки, відредагуйте платіжні реквізити, або скасуйте вашу підписку.",
       "BUTTON_TXT": "Перейти на портал для платежів"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Потрібна допомога?",
@@ -374,11 +407,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Перейти до приватних заміток",
       "SWITCH_TO_REPLY": "Перейти до відповіді",
       "TOGGLE_SNOOZE_DROPDOWN": "Перемкнути випадаючий список відкладення"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

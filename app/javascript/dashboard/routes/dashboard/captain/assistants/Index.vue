@@ -1,12 +1,16 @@
 <script setup>
 import { computed, onMounted, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import AssistantCard from 'dashboard/components-next/captain/assistant/AssistantCard.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
-import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import CreateAssistantDialog from 'dashboard/components-next/captain/pageComponents/assistant/CreateAssistantDialog.vue';
+import AssistantPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/AssistantPageEmptyState.vue';
+import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue';
+import LimitBanner from 'dashboard/components-next/captain/pageComponents/response/LimitBanner.vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -72,29 +76,47 @@ onMounted(() => store.dispatch('captainAssistants/get'));
   <PageLayout
     :header-title="$t('CAPTAIN.ASSISTANTS.HEADER')"
     :button-label="$t('CAPTAIN.ASSISTANTS.ADD_NEW')"
+    :button-policy="['administrator']"
     :show-pagination-footer="false"
+    :is-fetching="isFetching"
+    :is-empty="!assistants.length"
+    :feature-flag="FEATURE_FLAGS.CAPTAIN"
     @click="handleCreate"
   >
-    <div
-      v-if="isFetching"
-      class="flex items-center justify-center py-10 text-n-slate-11"
-    >
-      <Spinner />
-    </div>
-    <div v-else-if="assistants.length" class="flex flex-col gap-4">
-      <AssistantCard
-        v-for="assistant in assistants"
-        :id="assistant.id"
-        :key="assistant.id"
-        :name="assistant.name"
-        :description="assistant.description"
-        :updated-at="assistant.updated_at || assistant.created_at"
-        :created-at="assistant.created_at"
-        @action="handleAction"
+    <template #knowMore>
+      <FeatureSpotlightPopover
+        :button-label="$t('CAPTAIN.HEADER_KNOW_MORE')"
+        :title="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.FEATURE_SPOTLIGHT.TITLE')"
+        :note="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
+        fallback-thumbnail="/assets/images/dashboard/captain/assistant-popover-light.svg"
+        fallback-thumbnail-dark="/assets/images/dashboard/captain/assistant-popover-dark.svg"
+        learn-more-url="https://chwt.app/captain-assistant"
       />
-    </div>
+    </template>
+    <template #emptyState>
+      <AssistantPageEmptyState @click="handleCreate" />
+    </template>
 
-    <div v-else>{{ 'No assistants found' }}</div>
+    <template #paywall>
+      <CaptainPaywall />
+    </template>
+
+    <template #body>
+      <LimitBanner class="mb-5" />
+
+      <div class="flex flex-col gap-4">
+        <AssistantCard
+          v-for="assistant in assistants"
+          :id="assistant.id"
+          :key="assistant.id"
+          :name="assistant.name"
+          :description="assistant.description"
+          :updated-at="assistant.updated_at || assistant.created_at"
+          :created-at="assistant.created_at"
+          @action="handleAction"
+        />
+      </div>
+    </template>
 
     <DeleteDialog
       v-if="selectedAssistant"

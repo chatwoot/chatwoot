@@ -17,7 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 vi:
-  hello: "Chào thế giới"
+  hello: 'Chào thế giới'
   messages:
     reset_password_success: Chà! Yêu cầu đặt lại mật khẩu thành công. Kiểm tra thư của bạn để biết hướng dẫn.
     reset_password_failure: Uh ho! Chúng tôi không thể tìm thấy bất kỳ người dùng nào có email được chỉ định.
@@ -31,7 +31,7 @@ vi:
       disposable_email: Chúng tôi không cho phép các email dùng một lần
       blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Bạn đã nhập một email không hợp lệ
-      email_already_exists: "Bạn đã đăng ký một tài khoản với %{email}"
+      email_already_exists: 'Bạn đã đăng ký một tài khoản với %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Đăng ký thât bại
     data_import:
@@ -50,9 +50,11 @@ vi:
       locale:
         unique: phải là duy nhất trong danh mục và cổng thông tin
     dyte:
-      invalid_message_type: "Loại tin nhắn không hợp lệ. Hành động không được phép"
+      invalid_message_type: 'Loại tin nhắn không hợp lệ. Hành động không được phép'
     slack:
-      invalid_channel_id: "Invalid slack channel. Please try again"
+      invalid_channel_id: 'Invalid slack channel. Please try again'
+    channel_service:
+      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: Vui lòng kiểm tra kết nối mạng, địa chỉ IMAP và thử lại.
@@ -68,6 +70,8 @@ vi:
       invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
       invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
     period: Thời gian báo cáo từ %{since} đến %{until}
     utc_warning: Báo cáo đã được tạo với múi giờ UTC
@@ -120,103 +124,107 @@ vi:
         recorded_at: Ngày nghi
   notifications:
     notification_title:
-      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
-      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
-      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
-      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
-      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
-      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
-      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
-    attachment: "Attachment"
-    no_content: "No content"
+      conversation_creation: 'A conversation (#%{display_id}) has been created in %{inbox_name}'
+      conversation_assignment: 'A conversation (#%{display_id}) has been assigned to you'
+      assigned_conversation_new_message: 'A new message is created in conversation (#%{display_id})'
+      conversation_mention: 'You have been mentioned in conversation (#%{display_id})'
+      sla_missed_first_response: 'SLA target first response missed for conversation (#%{display_id})'
+      sla_missed_next_response: 'SLA target next response missed for conversation (#%{display_id})'
+      sla_missed_resolution: 'SLA target resolution missed for conversation (#%{display_id})'
+    attachment: 'Attachment'
+    no_content: 'No content'
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} đã đề cập đến bạn trong hội thoại: "
+      instagram_story_content: '%{story_sender} đã đề cập đến bạn trong hội thoại: '
       instagram_deleted_story_content: Hội thoại này không còn nữa.
       deleted: Tin nhắn đã bị xoá
       delivery_status:
-        error_code: "Error code: %{error_code}"
+        error_code: 'Error code: %{error_code}'
     activity:
       status:
-        resolved: "Cuộc trò chuyện được đánh dấu là đã giải quyết bởi %{user_name}"
-        contact_resolved: "Hội thoại đã được giải quyết bởi %{contact_name}"
-        open: "Cuộc trò chuyện đã được mở lại bởi %{user_name}"
-        pending: "Hội thoại được đánh dấu là chưa giải quyết bởi %{user_name}"
-        snoozed: "Hội thoại đã được tạm dừng lại bởi %{user_name}"
-        auto_resolved: "Hội thoại được đánh dấu là đã giải quyết bởi hệ thống vì %{duration} ngày không hoạt động"
+        resolved: 'Cuộc trò chuyện được đánh dấu là đã giải quyết bởi %{user_name}'
+        contact_resolved: 'Hội thoại đã được giải quyết bởi %{contact_name}'
+        open: 'Cuộc trò chuyện đã được mở lại bởi %{user_name}'
+        pending: 'Hội thoại được đánh dấu là chưa giải quyết bởi %{user_name}'
+        snoozed: 'Hội thoại đã được tạm dừng lại bởi %{user_name}'
+        auto_resolved: 'Hội thoại được đánh dấu là đã giải quyết bởi hệ thống vì %{duration} ngày không hoạt động'
         system_auto_open: Hệ thống mở lại hội thoại do có tin nhắn mới.
       priority:
         added: '%{user_name} thiết lập độ ưu tiên thành %{new_priority}'
         updated: '%{user_name} thay đổi mức độ ưu tiên từ %{old_priority} thành %{new_priority}'
         removed: '%{user_name} bỏ mức độ ưu tiên'
       assignee:
-        self_assigned: "%{user_name} phân công chính mình vào hội thoại này"
-        assigned: "Chỉ định %{assignee_name} bởi %{user_name}"
-        removed: "Cuộc hội thoại chưa được chỉ định bởi %{user_name}"
+        self_assigned: '%{user_name} phân công chính mình vào hội thoại này'
+        assigned: 'Chỉ định %{assignee_name} bởi %{user_name}'
+        removed: 'Cuộc hội thoại chưa được chỉ định bởi %{user_name}'
       team:
-        assigned: "Chỉ định %{team_name} bởi %{user_name}"
-        assigned_with_assignee: "Phân công cho %{assignee_name} thông qua %{team_name} bởi %{user_name}"
-        removed: "Huỷ phân công cho %{team_name} bởi %{user_name}"
+        assigned: 'Chỉ định %{team_name} bởi %{user_name}'
+        assigned_with_assignee: 'Phân công cho %{assignee_name} thông qua %{team_name} bởi %{user_name}'
+        removed: 'Huỷ phân công cho %{team_name} bởi %{user_name}'
       labels:
-        added: "%{user_name} thêm %{labels}"
-        removed: "%{user_name} xoá %{labels}"
+        added: '%{user_name} thêm %{labels}'
+        removed: '%{user_name} xoá %{labels}'
       sla:
-        added: "%{user_name} added SLA policy %{sla_name}"
-        removed: "%{user_name} removed SLA policy %{sla_name}"
-      muted: "%{user_name} đã tắt tiếng hội thoại"
-      unmuted: "%{user_name} đã bật tiếng cuộc trò chuyện"
+        added: '%{user_name} added SLA policy %{sla_name}'
+        removed: '%{user_name} removed SLA policy %{sla_name}'
+      muted: '%{user_name} đã tắt tiếng hội thoại'
+      unmuted: '%{user_name} đã bật tiếng cuộc trò chuyện'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
-      greeting_message_body: "%{account_name} thường trả lời trong vài giờ."
-      ways_to_reach_you_message_body: "Trong lúc chờ đội ngũ hỗ trợ phản hồi, bạn hãy để lại email để nhận được thông báo nhanh nhất nhé."
-      email_input_box_message_body: "Nhận thông báo qua email"
-      csat_input_message_body: "Bạn hãy vui lòng đánh giá hội thoại"
+      greeting_message_body: '%{account_name} thường trả lời trong vài giờ.'
+      ways_to_reach_you_message_body: 'Trong lúc chờ đội ngũ hỗ trợ phản hồi, bạn hãy để lại email để nhận được thông báo nhanh nhất nhé.'
+      email_input_box_message_body: 'Nhận thông báo qua email'
+      csat_input_message_body: 'Bạn hãy vui lòng đánh giá hội thoại'
     reply:
       email:
         header:
-          from_with_name: "%{assignee_name} từ %{inbox_name} <%{from_email}>"
-          reply_with_name: "%{assignee_name} từ %{inbox_name} <reply+%{reply_email}>"
-          friendly_name: "%{sender_name} từ %{business_name} <%{from_email}>"
-          professional_name: "%{business_name} <%{from_email}>"
+          from_with_name: '%{assignee_name} từ %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} từ %{inbox_name} <reply+%{reply_email}>'
+          friendly_name: '%{sender_name} từ %{business_name} <%{from_email}>'
+          professional_name: '%{business_name} <%{from_email}>'
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} từ %{inbox_name} <%{from_email}>"
-          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
-      email_subject: "Tin nhắn mới về cuộc trò chuyện này"
-      transcript_subject: "Bản ghi cuộc hội thoại"
+          reply_with_name: '%{assignee_name} từ %{inbox_name} <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+      email_subject: 'Tin nhắn mới về cuộc trò chuyện này'
+      transcript_subject: 'Bản ghi cuộc hội thoại'
     survey:
-      response: "Bạn hãy vui lòng đánh giá hội thoại, %{link}"
+      response: 'Bạn hãy vui lòng đánh giá hội thoại, %{link}'
   contacts:
     online:
-      delete: "%{contact_name} đang trực tiếng, vui lòng thử lại sau"
+      delete: '%{contact_name} đang trực tiếng, vui lòng thử lại sau'
   integration_apps:
     dashboard_apps:
-      name: "Ứng dụng bảng điều khiển"
-      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+      name: 'Ứng dụng bảng điều khiển'
+      description: 'Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents.'
     dyte:
-      name: "Dyte"
-      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
-      meeting_name: "%{agent_name} đã bắt đầu một cuộc họp"
+      name: 'Dyte'
+      description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot.'
+      meeting_name: '%{agent_name} đã bắt đầu một cuộc họp'
     slack:
-      name: "Slack"
+      name: 'Slack'
       description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
-      name: "Webhooks"
-      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+      name: 'Webhooks'
+      description: 'Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates.'
     dialogflow:
-      name: "Dialogflow"
-      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+      name: 'Dialogflow'
+      description: 'Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent.'
     google_translate:
-      name: "Google Translate"
+      name: 'Google Translate'
       description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
     openai:
-      name: "OpenAI"
-      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+      name: 'OpenAI'
+      description: 'Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification.'
     linear:
-      name: "Linear"
-      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
-    captain:
-      name: "Captain"
-      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+      name: 'Linear'
+      description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
+    shopify:
+      name: 'Shopify'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+  captain:
+    copilot_error: 'Please connect an assistant to this inbox to use Copilot'
+    copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
   public_portal:
     search:
       search_placeholder: Tìm bài viết theo tiêu đề hoặc nội dung...
@@ -263,14 +271,10 @@ vi:
     button: Mở cuộc trò chuyện
   time_units:
     days:
-      one: "%{count} day"
-      other: "%{count} days"
+      other: '%{count} days'
     hours:
-      one: "%{count} hour"
-      other: "%{count} hours"
+      other: '%{count} hours'
     minutes:
-      one: "%{count} minute"
-      other: "%{count} minutes"
+      other: '%{count} minutes'
     seconds:
-      one: "%{count} second"
-      other: "%{count} seconds"
+      other: '%{count} seconds'

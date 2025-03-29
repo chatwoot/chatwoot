@@ -1,3 +1,4 @@
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
 import {
   ROLES,
@@ -22,6 +23,7 @@ export default {
           path: 'list',
           name: 'canned_list',
           meta: {
+            featureFlag: FEATURE_FLAGS.CANNED_RESPONSES,
             permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
           },
           component: CannedHome,

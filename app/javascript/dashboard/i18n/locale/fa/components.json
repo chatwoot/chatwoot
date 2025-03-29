@@ -22,7 +22,7 @@
     }
   },
   "PHONE_INPUT": {
-    "SEARCH_PLACEHOLDER": "Search country",
+    "SEARCH_PLACEHOLDER": "جستجوی کشور",
     "ERROR": "Phone number should be empty or in E.164 format",
     "DIAL_CODE_ERROR": "لطفاً یک کد شماره گیری را از لیست انتخاب کنید"
   },
@@ -39,5 +39,9 @@
   },
   "LABEL": {
     "TAG_BUTTON": "tag"
+  },
+  "FEATURE_SPOTLIGHT": {
+    "LEARN_MORE": "بیشتر بدانید",
+    "WATCH_VIDEO": "Watch video"
   }
 }

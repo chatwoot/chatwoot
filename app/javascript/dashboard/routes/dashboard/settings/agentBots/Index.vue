@@ -1,59 +1,86 @@
-<script>
-import { mapGetters } from 'vuex';
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
-import { frontendURL } from '../../../../helper/URLHelper';
+import { useI18n } from 'vue-i18n';
+import { frontendURL } from 'dashboard/helper/URLHelper';
+
 import AgentBotRow from './components/AgentBotRow.vue';
 
-export default {
-  components: { AgentBotRow },
-  computed: {
-    ...mapGetters({
-      accountId: 'getCurrentAccountId',
-      agentBots: 'agentBots/getBots',
-      uiFlags: 'agentBots/getUIFlags',
-    }),
-    newAgentBotsURL() {
-      return frontendURL(
-        `accounts/${this.accountId}/settings/agent-bots/csml/new`
-      );
-    },
-  },
-  mounted() {
-    this.$store.dispatch('agentBots/get');
-  },
-  methods: {
-    async onDeleteAgentBot(bot) {
-      const ok = await this.$refs.confirmDialog.showConfirmation();
-      if (ok) {
-        try {
-          await this.$store.dispatch('agentBots/delete', bot.id);
-          useAlert(this.$t('AGENT_BOTS.DELETE.API.SUCCESS_MESSAGE'));
-        } catch (error) {
-          useAlert(this.$t('AGENT_BOTS.DELETE.API.ERROR_MESSAGE'));
-        }
-      }
-    },
-    onEditAgentBot(bot) {
-      this.$router.push(
-        frontendURL(
-          `accounts/${this.accountId}/settings/agent-bots/csml/${bot.id}`
-        )
-      );
-    },
-  },
+import SettingsLayout from '../SettingsLayout.vue';
+import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
+
+const router = useRouter();
+const store = useStore();
+const { t } = useI18n();
+
+const accountId = useMapGetter('getCurrentAccountId');
+const agentBots = useMapGetter('agentBots/getBots');
+const uiFlags = useMapGetter('agentBots/getUIFlags');
+
+const confirmDialog = ref(null);
+
+const onConfigureNewBot = () => {
+  router.push({
+    name: 'agent_bots_csml_new',
+  });
+};
+
+onMounted(() => {
+  store.dispatch('agentBots/get');
+});
+
+const onDeleteAgentBot = async bot => {
+  const ok = await confirmDialog.value.showConfirmation();
+
+  if (ok) {
+    try {
+      await store.dispatch('agentBots/delete', bot.id);
+      useAlert(t('AGENT_BOTS.DELETE.API.SUCCESS_MESSAGE'));
+    } catch (error) {
+      useAlert(t('AGENT_BOTS.DELETE.API.ERROR_MESSAGE'));
+    }
+  }
+};
+
+const onEditAgentBot = bot => {
+  router.push(
+    frontendURL(
+      `accounts/${accountId.value}/settings/agent-bots/csml/${bot.id}`
+    )
+  );
 };
 </script>
 
 <template>
-  <div class="flex-1 p-4 overflow-auto">
-    <div class="flex flex-row gap-4">
-      <div class="w-full lg:w-3/5">
-        <woot-loading-state
-          v-if="uiFlags.isFetching"
-          :message="$t('AGENT_BOTS.LIST.LOADING')"
-        />
-        <table v-else-if="agentBots.length" class="woot-table">
-          <tbody>
+  <SettingsLayout
+    :is-loading="uiFlags.isFetching"
+    :loading-message="$t('AGENT_BOTS.LIST.LOADING')"
+    :no-records-found="!agentBots.length"
+    :no-records-message="$t('AGENT_BOTS.LIST.404')"
+  >
+    <template #header>
+      <BaseSettingsHeader
+        :title="$t('AGENT_BOTS.HEADER')"
+        :description="$t('AGENT_BOTS.DESCRIPTION')"
+        :link-text="$t('AGENT_BOTS.LEARN_MORE')"
+        feature-name="agent_bots"
+      >
+        <template #actions>
+          <Button
+            icon="i-lucide-circle-plus"
+            :label="$t('AGENT_BOTS.ADD.TITLE')"
+            @click="onConfigureNewBot"
+          />
+        </template>
+      </BaseSettingsHeader>
+    </template>
+    <template #body>
+      <div class="flex-1 overflow-auto">
+        <table class="divide-y divide-slate-75 dark:divide-slate-700">
+          <tbody class="divide-y divide-n-weak text-n-slate-11">
             <AgentBotRow
               v-for="(agentBot, index) in agentBots"
               :key="agentBot.id"
@@ -64,42 +91,12 @@ export default {
             />
           </tbody>
         </table>
-        <p v-else class="flex flex-col items-center justify-center h-full">
-          {{ $t('AGENT_BOTS.LIST.404') }}
-        </p>
+        <woot-confirm-modal
+          ref="confirmDialog"
+          :title="$t('AGENT_BOTS.DELETE.TITLE')"
+          :description="$t('AGENT_BOTS.DELETE.DESCRIPTION')"
+        />
       </div>
-
-      <div class="hidden w-1/3 lg:block">
-        <p v-html="$t('AGENT_BOTS.SIDEBAR_TXT')" />
-      </div>
-    </div>
-    <woot-button
-      color-scheme="success"
-      class-names="button--fixed-top"
-      icon="add-circle"
-    >
-      <router-link :to="newAgentBotsURL" class="white-text">
-        {{ $t('AGENT_BOTS.ADD.TITLE') }}
-      </router-link>
-    </woot-button>
-    <woot-confirm-modal
-      ref="confirmDialog"
-      :title="$t('AGENT_BOTS.DELETE.TITLE')"
-      :description="$t('AGENT_BOTS.DELETE.DESCRIPTION')"
-    />
-  </div>
+    </template>
+  </SettingsLayout>
 </template>
-
-<style scoped>
-.bots-list {
-  list-style: none;
-}
-
-.nowrap {
-  white-space: nowrap;
-}
-
-.white-text {
-  color: white;
-}
-</style>

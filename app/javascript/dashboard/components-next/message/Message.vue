@@ -34,6 +34,8 @@ import UnsupportedBubble from './bubbles/Unsupported.vue';
 import ContactBubble from './bubbles/Contact.vue';
 import DyteBubble from './bubbles/Dyte.vue';
 import LocationBubble from './bubbles/Location.vue';
+import CSATBubble from './bubbles/CSAT.vue';
+import FormBubble from './bubbles/Form.vue';
 
 import MessageError from './MessageError.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
@@ -260,6 +262,16 @@ const componentToRender = computed(() => {
     if (emailInboxTypes.includes(props.messageType)) return EmailBubble;
   }
 
+  if (props.contentType === CONTENT_TYPES.INPUT_CSAT) {
+    return CSATBubble;
+  }
+
+  if (
+    [CONTENT_TYPES.INPUT_SELECT, CONTENT_TYPES.FORM].includes(props.contentType)
+  ) {
+    return FormBubble;
+  }
+
   if (props.contentType === CONTENT_TYPES.INCOMING_EMAIL) {
     return EmailBubble;
   }
@@ -402,6 +414,11 @@ const avatarInfo = computed(() => {
   };
 });
 
+const avatarTooltip = computed(() => {
+  if (avatarInfo.value.name === '') return '';
+  return `${t('CONVERSATION.SENT_BY')} ${avatarInfo.value.name}`;
+});
+
 const setupHighlightTimer = () => {
   if (Number(route.query.messageId) !== Number(props.id)) {
     return;
@@ -431,12 +448,12 @@ provideMessageContext({
   <div
     v-if="shouldRenderMessage"
     :id="`message${props.id}`"
-    class="flex w-full message-bubble-container"
+    class="flex w-full message-bubble-container mb-2"
     :data-message-id="props.id"
     :class="[
       flexOrientationClass,
-      shouldGroupWithNext ? 'group-with-next mb-2' : 'mb-4',
       {
+        'group-with-next': shouldGroupWithNext,
         'bg-n-alpha-1': showBackgroundHighlight,
       },
     ]"
@@ -449,7 +466,7 @@ provideMessageContext({
       :class="[
         gridClass,
         {
-          'gap-y-2': !shouldGroupWithNext,
+          'gap-y-2': contentAttributes.externalError,
           'w-full': variant === MESSAGE_VARIANTS.EMAIL,
         },
       ]"
@@ -460,6 +477,7 @@ provideMessageContext({
     >
       <div
         v-if="!shouldGroupWithNext && shouldShowAvatar"
+        v-tooltip.right-end="avatarTooltip"
         class="[grid-area:avatar] flex items-end"
       >
         <Avatar v-bind="avatarInfo" :size="24" />

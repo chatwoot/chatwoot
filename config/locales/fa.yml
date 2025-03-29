@@ -17,7 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 fa:
-  hello: "سلام دنیا"
+  hello: 'سلام دنیا'
   messages:
     reset_password_success: سوت! درخواست ریست شدن رمز عبور با موفقیت ارسال شد. ایمیل خود را چک کنید
     reset_password_failure: اوه نه! کاربری با چنین ایمیلی وجود ندارد
@@ -31,7 +31,7 @@ fa:
       disposable_email: استفاده از ایمیل‌های موقت امکان‌پذیر نیست
       blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: ایمیل وارد شده معتبر نیست
-      email_already_exists: "قبلا کاربری با ایمیل %{email} ثبت‌نام کرده است"
+      email_already_exists: 'قبلا کاربری با ایمیل %{email} ثبت‌نام کرده است'
       invalid_params: 'نامعتبر است، لطفا پارامترهای ثبت‌نام را بررسی کرده و دوباره امتحان کنید'
       failed: ثبت نام ناموفق بود
     data_import:
@@ -50,9 +50,11 @@ fa:
       locale:
         unique: باید منحصر به فرد در دسته‌بندی و پورتال باشد
     dyte:
-      invalid_message_type: "نوع پیام نامعتبر است. اقدام مجاز نیست"
+      invalid_message_type: 'نوع پیام نامعتبر است. اقدام مجاز نیست'
     slack:
-      invalid_channel_id: "کانال اسلک نامعتبر است. لطفا دوباره تلاش کنید"
+      invalid_channel_id: 'کانال اسلک نامعتبر است. لطفا دوباره تلاش کنید'
+    channel_service:
+      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: لطفا اتصال شبکه، آدرس IMAP را بررسی کنید و دوباره امتحان کنید.
@@ -68,6 +70,8 @@ fa:
       invalid_operator: این عملیات مجاز نیست. عملیات های مجاز برای %{attribute_name} شامل %{allowed_keys} می باشد.
       invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: مقدار معتبر نیست. مقادیر ارائه شده برای %{attribute_name} معتبر نیست
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
     period: زمان گزارش از %{since} تا %{until}
     utc_warning: گزارش تولید شده در منطقه زمانی UTC است
@@ -120,103 +124,107 @@ fa:
         recorded_at: تاریخ ثبت شده
   notifications:
     notification_title:
-      conversation_creation: "یک گفتگو جدید (%{display_id}) در %{inbox_name} ایجاد شده است"
-      conversation_assignment: "یک گفتگو جدید (%{display_id}) به شما اختصاص داده شده"
-      assigned_conversation_new_message: "یک پیام جدید در گفتگوی %{display_id} ارسال شده"
-      conversation_mention: "به نام شما در گفتگو (%{display_id}) اشاره شده است"
-      sla_missed_first_response: "سیاست SLA مربوط به اولین پاسخ در گفتگوی (%{display_id}) نقض شده"
-      sla_missed_next_response: "سیاست SLA مربوط به پاسخ بعدی در گفتگوی (%{display_id}) نقض شده"
-      sla_missed_resolution: "سیاست SLA مربوط به زمان حل موضوع در گفتگوی (%{display_id}) نقض شده"
-    attachment: "پیوست"
-    no_content: "فاقد محتوا"
+      conversation_creation: 'یک گفتگو جدید (%{display_id}) در %{inbox_name} ایجاد شده است'
+      conversation_assignment: 'یک گفتگو جدید (%{display_id}) به شما اختصاص داده شده'
+      assigned_conversation_new_message: 'یک پیام جدید در گفتگوی %{display_id} ارسال شده'
+      conversation_mention: 'به نام شما در گفتگو (%{display_id}) اشاره شده است'
+      sla_missed_first_response: 'سیاست SLA مربوط به اولین پاسخ در گفتگوی (%{display_id}) نقض شده'
+      sla_missed_next_response: 'سیاست SLA مربوط به پاسخ بعدی در گفتگوی (%{display_id}) نقض شده'
+      sla_missed_resolution: 'سیاست SLA مربوط به زمان حل موضوع در گفتگوی (%{display_id}) نقض شده'
+    attachment: 'پیوست'
+    no_content: 'فاقد محتوا'
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} در داستان به شما اشاره کرده: "
+      instagram_story_content: '%{story_sender} در داستان به شما اشاره کرده: '
       instagram_deleted_story_content: این داستان دیگر در دسترس نیست.
       deleted: این پیام حذف شد
       delivery_status:
-        error_code: "کد خطا \" %{error_code}"
+        error_code: 'کد خطا " %{error_code}'
     activity:
       status:
-        resolved: "مکالمه توسط ایجنت %{user_name} حل شده، اعلام شده بود"
-        contact_resolved: "گفتگو توسط %{contact_name} حل شد"
-        open: "گفتگو توسط ایجنت %{user_name} مجددا باز شده بود"
-        pending: "مکالمه توسط %{user_name} به عنوان معلق علامت گذاری شد"
-        snoozed: "مکالمه توسط %{user_name} به تعویق افتاد"
-        auto_resolved: "به دلیل %{duration} روز عدم فعالیت ، مکالمه توسط سیستم بسته شد"
+        resolved: 'مکالمه توسط ایجنت %{user_name} حل شده، اعلام شده بود'
+        contact_resolved: 'گفتگو توسط %{contact_name} حل شد'
+        open: 'گفتگو توسط ایجنت %{user_name} مجددا باز شده بود'
+        pending: 'مکالمه توسط %{user_name} به عنوان معلق علامت گذاری شد'
+        snoozed: 'مکالمه توسط %{user_name} به تعویق افتاد'
+        auto_resolved: 'به دلیل %{duration} روز عدم فعالیت ، مکالمه توسط سیستم بسته شد'
         system_auto_open: سیستم به دلیل یک پیام دریافتی جدید، مکالمه را دوباره باز کرد.
       priority:
         added: '%{user_name} اولویت را روی %{new_priority} تنظیم کرد'
         updated: '%{user_name} اولویت را از %{old_priority} به %{new_priority} تغییر داد'
         removed: '%{user_name} اولویت را حذف کرد'
       assignee:
-        self_assigned: "%{user_name} این مکالمه را به خود اختصاص داد"
-        assigned: "%{user_name} گفتگو را به %{assignee_name} اختصاص داد"
-        removed: "گفتگو توسط اپراتور %{user_name} به وضعیت اختصاص داده نشده تغییر یافت"
+        self_assigned: '%{user_name} این مکالمه را به خود اختصاص داد'
+        assigned: '%{user_name} گفتگو را به %{assignee_name} اختصاص داد'
+        removed: 'گفتگو توسط اپراتور %{user_name} به وضعیت اختصاص داده نشده تغییر یافت'
       team:
-        assigned: "%{user_name} گفتگو را به %{team_name} اختصاص داد"
-        assigned_with_assignee: "از طرف %{user_name} به تیم %{team_name} و ایجنت %{assignee_name} اختصاص داده شده است"
-        removed: "اختصاص داده نشده از %{team_name} توسط %{user_name}"
+        assigned: '%{user_name} گفتگو را به %{team_name} اختصاص داد'
+        assigned_with_assignee: 'از طرف %{user_name} به تیم %{team_name} و ایجنت %{assignee_name} اختصاص داده شده است'
+        removed: 'اختصاص داده نشده از %{team_name} توسط %{user_name}'
       labels:
-        added: "%{user_name}، %{labels} را اضافه کرد"
-        removed: "%{user_name}، %{labels} را حذف کرد"
+        added: '%{user_name}، %{labels} را اضافه کرد'
+        removed: '%{user_name}، %{labels} را حذف کرد'
       sla:
-        added: "%{user_name} سیاست SLA %{sla_name} را اضافه کرد"
-        removed: "%{user_name} سیاست SLA %{sla_name} را حذف کرد"
-      muted: "%{user_name} مکالمه را بی صدا کرد"
-      unmuted: "%{user_name} مکالمه را از حالت بی صدا خراج کرد"
+        added: '%{user_name} سیاست SLA %{sla_name} را اضافه کرد'
+        removed: '%{user_name} سیاست SLA %{sla_name} را حذف کرد'
+      muted: '%{user_name} مکالمه را بی صدا کرد'
+      unmuted: '%{user_name} مکالمه را از حالت بی صدا خراج کرد'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
-      greeting_message_body: "%{account_name} معمولا ظرف مدت کوتاهی پاسخ می‌دهد."
-      ways_to_reach_you_message_body: "راهی برای ارتباط گرفتن تیم با شما قرار دهید"
-      email_input_box_message_body: "پیام جدیدی به این گفتگو اضافه شده است"
-      csat_input_message_body: "لطفاً به مکالمه امتیاز دهید"
+      greeting_message_body: '%{account_name} معمولا ظرف مدت کوتاهی پاسخ می‌دهد.'
+      ways_to_reach_you_message_body: 'راهی برای ارتباط گرفتن تیم با شما قرار دهید'
+      email_input_box_message_body: 'پیام جدیدی به این گفتگو اضافه شده است'
+      csat_input_message_body: 'لطفاً به مکالمه امتیاز دهید'
     reply:
       email:
         header:
-          from_with_name: "%{assignee_name} از %{inbox_name} «%{from_email}»"
-          reply_with_name: "%{assignee_name} از %{inbox_name} <reply+%{reply_email}>"
-          friendly_name: "%{sender_name} از %{business_name} «%{from_email}»"
-          professional_name: "%{business_name} <%{from_email}>"
+          from_with_name: '%{assignee_name} از %{inbox_name} «%{from_email}»'
+          reply_with_name: '%{assignee_name} از %{inbox_name} <reply+%{reply_email}>'
+          friendly_name: '%{sender_name} از %{business_name} «%{from_email}»'
+          professional_name: '%{business_name} <%{from_email}>'
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} از %{inbox_name} «%{from_email}»"
-          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
-      email_subject: "پیام‌های جدید در این مکالمه"
-      transcript_subject: "متن مکالمه"
+          reply_with_name: '%{assignee_name} از %{inbox_name} «%{from_email}»'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+      email_subject: 'پیام‌های جدید در این مکالمه'
+      transcript_subject: 'متن مکالمه'
     survey:
-      response: "لطفاً به مکالمه امتیاز دهید %{link}"
+      response: 'لطفاً به مکالمه امتیاز دهید %{link}'
   contacts:
     online:
-      delete: "%{contact_name} آنلاین است ، لطفاً بعداً دوباره امتحان کنید"
+      delete: '%{contact_name} آنلاین است ، لطفاً بعداً دوباره امتحان کنید'
   integration_apps:
     dashboard_apps:
-      name: "برنامه‌های پیشخوان"
-      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+      name: 'برنامه‌های پیشخوان'
+      description: 'Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents.'
     dyte:
-      name: "Dyte"
-      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
-      meeting_name: "%{agent_name} جلسه ای را آغاز کرده است"
+      name: 'Dyte'
+      description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot.'
+      meeting_name: '%{agent_name} جلسه ای را آغاز کرده است'
     slack:
-      name: "Slack"
+      name: 'Slack'
       description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
-      name: "وب هوک"
-      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+      name: 'وب هوک'
+      description: 'Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates.'
     dialogflow:
-      name: "Dialogflow"
-      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+      name: 'Dialogflow'
+      description: 'Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent.'
     google_translate:
-      name: "مترجم گوگل"
+      name: 'مترجم گوگل'
       description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
     openai:
-      name: "OpenAI"
-      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+      name: 'OpenAI'
+      description: 'Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification.'
     linear:
-      name: "Linear"
-      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
-    captain:
-      name: "Captain"
-      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+      name: 'Linear'
+      description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
+    shopify:
+      name: 'Shopify'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+  captain:
+    copilot_error: 'Please connect an assistant to this inbox to use Copilot'
+    copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
   public_portal:
     search:
       search_placeholder: جستجوی مقاله براساس عنوان یا متن...
@@ -263,14 +271,14 @@ fa:
     button: باز کردن گفتگو
   time_units:
     days:
-      one: "%{count} روز"
-      other: "%{count} روز"
+      one: '%{count} روز'
+      other: '%{count} روز'
     hours:
-      one: "%{count} ساعت"
-      other: "%{count} ساعت"
+      one: '%{count} ساعت'
+      other: '%{count} ساعت'
     minutes:
-      one: "%{count} قیقه"
-      other: "%{count} قیقه"
+      one: '%{count} قیقه'
+      other: '%{count} قیقه'
     seconds:
-      one: "%{count} ثانیه"
-      other: "%{count} ثانیه"
+      one: '%{count} ثانیه'
+      other: '%{count} ثانیه'

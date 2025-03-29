@@ -1,8 +1,7 @@
-class Captain::Llm::FaqGeneratorService < Captain::Llm::BaseOpenAiService
-  def initialize(content, model = DEFAULT_MODEL)
+class Captain::Llm::FaqGeneratorService < Llm::BaseOpenAiService
+  def initialize(content)
     super()
     @content = content
-    @model = model
   end
 
   def generate

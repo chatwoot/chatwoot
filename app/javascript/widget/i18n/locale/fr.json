@@ -22,15 +22,15 @@
     "IN_A_DAY": "Répond généralement dans la journée",
     "BACK_IN": "Nous serons de retour en ligne"
   },
-  "DAY_NAMES": [
-    "Dimanche",
-    "Lundi",
-    "Mardi",
-    "Mercredi",
-    "Jeudi",
-    "Vendredi",
-    "Samedi"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Dimanche",
+    "MONDAY": "Lundi",
+    "TUESDAY": "Mardi",
+    "WEDNESDAY": "Mercredi",
+    "THURSDAY": "Jeudi",
+    "FRIDAY": "Vendredi",
+    "SATURDAY": "Samedi"
+  },
   "START_CONVERSATION": "Démarrer la conversation",
   "END_CONVERSATION": "Clôturer la conversation",
   "CONTINUE_CONVERSATION": "Continuer la conversation",

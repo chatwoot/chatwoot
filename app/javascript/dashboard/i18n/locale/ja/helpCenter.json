@@ -1,617 +1,617 @@
 {
   "HELP_CENTER": {
-    "TITLE": "Help Center",
+    "TITLE": "ヘルプセンター",
     "NEW_PAGE": {
-      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
-      "CREATE_PORTAL_BUTTON": "Create Portal"
+      "DESCRIPTION": "顧客向けのセルフサービスヘルプセンターポータルを作成します。顧客が待たずに迅速に回答を見つけられるようサポートします。問い合わせを効率化し、担当者の生産性を向上させ、顧客サポートを向上させましょう。",
+      "CREATE_PORTAL_BUTTON": "ポータルを作成"
     },
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
-      "LOCALE": "Locale",
+      "FILTER": "フィルター",
+      "SORT": "並び替え",
+      "LOCALE": "ロケール",
       "SETTINGS_BUTTON": "設定",
-      "NEW_BUTTON": "New Article",
+      "NEW_BUTTON": "新しい記事",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "PUBLISHED": "公開済み",
+        "DRAFT": "下書き",
+        "ARCHIVED": "アーカイブ"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
-        "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "ALL_ARTICLES": "すべての記事",
+        "MINE": "私の記事",
+        "DRAFT": "下書き記事",
+        "ARCHIVED": "アーカイブ記事"
       },
       "LOCALE_SELECT": {
-        "TITLE": "Select locale",
-        "PLACEHOLDER": "Select locale",
-        "NO_RESULT": "No locale found",
-        "SEARCH_PLACEHOLDER": "Search locale"
+        "TITLE": "ロケールを選択",
+        "PLACEHOLDER": "ロケールを選択",
+        "NO_RESULT": "ロケールが見つかりません",
+        "SEARCH_PLACEHOLDER": "ロケールを検索"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
-      "PUBLISH_BUTTON": "Publish",
-      "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Saving...",
-      "SAVED": "Saved"
+      "ALL_ARTICLES": "すべての記事",
+      "PUBLISH_BUTTON": "公開",
+      "MOVE_TO_ARCHIVE_BUTTON": "アーカイブに移動",
+      "PREVIEW": "プレビュー",
+      "ADD_TRANSLATION": "翻訳を追加",
+      "OPEN_SIDEBAR": "サイドバーを開く",
+      "CLOSE_SIDEBAR": "サイドバーを閉じる",
+      "SAVING": "保存中...",
+      "SAVED": "保存済み"
     },
     "ARTICLE_EDITOR": {
       "IMAGE_UPLOAD": {
         "TITLE": "画像をアップロード",
         "UPLOADING": "アップロード中...",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "SUCCESS": "画像が正常にアップロードされました",
+        "ERROR": "画像のアップロード中にエラーが発生しました",
+        "UN_AUTHORIZED_ERROR": "画像をアップロードする権限がありません",
+        "ERROR_FILE_SIZE": "画像サイズは {size}MB 未満である必要があります",
+        "ERROR_FILE_FORMAT": "画像形式は jpg、jpeg または png である必要があります",
+        "ERROR_FILE_DIMENSIONS": "画像の寸法は 2000 x 2000 未満である必要があります"
       }
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "記事の設定",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "LABEL": "カテゴリー",
+          "TITLE": "カテゴリーを選択",
+          "PLACEHOLDER": "カテゴリーを選択",
+          "NO_RESULT": "カテゴリーが見つかりません",
+          "SEARCH_PLACEHOLDER": "カテゴリーを検索"
         },
         "AUTHOR": {
-          "LABEL": "Author",
-          "TITLE": "Select author",
-          "PLACEHOLDER": "Select author",
-          "NO_RESULT": "No authors found",
-          "SEARCH_PLACEHOLDER": "Search author"
+          "LABEL": "著者",
+          "TITLE": "著者を選択",
+          "PLACEHOLDER": "著者を選択",
+          "NO_RESULT": "著者が見つかりません",
+          "SEARCH_PLACEHOLDER": "著者を検索"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
-          "PLACEHOLDER": "Add a meta title"
+          "LABEL": "メタタイトル",
+          "PLACEHOLDER": "メタタイトルを追加"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
-          "PLACEHOLDER": "Add your meta description for better SEO results..."
+          "LABEL": "メタ説明",
+          "PLACEHOLDER": "SEO結果を向上させるためにメタ説明を追加してください..."
         },
         "META_TAGS": {
-          "LABEL": "Meta tags",
-          "PLACEHOLDER": "Add meta tags separated by comma..."
+          "LABEL": "メタタグ",
+          "PLACEHOLDER": "カンマ区切りでメタタグを追加..."
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "ARCHIVE": "記事をアーカイブ",
+        "DELETE": "記事を削除"
       }
     },
     "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Uncategorized",
-      "SEARCH_RESULTS": "Search results for {query}",
-      "EMPTY_TEXT": "Search for articles to insert into replies.",
-      "SEARCH_LOADER": "Searching...",
-      "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
-      "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
-      "PREVIEW_LINK": "Preview article"
+      "UNCATEGORIZED": "未分類",
+      "SEARCH_RESULTS": "{query} の検索結果",
+      "EMPTY_TEXT": "返信に挿入する記事を検索します。",
+      "SEARCH_LOADER": "検索中...",
+      "INSERT_ARTICLE": "挿入",
+      "NO_RESULT": "記事が見つかりません",
+      "COPY_LINK": "記事リンクをクリップボードにコピー",
+      "OPEN_LINK": "新しいタブで記事を開く",
+      "PREVIEW_LINK": "記事をプレビュー"
     },
     "PORTAL": {
-      "HEADER": "Portals",
-      "DEFAULT": "Default",
-      "NEW_BUTTON": "New Portal",
-      "ACTIVE_BADGE": "active",
-      "CHOOSE_LOCALE_LABEL": "Choose a locale",
-      "LOADING_MESSAGE": "Loading portals...",
-      "ARTICLES_LABEL": "articles",
-      "NO_PORTALS_MESSAGE": "There are no available portals",
-      "ADD_NEW_LOCALE": "Add a new locale",
+      "HEADER": "ポータル",
+      "DEFAULT": "デフォルト",
+      "NEW_BUTTON": "新しいポータル",
+      "ACTIVE_BADGE": "アクティブ",
+      "CHOOSE_LOCALE_LABEL": "ロケールを選択",
+      "LOADING_MESSAGE": "ポータルを読み込み中...",
+      "ARTICLES_LABEL": "記事",
+      "NO_PORTALS_MESSAGE": "利用可能なポータルがありません",
+      "ADD_NEW_LOCALE": "新しいロケールを追加",
       "POPOVER": {
-        "TITLE": "Portals",
-        "PORTAL_SETTINGS": "Portal settings",
-        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
+        "TITLE": "ポータル",
+        "PORTAL_SETTINGS": "ポータル設定",
+        "SUBTITLE": "複数のポータルを持ち、それぞれに異なるロケールを設定できます。",
         "CANCEL_BUTTON_LABEL": "キャンセル",
-        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+        "CHOOSE_LOCALE_BUTTON": "ロケールを選択"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
-            "ADD": "Add locale",
-            "VISIT": "Visit site",
+            "COUNT_LABEL": "記事",
+            "ADD": "ロケールを追加",
+            "VISIT": "サイトを訪問",
             "SETTINGS": "設定",
             "DELETE": "削除"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Portal Configurations",
+            "TITLE": "ポータル設定",
             "ITEMS": {
               "NAME": "名前",
-              "DOMAIN": "Custom domain",
-              "SLUG": "Slug",
-              "TITLE": "Portal title",
-              "THEME": "Theme color",
-              "SUB_TEXT": "Portal sub text"
+              "DOMAIN": "カスタムドメイン",
+              "SLUG": "スラッグ",
+              "TITLE": "ポータルタイトル",
+              "THEME": "テーマカラー",
+              "SUB_TEXT": "ポータルサブテキスト"
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Available locales",
+            "TITLE": "利用可能なロケール",
             "TABLE": {
-              "NAME": "Locale name",
-              "CODE": "Locale code",
-              "ARTICLE_COUNT": "No. of articles",
-              "CATEGORIES": "No. of categories",
-              "SWAP": "Swap",
+              "NAME": "ロケール名",
+              "CODE": "ロケールコード",
+              "ARTICLE_COUNT": "記事数",
+              "CATEGORIES": "カテゴリー数",
+              "SWAP": "交換",
               "DELETE": "削除",
-              "DEFAULT_LOCALE": "Default"
+              "DEFAULT_LOCALE": "デフォルト"
             }
           }
         },
         "DELETE_PORTAL": {
-          "TITLE": "Delete portal",
-          "MESSAGE": "Are you sure you want to delete this portal",
-          "YES": "Yes, delete portal",
-          "NO": "No, keep portal",
+          "TITLE": "ポータルを削除",
+          "MESSAGE": "このポータルを削除してもよろしいですか",
+          "YES": "はい、ポータルを削除します",
+          "NO": "いいえ、ポータルを保持します",
           "API": {
-            "DELETE_SUCCESS": "Portal deleted successfully",
-            "DELETE_ERROR": "Error while deleting portal"
+            "DELETE_SUCCESS": "ポータルが正常に削除されました",
+            "DELETE_ERROR": "ポータルの削除中にエラーが発生しました"
           }
         }
       },
       "EDIT": {
-        "HEADER_TEXT": "Edit portal",
+        "HEADER_TEXT": "ポータルを編集",
         "TABS": {
           "BASIC_SETTINGS": {
-            "TITLE": "Basic information"
+            "TITLE": "基本情報"
           },
           "CUSTOMIZATION_SETTINGS": {
-            "TITLE": "Portal customization"
+            "TITLE": "ポータルのカスタマイズ"
           },
           "CATEGORY_SETTINGS": {
-            "TITLE": "Categories"
+            "TITLE": "カテゴリー"
           },
           "LOCALE_SETTINGS": {
-            "TITLE": "Locales"
+            "TITLE": "ロケール"
           }
         },
         "CATEGORIES": {
-          "TITLE": "Categories in",
-          "NEW_CATEGORY": "New category",
+          "TITLE": "カテゴリー",
+          "NEW_CATEGORY": "新しいカテゴリー",
           "TABLE": {
             "NAME": "名前",
             "DESCRIPTION": "説明",
-            "LOCALE": "Locale",
-            "ARTICLE_COUNT": "No. of articles",
+            "LOCALE": "ロケール",
+            "ARTICLE_COUNT": "記事数",
             "ACTION_BUTTON": {
-              "EDIT": "Edit category",
-              "DELETE": "Delete category"
+              "EDIT": "カテゴリーを編集",
+              "DELETE": "カテゴリーを削除"
             },
-            "EMPTY_TEXT": "No categories found"
+            "EMPTY_TEXT": "カテゴリーが見つかりません"
           }
         },
         "EDIT_BASIC_INFO": {
-          "BUTTON_TEXT": "Update basic settings"
+          "BUTTON_TEXT": "基本設定を更新"
         }
       },
       "ADD": {
         "CREATE_FLOW": {
           "BASIC": {
-            "TITLE": "Help center information",
-            "BODY": "Basic information about portal"
+            "TITLE": "ヘルプセンター情報",
+            "BODY": "ポータルの基本情報"
           },
           "CUSTOMIZATION": {
-            "TITLE": "Help center customization",
-            "BODY": "Customize portal"
+            "TITLE": "ヘルプセンターのカスタマイズ",
+            "BODY": "ポータルをカスタマイズ"
           },
           "FINISH": {
-            "TITLE": "Voila! 🎉",
-            "BODY": "You're all set!"
+            "TITLE": "完成！ 🎉",
+            "BODY": "すべて設定完了です！"
           }
         },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "戻る",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Create Portal",
-            "TITLE": "Help center information",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "HEADER": "ポータルを作成",
+            "TITLE": "ヘルプセンター情報",
+            "CREATE_BASIC_SETTING_BUTTON": "ポータルの基本設定を作成"
           },
           "CUSTOMIZATION_PAGE": {
-            "HEADER": "Portal customisation",
-            "TITLE": "Help center customization",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "HEADER": "ポータルのカスタマイズ",
+            "TITLE": "ヘルプセンターのカスタマイズ",
+            "UPDATE_PORTAL_BUTTON": "ポータル設定を更新"
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila!🎉 You're all set up!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "TITLE": "完成！🎉 すべて設定完了です！",
+            "MESSAGE": "この作成されたポータルはすべてのポータルページで確認できます。",
+            "FINISH": "すべてのポータルページに移動"
           }
         },
         "LOGO": {
-          "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header.",
-          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
-          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+          "LABEL": "ロゴ",
+          "UPLOAD_BUTTON": "ロゴをアップロード",
+          "HELP_TEXT": "このロゴはポータルのヘッダーに表示されます。",
+          "IMAGE_UPLOAD_SUCCESS": "ロゴが正常にアップロードされました",
+          "IMAGE_UPLOAD_ERROR": "ロゴの削除に成功しました",
+          "IMAGE_DELETE_ERROR": "ロゴの削除中にエラーが発生しました"
         },
         "NAME": {
           "LABEL": "名前",
-          "PLACEHOLDER": "Portal name",
-          "HELP_TEXT": "The name will be used in the public facing portal internally.",
+          "PLACEHOLDER": "ポータル名",
+          "HELP_TEXT": "この名前は公開ポータルで内部的に使用されます。",
           "ERROR": "名前が必須です"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug for urls",
-          "ERROR": "Slug is required"
+          "LABEL": "スラッグ",
+          "PLACEHOLDER": "URL用のポータルスラッグ",
+          "ERROR": "スラッグが必須です"
         },
         "DOMAIN": {
-          "LABEL": "Custom Domain",
-          "PLACEHOLDER": "Portal custom domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
-          "ERROR": "Enter a valid domain URL"
+          "LABEL": "カスタムドメイン",
+          "PLACEHOLDER": "ポータルカスタムドメイン",
+          "HELP_TEXT": "ポータルにカスタムドメインを使用する場合のみ追加してください。例: {exampleURL}",
+          "ERROR": "有効なドメインURLを入力してください"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home Page Link",
-          "PLACEHOLDER": "Portal home page link",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
-          "ERROR": "Enter a valid home page URL"
+          "LABEL": "ホームページリンク",
+          "PLACEHOLDER": "ポータルホームページリンク",
+          "HELP_TEXT": "ポータルからホームページに戻るためのリンク。例: {exampleURL}",
+          "ERROR": "有効なホームページURLを入力してください"
         },
         "THEME_COLOR": {
-          "LABEL": "Portal theme color",
-          "HELP_TEXT": "This color will show as the theme color for the portal."
+          "LABEL": "ポータルテーマカラー",
+          "HELP_TEXT": "この色はポータルのテーマカラーとして表示されます。"
         },
         "PAGE_TITLE": {
-          "LABEL": "Page Title",
-          "PLACEHOLDER": "Portal page title",
-          "HELP_TEXT": "The page title will be used in the public facing portal.",
-          "ERROR": "Page title is required"
+          "LABEL": "ページタイトル",
+          "PLACEHOLDER": "ポータルページタイトル",
+          "HELP_TEXT": "このページタイトルは公開ポータルで使用されます。",
+          "ERROR": "ページタイトルが必須です"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header Text",
-          "PLACEHOLDER": "Portal header text",
-          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
-          "ERROR": "Portal header text is required"
+          "LABEL": "ヘッダーテキスト",
+          "PLACEHOLDER": "ポータルヘッダーテキスト",
+          "HELP_TEXT": "このポータルヘッダーテキストは公開ポータルで使用されます。",
+          "ERROR": "ポータルヘッダーテキストが必須です"
         },
         "API": {
-          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
-          "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
-          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
-          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+          "SUCCESS_MESSAGE_FOR_BASIC": "ポータルが正常に作成されました。",
+          "ERROR_MESSAGE_FOR_BASIC": "ポータルを作成できませんでした。再試行してください。",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "ポータルが正常に更新されました。",
+          "ERROR_MESSAGE_FOR_UPDATE": "ポータルを更新できませんでした。再試行してください。"
         }
       },
       "ADD_LOCALE": {
-        "TITLE": "Add a new locale",
-        "SUB_TITLE": "This adds a new locale to your available translation list.",
-        "PORTAL": "Portal",
+        "TITLE": "新しいロケールを追加",
+        "SUB_TITLE": "利用可能な翻訳リストに新しいロケールを追加します。",
+        "PORTAL": "ポータル",
         "LOCALE": {
-          "LABEL": "Locale",
-          "PLACEHOLDER": "Choose a locale",
-          "ERROR": "Locale is required"
+          "LABEL": "ロケール",
+          "PLACEHOLDER": "ロケールを選択",
+          "ERROR": "ロケールは必須です"
         },
         "BUTTONS": {
-          "CREATE": "Create locale",
+          "CREATE": "ロケールを作成",
           "CANCEL": "キャンセル"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "ロケールが正常に追加されました",
+          "ERROR_MESSAGE": "ロケールを追加できませんでした。再試行してください。"
         }
       },
       "CHANGE_DEFAULT_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Default locale updated successfully",
-          "ERROR_MESSAGE": "Unable to update default locale. Try again."
+          "SUCCESS_MESSAGE": "デフォルトロケールが正常に更新されました",
+          "ERROR_MESSAGE": "デフォルトロケールを更新できませんでした。再試行してください。"
         }
       },
       "DELETE_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Locale removed from portal successfully",
-          "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
+          "SUCCESS_MESSAGE": "ロケールがポータルから正常に削除されました",
+          "ERROR_MESSAGE": "ロケールをポータルから削除できませんでした。再試行してください。"
         }
       }
     },
     "TABLE": {
-      "LOADING_MESSAGE": "Loading articles...",
-      "404": "No articles matches your search 🔍",
-      "NO_ARTICLES": "There are no available articles",
+      "LOADING_MESSAGE": "記事を読み込み中...",
+      "404": "検索に一致する記事がありません 🔍",
+      "NO_ARTICLES": "利用可能な記事がありません",
       "HEADERS": {
-        "TITLE": "Title",
-        "CATEGORY": "Category",
-        "READ_COUNT": "Views",
+        "TITLE": "タイトル",
+        "CATEGORY": "カテゴリー",
+        "READ_COUNT": "閲覧数",
         "STATUS": "状況",
-        "LAST_EDITED": "Last edited"
+        "LAST_EDITED": "最終編集"
       },
       "COLUMNS": {
-        "BY": "by",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "BY": "担当者",
+        "AUTHOR_NOT_AVAILABLE": "担当者が利用できません"
       }
     },
     "EDIT_ARTICLE": {
-      "LOADING": "Loading article...",
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here",
+      "LOADING": "記事を読み込み中...",
+      "TITLE_PLACEHOLDER": "記事のタイトルをここに入力",
+      "CONTENT_PLACEHOLDER": "ここに記事を書いてください",
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "記事の保存中にエラーが発生しました"
       }
     },
     "PUBLISH_ARTICLE": {
       "API": {
-        "ERROR": "Error while publishing article",
-        "SUCCESS": "Article published successfully"
+        "ERROR": "記事の公開中にエラーが発生しました",
+        "SUCCESS": "記事が正常に公開されました"
       }
     },
     "ARCHIVE_ARTICLE": {
       "API": {
-        "ERROR": "Error while archiving article",
-        "SUCCESS": "Article archived successfully"
+        "ERROR": "記事のアーカイブ中にエラーが発生しました",
+        "SUCCESS": "記事が正常にアーカイブされました"
       }
     },
     "DRAFT_ARTICLE": {
       "API": {
-        "ERROR": "Error while drafting article",
-        "SUCCESS": "Article drafted successfully"
+        "ERROR": "記事の下書き保存中にエラーが発生しました",
+        "SUCCESS": "記事が正常に下書き保存されました"
       }
     },
     "DELETE_ARTICLE": {
       "MODAL": {
         "CONFIRM": {
           "TITLE": "削除の確認",
-          "MESSAGE": "Are you sure to delete the article?",
+          "MESSAGE": "記事を削除してもよろしいですか？",
           "YES": "削除する",
           "NO": "いいえ、保存しておきます"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Article deleted successfully",
-        "ERROR_MESSAGE": "Error while deleting article"
+        "SUCCESS_MESSAGE": "記事が正常に削除されました",
+        "ERROR_MESSAGE": "記事の削除中にエラーが発生しました"
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
+      "ERROR_MESSAGE": "記事の見出しと内容を追加してから設定を更新してください"
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": "記事を検索"
       }
     },
     "CATEGORY": {
       "ADD": {
-        "TITLE": "Create a category",
-        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "カテゴリーを作成",
+        "SUB_TITLE": "カテゴリーは公開ポータルで記事を分類するために使用されます。",
+        "PORTAL": "ポータル",
+        "LOCALE": "ロケール",
         "NAME": {
           "LABEL": "名前",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "PLACEHOLDER": "カテゴリー名",
+          "HELP_TEXT": "カテゴリー名とアイコンは公開ポータルで記事を分類するために使用されます。",
           "ERROR": "名前が必須です"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "LABEL": "スラッグ",
+          "PLACEHOLDER": "URL用のカテゴリーのスラッグ",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "スラッグが必須です"
         },
         "DESCRIPTION": {
           "LABEL": "説明",
-          "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "カテゴリーについての簡単な説明を入力してください。",
+          "ERROR": "説明は必須です"
         },
         "BUTTONS": {
-          "CREATE": "Create category",
+          "CREATE": "カテゴリーを作成",
           "CANCEL": "キャンセル"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category created successfully",
-          "ERROR_MESSAGE": "Unable to create category"
+          "SUCCESS_MESSAGE": "カテゴリーが正常に作成されました",
+          "ERROR_MESSAGE": "カテゴリーの作成中にエラーが発生しました"
         }
       },
       "EDIT": {
-        "TITLE": "Edit a category",
-        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "カテゴリーを編集",
+        "SUB_TITLE": "カテゴリーを編集すると、公開ポータルのカテゴリーが更新されます。",
+        "PORTAL": "ポータル",
+        "LOCALE": "ロケール",
         "NAME": {
           "LABEL": "名前",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "PLACEHOLDER": "カテゴリー名",
+          "HELP_TEXT": "カテゴリー名とアイコンは公開ポータルで記事を分類するために使用されます。",
           "ERROR": "名前が必須です"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "LABEL": "スラッグ",
+          "PLACEHOLDER": "URL用のカテゴリーのスラッグ",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "スラッグが必須です"
         },
         "DESCRIPTION": {
           "LABEL": "説明",
-          "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "カテゴリーについての簡単な説明を入力してください。",
+          "ERROR": "説明は必須です"
         },
         "BUTTONS": {
-          "CREATE": "Update category",
+          "CREATE": "カテゴリーを更新",
           "CANCEL": "キャンセル"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category updated successfully",
-          "ERROR_MESSAGE": "Unable to update category"
+          "SUCCESS_MESSAGE": "カテゴリーが正常に更新されました",
+          "ERROR_MESSAGE": "カテゴリーの更新中にエラーが発生しました"
         }
       },
       "DELETE": {
         "API": {
-          "SUCCESS_MESSAGE": "Category deleted successfully",
-          "ERROR_MESSAGE": "Unable to delete category"
+          "SUCCESS_MESSAGE": "カテゴリーが正常に削除されました",
+          "ERROR_MESSAGE": "カテゴリーの削除中にエラーが発生しました"
         }
       }
     },
     "ARTICLE_SEARCH": {
-      "TITLE": "Search articles",
-      "PLACEHOLDER": "Search articles",
-      "NO_RESULT": "No articles found",
-      "SEARCHING": "Searching...",
-      "SEARCH_BUTTON": "Search",
-      "INSERT_ARTICLE": "Insert link",
-      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
-      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
-      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
-      "PREVIEW_LINK": "Preview article",
+      "TITLE": "記事を検索",
+      "PLACEHOLDER": "記事を検索",
+      "NO_RESULT": "記事が見つかりません",
+      "SEARCHING": "検索中...",
+      "SEARCH_BUTTON": "検索",
+      "INSERT_ARTICLE": "リンクを挿入",
+      "IFRAME_ERROR": "URLが空または無効です。コンテンツを表示できません。",
+      "OPEN_ARTICLE_SEARCH": "ヘルプセンターから記事を挿入",
+      "SUCCESS_ARTICLE_INSERTED": "記事が正常に挿入されました",
+      "PREVIEW_LINK": "記事をプレビュー",
       "CANCEL": "閉じる",
       "BACK": "戻る",
-      "BACK_RESULTS": "Back to results"
+      "BACK_RESULTS": "結果に戻る"
     },
     "UPGRADE_PAGE": {
-      "TITLE": "Help Center",
-      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
-      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "TITLE": "ヘルプセンター",
+      "DESCRIPTION": "ユーザーフレンドリーなセルフサービスポータルを作成します。ユーザーが記事にアクセスし、24時間365日サポートを受けられるようにします。この機能を有効にするには、サブスクリプションをアップグレードしてください。",
+      "SELF_HOSTED_DESCRIPTION": "ユーザーフレンドリーなセルフサービスポータルを作成します。ユーザーが記事にアクセスし、24時間365日サポートを受けられるようにします。この機能を有効にするには、管理者に連絡してください。",
       "BUTTON": {
-        "LEARN_MORE": "Learn more",
-        "UPGRADE": "Upgrade"
+        "LEARN_MORE": "詳細を確認",
+        "UPGRADE": "アップグレード"
       },
       "FEATURES": {
         "PORTALS": {
-          "TITLE": "Multiple portals",
-          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+          "TITLE": "複数のポータル",
+          "DESCRIPTION": "同じアカウントを使用して、異なる製品のために複数のヘルプセンターポータルを作成します。"
         },
         "LOCALES": {
-          "TITLE": "Full support for locales",
-          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+          "TITLE": "ロケールの完全サポート",
+          "DESCRIPTION": "ポータルをあなたの言語にローカライズします。すべてのロケールをサポートし、各記事の翻訳を可能にします。"
         },
         "SEO": {
-          "TITLE": "SEO-friendly design",
-          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+          "TITLE": "SEOに優れたデザイン",
+          "DESCRIPTION": "メタタグをカスタマイズして、SEOに優れたページで検索エンジンでの可視性を向上させます。"
         },
         "API": {
-          "TITLE": "Full API support",
-          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
+          "TITLE": "完全なAPIサポート",
+          "DESCRIPTION": "APIを使用して、サードパーティのフロントエンドフレームワークでポータルをヘッドレスCMSとして使用します。"
         }
       }
     },
-    "LOADING": "Loading...",
+    "LOADING": "読み込み中...",
     "ARTICLES_PAGE": {
       "ARTICLE_CARD": {
         "CARD": {
-          "VIEWS": "{count} view | {count} views",
+          "VIEWS": "{count} 回の閲覧",
           "DROPDOWN_MENU": {
-            "PUBLISH": "Publish",
-            "DRAFT": "Draft",
-            "ARCHIVE": "Archive",
+            "PUBLISH": "公開",
+            "DRAFT": "下書き",
+            "ARCHIVE": "アーカイブ",
             "DELETE": "削除"
           },
           "STATUS": {
-            "DRAFT": "Draft",
-            "PUBLISHED": "Published",
-            "ARCHIVED": "Archived"
+            "DRAFT": "下書き",
+            "PUBLISHED": "公開済み",
+            "ARCHIVED": "アーカイブ"
           },
           "CATEGORY": {
-            "UNCATEGORISED": "Uncategorised"
+            "UNCATEGORISED": "未分類"
           }
         }
       },
       "ARTICLES_HEADER": {
         "TABS": {
-          "ALL": "All articles",
+          "ALL": "すべての記事",
           "MINE": "自分",
-          "DRAFT": "Draft",
-          "PUBLISHED": "Published",
-          "ARCHIVED": "Archived"
+          "DRAFT": "下書き",
+          "PUBLISHED": "公開済み",
+          "ARCHIVED": "アーカイブ"
         },
         "CATEGORY": {
-          "ALL": "All categories"
+          "ALL": "すべてのカテゴリー"
         },
         "LOCALE": {
-          "ALL": "All locales"
+          "ALL": "すべてのロケール"
         },
-        "NEW_ARTICLE": "New article"
+        "NEW_ARTICLE": "新しい記事"
       },
       "EMPTY_STATE": {
         "ALL": {
-          "TITLE": "Write an article",
-          "SUBTITLE": "Write a rich article, let’s get started!",
-          "BUTTON_LABEL": "New article"
+          "TITLE": "記事を書く",
+          "SUBTITLE": "リッチな記事を書いて、始めましょう！",
+          "BUTTON_LABEL": "新しい記事"
         },
         "MINE": {
-          "TITLE": "You haven't written any articles here",
-          "SUBTITLE": "All articles written by you show up here for quick access."
+          "TITLE": "ここにはまだ記事がありません",
+          "SUBTITLE": "あなたが書いたすべての記事がここに表示されます。"
         },
         "DRAFT": {
-          "TITLE": "There are no articles in drafts",
-          "SUBTITLE": "Draft articles will appear here"
+          "TITLE": "下書きの記事はありません",
+          "SUBTITLE": "下書きの記事はここに表示されます"
         },
         "PUBLISHED": {
-          "TITLE": "There are no published articles",
-          "SUBTITLE": "Published articles will appear here"
+          "TITLE": "公開された記事はありません",
+          "SUBTITLE": "公開された記事はここに表示されます"
         },
         "ARCHIVED": {
-          "TITLE": "There are no articles in the archive",
-          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+          "TITLE": "アーカイブされた記事はありません",
+          "SUBTITLE": "アーカイブされた記事はポータルに表示されません。廃止された記事や古い記事をマークするために使用できます。"
         },
         "CATEGORY": {
-          "TITLE": "There are no articles in this category",
-          "SUBTITLE": "Articles in this category will appear here"
+          "TITLE": "このカテゴリーには記事がありません",
+          "SUBTITLE": "このカテゴリーの記事はここに表示されます"
         }
       }
     },
     "CATEGORY_PAGE": {
       "CATEGORY_HEADER": {
-        "NEW_CATEGORY": "New category",
-        "EDIT_CATEGORY": "Edit category",
-        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "NEW_CATEGORY": "新しいカテゴリー",
+        "EDIT_CATEGORY": "カテゴリーを編集",
+        "CATEGORIES_COUNT": "{n} カテゴリー | {n} カテゴリー",
         "BREADCRUMB": {
-          "CATEGORY_LOCALE": "Categories ({localeCode})",
-          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+          "CATEGORY_LOCALE": "カテゴリー ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} 記事) | {categoryName} ({categoryCount} 記事)"
         }
       },
       "CATEGORY_EMPTY_STATE": {
-        "TITLE": "No categories found",
-        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+        "TITLE": "カテゴリーが見つかりません",
+        "SUBTITLE": "カテゴリーはここに表示されます。「新しいカテゴリー」ボタンをクリックしてカテゴリーを追加できます。"
       },
       "CATEGORY_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles"
+        "ARTICLES_COUNT": "{count} 記事 | {count} 記事"
       },
       "CATEGORY_DIALOG": {
         "CREATE": {
           "API": {
-            "SUCCESS_MESSAGE": "Category created successfully",
-            "ERROR_MESSAGE": "Unable to create category"
+            "SUCCESS_MESSAGE": "カテゴリーが正常に作成されました",
+            "ERROR_MESSAGE": "カテゴリーを作成できませんでした"
           }
         },
         "EDIT": {
           "API": {
-            "SUCCESS_MESSAGE": "Category updated successfully",
-            "ERROR_MESSAGE": "Unable to update category"
+            "SUCCESS_MESSAGE": "カテゴリーが正常に更新されました",
+            "ERROR_MESSAGE": "カテゴリーを更新できませんでした"
           }
         },
         "DELETE": {
           "API": {
-            "SUCCESS_MESSAGE": "Category deleted successfully",
-            "ERROR_MESSAGE": "Unable to delete category"
+            "SUCCESS_MESSAGE": "カテゴリーが正常に削除されました",
+            "ERROR_MESSAGE": "カテゴリーを削除できませんでした"
           }
         },
         "HEADER": {
-          "CREATE": "Create category",
-          "EDIT": "Edit category",
-          "DESCRIPTION": "Editing a category will update the category in the public facing portal.",
-          "PORTAL": "Portal",
-          "LOCALE": "Locale"
+          "CREATE": "カテゴリーを作成",
+          "EDIT": "カテゴリーを編集",
+          "DESCRIPTION": "カテゴリーを編集すると、公開ポータルのカテゴリーが更新されます。",
+          "PORTAL": "ポータル",
+          "LOCALE": "ロケール"
         },
         "FORM": {
           "NAME": {
             "LABEL": "名前",
-            "PLACEHOLDER": "Category name",
+            "PLACEHOLDER": "カテゴリー名",
             "ERROR": "名前が必須です"
           },
           "SLUG": {
-            "LABEL": "Slug",
-            "PLACEHOLDER": "Category slug for urls",
-            "ERROR": "Slug is required",
+            "LABEL": "スラッグ",
+            "PLACEHOLDER": "URL用のカテゴリーのスラッグ",
+            "ERROR": "スラッグが必須です",
             "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "説明",
-            "PLACEHOLDER": "Give a short description about the category.",
-            "ERROR": "Description is required"
+            "PLACEHOLDER": "カテゴリーについての簡単な説明を入力してください。",
+            "ERROR": "説明は必須です"
           }
         },
         "BUTTONS": {
@@ -622,169 +622,169 @@
       }
     },
     "LOCALES_PAGE": {
-      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
-      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALES_COUNT": "利用可能なロケールはありません | {n} ロケール | {n} ロケール",
+      "NEW_LOCALE_BUTTON_TEXT": "新しいロケール",
       "LOCALE_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles",
-        "CATEGORIES_COUNT": "{count} category | {count} categories",
-        "DEFAULT": "Default",
+        "ARTICLES_COUNT": "{count} 記事 | {count} 記事",
+        "CATEGORIES_COUNT": "{count} カテゴリー | {count} カテゴリー",
+        "DEFAULT": "デフォルト",
         "DROPDOWN_MENU": {
-          "MAKE_DEFAULT": "Make default",
+          "MAKE_DEFAULT": "デフォルトに設定",
           "DELETE": "削除"
         }
       },
       "ADD_LOCALE_DIALOG": {
-        "TITLE": "Add a new locale",
-        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "TITLE": "新しいロケールを追加",
+        "DESCRIPTION": "この記事が書かれる言語を選択します。これが翻訳リストに追加され、後でさらに追加できます。",
         "COMBOBOX": {
-          "PLACEHOLDER": "Select locale..."
+          "PLACEHOLDER": "ロケールを選択..."
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "ロケールが正常に追加されました",
+          "ERROR_MESSAGE": "ロケールを追加できませんでした。再試行してください。"
         }
       }
     },
     "EDIT_ARTICLE_PAGE": {
       "HEADER": {
         "STATUS": {
-          "SAVING": "Saving...",
-          "SAVED": "Saved"
+          "SAVING": "保存中...",
+          "SAVED": "保存済み"
         },
-        "PREVIEW": "Preview",
-        "PUBLISH": "Publish",
-        "DRAFT": "Draft",
-        "ARCHIVE": "Archive",
-        "BACK_TO_ARTICLES": "Back to articles"
+        "PREVIEW": "プレビュー",
+        "PUBLISH": "公開",
+        "DRAFT": "下書き",
+        "ARCHIVE": "アーカイブ",
+        "BACK_TO_ARTICLES": "記事に戻る"
       },
       "EDIT_ARTICLE": {
-        "MORE_PROPERTIES": "More properties",
-        "UNCATEGORIZED": "Uncategorized",
-        "EDITOR_PLACEHOLDER": "Write something..."
+        "MORE_PROPERTIES": "その他のプロパティ",
+        "UNCATEGORIZED": "未分類",
+        "EDITOR_PLACEHOLDER": "何か書いてください..."
       },
       "ARTICLE_PROPERTIES": {
-        "ARTICLE_PROPERTIES": "Article properties",
-        "META_DESCRIPTION": "Meta description",
-        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
-        "META_TITLE": "Meta title",
-        "META_TITLE_PLACEHOLDER": "Add meta title",
-        "META_TAGS": "Meta tags",
-        "META_TAGS_PLACEHOLDER": "Add meta tags"
+        "ARTICLE_PROPERTIES": "記事のプロパティ",
+        "META_DESCRIPTION": "メタ説明",
+        "META_DESCRIPTION_PLACEHOLDER": "メタ説明を追加",
+        "META_TITLE": "メタタイトル",
+        "META_TITLE_PLACEHOLDER": "メタタイトルを追加",
+        "META_TAGS": "メタタグ",
+        "META_TAGS_PLACEHOLDER": "メタタグを追加"
       },
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "記事の保存中にエラーが発生しました"
       }
     },
     "PORTAL_SWITCHER": {
-      "NEW_PORTAL": "New portal",
-      "PORTALS": "Portals",
-      "CREATE_PORTAL": "Create and manage multiple portals",
-      "ARTICLES": "articles",
-      "DOMAIN": "domain",
-      "PORTAL_NAME": "Portal name"
+      "NEW_PORTAL": "新しいポータル",
+      "PORTALS": "ポータル",
+      "CREATE_PORTAL": "複数のポータルを作成および管理",
+      "ARTICLES": "記事",
+      "DOMAIN": "ドメイン",
+      "PORTAL_NAME": "ポータル名"
     },
     "CREATE_PORTAL_DIALOG": {
-      "TITLE": "Create new portal",
-      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
+      "TITLE": "新しいポータルを作成",
+      "DESCRIPTION": "ポータルに名前を付け、ユーザーフレンドリーなURLスラッグを作成します。後で設定で両方を変更できます。",
       "CONFIRM_BUTTON_LABEL": "作成",
       "NAME": {
         "LABEL": "名前",
-        "PLACEHOLDER": "User Guide | Chatwoot",
-        "MESSAGE": "Choose an name for your portal.",
+        "PLACEHOLDER": "ユーザーガイド | Chatwoot",
+        "MESSAGE": "ポータルの名前を選択してください。",
         "ERROR": "名前が必須です"
       },
       "SLUG": {
-        "LABEL": "Slug",
+        "LABEL": "スラッグ",
         "PLACEHOLDER": "user-guide",
-        "ERROR": "Slug is required"
+        "ERROR": "スラッグが必須です"
       }
     },
     "PORTAL_SETTINGS": {
       "FORM": {
         "AVATAR": {
-          "LABEL": "Logo",
-          "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
-          "IMAGE_DELETE_SUCCESS": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Unable to delete logo",
-          "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+          "LABEL": "ロゴ",
+          "IMAGE_UPLOAD_ERROR": "画像をアップロードできませんでした！再試行してください",
+          "IMAGE_UPLOAD_SUCCESS": "画像が正常に追加されました。ロゴを保存するには変更を保存をクリックしてください",
+          "IMAGE_DELETE_SUCCESS": "ロゴが正常に削除されました",
+          "IMAGE_DELETE_ERROR": "ロゴを削除できませんでした",
+          "IMAGE_UPLOAD_SIZE_ERROR": "画像サイズは {size}MB 未満である必要があります"
         },
         "NAME": {
           "LABEL": "名前",
-          "PLACEHOLDER": "Portal name",
+          "PLACEHOLDER": "ポータル名",
           "ERROR": "名前が必須です"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header text",
-          "PLACEHOLDER": "Portal header text"
+          "LABEL": "ヘッダーテキスト",
+          "PLACEHOLDER": "ポータルヘッダーテキスト"
         },
         "PAGE_TITLE": {
-          "LABEL": "Page title",
-          "PLACEHOLDER": "Portal page title"
+          "LABEL": "ページタイトル",
+          "PLACEHOLDER": "ポータルページタイトル"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home page link",
-          "PLACEHOLDER": "Portal home page link",
-          "ERROR": "Invalid URL. The Home page link must start with 'http://' or 'https://'."
+          "LABEL": "ホームページリンク",
+          "PLACEHOLDER": "ポータルホームページリンク",
+          "ERROR": "無効なURLです。ホームページリンクは「http://」または「https://」で始まる必要があります。"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug"
+          "LABEL": "スラッグ",
+          "PLACEHOLDER": "ポータルスラッグ"
         },
         "LIVE_CHAT_WIDGET": {
-          "LABEL": "Live chat widget",
-          "PLACEHOLDER": "Select live chat widget",
-          "HELP_TEXT": "Select a live chat widget that will appear on your help center"
+          "LABEL": "ライブチャットウィジェット",
+          "PLACEHOLDER": "ライブチャットウィジェットを選択",
+          "HELP_TEXT": "ヘルプセンターに表示されるライブチャットウィジェットを選択します"
         },
         "BRAND_COLOR": {
-          "LABEL": "Brand color"
+          "LABEL": "ブランドカラー"
         },
-        "SAVE_CHANGES": "Save changes"
+        "SAVE_CHANGES": "変更を保存"
       },
       "CONFIGURATION_FORM": {
         "CUSTOM_DOMAIN": {
-          "HEADER": "Custom domain",
-          "LABEL": "Custom domain:",
-          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
-          "PLACEHOLDER": "Portal custom domain",
-          "EDIT_BUTTON": "Edit custom domain",
-          "ADD_BUTTON": "Add custom domain",
+          "HEADER": "カスタムドメイン",
+          "LABEL": "カスタムドメイン:",
+          "DESCRIPTION": "ポータルをカスタムドメインでホストできます。例えば、あなたのウェブサイトがyourdomain.comで、ポータルをdocs.yourdomain.comで利用したい場合、このフィールドに入力してください。",
+          "PLACEHOLDER": "ポータルカスタムドメイン",
+          "EDIT_BUTTON": "カスタムドメインを編集",
+          "ADD_BUTTON": "カスタムドメインを追加",
           "DIALOG": {
-            "ADD_HEADER": "Add custom domain",
-            "EDIT_HEADER": "Edit custom domain",
-            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
-            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
-            "LABEL": "Custom domain",
-            "PLACEHOLDER": "Portal custom domain",
-            "ERROR": "Custom domain is required"
+            "ADD_HEADER": "カスタムドメインを追加",
+            "EDIT_HEADER": "カスタムドメインを編集",
+            "ADD_CONFIRM_BUTTON_LABEL": "ドメインを追加",
+            "EDIT_CONFIRM_BUTTON_LABEL": "ドメインを更新",
+            "LABEL": "カスタムドメイン",
+            "PLACEHOLDER": "ポータルカスタムドメイン",
+            "ERROR": "カスタムドメインは必須です"
           },
           "DNS_CONFIGURATION_DIALOG": {
-            "HEADER": "DNS configuration",
-            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
-            "HELP_TEXT": "Once this is done, you can reach out to our support to request for the auto-generated SSL certificate.",
-            "CONFIRM_BUTTON_LABEL": "Got it!"
+            "HEADER": "DNS設定",
+            "DESCRIPTION": "DNSプロバイダーのアカウントにログインし、サブドメインのCNAMEレコードをchatwoot.helpにポイントするように追加してください。",
+            "HELP_TEXT": "これが完了したら、自動生成されたSSL証明書のリクエストのためにサポートに連絡できます。",
+            "CONFIRM_BUTTON_LABEL": "了解しました！"
           }
         },
         "DELETE_PORTAL": {
-          "BUTTON": "Delete {portalName}",
-          "HEADER": "Delete portal",
-          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "BUTTON": "{portalName}を削除",
+          "HEADER": "ポータルを削除",
+          "DESCRIPTION": "このポータルを永久に削除します。この操作は取り消せません。",
           "DIALOG": {
-            "HEADER": "Sure you want to delete {portalName}?",
-            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
+            "HEADER": "{portalName}を削除してもよろしいですか？",
+            "DESCRIPTION": "これは取り消せない永久的な操作です。",
             "CONFIRM_BUTTON_LABEL": "削除"
           }
         },
-        "EDIT_CONFIGURATION": "Edit configuration"
+        "EDIT_CONFIGURATION": "設定を編集"
       },
       "API": {
         "CREATE_PORTAL": {
-          "SUCCESS_MESSAGE": "Portal created successfully",
-          "ERROR_MESSAGE": "Unable to create portal"
+          "SUCCESS_MESSAGE": "ポータルが正常に作成されました",
+          "ERROR_MESSAGE": "ポータルを作成できませんでした"
         },
         "UPDATE_PORTAL": {
-          "SUCCESS_MESSAGE": "Portal updated successfully",
-          "ERROR_MESSAGE": "Unable to update portal"
+          "SUCCESS_MESSAGE": "ポータルが正常に更新されました",
+          "ERROR_MESSAGE": "ポータルを更新できませんでした"
         }
       }
     }

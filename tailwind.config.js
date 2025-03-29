@@ -53,10 +53,7 @@ const tailwindConfig = {
                 marginTop: '0',
               },
             },
-
-            'br + br': {
-              display: 'none',
-            },
+            overflowWrap: 'anywhere',
 
             strong: {
               color: 'rgb(var(--slate-12))',

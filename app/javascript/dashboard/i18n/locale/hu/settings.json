@@ -35,6 +35,24 @@
           }
         }
       },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "Alapértelmezett",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Személyes üzenet aláírás",
         "NOTE": "Hozzon létre egyedi üzenetaláírást, amely bármelyik postafiókból küldött üzenet végén megjelenik. Beilleszthet egy soron belüli képet is, amelyet az élő chat, az e-mail és az API bejövő üzenetek támogatnak.",
@@ -194,7 +212,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Megváltoztatás",
     "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_WORKSPACE": "Switch workspace",
+    "SWITCH_ACCOUNT": "Switch account",
     "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Fiók kiválasztása az alábbi listából",
     "PROFILE_SETTINGS": "Profile settings",
@@ -263,6 +281,9 @@
     "SETTINGS": "Beállítások",
     "CONTACTS": "Kontaktok",
     "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Nyitólap",
     "AGENTS": "Ügynökök",
     "AGENT_BOTS": "Botok",
@@ -324,14 +345,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Számlázás",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Aktuális előfizetés",
-      "PLAN_NOTE": "Jelenleg előfizetett a **{plan}** csomagra **{quantity}** licensszel"
+      "PLAN_NOTE": "Jelenleg előfizetett a **{plan}** csomagra **{quantity}** licensszel",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Előfizetés kezelése",
       "DESCRIPTION": "Korábbi számlák nézete, fizetési részletek szerkesztése, vagy az előfizetés törlése",
       "BUTTON_TXT": "Ugrás a számlázási felületre"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Kell segítség?",
@@ -374,11 +407,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Válts privát jegyzetre",
       "SWITCH_TO_REPLY": "Válts a válasz fülre",
       "TOGGLE_SNOOZE_DROPDOWN": "Alvómód bekapcsolása a legördülő menüben"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/\n"
     }
   }
 }

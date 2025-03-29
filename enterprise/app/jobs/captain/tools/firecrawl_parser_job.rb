@@ -6,12 +6,12 @@ class Captain::Tools::FirecrawlParserJob < ApplicationJob
     metadata = payload[:metadata]
 
     document = assistant.documents.find_or_initialize_by(
-      external_link: metadata[:ogUrl]
+      external_link: metadata['url']
     )
 
     document.update!(
       content: payload[:markdown],
-      name: metadata[:ogTitle],
+      name: metadata['title'],
       status: :available
     )
   rescue StandardError => e

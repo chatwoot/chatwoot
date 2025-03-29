@@ -12,6 +12,8 @@
     "NO_INBOX_2": " для початку",
     "NO_INBOX_AGENT": "Ой! Схоже, ви не маєте доступу до скриньки \"Вхідні\". Будь ласка, зверніться до адміністратора",
     "SEARCH_MESSAGES": "Пошук повідомлень у розмовах",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "відкрити командне меню",
       "KEYBOARD_SHORTCUTS": "переглянути комбінації клавіш"
@@ -38,15 +40,23 @@
     "REMOVE_SELECTION": "Видалити вибране",
     "DOWNLOAD": "Звантажити",
     "UNKNOWN_FILE_TYPE": "Невідомий файл",
-    "SAVE_CONTACT": "Зберегти",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} розпочав зустріч"
+    },
     "UPLOADING_ATTACHMENTS": "Завантаження вкладень...",
     "REPLIED_TO_STORY": "Відповів(-ла) на вашу історію",
-    "UNSUPPORTED_MESSAGE": "Це повідомлення не підтримується.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Це повідомлення не підтримується. Ви можете переглянути це повідомлення у додатку Facebook Messenger",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Це повідомлення не підтримується. Ви можете переглянути це повідомлення у додатку Instagram.",
     "SUCCESS_DELETE_MESSAGE": "Повідомлення успішно видалено",
     "FAIL_DELETE_MESSSAGE": "Не вдалося видалити повідомлення! Спробуйте ще раз",
     "NO_RESPONSE": "Немає відповіді",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Оцінка",
     "FEEDBACK_TITLE": "Зворотній зв'язок",
     "REPLY_MESSAGE_NOT_FOUND": "Повідомлення недоступне",
@@ -109,6 +119,7 @@
       "PENDING": "Позначити як \"В очікуванні\"",
       "RESOLVED": "Позначити як вирішене",
       "MARK_AS_UNREAD": "Позначити як непрочитане",
+      "MARK_AS_READ": "Позначити як прочитане",
       "REOPEN": "Повторно відкрити розмову",
       "SNOOZE": {
         "TITLE": "Відкласти",
@@ -126,7 +137,7 @@
           "FAILED": "Не вдалося призначити агента. Будь ласка, спробуйте ще раз."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Призначено мітку #{labelName} до ID розмови {conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Не вдалося призначити мітку. Будь-ласка, спробуйте ще раз."
         },
         "TEAM_ASSIGNMENT": {
@@ -219,6 +230,10 @@
         "DELETE": "Видалити",
         "CANCEL": "Скасувати"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Контакт",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -280,7 +295,27 @@
       "CONVERSATION_INFO": "Інформація про бесіду",
       "CONTACT_ATTRIBUTES": "Атрибути контакту",
       "PREVIOUS_CONVERSATION": "Попередні бесіди",
-      "MACROS": "Макрос"
+      "MACROS": "Макрос",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Очікує",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -310,7 +345,8 @@
     "TO": "Для",
     "BCC": "Прихована копія",
     "CC": "Копія",
-    "SUBJECT": "Тема"
+    "SUBJECT": "Тема",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Підключені агенти",
@@ -335,5 +371,16 @@
     "ORIGINAL_CONTENT": "Оригінальний текст",
     "TRANSLATED_CONTENT": "Переклад",
     "NO_TRANSLATIONS_AVAILABLE": "Немає доступних перекладів"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

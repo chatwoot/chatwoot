@@ -94,7 +94,7 @@ gem 'twitty', '~> 0.1.5'
 # facebook client
 gem 'koala'
 # slack client
-gem 'slack-ruby-client', '~> 2.2.0'
+gem 'slack-ruby-client', '~> 2.5.2'
 # for dialogflow integrations
 gem 'google-cloud-dialogflow-v2', '>= 0.24.0'
 gem 'grpc'
@@ -138,9 +138,7 @@ gem 'procore-sift'
 # parse email
 gem 'email_reply_trimmer'
 
-# TODO: we might have to fork this gem since 0.3.1 has hard depency on nokogir 1.10.
-# and this gem hasn't been updated for a while.
-gem 'html2text', git: 'https://github.com/chatwoot/html2text_ruby', branch: 'chatwoot'
+gem 'html2text'
 
 # to calculate working hours
 gem 'working_hours'
@@ -175,7 +173,10 @@ gem 'pgvector'
 # Convert Website HTML to Markdown
 gem 'reverse_markdown'
 
+gem 'iso-639'
 gem 'ruby-openai'
+
+gem 'shopify_api'
 
 ### Gems required only in specific deployment environments ###
 ##############################################################

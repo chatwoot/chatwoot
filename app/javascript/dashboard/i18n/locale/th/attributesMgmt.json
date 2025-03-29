@@ -92,7 +92,12 @@
       "CONTACT": "รายชื่อผู้ติดต่อ"
     },
     "LIST": {
-      "TABLE_HEADER": ["ชื่อ", "คำอธิบาย", "ประเภท", "คีย์"],
+      "TABLE_HEADER": {
+        "NAME": "ชื่อ",
+        "DESCRIPTION": "คำอธิบาย",
+        "TYPE": "ประเภท",
+        "KEY": "คีย์"
+      },
       "BUTTONS": {
         "EDIT": "เเก้ไข",
         "DELETE": "ลบ"

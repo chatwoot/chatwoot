@@ -17,7 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 sr-Latn:
-  hello: "Zdravo svete"
+  hello: 'Zdravo svete'
   messages:
     reset_password_success: Opa! Zahtev za resetovanjem lozinke je uspešan. Proverite vašu e-poštu za uputstvo.
     reset_password_failure: O ne! Nismo mogli da pronađemo nijednog korisnika sa navedenom e-poštom.
@@ -31,7 +31,7 @@ sr-Latn:
       disposable_email: Ne dozvoljavamo potrošne e-pošte
       blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Uneli ste neispravnu e-poštu
-      email_already_exists: "Već ste registrovali nalog sa %{email}"
+      email_already_exists: 'Već ste registrovali nalog sa %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Registracija nije uspela
     data_import:
@@ -50,9 +50,11 @@ sr-Latn:
       locale:
         unique: treba biti jedinstvena u kategoriji i portalu
     dyte:
-      invalid_message_type: "Invalid message type. Action not permitted"
+      invalid_message_type: 'Invalid message type. Action not permitted'
     slack:
-      invalid_channel_id: "Invalid slack channel. Please try again"
+      invalid_channel_id: 'Invalid slack channel. Please try again'
+    channel_service:
+      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: Molim vas proverite vezu sa mrežom, IMAP adresu i pokušajte ponovo.
@@ -68,6 +70,8 @@ sr-Latn:
       invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
       invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
     period: Period izveštaja %{since} do %{until}
     utc_warning: Generisani izveštaj je u UTC vremenskoj zoni
@@ -120,103 +124,107 @@ sr-Latn:
         recorded_at: Snimljen dana
   notifications:
     notification_title:
-      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
-      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
-      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
-      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
-      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
-      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
-      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
-    attachment: "Attachment"
-    no_content: "No content"
+      conversation_creation: 'A conversation (#%{display_id}) has been created in %{inbox_name}'
+      conversation_assignment: 'A conversation (#%{display_id}) has been assigned to you'
+      assigned_conversation_new_message: 'A new message is created in conversation (#%{display_id})'
+      conversation_mention: 'You have been mentioned in conversation (#%{display_id})'
+      sla_missed_first_response: 'SLA target first response missed for conversation (#%{display_id})'
+      sla_missed_next_response: 'SLA target next response missed for conversation (#%{display_id})'
+      sla_missed_resolution: 'SLA target resolution missed for conversation (#%{display_id})'
+    attachment: 'Attachment'
+    no_content: 'No content'
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} vas je pomenuo u priči: "
+      instagram_story_content: '%{story_sender} vas je pomenuo u priči: '
       instagram_deleted_story_content: Ova priča više nije dostupna.
       deleted: Poruka je obrisana
       delivery_status:
-        error_code: "Error code: %{error_code}"
+        error_code: 'Error code: %{error_code}'
     activity:
       status:
-        resolved: "Razgovor je označen kao rešen od strane %{user_name}"
-        contact_resolved: "Razgovor je rešen od strane %{contact_name}"
-        open: "Razgovor je ponovo otvoren od strane %{user_name}"
-        pending: "Razgovor je označen kao na čekanju od strane %{user_name}"
-        snoozed: "Razgovor je odložen od strane %{user_name}"
-        auto_resolved: "Razgovor je označen kao rešen od strane sistema zbog %{duration} dana neaktivnosti"
+        resolved: 'Razgovor je označen kao rešen od strane %{user_name}'
+        contact_resolved: 'Razgovor je rešen od strane %{contact_name}'
+        open: 'Razgovor je ponovo otvoren od strane %{user_name}'
+        pending: 'Razgovor je označen kao na čekanju od strane %{user_name}'
+        snoozed: 'Razgovor je odložen od strane %{user_name}'
+        auto_resolved: 'Razgovor je označen kao rešen od strane sistema zbog %{duration} dana neaktivnosti'
         system_auto_open: System reopened the conversation due to a new incoming message.
       priority:
         added: '%{user_name} set the priority to %{new_priority}'
         updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
         removed: '%{user_name} removed the priority'
       assignee:
-        self_assigned: "%{user_name} je samododelio sebe ovom razgovoru"
-        assigned: "Dodeljeno %{assignee_name} od strane %{user_name}"
-        removed: "Razgovoru uklonjena dodela od strane %{user_name}"
+        self_assigned: '%{user_name} je samododelio sebe ovom razgovoru'
+        assigned: 'Dodeljeno %{assignee_name} od strane %{user_name}'
+        removed: 'Razgovoru uklonjena dodela od strane %{user_name}'
       team:
-        assigned: "Dodeljeno %{team_name} od strane %{user_name}"
-        assigned_with_assignee: "Dodeljeno %{assignee_name} putem %{team_name} od strane %{user_name}"
-        removed: "Uklonjena dodela %{team_name} od strane %{user_name}"
+        assigned: 'Dodeljeno %{team_name} od strane %{user_name}'
+        assigned_with_assignee: 'Dodeljeno %{assignee_name} putem %{team_name} od strane %{user_name}'
+        removed: 'Uklonjena dodela %{team_name} od strane %{user_name}'
       labels:
-        added: "%{user_name} je dodao %{labels}"
-        removed: "%{user_name} je uklonio %{labels}"
+        added: '%{user_name} je dodao %{labels}'
+        removed: '%{user_name} je uklonio %{labels}'
       sla:
-        added: "%{user_name} added SLA policy %{sla_name}"
-        removed: "%{user_name} removed SLA policy %{sla_name}"
-      muted: "%{user_name} je utišao razgovor"
-      unmuted: "%{user_name} je uklonio utišanje razgovora"
+        added: '%{user_name} added SLA policy %{sla_name}'
+        removed: '%{user_name} removed SLA policy %{sla_name}'
+      muted: '%{user_name} je utišao razgovor'
+      unmuted: '%{user_name} je uklonio utišanje razgovora'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
-      greeting_message_body: "%{account_name} obično odgovara za nekoliko sati."
-      ways_to_reach_you_message_body: "Pružite timu način da vas kontaktira."
-      email_input_box_message_body: "Budite obavešteni putem e-poruke"
-      csat_input_message_body: "Molim vas ocenite ovaj razgovor"
+      greeting_message_body: '%{account_name} obično odgovara za nekoliko sati.'
+      ways_to_reach_you_message_body: 'Pružite timu način da vas kontaktira.'
+      email_input_box_message_body: 'Budite obavešteni putem e-poruke'
+      csat_input_message_body: 'Molim vas ocenite ovaj razgovor'
     reply:
       email:
         header:
-          from_with_name: "%{assignee_name} iz %{inbox_name} <%{from_email}>"
-          reply_with_name: "%{assignee_name} iz %{inbox_name} <reply+%{reply_email}>"
-          friendly_name: "%{sender_name} iz %{business_name} <%{from_email}>"
-          professional_name: "%{business_name} <%{from_email}>"
+          from_with_name: '%{assignee_name} iz %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} iz %{inbox_name} <reply+%{reply_email}>'
+          friendly_name: '%{sender_name} iz %{business_name} <%{from_email}>'
+          professional_name: '%{business_name} <%{from_email}>'
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} iz %{inbox_name} <%{from_email}>"
-          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
-      email_subject: "Nove poruke u ovom razgovoru"
-      transcript_subject: "Transkript razgovora"
+          reply_with_name: '%{assignee_name} iz %{inbox_name} <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+      email_subject: 'Nove poruke u ovom razgovoru'
+      transcript_subject: 'Transkript razgovora'
     survey:
-      response: "Molim vas ocenite ovaj razgovor, %{link}"
+      response: 'Molim vas ocenite ovaj razgovor, %{link}'
   contacts:
     online:
-      delete: "%{contact_name} je dostupan, molim vas pokušajte ponovo"
+      delete: '%{contact_name} je dostupan, molim vas pokušajte ponovo'
   integration_apps:
     dashboard_apps:
-      name: "Aplikacije radne table"
-      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+      name: 'Aplikacije radne table'
+      description: 'Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents.'
     dyte:
-      name: "Dyte"
-      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
-      meeting_name: "%{agent_name} has started a meeting"
+      name: 'Dyte'
+      description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot.'
+      meeting_name: '%{agent_name} has started a meeting'
     slack:
-      name: "Slack"
+      name: 'Slack'
       description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
-      name: "Veb zakačke"
-      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+      name: 'Veb zakačke'
+      description: 'Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates.'
     dialogflow:
-      name: "Dialogflow"
-      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+      name: 'Dialogflow'
+      description: 'Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent.'
     google_translate:
-      name: "Google Translate"
+      name: 'Google Translate'
       description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
     openai:
-      name: "OpenAI"
-      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+      name: 'OpenAI'
+      description: 'Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification.'
     linear:
-      name: "Linear"
-      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
-    captain:
-      name: "Captain"
-      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+      name: 'Linear'
+      description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
+    shopify:
+      name: 'Shopify'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+  captain:
+    copilot_error: 'Please connect an assistant to this inbox to use Copilot'
+    copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
@@ -263,18 +271,18 @@ sr-Latn:
     button: Otvoren razgovor
   time_units:
     days:
-      one: "%{count} day"
-      few: "%{count} days"
-      other: "%{count} days"
+      one: '%{count} day'
+      few: '%{count} days'
+      other: '%{count} days'
     hours:
-      one: "%{count} hour"
-      few: "%{count} hours"
-      other: "%{count} hours"
+      one: '%{count} hour'
+      few: '%{count} hours'
+      other: '%{count} hours'
     minutes:
-      one: "%{count} minute"
-      few: "%{count} minutes"
-      other: "%{count} minutes"
+      one: '%{count} minute'
+      few: '%{count} minutes'
+      other: '%{count} minutes'
     seconds:
-      one: "%{count} second"
-      few: "%{count} seconds"
-      other: "%{count} seconds"
+      one: '%{count} second'
+      few: '%{count} seconds'
+      other: '%{count} seconds'

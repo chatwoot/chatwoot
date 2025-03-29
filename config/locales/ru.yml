@@ -17,7 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 ru:
-  hello: "Привет мир"
+  hello: 'Привет мир'
   messages:
     reset_password_success: Круто! Запрос на сброс пароля удался. Проверьте почту для получения инструкций.
     reset_password_failure: Ой! Мы не смогли найти пользователя с указанным email.
@@ -31,7 +31,7 @@ ru:
       disposable_email: Мы не разрешаем одноразовые почтовые ящики
       blocked_domain: Этот домен не разрешен. Если вы считаете, что это ошибка, обратитесь в службу поддержки.
       invalid_email: Вы ввели неверный email
-      email_already_exists: "Вы уже зарегистрировались для учётной записи с %{email}"
+      email_already_exists: 'Вы уже зарегистрировались для учётной записи с %{email}'
       invalid_params: 'Неверно, проверьте параметры регистрации и повторите попытку'
       failed: Ошибка регистрации
     data_import:
@@ -50,9 +50,11 @@ ru:
       locale:
         unique: Должны быть уникальными в категории и портале
     dyte:
-      invalid_message_type: "Недопустимый тип сообщения. Действие запрещено"
+      invalid_message_type: 'Недопустимый тип сообщения. Действие запрещено'
     slack:
-      invalid_channel_id: "Неправильный канал slack - попробуйте еще раз"
+      invalid_channel_id: 'Неправильный канал slack - попробуйте еще раз'
+    channel_service:
+      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: Пожалуйста, проверьте сетевое подключение, адрес IMAP и повторите попытку.
@@ -68,6 +70,8 @@ ru:
       invalid_operator: Неверный оператор. Допустимыми операторами для %{attribute_name} являются [%{allowed_keys}].
       invalid_query_operator: Оператор запроса должен быть "AND" или "OR".
       invalid_value: Недопустимое значение. Значения, предоставленные для %{attribute_name} являются недопустимыми
+    custom_attribute_definition:
+      key_conflict: Предоставленный ключ не разрешён, так как он может конфликтовать со стандартными атрибутами.
   reports:
     period: Отчётный период с %{since} по %{until}
     utc_warning: Отчёт создан в часовом поясе UTC
@@ -120,103 +124,107 @@ ru:
         recorded_at: Дата записи
   notifications:
     notification_title:
-      conversation_creation: "В %{inbox_name} создана беседа (#%{display_id})"
-      conversation_assignment: "Вам назначен диалог (#%{display_id})"
-      assigned_conversation_new_message: "Новое сообщение создано в разговоре (#%{display_id})"
-      conversation_mention: "Вас упомянули в разговоре (#%{display_id})"
-      sla_missed_first_response: "Целевой показатель SLA - пропущенный первый ответ для разговора (#%{display_id})"
-      sla_missed_next_response: "SLA целевой следующий ответ, пропущенный для разговора (#%{display_id})"
-      sla_missed_resolution: "Пропущен срок выполнения SLA для разговора (#%{display_id})"
-    attachment: "Вложение"
-    no_content: "Нет содержимого"
+      conversation_creation: 'В %{inbox_name} создана беседа (#%{display_id})'
+      conversation_assignment: 'Вам назначен диалог (#%{display_id})'
+      assigned_conversation_new_message: 'Новое сообщение создано в разговоре (#%{display_id})'
+      conversation_mention: 'Вас упомянули в разговоре (#%{display_id})'
+      sla_missed_first_response: 'Целевой показатель SLA - пропущенный первый ответ для разговора (#%{display_id})'
+      sla_missed_next_response: 'SLA целевой следующий ответ, пропущенный для разговора (#%{display_id})'
+      sla_missed_resolution: 'Пропущен срок выполнения SLA для разговора (#%{display_id})'
+    attachment: 'Вложение'
+    no_content: 'Нет содержимого'
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} упомянул Вас в истории: "
+      instagram_story_content: '%{story_sender} упомянул Вас в истории: '
       instagram_deleted_story_content: Эта история больше недоступна.
       deleted: Это сообщение было удалено
       delivery_status:
-        error_code: "Код ошибки: %{error_code}"
+        error_code: 'Код ошибки: %{error_code}'
     activity:
       status:
-        resolved: "%{user_name} завершил диалог"
-        contact_resolved: "Разговор был закрыт %{contact_name}"
-        open: "%{user_name} открыл заново диалог"
-        pending: "Разговор был помечен как ожидающий %{user_name}"
-        snoozed: "Разговор был помечен как отложенный %{user_name}"
-        auto_resolved: "Разговор был помечен системой решённым из-за неактивности в течение %{duration} дней"
+        resolved: '%{user_name} завершил диалог'
+        contact_resolved: 'Разговор был закрыт %{contact_name}'
+        open: '%{user_name} открыл заново диалог'
+        pending: 'Разговор был помечен как ожидающий %{user_name}'
+        snoozed: 'Разговор был помечен как отложенный %{user_name}'
+        auto_resolved: 'Разговор был помечен системой решённым из-за неактивности в течение %{duration} дней'
         system_auto_open: Система переоткрыла разговор из-за нового входящего сообщения.
       priority:
         added: '%{user_name} установил приоритет на %{new_priority}'
         updated: '%{user_name} изменил приоритет с %{old_priority} на %{new_priority}'
         removed: '%{user_name} удалил приоритет'
       assignee:
-        self_assigned: "%{user_name} назначил(а) разговор себе"
-        assigned: "%{user_name} назначил %{assignee_name} ответственным"
-        removed: "Ответственный снят %{user_name}"
+        self_assigned: '%{user_name} назначил(а) разговор себе'
+        assigned: '%{user_name} назначил %{assignee_name} ответственным'
+        removed: 'Ответственный снят %{user_name}'
       team:
-        assigned: "%{user_name} назначил %{team_name} ответственным"
-        assigned_with_assignee: "%{user_name} назначил %{assignee_name} в %{team_name}"
-        removed: "%{user_name} исключил из %{team_name}"
+        assigned: '%{user_name} назначил %{team_name} ответственным'
+        assigned_with_assignee: '%{user_name} назначил %{assignee_name} в %{team_name}'
+        removed: '%{user_name} исключил из %{team_name}'
       labels:
-        added: "%{user_name} добавил %{labels}"
-        removed: "%{user_name} удалил %{labels}"
+        added: '%{user_name} добавил %{labels}'
+        removed: '%{user_name} удалил %{labels}'
       sla:
-        added: "%{user_name} добавил политику SLA %{sla_name}"
-        removed: "%{user_name} удалил политику SLA %{sla_name}"
-      muted: "%{user_name} заглушил(а) этот разговор"
-      unmuted: "%{user_name} включил(а) уведомления для разговора"
+        added: '%{user_name} добавил политику SLA %{sla_name}'
+        removed: '%{user_name} удалил политику SLA %{sla_name}'
+      muted: '%{user_name} заглушил(а) этот разговор'
+      unmuted: '%{user_name} включил(а) уведомления для разговора'
+      auto_resolution_message: 'Разговор закрывается, поскольку он был неактивен в течение длительного времени. Пожалуйста, начните новый разговор, если потребуется дополнительная помощь.'
     templates:
-      greeting_message_body: "%{account_name} как правило отвечает в течении несколько часов."
-      ways_to_reach_you_message_body: "Оставьте ваш email для связи"
-      email_input_box_message_body: "Получать уведомления по email"
-      csat_input_message_body: "Пожалуйста, оцените разговор"
+      greeting_message_body: '%{account_name} как правило отвечает в течении несколько часов.'
+      ways_to_reach_you_message_body: 'Оставьте ваш email для связи'
+      email_input_box_message_body: 'Получать уведомления по email'
+      csat_input_message_body: 'Пожалуйста, оцените разговор'
     reply:
       email:
         header:
-          from_with_name: "%{assignee_name} от %{inbox_name} <%{from_email}>"
-          reply_with_name: "%{assignee_name} от %{inbox_name} <%{reply_email}>"
-          friendly_name: "%{sender_name} из %{business_name} <%{from_email}>"
-          professional_name: "%{business_name} <%{from_email}>"
+          from_with_name: '%{assignee_name} от %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} от %{inbox_name} <%{reply_email}>'
+          friendly_name: '%{sender_name} из %{business_name} <%{from_email}>'
+          professional_name: '%{business_name} <%{from_email}>'
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} из %{inbox_name} <%{from_email}>"
-          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
-      email_subject: "Новые сообщения в этом диалоге"
-      transcript_subject: "Субтитры общения"
+          reply_with_name: '%{assignee_name} из %{inbox_name} <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+      email_subject: 'Новые сообщения в этом диалоге'
+      transcript_subject: 'Субтитры общения'
     survey:
-      response: "Пожалуйста, оцените этот разговор, %{link}"
+      response: 'Пожалуйста, оцените этот разговор, %{link}'
   contacts:
     online:
-      delete: "%{contact_name} в сети, повторите попытку позже"
+      delete: '%{contact_name} в сети, повторите попытку позже'
   integration_apps:
     dashboard_apps:
-      name: "Панель приложений"
-      description: "Панель приложений позволяет вам создавать и вставлять приложения, отображающие информацию о пользователе, заказы или историю платежей, обеспечивая больший контекст для агентов поддержки."
+      name: 'Панель приложений'
+      description: 'Панель приложений позволяет вам создавать и вставлять приложения, отображающие информацию о пользователе, заказы или историю платежей, обеспечивая больший контекст для агентов поддержки.'
     dyte:
-      name: "Dyte"
-      description: "Dyte - это продукт, который интегрирует функции аудио и видео в ваше приложение. С помощью этой интеграции ваши агенты могут начать видео/голосовые звонки с вашими клиентами прямо из Chatwoot."
-      meeting_name: "%{agent_name} приступил к встрече"
+      name: 'Dyte'
+      description: 'Dyte - это продукт, который интегрирует функции аудио и видео в ваше приложение. С помощью этой интеграции ваши агенты могут начать видео/голосовые звонки с вашими клиентами прямо из Chatwoot.'
+      meeting_name: '%{agent_name} приступил к встрече'
     slack:
-      name: "Slack"
+      name: 'Slack'
       description: "Интегрируйте Chatwoot с Slack для синхронизации команды. Эта интеграция позволяет получать уведомления о новых разговорах и отвечать на них непосредственно в интерфейсе Slack."
     webhooks:
-      name: "Webhooks"
-      description: "События Webhook предоставляют обновления об активности в вашем аккаунте Chatwoot в режиме реального времени. Вы можете подписаться на ваши предпочтительные события, и Chatwoot будет отправлять вам HTTP-ответы с обновлениями."
+      name: 'Webhooks'
+      description: 'События Webhook предоставляют обновления об активности в вашем аккаунте Chatwoot в режиме реального времени. Вы можете подписаться на ваши предпочтительные события, и Chatwoot будет отправлять вам HTTP-ответы с обновлениями.'
     dialogflow:
-      name: "Диалог"
-      description: "Создайте чатботов с помощью Dialogflow и легко интегрируйте их в ваш источник. Эти боты могут обрабатывать начальные запросы, прежде чем передавать их агенту поддержки."
+      name: 'Диалог'
+      description: 'Создайте чатботов с помощью Dialogflow и легко интегрируйте их в ваш источник. Эти боты могут обрабатывать начальные запросы, прежде чем передавать их агенту поддержки.'
     google_translate:
-      name: "Google Перевод"
+      name: 'Google Перевод'
       description: "Интегрируйте Google Translate, чтобы помочь агентам легко переводить сообщения клиентов. Эта интеграция автоматически определяет язык и преобразует его в язык, предпочтительный для агента или администратора."
     openai:
-      name: "OpenAI"
-      description: "Используйте LLM OpenAI с такими функциями, как предложение ответов, резюмирование, перефразирование сообщений, проверка орфографии и подстановка категорий."
+      name: 'OpenAI'
+      description: 'Используйте LLM OpenAI с такими функциями, как предложение ответов, резюмирование, перефразирование сообщений, проверка орфографии и подстановка категорий.'
     linear:
-      name: "Linear"
-      description: "Создавайте или прикрепляйте уже существующие задачи в Linear непосредственно из окна диалога для более упорядоченного и эффективного процесса отслеживания проблем."
-    captain:
-      name: "Капитан"
-      description: "Капитан является ассистентом AI, созданным для вашего продукта и обучающимся на базе знаний вашей компании. Он отвечает как человек и эффективно разрешает запросы клиентов. Легко настраивайте его в ваших источниках."
+      name: 'Linear'
+      description: 'Создавайте или прикрепляйте уже существующие задачи в Linear непосредственно из окна диалога для более упорядоченного и эффективного процесса отслеживания проблем.'
+    shopify:
+      name: 'Shopify'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+  captain:
+    copilot_error: 'Пожалуйста, подключите ассистента к этому источнику входящих для использования Copilot'
+    copilot_limit: 'У вас закончились кредиты для Copilot. Вы можете купить дополнительные кредиты в разделе биллинга.'
   public_portal:
     search:
       search_placeholder: Поиск статьи по названию или содержанию...
@@ -263,22 +271,22 @@ ru:
     button: Открыть беседу
   time_units:
     days:
-      one: "%{count} день"
-      few: "%{count} дней"
-      many: "%{count} дней"
-      other: "%{count} дней"
+      one: '%{count} день'
+      few: '%{count} дней'
+      many: '%{count} дней'
+      other: '%{count} дней'
     hours:
-      one: "%{count} час"
-      few: "%{count} часов"
-      many: "%{count} часов"
-      other: "%{count} часов"
+      one: '%{count} час'
+      few: '%{count} часов'
+      many: '%{count} часов'
+      other: '%{count} часов'
     minutes:
-      one: "%{count} минут"
-      few: "%{count} минут"
-      many: "%{count} минут"
-      other: "%{count} минут"
+      one: '%{count} минут'
+      few: '%{count} минут'
+      many: '%{count} минут'
+      other: '%{count} минут'
     seconds:
-      one: "%{count} секунд"
-      few: "%{count} секунд"
-      many: "%{count} секунд"
-      other: "%{count} секунд"
+      one: '%{count} секунд'
+      few: '%{count} секунд'
+      many: '%{count} секунд'
+      other: '%{count} секунд'

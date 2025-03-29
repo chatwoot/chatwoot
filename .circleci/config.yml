@@ -19,7 +19,7 @@ jobs:
     steps:
       - checkout
       - node/install:
-          node-version: '20.12'
+          node-version: '23.7'
       - node/install-pnpm
       - node/install-packages:
           pkg-manager: pnpm

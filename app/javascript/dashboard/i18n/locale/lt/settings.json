@@ -35,6 +35,24 @@
           }
         }
       },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "Pagal nutylėjimą",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Asmeninis pranešimo parašas",
         "NOTE": "Sukurkite unikalų pranešimo parašą, kuris bus rodomas kiekvieno pranešimo pabaigoje, siunčiamo iš bet kurio gautųjų laiškų aplanko. Taip pat galite įdėti paveikslėlį, kuris rodomas tiesioginio pokalbio, el. pašto ir API.",
@@ -194,7 +212,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Keisti",
     "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_WORKSPACE": "Switch workspace",
+    "SWITCH_ACCOUNT": "Switch account",
     "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Pasirinkite paskyrą iš toliau pateikto sąrašo",
     "PROFILE_SETTINGS": "Profile settings",
@@ -263,6 +281,9 @@
     "SETTINGS": "Nustatymai",
     "CONTACTS": "Kontaktai",
     "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Pagrindinis",
     "AGENTS": "Agentai",
     "AGENT_BOTS": "Botai",
@@ -324,14 +345,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Atsiskaitymas",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Prenumeratos Dabartinis Planas",
-      "PLAN_NOTE": "Šiuo metu užsiprenumeravote **{plan}** planą su **{quantity}** licencijomis"
+      "PLAN_NOTE": "Šiuo metu užsiprenumeravote **{plan}** planą su **{quantity}** licencijomis",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Tvarkykite savo prenumeratą",
       "DESCRIPTION": "Peržiūrėkite ankstesnes sąskaitas faktūras, redaguokite atsiskaitymo informaciją arba atšaukite prenumeratą.",
       "BUTTON_TXT": "Eiti į mokėjimų portalą"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Reikia pagalbos?",
@@ -374,11 +407,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Perjungti į Privatų užrašą",
       "SWITCH_TO_REPLY": "Perjungti į Atsakyti",
       "TOGGLE_SNOOZE_DROPDOWN": "Perjungti snooze išskleidžiamąjį meniu"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

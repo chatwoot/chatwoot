@@ -22,15 +22,15 @@
     "IN_A_DAY": "Parasti atbild vienas dienas laikā",
     "BACK_IN": "Mēs atgriezīsimies tiešsaistē"
   },
-  "DAY_NAMES": [
-    "Svētdiena",
-    "Pirmdiena",
-    "Otrdiena",
-    "Trešdiena",
-    "Ceturtdiena",
-    "Piektdiena",
-    "Sestdiena"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Svētdiena",
+    "MONDAY": "Pirmdiena",
+    "TUESDAY": "Otrdiena",
+    "WEDNESDAY": "Trešdiena",
+    "THURSDAY": "Ceturtdiena",
+    "FRIDAY": "Piektdiena",
+    "SATURDAY": "Sestdiena"
+  },
   "START_CONVERSATION": "Sākt Sarunu",
   "END_CONVERSATION": "Beigt Sarunu",
   "CONTINUE_CONVERSATION": "Turpināt Sarunu",

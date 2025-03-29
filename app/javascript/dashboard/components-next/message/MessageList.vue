@@ -15,17 +15,13 @@ import { useCamelCase } from 'dashboard/composables/useTransformKeys';
  * @property {Array} messages - Array of all messages [These are not in camelcase]
  */
 const props = defineProps({
-  readMessages: {
-    type: Array,
-    default: () => [],
-  },
-  unReadMessages: {
-    type: Array,
-    default: () => [],
-  },
   currentUserId: {
     type: Number,
     required: true,
+  },
+  firstUnreadId: {
+    type: Number,
+    default: null,
   },
   isAnEmailChannel: {
     type: Boolean,
@@ -41,12 +37,8 @@ const props = defineProps({
   },
 });
 
-const unread = computed(() => {
-  return useCamelCase(props.unReadMessages, { deep: true });
-});
-
-const read = computed(() => {
-  return useCamelCase(props.readMessages, { deep: true });
+const allMessages = computed(() => {
+  return useCamelCase(props.messages, { deep: true });
 });
 
 /**
@@ -108,26 +100,18 @@ const getInReplyToMessage = parentMessage => {
 <template>
   <ul class="px-4 bg-n-background">
     <slot name="beforeAll" />
-    <template v-for="(message, index) in read" :key="message.id">
-      <Message
-        v-bind="message"
-        :is-email-inbox="isAnEmailChannel"
-        :in-reply-to="getInReplyToMessage(message)"
-        :group-with-next="shouldGroupWithNext(index, read)"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :current-user-id="currentUserId"
-        data-clarity-mask="True"
+    <template v-for="(message, index) in allMessages" :key="message.id">
+      <slot
+        v-if="firstUnreadId && message.id === firstUnreadId"
+        name="unreadBadge"
       />
-    </template>
-    <slot name="beforeUnread" />
-    <template v-for="(message, index) in unread" :key="message.id">
       <Message
         v-bind="message"
+        :is-email-inbox="isAnEmailChannel"
         :in-reply-to="getInReplyToMessage(message)"
-        :group-with-next="shouldGroupWithNext(index, unread)"
+        :group-with-next="shouldGroupWithNext(index, allMessages)"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :current-user-id="currentUserId"
-        :is-email-inbox="isAnEmailChannel"
         data-clarity-mask="True"
       />
     </template>

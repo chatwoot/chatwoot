@@ -22,15 +22,15 @@
     "IN_A_DAY": "Thường trả lời trong một ngày",
     "BACK_IN": "Chúng tôi sẽ quay lại"
   },
-  "DAY_NAMES": [
-    "Chủ Nhật",
-    "Thứ Hai",
-    "Thứ Ba",
-    "Thứ Tư",
-    "Thứ Năm",
-    "Thứ Sáu",
-    "Thứ Bảy"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Chủ Nhật",
+    "MONDAY": "Thứ Hai",
+    "TUESDAY": "Thứ Ba",
+    "WEDNESDAY": "Thứ Tư",
+    "THURSDAY": "Thứ Năm",
+    "FRIDAY": "Thứ Sáu",
+    "SATURDAY": "Thứ Bảy"
+  },
   "START_CONVERSATION": "Bắt đầu một cuộc trò chuyện",
   "END_CONVERSATION": "Kết thúc hội thoại",
   "CONTINUE_CONVERSATION": "Tiếp tục hội thoại",

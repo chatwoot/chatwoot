@@ -36,6 +36,8 @@ const emit = defineEmits([
 
 const { t } = useI18n();
 
+const isNewArticle = computed(() => !props.article?.id);
+
 const saveAndSync = value => {
   emit('saveArticle', value);
 };
@@ -52,21 +54,32 @@ const quickSave = debounce(
 // 2.5 seconds is enough to know that the user has stopped typing and is taking a pause
 // so we can save the data to the backend and retrieve the updated data
 // this will update the local state with response data
+// Only use to save for existing articles
 const saveAndSyncDebounced = debounce(saveAndSync, 2500, false);
+
+// Debounced save for new articles
+const quickSaveNewArticle = debounce(saveAndSync, 400, false);
+
+const handleSave = value => {
+  if (isNewArticle.value) {
+    quickSaveNewArticle(value);
+  } else {
+    quickSave(value);
+    saveAndSyncDebounced(value);
+  }
+};
 
 const articleTitle = computed({
   get: () => props.article.title,
   set: value => {
-    quickSave({ title: value });
-    saveAndSyncDebounced({ title: value });
+    handleSave({ title: value });
   },
 });
 
 const articleContent = computed({
   get: () => props.article.content,
   set: content => {
-    quickSave({ content });
-    saveAndSyncDebounced({ content });
+    handleSave({ content });
   },
 });
 

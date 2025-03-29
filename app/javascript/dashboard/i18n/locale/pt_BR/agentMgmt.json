@@ -15,7 +15,7 @@
       "DESC": "Você pode adicionar e/ou remover agentes de um time.",
       "NAME": "Nome",
       "EMAIL": "E-mail",
-      "STATUS": "SItuação",
+      "STATUS": "Situação",
       "ACTIONS": "Ações",
       "VERIFIED": "Verificado",
       "VERIFICATION_PENDING": "Verificação Pendente",
@@ -31,9 +31,9 @@
           "PLACEHOLDER": "Por favor, insira o nome do agente"
         },
         "AGENT_TYPE": {
-          "LABEL": "Tipo de Agente",
-          "PLACEHOLDER": "Selecione um tipo",
-          "ERROR": "É necessário o tipo de agente"
+          "LABEL": "Função",
+          "PLACEHOLDER": "Selecione uma função",
+          "ERROR": "É necessária uma função"
         },
         "EMAIL": {
           "LABEL": "Endereço de e-mail",
@@ -68,9 +68,9 @@
           "PLACEHOLDER": "Por favor, insira um nome do agente"
         },
         "AGENT_TYPE": {
-          "LABEL": "Tipo de Agente",
-          "PLACEHOLDER": "Selecione um tipo",
-          "ERROR": "É necessário o tipo de agente"
+          "LABEL": "Função",
+          "PLACEHOLDER": "Selecione uma função",
+          "ERROR": "É necessária uma função"
         },
         "EMAIL": {
           "LABEL": "Endereço de email",
@@ -100,19 +100,22 @@
       "NO_RESULTS": "Nenhum resultado encontrado."
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "Nenhuma",
+      "PLACEHOLDER": "Nenhum",
       "TITLE": {
         "AGENT": "Selecionar agente",
-        "TEAM": "Selecionar time"
+        "TEAM": "Selecionar equipe"
+      },
+      "LIST": {
+        "NONE": "Nenhum"
       },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Nenhum agente encontrado",
-          "TEAM": "Nenhum time encontrado"
+          "TEAM": "Nenhuma equipe encontrada"
         },
         "PLACEHOLDER": {
           "AGENT": "Pesquisar agentes",
-          "TEAM": "Pesquisar times",
+          "TEAM": "Pesquisar equipes",
           "INPUT": "Pesquisar por agentes"
         }
       }

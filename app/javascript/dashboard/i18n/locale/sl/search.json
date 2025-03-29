@@ -11,7 +11,10 @@
       "CONVERSATIONS": "Pogovori",
       "MESSAGES": "Sporočila"
     },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
     "SEARCHING_DATA": "Iskanje",
+    "LOADING_DATA": "Loading",
     "EMPTY_STATE": "Za poizvedbo '{query}' ni bil najden {item}",
     "EMPTY_STATE_FULL": "Ni rezultatov za poizvedbo '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ za fokus",
@@ -21,6 +24,7 @@
     "READ_MORE": "Preberite več",
     "WROTE": "je napisal/a:",
     "FROM": "Od",
-    "EMAIL": "e-pošta"
+    "EMAIL": "e-pošta",
+    "EMAIL_SUBJECT": "subject"
   }
 }

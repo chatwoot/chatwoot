@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 
 import ContactCustomAttributeItem from 'dashboard/components-next/Contacts/ContactsSidebar/ContactCustomAttributeItem.vue';
 
@@ -13,6 +14,8 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
+
+const { uiSettings } = useUISettings();
 
 const searchQuery = ref('');
 
@@ -46,20 +49,49 @@ const processContactAttributes = (
   }, []);
 };
 
+const sortAttributesOrder = computed(
+  () =>
+    uiSettings.value.conversation_elements_order_conversation_contact_panel ??
+    []
+);
+
+const sortByUISettings = attributes => {
+  // Get saved order from UI settings
+  // Same as conversation panel contact attribute order
+  const order = sortAttributesOrder.value;
+
+  // If no order defined, return original array
+  if (!order?.length) return attributes;
+
+  const orderMap = new Map(order.map((key, index) => [key, index]));
+
+  // Sort attributes based on their position in saved order
+  return [...attributes].sort((a, b) => {
+    // Get positions, use Infinity if not found in order (pushes to end)
+    const aPos = orderMap.get(a.attributeKey) ?? Infinity;
+    const bPos = orderMap.get(b.attributeKey) ?? Infinity;
+    return aPos - bPos;
+  });
+};
+
 const usedAttributes = computed(() => {
-  return processContactAttributes(
+  const attributes = processContactAttributes(
     contactAttributes.value,
     props.selectedContact?.customAttributes,
     (key, custom) => key in custom
   );
+
+  return sortByUISettings(attributes);
 });
 
 const unusedAttributes = computed(() => {
-  return processContactAttributes(
+  const attributes = processContactAttributes(
     contactAttributes.value,
     props.selectedContact?.customAttributes,
     (key, custom) => !(key in custom)
   );
+
+  return sortByUISettings(attributes);
 });
 
 const filteredUnusedAttributes = computed(() => {
@@ -103,7 +135,7 @@ const hasNoUsedAttributes = computed(() => usedAttributes.value.length === 0);
           :placeholder="
             t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.SEARCH_PLACEHOLDER')
           "
-          class="w-full h-8 py-2 pl-10 pr-2 text-sm border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
+          class="w-full h-8 py-2 pl-10 pr-2 text-sm reset-base outline-none border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
         />
       </div>
       <div

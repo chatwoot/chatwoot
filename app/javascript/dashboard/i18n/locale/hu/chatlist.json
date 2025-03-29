@@ -99,6 +99,9 @@
       },
       "fallback": {
         "CONTENT": "megosztott URL-t tartalmaz"
+      },
+      "contact": {
+        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {

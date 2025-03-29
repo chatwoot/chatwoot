@@ -4,6 +4,7 @@ import Auth from '../../../api/auth';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import AvailabilityStatus from 'dashboard/components/layout/AvailabilityStatus.vue';
+import { FEATURE_FLAGS } from '../../../featureFlags';
 
 export default {
   components: {
@@ -28,6 +29,7 @@ export default {
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
       accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     showChangeAccountOption() {
       if (this.globalConfig.createNewAccountFromDashboard) {
@@ -36,6 +38,14 @@ export default {
 
       const { accounts = [] } = this.currentUser;
       return accounts.length > 1;
+    },
+    showChatSupport() {
+      return (
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.CONTACT_CHATWOOT_SUPPORT_TEAM
+        ) && this.globalConfig.chatwootInboxToken
+      );
     },
   },
   methods: {
@@ -82,7 +92,7 @@ export default {
             {{ $t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS') }}
           </woot-button>
         </WootDropdownItem>
-        <WootDropdownItem v-if="globalConfig.chatwootInboxToken">
+        <WootDropdownItem v-if="showChatSupport">
           <woot-button
             variant="clear"
             color-scheme="secondary"

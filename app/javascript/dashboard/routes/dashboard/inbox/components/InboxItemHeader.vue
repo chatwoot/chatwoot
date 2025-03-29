@@ -109,7 +109,7 @@ export default {
 
 <template>
   <div
-    class="flex items-center justify-between w-full gap-2 py-2 border-b ltr:pl-4 rtl:pl-2 h-14 ltr:pr-2 rtl:pr-4 rtl:border-r border-slate-50 dark:border-slate-800/50"
+    class="flex items-center justify-between w-full gap-2 py-2 border-b ltr:pl-4 rtl:pl-2 h-14 ltr:pr-2 rtl:pr-4 rtl:border-r border-n-weak"
   >
     <div class="flex items-center gap-4">
       <BackButton
@@ -131,7 +131,7 @@ export default {
         icon="i-lucide-bell-minus"
         slate
         xs
-        outline
+        faded
         class="[&>.truncate]:hidden md:[&>.truncate]:block"
         @click="openSnoozeNotificationModal"
       />
@@ -140,7 +140,7 @@ export default {
         icon="i-lucide-trash-2"
         slate
         xs
-        outline
+        faded
         class="[&>.truncate]:hidden md:[&>.truncate]:block"
         @click="deleteNotification"
       />

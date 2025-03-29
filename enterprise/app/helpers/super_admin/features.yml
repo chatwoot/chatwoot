@@ -79,3 +79,15 @@ microsoft:
   enabled: true
   icon: 'icon-microsoft'
   config_key: 'microsoft'
+linear:
+  name: 'Linear'
+  description: 'Configuration for setting up Linear'
+  enabled: true
+  icon: 'icon-linear'
+  config_key: 'linear'
+shopify:
+  name: 'Shopify'
+  description: 'Configuration for setting up Shopify'
+  enabled: true
+  icon: 'icon-shopify'
+  config_key: 'shopify'

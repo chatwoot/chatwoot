@@ -22,15 +22,15 @@
     "IN_A_DAY": "Biasanya membalas dalam sehari",
     "BACK_IN": "Kami akan kembali online"
   },
-  "DAY_NAMES": [
-    "Minggu",
-    "Senin",
-    "Selasa",
-    "Rabu",
-    "Kamis",
-    "Jumat",
-    "Sabtu"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Minggu",
+    "MONDAY": "Senin",
+    "TUESDAY": "Selasa",
+    "WEDNESDAY": "Rabu",
+    "THURSDAY": "Kamis",
+    "FRIDAY": "Jumat",
+    "SATURDAY": "Sabtu"
+  },
   "START_CONVERSATION": "Mulai Percakapan",
   "END_CONVERSATION": "Akhiri Percakapan",
   "CONTINUE_CONVERSATION": "Lanjutkan Percakapan",

@@ -17,7 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 hu:
-  hello: "Szia világ"
+  hello: 'Szia világ'
   messages:
     reset_password_success: Mi?! A jelszóvisszaállítási kérésed sikeres volt. Nézd meg az e-mailed a részletekért.
     reset_password_failure: Jajj ne! Nem találtunk felhasználót ezzel az e-mailcímmel.
@@ -31,7 +31,7 @@ hu:
       disposable_email: Nem támogatjuk az eldobható e-mailcímeket
       blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Hibás e-mailcímet adtál meg
-      email_already_exists: "Ezzel az e-mailcímmel már van fiók: %{email}"
+      email_already_exists: 'Ezzel az e-mailcímmel már van fiók: %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Feliratkozás sikertelen
     data_import:
@@ -50,9 +50,11 @@ hu:
       locale:
         unique: egyedinek kell lennie a kategóriában a portálon
     dyte:
-      invalid_message_type: "Hibás üzenet típus. Kérés elutasítva"
+      invalid_message_type: 'Hibás üzenet típus. Kérés elutasítva'
     slack:
-      invalid_channel_id: "Érvénytelen Slack csatorna. Kérjük, próbálja újra"
+      invalid_channel_id: 'Érvénytelen Slack csatorna. Kérjük, próbálja újra'
+    channel_service:
+      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: Kérlek ellenőrizd a hálózati kapcsolatot, az IMAP címet, majd próbáld újra.
@@ -68,6 +70,8 @@ hu:
       invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
       invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
     period: Jelentési időszak %{since}-tól %{until}-ig
     utc_warning: A generált riport UTC időzónát használ
@@ -120,103 +124,107 @@ hu:
         recorded_at: Felvétel időpontja
   notifications:
     notification_title:
-      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
-      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
-      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
-      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
-      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
-      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
-      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
-    attachment: "Attachment"
-    no_content: "No content"
+      conversation_creation: 'A conversation (#%{display_id}) has been created in %{inbox_name}'
+      conversation_assignment: 'A conversation (#%{display_id}) has been assigned to you'
+      assigned_conversation_new_message: 'A new message is created in conversation (#%{display_id})'
+      conversation_mention: 'You have been mentioned in conversation (#%{display_id})'
+      sla_missed_first_response: 'SLA target first response missed for conversation (#%{display_id})'
+      sla_missed_next_response: 'SLA target next response missed for conversation (#%{display_id})'
+      sla_missed_resolution: 'SLA target resolution missed for conversation (#%{display_id})'
+    attachment: 'Attachment'
+    no_content: 'No content'
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} megemlített egy storyban: "
+      instagram_story_content: '%{story_sender} megemlített egy storyban: '
       instagram_deleted_story_content: Ez a story már nem érhető el.
       deleted: Az üzenet törölve lett
       delivery_status:
-        error_code: "Hibakód: %{error_code}"
+        error_code: 'Hibakód: %{error_code}'
     activity:
       status:
-        resolved: "A beszélgetést lezárta %{user_name}"
-        contact_resolved: "A beszélgetést megoldottra állította: %{contact_name}"
-        open: "A beszélgetést újranyitotta %{user_name}"
-        pending: "A beszélgetést %{user_name} folyamatban lévőnek jelölte"
-        snoozed: "A beszélgetést %{user_name} elnémította"
-        auto_resolved: "A beszélgetést lezárta a rendszer mivel %{duration} napja inaktív volt"
+        resolved: 'A beszélgetést lezárta %{user_name}'
+        contact_resolved: 'A beszélgetést megoldottra állította: %{contact_name}'
+        open: 'A beszélgetést újranyitotta %{user_name}'
+        pending: 'A beszélgetést %{user_name} folyamatban lévőnek jelölte'
+        snoozed: 'A beszélgetést %{user_name} elnémította'
+        auto_resolved: 'A beszélgetést lezárta a rendszer mivel %{duration} napja inaktív volt'
         system_auto_open: A rendszer újranyitotta a beszélgetést egy új bejövő üzenet miatt.
       priority:
         added: '%{user_name} beállította a prioritást erre: %{new_priority}'
         updated: '%{user_name} módosította a prioritást: %{old_priority} -> %{new_priority}'
         removed: '%{user_name} eltávolított a prioritást'
       assignee:
-        self_assigned: "%{user_name} magára osztotta ezt a beszélgetést"
-        assigned: "%{user_name} ráosztotta a beszélgetést: %{assignee_name}"
-        removed: "A beszélgetést gazdátlanná tette %{user_name}"
+        self_assigned: '%{user_name} magára osztotta ezt a beszélgetést'
+        assigned: '%{user_name} ráosztotta a beszélgetést: %{assignee_name}'
+        removed: 'A beszélgetést gazdátlanná tette %{user_name}'
       team:
-        assigned: "%{user_name} ráosztotta a beszélgetést: %{team_name}"
-        assigned_with_assignee: "Hozzárendelve ehhez: %{assignee_name} ezen csoportból %{team_name} általa: %{user_name}"
-        removed: "Hozzárendelés megszüntetve: %{team_name} általa: %{user_name}"
+        assigned: '%{user_name} ráosztotta a beszélgetést: %{team_name}'
+        assigned_with_assignee: 'Hozzárendelve ehhez: %{assignee_name} ezen csoportból %{team_name} általa: %{user_name}'
+        removed: 'Hozzárendelés megszüntetve: %{team_name} általa: %{user_name}'
       labels:
-        added: "%{user_name} a következő cimkéket adta hozzá: %{labels}"
-        removed: "%{user_name} leszedte a következő cimkéket %{labels}"
+        added: '%{user_name} a következő cimkéket adta hozzá: %{labels}'
+        removed: '%{user_name} leszedte a következő cimkéket %{labels}'
       sla:
-        added: "%{user_name} added SLA policy %{sla_name}"
-        removed: "%{user_name} removed SLA policy %{sla_name}"
-      muted: "%{user_name} elnémította a beszélgetést"
-      unmuted: "%{user_name} kikapcsolta a beszélgetés elnémítását"
+        added: '%{user_name} added SLA policy %{sla_name}'
+        removed: '%{user_name} removed SLA policy %{sla_name}'
+      muted: '%{user_name} elnémította a beszélgetést'
+      unmuted: '%{user_name} kikapcsolta a beszélgetés elnémítását'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
-      greeting_message_body: "%{account_name} általában néhány órán belül válaszol."
-      ways_to_reach_you_message_body: "Adj egy elérhetőséget hogy megkereshessenek."
-      email_input_box_message_body: "E-mail értesítés kérése"
-      csat_input_message_body: "Kérlek értékeld a beszélgetést"
+      greeting_message_body: '%{account_name} általában néhány órán belül válaszol.'
+      ways_to_reach_you_message_body: 'Adj egy elérhetőséget hogy megkereshessenek.'
+      email_input_box_message_body: 'E-mail értesítés kérése'
+      csat_input_message_body: 'Kérlek értékeld a beszélgetést'
     reply:
       email:
         header:
-          from_with_name: "%{assignee_name} innen %{inbox_name} <%{from_email}>"
-          reply_with_name: "%{assignee_name} innen %{inbox_name} <reply+%{reply_email}>"
-          friendly_name: "%{sender_name} innen %{business_name} <%{from_email}>"
-          professional_name: "%{business_name} <%{from_email}>"
+          from_with_name: '%{assignee_name} innen %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} innen %{inbox_name} <reply+%{reply_email}>'
+          friendly_name: '%{sender_name} innen %{business_name} <%{from_email}>'
+          professional_name: '%{business_name} <%{from_email}>'
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} innen %{inbox_name} <%{from_email}>"
-          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
-      email_subject: "Új üzenet a beszélgetésben"
-      transcript_subject: "Beszélgetés kivonat"
+          reply_with_name: '%{assignee_name} innen %{inbox_name} <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+      email_subject: 'Új üzenet a beszélgetésben'
+      transcript_subject: 'Beszélgetés kivonat'
     survey:
-      response: "Kérlek értékeld a beszélgetést, %{link}"
+      response: 'Kérlek értékeld a beszélgetést, %{link}'
   contacts:
     online:
-      delete: "%{contact_name} elérhető, kérjük, próbálja meg később újra"
+      delete: '%{contact_name} elérhető, kérjük, próbálja meg később újra'
   integration_apps:
     dashboard_apps:
-      name: "Kezdőlap applikációi"
-      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+      name: 'Kezdőlap applikációi'
+      description: 'Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents.'
     dyte:
-      name: "Dyte"
-      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
-      meeting_name: "%{agent_name} megbeszélést kezdett"
+      name: 'Dyte'
+      description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot.'
+      meeting_name: '%{agent_name} megbeszélést kezdett'
     slack:
-      name: "Slack"
+      name: 'Slack'
       description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
-      name: "Webhook"
-      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+      name: 'Webhook'
+      description: 'Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates.'
     dialogflow:
-      name: "Dialogflow"
-      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+      name: 'Dialogflow'
+      description: 'Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent.'
     google_translate:
-      name: "Google Fordító"
+      name: 'Google Fordító'
       description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
     openai:
-      name: "OpenAI"
-      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+      name: 'OpenAI'
+      description: 'Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification.'
     linear:
-      name: "Linear"
-      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
-    captain:
-      name: "Captain"
-      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+      name: 'Linear'
+      description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
+    shopify:
+      name: 'Shopify'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+  captain:
+    copilot_error: 'Please connect an assistant to this inbox to use Copilot'
+    copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
   public_portal:
     search:
       search_placeholder: Keress a bejegyzések címében és tartalmában...
@@ -263,14 +271,14 @@ hu:
     button: Beszélgetés megnyitása
   time_units:
     days:
-      one: "%{count} day"
-      other: "%{count} days"
+      one: '%{count} day'
+      other: '%{count} days'
     hours:
-      one: "%{count} hour"
-      other: "%{count} hours"
+      one: '%{count} hour'
+      other: '%{count} hours'
     minutes:
-      one: "%{count} minute"
-      other: "%{count} minutes"
+      one: '%{count} minute'
+      other: '%{count} minutes'
     seconds:
-      one: "%{count} second"
-      other: "%{count} seconds"
+      one: '%{count} second'
+      other: '%{count} seconds'

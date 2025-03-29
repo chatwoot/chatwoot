@@ -57,6 +57,7 @@ defineExpose({ dialogRef });
         :id="response.id"
         :key="response.id"
         :question="response.question"
+        :status="response.status"
         :answer="response.answer"
         :assistant="response.assistant"
         :created-at="response.created_at"

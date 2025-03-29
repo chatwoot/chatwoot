@@ -22,14 +22,6 @@ GIT
       devise (>= 4.0.0, < 5.0.0)
       railties (>= 5.0.0, < 8.0.0)
 
-GIT
-  remote: https://github.com/chatwoot/html2text_ruby
-  revision: cdbdbbbf898d846d0136d69d688a003c6b26074b
-  branch: chatwoot
-  specs:
-    html2text (0.3.1)
-      nokogiri (>= 1.13.6)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -186,7 +178,7 @@ GEM
     database_cleaner-core (2.0.1)
     datadog-ci (0.8.3)
       msgpack
-    date (3.3.4)
+    date (3.4.1)
     ddtrace (1.23.2)
       datadog-ci (~> 0.8.1)
       debase-ruby_core_source (= 3.3.1)
@@ -280,7 +272,8 @@ GEM
       googleauth (~> 1.0)
       grpc (~> 1.36)
     geocoder (1.8.1)
-    gli (2.21.1)
+    gli (2.22.2)
+      ostruct
     globalid (1.2.1)
       activesupport (>= 6.1)
     gmail_xoauth (0.4.3)
@@ -359,8 +352,11 @@ GEM
       ruby2ruby (~> 2.4)
       ruby_parser (~> 3.10)
     hana (1.3.7)
+    hash_diff (1.1.1)
     hashdiff (1.1.0)
     hashie (5.0.0)
+    html2text (0.4.0)
+      nokogiri (>= 1.0, < 2.0)
     http (5.1.1)
       addressable (~> 2.8)
       http-cookie (~> 1.0)
@@ -382,6 +378,8 @@ GEM
     io-console (0.6.0)
     irb (1.7.2)
       reline (>= 0.3.6)
+    iso-639 (0.3.8)
+      csv
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
@@ -487,7 +485,7 @@ GEM
       uri
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
-    net-imap (0.4.17)
+    net-imap (0.4.19)
       date
       net-protocol
     net-pop (0.1.2)
@@ -503,14 +501,14 @@ GEM
     newrelic_rpm (9.6.0)
       base64
     nio4r (2.7.3)
-    nokogiri (1.17.1)
+    nokogiri (1.18.4)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.17.1-arm64-darwin)
+    nokogiri (1.18.4-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.17.1-x86_64-darwin)
+    nokogiri (1.18.4-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.17.1-x86_64-linux)
+    nokogiri (1.18.4-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth (1.1.0)
       oauth-tty (~> 1.0, >= 1.0.1)
@@ -525,6 +523,9 @@ GEM
       rack (>= 1.2, < 4)
       snaky_hash (~> 2.0)
       version_gem (~> 1.1)
+    oj (3.16.10)
+      bigdecimal (>= 3.0)
+      ostruct (>= 0.2)
     omniauth (2.1.2)
       hashie (>= 3.4.6)
       rack (>= 2.2.3)
@@ -543,6 +544,7 @@ GEM
     openssl (3.2.0)
     orm_adapter (0.5.0)
     os (1.1.4)
+    ostruct (0.6.1)
     parallel (1.23.0)
     parser (3.2.2.1)
       ast (~> 2.4.1)
@@ -565,7 +567,7 @@ GEM
       activesupport (>= 3.0.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (2.2.10)
+    rack (2.2.13)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-contrib (2.5.0)
@@ -715,6 +717,7 @@ GEM
       parser
     scss_lint (0.60.0)
       sass (~> 3.5, >= 3.5.5)
+    securerandom (0.4.1)
     seed_dump (3.3.1)
       activerecord (>= 4)
       activesupport (>= 4)
@@ -729,6 +732,17 @@ GEM
       sentry-ruby (~> 5.19.0)
       sidekiq (>= 3.0)
     sexp_processor (4.17.0)
+    shopify_api (14.8.0)
+      activesupport
+      concurrent-ruby
+      hash_diff
+      httparty
+      jwt
+      oj
+      openssl
+      securerandom
+      sorbet-runtime
+      zeitwerk (~> 2.5)
     shoulda-matchers (5.3.0)
       activesupport (>= 5.2.0)
     sidekiq (7.3.1)
@@ -751,15 +765,17 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    slack-ruby-client (2.2.0)
+    slack-ruby-client (2.5.2)
       faraday (>= 2.0)
       faraday-mashify
       faraday-multipart
       gli
       hashie
+      logger
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
+    sorbet-runtime (0.5.11934)
     spring (4.1.1)
     spring-watcher-listen (2.1.0)
       listen (>= 2.7, < 4.0)
@@ -782,7 +798,7 @@ GEM
     time_diff (0.3.0)
       activesupport
       i18n
-    timeout (0.4.1)
+    timeout (0.4.3)
     trailblazer-option (0.1.2)
     twilio-ruby (5.77.0)
       faraday (>= 0.9, < 3.0)
@@ -802,7 +818,7 @@ GEM
     unf_ext (0.0.8.2)
     unicode-display_width (2.4.2)
     uniform_notifier (1.16.0)
-    uri (0.13.0)
+    uri (1.0.3)
     uri_template (0.7.0)
     valid_email2 (5.2.6)
       activemodel (>= 3.2)
@@ -897,8 +913,9 @@ DEPENDENCIES
   haikunator
   hairtrigger
   hashie
-  html2text!
+  html2text
   image_processing
+  iso-639
   jbuilder
   json_refs
   json_schemer
@@ -953,11 +970,12 @@ DEPENDENCIES
   sentry-rails (>= 5.19.0)
   sentry-ruby
   sentry-sidekiq (>= 5.19.0)
+  shopify_api
   shoulda-matchers
   sidekiq (>= 7.3.1)
   sidekiq-cron (>= 1.12.0)
   simplecov (= 0.17.1)
-  slack-ruby-client (~> 2.2.0)
+  slack-ruby-client (~> 2.5.2)
   spring
   spring-watcher-listen
   squasher

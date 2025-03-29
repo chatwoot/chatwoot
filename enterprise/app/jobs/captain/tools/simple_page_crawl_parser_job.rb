@@ -3,6 +3,13 @@ class Captain::Tools::SimplePageCrawlParserJob < ApplicationJob
 
   def perform(assistant_id:, page_link:)
     assistant = Captain::Assistant.find(assistant_id)
+    account = assistant.account
+
+    if limit_exceeded?(account)
+      Rails.logger.info("Document limit exceeded for #{assistant_id}")
+      return
+    end
+
     crawler = Captain::Tools::SimplePageCrawlService.new(page_link)
 
     page_title = crawler.page_title || ''
@@ -17,5 +24,12 @@ class Captain::Tools::SimplePageCrawlParserJob < ApplicationJob
     )
   rescue StandardError => e
     raise "Failed to parse data: #{page_link} #{e.message}"
+  end
+
+  private
+
+  def limit_exceeded?(account)
+    limits = account.usage_limits[:captain][:documents]
+    limits[:current_available].negative? || limits[:current_available].zero?
   end
 end

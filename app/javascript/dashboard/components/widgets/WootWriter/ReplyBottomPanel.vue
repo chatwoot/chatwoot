@@ -127,7 +127,7 @@ export default {
     const uploadRef = ref(false);
 
     const keyboardEvents = {
-      'Alt+KeyA': {
+      '$mod+Alt+KeyA': {
         action: () => {
           // TODO: This is really hacky, we need to replace the file picker component with
           // a custom one, where the logic and the component markup is isolated.
@@ -162,11 +162,6 @@ export default {
     wrapClass() {
       return {
         'is-note-mode': this.isNote,
-      };
-    },
-    buttonClass() {
-      return {
-        warning: this.isNote,
       };
     },
     showAttachButton() {
@@ -328,7 +323,7 @@ export default {
       <NextButton
         v-if="hasWhatsappTemplates"
         v-tooltip.top-end="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
-        icon="i-ph-whatsapp"
+        icon="i-ph-whatsapp-logo"
         slate
         faded
         sm
@@ -367,14 +362,15 @@ export default {
       />
     </div>
     <div class="right-wrap">
-      <woot-button
-        size="small"
-        :class-names="buttonClass"
-        :is-disabled="isSendDisabled"
+      <NextButton
+        :label="sendButtonText"
+        type="submit"
+        sm
+        :color="isNote ? 'amber' : 'blue'"
+        :disabled="isSendDisabled"
+        class="flex-shrink-0"
         @click="onSend"
-      >
-        {{ sendButtonText }}
-      </woot-button>
+      />
     </div>
   </div>
 </template>

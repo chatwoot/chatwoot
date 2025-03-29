@@ -1,5 +1,5 @@
 import { frontendURL } from '../../../../helper/URLHelper';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 
 import TeamsIndex from './Index.vue';
 import CreateStepWrap from './Create/Index.vue';

@@ -1,7 +1,8 @@
 <script setup>
+import { useMapGetter } from 'dashboard/composables/store.js';
 import Icon from 'next/icon/Icon.vue';
 
-defineProps({
+const props = defineProps({
   to: { type: [Object, String], default: '' },
   label: { type: String, default: '' },
   icon: { type: [String, Object], default: '' },
@@ -9,9 +10,12 @@ defineProps({
   isExpanded: { type: Boolean, default: false },
   isActive: { type: Boolean, default: false },
   hasActiveChild: { type: Boolean, default: false },
+  getterKeys: { type: Object, default: () => ({}) },
 });
 
 const emit = defineEmits(['toggle']);
+
+const showBadge = useMapGetter(props.getterKeys.badge);
 </script>
 
 <template>
@@ -28,7 +32,13 @@ const emit = defineEmits(['toggle']);
     }"
     @click.stop="emit('toggle')"
   >
-    <Icon v-if="icon" :icon="icon" class="size-4" />
+    <div v-if="icon" class="relative flex items-center gap-2">
+      <Icon v-if="icon" :icon="icon" class="size-4" />
+      <span
+        v-if="showBadge"
+        class="size-2 -top-px ltr:-right-px rtl:-left-px bg-n-brand absolute rounded-full border border-n-solid-2"
+      />
+    </div>
     <span class="text-sm font-medium leading-5 flex-grow">
       {{ label }}
     </span>

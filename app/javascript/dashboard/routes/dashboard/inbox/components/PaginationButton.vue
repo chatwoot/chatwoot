@@ -46,7 +46,7 @@ export default {
         icon="i-lucide-chevron-up"
         xs
         slate
-        outline
+        faded
         :disabled="isUpDisabled"
         @click="handleUpClick"
       />
@@ -54,7 +54,7 @@ export default {
         icon="i-lucide-chevron-down"
         xs
         slate
-        outline
+        faded
         :disabled="isDownDisabled"
         @click="handleDownClick"
       />

@@ -1,8 +1,8 @@
 {
   "AUTOMATION": {
     "HEADER": "Automatización",
-    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
-    "LEARN_MORE": "Learn more about automation",
+    "DESCRIPTION": "La automatización puede reemplazar y agilizar los procesos existentes que requieren esfuerzo manual, como añadir etiquetas y asignar conversaciones al agente más adecuado. Esto permite al equipo concentrarse en sus fortalezas, mientras que reduce el tiempo dedicado a las tareas de rutina.",
+    "LEARN_MORE": "Aprende más sobre automatización",
     "HEADER_BTN_TXT": "Añadir regla de automatización",
     "LOADING": "Obteniendo reglas de automatización",
     "ADD": {
@@ -121,10 +121,11 @@
       "ATTRIBUTE_KEY_REQUIRED": "Clave de atributo es requerida",
       "FILTER_OPERATOR_REQUIRED": "El operador de filtro es requerido",
       "VALUE_REQUIRED": "El valor es requerido",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
-      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
-      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
-    }
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "El valor debe ser entre 1 y 998",
+      "ACTION_PARAMETERS_REQUIRED": "Se requieren parámetros de acción",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "Se requiere al menos una condición",
+      "ATLEAST_ONE_ACTION_REQUIRED": "Se requiere al menos una acción"
+    },
+    "NONE_OPTION": "Ninguna"
   }
 }

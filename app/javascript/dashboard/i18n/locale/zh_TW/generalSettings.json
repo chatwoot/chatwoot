@@ -75,7 +75,12 @@
     "LIST": {
       "LOADING_MESSAGE": "載入更多通知...",
       "404": "沒有通知",
-      "TABLE_HEADER": ["姓名", "聯絡人電話", "對話", "最後聯絡"]
+      "TABLE_HEADER": [
+        "姓名",
+        "聯絡人電話",
+        "對話",
+        "最後聯絡"
+      ]
     },
     "TYPE_LABEL": {
       "conversation_creation": "新對話",

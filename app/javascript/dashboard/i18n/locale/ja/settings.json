@@ -3,14 +3,14 @@
     "LINK": "プロフィール設定",
     "TITLE": "プロフィール設定",
     "BTN_TEXT": "プロフィールを更新",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
-    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
-    "AFTER_EMAIL_CHANGED": "あなたのプロフィールは正常に更新されました。ログイン情報（パスワード等）が変更されたため、再度ログインしてください。",
+    "DELETE_AVATAR": "アバターを削除",
+    "AVATAR_DELETE_SUCCESS": "アバターが正常に削除されました",
+    "AVATAR_DELETE_FAILED": "アバターの削除中にエラーが発生しました。もう一度お試しください",
+    "UPDATE_SUCCESS": "プロフィールが正常に更新されました",
+    "PASSWORD_UPDATE_SUCCESS": "パスワードが正常に変更されました",
+    "AFTER_EMAIL_CHANGED": "プロフィールが正常に更新されました。ログイン情報が変更されたため、再度ログインしてください。",
     "FORM": {
-      "PICTURE": "Profile Picture",
+      "PICTURE": "プロフィール写真",
       "AVATAR": "プロフィール画像",
       "ERROR": "正しくフォームに入力してください",
       "REMOVE_IMAGE": "削除",
@@ -21,130 +21,148 @@
         "NOTE": "あなたのメールアドレスはあなたのIDであり、ログインに使用されます。"
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "メッセージ送信のホットキー",
+        "NOTE": "好みに応じて、EnterまたはCmd/Ctrl+Enterを選択できます。",
+        "UPDATE_SUCCESS": "設定が正常に更新されました",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "CONTENT": "送信ボタンをクリックせずにEnterキーでメッセージを送信します。"
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "CONTENT": "送信ボタンをクリックせずにCmd/Ctrl+Enterキーでメッセージを送信します。"
+          }
+        }
+      },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "Default",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
           }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully",
-        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+        "TITLE": "個人メッセージ署名",
+        "NOTE": "送信するすべてのメッセージの末尾に表示されるユニークな署名を作成します。インライン画像を含めることができ、ライブチャット、メール、API受信トレイでサポートされています。",
+        "BTN_TEXT": "署名を保存",
+        "API_ERROR": "署名を保存できませんでした。もう一度お試しください。",
+        "API_SUCCESS": "署名が正常に保存されました",
+        "IMAGE_UPLOAD_ERROR": "画像をアップロードできませんでした。もう一度お試しください。",
+        "IMAGE_UPLOAD_SUCCESS": "画像が正常に追加されました。保存をクリックして署名を保存してください。",
+        "IMAGE_UPLOAD_SIZE_ERROR": "画像サイズは{size}MB未満である必要があります"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "メッセージ署名",
+        "ERROR": "メッセージ署名を空にすることはできません",
+        "PLACEHOLDER": "ここに個人のメッセージ署名を入力してください。"
       },
       "PASSWORD_SECTION": {
         "TITLE": "パスワード",
         "NOTE": "パスワードを更新すると、複数のデバイスでログインがリセットされます。",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "パスワードを変更"
       },
       "ACCESS_TOKEN": {
         "TITLE": "アクセストークン",
-        "NOTE": "このトークンは、API 連携を構築する場合に利用します。",
+        "NOTE": "このトークンは、API連携を構築する場合に利用します。",
         "COPY": "コピー"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Alerts",
-        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
-        "PLAY": "Play sound",
+        "TITLE": "オーディオアラート",
+        "NOTE": "ダッシュボードで新しいメッセージや会話の通知音を有効にします。",
+        "PLAY": "音を再生",
         "ALERT_TYPES": {
           "NONE": "該当なし",
-          "MINE": "Assigned",
+          "MINE": "割り当て済み",
           "ALL": "すべて",
-          "ASSIGNED": "My assigned conversations",
-          "UNASSIGNED": "Unassigned conversations",
-          "NOTME": "Open conversations assigned to others"
+          "ASSIGNED": "自分に割り当てられた会話",
+          "UNASSIGNED": "未割り当ての会話",
+          "NOTME": "他の人に割り当てられた会話"
         },
         "ALERT_COMBINATIONS": {
-          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
-          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
-          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
-          "NOTME": "You'll receive alerts for conversations assigned to others.",
-          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
-          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
-          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
-          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+          "NONE": "オプションが選択されていないため、通知音を受け取りません。",
+          "ASSIGNED": "自分に割り当てられた会話の通知音を受け取ります。",
+          "UNASSIGNED": "未割り当ての会話の通知音を受け取ります。",
+          "NOTME": "他の人に割り当てられた会話の通知音を受け取ります。",
+          "ASSIGNED+UNASSIGNED": "自分に割り当てられた会話と未割り当ての会話の通知音を受け取ります。",
+          "ASSIGNED+NOTME": "自分と他の人に割り当てられた会話の通知音を受け取りますが、未割り当ての会話は含みません。",
+          "NOTME+UNASSIGNED": "未割り当ての会話と他の人に割り当てられた会話の通知音を受け取ります。",
+          "ASSIGNED+NOTME+UNASSIGNED": "すべての会話の通知音を受け取ります。"
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations",
+          "TITLE": "会話の通知イベント",
           "NONE": "該当なし",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
+          "ASSIGNED": "割り当てられた会話",
+          "ALL_CONVERSATIONS": "すべての会話"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "通知音:"
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "TITLE": "通知条件:",
+          "CONDITION_ONE": "ブラウザウィンドウがアクティブでない場合にのみ通知音を送信",
+          "CONDITION_TWO": "割り当てられたすべての会話が既読になるまで30秒ごとに通知を送信"
         },
-        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
-        "READ_MORE": "Read more"
+        "SOUND_PERMISSION_ERROR": "ブラウザで自動再生が無効になっています。通知音を自動で聞くには、ブラウザ設定で音声権限を有効にするか、ページと対話してください。",
+        "READ_MORE": "詳細を読む"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Eメール通知",
-        "NOTE": "メール通知設定を更新する",
-        "CONVERSATION_ASSIGNMENT": "会話が自分に割り当てられたときにメールで通知を送信する",
-        "CONVERSATION_CREATION": "新しい会話が作成されたときにメールで通知を送信する",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "割り当てられた会話で新しいメッセージが作成されたときにメールで通知を送信します",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
-        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+        "NOTE": "メール通知設定を更新します",
+        "CONVERSATION_ASSIGNMENT": "会話が自分に割り当てられたときにメール通知を送信",
+        "CONVERSATION_CREATION": "新しい会話が作成されたときにメール通知を送信",
+        "CONVERSATION_MENTION": "会話でメンションされたときにメール通知を送信",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "割り当てられた会話で新しいメッセージが作成されたときにメール通知を送信",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "参加している会話で新しいメッセージが作成されたときにメール通知を送信",
+        "SLA_MISSED_FIRST_RESPONSE": "会話で最初の応答SLAを逃した場合にメール通知を送信",
+        "SLA_MISSED_NEXT_RESPONSE": "会話で次の応答SLAを逃した場合にメール通知を送信",
+        "SLA_MISSED_RESOLUTION": "会話で解決SLAを逃した場合にメール通知を送信"
       },
       "NOTIFICATIONS": {
-        "TITLE": "Notification preferences",
-        "TYPE_TITLE": "Notification type",
-        "EMAIL": "Eメール",
-        "PUSH": "Push notification",
+        "TITLE": "通知設定",
+        "TYPE_TITLE": "通知の種類",
+        "EMAIL": "Eメール通知",
+        "PUSH": "プッシュ通知",
         "TYPES": {
-          "CONVERSATION_CREATED": "A new conversation is created",
-          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
-          "CONVERSATION_MENTION": "You are mentioned in a conversation",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
-          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
-          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "CONVERSATION_CREATED": "新しい会話が作成された時",
+          "CONVERSATION_ASSIGNED": "会話が自分に割り当てられた時",
+          "CONVERSATION_MENTION": "会話で自分がメンションされた時",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "割り当てられた会話に新しいメッセージが作成された時",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "参加している会話に新しいメッセージが作成された時",
+          "SLA_MISSED_FIRST_RESPONSE": "会話で最初の応答SLAを逃した",
+          "SLA_MISSED_NEXT_RESPONSE": "会話で次の応答SLAを逃した",
+          "SLA_MISSED_RESOLUTION": "会話で解決SLAを逃した"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "プッシュ通知を受け取れるように、ブラウザの通知設定を有効にしてください"
       },
       "API": {
         "UPDATE_SUCCESS": "通知設定が正常に更新されました",
-        "UPDATE_ERROR": "設定の更新中にエラーが発生しました。もう一度やり直して下さい。"
+        "UPDATE_ERROR": "設定の更新中にエラーが発生しました。もう一度やり直してください。"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
         "TITLE": "プッシュ通知",
-        "NOTE": "ここでプッシュ通知の設定を更新します",
-        "CONVERSATION_ASSIGNMENT": "会話が自分に割り当てられたときにプッシュ通知を送信する",
-        "CONVERSATION_CREATION": "新しい会話が作成されたときにプッシュ通知を送信する",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "割り当てられた会話で新しいメッセージが作成されたときにプッシュ通知を送信する",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
-        "HAS_ENABLED_PUSH": "このブラウザーでプッシュ通知を有効にしました。",
+        "NOTE": "プッシュ通知の設定をここで更新します",
+        "CONVERSATION_ASSIGNMENT": "会話が自分に割り当てられたときにプッシュ通知を送信",
+        "CONVERSATION_CREATION": "新しい会話が作成されたときにプッシュ通知を送信",
+        "CONVERSATION_MENTION": "会話でメンションされたときにプッシュ通知を送信",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "割り当てられた会話で新しいメッセージが作成されたときにプッシュ通知を送信",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "参加している会話で新しいメッセージが作成されたときにプッシュ通知を送信",
+        "HAS_ENABLED_PUSH": "このブラウザーでプッシュ通知が有効になっています。",
         "REQUEST_PUSH": "プッシュ通知を有効にする",
-        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+        "SLA_MISSED_FIRST_RESPONSE": "会話で最初の応答SLAを逃したときにプッシュ通知を送信",
+        "SLA_MISSED_NEXT_RESPONSE": "会話で次の応答SLAを逃したときにプッシュ通知を送信",
+        "SLA_MISSED_RESOLUTION": "会話で解決SLAを逃したときにプッシュ通知を送信"
       },
       "PROFILE_IMAGE": {
         "LABEL": "プロフィール画像"
@@ -166,80 +184,80 @@
           "BUSY": "取り込み中",
           "OFFLINE": "オフライン"
         },
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+        "SET_AVAILABILITY_SUCCESS": "利用可能ステータスが正常に設定されました",
+        "SET_AVAILABILITY_ERROR": "利用可能ステータスを設定できませんでした。もう一度お試しください"
       },
       "EMAIL": {
         "LABEL": "あなたのメールアドレス",
         "ERROR": "正しいメールアドレスを入力してください",
-        "PLACEHOLDER": "メールアドレスを入力してください。これは会話に表示されます"
+        "PLACEHOLDER": "メールアドレスを入力してください。これは会話に表示されます。"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "現在のパスワード",
+        "ERROR": "現在のパスワードを入力してください",
+        "PLACEHOLDER": "現在のパスワードを入力してください"
       },
       "PASSWORD": {
-        "LABEL": "New password",
+        "LABEL": "新しいパスワード",
         "ERROR": "6文字以上のパスワードを入力してください",
         "PLACEHOLDER": "新しいパスワードを入力してください"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "パスワードの確認",
         "ERROR": "パスワードは一致している必要があります",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "PLACEHOLDER": "新しいパスワードを再度入力してください"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Change",
-    "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_WORKSPACE": "Switch workspace",
-    "CONTACT_SUPPORT": "Contact support",
+    "CHANGE_AVAILABILITY_STATUS": "ステータスを変更",
+    "CHANGE_ACCOUNTS": "アカウントを切り替え",
+    "SWITCH_ACCOUNT": "アカウントを切り替え",
+    "CONTACT_SUPPORT": "サポートに問い合わせる",
     "SELECTOR_SUBTITLE": "次のリストからアカウントを選択してください",
-    "PROFILE_SETTINGS": "Profile settings",
-    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
-    "APPEARANCE": "Change appearance",
-    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
-    "DOCS": "Read documentation",
-    "LOGOUT": "Log out"
+    "PROFILE_SETTINGS": "プロフィール設定",
+    "KEYBOARD_SHORTCUTS": "キーボードショートカット",
+    "APPEARANCE": "外観を変更",
+    "SUPER_ADMIN_CONSOLE": "SuperAdminコンソール",
+    "DOCS": "ドキュメントを読む",
+    "LOGOUT": "ログアウト"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "日、トライアル期間が残っています。",
+    "TRIAL_MESSAGE": "日間のトライアル期間が残っています。",
     "TRAIL_BUTTON": "今すぐ購入",
-    "DELETED_USER": "Deleted User",
-    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
-    "RESEND_VERIFICATION_MAIL": "Resend verification email",
-    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "DELETED_USER": "削除済みユーザー",
+    "EMAIL_VERIFICATION_PENDING": "メールアドレスがまだ認証されていないようです。受信トレイで認証メールを確認してください。",
+    "RESEND_VERIFICATION_MAIL": "認証メールを再送",
+    "EMAIL_VERIFICATION_SENT": "認証メールが送信されました。受信トレイを確認してください。",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "アカウント停止中",
+      "MESSAGE": "アカウントが停止されています。詳細についてはサポートチームにお問い合わせください。"
     }
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "コピー",
-      "CODEPEN": "Open in CodePen",
+      "CODEPEN": "CodePenで開く",
       "COPY_SUCCESSFUL": "コードが正常にクリップボードにコピーされました"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "もっと見る",
+      "SHOW_LESS": "閉じる"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "ダウンロード",
       "UPLOADING": "アップロード中...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+      "INSTAGRAM_STORY_UNAVAILABLE": "このストーリーはもう利用できません。"
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "地図で見る"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "送信"
     },
     "MEDIA": {
-      "IMAGE_UNAVAILABLE": "This image is no longer available.",
-      "LOADING_FAILED": "Loading failed"
+      "IMAGE_UNAVAILABLE": "この画像はもう利用できません。",
+      "LOADING_FAILED": "読み込みに失敗しました"
     }
   },
   "CONFIRM_EMAIL": "確認中...",
@@ -249,99 +267,114 @@
     }
   },
   "SIDEBAR": {
-    "NO_ITEMS": "No items",
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
-    "INBOX_VIEW": "Inbox View",
+    "NO_ITEMS": "アイテムがありません",
+    "CURRENTLY_VIEWING_ACCOUNT": "現在表示中のアカウント:",
+    "SWITCH": "切り替え",
+    "INBOX_VIEW": "受信トレイビュー",
     "CONVERSATIONS": "会話データ",
-    "INBOX": "My Inbox",
-    "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Mentions",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
-    "UNATTENDED_CONVERSATIONS": "Unattended",
+    "INBOX": "私の受信トレイ",
+    "ALL_CONVERSATIONS": "すべての会話",
+    "MENTIONED_CONVERSATIONS": "メンション",
+    "PARTICIPATING_CONVERSATIONS": "参加中",
+    "UNATTENDED_CONVERSATIONS": "未対応",
     "REPORTS": "レポート",
     "SETTINGS": "設定",
-    "CONTACTS": "Contacts",
-    "CAPTAIN": "Captain",
+    "CONTACTS": "連絡先",
+    "CAPTAIN": "キャプテン",
+    "CAPTAIN_ASSISTANTS": "アシスタント",
+    "CAPTAIN_DOCUMENTS": "ドキュメント",
+    "CAPTAIN_RESPONSES": "FAQ",
     "HOME": "ホーム",
     "AGENTS": "担当者",
-    "AGENT_BOTS": "Bots",
-    "AUDIT_LOGS": "Audit Logs",
+    "AGENT_BOTS": "ボット",
+    "AUDIT_LOGS": "監査ログ",
     "INBOXES": "受信トレイ",
-    "NOTIFICATIONS": "Notifications",
+    "NOTIFICATIONS": "通知",
     "CANNED_RESPONSES": "定型文",
     "INTEGRATIONS": "連携",
     "PROFILE_SETTINGS": "プロフィール設定",
     "ACCOUNT_SETTINGS": "アカウント設定",
-    "APPLICATIONS": "Applications",
+    "APPLICATIONS": "アプリケーション",
     "LABELS": "ラベル",
     "CUSTOM_ATTRIBUTES": "カスタム属性",
-    "AUTOMATION": "Automation",
-    "MACROS": "Macros",
-    "TEAMS": "Teams",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
+    "AUTOMATION": "自動化",
+    "MACROS": "マクロ",
+    "TEAMS": "チーム",
+    "BILLING": "請求",
+    "CUSTOM_VIEWS_FOLDER": "フォルダ",
+    "CUSTOM_VIEWS_SEGMENTS": "セグメント",
+    "ALL_CONTACTS": "すべての連絡先",
+    "TAGGED_WITH": "タグ付け済み",
+    "NEW_LABEL": "新しいラベル",
+    "NEW_TEAM": "新しいチーム",
+    "NEW_INBOX": "新しい受信トレイ",
     "REPORTS_CONVERSATION": "会話データ",
-    "CSAT": "CSAT",
-    "LIVE_CHAT": "Live Chat",
+    "CSAT": "顧客満足度",
+    "LIVE_CHAT": "ライブチャット",
     "SMS": "SMS",
-    "CAMPAIGNS": "Campaigns",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
+    "CAMPAIGNS": "キャンペーン",
+    "ONGOING": "進行中",
+    "ONE_OFF": "単発",
     "REPORTS_SLA": "SLA",
-    "REPORTS_BOT": "Bot",
+    "REPORTS_BOT": "ボット",
     "REPORTS_AGENT": "担当者",
     "REPORTS_LABEL": "ラベル",
-    "REPORTS_INBOX": "Inbox",
-    "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "SET_YOUR_AVAILABILITY": "Set your availability",
+    "REPORTS_INBOX": "受信トレイ",
+    "REPORTS_TEAM": "チーム",
+    "SET_AVAILABILITY_TITLE": "ステータスを設定",
+    "SET_YOUR_AVAILABILITY": "利用可能ステータスを設定",
     "SLA": "SLA",
-    "CUSTOM_ROLES": "Custom Roles",
-    "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview",
-    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "CUSTOM_ROLES": "カスタムロール",
+    "BETA": "ベータ版",
+    "REPORTS_OVERVIEW": "概要",
+    "REAUTHORIZE": "受信トレイの接続期限が切れました。継続してメッセージを受信および送信するには、再接続してください。",
     "HELP_CENTER": {
-      "TITLE": "Help Center",
-      "ARTICLES": "Articles",
-      "CATEGORIES": "Categories",
-      "LOCALES": "Locales",
+      "TITLE": "ヘルプセンター",
+      "ARTICLES": "記事",
+      "CATEGORIES": "カテゴリー",
+      "LOCALES": "言語",
       "SETTINGS": "設定"
     },
     "CHANNELS": "チャンネル",
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard.",
-      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
+      "TEXT": "自動的にオフラインに設定",
+      "INFO_TEXT": "アプリやダッシュボードを使用していない場合に、システムが自動的にオフラインに設定します。",
+      "INFO_SHORT": "使用していない場合、自動的にオフラインにします。"
     },
-    "DOCS": "Read docs"
+    "DOCS": "ドキュメントを読む"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "請求設定",
+    "DESCRIPTION": "ここでサブスクリプションを管理し、プランをアップグレードしてチームにさらに多くの機能を提供しましょう。",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses"
+      "TITLE": "現在のプラン",
+      "PLAN_NOTE": "現在**{plan}**プランに**{quantity}**ライセンスでご加入中です。",
+      "SEAT_COUNT": "シート数",
+      "RENEWS_ON": "更新日"
     },
+    "VIEW_PRICING": "料金を表示",
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "サブスクリプションを管理",
+      "DESCRIPTION": "過去の請求書を確認したり、請求情報を編集したり、サブスクリプションをキャンセルしたりできます。",
+      "BUTTON_TXT": "請求ポータルへ"
+    },
+    "CAPTAIN": {
+      "TITLE": "キャプテン",
+      "DESCRIPTION": "Captain AIの使用状況とクレジットを管理する。",
+      "BUTTON_TXT": "クレジットを追加購入する",
+      "DOCUMENTS": "ドキュメント",
+      "RESPONSES": "応答数",
+      "UPGRADE": "Captainは無料プランでは利用できません。アシスタント、Copilotなどの機能を利用するには、プランをアップグレードしてください。"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "サポートが必要ですか？",
+      "DESCRIPTION": "請求に関する問題がありますか？お手伝いします。",
       "BUTTON_TXT": "チャットをする"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "請求アカウントを設定中です。ページを更新してもう一度お試しください。"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Chatwootアカウントが見つかりませんでした。続行するには新しいアカウントを作成してください。",
     "NEW_ACCOUNT": "新規アカウント",
     "SELECTOR_SUBTITLE": "新しいアカウントを作成",
     "API": {
@@ -352,33 +385,28 @@
     "FORM": {
       "NAME": {
         "LABEL": "企業名",
-        "PLACEHOLDER": "Wayne Enterprise"
+        "PLACEHOLDER": "例: Wayne Enterprise"
       },
       "SUBMIT": "送信"
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "すべてのショートカットを表示",
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
+      "OPEN_CONVERSATION": "会話を開く",
+      "RESOLVE_AND_NEXT": "解決して次へ進む",
+      "NAVIGATE_DROPDOWN": "ドロップダウン項目を移動",
+      "RESOLVE_CONVERSATION": "会話を解決",
+      "GO_TO_CONVERSATION_DASHBOARD": "会話ダッシュボードに移動",
+      "ADD_ATTACHMENT": "添付ファイルを追加",
+      "GO_TO_CONTACTS_DASHBOARD": "連絡先ダッシュボードに移動",
+      "TOGGLE_SIDEBAR": "サイドバーを切り替え",
+      "GO_TO_REPORTS_SIDEBAR": "レポートサイドバーに移動",
+      "MOVE_TO_NEXT_TAB": "会話リスト内で次のタブに移動",
+      "GO_TO_SETTINGS": "設定に移動",
+      "SWITCH_TO_PRIVATE_NOTE": "プライベートメモに切り替え",
+      "SWITCH_TO_REPLY": "返信に切り替え",
+      "TOGGLE_SNOOZE_DROPDOWN": "スヌーズドロップダウンを切り替え"
     }
   }
 }

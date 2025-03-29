@@ -17,7 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 lv:
-  hello: "Sveika pasaule"
+  hello: 'Sveika pasaule'
   messages:
     reset_password_success: Urā! Paroles atiestatīšanas pieprasījums ir veiksmīgs. Pārbaudiet savu e-pastu, lai iegūtu norādījumus.
     reset_password_failure: Ak, vai! Mēs nevarējām atrast nevienu lietotāju ar norādīto e -pastu.
@@ -31,7 +31,7 @@ lv:
       disposable_email: Mēs nepieļaujam vienreizējās lietošanas e-pasta adreses
       blocked_domain: Šis domēns nav atļauts. Ja uzskatāt, ka tā ir kļūda, lūdzu, sazinieties ar atbalsta dienestu.
       invalid_email: Jūs esat ievadījis nederīgu e-pasta adresi
-      email_already_exists: "Jūs jau esat reģistrējis kontu ar %{email}"
+      email_already_exists: 'Jūs jau esat reģistrējis kontu ar %{email}'
       invalid_params: 'Kļūda. Lūdzu, pārbaudiet pierakstīšanās parametrus un mēģiniet vēlreiz'
       failed: Reģistrēšanās neizdevās
     data_import:
@@ -50,9 +50,11 @@ lv:
       locale:
         unique: vajadzētu būt unikālai, kategorijā un portālā 
     dyte:
-      invalid_message_type: "Nederīgs ziņojuma veids. Darbība nav atļauta"
+      invalid_message_type: 'Nederīgs ziņojuma veids. Darbība nav atļauta'
     slack:
-      invalid_channel_id: "Nepareizs Slack kanāls. Lūdzu, mēģiniet vēlreiz"
+      invalid_channel_id: 'Nepareizs Slack kanāls. Lūdzu, mēģiniet vēlreiz'
+    channel_service:
+      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: Lūdzu, pārbaudiet tīkla savienojumu, IMAP adresi un mēģiniet vēlreiz.
@@ -68,6 +70,8 @@ lv:
       invalid_operator: Nederīgs operators. Atļautie operatori priekš %{attribute_name} ir [%{allowed_keys}].
       invalid_query_operator: Vaicājuma operatoram ir jābūt "UN" vai "VAI".
       invalid_value: Nederīga vērtība. Norādītās vērtības priekš %{attribute_name} nav derīgas
+    custom_attribute_definition:
+      key_conflict: Norādītā atslēga nav atļauta, jo tā var būt pretrunā ar noklusējuma atribūtiem.
   reports:
     period: Ziņošanas periods %{since} līdz %{until}
     utc_warning: Izveidotais pārskats atbilst UTC laika joslai
@@ -120,103 +124,107 @@ lv:
         recorded_at: Reģistrētais datums
   notifications:
     notification_title:
-      conversation_creation: "Saruna (#%{display_id}) ir izveidota mapē %{inbox_name}"
-      conversation_assignment: "Jums ir piešķirta saruna (#%{display_id})"
-      assigned_conversation_new_message: "Sarunā (#%{display_id}) ir izveidots jauns ziņojums"
-      conversation_mention: "Jūs esat pieminēts sarunā (#%{display_id})"
-      sla_missed_first_response: "SLA sarunas (#%{display_id}) pirmā atbilde nokavēta"
-      sla_missed_next_response: "SLA sarunas (#%{display_id}) nākamā atbilde nokavēta"
-      sla_missed_resolution: "SLA sarunas (#%{display_id}) atrisināšana nokavēta"
-    attachment: "Pielikums"
-    no_content: "Nav satura"
+      conversation_creation: 'Saruna (#%{display_id}) ir izveidota mapē %{inbox_name}'
+      conversation_assignment: 'Jums ir piešķirta saruna (#%{display_id})'
+      assigned_conversation_new_message: 'Sarunā (#%{display_id}) ir izveidots jauns ziņojums'
+      conversation_mention: 'Jūs esat pieminēts sarunā (#%{display_id})'
+      sla_missed_first_response: 'SLA sarunas (#%{display_id}) pirmā atbilde nokavēta'
+      sla_missed_next_response: 'SLA sarunas (#%{display_id}) nākamā atbilde nokavēta'
+      sla_missed_resolution: 'SLA sarunas (#%{display_id}) atrisināšana nokavēta'
+    attachment: 'Pielikums'
+    no_content: 'Nav satura'
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} pieminēja jūs stāstā: "
+      instagram_story_content: '%{story_sender} pieminēja jūs stāstā: '
       instagram_deleted_story_content: Šis stāsts vairs nav pieejams.
       deleted: Šis ziņojums ir izdzēsts
       delivery_status:
-        error_code: "Kļūdas kods: %{error_code}"
+        error_code: 'Kļūdas kods: %{error_code}'
     activity:
       status:
-        resolved: "%{user_name} sarunu atzīmēja kā atrisinātu"
-        contact_resolved: "%{contact_name} atrisināja sarunu"
-        open: "%{user_name} atkārtoti atvēra sarunu"
-        pending: "%{user_name} sarunu atzīmēja kā neapstiprinātu"
-        snoozed: "%{user_name} atlika sarunu"
-        auto_resolved: "Sistēma sarunu atzīmēja kā atrisinātu %{duration} dienu neaktivitātes dēļ"
+        resolved: '%{user_name} sarunu atzīmēja kā atrisinātu'
+        contact_resolved: '%{contact_name} atrisināja sarunu'
+        open: '%{user_name} atkārtoti atvēra sarunu'
+        pending: '%{user_name} sarunu atzīmēja kā neapstiprinātu'
+        snoozed: '%{user_name} atlika sarunu'
+        auto_resolved: 'Sistēma sarunu atzīmēja kā atrisinātu %{duration} dienu neaktivitātes dēļ'
         system_auto_open: Sistēma atkārtoti atvēra sarunu jauna ienākoša ziņojuma dēļ.
       priority:
         added: '%{user_name} iestatīja prioritāti uz %{new_priority}'
         updated: '%{user_name} nomainīja prioritāti no %{old_priority} uz %{new_priority}'
         removed: '%{user_name} noņēma prioritāti'
       assignee:
-        self_assigned: "%{user_name} sev piešķīra šo sarunu"
-        assigned: "%{user_name} piešķīra sarunu %{assignee_name}"
-        removed: "%{user_name} noņēma piešķiršanu"
+        self_assigned: '%{user_name} sev piešķīra šo sarunu'
+        assigned: '%{user_name} piešķīra sarunu %{assignee_name}'
+        removed: '%{user_name} noņēma piešķiršanu'
       team:
-        assigned: "%{user_name} piešķīra sarunu %{team_name}"
-        assigned_with_assignee: "%{user_name} caur %{team_name} piešķīra sarunu %{assignee_name}"
-        removed: "%{user_name} noņēma piešķiršanu %{team_name}"
+        assigned: '%{user_name} piešķīra sarunu %{team_name}'
+        assigned_with_assignee: '%{user_name} caur %{team_name} piešķīra sarunu %{assignee_name}'
+        removed: '%{user_name} noņēma piešķiršanu %{team_name}'
       labels:
-        added: "%{user_name} pievienoja %{labels}"
-        removed: "%{user_name} noņēma %{labels}"
+        added: '%{user_name} pievienoja %{labels}'
+        removed: '%{user_name} noņēma %{labels}'
       sla:
-        added: "%{user_name} pievienoja SLA politiku %{sla_name}"
-        removed: "%{user_name} noņēma SLA politiku %{sla_name}"
-      muted: "%{user_name} izslēdza sarunu"
-      unmuted: "%{user_name} ieslēdza sarunu"
+        added: '%{user_name} pievienoja SLA politiku %{sla_name}'
+        removed: '%{user_name} noņēma SLA politiku %{sla_name}'
+      muted: '%{user_name} izslēdza sarunu'
+      unmuted: '%{user_name} ieslēdza sarunu'
+      auto_resolution_message: 'Saruna tiek pabeigta, jo tā kādu laiku ir bijusi neaktīva. Ja nepieciešama papildu palīdzība, lūdzu, sāciet jaunu sarunu.'
     templates:
-      greeting_message_body: "%{account_name} parasti atbild dažu stundu laikā."
-      ways_to_reach_you_message_body: "Dodiet komandai iespēju ar jums sazināties."
-      email_input_box_message_body: "Saņemiet paziņojumus pa e-pastu"
-      csat_input_message_body: "Lūdzu, novērtējiet sarunu"
+      greeting_message_body: '%{account_name} parasti atbild dažu stundu laikā.'
+      ways_to_reach_you_message_body: 'Dodiet komandai iespēju ar jums sazināties.'
+      email_input_box_message_body: 'Saņemiet paziņojumus pa e-pastu'
+      csat_input_message_body: 'Lūdzu, novērtējiet sarunu'
     reply:
       email:
         header:
-          from_with_name: "%{assignee_name} no %{inbox_name} <%{from_email}>"
-          reply_with_name: "%{assignee_name} no %{inbox_name} <reply+%{reply_email}>"
-          friendly_name: "%{sender_name} no %{business_name} <%{from_email}>"
-          professional_name: "%{business_name} <%{from_email}>"
+          from_with_name: '%{assignee_name} no %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} no %{inbox_name} <reply+%{reply_email}>'
+          friendly_name: '%{sender_name} no %{business_name} <%{from_email}>'
+          professional_name: '%{business_name} <%{from_email}>'
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} no %{inbox_name} <%{from_email}>"
-          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
-      email_subject: "Jauni ziņojumi šajā sarunā"
-      transcript_subject: "Sarunas Transkripts"
+          reply_with_name: '%{assignee_name} no %{inbox_name} <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+      email_subject: 'Jauni ziņojumi šajā sarunā'
+      transcript_subject: 'Sarunas Transkripts'
     survey:
-      response: "Lūdzu, novērtējiet šo sarunu, %{link}"
+      response: 'Lūdzu, novērtējiet šo sarunu, %{link}'
   contacts:
     online:
-      delete: "%{contact_name} ir Tiešsaistē, lūdzu, vēlāk mēģiniet vēlreiz"
+      delete: '%{contact_name} ir Tiešsaistē, lūdzu, vēlāk mēģiniet vēlreiz'
   integration_apps:
     dashboard_apps:
-      name: "Informācijas paneļa Lietotnes"
-      description: "Informācijas paneļa Lietotnes ļauj izveidot un iegult lietojumprogrammas, kurās tiek parādīta lietotāja informācija, pasūtījumu vai maksājumu vēsture, nodrošinot plašāku kontekstu jūsu klientu atbalsta aģentiem."
+      name: 'Informācijas paneļa Lietotnes'
+      description: 'Informācijas paneļa Lietotnes ļauj izveidot un iegult lietojumprogrammas, kurās tiek parādīta lietotāja informācija, pasūtījumu vai maksājumu vēsture, nodrošinot plašāku kontekstu jūsu klientu atbalsta aģentiem.'
     dyte:
-      name: "Dyte"
-      description: "Dyte ir produkts, kas integrē audio un video funkcijas jūsu lietojumprogrammā. Izmantojot šo integrāciju, jūsu aģenti var sākt video/balss zvanus ar klientiem tieši no Chatwoot."
-      meeting_name: "%{agent_name} ir sācis sapulci"
+      name: 'Dyte'
+      description: 'Dyte ir produkts, kas integrē audio un video funkcijas jūsu lietojumprogrammā. Izmantojot šo integrāciju, jūsu aģenti var sākt video/balss zvanus ar klientiem tieši no Chatwoot.'
+      meeting_name: '%{agent_name} ir sācis sapulci'
     slack:
-      name: "Slack"
+      name: 'Slack'
       description: "Integrējiet Chatwoot ar Slack, lai sinhronizētu savu komandu. Šī integrācija ļauj saņemt paziņojumus par jaunām sarunām un atbildēt uz tām tieši Slack saskarnē."
     webhooks:
-      name: "Webhooks"
-      description: "Webhook notikumi nodrošina reāllaika atjauninājumus par darbībām jūsu Chatwoot kontā. Varat abonēt vēlamos notikumus, un Chatwoot nosūtīs jums HTTP atzvanīšanas ziņojumus ar atjauninājumiem."
+      name: 'Webhooks'
+      description: 'Webhook notikumi nodrošina reāllaika atjauninājumus par darbībām jūsu Chatwoot kontā. Varat abonēt vēlamos notikumus, un Chatwoot nosūtīs jums HTTP atzvanīšanas ziņojumus ar atjauninājumiem.'
     dialogflow:
-      name: "Dialogflow"
-      description: "Veidojiet tērzēšanas robotus, izmantojot Dialogflow, un viegli integrējiet tos savā iesūtnē. Šīs robotprogrammatūras var apstrādāt sākotnējos vaicājumus pirms to nodošanas klientu apkalpošanas aģentam."
+      name: 'Dialogflow'
+      description: 'Veidojiet tērzēšanas robotus, izmantojot Dialogflow, un viegli integrējiet tos savā iesūtnē. Šīs robotprogrammatūras var apstrādāt sākotnējos vaicājumus pirms to nodošanas klientu apkalpošanas aģentam.'
     google_translate:
-      name: "Google Tulkotājs"
+      name: 'Google Tulkotājs'
       description: "Integrējiet Google tulkotāju, lai palīdzētu aģentiem viegli tulkot klientu ziņojumus. Šī integrācija automātiski nosaka valodu un pārslēdz to uz aģenta vai administratora vēlamo valodu."
     openai:
-      name: "OpenAI"
-      description: "Izmantojiet OpenAI lielo valodu modeļu iespējas, tādas kā atbilžu ieteikumus, kopsavilkumus, ziņojumu pārfrāzēšanu, pareizrakstības pārbaudi un etiķešu klasifikāciju."
+      name: 'OpenAI'
+      description: 'Izmantojiet OpenAI lielo valodu modeļu iespējas, tādas kā atbilžu ieteikumus, kopsavilkumus, ziņojumu pārfrāzēšanu, pareizrakstības pārbaudi un etiķešu klasifikāciju.'
     linear:
-      name: "Lineārs"
-      description: "Izveidojiet problēmu pieteikumus programmā Linear, tieši no sarunas loga. Varat arī sasaistīt esošos Linear problēmu pieteikumus, lai nodrošinātu racionālāku un efektīvāku problēmu izsekošanas procesu."
-    captain:
-      name: "Captain"
-      description: "Captain ir vietējais AI palīgs, kas ir izveidots jūsu produktam un ir apmācīts, izmantojot jūsu uzņēmuma zināšanu bāzi. Tas reaģē kā cilvēks un efektīvi atrisina klientu jautājumus. Viegli konfigurējams jūsu iesūtnēs."
+      name: 'Lineārs'
+      description: 'Izveidojiet problēmu pieteikumus programmā Linear, tieši no sarunas loga. Varat arī sasaistīt esošos Linear problēmu pieteikumus, lai nodrošinātu racionālāku un efektīvāku problēmu izsekošanas procesu.'
+    shopify:
+      name: 'Shopify'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+  captain:
+    copilot_error: 'Lai izmantotu Copilot, lūdzu, pievienojiet šai iesūtnei palīgu'
+    copilot_limit: 'Jums ir beigušies Copilot kredīti. Vairāk kredītu varat iegādāties norēķinu sadaļā.'
   public_portal:
     search:
       search_placeholder: Meklēt rakstu pēc nosaukuma vai pamatteksta...
@@ -263,18 +271,18 @@ lv:
     button: Atvērt sarunu
   time_units:
     days:
-      zero: "%{count} dienas"
-      one: "%{count} diena"
-      other: "%{count} dienas"
+      zero: '%{count} dienas'
+      one: '%{count} diena'
+      other: '%{count} dienas'
     hours:
-      zero: "%{count} stundas"
-      one: "%{count} stunda"
-      other: "%{count} stundas"
+      zero: '%{count} stundas'
+      one: '%{count} stunda'
+      other: '%{count} stundas'
     minutes:
-      zero: "%{count} minūtes"
-      one: "%{count} minūte"
-      other: "%{count} minūtes"
+      zero: '%{count} minūtes'
+      one: '%{count} minūte'
+      other: '%{count} minūtes'
     seconds:
-      zero: "%{count} sekundes"
-      one: "%{count} sekunde"
-      other: "%{count} sekundes"
+      zero: '%{count} sekundes'
+      one: '%{count} sekunde'
+      other: '%{count} sekundes'

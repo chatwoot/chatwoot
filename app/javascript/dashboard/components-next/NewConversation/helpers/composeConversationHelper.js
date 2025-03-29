@@ -87,6 +87,21 @@ export const processContactableInboxes = inboxes => {
   }));
 };
 
+export const mergeInboxDetails = (inboxesData, inboxesList = []) => {
+  if (!inboxesData || !inboxesData.length) {
+    return [];
+  }
+
+  return inboxesData.map(inboxData => {
+    const matchingInbox =
+      inboxesList.find(inbox => inbox.id === inboxData.id) || {};
+    return {
+      ...camelcaseKeys(matchingInbox, { deep: true }),
+      ...inboxData,
+    };
+  });
+};
+
 export const prepareAttachmentPayload = (
   attachedFiles,
   directUploadsEnabled

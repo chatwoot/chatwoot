@@ -12,6 +12,8 @@
     "NO_INBOX_2": " untuk memulai",
     "NO_INBOX_AGENT": "Aduh! Sepertinya Anda bukan bagian dari kotak masuk mana pun. Silakan hubungi administrator Anda",
     "SEARCH_MESSAGES": "Mencari pesan dalam percakapan",
+    "VIEW_ORIGINAL": "Lihat asli",
+    "VIEW_TRANSLATED": "Lihat terjemahan",
     "EMPTY_STATE": {
       "CMD_BAR": "to open command menu",
       "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
@@ -38,15 +40,23 @@
     "REMOVE_SELECTION": "Hapus Pilihan",
     "DOWNLOAD": "Unduh",
     "UNKNOWN_FILE_TYPE": "Jenis Berkas Tidak Dikenal",
-    "SAVE_CONTACT": "Simpan",
+    "SAVE_CONTACT": "Simpan Kontak",
+    "NO_CONTENT": "Tidak ada konten untuk ditampilkan",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} membagikan sebuah kontak",
+      "LOCATION": "{sender} membagikan lokasi",
+      "FILE": "{sender} membagikan sebuah berkas",
+      "MEETING": "{sender} memulai percakapan"
+    },
     "UPLOADING_ATTACHMENTS": "Mengunggah lampiran...",
     "REPLIED_TO_STORY": "Membalas cerita Anda",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Pesan berhasil dihapus",
     "FAIL_DELETE_MESSSAGE": "Tidak dapat menghapus pesan! Coba lagi",
     "NO_RESPONSE": "Tidak ada respon",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Penilaian",
     "FEEDBACK_TITLE": "Umpan Balik",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
@@ -109,6 +119,7 @@
       "PENDING": "Tandai sebagai tertunda",
       "RESOLVED": "Tandai sebagai terselesaikan",
       "MARK_AS_UNREAD": "Tandai sebagai belum terbaca",
+      "MARK_AS_READ": "Tanda telah dibaca",
       "REOPEN": "Buka kembali percakapan",
       "SNOOZE": {
         "TITLE": "Tunda",
@@ -126,7 +137,7 @@
           "FAILED": "Tidak dapat menugaskan agen. Silakan coba lagi."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Label #{labelName} ditugaskan ke id percakapan {conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Tidak dapat menugaskan label. Silakan coba lagi."
         },
         "TEAM_ASSIGNMENT": {
@@ -207,7 +218,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Salin",
-      "REPLY_TO": "Reply to this message",
+      "REPLY_TO": "Balas pesan ini",
       "DELETE": "Hapus",
       "CREATE_A_CANNED_RESPONSE": "Tambahkan ke respon siap pakai",
       "TRANSLATE": "Terjemahkan",
@@ -219,6 +230,10 @@
         "DELETE": "Hapus",
         "CANCEL": "Batalkan"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Kontak",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -280,7 +295,27 @@
       "CONVERSATION_INFO": "Informasi Percakapan",
       "CONTACT_ATTRIBUTES": "Atribut Kontak",
       "PREVIOUS_CONVERSATION": "Percakapan Sebelumnya",
-      "MACROS": "Makro"
+      "MACROS": "Makro",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Ditunda",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -310,7 +345,8 @@
     "TO": "Ke",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Subjek"
+    "SUBJECT": "Subjek",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Berpartisipasi",
@@ -335,5 +371,16 @@
     "ORIGINAL_CONTENT": "Konten Asli",
     "TRANSLATED_CONTENT": "Konten Terjemahan",
     "NO_TRANSLATIONS_AVAILABLE": "Tidak ada terjemahan yang tersedia untuk konten ini"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

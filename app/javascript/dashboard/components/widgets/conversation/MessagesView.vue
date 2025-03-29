@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useAI } from 'dashboard/composables/useAI';
+import { useMapGetter } from 'dashboard/composables/store';
 
 // components
 import ReplyBox from './ReplyBox.vue';
@@ -34,6 +35,9 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { FEATURE_FLAGS } from '../../../featureFlags';
+
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
@@ -42,6 +46,7 @@ export default {
     ReplyBox,
     Banner,
     ConversationLabelSuggestion,
+    NextButton,
   },
   mixins: [inboxMixin],
   props: {
@@ -82,8 +87,14 @@ export default {
       fetchLabelSuggestions,
     } = useAI();
 
-    const showNextBubbles = LocalStorage.get(
-      LOCAL_STORAGE_KEYS.USE_NEXT_BUBBLE
+    const currentAccountId = useMapGetter('getCurrentAccountId');
+    const isFeatureEnabledonAccount = useMapGetter(
+      'accounts/isFeatureEnabledonAccount'
+    );
+
+    const showNextBubbles = isFeatureEnabledonAccount.value(
+      currentAccountId.value,
+      FEATURE_FLAGS.CHATWOOT_V4
     );
 
     return {
@@ -234,6 +245,15 @@ export default {
     },
     unreadMessageCount() {
       return this.currentChat.unread_count || 0;
+    },
+    unreadMessageLabel() {
+      const count =
+        this.unreadMessageCount > 9 ? '9+' : this.unreadMessageCount;
+      const label =
+        this.unreadMessageCount > 1
+          ? 'CONVERSATION.UNREAD_MESSAGES'
+          : 'CONVERSATION.UNREAD_MESSAGE';
+      return `${count} ${this.$t(label)}`;
     },
     isInstagramDM() {
       return this.conversationType === 'instagram_direct_message';
@@ -465,30 +485,32 @@ export default {
     <Banner
       v-if="!currentChat.can_reply"
       color-scheme="alert"
+      class="mt-2 mx-2 rounded-lg overflow-hidden"
       :banner-message="replyWindowBannerMessage"
       :href-link="replyWindowLink"
       :href-link-text="replyWindowLinkText"
     />
     <div class="flex justify-end">
-      <woot-button
-        variant="smooth"
-        size="tiny"
-        color-scheme="secondary"
-        class="box-border fixed z-10 bg-white border border-r-0 border-solid rounded-bl-calc rtl:rotate-180 rounded-tl-calc dark:bg-slate-700 border-slate-50 dark:border-slate-600"
+      <NextButton
+        faded
+        xs
+        slate
+        class="!rounded-r-none rtl:rotate-180 !rounded-2xl !fixed z-10"
+        :icon="
+          isContactPanelOpen ? 'i-ph-caret-right-fill' : 'i-ph-caret-left-fill'
+        "
         :class="isInboxView ? 'top-52 md:top-40' : 'top-32'"
-        :icon="isRightOrLeftIcon"
         @click="onToggleContactPanel"
       />
     </div>
     <NextMessageList
       v-if="showNextBubbles"
       class="conversation-panel"
-      :read-messages="readMessages"
-      :un-read-messages="unReadMessages"
       :current-user-id="currentUserId"
+      :first-unread-id="unReadMessages[0]?.id"
       :is-an-email-channel="isAnEmailChannel"
       :inbox-supports-reply-to="inboxSupportsReplyTo"
-      :messages="currentChat ? currentChat.messages : []"
+      :messages="getMessages"
     >
       <template #beforeAll>
         <transition name="slide-up">
@@ -498,15 +520,10 @@ export default {
           </li>
         </transition>
       </template>
-      <template #beforeUnread>
+      <template #unreadBadge>
         <li v-show="unreadMessageCount != 0" class="unread--toast">
           <span>
-            {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
-            {{
-              unreadMessageCount > 1
-                ? $t('CONVERSATION.UNREAD_MESSAGES')
-                : $t('CONVERSATION.UNREAD_MESSAGE')
-            }}
+            {{ unreadMessageLabel }}
           </span>
         </li>
       </template>
@@ -584,7 +601,7 @@ export default {
         class="absolute flex items-center w-full h-0 -top-7"
       >
         <div
-          class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 text-xs font-semibold my-2.5 mx-auto"
+          class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-slate-700 text-n-slate-11 text-xs font-semibold my-2.5 mx-auto"
         >
           {{ typingUserNames }}
           <img
@@ -596,25 +613,11 @@ export default {
       </div>
       <ReplyBox
         v-model:popout-reply-box="isPopOutReplyBox"
-        :conversation-id="currentChat.id"
         @toggle-popout="showPopOutReplyBox"
       />
     </div>
   </div>
 </template>
-
-<style scoped>
-@tailwind components;
-@layer components {
-  .rounded-bl-calc {
-    border-bottom-left-radius: calc(1.5rem + 1px);
-  }
-
-  .rounded-tl-calc {
-    border-top-left-radius: calc(1.5rem + 1px);
-  }
-}
-</style>
 
 <style scoped lang="scss">
 .modal-mask {

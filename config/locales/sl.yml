@@ -17,7 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 sl:
-  hello: "Pozdravljen svet"
+  hello: 'Pozdravljen svet'
   messages:
     reset_password_success: Juhu! Zahteva za ponastavitev gesla je bila uspešna. Preverite svojo e-pošto za navodila.
     reset_password_failure: O ne! Nismo mogli najti nobenega uporabnika z navedenim e-poštnim naslovom.
@@ -31,7 +31,7 @@ sl:
       disposable_email: Ne dovolimo e-pošte za enkratno uporabo
       blocked_domain: Ta domena ni dovoljena. Če menite, da je to pomota, se obrnite na podporo.
       invalid_email: Vnesli ste neveljaven e-poštni naslov
-      email_already_exists: "Ste že ustvarili račun z e-poštnim naslovom %{email}"
+      email_already_exists: 'Ste že ustvarili račun z e-poštnim naslovom %{email}'
       invalid_params: 'Neveljavno, preverite vnešene podatke in poskusite znova'
       failed: Registracija neuspešna
     data_import:
@@ -50,9 +50,11 @@ sl:
       locale:
         unique: mora biti edinstven v kategoriji in portalu
     dyte:
-      invalid_message_type: "Neveljavna vrsta sporočila. Dejanje ni dovoljeno"
+      invalid_message_type: 'Neveljavna vrsta sporočila. Dejanje ni dovoljeno'
     slack:
-      invalid_channel_id: "Neveljaven slack kanal. Prosimo poskusite ponovno"
+      invalid_channel_id: 'Neveljaven slack kanal. Prosimo poskusite ponovno'
+    channel_service:
+      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: Preverite omrežno povezavo, naslov IMAP in poskusite znova.
@@ -68,6 +70,8 @@ sl:
       invalid_operator: Neveljaven operater. Dovoljeni operaterji za %{attribute_name} so [%{allowed_keys}].
       invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Neveljavna vrednost. Podane vrednosti za %{attribute_name} so neveljavne
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
     period: Obdobje poročanja %{since} do %{until}
     utc_warning: Ustvarjeno poročilo je v časovnem pasu UTC
@@ -120,103 +124,107 @@ sl:
         recorded_at: Zabeležen datum
   notifications:
     notification_title:
-      conversation_creation: "Pogovor (#%{display_id}) je bil ustvarjen v %{inbox_name}"
-      conversation_assignment: "Pogovor (#%{display_id}) vam je bil dodeljen"
-      assigned_conversation_new_message: "V pogovoru je ustvarjeno novo sporočilo (#%{display_id})"
-      conversation_mention: "Omenjeni ste bili v pogovoru (#%{display_id})"
-      sla_missed_first_response: "Prvi odgovor cilja SLA za pogovor (#%{display_id}) ni bil izpolnjen"
-      sla_missed_next_response: "Naslednji odgovor cilja SLA za pogovor (#%{display_id}) ni bil izpolnjen"
-      sla_missed_resolution: "Ciljna resolucija SLA za pogovor (#%{display_id}) ni bila dosežena"
-    attachment: "Priponka"
-    no_content: "Ni vsebine"
+      conversation_creation: 'Pogovor (#%{display_id}) je bil ustvarjen v %{inbox_name}'
+      conversation_assignment: 'Pogovor (#%{display_id}) vam je bil dodeljen'
+      assigned_conversation_new_message: 'V pogovoru je ustvarjeno novo sporočilo (#%{display_id})'
+      conversation_mention: 'Omenjeni ste bili v pogovoru (#%{display_id})'
+      sla_missed_first_response: 'Prvi odgovor cilja SLA za pogovor (#%{display_id}) ni bil izpolnjen'
+      sla_missed_next_response: 'Naslednji odgovor cilja SLA za pogovor (#%{display_id}) ni bil izpolnjen'
+      sla_missed_resolution: 'Ciljna resolucija SLA za pogovor (#%{display_id}) ni bila dosežena'
+    attachment: 'Priponka'
+    no_content: 'Ni vsebine'
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} vas je omenil v zgodbi: "
+      instagram_story_content: '%{story_sender} vas je omenil v zgodbi: '
       instagram_deleted_story_content: Ta zgodba ni več na voljo.
       deleted: To sporočilo je bilo izbrisano
       delivery_status:
-        error_code: "Koda napake: %{error_code}"
+        error_code: 'Koda napake: %{error_code}'
     activity:
       status:
-        resolved: "%{user_name} je pogovor označil za rešenega"
-        contact_resolved: "Pogovor je razrešil %{contact_name}"
-        open: "%{user_name} je znova odprl pogovor"
-        pending: "%{user_name} je pogovor označil kot čakajočega"
-        snoozed: "%{user_name} je preložil pogovor"
-        auto_resolved: "Sistem je označil pogovor kot razrešen zaradi %{duration} dni nedejavnosti"
+        resolved: '%{user_name} je pogovor označil za rešenega'
+        contact_resolved: 'Pogovor je razrešil %{contact_name}'
+        open: '%{user_name} je znova odprl pogovor'
+        pending: '%{user_name} je pogovor označil kot čakajočega'
+        snoozed: '%{user_name} je preložil pogovor'
+        auto_resolved: 'Sistem je označil pogovor kot razrešen zaradi %{duration} dni nedejavnosti'
         system_auto_open: Sistem je znova odprl pogovor zaradi novega dohodnega sporočila.
       priority:
         added: '%{user_name} je nastavil prednost na %{new_priority}'
         updated: '%{user_name} je spremenil prednost iz %{old_priority} v %{new_priority}'
         removed: '%{user_name} je odstranil prednost'
       assignee:
-        self_assigned: "%{user_name} si je ta pogovor dodelil sebi"
-        assigned: "Dodeljeno %{user_name} s strani %{assignee_name}"
-        removed: "%{user_name} je preklical dodelitev pogovora"
+        self_assigned: '%{user_name} si je ta pogovor dodelil sebi'
+        assigned: 'Dodeljeno %{user_name} s strani %{assignee_name}'
+        removed: '%{user_name} je preklical dodelitev pogovora'
       team:
-        assigned: "Dodeljeno %{team_name} s strani %{user_name}"
-        assigned_with_assignee: "Dodeljeno%{assignee_name} preko %{team_name} s strani %{user_name}"
-        removed: "Dodelitev uporabniku %{user_name} preklicana s strani %{team_name}"
+        assigned: 'Dodeljeno %{team_name} s strani %{user_name}'
+        assigned_with_assignee: 'Dodeljeno%{assignee_name} preko %{team_name} s strani %{user_name}'
+        removed: 'Dodelitev uporabniku %{user_name} preklicana s strani %{team_name}'
       labels:
-        added: "%{user_name} dodal %{labels}"
-        removed: "%{user_name} odstranil %{labels}"
+        added: '%{user_name} dodal %{labels}'
+        removed: '%{user_name} odstranil %{labels}'
       sla:
-        added: "%{user_name} je dodal politiko SLA %{sla_name}"
-        removed: "%{user_name} je odstranil politiko SLA %{sla_name}"
-      muted: "%{user_name} je utišal pogovor"
-      unmuted: "%{user_name} je vklopil sporočila pogovora"
+        added: '%{user_name} je dodal politiko SLA %{sla_name}'
+        removed: '%{user_name} je odstranil politiko SLA %{sla_name}'
+      muted: '%{user_name} je utišal pogovor'
+      unmuted: '%{user_name} je vklopil sporočila pogovora'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
-      greeting_message_body: "%{account_name} običajno odgovori v nekaj urah."
-      ways_to_reach_you_message_body: "Omogočite ekipi, da stopi v stik z vami."
-      email_input_box_message_body: "Prejmite obvestilo po e-pošti"
-      csat_input_message_body: "Ocenite pogovor"
+      greeting_message_body: '%{account_name} običajno odgovori v nekaj urah.'
+      ways_to_reach_you_message_body: 'Omogočite ekipi, da stopi v stik z vami.'
+      email_input_box_message_body: 'Prejmite obvestilo po e-pošti'
+      csat_input_message_body: 'Ocenite pogovor'
     reply:
       email:
         header:
-          from_with_name: "%{assignee_name} iz %{inbox_name} <%{from_email}>"
-          reply_with_name: "%{assignee_name} iz %{inbox_name} <reply+%{reply_email}>"
-          friendly_name: "%{sender_name} iz %{business_name} <%{from_email}>"
-          professional_name: "%{business_name} <%{from_email}>"
+          from_with_name: '%{assignee_name} iz %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} iz %{inbox_name} <reply+%{reply_email}>'
+          friendly_name: '%{sender_name} iz %{business_name} <%{from_email}>'
+          professional_name: '%{business_name} <%{from_email}>'
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} iz %{inbox_name} <%{from_email}>"
-          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
-      email_subject: "Nova sporočila v tem pogovoru"
-      transcript_subject: "Prepis pogovora"
+          reply_with_name: '%{assignee_name} iz %{inbox_name} <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+      email_subject: 'Nova sporočila v tem pogovoru'
+      transcript_subject: 'Prepis pogovora'
     survey:
-      response: "Ocenite ta pogovor, %{link}"
+      response: 'Ocenite ta pogovor, %{link}'
   contacts:
     online:
-      delete: "%{contact_name} je na voljo, poskusite znova pozneje"
+      delete: '%{contact_name} je na voljo, poskusite znova pozneje'
   integration_apps:
     dashboard_apps:
-      name: "Aplikacije nadzorne plošče"
-      description: "Aplikacije nadzorne plošče vam omogočajo, da ustvarite in vdelate aplikacije, ki prikazujejo uporabniške informacije, naročila ali zgodovino plačil, kar zagotavlja več konteksta vašim agentom za podporo strankam."
+      name: 'Aplikacije nadzorne plošče'
+      description: 'Aplikacije nadzorne plošče vam omogočajo, da ustvarite in vdelate aplikacije, ki prikazujejo uporabniške informacije, naročila ali zgodovino plačil, kar zagotavlja več konteksta vašim agentom za podporo strankam.'
     dyte:
-      name: "Dyte"
-      description: "Dyte je rešitev, ki integrira avdio in video funkcije v vašo aplikacijo. S to integracijo lahko vaši agenti začnejo video/glasovne klice z vašimi strankami neposredno iz Chatwoota."
-      meeting_name: "%{agent_name} je začel sestanek"
+      name: 'Dyte'
+      description: 'Dyte je rešitev, ki integrira avdio in video funkcije v vašo aplikacijo. S to integracijo lahko vaši agenti začnejo video/glasovne klice z vašimi strankami neposredno iz Chatwoota.'
+      meeting_name: '%{agent_name} je začel sestanek'
     slack:
-      name: "Slack"
+      name: 'Slack'
       description: "Integrirajte Chatwoot s Slackom, da bo vaša ekipa sinhronizirana. Ta integracija vam omogoča prejemanje obvestil o novih pogovorih in odgovarjanje nanje neposredno v Slackovem vmesniku."
     webhooks:
-      name: "Webhooks"
-      description: "Dogodki Webhook zagotavljajo posodobitve v realnem času o dejavnostih v vašem računu Chatwoot. Naročite se lahko na želene dogodke in Chatwoot vam bo poslal povratne klice HTTP s posodobitvami."
+      name: 'Webhooks'
+      description: 'Dogodki Webhook zagotavljajo posodobitve v realnem času o dejavnostih v vašem računu Chatwoot. Naročite se lahko na želene dogodke in Chatwoot vam bo poslal povratne klice HTTP s posodobitvami.'
     dialogflow:
-      name: "Dialogflow"
-      description: "Ustvarite chatbote z Dialogflowom in jih preprosto integrirajte v svoj nabiralnik. Ti boti lahko obravnavajo začetne poizvedbe, preden jih prenesejo agentu za pomoč uporabnikom."
+      name: 'Dialogflow'
+      description: 'Ustvarite chatbote z Dialogflowom in jih preprosto integrirajte v svoj nabiralnik. Ti boti lahko obravnavajo začetne poizvedbe, preden jih prenesejo agentu za pomoč uporabnikom.'
     google_translate:
-      name: "Google Translate"
+      name: 'Google Translate'
       description: "Integrirajte Google Translate, da agentom pomagate pri preprostem prevajanju sporočil strank. Ta integracija samodejno zazna jezik in ga pretvori v prednostni jezik agenta ali skrbnika."
     openai:
-      name: "OpenAI"
-      description: "Izkoristite moč velikih jezikovnih modelov OpenAI s funkcijami, kot so predlogi odgovorov, povzemanje, preoblikovanje sporočil, preverjanje črkovanja in klasifikacija oznak."
+      name: 'OpenAI'
+      description: 'Izkoristite moč velikih jezikovnih modelov OpenAI s funkcijami, kot so predlogi odgovorov, povzemanje, preoblikovanje sporočil, preverjanje črkovanja in klasifikacija oznak.'
     linear:
-      name: "Linear"
-      description: "Ustvarite issue v Linearju neposredno iz pogovornega okna. Druga možnost je, da povežete obstoječe Linear issue za bolj poenostavljen in učinkovit postopek sledenja težavam."
-    captain:
-      name: "Captain"
-      description: "Captain je izvorni pomočnik AI, izdelan za vaš izdelek in usposobljen na podlagi znanja vašega podjetja. Odziva se kot človek in učinkovito rešuje vprašanja strank. Preprosto ga konfigurirajte za svoje nabiralnike."
+      name: 'Linear'
+      description: 'Ustvarite issue v Linearju neposredno iz pogovornega okna. Druga možnost je, da povežete obstoječe Linear issue za bolj poenostavljen in učinkovit postopek sledenja težavam.'
+    shopify:
+      name: 'Shopify'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+  captain:
+    copilot_error: 'Please connect an assistant to this inbox to use Copilot'
+    copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
   public_portal:
     search:
       search_placeholder: Iskanje članka po naslovu ali telesu ...
@@ -263,22 +271,22 @@ sl:
     button: Odpri pogovor
   time_units:
     days:
-      one: "%{count} dan"
-      two: "%{count} dni"
-      few: "%{count} dni"
-      other: "%{count} dni"
+      one: '%{count} dan'
+      two: '%{count} dni'
+      few: '%{count} dni'
+      other: '%{count} dni'
     hours:
-      one: "%{count} ura"
-      two: "%{count} uri"
-      few: "%{count} ure"
-      other: "%{count} ur"
+      one: '%{count} ura'
+      two: '%{count} uri'
+      few: '%{count} ure'
+      other: '%{count} ur'
     minutes:
-      one: "%{count} minuta"
-      two: "%{count} minuti"
-      few: "%{count} minute"
-      other: "%{count} minut"
+      one: '%{count} minuta'
+      two: '%{count} minuti'
+      few: '%{count} minute'
+      other: '%{count} minut'
     seconds:
-      one: "%{count} sekunda"
-      two: "%{count} sekundi"
-      few: "%{count} sekunde"
-      other: "%{count} sekund"
+      one: '%{count} sekunda'
+      two: '%{count} sekundi'
+      few: '%{count} sekunde'
+      other: '%{count} sekund'

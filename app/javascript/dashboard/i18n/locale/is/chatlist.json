@@ -99,6 +99,9 @@
       },
       "fallback": {
         "CONTENT": "hefur deilt vefslóð"
+      },
+      "contact": {
+        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {

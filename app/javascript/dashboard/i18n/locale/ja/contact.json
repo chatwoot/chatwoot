@@ -1,55 +1,55 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "利用不可",
+    "NOT_AVAILABLE": "未入力",
     "EMAIL_ADDRESS": "Eメールアドレス",
     "PHONE_NUMBER": "電話番号",
-    "IDENTIFIER": "Identifier",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "COMPANY": "企業",
+    "IDENTIFIER": "識別子",
+    "COPY_SUCCESSFUL": "クリップボードに正常にコピーされました",
+    "COMPANY": "企業名",
     "LOCATION": "場所",
     "BROWSER_LANGUAGE": "ブラウザの言語",
     "CONVERSATION_TITLE": "会話の詳細",
-    "VIEW_PROFILE": "View Profile",
+    "VIEW_PROFILE": "プロフィールを表示",
     "BROWSER": "ブラウザ",
     "OS": "OS",
     "INITIATED_FROM": "開始元",
-    "INITIATED_AT": "開始場所",
-    "IP_ADDRESS": "IP Address",
-    "CREATED_AT_LABEL": "Created",
-    "NEW_MESSAGE": "New message",
+    "INITIATED_AT": "開始日時",
+    "IP_ADDRESS": "IPアドレス",
+    "CREATED_AT_LABEL": "作成日時",
+    "NEW_MESSAGE": "新しいメッセージ",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "この連絡先に関連付けられている以前の会話はありません。",
-      "TITLE": "前の会話"
+      "TITLE": "以前の会話"
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "TITLE": "連絡先ラベル",
+        "ERROR": "ラベルを更新できませんでした"
       },
       "CONVERSATION": {
         "TITLE": "会話のラベル",
-        "ADD_BUTTON": "Add Labels"
+        "ADD_BUTTON": "ラベルを追加"
       },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
-        "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found",
-        "CREATE_LABEL": "Create new label"
+        "TITLE": "ラベルを追加",
+        "PLACEHOLDER": "ラベルを検索",
+        "NO_RESULT": "ラベルが見つかりません",
+        "CREATE_LABEL": "新しいラベルを作成"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
-    "MUTE_CONTACT": "Block Contact",
-    "UNMUTE_CONTACT": "Unblock Contact",
-    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
-    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
-    "SEND_TRANSCRIPT": "会話のログを送信",
+    "MERGE_CONTACT": "連絡先をマージ",
+    "CONTACT_ACTIONS": "連絡先アクション",
+    "MUTE_CONTACT": "連絡先をブロック",
+    "UNMUTE_CONTACT": "連絡先のブロックを解除",
+    "MUTED_SUCCESS": "この連絡先は正常にブロックされました。将来の会話に関する通知は受け取れません。",
+    "UNMUTED_SUCCESS": "この連絡先のブロックが正常に解除されました。",
+    "SEND_TRANSCRIPT": "会話ログを送信",
     "EDIT_LABEL": "編集",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "カスタム属性",
-      "CONTACT_LABELS": "Contact Labels",
-      "PREVIOUS_CONVERSATIONS": "前の会話",
-      "NO_RECORDS_FOUND": "No attributes found"
+      "CONTACT_LABELS": "連絡先ラベル",
+      "PREVIOUS_CONVERSATIONS": "以前の会話",
+      "NO_RECORDS_FOUND": "属性が見つかりません"
     }
   },
   "EDIT_CONTACT": {
@@ -58,18 +58,18 @@
     "DESC": "連絡先の詳細を編集"
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "BUTTON_LABEL": "連絡先を削除",
+    "TITLE": "連絡先を削除",
+    "DESC": "連絡先の詳細を削除",
     "CONFIRM": {
       "TITLE": "削除の確認",
-      "MESSAGE": "削除してもよろしいですか？ ",
+      "MESSAGE": "削除してもよろしいですか？",
       "YES": "削除する",
       "NO": "いいえ"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "SUCCESS_MESSAGE": "連絡先が正常に削除されました",
+      "ERROR_MESSAGE": "連絡先を削除できませんでした。後でもう一度お試しください。"
     }
   },
   "CONTACT_FORM": {
@@ -91,15 +91,15 @@
         "PLACEHOLDER": "連絡先のEメールアドレスを入力してください",
         "LABEL": "Eメールアドレス",
         "DUPLICATE": "このメールアドレスは別の連絡先に使用されています。",
-        "ERROR": "正しいメールアドレスを入力してください."
+        "ERROR": "正しいメールアドレスを入力してください。"
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "連絡先の電話番号を入力してください",
         "LABEL": "電話番号",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format",
-        "DIAL_CODE_ERROR": "Please select a dial code from the list",
-        "DUPLICATE": "This phone number is in use for another contact."
+        "HELP": "電話番号はE.164形式である必要があります (例: +1415555555 [+][国コード][エリアコード][ローカル番号])",
+        "ERROR": "電話番号は空白またはE.164形式である必要があります。",
+        "DIAL_CODE_ERROR": "リストからダイヤルコードを選択してください。",
+        "DUPLICATE": "この電話番号は別の連絡先に使用されています。"
       },
       "LOCATION": {
         "PLACEHOLDER": "連絡先の所在地を入力してください",
@@ -110,15 +110,15 @@
         "LABEL": "企業名"
       },
       "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
+        "PLACEHOLDER": "国名を入力",
         "LABEL": "国名",
-        "SELECT_PLACEHOLDER": "Select",
+        "SELECT_PLACEHOLDER": "選択",
         "REMOVE": "削除",
-        "SELECT_COUNTRY": "Select Country"
+        "SELECT_COUNTRY": "国を選択"
       },
       "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
+        "PLACEHOLDER": "都市名を入力",
+        "LABEL": "都市名"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -141,141 +141,141 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "連絡先のアバターが正常に削除されました",
+        "ERROR_MESSAGE": "連絡先のアバターを削除できませんでした。後でもう一度お試しください。"
       }
     },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
+    "SUCCESS_MESSAGE": "連絡先が正常に保存されました",
     "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
   },
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "チャットを開始",
-    "TITLE": "New conversation",
-    "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "TITLE": "新しい会話",
+    "DESC": "新しいメッセージを送信して会話を開始します。",
+    "NO_INBOX": "この連絡先と新しい会話を開始する受信トレイが見つかりませんでした。",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "宛先"
       },
       "INBOX": {
-        "LABEL": "Inbox",
-        "PLACEHOLDER": "Choose source inbox",
-        "ERROR": "Select an inbox"
+        "LABEL": "受信トレイ",
+        "PLACEHOLDER": "ソース受信トレイを選択",
+        "ERROR": "受信トレイを選択してください"
       },
       "SUBJECT": {
         "LABEL": "件名",
-        "PLACEHOLDER": "件名",
-        "ERROR": "Subject can't be empty"
+        "PLACEHOLDER": "件名を入力してください",
+        "ERROR": "件名を空にすることはできません"
       },
       "MESSAGE": {
         "LABEL": "メッセージ",
-        "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+        "PLACEHOLDER": "ここにメッセージを入力してください",
+        "ERROR": "メッセージを空にすることはできません"
       },
       "ATTACHMENTS": {
-        "SELECT": "Choose files",
-        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+        "SELECT": "ファイルを選択",
+        "HELP_TEXT": "ここにファイルをドラッグアンドドロップするか、添付するファイルを選択してください"
       },
-      "SUBMIT": "Send message",
+      "SUBMIT": "メッセージを送信",
       "CANCEL": "キャンセル",
-      "SUCCESS_MESSAGE": "Message sent!",
+      "SUCCESS_MESSAGE": "メッセージが送信されました！",
       "GO_TO_CONVERSATION": "表示",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "ERROR_MESSAGE": "送信できませんでした！もう一度お試しください"
     }
   },
   "CONTACTS_PAGE": {
     "LIST": {
       "TABLE_HEADER": {
-        "SOCIAL_PROFILES": "Social Profiles"
+        "SOCIAL_PROFILES": "ソーシャルプロファイル"
       }
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "BUTTON": "Add custom attribute",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "SHOW_MORE": "Show all attributes",
-    "SHOW_LESS": "Show less attributes",
+    "BUTTON": "カスタム属性を追加",
+    "COPY_SUCCESSFUL": "正常にクリップボードにコピーされました",
+    "SHOW_MORE": "すべての属性を表示",
+    "SHOW_LESS": "属性を少なく表示",
     "ACTIONS": {
-      "COPY": "Copy attribute",
-      "DELETE": "Delete attribute",
-      "EDIT": "Edit attribute"
+      "COPY": "属性をコピー",
+      "DELETE": "属性を削除",
+      "EDIT": "属性を編集"
     },
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "カスタム属性を作成",
+      "DESC": "この連絡先にカスタム情報を追加します。"
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "属性を追加",
       "CANCEL": "キャンセル",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "カスタム属性名",
+        "PLACEHOLDER": "例: Shopify ID",
+        "ERROR": "無効なカスタム属性名です"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
-        "PLACEHOLDER": "Eg: 11901 "
+        "LABEL": "属性値",
+        "PLACEHOLDER": "例: 11901"
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
-        "SUCCESS": "Attribute added successfully",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "TITLE": "新しい属性を作成",
+        "SUCCESS": "属性が正常に追加されました",
+        "ERROR": "属性を追加できませんでした。後でもう一度お試しください"
       },
       "UPDATE": {
-        "SUCCESS": "Attribute updated successfully",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "SUCCESS": "属性が正常に更新されました",
+        "ERROR": "属性を更新できませんでした。後でもう一度お試しください"
       },
       "DELETE": {
-        "SUCCESS": "Attribute deleted successfully",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "SUCCESS": "属性が正常に削除されました",
+        "ERROR": "属性を削除できませんでした。後でもう一度お試しください"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "TITLE": "属性を追加",
+        "PLACEHOLDER": "属性を検索",
+        "NO_RESULT": "属性が見つかりません"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "PLACEHOLDER": "値を選択",
+          "SEARCH_INPUT_PLACEHOLDER": "値を検索",
+          "NO_RESULT": "結果が見つかりません"
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL",
-      "INVALID_INPUT": "Invalid Input"
+      "REQUIRED": "有効な値が必要です",
+      "INVALID_URL": "無効なURLです",
+      "INVALID_INPUT": "無効な入力です"
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "TITLE": "連絡先をマージ",
+    "DESCRIPTION": "連絡先をマージして、2つのプロファイルを1つに統合します。すべての属性と会話が統合されます。競合が発生した場合、プライマリ連絡先の属性が優先されます。",
     "PRIMARY": {
-      "TITLE": "Primary contact",
-      "HELP_LABEL": "To be deleted"
+      "TITLE": "プライマリ連絡先",
+      "HELP_LABEL": "削除対象"
     },
     "PARENT": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be kept"
+      "TITLE": "マージする連絡先",
+      "PLACEHOLDER": "連絡先を検索",
+      "HELP_LABEL": "保持対象"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>{primaryContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>{primaryContactName}</strong> will be copied to <strong>{parentContactName}</strong>."
+      "TITLE": "概要",
+      "DELETE_WARNING": "<strong>{primaryContactName}</strong> の連絡先が削除されます。",
+      "ATTRIBUTE_WARNING": "<strong>{primaryContactName}</strong> の連絡先情報が <strong>{parentContactName}</strong> にコピーされます。"
     },
     "SEARCH": {
-      "ERROR": "ERROR_MESSAGE"
+      "ERROR_MESSAGE": "問題が発生しました。もう一度お試しください。"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
+      "SUBMIT": "連絡先をマージ",
       "CANCEL": "キャンセル",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": "マージする子連絡先を選択してください"
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "SUCCESS_MESSAGE": "連絡先が正常にマージされました",
+      "ERROR_MESSAGE": "連絡先をマージできませんでした。もう一度お試しください！"
     },
     "DROPDOWN_ITEM": {
       "ID": "(ID: {identifier})"
@@ -283,316 +283,322 @@
   },
   "CONTACTS_LAYOUT": {
     "HEADER": {
-      "TITLE": "Contacts",
-      "SEARCH_TITLE": "Search contacts",
-      "SEARCH_PLACEHOLDER": "Search...",
+      "TITLE": "連絡先",
+      "SEARCH_TITLE": "連絡先を検索",
+      "SEARCH_PLACEHOLDER": "検索...",
       "MESSAGE_BUTTON": "メッセージ",
-      "SEND_MESSAGE": "Send message",
+      "SEND_MESSAGE": "メッセージを送信",
+      "BLOCK_CONTACT": "連絡先をブロック",
+      "UNBLOCK_CONTACT": "連絡先のブロックを解除",
       "BREADCRUMB": {
-        "CONTACTS": "Contacts"
+        "CONTACTS": "連絡先"
       },
       "ACTIONS": {
         "CONTACT_CREATION": {
-          "ADD_CONTACT": "Add contact",
-          "EXPORT_CONTACT": "Export contacts",
-          "IMPORT_CONTACT": "Import contacts",
-          "SAVE_CONTACT": "Save contact",
+          "ADD_CONTACT": "連絡先を追加",
+          "EXPORT_CONTACT": "連絡先をエクスポート",
+          "IMPORT_CONTACT": "連絡先をインポート",
+          "SAVE_CONTACT": "連絡先を保存",
           "EMAIL_ADDRESS_DUPLICATE": "このメールアドレスは別の連絡先に使用されています。",
-          "PHONE_NUMBER_DUPLICATE": "This phone number is in use for another contact.",
-          "SUCCESS_MESSAGE": "Contact saved successfully",
-          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
+          "PHONE_NUMBER_DUPLICATE": "この電話番号は別の連絡先に使用されています。",
+          "SUCCESS_MESSAGE": "連絡先が正常に保存されました",
+          "ERROR_MESSAGE": "連絡先を保存できませんでした。後でもう一度お試しください。"
         },
+        "BLOCK_SUCCESS_MESSAGE": "この連絡先は正常にブロックされました",
+        "BLOCK_ERROR_MESSAGE": "連絡先をブロックできませんでした。再度お試しください。",
+        "UNBLOCK_SUCCESS_MESSAGE": "この連絡先のブロックが正常に解除されました",
+        "UNBLOCK_ERROR_MESSAGE": "連絡先のブロックを解除できませんでした。再度お試しください。",
         "IMPORT_CONTACT": {
-          "TITLE": "Import contacts",
-          "DESCRIPTION": "Import contacts through a CSV file.",
-          "DOWNLOAD_LABEL": "Download a sample csv.",
-          "LABEL": "CSV File:",
-          "CHOOSE_FILE": "Choose file",
-          "CHANGE": "Change",
+          "TITLE": "連絡先をインポート",
+          "DESCRIPTION": "CSVファイルを使用して連絡先をインポートします。",
+          "DOWNLOAD_LABEL": "サンプルCSVをダウンロード",
+          "LABEL": "CSVファイル:",
+          "CHOOSE_FILE": "ファイルを選択",
+          "CHANGE": "ステータスを変更",
           "CANCEL": "キャンセル",
-          "IMPORT": "Import",
-          "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+          "IMPORT": "インポート",
+          "SUCCESS_MESSAGE": "インポート完了後、メールで通知されます。",
           "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
         },
         "EXPORT_CONTACT": {
-          "TITLE": "Export contacts",
-          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
-          "CONFIRM": "Export",
-          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+          "TITLE": "連絡先をエクスポート",
+          "DESCRIPTION": "連絡先の詳細を含むCSVファイルを迅速にエクスポートします。",
+          "CONFIRM": "エクスポート",
+          "SUCCESS_MESSAGE": "エクスポートが進行中です。完了後にダウンロード可能な状態になるとメールで通知されます。",
           "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
         },
         "SORT_BY": {
-          "LABEL": "Sort by",
+          "LABEL": "並び替え",
           "OPTIONS": {
             "NAME": "名前",
             "EMAIL": "Eメール",
             "PHONE_NUMBER": "電話番号",
-            "COMPANY": "企業",
-            "COUNTRY": "Country",
-            "CITY": "City",
-            "LAST_ACTIVITY": "Last activity",
-            "CREATED_AT": "Created at"
+            "COMPANY": "企業名",
+            "COUNTRY": "国",
+            "CITY": "都市",
+            "LAST_ACTIVITY": "最終アクティビティ",
+            "CREATED_AT": "作成日時"
           }
         },
         "ORDER": {
-          "LABEL": "Ordering",
+          "LABEL": "順序",
           "OPTIONS": {
-            "ASCENDING": "Ascending",
-            "DESCENDING": "Descending"
+            "ASCENDING": "昇順",
+            "DESCENDING": "降順"
           }
         },
         "FILTERS": {
           "CREATE_SEGMENT": {
-            "TITLE": "Do you want to save this filter?",
-            "CONFIRM": "フィルターの保存",
+            "TITLE": "このフィルターを保存しますか？",
+            "CONFIRM": "フィルターを保存",
             "LABEL": "名前",
-            "PLACEHOLDER": "Enter the name of the filter",
-            "ERROR": "Enter a valid name",
-            "SUCCESS_MESSAGE": "Filter saved successfully",
-            "ERROR_MESSAGE": "Unable to save filter. Please try again later."
+            "PLACEHOLDER": "フィルターの名前を入力",
+            "ERROR": "有効な名前を入力してください",
+            "SUCCESS_MESSAGE": "フィルターが正常に保存されました",
+            "ERROR_MESSAGE": "フィルターを保存できませんでした。後でもう一度お試しください。"
           },
           "DELETE_SEGMENT": {
             "TITLE": "削除の確認",
-            "DESCRIPTION": "Are you sure you want to delete this filter?",
+            "DESCRIPTION": "このフィルターを削除してもよろしいですか？",
             "CONFIRM": "削除する",
-            "CANCEL": "No, Cancel",
-            "SUCCESS_MESSAGE": "Filter deleted successfully",
-            "ERROR_MESSAGE": "Unable to delete filter. Please try again later."
+            "CANCEL": "いいえ、キャンセル",
+            "SUCCESS_MESSAGE": "フィルターが正常に削除されました",
+            "ERROR_MESSAGE": "フィルターを削除できませんでした。後でもう一度お試しください。"
           }
         }
       }
     },
     "PAGINATION_FOOTER": {
-      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
+      "SHOWING": "{startItem} - {endItem} 件目を表示中（全 {totalItems} 件）"
     },
     "FILTER": {
       "NAME": "名前",
       "EMAIL": "Eメール",
       "PHONE_NUMBER": "電話番号",
-      "IDENTIFIER": "Identifier",
-      "COUNTRY": "Country",
-      "CITY": "City",
-      "CREATED_AT": "Created at",
-      "LAST_ACTIVITY": "Last activity",
-      "REFERER_LINK": "参照者のリンク",
-      "BLOCKED": "Blocked",
-      "BLOCKED_TRUE": "True",
-      "BLOCKED_FALSE": "False",
+      "IDENTIFIER": "識別子",
+      "COUNTRY": "国",
+      "CITY": "都市",
+      "CREATED_AT": "作成日時",
+      "LAST_ACTIVITY": "最終アクティビティ",
+      "REFERER_LINK": "参照リンク",
+      "BLOCKED": "ブロック済み",
+      "BLOCKED_TRUE": "真",
+      "BLOCKED_FALSE": "偽",
       "BUTTONS": {
-        "CLEAR_FILTERS": "Clear filters",
-        "UPDATE_SEGMENT": "Update segment",
+        "CLEAR_FILTERS": "フィルターをクリア",
+        "UPDATE_SEGMENT": "セグメントを更新",
         "APPLY_FILTERS": "フィルターを適用",
-        "ADD_FILTER": "Add filter"
+        "ADD_FILTER": "フィルターを追加"
       },
-      "TITLE": "Filter contacts",
-      "EDIT_SEGMENT": "Edit segment",
+      "TITLE": "連絡先をフィルター",
+      "EDIT_SEGMENT": "セグメントを編集",
       "SEGMENT": {
-        "LABEL": "Segment name",
-        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+        "LABEL": "セグメント名",
+        "INPUT_PLACEHOLDER": "セグメントの名前を入力"
       },
       "ACTIVE_FILTERS": {
-        "MORE_FILTERS": "+ {count} more filters",
-        "CLEAR_FILTERS": "Clear filters"
+        "MORE_FILTERS": "+ {count} 件のフィルターを表示",
+        "CLEAR_FILTERS": "フィルターをクリア"
       }
     },
     "CARD": {
-      "OF": "of",
-      "VIEW_DETAILS": "View details",
+      "OF": "/",
+      "VIEW_DETAILS": "詳細を表示",
       "EDIT_DETAILS_FORM": {
         "TITLE": "連絡先の詳細を編集",
         "FORM": {
           "FIRST_NAME": {
-            "PLACEHOLDER": "Enter the first name"
+            "PLACEHOLDER": "名を入力してください"
           },
           "LAST_NAME": {
-            "PLACEHOLDER": "Enter the last name"
+            "PLACEHOLDER": "姓を入力してください"
           },
           "EMAIL_ADDRESS": {
-            "PLACEHOLDER": "Enter the email address",
+            "PLACEHOLDER": "メールアドレスを入力してください",
             "DUPLICATE": "このメールアドレスは別の連絡先に使用されています。"
           },
           "PHONE_NUMBER": {
-            "PLACEHOLDER": "Enter the phone number",
-            "DUPLICATE": "This phone number is in use for another contact."
+            "PLACEHOLDER": "電話番号を入力してください",
+            "DUPLICATE": "この電話番号は別の連絡先に使用されています。"
           },
           "CITY": {
-            "PLACEHOLDER": "Enter the city name"
+            "PLACEHOLDER": "都市名を入力"
           },
           "COUNTRY": {
-            "PLACEHOLDER": "Select country"
+            "PLACEHOLDER": "国を選択"
           },
           "BIO": {
-            "PLACEHOLDER": "Enter the bio"
+            "PLACEHOLDER": "プロフィールを入力"
           },
           "COMPANY_NAME": {
             "PLACEHOLDER": "企業名を入力"
           }
         },
-        "UPDATE_BUTTON": "Update contact",
-        "SUCCESS_MESSAGE": "Contact updated successfully",
-        "ERROR_MESSAGE": "Unable to update contact. Please try again later."
+        "UPDATE_BUTTON": "連絡先を更新",
+        "SUCCESS_MESSAGE": "連絡先が正常に更新されました",
+        "ERROR_MESSAGE": "連絡先を更新できませんでした。後でもう一度お試しください。"
       },
       "SOCIAL_MEDIA": {
-        "TITLE": "Edit social links",
+        "TITLE": "ソーシャルリンクを編集",
         "FORM": {
           "FACEBOOK": {
-            "PLACEHOLDER": "Add Facebook"
+            "PLACEHOLDER": "Facebookを追加"
           },
           "GITHUB": {
-            "PLACEHOLDER": "Add Github"
+            "PLACEHOLDER": "Githubを追加"
           },
           "INSTAGRAM": {
-            "PLACEHOLDER": "Add Instagram"
+            "PLACEHOLDER": "Instagramを追加"
           },
           "LINKEDIN": {
-            "PLACEHOLDER": "Add LinkedIn"
+            "PLACEHOLDER": "LinkedInを追加"
           },
           "TWITTER": {
-            "PLACEHOLDER": "Add Twitter"
+            "PLACEHOLDER": "Twitterを追加"
           }
         }
       }
     },
     "DETAILS": {
-      "CREATED_AT": "Created {date}",
-      "LAST_ACTIVITY": "Last active {date}",
-      "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
-      "DELETE_CONTACT": "Delete contact",
+      "CREATED_AT": "{date} に作成",
+      "LAST_ACTIVITY": "{date} に最後のアクティビティ",
+      "DELETE_CONTACT_DESCRIPTION": "この連絡先を完全に削除します。この操作は取り消せません。",
+      "DELETE_CONTACT": "連絡先を削除",
       "DELETE_DIALOG": {
         "TITLE": "削除の確認",
-        "DESCRIPTION": "Are you sure you want to delete this {contactName} contact?",
+        "DESCRIPTION": "この {contactName} の連絡先を削除してもよろしいですか？",
         "CONFIRM": "削除する",
         "API": {
-          "SUCCESS_MESSAGE": "Contact deleted successfully",
-          "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+          "SUCCESS_MESSAGE": "連絡先が正常に削除されました。",
+          "ERROR_MESSAGE": "連絡先を削除できませんでした。後でもう一度お試しください。"
         }
       },
       "AVATAR": {
         "UPLOAD": {
-          "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
-          "SUCCESS_MESSAGE": "Avatar uploaded successfully"
+          "ERROR_MESSAGE": "アバターをアップロードできませんでした。後でもう一度お試しください。",
+          "SUCCESS_MESSAGE": "アバターが正常にアップロードされました。"
         },
         "DELETE": {
-          "SUCCESS_MESSAGE": "Avatar deleted successfully",
-          "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
+          "SUCCESS_MESSAGE": "アバターが正常に削除されました。",
+          "ERROR_MESSAGE": "アバターを削除できませんでした。後でもう一度お試しください。"
         }
       }
     },
     "SIDEBAR": {
       "TABS": {
-        "ATTRIBUTES": "Attributes",
-        "HISTORY": "History",
-        "NOTES": "Notes",
-        "MERGE": "Merge"
+        "ATTRIBUTES": "属性",
+        "HISTORY": "履歴",
+        "NOTES": "メモ",
+        "MERGE": "マージ"
       },
       "HISTORY": {
-        "EMPTY_STATE": "There are no previous conversations associated to this contact"
+        "EMPTY_STATE": "この連絡先に関連付けられた以前の会話はありません。"
       },
       "ATTRIBUTES": {
-        "SEARCH_PLACEHOLDER": "Search for attributes",
-        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
-        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
-        "YES": "Yes",
-        "NO": "No",
+        "SEARCH_PLACEHOLDER": "属性を検索",
+        "UNUSED_ATTRIBUTES": "{count} 件の使用済み属性 | {count} 件の未使用属性",
+        "EMPTY_STATE": "このアカウントに利用可能なカスタム属性はありません。設定でカスタム属性を作成できます。",
+        "YES": "はい",
+        "NO": "いいえ",
         "TRIGGER": {
-          "SELECT": "Select value",
-          "INPUT": "Enter value"
+          "SELECT": "値を選択",
+          "INPUT": "値を入力"
         },
         "VALIDATIONS": {
-          "INVALID_NUMBER": "Invalid number",
-          "REQUIRED": "Valid value is required",
-          "INVALID_INPUT": "Invalid input",
-          "INVALID_URL": "Invalid URL",
-          "INVALID_DATE": "Invalid date"
+          "INVALID_NUMBER": "無効な数字です。",
+          "REQUIRED": "有効な値が必要です。",
+          "INVALID_INPUT": "無効な入力です。",
+          "INVALID_URL": "無効なURLです。",
+          "INVALID_DATE": "無効な日付です。"
         },
-        "NO_ATTRIBUTES": "No attributes found",
+        "NO_ATTRIBUTES": "属性が見つかりません。",
         "API": {
-          "SUCCESS_MESSAGE": "Attribute updated successfully",
-          "DELETE_SUCCESS_MESSAGE": "Attribute deleted successfully",
-          "UPDATE_ERROR": "Unable to update attribute. Please try again later",
-          "DELETE_ERROR": "Unable to delete attribute. Please try again later"
+          "SUCCESS_MESSAGE": "属性が正常に更新されました。",
+          "DELETE_SUCCESS_MESSAGE": "属性が正常に削除されました。",
+          "UPDATE_ERROR": "属性を更新できませんでした。後でもう一度お試しください。",
+          "DELETE_ERROR": "属性を削除できませんでした。後でもう一度お試しください。"
         }
       },
       "MERGE": {
-        "TITLE": "Merge contact",
-        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
-        "PRIMARY": "Primary contact",
-        "PRIMARY_HELP_LABEL": "To be saved",
-        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
-        "PARENT": "To be merged",
-        "PARENT_HELP_LABEL": "To be deleted",
-        "EMPTY_STATE": "No contacts found",
-        "PLACEHOLDER": "Search for primary contact",
-        "SEARCH_PLACEHOLDER": "Search for a contact",
-        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
-        "SUCCESS_MESSAGE": "Contact merged successfully",
-        "ERROR_MESSAGE": "Could not merge contacts, try again!",
-        "IS_SEARCHING": "Searching...",
+        "TITLE": "連絡先をマージ",
+        "DESCRIPTION": "2つのプロファイルを1つに統合し、すべての属性と会話を含めます。競合がある場合、プライマリ連絡先の属性が優先されます。",
+        "PRIMARY": "プライマリ連絡先",
+        "PRIMARY_HELP_LABEL": "保存対象",
+        "PRIMARY_REQUIRED_ERROR": "進行する前にマージする連絡先を選択してください。",
+        "PARENT": "マージ対象",
+        "PARENT_HELP_LABEL": "削除対象",
+        "EMPTY_STATE": "連絡先が見つかりません。",
+        "PLACEHOLDER": "プライマリ連絡先を検索",
+        "SEARCH_PLACEHOLDER": "連絡先を検索",
+        "SEARCH_ERROR_MESSAGE": "連絡先を検索できませんでした。後でもう一度お試しください。",
+        "SUCCESS_MESSAGE": "連絡先が正常にマージされました。",
+        "ERROR_MESSAGE": "連絡先をマージできませんでした。もう一度お試しください！",
+        "IS_SEARCHING": "検索中...",
         "BUTTONS": {
           "CANCEL": "キャンセル",
-          "CONFIRM": "Merge contact"
+          "CONFIRM": "連絡先をマージ"
         }
       },
       "NOTES": {
-        "PLACEHOLDER": "Add a note",
-        "WROTE": "wrote",
-        "YOU": "You",
-        "SAVE": "Save note",
-        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+        "PLACEHOLDER": "メモを追加",
+        "WROTE": "が記入しました",
+        "YOU": "あなた",
+        "SAVE": "メモを保存",
+        "EMPTY_STATE": "この連絡先に関連するメモはありません。上記のボックスに入力してメモを追加できます。"
       }
     },
     "EMPTY_STATE": {
-      "TITLE": "No contacts found in this account",
-      "SUBTITLE": "Start adding new contacts by clicking on the button below",
-      "BUTTON_LABEL": "Add contact",
-      "SEARCH_EMPTY_STATE_TITLE": "No contacts matches your search 🔍",
-      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋"
+      "TITLE": "このアカウントには連絡先が見つかりません。",
+      "SUBTITLE": "以下のボタンをクリックして新しい連絡先を追加してください。",
+      "BUTTON_LABEL": "連絡先を追加",
+      "SEARCH_EMPTY_STATE_TITLE": "検索に一致する連絡先はありません 🔍",
+      "LIST_EMPTY_STATE_TITLE": "このビューには利用可能な連絡先がありません 📋"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
-      "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+      "ERROR_MESSAGE": "検索を完了できませんでした。もう一度お試しください。"
     },
     "FORM": {
       "GO_TO_CONVERSATION": "表示",
-      "SUCCESS_MESSAGE": "The message was sent successfully!",
-      "ERROR_MESSAGE": "An error occurred while creating the conversation. Please try again later.",
-      "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
+      "SUCCESS_MESSAGE": "メッセージが正常に送信されました！",
+      "ERROR_MESSAGE": "会話の作成中にエラーが発生しました。後でもう一度お試しください。",
+      "NO_INBOX_ALERT": "この連絡先と会話を開始するための利用可能なインボックスがありません。",
       "CONTACT_SELECTOR": {
-        "LABEL": "To:",
-        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
-        "CONTACT_CREATING": "Creating contact..."
+        "LABEL": "宛先:",
+        "TAG_INPUT_PLACEHOLDER": "名前、メールアドレス、または電話番号で連絡先を検索",
+        "CONTACT_CREATING": "連絡先を作成中..."
       },
       "INBOX_SELECTOR": {
-        "LABEL": "Via:",
-        "BUTTON": "Show inboxes"
+        "LABEL": "送信方法:",
+        "BUTTON": "インボックスを表示"
       },
       "EMAIL_OPTIONS": {
         "SUBJECT_LABEL": "件名 :",
-        "SUBJECT_PLACEHOLDER": "Enter your email subject here",
-        "CC_LABEL": "シーシー:",
-        "CC_PLACEHOLDER": "Search for a contact with their email address",
-        "BCC_LABEL": "ビーシーシー:",
-        "BCC_PLACEHOLDER": "Search for a contact with their email address",
-        "BCC_BUTTON": "ビーシーシー"
+        "SUBJECT_PLACEHOLDER": "メールの件名を入力",
+        "CC_LABEL": "Cc:",
+        "CC_PLACEHOLDER": "メールアドレスで連絡先を検索",
+        "BCC_LABEL": "Bcc:",
+        "BCC_PLACEHOLDER": "メールアドレスで連絡先を検索",
+        "BCC_BUTTON": "Bcc"
       },
       "MESSAGE_EDITOR": {
-        "PLACEHOLDER": "Write your message here..."
+        "PLACEHOLDER": "ここにメッセージを入力..."
       },
       "WHATSAPP_OPTIONS": {
-        "LABEL": "Select template",
-        "SEARCH_PLACEHOLDER": "Search templates",
-        "EMPTY_STATE": "No templates found",
+        "LABEL": "テンプレートを選択",
+        "SEARCH_PLACEHOLDER": "テンプレートを検索",
+        "EMPTY_STATE": "テンプレートが見つかりません。",
         "TEMPLATE_PARSER": {
-          "TEMPLATE_NAME": "WhatsApp template: {templateName}",
-          "VARIABLES": "Variables",
-          "BACK": "Go back",
-          "SEND_MESSAGE": "Send message"
+          "TEMPLATE_NAME": "WhatsAppテンプレート: {templateName}",
+          "VARIABLES": "変数",
+          "BACK": "戻る",
+          "SEND_MESSAGE": "メッセージを送信"
         }
       },
       "ACTION_BUTTONS": {
-        "DISCARD": "Discard",
-        "SEND": "Send ({keyCode})"
+        "DISCARD": "破棄",
+        "SEND": "送信 ({keyCode})"
       }
     }
   }

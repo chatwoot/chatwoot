@@ -82,14 +82,24 @@ class Inbox < ApplicationRecord
 
   scope :order_by_name, -> { order('lower(name) ASC') }
 
-  def add_member(user_id)
-    member = inbox_members.new(user_id: user_id)
-    member.save!
+  # Adds multiple members to the inbox
+  # @param user_ids [Array<Integer>] Array of user IDs to add as members
+  # @return [void]
+  def add_members(user_ids)
+    inbox_members.create!(user_ids.map { |user_id| { user_id: user_id } })
+    update_account_cache
   end
 
-  def remove_member(user_id)
-    member = inbox_members.find_by!(user_id: user_id)
-    member.try(:destroy)
+  # Removes multiple members from the inbox
+  # @param user_ids [Array<Integer>] Array of user IDs to remove
+  # @return [void]
+  def remove_members(user_ids)
+    inbox_members.where(user_id: user_ids).destroy_all
+    update_account_cache
+  end
+
+  def sms?
+    channel_type == 'Channel::Sms'
   end
 
   def facebook?

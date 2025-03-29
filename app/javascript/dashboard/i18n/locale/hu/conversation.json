@@ -12,6 +12,8 @@
     "NO_INBOX_2": " Első lépések",
     "NO_INBOX_AGENT": "O-Ó! Úgy tűnik, hogy egyetlen fióknak sem vagy tagja. Kérjük lépj kapcsolatba az adminisztrátoroddal",
     "SEARCH_MESSAGES": "Üzenetek keresése a beszélgetésekben",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "menü megnyitása",
       "KEYBOARD_SHORTCUTS": "billentyűparancs megtekintése"
@@ -54,6 +56,7 @@
     "SUCCESS_DELETE_MESSAGE": "Üzenet törölve",
     "FAIL_DELETE_MESSSAGE": "Nem tudtad törölni az üzenetet! Próbáld újra",
     "NO_RESPONSE": "Nincs válasz",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Értékelés",
     "FEEDBACK_TITLE": "Visszajelzés",
     "REPLY_MESSAGE_NOT_FOUND": "Üzenet nem elérhető",
@@ -116,6 +119,7 @@
       "PENDING": "Függőben levőként megjelölés",
       "RESOLVED": "Megjelölés megoldottként",
       "MARK_AS_UNREAD": "Megjelölés olvasatlanként",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Beszélgetés újranyitása",
       "SNOOZE": {
         "TITLE": "Halasztás",
@@ -291,7 +295,27 @@
       "CONVERSATION_INFO": "Beszélgetés Információk",
       "CONTACT_ATTRIBUTES": "Kontakt Tulajdonságok",
       "PREVIOUS_CONVERSATION": "Korábbi beszélgetések",
-      "MACROS": "Makrók"
+      "MACROS": "Makrók",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Függőben lévő",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -352,5 +376,11 @@
     "ONE": "{user} is typing",
     "TWO": "{user} and {secondUser} are typing",
     "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

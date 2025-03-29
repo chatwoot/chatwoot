@@ -10,7 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "您的密码已成功更改。",
     "AFTER_EMAIL_CHANGED": "您的个人资料已成功更新，请在您的登录凭据更改后重新登录",
     "FORM": {
-      "PICTURE": "Profile Picture",
+      "PICTURE": "个人资料图片",
       "AVATAR": "头像",
       "ERROR": "请修正表单错误",
       "REMOVE_IMAGE": "删除",
@@ -35,6 +35,24 @@
           }
         }
       },
+      "INTERFACE_SECTION": {
+        "TITLE": "界面",
+        "NOTE": "自定义您的 Chatwoot 仪表板的外观和感觉。",
+        "FONT_SIZE": {
+          "TITLE": "字体大小",
+          "NOTE": "根据您的偏好调整仪表板中的文本大小。",
+          "UPDATE_SUCCESS": "您的字体设置已成功更新",
+          "UPDATE_ERROR": "更新字体设置时出错，请重试",
+          "OPTIONS": {
+            "SMALLER": "较小",
+            "SMALL": "小",
+            "DEFAULT": "默认",
+            "LARGE": "大",
+            "LARGER": "较大",
+            "EXTRA_LARGE": "特大"
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "个人消息签名",
         "NOTE": "创建一个唯一的消息签名来显示在您从任何收件箱发送的消息的末尾。 您也可以包含一个内联图片，它支持在直播聊天、电子邮件和API收件箱中。",
@@ -43,12 +61,12 @@
         "API_SUCCESS": "签名保存成功",
         "IMAGE_UPLOAD_ERROR": "无法上传图片！请再试一次",
         "IMAGE_UPLOAD_SUCCESS": "图片添加成功。请点击保存签名。",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+        "IMAGE_UPLOAD_SIZE_ERROR": "图片大小应该小于{size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "消息签名",
         "ERROR": "消息签名不能为空",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "PLACEHOLDER": "在此插入您的个人消息签名。"
       },
       "PASSWORD_SECTION": {
         "TITLE": "密码",
@@ -61,72 +79,72 @@
         "COPY": "复制"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Alerts",
-        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
-        "PLAY": "Play sound",
+        "TITLE": "音频提醒",
+        "NOTE": "在仪表板中为新消息和会话启用音频提醒。",
+        "PLAY": "播放声音",
         "ALERT_TYPES": {
-          "NONE": "啥都没有",
-          "MINE": "Assigned",
-          "ALL": "所有的",
-          "ASSIGNED": "My assigned conversations",
-          "UNASSIGNED": "Unassigned conversations",
-          "NOTME": "Open conversations assigned to others"
+          "NONE": "无",
+          "MINE": "分配给我的",
+          "ALL": "所有",
+          "ASSIGNED": "分配给我的会话",
+          "UNASSIGNED": "未分配的会话",
+          "NOTME": "分配给其他人的开放会话"
         },
         "ALERT_COMBINATIONS": {
-          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
-          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
-          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
-          "NOTME": "You'll receive alerts for conversations assigned to others.",
-          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
-          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
-          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
-          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+          "NONE": "您尚未选择任何选项，您不会收到任何音频提醒。",
+          "ASSIGNED": "您将收到分配给您的会话的提醒。",
+          "UNASSIGNED": "您将收到任何未分配会话的提醒。",
+          "NOTME": "您将收到分配给其他人的会话的提醒。",
+          "ASSIGNED+UNASSIGNED": "您将收到分配给您的会话和任何未处理会话的提醒。",
+          "ASSIGNED+NOTME": "您将收到分配给您的会话和分配给其他人的会话的提醒，但不会收到未分配会话的提醒。",
+          "NOTME+UNASSIGNED": "您将收到未处理会话和分配给其他人的会话的提醒。",
+          "ASSIGNED+NOTME+UNASSIGNED": "您将收到所有会话的提醒。"
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations",
-          "NONE": "啥都没有",
+          "TITLE": "会话提醒事件",
+          "NONE": "无",
           "ASSIGNED": "分配会话",
           "ALL_CONVERSATIONS": "所有会话"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "提醒音调："
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "TITLE": "提醒条件：",
+          "CONDITION_ONE": "仅在浏览器窗口未激活时发送音频提醒",
+          "CONDITION_TWO": "每30秒发送一次提醒，直到所有分配的会话被阅读"
         },
-        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
-        "READ_MORE": "查看更多"
+        "SOUND_PERMISSION_ERROR": "您的浏览器中禁用了自动播放。要自动听到提醒，请在浏览器设置中启用声音权限或与页面进行交互。",
+        "READ_MORE": "阅读更多"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "电子邮件通知",
         "NOTE": "在此更新您的电子邮件通知设置",
         "CONVERSATION_ASSIGNMENT": "当对话分配给我时发送电子邮件通知",
         "CONVERSATION_CREATION": "当对话分配给我时发送电子邮件通知",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
+        "CONVERSATION_MENTION": "当您在会话中被提及时发送电子邮件通知",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "在已分配的会话中创建新消息时发送电子邮件通知",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
-        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "当参与会话中创建新消息时发送电子邮件通知",
+        "SLA_MISSED_FIRST_RESPONSE": "当会话错过首次响应 SLA 时发送电子邮件通知",
+        "SLA_MISSED_NEXT_RESPONSE": "当会话错过下次响应 SLA 时发送电子邮件通知",
+        "SLA_MISSED_RESOLUTION": "当会话错过解决 SLA 时发送电子邮件通知"
       },
       "NOTIFICATIONS": {
-        "TITLE": "Notification preferences",
-        "TYPE_TITLE": "Notification type",
-        "EMAIL": "Email",
-        "PUSH": "Push notification",
+        "TITLE": "通知偏好",
+        "TYPE_TITLE": "通知类型",
+        "EMAIL": "电子邮件",
+        "PUSH": "推送通知",
         "TYPES": {
-          "CONVERSATION_CREATED": "A new conversation is created",
-          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
-          "CONVERSATION_MENTION": "You are mentioned in a conversation",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
-          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
-          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "CONVERSATION_CREATED": "新会话已创建",
+          "CONVERSATION_ASSIGNED": "会话已分配给您",
+          "CONVERSATION_MENTION": "您在会话中被提及",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "在分配的会话中创建了新消息",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "在参与的会话中创建了新消息",
+          "SLA_MISSED_FIRST_RESPONSE": "会话错过了首次响应 SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "会话错过了下次响应 SLA",
+          "SLA_MISSED_RESOLUTION": "会话错过了解决 SLA"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "为您的浏览器启用推送通知，以便您能够接收它们"
       },
       "API": {
         "UPDATE_SUCCESS": "您的通知设置已成功更新",
@@ -134,17 +152,17 @@
       },
       "PUSH_NOTIFICATIONS_SECTION": {
         "TITLE": "推送通知",
-        "NOTE": "在此更新您的电子邮件通知设置",
+        "NOTE": "在此更新您的推送通知设置",
         "CONVERSATION_ASSIGNMENT": "当对话被分配给我时发送推送通知",
         "CONVERSATION_CREATION": "创建新对话时发送推送通知",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
+        "CONVERSATION_MENTION": "当您在会话中被提及时发送推送通知",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "在已分配的会话中创建新消息时发送推送通知",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "当参与会话中创建新消息时发送推送通知",
         "HAS_ENABLED_PUSH": "您已启用此浏览器的推送。",
         "REQUEST_PUSH": "启用推送通知",
-        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+        "SLA_MISSED_FIRST_RESPONSE": "当会话错过首次响应 SLA 时发送推送通知",
+        "SLA_MISSED_NEXT_RESPONSE": "当会话错过下次响应 SLA 时发送推送通知",
+        "SLA_MISSED_RESOLUTION": "当会话错过解决 SLA 时发送推送通知"
       },
       "PROFILE_IMAGE": {
         "LABEL": "头像"
@@ -166,8 +184,8 @@
           "BUSY": "忙碌中",
           "OFFLINE": "离线"
         },
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+        "SET_AVAILABILITY_SUCCESS": "可用性已成功设置",
+        "SET_AVAILABILITY_ERROR": "无法设置可用性，请重试"
       },
       "EMAIL": {
         "LABEL": "您的电子邮件地址",
@@ -192,39 +210,39 @@
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "改變",
-    "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_WORKSPACE": "Switch workspace",
-    "CONTACT_SUPPORT": "Contact support",
+    "CHANGE_AVAILABILITY_STATUS": "更改",
+    "CHANGE_ACCOUNTS": "切换账户",
+    "SWITCH_ACCOUNT": "切换账户",
+    "CONTACT_SUPPORT": "联系支持",
     "SELECTOR_SUBTITLE": "从以下列表中选择一个账户",
-    "PROFILE_SETTINGS": "Profile settings",
-    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
-    "APPEARANCE": "Change appearance",
-    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
-    "DOCS": "Read documentation",
-    "LOGOUT": "Log out"
+    "PROFILE_SETTINGS": "个人资料设置",
+    "KEYBOARD_SHORTCUTS": "键盘快捷键",
+    "APPEARANCE": "更改外观",
+    "SUPER_ADMIN_CONSOLE": "超级管理员控制台",
+    "DOCS": "阅读文档",
+    "LOGOUT": "注销"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "剩余试用期天数",
     "TRAIL_BUTTON": "立即购买",
-    "DELETED_USER": "Deleted User",
-    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
-    "RESEND_VERIFICATION_MAIL": "Resend verification email",
-    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "DELETED_USER": "已删除用户",
+    "EMAIL_VERIFICATION_PENDING": "您似乎尚未验证您的电子邮件地址。请检查您的收件箱以获取验证邮件。",
+    "RESEND_VERIFICATION_MAIL": "重新发送验证邮件",
+    "EMAIL_VERIFICATION_SENT": "验证邮件已发送。请检查您的收件箱。",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "账户已暂停",
+      "MESSAGE": "您的账户已被暂停。请联系支持团队以获取更多信息。"
     }
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "复制",
-      "CODEPEN": "Open in CodePen",
-      "COPY_SUCCESSFUL": "Copied to clipboard"
+      "CODEPEN": "在 CodePen 中打开",
+      "COPY_SUCCESSFUL": "已复制到剪贴板"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "显示更多",
+      "SHOW_LESS": "显示更少"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "下载",
@@ -232,14 +250,14 @@
       "INSTAGRAM_STORY_UNAVAILABLE": "本信息不存在"
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "在地图上查看"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "提交"
     },
     "MEDIA": {
-      "IMAGE_UNAVAILABLE": "This image is no longer available.",
-      "LOADING_FAILED": "Loading failed"
+      "IMAGE_UNAVAILABLE": "此图片不再可用。",
+      "LOADING_FAILED": "加载失败"
     }
   },
   "CONFIRM_EMAIL": "正在验证...",
@@ -249,22 +267,25 @@
     }
   },
   "SIDEBAR": {
-    "NO_ITEMS": "No items",
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
-    "INBOX_VIEW": "Inbox View",
+    "NO_ITEMS": "无项目",
+    "CURRENTLY_VIEWING_ACCOUNT": "当前查看：",
+    "SWITCH": "切换",
+    "INBOX_VIEW": "收件箱视图",
     "CONVERSATIONS": "会话",
-    "INBOX": "My Inbox",
+    "INBOX": "我的收件箱",
     "ALL_CONVERSATIONS": "所有会话",
     "MENTIONED_CONVERSATIONS": "提及",
     "PARTICIPATING_CONVERSATIONS": "参与者",
-    "UNATTENDED_CONVERSATIONS": "Unattended",
+    "UNATTENDED_CONVERSATIONS": "未处理",
     "REPORTS": "报告",
     "SETTINGS": "设置",
     "CONTACTS": "联系人",
     "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "助手",
+    "CAPTAIN_DOCUMENTS": "文档",
+    "CAPTAIN_RESPONSES": "常见问题",
     "HOME": "首页",
-    "AGENTS": "客服代理们",
+    "AGENTS": "客服代理",
     "AGENT_BOTS": "机器人",
     "AUDIT_LOGS": "审计日志",
     "INBOXES": "收件箱",
@@ -272,81 +293,93 @@
     "CANNED_RESPONSES": "预设回复",
     "INTEGRATIONS": "集成方式",
     "PROFILE_SETTINGS": "个人资料设置",
-    "ACCOUNT_SETTINGS": "帐户设置",
-    "APPLICATIONS": "Applications",
+    "ACCOUNT_SETTINGS": "账户设置",
+    "APPLICATIONS": "应用程序",
     "LABELS": "标签",
     "CUSTOM_ATTRIBUTES": "自定义属性",
-    "AUTOMATION": "Automation",
+    "AUTOMATION": "自动化",
     "MACROS": "宏",
-    "TEAMS": "Teams",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
+    "TEAMS": "团队",
+    "BILLING": "计费",
+    "CUSTOM_VIEWS_FOLDER": "文件夹",
+    "CUSTOM_VIEWS_SEGMENTS": "分段",
+    "ALL_CONTACTS": "所有联系人",
+    "TAGGED_WITH": "标记为",
+    "NEW_LABEL": "新标签",
+    "NEW_TEAM": "新团队",
+    "NEW_INBOX": "新收件箱",
     "REPORTS_CONVERSATION": "会话",
-    "CSAT": "CSAT",
-    "LIVE_CHAT": "Live Chat",
-    "SMS": "SMS",
-    "CAMPAIGNS": "Campagnes",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
+    "CSAT": "客户满意度",
+    "LIVE_CHAT": "在线聊天",
+    "SMS": "短信",
+    "CAMPAIGNS": "活动",
+    "ONGOING": "进行中",
+    "ONE_OFF": "一次性",
     "REPORTS_SLA": "SLA",
     "REPORTS_BOT": "机器人",
     "REPORTS_AGENT": "客服",
     "REPORTS_LABEL": "标签",
     "REPORTS_INBOX": "收件箱",
-    "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "SET_YOUR_AVAILABILITY": "Set your availability",
+    "REPORTS_TEAM": "团队",
+    "SET_AVAILABILITY_TITLE": "将自己设置为",
+    "SET_YOUR_AVAILABILITY": "设置您的可用性",
     "SLA": "SLA",
-    "CUSTOM_ROLES": "Custom Roles",
-    "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview",
-    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "CUSTOM_ROLES": "自定义角色",
+    "BETA": "测试版",
+    "REPORTS_OVERVIEW": "概览",
+    "REAUTHORIZE": "您的收件箱连接已过期，请重新连接以继续接收和发送消息",
     "HELP_CENTER": {
       "TITLE": "帮助中心",
-      "ARTICLES": "Articles",
-      "CATEGORIES": "Categories",
-      "LOCALES": "Locales",
+      "ARTICLES": "文章",
+      "CATEGORIES": "类别",
+      "LOCALES": "语言",
       "SETTINGS": "设置"
     },
     "CHANNELS": "频道",
     "SET_AUTO_OFFLINE": {
       "TEXT": "自动标记离线状态",
       "INFO_TEXT": "当您不使用应用程序或仪表板时，让系统自动标记您离线。",
-      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
+      "INFO_SHORT": "当您不使用应用程序时自动标记离线。"
     },
     "DOCS": "阅读文档"
   },
   "BILLING_SETTINGS": {
     "TITLE": "计费方式",
+    "DESCRIPTION": "在此管理您的订阅，升级您的计划并为您的团队获取更多功能。",
     "CURRENT_PLAN": {
       "TITLE": "当前计划",
-      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses"
+      "PLAN_NOTE": "您当前订阅的是 **{plan}** 计划，拥有 **{quantity}** 个许可证",
+      "SEAT_COUNT": "座位数",
+      "RENEWS_ON": "续订于"
     },
+    "VIEW_PRICING": "查看价格",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "管理您的订阅",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "DESCRIPTION": "查看您之前的发票，编辑您的账单详细信息或取消您的订阅。",
+      "BUTTON_TXT": "前往账单门户"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "管理 Captain AI 的使用和积分。",
+      "BUTTON_TXT": "购买更多积分",
+      "DOCUMENTS": "文档",
+      "RESPONSES": "常见问题",
+      "UPGRADE": "Captain 在免费计划中不可用，立即升级以获取助手、副驾驶等更多功能。"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "需要帮助吗？",
+      "DESCRIPTION": "您在计费方面遇到任何问题吗？我们在此为您提供帮助。",
       "BUTTON_TXT": "联系我们"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "您的计费账户正在配置中。请刷新页面并重试。"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NO_ACCOUNT_WARNING": "哦，糟糕！我们找不到任何 Chatwoot 账户。请创建一个新账户以继续。",
+    "NEW_ACCOUNT": "新账户",
+    "SELECTOR_SUBTITLE": "创建一个新账户",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
+      "SUCCESS_MESSAGE": "账户创建成功",
+      "EXIST_MESSAGE": "账户已存在",
       "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
     },
     "FORM": {
@@ -358,27 +391,22 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "查看所有快捷键",
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
+      "OPEN_CONVERSATION": "打开对话",
+      "RESOLVE_AND_NEXT": "解决并移动到下一个",
+      "NAVIGATE_DROPDOWN": "导航下拉项",
+      "RESOLVE_CONVERSATION": "解决对话",
+      "GO_TO_CONVERSATION_DASHBOARD": "前往对话仪表板",
+      "ADD_ATTACHMENT": "添加附件",
+      "GO_TO_CONTACTS_DASHBOARD": "前往联系人仪表板",
+      "TOGGLE_SIDEBAR": "切换侧边栏",
+      "GO_TO_REPORTS_SIDEBAR": "前往报告侧边栏",
+      "MOVE_TO_NEXT_TAB": "移动到对话列表中的下一个标签",
+      "GO_TO_SETTINGS": "前往设置",
+      "SWITCH_TO_PRIVATE_NOTE": "切换到私人笔记",
+      "SWITCH_TO_REPLY": "切换到回复",
+      "TOGGLE_SNOOZE_DROPDOWN": "切换暂停下拉菜单"
     }
   }
 }

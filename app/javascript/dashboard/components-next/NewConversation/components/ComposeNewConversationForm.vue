@@ -265,7 +265,7 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
 
 <template>
   <div
-    class="w-[670px] mt-2 divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full justify-between flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl"
+    class="w-[42rem] divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full justify-between flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl"
   >
     <ContactSelector
       :contacts="contacts"

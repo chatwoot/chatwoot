@@ -35,6 +35,24 @@
           }
         }
       },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "Default",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Tanda tangan pesan pribadi",
         "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
@@ -194,7 +212,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Ubah",
     "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_WORKSPACE": "Switch workspace",
+    "SWITCH_ACCOUNT": "Switch account",
     "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Pilih akun dari daftar berikut",
     "PROFILE_SETTINGS": "Profile settings",
@@ -254,7 +272,7 @@
     "SWITCH": "Ganti",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Percakapan",
-    "INBOX": "My Inbox",
+    "INBOX": "Kotak Masuk Saya",
     "ALL_CONVERSATIONS": "Semua Percakapan",
     "MENTIONED_CONVERSATIONS": "Disebutkan",
     "PARTICIPATING_CONVERSATIONS": "Berpartisipasi",
@@ -263,6 +281,9 @@
     "SETTINGS": "Pengaturan",
     "CONTACTS": "Kontak",
     "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Beranda",
     "AGENTS": "Agen",
     "AGENT_BOTS": "Bot Agen",
@@ -324,14 +345,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Pembayaran",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Paket Saat Ini",
-      "PLAN_NOTE": "Anda saat ini berlangganan paket **{plan}** dengan **{quantity}** lisensi"
+      "PLAN_NOTE": "Anda saat ini berlangganan paket **{plan}** dengan **{quantity}** lisensi",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Kelola langganan Anda",
       "DESCRIPTION": "Lihat faktur sebelumnya, edit rincian pembayaran, atau batalkan langganan Anda.",
       "BUTTON_TXT": "Buka portal pembayaran"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Butuh bantuan?",
@@ -374,11 +407,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Beralih ke Catatan Pribadi",
       "SWITCH_TO_REPLY": "Beralih ke Balasan",
       "TOGGLE_SNOOZE_DROPDOWN": "Buka/Tutup dropdown penundaan"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

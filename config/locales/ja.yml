@@ -17,260 +17,264 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 ja:
-  hello: "こんにちは世界"
+  hello: 'こんにちは世界'
   messages:
     reset_password_success: やりましたね! パスワードのリセットリクエストが成功しました。手順についてはメールを確認してください。
     reset_password_failure: メールアドレスが見つかりませんでした。
-    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
+    inbox_deletetion_response: 受信トレイの削除リクエストは、しばらくしてから処理されます。
   errors:
     validations:
-      presence: must not be blank
+      presence: 空白にはできません。
     webhook:
-      invalid: Invalid events
+      invalid: 無効なイベントです。
     signup:
       disposable_email: 使い捨てメールは許可されません
-      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
+      blocked_domain: このドメインは許可されていません。これが間違いであると思われる場合は、サポートに連絡してください。
       invalid_email: 無効なメールアドレスを入力しました。
-      email_already_exists: "あなたは既に %{email} でアカウントにサインアップしています"
-      invalid_params: 'Invalid, please check the signup paramters and try again'
+      email_already_exists: 'あなたは既に %{email} でアカウントにサインアップしています'
+      invalid_params: '無効な値が入力されました。確認のうえ再度お試しください。'
       failed: サインアップに失敗しました
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: 無効なデータ型。
     contacts:
       import:
-        failed: File is blank
+        failed: ファイルが空です。
       export:
-        success: We will notify you once contacts export file is ready to view.
+        success: ファイルを表示する準備ができたら通知します。
       email:
-        invalid: Invalid email
+        invalid: 無効なEメールです
       phone_number:
-        invalid: should be in e164 format
+        invalid: e164形式である必要があります
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: カテゴリとポータルで一意である必要があります
     dyte:
-      invalid_message_type: "Invalid message type. Action not permitted"
+      invalid_message_type: '無効なメッセージタイプです。アクションは許可されていません'
     slack:
-      invalid_channel_id: "Invalid slack channel. Please try again"
+      invalid_channel_id: '無効なSlackチャンネルです。もう一度お試しください。'
+    channel_service:
+      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
+        socket_error: ネットワーク接続、IMAPアドレスを確認の上、再度お試しください。
+        no_response_error: IMAPの資格情報を確認の上、再度お試しください。
+        host_unreachable_error: ホストに接続できません。IMAPアドレス、ポートを確認の上、再度お試しください。
+        connection_timed_out_error: '%{address}:%{port} への接続がタイムアウトしました'
+        connection_closed_error: 接続が閉じられました。
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: 記号で開始または終了しないでください。< > / \ @ を使用しないでください。
     custom_filters:
-      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
-      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
-      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
-      invalid_query_operator: Query operator must be either "AND" or "OR".
-      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+      number_of_records: 制限に達しました。1つのアカウントにつき、ユーザーごとに許可されるカスタムフィルターの最大数は 50 です。
+      invalid_attribute: 無効な属性キー - [%{key}]。キーは[%{allowed_keys}]のいずれかである必要があります。または、アカウント内で定義されたカスタム属性でなければなりません。
+      invalid_operator: 無効な演算子です。%{attribute_name} に許可されている演算子は [%{allowed_keys}] です。
+      invalid_query_operator: クエリ演算子は "AND" または "OR" でなければなりません。
+      invalid_value: 無効な値です。%{attribute_name} に提供された値は無効です。
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
-    period: Reporting period %{since} to %{until}
-    utc_warning: The report generated is in UTC timezone
+    period: レポート期間 %{since} から %{until} まで
+    utc_warning: 生成されたレポートはUTCタイムゾーンです
     agent_csv:
-      agent_name: Agent name
-      conversations_count: Assigned conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      agent_name: 担当者名
+      conversations_count: 割り当て済みの会話
+      avg_first_response_time: 初回応答の平均時間
+      avg_resolution_time: 解決までの平均時間
       resolution_count: 処理件数
-      avg_customer_waiting_time: Avg customer waiting time
+      avg_customer_waiting_time: お客様の平均待ち時間
     inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      inbox_name: 受信トレイ名
+      inbox_type: 受信トレイの種類
+      conversations_count: 会話数
+      avg_first_response_time: 初回応答の平均時間
+      avg_resolution_time: 解決までの平均時間
     label_csv:
-      label_title: Label
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      label_title: ラベル
+      conversations_count: 会話数
+      avg_first_response_time: 初回応答の平均時間
+      avg_resolution_time: 解決までの平均時間
     team_csv:
-      team_name: Team name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      team_name: チーム名
+      conversations_count: 会話回数
+      avg_first_response_time: 初回応答の平均時間
+      avg_resolution_time: 解決までの平均時間
       resolution_count: 処理件数
-      avg_customer_waiting_time: Avg customer waiting time
+      avg_customer_waiting_time: お客様の平均待ち時間
     conversation_traffic_csv:
-      timezone: Timezone
+      timezone: タイムゾーン
     sla_csv:
-      conversation_id: Conversation ID
-      sla_policy_breached: SLA Policy
-      assignee: Assignee
-      team: Team
-      inbox: Inbox
+      conversation_id: 会話ID
+      sla_policy_breached: SLAポリシー
+      assignee: 担当者
+      team: チーム
+      inbox: 受信トレイ
       labels: ラベル
-      conversation_link: Link to the Conversation
-      breached_events: Breached Events
-    default_group_by: day
+      conversation_link: 会話へのリンク
+      breached_events: 違反イベント
+    default_group_by: 日
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
-        contact_phone_number: Contact Phone Number
-        link_to_the_conversation: Link to the conversation
+        contact_name: 連絡先名
+        contact_email_address: 連絡先のメールアドレス
+        contact_phone_number: 連絡先の電話番号
+        link_to_the_conversation: 会話へのリンク
         agent_name: 担当者名
         rating: 評価
-        feedback: Feedback Comment
-        recorded_at: Recorded date
+        feedback: フィードバックコメント
+        recorded_at: 記録日
   notifications:
     notification_title:
-      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
-      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
-      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
-      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
-      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
-      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
-      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
-    attachment: "Attachment"
-    no_content: "No content"
+      conversation_creation: '会話 (#%{display_id}) が %{inbox_name} で作成されました'
+      conversation_assignment: '会話 (#%{display_id}) があなたに割り当てられました'
+      assigned_conversation_new_message: '会話 (#%{display_id}) に新しいメッセージが作成されました'
+      conversation_mention: '会話 (#%{display_id}) であなたが言及されました'
+      sla_missed_first_response: '会話 (#%{display_id}) の最初の応答でSLAターゲットを逃しました'
+      sla_missed_next_response: '会話 (#%{display_id}) の次の応答でSLAターゲットを逃しました'
+      sla_missed_resolution: '会話 (#%{display_id}) の解決でSLAターゲットを逃しました'
+    attachment: '添付ファイル'
+    no_content: 'コンテンツなし'
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} mentioned you in the story: "
-      instagram_deleted_story_content: This story is no longer available.
-      deleted: This message was deleted
+      instagram_story_content: '%{story_sender} さんがストーリーであなたについて言及しました: '
+      instagram_deleted_story_content: このストーリーはもう利用できません。
+      deleted: このメッセージは削除されました
       delivery_status:
-        error_code: "Error code: %{error_code}"
+        error_code: 'エラーコード: %{error_code}'
     activity:
       status:
-        resolved: "会話は %{user_name} によって解決済みになりました"
-        contact_resolved: "Conversation was resolved by %{contact_name}"
-        open: "%{user_name} によって会話が再開されました"
-        pending: "Conversation was marked as pending by %{user_name}"
-        snoozed: "Conversation was snoozed by %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
-        system_auto_open: System reopened the conversation due to a new incoming message.
+        resolved: '%{user_name} によって会話は解決済みになりました'
+        contact_resolved: '%{contact_name} によって会話が解決されました'
+        open: '%{user_name} によって会話が再開されました'
+        pending: '%{user_name} によって会話が保留にされました'
+        snoozed: '%{user_name} によって会話がスヌーズされました'
+        auto_resolved: '%{duration} 日間会話が非アクティブだったため、システムにより解決済みにされました'
+        system_auto_open: 新しい受信メッセージを受信したため、システムが会話が再開されました
       priority:
-        added: '%{user_name} set the priority to %{new_priority}'
-        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
-        removed: '%{user_name} removed the priority'
+        added: '%{user_name} が優先度を "%{new_priority}" に設定しました'
+        updated: '%{user_name} が優先度を "%{old_priority}" から "%{new_priority}" に変更しました'
+        removed: '%{user_name} が優先度を削除しました'
       assignee:
-        self_assigned: "%{user_name} がこの会話を自身で割り当てました"
-        assigned: "%{assignee_name} によって %{user_name} に割り当てられました"
-        removed: "%{user_name} によって割り当てられていない会話です"
+        self_assigned: '%{user_name} がこの会話を自身に割り当てました'
+        assigned: '%{user_name} によって %{assignee_name} に割り当てられました'
+        removed: '%{user_name} によって割り当てが解除されました'
       team:
-        assigned: "%{team_name} によって %{user_name} に割り当てられました"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
+        assigned: '%{user_name} によって %{team_name} に割り当てられました'
+        assigned_with_assignee: '%{user_name} によって %{team_name} 経由で %{assignee_name} に割り当てられました'
+        removed: '%{user_name} によって %{team_name} から割り当てが解除されました'
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
+        added: '%{user_name} がラベル "%{labels}" を追加しました'
+        removed: '%{user_name} がラベル "%{labels}" を削除しました'
       sla:
-        added: "%{user_name} added SLA policy %{sla_name}"
-        removed: "%{user_name} removed SLA policy %{sla_name}"
-      muted: "%{user_name} has muted the conversation"
-      unmuted: "%{user_name} has unmuted the conversation"
+        added: '%{user_name} がSLAポリシー "%{sla_name}" を追加しました'
+        removed: '%{user_name} がSLAポリシー "%{sla_name}" を削除しました'
+      muted: '%{user_name} が会話をミュートしました'
+      unmuted: '%{user_name} が会話のミュートを解除しました'
+      auto_resolution_message: '会話がしばらく非アクティブのため、解決済みとして処理します。引き続きサポートが必要な場合は、新しい会話を開始してください。'
     templates:
-      greeting_message_body: "%{account_name} は通常数時間で返信します。"
-      ways_to_reach_you_message_body: "チームがあなたに連絡する方法を設定してください"
-      email_input_box_message_body: "Eメールで通知を受ける"
-      csat_input_message_body: "Please rate the conversation"
+      greeting_message_body: '%{account_name} は通常数時間以内に返信します。'
+      ways_to_reach_you_message_body: 'ご連絡先をご入力ください。'
+      email_input_box_message_body: '通知先Eメールアドレス'
+      csat_input_message_body: '会話を評価してください'
     reply:
       email:
         header:
-          from_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
-          reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
-          friendly_name: "%{sender_name} from %{business_name} <%{from_email}>"
-          professional_name: "%{business_name} <%{from_email}>"
+          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
+          friendly_name: '%{sender_name} from %{business_name} <%{from_email}>'
+          professional_name: '%{business_name} <%{from_email}>'
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
-          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
-      email_subject: "この会話に新着メッセージがあります"
-      transcript_subject: "会話の記録"
+          reply_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+      email_subject: 'この会話に新着メッセージがあります'
+      transcript_subject: '会話の記録'
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: 'この会話を評価してください, %{link}'
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: '%{contact_name} はオンラインです。後でもう一度お試しください'
   integration_apps:
     dashboard_apps:
-      name: "Dashboard Apps"
-      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+      name: 'ダッシュボードアプリ'
+      description: 'ダッシュボードアプリを使用すると、ユーザー情報、注文、または支払い履歴を表示するアプリケーションを作成して埋め込むことができ、カスタマーサポートエージェントにより多くのコンテキストを提供します。'
     dyte:
-      name: "Dyte"
-      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
-      meeting_name: "%{agent_name} has started a meeting"
+      name: 'Dyte'
+      description: 'Dyteは、オーディオおよびビデオ機能をアプリケーションに統合する製品です。この統合により、エージェントはChatwootから直接顧客とビデオ/音声通話を開始できます。'
+      meeting_name: '%{agent_name} がミーティングを開始しました'
     slack:
-      name: "Slack"
-      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+      name: 'Slack'
+      description: "ChatwootとSlackを統合して、チームを同期させます。この統合により、新しい会話の通知を受け取り、Slackのインターフェース内で直接応答することができます。"
     webhooks:
-      name: "Webhooks"
-      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+      name: 'Webhooks'
+      description: 'Webhookイベントは、Chatwootアカウント内のアクティビティに関するリアルタイムの更新を提供します。希望するイベントを購読すると、Chatwootは更新情報を含むHTTPコールバックを送信します。'
     dialogflow:
-      name: "Dialogflow"
-      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+      name: 'Dialogflow'
+      description: 'Dialogflowでチャットボットを構築し、それらを受信トレイに簡単に統合します。これらのボットは、カスタマーサービスエージェントに転送する前に初期の問い合わせを処理できます。'
     google_translate:
-      name: "Google Translate"
-      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
+      name: 'Google Translate'
+      description: "Google翻訳を統合して、エージェントが顧客のメッセージを簡単に翻訳できるようにします。この統合は言語を自動的に検出し、エージェントまたは管理者の希望する言語に変換します。"
     openai:
-      name: "OpenAI"
-      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+      name: 'OpenAI'
+      description: 'OpenAIの大規模言語モデルの力を活用して、返信の提案、要約、メッセージの言い換え、スペルチェック、ラベル分類などの機能を提供します。'
     linear:
-      name: "Linear"
-      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
-    captain:
-      name: "Captain"
-      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+      name: 'Linear'
+      description: '会話ウィンドウから直接Linearに問題を作成します。あるいは、既存のLinearの問題をリンクして、より効率的な問題追跡プロセスを実現します。'
+    shopify:
+      name: 'Shopify'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+  captain:
+    copilot_error: 'この受信トレイにアシスタントを接続してCopilotを使用してください'
+    copilot_limit: 'Copilot残高がありません。課金セクションからクレジットを追加購入することができます。'
   public_portal:
     search:
-      search_placeholder: Search for article by title or body...
+      search_placeholder: タイトルまたは本文で記事を検索...
       empty_placeholder: 該当結果が見つかりませんでした。
-      loading_placeholder: Searching...
-      results_title: Search results
-    toc_header: 'On this page'
+      loading_placeholder: 検索中...
+      results_title: 検索結果
+    toc_header: 'このページで'
     hero:
-      sub_title: Search for the articles here or browse the categories below.
+      sub_title: ここで記事を検索するか、以下のカテゴリを参照してください。
     common:
       home: ホーム
-      last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all
-      article: article
-      articles: articles
-      author: author
-      authors: authors
-      other: other
-      others: others
-      by: By
-      no_articles: There are no articles here
+      last_updated_on: 最終更新日 %{last_updated_on}
+      view_all_articles: すべて表示
+      article: 記事
+      articles: 記事
+      author: 著者
+      authors: 著者
+      other: その他
+      others: その他
+      by: 作成者
+      no_articles: ここには記事がありません
     footer:
-      made_with: Made with
+      made_with: 作成
     header:
-      go_to_homepage: Website
+      go_to_homepage: ウェブサイト
       appearance:
-        system: System
-        light: Light
-        dark: Dark
-      featured_articles: Featured Articles
-      uncategorized: Uncategorized
+        system: システム
+        light: ライト
+        dark: ダーク
+      featured_articles: 注目の記事
+      uncategorized: 未分類
     404:
-      title: Page not found
-      description: We couldn't find the page you were looking for.
-      back_to_home: Go to home page
+      title: ページが見つかりません
+      description: お探しのページが見つかりませんでした。
+      back_to_home: ホームページに戻る
   slack_unfurl:
     fields:
       name: 名前
       email: Eメール
-      phone_number: Phone
+      phone_number: 電話
       company_name: 企業
-      inbox_name: Inbox
-      inbox_type: Inbox Type
-    button: Open conversation
+      inbox_name: 受信トレイ
+      inbox_type: 受信トレイの種類
+    button: 会話を開く
   time_units:
     days:
-      one: "%{count} day"
-      other: "%{count} days"
+      other: '%{count} 日'
     hours:
-      one: "%{count} hour"
-      other: "%{count} hours"
+      other: '%{count} 時間'
     minutes:
-      one: "%{count} minute"
-      other: "%{count} minutes"
+      other: '%{count} 分'
     seconds:
-      one: "%{count} second"
-      other: "%{count} seconds"
+      other: '%{count} 秒'

@@ -55,12 +55,13 @@ defineExpose({ dialogRef, contactsFormRef, onSuccess });
           @click="closeDialog"
         />
         <Button
+          type="submit"
           :label="
             t('CONTACTS_LAYOUT.HEADER.ACTIONS.CONTACT_CREATION.SAVE_CONTACT')
           "
           color="blue"
+          :disabled="contactsFormRef?.isFormInvalid"
           :is-loading="isCreatingContact"
-          @click="handleDialogConfirm"
         />
       </div>
     </template>

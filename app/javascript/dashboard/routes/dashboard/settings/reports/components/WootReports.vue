@@ -54,12 +54,20 @@ export default {
       type: String,
       default: 'Download Reports',
     },
+    hasBackButton: {
+      type: Boolean,
+      default: false,
+    },
+    selectedItem: {
+      type: Object,
+      default: null,
+    },
   },
   data() {
     return {
       from: 0,
       to: 0,
-      selectedFilter: null,
+      selectedFilter: this.selectedItem,
       groupBy: GROUP_BY_FILTER[1],
       groupByfilterItemsList: GROUP_BY_OPTIONS.DAY.map(this.translateOptions),
       selectedGroupByFilter: null,
@@ -206,7 +214,7 @@ export default {
 </script>
 
 <template>
-  <ReportHeader :header-title="reportTitle">
+  <ReportHeader :header-title="reportTitle" :has-back-button="hasBackButton">
     <V4Button
       :label="downloadButtonLabel"
       icon="i-ph-download-simple"
@@ -214,13 +222,13 @@ export default {
       @click="downloadReports"
     />
   </ReportHeader>
-
   <ReportFilters
     v-if="filterItemsList"
     :type="type"
     :filter-items-list="filterItemsList"
     :group-by-filter-items-list="groupByfilterItemsList"
     :selected-group-by-filter="selectedGroupByFilter"
+    :current-filter="selectedFilter"
     @date-range-change="onDateRangeChange"
     @filter-change="onFilterChange"
     @group-by-filter-change="onGroupByFilterChange"

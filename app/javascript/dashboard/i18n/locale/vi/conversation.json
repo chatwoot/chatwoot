@@ -12,6 +12,8 @@
     "NO_INBOX_2": " để bắt đầu",
     "NO_INBOX_AGENT": "Uh Oh! Có vẻ như bạn không thuộc bất kỳ hộp thư đến nào. Vui lòng liên hệ với quản trị viên của bạn",
     "SEARCH_MESSAGES": "Tìm kiếm tin nhắn trong các hội thoại",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "to open command menu",
       "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
@@ -38,15 +40,23 @@
     "REMOVE_SELECTION": "Xóa lựa chọn",
     "DOWNLOAD": "Tải xuống",
     "UNKNOWN_FILE_TYPE": "Tập tin chưa xác định",
-    "SAVE_CONTACT": "Save",
+    "SAVE_CONTACT": "Lưu liên hệ",
+    "NO_CONTENT": "Không có nội dung để hiển thị",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} đã bắt đầu một cuộc họp"
+    },
     "UPLOADING_ATTACHMENTS": "Đang tải file đính kèm...",
     "REPLIED_TO_STORY": "Replied to your story",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Tin nhắn được xoá thành công",
     "FAIL_DELETE_MESSSAGE": "Không thể xoá tin nhắn! Thử lại",
     "NO_RESPONSE": "Không có phản hồi",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Đánh giá",
     "FEEDBACK_TITLE": "Phản hồi",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
@@ -70,7 +80,7 @@
         "NRT": "NRT {status}",
         "RT": "RT {status}",
         "MISSED": "missed",
-        "DUE": "due"
+        "DUE": "quá hạn"
       }
     },
     "RESOLVE_DROPDOWN": {
@@ -92,14 +102,14 @@
       "TITLE": "Mức độ ưu tiên",
       "OPTIONS": {
         "NONE": "Không có",
-        "URGENT": "Urgent",
-        "HIGH": "High",
-        "MEDIUM": "Medium",
-        "LOW": "Low"
+        "URGENT": "Cấp bách",
+        "HIGH": "Cao",
+        "MEDIUM": "Trung bình",
+        "LOW": "Thấp"
       },
       "CHANGE_PRIORITY": {
         "SELECT_PLACEHOLDER": "Không có",
-        "INPUT_PLACEHOLDER": "Select priority",
+        "INPUT_PLACEHOLDER": "Chọc mức ưu tiên",
         "NO_RESULTS": "Không tìm thấy kết quả",
         "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
         "FAILED": "Couldn't change priority. Please try again."
@@ -109,6 +119,7 @@
       "PENDING": "Đánh dấu chưa giải quyết",
       "RESOLVED": "Đánh dấu là đã giải quyết",
       "MARK_AS_UNREAD": "Đánh dấu là chưa đọc",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Mở lại hội thoại",
       "SNOOZE": {
         "TITLE": "Báo lại",
@@ -126,7 +137,7 @@
           "FAILED": "Không thể gán điện thoại viên. Vui lòng thử lại."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Đã gán nhãn #{labelName} cho id hội thoại {conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Không thể gán nhãn. Vui lòng thử lại."
         },
         "TEAM_ASSIGNMENT": {
@@ -150,7 +161,7 @@
       "PRIVATE_NOTE": "Lưu ý riêng",
       "SEND": "Gửi",
       "CREATE": "Thêm ghi chú",
-      "INSERT_READ_MORE": "Read more",
+      "INSERT_READ_MORE": "Đọc thêm",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Hiển thị trình soạn thảo văn bản đa dạng thức",
@@ -219,6 +230,10 @@
         "DELETE": "Xoá",
         "CANCEL": "Huỷ"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Liên hệ",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -280,7 +295,27 @@
       "CONVERSATION_INFO": "Thông tin hội thoại",
       "CONTACT_ATTRIBUTES": "Thuộc tính của liên hệ",
       "PREVIOUS_CONVERSATION": "Cuộc trò chuyện trước đó",
-      "MACROS": "Macros"
+      "MACROS": "Macros",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Chờ giải quyết",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -310,7 +345,8 @@
     "TO": "Đến",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Chủ đề"
+    "SUBJECT": "Chủ đề",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participating",
@@ -335,5 +371,16 @@
     "ORIGINAL_CONTENT": "Original Content",
     "TRANSLATED_CONTENT": "Translated Content",
     "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

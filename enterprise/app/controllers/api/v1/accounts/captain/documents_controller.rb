@@ -23,6 +23,8 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
 
     @document = @assistant.documents.build(document_params)
     @document.save!
+  rescue Captain::Document::LimitExceededError => e
+    render_could_not_create_error(e.message)
   end
 
   def destroy

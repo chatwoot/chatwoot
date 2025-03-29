@@ -1,10 +1,10 @@
 {
   "INBOX_MGMT": {
     "HEADER": "受信トレイ",
-    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
-    "LEARN_MORE": "Learn more about inboxes",
-    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
-    "CLICK_TO_RECONNECT": "Click here to reconnect.",
+    "DESCRIPTION": "チャンネルは、顧客があなたとやり取りするために選択する通信手段です。受信トレイは、特定のチャンネルのやり取りを管理する場所です。メール、ライブチャット、ソーシャルメディアなど、さまざまなソースからの通信を含むことができます。",
+    "LEARN_MORE": "受信トレイについて詳しく知る",
+    "RECONNECTION_REQUIRED": "受信トレイが切断されました。再認証するまで新しいメッセージを受信できません。",
+    "CLICK_TO_RECONNECT": "再接続するにはここをクリック。",
     "LIST": {
       "404": "このアカウントに紐付けられている受信トレイはありません。"
     },
@@ -29,8 +29,8 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "受信トレイ名",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "PLACEHOLDER": "受信トレイ名を入力してください (例: Acme Inc)",
+        "ERROR": "有効な受信トレイ名を入力してください"
       },
       "WEBSITE_NAME": {
         "LABEL": "ウェブサイト名",
@@ -42,14 +42,14 @@
         "CHOOSE_PLACEHOLDER": "リストからページを選択",
         "INBOX_NAME": "受信トレイ名",
         "ADD_NAME": "受信トレイに名前をつける",
-        "PICK_NAME": "Pick a Name for your Inbox",
+        "PICK_NAME": "受信トレイの名前を選択",
         "PICK_A_VALUE": "値を選択"
       },
       "TWITTER": {
-        "HELP": "Twitterプロフィールをチャンネルとして追加するには、「Twitterでサインイン」をクリックしてTwitterプロフィールを認証する必要があります。 ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "HELP": "Twitterプロフィールをチャンネルとして追加するには、「Twitterでサインイン」をクリックしてTwitterプロフィールを認証する必要があります。",
+        "ERROR_MESSAGE": "Twitterへの接続中にエラーが発生しました。もう一度お試しください。",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": "言及されたツイートから会話を作成する"
         }
       },
       "WEBSITE_CHANNEL": {
@@ -61,8 +61,8 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Please enter your Webhook URL",
-          "ERROR": "有効な URL を入力してください"
+          "PLACEHOLDER": "Webhook URLを入力してください",
+          "ERROR": "有効なURLを入力してください"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "ウェブサイトのドメイン",
@@ -82,16 +82,16 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "チャンネルグリーティングを有効にする",
-          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
+          "HELP_TEXT": "新しい会話が作成されたときに自動的に挨拶メッセージを送信します。",
           "ENABLED": "有効です",
           "DISABLED": "無効です"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "返信時間を設定",
+          "IN_A_FEW_MINUTES": "数分以内",
+          "IN_A_FEW_HOURS": "数時間以内",
+          "IN_A_DAY": "1日以内",
+          "HELP_TEXT": "この返信時間はライブチャットウィジェットに表示されます"
         },
         "WIDGET_COLOR": {
           "LABEL": "ウィジェットの色",
@@ -99,33 +99,33 @@
         },
         "SUBMIT_BUTTON": "受信トレイを作成",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": "ウェブサイトチャンネルを作成できませんでした。もう一度お試しください"
         }
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "TITLE": "Twilio SMS/WhatsApp チャンネル",
+        "DESC": "Twilioを統合し、SMSまたはWhatsAppを通じて顧客をサポートし始めましょう。",
         "ACCOUNT_SID": {
           "LABEL": "アカウント SID",
           "PLACEHOLDER": "Twilio アカウント SIDを入力してください",
           "ERROR": "このフィールドは必須項目です"
         },
         "API_KEY": {
-          "USE_API_KEY": "Use API Key Authentication",
-          "LABEL": "API Key SID",
-          "PLACEHOLDER": "Please enter your API Key SID",
+          "USE_API_KEY": "APIキー認証を使用",
+          "LABEL": "APIキー SID",
+          "PLACEHOLDER": "APIキー SIDを入力してください",
           "ERROR": "このフィールドは必須項目です"
         },
         "API_KEY_SECRET": {
-          "LABEL": "API Key Secret",
-          "PLACEHOLDER": "Please enter your API Key Secret",
+          "LABEL": "APIキーシークレット",
+          "PLACEHOLDER": "APIキーシークレットを入力してください",
           "ERROR": "このフィールドは必須項目です"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "LABEL": "メッセージングサービス SID",
+          "PLACEHOLDER": "Twilio メッセージングサービス SIDを入力してください",
           "ERROR": "このフィールドは必須項目です",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "USE_MESSAGING_SERVICE": "Twilio メッセージングサービスを使用"
         },
         "CHANNEL_TYPE": {
           "LABEL": "チャンネルタイプ",
@@ -138,13 +138,13 @@
         },
         "CHANNEL_NAME": {
           "LABEL": "受信トレイ名",
-          "PLACEHOLDER": "Please enter a inbox name",
+          "PLACEHOLDER": "受信トレイ名を入力してください",
           "ERROR": "このフィールドは必須項目です"
         },
         "PHONE_NUMBER": {
           "LABEL": "電話番号",
           "PLACEHOLDER": "送信先の電話番号を入力してください。",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "ERROR": "有効な電話番号を提供してください。`+`記号で始まり、スペースを含まない必要があります。"
         },
         "API_CALLBACK": {
           "TITLE": "コールバック URL",
@@ -156,106 +156,106 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "SMSチャンネル",
+        "DESC": "SMSを通じて顧客をサポートし始めましょう。",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "APIプロバイダー",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Bandwidth"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "SMSチャンネルを保存できませんでした"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Account ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "LABEL": "アカウントID",
+            "PLACEHOLDER": "BandwidthアカウントIDを入力してください",
             "ERROR": "このフィールドは必須項目です"
           },
           "API_KEY": {
-            "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwidth API Key",
+            "LABEL": "APIキー",
+            "PLACEHOLDER": "Bandwidth APIキーを入力してください",
             "ERROR": "このフィールドは必須項目です"
           },
           "API_SECRET": {
-            "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
+            "LABEL": "APIシークレット",
+            "PLACEHOLDER": "Bandwidth APIシークレットを入力してください",
             "ERROR": "このフィールドは必須項目です"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "LABEL": "アプリケーションID",
+            "PLACEHOLDER": "BandwidthアプリケーションIDを入力してください",
             "ERROR": "このフィールドは必須項目です"
           },
           "INBOX_NAME": {
             "LABEL": "受信トレイ名",
-            "PLACEHOLDER": "Please enter a inbox name",
+            "PLACEHOLDER": "受信トレイ名を入力してください",
             "ERROR": "このフィールドは必須項目です"
           },
           "PHONE_NUMBER": {
             "LABEL": "電話番号",
             "PLACEHOLDER": "送信先の電話番号を入力してください。",
-            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+            "ERROR": "有効な電話番号を提供してください。`+`記号で始まり、スペースを含まない必要があります。"
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "Bandwidthチャンネルを作成",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "Bandwidthの認証に失敗しました。もう一度お試しください"
           },
           "API_CALLBACK": {
             "TITLE": "コールバック URL",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "SUBTITLE": "BandwidthでメッセージコールバックURLをここに記載されたURLで設定する必要があります。"
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
-        "DESC": "Start supporting your customers via WhatsApp.",
+        "TITLE": "WhatsAppチャンネル",
+        "DESC": "WhatsAppを通じて顧客をサポートし始めましょう。",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "APIプロバイダー",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
           "LABEL": "受信トレイ名",
-          "PLACEHOLDER": "Please enter an inbox name",
+          "PLACEHOLDER": "受信トレイ名を入力してください",
           "ERROR": "このフィールドは必須項目です"
         },
         "PHONE_NUMBER": {
           "LABEL": "電話番号",
           "PLACEHOLDER": "送信先の電話番号を入力してください。",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "ERROR": "有効な電話番号を提供してください。`+`記号で始まり、スペースを含まない必要があります。"
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Phone number ID",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "電話番号ID",
+          "PLACEHOLDER": "Facebook開発者ダッシュボードから取得した電話番号IDを入力してください。",
+          "ERROR": "有効な値を入力してください。"
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "ビジネスアカウントID",
+          "PLACEHOLDER": "Facebook開発者ダッシュボードから取得したビジネスアカウントIDを入力してください。",
+          "ERROR": "有効な値を入力してください。"
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "Webhook検証トークン",
+          "PLACEHOLDER": "FacebookのWebhookに設定する検証トークンを入力してください。",
+          "ERROR": "有効な値を入力してください。"
         },
         "API_KEY": {
-          "LABEL": "API key",
-          "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "APIキー",
+          "SUBTITLE": "WhatsApp APIキーを設定してください。",
+          "PLACEHOLDER": "APIキー",
+          "ERROR": "有効な値を入力してください。"
         },
         "API_CALLBACK": {
           "TITLE": "コールバック URL",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "Facebook開発者ポータルでWebhook URLと検証トークンを以下の値で設定する必要があります。",
           "WEBHOOK_URL": "Webhook URL",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook検証トークン"
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "WhatsAppチャンネルを作成",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": "WhatsAppチャンネルを保存できませんでした"
         }
       },
       "API_CHANNEL": {
@@ -268,17 +268,17 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
+          "SUBTITLE": "イベントのコールバックを受け取りたいURLを設定してください。",
           "PLACEHOLDER": "Webhook URL"
         },
-        "SUBMIT_BUTTON": "API チャンネルを作成",
+        "SUBMIT_BUTTON": "APIチャンネルを作成",
         "API": {
           "ERROR_MESSAGE": "APIチャンネルを保存できませんでした"
         }
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Eメールチャンネル",
-        "DESC": "Integrate your email inbox.",
+        "DESC": "Eメール受信トレイを統合します。",
         "CHANNEL_NAME": {
           "LABEL": "チャンネル名",
           "PLACEHOLDER": "チャンネル名を入力してください",
@@ -286,7 +286,7 @@
         },
         "EMAIL": {
           "LABEL": "Eメール",
-          "SUBTITLE": "Email where your customers sends you support tickets",
+          "SUBTITLE": "顧客がサポートチケットを送信するメールアドレス",
           "PLACEHOLDER": "Eメール"
         },
         "SUBMIT_BUTTON": "Eメールチャンネルを作成",
@@ -296,90 +296,90 @@
         "FINISH_MESSAGE": "以下のメールアドレスにメールを転送します。"
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "LINEチャンネル",
+        "DESC": "LINEチャンネルと統合し、顧客のサポートを開始します。",
         "CHANNEL_NAME": {
           "LABEL": "チャンネル名",
           "PLACEHOLDER": "チャンネル名を入力してください",
           "ERROR": "このフィールドは必須項目です"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "LINEチャンネルID",
+          "PLACEHOLDER": "LINEチャンネルID"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "LINEチャンネルシークレット",
+          "PLACEHOLDER": "LINEチャンネルシークレット"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "LINEチャンネルトークン",
+          "PLACEHOLDER": "LINEチャンネルトークン"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "LINEチャンネルを作成",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "LINEチャンネルを保存できませんでした"
         },
         "API_CALLBACK": {
-          "TITLE": "コールバック URL",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "TITLE": "コールバックURL",
+          "SUBTITLE": "LINEアプリケーションでWebhook URLをここに記載されたURLで設定する必要があります。"
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "Telegramチャンネル",
+        "DESC": "Telegramチャンネルと統合し、顧客のサポートを開始します。",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "LABEL": "ボットトークン",
+          "SUBTITLE": "Telegram BotFatherから取得したボットトークンを設定してください。",
+          "PLACEHOLDER": "ボットトークン"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "Telegramチャンネルを作成",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "Telegramチャンネルを保存できませんでした"
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "TITLE": "チャンネルを選択",
+        "DESC": "Chatwootは、ライブチャットウィジェット、Facebook Messenger、Twitterプロフィール、WhatsApp、Eメールなどのチャンネルをサポートしています。カスタムチャンネルを作成したい場合は、APIチャンネルを使用して作成できます。開始するには、以下のチャンネルのいずれかを選択してください。"
       },
       "AGENTS": {
         "TITLE": "担当者",
-        "DESC": "ここでは、新しく作成した受信トレイを管理するエージェントを追加できます。選択された担当者のみが受信トレイにアクセスできます。 この受信トレイに割り当てられていない担当者は、ログイン時にこの受信トレイ内のメッセージを表示または応答することができません。 <br> <b>PS:</b> 管理者として、すべての受信ボックスにアクセスする必要がある場合、 あなたが作成したすべての受信トレイに担当者として自分自身を追加する必要があります。",
-        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "DESC": "ここでは、新しく作成した受信トレイを管理する担当者を追加できます。選択された担当者のみが受信トレイにアクセスできます。この受信トレイに割り当てられていない担当者は、ログイン時にこの受信トレイ内のメッセージを表示または応答することができません。<br><b>PS:</b> 管理者として、すべての受信トレイにアクセスする必要がある場合、あなたが作成したすべての受信トレイに担当者として自分自身を追加する必要があります。",
+        "VALIDATION_ERROR": "新しい受信トレイに少なくとも1人の担当者を追加してください",
+        "PICK_AGENTS": "受信トレイの担当者を選択"
       },
       "DETAILS": {
         "TITLE": "受信トレイの詳細",
-        "DESC": "下のドロップダウンから、Chatwoot に接続する Facebook ページを選択してください。 わかりやすくするために受信トレイの名前をカスタマイズすることもできます。"
+        "DESC": "下のドロップダウンから、Chatwootに接続するFacebookページを選択してください。わかりやすくするために受信トレイの名前をカスタマイズすることもできます。"
       },
       "FINISH": {
         "TITLE": "ばっちりです！",
-        "DESC": "FacebookページとChatwootとの統合が正常に完了しました。次回から、あなたのページに送信された顧客からのメッセージや会話は、自動的に受信トレイに表示されます。<br>また、ウェブサイトに簡単に追加できるウィジェットスクリプトを提供しています。 一度これをあなたのウェブサイトに設定すれば、 顧客は他のツールの助けを借りずにWebサイトから直接メッセージを送信でき、Chatwoot上に会話が表示されます。 <br><br>素敵でしょ？まあ、私たちはきっとそうしますけどね:)"
+        "DESC": "FacebookページとChatwootとの統合が正常に完了しました。次回から、あなたのページに送信された顧客からのメッセージや会話は、自動的に受信トレイに表示されます。<br>また、ウェブサイトに簡単に追加できるウィジェットスクリプトを提供しています。一度これをあなたのウェブサイトに設定すれば、顧客は他のツールの助けを借りずにWebサイトから直接メッセージを送信でき、Chatwoot上に会話が表示されます。<br><br>素敵でしょ？まあ、私たちはきっとそうしますけどね:)"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+        "TITLE": "メールプロバイダーを選択",
+        "DESCRIPTION": "以下のリストからメールプロバイダーを選択してください。リストにメールプロバイダーが表示されない場合は、他のプロバイダーオプションを選択し、IMAPおよびSMTPの資格情報を提供してください。"
       },
       "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "SIGN_IN": "Sign in with Microsoft",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "TITLE": "Microsoftメール",
+        "DESCRIPTION": "開始するには、「Microsoftでサインイン」ボタンをクリックしてください。メールサインインページにリダイレクトされます。要求された権限を承認すると、受信トレイ作成ステップに戻ります。",
+        "EMAIL_PLACEHOLDER": "メールアドレスを入力してください",
+        "SIGN_IN": "Microsoftでサインイン",
+        "ERROR_MESSAGE": "Microsoftへの接続中にエラーが発生しました。もう一度お試しください"
       },
       "GOOGLE": {
-        "TITLE": "Google Email",
-        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "SIGN_IN": "Sign in with Google",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
+        "TITLE": "Googleメール",
+        "DESCRIPTION": "開始するには、「Googleでサインイン」ボタンをクリックしてください。メールサインインページにリダイレクトされます。要求された権限を承認すると、受信トレイ作成ステップに戻ります。",
+        "SIGN_IN": "Googleでサインイン",
+        "EMAIL_PLACEHOLDER": "メールアドレスを入力してください",
+        "ERROR_MESSAGE": "Googleへの接続中にエラーが発生しました。もう一度お試しください"
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Facebook を認証中...",
-      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
+      "LOADING_FB": "Facebookを認証中...",
+      "ERROR_FB_LOADING": "Facebook SDKの読み込みエラー。広告ブロッカーを無効にして、別のブラウザから再試行してください。",
       "ERROR_FB_AUTH": "問題が発生しました。ページを更新してください...",
-      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
-      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
+      "ERROR_FB_UNAUTHORIZED": "この操作を実行する権限がありません。",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Facebookページへの完全なアクセス権があることを確認してください。Facebookの役割については<a href=\"https://www.facebook.com/help/187316341316631\">こちら</a>を参照してください。",
       "CREATING_CHANNEL": "受信トレイを作成しています...",
       "TITLE": "受信トレイの詳細の設定",
       "DESC": ""
@@ -390,10 +390,10 @@
     },
     "FINISH": {
       "TITLE": "受信トレイの準備ができました！",
-      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
-      "BUTTON_TEXT": "Take me there",
-      "MORE_SETTINGS": "More settings",
-      "WEBSITE_SUCCESS": "ウェブサイトチャンネルの作成が正常に完了しました。以下のコードをコピーしてウェブサイトに貼り付けてください。 次回、お客様がライブチャットを使用すると、会話は自動的に受信トレイに表示されます。"
+      "MESSAGE": "新しいチャンネルを通じて顧客と交流できます。サポートを楽しんでください",
+      "BUTTON_TEXT": "受信トレイに移動",
+      "MORE_SETTINGS": "その他の設定",
+      "WEBSITE_SUCCESS": "ウェブサイトチャンネルの作成が正常に完了しました。以下のコードをコピーしてウェブサイトに貼り付けてください。次回、お客様がライブチャットを使用すると、会話は自動的に受信トレイに表示されます。"
     },
     "REAUTH": "再認証",
     "VIEW": "表示",
@@ -401,7 +401,7 @@
       "API": {
         "SUCCESS_MESSAGE": "受信トレイの設定が正常に更新されました",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "自動割り当ての更新に成功しました",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "ERROR_MESSAGE": "受信トレイの設定を更新できませんでした。後でもう一度お試しください。"
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "有効です",
@@ -412,22 +412,22 @@
         "DISABLED": "無効です"
       },
       "SENDER_NAME_SECTION": {
-        "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
-        "FOR_EG": "For eg:",
+        "TITLE": "送信者名",
+        "SUB_TEXT": "担当者からのメールを受け取ったときに顧客に表示される名前を選択してください。",
+        "FOR_EG": "例:",
         "FRIENDLY": {
           "TITLE": "Friendly",
-          "FROM": "差出人:",
-          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+          "FROM": "from",
+          "SUBTITLE": "返信を送信した担当者の名前を送信者名に追加して、フレンドリーにします。"
         },
         "PROFESSIONAL": {
           "TITLE": "Professional",
-          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+          "SUBTITLE": "メールヘッダーの送信者名に設定されたビジネス名のみを使用します。"
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Configure your business name",
-          "PLACEHOLDER": "Enter your business name",
-          "SAVE_BUTTON_TEXT": "Save"
+          "BUTTON_TEXT": "+ ビジネス名を設定する",
+          "PLACEHOLDER": "ビジネス名を入力してください",
+          "SAVE_BUTTON_TEXT": "保存"
         }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
@@ -443,98 +443,98 @@
         "DISABLED": "無効です"
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "有効にする"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "削除",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "アバターを削除",
       "CONFIRM": {
         "TITLE": "削除の確認",
-        "MESSAGE": "削除してもよろしいですか？ ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
-        "YES": "削除する ",
-        "NO": "いいえ、保存しておきます "
+        "MESSAGE": "削除してもよろしいですか？",
+        "PLACE_HOLDER": "{inboxName}と入力して確認してください",
+        "YES": "削除する",
+        "NO": "いいえ、保存しておきます"
       },
       "API": {
         "SUCCESS_MESSAGE": "受信トレイの削除に成功しました",
-        "ERROR_MESSAGE": "受信箱を削除できませんでした。後でもう一度お試しください。",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "ERROR_MESSAGE": "受信トレイを削除できませんでした。後でもう一度お試しください。",
+        "AVATAR_SUCCESS_MESSAGE": "受信トレイのアバターを正常に削除しました",
+        "AVATAR_ERROR_MESSAGE": "受信トレイのアバターを削除できませんでした。後でもう一度お試しください。"
       }
     },
     "TABS": {
       "SETTINGS": "設定",
       "COLLABORATORS": "共同編集者",
       "CONFIGURATION": "設定",
-      "CAMPAIGN": "Campaigns",
-      "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration"
+      "CAMPAIGN": "キャンペーン",
+      "PRE_CHAT_FORM": "プレチャットフォーム",
+      "BUSINESS_HOURS": "営業時間",
+      "WIDGET_BUILDER": "ウィジェットビルダー",
+      "BOT_CONFIGURATION": "ボット設定"
     },
     "SETTINGS": "設定",
     "FEATURES": {
       "LABEL": "機能",
       "DISPLAY_FILE_PICKER": "ウィジェットにファイルピッカーを表示する",
       "DISPLAY_EMOJI_PICKER": "ウィジェットに絵文字ピッカーを表示する",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "ALLOW_END_CONVERSATION": "ウィジェットからユーザーが会話を終了できるようにする",
+      "USE_INBOX_AVATAR_FOR_BOT": "ボットに受信トレイの名前とアバターを使用する"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messengerスクリプト",
       "MESSENGER_SUB_HEAD": "このボタンをbodyタグの中に配置してください。",
       "INBOX_AGENTS": "担当者",
       "INBOX_AGENTS_SUB_TEXT": "この受信トレイから担当者を追加または削除する",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
+      "AGENT_ASSIGNMENT": "会話の割り当て",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "会話の割り当て設定を更新する",
       "UPDATE": "更新",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
+      "ENABLE_EMAIL_COLLECT_BOX": "メール収集ボックスを有効にする",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "新しい会話でメール収集ボックスを有効または無効にする",
       "AUTO_ASSIGNMENT": "自動割り当てを有効にする",
-      "ENABLE_CSAT": "Enable CSAT",
-      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
-      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
-      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
+      "ENABLE_CSAT": "CSATを有効にする",
+      "SENDER_NAME_SECTION": "メールに担当者名を表示する",
+      "ENABLE_CSAT_SUB_TEXT": "会話解決後にCSAT（顧客満足度）調査を有効または無効にする",
+      "SENDER_NAME_SECTION_TEXT": "担当者名をメールに表示するかどうかを設定します。無効にするとビジネス名が表示されます。",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "メールによる会話の継続を有効にする",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "連絡先のメールアドレスが利用可能な場合、会話はメールで継続されます。",
+      "LOCK_TO_SINGLE_CONVERSATION": "単一会話にロックする",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "この受信トレイで同じ連絡先に対して複数の会話を有効または無効にする",
       "INBOX_UPDATE_TITLE": "受信トレイの設定",
       "INBOX_UPDATE_SUB_TEXT": "受信トレイの設定を更新する",
       "AUTO_ASSIGNMENT_SUB_TEXT": "この受信トレイに追加された担当者への新しい会話の自動割り当てを有効または無効にします。",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
-      "HMAC_LINK_TO_DOCS": "You can read more here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "HMAC_VERIFICATION": "ユーザーIDの検証",
+      "HMAC_DESCRIPTION": "ユーザーのIDを検証するために、各ユーザーに対して`identifier_hash`を渡すことができます。ここに表示されるキーを使用して`identifier`のHMAC sha256ハッシュを生成できます。",
+      "HMAC_LINK_TO_DOCS": "詳細はこちらをご覧ください。",
+      "HMAC_MANDATORY_VERIFICATION": "ユーザーID検証の強制",
+      "HMAC_MANDATORY_DESCRIPTION": "有効にすると、`identifier_hash`が欠落しているリクエストは拒否されます。",
+      "INBOX_IDENTIFIER": "受信トレイ識別子",
+      "INBOX_IDENTIFIER_SUB_TEXT": "ここに表示される`inbox_identifier`トークンを使用してAPIクライアントを認証します。",
+      "FORWARD_EMAIL_TITLE": "メール転送",
       "FORWARD_EMAIL_SUB_TEXT": "以下のメールアドレスにメールを転送します。",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "会話解決後のメッセージを許可する",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "会話が解決された後でもエンドユーザーがメッセージを送信できるようにします。",
+      "WHATSAPP_SECTION_SUBHEADER": "このAPIキーはWhatsApp APIとの統合に使用されます。",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "WhatsApp APIとの統合に使用する新しいAPIキーを入力してください。",
+      "WHATSAPP_SECTION_TITLE": "APIキー",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "APIキーを更新する",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "ここに新しいAPIキーを入力してください",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "更新",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook検証トークン",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "このトークンはWebhookエンドポイントの信頼性を検証するために使用されます。",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "プレチャットフォーム設定を更新する"
     },
     "HELP_CENTER": {
-      "LABEL": "Help Center",
-      "PLACEHOLDER": "Select Help Center",
-      "SELECT_PLACEHOLDER": "Select Help Center",
-      "REMOVE": "Remove Help Center",
-      "SUB_TEXT": "Attach a Help Center with the inbox"
+      "LABEL": "ヘルプセンター",
+      "PLACEHOLDER": "ヘルプセンターを選択",
+      "SELECT_PLACEHOLDER": "ヘルプセンターを選択",
+      "REMOVE": "ヘルプセンターを削除",
+      "SUB_TEXT": "受信トレイにヘルプセンターを添付する"
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+      "MAX_ASSIGNMENT_LIMIT": "自動割り当ての制限",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "0より大きい値を入力してください",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "この受信トレイから担当者に自動割り当てできる会話の最大数を制限します"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "再認証",
@@ -543,67 +543,67 @@
       "MESSAGE_ERROR": "エラーが発生しました。もう一度お試しください。"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
-      "SET_FIELDS": "Pre chat form fields",
+      "DESCRIPTION": "プレチャットフォームを使用すると、ユーザーが会話を開始する前に情報を収集できます。",
+      "SET_FIELDS": "プレチャットフォームのフィールド",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
-        "KEY": "Key",
-        "TYPE": "Type",
+        "FIELDS": "フィールド",
+        "LABEL": "ラベル",
+        "PLACE_HOLDER": "プレースホルダー",
+        "KEY": "キー",
+        "TYPE": "タイプ",
         "REQUIRED": "必須"
       },
       "ENABLE": {
-        "LABEL": "Enable pre chat form",
+        "LABEL": "プレチャットフォームを有効にする",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "はい",
+          "DISABLED": "いいえ"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "LABEL": "プレチャットメッセージ",
+        "PLACEHOLDER": "このメッセージはフォームと一緒にユーザーに表示されます"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "訪問者はチャットを開始する前に名前とメールアドレスを提供する必要があります"
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
-      "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
+      "TITLE": "営業時間を設定する",
+      "SUBTITLE": "ライブチャットウィジェットでの利用可能時間を設定します",
+      "WEEKLY_TITLE": "週間営業時間を設定する",
+      "TIMEZONE_LABEL": "タイムゾーンを選択",
+      "UPDATE": "営業時間設定を更新",
+      "TOGGLE_AVAILABILITY": "この受信トレイの営業時間を有効にする",
+      "UNAVAILABLE_MESSAGE_LABEL": "訪問者への不在メッセージ",
+      "TOGGLE_HELP": "営業時間を有効にすると、すべての担当者がオフラインでもライブチャットウィジェットに利用可能時間が表示されます。利用可能時間外には、訪問者にメッセージとプレチャットフォームで警告できます。",
       "DAY": {
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
-        "HOURS": "hours",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "ENABLE": "この日の利用可能時間を有効にする",
+        "UNAVAILABLE": "不在",
+        "HOURS": "時間",
+        "VALIDATION_ERROR": "開始時間は終了時間より前でなければなりません。",
+        "CHOOSE": "選択"
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": "終日"
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
+      "SUBTITLE": "IMAPの詳細を設定してください",
+      "NOTE_TEXT": "SMTPを有効にするには、IMAPを設定してください。",
+      "UPDATE": "IMAP設定を更新",
+      "TOGGLE_AVAILABILITY": "この受信トレイのIMAP設定を有効にする",
+      "TOGGLE_HELP": "IMAPを有効にすると、ユーザーがメールを受信できるようになります",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
+        "SUCCESS_MESSAGE": "IMAP設定が正常に更新されました",
+        "ERROR_MESSAGE": "IMAP設定を更新できませんでした"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+        "LABEL": "アドレス",
+        "PLACE_HOLDER": "アドレス (例: imap.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "ポート",
+        "PLACE_HOLDER": "ポート"
       },
       "LOGIN": {
         "LABEL": "ログイン",
@@ -613,29 +613,29 @@
         "LABEL": "パスワード",
         "PLACE_HOLDER": "パスワード"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "SSLを有効にする"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
+      "SUBTITLE": "Microsoftアカウントを再認証してください"
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "SUBTITLE": "SMTPの詳細を設定してください",
+      "UPDATE": "SMTP設定を更新",
+      "TOGGLE_AVAILABILITY": "この受信トレイのSMTP設定を有効にする",
+      "TOGGLE_HELP": "SMTPを有効にすると、ユーザーがメールを送信できるようになります",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update SMTP settings"
+        "SUCCESS_MESSAGE": "SMTP設定が正常に更新されました",
+        "ERROR_MESSAGE": "SMTP設定を更新できませんでした"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+        "LABEL": "アドレス",
+        "PLACE_HOLDER": "アドレス (例: smtp.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "ポート",
+        "PLACE_HOLDER": "ポート"
       },
       "LOGIN": {
         "LABEL": "ログイン",
@@ -646,14 +646,14 @@
         "PLACE_HOLDER": "パスワード"
       },
       "DOMAIN": {
-        "LABEL": "Domain",
-        "PLACE_HOLDER": "Domain"
+        "LABEL": "ドメイン",
+        "PLACE_HOLDER": "ドメイン"
       },
-      "ENCRYPTION": "Encryption",
+      "ENCRYPTION": "暗号化",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
-      "AUTH_MECHANISM": "Authentication"
+      "OPEN_SSL_VERIFY_MODE": "Open SSL検証モード",
+      "AUTH_MECHANISM": "認証"
     },
     "NOTE": "Note: ",
     "WIDGET_BUILDER": {
@@ -662,7 +662,7 @@
           "LABEL": "Website Avatar",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "SUCCESS_MESSAGE": "アバターを正常に削除しました",
               "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
             }
           }
@@ -670,48 +670,48 @@
         "WEBSITE_NAME": {
           "LABEL": "ウェブサイト名",
           "PLACE_HOLDER": "ウェブサイト名を入力してください(例：Acme Inc)",
-          "ERROR": "Please enter a valid website name"
+          "ERROR": "有効なウェブサイト名を入力してください"
         },
         "WELCOME_HEADING": {
           "LABEL": "冒頭の見出し",
-          "PLACE_HOLDER": "Hi there!"
+          "PLACE_HOLDER": "こんにちは！"
         },
         "WELCOME_TAGLINE": {
           "LABEL": "冒頭のタグライン",
           "PLACE_HOLDER": "簡単に連絡が取れる状態です。なんでも聞いてください。フィードバックの共有も歓迎です。"
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day"
+          "LABEL": "返信時間",
+          "IN_A_FEW_MINUTES": "数分以内",
+          "IN_A_FEW_HOURS": "数時間以内",
+          "IN_A_DAY": "1日以内"
         },
         "WIDGET_COLOR_LABEL": "ウィジェットの色",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_POSITION_LABEL": "ウィジェットバブルの位置",
+        "WIDGET_BUBBLE_TYPE_LABEL": "ウィジェットバブルのタイプ",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "チャットをする",
-          "LABEL": "Widget Bubble Launcher Title",
+          "LABEL": "ウィジェットバブルランチャータイトル",
           "PLACE_HOLDER": "チャットをする"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "ウィジェット設定の変更",
           "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
+            "SUCCESS_MESSAGE": "ウィジェット設定の更新に成功しました",
+            "ERROR_MESSAGE": "ウィジェット設定の更新に失敗しました"
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
+          "PREVIEW": "プレビュー",
           "SCRIPT": "Script"
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "左",
+          "RIGHT": "右"
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "STANDARD": "標準",
+          "EXPANDED_BUBBLE": "拡張バブル"
         }
       },
       "WIDGET_SCREEN": {
@@ -729,13 +729,13 @@
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
+          "ONLINE": "オンラインです",
           "OFFLINE": "留守中"
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "こんにちは",
+        "AGENT_MESSAGE": "こんにちは"
       },
-      "BRANDING_TEXT": "Powered by Chatwoot",
+      "BRANDING_TEXT": "提供：Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
@@ -745,7 +745,7 @@
     },
     "CHANNELS": {
       "MESSENGER": "Messenger",
-      "WEB_WIDGET": "Website",
+      "WEB_WIDGET": "ウェブサイト",
       "TWITTER_PROFILE": "Twitter",
       "TWILIO_SMS": "Twilio SMS",
       "WHATSAPP": "WhatsApp",

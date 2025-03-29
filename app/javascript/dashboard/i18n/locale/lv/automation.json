@@ -125,6 +125,7 @@
       "ACTION_PARAMETERS_REQUIRED": "Nepieciešami darbības parametri",
       "ATLEAST_ONE_CONDITION_REQUIRED": "Ir nepieciešams vismaz viens nosacījums",
       "ATLEAST_ONE_ACTION_REQUIRED": "Ir nepieciešama vismaz viena darbība"
-    }
+    },
+    "NONE_OPTION": "Nav"
   }
 }

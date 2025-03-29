@@ -8,21 +8,61 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
   describe '#perform' do
     context 'when CAPTAIN_FIRECRAWL_API_KEY is configured' do
       let(:firecrawl_service) { instance_double(Captain::Tools::FirecrawlService) }
+      let(:account) { document.account }
+      let(:token) { Digest::SHA256.hexdigest("-key#{document.assistant_id}#{document.account_id}") }
 
       before do
         allow(Captain::Tools::FirecrawlService).to receive(:new).and_return(firecrawl_service)
         allow(firecrawl_service).to receive(:perform)
+        create(:installation_config, name: 'CAPTAIN_FIRECRAWL_API_KEY', value: 'test-key')
       end
 
-      it 'uses FirecrawlService to crawl the page' do
-        create(:installation_config, name: 'CAPTAIN_FIRECRAWL_API_KEY', value: 'test-key')
+      context 'with account usage limits' do
+        before do
+          allow(account).to receive(:usage_limits).and_return({ captain: { documents: { current_available: 20 } } })
+        end
 
-        expect(firecrawl_service).to receive(:perform).with(
-          document.external_link,
-          "#{webhook_url}?assistant_id=#{assistant_id}"
-        )
+        it 'uses FirecrawlService with the correct crawl limit' do
+          expect(firecrawl_service).to receive(:perform).with(
+            document.external_link,
+            "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
+            20
+          )
 
-        described_class.perform_now(document)
+          described_class.perform_now(document)
+        end
+      end
+
+      context 'when crawl limit exceeds maximum' do
+        before do
+          allow(account).to receive(:usage_limits).and_return({ captain: { documents: { current_available: 1000 } } })
+        end
+
+        it 'caps the crawl limit at 500' do
+          expect(firecrawl_service).to receive(:perform).with(
+            document.external_link,
+            "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
+            500
+          )
+
+          described_class.perform_now(document)
+        end
+      end
+
+      context 'with no usage limits configured' do
+        before do
+          allow(account).to receive(:usage_limits).and_return({})
+        end
+
+        it 'uses default crawl limit of 10' do
+          expect(firecrawl_service).to receive(:perform).with(
+            document.external_link,
+            "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
+            10
+          )
+
+          described_class.perform_now(document)
+        end
       end
     end
 

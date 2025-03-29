@@ -1,43 +1,47 @@
 {
   "PAGINATION_FOOTER": {
-    "SHOWING": "Showing {startItem} - {endItem} of {totalItems} items",
-    "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} pages"
+    "SHOWING": "{startItem} - {endItem} 件を表示中（全 {totalItems} 件）",
+    "CURRENT_PAGE_INFO": "{currentPage} ページ中 {totalPages} ページ"
   },
   "COMBOBOX": {
-    "PLACEHOLDER": "Select an option...",
-    "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
+    "PLACEHOLDER": "オプションを選択...",
+    "EMPTY_SEARCH_RESULTS": "`{searchTerm}` に該当する項目が見つかりませんでした。",
     "EMPTY_STATE": "該当結果が見つかりませんでした。",
-    "SEARCH_PLACEHOLDER": "Search...",
-    "MORE": "+{count} more"
+    "SEARCH_PLACEHOLDER": "検索...",
+    "MORE": "+{count} 件をさらに表示"
   },
   "DROPDOWN_MENU": {
-    "SEARCH_PLACEHOLDER": "Search...",
+    "SEARCH_PLACEHOLDER": "検索...",
     "EMPTY_STATE": "該当結果が見つかりませんでした。",
-    "SEARCHING": "Searching..."
+    "SEARCHING": "検索中..."
   },
   "DIALOG": {
     "BUTTONS": {
       "CANCEL": "キャンセル",
-      "CONFIRM": "Confirm"
+      "CONFIRM": "確認"
     }
   },
   "PHONE_INPUT": {
-    "SEARCH_PLACEHOLDER": "Search country",
-    "ERROR": "Phone number should be empty or in E.164 format",
-    "DIAL_CODE_ERROR": "Please select a dial code from the list"
+    "SEARCH_PLACEHOLDER": "国を検索",
+    "ERROR": "電話番号は空白または E.164 形式である必要があります。",
+    "DIAL_CODE_ERROR": "リストからダイヤルコードを選択してください。"
   },
   "THUMBNAIL": {
     "AUTHOR": {
-      "NOT_AVAILABLE": "Author is not available"
+      "NOT_AVAILABLE": "著者情報は利用できません"
     }
   },
   "BREADCRUMB": {
-    "ARIA_LABEL": "Breadcrumb"
+    "ARIA_LABEL": "パンくずリスト"
   },
   "SWITCH": {
-    "TOGGLE": "Toggle switch"
+    "TOGGLE": "スイッチを切り替え"
   },
   "LABEL": {
-    "TAG_BUTTON": "tag"
+    "TAG_BUTTON": "タグ"
+  },
+  "FEATURE_SPOTLIGHT": {
+    "LEARN_MORE": "詳細を見る",
+    "WATCH_VIDEO": "Watch video"
   }
 }

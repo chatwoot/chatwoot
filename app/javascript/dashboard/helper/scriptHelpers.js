@@ -8,6 +8,7 @@ import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotifi
 import { emitter } from 'shared/helpers/mitt';
 
 export const initializeAnalyticsEvents = () => {
+  AnalyticsHelper.init();
   emitter.on(ANALYTICS_IDENTITY, ({ user }) => {
     AnalyticsHelper.identify(user);
   });

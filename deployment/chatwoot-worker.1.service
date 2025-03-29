@@ -16,6 +16,11 @@ KillMode=mixed
 StandardInput=null
 SyslogIdentifier=%p
 
+MemoryMax=1.5G
+MemoryHigh=1.4G
+MemorySwapMax=0
+OOMPolicy=stop
+
 Environment="PATH=/home/chatwoot/.rvm/gems/ruby-3.3.3/bin:/home/chatwoot/.rvm/gems/ruby-3.3.3@global/bin:/home/chatwoot/.rvm/rubies/ruby-3.3.3/bin:/home/chatwoot/.rvm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/home/chatwoot/.rvm/bin:/home/chatwoot/.rvm/bin"
 Environment="PORT=3000"
 Environment="RAILS_ENV=production"

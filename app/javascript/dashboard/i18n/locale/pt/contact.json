@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "Detalhes do contacto do <strong>{primaryContactName}</strong> serão copiados para <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "MENSAGEM_ERRO"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": " Unir contactos",
@@ -288,26 +288,32 @@
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "Messagem",
       "SEND_MESSAGE": "Enviar mensagem",
+      "BLOCK_CONTACT": "Bloquear contato",
+      "UNBLOCK_CONTACT": "Desbloquear contato",
       "BREADCRUMB": {
         "CONTACTS": "Contactos"
       },
       "ACTIONS": {
         "CONTACT_CREATION": {
-          "ADD_CONTACT": "Add contact",
-          "EXPORT_CONTACT": "Export contacts",
-          "IMPORT_CONTACT": "Import contacts",
-          "SAVE_CONTACT": "Save contact",
+          "ADD_CONTACT": "Editar contato",
+          "EXPORT_CONTACT": "Exportar contatos",
+          "IMPORT_CONTACT": "Importar contatos",
+          "SAVE_CONTACT": "Salvar contato",
           "EMAIL_ADDRESS_DUPLICATE": "O e-mail inserido já está a ser utilizado por outro contacto.",
           "PHONE_NUMBER_DUPLICATE": "Este número já está a ser usado por outro contacto.",
           "SUCCESS_MESSAGE": "Contacto guardado com sucesso",
-          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
+          "ERROR_MESSAGE": "Não foi possível o contato. Por favor, tente mais tarde."
         },
+        "BLOCK_SUCCESS_MESSAGE": "Este contato foi bloqueado com sucesso",
+        "BLOCK_ERROR_MESSAGE": "Não foi possível bloquear o contato. Por favor, tente mais tarde.",
+        "UNBLOCK_SUCCESS_MESSAGE": "Este contacto foi desbloqueado",
+        "UNBLOCK_ERROR_MESSAGE": "Não foi possível bloquear o contato. Por favor, tente mais tarde.",
         "IMPORT_CONTACT": {
-          "TITLE": "Import contacts",
+          "TITLE": "Importar contatos",
           "DESCRIPTION": "Importar contactos através de um ficheiro CSV.",
           "DOWNLOAD_LABEL": "Descarregar uma amostra CSV.",
           "LABEL": "Ficheiro CSV:",
-          "CHOOSE_FILE": "Choose file",
+          "CHOOSE_FILE": "Escolher arquivo",
           "CHANGE": "Trocar",
           "CANCEL": "Cancelar",
           "IMPORT": "Importar",
@@ -315,8 +321,8 @@
           "ERROR_MESSAGE": "Ocorreu um erro, por favor, tente novamente"
         },
         "EXPORT_CONTACT": {
-          "TITLE": "Export contacts",
-          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "TITLE": "Exportar contatos",
+          "DESCRIPTION": "Exporte rapidamente um arquivo csv com detalhes completos dos seus contatos",
           "CONFIRM": "Exportar",
           "SUCCESS_MESSAGE": "Exportação em progresso. Será notificado via e-mail quando o ficheiro de exportação estiver pronto para descarregar.",
           "ERROR_MESSAGE": "Ocorreu um erro, por favor, tente novamente"
@@ -402,44 +408,44 @@
         "TITLE": "Editar detalhes do contacto",
         "FORM": {
           "FIRST_NAME": {
-            "PLACEHOLDER": "Enter the first name"
+            "PLACEHOLDER": "Digite o primeiro nome"
           },
           "LAST_NAME": {
-            "PLACEHOLDER": "Enter the last name"
+            "PLACEHOLDER": "Digite o sobrenome"
           },
           "EMAIL_ADDRESS": {
-            "PLACEHOLDER": "Enter the email address",
+            "PLACEHOLDER": "Insira um endereço de e-mail",
             "DUPLICATE": "O e-mail inserido já está a ser utilizado por outro contacto."
           },
           "PHONE_NUMBER": {
-            "PLACEHOLDER": "Enter the phone number",
+            "PLACEHOLDER": "Digite número de telefone",
             "DUPLICATE": "Este número já está a ser usado por outro contacto."
           },
           "CITY": {
             "PLACEHOLDER": "Escreva o nome da cidade"
           },
           "COUNTRY": {
-            "PLACEHOLDER": "Select country"
+            "PLACEHOLDER": "Selecionar País"
           },
           "BIO": {
-            "PLACEHOLDER": "Enter the bio"
+            "PLACEHOLDER": "Digite descrição"
           },
           "COMPANY_NAME": {
             "PLACEHOLDER": "Insira o nome da empresa"
           }
         },
-        "UPDATE_BUTTON": "Update contact",
-        "SUCCESS_MESSAGE": "Contact updated successfully",
-        "ERROR_MESSAGE": "Unable to update contact. Please try again later."
+        "UPDATE_BUTTON": "Atualizar contato",
+        "SUCCESS_MESSAGE": "Contato atualizado com sucesso",
+        "ERROR_MESSAGE": "Não foi possível atualizar o contato. Por favor, tente mais tarde."
       },
       "SOCIAL_MEDIA": {
-        "TITLE": "Edit social links",
+        "TITLE": "Editar redes sociais",
         "FORM": {
           "FACEBOOK": {
-            "PLACEHOLDER": "Add Facebook"
+            "PLACEHOLDER": "Adicionar Facebook"
           },
           "GITHUB": {
-            "PLACEHOLDER": "Add Github"
+            "PLACEHOLDER": "Adicionar Github"
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
@@ -537,43 +543,43 @@
         "PLACEHOLDER": "Adicionar nota",
         "WROTE": "escreveu",
         "YOU": "Você",
-        "SAVE": "Save note",
-        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+        "SAVE": "Salvar nota",
+        "EMPTY_STATE": "Não existem notas associadas a este contato. Você pode adicionar uma nota digitando a caixa acima."
       }
     },
     "EMPTY_STATE": {
-      "TITLE": "No contacts found in this account",
-      "SUBTITLE": "Start adding new contacts by clicking on the button below",
-      "BUTTON_LABEL": "Add contact",
+      "TITLE": "Nenhum contato encontrado nesta conta",
+      "SUBTITLE": "Para adicionar novos contatos, clique no botão abaixo",
+      "BUTTON_LABEL": "Editar contato",
       "SEARCH_EMPTY_STATE_TITLE": "Nenhum contacto corresponde à sua pesquisa 🔍",
-      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋"
+      "LIST_EMPTY_STATE_TITLE": "Não há contatos disponíveis nesta visualização 📋"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
-      "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+      "ERROR_MESSAGE": "Não foi possível concluir a pesquisa. Por favor, tente novamente."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "Ver",
-      "SUCCESS_MESSAGE": "The message was sent successfully!",
-      "ERROR_MESSAGE": "An error occurred while creating the conversation. Please try again later.",
-      "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
+      "SUCCESS_MESSAGE": "Mensagem enviada com sucesso!",
+      "ERROR_MESSAGE": "Ocorreu um erro ao criar a conversa. Tente novamente mais tarde.",
+      "NO_INBOX_ALERT": "Não há caixas de entrada disponíveis para iniciar uma conversa com este contato.",
       "CONTACT_SELECTOR": {
         "LABEL": "Para:",
-        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
-        "CONTACT_CREATING": "Creating contact..."
+        "TAG_INPUT_PLACEHOLDER": "Procurar por um contato com o nome, e-mail ou número de telefone",
+        "CONTACT_CREATING": "Criando contato..."
       },
       "INBOX_SELECTOR": {
         "LABEL": "Via:",
-        "BUTTON": "Show inboxes"
+        "BUTTON": "Mostrar caixas de entrada"
       },
       "EMAIL_OPTIONS": {
         "SUBJECT_LABEL": "Assunto :",
-        "SUBJECT_PLACEHOLDER": "Enter your email subject here",
+        "SUBJECT_PLACEHOLDER": "Insira seu assunto do e-mail aqui",
         "CC_LABEL": "Cc:",
-        "CC_PLACEHOLDER": "Search for a contact with their email address",
+        "CC_PLACEHOLDER": "Procurar um contato com seu endereço de e-mail",
         "BCC_LABEL": "Bcc:",
-        "BCC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_PLACEHOLDER": "Procurar um contato com seu endereço de e-mail",
         "BCC_BUTTON": "Bcc"
       },
       "MESSAGE_EDITOR": {

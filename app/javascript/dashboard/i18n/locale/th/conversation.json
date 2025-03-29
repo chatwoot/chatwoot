@@ -12,6 +12,8 @@
     "NO_INBOX_2": " ที่จะเริ่มต้น",
     "NO_INBOX_AGENT": "เอ่อโอ้! ดูเหมือนว่าคุณไม่ได้เป็นส่วนหนึ่งของกล่องจดหมายใด ๆ โปรดติดต่อผู้ดูแลระบบของคุณ",
     "SEARCH_MESSAGES": "ค้นหาข้อความในการสนทนา",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "to open command menu",
       "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
@@ -54,6 +56,7 @@
     "SUCCESS_DELETE_MESSAGE": "ลบข้อความสำเร็จเเล้ว",
     "FAIL_DELETE_MESSSAGE": "ไม่สามารถลบข้อความได้ โปรดลองใหม่อีกครั้ง",
     "NO_RESPONSE": "ไม่มีการตอบกลับ",
+    "RESPONSE": "Response",
     "RATING_TITLE": "การประเมิน",
     "FEEDBACK_TITLE": "ผลตอบรับ",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
@@ -116,6 +119,7 @@
       "PENDING": "ทำเครื่องหมายว่าอยู่ระหว่างดำเนินการ",
       "RESOLVED": "Mark as resolved",
       "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "เปิดการสนทนาอีกครั้ง",
       "SNOOZE": {
         "TITLE": "Snooze",
@@ -291,7 +295,27 @@
       "CONVERSATION_INFO": "ข้อมูลการสนทนา",
       "CONTACT_ATTRIBUTES": "แอตทริบิวต์ผู้ติดต่อ",
       "PREVIOUS_CONVERSATION": "การสนทนาก่อนหน้า",
-      "MACROS": "คีย์ลัด"
+      "MACROS": "คีย์ลัด",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "กำลังร้องขอ",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -352,5 +376,11 @@
     "ONE": "{user} is typing",
     "TWO": "{user} and {secondUser} are typing",
     "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

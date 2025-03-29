@@ -17,7 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 ar:
-  hello: "مرحباً بالعالم"
+  hello: 'مرحباً بالعالم'
   messages:
     reset_password_success: تم إرسال طلب إعادة تعيين كلمة المرور. يرجى مراجعة بريدك الإلكتروني للحصول على التعليمات.
     reset_password_failure: المعذرة! لم نتمكن من العثور على أي مستخدم بعنوان البريد الإلكتروني المحدد.
@@ -31,7 +31,7 @@ ar:
       disposable_email: نحن لا نسمح باسخدام عناوين البريد الإلكتروني المؤقتة
       blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: لقد قمت بإدخال عنوان بريد إلكتروني غير صالح
-      email_already_exists: "لقد قمت بالفعل بتسجيل حساب سابقاً بالعنوان %{email}"
+      email_already_exists: 'لقد قمت بالفعل بتسجيل حساب سابقاً بالعنوان %{email}'
       invalid_params: 'غير صالح، الرجاء التحقق من خانات التسجيل وحاول مرة أخرى'
       failed: فشلت عملية التسجيل
     data_import:
@@ -50,9 +50,11 @@ ar:
       locale:
         unique: يجب أن تكون فريدة من نوعها في الفئة والبوابة
     dyte:
-      invalid_message_type: "نوع الرسالة غير صالح. الإجراء غير مسموح به"
+      invalid_message_type: 'نوع الرسالة غير صالح. الإجراء غير مسموح به'
     slack:
-      invalid_channel_id: "قناة Slack غير صحيحة. الرجاء المحاولة مرة أخرى"
+      invalid_channel_id: 'قناة Slack غير صحيحة. الرجاء المحاولة مرة أخرى'
+    channel_service:
+      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: الرجاء التحقق من اتصال الشبكة وعنوان IMAP ثم حاول مرة أخرى.
@@ -68,6 +70,8 @@ ar:
       invalid_operator: مشغل غير صالح. المشغل المسموح به لـ %{attribute_name} هو [%{allowed_keys}].
       invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: قيمة غير صالحة. القيم المقدمة ل %{attribute_name} غير صالحة
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
     period: فترة التبليغ %{since} إلى %{until}
     utc_warning: التقرير الذي تم إنشاؤه في التوقيت العالمي الموحّد
@@ -120,103 +124,107 @@ ar:
         recorded_at: تاريخ التسجيل
   notifications:
     notification_title:
-      conversation_creation: "تم إنشاء محادثة (#%{display_id}) في %{inbox_name}"
-      conversation_assignment: "تم تعيين محادثة (#%{display_id}) لك"
-      assigned_conversation_new_message: "تم إنشاء رسالة جديدة في المحادثة (#%{display_id})"
-      conversation_mention: "تمت الإشارة إليك في المحادثة من قبل (#%{display_id})"
-      sla_missed_first_response: "هدف سياسة خدمة أول رد مفقود للمحادثة (#%{display_id})"
-      sla_missed_next_response: "هدف سياسة خدمة الرد القادم مفقود للمحادثة (#%{display_id})"
-      sla_missed_resolution: "هدف سياسة خدمة أول حل مفقود للمحادثة (#%{display_id})"
-    attachment: "المرفقات"
-    no_content: "لا يوجد محتوى"
+      conversation_creation: 'تم إنشاء محادثة (#%{display_id}) في %{inbox_name}'
+      conversation_assignment: 'تم تعيين محادثة (#%{display_id}) لك'
+      assigned_conversation_new_message: 'تم إنشاء رسالة جديدة في المحادثة (#%{display_id})'
+      conversation_mention: 'تمت الإشارة إليك في المحادثة من قبل (#%{display_id})'
+      sla_missed_first_response: 'هدف سياسة خدمة أول رد مفقود للمحادثة (#%{display_id})'
+      sla_missed_next_response: 'هدف سياسة خدمة الرد القادم مفقود للمحادثة (#%{display_id})'
+      sla_missed_resolution: 'هدف سياسة خدمة أول حل مفقود للمحادثة (#%{display_id})'
+    attachment: 'المرفقات'
+    no_content: 'لا يوجد محتوى'
   conversations:
     messages:
-      instagram_story_content: "أشار %{story_sender} إليك في القصة: "
+      instagram_story_content: 'أشار %{story_sender} إليك في القصة: '
       instagram_deleted_story_content: هذه القصة لم تعد متاحة.
       deleted: تم حذف هذه الرسالة
       delivery_status:
-        error_code: "رمز الخطأ: %{error_code}"
+        error_code: 'رمز الخطأ: %{error_code}'
     activity:
       status:
-        resolved: "تم تحديث حالة المحادثة لـ\"مغلقة\" بواسطة %{user_name}"
-        contact_resolved: "تم حل المحادثة بواسطة %{contact_name}"
-        open: "تم إعادة فتح المحادثة بواسطة %{user_name}"
-        pending: "تم تحديث حالة المحادثة لـ\"معلقة\" بواسطة %{user_name}"
-        snoozed: "تم تأجيل المحادثة بواسطة %{user_name}"
-        auto_resolved: "تم وضع علامة على المحادثة كمحلولة من قبل النظام بسبب %{duration} أيام من عدم النشاط"
+        resolved: 'تم تحديث حالة المحادثة لـ"مغلقة" بواسطة %{user_name}'
+        contact_resolved: 'تم حل المحادثة بواسطة %{contact_name}'
+        open: 'تم إعادة فتح المحادثة بواسطة %{user_name}'
+        pending: 'تم تحديث حالة المحادثة لـ"معلقة" بواسطة %{user_name}'
+        snoozed: 'تم تأجيل المحادثة بواسطة %{user_name}'
+        auto_resolved: 'تم وضع علامة على المحادثة كمحلولة من قبل النظام بسبب %{duration} أيام من عدم النشاط'
         system_auto_open: أعاد النظام فتح المحادثة بسبب رسالة واردة جديدة.
       priority:
         added: '%{user_name} حدد الأولوية إلى %{new_priority}'
         updated: '%{user_name} غيّر الأولوية من %{old_priority} إلى %{new_priority}'
         removed: '%{user_name} أزال الأولوية'
       assignee:
-        self_assigned: "%{user_name} تم تعيينه تلقائياً لهذه المحادثة"
-        assigned: "تم إسنادها إلى %{assignee_name} بواسطة %{user_name}"
-        removed: "المحادثة غير مسندة بواسطة %{user_name}"
+        self_assigned: '%{user_name} تم تعيينه تلقائياً لهذه المحادثة'
+        assigned: 'تم إسنادها إلى %{assignee_name} بواسطة %{user_name}'
+        removed: 'المحادثة غير مسندة بواسطة %{user_name}'
       team:
-        assigned: "تم إسنادها إلى %{team_name} بواسطة %{user_name}"
-        assigned_with_assignee: "تم تعيينه إلى %{assignee_name} عبر %{team_name} بواسطة %{user_name}"
-        removed: "إلغاء التعيين من %{team_name} بواسطة %{user_name}"
+        assigned: 'تم إسنادها إلى %{team_name} بواسطة %{user_name}'
+        assigned_with_assignee: 'تم تعيينه إلى %{assignee_name} عبر %{team_name} بواسطة %{user_name}'
+        removed: 'إلغاء التعيين من %{team_name} بواسطة %{user_name}'
       labels:
-        added: "%{user_name} أضاف %{labels}"
-        removed: "%{user_name} أزال %{labels}"
+        added: '%{user_name} أضاف %{labels}'
+        removed: '%{user_name} أزال %{labels}'
       sla:
-        added: "%{user_name} أضاف سياسة مستوى الخدمة %{sla_name}"
-        removed: "%{user_name} أزال سياسة مستوى الخدمة %{sla_name}"
-      muted: "%{user_name} كتم صوت المحادثة"
-      unmuted: "%{user_name} قام بإلغاء كتم المحادثة"
+        added: '%{user_name} أضاف سياسة مستوى الخدمة %{sla_name}'
+        removed: '%{user_name} أزال سياسة مستوى الخدمة %{sla_name}'
+      muted: '%{user_name} كتم صوت المحادثة'
+      unmuted: '%{user_name} قام بإلغاء كتم المحادثة'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
-      greeting_message_body: "%{account_name} يرد عادة خلال بضع ساعات."
-      ways_to_reach_you_message_body: "زودنا بوسيلة للتواصل معك."
-      email_input_box_message_body: "احصل على الإشعارات في البريد الإلكتروني"
-      csat_input_message_body: "الرجاء تقييم المحادثة"
+      greeting_message_body: '%{account_name} يرد عادة خلال بضع ساعات.'
+      ways_to_reach_you_message_body: 'زودنا بوسيلة للتواصل معك.'
+      email_input_box_message_body: 'احصل على الإشعارات في البريد الإلكتروني'
+      csat_input_message_body: 'الرجاء تقييم المحادثة'
     reply:
       email:
         header:
-          from_with_name: "%{assignee_name} من %{inbox_name} <%{from_email}>"
-          reply_with_name: "%{assignee_name} من %{inbox_name} <%{reply_email}>"
-          friendly_name: "%{sender_name} من %{business_name} <%{from_email}>"
-          professional_name: "%{business_name} <%{from_email}>"
+          from_with_name: '%{assignee_name} من %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} من %{inbox_name} <%{reply_email}>'
+          friendly_name: '%{sender_name} من %{business_name} <%{from_email}>'
+          professional_name: '%{business_name} <%{from_email}>'
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} من %{inbox_name} <%{from_email}>"
-          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
-      email_subject: "رسائل جديدة في هذه المحادثة"
-      transcript_subject: "نص المحادثة"
+          reply_with_name: '%{assignee_name} من %{inbox_name} <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+      email_subject: 'رسائل جديدة في هذه المحادثة'
+      transcript_subject: 'نص المحادثة'
     survey:
-      response: "الرجاء تقييم هذه المحادثة، %{link}"
+      response: 'الرجاء تقييم هذه المحادثة، %{link}'
   contacts:
     online:
-      delete: "%{contact_name} متصل، يرجى المحاولة مرة أخرى لاحقاً"
+      delete: '%{contact_name} متصل، يرجى المحاولة مرة أخرى لاحقاً'
   integration_apps:
     dashboard_apps:
-      name: "تطبيقات لوحة التحكم"
-      description: "تسمح لك تطبيقات لوحة التحكم بإنشاء وتضمين التطبيقات التي تعرض معلومات المستخدم أو الطلبات أو سجل الدفع، مما يوفر المزيد من السياق لوكلاء دعم العملاء الخاص بك."
+      name: 'تطبيقات لوحة التحكم'
+      description: 'تسمح لك تطبيقات لوحة التحكم بإنشاء وتضمين التطبيقات التي تعرض معلومات المستخدم أو الطلبات أو سجل الدفع، مما يوفر المزيد من السياق لوكلاء دعم العملاء الخاص بك.'
     dyte:
-      name: "Dyte"
-      description: "Dyte هو منتج يدمج وظائف الصوت والفيديو في تطبيقك. مع هذا الدمج، يمكن لوكلائك بدء مكالمات الفيديو/الصوت مع عملائك مباشرة من Chatwoot."
-      meeting_name: "بدأ %{agent_name} اجتماعاً"
+      name: 'Dyte'
+      description: 'Dyte هو منتج يدمج وظائف الصوت والفيديو في تطبيقك. مع هذا الدمج، يمكن لوكلائك بدء مكالمات الفيديو/الصوت مع عملائك مباشرة من Chatwoot.'
+      meeting_name: 'بدأ %{agent_name} اجتماعاً'
     slack:
-      name: "Slack"
+      name: 'Slack'
       description: "دمج Chatwoot مع Slack للحفاظ على مزامنة فريقك. هذا التكامل يسمح لك باستلام إشعارات للمحادثات الجديدة والرد عليها مباشرة داخل واجهة Slacks."
     webhooks:
-      name: "Webhook"
-      description: "أحداث Webhook توفر تحديثات في الوقت الحقيقي حول الأنشطة في حساب Chatwoot الخاص بك. يمكنك الاشتراك في الأحداث المفضلة الخاصة بك، وسترسل Chatwoot لك اتصالات HTTP مع التحديثات."
+      name: 'Webhook'
+      description: 'أحداث Webhook توفر تحديثات في الوقت الحقيقي حول الأنشطة في حساب Chatwoot الخاص بك. يمكنك الاشتراك في الأحداث المفضلة الخاصة بك، وسترسل Chatwoot لك اتصالات HTTP مع التحديثات.'
     dialogflow:
-      name: "Dialogflow"
-      description: "بناء روبوتات الدردشة مع حركة الاتصال ودمجها بسهولة في صندوق الوارد الخاص بك. يمكن لهذه الروبوتات التعامل مع الاستفسارات الأولية قبل نقلها إلى وكيل خدمة العملاء."
+      name: 'Dialogflow'
+      description: 'بناء روبوتات الدردشة مع حركة الاتصال ودمجها بسهولة في صندوق الوارد الخاص بك. يمكن لهذه الروبوتات التعامل مع الاستفسارات الأولية قبل نقلها إلى وكيل خدمة العملاء.'
     google_translate:
-      name: "ترجمة Google"
+      name: 'ترجمة Google'
       description: "دمج ترجمة جوجل لمساعدة الوكلاء على ترجمة رسائل العملاء بسهولة. هذا الدمج يكشف تلقائياً اللغة ويحولها إلى اللغة المفضلة لدى الوكيل أو المدير."
     openai:
-      name: "OpenAI"
-      description: "الاستفادة من قوة نماذج اللغات الكبيرة من OpenAI مع ميزات مثل اقتراحات الرد، التلخيص، إعادة صياغة الرسائل، التحقق الإملائي، تصنيف البطاقات."
+      name: 'OpenAI'
+      description: 'الاستفادة من قوة نماذج اللغات الكبيرة من OpenAI مع ميزات مثل اقتراحات الرد، التلخيص، إعادة صياغة الرسائل، التحقق الإملائي، تصنيف البطاقات.'
     linear:
-      name: "Linear"
-      description: "إنشاء مشكلات في Linear مباشرة من نافذة المحادثة الخاصة بك. بدلاً من ذلك، قم بربط مشكلات Linear القائمة من أجل عملية تتبع أكثر تبسيطاً وكفاءة."
-    captain:
-      name: "قائد"
-      description: "الكابتن هو مساعد AI أصلي تم بناؤه لمنتجك وتم تدريبه على قاعدة معارف شركتك. يستجيب كإنسان ويحل استفسارات العميل بشكل فعال. قم بتكوينه بسهولة إلى صناديق الوارد الخاصة بك."
+      name: 'Linear'
+      description: 'إنشاء مشكلات في Linear مباشرة من نافذة المحادثة الخاصة بك. بدلاً من ذلك، قم بربط مشكلات Linear القائمة من أجل عملية تتبع أكثر تبسيطاً وكفاءة.'
+    shopify:
+      name: 'Shopify'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+  captain:
+    copilot_error: 'Please connect an assistant to this inbox to use Copilot'
+    copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
   public_portal:
     search:
       search_placeholder: البحث عن مقالة حسب العنوان أو الجسم...
@@ -263,30 +271,30 @@ ar:
     button: فتح المحادثة
   time_units:
     days:
-      zero: "%{count} يوم"
-      one: "%{count} يوم"
-      two: "%{count} يوم"
-      few: "%{count} أيام"
-      many: "%{count} أيام"
-      other: "%{count} يوم"
+      zero: '%{count} يوم'
+      one: '%{count} يوم'
+      two: '%{count} يوم'
+      few: '%{count} أيام'
+      many: '%{count} أيام'
+      other: '%{count} يوم'
     hours:
-      zero: "%{count} ساعة"
-      one: "%{count} ساعة"
-      two: "%{count} ساعات"
-      few: "%{count} ساعات"
-      many: "%{count} ساعة"
-      other: "%{count} ساعة"
+      zero: '%{count} ساعة'
+      one: '%{count} ساعة'
+      two: '%{count} ساعات'
+      few: '%{count} ساعات'
+      many: '%{count} ساعة'
+      other: '%{count} ساعة'
     minutes:
-      zero: "%{count} دقيقة"
-      one: "%{count} دقيقة"
-      two: "%{count} دقائق"
-      few: "%{count} دقائق"
-      many: "%{count} دقيقة"
-      other: "%{count} دقيقة"
+      zero: '%{count} دقيقة'
+      one: '%{count} دقيقة'
+      two: '%{count} دقائق'
+      few: '%{count} دقائق'
+      many: '%{count} دقيقة'
+      other: '%{count} دقيقة'
     seconds:
-      zero: "%{count} ثانية"
-      one: "%{count} ثانية"
-      two: "%{count} ثواني"
-      few: "%{count} ثواني"
-      many: "%{count} ثانية"
-      other: "%{count} ثانية"
+      zero: '%{count} ثانية'
+      one: '%{count} ثانية'
+      two: '%{count} ثواني'
+      few: '%{count} ثواني'
+      many: '%{count} ثانية'
+      other: '%{count} ثانية'

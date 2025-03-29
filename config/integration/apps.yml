@@ -59,26 +59,9 @@ linear:
   id: linear
   logo: linear.png
   i18n_key: linear
-  action: /linear
+  action: https://linear.app/oauth/authorize
   hook_type: account
   allow_multiple_hooks: false
-  settings_json_schema:
-    {
-      'type': 'object',
-      'properties': { 'api_key': { 'type': 'string' } },
-      'required': ['api_key'],
-      'additionalProperties': false,
-    }
-  settings_form_schema:
-    [
-      {
-        'label': 'API Key',
-        'type': 'text',
-        'name': 'api_key',
-        'validation': 'required',
-      },
-    ]
-  visible_properties: []
 slack:
   id: slack
   logo: slack.png
@@ -196,3 +179,10 @@ dyte:
       },
     ]
   visible_properties: ['organization_id']
+
+shopify:
+  id: shopify
+  logo: shopify.png
+  i18n_key: shopify
+  hook_type: account
+  allow_multiple_hooks: false

@@ -35,6 +35,24 @@
           }
         }
       },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interfeiss",
+        "NOTE": "Pielāgot sava Chatwoot informācijas paneļa izskatu un darbību.",
+        "FONT_SIZE": {
+          "TITLE": "Fonta lielums",
+          "NOTE": "Pielāgot teksta lielumu informācijas panelī, atbilstoši savām vēlmēm.",
+          "UPDATE_SUCCESS": "Fonta iestatījumi ir veiksmīgi atjaunināti",
+          "UPDATE_ERROR": "Atjauninot fonta iestatījumus radās kļūda. Lūdzu, mēģiniet vēlreiz",
+          "OPTIONS": {
+            "SMALLER": "Mazāks",
+            "SMALL": "Mazs",
+            "DEFAULT": "Noklusējums",
+            "LARGE": "Liels",
+            "LARGER": "Lielāks",
+            "EXTRA_LARGE": "Īpaši Liels"
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Personīgais ziņojuma paraksts",
         "NOTE": "Izveidot unikālu ziņojuma parakstu, kas parādās katra ziņojuma beigās, kuru sūtāt no jebkuras iesūtnes. Varat arī iekļaut attēlu, kas tiek atbalstīts tiešraidē, e-pastā un API iesūtnēs.",
@@ -194,7 +212,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Mainīt",
     "CHANGE_ACCOUNTS": "Pārslēgt kontu",
-    "SWITCH_WORKSPACE": "Pārslēgt darbvietu",
+    "SWITCH_ACCOUNT": "Pārslēgt kontu",
     "CONTACT_SUPPORT": "Sazināties ar atbalstu",
     "SELECTOR_SUBTITLE": "Izvēlieties kontu no šī saraksta",
     "PROFILE_SETTINGS": "Profila iestatījumi",
@@ -263,6 +281,9 @@
     "SETTINGS": "Iestatījumi",
     "CONTACTS": "Kontaktpersonas",
     "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "Asistenti",
+    "CAPTAIN_DOCUMENTS": "Dokumenti",
+    "CAPTAIN_RESPONSES": "Bieži uzdotie jautājumi",
     "HOME": "Sākums",
     "AGENTS": "Aģenti",
     "AGENT_BOTS": "Bots",
@@ -324,14 +345,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Norēķini",
+    "DESCRIPTION": "Pārvaldiet savu abonementu šeit. Modernizējiet abonementu un iegūstiet papildu funkcijas savai komandai.",
     "CURRENT_PLAN": {
       "TITLE": "Pašreizējais Norēķinu Plāns",
-      "PLAN_NOTE": "Šobrīd Jūs abonējat **{plan}** plānu ar **{quantity}** licencēm"
+      "PLAN_NOTE": "Šobrīd Jūs abonējat **{plan}** plānu ar **{quantity}** licencēm",
+      "SEAT_COUNT": "Lietotāju skaits",
+      "RENEWS_ON": "Atjaunojas"
     },
+    "VIEW_PRICING": "Skatīt Izcenojumu",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Pārvaldīt savu abonementu",
       "DESCRIPTION": "Apskatīt iepriekšējos rēķinus, rediģēt norēķinu informāciju vai atcelt abonementu.",
       "BUTTON_TXT": "Doties uz norēķinu portālu"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Pārvaldīt Captain AI lietošanu un kredītus.",
+      "BUTTON_TXT": "Iegādāties vairāk kredītu",
+      "DOCUMENTS": "Dokumenti",
+      "RESPONSES": "Atbildes",
+      "UPGRADE": "Captain nav pieejams bezmaksas abonementā. Modernizējiet abonementu tūlīt, lai piekļūtu asistentiem un copilot."
     },
     "CHAT_WITH_US": {
       "TITLE": "Nepieciešama palīdzība?",
@@ -374,11 +407,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Pārslēgties uz Privāto Piezīmi",
       "SWITCH_TO_REPLY": "Pārslēgties uz Atbildi",
       "TOGGLE_SNOOZE_DROPDOWN": "Pārslēgt atlikšanas nolaižamo izvēlni"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

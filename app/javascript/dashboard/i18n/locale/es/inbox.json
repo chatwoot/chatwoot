@@ -1,7 +1,7 @@
 {
   "INBOX": {
     "LIST": {
-      "TITLE": "My Inbox",
+      "TITLE": "Mi bandeja de entrada",
       "DISPLAY_DROPDOWN": "Mostrar",
       "LOADING": "Cargando notificaciones",
       "404": "No hay notificaciones activas en este grupo.",
@@ -28,16 +28,16 @@
       "SLA_MISSED_RESOLUTION": "Falta la siguiente respuesta del SLA para la conversación"
     },
     "TYPES_NEXT": {
-      "CONVERSATION_MENTION": "Mentioned",
-      "CONVERSATION_ASSIGNMENT": "Assigned to you",
-      "CONVERSATION_CREATION": "New Conversation",
-      "SLA_MISSED_FIRST_RESPONSE": "SLA breach",
-      "SLA_MISSED_NEXT_RESPONSE": "SLA breach",
-      "SLA_MISSED_RESOLUTION": "SLA breach",
+      "CONVERSATION_MENTION": "Mencionado",
+      "CONVERSATION_ASSIGNMENT": "Asignado a ti",
+      "CONVERSATION_CREATION": "Nueva conversación",
+      "SLA_MISSED_FIRST_RESPONSE": "Violación de SLA",
+      "SLA_MISSED_NEXT_RESPONSE": "Violación de SLA",
+      "SLA_MISSED_RESOLUTION": "Violación de SLA",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nuevo mensaje",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nuevo mensaje",
-      "SNOOZED_UNTIL": "Snoozed for {time}",
-      "SNOOZED_ENDS": "Snooze ended"
+      "SNOOZED_UNTIL": "Pospuesto por {time}",
+      "SNOOZED_ENDS": "Posponer finalizado"
     },
     "NO_CONTENT": "No hay contenido disponible",
     "MENU_ITEM": {

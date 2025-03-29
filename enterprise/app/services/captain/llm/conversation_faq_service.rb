@@ -1,14 +1,18 @@
-class Captain::Llm::ConversationFaqService < Captain::Llm::BaseOpenAiService
+class Captain::Llm::ConversationFaqService < Llm::BaseOpenAiService
   DISTANCE_THRESHOLD = 0.3
 
-  def initialize(assistant, conversation, model = DEFAULT_MODEL)
+  def initialize(assistant, conversation)
     super()
     @assistant = assistant
+    @conversation = conversation
     @content = conversation.to_llm_text
-    @model = model
   end
 
+  # Generates and deduplicates FAQs from conversation content
+  # Skips processing if there was no human interaction
   def generate_and_deduplicate
+    return [] if no_human_interaction?
+
     new_faqs = generate
     return [] if new_faqs.empty?
 
@@ -19,7 +23,11 @@ class Captain::Llm::ConversationFaqService < Captain::Llm::BaseOpenAiService
 
   private
 
-  attr_reader :content
+  attr_reader :content, :conversation, :assistant
+
+  def no_human_interaction?
+    conversation.first_reply_created_at.nil?
+  end
 
   def find_and_separate_duplicates(faqs)
     duplicate_faqs = []
@@ -41,7 +49,7 @@ class Captain::Llm::ConversationFaqService < Captain::Llm::BaseOpenAiService
   end
 
   def find_similar_faqs(embedding)
-    similar_faqs = @assistant
+    similar_faqs = assistant
                    .responses
                    .nearest_neighbors(:embedding, embedding, distance: 'cosine')
     Rails.logger.debug(similar_faqs.map { |faq| [faq.question, faq.neighbor_distance] })
@@ -50,7 +58,12 @@ class Captain::Llm::ConversationFaqService < Captain::Llm::BaseOpenAiService
 
   def save_new_faqs(faqs)
     faqs.map do |faq|
-      @assistant.responses.create!(question: faq['question'], answer: faq['answer'])
+      assistant.responses.create!(
+        question: faq['question'],
+        answer: faq['answer'],
+        status: 'pending',
+        documentable: conversation
+      )
     end
   end
 
@@ -76,7 +89,9 @@ class Captain::Llm::ConversationFaqService < Captain::Llm::BaseOpenAiService
   end
 
   def chat_parameters
-    prompt = Captain::Llm::SystemPromptsService.conversation_faq_generator
+    account_language = @conversation.account.locale_english_name
+    prompt = Captain::Llm::SystemPromptsService.conversation_faq_generator(account_language)
+
     {
       model: @model,
       response_format: { type: 'json_object' },

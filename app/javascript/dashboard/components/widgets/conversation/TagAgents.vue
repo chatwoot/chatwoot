@@ -1,4 +1,5 @@
 <script setup>
+import Avatar from 'next/avatar/Avatar.vue';
 import { ref, computed, watch, nextTick } from 'vue';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useKeyboardNavigableList } from 'dashboard/composables/useKeyboardNavigableList';
@@ -67,7 +68,7 @@ const onAgentSelect = index => {
     <ul
       v-if="items.length"
       ref="tagAgentsRef"
-      class="vertical dropdown menu mention--box bg-white text-sm dark:bg-slate-700 rounded-md overflow-auto absolute w-full z-20 pt-2 px-2 pb-0 shadow-md left-0 leading-[1.2] bottom-full max-h-[12.5rem] border-t border-solid border-slate-75 dark:border-slate-800"
+      class="vertical dropdown menu mention--box bg-n-solid-1 p-1 rounded-xl text-sm overflow-auto absolute w-full z-20 shadow-md left-0 leading-[1.2] bottom-full max-h-[12.5rem] border border-solid border-n-strong"
       :class="{
         'border-b-[0.5rem] border-solid border-white dark:!border-slate-700':
           items.length <= 4,
@@ -78,35 +79,31 @@ const onAgentSelect = index => {
         :id="`mention-item-${index}`"
         :key="agent.id"
         :class="{
-          'bg-slate-50 dark:bg-slate-800': index === selectedIndex,
+          'bg-n-alpha-black2': index === selectedIndex,
           'last:mb-0': items.length <= 4,
         }"
-        class="flex items-center p-2 rounded-md last:mb-2"
+        class="flex items-center px-2 py-1 rounded-md"
         @click="onAgentSelect(index)"
         @mouseover="onHover(index)"
       >
         <div class="mr-2">
-          <woot-thumbnail
-            :src="agent.thumbnail"
-            :username="agent.name"
-            size="32px"
-          />
+          <Avatar :src="agent.thumbnail" :name="agent.name" rounded-full />
         </div>
         <div
           class="flex-1 max-w-full overflow-hidden whitespace-nowrap text-ellipsis"
         >
           <h5
-            class="mb-0 overflow-hidden text-sm text-slate-800 dark:text-slate-100 whitespace-nowrap text-ellipsis"
+            class="mb-0 overflow-hidden text-sm text-n-slate-11 whitespace-nowrap text-ellipsis"
             :class="{
-              'text-slate-900 dark:text-slate-100': index === selectedIndex,
+              'text-n-slate-12': index === selectedIndex,
             }"
           >
             {{ agent.name }}
           </h5>
           <div
-            class="overflow-hidden text-xs whitespace-nowrap text-ellipsis text-slate-700 dark:text-slate-300"
+            class="overflow-hidden text-xs whitespace-nowrap text-ellipsis text-n-slate-10"
             :class="{
-              'text-slate-800 dark:text-slate-200': index === selectedIndex,
+              'text-n-slate-11': index === selectedIndex,
             }"
           >
             {{ agent.email }}

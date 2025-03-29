@@ -75,7 +75,12 @@
     "LIST": {
       "LOADING_MESSAGE": "Loading notifications...",
       "404": "No Notifications",
-      "TABLE_HEADER": ["نام", "Phone Number", "مکالمات", "Last Contacted"]
+      "TABLE_HEADER": [
+        "نام",
+        "Phone Number",
+        "مکالمات",
+        "Last Contacted"
+      ]
     },
     "TYPE_LABEL": {
       "conversation_creation": "New conversation",

@@ -12,6 +12,8 @@
     "NO_INBOX_2": " för att komma igång",
     "NO_INBOX_AGENT": "Oj då! Ser ut som om du inte är del av någon inkorg. Kontakta administratören",
     "SEARCH_MESSAGES": "Sök meddelanden i konversationer",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "för att öppna kommandomenyn",
       "KEYBOARD_SHORTCUTS": "för att visa kortkommandon"
@@ -38,15 +40,23 @@
     "REMOVE_SELECTION": "Ta bort urval",
     "DOWNLOAD": "Hämta",
     "UNKNOWN_FILE_TYPE": "Okänd fil",
-    "SAVE_CONTACT": "Spara",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} has started a meeting"
+    },
     "UPLOADING_ATTACHMENTS": "Laddar upp bilagor...",
     "REPLIED_TO_STORY": "Replied to your story",
-    "UNSUPPORTED_MESSAGE": "Detta meddelande stöds inte.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Detta meddelande stöds inte. Du kan se detta meddelande på Facebook Messenger-appen.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Detta meddelande stöds inte. Du kan se detta meddelande på Instagram-appen.",
     "SUCCESS_DELETE_MESSAGE": "Meddelandet har tagits bort",
     "FAIL_DELETE_MESSSAGE": "Det gick inte att ta bort meddelande! Försök igen",
     "NO_RESPONSE": "Inget svar",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Betyg",
     "FEEDBACK_TITLE": "Feedback",
     "REPLY_MESSAGE_NOT_FOUND": "Meddelandet är inte tillgängligt",
@@ -101,7 +111,7 @@
         "SELECT_PLACEHOLDER": "Inget",
         "INPUT_PLACEHOLDER": "Välj prioritet",
         "NO_RESULTS": "Inga resultat hittades",
-        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
+        "SUCCESSFUL": "Ändrad prioritet för konversations-id {conversationId} till {priority}",
         "FAILED": "Kunde inte ändra prioritet. Försök igen."
       }
     },
@@ -109,6 +119,7 @@
       "PENDING": "Markera som väntande",
       "RESOLVED": "Markera som löst",
       "MARK_AS_UNREAD": "Markera som oläst",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Återöppna konversationen",
       "SNOOZE": {
         "TITLE": "Snooza",
@@ -219,6 +230,10 @@
         "DELETE": "Radera",
         "CANCEL": "Avbryt"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contact",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -280,7 +295,27 @@
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "Tidigare konversationer",
-      "MACROS": "Macros"
+      "MACROS": "Macros",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Väntande",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -310,7 +345,8 @@
     "TO": "Till",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Ämne"
+    "SUBJECT": "Ämne",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Deltar",
@@ -319,8 +355,8 @@
     "ADD_PARTICIPANTS": "Välj deltagare",
     "REMANING_PARTICIPANTS_TEXT": "+{count} others",
     "REMANING_PARTICIPANT_TEXT": "+{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} personer deltar.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} person deltar.",
     "NO_PARTICIPANTS_TEXT": "No one is participating!.",
     "WATCH_CONVERSATION": "Join conversation",
     "YOU_ARE_WATCHING": "You are participating",
@@ -335,5 +371,16 @@
     "ORIGINAL_CONTENT": "Original Content",
     "TRANSLATED_CONTENT": "Translated Content",
     "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

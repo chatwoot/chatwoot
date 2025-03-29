@@ -119,11 +119,13 @@
       "EMPTY_LIST": "Ingen resultater funnet"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results"
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
     "LOADING_CHART": "Laster inn diagramdata...",
     "NO_ENOUGH_DATA": "Vi har ikke mottatt nok data for å generere rapporten, vennligst prøv igjen senere.",
     "DOWNLOAD_AGENT_REPORTS": "Last ned agentrapporter",
@@ -258,6 +260,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Inbox Overview",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "Laster inn diagramdata...",
     "NO_ENOUGH_DATA": "Vi har ikke mottatt nok data for å generere rapporten, vennligst prøv igjen senere.",
     "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
@@ -325,6 +328,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Team Overview",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Laster inn diagramdata...",
     "NO_ENOUGH_DATA": "Vi har ikke mottatt nok data for å generere rapporten, vennligst prøv igjen senere.",
     "DOWNLOAD_TEAM_REPORTS": "Download team reports",
@@ -473,6 +477,18 @@
         "STATUS": "Satus"
       }
     },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Gruppe",
+        "OPEN": "Åpne",
+        "UNATTENDED": "Udeltatt",
+        "STATUS": "Satus"
+      }
+    },
     "AGENT_STATUS": {
       "HEADER": "Agent status",
       "ONLINE": "Pålogget",
@@ -538,5 +554,15 @@
       },
       "VIEW_DETAILS": "View Details"
     }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Innboks",
+    "AGENT": "Agent",
+    "TEAM": "Gruppe",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "Antall løsninger",
+    "CONVERSATIONS": "Antall samtaler"
   }
 }

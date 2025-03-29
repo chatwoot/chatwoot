@@ -1,82 +1,82 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automation",
-    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
-    "LEARN_MORE": "Learn more about automation",
-    "HEADER_BTN_TXT": "Add Automation Rule",
-    "LOADING": "Fetching automation rules",
+    "HEADER": "自動化",
+    "DESCRIPTION": "自動化は、ラベルの追加や会話を最適な担当者に割り当てるといった手動で行う必要のある既存のプロセスを置き換え、効率化することができます。これにより、チームは強みを発揮しつつ、ルーチンタスクに費やす時間を削減できます。",
+    "LEARN_MORE": "自動化について学ぶ",
+    "HEADER_BTN_TXT": "自動化ルールを追加",
+    "LOADING": "自動化ルールを取得中",
     "ADD": {
-      "TITLE": "Add Automation Rule",
+      "TITLE": "自動化ルールを追加",
       "SUBMIT": "作成",
       "CANCEL_BUTTON_TEXT": "キャンセル",
       "FORM": {
         "NAME": {
-          "LABEL": "Rule Name",
-          "PLACEHOLDER": "Enter rule name",
+          "LABEL": "ルール名",
+          "PLACEHOLDER": "ルール名を入力してください",
           "ERROR": "名前が必須です"
         },
         "DESC": {
           "LABEL": "説明",
-          "PLACEHOLDER": "Enter rule description",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "ルールの説明を入力してください",
+          "ERROR": "説明は必須です"
         },
         "EVENT": {
-          "LABEL": "Event",
-          "PLACEHOLDER": "Please select one",
-          "ERROR": "Event is required"
+          "LABEL": "イベント",
+          "PLACEHOLDER": "選択してください",
+          "ERROR": "イベントは必須です"
         },
         "CONDITIONS": {
-          "LABEL": "Conditions"
+          "LABEL": "条件"
         },
         "ACTIONS": {
-          "LABEL": "操作"
+          "LABEL": "アクション"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Add Condition",
-      "ACTION_BUTTON_LABEL": "Add Action",
+      "CONDITION_BUTTON_LABEL": "条件を追加",
+      "ACTION_BUTTON_LABEL": "アクションを追加",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule added successfully",
-        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "自動化ルールが正常に追加されました",
+        "ERROR_MESSAGE": "自動化ルールを作成できませんでした。後でもう一度お試しください"
       }
     },
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "名前",
         "DESCRIPTION": "説明",
-        "ACTIVE": "Active",
-        "CREATED_ON": "Created on"
+        "ACTIVE": "有効",
+        "CREATED_ON": "作成日"
       },
-      "404": "No automation rules found"
+      "404": "自動化ルールが見つかりません"
     },
     "DELETE": {
-      "TITLE": "Delete Automation Rule",
+      "TITLE": "自動化ルールを削除",
       "SUBMIT": "削除",
       "CANCEL_BUTTON_TEXT": "キャンセル",
       "CONFIRM": {
         "TITLE": "削除の確認",
-        "MESSAGE": "削除してもよろしいですか？ ",
-        "YES": "削除する ",
-        "NO": "いいえ "
+        "MESSAGE": "削除してもよろしいですか？",
+        "YES": "削除する",
+        "NO": "いいえ"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "自動化ルールが正常に削除されました",
+        "ERROR_MESSAGE": "自動化ルールを削除できませんでした。後でもう一度お試しください"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Automation Rule",
+      "TITLE": "自動化ルールを編集",
       "SUBMIT": "更新",
       "CANCEL_BUTTON_TEXT": "キャンセル",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule updated successfully",
-        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "自動化ルールが正常に更新されました",
+        "ERROR_MESSAGE": "自動化ルールを更新できませんでした。後でもう一度お試しください"
       }
     },
     "CLONE": {
-      "TOOLTIP": "Clone",
+      "TOOLTIP": "複製",
       "API": {
-        "SUCCESS_MESSAGE": "Automation cloned successfully",
-        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "自動化ルールが正常に複製されました",
+        "ERROR_MESSAGE": "自動化ルールを複製できませんでした。後でもう一度お試しください"
       }
     },
     "FORM": {
@@ -84,47 +84,48 @@
       "CREATE": "作成",
       "DELETE": "削除",
       "CANCEL": "キャンセル",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "RESET_MESSAGE": "イベントタイプを変更すると、以下に追加された条件やアクションがリセットされます"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "You need to have atleast one condition to save",
-      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
+      "DELETE_MESSAGE": "保存するには少なくとも1つの条件が必要です",
+      "CONTACT_CUSTOM_ATTR_LABEL": "連絡先カスタム属性",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "会話カスタム属性"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "You need to have atleast one action to save",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams",
-      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
-      "URL_INPUT_PLACEHOLDER": "Enter URL"
+      "DELETE_MESSAGE": "保存するには少なくとも1つのアクションが必要です",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "メッセージをここに入力してください",
+      "TEAM_DROPDOWN_PLACEHOLDER": "チームを選択してください",
+      "EMAIL_INPUT_PLACEHOLDER": "メールアドレスを入力してください",
+      "URL_INPUT_PLACEHOLDER": "URLを入力してください"
     },
     "TOGGLE": {
-      "ACTIVATION_TITLE": "Activate Automation Rule",
-      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
-      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
-      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
-      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
-      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
-      "CONFIRMATION_LABEL": "Yes",
-      "CANCEL_LABEL": "No"
+      "ACTIVATION_TITLE": "自動化ルールを有効化",
+      "DEACTIVATION_TITLE": "自動化ルールを無効化",
+      "ACTIVATION_DESCRIPTION": "この操作により、自動化ルール『{automationName}』が有効になります。本当に実行しますか？",
+      "DEACTIVATION_DESCRIPTION": "この操作により、自動化ルール『{automationName}』が無効になります。本当に実行しますか？",
+      "ACTIVATION_SUCCESFUL": "自動化ルールが正常に有効化されました",
+      "DEACTIVATION_SUCCESFUL": "自動化ルールが正常に無効化されました",
+      "ACTIVATION_ERROR": "自動化ルールを有効化できませんでした。後でもう一度お試しください",
+      "DEACTIVATION_ERROR": "自動化ルールを無効化できませんでした。後でもう一度お試しください",
+      "CONFIRMATION_LABEL": "はい",
+      "CANCEL_LABEL": "いいえ"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
-      "LABEL_IDLE": "Upload Attachment",
+      "UPLOAD_ERROR": "添付ファイルをアップロードできませんでした。後でもう一度お試しください",
+      "LABEL_IDLE": "添付ファイルをアップロード",
       "LABEL_UPLOADING": "アップロード中...",
-      "LABEL_UPLOADED": "Successfully Uploaded",
-      "LABEL_UPLOAD_FAILED": "Upload Failed"
+      "LABEL_UPLOADED": "正常にアップロードされました",
+      "LABEL_UPLOAD_FAILED": "アップロードに失敗しました"
     },
     "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "ATTRIBUTE_KEY_REQUIRED": "属性キーが必須です",
+      "FILTER_OPERATOR_REQUIRED": "フィルター演算子が必須です",
       "VALUE_REQUIRED": "値は必須です",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
-      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
-      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
-    }
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "値は1から998の間である必要があります",
+      "ACTION_PARAMETERS_REQUIRED": "アクションパラメータが必須です",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "少なくとも1つの条件が必要です",
+      "ATLEAST_ONE_ACTION_REQUIRED": "少なくとも1つのアクションが必要です"
+    },
+    "NONE_OPTION": "なし"
   }
 }

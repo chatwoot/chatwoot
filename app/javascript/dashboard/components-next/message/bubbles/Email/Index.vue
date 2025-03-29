@@ -1,6 +1,7 @@
 <script setup>
 import { computed, useTemplateRef, ref, onMounted } from 'vue';
 import { Letter } from 'vue-letter';
+import { allowedCssProperties } from 'lettersanitizer';
 
 import Icon from 'next/icon/Icon.vue';
 import { EmailQuoteExtractor } from './removeReply.js';
@@ -21,15 +22,23 @@ const showQuotedMessage = ref(false);
 const contentContainer = useTemplateRef('contentContainer');
 
 onMounted(() => {
-  isExpandable.value = contentContainer.value.scrollHeight > 400;
+  isExpandable.value = contentContainer.value?.scrollHeight > 400;
 });
 
 const isOutgoing = computed(() => {
   return messageType.value === MESSAGE_TYPES.OUTGOING;
 });
+const isIncoming = computed(() => !isOutgoing.value);
 
+const textToShow = computed(() => {
+  const text =
+    contentAttributes?.value?.email?.textContent?.full ?? content.value;
+  return text?.replace(/\n/g, '<br>');
+});
+
+// Use TextContent as the default to fullHTML
 const fullHTML = computed(() => {
-  return contentAttributes?.value?.email?.htmlContent?.full ?? content.value;
+  return contentAttributes?.value?.email?.htmlContent?.full ?? textToShow.value;
 });
 
 const unquotedHTML = computed(() => {
@@ -39,17 +48,24 @@ const unquotedHTML = computed(() => {
 const hasQuotedMessage = computed(() => {
   return EmailQuoteExtractor.hasQuotes(fullHTML.value);
 });
-
-const textToShow = computed(() => {
-  const text =
-    contentAttributes?.value?.email?.textContent?.full ?? content.value;
-  return text?.replace(/\n/g, '<br>');
-});
 </script>
 
 <template>
-  <BaseBubble class="w-full" data-bubble-name="email">
-    <EmailMeta class="p-3" />
+  <BaseBubble
+    class="w-full"
+    :class="{
+      'bg-n-slate-4': isIncoming,
+      'bg-n-solid-blue': isOutgoing,
+    }"
+    data-bubble-name="email"
+  >
+    <EmailMeta
+      class="p-3"
+      :class="{
+        'border-b border-n-strong': isIncoming,
+        'border-b border-n-slate-8/20': isOutgoing,
+      }"
+    />
     <section ref="contentContainer" class="p-3">
       <div
         :class="{
@@ -77,14 +93,24 @@ const textToShow = computed(() => {
         <template v-else>
           <Letter
             v-if="showQuotedMessage"
-            class-name="prose prose-bubble !max-w-none"
+            class-name="prose prose-bubble !max-w-none letter-render"
+            :allowed-css-properties="[
+              ...allowedCssProperties,
+              'transform',
+              'transform-origin',
+            ]"
             :html="fullHTML"
             :text="textToShow"
           />
           <Letter
             v-else
-            class-name="prose prose-bubble !max-w-none"
+            class-name="prose prose-bubble !max-w-none letter-render"
             :html="unquotedHTML"
+            :allowed-css-properties="[
+              ...allowedCssProperties,
+              'transform',
+              'transform-origin',
+            ]"
             :text="textToShow"
           />
         </template>
@@ -117,3 +143,21 @@ const textToShow = computed(() => {
     </section>
   </BaseBubble>
 </template>
+
+<style lang="scss">
+// Tailwind resets break the rendering of google drive link in Gmail messages
+// This fixes it using https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors
+
+.letter-render [class*='gmail_drive_chip'] {
+  box-sizing: initial;
+  @apply bg-n-slate-4 border-n-slate-6 rounded-md !important;
+
+  a {
+    @apply text-n-slate-12 !important;
+
+    img {
+      display: inline-block;
+    }
+  }
+}
+</style>

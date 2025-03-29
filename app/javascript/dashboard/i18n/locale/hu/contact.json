@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "<strong>{primaryContactName}</strong> kontakt adatai át lesznek másolva hozzá: <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "HIBA_ÜZENET"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": " Kontaktok egyesítése",
@@ -288,6 +288,8 @@
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "Üzenet",
       "SEND_MESSAGE": "Üzenet elküldése",
+      "BLOCK_CONTACT": "Block contact",
+      "UNBLOCK_CONTACT": "Unblock contact",
       "BREADCRUMB": {
         "CONTACTS": "Kontaktok"
       },
@@ -302,6 +304,10 @@
           "SUCCESS_MESSAGE": "Kontakt mentés sikeres",
           "ERROR_MESSAGE": "Unable to save contact. Please try again later."
         },
+        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
+        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
+        "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
+        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
         "IMPORT_CONTACT": {
           "TITLE": "Import contacts",
           "DESCRIPTION": "Kontaktok importálása CSV fájlból.",

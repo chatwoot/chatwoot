@@ -66,9 +66,9 @@
     },
     "ERRORS": {
       "VALUE_REQUIRED": "此欄位為必填項目",
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "ATTRIBUTE_KEY_REQUIRED": "必填項",
       "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "數值必須介於1-998之間"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "一般查詢條件",

@@ -80,10 +80,11 @@ const toggleConversationLayout = () => {
 
 <template>
   <div
-    class="flex items-center justify-between gap-2 px-4 pb-0 mb-2"
+    class="flex items-center justify-between gap-2 px-4"
     :class="{
       'pb-3 border-b border-n-strong': hasAppliedFiltersOrActiveFolders,
-      'pt-2.5': showV4View,
+      'pt-3 pb-2': showV4View,
+      'mb-2 pb-0': !showV4View,
     }"
   >
     <div class="flex items-center justify-center min-w-0">
