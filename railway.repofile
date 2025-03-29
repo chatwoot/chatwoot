@@ -31,3 +31,7 @@ databases:
 services:
   - name: chatwood-redis
     type: redis
+
+install:
+  - mkdir -p log
+  - touch log/development.log
