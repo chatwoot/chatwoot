@@ -35,10 +35,21 @@ module Api::V2::Accounts::ReportsHelper
     end
   end
 
+  # def generate_labels_report
+  #   Current.account.labels.map do |label|
+  #     label_report = report_builder({ type: :label, id: label.id }).short_summary
+  #     [label.title] + generate_readable_report_metrics(label_report)
+  #   end
+  # end
+
   def generate_labels_report
-    Current.account.labels.map do |label|
-      label_report = report_builder({ type: :label, id: label.id }).short_summary
-      [label.title] + generate_readable_report_metrics(label_report)
+    reports = V2::LabelReportBuilder.new(
+      Current.account,
+      build_params({})
+    ).build
+
+    reports.map do |report|
+      [report[:name]] + generate_readable_report_metrics(report)
     end
   end
 
