@@ -1,5 +1,11 @@
 {
   "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
+      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
+      "AGENTS": "You have exceeded the agent limit. Hacker plan allows only 2 agents.",
+      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+    },
     "TITLE": "Kontoeinstellungen",
     "SUBMIT": "Einstellungen aktualisieren",
     "BACK": "Zurück",
@@ -51,6 +57,7 @@
     "UPDATE_CHATWOOT": "Ein Update {latestChatwootVersion} für Chatwoot ist verfügbar. Bitte aktualisieren Sie Ihre Instanz.",
     "LEARN_MORE": "Mehr erfahren",
     "PAYMENT_PENDING": "Ihre Zahlung steht noch aus. Um Chatwoot weiter zu verwenden, aktualisieren Sie Bitte Ihre Zahlungsinformationen",
+    "UPGRADE": "Upgrade to continue using Chatwoot",
     "LIMITS_UPGRADE": "Ihr Konto hat die Nutzungsbeschränkungen überschritten. Um Chatwoot weiter nutzen zu können aktualisieren Sie bitte Ihren Tarif",
     "OPEN_BILLING": "Rechnung öffnen"
   },
