@@ -13,10 +13,9 @@ module SwitchLocale
     # Use the locale from a custom domain if applicable
     locale ||= locale_from_custom_domain
 
-    # If no locale is set, use the default locale from the environment
+    # if locale is not set in account, let's use DEFAULT_LOCALE env variable
     locale ||= ENV.fetch('DEFAULT_LOCALE', nil)
 
-    # Set the locale
     set_locale(locale, &)
   end
 
@@ -27,7 +26,6 @@ module SwitchLocale
     # Fallback to the account's locale if the user's locale is not set
     locale ||= locale_from_account(@current_account)
 
-    # Set the locale
     set_locale(locale, &)
   end
 
@@ -52,7 +50,6 @@ module SwitchLocale
   end
 
   def set_locale(locale, &)
-    # Log the value of params[:locale] to the console
     safe_locale = validate_and_get_locale(locale)
     # Ensure locale won't bleed into other requests
     # https://guides.rubyonrails.org/i18n.html#managing-the-locale-across-requests
