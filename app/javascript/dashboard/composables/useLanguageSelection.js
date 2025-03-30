@@ -8,7 +8,9 @@ import { computed, watch } from 'vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
-import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages'; // Import the languages array
+
+// Use the languages array in the new format
+const languages = window.chatwootConfig.enabledLanguages || [];
 
 /**
  * Language selection management composable
@@ -44,7 +46,7 @@ export const useLanguageSelection = () => {
     try {
       // Validate the language code
       const validLanguage = languageOptions.some(
-        option => option.id === languageCode
+        option => option.iso_639_1_code === languageCode
       );
       if (!validLanguage) {
         throw new Error(`Invalid language code: ${languageCode}`);

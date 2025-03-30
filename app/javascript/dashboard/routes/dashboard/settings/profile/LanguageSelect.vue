@@ -1,7 +1,6 @@
 <script setup>
 import { computed } from 'vue';
 import FormSelect from 'v3/components/Form/Select.vue';
-import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages'; // Import the languages array
 
 const props = defineProps({
   value: {
@@ -19,6 +18,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['change']);
+
+const languages = window.chatwootConfig.enabledLanguages || [];
 
 const selectedValue = computed({
   get: () => props.value,
@@ -49,9 +50,9 @@ const selectedValue = computed({
     >
       <option
         v-for="option in languages"
-        :key="option.id"
-        :value="option.id"
-        :selected="option.id === selectedValue"
+        :key="option.iso_639_1_code"
+        :value="option.iso_639_1_code"
+        :selected="option.iso_639_1_code === selectedValue"
       >
         {{ option.name }}
       </option>
