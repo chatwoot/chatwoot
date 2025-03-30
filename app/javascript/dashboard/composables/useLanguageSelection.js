@@ -58,10 +58,14 @@ export const useLanguageSelection = () => {
       // Apply the language to the i18n instance
       locale.value = languageCode;
       // Show a success alert
-      useAlert(t('PROFILE_SETTINGS.LANGUAGE_UPDATE_SUCCESS'));
+      useAlert(
+        t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.UPDATE_SUCCESS')
+      );
     } catch (error) {
       // Show an error alert
-      useAlert(t('PROFILE_SETTINGS.LANGUAGE_UPDATE_FAILED'));
+      useAlert(
+        t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.UPDATE_ERROR')
+      );
     }
   };
 
