@@ -5,15 +5,15 @@ import FormSelect from 'v3/components/Form/Select.vue';
 const props = defineProps({
   value: {
     type: String,
-    default: 'en', // Default to English
+    default: 'en',
   },
   label: {
     type: String,
-    default: 'Language', // Update label to "Language"
+    default: '',
   },
   description: {
     type: String,
-    default: 'Select your preferred language.', // Update description
+    default: '',
   },
 });
 
