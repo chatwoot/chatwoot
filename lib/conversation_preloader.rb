@@ -55,18 +55,26 @@ module ConversationPreloader
   end
 
   # Gets latest messages for all conversations in one query
-  def fetch_latest_messages(batch_ids, _account_id)
-    # Use a more explicit query that avoids ORDER BY issues
+  def fetch_latest_messages(batch_ids, account_id)
+    # Use VALUES clause for better performance with large sets of conversation IDs
     query = <<-SQL.squish
-      SELECT DISTINCT ON (conversation_id) *#{' '}
-      FROM messages#{' '}
-      WHERE conversation_id IN (?)
-      ORDER BY conversation_id, created_at DESC
+      SELECT c.conversation_id, m.*
+      FROM (
+        VALUES #{batch_ids.map { |id| "(#{id})" }.join(',')}
+      ) AS c(conversation_id)
+      CROSS JOIN LATERAL (
+        SELECT m.*
+        FROM messages m
+        WHERE m.conversation_id = c.conversation_id
+        AND m.account_id = ?
+        ORDER BY m.created_at DESC
+        LIMIT 1
+      ) m
     SQL
 
     # Execute raw SQL to avoid ActiveRecord adding additional ordering
     result = ActiveRecord::Base.connection.execute(
-      ActiveRecord::Base.send(:sanitize_sql_array, [query, batch_ids])
+      ActiveRecord::Base.send(:sanitize_sql_array, [query, account_id])
     )
 
     # Convert result to Message objects
@@ -96,17 +104,26 @@ module ConversationPreloader
   end
 
   # Gets latest non-system messages in one query
-  def fetch_latest_non_activity_messages(batch_ids, _account_id)
+  def fetch_latest_non_activity_messages(batch_ids, account_id)
+    # Use VALUES clause for better performance with large sets of conversation IDs
     query = <<-SQL.squish
-      SELECT DISTINCT ON (conversation_id) *#{' '}
-      FROM messages#{' '}
-      WHERE conversation_id IN (?)
-        AND message_type != ?
-      ORDER BY conversation_id, created_at DESC
+      SELECT c.conversation_id, m.*
+      FROM (
+        VALUES #{batch_ids.map { |id| "(#{id})" }.join(',')}
+      ) AS c(conversation_id)
+      CROSS JOIN LATERAL (
+        SELECT m.*
+        FROM messages m
+        WHERE m.conversation_id = c.conversation_id
+        AND m.account_id = ?
+        AND m.message_type != ?
+        ORDER BY m.created_at DESC
+        LIMIT 1
+      ) m
     SQL
 
     result = ActiveRecord::Base.connection.execute(
-      ActiveRecord::Base.send(:sanitize_sql_array, [query, batch_ids, Message.message_types[:activity]])
+      ActiveRecord::Base.send(:sanitize_sql_array, [query, account_id, Message.message_types[:activity]])
     )
 
     messages = result.map do |row|
