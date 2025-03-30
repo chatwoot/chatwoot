@@ -14,6 +14,7 @@ import { setColorTheme } from './helper/themeHelper';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useFontSize } from 'dashboard/composables/useFontSize';
+import { useLanguageSelection } from 'dashboard/composables/useLanguageSelection';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
@@ -38,12 +39,13 @@ export default {
     const { accountId } = useAccount();
     // Use the font size composable (it automatically sets up the watcher)
     const { currentFontSize } = useFontSize();
-
+    const { currentLanguage } = useLanguageSelection();
     return {
       router,
       store,
       currentAccountId: accountId,
       currentFontSize,
+      currentLanguage,
     };
   },
   data() {
@@ -58,6 +60,7 @@ export default {
       getAccount: 'accounts/getAccount',
       isRTL: 'accounts/isRTL',
       currentUser: 'getCurrentUser',
+      currentLanguage: 'currentLanguage',
       authUIFlags: 'getAuthUIFlags',
       accountUIFlags: 'accounts/getUIFlags',
     }),
@@ -104,6 +107,7 @@ export default {
       mql.onchange = e => setColorTheme(e.matches);
     },
     setLocale(locale) {
+      console.log('Setting locale:', locale);
       this.$root.$i18n.locale = locale;
     },
     async initializeAccount() {
@@ -114,7 +118,10 @@ export default {
       const { locale, latest_chatwoot_version: latestChatwootVersion } =
         this.getAccount(this.currentAccountId);
       const { pubsub_token: pubsubToken } = this.currentUser || {};
-      this.setLocale(locale);
+
+      const userlocale = this.currentLanguage || locale;
+      console.log('initializeAccount user locale:', userlocale)
+      this.setLocale(userlocale);
       this.latestChatwootVersion = latestChatwootVersion;
       vueActionCable.init(this.store, pubsubToken);
       this.reconnectService = new ReconnectService(this.store, this.router);

@@ -4,17 +4,42 @@ module SwitchLocale
   private
 
   def switch_locale(&)
-    # priority is for locale set in query string (mostly for widget/from js sdk)
+    # Priority is for locale set in query string (mostly for widget/from js sdk)
     locale ||= params[:locale]
 
+    Rails.logger.info "Locale from params: #{locale}"
+
+    # Use the user's locale if available
+    locale ||= locale_from_user
+
+    Rails.logger.info "Locale from user: #{locale}"
+
+    # Use the locale from a custom domain if applicable
     locale ||= locale_from_custom_domain
-    # if locale is not set in account, let's use DEFAULT_LOCALE env variable
+
+    Rails.logger.info "Locale from custom domain: #{locale}"
+
+    # If no locale is set, use the default locale from the environment
     locale ||= ENV.fetch('DEFAULT_LOCALE', nil)
+
+    # Log the resolved locale
+    Rails.logger.info "Resolved Locale: #{locale}"
+
+    # Set the locale
     set_locale(locale, &)
   end
 
   def switch_locale_using_account_locale(&)
-    locale = locale_from_account(@current_account)
+    # Get the locale from the user first
+    locale = locale_from_user
+
+    # Fallback to the account's locale if the user's locale is not set
+    locale ||= locale_from_account(@current_account)
+
+    # Log the resolved locale
+    Rails.logger.info "Locale from switch_locale_using_account_locale: #{locale}"
+
+    # Set the locale
     set_locale(locale, &)
   end
 
@@ -32,7 +57,17 @@ module SwitchLocale
     @portal.default_locale
   end
 
+  def locale_from_user
+    return unless @user
+
+    Rails.logger.info "Locale from user: #{@user&.inspect}"
+    # Example: Retrieve the locale from the user's ui_settings or locale attribute
+    @user.ui_settings&.dig('locale')
+  end
+
   def set_locale(locale, &)
+    # Log the value of params[:locale] to the console
+    Rails.logger.info "Locale from params: #{locale}"
     safe_locale = validate_and_get_locale(locale)
     # Ensure locale won't bleed into other requests
     # https://guides.rubyonrails.org/i18n.html#managing-the-locale-across-requests
