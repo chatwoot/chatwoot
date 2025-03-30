@@ -226,6 +226,7 @@ export default {
       />
       <LanguageSelect
         v-model="currentLanguage"
+        :value="currentLanguage"
         :options="languageOptions"
         :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.TITLE')"
         :description="
