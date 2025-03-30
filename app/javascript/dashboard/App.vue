@@ -42,6 +42,7 @@ export default {
     // Use the font size composable (it automatically sets up the watcher)
     const { currentFontSize } = useFontSize();
     const { currentLanguage } = useLanguageSelection();
+
     return {
       router,
       store,
@@ -60,7 +61,7 @@ export default {
   computed: {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
-      isRTL: 'accounts/isRTL',
+      isRTLGetter: 'accounts/isRTL',
       currentUser: 'getCurrentUser',
       currentLanguage: 'currentLanguage',
       authUIFlags: 'getAuthUIFlags',
@@ -72,6 +73,11 @@ export default {
     },
     hideOnOnboardingView() {
       return !isOnOnboardingView(this.$route);
+    },
+    isRTL() {
+      const userLocale =
+        this.currentLanguage || this.getAccount(this.currentAccountId).locale;
+      return this.isRTLGetter(userLocale);
     },
   },
 
@@ -109,7 +115,6 @@ export default {
       mql.onchange = e => setColorTheme(e.matches);
     },
     setLocale(locale) {
-      console.log('Setting locale:', locale);
       this.$root.$i18n.locale = locale;
     },
     async initializeAccount() {
@@ -122,7 +127,6 @@ export default {
       const { pubsub_token: pubsubToken } = this.currentUser || {};
 
       const userlocale = this.currentLanguage || locale;
-      console.log('initializeAccount user locale:', userlocale)
       this.setLocale(userlocale);
       this.latestChatwootVersion = latestChatwootVersion;
       vueActionCable.init(this.store, pubsubToken);
