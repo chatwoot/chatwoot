@@ -10,7 +10,12 @@ export default {
       default: '',
     },
   },
-  emits: ['replace'],
+  emits: ['replace', 'cannedSelected'],
+  data() {
+    return {
+      selectedCannedResponse: null,
+    };
+  },
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
@@ -21,6 +26,7 @@ export default {
         label: cannedMessage.short_code,
         key: cannedMessage.short_code,
         description: cannedMessage.content,
+        id: cannedMessage.id,
       }));
     },
   },
@@ -41,7 +47,9 @@ export default {
       });
     },
     handleMentionClick(item = {}) {
+      this.selectedCannedResponse = item;
       this.$emit('replace', item.description);
+      this.$emit('cannedSelected', item.id);
     },
   },
 };

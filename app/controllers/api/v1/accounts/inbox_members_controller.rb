@@ -58,7 +58,7 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
   end
 
   def update_allowed_custom_message_list
-    allowed_agent_ids = params[:user_ids] & params[:allowed_user_ids]
+    allowed_agent_ids = params[:user_ids] & params[:allowed_user_ids].to_a
 
     @inbox.update(allowed_custom_message_user_ids: allowed_agent_ids)
   end

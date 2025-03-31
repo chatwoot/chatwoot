@@ -164,16 +164,19 @@ export default {
     isNote() {
       return this.mode === REPLY_EDITOR_MODES.NOTE;
     },
+    isTemplate() {
+      return this.mode === REPLY_EDITOR_MODES.TEMPLATE;
+    },
     wrapClass() {
       return {
         'is-note-mode': this.isNote,
       };
     },
     showAttachButton() {
-      return this.showFileUpload || this.isNote;
+      return (this.showFileUpload || this.isNote) && !this.isTemplate;
     },
     showAudioRecorderButton() {
-      if (this.isALineChannel) {
+      if (this.isALineChannel || this.isTemplate) {
         return false;
       }
       // Disable audio recorder for safari browser as recording is not supported
@@ -225,7 +228,10 @@ export default {
       }
     },
     showMessageSignatureButton() {
-      return !this.isOnPrivateNote;
+      return !this.isOnPrivateNote && !this.isTemplate;
+    },
+    showEmojiButton() {
+      return !this.isTemplate;
     },
     sendWithSignature() {
       // channelType is sourced from inboxMixin
@@ -256,6 +262,17 @@ export default {
     toggleInsertArticle() {
       this.$emit('toggleInsertArticle');
     },
+    async sendMessage() {
+      if (this.isSendDisabled) {
+        return;
+      }
+
+      try {
+        await this.onSend();
+      } catch (error) {
+        this.$toast.error(error.message);
+      }
+    },
   },
 };
 </script>
@@ -264,6 +281,7 @@ export default {
   <div class="flex justify-between p-3" :class="wrapClass">
     <div class="left-wrap">
       <NextButton
+        v-if="showEmojiButton"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
         icon="i-ph-smiley-sticker"
         slate
@@ -346,7 +364,7 @@ export default {
         :conversation-id="conversationId"
       />
       <AIAssistanceButton
-        v-if="!isFetchingAppIntegrations"
+        v-if="!isFetchingAppIntegrations && !isTemplate"
         :conversation-id="conversationId"
         :is-private-note="isOnPrivateNote"
         :message="message"
@@ -381,7 +399,7 @@ export default {
         :color="isNote ? 'amber' : 'blue'"
         :disabled="isSendDisabled"
         class="flex-shrink-0"
-        @click="onSend"
+        @click="sendMessage"
       />
     </div>
   </div>

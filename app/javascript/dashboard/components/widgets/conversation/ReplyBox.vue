@@ -114,6 +114,7 @@ export default {
       showMentions: false,
       showUserMentions: false,
       showCannedMenu: false,
+      selectedCannedResponseId: null, // Selected canned response
       showVariablesMenu: false,
       newConversationModalActive: false,
       showArticleSearchPopover: false,
@@ -226,6 +227,7 @@ export default {
     isReplyButtonDisabled() {
       if (this.isATwitterInbox) return true;
       if (this.hasAttachments || this.hasRecordedAudio) return false;
+      if (this.isTemplate && !this.selectedCannedResponseId) return true;
 
       return (
         this.isMessageEmpty ||
@@ -868,6 +870,7 @@ export default {
         // if signature is enabled, append it to the message
         this.message = appendSignature(this.message, this.signatureToApply);
       }
+      this.selectedCannedResponseId = null;
       this.attachedFiles = [];
       this.isRecordingAudio = false;
       this.resetReplyToMessage();
@@ -1125,6 +1128,9 @@ export default {
     togglePopout() {
       this.$emit('update:popOutReplyBox', !this.popOutReplyBox);
     },
+    handleCannedSelected(id) {
+      this.selectedCannedResponseId = id;
+    },
   },
 };
 </script>
@@ -1168,6 +1174,7 @@ export default {
         class="normal-editor__canned-box canned-response__box"
         :search-key="mentionSearchKey"
         @replace="replaceText"
+        @cannedSelected="handleCannedSelected"
       />
       <EmojiInput
         v-if="showEmojiPicker"
@@ -1200,6 +1207,7 @@ export default {
         :placeholder="messagePlaceHolder"
         :min-height="4"
         :signature="signatureToApply"
+        :readonly="selectedCannedResponseId"
         allow-signature
         :send-with-signature="sendWithSignature"
         @typing-off="onTypingOff"
@@ -1212,6 +1220,7 @@ export default {
         v-model="message"
         :editor-id="editorStateId"
         class="input"
+        :mode="replyType"
         :is-private="isOnPrivateNote"
         :placeholder="messagePlaceHolder"
         :update-selection-with="updateEditorSelectionWith"
@@ -1288,6 +1297,12 @@ export default {
       :title="$t('CONVERSATION.REPLYBOX.UNDEFINED_VARIABLES.TITLE')"
       :description="undefinedVariableMessage"
     />
+    <button
+      v-if="selectedCannedResponseId"
+      @click="clearMessage"
+    >
+      Clear Template
+    </button>
   </div>
 </template>
 

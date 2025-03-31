@@ -56,18 +56,14 @@ const width = computed(() => {
  * @type {ComputedRef<string>}
  */
 const translateValue = computed(() => {
+  if (isTemplate.value) {
+    return `0px`;
+  }
   if (isPrivate.value) {
     return props.canReplyByCustomMessage
-      ? `${replyModeSize.width.value + 16}px`
-      : `0px`;
+      ? `${replyModeSize.width.value + 16}px` // Reply → Note
+      : `${templateModeSize.width.value + 16}px`; // Template → Note
   }
-
-  if (isTemplate.value) {
-    return props.canReplyByCustomMessage
-      ? `${replyModeSize.width.value + privateModeSize.width.value + 32}px`
-      : `${privateModeSize.width.value + 16}px`;
-  }
-
   return `0px`;
 });
 </script>
@@ -80,11 +76,11 @@ const translateValue = computed(() => {
     <div ref="wootEditorReplyMode" v-if="canReplyByCustomMessage" class="flex items-center gap-1 px-2 z-20">
       {{ $t('CONVERSATION.REPLYBOX.REPLY') }}
     </div>
-    <div ref="wootEditorPrivateMode" class="flex items-center gap-1 px-2 z-20">
-      {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
-    </div>
     <div ref="wootEditorTemplateMode" v-if="!canReplyByCustomMessage" class="flex items-center gap-1 px-2 z-20">
       {{ $t('CONVERSATION.REPLYBOX.TEMPLATE') }}
+    </div>
+    <div ref="wootEditorPrivateMode" class="flex items-center gap-1 px-2 z-20">
+      {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
     </div>
     <div
       class="absolute shadow-sm rounded-full h-6 w-[var(--chip-width)] transition-all duration-300 ease-in-out translate-x-[var(--translate-x)] rtl:translate-x-[var(--rtl-translate-x)] bg-n-solid-1"
