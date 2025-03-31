@@ -1,0 +1,105 @@
+{
+  "name": "@stdlib/string-replace",
+  "version": "0.0.11",
+  "description": "Replace search occurrences with a replacement string.",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "The Stdlib Authors",
+    "url": "https://github.com/stdlib-js/stdlib/graphs/contributors"
+  },
+  "contributors": [
+    {
+      "name": "The Stdlib Authors",
+      "url": "https://github.com/stdlib-js/stdlib/graphs/contributors"
+    }
+  ],
+  "bin": {
+    "replace": "./bin/cli"
+  },
+  "main": "./lib",
+  "directories": {
+    "benchmark": "./benchmark",
+    "doc": "./docs",
+    "example": "./examples",
+    "lib": "./lib",
+    "test": "./test"
+  },
+  "types": "./docs/types",
+  "scripts": {
+    "test": "make test",
+    "test-cov": "make test-cov",
+    "examples": "make examples",
+    "benchmark": "make benchmark"
+  },
+  "homepage": "https://stdlib.io",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stdlib-js/string-replace.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stdlib-js/stdlib/issues"
+  },
+  "dependencies": {
+    "@stdlib/assert-is-function": "^0.0.x",
+    "@stdlib/assert-is-regexp": "^0.0.x",
+    "@stdlib/assert-is-regexp-string": "^0.0.x",
+    "@stdlib/assert-is-string": "^0.0.x",
+    "@stdlib/cli-ctor": "^0.0.x",
+    "@stdlib/fs-read-file": "^0.0.x",
+    "@stdlib/process-read-stdin": "^0.0.x",
+    "@stdlib/regexp-eol": "^0.0.x",
+    "@stdlib/streams-node-stdin": "^0.0.x",
+    "@stdlib/string-format": "^0.0.x",
+    "@stdlib/utils-escape-regexp-string": "^0.0.x",
+    "@stdlib/utils-regexp-from-string": "^0.0.x"
+  },
+  "devDependencies": {
+    "@stdlib/assert-is-browser": "^0.0.x",
+    "@stdlib/assert-is-windows": "^0.0.x",
+    "@stdlib/bench": "^0.0.x",
+    "@stdlib/process-exec-path": "^0.0.x",
+    "@stdlib/string-capitalize": "^0.0.x",
+    "@stdlib/string-from-code-point": "^0.0.x",
+    "@stdlib/string-replace": "^0.0.x",
+    "tape": "git+https://github.com/kgryte/tape.git#fix/globby",
+    "proxyquire": "^2.0.0",
+    "istanbul": "^0.4.1",
+    "tap-spec": "5.x.x"
+  },
+  "engines": {
+    "node": ">=0.10.0",
+    "npm": ">2.7.0"
+  },
+  "os": [
+    "aix",
+    "darwin",
+    "freebsd",
+    "linux",
+    "macos",
+    "openbsd",
+    "sunos",
+    "win32",
+    "windows"
+  ],
+  "keywords": [
+    "stdlib",
+    "stdstring",
+    "utilities",
+    "utility",
+    "utils",
+    "util",
+    "string",
+    "str",
+    "search",
+    "replace",
+    "regex",
+    "regular expression",
+    "regexp",
+    "regular",
+    "expression"
+  ],
+  "funding": {
+    "type": "patreon",
+    "url": "https://www.patreon.com/athan"
+  }
+}

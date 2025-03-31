@@ -1,0 +1,22 @@
+{
+    "$schema": "http://json.schemastore.org/web-types",
+    "name": "vue-dompurify-html",
+    "framework": "vue",
+    "js-types-syntax": "typescript",
+    "framework-config": {
+        "enable-when": {
+            "file-extensions": ["vue"]
+        }
+    },
+    "contributions": {
+        "html": {
+            "vue-directives": [
+                {
+                    "name": "dompurify-html",
+                    "description": "Safe replacement for the v-html directive",
+                    "doc-url": "https://github.com/LeSuisse/vue-dompurify-html/tree/main/packages/vue-dompurify-html"
+                }
+            ]
+        }
+    }
+}

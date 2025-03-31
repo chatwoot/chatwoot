@@ -1,0 +1,246 @@
+@startuml
+
+header PlaylistLoader sequences
+title PlaylistLoader sequences: Master Manifest and Alternate Audio
+
+Participant "MasterPlaylistController" as MPC #red
+Participant "MasterPlaylistLoader" as MPL #blue
+Participant "mainSegmentLoader" as SL #blue
+Participant "AudioPlaylistLoader" as APL #green
+Participant "audioSegmentLoader" as ASL #green
+Participant "external server" as ext #brown
+Participant "m3u8Parser" as parser #orange
+Participant "mediaGroups" as MG #purple
+Participant Tech #lightblue
+
+== Initialization ==
+
+group MasterPlaylistController.constructor()
+
+  MPC -> MPL : setting up MasterPlaylistLoader
+  note left #lightyellow
+    sets up mediaupdatetimeout
+    handler for live playlist staleness
+  end note
+  note over MPL #lightgray: state = 'HAVE_NOTHING'
+
+  MPC -> MPL: load()
+
+end
+
+group MasterPlaylistLoader.load()
+
+  MPL -> MPL : start()
+  note left #lightyellow: not started yet
+
+== Requesting Master Manifest ==
+
+    group start()
+
+      note over MPL #lightgray: started = true
+
+      MPL -> ext: xhr request for master manifest
+      ext -> MPL : response with master manifest
+
+      MPL -> parser: parse master manifest
+      parser -> MPL: object representing manifest
+      MPL -> MPL: set loader's master playlist
+      note over MPL #lightgray: state = 'HAVE_MASTER'
+      note over MPL #lightblue: trigger 'loadedplaylist' on master loader
+
+== Requesting Video Manifest ==
+
+      group 'loadedplaylist' handler
+
+        note over MPL #lightblue: handling loadedplaylist
+        MPL -> MPL : media()
+        note left #lightgray: select initial (video) playlist
+        note over MPL #lightyellow: state = 'SWITCHING_MEDIA'
+
+        group media()
+
+          MPL -> ext : request child manifest
+          ext -> MPL: child manifest returned
+          MPL -> MPL: haveMetadata()
+          note over MPL #lightyellow: state = 'HAVE_METADATA'
+
+          group haveMetadata()
+
+            MPL -> parser: parse child manifest
+            parser -> MPL: object representing the child manifest
+            note over MPL #lightyellow
+              update master and media playlists
+            end note
+
+            opt live
+              MPL -> MPL: setup mediaupdatetimeout
+            end
+
+            note over MPL #lightblue
+              trigger 'loadedplaylist' on master loader.
+              This does not end up requesting segments
+              at this point.
+            end note
+
+            group MasterPlaylistLoader 'loadedplaylist' handler
+
+              MPL -> MPL : setup durationchange handler
+
+            end
+
+          end
+
+== Requesting Video Segments ==
+
+          note over MPL #lightblue: trigger 'loadedmetadata'
+
+          group 'loadedmetadata' handler
+
+            note over MPL #lightblue: handling 'loadedmetadata'
+
+            opt vod and preload !== 'none'
+
+              MPL -> SL: playlist()
+              note over SL #lightyellow: updates playlist
+
+              MPL -> SL: load()
+              note right #lightgray
+                This does nothing as mimeTypes
+                have not been set yet.
+              end note
+
+            end
+
+            MPL -> MG: setupMediaGroups()
+
+== Initializing Media Groups, Choosing Active Tracks ==
+
+            group MediaGroups.setupMediaGroups()
+
+              group initialize()
+
+                MG -> APL: create child playlist loader for alt audio
+                note over APL #lightyellow: state = 'HAVE_NOTHING'
+
+                note left #lightgray
+                  setup 'loadedmetadata' and 'loadedplaylist' listeners
+                  on child alt audio playlist loader
+                end note
+
+                MG -> Tech: add audioTracks
+
+              end
+
+              MG -> MG: activeGroup and audio variant selected
+              MG -> MG: enable activeTrack, onTrackChanged()
+              note left #lightgray
+                There is no activePlaylistLoader at this point,
+                but there is an audio playlistLoader
+              end note
+
+              group onTrackChanged()
+
+                MG -> SL: reset mainSegmentLoader
+                note left #lightgray: Clears buffer, aborts all inflight requests
+
+== Requesting Alternate Audio Manifest ==
+
+                MG -> MG: startLoaders()
+
+                group startLoaders()
+                  note over MG #lightyellow
+                    activePlaylistLoader = AudioPlaylistLoader
+                  end note
+
+                  MG -> APL: load()
+                end
+
+                group AudioPlaylistLoader.load()
+                  APL -> APL: start()
+
+                  group alt start()
+
+                    note over APL #lightyellow: started = true
+                    APL -> ext: request alt audio media manifest
+
+                    break MasterPlaylistLoader 'loadedmetadata' handler
+
+                      MPL -> MPC: setupSourceBuffers()
+                      note left #lightgray
+                        This will set mimeType.
+                        Segments can be loaded from now on.
+                      end note
+
+                      MPL -> MPC: setupFirstPlay()
+                      note left #lightgray
+                        Immediate exit since the player
+                        is paused
+                      end note
+
+                    end
+
+                    ext -> APL: responds with child manifest
+                    APL -> parser: parse child manifest
+                    parser -> APL: object representing child manifest returned
+                    note over APL #lightyellow: state = 'HAVE_MASTER'
+                    note left #lightgray: Infer a master playlist
+
+                    APL -> APL: haveMetadata()
+                    note over APL #lightyellow: state = 'HAVE_METADATA'
+
+                    group haveMetadata()
+
+                      APL -> parser: parsing the child manifest again
+                      parser -> APL: returning object representing child manifest
+                      note over APL #lightyellow
+                        update master and media references
+                      end note
+
+== Requesting Alternate Audio Segments ==
+
+                      note over APL #lightblue: trigger 'loadedplaylist'
+
+                      group 'loadedplaylist' handler
+
+                        note over APL #lightblue: handling 'loadedplaylist'
+                        APL -> ASL: playlist()
+                        note over ASL #lightyellow: set playlist
+
+                      end
+
+                    end
+
+                    note over APL #lightblue: trigger 'loadedmetadata'
+
+                    group 'loadedmetadata' handler
+
+                      note over APL #lightblue: handling 'loadedmetadata'
+
+                      APL -> ASL: playlist()
+                      APL -> ASL: load()
+
+                      loop audioSegmentLoader.load()
+
+                        ASL -> ext: requests media segments
+                        ext -> ASL: response with media segment bytes
+                      end
+
+                    end
+
+                  end
+
+                end
+
+            end
+
+          end
+
+        end
+
+      end
+
+    end
+
+end
+
+@enduml

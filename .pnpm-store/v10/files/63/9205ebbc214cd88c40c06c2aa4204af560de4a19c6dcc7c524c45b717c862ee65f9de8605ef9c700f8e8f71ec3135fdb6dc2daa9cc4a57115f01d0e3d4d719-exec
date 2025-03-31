@@ -1,0 +1,92 @@
+#!/usr/bin/env node
+
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+'use strict';
+
+// MODULES //
+
+var resolve = require( 'path' ).resolve;
+var readFileSync = require( '@stdlib/fs-read-file' ).sync;
+var CLI = require( '@stdlib/cli-ctor' );
+var stdin = require( '@stdlib/process-read-stdin' );
+var stdinStream = require( '@stdlib/streams-node-stdin' );
+var RE_EOL = require( '@stdlib/regexp-eol' ).REGEXP;
+var isRegExpString = require( './../lib' );
+
+
+// MAIN //
+
+/**
+* Main execution sequence.
+*
+* @private
+* @returns {void}
+*/
+function main() {
+	var flags;
+	var args;
+	var cli;
+
+	// Create a command-line interface:
+	cli = new CLI({
+		'pkg': require( './../package.json' ),
+		'options': require( './../etc/cli_opts.json' ),
+		'help': readFileSync( resolve( __dirname, '..', 'docs', 'usage.txt' ), {
+			'encoding': 'utf8'
+		})
+	});
+
+	// Get any provided command-line options:
+	flags = cli.flags();
+	if ( flags.help || flags.version ) {
+		return;
+	}
+
+	// Get any provided command-line arguments:
+	args = cli.args();
+
+	// Check if we are receiving data from `stdin`...
+	if ( !stdinStream.isTTY ) {
+		return stdin( onRead );
+	}
+	console.log( isRegExpString( args[ 0 ] ) ); // eslint-disable-line no-console
+
+	/**
+	* Callback invoked upon reading from `stdin`.
+	*
+	* @private
+	* @param {(Error|null)} error - error object
+	* @param {Buffer} data - data
+	* @returns {void}
+	*/
+	function onRead( error, data ) {
+		var lines;
+		var i;
+		if ( error ) {
+			return cli.error( error );
+		}
+		lines = data.toString().split( RE_EOL );
+		for ( i = 0; i < lines.length; i++ ) {
+			console.log( isRegExpString( lines[ i ] ) ); // eslint-disable-line no-console
+		}
+	}
+}
+
+main();

@@ -1,0 +1,24 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "Ninja Keys Demo",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "tailwind": "tailwindcss build tailwind.css -o style.css",
+    "autoprefixer": "postcss style.css -u autoprefixer --no-map -o style.css",
+    "minify": "postcss style.css -u cssnano --no-map -o style.min.css",
+    "build": "npm run tailwind && npm run autoprefixer",
+    "production": "npm run tailwind && npm run autoprefixer && npm run minify"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Sergei Sleptosv"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "10.3.7",
+    "cssnano": "5.0.8",
+    "postcss-cli": "9.0.1",
+    "tailwindcss": "2.2.17"
+  }
+}

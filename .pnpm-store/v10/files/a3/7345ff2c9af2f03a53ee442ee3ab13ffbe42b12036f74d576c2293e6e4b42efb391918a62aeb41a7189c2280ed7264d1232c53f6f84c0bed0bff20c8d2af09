@@ -1,0 +1,17 @@
+
+{{alias}}()
+    Tests for native `Buffer` support.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating if an environment has `Buffer` support.
+
+    Examples
+    --------
+    > var bool = {{alias}}()
+    <boolean>
+
+    See Also
+    --------
+

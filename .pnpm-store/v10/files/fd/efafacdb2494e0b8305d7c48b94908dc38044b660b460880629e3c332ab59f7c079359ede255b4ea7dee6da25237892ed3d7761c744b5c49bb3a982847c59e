@@ -1,0 +1,46 @@
+{
+  "name": "@segment/facade",
+  "version": "3.4.10",
+  "description": "Providing common fields for analytics integrations",
+  "keywords": [],
+  "main": "dist/index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "tdd": "jest --watch",
+    "test": "make test",
+    "build": "rm -rf dist && yarn tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/segmentio/facade.git"
+  },
+  "author": "Segment <friends@segment.com>",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/segmentio/facade/issues"
+  },
+  "homepage": "https://github.com/segmentio/facade#readme",
+  "dependencies": {
+    "@segment/isodate-traverse": "^1.1.1",
+    "inherits": "^2.0.4",
+    "new-date": "^1.0.3",
+    "obj-case": "0.2.1"
+  },
+  "devDependencies": {
+    "@segment/isodate": "^1.0.2",
+    "@segment/to-iso-string": "^1.0.0",
+    "@types/jest": "^26.0.14",
+    "documentation": "^5.4.0",
+    "eslint": "^2.9.0",
+    "expect.js": "^0.3.1",
+    "jest": "^26.4.2",
+    "parse-domain": "^3.0.2",
+    "proclaim": "^3.4.1",
+    "sinon": "^1.7.3",
+    "ts-jest": "^26.4.0",
+    "tsc": "^2.0.3",
+    "tsdx": "^0.14.0",
+    "typescript": "^4.0.3",
+    "watchify": "^3.7.0"
+  }
+}

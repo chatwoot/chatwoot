@@ -1,0 +1,102 @@
+{
+  "name": "@stdlib/math-base-special-copysign",
+  "version": "0.0.7",
+  "description": "Return a double-precision floating-point number with the magnitude of x and the sign of y.",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "The Stdlib Authors",
+    "url": "https://github.com/stdlib-js/stdlib/graphs/contributors"
+  },
+  "contributors": [
+    {
+      "name": "The Stdlib Authors",
+      "url": "https://github.com/stdlib-js/stdlib/graphs/contributors"
+    }
+  ],
+  "main": "./lib",
+  "gypfile": false,
+  "directories": {
+    "benchmark": "./benchmark",
+    "doc": "./docs",
+    "example": "./examples",
+    "include": "./include",
+    "lib": "./lib",
+    "src": "./src",
+    "test": "./test"
+  },
+  "types": "./docs/types",
+  "scripts": {
+    "test": "make test",
+    "test-cov": "make test-cov",
+    "examples": "make examples",
+    "benchmark": "make benchmark"
+  },
+  "homepage": "https://stdlib.io",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stdlib-js/math-base-special-copysign.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stdlib-js/stdlib/issues"
+  },
+  "dependencies": {
+    "@stdlib/constants-float64-high-word-abs-mask": "^0.0.x",
+    "@stdlib/constants-float64-high-word-sign-mask": "^0.0.x",
+    "@stdlib/math-base-napi-binary": "^0.0.x",
+    "@stdlib/number-float64-base-from-words": "^0.0.x",
+    "@stdlib/number-float64-base-get-high-word": "^0.0.x",
+    "@stdlib/number-float64-base-to-words": "^0.0.x",
+    "@stdlib/utils-library-manifest": "^0.0.x"
+  },
+  "devDependencies": {
+    "@stdlib/bench": "^0.0.x",
+    "@stdlib/constants-float64-ninf": "^0.0.x",
+    "@stdlib/constants-float64-pinf": "^0.0.x",
+    "@stdlib/math-base-assert-is-nan": "^0.0.x",
+    "@stdlib/math-base-assert-is-negative-zero": "^0.0.x",
+    "@stdlib/math-base-assert-is-positive-zero": "^0.0.x",
+    "@stdlib/random-base-randu": "^0.0.x",
+    "@stdlib/utils-try-require": "^0.0.x",
+    "tape": "git+https://github.com/kgryte/tape.git#fix/globby",
+    "istanbul": "^0.4.1",
+    "tap-spec": "5.x.x"
+  },
+  "engines": {
+    "node": ">=0.10.0",
+    "npm": ">2.7.0"
+  },
+  "os": [
+    "aix",
+    "darwin",
+    "freebsd",
+    "linux",
+    "macos",
+    "openbsd",
+    "sunos",
+    "win32",
+    "windows"
+  ],
+  "keywords": [
+    "stdlib",
+    "stdmath",
+    "math",
+    "mathematics",
+    "float64",
+    "float",
+    "floating-point",
+    "ieee754",
+    "double",
+    "copysign",
+    "copy",
+    "sign",
+    "bits",
+    "number",
+    "dbl",
+    "special",
+    "function"
+  ],
+  "funding": {
+    "type": "patreon",
+    "url": "https://www.patreon.com/athan"
+  }
+}

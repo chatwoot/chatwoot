@@ -1,0 +1,24 @@
+
+{{alias}}( value )
+    Tests if a value is a Float32Array.
+
+    Parameters
+    ----------
+    value: any
+        Value to test.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating whether value is a Float32Array.
+
+    Examples
+    --------
+    > var bool = {{alias}}( new {{alias:@stdlib/array/float32}}( 10 ) )
+    true
+    > bool = {{alias}}( [] )
+    false
+
+    See Also
+    --------
+

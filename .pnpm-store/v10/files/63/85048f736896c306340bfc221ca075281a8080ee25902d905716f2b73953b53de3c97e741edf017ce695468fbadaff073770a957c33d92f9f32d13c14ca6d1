@@ -1,0 +1,28 @@
+
+{{alias}}( x )
+    Tests if a double-precision floating-point numeric value is infinite.
+
+    Parameters
+    ----------
+    x: number
+        Value to test.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating whether the value is infinite.
+
+    Examples
+    --------
+    > var bool = {{alias}}( {{alias:@stdlib/constants/float64/pinf}} )
+    true
+    > bool = {{alias}}( {{alias:@stdlib/constants/float64/ninf}} )
+    true
+    > bool = {{alias}}( 5.0 )
+    false
+    > bool = {{alias}}( NaN )
+    false
+
+    See Also
+    --------
+

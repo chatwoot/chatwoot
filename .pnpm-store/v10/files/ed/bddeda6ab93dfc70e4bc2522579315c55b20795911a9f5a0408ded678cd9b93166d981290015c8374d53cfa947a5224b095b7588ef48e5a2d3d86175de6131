@@ -1,0 +1,1 @@
+{"version":3,"file":"is-email.js","sourceRoot":"","sources":["../lib/is-email.js"],"names":[],"mappings":";;AAAA,IAAM,OAAO,GAAG,YAAY,CAAC;AAE7B,SAAwB,OAAO,CAAC,MAAM;IACpC,OAAO,OAAO,CAAC,IAAI,CAAC,MAAM,CAAC,CAAC;AAC9B,CAAC;AAFD,0BAEC","sourcesContent":["const matcher = /.+\\@.+\\..+/;\n\nexport default function isEmail(string) {\n  return matcher.test(string);\n}\n"]}

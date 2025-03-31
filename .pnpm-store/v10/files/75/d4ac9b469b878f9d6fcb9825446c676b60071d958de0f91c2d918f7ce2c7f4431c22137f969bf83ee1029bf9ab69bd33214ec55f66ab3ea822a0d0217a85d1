@@ -1,0 +1,14 @@
+
+{{alias}}
+    Maximum unsigned 16-bit integer.
+
+    The maximum unsigned 16-bit integer is given by `2^16 - 1`.
+
+    Examples
+    --------
+    > {{alias}}
+    65535
+
+    See Also
+    --------
+

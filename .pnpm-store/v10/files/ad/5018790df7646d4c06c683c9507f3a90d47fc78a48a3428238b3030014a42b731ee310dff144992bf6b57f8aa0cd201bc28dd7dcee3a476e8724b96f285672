@@ -1,0 +1,116 @@
+{
+  "name": "@stdlib/number-float64-base-to-words",
+  "version": "0.0.7",
+  "description": "Split a double-precision floating-point number into a higher order word and a lower order word.",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "The Stdlib Authors",
+    "url": "https://github.com/stdlib-js/stdlib/graphs/contributors"
+  },
+  "contributors": [
+    {
+      "name": "The Stdlib Authors",
+      "url": "https://github.com/stdlib-js/stdlib/graphs/contributors"
+    }
+  ],
+  "main": "./lib",
+  "gypfile": false,
+  "directories": {
+    "benchmark": "./benchmark",
+    "doc": "./docs",
+    "example": "./examples",
+    "include": "./include",
+    "lib": "./lib",
+    "src": "./src",
+    "test": "./test"
+  },
+  "types": "./docs/types",
+  "scripts": {
+    "test": "make test",
+    "test-cov": "make test-cov",
+    "examples": "make examples",
+    "benchmark": "make benchmark"
+  },
+  "homepage": "https://stdlib.io",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stdlib-js/number-float64-base-to-words.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stdlib-js/stdlib/issues"
+  },
+  "dependencies": {
+    "@stdlib/array-float64": "^0.0.x",
+    "@stdlib/array-uint32": "^0.0.x",
+    "@stdlib/assert-is-little-endian": "^0.0.x",
+    "@stdlib/os-byte-order": "^0.0.x",
+    "@stdlib/os-float-word-order": "^0.0.x",
+    "@stdlib/types": "^0.0.x",
+    "@stdlib/utils-define-nonenumerable-read-only-property": "^0.0.x",
+    "@stdlib/utils-library-manifest": "^0.0.x"
+  },
+  "devDependencies": {
+    "@stdlib/assert-has-own-property": "^0.0.x",
+    "@stdlib/assert-is-array": "^0.0.x",
+    "@stdlib/bench": "^0.0.x",
+    "@stdlib/constants-float64-ninf": "^0.0.x",
+    "@stdlib/constants-float64-pinf": "^0.0.x",
+    "@stdlib/math-base-assert-is-integer": "^0.0.x",
+    "@stdlib/math-base-special-floor": "^0.0.x",
+    "@stdlib/math-base-special-pow": "^0.0.x",
+    "@stdlib/number-float64-base-to-binary-string": "^0.0.x",
+    "@stdlib/random-base-randu": "^0.0.x",
+    "@stdlib/string-left-pad": "^0.0.x",
+    "@stdlib/string-repeat": "^0.0.x",
+    "@stdlib/utils-try-require": "^0.0.x",
+    "proxyquire": "^2.0.0",
+    "tape": "git+https://github.com/kgryte/tape.git#fix/globby",
+    "istanbul": "^0.4.1",
+    "tap-spec": "5.x.x"
+  },
+  "engines": {
+    "node": ">=0.10.0",
+    "npm": ">2.7.0"
+  },
+  "os": [
+    "aix",
+    "darwin",
+    "freebsd",
+    "linux",
+    "macos",
+    "openbsd",
+    "sunos",
+    "win32",
+    "windows"
+  ],
+  "keywords": [
+    "stdlib",
+    "stdtypes",
+    "base",
+    "utilities",
+    "utility",
+    "utils",
+    "util",
+    "types",
+    "type",
+    "float64",
+    "floating-point",
+    "float",
+    "double",
+    "dbl",
+    "words",
+    "split",
+    "high",
+    "low",
+    "sign",
+    "signbit",
+    "significand",
+    "mantissa",
+    "exponent",
+    "fraction"
+  ],
+  "funding": {
+    "type": "patreon",
+    "url": "https://www.patreon.com/athan"
+  }
+}

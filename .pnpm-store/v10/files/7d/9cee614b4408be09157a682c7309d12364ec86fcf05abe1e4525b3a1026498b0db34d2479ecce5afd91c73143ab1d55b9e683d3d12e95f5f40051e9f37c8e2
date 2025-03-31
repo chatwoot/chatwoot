@@ -1,0 +1,33 @@
+:root {
+  --white-a1: rgba(255, 255, 255, 0.05);
+  --white-a2: rgba(255, 255, 255, 0.1);
+  --white-a3: rgba(255, 255, 255, 0.15);
+  --white-a4: rgba(255, 255, 255, 0.2);
+  --white-a5: rgba(255, 255, 255, 0.3);
+  --white-a6: rgba(255, 255, 255, 0.4);
+  --white-a7: rgba(255, 255, 255, 0.5);
+  --white-a8: rgba(255, 255, 255, 0.6);
+  --white-a9: rgba(255, 255, 255, 0.7);
+  --white-a10: rgba(255, 255, 255, 0.8);
+  --white-a11: rgba(255, 255, 255, 0.9);
+  --white-a12: rgba(255, 255, 255, 0.95);
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    :root {
+      --white-a1: color(display-p3 1 1 1 / 0.05);
+      --white-a2: color(display-p3 1 1 1 / 0.1);
+      --white-a3: color(display-p3 1 1 1 / 0.15);
+      --white-a4: color(display-p3 1 1 1 / 0.2);
+      --white-a5: color(display-p3 1 1 1 / 0.3);
+      --white-a6: color(display-p3 1 1 1 / 0.4);
+      --white-a7: color(display-p3 1 1 1 / 0.5);
+      --white-a8: color(display-p3 1 1 1 / 0.6);
+      --white-a9: color(display-p3 1 1 1 / 0.7);
+      --white-a10: color(display-p3 1 1 1 / 0.8);
+      --white-a11: color(display-p3 1 1 1 / 0.9);
+      --white-a12: color(display-p3 1 1 1 / 0.95);
+    }
+  }
+}

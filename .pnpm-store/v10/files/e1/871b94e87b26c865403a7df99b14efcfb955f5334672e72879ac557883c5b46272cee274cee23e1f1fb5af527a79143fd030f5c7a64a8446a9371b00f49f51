@@ -1,0 +1,67 @@
+{
+  "author": "Andreas Gal <gal@mozilla.com>",
+  "contributors": [
+    "Gary Katsevman <me@gkatsev.com>"
+  ],
+  "name": "videojs-vtt.js",
+  "description": "A JavaScript implementation of the WebVTT specification, forked from vtt.js for use with Video.js",
+  "version": "0.15.5",
+  "main": "lib/browser-index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/videojs/vtt.js.git"
+  },
+  "homepage": "https://github.com/videojs/vtt.js",
+  "devDependencies": {
+    "async": "0.9.0",
+    "browserify": "^14.3.0",
+    "deumdify": "^1.2.4",
+    "difflet": "git://github.com/humphd/difflet.git#714b82706ad39d75275a886aeff637df5097626f",
+    "dive": "0.3.1",
+    "grunt": "0.4.1",
+    "grunt-bump": "0.0.14",
+    "grunt-cli": "0.1.9",
+    "grunt-contrib-concat": "0.4.0",
+    "grunt-contrib-jshint": "0.10.0",
+    "grunt-contrib-uglify": "0.5.0",
+    "grunt-mocha-test": "0.11.0",
+    "json-stable-stringify": "1.0.0",
+    "mocha": "1.20.1",
+    "node-vtt": "1.1.7",
+    "optimist": "0.6.1",
+    "text-encoding": "0.1.0",
+    "underscore": "1.6.0",
+    "watchify": "^3.9.0"
+  },
+  "files": [
+    "dist/",
+    "lib/browser.js",
+    "lib/index.js",
+    "lib/vtt.js",
+    "lib/vttcue.js",
+    "lib/vttcue-extended.js",
+    "lib/vttregion.js",
+    "lib/vttregion-extended.js"
+  ],
+  "keywords": [
+    "vtt",
+    "webvtt",
+    "track",
+    "captions",
+    "subtitles",
+    "text track"
+  ],
+  "scripts": {
+    "build": "npm run build-umd && npm run build-global",
+    "build-umd": "browserify -s vttjs . -o dist/vtt.js",
+    "build-global": "browserify -s vttjs -p deumdify  . -o dist/vtt.global.js",
+    "postbuild": "npm run minify",
+    "minify": "grunt uglify:dist uglify:global",
+    "test": "grunt",
+    "prepublishOnly": "npm run build"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "global": "^4.3.1"
+  }
+}

@@ -1,0 +1,2 @@
+module.exports=function(o){var r,e,n,t,f,c=[],u=[e=1732584193,n=4023233417,~e,~n,3285377520],a=[],d=unescape(encodeURI(o))+"",g=d.length;for(a[o=--g/4+2|15]=8*g;~g;)a[g>>2]|=d.charCodeAt(g)<<8*~g--;for(r=g=0;r<o;r+=16){for(e=u;g<80;e=[e[4]+(c[g]=g<16?~~a[r+g]:2*d|d<0)+1518500249+[n&t|~n&f,d=341275144+(n^t^f),882459459+(n&t|n&f|t&f),d+1535694389][g++/5>>2]+((d=e[0])<<5|d>>>27),d,n<<30|n>>>2,t,f])d=c[g-3]^c[g-8]^c[g-14]^c[g-16],n=e[1],t=e[2],f=e[3];for(g=5;g;)u[--g]+=e[g]}for(d="";g<40;)d+=(u[g>>3]>>4*(7-g++)&15).toString(16);return d};
+//# sourceMappingURL=index.js.map

@@ -1,0 +1,24 @@
+@import '@histoire/controls/dist/style.css';
+
+html,
+body {
+  background: transparent !important;
+}
+
+body {
+  margin: 0;
+}
+
+html {
+  font-size: 1rem;
+  font-family: 'Noto Sans Display', system-ui, sans-serif;
+}
+
+.htw-sandbox-hidden {
+  display: none;
+}
+
+.__histoire-render-story:not(.__histoire-render-custom-controls) {
+  overflow: auto;
+  min-height: 100%;
+}

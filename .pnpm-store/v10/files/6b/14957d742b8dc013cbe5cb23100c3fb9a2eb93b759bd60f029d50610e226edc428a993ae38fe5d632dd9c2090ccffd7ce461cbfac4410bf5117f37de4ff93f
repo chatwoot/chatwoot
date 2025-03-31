@@ -1,0 +1,14 @@
+
+{{alias}}
+    Maximum unsigned 32-bit integer.
+
+    The maximum unsigned 32-bit integer is given by `2^32 - 1`.
+
+    Examples
+    --------
+    > {{alias}}
+    4294967295
+
+    See Also
+    --------
+

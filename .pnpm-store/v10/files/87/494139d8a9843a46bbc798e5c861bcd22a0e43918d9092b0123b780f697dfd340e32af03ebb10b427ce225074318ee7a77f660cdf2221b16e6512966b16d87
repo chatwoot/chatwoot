@@ -1,0 +1,39 @@
+{
+  "name": "@segment/analytics-core",
+  "version": "1.2.2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/segmentio/analytics-next",
+    "directory": "packages/core"
+  },
+  "license": "MIT",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist/",
+    "src/",
+    "!**/__tests__/**",
+    "!*.tsbuildinfo"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "test": "yarn jest",
+    "lint": "yarn concurrently 'yarn:eslint .' 'yarn:tsc --noEmit'",
+    "build": "yarn concurrently 'yarn:build:*'",
+    "build:esm": "yarn tsc -p tsconfig.build.json",
+    "build:cjs": "yarn tsc -p tsconfig.build.json --outDir ./dist/cjs --module commonjs",
+    "watch": "yarn build:esm --watch",
+    "watch:test": "yarn test --watch",
+    "tsc": "yarn run -T tsc",
+    "eslint": "yarn run -T eslint",
+    "concurrently": "yarn run -T concurrently",
+    "jest": "yarn run -T jest"
+  },
+  "packageManager": "yarn@3.2.1",
+  "dependencies": {
+    "@lukeed/uuid": "^2.0.0",
+    "dset": "^3.1.2",
+    "tslib": "^2.4.1"
+  }
+}

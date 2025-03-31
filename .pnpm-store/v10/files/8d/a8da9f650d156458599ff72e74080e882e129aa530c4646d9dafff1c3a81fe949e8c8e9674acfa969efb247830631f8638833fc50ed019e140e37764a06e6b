@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "libphonenumber-js/max/metadata",
+  "main": "../../metadata.max.json",
+  "module": "../../metadata.max.json.js",
+  "types": "../../metadata.max.json.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "../../metadata.max.json.d.ts",
+      "import": "../../metadata.max.json.js",
+      "require": "../../metadata.max.json"
+    }
+  },
+  "sideEffects": false
+}

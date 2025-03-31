@@ -1,0 +1,34 @@
+{
+  "name": "videojs-font",
+  "version": "3.2.0",
+  "description": "Video.js icon font",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/videojs/font.git"
+  },
+  "scripts": {
+    "version": "grunt && git add ."
+  },
+  "keywords": [
+    "videojs"
+  ],
+  "author": "Matthew McClure <m@mmcc.io>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/videojs/font/issues"
+  },
+  "homepage": "https://github.com/videojs/font",
+  "devDependencies": {
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
+    "evil-icons": "^1.7.6",
+    "grunt": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-sass": "^2.1.0",
+    "load-grunt-tasks": "^3.2.0",
+    "lodash": "^4.17.0",
+    "material-design-icons": "^3.0.1",
+    "time-grunt": "^1.2.1",
+    "webfonts-generator": "^0.4.0"
+  }
+}

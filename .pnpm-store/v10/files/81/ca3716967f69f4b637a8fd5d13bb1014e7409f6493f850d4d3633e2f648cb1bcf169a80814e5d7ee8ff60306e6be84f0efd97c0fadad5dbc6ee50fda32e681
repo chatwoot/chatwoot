@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "libphonenumber-js/min/metadata",
+  "main": "../../metadata.min.json",
+  "module": "../../metadata.min.json.js",
+  "types": "../../metadata.min.json.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "../../metadata.min.json.d.ts",
+      "import": "../../metadata.min.json.js",
+      "require": "../../metadata.min.json"
+    }
+  },
+  "sideEffects": false
+}

@@ -1,0 +1,17 @@
+
+{{alias}}()
+    Tests for native `Uint16Array` support.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating if an environment has `Uint16Array` support.
+
+    Examples
+    --------
+    > var bool = {{alias}}()
+    <boolean>
+
+    See Also
+    --------
+

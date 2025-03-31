@@ -1,0 +1,145 @@
+{
+  "fileTypes": ["pas", "p", "pp", "dfm", "fmx", "dpr", "dpk", "lfm", "lpr"],
+  "keyEquivalent": "^~P",
+  "name": "pascal",
+  "patterns": [
+    {
+      "match": "\\b(?i:(absolute|abstract|all|and_then|array|as|asm|attribute|begin|bindable|case|class|const|contains|default|div|else|end|except|export|exports|external|far|file|finalization|finally|forward|generic|goto|if|implements|import|in|index|inherited|initialization|interrupt|is|label|library|mod|module|name|near|not|object|of|on|only|operator|or_else|otherwise|out|override|package|packed|pow|private|program|protected|public|published|interface|implementation|qualified|read|record|resident|requires|resourcestring|restricted|segment|set|shl|shr|specialize|stored|strict|then|threadvar|to|try|type|unit|uses|var|view|virtual|dynamic|overload|reintroduce|with|write|xor))\\b",
+      "name": "keyword.pascal"
+    },
+    {
+      "captures": {
+        "1": {
+          "name": "storage.type.prototype.pascal"
+        },
+        "2": {
+          "name": "entity.name.function.prototype.pascal"
+        }
+      },
+      "match": "\\b(?i:(function|procedure|constructor|destructor))\\b\\s+(\\w+(\\.\\w+)?)(\\(.*?\\))?;\\s*(?=(?i:attribute|forward|external))",
+      "name": "meta.function.prototype.pascal"
+    },
+    {
+      "captures": {
+        "1": {
+          "name": "storage.type.function.pascal"
+        },
+        "2": {
+          "name": "entity.name.function.pascal"
+        }
+      },
+      "match": "\\b(?i:(function|procedure|constructor|destructor|property|read|write))\\b\\s+(\\w+(\\.\\w+)?)",
+      "name": "meta.function.pascal"
+    },
+    {
+      "match": "\\b(?i:(self|result))\\b",
+      "name": "token.variable"
+    },
+    {
+      "match": "\\b(?i:(and|or))\\b",
+      "name": "keyword.operator.pascal"
+    },
+    {
+      "match": "\\b(?i:(break|continue|exit|abort|while|do|downto|for|raise|repeat|until))\\b",
+      "name": "keyword.control.pascal"
+    },
+    {
+      "begin": "\\{\\$",
+      "captures": {
+        "0": {
+          "name": "string.regexp"
+        }
+      },
+      "end": "\\}",
+      "name": "string.regexp"
+    },
+    {
+      "match": "\\b(?i:(ansichar|ansistring|boolean|byte|cardinal|char|comp|currency|double|dword|extended|file|integer|int64|longint|longword|nativeint|nativeuint|olevariant|pansichar|pchar|pwidechar|pointer|real|shortint|shortstring|single|smallint|string|uint64|variant|widechar|widestring|word|wordbool))\\b",
+      "name": "storage.support.type.pascal"
+    },
+    {
+      "match": "\\b(\\d+)|(\\d*\\.\\d+([eE][\\-+]?\\d+)?)\\b",
+      "name": "constant.numeric.pascal"
+    },
+    {
+      "match": "\\$[0-9a-fA-F]{1,16}\\b",
+      "name": "constant.numeric.hex.pascal"
+    },
+    {
+      "match": "\\b(?i:(true|false|nil))\\b",
+      "name": "constant.language.pascal"
+    },
+    {
+      "match": "\\b(?i:(Assert))\\b",
+      "name": "keyword.control"
+    },
+    {
+      "begin": "(^[ \\t]+)?(?=//)",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.whitespace.comment.leading.pascal"
+        }
+      },
+      "end": "(?!\\G)",
+      "patterns": [
+        {
+          "begin": "//",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.pascal"
+            }
+          },
+          "end": "\\n",
+          "name": "comment.line.double-slash.pascal.two"
+        }
+      ]
+    },
+    {
+      "begin": "\\(\\*",
+      "captures": {
+        "0": {
+          "name": "punctuation.definition.comment.pascal"
+        }
+      },
+      "end": "\\*\\)",
+      "name": "comment.block.pascal.one"
+    },
+    {
+      "begin": "\\{(?!\\$)",
+      "captures": {
+        "0": {
+          "name": "punctuation.definition.comment.pascal"
+        }
+      },
+      "end": "\\}",
+      "name": "comment.block.pascal.two"
+    },
+    {
+      "begin": "'",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.pascal"
+        }
+      },
+      "end": "'",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.pascal"
+        }
+      },
+      "name": "string.quoted.single.pascal",
+      "patterns": [
+        {
+          "match": "''",
+          "name": "constant.character.escape.apostrophe.pascal"
+        }
+      ]
+    },
+    {
+      "match": "\\#\\d+",
+      "name": "string.other.pascal"
+    }
+  ],
+  "scopeName": "source.pascal",
+  "uuid": "F42FA544-6B1C-11D9-9517-000D93589AF6"
+}

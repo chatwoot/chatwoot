@@ -1,0 +1,75 @@
+{
+  "name": "countries-and-timezones",
+  "version": "3.6.0",
+  "description": "Minimalistic library to work with countries and timezones data.",
+  "main": "./dist/index.js",
+  "module": "./esm/index.js",
+  "types": "./esm/types.d.ts",
+  "exports": {
+    "import": {
+      "types": "./esm/types.d.ts",
+      "default": "./esm/index.js"
+    },
+    "require": {
+      "types": "./dist/types.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "esm"
+  ],
+  "scripts": {
+    "build": "rollup -c && sh .fixTypes.sh",
+    "prepack": "yarn run build",
+    "test:unit": "mocha",
+    "test:types": "dtslint types",
+    "test": "yarn run test:unit && yarn run test:types"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manuelmhtr/countries-and-timezones.git"
+  },
+  "engines": {
+    "node": ">=8.x",
+    "npm": ">=5.x"
+  },
+  "keywords": [
+    "Countries",
+    "Timezones",
+    "Country",
+    "Timezone",
+    "Time",
+    "Date",
+    "DST",
+    "IANA",
+    "ICANN"
+  ],
+  "author": "Manuel de la Torre",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/manuelmhtr/countries-and-timezones/issues"
+  },
+  "homepage": "https://github.com/manuelmhtr/countries-and-timezones#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.13.16",
+    "@babel/core": "^7.13.16",
+    "@babel/preset-env": "^7.13.15",
+    "@babel/register": "^7.15.3",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-commonjs": "^18.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "chai": "^4.3.4",
+    "dtslint": "^4.1.3",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.0",
+    "mocha": "^8.3.2",
+    "proxyquire": "^2.1.3",
+    "rollup": "^2.45.2",
+    "rollup-plugin-dts": "^3.0.2",
+    "rollup-plugin-terser": "^7.0.2",
+    "sinon": "^10.0.0",
+    "typescript": "^4.3.5"
+  }
+}

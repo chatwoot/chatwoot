@@ -1,0 +1,44 @@
+{
+  "name": "@formkit/core",
+  "version": "1.6.7",
+  "description": "The framework agnostic core of FormKit",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "types": "./dist/index.d.cts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "development": "./dist/index.dev.mjs",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./*": "./dist/*"
+  },
+  "keywords": [
+    "vue",
+    "forms",
+    "inputs",
+    "validation"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/formkit/formkit.git",
+    "directory": "packages/core"
+  },
+  "contributors": [
+    "Justin Schroeder <justin@formkit.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@formkit/utils": "1.6.7"
+  },
+  "scripts": {
+    "test": "jest"
+  }
+}

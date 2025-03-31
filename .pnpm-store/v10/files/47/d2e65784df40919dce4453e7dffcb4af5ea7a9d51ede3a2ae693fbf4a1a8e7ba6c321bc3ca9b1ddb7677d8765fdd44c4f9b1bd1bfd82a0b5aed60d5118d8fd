@@ -1,0 +1,12 @@
+
+{{alias}}
+    The bias of a double-precision floating-point number's exponent.
+
+    Examples
+    --------
+    > {{alias}}
+    1023
+
+    See Also
+    --------
+

@@ -1,0 +1,13 @@
+
+{{alias}}
+    The maximum biased base 2 exponent for a double-precision floating-point
+    number.
+
+    Examples
+    --------
+    > {{alias}}
+    1023
+
+    See Also
+    --------
+

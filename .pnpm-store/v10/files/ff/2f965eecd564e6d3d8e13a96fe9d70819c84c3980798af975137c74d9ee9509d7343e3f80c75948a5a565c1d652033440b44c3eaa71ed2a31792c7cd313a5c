@@ -1,0 +1,29 @@
+@startuml
+
+state "Request Segment" as RS
+state "Partial Response (1)" as PR1
+state "..." as DDD
+state "Partial Response (n)" as PRN
+state "Prepare for Append (1)" as PfA1
+state "Prepare for Append (n)" as PfAN
+state "Append (1)" as A1
+state "Append (n)" as AN
+
+[*] -> RS
+
+RS --> PR1
+PR1 --> DDD
+DDD --> PRN
+
+PR1 -> PfA1
+PfA1 : transmux (if needed)
+PfA1 -> A1
+A1 : MSE source buffer
+PRN -> PfAN
+PfAN : transmux (if needed)
+PfAN -> AN
+AN : MSE source buffer
+
+AN --> [*]
+
+@enduml

@@ -1,0 +1,67 @@
+{
+  "name": "@segment/tsub",
+  "version": "1.0.1",
+  "description": "Tsub for JS",
+  "main": "dist/index.js",
+  "browser": "dist/index.js",
+  "bin": "dist/index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "rm -rf dist && tsc",
+    "lint": "tslint src/**/*.ts",
+    "lint_test": "tslint src/**/*.test.ts"
+  },
+  "repository": "git+https://github.com/segmentio/tsub-js.git",
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/segmentio/tsub-js/issues"
+  },
+  "homepage": "https://github.com/segmentio/tsub-js#readme",
+  "dependencies": {
+    "@stdlib/math-base-special-ldexp": "^0.0.5",
+    "dlv": "^1.1.3",
+    "dset": "^3.1.1",
+    "tiny-hashes": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.4.0",
+    "jest": "^27.4.7",
+    "size-limit": "^7.0.5",
+    "ts-jest": "^27.1.3",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^4.5.5"
+  },
+  "resolutions": {
+    "ini": "1.3.6",
+    "dot-prop": "^6.0.1"
+  },
+  "size-limit": [
+    {
+      "path": "dist/index.js",
+      "limit": "3.35 KB"
+    }
+  ],
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "printWidth": 100
+  },
+  "lint-staged": {
+    "linters": {
+      "*.ts": [
+        "prettier --write",
+        "git add"
+      ],
+      "*.json": [
+        "prettier --write",
+        "git add"
+      ]
+    },
+    "ignore": [
+      "examples/**/generated/**",
+      "**/__snapshots__/**"
+    ]
+  }
+}

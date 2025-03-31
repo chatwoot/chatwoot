@@ -1,0 +1,116 @@
+{
+  "name": "@videojs/http-streaming",
+  "version": "2.13.1",
+  "description": "Play back HLS and DASH with Video.js, even where it's not natively supported",
+  "main": "dist/videojs-http-streaming.cjs.js",
+  "module": "dist/videojs-http-streaming.es.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:videojs/http-streaming.git"
+  },
+  "scripts": {
+    "prenetlify": "npm run build",
+    "netlify": "node scripts/netlify.js",
+    "build-test": "cross-env-shell TEST_BUNDLE_ONLY=1 'npm run build'",
+    "build-prod": "cross-env-shell NO_TEST_BUNDLE=1 'npm run build'",
+    "build": "npm-run-all -s clean -p build:*",
+    "build:js": "rollup -c scripts/rollup.config.js",
+    "docs": "npm-run-all docs:*",
+    "docs:api": "jsdoc src -g plugins/markdown -r -d docs/api",
+    "docs:toc": "doctoc --notitle README.md",
+    "docs:images": "node ./scripts/create-docs-images.js",
+    "clean": "shx rm -rf ./dist ./test/dist && shx mkdir -p ./dist ./test/dist",
+    "lint": "vjsstandard",
+    "prepublishOnly": "npm-run-all build-prod && vjsverify --verbose",
+    "start": "npm-run-all -p server watch",
+    "server": "karma start scripts/karma.conf.js --singleRun=false --auto-watch",
+    "test": "npm-run-all lint build-test && karma start scripts/karma.conf.js",
+    "posttest": "[ \"$CI_TEST_TYPE\" != 'coverage' ] || shx cat test/dist/coverage/text.txt",
+    "version": "vjs-update-changelog --add --run-on-prerelease",
+    "watch": "npm-run-all -p watch:*",
+    "watch:js": "npm run build:js -- -w"
+  },
+  "keywords": [
+    "videojs",
+    "videojs-plugin"
+  ],
+  "author": "Brightcove, Inc",
+  "license": "Apache-2.0",
+  "vjsstandard": {
+    "ignore": [
+      "dist",
+      "docs",
+      "deploy",
+      "test/dist",
+      "utils",
+      "src/*.worker.js"
+    ]
+  },
+  "files": [
+    "CONTRIBUTING.md",
+    "dist/",
+    "docs/",
+    "index.html",
+    "scripts/",
+    "src/"
+  ],
+  "dependencies": {
+    "@babel/runtime": "^7.12.5",
+    "@videojs/vhs-utils": "3.0.4",
+    "aes-decrypter": "3.1.2",
+    "global": "^4.4.0",
+    "m3u8-parser": "4.7.0",
+    "mpd-parser": "0.21.0",
+    "mux.js": "6.0.1",
+    "video.js": "^6 || ^7"
+  },
+  "peerDependencies": {
+    "video.js": "^6 || ^7"
+  },
+  "devDependencies": {
+    "@rollup/plugin-replace": "^2.3.4",
+    "@rollup/plugin-strip": "^2.0.1",
+    "@videojs/generator-helpers": "~3.1.0",
+    "bootstrap": "^5.1.0",
+    "d3": "^3.4.8",
+    "es5-shim": "^4.5.13",
+    "es6-shim": "^0.35.5",
+    "jsdoc": "~3.6.6",
+    "karma": "^5.2.3",
+    "lodash": "^4.17.4",
+    "lodash-compat": "^3.10.0",
+    "nomnoml": "^0.3.0",
+    "rollup": "^2.36.1",
+    "rollup-plugin-worker-factory": "0.5.7",
+    "shelljs": "^0.8.4",
+    "sinon": "^8.1.1",
+    "url-toolkit": "^2.2.1",
+    "videojs-contrib-eme": "^3.8.1",
+    "videojs-contrib-quality-levels": "^2.0.4",
+    "videojs-generate-karma-config": "^7.1.0",
+    "videojs-generate-rollup-config": "^6.2.2",
+    "videojs-generator-verify": "~3.0.1",
+    "videojs-http-source-selector": "^1.1.6",
+    "videojs-standard": "^9.0.0"
+  },
+  "generator-videojs-plugin": {
+    "version": "7.6.3"
+  },
+  "browserslist": [
+    "defaults",
+    "ie 11"
+  ],
+  "engines": {
+    "node": ">=8",
+    "npm": ">=5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": "vjsstandard --fix",
+    "README.md": "doctoc --notitle"
+  }
+}

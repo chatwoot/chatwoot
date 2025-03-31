@@ -1,0 +1,82 @@
+{
+  "name": "date-format-parse",
+  "version": "0.2.7",
+  "description": "Lightweight date format and parse",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "files": [
+    "lib",
+    "es",
+    "src"
+  ],
+  "scripts": {
+    "build:compile.cjs": "MODULE_TYPE=cjs babel src --out-dir lib --extensions .ts",
+    "build:compile.es": "babel src --out-dir es --extensions .ts",
+    "build:types": "tsc --project tsconfig.types.json --outDir lib && tsc --project tsconfig.types.json --outDir es",
+    "build": "npm run lint && npm test && npm run clean && npm run build:compile.cjs && npm run build:compile.es && npm run build:types",
+    "test": "jest",
+    "cov": "jest --coverage --coverageReporters=text-lcov | coveralls",
+    "clean": "rimraf es lib coverage",
+    "lint": "eslint src/**/*",
+    "format": "prettier --write src/**/*",
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
+    "release": "bash build/git.sh && bash build/release.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mengxiong10/date-format-parse.git"
+  },
+  "keywords": [
+    "date",
+    "format",
+    "parse"
+  ],
+  "author": "xiemengxiong",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mengxiong10/date-format-parse/issues"
+  },
+  "homepage": "https://github.com/mengxiong10/date-format-parse#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-typescript": "^7.7.2",
+    "@commitlint/cli": "^7.2.1",
+    "@commitlint/config-conventional": "^7.1.2",
+    "@types/jest": "^24.0.22",
+    "@typescript-eslint/eslint-plugin": "^2.6.1",
+    "@typescript-eslint/parser": "^2.6.1",
+    "babel-plugin-add-module-exports": "^1.0.2",
+    "conventional-changelog-cli": "^2.0.25",
+    "coveralls": "^3.0.7",
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-import": "^2.18.2",
+    "husky": "^3.0.9",
+    "jest": "^24.9.0",
+    "lint-staged": "^9.4.2",
+    "moment": "^2.24.0",
+    "prettier": "^1.18.2",
+    "rimraf": "^3.0.0",
+    "ts-jest": "^24.1.0",
+    "tslib": "^1.10.0",
+    "typescript": "^3.6.4",
+    "utility-types": "^3.9.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -x @commitlint/config-conventional -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "**/*.{js,jsx}": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
+  }
+}

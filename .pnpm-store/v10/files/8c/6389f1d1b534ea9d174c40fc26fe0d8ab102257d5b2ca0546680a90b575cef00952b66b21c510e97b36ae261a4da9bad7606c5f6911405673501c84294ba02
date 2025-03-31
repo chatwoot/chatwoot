@@ -1,0 +1,90 @@
+{
+  "name": "cssdb",
+  "version": "7.6.0",
+  "type": "module",
+  "description": "A comprehensive list of CSS features and their positions in the process of becoming implemented web standards",
+  "author": "Jonathan Neal <jonathantneal@hotmail.com>",
+  "license": "CC0-1.0",
+  "funding": [
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/csstools"
+    },
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/csstools"
+    }
+  ],
+  "repository": "csstools/cssdb",
+  "homepage": "https://github.com/csstools/cssdb#readme",
+  "bugs": "https://github.com/csstools/cssdb/issues",
+  "main": "cssdb.json",
+  "module": "cssdb.mjs",
+  "files": [
+    "cssdb.json",
+    "cssdb.mjs"
+  ],
+  "exports": {
+    ".": {
+      "import": "./cssdb.mjs",
+      "require": "./cssdb.json",
+      "default": "./cssdb.json"
+    }
+  },
+  "scripts": {
+    "start": "node ./tasks/preview-site.mjs",
+    "prestart": "npm run build",
+    "build": "node ./tasks/render-site.mjs",
+    "prebuild": "npm run preparesite",
+    "prepublishOnly": "npm run populatedb",
+    "populatedb": "node tasks/populate-db.mjs",
+    "create-badges": "node tasks/write-badges.js",
+    "preparesite": "npm run populatedb && npm run create-badges && npm run buildcss",
+    "buildcss": "postcss src/styles/style.css -d dist/styles -m",
+    "test": "npm run test:css && npm run test:json",
+    "test:css": "stylelint src/styles/style.css",
+    "test:json": "node tasks/test.cjs"
+  },
+  "devDependencies": {
+    "@mdn/browser-compat-data": "^5.2.57",
+    "browserslist": "^4.21.5",
+    "caniuse-lite": "^1.0.30001487",
+    "glob": "^10.2.4",
+    "lodash.get": "^4.4.2",
+    "postcss": "^8.4.23",
+    "postcss-cli": "^10.1.0",
+    "postcss-preset-env": "^8.3.2",
+    "semver": "^7.5.0",
+    "stylelint": "^15.6.0",
+    "stylelint-config-standard": "^33.0.0"
+  },
+  "stylelint": {
+    "extends": "stylelint-config-standard",
+    "rules": {
+      "indentation": "tab",
+      "property-no-unknown": [
+        true,
+        {
+          "ignoreProperties": [
+            "font-smoothing"
+          ]
+        }
+      ],
+      "selector-class-pattern": null,
+      "no-descending-specificity": null,
+      "value-keyword-case": null,
+      "number-leading-zero": "never"
+    }
+  },
+  "keywords": [
+    "css",
+    "features",
+    "list",
+    "specifications",
+    "stages",
+    "tc39"
+  ],
+  "volta": {
+    "node": "16.18.1"
+  }
+}

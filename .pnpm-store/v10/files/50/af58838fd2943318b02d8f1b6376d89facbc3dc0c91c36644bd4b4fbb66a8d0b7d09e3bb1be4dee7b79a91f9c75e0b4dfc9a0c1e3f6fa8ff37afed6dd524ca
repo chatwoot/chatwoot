@@ -1,0 +1,49 @@
+{
+	"name": "find-cache-dir",
+	"version": "5.0.0",
+	"description": "Finds the common standard cache directory",
+	"license": "MIT",
+	"repository": "sindresorhus/find-cache-dir",
+	"funding": "https://github.com/sponsors/sindresorhus",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "https://sindresorhus.com"
+	},
+	"type": "module",
+	"exports": {
+		"types": "./index.d.ts",
+		"default": "./index.js"
+	},
+	"engines": {
+		"node": ">=16"
+	},
+	"scripts": {
+		"test": "xo && ava && tsd"
+	},
+	"files": [
+		"index.js",
+		"index.d.ts"
+	],
+	"keywords": [
+		"cache",
+		"directory",
+		"caching",
+		"find",
+		"search"
+	],
+	"dependencies": {
+		"common-path-prefix": "^3.0.0",
+		"pkg-dir": "^7.0.0"
+	},
+	"devDependencies": {
+		"ava": "^5.3.1",
+		"del": "^7.0.0",
+		"tempy": "^3.1.0",
+		"tsd": "^0.28.1",
+		"xo": "^0.56.0"
+	},
+	"ava": {
+		"workerThreads": false
+	}
+}

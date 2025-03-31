@@ -1,0 +1,96 @@
+{
+	"name": "globby",
+	"version": "13.2.2",
+	"description": "User-friendly glob matching",
+	"license": "MIT",
+	"repository": "sindresorhus/globby",
+	"funding": "https://github.com/sponsors/sindresorhus",
+	"author": {
+		"email": "sindresorhus@gmail.com",
+		"name": "Sindre Sorhus",
+		"url": "https://sindresorhus.com"
+	},
+	"type": "module",
+	"exports": "./index.js",
+	"engines": {
+		"node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+	},
+	"scripts": {
+		"bench": "npm update @globby/main-branch glob-stream fast-glob && node bench.js",
+		"test": "xo && ava && tsd"
+	},
+	"files": [
+		"index.js",
+		"index.d.ts",
+		"ignore.js",
+		"utilities.js"
+	],
+	"keywords": [
+		"all",
+		"array",
+		"directories",
+		"expand",
+		"files",
+		"filesystem",
+		"filter",
+		"find",
+		"fnmatch",
+		"folders",
+		"fs",
+		"glob",
+		"globbing",
+		"globs",
+		"gulpfriendly",
+		"match",
+		"matcher",
+		"minimatch",
+		"multi",
+		"multiple",
+		"paths",
+		"pattern",
+		"patterns",
+		"traverse",
+		"util",
+		"utility",
+		"wildcard",
+		"wildcards",
+		"promise",
+		"gitignore",
+		"git"
+	],
+	"dependencies": {
+		"dir-glob": "^3.0.1",
+		"fast-glob": "^3.3.0",
+		"ignore": "^5.2.4",
+		"merge2": "^1.4.1",
+		"slash": "^4.0.0"
+	},
+	"devDependencies": {
+		"@globby/main-branch": "sindresorhus/globby#main",
+		"@types/node": "^20.3.3",
+		"ava": "^5.3.1",
+		"benchmark": "2.1.4",
+		"glob-stream": "^8.0.0",
+		"rimraf": "^5.0.1",
+		"tempy": "^3.0.0",
+		"tsd": "^0.28.1",
+		"typescript": "^5.1.6",
+		"xo": "^0.54.2"
+	},
+	"xo": {
+		"ignores": [
+			"fixtures"
+		],
+		"rules": {
+			"@typescript-eslint/consistent-type-definitions": "off",
+			"n/prefer-global/url": "off",
+			"@typescript-eslint/consistent-type-imports": "off"
+		}
+	},
+	"ava": {
+		"files": [
+			"!tests/utilities.js"
+		],
+		"workerThreads": false
+	}
+}

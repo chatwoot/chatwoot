@@ -1,0 +1,28 @@
+
+{{alias}}( value )
+    Tests if a value is a Buffer instance.
+
+    Parameters
+    ----------
+    value: any
+        Value to test.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating whether value is a Buffer instance.
+
+    Examples
+    --------
+    > var bool = {{alias}}( new {{alias:@stdlib/buffer/ctor}}( 'beep' ) )
+    true
+    > bool = {{alias}}( new {{alias:@stdlib/buffer/ctor}}( [ 1, 2, 3, 4 ] ) )
+    true
+    > bool = {{alias}}( {} )
+    false
+    > bool = {{alias}}( [] )
+    false
+
+    See Also
+    --------
+

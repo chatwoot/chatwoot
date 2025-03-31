@@ -1,0 +1,11 @@
+
+{{alias}}()
+    A function which does nothing.
+
+    Examples
+    --------
+    > {{alias}}();
+
+    See Also
+    --------
+

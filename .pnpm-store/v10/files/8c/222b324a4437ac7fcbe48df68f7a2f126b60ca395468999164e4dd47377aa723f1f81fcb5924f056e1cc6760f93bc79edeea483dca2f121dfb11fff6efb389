@@ -1,0 +1,132 @@
+
+{{alias}}( value )
+    Determines a value's type.
+
+    The following values are not natively provided in older JavaScript engines:
+
+    - Map
+    - Set
+    - WeakMap
+    - WeakSet
+    - Symbol
+
+    Parameters
+    ----------
+    value: any
+        Input value.
+
+    Returns
+    -------
+    out: string
+        The value's type.
+
+    Examples
+    --------
+    // Built-ins:
+    > var t = {{alias}}( 'a' )
+    'string'
+    > t = {{alias}}( 5 )
+    'number'
+    > t = {{alias}}( NaN )
+    'number'
+    > t = {{alias}}( true )
+    'boolean'
+    > t = {{alias}}( false )
+    'boolean'
+    > t = {{alias}}( null )
+    'null'
+    > t = {{alias}}( undefined )
+    'undefined'
+    > t = {{alias}}( [] )
+    'array'
+    > t = {{alias}}( {} )
+    'object'
+    > t = {{alias}}( function noop() {} )
+    'function'
+    > t = {{alias}}( Symbol( 'beep' ) )
+    'symbol'
+    > t = {{alias}}( /.+/ )
+    'regexp'
+    > t = {{alias}}( new String( 'beep' ) )
+    'string'
+    > t = {{alias}}( new Number( 5 ) )
+    'number'
+    > t = {{alias}}( new Boolean( false ) )
+    'boolean'
+    > t = {{alias}}( new Array() )
+    'array'
+    > t = {{alias}}( new Object() )
+    'object'
+    > t = {{alias}}( new {{alias:@stdlib/array/int8}}( 10 ) )
+    'int8array'
+    > t = {{alias}}( new {{alias:@stdlib/array/uint8}}( 10 ) )
+    'uint8array'
+    > t = {{alias}}( new {{alias:@stdlib/array/uint8c}}( 10 ) )
+    'uint8clampedarray'
+    > t = {{alias}}( new {{alias:@stdlib/array/int16}}( 10 ) )
+    'int16array'
+    > t = {{alias}}( new {{alias:@stdlib/array/uint16}}( 10 ) )
+    'uint16array'
+    > t = {{alias}}( new {{alias:@stdlib/array/int32}}( 10 ) )
+    'int32array'
+    > t = {{alias}}( new {{alias:@stdlib/array/uint32}}( 10 ) )
+    'uint32array'
+    > t = {{alias}}( new {{alias:@stdlib/array/float32}}( 10 ) )
+    'float32array'
+    > t = {{alias}}( new {{alias:@stdlib/array/float64}}( 10 ) )
+    'float64array'
+    > t = {{alias}}( new {{alias:@stdlib/array/buffer}}( 10 ) )
+    'arraybuffer'
+    > t = {{alias}}( new Date() )
+    'date'
+    > t = {{alias}}( new RegExp( '.+' ) )
+    'regexp'
+    > t = {{alias}}( new Map() )
+    'map'
+    > t = {{alias}}( new Set() )
+    'set'
+    > t = {{alias}}( new WeakMap() )
+    'weakmap'
+    > t = {{alias}}( new WeakSet() )
+    'weakset'
+    > t = {{alias}}( new Error( 'beep' ) )
+    'error'
+    > t = {{alias}}( new TypeError( 'beep' ) )
+    'typeerror'
+    > t = {{alias}}( new SyntaxError( 'beep' ) )
+    'syntaxerror'
+    > t = {{alias}}( new ReferenceError( 'beep' ) )
+    'referenceerror'
+    > t = {{alias}}( new URIError( 'beep' ) )
+    'urierror'
+    > t = {{alias}}( new RangeError( 'beep' ) )
+    'rangeerror'
+    > t = {{alias}}( new EvalError( 'beep' ) )
+    'evalerror'
+    > t = {{alias}}( Math )
+    'math'
+    > t = {{alias}}( JSON )
+    'json'
+
+    // Arguments object:
+    > function beep() { return arguments; };
+    > t = {{alias}}( beep() )
+    'arguments'
+
+    // Node.js Buffer object:
+    > t = {{alias}}( new {{alias:@stdlib/buffer/ctor}}( 10 ) )
+    'buffer'
+
+    // Custom constructor:
+    > function Person() { return this };
+    > t = {{alias}}( new Person() )
+    'person'
+
+    // Anonymous constructor:
+    > var Foo = function () { return this; };
+    > t = {{alias}}( new Foo() )
+    '' || 'foo'
+
+    See Also
+    --------
+

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>videojs-http-streaming Demo</title>
+  <link rel="icon" href="logo.svg">
+  <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+  <link href="node_modules/video.js/dist/video-js.css" rel="stylesheet">
+  <link href="node_modules/videojs-http-source-selector/dist/videojs-http-source-selector.css" rel="stylesheet">
+  <style>
+    .form-check {
+      background-color: hsl(0, 0%, 90%);
+      margin-block: 0.5rem;
+      padding: 0.25em 0.25em 0.25em 1.75em;
+      width: 700px;
+      width: fit-content;
+    }
+    #player-fixture {
+      min-height: 250px;
+    }
+    #segment-metadata {
+      list-style: none;
+    }
+    #segment-metadata pre {
+      overflow: scroll;
+    }
+  </style>
+</head>
+<body class="m-4">
+  <script>
+    // if we're on IE, load up the load index page
+    var result = (/MSIE\s(\d+)\.\d/).exec(navigator.userAgent);
+    var version = result && parseFloat(result[1]);
+
+    if (!version && (/Trident\/7.0/i).test(navigator.userAgent) && (/rv:11.0/).test(navigator.userAgent)) {
+      // IE 11 has a different user agent string than other IE versions
+      version = 11.0;
+    }
+
+    if (version) {
+      window.location.href = './old-index.html';
+    }
+  </script>
+
+  <header class="container-fluid">
+    <a href="https://github.com/videojs/http-streaming" class="d-flex align-items-center pb-3 mb-5 border-bottom" style="height: 4em">
+      <img src="./logo.svg" alt="VHS logo showcasing a VHS tape with the Video.js logo on the label" class="rounded mh-100">
+      <span class="fs-1 ps-2">VHS: videojs-http-streaming</span>
+    </a>
+  </header>
+
+  <div id="player-fixture" class="container-fluid pb-3 mb-3"></div>
+
+  <ul class="nav nav-tabs container-fluid mb-3" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#sources" type="button" role="tab" aria-selected="true">Sources</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#options" type="button" role="tab" aria-selected="false">Options</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#levels" type="button" role="tab" aria-selected="false">Representations</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#player-stats" type="button" role="tab" aria-selected="false">Player Stats</button>
+    </li>
+  </ul>
+
+  <div class="tab-content container-fluid">
+
+    <div class="tab-pane active" id="sources" role="tabpanel">
+      <div class="input-group mb-2">
+        <span class="input-group-text"><label for=load-source>Preloaded Sources</label></span>
+        <select id=load-source class="form-select">
+          <optgroup label="hls">
+          </optgroup>
+          <optgroup label="dash">
+          </optgroup>
+          <optgroup label="drm">
+          </optgroup>
+          <optgroup label="live">
+          </optgroup>
+          <optgroup label="low latency live">
+          </optgroup>
+          <optgroup label="json manifest object">
+          </optgroup>
+        </select>
+      </div>
+
+      <label for=url class="form-label">Source URL</label>
+      <div class="input-group">
+        <span class="input-group-text"><label for=url>Url</label></span>
+        <input id=url type=url class="form-control">
+      </div>
+
+      <label for=type class="form-label">Source Type (uses url extension if blank, usually application/x-mpegURL or application/dash+xml)</label>
+      <div class="input-group">
+        <span class="input-group-text"><label for=type>Type</label></span>
+        <input id=type type=text class="form-control">
+      </div>
+
+      <label for="keysystems" class="form-label">Optional Keystems JSON:</label>
+      <div class="input-group">
+        <span class="input-group-text"><label for=keysystems>keySystems JSON</label></span>
+        <textarea id=keysystems cols=100 rows=5 class="form-control"></textarea>
+      </div>
+
+      <button id=load-url type=button class="btn btn-primary my-2">Load</button>
+
+    </div>
+
+    <div class="tab-pane" id="options" role="tabpanel">
+      <div class="options">
+        <div class="form-check">
+          <input id=minified type="checkbox" class="form-check-input">
+          <label class="form-check-label" for="minified">Minified VHS (reloads player)</label>
+        </div>
+
+        <div class="form-check">
+          <input id=sync-workers type="checkbox" class="form-check-input">
+          <label class="form-check-label" for="sync-workers">Synchronous Web Workers (reloads player)</label>
+        </div>
+
+        <div class="form-check">
+          <input id=liveui type="checkbox" class="form-check-input" checked>
+          <label class="form-check-label" for="liveui">Enable the live UI (reloads player)</label>
+        </div>
+
+        <div class="form-check">
+          <input id=fluid type="checkbox" class="form-check-input">
+          <label class="form-check-label" for="fluid">Fluid mode</label>
+        </div>
+
+        <div class="form-check">
+          <input id=debug type="checkbox" class="form-check-input">
+          <label class="form-check-label" for="debug">Debug Logging</label>
+        </div>
+
+        <div class="form-check">
+          <input id=muted type="checkbox" class="form-check-input">
+          <label class="form-check-label" for="muted">Muted</label>
+        </div>
+
+        <div class="form-check">
+          <input id=autoplay type="checkbox" class="form-check-input">
+          <label class="form-check-label" for="autoplay">Autoplay</label>
+        </div>
+
+        <div class="form-check">
+          <input id=network-info type="checkbox" class="form-check-input">
+          <label class="form-check-label" for="network-info">Use networkInfo API for bandwidth estimations (reloads player)</label>
+        </div>
+
+        <div class="form-check">
+          <input id=llhls type="checkbox" class="form-check-input">
+          <label class="form-check-label" for="llhls">[EXPERIMENTAL] Enables support for ll-hls (reloads player)</label>
+        </div>
+
+        <div class="form-check">
+          <input id=buffer-water type="checkbox" class="form-check-input">
+          <label class="form-check-label" for="buffer-water">[EXPERIMENTAL] Use Buffer Level for ABR (reloads player)</label>
+        </div>
+
+        <div class="form-check">
+          <input id=exact-manifest-timings type="checkbox" class="form-check-input">
+          <label class="form-check-label" for="exact-manifest-timings">[EXPERIMENTAL] Use exact manifest timings for segment choices (reloads player)</label>
+        </div>
+
+        <div class="form-check">
+          <input id=pixel-diff-selector type="checkbox" class="form-check-input">
+          <label class="form-check-label" for="pixel-diff-selector">[EXPERIMENTAL] Use the Pixel difference resolution selector (reloads player)</label>
+        </div>
+
+        <div class="form-check">
+          <input id=override-native type="checkbox" class="form-check-input" checked>
+          <label class="form-check-label" for="override-native">Override Native (reloads player)</label>
+        </div>
+
+        <div class="form-check">
+          <input id=mirror-source type="checkbox" class="form-check-input" checked>
+          <label class="form-check-label" for="mirror-source">Mirror sources from player.src (reloads player, uses EXPERIMENTAL sourceset option)</label>
+        </div>
+
+        <div class="input-group">
+          <span class="input-group-text"><label for=preload>Preload (reloads player)</label></span>
+          <select id=preload class="form-select">
+            <option selected>auto</option>
+            <option>none</option>
+            <option>metadata</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane" id="levels" role="tabpanel">
+      <div class="input-group">
+        <span class="input-group-text"><label for=representations>Representations</label></span>
+        <select id='representations' class="form-select"></select>
+      </div>
+    </div>
+
+    <div class="tab-pane" id="player-stats" role="tabpanel">
+      <div class="row">
+        <div class="player-stats col-4">
+          <dl>
+            <dt>Current Time:</dt>
+            <dd class="current-time-stat">0</dd>
+            <dt>Buffered:</dt>
+            <dd class="buffered-stat">-</dd>
+            <dt>Video Buffered:</dt>
+            <dd class="video-buffered-stat">-</dd>
+            <dt>Audio Buffered:</dt>
+            <dd class="audio-buffered-stat">-</dd>
+            <dt>Seekable:</dt>
+            <dd><span class="seekable-start-stat">-</span> - <span class="seekable-end-stat">-</span></dd>
+            <dt>Video Bitrate:</dt>
+            <dd class="video-bitrate-stat">0 kbps</dd>
+            <dt>Measured Bitrate:</dt>
+            <dd class="measured-bitrate-stat">0 kbps</dd>
+            <dt>Video Timestamp Offset</dt>
+            <dd class="video-timestampoffset">0</dd>
+            <dt>Audio Timestamp Offset</dt>
+            <dd class="audio-timestampoffset">0</dd>
+          </dl>
+        </div>
+        <ul id="segment-metadata" class="col-8"></ul>
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-center p-3" id=unit-test-link>
+    <a href="test/debug.html">Run unit tests</a>
+  </footer>
+
+  <script>
+    var unitTestLink = document.getElementById('unit-test-link');
+
+    // removal test run link on netlify, as we cannot run tests there.
+    if ((/netlify.app/).test(window.location.host)) {
+      unitTestLink.remove();
+    }
+  </script>
+  <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="scripts/index.js"></script>
+  <script>
+    window.startDemo(function(player) {
+      // do something with setup player
+    });
+  </script>
+  </body>
+</html>

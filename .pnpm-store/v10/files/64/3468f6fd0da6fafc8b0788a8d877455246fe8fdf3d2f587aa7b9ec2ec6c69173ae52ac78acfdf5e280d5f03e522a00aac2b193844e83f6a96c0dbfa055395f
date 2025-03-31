@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html class="dark">
+
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+  <title>&lt;ninja-keys> Demo</title>
+  <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script src="../node_modules/lit/polyfill-support.js"></script>
+  <script type="module" src="../dist/ninja-keys.js"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css?family=Inter:300,400,500" as="style" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons&display=block" rel="stylesheet">
+
+  <style>
+    html {
+      font-family: 'Inter';
+    }
+
+    p {
+      border: solid 1px blue;
+      padding: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas gravida
+    quis nulla et dignissim. Quisque imperdiet turpis eget augue mollis
+    varius. Morbi eget molestie velit. Vivamus nec vulputate odio, eget
+    ultrices magna. Morbi vehicula tincidunt aliquet. Mauris massa lacus,
+    iaculis in magna ut, pretium lobortis nibh. Praesent pulvinar nunc vel
+    blandit facilisis. Sed suscipit fringilla odio et malesuada. Quisque at
+    nulla ac ipsum sollicitudin faucibus eleifend id eros. Fusce tempor metus
+    id lacus ornare, eget fringilla justo fermentum. Aenean semper nunc sed
+    ligula tincidunt, in venenatis est feugiat. Vivamus aliquam tristique
+    libero in cursus. Praesent orci turpis, auctor id congue et, cursus sed
+    quam. Vivamus commodo mattis lacus id molestie. Donec eget venenatis
+    libero. Nam pharetra sollicitudin dui, mollis dictum dolor sollicitudin
+    nec. Vivamus mi est, blandit in lectus condimentum, bibendum ullamcorper
+    libero. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    Vestibulum ac sollicitudin leo, sit amet convallis lectus. Quisque ut
+    purus ullamcorper, euismod orci vitae, vestibulum tellus. Proin porta
+    nulla eleifend arcu pulvinar posuere. Etiam iaculis elit nec vehicula
+    blandit. Mauris urna arcu, tempor vitae dictum quis, tempor eu orci. Donec
+    faucibus turpis ac ligula cursus lobortis. Fusce elementum tempus nisi eu
+    ullamcorper. Fusce fermentum nibh magna, eget sollicitudin ex maximus
+    quis. Quisque ornare vitae augue at posuere. Sed in urna sodales, sodales
+    justo vitae, tristique nisl. Pellentesque habitant morbi tristique
+    senectus et netus et malesuada fames ac turpis egestas. Aenean mollis
+    blandit dictum. Aenean id laoreet purus, et pulvinar nibh. Phasellus vitae
+    condimentum sapien, a pretium est. Aenean mollis semper euismod.
+    Pellentesque dapibus, odio non scelerisque vehicula, arcu enim molestie
+    purus, at tristique quam massa sed tellus. Donec ut metus enim. Interdum
+    et malesuada fames ac ante ipsum primis in faucibus. Donec sit amet
+    iaculis risus. Vivamus vel felis nec dui posuere ultricies. Nunc placerat,
+    nisl at consectetur venenatis, sapien justo auctor quam, ac mollis quam
+    nibh id mi. Integer sit amet vulputate lectus. Aliquam dignissim feugiat
+    rhoncus. Suspendisse vestibulum tincidunt sollicitudin. Donec varius purus
+    a nisl ultrices venenatis quis ac velit. Ut molestie porttitor justo, vel
+    auctor neque aliquam nec. Pellentesque sagittis tempus dolor. In vel
+    turpis tincidunt, bibendum nibh at, tempus quam. Integer eget tempus quam.
+    Quisque fringilla efficitur augue, id convallis enim interdum non. Nam
+    varius urna ac scelerisque aliquet. Integer tempus auctor condimentum.
+    Pellentesque faucibus nunc et felis fermentum, quis varius leo porttitor.
+  </div>
+  <style>
+    html {
+      font-size: 18px;
+    }
+
+    ninja-keys {
+      --ninja-icon-size: 1em;
+    }
+
+    ninja-keys::part(actions-list) {
+      padding: 8px;
+    }
+
+    ninja-keys::part(ninja-action) {
+      border-radius: 8px;
+      border-left: none;
+    }
+
+    ninja-keys::part(ninja-selected) {
+      background: rgba(51, 51, 51, 0.1);
+    }
+  </style>
+  <ninja-keys> </ninja-keys>
+  <script>
+    const ninja = document.querySelector('ninja-keys');
+    ninja.addEventListener('change', (event) => {
+      console.log('ninja on change', event.detail);
+    })
+    ninja.addEventListener('selected', (event) => {
+      console.log('ninja on selected', event.detail);
+    })
+    ninja.data = [
+      //
+      {
+        id: 'Search Projects',
+        title: 'Search projects...',
+        hotkey: 'Shift+N,Shift+S',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="ninja-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+</svg>`,
+        section: 'Projects',
+      },
+      //
+      {
+        id: 'Theme',
+        title: 'Change theme...',
+        mdIcon: 'desktop_windows',
+        children: [
+          {
+            id: 'Light Theme',
+            title: 'Change theme to Light',
+            mdIcon: 'light_mode',
+          },
+          {
+            id: 'Dark Theme',
+            title: 'Change theme to Dark',
+            mdIcon: 'dark_mode',
+            keywords: 'lol'
+          },
+          {
+            id: 'System Theme',
+            title: 'Change theme to System',
+            mdIcon: 'desktop_windows',
+            children: [
+              {
+                id: 'sub1',
+                title: 'Sub1',
+                mdIcon: 'light_mode',
+              },
+              {
+                id: 'sub2',
+                title: 'sub2',
+                mdIcon: 'dark_mode',
+              },
+            ],
+          },
+        ],
+      },
+    ];
+      // ninja.data = [
+      //   //
+      //   {
+      //     id: 'Search Projects',
+      //     title: 'Search projects...',
+      //     hotkey: 'Shift+N',
+      //     mdIcon: 'apps',
+      //     section: 'Projects',
+      //   },
+      //   {
+      //     id: 'Create New Project',
+      //     title: 'Create new project...',
+      //     mdIcon: 'add',
+      //     section: 'Projects',
+      //   },
+      //   //
+      //   {
+      //     id: 'Search Teams',
+      //     title: 'Search teams...',
+      //     hotkey: 'ctrl+U',
+      //     mdIcon: 'person_search',
+      //     section: 'Team',
+      //   },
+      //   {
+      //     id: 'Create New Team',
+      //     title: 'Create team',
+      //     mdIcon: 'add',
+      //     section: 'Team',
+      //     hotkey: 'ctrl+N'
+      //   },
+      //   //
+      //   {
+      //     id: 'Theme',
+      //     title: 'Change theme...',
+      //     mdIcon: 'desktop_windows',
+      //     children: ['Light Theme', 'Dark Theme', 'System Theme'],
+      //     hotkey: 'ctrl+T',
+      //     handler: () => {
+      //       ninja.open({ parent: 'Theme' });
+      //       console.log('Hey FROM HERE');
+      //       return { keepOpen: true};
+      //     },
+      //   },
+      //   {
+      //     id: 'Light Theme',
+      //     title: 'Change theme to Light',
+      //     mdIcon: 'light_mode',
+      //     parent: 'Theme',
+      //   },
+      //   {
+      //     id: 'Dark Theme',
+      //     title: 'Change theme to Dark',
+      //     mdIcon: 'dark_mode',
+      //     parent: 'Theme',
+      //   },
+      //   {
+      //     id: 'System Theme',
+      //     title: 'Change theme to System',
+      //     mdIcon: 'desktop_windows',
+      //     parent: 'Theme',
+      //     children: ['sub1', 'sub2'],
+      //   },
+
+      //   // sub sub
+      //   {id: 'sub1', title: 'Sub1', mdIcon: 'light_mode', parent: 'System Theme'},
+      //   {
+      //     id: 'sub2',
+      //     title: 'sub2',
+      //     mdIcon: 'dark_mode',
+      //     parent: 'System Theme',
+      //     children: ['sub2_1', 'sub2_2'],
+      //   },
+
+      //   // sub sub sub
+      //   {
+      //     id: 'sub2_1',
+      //     title: 'Multi level test',
+      //     mdIcon: 'light_mode',
+      //     parent: 'sub2',
+      //   },
+      //   {
+      //     id: 'sub2_2',
+      //     title: 'Multi level test 2',
+      //     mdIcon: 'dark_mode',
+      //     parent: 'sub2',
+      //   },
+      // ];
+  </script>
+</body>
+
+</html>

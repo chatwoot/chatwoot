@@ -1,0 +1,42 @@
+import { Integrations, JSONObject } from '../../core/events';
+import { Analytics, InitOptions } from '../../core/analytics';
+import { LegacySettings } from '../../browser';
+import { Context } from '../../core/context';
+import { DestinationPlugin, Plugin } from '../../core/plugin';
+import { PriorityQueue } from '../../lib/priority-queue';
+import { DestinationMiddlewareFunction } from '../middleware';
+import { LegacyIntegration, ClassicIntegrationSource } from './types';
+export type ClassType<T> = new (...args: unknown[]) => T;
+export declare class LegacyDestination implements DestinationPlugin {
+    name: string;
+    version: string;
+    settings: JSONObject;
+    options: InitOptions;
+    type: Plugin['type'];
+    middleware: DestinationMiddlewareFunction[];
+    private _ready;
+    private _initialized;
+    private onReady;
+    private onInitialize;
+    private disableAutoISOConversion;
+    integrationSource?: ClassicIntegrationSource;
+    integration: LegacyIntegration | undefined;
+    buffer: PriorityQueue<Context>;
+    flushing: boolean;
+    constructor(name: string, version: string, settings: JSONObject | undefined, options: InitOptions, integrationSource?: ClassicIntegrationSource);
+    isLoaded(): boolean;
+    ready(): Promise<unknown>;
+    load(ctx: Context, analyticsInstance: Analytics): Promise<void>;
+    unload(_ctx: Context, _analyticsInstance: Analytics): Promise<void>;
+    addMiddleware(...fn: DestinationMiddlewareFunction[]): void;
+    shouldBuffer(ctx: Context): boolean;
+    private send;
+    track(ctx: Context): Promise<Context>;
+    page(ctx: Context): Promise<Context>;
+    identify(ctx: Context): Promise<Context>;
+    alias(ctx: Context): Promise<Context>;
+    group(ctx: Context): Promise<Context>;
+    private scheduleFlush;
+}
+export declare function ajsDestinations(settings: LegacySettings, globalIntegrations?: Integrations, options?: InitOptions, routingMiddleware?: DestinationMiddlewareFunction, legacyIntegrationSources?: ClassicIntegrationSource[]): LegacyDestination[];
+//# sourceMappingURL=index.d.ts.map

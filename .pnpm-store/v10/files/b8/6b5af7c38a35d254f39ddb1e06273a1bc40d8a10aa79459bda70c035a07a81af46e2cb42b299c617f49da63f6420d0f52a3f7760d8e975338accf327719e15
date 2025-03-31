@@ -1,0 +1,16 @@
+#EXTM3U
+#EXT-X-PLAYLIST-TYPE:
+#EXT-X-TARGETDURATION:10
+#EXTINF:10,
+/test/ts-files/zencoder/haze/Haze_Mantel_President_encoded_1200-00001.ts
+#EXTINF:10,
+/test/ts-files/zencoder/haze/Haze_Mantel_President_encoded_1200-00002.ts
+#EXTINF:10,
+/test/ts-files/zencoder/haze/Haze_Mantel_President_encoded_1200-00003.ts
+#EXTINF:10,
+/test/ts-files/zencoder/haze/Haze_Mantel_President_encoded_1200-00004.ts
+#EXTINF:10,
+/test/ts-files/zencoder/haze/Haze_Mantel_President_encoded_1200-00005.ts
+#EXTINF:8,
+/test/ts-files/zencoder/haze/Haze_Mantel_President_encoded_1200-00006.ts
+#EXT-X-ENDLIST

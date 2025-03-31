@@ -1,0 +1,123 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "berry",
+  "patterns": [
+    {
+      "include": "#controls"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#comment-block"
+    },
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#function"
+    },
+    {
+      "include": "#member"
+    },
+    {
+      "include": "#identifier"
+    },
+    {
+      "include": "#number"
+    },
+    {
+      "include": "#operator"
+    }
+  ],
+  "repository": {
+    "controls": {
+      "patterns": [
+        {
+          "name": "keyword.control.berry",
+          "match": "\\b(if|elif|else|for|while|do|end|break|continue|return|try|except|raise)\\b"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.berry",
+          "match": "\"(\\\\.|[^\"])*\""
+        },
+        {
+          "name": "string.quoted.single.berry",
+          "match": "'(\\\\.|[^'])*'"
+        }
+      ]
+    },
+    "comment-block": {
+      "name": "comment.berry",
+      "begin": "\\#\\-",
+      "end": "\\-#",
+      "patterns": [{}]
+    },
+    "comments": {
+      "name": "comment.line.berry",
+      "begin": "\\#",
+      "end": "\\n",
+      "patterns": [{}]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.berry",
+          "match": "\\b(var|static|def|class|true|false|nil|self|super|import|as)\\b"
+        }
+      ]
+    },
+    "identifier": {
+      "patterns": [
+        {
+          "name": "identifier.berry",
+          "match": "\\b[_A-Za-z]\\w+\\b"
+        }
+      ]
+    },
+    "number": {
+      "patterns": [
+        {
+          "name": "constant.numeric.berry",
+          "match": "0x[a-fA-F0-9]+|\\d+|(\\d+\\.?|\\.\\d)\\d*([eE][+-]?\\d+)?"
+        }
+      ]
+    },
+    "operator": {
+      "patterns": [
+        {
+          "name": "keyword.operator.berry",
+          "match": "\\(|\\)|\\[|\\]|\\.|-|\\!|~|\\*|/|%|\\+|&|\\^|\\||<|>|=|:"
+        }
+      ]
+    },
+    "member": {
+      "patterns": [
+        {
+          "match": "\\.([a-zA-Z_][a-zA-Z0-9_]*)",
+          "captures": {
+            "0": {
+              "name": "entity.other.attribute-name.berry"
+            }
+          }
+        }
+      ]
+    },
+    "function": {
+      "patterns": [
+        {
+          "name": "entity.name.function.berry",
+          "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*(?=\\s*\\())"
+        }
+      ]
+    }
+  },
+  "scopeName": "source.berry"
+}

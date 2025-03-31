@@ -1,0 +1,70 @@
+{
+  "name": "@floating-ui/core",
+  "version": "0.3.1",
+  "@rollingversions": {
+    "baseVersion": [
+      0,
+      0,
+      0
+    ]
+  },
+  "description": "Positioning library for floating elements: tooltips, popovers, dropdowns, and more",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/floating-ui.core.cjs",
+  "module": "dist/floating-ui.core.esm.js",
+  "unpkg": "dist/floating-ui.core.min.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/floating-ui.core.esm.js",
+      "require": "./dist/floating-ui.core.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist/",
+    "index.d.ts",
+    "src/**/*.d.ts"
+  ],
+  "browserslist": "> 0.5%, not dead, not IE 11",
+  "scripts": {
+    "test": "jest test",
+    "dev": "rollup -c -w",
+    "build": "NODE_ENV=build rollup -c"
+  },
+  "author": "atomiks",
+  "license": "MIT",
+  "bugs": "https://github.com/floating-ui/floating-ui",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/floating-ui/floating-ui.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://floating-ui.com",
+  "keywords": [
+    "tooltip",
+    "popover",
+    "dropdown",
+    "menu",
+    "popup",
+    "positioning"
+  ],
+  "devDependencies": {
+    "@atomico/rollup-plugin-sizes": "^1.1.4",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-typescript": "^7.16.0",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-node-resolve": "^13.0.6",
+    "@rollup/plugin-replace": "^3.0.0",
+    "@types/jest": "^27.0.3",
+    "babel-plugin-annotate-pure-calls": "^0.4.0",
+    "jest": "^27.3.1",
+    "rollup": "^2.60.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "ts-jest": "^27.0.7",
+    "typescript": "^4.5.2"
+  }
+}

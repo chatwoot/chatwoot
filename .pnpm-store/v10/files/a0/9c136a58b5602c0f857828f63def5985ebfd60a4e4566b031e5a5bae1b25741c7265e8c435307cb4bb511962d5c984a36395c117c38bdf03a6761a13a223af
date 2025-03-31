@@ -1,0 +1,55 @@
+{
+  "name": "birpc",
+  "version": "0.1.1",
+  "description": "Message based Two-way remote procedure call",
+  "keywords": [
+    "rpc",
+    "messages"
+  ],
+  "homepage": "https://github.com/antfu/birpc#readme",
+  "bugs": {
+    "url": "https://github.com/antfu/birpc/issues"
+  },
+  "license": "MIT",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antfu/birpc.git"
+  },
+  "funding": "https://github.com/sponsors/antfu",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.18.9",
+    "@antfu/ni": "^0.13.2",
+    "@types/node": "^17.0.23",
+    "bumpp": "^7.1.1",
+    "eslint": "^8.12.0",
+    "esno": "^0.14.1",
+    "typescript": "^4.6.3",
+    "unbuild": "^0.7.2",
+    "vite": "^2.8.6",
+    "vitest": "^0.7.11"
+  },
+  "scripts": {
+    "build": "unbuild",
+    "dev": "unbuild --stub",
+    "lint": "eslint .",
+    "release": "bumpp --commit --push --tag && pnpm publish",
+    "start": "esno src/index.ts",
+    "test": "vitest"
+  },
+  "readme": "# birpc\n\n[![NPM version](https://img.shields.io/npm/v/birpc?color=a1b858&label=)](https://www.npmjs.com/package/birpc)\n\nMessage-based two-way remote procedure call. Useful for WebSockets and Workers communication.\n\n## Features\n\n- Intuitive - call remote functions just like locals, with Promise to get the response\n- TypeScript - safe function calls for arguments and returns\n- Protocol agonostic - WebSocket, MessageChannel, any protocols with messages communication would work!\n- Zero deps, ~0.5KB\n\n## Usage\n\nSee [the test example](./test/index.test.ts).\n\n## Sponsors\n\n<p align=\"center\">\n  <a href=\"https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg\">\n    <img src='https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg'/>\n  </a>\n</p>\n\n## License\n\n[MIT](./LICENSE) License © 2021 [Anthony Fu](https://github.com/antfu)\n"
+}

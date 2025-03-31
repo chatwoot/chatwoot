@@ -1,0 +1,11 @@
+/* Handle responsive / fluid view.
+--------------------------------------------------------------------------------
+*/
+.vjs-wavesurfer.vjs-fluid wave.vjs-wavedisplay {
+    top: 0;
+    position: absolute!important;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    height: 100%;
+}

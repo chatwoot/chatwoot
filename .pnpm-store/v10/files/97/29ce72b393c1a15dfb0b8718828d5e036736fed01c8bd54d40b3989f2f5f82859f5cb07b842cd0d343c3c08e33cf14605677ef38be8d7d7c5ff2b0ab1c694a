@@ -1,0 +1,27 @@
+{
+  "require": [
+    "@babel/register"
+  ],
+  "reporter": [
+    "lcov",
+    "text-summary"
+  ],
+  "include": [
+    "source/**/*.js"
+  ],
+  "exclude": [
+    "source/findNumbers/Leniency.js",
+    "source/findNumbers/RegExpCache.js",
+    "source/findNumbers/LRUCache.js",
+    "source/PhoneNumberMatcher.js",
+    "source/formatNumberForMobileDialing.js",
+    "source/tools/*.js",
+    "**/*.test.js"
+  ],
+  "check-coverage": true,
+  "lines": "100",
+  "sourceMap": false,
+  "instrument": false,
+  "cache": true,
+  "all": true
+}

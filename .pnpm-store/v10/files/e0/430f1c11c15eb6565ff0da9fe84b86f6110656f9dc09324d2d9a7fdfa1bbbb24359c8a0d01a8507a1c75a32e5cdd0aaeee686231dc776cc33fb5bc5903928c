@@ -1,0 +1,1 @@
+{"version":3,"file":"apply-auto-fixes.js","sourceRoot":"","sources":["../../src/fix/apply-auto-fixes.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,QAAQ,EAAE,MAAM,uBAAuB,CAAC;AAMjD;;GAEG;AACH,MAAM,UAAU,yBAAyB,CAAC,OAAmB,EAAE,KAA8B;IAC3F,OAAO,OAAO,CAAC,QAAQ,CAAC,GAAG,CAAC,CAAC,OAAO,EAAE,EAAE,CAAC,OAAO,CAAC,GAAG,CAAC,CAAC,MAAM,CAAC,QAAQ,CAAC,CAAC;AACzE,CAAC"}

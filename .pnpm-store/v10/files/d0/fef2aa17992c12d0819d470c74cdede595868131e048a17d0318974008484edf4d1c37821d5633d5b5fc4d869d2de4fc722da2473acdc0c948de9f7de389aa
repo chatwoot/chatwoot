@@ -1,0 +1,33 @@
+.dark, .dark-theme {
+  --ruby-a1: #f4124a09;
+  --ruby-a2: #fe5a7f0e;
+  --ruby-a3: #ff235d2c;
+  --ruby-a4: #fd195e42;
+  --ruby-a5: #fe2d6b53;
+  --ruby-a6: #ff447665;
+  --ruby-a7: #ff577d80;
+  --ruby-a8: #ff5c7cae;
+  --ruby-a9: #fe4c70e4;
+  --ruby-a10: #ff617beb;
+  --ruby-a11: #ff949d;
+  --ruby-a12: #ffd3e2fe;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    .dark, .dark-theme {
+      --ruby-a1: color(display-p3 0.984 0.071 0.329 / 0.03);
+      --ruby-a2: color(display-p3 0.992 0.376 0.529 / 0.051);
+      --ruby-a3: color(display-p3 0.996 0.196 0.404 / 0.152);
+      --ruby-a4: color(display-p3 1 0.173 0.416 / 0.227);
+      --ruby-a5: color(display-p3 1 0.259 0.459 / 0.29);
+      --ruby-a6: color(display-p3 1 0.341 0.506 / 0.358);
+      --ruby-a7: color(display-p3 1 0.412 0.541 / 0.458);
+      --ruby-a8: color(display-p3 1 0.431 0.537 / 0.627);
+      --ruby-a9: color(display-p3 1 0.376 0.482 / 0.82);
+      --ruby-a10: color(display-p3 1 0.447 0.522 / 0.849);
+      --ruby-a11: color(display-p3 1 0.57 0.59);
+      --ruby-a12: color(display-p3 0.968 0.83 0.88);
+    }
+  }
+}

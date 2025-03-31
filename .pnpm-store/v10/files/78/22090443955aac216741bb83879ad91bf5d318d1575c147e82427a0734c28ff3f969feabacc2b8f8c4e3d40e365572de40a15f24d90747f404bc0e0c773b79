@@ -1,0 +1,53 @@
+{
+  "name": "opus-recorder",
+  "version": "8.0.5",
+  "description": "A library for recording opus encoded audio",
+  "homepage": "https://github.com/chris-rudmin/opus-recorder",
+  "author": "Chris Rudmin",
+  "keywords": [
+    "Ogg",
+    "Opus",
+    "PCM",
+    "Decoder",
+    "Resampler",
+    "Streamer",
+    "Audio",
+    "Microphone",
+    "Recorder",
+    "Wav",
+    "Wave",
+    "WebAssembly"
+  ],
+  "license": "MIT",
+  "main": "dist/recorder.min.js",
+  "files": [
+    "dist/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/chris-rudmin/opus-recorder.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chris-rudmin/opus-recorder/issues",
+    "email": "chris.rudmin@gmail.com"
+  },
+  "scripts": {
+    "make": "make",
+    "test": "make test",
+    "webpack": "webpack"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
+    "babel-loader": "^8.1.0",
+    "chai": "^4.2.0",
+    "mocha": "^8.0.1",
+    "promise": "^8.1.0",
+    "require-uncached": "^2.0.0",
+    "sinon": "^9.0.2",
+    "sinon-chai": "^3.5.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
+  },
+  "dependencies": {}
+}

@@ -1,0 +1,1 @@
+{"version":3,"file":"task-group.d.ts","sourceRoot":"","sources":["../../../src/task/task-group.ts"],"names":[],"mappings":"AAEA,oBAAY,SAAS,GAAG;IACtB,IAAI,EAAE,MAAM,OAAO,CAAC,IAAI,CAAC,CAAA;IACzB,GAAG,EAAE,CAAC,SAAS,SAAS,CAAC,GAAG,IAAI,EAAE,GAAG,EAAE,KAAK,GAAG,EAC7C,EAAE,EAAE,SAAS,KACV,UAAU,CAAC,SAAS,CAAC,CAAA;CAC3B,CAAA;AAED,eAAO,MAAM,eAAe,QAAO,SAqBlC,CAAA"}
