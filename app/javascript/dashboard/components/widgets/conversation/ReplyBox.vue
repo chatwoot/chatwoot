@@ -1307,6 +1307,12 @@ export default {
       :title="$t('CONVERSATION.REPLYBOX.UNDEFINED_VARIABLES.TITLE')"
       :description="undefinedVariableMessage"
     />
+    <button
+      v-if="selectedCannedResponseId"
+      @click="clearMessage"
+    >
+      Clear Template
+    </button>
   </div>
 </template>
 
