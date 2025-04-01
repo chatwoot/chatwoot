@@ -40,6 +40,7 @@
         fbApiVersion: '<%= @global_config['FACEBOOK_API_VERSION'] %>',
         signupEnabled: '<%= @global_config['ENABLE_ACCOUNT_SIGNUP'] %>',
         isEnterprise: '<%= @global_config['IS_ENTERPRISE'] %>',
+        groqApiKey: '<%= Rails.application.config.groq_api_key %>',
         <% if @global_config['IS_ENTERPRISE'] %>
         enterprisePlanName: '<%= @global_config['INSTALLATION_PRICING_PLAN'] %>',
         <% end %>
