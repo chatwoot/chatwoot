@@ -1074,7 +1074,7 @@ export default {
 <template>
   <Banner
     v-if="showSelfAssignBanner"
-    action-button-variant="clear"
+    action-button-variant="ghost"
     color-scheme="secondary"
     class="banner--self-assign mx-2 mb-2 rounded-lg"
     :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"

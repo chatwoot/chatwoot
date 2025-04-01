@@ -59,7 +59,11 @@ const closeDropdown = () => {
 </script>
 
 <template>
-  <FilterButton :button-text="name" left-icon="filter" @click="toggleDropdown">
+  <FilterButton
+    :button-text="name"
+    icon="i-lucide-filter"
+    @click="toggleDropdown"
+  >
     <!-- Dropdown with search and sub-dropdown -->
     <template v-if="showMenu" #dropdown>
       <FilterListDropdown
