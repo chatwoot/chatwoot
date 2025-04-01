@@ -107,9 +107,10 @@ const linkIssue = async () => {
     :class="shouldShowDropdown ? 'h-[256px]' : 'gap-2'"
   >
     <FilterButton
-      right-icon="chevron-down"
+      trailing-icon
+      icon="i-lucide-chevron-down"
       :button-text="linkIssueTitle"
-      class="justify-between w-full h-[2.5rem] py-1.5 px-3 rounded-xl border border-slate-50 bg-slate-25 dark:border-slate-600 dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-900/50"
+      class="justify-between w-full h-[2.5rem] py-1.5 px-3 rounded-xl bg-n-alpha-black2 outline outline-1 outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6"
       @click="toggleDropdown"
     >
       <template v-if="shouldShowDropdown" #dropdown>

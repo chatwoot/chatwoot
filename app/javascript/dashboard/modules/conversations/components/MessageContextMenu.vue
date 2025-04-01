@@ -13,12 +13,14 @@ import {
 } from '../../../helper/AnalyticsHelper/events';
 import MenuItem from '../../../components/widgets/conversation/contextMenu/menuItem.vue';
 import { useTrack } from 'dashboard/composables';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     AddCannedModal,
     MenuItem,
     ContextMenu,
+    NextButton,
   },
   props: {
     message: {
@@ -175,12 +177,12 @@ export default {
       :confirm-text="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.DELETE')"
       :reject-text="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.CANCEL')"
     />
-    <woot-button
+    <NextButton
       v-if="!hideButton"
-      icon="more-vertical"
-      color-scheme="secondary"
-      variant="clear"
-      size="small"
+      ghost
+      slate
+      sm
+      icon="i-lucide-ellipsis-vertical"
       class="invisible group-hover/context-menu:visible"
       @click="handleOpen"
     />
