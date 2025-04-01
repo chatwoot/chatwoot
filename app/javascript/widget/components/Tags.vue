@@ -3,7 +3,7 @@
     <button
       v-for="(tag, index) in tags"
       :key="index"
-      :disabled="isUpdating"
+      :disabled="selectedTag === tag.id"
       class="tag-button"
       @click="handleTagClick(tag)"
     >
@@ -24,6 +24,10 @@ export default {
     },
     messageId: {
       type: Number,
+      required: true,
+    },
+    selectedTag: {
+      type: String,
       required: true,
     },
   },
@@ -78,5 +82,9 @@ export default {
 
 .tag-button:hover {
   scale: 1.02;
+}
+
+.selected-tag {
+  opacity: 0.5;
 }
 </style>

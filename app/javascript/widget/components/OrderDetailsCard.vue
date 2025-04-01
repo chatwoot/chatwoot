@@ -17,7 +17,6 @@
         v-model="orderId"
         type="text"
         placeholder="Enter order ID"
-        required
         class="order-id-input"
       />
       <button type="submit" :disabled="isUpdating">Submit</button>

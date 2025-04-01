@@ -34,6 +34,14 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
       ).perform
     else
       @message.update!(message_update_params[:message])
+      if @message.content_attributes[:user_phone_number]
+        formatted_number = "+#{@message.content_attributes[:user_phone_number]}"
+        ContactIdentifyAction.new(
+          contact: @contact,
+          params: { phone_number: formatted_number, name: contact_name },
+          retain_original_contact_name: true
+        ).perform
+      end
     end
   rescue StandardError => e
     render json: { error: @contact.errors, message: e.message }.to_json, status: :internal_server_error
