@@ -140,10 +140,15 @@ export default {
         selectedProduct => selectedProduct.id === product.id
       );
     },
-    increaseQuantity(productId, event) {
+    async increaseQuantity(productId, event) {
       const product = this.selectedProducts.find(
         selectedProduct => selectedProduct.id === productId
       );
+      await fetch('/cart.js')
+          .then((res) => res.json())
+          .then((newCart) => {
+            console.log(newCart, 'new cart value here....');
+          }).catch(() => {})
       this.updateSelectedProducts(
         productId,
         product.quantity + 1,
