@@ -387,7 +387,8 @@
         "LABEL": "Firmaets navn",
         "PLACEHOLDER": "Ola's bedrift"
       },
-      "SUBMIT": "Send"
+      "SUBMIT": "Send",
+      "CANCEL": "Avbryt"
     }
   },
   "KEYBOARD_SHORTCUTS": {
