@@ -438,8 +438,6 @@ export default {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
       } else if (!canReplyByCustom) {
         this.replyType = REPLY_EDITOR_MODES.TEMPLATE;
-      } else {
-        this.replyType = REPLY_EDITOR_MODES.NOTE;
       }
 
       this.fetchAndSetReplyTo();
@@ -1307,12 +1305,6 @@ export default {
       :title="$t('CONVERSATION.REPLYBOX.UNDEFINED_VARIABLES.TITLE')"
       :description="undefinedVariableMessage"
     />
-    <button
-      v-if="selectedCannedResponseId"
-      @click="clearMessage"
-    >
-      Clear Template
-    </button>
   </div>
 </template>
 
