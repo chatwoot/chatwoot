@@ -59,7 +59,7 @@ RSpec.describe Instagram::RefreshOauthTokenService do
         expect(service.access_token).to eq('new_refreshed_token')
         instagram_channel.reload
         expect(instagram_channel.access_token).to eq('new_refreshed_token')
-        expect(instagram_channel.expires_at).to be_within(1.second).of(60.days.from_now)
+        expect(instagram_channel.expires_at).to be_within(1.second).of(5_184_000.seconds.from_now)
       end
     end
   end
