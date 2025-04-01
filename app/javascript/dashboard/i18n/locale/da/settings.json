@@ -387,7 +387,8 @@
         "LABEL": "Virksomhedens Navn",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Send"
+      "SUBMIT": "Send",
+      "CANCEL": "Annuller"
     }
   },
   "KEYBOARD_SHORTCUTS": {
