@@ -51,7 +51,8 @@ const closeDropdown = () => emit('closeDropdown');
 
 <template>
   <FilterButton
-    right-icon="chevron-down"
+    trailing-icon
+    icon="i-lucide-chevron-down"
     :button-text="name"
     @click="toggleDropdown"
   >
