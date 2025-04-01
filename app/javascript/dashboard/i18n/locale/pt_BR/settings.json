@@ -387,7 +387,8 @@
         "LABEL": "Nome da empresa",
         "PLACEHOLDER": "Informe o nome da conta"
       },
-      "SUBMIT": "Enviar"
+      "SUBMIT": "Enviar",
+      "CANCEL": "Cancelar"
     }
   },
   "KEYBOARD_SHORTCUTS": {
