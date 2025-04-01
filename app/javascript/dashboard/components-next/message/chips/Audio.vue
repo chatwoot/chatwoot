@@ -45,6 +45,12 @@ const playbackSpeedLabel = computed(() => {
 onMounted(() => {
   duration.value = audioPlayer.value?.duration;
   audioPlayer.value.playbackRate = playbackSpeed.value;
+
+  // Carrega a transcrição existente se houver
+  if (attachment.meta?.transcription) {
+    transcriptionText.value = attachment.meta.transcription;
+    showTranscription.value = true;
+  }
 });
 
 const formatTime = time => {
@@ -127,8 +133,8 @@ const handleTranscribeAudio = async () => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-2">
-    <div class="flex items-center gap-2">
+  <div class="flex flex-col items-end my-4">
+    <div class="flex items-center justify-center w-full">
       <button
         class="p-1 rounded-full hover:bg-n-alpha-1 transition-colors"
         :title="$t('CONVERSATION.TRANSCRIBE_AUDIO')"
@@ -144,7 +150,7 @@ const handleTranscribeAudio = async () => {
         @timeupdate="onTimeUpdate"
         @ended="onEnd"
       />
-      <div class="flex items-center gap-2">
+      <div class="flex items-center justify-center w-full">
         <button
           class="p-1 rounded-full hover:bg-n-alpha-1 transition-colors"
           @click="playOrPause"
@@ -154,7 +160,7 @@ const handleTranscribeAudio = async () => {
             class="size-3 text-n-slate-11"
           />
         </button>
-        <div class="flex-1">
+        <div class="flex-1 min-w-[200px] flex flex-col justify-center">
           <input
             type="range"
             :value="currentTime"
@@ -192,7 +198,7 @@ const handleTranscribeAudio = async () => {
     </div>
     <div
       v-if="showTranscription"
-      class="p-2 bg-n-alpha-1 rounded-lg text-sm text-n-slate-11"
+      class="p-2 bg-n-alpha-1 rounded-lg text-sm text-n-slate-11 max-w-[80%] mt-1"
     >
       {{ transcriptionText }}
     </div>
