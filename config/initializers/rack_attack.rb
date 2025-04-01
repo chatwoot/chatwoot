@@ -1,3 +1,4 @@
+### config/initializers/rack_attack.rb
 class Rack::Attack
   ### Configure Cache ###
 
@@ -30,6 +31,18 @@ class Rack::Attack
     def path_without_extentions
       path[/^[^.]+/]
     end
+  end
+
+  ### Safelist IPs from Environment Variable ###
+  #
+  # This block ensures requests from any IP present in RACK_ATTACK_ALLOWED_IPS
+  # will bypass Rack::Attack’s throttling rules.
+  #
+  # Example: RACK_ATTACK_ALLOWED_IPS="127.0.0.1,::1,192.168.0.10"
+
+  Rack::Attack.safelist('trusted IPs from ENV') do |req|
+    allowed_ips = ENV.fetch('RACK_ATTACK_ALLOWED_IPS', '').split(',').map(&:strip)
+    allowed_ips.include?(req.remote_ip)
   end
 
   ### Throttle Spammy Clients ###
