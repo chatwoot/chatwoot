@@ -144,7 +144,7 @@ export default {
       const product = this.selectedProducts.find(
         selectedProduct => selectedProduct.id === productId
       );
-      await fetch(`${product.shopUrl}/cart.js`)
+      await fetch(`https://${product.shopUrl}/cart.js`)
           .then((res) => res.json())
           .then((newCart) => {
             console.log(newCart, 'new cart value here....');
