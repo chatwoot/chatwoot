@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import ShowMore from 'dashboard/components/widgets/ShowMore.vue';
 import AgentBotType from './AgentBotType.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   agentBot: {
@@ -35,21 +36,21 @@ const isACSMLTypeBot = computed(() => {
     </td>
     <td class="align-middle">
       <div class="flex justify-end gap-1 h-full items-center">
-        <woot-button
+        <Button
           v-if="isACSMLTypeBot"
           v-tooltip.top="$t('AGENT_BOTS.EDIT.BUTTON_TEXT')"
-          variant="smooth"
-          size="tiny"
-          color-scheme="secondary"
-          icon="edit"
+          icon="i-lucide-pen"
+          slate
+          xs
+          faded
           @click="emit('edit', agentBot)"
         />
-        <woot-button
+        <Button
           v-tooltip.top="$t('AGENT_BOTS.DELETE.BUTTON_TEXT')"
-          variant="smooth"
-          color-scheme="alert"
-          size="tiny"
-          icon="dismiss-circle"
+          icon="i-lucide-trash-2"
+          xs
+          ruby
+          faded
           @click="emit('delete', agentBot, index)"
         />
       </div>

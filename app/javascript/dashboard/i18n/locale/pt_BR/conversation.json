@@ -295,7 +295,27 @@
       "CONVERSATION_INFO": "Informação da conversa",
       "CONTACT_ATTRIBUTES": "Atributos do contato",
       "PREVIOUS_CONVERSATION": "Conversas anteriores",
-      "MACROS": "Macros"
+      "MACROS": "Macros",
+      "SHOPIFY_ORDERS": "Pedidos Shopify"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Pedido #{id}",
+      "ERROR": "Erro ao carregar pedidos",
+      "NO_SHOPIFY_ORDERS": "Nenhum pedido encontrado",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Pendentes",
+        "AUTHORIZED": "Autorizado",
+        "PARTIALLY_PAID": "Parcialmente pago",
+        "PAID": "Pago",
+        "PARTIALLY_REFUNDED": "Parcialmente reembolsado",
+        "REFUNDED": "Reembolsado",
+        "VOIDED": "Anulado"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Processado",
+        "PARTIALLY_FULFILLED": "Parcialmente processado",
+        "UNFULFILLED": "Não processado"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

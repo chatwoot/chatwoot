@@ -53,6 +53,8 @@ zh_CN:
       invalid_message_type: '无效的消息类型。不允许操作'
     slack:
       invalid_channel_id: '无效的Slack频道。请重试'
+    channel_service:
+      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: 请检查网络连接，IMAP地址，然后再试一次。
@@ -217,6 +219,9 @@ zh_CN:
     linear:
       name: 'Linear'
       description: '直接从对话窗口在 Linear 中创建问题。或者，链接现有的 Linear 问题以简化问题跟踪过程。'
+    shopify:
+      name: 'Shopify'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
   captain:
     copilot_error: '请为该收件箱连接一个助手以使用 Copilot'
     copilot_limit: '您的 Copilot 积分已用完。您可以从计费部分购买更多积分。'

@@ -2,10 +2,12 @@
 import { useAlert } from 'dashboard/composables';
 import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     EmojiOrIcon,
+    NextButton,
   },
   props: {
     href: {
@@ -62,15 +64,13 @@ export default {
       <span v-else class="text-sm text-n-slate-11">
         {{ $t('CONTACT_PANEL.NOT_AVAILABLE') }}
       </span>
-
-      <woot-button
+      <NextButton
         v-if="showCopy"
-        type="submit"
-        variant="clear"
-        size="tiny"
-        color-scheme="secondary"
-        icon="clipboard"
-        class-names="p-0"
+        ghost
+        xs
+        slate
+        class="ltr:-ml-1 rtl:-mr-1"
+        icon="i-lucide-clipboard"
         @click="onCopy"
       />
     </a>

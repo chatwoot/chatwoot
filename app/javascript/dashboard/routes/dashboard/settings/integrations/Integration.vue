@@ -8,7 +8,7 @@ import { useAlert } from 'dashboard/composables';
 import { useInstallationName } from 'shared/mixins/globalConfigMixin';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
-import NextButton from 'dashboard/components-next/button/Button.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   integrationId: {
@@ -101,7 +101,7 @@ const confirmDeletion = () => {
       >
         <div v-if="integrationEnabled">
           <div v-if="integrationAction === 'disconnect'">
-            <NextButton
+            <Button
               :label="
                 actionButtonText ||
                 $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
@@ -112,18 +112,22 @@ const confirmDeletion = () => {
             />
           </div>
           <div v-else>
-            <NextButton faded blue>
-              {{ t('INTEGRATION_SETTINGS.WEBHOOK.CONFIGURE') }}
-            </NextButton>
+            <Button
+              faded
+              blue
+              :label="t('INTEGRATION_SETTINGS.WEBHOOK.CONFIGURE')"
+            />
           </div>
         </div>
       </router-link>
       <div v-if="!integrationEnabled">
         <slot name="action">
           <a :href="integrationAction">
-            <NextButton faded blue>
-              {{ t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT') }}
-            </NextButton>
+            <Button
+              faded
+              blue
+              :label="t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT')"
+            />
           </a>
         </slot>
       </div>
