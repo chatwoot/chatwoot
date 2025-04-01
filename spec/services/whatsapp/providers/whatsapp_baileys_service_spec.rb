@@ -163,8 +163,8 @@ describe Whatsapp::Providers::WhatsappBaileysService do
   describe '#validate_provider_config?' do
     context 'when response is successful' do
       it 'returns true' do
-        stub_request(:get, "#{whatsapp_channel.provider_config['provider_url']}/status")
-          .with(headers: { 'Content-Type' => 'application/json', 'x-api-key' => whatsapp_channel.provider_config['api_key'] })
+        stub_request(:get, "#{whatsapp_channel.provider_config['provider_url']}/status/auth")
+          .with(headers: stub_headers(whatsapp_channel))
           .to_return(status: 200, body: '', headers: {})
 
         expect(service.validate_provider_config?).to be true
@@ -173,8 +173,8 @@ describe Whatsapp::Providers::WhatsappBaileysService do
 
     context 'when response is unsuccessful' do
       it 'logs the error and returns false' do
-        stub_request(:get, "#{whatsapp_channel.provider_config['provider_url']}/status")
-          .with(headers: { 'Content-Type' => 'application/json', 'x-api-key' => whatsapp_channel.provider_config['api_key'] })
+        stub_request(:get, "#{whatsapp_channel.provider_config['provider_url']}/status/auth")
+          .with(headers: stub_headers(whatsapp_channel))
           .to_return(status: 400, body: 'error message', headers: {})
         allow(Rails.logger).to receive(:error).with('error message')
 

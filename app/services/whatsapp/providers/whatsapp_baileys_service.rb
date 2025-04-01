@@ -58,7 +58,7 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
 
   def validate_provider_config?
     response = HTTParty.get(
-      "#{provider_url}/status",
+      "#{provider_url}/status/auth",
       headers: api_headers
     )
 
