@@ -387,7 +387,8 @@
         "LABEL": "Įmonės pavadinimas",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Pateikti"
+      "SUBMIT": "Pateikti",
+      "CANCEL": "Atšaukti"
     }
   },
   "KEYBOARD_SHORTCUTS": {
