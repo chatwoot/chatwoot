@@ -40,6 +40,12 @@ dl:not(.reset-base) {
   @apply mb-0;
 }
 
+// Button base
+button {
+  font-family: inherit;
+  @apply inline-block text-center align-middle cursor-pointer text-sm m-0 py-1 px-2.5 transition-all duration-200 ease-in-out border-0 border-none rounded-lg disabled:opacity-50;
+}
+
 // Form elements
 // -------------------------
 label {

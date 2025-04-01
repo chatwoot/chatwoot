@@ -421,6 +421,7 @@ export default {
       if (conversationId !== oldConversationId) {
         this.setToDraft(oldConversationId, this.replyType);
         this.getFromDraft();
+        this.resetRecorderAndClearAttachments();
       }
     },
     message(updatedMessage) {
@@ -529,6 +530,12 @@ export default {
           this.messageSignature
         );
       }
+    },
+    resetRecorderAndClearAttachments() {
+      // Reset audio recorder UI state
+      this.resetAudioRecorderInput();
+      // Reset attached files
+      this.attachedFiles = [];
     },
     saveDraft(conversationId, replyType) {
       if (this.message || this.message === '') {
@@ -1068,7 +1075,7 @@ export default {
 <template>
   <Banner
     v-if="showSelfAssignBanner"
-    action-button-variant="clear"
+    action-button-variant="ghost"
     color-scheme="secondary"
     class="mx-2 mb-2 rounded-lg banner--self-assign"
     :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"

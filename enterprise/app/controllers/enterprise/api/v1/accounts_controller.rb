@@ -13,24 +13,24 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   end
 
   def limits
-    limits = {
-      'conversation' => {},
-      'non_web_inboxes' => {},
-      'captain' => @account.usage_limits[:captain]
-    }
-
-    if default_plan?(@account)
-      limits = {
-        'conversation' => {
-          'allowed' => 500,
-          'consumed' => conversations_this_month(@account)
-        },
-        'non_web_inboxes' => {
-          'allowed' => 0,
-          'consumed' => non_web_inboxes(@account)
-        }
-      }
-    end
+    limits = if default_plan?(@account)
+               {
+                 'conversation' => {
+                   'allowed' => 500,
+                   'consumed' => conversations_this_month(@account)
+                 },
+                 'non_web_inboxes' => {
+                   'allowed' => 0,
+                   'consumed' => non_web_inboxes(@account)
+                 },
+                 'agents' => {
+                   'allowed' => 2,
+                   'consumed' => agents(@account)
+                 }
+               }
+             else
+               default_limits
+             end
 
     # include id in response to ensure that the store can be updated on the frontend
     render json: { id: @account.id, limits: limits }, status: :ok
@@ -48,6 +48,15 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   end
 
   private
+
+  def default_limits
+    {
+      'conversation' => {},
+      'non_web_inboxes' => {},
+      'agents' => {},
+      'captain' => @account.usage_limits[:captain]
+    }
+  end
 
   def fetch_account
     @account = current_user.accounts.find(params[:id])

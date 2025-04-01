@@ -8,7 +8,7 @@ class AccountPolicy < ApplicationPolicy
   end
 
   def limits?
-    @account_user.administrator?
+    @account_user.administrator? || @account_user.agent?
   end
 
   def update?
