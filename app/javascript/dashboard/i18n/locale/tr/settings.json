@@ -387,7 +387,8 @@
         "LABEL": "Şirket Adı",
         "PLACEHOLDER": "Şirketiniz"
       },
-      "SUBMIT": "Gönder"
+      "SUBMIT": "Gönder",
+      "CANCEL": "İptal Et"
     }
   },
   "KEYBOARD_SHORTCUTS": {
