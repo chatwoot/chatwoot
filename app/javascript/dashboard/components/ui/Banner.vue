@@ -1,5 +1,10 @@
 <script>
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
+  components: {
+    NextButton,
+  },
   props: {
     bannerMessage: {
       type: String,
@@ -19,7 +24,7 @@ export default {
     },
     actionButtonVariant: {
       type: String,
-      default: '',
+      default: 'faded',
     },
     actionButtonLabel: {
       type: String,
@@ -27,7 +32,7 @@ export default {
     },
     actionButtonIcon: {
       type: String,
-      default: 'arrow-right',
+      default: 'i-lucide-arrow-right',
     },
     colorScheme: {
       type: String,
@@ -47,6 +52,18 @@ export default {
         classList.push('has-button');
       }
       return classList;
+    },
+    // TODO - Remove this method when we standardize
+    // the button color and variant names
+    getButtonColor() {
+      const colorMap = {
+        primary: 'blue',
+        secondary: 'blue',
+        alert: 'ruby',
+        warning: 'amber',
+      };
+
+      return colorMap[this.colorScheme] || 'blue';
     },
   },
   methods: {
@@ -77,27 +94,23 @@ export default {
       </a>
     </span>
     <div class="actions">
-      <woot-button
+      <NextButton
         v-if="hasActionButton"
-        size="tiny"
+        xs
         :icon="actionButtonIcon"
         :variant="actionButtonVariant"
-        color-scheme="primary"
-        class-names="banner-action__button"
+        :color="getButtonColor"
+        :label="actionButtonLabel"
         @click="onClick"
-      >
-        {{ actionButtonLabel }}
-      </woot-button>
-      <woot-button
+      />
+      <NextButton
         v-if="hasCloseButton"
-        size="tiny"
-        :color-scheme="colorScheme"
-        icon="dismiss-circle"
-        class-names="banner-action__button"
+        xs
+        icon="i-lucide-circle-x"
+        :color="getButtonColor"
+        :label="$t('GENERAL_SETTINGS.DISMISS')"
         @click="onClickClose"
-      >
-        {{ $t('GENERAL_SETTINGS.DISMISS') }}
-      </woot-button>
+      />
     </div>
   </div>
 </template>
@@ -106,13 +119,6 @@ export default {
 .banner {
   &.primary {
     @apply bg-woot-500 dark:bg-woot-500;
-    .banner-action__button {
-      @apply bg-woot-600 dark:bg-woot-600 border-none text-white;
-
-      &:hover {
-        @apply bg-woot-700 dark:bg-woot-700;
-      }
-    }
   }
 
   &.secondary {
@@ -124,13 +130,6 @@ export default {
 
   &.alert {
     @apply bg-n-ruby-3 text-n-ruby-12;
-    .banner-action__button {
-      @apply border-none text-n-ruby-12 bg-n-ruby-5;
-
-      &:hover {
-        @apply bg-n-ruby-4;
-      }
-    }
 
     a {
       @apply text-n-ruby-12;
@@ -146,19 +145,10 @@ export default {
 
   &.gray {
     @apply text-black-500 dark:text-black-500;
-    .banner-action__button {
-      @apply text-white dark:text-white;
-    }
   }
 
   a {
     @apply ml-1 underline text-white dark:text-white text-xs;
-  }
-
-  .banner-action__button {
-    ::v-deep .button__content {
-      @apply whitespace-nowrap;
-    }
   }
 
   .banner-message {
