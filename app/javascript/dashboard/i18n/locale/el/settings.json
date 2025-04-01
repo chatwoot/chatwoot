@@ -387,7 +387,8 @@
         "LABEL": "Όνομα Εταιρείας",
         "PLACEHOLDER": "Wayne Α. Ε"
       },
-      "SUBMIT": "Καταχώρηση"
+      "SUBMIT": "Καταχώρηση",
+      "CANCEL": "Άκυρο"
     }
   },
   "KEYBOARD_SHORTCUTS": {
