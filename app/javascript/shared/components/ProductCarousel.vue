@@ -141,12 +141,15 @@ export default {
       );
     },
     async increaseQuantity(productId, event) {
+      event.stopPropagation();
       const product = this.selectedProducts.find(
         selectedProduct => selectedProduct.id === productId
       );
       await fetch(`https://${product.shopUrl}/cart.js`)
           .then((res) => res.json())
           .then((newCart) => {
+            const totalCartItems = newCart.items;
+            
             console.log(newCart, 'new cart value here....');
           }).catch(() => {})
       this.updateSelectedProducts(
@@ -179,6 +182,7 @@ export default {
       this.openCheckoutPage(selectedProduct);
     },
     decreaseQuantity(productId, event) {
+      event.stopPropagation();
       const product = this.selectedProducts.find(
         selectedProduct => selectedProduct.id === productId
       );

@@ -114,6 +114,23 @@ export default {
     // how to get the url of the page in which this page is rendered as a iframe
     this.$el.addEventListener('scroll', this.handleScroll);
     this.scrollToBottom();
+    this.fetchCartData();
+  },
+
+  fetchCartData() {
+    fetch(`https://${this.conversationAttributes.shop_url}/cart.js`)
+      .then((res) => res.json())
+      .then((newCart) => {
+        const cartItems = newCart.items;
+        const convertedCartItems = cartItems.map(item => ({
+          id: item.id,
+          quantity: item.quantity,
+          price: item.price,
+          currency: newCart.currency,
+        }));
+        this.selectedProducts = convertedCartItems;
+        console.log(convertedCartItems, 'new cart value here....');
+      }).catch(() => {})
   },
   updated() {
     if (this.previousConversationSize !== this.conversationSize) {
