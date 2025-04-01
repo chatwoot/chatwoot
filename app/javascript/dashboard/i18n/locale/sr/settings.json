@@ -387,7 +387,8 @@
         "LABEL": "Ime firme",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Pošalji"
+      "SUBMIT": "Pošalji",
+      "CANCEL": "Otkaži"
     }
   },
   "KEYBOARD_SHORTCUTS": {
