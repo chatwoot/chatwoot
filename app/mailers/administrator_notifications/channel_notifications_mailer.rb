@@ -1,101 +1,94 @@
-class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
-  def slack_disconnect
-    return unless smtp_config_set_or_development?
+# This concern is primarily targeted for business models dependent on external services
+# The auth tokens we obtained on their behalf could expire or becomes invalid.
+# We would be aware of it until we make the API call to the service and it throws error
 
-    subject = 'Your Slack integration has expired'
-    @action_url = "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{Current.account.id}/settings/integrations/slack"
-    send_mail_with_liquid(to: admin_emails, subject: subject) and return
+# Example:
+# when a user changes his/her password, the auth token they provided to chatwoot becomes invalid
+
+# This module helps to capture the errors into a counter and when threshold is passed would mark
+# the object to be reauthorized. We will also send an email to the owners alerting them of the error.
+
+# In the UI, we will check for the reauthorization_required? status and prompt the reauthorization flow
+
+module Reauthorizable
+  extend ActiveSupport::Concern
+
+  AUTHORIZATION_ERROR_THRESHOLD = 2
+
+  # model attribute
+  def reauthorization_required?
+    ::Redis::Alfred.get(reauthorization_required_key).present?
   end
 
-  def dialogflow_disconnect
-    return unless smtp_config_set_or_development?
-
-    subject = 'Your Dialogflow integration was disconnected'
-    send_mail_with_liquid(to: admin_emails, subject: subject) and return
+  # model attribute
+  def authorization_error_count
+    ::Redis::Alfred.get(authorization_error_count_key).to_i
   end
 
-  def facebook_disconnect(inbox)
-    return unless smtp_config_set_or_development?
-
-    subject = 'Your Facebook page connection has expired'
-    @action_url = "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{Current.account.id}/settings/inboxes/#{inbox.id}"
-    send_mail_with_liquid(to: admin_emails, subject: subject) and return
+  # action to be performed when we receive authorization errors
+  # Implement in your exception handling logic for authorization errors
+  def authorization_error!
+    ::Redis::Alfred.incr(authorization_error_count_key)
+    # we are giving precendence to the authorization error threshhold defined in the class
+    # so that channels can override the default value
+    prompt_reauthorization! if authorization_error_count >= self.class::AUTHORIZATION_ERROR_THRESHOLD
   end
 
-  def instagram_disconnect(inbox)
-    return unless smtp_config_set_or_development?
+  # Performed automatically if error threshold is breached
+  # could used to manually prompt reauthorization if auth scope changes
+  # rubocop:disable Metrics/CyclomaticComplexity
+  def prompt_reauthorization!
+    ::Redis::Alfred.set(reauthorization_required_key, true)
 
-    subject = 'Your Instagram connection has expired'
-    @action_url = "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{Current.account.id}/settings/inboxes/#{inbox.id}"
-    send_mail_with_liquid(to: admin_emails, subject: subject) and return
+    mailer = AdministratorNotifications::ChannelNotificationsMailer.with(account: account)
+
+    case self.class.name
+    when 'Integrations::Hook'
+      process_integration_hook_reauthorization_emails(mailer)
+    when 'Channel::FacebookPage'
+      mailer.facebook_disconnect(inbox).deliver_later
+    when 'Channel::Instagram'
+      mailer.instagram_disconnect(inbox).deliver_later
+    when 'Channel::Whatsapp'
+      mailer.whatsapp_disconnect(inbox).deliver_later
+    when 'Channel::Email'
+      mailer.email_disconnect(inbox).deliver_later
+    when 'AutomationRule'
+      update!(active: false)
+      mailer.automation_rule_disabled(self).deliver_later
+    end
+
+    invalidate_inbox_cache unless instance_of?(::AutomationRule)
+  end
+  # rubocop:enable Metrics/CyclomaticComplexity
+
+  def process_integration_hook_reauthorization_emails(mailer)
+    if slack?
+      mailer.slack_disconnect.deliver_later
+    elsif dialogflow?
+      mailer.dialogflow_disconnect.deliver_later
+    end
   end
 
-  def whatsapp_disconnect(inbox)
-    return unless smtp_config_set_or_development?
+  # call this after you successfully Reauthorized the object in UI
+  def reauthorized!
+    ::Redis::Alfred.delete(authorization_error_count_key)
+    ::Redis::Alfred.delete(reauthorization_required_key)
 
-    subject = 'Your Whatsapp connection has expired'
-    @action_url = "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{Current.account.id}/settings/inboxes/#{inbox.id}"
-    send_mail_with_liquid(to: admin_emails, subject: subject) and return
-  end
-
-  def email_disconnect(inbox)
-    return unless smtp_config_set_or_development?
-
-    subject = 'Your email inbox has been disconnected. Please update the credentials for SMTP/IMAP'
-    @action_url = "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{Current.account.id}/settings/inboxes/#{inbox.id}"
-    send_mail_with_liquid(to: admin_emails, subject: subject) and return
-  end
-
-  def contact_import_complete(resource)
-    return unless smtp_config_set_or_development?
-
-    subject = 'Contact Import Completed'
-
-    @action_url = Rails.application.routes.url_helpers.rails_blob_url(resource.failed_records) if resource.failed_records.attached?
-    @action_url ||= "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{resource.account.id}/contacts"
-    @meta = {}
-    @meta['failed_contacts'] = resource.total_records - resource.processed_records
-    @meta['imported_contacts'] = resource.processed_records
-    send_mail_with_liquid(to: admin_emails, subject: subject) and return
-  end
-
-  def contact_import_failed
-    return unless smtp_config_set_or_development?
-
-    subject = 'Contact Import Failed'
-
-    @meta = {}
-    send_mail_with_liquid(to: admin_emails, subject: subject) and return
-  end
-
-  def contact_export_complete(file_url, email_to)
-    return unless smtp_config_set_or_development?
-
-    @action_url = file_url
-    subject = "Your contact's export file is available to download."
-
-    send_mail_with_liquid(to: email_to, subject: subject) and return
-  end
-
-  def automation_rule_disabled(rule)
-    return unless smtp_config_set_or_development?
-
-    @action_url ||= "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{Current.account.id}/settings/automation/list"
-
-    subject = 'Automation rule disabled due to validation errors.'.freeze
-    @meta = {}
-    @meta['rule_name'] = rule.name
-
-    send_mail_with_liquid(to: admin_emails, subject: subject) and return
+    invalidate_inbox_cache unless instance_of?(::AutomationRule)
   end
 
   private
 
-  def admin_emails
-    Current.account.administrators.pluck(:email)
+  def invalidate_inbox_cache
+    inbox.update_account_cache if inbox.present?
   end
 
-  def liquid_locals
-    super.merge({ meta: @meta })
+  def authorization_error_count_key
+    format(::Redis::Alfred::AUTHORIZATION_ERROR_COUNT, obj_type: self.class.table_name.singularize, obj_id: id)
+  end
+
+  def reauthorization_required_key
+    format(::Redis::Alfred::REAUTHORIZATION_REQUIRED, obj_type: self.class.table_name.singularize, obj_id: id)
   end
 end
