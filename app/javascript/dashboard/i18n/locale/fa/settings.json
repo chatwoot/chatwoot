@@ -387,7 +387,8 @@
         "LABEL": "نام شرکت",
         "PLACEHOLDER": "شرکت ایران ناسیونال"
       },
-      "SUBMIT": "ثبت"
+      "SUBMIT": "ثبت",
+      "CANCEL": "انصراف"
     }
   },
   "KEYBOARD_SHORTCUTS": {
