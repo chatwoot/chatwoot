@@ -3,7 +3,7 @@ import { computed, onMounted, useTemplateRef, ref } from 'vue';
 import Icon from 'next/icon/Icon.vue';
 import { timeStampAppendedURL } from 'dashboard/helper/URLHelper';
 import { downloadFile } from '@chatwoot/utils';
-import { transcribeAudio } from 'dashboard/services/transcriptionService';
+import axios from 'axios';
 
 const { attachment } = defineProps({
   attachment: {
@@ -107,13 +107,18 @@ const handleTranscribeAudio = async () => {
     transcriptionText.value = 'Transcrevendo...';
     showTranscription.value = true;
 
-    // Usa a URL base do arquivo sem o timestamp
-    const baseUrl = attachment.dataUrl.split('?')[0];
-    const result = await transcribeAudio(baseUrl);
-    transcriptionText.value = result;
+    const response = await axios.post(
+      `/api/v1/attachments/${attachment.id}/transcribe`
+    );
+
+    if (response.data.success) {
+      transcriptionText.value = response.data.transcription;
+    } else {
+      throw new Error(response.data.error);
+    }
   } catch (error) {
     transcriptionText.value =
-      error.response?.data?.error?.message ||
+      error.response?.data?.error ||
       'Erro ao transcrever o áudio. Por favor, tente novamente.';
   } finally {
     isTranscribing.value = false;

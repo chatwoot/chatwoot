@@ -320,6 +320,12 @@ Rails.application.routes.draw do
           end
         end
       end
+
+      resources :attachments, only: [] do
+        member do
+          post :transcribe
+        end
+      end
     end
 
     namespace :v2 do

@@ -180,6 +180,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_26_034635) do
     t.string "fallback_title"
     t.string "extension"
     t.jsonb "meta", default: {}
+    t.text "transcription"
     t.index ["account_id"], name: "index_attachments_on_account_id"
     t.index ["message_id"], name: "index_attachments_on_message_id"
   end
