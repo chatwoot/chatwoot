@@ -31,6 +31,10 @@ export default {
       type: Function,
       default: () => {},
     },
+    onClearTemplate: {
+      type: Function,
+      default: () => {},
+    },
     sendButtonText: {
       type: String,
       default: '',
@@ -117,6 +121,10 @@ export default {
     conversationType: {
       type: String,
       default: '',
+    },
+    selectedTemplate: {
+      type: Number,
+      default: null,
     },
   },
   emits: [
@@ -389,6 +397,14 @@ export default {
         faded
         sm
         @click="toggleInsertArticle"
+      />
+      <NextButton
+        v-if="selectedTemplate && isTemplate"
+        v-tooltip.top-end="Clear_Template"
+        icon="i-ph-trash"
+        ruby
+        sm
+        @click="onClearTemplate"
       />
     </div>
     <div class="right-wrap">

@@ -87,6 +87,7 @@ export default {
       hasUserScrolled: false,
       isProgrammaticScroll: false,
       messageSentSinceOpened: false,
+      canReplyByCustomMessage: false,
       labelSuggestions: [],
     };
   },
@@ -176,11 +177,10 @@ export default {
     },
 
     replyWindowBannerMessage() {
-      const can_not_reply = !this.currentChat.can_reply;
-      if (this.isAWhatsAppChannel && can_not_reply) {
+      if (this.isAWhatsAppChannel) {
         return this.$t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY');
       }
-      if (this.isAPIInbox && can_not_reply) {
+      if (this.isAPIInbox) {
         const { additional_attributes: additionalAttributes = {} } = this.inbox;
         if (additionalAttributes) {
           const {
@@ -196,12 +196,12 @@ export default {
         }
         return additionalAttributes?.agent_reply_time_window_message || '';
       }
-      if (can_not_reply) {
+      if (!this.currentChat.can_reply) {
         return this.$t('CONVERSATION.CANNOT_REPLY');
       }
 
-      const can_not_reply_by_custom_message = !this.currentChat.can_reply_by_custom_message;
-      if (can_not_reply_by_custom_message) {
+      this.canReplyByCustomMessage = this.currentChat.allowed_custom_message_user_ids.includes(this.currentUserId);
+      if (!this.canReplyByCustomMessage) {
         return this.$t('CONVERSATION.CANNOT_REPLY_BY_CUSTOM_MESSAGE');
       }
 
@@ -219,7 +219,7 @@ export default {
       if (this.isAWhatsAppCloudChannel) {
         return REPLY_POLICY.WHATSAPP_CLOUD;
       }
-      if (!this.isAPIInbox) {
+      if (!this.isAPIInbox && this.canReplyByCustomMessage) {
         return REPLY_POLICY.TWILIO_WHATSAPP;
       }
       return '';
@@ -227,7 +227,6 @@ export default {
     replyWindowLinkText() {
       const canNotReply = !this.currentChat.can_reply;
       if (!canNotReply) return '';
-
       if (
         this.isAWhatsAppChannel ||
         this.isAFacebookInbox ||
@@ -235,7 +234,7 @@ export default {
       ) {
         return this.$t('CONVERSATION.24_HOURS_WINDOW');
       }
-      if (!this.isAPIInbox) {
+      if (!this.isAPIInbox && this.canReplyByCustomMessage) {
         return this.$t('CONVERSATION.TWILIO_WHATSAPP_24_HOURS_WINDOW');
       }
       return '';
@@ -462,7 +461,7 @@ export default {
 <template>
   <div class="flex flex-col justify-between flex-grow h-full min-w-0 m-0">
     <Banner
-      v-if="!currentChat.can_reply || !currentChat.can_reply_by_custom_message"
+      v-if="!currentChat.can_reply || !this.canReplyByCustomMessage"
       color-scheme="alert"
       class="mx-2 mt-2 overflow-hidden rounded-lg"
       :banner-message="replyWindowBannerMessage"

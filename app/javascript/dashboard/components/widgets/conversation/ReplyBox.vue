@@ -102,6 +102,7 @@ export default {
       recordingAudioDurationText: '',
       isUploading: false,
       replyType: null,
+      canReplyByCustomMessage: false,
       mentionSearchKey: '',
       hasSlashCommand: false,
       bccEmails: '',
@@ -409,7 +410,7 @@ export default {
     },
   },
   watch: {
-    'currentChat.can_reply_by_custom_message': {
+    'currentChat.allowed_custom_message_user_ids': {
       immediate: true,
       handler() {
         this.setInitialReplyType();
@@ -432,10 +433,10 @@ export default {
         return;
       }
 
-      if (canReply || this.isAWhatsAppChannel) {
-        this.replyType = REPLY_EDITOR_MODES.REPLY;
-      } else if (!canReplyByCustom) {
+      if (!this.canReplyByCustomMessage) {
         this.replyType = REPLY_EDITOR_MODES.TEMPLATE;
+      } else if (canReply || this.isAWhatsAppChannel) {
+        this.replyType = REPLY_EDITOR_MODES.REPLY;
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
       }
@@ -825,18 +826,24 @@ export default {
       }, 100);
     },
     setInitialReplyType() {
-      this.replyType = this.currentChat.can_reply_by_custom_message
+      this.canReplyByCustomMessage = this.currentChat.allowed_custom_message_user_ids.includes(
+        this.currentUser.id
+      );
+      this.replyType = this.canReplyByCustomMessage
         ? REPLY_EDITOR_MODES.REPLY
         : REPLY_EDITOR_MODES.TEMPLATE;
     },
     setReplyMode(mode) {
-      const { can_reply: canReply, can_reply_by_custom_message: canReplyByCustom } = this.currentChat;
+      const { can_reply: canReply } = this.currentChat;
+
       if (!canReply) return;
-      const validModes = canReplyByCustom
+      const validModes = this.canReplyByCustomMessage
         ? [REPLY_EDITOR_MODES.REPLY, REPLY_EDITOR_MODES.NOTE]
         : [REPLY_EDITOR_MODES.TEMPLATE, REPLY_EDITOR_MODES.NOTE];
+
       if (validModes.includes(mode)) this.replyType = mode;
       this.$store.dispatch('draftMessages/setReplyEditorMode', { mode });
+
       if (this.showRichContentEditor && this.isRecordingAudio) {
         this.toggleAudioRecorder();
         return;
@@ -1152,7 +1159,7 @@ export default {
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
       :popout-reply-box="popOutReplyBox"
-      :can-reply-by-custom-message="currentChat.can_reply_by_custom_message"
+      :can-reply-by-custom-message="canReplyByCustomMessage"
       @set-reply-mode="setReplyMode"
       @toggle-popout="togglePopout"
     />
@@ -1207,7 +1214,7 @@ export default {
         :placeholder="messagePlaceHolder"
         :min-height="4"
         :signature="signatureToApply"
-        :readonly="selectedCannedResponseId"
+        :readonly="selectedCannedResponseId && isOnTemplate"
         allow-signature
         :send-with-signature="sendWithSignature"
         @typing-off="onTypingOff"
@@ -1266,6 +1273,7 @@ export default {
       :on-file-upload="onFileUpload"
       :on-send="onSendReply"
       :conversation-type="conversationType"
+      :on-clear-template="clearMessage"
       :recording-audio-duration-text="recordingAudioDurationText"
       :recording-audio-state="recordingAudioState"
       :send-button-text="replyButtonLabel"
@@ -1279,6 +1287,7 @@ export default {
       :message="message"
       :portal-slug="connectedPortalSlug"
       :new-conversation-modal-active="newConversationModalActive"
+      :selected-template="selectedCannedResponseId"
       @select-whatsapp-template="openWhatsappTemplateModal"
       @toggle-editor="toggleRichContentEditor"
       @replace-text="replaceText"
@@ -1297,12 +1306,6 @@ export default {
       :title="$t('CONVERSATION.REPLYBOX.UNDEFINED_VARIABLES.TITLE')"
       :description="undefinedVariableMessage"
     />
-    <button
-      v-if="selectedCannedResponseId"
-      @click="clearMessage"
-    >
-      Clear Template
-    </button>
   </div>
 </template>
 
