@@ -97,7 +97,7 @@ export default {
     }),
     automationRuleEvents() {
       return AUTOMATION_RULE_EVENTS.map(event => ({
-        key: event.key,
+        ...event,
         value: this.$t(`AUTOMATION.EVENTS.${event.value}`),
       }));
     },
