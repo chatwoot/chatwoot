@@ -1,6 +1,6 @@
 class PortalPolicy < ApplicationPolicy
   def index?
-    @account_user.administrator? || @account.users.include?(@user)
+    true
   end
 
   def update?
@@ -8,7 +8,7 @@ class PortalPolicy < ApplicationPolicy
   end
 
   def show?
-    @account_user.administrator? || portal_member?
+    @account_user.administrator?
   end
 
   def edit?
@@ -30,12 +30,6 @@ class PortalPolicy < ApplicationPolicy
   def logo?
     @account_user.administrator?
   end
-
-  private
-
-  def portal_member?
-    @record.first.members.include?(@user)
-  end
 end
 
-PortalPolicy.prepend_mod_with('Enterprise::PortalPolicy')
+PortalPolicy.prepend_mod_with('PortalPolicy')
