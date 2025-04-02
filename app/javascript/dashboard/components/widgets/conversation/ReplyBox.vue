@@ -200,7 +200,7 @@ export default {
       return true;
     },
     isTemplate() {
-      if ((this.currentChat.can_reply && !this.currentChat.can_reply_by_custom_message)) {
+      if ((this.currentChat.can_reply && !this.canReplyByCustomMessage)) {
         return this.isOnTemplate;
       }
       return false;
@@ -826,9 +826,7 @@ export default {
       }, 100);
     },
     setInitialReplyType() {
-      this.canReplyByCustomMessage = this.currentChat.allowed_custom_message_user_ids.includes(
-        this.currentUser.id
-      );
+      this.canReplyByCustomMessage = this.currentChat.allowed_custom_message_user_ids.includes(this.currentUser.id);
       this.replyType = this.canReplyByCustomMessage
         ? REPLY_EDITOR_MODES.REPLY
         : REPLY_EDITOR_MODES.TEMPLATE;
@@ -888,7 +886,6 @@ export default {
       this.bccEmails = '';
       this.toEmails = '';
     },
-
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
     },
@@ -1332,7 +1329,7 @@ export default {
   }
 
   &.is-template {
-    @apply bg-n-solid-blue dark:bg-opacity-50 dark:border-n-blue-3/10 border-n-blue-12/5;
+    @apply bg-n-solid-blue dark:bg-opacity-80 dark:border-n-blue-3/10 border-n-blue-12/5;
   }
 }
 

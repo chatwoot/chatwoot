@@ -66,10 +66,10 @@ export default {
           inboxId: this.inbox.id,
         });
         const {
-          data: { agents, allowed_custom_message_agents }
+          data: { agents, allowedCustomMessageAgents },
         } = response;
         this.selectedAgents = agents;
-        this.selectedCustomMessageAgents = allowed_custom_message_agents;
+        this.selectedCustomMessageAgents = allowedCustomMessageAgents;
       } catch (error) {
         // Handle error
       }
