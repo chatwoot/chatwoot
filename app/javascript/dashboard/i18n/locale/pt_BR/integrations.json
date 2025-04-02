@@ -16,7 +16,7 @@
       "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
     },
     "HEADER": "Integrações",
-    "DESCRIPTION": "Chatwoot se integra com várias ferramentas e serviços para melhorar a eficiência da sua equipe. Explore a lista abaixo para configurar seus aplicativos favoritos.",
+    "DESCRIPTION": "Chatwoot se integra com várias ferramentas e serviços para melhorar a eficiência de seu time. Explore a lista abaixo para configurar seus aplicativos favoritos.",
     "LEARN_MORE": "Aprenda mais sobre integrações",
     "LOADING": "Obtendo integrações",
     "CAPTAIN": {
@@ -239,7 +239,7 @@
     "LINEAR": {
       "ADD_OR_LINK_BUTTON": "Criar/Ligar Issue Linear",
       "LOADING": "Buscando problemas lineares...",
-      "LOADING_ERROR": "Houve um erro ao buscar as entidades da equipe, por favor, tente novamente",
+      "LOADING_ERROR": "Houve um erro ao buscar as entidades do time, por favor, tente novamente",
       "CREATE": "Criar",
       "LINK": {
         "SEARCH": "Pesquisar issues",
@@ -266,10 +266,10 @@
             "PLACEHOLDER": "Insira a descrição"
           },
           "TEAM": {
-            "LABEL": "Equipes",
-            "PLACEHOLDER": "Selecionar equipe",
-            "SEARCH": "Pesquisar equipe",
-            "REQUIRED_ERROR": "A equipe é obrigatória"
+            "LABEL": "Times",
+            "PLACEHOLDER": "Selecionar time",
+            "SEARCH": "Pesquisar time",
+            "REQUIRED_ERROR": "O time é obrigatório"
           },
           "ASSIGNEE": {
             "LABEL": "Responsável",
@@ -301,8 +301,8 @@
         "CANCEL": "Cancelar",
         "CREATE_SUCCESS": "Pasta criada com sucesso",
         "CREATE_ERROR": "Houve um erro ao criar a questão, por favor, tente novamente",
-        "LOADING_TEAM_ERROR": "Houve um erro ao buscar as equipes, por favor, tente novamente",
-        "LOADING_TEAM_ENTITIES_ERROR": "Houve um erro ao buscar as entidades da equipe, por favor, tente novamente"
+        "LOADING_TEAM_ERROR": "Houve um erro ao buscar os times, por favor, tente novamente",
+        "LOADING_TEAM_ENTITIES_ERROR": "Houve um erro ao buscar as entidades do time, por favor, tente novamente"
       },
       "ISSUE": {
         "STATUS": "Situação",
