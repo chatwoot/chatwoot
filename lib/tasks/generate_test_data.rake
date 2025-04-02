@@ -69,7 +69,7 @@ module TestDataGenerator
   module_function
 
   def setup_database_optimizations
-    puts "==> Setting up database optimizations"
+    puts '==> Setting up database optimizations'
     ActiveRecord::Base.logger = nil
     ActiveRecord::Base.connection.execute('SET statement_timeout = 0')
     ActiveRecord::Base.connection.execute('SET synchronous_commit = off')
