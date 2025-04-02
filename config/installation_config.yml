@@ -40,6 +40,7 @@
   description: 'The URL that would be used in the widget under the section “Powered By”'
 - name: BRAND_NAME
   value: 'BuzzCRM'
+  value: 'Buzz'
   display_title: 'Brand Name'
   description: 'The name that would be used in emails and the widget'
 - name: TERMS_URL
@@ -52,8 +53,8 @@
   description: 'The privacy policy URL displayed in the app'
 - name: DISPLAY_MANIFEST
   value: true
-  display_title: 'Chatwoot Metadata'
-  description: 'Display default Chatwoot metadata like favicons and upgrade warnings'
+  display_title: 'Buzz Metadata'
+  description: 'Display default Buzz metadata like favicons and upgrade warnings'
   type: boolean
 # ------- End of Branding Related Config ------- #
 
