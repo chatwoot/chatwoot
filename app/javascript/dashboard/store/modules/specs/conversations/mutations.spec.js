@@ -1,3 +1,4 @@
+import { describe } from 'vitest';
 import types from '../../../mutation-types';
 import { mutations } from '../../conversations';
 
@@ -551,6 +552,399 @@ describe('#mutations', () => {
         conversationType: 'mention',
         updatedWithin: 20,
       });
+    });
+  });
+
+  describe('#SET_INBOX_CAPTAIN_ASSISTANT', () => {
+    it('set inbox captain assistant', () => {
+      const state = { copilotAssistant: {} };
+      const data = {
+        assistant: {
+          id: 1,
+          name: 'Assistant',
+          description: 'Assistant description',
+        },
+      };
+      mutations[types.SET_INBOX_CAPTAIN_ASSISTANT](state, data);
+      expect(state.copilotAssistant).toEqual(data.assistant);
+    });
+  });
+
+  describe('#SET_ALL_MESSAGES_LOADED', () => {
+    it('should set allMessagesLoaded to true on selected chat', () => {
+      const state = {
+        allConversations: [{ id: 1, allMessagesLoaded: false }],
+        selectedChatId: 1,
+      };
+      mutations[types.SET_ALL_MESSAGES_LOADED](state);
+      expect(state.allConversations[0].allMessagesLoaded).toBe(true);
+    });
+  });
+
+  describe('#CLEAR_ALL_MESSAGES_LOADED', () => {
+    it('should set allMessagesLoaded to false on selected chat', () => {
+      const state = {
+        allConversations: [{ id: 1, allMessagesLoaded: true }],
+        selectedChatId: 1,
+      };
+      mutations[types.CLEAR_ALL_MESSAGES_LOADED](state);
+      expect(state.allConversations[0].allMessagesLoaded).toBe(false);
+    });
+  });
+
+  describe('#SET_PREVIOUS_CONVERSATIONS', () => {
+    it('should prepend messages to conversation messages array', () => {
+      const state = {
+        allConversations: [{ id: 1, messages: [{ id: 'msg2' }] }],
+      };
+      const payload = { id: 1, data: [{ id: 'msg1' }] };
+
+      mutations[types.SET_PREVIOUS_CONVERSATIONS](state, payload);
+      expect(state.allConversations[0].messages).toEqual([
+        { id: 'msg1' },
+        { id: 'msg2' },
+      ]);
+    });
+
+    it('should not modify messages if data is empty', () => {
+      const state = {
+        allConversations: [{ id: 1, messages: [{ id: 'msg2' }] }],
+      };
+      const payload = { id: 1, data: [] };
+
+      mutations[types.SET_PREVIOUS_CONVERSATIONS](state, payload);
+      expect(state.allConversations[0].messages).toEqual([{ id: 'msg2' }]);
+    });
+  });
+
+  describe('#SET_MISSING_MESSAGES', () => {
+    it('should replace message array with new data', () => {
+      const state = {
+        allConversations: [{ id: 1, messages: [{ id: 'old' }] }],
+      };
+      const payload = { id: 1, data: [{ id: 'new' }] };
+
+      mutations[types.SET_MISSING_MESSAGES](state, payload);
+      expect(state.allConversations[0].messages).toEqual([{ id: 'new' }]);
+    });
+
+    it('should do nothing if conversation is not found', () => {
+      const state = {
+        allConversations: [],
+      };
+      const payload = { id: 1, data: [{ id: 'new' }] };
+
+      mutations[types.SET_MISSING_MESSAGES](state, payload);
+      expect(state.allConversations).toEqual([]);
+    });
+  });
+
+  describe('#ASSIGN_AGENT', () => {
+    it('should assign agent to selected conversation', () => {
+      const assignee = { id: 1, name: 'Agent' };
+      const state = {
+        allConversations: [{ id: 1, meta: {} }],
+        selectedChatId: 1,
+      };
+
+      mutations[types.ASSIGN_AGENT](state, assignee);
+      expect(state.allConversations[0].meta.assignee).toEqual(assignee);
+    });
+  });
+
+  describe('#ASSIGN_PRIORITY', () => {
+    it('should assign priority to conversation', () => {
+      const priority = { title: 'Urgent', value: 'urgent' };
+      const state = {
+        allConversations: [{ id: 1 }],
+      };
+
+      mutations[types.ASSIGN_PRIORITY](state, {
+        priority,
+        conversationId: 1,
+      });
+      expect(state.allConversations[0].priority).toEqual(priority);
+    });
+  });
+
+  describe('#MUTE_CONVERSATION', () => {
+    it('should mute selected conversation', () => {
+      const state = {
+        allConversations: [{ id: 1, muted: false }],
+        selectedChatId: 1,
+      };
+
+      mutations[types.MUTE_CONVERSATION](state);
+      expect(state.allConversations[0].muted).toBe(true);
+    });
+  });
+
+  describe('#UNMUTE_CONVERSATION', () => {
+    it('should unmute selected conversation', () => {
+      const state = {
+        allConversations: [{ id: 1, muted: true }],
+        selectedChatId: 1,
+      };
+
+      mutations[types.UNMUTE_CONVERSATION](state);
+      expect(state.allConversations[0].muted).toBe(false);
+    });
+  });
+
+  describe('#UPDATE_CONVERSATION', () => {
+    it('should update existing conversation', () => {
+      const state = {
+        allConversations: [
+          {
+            id: 1,
+            status: 'open',
+            updated_at: 100,
+            messages: [{ id: 'msg1' }],
+          },
+        ],
+      };
+
+      const conversation = {
+        id: 1,
+        status: 'resolved',
+        updated_at: 200,
+        messages: [{ id: 'msg2' }],
+      };
+
+      mutations[types.UPDATE_CONVERSATION](state, conversation);
+      expect(state.allConversations[0]).toEqual({
+        id: 1,
+        status: 'resolved',
+        updated_at: 200,
+        messages: [{ id: 'msg1' }],
+      });
+    });
+
+    it('should add conversation if not found', () => {
+      const state = {
+        allConversations: [],
+      };
+
+      const conversation = {
+        id: 1,
+        status: 'open',
+      };
+
+      mutations[types.UPDATE_CONVERSATION](state, conversation);
+      expect(state.allConversations).toEqual([conversation]);
+    });
+
+    it('should emit events if updating selected conversation', () => {
+      const state = {
+        allConversations: [
+          {
+            id: 1,
+            status: 'open',
+            updated_at: 100,
+          },
+        ],
+        selectedChatId: 1,
+      };
+
+      const conversation = {
+        id: 1,
+        status: 'resolved',
+        updated_at: 200,
+      };
+
+      mutations[types.UPDATE_CONVERSATION](state, conversation);
+      expect(emitter.emit).toHaveBeenCalledWith('FETCH_LABEL_SUGGESTIONS');
+      expect(emitter.emit).toHaveBeenCalledWith('SCROLL_TO_MESSAGE');
+    });
+
+    it('should ignore updates with older timestamps', () => {
+      const state = {
+        allConversations: [
+          {
+            id: 1,
+            status: 'open',
+            updated_at: 200,
+          },
+        ],
+      };
+
+      const conversation = {
+        id: 1,
+        status: 'resolved',
+        updated_at: 100,
+      };
+
+      mutations[types.UPDATE_CONVERSATION](state, conversation);
+      expect(state.allConversations[0].status).toEqual('open');
+    });
+
+    it('should allow updates with same timestamps', () => {
+      const state = {
+        allConversations: [
+          {
+            id: 1,
+            status: 'open',
+            updated_at: 100,
+          },
+        ],
+      };
+
+      const conversation = {
+        id: 1,
+        status: 'resolved',
+        updated_at: 100,
+      };
+
+      mutations[types.UPDATE_CONVERSATION](state, conversation);
+      expect(state.allConversations[0].status).toEqual('resolved');
+    });
+  });
+
+  describe('#UPDATE_CONVERSATION_CONTACT', () => {
+    it('should update conversation contact data', () => {
+      const state = {
+        allConversations: [
+          { id: 1, meta: { sender: { id: 1, name: 'Old Name' } } },
+        ],
+      };
+
+      const payload = {
+        conversationId: 1,
+        id: 1,
+        name: 'New Name',
+      };
+
+      mutations[types.UPDATE_CONVERSATION_CONTACT](state, payload);
+      // The mutation extracts all properties except conversationId
+      const { conversationId, ...contact } = payload;
+      expect(state.allConversations[0].meta.sender).toEqual(contact);
+    });
+
+    it('should do nothing if conversation is not found', () => {
+      const state = {
+        allConversations: [],
+      };
+
+      const payload = {
+        conversationId: 1,
+        id: 1,
+        name: 'New Name',
+      };
+
+      mutations[types.UPDATE_CONVERSATION_CONTACT](state, payload);
+      expect(state.allConversations).toEqual([]);
+    });
+  });
+
+  describe('#SET_ACTIVE_INBOX', () => {
+    it('should set current inbox as integer', () => {
+      const state = {
+        currentInbox: null,
+      };
+
+      mutations[types.SET_ACTIVE_INBOX](state, '1');
+      expect(state.currentInbox).toBe(1);
+    });
+
+    it('should set null if no inbox ID provided', () => {
+      const state = {
+        currentInbox: 1,
+      };
+
+      mutations[types.SET_ACTIVE_INBOX](state, null);
+      expect(state.currentInbox).toBe(null);
+    });
+  });
+
+  describe('#CLEAR_CONTACT_CONVERSATIONS', () => {
+    it('should remove all conversations with matching contact ID', () => {
+      const state = {
+        allConversations: [
+          { id: 1, meta: { sender: { id: 1 } } },
+          { id: 2, meta: { sender: { id: 2 } } },
+          { id: 3, meta: { sender: { id: 1 } } },
+        ],
+      };
+
+      mutations[types.CLEAR_CONTACT_CONVERSATIONS](state, 1);
+      expect(state.allConversations).toHaveLength(1);
+      expect(state.allConversations[0].id).toBe(2);
+    });
+  });
+
+  describe('#ADD_CONVERSATION', () => {
+    it('should add a new conversation', () => {
+      const state = {
+        allConversations: [],
+      };
+
+      const conversation = { id: 1, messages: [] };
+      mutations[types.ADD_CONVERSATION](state, conversation);
+      expect(state.allConversations).toEqual([conversation]);
+    });
+  });
+
+  describe('#SET_LIST_LOADING_STATUS', () => {
+    it('should set listLoadingStatus to true', () => {
+      const state = {
+        listLoadingStatus: false,
+      };
+
+      mutations[types.SET_LIST_LOADING_STATUS](state);
+      expect(state.listLoadingStatus).toBe(true);
+    });
+  });
+
+  describe('#CLEAR_LIST_LOADING_STATUS', () => {
+    it('should set listLoadingStatus to false', () => {
+      const state = {
+        listLoadingStatus: true,
+      };
+
+      mutations[types.CLEAR_LIST_LOADING_STATUS](state);
+      expect(state.listLoadingStatus).toBe(false);
+    });
+  });
+
+  describe('#CHANGE_CHAT_STATUS_FILTER', () => {
+    it('should update chat status filter', () => {
+      const state = {
+        chatStatusFilter: 'open',
+      };
+
+      mutations[types.CHANGE_CHAT_STATUS_FILTER](state, 'resolved');
+      expect(state.chatStatusFilter).toBe('resolved');
+    });
+  });
+
+  describe('#UPDATE_ASSIGNEE', () => {
+    it('should update assignee on conversation', () => {
+      const state = {
+        allConversations: [{ id: 1, meta: { assignee: null } }],
+      };
+
+      const payload = {
+        id: 1,
+        assignee: { id: 1, name: 'Agent' },
+      };
+
+      mutations[types.UPDATE_ASSIGNEE](state, payload);
+      expect(state.allConversations[0].meta.assignee).toEqual(payload.assignee);
+    });
+  });
+
+  describe('#SET_LAST_MESSAGE_ID_IN_SYNC_CONVERSATION', () => {
+    it('should update the sync conversation message ID', () => {
+      const state = {
+        syncConversationsMessages: {},
+      };
+
+      mutations[types.SET_LAST_MESSAGE_ID_IN_SYNC_CONVERSATION](state, {
+        conversationId: 1,
+        messageId: 100,
+      });
+
+      expect(state.syncConversationsMessages[1]).toBe(100);
     });
   });
 });

@@ -420,6 +420,7 @@ export default {
       if (conversationId !== oldConversationId) {
         this.setToDraft(oldConversationId, this.replyType);
         this.getFromDraft();
+        this.resetRecorderAndClearAttachments();
       }
     },
     message(updatedMessage) {
@@ -528,6 +529,12 @@ export default {
           this.messageSignature
         );
       }
+    },
+    resetRecorderAndClearAttachments() {
+      // Reset audio recorder UI state
+      this.resetAudioRecorderInput();
+      // Reset attached files
+      this.attachedFiles = [];
     },
     saveDraft(conversationId, replyType) {
       if (this.message || this.message === '') {
@@ -1067,7 +1074,7 @@ export default {
 <template>
   <Banner
     v-if="showSelfAssignBanner"
-    action-button-variant="clear"
+    action-button-variant="ghost"
     color-scheme="secondary"
     class="banner--self-assign mx-2 mb-2 rounded-lg"
     :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
@@ -1253,7 +1260,7 @@ export default {
   @apply relative py-0 px-4 -mt-px;
 
   textarea {
-    @apply shadow-none border-transparent bg-transparent m-0 max-h-60 min-h-[3rem] pt-4 pb-0 px-0 resize-none;
+    @apply shadow-none outline-none border-transparent bg-transparent m-0 max-h-60 min-h-[3rem] pt-4 pb-0 px-0 resize-none;
   }
 }
 

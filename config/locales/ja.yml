@@ -53,6 +53,8 @@ ja:
       invalid_message_type: '無効なメッセージタイプです。アクションは許可されていません'
     slack:
       invalid_channel_id: '無効なSlackチャンネルです。もう一度お試しください。'
+    channel_service:
+      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: ネットワーク接続、IMAPアドレスを確認の上、再度お試しください。
@@ -68,6 +70,8 @@ ja:
       invalid_operator: 無効な演算子です。%{attribute_name} に許可されている演算子は [%{allowed_keys}] です。
       invalid_query_operator: クエリ演算子は "AND" または "OR" でなければなりません。
       invalid_value: 無効な値です。%{attribute_name} に提供された値は無効です。
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
   reports:
     period: レポート期間 %{since} から %{until} まで
     utc_warning: 生成されたレポートはUTCタイムゾーンです
@@ -215,6 +219,9 @@ ja:
     linear:
       name: 'Linear'
       description: '会話ウィンドウから直接Linearに問題を作成します。あるいは、既存のLinearの問題をリンクして、より効率的な問題追跡プロセスを実現します。'
+    shopify:
+      name: 'Shopify'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
   captain:
     copilot_error: 'この受信トレイにアシスタントを接続してCopilotを使用してください'
     copilot_limit: 'Copilot残高がありません。課金セクションからクレジットを追加購入することができます。'

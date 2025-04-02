@@ -108,20 +108,13 @@ export default {
 </script>
 
 <template>
-  <div class="overflow-auto p-4 max-w-full my-auto flex flex-wrap h-full">
-    <woot-button
-      v-if="showAddButton"
-      color-scheme="success"
-      class-names="button--fixed-top"
-      icon="add-circle"
-      @click="openAddHookModal"
-    >
-      {{ $t('INTEGRATION_APPS.ADD_BUTTON') }}
-    </woot-button>
+  <div class="overflow-auto p-4 w-full my-auto flex flex-wrap h-full">
     <div v-if="showIntegrationHooks" class="w-full">
       <div v-if="isIntegrationMultiple">
         <MultipleIntegrationHooks
           :integration-id="integrationId"
+          :show-add-button="showAddButton"
+          @add="openAddHookModal"
           @delete="openDeletePopup"
         />
       </div>

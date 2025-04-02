@@ -125,6 +125,10 @@ class Conversation < ApplicationRecord
     last_message_in_messaging_window?(messaging_window)
   end
 
+  def language
+    additional_attributes&.dig('conversation_language')
+  end
+
   def last_activity_at
     self[:last_activity_at] || created_at
   end
@@ -255,10 +259,6 @@ class Conversation < ApplicationRecord
       previous_changes.keys.intersect?(list_of_keys) ||
       (previous_changes['additional_attributes'].present? && previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language]))
     )
-  end
-
-  def self_assign?(assignee_id)
-    assignee_id.present? && Current.user&.id == assignee_id
   end
 
   def load_attributes_created_by_db_triggers

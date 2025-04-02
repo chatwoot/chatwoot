@@ -1,6 +1,6 @@
 require 'openai'
 
-class Captain::Llm::AssistantChatService < Captain::Llm::BaseOpenAiService
+class Captain::Llm::AssistantChatService < Llm::BaseOpenAiService
   include Captain::ChatHelper
 
   def initialize(assistant: nil)

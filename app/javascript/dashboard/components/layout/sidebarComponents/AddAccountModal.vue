@@ -3,8 +3,12 @@ import { required, minLength } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
 import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
+  components: {
+    NextButton,
+  },
   props: {
     show: {
       type: Boolean,
@@ -86,19 +90,24 @@ export default {
             />
           </label>
         </div>
-        <div class="w-full">
-          <div class="w-full">
-            <woot-submit-button
-              :disabled="
-                v$.accountName.$invalid ||
-                v$.accountName.$invalid ||
-                uiFlags.isCreating
-              "
-              :button-text="$t('CREATE_ACCOUNT.FORM.SUBMIT')"
-              :loading="uiFlags.isCreating"
-              button-class="large expanded"
-            />
-          </div>
+        <div class="w-full flex justify-end gap-2 items-center">
+          <NextButton
+            faded
+            slate
+            type="reset"
+            :label="$t('CREATE_ACCOUNT.FORM.CANCEL')"
+            @click.prevent="() => $emit('closeAccountCreateModal')"
+          />
+          <NextButton
+            type="submit"
+            :label="$t('CREATE_ACCOUNT.FORM.SUBMIT')"
+            :is-loading="uiFlags.isCreating"
+            :disabled="
+              v$.accountName.$invalid ||
+              v$.accountName.$invalid ||
+              uiFlags.isCreating
+            "
+          />
         </div>
       </form>
     </div>
