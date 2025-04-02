@@ -85,7 +85,7 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
 
   def message_type # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
     msg = @raw_message[:message]
-    return 'text' if msg.key?(:conversation)
+    return 'text' if msg.key?(:conversation) || msg.dig(:extendedTextMessage, :text)
     return 'contacts' if msg.key?(:contactMessage)
     return 'image' if msg.key?(:imageMessage)
     return 'audio' if msg.key?(:audioMessage)
@@ -106,9 +106,10 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     sender = is_outgoing ? @inbox.account.account_users.first.user : @contact
     sender_type = is_outgoing ? 'User' : 'Contact'
     message_type = is_outgoing ? :outgoing : :incoming
+    content = @raw_message.dig(:message, :conversation) || @raw_message.dig(:message, :extendedTextMessage, :text)
 
     @message = @conversation.messages.create!(
-      content: @raw_message[:message][:conversation],
+      content: content,
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       source_id: message_id,

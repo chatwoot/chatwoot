@@ -192,71 +192,95 @@ describe Whatsapp::IncomingMessageBaileysService do
           }
         end
 
-        it 'creates an incoming message' do
-          described_class.new(inbox: inbox, params: params).perform
+        context 'when has key conversation' do # rubocop:disable RSpec/NestedGroups
+          it 'creates an incoming message' do
+            described_class.new(inbox: inbox, params: params).perform
 
-          conversation = inbox.conversations.last
-          message = conversation.messages.last
-          expect(message).to be_present
-          expect(message.content).to eq('Hello from Baileys')
-          expect(message.message_type).to eq('incoming')
-          expect(message.sender).to be_present
-          expect(message.sender.name).to eq('John Doe')
+            conversation = inbox.conversations.last
+            message = conversation.messages.last
+            expect(message).to be_present
+            expect(message.content).to eq('Hello from Baileys')
+            expect(message.message_type).to eq('incoming')
+            expect(message.sender).to be_present
+            expect(message.sender.name).to eq('John Doe')
+          end
+
+          it 'creates an outgoing message' do
+            raw_message_outgoing = raw_message.merge(
+              key: { id: 'msg_123', remoteJid: '5511912345678@s.whatsapp.net', fromMe: true }
+            )
+            params_outgoing = params.merge(data: { type: 'notify', messages: [raw_message_outgoing] })
+            create(:account_user, account: inbox.account)
+
+            described_class.new(inbox: inbox, params: params_outgoing).perform
+
+            conversation = inbox.conversations.last
+            message = conversation.messages.last
+            expect(message).to be_present
+            expect(message.content).to eq('Hello from Baileys')
+            expect(message.message_type).to eq('outgoing')
+          end
+
+          it 'creates a message on an existing conversation' do
+            contact = create(:contact, account: inbox.account, name: 'John Doe')
+            contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: '5511912345678')
+            existing_conversation = create(:conversation, inbox: inbox, contact_inbox: contact_inbox)
+
+            described_class.new(inbox: inbox, params: params).perform
+
+            message = existing_conversation.messages.last
+            expect(message.sender).to eq(contact)
+          end
+
+          it 'does not create a message if it already exists' do
+            message = create(:message, inbox: inbox, source_id: 'msg_123')
+
+            described_class.new(inbox: inbox, params: params).perform
+
+            conversation = inbox.conversations.last
+            messages = conversation.messages
+            expect(messages).to eq([message])
+          end
+
+          it 'does not create a message if it is already being processed' do
+            allow(Redis::Alfred).to receive(:get).with(format_message_source_key('msg_123')).and_return(true)
+
+            described_class.new(inbox: inbox, params: params).perform
+
+            expect(inbox.conversations).to be_empty
+          end
+
+          it 'caches the message source id in Redis and clears it' do
+            allow(Redis::Alfred).to receive(:setex).with(format_message_source_key('msg_123'), true)
+            allow(Redis::Alfred).to receive(:delete).with(format_message_source_key('msg_123'))
+
+            described_class.new(inbox: inbox, params: params).perform
+
+            expect(Redis::Alfred).to have_received(:setex)
+            expect(Redis::Alfred).to have_received(:delete)
+          end
         end
 
-        it 'creates an outgoing message' do
-          raw_message_outgoing = raw_message.merge(
-            key: { id: 'msg_123', remoteJid: '5511912345678@s.whatsapp.net', fromMe: true }
-          )
-          params_outgoing = params.merge(data: { type: 'notify', messages: [raw_message_outgoing] })
-          create(:account_user, account: inbox.account)
+        context 'when is a extendedTextMessage that has key text' do # rubocop:disable RSpec/NestedGroups
+          let(:raw_message) do
+            {
+              key: { id: 'msg_123', remoteJid: '5511912345678@s.whatsapp.net', fromMe: false },
+              message: { 'extendedTextMessage': { text: 'Hello from Baileys' } },
+              pushName: 'John Doe'
+            }
+          end
 
-          described_class.new(inbox: inbox, params: params_outgoing).perform
+          it 'creates an incoming message' do
+            described_class.new(inbox: inbox, params: params).perform
 
-          conversation = inbox.conversations.last
-          message = conversation.messages.last
-          expect(message).to be_present
-          expect(message.content).to eq('Hello from Baileys')
-          expect(message.message_type).to eq('outgoing')
-        end
-
-        it 'creates a message on an existing conversation' do
-          contact = create(:contact, account: inbox.account, name: 'John Doe')
-          contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: '5511912345678')
-          existing_conversation = create(:conversation, inbox: inbox, contact_inbox: contact_inbox)
-
-          described_class.new(inbox: inbox, params: params).perform
-
-          message = existing_conversation.messages.last
-          expect(message.sender).to eq(contact)
-        end
-
-        it 'does not create a message if it already exists' do
-          message = create(:message, inbox: inbox, source_id: 'msg_123')
-
-          described_class.new(inbox: inbox, params: params).perform
-
-          conversation = inbox.conversations.last
-          messages = conversation.messages
-          expect(messages).to eq([message])
-        end
-
-        it 'does not create a message if it is already being processed' do
-          allow(Redis::Alfred).to receive(:get).with(format_message_source_key('msg_123')).and_return(true)
-
-          described_class.new(inbox: inbox, params: params).perform
-
-          expect(inbox.conversations).to be_empty
-        end
-
-        it 'caches the message source id in Redis and clears it' do
-          allow(Redis::Alfred).to receive(:setex).with(format_message_source_key('msg_123'), true)
-          allow(Redis::Alfred).to receive(:delete).with(format_message_source_key('msg_123'))
-
-          described_class.new(inbox: inbox, params: params).perform
-
-          expect(Redis::Alfred).to have_received(:setex)
-          expect(Redis::Alfred).to have_received(:delete)
+            conversation = inbox.conversations.last
+            message = conversation.messages.last
+            expect(message).to be_present
+            expect(message.content).to eq('Hello from Baileys')
+            expect(message.message_type).to eq('incoming')
+            expect(message.sender).to be_present
+            expect(message.sender.name).to eq('John Doe')
+          end
         end
       end
     end
