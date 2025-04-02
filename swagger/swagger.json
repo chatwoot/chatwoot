@@ -3,8 +3,8 @@
   "info": {
     "description": "This is the API documentation for Chatwoot server.",
     "version": "1.0.0",
-    "title": "Chatwoot",
-    "termsOfService": "https://www.chatwoot.com/terms-of-service/",
+    "title": "Buzz",
+    "termsOfService": "https://tumenteai.com",
     "contact": {
       "email": "hello@chatwoot.com"
     },
@@ -6866,7 +6866,7 @@
         "homepage_link": {
           "type": "string",
           "description": "link to main dashboard",
-          "example": "https://www.chatwoot.com/"
+          "example": "https://tumenteai.com"
         },
         "name": {
           "type": "string",

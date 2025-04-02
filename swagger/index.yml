@@ -1,11 +1,11 @@
 swagger: "2.0"
 info:
-  description: This is the API documentation for Chatwoot server.
+  description: This is the API documentation for Buzz server.
   version: 1.0.0
-  title: Chatwoot
-  termsOfService:	https://www.chatwoot.com/terms-of-service/
+  title: Buzz
+  termsOfService:	https://tumenteai.com/terms-of-service/
   contact:
-    email: hello@chatwoot.com
+    email: info@tumenteai.com
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
