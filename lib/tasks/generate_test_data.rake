@@ -1,8 +1,8 @@
 # Move constants outside the namespace block
 NUM_ACCOUNTS = 20
-MIN_MESSAGES = 1 # 1M
-MAX_MESSAGES = 10 # 10M
-BATCH_SIZE = 5 # Increased batch size
+MIN_MESSAGES = 1_000_000  # 1M
+MAX_MESSAGES = 10_000_000 # 10M
+BATCH_SIZE = 5_000 # Increased batch size
 START_ID = nil # Will be set dynamically
 MAX_CONVERSATIONS_PER_CONTACT = 20
 INBOXES_PER_ACCOUNT = 5 # Number of API inboxes per account
