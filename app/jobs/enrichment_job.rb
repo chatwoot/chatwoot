@@ -13,10 +13,22 @@ class EnrichmentJob < ApplicationJob
 
     enriched_data = enrich_from_people_data_labs(email, name, company_name)
 
-    contact.name ||= "#{enriched_data[:first_name]} #{enriched_data[:last_name]}"
-    contact.email ||= enriched_data[:email]
-    contact.additional_attributes['company_name'] ||= enriched_data[:company_name]
-    contact.additional_attributes['country'] ||= enriched_data[:country]
+    Rails.logger.info("Enriched data: #{enriched_data}")
+
+    contact.update(name: "#{enriched_data[:first_name]} #{enriched_data[:last_name]}") if contact.name.blank?
+
+    # contact.email ||= enriched_data[:email]
+
+    if contact.additional_attributes['country'].blank?
+      contact.update(additional_attributes: contact.additional_attributes.merge({ country: enriched_data[:country].titleize }))
+    end
+
+    if contact.additional_attributes['company_name'].blank?
+      contact.update(additional_attributes: contact.additional_attributes.merge({ company_name: enriched_data[:company_name] }))
+    end
+
+    Rails.logger.info("Updated country: #{contact.additional_attributes['country']}")
+
     contact.save
 
     all_profiles = enriched_data[:profiles]
@@ -66,6 +78,7 @@ class EnrichmentJob < ApplicationJob
 
     response = RestClient.get full_url, headers
     json_body = JSON.parse(response.body)
+
     {
       profiles: json_body.dig('data', 'profiles'),
       first_name: json_body.dig('data', 'first_name'),
