@@ -6,12 +6,14 @@ import { useAgentsList } from 'dashboard/composables/useAgentsList';
 
 import ThumbnailGroup from 'dashboard/components/widgets/ThumbnailGroup.vue';
 import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     Spinner,
     ThumbnailGroup,
     MultiselectDropdownItems,
+    NextButton,
   },
   props: {
     conversationId: {
@@ -165,13 +167,14 @@ export default {
             {{ $t('CONVERSATION_PARTICIPANTS.NO_PARTICIPANTS_TEXT') }}
           </p>
         </div>
-        <woot-button
+        <NextButton
           v-tooltip.left="$t('CONVERSATION_PARTICIPANTS.ADD_PARTICIPANTS')"
+          slate
+          ghost
+          sm
+          icon="i-lucide-settings"
+          class="relative -top-1"
           :title="$t('CONVERSATION_PARTICIPANTS.ADD_PARTICIPANTS')"
-          icon="settings"
-          size="tiny"
-          variant="smooth"
-          color-scheme="secondary"
           @click="onOpenDropdown"
         />
       </div>
@@ -188,15 +191,15 @@ export default {
       >
         {{ $t('CONVERSATION_PARTICIPANTS.YOU_ARE_WATCHING') }}
       </p>
-      <woot-button
+      <NextButton
         v-else
-        icon="arrow-right"
-        variant="link"
-        size="small"
+        link
+        xs
+        icon="i-lucide-arrow-right"
+        class="!gap-1"
+        :label="$t('CONVERSATION_PARTICIPANTS.WATCH_CONVERSATION')"
         @click="onSelfAssign"
-      >
-        {{ $t('CONVERSATION_PARTICIPANTS.WATCH_CONVERSATION') }}
-      </woot-button>
+      />
     </div>
     <div
       v-on-clickaway="
@@ -213,13 +216,7 @@ export default {
         >
           {{ $t('CONVERSATION_PARTICIPANTS.ADD_PARTICIPANTS') }}
         </h4>
-        <woot-button
-          icon="dismiss"
-          size="tiny"
-          color-scheme="secondary"
-          variant="clear"
-          @click="onCloseDropdown"
-        />
+        <NextButton ghost slate xs icon="i-lucide-x" @click="onCloseDropdown" />
       </div>
       <MultiselectDropdownItems
         :options="agentsList"
