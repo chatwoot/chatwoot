@@ -62,7 +62,7 @@ export default {
       }"
       @click="joinTheCall"
     >
-      <FluentIcon icon="video-add" class="mr-2" />
+      <FluentIcon icon="video-add" class="rtl:ml-2 ltr:mr-2" />
       {{ $t('INTEGRATIONS.DYTE.CLICK_HERE_TO_JOIN') }}
     </button>
     <div v-if="dyteAuthToken" class="video-call--container">
@@ -81,8 +81,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@import 'widget/assets/scss/variables.scss';
-
 .video-call--container {
   position: fixed;
   top: 72px;
@@ -101,15 +99,10 @@ export default {
 }
 
 .join-call-button {
-  margin: $space-small 0;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
+  @apply flex items-center my-2 rounded-lg;
 }
 
 .leave-room-button {
-  position: absolute;
-  top: 0;
-  right: $space-small;
+  @apply absolute top-0 ltr:right-2 rtl:left-2 px-1 rounded-md;
 }
 </style>

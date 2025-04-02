@@ -2,7 +2,7 @@
   "INBOX_MGMT": {
     "HEADER": "Posteingänge",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
-    "LEARN_MORE": "Learn more about inboxes",
+    "LEARN_MORE": "Mehr über Posteingänge erfahren",
     "RECONNECTION_REQUIRED": "Ihr Posteingang ist nicht verbunden. Sie erhalten keine neuen Nachrichten, bis Sie ihn erneut autorisieren.",
     "CLICK_TO_RECONNECT": "Klicken Sie hier, um die Verbindung wiederherzustellen.",
     "LIST": {
@@ -367,9 +367,9 @@
         "ERROR_MESSAGE": "Beim Verbinden mit Microsoft ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
       },
       "GOOGLE": {
-        "TITLE": "Google Email",
-        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "SIGN_IN": "Sign in with Google",
+        "TITLE": "Google E-Mail",
+        "DESCRIPTION": "Klicken Sie auf die Schaltfläche Einloggen mit Google, um loszulegen. Sie werden zur E-Mail-Anmeldeseite weitergeleitet. Sobald Sie die angeforderten Berechtigungen angenommen haben, werden Sie zum Erstellungsschritt für den Posteingang weitergeleitet.",
+        "SIGN_IN": "Mit Google anmelden",
         "EMAIL_PLACEHOLDER": "E-Mail-Adresse eingeben",
         "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
@@ -751,7 +751,7 @@
       "WHATSAPP": "WhatsApp",
       "SMS": "SMS",
       "EMAIL": "E-Mail",
-      "TELEGRAM": "Telegram",
+      "TELEGRAM": "Telegramm",
       "LINE": "Line",
       "API": "API-Kanal"
     }

@@ -2,15 +2,11 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 @import 'widget/assets/scss/reset';
-@import 'widget/assets/scss/variables';
-@import 'widget/assets/scss/buttons';
-@import 'widget/assets/scss/mixins';
-@import 'widget/assets/scss/forms';
 @import 'shared/assets/fonts/widget_fonts';
 
 html,
 body {
-  font-family: $font-family;
+  font-family: 'Inter', -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Tahoma, Arial, sans-serif;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   height: 100%;

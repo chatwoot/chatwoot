@@ -39,5 +39,9 @@
   },
   "LABEL": {
     "TAG_BUTTON": "тег"
+  },
+  "FEATURE_SPOTLIGHT": {
+    "LEARN_MORE": "Узнайте больше",
+    "WATCH_VIDEO": "Watch video"
   }
 }

@@ -1,14 +1,25 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
+import BaseSettingsHeader from 'dashboard/routes/dashboard/settings/components/BaseSettingsHeader.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
+  components: {
+    BaseSettingsHeader,
+    NextButton,
+  },
   props: {
     integrationId: {
       type: String,
       required: true,
     },
+    showAddButton: {
+      type: Boolean,
+      default: false,
+    },
   },
-  emits: ['delete'],
+  emits: ['delete', 'add'],
   setup(props) {
     const { integration, isHookTypeInbox, hasConnectedHooks } =
       useIntegrationHook(props.integrationId);
@@ -45,11 +56,35 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-row gap-4">
-    <div class="w-full lg:w-3/5">
+  <div class="flex flex-col flex-1 gap-8 overflow-auto">
+    <BaseSettingsHeader
+      :title="integration.name"
+      :description="
+        $t(
+          `INTEGRATION_APPS.SIDEBAR_DESCRIPTION.${integration.name.toUpperCase()}`,
+          { installationName: globalConfig.installationName }
+        )
+      "
+      :feature-name="integrationId"
+      :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
+    >
+      <template #actions>
+        <NextButton
+          v-if="showAddButton"
+          icon="i-lucide-circle-plus"
+          :label="$t('INTEGRATION_APPS.ADD_BUTTON')"
+          @click="$emit('add')"
+        />
+      </template>
+    </BaseSettingsHeader>
+    <div class="w-full">
       <table v-if="hasConnectedHooks" class="woot-table">
         <thead>
-          <th v-for="hookHeader in hookHeaders" :key="hookHeader">
+          <th
+            v-for="hookHeader in hookHeaders"
+            :key="hookHeader"
+            class="ltr:!pl-0 rtl:!pr-0"
+          >
             {{ hookHeader }}
           </th>
           <th v-if="isHookTypeInbox">
@@ -61,7 +96,7 @@ export default {
             <td
               v-for="property in hook.properties"
               :key="property"
-              class="break-words"
+              class="ltr:!pl-0 rtl:!pr-0"
             >
               {{ property }}
             </td>
@@ -69,13 +104,12 @@ export default {
               {{ inboxName(hook) }}
             </td>
             <td class="flex justify-end gap-1">
-              <woot-button
+              <NextButton
                 v-tooltip.top="$t('INTEGRATION_APPS.LIST.DELETE.BUTTON_TEXT')"
-                variant="smooth"
-                color-scheme="alert"
-                size="tiny"
-                icon="dismiss-circle"
-                class-names="grey-btn"
+                icon="i-lucide-trash-2"
+                xs
+                ruby
+                faded
                 @click="$emit('delete', hook)"
               />
             </td>
@@ -89,19 +123,6 @@ export default {
           })
         }}
       </p>
-    </div>
-    <div class="hidden w-1/3 lg:block">
-      <p>
-        <b>{{ integration.name }}</b>
-      </p>
-      <p
-        v-dompurify-html="
-          $t(
-            `INTEGRATION_APPS.SIDEBAR_DESCRIPTION.${integration.name.toUpperCase()}`,
-            { installationName: globalConfig.installationName }
-          )
-        "
-      />
     </div>
   </div>
 </template>

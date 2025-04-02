@@ -1,16 +1,16 @@
 {
   "AUDIT_LOGS": {
-    "HEADER": "Registros de Auditoria",
-    "HEADER_BTN_TXT": "Adicionar Registros de Auditoria",
+    "HEADER": "Auditoria",
+    "HEADER_BTN_TXT": "Adicionar Logs de Auditoria",
     "LOADING": "Buscando Logs de Auditoria",
-    "DESCRIPTION": "Logs de Auditoria mantêm um registro de atividades em sua conta, permitindo que você acompanhe e auditoria de sua conta, equipe ou serviços.",
+    "DESCRIPTION": "Logs de Auditoria mantêm um registro de atividades em sua conta, permitindo que você acompanhe e auditore sua conta, equipe ou serviços.",
     "LEARN_MORE": "Saiba mais sobre os logs de auditoria",
     "SEARCH_404": "Não existem itens correspondentes a esta consulta",
-    "SIDEBAR_TXT": "<p><b>Registros de Auditoria</b> </p><p> Registros de Auditoria são trilhas para eventos e ações em um Sistema Chatwoot. </p>",
+    "SIDEBAR_TXT": "<p><b>Logs de Auditoria</b> </p><p> Os Logs de Auditoria são rastros para eventos e ações em um Sistema Chatwoot. </p>",
     "LIST": {
-      "404": "Não há Registros de Auditoria disponíveis nesta conta.",
-      "TITLE": "Gerenciar Registros de Auditoria",
-      "DESC": "Registros de Auditoria são trilhas para eventos e ações em um Sistema Chatwoot.",
+      "404": "Não há Logs de Auditoria disponíveis nesta conta.",
+      "TITLE": "Gerenciar Logs de Auditoria",
+      "DESC": "Logs de auditoria são rastros para eventos e ações em um Sistema de Chatwoot.",
       "TABLE_HEADER": {
         "ACTIVITY": "Usuário",
         "TIME": "Ação",

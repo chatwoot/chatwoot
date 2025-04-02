@@ -6,6 +6,7 @@ import SettingsLayout from '../SettingsLayout.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -72,14 +73,11 @@ const tableHeaders = computed(() => {
         feature-name="macros"
       >
         <template #actions>
-          <router-link
-            :to="{ name: 'macros_new' }"
-            class="button rounded-md primary"
-          >
-            <fluent-icon icon="add-circle" />
-            <span class="button__content">
-              {{ $t('MACROS.HEADER_BTN_TXT') }}
-            </span>
+          <router-link :to="{ name: 'macros_new' }">
+            <Button
+              icon="i-lucide-circle-plus"
+              :label="$t('MACROS.HEADER_BTN_TXT')"
+            />
           </router-link>
         </template>
       </BaseSettingsHeader>

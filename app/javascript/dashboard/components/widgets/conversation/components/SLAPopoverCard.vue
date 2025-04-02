@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 
 import wootConstants from 'dashboard/constants/globals';
 import SLAEventItem from './SLAEventItem.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   slaMissedEvents: {
@@ -60,20 +61,19 @@ const toggleShowAllNRT = () => {
           v-if="shouldShowMoreNRTButton"
           class="flex flex-col items-end w-full"
         >
-          <woot-button
-            size="small"
-            :icon="!shouldShowAllNrts ? 'plus-sign' : ''"
-            variant="link"
-            color-scheme="secondary"
-            class="hover:!no-underline !gap-1 hover:!bg-transparent dark:hover:!bg-transparent"
-            @click="toggleShowAllNRT"
-          >
-            {{
+          <Button
+            link
+            xs
+            slate
+            class="hover:!no-underline"
+            :icon="!shouldShowAllNrts ? 'i-lucide-plus' : ''"
+            :label="
               shouldShowAllNrts
                 ? $t('SLA.EVENTS.HIDE', { count: nrtMisses.length })
                 : $t('SLA.EVENTS.SHOW_MORE', { count: nrtMisses.length })
-            }}
-          </woot-button>
+            "
+            @click="toggleShowAllNRT"
+          />
         </div>
       </template>
     </SLAEventItem>

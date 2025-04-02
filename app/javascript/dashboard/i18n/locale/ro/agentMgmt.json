@@ -105,6 +105,9 @@
         "AGENT": "Selectați agentul",
         "TEAM": "Selectați echipa"
       },
+      "LIST": {
+        "NONE": "Nimic"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Niciun agent găsit",
