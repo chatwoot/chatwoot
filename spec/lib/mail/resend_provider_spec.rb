@@ -3,11 +3,14 @@ require 'rails_helper'
 describe Mail::ResendProvider do
   let(:provider) { described_class.new({}) }
   let(:mail) do
-    instance_double(Mail::Message,
-                    smtp_envelope_from: 'sender@example.com',
-                    smtp_envelope_to: ['receiver@example.com'],
-                    subject: 'Test Email',
-                    decoded: '<p>This is a test email message.</p>')
+    Mail::Message.new(
+      headers: {
+        from: 'Sender <sender@example.com>',
+        to: ['Receiver <receiver@example.com>'],
+        subject: 'Test Email'
+      },
+      body: '<p>This is a test email message.</p>'
+    )
   end
 
   describe '#deliver!' do
@@ -15,8 +18,8 @@ describe Mail::ResendProvider do
       response = instance_double(HTTParty::Response, success?: true)
       allow(Resend::Emails).to receive(:send)
         .with(
-          from: 'sender@example.com',
-          to: ['receiver@example.com'],
+          from: 'Sender <sender@example.com>',
+          to: 'Receiver <receiver@example.com>',
           subject: 'Test Email',
           html: '<p>This is a test email message.</p>',
           text: 'This is a test email message.'
@@ -32,8 +35,8 @@ describe Mail::ResendProvider do
       it 'raises a DeliveryError with the error message' do
         allow(Resend::Emails).to receive(:send)
           .with(
-            from: 'sender@example.com',
-            to: ['receiver@example.com'],
+            from: 'Sender <sender@example.com>',
+            to: 'Receiver <receiver@example.com>',
             subject: 'Test Email',
             html: '<p>This is a test email message.</p>',
             text: 'This is a test email message.'

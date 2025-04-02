@@ -6,9 +6,9 @@ module Mail # rubocop:disable Style/ClassAndModuleChildren
 
     def deliver!(mail)
       Resend::Emails.send(
-        from: mail.smtp_envelope_from,
-        to: mail.smtp_envelope_to,
-        subject: mail.subject,
+        from: mail.header[:from].to_s,
+        to: mail.header[:to].to_s,
+        subject: mail.header[:subject].to_s,
         html: mail.decoded,
         text: sanitize_html(mail.decoded)
       )
