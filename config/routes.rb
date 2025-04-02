@@ -263,7 +263,7 @@ Rails.application.routes.draw do
               delete :logo
             end
             collection do
-              get :check  
+              get :check
             end
             resources :categories
             resources :articles do
@@ -272,7 +272,6 @@ Rails.application.routes.draw do
           end
 
           resources :upload, only: [:create]
-
         end
       end
       # end of account scoped api routes
@@ -317,7 +316,7 @@ Rails.application.routes.draw do
         end
         resource :contact, only: [:show, :update] do
           collection do
-            post :destroy_custom_attributes
+            post  :destroy_custom_attributes
             patch :set_user
           end
         end
