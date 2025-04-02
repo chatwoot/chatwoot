@@ -150,12 +150,22 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
 
   # rubocop:disable Layout/LineLength
   def agent_call_overview_params
-    {
-      metrics: %w[total_calling_nudged_conversations scheduled_call_conversations not_picked_up_call_conversations follow_up_call_conversations
-                  converted_call_conversations dropped_call_conversations agent_revenue_generated avg_time_to_call_after_nudge avg_time_to_convert avg_time_to_drop avg_follow_up_calls],
-      group_by: 'agent',
-      filters: base_filters
-    }
+    account_ids = [1058, 1126, 1125]
+    if account_ids.include?(Current.account.id)
+      {
+        metrics: %w[agent_total_calls total_calling_nudged_conversations ringing_no_response_conversations hung_up_after_intro_conversations conversation_happened_conversations
+                    asked_to_whatsapp_conversations not_interested_conversations asked_to_call_later other_conversations agent_revenue_generated avg_time_to_call_after_nudge avg_time_to_convert avg_time_to_drop avg_follow_up_calls],
+        group_by: 'agent',
+        filters: base_filters
+      }
+    else
+      {
+        metrics: %w[total_calling_nudged_conversations scheduled_call_conversations not_picked_up_call_conversations follow_up_call_conversations
+                    converted_call_conversations dropped_call_conversations agent_revenue_generated avg_time_to_call_after_nudge avg_time_to_convert avg_time_to_drop avg_follow_up_calls],
+        group_by: 'agent',
+        filters: base_filters
+      }
+    end
   end
 
   def agent_inbound_call_overview_params

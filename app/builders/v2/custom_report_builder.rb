@@ -182,7 +182,7 @@ class V2::CustomReportBuilder
 
   private
 
-  def calculate_metric(metric)
+  def calculate_metric(metric) # rubocop:disable Metrics/CyclomaticComplexity
     case metric
     when 'bot_orders_placed'
       bot_orders_placed(@account.id, @time_range)
@@ -192,6 +192,8 @@ class V2::CustomReportBuilder
       bot_total_revenue(@account.id, @time_range)
     when 'agent_revenue_generated'
       agent_revenue_generated(@account.id, @time_range)
+    when 'agent_total_calls'
+      agent_total_calls(@account.id, @time_range)
     when 'sales_ooo_hours'
       sales_ooo_hours(@account.id, @time_range)
     else
@@ -242,6 +244,13 @@ class V2::CustomReportBuilder
        not_picked_up_call_conversations
        follow_up_call_conversations
        converted_call_conversations
+       ringing_no_response_conversations
+       hung_up_after_intro_conversations
+       conversation_happened_conversations
+       not_interested_conversations
+       asked_to_whatsapp_conversations
+       asked_to_call_later
+       other_conversations
        dropped_call_conversations
        avg_time_to_call_after_nudge
        avg_time_to_convert

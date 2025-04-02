@@ -114,6 +114,7 @@ import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import alertMixin from 'shared/mixins/alertMixin';
 import accountMixin from 'dashboard/mixins/account';
+import attributeMixin from 'dashboard/mixins/attributeMixin';
 
 const CALL_STATUS_VALUES = [
   'Scheduled',
@@ -124,11 +125,15 @@ const CALL_STATUS_VALUES = [
 ];
 
 const CALL_STATUS_VALUES_BSC = [
+  'Scheduled',
+  'Follow-up',
+  'Converted',
   'Ringing, No Response',
   'Hung up after intro',
   'Conversation Happened',
   'Asked to Whatsapp',
-  'Not interested',
+  'Already Purchased',
+  "Don't want",
   'Asked to call Later',
   'Other',
 ];
@@ -140,7 +145,7 @@ export default {
     CallTranscriptModal,
     CustomAttribute,
   },
-  mixins: [timeMixin, alertMixin, accountMixin],
+  mixins: [timeMixin, alertMixin, accountMixin, attributeMixin],
   props: {
     callLog: {
       type: Object,
@@ -159,6 +164,7 @@ export default {
     return {
       isExpanded: false,
       showTranscriptModal: false,
+      attributeType: 'conversation_attribute',
     };
   },
   computed: {
@@ -193,14 +199,17 @@ export default {
       return `${remainingSeconds} sec`;
     },
     callAttributes() {
+      const callingStatusAttribute = this.attributes.find(
+        attribute => attribute.attribute_key === 'calling_status'
+      );
       return [
         {
           id: '1',
           attributeKey: 'calling_status',
           attributeType: 'list',
           values: BombayShavingAccountIds.includes(this.accountId)
-            ? CALL_STATUS_VALUES_BSC
-            : CALL_STATUS_VALUES,
+            ? callingStatusAttribute?.attribute_values ?? CALL_STATUS_VALUES_BSC
+            : callingStatusAttribute?.attribute_values ?? CALL_STATUS_VALUES,
           label: 'Calling Status',
           description: 'Notes related to call for this conversations',
           value: this.callLog.agentCallStatus,
@@ -236,6 +245,16 @@ export default {
         [key === 'calling_status' ? 'agentCallStatus' : 'agentCallNote']: value,
       };
       try {
+        if (this.index === 0) {
+          const updatedAttributes = {
+            ...this.customAttributes,
+            calling_status: value,
+          };
+          await this.$store.dispatch('updateCustomAttributes', {
+            conversationId: this.conversationId,
+            customAttributes: updatedAttributes,
+          });
+        }
         await this.$store.dispatch('contactCallLogs/update', updatePayload);
         this.showAlert(
           this.$t(

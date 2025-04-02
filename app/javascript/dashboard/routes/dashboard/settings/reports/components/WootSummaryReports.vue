@@ -53,6 +53,9 @@ import getSymbolFromCurrency from 'currency-symbol-map';
 
 import { generateFileName } from '../../../../../helper/downloadHelper';
 import { VeTable } from 'vue-easytable';
+import { mapGetters } from 'vuex';
+
+const BombayShavingAccountIds = [1058, 1126, 1125];
 
 export default {
   components: {
@@ -101,6 +104,12 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+    }),
+    isBscAccount() {
+      return BombayShavingAccountIds.includes(this.accountId);
+    },
     scrollWidth() {
       // Calculate the total width based on the number of columns
       // Assuming a minimum width of 150px per column
@@ -483,6 +492,17 @@ export default {
               </div>
             ),
           },
+          ...(this.isBscAccount
+            ? [
+                {
+                  field: 'agentTotalCalls',
+                  key: 'agentTotalCalls',
+                  title: 'Agent Total Calls',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+              ]
+            : []),
           {
             field: 'totalCallingNudgedConversations',
             key: 'totalCallingNudgedConversations',
@@ -490,41 +510,95 @@ export default {
             align: this.isRTLView ? 'right' : 'left',
             width: 20,
           },
-          {
-            field: 'scheduledCallConversations',
-            key: 'scheduledCallConversations',
-            title: 'Scheduled',
-            align: this.isRTLView ? 'right' : 'left',
-            width: 20,
-          },
-          {
-            field: 'notPickedUpCallConversations',
-            key: 'notPickedUpCallConversations',
-            title: 'Not Picked',
-            align: this.isRTLView ? 'right' : 'left',
-            width: 20,
-          },
-          {
-            field: 'followUpCallConversations',
-            key: 'followUpCallConversations',
-            title: 'Follow-Up',
-            align: this.isRTLView ? 'right' : 'left',
-            width: 20,
-          },
-          {
-            field: 'convertedCallConversations',
-            key: 'convertedCallConversations',
-            title: 'Converted',
-            align: this.isRTLView ? 'right' : 'left',
-            width: 20,
-          },
-          {
-            field: 'droppedCallConversations',
-            key: 'droppedCallConversations',
-            title: 'Dropped',
-            align: this.isRTLView ? 'right' : 'left',
-            width: 20,
-          },
+          ...(!this.isBscAccount
+            ? [
+                {
+                  field: 'scheduledCallConversations',
+                  key: 'scheduledCallConversations',
+                  title: 'Scheduled',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
+                  field: 'notPickedUpCallConversations',
+                  key: 'notPickedUpCallConversations',
+                  title: 'Not Picked',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
+                  field: 'followUpCallConversations',
+                  key: 'followUpCallConversations',
+                  title: 'Follow-Up',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
+                  field: 'convertedCallConversations',
+                  key: 'convertedCallConversations',
+                  title: 'Converted',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
+                  field: 'droppedCallConversations',
+                  key: 'droppedCallConversations',
+                  title: 'Dropped',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+              ]
+            : [
+                {
+                  field: 'ringingNoResponseConversations',
+                  key: 'ringingNoResponseConversations',
+                  title: 'Ringing No Response',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
+                  field: 'hungUpAfterIntroConversations',
+                  key: 'hungUpAfterIntroConversations',
+                  title: 'Hung Up After Intro',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
+                  field: 'conversationHappenedConversations',
+                  key: 'conversationHappenedConversations',
+                  title: 'Conversations Happened',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
+                  field: 'askedToWhatsappConversations',
+                  key: 'askedToWhatsappConversations',
+                  title: 'Asked to whatsapp',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
+                  field: 'notInterestedConversations',
+                  key: 'notInterestedConversations',
+                  title: 'Not Interested',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
+                  field: 'askedToCallLaterConversations',
+                  key: 'askedToCallLaterConversations',
+                  title: 'Asked To Call Later',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
+                  field: 'otherConversations',
+                  key: 'otherConversations',
+                  title: 'Other',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+              ]),
           {
             field: 'agentRevenueGenerated',
             key: 'agentRevenueGenerated',
@@ -795,6 +869,38 @@ export default {
       if (this.agentTableType === 'callOverview') {
         return combinedTeams.map(team => {
           const typeMetrics = this.getMetrics(team.id);
+          if (this.isBscAccount) {
+            return {
+              name: team.name,
+              agentTotalCalls: typeMetrics.agent_total_calls || '__',
+              totalCallingNudgedConversations:
+                typeMetrics.total_calling_nudged_conversations || '--',
+              ringingNoResponseConversations:
+                typeMetrics.ringing_no_response_conversations || '--',
+              hungUpAfterIntroConversations:
+                typeMetrics.hung_up_after_intro_conversations || '--',
+              conversationHappenedConversations:
+                typeMetrics.conversation_happened_conversations || '--',
+              askedToWhatsappConversations:
+                typeMetrics.asked_to_whatsapp_conversations || '--',
+              notInterestedConversations:
+                typeMetrics.not_interested_conversations || '--',
+              askedToCallLaterConversations:
+                typeMetrics.asked_to_call_later || '--',
+              otherConversations: typeMetrics.other_conversations || '--',
+              agentRevenueGenerated:
+                this.renderCurrency(typeMetrics.agent_revenue_generated) ||
+                '--',
+              avgTimeToCallAfterNudge:
+                this.renderContent(typeMetrics.avg_time_to_call_after_nudge) ||
+                '--',
+              avgTimeToConvert:
+                this.renderContent(typeMetrics.avg_time_to_convert) || '--',
+              avgTimeToDrop:
+                this.renderContent(typeMetrics.avg_time_to_drop) || '--',
+              avgFollowUpCalls: typeMetrics.avg_follow_up_calls || '--',
+            };
+          }
           return {
             name: team.name,
             totalCallingNudgedConversations:
