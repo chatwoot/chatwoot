@@ -55,6 +55,8 @@
   value: true
   display_title: 'Buzz Metadata'
   description: 'Display default Buzz metadata like favicons and upgrade warnings'
+  display_title: 'Buzz Metadata'
+  description: 'Display default Buzz metadata like favicons and upgrade warnings'
   type: boolean
 # ------- End of Branding Related Config ------- #
 
