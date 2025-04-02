@@ -9,6 +9,8 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import PhoneNumberInput from 'dashboard/components-next/phonenumberinput/PhoneNumberInput.vue';
+import { useStore } from 'dashboard/composables/store';
+import ContactAPI from 'dashboard/api/contacts';
 
 const props = defineProps({
   contactData: {
@@ -24,6 +26,8 @@ const props = defineProps({
     default: false,
   },
 });
+
+const store = useStore();
 
 const emit = defineEmits(['update']);
 
@@ -46,6 +50,14 @@ const SOCIAL_CONFIG = {
   INSTAGRAM: 'i-ri-instagram-line',
   TWITTER: 'i-ri-twitter-x-fill',
   GITHUB: 'i-ri-github-fill',
+};
+
+const PROFILE_LINK = {
+  linkedin: 'LINKEDIN',
+  facebook: 'FACEBOOK',
+  instagram: 'INSTAGRAM',
+  twitter: 'TWITTER',
+  github: 'GITHUB',
 };
 
 const defaultState = {
@@ -142,6 +154,26 @@ const socialProfilesForm = computed(() =>
     icon,
   }))
 );
+
+const handleEmailUpdateEnrichment = async key => {
+  const email = getFormBinding('EMAIL_ADDRESS').value;
+  const companyName = getFormBinding('COMPANY_NAME').value;
+  const firstName = getFormBinding('FIRST_NAME').value;
+  const lastName = getFormBinding('LAST_NAME').value;
+  const name = `${firstName} ${lastName}`;
+
+  const result = await ContactAPI.enrich({
+    email, name, companyName
+  });
+
+  const networks = result.data.networks;
+
+  Object.keys(networks).forEach(key => {
+    state.additionalAttributes.socialProfiles[key] = networks[key];
+  });
+
+  emit('update', state);
+};
 
 const isValidationField = key => {
   const field = FORM_CONFIG[key]?.field;
@@ -260,6 +292,27 @@ defineExpose({
             :placeholder="item.placeholder"
             :show-border="isDetailsView"
           />
+
+          <Input
+            v-else-if="item.key === 'EMAIL_ADDRESS'"
+            v-model="getFormBinding(item.key).value"
+            :placeholder="item.placeholder"
+            :message-type="getMessageType(item.key)"
+            :custom-input-class="`h-8 !pt-1 !pb-1 ${
+              !isDetailsView ? '[&:not(.error,.focus)]:!border-transparent' : ''
+            }`"
+            class="w-full"
+            @input="
+              isValidationField(item.key) &&
+                v$[getValidationKey(item.key)].$touch()
+            "
+            @blur="
+              isValidationField(item.key) &&
+                v$[getValidationKey(item.key)].$touch()
+            "
+            @change="handleEmailUpdateEnrichment"
+          />
+
           <Input
             v-else
             v-model="getFormBinding(item.key).value"
