@@ -130,7 +130,7 @@
       "ASSIGN_AGENT": "Atribuir Agente",
       "ASSIGN_LABEL": "Atribuir etiqueta",
       "AGENTS_LOADING": "Carregando agentes...",
-      "ASSIGN_TEAM": "Atribuir equipe",
+      "ASSIGN_TEAM": "Atribuir time",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "ID da conversa {conversationId} atribuído para \"{agentName}\"",
@@ -141,8 +141,8 @@
           "FAILED": "Não foi possível atribuir etiqueta. Por favor, tente novamente."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Equipe {team} atribuído para o id de conversa {conversationId}",
-          "FAILED": "Não foi possível atribuir equipe. Por favor, tente novamente."
+          "SUCCESFUL": "Time {team} atribuído para o id de conversa {conversationId}",
+          "FAILED": "Não foi possível atribuir time. Por favor, tente novamente."
         }
       }
     },
@@ -197,7 +197,7 @@
         }
       }
     },
-    "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e sua equipe",
+    "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e seu time",
     "CHANGE_STATUS": "Estado da conversa mudou",
     "CHANGE_STATUS_FAILED": "Mudança de situação da conversa falhou",
     "CHANGE_AGENT": "Novo agente atribuído",
@@ -266,9 +266,9 @@
       "NEW_LINK": "Clique aqui para criar uma caixa de entrada"
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Convidar membros da sua equipe",
-      "DESCRIPTION": "Já que você está se preparando para conversar com seu cliente, traga seus colegas para ajudá-lo. Você pode convidar seus colegas de equipe adicionando os endereços de e-mail deles na lista de agentes.",
-      "NEW_LINK": "Clique aqui para convidar um membro da equipe"
+      "TITLE": "Convidar membros de seu time",
+      "DESCRIPTION": "Já que você está se preparando para conversar com seu cliente, traga seus colegas para ajudá-lo. Você pode convidar seus colegas adicionando os endereços de e-mail deles na lista de agentes.",
+      "NEW_LINK": "Clique aqui para convidar um membro do time"
     },
     "LABELS": {
       "TITLE": "Organizar conversas com etiquetas",
@@ -284,7 +284,7 @@
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "Agente atribuído",
     "SELF_ASSIGN": "Atribuir a mim",
-    "TEAM_LABEL": "Equipe atribuída",
+    "TEAM_LABEL": "Time atribuído",
     "SELECT": {
       "PLACEHOLDER": "Nenhuma"
     },
