@@ -13,14 +13,17 @@ services:
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
-      - FRONTEND_URL=http://rails:3000
+      - FRONTEND_URL=${FRONTEND_URL}
+      - FRONTEND_URL_EXTERNAL=${FRONTEND_URL_EXTERNAL}
       - REDIS_URL=redis://redis:6379
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/chatwoot_production
       - SECRET_KEY_BASE=${SECRET_KEY_BASE}
       - REDIS_PASSWORD=${REDIS_PASSWORD}
       - BAILEYS_PROVIDER_DEFAULT_CLIENT_NAME=${BAILEYS_PROVIDER_DEFAULT_CLIENT_NAME}
-      - BAILEYS_PROVIDER_DEFAULT_URL=http://baileys-api:3025
+      - BAILEYS_PROVIDER_DEFAULT_URL=${BAILEYS_PROVIDER_DEFAULT_URL}
       - BAILEYS_PROVIDER_DEFAULT_API_KEY=${BAILEYS_PROVIDER_DEFAULT_API_KEY}
+      - MAILER_SENDER_EMAIL=${MAILER_SENDER_EMAIL}
+      - RESEND_API_KEY=${RESEND_API_KEY}
     entrypoint: docker/entrypoints/rails.sh
     command:
       - bundle
@@ -58,10 +61,17 @@ services:
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
+      - FRONTEND_URL=${FRONTEND_URL}
+      - FRONTEND_URL_EXTERNAL=${FRONTEND_URL_EXTERNAL}
       - REDIS_URL=redis://redis:6379
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/chatwoot_production
       - SECRET_KEY_BASE=${SECRET_KEY_BASE}
       - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - BAILEYS_PROVIDER_DEFAULT_CLIENT_NAME=${BAILEYS_PROVIDER_DEFAULT_CLIENT_NAME}
+      - BAILEYS_PROVIDER_DEFAULT_URL=${BAILEYS_PROVIDER_DEFAULT_URL}
+      - BAILEYS_PROVIDER_DEFAULT_API_KEY=${BAILEYS_PROVIDER_DEFAULT_API_KEY}
+      - MAILER_SENDER_EMAIL=${MAILER_SENDER_EMAIL}
+      - RESEND_API_KEY=${RESEND_API_KEY}
     command:
       - bundle
       - exec
@@ -73,40 +83,6 @@ services:
       test:
         - CMD-SHELL
         - 'ps aux | grep [s]idekiq'
-      interval: 20s
-      timeout: 20s
-      retries: 10
-
-  baileys-api:
-    image: 'ghcr.io/fazer-ai/baileys-api:latest'
-    pull_policy: always
-    volumes:
-      - 'storage:/app/storage'
-    depends_on:
-      - rails
-      - sidekiq
-      - redis
-    environment:
-      - NODE_ENV=production
-      - REDIS_URL=redis://redis:6379
-      - REDIS_PASSWORD=${REDIS_PASSWORD}
-      - LOG_LEVEL=${LOG_LEVEL:-debug}
-      - BAILEYS_LOG_LEVEL=${BAILEYS_LOG_LEVEL:-error}
-    command:
-      - bun
-      - start
-    restart: always
-    post_start:
-      - command:
-          - bun
-          - manage-api-keys
-          - create
-          - user 
-          - ${BAILEYS_PROVIDER_DEFAULT_API_KEY}
-    healthcheck:
-      test:
-        - CMD-SHELL
-        - "wget --header='x-api-key: ${BAILEYS_PROVIDER_DEFAULT_API_KEY}' -qO- http://localhost:3025/status"
       interval: 20s
       timeout: 20s
       retries: 10
@@ -146,4 +122,3 @@ services:
       interval: 20s
       timeout: 20s
       retries: 10
-
