@@ -178,6 +178,8 @@ gem 'ruby-openai'
 
 gem 'shopify_api'
 
+gem 'resend', '~> 0.19.0'
+
 ### Gems required only in specific deployment environments ###
 ##############################################################
 

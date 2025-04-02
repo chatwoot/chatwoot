@@ -634,6 +634,8 @@ GEM
       uber (< 0.2.0)
     request_store (1.5.1)
       rack (>= 1.4)
+    resend (0.19.0)
+      httparty (>= 0.21.0)
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
@@ -957,6 +959,7 @@ DEPENDENCIES
   rails (~> 7.0.8.4)
   redis
   redis-namespace
+  resend (~> 0.19.0)
   responders (>= 3.1.1)
   rest-client
   reverse_markdown
