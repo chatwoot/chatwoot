@@ -10,11 +10,12 @@ class Instagram::RefreshOauthTokenService
 
   # Returns a valid access token, refreshing it if necessary and eligible
   def access_token
-    return channel[:access_token] if token_valid? && !token_eligible_for_refresh?
+    return unless token_valid?
 
-    return attempt_token_refresh if token_eligible_for_refresh?
+    # If token is valid and eligible for refresh, attempt to refresh it
+    return channel[:access_token] unless token_eligible_for_refresh?
 
-    channel[:access_token]
+    attempt_token_refresh
   end
 
   private
@@ -31,8 +32,6 @@ class Instagram::RefreshOauthTokenService
   # https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/business-login#refresh-a-long-lived-token
 
   def token_eligible_for_refresh?
-    return false if channel.expires_at.blank?
-
     # Three conditions must be met:
     # 1. Token is still valid
     token_is_valid = Time.current < channel.expires_at
