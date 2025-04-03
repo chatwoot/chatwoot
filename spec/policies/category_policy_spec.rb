@@ -12,7 +12,6 @@ RSpec.describe CategoryPolicy, type: :policy do
   let(:administrator_context) { { user: administrator, account: account, account_user: account.account_users.first } }
   let(:agent_context) { { user: agent, account: account, account_user: account.account_users.first } }
 
-
   permissions :update?, :show?, :edit?, :create?, :destroy? do
     context 'when administrator' do
       it { expect(category_policy).to permit(administrator_context, category) }
@@ -21,6 +20,5 @@ RSpec.describe CategoryPolicy, type: :policy do
     context 'when agent' do
       it { expect(category_policy).not_to permit(agent_context, category) }
     end
-
   end
 end

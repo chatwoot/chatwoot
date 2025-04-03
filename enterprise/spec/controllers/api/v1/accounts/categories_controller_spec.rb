@@ -8,12 +8,17 @@ RSpec.describe 'Enterprise Categories API', type: :request do
   let(:agent) { create(:user, account: account, role: :agent) }
   let!(:portal) { create(:portal, name: 'test_portal', account_id: account.id, config: { allowed_locales: %w[en es] }) }
   let!(:category) { create(:category, name: 'category', portal: portal, account_id: account.id, slug: 'category_slug', position: 1) }
-  
+
   # Create a custom role with knowledge_base_manage permission
   let!(:custom_role) { create(:custom_role, account: account, permissions: ['knowledge_base_manage']) }
-  let!(:agent_with_role) { create(:user) } 
-  let!(:agent_with_role_account_user) do
+  let!(:agent_with_role) { create(:user) }
+  let(:agent_with_role_account_user) do
     create(:account_user, user: agent_with_role, account: account, role: :agent, custom_role: custom_role)
+  end
+
+  # Ensure the account_user with custom role is created before tests run
+  before do
+    agent_with_role_account_user
   end
 
   describe 'GET /api/v1/accounts/:account_id/portals/:portal_slug/categories' do
@@ -60,7 +65,7 @@ RSpec.describe 'Enterprise Categories API', type: :request do
 
   describe 'POST /api/v1/accounts/:account_id/portals/:portal_slug/categories' do
     let(:category_params) do
-      { 
+      {
         category: {
           name: 'New Category',
           slug: 'new-category',
@@ -95,7 +100,7 @@ RSpec.describe 'Enterprise Categories API', type: :request do
 
   describe 'PUT /api/v1/accounts/:account_id/portals/:portal_slug/categories/:id' do
     let(:category_params) do
-      { 
+      {
         category: {
           name: 'Updated Category',
           description: 'This is an updated category'

@@ -7,14 +7,19 @@ RSpec.describe 'Enterprise Portal API', type: :request do
   let(:admin) { create(:user, :administrator, account: account) }
   let(:agent) { create(:user, account: account, role: :agent) }
   let!(:portal) { create(:portal, name: 'test_portal', account_id: account.id) }
-  
+
   # Create a custom role with knowledge_base_manage permission
   let!(:custom_role) { create(:custom_role, account: account, permissions: ['knowledge_base_manage']) }
   # Create user without account
   let!(:agent_with_role) { create(:user) }
   # Then create account_user association with custom_role
-  let!(:agent_with_role_account_user) do
+  let(:agent_with_role_account_user) do
     create(:account_user, user: agent_with_role, account: account, role: :agent, custom_role: custom_role)
+  end
+
+  # Ensure the account_user with custom role is created before tests run
+  before do
+    agent_with_role_account_user
   end
 
   describe 'GET /api/v1/accounts/:account_id/portals' do

@@ -13,7 +13,6 @@ RSpec.describe ReportPolicy, type: :policy do
   let(:administrator_context) { { user: administrator, account: account, account_user: account.account_users.first } }
   let(:agent_context) { { user: agent, account: account, account_user: account.account_users.first } }
 
-
   permissions :view? do
     context 'when administrator' do
       it { expect(report_policy).to permit(administrator_context, report) }
@@ -22,6 +21,5 @@ RSpec.describe ReportPolicy, type: :policy do
     context 'when agent' do
       it { expect(report_policy).not_to permit(agent_context, report) }
     end
-
   end
 end
