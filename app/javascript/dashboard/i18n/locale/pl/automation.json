@@ -126,6 +126,44 @@
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
-    "NONE_OPTION": "Brak"
+    "NONE_OPTION": "Brak",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Rozpoczęcie rozmowy",
+      "CONVERSATION_UPDATED": "Aktualizacja rozmowy",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Wycisz kontakt",
+      "SNOOZE_CONVERSATION": "Zatrzymaj rozmowę",
+      "RESOLVE_CONVERSATION": "Zamknij rozmowę",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "CHANGE_PRIORITY": "Zmień priorytet",
+      "ADD_SLA": "Add SLA"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "E-mail",
+      "INBOX": "Skrzynka odbiorcza",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "Numer telefonu",
+      "STATUS": "Status",
+      "BROWSER_LANGUAGE": "Język przeglądarki",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "Kraj",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "Zespół",
+      "PRIORITY": "Priorytet"
+    }
   }
 }
