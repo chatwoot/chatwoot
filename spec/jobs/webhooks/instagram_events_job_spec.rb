@@ -38,7 +38,7 @@ describe Webhooks::InstagramEventsJob do
   end
 
   describe '#perform' do
-    context 'when handling messaging events for Instagram via Facebook page channel' do
+    context 'when handling messaging events for Instagram via Facebook page' do
       let(:fb_object) { double }
 
       before do
@@ -180,7 +180,7 @@ describe Webhooks::InstagramEventsJob do
       end
     end
 
-    context 'when handling messaging events for Instagram via Instagram direct channel' do
+    context 'when handling messaging events for Instagram via Instagram login' do
       before do
         instagram_direct_channel.update(access_token: 'valid_instagram_token')
 

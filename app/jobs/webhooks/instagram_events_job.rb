@@ -79,9 +79,9 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
 
   def message(messaging, channel)
     if channel.is_a?(Channel::Instagram)
-      ::Instagram::Direct::MessageText.new(messaging, channel).perform
-    else
       ::Instagram::MessageText.new(messaging, channel).perform
+    else
+      ::Instagram::Messenger::MessageText.new(messaging, channel).perform
     end
   end
 
