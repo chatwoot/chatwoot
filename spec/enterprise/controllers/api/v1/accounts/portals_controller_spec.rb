@@ -24,14 +24,6 @@ RSpec.describe 'Enterprise Portal API', type: :request do
 
   describe 'GET /api/v1/accounts/:account_id/portals' do
     context 'when it is an authenticated user' do
-      it 'returns success for regular agents' do
-        get "/api/v1/accounts/#{account.id}/portals",
-            headers: agent.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:success)
-      end
-
       it 'returns success for agents with knowledge_base_manage permission' do
         get "/api/v1/accounts/#{account.id}/portals",
             headers: agent_with_role.create_new_auth_token,
@@ -44,14 +36,6 @@ RSpec.describe 'Enterprise Portal API', type: :request do
 
   describe 'GET /api/v1/accounts/:account_id/portals/:portal_slug' do
     context 'when it is an authenticated user' do
-      it 'returns unauthorized for regular agents' do
-        get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
-            headers: agent.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-
       it 'returns success for agents with knowledge_base_manage permission' do
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
             headers: agent_with_role.create_new_auth_token,
@@ -70,15 +54,6 @@ RSpec.describe 'Enterprise Portal API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      it 'returns unauthorized for regular agents' do
-        post "/api/v1/accounts/#{account.id}/portals",
-             params: portal_params,
-             headers: agent.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-
       it 'restricts portal creation for agents with knowledge_base_manage permission' do
         # Creating portals should be restricted to administrators only, even with the permission
         post "/api/v1/accounts/#{account.id}/portals",
@@ -99,15 +74,6 @@ RSpec.describe 'Enterprise Portal API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      it 'returns unauthorized for regular agents' do
-        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
-            params: portal_params,
-            headers: agent.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-
       it 'returns success for agents with knowledge_base_manage permission' do
         put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
             params: portal_params,

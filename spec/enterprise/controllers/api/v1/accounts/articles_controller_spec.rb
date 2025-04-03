@@ -89,6 +89,7 @@ RSpec.describe 'Enterprise Articles API', type: :request do
   end
 
   describe 'DELETE /api/v1/accounts/:account_id/portals/:portal_slug/articles/:id' do
+    context 'when it is an authenticated user' do
       it 'returns success for agents with knowledge_base_manage permission' do
         delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
                headers: agent_with_role.create_new_auth_token,

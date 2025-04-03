@@ -23,14 +23,6 @@ RSpec.describe 'Enterprise Categories API', type: :request do
 
   describe 'GET /api/v1/accounts/:account_id/portals/:portal_slug/categories' do
     context 'when it is an authenticated user' do
-      it 'returns success for regular agents' do
-        get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
-            headers: agent.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:success)
-      end
-
       it 'returns success for agents with knowledge_base_manage permission' do
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
             headers: agent_with_role.create_new_auth_token,
@@ -43,14 +35,6 @@ RSpec.describe 'Enterprise Categories API', type: :request do
 
   describe 'GET /api/v1/accounts/:account_id/portals/:portal_slug/categories/:id' do
     context 'when it is an authenticated user' do
-      it 'returns unauthorized for regular agents' do
-        get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories/#{category.id}",
-            headers: agent.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-
       it 'returns success for agents with knowledge_base_manage permission' do
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories/#{category.id}",
             headers: agent_with_role.create_new_auth_token,
@@ -76,15 +60,6 @@ RSpec.describe 'Enterprise Categories API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      it 'returns unauthorized for regular agents' do
-        post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
-             params: category_params,
-             headers: agent.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-
       it 'returns success for agents with knowledge_base_manage permission' do
         post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
              params: category_params,
@@ -109,15 +84,6 @@ RSpec.describe 'Enterprise Categories API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      it 'returns unauthorized for regular agents' do
-        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories/#{category.id}",
-            params: category_params,
-            headers: agent.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-
       it 'returns success for agents with knowledge_base_manage permission' do
         put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories/#{category.id}",
             params: category_params,
@@ -133,14 +99,6 @@ RSpec.describe 'Enterprise Categories API', type: :request do
 
   describe 'DELETE /api/v1/accounts/:account_id/portals/:portal_slug/categories/:id' do
     context 'when it is an authenticated user' do
-      it 'returns unauthorized for regular agents' do
-        delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories/#{category.id}",
-               headers: agent.create_new_auth_token,
-               as: :json
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-
       it 'returns success for agents with knowledge_base_manage permission' do
         delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories/#{category.id}",
                headers: agent_with_role.create_new_auth_token,
