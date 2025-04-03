@@ -75,21 +75,15 @@ RSpec.describe Instagram::RefreshOauthTokenService do
       end
 
       context 'when token is expired' do
-        before do
-          instagram_channel.update!(expires_at: 1.hour.ago)
-        end
-
         it 'returns false' do
+          allow(instagram_channel).to receive(:expires_at).and_return(1.hour.ago)
           expect(service.send(:token_valid?)).to be false
         end
       end
 
       context 'when token is valid' do
-        before do
-          instagram_channel.update!(expires_at: 1.day.from_now)
-        end
-
         it 'returns true' do
+          allow(instagram_channel).to receive(:expires_at).and_return(1.day.from_now)
           expect(service.send(:token_valid?)).to be true
         end
       end
@@ -98,10 +92,8 @@ RSpec.describe Instagram::RefreshOauthTokenService do
     describe '#token_eligible_for_refresh?' do
       context 'when token is too new' do
         before do
-          instagram_channel.update!(
-            expires_at: 5.days.from_now,
-            updated_at: 12.hours.ago        # Less than 24 hours old
-          )
+          allow(instagram_channel).to receive(:updated_at).and_return(12.hours.ago)
+          allow(instagram_channel).to receive(:expires_at).and_return(5.days.from_now)
         end
 
         it 'returns false' do
@@ -111,10 +103,8 @@ RSpec.describe Instagram::RefreshOauthTokenService do
 
       context 'when token is not approaching expiry' do
         before do
-          instagram_channel.update!(
-            expires_at: 20.days.from_now,   # Not within 10 day window
-            updated_at: 25.hours.ago
-          )
+          allow(instagram_channel).to receive(:updated_at).and_return(25.hours.ago)
+          allow(instagram_channel).to receive(:expires_at).and_return(20.days.from_now)
         end
 
         it 'returns false' do
@@ -124,10 +114,8 @@ RSpec.describe Instagram::RefreshOauthTokenService do
 
       context 'when token is expired' do
         before do
-          instagram_channel.update!(
-            expires_at: 1.hour.ago,         # Expired
-            updated_at: 25.hours.ago
-          )
+          allow(instagram_channel).to receive(:updated_at).and_return(25.hours.ago)
+          allow(instagram_channel).to receive(:expires_at).and_return(1.hour.ago)
         end
 
         it 'returns false' do
