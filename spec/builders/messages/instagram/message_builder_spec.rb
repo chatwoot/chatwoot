@@ -10,26 +10,26 @@ describe Messages::Instagram::MessageBuilder do
   end
 
   let!(:account) { create(:account) }
-  let!(:instagram_direct_channel) { create(:channel_instagram, account: account, instagram_id: 'chatwoot-app-user-id-1') }
-  let!(:instagram_direct_inbox) { create(:inbox, channel: instagram_direct_channel, account: account, greeting_enabled: false) }
+  let!(:instagram_channel) { create(:channel_instagram, account: account, instagram_id: 'chatwoot-app-user-id-1') }
+  let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: account, greeting_enabled: false) }
   let!(:dm_params) { build(:instagram_message_create_event).with_indifferent_access }
   let!(:story_mention_params) { build(:instagram_story_mention_event).with_indifferent_access }
   let!(:shared_reel_params) { build(:instagram_shared_reel_event).with_indifferent_access }
   let!(:instagram_story_reply_event) { build(:instagram_story_reply_event).with_indifferent_access }
   let!(:instagram_message_reply_event) { build(:instagram_message_reply_event).with_indifferent_access }
   let!(:contact) { create(:contact, id: 'Sender-id-1', name: 'Jane Dae') }
-  let!(:contact_inbox) { create(:contact_inbox, contact_id: contact.id, inbox_id: instagram_direct_inbox.id, source_id: 'Sender-id-1') }
+  let!(:contact_inbox) { create(:contact_inbox, contact_id: contact.id, inbox_id: instagram_inbox.id, source_id: 'Sender-id-1') }
   let(:conversation) do
-    create(:conversation, account_id: account.id, inbox_id: instagram_direct_inbox.id, contact_id: contact.id)
+    create(:conversation, account_id: account.id, inbox_id: instagram_inbox.id, contact_id: contact.id)
   end
   let(:message) do
-    create(:message, account_id: account.id, inbox_id: instagram_direct_inbox.id, conversation_id: conversation.id, message_type: 'outgoing',
+    create(:message, account_id: account.id, inbox_id: instagram_inbox.id, conversation_id: conversation.id, message_type: 'outgoing',
                      source_id: 'message-id-1')
   end
 
   describe '#perform' do
     before do
-      instagram_direct_channel.update(access_token: 'valid_instagram_token')
+      instagram_channel.update(access_token: 'valid_instagram_token')
 
       stub_request(:get, %r{https://graph\.instagram\.com/.*?/Sender-id-1\?.*})
         .to_return(
@@ -51,14 +51,14 @@ describe Messages::Instagram::MessageBuilder do
     it 'creates contact and message for the instagram direct inbox' do
       messaging = dm_params[:entry][0]['messaging'][0]
       contact_inbox
-      described_class.new(messaging, instagram_direct_inbox).perform
+      described_class.new(messaging, instagram_inbox).perform
 
-      instagram_direct_inbox.reload
+      instagram_inbox.reload
 
-      expect(instagram_direct_inbox.conversations.count).to be 1
-      expect(instagram_direct_inbox.messages.count).to be 1
+      expect(instagram_inbox.conversations.count).to be 1
+      expect(instagram_inbox.messages.count).to be 1
 
-      message = instagram_direct_inbox.messages.first
+      message = instagram_inbox.messages.first
       expect(message.content).to eq('This is the first message from the customer')
     end
 
@@ -66,24 +66,24 @@ describe Messages::Instagram::MessageBuilder do
       conversation
       message
 
-      expect(instagram_direct_inbox.conversations.count).to be 1
-      expect(instagram_direct_inbox.messages.count).to be 1
+      expect(instagram_inbox.conversations.count).to be 1
+      expect(instagram_inbox.messages.count).to be 1
 
       messaging = dm_params[:entry][0]['messaging'][0]
       messaging[:message][:mid] = 'message-id-1' # Set same source_id as the existing message
-      described_class.new(messaging, instagram_direct_inbox, outgoing_echo: true).perform
+      described_class.new(messaging, instagram_inbox, outgoing_echo: true).perform
 
-      instagram_direct_inbox.reload
+      instagram_inbox.reload
 
-      expect(instagram_direct_inbox.conversations.count).to be 1
-      expect(instagram_direct_inbox.messages.count).to be 1
+      expect(instagram_inbox.conversations.count).to be 1
+      expect(instagram_inbox.messages.count).to be 1
     end
 
     it 'creates message for shared reel' do
       messaging = shared_reel_params[:entry][0]['messaging'][0]
-      described_class.new(messaging, instagram_direct_inbox).perform
+      described_class.new(messaging, instagram_inbox).perform
 
-      message = instagram_direct_inbox.messages.first
+      message = instagram_inbox.messages.first
       expect(message.attachments.first.file_type).to eq('ig_reel')
       expect(message.attachments.first.external_url).to eq(
         shared_reel_params[:entry][0]['messaging'][0]['message']['attachments'][0]['payload']['url']
@@ -103,33 +103,33 @@ describe Messages::Instagram::MessageBuilder do
               }
             },
             from: {
-              username: instagram_direct_inbox.channel.instagram_id
+              username: instagram_inbox.channel.instagram_id
             }
           }.to_json,
           headers: { 'Content-Type' => 'application/json' }
         )
 
       messaging = instagram_story_reply_event[:entry][0]['messaging'][0]
-      described_class.new(messaging, instagram_direct_inbox).perform
+      described_class.new(messaging, instagram_inbox).perform
 
-      message = instagram_direct_inbox.messages.first
+      message = instagram_inbox.messages.first
 
       expect(message.content).to eq('This is the story reply')
-      expect(message.content_attributes[:story_sender]).to eq(instagram_direct_inbox.channel.instagram_id)
+      expect(message.content_attributes[:story_sender]).to eq(instagram_inbox.channel.instagram_id)
       expect(message.content_attributes[:story_id]).to eq('chatwoot-app-user-id-1')
     end
 
     it 'creates message with reply to mid' do
       # Create first message to ensure reply to is valid
       first_messaging = dm_params[:entry][0]['messaging'][0]
-      described_class.new(first_messaging, instagram_direct_inbox).perform
+      described_class.new(first_messaging, instagram_inbox).perform
 
       # Create second message with reply to mid
       messaging = instagram_message_reply_event[:entry][0]['messaging'][0]
-      described_class.new(messaging, instagram_direct_inbox).perform
+      described_class.new(messaging, instagram_inbox).perform
 
-      first_message = instagram_direct_inbox.messages.first
-      reply_message = instagram_direct_inbox.messages.last
+      first_message = instagram_inbox.messages.first
+      reply_message = instagram_inbox.messages.last
 
       expect(reply_message.content).to eq('This is message with replyto mid')
       expect(reply_message.content_attributes[:in_reply_to_external_id]).to eq(first_message.source_id)
@@ -139,12 +139,12 @@ describe Messages::Instagram::MessageBuilder do
       story_source_id = story_mention_params[:entry][0][:messaging][0]['message']['mid']
 
       stub_request(:get, %r{https://graph\.instagram\.com/.*?/#{story_source_id}\?.*})
-        .to_return(status: 404, body: { error: { message: 'Story not found' } }.to_json)
+        .to_return(status: 404, body: { error: { message: 'Story not found', code: 1_609_005 } }.to_json)
 
       messaging = story_mention_params[:entry][0][:messaging][0]
-      described_class.new(messaging, instagram_direct_inbox).perform
+      described_class.new(messaging, instagram_inbox).perform
 
-      message = instagram_direct_inbox.messages.first
+      message = instagram_inbox.messages.first
 
       expect(message.content).to eq('This story is no longer available.')
       expect(message.attachments.count).to eq(0)
@@ -154,14 +154,14 @@ describe Messages::Instagram::MessageBuilder do
       story_mention_params[:entry][0][:messaging][0]['message']['attachments'][0]['type'] = 'unsupported_type'
       messaging = story_mention_params[:entry][0][:messaging][0]
 
-      described_class.new(messaging, instagram_direct_inbox, outgoing_echo: false).perform
+      described_class.new(messaging, instagram_inbox, outgoing_echo: false).perform
 
-      expect(instagram_direct_inbox.conversations.count).to be 0
-      expect(instagram_direct_inbox.messages.count).to be 0
+      expect(instagram_inbox.conversations.count).to be 0
+      expect(instagram_inbox.messages.count).to be 0
     end
 
     it 'handles authorization errors' do
-      instagram_direct_channel.update(access_token: 'invalid_token')
+      instagram_channel.update(access_token: 'invalid_token')
 
       # Stub the request to return authorization error status
       stub_request(:get, %r{https://graph\.instagram\.com/.*?/Sender-id-1\?.*})
@@ -175,75 +175,75 @@ describe Messages::Instagram::MessageBuilder do
 
       # The method should complete without raising an error
       expect do
-        described_class.new(messaging, instagram_direct_inbox).perform
+        described_class.new(messaging, instagram_inbox).perform
       end.not_to raise_error
     end
   end
 
   context 'when lock to single conversation is disabled' do
     before do
-      instagram_direct_inbox.update!(lock_to_single_conversation: false)
+      instagram_inbox.update!(lock_to_single_conversation: false)
     end
 
     it 'creates a new conversation if existing conversation is not present' do
       initial_count = Conversation.count
       messaging = dm_params[:entry][0]['messaging'][0]
 
-      described_class.new(messaging, instagram_direct_inbox).perform
+      described_class.new(messaging, instagram_inbox).perform
 
-      expect(instagram_direct_inbox.conversations.count).to eq(1)
+      expect(instagram_inbox.conversations.count).to eq(1)
       expect(Conversation.count).to eq(initial_count + 1)
     end
 
     it 'will not create a new conversation if last conversation is not resolved' do
-      existing_conversation = create(:conversation, account_id: account.id, inbox_id: instagram_direct_inbox.id,
+      existing_conversation = create(:conversation, account_id: account.id, inbox_id: instagram_inbox.id,
                                                     contact_id: contact.id, status: :open)
 
       messaging = dm_params[:entry][0]['messaging'][0]
-      described_class.new(messaging, instagram_direct_inbox).perform
+      described_class.new(messaging, instagram_inbox).perform
 
-      expect(instagram_direct_inbox.conversations.last.id).to eq(existing_conversation.id)
+      expect(instagram_inbox.conversations.last.id).to eq(existing_conversation.id)
     end
 
     it 'creates a new conversation if last conversation is resolved' do
-      existing_conversation = create(:conversation, account_id: account.id, inbox_id: instagram_direct_inbox.id,
+      existing_conversation = create(:conversation, account_id: account.id, inbox_id: instagram_inbox.id,
                                                     contact_id: contact.id, status: :resolved)
 
       initial_count = Conversation.count
       messaging = dm_params[:entry][0]['messaging'][0]
 
-      described_class.new(messaging, instagram_direct_inbox).perform
+      described_class.new(messaging, instagram_inbox).perform
 
-      expect(instagram_direct_inbox.conversations.last.id).not_to eq(existing_conversation.id)
+      expect(instagram_inbox.conversations.last.id).not_to eq(existing_conversation.id)
       expect(Conversation.count).to eq(initial_count + 1)
     end
   end
 
   context 'when lock to single conversation is enabled' do
     before do
-      instagram_direct_inbox.update!(lock_to_single_conversation: true)
+      instagram_inbox.update!(lock_to_single_conversation: true)
     end
 
     it 'creates a new conversation if existing conversation is not present' do
       initial_count = Conversation.count
       messaging = dm_params[:entry][0]['messaging'][0]
 
-      described_class.new(messaging, instagram_direct_inbox).perform
+      described_class.new(messaging, instagram_inbox).perform
 
-      expect(instagram_direct_inbox.conversations.count).to eq(1)
+      expect(instagram_inbox.conversations.count).to eq(1)
       expect(Conversation.count).to eq(initial_count + 1)
     end
 
     it 'reopens last conversation if last conversation is resolved' do
-      existing_conversation = create(:conversation, account_id: account.id, inbox_id: instagram_direct_inbox.id,
+      existing_conversation = create(:conversation, account_id: account.id, inbox_id: instagram_inbox.id,
                                                     contact_id: contact.id, status: :resolved)
 
       initial_count = Conversation.count
       messaging = dm_params[:entry][0]['messaging'][0]
 
-      described_class.new(messaging, instagram_direct_inbox).perform
+      described_class.new(messaging, instagram_inbox).perform
 
-      expect(instagram_direct_inbox.conversations.last.id).to eq(existing_conversation.id)
+      expect(instagram_inbox.conversations.last.id).to eq(existing_conversation.id)
       expect(Conversation.count).to eq(initial_count)
     end
   end
@@ -277,9 +277,9 @@ describe Messages::Instagram::MessageBuilder do
 
     it 'saves story information when story mention is processed' do
       messaging = story_mention_params[:entry][0][:messaging][0]
-      described_class.new(messaging, instagram_direct_inbox).perform
+      described_class.new(messaging, instagram_inbox).perform
 
-      message = instagram_direct_inbox.messages.first
+      message = instagram_inbox.messages.first
 
       expect(message.content).to include('instagram_user')
       expect(message.attachments.count).to eq(1)
@@ -293,14 +293,14 @@ describe Messages::Instagram::MessageBuilder do
       stub_request(:get, %r{https://graph\.instagram\.com/.*?fields=story,from})
         .to_return(
           status: 404,
-          body: { error: { message: 'Story not found' } }.to_json,
+          body: { error: { message: 'Story not found', code: 1_609_005 } }.to_json,
           headers: { 'Content-Type' => 'application/json' }
         )
 
       messaging = story_mention_params[:entry][0][:messaging][0]
-      described_class.new(messaging, instagram_direct_inbox).perform
+      described_class.new(messaging, instagram_inbox).perform
 
-      message = instagram_direct_inbox.messages.first
+      message = instagram_inbox.messages.first
 
       expect(message.content).to eq('This story is no longer available.')
       expect(message.attachments.count).to eq(0)

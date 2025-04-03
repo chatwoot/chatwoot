@@ -11,32 +11,31 @@ class Messages::Instagram::MessageBuilder < Messages::Instagram::BaseMessageBuil
 
   def get_story_object_from_source_id(source_id)
     url = "#{self.class.base_uri}/#{source_id}?fields=story,from&access_token=#{@inbox.channel.access_token}"
-    response = HTTParty.get(url)
 
-    Rails.logger.info("Instagram Story Response: #{response.body}")
+    response = HTTParty.get(url)
 
     return JSON.parse(response.body).with_indifferent_access if response.success?
 
+    # Create message first if it doesn't exist
+    @message ||= conversation.messages.create!(message_params)
     handle_error_response(response)
-    {}
-  rescue StandardError => e
-    handle_standard_error(e)
-    {}
+    nil
   end
 
   def handle_error_response(response)
-    return unless response.code == 404
+    parsed_response = JSON.parse(response.body)
+    error_code = parsed_response.dig('error', 'code')
 
-    @message.attachments.destroy_all
-    @message.update(content: I18n.t('conversations.messages.instagram_deleted_story_content'))
-  end
+    # https://developers.facebook.com/docs/messenger-platform/error-codes
+    # Access token has expired or become invalid.
+    channel.authorization_error! if error_code == 190
 
-  def handle_standard_error(error)
-    if error.response&.unauthorized?
-      @inbox.channel.authorization_error!
-      raise
+    # There was a problem scraping data from the provided link.
+    if error_code == 1_609_005
+      @message.attachments.destroy_all
+      @message.update(content: I18n.t('conversations.messages.instagram_deleted_story_content'))
     end
-    Rails.logger.error("Instagram Story Error: #{error.message}")
-    ChatwootExceptionTracker.new(error, account: @inbox.account).capture_exception
+
+    Rails.logger.error("[InstagramStoryFetchError]: #{parsed_response.dig('error', 'message')} #{error_code}")
   end
 end

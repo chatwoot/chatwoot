@@ -162,18 +162,6 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
   end
 
   def handle_error(error)
-    if error.respond_to?(:message) && error.message.include?('unauthorized')
-      @inbox.channel.authorization_error!
-      raise
-    end
-
-    # Handle error for Facebook Graph API
-    if error.is_a?(Koala::Facebook::AuthenticationError)
-      Rails.logger.warn("Instagram authentication error for inbox: #{@inbox.id} with error: #{error.message}")
-      Rails.logger.error error
-      @inbox.channel.authorization_error!
-    end
-
     ChatwootExceptionTracker.new(error, account: @inbox.account).capture_exception
     true
   end
