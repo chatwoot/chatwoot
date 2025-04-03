@@ -12,6 +12,16 @@ RSpec.describe ArticlePolicy, type: :policy do
   let(:administrator_context) { { user: administrator, account: account, account_user: account.account_users.first } }
   let(:agent_context) { { user: agent, account: account, account_user: account.account_users.first } }
 
+  permissions :index? do
+    context 'when administrator' do
+      it { expect(article_policy).to permit(administrator_context, article) }
+    end
+
+    context 'when agent' do
+      it { expect(article_policy).to permit(agent_context, article) }
+    end
+  end
+
   permissions :update?, :show?, :edit?, :create?, :destroy?, :reorder? do
     context 'when administrator' do
       it { expect(article_policy).to permit(administrator_context, article) }
