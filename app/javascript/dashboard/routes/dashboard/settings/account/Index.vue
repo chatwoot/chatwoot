@@ -12,12 +12,14 @@ import { getLanguageDirection } from 'dashboard/components/widgets/conversation/
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import V4Button from 'dashboard/components-next/button/Button.vue';
 import WootConfirmDeleteModal from 'dashboard/components/widgets/modal/ConfirmDeleteModal.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     BaseSettingsHeader,
     V4Button,
     WootConfirmDeleteModal,
+    NextButton,
   },
   setup() {
     const { updateUISettings } = useUISettings();
@@ -257,7 +259,7 @@ export default {
         </V4Button>
       </template>
     </BaseSettingsHeader>
-    <div class="flex-grow flex-shrink min-w-0 overflow-auto mt-3">
+    <div class="flex-grow flex-shrink min-w-0 mt-3 overflow-auto">
       <form v-if="!uiFlags.isFetchingItem" @submit.prevent="updateAccount">
         <div
           class="flex flex-row border-b border-slate-25 dark:border-slate-800"
@@ -390,25 +392,22 @@ export default {
                   )
                 }}
               </p>
-              <woot-submit-button
-                button-class="success button nice"
-                :button-text="
+              <NextButton
+                :label="
                   $t(
                     'GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.SCHEDULED_DELETION.CLEAR_BUTTON'
                   )
                 "
-                :loading="uiFlags.isUpdating"
+                color="ruby"
+                :is-loading="uiFlags.isUpdating"
                 @click="clearDeletionMark"
               />
             </div>
           </div>
           <div v-if="!isMarkedForDeletion">
-            <woot-submit-button
-              button-class="alert button nice"
-              :button-text="
-                $t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.BUTTON_TEXT')
-              "
-              :loading="showDeletePopup"
+            <NextButton
+              :label="$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.BUTTON_TEXT')"
+              color="ruby"
               @click="openDeletePopup()"
             />
           </div>
