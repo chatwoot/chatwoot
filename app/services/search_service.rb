@@ -69,7 +69,7 @@ class SearchService
 
   def filter_messages_with_like
     message_base_query
-      .where('messages.content ILIKE :search', search: "%#{search_query}%")
+      .where('messages.content % :raw_search', raw_search: search_query)
       .reorder('created_at DESC')
       .page(params[:page])
       .per(15)

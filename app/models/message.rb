@@ -24,14 +24,12 @@
 #
 # Indexes
 #
-#  index_messages_on_account_created_type               (account_id,created_at,message_type)
-#  index_messages_on_account_id                         (account_id)
+#  index_messages_account_inbox_created_at_recent       (account_id,inbox_id,created_at DESC) WHERE (created_at >= '2025-01-01 00:00:00')
+#  index_messages_content_trigram_recent                (content) WHERE (created_at >= '2025-01-01 00:00:00'::timestamp without time zone) USING gin
 #  index_messages_on_account_id_and_inbox_id            (account_id,inbox_id)
 #  index_messages_on_additional_attributes_campaign_id  (((additional_attributes -> 'campaign_id'::text))) USING gin
-#  index_messages_on_content                            (content) USING gin
 #  index_messages_on_conversation_account_type_created  (conversation_id,account_id,message_type,created_at)
 #  index_messages_on_conversation_id                    (conversation_id)
-#  index_messages_on_created_at                         (created_at)
 #  index_messages_on_inbox_id                           (inbox_id)
 #  index_messages_on_sender_type_and_sender_id          (sender_type,sender_id)
 #  index_messages_on_source_id                          (source_id)
