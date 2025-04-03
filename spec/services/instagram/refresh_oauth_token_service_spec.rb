@@ -76,7 +76,10 @@ RSpec.describe Instagram::RefreshOauthTokenService do
 
       context 'when token is expired' do
         before do
-          instagram_channel.update!(expires_at: 1.hour.ago)
+          instagram_channel.update!(
+            expires_at: 1.hour.ago,
+            access_token: fixed_token # Preserve the access token
+          )
         end
 
         it 'returns false' do
@@ -126,7 +129,8 @@ RSpec.describe Instagram::RefreshOauthTokenService do
         before do
           instagram_channel.update!(
             expires_at: 1.hour.ago,         # Expired
-            updated_at: 25.hours.ago
+            updated_at: 25.hours.ago,
+            access_token: fixed_token        # Preserve the access token
           )
         end
 
