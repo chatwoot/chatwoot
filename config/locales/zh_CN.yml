@@ -276,3 +276,5 @@ zh_CN:
       other: '%{count} 分钟'
     seconds:
       other: '%{count} 秒'
+  automation:
+    system_name: 'Automation System'
