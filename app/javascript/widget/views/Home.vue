@@ -1,6 +1,6 @@
 <script>
 import TeamAvailability from 'widget/components/TeamAvailability.vue';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import routerMixin from 'widget/mixins/routerMixin';
 import configMixin from 'widget/mixins/configMixin';
 import ArticleContainer from '../components/pageComponents/Home/Article/ArticleContainer.vue';
@@ -29,7 +29,13 @@ export default {
     },
   },
   methods: {
+    ...mapActions('conversation', ['clearConversations']),
+    ...mapActions('conversationAttributes', ['clearConversationAttributes']),
     startConversation() {
+      if (this.isConversationResolved) {
+        this.clearConversations();
+        this.clearConversationAttributes();
+      }
       if (this.shouldShowPreChatForm) {
         return this.replaceRoute('prechat-form');
       }
