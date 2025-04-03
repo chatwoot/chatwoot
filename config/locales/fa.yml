@@ -280,3 +280,5 @@ fa:
     seconds:
       one: '%{count} ثانیه'
       other: '%{count} ثانیه'
+  automation:
+    system_name: 'Automation System'
