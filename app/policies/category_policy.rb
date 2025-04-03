@@ -1,6 +1,6 @@
 class CategoryPolicy < ApplicationPolicy
   def index?
-    true
+    @account.users.include?(@user)
   end
 
   def update?
