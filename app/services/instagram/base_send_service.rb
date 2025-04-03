@@ -1,6 +1,4 @@
 class Instagram::BaseSendService < Base::SendOnChannelService
-  include HTTParty
-
   pattr_initialize [:message!]
 
   private
