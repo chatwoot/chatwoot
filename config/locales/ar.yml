@@ -296,3 +296,5 @@ ar:
       few: '%{count} ثواني'
       many: '%{count} ثانية'
       other: '%{count} ثانية'
+  automation:
+    system_name: 'Automation System'
