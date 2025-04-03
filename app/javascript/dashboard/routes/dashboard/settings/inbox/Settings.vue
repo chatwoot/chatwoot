@@ -7,6 +7,7 @@ import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner.
 import SettingsSection from '../../../../components/SettingsSection.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import FacebookReauthorize from './facebook/Reauthorize.vue';
+import InstagramReauthorize from './channels/instagram/Reauthorize.vue';
 import MicrosoftReauthorize from './channels/microsoft/Reauthorize.vue';
 import GoogleReauthorize from './channels/google/Reauthorize.vue';
 import PreChatFormSettings from './PreChatForm/Settings.vue';
@@ -36,6 +37,7 @@ export default {
     MicrosoftReauthorize,
     GoogleReauthorize,
     NextButton,
+    InstagramReauthorize,
   },
   mixins: [inboxMixin],
   setup() {
@@ -201,6 +203,9 @@ export default {
       )
         return true;
       return false;
+    },
+    instagramUnauthorized() {
+      return this.isAInstagramChannel && this.inbox.reauthorization_required;
     },
     microsoftUnauthorized() {
       return this.isAMicrosoftInbox && this.inbox.reauthorization_required;
@@ -383,10 +388,11 @@ export default {
         />
       </woot-tabs>
     </SettingIntroBanner>
-    <section class="max-w-6xl mx-auto w-full">
+    <section class="w-full max-w-6xl mx-auto">
       <MicrosoftReauthorize v-if="microsoftUnauthorized" :inbox="inbox" />
       <FacebookReauthorize v-if="facebookUnauthorized" :inbox="inbox" />
       <GoogleReauthorize v-if="googleUnauthorized" :inbox="inbox" />
+      <InstagramReauthorize v-if="instagramUnauthorized" :inbox="inbox" />
       <div v-if="selectedTabKey === 'inbox_settings'" class="mx-8">
         <SettingsSection
           :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_TITLE')"
