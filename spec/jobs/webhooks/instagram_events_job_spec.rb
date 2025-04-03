@@ -28,7 +28,7 @@ describe Webhooks::InstagramEventsJob do
     {
       dm: build(:instagram_message_create_event).with_indifferent_access,
       standby: build(:instagram_message_standby_event).with_indifferent_access,
-      un_send: build(:instagram_message_un_send_event).with_indifferent_access,
+      unsend: build(:instagram_message_unsend_event).with_indifferent_access,
       attachment: build(:instagram_message_attachment_event).with_indifferent_access,
       story_mention: build(:instagram_story_mention_event).with_indifferent_access,
       story_mention_echo: build(:instagram_story_mention_event_with_echo).with_indifferent_access,
@@ -79,7 +79,7 @@ describe Webhooks::InstagramEventsJob do
         expect(message.content).to eq('This is the first standby message from the customer, after 24 hours.')
       end
 
-      it 'handle instagram un_send message event' do
+      it 'handle instagram unsend message event' do
         message = create(:message, inbox_id: instagram_inbox.id, source_id: 'message-id-to-delete')
         allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
         allow(fb_object).to receive(:get_object).and_return(
@@ -94,7 +94,7 @@ describe Webhooks::InstagramEventsJob do
 
         expect(instagram_inbox.messages.count).to be 1
 
-        instagram_webhook.perform_now(message_events[:un_send][:entry])
+        instagram_webhook.perform_now(message_events[:unsend][:entry])
 
         expect(instagram_inbox.messages.last.content).to eq 'This message was deleted'
         expect(instagram_inbox.messages.last.deleted).to be true
@@ -224,7 +224,7 @@ describe Webhooks::InstagramEventsJob do
         expect(contact.additional_attributes['social_instagram_is_verified_user']).to be false
       end
 
-      it 'handle instagram un_send message event' do
+      it 'handle instagram unsend message event' do
         message = create(:message, inbox_id: instagram_direct_inbox.id, source_id: 'message-id-to-delete', content: 'random_text')
 
         # Create attachment correctly with account association
@@ -238,7 +238,7 @@ describe Webhooks::InstagramEventsJob do
 
         expect(instagram_direct_inbox.messages.count).to be 1
 
-        instagram_webhook.perform_now(message_events[:un_send][:entry])
+        instagram_webhook.perform_now(message_events[:unsend][:entry])
 
         expect(instagram_direct_inbox.messages.last.content).to eq 'This message was deleted'
         expect(instagram_direct_inbox.messages.last.deleted).to be true

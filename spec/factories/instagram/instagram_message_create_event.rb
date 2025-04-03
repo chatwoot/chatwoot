@@ -143,7 +143,7 @@ FactoryBot.define do
     initialize_with { attributes }
   end
 
-  factory :instagram_message_un_send_event, class: Hash do
+  factory :instagram_message_unsend_event, class: Hash do
     entry do
       [
         {
