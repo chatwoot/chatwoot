@@ -36,7 +36,6 @@ module Reauthorizable
 
   # Performed automatically if error threshold is breached
   # could used to manually prompt reauthorization if auth scope changes
-  # rubocop:disable Metrics/CyclomaticComplexity
   def prompt_reauthorization!
     ::Redis::Alfred.set(reauthorization_required_key, true)
 
@@ -47,8 +46,6 @@ module Reauthorizable
       process_integration_hook_reauthorization_emails(mailer)
     when 'Channel::FacebookPage'
       mailer.facebook_disconnect(inbox).deliver_later
-    when 'Channel::Instagram'
-      mailer.instagram_disconnect(inbox).deliver_later
     when 'Channel::Whatsapp'
       mailer.whatsapp_disconnect(inbox).deliver_later
     when 'Channel::Email'
@@ -60,7 +57,6 @@ module Reauthorizable
 
     invalidate_inbox_cache unless instance_of?(::AutomationRule)
   end
-  # rubocop:enable Metrics/CyclomaticComplexity
 
   def process_integration_hook_reauthorization_emails(mailer)
     if slack?
