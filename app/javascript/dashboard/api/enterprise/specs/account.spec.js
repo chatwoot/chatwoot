@@ -10,6 +10,7 @@ describe('#enterpriseAccountAPI', () => {
     expect(accountAPI).toHaveProperty('update');
     expect(accountAPI).toHaveProperty('delete');
     expect(accountAPI).toHaveProperty('checkout');
+    expect(accountAPI).toHaveProperty('toggleDeletion');
   });
 
   describe('API calls', () => {
@@ -40,6 +41,22 @@ describe('#enterpriseAccountAPI', () => {
       accountAPI.subscription();
       expect(axiosMock.post).toHaveBeenCalledWith(
         '/enterprise/api/v1/subscription'
+      );
+    });
+
+    it('#toggleDeletion with delete action', () => {
+      accountAPI.toggleDeletion('delete');
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/enterprise/api/v1/toggle_deletion',
+        { action_type: 'delete' }
+      );
+    });
+
+    it('#toggleDeletion with undelete action', () => {
+      accountAPI.toggleDeletion('undelete');
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/enterprise/api/v1/toggle_deletion',
+        { action_type: 'undelete' }
       );
     });
   });
