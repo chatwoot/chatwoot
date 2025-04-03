@@ -43,7 +43,8 @@
         "INBOX_NAME": "Inbox Name",
         "ADD_NAME": "Add a name for your inbox",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Pick a value"
+        "PICK_A_VALUE": "Pick a value",
+        "CREATE_INBOX": "Create Inbox"
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
