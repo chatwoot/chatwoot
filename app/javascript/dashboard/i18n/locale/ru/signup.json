@@ -4,7 +4,7 @@
     "TITLE": "Регистрация",
     "TESTIMONIAL_HEADER": "Все, что нужно сделать, это один шаг для продвижения вперед",
     "TESTIMONIAL_CONTENT": "Вы находитесь на расстоянии всего одного шага от привлечения своих клиентов, удержав их и находя новые.",
-    "TERMS_ACCEPT": "Создавая учетную запись, вы соглашаетесь с нашими <a href=\"https://www.chatwoot.com/terms\">Т и С</a> и <a href=\"https://www.chatwoot.com/privacy-policy\">политикой конфиденциальности</a>",
+    "TERMS_ACCEPT": "Создавая учетную запись, вы соглашаетесь с нашими <a href=\"https://getcruisecontrol.com/terms\">Т и С</a> и <a href=\"https://getcruisecontrol.com/privacy-policy\">политикой конфиденциальности</a>",
     "OAUTH": {
       "GOOGLE_SIGNUP": "Регистрация через Google"
     },
@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "Рабочий email",
-      "PLACEHOLDER": "Введите ваш рабочий адрес электронной почты. Например: bruce{'@'}wayne{'.'}enterprises",
+      "PLACEHOLDER": "Введите ваш адрес электронной почты. Например: bruce{'@'}example{'.'}com",
       "ERROR": "Пожалуйста, введите действительный адрес электронной почты."
     },
     "PASSWORD": {

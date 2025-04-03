@@ -4,7 +4,7 @@
     "TITLE": "Regisztrálás",
     "TESTIMONIAL_HEADER": "Már csak egy lépés van hátra",
     "TESTIMONIAL_CONTENT": "Már csak egy lépésre vagy!",
-    "TERMS_ACCEPT": "A fiók létrehozásával elfogadod az <a href=\"https://www.chatwoot.com/terms\">ÁSZF</a> és az <a href=\"https://www.chatwoot.com/privacy-policy\">Adatkezelési nyilatkozat</a> tartalmát",
+    "TERMS_ACCEPT": "A fiók létrehozásával elfogadod az <a href=\"https://getcruisecontrol.com/terms\">ÁSZF</a> és az <a href=\"https://getcruisecontrol.com/privacy-policy\">Adatkezelési nyilatkozat</a> tartalmát",
     "OAUTH": {
       "GOOGLE_SIGNUP": "Regisztráció Google-el"
     },
@@ -20,8 +20,8 @@
     },
     "EMAIL": {
       "LABEL": "Munkahelyi e-mail",
-      "PLACEHOLDER": "Enter your work email address. E.g., bruce{'@'}wayne{'.'}enterprises",
-      "ERROR": "Please enter a valid work email address"
+      "PLACEHOLDER": "Enter your email address. E.g., bruce{'@'}example{'.'}com",
+      "ERROR": "Please enter a valid email address"
     },
     "PASSWORD": {
       "LABEL": "Jelszó",

@@ -4,7 +4,7 @@
     "TITLE": "Registrirajte se",
     "TESTIMONIAL_HEADER": "Le še en korak, da napredujete",
     "TESTIMONIAL_CONTENT": "Ste le korak stran od tega, da pritegnete svoje stranke, jih obdržite in najdete nove.",
-    "TERMS_ACCEPT": "Z ustvarjanjem računa se strinjate z našimi <a href=\"https://www.chatwoot.com/terms\">Pogoji uporabe</a> in z <a href=\"https://www.chatwoot.com/privacy-policy\">Politiko zasebnosti</a>",
+    "TERMS_ACCEPT": "Z ustvarjanjem računa se strinjate z našimi <a href=\"https://getcruisecontrol.com/terms\">Pogoji uporabe</a> in z <a href=\"https://getcruisecontrol.com/privacy-policy\">Politiko zasebnosti</a>",
     "OAUTH": {
       "GOOGLE_SIGNUP": "Prijavite se z Googlom"
     },
@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "Službena e-pošta",
-      "PLACEHOLDER": "Vnesite svoj službeni e-poštni naslov. Npr. bruce{'@'}wayne{'.'}enterprises",
+      "PLACEHOLDER": "Vnesite svoj službeni e-poštni naslov. Npr. bruce{'@'}example{'.'}com",
       "ERROR": "Vnesite veljaven službeni e-poštni naslov."
     },
     "PASSWORD": {

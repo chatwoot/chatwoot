@@ -4,7 +4,7 @@
     "TITLE": "הירשם",
     "TESTIMONIAL_HEADER": "כל מה שצריך זה צעד אחד כדי להתקדם",
     "TESTIMONIAL_CONTENT": "אתה במרחק צעד אחד מלהפעיל את הלקוחות שלך, לשמר אותם ולמצוא חדשים.",
-    "TERMS_ACCEPT": "על ידי יצירת חשבון, אתה מסכים ל<a href=\"https://www.chatwoot.com/terms\">תנאים וההגבלות</a> ול-<a href=\"https://www.chatwoot.com/ שלנו privacy-policy\">מדיניות הפרטיות</a>",
+    "TERMS_ACCEPT": "על ידי יצירת חשבון, אתה מסכים ל<a href=\"https://getcruisecontrol.com/terms\">תנאים וההגבלות</a> ול-<a href=\"https://getcruisecontrol.com/ שלנו privacy-policy\">מדיניות הפרטיות</a>",
     "OAUTH": {
       "GOOGLE_SIGNUP": "הירשם לגוגל"
     },
@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "מייל עבודה",
-      "PLACEHOLDER": "הכנס את כתובת הדוא\"ל של מקום העבודה שלך. לדוגמא: bruce{'@'}wayne{'.'}enterprises",
+      "PLACEHOLDER": "הכנס את כתובת הדוא\"ל של מקום העבודה שלך. לדוגמא: bruce{'@'}example{'.'}com",
       "ERROR": "אנא הזן כתובת דוא\"ל חוקית לעבודה"
     },
     "PASSWORD": {
