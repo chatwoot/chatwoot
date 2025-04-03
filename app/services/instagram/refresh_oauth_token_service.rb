@@ -10,7 +10,7 @@ class Instagram::RefreshOauthTokenService
 
   # Returns a valid access token, refreshing it if necessary and eligible
   def access_token
-    return unless token_valid?
+    # return unless token_valid?
 
     # If token is valid and eligible for refresh, attempt to refresh it
     return channel[:access_token] unless token_eligible_for_refresh?
