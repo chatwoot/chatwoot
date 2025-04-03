@@ -48,10 +48,12 @@ shared_examples_for 'reauthorizable' do
     facebook_mailer_response = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
     whatsapp_mailer_response = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
     email_mailer_response = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
+    instagram_mailer_response = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
     allow(AdministratorNotifications::ChannelNotificationsMailer).to receive(:with).and_return(channel_mailer)
     allow(channel_mailer).to receive(:facebook_disconnect).and_return(facebook_mailer_response)
     allow(channel_mailer).to receive(:whatsapp_disconnect).and_return(whatsapp_mailer_response)
     allow(channel_mailer).to receive(:email_disconnect).and_return(email_mailer_response)
+    allow(channel_mailer).to receive(:instagram_disconnect).and_return(instagram_mailer_response)
   end
 
   describe 'prompt_reauthorization!' do
