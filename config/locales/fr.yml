@@ -280,3 +280,5 @@ fr:
     seconds:
       one: '%{count} seconde'
       other: '%{count} seconds'
+  automation:
+    system_name: 'Automation System'
