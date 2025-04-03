@@ -162,5 +162,6 @@ class Account < ApplicationRecord
 end
 
 Account.prepend_mod_with('Account')
+Account.prepend_mod_with('Account::PlanUsageAndLimits')
 Account.include_mod_with('Concerns::Account')
 Account.include_mod_with('Audit::Account')

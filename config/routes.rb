@@ -371,6 +371,7 @@ Rails.application.routes.draw do
               post :checkout
               post :subscription
               get :limits
+              post :toggle_deletion
             end
           end
         end

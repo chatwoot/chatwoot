@@ -39,31 +39,37 @@ module Reauthorizable
   def prompt_reauthorization!
     ::Redis::Alfred.set(reauthorization_required_key, true)
 
-    mailer = AdministratorNotifications::ChannelNotificationsMailer.with(account: account)
-
     case self.class.name
     when 'Integrations::Hook'
-      process_integration_hook_reauthorization_emails(mailer)
+      process_integration_hook_reauthorization_emails
     when 'Channel::FacebookPage'
-      mailer.facebook_disconnect(inbox).deliver_later
+      send_channel_reauthorization_email(:facebook_disconnect)
     when 'Channel::Whatsapp'
-      mailer.whatsapp_disconnect(inbox).deliver_later
+      send_channel_reauthorization_email(:whatsapp_disconnect)
     when 'Channel::Email'
-      mailer.email_disconnect(inbox).deliver_later
+      send_channel_reauthorization_email(:email_disconnect)
     when 'AutomationRule'
-      update!(active: false)
-      mailer.automation_rule_disabled(self).deliver_later
+      handle_automation_rule_reauthorization
     end
 
     invalidate_inbox_cache unless instance_of?(::AutomationRule)
   end
 
-  def process_integration_hook_reauthorization_emails(mailer)
+  def process_integration_hook_reauthorization_emails
     if slack?
-      mailer.slack_disconnect.deliver_later
+      AdministratorNotifications::IntegrationsNotificationMailer.with(account: account).slack_disconnect.deliver_later
     elsif dialogflow?
-      mailer.dialogflow_disconnect.deliver_later
+      AdministratorNotifications::IntegrationsNotificationMailer.with(account: account).dialogflow_disconnect.deliver_later
     end
+  end
+
+  def send_channel_reauthorization_email(disconnect_type)
+    AdministratorNotifications::ChannelNotificationsMailer.with(account: account).public_send(disconnect_type, inbox).deliver_later
+  end
+
+  def handle_automation_rule_reauthorization
+    update!(active: false)
+    AdministratorNotifications::AccountNotificationMailer.with(account: account).automation_rule_disabled(self).deliver_later
   end
 
   # call this after you successfully Reauthorized the object in UI
