@@ -280,3 +280,5 @@ az:
     seconds:
       one: '%{count} second'
       other: '%{count} seconds'
+  automation:
+    system_name: 'Automation System'
