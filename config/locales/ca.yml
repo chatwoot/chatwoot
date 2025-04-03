@@ -280,3 +280,5 @@ ca:
     seconds:
       one: '%{count} segon'
       other: '%{count} segons'
+  automation:
+    system_name: 'Automation System'
