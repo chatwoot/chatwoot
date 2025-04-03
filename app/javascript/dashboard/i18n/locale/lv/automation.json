@@ -126,6 +126,44 @@
       "ATLEAST_ONE_CONDITION_REQUIRED": "Ir nepieciešams vismaz viens nosacījums",
       "ATLEAST_ONE_ACTION_REQUIRED": "Ir nepieciešama vismaz viena darbība"
     },
-    "NONE_OPTION": "Nav"
+    "NONE_OPTION": "Nav",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Saruna izveidota",
+      "CONVERSATION_UPDATED": "Saruna Atjaunināta",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Izslēgt Sarunu",
+      "SNOOZE_CONVERSATION": "Atlikt Sarunu",
+      "RESOLVE_CONVERSATION": "Atrisināt Sarunu",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "CHANGE_PRIORITY": "Mainīt prioritāti",
+      "ADD_SLA": "Pievienot SLA"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "E-pasts",
+      "INBOX": "Iesūtne",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "Telefona numurs",
+      "STATUS": "Statuss",
+      "BROWSER_LANGUAGE": "Pārlūkprogrammas Valoda",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "Valsts",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Uzdevuma saņēmējs",
+      "TEAM_NAME": "Komanda",
+      "PRIORITY": "Prioritāte"
+    }
   }
 }
