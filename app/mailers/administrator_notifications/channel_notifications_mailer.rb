@@ -4,6 +4,11 @@ class AdministratorNotifications::ChannelNotificationsMailer < AdministratorNoti
     send_notification(subject, action_url: inbox_url(inbox))
   end
 
+  def instagram_disconnect(inbox)
+    subject = 'Your Instagram connection has expired'
+    send_notification(subject, action_url: inbox_url(inbox))
+  end
+
   def whatsapp_disconnect(inbox)
     subject = 'Your Whatsapp connection has expired'
     send_notification(subject, action_url: inbox_url(inbox))

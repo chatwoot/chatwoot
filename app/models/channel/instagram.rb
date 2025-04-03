@@ -19,6 +19,8 @@ class Channel::Instagram < ApplicationRecord
   include Reauthorizable
   self.table_name = 'channel_instagram'
 
+  AUTHORIZATION_ERROR_THRESHOLD = 1
+
   validates :access_token, presence: true
   validates :instagram_id, uniqueness: true, presence: true
 
