@@ -1,3 +1,5 @@
+require 'countries'
+
 class EnrichmentJob < ApplicationJob
   queue_as :default
 
@@ -19,7 +21,11 @@ class EnrichmentJob < ApplicationJob
     contact.update(name: "#{enriched_data[:first_name]} #{enriched_data[:last_name]}") if contact.name.blank?
 
     if contact.additional_attributes['country'].blank?
-      contact.update(additional_attributes: contact.additional_attributes.merge({ country: enriched_data[:country].titleize }))
+      c = enriched_data[:country]
+      c_code = country_code_from_country_name(c)
+      c_display_name = display_country_name_from_code(c_code)
+
+      contact.update(additional_attributes: contact.additional_attributes.merge({ country: c_display_name }))
     end
 
     if contact.additional_attributes['company_name'].blank?
@@ -39,6 +45,18 @@ class EnrichmentJob < ApplicationJob
     end
 
     Rails.logger.info("Unique networks: #{all_profiles}")
+  end
+
+  def country_code_from_country_name(country_str)
+    country = ISO3166::Country.find_country_by_any_name(country_str)
+    country.alpha2
+  end
+
+  def display_country_name_from_code(country_code)
+    file = File.read('./countries.json')
+    countries_json = JSON.parse(file)
+    required_country = countries_json.find { |country| country['id'] == country_code }
+    required_country['name']
   end
 
   # TODO: divide this function into smaller parts
