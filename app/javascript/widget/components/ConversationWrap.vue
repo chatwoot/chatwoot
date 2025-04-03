@@ -116,22 +116,6 @@ export default {
     this.scrollToBottom();
     this.fetchCartData();
   },
-
-  fetchCartData() {
-    fetch(`https://${this.conversationAttributes.shop_url}/cart.js`)
-      .then((res) => res.json())
-      .then((newCart) => {
-        const cartItems = newCart.items;
-        const convertedCartItems = cartItems.map(item => ({
-          id: item.id,
-          quantity: item.quantity,
-          price: item.price,
-          currency: newCart.currency,
-        }));
-        this.selectedProducts = convertedCartItems;
-        console.log(convertedCartItems, 'new cart value here....');
-      }).catch(() => {})
-  },
   updated() {
     if (this.previousConversationSize !== this.conversationSize) {
       this.previousConversationSize = this.conversationSize;
@@ -149,6 +133,21 @@ export default {
       container.scrollTop = container.scrollHeight - this.previousScrollHeight;
       this.previousScrollHeight = 0;
     },
+    fetchCartData() {
+    fetch(`https://mechdrift.myshopify.com/cart.js`)
+      .then((res) => res.json())
+      .then((newCart) => {
+        const cartItems = newCart.items;
+        const convertedCartItems = cartItems.map(item => ({
+          id: item.id,
+          quantity: item.quantity,
+          price: item.price,
+          currency: newCart.currency,
+        }));
+        this.selectedProducts = convertedCartItems;
+        console.log(convertedCartItems, 'new cart value here....');
+      }).catch(() => {})
+  },
     openCheckoutPage(selectedProducts) {
       const shopUrl = selectedProducts[0].shopUrl;
       const lineItems = selectedProducts.map(product => ({
