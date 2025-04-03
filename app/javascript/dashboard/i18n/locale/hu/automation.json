@@ -126,6 +126,44 @@
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
-    "NONE_OPTION": "Nincs"
+    "NONE_OPTION": "Nincs",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Beszélgetés létrehozva",
+      "CONVERSATION_UPDATED": "Beszélgetés frissítve",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Beszélgetés elnémítása",
+      "SNOOZE_CONVERSATION": "Beszélgetés alvómódba",
+      "RESOLVE_CONVERSATION": "Beszélgetés megoldása",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "CHANGE_PRIORITY": "Prioritás megváltoztatása",
+      "ADD_SLA": "Add SLA"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "E-mail",
+      "INBOX": "Fiók",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "Telefonszám",
+      "STATUS": "Státusz",
+      "BROWSER_LANGUAGE": "Böngésző nyelve",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "Ország",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "Csapat",
+      "PRIORITY": "Prioritás"
+    }
   }
 }
