@@ -7,7 +7,6 @@ class EnrichmentJob < ApplicationJob
     enrich(params)
   end
 
-  # TODO: divide this function into smaller parts
   def enrich(params)
     id, email, name, company_name = params.values_at(:id, :email, :name, :company_name)
 
@@ -19,6 +18,12 @@ class EnrichmentJob < ApplicationJob
     return if enriched_data.nil?
 
     contact.update(name: "#{enriched_data[:first_name]} #{enriched_data[:last_name]}") if contact.name.blank?
+
+    contact.update(phone_number: enriched_data[:phone_number]) if contact.phone_number.blank?
+
+    if contact.additional_attributes['city'].blank?
+      contact.update(additional_attributes: contact.additional_attributes.merge({ city: enriched_data[:city] }))
+    end
 
     if contact.additional_attributes['country'].blank?
       c = enriched_data[:country]
@@ -59,8 +64,69 @@ class EnrichmentJob < ApplicationJob
     required_country['name']
   end
 
-  # TODO: divide this function into smaller parts
-  def enrich_from_people_data_labs(email, name, company_name)
+  def enrich_from_people_data_labs(email, _name, _company_name) # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
+    response = get_data_from_pdf(email, name, company_name)
+    json_body = JSON.parse(response.body)
+
+    return nil if !json_body.key?('data') || !json_body['data'].is_a?(Hash)
+
+    json_data = json_body['data']
+
+    is_work_profile = work_profile?(email, json_data)
+    {
+      profiles: get_profiles(is_work_profile, json_data),
+      first_name: json_data['first_name'],
+      last_name: json_data['last_name'],
+      company_name: json_data['job_company_name'],
+      country: json_data['countries'][0],
+      city: get_city(json_data),
+      phone_number: get_mobile_phone(json_data)
+    }
+  end
+
+  def get_mobile_phone(json_data)
+    phone_numbers = json_data['phone_numbers']
+    return '' unless phone_numbers.is_a?(Array)
+
+    phone_numbers.first || ''
+  end
+
+  def get_city(json_data)
+    locations = json_data['location_names']
+    return '' unless locations.is_a?(Array)
+
+    locations.first || ''
+  end
+
+  def get_profiles(is_work_profile, json_data) # rubocop:disable Metrics/MethodLength
+    user_profiles = {
+      'linkedin': json_data['linkedin_url'],
+      'twitter': json_data['twitter_url'],
+      'facebook': json_data['facebook_url'],
+      'github': json_data['github_url']
+    }
+    return user_profiles unless is_work_profile
+
+    company_profiles = {
+      'linkedin': json_data['job_company_linkedin_url'],
+      'twitter': json_data['job_company_twitter_url'],
+      'facebook': json_data['job_company_facebook_url']
+    }
+    user_profiles.merge!(company_profiles) { |_key, user_val, company_val| user_val.presence || company_val }
+    user_profiles
+  end
+
+  def work_profile?(email, json_data)
+    work_email = json_data['work_email']
+
+    if work_email.is_a?(TrueClass) || work_email.is_a?(FalseClass)
+      work_email
+    elsif work_email.is_a?(String)
+      work_email == email
+    end
+  end
+
+  def get_data_from_pdf(email, name, company_name) # rubocop:disable Metrics/MethodLength
     url = "#{ENV.fetch('PEOPLE_DATA_LABS_BASE_URL', nil)}#{ENV.fetch('PEOPLE_DATA_LABS_PEOPLE_ENRICH', nil)}"
 
     apiKey = ENV.fetch('PEOPLE_DATA_LABS_API_KEY', nil)
@@ -83,46 +149,6 @@ class EnrichmentJob < ApplicationJob
     query_string = URI.encode_www_form(params)
     full_url = "#{url}?#{query_string}"
 
-    response = RestClient.get full_url, headers
-    json_body = JSON.parse(response.body)
-
-    return nil if !json_body.key?('data') || !json_body['data'].is_a?(Hash)
-
-    json_data = json_body['data']
-    work_email = json_data['work_email']
-
-    is_work_profile = false
-
-    if work_email.is_a?(TrueClass) || work_email.is_a?(FalseClass)
-      is_work_profile = work_email
-    elsif work_email.is_a?(String)
-      is_work_profile = work_email == email
-    end
-
-    # profiles = json_body.dig('data', 'profiles')
-    user_profiles = {
-      'linkedin': json_data['linkedin_url'],
-      'twitter': json_data['twitter_url'],
-      'facebook': json_data['facebook_url'],
-      'github': json_data['github_url']
-    }
-
-    if is_work_profile
-      company_profiles = {
-        'linkedin': json_data['job_company_linkedin_url'],
-        'twitter': json_data['job_company_twitter_url'],
-        'facebook': json_data['job_company_facebook_url']
-      }
-
-      user_profiles.merge!(company_profiles) { |_key, user_val, company_val| user_val.presence || company_val }
-    end
-
-    {
-      profiles: user_profiles,
-      first_name: json_data['first_name'],
-      last_name: json_data['last_name'],
-      company_name: json_data['job_company_name'],
-      country: json_data['countries'][0]
-    }
+    RestClient.get full_url, headers
   end
 end
