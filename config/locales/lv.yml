@@ -284,3 +284,5 @@ lv:
       zero: '%{count} sekundes'
       one: '%{count} sekunde'
       other: '%{count} sekundes'
+  automation:
+    system_name: 'Automation System'
