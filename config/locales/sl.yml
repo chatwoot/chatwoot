@@ -288,3 +288,5 @@ sl:
       two: '%{count} sekundi'
       few: '%{count} sekunde'
       other: '%{count} sekund'
+  automation:
+    system_name: 'Automation System'
