@@ -183,6 +183,8 @@ gem 'reverse_markdown'
 gem 'pdf-reader'
 gem 'ruby-openai'
 
+gem 'countries'
+
 ### Gems required only in specific deployment environments ###
 ##############################################################
 
