@@ -276,3 +276,5 @@ th:
       other: '%{count} minutes'
     seconds:
       other: '%{count} seconds'
+  automation:
+    system_name: 'Automation System'
