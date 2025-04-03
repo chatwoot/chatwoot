@@ -22,7 +22,7 @@ const store = createStore({
 describe('SidemenuIcon', () => {
   test('matches snapshot', () => {
     const wrapper = shallowMount(SidemenuIcon, {
-      stubs: { WootButton: { template: '<button><slot /></button>' } },
+      stubs: { NextButton: { template: '<button><slot /></button>' } },
       global: { plugins: [store] },
     });
     expect(wrapper.vm).toBeTruthy();

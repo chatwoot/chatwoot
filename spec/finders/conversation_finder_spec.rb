@@ -57,6 +57,16 @@ describe ConversationFinder do
 
         expect(result[:conversations].map(&:id)).not_to include(restricted_conversation.id)
       end
+
+      it 'returns only the conversations from the inbox if inbox_id filter is passed' do
+        conversation = create(:conversation, account: account, inbox_id: inbox.id)
+        params = { inbox_id: restricted_inbox.id }
+        result = described_class.new(admin, params).perform
+
+        conversation_ids = result[:conversations].map(&:id)
+        expect(conversation_ids).not_to include(conversation.id)
+        expect(conversation_ids).to include(restricted_conversation.id)
+      end
     end
 
     context 'with assignee_type all' do
