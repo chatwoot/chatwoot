@@ -288,3 +288,5 @@ ru:
       few: '%{count} секунд'
       many: '%{count} секунд'
       other: '%{count} секунд'
+  automation:
+    system_name: 'Automation System'
