@@ -64,4 +64,9 @@ export const MACRO_ACTION_TYPES = [
     label: 'CHANGE_PRIORITY',
     inputType: 'search_select',
   },
+  {
+    key: 'send_webhook_event',
+    label: 'SEND_WEBHOOK_EVENT',
+    inputType: 'url',
+  },
 ];
