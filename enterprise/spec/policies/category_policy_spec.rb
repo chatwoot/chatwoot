@@ -19,7 +19,7 @@ RSpec.describe 'Enterprise::CategoryPolicy', type: :policy do
     { user: agent_with_role, account: account, account_user: agent_with_role_account_user }
   end
 
-  permissions :update?, :show?, :edit?, :create?, :destroy? do
+  permissions :index?, :update?, :show?, :edit?, :create?, :destroy? do
     context 'when agent with knowledge_base_manage permission' do
       it { expect(category_policy).to permit(agent_with_role_context, category) }
     end

@@ -20,7 +20,7 @@ RSpec.describe 'Enterprise::ArticlePolicy', type: :policy do
     { user: agent_with_role, account: account, account_user: agent_with_role_account_user }
   end
 
-  permissions :update?, :show?, :edit?, :create?, :destroy?, :reorder? do
+  permissions :index?, :update?, :show?, :edit?, :create?, :destroy?, :reorder? do
     context 'when agent with knowledge_base_manage permission' do
       it { expect(article_policy).to permit(agent_with_role_context, article) }
     end
