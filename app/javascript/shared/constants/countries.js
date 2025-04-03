@@ -1,2 +1,2 @@
-import countries from '../../../../countries.json' assert { type: 'json' };
+import countries from '../../../../shared/countries.json' assert { type: 'json' };
 export default countries;

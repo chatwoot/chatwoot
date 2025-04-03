@@ -58,13 +58,13 @@ class EnrichmentJob < ApplicationJob
   end
 
   def display_country_name_from_code(country_code)
-    file = File.read('./countries.json')
+    file = File.read('./shared/countries.json')
     countries_json = JSON.parse(file)
     required_country = countries_json.find { |country| country['id'] == country_code }
     required_country['name']
   end
 
-  def enrich_from_people_data_labs(email, _name, _company_name) # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
+  def enrich_from_people_data_labs(email, _name, _company_name) # rubocop:disable Metrics/MethodLength
     response = get_data_from_pdf(email, name, company_name)
     json_body = JSON.parse(response.body)
 

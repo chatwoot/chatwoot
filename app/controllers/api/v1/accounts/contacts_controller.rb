@@ -105,15 +105,20 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
       @contact.save!
       @contact_inbox = build_contact_inbox
       process_avatar_from_url
+      enrich_data(permitted_params)
     end
   end
 
   def update
     @contact.assign_attributes(contact_update_params)
-    EnrichmentJob.perform_later(id: @contact.id, email: contact_update_params[:email], name: contact_update_params[:name],
-                                company_name: contact_update_params[:additional_attributes]&.dig('company_name'))
+    enrich_data(contact_update_params)
     @contact.save!
     process_avatar_from_url
+  end
+
+  def enrich_data(params)
+    EnrichmentJob.perform_later(id: @contact.id, email: params[:email], name: params[:name],
+                                company_name: params[:additional_attributes]&.dig('company_name'))
   end
 
   def destroy
