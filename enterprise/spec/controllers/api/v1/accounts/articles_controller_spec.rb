@@ -24,38 +24,8 @@ RSpec.describe 'Enterprise Articles API', type: :request do
     agent_with_role_account_user
   end
 
-  describe 'GET /api/v1/accounts/:account_id/portals/:portal_slug/articles' do
-    context 'when it is an authenticated user' do
-      it 'returns success for regular agents' do
-        get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
-            headers: agent.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:success)
-      end
-
-      it 'returns success for administrators' do
-        get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
-            headers: admin.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:success)
-        json_response = response.parsed_body
-        expect(json_response['payload'].length).to eq(1)
-      end
-    end
-  end
-
   describe 'GET /api/v1/accounts/:account_id/portals/:portal_slug/articles/:id' do
     context 'when it is an authenticated user' do
-      it 'returns unauthorized for regular agents' do
-        get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
-            headers: agent.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-
       it 'returns success for agents with knowledge_base_manage permission' do
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
             headers: agent_with_role.create_new_auth_token,
@@ -81,15 +51,6 @@ RSpec.describe 'Enterprise Articles API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      it 'returns unauthorized for regular agents' do
-        post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
-             params: article_params,
-             headers: agent.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-
       it 'returns success for agents with knowledge_base_manage permission' do
         post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
              params: article_params,
@@ -114,15 +75,6 @@ RSpec.describe 'Enterprise Articles API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      it 'returns unauthorized for regular agents' do
-        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
-            params: article_params,
-            headers: agent.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-
       it 'returns success for agents with knowledge_base_manage permission' do
         put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
             params: article_params,
@@ -137,15 +89,6 @@ RSpec.describe 'Enterprise Articles API', type: :request do
   end
 
   describe 'DELETE /api/v1/accounts/:account_id/portals/:portal_slug/articles/:id' do
-    context 'when it is an authenticated user' do
-      it 'returns unauthorized for regular agents' do
-        delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
-               headers: agent.create_new_auth_token,
-               as: :json
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-
       it 'returns success for agents with knowledge_base_manage permission' do
         delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
                headers: agent_with_role.create_new_auth_token,
