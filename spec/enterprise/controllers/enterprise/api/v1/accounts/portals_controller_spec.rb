@@ -50,20 +50,21 @@ RSpec.describe 'Enterprise Portal API', type: :request do
 
   describe 'POST /api/v1/accounts/:account_id/portals' do
     let(:portal_params) do
-      { portal: { name: 'new_portal', slug: 'new-portal' } }
+      {  portal: {
+        name: 'test_portal',
+        slug: 'test_kbase',
+        custom_domain: 'https://support.chatwoot.dev'
+      } }
     end
 
     context 'when it is an authenticated user' do
       it 'restricts portal creation for agents with knowledge_base_manage permission' do
-        # Creating portals should be restricted to administrators only, even with the permission
         post "/api/v1/accounts/#{account.id}/portals",
              params: portal_params,
              headers: agent_with_role.create_new_auth_token,
              as: :json
 
-        # The 500 error occurs because the policy check fails but is handled improperly
-        # For now, we'll just verify that the response is not a success
-        expect(response).not_to have_http_status(:success)
+        expect(response).to have_http_status(:unauthorized)
       end
     end
   end

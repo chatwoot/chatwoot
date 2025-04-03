@@ -8,7 +8,7 @@ class PortalPolicy < ApplicationPolicy
   end
 
   def show?
-    @account_user.administrator?
+    @account.users.include?(@user)
   end
 
   def edit?
@@ -20,10 +20,6 @@ class PortalPolicy < ApplicationPolicy
   end
 
   def destroy?
-    @account_user.administrator?
-  end
-
-  def add_members?
     @account_user.administrator?
   end
 
