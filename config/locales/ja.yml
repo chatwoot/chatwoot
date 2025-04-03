@@ -276,3 +276,5 @@ ja:
       other: '%{count} 分'
     seconds:
       other: '%{count} 秒'
+  automation:
+    system_name: 'Automation System'
