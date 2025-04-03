@@ -39,18 +39,7 @@ module Reauthorizable
   def prompt_reauthorization!
     ::Redis::Alfred.set(reauthorization_required_key, true)
 
-    case self.class.name
-    when 'Integrations::Hook'
-      process_integration_hook_reauthorization_emails
-    when 'Channel::FacebookPage'
-      send_channel_reauthorization_email(:facebook_disconnect)
-    when 'Channel::Whatsapp'
-      send_channel_reauthorization_email(:whatsapp_disconnect)
-    when 'Channel::Email'
-      send_channel_reauthorization_email(:email_disconnect)
-    when 'AutomationRule'
-      handle_automation_rule_reauthorization
-    end
+    reauthorization_handlers[self.class.name]&.call(self)
 
     invalidate_inbox_cache unless instance_of?(::AutomationRule)
   end
@@ -81,6 +70,17 @@ module Reauthorizable
   end
 
   private
+
+  def reauthorization_handlers
+    {
+      'Integrations::Hook' => ->(obj) { obj.process_integration_hook_reauthorization_emails },
+      'Channel::FacebookPage' => ->(obj) { obj.send_channel_reauthorization_email(:facebook_disconnect) },
+      'Channel::Instagram' => ->(obj) { obj.send_channel_reauthorization_email(:instagram_disconnect) },
+      'Channel::Whatsapp' => ->(obj) { obj.send_channel_reauthorization_email(:whatsapp_disconnect) },
+      'Channel::Email' => ->(obj) { obj.send_channel_reauthorization_email(:email_disconnect) },
+      'AutomationRule' => ->(obj) { obj.handle_automation_rule_reauthorization }
+    }
+  end
 
   def invalidate_inbox_cache
     inbox.update_account_cache if inbox.present?
