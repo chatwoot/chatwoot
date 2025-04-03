@@ -97,7 +97,8 @@
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
       "CHANGE_PRIORITY": "Change Priority",
-      "ADD_PRIVATE_NOTE": "Add a Private Note"
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event"
     }
   }
 }
