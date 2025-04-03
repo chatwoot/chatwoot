@@ -15,17 +15,20 @@ const { t } = useI18n();
 const agentName = ref('');
 const agentEmail = ref('');
 const selectedRoleId = ref('agent');
+const selectedInboxes = ref([]);
 
 const rules = {
   agentName: { required },
   agentEmail: { required, email },
   selectedRoleId: { required },
+  agentInboxes: {},
 };
 
 const v$ = useVuelidate(rules, {
   agentName,
   agentEmail,
   selectedRoleId,
+  agentInboxes: selectedInboxes,
 });
 
 const uiFlags = useMapGetter('agents/getUIFlags');
@@ -61,6 +64,8 @@ const selectedRole = computed(() =>
   )
 );
 
+const allAgentInboxes = useMapGetter('inboxes/getInboxes');
+
 const addAgent = async () => {
   v$.value.$touch();
   if (v$.value.$invalid) return;
@@ -69,6 +74,7 @@ const addAgent = async () => {
     const payload = {
       name: agentName.value,
       email: agentEmail.value,
+      selected_inboxes: [...(selectedInboxes.value.map((e) => e.id))],
     };
 
     if (selectedRole.value.name.startsWith('custom_')) {
@@ -78,6 +84,7 @@ const addAgent = async () => {
     }
 
     await store.dispatch('agents/create', payload);
+
     useAlert(t('AGENT_MGMT.ADD.API.SUCCESS_MESSAGE'));
     emit('close');
   } catch (error) {
@@ -144,6 +151,30 @@ const addAgent = async () => {
             :placeholder="$t('AGENT_MGMT.ADD.FORM.EMAIL.PLACEHOLDER')"
             @input="v$.agentEmail.$touch"
           />
+        </label>
+      </div>
+
+      <div class="w-full">
+        <label :class="{ error: v$.agentInboxes.$error }">
+          {{ $t('AGENT_MGMT.ADD.FORM.INBOXES.LABEL') }}
+          <multiselect
+            v-model="selectedInboxes"
+            :options="allAgentInboxes || []"
+            track-by="id"
+            label="name"
+            multiple
+            :close-on-select="false"
+            :clear-on-select="false"
+            hide-selected
+            selected-label
+            :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+            :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+            :placeholder="$t('AGENT_MGMT.ADD.FORM.INBOXES.PLACEHOLDER')"
+            @select="v$.agentInboxes.$touch"
+          />
+          <span v-if="v$.agentInboxes.$error" class="message">
+            {{ $t('AGENT_MGMT.ADD.FORM.INBOXES.VALIDATION_ERROR') }}
+          </span>
         </label>
       </div>
 
