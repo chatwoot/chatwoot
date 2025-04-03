@@ -49,12 +49,6 @@ module InstagramConcern
   end
 
   def make_api_request(endpoint, params, error_prefix)
-    # If the params include access_token and we have a channel available
-    if params[:access_token] && @channel&.instagram?
-      # Replace with refreshed token
-      params[:access_token] = @channel.access_token
-    end
-
     response = HTTParty.get(
       endpoint,
       query: params,
