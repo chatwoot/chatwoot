@@ -166,4 +166,3 @@ AllCops:
     - 'tmp/**/*'
     - 'storage/**/*'
     - 'db/migrate/20230426130150_init_schema.rb'
-    - 'lib/tasks/generate_test_data.rake'
