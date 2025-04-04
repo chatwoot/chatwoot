@@ -43,7 +43,14 @@
         "INBOX_NAME": "Posteingang-Name",
         "ADD_NAME": "Namen für diesen Posteingang eingeben",
         "PICK_NAME": "Wählen Sie einen Namen für Ihren Posteingang aus",
-        "PICK_A_VALUE": "Wählen Sie einen Wert aus"
+        "PICK_A_VALUE": "Wählen Sie einen Wert aus",
+        "CREATE_INBOX": "Posteingang erstellen"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again"
       },
       "TWITTER": {
         "HELP": "Um Ihr Twitter-Profil als Kanal hinzuzufügen, müssen Sie Ihr Twitter-Profil authentifizieren, indem Sie auf 'Mit Twitter anmelden' klicken.",
@@ -753,7 +760,8 @@
       "EMAIL": "E-Mail",
       "TELEGRAM": "Telegramm",
       "LINE": "Line",
-      "API": "API-Kanal"
+      "API": "API-Kanal",
+      "INSTAGRAM": "Instagram"
     }
   }
 }
