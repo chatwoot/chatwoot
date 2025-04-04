@@ -43,7 +43,14 @@
         "INBOX_NAME": "Gelen Kutusu Adı",
         "ADD_NAME": "Gelen kutunuza bir isim ekleyin",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Bir değer seçin"
+        "PICK_A_VALUE": "Bir değer seçin",
+        "CREATE_INBOX": "Gelen Kutusu Oluştur"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again"
       },
       "TWITTER": {
         "HELP": "Twitter profilinizi bir kanal olarak eklemek için, 'Twitter ile Giriş Yap'ı tıklayarak Twitter Profilinizi doğrulamanız gerekir.",
@@ -753,7 +760,8 @@
       "EMAIL": "E-Posta",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API Kanalı"
+      "API": "API Kanalı",
+      "INSTAGRAM": "Instagram"
     }
   }
 }
