@@ -43,7 +43,14 @@
         "INBOX_NAME": "Nama Kotak Masuk",
         "ADD_NAME": "Tambahkan nama untuk kotak masuk Anda",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Pilih"
+        "PICK_A_VALUE": "Pilih",
+        "CREATE_INBOX": "Buat Kotak Masuk"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again"
       },
       "TWITTER": {
         "HELP": "Untuk menambahkan profil Twitter Anda sebagai saluran, Anda perlu mengautentikasi Profil Twitter Anda dengan mengklik 'Masuk dengan Twitter' ",
@@ -753,7 +760,8 @@
       "EMAIL": "Email",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API Channel"
+      "API": "API Channel",
+      "INSTAGRAM": "Instagram"
     }
   }
 }
