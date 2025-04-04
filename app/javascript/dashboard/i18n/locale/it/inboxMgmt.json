@@ -43,7 +43,14 @@
         "INBOX_NAME": "Nome casella",
         "ADD_NAME": "Aggiungi un nome per la tua casella",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Scegli un valore"
+        "PICK_A_VALUE": "Scegli un valore",
+        "CREATE_INBOX": "Crea casella"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again"
       },
       "TWITTER": {
         "HELP": "Per aggiungere il tuo profilo Twitter come canale, devi autenticare il tuo profilo Twitter cliccando su 'Accedi con Twitter' ",
@@ -753,7 +760,8 @@
       "EMAIL": "Email",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "Canale API"
+      "API": "Canale API",
+      "INSTAGRAM": "Instagram"
     }
   }
 }
