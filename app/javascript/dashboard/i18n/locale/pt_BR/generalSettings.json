@@ -14,6 +14,26 @@
       "ERROR": "Não foi possível atualizar as configurações, tente novamente!",
       "SUCCESS": "Configurações de conta atualizadas com sucesso"
     },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "Excluir sua Conta",
+      "NOTE": "Após excluir sua conta, todos os seus dados serão excluídos.",
+      "BUTTON_TEXT": "Excluir sua conta",
+      "CONFIRM": {
+        "TITLE": "Excluir Conta",
+        "MESSAGE": "Excluir sua conta é irreversível. Digite o nome de sua conta abaixo para confirmar que você deseja excluí-la permanentemente.",
+        "BUTTON_TEXT": "Excluir",
+        "DISMISS": "Cancelar",
+        "PLACE_HOLDER": "Digite {accountName} para confirmar"
+      },
+      "SUCCESS": "Conta marcada para exclusão",
+      "FAILURE": "Não foi possível excluir a conta, tente novamente!",
+      "SCHEDULED_DELETION": {
+        "TITLE": "Conta agendada para exclusão",
+        "MESSAGE_MANUAL": "Esta conta está programada para exclusão em {deletionDate}. Isto foi solicitado por um administrador. Você pode cancelar a exclusão antes desta data.",
+        "MESSAGE_INACTIVITY": "Esta conta está programada para exclusão em {deletionDate} devido à inatividade da conta. Você pode cancelar a exclusão antes desta data.",
+        "CLEAR_BUTTON": "Cancelar Exclusão Programada"
+      }
+    },
     "FORM": {
       "ERROR": "Por favor, corrigir erros de formulário",
       "GENERAL_SECTION": {
