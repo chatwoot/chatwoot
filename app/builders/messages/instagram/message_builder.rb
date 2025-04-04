@@ -27,6 +27,7 @@ class Messages::Instagram::MessageBuilder < Messages::Instagram::BaseMessageBuil
     channel.authorization_error! if error_code == 190
 
     # There was a problem scraping data from the provided link.
+    # https://developers.facebook.com/docs/graph-api/guides/error-handling/ search for error code 1609005
     if error_code == 1_609_005
       @message.attachments.destroy_all
       @message.update(content: I18n.t('conversations.messages.instagram_deleted_story_content'))
