@@ -3,10 +3,8 @@ name: Frontend Lint & Test
 on:
   push:
     branches:
-      - develop
-  pull_request:
-    branches:
-      - develop
+      - fazer-ai/main
+  workflow_dispatch:
 
 jobs:
   test:
