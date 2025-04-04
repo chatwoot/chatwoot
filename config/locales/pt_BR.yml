@@ -281,4 +281,4 @@ pt_BR:
       one: '%{count} segundo'
       other: '%{count} segundos'
   automation:
-    system_name: 'Automation System'
+    system_name: 'Sistema de Automação'
