@@ -698,6 +698,13 @@ GEM
     ruby2ruby (2.5.0)
       ruby_parser (~> 3.1)
       sexp_processor (~> 4.6)
+    ruby_llm (1.0.1)
+      base64
+      event_stream_parser (~> 1)
+      faraday (~> 2)
+      faraday-multipart (~> 1)
+      faraday-retry (~> 2)
+      zeitwerk (~> 2)
     ruby_parser (3.20.0)
       sexp_processor (~> 4.16)
     sass (3.7.4)
@@ -964,6 +971,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rspec
   ruby-openai
+  ruby_llm
   scout_apm
   scss_lint
   seed_dump
