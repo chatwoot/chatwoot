@@ -43,7 +43,14 @@
         "INBOX_NAME": "Fiók név",
         "ADD_NAME": "Adj nevet a fiókodnak",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Válassz értéket"
+        "PICK_A_VALUE": "Válassz értéket",
+        "CREATE_INBOX": "Fiók létrehozása"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again"
       },
       "TWITTER": {
         "HELP": "Ahhoz hogy hozzáadd a twitter profilodat egy csatornaként, azonosítanod kell a Twitter fiókodat a 'Belépés Twitterrel' gomb megnyomásával ",
@@ -753,7 +760,8 @@
       "EMAIL": "E-mail",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API csatorna"
+      "API": "API csatorna",
+      "INSTAGRAM": "Instagram"
     }
   }
 }
