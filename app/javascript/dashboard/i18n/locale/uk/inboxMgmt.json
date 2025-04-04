@@ -43,7 +43,14 @@
         "INBOX_NAME": "Назва Джерела",
         "ADD_NAME": "Додайте назву Джерела",
         "PICK_NAME": "Виберіть ім'я для вхідних",
-        "PICK_A_VALUE": "Виберіть значення"
+        "PICK_A_VALUE": "Виберіть значення",
+        "CREATE_INBOX": "Створити вхідну скриньку"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again"
       },
       "TWITTER": {
         "HELP": "Щоб додати свій профіль у Twitter як канал, вам потрібно авторизувати свій профіль у Twitter, натиснувши кнопку \"Увійти через Twitter\" ",
@@ -753,7 +760,8 @@
       "EMAIL": "Email",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API канал"
+      "API": "API канал",
+      "INSTAGRAM": "Instagram"
     }
   }
 }
