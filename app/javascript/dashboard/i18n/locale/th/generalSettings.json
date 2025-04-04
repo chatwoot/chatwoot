@@ -14,6 +14,26 @@
       "ERROR": "ไม่สามารถอัพเดทการตั้งค่าได้ ลองอีกครั้งสิ",
       "SUCCESS": "อัพเดทการตั้งค่าบัญชีเเล้ว"
     },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "Delete your Account",
+      "NOTE": "Once you delete your account, all your data will be deleted.",
+      "BUTTON_TEXT": "Delete Your Account",
+      "CONFIRM": {
+        "TITLE": "Delete Account",
+        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "BUTTON_TEXT": "ลบ",
+        "DISMISS": "ยกเลิก",
+        "PLACE_HOLDER": "โปรดพิมพ์ {accountName} เพื่อยืนยัน"
+      },
+      "SUCCESS": "Account marked for deletion",
+      "FAILURE": "Could not delete account, try again!",
+      "SCHEDULED_DELETION": {
+        "TITLE": "Account Scheduled for Deletion",
+        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
+        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
+        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+      }
+    },
     "FORM": {
       "ERROR": "กรุณาเเก้ไขข้อผิดพลาดในเเบบฟอร์ม",
       "GENERAL_SECTION": {
