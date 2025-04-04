@@ -43,7 +43,14 @@
         "INBOX_NAME": "受信トレイ名",
         "ADD_NAME": "受信トレイに名前をつける",
         "PICK_NAME": "受信トレイの名前を選択",
-        "PICK_A_VALUE": "値を選択"
+        "PICK_A_VALUE": "値を選択",
+        "CREATE_INBOX": "受信トレイを作成"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again"
       },
       "TWITTER": {
         "HELP": "Twitterプロフィールをチャンネルとして追加するには、「Twitterでサインイン」をクリックしてTwitterプロフィールを認証する必要があります。",
@@ -753,7 +760,8 @@
       "EMAIL": "Eメール",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "APIチャンネル"
+      "API": "APIチャンネル",
+      "INSTAGRAM": "Instagram"
     }
   }
 }
