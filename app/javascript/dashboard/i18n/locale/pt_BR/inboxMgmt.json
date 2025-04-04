@@ -43,7 +43,14 @@
         "INBOX_NAME": "Nome da Caixa de Entrada",
         "ADD_NAME": "Adicione um nome para sua caixa de entrada",
         "PICK_NAME": "Escolha um nome para sua caixa de entrada",
-        "PICK_A_VALUE": "Escolha um valor"
+        "PICK_A_VALUE": "Escolha um valor",
+        "CREATE_INBOX": "Criar Caixa de Entrada"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continuar com o Instagram",
+        "HELP": "Para adicionar seu perfil do Instagram como um canal, você precisa autenticar seu perfil do Instagram clicando em 'Continuar com o Instagram' ",
+        "ERROR_MESSAGE": "Houve um erro ao conectar ao Instagram, por favor, tente novamente",
+        "ERROR_AUTH": "Houve um erro ao conectar ao Instagram, por favor, tente novamente"
       },
       "TWITTER": {
         "HELP": "Para adicionar seu perfil do Twitter como um canal, você precisa autenticar seu perfil do Twitter clicando em 'Entrar com o Twitter' ",
@@ -753,7 +760,8 @@
       "EMAIL": "e-mail",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "Canal da API"
+      "API": "Canal da API",
+      "INSTAGRAM": "Instagram"
     }
   }
 }
