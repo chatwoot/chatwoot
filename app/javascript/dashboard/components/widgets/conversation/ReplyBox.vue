@@ -1195,6 +1195,7 @@ export default {
       :mode="replyType"
       :on-file-upload="onFileUpload"
       :on-send="onSendReply"
+      :conversation-type="conversationType"
       :recording-audio-duration-text="recordingAudioDurationText"
       :recording-audio-state="recordingAudioState"
       :send-button-text="replyButtonLabel"
