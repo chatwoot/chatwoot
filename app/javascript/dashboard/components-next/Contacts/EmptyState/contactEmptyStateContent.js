@@ -18,8 +18,8 @@ export default [
     availabilityStatus: 'offline',
     email: 'cande@buzzcrm.ai',
     id: 22,
-    name: 'Candice Matherson',
-    phoneNumber: '+14155552671',
+    name: 'Cande',
+    phoneNumber: '+55552671',
     identifier: null,
     thumbnail: '',
     customAttributes: {
@@ -35,11 +35,11 @@ export default [
   },
   {
     additionalAttributes: {
-      city: 'San Francisco',
-      country: 'United States',
+      city: 'Montevideo',
+      country: 'Uruguay',
       description: 'Passionate about design and user experience.',
       companyName: 'Designify',
-      countryCode: 'US',
+      countryCode: 'UY',
       socialProfiles: {
         github: 'ophelia-folkard',
         twitter: 'oph_designs',
