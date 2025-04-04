@@ -173,6 +173,32 @@ describe Whatsapp::IncomingMessageBaileysService do
         end
       end
 
+      context 'when message is not from a user' do
+        let(:raw_message) do
+          {
+            key: { id: 'msg_123', remoteJid: 'status@broadcast', participant: '5511912345678@s.whatsapp.net', fromMe: false },
+            message: { extendedTextMessage: { text: 'message' } },
+            pushName: 'John Doe'
+          }
+        end
+        let(:params) do
+          {
+            webhookVerifyToken: webhook_verify_token,
+            event: 'messages.upsert',
+            data: {
+              type: 'notify',
+              messages: [raw_message]
+            }
+          }
+        end
+
+        it 'does not create a conversation' do
+          described_class.new(inbox: inbox, params: params).perform
+
+          expect(inbox.conversations).to be_empty
+        end
+      end
+
       context 'when message type is text' do
         let(:raw_message) do
           {
@@ -206,8 +232,9 @@ describe Whatsapp::IncomingMessageBaileysService do
           end
 
           it 'creates an outgoing message' do
+            number = '5511912345678'
             raw_message_outgoing = raw_message.merge(
-              key: { id: 'msg_123', remoteJid: '5511912345678@s.whatsapp.net', fromMe: true }
+              key: { id: 'msg_123', remoteJid: "#{number}@s.whatsapp.net", fromMe: true }
             )
             params_outgoing = params.merge(data: { type: 'notify', messages: [raw_message_outgoing] })
             create(:account_user, account: inbox.account)
@@ -219,6 +246,15 @@ describe Whatsapp::IncomingMessageBaileysService do
             expect(message).to be_present
             expect(message.content).to eq('Hello from Baileys')
             expect(message.message_type).to eq('outgoing')
+            expect(conversation.contact.name).to eq("+#{number}")
+          end
+
+          it 'updates the contact name if the current name is a phone number when a incoming message is received' do
+            create(:contact, account: inbox.account, name: '+5511912345678', phone_number: '+5511912345678')
+            described_class.new(inbox: inbox, params: params).perform
+
+            conversation = inbox.conversations.last
+            expect(conversation.contact.name).to eq('John Doe')
           end
 
           it 'creates a message on an existing conversation' do
@@ -265,7 +301,7 @@ describe Whatsapp::IncomingMessageBaileysService do
           let(:raw_message) do
             {
               key: { id: 'msg_123', remoteJid: '5511912345678@s.whatsapp.net', fromMe: false },
-              message: { 'extendedTextMessage': { text: 'Hello from Baileys' } },
+              message: { extendedTextMessage: { text: 'Hello from Baileys' } },
               pushName: 'John Doe'
             }
           end

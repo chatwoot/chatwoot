@@ -46,6 +46,7 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
   end
 
   def handle_message
+    return if jid_type != 'user'
     return if find_message_by_source_id(message_id) || message_under_process?
 
     cache_message_source_id_in_redis
@@ -62,16 +63,23 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
   end
 
   def set_contact
-    phone_number_from_jid = @raw_message[:key][:remoteJid].split('@').first.split(':').first
-
+    # NOTE: jid shape is `<user>_<agent>:<device>@<server>`
+    # https://github.com/WhiskeySockets/Baileys/blob/v6.7.16/src/WABinary/jid-utils.ts#L19
+    phone_number_from_jid = @raw_message[:key][:remoteJid].split('@').first.split(':').first.split('_').first
+    phone_number_formatted = "+#{phone_number_from_jid}"
+    # NOTE: We're assuming `pushName` will always be present when `fromMe: false`.
+    # This assumption might be incorrect, so let's keep an eye out for contacts being created with empty name.
+    push_name = @raw_message[:key][:fromMe] ? phone_number_formatted : @raw_message[:pushName].to_s
     contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: phone_number_from_jid,
       inbox: inbox,
-      contact_attributes: { name: @raw_message[:pushName], phone_number: "+#{phone_number_from_jid}" }
+      contact_attributes: { name: push_name, phone_number: phone_number_formatted }
     ).perform
 
     @contact_inbox = contact_inbox
     @contact = contact_inbox.contact
+
+    @contact.update!(name: push_name) if @contact.name == phone_number_formatted && !@raw_message[:key][:fromMe]
   end
 
   def handle_create_message
@@ -83,9 +91,34 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     end
   end
 
+  def jid_type # rubocop:disable Metrics/CyclomaticComplexity
+    jid = @raw_message[:key][:remoteJid]
+    server = jid.split('@').last
+
+    # NOTE: Based on Baileys internal functions
+    # https://github.com/WhiskeySockets/Baileys/blob/v6.7.16/src/WABinary/jid-utils.ts#L48-L58
+    case server
+    when 's.whatsapp.net', 'c.us'
+      'user'
+    when 'g.us'
+      'group'
+    when 'lid'
+      'lid'
+    when 'broadcast'
+      jid.start_with?('status@') ? 'status' : 'broadcast'
+    when 'newsletter'
+      'newsletter'
+    when 'call'
+      'call'
+    else
+      'unknown'
+    end
+  end
+
   def message_type # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
     msg = @raw_message[:message]
-    return 'text' if msg.key?(:conversation) || msg.dig(:extendedTextMessage, :text)
+
+    return 'text' if msg.key?(:conversation) || msg.dig(:extendedTextMessage, :text).present?
     return 'contacts' if msg.key?(:contactMessage)
     return 'image' if msg.key?(:imageMessage)
     return 'audio' if msg.key?(:audioMessage)
