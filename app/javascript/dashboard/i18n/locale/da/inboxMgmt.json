@@ -43,7 +43,14 @@
         "INBOX_NAME": "Indbakke Navn",
         "ADD_NAME": "Tilføj et navn til din indbakke",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Vælg en værdi"
+        "PICK_A_VALUE": "Vælg en værdi",
+        "CREATE_INBOX": "Opret Indbakke"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again"
       },
       "TWITTER": {
         "HELP": "For at tilføje din Twitter-profil som en kanal, skal du godkende din Twitter-profil ved at klikke på 'Log ind med Twitter' ",
@@ -753,7 +760,8 @@
       "EMAIL": "E-mail",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API Kanal"
+      "API": "API Kanal",
+      "INSTAGRAM": "Instagram"
     }
   }
 }
