@@ -48,10 +48,12 @@
       :message="message"
     />
     <tags
-      v-if="shouldShowQuickReply"
       class="mt-2"
       :tags="messageContentAttributes.items"
       :message-id="messageId"
+      :previous-selected-replies="
+        messageContentAttributes.previous_selected_replies || []
+      "
     />
     <div v-if="isOptions">
       <chat-options

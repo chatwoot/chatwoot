@@ -13,16 +13,19 @@ const sendMessageAPI = async (
   phoneNumber = null,
   orderId = null,
   isPrivate = false,
-  productId = null
+  productId = null,
+  previousSelectedReplies = []
 ) => {
   const urlData = endPoints.sendMessage(
     content,
     replyTo,
     selectedReply,
     phoneNumber,
+    previousSelectedReplies,
     orderId,
     isPrivate,
-    productId
+    productId,
+    previousSelectedReplies
   );
   return API.post(urlData.url, urlData.params);
 };

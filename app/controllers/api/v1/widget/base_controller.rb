@@ -85,6 +85,7 @@ class Api::V1::Widget::BaseController < ApplicationController
       content_attributes: {
         in_reply_to: permitted_params[:message][:reply_to],
         selected_reply: permitted_params[:message][:selected_reply],
+        previous_selected_replies: permitted_params[:message][:previous_selected_replies],
         phone_number: permitted_params[:message][:phone_number],
         order_id: permitted_params[:message][:order_id],
         product_id: permitted_params[:message][:product_id]

@@ -10,6 +10,7 @@ export default {
     orderId,
     selectedReply,
     productId,
+    previousSelectedReplies,
   }) => {
     const urlData = authEndPoint.updateMessage(messageId);
     return API.patch(urlData.url, {
@@ -18,6 +19,7 @@ export default {
         submitted_values: values,
         user_phone_number: phone,
         selected_reply: selectedReply,
+        previous_selected_replies: previousSelectedReplies,
         user_order_id: orderId,
         product_id: productId,
       },

@@ -84,10 +84,11 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     # rubocop:disable Layout/LineLength
     params.permit(message: [
                     { submitted_values: [:name, :title, :value, { csat_survey_response: [:feedback_message, :rating] }, :user_phone_number, :user_order_id,
-                                         :selected_reply, :product_id] },
+                                         :selected_reply, :previous_selected_replies, :product_id] },
                     :user_phone_number,
                     :user_order_id,
                     :selected_reply,
+                    { previous_selected_replies: [] },
                     :product_id
                   ])
     # rubocop:enable Layout/LineLength
@@ -98,7 +99,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     # timestamp parameter is used in create conversation method
 
     params.permit(:id, :before, :after, :website_token, contact: [:name, :email],
-                                                        message: [:content, :referer_url, :timestamp, :echo_id, :reply_to, :selected_reply, :phone_number, :order_id, :product_id, :private])
+                                                        message: [:content, :referer_url, :timestamp, :echo_id, :reply_to, :selected_reply, :previous_selected_replies, :phone_number, :order_id, :product_id, :private])
   end
 
   # rubocop:enable Layout/LineLength

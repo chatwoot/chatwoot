@@ -21,6 +21,7 @@ export const actions = {
       orderId,
       selectedReply,
       productId,
+      previousSelectedReplies,
     }
   ) => {
     if (uiFlags.isUpdating) {
@@ -36,6 +37,7 @@ export const actions = {
         orderId,
         selectedReply,
         productId,
+        previousSelectedReplies,
       });
       commit(
         'conversation/updateMessage',
@@ -46,6 +48,7 @@ export const actions = {
             submitted_values: email ? null : submittedValues,
             user_phone_number: phone,
             selected_reply: selectedReply,
+            previous_selected_replies: previousSelectedReplies,
             user_order_id: orderId,
             product_id: productId,
           },

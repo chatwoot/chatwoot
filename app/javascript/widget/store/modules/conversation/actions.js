@@ -35,6 +35,7 @@ export const actions = {
       content,
       replyTo,
       selectedReply,
+      previousSelectedReplies,
       phoneNumber,
       orderId,
       isPrivate = false,
@@ -44,6 +45,7 @@ export const actions = {
       content,
       replyTo,
       selectedReply,
+      previousSelectedReplies,
       phoneNumber,
       orderId,
       isPrivate,
@@ -62,6 +64,7 @@ export const actions = {
       orderId,
       isPrivate,
       productId,
+      previousSelectedReplies,
     } = message;
     commit('pushMessageToConversation', message);
     commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
@@ -73,7 +76,8 @@ export const actions = {
         phoneNumber,
         orderId,
         isPrivate,
-        productId
+        productId,
+        previousSelectedReplies
       );
 
       commit('deleteMessage', message.id);

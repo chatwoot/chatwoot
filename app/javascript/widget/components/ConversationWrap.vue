@@ -134,20 +134,20 @@ export default {
       this.previousScrollHeight = 0;
     },
     fetchCartData() {
-    fetch(`https://mechdrift.myshopify.com/cart.js`)
-      .then((res) => res.json())
-      .then((newCart) => {
-        const cartItems = newCart.items;
-        const convertedCartItems = cartItems.map(item => ({
-          id: item.id,
-          quantity: item.quantity,
-          price: item.price,
-          currency: newCart.currency,
-        }));
-        this.selectedProducts = convertedCartItems;
-        console.log(convertedCartItems, 'new cart value here....');
-      }).catch(() => {})
-  },
+      fetch(`https://mechdrift.myshopify.com/cart.js`)
+        .then(res => res.json())
+        .then(newCart => {
+          const cartItems = newCart.items;
+          const convertedCartItems = cartItems.map(item => ({
+            id: item.id,
+            quantity: item.quantity,
+            price: item.price,
+            currency: newCart.currency,
+          }));
+          this.selectedProducts = convertedCartItems;
+        })
+        .catch(() => {});
+    },
     openCheckoutPage(selectedProducts) {
       const shopUrl = selectedProducts[0].shopUrl;
       const lineItems = selectedProducts.map(product => ({

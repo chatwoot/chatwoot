@@ -11,6 +11,7 @@ export const createTemporaryMessage = ({
   orderId,
   isPrivate,
   productId,
+  previousSelectedReplies,
 }) => {
   const timestamp = new Date().getTime() / 1000;
   return {
@@ -26,6 +27,7 @@ export const createTemporaryMessage = ({
     orderId,
     isPrivate,
     productId,
+    previousSelectedReplies,
   };
 };
 

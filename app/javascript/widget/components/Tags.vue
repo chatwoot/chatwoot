@@ -3,8 +3,9 @@
     <button
       v-for="(tag, index) in tags"
       :key="index"
-      :disabled="selectedTag === tag.id"
+      :disabled="previousSelectedReplies.includes(tag.id)"
       class="tag-button"
+      :class="{ 'selected-tag': previousSelectedReplies.includes(tag.id) }"
       @click="handleTagClick(tag)"
     >
       {{ tag.text }}
@@ -26,8 +27,8 @@ export default {
       type: Number,
       required: true,
     },
-    selectedTag: {
-      type: String,
+    previousSelectedReplies: {
+      type: Array,
       required: true,
     },
   },
@@ -44,11 +45,13 @@ export default {
         await this.$store.dispatch('message/update', {
           messageId: this.messageId,
           selectedReply: tag.id,
+          previousSelectedReplies: [...this.previousSelectedReplies, tag.id],
         });
         await this.sendMessage({
           content: tag.text,
           selectedReply: tag.id,
           replyTo: this.messageId,
+          previousSelectedReplies: [...this.previousSelectedReplies, tag.id],
         });
       } catch (error) {
         // Ignore error
