@@ -43,7 +43,14 @@
         "INBOX_NAME": "Inkorgsnamn",
         "ADD_NAME": "Lägg till ett namn för din inkorg",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Välj ett värde"
+        "PICK_A_VALUE": "Välj ett värde",
+        "CREATE_INBOX": "Skapa inkorg"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again"
       },
       "TWITTER": {
         "HELP": "För att lägga till din Twitter-profil som en kanal måste du autentisera din Twitter-profil genom att klicka på \"Logga in med Twitter\" ",
@@ -753,7 +760,8 @@
       "EMAIL": "E-post",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API-kanal"
+      "API": "API-kanal",
+      "INSTAGRAM": "Instagram"
     }
   }
 }
