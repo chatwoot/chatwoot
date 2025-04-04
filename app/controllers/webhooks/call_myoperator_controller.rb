@@ -2,7 +2,6 @@ require 'json'
 require 'httparty'
 
 class Webhooks::CallMyoperatorController < ActionController::API
-  include CallIvrsolutionsHelper
   include CallMyoperatorHelper
 
   def handle_call_callback
@@ -37,7 +36,7 @@ class Webhooks::CallMyoperatorController < ActionController::API
   def handle_incoming_callback(conversation, parsed_body, account) # rubocop:disable Metrics/AbcSize
     mark_conversation_as_inbound_call(conversation)
 
-    agent_phone = parsed_body['attended_by']
+    agent_phone = parsed_body['agent_number']
 
     if agent_phone.blank?
       render json: { error: 'Agent phone number not found' }, status: :bad_request
@@ -48,11 +47,11 @@ class Webhooks::CallMyoperatorController < ActionController::API
 
     conversation.update!(assignee: agent)
 
-    total_call_duration = parsed_body['call_duration'].to_i
+    total_call_duration = convert_duration_to_seconds(parsed_body['call_duration'])
 
-    start_time = Time.parse(parsed_body['call_time']).in_time_zone('Asia/Kolkata').utc
+    start_time = Time.at(parsed_body['call_start'].to_i).in_time_zone('Asia/Kolkata').utc
 
-    handled_call_duration = parsed_body['call_duration'].to_i
+    handled_call_duration = convert_duration_to_seconds(parsed_body['call_duration'])
 
     add_handling_time_reporting_event(conversation, handled_call_duration, start_time) if handled_call_duration.positive?
 
@@ -60,7 +59,7 @@ class Webhooks::CallMyoperatorController < ActionController::API
 
     add_waiting_time_reporting_event(conversation, wait_time, start_time) if wait_time.positive?
 
-    call_log_message = get_inbound_call_log_string(parsed_body)
+    call_log_message = get_call_log_string_my_operator(parsed_body)
 
     conversation.messages.create!(private_message_params(call_log_message, conversation, parsed_body))
 

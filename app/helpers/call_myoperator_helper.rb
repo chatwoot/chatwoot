@@ -61,6 +61,8 @@ module CallMyoperatorHelper # rubocop:disable Metrics/ModuleLength
       'completed'
     when 'missed'
       'busy'
+    else
+      'failed'
     end
   end
 
@@ -70,6 +72,8 @@ module CallMyoperatorHelper # rubocop:disable Metrics/ModuleLength
       'completed'
     when 'missed'
       'no-answer'
+    else
+      'failed'
     end
   end
 
@@ -110,13 +114,11 @@ module CallMyoperatorHelper # rubocop:disable Metrics/ModuleLength
   end
 
   def build_timing_data(parsed_body)
-    data = {
+    {
       callInitiatedAt: Time.at(parsed_body['call_start'].to_i).in_time_zone,
       callCompletedAt: Time.at(parsed_body['call_end'].to_i).in_time_zone,
       onCallDuration: convert_duration_to_seconds(parsed_body['call_duration'] || 0)
     }
-    Rails.logger.info("timingData, #{data}")
-    data
   end
 
   def build_recording_data(parsed_body)
