@@ -43,7 +43,14 @@
         "INBOX_NAME": "Nom de la safata d'entrada",
         "ADD_NAME": "Afegeix un nom per a la safata d'entrada",
         "PICK_NAME": "Tria un nom per a la teva safata d'entrada",
-        "PICK_A_VALUE": "Tria un valor"
+        "PICK_A_VALUE": "Tria un valor",
+        "CREATE_INBOX": "Crear safata d'entrada"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again"
       },
       "TWITTER": {
         "HELP": "Per afegir el teu perfil de Twitter com a canal, has d'autentificar el vostre perfil de Twitter fent clic a 'Inicieu la sessió amb Twitter' ",
@@ -753,7 +760,8 @@
       "EMAIL": "Correu electrònic",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "Canal de l'API"
+      "API": "Canal de l'API",
+      "INSTAGRAM": "Instagram"
     }
   }
 }
