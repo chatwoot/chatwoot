@@ -1,9 +1,9 @@
 {
   "SLA": {
-    "HEADER": "Termos do Serviço",
+    "HEADER": "Acordo de Nível de Serviço",
     "ADD_ACTION": "Adicionar SLA",
     "ADD_ACTION_LONG": "Criar uma nova Política de SLA",
-    "DESCRIPTION": "Contratos de Nível de Serviço são contratos que definem expectativas claras entre sua equipe e os clientes. Estabelecem normas para tempos de resposta e de resolução, criando um quadro de responsabilização e garantindo uma experiência coerente e de qualidade.",
+    "DESCRIPTION": "Acordo de Nível de Serviço (SLAs em inglês) são acordos que definem expectativas claras entre sua equipe e os clientes. Estabelecem normas para tempos de resposta e de resolução, criando um quadro de responsabilização e garantindo uma experiência coerente e de qualidade.",
     "LEARN_MORE": "Saiba mais sobre SLA",
     "LOADING": "Buscando SLAs",
     "PAYWALL": {
@@ -15,7 +15,7 @@
     },
     "ENTERPRISE_PAYWALL": {
       "AVAILABLE_ON": "O recurso SLA está disponível apenas nos planos pagos.",
-      "UPGRADE_PROMPT": "Atualize para um plano pago para acessar recursos avançados como registros de auditoria, capacidade do agente e muito mais.",
+      "UPGRADE_PROMPT": "Atualize para um plano pago para acessar recursos avançados como logs de auditoria, capacidade do agente e muito mais.",
       "ASK_ADMIN": "Entre em contato com seu administrador para fazer a atualização."
     },
     "LIST": {
@@ -52,20 +52,20 @@
         "PLACEHOLDER": ""
       },
       "FIRST_RESPONSE_TIME": {
-        "LABEL": "Tempo da Primeira Resposta",
+        "LABEL": "Tempo de Primeira Resposta",
         "PLACEHOLDER": "5"
       },
       "NEXT_RESPONSE_TIME": {
-        "LABEL": "Próximo tempo de resposta",
+        "LABEL": "Próximo Tempo de Resposta",
         "PLACEHOLDER": "5"
       },
       "RESOLUTION_TIME": {
-        "LABEL": "Tempo de resolução",
+        "LABEL": "Tempo de Resolução",
         "PLACEHOLDER": "60"
       },
       "BUSINESS_HOURS": {
         "LABEL": "Horário de funcionamento",
-        "PLACEHOLDER": ""
+        "PLACEHOLDER": "Apenas durante o horário comercial"
       },
       "THRESHOLD_TIME": {
         "INVALID_FORMAT_ERROR": "O limite deve ser um número e maior que zero"

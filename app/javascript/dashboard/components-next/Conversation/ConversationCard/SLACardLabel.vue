@@ -31,13 +31,17 @@ const convertObjectCamelCaseToSnakeCase = object => {
 const appliedSLA = computed(() => props.conversation?.appliedSla);
 const isSlaMissed = computed(() => slaStatus.value?.isSlaMissed);
 
+const hasSlaThreshold = computed(() => {
+  return slaStatus.value?.threshold && appliedSLA.value?.id;
+});
+
 const slaStatusText = computed(() => {
   return slaStatus.value?.type?.toUpperCase();
 });
 
 const updateSlaStatus = () => {
   slaStatus.value = evaluateSLAStatus({
-    appliedSla: convertObjectCamelCaseToSnakeCase(appliedSLA.value),
+    appliedSla: convertObjectCamelCaseToSnakeCase(appliedSLA.value || {}),
     chat: props.conversation,
   });
 };
@@ -61,6 +65,21 @@ onUnmounted(() => {
 });
 
 watch(() => props.conversation, updateSlaStatus);
+
+// This expose is to provide context to the parent component, so that it can decided weather
+// a new row has to be added to the conversation card or not
+// SLACardLabel > CardMessagePreviewWithMeta > ConversationCard
+//
+// We need to do this becuase each SLA card has it's own SLA timer
+// and it's just convenient to have this logic in the SLACardLabel component
+// However this is a bit hacky, and we should change this in the future
+//
+// TODO: A better implementation would be to have the timer as a shared composable, just like the provider pattern
+// we use across the next components. Have the calculation be done on the top ConversationCard component
+// and then the value be injected to the SLACardLabel component
+defineExpose({
+  hasSlaThreshold,
+});
 </script>
 
 <template>

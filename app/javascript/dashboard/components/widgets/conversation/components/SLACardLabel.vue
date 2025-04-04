@@ -47,9 +47,7 @@ export default {
       return this.slaStatus?.isSlaMissed;
     },
     slaTextStyles() {
-      return this.isSlaMissed
-        ? 'text-red-400 dark:text-red-300'
-        : 'text-yellow-600 dark:text-yellow-500';
+      return this.isSlaMissed ? 'text-n-ruby-11' : 'text-n-amber-11';
     },
     slaStatusText() {
       const upperCaseType = this.slaStatus?.type?.toUpperCase(); // FRT, NRT, or RT
@@ -107,8 +105,12 @@ export default {
 <template>
   <div
     v-if="hasSlaThreshold"
-    class="relative flex items-center border cursor-pointer min-w-fit border-slate-100 dark:border-slate-700"
-    :class="showExtendedInfo ? 'h-[26px] rounded-lg' : 'rounded h-5'"
+    class="relative flex items-center cursor-pointer min-w-fit"
+    :class="
+      showExtendedInfo
+        ? 'h-[26px] rounded-lg bg-n-alpha-1'
+        : 'rounded h-5  border border-n-strong'
+    "
   >
     <div
       v-on-clickaway="closeSlaPopover"
@@ -120,7 +122,7 @@ export default {
         class="flex items-center gap-1"
         :class="
           showExtendedInfo &&
-          'ltr:pr-1.5 rtl:pl-1.5 ltr:border-r rtl:border-l border-solid border-slate-100 dark:border-slate-700'
+          'ltr:pr-1.5 rtl:pl-1.5 ltr:border-r rtl:border-l border-n-strong'
         "
       >
         <fluent-icon

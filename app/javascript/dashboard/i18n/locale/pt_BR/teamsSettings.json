@@ -1,10 +1,10 @@
 {
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Criar nova equipe",
-    "HEADER": "Times",
-    "LOADING": "Fetching teams",
-    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
-    "LEARN_MORE": "Learn more about teams",
+    "HEADER": "Equipes",
+    "LOADING": "Buscando equipes",
+    "DESCRIPTION": "As equipes permitem que você organize agentes em grupos com base em suas responsabilidades. Um agente pode pertencer a várias equipes. Ao trabalhar de forma colaborativa, você pode atribuir conversas a equipes específicas.",
+    "LEARN_MORE": "Saiba mais sobre equipes",
     "LIST": {
       "404": "Não existem agentes associados a esta conta.",
       "EDIT_TEAM": "Editar equipe",
@@ -16,27 +16,22 @@
         "DESC": "Adicione um título e uma descrição à sua nova equipe."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Adicionar agente ao seu time",
-        "TITLE": "Adicionar agentes a equipe:  {teamName}",
+        "BUTTON_TEXT": "Adicionar agente à sua equipe",
+        "TITLE": "Adicionar agentes a equipe: {teamName}",
         "DESC": "Adicione agentes à sua equipe recém-criada. Isso permite que você colabore como uma equipe em conversas, seja notificado sobre novos eventos na mesma conversa."
       },
-      "WIZARD": [
-        {
-          "title": "Criar",
-          "route": "Novo",
-          "body": "Criar uma nova equipe de agentes."
-        },
-        {
-          "title": "Adicionar Agentes",
-          "route": "ajustes_equipes_adicionar_agentes",
-          "body": "Adicionar agentes a equipe."
-        },
-        {
-          "title": "Finalizar",
-          "route": "ajustes_equipes_finalizar",
-          "body": "Está tudo pronto para começar!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "Criar",
+        "BODY": "Criar uma nova equipe de agentes."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Adicionar Agentes",
+        "BODY": "Adicionar agentes a equipe."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Finalizar",
+        "BODY": "Está tudo pronto para começar!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -45,30 +40,28 @@
         "BUTTON_TEXT": "Atualizar equipe"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Atualizar agentes no departamento",
+        "BUTTON_TEXT": "Atualizar agentes na equipe",
         "TITLE": "Adicionar agentes a equipe: {teamName}",
         "DESC": "Adicionar agentes à sua equipe recém-criada. Todos os agentes adicionados serão notificados quando uma conversa for atribuída a esta equipe."
       },
-      "WIZARD": [
-        {
-          "title": "Detalhes do departamento",
-          "route": "ajustes_equipes_editar",
-          "body": "Alterar nome, descrição e outros detalhes."
-        },
-        {
-          "title": "Editar agente",
-          "route": "ajustes_equipes_editar_membros",
-          "body": "Gerenciar agentes de seu departamento"
-        },
-        {
-          "title": "Finalizar",
-          "route": "ajustes_equipes_editar_finalizar",
-          "body": "Está tudo pronto para começar!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Detalhes da equipe",
+        "ROUTE": "ajustes_equipes_editar",
+        "BODY": "Alterar nome, descrição e outros detalhes."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Alterar agentes",
+        "ROUTE": "ajustes_equipes_editar_membros",
+        "BODY": "Gerenciar agentes da sua equipe"
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Finalizar",
+        "ROUTE": "ajustes_equipes_editar_finalizar",
+        "BODY": "Está tudo pronto para começar!"
+      }
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Não foi possível salvar os detalhes do departamento. Tente novamente."
+      "ERROR_MESSAGE": "Não foi possível salvar os detalhes da equipe. Tente novamente."
     },
     "AGENTS": {
       "AGENT": "AGENTE",
@@ -80,7 +73,7 @@
       "SELECTED_COUNT": "{selected} de {total} agentes selecionados."
     },
     "ADD": {
-      "TITLE": "Adicionar agentes a equipe:  {teamName}",
+      "TITLE": "Adicionar agentes a equipe: {teamName}",
       "DESC": "Adicione agentes à sua equipe recém-criada. Isso permite que você colabore como uma equipe em conversas, seja notificado sobre novos eventos na mesma conversa.",
       "SELECT": "Selecionar",
       "SELECT_ALL": "Selecionar todos os agentes",
@@ -90,39 +83,39 @@
     },
     "FINISH": {
       "TITLE": "Sua caixa de entrada está pronta!",
-      "MESSAGE": "Agora você pode colaborar como equipe em conversas.",
+      "MESSAGE": "Agora você pode colaborar como equipe em conversas",
       "BUTTON_TEXT": "Finalizar"
     },
     "DELETE": {
       "BUTTON_TEXT": "Excluir",
       "API": {
         "SUCCESS_MESSAGE": "Agente excluído com sucesso.",
-        "ERROR_MESSAGE": "Não foi possível excluir o departamento. Tente novamente."
+        "ERROR_MESSAGE": "Não foi possível excluir a equipe. Tente novamente."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure you want to delete the team?",
+        "TITLE": "Tem certeza de que deseja excluir a equipe?",
         "PLACE_HOLDER": "Digite {teamName} para confirmar",
         "MESSAGE": "A exclusão do departamento irá remover a atribuição da equipe das conversas atribuídas a esse departamento.",
         "YES": "Excluir ",
         "NO": "Cancelar"
       }
     },
-    "SETTINGS": "Confirgurações",
+    "SETTINGS": "Configurações",
     "FORM": {
       "UPDATE": "Atualizar equipe",
-      "CREATE": "Criar novo departamento",
+      "CREATE": "Criar nova equipe",
       "NAME": {
-        "LABEL": "Nome do departamento",
+        "LABEL": "Nome da equipe",
         "PLACEHOLDER": "Exemplo: Vendas, Suporte ao Cliente"
       },
       "DESCRIPTION": {
-        "LABEL": "Descrição do departamento",
-        "PLACEHOLDER": "Breve descrição sobre este departamento."
+        "LABEL": "Descrição da equipe",
+        "PLACEHOLDER": "Breve descrição sobre esta equipe."
       },
       "AUTO_ASSIGN": {
         "LABEL": "Permitir atribuição automática para este departamento."
       },
-      "SUBMIT_CREATE": "Criar novo departamento"
+      "SUBMIT_CREATE": "Criar nova equipe"
     }
   }
 }

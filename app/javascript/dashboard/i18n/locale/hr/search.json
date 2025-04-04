@@ -11,7 +11,10 @@
       "CONVERSATIONS": "Razgovori",
       "MESSAGES": "Poruke"
     },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
     "SEARCHING_DATA": "Tražim",
+    "LOADING_DATA": "Loading",
     "EMPTY_STATE": "Pronađeno {item} za traženi pojam '{query}'",
     "EMPTY_STATE_FULL": "Ništa nije pronađeno za traženi pojam '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ za fokusiranje",
@@ -21,6 +24,7 @@
     "READ_MORE": "Pročitaj više",
     "WROTE": "napisao/la:",
     "FROM": "od",
-    "EMAIL": "email"
+    "EMAIL": "email",
+    "EMAIL_SUBJECT": "subject"
   }
 }

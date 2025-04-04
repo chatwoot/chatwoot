@@ -49,8 +49,11 @@ const onCreate = async () => {
 
   try {
     await store.dispatch('portals/update', {
-      portalSlug: props.portal.slug,
-      config: { allowed_locales: updatedLocales },
+      portalSlug: props.portal?.slug,
+      config: {
+        allowed_locales: updatedLocales,
+        default_locale: props.portal?.meta?.default_locale,
+      },
     });
 
     useTrack(PORTALS_EVENTS.CREATE_LOCALE, {
@@ -92,7 +95,7 @@ defineExpose({ dialogRef });
         :placeholder="
           t('HELP_CENTER.LOCALES_PAGE.ADD_LOCALE_DIALOG.COMBOBOX.PLACEHOLDER')
         "
-        class="[&>div>button]:!border-n-slate-5 [&>div>button]:dark:!border-n-slate-5"
+        class="[&>div>button:not(.focused)]:!outline-n-slate-5 [&>div>button:not(.focused)]:dark:!outline-n-slate-5"
       />
     </div>
   </Dialog>

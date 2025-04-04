@@ -25,12 +25,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nazwa",
-        "Utworzone przez",
-        "Ostatnio zaktualizowane przez",
-        "Widoczność"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Imię",
+        "CREATED BY": "Utworzone przez",
+        "LAST_UPDATED_BY": "Ostatnio zaktualizowane przez",
+        "VISIBILITY": "Widoczność"
+      },
       "404": "Nie znaleziono makr"
     },
     "DELETE": {

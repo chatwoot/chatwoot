@@ -8,28 +8,24 @@
     "LIST": {
       "404": "Bu hesaba bağlı gelen kutusu yok."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Kanal Seçin",
-        "route": "settings_inbox_new",
-        "body": "Chatwoot ile entegre etmek istediğiniz sağlayıcıyı seçin."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Kanal Seçin",
+        "BODY": "Chatwoot ile entegre etmek istediğiniz sağlayıcıyı seçin."
       },
-      {
-        "title": "Gelen Kutusu Oluştur",
-        "route": "settings_inboxes_page_channel",
-        "body": "Hesabınızın kimliğini doğrulayın ve bir gelen kutusu oluşturun."
+      "INBOX": {
+        "TITLE": "Gelen Kutusu Oluştur",
+        "BODY": "Hesabınızın kimliğini doğrulayın ve bir gelen kutusu oluşturun."
       },
-      {
-        "title": "Kullanıcı Ekle",
-        "route": "settings_inboxes_add_agents",
-        "body": "Temsilcileri oluşturulan gelen kutusuna ekleyin."
+      "AGENT": {
+        "TITLE": "Kullanıcı Ekle",
+        "BODY": "Temsilcileri oluşturulan gelen kutusuna ekleyin."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "Hepiniz gitmeye hazırsınız!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Hepiniz gitmeye hazırsınız!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Gelen Kutusu Adı",

@@ -35,10 +35,16 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
     @allowed_configs = case @config
                        when 'facebook'
                          %w[FB_APP_ID FB_VERIFY_TOKEN FB_APP_SECRET IG_VERIFY_TOKEN FACEBOOK_API_VERSION ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT]
+                       when 'shopify'
+                         %w[SHOPIFY_CLIENT_ID SHOPIFY_CLIENT_SECRET]
                        when 'microsoft'
                          %w[AZURE_APP_ID AZURE_APP_SECRET]
                        when 'email'
                          ['MAILER_INBOUND_EMAIL_DOMAIN']
+                       when 'linear'
+                         %w[LINEAR_CLIENT_ID LINEAR_CLIENT_SECRET]
+                       when 'instagram'
+                         %w[INSTAGRAM_APP_ID INSTAGRAM_APP_SECRET INSTAGRAM_VERIFY_TOKEN INSTAGRAM_API_VERSION ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT]
                        else
                          %w[ENABLE_ACCOUNT_SIGNUP FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS]
                        end

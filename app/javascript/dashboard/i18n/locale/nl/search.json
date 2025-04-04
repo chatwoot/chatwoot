@@ -11,7 +11,10 @@
       "CONVERSATIONS": "Gesprekken",
       "MESSAGES": "Berichten"
     },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
     "SEARCHING_DATA": "Zoeken",
+    "LOADING_DATA": "Loading",
     "EMPTY_STATE": "Geen {item} gevonden voor query '{query}'",
     "EMPTY_STATE_FULL": "Geen resultaten gevonden voor query '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ om te focussen",
@@ -21,6 +24,7 @@
     "READ_MORE": "Meer lezen",
     "WROTE": "schreef:",
     "FROM": "van",
-    "EMAIL": "e-mailadres"
+    "EMAIL": "e-mailadres",
+    "EMAIL_SUBJECT": "onderwerp"
   }
 }

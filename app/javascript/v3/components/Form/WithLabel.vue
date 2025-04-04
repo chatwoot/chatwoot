@@ -50,7 +50,7 @@ export default {
       </div>
       <span
         v-if="errorMessage && hasError"
-        class="text-xs text-red-400 leading-2"
+        class="text-xs text-n-ruby-9 dark:text-n-ruby-9 leading-2"
       >
         {{ errorMessage }}
       </span>

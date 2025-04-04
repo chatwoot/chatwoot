@@ -11,14 +11,16 @@
     "NO_INBOX_1": "Hola! Parece que você não adicionou nenhuma caixa de entrada ainda.",
     "NO_INBOX_2": " para começar",
     "NO_INBOX_AGENT": "Uh Oh! Parece que você não faz parte de nenhuma caixa de entrada. Por favor, contate seu administrador",
-    "SEARCH_MESSAGES": "Procurar por mensagens nas conversas",
+    "SEARCH_MESSAGES": "Pesquisar por mensagens nas conversas",
+    "VIEW_ORIGINAL": "Ver original",
+    "VIEW_TRANSLATED": "Ver traduzido",
     "EMPTY_STATE": {
       "CMD_BAR": "para abrir o menu de comando",
       "KEYBOARD_SHORTCUTS": "para ver os atalhos de teclado"
     },
     "SEARCH": {
-      "TITLE": "Procurar mensagens",
-      "RESULT_TITLE": "Resultados da pesquisa",
+      "TITLE": "Pesquisar mensagens",
+      "RESULT_TITLE": "Resultados da Pesquisa",
       "LOADING_MESSAGE": "Preparando dados...",
       "PLACEHOLDER": "Digite qualquer texto para pesquisar mensagens",
       "NO_MATCHING_RESULTS": "Nenhum resultado encontrado."
@@ -35,24 +37,32 @@
     "TWILIO_WHATSAPP_CAN_REPLY": "Você só pode responder a esta conversa usando um modelo de mensagem devido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restrições de janela de mensagem de 24 horas",
     "REPLYING_TO": "Você está respondendo a:",
-    "REMOVE_SELECTION": "Remover Seleção",
+    "REMOVE_SELECTION": "Remover seleção",
     "DOWNLOAD": "Baixar",
-    "UNKNOWN_FILE_TYPE": "Arquivo Desconhecido",
-    "SAVE_CONTACT": "Salvar",
+    "UNKNOWN_FILE_TYPE": "Arquivo desconhecido",
+    "SAVE_CONTACT": "Salvar contato",
+    "NO_CONTENT": "Nenhum conteúdo a ser exibido",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} compartilhou um contato",
+      "LOCATION": "{sender} compartilhou uma localização",
+      "FILE": "{sender} compartilhou um arquivo",
+      "MEETING": "{sender} começou a reunião"
+    },
     "UPLOADING_ATTACHMENTS": "Enviando anexos...",
     "REPLIED_TO_STORY": "Respondido ao seu story",
-    "UNSUPPORTED_MESSAGE": "Esta mensagem não é suportada.",
+    "UNSUPPORTED_MESSAGE": "Esta mensagem não é suportada. Você pode ver esta mensagem no aplicativo Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Esta mensagem não é suportada. Você pode ver esta mensagem no aplicativo Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Esta mensagem não é suportada. Você pode ver esta mensagem no aplicativo do Instagram.",
     "SUCCESS_DELETE_MESSAGE": "Mensagem excluída com sucesso",
     "FAIL_DELETE_MESSSAGE": "Não foi possível excluir a mensagem! Tente novamente",
     "NO_RESPONSE": "Sem resposta",
+    "RESPONSE": "Resposta",
     "RATING_TITLE": "Classificação",
     "FEEDBACK_TITLE": "Feedback",
     "REPLY_MESSAGE_NOT_FOUND": "Mensagem não disponível",
     "CARD": {
-      "SHOW_LABELS": "Mostrar rótulos",
-      "HIDE_LABELS": "Ocultar os rótulos"
+      "SHOW_LABELS": "Mostrar etiquetas",
+      "HIDE_LABELS": "Ocultar as etiquetas"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
@@ -61,7 +71,7 @@
       "OPEN": "Mais",
       "CLOSE": "Fechar",
       "DETAILS": "detalhes",
-      "SNOOZED_UNTIL": "Suspender até",
+      "SNOOZED_UNTIL": "Adiar até",
       "SNOOZED_UNTIL_TOMORROW": "Adiado até amanhã",
       "SNOOZED_UNTIL_NEXT_WEEK": "Adiada até a próxima semana",
       "SNOOZED_UNTIL_NEXT_REPLY": "Adiado até a próxima resposta",
@@ -69,12 +79,12 @@
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
         "RT": "RT {status}",
-        "MISSED": "perdidos(as)",
-        "DUE": "devido"
+        "MISSED": "perdidas",
+        "DUE": "venceu"
       }
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Marcar como pendente",
+      "MARK_PENDING": "Deixar pendente",
       "SNOOZE_UNTIL": "Adiar",
       "SNOOZE": {
         "TITLE": "Suspender até",
@@ -84,7 +94,7 @@
       }
     },
     "CUSTOM_SNOOZE": {
-      "TITLE": "Suspender até",
+      "TITLE": "Adiar até",
       "APPLY": "Adiar",
       "CANCEL": "Cancelar"
     },
@@ -106,9 +116,10 @@
       }
     },
     "CARD_CONTEXT_MENU": {
-      "PENDING": "Marcar como pendente",
-      "RESOLVED": "Marcar como resolvido",
+      "PENDING": "Deixar pendente",
+      "RESOLVED": "Marcar como resolvida",
       "MARK_AS_UNREAD": "Marcar como não lida",
+      "MARK_AS_READ": "Marcar como lida",
       "REOPEN": "Reabrir conversa",
       "SNOOZE": {
         "TITLE": "Adiar",
@@ -126,7 +137,7 @@
           "FAILED": "Não foi possível atribuir agente. Por favor, tente novamente."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Etiqueta #{labelName} atribuída para o id de conversa {conversationId}",
+          "SUCCESFUL": "Etiqueta #{labelName} atribuída para a conversa {conversationId}",
           "FAILED": "Não foi possível atribuir etiqueta. Por favor, tente novamente."
         },
         "TEAM_ASSIGNMENT": {
@@ -139,7 +150,7 @@
       "MESSAGE_SIGN_TOOLTIP": "Assinatura de mensagem",
       "ENABLE_SIGN_TOOLTIP": "Ativar assinatura",
       "DISABLE_SIGN_TOOLTIP": "Desativar assinatura",
-      "MSG_INPUT": "Shift + enter para nova linha. Digite '/' para atalhos.",
+      "MSG_INPUT": "Shift + enter para nova linha. Digite '/' para selecionar uma Resposta Pronta.",
       "PRIVATE_MSG_INPUT": "A mensagem será visível apenas para agentes",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "A assinatura da mensagem não está configurada. Por favor, configure-a nas configurações do perfil.",
       "CLICK_HERE": "Clique aqui para atualizar",
@@ -188,22 +199,22 @@
     },
     "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e sua equipe",
     "CHANGE_STATUS": "Estado da conversa mudou",
-    "CHANGE_STATUS_FAILED": "Mudança de status da conversa falhou",
+    "CHANGE_STATUS_FAILED": "Mudança de situação da conversa falhou",
     "CHANGE_AGENT": "Responsável da conversa alterado",
     "CHANGE_AGENT_FAILED": "Falha ao atribuir outro agente",
     "ASSIGN_LABEL_SUCCESFUL": "Etiqueta atribuída com sucesso",
     "ASSIGN_LABEL_FAILED": "Falha ao atribuir etiqueta",
-    "CHANGE_TEAM": "Estado da conversa mudou",
+    "CHANGE_TEAM": "Situação da conversa mudou",
     "FILE_SIZE_LIMIT": "O arquivo excede os {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB do limite para anexos",
     "MESSAGE_ERROR": "Não foi possível enviar esta mensagem, por favor, tente novamente mais tarde",
     "SENT_BY": "Enviado por:",
-    "BOT": "Bot",
+    "BOT": "Robôs",
     "SEND_FAILED": "Não foi possível enviar a mensagem! Tente novamente",
-    "TRY_AGAIN": "Tentar novamente",
+    "TRY_AGAIN": "tentar novamente",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Selecione Agente",
+      "SELECT_AGENT": "selecionar Agente",
       "REMOVE": "Excluir",
-      "ASSIGN": "Atribua"
+      "ASSIGN": "Atribuir"
     },
     "CONTEXT_MENU": {
       "COPY": "Copiar",
@@ -219,6 +230,10 @@
         "DELETE": "Excluir",
         "CANCEL": "Cancelar"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contato",
+      "COPILOT": "Copiloto"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -240,7 +255,7 @@
   },
   "ONBOARDING": {
     "TITLE": "Olá, 👋. Bem-vindo ao {installationName}!",
-    "DESCRIPTION": "Obrigado por se inscrever. Queremos que você aproveite o máximo de {installationName}. Aqui estão algumas coisas que você consegue fazer no(a) {installationName} para que tenha uma experiência agradável.",
+    "DESCRIPTION": "Obrigado por se inscrever. Queremos que você aproveite o máximo de {installationName}. Aqui estão algumas coisas que você consegue fazer em {installationName} para que tenha uma experiência agradável.",
     "GREETING_MORNING": "👋 Bom dia, {name}. Bem-vindo a {installationName}.",
     "GREETING_AFTERNOON": "👋 Boa tarde, {name}. Bem-vindo a {installationName}.",
     "GREETING_EVENING": "👋 Boa noite, {name}. Bem-vindo a {installationName}.",
@@ -256,31 +271,51 @@
       "NEW_LINK": "Clique aqui para convidar um membro da equipe"
     },
     "LABELS": {
-      "TITLE": "Organizar conversas com marcadores",
-      "DESCRIPTION": "Etiquetas fornecem uma forma mais fácil de organizar a sua conversa. Criar algumas estiquetas como #solicitação-suporte, #fatura-assunto etc., assim você poderá futuramente utiliza-las em uma conversa posteriormente.",
-      "NEW_LINK": "Clique aqui para criar marcadores"
+      "TITLE": "Organizar conversas com etiquetas",
+      "DESCRIPTION": "Etiquetas fornecem uma forma mais fácil de organizar a sua conversa. Criar algumas etiquetas como #solicitação-suporte, #fatura-assunto etc., assim você poderá futuramente utiliza-las em uma conversa posteriormente.",
+      "NEW_LINK": "Clique aqui para criar etiquetas"
     },
     "CANNED_RESPONSES": {
       "TITLE": "Criar respostas prontas",
-      "DESCRIPTION": "Os modelos de resposta rápida ajudam você a responder rapidamente a uma conversa. Os agentes podem digitar o caractere '/' seguido pelo atalho para inserir uma resposta.",
+      "DESCRIPTION": "Os modelos de respostas prontas ajudam você a responder rapidamente a uma conversa. Os agentes podem digitar o caractere '/' seguido pelo atalho para inserir uma resposta.",
       "NEW_LINK": "Clique aqui para criar uma resposta pronta"
     }
   },
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "Agente atribuído",
     "SELF_ASSIGN": "Atribuir a mim",
-    "TEAM_LABEL": "Equipe Atribuída",
+    "TEAM_LABEL": "Equipe atribuída",
     "SELECT": {
       "PLACEHOLDER": "Nenhuma"
     },
     "ACCORDION": {
       "CONTACT_DETAILS": "Detalhes do contato",
       "CONVERSATION_ACTIONS": "Ações da conversa",
-      "CONVERSATION_LABELS": "Marcador da conversa",
+      "CONVERSATION_LABELS": "Etiquetas da conversa",
       "CONVERSATION_INFO": "Informação da conversa",
       "CONTACT_ATTRIBUTES": "Atributos do contato",
       "PREVIOUS_CONVERSATION": "Conversas anteriores",
-      "MACROS": "Macros"
+      "MACROS": "Macros",
+      "SHOPIFY_ORDERS": "Pedidos Shopify"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Pedido #{id}",
+      "ERROR": "Erro ao carregar pedidos",
+      "NO_SHOPIFY_ORDERS": "Nenhum pedido encontrado",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Pendentes",
+        "AUTHORIZED": "Autorizado",
+        "PARTIALLY_PAID": "Parcialmente pago",
+        "PAID": "Pago",
+        "PARTIALLY_REFUNDED": "Parcialmente reembolsado",
+        "REFUNDED": "Reembolsado",
+        "VOIDED": "Anulado"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Processado",
+        "PARTIALLY_FULFILLED": "Parcialmente processado",
+        "UNFULFILLED": "Não processado"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -300,7 +335,7 @@
       "ERROR": "Não foi possível excluir o atributo. Por favor, tente mais tarde"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Adicionar atributo",
+      "TITLE": "Adicionar atributos",
       "PLACEHOLDER": "Procurar atributos",
       "NO_RESULT": "Nenhum atributo encontrado"
     }
@@ -310,7 +345,8 @@
     "TO": "Para",
     "BCC": "CCO",
     "CC": "Cc",
-    "SUBJECT": "Assunto"
+    "SUBJECT": "Assunto",
+    "EXPAND": "Expandir e-mail"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participantes",
@@ -340,5 +376,11 @@
     "ONE": "{user} está digitando",
     "TWO": "{user} e {secondUser} estão digitando",
     "MULTIPLE": "{user} e {count} outros estão digitando"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Experimente estes comandos"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Não foi possível baixar o anexo. Por favor, tente novamente"
   }
 }

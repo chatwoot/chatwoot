@@ -67,4 +67,65 @@ RSpec.describe Attachment do
       expect(message.attachments.first.push_event_data[:data_url]).not_to eq message.attachments.first.external_url
     end
   end
+
+  describe 'meta data handling' do
+    let(:message) { create(:message) }
+
+    context 'when attachment is a contact type' do
+      let(:contact_attachment) do
+        message.attachments.create!(
+          account_id: message.account_id,
+          file_type: :contact,
+          fallback_title: '+1234567890',
+          meta: {
+            first_name: 'John',
+            last_name: 'Doe'
+          }
+        )
+      end
+
+      it 'stores and retrieves meta data correctly' do
+        expect(contact_attachment.meta['first_name']).to eq('John')
+        expect(contact_attachment.meta['last_name']).to eq('Doe')
+      end
+
+      it 'includes meta data in push_event_data' do
+        event_data = contact_attachment.push_event_data
+        expect(event_data[:meta]).to eq({
+                                          'first_name' => 'John',
+                                          'last_name' => 'Doe'
+                                        })
+      end
+
+      it 'returns empty hash for meta if not set' do
+        attachment = message.attachments.create!(
+          account_id: message.account_id,
+          file_type: :contact,
+          fallback_title: '+1234567890'
+        )
+        expect(attachment.push_event_data[:meta]).to eq({})
+      end
+    end
+
+    context 'when meta is used with other file types' do
+      let(:image_attachment) do
+        attachment = message.attachments.new(
+          account_id: message.account_id,
+          file_type: :image,
+          meta: { description: 'Test image' }
+        )
+        attachment.file.attach(
+          io: Rails.root.join('spec/assets/avatar.png').open,
+          filename: 'avatar.png',
+          content_type: 'image/png'
+        )
+        attachment.save!
+        attachment
+      end
+
+      it 'preserves meta data with file attachments' do
+        expect(image_attachment.meta['description']).to eq('Test image')
+      end
+    end
+  end
 end

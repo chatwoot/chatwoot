@@ -43,46 +43,4 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
       end
     end
   end
-
-  describe 'GET /api/v1/accounts/{account.id}/inboxes/{inbox.id}/response_sources' do
-    let(:inbox) { create(:inbox, account: account) }
-    let(:agent) { create(:user, account: account, role: :agent) }
-    let(:administrator) { create(:user, account: account, role: :administrator) }
-
-    before do
-      skip_unless_response_bot_enabled_test_environment
-    end
-
-    context 'when it is an unauthenticated user' do
-      it 'returns unauthorized' do
-        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/response_sources"
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
-
-    context 'when it is an authenticated user' do
-      it 'returns unauthorized for agents' do
-        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/response_sources",
-            headers: agent.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-
-      it 'returns all response_sources belonging to the inbox to administrators' do
-        response_source = create(:response_source, account: account)
-        inbox.response_sources << response_source
-        inbox.save!
-        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/response_sources",
-            headers: administrator.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:success)
-        body = JSON.parse(response.body, symbolize_names: true)
-        expect(body.first[:id]).to eq(response_source.id)
-        expect(body.length).to eq(1)
-      end
-    end
-  end
 end

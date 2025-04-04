@@ -8,28 +8,24 @@
     "LIST": {
       "404": "Prie šios paskyros nėra pridėtų gautųjų laiškų aplankų."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Pasirinkti Kanalą",
-        "route": "settings_inbox_new",
-        "body": "Pasirinkite paslaugų teikėją, kurį norite integruoti su Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Pasirinkti Kanalą",
+        "BODY": "Pasirinkite paslaugų teikėją, kurį norite integruoti su Chatwoot."
       },
-      {
-        "title": "Sukurti Gautų Laiškų Aplanką",
-        "route": "settings_inboxes_page_channel",
-        "body": "Autentifikuokite savo paskyrą ir susikurkite gautų laiškų aplanką."
+      "INBOX": {
+        "TITLE": "Sukurti Gautų Laiškų Aplanką",
+        "BODY": "Autentifikuokite savo paskyrą ir susikurkite gautų laiškų aplanką."
       },
-      {
-        "title": "Pridėti Agentus",
-        "route": "settings_inboxes_add_agents",
-        "body": "Pridėti agentus pire gautų laiškų oplanko."
+      "AGENT": {
+        "TITLE": "Pridėti Agentus",
+        "BODY": "Pridėti agentus pire gautų laiškų oplanko."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "Esate pasiruošę pradėti!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Esate pasiruošę pradėti!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Gautų Laiškų Aplanko Pavadinimas",

@@ -25,12 +25,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "പേര്",
-        "Created by",
-        "Last updated by",
-        "Visibility"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "പേര്",
+        "CREATED BY": "Created by",
+        "LAST_UPDATED_BY": "Last updated by",
+        "VISIBILITY": "Visibility"
+      },
       "404": "No macros found"
     },
     "DELETE": {

@@ -41,6 +41,8 @@ const props = defineProps({
     default: 'info',
     validator: value => ['info', 'error', 'success'].includes(value),
   },
+  enableVariables: { type: Boolean, default: false },
+  enableCannedResponses: { type: Boolean, default: true },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -116,6 +118,8 @@ watch(
         :placeholder="placeholder"
         :focus-on-mount="focusOnMount"
         :disabled="disabled"
+        :enable-variables="enableVariables"
+        :enable-canned-responses="enableCannedResponses"
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"

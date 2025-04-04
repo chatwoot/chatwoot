@@ -10,11 +10,11 @@
       "404": "Šajā kontā nav izveidotas etiķetes.",
       "TITLE": "Pārvaldīt Etiķetes",
       "DESC": "Etiķetes ļauj grupēt sarunas kopā.",
-      "TABLE_HEADER": [
-        "Nosaukums",
-        "Apraksts",
-        "Krāsa"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Nosaukums",
+        "DESCRIPTION": "Apraksts",
+        "COLOR": "Krāsa"
+      }
     },
     "FORM": {
       "NAME": {

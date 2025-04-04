@@ -5,12 +5,14 @@ import DashboardAppModal from './DashboardAppModal.vue';
 import DashboardAppsRow from './DashboardAppsRow.vue';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import BaseSettingsHeader from '../../components/BaseSettingsHeader.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     BaseSettingsHeader,
     DashboardAppModal,
     DashboardAppsRow,
+    NextButton,
   },
   mixins: [globalConfigMixin],
   data() {
@@ -93,13 +95,11 @@ export default {
       :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
     >
       <template #actions>
-        <woot-button
-          class="rounded-md button nice"
-          icon="add-circle"
+        <NextButton
+          icon="i-lucide-circle-plus"
+          :label="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.HEADER_BTN_TXT')"
           @click="openCreatePopup"
-        >
-          {{ $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.HEADER_BTN_TXT') }}
-        </woot-button>
+        />
       </template>
     </BaseSettingsHeader>
     <div class="w-full overflow-x-auto text-slate-700 dark:text-slate-200">
@@ -121,7 +121,7 @@ export default {
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 pr-4 font-semibold text-left text-slate-700 dark:text-slate-300"
+            class="py-4 ltr:pr-4 rtl:pl-4 font-semibold text-left text-slate-700 dark:text-slate-300"
           >
             {{ thHeader }}
           </th>

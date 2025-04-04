@@ -1,4 +1,6 @@
 class Public::Api::V1::Portals::BaseController < PublicController
+  include SwitchLocale
+
   before_action :show_plain_layout
   before_action :set_color_scheme
   before_action :set_global_config
@@ -27,14 +29,7 @@ class Public::Api::V1::Portals::BaseController < PublicController
   end
 
   def switch_locale_with_portal(&)
-    locale_without_variant = params[:locale].split('_')[0]
-    is_locale_available = I18n.available_locales.map(&:to_s).include?(params[:locale])
-    is_locale_variant_available = I18n.available_locales.map(&:to_s).include?(locale_without_variant)
-    if is_locale_available
-      @locale = params[:locale]
-    elsif is_locale_variant_available
-      @locale = locale_without_variant
-    end
+    @locale = validate_and_get_locale(params[:locale])
 
     I18n.with_locale(@locale, &)
   end
@@ -44,12 +39,12 @@ class Public::Api::V1::Portals::BaseController < PublicController
     Rails.logger.info "Article: not found for slug: #{params[:article_slug]}"
     render_404 && return if article.blank?
 
-    @locale = if article.category.present?
-                article.category.locale
-              else
-                article.portal.default_locale
-              end
-
+    article_locale = if article.category.present?
+                       article.category.locale
+                     else
+                       article.portal.default_locale
+                     end
+    @locale = validate_and_get_locale(article_locale)
     I18n.with_locale(@locale, &)
   end
 

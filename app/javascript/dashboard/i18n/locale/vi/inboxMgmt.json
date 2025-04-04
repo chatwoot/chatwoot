@@ -8,28 +8,24 @@
     "LIST": {
       "404": "Không có hộp thư đến nào được đính kèm với tài khoản này."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Chọn kênh",
-        "route": "settings_inbox_new",
-        "body": "Chọn nhà cung cấp bạn muốn tích hợp với Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Chọn kênh",
+        "BODY": "Chọn nhà cung cấp bạn muốn tích hợp với Chatwoot."
       },
-      {
-        "title": "Tạo Hộp thư đến",
-        "route": "settings_inboxes_page_channel",
-        "body": "Xác thực tài khoản của bạn và tạo hộp thư đến."
+      "INBOX": {
+        "TITLE": "Tạo Hộp thư đến",
+        "BODY": "Xác thực tài khoản của bạn và tạo hộp thư đến."
       },
-      {
-        "title": "Thêm đại lý",
-        "route": "settings_inboxes_add_agents",
-        "body": "Thêm đại lý vào hộp thư đến đã tạo."
+      "AGENT": {
+        "TITLE": "Thêm đại lý",
+        "BODY": "Thêm đại lý vào hộp thư đến đã tạo."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "Bạn đã sẵn sàng để đi!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Bạn đã sẵn sàng để đi!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Tên hộp thư đến",

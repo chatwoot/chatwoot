@@ -78,7 +78,12 @@ class AccountDashboard < Administrate::BaseDashboard
   #   COLLECTION_FILTERS = {
   #     open: ->(resources) { resources.where(open: true) }
   #   }.freeze
-  COLLECTION_FILTERS = {}.freeze
+  COLLECTION_FILTERS = {
+    active: ->(resources) { resources.where(status: :active) },
+    suspended: ->(resources) { resources.where(status: :suspended) },
+    recent: ->(resources) { resources.where('created_at > ?', 30.days.ago) },
+    marked_for_deletion: ->(resources) { resources.where("custom_attributes->>'marked_for_deletion_at' IS NOT NULL") }
+  }.freeze
 
   # Overwrite this method to customize how accounts are displayed
   # across all pages of the admin dashboard.

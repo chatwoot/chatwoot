@@ -9,8 +9,12 @@ import { useVuelidate } from '@vuelidate/core';
 import countries from 'shared/constants/countries.js';
 import { isPhoneNumberValid } from 'shared/helpers/Validators';
 import parsePhoneNumber from 'libphonenumber-js';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
+  components: {
+    NextButton,
+  },
   props: {
     contact: {
       type: Object,
@@ -401,16 +405,19 @@ export default {
         />
       </div>
     </div>
-    <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-      <div class="w-full">
-        <woot-submit-button
-          :loading="inProgress"
-          :button-text="$t('CONTACT_FORM.FORM.SUBMIT')"
-        />
-        <button class="button clear" @click.prevent="onCancel">
-          {{ $t('CONTACT_FORM.FORM.CANCEL') }}
-        </button>
-      </div>
+    <div class="flex flex-row justify-start w-full gap-2 px-0 py-2">
+      <NextButton
+        type="submit"
+        :label="$t('CONTACT_FORM.FORM.SUBMIT')"
+        :is-loading="inProgress"
+      />
+      <NextButton
+        faded
+        slate
+        type="reset"
+        :label="$t('CONTACT_FORM.FORM.CANCEL')"
+        @click.prevent="onCancel"
+      />
     </div>
   </form>
 </template>

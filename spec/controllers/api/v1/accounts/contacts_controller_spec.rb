@@ -67,6 +67,38 @@ RSpec.describe 'Contacts API', type: :request do
         expect(contact_inboxes).to eq([])
       end
 
+      it 'returns limited information on inboxes' do
+        get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=true",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_body = response.parsed_body
+
+        contact_emails = response_body['payload'].pluck('email')
+        contact_inboxes = response_body['payload'].pluck('contact_inboxes').flatten.compact
+        expect(contact_emails).to include(contact.email)
+        first_inbox = contact_inboxes[0]['inbox']
+        expect(first_inbox).to be_a(Hash)
+        expect(first_inbox).to include('id', 'channel_id', 'channel_type', 'name', 'avatar_url', 'provider')
+
+        expect(first_inbox).not_to include('imap_login',
+                                           'imap_password',
+                                           'imap_address',
+                                           'imap_port',
+                                           'imap_enabled',
+                                           'imap_enable_ssl')
+
+        expect(first_inbox).not_to include('smtp_login',
+                                           'smtp_password',
+                                           'smtp_address',
+                                           'smtp_port',
+                                           'smtp_enabled',
+                                           'smtp_domain')
+
+        expect(first_inbox).not_to include('hmac_token', 'provider_config')
+      end
+
       it 'returns all contacts with company name desc order' do
         get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=false&sort=-company",
             headers: admin.create_new_auth_token,
@@ -91,16 +123,15 @@ RSpec.describe 'Contacts API', type: :request do
       end
 
       it 'returns all contacts with country name desc order with null values at last' do
+        contact_from_albania = create(:contact, :with_email, account: account, additional_attributes: { country_code: 'AL', country: 'Albania' })
         get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=false&sort=country",
             headers: admin.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
-        # TODO: this spec has been flaky for a while, so adding a debug statement to see the response
-        Rails.logger.info(response_body)
-        expect(response_body['payload'].first['email']).to eq(contact.email)
-        expect(response_body['payload'].first['id']).to eq(contact.id)
+        expect(response_body['payload'].first['email']).to eq(contact_from_albania.email)
+        expect(response_body['payload'].first['id']).to eq(contact_from_albania.id)
         expect(response_body['payload'].last['email']).to eq(contact_4.email)
       end
 

@@ -1,5 +1,10 @@
 {
   "HELP_CENTER": {
+    "TITLE": "Centro de suporte",
+    "NEW_PAGE": {
+      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
+      "CREATE_PORTAL_BUTTON": "Criar portal"
+    },
     "HEADER": {
       "FILTER": "Filtrar por",
       "SORT": "Ordenar por",
@@ -190,26 +195,20 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [
-          {
-            "title": "Informações do centro de ajuda",
-            "route": "new_portal_information",
-            "body": "Informações básicas sobre o portal",
-            "CREATE_BASIC_SETTING_BUTTON": "Criar configurações básicas do portal"
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Informações do centro de ajuda",
+            "BODY": "Informações básicas sobre o portal"
           },
-          {
-            "title": "Personalização do centro de ajuda",
-            "route": "portal_customization",
-            "body": "Personalizar portal",
-            "UPDATE_PORTAL_BUTTON": "Atualizar definições do portal"
+          "CUSTOMIZATION": {
+            "TITLE": "Personalização do centro de ajuda",
+            "BODY": "Personalizar portal"
           },
-          {
-            "title": "Pronto! 🎉",
-            "route": "portal_finish",
-            "body": "Está tudo pronto!",
-            "FINISH": "Terminar"
+          "FINISH": {
+            "TITLE": "Pronto! 🎉",
+            "BODY": "Está tudo pronto!"
           }
-        ],
+        },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Voltar",
           "BASIC_SETTINGS_PAGE": {
@@ -250,13 +249,13 @@
         "DOMAIN": {
           "LABEL": "Domínio personalizado",
           "PLACEHOLDER": "Domínio personalizado do portal",
-          "HELP_TEXT": "Adicionar apenas se quiser utilizar um domínio personalizado para os seus portais. Ex. https://exemplo.com",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
           "ERROR": "Insira um URL de domínio válido"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Link da Página Inicial",
           "PLACEHOLDER": "Link da página inicial do portal",
-          "HELP_TEXT": "Link utilizado para regressar do portal para a página inicial. Ex. https://exemplo.com",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
           "ERROR": "Insira um URL de página inicial válido"
         },
         "THEME_COLOR": {
@@ -347,6 +346,12 @@
       "API": {
         "ERROR": "Erro ao arquivar artigo",
         "SUCCESS": "Artigo arquivado com sucesso"
+      }
+    },
+    "DRAFT_ARTICLE": {
+      "API": {
+        "ERROR": "Error while drafting article",
+        "SUCCESS": "Article drafted successfully"
       }
     },
     "DELETE_ARTICLE": {
@@ -483,6 +488,305 @@
         }
       }
     },
-    "LOADING": "A carregar..."
+    "LOADING": "A carregar...",
+    "ARTICLES_PAGE": {
+      "ARTICLE_CARD": {
+        "CARD": {
+          "VIEWS": "{count} view | {count} views",
+          "DROPDOWN_MENU": {
+            "PUBLISH": "Publicar",
+            "DRAFT": "Rascunho",
+            "ARCHIVE": "Archive",
+            "DELETE": "Excluir"
+          },
+          "STATUS": {
+            "DRAFT": "Rascunho",
+            "PUBLISHED": "Publicado",
+            "ARCHIVED": "Arquivado"
+          },
+          "CATEGORY": {
+            "UNCATEGORISED": "Uncategorised"
+          }
+        }
+      },
+      "ARTICLES_HEADER": {
+        "TABS": {
+          "ALL": "All articles",
+          "MINE": "Minhas",
+          "DRAFT": "Rascunho",
+          "PUBLISHED": "Publicado",
+          "ARCHIVED": "Arquivado"
+        },
+        "CATEGORY": {
+          "ALL": "All categories"
+        },
+        "LOCALE": {
+          "ALL": "All locales"
+        },
+        "NEW_ARTICLE": "New article"
+      },
+      "EMPTY_STATE": {
+        "ALL": {
+          "TITLE": "Write an article",
+          "SUBTITLE": "Write a rich article, let’s get started!",
+          "BUTTON_LABEL": "New article"
+        },
+        "MINE": {
+          "TITLE": "You haven't written any articles here",
+          "SUBTITLE": "All articles written by you show up here for quick access."
+        },
+        "DRAFT": {
+          "TITLE": "There are no articles in drafts",
+          "SUBTITLE": "Draft articles will appear here"
+        },
+        "PUBLISHED": {
+          "TITLE": "There are no published articles",
+          "SUBTITLE": "Published articles will appear here"
+        },
+        "ARCHIVED": {
+          "TITLE": "There are no articles in the archive",
+          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+        },
+        "CATEGORY": {
+          "TITLE": "There are no articles in this category",
+          "SUBTITLE": "Articles in this category will appear here"
+        }
+      }
+    },
+    "CATEGORY_PAGE": {
+      "CATEGORY_HEADER": {
+        "NEW_CATEGORY": "Nova categoria",
+        "EDIT_CATEGORY": "Editar categoria",
+        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "BREADCRUMB": {
+          "CATEGORY_LOCALE": "Categories ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+        }
+      },
+      "CATEGORY_EMPTY_STATE": {
+        "TITLE": "Nenhuma categoria encontrada",
+        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+      },
+      "CATEGORY_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles"
+      },
+      "CATEGORY_DIALOG": {
+        "CREATE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Categoria criada com sucesso",
+            "ERROR_MESSAGE": "Não é possível criar a categoria"
+          }
+        },
+        "EDIT": {
+          "API": {
+            "SUCCESS_MESSAGE": "Categoria atualizada com sucesso",
+            "ERROR_MESSAGE": "Não foi possível atualizar a categoria"
+          }
+        },
+        "DELETE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Categoria apagada com sucesso",
+            "ERROR_MESSAGE": "Não é possível apagar a categoria"
+          }
+        },
+        "HEADER": {
+          "CREATE": "Criar categoria",
+          "EDIT": "Editar categoria",
+          "DESCRIPTION": "Editar uma categoria atualizará a categoria no portal público.",
+          "PORTAL": "Portal",
+          "LOCALE": "Local"
+        },
+        "FORM": {
+          "NAME": {
+            "LABEL": "Nome:",
+            "PLACEHOLDER": "Nome da categoria",
+            "ERROR": "Nome é obrigatório"
+          },
+          "SLUG": {
+            "LABEL": "Slug",
+            "PLACEHOLDER": "Categoria slug para URLs",
+            "ERROR": "Slug obrigatória",
+            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Descrição",
+            "PLACEHOLDER": "Breve descrição da categoria.",
+            "ERROR": "Descrição é obrigatória"
+          }
+        },
+        "BUTTONS": {
+          "CREATE": "Criar",
+          "EDIT": "Atualização",
+          "CANCEL": "Cancelar"
+        }
+      }
+    },
+    "LOCALES_PAGE": {
+      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
+      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALE_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles",
+        "CATEGORIES_COUNT": "{count} category | {count} categories",
+        "DEFAULT": "Padrão",
+        "DROPDOWN_MENU": {
+          "MAKE_DEFAULT": "Make default",
+          "DELETE": "Excluir"
+        }
+      },
+      "ADD_LOCALE_DIALOG": {
+        "TITLE": "Adicionar nova linguagem",
+        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "COMBOBOX": {
+          "PLACEHOLDER": "Selecionar linguagem..."
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Local adicionado com sucesso",
+          "ERROR_MESSAGE": "Não foi possível adicionar o local. Por favor, tente novamente."
+        }
+      }
+    },
+    "EDIT_ARTICLE_PAGE": {
+      "HEADER": {
+        "STATUS": {
+          "SAVING": "A guardar...",
+          "SAVED": "Guardado"
+        },
+        "PREVIEW": "Pré-visualizar",
+        "PUBLISH": "Publicar",
+        "DRAFT": "Rascunho",
+        "ARCHIVE": "Archive",
+        "BACK_TO_ARTICLES": "Back to articles"
+      },
+      "EDIT_ARTICLE": {
+        "MORE_PROPERTIES": "More properties",
+        "UNCATEGORIZED": "Sem categoria",
+        "EDITOR_PLACEHOLDER": "Write something..."
+      },
+      "ARTICLE_PROPERTIES": {
+        "ARTICLE_PROPERTIES": "Article properties",
+        "META_DESCRIPTION": "Descrição meta",
+        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
+        "META_TITLE": "Título meta",
+        "META_TITLE_PLACEHOLDER": "Add meta title",
+        "META_TAGS": "Tags meta",
+        "META_TAGS_PLACEHOLDER": "Add meta tags"
+      },
+      "API": {
+        "ERROR": "Erro ao guardar artigo"
+      }
+    },
+    "PORTAL_SWITCHER": {
+      "NEW_PORTAL": "New portal",
+      "PORTALS": "Portais",
+      "CREATE_PORTAL": "Create and manage multiple portals",
+      "ARTICLES": "Artigos",
+      "DOMAIN": "domínio",
+      "PORTAL_NAME": "Nome do portal"
+    },
+    "CREATE_PORTAL_DIALOG": {
+      "TITLE": "Create new portal",
+      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
+      "CONFIRM_BUTTON_LABEL": "Criar",
+      "NAME": {
+        "LABEL": "Nome:",
+        "PLACEHOLDER": "User Guide | Chatwoot",
+        "MESSAGE": "Choose an name for your portal.",
+        "ERROR": "Nome é obrigatório"
+      },
+      "SLUG": {
+        "LABEL": "Slug",
+        "PLACEHOLDER": "user-guide",
+        "ERROR": "Slug obrigatória"
+      }
+    },
+    "PORTAL_SETTINGS": {
+      "FORM": {
+        "AVATAR": {
+          "LABEL": "Logo",
+          "IMAGE_UPLOAD_ERROR": "Não foi possível carregar a imagem! Tente novamente",
+          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
+          "IMAGE_DELETE_SUCCESS": "Logo apagado com sucesso",
+          "IMAGE_DELETE_ERROR": "Unable to delete logo",
+          "IMAGE_UPLOAD_SIZE_ERROR": "O tamanho da imagem deve ser inferior a {size}MB"
+        },
+        "NAME": {
+          "LABEL": "Nome:",
+          "PLACEHOLDER": "Nome do portal",
+          "ERROR": "Nome é obrigatório"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Header text",
+          "PLACEHOLDER": "Texto do cabeçalho do portal"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Page title",
+          "PLACEHOLDER": "Título da página do portal"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Home page link",
+          "PLACEHOLDER": "Link da página inicial do portal",
+          "ERROR": "Invalid URL. The Home page link must start with 'http://' or 'https://'."
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Portal slug"
+        },
+        "LIVE_CHAT_WIDGET": {
+          "LABEL": "Live chat widget",
+          "PLACEHOLDER": "Select live chat widget",
+          "HELP_TEXT": "Select a live chat widget that will appear on your help center"
+        },
+        "BRAND_COLOR": {
+          "LABEL": "Brand color"
+        },
+        "SAVE_CHANGES": "Save changes"
+      },
+      "CONFIGURATION_FORM": {
+        "CUSTOM_DOMAIN": {
+          "HEADER": "Domínio personalizado",
+          "LABEL": "Domínio personalizado:",
+          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
+          "PLACEHOLDER": "Domínio personalizado do portal",
+          "EDIT_BUTTON": "Edit custom domain",
+          "ADD_BUTTON": "Add custom domain",
+          "DIALOG": {
+            "ADD_HEADER": "Add custom domain",
+            "EDIT_HEADER": "Edit custom domain",
+            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
+            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
+            "LABEL": "Domínio personalizado",
+            "PLACEHOLDER": "Domínio personalizado do portal",
+            "ERROR": "Custom domain is required"
+          },
+          "DNS_CONFIGURATION_DIALOG": {
+            "HEADER": "DNS configuration",
+            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
+            "HELP_TEXT": "Once this is done, you can reach out to our support to request for the auto-generated SSL certificate.",
+            "CONFIRM_BUTTON_LABEL": "Got it!"
+          }
+        },
+        "DELETE_PORTAL": {
+          "BUTTON": "Delete {portalName}",
+          "HEADER": "Apagar portal",
+          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "DIALOG": {
+            "HEADER": "Sure you want to delete {portalName}?",
+            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
+            "CONFIRM_BUTTON_LABEL": "Excluir"
+          }
+        },
+        "EDIT_CONFIGURATION": "Edit configuration"
+      },
+      "API": {
+        "CREATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Portal criado com sucesso",
+          "ERROR_MESSAGE": "Unable to create portal"
+        },
+        "UPDATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Portal atualizado com sucesso",
+          "ERROR_MESSAGE": "Unable to update portal"
+        }
+      }
+    }
   }
 }

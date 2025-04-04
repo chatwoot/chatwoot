@@ -10,9 +10,11 @@ import AIAssistanceModal from './AIAssistanceModal.vue';
 import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
 import AIAssistanceCTAButton from './AIAssistanceCTAButton.vue';
 import { emitter } from 'shared/helpers/mitt';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
+    NextButton,
     AIAssistanceModal,
     AICTAModal,
     AIAssistanceCTAButton,
@@ -128,13 +130,13 @@ export default {
         v-if="shouldShowAIAssistCTAButton"
         @open="openAIAssist"
       />
-      <woot-button
+      <NextButton
         v-else
         v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.AI_ASSIST')"
-        icon="wand"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
+        icon="i-ph-magic-wand"
+        slate
+        faded
+        sm
         @click="openAIAssist"
       />
       <woot-modal

@@ -12,6 +12,8 @@
     "NO_INBOX_2": " norint pradėti",
     "NO_INBOX_AGENT": "Oi! Atrodo, kad nesate jokio gautų laiškų aplanko dalis. Susisiekite su administratoriumi",
     "SEARCH_MESSAGES": "Ieškokite pranešimų pokalbiuose",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "norėdami atidaryti komandų meniu",
       "KEYBOARD_SHORTCUTS": "norėdami peržiūrėti sparčiuosius klavišus"
@@ -38,15 +40,23 @@
     "REMOVE_SELECTION": "Pašalinti Pasirinkimą",
     "DOWNLOAD": "Parsisiųsti",
     "UNKNOWN_FILE_TYPE": "Nežinomas failas",
-    "SAVE_CONTACT": "Išsaugoti",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} pradėjo susitikimą"
+    },
     "UPLOADING_ATTACHMENTS": "Įkeliami priedai...",
     "REPLIED_TO_STORY": "Atsakė į tavo pasakojimą",
-    "UNSUPPORTED_MESSAGE": "Ši žinutė nepalaikoma.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Ši žinutė nepalaikoma. Jūs galite peržiūrėti šią žinutę Facebook Messenger programėlėje.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Ši žinutė nepalaikoma. Jūs galite peržiūrėti šią žinutę Instagram programėlėje.",
     "SUCCESS_DELETE_MESSAGE": "Pranešimas ištrintas sėkmingai",
     "FAIL_DELETE_MESSSAGE": "Nepavyko ištrinti pranešimo! Bandykite dar kartą",
     "NO_RESPONSE": "Nėra atsakymo",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Reitingas",
     "FEEDBACK_TITLE": "Grįžtamasis ryšys",
     "REPLY_MESSAGE_NOT_FOUND": "Pranešimas nepasiekiamas",
@@ -109,6 +119,7 @@
       "PENDING": "Pažymėti kaip laukiantį",
       "RESOLVED": "Pažymėti kaip išspręstą",
       "MARK_AS_UNREAD": "Pažymėti kaip neperskaitytą",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Atidaryti pokalbį",
       "SNOOZE": {
         "TITLE": "Atidėti",
@@ -126,7 +137,7 @@
           "FAILED": "Nepavyko priskirti agento. Prašau, pabandykite dar kartą."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Priskirta etiketė #{labelName} pokalbiui id {conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Nepavyko priskirti etiketės. Prašau, pabandykite dar kartą."
         },
         "TEAM_ASSIGNMENT": {
@@ -219,6 +230,10 @@
         "DELETE": "Ištrinti",
         "CANCEL": "Atšaukti"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Kontaktas",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -280,7 +295,27 @@
       "CONVERSATION_INFO": "Pokalbio Informacija",
       "CONTACT_ATTRIBUTES": "Kontakto Požymiai",
       "PREVIOUS_CONVERSATION": "Ankstesni pokalbiai",
-      "MACROS": "Makrokomandos"
+      "MACROS": "Makrokomandos",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Laukiama",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -310,7 +345,8 @@
     "TO": "Kam",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Tema"
+    "SUBJECT": "Tema",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Dalyvaujantys",
@@ -335,5 +371,16 @@
     "ORIGINAL_CONTENT": "Originalus turinys",
     "TRANSLATED_CONTENT": "Išverstas turinys",
     "NO_TRANSLATIONS_AVAILABLE": "Nėra šio turinio vertimo"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

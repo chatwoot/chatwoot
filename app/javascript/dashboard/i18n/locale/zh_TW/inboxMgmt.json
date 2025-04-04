@@ -8,28 +8,24 @@
     "LIST": {
       "404": "此帳戶没有收件匣。"
     },
-    "CREATE_FLOW": [
-      {
-        "title": "選擇頻道",
-        "route": "settings_inbox_new",
-        "body": "選擇你想要與 Chatwoot 整合的提供商。"
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "選擇頻道",
+        "BODY": "選擇你想要與 Chatwoot 整合的提供商。"
       },
-      {
-        "title": "新增收件匣",
-        "route": "settings_inboxes_page_channel",
-        "body": "驗證您的帳戶並建立建立收件匣。"
+      "INBOX": {
+        "TITLE": "新增收件匣",
+        "BODY": "驗證您的帳戶並建立建立收件匣。"
       },
-      {
-        "title": "新增客服",
-        "route": "settings_inboxes_add_agents",
-        "body": "將客服增加到建立的收件匣。"
+      "AGENT": {
+        "TITLE": "新增客服",
+        "BODY": "將客服增加到建立的收件匣。"
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "您已設定狀態為離開"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "您已設定狀態為離開"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "收件匣名稱",
@@ -471,7 +467,7 @@
       "SETTINGS": "設定",
       "COLLABORATORS": "客服人員",
       "CONFIGURATION": "組態",
-      "CAMPAIGN": "Campaigns",
+      "CAMPAIGN": "行銷活動",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "服務時間",
       "WIDGET_BUILDER": "Widget Builder",

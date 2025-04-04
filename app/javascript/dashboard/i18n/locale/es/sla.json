@@ -1,15 +1,15 @@
 {
   "SLA": {
-    "HEADER": "Service Level Agreements",
+    "HEADER": "Acuerdos de Nivel de Servicio",
     "ADD_ACTION": "Añadir SLA",
-    "ADD_ACTION_LONG": "Create a new SLA Policy",
+    "ADD_ACTION_LONG": "Crear una nueva política de SLA",
     "DESCRIPTION": "Los Acuerdos de Nivel de Servicio (SLA) son contratos que definen expectativas claras entre su equipo y sus clientes. Establecen normas para los tiempos de respuesta y resolución, creando un marco para la responsabilidad y garantiza una experiencia coherente y de alta calidad.",
     "LEARN_MORE": "Más información sobre SLA",
     "LOADING": "Obteniendo SLAs",
     "PAYWALL": {
-      "TITLE": "Upgrade to create SLAs",
-      "AVAILABLE_ON": "The SLA feature is only available in the Business and Enterprise plans.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
+      "TITLE": "Actualiza para crear SLAs",
+      "AVAILABLE_ON": "La función SLA sólo está disponible en los planes Empresariales (Business) y Corporativos (Enterprise).",
+      "UPGRADE_PROMPT": "Actualiza tu plan para tener acceso a funciones avanzadas como gestión de equipos, automatizaciones, atributos personalizados y más.",
       "UPGRADE_NOW": "Actualizar ahora",
       "CANCEL_ANYTIME": "Puede cambiar o cancelar su plan en cualquier momento"
     },

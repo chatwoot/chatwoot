@@ -2,6 +2,7 @@
 import { mapGetters } from 'vuex';
 import SwitchLayout from './SwitchLayout.vue';
 import { frontendURL } from 'dashboard/helper/URLHelper';
+
 export default {
   components: {
     SwitchLayout,
@@ -37,7 +38,7 @@ export default {
       class="flex px-4 pb-1 justify-between items-center flex-row gap-1 pt-2.5 border-b border-transparent"
     >
       <woot-sidemenu-icon
-        size="tiny"
+        size="xs"
         class="relative top-0 ltr:-ml-1.5 rtl:-mr-1.5 flex-shrink-0 focus:!bg-n-solid-3 dark:!hover:bg-n-solid-2 hover:!bg-n-alpha-2"
       />
       <router-link

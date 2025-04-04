@@ -3,19 +3,19 @@
     "HEADER": "Auditoría de registros",
     "HEADER_BTN_TXT": "Añadir registros de auditoría",
     "LOADING": "Obteniendo registros de auditoría",
-    "DESCRIPTION": "Audit Logs maintain a record of activities in your account, allowing you to track and audit your account, team, or services.",
-    "LEARN_MORE": "Learn more about audit logs",
+    "DESCRIPTION": "Los registros de auditoría mantienen un historial de actividades en su cuenta, permitiéndole rastrear y auditar su cuenta, equipo o servicios.",
+    "LEARN_MORE": "Aprende más sobre los registros de auditoria",
     "SEARCH_404": "No hay elementos que coincidan con esta consulta",
     "SIDEBAR_TXT": "<p><b>Registros de auditoría</b> </p><p> Registros de auditoría son pistas para eventos y acciones en un Sistema de Chatwoot </p>",
     "LIST": {
       "404": "No hay registros de auditoría disponibles en esta cuenta.",
       "TITLE": "Administrar registros de auditoría",
       "DESC": "Los registros de auditoría son pistas para eventos y acciones en un sistema de Chatwoot.",
-      "TABLE_HEADER": [
-        "User",
-        "Action",
-        "Dirección IP"
-      ]
+      "TABLE_HEADER": {
+        "ACTIVITY": "User",
+        "TIME": "Action",
+        "IP_ADDRESS": "Dirección IP"
+      }
     },
     "API": {
       "SUCCESS_MESSAGE": "Registros de auditoria cargados satisfactoriamente",
@@ -32,7 +32,7 @@
       "EDIT": {
         "SELF": "{agentName} cambió su {attributes} por {values}",
         "OTHER": "{agentName} cambió {attributes} de {user} a {values}",
-        "DELETED": "{agentName} changed {attributes} of a deleted user to {values}"
+        "DELETED": "{agentName} cambió {attributes} de un usuario eliminado a {values}"
       }
     },
     "INBOX": {
@@ -68,7 +68,7 @@
       "REMOVE": "{agentName} eliminó {user} del equipo (#{team_id})"
     },
     "ACCOUNT": {
-      "EDIT": "{agentName} Actualizó la configuración de la cuenta (#{id})"
+      "EDIT": "{agentName} actualizó la configuración de la cuenta (#{id})"
     }
   }
 }

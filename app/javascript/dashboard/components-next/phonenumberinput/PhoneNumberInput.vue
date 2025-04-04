@@ -90,19 +90,19 @@ const activeCountry = computed(() =>
 
 const inputBorderClass = computed(() => {
   const errorClass =
-    'border-n-ruby-8 dark:border-n-ruby-8 hover:border-n-ruby-9 dark:hover:border-n-ruby-9 disabled:border-n-ruby-8 dark:disabled:border-n-ruby-8';
+    'outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 disabled:outline-n-ruby-8 dark:disabled:outline-n-ruby-8';
   const focusClass =
-    'has-[:focus]:border-n-brand dark:has-[:focus]:border-n-brand';
+    'has-[:focus]:outline-n-brand dark:has-[:focus]:outline-n-brand';
 
   if (!props.showBorder) {
     if (hasError.value) return errorClass;
-    return `border-transparent ${focusClass}`;
+    return `outline-transparent ${focusClass}`;
   }
 
   if (hasError.value) {
     return errorClass;
   }
-  return `${focusClass} border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak`;
+  return `${focusClass} outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 disabled:outline-n-weak dark:disabled:outline-n-weak`;
 });
 
 const phoneNumberError = computed(() => {
@@ -163,7 +163,7 @@ watch(
   <div>
     <div
       v-on-clickaway="() => closeCountryDropdown()"
-      class="relative flex items-center h-8 transition-all duration-500 ease-in-out border rounded-lg bg-n-alpha-black2"
+      class="relative flex items-center h-8 transition-all duration-500 ease-in-out outline outline-1 outline-offset-[-1px] rounded-lg bg-n-alpha-black2"
       :class="[inputBorderClass, { 'cursor-not-allowed opacity-50': disabled }]"
     >
       <Input
@@ -171,7 +171,7 @@ watch(
         type="tel"
         :placeholder="placeholder"
         :disabled="disabled"
-        custom-input-class="!border-0 h-8 !py-0.5 !bg-transparent ltr:!pl-1 rtl:!pr-1"
+        custom-input-class="!border-0 !outline-none h-8 !py-0.5 !bg-transparent ltr:!pl-1 rtl:!pr-1"
         class="w-full !flex-row"
       >
         <template #prefix>
@@ -185,7 +185,7 @@ watch(
               "
               trailing-icon
               :disabled="disabled"
-              class="!h-[30px] top-1 !px-2 outline-0 !outline-none !rounded-lg border-0 ltr:!rounded-r-none rtl:!rounded-l-none"
+              class="!h-[1.875rem] top-1 ltr:ml-px rtl:mr-px !px-2 outline-0 !outline-none !rounded-lg border-0 ltr:!rounded-r-none rtl:!rounded-l-none"
               @click="toggleCountryDropdown"
             >
               <span

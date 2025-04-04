@@ -3,7 +3,10 @@ import { useI18n } from 'vue-i18n';
 import { useOperators } from './operators';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useChannelIcon } from 'next/icon/provider';
-import { buildAttributesFilterTypes } from './helper/filterHelper';
+import {
+  buildAttributesFilterTypes,
+  CONVERSATION_ATTRIBUTES,
+} from './helper/filterHelper';
 import countries from 'shared/constants/countries.js';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages.js';
 
@@ -70,7 +73,11 @@ export function useConversationFilterContext() {
    * @type {import('vue').ComputedRef<FilterType[]>}
    */
   const customFilterTypes = computed(() =>
-    buildAttributesFilterTypes(conversationAttributes.value, getOperatorTypes)
+    buildAttributesFilterTypes(
+      conversationAttributes.value,
+      getOperatorTypes,
+      'conversation'
+    )
   );
 
   /**
@@ -78,8 +85,8 @@ export function useConversationFilterContext() {
    */
   const filterTypes = computed(() => [
     {
-      attributeKey: 'status',
-      value: 'status',
+      attributeKey: CONVERSATION_ATTRIBUTES.STATUS,
+      value: CONVERSATION_ATTRIBUTES.STATUS,
       attributeName: t('FILTER.ATTRIBUTES.STATUS'),
       label: t('FILTER.ATTRIBUTES.STATUS'),
       inputType: 'multiSelect',
@@ -94,8 +101,24 @@ export function useConversationFilterContext() {
       attributeModel: 'standard',
     },
     {
-      attributeKey: 'assignee_id',
-      value: 'assignee_id',
+      attributeKey: CONVERSATION_ATTRIBUTES.PRIORITY,
+      value: CONVERSATION_ATTRIBUTES.PRIORITY,
+      attributeName: t('FILTER.ATTRIBUTES.PRIORITY'),
+      label: t('FILTER.ATTRIBUTES.PRIORITY'),
+      inputType: 'multiSelect',
+      options: ['low', 'medium', 'high', 'urgent'].map(id => {
+        return {
+          id,
+          name: t(`CONVERSATION.PRIORITY.OPTIONS.${id.toUpperCase()}`),
+        };
+      }),
+      dataType: 'text',
+      filterOperators: equalityOperators.value,
+      attributeModel: 'standard',
+    },
+    {
+      attributeKey: CONVERSATION_ATTRIBUTES.ASSIGNEE_ID,
+      value: CONVERSATION_ATTRIBUTES.ASSIGNEE_ID,
       attributeName: t('FILTER.ATTRIBUTES.ASSIGNEE_NAME'),
       label: t('FILTER.ATTRIBUTES.ASSIGNEE_NAME'),
       inputType: 'searchSelect',
@@ -110,8 +133,8 @@ export function useConversationFilterContext() {
       attributeModel: 'standard',
     },
     {
-      attributeKey: 'inbox_id',
-      value: 'inbox_id',
+      attributeKey: CONVERSATION_ATTRIBUTES.INBOX_ID,
+      value: CONVERSATION_ATTRIBUTES.INBOX_ID,
       attributeName: t('FILTER.ATTRIBUTES.INBOX_NAME'),
       label: t('FILTER.ATTRIBUTES.INBOX_NAME'),
       inputType: 'searchSelect',
@@ -126,8 +149,8 @@ export function useConversationFilterContext() {
       attributeModel: 'standard',
     },
     {
-      attributeKey: 'team_id',
-      value: 'team_id',
+      attributeKey: CONVERSATION_ATTRIBUTES.TEAM_ID,
+      value: CONVERSATION_ATTRIBUTES.TEAM_ID,
       attributeName: t('FILTER.ATTRIBUTES.TEAM_NAME'),
       label: t('FILTER.ATTRIBUTES.TEAM_NAME'),
       inputType: 'searchSelect',
@@ -137,8 +160,8 @@ export function useConversationFilterContext() {
       attributeModel: 'standard',
     },
     {
-      attributeKey: 'display_id',
-      value: 'display_id',
+      attributeKey: CONVERSATION_ATTRIBUTES.DISPLAY_ID,
+      value: CONVERSATION_ATTRIBUTES.DISPLAY_ID,
       attributeName: t('FILTER.ATTRIBUTES.CONVERSATION_IDENTIFIER'),
       label: t('FILTER.ATTRIBUTES.CONVERSATION_IDENTIFIER'),
       inputType: 'plainText',
@@ -147,8 +170,8 @@ export function useConversationFilterContext() {
       attributeModel: 'standard',
     },
     {
-      attributeKey: 'campaign_id',
-      value: 'campaign_id',
+      attributeKey: CONVERSATION_ATTRIBUTES.CAMPAIGN_ID,
+      value: CONVERSATION_ATTRIBUTES.CAMPAIGN_ID,
       attributeName: t('FILTER.ATTRIBUTES.CAMPAIGN_NAME'),
       label: t('FILTER.ATTRIBUTES.CAMPAIGN_NAME'),
       inputType: 'searchSelect',
@@ -161,8 +184,8 @@ export function useConversationFilterContext() {
       attributeModel: 'standard',
     },
     {
-      attributeKey: 'labels',
-      value: 'labels',
+      attributeKey: CONVERSATION_ATTRIBUTES.LABELS,
+      value: CONVERSATION_ATTRIBUTES.LABELS,
       attributeName: t('FILTER.ATTRIBUTES.LABELS'),
       label: t('FILTER.ATTRIBUTES.LABELS'),
       inputType: 'multiSelect',
@@ -185,8 +208,8 @@ export function useConversationFilterContext() {
       attributeModel: 'standard',
     },
     {
-      attributeKey: 'browser_language',
-      value: 'browser_language',
+      attributeKey: CONVERSATION_ATTRIBUTES.BROWSER_LANGUAGE,
+      value: CONVERSATION_ATTRIBUTES.BROWSER_LANGUAGE,
       attributeName: t('FILTER.ATTRIBUTES.BROWSER_LANGUAGE'),
       label: t('FILTER.ATTRIBUTES.BROWSER_LANGUAGE'),
       inputType: 'searchSelect',
@@ -196,8 +219,8 @@ export function useConversationFilterContext() {
       attributeModel: 'additional',
     },
     {
-      attributeKey: 'country_code',
-      value: 'country_code',
+      attributeKey: CONVERSATION_ATTRIBUTES.COUNTRY_CODE,
+      value: CONVERSATION_ATTRIBUTES.COUNTRY_CODE,
       attributeName: t('FILTER.ATTRIBUTES.COUNTRY_NAME'),
       label: t('FILTER.ATTRIBUTES.COUNTRY_NAME'),
       inputType: 'searchSelect',
@@ -207,8 +230,8 @@ export function useConversationFilterContext() {
       attributeModel: 'additional',
     },
     {
-      attributeKey: 'referer',
-      value: 'referer',
+      attributeKey: CONVERSATION_ATTRIBUTES.REFERER,
+      value: CONVERSATION_ATTRIBUTES.REFERER,
       attributeName: t('FILTER.ATTRIBUTES.REFERER_LINK'),
       label: t('FILTER.ATTRIBUTES.REFERER_LINK'),
       inputType: 'plainText',
@@ -217,8 +240,8 @@ export function useConversationFilterContext() {
       attributeModel: 'additional',
     },
     {
-      attributeKey: 'created_at',
-      value: 'created_at',
+      attributeKey: CONVERSATION_ATTRIBUTES.CREATED_AT,
+      value: CONVERSATION_ATTRIBUTES.CREATED_AT,
       attributeName: t('FILTER.ATTRIBUTES.CREATED_AT'),
       label: t('FILTER.ATTRIBUTES.CREATED_AT'),
       inputType: 'date',
@@ -227,8 +250,8 @@ export function useConversationFilterContext() {
       attributeModel: 'standard',
     },
     {
-      attributeKey: 'last_activity_at',
-      value: 'last_activity_at',
+      attributeKey: CONVERSATION_ATTRIBUTES.LAST_ACTIVITY_AT,
+      value: CONVERSATION_ATTRIBUTES.LAST_ACTIVITY_AT,
       attributeName: t('FILTER.ATTRIBUTES.LAST_ACTIVITY'),
       label: t('FILTER.ATTRIBUTES.LAST_ACTIVITY'),
       inputType: 'date',

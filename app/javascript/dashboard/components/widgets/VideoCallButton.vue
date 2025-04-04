@@ -2,8 +2,12 @@
 import { mapGetters } from 'vuex';
 import DyteAPI from 'dashboard/api/integrations/dyte';
 import { useAlert } from 'dashboard/composables';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
+  components: {
+    NextButton,
+  },
   props: {
     conversationId: {
       type: Number,
@@ -43,16 +47,15 @@ export default {
 
 <!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
-  <woot-button
+  <NextButton
     v-if="isVideoIntegrationEnabled"
     v-tooltip.top-end="
       $t('INTEGRATION_SETTINGS.DYTE.START_VIDEO_CALL_HELP_TEXT')
     "
-    icon="video"
-    :is-loading="isLoading"
-    color-scheme="secondary"
-    variant="smooth"
-    size="small"
+    icon="i-ph-video-camera"
+    slate
+    faded
+    sm
     @click="onClick"
   />
 </template>

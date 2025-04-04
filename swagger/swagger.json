@@ -3514,6 +3514,79 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/conversations/{conversation_id}/custom_attributes": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/conversation_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Conversations"
+        ],
+        "operationId": "update-custom-attributes-of-a-conversation",
+        "summary": "Update Custom Attributes",
+        "description": "Updates the custom attributes of a conversation",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          },
+          {
+            "agentBotApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "custom_attributes"
+              ],
+              "properties": {
+                "custom_attributes": {
+                  "type": "object",
+                  "description": "The custom attributes to be set for the conversation",
+                  "example": {
+                    "order_id": "12345",
+                    "previous_conversation": "67890"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "custom_attributes": {
+                  "type": "object",
+                  "description": "The custom attributes of the conversation"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Conversation not found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/conversations/{conversation_id}/assignments": {
       "parameters": [
         {

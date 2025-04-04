@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nazwa",
-        "Opis",
-        "Aktywna",
-        "Utworzona dnia"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Imię",
+        "DESCRIPTION": "Opis",
+        "ACTIVE": "Aktywne",
+        "CREATED_ON": "Utworzona dnia"
+      },
       "404": "Nie znaleziono reguł automatyzacji"
     },
     "DELETE": {
@@ -125,6 +125,7 @@
       "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
-    }
+    },
+    "NONE_OPTION": "Brak"
   }
 }

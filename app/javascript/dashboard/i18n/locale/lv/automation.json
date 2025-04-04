@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nosaukums",
-        "Apraksts",
-        "Aktīvs",
-        "Izveidots"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nosaukums",
+        "DESCRIPTION": "Apraksts",
+        "ACTIVE": "Aktīvs",
+        "CREATED_ON": "Izveidots"
+      },
       "404": "Automatizācijas noteikumi nav atrasti"
     },
     "DELETE": {
@@ -125,6 +125,7 @@
       "ACTION_PARAMETERS_REQUIRED": "Nepieciešami darbības parametri",
       "ATLEAST_ONE_CONDITION_REQUIRED": "Ir nepieciešams vismaz viens nosacījums",
       "ATLEAST_ONE_ACTION_REQUIRED": "Ir nepieciešama vismaz viena darbība"
-    }
+    },
+    "NONE_OPTION": "Nav"
   }
 }

@@ -1,41 +1,37 @@
-<script>
+<script setup>
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
-export default {
-  props: {
-    selectedChannelName: {
-      type: String,
-      required: true,
-    },
+
+const props = defineProps({
+  selectedChannelName: {
+    type: String,
+    required: true,
   },
-  setup() {
-    const { formatMessage } = useMessageFormatter();
-    return {
-      formatMessage,
-    };
-  },
-};
+});
+
+const { t } = useI18n();
+const { formatMessage } = useMessageFormatter();
+
+const formattedHelpText = computed(() => {
+  return formatMessage(
+    t('INTEGRATION_SETTINGS.SLACK.HELP_TEXT.BODY', {
+      selectedChannelName: props.selectedChannelName,
+    }),
+    false
+  );
+});
 </script>
 
 <template>
   <div
-    class="flex-1 w-full p-6 bg-white rounded-md border border-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+    class="flex-1 w-full px-6 py-5 outline outline-n-container outline-1 bg-n-alpha-3 rounded-md shadow"
   >
     <div class="prose-lg max-w-5xl">
-      <h5 class="dark:text-slate-100">
-        {{ $t('INTEGRATION_SETTINGS.SLACK.HELP_TEXT.TITLE') }}
+      <h5 class="text-n-slate-12 tracking-tight">
+        {{ t('INTEGRATION_SETTINGS.SLACK.HELP_TEXT.TITLE') }}
       </h5>
-      <p>
-        <span
-          v-dompurify-html="
-            formatMessage(
-              $t('INTEGRATION_SETTINGS.SLACK.HELP_TEXT.BODY', {
-                selectedChannelName: selectedChannelName,
-              }),
-              false
-            )
-          "
-        />
-      </p>
+      <div v-dompurify-html="formattedHelpText" class="text-n-slate-11" />
     </div>
   </div>
 </template>

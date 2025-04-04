@@ -1,5 +1,20 @@
 {
   "INTEGRATION_SETTINGS": {
+    "SHOPIFY": {
+      "DELETE": {
+        "TITLE": "Delete Shopify Integration",
+        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+      },
+      "STORE_URL": {
+        "TITLE": "Connect Shopify Store",
+        "LABEL": "Store URL",
+        "PLACEHOLDER": "your-store.myshopify.com",
+        "HELP": "Enter your Shopify store's myshopify.com URL",
+        "CANCEL": "Atcelt",
+        "SUBMIT": "Connect Store"
+      },
+      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+    },
     "HEADER": "Integrācijas",
     "DESCRIPTION": "Chatwoot integrējas ar vairākiem rīkiem un pakalpojumiem, lai uzlabotu jūsu komandas efektivitāti. Izpētiet tālāk esošo sarakstu, lai konfigurētu savas iecienītākās lietotnes.",
     "LEARN_MORE": "Uzzināt vairāk par integrācijām",
@@ -47,10 +62,10 @@
       "LIST": {
         "404": "Šim kontam nav nokonfigurēts neviens webhook.",
         "TITLE": "Pārvaldīt webhook",
-        "TABLE_HEADER": [
-          "Webhook galapunkts",
-          "Darbības"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Webhook galapunkts",
+          "ACTIONS": "Darbības"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "Rediģēt",
@@ -90,7 +105,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "Kā izmantot Slack integrāciju?",
-        "BODY": "Izmantojot šo integrāciju, visas Jūsu ienākošās sarunas tiks sinhronizētas ar Jūsu Slack workspace kanālu ***{selectedChannelName}***. Jūs varat pārvaldīt visas savas sarunas ar klientiem savā kanālā un nekad nepalaist garām nevienu ziņojumu.\n\nŠeit ir galvenās integrācijas iezīmes:\n\n**Atbildēt uz sarunām no Slack:** Lai atbildētu uz sarunu Slack kanālā ***{selectedChannelName}***, uzrakstiet savu ziņojumu un nosūtiet to kā pavedienu. Tas nosūtīs atbildi klientam, izmantojot Chatwoot. Tas ir tik vienkārši!\n\n  **Izveidot privātas piezīmes:** Ja vēlaties izveidot privātas piezīmes, nevis atbildes, sāciet ziņojumu ar ***`note:`***. Tas nodrošina, ka jūsu ziņojums ir privāts un nebūs redzams klientam.\n\n**Asociēt aģenta profilu:** Ja personai, kas atbildēja Slack kanālā, ir aģenta profils pakalpojumā Chatwoot, ar tādu pašu e-pasta adresi, atbildes tiks automātiski asociētas ar šo aģenta profilu. Tas nozīmē, ka varat viegli izsekot kurš ko teica un kad. No otras puses, ja atbildētājam nav asociēta aģenta profila, atbildes klientam tiks rādītas no robotprogrammatūras profila.",
+        "BODY": "Izmantojot šo integrāciju, visas jūsu ienākošās sarunas tiks sinhronizētas ar kanālu ***{selectedChannelName}*** jūsu Slack darbvietā. Jūs varat pārvaldīt visas savas klientu sarunas tieši kanālā un nekad nepalaist garām nevienu ziņojumu.\n\nŠādas ir galvenās integrācijas īpašības:\n\n**Atbldēt uz sarunām no Slack:** Lai atbildētu uz sarunu ***{selectedChannelName}*** Slack kanālā, uzrakstiet savu ziņojumu un nosūtiet to kā pavedienu. Šādi tiks izveidota atbilde klientam, izmantojot Chatwoot.\n\n**Izveidot privātas piezīmes:** ja vēlaties izveidot privātas piezīmes, nevis atbildes, sāciet ziņojumu ar ***`note:`***. Tas nodrošina, ka jūsu ziņojums ir privāts un nebūs redzams klientam.\n\n**Saistīt aģenta profilu:** ja personai, kas atbildēja Slack, ir Chatwoot aģenta profils ar to pašu e-pasta adresi, atbildes tiks automātiski saistītas ar šo aģenta profilu. Tas nozīmē, ka varat viegli izsekot kurš ko teica un kad. No otras puses, ja atbildētājam nav saistīta aģenta profila, atbildes klientam tiks rādītas no robotprogrammatūras profila.",
         "SELECTED": "izvēlēts"
       },
       "SELECT_CHANNEL": {
@@ -183,10 +198,10 @@
       "LIST": {
         "404": "Šajā kontā vēl nav nokonfigurēta neviena informācijas paneļa lietotne",
         "LOADING": "Notiek informācijas paneļa lietotņu iegūšana...",
-        "TABLE_HEADER": [
-          "Nosaukums",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "Nosaukums",
+          "ENDPOINT": "Endpoint"
+        },
         "EDIT_TOOLTIP": "Rediģēt lietotni",
         "DELETE_TOOLTIP": "Dzēst lietotni"
       },
@@ -300,6 +315,259 @@
         "TITLE": "Atsaistīt",
         "SUCCESS": "Problēma ir veiksmīgi atsaistīta",
         "ERROR": "Atsaistot jautājumu radās kļūda. Lūdzu, mēģiniet vēlreiz"
+      },
+      "DELETE": {
+        "TITLE": "Vai tiešām vēlaties dzēst integrāciju?",
+        "MESSAGE": "Vai tiešām vēlaties dzēst integrāciju?",
+        "CONFIRM": "Jā, dzēst",
+        "CANCEL": "Atcelt"
+      }
+    }
+  },
+  "CAPTAIN": {
+    "NAME": "Kapteinis",
+    "HEADER_KNOW_MORE": "Know more",
+    "COPILOT": {
+      "SEND_MESSAGE": "Sūtīt ziņojumu...",
+      "LOADER": "Kapteinis domā",
+      "YOU": "Jūs",
+      "USE": "Izmantot šo",
+      "RESET": "Atiestatīt",
+      "SELECT_ASSISTANT": "Izvēlēties Asistentu"
+    },
+    "PAYWALL": {
+      "TITLE": "Modernizējiet abonementu, lai izmantotu Captain AI",
+      "AVAILABLE_ON": "Captain nav pieejams bezmaksas abonementā.",
+      "UPGRADE_PROMPT": "Modernizējiet savu abonementu, lai iegūtu piekļuvi viruālajiem asistentiem un copilot.",
+      "UPGRADE_NOW": "Pāriet uz maksas versiju tagad",
+      "CANCEL_ANYTIME": "Jūs varat jebkurā laikā mainīt vai atcelt savu versiju"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI funkcija ir pieejama tikai maksas abonementā.",
+      "UPGRADE_PROMPT": "Modernizējiet savu abonementu, lai iegūtu piekļuvi viruālajiem asistentiem un copilot.",
+      "ASK_ADMIN": "Lai pārietu uz maksas versiju, lūdzu sazinieties ar savu administratoru."
+    },
+    "BANNER": {
+      "RESPONSES": "Jūs esat izmantojis vairāk kā 80% no sava atbilžu ierobežojuma. Lai turpinātu izmantot Captain AI, lūdzu, atjauniniet abonementu.",
+      "DOCUMENTS": "Sasniegts dokumentu limits. Atjauniniet abonementu, lai turpinātu izmantot Captain AI."
+    },
+    "FORM": {
+      "CANCEL": "Atcelt",
+      "CREATE": "Izveidot",
+      "EDIT": "Atjaunināt"
+    },
+    "ASSISTANTS": {
+      "HEADER": "Asistenti",
+      "ADD_NEW": "Izveidot jaunu asistentu",
+      "DELETE": {
+        "TITLE": "Vai tiešām vēlaties izdzēst asistentu?",
+        "DESCRIPTION": "Šī darbība ir pastāvīga. Dzēšot šo asistentu, tas tiks noņemts no visām pievienotajām iesūtnēm un neatgriezeniski dzēstas visas ģenerētās zināšanas.",
+        "CONFIRM": "Jā, dzēst",
+        "SUCCESS_MESSAGE": "Asistents ir veiksmīgi izdzēsts",
+        "ERROR_MESSAGE": "Dzēšot asistentu radās kļūda. Lūdzu, mēģiniet vēlreiz."
+      },
+      "FORM_DESCRIPTION": "Aizpildiet anketu, lai nosauktu savu asistentu, norādītu tā mērķi un produktu, ko tas atbalstīs.",
+      "CREATE": {
+        "TITLE": "Izveidot asistentu",
+        "SUCCESS_MESSAGE": "Asistents ir veiksmīgi izveidots",
+        "ERROR_MESSAGE": "Veidojot asistentu radās kļūda. Lūdzu, mēģiniet vēlreiz."
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Asistenta Vārds",
+          "PLACEHOLDER": "Ievadiet asistenta vārdu",
+          "ERROR": "Lūdzu, norādiet asistenta vārdu"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Asistenta Apraksts",
+          "PLACEHOLDER": "Aprakstiet, kā un kur šis asistents tiks izmantots",
+          "ERROR": "Nepieciešams apraksts"
+        },
+        "PRODUCT_NAME": {
+          "LABEL": "Produkta Nosaukums",
+          "PLACEHOLDER": "Ievadiet produkta nosaukumu, kam šis asistents ir paredzēts",
+          "ERROR": "Nepieciešams produkta nosaukums"
+        },
+        "FEATURES": {
+          "TITLE": "Īpašības",
+          "ALLOW_CONVERSATION_FAQS": "Ģenerēt bieži uzdotos jautājumus no atrisinātajām sarunām",
+          "ALLOW_MEMORIES": "Pārtvert galvenās nianses kā atmiņas no klientu mijiedarbībām."
+        }
+      },
+      "EDIT": {
+        "TITLE": "Atjaunināt asistentu",
+        "SUCCESS_MESSAGE": "Asistents ir veiksmīgi atjaunināts",
+        "ERROR_MESSAGE": "Atjauninot asistentu radās kļūda. Lūdzu, mēģiniet vēlreiz."
+      },
+      "OPTIONS": {
+        "EDIT_ASSISTANT": "Rediģēt Asistentu",
+        "DELETE_ASSISTANT": "Dzēst Asistentu",
+        "VIEW_CONNECTED_INBOXES": "Skatīt pievienotās iesūtnes"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "Asistenti nav pieejami",
+        "SUBTITLE": "Izveidot palīgu, lai sniegtu lietotājiem ātras un precīzas atbildes. Tas var mācīties no Jūsu palīdzības rakstiem un iepriekšējām sarunām.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain Assistant",
+          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+        }
+      }
+    },
+    "DOCUMENTS": {
+      "HEADER": "Dokumenti",
+      "ADD_NEW": "Izveidot jaunu dokumentu",
+      "RELATED_RESPONSES": {
+        "TITLE": "Saistītie bieži uzdotie jautājumi",
+        "DESCRIPTION": "Šie bieži uzdotie jautājumi tiek ģenerēti tieši no dokumenta."
+      },
+      "FORM_DESCRIPTION": "Ievadiet dokumenta URL, lai to pievienotu kā zināšanu avotu, un izvēlieties asistentu, ar kuru to saistīt.",
+      "CREATE": {
+        "TITLE": "Pievienot dokumentu",
+        "SUCCESS_MESSAGE": "Dokuments ir veiksmīgi izveidots",
+        "ERROR_MESSAGE": "Veidojot dokumentu, radās kļūda. Lūdzu, mēģiniet vēlreiz."
+      },
+      "FORM": {
+        "URL": {
+          "LABEL": "URL",
+          "PLACEHOLDER": "Ievadiet dokumenta URL",
+          "ERROR": "Lūdzu, norādiet pareizu dokumenta URL"
+        },
+        "ASSISTANT": {
+          "LABEL": "Asistents",
+          "PLACEHOLDER": "Izvēlēties asistentu",
+          "ERROR": "Asistenta lauks ir obligāti jāaizpilda"
+        }
+      },
+      "DELETE": {
+        "TITLE": "Vai tiešām vēlaties izdzēst šo dokumentu?",
+        "DESCRIPTION": "Šī darbība ir pastāvīga. Dzēšot šo dokumentu visas ģenerētās zināšanas tiks neatgriezeniski izdzēstas.",
+        "CONFIRM": "Jā, dzēst",
+        "SUCCESS_MESSAGE": "Dokuments ir veiksmīgi izdzēsts",
+        "ERROR_MESSAGE": "Dzēšot dokumentu radās kļūda. Lūdzu, mēģiniet vēlreiz."
+      },
+      "OPTIONS": {
+        "VIEW_RELATED_RESPONSES": "Skatīt Saistītās Atbildes",
+        "DELETE_DOCUMENT": "Dzēst Dokumentu"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "Dokumenti nav pieejami",
+        "SUBTITLE": "Jūsu palīgs izmanto dokumentus, lai izveidotu bieži uzdotos jautājumus. Jūs varat importēt dokumentus, lai nodrošinātu kontekstu savam palīgam.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain Document",
+          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+        }
+      }
+    },
+    "RESPONSES": {
+      "HEADER": "Bieži uzdotie jautājumi",
+      "ADD_NEW": "Izveidot jaunu sarakstu ar bieži uzdotiem jautājumiem",
+      "DOCUMENTABLE": {
+        "CONVERSATION": "Saruna #{id}"
+      },
+      "SELECTED": "Atlasīti {count}",
+      "BULK_APPROVE_BUTTON": "Apstiprināt",
+      "BULK_DELETE_BUTTON": "Dzēst",
+      "BULK_APPROVE": {
+        "SUCCESS_MESSAGE": "Bieži uzdotie jautājumi ir veiksmīgi apstiprināti",
+        "ERROR_MESSAGE": "Apstiprinot bieži uzdotos jautājumus radās kļūda. Lūdzu, mēģiniet vēlreiz."
+      },
+      "BULK_DELETE": {
+        "TITLE": "Vai dzēst bieži uzdotos jautājumus?",
+        "DESCRIPTION": "Vai tiešām vēlaties dzēst atlasītos bieži uzdotos jautājumus? Šo darbību nevar atsaukt.",
+        "CONFIRM": "Jā, dzēst visu",
+        "SUCCESS_MESSAGE": "Bieži uzdotie jautājumi ir veiksmīgi izdzēsti",
+        "ERROR_MESSAGE": "Dzēšot bieži uzdotos jautājumus radās kļūda. Lūdzu, mēģiniet vēlreiz."
+      },
+      "DELETE": {
+        "TITLE": "Vai tiešām vēlaties izdzēst šos bieži uzdotos jautājumus?",
+        "DESCRIPTION": "",
+        "CONFIRM": "Jā, dzēst",
+        "SUCCESS_MESSAGE": "Bieži uzdotie jautājumi ir veiksmīgi izdzēsti",
+        "ERROR_MESSAGE": "Dzēšot bieži uzdotos jautājumus radās kļūda. Lūdzu, mēģiniet vēlreiz."
+      },
+      "FILTER": {
+        "ASSISTANT": "Asistents: {selected}",
+        "STATUS": "Statuss: {selected}",
+        "ALL_ASSISTANTS": "Visi"
+      },
+      "STATUS": {
+        "TITLE": "Statuss",
+        "PENDING": "Gaida",
+        "APPROVED": "Apstiprināts",
+        "ALL": "Visi"
+      },
+      "FORM_DESCRIPTION": "Pievienot jautājumu un tā atbildi zināšanu bāzei, kā arī izvēlēties asistentu, ar kuru tas būs saistīts.",
+      "CREATE": {
+        "TITLE": "Pievienot bieži uzdotos jautājumus",
+        "SUCCESS_MESSAGE": "Atbilde ir veiksmīgi pievienota.",
+        "ERROR_MESSAGE": "Pievienojot atbildi radās kļūda. Lūdzu, mēģiniet vēlreiz."
+      },
+      "FORM": {
+        "QUESTION": {
+          "LABEL": "Jautājums",
+          "PLACEHOLDER": "Ievadiet jautājumu šeit",
+          "ERROR": "Lūdzu, ievadiet derīgu jautājumu."
+        },
+        "ANSWER": {
+          "LABEL": "Atbilde",
+          "PLACEHOLDER": "Ievadiet atbildi šeit",
+          "ERROR": "Lūdzu, ievadiet derīgu atbildi."
+        },
+        "ASSISTANT": {
+          "LABEL": "Asistents",
+          "PLACEHOLDER": "Izvēlieties asistentu",
+          "ERROR": "Lūdzu, izvēlieties asistentu."
+        }
+      },
+      "EDIT": {
+        "TITLE": "Atjaunināt bieži uzdotos jautājumus",
+        "SUCCESS_MESSAGE": "Bieži uzdotie jautājumi ir veiksmīgi atjaunināti",
+        "ERROR_MESSAGE": "Atjauninot bieži uzdotos jautājumus, radās kļūda. Lūdzu, mēģiniet vēlreiz",
+        "APPROVE_SUCCESS_MESSAGE": "Bieži uzdotie jautājumi tika atzīmēti kā apstiprināti"
+      },
+      "OPTIONS": {
+        "APPROVE": "Atzīmēt kā apstiprinātu",
+        "EDIT_RESPONSE": "Rediģēt bieži uzdotos jautājumus",
+        "DELETE_RESPONSE": "Dzēst bieži uzdotos jautājumus"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "Bieži uzdoto jautājumu saraksti nav atrasti",
+        "SUBTITLE": "Bieži uzdotie jautājumi palīdz Jūsu asistentam sniegt ātras un precīzas atbildes uz Jūsu klientu jautājumiem. Tos var ģenerēt automātiski no jūsu satura vai pievienot manuāli.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain FAQ",
+          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+        }
+      }
+    },
+    "INBOXES": {
+      "HEADER": "Pievienotās Iesūtnes",
+      "ADD_NEW": "Pievienot jaunu iesūtni",
+      "OPTIONS": {
+        "DISCONNECT": "Atvienot"
+      },
+      "DELETE": {
+        "TITLE": "Vai tiešām vēlaties atvienot iesūtni?",
+        "DESCRIPTION": "",
+        "CONFIRM": "Jā, dzēst",
+        "SUCCESS_MESSAGE": "Iesūtne tika veiksmīgi atvienota.",
+        "ERROR_MESSAGE": "Atvienojot iesūtni radās kļūda. Lūdzu, mēģiniet vēlreiz."
+      },
+      "FORM_DESCRIPTION": "Izvēlieties iesūtni, lai izveidotu savienojumu ar asistentu.",
+      "CREATE": {
+        "TITLE": "Pievienot Iesūtni",
+        "SUCCESS_MESSAGE": "Iesūtne tika veiksmīgi pievienota.",
+        "ERROR_MESSAGE": "Pievienojot iesūtni radās kļūda. Lūdzu, mēģiniet vēlreiz."
+      },
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Iesūtne",
+          "PLACEHOLDER": "Izvēlieties iesūtni, lai aktivētu asistentu.",
+          "ERROR": "Nepieciešams izvēlēties iesūtni."
+        }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "Nav Pievienotu Iesūtņu",
+        "SUBTITLE": "Iesūtnes pievienošana ļauj asistentam apstrādāt Jūsu klientu sākotnējos jautājumus, pirms tos pārsūtīt Jums."
       }
     }
   }

@@ -20,23 +20,18 @@
         "TITLE": "เพิ่มพนักงานเข้าทีม {teamName}",
         "DESC": "เพิ่มพนักงานเข้าทีมที่สร้างใหม่ของคุณ ซึ่งจะช่วยให้คุณทำงานร่วมกันเป็นทีมเพื่อตอบรับการสนทนาและรับการแจ้งเตือนจากการสนทนาเดียวกัน"
       },
-      "WIZARD": [
-        {
-          "title": "สร้าง",
-          "route": "settings_teams_new",
-          "body": "สร้างทีมใหม่สำหรับพนักงาน"
-        },
-        {
-          "title": "เพิ่มพนักงาน",
-          "route": "settings_teams_add_agents",
-          "body": "เพิ่มพนักงานเข้าทีม"
-        },
-        {
-          "title": "เสร็จสิ้น",
-          "route": "settings_teams_finish",
-          "body": "คุณพร้อมเเล้ว"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "สร้าง",
+        "BODY": "สร้างทีมใหม่สำหรับพนักงาน"
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "เพิ่มพนักงาน",
+        "BODY": "เพิ่มพนักงานเข้าทีม"
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "เสร็จสิ้น",
+        "BODY": "คุณพร้อมเเล้ว"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "เพิ่มพนักงานเข้าทีม {teamName}",
         "DESC": "เพิ่มพนักงานเข้าทีมที่สร้างใหม่ของคุณ พนักงานทุกคนในทีมจะได้รับการแจ้งเตือนเมื่อทีมได้รับมอบหมายให้ดูแลการสนทนา"
       },
-      "WIZARD": [
-        {
-          "title": "รายละเอียดของทีม",
-          "route": "settings_teams_edit",
-          "body": "เปลี่ยนชื่อ คำอธิบาย และรายละเอียดอื่นๆ"
-        },
-        {
-          "title": "เเก้ไขพนักงาน",
-          "route": "settings_teams_edit_members",
-          "body": "แก้ไขพนักงานในทีมของคุณ"
-        },
-        {
-          "title": "เสร็จสิ้น",
-          "route": "settings_teams_edit_finish",
-          "body": "คุณพร้อมเเล้ว"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "รายละเอียดของทีม",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "เปลี่ยนชื่อ คำอธิบาย และรายละเอียดอื่นๆ"
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "เเก้ไขพนักงาน",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "แก้ไขพนักงานในทีมของคุณ"
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "เสร็จสิ้น",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "คุณพร้อมเเล้ว"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "ไม่สามารถบันทึกรายละเอียดของทีมได้ โปรดลองใหม่อีกครั้ง"

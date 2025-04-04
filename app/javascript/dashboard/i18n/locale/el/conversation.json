@@ -12,6 +12,8 @@
     "NO_INBOX_2": " για να ξεκινήσετε",
     "NO_INBOX_AGENT": "Ω όχι! Φαίνεται ότι δεν είστε μέλος κάποιου κιβωτίου εισερχμένων. Απευθυνθείτε στον διαχειριστή",
     "SEARCH_MESSAGES": "Αναζήτηση μηνυμάτων στις συνομιλίες",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "to open command menu",
       "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
@@ -38,15 +40,23 @@
     "REMOVE_SELECTION": "Διαγραφή Επιλογής",
     "DOWNLOAD": "Κατέβασμα",
     "UNKNOWN_FILE_TYPE": "Άγνωστο Αρχείο",
-    "SAVE_CONTACT": "Save",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "Ό πράκτορας {sender} ξεκίνησε μια συνάντηση"
+    },
     "UPLOADING_ATTACHMENTS": "Ανέβασμα επισυναπτόμενων...",
     "REPLIED_TO_STORY": "Replied to your story",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Το μήνυμα διαγράφηκε επιτυχώς",
     "FAIL_DELETE_MESSSAGE": "Δεν ήταν δυνατή η διαγραφή μηνύματος! Προσπαθήστε ξανά",
     "NO_RESPONSE": "Καμία ανταπόκριση",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Αξιολόγηση",
     "FEEDBACK_TITLE": "Ανατροφοδότηση",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
@@ -109,6 +119,7 @@
       "PENDING": "Σήμανση ως εκκρεμής",
       "RESOLVED": "Σήμανση ως επιλυμένου",
       "MARK_AS_UNREAD": "Σήμανση ως μη αναγνωσμένο",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Άνοιγμα συνομιλίας",
       "SNOOZE": {
         "TITLE": "Αναβολή",
@@ -126,7 +137,7 @@
           "FAILED": "Αδυναμία αντιστοίχισης σε πράκτορα. Παρακαλώ δοκιμάστε ξανά."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Εκχώρηση ετικέτας #{labelName} στην συνομιλία με αριθμό {conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Αποτυχία στην εκχώρηση ετικέτας, παρακαλώ δοκιμάστε αργότερα."
         },
         "TEAM_ASSIGNMENT": {
@@ -219,6 +230,10 @@
         "DELETE": "Διαγραφή",
         "CANCEL": "Άκυρο"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Επαφές",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -280,7 +295,27 @@
       "CONVERSATION_INFO": "Πληροφορίες Συνομιλίας",
       "CONTACT_ATTRIBUTES": "Ιδιότητες Επαφής",
       "PREVIOUS_CONVERSATION": "Προηγούμενες συνομιλίες",
-      "MACROS": "Μακροεντολές"
+      "MACROS": "Μακροεντολές",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Εκκρεμεί",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -310,7 +345,8 @@
     "TO": "Προς",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Θέμα"
+    "SUBJECT": "Θέμα",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participating",
@@ -335,5 +371,16 @@
     "ORIGINAL_CONTENT": "Original Content",
     "TRANSLATED_CONTENT": "Translated Content",
     "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

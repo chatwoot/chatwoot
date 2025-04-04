@@ -65,7 +65,7 @@
         "ERROR_MESSAGE": "Nevarēja izdzēst pielāgoto īpašību. Mēģiniet vēlreiz."
       },
       "CONFIRM": {
-        "TITLE": "Vai tiešām vēlaties dzēst - {attributeName}",
+        "TITLE": "Vai esat pārliecināts, ka vēlaties izdzēst - {attributeName}",
         "PLACE_HOLDER": "Lai apstiprinātu, lūdzu, uzrakstiet {attributeName}",
         "MESSAGE": "Dzēšana noņems pielāgoto īpašību",
         "YES": "Dzēst ",
@@ -92,12 +92,12 @@
       "CONTACT": "Kontaktpersona"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nosaukums",
-        "Apraksts",
-        "Tips",
-        "Atslēga"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nosaukums",
+        "DESCRIPTION": "Apraksts",
+        "TYPE": "Tips",
+        "KEY": "Atslēga"
+      },
       "BUTTONS": {
         "EDIT": "Rediģēt",
         "DELETE": "Dzēst"

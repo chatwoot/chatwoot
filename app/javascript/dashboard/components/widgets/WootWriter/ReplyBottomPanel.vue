@@ -10,15 +10,17 @@ import {
   ALLOWED_FILE_TYPES,
   ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
   ALLOWED_FILE_TYPES_FOR_LINE,
+  ALLOWED_FILE_TYPES_FOR_INSTAGRAM,
 } from 'shared/constants/messages';
 import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
 import { REPLY_EDITOR_MODES } from './constants';
 import { mapGetters } from 'vuex';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   name: 'ReplyBottomPanel',
-  components: { FileUpload, VideoCallButton, AIAssistanceButton },
+  components: { NextButton, FileUpload, VideoCallButton, AIAssistanceButton },
   mixins: [inboxMixin],
   props: {
     mode: {
@@ -112,6 +114,10 @@ export default {
       type: String,
       required: true,
     },
+    conversationType: {
+      type: String,
+      default: '',
+    },
   },
   emits: [
     'replaceText',
@@ -126,7 +132,7 @@ export default {
     const uploadRef = ref(false);
 
     const keyboardEvents = {
-      'Alt+KeyA': {
+      '$mod+Alt+KeyA': {
         action: () => {
           // TODO: This is really hacky, we need to replace the file picker component with
           // a custom one, where the logic and the component markup is isolated.
@@ -163,11 +169,6 @@ export default {
         'is-note-mode': this.isNote,
       };
     },
-    buttonClass() {
-      return {
-        warning: this.isNote,
-      };
-    },
     showAttachButton() {
       return this.showFileUpload || this.isNote;
     },
@@ -191,6 +192,9 @@ export default {
     showAudioPlayStopButton() {
       return this.showAudioRecorder && this.isRecordingAudio;
     },
+    isInstagramDM() {
+      return this.conversationType === 'instagram_direct_message';
+    },
     allowedFileTypes() {
       if (this.isATwilioWhatsAppChannel) {
         return ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP;
@@ -198,6 +202,10 @@ export default {
       if (this.isALineChannel) {
         return ALLOWED_FILE_TYPES_FOR_LINE;
       }
+      if (this.isAInstagramChannel || this.isInstagramDM) {
+        return ALLOWED_FILE_TYPES_FOR_INSTAGRAM;
+      }
+
       return ALLOWED_FILE_TYPES;
     },
     enableDragAndDrop() {
@@ -207,13 +215,13 @@ export default {
       switch (this.recordingAudioState) {
         // playing paused recording stopped inactive destroyed
         case 'playing':
-          return 'microphone-pause';
+          return 'i-ph-pause';
         case 'paused':
-          return 'microphone-play';
+          return 'i-ph-play';
         case 'stopped':
-          return 'microphone-play';
+          return 'i-ph-play';
         default:
-          return 'microphone-stop';
+          return 'i-ph-stop';
       }
     },
     showMessageSignatureButton() {
@@ -253,15 +261,14 @@ export default {
 </script>
 
 <template>
-  <div class="bottom-box" :class="wrapClass">
+  <div class="flex justify-between p-3" :class="wrapClass">
     <div class="left-wrap">
-      <woot-button
+      <NextButton
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
-        :title="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
-        icon="emoji"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
+        icon="i-ph-smiley-sticker"
+        slate
+        faded
+        sm
         @click="toggleEmojiPicker"
       />
       <FileUpload
@@ -279,62 +286,59 @@ export default {
         }"
         @input-file="onFileUpload"
       >
-        <woot-button
+        <NextButton
           v-if="showAttachButton"
-          class-names="button--upload"
-          :title="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
-          icon="attach"
-          color-scheme="secondary"
-          variant="smooth"
-          size="small"
+          v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
+          icon="i-ph-paperclip"
+          slate
+          faded
+          sm
         />
       </FileUpload>
-      <woot-button
+      <NextButton
         v-if="showAudioRecorderButton"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
-        :icon="!isRecordingAudio ? 'microphone' : 'microphone-off'"
-        :color-scheme="!isRecordingAudio ? 'secondary' : 'alert'"
-        variant="smooth"
-        size="small"
+        :icon="!isRecordingAudio ? 'i-ph-microphone' : 'i-ph-microphone-slash'"
+        slate
+        faded
+        sm
         @click="toggleAudioRecorder"
       />
-      <woot-button
+      <NextButton
         v-if="showEditorToggle"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
-        icon="quote"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
+        icon="i-ph-quotes"
+        slate
+        faded
+        sm
         @click="$emit('toggleEditor')"
       />
-      <woot-button
+      <NextButton
         v-if="showAudioPlayStopButton"
+        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
         :icon="audioRecorderPlayStopIcon"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
+        slate
+        faded
+        sm
+        :label="recordingAudioDurationText"
         @click="toggleAudioRecorderPlayPause"
-      >
-        <span>{{ recordingAudioDurationText }}</span>
-      </woot-button>
-      <woot-button
+      />
+      <NextButton
         v-if="showMessageSignatureButton"
         v-tooltip.top-end="signatureToggleTooltip"
-        icon="signature"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
-        :title="signatureToggleTooltip"
+        icon="i-ph-signature"
+        slate
+        faded
+        sm
         @click="toggleMessageSignature"
       />
-      <woot-button
+      <NextButton
         v-if="hasWhatsappTemplates"
         v-tooltip.top-end="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
-        icon="whatsapp"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
-        :title="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
+        icon="i-ph-whatsapp-logo"
+        slate
+        faded
+        sm
         @click="$emit('selectWhatsappTemplate')"
       />
       <VideoCallButton
@@ -359,39 +363,31 @@ export default {
           </h4>
         </div>
       </transition>
-      <woot-button
+      <NextButton
         v-if="enableInsertArticleInReply"
         v-tooltip.top-end="$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')"
-        icon="document-text-link"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
-        :title="$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')"
+        icon="i-ph-article-ny-times"
+        slate
+        faded
+        sm
         @click="toggleInsertArticle"
       />
     </div>
     <div class="right-wrap">
-      <woot-button
-        size="small"
-        :class-names="buttonClass"
-        :is-disabled="isSendDisabled"
+      <NextButton
+        :label="sendButtonText"
+        type="submit"
+        sm
+        :color="isNote ? 'amber' : 'blue'"
+        :disabled="isSendDisabled"
+        class="flex-shrink-0"
         @click="onSend"
-      >
-        {{ sendButtonText }}
-      </woot-button>
+      />
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.bottom-box {
-  @apply flex justify-between py-3 px-4;
-
-  &.is-note-mode {
-    @apply bg-yellow-100 dark:bg-yellow-800;
-  }
-}
-
 .left-wrap {
   @apply items-center flex gap-2;
 }

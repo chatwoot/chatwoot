@@ -1,57 +1,55 @@
 <script setup>
 import { computed } from 'vue';
 import { MESSAGE_STATUS } from '../../constants';
+import { useMessageContext } from '../../provider.js';
 
-const props = defineProps({
-  contentAttributes: {
-    type: Object,
-    default: () => ({}),
-  },
-  status: {
-    type: String,
-    required: true,
-    validator: value => Object.values(MESSAGE_STATUS).includes(value),
-  },
-  sender: {
-    type: Object,
-    default: () => ({}),
-  },
-});
+const { contentAttributes, status, sender } = useMessageContext();
 
 const hasError = computed(() => {
-  return props.status === MESSAGE_STATUS.FAILED;
+  return status.value === MESSAGE_STATUS.FAILED;
 });
 
 const fromEmail = computed(() => {
-  return props.contentAttributes?.email?.from ?? [];
+  return contentAttributes.value?.email?.from ?? [];
 });
 
 const toEmail = computed(() => {
-  return props.contentAttributes?.email?.to ?? [];
+  return contentAttributes.value?.email?.to ?? [];
 });
 
 const ccEmail = computed(() => {
   return (
-    props.contentAttributes?.ccEmails ??
-    props.contentAttributes?.email?.cc ??
+    contentAttributes.value?.ccEmails ??
+    contentAttributes.value?.email?.cc ??
     []
   );
 });
 
 const senderName = computed(() => {
-  return props.sender.name ?? '';
+  const fromEmailAddress = fromEmail.value[0] ?? '';
+  const senderEmail = sender.value.email ?? '';
+
+  if (!fromEmailAddress && !senderEmail) return null;
+
+  // if the sender of the conversation and the sender of this particular
+  // email are the same, only then we return the sender name
+  if (fromEmailAddress === senderEmail) {
+    return sender.value.name;
+  }
+
+  return null;
 });
 
 const bccEmail = computed(() => {
   return (
-    props.contentAttributes?.bccEmails ??
-    props.contentAttributes?.email?.bcc ??
+    contentAttributes.value?.bccEmails ??
+    contentAttributes.value?.email?.bcc ??
     []
   );
 });
 
 const subject = computed(() => {
-  return props.contentAttributes?.email?.subject ?? '';
+  return contentAttributes.value?.email?.subject ?? '';
 });
 
 const showMeta = computed(() => {
@@ -68,15 +66,23 @@ const showMeta = computed(() => {
 <template>
   <section
     v-show="showMeta"
-    class="p-4 space-y-1 pr-9 border-b border-n-strong"
+    class="space-y-1 rtl:pl-9 ltr:pr-9 text-sm break-words"
     :class="hasError ? 'text-n-ruby-11' : 'text-n-slate-11'"
   >
     <template v-if="showMeta">
-      <div v-if="fromEmail[0]">
-        <span :class="hasError ? 'text-n-ruby-11' : 'text-n-slate-12'">
-          {{ senderName }}
-        </span>
-        &lt;{{ fromEmail[0] }}&gt;
+      <div
+        v-if="fromEmail[0]"
+        :class="hasError ? 'text-n-ruby-11' : 'text-n-slate-12'"
+      >
+        <template v-if="senderName">
+          <span>
+            {{ senderName }}
+          </span>
+          &lt;{{ fromEmail[0] }}&gt;
+        </template>
+        <template v-else>
+          {{ fromEmail[0] }}
+        </template>
       </div>
       <div v-if="toEmail.length">
         {{ $t('EMAIL_HEADER.TO') }}: {{ toEmail.join(', ') }}

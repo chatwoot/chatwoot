@@ -12,6 +12,8 @@
     "NO_INBOX_2": " um loszulegen",
     "NO_INBOX_AGENT": "Oh oh! Sieht so aus, als wären Sie nicht Teil eines Posteingangs. Bitte wenden Sie sich an Ihren Administrator",
     "SEARCH_MESSAGES": "Nachrichten in Unterhaltungen suchen",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "zum Öffnen des Kommandomenüs",
       "KEYBOARD_SHORTCUTS": "um Tastenkürzel anzuzeigen"
@@ -38,15 +40,23 @@
     "REMOVE_SELECTION": "Auswahl entfernen",
     "DOWNLOAD": "Herunterladen",
     "UNKNOWN_FILE_TYPE": "Unbekannte Datei",
-    "SAVE_CONTACT": "Speichern",
+    "SAVE_CONTACT": "Kontakt speichern",
+    "NO_CONTENT": "Kein Inhalt zum Anzeigen",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} hat einen Kontakt geteilt",
+      "LOCATION": "{sender} hat einen Standort geteilt",
+      "FILE": "{sender} hat eine Datei geteilt",
+      "MEETING": "{sender} hat ein Meeting begonnen"
+    },
     "UPLOADING_ATTACHMENTS": "Anhänge werden hochgeladen...",
     "REPLIED_TO_STORY": "Auf deine Geschichte geantwortet",
-    "UNSUPPORTED_MESSAGE": "Die Nachricht wird nicht unterstützt.",
+    "UNSUPPORTED_MESSAGE": "Diese Nachricht wird nicht unterstützt. Sie können diese Nachricht in der Facebook/Instagram-App sehen.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Diese Nachricht wird nicht unterstützt. Sie können diese Nachricht in der Facebook-Messenger-App sehen.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Diese Nachricht wird nicht unterstützt. Sie können diese Nachricht in der Instagram-App sehen.",
     "SUCCESS_DELETE_MESSAGE": "Nachricht erfolgreich gelöscht",
     "FAIL_DELETE_MESSSAGE": "Nachricht konnte nicht gelöscht werden! Versuchen Sie es erneut",
     "NO_RESPONSE": "Keine Antwort",
+    "RESPONSE": "Antwort",
     "RATING_TITLE": "Bewertung",
     "FEEDBACK_TITLE": "Feedback",
     "REPLY_MESSAGE_NOT_FOUND": "Nachricht nicht verfügbar",
@@ -109,6 +119,7 @@
       "PENDING": "Als ausstehend markieren",
       "RESOLVED": "Als gelöst markieren",
       "MARK_AS_UNREAD": "Als ungelesen markieren",
+      "MARK_AS_READ": "Als gelesen markieren",
       "REOPEN": "Konversation wieder öffnen",
       "SNOOZE": {
         "TITLE": "Erinnern",
@@ -126,7 +137,7 @@
           "FAILED": "Agent konnte nicht zugewiesen werden. Bitte versuche es erneut."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Das Label #{labelName} wurde der Konversations-ID {conversationId} zugewiesen",
+          "SUCCESFUL": "Label #{labelName} der Konversations-ID {conversationId} zugewiesen",
           "FAILED": "Label konnte nicht zugewiesen werden. Bitte versuche es erneut."
         },
         "TEAM_ASSIGNMENT": {
@@ -219,6 +230,10 @@
         "DELETE": "Löschen",
         "CANCEL": "Abbrechen"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Kontakt",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -280,7 +295,27 @@
       "CONVERSATION_INFO": "Konversationsinformationen",
       "CONTACT_ATTRIBUTES": "Kontakt-Attribute",
       "PREVIOUS_CONVERSATION": "Vorherige Konversationen",
-      "MACROS": "Makros"
+      "MACROS": "Makros",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Ausstehend",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -310,7 +345,8 @@
     "TO": "An",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Betreff"
+    "SUBJECT": "Betreff",
+    "EXPAND": "E-Mail erweitern"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Zugewiesen",
@@ -335,5 +371,16 @@
     "ORIGINAL_CONTENT": "Originalinhalt",
     "TRANSLATED_CONTENT": "Übersetzter Inhalt",
     "NO_TRANSLATIONS_AVAILABLE": "Für diesen Inhalt sind keine Übersetzungen verfügbar"
+  },
+  "TYPING": {
+    "ONE": "{user} tippt",
+    "TWO": "{user} und {secondUser} tippen",
+    "MULTIPLE": "{user} und {count} andere tippen"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Probiere diese Prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Anhang konnte nicht heruntergeladen werden. Bitte versuche es erneut"
   }
 }

@@ -4,7 +4,6 @@ import AddAccountModal from '../dashboard/components/layout/sidebarComponents/Ad
 import LoadingState from './components/widgets/LoadingState.vue';
 import NetworkNotification from './components/NetworkNotification.vue';
 import UpdateBanner from './components/app/UpdateBanner.vue';
-import UpgradeBanner from './components/app/UpgradeBanner.vue';
 import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
 import PendingEmailVerificationBanner from './components/app/PendingEmailVerificationBanner.vue';
 import vueActionCable from './helper/actionCable';
@@ -14,6 +13,7 @@ import WootSnackbarBox from './components/SnackbarContainer.vue';
 import { setColorTheme } from './helper/themeHelper';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useFontSize } from 'dashboard/composables/useFontSize';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
@@ -30,15 +30,21 @@ export default {
     UpdateBanner,
     PaymentPendingBanner,
     WootSnackbarBox,
-    UpgradeBanner,
     PendingEmailVerificationBanner,
   },
   setup() {
     const router = useRouter();
     const store = useStore();
     const { accountId } = useAccount();
+    // Use the font size composable (it automatically sets up the watcher)
+    const { currentFontSize } = useFontSize();
 
-    return { router, store, currentAccountId: accountId };
+    return {
+      router,
+      store,
+      currentAccountId: accountId,
+      currentFontSize,
+    };
   },
   data() {
     return {
@@ -138,7 +144,6 @@ export default {
     <template v-if="currentAccountId">
       <PendingEmailVerificationBanner v-if="hideOnOnboardingView" />
       <PaymentPendingBanner v-if="hideOnOnboardingView" />
-      <UpgradeBanner />
     </template>
     <router-view v-slot="{ Component }">
       <transition name="fade" mode="out-in">

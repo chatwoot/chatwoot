@@ -3,7 +3,11 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
 
   def perform(params = {})
     channel = find_channel_from_whatsapp_business_payload(params)
-    return if channel_is_inactive?(channel)
+
+    if channel_is_inactive?(channel)
+      Rails.logger.warn("Inactive WhatsApp channel: #{channel&.phone_number || "unknown - #{params[:phone_number]}"}")
+      return
+    end
 
     case channel.provider
     when 'whatsapp_cloud'

@@ -3,8 +3,8 @@
     "HEADER": "صفات مخصصة",
     "HEADER_BTN_TXT": "إضافة صفة خاصة",
     "LOADING": "جلب الصفات المخصصة",
-    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
-    "LEARN_MORE": "Learn more about custom attributes",
+    "DESCRIPTION": "سمة مخصصة تتتبع تفاصيل إضافية حول جهات الاتصال أو المحادثات الخاصة بك - مثل خطة الاشتراك أو تاريخ الشراء الأول. يمكنك إضافة أنواع مختلفة من السمات المخصصة، مثل النص أو القوائم أو الأرقام، لالتقاط المعلومات المحددة التي تحتاجها.",
+    "LEARN_MORE": "تعرف على المزيد حول السمات المخصصة",
     "ADD": {
       "TITLE": "إضافة صفة خاصة",
       "SUBMIT": "إنشاء",
@@ -43,7 +43,7 @@
         },
         "REGEX_PATTERN": {
           "LABEL": "نمط Regex",
-          "PLACEHOLDER": "الرجاء إدخال سمة مخصصة ريمكس (اختياري)"
+          "PLACEHOLDER": "الرجاء إدخال سمة مخصصة regex (اختياري)"
         },
         "REGEX_CUE": {
           "LABEL": "Regex Cue",
@@ -92,12 +92,12 @@
       "CONTACT": "جهات الاتصال"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "الاسم",
-        "الوصف",
-        "النوع",
-        "المفتاح"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "الاسم",
+        "DESCRIPTION": "الوصف",
+        "TYPE": "النوع",
+        "KEY": "المفتاح"
+      },
       "BUTTONS": {
         "EDIT": "تعديل",
         "DELETE": "حذف"
@@ -108,7 +108,7 @@
       },
       "REGEX_PATTERN": {
         "LABEL": "نمط Regex",
-        "PLACEHOLDER": "الرجاء إدخال صفة مخصصة ريمكس (اختياري)"
+        "PLACEHOLDER": "الرجاء إدخال صفة مخصصة regex (اختياري)"
       },
       "REGEX_CUE": {
         "LABEL": "Regex Cue",
