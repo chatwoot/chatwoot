@@ -43,7 +43,14 @@
         "INBOX_NAME": "Iesūtnes Nosaukums",
         "ADD_NAME": "Pievienojiet savas iesūtnes nosaukumu",
         "PICK_NAME": "Lūdzu ievadiet Iesūtnes nosaukumu",
-        "PICK_A_VALUE": "Izvēlieties vērtību"
+        "PICK_A_VALUE": "Izvēlieties vērtību",
+        "CREATE_INBOX": "Izveidot Iesūtni"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again"
       },
       "TWITTER": {
         "HELP": "Lai pievienotu savu Twitter profilu kā kanālu, Jums ir jāautentificē savs Twitter profils, noklikšķinot uz \"Pierakstīties ar Twitter\"' ",
@@ -753,7 +760,8 @@
       "EMAIL": "E-pasts",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API Kanāls"
+      "API": "API Kanāls",
+      "INSTAGRAM": "Instagram"
     }
   }
 }
