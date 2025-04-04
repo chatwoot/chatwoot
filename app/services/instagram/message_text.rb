@@ -1,9 +1,5 @@
 class Instagram::MessageText < Instagram::BaseMessageText
-  include HTTParty
-
   attr_reader :messaging
-
-  base_uri "https://graph.instagram.com/#{GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v22.0')}"
 
   def ensure_contact(ig_scope_id)
     result = fetch_instagram_user(ig_scope_id)
@@ -12,7 +8,7 @@ class Instagram::MessageText < Instagram::BaseMessageText
 
   def fetch_instagram_user(ig_scope_id)
     fields = 'name,username,profile_pic,follower_count,is_user_follow_business,is_business_follow_user,is_verified_user'
-    url = "#{self.class.base_uri}/#{ig_scope_id}?fields=#{fields}&access_token=#{@inbox.channel.access_token}"
+    url = "#{base_uri}/#{ig_scope_id}?fields=#{fields}&access_token=#{@inbox.channel.access_token}"
 
     response = HTTParty.get(url)
 
@@ -49,6 +45,10 @@ class Instagram::MessageText < Instagram::BaseMessageText
     Rails.logger.warn("[InstagramUserFetchError]: #{error_message} #{error_code}")
 
     ChatwootExceptionTracker.new(error, account: @inbox.account).capture_exception
+  end
+
+  def base_uri
+    "https://graph.instagram.com/#{GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v22.0')}"
   end
 
   def create_message

@@ -1,8 +1,4 @@
 class Messages::Instagram::MessageBuilder < Messages::Instagram::BaseMessageBuilder
-  include HTTParty
-
-  base_uri "https://graph.instagram.com/#{GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v22.0')}"
-
   def initialize(messaging, inbox, outgoing_echo: false)
     super(messaging, inbox, outgoing_echo: outgoing_echo)
   end
@@ -10,7 +6,7 @@ class Messages::Instagram::MessageBuilder < Messages::Instagram::BaseMessageBuil
   private
 
   def get_story_object_from_source_id(source_id)
-    url = "#{self.class.base_uri}/#{source_id}?fields=story,from&access_token=#{@inbox.channel.access_token}"
+    url = "#{base_uri}/#{source_id}?fields=story,from&access_token=#{@inbox.channel.access_token}"
 
     response = HTTParty.get(url)
 
@@ -37,5 +33,9 @@ class Messages::Instagram::MessageBuilder < Messages::Instagram::BaseMessageBuil
     end
 
     Rails.logger.error("[InstagramStoryFetchError]: #{parsed_response.dig('error', 'message')} #{error_code}")
+  end
+
+  def base_uri
+    "https://graph.instagram.com/#{GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v22.0')}"
   end
 end
