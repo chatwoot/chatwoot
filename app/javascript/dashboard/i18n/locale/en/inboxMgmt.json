@@ -339,7 +339,8 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "OneHash Chat supports live-chat widgets, Facebook Messenger, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "OneHash Chat supports live-chat widgets, Facebook Messenger, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
+        "DESC_SHORT": "OneHash Chat supports live-chat widgets, Facebook Messenger, WhatsApp, Emails, etc., as channels."
       },
       "AGENTS": {
         "TITLE": "Agents",
@@ -348,6 +349,10 @@
         "PICK_AGENTS": "Pick agents for the inbox"
       },
       "DETAILS": {
+        "TITLE": "Inbox Details",
+        "DESC": "From the dropdown below, select the Facebook Page you want to connect to OneHash Chat. You can also give a custom name to your inbox for better identification."
+      },
+      "FACEBOOK": {
         "TITLE": "Inbox Details",
         "DESC": "From the dropdown below, select the Facebook Page you want to connect to OneHash Chat. You can also give a custom name to your inbox for better identification."
       },
