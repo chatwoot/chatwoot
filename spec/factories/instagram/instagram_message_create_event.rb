@@ -256,7 +256,7 @@ FactoryBot.define do
               },
               'timestamp': '2021-09-08T06:34:04+0000',
               'message': {
-                'mid': 'message-id-1',
+                'mid': 'mention-message-id-1',
                 'attachments': [
                   {
                     'type': 'story_mention',

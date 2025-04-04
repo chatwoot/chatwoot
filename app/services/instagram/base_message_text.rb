@@ -17,7 +17,7 @@ class Instagram::BaseMessageText < Instagram::WebhooksBaseService
       return
     end
 
-    return un_send_message if message_is_deleted?
+    return unsend_message if message_is_deleted?
 
     ensure_contact(contact_id) if contacts_first_message?(contact_id)
 
@@ -48,7 +48,7 @@ class Instagram::BaseMessageText < Instagram::WebhooksBaseService
     @contact_inbox.blank? && @inbox.channel.instagram_id.present?
   end
 
-  def un_send_message
+  def unsend_message
     message_to_delete = @inbox.messages.find_by(
       source_id: @messaging[:message][:mid]
     )

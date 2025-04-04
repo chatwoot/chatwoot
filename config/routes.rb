@@ -264,7 +264,6 @@ Rails.application.routes.draw do
           resources :portals do
             member do
               patch :archive
-              put :add_members
               delete :logo
             end
             resources :categories

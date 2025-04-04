@@ -4,12 +4,12 @@ describe Instagram::SendOnInstagramService do
   subject(:send_reply_service) { described_class.new(message: message) }
 
   let!(:account) { create(:account) }
-  let!(:instagram_direct_channel) { create(:channel_instagram, account: account, instagram_id: 'instagram-message-id-123') }
-  let!(:instagram_direct_inbox) { create(:inbox, channel: instagram_direct_channel, account: account, greeting_enabled: false) }
+  let!(:instagram_channel) { create(:channel_instagram, account: account, instagram_id: 'instagram-message-id-123') }
+  let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: account, greeting_enabled: false) }
 
   let!(:contact) { create(:contact, account: account) }
-  let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: instagram_direct_inbox) }
-  let(:conversation) { create(:conversation, contact: contact, inbox: instagram_direct_inbox, contact_inbox: contact_inbox) }
+  let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: instagram_inbox) }
+  let(:conversation) { create(:conversation, contact: contact, inbox: instagram_inbox, contact_inbox: contact_inbox) }
   let(:response) { double }
   let(:mock_response) do
     instance_double(
@@ -61,14 +61,14 @@ describe Instagram::SendOnInstagramService do
         end
 
         it 'if message is sent from chatwoot and is outgoing' do
-          message = create(:message, message_type: 'outgoing', inbox: instagram_direct_inbox, account: account, conversation: conversation)
+          message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
 
           response = described_class.new(message: message).perform
           expect(response['message_id']).to eq('random_message_id')
         end
 
         it 'if message is sent from chatwoot and is outgoing with multiple attachments' do
-          message = build(:message, content: nil, message_type: 'outgoing', inbox: instagram_direct_inbox, account: account,
+          message = build(:message, content: nil, message_type: 'outgoing', inbox: instagram_inbox, account: account,
                                     conversation: conversation)
           avatar = message.attachments.new(account_id: message.account_id, file_type: :image)
           avatar.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
@@ -87,7 +87,7 @@ describe Instagram::SendOnInstagramService do
         end
 
         it 'if message with attachment is sent from chatwoot and is outgoing' do
-          message = build(:message, message_type: 'outgoing', inbox: instagram_direct_inbox, account: account, conversation: conversation)
+          message = build(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
           attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
           attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
           message.save!
@@ -97,7 +97,7 @@ describe Instagram::SendOnInstagramService do
         end
 
         it 'if message sent from chatwoot is failed' do
-          message = create(:message, message_type: 'outgoing', inbox: instagram_direct_inbox, account: account, conversation: conversation)
+          message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
 
           allow(HTTParty).to receive(:post).and_return(response_with_error)
           described_class.new(message: message).perform
@@ -113,11 +113,11 @@ describe Instagram::SendOnInstagramService do
         end
 
         it 'if message is sent from chatwoot and is outgoing' do
-          message = create(:message, message_type: 'outgoing', inbox: instagram_direct_inbox, account: account, conversation: conversation)
+          message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
 
           allow(HTTParty).to receive(:post).with(
             {
-              recipient: { id: contact.get_source_id(instagram_direct_inbox.id) },
+              recipient: { id: contact.get_source_id(instagram_inbox.id) },
               message: {
                 text: message.content
               },
@@ -137,7 +137,7 @@ describe Instagram::SendOnInstagramService do
 
       context 'when handling errors' do
         it 'handles HTTP errors' do
-          message = create(:message, message_type: 'outgoing', inbox: instagram_direct_inbox, account: account, conversation: conversation)
+          message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
           allow(HTTParty).to receive(:post).and_return(error_response)
 
           described_class.new(message: message).perform
@@ -147,7 +147,7 @@ describe Instagram::SendOnInstagramService do
         end
 
         it 'handles response errors' do
-          message = create(:message, message_type: 'outgoing', inbox: instagram_direct_inbox, account: account, conversation: conversation)
+          message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
 
           error_response = instance_double(
             HTTParty::Response,
@@ -162,6 +162,25 @@ describe Instagram::SendOnInstagramService do
 
           expect(message.reload.status).to eq('failed')
           expect(message.reload.external_error).to eq('100 - Invalid message format')
+        end
+
+        it 'handles reauthorization errors if access token is expired' do
+          message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+
+          error_response = instance_double(
+            HTTParty::Response,
+            success?: false,
+            body: { 'error' => { 'message' => 'Access token has expired', 'code' => 190 } }.to_json,
+            parsed_response: { 'error' => { 'message' => 'Access token has expired', 'code' => 190 } }
+          )
+
+          allow(HTTParty).to receive(:post).and_return(error_response)
+
+          described_class.new(message: message).perform
+
+          expect(message.reload.status).to eq('failed')
+          expect(message.reload.external_error).to eq('190 - Access token has expired')
+          expect(instagram_channel.reload).to be_reauthorization_required
         end
       end
     end
