@@ -5,23 +5,34 @@ class Captain::Tools::DocumentationSearch < RubyLLM::Tool
         type: :string,
         desc: 'The search query to find relevant documentation'
 
-  def execute(search_query:)
-    responses = ::Captain::AssistantResponse.approved.search(search_query)
+  def initialize(assistant)
+    super()
+    @assistant = assistant
+  end
+
+  def execute(query:)
+    @assistant
+      .responses
+      .approved
+      .search(query)
+      .map { |response| format_response(response) }.join
+
     format_responses(responses)
   end
 
   private
 
-  def format_responses(responses)
-    responses.map do |response|
-      formatted_response = {
-        question: response.question,
-        answer: response.answer
-      }
-
-      formatted_response[:source] = response.documentable.external_link if response.documentable.present? && response.documentable.try(:external_link)
-
-      formatted_response
+  def format_response(response)
+    formatted_response = "
+      Question: #{response.question}
+      Answer: #{response.answer}
+      "
+    if response.documentable.present? && response.documentable.try(:external_link)
+      formatted_response += "
+        Source: #{response.documentable.external_link}
+        "
     end
+
+    formatted_response
   end
 end

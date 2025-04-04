@@ -2,7 +2,8 @@ class Captain::Llm::AssistantChatService < Llm::BaseService
   def initialize(assistant: nil)
     super()
     @assistant = assistant
-    @chat = ::RubyLLM.chat(model: @model).with_tool(Captain::Tools::DocumentationSearch)
+    search_tool = Captain::Tools::DocumentationSearch.new(assistant)
+    @chat = ::RubyLLM.chat(model: @model).with_tool(search_tool)
     @chat.with_instructions(system_message)
   end
 
