@@ -10,7 +10,7 @@ class Captain::Tools::DocumentationSearch < RubyLLM::Tool
     @assistant = assistant
   end
 
-  def execute(query:)
+  def execute(query)
     @assistant
       .responses
       .approved
