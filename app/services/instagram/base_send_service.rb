@@ -69,6 +69,12 @@ class Instagram::BaseSendService < Base::SendOnChannelService
   def external_error(response)
     error_message = response.dig('error', 'message')
     error_code = response.dig('error', 'code')
+
+    # https://developers.facebook.com/docs/messenger-platform/error-codes
+    # Access token has expired or become invalid. This may be due to a password change,
+    # removal of the connected app from Instagram account settings, or other reasons.
+    channel.authorization_error! if error_code == 190
+
     "#{error_code} - #{error_message}"
   end
 

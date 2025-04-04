@@ -5,15 +5,15 @@ describe Instagram::Messenger::SendOnInstagramService do
 
   before do
     stub_request(:post, /graph\.facebook\.com/)
-    create(:message, message_type: :incoming, inbox: instagram_inbox, account: account, conversation: conversation)
+    create(:message, message_type: :incoming, inbox: instagram_messenger_inbox, account: account, conversation: conversation)
   end
 
   let!(:account) { create(:account) }
   let!(:instagram_channel) { create(:channel_instagram_fb_page, account: account, instagram_id: 'chatwoot-app-user-id-1') }
-  let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: account, greeting_enabled: false) }
+  let!(:instagram_messenger_inbox) { create(:inbox, channel: instagram_channel, account: account, greeting_enabled: false) }
   let!(:contact) { create(:contact, account: account) }
-  let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: instagram_inbox) }
-  let(:conversation) { create(:conversation, contact: contact, inbox: instagram_inbox, contact_inbox: contact_inbox) }
+  let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: instagram_messenger_inbox) }
+  let(:conversation) { create(:conversation, contact: contact, inbox: instagram_messenger_inbox, contact_inbox: contact_inbox) }
   let(:response) { double }
   let(:mock_response) do
     instance_double(
@@ -66,14 +66,21 @@ describe Instagram::Messenger::SendOnInstagramService do
         end
 
         it 'if message is sent from chatwoot and is outgoing' do
-          message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+          message = create(:message, message_type: 'outgoing', inbox: instagram_messenger_inbox, account: account, conversation: conversation)
 
           response = described_class.new(message: message).perform
           expect(response['message_id']).to eq('anyrandommessageid1234567890')
         end
 
         it 'if message is sent from chatwoot and is outgoing with multiple attachments' do
-          message = build(:message, content: nil, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+          message = build(
+            :message,
+            content: nil,
+            message_type: 'outgoing',
+            inbox: instagram_messenger_inbox,
+            account: account,
+            conversation: conversation
+          )
           avatar = message.attachments.new(account_id: message.account_id, file_type: :image)
           avatar.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
           sample = message.attachments.new(account_id: message.account_id, file_type: :image)
@@ -91,7 +98,7 @@ describe Instagram::Messenger::SendOnInstagramService do
         end
 
         it 'if message with attachment is sent from chatwoot and is outgoing' do
-          message = build(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+          message = build(:message, message_type: 'outgoing', inbox: instagram_messenger_inbox, account: account, conversation: conversation)
           attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
           attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
           message.save!
@@ -101,7 +108,7 @@ describe Instagram::Messenger::SendOnInstagramService do
         end
 
         it 'if message sent from chatwoot is failed' do
-          message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+          message = create(:message, message_type: 'outgoing', inbox: instagram_messenger_inbox, account: account, conversation: conversation)
 
           allow(HTTParty).to receive(:post).and_return(response_with_error)
           described_class.new(message: message).perform
@@ -117,11 +124,11 @@ describe Instagram::Messenger::SendOnInstagramService do
         end
 
         it 'if message is sent from chatwoot and is outgoing' do
-          message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+          message = create(:message, message_type: 'outgoing', inbox: instagram_messenger_inbox, account: account, conversation: conversation)
 
           allow(HTTParty).to receive(:post).with(
             {
-              recipient: { id: contact.get_source_id(instagram_inbox.id) },
+              recipient: { id: contact.get_source_id(instagram_messenger_inbox.id) },
               message: {
                 text: message.content
               },
@@ -146,7 +153,7 @@ describe Instagram::Messenger::SendOnInstagramService do
       end
 
       it 'handles HTTP errors' do
-        message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+        message = create(:message, message_type: 'outgoing', inbox: instagram_messenger_inbox, account: account, conversation: conversation)
         allow(HTTParty).to receive(:post).and_return(error_response)
 
         described_class.new(message: message).perform
@@ -156,7 +163,7 @@ describe Instagram::Messenger::SendOnInstagramService do
       end
 
       it 'handles response errors' do
-        message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+        message = create(:message, message_type: 'outgoing', inbox: instagram_messenger_inbox, account: account, conversation: conversation)
 
         error_response = instance_double(
           HTTParty::Response,

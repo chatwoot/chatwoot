@@ -25,14 +25,6 @@ end
 
 json.logo portal.file_base_data if portal.logo.present?
 
-json.portal_members do
-  if portal.members.any?
-    json.array! portal.members.each do |member|
-      json.partial! 'api/v1/models/agent', formats: [:json], resource: member
-    end
-  end
-end
-
 json.meta do
   json.all_articles_count articles.try(:size)
   json.archived_articles_count articles.try(:archived).try(:size)
