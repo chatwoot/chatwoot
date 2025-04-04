@@ -174,8 +174,8 @@ gem 'pgvector'
 gem 'reverse_markdown'
 
 gem 'iso-639'
+gem 'ruby_llm', '1.1.0rc1'
 gem 'ruby-openai'
-gem 'ruby_llm'
 
 gem 'shopify_api'
 
