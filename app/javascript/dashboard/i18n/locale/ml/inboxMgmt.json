@@ -43,7 +43,14 @@
         "INBOX_NAME": "ഇൻ‌ബോക്സ് നാമം",
         "ADD_NAME": "നിങ്ങളുടെ ഇൻ‌ബോക്‌സിനായി ഒരു പേര് ചേർക്കുക",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "ഒരു മൂല്യം തിരഞ്ഞെടുക്കുക"
+        "PICK_A_VALUE": "ഒരു മൂല്യം തിരഞ്ഞെടുക്കുക",
+        "CREATE_INBOX": "ഇൻ‌ബോക്സ് സൃഷ്ടിക്കുക"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again"
       },
       "TWITTER": {
         "HELP": "നിങ്ങളുടെ ട്വിറ്റർ പ്രൊഫൈൽ ഒരു ചാനലായി ചേർക്കുന്നതിന്, 'ട്വിറ്ററിനൊപ്പം പ്രവേശിക്കുക' ക്ലിക്കുചെയ്ത് നിങ്ങളുടെ ട്വിറ്റർ പ്രൊഫൈൽ പ്രാമാണീകരിക്കേണ്ടതുണ്ട് ",
@@ -753,7 +760,8 @@
       "EMAIL": "ഇമെയിൽ",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API Channel"
+      "API": "API Channel",
+      "INSTAGRAM": "Instagram"
     }
   }
 }
