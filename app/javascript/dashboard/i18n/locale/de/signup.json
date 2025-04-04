@@ -4,7 +4,7 @@
     "TITLE": "Registrieren",
     "TESTIMONIAL_HEADER": "Alles, was er braucht, ist ein Schritt, um vorwärtszugehen",
     "TESTIMONIAL_CONTENT": "Sie sind nur noch einen Schritt davon entfernt, Ihre Kunden zu gewinnen, zu binden und neue zu finden.",
-    "TERMS_ACCEPT": "Durch die Erstellung eines Kontos stimmen Sie unseren <a href=\"https://www.chatwoot.com/terms-of-service\">Allgemeinn Geschäftsbedingungen</a> und unserer <a href=\"https://www.chatwoot.com/privacy-policy\">Datenschutzrichtlinie</a> zu",
+    "TERMS_ACCEPT": "Durch die Erstellung eines Kontos stimmen Sie unseren <a href=\"https://getcruisecontrol.com/terms-of-service\">Allgemeinn Geschäftsbedingungen</a> und unserer <a href=\"https://getcruisecontrol.com/privacy-policy\">Datenschutzrichtlinie</a> zu",
     "OAUTH": {
       "GOOGLE_SIGNUP": "Mit Google anmelden"
     },
@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "Geschäftliche E-Mail-Adresse",
-      "PLACEHOLDER": "Enter your work email address. E.g., bruce{'@'}wayne{'.'}enterprises",
+      "PLACEHOLDER": "Enter your email address. E.g., bruce{'@'}example{'.'}com",
       "ERROR": "Bitte geben Sie eine gültige Arbeits-E-Mail-Adresse ein"
     },
     "PASSWORD": {

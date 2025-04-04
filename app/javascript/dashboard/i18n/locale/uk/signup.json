@@ -4,7 +4,7 @@
     "TITLE": "Реєстрація",
     "TESTIMONIAL_HEADER": "Один крок і вперед",
     "TESTIMONIAL_CONTENT": "Ви за один крок від залучення своїх клієнтів, утримання їх та пошуку нових.",
-    "TERMS_ACCEPT": "Зареєструвавшись, ви погоджуєтеся з нашими <a href=\"https://www.chatwoot.com/terms\">Умовами Користування</a> та <a href=\"https://www.chatwoot.com/privacy-policy\">Політикою конфіденційності</a>",
+    "TERMS_ACCEPT": "Зареєструвавшись, ви погоджуєтеся з нашими <a href=\"https://getcruisecontrol.com/terms\">Умовами Користування</a> та <a href=\"https://getcruisecontrol.com/privacy-policy\">Політикою конфіденційності</a>",
     "OAUTH": {
       "GOOGLE_SIGNUP": "Зареєструватися через Google"
     },
@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "Робоча електронна пошта",
-      "PLACEHOLDER": "Enter your work email address. E.g., bruce{'@'}wayne{'.'}enterprises",
+      "PLACEHOLDER": "Enter your email address. E.g., bruce{'@'}example{'.'}com",
       "ERROR": "Будь ласка, введіть робочу адресу електронної пошти."
     },
     "PASSWORD": {
