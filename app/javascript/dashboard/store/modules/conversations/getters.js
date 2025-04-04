@@ -1,5 +1,5 @@
 import { MESSAGE_TYPE } from 'shared/constants/messages';
-import { applyPageFilters, sortComparator } from './helpers';
+import { applyPageFilters, applyRoleFilter, sortComparator } from './helpers';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
 import { matchesFilters } from './helpers/filterHelpers';
 import {
@@ -7,35 +7,6 @@ import {
   getUserRole,
 } from '../../../helper/permissionsHelper';
 import camelcaseKeys from 'camelcase-keys';
-
-const applyRoleFilter = (conversation, role, permissions, currentUserId) => {
-  // the role === "agent" check is typically not correct on it's own
-  // the backend handles this by checking the custom_role_id at the user model
-  // here however, the `getUserRole` returns "custom_role" if the id is present,
-  // so we can check the role === "agent" directly
-  if (role === 'administrator') return true;
-  if (role === 'agent') return true;
-
-  if (permissions.includes('conversation_manage')) {
-    // this means they can manage all conversations
-    return true;
-  }
-
-  const isUnassigned = conversation.meta.assignee === null;
-  const isAssignedToUser =
-    conversation.meta.assignee &&
-    conversation.meta.assignee.id === currentUserId;
-
-  if (permissions.includes('conversation_unassigned_manage')) {
-    return isUnassigned || isAssignedToUser;
-  }
-
-  if (permissions.includes('conversation_participating_manage')) {
-    return isAssignedToUser;
-  }
-
-  return false;
-};
 
 export const getSelectedChatConversation = ({
   allConversations,
