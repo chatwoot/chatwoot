@@ -43,7 +43,14 @@
         "INBOX_NAME": "اسم صندوق الوارد لقناة التواصل",
         "ADD_NAME": "قم بتعيين اسم لصندوق الوارد الخاص بقناتك الجديدة",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "اختر قيمة"
+        "PICK_A_VALUE": "اختر قيمة",
+        "CREATE_INBOX": "إنشاء قناة تواصل"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again"
       },
       "TWITTER": {
         "HELP": "لإضافة حساب تويتر الخاص بك كقناة تواصل، تحتاج إلى مصادقة حسابك على تويتر بك بالنقر على زر \"تسجيل الدخول باستخدام تويتر\" ",
@@ -753,7 +760,8 @@
       "EMAIL": "البريد الإلكتروني",
       "TELEGRAM": "تيليجرام",
       "LINE": "Line",
-      "API": "قناة API"
+      "API": "قناة API",
+      "INSTAGRAM": "Instagram"
     }
   }
 }
