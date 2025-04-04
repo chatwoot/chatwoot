@@ -170,3 +170,10 @@ AllCops:
 
 Layout/LeadingCommentSpace:
   Enabled: false
+
+Rails/SaveBang:
+  Enabled: true
+  AllowedReceivers:
+    - Stripe::Subscription
+    - Stripe::Customer
+    - FactoryBot

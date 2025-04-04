@@ -18,7 +18,7 @@ RSpec.describe 'Custom Filters API', type: :request do
         custom_attribute_type: ''
       }
     ] }
-    custom_filter.save
+    custom_filter.save!
   end
 
   describe 'GET /api/v1/accounts/{account.id}/custom_filters' do

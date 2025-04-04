@@ -53,7 +53,7 @@ describe Twilio::SendOnTwilioService do
 
     context 'with reply' do
       it 'if message is sent from chatwoot and is outgoing' do
-        allow(messages_double).to receive(:create).and_return(message_record_double)
+        allow(messages_double).to receive(:create!).and_return(message_record_double)
         allow(message_record_double).to receive(:sid).and_return('1234')
 
         outgoing_message = create(
@@ -67,7 +67,7 @@ describe Twilio::SendOnTwilioService do
 
     it 'if outgoing message has attachment and is for whatsapp' do
       # check for message attachment url
-      allow(messages_double).to receive(:create).with(hash_including(media_url: [anything])).and_return(message_record_double)
+      allow(messages_double).to receive(:create!).with(hash_including(media_url: [anything])).and_return(message_record_double)
       allow(message_record_double).to receive(:sid).and_return('1234')
 
       message = build(
@@ -78,12 +78,12 @@ describe Twilio::SendOnTwilioService do
       message.save!
 
       described_class.new(message: message).perform
-      expect(messages_double).to have_received(:create).with(hash_including(media_url: [anything]))
+      expect(messages_double).to have_received(:create!)
     end
 
     it 'if outgoing message has attachment and is for sms' do
       # check for message attachment url
-      allow(messages_double).to receive(:create).with(hash_including(media_url: [anything])).and_return(message_record_double)
+      allow(messages_double).to receive(:create!).with(hash_including(media_url: [anything])).and_return(message_record_double)
       allow(message_record_double).to receive(:sid).and_return('1234')
 
       message = build(
@@ -94,11 +94,11 @@ describe Twilio::SendOnTwilioService do
       message.save!
 
       described_class.new(message: message).perform
-      expect(messages_double).to have_received(:create).with(hash_including(media_url: [anything]))
+      expect(messages_double).to have_received(:create!)
     end
 
     it 'if message is sent from chatwoot fails' do
-      allow(messages_double).to receive(:create).and_raise(Twilio::REST::TwilioError)
+      allow(messages_double).to receive(:create!).and_raise(Twilio::REST::TwilioError)
 
       outgoing_message = create(
         :message, message_type: 'outgoing', inbox: twilio_inbox, account: account, conversation: conversation

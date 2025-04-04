@@ -19,7 +19,7 @@ module Enterprise::Audit::InboxMember
   def create_audit_log_entry(action)
     return if inbox.blank?
 
-    Enterprise::AuditLog.create(
+    Enterprise::AuditLog.create!(
       auditable_id: id,
       auditable_type: 'InboxMember',
       action: action,

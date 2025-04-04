@@ -86,6 +86,6 @@ class ConfigLoader
                  # update the existing feature flag values with default values and add new feature flags with default values
                  (account_features + config.value).uniq { |h| h['name'] }
                end
-    config.update({ name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS', value: features, locked: true })
+    config.update!({ name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS', value: features, locked: true })
   end
 end

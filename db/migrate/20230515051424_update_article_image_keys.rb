@@ -5,7 +5,7 @@ class ArticleKeyConverter
 
   def process
     new_content = replace(@article.content)
-    @article.update(content: new_content)
+    @article.update!(content: new_content)
   end
 
   private

@@ -3,12 +3,12 @@ module ConversationMuteHelpers
 
   def mute!
     resolved!
-    contact.update(blocked: true)
+    contact.update!(blocked: true)
     create_muted_message
   end
 
   def unmute!
-    contact.update(blocked: false)
+    contact.update!(blocked: false)
     create_unmuted_message
   end
 

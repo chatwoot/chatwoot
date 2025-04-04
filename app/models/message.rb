@@ -268,7 +268,7 @@ class Message < ApplicationRecord
   end
 
   def update_contact_activity
-    sender.update(last_activity_at: DateTime.now) if sender.is_a?(Contact)
+    sender.update!(last_activity_at: DateTime.now) if sender.is_a?(Contact)
   end
 
   def update_waiting_since
@@ -276,9 +276,9 @@ class Message < ApplicationRecord
       Rails.configuration.dispatcher.dispatch(
         REPLY_CREATED, Time.zone.now, waiting_since: conversation.waiting_since, message: self
       )
-      conversation.update(waiting_since: nil)
+      conversation.update!(waiting_since: nil)
     end
-    conversation.update(waiting_since: created_at) if incoming? && conversation.waiting_since.blank?
+    conversation.update!(waiting_since: created_at) if incoming? && conversation.waiting_since.blank?
   end
 
   def human_response?
@@ -296,7 +296,7 @@ class Message < ApplicationRecord
 
     if valid_first_reply?
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
-      conversation.update(first_reply_created_at: created_at, waiting_since: nil)
+      conversation.update!(first_reply_created_at: created_at, waiting_since: nil)
     else
       update_waiting_since
     end

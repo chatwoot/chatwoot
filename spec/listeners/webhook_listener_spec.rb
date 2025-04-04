@@ -166,7 +166,7 @@ describe WebhookListener do
       it 'triggers webhook' do
         webhook = create(:webhook, inbox: inbox, account: account)
 
-        conversation.update(custom_attributes: { test: 'testing custom attri webhook' })
+        conversation.update!(custom_attributes: { test: 'testing custom attri webhook' })
 
         expect(WebhookJob).to receive(:perform_later).with(
           webhook.url,

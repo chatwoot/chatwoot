@@ -37,7 +37,7 @@ class Api::V1::Accounts::Captain::BulkActionsController < Api::V1::Accounts::Bas
 
     case params[:fields][:status]
     when 'approve'
-      responses.pending.update(status: 'approved')
+      responses.pending.update!(status: 'approved')
       responses
     when 'delete'
       responses.destroy_all

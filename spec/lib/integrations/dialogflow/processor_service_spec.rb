@@ -157,7 +157,7 @@ describe Integrations::Dialogflow::ProcessorService do
     let(:processor) { described_class.new(event_name: event_name, hook: hook, event_data: event_data) }
 
     before do
-      hook.update(settings: { 'project_id' => 'test', 'credentials' => 'creds' })
+      hook.update(settings: { 'project_id' => 'test', 'credentials' => 'creds' }) # rubocop:disable Rails/SaveBang
       allow(google_dialogflow).to receive(:new).and_return(session_client)
       allow(session_client).to receive(:detect_intent).and_return({ session: session, query_input: query_input })
     end
