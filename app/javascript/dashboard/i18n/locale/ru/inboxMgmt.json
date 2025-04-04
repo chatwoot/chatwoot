@@ -43,7 +43,14 @@
         "INBOX_NAME": "Имя источника",
         "ADD_NAME": "Введите имя источника",
         "PICK_NAME": "Выберите имя для папки \"Входящие\"",
-        "PICK_A_VALUE": "Выберите значение"
+        "PICK_A_VALUE": "Выберите значение",
+        "CREATE_INBOX": "Создать источник"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again"
       },
       "TWITTER": {
         "HELP": "Чтобы добавить свой Twitter профиль в качестве источника, вам нужно авторизоваться при помощи входа через Twitter ",
@@ -753,7 +760,8 @@
       "EMAIL": "Email",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "Источник API"
+      "API": "Источник API",
+      "INSTAGRAM": "Instagram"
     }
   }
 }
