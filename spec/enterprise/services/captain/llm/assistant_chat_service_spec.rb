@@ -1,197 +1,130 @@
 require 'rails_helper'
+require 'ruby_llm'
 
 RSpec.describe Captain::Llm::AssistantChatService do
-  let(:captain_assistant) { create(:captain_assistant) }
-  let(:service) { described_class.new(assistant: captain_assistant) }
-  let(:client) { instance_double(OpenAI::Client) }
-  let(:input) { 'How can I help you?' }
-  let(:openai_response) do
-    {
-      'choices' => [
-        {
-          'message' => {
-            'content' => {
-              reasoning: 'This is a helpful response',
-              response: 'I can assist you with your questions.'
-            }.to_json
-          }
-        }
-      ]
-    }
-  end
+  let(:account) { create(:account) }
+  let(:assistant) { create(:captain_assistant, account: account, config: { 'product_name' => 'Chatwoot' }) }
+  let(:service) { described_class.new(assistant: assistant) }
+  let(:chat) { instance_double(RubyLLM::Chat) }
+  let(:chat_response) { instance_double(RubyLLM::Message) }
+  let(:embedding) { Array.new(1536) { rand(-1.0..1.0) } }
+  let(:embedding_service) { instance_double(Captain::Llm::EmbeddingService) }
 
   before do
     create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
-    allow(OpenAI::Client).to receive(:new).and_return(client)
-    allow(client).to receive(:chat).and_return(openai_response)
-  end
-
-  describe '#generate_response' do
-    context 'when successful' do
-      it 'generates a response with input' do
-        response = service.generate_response(input)
-        expect(response).to eq({
-                                 'reasoning' => 'This is a helpful response',
-                                 'response' => 'I can assist you with your questions.'
-                               })
-      end
-
-      it 'generates a response with input and previous messages' do
-        previous_messages = [{ role: 'user', content: 'Previous message' }]
-        response = service.generate_response(input, previous_messages)
-        expect(response).to eq({
-                                 'reasoning' => 'This is a helpful response',
-                                 'response' => 'I can assist you with your questions.'
-                               })
-      end
-
-      it 'includes previous messages in the chat parameters' do
-        previous_messages = [{ role: 'user', content: 'Previous message' }]
-        service.generate_response(input, previous_messages)
-        expect(client).to have_received(:chat) do |params|
-          messages = params[:parameters][:messages]
-          expect(messages).to include(
-            hash_including(role: 'user', content: 'Previous message')
-          )
-        end
-      end
-
-      it 'includes system message in the chat parameters' do
-        service.generate_response(input)
-        expect(client).to have_received(:chat) do |params|
-          messages = params[:parameters][:messages]
-          expect(messages.first[:role]).to eq('system')
-          expect(messages.first[:content]).to include(captain_assistant.config['product_name'])
-        end
-      end
-    end
-
-    context 'when search fails' do
-      let(:openai_response_with_tool) do
-        {
-          'choices' => [
-            {
-              'message' => {
-                'tool_calls' => [
-                  {
-                    'id' => 'call_123',
-                    'function' => {
-                      'name' => 'search_documentation',
-                      'arguments' => { 'search_query' => 'test query' }.to_json
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      end
-
-      before do
-        allow(client).to receive(:chat)
-          .and_return(openai_response_with_tool)
-        allow(captain_assistant.responses).to receive(:approved).and_return(captain_assistant.responses)
-        allow(captain_assistant.responses).to receive(:search)
-          .and_raise(StandardError, 'Search failed')
-      end
-
-      it 'raises the error' do
-        expect { service.generate_response(input) }.to raise_error(StandardError, 'Search failed')
-      end
-    end
-
-    context 'with invalid tool parameters' do
-      let(:openai_response_with_invalid_tool) do
-        {
-          'choices' => [
-            {
-              'message' => {
-                'tool_calls' => [
-                  {
-                    'id' => 'call_123',
-                    'function' => {
-                      'name' => 'search_documentation',
-                      'arguments' => 'invalid_json'
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      end
-
-      before do
-        allow(client).to receive(:chat)
-          .and_return(openai_response_with_invalid_tool)
-      end
-
-      it 'raises JSON::ParserError' do
-        expect { service.generate_response(input) }.to raise_error(JSON::ParserError)
-      end
-    end
-
-    context 'with model configuration' do
-      it 'uses the configured model' do
-        service.generate_response(input)
-        expect(client).to have_received(:chat) do |params|
-          expect(params[:parameters][:model]).to eq('gpt-4o-mini')
-        end
-      end
-
-      it 'includes json response format' do
-        service.generate_response(input)
-        expect(client).to have_received(:chat) do |params|
-          expect(params[:parameters][:response_format]).to eq({ type: 'json_object' })
-        end
-      end
-    end
+    allow(RubyLLM).to receive(:chat).and_return(chat)
+    allow(chat).to receive(:with_tool).with(Captain::Tools::DocumentationSearch).and_return(chat)
+    allow(chat).to receive(:with_instructions)
+    allow(chat).to receive(:add_message)
+    allow(Captain::Llm::UpdateEmbeddingJob).to receive(:perform_later)
+    allow(Captain::Llm::EmbeddingService).to receive(:new).and_return(embedding_service)
+    allow(embedding_service).to receive(:get_embedding).and_return(embedding)
   end
 
   describe '#initialize' do
-    it 'configures search_documentation tool' do
-      service.generate_response(input)
-      expect(client).to have_received(:chat) do |params|
-        tools = params[:parameters][:tools]
-        expect(tools).to contain_exactly(
-          hash_including(
-            type: 'function',
-            function: hash_including(
-              name: 'search_documentation',
-              description: match(/documentation/),
-              parameters: hash_including(
-                type: 'object',
-                properties: hash_including(
-                  search_query: hash_including(
-                    type: 'string',
-                    description: match(/search query/)
-                  )
-                ),
-                required: ['search_query']
-              )
-            )
-          )
-        )
-      end
+    it 'sets up RubyLLM chat with DocumentationSearch tool' do
+      expect(RubyLLM).to receive(:chat).with(model: anything)
+      expect(chat).to receive(:with_tool).with(Captain::Tools::DocumentationSearch)
+      service
     end
 
-    it 'provides access to assistant configuration' do
-      service.generate_response(input)
-      expect(client).to have_received(:chat) do |params|
-        messages = params[:parameters][:messages]
-        system_message = messages.find { |m| m[:role] == 'system' }
-        expect(system_message[:content]).to include(captain_assistant.config['product_name'])
-      end
+    it 'sets system message' do
+      expect(chat).to receive(:with_instructions).with(
+        Captain::Llm::SystemPromptsService.assistant_response_generator('Chatwoot')
+      )
+      service
     end
   end
 
-  describe '#chat_parameters' do
-    it 'includes correct model and response format' do
-      service.generate_response(input)
-      expect(client).to have_received(:chat) do |params|
-        parameters = params[:parameters]
-        expect(parameters[:model]).to eq('gpt-4o-mini')
-        expect(parameters[:response_format]).to eq({ type: 'json_object' })
+  describe '#generate_response' do
+    let(:input) { 'How do I configure inbox?' }
+    let(:previous_messages) do
+      [
+        { role: 'user', content: 'Hello' },
+        { role: 'assistant', content: 'Hi there!' }
+      ]
+    end
+
+    before do
+      allow(chat).to receive(:ask).and_return(chat_response)
+      previous_messages.each do |msg|
+        if msg[:role] == 'system'
+          allow(chat).to receive(:with_instructions).with(msg[:content])
+        else
+          allow(chat).to receive(:add_message).with(role: msg[:role], content: msg[:content])
+        end
+      end
+    end
+
+    context 'when response is valid JSON' do
+      let(:json_response) do
+        {
+          'reasoning' => 'Found in documentation',
+          'response' => 'Here are the steps...'
+        }
+      end
+
+      before do
+        allow(chat_response).to receive(:content).and_return(json_response.to_json)
+      end
+
+      it 'returns parsed JSON response' do
+        result = service.generate_response(input, previous_messages)
+        expect(result).to eq(json_response)
+      end
+    end
+
+    context 'when response indicates conversation handoff' do
+      before do
+        allow(chat_response).to receive(:content).and_return('conversation_handoff')
+      end
+
+      it 'returns conversation_handoff' do
+        result = service.generate_response(input, previous_messages)
+        expect(result).to eq('conversation_handoff')
+      end
+    end
+
+    context 'when response is not valid JSON' do
+      let(:plain_response) { 'Here are the steps...' }
+
+      before do
+        allow(chat_response).to receive(:content).and_return(plain_response)
+      end
+
+      it 'wraps response in JSON format' do
+        result = service.generate_response(input, previous_messages)
+        expect(result).to eq({
+                               'reasoning' => '',
+                               'response' => plain_response
+                             })
+      end
+    end
+
+    context 'when input is blank' do
+      let(:input) { '' }
+
+      it 'does not send user message' do
+        expect(chat).not_to receive(:ask)
+        service.generate_response(input, previous_messages)
+      end
+    end
+
+    context 'when no previous messages' do
+      let(:response_content) { 'Here are the steps...' }
+
+      before do
+        # Clear the service instance to avoid system message being counted
+        allow(chat).to receive(:with_instructions).with(
+          Captain::Llm::SystemPromptsService.assistant_response_generator('Chatwoot')
+        )
+        allow(chat_response).to receive(:content).and_return(response_content)
+      end
+
+      it 'only sends new input' do
+        expect(chat).not_to receive(:add_message)
+        expect(chat).to receive(:ask).with(input)
+        service.generate_response(input)
       end
     end
   end
