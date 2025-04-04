@@ -45,6 +45,16 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     end
   end
 
+  def process_messages_update
+    updates = processed_params[:data]
+    updates.each do |update|
+      @raw_update = update
+      handle_update
+    end
+  end
+
+  def handle_update; end
+
   def handle_message
     return if jid_type != 'user'
     return if find_message_by_source_id(message_id) || message_under_process?
