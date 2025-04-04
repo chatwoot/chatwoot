@@ -156,8 +156,22 @@ describe Messages::Instagram::MessageBuilder do
 
       described_class.new(messaging, instagram_inbox, outgoing_echo: false).perform
 
-      expect(instagram_inbox.conversations.count).to be 0
+      expect(instagram_inbox.conversations.count).to be 1
       expect(instagram_inbox.messages.count).to be 0
+    end
+
+    it 'does not create message if the message is already exists' do
+      message
+
+      expect(instagram_inbox.conversations.count).to be 1
+      expect(instagram_inbox.messages.count).to be 1
+
+      messaging = dm_params[:entry][0]['messaging'][0]
+      messaging[:message][:mid] = 'message-id-1' # Set same source_id as the existing message
+      described_class.new(messaging, instagram_inbox, outgoing_echo: false).perform
+
+      expect(instagram_inbox.conversations.count).to be 1
+      expect(instagram_inbox.messages.count).to be 1
     end
 
     it 'handles authorization errors' do

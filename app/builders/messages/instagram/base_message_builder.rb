@@ -92,7 +92,13 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
   end
 
   def build_message
-    return if @outgoing_echo && already_sent_from_chatwoot?
+    # Duplicate webhook events may be sent for the same message
+    # when a user is connected to the Instagram account through both Messenger and Instagram login.
+    # Therefore, we need to check if the message already exists before creating it.
+    return if message_already_exists?
+
+    return if @outgoing_echo
+
     return if message_content.blank? && all_unsupported_files?
 
     @message = conversation.messages.create!(message_params)
@@ -146,7 +152,7 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
     params
   end
 
-  def already_sent_from_chatwoot?
+  def message_already_exists?
     cw_message = conversation.messages.where(
       source_id: @messaging[:message][:mid]
     ).first
