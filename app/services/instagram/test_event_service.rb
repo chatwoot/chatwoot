@@ -18,10 +18,10 @@ class Instagram::TestEventService
   end
 
   def create_test_text
-    channel = Channel::Instagram.last
-
     # As of now, we are using the last created instagram channel as the test channel,
     # since we don't have any other channel for testing purpose at the time of meta approval
+    channel = Channel::Instagram.last
+
     @inbox = ::Inbox.find_by(channel: channel)
     return unless @inbox
 
