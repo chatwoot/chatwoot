@@ -43,7 +43,14 @@
         "INBOX_NAME": "Όνομα Κιβωτίου",
         "ADD_NAME": "Ονοματίστε το κιβώτιο σας",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Επιλέξτε τιμή"
+        "PICK_A_VALUE": "Επιλέξτε τιμή",
+        "CREATE_INBOX": "Δημιουργία Κιβωτίου"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again"
       },
       "TWITTER": {
         "HELP": "Για να προσθέσετε το Προφίλ Twitter ως κανάλι, πρέπει να επικυρώστε το Προφίλ σας στο Twiter κάνοντας click στο 'Είσοδος με το Twitter' ",
@@ -753,7 +760,8 @@
       "EMAIL": "Email",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "Κανάλι API"
+      "API": "Κανάλι API",
+      "INSTAGRAM": "Instagram"
     }
   }
 }
