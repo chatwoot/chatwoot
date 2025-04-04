@@ -333,6 +333,7 @@ Rails.application.routes.draw do
         collection do
           patch :update_call_report
           post :export_call_report
+          post :create_call_log
         end
       end
     end

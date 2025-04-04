@@ -32,6 +32,10 @@ export default {
       type: Date,
       default: [],
     },
+    disableDateAfter: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   methods: {
@@ -39,6 +43,10 @@ export default {
       this.$emit('change', value);
     },
     disableBeforeToday(date) {
+      if (this.disableDateAfter) {
+        const tomorrowDate = addDays(new Date(), +1);
+        return date > tomorrowDate;
+      }
       const yesterdayDate = addDays(new Date(), -1);
       return date < yesterdayDate;
     },

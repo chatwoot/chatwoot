@@ -14,6 +14,15 @@
               class="mt-0.5"
             />
           </span>
+          <woot-button
+            variant="smooth"
+            class="label--add"
+            icon="add"
+            size="tiny"
+            @click="toggleAddCallLogModal"
+          >
+            {{ 'Add Call log' }}
+          </woot-button>
         </div>
       </h4>
     </div>
@@ -33,6 +42,7 @@
         </span>
       </div>
     </div>
+    <add-call-log :show="showAddCallLogModal" @cancel="toggleAddCallLogModal" />
   </div>
 </template>
 
@@ -40,17 +50,24 @@
 import { mapGetters } from 'vuex';
 import HelperTextPopup from 'dashboard/components/ui/HelperTextPopup.vue';
 import CallLogCard from '../../../components/widgets/conversation/CallLogCard.vue';
+import AddCallLog from '../../../components/widgets/conversation/AddCallLog.vue';
 
 export default {
   components: {
     HelperTextPopup,
     CallLogCard,
+    AddCallLog,
   },
   props: {
     phoneNumber: {
       type: String,
       required: true,
     },
+  },
+  data() {
+    return {
+      showAddCallLogModal: false,
+    };
   },
   computed: {
     ...mapGetters({
@@ -71,6 +88,11 @@ export default {
   },
   mounted() {
     this.$store.dispatch('contactCallLogs/get', this.phoneNumber);
+  },
+  methods: {
+    toggleAddCallLogModal() {
+      this.showAddCallLogModal = !this.showAddCallLogModal;
+    },
   },
 };
 </script>

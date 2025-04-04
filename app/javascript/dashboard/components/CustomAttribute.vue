@@ -22,9 +22,9 @@
           >
             {{ label }}
             <helper-text-popup
-              v-if="description && !isCallLog"
+              v-if="description && !hideInfoTag"
               :message="description"
-              :class="{ 'mt-0.5': !isCallLog }"
+              :class="{ 'mt-0.5': !hideInfoTag }"
             />
           </span>
           <woot-button
@@ -167,6 +167,7 @@ export default {
     attributeKey: { type: String, required: true },
     contactId: { type: Number, default: null },
     isCallLog: { type: Boolean, default: false },
+    hideInfoTag: { type: Boolean, default: false },
   },
   data() {
     return {

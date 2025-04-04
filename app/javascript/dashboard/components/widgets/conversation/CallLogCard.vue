@@ -92,6 +92,7 @@
       :show-actions="attribute.showActions"
       :class="'conversation--attribute'"
       :is-call-log="true"
+      :hide-info-tag="true"
       @update="onUpdate"
       @delete="onDelete"
       @copy="onCopy"

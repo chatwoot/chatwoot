@@ -98,6 +98,13 @@ class ContactAPI extends ApiClient {
       agentCallNote: agentCallNote,
     });
   }
+
+  createCallLog(data) {
+    return axios.post(`/api/v1/call_logs/create_call_log`, {
+      account_id: this.accountIdFromRoute,
+      ...data,
+    });
+  }
 }
 
 export default new ContactAPI();
