@@ -15,11 +15,11 @@ class TestData::AccountCreator
   end
 
   def self.generate_company_name
-    "#{Faker::Company.name} #{Constants::COMPANY_TYPES.sample}"
+    "#{Faker::Company.name} #{TestData::Constants::COMPANY_TYPES.sample}"
   end
 
   def self.generate_domain(company_name)
-    "#{company_name.parameterize}.#{Constants::DOMAIN_EXTENSIONS.sample}"
+    "#{company_name.parameterize}.#{TestData::Constants::DOMAIN_EXTENSIONS.sample}"
   end
 
   def self.persist_account_id(account_id)
