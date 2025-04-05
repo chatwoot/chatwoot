@@ -137,7 +137,7 @@ class Contact < ApplicationRecord
       .where('contacts.phone_number IS NULL OR contacts.phone_number = ?', '')
       .where('contacts.identifier IS NULL OR contacts.identifier = ?', '')
       .where('contacts.created_at < ?', time_period)
-      .where('NOT EXISTS (SELECT 1 FROM conversations WHERE conversations.contact_id = contacts.id)')
+      .where.missing(:conversations)
   }
 
   def get_source_id(inbox_id)
