@@ -1,6 +1,6 @@
 class ConversationReplyMailer < ApplicationMailer
   include ConversationReplyMailerHelper
-  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
+  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Julian at Cruise Control <support@getcruisecontrol.com>')
   layout :choose_layout
 
   def reply_with_summary(conversation, last_queued_id)

@@ -1,6 +1,6 @@
 # ------- Branding Related Config ------- #
 - name: INSTALLATION_NAME
-  value: 'Chatwoot'
+  value: 'Cruise Control'
 - name: LOGO_THUMBNAIL
   value: '/brand-assets/logo_thumbnail.svg'
 - name: LOGO
@@ -8,11 +8,11 @@
 - name: LOGO_DARK
   value: '/brand-assets/logo_dark.svg'
 - name: BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://getcruisecontrol.com'
 - name: WIDGET_BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://getcruisecontrol.com'
 - name: BRAND_NAME
-  value: 'Chatwoot'
+  value: 'Cruise Control'
 - name: TERMS_URL
   value: 'https://getcruisecontrol.com/terms-of-service'
 - name: PRIVACY_URL
