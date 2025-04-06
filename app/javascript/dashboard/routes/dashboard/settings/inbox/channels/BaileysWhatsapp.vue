@@ -7,7 +7,12 @@ import router from '../../../../index';
 import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
 import { isValidURL } from '../../../../../helper/URLHelper';
 
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
+  components: {
+    NextButton,
+  },
   setup() {
     return { v$: useVuelidate() };
   },
@@ -117,14 +122,9 @@ export default {
       v-if="!showAdvancedOptions"
       class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%] mb-4"
     >
-      <woot-button
-        icon="add"
-        size="small"
-        variant="link"
-        @click="setShowAdvancedOptions"
-      >
+      <NextButton icon="i-lucide-plus" sm link @click="setShowAdvancedOptions">
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.ADVANCED_OPTIONS') }}
-      </woot-button>
+      </NextButton>
     </div>
     <template v-else>
       <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
@@ -162,9 +162,12 @@ export default {
     </template>
 
     <div class="w-full">
-      <woot-submit-button
-        :loading="uiFlags.isCreating"
-        :button-text="$t('INBOX_MGMT.ADD.WHATSAPP.SUBMIT_BUTTON')"
+      <NextButton
+        :is-loading="uiFlags.isCreating"
+        type="submit"
+        solid
+        blue
+        :label="$t('INBOX_MGMT.ADD.WHATSAPP.SUBMIT_BUTTON')"
       />
     </div>
   </form>

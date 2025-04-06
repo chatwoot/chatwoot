@@ -138,9 +138,9 @@ export default {
           />
         </div>
         <div v-if="isWhatsAppBaileysInbox" class="w-[50%] max-w-[50%] ml-[25%]">
-          <woot-button @click="onOpenBaileysLinkDeviceModal">
+          <NextButton @click="onOpenBaileysLinkDeviceModal">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.BAILEYS.LINK_BUTTON') }}
-          </woot-button>
+          </NextButton>
         </div>
         <div class="w-[50%] max-w-[50%] ml-[25%]">
           <woot-code

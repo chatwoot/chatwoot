@@ -301,13 +301,13 @@ export default {
             with-phone-number
             with-provider-connection-status
           />
-          <woot-button class="w-fit" @click="onOpenBaileysLinkDeviceModal">
+          <NextButton class="w-fit" @click="onOpenBaileysLinkDeviceModal">
             {{
               $t(
                 'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANAGE_PROVIDER_CONNECTION_BUTTON'
               )
             }}
-          </woot-button>
+          </NextButton>
         </div>
       </SettingsSection>
       <SettingsSection
@@ -322,13 +322,13 @@ export default {
           <woot-input
             v-model="whatsAppProviderUrl"
             type="text"
-            class="flex-1 mr-2"
+            class="flex-1 mr-2 items-center"
             :placeholder="
               $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_PROVIDER_URL_PLACEHOLDER')
             "
             @keydown="v$.whatsAppProviderUrl.$touch"
           />
-          <woot-button
+          <NextButton
             :disabled="
               v$.whatsAppProviderUrl.$invalid ||
               whatsAppProviderUrl === inbox.provider_config.provider_url
@@ -336,7 +336,7 @@ export default {
             @click="updateWhatsAppProviderUrl"
           >
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON') }}
-          </woot-button>
+          </NextButton>
         </div>
         <span v-if="v$.whatsAppProviderUrl.$error" class="text-red-400">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_PROVIDER_URL_ERROR') }}
@@ -371,15 +371,16 @@ export default {
               )
             "
           />
-          <woot-button
+          <NextButton
             :disabled="
               v$.whatsAppInboxAPIKey.$invalid ||
+              (!inbox.provider_config.api_key && !whatsAppInboxAPIKey) ||
               whatsAppInboxAPIKey === inbox.provider_config.api_key
             "
             @click="updateWhatsAppInboxAPIKey"
           >
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON') }}
-          </woot-button>
+          </NextButton>
         </div>
       </SettingsSection>
     </div>

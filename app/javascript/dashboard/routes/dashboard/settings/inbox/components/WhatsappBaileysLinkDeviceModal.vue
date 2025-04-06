@@ -4,6 +4,7 @@ import { useStore } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import InboxName from 'dashboard/components/widgets/InboxName.vue';
 import Spinner from 'shared/components/Spinner.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   show: { type: Boolean, required: true },
@@ -83,17 +84,13 @@ watchEffect(() => {
             <p v-if="error" class="text-red-500 text-center">
               {{ error }}
             </p>
-            <woot-button
-              class="button clear w-fit"
-              :is-loading="loading"
-              @click="setup"
-            >
+            <Button :is-loading="loading" @click="setup">
               {{
                 $t(
                   'INBOX_MGMT.ADD.WHATSAPP.BAILEYS.LINK_DEVICE_MODAL.LINK_DEVICE'
                 )
               }}
-            </woot-button>
+            </Button>
           </template>
 
           <template v-else-if="connection === 'connecting'">
@@ -134,27 +131,26 @@ watchEffect(() => {
                 )
               }}
             </p>
-            <div class="flex gap-4">
-              <woot-button
-                class="button clear w-fit"
-                :is-loading="loading"
-                @click="disconnect"
-              >
+            <div class="flex gap-2">
+              <Button ghost :is-loading="loading" @click="disconnect">
                 {{
                   $t(
                     'INBOX_MGMT.ADD.WHATSAPP.BAILEYS.LINK_DEVICE_MODAL.DISCONNECT'
                   )
                 }}
-              </woot-button>
+              </Button>
               <router-link
                 v-if="isSetup"
-                class="rounded button success"
                 :to="{
                   name: 'inbox_dashboard',
                   params: { inboxId: inbox.id },
                 }"
               >
-                {{ $t('INBOX_MGMT.FINISH.BUTTON_TEXT') }}
+                <Button
+                  solid
+                  teal
+                  :label="$t('INBOX_MGMT.FINISH.BUTTON_TEXT')"
+                />
               </router-link>
             </div>
           </template>
