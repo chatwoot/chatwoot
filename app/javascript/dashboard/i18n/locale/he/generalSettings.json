@@ -30,7 +30,7 @@
       "SCHEDULED_DELETION": {
         "TITLE": "Account Scheduled for Deletion",
         "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
-        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
+        "MESSAGE_INACTIVITY": ".",
         "CLEAR_BUTTON": "Cancel Scheduled Deletion"
       }
     },
