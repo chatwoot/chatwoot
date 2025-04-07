@@ -25,6 +25,13 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def destroy
     ActiveRecord::Base.transaction do
+      current_account = Current.account
+      user = Current.user || @resource
+
+      if current_account.custom_attributes['hide_delete_message_button_for_agent'] && user.agent?
+        raise StandardError, "Agent can't delete Instagram comment"
+      end
+
       if message.content_attributes['comment_id'].present?
         success = Instagram::DeleteCommentService.new(message).perform
         raise StandardError, 'Failed to delete Instagram comment' unless success

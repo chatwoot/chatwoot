@@ -166,6 +166,7 @@ import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { getDayDifferenceFromNow } from 'shared/helpers/DateHelper';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -231,6 +232,14 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+      currentUser: 'getCurrentUser',
+      getAccount: 'accounts/getAccount',
+    }),
+    currentAccount() {
+      return this.getAccount(this.accountId) || {};
+    },
     attachments() {
       // Here it is used to get sender and created_at for each attachment
       return this.data?.attachments.map(attachment => ({
@@ -323,11 +332,18 @@ export default {
     contextMenuEnabledOptions() {
       return {
         copy: this.hasText,
-        delete: this.hasText || this.hasAttachments,
+        delete: this.canDelete,
         cannedResponse: this.isOutgoing && this.hasText,
         replyTo: !this.data.private && this.inboxSupportsReplyTo.outgoing,
         sendInstagramDM: this.isInstagramCommentMessage,
       };
+    },
+    canDelete() {
+      const hideDeleteButton =
+        this.currentAccount?.custom_attributes
+          ?.hide_delete_message_button_for_agent;
+      if (this.currentUser.role === 'agent' && hideDeleteButton) return false;
+      return this.hasText || this.hasAttachments;
     },
     contentAttributes() {
       return this.data.content_attributes || {};
