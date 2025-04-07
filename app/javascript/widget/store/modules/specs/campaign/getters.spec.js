@@ -60,7 +60,7 @@ describe('#getters', () => {
         message: 'Begin your onboarding campaign with a welcome message',
         enabled: true,
         trigger_rules: {
-          url: 'https://chatwoot.com',
+          url: 'https://getcruisecontrol.com',
           time_on_page: '20',
         },
         created_at: '2021-05-03T08:15:35.828Z',
