@@ -10,7 +10,15 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   private
 
   def sign_in_user
+    was_confirmed = @resource.confirmed? if confirmable_enabled?
     @resource.skip_confirmation! if confirmable_enabled?
+
+    # rubocop:disable Rails/SkipsModelValidations
+    # Set random password if user was not previously confirmed
+    # This is to prevent an malicious user from acting in
+    # case they created an account with this email before
+    @resource.update_column(:encrypted_password, SecureRandom.hex(12)) if confirmable_enabled? && !was_confirmed
+    # rubocop:enable Rails/SkipsModelValidations
 
     # once the resource is found and verified
     # we can just send them to the login page again with the SSO params
