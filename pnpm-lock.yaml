@@ -327,7 +327,7 @@ importers:
         specifier: 5.4.8
         version: 5.4.8(@types/node@22.13.14)(sass-embedded@1.86.0)
       vite-plugin-ruby:
-        specifier: ^5.0.0
+        specifier: ^5.1.1
         version: 5.1.1(vite@5.4.8(@types/node@22.13.14)(sass-embedded@1.86.0))
       vitest:
         specifier: 2.0.1
