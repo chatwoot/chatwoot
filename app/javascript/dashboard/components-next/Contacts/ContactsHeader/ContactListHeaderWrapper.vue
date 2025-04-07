@@ -293,6 +293,7 @@ defineExpose({
         v-if="showFiltersModal"
         v-model="appliedFilter"
         :segment-name="activeSegmentName"
+        :is-campaign="false"
         :is-segment-view="hasActiveSegments"
         class="absolute mt-1 ltr:right-0 rtl:left-0 top-full"
         @apply-filter="onApplyFilter"

@@ -1,6 +1,7 @@
 <script>
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 
 export default defineComponent({
   name: 'CampaignReportModal',
@@ -212,46 +213,26 @@ export default defineComponent({
         return 0;
       });
     },
-    // exportContacts() {
-    //   const contactsToExport = this.activeContacts;
-    //   const csvData = contactsToExport.map(contact => {
-    //     const baseData = {
-    //       name: contact.name,
-    //       phone_number: contact.phone_number,
-    //       status: this.activeTab,
-    //     };
-
-    //     if (
-    //       this.activeTab === 'processed' ||
-    //       'read' ||
-    //       'delivered' ||
-    //       'replied' ||
-    //       'pending'
-    //     ) {
-    //       baseData['processed_at'] = new Date(
-    //         contact.processed_at
-    //       ).toLocaleString();
-    //     } else {
-    //       baseData['error_message'] = contact.error_message || 'Unknown Error';
-    //     }
-
-    //     return baseData;
-    //   });
-
-    //   const csv = Papa.unparse(csvData);
-    //   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    //   const link = document.createElement('a');
-    //   const url = URL.createObjectURL(blob);
-    //   link.setAttribute('href', url);
-    //   link.setAttribute(
-    //     'download',
-    //     `${this.campaign.title}_${this.activeTab}_contacts.csv`
-    //   );
-    //   link.style.visibility = 'hidden';
-    //   document.body.appendChild(link);
-    //   link.click();
-    //   document.body.removeChild(link);
-    // },
+    async exportContacts() {
+      try {
+        const query = {
+          payload: [{ campaign_id: this.campaign.display_id }],
+        };
+        await this.$store.dispatch('contacts/export', query);
+        useAlert(
+          this.$t(
+            'CONTACTS_LAYOUT.HEADER.ACTIONS.EXPORT_CONTACT.SUCCESS_MESSAGE'
+          )
+        );
+      } catch (error) {
+        useAlert(
+          error.message ||
+            this.$t(
+              'CONTACTS_LAYOUT.HEADER.ACTIONS.EXPORT_CONTACT.ERROR_MESSAGE'
+            )
+        );
+      }
+    },
     closeModal() {
       this.$emit('close');
     },
