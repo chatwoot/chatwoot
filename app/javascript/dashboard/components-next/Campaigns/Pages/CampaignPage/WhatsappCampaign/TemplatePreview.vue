@@ -277,7 +277,7 @@ export default {
 .template-preview-wrapper {
   position: fixed;
   width: 300px;
-  height: 547px;
+  height: 532px;
   background: #ede4db;
   border-radius: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);

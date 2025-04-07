@@ -204,6 +204,20 @@ onMounted(() => {
                 />
               </AccordionItem>
             </div>
+            <div v-else-if="element.name === 'previous_bookings'">
+              <AccordionItem
+                v-if="contact.id"
+                :title="$t('CONVERSATION_SIDEBAR.ACCORDION.PREVIOUS_BOOKINGS')"
+                :is-open="isContactSidebarItemOpen('is_contact_booking_open')"
+                compact
+                @toggle="
+                  value =>
+                    toggleSidebarUIState('is_contact_booking_open', value)
+                "
+              >
+                <ContactBookings :contact-id="contact.id" />
+              </AccordionItem>
+            </div>
             <woot-feature-toggle
               v-else-if="element.name === 'macros'"
               feature-key="macros"

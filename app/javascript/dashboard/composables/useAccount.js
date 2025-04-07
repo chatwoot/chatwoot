@@ -13,10 +13,14 @@ export function useAccount() {
    */
   const route = useRoute();
   const getAccountFn = useMapGetter('accounts/getAccount');
+  const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
+  const isFeatureEnabledonAccount = useMapGetter(
+    'accounts/isFeatureEnabledonAccount'
+  );
+
   const accountId = computed(() => {
     return Number(route.params.accountId);
   });
-
   const currentAccount = computed(() => getAccountFn.value(accountId.value));
 
   /**
@@ -26,6 +30,10 @@ export function useAccount() {
    */
   const accountScopedUrl = url => {
     return `/app/accounts/${accountId.value}/${url}`;
+  };
+
+  const isCloudFeatureEnabled = feature => {
+    return isFeatureEnabledonAccount.value(currentAccount.value.id, feature);
   };
 
   const accountScopedRoute = (name, params, query) => {
@@ -42,5 +50,7 @@ export function useAccount() {
     currentAccount,
     accountScopedUrl,
     accountScopedRoute,
+    isCloudFeatureEnabled,
+    isOnChatwootCloud,
   };
 }

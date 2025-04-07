@@ -134,14 +134,6 @@ class ConversationApi extends ApiClient {
     return axios.get(`${this.url}/${conversationId}/attachments`);
   }
 
-  disableChatbot(conversationId) {
-    return axios.post(`${this.url}/${conversationId}/disable_chatbot`);
-  }
-
-  enableChatbot(conversationId) {
-    return axios.post(`${this.url}/${conversationId}/enable_chatbot`);
-  }
-
   requestCopilot(conversationId, body) {
     return axios.post(`${this.url}/${conversationId}/copilot`, body);
   }

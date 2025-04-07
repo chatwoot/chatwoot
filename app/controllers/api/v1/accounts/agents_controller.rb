@@ -9,6 +9,11 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def create
+    @agent = save_agent
+    assign_inboxes if @agent.persisted?
+  end
+
+  def save_agent
     builder = AgentBuilder.new(
       email: new_agent_params['email'],
       name: new_agent_params['name'],
@@ -19,7 +24,16 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
       account: Current.account
     )
 
-    @agent = builder.perform
+    builder.perform
+  end
+
+  def assign_inboxes
+    selected_inboxes.map { |inbox_id| add_to_inbox(inbox_id, @agent.id) }
+  end
+
+  def add_to_inbox(inbox_id, user_id)
+    inbox = Current.account.inboxes.find(inbox_id)
+    inbox.add_member(user_id)
   end
 
   def update
@@ -81,6 +95,10 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
 
   def new_agent_params
     params.require(:agent).permit(:email, :name, :role, :availability, :auto_offline)
+  end
+
+  def selected_inboxes
+    params.require(:agent).fetch(:selected_inboxes, [])
   end
 
   def agents

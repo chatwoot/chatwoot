@@ -10,7 +10,6 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     @message = conversation.messages.new(message_params)
     build_attachment
     @message.save!
-    ::ChatbotJob.perform_later(@message, params[:website_token], conversation)
   end
 
   def update
