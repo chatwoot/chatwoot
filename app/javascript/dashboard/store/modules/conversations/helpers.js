@@ -81,8 +81,9 @@ export const applyRoleFilter = (
   // the backend handles this by checking the custom_role_id at the user model
   // here however, the `getUserRole` returns "custom_role" if the id is present,
   // so we can check the role === "agent" directly
-  if (role === 'administrator') return true;
-  if (role === 'agent') return true;
+  if (['administrator', 'agent'].includes(role)) {
+    return true;
+  }
 
   if (permissions.includes('conversation_manage')) {
     // this means they can manage all conversations
