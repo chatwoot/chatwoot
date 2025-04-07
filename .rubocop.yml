@@ -166,5 +166,3 @@ AllCops:
     - 'tmp/**/*'
     - 'storage/**/*'
     - 'db/migrate/20230426130150_init_schema.rb'
-    # added this because of bulk insert operation present in the file
-    - 'lib/test_data/contact_batch_service.rb'
