@@ -219,7 +219,7 @@ export default {
         :email-enabled="!globalConfig.disableUserProfileUpdate"
         @update-user="updateProfile"
       />
-
+    </div>
     <FormSection
       :title="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.TITLE')"
       :description="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.NOTE')"
@@ -300,4 +300,3 @@ export default {
     </FormSection>
   </div>
 </template>
-
