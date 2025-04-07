@@ -4,6 +4,8 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   before_action :check_authorization
 
+  COMBINED_LABELS_ACCOUNT_IDS = [1121].freeze
+
   def index
     builder = V2::Reports::Conversations::ReportBuilder.new(Current.account, report_params)
     data = builder.timeseries
@@ -34,8 +36,11 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def labels
-    @report_data = generate_labels_report
-    generate_csv('labels_report', 'api/v2/accounts/reports/labels')
+    account_id = Current.account.id
+    is_generate_combine_report = COMBINED_LABELS_ACCOUNT_IDS.include?(account_id)
+    @report_data = is_generate_combine_report ? generate_labels_report_for_combine : generate_labels_report
+    method = is_generate_combine_report ? :generate_csv_for_label : :generate_csv
+    send(method, 'labels_report', 'api/v2/accounts/reports/labels')
   end
 
   def teams
@@ -68,6 +73,24 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     response.headers['Content-Type'] = 'text/csv'
     response.headers['Content-Disposition'] = "attachment; filename=#{filename}.csv"
     render layout: false, template: template, formats: [:csv]
+  end
+
+  def generate_csv_for_label(filename, _template)
+    response.headers['Content-Type'] = 'text/csv'
+    response.headers['Content-Disposition'] = "attachment; filename=#{filename}.csv"
+
+    csv_data = CSV.generate(headers: true) do |csv|
+      csv << ['Label', 'No. of conversations', 'Avg first response time', 'Avg resolution time']
+
+      @report_data.each do |row|
+        label = row[0].to_s.strip
+        label = label.include?(',') ? "\"#{label}\"" : label
+
+        csv << [label, row[1], row[2], row[3]]
+      end
+    end
+
+    render plain: csv_data
   end
 
   def check_authorization
