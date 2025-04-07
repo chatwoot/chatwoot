@@ -85,20 +85,20 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "Ir nepieciešama vismaz viena darbība"
     },
     "ACTIONS": {
-      "ASSIGN_TEAM": "Assign a Team",
+      "ASSIGN_TEAM": "Piešķirt Komandai",
       "ASSIGN_AGENT": "Assign an Agent",
-      "ADD_LABEL": "Add a Label",
-      "REMOVE_LABEL": "Remove a Label",
+      "ADD_LABEL": "Pievienot Etiķeti",
+      "REMOVE_LABEL": "Noņemt Etiķeti",
       "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
-      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "SEND_EMAIL_TRANSCRIPT": "Nosūtīt uz E-pastu Transkriptu",
       "MUTE_CONVERSATION": "Izslēgt Sarunu",
       "SNOOZE_CONVERSATION": "Atlikt Sarunu",
       "RESOLVE_CONVERSATION": "Atrisināt Sarunu",
-      "SEND_ATTACHMENT": "Send Attachment",
-      "SEND_MESSAGE": "Send a Message",
+      "SEND_ATTACHMENT": "Sūtīt Pielikumu",
+      "SEND_MESSAGE": "Nosūtīt Ziņu",
       "CHANGE_PRIORITY": "Mainīt prioritāti",
       "ADD_PRIVATE_NOTE": "Add a Private Note",
-      "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+      "SEND_WEBHOOK_EVENT": "Nosūtīt Webhook Notikumu"
     }
   }
 }
