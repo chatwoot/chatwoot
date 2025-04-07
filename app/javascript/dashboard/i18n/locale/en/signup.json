@@ -31,10 +31,10 @@
       "PLACEHOLDER": "Password",
       "ERROR": "Password must contain atleast 7 characters.",
       "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.",
-      "NOT_UPPERCASE":"Password should contain atleast 1 uppercase letter.",
+      "NOT_UPPERCASE": "Password should contain atleast 1 uppercase letter.",
       "NOT_LOWERCASE": "Password should contain atleast 1 lowercase letter.",
-      "NOT_NUMBER":"Password should contain atleast 1 number",
-      "NOT_SPECIAL_CHARACTER":"Password should contain atleast 1 special character."
+      "NOT_NUMBER": "Password should contain atleast 1 number",
+      "NOT_SPECIAL_CHARACTER": "Password should contain atleast 1 special character."
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirm password",
@@ -47,5 +47,127 @@
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Already have an account?"
+  },
+  "START_ONBOARDING": {
+    "INBOX_CONFIGURE": {
+      "WHATSAPP": {
+        "TITLE": "Configure the Whatsapp Inbox",
+        "DESC": "Please fill in the details"
+      }
+    },
+    "INBOX_ADD_AGENTS": {
+      "TITLE": "Agents",
+      "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login.",
+      "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
+      "PICK_AGENTS": "Pick agents for the inbox"
+    },
+    "ADD_AGENT": {
+      "TITLE": "Add agent to your team",
+      "DESC": "You can add people who will be able to handle support for your inboxes.",
+      "CANCEL_BUTTON_TEXT": "Cancel",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Agent Name",
+          "PLACEHOLDER": "Please enter a name of the agent"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Role",
+          "PLACEHOLDER": "Please select a role",
+          "ERROR": "Role is required"
+        },
+        "EMAIL": {
+          "LABEL": "Email Address",
+          "PLACEHOLDER": "Please enter an email address of the agent",
+          "ERROR": "Please enter a valid work email address."
+        },
+        "SUBMIT": "Add Agent"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Agent added successfully",
+        "EXIST_MESSAGE": "Agent email already in use, Please try another email address",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      }
+    },
+    "PROFILE": {
+      "INTRO": "Welcome, let’s get started.",
+      "TITLE": "Set up profile",
+      "BODY": "These are details visible to end users, to make a positive first impression.",
+      "SUBMIT": {
+        "BUTTON": "Continue to company setup",
+        "ERROR": "Error in setting up profile, try again.",
+        "SUCCESS": "🔥 Lets add your business details"
+      },
+      "AVATAR": {
+        "LABEL": "Avatar",
+        "PLACEHOLDER": "Upload Profile Image"
+      },
+      "FULL_NAME": {
+        "LABEL": "Full name",
+        "PLACEHOLDER": "Enter your full name",
+        "ERROR": "Add a valid full name"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Display name",
+        "PLACEHOLDER": "Enter the name you want to display your customers",
+        "ERROR": "Add a valid display name or leave it blank"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Phone number (Optional)",
+        "PLACEHOLDER": "Enter your phone number"
+      },
+      "SIGNATURE": {
+        "LABEL": "Signature",
+        "PLACEHOLDER": "Add a signature for your messages. You can set this later in your settings."
+      }
+    },
+    "COMPANY": {
+      "PAGE_TITLE": "Hello %{userName},\nwe are almost done.",
+      "TITLE": "Tell us about your company",
+      "BODY": "In this section, we'll set up the language, timezone, and company size. This information allows us to provide contextually accurate information and suggest relevant features for you.",
+      "SUBMIT": {
+        "BUTTON": "Continue to team setup",
+        "ERROR": "Error in setting up company, try again.",
+        "SUCCESS": "🚀 Lets invite your team"
+      },
+      "COMPANY_NAME": {
+        "LABEL": "Company name",
+        "PLACEHOLDER": "Enter your company name",
+        "ERROR": "Company name is too short."
+      },
+      "INDUSTRY": {
+        "LABEL": "Industry",
+        "PLACEHOLDER": "Select your industry"
+      },
+      "TIMEZONE": {
+        "LABEL": "Timezone",
+        "PLACEHOLDER": "What timezone do you work from?"
+      },
+      "LOCALE": {
+        "LABEL": "Language",
+        "PLACEHOLDER": "Select the language you want to use"
+      },
+      "SIZE": {
+        "LABEL": "Company size",
+        "PLACEHOLDER": "How many people work at your company?"
+      }
+    },
+    "INVITE_TEAM": {
+      "TITLE": "Invite your team",
+      "ADD": "Add",
+      "LIST_EMPTY": "No members to invite",
+      "BODY": "Invite your team members to Chatwoot. You can add them later as well.",
+      "PLACEHOLDER": "robin@chatwoot.com",
+      "SKIP": "Skip for now",
+      "SUBMIT": {
+        "BUTTON": "Send invitations",
+        "ERROR": "Error while inviting team members, try again.",
+        "NO_MEMBER_ERROR": "Please add atleast one team member or skip this step",
+        "SUCCESS": "🪄 Setup complete"
+      }
+    },
+    "FOUNDERS_NOTE": {
+      "TITLE": "A note from the founder",
+      "SUBMIT": "Go to dashboard"
+    }
   }
 }
