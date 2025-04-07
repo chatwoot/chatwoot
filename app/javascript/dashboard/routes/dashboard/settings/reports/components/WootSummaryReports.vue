@@ -492,21 +492,21 @@ export default {
               </div>
             ),
           },
-          ...(this.isBscAccount
-            ? [
-                {
-                  field: 'agentTotalCalls',
-                  key: 'agentTotalCalls',
-                  title: 'Agent Total Calls',
-                  align: this.isRTLView ? 'right' : 'left',
-                  width: 20,
-                },
-              ]
-            : []),
+          // ...(this.isBscAccount
+          //   ? [
+          //       {
+          //         field: 'agentTotalCalls',
+          //         key: 'agentTotalCalls',
+          //         title: 'Agent Total Calls',
+          //         align: this.isRTLView ? 'right' : 'left',
+          //         width: 20,
+          //       },
+          //     ]
+          //   : []),
           {
             field: 'totalCallingNudgedConversations',
             key: 'totalCallingNudgedConversations',
-            title: 'Total Calls',
+            title: 'Total Call Nudge',
             align: this.isRTLView ? 'right' : 'left',
             width: 20,
           },
@@ -550,6 +550,13 @@ export default {
               ]
             : [
                 {
+                  field: 'scheduledCallConversations',
+                  key: 'scheduledCallConversations',
+                  title: 'Scheduled',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
                   field: 'ringingNoResponseConversations',
                   key: 'ringingNoResponseConversations',
                   title: 'Ringing No Response',
@@ -578,9 +585,16 @@ export default {
                   width: 20,
                 },
                 {
-                  field: 'notInterestedConversations',
-                  key: 'notInterestedConversations',
-                  title: 'Not Interested',
+                  field: 'alreadyPurchasedConversations',
+                  key: 'alreadyPurchasedConversations',
+                  title: 'Already Purchased',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
+                  field: 'dontWantConversations',
+                  key: 'dontWantConversations',
+                  title: "Don't want",
                   align: this.isRTLView ? 'right' : 'left',
                   width: 20,
                 },
@@ -872,7 +886,9 @@ export default {
           if (this.isBscAccount) {
             return {
               name: team.name,
-              agentTotalCalls: typeMetrics.agent_total_calls || '__',
+              // agentTotalCalls: typeMetrics.agent_total_calls || '__',
+              scheduledCallConversations:
+                typeMetrics.scheduled_call_conversations || '--',
               totalCallingNudgedConversations:
                 typeMetrics.total_calling_nudged_conversations || '--',
               ringingNoResponseConversations:
@@ -883,8 +899,10 @@ export default {
                 typeMetrics.conversation_happened_conversations || '--',
               askedToWhatsappConversations:
                 typeMetrics.asked_to_whatsapp_conversations || '--',
-              notInterestedConversations:
-                typeMetrics.not_interested_conversations || '--',
+              alreadyPurchasedConversations:
+                typeMetrics.already_purchased_conversations || '--',
+              dontWantConversations:
+                typeMetrics.dont_want_conversations || '--',
               askedToCallLaterConversations:
                 typeMetrics.asked_to_call_later || '--',
               otherConversations: typeMetrics.other_conversations || '--',

@@ -247,8 +247,9 @@ class V2::CustomReportBuilder
        ringing_no_response_conversations
        hung_up_after_intro_conversations
        conversation_happened_conversations
-       not_interested_conversations
        asked_to_whatsapp_conversations
+       already_purchased_conversations
+       dont_want_conversations
        asked_to_call_later
        other_conversations
        dropped_call_conversations

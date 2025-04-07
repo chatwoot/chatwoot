@@ -495,10 +495,10 @@ module CustomReportHelper
     group_and_count(base_query, @config[:group_by])
   end
 
-  def not_interested_conversations
+  def already_purchased_conversations
     base_query = @account.conversations
                          .where("additional_attributes->>'source_context' IS NOT NULL")
-                         .where("custom_attributes->>'calling_status' = 'Not interested'")
+                         .where("custom_attributes->>'calling_status' = 'Already Purchased'")
                          .where("(additional_attributes->>'nudge_created')::timestamp BETWEEN ? AND ?
                          OR (additional_attributes->>'nudge_created' IS NULL AND created_at BETWEEN ? AND ?)",
                                 @time_range.begin, @time_range.end,
@@ -508,7 +508,25 @@ module CustomReportHelper
     base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
     base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
 
-    Rails.logger.info "not_interested_conversations: #{base_query.to_sql}"
+    Rails.logger.info "already_purchased_conversations: #{base_query.to_sql}"
+
+    group_and_count(base_query, @config[:group_by])
+  end
+
+  def dont_want_conversations
+    base_query = @account.conversations
+                         .where("additional_attributes->>'source_context' IS NOT NULL")
+                         .where("custom_attributes->>'calling_status' = 'Don''t want'")
+                         .where("(additional_attributes->>'nudge_created')::timestamp BETWEEN ? AND ?
+                         OR (additional_attributes->>'nudge_created' IS NULL AND created_at BETWEEN ? AND ?)",
+                                @time_range.begin, @time_range.end,
+                                @time_range.begin, @time_range.end)
+
+    base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "dont_want_conversations: #{base_query.to_sql}"
 
     group_and_count(base_query, @config[:group_by])
   end
