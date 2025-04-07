@@ -2,12 +2,13 @@
   <%= f.label field.attribute, class: "field-unit__label" %>
   <div class="field-unit__field">
     <% if field.array? %>
-      <% field.data.each do |sub_field| %>
-        <%= f.fields_for "#{field.attribute}[]", field.resource do |values_form| %>
+      <% existing_values = field.data.presence || [{}] %>
+      <% existing_values.each_with_index do |sub_field, index| %>
+        <%= f.fields_for "#{field.attribute}[#{index}]", field.resource do |values_form| %>
           <div class="field-unit">
             <% sub_field.each do |sf_key, sf_value| %>
               <%= values_form.label sf_key %>
-              <%= values_form.text_field sf_key, value: sf_value, disabled: true %>
+              <%= values_form.text_field sf_key, value: sf_value, name: "#{f.object_name}[#{field.attribute}][#{index}][#{sf_key}]" %>
             <% end %>
           </div>
         <% end %>
@@ -17,3 +18,4 @@
     <% end %>
   </div>
 </div>
+

@@ -136,10 +136,10 @@
 - name: linear_integration
   display_name: Linear Integration
   enabled: false
-- name: captain_integration
-  display_name: Captain
-  enabled: false
-  premium: true
+# - name: captain_integration
+#   display_name: Captain
+#   enabled: false
+#   premium: true
 - name: custom_roles
   display_name: Custom Roles
   enabled: false
