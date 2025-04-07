@@ -20,6 +20,18 @@ export default {
       type: String,
       default: '',
     },
+    azarDisplayName: {
+      type: String,
+      default: '',
+    },
+    monoDisplayName: {
+      type: String,
+      default: '',
+    },
+    gbitsDisplayName: {
+      type: String,
+      default: '',
+    },
     emailEnabled: {
       type: Boolean,
       default: false,
@@ -33,6 +45,9 @@ export default {
     return {
       userName: this.name,
       userDisplayName: this.displayName,
+      azarDisplayName: this.azarDisplayName,
+      monoDisplayName: this.monoDisplayName,
+      gbitsDisplayName: this.gbitsDisplayName,
       userEmail: this.email,
       inputStyles: {
         borderRadius: '0.75rem',
@@ -48,6 +63,9 @@ export default {
       minLength: minLength(1),
     },
     userDisplayName: {},
+    azarDisplayName: {},
+    monoDisplayName: {},
+    gbitsDisplayName: {},
     userEmail: {
       required,
       email,
@@ -63,6 +81,24 @@ export default {
     displayName: {
       handler(value) {
         this.userDisplayName = value;
+      },
+      immediate: true,
+    },
+    azarDisplayName: {
+      handler(value) {
+        this.azarDisplayName = value;
+      },
+      immediate: true,
+    },
+    monoDisplayName: {
+      handler(value) {
+        this.monoDisplayName = value;
+      },
+      immediate: true,
+    },
+    gbitsDisplayName: {
+      handler(value) {
+        this.gbitsDisplayName = value;
       },
       immediate: true,
     },
@@ -83,6 +119,9 @@ export default {
       this.$emit('updateUser', {
         name: this.userName,
         displayName: this.userDisplayName,
+        azarDisplayName: this.azarDisplayName,
+        monoDisplayName: this.monoDisplayName,
+        gbitsDisplayName: this.gbitsDisplayName,
         email: this.userEmail,
       });
     },
@@ -118,6 +157,52 @@ export default {
       @input="v$.userDisplayName.$touch"
       @blur="v$.userDisplayName.$touch"
     />
+
+    <woot-input
+      v-model="azarDisplayName"
+      :styles="inputStyles"
+      :class="{ error: v$.azarDisplayName.$error }"
+      :label="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.LABEL')"
+      :placeholder="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.PLACEHOLDER')"
+      :error="`${
+        v$.azarDisplayName.$error
+          ? $t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.ERROR')
+          : ''
+      }`"
+      @input="v$.azarDisplayName.$touch"
+      @blur="v$.azarDisplayName.$touch"
+    />
+
+    <woot-input
+      v-model="monoDisplayName"
+      :styles="inputStyles"
+      :class="{ error: v$.monoDisplayName.$error }"
+      :label="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.LABEL')"
+      :placeholder="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.PLACEHOLDER')"
+      :error="`${
+        v$.monoDisplayName.$error
+          ? $t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.ERROR')
+          : ''
+      }`"
+      @input="v$.monoDisplayName.$touch"
+      @blur="v$.monoDisplayName.$touch"
+    />
+
+    <woot-input
+      v-model="gbitsDisplayName"
+      :styles="inputStyles"
+      :class="{ error: v$.gbitsDisplayName.$error }"
+      :label="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.LABEL')"
+      :placeholder="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.PLACEHOLDER')"
+      :error="`${
+        v$.gbitsDisplayName.$error
+          ? $t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.ERROR')
+          : ''
+      }`"
+      @input="v$.gbitsDisplayName.$touch"
+      @blur="v$.gbitsDisplayName.$touch"
+    />
+
     <woot-input
       v-if="emailEnabled"
       v-model="userEmail"

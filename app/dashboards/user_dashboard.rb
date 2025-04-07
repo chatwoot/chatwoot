@@ -30,6 +30,9 @@ class UserDashboard < Administrate::BaseDashboard
     unconfirmed_email: Field::String,
     name: Field::String.with_options(searchable: true),
     display_name: Field::String,
+    azar_display_name: Field::String,
+    mono_display_name: Field::String,
+    gbits_display_name: Field::String,
     email: Field::String.with_options(searchable: true),
     tokens: Field::String.with_options(searchable: false),
     created_at: Field::DateTime,
@@ -63,6 +66,9 @@ class UserDashboard < Administrate::BaseDashboard
     name
     type
     display_name
+    azar_display_name
+    mono_display_name
+    gbits_display_name
     email
     created_at
     updated_at
@@ -78,6 +84,9 @@ class UserDashboard < Administrate::BaseDashboard
     name
     avatar
     display_name
+    azar_display_name
+    mono_display_name
+    gbits_display_name
     email
     password
     confirmed_at

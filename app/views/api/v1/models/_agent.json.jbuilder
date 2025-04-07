@@ -6,6 +6,9 @@ json.auto_offline resource.auto_offline
 json.confirmed resource.confirmed?
 json.email resource.email
 json.available_name resource.available_name
+json.azar_display_name resource.azar_display_name
+json.mono_display_name resource.mono_display_name
+json.gbits_display_name resource.gbits_display_name
 json.custom_attributes resource.custom_attributes if resource.custom_attributes.present?
 json.name resource.name
 json.role resource.role

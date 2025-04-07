@@ -55,6 +55,9 @@ export default {
       avatarUrl: '',
       name: '',
       displayName: '',
+      azarDisplayName: '',
+      monoDisplayName: '',
+      gbitsDisplayName: '',
       email: '',
       messageSignature: '',
       hotKeys: [
@@ -86,6 +89,7 @@ export default {
       audioNotificationPermissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
     };
   },
+
   computed: {
     ...mapGetters({
       currentUser: 'getCurrentUser',
@@ -101,6 +105,9 @@ export default {
   methods: {
     initializeUser() {
       this.name = this.currentUser.name;
+      this.azarDisplayName = this.currentUser.azar_display_name;
+      this.monoDisplayName = this.currentUser.mono_display_name;
+      this.gbitsDisplayName = this.currentUser.gbits_display_name;
       this.email = this.currentUser.email;
       this.avatarUrl = this.currentUser.avatar_url;
       this.displayName = this.currentUser.display_name;
@@ -122,16 +129,22 @@ export default {
       }
     },
     async updateProfile(userAttributes) {
-      const { name, email, displayName } = userAttributes;
+      const { name, email, displayName, azarDisplayName, monoDisplayName, gbitsDisplayName } = userAttributes;
       const hasEmailChanged = this.currentUser.email !== email;
       this.name = name || this.name;
       this.email = email || this.email;
       this.displayName = displayName || this.displayName;
+      this.azarDisplayName = azarDisplayName || this.azarDisplayName;
+      this.monoDisplayName = monoDisplayName || this.monoDisplayName;
+      this.gbitsDisplayName = gbitsDisplayName || this.gbitsDisplayName;
 
       const updatePayload = {
         name: this.name,
         email: this.email,
         displayName: this.displayName,
+        azarDisplayName: this.azarDisplayName,
+        monoDisplayName: this.monoDisplayName,
+        gbitsDisplayName: this.gbitsDisplayName,
         avatar: this.avatarFile,
       };
 
@@ -184,7 +197,6 @@ export default {
   },
 };
 </script>
-
 <template>
   <div class="grid py-16 px-5 font-inter mx-auto gap-16 sm:max-w-screen-md">
     <div class="flex flex-col gap-6">
@@ -201,10 +213,13 @@ export default {
         :name="name"
         :display-name="displayName"
         :email="email"
+        :azar-display-name="azarDisplayName"
+        :mono-display-name="monoDisplayName"
+        :gbits-display-name="gbitsDisplayName"
         :email-enabled="!globalConfig.disableUserProfileUpdate"
         @update-user="updateProfile"
       />
-    </div>
+
     <FormSection
       :title="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.TITLE')"
       :description="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.NOTE')"
@@ -285,3 +300,4 @@ export default {
     </FormSection>
   </div>
 </template>
+
