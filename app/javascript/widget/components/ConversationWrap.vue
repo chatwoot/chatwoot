@@ -151,7 +151,7 @@ export default {
     openCheckoutPage(selectedProducts) {
       const shopUrl = selectedProducts[0].shopUrl;
       const lineItems = selectedProducts.map(product => ({
-        variant_id: product.variant_id,
+        variant_id: product.id,
         quantity: product.quantity,
         price: product.price,
         currency: product.currency,

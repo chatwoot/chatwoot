@@ -20,7 +20,7 @@
               class="add-to-cart-button"
               @click="
                 updateSelectedProducts(
-                  item.id,
+                  item.variant_id,
                   1,
                   item.currency,
                   item.price,
@@ -63,7 +63,7 @@
               class="clear-button"
               @click="
                 updateSelectedProducts(
-                  item.id,
+                  item.variant_id,
                   0,
                   item.currency,
                   item.price,
@@ -153,7 +153,7 @@ export default {
             console.log(newCart, 'new cart value here....');
           }).catch(() => {})
       this.updateSelectedProducts(
-        productId,
+        product.variant_id,
         product.quantity + 1,
         product.currency,
         product.price,
@@ -172,7 +172,7 @@ export default {
       event.stopPropagation();
       const selectedProduct = [
         {
-          id: item.id,
+          id: item.variant_id,
           quantity: 1,
           currency: item.currency,
           price: item.price,
@@ -187,7 +187,7 @@ export default {
         selectedProduct => selectedProduct.id === productId
       );
       this.updateSelectedProducts(
-        productId,
+        product.variant_id,
         product.quantity - 1,
         product.currency,
         product.price,
