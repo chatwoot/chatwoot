@@ -10,7 +10,6 @@ import { useDarkMode } from 'widget/composables/useDarkMode';
 import IntegrationCard from './template/IntegrationCard.vue';
 import CalEventCard from './template/CalEventCard.vue';
 import CalEventConfirmationCard from './template/CalEventConfirmationCard.vue';
-import ConnectWithTeamInput from './template/ConnectWithTeamInput.vue';
 
 export default {
   name: 'AgentMessageBubble',
@@ -24,7 +23,6 @@ export default {
     IntegrationCard,
     CalEventCard,
     CalEventConfirmationCard,
-    ConnectWithTeamInput,
   },
   props: {
     message: { type: String, default: null },
@@ -78,9 +76,6 @@ export default {
     },
     isCalEventConfirmation() {
       return this.contentType === 'cal_event_confirmation';
-    },
-    isConnectWithTeam() {
-      return this.contentType === 'input_connect_with_team';
     },
   },
 
@@ -143,8 +138,6 @@ export default {
         v-if="isCalEventConfirmation"
         :event-payload="messageContentAttributes.event_payload"
       />
-      
-      <ConnectWithTeamInput v-if="isConnectWithTeam" :message-id="messageId" />
     </div>
     <div v-if="isOptions">
       <ChatOptions

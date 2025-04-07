@@ -53,7 +53,7 @@ class AgentBuilder
     }.compact))
   end
 
-  def get_keycloak_admin_accesss_token
+  def get_keycloak_admin_access_token
     realm = ENV.fetch('KEYCLOAK_REALM', nil)
     keycloak_url = ENV.fetch('KEYCLOAK_URL', nil)
     token_url = URI.join(keycloak_url, "/realms/#{realm}/protocol/openid-connect/token").to_s
@@ -79,7 +79,7 @@ class AgentBuilder
   end
 
   def create_user_on_keycloak
-    access_token = get_keycloak_admin_accesss_token
+    access_token = get_keycloak_admin_access_token
     return unless access_token
 
     realm = ENV.fetch('KEYCLOAK_REALM', nil)

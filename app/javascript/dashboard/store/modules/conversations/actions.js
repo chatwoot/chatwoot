@@ -488,24 +488,6 @@ const actions = {
     commit(types.SET_CONTEXT_MENU_CHAT_ID, chatId);
   },
 
-  disableChatbot: async ({ commit }, conversationId) => {
-    try {
-      await ConversationApi.disableChatbot(conversationId);
-      commit(types.DISABLE_CHATBOT);
-    } catch (error) {
-      //
-    }
-  },
-
-  enableChatbot: async ({ commit }, conversationId) => {
-    try {
-      await ConversationApi.enableChatbot(conversationId);
-      commit(types.ENABLE_CHATBOT);
-    } catch (error) {
-      //
-    }
-  },
-
   sendCalEvent: async (
     _,
     { account_id, conversation_id, event_url, title }

@@ -1,7 +1,6 @@
 <script>
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
-import Papa from 'papaparse';
 import { useAlert } from 'dashboard/composables';
 
 export default defineComponent({
@@ -408,7 +407,7 @@ export default defineComponent({
             <div class="flex space-x-2 overflow-x-auto">
               <select
                 v-model="activeTab"
-                class="px-6 py-2 border rounded-lg dark:bg-n-solid-3 dark:border-dark dark:text-dark-primary"
+                class="py-2 border rounded-lg dark:bg-n-solid-3 dark:border-dark dark:text-dark-primary"
               >
                 <option
                   v-for="type in contactTypes"
@@ -531,10 +530,10 @@ export default defineComponent({
                 activeTab === 'pending'
                   ? totalProcessedCount + totalFailedCount
                   : ['processed', 'read', 'delivered', 'replied'].includes(
-                      activeTab
-                    )
-                  ? totalProcessedCount
-                  : totalFailedCount
+                        activeTab
+                      )
+                    ? totalProcessedCount
+                    : totalFailedCount
               }}
               contacts
             </div>
@@ -545,7 +544,7 @@ export default defineComponent({
         <div
           class="p-6 border-t dark:border-dark flex justify-between items-center"
         >
-          <woot-button
+          <!-- <woot-button
             variant="clear"
             color-scheme="success"
             class-names="clear flex items-center"
@@ -553,7 +552,7 @@ export default defineComponent({
             @click="exportContacts"
           >
             {{ $t('CAMPAIGN.WHATSAPP.REPORT.EXPORT_CSV') }}
-          </woot-button>
+          </woot-button> -->
 
           <button
             class="px-4 py-2 border border-slate-300 rounded-lg text-slate-700 hover:bg-slate-50 dark:border-dark dark:text-white dark:hover:bg-n-solid-3 transition-colors"

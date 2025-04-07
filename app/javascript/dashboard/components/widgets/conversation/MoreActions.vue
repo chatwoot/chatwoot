@@ -25,17 +25,6 @@ export default {
   },
   computed: {
     ...mapGetters({ currentChat: 'getSelectedChat' }),
-    isChatbotConnectedToInbox() {
-      if (this.currentChat && this.currentChat.chatbot_attributes) {
-        return !!this.currentChat.chatbot_attributes.id;
-      }
-      return false;
-    },
-    isChatbotEnabled() {
-      return (
-        this.currentChat?.chatbot_attributes?.status === 'Enabled' || false
-      );
-    },
   },
   mounted() {
     emitter.on(CMD_MUTE_CONVERSATION, this.mute);
@@ -59,38 +48,12 @@ export default {
     toggleEmailActionsModal() {
       this.showEmailActionsModal = !this.showEmailActionsModal;
     },
-    disableBot() {
-      this.$store.dispatch('disableChatbot', this.currentChat.id);
-      useAlert(this.$t('CHATBOTS.DISABLED_SUCCESS'));
-    },
-    enableBot() {
-      this.$store.dispatch('enableChatbot', this.currentChat.id);
-      useAlert(this.$t('CHATBOTS.ENABLED_SUCCESS'));
-    },
   },
 };
 </script>
 
 <template>
   <div class="relative flex items-center gap-2 actions--container">
-    <div v-if="isChatbotConnectedToInbox">
-      <ButtonV4
-        v-if="isChatbotEnabled"
-        v-tooltip.left="$t('CHATBOTS.DISABLE_BOT')"
-        variant="smooth"
-        color-scheme="primary"
-        icon="chatbot-icon"
-        @click="disableBot"
-      />
-      <ButtonV4
-        v-else
-        v-tooltip.left="$t('CHATBOTS.ENABLE_BOT')"
-        variant="smooth"
-        color-scheme="alert"
-        icon="chatbot-icon"
-        @click="enableBot"
-      />
-    </div>
     <ButtonV4
       v-if="!currentChat.muted"
       v-tooltip="$t('CONTACT_PANEL.MUTE_CONTACT')"

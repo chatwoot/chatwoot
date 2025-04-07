@@ -129,8 +129,6 @@ Rails.application.routes.draw do
               post :custom_attributes
               get :attachments
               post :copilot
-              post :disable_chatbot
-              post :enable_chatbot
             end
           end
 
@@ -275,18 +273,6 @@ Rails.application.routes.draw do
 
           resources :upload, only: [:create]
 
-          resources :chatbots, only: [:index, :show, :update] do
-            collection do
-              post :fetch_links
-              get :check_crawling_status
-              post :create_chatbot
-              delete :destroy_chatbot
-              post :retrain_chatbot
-              get :saved_data
-              post :process_pdf
-              delete :destroy_attachment
-            end
-          end
         end
       end
       # end of account scoped api routes
@@ -342,11 +328,6 @@ Rails.application.routes.draw do
             collection do
               post :add_participant_to_meeting
             end
-          end
-        end
-        resource :chatbots, only: [] do
-          collection do
-            post :connect_with_team
           end
         end
       end
@@ -559,10 +540,6 @@ Rails.application.routes.draw do
   resources :widget_tests, only: [:index] unless Rails.env.production?
 
   # ----------------------------------------------------------------------
-  # Routes for Chatbot
-  post 'chatbots/callback/update_status', to: 'chatbots/callbacks#update_status'
-  post 'chatbots/callback/query_reply', to: 'chatbots/callbacks#query_reply'
-  post 'chatbots/callback/links_crawled', to: 'chatbots/callbacks#links_crawled'
 
   # Routes for OneHash Cross App Integration
   namespace :onehash do

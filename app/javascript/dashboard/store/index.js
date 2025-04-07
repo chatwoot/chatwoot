@@ -46,7 +46,6 @@ import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
 import draftMessages from './modules/draftMessages';
 import SLAReports from './modules/SLAReports';
-import chatbots from './modules/chatbots';
 import captainAssistants from './captain/assistant';
 import captainDocuments from './captain/document';
 import captainResponses from './captain/response';
@@ -101,7 +100,6 @@ export default createStore({
     draftMessages,
     sla,
     slaReports: SLAReports,
-    chatbots,
     captainAssistants,
     captainDocuments,
     captainResponses,

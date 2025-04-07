@@ -117,20 +117,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @conversation.save!
   end
 
-  def disable_chatbot
-    @conversation.chatbot_attributes['status'] = 'Disabled'
-    @conversation.chatbot_attributes['connect_with_team'] = false
-    @conversation.save!
-    head :ok
-  end
-
-  def enable_chatbot
-    @conversation.chatbot_attributes['status'] = 'Enabled'
-    @conversation.chatbot_attributes['connect_with_team'] = true
-    @conversation.save!
-    head :ok
-  end
-
   private
 
   def permitted_update_params

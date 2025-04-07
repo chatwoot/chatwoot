@@ -5,6 +5,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import Avatar from 'next/avatar/Avatar.vue';
 import SidebarProfileMenuStatus from './SidebarProfileMenuStatus.vue';
+import { logoutFromKeycloakSession } from '../../../../javascript/v3/api/auth';
 
 import {
   DropdownContainer,
@@ -24,6 +25,23 @@ const { t } = useI18n();
 const globalConfig = useMapGetter('globalConfig/get');
 const currentUser = useMapGetter('getCurrentUser');
 const currentUserAvailability = useMapGetter('getCurrentUserAvailability');
+
+async function logout() {
+  const keycloakRes = await logoutFromKeycloakSession();
+  if (keycloakRes === 'Keycloak Token missing from cookies') {
+    Auth.logout();
+  }
+  if (
+    keycloakRes.status === 200 &&
+    keycloakRes.data.message === 'Logged out successfully'
+  ) {
+    const url = keycloakRes.data.url;
+    window.location.href = url;
+    Auth.logout();
+  } else {
+    Auth.logout();
+  }
+}
 
 const menuItems = computed(() => {
   return [
@@ -62,7 +80,7 @@ const menuItems = computed(() => {
       show: true,
       label: t('SIDEBAR_ITEMS.DOCS'),
       icon: 'i-lucide-book',
-      link: 'https://www.chatwoot.com/hc/user-guide/en',
+      link: 'https://chat.onehash.ai/hc/onehash-help-center/en',
       nativeLink: true,
       target: '_blank',
     },
@@ -78,7 +96,9 @@ const menuItems = computed(() => {
       show: true,
       label: t('SIDEBAR_ITEMS.LOGOUT'),
       icon: 'i-lucide-power',
-      click: Auth.logout,
+      click: () => {
+        logout();
+      },
     },
   ];
 });
