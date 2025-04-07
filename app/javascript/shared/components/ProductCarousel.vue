@@ -137,7 +137,7 @@ export default {
     },
     isProductInSelectedProducts(product) {
       return this.selectedProducts.some(
-        selectedProduct => selectedProduct.id === product.id
+        selectedProduct => selectedProduct.id === product.variant_id
       );
     },
     async increaseQuantity(productId, event) {
