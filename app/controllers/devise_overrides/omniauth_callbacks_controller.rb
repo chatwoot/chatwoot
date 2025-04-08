@@ -17,7 +17,11 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     # Set random password if user was not previously confirmed
     # This is to prevent an malicious user from acting in
     # case they created an account with this email before
-    @resource.update_column(:encrypted_password, SecureRandom.hex(12)) if confirmable_enabled? && !was_confirmed
+    if confirmable_enabled? && !was_confirmed
+      # Generate proper bcrypt hash for the password instead of storing raw password
+      encrypted_password = BCrypt::Password.create(SecureRandom.hex(32))
+      @resource.update_column(:encrypted_password, encrypted_password)
+    end
     # rubocop:enable Rails/SkipsModelValidations
 
     # once the resource is found and verified
