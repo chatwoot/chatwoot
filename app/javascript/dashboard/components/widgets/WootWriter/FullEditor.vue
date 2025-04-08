@@ -339,11 +339,11 @@ export default {
       @apply h-8 px-3;
 
       &[type='submit'] {
-        @apply bg-n-brand text-white;
+        @apply bg-n-brand text-white hover:bg-n-brand/90;
       }
 
       &[type='button'] {
-        @apply bg-n-slate-9/10 text-n-slate-12;
+        @apply bg-n-slate-9/10 text-n-slate-12 hover:bg-n-slate-9/20;
       }
     }
   }
