@@ -2,19 +2,19 @@ import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 const primaryMenuItems = accountId => [
-  {
-    icon: 'mail-inbox',
-    key: 'inboxView',
-    label: 'INBOX_VIEW',
-    featureFlag: FEATURE_FLAGS.INBOX_VIEW,
-    toState: frontendURL(`accounts/${accountId}/inbox-view`),
-    toStateName: 'inbox_view',
-  },
+
   {
     icon: 'chat',
     key: 'conversations',
     label: 'CONVERSATIONS',
     toState: frontendURL(`accounts/${accountId}/dashboard`),
+    toStateName: 'home',
+  },
+  {
+    icon: 'mail-inbox',
+    key: 'inbox',
+    label: 'INBOX',
+    toState: frontendURL(`accounts/${accountId}/settings/inboxes/list`),
     toStateName: 'home',
   },
   {
