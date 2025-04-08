@@ -4,6 +4,7 @@ import CampaignsPageRouteView from './pages/CampaignsPageRouteView.vue';
 import LiveChatCampaignsPage from './pages/LiveChatCampaignsPage.vue';
 import SMSCampaignsPage from './pages/SMSCampaignsPage.vue';
 import WhatsappCampaignsPage from './pages/WhatsappCampaignsPage.vue';
+import EmailCampaignsPage from './pages/EmailCampaignsPage.vue';
 
 const campaignsRoutes = {
   routes: [
@@ -61,6 +62,14 @@ const campaignsRoutes = {
           },
           component: WhatsappCampaignsPage,
         },
+        {
+          path: 'email',
+          name: 'campaigns_email_index',
+          meta: {
+            permissions: ['administrator'],
+          },
+          component: EmailCampaignsPage,
+        }
       ],
     },
   ],

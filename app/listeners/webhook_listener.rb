@@ -46,6 +46,8 @@ class WebhookListener < BaseListener
     contact_inbox = event.data[:contact_inbox]
     inbox = contact_inbox.inbox
 
+    Rails.logger.debug { "webhook listener is working brotha: #{inbox.id}" }
+
     payload = contact_inbox.webhook_data.merge(event: __method__.to_s)
     payload[:event_info] = event.data[:event_info]
     deliver_webhook_payloads(payload, inbox)
