@@ -33,6 +33,22 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
       # ----------------------------------
+      # start of subscription scoped api routes
+      resources :subscriptions, only: [] do
+        collection do
+          get :plans  
+        end
+      end
+      # end of subscription scoped api routes
+      # ----------------------------------
+        
+      # ----------------------------------
+      # start of pricing plan scoped api routes
+      post 'duitku/webhook', to: 'duitku#webhook'
+      # end of pricing plan scoped api routes
+      # ----------------------------------
+      
+      # ----------------------------------
       # start of pricing plan scoped api routes
       resources :pricing_plans, only: [:index, :show]
       # end of pricing plan scoped api routes
@@ -41,6 +57,27 @@ Rails.application.routes.draw do
       # ----------------------------------
       # start of account scoped api routes
       resources :accounts, only: [:create, :show, :update] do
+        # ----------------------------------
+        # start of subscription scoped api routes
+        resources :subscriptions, only: [:index, :show, :create, :update] do
+          # collection do
+          #   get :plans
+          # end
+          
+          member do
+            put :cancel
+          end
+
+          # Subscription payments routes
+          resources :subscription_payments, only: [:index, :show, :create] do
+            member do
+              get :check_status
+            end
+          end
+        end
+        # end of subscription scoped api routes
+        # ----------------------------------
+
         member do
           post :update_active_at
           get :cache_keys

@@ -2,22 +2,29 @@
 #
 # Table name: accounts
 #
-#  id                    :integer          not null, primary key
-#  auto_resolve_duration :integer
-#  custom_attributes     :jsonb
-#  domain                :string(100)
-#  feature_flags         :bigint           default(0), not null
-#  limits                :jsonb
-#  locale                :integer          default("en")
-#  name                  :string           not null
-#  status                :integer          default("active")
-#  support_email         :string(100)
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
+#  id                     :integer          not null, primary key
+#  auto_resolve_duration  :integer
+#  custom_attributes      :jsonb
+#  domain                 :string(100)
+#  feature_flags          :bigint           default(0), not null
+#  limits                 :jsonb
+#  locale                 :integer          default("en")
+#  name                   :string           not null
+#  status                 :integer          default("active")
+#  subscription_status    :string           default("free_trial")
+#  support_email          :string(100)
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  active_subscription_id :bigint
 #
 # Indexes
 #
-#  index_accounts_on_status  (status)
+#  index_accounts_on_active_subscription_id  (active_subscription_id)
+#  index_accounts_on_status                  (status)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (active_subscription_id => subscriptions.id)
 #
 
 class Account < ApplicationRecord
@@ -76,6 +83,7 @@ class Account < ApplicationRecord
   has_many :whatsapp_channels, dependent: :destroy_async, class_name: '::Channel::Whatsapp'
   has_many :working_hours, dependent: :destroy_async
   has_many :ai_agents, dependent: :destroy_async
+  has_many :subscriptions
 
   has_one_attached :contacts_export
 

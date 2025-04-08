@@ -31,7 +31,13 @@ class Api::V1::AccountsController < Api::BaseController
       user: current_user,
       phoneNumber:account_params[:phoneNumber]
     ).perform
-    if @user
+
+    Rails.logger.info "User: #{@user.inspect}, Account: #{@account.inspect}"
+
+    if @user && @account
+      # Assign Free Trial subscription to the newly created account
+      assign_free_trial_subscription(@account)
+
       send_auth_headers(@user)
       render 'api/v1/accounts/create', format: :json, locals: { resource: @user }
     else
@@ -58,6 +64,39 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   private
+
+  def assign_free_trial_subscription(account)
+    free_trial_plan = SubscriptionPlan.find_by(name: 'Free Trial')
+
+    Rails.logger.info "Free Trial Plan: #{free_trial_plan.inspect}"
+    
+    if free_trial_plan.present?
+      # Create a new subscription for the account
+      subscription = Subscription.create!(
+        account_id: account.id,
+        plan_name: free_trial_plan.name,
+        max_mau: free_trial_plan.max_mau,
+        max_ai_agents: free_trial_plan.max_ai_agents,
+        max_ai_responses: free_trial_plan.max_ai_responses,
+        max_human_agents: free_trial_plan.max_human_agents,
+        available_channels: free_trial_plan.available_channels,
+        support_level: free_trial_plan.support_level,
+        subscription_plan_id: free_trial_plan.id,
+        status: 'active',
+        starts_at: Time.current,
+        ends_at: Time.current + free_trial_plan.duration_days.days,
+        amount_paid: free_trial_plan.monthly_price,
+        price: free_trial_plan.monthly_price,
+        payment_status: "successful"
+      )
+
+      # Update account.active_subscription_id
+      account.update!(active_subscription_id: subscription.id)
+    end
+  rescue StandardError => e
+    Rails.logger.error "Error assigning Free Trial subscription: #{e.message}"
+    # Continue with account creation even if subscription assignment fails
+  end
 
   def ensure_account_name
     # ensure that account_name and user_full_name is present
