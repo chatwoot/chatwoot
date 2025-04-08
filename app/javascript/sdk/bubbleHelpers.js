@@ -70,25 +70,30 @@ export const createBubbleHolder = hideMessageBubble => {
   body.appendChild(bubbleHolder);
 };
 
+const handleBubbleToggle = newIsOpen => {
+  IFrameHelper.events.onBubbleToggle(newIsOpen);
+
+  if (newIsOpen) {
+    dispatchWindowEvent({ eventName: CHATWOOT_OPENED });
+  } else {
+    dispatchWindowEvent({ eventName: CHATWOOT_CLOSED });
+    chatBubble.focus();
+  }
+};
+
 export const onBubbleClick = (props = {}) => {
   const { toggleValue } = props;
   const { isOpen } = window.$chatwoot;
-  if (isOpen !== toggleValue) {
-    const newIsOpen = toggleValue === undefined ? !isOpen : toggleValue;
-    window.$chatwoot.isOpen = newIsOpen;
+  if (isOpen === toggleValue) return;
 
-    toggleClass(chatBubble, 'woot--hide');
-    toggleClass(closeBubble, 'woot--hide');
-    toggleClass(widgetHolder, 'woot--hide');
-    IFrameHelper.events.onBubbleToggle(newIsOpen);
+  const newIsOpen = toggleValue === undefined ? !isOpen : toggleValue;
+  window.$chatwoot.isOpen = newIsOpen;
 
-    if (newIsOpen) {
-      dispatchWindowEvent({ eventName: CHATWOOT_OPENED });
-    } else {
-      dispatchWindowEvent({ eventName: CHATWOOT_CLOSED });
-      chatBubble.focus();
-    }
-  }
+  toggleClass(chatBubble, 'woot--hide');
+  toggleClass(closeBubble, 'woot--hide');
+  toggleClass(widgetHolder, 'woot--hide');
+
+  handleBubbleToggle(newIsOpen);
 };
 
 export const onClickChatBubble = () => {
