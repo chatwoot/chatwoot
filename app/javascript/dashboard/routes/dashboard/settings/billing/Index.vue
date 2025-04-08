@@ -225,7 +225,7 @@
     </div>
 
     <!-- Pricing Plans -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+    <!-- <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
       <div 
         v-for="plan in filteredPlans" 
         :key="plan.id" 
@@ -253,6 +253,37 @@
             </ul>
           </div>
           <button @click="purchasePlan(plan.id)" class="w-full bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded">
+            Buy Package
+          </button>
+        </div>
+      </div>
+    </div> -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div v-for="plan in plans" :key="plan.id" class="border border-gray-200 rounded-lg overflow-hidden">
+        <div class="p-4">
+          <h3 class="text-lg font-medium mb-4">{{ plan.name }}</h3>
+          <div class="mb-4">
+            <p class="text-2xl font-bold">{{ formattedPrice(plan.monthly_price) }}</p>
+            <!-- <p class="text-gray-600">IDR / {{ getDurationLabel(selectedDuration) }}</p> -->
+            <!-- <p class="text-xs text-gray-500">{{ plan.packageType }}</p> -->
+            <p class="text-gray-600">IDR / Bulan }}</p>
+            <p class="text-xs text-gray-500">Monthly Package</p>
+          </div>
+          <div class="mb-4">
+            <h4 class="font-medium mb-2">{{ plan.name }} Features</h4>
+            <ul class="space-y-2">
+              <li v-for="(feature, index) in plan.features" :key="index" class="flex items-center">
+                <span class="text-blue-500 mr-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                </span>
+                <span>{{ feature }}</span>
+              </li>
+            </ul>
+          </div>
+          <button @click="purchasePlan(plan.id)" class="btn-dark w-full bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded">
             Buy Package
           </button>
         </div>
@@ -575,6 +606,13 @@ export default {
     formatPrice(price) {
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },
+
+    formattedPrice(value) {
+      if (value >= 1000) {
+        return Math.round(value / 1000).toLocaleString('id-ID') + 'K'; // Gunakan toLocaleString untuk menambahkan titik
+      }
+      return value.toLocaleString('id-ID'); // Format angka kecil dengan titik juga
+    },
     
     getDurationLabel(durationId) {
       switch(durationId) {
@@ -650,6 +688,15 @@ export default {
       }
     }
   },
+  async created() {
+    try {
+      const response = await fetch('/api/v1/subscriptions/plans');
+      const data = await response.json();
+      this.plans = data;
+    } catch (error) {
+      console.error('Gagal mengambil data pricing:', error);
+    }
+  },
   mounted() {
     // this.myActiveSubscription();
     this.$store.dispatch('myActiveSubscription');
@@ -659,6 +706,35 @@ export default {
 </script>
 
 <style scoped>
+.btn-dark {
+    --tw-border-opacity: 1;
+    --tw-bg-opacity: 1;
+    background-color: rgb(59 63 92 / var(--tw-bg-opacity));
+    --tw-text-opacity: 1;
+    --tw-shadow-color: rgba(59, 63, 92, .6);
+    --tw-shadow: var(--tw-shadow-colored);
+}
+.btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: .375rem;
+    border-width: 1px;
+    padding: .5rem 1.25rem;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+    --tw-shadow: 0 10px 20px -10px;
+    --tw-shadow-colored: 0 10px 20px -10px var(--tw-shadow-color);
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
+    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    transition-duration: .3s;
+}
 .billing-page {
   font-family: 'Inter', sans-serif;
 }

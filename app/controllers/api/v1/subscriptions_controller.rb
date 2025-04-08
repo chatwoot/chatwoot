@@ -12,7 +12,7 @@ class Api::V1::SubscriptionsController < Api::BaseController
     skip_before_action :authenticate_access_token!, only: [:plans], raise: false
     skip_before_action :validate_bot_access_token!, only: [:plans], raise: false
 
-    before_action :set_account
+    before_action :set_account, except: [:plans]
     before_action :set_subscription, only: [:show, :update, :cancel]
     before_action :set_subscription_plan, only: [:create]
     
