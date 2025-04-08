@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_24_103350) do
+ActiveRecord::Schema[7.0].define(version: 2025_04_08_071109) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -148,6 +148,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_24_103350) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
+    t.jsonb "template", default: {}, null: false
   end
 
   create_table "ai_agents", force: :cascade do |t|
@@ -167,6 +168,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_24_103350) do
     t.datetime "updated_at", null: false
     t.bigint "template_id"
     t.string "description"
+    t.string "chat_flow_id"
   end
 
   create_table "applied_slas", force: :cascade do |t|
@@ -1055,22 +1057,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_24_103350) do
     t.datetime "updated_at", null: false
     t.jsonb "features", default: [], null: false
     t.text "description"
-  end
-
-  create_table "subscription_plans_copy1", id: :bigint, default: -> { "nextval('subscription_plans_id_seq'::regclass)" }, force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "max_mau", default: 0, null: false
-    t.integer "max_ai_agents", default: 0, null: false
-    t.integer "max_ai_responses", default: 0, null: false
-    t.integer "max_human_agents", default: 0, null: false
-    t.text "available_channels", default: [], array: true
-    t.string "support_level"
-    t.integer "duration_days"
-    t.decimal "monthly_price", precision: 16, scale: 2, null: false
-    t.decimal "annual_price", precision: 16, scale: 2, null: false
-    t.boolean "is_active", default: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "subscription_usage", force: :cascade do |t|
