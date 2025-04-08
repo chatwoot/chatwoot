@@ -1,9 +1,9 @@
 {
   "LOGIN": {
-    "TITLE": "Login to Chatwoot",
+    "TITLE": "Login to SwitchON Support",
     "EMAIL": {
       "LABEL": "Email",
-      "PLACEHOLDER": "example{'@'}companyname.com",
+      "PLACEHOLDER": "example{'@'}switchon.io",
       "ERROR": "Please enter a valid email address"
     },
     "PASSWORD": {
