@@ -1,10 +1,10 @@
 {
   "GENERAL_SETTINGS": {
     "LIMIT_MESSAGES": {
-      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
-      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
-      "AGENTS": "You have exceeded the agent limit. Hacker plan allows only 2 agents.",
-      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+      "CONVERSATION": "Jūs esat pārsniedzis sarunu ierobežojumu. Hacker plāns pieļauj tikai 500 sarunas.",
+      "INBOXES": "Jūs esat pārsniedzis iesūtnes ierobežojumu. Hacker plāns atbalsta tikai vietnes tiešraides tērzēšanu. Papildu iesūtnēm, piemēram, e-pastam, WhatsApp utt., ir nepieciešams maksas plāns.",
+      "AGENTS": "Jūs esat pārsniedzis aģentu ierobežojumu. Hakeru plānā ir atļauti tikai 2 aģenti.",
+      "NON_ADMIN": "Lūdzu, sazinieties ar savu administratoru, lai modernizētu plānu un turpinātu izmantot visas funkcijas."
     },
     "TITLE": "Konta iestatījumi",
     "SUBMIT": "Atjaunināt iestatījumus",
@@ -15,23 +15,23 @@
       "SUCCESS": "Konta iestatījumi ir veiksmīgi atjaunināti"
     },
     "ACCOUNT_DELETE_SECTION": {
-      "TITLE": "Delete your Account",
-      "NOTE": "Once you delete your account, all your data will be deleted.",
-      "BUTTON_TEXT": "Delete Your Account",
+      "TITLE": "Dzēsiet savu Kontu",
+      "NOTE": "Tiklīdz izdzēsīsiet savu kontu, visi Jūsu dati tiks dzēsti.",
+      "BUTTON_TEXT": "Izdzēst Savu Kontu",
       "CONFIRM": {
-        "TITLE": "Delete Account",
-        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "TITLE": "Dzēst Kontu",
+        "MESSAGE": "Konta dzēšana ir neatgriezeniska. Ievadiet sava konta nosaukumu, lai apstiprinātu, ka vēlaties to neatgriezeniski dzēst.",
         "BUTTON_TEXT": "Dzēst",
         "DISMISS": "Atcelt",
         "PLACE_HOLDER": "Lai apstiprinātu, lūdzu, uzrakstiet {accountName}"
       },
-      "SUCCESS": "Account marked for deletion",
-      "FAILURE": "Could not delete account, try again!",
+      "SUCCESS": "Konts atzīmēts dzēšanai",
+      "FAILURE": "Nevarēja izdzēst kontu, mēģiniet vēlreiz!",
       "SCHEDULED_DELETION": {
-        "TITLE": "Account Scheduled for Deletion",
-        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
-        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
-        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+        "TITLE": "Kontu ir Ieplānots Dzēst",
+        "MESSAGE_MANUAL": "Šo kontu ir ieplānots dzēst šādā datumā: {deletionDate}. To pieprasīja administrators. Jūs varat atcelt dzēšanu pirms šī datuma.",
+        "MESSAGE_INACTIVITY": "Šo kontu ir plānots dzēst šādā datumā: {deletionDate} konta neaktivitātes dēļ. Jūs varat atcelt dzēšanu pirms šī datuma.",
+        "CLEAR_BUTTON": "Atcelt Ieplānoto Dzēšanu"
       }
     },
     "FORM": {
@@ -77,7 +77,7 @@
     "UPDATE_CHATWOOT": "Ir pieejams Chatwoot {latestChatwootVersion} jauninājums. Lūdzu, atjauniniet savu programmatūru.",
     "LEARN_MORE": "Uzzināt vairāk",
     "PAYMENT_PENDING": "Jūsu maksājums tiek gaidīts. Lūdzu, atjauniniet savu maksājumu informāciju, lai turpinātu lietot Chatwoot",
-    "UPGRADE": "Upgrade to continue using Chatwoot",
+    "UPGRADE": "Modernizējieties, lai turpinātu lietot Chatwoot",
     "LIMITS_UPGRADE": "Jūsu konts ir pārsniedzis lietošanas ierobežojumus. Lūdzu, uzlabojiet savu abonementu, lai turpinātu izmantot Chatwoot",
     "OPEN_BILLING": "Atvērt norēķinus"
   },
