@@ -48,6 +48,7 @@
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "Continuar com o Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
         "HELP": "Para adicionar seu perfil do Instagram como um canal, você precisa autenticar seu perfil do Instagram clicando em 'Continuar com o Instagram' ",
         "ERROR_MESSAGE": "Houve um erro ao conectar ao Instagram, por favor, tente novamente",
         "ERROR_AUTH": "Houve um erro ao conectar ao Instagram, por favor, tente novamente"
