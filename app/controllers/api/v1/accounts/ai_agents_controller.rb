@@ -7,24 +7,7 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   def show
-    render json: @ai_agent.as_json(
-      only: [
-        :id, :uid, :name, :description, :system_prompts, :welcoming_message,
-        :routing_conditions, :control_flow_rules, :model_name,
-        :history_limit, :context_limit, :message_await, :message_limit,
-        :timezone, :created_at, :updated_at, :account_id, :chat_flow_id
-      ],
-      include: {
-        ai_agent_selected_labels: {
-          only: [:id, :label_id, :label_conditions],
-          include: {
-            label: {
-              only: [:id, :name]
-            }
-          }
-        }
-      }
-    ).transform_keys { |key| key == 'ai_agent_selected_labels' ? 'selected_labels' : key }
+    render json: serialize_ai_agent
   end
 
   def create
@@ -83,6 +66,50 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   private
+
+  def serialize_ai_agent
+    json = @ai_agent.as_json(
+      only: ai_agent_fields,
+      include: ai_agent_includes
+    )
+
+    rename_keys(json)
+  end
+
+  def ai_agent_fields
+    [
+      :id, :uid, :name, :description, :system_prompts, :welcoming_message,
+      :routing_conditions, :control_flow_rules, :model_name,
+      :history_limit, :context_limit, :message_await, :message_limit,
+      :timezone, :created_at, :updated_at, :account_id, :chat_flow_id
+    ]
+  end
+
+  def ai_agent_includes
+    {
+      ai_agent_selected_labels: {
+        only: [:id, :label_id, :label_conditions],
+        include: {
+          label: {
+            only: [:id, :name]
+          }
+        }
+      },
+      ai_agent_followups: {
+        only: [:id, :prompts, :delay, :send_as_exact_message, :handoff_to_agent_after_sending]
+      }
+    }
+  end
+
+  def rename_keys(json)
+    {
+      'ai_agent_selected_labels' => 'selected_labels',
+      'ai_agent_followups' => 'followups'
+    }.each do |original, renamed|
+      json[renamed] = json.delete(original) if json.key?(original)
+    end
+    json
+  end
 
   def find_template
     AiAgentTemplate.find_by(id: params[:ai_agent][:template_id]).tap do |template|
