@@ -1,8 +1,8 @@
 tags:
   - AI Agents
-operationId: list-all-account-agent-bots
-summary: List all AgentBots
-description: List all agent bots available for the current account
+operationId: list-all-agent-templates
+summary: List all Agent Templates
+description: List all agent templates available for the current account
 security:
   - userApiKey: []
 responses:
@@ -19,9 +19,6 @@ responses:
             example: 1
           name:
             type: string
-            example: "Agent Bot A"
-          description:
-            type: string
-            example: "Agent Bot A is a bot that can help you with your queries"
+            example: "Template A"
   403:
     description: Access denied

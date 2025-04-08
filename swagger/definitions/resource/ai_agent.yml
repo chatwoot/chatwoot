@@ -6,6 +6,8 @@ properties:
     type: string
   name:
     type: string
+  description:
+    type: string
   system_prompts:
     type: string
   welcoming_message:
@@ -14,7 +16,7 @@ properties:
     type: string
   control_flow_rules:
     type: boolean
-  model_name:
+  llm_model:
     type: string
   history_limit:
     type: integer
@@ -32,3 +34,21 @@ properties:
     type: string
   account_id:
     type: integer
+  selected_labels:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+        label_id:
+          type: integer
+        label_conditions:
+          type: string
+        label:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string

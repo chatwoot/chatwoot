@@ -1,0 +1,19 @@
+type: array
+items:
+  type: object
+  properties:
+    id:
+      type: integer
+      description: The ID of the followup
+    prompts:
+      type: string
+      description: The prompts to be used by the followup
+    delay:
+      type: integer
+      description: The delay to be used by the followup
+    send_as_exact_message:
+      type: boolean
+      description: Whether to send the followup as exact message
+    handoff_to_agent_after_sending:
+      type: boolean
+      description: Whether to handoff the followup to agent after sending

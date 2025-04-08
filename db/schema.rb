@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_19_110353) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_24_103350) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -121,6 +121,35 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_19_110353) do
     t.index ["account_id"], name: "index_agent_bots_on_account_id"
   end
 
+  create_table "ai_agent_followups", force: :cascade do |t|
+    t.bigint "ai_agent_id", null: false
+    t.text "prompts", null: false
+    t.integer "delay", default: 5
+    t.boolean "send_as_exact_message", default: false, null: false
+    t.boolean "handoff_to_agent_after_sending", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ai_agent_id"], name: "index_ai_agent_followups_on_ai_agent_id"
+  end
+
+  create_table "ai_agent_selected_labels", force: :cascade do |t|
+    t.bigint "ai_agent_id"
+    t.bigint "label_id"
+    t.text "label_condition"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ai_agent_id"], name: "index_ai_agent_selected_labels_on_ai_agent_id"
+    t.index ["label_id"], name: "index_ai_agent_selected_labels_on_label_id"
+  end
+
+  create_table "ai_agent_templates", force: :cascade do |t|
+    t.text "system_prompt", null: false
+    t.text "welcoming_message", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "name"
+  end
+
   create_table "ai_agents", force: :cascade do |t|
     t.integer "account_id", null: false
     t.string "name", null: false
@@ -128,7 +157,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_19_110353) do
     t.text "welcoming_message", null: false
     t.text "routing_conditions"
     t.boolean "control_flow_rules", default: false, null: false
-    t.string "model_name", default: "gpt-4o"
+    t.string "llm_model", default: "gpt-4o"
     t.integer "history_limit", default: 20
     t.integer "context_limit", default: 10
     t.integer "message_await", default: 5
@@ -136,6 +165,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_19_110353) do
     t.string "timezone", default: "UTC", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "template_id"
+    t.string "description"
   end
 
   create_table "applied_slas", force: :cascade do |t|
@@ -1196,6 +1227,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_19_110353) do
   add_foreign_key "accounts", "subscriptions", column: "active_subscription_id"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "ai_agent_followups", "ai_agents"
+  add_foreign_key "ai_agent_selected_labels", "ai_agents"
+  add_foreign_key "ai_agent_selected_labels", "labels"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "subscription_payments", "subscriptions"
   add_foreign_key "subscription_usage", "subscriptions"

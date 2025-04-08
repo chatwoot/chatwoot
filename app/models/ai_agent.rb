@@ -5,10 +5,11 @@
 #  id                 :bigint           not null, primary key
 #  context_limit      :integer          default(10)
 #  control_flow_rules :boolean          default(FALSE), not null
+#  description        :string
 #  history_limit      :integer          default(20)
+#  llm_model          :string           default("gpt-4o")
 #  message_await      :integer          default(5)
 #  message_limit      :integer          default(1000)
-#  model_name         :string           default("gpt-4o")
 #  name               :string           not null
 #  routing_conditions :text
 #  system_prompts     :text             not null
@@ -17,9 +18,13 @@
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  account_id         :integer          not null
+#  template_id        :bigint
 #
-class AIAgent < ApplicationRecord
+class AiAgent < ApplicationRecord
   belongs_to :account
+  has_many :ai_agent_selected_labels, dependent: :destroy
+  has_many :labels, through: :ai_agent_selected_labels
+  has_many :ai_agent_followups, dependent: :destroy
 
   validates :name, :system_prompts, :welcoming_message, presence: true
   validates :timezone, presence: true, inclusion: { in: ActiveSupport::TimeZone.all.map(&:name) }

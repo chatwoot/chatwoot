@@ -40,6 +40,8 @@ agent:
   $ref: ./resource/agent.yml
 ai_agent:
   $ref: ./resource/ai_agent.yml
+ai_agent_followup:
+  $ref: ./resource/ai_agent_followup.yml
 inbox:
   $ref: ./resource/inbox.yml
 agent_bot:

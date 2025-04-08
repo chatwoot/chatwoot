@@ -13,10 +13,14 @@ parameters:
       type: object
       required:
         - name
+        - template_id
       properties:
         name:
           type: string
           description: Full Name of the agent
+        template_id:
+          type: integer
+          description: Template ID of the agent
 responses:
   200:
     description: Success

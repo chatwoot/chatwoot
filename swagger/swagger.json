@@ -52,283 +52,6 @@
     }
   ],
   "paths": {
-    "/api/v1/accounts/subscriptions": {
-      "get": {
-        "summary": "Get list of subscriptions",
-        "operationId": "getSubscriptions",
-        "tags": ["Subscriptions"],
-        "responses": {
-          "200": {
-            "description": "List of subscriptions",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Subscription"
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "summary": "Create a new subscription",
-        "operationId": "createSubscription",
-        "tags": ["Subscriptions"],
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Subscription"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Subscription created",
-            "schema": {
-              "$ref": "#/definitions/Subscription"
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/accounts/subscriptions/{id}": {
-      "get": {
-        "summary": "Get a specific subscription",
-        "operationId": "getSubscription",
-        "tags": ["Subscriptions"],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Subscription details",
-            "schema": {
-              "$ref": "#/definitions/Subscription"
-            }
-          }
-        }
-      },
-      "put": {
-        "summary": "Update a subscription",
-        "operationId": "updateSubscription",
-        "tags": ["Subscriptions"],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Subscription"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Subscription updated",
-            "schema": {
-              "$ref": "#/definitions/Subscription"
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/accounts/subscriptions/{id}/cancel": {
-      "put": {
-        "summary": "Cancel a subscription",
-        "operationId": "cancelSubscription",
-        "tags": ["Subscriptions"],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Subscription cancelled"
-          }
-        }
-      }
-    },
-    "/api/v1/accounts/subscriptions/{subscription_id}/subscription_payments": {
-      "get": {
-        "summary": "Get list of payments for a subscription",
-        "operationId": "getSubscriptionPayments",
-        "tags": ["Subscription Payments"],
-        "parameters": [
-          {
-            "name": "subscription_id",
-            "in": "path",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of payments",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/SubscriptionPayment"
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "summary": "Create a payment for a subscription",
-        "operationId": "createSubscriptionPayment",
-        "tags": ["Subscription Payments"],
-        "parameters": [
-          {
-            "name": "subscription_id",
-            "in": "path",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/SubscriptionPayment"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Payment created",
-            "schema": {
-              "$ref": "#/definitions/SubscriptionPayment"
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/accounts/subscriptions/{subscription_id}/subscription_payments/{id}/check_status": {
-      "get": {
-        "summary": "Check payment status",
-        "operationId": "checkPaymentStatus",
-        "tags": ["Subscription Payments"],
-        "parameters": [
-          {
-            "name": "subscription_id",
-            "in": "path",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Payment status",
-            "schema": {
-              "$ref": "#/definitions/PaymentStatus"
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/subscriptions/plans": {
-      "get": {
-        "summary": "Get available subscription plans",
-        "operationId": "getPlans",
-        "tags": ["Subscriptions"],
-        "responses": {
-          "200": {
-            "description": "List of subscription plans",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/SubscriptionPlan"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/pricing_plans": {
-      "get": {
-        "tags": [
-          "Pricing Plans"
-        ],
-        "operationId": "getPricingPlans",
-        "summary": "Get Pricing Plans",
-        "description": "Get Pricing Plans",
-        "security": [
-          {
-            "platformAppApiKey": [
-
-            ]
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/PricingPlan"
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/api/v1/pricing_plans/{id}": {
-      "get": {
-        "tags": [
-          "Pricing Plans"
-        ],
-        "summary": "Get Pricing Plan by ID",
-        "description": "Mengambil detail pricing plan berdasarkan ID",
-        "operationId": "getPricingPlanById",
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "description": "ID dari pricing plan"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Berhasil mengambil pricing plan",
-            "schema": {
-              "$ref": "#/definitions/PricingPlan"
-            }
-          },
-          "404": {
-            "description": "Pricing Plan tidak ditemukan"
-          }
-        }
-      }
-    },
     "/platform/api/v1/accounts": {
       "post": {
         "tags": [
@@ -1918,7 +1641,21 @@
               "type": "array",
               "description": "Array of agent bots",
               "items": {
-                "$ref": "#/definitions/ai_agent"
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Agent Bot A"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Agent Bot A is a bot that can help you with your queries"
+                  }
+                }
               }
             }
           },
@@ -1949,12 +1686,17 @@
             "schema": {
               "type": "object",
               "required": [
-                "name"
+                "name",
+                "template_id"
               ],
               "properties": {
                 "name": {
                   "type": "string",
                   "description": "Full Name of the agent"
+                },
+                "template_id": {
+                  "type": "integer",
+                  "description": "Template ID of the agent"
                 }
               }
             }
@@ -1979,6 +1721,45 @@
           "$ref": "#/parameters/account_id"
         }
       ],
+      "get": {
+        "tags": [
+          "AI Agents"
+        ],
+        "operationId": "details-of-an-account-ai-agent",
+        "summary": "Details of an AI Agent",
+        "description": "Get the details of an AI Agent",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the ai agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of agent bots",
+              "items": {
+                "$ref": "#/definitions/ai_agent"
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
       "patch": {
         "tags": [
           "AI Agents"
@@ -1994,6 +1775,13 @@
           }
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the ai agent to be updated"
+          },
           {
             "name": "data",
             "in": "body",
@@ -2018,6 +1806,24 @@
                   "type": "string",
                   "description": "The welcome message to be used by the agent bot"
                 },
+                "selected_labels": {
+                  "type": "array",
+                  "description": "The labels and their conditions for the agent bot",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "label_id": {
+                        "type": "integer",
+                        "description": "The ID of the label"
+                      },
+                      "label_conditions": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "The conditions associated with the label"
+                      }
+                    }
+                  }
+                },
                 "routing_conditions": {
                   "type": "string",
                   "description": "The routing conditions to be used by the agent bot"
@@ -2026,7 +1832,7 @@
                   "type": "boolean",
                   "description": "Whether to enable control flow rules for the agent bot"
                 },
-                "model_name": {
+                "llm_model": {
                   "type": "string",
                   "description": "The model name to be used by the agent bot"
                 },
@@ -2098,6 +1904,149 @@
           },
           "404": {
             "description": "Agent bot not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/ai_agents/{id}/update_followups": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
+      "patch": {
+        "tags": [
+          "AI Agents"
+        ],
+        "operationId": "update-an-account-agent-bot-followups",
+        "summary": "Update an agent bot followups",
+        "description": "Update an agent bot followups in the account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the ai agent to be updated"
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "description": "Array of followups",
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "prompts",
+                  "delay",
+                  "send_as_exact_message",
+                  "handoff_to_agent_after_sending"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "The ID of the followup"
+                  },
+                  "prompts": {
+                    "type": "string",
+                    "description": "The prompts to be used by the followup"
+                  },
+                  "delay": {
+                    "type": "integer",
+                    "description": "The delay to be used by the followup"
+                  },
+                  "send_as_exact_message": {
+                    "type": "boolean",
+                    "description": "Whether to send the followup as exact message"
+                  },
+                  "handoff_to_agent_after_sending": {
+                    "type": "boolean",
+                    "description": "Whether to handoff the followup to agent after sending"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of followups",
+              "items": {
+                "$ref": "#/definitions/ai_agent_followup"
+              }
+            }
+          },
+          "404": {
+            "description": "Agent bot not found"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/ai_agents/ai_agent_templates": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
+      "patch": {
+        "tags": [
+          "AI Agents"
+        ],
+        "operationId": "list-all-agent-templates",
+        "summary": "List all Agent Templates",
+        "description": "List all agent templates available for the current account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of agent bots",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Template A"
+                  }
+                }
+              }
+            }
           },
           "403": {
             "description": "Access denied"
@@ -5833,69 +5782,6 @@
     }
   },
   "definitions": {
-    "Subscription": {
-      "type": "object",
-      "properties": {
-        "id": { "type": "integer" },
-        "name": { "type": "string" },
-        "status": { "type": "string" },
-        "plan_id": { "type": "integer" },
-        "user_id": { "type": "integer" }
-      }
-    },
-    "SubscriptionPlan": {
-      "type": "object",
-      "properties": {
-        "id": { "type": "integer" },
-        "name": { "type": "string" },
-        "monthly_price": { "type": "number" },
-        "annual_price": { "type": "number" },
-        "max_mau": { "type": "integer" },
-        "max_ai_agents": { "type": "integer" },
-        "max_human_agents": { "type": "integer" }
-      }
-    },
-    "SubscriptionPayment": {
-      "type": "object",
-      "properties": {
-        "id": { "type": "integer" },
-        "subscription_id": { "type": "integer" },
-        "amount": { "type": "number" },
-        "status": { "type": "string" }
-      }
-    },
-    "PaymentStatus": {
-      "type": "object",
-      "properties": {
-        "status": { "type": "string" },
-        "message": { "type": "string" }
-      }
-    },
-    "PricingPlan": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "example": 1
-        },
-        "name": {
-          "type": "string",
-          "example": "Basic Plan"
-        },
-        "price": {
-          "type": "number",
-          "format": "float",
-          "example": 9.99
-        },
-        "features": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "example": ["Feature 1", "Feature 2"]
-        }
-      }
-    },
     "bad_request_error": {
       "title": "data",
       "type": "object",
@@ -6472,6 +6358,9 @@
         "name": {
           "type": "string"
         },
+        "description": {
+          "type": "string"
+        },
         "system_prompts": {
           "type": "string"
         },
@@ -6484,7 +6373,7 @@
         "control_flow_rules": {
           "type": "boolean"
         },
-        "model_name": {
+        "llm_model": {
           "type": "string"
         },
         "history_limit": {
@@ -6510,6 +6399,62 @@
         },
         "account_id": {
           "type": "integer"
+        },
+        "selected_labels": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "label_id": {
+                "type": "integer"
+              },
+              "label_conditions": {
+                "type": "string"
+              },
+              "label": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "ai_agent_followup": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the followup"
+          },
+          "prompts": {
+            "type": "string",
+            "description": "The prompts to be used by the followup"
+          },
+          "delay": {
+            "type": "integer",
+            "description": "The delay to be used by the followup"
+          },
+          "send_as_exact_message": {
+            "type": "boolean",
+            "description": "Whether to send the followup as exact message"
+          },
+          "handoff_to_agent_after_sending": {
+            "type": "boolean",
+            "description": "Whether to handoff the followup to agent after sending"
+          }
         }
       }
     },
@@ -8091,19 +8036,6 @@
     }
   },
   "x-tagGroups": [
-    {
-      "name": "Subscriptions",
-      "tags": [
-        "Subscriptions",
-        "Subscription Payments"
-      ]
-    },
-    {
-      "name": "Pricings",
-      "tags": [
-        "Pricing Plans"
-      ]
-    },
     {
       "name": "Platform",
       "tags": [
