@@ -162,11 +162,11 @@ export default {
       v-model="azarDisplayName"
       :styles="inputStyles"
       :class="{ error: v$.azarDisplayName.$error }"
-      :label="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.LABEL')"
-      :placeholder="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.PLACEHOLDER')"
+      :label="$t('PROFILE_SETTINGS.FORM.AZAR_DISPLAY_NAME.LABEL')"
+      :placeholder="$t('PROFILE_SETTINGS.FORM.AZAR_DISPLAY_NAME.PLACEHOLDER')"
       :error="`${
         v$.azarDisplayName.$error
-          ? $t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.ERROR')
+          ? $t('PROFILE_SETTINGS.FORM.AZAR_DISPLAY_NAME.ERROR')
           : ''
       }`"
       @input="v$.azarDisplayName.$touch"
@@ -177,11 +177,11 @@ export default {
       v-model="monoDisplayName"
       :styles="inputStyles"
       :class="{ error: v$.monoDisplayName.$error }"
-      :label="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.LABEL')"
-      :placeholder="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.PLACEHOLDER')"
+      :label="$t('PROFILE_SETTINGS.FORM.MONO_DISPLAY_NAME.LABEL')"
+      :placeholder="$t('PROFILE_SETTINGS.FORM.MONO_DISPLAY_NAME.PLACEHOLDER')"
       :error="`${
         v$.monoDisplayName.$error
-          ? $t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.ERROR')
+          ? $t('PROFILE_SETTINGS.FORM.MONO_DISPLAY_NAME.ERROR')
           : ''
       }`"
       @input="v$.monoDisplayName.$touch"
@@ -192,11 +192,11 @@ export default {
       v-model="gbitsDisplayName"
       :styles="inputStyles"
       :class="{ error: v$.gbitsDisplayName.$error }"
-      :label="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.LABEL')"
-      :placeholder="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.PLACEHOLDER')"
+      :label="$t('PROFILE_SETTINGS.FORM.GBITS_DISPLAY_NAME.LABEL')"
+      :placeholder="$t('PROFILE_SETTINGS.FORM.GBITS_DISPLAY_NAME.PLACEHOLDER')"
       :error="`${
         v$.gbitsDisplayName.$error
-          ? $t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.ERROR')
+          ? $t('PROFILE_SETTINGS.FORM.GBITS_DISPLAY_NAME.ERROR')
           : ''
       }`"
       @input="v$.gbitsDisplayName.$touch"
