@@ -1,10 +1,13 @@
 class Api::V1::SubscriptionPaymentsController < Api::BaseController
-    skip_before_action :authenticate_user!, only: [:webhook]
-    skip_before_action :verify_authenticity_token, only: [:webhook]
-    before_action :authenticate_user!, except: [:webhook]
-    before_action :set_account, except: [:webhook]
-    before_action :set_subscription, except: [:webhook]
-    
+  include AuthHelper
+  include CacheKeysHelper
+  
+  skip_before_action :authenticate_user!, only: [:webhook]
+  skip_before_action :authenticate_access_token, only: [:webhook]
+  before_action :authenticate_user!, except: [:webhook]
+  before_action :set_account, except: [:webhook]
+  before_action :set_subscription, except: [:webhook]
+
     def index
       @payments = @subscription.subscription_payments.order(created_at: :desc)
       render json: @payments
