@@ -8,8 +8,6 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
   let(:agent_2) { create(:user, account: account, role: :agent) }
   let!(:portal) { create(:portal, slug: 'portal-1', name: 'test_portal', account_id: account.id) }
 
-  before { create(:portal_member, user: agent, portal: portal) }
-
   describe 'GET /api/v1/accounts/{account.id}/portals' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -23,7 +21,7 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         portal2 = create(:portal, name: 'test_portal_2', account_id: account.id, slug: 'portal-2')
         expect(portal2.id).not_to be_nil
         get "/api/v1/accounts/#{account.id}/portals",
-            headers: agent.create_new_auth_token
+            headers: admin.create_new_auth_token
 
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
@@ -45,7 +43,7 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
     context 'when it is an authenticated user' do
       it 'get one portals' do
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
-            headers: agent.create_new_auth_token
+            headers: admin.create_new_auth_token
 
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
@@ -62,7 +60,7 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         create(:article, category_id: es_cat.id, portal_id: portal.id, author_id: agent.id)
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}?locale=en",
-            headers: agent.create_new_auth_token
+            headers: admin.create_new_auth_token
 
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
@@ -178,38 +176,7 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
     end
   end
 
-  describe 'PUT /api/v1/accounts/{account.id}/portals/{portal.slug}/add_members' do
-    let(:new_account) { create(:account) }
-    let(:new_agent) { create(:user, account: new_account, role: :agent) }
-
-    context 'when it is an unauthenticated user' do
-      it 'returns unauthorized' do
-        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/add_members", params: {}
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
-
-    context 'when it is an authenticated user' do
-      it 'add members to the portal' do
-        portal_params = {
-          portal: {
-            member_ids: [agent_1.id, agent_2.id]
-          }
-        }
-        expect(portal.members.count).to be(1)
-
-        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/add_members",
-            params: portal_params,
-            headers: admin.create_new_auth_token
-
-        expect(response).to have_http_status(:success)
-        json_response = response.parsed_body
-        expect(portal.reload.member_ids).to include(agent_1.id)
-        expect(json_response['portal_members'].length).to be(3)
-      end
-    end
-  end
+  # Portal members endpoint removed
 
   describe 'DELETE /api/v1/accounts/{account.id}/portals/{portal.slug}/logo' do
     context 'when it is an unauthenticated user' do
