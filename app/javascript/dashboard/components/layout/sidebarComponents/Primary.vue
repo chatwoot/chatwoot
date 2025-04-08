@@ -45,7 +45,7 @@ export default {
   },
   emits: ['toggleAccounts', 'openNotificationPanel', 'openKeyShortcutModal'],
   data() {
-    return {
+    return {  
       helpDocsURL: wootConstants.DOCS_URL,
       showOptionsMenu: false,
       pinSidebar: localStorage.getItem('pin-sidebar') ? true : false,
