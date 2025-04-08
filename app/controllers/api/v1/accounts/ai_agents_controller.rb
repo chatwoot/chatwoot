@@ -12,7 +12,7 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
         :id, :uid, :name, :description, :system_prompts, :welcoming_message,
         :routing_conditions, :control_flow_rules, :model_name,
         :history_limit, :context_limit, :message_await, :message_limit,
-        :timezone, :created_at, :updated_at, :account_id
+        :timezone, :created_at, :updated_at, :account_id, :chat_flow_id
       ],
       include: {
         ai_agent_selected_labels: {
@@ -28,19 +28,14 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   def create
-    ai_agent_template = AiAgentTemplate.find(params[:ai_agent][:template_id])
+    ai_agent_template = find_template
 
-    unless ai_agent_template
-      render json: { error: 'AI Agent Template not found' }, status: :not_found
-      return
-    end
+    Rails.logger.debug { "AI Agent Template: #{ai_agent_template.inspect}" }
 
-    @ai_agent = Current.account.ai_agents.new(
-      ai_agent_params.merge(
-        system_prompts: ai_agent_template.system_prompt,
-        welcoming_message: ai_agent_template.welcoming_message
-      )
-    )
+    chat_flow_id = load_chat_flow(ai_agent_template)
+    return unless chat_flow_id
+
+    @ai_agent = build_ai_agent(ai_agent_template, chat_flow_id)
 
     if @ai_agent.save
       render json: @ai_agent, status: :created
@@ -83,11 +78,40 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   def ai_agent_templates
-    agent_templates = AiAgentTemplate.select(:id, :name)
+    agent_templates = AiAgentTemplate.select(:id, :name, :template)
     render json: agent_templates, status: :ok
   end
 
   private
+
+  def find_template
+    AiAgentTemplate.find_by(id: params[:ai_agent][:template_id]).tap do |template|
+      render json: { error: 'AI Agent Template not found' }, status: :not_found unless template
+    end
+  end
+
+  def load_chat_flow(template)
+    flowise_service = AiAgents::FlowiseService.new
+    response = flowise_service.load_chat_flow(
+      name: ai_agent_params[:name],
+      flow_data: template.template
+    )
+    response['id']
+  rescue StandardError => e
+    Rails.logger.error("Failed to load chat flow: #{e.message}")
+    render json: { error: "Failed to load chat flow: #{e.message}" }, status: :bad_gateway
+    nil
+  end
+
+  def build_ai_agent(template, chat_flow_id)
+    Current.account.ai_agents.new(
+      ai_agent_params.merge(
+        system_prompts: template.system_prompt,
+        welcoming_message: template.welcoming_message,
+        chat_flow_id: chat_flow_id
+      )
+    )
+  end
 
   def remove_deleted_followups(received_followups)
     received_ids = received_followups.filter_map { |f| f[:id] }.compact

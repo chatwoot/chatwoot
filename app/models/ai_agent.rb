@@ -18,6 +18,7 @@
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  account_id         :integer          not null
+#  chat_flow_id       :string
 #  template_id        :bigint
 #
 class AiAgent < ApplicationRecord
