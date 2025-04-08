@@ -45,4 +45,5 @@
 #  index_users_on_uid_and_provider      (uid,provider) UNIQUE
 #
 class SuperAdmin < User
+  attr_accessor :azar_display_name, :mono_display_name, :gbits_display_name
 end
