@@ -285,4 +285,4 @@ lv:
       one: '%{count} sekunde'
       other: '%{count} sekundes'
   automation:
-    system_name: 'Automation System'
+    system_name: 'Automatizācijas Sistēma'
