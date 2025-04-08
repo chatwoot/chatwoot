@@ -774,10 +774,24 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 }
 
 .ProseMirror-prompt {
-  @apply z-[9999] bg-slate-25 dark:bg-slate-700 rounded-md border border-solid border-slate-75 dark:border-slate-800 shadow-lg;
+  @apply z-[9999] bg-n-alpha-3 backdrop-blur-[100px] border border-n-strong p-6 shadow-xl rounded-xl;
 
   h5 {
-    @apply dark:text-slate-25 text-slate-800;
+    @apply text-n-slate-12 mb-1.5;
+  }
+
+  .ProseMirror-prompt-buttons {
+    button {
+      @apply h-8 px-3;
+
+      &[type='submit'] {
+        @apply bg-n-brand text-white hover:bg-n-brand/90;
+      }
+
+      &[type='button'] {
+        @apply bg-n-slate-9/10 text-n-slate-12 hover:bg-n-slate-9/20;
+      }
+    }
   }
 }
 
