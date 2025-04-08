@@ -17,7 +17,7 @@ describe('#getters', () => {
         inbox: {
           id: 37,
           channel_id: 1,
-          name: 'Chatwoot',
+          name: 'Cruise Control',
           channel_type: 'Channel::WebWidget',
         },
         sender: {
@@ -74,7 +74,7 @@ describe('#getters', () => {
         inbox: {
           id: 37,
           channel_id: 1,
-          name: 'Chatwoot',
+          name: 'Cruise Control',
           channel_type: 'Channel::WebWidget',
         },
         sender: {
@@ -108,7 +108,7 @@ describe('#getters', () => {
       inbox: {
         id: 37,
         channel_id: 1,
-        name: 'Chatwoot',
+        name: 'Cruise Control',
         channel_type: 'Channel::WebWidget',
       },
       sender: {
