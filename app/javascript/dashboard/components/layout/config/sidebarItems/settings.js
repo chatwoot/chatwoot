@@ -52,74 +52,63 @@ const settings = accountId => ({
       toState: frontendURL(`accounts/${accountId}/settings/general`),
       toStateName: 'general_settings_index',
     },
-    {
-      icon: 'people',
-      label: 'AGENTS',
-      hasSubMenu: false,
-      meta: {
-        permissions: ['administrator'],
-      },
-      toState: frontendURL(`accounts/${accountId}/settings/agents/list`),
-      toStateName: 'agent_list',
-      featureFlag: FEATURE_FLAGS.AGENT_MANAGEMENT,
-    },
-    {
-      icon: 'people-team',
-      label: 'TEAMS',
-      hasSubMenu: false,
-      meta: {
-        permissions: ['administrator'],
-      },
-      toState: frontendURL(`accounts/${accountId}/settings/teams/list`),
-      toStateName: 'settings_teams_list',
-      featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
-    },
-    {
-      icon: 'mail-inbox-all',
-      label: 'INBOXES',
-      hasSubMenu: false,
-      meta: {
-        permissions: ['administrator'],
-      },
-      toState: frontendURL(`accounts/${accountId}/settings/inboxes/list`),
-      toStateName: 'settings_inbox_list',
-      featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
-    },
-    {
-      icon: 'tag',
-      label: 'LABELS',
-      hasSubMenu: false,
-      meta: {
-        permissions: ['administrator'],
-      },
-      toState: frontendURL(`accounts/${accountId}/settings/labels/list`),
-      toStateName: 'labels_list',
-      featureFlag: FEATURE_FLAGS.LABELS,
-    },
-    {
-      icon: 'code',
-      label: 'CUSTOM_ATTRIBUTES',
-      hasSubMenu: false,
-      meta: {
-        permissions: ['administrator'],
-      },
-      toState: frontendURL(
-        `accounts/${accountId}/settings/custom-attributes/list`
-      ),
-      toStateName: 'attributes_list',
-      featureFlag: FEATURE_FLAGS.CUSTOM_ATTRIBUTES,
-    },
-    {
-      icon: 'automation',
-      label: 'AUTOMATION',
-      hasSubMenu: false,
-      meta: {
-        permissions: ['administrator'],
-      },
-      toState: frontendURL(`accounts/${accountId}/settings/automation/list`),
-      toStateName: 'automation_list',
-      featureFlag: FEATURE_FLAGS.AUTOMATIONS,
-    },
+    // {
+    //   icon: 'people-team',
+    //   label: 'TEAMS',
+    //   hasSubMenu: false,
+    //   meta: {
+    //     permissions: ['administrator'],
+    //   },
+    //   toState: frontendURL(`accounts/${accountId}/settings/teams/list`),
+    //   toStateName: 'settings_teams_list',
+    //   featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
+    // },
+    // {
+    //   icon: 'mail-inbox-all',
+    //   label: 'INBOXES',
+    //   hasSubMenu: false,
+    //   meta: {
+    //     permissions: ['administrator'],
+    //   },
+    //   toState: frontendURL(`accounts/${accountId}/settings/inboxes/list`),
+    //   toStateName: 'settings_inbox_list',
+    //   featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
+    // },
+    // {
+    //   icon: 'tag',
+    //   label: 'LABELS',
+    //   hasSubMenu: false,
+    //   meta: {
+    //     permissions: ['administrator'],
+    //   },
+    //   toState: frontendURL(`accounts/${accountId}/settings/labels/list`),
+    //   toStateName: 'labels_list',
+    //   featureFlag: FEATURE_FLAGS.LABELS,
+    // },
+    // {
+    //   icon: 'code',
+    //   label: 'CUSTOM_ATTRIBUTES',
+    //   hasSubMenu: false,
+    //   meta: {
+    //     permissions: ['administrator'],
+    //   },
+    //   toState: frontendURL(
+    //     `accounts/${accountId}/settings/custom-attributes/list`
+    //   ),
+    //   toStateName: 'attributes_list',
+    //   featureFlag: FEATURE_FLAGS.CUSTOM_ATTRIBUTES,
+    // },
+    // {
+    //   icon: 'automation',
+    //   label: 'AUTOMATION',
+    //   hasSubMenu: false,
+    //   meta: {
+    //     permissions: ['administrator'],
+    //   },
+    //   toState: frontendURL(`accounts/${accountId}/settings/automation/list`),
+    //   toStateName: 'automation_list',
+    //   featureFlag: FEATURE_FLAGS.AUTOMATIONS,
+    // },
     {
       icon: 'bot',
       label: 'AGENT_BOTS',
@@ -127,35 +116,34 @@ const settings = accountId => ({
       meta: {
         permissions: ['administrator'],
       },
-      globalConfigFlag: 'csmlEditorHost',
       toState: frontendURL(`accounts/${accountId}/settings/agent-bots`),
       toStateName: 'agent_bots',
       featureFlag: FEATURE_FLAGS.AGENT_BOTS,
     },
-    {
-      icon: 'flash-settings',
-      label: 'MACROS',
-      hasSubMenu: false,
-      meta: {
-        permissions: ['administrator', 'agent'],
-      },
-      toState: frontendURL(`accounts/${accountId}/settings/macros`),
-      toStateName: 'macros_wrapper',
-      featureFlag: FEATURE_FLAGS.MACROS,
-    },
-    {
-      icon: 'chat-multiple',
-      label: 'CANNED_RESPONSES',
-      hasSubMenu: false,
-      meta: {
-        permissions: ['administrator', 'agent'],
-      },
-      toState: frontendURL(
-        `accounts/${accountId}/settings/canned-response/list`
-      ),
-      toStateName: 'canned_list',
-      featureFlag: FEATURE_FLAGS.CANNED_RESPONSES,
-    },
+    // {
+    //   icon: 'flash-settings',
+    //   label: 'MACROS',
+    //   hasSubMenu: false,
+    //   meta: {
+    //     permissions: ['administrator', 'agent'],
+    //   },
+    //   toState: frontendURL(`accounts/${accountId}/settings/macros`),
+    //   toStateName: 'macros_wrapper',
+    //   featureFlag: FEATURE_FLAGS.MACROS,
+    // },
+    // {
+    //   icon: 'chat-multiple',
+    //   label: 'CANNED_RESPONSES',
+    //   hasSubMenu: false,
+    //   meta: {
+    //     permissions: ['administrator', 'agent'],
+    //   },
+    //   toState: frontendURL(
+    //     `accounts/${accountId}/settings/canned-response/list`
+    //   ),
+    //   toStateName: 'canned_list',
+    //   featureFlag: FEATURE_FLAGS.CANNED_RESPONSES,
+    // },
     {
       icon: 'flash-on',
       label: 'INTEGRATIONS',
@@ -179,31 +167,31 @@ const settings = accountId => ({
       isEnterpriseOnly: true,
       featureFlag: FEATURE_FLAGS.AUDIT_LOGS,
     },
-    {
-      icon: 'scan-person',
-      label: 'CUSTOM_ROLES',
-      hasSubMenu: false,
-      meta: {
-        permissions: ['administrator'],
-      },
-      toState: frontendURL(`accounts/${accountId}/settings/custom-roles/list`),
-      toStateName: 'custom_roles_list',
-      isEnterpriseOnly: true,
-      beta: true,
-    },
-    {
-      icon: 'document-list-clock',
-      label: 'SLA',
-      hasSubMenu: false,
-      meta: {
-        permissions: ['administrator'],
-      },
-      toState: frontendURL(`accounts/${accountId}/settings/sla/list`),
-      toStateName: 'sla_list',
-      isEnterpriseOnly: true,
-      featureFlag: FEATURE_FLAGS.SLA,
-      beta: true,
-    },
+    // {
+    //   icon: 'scan-person',
+    //   label: 'CUSTOM_ROLES',
+    //   hasSubMenu: false,
+    //   meta: {
+    //     permissions: ['administrator'],
+    //   },
+    //   toState: frontendURL(`accounts/${accountId}/settings/custom-roles/list`),
+    //   toStateName: 'custom_roles_list',
+    //   isEnterpriseOnly: true,
+    //   beta: true,
+    // },
+    // {
+    //   icon: 'document-list-clock',
+    //   label: 'SLA',
+    //   hasSubMenu: false,
+    //   meta: {
+    //     permissions: ['administrator'],
+    //   },
+    //   toState: frontendURL(`accounts/${accountId}/settings/sla/list`),
+    //   toStateName: 'sla_list',
+    //   isEnterpriseOnly: true,
+    //   featureFlag: FEATURE_FLAGS.SLA,
+    //   beta: true,
+    // },
     {
       icon: 'credit-card-person',
       label: 'BILLING',
@@ -213,7 +201,6 @@ const settings = accountId => ({
       },
       toState: frontendURL(`accounts/${accountId}/settings/billing`),
       toStateName: 'billing_settings_index',
-      showOnlyOnCloud: true,
     },
   ],
 });

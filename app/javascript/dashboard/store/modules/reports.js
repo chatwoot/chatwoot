@@ -57,10 +57,12 @@ const state = {
       isFetchingAccountConversationMetric: false,
       isFetchingAccountConversationsHeatmap: false,
       isFetchingAgentConversationMetric: false,
+      isFetchingCreditUsage: false,
     },
     accountConversationMetric: {},
     accountConversationHeatmap: [],
     agentConversationMetric: [],
+    creditUsage: undefined,
   },
 };
 
@@ -85,6 +87,9 @@ const getters = {
   },
   getOverviewUIFlags($state) {
     return $state.overview.uiFlags;
+  },
+  getCreditUsageMetric(_state) {
+    return _state.overview.creditUsage;
   },
 };
 
@@ -179,6 +184,20 @@ export const actions = {
       })
       .catch(() => {
         commit(types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING, false);
+      });
+  },
+  fetchCreditUsageMetric({ commit }, reportObj) {
+    commit(types.default.TOGGLE_CREDIT_USAGE_METRIC_LOADING, true);
+    Report.getCreditUsage(reportObj.type, reportObj.page)
+      .then(agentConversationMetric => {
+        commit(
+          types.default.SET_CREDIT_USAGE_METRIC,
+          agentConversationMetric.data
+        );
+        commit(types.default.TOGGLE_CREDIT_USAGE_METRIC_LOADING, false);
+      })
+      .catch(() => {
+        commit(types.default.TOGGLE_CREDIT_USAGE_METRIC_LOADING, false);
       });
   },
   downloadAgentReports(_, reportObj) {
@@ -285,6 +304,12 @@ const mutations = {
   },
   [types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingAgentConversationMetric = flag;
+  },
+  [types.default.SET_CREDIT_USAGE_METRIC](_state, creditUsage) {
+    _state.overview.creditUsage = creditUsage;
+  },
+  [types.default.TOGGLE_CREDIT_USAGE_METRIC_LOADING](_state, flag) {
+    _state.overview.uiFlags.isFetchingCreditUsage = flag;
   },
 };
 

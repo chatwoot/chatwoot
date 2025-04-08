@@ -211,6 +211,34 @@
   delete:
     $ref: ./application/agents/delete.yml
 
+# AI Agents
+/api/v1/accounts/{account_id}/ai_agents:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  get:
+    $ref: ./application/ai_agents/index.yml
+  post:
+    $ref: ./application/ai_agents/create.yml
+/api/v1/accounts/{account_id}/ai_agents/{id}:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  get:
+    $ref: ./application/ai_agents/show.yml
+  patch:
+    $ref: ./application/ai_agents/update.yml
+  delete:
+    $ref: ./application/ai_agents/delete.yml
+/api/v1/accounts/{account_id}/ai_agents/{id}/update_followups:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  patch:
+    $ref: ./application/ai_agents/update_followup.yml
+/api/v1/accounts/{account_id}/ai_agents/ai_agent_templates:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  patch:
+    $ref: ./application/ai_agents/agent_templates.yml
+
 # Canned Responses
 /api/v1/accounts/{account_id}/canned_responses:
   parameters:

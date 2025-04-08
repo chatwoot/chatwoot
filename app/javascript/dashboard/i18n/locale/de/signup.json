@@ -34,6 +34,11 @@
       "PLACEHOLDER": "Bestätige das Passwort",
       "ERROR": "Passwort stimmt nicht überein"
     },
+    "PHONE_NUMBER": {
+    "LABEL": "Telefonnummer",
+    "PLACEHOLDER": "Telefonnummer eingeben",
+    "ERROR": "Bitte geben Sie eine gültige Telefonnummer ein."
+  },
     "API": {
       "SUCCESS_MESSAGE": "Registrierung erfolgreich",
       "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut"

@@ -1,0 +1,27 @@
+tags:
+  - AI Agents
+operationId: list-all-account-agent-bots
+summary: List all AgentBots
+description: List all agent bots available for the current account
+security:
+  - userApiKey: []
+responses:
+  200:
+    description: Success
+    schema:
+      type: array
+      description: Array of agent bots
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 1
+          name:
+            type: string
+            example: "Agent Bot A"
+          description:
+            type: string
+            example: "Agent Bot A is a bot that can help you with your queries"
+  403:
+    description: Access denied

@@ -1,0 +1,23 @@
+tags:
+  - AI Agents
+operationId: details-of-an-account-ai-agent
+summary: Details of an AI Agent
+description: Get the details of an AI Agent
+security:
+  - userApiKey: []
+parameters:
+  - in: path
+    name: id
+    type: integer
+    required: true
+    description: The ID of the ai agent
+responses:
+  200:
+    description: Success
+    schema:
+      type: array
+      description: Array of agent bots
+      items:
+        $ref: '#/definitions/ai_agent'
+  403:
+    description: Access denied

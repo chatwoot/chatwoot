@@ -17,6 +17,7 @@
 #  last_sign_in_ip        :string
 #  message_signature      :text
 #  name                   :string           not null
+#  phone                  :string
 #  provider               :string           default("email"), not null
 #  pubsub_token           :string
 #  remember_created_at    :datetime
@@ -164,6 +165,16 @@ class User < ApplicationRecord
 
   def remove_macros
     macros.personal.destroy_all
+  end
+
+  belongs_to :active_subscription, class_name: 'Subscription', optional: true
+
+  def assign_subscription(subscription)
+    update(active_subscription: subscription, subscription_status: subscription.status)
+  end
+
+  def has_active_subscription?
+    active_subscription.present? && active_subscription.active?
   end
 end
 

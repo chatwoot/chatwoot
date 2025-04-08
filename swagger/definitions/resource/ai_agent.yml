@@ -1,0 +1,54 @@
+type: object
+properties:
+  id:
+    type: integer
+  uid:
+    type: string
+  name:
+    type: string
+  description:
+    type: string
+  system_prompts:
+    type: string
+  welcoming_message:
+    type: string
+  routing_conditions:
+    type: string
+  control_flow_rules:
+    type: boolean
+  llm_model:
+    type: string
+  history_limit:
+    type: integer
+  context_limit:
+    type: integer
+  message_await:
+    type: integer
+  message_limit:
+    type: integer
+  timezone:
+    type: string
+  created_at:
+    type: string
+  updated_at:
+    type: string
+  account_id:
+    type: integer
+  selected_labels:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+        label_id:
+          type: integer
+        label_conditions:
+          type: string
+        label:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string

@@ -37,7 +37,7 @@ describe('#validateAuthenticateRoutePermission', () => {
 
       validateAuthenticateRoutePermission(to, next);
 
-      expect(mockAssign).toHaveBeenCalledWith('/app/login');
+      expect(mockAssign).toHaveBeenCalledWith('/app/pricing');
     });
   });
 

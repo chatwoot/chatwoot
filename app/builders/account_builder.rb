@@ -2,7 +2,7 @@
 
 class AccountBuilder
   include CustomExceptions::Account
-  pattr_initialize [:account_name, :email!, :confirmed, :user, :user_full_name, :user_password, :super_admin, :locale]
+  pattr_initialize [:account_name, :email!, :confirmed, :user, :user_full_name, :user_password, :super_admin, :locale, :phoneNumber]
 
   def perform
     if @user.nil?
@@ -42,6 +42,11 @@ class AccountBuilder
     end
   end
 
+  def phoneNumber
+    # the empty string ensures that not-null constraint is not violated
+    @phoneNumber || ''
+  end
+
   def validate_user
     if User.exists?(email: @email)
       raise UserExists.new(email: @email)
@@ -76,7 +81,8 @@ class AccountBuilder
     @user = User.new(email: @email,
                      password: user_password,
                      password_confirmation: user_password,
-                     name: user_full_name)
+                     name: user_full_name,
+                     phone: phoneNumber)
     @user.type = 'SuperAdmin' if @super_admin
     @user.confirm if @confirmed
     @user.save!

@@ -1,0 +1,20 @@
+tags:
+  - AI Agents
+operationId: delete-an-account-agent-bot
+summary: Remove an AgentBot from Account
+description: Remove an AgentBot from Account
+security:
+  - userApiKey: []
+parameters:
+  - in: path
+    name: id
+    type: integer
+    required: true
+    description: The ID of the agent bot to be deleted
+responses:
+  200:
+    description: Success
+  404:
+    description: Agent bot not found
+  403:
+    description: Access denied

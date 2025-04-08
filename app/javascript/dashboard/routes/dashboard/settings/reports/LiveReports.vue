@@ -11,6 +11,9 @@ import startOfDay from 'date-fns/startOfDay';
 import subDays from 'date-fns/subDays';
 import ReportHeader from './components/ReportHeader.vue';
 export const FETCH_INTERVAL = 60000;
+import ConversationAnalytics from './Index.vue'
+import Csat from './CsatResponses.vue'
+import AgentReports from './AgentReports.vue'
 
 export default {
   name: 'LiveReports',
@@ -19,6 +22,9 @@ export default {
     AgentTable,
     MetricCard,
     ReportHeatmap,
+    ConversationAnalytics,
+    Csat,
+    AgentReports,
   },
   data() {
     return {
@@ -35,6 +41,7 @@ export default {
       agentConversationMetric: 'getAgentConversationMetric',
       accountConversationHeatmap: 'getAccountConversationHeatmapData',
       uiFlags: 'getOverviewUIFlags',
+      creditUsageMetric: 'getCreditUsageMetric',
     }),
     agentStatusMetrics() {
       let metric = {};
@@ -81,6 +88,7 @@ export default {
       this.fetchAccountConversationMetric();
       this.fetchAgentConversationMetric();
       this.fetchHeatmapData();
+      this.fetchCreditUsageMetric();
     },
     downloadHeatmapData() {
       let to = endOfDay(new Date());
@@ -125,6 +133,11 @@ export default {
       this.$store.dispatch('fetchAgentConversationMetric', {
         type: 'agent',
         page: this.pageIndex + 1,
+      });
+    },
+    fetchCreditUsageMetric() {
+      this.$store.dispatch('fetchCreditUsageMetric', {
+        type: 'account',
       });
     },
     onPageNumberChange(pageIndex) {
@@ -180,6 +193,19 @@ export default {
         </MetricCard>
       </div>
     </div>
+    <div class="flex flex-col items-center md:flex-row gap-4">
+      <div class="flex-1 w-full max-w-full">
+        <MetricCard
+          :header="'AI Responses'"
+          :is-loading="uiFlags.isFetchingCreditUsage">
+          <div class="flex-1 min-w-0 pb-2">
+            <p class="text-n-slate-12 text-3xl mb-0 mt-1">
+              {{ creditUsageMetric?.credit_usage ? `${creditUsageMetric?.credit_usage} Used` : '-' }}
+            </p>
+          </div>
+        </MetricCard>
+      </div>
+    </div>
     <div class="flex flex-row flex-wrap max-w-full">
       <MetricCard :header="$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.HEADER')">
         <template #control>
@@ -210,5 +236,8 @@ export default {
         />
       </MetricCard>
     </div>
+    <ConversationAnalytics/>
+    <Csat />
+    <AgentReports />
   </div>
 </template>

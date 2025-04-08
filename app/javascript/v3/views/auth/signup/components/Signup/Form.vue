@@ -11,7 +11,7 @@ import SubmitButton from '../../../../../components/Button/SubmitButton.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
 import { register } from '../../../../../api/auth';
-import * as CompanyEmailValidator from 'company-email-validator';
+// import * as CompanyEmailValidator from 'company-email-validator';
 
 export default {
   components: {
@@ -30,6 +30,7 @@ export default {
         accountName: '',
         fullName: '',
         email: '',
+        phoneNumber: '',
         password: '',
         hCaptchaClientResponse: '',
       },
@@ -52,9 +53,13 @@ export default {
         email: {
           required,
           email,
-          businessEmailValidator(value) {
-            return CompanyEmailValidator.isCompanyEmail(value);
-          },
+          // businessEmailValidator(value) {
+          //   return CompanyEmailValidator.isCompanyEmail(value);
+          // },
+        },
+        phoneNumber: {
+          required,
+          minLength: minLength(10),
         },
         password: {
           required,
@@ -172,6 +177,17 @@ export default {
         @blur="v$.credentials.email.$touch"
       />
       <FormInput
+        v-model="credentials.phoneNumber"
+        type="tel"
+        name="phone_number"
+        :class="{ error: v$.credentials.phoneNumber.$error }"
+        :label="$t('REGISTER.PHONE_NUMBER.LABEL')"
+        :placeholder="$t('REGISTER.PHONE_NUMBER.PLACEHOLDER')"
+        :has-error="v$.credentials.phoneNumber.$error"
+        :error-message="$t('REGISTER.PHONE_NUMBER.ERROR')"
+        @blur="v$.credentials.phoneNumber.$touch"
+      />
+      <FormInput
         v-model="credentials.password"
         type="password"
         name="password"
@@ -179,7 +195,7 @@ export default {
         :label="$t('LOGIN.PASSWORD.LABEL')"
         :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
         :has-error="v$.credentials.password.$error"
-        :error-message="passwordErrorText"
+        :error-message="$t('REGISTER.PASSWORD.IS_INVALID_PASSWORD')"
         @blur="v$.credentials.password.$touch"
       />
       <div v-if="globalConfig.hCaptchaSiteKey" class="mb-3">

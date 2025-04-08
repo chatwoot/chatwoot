@@ -11,6 +11,8 @@
     "start:dev": "foreman start -f ./Procfile.dev",
     "start:test": "RAILS_ENV=test foreman start -f ./Procfile.test",
     "dev": "overmind start -f ./Procfile.dev",
+    "dev:vite": "overmind start -f ./ProcfileVite.dev",
+    "dev:worker": "overmind start -f ./ProcfileWorker.dev",
     "ruby:prettier": "bundle exec rubocop -a",
     "build:sdk": "BUILD_MODE=library vite build",
     "prepare": "husky install",

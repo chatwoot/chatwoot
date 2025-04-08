@@ -1,0 +1,45 @@
+# == Schema Information
+#
+# Table name: ai_agents
+#
+#  id                 :bigint           not null, primary key
+#  context_limit      :integer          default(10)
+#  control_flow_rules :boolean          default(FALSE), not null
+#  description        :string
+#  history_limit      :integer          default(20)
+#  llm_model          :string           default("gpt-4o")
+#  message_await      :integer          default(5)
+#  message_limit      :integer          default(1000)
+#  name               :string           not null
+#  routing_conditions :text
+#  system_prompts     :text             not null
+#  timezone           :string           default("UTC"), not null
+#  welcoming_message  :text             not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  account_id         :integer          not null
+#  template_id        :bigint
+#
+class AiAgent < ApplicationRecord
+  belongs_to :account
+  has_many :ai_agent_selected_labels, dependent: :destroy
+  has_many :labels, through: :ai_agent_selected_labels
+  has_many :ai_agent_followups, dependent: :destroy
+
+  validates :name, :system_prompts, :welcoming_message, presence: true
+  validates :timezone, presence: true, inclusion: { in: ActiveSupport::TimeZone.all.map(&:name) }
+
+  def timezone_object
+    ActiveSupport::TimeZone[timezone]
+  end
+
+  def current_time_in_timezone
+    timezone_object.now
+  end
+
+  def system_prompt_length
+    system_prompts.length
+  end
+
+  delegate :length, to: :welcoming_message, prefix: true
+end
