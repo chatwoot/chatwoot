@@ -2,7 +2,7 @@ require 'httparty'
 require 'json'
 require 'digest'
 
-class DuitkuService
+class Duitku::DuitkuService
   include HTTParty
   base_uri 'https://sandbox.duitku.com/webapi'
 
