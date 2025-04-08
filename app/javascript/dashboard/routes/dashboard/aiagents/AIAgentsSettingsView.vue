@@ -48,7 +48,7 @@ onMounted(() => {
       <center v-if="loadingData">
         <span class="mt-4 mb-4 spinner" />
       </center>
-      <div class="mb-3">
+      <div class="mb-3 mt-6">
         <h1 class="text-2xl font-semibold font-interDisplay tracking-[0.3px] text-slate-900 dark:text-slate-25">
           {{ data?.name }}
         </h1>
