@@ -1,3 +1,23 @@
+# == Schema Information
+#
+# Table name: subscription_usage
+#
+#  id                 :bigint           not null, primary key
+#  ai_responses_count :integer          default(0)
+#  last_reset_at      :datetime
+#  mau_count          :integer          default(0)
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  subscription_id    :bigint           not null
+#
+# Indexes
+#
+#  index_subscription_usage_on_subscription_id  (subscription_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (subscription_id => subscriptions.id)
+#
 class SubscriptionUsage < ApplicationRecord
     self.table_name = 'subscription_usage'
     

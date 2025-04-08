@@ -1,6 +1,6 @@
-class Api::V1::DuitkuController < Api::V1::BaseController
-    skip_before_action :authenticate_user!
-    skip_before_action :verify_authenticity_token, only: [:webhook]
+class Api::V1::DuitkuController < Api::BaseController
+    # skip_before_action :authenticate_user!
+    # skip_before_action :verify_authenticity_token, only: [:webhook]
   
     def webhook
       # Memvalidasi signature dari Duitku untuk keamanan
