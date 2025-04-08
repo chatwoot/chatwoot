@@ -1,9 +1,9 @@
 <script setup>
-import { computed, onMounted, ref, toRef, watch, watchEffect } from 'vue';
+import { computed, onMounted, ref, watch, watchEffect } from 'vue';
 import aiAgents from '../../../api/aiAgents';
-import { useRouter } from 'vue-router';
 import { useAccount } from 'dashboard/composables/useAccount';
 import WootSubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
+import BaseSettingsHeader from '../settings/components/BaseSettingsHeader.vue';
 
 const aiTemplates = ref()
 async function fetchAiAgentTemplates() {
@@ -89,62 +89,72 @@ watchEffect(() => {
 
 <template>
   <div class="container mx-auto px-4 py-8">
-    <div class="max-w-4xl mx-auto">
-      <div class="text-center mb-12">
-        <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">AI Agents</h1>
-        <!-- <p class="text-lg text-gray-600 dark:text-gray-300">
-          Deskripsi
-        </p> -->
+    <BaseSettingsHeader
+        :title="'Agen AI'"
+        :description="'Kelola dan ubah AI yang Anda buat di sini. Buat chatbot baru kapan pun Anda inginkan!'"
+      >
+        <template #actions>
+          <woot-button
+            class="rounded-md button nice"
+            icon="add-circle"
+            @click="() => showCreateAgentModal = true"
+          >
+            {{ 'Buat Agen AI' }}
+          </woot-button>
+        </template>
+      </BaseSettingsHeader>
+    <div>
+      <div v-if="aiAgentsLoading" class="text-center">
+        <span class="mt-4 mb-4 spinner" />
       </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div v-if="aiAgentsLoading" class="text-center">
-          <span class="mt-4 mb-4 spinner" />
-        </div>
-        <div v-else v-for="agent in aiAgentsRef" :key="agent.id"
-          class="group bg-white dark:bg-n-gray-3 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 p-6 pb-3 flex flex-col">
-          <div class="flex-1 flex items-center justify-center">
-            <div v-if="loadingCards[agent.id]" class="text-center">
-              <span class="mt-4 mb-4 spinner" />
-            </div>
-            <div v-else class="flex flex-col items-center justify-center gap-2">
-              <h3
-                class="text-xl font-semibold text-gray-900 dark:text-white transition-colors duration-300 text-center">
-                {{ agent.name }}
-              </h3>
-              <p v-if="agent.description" class="text-gray-600 dark:text-gray-300 text-center">{{ agent.description }}
-              </p>
-            </div>
-          </div>
-          <div class="mt-2 pt-1 flex flex-wrap gap-2 items-center justify-center">
-            <router-link :to="`/app/accounts/${accountId}/ai-agents/${agent.id}`">
-              <button
-                class="px-3 py-2 relative flex items-center justify-center rounded-lg text-slate-600 dark:text-slate-100 hover:bg-slate-25 dark:hover:bg-slate-700 dark:hover:text-slate-100 hover:text-slate-600">
-                <span>Edit</span>
-              </button>
-            </router-link>
-            <button
-              class="px-3 py-2 relative flex items-center justify-center rounded-lg text-red-400 hover:bg-slate-25 dark:hover:bg-slate-700"
-              @click="() => {
-                dataToDelete = agent
-                showDeleteModal = true
-              }">
-              <span>Delete</span>
-            </button>
-          </div>
-        </div>
-        <div
-          class="group relative bg-white dark:bg-n-gray-3 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border-2 border-dashed border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-400 p-6 cursor-pointer flex flex-col items-center justify-center min-h-[140px]"
-          @click="() => showCreateAgentModal = true">
-          <div class="text-center">
-            <div
-              class="w-14 h-14 bg-primary-200 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300">
-              <span class="text-4xl text-white mb-[4px]">+</span>
-            </div>
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Create New Agent</h3>
-          </div>
-        </div>
-      </div>
+      <table v-else class="divide-y divide-slate-75 dark:divide-slate-700">
+        <tbody class="divide-y divide-n-weak text-n-slate-11">
+          <tr v-for="(agent, _) in aiAgentsRef" :key="agent.id">
+            <td class="py-4 ltr:pr-4 rtl:pl-4">
+               <div class="flex flex-row items-center gap-4">
+                <!-- <Thumbnail
+                  :src="agent.thumbnail"
+                  :username="agent.name"
+                  size="40px"
+                  :status="agent.availability_status"
+                /> -->
+                <div>
+                  <span class="block font-medium text-lg text-slate-900 dark:text-slate-25">
+                    {{ agent.name }}
+                  </span>
+                  <span>{{ agent.description }}</span>
+                </div>
+              </div>
+            </td>
+            
+            <td class="py-4">
+              <div class="flex justify-end gap-1">
+                <RouterLink :to="`/app/accounts/${accountId}/ai-agents/${agent.id}`">
+                  <woot-button
+                    v-tooltip.top="$t('AGENT_MGMT.EDIT.BUTTON_TEXT')"
+                    variant="smooth"
+                    color-scheme="secondary"
+                    icon="edit"
+                    class-names="grey-btn"
+                  />
+                </RouterLink>
+                <woot-button
+                  v-tooltip.top="$t('AGENT_MGMT.DELETE.BUTTON_TEXT')"
+                  variant="smooth"
+                  color-scheme="alert"
+                  icon="dismiss-circle"
+                  class-names="grey-btn"
+                  :is-loading="loadingCards[agent.id]"
+                  @click="() => {
+                    dataToDelete = agent
+                    showDeleteModal = true
+                  }"
+                />
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
   <woot-delete-modal v-if="showDeleteModal" v-model:show="showDeleteModal" class="context-menu--delete-modal" :on-close="() => {
