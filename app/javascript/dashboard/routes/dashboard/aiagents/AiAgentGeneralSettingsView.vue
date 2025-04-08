@@ -28,7 +28,7 @@
         </form>
 
         <div class="h-[600px] w-full lg:h-[500px] lg:w-[350px]">
-            <iframe height="100%" width="100%" class="rounded-lg border-none outline-none" :src="previewUrl"></iframe>
+            <iframe height="100%" width="100%" class="rounded-lg shadow-md border border-slate-50 dark:border-transparent outline-none" :src="previewUrl"></iframe>
         </div>
     </div>
 </template>
