@@ -213,41 +213,43 @@ export default {
       @show-add-label-popup="showAddLabelPopup"
     />
     <main class="flex flex-1 h-full min-h-0 px-0 overflow-hidden">
-      <UpgradePage ref="upgradePageRef" />
       <div
         v-if="accountUIFlags.isFetchingLimits"
         class="flex items-center justify-center w-full h-full"
       >
         <Spinner :size="24" class="text-n-brand" />
       </div>
-      <template v-else-if="!showUpgradePage">
-        <router-view />
-        <CommandBar />
-        <NotificationPanel
-          v-if="isNotificationPanel"
-          @close="closeNotificationPanel"
+      <template v-else>
+        <UpgradePage ref="upgradePageRef" />
+        <template v-if="!showUpgradePage">
+          <router-view />
+          <CommandBar />
+          <NotificationPanel
+            v-if="isNotificationPanel"
+            @close="closeNotificationPanel"
+          />
+          <woot-modal
+            v-model:show="showAddLabelModal"
+            :on-close="hideAddLabelPopup"
+          >
+            <AddLabelModal @close="hideAddLabelPopup" />
+          </woot-modal>
+        </template>
+        <AccountSelector
+          :show-account-modal="showAccountModal"
+          @close-account-modal="toggleAccountModal"
+          @show-create-account-modal="openCreateAccountModal"
         />
-        <woot-modal
-          v-model:show="showAddLabelModal"
-          :on-close="hideAddLabelPopup"
-        >
-          <AddLabelModal @close="hideAddLabelPopup" />
-        </woot-modal>
+        <AddAccountModal
+          :show="showCreateAccountModal"
+          @close-account-create-modal="closeCreateAccountModal"
+        />
+        <WootKeyShortcutModal
+          v-model:show="showShortcutModal"
+          @close="closeKeyShortcutModal"
+          @clickaway="closeKeyShortcutModal"
+        />
       </template>
-      <AccountSelector
-        :show-account-modal="showAccountModal"
-        @close-account-modal="toggleAccountModal"
-        @show-create-account-modal="openCreateAccountModal"
-      />
-      <AddAccountModal
-        :show="showCreateAccountModal"
-        @close-account-create-modal="closeCreateAccountModal"
-      />
-      <WootKeyShortcutModal
-        v-model:show="showShortcutModal"
-        @close="closeKeyShortcutModal"
-        @clickaway="closeKeyShortcutModal"
-      />
     </main>
   </div>
 </template>
