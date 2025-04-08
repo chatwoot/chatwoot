@@ -1,12 +1,12 @@
 json.access_token resource.access_token.token
 json.account_id resource.active_account_user&.account_id
-json.available_name resource.available_name
+json.available_name resource.availablke_name
 json.avatar_url resource.avatar_url
 json.confirmed resource.confirmed?
 json.display_name resource.display_name
-json.azar_display_name resource.azar_display_name
-json.mono_display_name resource.mono_display_name
-json.gbits_display_name resource.gbits_display_name
+json.azar_display_name resource.try(:azar_display_name)
+json.mono_display_name resource.try(:mono_display_name)
+json.gbits_display_name resource.try(:gbits_display_name)
 json.message_signature resource.message_signature
 json.email resource.email
 json.hmac_identifier resource.hmac_identifier if GlobalConfig.get('CHATWOOT_INBOX_HMAC_KEY')['CHATWOOT_INBOX_HMAC_KEY'].present?
