@@ -1,10 +1,12 @@
 <script>
 import { mapGetters } from 'vuex';
 import Thumbnail from '../../widgets/Thumbnail.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     Thumbnail,
+    NextButton,
   },
   emits: ['toggleMenu'],
   computed: {
@@ -25,10 +27,10 @@ export default {
 </script>
 
 <template>
-  <woot-button
+  <NextButton
     v-tooltip.right="$t(`SIDEBAR.PROFILE_SETTINGS`)"
-    variant="link"
-    class="flex items-center rounded-full"
+    link
+    class="rounded-full"
     @click="handleClick"
   >
     <Thumbnail
@@ -37,6 +39,7 @@ export default {
       :status="statusOfAgent"
       should-show-status-always
       size="32px"
+      class="flex-shrink-0"
     />
-  </woot-button>
+  </NextButton>
 </template>

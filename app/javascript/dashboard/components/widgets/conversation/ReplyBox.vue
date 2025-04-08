@@ -261,7 +261,8 @@ export default {
         this.isAnEmailChannel ||
         this.isASmsInbox ||
         this.isATelegramChannel ||
-        this.isALineChannel
+        this.isALineChannel ||
+        this.isAInstagramChannel
       );
     },
     replyButtonLabel() {
@@ -420,6 +421,7 @@ export default {
       if (conversationId !== oldConversationId) {
         this.setToDraft(oldConversationId, this.replyType);
         this.getFromDraft();
+        this.resetRecorderAndClearAttachments();
       }
     },
     message(updatedMessage) {
@@ -528,6 +530,12 @@ export default {
           this.messageSignature
         );
       }
+    },
+    resetRecorderAndClearAttachments() {
+      // Reset audio recorder UI state
+      this.resetAudioRecorderInput();
+      // Reset attached files
+      this.attachedFiles = [];
     },
     saveDraft(conversationId, replyType) {
       if (this.message || this.message === '') {
@@ -1067,9 +1075,9 @@ export default {
 <template>
   <Banner
     v-if="showSelfAssignBanner"
-    action-button-variant="clear"
+    action-button-variant="ghost"
     color-scheme="secondary"
-    class="banner--self-assign mx-2 mb-2 rounded-lg"
+    class="mx-2 mb-2 rounded-lg banner--self-assign"
     :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
     has-action-button
     :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
@@ -1188,6 +1196,7 @@ export default {
       :mode="replyType"
       :on-file-upload="onFileUpload"
       :on-send="onSendReply"
+      :conversation-type="conversationType"
       :recording-audio-duration-text="recordingAudioDurationText"
       :recording-audio-state="recordingAudioState"
       :send-button-text="replyButtonLabel"
