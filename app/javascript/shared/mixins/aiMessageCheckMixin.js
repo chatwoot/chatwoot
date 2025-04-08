@@ -10,8 +10,11 @@ export default {
     languageGrammarPassed() {
       return !!this.languageGrammarCheck?.passed;
     },
+    customerCentricityPassed() {
+      return this.customerCentricityCheck?.passed;
+    },
     canSendDespiteCheckFailure() {
-      return !this.answerQualityCheck?.passed && this.customerCentricityCheck?.passed && this.languageGrammarPassed;
+      return !this.answerQualityCheck?.passed && this.customerCentricityPassed && this.languageGrammarPassed;
     },
     answerQualityCheck() {
       return this.checkerObjects?.quality_check;
@@ -36,7 +39,7 @@ export default {
       return !this.aiCheckResponse?.using_target_language;
     },
     canShowTranslation(){
-      return this.needsTranslation && this.checkPassed;
+      return this.needsTranslation && this.languageGrammarPassed && this.customerCentricityPassed;
     }
   },
 };

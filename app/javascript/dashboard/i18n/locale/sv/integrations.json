@@ -128,7 +128,8 @@
           "REVISE": "Revidera manuellt",
           "SEND_ANYWAY": "Ignorera kontroll och skicka",
           "TRANSLATE": "Översätt svar",
-          "SEND_TRANSLATED": "Skicka översatt svar"
+          "SEND_TRANSLATED": "Skicka översatt svar",
+          "SEND_ORIGINAL": "Skicka ursprungligt svar"
         },
         "QUALITY_CHECK": {
           "RESPONSE": "Svar",
@@ -143,7 +144,8 @@
             "ORIGINAL_RESPONSE": "Ursprungligt svar",
             "TRANSLATED_RESPONSE": "Översätt svar",
             "TRANSLATION_MESSAGE": "Meddelandet har validerats. Granska det översatta meddelandet nedan innan du skickar det.",
-            "GENERATING_TRANSLATION": "Genererar översättning..."
+            "GENERATING_TRANSLATION": "Genererar översättning...",
+            "TRANSLATION_ERROR": "Det gick inte att översätta meddelandet."
           }
         }
       },

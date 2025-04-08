@@ -6,7 +6,7 @@ class Digitaltolk::TranslationService
 
   def perform
     if digitaltolk_translation_enabled?
-      response_data = Digitaltolk::Openai::Translation.new.perform(message.content)
+      response_data = Digitaltolk::Openai::Translation.new.perform(message.content, Current.account.translation_language)
 
       if response_data.present?
         Messages::TranslationBuilder.new(

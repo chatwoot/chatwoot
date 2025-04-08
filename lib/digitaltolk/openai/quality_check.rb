@@ -21,8 +21,7 @@ class Digitaltolk::Openai::QualityCheck < Digitaltolk::Openai::Base
       - Do not assess language alignment when evaluating relevance of the answer.
       - Focus only on content accuracy and thought, regardless of whether the response matches the query's language.
       - Allow for some flexibility in the answer's language.
-    - Provide a concise, actionable feedback explaining what's missing or how to enhance the answer.
-      - Use the language of the answer to provide feedback.
+    - Analyze the given answer and provide concise, actionable feedback on how to improve it. Identify any missing details, unclear explanations, or areas for enhancement. Detect the language of the answer and provide feedback in the same language.
     - Provide a boolean indicating whether the satisfaction score meets or exceeds the threshold.
 
     2. Language & Grammar Check
@@ -44,7 +43,7 @@ class Digitaltolk::Openai::QualityCheck < Digitaltolk::Openai::Base
       "checks": {
         "quality_check": {
           "score": <number>,
-          "feedback": "<clear_and_concise_feedback>",
+          "feedback": "<feedback_on_detected_answer_language>",
           "passed": <boolean>
         },
         "language_grammar_check": {
@@ -77,7 +76,7 @@ class Digitaltolk::Openai::QualityCheck < Digitaltolk::Openai::Base
     Answer: %s
   ).freeze
 
-  def perform(conversation, response, target_language = 'Swedish')
+  def perform(conversation, response, target_language = 'Svenska (sv)')
     @conversation = conversation
     @response = response.to_s.strip
     @target_language = target_language

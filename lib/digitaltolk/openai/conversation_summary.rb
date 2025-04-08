@@ -6,18 +6,15 @@ class Digitaltolk::Openai::ConversationSummary < Digitaltolk::Openai::Base
     The conversation may contain multiple messages and different languages. Your task is to summarize the conversation in a concise and coherent manner.
     The summary should be a few sentences long and should capture the main points of the conversation.
     Maintain the original meaning and context in the summary.
-    Return a translated summary of the conversation in English and %{target_language}.
-    
-    Response format: 
-    {
-      summary: <summary>,
-      translated_summary: <translated_summary>
-    }
-    
+    Return a translated summary of the conversation in English and %<target_language>s.
+
+    JSON format:
+    { summary: <summary>, translated_summary: <translated_summary> }
+
     Important: Return a json object, do not include any additional text, explanations, or formatting.
   ).freeze
 
-  def perform(conversation, target_language = 'Swedish')
+  def perform(conversation, target_language = 'Svenska (sv)')
     @conversation = conversation
     @target_language = target_language
 
@@ -31,7 +28,7 @@ class Digitaltolk::Openai::ConversationSummary < Digitaltolk::Openai::Base
   private
 
   def conversation_messages
-    @conversation.messages.where(message_type: ['incoming', 'outgoing']).order(:created_at)
+    @conversation.messages.where(message_type: %w[incoming outgoing]).order(:created_at)
   end
 
   def system_prompt

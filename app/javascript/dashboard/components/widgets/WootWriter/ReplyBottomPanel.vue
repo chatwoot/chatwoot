@@ -144,6 +144,7 @@
       <woot-modal
         :show.sync="showAIAssistanceModal"
         :on-close="hideAIAssistanceModal"
+        class="quality-check-modal"
       >
         <AIQualityCheckModal
           :ai-check-response="aiCheckResponse"

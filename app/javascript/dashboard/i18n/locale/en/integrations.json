@@ -126,7 +126,8 @@
           "REVISE": "Manually Revise",
           "SEND_ANYWAY": "Ignore Check and Send",
           "TRANSLATE": "Translate Response",
-          "SEND_TRANSLATED": "Send Translated Response"
+          "SEND_TRANSLATED": "Send Translated Response",
+          "SEND_ORIGINAL": "Send Original Response"
         },
         "QUALITY_CHECK": {
           "RESPONSE": "Response",
@@ -141,7 +142,8 @@
             "ORIGINAL_RESPONSE": "Original Response",
             "TRANSLATED_RESPONSE": "Translated Response",
             "TRANSLATION_MESSAGE": "The message is validated. Review the translated message below before sending.",
-            "GENERATING_TRANSLATION": "Generating translation..."
+            "GENERATING_TRANSLATION": "Generating translation...",
+            "TRANSLATION_ERROR": "There was an error translating the content"
           }
         }
       },

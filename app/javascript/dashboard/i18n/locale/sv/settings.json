@@ -172,6 +172,11 @@
         "LABEL": "Bekräfta nytt lösenord",
         "ERROR": "Bekräfta lösenord måste matcha lösenordet",
         "PLACEHOLDER": "Please re-enter your new password"
+      },
+      "AI_TRANSLATION_SUMMARY": {
+        "DESCRIPTION": "Aktivera den här inställningen för att möjliggöra AI-driven översättning i konversationer. När den är aktiverad översätts verifierade svar automatiskt till det språk som valts på webbplatsen för smidigare kommunikation.",
+        "TITLE": "Konversationssvar AI-översättning",
+        "UPDATE_SUCCESS": "Dina inställningar för AI-översättning har uppdaterats framgångsrikt."
       }
     }
   },

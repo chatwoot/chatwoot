@@ -32,6 +32,8 @@ class Account < ApplicationRecord
     check_for_column: false
   }.freeze
 
+  DEFAULT_TRANSLATION_LANGUAGE = 'Svenska (sv)'.freeze
+
   validates :auto_resolve_duration, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 999, allow_nil: true }
   validates :domain, length: { maximum: 100 }
 
@@ -130,6 +132,12 @@ class Account < ApplicationRecord
 
   def conversation_contact_types
     custom_attribute_definitions.conversation_attribute.attribute_key_contact_type.first&.attribute_values.to_a
+  end
+
+  def translation_language
+    return DEFAULT_TRANSLATION_LANGUAGE if locale.blank? || locale == 'en'
+
+    LANGUAGES_CONFIG.values.find { |lang| lang[:iso_639_1_code] == locale }.dig(:name)
   end
 
   private

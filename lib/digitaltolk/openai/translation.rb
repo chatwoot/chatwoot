@@ -2,25 +2,26 @@ class Digitaltolk::Openai::Translation < Digitaltolk::Openai::Base
   attr_accessor :message, :target_language
 
   SYSTEM_PROMPT = %(
-    You are traslation agent. You will be translating messages between English and %{target_language}.
-    Detect the language of the message and determine if it is in English or %{target_language}.
-    If the message is in %{target_language}, translate it into English.
-    If the message is in English, translate it into %{target_language}.
+    You are traslation agent. You will be translating messages between English and %<target_language>s.
+    Detect the language of the message and determine if it is in English or %<target_language>s.
+    If the message is in %<target_language>s, translate it into English.
+    If the message is in English, translate it into %<target_language>s.
     Maintain the original meaning and context in the translation.
     Do not shorten or summarize the translated message.
-    
-    Response format: 
+
+    Response format:
     {
       translated_message: <translated_message>,
       translated_locale: <translated_language_code>
     }
-    
-    Important: Return a json object, do not include any additional text, explanations, or formatting.
+
+    Important: Return a valid json object, do not include any additional text, explanations, or formatting.
   ).freeze
 
-  def perform(content, target_language = 'Swedish')
+  def perform(content, target_language = 'Svenska (sv)')
     @content = content
     @target_language = target_language
+    return {} if @content.blank?
 
     response = parse_response(call_openai)
     JSON.parse response.with_indifferent_access.dig(:choices, 0, :message, :content)

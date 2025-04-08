@@ -200,15 +200,15 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def quality_check
-    render json: Digitaltolk::Openai::QualityCheck.new.perform(@conversation, params[:response])
+    render json: Digitaltolk::Openai::QualityCheck.new.perform(@conversation, params[:response], Current.account.translation_language)
   end
 
   def summary
-    render json: Digitaltolk::Openai::ConversationSummary.new.perform(@conversation)
+    render json: Digitaltolk::Openai::ConversationSummary.new.perform(@conversation, Current.account.translation_language)
   end
 
   def translate_draft
-    render json: { message: Digitaltolk::Openai::Translation.new.perform(params[:draft_message]) }
+    render json: { message: Digitaltolk::Openai::Translation.new.perform(params[:draft_message], Current.account.translation_language) }
   end
 
   private
