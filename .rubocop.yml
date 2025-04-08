@@ -15,8 +15,6 @@ Metrics/ClassLength:
     - 'app/models/conversation.rb'
 Metrics/MethodLength:
   Max: 19
-  Exclude:
-    - 'db/migrate/20250403053114_add_index_to_messages.rb'
 RSpec/ExampleLength:
   Max: 25
 Style/Documentation:
