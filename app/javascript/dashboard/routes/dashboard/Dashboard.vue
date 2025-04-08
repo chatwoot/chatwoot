@@ -213,12 +213,12 @@ export default {
       @show-add-label-popup="showAddLabelPopup"
     />
     <main class="flex flex-1 h-full min-h-0 px-0 overflow-hidden">
-      <UpgradePage v-show="showUpgradePage" ref="upgradePageRef" />
+      <UpgradePage ref="upgradePageRef" />
       <div
         v-if="accountUIFlags.isFetchingLimits"
         class="flex items-center justify-center w-full h-full"
       >
-        <Spinner size="24" class="text-n-brand" />
+        <Spinner :size="24" class="text-n-brand" />
       </div>
       <template v-else-if="!showUpgradePage">
         <router-view />
