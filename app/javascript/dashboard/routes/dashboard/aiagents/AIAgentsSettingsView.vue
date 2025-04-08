@@ -43,7 +43,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="container mx-auto px-4 py-8">
+  <div class="w-full px-8 py-8 bg-n-background">
     <div class="">
       <center v-if="loadingData">
         <span class="mt-4 mb-4 spinner" />

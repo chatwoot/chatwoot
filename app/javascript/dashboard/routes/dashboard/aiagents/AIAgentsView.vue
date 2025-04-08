@@ -88,7 +88,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="container mx-auto px-4 py-8">
+  <div class="w-full px-8 py-8 bg-n-background">
     <BaseSettingsHeader
         :title="'Agen AI'"
         :description="'Kelola dan ubah AI yang Anda buat di sini. Buat chatbot baru kapan pun Anda inginkan!'"
@@ -176,7 +176,7 @@ watchEffect(() => {
 
         <div class="w-full">
           <label>
-            Template Agen
+            Template Agen AI
             <select v-model="selectedTemplate">
               <option v-for="template in templates" :key="template.id" :value="template.id">
                 {{ template.label }}
