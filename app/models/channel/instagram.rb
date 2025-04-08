@@ -31,6 +31,14 @@ class Channel::Instagram < ApplicationRecord
     'Instagram'
   end
 
+  def create_contact_inbox(instagram_id, name)
+    @contact_inbox = ::ContactInboxWithContactBuilder.new({
+                                                            source_id: instagram_id,
+                                                            inbox: inbox,
+                                                            contact_attributes: { name: name }
+                                                          }).perform
+  end
+
   def subscribe
     # ref https://developers.facebook.com/docs/instagram-platform/webhooks#enable-subscriptions
     HTTParty.post(
