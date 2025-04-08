@@ -88,7 +88,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="w-full px-8 py-8 bg-n-background">
+  <div class="w-full px-8 py-8 bg-n-background overflow-auto">
     <BaseSettingsHeader
         :title="'Agen AI'"
         :description="'Kelola dan ubah AI yang Anda buat di sini. Buat chatbot baru kapan pun Anda inginkan!'"

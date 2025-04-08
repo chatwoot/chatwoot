@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <form @submit.prevent="() => submit()">
+    <div class="flex flex-col lg:flex-row justify-stretch gap-4">
+        <form class="lg:flex-1 lg:min-w-0" @submit.prevent="() => submit()">
             <div class="flex flex-col space-y-3">
                 <div>
                     <label for="name">Nama Agen AI</label>
@@ -26,6 +26,10 @@
                 </button>
             </div>
         </form>
+
+        <div class="h-[600px] w-full lg:h-[500px] lg:w-[350px]">
+            <iframe height="100%" width="100%" class="rounded-lg border-none outline-none" :src="previewUrl"></iframe>
+        </div>
     </div>
 </template>
 
@@ -96,4 +100,6 @@ async function submit() {
         loadingSave.value = false
     }
 }
+
+const previewUrl = ref('https://ai.radyalabs.id/chatbot/e42c6098-d738-4161-9af2-5b6381ce3be0')
 </script>
