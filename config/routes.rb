@@ -348,6 +348,7 @@ Rails.application.routes.draw do
               get :conversations
               get :conversation_traffic
               get :bot_metrics
+              get :credit_usage
             end
           end
         end

@@ -11,7 +11,7 @@ import SubmitButton from '../../../../../components/Button/SubmitButton.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
 import { register } from '../../../../../api/auth';
-import * as CompanyEmailValidator from 'company-email-validator';
+// import * as CompanyEmailValidator from 'company-email-validator';
 
 export default {
   components: {
@@ -53,9 +53,9 @@ export default {
         email: {
           required,
           email,
-          businessEmailValidator(value) {
-            return CompanyEmailValidator.isCompanyEmail(value);
-          },
+          // businessEmailValidator(value) {
+          //   return CompanyEmailValidator.isCompanyEmail(value);
+          // },
         },
         phoneNumber: {
           required,
@@ -195,7 +195,7 @@ export default {
         :label="$t('LOGIN.PASSWORD.LABEL')"
         :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
         :has-error="v$.credentials.password.$error"
-        :error-message="passwordErrorText"
+        :error-message="$t('REGISTER.PASSWORD.IS_INVALID_PASSWORD')"
         @blur="v$.credentials.password.$touch"
       />
       <div v-if="globalConfig.hCaptchaSiteKey" class="mb-3">
