@@ -47,10 +47,11 @@
         "CREATE_INBOX": "Izveidot Iesūtni"
       },
       "INSTAGRAM": {
-        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
-        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
-        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
-        "ERROR_AUTH": "There was an error connecting to Instagram, please try again"
+        "CONTINUE_WITH_INSTAGRAM": "Turpināt ar Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Pievienot savu Instagram Profilu",
+        "HELP": "Lai pievienotu savu Instagram profilu kā kanālu, jums ir jāautentificē savs Instagram profils, noklikšķinot uz 'Turpināt ar Instagram' ",
+        "ERROR_MESSAGE": "Veidojot savienojumu ar Instagram, radās kļūda. Lūdzu, mēģiniet vēlreiz",
+        "ERROR_AUTH": "Veidojot savienojumu ar Instagram, radās kļūda. Lūdzu, mēģiniet vēlreiz"
       },
       "TWITTER": {
         "HELP": "Lai pievienotu savu Twitter profilu kā kanālu, Jums ir jāautentificē savs Twitter profils, noklikšķinot uz \"Pierakstīties ar Twitter\"' ",
