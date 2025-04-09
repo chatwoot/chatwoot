@@ -9,6 +9,7 @@ import { formatTime } from '@chatwoot/utils';
  */
 export function useReportMetrics(accountSummaryKey = 'getAccountSummary') {
   const accountSummary = useMapGetter(accountSummaryKey);
+  const getSummaryFetchingStatus = useMapGetter('getSummaryFetchingStatus');
 
   /**
    * Calculates the trend percentage for a given metric.
@@ -49,9 +50,14 @@ export function useReportMetrics(accountSummaryKey = 'getAccountSummary') {
     return Number(accountSummary.value[key] || '').toLocaleString();
   };
 
+  const getStatus = key => {
+    return getSummaryFetchingStatus.value[key];
+  };
+
   return {
     calculateTrend,
     isAverageMetricType,
     displayMetric,
+    getStatus,
   };
 }

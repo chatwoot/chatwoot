@@ -1,5 +1,7 @@
 <script setup>
 import { useReportMetrics } from 'dashboard/composables/useReportMetrics';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   metric: {
@@ -12,9 +14,16 @@ const props = defineProps({
   },
 });
 
-const { calculateTrend, displayMetric, isAverageMetricType } = useReportMetrics(
-  props.accountSummaryKey
-);
+const STATUS = {
+  FAILED: 'failed',
+  FETCHING: 'fetching',
+  FINISHED: 'finished',
+};
+
+const { t } = useI18n();
+
+const { calculateTrend, displayMetric, isAverageMetricType, getStatus } =
+  useReportMetrics(props.accountSummaryKey);
 
 const trendColor = (value, key) => {
   if (isAverageMetricType(key)) {
@@ -34,10 +43,25 @@ const trendColor = (value, key) => {
       {{ metric.NAME }}
     </span>
     <div class="flex items-end text-n-slate-12">
-      <div class="text-xl font-medium">
+      <div v-if="getStatus(metric.KEY) === STATUS.FETCHING">
+        <Spinner />
+      </div>
+      <div
+        v-else-if="getStatus(metric.KEY) === STATUS.FAILED"
+        class="text-n-ruby-10 text-sm"
+      >
+        {{ t('REPORT.ERROR_FETCHING_DATA') }}
+      </div>
+      <div
+        v-else-if="getStatus(metric.KEY) === STATUS.FINISHED"
+        class="text-xl font-medium"
+      >
         {{ displayMetric(metric.KEY) }}
       </div>
-      <div v-if="metric.trend" class="text-xs ml-4 flex items-center mb-0.5">
+      <div
+        v-if="metric.trend && getStatus(metric.KEY) === STATUS.FINISHED"
+        class="text-xs ml-4 flex items-center mb-0.5"
+      >
         <div
           v-if="metric.trend < 0"
           class="h-0 w-0 border-x-4 medium border-x-transparent border-t-[8px] mr-1"
