@@ -195,8 +195,7 @@ describe('#actions', () => {
       actions.downloadInboxReports(1, param);
       await flushPromises();
 
-      expect(DownloadHelper.downloadCsvFile).toHaveBeenNthCalledWith(
-        1,
+      expect(DownloadHelper.downloadCsvFile).toBeCalledWith(
         param.fileName,
         data
       );
