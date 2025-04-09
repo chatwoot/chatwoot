@@ -656,7 +656,7 @@ RSpec.describe Conversation do
           create(:message, account: instagram_conversation.account, inbox: instagram_inbox, conversation: instagram_conversation,
                            created_at: 48.hours.ago)
 
-          expect(conversation.can_reply?).to be true
+          expect(instagram_conversation.can_reply?).to be true
         end
 
         it 'return false without HUMAN_AGENT if it is outside of 24 hour window' do
@@ -665,7 +665,7 @@ RSpec.describe Conversation do
           create(:message, account: instagram_conversation.account, inbox: instagram_inbox, conversation: instagram_conversation,
                            created_at: 48.hours.ago)
 
-          expect(conversation.can_reply?).to be false
+          expect(instagram_conversation.can_reply?).to be false
         end
       end
     end
