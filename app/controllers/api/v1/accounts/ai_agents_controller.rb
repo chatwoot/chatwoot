@@ -7,30 +7,11 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   def show
-    render json: @ai_agent.as_json(
-      only: [
-        :id, :uid, :name, :description, :system_prompts, :welcoming_message,
-        :routing_conditions, :control_flow_rules, :model_name,
-        :history_limit, :context_limit, :message_await, :message_limit,
-        :timezone, :created_at, :updated_at, :account_id, :chat_flow_id
-      ],
-      include: {
-        ai_agent_selected_labels: {
-          only: [:id, :label_id, :label_conditions],
-          include: {
-            label: {
-              only: [:id, :name]
-            }
-          }
-        }
-      }
-    ).transform_keys { |key| key == 'ai_agent_selected_labels' ? 'selected_labels' : key }
+    render json: @ai_agent.as_detailed_json
   end
 
   def create
     ai_agent_template = find_template
-
-    Rails.logger.debug { "AI Agent Template: #{ai_agent_template.inspect}" }
 
     chat_flow_id = load_chat_flow(ai_agent_template)
     return unless chat_flow_id
