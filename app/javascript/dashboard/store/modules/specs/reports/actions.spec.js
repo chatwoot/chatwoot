@@ -3,7 +3,7 @@ import { actions } from '../../reports';
 import * as types from '../../../mutation-types';
 import { STATUS } from '../../../constants';
 import * as DownloadHelper from 'dashboard/helper/downloadHelper';
-import flushPromises from 'flush-promises';
+import { flushPromises } from '@vue/test-utils';
 
 global.open = vi.fn();
 global.axios = axios;
