@@ -1,7 +1,11 @@
 import { MESSAGE_TYPE } from 'shared/constants/messages';
-import { applyPageFilters, sortComparator } from './helpers';
+import { applyPageFilters, applyRoleFilter, sortComparator } from './helpers';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
 import { matchesFilters } from './helpers/filterHelpers';
+import {
+  getUserPermissions,
+  getUserRole,
+} from '../../../helper/permissionsHelper';
 import camelcaseKeys from 'camelcase-keys';
 
 export const getSelectedChatConversation = ({
@@ -77,10 +81,24 @@ const getters = {
       return isUnAssigned && shouldFilter;
     });
   },
-  getAllStatusChats: _state => activeFilters => {
+  getAllStatusChats: (_state, _, __, rootGetters) => activeFilters => {
+    const currentUser = rootGetters.getCurrentUser;
+    const currentUserId = rootGetters.getCurrentUser.id;
+    const currentAccountId = rootGetters.getCurrentAccountId;
+
+    const permissions = getUserPermissions(currentUser, currentAccountId);
+    const userRole = getUserRole(currentUser, currentAccountId);
+
     return _state.allConversations.filter(conversation => {
       const shouldFilter = applyPageFilters(conversation, activeFilters);
-      return shouldFilter;
+      const allowedForRole = applyRoleFilter(
+        conversation,
+        userRole,
+        permissions,
+        currentUserId
+      );
+
+      return shouldFilter && allowedForRole;
     });
   },
   getChatListLoadingStatus: ({ listLoadingStatus }) => listLoadingStatus,
