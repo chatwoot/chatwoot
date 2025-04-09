@@ -613,7 +613,11 @@ RSpec.describe Conversation do
       let!(:facebook_inbox) { create(:inbox, channel: facebook_channel, account: facebook_channel.account) }
       let!(:conversation) { create(:conversation, inbox: facebook_inbox, account: facebook_channel.account) }
 
-      context 'when instagram channel' do
+      let!(:instagram_channel) { create(:channel_instagram) }
+      let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: instagram_channel.account) }
+      let!(:instagram_conversation) { create(:conversation, inbox: instagram_inbox, account: instagram_channel.account) }
+
+      context 'when instagram messenger channel' do
         it 'return true with HUMAN_AGENT if it is outside of 24 hour window' do
           InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create(value: true)
 
@@ -640,6 +644,26 @@ RSpec.describe Conversation do
             conversation: conversation,
             created_at: 48.hours.ago
           )
+
+          expect(conversation.can_reply?).to be false
+        end
+      end
+
+      context 'when instagram channel' do
+        it 'return true with HUMAN_AGENT if it is outside of 24 hour window' do
+          InstallationConfig.where(name: 'ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT').first_or_create(value: true)
+
+          create(:message, account: instagram_conversation.account, inbox: instagram_inbox, conversation: instagram_conversation,
+                           created_at: 48.hours.ago)
+
+          expect(conversation.can_reply?).to be true
+        end
+
+        it 'return false without HUMAN_AGENT if it is outside of 24 hour window' do
+          InstallationConfig.where(name: 'ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT').first_or_create(value: false)
+
+          create(:message, account: instagram_conversation.account, inbox: instagram_inbox, conversation: instagram_conversation,
+                           created_at: 48.hours.ago)
 
           expect(conversation.can_reply?).to be false
         end
