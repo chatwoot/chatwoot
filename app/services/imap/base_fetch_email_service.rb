@@ -106,6 +106,7 @@ class Imap::BaseFetchEmailService
   end
 
   def build_imap_client
+    # NOTE: for imap to work locally, ssl: false is the ideal setup
     imap = Net::IMAP.new(channel.imap_address, port: channel.imap_port, ssl: true)
     imap.authenticate(authentication_type, channel.imap_login, imap_password)
     imap.select('INBOX')

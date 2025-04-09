@@ -98,6 +98,8 @@ class Campaign < ApplicationRecord
     return if completed?
 
     case inbox.inbox_type
+    when 'Email'
+      Email::OneoffEmailCampaignService.new(campaign: self).perform
     when 'Twilio SMS'
       return unless one_off?
 
@@ -141,6 +143,7 @@ class Campaign < ApplicationRecord
     case inbox.inbox_type
     when 'Email'
       self.campaign_type = 'email'
+      self.campaign_status = 'active' # REVIEW: is it okay to set status here as active
       self.scheduled_at ||= Time.now.utc
     when 'Twilio SMS', 'Sms'
       self.campaign_type = 'one_off'
