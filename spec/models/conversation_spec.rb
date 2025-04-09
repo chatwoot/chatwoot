@@ -217,7 +217,14 @@ RSpec.describe Conversation do
       conversation2 = create(:conversation, status: 'open', account: account, assignee: old_assignee)
       Current.user = nil
 
-      system_resolved_message = "Conversation was marked resolved by system due to #{account.auto_resolve_duration} days of inactivity"
+      message_data = if account.auto_resolve_duration >= 1440 && account.auto_resolve_duration % 1440 == 0
+                       { key: 'auto_resolved_days', count: account.auto_resolve_duration / 1440 }
+                     elsif account.auto_resolve_duration >= 60 && account.auto_resolve_duration % 60 == 0
+                       { key: 'auto_resolved_hours', count: account.auto_resolve_duration / 60 }
+                     else
+                       { key: 'auto_resolved_minutes', count: account.auto_resolve_duration }
+                     end
+      system_resolved_message = "Conversation was marked resolved by system due to #{message_data[:count]} days of inactivity"
       expect { conversation2.update(status: :resolved) }
         .to have_enqueued_job(Conversations::ActivityMessageJob)
         .with(conversation2, { account_id: conversation2.account_id, inbox_id: conversation2.inbox_id, message_type: :activity,

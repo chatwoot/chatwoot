@@ -79,7 +79,7 @@ class Conversation < ApplicationRecord
   scope :resolvable, lambda { |auto_resolve_duration|
     return none if auto_resolve_duration.to_i.zero?
 
-    open.where('last_activity_at < ? ', Time.now.utc - auto_resolve_duration.days)
+    open.where('last_activity_at < ? ', Time.now.utc - auto_resolve_duration.minutes)
   }
 
   scope :last_user_message_at, lambda {
