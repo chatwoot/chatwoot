@@ -320,6 +320,119 @@ describe Whatsapp::IncomingMessageBaileysService do
         end
       end
     end
+
+    context 'when processing messages.update event' do
+      context 'when message is not found' do
+        let(:message_id) { 'msg_123' }
+        let(:update_payload) do
+          {
+            key: { id: message_id },
+            update: {
+              status: 2
+            }
+          }
+        end
+
+        it 'raises MessageNotFoundError' do
+          params = {
+            webhookVerifyToken: webhook_verify_token,
+            event: 'messages.update',
+            data: [update_payload]
+          }
+
+          expect do
+            described_class.new(inbox: inbox, params: params).perform
+          end.to raise_error(Whatsapp::IncomingMessageBaileysService::MessageNotFoundError)
+        end
+      end
+
+      context 'when message is found' do
+        let(:message_id) { 'msg_123' }
+        let!(:message) { create(:message, source_id: message_id, status: 'sent') }
+
+        it 'updates the message status' do
+          update_payload = { key: { id: message_id }, update: { status: 3 } }
+          params = {
+            webhookVerifyToken: webhook_verify_token,
+            event: 'messages.update',
+            data: [update_payload]
+          }
+
+          described_class.new(inbox: inbox, params: params).perform
+
+          expect(message.reload.status).to eq('delivered')
+        end
+
+        it 'updates the message content' do
+          update_payload = {
+            key: { id: message_id },
+            update: {
+              message: { editedMessage: { message: { conversation: 'New message content' } } }
+            }
+          }
+          params = {
+            webhookVerifyToken: webhook_verify_token,
+            event: 'messages.update',
+            data: [update_payload]
+          }
+
+          described_class.new(inbox: inbox, params: params).perform
+
+          expect(message.reload.content).to eq('New message content')
+        end
+      end
+
+      context 'when the status transition is not allowed (message already read)' do
+        let(:message_id) { 'msg_123' }
+        let!(:message) { create(:message, source_id: message_id, status: 'read') }
+
+        it 'does not update the status' do
+          update_payload = { key: { id: message_id }, update: { status: 3 } }
+          params = {
+            webhookVerifyToken: webhook_verify_token,
+            event: 'messages.update',
+            data: [update_payload]
+          }
+
+          described_class.new(inbox: inbox, params: params).perform
+
+          expect(message.reload.status).to eq('read')
+        end
+      end
+
+      context 'when update unsupported status' do
+        let(:message_id) { 'msg_123' }
+        let!(:message) { create(:message, source_id: message_id) } # rubocop:disable RSpec/LetSetup
+
+        it 'logs warning for unsupported played status' do
+          update_payload = { key: { id: message_id }, update: { status: 5 } }
+          params = {
+            webhookVerifyToken: webhook_verify_token,
+            event: 'messages.update',
+            data: [update_payload]
+          }
+          allow(Rails.logger).to receive(:warn).with('Baileys unsupported message update status: PLAYED(5)')
+
+          described_class.new(inbox: inbox, params: params).perform
+
+          expect(Rails.logger).to have_received(:warn)
+        end
+
+        it 'logs warning for unsupported status' do
+          update_payload = { key: { id: message_id }, update: { status: 6 } }
+          params = {
+            webhookVerifyToken: webhook_verify_token,
+            event: 'messages.update',
+            data: [update_payload]
+          }
+          allow(Rails.logger).to receive(:warn).with('Baileys unsupported message update status: 6')
+
+          described_class.new(inbox: inbox, params: params).perform
+
+          expect(Rails.logger).to have_received(:warn)
+        end
+      end
+    end
   end
 
   def format_message_source_key(message_id)
