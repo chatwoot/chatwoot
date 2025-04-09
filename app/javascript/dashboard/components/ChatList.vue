@@ -77,7 +77,7 @@
         class="text-xs"
         @click="assignUnassignedConversations"
       >
-        Assign to Online Agents
+        {{ assignButtonText }}
       </woot-button>
     </div>
     <div
@@ -306,6 +306,7 @@ export default {
       labels: 'labels/getLabels',
       selectedConversations: 'bulkActions/getSelectedConversationIds',
       contextMenuChatId: 'getContextMenuChatId',
+      accountId: 'getCurrentAccountId',
     }),
     hasAppliedFilters() {
       return this.appliedFilters.length !== 0;
@@ -350,6 +351,16 @@ export default {
           count,
         };
       });
+    },
+    assignButtonText() {
+      switch (this.accountId) {
+        case 1058:
+        case 1126:
+        case 1125:
+          return 'Assign to Agents';
+        default:
+          return 'Assign to Online Agents';
+      }
     },
     showAssigneeInConversationCard() {
       return (

@@ -368,7 +368,10 @@ export default {
         if (response?.data?.success) {
           this.showAlert('Call initiated');
         } else {
-          this.showAlert('Something went wrong in initiating the call.');
+          this.showAlert(
+            response?.data?.response ??
+              'Something went wrong in initiating the call.'
+          );
         }
       } catch (error) {
         Sentry.setContext('CallingInitiation', {
