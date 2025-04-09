@@ -1,30 +1,12 @@
 /* eslint no-console: 0 */
 import * as types from '../mutation-types';
+import { STATUS } from '../constants';
 import Report from '../../api/reports';
 import { downloadCsvFile, generateFileName } from '../../helper/downloadHelper';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
 import { clampDataBetweenTimeline } from 'shared/helpers/ReportsDataHelper';
 import liveReports from '../../api/liveReports';
-
-const ACCOUNT_SUMMARY_DEFAULT = {
-  avg_first_response_time: 0,
-  avg_resolution_time: 0,
-  conversations_count: 0,
-  incoming_messages_count: 0,
-  outgoing_messages_count: 0,
-  reply_time: 0,
-  resolutions_count: 0,
-  bot_resolutions_count: 0,
-  bot_handoffs_count: 0,
-  previous: {},
-};
-
-const STATUS = {
-  FAILED: 'failed',
-  FETCHING: 'fetching',
-  FINISHED: 'finished',
-};
 
 const state = {
   fetchingStatus: false,
@@ -63,7 +45,18 @@ const state = {
       reply_time: [],
     },
   },
-  accountSummary: ACCOUNT_SUMMARY_DEFAULT,
+  accountSummary: {
+    avg_first_response_time: 0,
+    avg_resolution_time: 0,
+    conversations_count: 0,
+    incoming_messages_count: 0,
+    outgoing_messages_count: 0,
+    reply_time: 0,
+    resolutions_count: 0,
+    bot_resolutions_count: 0,
+    bot_handoffs_count: 0,
+    previous: {},
+  },
   botSummary: {
     bot_resolutions_count: 0,
     bot_handoffs_count: 0,

@@ -1,6 +1,7 @@
 <script setup>
 import { useReportMetrics } from 'dashboard/composables/useReportMetrics';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import { STATUS } from 'dashboard/store/constants';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
@@ -13,12 +14,6 @@ const props = defineProps({
     default: 'getAccountSummary',
   },
 });
-
-const STATUS = {
-  FAILED: 'failed',
-  FETCHING: 'fetching',
-  FINISHED: 'finished',
-};
 
 const { t } = useI18n();
 
