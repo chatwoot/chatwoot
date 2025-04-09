@@ -261,7 +261,8 @@ export default {
         this.isAnEmailChannel ||
         this.isASmsInbox ||
         this.isATelegramChannel ||
-        this.isALineChannel
+        this.isALineChannel ||
+        this.isAInstagramChannel
       );
     },
     replyButtonLabel() {
@@ -1076,7 +1077,7 @@ export default {
     v-if="showSelfAssignBanner"
     action-button-variant="ghost"
     color-scheme="secondary"
-    class="banner--self-assign mx-2 mb-2 rounded-lg"
+    class="mx-2 mb-2 rounded-lg banner--self-assign"
     :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
     has-action-button
     :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
