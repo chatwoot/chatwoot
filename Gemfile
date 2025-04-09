@@ -40,7 +40,7 @@ gem 'down'
 # authentication type to fetch and send mail over oauth2.0
 gem 'gmail_xoauth'
 # Lock net-smtp to 0.3.4 to avoid issues with gmail_xoauth2
-gem 'net-smtp',  '~> 0.3.4'
+gem 'net-smtp', '~> 0.3.4'
 # Prevent CSV injection
 gem 'csv-safe'
 
@@ -177,6 +177,8 @@ gem 'iso-639'
 gem 'ruby-openai'
 
 gem 'shopify_api'
+
+gem 'resend', '~> 0.19.0'
 
 ### Gems required only in specific deployment environments ###
 ##############################################################

@@ -14,6 +14,6 @@ module TimezoneHelper
       zone.now.utc_offset == offset_in_seconds
     end
 
-    return matching_zone.name if matching_zone
+    matching_zone&.name
   end
 end

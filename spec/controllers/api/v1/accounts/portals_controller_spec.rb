@@ -52,7 +52,7 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
       end
 
       it 'returns portal articles metadata' do
-        portal.update(config: { allowed_locales: %w[en es], default_locale: 'en' })
+        portal.update!(config: { allowed_locales: %w[en es], default_locale: 'en' })
         en_cat = create(:category, locale: :en, portal_id: portal.id, slug: 'en-cat')
         es_cat = create(:category, locale: :es, portal_id: portal.id, slug: 'es-cat')
         create(:article, category_id: en_cat.id, portal_id: portal.id, author_id: agent.id)

@@ -19,7 +19,7 @@ class Api::V1::Accounts::Captain::BulkActionsController < Api::V1::Accounts::Bas
   end
 
   def type_matches?
-    return if MODEL_TYPE.include?(params[:type])
+    return false if MODEL_TYPE.include?(params[:type])
 
     render json: { success: false }, status: :unprocessable_entity
   end
@@ -37,7 +37,7 @@ class Api::V1::Accounts::Captain::BulkActionsController < Api::V1::Accounts::Bas
 
     case params[:fields][:status]
     when 'approve'
-      responses.pending.update(status: 'approved')
+      responses.pending.update!(status: 'approved')
       responses
     when 'delete'
       responses.destroy_all

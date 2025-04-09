@@ -21,7 +21,7 @@ RSpec.describe TeamMember, type: :model do
 
     context 'when team member is destroyed' do
       it 'has associated audit log created' do
-        team_member.destroy
+        team_member.destroy!
         audit_log = Audited::Audit.find_by(auditable: team_member, action: 'destroy')
         expect(audit_log).to be_present
         expect(audit_log.audited_changes['team_id']).to eq(team.id)

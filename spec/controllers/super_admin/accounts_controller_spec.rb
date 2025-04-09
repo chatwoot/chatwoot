@@ -44,12 +44,12 @@ RSpec.describe 'Super Admin accounts API', type: :request do
         expect(account.cache_keys.keys).to contain_exactly(:inbox, :label, :team)
         sign_in(super_admin, scope: :super_admin)
 
-        now_timestamp = Time.now.utc.to_i
+        now_timestamp = (Time.now.utc.to_f * 1000).to_i
         post "/super_admin/accounts/#{account.id}/reset_cache"
         expect(response).to have_http_status(:redirect)
         expect(flash[:notice]).to eq('Cache keys cleared')
 
-        range = now_timestamp..(now_timestamp + 10)
+        range = now_timestamp..(now_timestamp + 10_000)
         expect(account.reload.cache_keys.values.all? { |v| range.cover?(v.to_i) }).to be(true)
       end
     end

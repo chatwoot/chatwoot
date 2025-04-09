@@ -66,6 +66,9 @@ const inboxTypes = computed(() => ({
   isEmail: props.targetInbox?.channelType === INBOX_TYPES.EMAIL,
   isTwilio: props.targetInbox?.channelType === INBOX_TYPES.TWILIO,
   isWhatsapp: props.targetInbox?.channelType === INBOX_TYPES.WHATSAPP,
+  isWhatsappBaileys:
+    props.targetInbox?.channelType === INBOX_TYPES.WHATSAPP &&
+    props.targetInbox?.provider === 'baileys',
   isWebWidget: props.targetInbox?.channelType === INBOX_TYPES.WEB,
   isApi: props.targetInbox?.channelType === INBOX_TYPES.API,
   isEmailOrWebWidget:
@@ -311,7 +314,10 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
     />
 
     <MessageEditor
-      v-if="!inboxTypes.isWhatsapp && !showNoInboxAlert"
+      v-if="
+        (!inboxTypes.isWhatsapp || inboxTypes.isWhatsappBaileys) &&
+        !showNoInboxAlert
+      "
       v-model="state.message"
       :message-signature="messageSignature"
       :send-with-signature="sendWithSignature"
@@ -329,6 +335,7 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
     <ActionButtons
       :attached-files="state.attachedFiles"
       :is-whatsapp-inbox="inboxTypes.isWhatsapp"
+      :is-whatsapp-baileys-inbox="inboxTypes.isWhatsappBaileys"
       :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
       :is-twilio-sms-inbox="inboxTypes.isTwilioSMS"
       :message-templates="whatsappMessageTemplates"

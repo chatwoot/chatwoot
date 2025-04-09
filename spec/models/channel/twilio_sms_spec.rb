@@ -65,7 +65,7 @@ RSpec.describe Channel::TwilioSms do
     end
 
     it 'sends via twilio client' do
-      expect(twilio_messages).to receive(:create).with(
+      expect(twilio_messages).to receive(:create!).with(
         messaging_service_sid: channel.messaging_service_sid,
         to: '+15555550111',
         body: 'hello world',
@@ -79,7 +79,7 @@ RSpec.describe Channel::TwilioSms do
       let(:channel) { create(:channel_twilio_sms, :with_phone_number) }
 
       it 'sends via twilio client' do
-        expect(twilio_messages).to receive(:create).with(
+        expect(twilio_messages).to receive(:create!).with(
           from: channel.phone_number,
           to: '+15555550111',
           body: 'hello world',
@@ -92,7 +92,7 @@ RSpec.describe Channel::TwilioSms do
 
     context 'with media urls' do
       it 'supplies a media url' do
-        expect(twilio_messages).to receive(:create).with(
+        expect(twilio_messages).to receive(:create!).with(
           messaging_service_sid: channel.messaging_service_sid,
           to: '+15555550111',
           body: 'hello world',

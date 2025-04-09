@@ -41,7 +41,7 @@ RSpec.describe 'Api::V1::Accounts::Integrations::Slacks' do
     context 'when it is an authenticated user' do
       it 'updates hook if the channel id is correct' do
         channel_builder = double
-        expect(channel_builder).to receive(:update).and_return(hook)
+        expect(channel_builder).to receive(:update_reference_id).and_return(hook)
         expect(Integrations::Slack::ChannelBuilder).to receive(:new).and_return(channel_builder)
 
         put "/api/v1/accounts/#{account.id}/integrations/slack",
@@ -55,7 +55,7 @@ RSpec.describe 'Api::V1::Accounts::Integrations::Slacks' do
 
       it 'does not update the hook if the channel id is not correct' do
         channel_builder = double
-        expect(channel_builder).to receive(:update)
+        expect(channel_builder).to receive(:update_reference_id)
         expect(Integrations::Slack::ChannelBuilder).to receive(:new).and_return(channel_builder)
 
         put "/api/v1/accounts/#{account.id}/integrations/slack",

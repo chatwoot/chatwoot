@@ -126,7 +126,7 @@ RSpec.describe Conversation do
     end
 
     it 'sends conversation updated event if labels are updated' do
-      conversation.update(label_list: [label.title])
+      conversation.update!(label_list: [label.title])
       changed_attributes = conversation.previous_changes
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(
@@ -140,7 +140,7 @@ RSpec.describe Conversation do
     end
 
     it 'runs after_update callbacks' do
-      conversation.update(
+      conversation.update!(
         status: :resolved,
         contact_last_seen_at: Time.zone.now,
         assignee: new_assignee
@@ -169,7 +169,7 @@ RSpec.describe Conversation do
     end
 
     it 'will not run conversation_updated event for non whitelisted keys' do
-      conversation.update(updated_at: DateTime.now.utc)
+      conversation.update!(updated_at: DateTime.now.utc)
       expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
         .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
     end
@@ -191,7 +191,7 @@ RSpec.describe Conversation do
     end
 
     it 'creates conversation activities' do
-      conversation.update(
+      conversation.update!(
         status: :resolved,
         contact_last_seen_at: Time.zone.now,
         assignee: new_assignee,
@@ -213,7 +213,7 @@ RSpec.describe Conversation do
     end
 
     it 'adds a message for system auto resolution if marked resolved by system' do
-      account.update(auto_resolve_duration: 40)
+      account.update!(auto_resolve_duration: 40)
       conversation2 = create(:conversation, status: 'open', account: account, assignee: old_assignee)
       Current.user = nil
 
@@ -615,9 +615,9 @@ RSpec.describe Conversation do
 
       context 'when instagram channel' do
         it 'return true with HUMAN_AGENT if it is outside of 24 hour window' do
-          InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create(value: true)
+          InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create!(value: true)
 
-          conversation.update(additional_attributes: { type: 'instagram_direct_message' })
+          conversation.update!(additional_attributes: { type: 'instagram_direct_message' })
           create(
             :message,
             account: conversation.account,
@@ -630,9 +630,9 @@ RSpec.describe Conversation do
         end
 
         it 'return false without HUMAN_AGENT if it is outside of 24 hour window' do
-          InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create(value: false)
+          InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create!(value: false)
 
-          conversation.update(additional_attributes: { type: 'instagram_direct_message' })
+          conversation.update!(additional_attributes: { type: 'instagram_direct_message' })
           create(
             :message,
             account: conversation.account,
@@ -878,7 +878,7 @@ RSpec.describe Conversation do
     let(:conversation) { create(:conversation) }
 
     it 'returns the correct list of labels' do
-      conversation.update(label_list: %w[customer-support enterprise paid-customer])
+      conversation.update!(label_list: %w[customer-support enterprise paid-customer])
 
       expect(conversation.cached_label_list_array).to eq %w[customer-support enterprise paid-customer]
     end

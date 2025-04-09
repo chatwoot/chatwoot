@@ -8,6 +8,7 @@
 #  phone_number                   :string           not null
 #  provider                       :string           default("default")
 #  provider_config                :jsonb
+#  provider_connection            :jsonb
 #  created_at                     :datetime         not null
 #  updated_at                     :datetime         not null
 #  account_id                     :integer          not null
@@ -25,12 +26,14 @@ class Channel::Whatsapp < ApplicationRecord
   EDITABLE_ATTRS = [:phone_number, :provider, { provider_config: {} }].freeze
 
   # default at the moment is 360dialog lets change later.
-  PROVIDERS = %w[default whatsapp_cloud].freeze
+  PROVIDERS = %w[default whatsapp_cloud baileys].freeze
   before_validation :ensure_webhook_verify_token
 
   validates :provider, inclusion: { in: PROVIDERS }
   validates :phone_number, presence: true, uniqueness: true
   validate :validate_provider_config
+
+  has_one :inbox, as: :channel, dependent: :destroy
 
   after_create :sync_templates
 
@@ -39,15 +42,18 @@ class Channel::Whatsapp < ApplicationRecord
   end
 
   def provider_service
-    if provider == 'whatsapp_cloud'
+    case provider
+    when 'whatsapp_cloud'
       Whatsapp::Providers::WhatsappCloudService.new(whatsapp_channel: self)
+    when 'baileys'
+      Whatsapp::Providers::WhatsappBaileysService.new(whatsapp_channel: self)
     else
       Whatsapp::Providers::Whatsapp360DialogService.new(whatsapp_channel: self)
     end
   end
 
   def messaging_window_enabled?
-    true
+    provider != 'baileys'
   end
 
   def mark_message_templates_updated
@@ -56,6 +62,23 @@ class Channel::Whatsapp < ApplicationRecord
     # rubocop:enable Rails/SkipsModelValidations
   end
 
+  def update_provider_connection!(provider_connection)
+    assign_attributes(provider_connection: provider_connection)
+    # NOTE: Skip `validate_provider_config?` check
+    save!(validate: false)
+  end
+
+  def provider_connection_data
+    data = { connection: provider_connection['connection'] }
+    if Current.account_user&.administrator?
+      data[:qr_data_url] = provider_connection['qr_data_url']
+      data[:error] = provider_connection['error']
+    end
+    data
+  end
+
+  delegate :setup_channel_provider, to: :provider_service
+  delegate :disconnect_channel_provider, to: :provider_service
   delegate :send_message, to: :provider_service
   delegate :send_template, to: :provider_service
   delegate :sync_templates, to: :provider_service
@@ -65,7 +88,7 @@ class Channel::Whatsapp < ApplicationRecord
   private
 
   def ensure_webhook_verify_token
-    provider_config['webhook_verify_token'] ||= SecureRandom.hex(16) if provider == 'whatsapp_cloud'
+    provider_config['webhook_verify_token'] ||= SecureRandom.hex(16) if provider.in?(%w[whatsapp_cloud baileys])
   end
 
   def validate_provider_config

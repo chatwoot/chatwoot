@@ -35,7 +35,7 @@ RSpec.describe User do
 
         it 'will not add error when trying to update a existing user' do
           allow(ChatwootHub).to receive(:pricing_plan_quantity).and_return(1)
-          existing_user.update(name: 'new name')
+          existing_user.update!(name: 'new name')
           # since there is user and existing user, we are already over limits
           existing_user.valid?
           expect(existing_user.errors[:base]).to be_empty

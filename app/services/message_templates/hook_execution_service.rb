@@ -66,10 +66,10 @@ class MessageTemplates::HookExecutionService
   end
 
   def should_send_csat_survey?
-    return unless csat_enabled_conversation?
+    return false unless csat_enabled_conversation?
 
     # only send CSAT once in a conversation
-    return if conversation.messages.where(content_type: :input_csat).present?
+    return false if conversation.messages.where(content_type: :input_csat).present?
 
     true
   end

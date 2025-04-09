@@ -19,7 +19,7 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def destroy
-    @assistant.destroy
+    @assistant.destroy!
     head :no_content
   end
 

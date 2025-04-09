@@ -234,6 +234,13 @@
     "SIDEBAR": {
       "CONTACT": "Contact",
       "COPILOT": "Copilot"
+    },
+    "INBOX": {
+      "WHATSAPP_BAILEYS_PROVIDER_CONNECTION": {
+        "NOT_CONNECTED": "WhatsApp is not connected. Please link your device again.",
+        "NOT_CONNECTED_CONTACT_ADMIN": "WhatsApp is not connected. Please contact your administrator to link your device again.",
+        "LINK_DEVICE": "Link device"
+      }
     }
   },
   "EMAIL_TRANSCRIPT": {
