@@ -50,7 +50,7 @@ const trendColor = (value, key) => {
         v-else-if="getStatus(metric.KEY) === STATUS.FAILED"
         class="text-n-ruby-10 text-sm"
       >
-        {{ t('REPORT.ERROR_FETCHING_DATA') }}
+        {{ t('REPORT.SUMMARY_FETCHING_FAILED') }}
       </div>
       <div
         v-else-if="getStatus(metric.KEY) === STATUS.FINISHED"
