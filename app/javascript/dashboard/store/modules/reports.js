@@ -7,8 +7,38 @@ import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
 import { clampDataBetweenTimeline } from 'shared/helpers/ReportsDataHelper';
 import liveReports from '../../api/liveReports';
 
+const ACCOUNT_SUMMARY_DEFAULT = {
+  avg_first_response_time: 0,
+  avg_resolution_time: 0,
+  conversations_count: 0,
+  incoming_messages_count: 0,
+  outgoing_messages_count: 0,
+  reply_time: 0,
+  resolutions_count: 0,
+  bot_resolutions_count: 0,
+  bot_handoffs_count: 0,
+  previous: {},
+};
+
+const STATUS = {
+  FAILED: 'failed',
+  FETCHING: 'fetching',
+  FINISHED: 'finished',
+};
+
 const state = {
   fetchingStatus: false,
+  summaryFetchingStatus: {
+    conversations_count: STATUS.FINISHED,
+    incoming_messages_count: STATUS.FINISHED,
+    outgoing_messages_count: STATUS.FINISHED,
+    avg_first_response_time: STATUS.FINISHED,
+    avg_resolution_time: STATUS.FINISHED,
+    resolutions_count: STATUS.FINISHED,
+    bot_resolutions_count: STATUS.FINISHED,
+    bot_handoffs_count: STATUS.FINISHED,
+    reply_time: STATUS.FINISHED,
+  },
   accountReport: {
     isFetching: {
       conversations_count: false,
@@ -33,18 +63,7 @@ const state = {
       reply_time: [],
     },
   },
-  accountSummary: {
-    avg_first_response_time: 0,
-    avg_resolution_time: 0,
-    conversations_count: 0,
-    incoming_messages_count: 0,
-    outgoing_messages_count: 0,
-    reply_time: 0,
-    resolutions_count: 0,
-    bot_resolutions_count: 0,
-    bot_handoffs_count: 0,
-    previous: {},
-  },
+  accountSummary: ACCOUNT_SUMMARY_DEFAULT,
   botSummary: {
     bot_resolutions_count: 0,
     bot_handoffs_count: 0,
@@ -70,6 +89,9 @@ const getters = {
   },
   getAccountSummary(_state) {
     return _state.accountSummary;
+  },
+  getSummaryFetchingStatus(_state) {
+    return _state.summaryFetchingStatus;
   },
   getBotSummary(_state) {
     return _state.botSummary;
@@ -122,6 +144,7 @@ export const actions = {
     });
   },
   fetchAccountSummary({ commit }, reportObj) {
+    commit(types.default.SET_ACCOUNT_SUMMARY_STATUS, STATUS.FETCHING);
     Report.getSummary(
       reportObj.from,
       reportObj.to,
@@ -132,12 +155,14 @@ export const actions = {
     )
       .then(accountSummary => {
         commit(types.default.SET_ACCOUNT_SUMMARY, accountSummary.data);
+        commit(types.default.SET_ACCOUNT_SUMMARY_STATUS, STATUS.FINISHED);
       })
       .catch(() => {
-        commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
+        commit(types.default.SET_ACCOUNT_SUMMARY_STATUS, STATUS.FAILED);
       });
   },
   fetchBotSummary({ commit }, reportObj) {
+    commit(types.default.SET_BOT_SUMMARY_STATUS, STATUS.FETCHING);
     Report.getBotSummary({
       from: reportObj.from,
       to: reportObj.to,
@@ -146,9 +171,10 @@ export const actions = {
     })
       .then(botSummary => {
         commit(types.default.SET_BOT_SUMMARY, botSummary.data);
+        commit(types.default.SET_BOT_SUMMARY_STATUS, STATUS.FINISHED);
       })
       .catch(() => {
-        commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
+        commit(types.default.SET_BOT_SUMMARY_STATUS, STATUS.FAILED);
       });
   },
   fetchAccountConversationMetric({ commit }, params = {}) {
@@ -276,6 +302,26 @@ const mutations = {
   },
   [types.default.TOGGLE_ACCOUNT_REPORT_LOADING](_state, { metric, value }) {
     _state.accountReport.isFetching[metric] = value;
+  },
+  [types.default.SET_BOT_SUMMARY_STATUS](_state, status) {
+    const metricsToUpdate = ['bot_resolutions_count', 'bot_handoffs_count'];
+    metricsToUpdate.forEach(metric => {
+      _state.summaryFetchingStatus[metric] = status;
+    });
+  },
+  [types.default.SET_ACCOUNT_SUMMARY_STATUS](_state, status) {
+    const metricsToUpdate = [
+      'conversations_count',
+      'incoming_messages_count',
+      'outgoing_messages_count',
+      'avg_first_response_time',
+      'avg_resolution_time',
+      'resolutions_count',
+      'reply_time',
+    ];
+    metricsToUpdate.forEach(metric => {
+      _state.summaryFetchingStatus[metric] = status;
+    });
   },
   [types.default.TOGGLE_HEATMAP_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingAccountConversationsHeatmap = flag;
