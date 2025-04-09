@@ -67,20 +67,19 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     # NOTE: jid shape is `<user>_<agent>:<device>@<server>`
     # https://github.com/WhiskeySockets/Baileys/blob/v6.7.16/src/WABinary/jid-utils.ts#L19
     phone_number_from_jid = @raw_message[:key][:remoteJid].split('@').first.split(':').first.split('_').first
-    phone_number_formatted = "+#{phone_number_from_jid}"
     # NOTE: We're assuming `pushName` will always be present when `fromMe: false`.
     # This assumption might be incorrect, so let's keep an eye out for contacts being created with empty name.
-    push_name = @raw_message[:key][:fromMe] ? phone_number_formatted : @raw_message[:pushName].to_s
+    push_name = @raw_message[:key][:fromMe] ? phone_number_from_jid : @raw_message[:pushName].to_s
     contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: phone_number_from_jid,
       inbox: inbox,
-      contact_attributes: { name: push_name, phone_number: phone_number_formatted }
+      contact_attributes: { name: push_name, phone_number: "+#{phone_number_from_jid}" }
     ).perform
 
     @contact_inbox = contact_inbox
     @contact = contact_inbox.contact
 
-    @contact.update!(name: push_name) if @contact.name == phone_number_formatted && !@raw_message[:key][:fromMe]
+    @contact.update!(name: push_name) if @contact.name == phone_number_from_jid && !@raw_message[:key][:fromMe]
   end
 
   def handle_create_message

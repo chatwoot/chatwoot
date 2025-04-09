@@ -246,11 +246,11 @@ describe Whatsapp::IncomingMessageBaileysService do
             expect(message).to be_present
             expect(message.content).to eq('Hello from Baileys')
             expect(message.message_type).to eq('outgoing')
-            expect(conversation.contact.name).to eq("+#{number}")
+            expect(conversation.contact.name).to eq(number)
           end
 
           it 'updates the contact name if the current name is a phone number when a incoming message is received' do
-            create(:contact, account: inbox.account, name: '+5511912345678', phone_number: '+5511912345678')
+            create(:contact, account: inbox.account, name: '5511912345678')
             described_class.new(inbox: inbox, params: params).perform
 
             conversation = inbox.conversations.last
