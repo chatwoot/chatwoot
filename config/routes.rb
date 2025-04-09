@@ -167,7 +167,11 @@ Rails.application.routes.draw do
               get :download
             end
           end
-          resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
+          resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy] do
+            collection do
+              patch :update_by_key
+            end
+          end
           resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
           resources :inboxes, only: [:index, :show, :create, :update, :destroy] do
             get :assignable_agents, on: :member

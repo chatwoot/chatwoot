@@ -22,6 +22,23 @@ class Api::V1::Accounts::CustomAttributeDefinitionsController < Api::V1::Account
     head :no_content
   end
 
+  def update_by_key
+    custom_attribute_definition_data = Current.account.custom_attribute_definitions
+    Rails.logger.info("custom_attribute_definition_data, #{custom_attribute_definition_data.inspect}")
+
+    custom_attribute_definition = custom_attribute_definition_data.find_by(attribute_key: params[:attribute_key])
+
+    if custom_attribute_definition
+      if custom_attribute_definition.update(attribute_values_params)
+        render json: custom_attribute_definition, status: :ok
+      else
+        render json: { errors: custom_attribute_definition.errors.full_messages }, status: :unprocessable_entity
+      end
+    else
+      render json: { error: 'Custom attribute definition not found' }, status: :not_found
+    end
+  end
+
   private
 
   def fetch_custom_attributes_definitions
@@ -47,5 +64,9 @@ class Api::V1::Accounts::CustomAttributeDefinitionsController < Api::V1::Account
 
   def permitted_params
     params.permit(:id, :filter_type, :attribute_model)
+  end
+
+  def attribute_values_params
+    params.require(:custom_attribute_definition).permit(attribute_values: [])
   end
 end
