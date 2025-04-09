@@ -85,24 +85,21 @@ export const applyRoleFilter = (
     return true;
   }
 
+  // Check for full conversation management permission
   if (permissions.includes('conversation_manage')) {
-    // this means they can manage all conversations
     return true;
   }
 
-  const isUnassigned =
-    !conversation.meta.assignee ||
-    conversation.meta.assignee === null ||
-    conversation.meta.assignee === undefined;
+  const conversationAssignee = conversation.meta.assignee;
+  const isUnassigned = !conversationAssignee;
+  const isAssignedToUser = conversationAssignee?.id === currentUserId;
 
-  const isAssignedToUser =
-    !!conversation.meta.assignee &&
-    conversation.meta.assignee.id === currentUserId;
-
+  // Check unassigned management permission
   if (permissions.includes('conversation_unassigned_manage')) {
     return isUnassigned || isAssignedToUser;
   }
 
+  // Check participating conversation management permission
   if (permissions.includes('conversation_participating_manage')) {
     return isAssignedToUser;
   }
