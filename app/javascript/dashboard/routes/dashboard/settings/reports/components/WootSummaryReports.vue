@@ -510,45 +510,15 @@ export default {
             align: this.isRTLView ? 'right' : 'left',
             width: 20,
           },
-          ...(!this.isBscAccount
-            ? [
-                {
-                  field: 'scheduledCallConversations',
-                  key: 'scheduledCallConversations',
-                  title: 'Scheduled',
-                  align: this.isRTLView ? 'right' : 'left',
-                  width: 20,
-                },
-                {
-                  field: 'notPickedUpCallConversations',
-                  key: 'notPickedUpCallConversations',
-                  title: 'Not Picked',
-                  align: this.isRTLView ? 'right' : 'left',
-                  width: 20,
-                },
-                {
-                  field: 'followUpCallConversations',
-                  key: 'followUpCallConversations',
-                  title: 'Follow-Up',
-                  align: this.isRTLView ? 'right' : 'left',
-                  width: 20,
-                },
-                {
-                  field: 'convertedCallConversations',
-                  key: 'convertedCallConversations',
-                  title: 'Converted',
-                  align: this.isRTLView ? 'right' : 'left',
-                  width: 20,
-                },
-                {
-                  field: 'droppedCallConversations',
-                  key: 'droppedCallConversations',
-                  title: 'Dropped',
-                  align: this.isRTLView ? 'right' : 'left',
-                  width: 20,
-                },
-              ]
-            : [
+        ];
+
+        switch (this.accountId) {
+          case 1058:
+          case 1126:
+          case 1125:
+          case 1:
+            baseColumns.push(
+              ...[
                 {
                   field: 'scheduledCallConversations',
                   key: 'scheduledCallConversations',
@@ -612,43 +582,154 @@ export default {
                   align: this.isRTLView ? 'right' : 'left',
                   width: 20,
                 },
-              ]),
-          {
-            field: 'agentRevenueGenerated',
-            key: 'agentRevenueGenerated',
-            title: 'Revenue',
-            align: this.isRTLView ? 'right' : 'left',
-            width: 20,
-          },
-          {
-            field: 'avgTimeToCallAfterNudge',
-            key: 'avgTimeToCallAfterNudge',
-            title: 'Avg. Time to Call after nudge',
-            align: this.isRTLView ? 'right' : 'left',
-            width: 20,
-          },
-          {
-            field: 'avgTimeToConvert',
-            key: 'avgTimeToConvert',
-            title: 'Avg. Time to Convert',
-            align: this.isRTLView ? 'right' : 'left',
-            width: 20,
-          },
-          {
-            field: 'avgTimeToDrop',
-            key: 'avgTimeToDrop',
-            title: 'Avg. Time to Drop',
-            align: this.isRTLView ? 'right' : 'left',
-            width: 20,
-          },
-          {
-            field: 'avgFollowUpCalls',
-            key: 'avgFollowUpCalls',
-            title: 'Avg. Follow-Up Calls',
-            align: this.isRTLView ? 'right' : 'left',
-            width: 20,
-          },
-        ];
+              ]
+            );
+            break;
+          case 1179:
+            baseColumns.push(
+              ...[
+                {
+                  field: 'scheduledCallConversations',
+                  key: 'scheduledCallConversations',
+                  title: 'Scheduled',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
+                  field: 'switchedOffConversations',
+                  key: 'switchedOffConversations',
+                  title: 'Switched Off',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
+                  field: 'busyToneConversations',
+                  key: 'busyToneConversations',
+                  title: 'Busy Tone',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
+                  field: 'pendingConversations',
+                  key: 'pendingConversations',
+                  title: 'Pending',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
+                  field: 'queryResolvedConversations',
+                  key: 'queryResolvedConversations',
+                  title: 'Query Resolved',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
+                  field: 'successfullyDoneConversations',
+                  key: 'successfullyDoneConversations',
+                  title: 'Successfully Done',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
+                  field: 'callBackConversations',
+                  key: 'callBackConversations',
+                  title: 'Call Back',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
+                  field: 'snoozeConversations',
+                  key: 'snoozeConversations',
+                  title: 'Snooze',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+              ]
+            );
+            break;
+
+          default:
+            baseColumns.push(
+              ...[
+                {
+                  field: 'scheduledCallConversations',
+                  key: 'scheduledCallConversations',
+                  title: 'Scheduled',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
+                  field: 'notPickedUpCallConversations',
+                  key: 'notPickedUpCallConversations',
+                  title: 'Not Picked',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
+                  field: 'followUpCallConversations',
+                  key: 'followUpCallConversations',
+                  title: 'Follow-Up',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
+                  field: 'convertedCallConversations',
+                  key: 'convertedCallConversations',
+                  title: 'Converted',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+                {
+                  field: 'droppedCallConversations',
+                  key: 'droppedCallConversations',
+                  title: 'Dropped',
+                  align: this.isRTLView ? 'right' : 'left',
+                  width: 20,
+                },
+              ]
+            );
+            break;
+        }
+
+        baseColumns.push(
+          ...[
+            {
+              field: 'agentRevenueGenerated',
+              key: 'agentRevenueGenerated',
+              title: 'Revenue',
+              align: this.isRTLView ? 'right' : 'left',
+              width: 20,
+            },
+            {
+              field: 'avgTimeToCallAfterNudge',
+              key: 'avgTimeToCallAfterNudge',
+              title: 'Avg. Time to Call after nudge',
+              align: this.isRTLView ? 'right' : 'left',
+              width: 20,
+            },
+            {
+              field: 'avgTimeToConvert',
+              key: 'avgTimeToConvert',
+              title: 'Avg. Time to Convert',
+              align: this.isRTLView ? 'right' : 'left',
+              width: 20,
+            },
+            {
+              field: 'avgTimeToDrop',
+              key: 'avgTimeToDrop',
+              title: 'Avg. Time to Drop',
+              align: this.isRTLView ? 'right' : 'left',
+              width: 20,
+            },
+            {
+              field: 'avgFollowUpCalls',
+              key: 'avgFollowUpCalls',
+              title: 'Avg. Follow-Up Calls',
+              align: this.isRTLView ? 'right' : 'left',
+              width: 20,
+            },
+          ]
+        );
 
         return baseColumns;
       }
@@ -883,67 +964,107 @@ export default {
       if (this.agentTableType === 'callOverview') {
         return combinedTeams.map(team => {
           const typeMetrics = this.getMetrics(team.id);
-          if (this.isBscAccount) {
-            return {
-              name: team.name,
-              // agentTotalCalls: typeMetrics.agent_total_calls || '__',
-              scheduledCallConversations:
-                typeMetrics.scheduled_call_conversations || '--',
-              totalCallingNudgedConversations:
-                typeMetrics.total_calling_nudged_conversations || '--',
-              ringingNoResponseConversations:
-                typeMetrics.ringing_no_response_conversations || '--',
-              hungUpAfterIntroConversations:
-                typeMetrics.hung_up_after_intro_conversations || '--',
-              conversationHappenedConversations:
-                typeMetrics.conversation_happened_conversations || '--',
-              askedToWhatsappConversations:
-                typeMetrics.asked_to_whatsapp_conversations || '--',
-              alreadyPurchasedConversations:
-                typeMetrics.already_purchased_conversations || '--',
-              dontWantConversations:
-                typeMetrics.dont_want_conversations || '--',
-              askedToCallLaterConversations:
-                typeMetrics.asked_to_call_later || '--',
-              otherConversations: typeMetrics.other_conversations || '--',
-              agentRevenueGenerated:
-                this.renderCurrency(typeMetrics.agent_revenue_generated) ||
-                '--',
-              avgTimeToCallAfterNudge:
-                this.renderContent(typeMetrics.avg_time_to_call_after_nudge) ||
-                '--',
-              avgTimeToConvert:
-                this.renderContent(typeMetrics.avg_time_to_convert) || '--',
-              avgTimeToDrop:
-                this.renderContent(typeMetrics.avg_time_to_drop) || '--',
-              avgFollowUpCalls: typeMetrics.avg_follow_up_calls || '--',
-            };
+          switch (this.accountId) {
+            case 1058:
+            case 1126:
+            case 1125:
+            case 1:
+              return {
+                name: team.name,
+                // agentTotalCalls: typeMetrics.agent_total_calls || '__',
+                scheduledCallConversations:
+                  typeMetrics.scheduled_call_conversations || '--',
+                totalCallingNudgedConversations:
+                  typeMetrics.total_calling_nudged_conversations || '--',
+                ringingNoResponseConversations:
+                  typeMetrics.ringing_no_response_conversations || '--',
+                hungUpAfterIntroConversations:
+                  typeMetrics.hung_up_after_intro_conversations || '--',
+                conversationHappenedConversations:
+                  typeMetrics.conversation_happened_conversations || '--',
+                askedToWhatsappConversations:
+                  typeMetrics.asked_to_whatsapp_conversations || '--',
+                alreadyPurchasedConversations:
+                  typeMetrics.already_purchased_conversations || '--',
+                dontWantConversations:
+                  typeMetrics.dont_want_conversations || '--',
+                askedToCallLaterConversations:
+                  typeMetrics.asked_to_call_later || '--',
+                otherConversations: typeMetrics.other_conversations || '--',
+                agentRevenueGenerated:
+                  this.renderCurrency(typeMetrics.agent_revenue_generated) ||
+                  '--',
+                avgTimeToCallAfterNudge:
+                  this.renderContent(
+                    typeMetrics.avg_time_to_call_after_nudge
+                  ) || '--',
+                avgTimeToConvert:
+                  this.renderContent(typeMetrics.avg_time_to_convert) || '--',
+                avgTimeToDrop:
+                  this.renderContent(typeMetrics.avg_time_to_drop) || '--',
+                avgFollowUpCalls: typeMetrics.avg_follow_up_calls || '--',
+              };
+            case 1179:
+              return {
+                name: team.name,
+                totalCallingNudgedConversations:
+                  typeMetrics.total_calling_nudged_conversations || '--',
+                scheduledCallConversations:
+                  typeMetrics.scheduled_call_conversations || '--',
+                switchedOffConversations:
+                  typeMetrics.switched_off_conversations || '--',
+                busyToneConversations:
+                  typeMetrics.busy_tone_conversations || '--',
+                pendingConversations: typeMetrics.pending_conversations || '--',
+                queryResolvedConversations:
+                  typeMetrics.query_resolved_conversations || '--',
+                successfullyDoneConversations:
+                  typeMetrics.successfully_done_conversations || '--',
+                callBackConversations:
+                  typeMetrics.call_back_conversations || '--',
+                snoozeConversations: typeMetrics.snooze_conversations || '--',
+                agentRevenueGenerated:
+                  this.renderCurrency(typeMetrics.agent_revenue_generated) ||
+                  '--',
+                avgTimeToCallAfterNudge:
+                  this.renderContent(
+                    typeMetrics.avg_time_to_call_after_nudge
+                  ) || '--',
+                avgTimeToConvert:
+                  this.renderContent(typeMetrics.avg_time_to_convert) || '--',
+                avgTimeToDrop:
+                  this.renderContent(typeMetrics.avg_time_to_drop) || '--',
+                avgFollowUpCalls: typeMetrics.avg_follow_up_calls || '--',
+              };
+            default:
+              return {
+                name: team.name,
+                totalCallingNudgedConversations:
+                  typeMetrics.total_calling_nudged_conversations || '--',
+                scheduledCallConversations:
+                  typeMetrics.scheduled_call_conversations || '--',
+                notPickedUpCallConversations:
+                  typeMetrics.not_picked_up_call_conversations || '--',
+                followUpCallConversations:
+                  typeMetrics.follow_up_call_conversations || '--',
+                convertedCallConversations:
+                  typeMetrics.converted_call_conversations || '--',
+                droppedCallConversations:
+                  typeMetrics.dropped_call_conversations || '--',
+                agentRevenueGenerated:
+                  this.renderCurrency(typeMetrics.agent_revenue_generated) ||
+                  '--',
+                avgTimeToCallAfterNudge:
+                  this.renderContent(
+                    typeMetrics.avg_time_to_call_after_nudge
+                  ) || '--',
+                avgTimeToConvert:
+                  this.renderContent(typeMetrics.avg_time_to_convert) || '--',
+                avgTimeToDrop:
+                  this.renderContent(typeMetrics.avg_time_to_drop) || '--',
+                avgFollowUpCalls: typeMetrics.avg_follow_up_calls || '--',
+              };
           }
-          return {
-            name: team.name,
-            totalCallingNudgedConversations:
-              typeMetrics.total_calling_nudged_conversations || '--',
-            scheduledCallConversations:
-              typeMetrics.scheduled_call_conversations || '--',
-            notPickedUpCallConversations:
-              typeMetrics.not_picked_up_call_conversations || '--',
-            followUpCallConversations:
-              typeMetrics.follow_up_call_conversations || '--',
-            convertedCallConversations:
-              typeMetrics.converted_call_conversations || '--',
-            droppedCallConversations:
-              typeMetrics.dropped_call_conversations || '--',
-            agentRevenueGenerated:
-              this.renderCurrency(typeMetrics.agent_revenue_generated) || '--',
-            avgTimeToCallAfterNudge:
-              this.renderContent(typeMetrics.avg_time_to_call_after_nudge) ||
-              '--',
-            avgTimeToConvert:
-              this.renderContent(typeMetrics.avg_time_to_convert) || '--',
-            avgTimeToDrop:
-              this.renderContent(typeMetrics.avg_time_to_drop) || '--',
-            avgFollowUpCalls: typeMetrics.avg_follow_up_calls || '--',
-          };
         });
       }
 

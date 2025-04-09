@@ -251,6 +251,13 @@ class V2::CustomReportBuilder
        already_purchased_conversations
        dont_want_conversations
        asked_to_call_later
+       switched_off_conversations
+       busy_tone_conversations
+       pending_conversations
+       query_resolved_conversations
+       successfully_done_conversations
+       call_back_conversations
+       snooze_conversations
        other_conversations
        dropped_call_conversations
        avg_time_to_call_after_nudge

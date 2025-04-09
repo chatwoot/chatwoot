@@ -585,6 +585,132 @@ module CustomReportHelper
     group_and_count(base_query, @config[:group_by])
   end
 
+  def switched_off_conversations
+    base_query = @account.conversations
+                         .where("additional_attributes->>'source_context' IS NOT NULL")
+                         .where("custom_attributes->>'calling_status' = 'Switched Off'")
+                         .where("(additional_attributes->>'nudge_created')::timestamp BETWEEN ? AND ?
+                         OR (additional_attributes->>'nudge_created' IS NULL AND created_at BETWEEN ? AND ?)",
+                                @time_range.begin, @time_range.end,
+                                @time_range.begin, @time_range.end)
+
+    base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "switched_off_conversations: #{base_query.to_sql}"
+
+    group_and_count(base_query, @config[:group_by])
+  end
+
+  def busy_tone_conversations
+    base_query = @account.conversations
+                         .where("additional_attributes->>'source_context' IS NOT NULL")
+                         .where("custom_attributes->>'calling_status' = 'Busy Tone'")
+                         .where("(additional_attributes->>'nudge_created')::timestamp BETWEEN ? AND ?
+                         OR (additional_attributes->>'nudge_created' IS NULL AND created_at BETWEEN ? AND ?)",
+                                @time_range.begin, @time_range.end,
+                                @time_range.begin, @time_range.end)
+
+    base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "busy_tone_conversations: #{base_query.to_sql}"
+
+    group_and_count(base_query, @config[:group_by])
+  end
+
+  def pending_conversations
+    base_query = @account.conversations
+                         .where("additional_attributes->>'source_context' IS NOT NULL")
+                         .where("custom_attributes->>'calling_status' = 'Pending'")
+                         .where("(additional_attributes->>'nudge_created')::timestamp BETWEEN ? AND ?
+                         OR (additional_attributes->>'nudge_created' IS NULL AND created_at BETWEEN ? AND ?)",
+                                @time_range.begin, @time_range.end,
+                                @time_range.begin, @time_range.end)
+
+    base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "pending_conversations: #{base_query.to_sql}"
+
+    group_and_count(base_query, @config[:group_by])
+  end
+
+  def query_resolved_conversations
+    base_query = @account.conversations
+                         .where("additional_attributes->>'source_context' IS NOT NULL")
+                         .where("custom_attributes->>'calling_status' = 'Query Resolved'")
+                         .where("(additional_attributes->>'nudge_created')::timestamp BETWEEN ? AND ?
+                         OR (additional_attributes->>'nudge_created' IS NULL AND created_at BETWEEN ? AND ?)",
+                                @time_range.begin, @time_range.end,
+                                @time_range.begin, @time_range.end)
+
+    base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "query_resolved_conversations: #{base_query.to_sql}"
+
+    group_and_count(base_query, @config[:group_by])
+  end
+
+  def successfully_done_conversations
+    base_query = @account.conversations
+                         .where("additional_attributes->>'source_context' IS NOT NULL")
+                         .where("custom_attributes->>'calling_status' = 'Successfully Done'")
+                         .where("(additional_attributes->>'nudge_created')::timestamp BETWEEN ? AND ?
+                         OR (additional_attributes->>'nudge_created' IS NULL AND created_at BETWEEN ? AND ?)",
+                                @time_range.begin, @time_range.end,
+                                @time_range.begin, @time_range.end)
+
+    base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "successfully_done_conversations: #{base_query.to_sql}"
+
+    group_and_count(base_query, @config[:group_by])
+  end
+
+  def call_back_conversations
+    base_query = @account.conversations
+                         .where("additional_attributes->>'source_context' IS NOT NULL")
+                         .where("custom_attributes->>'calling_status' = 'Call Back'")
+                         .where("(additional_attributes->>'nudge_created')::timestamp BETWEEN ? AND ?
+                         OR (additional_attributes->>'nudge_created' IS NULL AND created_at BETWEEN ? AND ?)",
+                                @time_range.begin, @time_range.end,
+                                @time_range.begin, @time_range.end)
+
+    base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "call_back_conversations: #{base_query.to_sql}"
+
+    group_and_count(base_query, @config[:group_by])
+  end
+
+  def snooze_conversations
+    base_query = @account.conversations
+                         .where("additional_attributes->>'source_context' IS NOT NULL")
+                         .where("custom_attributes->>'calling_status' = 'Snooze'")
+                         .where("(additional_attributes->>'nudge_created')::timestamp BETWEEN ? AND ?
+                         OR (additional_attributes->>'nudge_created' IS NULL AND created_at BETWEEN ? AND ?)",
+                                @time_range.begin, @time_range.end,
+                                @time_range.begin, @time_range.end)
+
+    base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "snooze_conversations: #{base_query.to_sql}"
+
+    group_and_count(base_query, @config[:group_by])
+  end
+
   def avg_time_to_call_after_nudge
     base_query = @account.reporting_events.where(name: 'conversation_first_call', created_at: @time_range).joins(:conversation).where("conversations.additional_attributes->>'source_context' IS NOT NULL")
 

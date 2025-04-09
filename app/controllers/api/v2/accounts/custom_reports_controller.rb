@@ -1,4 +1,4 @@
-class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseController
+class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseController # rubocop:disable Metrics/ClassLength
   include BspdAnalyticsHelper
 
   def index
@@ -149,12 +149,25 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
   end
 
   # rubocop:disable Layout/LineLength
-  def agent_call_overview_params
-    account_ids = [1058, 1126, 1125]
-    if account_ids.include?(Current.account.id)
+  def agent_call_overview_params # rubocop:disable Metrics/MethodLength
+    account_id = Current.account.id
+    case account_id
+    when 1058, 1126, 1125
       {
         metrics: %w[total_calling_nudged_conversations scheduled_call_conversations ringing_no_response_conversations hung_up_after_intro_conversations conversation_happened_conversations
                     asked_to_whatsapp_conversations already_purchased_conversations dont_want_conversations asked_to_call_later other_conversations agent_revenue_generated avg_time_to_call_after_nudge avg_time_to_convert avg_time_to_drop avg_follow_up_calls],
+        group_by: 'agent',
+        filters: base_filters
+      }
+    when 1179
+      {
+        metrics: %w[total_calling_nudged_conversations scheduled_call_conversations switched_off_conversations
+                    busy_tone_conversations
+                    pending_conversations
+                    query_resolved_conversations
+                    successfully_done_conversations
+                    call_back_conversations
+                    snooze_conversations agent_revenue_generated avg_time_to_call_after_nudge avg_time_to_convert avg_time_to_drop avg_follow_up_calls],
         group_by: 'agent',
         filters: base_filters
       }
