@@ -181,7 +181,14 @@ export default {
       };
     },
     showAttachButton() {
-      return (this.showFileUpload || this.isNote) && !this.isTemplate;
+      const hasContentToShow = this.showFileUpload || this.isNote;
+
+      if (!hasContentToShow) return false;
+      if (this.isTemplate) {
+        return !!this.selectedTemplate;
+      }
+
+      return true;
     },
     showAudioRecorderButton() {
       if (this.isALineChannel || this.isTemplate) {
