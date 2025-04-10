@@ -4,11 +4,7 @@ class Conversations::CanReplyService
   end
 
   def can_reply?
-    channel = @conversation.inbox&.channel
-
-    return can_reply_on_instagram_via_messenger? if instagram_via_messenger?
-    return can_reply_on_instagram? if @conversation.inbox.instagram_direct?
-    return true unless channel&.messaging_window_enabled?
+    return true if messaging_window.blank?
 
     last_message_in_messaging_window?(messaging_window)
   end
@@ -16,40 +12,43 @@ class Conversations::CanReplyService
   private
 
   def messaging_window
-    @conversation.inbox.api? ? @conversation.inbox.channel.additional_attributes['agent_reply_time_window'].to_i : 24
+    case @conversation.inbox.channel_type
+    when 'Channel::Api'
+      if @conversation.inbox.channel.additional_attributes['agent_reply_time_window'].present?
+        @conversation.inbox.channel.additional_attributes['agent_reply_time_window'].to_i.hours
+      end
+    when 'Channel::FacebookPage'
+      messenger_messaging_window
+    when 'Channel::Instagram'
+      instagram_messaging_window
+    when 'Channel::Whatsapp'
+      24.hours
+    end
   end
 
   def last_message_in_messaging_window?(time)
     return false if last_incoming_message.nil?
 
-    Time.current < last_incoming_message.created_at + time.hours
+    Time.current < last_incoming_message.created_at + time
   end
 
-  def instagram_via_messenger?
-    @conversation.additional_attributes['type'] == 'instagram_direct_message'
-  end
-
-  def can_reply_on_instagram_via_messenger?
+  def messenger_messaging_window
     global_config = GlobalConfig.get('ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT')
 
-    return false if last_incoming_message.nil?
-
     if global_config['ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT']
-      Time.current < last_incoming_message.created_at + 7.days
+      7.days
     else
-      last_message_in_messaging_window?(24)
+      24.hours
     end
   end
 
-  def can_reply_on_instagram?
+  def instagram_messaging_window
     global_config = GlobalConfig.get('ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT')
 
-    return false if last_incoming_message.nil?
-
     if global_config['ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT']
-      Time.current < last_incoming_message.created_at + 7.days
+      7.days
     else
-      last_message_in_messaging_window?(24)
+      24.hours
     end
   end
 

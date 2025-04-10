@@ -130,12 +130,6 @@ class Conversation < ApplicationRecord
     messages&.incoming&.last
   end
 
-  def last_message_in_messaging_window?(time)
-    return false if last_incoming_message.nil?
-
-    Time.current < last_incoming_message.created_at + time.hours
-  end
-
   def toggle_status
     # FIXME: implement state machine with aasm
     self.status = open? ? :resolved : :open

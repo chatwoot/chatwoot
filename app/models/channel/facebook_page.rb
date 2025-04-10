@@ -32,10 +32,6 @@ class Channel::FacebookPage < ApplicationRecord
     'Facebook'
   end
 
-  def messaging_window_enabled?
-    false
-  end
-
   def create_contact_inbox(instagram_id, name)
     @contact_inbox = ::ContactInboxWithContactBuilder.new({
                                                             source_id: instagram_id,
