@@ -136,34 +136,6 @@ class Conversation < ApplicationRecord
     Time.current < last_incoming_message.created_at + time.hours
   end
 
-  def instagram_via_messenger?
-    additional_attributes['type'] == 'instagram_direct_message'
-  end
-
-  def can_reply_on_instagram_via_messenger?
-    global_config = GlobalConfig.get('ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT')
-
-    return false if last_incoming_message.nil?
-
-    if global_config['ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT']
-      Time.current < last_incoming_message.created_at + 7.days
-    else
-      last_message_in_messaging_window?(24)
-    end
-  end
-
-  def can_reply_on_instagram?
-    global_config = GlobalConfig.get('ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT')
-
-    return false if last_incoming_message.nil?
-
-    if global_config['ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT']
-      Time.current < last_incoming_message.created_at + 7.days
-    else
-      last_message_in_messaging_window?(24)
-    end
-  end
-
   def toggle_status
     # FIXME: implement state machine with aasm
     self.status = open? ? :resolved : :open
