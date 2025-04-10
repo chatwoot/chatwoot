@@ -1,4 +1,4 @@
-class Conversations::ReplyService
+class Conversations::CanReplyService
   def initialize(conversation)
     @conversation = conversation
   end
