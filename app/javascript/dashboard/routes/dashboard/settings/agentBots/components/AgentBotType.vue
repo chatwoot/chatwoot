@@ -12,10 +12,6 @@ defineProps({
 const { t } = useI18n();
 
 const botTypeConfig = computed(() => ({
-  csml: {
-    label: t('AGENT_BOTS.TYPES.CSML'),
-    thumbnail: '/dashboard/images/agent-bots/csml.png',
-  },
   webhook: {
     label: t('AGENT_BOTS.TYPES.WEBHOOK'),
     thumbnail: '/dashboard/images/agent-bots/webhook.svg',

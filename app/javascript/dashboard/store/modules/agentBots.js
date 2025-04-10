@@ -12,6 +12,7 @@ export const state = {
     isCreating: false,
     isDeleting: false,
     isUpdating: false,
+    isUpdatingAvatar: false,
     isFetchingAgentBot: false,
     isSettingAgentBot: false,
     isDisconnecting: false,
@@ -61,10 +62,10 @@ export const actions = {
     }
     return null;
   },
-  update: async ({ commit }, { id, ...agentBotObj }) => {
+  update: async ({ commit }, { id, data }) => {
     commit(types.SET_AGENT_BOT_UI_FLAG, { isUpdating: true });
     try {
-      const response = await AgentBotsAPI.update(id, agentBotObj);
+      const response = await AgentBotsAPI.update(id, data);
       commit(types.EDIT_AGENT_BOT, response.data);
     } catch (error) {
       throwErrorMessage(error);
@@ -81,6 +82,19 @@ export const actions = {
       throwErrorMessage(error);
     } finally {
       commit(types.SET_AGENT_BOT_UI_FLAG, { isDeleting: false });
+    }
+  },
+
+  deleteAgentBotAvatar: async ({ commit }, id) => {
+    commit(types.SET_AGENT_BOT_UI_FLAG, { isUpdatingAvatar: true });
+    try {
+      await AgentBotsAPI.deleteAgentBotAvatar(id);
+      // Update the thumbnail to empty string after deletion
+      commit(types.UPDATE_AGENT_BOT_AVATAR, { id, thumbnail: '' });
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.SET_AGENT_BOT_UI_FLAG, { isUpdatingAvatar: false });
     }
   },
   show: async ({ commit }, id) => {
@@ -149,6 +163,12 @@ export const mutations = {
       ...$state.agentBotInbox,
       [inboxId]: agentBotId,
     };
+  },
+  [types.UPDATE_AGENT_BOT_AVATAR]($state, { id, thumbnail }) {
+    const botIndex = $state.records.findIndex(bot => bot.id === id);
+    if (botIndex !== -1) {
+      $state.records[botIndex].thumbnail = thumbnail || '';
+    }
   },
 };
 
