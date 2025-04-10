@@ -103,19 +103,19 @@
     "SETTINGS": "Configurações",
     "FORM": {
       "UPDATE": "Atualizar time",
-      "CREATE": "Criar nova equipe",
+      "CREATE": "Criar novo time",
       "NAME": {
-        "LABEL": "Nome da Equipe",
+        "LABEL": "Nome do Time",
         "PLACEHOLDER": "Exemplo: Vendas, Suporte ao Cliente"
       },
       "DESCRIPTION": {
-        "LABEL": "Descrição da equipe",
-        "PLACEHOLDER": "Breve descrição sobre esta equipe."
+        "LABEL": "Descrição do time",
+        "PLACEHOLDER": "Breve descrição sobre este time."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Permitir atribuição automática para este departamento."
+        "LABEL": "Permitir atribuição automática para este time."
       },
-      "SUBMIT_CREATE": "Criar nova equipe"
+      "SUBMIT_CREATE": "Criar novo time"
     }
   }
 }
