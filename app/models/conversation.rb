@@ -115,7 +115,7 @@ class Conversation < ApplicationRecord
   delegate :auto_resolve_duration, to: :account
 
   def can_reply?
-    Conversations::CanReplyService.new(self).can_reply?
+    Conversations::MessageWindowService.new(self).can_reply?
   end
 
   def language

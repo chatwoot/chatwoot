@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Conversations::CanReplyService do
+RSpec.describe Conversations::MessageWindowService do
   describe 'on API channels' do
     let!(:api_channel) { create(:channel_api, additional_attributes: {}) }
     let!(:api_channel_with_limit) { create(:channel_api, additional_attributes: { agent_reply_time_window: '12' }) }
