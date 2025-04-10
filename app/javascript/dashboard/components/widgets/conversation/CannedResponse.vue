@@ -82,23 +82,14 @@ export default {
       });
     },
     handleMentionClick(item = {}) {
-      console.log('Selected item:', item);
-
-      //================================================
       const variables = getMessageVariables({
         conversation: this.currentChat,
         contact: this.currentContact,
       });
-      console.log('📥 Variables:', variables);
-
-      //================================================
       const undefinedVariables = getUndefinedVariablesInMessage({
         message: item.description,
         variables,
       });
-      console.log('❌ Undefined Variables:', undefinedVariables);
-      console.log('Undefined Variables Count:', undefinedVariables.length);
-
       if (undefinedVariables.length > 0) {
         this.selectedCannedResponse = item;
         this.undefinedVariables = undefinedVariables;
@@ -108,42 +99,27 @@ export default {
         this.showVariablePopup = true;
         return;
       }
-
-      //================================================
-      /* const updatedMessage = replaceVariablesInMessage({ */
-      /*   message: item.description, */
-      /*   variables: variables, */
-      /* }); */
-      /* console.log('📤 Updated Message:', updatedMessage); */
-      //================================================
-
       this.selectedCannedResponse = item;
       this.$emit('replace', item.description);
       this.$emit('cannedSelected', item.id);
     },
-
     submitVariables() {
       const systemVariables = getMessageVariables({
         conversation: this.currentChat,
         contact: this.currentContact,
       });
-
       const allVariables = {
         ...systemVariables,
         ...this.userDefinedVariables,
       };
-      console.log('📥 All Variables:', allVariables);
-
       const updatedMessage = replaceVariablesInMessage({
         message: this.selectedCannedResponse.description,
         variables: allVariables,
       });
-
       this.$emit('replace', updatedMessage);
       this.$emit('cannedSelected', this.selectedCannedResponse.id);
       this.showVariablePopup = false;
     },
-
     closeModal() {
       this.showVariablePopup = false;
     },
