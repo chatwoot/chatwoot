@@ -30,16 +30,30 @@ describe('#actions', () => {
   describe('#create', () => {
     it('sends correct actions if API is success', async () => {
       axios.post.mockResolvedValue({ data: agentBotRecords[0] });
-      await actions.create({ commit }, agentBotRecords[0]);
+      const botData = {
+        name: 'Test Bot',
+        description: 'Test Description',
+        outgoing_url: 'https://test.com',
+        bot_type: 'webhook',
+        avatar: new File([''], 'filename'),
+      };
+
+      await actions.create({ commit }, botData);
+
       expect(commit.mock.calls).toEqual([
         [types.SET_AGENT_BOT_UI_FLAG, { isCreating: true }],
         [types.ADD_AGENT_BOT, agentBotRecords[0]],
         [types.SET_AGENT_BOT_UI_FLAG, { isCreating: false }],
       ]);
+
+      expect(axios.post.mock.calls.length).toBe(1);
+      const formDataArg = axios.post.mock.calls[0][1];
+      expect(formDataArg instanceof FormData).toBe(true);
     });
+
     it('sends correct actions if API is error', async () => {
       axios.post.mockRejectedValue({ message: 'Incorrect header' });
-      await expect(actions.create({ commit })).rejects.toThrow(Error);
+      await expect(actions.create({ commit }, {})).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
         [types.SET_AGENT_BOT_UI_FLAG, { isCreating: true }],
         [types.SET_AGENT_BOT_UI_FLAG, { isCreating: false }],
@@ -50,17 +64,37 @@ describe('#actions', () => {
   describe('#update', () => {
     it('sends correct actions if API is success', async () => {
       axios.patch.mockResolvedValue({ data: agentBotRecords[0] });
-      await actions.update({ commit }, agentBotRecords[0]);
+      const botData = {
+        name: 'Test Bot Updated',
+        description: 'Test Description Updated',
+        outgoing_url: 'https://test-updated.com',
+        bot_type: 'webhook',
+        avatar: new File([''], 'updated-filename'),
+      };
+
+      await actions.update(
+        { commit },
+        {
+          id: agentBotRecords[0].id,
+          data: botData,
+        }
+      );
+
       expect(commit.mock.calls).toEqual([
         [types.SET_AGENT_BOT_UI_FLAG, { isUpdating: true }],
         [types.EDIT_AGENT_BOT, agentBotRecords[0]],
         [types.SET_AGENT_BOT_UI_FLAG, { isUpdating: false }],
       ]);
+
+      expect(axios.patch.mock.calls.length).toBe(1);
+      const formDataArg = axios.patch.mock.calls[0][1];
+      expect(formDataArg instanceof FormData).toBe(true);
     });
+
     it('sends correct actions if API is error', async () => {
       axios.patch.mockRejectedValue({ message: 'Incorrect header' });
       await expect(
-        actions.update({ commit }, agentBotRecords[0])
+        actions.update({ commit }, { id: 1, data: {} })
       ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
         [types.SET_AGENT_BOT_UI_FLAG, { isUpdating: true }],
@@ -68,7 +102,6 @@ describe('#actions', () => {
       ]);
     });
   });
-
   describe('#delete', () => {
     it('sends correct actions if API is success', async () => {
       axios.delete.mockResolvedValue({ data: agentBotRecords[0] });

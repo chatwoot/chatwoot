@@ -60,6 +60,9 @@
       }
     },
     "FORM": {
+      "AVATAR": {
+        "LABEL": "Bot avatar"
+      },
       "NAME": {
         "LABEL": "Bot name",
         "PLACEHOLDER": "Enter bot name",

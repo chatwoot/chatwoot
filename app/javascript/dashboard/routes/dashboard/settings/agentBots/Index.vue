@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
@@ -7,10 +7,13 @@ import { useI18n } from 'vue-i18n';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-import Input from 'dashboard/components-next/input/Input.vue';
-import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import AgentBotModal from './components/AgentBotModal.vue';
+
+const MODAL_TYPES = {
+  CREATE: 'create',
+  EDIT: 'edit',
+};
 
 const store = useStore();
 const { t } = useI18n();
@@ -18,19 +21,11 @@ const { t } = useI18n();
 const agentBots = useMapGetter('agentBots/getBots');
 const uiFlags = useMapGetter('agentBots/getUIFlags');
 
-const showAddPopup = ref(false);
-const showEditPopup = ref(false);
-const showDeleteConfirmationPopup = ref(false);
 const selectedBot = ref({});
 const loading = ref({});
-
-// Bot Form Fields
-const botName = ref('');
-const botDescription = ref('');
-const botUrl = ref('');
-const botAvatar = ref(null);
-const botAvatarUrl = ref('');
-const botErrors = ref({});
+const modalType = ref(MODAL_TYPES.CREATE);
+const agentBotModalRef = ref(null);
+const showDeleteConfirmationPopup = ref(false);
 
 const tableHeaders = computed(() => {
   return [
@@ -41,62 +36,16 @@ const tableHeaders = computed(() => {
 
 const deleteMessage = computed(() => ` ${selectedBot.value.name}?`);
 
-// Form validation
-const isFormValid = computed(() => {
-  return (
-    botName.value &&
-    botName.value.trim() &&
-    botUrl.value &&
-    botUrl.value.trim() &&
-    botUrl.value.startsWith('http') &&
-    Object.keys(botErrors.value).length === 0
-  );
-});
-
-// We no longer need this helper function as the API now returns the thumbnail field
-// Keeping this comment for reference
-
-const resetForm = () => {
-  botName.value = '';
-  botDescription.value = '';
-  botUrl.value = '';
-  botAvatar.value = null;
-  botAvatarUrl.value = '';
-  botErrors.value = {};
+const openAddModal = () => {
+  modalType.value = MODAL_TYPES.CREATE;
+  selectedBot.value = {};
+  agentBotModalRef.value.dialogRef.open();
 };
 
-// Modal functions
-const openAddPopup = () => {
-  resetForm();
-  showAddPopup.value = true;
-};
-
-const hideAddPopup = () => {
-  showAddPopup.value = false;
-};
-
-const openEditPopup = bot => {
+const openEditModal = bot => {
+  modalType.value = MODAL_TYPES.EDIT;
   selectedBot.value = bot;
-  botName.value = bot.name || '';
-  botDescription.value = bot.description || '';
-  botUrl.value = bot.outgoing_url || bot.bot_config?.webhook_url || '';
-  // Use the thumbnail field from the API
-  botAvatarUrl.value = bot.thumbnail || '';
-  botErrors.value = {};
-  showEditPopup.value = true;
-};
-
-// This is used after successful update
-const hideEditPopup = () => {
-  showEditPopup.value = false;
-  // Reset form state to prevent any lingering data
-  botErrors.value = {};
-};
-
-// This is used for cancel button - doesn't trigger success message
-const cancelEditPopup = () => {
-  showEditPopup.value = false;
-  botErrors.value = {};
+  agentBotModalRef.value.dialogRef.open();
 };
 
 const openDeletePopup = bot => {
@@ -108,108 +57,6 @@ const closeDeletePopup = () => {
   showDeleteConfirmationPopup.value = false;
 };
 
-// Action handlers
-const validateForm = () => {
-  const errors = {};
-
-  if (!botName.value || !botName.value.trim()) {
-    errors.name = t('AGENT_BOTS.FORM.ERRORS.NAME');
-  }
-
-  if (!botUrl.value || !botUrl.value.trim()) {
-    errors.url = t('AGENT_BOTS.FORM.ERRORS.URL');
-  } else if (!botUrl.value.startsWith('http')) {
-    errors.url = t('AGENT_BOTS.FORM.ERRORS.VALID_URL');
-  }
-
-  botErrors.value = errors;
-  return Object.keys(errors).length === 0;
-};
-
-const handleImageUpload = ({ file, url }) => {
-  botAvatar.value = file;
-  botAvatarUrl.value = url;
-};
-
-const handleAvatarDelete = async () => {
-  if (selectedBot.value.id) {
-    try {
-      await store.dispatch(
-        'agentBots/deleteAgentBotAvatar',
-        selectedBot.value.id
-      );
-      botAvatar.value = null;
-      // Set to empty to reflect the deleted avatar
-      botAvatarUrl.value = '';
-      useAlert(t('AGENT_BOTS.AVATAR.SUCCESS_DELETE'));
-    } catch (error) {
-      useAlert(t('AGENT_BOTS.AVATAR.ERROR_DELETE'));
-    }
-  } else {
-    botAvatar.value = null;
-    botAvatarUrl.value = '';
-  }
-};
-
-const handleCreateBot = async () => {
-  if (!validateForm()) return;
-
-  try {
-    // Create FormData for file upload
-    const formData = new FormData();
-    formData.append('name', botName.value);
-    formData.append('description', botDescription.value);
-    formData.append('bot_type', 'webhook');
-    formData.append('outgoing_url', botUrl.value);
-
-    // Add avatar file if available
-    if (botAvatar.value) {
-      formData.append('avatar', botAvatar.value);
-    }
-
-    await store.dispatch('agentBots/create', formData);
-    // Refresh the bots list to get updated data
-    await store.dispatch('agentBots/get');
-    hideAddPopup();
-    useAlert(t('AGENT_BOTS.ADD.API.SUCCESS_MESSAGE'));
-  } catch (error) {
-    useAlert(t('AGENT_BOTS.ADD.API.ERROR_MESSAGE'));
-  }
-};
-
-const handleUpdateBot = async () => {
-  if (!validateForm()) return;
-
-  loading.value[selectedBot.value.id] = true;
-  try {
-    // Create FormData for file upload
-    const formData = new FormData();
-    formData.append('name', botName.value);
-    formData.append('description', botDescription.value);
-    formData.append('bot_type', 'webhook');
-    formData.append('outgoing_url', botUrl.value);
-
-    // Add avatar file if available
-    if (botAvatar.value) {
-      formData.append('avatar', botAvatar.value);
-    }
-
-    await store.dispatch('agentBots/update', {
-      id: selectedBot.value.id,
-      data: formData,
-    });
-
-    // Refresh the bots list to get updated data
-    await store.dispatch('agentBots/get');
-    hideEditPopup();
-    useAlert(t('AGENT_BOTS.EDIT.API.SUCCESS_MESSAGE'));
-  } catch (error) {
-    useAlert(t('AGENT_BOTS.EDIT.API.ERROR_MESSAGE'));
-  } finally {
-    loading.value[selectedBot.value.id] = false;
-  }
-};
-
 const deleteAgentBot = async id => {
   try {
     await store.dispatch('agentBots/delete', id);
@@ -217,7 +64,7 @@ const deleteAgentBot = async id => {
   } catch (error) {
     useAlert(t('AGENT_BOTS.DELETE.API.ERROR_MESSAGE'));
   } finally {
-    loading.value[selectedBot.value.id] = false;
+    loading.value[id] = false;
   }
 };
 
@@ -226,15 +73,6 @@ const confirmDeletion = () => {
   closeDeletePopup();
   deleteAgentBot(selectedBot.value.id);
 };
-
-// Validate form when inputs change
-watch(
-  [botName, botUrl],
-  () => {
-    validateForm();
-  },
-  { immediate: false }
-);
 
 onMounted(() => {
   store.dispatch('agentBots/get');
@@ -259,46 +97,43 @@ onMounted(() => {
           <Button
             icon="i-lucide-circle-plus"
             :label="$t('AGENT_BOTS.ADD.TITLE')"
-            @click="openAddPopup"
+            @click="openAddModal"
           />
         </template>
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table
-        class="min-w-full overflow-x-auto divide-y divide-slate-75 dark:divide-slate-700"
-      >
+      <table class="min-w-full overflow-x-auto divide-y divide-n-strong">
         <thead>
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 font-semibold text-left ltr:pr-4 rtl:pl-4 text-slate-700 dark:text-slate-300"
+            class="py-4 font-semibold text-left ltr:pr-4 rtl:pl-4 text-n-slate-11"
           >
             {{ thHeader }}
           </th>
         </thead>
-        <tbody
-          class="flex-1 divide-y divide-slate-25 dark:divide-slate-800 text-slate-700 dark:text-slate-100"
-        >
+        <tbody class="flex-1 divide-y divide-n-weak text-n-slate-12">
           <tr v-for="(bot, index) in agentBots" :key="bot.id">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               <div class="flex flex-row items-center gap-4">
-                <Thumbnail
+                <Avatar
+                  :name="bot.name"
                   :src="bot.thumbnail"
-                  :username="bot.name"
-                  size="40px"
+                  :size="40"
+                  rounded-full
                 />
                 <div>
                   <span class="block font-medium break-words">
                     {{ bot.name }}
                     <span
                       v-if="bot.system_bot"
-                      class="text-xs text-white bg-woot-500 inline-block rounded px-1 ml-2"
+                      class="text-xs text-n-slate-12 bg-n-blue-5 inline-block rounded-md py-0.5 px-1 ltr:ml-1 rtl:mr-1"
                     >
                       {{ $t('AGENT_BOTS.GLOBAL_BOT_BADGE') }}
                     </span>
                   </span>
-                  <span class="text-sm text-slate-600 dark:text-slate-400">
+                  <span class="text-sm text-n-slate-11">
                     {{ bot.description }}
                   </span>
                 </div>
@@ -317,7 +152,7 @@ onMounted(() => {
                   xs
                   faded
                   :is-loading="loading[bot.id]"
-                  @click="openEditPopup(bot)"
+                  @click="openEditModal(bot)"
                 />
                 <Button
                   v-if="!bot.system_bot"
@@ -336,161 +171,12 @@ onMounted(() => {
       </table>
     </template>
 
-    <!-- Add Bot Modal -->
-    <woot-modal v-model:show="showAddPopup" :on-close="hideAddPopup">
-      <div class="px-8 pt-8 pb-6">
-        <h3
-          class="text-base font-semibold text-slate-800 dark:text-slate-50 mb-2"
-        >
-          {{ $t('AGENT_BOTS.ADD.TITLE') }}
-        </h3>
+    <AgentBotModal
+      ref="agentBotModalRef"
+      :type="modalType"
+      :selected-bot="selectedBot"
+    />
 
-        <form @submit.prevent="handleCreateBot">
-          <div class="flex flex-col gap-4">
-            <div class="mb-2 flex flex-col items-center">
-              <Avatar
-                :src="botAvatarUrl"
-                :name="botName || $t('AGENT_BOTS.FORM.NAME.PLACEHOLDER')"
-                :size="80"
-                allow-upload
-                @upload="handleImageUpload"
-                @delete="handleAvatarDelete"
-              />
-              <div class="mt-2 flex flex-col items-center">
-                <span class="text-sm text-slate-600 dark:text-slate-400">
-                  {{ $t('AVATAR.UPLOAD_TITLE') }}
-                </span>
-                <Button
-                  v-if="botAvatarUrl"
-                  class="mt-2"
-                  size="tiny"
-                  variant="clear"
-                  scheme="secondary"
-                  icon="i-lucide-trash-2"
-                  :label="$t('PROFILE_SETTINGS.DELETE_AVATAR')"
-                  @click="handleAvatarDelete"
-                />
-              </div>
-            </div>
-            <Input
-              v-model="botName"
-              :error="botErrors.name"
-              :label="$t('AGENT_BOTS.FORM.NAME.LABEL')"
-              :placeholder="$t('AGENT_BOTS.FORM.NAME.PLACEHOLDER')"
-              required
-            />
-            <TextArea
-              v-model="botDescription"
-              :label="$t('AGENT_BOTS.FORM.DESCRIPTION.LABEL')"
-              :placeholder="$t('AGENT_BOTS.FORM.DESCRIPTION.PLACEHOLDER')"
-            />
-            <Input
-              v-model="botUrl"
-              :error="botErrors.url"
-              :label="$t('AGENT_BOTS.FORM.WEBHOOK_URL.LABEL')"
-              :placeholder="$t('AGENT_BOTS.FORM.WEBHOOK_URL.PLACEHOLDER')"
-              required
-            />
-          </div>
-
-          <div class="mt-6 flex justify-end gap-2 px-0 py-2">
-            <Button
-              icon="i-lucide-x"
-              slate
-              faded
-              :label="$t('AGENT_BOTS.FORM.CANCEL')"
-              @click="hideAddPopup"
-            />
-            <Button
-              type="submit"
-              icon="i-lucide-plus"
-              :label="$t('AGENT_BOTS.FORM.CREATE')"
-              :is-loading="uiFlags.isCreating"
-              :disabled="!isFormValid"
-            />
-          </div>
-        </form>
-      </div>
-    </woot-modal>
-
-    <!-- Edit Bot Modal -->
-    <woot-modal v-model:show="showEditPopup" :on-close="cancelEditPopup">
-      <div class="px-8 pt-8 pb-6">
-        <h3
-          class="text-base font-semibold text-slate-800 dark:text-slate-50 mb-2"
-        >
-          {{ $t('AGENT_BOTS.EDIT.TITLE') }}
-        </h3>
-
-        <form @submit.prevent="handleUpdateBot">
-          <div class="flex flex-col gap-4">
-            <div class="mb-2 flex flex-col items-center">
-              <Avatar
-                :src="botAvatarUrl"
-                :name="botName"
-                :size="80"
-                allow-upload
-                @upload="handleImageUpload"
-                @delete="handleAvatarDelete"
-              />
-              <div class="mt-2 flex flex-col items-center">
-                <span class="text-sm text-slate-600 dark:text-slate-400">
-                  {{ $t('AVATAR.UPLOAD_TITLE') }}
-                </span>
-                <Button
-                  v-if="botAvatarUrl"
-                  class="mt-2"
-                  size="tiny"
-                  variant="clear"
-                  scheme="secondary"
-                  icon="i-lucide-trash-2"
-                  :label="$t('PROFILE_SETTINGS.DELETE_AVATAR')"
-                  @click="handleAvatarDelete"
-                />
-              </div>
-            </div>
-            <Input
-              v-model="botName"
-              :error="botErrors.name"
-              :label="$t('AGENT_BOTS.FORM.NAME.LABEL')"
-              :placeholder="$t('AGENT_BOTS.FORM.NAME.PLACEHOLDER')"
-              required
-            />
-            <TextArea
-              v-model="botDescription"
-              :label="$t('AGENT_BOTS.FORM.DESCRIPTION.LABEL')"
-              :placeholder="$t('AGENT_BOTS.FORM.DESCRIPTION.PLACEHOLDER')"
-            />
-            <Input
-              v-model="botUrl"
-              :error="botErrors.url"
-              :label="$t('AGENT_BOTS.FORM.WEBHOOK_URL.LABEL')"
-              :placeholder="$t('AGENT_BOTS.FORM.WEBHOOK_URL.PLACEHOLDER')"
-              required
-            />
-          </div>
-
-          <div class="mt-6 flex justify-end gap-2 px-0 py-2">
-            <Button
-              icon="i-lucide-x"
-              slate
-              faded
-              :label="$t('AGENT_BOTS.FORM.CANCEL')"
-              @click="cancelEditPopup"
-            />
-            <Button
-              type="submit"
-              icon="i-lucide-check"
-              :label="$t('AGENT_BOTS.FORM.UPDATE')"
-              :is-loading="uiFlags.isUpdating"
-              :disabled="!isFormValid"
-            />
-          </div>
-        </form>
-      </div>
-    </woot-modal>
-
-    <!-- Delete Confirmation Modal -->
     <woot-delete-modal
       v-model:show="showDeleteConfirmationPopup"
       :on-close="closeDeletePopup"
