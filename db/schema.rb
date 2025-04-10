@@ -890,11 +890,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.jsonb "additional_attributes", default: {}
     t.text "processed_message_content"
     t.jsonb "sentiment", default: {}
+    t.integer "canned_response_id"
     t.index "((additional_attributes -> 'campaign_id'::text))", name: "index_messages_on_additional_attributes_campaign_id", using: :gin
     t.index ["account_id", "content_type", "created_at"], name: "idx_messages_account_content_created"
     t.index ["account_id", "created_at", "message_type"], name: "index_messages_on_account_created_type"
     t.index ["account_id", "inbox_id"], name: "index_messages_on_account_id_and_inbox_id"
     t.index ["account_id"], name: "index_messages_on_account_id"
+    t.index ["canned_response_id"], name: "index_messages_on_canned_response_id"
     t.index ["content"], name: "index_messages_on_content", opclass: :gin_trgm_ops, using: :gin
     t.index ["conversation_id", "account_id", "message_type", "created_at"], name: "index_messages_on_conversation_account_type_created"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
@@ -1267,6 +1269,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
   add_foreign_key "canned_response_inboxes", "canned_responses"
   add_foreign_key "canned_response_inboxes", "inboxes"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "messages", "canned_responses", on_delete: :nullify
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

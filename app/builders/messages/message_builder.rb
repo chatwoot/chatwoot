@@ -142,6 +142,7 @@ class Messages::MessageBuilder
     {
       account_id: @conversation.account_id,
       inbox_id: @conversation.inbox_id,
+      canned_response_id: @params[:canned_response_id],
       message_type: message_type,
       content: @params[:content],
       private: @private,

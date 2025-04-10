@@ -1020,6 +1020,7 @@ export default {
       ) {
         let messagePayload = {
           conversationId: this.currentChat.id,
+          cannedResponseId: this.selectedCannedResponseId,
           message,
           private: false,
           sender: this.sender,
@@ -1035,6 +1036,7 @@ export default {
     getMessagePayload(message) {
       let messagePayload = {
         conversationId: this.currentChat.id,
+        cannedResponseId: this.selectedCannedResponseId,
         message,
         private: this.isPrivate,
         sender: this.sender,

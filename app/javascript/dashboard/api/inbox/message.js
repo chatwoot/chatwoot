@@ -7,6 +7,7 @@ export const buildCreatePayload = ({
   isPrivate,
   contentAttributes,
   echoId,
+  cannedResponseId = null,
   files,
   ccEmails = '',
   bccEmails = '',
@@ -24,6 +25,7 @@ export const buildCreatePayload = ({
     });
     payload.append('private', isPrivate);
     payload.append('echo_id', echoId);
+    payload.append('canned_response_id', cannedResponseId);
     payload.append('cc_emails', ccEmails);
     payload.append('bcc_emails', bccEmails);
 
@@ -38,6 +40,7 @@ export const buildCreatePayload = ({
       content: message,
       private: isPrivate,
       echo_id: echoId,
+      canned_response_id: cannedResponseId,
       content_attributes: contentAttributes,
       cc_emails: ccEmails,
       bcc_emails: bccEmails,
@@ -59,6 +62,7 @@ class MessageApi extends ApiClient {
     private: isPrivate,
     contentAttributes,
     echo_id: echoId,
+    cannedResponseId,
     files,
     ccEmails = '',
     bccEmails = '',
@@ -73,6 +77,7 @@ class MessageApi extends ApiClient {
         isPrivate,
         contentAttributes,
         echoId,
+        cannedResponseId,
         files,
         ccEmails,
         bccEmails,
