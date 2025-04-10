@@ -10,11 +10,14 @@ class Conversations::ReplyService
     return can_reply_on_instagram? if @conversation.inbox.instagram_direct?
     return true unless channel&.messaging_window_enabled?
 
-    messaging_window = @conversation.inbox.api? ? channel.additional_attributes['agent_reply_time_window'].to_i : 24
     last_message_in_messaging_window?(messaging_window)
   end
 
   private
+
+  def messaging_window
+    @conversation.inbox.api? ? @conversation.inbox.channel.additional_attributes['agent_reply_time_window'].to_i : 24
+  end
 
   def last_message_in_messaging_window?(time)
     return false if last_incoming_message.nil?
