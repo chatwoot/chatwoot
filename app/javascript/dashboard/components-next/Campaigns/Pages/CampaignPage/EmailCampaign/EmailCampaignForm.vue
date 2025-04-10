@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
@@ -7,6 +7,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 
 import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import TagMultiSelectComboBox from 'dashboard/components-next/combobox/TagMultiSelectComboBox.vue';
@@ -20,6 +21,9 @@ const formState = {
   labels: useMapGetter('labels/getLabels'),
   inboxes: useMapGetter('inboxes/getEmailInboxes'),
 };
+
+const isFocused = ref(false);
+const showVariablesMenu = ref(false);
 
 const initialState = {
   title: '',
@@ -107,6 +111,38 @@ const handleSubmit = async () => {
   resetState();
   handleCancel();
 };
+
+const messagePlaceHolder = () => {
+  return t('CONVERSATION.FOOTER.MSG_INPUT');
+};
+
+const onTypingOn = () => {
+  // REVIEW: This state shouldn't be required in this case
+};
+const onTypingOff = () => {
+  // REVIEW: This state shouldn't be required in this case
+};
+
+const onFocus = () => {
+  isFocused.value = true;
+};
+
+const onBlur = () => {
+  // REVIEW: This state shouldn't be required in this case
+};
+const toggleUserMention = currentMentionState => {
+  // REVIEW: This state shouldn't be required in this case
+};
+const toggleCannedMenu = value => {
+  // REVIEW: This state shouldn't be required in this case
+};
+const toggleVariablesMenu = value => {
+  showVariablesMenu.value = value;
+};
+
+const clearEditorSelection = () => {
+  // REVIEW: This state shouldn't be required in this case
+};
 </script>
 
 <template>
@@ -119,14 +155,37 @@ const handleSubmit = async () => {
       :message-type="formErrors.title ? 'error' : 'info'"
     />
 
-    <TextArea
+    <WootMessageEditor
+      v-model="state.message"
+      :editor-id="0"
+      class="input"
+      :is-private="false"
+      :placeholder="messagePlaceHolder()"
+      :update-selection-with="''"
+      :min-height="4"
+      enable-variables
+      :variables="{}"
+      :signature="''"
+      allow-signature
+      :channel-type="'email'"
+      @typing-off="onTypingOff"
+      @typing-on="onTypingOn"
+      @focus="onFocus"
+      @blur="onBlur"
+      @toggle-user-mention="toggleUserMention"
+      @toggle-canned-menu="toggleCannedMenu"
+      @toggle-variables-menu="toggleVariablesMenu"
+      @clear-selection="clearEditorSelection"
+    />
+
+    <!-- <TextArea
       v-model="state.message"
       :label="t('CAMPAIGN.EMAIL.CREATE.FORM.MESSAGE.LABEL')"
       :placeholder="t('CAMPAIGN.EMAIL.CREATE.FORM.MESSAGE.PLACEHOLDER')"
       show-character-count
       :message="formErrors.message"
       :message-type="formErrors.message ? 'error' : 'info'"
-    />
+    /> -->
 
     <div class="flex flex-col gap-1">
       <label for="inbox" class="mb-0.5 text-sm font-medium text-n-slate-12">

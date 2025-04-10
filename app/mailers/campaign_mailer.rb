@@ -1,10 +1,23 @@
 class CampaignMailer < ApplicationMailer
-  def campaign_email(campaign:, contact:, inbox:, subject:, body:)
+  def email_drops
+    {
+      'contact' => ContactDrop.new(@contact),
+      'agent' => UserDrop.new(@agent),
+      'inbox' => InboxDrop.new(@inbox),
+      'account' => AccountDrop.new(@account)
+    }
+  end
+
+  def campaign_email(campaign:, contact:, inbox:, subject:, body:) # rubocop:disable Metrics/MethodLength
     @body = body
     @campaign = campaign
     @contact = contact
     @inbox = inbox
     @channel = inbox.channel
+    @agent = inbox.members[0]
+    @account = @agent.accounts[0]
+
+    rendered_content = LiquidRenderer.new(body, email_drops).render
 
     mail_options = {
       to: contact.email,
@@ -12,9 +25,8 @@ class CampaignMailer < ApplicationMailer
       reply_to: reply_to_email,
       subject: subject,
       message_id: generate_message_id,
-      template_path: 'campaign_mailer',
-      template_name: 'campaign_email',
-      layout: false
+      content_type: 'text/html',
+      body: rendered_content
     }
 
     apply_smtp_settings(mail_options)
