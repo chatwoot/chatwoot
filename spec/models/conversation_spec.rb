@@ -808,4 +808,25 @@ RSpec.describe Conversation do
       end
     end
   end
+
+  describe '#can_reply?' do
+    let(:conversation) { create(:conversation) }
+    let(:message_window_service) { instance_double(Conversations::MessageWindowService) }
+
+    before do
+      allow(Conversations::MessageWindowService).to receive(:new).with(conversation).and_return(message_window_service)
+    end
+
+    it 'delegates to MessageWindowService' do
+      allow(message_window_service).to receive(:can_reply?).and_return(true)
+      expect(conversation.can_reply?).to be true
+      expect(message_window_service).to have_received(:can_reply?)
+    end
+
+    it 'returns false when MessageWindowService returns false' do
+      allow(message_window_service).to receive(:can_reply?).and_return(false)
+      expect(conversation.can_reply?).to be false
+      expect(message_window_service).to have_received(:can_reply?)
+    end
+  end
 end
