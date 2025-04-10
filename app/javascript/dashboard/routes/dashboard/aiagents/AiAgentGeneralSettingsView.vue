@@ -27,14 +27,16 @@
             </div>
         </form>
 
-        <div class="h-[600px] w-full lg:h-[500px] lg:w-[350px]">
-            <iframe height="100%" width="100%" class="rounded-lg shadow-md border border-slate-50 dark:border-transparent outline-none" :src="previewUrl"></iframe>
+        <div class="h-[600px] w-full lg:h-[500px] lg:w-[350px]" v-if="previewUrl">
+            <iframe height="100%" width="100%"
+                class="rounded-lg shadow-md border border-slate-50 dark:border-transparent outline-none"
+                :src="previewUrl"></iframe>
         </div>
     </div>
 </template>
 
 <script setup>
-import { reactive, ref, watch } from 'vue';
+import { computed, nextTick, reactive, ref, useTemplateRef, watch, watchEffect } from 'vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import { required } from '@vuelidate/validators';
@@ -50,6 +52,8 @@ const props = defineProps({
         required: true,
     },
 });
+
+const chatflowId = ref(props.data?.chat_flow_id)
 
 const state = reactive({
     name: '',
@@ -95,11 +99,18 @@ async function submit() {
             ...state,
         }
         await aiAgents.updateAgent(props.data.id, request)
+        const detailAgent = await aiAgents.detailAgent(props.data.id).then(v => v?.data)
+        chatflowId.value = undefined
+        nextTick(() => {
+            chatflowId.value = detailAgent?.chat_flow_id
+        })
         useAlert('Berhasil disimpan')
     } finally {
         loadingSave.value = false
     }
 }
 
-const previewUrl = ref('https://ai.radyalabs.id/chatbot/e42c6098-d738-4161-9af2-5b6381ce3be0')
+const previewUrl = computed(() => {
+    return `https://ai.radyalabs.id/chatbot/${chatflowId.value}`
+})
 </script>
