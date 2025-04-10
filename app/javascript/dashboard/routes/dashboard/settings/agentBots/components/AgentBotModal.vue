@@ -182,6 +182,7 @@ defineExpose({ dialogRef });
     :title="dialogTitle"
     :show-cancel-button="false"
     :show-confirm-button="false"
+    @close="v$.$reset()"
   >
     <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
       <div class="mb-2 flex flex-col items-start">
