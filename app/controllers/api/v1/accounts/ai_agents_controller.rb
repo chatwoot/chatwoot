@@ -41,12 +41,23 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   def destroy
-    @ai_agent.destroy
-    head :no_content
+    chat_flow_id = @ai_agent.chat_flow_id
+
+    if @ai_agent.destroy
+      begin
+        AiAgents::FlowiseService.delete_chat_flow(id: chat_flow_id) if chat_flow_id.present?
+      rescue StandardError => e
+        Rails.logger.error("Failed to delete chat flow: #{e.message}")
+        render json: { error: "Failed to delete chat flow: #{e.message}" }, status: :bad_gateway
+      end
+      head :no_content
+    else
+      render json: @ai_agent.errors, status: :unprocessable_entity
+    end
   end
 
   def update_followups
-    followup_params = params.require(:_json).map { |f| followup_permitted_params(f) }
+    followup_params = params.fetch(:_json, []).map { |f| followup_permitted_params(f) }
 
     ActiveRecord::Base.transaction do
       remove_deleted_followups(followup_params)
@@ -72,8 +83,7 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   def load_chat_flow(template)
-    flowise_service = AiAgents::FlowiseService.new
-    response = flowise_service.load_chat_flow(
+    response = AiAgents::FlowiseService.load_chat_flow(
       name: ai_agent_params[:name],
       flow_data: template.template
     )
