@@ -123,6 +123,7 @@ class Conversation < ApplicationRecord
 
     return true unless channel&.messaging_window_enabled?
 
+    messaging_window = inbox.api? ? channel.additional_attributes['agent_reply_time_window'].to_i : 24
     last_message_in_messaging_window?(messaging_window)
   end
 
@@ -142,10 +143,6 @@ class Conversation < ApplicationRecord
     return false if last_incoming_message.nil?
 
     Time.current < last_incoming_message.created_at + time.hours
-  end
-
-  def messaging_window
-    inbox.api? ? inbox.channel.additional_attributes['agent_reply_time_window'].to_i : 24
   end
 
   def instagram_via_messenger?
