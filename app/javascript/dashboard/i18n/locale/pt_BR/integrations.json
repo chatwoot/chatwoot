@@ -279,7 +279,7 @@
           "PRIORITY": {
             "LABEL": "Prioridade",
             "PLACEHOLDER": "Selecionar prioridade",
-            "SEARCH": "Selecionar prioridade"
+            "SEARCH": "Pesquisar prioridade"
           },
           "LABEL": {
             "LABEL": "Nome do campo",
