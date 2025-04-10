@@ -27,7 +27,6 @@ class AgentBot < ApplicationRecord
   belongs_to :account, optional: true
   enum bot_type: { webhook: 0 }
 
-  validate :validate_agent_bot_config
   validates :outgoing_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
 
   def available_name
@@ -53,11 +52,5 @@ class AgentBot < ApplicationRecord
 
   def system_bot?
     account.nil?
-  end
-
-  private
-
-  def validate_agent_bot_config
-    errors.add(:bot_config, 'Invalid Bot Configuration') unless AgentBots::ValidateBotService.new(agent_bot: self).perform
   end
 end
