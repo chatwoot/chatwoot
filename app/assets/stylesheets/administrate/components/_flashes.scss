@@ -1,3 +1,4 @@
+@use "sass:color";
 $base-spacing: 1.5em !default;
 $flashes: (
   "alert": #fff6bf,
@@ -9,19 +10,19 @@ $flashes: (
 @each $flash-type, $color in $flashes {
   .flash-#{$flash-type} {
     background-color: $color;
-    color: mix($black, $color, 60%);
+    color: color.mix($black, $color, 60%);
     display: block;
     margin-bottom: $base-spacing / 2;
     padding: $base-spacing / 2;
     text-align: center;
 
     a {
-      color: mix($black, $color, 70%);
+      color: color.mix($black, $color, 70%);
       text-decoration: underline;
 
       &:focus,
       &:hover {
-        color: mix($black, $color, 90%);
+        color: color.mix($black, $color, 90%);
       }
     }
   }

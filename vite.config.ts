@@ -44,6 +44,15 @@ if (isLibraryMode) {
 
 export default defineConfig({
   plugins: plugins,
+  // Agregamos la configuración para SCSS y forzar el uso de la API moderna
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler',
+        silenceDeprecations: ["legacy-js-api"]
+      }
+    }
+  },
   build: {
     rollupOptions: {
       output: {
