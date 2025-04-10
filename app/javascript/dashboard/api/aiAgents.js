@@ -17,21 +17,25 @@ class AiAgents extends ApiClient {
       template_id: templateId,
     });
   }
-  
+
   removeAiAgent(idAgent) {
     return this.delete(idAgent);
   }
-  
+
   detailAgent(idAgent) {
     return this.show(idAgent);
   }
-  
+
   updateAgent(idAgent, data) {
     return this.update(idAgent, data);
   }
-  
+
   listAiTemplate() {
     return axios.get(`${this.url}/ai_agent_templates`);
+  }
+
+  updateAgentFollowups(idAgent, data) {
+    return axios.patch(`${this.url}/${idAgent}/update_followups`, data);
   }
 }
 

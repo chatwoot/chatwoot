@@ -3,6 +3,7 @@ import { useRoute } from 'vue-router';
 import AiAgentGeneralSettingsView from './AiAgentGeneralSettingsView.vue'
 import { onMounted, ref } from 'vue';
 import aiAgents from '../../../api/aiAgents';
+import FollowupsSettingsView from './FollowupsSettingsView.vue';
 
 const tabs = [{
   key: '0',
@@ -61,6 +62,9 @@ onMounted(() => {
     </woot-tabs>
     <div v-show="activeIndex === 0">
       <AiAgentGeneralSettingsView :data="data" />
+    </div>
+    <div v-show="activeIndex === 3">
+      <FollowupsSettingsView :data="data" />
     </div>
   </div>
 </template>
