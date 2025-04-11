@@ -24,6 +24,7 @@ class Crm::Leadsquared::SetupService
 
     # Base client for activity type operations
     @client = Crm::Leadsquared::Api::BaseClient.new(@access_key, @secret_key, @endpoint_url)
+    @activity_client = Crm::Leadsquared::Api::ActivityClient.new(@access_key, @secret_key, @endpoint_url)
   end
 
   def setup
@@ -90,7 +91,11 @@ class Crm::Leadsquared::SetupService
       { success: true, activity_id: activity_id }
     else
       # Create new activity type
-      result = create_activity_type(activity_type)
+      result = @activity_client.create_activity_type(
+        name: activity_type[:name],
+        score: activity_type[:score],
+        direction: activity_type[:direction]
+      )
 
       if result[:success]
         Rails.logger.info "Created LeadSquared activity type: #{activity_type[:name]} (ID: #{result[:activity_id]})"
@@ -99,25 +104,6 @@ class Crm::Leadsquared::SetupService
       end
 
       result
-    end
-  end
-
-  def create_activity_type(activity_type)
-    path = '/v2/ProspectActivity/Type.Create'
-    body = {
-      'Name' => activity_type[:name],
-      'Score' => activity_type[:score],
-      'Direction' => activity_type[:direction],
-      'IsActive' => true
-    }
-
-    response = @client.post(path, {}, body)
-
-    if response[:success] && response[:data]['Status'] == 'Success' && response[:data]['Message'] && response[:data]['Message']['ActivityEventId']
-      { success: true, activity_id: response[:data]['Message']['ActivityEventId'].to_i }
-    else
-      error_message = response[:error] || 'Unknown error creating activity type'
-      { success: false, error: error_message }
     end
   end
 

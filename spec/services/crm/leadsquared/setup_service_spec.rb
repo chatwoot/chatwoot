@@ -5,9 +5,11 @@ RSpec.describe Crm::Leadsquared::SetupService do
   let(:hook) { create(:integrations_hook, :leadsquared, account: account) }
   let(:service) { described_class.new(hook) }
   let(:base_client) { instance_double(Crm::Leadsquared::Api::BaseClient) }
+  let(:activity_client) { instance_double(Crm::Leadsquared::Api::ActivityClient) }
 
   before do
     allow(Crm::Leadsquared::Api::BaseClient).to receive(:new).and_return(base_client)
+    allow(Crm::Leadsquared::Api::ActivityClient).to receive(:new).and_return(activity_client)
   end
 
   describe '#setup' do
@@ -86,25 +88,16 @@ RSpec.describe Crm::Leadsquared::SetupService do
 
       context 'when some activity types need to be created' do
         let(:create_response) do
-          {
-            success: true,
-            data: {
-              'Status' => 'Success',
-              'Message' => {
-                'ActivityEventId' => 1002
-              }
-            }
-          }
+          { success: true, activity_id: 1002 }
         end
 
         before do
-          allow(base_client).to receive(:post)
-            .with('/v2/ProspectActivity/Type.Create', {}, {
-                    'Name' => 'Chatwoot Conversation Transcript',
-                    'Score' => 5,
-                    'Direction' => 0,
-                    'IsActive' => true
-                  })
+          allow(activity_client).to receive(:create_activity_type)
+            .with(
+              name: 'Chatwoot Conversation Transcript',
+              score: 5,
+              direction: 0
+            )
             .and_return(create_response)
         end
 
@@ -130,8 +123,8 @@ RSpec.describe Crm::Leadsquared::SetupService do
 
       context 'when activity type creation fails' do
         before do
-          allow(base_client).to receive(:post)
-            .with('/v2/ProspectActivity/Type.Create', anything, anything)
+          allow(activity_client).to receive(:create_activity_type)
+            .with(anything)
             .and_return({ success: false, error: 'Failed to create activity type' })
         end
 
