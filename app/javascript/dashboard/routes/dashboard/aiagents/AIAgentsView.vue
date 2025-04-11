@@ -110,6 +110,9 @@ watchEffect(() => {
       <div v-if="aiAgentsLoading" class="text-center">
         <span class="mt-4 mb-4 spinner" />
       </div>
+      <div v-else-if="!aiAgentsRef || !aiAgentsRef.length">
+        <span>Anda belum menambahkan Agen AI</span>
+      </div>
       <table v-else class="divide-y divide-slate-75 dark:divide-slate-700">
         <tbody class="divide-y divide-n-weak text-n-slate-11">
           <tr v-for="(agent, _) in aiAgentsRef" :key="agent.id">
