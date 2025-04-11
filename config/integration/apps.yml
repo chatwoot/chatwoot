@@ -186,3 +186,47 @@ shopify:
   i18n_key: shopify
   hook_type: account
   allow_multiple_hooks: false
+
+leadsquared:
+  id: leadsquared
+  logo: leadsquared.png
+  i18n_key: leadsquared
+  action: /leadsquared
+  hook_type: account
+  allow_multiple_hooks: false
+  settings_json_schema:
+    {
+      'type': 'object',
+      'properties':
+        {
+          'access_key': { 'type': 'string' },
+          'secret_key': { 'type': 'string' },
+          'endpoint_url': { 'type': 'string' },
+        },
+      'required': ['access_key', 'secret_key', 'endpoint_url'],
+      'additionalProperties': false,
+    }
+  settings_form_schema:
+    [
+      {
+        'label': 'Access Key',
+        'type': 'text',
+        'name': 'access_key',
+        'validation': 'required',
+      },
+      {
+        'label': 'Secret Key',
+        'type': 'text',
+        'name': 'secret_key',
+        'validation': 'required',
+      },
+      {
+        'label': 'LeadSquared Endpoint URL',
+        'type': 'text',
+        'name': 'endpoint_url',
+        'validation': 'required',
+        'placeholder': 'e.g. https://api.leadsquared.com',
+        'help': 'Your LeadSquared API base URL based on your region'
+      }
+    ]
+  visible_properties: ['access_key', 'endpoint_url']
