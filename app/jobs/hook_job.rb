@@ -11,6 +11,8 @@ class HookJob < ApplicationJob
       process_dialogflow_integration(hook, event_name, event_data)
     when 'google_translate'
       google_translate_integration(hook, event_name, event_data)
+    when 'leadsquared'
+      process_leadsquared_integration(hook, event_name, event_data)
     end
   rescue StandardError => e
     Rails.logger.error e
@@ -40,5 +42,21 @@ class HookJob < ApplicationJob
 
     message = event_data[:message]
     Integrations::GoogleTranslate::DetectLanguageService.new(hook: hook, message: message).perform
+  end
+
+  def process_leadsquared_integration(hook, event_name, event_data)
+    # Process the event with the processor service
+    processor = Crm::Leadsquared::ProcessorService.new(hook)
+
+    case event_name
+    when 'contact.created'
+      processor.handle_contact_created(event_data[:contact])
+    when 'contact.updated'
+      processor.handle_contact_updated(event_data[:contact])
+    when 'conversation.created'
+      processor.handle_conversation_created(event_data[:conversation])
+    when 'conversation.updated'
+      processor.handle_conversation_updated(event_data[:conversation])
+    end
   end
 end
