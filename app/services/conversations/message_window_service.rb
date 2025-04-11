@@ -24,6 +24,8 @@ class Conversations::MessageWindowService
       instagram_messaging_window
     when 'Channel::Whatsapp'
       MESSAGING_WINDOW_24_HOURS
+    when 'Channel::TwilioSms'
+      nil
     end
   end
 
