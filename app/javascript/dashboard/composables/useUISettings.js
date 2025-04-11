@@ -36,7 +36,7 @@ const useConversationSidebarItemsOrder = uiSettings => {
     const { conversation_sidebar_items_order: itemsOrder } = uiSettings.value;
     // If the sidebar order is not set, use the default order.
     if (!itemsOrder) {
-      return DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER;
+      return [...DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER];
     }
     // Create a copy of itemsOrder to avoid mutating the original store object.
     const itemsOrderCopy = [...itemsOrder];
