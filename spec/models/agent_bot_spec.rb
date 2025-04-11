@@ -50,7 +50,8 @@ RSpec.describe AgentBot do
     end
 
     context 'when account_id is present' do
-      let(:agent_bot) { create(:agent_bot, account_id: 1) }
+      let(:account) { create(:account) }
+      let(:agent_bot) { create(:agent_bot, account: account) }
 
       it 'returns false' do
         expect(agent_bot.system_bot?).to be false
