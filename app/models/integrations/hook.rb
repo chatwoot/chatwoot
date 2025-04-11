@@ -19,6 +19,7 @@ class Integrations::Hook < ApplicationRecord
 
   attr_readonly :app_id, :account_id, :inbox_id, :hook_type
   before_validation :ensure_hook_type
+  after_create :trigger_setup_if_crm
 
   validates :account_id, presence: true
   validates :app_id, presence: true
@@ -35,6 +36,9 @@ class Integrations::Hook < ApplicationRecord
   has_secure_token :access_token
 
   enum hook_type: { account: 0, inbox: 1 }
+
+  scope :account_hooks, -> { where(hook_type: 'account') }
+  scope :inbox_hooks, -> { where(hook_type: 'inbox') }
 
   def app
     @app ||= Integrations::App.find(id: app_id)
@@ -71,5 +75,18 @@ class Integrations::Hook < ApplicationRecord
     return if app.blank? || app.params[:settings_json_schema].blank?
 
     errors.add(:settings, ': Invalid settings data') unless JSONSchemer.schema(app.params[:settings_json_schema]).valid?(settings)
+  end
+
+  def trigger_setup_if_crm
+    # we need setup services to create data prerequisite to functioning of the integration
+    # in case of Leadsquared, we need to create a custom activity type for capturing conversations and transcripts
+    # https://apidocs.leadsquared.com/create-new-activity-type-api/
+    return unless crm_integration?
+
+    ::Crm::SetupJob.perform_later(id)
+  end
+
+  def crm_integration?
+    %w[leadsquared].include?(app_id)
   end
 end
