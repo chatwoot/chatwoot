@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { actions } from '../../agentBots';
 import types from '../../../mutation-types';
-import { agentBotRecords } from './fixtures';
+import { agentBotRecords, agentBotData } from './fixtures';
 
 const commit = vi.fn();
 global.axios = axios;
@@ -30,15 +30,7 @@ describe('#actions', () => {
   describe('#create', () => {
     it('sends correct actions if API is success', async () => {
       axios.post.mockResolvedValue({ data: agentBotRecords[0] });
-      const botData = {
-        name: 'Test Bot',
-        description: 'Test Description',
-        outgoing_url: 'https://test.com',
-        bot_type: 'webhook',
-        avatar: new File([''], 'filename'),
-      };
-
-      await actions.create({ commit }, botData);
+      await actions.create({ commit }, agentBotData);
 
       expect(commit.mock.calls).toEqual([
         [types.SET_AGENT_BOT_UI_FLAG, { isCreating: true }],
@@ -64,19 +56,11 @@ describe('#actions', () => {
   describe('#update', () => {
     it('sends correct actions if API is success', async () => {
       axios.patch.mockResolvedValue({ data: agentBotRecords[0] });
-      const botData = {
-        name: 'Test Bot Updated',
-        description: 'Test Description Updated',
-        outgoing_url: 'https://test-updated.com',
-        bot_type: 'webhook',
-        avatar: new File([''], 'updated-filename'),
-      };
-
       await actions.update(
         { commit },
         {
           id: agentBotRecords[0].id,
-          data: botData,
+          data: agentBotData,
         }
       );
 
