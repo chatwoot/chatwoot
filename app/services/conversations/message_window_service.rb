@@ -25,7 +25,7 @@ class Conversations::MessageWindowService
     when 'Channel::Whatsapp'
       MESSAGING_WINDOW_24_HOURS
     when 'Channel::TwilioSms'
-      nil
+      twilio_messaging_window
     end
   end
 
@@ -41,6 +41,11 @@ class Conversations::MessageWindowService
     @conversation.inbox.channel.additional_attributes['agent_reply_time_window'].to_i.hours
   end
 
+  # Check medium of the inbox to determine the messaging window
+  def twilio_messaging_window
+    @conversation.inbox.channel.medium == 'whatsapp' ? MESSAGING_WINDOW_24_HOURS : nil
+  end
+
   def messenger_messaging_window
     meta_messaging_window('ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT')
   end
@@ -50,8 +55,7 @@ class Conversations::MessageWindowService
   end
 
   def meta_messaging_window(config_key)
-    global_config = GlobalConfig.get(config_key)
-    global_config[config_key] ? MESSAGING_WINDOW_7_DAYS : MESSAGING_WINDOW_24_HOURS
+    GlobalConfigService.load(config_key, nil) == 'true' ? MESSAGING_WINDOW_7_DAYS : MESSAGING_WINDOW_24_HOURS
   end
 
   def last_incoming_message

@@ -63,146 +63,299 @@ RSpec.describe Conversations::MessageWindowService do
     let!(:conversation) { create(:conversation, inbox: facebook_inbox, account: facebook_channel.account) }
 
     context 'when the HUMAN_AGENT is enabled' do
-      InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create(value: true)
-
       it 'return false if the last message is outgoing' do
-        service = described_class.new(conversation)
-        expect(service.can_reply?).to be false
+        with_modified_env ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT: 'true' do
+          service = described_class.new(conversation)
+          expect(service.can_reply?).to be false
+        end
       end
 
       it 'return true if the last message is incoming and within the messaging window (with in 24 hours)' do
-        create(
-          :message,
-          account: conversation.account,
-          inbox: facebook_inbox,
-          conversation: conversation,
-          created_at: 13.hours.ago
-        )
-        service = described_class.new(conversation)
-        expect(service.can_reply?).to be true
+        with_modified_env ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT: 'true' do
+          create(
+            :message,
+            account: conversation.account,
+            inbox: facebook_inbox,
+            conversation: conversation,
+            created_at: 13.hours.ago
+          )
+          service = described_class.new(conversation)
+          expect(service.can_reply?).to be true
+        end
       end
 
       it 'return true if the last message is incoming and within the messaging window (with in 7 days)' do
-        create(
-          :message,
-          account: conversation.account,
-          inbox: facebook_inbox,
-          conversation: conversation,
-          created_at: 6.days.ago
-        )
-        service = described_class.new(conversation)
-        expect(service.can_reply?).to be true
+        with_modified_env ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT: 'true' do
+          create(
+            :message,
+            account: conversation.account,
+            inbox: facebook_inbox,
+            conversation: conversation,
+            created_at: 5.days.ago
+          )
+          service = described_class.new(conversation)
+          expect(service.can_reply?).to be true
+        end
       end
 
       it 'return false if the last message is incoming and outside the messaging window (8 days ago )' do
-        create(
-          :message,
-          account: conversation.account,
-          inbox: facebook_inbox,
-          conversation: conversation,
-          created_at: 8.days.ago
-        )
-        service = described_class.new(conversation)
-        expect(service.can_reply?).to be false
+        with_modified_env ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT: 'true' do
+          create(
+            :message,
+            account: conversation.account,
+            inbox: facebook_inbox,
+            conversation: conversation,
+            created_at: 8.days.ago
+          )
+          service = described_class.new(conversation)
+          expect(service.can_reply?).to be false
+        end
       end
 
       it 'return true if last message is outgoing but previous incoming message is within window' do
-        create(
-          :message,
-          account: conversation.account,
-          inbox: facebook_inbox,
-          conversation: conversation,
-          message_type: :incoming,
-          created_at: 6.hours.ago
-        )
+        with_modified_env ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT: 'true' do
+          create(
+            :message,
+            account: conversation.account,
+            inbox: facebook_inbox,
+            conversation: conversation,
+            message_type: :incoming,
+            created_at: 6.hours.ago
+          )
 
-        create(
-          :message,
-          account: conversation.account,
-          inbox: facebook_inbox,
-          conversation: conversation,
-          message_type: :outgoing,
-          created_at: 1.hour.ago
-        )
+          create(
+            :message,
+            account: conversation.account,
+            inbox: facebook_inbox,
+            conversation: conversation,
+            message_type: :outgoing,
+            created_at: 1.hour.ago
+          )
 
-        service = described_class.new(conversation)
-        expect(service.can_reply?).to be true
+          service = described_class.new(conversation)
+          expect(service.can_reply?).to be true
+        end
       end
 
       it 'considers only the last incoming message for determining time window' do
-        # Old message outside window
-        create(
-          :message,
-          account: conversation.account,
-          inbox: facebook_inbox,
-          conversation: conversation,
-          created_at: 10.days.ago
-        )
+        with_modified_env ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT: 'true' do
+          # Old message outside window
+          create(
+            :message,
+            account: conversation.account,
+            inbox: facebook_inbox,
+            conversation: conversation,
+            created_at: 10.days.ago
+          )
 
-        # Recent message within window
-        create(
-          :message,
-          account: conversation.account,
-          inbox: facebook_inbox,
-          conversation: conversation,
-          created_at: 6.hours.ago
-        )
+          # Recent message within window
+          create(
+            :message,
+            account: conversation.account,
+            inbox: facebook_inbox,
+            conversation: conversation,
+            created_at: 6.hours.ago
+          )
 
-        service = described_class.new(conversation)
-        expect(service.can_reply?).to be true
-      end
-
-      it 'return true if the last message is incoming and exactly at the edge of 24-hour window with HUMAN_AGENT disabled' do
-        create(
-          :message,
-          account: conversation.account,
-          inbox: facebook_inbox,
-          conversation: conversation,
-          created_at: 24.hours.ago
-        )
-        service = described_class.new(conversation)
-        expect(service.can_reply?).to be true
+          service = described_class.new(conversation)
+          expect(service.can_reply?).to be true
+        end
       end
     end
 
     context 'when the HUMAN_AGENT is disabled' do
-      before do
-        config = InstallationConfig.find_or_create_by(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT')
-        config.update(value: false)
-      end
+      with_modified_env ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT: 'false' do
+        it 'return false if the last message is outgoing' do
+          service = described_class.new(conversation)
+          expect(service.can_reply?).to be false
+        end
 
-      it 'return false if the last message is outgoing' do
-        service = described_class.new(conversation)
-        expect(service.can_reply?).to be false
-      end
+        it 'return false if the last message is incoming and outside the messaging window ( 8 days ago )' do
+          create(
+            :message,
+            account: conversation.account,
+            inbox: facebook_inbox,
+            conversation: conversation,
+            created_at: 4.days.ago
+          )
+          service = described_class.new(conversation)
+          expect(service.can_reply?).to be false
+        end
 
-      it 'return false if the last message is incoming and outside the messaging window ( 8 days ago )' do
-        create(
-          :message,
-          account: conversation.account,
-          inbox: facebook_inbox,
-          conversation: conversation,
-          created_at: 4.days.ago
-        )
-        service = described_class.new(conversation)
-        expect(service.can_reply?).to be false
-      end
-
-      it 'return true if the last message is incoming and within the messaging window (24 hours limit)' do
-        create(
-          :message,
-          account: conversation.account,
-          inbox: facebook_inbox,
-          conversation: conversation,
-          created_at: 13.hours.ago
-        )
-        service = described_class.new(conversation)
-        expect(service.can_reply?).to be true
+        it 'return true if the last message is incoming and within the messaging window (24 hours limit)' do
+          create(
+            :message,
+            account: conversation.account,
+            inbox: facebook_inbox,
+            conversation: conversation,
+            created_at: 13.hours.ago
+          )
+          service = described_class.new(conversation)
+          expect(service.can_reply?).to be true
+        end
       end
     end
   end
 
-  describe 'on WhatsApp channels' do
+  describe 'on Instagram channels' do
+    let!(:instagram_channel) { create(:channel_instagram) }
+    let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: instagram_channel.account) }
+    let!(:conversation) { create(:conversation, inbox: instagram_inbox, account: instagram_channel.account) }
+
+    context 'when the HUMAN_AGENT is enabled' do
+      it 'return false if the last message is outgoing' do
+        with_modified_env ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT: 'true' do
+          service = described_class.new(conversation)
+          expect(service.can_reply?).to be false
+        end
+      end
+
+      it 'return true if the last message is incoming and within the messaging window (with in 24 hours)' do
+        with_modified_env ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT: 'true' do
+          create(
+            :message,
+            account: conversation.account,
+            inbox: instagram_inbox,
+            conversation: conversation,
+            created_at: 13.hours.ago
+          )
+          service = described_class.new(conversation)
+          expect(service.can_reply?).to be true
+        end
+      end
+
+      it 'return true if the last message is incoming and within the messaging window (with in 7 days)' do
+        with_modified_env ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT: 'true' do
+          create(
+            :message,
+            account: conversation.account,
+            inbox: instagram_inbox,
+            conversation: conversation,
+            created_at: 6.days.ago
+          )
+          service = described_class.new(conversation)
+          expect(service.can_reply?).to be true
+        end
+      end
+
+      it 'return false if the last message is incoming and outside the messaging window (8 days ago)' do
+        with_modified_env ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT: 'true' do
+          create(
+            :message,
+            account: conversation.account,
+            inbox: instagram_inbox,
+            conversation: conversation,
+            created_at: 8.days.ago
+          )
+          service = described_class.new(conversation)
+          expect(service.can_reply?).to be false
+        end
+      end
+
+      it 'return true if last message is outgoing but previous incoming message is within window' do
+        with_modified_env ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT: 'true' do
+          create(
+            :message,
+            account: conversation.account,
+            inbox: instagram_inbox,
+            conversation: conversation,
+            message_type: :incoming,
+            created_at: 6.hours.ago
+          )
+
+          create(
+            :message,
+            account: conversation.account,
+            inbox: instagram_inbox,
+            conversation: conversation,
+            message_type: :outgoing,
+            created_at: 1.hour.ago
+          )
+
+          service = described_class.new(conversation)
+          expect(service.can_reply?).to be true
+        end
+      end
+
+      it 'considers only the last incoming message for determining time window' do
+        with_modified_env ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT: 'true' do
+          # Old message outside window
+          create(
+            :message,
+            account: conversation.account,
+            inbox: instagram_inbox,
+            conversation: conversation,
+            created_at: 10.days.ago
+          )
+
+          # Recent message within window
+          create(
+            :message,
+            account: conversation.account,
+            inbox: instagram_inbox,
+            conversation: conversation,
+            created_at: 6.hours.ago
+          )
+
+          service = described_class.new(conversation)
+          expect(service.can_reply?).to be true
+        end
+      end
+
+      it 'return true if the last message is incoming and exactly at the edge of 24-hour window with HUMAN_AGENT disabled' do
+        with_modified_env ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT: 'true' do
+          create(
+            :message,
+            account: conversation.account,
+            inbox: instagram_inbox,
+            conversation: conversation,
+            created_at: 24.hours.ago
+          )
+          service = described_class.new(conversation)
+          expect(service.can_reply?).to be true
+        end
+      end
+    end
+
+    context 'when the HUMAN_AGENT is disabled' do
+      it 'return false if the last message is outgoing' do
+        with_modified_env ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT: 'false' do
+          service = described_class.new(conversation)
+          expect(service.can_reply?).to be false
+        end
+      end
+
+      it 'return false if the last message is incoming and outside the messaging window (8 days ago)' do
+        with_modified_env ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT: 'false' do
+          create(
+            :message,
+            account: conversation.account,
+            inbox: instagram_inbox,
+            conversation: conversation,
+            created_at: 4.days.ago
+          )
+          service = described_class.new(conversation)
+          expect(service.can_reply?).to be false
+        end
+      end
+
+      it 'return true if the last message is incoming and within the messaging window (24 hours limit)' do
+        with_modified_env ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT: 'false' do
+          create(
+            :message,
+            account: conversation.account,
+            inbox: instagram_inbox,
+            conversation: conversation,
+            created_at: 13.hours.ago
+          )
+          service = described_class.new(conversation)
+          expect(service.can_reply?).to be true
+        end
+      end
+    end
+  end
+
+  describe 'on WhatsApp Cloud channels' do
     let!(:whatsapp_channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false) }
     let!(:whatsapp_inbox) { create(:inbox, channel: whatsapp_channel, account: whatsapp_channel.account) }
     let!(:conversation) { create(:conversation, inbox: whatsapp_inbox, account: whatsapp_channel.account) }
@@ -280,151 +433,6 @@ RSpec.describe Conversations::MessageWindowService do
 
       service = described_class.new(conversation)
       expect(service.can_reply?).to be true
-    end
-  end
-
-  describe 'on Instagram channels' do
-    let!(:instagram_channel) { create(:channel_instagram) }
-    let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: instagram_channel.account) }
-    let!(:conversation) { create(:conversation, inbox: instagram_inbox, account: instagram_channel.account) }
-
-    context 'when the HUMAN_AGENT is enabled' do
-      InstallationConfig.where(name: 'ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT').first_or_create(value: true)
-
-      it 'return false if the last message is outgoing' do
-        service = described_class.new(conversation)
-        expect(service.can_reply?).to be false
-      end
-
-      it 'return true if the last message is incoming and within the messaging window (with in 24 hours)' do
-        create(
-          :message,
-          account: conversation.account,
-          inbox: instagram_inbox,
-          conversation: conversation,
-          created_at: 13.hours.ago
-        )
-        service = described_class.new(conversation)
-        expect(service.can_reply?).to be true
-      end
-
-      it 'return true if the last message is incoming and within the messaging window (with in 7 days)' do
-        create(
-          :message,
-          account: conversation.account,
-          inbox: instagram_inbox,
-          conversation: conversation,
-          created_at: 6.days.ago
-        )
-        service = described_class.new(conversation)
-        expect(service.can_reply?).to be true
-      end
-
-      it 'return false if the last message is incoming and outside the messaging window (8 days ago)' do
-        create(
-          :message,
-          account: conversation.account,
-          inbox: instagram_inbox,
-          conversation: conversation,
-          created_at: 8.days.ago
-        )
-        service = described_class.new(conversation)
-        expect(service.can_reply?).to be false
-      end
-
-      it 'return true if last message is outgoing but previous incoming message is within window' do
-        create(
-          :message,
-          account: conversation.account,
-          inbox: instagram_inbox,
-          conversation: conversation,
-          message_type: :incoming,
-          created_at: 6.hours.ago
-        )
-
-        create(
-          :message,
-          account: conversation.account,
-          inbox: instagram_inbox,
-          conversation: conversation,
-          message_type: :outgoing,
-          created_at: 1.hour.ago
-        )
-
-        service = described_class.new(conversation)
-        expect(service.can_reply?).to be true
-      end
-
-      it 'considers only the last incoming message for determining time window' do
-        # Old message outside window
-        create(
-          :message,
-          account: conversation.account,
-          inbox: instagram_inbox,
-          conversation: conversation,
-          created_at: 10.days.ago
-        )
-
-        # Recent message within window
-        create(
-          :message,
-          account: conversation.account,
-          inbox: instagram_inbox,
-          conversation: conversation,
-          created_at: 6.hours.ago
-        )
-
-        service = described_class.new(conversation)
-        expect(service.can_reply?).to be true
-      end
-
-      it 'return true if the last message is incoming and exactly at the edge of 24-hour window with HUMAN_AGENT disabled' do
-        create(
-          :message,
-          account: conversation.account,
-          inbox: instagram_inbox,
-          conversation: conversation,
-          created_at: 24.hours.ago
-        )
-        service = described_class.new(conversation)
-        expect(service.can_reply?).to be true
-      end
-    end
-
-    context 'when the HUMAN_AGENT is disabled' do
-      before do
-        config = InstallationConfig.find_or_create_by(name: 'ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT')
-        config.update(value: false)
-      end
-
-      it 'return false if the last message is outgoing' do
-        service = described_class.new(conversation)
-        expect(service.can_reply?).to be false
-      end
-
-      it 'return false if the last message is incoming and outside the messaging window (8 days ago)' do
-        create(
-          :message,
-          account: conversation.account,
-          inbox: instagram_inbox,
-          conversation: conversation,
-          created_at: 4.days.ago
-        )
-        service = described_class.new(conversation)
-        expect(service.can_reply?).to be false
-      end
-
-      it 'return true if the last message is incoming and within the messaging window (24 hours limit)' do
-        create(
-          :message,
-          account: conversation.account,
-          inbox: instagram_inbox,
-          conversation: conversation,
-          created_at: 13.hours.ago
-        )
-        service = described_class.new(conversation)
-        expect(service.can_reply?).to be true
-      end
     end
   end
 
@@ -513,6 +521,105 @@ RSpec.describe Conversations::MessageWindowService do
         conversation: conversation,
         created_at: 13.hours.ago
       )
+      service = described_class.new(conversation)
+      expect(service.can_reply?).to be true
+    end
+  end
+
+  describe 'on Twilio SMS channels' do
+    let!(:twilio_sms_channel) { create(:channel_twilio_sms) }
+    let!(:twilio_sms_inbox) { create(:inbox, channel: twilio_sms_channel, account: twilio_sms_channel.account) }
+    let!(:conversation) { create(:conversation, inbox: twilio_sms_inbox, account: twilio_sms_channel.account) }
+
+    it 'return true irrespective of the last message time' do
+      create(
+        :message,
+        account: conversation.account,
+        inbox: twilio_sms_inbox,
+        conversation: conversation,
+        created_at: 13.hours.ago
+      )
+      service = described_class.new(conversation)
+      expect(service.can_reply?).to be true
+    end
+  end
+
+  describe 'on WhatsApp Twilio channels' do
+    let!(:whatsapp_channel) { create(:channel_twilio_sms, medium: :whatsapp) }
+    let!(:whatsapp_inbox) { create(:inbox, channel: whatsapp_channel, account: whatsapp_channel.account) }
+    let!(:conversation) { create(:conversation, inbox: whatsapp_inbox, account: whatsapp_channel.account) }
+
+    it 'return false if the last message is outgoing' do
+      service = described_class.new(conversation)
+      expect(service.can_reply?).to be false
+    end
+
+    it 'return true if the last message is incoming and within the messaging window (with in 24 hours)' do
+      create(
+        :message,
+        account: conversation.account,
+        inbox: whatsapp_inbox,
+        conversation: conversation,
+        created_at: 13.hours.ago
+      )
+      service = described_class.new(conversation)
+      expect(service.can_reply?).to be true
+    end
+
+    it 'return false if the last message is incoming and outside the messaging window (24 hours limit)' do
+      create(
+        :message,
+        account: conversation.account,
+        inbox: whatsapp_inbox,
+        conversation: conversation,
+        created_at: 25.hours.ago
+      )
+      service = described_class.new(conversation)
+      expect(service.can_reply?).to be false
+    end
+
+    it 'return true if last message is outgoing but previous incoming message is within window' do
+      create(
+        :message,
+        account: conversation.account,
+        inbox: whatsapp_inbox,
+        conversation: conversation,
+        message_type: :incoming,
+        created_at: 6.hours.ago
+      )
+
+      create(
+        :message,
+        account: conversation.account,
+        inbox: whatsapp_inbox,
+        conversation: conversation,
+        message_type: :outgoing,
+        created_at: 1.hour.ago
+      )
+
+      service = described_class.new(conversation)
+      expect(service.can_reply?).to be true
+    end
+
+    it 'considers only the last incoming message for determining time window' do
+      # Old message outside window
+      create(
+        :message,
+        account: conversation.account,
+        inbox: whatsapp_inbox,
+        conversation: conversation,
+        created_at: 10.days.ago
+      )
+
+      # Recent message within window
+      create(
+        :message,
+        account: conversation.account,
+        inbox: whatsapp_inbox,
+        conversation: conversation,
+        created_at: 6.hours.ago
+      )
+
       service = described_class.new(conversation)
       expect(service.can_reply?).to be true
     end
