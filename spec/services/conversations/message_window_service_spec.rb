@@ -332,7 +332,7 @@ RSpec.describe Conversations::MessageWindowService do
             account: conversation.account,
             inbox: instagram_inbox,
             conversation: conversation,
-            created_at: 4.days.ago
+            created_at: 9.days.ago
           )
           service = described_class.new(conversation)
           expect(service.can_reply?).to be false

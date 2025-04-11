@@ -55,7 +55,7 @@ class Conversations::MessageWindowService
   end
 
   def meta_messaging_window(config_key)
-    GlobalConfigService.load(config_key, nil) == 'true' ? MESSAGING_WINDOW_7_DAYS : MESSAGING_WINDOW_24_HOURS
+    GlobalConfigService.load(config_key, nil) ? MESSAGING_WINDOW_7_DAYS : MESSAGING_WINDOW_24_HOURS
   end
 
   def last_incoming_message
