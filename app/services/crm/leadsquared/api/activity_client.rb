@@ -1,6 +1,6 @@
 class Crm::Leadsquared::Api::ActivityClient < Crm::Leadsquared::Api::BaseClient
   # https://apidocs.leadsquared.com/post-an-activity-to-lead/#api
-  def post_activity(prospect_id, activity_event, activity_note, activity_date_time = nil)
+  def post_activity(prospect_id, activity_event, activity_note)
     return { success: false, error: 'Prospect ID is required' } if prospect_id.blank?
     return { success: false, error: 'Activity event code is required' } if activity_event.blank?
 
@@ -11,9 +11,6 @@ class Crm::Leadsquared::Api::ActivityClient < Crm::Leadsquared::Api::BaseClient
       'ActivityEvent' => activity_event,
       'ActivityNote' => activity_note
     }
-
-    # Add activity date time if provided
-    body['ActivityDateTime'] = activity_date_time if activity_date_time.present?
 
     response = post(path, {}, body)
     handle_activity_response(response)
