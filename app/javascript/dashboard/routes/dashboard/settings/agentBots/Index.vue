@@ -9,6 +9,7 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import AgentBotModal from './components/AgentBotModal.vue';
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 
 const MODAL_TYPES = {
   CREATE: 'create',
@@ -25,7 +26,7 @@ const selectedBot = ref({});
 const loading = ref({});
 const modalType = ref(MODAL_TYPES.CREATE);
 const agentBotModalRef = ref(null);
-const showDeleteConfirmationPopup = ref(false);
+const agentBotDeleteDialogRef = ref(null);
 
 const tableHeaders = computed(() => {
   return [
@@ -34,7 +35,7 @@ const tableHeaders = computed(() => {
   ];
 });
 
-const deleteMessage = computed(() => ` ${selectedBot.value.name}?`);
+const selectedBotName = computed(() => selectedBot.value?.name || '');
 
 const openAddModal = () => {
   modalType.value = MODAL_TYPES.CREATE;
@@ -50,11 +51,7 @@ const openEditModal = bot => {
 
 const openDeletePopup = bot => {
   selectedBot.value = bot;
-  showDeleteConfirmationPopup.value = true;
-};
-
-const closeDeletePopup = () => {
-  showDeleteConfirmationPopup.value = false;
+  agentBotDeleteDialogRef.value.open();
 };
 
 const deleteAgentBot = async id => {
@@ -65,13 +62,14 @@ const deleteAgentBot = async id => {
     useAlert(t('AGENT_BOTS.DELETE.API.ERROR_MESSAGE'));
   } finally {
     loading.value[id] = false;
+    selectedBot.value = {};
   }
 };
 
 const confirmDeletion = () => {
   loading.value[selectedBot.value.id] = true;
-  closeDeletePopup();
   deleteAgentBot(selectedBot.value.id);
+  agentBotDeleteDialogRef.value.close();
 };
 
 onMounted(() => {
@@ -82,15 +80,15 @@ onMounted(() => {
 <template>
   <SettingsLayout
     :is-loading="uiFlags.isFetching"
-    :loading-message="$t('AGENT_BOTS.LIST.LOADING')"
+    :loading-message="t('AGENT_BOTS.LIST.LOADING')"
     :no-records-found="!agentBots.length"
-    :no-records-message="$t('AGENT_BOTS.LIST.404')"
+    :no-records-message="t('AGENT_BOTS.LIST.404')"
   >
     <template #header>
       <BaseSettingsHeader
-        :title="$t('AGENT_BOTS.HEADER')"
-        :description="$t('AGENT_BOTS.DESCRIPTION')"
-        :link-text="$t('AGENT_BOTS.LEARN_MORE')"
+        :title="t('AGENT_BOTS.HEADER')"
+        :description="t('AGENT_BOTS.DESCRIPTION')"
+        :link-text="t('AGENT_BOTS.LEARN_MORE')"
         feature-name="agent_bots"
       >
         <template #actions>
@@ -114,7 +112,7 @@ onMounted(() => {
           </th>
         </thead>
         <tbody class="flex-1 divide-y divide-n-weak text-n-slate-12">
-          <tr v-for="(bot, index) in agentBots" :key="bot.id">
+          <tr v-for="bot in agentBots" :key="bot.id">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               <div class="flex flex-row items-center gap-4">
                 <Avatar
@@ -146,7 +144,7 @@ onMounted(() => {
               <div class="flex gap-1 justify-end">
                 <Button
                   v-if="!bot.system_bot"
-                  v-tooltip.top="$t('AGENT_BOTS.EDIT.BUTTON_TEXT')"
+                  v-tooltip.top="t('AGENT_BOTS.EDIT.BUTTON_TEXT')"
                   icon="i-lucide-pen"
                   slate
                   xs
@@ -156,13 +154,13 @@ onMounted(() => {
                 />
                 <Button
                   v-if="!bot.system_bot"
-                  v-tooltip.top="$t('AGENT_BOTS.DELETE.BUTTON_TEXT')"
+                  v-tooltip.top="t('AGENT_BOTS.DELETE.BUTTON_TEXT')"
                   icon="i-lucide-trash-2"
                   xs
                   ruby
                   faded
                   :is-loading="loading[bot.id]"
-                  @click="openDeletePopup(bot, index)"
+                  @click="openDeletePopup(bot)"
                 />
               </div>
             </td>
@@ -177,15 +175,17 @@ onMounted(() => {
       :selected-bot="selectedBot"
     />
 
-    <woot-delete-modal
-      v-model:show="showDeleteConfirmationPopup"
-      :on-close="closeDeletePopup"
-      :on-confirm="confirmDeletion"
-      :title="$t('AGENT_BOTS.DELETE.CONFIRM.TITLE')"
-      :message="$t('AGENT_BOTS.DELETE.CONFIRM.MESSAGE')"
-      :message-value="deleteMessage"
-      :confirm-text="$t('AGENT_BOTS.DELETE.CONFIRM.YES')"
-      :reject-text="$t('AGENT_BOTS.DELETE.CONFIRM.NO')"
+    <Dialog
+      ref="agentBotDeleteDialogRef"
+      type="alert"
+      :title="t('AGENT_BOTS.DELETE.CONFIRM.TITLE')"
+      :description="
+        t('AGENT_BOTS.DELETE.CONFIRM.MESSAGE', { name: selectedBotName })
+      "
+      :is-loading="uiFlags.isDeleting"
+      :confirm-button-label="t('AGENT_BOTS.DELETE.CONFIRM.YES')"
+      :cancel-button-label="t('AGENT_BOTS.DELETE.CONFIRM.NO')"
+      @confirm="confirmDeletion"
     />
   </SettingsLayout>
 </template>

@@ -24,6 +24,11 @@ const props = defineProps({
   },
 });
 
+const MODAL_TYPES = {
+  CREATE: 'create',
+  EDIT: 'edit',
+};
+
 const store = useStore();
 const { t } = useI18n();
 const dialogRef = ref(null);
@@ -60,17 +65,19 @@ const v$ = useVuelidate(
 );
 
 const isLoading = computed(() =>
-  props.type === 'create' ? uiFlags.value.isCreating : uiFlags.value.isUpdating
+  props.type === MODAL_TYPES.CREATE
+    ? uiFlags.value.isCreating
+    : uiFlags.value.isUpdating
 );
 
 const dialogTitle = computed(() =>
-  props.type === 'create'
+  props.type === MODAL_TYPES.CREATE
     ? t('AGENT_BOTS.ADD.TITLE')
     : t('AGENT_BOTS.EDIT.TITLE')
 );
 
 const confirmButtonLabel = computed(() =>
-  props.type === 'create'
+  props.type === MODAL_TYPES.CREATE
     ? t('AGENT_BOTS.FORM.CREATE')
     : t('AGENT_BOTS.FORM.UPDATE')
 );
@@ -130,7 +137,7 @@ const handleSubmit = async () => {
     avatar: formState.botAvatar,
   };
 
-  const isCreate = props.type === 'create';
+  const isCreate = props.type === MODAL_TYPES.CREATE;
 
   try {
     const actionPayload = isCreate
@@ -192,7 +199,7 @@ defineExpose({ dialogRef });
         <Avatar
           :src="formState.botAvatarUrl"
           :name="formState.botName"
-          :size="80"
+          :size="68"
           allow-upload
           @upload="handleImageUpload"
           @delete="handleAvatarDelete"
@@ -236,6 +243,7 @@ defineExpose({ dialogRef });
           data-testid="label-submit"
           :label="confirmButtonLabel"
           :is-loading="isLoading"
+          :disabled="v$.$invalid"
         />
       </div>
     </form>

@@ -42,7 +42,7 @@
       "TITLE": "Delete bot",
       "CONFIRM": {
         "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure you want to delete",
+        "MESSAGE": "Are you sure you want to delete {name}?",
         "YES": "Yes, Delete",
         "NO": "No, Keep"
       },
