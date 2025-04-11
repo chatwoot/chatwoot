@@ -17,6 +17,7 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
     # Initialize API clients
     @lead_client = Crm::Leadsquared::Api::LeadClient.new(@access_key, @secret_key, @endpoint_url)
     @activity_client = Crm::Leadsquared::Api::ActivityClient.new(@access_key, @secret_key, @endpoint_url)
+    @lead_finder = Crm::Leadsquared::LeadFinderService.new(@lead_client)
   end
 
   def handle_contact_created(contact)
@@ -70,18 +71,15 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
   end
 
   def create_conversation_activity(conversation:, activity_type:, activity_code_key:, metadata_key:, mapper_method:)
-    # Get the contact associated with the conversation
     contact = conversation.contact
     return { success: false, error: 'Contact not found for conversation' } unless contact
 
-    # Get LeadSquared lead ID for the contact
-    lead_id = get_or_find_lead_id(contact)
-    return { success: false, error: 'Lead not found in LeadSquared' } unless lead_id
+    result = @lead_finder.find_or_create(contact)
+    return { success: false, error: 'Lead not found in LeadSquared' } unless result[:success]
 
-    # Create activity note using the specified mapper method
+    store_external_id(contact, result[:lead_id]) if result[:lead_id].present?
+
     activity_note = Crm::Leadsquared::Mappers::ConversationMapper.send(mapper_method, conversation)
-
-    # Get activity code from settings
     activity_code = @hook.settings[activity_code_key]
 
     if activity_code.blank?
@@ -90,7 +88,7 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
     end
 
     # Post the activity to LeadSquared
-    response = @activity_client.post_activity(lead_id, activity_code, activity_note)
+    response = @activity_client.post_activity(result[:lead_id], activity_code, activity_note)
 
     # Store activity reference in conversation metadata if successful
     if response[:success]
@@ -100,61 +98,5 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
     end
 
     response
-  end
-
-  def find_lead_in_leadsquared(contact)
-    # Try searching by email
-    if contact.email.present?
-      response = @lead_client.search_lead(contact.email)
-
-      if response[:success] && response[:data].is_a?(Array) && response[:data].any?
-        return { success: true, lead_id: response[:data].first['ProspectID'] }
-      end
-    end
-
-    # Try searching by phone if email search failed
-    if contact.phone_number.present?
-      response = @lead_client.search_lead(contact.phone_number)
-
-      if response[:success] && response[:data].is_a?(Array) && response[:data].any?
-        return { success: true, lead_id: response[:data].first['ProspectID'] }
-      end
-    end
-
-    # No lead found
-    { success: false }
-  end
-
-  def get_or_find_lead_id(contact)
-    # First check if we already have a stored ID
-    lead_id = get_external_id(contact)
-    return lead_id if lead_id.present?
-
-    # If not, search for it in LeadSquared
-    found_lead = find_lead_in_leadsquared(contact)
-
-    if found_lead[:success]
-      # Store the ID for future use
-      store_external_id(contact, found_lead[:lead_id])
-      return found_lead[:lead_id]
-    end
-
-    # If still not found, create a new lead
-    lead_data = Crm::Leadsquared::Mappers::ContactMapper.map(contact)
-    response = @lead_client.create_or_update_lead(lead_data)
-
-    if response[:success]
-      # Search for the newly created lead to get its ID
-      search_key = contact.email || contact.phone_number
-      search_response = @lead_client.search_lead(search_key)
-
-      if search_response[:success] && search_response[:data].is_a?(Array) && search_response[:data].any?
-        lead_id = search_response[:data].first['ProspectID']
-        store_external_id(contact, lead_id)
-        return lead_id
-      end
-    end
-
-    nil
   end
 end
