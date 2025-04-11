@@ -28,7 +28,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
       process_test_event(entry)
       return
     end
-    
+
     process_messages(entry)
   end
 
