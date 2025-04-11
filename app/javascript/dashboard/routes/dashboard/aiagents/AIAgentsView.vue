@@ -4,6 +4,7 @@ import aiAgents from '../../../api/aiAgents';
 import { useAccount } from 'dashboard/composables/useAccount';
 import WootSubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
 import BaseSettingsHeader from '../settings/components/BaseSettingsHeader.vue';
+import { useAlert } from 'dashboard/composables';
 
 const aiTemplates = ref()
 async function fetchAiAgentTemplates() {
@@ -69,9 +70,11 @@ async function createAiAgent() {
     loadingCreate.value = true
     await aiAgents.createAiAgent(name, templateId)
     fetchAiAgents()
+    showCreateAgentModal.value = false
+  } catch (e) {
+    useAlert('Gagal menambahkan agen AI')
   } finally {
     loadingCreate.value = false
-    showCreateAgentModal.value = false
   }
 }
 
