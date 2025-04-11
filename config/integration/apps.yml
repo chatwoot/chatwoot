@@ -202,6 +202,8 @@ leadsquared:
           'access_key': { 'type': 'string' },
           'secret_key': { 'type': 'string' },
           'endpoint_url': { 'type': 'string' },
+          'conversation_activity_code': { 'type': 'integer' },
+          'transcript_activity_code': { 'type': 'integer' }
         },
       'required': ['access_key', 'secret_key', 'endpoint_url'],
       'additionalProperties': false,
