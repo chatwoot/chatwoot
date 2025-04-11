@@ -7,31 +7,15 @@ class AgentBotsAPI extends ApiClient {
   }
 
   create(data) {
-    // If data is FormData, use it directly
-    if (data instanceof FormData) {
-      return axios.post(this.url, data, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-    }
-
-    // Otherwise, use the default create method
-    return super.create(data);
+    return axios.post(this.url, data, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
   }
 
   update(id, data) {
-    // If data is FormData, use it directly
-    if (data instanceof FormData) {
-      return axios.patch(`${this.url}/${id}`, data, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-    }
-
-    // Otherwise, use the default update method
-    return super.update(id, data);
+    return axios.patch(`${this.url}/${id}`, data, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
   }
 
   deleteAgentBotAvatar(botId) {
