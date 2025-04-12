@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Завантаження бесід",
     "CANNOT_REPLY": "Ви не можете відповісти через",
     "24_HOURS_WINDOW": "24-годинне обмеження на повідомлення",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Ця розмова не призначена на вас. Ви бажаєте призначити цю розмову на себе?",
     "ASSIGN_TO_ME": "Призначити мені",
     "TWILIO_WHATSAPP_CAN_REPLY": "Ви можете відповісти на цю розмову тільки за допомогою шаблонного повідомлення через",
