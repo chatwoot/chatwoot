@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "טוען שיחות",
     "CANNOT_REPLY": "לא ניתן להשיב עקב",
     "24_HOURS_WINDOW": "הגבלת חלון הודעות של 24 שעות",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "השיחה לא שייכת לך, האם תרצה לשייך אותה אליך?",
     "ASSIGN_TO_ME": "שייך לעצמך",
     "TWILIO_WHATSAPP_CAN_REPLY": "אתה יכול להשיב לשיחה זו רק באמצעות הודעת תבנית בשל",
