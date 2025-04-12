@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Beszélgetések betöltése",
     "CANNOT_REPLY": "Nem tudunk válaszolni, mivel",
     "24_HOURS_WINDOW": "24 órás üzeneti ablak megkötés",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Ez a beszélgetés nincs hozzádrendelve. Szeretnéd magadhoz rendelni?",
     "ASSIGN_TO_ME": "Hozzárendelés magamhoz",
     "TWILIO_WHATSAPP_CAN_REPLY": "Erre a beszélgetésre csak konzerv válasszal válaszolhatsz, mert",
