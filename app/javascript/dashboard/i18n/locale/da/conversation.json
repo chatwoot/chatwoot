@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Indlæser Samtaler",
     "CANNOT_REPLY": "Du kan ikke svare på grund af",
     "24_HOURS_WINDOW": "24 timers beskedvindue begrænsning",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Denne samtale er ikke tildelt dig. Vil du tildele denne samtale til dig selv?",
     "ASSIGN_TO_ME": "Tildel til mig",
     "TWILIO_WHATSAPP_CAN_REPLY": "Du kan kun svare på denne samtale ved hjælp af en skabelon besked på grund af",
