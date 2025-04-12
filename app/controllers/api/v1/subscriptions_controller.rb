@@ -1,34 +1,35 @@
 class Api::V1::SubscriptionsController < Api::BaseController
-    # before_action :authenticate_user!
-    # before_action :check_authorization
-    # before_action :set_account
-    # include AccessTokenAuthHelper
-    # skip_before_action :authenticate_user!, only: [:index, :show]
-    include AuthHelper
-    include CacheKeysHelper
+  # before_action :authenticate_user!
+  # before_action :check_authorization
+  # before_action :set_account
+  # include AccessTokenAuthHelper
+  # skip_before_action :authenticate_user!, only: [:index, :show]
+  include AuthHelper
+  include CacheKeysHelper
 
-    # Skip authentication for the `plans` method
-    skip_before_action :authenticate_user!, :set_current_user, :handle_with_exception, only: [:plans], raise: false
-    skip_before_action :authenticate_access_token!, only: [:plans], raise: false
-    skip_before_action :validate_bot_access_token!, only: [:plans], raise: false
+  # Skip authentication for the plans method
+  skip_before_action :authenticate_user!, :set_current_user, :handle_with_exception, only: [:plans], raise: false
+  skip_before_action :authenticate_access_token!, only: [:plans], raise: false
+  skip_before_action :validate_bot_access_token!, only: [:plans], raise: false
 
-    before_action :set_account, except: [:plans]
-    before_action :set_subscription, only: [:show, :update, :cancel]
-    before_action :set_subscription_plan, only: [:create]
+  before_action :set_account, except: [:plans]
+  before_action :set_subscription, only: [:show, :update, :cancel]
+  before_action :set_subscription_plan, only: [:create]
+  
+  def index
+    @subscriptions = @account.subscriptions.order(created_at: :desc)
+    render json: @subscriptions
+  end
+  
+  def show
+    render json: @subscription.as_json(include: [:subscription_usage])
+  end
+  
+  def create
+    billing_cycle = params[:billing_cycle] || 'monthly'
+    price = billing_cycle == 'annual' ? @subscription_plan.annual_price : @subscription_plan.monthly_price
     
-    def index
-      @subscriptions = @account.subscriptions.order(created_at: :desc)
-      render json: @subscriptions
-    end
-    
-    def show
-      render json: @subscription.as_json(include: [:subscription_usage])
-    end
-    
-    def create
-      billing_cycle = params[:billing_cycle] || 'monthly'
-      price = billing_cycle == 'annual' ? @subscription_plan.annual_price : @subscription_plan.monthly_price
-      
+    ActiveRecord::Base.transaction do
       @subscription = @account.subscriptions.new(
         plan_name: @subscription_plan.name,
         max_mau: @subscription_plan.max_mau,
@@ -45,76 +46,100 @@ class Api::V1::SubscriptionsController < Api::BaseController
       )
       
       if @subscription.save
-        create_payment_for_subscription
-        render json: @subscription, status: :created
+        begin
+          payment = create_payment_for_subscription
+          render json: { 
+            subscription: @subscription, 
+            subscription_payment: payment 
+          }, status: :created
+        rescue => e
+          Rails.logger.error "Payment creation error: #{e.message}"
+          raise ActiveRecord::Rollback
+          render json: { errors: "Failed to create payment: #{e.message}" }, status: :unprocessable_entity
+        end
       else
         render json: { errors: @subscription.errors }, status: :unprocessable_entity
       end
     end
-    
-    def update
-      if @subscription.update(subscription_params)
-        render json: @subscription
-      else
-        render json: { errors: @subscription.errors }, status: :unprocessable_entity
-      end
+  end
+  
+  def update
+    if @subscription.update(subscription_params)
+      render json: @subscription
+    else
+      render json: { errors: @subscription.errors }, status: :unprocessable_entity
     end
+  end
+  
+  def cancel
+    @subscription.update(status: 'cancelled')
+    render json: { message: 'Subscription cancelled successfully' }
+  end
+  
+  def plans
+    @plans = SubscriptionPlan
+      .where(is_active: true)
+      .where.not(name: 'Free Trial')
+      .order(monthly_price: :asc)
+    render json: @plans
+  end
+  
+  def active
+    @subscription_active = @account.subscriptions.includes(:subscription_usage).find_by(status: 'active')
+    render json: @subscription_active.as_json(include: :subscription_usage)
+  end
+  
+  private
+  
+  def set_account
+    @account = current_user.accounts.find_by(status: 'active')
+  end
+  
+  def set_subscription
+    @subscription = @account.subscriptions.find(params[:id])
+  end
+  
+  def set_subscription_plan
+    @subscription_plan = SubscriptionPlan.find(params[:plan_id])
+  end
+  
+  def subscription_params
+    params.require(:subscription).permit(:billing_cycle)
+  end
+  
+  def check_authorization
+    authorize! :manage_subscription, @account
+  end
+  
+  def create_payment_for_subscription
+    order_id = "SUB-#{@account.id}-#{@subscription.id}-#{Time.now.to_i}"
+    amount = @subscription.price.to_f.to_i
     
-    def cancel
-      @subscription.update(status: 'cancelled')
-      render json: { message: 'Subscription cancelled successfully' }
-    end
+    payment_service = Duitku::PaymentService.new
+    response = payment_service.create_payment(
+      amount: amount,
+      order_id: order_id,
+      product_details: "#{@subscription.plan_name} Subscription (#{@subscription.billing_cycle})",
+      customer_name: current_user.name,
+      customer_email: current_user.email,
+      return_url: "#{ENV['CHATWOOT_FRONTEND_URL']}/app/accounts/#{@account.id}/settings/subscriptions",
+      subscription_id: @subscription.id,
+      payment_method: params[:payment_method]
+    )
+
+    Rails.logger.info "DOKU-PAYMENT: #{response.inspect}"
     
-    def plans
-      @plans = SubscriptionPlan.where(is_active: true).order(monthly_price: :asc)
-      render json: @plans
-    end
-    
-    private
-    
-    def set_account
-      @account = current_user.accounts.find_by(status: 'active')
-    end
-    
-    def set_subscription
-      @subscription = @account.subscriptions.find(params[:id])
-    end
-    
-    def set_subscription_plan
-      @subscription_plan = SubscriptionPlan.find(params[:subscription_plan_id])
-    end
-    
-    def subscription_params
-      params.require(:subscription).permit(:billing_cycle)
-    end
-    
-    def check_authorization
-      authorize! :manage_subscription, @account
-    end
-    
-    def create_payment_for_subscription
-      order_id = "SUB-#{@account.id}-#{@subscription.id}-#{Time.now.to_i}"
-      amount = @subscription.price
-      
-      payment_service = Duitku::PaymentService.new
-      response = payment_service.create_payment(
+    if response['paymentUrl'].present?
+      payment = @subscription.subscription_payments.create!(
         amount: amount,
-        order_id: order_id,
-        product_details: "#{@subscription.plan_name} Subscription (#{@subscription.billing_cycle})",
-        customer_name: current_user.name,
-        customer_email: current_user.email,
-        return_url: "#{ENV['CHATWOOT_FRONTEND_URL']}/app/accounts/#{@account.id}/settings/subscriptions",
-        subscription_id: @subscription.id
+        duitku_order_id: order_id,
+        payment_url: response['paymentUrl'],
+        payment_method: params[:payment_method],
+        expires_at: Time.now + 1.hour
       )
-      
-      if response['paymentUrl'].present?
-        @subscription.subscription_payments.create!(
-          amount: amount,
-          duitku_order_id: order_id,
-          payment_url: response['paymentUrl'],
-          payment_method: 'DUITKU',
-          expires_at: Time.now + 1.hour
-        )
-      end
+      return payment
+    else
+      raise "Payment URL not present in response: #{response.inspect}"
     end
+  end
 end

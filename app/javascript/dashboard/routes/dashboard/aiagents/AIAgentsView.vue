@@ -4,6 +4,7 @@ import aiAgents from '../../../api/aiAgents';
 import { useAccount } from 'dashboard/composables/useAccount';
 import WootSubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
 import BaseSettingsHeader from '../settings/components/BaseSettingsHeader.vue';
+import { useAlert } from 'dashboard/composables';
 
 const aiTemplates = ref()
 async function fetchAiAgentTemplates() {
@@ -69,9 +70,11 @@ async function createAiAgent() {
     loadingCreate.value = true
     await aiAgents.createAiAgent(name, templateId)
     fetchAiAgents()
+    showCreateAgentModal.value = false
+  } catch (e) {
+    useAlert('Gagal menambahkan agen AI')
   } finally {
     loadingCreate.value = false
-    showCreateAgentModal.value = false
   }
 }
 
@@ -88,7 +91,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="w-full px-8 py-8 bg-n-background">
+  <div class="w-full px-8 py-8 bg-n-background overflow-auto">
     <BaseSettingsHeader
         :title="'Agen AI'"
         :description="'Kelola dan ubah AI yang Anda buat di sini. Buat chatbot baru kapan pun Anda inginkan!'"
@@ -106,6 +109,9 @@ watchEffect(() => {
     <div>
       <div v-if="aiAgentsLoading" class="text-center">
         <span class="mt-4 mb-4 spinner" />
+      </div>
+      <div v-else-if="!aiAgentsRef || !aiAgentsRef.length">
+        <span>Anda belum menambahkan Agen AI</span>
       </div>
       <table v-else class="divide-y divide-slate-75 dark:divide-slate-700">
         <tbody class="divide-y divide-n-weak text-n-slate-11">

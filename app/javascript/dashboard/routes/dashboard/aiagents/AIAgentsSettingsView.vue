@@ -3,6 +3,7 @@ import { useRoute } from 'vue-router';
 import AiAgentGeneralSettingsView from './AiAgentGeneralSettingsView.vue'
 import { onMounted, ref } from 'vue';
 import aiAgents from '../../../api/aiAgents';
+import FollowupsSettingsView from './FollowupsSettingsView.vue';
 
 const tabs = [{
   key: '0',
@@ -43,7 +44,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="w-full px-8 py-8 bg-n-background">
+  <div class="w-full px-8 py-8 bg-n-background overflow-auto">
     <div class="">
       <center v-if="loadingData">
         <span class="mt-4 mb-4 spinner" />
@@ -61,6 +62,9 @@ onMounted(() => {
     </woot-tabs>
     <div v-show="activeIndex === 0">
       <AiAgentGeneralSettingsView :data="data" />
+    </div>
+    <div v-show="activeIndex === 3">
+      <FollowupsSettingsView :data="data" />
     </div>
   </div>
 </template>
