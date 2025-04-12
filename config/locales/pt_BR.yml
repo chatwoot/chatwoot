@@ -133,6 +133,9 @@ pt_BR:
       sla_missed_resolution: 'Meta de SLA de Resolução não alcançada para a conversa (#%{display_id})'
     attachment: 'Anexo'
     no_content: 'Sem conteúdo'
+    wrote: 'escreveu'
+    click_here_to_view: 'Clique aqui para ver'
+    previous_messages: 'Mensagens anteriores'
   conversations:
     messages:
       instagram_story_content: '%{story_sender} mencionou você na conversa: '
@@ -282,3 +285,30 @@ pt_BR:
     seconds:
       one: '%{count} segundo'
       other: '%{count} segundos'
+
+  agent_notifications:
+    conversation_notifications_mailer:
+      conversation_creation:
+        happened: 'foi criada em'
+        actor: 'uma nova conversa'
+        greeting: 'Olá %{agent_name},'
+        subject: '%{agent_name}, %{actor} [ID - %{conversation_id}] %{happened} %{inbox_name}.'
+      conversation_assignment:
+        subject: '%{agent_name}, uma nova conversa [ID - %{conversation_id}] foi atribuida a você em %{inbox_name}.'
+        greeting: 'Olá %{agent_name},'
+        content: Hora de salvar o mundo. Uma nova conversa foi atribuída a você.
+        action: 'Clique aqui para começar.'
+      conversation_mention:
+        subject: '%{agent_name}, você foi mencionado na conversa [ID - %{conversation_id}] em %{inbox_name}.'
+        greeting: 'Olá %{agent_name},'
+        actor: Você foi mencionado na conversa
+      assigned_conversation_new_message:
+        subject: '%{agent_name}, nova mensagem na conversa atribuida a você [ID - %{conversation_id}] em %{inbox_name}.'
+        greeting: 'Olá %{agent_name},'
+        content: 'Você tem uma nova mensagem em uma conversa atribuida a você.'
+        action: 'Clique aqui para começar.'
+      participating_conversation_new_message:
+        subject: '%{agent_name}, nova messagem em uma conversa que você participa [ID - %{conversation_id}] em %{inbox_name}.'
+        greeting: 'Olá %{agent_name},'
+        content: 'You have received a new message in a conversation you are participating.'
+        action: 'Clique aqui para começar.'

@@ -145,6 +145,9 @@ en:
       sla_missed_resolution: 'SLA target resolution missed for conversation (#%{display_id})'
     attachment: 'Attachment'
     no_content: 'No content'
+    wrote: 'wrote'
+    click_here_to_view: 'Click here to view'
+    previous_messages: 'Previous messages'
   conversations:
     messages:
       instagram_story_content: '%{story_sender} mentioned you in the story: '
@@ -296,3 +299,30 @@ en:
       other: '%{count} seconds'
   automation:
     system_name: 'Automation System'
+
+  agent_notifications:
+    conversation_notifications_mailer:
+      conversation_creation:
+        happened: 'has been created in'
+        actor: 'A new conversation'
+        subject: '%{agent_name}, %{actor} [ID - %{conversation_id}] %{happened} %{inbox_name}.'
+        greeting: 'Hi %{agent_name},'
+      conversation_assignment:
+        subject: '%{agent_name}, A new conversation [ID - %{conversation_id}] has been assigned to you.'
+        greeting: 'Hi %{agent_name},'
+        content: Time to save the world. A new conversation has been assigned to you
+        action: 'Click here to get cracking.'
+      conversation_mention:
+        subject: '%{agent_name}, You have been mentioned in conversation [ID - %{conversation_id}]'
+        greeting: 'Hi %{agent_name},'
+        actor: "You've been mentioned in a conversation"
+      assigned_conversation_new_message:
+        subject: '%{agent_name}, New message in your assigned conversation [ID - %{conversation_id}].'
+        greeting: 'Hi %{agent_name},'
+        content: You have received a new message in your assigned conversation.
+        action: 'Click here to get cracking.'
+      participating_conversation_new_message:
+        subject: '%{agent_name}, New message in your participating conversation [ID - %{conversation_id}].'
+        greeting: 'Hi %{agent_name},'
+        content: 'You have received a new message in a conversation you are participating.'
+        action: 'Click here to get cracking.'
