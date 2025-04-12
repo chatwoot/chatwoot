@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Caricamento conversazioni",
     "CANNOT_REPLY": "Non puoi rispondere a causa di",
     "24_HOURS_WINDOW": "Restrizione della finestra del messaggio a 24 ore",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Questa conversazione non è assegnata. Vuoi assegnare questa conversazione a te stesso?",
     "ASSIGN_TO_ME": "Assegna a me",
     "TWILIO_WHATSAPP_CAN_REPLY": "È possibile rispondere a questa conversazione solo utilizzando un messaggio modello a causa di",
