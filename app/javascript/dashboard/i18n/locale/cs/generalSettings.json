@@ -15,18 +15,18 @@
       "SUCCESS": "Nastavení účtu bylo úspěšně aktualizováno"
     },
     "ACCOUNT_DELETE_SECTION": {
-      "TITLE": "Delete your Account",
+      "TITLE": "Odstranit účet",
       "NOTE": "Once you delete your account, all your data will be deleted.",
-      "BUTTON_TEXT": "Delete Your Account",
+      "BUTTON_TEXT": "Odstranit účet",
       "CONFIRM": {
-        "TITLE": "Delete Account",
+        "TITLE": "Odstranit účet",
         "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
         "BUTTON_TEXT": "Vymazat",
         "DISMISS": "Zrušit",
         "PLACE_HOLDER": "Please type {accountName} to confirm"
       },
       "SUCCESS": "Account marked for deletion",
-      "FAILURE": "Could not delete account, try again!",
+      "FAILURE": "Účet nelze odstranit, zkuste to znovu!",
       "SCHEDULED_DELETION": {
         "TITLE": "Account Scheduled for Deletion",
         "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
