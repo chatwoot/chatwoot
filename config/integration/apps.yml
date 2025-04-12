@@ -202,8 +202,12 @@ leadsquared:
           'access_key': { 'type': 'string' },
           'secret_key': { 'type': 'string' },
           'endpoint_url': { 'type': 'string' },
+          'enable_conversation_activity': { 'type': 'boolean' },
+          'enable_transcript_activity': { 'type': 'boolean' },
+          'conversation_activity_score': { 'type': 'integer' },
+          'transcript_activity_score': { 'type': 'integer' },
           'conversation_activity_code': { 'type': 'integer' },
-          'transcript_activity_code': { 'type': 'integer' }
+          'transcript_activity_code': { 'type': 'integer' },
         },
       'required': ['access_key', 'secret_key', 'endpoint_url'],
       'additionalProperties': false,
@@ -228,7 +232,39 @@ leadsquared:
         'name': 'endpoint_url',
         'validation': 'required',
         'placeholder': 'e.g. https://api.leadsquared.com',
-        'help': 'Your LeadSquared API base URL based on your region'
-      }
+        'help': 'Your LeadSquared API base URL based on your region',
+      },
+      {
+        'label': 'Push Conversation Activity',
+        'type': 'checkbox',
+        'name': 'enable_conversation_activity',
+        'help': 'Enable this option to push an activity when a conversation is created',
+      },
+      {
+        'label': 'Conversation Activity Score',
+        'type': 'number',
+        'name': 'conversation_activity_score',
+        'help': 'Score to assign to the conversation created activity, default is 0',
+      },
+      {
+        'label': 'Push Transcript Activity',
+        'type': 'checkbox',
+        'name': 'enable_transcript_activity',
+        'help': 'Enable this option to push an activity when a transcript is created',
+      },
+      {
+        'label': 'Transcript Activity Score',
+        'type': 'number',
+        'name': 'transcript_activity_score',
+        'help': 'Score to assign to the conversation transcript activity, default is 0',
+      },
     ]
-  visible_properties: ['access_key', 'endpoint_url']
+  visible_properties:
+    [
+      'access_key',
+      'endpoint_url',
+      'enable_conversation_activity',
+      'enable_transcript_activity',
+      'conversation_activity_score',
+      'transcript_activity_score',
+    ]
