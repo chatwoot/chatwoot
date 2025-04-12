@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Notiek sarunu ielāde",
     "CANNOT_REPLY": "Jūs nevarat atbildēt, jo",
     "24_HOURS_WINDOW": "24 stundu ziņojuma loga ierobežojums",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Šī saruna nav Jums piešķirta. Vai vēlaties piešķirt šo sarunu sev?",
     "ASSIGN_TO_ME": "Piešķirt sev",
     "TWILIO_WHATSAPP_CAN_REPLY": "Jūs varat atbildēt uz šo sarunu, tikai izmantojot veidnes ziņojumu, jo",
