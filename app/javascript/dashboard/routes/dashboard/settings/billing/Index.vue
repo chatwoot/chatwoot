@@ -1,11 +1,74 @@
+<script setup>
+import { useAlert } from 'dashboard/composables';
+import { computed, onMounted, ref } from 'vue';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import { useI18n } from 'vue-i18n';
+import {
+  useStoreGetters,
+  useStore,
+  useMapGetter,
+} from 'dashboard/composables/store';
+
+import Payment from './components/Payment.vue';
+import SettingsLayout from '../SettingsLayout.vue';
+
+const getters = useStoreGetters();
+const store = useStore();
+const { t } = useI18n();
+
+const loading = ref({});
+const showPaymentPopup = ref(false);
+const paymentAPI = ref({ message: '' });
+
+const currentPackage = ref({});
+const plans = ref([]);
+const activeSubscription = ref({});
+
+const openPaymentPopup = plan => {
+  showPaymentPopup.value = true;
+  currentPackage.value = plan;
+};
+const hidePaymentPopup = () => {
+  showPaymentPopup.value = false;
+};
+
+onMounted(async () => {
+  try {
+    const response = await fetch('/api/v1/subscriptions/plans');
+    const data = await response.json();
+    plans.value = data;
+  } catch (error) {
+    console.error('Gagal mengambil data pricing:', error);
+  }
+  
+  try {
+    const response = await store.dispatch('myActiveSubscription');
+    activeSubscription.value = response;
+    console.log('activeSubscription', activeSubscription);
+  } catch (error) {
+    console.error('Gagal mengambil data active subscription:', error);
+  }
+});
+</script>
+
 <template>
+  <woot-modal v-model:show="showPaymentPopup" :on-close="hidePaymentPopup">
+    <Payment
+     :id="currentPackage.id"
+     :name="currentPackage.name"
+     :plan="currentPackage"
+     :plans="plans"
+     @close="hidePaymentPopup" />
+  </woot-modal>
+
   <div class="billing-page p-4">
     <!-- Current Plan Information Cards -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
       <!-- Package Details -->
       <div class="bg-gradient-to-r from-cyan-500 to-cyan-400 text-white rounded-lg p-4">
-        <h3 class="text-sm font-medium mb-2">Package Details</h3>
-        <h2 class="text-2xl font-bold mb-3">{{ subscription?.[0]?.plan_name }}</h2>
+        <h3 class="text-sm font-medium mb-2">Package Details</h3> 
+        <pre>{{ subscription }}</pre>
+        <h2 class="text-2xl font-bold mb-3">{{ activeSubscription.plan_name ?? 'N/A' }}</h2>
         <div class="flex items-center text-sm">
           <span class="inline-block mr-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -13,7 +76,7 @@
               <path d="M12 6v6l4 2"></path>
             </svg>
           </span>
-          <span>Expires on {{ subscription?.length > 0 ? formatDate(subscription?.[0]?.ends_at) : 'N/A' }}</span>
+          <span>Expires on {{ activeSubscription.ends_at ? formatDate(activeSubscription?.ends_at) : 'N/A' }}</span>
         </div>
       </div>
 
@@ -21,8 +84,8 @@
       <div class="bg-gradient-to-r from-violet-500 to-violet-400 text-white rounded-lg p-4">
         <h3 class="text-sm font-medium mb-2">Monthly Active Users (Limit Percakapan)</h3>
         <div class="flex items-center">
-          <h2 class="text-2xl font-bold">{{ usage.activeUsers }}</h2>
-          <span class="text-sm ml-2">({{ subscription?.[0]?.max_mau }} MAU)</span>
+          <h2 class="text-2xl font-bold">{{ activeSubscription?.subscription_usage?.mau_count }}</h2>
+          <span class="text-sm ml-2">({{ activeSubscription.max_mau }} MAU)</span>
         </div>
         <p class="text-sm mb-2">Additional MAU: {{ usage.additionalMau }}</p>
         <button @click="topUpMau" class="bg-white text-purple-500 rounded px-2 py-1 text-xs font-medium">Top Up MAU</button>
@@ -41,8 +104,8 @@
       <div class="bg-gradient-to-r from-blue-500 to-blue-400 text-white rounded-lg p-4">
         <h3 class="text-sm font-medium mb-2">AI Responses</h3>
         <div class="flex items-center">
-          <h2 class="text-2xl font-bold">{{ usage.aiResponses.used }} Used</h2>
-          <span class="text-sm ml-2">({{ subscription?.[0]?.max_ai_responses }} AI Responses Limit)</span>
+          <h2 class="text-2xl font-bold">{{ activeSubscription?.subscription_usage?.ai_responses_count }} Used</h2>
+          <span class="text-sm ml-2">({{ activeSubscription.max_ai_responses }} AI Responses Limit)</span>
         </div>
         <div class="flex items-center text-sm mt-5">
           <span class="inline-block mr-2">
@@ -224,40 +287,6 @@
       </div>
     </div>
 
-    <!-- Pricing Plans -->
-    <!-- <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-      <div 
-        v-for="plan in filteredPlans" 
-        :key="plan.id" 
-        class="border border-gray-200 rounded-lg overflow-hidden"
-      >
-        <div class="p-4">
-          <h3 class="text-lg font-medium mb-4">{{ plan.name }}</h3>
-          <div class="mb-4">
-            <p class="text-2xl font-bold">{{ formatPrice(plan.price) }}</p>
-            <p class="text-gray-600">IDR / {{ getDurationLabel(selectedDuration) }}</p>
-            <p class="text-xs text-gray-500">{{ plan.packageType }}</p>
-          </div>
-          <div class="mb-4">
-            <h4 class="font-medium mb-2">{{ plan.name }} Features</h4>
-            <ul class="space-y-2">
-              <li v-for="(feature, index) in plan.features" :key="index" class="flex items-center">
-                <span class="text-blue-500 mr-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
-                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                  </svg>
-                </span>
-                <span>{{ feature }}</span>
-              </li>
-            </ul>
-          </div>
-          <button @click="purchasePlan(plan.id)" class="w-full bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded">
-            Buy Package
-          </button>
-        </div>
-      </div>
-    </div> -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
       <div v-for="plan in plans" :key="plan.id" class="border border-gray-200 rounded-lg overflow-hidden">
         <div class="p-4">
@@ -283,9 +312,17 @@
               </li>
             </ul>
           </div>
-          <button @click="purchasePlan(plan.id)" class="btn-dark w-full bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded">
+
+          <woot-button
+            class="rounded-md button nice"
+            icon="add-circle"
+            @click="openPaymentPopup(plan)"
+          >
             Buy Package
-          </button>
+          </woot-button>
+          <!-- <button @click="purchasePlan(plan.id)" class="btn-dark w-full bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded">
+            Buy Package
+          </button> -->
         </div>
       </div>
     </div>
@@ -378,13 +415,14 @@ export default {
         'halfyearly': '2 Months Free!',
         'yearly': '3 Months Free!'
       },
-      plans: [],
+      // plans: [],
       transactions: []
     };
   },
   computed: {
     ...mapState({
       subscription: state => state.billing.myActiveSubscription,
+      subscriptionHistories: state => state.billing.subscriptionHistories,
       isFetching: state => state.uiFlags.isFetching,
     }),
     filteredPlans() {
@@ -395,7 +433,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['myActiveSubscription']),
+    ...mapActions(['myActiveSubscription', 'subscriptionHistories']),
     async fetchData() {
       try {
         this.loading = true;
@@ -689,17 +727,18 @@ export default {
     }
   },
   async created() {
-    try {
-      const response = await fetch('/api/v1/subscriptions/plans');
-      const data = await response.json();
-      this.plans = data;
-    } catch (error) {
-      console.error('Gagal mengambil data pricing:', error);
-    }
+    // try {
+    //   const response = await fetch('/api/v1/subscriptions/plans');
+    //   const data = await response.json();
+    //   this.plans = data;
+    // } catch (error) {
+    //   console.error('Gagal mengambil data pricing:', error);
+    // }
   },
   mounted() {
     // this.myActiveSubscription();
-    this.$store.dispatch('myActiveSubscription');
+    // this.$store.dispatch('myActiveSubscription');
+    this.$store.dispatch('subscriptionHistories');
     this.fetchData();
   }
 };
