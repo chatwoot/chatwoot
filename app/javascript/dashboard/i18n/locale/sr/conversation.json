@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Učitavanje razgovora",
     "CANNOT_REPLY": "Ne možete da odgovorite zbog",
     "24_HOURS_WINDOW": "24-časovno ograničenje poruka",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Ovaj razgovor nije dodeljen vama. Da li želite da dodelite razgovor sebi?",
     "ASSIGN_TO_ME": "Dodeli meni",
     "TWILIO_WHATSAPP_CAN_REPLY": "Možete jedino da odgovarate na ovaj razgovor koristeći šablon poruka zbog",
