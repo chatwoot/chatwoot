@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Laddar konversationer",
     "CANNOT_REPLY": "Du kan inte svara på grund av",
     "24_HOURS_WINDOW": "24 timmars meddelandebegränsning",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Den här konversationen är inte tilldelad dig. Vill du tilldela dig själv den här konversationen?",
     "ASSIGN_TO_ME": "Tilldela mig",
     "TWILIO_WHATSAPP_CAN_REPLY": "Du kan bara svara på denna konversation med ett mallmeddelande på grund av",
