@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "会話データを読み込んでいます",
     "CANNOT_REPLY": "以下の理由で返信できません：",
     "24_HOURS_WINDOW": "24時間以内のメッセージウィンドウの制限",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "この会話はあなたに割り当てられていません。自分に割り当てますか？",
     "ASSIGN_TO_ME": "自分に割り当て",
     "TWILIO_WHATSAPP_CAN_REPLY": "この会話にはテンプレートメッセージでしか返信できません。",
