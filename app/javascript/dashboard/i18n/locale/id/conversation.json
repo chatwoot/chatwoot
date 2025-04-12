@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Memuat Percakapan",
     "CANNOT_REPLY": "Anda tidak dapat membalas karena",
     "24_HOURS_WINDOW": "Pembatasan jendela pesan 24 jam",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Percakapan ini tidak ditugaskan kepada Anda. Apakah Anda ingin menugaskan percakapan ini kepada diri Anda?",
     "ASSIGN_TO_ME": "Tugaskan kepada saya",
     "TWILIO_WHATSAPP_CAN_REPLY": "Anda hanya dapat membalas percakapan ini menggunakan pesan template karena",
