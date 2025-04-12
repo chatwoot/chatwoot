@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "مکالمات لوڈ ہو رہے ہیں",
     "CANNOT_REPLY": "کی وجہ سے آپ جواب نہیں دے سکتے",
     "24_HOURS_WINDOW": "24 گھنٹے میسج ونڈو کی پابندی",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "یہ گفتگو آپ کو تفویض نہیں کی گئی ہے۔ کیا آپ یہ گفتگو اپنے آپ کو تفویض کرنا چاہیں گے?",
     "ASSIGN_TO_ME": "مجھے تفویض کریں۔",
     "TWILIO_WHATSAPP_CAN_REPLY": "آپ اس بات چیت کا جواب صرف ایک ٹیمپلیٹ پیغام کا استعمال کرتے ہوئے دے سکتے ہیں, کيونکہ‎",
