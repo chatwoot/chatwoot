@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Ladataan keskusteluita",
     "CANNOT_REPLY": "Et voi vastata, sillä",
     "24_HOURS_WINDOW": "24h vastausikkuna",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Tätä keskustelua ei ole määritetty sinulle. Haluatko siirtää tämän keskustelun itsellesi?",
     "ASSIGN_TO_ME": "Siirrä minulle",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
