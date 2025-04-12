@@ -15,29 +15,23 @@ class Crm::Leadsquared::Mappers::ConversationMapper
   end
 
   def conversation_activity
-    <<~NOTE.strip
-      New conversation started on #{brand_name}
-
-      Channel: #{channel_info}
-      Created: #{formatted_creation_time}
-      Conversation ID: #{conversation.display_id}
-      #{conversation_url}
-    NOTE
+    I18n.t('crm.created_activity',
+           brand_name: brand_name,
+           channel_info: channel_info,
+           formatted_creation_time: formatted_creation_time,
+           conversation: conversation,
+           url: conversation_url)
   end
 
   def transcript_activity
-    return 'No messages in conversation' if transcript_messages.empty?
+    return I18n.t('crm.no_message') if transcript_messages.empty?
 
-    <<~TRANSCRIPT.strip
-      Conversation Transcript from #{brand_name}
-
-      Channel: #{channel_info}
-      Conversation ID: #{conversation.display_id}
-      #{conversation_url}
-
-      Transcript:
-      #{format_messages}
-    TRANSCRIPT
+    I18n.t('crm.transcript_activity',
+           brand_name: brand_name,
+           channel_info: channel_info,
+           conversation: conversation,
+           url: conversation_url,
+           format_messages: format_messages)
   end
 
   private
@@ -80,19 +74,18 @@ class Crm::Leadsquared::Mappers::ConversationMapper
   end
 
   def message_content(message)
-    message.content.presence || '[No content]'
+    message.content.presence || I18n.t('crm.no_content')
   end
 
   def attachment_info(message)
     return '' unless message.attachments.any?
 
-    attachments = message.attachments.map { |a| "[Attachment: #{a.file_type}]" }.join(', ')
+    attachments = message.attachments.map { |a| I18n.t('crm.attachment', type: a.file_type) }.join(', ')
     "\n#{attachments}"
   end
 
   def conversation_url
-    url = app_account_conversation_url(account_id: conversation.account.id, id: conversation.display_id)
-    "View in #{brand_name}: #{url}"
+    app_account_conversation_url(account_id: conversation.account.id, id: conversation.display_id)
   end
 
   def brand_name
