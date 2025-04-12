@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Loading Conversations",
     "CANNOT_REPLY": "You cannot reply due to",
     "24_HOURS_WINDOW": "24 hour message window restriction",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Þetta samtal er ekki úthlutað á þig. Viltu úthluta þessu samtali á þig?",
     "ASSIGN_TO_ME": "Úthluta á mig",
     "TWILIO_WHATSAPP_CAN_REPLY": "Þú getur aðeins svarað þessu samtali með því að nota sniðmátskilaboð vegna þess að",
