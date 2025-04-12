@@ -36,18 +36,18 @@ Rails.application.routes.draw do
       # start of subscription scoped api routes
       resources :subscriptions, only: [] do
         collection do
-          get :plans  
+          get :plans
         end
       end
       # end of subscription scoped api routes
       # ----------------------------------
-        
+
       # ----------------------------------
       # start of pricing plan scoped api routes
       post 'duitku/webhook', to: 'duitku#webhook'
       # end of pricing plan scoped api routes
       # ----------------------------------
-      
+
       # ----------------------------------
       # start of pricing plan scoped api routes
       resources :pricing_plans, only: [:index, :show]
@@ -63,7 +63,7 @@ Rails.application.routes.draw do
           collection do
             get :active
           end
-          
+
           member do
             put :cancel
           end
@@ -94,6 +94,13 @@ Rails.application.routes.draw do
 
             collection do
               get :ai_agent_templates
+            end
+
+            resources :knowledge_sources, only: [:index], controller: 'knowledge_sources' do
+              collection do
+                post :text, to: 'knowledge_source_texts#create'
+                patch :text, to: 'knowledge_source_texts#update'
+              end
             end
           end
           resources :agents, only: [:index, :create, :update, :destroy] do
