@@ -19,12 +19,20 @@
         <div
           v-if="
             componentVariables.length ||
-            (componentType === 'header' && isHeaderMediaFormat)
+            (componentType === 'header' && isHeaderMediaFormat) ||
+            (componentType === 'buttons' && hasButtons)
           "
           class="template__variables-container"
         >
-          <p class="variables-label">
-            {{ `${getHeaderMediaFormat}` }}
+          <p
+            v-if="!(componentType === 'buttons' && hasButtons)"
+            class="variables-label"
+          >
+            {{
+              componentType === 'buttons'
+                ? 'Buttons'
+                : `${getHeaderMediaFormat}`
+            }}
           </p>
           <!-- Add file upload option for header with specific formats -->
           <template v-if="componentType === 'header' && isHeaderMediaFormat">
@@ -40,6 +48,101 @@
             <p v-if="uploadedFile">
               {{ uploadedFile.name }}
             </p>
+          </template>
+          <!-- Render buttons if they exist -->
+          <template v-if="componentType === 'buttons' && hasButtons">
+            <div
+              v-for="(button, index) in getButtons"
+              :key="index"
+              class="template__button-item"
+            >
+              <div class="url-button-container">
+                <span class="button-type-label">
+                  {{ button.type }} Button: {{ button.text }}
+                </span>
+                <div
+                  v-if="
+                    button.type === 'URL' &&
+                    processedParams &&
+                    processedParams[componentType] &&
+                    Object.entries(processedParams[componentType]).length > 0
+                  "
+                  class="flex w-full flex-col"
+                >
+                  <input
+                    v-model="processedParams[componentType][index]"
+                    type="text"
+                    class="variable-input !mb-0 !h-8 !w-2/3"
+                    :class="{
+                      'error-input':
+                        !isValidUrl(processedParams[componentType][index]) &&
+                        processedParams[componentType][index],
+                    }"
+                    :styles="{
+                      marginBottom: 0,
+                      width: '50%',
+                    }"
+                    placeholder="Enter URL"
+                    required
+                    @blur="validateUrl(componentType, index)"
+                  />
+                  <p
+                    v-if="
+                      !isValidUrl(processedParams[componentType][index]) &&
+                      processedParams[componentType][index]
+                    "
+                    class="url-error-message !mb-0"
+                  >
+                    Please enter a valid URL (e.g., https://example.com)
+                  </p>
+                </div>
+                <div
+                  v-if="button.type === 'PHONE_NUMBER'"
+                  class="flex items-center w-full"
+                >
+                  <input
+                    v-model="button.phone_number"
+                    type="text"
+                    class="variable-input !mb-0 !h-8 !w-2/3"
+                    :styles="{
+                      marginBottom: 0,
+                      width: '50%',
+                    }"
+                    :disabled="true"
+                  />
+                </div>
+                <div
+                  v-if="button.type === 'QUICK_REPLY'"
+                  class="flex items-center w-full"
+                >
+                  <input
+                    v-model="button.text"
+                    type="text"
+                    class="variable-input !mb-0 !h-8 !w-2/3"
+                    :styles="{
+                      marginBottom: 0,
+                      width: '50%',
+                    }"
+                    :disabled="true"
+                  />
+                </div>
+                <div
+                  v-if="button.type === 'COPY_CODE'"
+                  class="flex items-center w-full"
+                >
+                  <input
+                    v-model="button.example"
+                    type="text"
+                    class="variable-input !mb-0 !h-8 !w-2/3"
+                    :styles="{
+                      marginBottom: 0,
+                      width: '50%',
+                    }"
+                    :disabled="true"
+                  />
+                </div>
+              </div>
+            </div>
           </template>
           <div
             v-for="variable in componentVariables"
@@ -184,10 +287,12 @@ export default {
         header: {},
         body: {},
         footer: {},
+        buttons: {},
       },
       uploadedFile: null,
       inputModes: {},
       isLoading: false,
+      urlErrors: {},
     };
   },
   computed: {
@@ -198,7 +303,7 @@ export default {
     }),
     variables() {
       const allVariables = {};
-      ['header', 'body', 'footer'].forEach(componentType => {
+      ['header', 'body', 'footer', 'buttons'].forEach(componentType => {
         const component = this.template.components.find(
           c => c.type === componentType.toUpperCase()
         );
@@ -304,12 +409,32 @@ export default {
           return '';
       }
     },
+    hasButtons() {
+      const buttonsComponent = this.template.components.find(
+        c => c.type === 'BUTTONS'
+      );
+      return (
+        buttonsComponent &&
+        buttonsComponent.buttons &&
+        buttonsComponent.buttons.length > 0
+      );
+    },
+    getButtons() {
+      const buttonsComponent = this.template.components.find(
+        c => c.type === 'BUTTONS'
+      );
+      return buttonsComponent ? buttonsComponent.buttons || [] : [];
+    },
   },
   mounted() {
     this.generateVariables();
   },
   methods: {
     extractVariables(component) {
+      if (component.type === 'URL') {
+        if (!component || !component.url) return [];
+        return component.url.match(/{{([^}]+)}}/g) || [];
+      }
       if (!component || !component.text) return [];
       return component.text.match(/{{([^}]+)}}/g) || [];
     },
@@ -323,20 +448,39 @@ export default {
       });
     },
     generateVariables() {
-      ['header', 'body', 'footer'].forEach(componentType => {
+      ['header', 'body', 'footer', 'buttons'].forEach(componentType => {
         const component = this.template.components.find(
           c => c.type === componentType.toUpperCase()
         );
         if (component) {
-          const variables = this.extractVariables(component);
-          this.processedParams[componentType] = variables.reduce(
-            (acc, variable) => {
-              const key = this.processVariable(variable);
-              acc[key] = '';
-              return acc;
-            },
-            {}
-          );
+          if (componentType === 'buttons' && component?.buttons) {
+            const variables = [];
+            component.buttons.forEach((button, index) => {
+              if (button.type === 'URL' && button.url) {
+                const variable = this.extractVariables(button);
+                if (variable) {
+                  variables.push(index);
+                }
+              }
+            });
+            this.processedParams[componentType] = variables.reduce(
+              (acc, variable) => {
+                acc[variable] = '';
+                return acc;
+              },
+              {}
+            );
+          } else {
+            const variables = this.extractVariables(component);
+            this.processedParams[componentType] = variables.reduce(
+              (acc, variable) => {
+                const key = this.processVariable(variable);
+                acc[key] = '';
+                return acc;
+              },
+              {}
+            );
+          }
         }
       });
     },
@@ -370,7 +514,27 @@ export default {
     async sendMessage() {
       this.isLoading = true;
       this.$v.$touch();
-      if (this.$v.$invalid) return;
+      if (this.$v.$invalid) {
+        this.isLoading = false;
+        return;
+      }
+
+      // Check for URL errors
+      let hasUrlErrors = false;
+      if (this.processedParams.buttons) {
+        Object.keys(this.processedParams.buttons).forEach(index => {
+          const url = this.processedParams.buttons[index];
+          if (url && !this.isValidUrl(url)) {
+            hasUrlErrors = true;
+          }
+        });
+      }
+
+      if (hasUrlErrors) {
+        this.showAlert('Please fix the invalid URLs before sending');
+        this.isLoading = false;
+        return;
+      }
 
       // validate Header
       const headerValidation = validateNonEmptyEntries(
@@ -401,10 +565,20 @@ export default {
         this.showAlert(footerValidation.message);
       }
 
+      // validate Footer
+      const buttonValidations = validateNonEmptyEntries(
+        'buttons',
+        this.processedParams.buttons
+      );
+      if (buttonValidations.isValid === false) {
+        this.showAlert(buttonValidations.message);
+      }
+
       if (
         !footerValidation.isValid ||
         !bodyValidation.isValid ||
-        !headerValidation.isValid
+        !headerValidation.isValid ||
+        !buttonValidations.isValid
       ) {
         this.isLoading = false;
         return;
@@ -506,6 +680,27 @@ export default {
     isInputMode(variable) {
       return this.inputModes[variable] || false;
     },
+    isValidUrl(url) {
+      if (!url) return true; // Empty is handled by required validation
+      const pattern = new RegExp(
+        '^(https?:\\/\\/)?' + // protocol
+          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+          '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+          '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+          '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+          '(\\#[-a-z\\d_]*)?$',
+        'i'
+      );
+      return pattern.test(url);
+    },
+    validateUrl(componentType, index) {
+      const url = this.processedParams[componentType][index];
+      if (url && !this.isValidUrl(url)) {
+        this.$set(this.urlErrors, `${componentType}_${index}`, true);
+      } else {
+        this.$set(this.urlErrors, `${componentType}_${index}`, false);
+      }
+    },
   },
 };
 </script>
@@ -548,5 +743,30 @@ footer {
 }
 .template-input {
   @apply bg-slate-25 dark:bg-slate-900 text-slate-700 dark:text-slate-100 mt-2 min-h-[250px];
+}
+.template__buttons-container {
+  @apply p-2.5;
+}
+.template__button-item {
+  @apply mb-2.5;
+}
+.button-type-label {
+  @apply font-semibold text-sm mb-2;
+}
+
+.url-button-container {
+  @apply flex flex-col mb-3;
+}
+
+.button-url-prefix {
+  @apply text-slate-600 dark:text-slate-300 mr-1 text-sm;
+}
+
+.error-input {
+  @apply border-red-500 dark:border-red-500 border-2;
+}
+
+.url-error-message {
+  @apply text-red-600 dark:text-red-400 text-xs mt-1 ml-2;
 }
 </style>

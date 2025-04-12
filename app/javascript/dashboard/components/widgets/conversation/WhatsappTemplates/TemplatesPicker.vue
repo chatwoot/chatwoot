@@ -77,12 +77,9 @@ export default {
   },
   computed: {
     whatsAppTemplateMessages() {
-      return this.$store.getters['inboxes/getWhatsAppTemplates'](this.inboxId)
-        .filter(template => template.status.toLowerCase() === 'approved')
-        .filter(
-          template =>
-            !template.components.some(component => component.type === 'BUTTONS')
-        );
+      return this.$store.getters['inboxes/getWhatsAppTemplates'](
+        this.inboxId
+      ).filter(template => template.status.toLowerCase() === 'approved');
     },
     filteredTemplateMessages() {
       return this.whatsAppTemplateMessages.filter(template =>

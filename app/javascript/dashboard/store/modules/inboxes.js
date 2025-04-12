@@ -66,9 +66,7 @@ export const getters = {
 
     // filtering out the whatsapp templates with buttons
     if (messagesTemplates instanceof Array) {
-      return messagesTemplates.filter(template => {
-        return !template.components.some(i => i.type === 'BUTTONS');
-      });
+      return messagesTemplates;
     }
     return [];
   },
