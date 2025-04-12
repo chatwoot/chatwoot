@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Conversaties laden",
     "CANNOT_REPLY": "Je kunt niet reageren omdat",
     "24_HOURS_WINDOW": "Beperking van 24-uur berichtenvenster",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Dit gesprek is niet aan je toegewezen. Wil je dit gesprek aan jezelf toewijzen?",
     "ASSIGN_TO_ME": "Aan mij toewijzen",
     "TWILIO_WHATSAPP_CAN_REPLY": "Je kunt dit gesprek alleen beantwoorden met een sjabloon bericht vanwege",
