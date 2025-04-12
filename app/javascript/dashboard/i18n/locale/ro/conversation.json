@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Încărcare conversații",
     "CANNOT_REPLY": "Nu poți răspunde din cauza",
     "24_HOURS_WINDOW": "Restricţie fereastră mesaj 24 de ore",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Această conversație nu vă este atribuită. Doriți să vă atribuiți această conversație?",
     "ASSIGN_TO_ME": "Atribuie-mi",
     "TWILIO_WHATSAPP_CAN_REPLY": "Poți răspunde la această conversație doar folosind un mesaj șablon datorat",
