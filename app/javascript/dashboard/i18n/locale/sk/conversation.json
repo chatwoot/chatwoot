@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Načítavajú sa konverzácie",
     "CANNOT_REPLY": "Neviete odpovedať, pretože",
     "24_HOURS_WINDOW": "24-hodinové obmedzenie okna správ",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
     "ASSIGN_TO_ME": "Prideliť mne",
     "TWILIO_WHATSAPP_CAN_REPLY": "Na túto konverzáciu môžete odpovedať len pomocou šablóny správy z dôvodu",
