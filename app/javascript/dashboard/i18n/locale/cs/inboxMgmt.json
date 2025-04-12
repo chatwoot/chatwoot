@@ -47,8 +47,8 @@
         "CREATE_INBOX": "Vytvořit doručenou poštu"
       },
       "INSTAGRAM": {
-        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
-        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "CONTINUE_WITH_INSTAGRAM": "Pokračovat pomocí Instagramu",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Připojte svůj Instagram profil",
         "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
         "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
         "ERROR_AUTH": "There was an error connecting to Instagram, please try again"
