@@ -164,6 +164,8 @@ export default {
   line-height: 1.5;
   margin-top: $space-smaller;
   width: 80%;
+  position: fixed;
+  bottom: 40px;
 
   .title {
     font-size: $font-size-default;

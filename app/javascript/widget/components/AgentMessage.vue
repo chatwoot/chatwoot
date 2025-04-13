@@ -6,7 +6,7 @@
     }"
   >
     <div v-if="!isASubmittedForm" class="agent-message">
-      <div class="avatar-wrap">
+      <div v-if="!isCSAT" class="avatar-wrap">
         <thumbnail
           v-if="message.showAvatar || hasRecordedResponse"
           :src="avatarUrl"
@@ -15,7 +15,7 @@
         />
       </div>
       <div class="message-wrap">
-        <div v-if="hasReplyTo" class="flex mt-2 mb-1 text-xs">
+        <div v-if="hasReplyTo && !isCSAT" class="flex mt-2 mb-1 text-xs">
           <reply-to-chip :reply-to="replyTo" />
         </div>
         <div class="flex gap-1">
@@ -197,6 +197,9 @@ export default {
       return this.message.sender
         ? this.message.sender.avatar_url
         : displayImage;
+    },
+    isCSAT() {
+      return this.contentType === 'input_csat';
     },
     hasRecordedResponse() {
       return (

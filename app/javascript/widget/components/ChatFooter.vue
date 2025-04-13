@@ -19,14 +19,14 @@
       :on-send-attachment="handleSendAttachment"
     />
   </footer>
-  <footer v-else class="flex justify-center">
+  <!-- <footer v-else class="flex justify-center">
     <div
       class="flex flex-col justify-center items-center shadow-[0px_2px_10px_#0000001A] shadow-[0px_0px_2px_#00000033] w-[90%] p-4 gap-2 rounded-lg"
     >
       <h2 class="text-[14px] font-medium">Rate your experience</h2>
       <rating :value="1" @selectRating="() => {}" />
     </div>
-  </footer>
+  </footer> -->
   <!-- <div v-else>
     <custom-button
       class="font-medium"
@@ -58,13 +58,13 @@ import { sendEmailTranscript } from 'widget/api/conversation';
 import routerMixin from 'widget/mixins/routerMixin';
 import { IFrameHelper } from '../helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
-import Rating from '../components/Rating.vue';
+// import Rating from '../components/Rating.vue';
 
 export default {
   components: {
     ChatInputWrap,
     FooterReplyTo,
-    Rating,
+    // Rating,
   },
   mixins: [routerMixin],
   props: {
