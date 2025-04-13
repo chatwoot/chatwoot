@@ -23,6 +23,19 @@ class Api::V1::Accounts::KnowledgeSourceTextsController < Api::V1::Accounts::Bas
     update_source(knowledge_source)
   end
 
+  def destroy
+    knowledge_source = @ai_agent.knowledge_source
+    knowledge_source_text = knowledge_source.knowledge_source_texts.find(params[:id])
+
+    if knowledge_source_text.destroy
+      delete_document_loader(store_id: knowledge_source.store_id, loader_id: knowledge_source_text.loader_id)
+
+      head :no_content
+    else
+      render json: { error: 'Failed to delete knowledge source text' }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def create_source(knowledge_source)
