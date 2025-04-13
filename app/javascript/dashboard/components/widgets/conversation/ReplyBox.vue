@@ -1013,8 +1013,11 @@ export default {
         forwardToEmail
       );
 
+      // Set TO emails
       this.toEmails = to.join(', ');
-      this.ccEmails = cc.join(', ');
+      // Filter out customer email from CC if it's already in TO
+      const filteredCc = cc.filter(email => !to.includes(email));
+      this.ccEmails = filteredCc.join(', ');
       this.bccEmails = bcc.join(', ');
     },
     fetchAndSetReplyTo() {
