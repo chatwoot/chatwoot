@@ -151,7 +151,7 @@ export default {
         .then(res => res.json())
         .catch(() => {});
       this.updateSelectedProducts(
-        product.variant_id,
+        product.id,
         product.quantity + 1,
         product.currency,
         product.price,
@@ -185,7 +185,7 @@ export default {
         selectedProduct => selectedProduct.id === productId
       );
       this.updateSelectedProducts(
-        product.variant_id,
+        product.id,
         product.quantity - 1,
         product.currency,
         product.price,
