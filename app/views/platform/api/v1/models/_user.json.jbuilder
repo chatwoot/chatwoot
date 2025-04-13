@@ -4,7 +4,13 @@ json.available_name resource.available_name
 json.avatar_url resource.avatar_url
 json.confirmed resource.confirmed?
 json.display_name resource.display_name
+json.azar_display_name resource.azar_display_name
+json.mono_display_name resource.mono_display_name
+json.gbits_display_name resource.gbits_display_name
 json.message_signature resource.message_signature
+json.azar_message_signature resource.azar_message_signature
+json.mono_message_signature resource.mono_message_signature
+json.gbits_message_signature resource.gbits_message_signature
 json.email resource.email
 json.id resource.id
 json.name resource.name
