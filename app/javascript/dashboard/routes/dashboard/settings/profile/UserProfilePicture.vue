@@ -9,16 +9,20 @@ defineProps({
     type: String,
     default: '',
   },
+  site: {
+    type: String,
+    default: '',
+  },
 });
 
 const emit = defineEmits(['change', 'delete']);
 
 const updateProfilePicture = e => {
-  emit('change', e);
+  emit('change', { ...e, site: props.site });
 };
 
 const deleteProfilePicture = () => {
-  emit('delete');
+  emit('delete', props.site);
 };
 </script>
 

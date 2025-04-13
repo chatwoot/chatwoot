@@ -53,6 +53,12 @@ export default {
     return {
       avatarFile: '',
       avatarUrl: '',
+      azarAvatarFile: '',
+      azarAvatarUrl: '',
+      monoAvatarFile: '',
+      monoAvatarUrl: '',
+      gbitsAvatarFile: '',
+      gbitsAvatarUrl: '',
       name: '',
       displayName: '',
       azarDisplayName: '',
@@ -110,6 +116,9 @@ export default {
       this.gbitsDisplayName = this.currentUser.gbits_display_name;
       this.email = this.currentUser.email;
       this.avatarUrl = this.currentUser.avatar_url;
+      this.azarAvatarUrl = this.currentUser.azar_avatar_url;
+      this.monoAvatarUrl = this.currentUser.mono_avatar_url;
+      this.gbitsAvatarUrl = this.currentUser.gbits_avatar_url;
       this.displayName = this.currentUser.display_name;
       this.messageSignature = this.currentUser.message_signature;
     },
@@ -146,6 +155,9 @@ export default {
         monoDisplayName: this.monoDisplayName,
         gbitsDisplayName: this.gbitsDisplayName,
         avatar: this.avatarFile,
+        azar_avatar: this.azarAvatarFile,
+        mono_avatar: this.monoAvatarFile,
+        gbits_avatar: this.gbitsAvatarFile,
       };
 
       const success = await this.dispatchUpdate(
@@ -169,15 +181,40 @@ export default {
 
       await this.dispatchUpdate(payload, successMessage, errorMessage);
     },
-    updateProfilePicture({ file, url }) {
-      this.avatarFile = file;
-      this.avatarUrl = url;
+    updateProfilePicture({ file, url, site }) {
+      if (site === 'azar') {
+        this.azarAvatarFile = file;
+        this.azarAvatarUrl = url;
+      } else if (site === 'mono') {
+        this.monoAvatarFile = file;
+        this.monoAvatarUrl = url;
+      } else if (site === 'gbits') {
+        this.gbitsAvatarFile = file;
+        this.gbitsAvatarUrl = url;
+      } else {
+        this.avatarFile = file;
+        this.avatarUrl = url;
+      }
     },
-    async deleteProfilePicture() {
+    async deleteProfilePicture(site) {
       try {
-        await this.$store.dispatch('deleteAvatar');
-        this.avatarUrl = '';
-        this.avatarFile = '';
+        if (site) {
+          await this.$store.dispatch('deleteAvatar', { site });
+          if (site === 'azar') {
+            this.azarAvatarUrl = '';
+            this.azarAvatarFile = '';
+          } else if (site === 'mono') {
+            this.monoAvatarUrl = '';
+            this.monoAvatarFile = '';
+          } else if (site === 'gbits') {
+            this.gbitsAvatarUrl = '';
+            this.gbitsAvatarFile = '';
+          }
+        } else {
+          await this.$store.dispatch('deleteAvatar');
+          this.avatarUrl = '';
+          this.avatarFile = '';
+        }
         useAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_SUCCESS'));
       } catch (error) {
         useAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_FAILED'));
@@ -203,12 +240,53 @@ export default {
       <h2 class="text-2xl font-medium text-ash-900">
         {{ $t('PROFILE_SETTINGS.TITLE') }}
       </h2>
-      <UserProfilePicture
-        :src="avatarUrl"
-        :name="name"
-        @change="updateProfilePicture"
-        @delete="deleteProfilePicture"
-      />
+      <div class="flex flex-col gap-4">
+        <h3 class="text-lg font-medium text-ash-900">
+          {{ $t('PROFILE_SETTINGS.AVATAR.TITLE') }}
+        </h3>
+        <UserProfilePicture
+          :src="avatarUrl"
+          :name="name"
+          @change="updateProfilePicture"
+          @delete="deleteProfilePicture"
+        />
+      </div>
+      <div class="flex flex-col gap-4">
+        <h3 class="text-lg font-medium text-ash-900">
+          {{ $t('PROFILE_SETTINGS.AZAR_AVATAR.TITLE') }}
+        </h3>
+        <UserProfilePicture
+          :src="azarAvatarUrl"
+          :name="azarDisplayName"
+          site="azar"
+          @change="updateProfilePicture"
+          @delete="deleteProfilePicture"
+        />
+      </div>
+      <div class="flex flex-col gap-4">
+        <h3 class="text-lg font-medium text-ash-900">
+          {{ $t('PROFILE_SETTINGS.MONO_AVATAR.TITLE') }}
+        </h3>
+        <UserProfilePicture
+          :src="monoAvatarUrl"
+          :name="monoDisplayName"
+          site="mono"
+          @change="updateProfilePicture"
+          @delete="deleteProfilePicture"
+        />
+      </div>
+      <div class="flex flex-col gap-4">
+        <h3 class="text-lg font-medium text-ash-900">
+          {{ $t('PROFILE_SETTINGS.GBITS_AVATAR.TITLE') }}
+        </h3>
+        <UserProfilePicture
+          :src="gbitsAvatarUrl"
+          :name="gbitsDisplayName"
+          site="gbits"
+          @change="updateProfilePicture"
+          @delete="deleteProfilePicture"
+        />
+      </div>
       <UserBasicDetails
         :name="name"
         :display-name="displayName"

@@ -9,6 +9,18 @@
     "UPDATE_SUCCESS": "Your profile has been updated successfully",
     "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
     "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
+    "AVATAR": {
+      "TITLE": "Default Avatar"
+    },
+    "AZAR_AVATAR": {
+      "TITLE": "AzarOnline.com Avatar"
+    },
+    "MONO_AVATAR": {
+      "TITLE": "MonoVM.com Avatar"
+    },
+    "GBITS_AVATAR": {
+      "TITLE": "1Gbits.com Avatar"
+    },
     "FORM": {
       "PICTURE": "Profile Picture",
       "AVATAR": "Profile Image",
