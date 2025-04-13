@@ -80,15 +80,15 @@
               />
             </button>
           </div>
-        </div>
-        <div
-          v-if="item.shouldShowMoreVariantsButton"
-          class="more-variants"
-          @click="onViewMoreVariants(item)"
-        >
-          More variants
-          <div class="more-variants-icon">
-            <fluent-icon icon="chevron-right" size="14" />
+          <div
+            v-if="item.showMoreVariantsButton"
+            class="more-variants"
+            @click="onViewMoreVariants(item)"
+          >
+            More variants
+            <div class="more-variants-icon">
+              <fluent-icon icon="chevron-right" size="14" />
+            </div>
           </div>
         </div>
       </div>
@@ -146,12 +146,8 @@ export default {
         selectedProduct => selectedProduct.id === productId
       );
       await fetch(`https://${product.shopUrl}/cart.js`)
-          .then((res) => res.json())
-          .then((newCart) => {
-            const totalCartItems = newCart.items;
-            
-            console.log(newCart, 'new cart value here....');
-          }).catch(() => {})
+        .then(res => res.json())
+        .catch(() => {});
       this.updateSelectedProducts(
         product.variant_id,
         product.quantity + 1,
