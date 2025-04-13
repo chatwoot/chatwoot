@@ -19,7 +19,7 @@ class Crm::Leadsquared::Mappers::ConversationMapper
            brand_name: brand_name,
            channel_info: channel_info,
            formatted_creation_time: formatted_creation_time,
-           conversation: conversation,
+           display_id: conversation.display_id,
            url: conversation_url)
   end
 
@@ -29,7 +29,7 @@ class Crm::Leadsquared::Mappers::ConversationMapper
     I18n.t('crm.transcript_activity',
            brand_name: brand_name,
            channel_info: channel_info,
-           conversation: conversation,
+           display_id: conversation.display_id,
            url: conversation_url,
            format_messages: format_messages)
   end
