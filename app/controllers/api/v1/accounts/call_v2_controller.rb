@@ -45,6 +45,8 @@ class Api::V1::Accounts::CallV2Controller < Api::V1::Accounts::BaseController # 
                  handle_ivrsolutions_provider_call(call_config, payload)
                when 'myoperator'
                  handle_myoperator_provider_call(call_config, payload)
+               when 'ozonetel'
+                 handle_ozonetel_provider_call(call_config, payload)
                else
                  render json: { success: false, error: 'Invalid provider configuration' }, status: :bad_request
                  return
@@ -64,7 +66,7 @@ class Api::V1::Accounts::CallV2Controller < Api::V1::Accounts::BaseController # 
     case provider
     when 'exotel'
       create_follow_up_call_reporting_event(conversation)
-    when 'ivrsolutions', 'myoperator'
+    when 'ivrsolutions', 'myoperator', 'ozonetel'
       conversation.messages.create!(private_message_params('Call Initiated', conversation))
       create_follow_up_call_reporting_event(conversation)
     end
@@ -231,12 +233,57 @@ class Api::V1::Accounts::CallV2Controller < Api::V1::Accounts::BaseController # 
     )
   end
 
+  def handle_ozonetel_provider_call(call_config, payload) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+    Rails.logger.info('Inside ozonetel')
+    external_provider_config = call_config['externalProviderConfig']
+
+    unless payload['to'] && payload['from']
+      render json: { success: false, error: 'Missing required fields: to or from' }, status: :bad_request
+      return
+    end
+
+    campaign_name = call_config['externalProviderConfig']['campaignName']
+
+    phone_name = external_provider_config['agentNoMapping'][payload['from'].gsub(/^\+91/, '')]
+
+    Rails.logger.info("phone_name #{phone_name}")
+
+    unless phone_name
+      Rails.logger.error("No phone_name found for number: #{payload['from']}")
+      return { success: false, error: "No phone_name found for number: #{payload['from']}" }
+    end
+
+    Rails.logger.info("formatted_to_number #{payload['to']}")
+
+    url = 'https://in1-ccaas-api.ozonetel.com/ca_apis/PhoneManualDial'
+
+    params = {
+      userName: external_provider_config['userName'],
+      custNumber: payload['to'],
+      phoneName: phone_name,
+      did: external_provider_config['did'],
+      campaignName: campaign_name,
+      checkStatus: true
+    }
+
+    Rails.logger.info("params, #{params.to_json.inspect}")
+
+    HTTParty.post(
+      url,
+      body: params.to_json,
+      headers: {
+        'Content-Type': 'application/json',
+        'apiKey': external_provider_config['apiKey']
+      }
+    )
+  end
+
   def extract_error_message(response, provider)
     case provider
     when 'exotel'
       xml_data = REXML::Document.new(response.body)
       xml_data.elements['//Message']&.text || 'Unknown error'
-    when 'ivrsolutions', 'myoperator'
+    when 'ivrsolutions', 'myoperator', 'ozonetel'
       begin
         result = JSON.parse(response.body)
         result['message'] || 'Unknown error'
