@@ -62,7 +62,7 @@
               </div>
             </div>
           </div>
-          <div class="flex flex-col justify-end">
+          <div v-if="!isCSAT" class="flex flex-col justify-end">
             <message-reply-button
               v-if="!isProductCarousel"
               class="transition-opacity delay-75 opacity-0 group-hover:opacity-100 sm:opacity-0"
@@ -71,7 +71,7 @@
           </div>
         </div>
         <p
-          v-if="message.showAvatar || hasRecordedResponse"
+          v-if="(message.showAvatar || hasRecordedResponse) && !isCSAT"
           v-dompurify-html="agentName"
           class="agent-name"
           :class="$dm('text-slate-700', 'dark:text-slate-200')"

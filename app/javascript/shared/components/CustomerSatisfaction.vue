@@ -163,7 +163,7 @@ export default {
   display: inline-block;
   line-height: 1.5;
   margin-top: $space-smaller;
-  width: 80%;
+  width: 90%;
   position: fixed;
   bottom: 40px;
 
