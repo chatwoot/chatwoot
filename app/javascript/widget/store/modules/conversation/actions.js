@@ -35,17 +35,21 @@ export const actions = {
       content,
       replyTo,
       selectedReply,
+      previousSelectedReplies,
       phoneNumber,
       orderId,
       isPrivate = false,
+      productId,
     } = params;
     const message = createTemporaryMessage({
       content,
       replyTo,
       selectedReply,
+      previousSelectedReplies,
       phoneNumber,
       orderId,
       isPrivate,
+      productId,
     });
     dispatch('sendMessageWithData', message);
   },
@@ -59,6 +63,8 @@ export const actions = {
       phoneNumber,
       orderId,
       isPrivate,
+      productId,
+      previousSelectedReplies,
     } = message;
     commit('pushMessageToConversation', message);
     commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
@@ -69,7 +75,9 @@ export const actions = {
         selectedReply,
         phoneNumber,
         orderId,
-        isPrivate
+        isPrivate,
+        productId,
+        previousSelectedReplies
       );
 
       commit('deleteMessage', message.id);

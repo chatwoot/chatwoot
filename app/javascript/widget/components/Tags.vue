@@ -1,10 +1,11 @@
 <template>
   <div class="tags-container">
     <button
-      v-for="(tag, index) in tags"
+      v-for="(tag, index) in filteredTags"
       :key="index"
-      :disabled="isUpdating"
+      :disabled="previousSelectedReplies.includes(tag.id)"
       class="tag-button"
+      :class="{ 'selected-tag': previousSelectedReplies.includes(tag.id) }"
       @click="handleTagClick(tag)"
     >
       {{ tag.text }}
@@ -26,11 +27,20 @@ export default {
       type: Number,
       required: true,
     },
+    previousSelectedReplies: {
+      type: Array,
+      required: true,
+    },
   },
   data() {
     return {
       isUpdating: false,
     };
+  },
+  computed: {
+    filteredTags() {
+      return this.tags.filter(tag => tag.text != null && tag.text !== '');
+    },
   },
   methods: {
     ...mapActions('conversation', ['sendMessage']),
@@ -40,11 +50,13 @@ export default {
         await this.$store.dispatch('message/update', {
           messageId: this.messageId,
           selectedReply: tag.id,
+          previousSelectedReplies: [...this.previousSelectedReplies, tag.id],
         });
         await this.sendMessage({
           content: tag.text,
           selectedReply: tag.id,
           replyTo: this.messageId,
+          previousSelectedReplies: [...this.previousSelectedReplies, tag.id],
         });
       } catch (error) {
         // Ignore error
@@ -78,5 +90,9 @@ export default {
 
 .tag-button:hover {
   scale: 1.02;
+}
+
+.selected-tag {
+  opacity: 0.5;
 }
 </style>

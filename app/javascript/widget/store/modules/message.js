@@ -13,7 +13,16 @@ export const getters = {
 export const actions = {
   update: async (
     { commit, dispatch, getters: { getUIFlags: uiFlags } },
-    { email, messageId, submittedValues, phone, orderId, selectedReply }
+    {
+      email,
+      messageId,
+      submittedValues,
+      phone,
+      orderId,
+      selectedReply,
+      productId,
+      previousSelectedReplies,
+    }
   ) => {
     if (uiFlags.isUpdating) {
       return;
@@ -27,6 +36,8 @@ export const actions = {
         values: submittedValues,
         orderId,
         selectedReply,
+        productId,
+        previousSelectedReplies,
       });
       commit(
         'conversation/updateMessage',
@@ -37,7 +48,9 @@ export const actions = {
             submitted_values: email ? null : submittedValues,
             user_phone_number: phone,
             selected_reply: selectedReply,
+            previous_selected_replies: previousSelectedReplies,
             user_order_id: orderId,
+            product_id: productId,
           },
         },
         { root: true }

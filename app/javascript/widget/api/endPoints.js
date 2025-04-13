@@ -26,9 +26,11 @@ const sendMessage = (
   content,
   replyTo,
   selectedReply,
+  previousSelectedReplies,
   phoneNumber,
   orderId,
-  isPrivate
+  isPrivate,
+  productId
 ) => {
   const referrerURL = window.referrerURL || '';
   const search = buildSearchParamsWithLocale(window.location.search);
@@ -41,9 +43,11 @@ const sendMessage = (
         timestamp: new Date().toString(),
         referer_url: referrerURL,
         selected_reply: selectedReply,
+        previous_selected_replies: previousSelectedReplies,
         phone_number: phoneNumber,
         order_id: orderId,
         private: isPrivate,
+        product_id: productId,
       },
     },
   };

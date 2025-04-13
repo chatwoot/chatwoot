@@ -34,6 +34,14 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
       ).perform
     else
       @message.update!(message_update_params[:message])
+      if @message.content_attributes[:user_phone_number]
+        formatted_number = "+#{@message.content_attributes[:user_phone_number]}"
+        ContactIdentifyAction.new(
+          contact: @contact,
+          params: { phone_number: formatted_number, name: contact_name },
+          retain_original_contact_name: true
+        ).perform
+      end
     end
   rescue StandardError => e
     render json: { error: @contact.errors, message: e.message }.to_json, status: :internal_server_error
@@ -76,10 +84,12 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     # rubocop:disable Layout/LineLength
     params.permit(message: [
                     { submitted_values: [:name, :title, :value, { csat_survey_response: [:feedback_message, :rating] }, :user_phone_number, :user_order_id,
-                                         :selected_reply] },
+                                         :selected_reply, :previous_selected_replies, :product_id] },
                     :user_phone_number,
                     :user_order_id,
-                    :selected_reply
+                    :selected_reply,
+                    { previous_selected_replies: [] },
+                    :product_id
                   ])
     # rubocop:enable Layout/LineLength
   end
@@ -89,7 +99,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     # timestamp parameter is used in create conversation method
 
     params.permit(:id, :before, :after, :website_token, contact: [:name, :email],
-                                                        message: [:content, :referer_url, :timestamp, :echo_id, :reply_to, :selected_reply, :phone_number, :order_id, :private])
+                                                        message: [:content, :referer_url, :timestamp, :echo_id, :reply_to, :selected_reply, :previous_selected_replies, :phone_number, :order_id, :product_id, :private])
   end
 
   # rubocop:enable Layout/LineLength
