@@ -7,6 +7,9 @@ module Enterprise::Audit::User
     audited only: [
       :availability,
       :display_name,
+      :azar_display_name,
+      :mono_display_name,
+      :gbits_display_name,
       :email,
       :name
     ], unless: proc { |_u| true }
