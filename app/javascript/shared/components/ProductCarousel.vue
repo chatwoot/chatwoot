@@ -39,14 +39,16 @@
             <div v-else class="quantity-container">
               <button
                 class="quantity-button"
-                @click="decreaseQuantity(item.id, $event)"
+                @click="decreaseQuantity(item.variant_id, $event)"
               >
                 -
               </button>
-              <span class="quantity-text">{{ getQuantity(item.id) }}</span>
+              <span class="quantity-text">{{
+                getQuantity(item.variant_id)
+              }}</span>
               <button
                 class="quantity-button"
-                @click="increaseQuantity(item.id, $event)"
+                @click="increaseQuantity(item.variant_id, $event)"
               >
                 +
               </button>
