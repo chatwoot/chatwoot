@@ -45,9 +45,9 @@ export default {
     return {
       userName: this.name,
       userDisplayName: this.displayName,
-      azarDisplayName: this.azarDisplayName,
-      monoDisplayName: this.monoDisplayName,
-      gbitsDisplayName: this.gbitsDisplayName,
+      userAzarDisplayName: this.azarDisplayName,
+      userMonoDisplayName: this.monoDisplayName,
+      userGbitsDisplayName: this.gbitsDisplayName,
       userEmail: this.email,
       inputStyles: {
         borderRadius: '0.75rem',
@@ -63,9 +63,9 @@ export default {
       minLength: minLength(1),
     },
     userDisplayName: {},
-    azarDisplayName: {},
-    monoDisplayName: {},
-    gbitsDisplayName: {},
+    userAzarDisplayName: {},
+    userMonoDisplayName: {},
+    userGbitsDisplayName: {},
     userEmail: {
       required,
       email,
@@ -86,19 +86,19 @@ export default {
     },
     azarDisplayName: {
       handler(value) {
-        this.azarDisplayName = value;
+        this.userAzarDisplayName = value;
       },
       immediate: true,
     },
     monoDisplayName: {
       handler(value) {
-        this.monoDisplayName = value;
+        this.userMonoDisplayName = value;
       },
       immediate: true,
     },
     gbitsDisplayName: {
       handler(value) {
-        this.gbitsDisplayName = value;
+        this.userGbitsDisplayName = value;
       },
       immediate: true,
     },
@@ -119,9 +119,9 @@ export default {
       this.$emit('updateUser', {
         name: this.userName,
         displayName: this.userDisplayName,
-        azarDisplayName: this.azarDisplayName,
-        monoDisplayName: this.monoDisplayName,
-        gbitsDisplayName: this.gbitsDisplayName,
+        azarDisplayName: this.userAzarDisplayName,
+        monoDisplayName: this.userMonoDisplayName,
+        gbitsDisplayName: this.userGbitsDisplayName,
         email: this.userEmail,
       });
     },
@@ -159,48 +159,48 @@ export default {
     />
 
     <woot-input
-      v-model="azarDisplayName"
+      v-model="userAzarDisplayName"
       :styles="inputStyles"
-      :class="{ error: v$.azarDisplayName.$error }"
+      :class="{ error: v$.userAzarDisplayName.$error }"
       :label="$t('PROFILE_SETTINGS.FORM.AZAR_DISPLAY_NAME.LABEL')"
       :placeholder="$t('PROFILE_SETTINGS.FORM.AZAR_DISPLAY_NAME.PLACEHOLDER')"
       :error="`${
-        v$.azarDisplayName.$error
+        v$.userAzarDisplayName.$error
           ? $t('PROFILE_SETTINGS.FORM.AZAR_DISPLAY_NAME.ERROR')
           : ''
       }`"
-      @input="v$.azarDisplayName.$touch"
-      @blur="v$.azarDisplayName.$touch"
+      @input="v$.userAzarDisplayName.$touch"
+      @blur="v$.userAzarDisplayName.$touch"
     />
 
     <woot-input
-      v-model="monoDisplayName"
+      v-model="userMonoDisplayName"
       :styles="inputStyles"
-      :class="{ error: v$.monoDisplayName.$error }"
+      :class="{ error: v$.userMonoDisplayName.$error }"
       :label="$t('PROFILE_SETTINGS.FORM.MONO_DISPLAY_NAME.LABEL')"
       :placeholder="$t('PROFILE_SETTINGS.FORM.MONO_DISPLAY_NAME.PLACEHOLDER')"
       :error="`${
-        v$.monoDisplayName.$error
+        v$.userMonoDisplayName.$error
           ? $t('PROFILE_SETTINGS.FORM.MONO_DISPLAY_NAME.ERROR')
           : ''
       }`"
-      @input="v$.monoDisplayName.$touch"
-      @blur="v$.monoDisplayName.$touch"
+      @input="v$.userMonoDisplayName.$touch"
+      @blur="v$.userMonoDisplayName.$touch"
     />
 
     <woot-input
-      v-model="gbitsDisplayName"
+      v-model="userGbitsDisplayName"
       :styles="inputStyles"
-      :class="{ error: v$.gbitsDisplayName.$error }"
+      :class="{ error: v$.userGbitsDisplayName.$error }"
       :label="$t('PROFILE_SETTINGS.FORM.GBITS_DISPLAY_NAME.LABEL')"
       :placeholder="$t('PROFILE_SETTINGS.FORM.GBITS_DISPLAY_NAME.PLACEHOLDER')"
       :error="`${
-        v$.gbitsDisplayName.$error
+        v$.userGbitsDisplayName.$error
           ? $t('PROFILE_SETTINGS.FORM.GBITS_DISPLAY_NAME.ERROR')
           : ''
       }`"
-      @input="v$.gbitsDisplayName.$touch"
-      @blur="v$.gbitsDisplayName.$touch"
+      @input="v$.userGbitsDisplayName.$touch"
+      @blur="v$.userGbitsDisplayName.$touch"
     />
 
     <woot-input
