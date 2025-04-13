@@ -1,7 +1,7 @@
 <template>
   <div class="tags-container">
     <button
-      v-for="(tag, index) in tags"
+      v-for="(tag, index) in filteredTags"
       :key="index"
       :disabled="previousSelectedReplies.includes(tag.id)"
       class="tag-button"
@@ -36,6 +36,11 @@ export default {
     return {
       isUpdating: false,
     };
+  },
+  computed: {
+    filteredTags() {
+      return this.tags.filter(tag => tag.text != null && tag.text !== '');
+    },
   },
   methods: {
     ...mapActions('conversation', ['sendMessage']),

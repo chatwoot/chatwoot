@@ -47,6 +47,14 @@
       :open-checkout-page="openCheckoutPage"
       :message="message"
     />
+    <tags
+      class="mt-2"
+      :tags="messageContentAttributes.items"
+      :message-id="messageId"
+      :previous-selected-replies="
+        messageContentAttributes.previous_selected_replies || []
+      "
+    />
     <div v-if="isOptions">
       <chat-options
         :title="message"
@@ -94,6 +102,7 @@ import PhoneInput from './template/PhoneInput.vue';
 import CustomerSatisfaction from 'shared/components/CustomerSatisfaction.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 import IntegrationCard from './template/IntegrationCard.vue';
+import Tags from './Tags.vue';
 import ProductCarousel from 'shared/components/ProductCarousel.vue';
 // import PhoneInput from 'dashboard/components/widgets/forms/PhoneInput.vue';
 import OrderDetailsCard from './OrderDetailsCard.vue';
@@ -109,6 +118,7 @@ export default {
     PhoneInput,
     CustomerSatisfaction,
     IntegrationCard,
+    Tags,
     ProductCarousel,
     // PhoneInput,
     OrderDetailsCard,
