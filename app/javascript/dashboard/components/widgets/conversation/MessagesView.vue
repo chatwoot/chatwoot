@@ -218,8 +218,14 @@ export default {
         if (additionalAttributes) {
           const {
             agent_reply_time_window_message: agentReplyTimeWindowMessage,
+            agent_reply_time_window: agentReplyTimeWindow,
           } = additionalAttributes;
-          return agentReplyTimeWindowMessage;
+          return (
+            agentReplyTimeWindowMessage ||
+            this.$t('CONVERSATION.API_HOURS_WINDOW', {
+              hours: agentReplyTimeWindow,
+            })
+          );
         }
         return '';
       }
