@@ -149,7 +149,7 @@ WORKDIR /app
 EXPOSE 3000
 
 # Copy and set up the rails.sh script as the entrypoint
-COPY rails.sh /usr/bin/rails.sh
+COPY docker/entrypoints/helpers/rails.sh /usr/bin/rails.sh
 RUN chmod +x /usr/bin/rails.sh
 
 ENTRYPOINT ["/usr/bin/rails.sh"]
