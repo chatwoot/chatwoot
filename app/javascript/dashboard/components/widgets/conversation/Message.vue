@@ -9,6 +9,8 @@ import BubbleLocation from './bubble/Location.vue';
 import BubbleMailHead from './bubble/MailHead.vue';
 import BubbleReplyTo from './bubble/ReplyTo.vue';
 import BubbleText from './bubble/Text.vue';
+import ChatCard from 'shared/components/ChatCard.vue';
+import ChatForm from 'shared/components/ChatForm.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
 import InstagramStory from './bubble/InstagramStory.vue';
 import InstagramStoryReply from './bubble/InstagramStoryReply.vue';
@@ -38,6 +40,8 @@ export default {
     BubbleMailHead,
     BubbleReplyTo,
     BubbleText,
+    ChatCard,
+    ChatForm,
     ContextMenu,
     InstagramStory,
     InstagramStoryReply,
@@ -111,7 +115,9 @@ export default {
         this.data.content ||
         this.isEmailContentType ||
         this.isUnsupported ||
-        this.isAnIntegrationMessage
+        this.isAnIntegrationMessage ||
+        this.isCardType ||
+        this.isFormType
       );
     },
     emailMessageContent() {
@@ -346,6 +352,18 @@ export default {
     isEmailContentType() {
       return this.contentType === CONTENT_TYPES.INCOMING_EMAIL;
     },
+    isCardType() {
+      return this.contentType === 'cards';
+    },
+    cardItems() {
+      return this.contentAttributes.items || [];
+    },
+    isFormType() {
+      return this.contentType === 'form';
+    },
+    formItems() {
+      return this.contentAttributes.items || [];
+    },
   },
   watch: {
     data() {
@@ -438,6 +456,10 @@ export default {
         this.showBackgroundHighlight = false;
       }, HIGHLIGHT_TIMER);
     },
+    onFormSubmit(values) {
+      // Implement the logic to handle form submission
+      console.log('Form submitted with values:', values);
+    },
   },
 };
 </script>
@@ -490,10 +512,27 @@ export default {
           </template>
         </div>
         <BubbleText
-          v-else-if="data.content"
+          v-else-if="data.content && !isCardType && !isFormType"
           :message="message"
           :is-email="isEmailContentType"
           :display-quoted-button="displayQuotedButton"
+        />
+        <div v-else-if="isCardType">
+          <ChatCard
+            v-for="item in cardItems"
+            :key="item.title"
+            :media-url="item.media_url"
+            :title="item.title"
+            :description="item.description"
+            :actions="item.actions"
+          />
+        </div>
+        <ChatForm
+          v-else-if="isFormType"
+          :items="formItems"
+          :button-label="contentAttributes.button_label"
+          :submitted-values="contentAttributes.submitted_values"
+          @submit="onFormSubmit"
         />
         <BubbleIntegration
           :message-id="data.id"
