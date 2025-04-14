@@ -219,8 +219,7 @@ export default {
         );
 
       return (
-        this.inbox.channel_type === INBOX_TYPES.FACEBOOK &&
-        facebookChannel.length > 0
+        this.inbox.channel_type === INBOX_TYPES.FB && facebookChannel.length > 0
       );
     },
 
