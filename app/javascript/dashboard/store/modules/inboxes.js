@@ -122,6 +122,13 @@ export const getters = {
       item => item.channel_type !== INBOX_TYPES.EMAIL
     );
   },
+  getFacebookChannelWithInstagramId: $state => instagramId => {
+    return $state.records.filter(
+      item =>
+        item.instagram_id === instagramId &&
+        item.channel_type === INBOX_TYPES.FB
+    );
+  },
 };
 
 const sendAnalyticsEvent = channelType => {

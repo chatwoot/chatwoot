@@ -36,6 +36,7 @@ import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { FEATURE_FLAGS } from '../../../featureFlags';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
@@ -207,6 +208,26 @@ export default {
     getLastSeenAt() {
       const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
       return contactLastSeenAt;
+    },
+
+    // Check if a messenger channel that has the same instagram_id
+    isFacebookChannelWithSameInstagramIdExists() {
+      const instagramId = this.inbox.instagram_id;
+      const facebookChannel =
+        this.$store.getters['inboxes/getFacebookChannelWithInstagramId'](
+          instagramId
+        );
+
+      return (
+        this.inbox.channel_type === INBOX_TYPES.FACEBOOK &&
+        facebookChannel.length > 0
+      );
+    },
+
+    replyBannerMessageForFacebookChannelWithSameInstagramId() {
+      return this.$t(
+        'It seems you are trying to reply to a message from a Facebook channel with the same Instagram ID. Please reply to the message from the Facebook channel.'
+      );
     },
 
     replyWindowBannerMessage() {
@@ -495,13 +516,19 @@ export default {
 
 <template>
   <div class="flex flex-col justify-between flex-grow h-full min-w-0 m-0">
-    <Banner
+    <!-- <Banner
       v-if="!currentChat.can_reply"
       color-scheme="alert"
       class="mx-2 mt-2 overflow-hidden rounded-lg"
       :banner-message="replyWindowBannerMessage"
       :href-link="replyWindowLink"
       :href-link-text="replyWindowLinkText"
+    /> -->
+    <Banner
+      v-if="isFacebookChannelWithSameInstagramIdExists"
+      color-scheme="alert"
+      class="mx-2 mt-2 overflow-hidden rounded-lg"
+      :banner-message="replyBannerMessageForFacebookChannelWithSameInstagramId"
     />
     <div class="flex justify-end">
       <NextButton
