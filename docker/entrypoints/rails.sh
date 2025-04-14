@@ -12,7 +12,7 @@ if [ -n "$DATABASE_URL" ]; then
   echo "DATABASE_URL found: $DATABASE_URL"
   # For example, if DATABASE_URL is in the form postgres://username:password@host:port/dbname,
   # extract host, port, and username.
-  export POSTGRES_HOST=$(echo "$DATABASE_URL" | sed -n 's#.*@\(.*\):[0-9]\+#\1#p')
+  export POSTGRES_HOST=$(echo "$DATABASE_URL" | sed -n 's#.*@\([^:/]\+\).*#\1#p')
   export POSTGRES_PORT=$(echo "$DATABASE_URL" | sed -n 's#.*:\([0-9]\+\)/.*#\1#p')
   export POSTGRES_USERNAME=$(echo "$DATABASE_URL" | sed -n 's#.*//\([^:]*\):.*#\1#p')
 fi
