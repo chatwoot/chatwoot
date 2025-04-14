@@ -154,4 +154,4 @@ RUN chmod +x /usr/bin/rails.sh
 
 ENTRYPOINT ["/usr/bin/rails.sh"]
 
-CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+CMD ["bundle", "exec", "foreman", "start"]
