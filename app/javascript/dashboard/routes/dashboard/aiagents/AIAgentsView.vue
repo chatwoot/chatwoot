@@ -1,10 +1,12 @@
 <script setup>
-import { computed, onMounted, ref, watch, watchEffect } from 'vue';
+import { computed, onMounted, reactive, ref, watch, watchEffect } from 'vue';
 import aiAgents from '../../../api/aiAgents';
 import { useAccount } from 'dashboard/composables/useAccount';
 import WootSubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
 import BaseSettingsHeader from '../settings/components/BaseSettingsHeader.vue';
 import { useAlert } from 'dashboard/composables';
+import { minLength, required } from '@vuelidate/validators';
+import useVuelidate from '@vuelidate/core';
 
 const aiTemplates = ref()
 async function fetchAiAgentTemplates() {
@@ -52,16 +54,26 @@ async function deleteData() {
 
 // Create AI Agent modal
 const showCreateAgentModal = ref(false)
-const agentName = ref()
+const state = reactive({
+  agentName: '',
+})
+const rules = {
+  agentName: { required, minLength: minLength(1) },
+}
+const v$ = useVuelidate(rules, state)
 watch(showCreateAgentModal, v => {
   if (!v) {
-    agentName.value = undefined
+    state.agentName = undefined
   }
 })
 const loadingCreate = ref(false)
 async function createAiAgent() {
+  const valid = await v$.value.$validate()
+  if (!valid) {
+    return
+  }
   const templateId = selectedTemplate.value
-  const name = agentName.value?.trim()
+  const name = state.agentName?.trim()
   if (loadingCreate.value || !templateId || !name) {
     return
   }
@@ -173,11 +185,14 @@ watchEffect(() => {
     <woot-modal-header :header-title="'Create New AI Agent'" />
     <form @submit.prevent="() => createAiAgent()">
       <div class="flex flex-col">
-        <div class="w-full">
+        <div class="w-full mb-2">
           <label>
             Nama Agen AI
-            <input v-model="agentName" type="text" :placeholder="'Nama Agen AI'" />
+            <input v-model="state.agentName" type="text" :placeholder="'Nama Agen AI'"  style="margin-bottom: 0px;"/>
           </label>
+          <div class="input-errors" v-for="error of v$.agentName.$errors" :key="error.$uid">
+            <div class="text-red-500">{{ error.$message }}</div>
+          </div>
         </div>
 
         <div class="w-full">
@@ -193,7 +208,7 @@ watchEffect(() => {
       </div>
 
       <div class="flex items-center justify-start gap-2 pt-2">
-        <WootSubmitButton :disabled="loadingCreate" :button-text="'Buat Agen AI'" :loading="loadingCreate"
+        <WootSubmitButton :disabled="loadingCreate || v$.$invalid" :button-text="'Buat Agen AI'" :loading="loadingCreate"
           type="submit" />
       </div>
     </form>
