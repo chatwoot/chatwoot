@@ -59,9 +59,7 @@ WORKDIR /app
 COPY Gemfile Gemfile.lock ./
 
 # natively compile grpc and protobuf to support alpine musl (dialogflow-docker workflow)
-# https://github.com/googleapis/google-cloud-ruby/issues/13306
 # adding xz as nokogiri was failing to build libxml
-# https://github.com/chatwoot/chatwoot/issues/4045
 RUN apk update && apk add --no-cache build-base musl ruby-full ruby-dev gcc make musl-dev openssl openssl-dev g++ linux-headers xz vips
 RUN bundle config set --local force_ruby_platform true
 
@@ -76,11 +74,10 @@ RUN pnpm i
 
 COPY . /app
 
-# creating a log directory so that image wont fail when RAILS_LOG_TO_STDOUT is false
-# https://github.com/chatwoot/chatwoot/issues/701
+# Creating a log directory so that image won't fail when RAILS_LOG_TO_STDOUT is false.
 RUN mkdir -p /app/log
 
-# generate production assets if production environment
+# Generate production assets if production environment
 RUN if [ "$RAILS_ENV" = "production" ]; then \
   SECRET_KEY_BASE=precompile_placeholder RAILS_LOG_TO_STDOUT=enabled bundle exec rake assets:precompile \
   && rm -rf spec node_modules tmp/cache; \
@@ -150,3 +147,11 @@ COPY --from=pre-builder /app/.git_sha /app/.git_sha
 WORKDIR /app
 
 EXPOSE 3000
+
+# Copy and set up the rails.sh script as the entrypoint
+COPY rails.sh /usr/bin/rails.sh
+RUN chmod +x /usr/bin/rails.sh
+
+ENTRYPOINT ["/usr/bin/rails.sh"]
+
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
