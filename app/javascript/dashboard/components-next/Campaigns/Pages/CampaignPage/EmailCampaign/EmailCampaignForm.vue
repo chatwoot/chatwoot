@@ -215,7 +215,7 @@ const goToNext = async () => {
     currentStep.value = 2;
   }
   else {
-    console.log("HELLL")
+    console.log("Invalid input")
   }
 };
 

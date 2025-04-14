@@ -255,7 +255,9 @@ const setupInfiniteScroll = () => {
 };
 
 const toggleContact = contact => {
-  const index = localSelectedContacts.value.findIndex(c => c.id === contact.id);
+  const index = localSelectedContacts.value
+    .flat()
+    .findIndex(c => c.id === contact.id);
   if (index === -1) {
     localSelectedContacts.value.push(contact);
   } else {
@@ -265,7 +267,8 @@ const toggleContact = contact => {
 };
 
 const isSelected = contact => {
-  return localSelectedContacts.value.some(c => c.id === contact.id);
+  const res = localSelectedContacts.value.flat().some(c => c.id === contact.id);
+  return res;
 };
 
 const clearSelection = () => {

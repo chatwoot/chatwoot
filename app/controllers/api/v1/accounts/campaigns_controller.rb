@@ -5,7 +5,17 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
 
   def index
     @campaigns = Current.account.campaigns
-    render json: @campaigns
+
+    campaigns_and_contacts = @campaigns.map do |campaign|
+      campaign_contacts = campaign.campaign_contacts
+
+      contacts = campaign_contacts.where(campaign_id: campaign.id).map do |cam_con|
+        Current.account.contacts.where(id: cam_con.contact_id)
+      end
+      campaign.attributes.merge(contacts: contacts)
+    end
+
+    render json: campaigns_and_contacts
   end
 
   def show
@@ -41,7 +51,7 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
 
         # Reload to ensure we have all associations
         @campaign.reload
-        render json: @campaign, status: :created
+        render json: @campaign.attributes.merge(contacts: contact_objects), status: :created
       else
         render json: {
           error: @campaign.errors.full_messages.join(', '),
@@ -127,8 +137,21 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
   end
 
   def update
-    if @campaign.update(campaign_params)
-      render json: @campaign
+    @campaign.campaign_contacts.destroy_all
+
+    if @campaign.update(campaign_params.except(:contacts))
+      # Get contact objects - ensure we're working with Contact objects
+      contact_objects = Current.account.contacts.where(id: params[:campaign][:contacts])
+
+      contact_objects.each do |contact|
+        CampaignContact.create!(
+          campaign: @campaign,
+          contact: contact,
+          status: 'pending'
+        )
+      end
+
+      render json: @campaign.attributes.merge(contacts: contact_objects)
     else
       render json: { error: @campaign.errors.full_messages.join(', ') },
              status: :unprocessable_entity

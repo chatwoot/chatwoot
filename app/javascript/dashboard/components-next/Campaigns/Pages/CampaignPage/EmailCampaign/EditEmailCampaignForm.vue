@@ -213,7 +213,7 @@ const goToNext = async () => {
     await fetchContacts(1);
     currentStep.value = 2;
   } else {
-    console.log('HELLL');
+    console.log('Invalid input');
   }
 };
 
@@ -268,16 +268,7 @@ onMounted(() => {
     formState.scheduledAt = null;
   }
 
-  // Store the contact IDs for later use
-  const contactIds = props.selectedCampaign.contacts || [];
-  formState.selectedContacts = contactIds;
-
-  // Fetch contacts and update the selector
-  fetchContacts(1).then(() => {
-    if (contactSelector.value && contactIds.length > 0) {
-      contactSelector.value.updateSelectedContacts(contactIds);
-    }
-  });
+  formState.selectedContacts = props.selectedCampaign.contacts || [];
 
   calculatePreviewPosition();
   window.addEventListener('resize', calculatePreviewPosition);
