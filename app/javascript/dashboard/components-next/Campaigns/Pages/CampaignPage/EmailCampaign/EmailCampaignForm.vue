@@ -1,248 +1,477 @@
 <script setup>
-import { ref, reactive, computed } from 'vue';
+import CodeHighlighter from 'dashboard/components/widgets/CodeHighlighter.vue';
+import {
+  ref,
+  computed,
+  reactive,
+  onMounted,
+  onBeforeUnmount,
+} from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength } from '@vuelidate/validators';
-import { useMapGetter } from 'dashboard/composables/store';
-
+import { required } from '@vuelidate/validators';
+import { useStore } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
 import Input from 'dashboard/components-next/input/Input.vue';
-import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
-import TagMultiSelectComboBox from 'dashboard/components-next/combobox/TagMultiSelectComboBox.vue';
+import ContactSelector from './ContactSelector.vue';
+import TemplatePreview from './TemplatePreview.vue';
+import ContactsAPI from 'dashboard/api/contacts';
+
+defineProps({
+  accountId: {
+    type: [String, Number],
+    required: true,
+  },
+});
 
 const emit = defineEmits(['submit', 'cancel']);
-
+const store = useStore();
 const { t } = useI18n();
 
-const formState = {
-  uiFlags: useMapGetter('campaigns/getUIFlags'),
-  labels: useMapGetter('labels/getLabels'),
-  inboxes: useMapGetter('inboxes/getEmailInboxes'),
-};
-
-const isFocused = ref(false);
-const showVariablesMenu = ref(false);
-
-const initialState = {
+// Form State
+const currentStep = ref(1);
+const formState = reactive({
   title: '',
-  message: '',
-  inboxId: null,
+  message: '<div>Hello world</div>',
+  selectedInbox: null,
   scheduledAt: null,
-  selectedAudience: [],
-};
+  selectedContacts: [],
+  isTemplateValid: true,
+  previewPosition: { right: 0, top: 0 },
+});
 
-const state = reactive({ ...initialState });
+// Contact State
+const contactState = reactive({
+  searchQuery: '',
+  contactList: [],
+  isLoadingContacts: false,
+  currentPage: 1,
+  totalPages: 1,
+  total_count: 0,
+  sortAttribute: 'name',
+});
 
-const rules = {
-  title: { required, minLength: minLength(1) },
-  message: { required, minLength: minLength(1) },
-  inboxId: { required },
-  scheduledAt: { required },
-  selectedAudience: { required },
-};
+// Computed Properties
+const inboxes = computed(() => {
+  const allInboxes = store.getters['inboxes/getEmailInboxes'];
+  return allInboxes;
+});
 
-const v$ = useVuelidate(rules, state);
+const uiFlags = computed(() => store.getters['campaigns/getUIFlags']);
 
-const isCreating = computed(() => formState.uiFlags.value.isCreating);
+const isStep1Valid = computed(() => {
+  return (
+    !v$.value.title.$error &&
+    !v$.value.selectedInbox.$error &&
+    !v$.value.scheduledAt.$error
+  );
+});
 
 const currentDateTime = computed(() => {
-  // Added to disable the scheduled at field from being set to the current time
   const now = new Date();
   const localTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
   return localTime.toISOString().slice(0, 16);
 });
 
-const mapToOptions = (items, valueKey, labelKey) =>
-  items?.map(item => ({
-    value: item[valueKey],
-    label: item[labelKey],
-  })) ?? [];
+// Validation Rules
+const rules = computed(() => {
+  const step1Rules = {
+    title: { required },
+    selectedInbox: { required },
+    scheduledAt: { required },
+  };
+  const step2Rules = {
+    selectedContacts: {
+      required,
+      minLength: value => (value || []).length > 0,
+    },
+  };
+  return currentStep.value === 1 ? step1Rules : step2Rules;
+});
 
-const audienceList = computed(() =>
-  mapToOptions(formState.labels.value, 'id', 'title')
-);
+const v$ = useVuelidate(rules, formState);
 
-const inboxOptions = computed(() =>
-  mapToOptions(formState.inboxes.value, 'id', 'name')
-);
-
-const getErrorMessage = (field, errorKey) => {
-  const baseKey = 'CAMPAIGN.EMAIL.CREATE.FORM';
-  return v$.value[field].$error ? t(`${baseKey}.${errorKey}.ERROR`) : '';
+// Methods
+const calculatePreviewPosition = () => {
+  const campaignForm = document.querySelector('.campaign-details-form');
+  if (campaignForm) {
+    const rect = campaignForm.getBoundingClientRect();
+    formState.previewPosition = {
+      right: window.innerWidth - rect.right - 320,
+      top: rect.top - 70,
+    };
+  }
 };
 
-const formErrors = computed(() => ({
-  title: getErrorMessage('title', 'TITLE'),
-  message: getErrorMessage('message', 'MESSAGE'),
-  inbox: getErrorMessage('inboxId', 'INBOX'),
-  scheduledAt: getErrorMessage('scheduledAt', 'SCHEDULED_AT'),
-  audience: getErrorMessage('selectedAudience', 'AUDIENCE'),
-}));
+const handleInboxSelection = () => {
+  if (formState.selectedInbox === 'create_new') {
+    const baseUrl = window.location.origin;
+    window.location.href = `${baseUrl}/app/accounts/${accountId}/settings/inboxes/new/whatsapp`;
+    formState.selectedInbox = null;
+  }
+};
 
-const isSubmitDisabled = computed(() => v$.value.$invalid);
+const fetchContacts = async (page = 1, search = '') => {
+  try {
+    contactState.isLoadingContacts = true;
+    let data;
+    if (search) {
+      contactState.contactList = [];
+      const { data: responseData } = await ContactsAPI.search(
+        search,
+        page,
+        contactState.sortAttribute
+      );
+      data = responseData;
+    } else {
+      const { data: responseData } = await ContactsAPI.get(
+        page,
+        contactState.sortAttribute
+      );
+      data = responseData;
+    }
+    handleContactsResponse(data);
+  } catch (error) {
+    useAlert(t('CAMPAIGN.EMAIL.CREATE.API.CONTACTS_ERROR'));
+    contactState.contactList = [];
+  } finally {
+    contactState.isLoadingContacts = false;
+  }
+};
 
+const handleContactsResponse = data => {
+  const { payload = [], meta = {} } = data;
+  const filteredContacts = payload.filter(contact => contact.email);
+  if (contactState.currentPage === 1) {
+    contactState.contactList = filteredContacts;
+  } else {
+    contactState.contactList = [
+      ...contactState.contactList,
+      ...filteredContacts,
+    ];
+  }
+  contactState.total_count = meta.count || 0;
+  contactState.totalPages = Math.ceil(meta.count / 30);
+};
+
+const loadMoreContacts = () => {
+  if (
+    contactState.currentPage < contactState.totalPages &&
+    !contactState.isLoadingContacts
+  ) {
+    contactState.currentPage += 1;
+    fetchContacts(contactState.currentPage, contactState.searchQuery);
+  }
+};
+
+const handleSearch = query => {
+  contactState.searchQuery = query;
+  contactState.currentPage = 1;
+  fetchContacts(1, query);
+};
+
+const handleFiltersCleared = () => {
+  contactState.currentPage = 1;
+  contactState.totalPages = 1;
+  fetchContacts(1, contactState.searchQuery);
+};
+
+const onFilteredContacts = filteredContacts => {
+  contactState.contactList = filteredContacts;
+};
+
+const contactSelector = ref(null);
+
+const fetchAllContactIds = async (isFiltered, filteredContacts) => {
+  try {
+    let contactIds = [];
+    if (isFiltered) {
+      contactState.total_count = filteredContacts.length;
+      contactIds = filteredContacts.map(contact => contact.id);
+      formState.selectedContacts = contactIds;
+    } else {
+      const { data } = await ContactsAPI.getAllIds();
+      contactState.total_count = data.total_count;
+      contactIds = data.contact_ids;
+      formState.selectedContacts = contactIds;
+    }
+    if (contactSelector.value) {
+      contactSelector.value.updateSelectedContacts(contactIds);
+    }
+    useAlert(t('CAMPAIGN.EMAIL.CONTACT_SELECTOR.SELECTED_ALL.SUCCESS'));
+  } catch (error) {
+    useAlert(t('CAMPAIGN.EMAIL.CONTACT_SELECTOR.SELECTED_ALL.ERROR'));
+  }
+};
+
+const goToNext = async () => {
+  v$.value.$touch();
+  if (isStep1Valid.value) {
+    contactState.contactList = [];
+    contactState.currentPage = 1;
+    contactState.searchQuery = '';
+    await fetchContacts(1);
+    currentStep.value = 2;
+  }
+  else {
+    console.log("HELLL")
+  }
+};
+
+const goBack = () => {
+  currentStep.value = 1;
+};
 const formatToUTCString = localDateTime =>
   localDateTime ? new Date(localDateTime).toISOString() : null;
 
-const resetState = () => {
-  Object.assign(state, initialState);
-};
-
 const handleCancel = () => emit('cancel');
 
-const prepareCampaignDetails = () => ({
-  title: state.title,
-  message: state.message,
-  inbox_id: state.inboxId,
-  scheduled_at: formatToUTCString(state.scheduledAt),
-  audience: state.selectedAudience?.map(id => ({
-    id,
-    type: 'Label',
-  })),
+const createCampaign = async () => {
+  v$.value.$touch();
+  if (v$.value.$invalid) return;
+
+  try {
+    const contactIds =
+      formState.selectedContacts.length > 0 &&
+      typeof formState.selectedContacts[0] === 'object'
+        ? formState.selectedContacts.map(contact => contact.id)
+        : formState.selectedContacts;
+
+    const campaignDetails = {
+      campaign: {
+        title: formState.title,
+        message: formState.message,
+        inbox_id: formState.selectedInbox,
+        scheduled_at: formState.scheduledAt
+          ? formatToUTCString(formState.scheduledAt)
+          : null,
+        contacts: contactIds,
+        enabled: true,
+        trigger_only_during_business_hours: false,
+      },
+    };
+    await store.dispatch('campaigns/create', campaignDetails);
+    useAlert(t('CAMPAIGN.EMAIL.CREATE.API.SUCCESS_MESSAGE'));
+    emit('cancel');
+  } catch (error) {
+    let errorMessage = t('CAMPAIGN.EMAIL.CREATE.API.ERROR_MESSAGE');
+    if (error.response) {
+      errorMessage =
+        error.response.data?.error ||
+        error.response.data?.message ||
+        errorMessage;
+    }
+    useAlert(errorMessage);
+  }
+};
+
+// Lifecycle Hooks
+onMounted(() => {
+  calculatePreviewPosition();
+  window.addEventListener('resize', calculatePreviewPosition);
 });
 
-const handleSubmit = async () => {
-  const isFormValid = await v$.value.$validate();
-  if (!isFormValid) return;
-
-  emit('submit', prepareCampaignDetails());
-  resetState();
-  handleCancel();
-};
-
-const messagePlaceHolder = () => {
-  return t('CONVERSATION.FOOTER.MSG_INPUT');
-};
-
-const onTypingOn = () => {
-  // REVIEW: This state shouldn't be required in this case
-};
-const onTypingOff = () => {
-  // REVIEW: This state shouldn't be required in this case
-};
-
-const onFocus = () => {
-  isFocused.value = true;
-};
-
-const onBlur = () => {
-  // REVIEW: This state shouldn't be required in this case
-};
-const toggleUserMention = currentMentionState => {
-  // REVIEW: This state shouldn't be required in this case
-};
-const toggleCannedMenu = value => {
-  // REVIEW: This state shouldn't be required in this case
-};
-const toggleVariablesMenu = value => {
-  showVariablesMenu.value = value;
-};
-
-const clearEditorSelection = () => {
-  // REVIEW: This state shouldn't be required in this case
-};
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', calculatePreviewPosition);
+});
 </script>
 
 <template>
-  <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
-    <Input
-      v-model="state.title"
-      :label="t('CAMPAIGN.EMAIL.CREATE.FORM.TITLE.LABEL')"
-      :placeholder="t('CAMPAIGN.EMAIL.CREATE.FORM.TITLE.PLACEHOLDER')"
-      :message="formErrors.title"
-      :message-type="formErrors.title ? 'error' : 'info'"
+  <div class="h-auto">
+    <woot-modal-header
+      :header-title="$t('CAMPAIGN.EMAIL.CREATE.TITLE')"
+      :header-content="$t('CAMPAIGN.EMAIL.CREATE.DESC')"
     />
+    <!-- Step 1: Campaign Details -->
+    <div v-if="currentStep === 1" class="campaign-details-form">
+      <div class="flex flex-row gap-4">
+        <form class="flex flex-col w-full">
+          <div class="w-full space-y-4">
+            <Input
+              v-model="formState.title"
+              :label="t('CAMPAIGN.EMAIL.CREATE.FORM.TITLE.LABEL')"
+              type="text"
+              :class="{ error: v$.title.$error }"
+              :error="
+                v$.title.$error
+                  ? t('CAMPAIGN.EMAIL.CREATE.FORM.TITLE.ERROR')
+                  : ''
+              "
+              :placeholder="t('CAMPAIGN.EMAIL.CREATE.FORM.TITLE.PLACEHOLDER')"
+              @blur="v$.title.$touch"
+            />
 
-    <WootMessageEditor
-      v-model="state.message"
-      :editor-id="0"
-      class="input"
-      :is-private="false"
-      :placeholder="messagePlaceHolder()"
-      :update-selection-with="''"
-      :min-height="4"
-      enable-variables
-      :variables="{}"
-      :signature="''"
-      allow-signature
-      :channel-type="'email'"
-      @typing-off="onTypingOff"
-      @typing-on="onTypingOn"
-      @focus="onFocus"
-      @blur="onBlur"
-      @toggle-user-mention="toggleUserMention"
-      @toggle-canned-menu="toggleCannedMenu"
-      @toggle-variables-menu="toggleVariablesMenu"
-      @clear-selection="clearEditorSelection"
-    />
+            <div class="flex flex-col mb-0">
+              <label class="text-sm font-medium text-slate-700">
+                {{ t('CAMPAIGN.EMAIL.CREATE.FORM.BODY.LABEL') }}
+                <CodeHighlighter v-model="formState.message"></CodeHighlighter>
+              </label>
+            </div>
 
-    <!-- <TextArea
-      v-model="state.message"
-      :label="t('CAMPAIGN.EMAIL.CREATE.FORM.MESSAGE.LABEL')"
-      :placeholder="t('CAMPAIGN.EMAIL.CREATE.FORM.MESSAGE.PLACEHOLDER')"
-      show-character-count
-      :message="formErrors.message"
-      :message-type="formErrors.message ? 'error' : 'info'"
-    /> -->
+            <div class="flex flex-col mb-0">
+              <label class="text-sm font-medium text-slate-700">
+                {{ t('CAMPAIGN.EMAIL.CREATE.FORM.INBOX.LABEL') }}
+                <select
+                  v-model="formState.selectedInbox"
+                  class="w-full p-2 mt-1 border-0 selectInbox"
+                  :class="{ 'border-red-500': v$.selectedInbox.$error }"
+                  @change="handleInboxSelection"
+                >
+                  <option
+                    v-for="inbox in inboxes"
+                    :key="inbox.id"
+                    :value="inbox.id"
+                  >
+                    {{ inbox.name }}
+                  </option>
+                </select>
+                <span
+                  v-if="v$.selectedInbox.$error"
+                  class="text-xs text-red-500"
+                >
+                  {{ t('CAMPAIGN.EMAIL.CREATE.FORM.INBOX.ERROR') }}
+                </span>
+              </label>
+            </div>
 
-    <div class="flex flex-col gap-1">
-      <label for="inbox" class="mb-0.5 text-sm font-medium text-n-slate-12">
-        {{ t('CAMPAIGN.EMAIL.CREATE.FORM.INBOX.LABEL') }}
-      </label>
-      <ComboBox
-        id="inbox"
-        v-model="state.inboxId"
-        :options="inboxOptions"
-        :has-error="!!formErrors.inbox"
-        :placeholder="t('CAMPAIGN.EMAIL.CREATE.FORM.INBOX.PLACEHOLDER')"
-        :message="formErrors.inbox"
-        class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
-      />
+            <div class="flex flex-col">
+              <label class="text-sm font-medium text-slate-700">
+                {{ t('CAMPAIGN.EMAIL.CREATE.FORM.SCHEDULED_AT.LABEL') }}
+                <Input
+                  v-model="formState.scheduledAt"
+                  type="datetime-local"
+                  :min="currentDateTime"
+                  class="w-full mt-1"
+                  :placeholder="
+                    t('CAMPAIGN.EMAIL.CREATE.FORM.SCHEDULED_AT.PLACEHOLDER')
+                  "
+                  :error="
+                    v$.scheduledAt.$error
+                      ? t('CAMPAIGN.EMAIL.CREATE.FORM.SCHEDULED_AT.ERROR')
+                      : ''
+                  "
+                  @blur="v$.scheduledAt.$touch"
+                />
+              </label>
+            </div>
+          </div>
+
+          <div class="flex flex-row justify-end w-full gap-2 px-0 py-2 mt-4">
+            <Button
+              type="button"
+              :disabled="!isStep1Valid"
+              variant="primary"
+              @click="goToNext"
+            >
+              {{ t('CAMPAIGN.EMAIL.CREATE.NEXT_BUTTON_TEXT') }}
+            </Button>
+            <Button type="button" variant="clear" @click.prevent="handleCancel">
+              {{ t('CAMPAIGN.EMAIL.CREATE.CANCEL_BUTTON_TEXT') }}
+            </Button>
+          </div>
+        </form>
+
+        <div class="flex-1">
+          <TemplatePreview
+            :preview-position="formState.previewPosition"
+            v-model="formState.message"
+          />
+        </div>
+      </div>
     </div>
 
-    <div class="flex flex-col gap-1">
-      <label for="audience" class="mb-0.5 text-sm font-medium text-n-slate-12">
-        {{ t('CAMPAIGN.EMAIL.CREATE.FORM.AUDIENCE.LABEL') }}
-      </label>
-      <TagMultiSelectComboBox
-        v-model="state.selectedAudience"
-        :options="audienceList"
-        :label="t('CAMPAIGN.EMAIL.CREATE.FORM.AUDIENCE.LABEL')"
-        :placeholder="t('CAMPAIGN.EMAIL.CREATE.FORM.AUDIENCE.PLACEHOLDER')"
-        :has-error="!!formErrors.audience"
-        :message="formErrors.audience"
-        class="[&>div>button]:bg-n-alpha-black2"
+    <!-- Step 2: Contact Selection -->
+    <div v-else class="contact-selection">
+      <ContactSelector
+        ref="contactSelector"
+        :contacts="contactState.contactList"
+        :selected-contacts="formState.selectedContacts"
+        :is-loading="contactState.isLoadingContacts"
+        :has-more="contactState.currentPage < contactState.totalPages"
+        @contacts-selected="contacts => (formState.selectedContacts = contacts)"
+        @load-more="loadMoreContacts"
+        @select-all-contacts="fetchAllContactIds"
+        @filter-contacts="onFilteredContacts"
+        @filters-cleared="handleFiltersCleared"
       />
-    </div>
 
-    <Input
-      v-model="state.scheduledAt"
-      :label="t('CAMPAIGN.EMAIL.CREATE.FORM.SCHEDULED_AT.LABEL')"
-      type="datetime-local"
-      :min="currentDateTime"
-      :placeholder="t('CAMPAIGN.EMAIL.CREATE.FORM.SCHEDULED_AT.PLACEHOLDER')"
-      :message="formErrors.scheduledAt"
-      :message-type="formErrors.scheduledAt ? 'error' : 'info'"
-    />
-
-    <div class="flex items-center justify-between w-full gap-3">
-      <Button
-        variant="faded"
-        color="slate"
-        type="button"
-        :label="t('CAMPAIGN.EMAIL.CREATE.FORM.BUTTONS.CANCEL')"
-        class="w-full bg-n-alpha-2 n-blue-text hover:bg-n-alpha-3"
-        @click="handleCancel"
-      />
-      <Button
-        :label="t('CAMPAIGN.EMAIL.CREATE.FORM.BUTTONS.CREATE')"
-        class="w-full"
-        type="submit"
-        :is-loading="isCreating"
-        :disabled="isCreating || isSubmitDisabled"
-      />
+      <div class="flex flex-row justify-end w-full gap-2 px-0 py-2 mt-4">
+        <Button
+          :is-loading="uiFlags.isCreating"
+          :disabled="formState.selectedContacts.length === 0"
+          variant="primary"
+          @click="createCampaign"
+        >
+          {{ t('CAMPAIGN.EMAIL.CREATE.CREATE_BUTTON_TEXT') }}
+        </Button>
+        <Button type="button" variant="secondary" @click.stop="goBack">
+          {{ t('CAMPAIGN.EMAIL.CREATE.BACK_BUTTON_TEXT') }}
+        </Button>
+        <Button
+          type="button"
+          variant="clear"
+          class="cancel"
+          @click.prevent="handleCancel"
+        >
+          {{ t('CAMPAIGN.EMAIL.CREATE.CANCEL_BUTTON_TEXT') }}
+        </Button>
+      </div>
     </div>
-  </form>
+  </div>
 </template>
+
+<style scoped>
+.create-inbox-option {
+  color: #369eff;
+  font-weight: 500;
+}
+
+.cancel {
+  margin-right: 10px;
+}
+
+select option[value='create_new'] {
+  color: #369eff;
+  font-weight: 500;
+}
+
+select {
+  @apply w-full p-2 bg-[#F5F5F5] dark:bg-[#1B1C21] mb-0;
+}
+
+.campaign-details-form {
+  @apply relative;
+}
+
+.contact-selection {
+  @apply min-h-[400px];
+}
+
+@media (max-width: 1024px) {
+  .flex-row {
+    flex-direction: column;
+  }
+
+  .pr-4 {
+    padding-right: 0;
+    padding-bottom: 1rem;
+  }
+}
+
+.text-[#369EFF] {
+  color: #369eff;
+}
+
+.hover\:text-[#1b67ae]:hover {
+  color: #1b67ae;
+}
+
+.border-red-500 {
+  border-color: #ef4444;
+}
+
+.text-red-500 {
+  color: #ef4444;
+}
+</style>

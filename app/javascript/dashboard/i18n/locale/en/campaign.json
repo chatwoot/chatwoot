@@ -300,18 +300,21 @@
       },
       "CREATE": {
         "TITLE": "Create Email campaign",
+        "DESC": "Create and Schedule Email campaign",
         "CANCEL_BUTTON_TEXT": "Cancel",
         "CREATE_BUTTON_TEXT": "Create",
+        "NEXT_BUTTON_TEXT": "Next",
+        "BACK_BUTTON_TEXT": "Back",
         "FORM": {
           "TITLE": {
             "LABEL": "Title",
             "PLACEHOLDER": "Please enter the title of campaign",
             "ERROR": "Title is required"
           },
-          "MESSAGE": {
-            "LABEL": "Message",
-            "PLACEHOLDER": "Please enter the message of campaign",
-            "ERROR": "Message is required"
+          "BODY": {
+            "LABEL": "Body",
+            "PLACEHOLDER": "Please enter the html body",
+            "ERROR": "Body is required"
           },
           "INBOX": {
             "LABEL": "Select Inbox",

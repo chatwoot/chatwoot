@@ -41,7 +41,7 @@ const handleDelete = campaign => {
   <CampaignLayout
     :header-title="t('CAMPAIGN.EMAIL.HEADER_TITLE')"
     :button-label="t('CAMPAIGN.EMAIL.NEW_CAMPAIGN')"
-    @click="toggleEmailCampaignDialog()"
+    @click="toggleEmailCampaignDialog(true)"
     @close="toggleEmailCampaignDialog(false)"
   >
     <template #action>
@@ -59,8 +59,9 @@ const handleDelete = campaign => {
     <CampaignList
       v-else-if="!hasNoEmailCampaigns"
       :campaigns="EmailCampaigns"
-      :campaignType="sms"
+      :campaignType="email"
       @delete="handleDelete"
+      @edit="handleEdit"
     />
     <EmailCampaignEmptyState
       v-else
