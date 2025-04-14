@@ -44,5 +44,6 @@ done
 echo "Running database migrations..."
 bundle exec rails db:chatwoot_prepare
 
+mkdir -p /app/tmp/pids
 # Finally, execute the main process (passed as CMD)
 exec "$@"
