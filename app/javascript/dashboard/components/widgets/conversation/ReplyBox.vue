@@ -1179,6 +1179,7 @@ export default {
         v-on-clickaway="hideMentions"
         class="normal-editor__canned-box canned-response__box"
         :search-key="mentionSearchKey"
+        :channel-type="channelType"
         @replace="replaceText"
         @cannedSelected="handleCannedSelected"
       />
