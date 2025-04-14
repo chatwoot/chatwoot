@@ -10,17 +10,8 @@ import liveReports from '../../api/liveReports';
 
 const state = {
   fetchingStatus: false,
-  summaryFetchingStatus: {
-    conversations_count: STATUS.FINISHED,
-    incoming_messages_count: STATUS.FINISHED,
-    outgoing_messages_count: STATUS.FINISHED,
-    avg_first_response_time: STATUS.FINISHED,
-    avg_resolution_time: STATUS.FINISHED,
-    resolutions_count: STATUS.FINISHED,
-    bot_resolutions_count: STATUS.FINISHED,
-    bot_handoffs_count: STATUS.FINISHED,
-    reply_time: STATUS.FINISHED,
-  },
+  accountSummaryFetchingStatus: STATUS.FINISHED,
+  botSummaryFetchingStatus: STATUS.FINISHED,
   accountReport: {
     isFetching: {
       conversations_count: false,
@@ -83,11 +74,14 @@ const getters = {
   getAccountSummary(_state) {
     return _state.accountSummary;
   },
-  getSummaryFetchingStatus(_state) {
-    return _state.summaryFetchingStatus;
-  },
   getBotSummary(_state) {
     return _state.botSummary;
+  },
+  getAccountSummaryFetchingStatus(_state) {
+    return _state.accountSummaryFetchingStatus;
+  },
+  getBotSummaryFetchingStatus(_state) {
+    return _state.botSummaryFetchingStatus;
   },
   getAccountConversationMetric(_state) {
     return _state.overview.accountConversationMetric;
@@ -297,24 +291,10 @@ const mutations = {
     _state.accountReport.isFetching[metric] = value;
   },
   [types.default.SET_BOT_SUMMARY_STATUS](_state, status) {
-    const metricsToUpdate = ['bot_resolutions_count', 'bot_handoffs_count'];
-    metricsToUpdate.forEach(metric => {
-      _state.summaryFetchingStatus[metric] = status;
-    });
+    _state.botSummaryFetchingStatus = status;
   },
   [types.default.SET_ACCOUNT_SUMMARY_STATUS](_state, status) {
-    const metricsToUpdate = [
-      'conversations_count',
-      'incoming_messages_count',
-      'outgoing_messages_count',
-      'avg_first_response_time',
-      'avg_resolution_time',
-      'resolutions_count',
-      'reply_time',
-    ];
-    metricsToUpdate.forEach(metric => {
-      _state.summaryFetchingStatus[metric] = status;
-    });
+    _state.accountSummaryFetchingStatus = status;
   },
   [types.default.TOGGLE_HEATMAP_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingAccountConversationsHeatmap = flag;
