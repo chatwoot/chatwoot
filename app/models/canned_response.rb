@@ -17,6 +17,7 @@ class CannedResponse < ApplicationRecord
   validates :short_code, uniqueness: { scope: :account_id }
 
   belongs_to :account
+  has_many :messages, dependent: :destroy
   has_many :canned_response_inboxes, dependent: :destroy
   has_many :inboxes, through: :canned_response_inboxes
 
@@ -42,4 +43,8 @@ class CannedResponse < ApplicationRecord
     where('short_code ILIKE :search OR content ILIKE :search', search: "%#{search}%")
       .order_by_search(search)
   }
+
+  def messages_count
+    messages.count
+  end
 end

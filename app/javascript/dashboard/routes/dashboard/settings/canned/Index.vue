@@ -25,8 +25,12 @@ const activeResponse = ref({});
 const cannedResponseAPI = ref({ message: '' });
 
 const sortOrder = ref('asc');
+const sortKey = ref('short_code');
 const records = computed(() =>
-  getters.getSortedCannedResponses.value(sortOrder.value)
+  getters.getSortedCannedResponses.value({
+    sortKey: sortKey.value,
+    sortOrder: sortOrder.value,
+  })
 );
 const uiFlags = computed(() => getters.getUIFlags.value);
 
@@ -44,8 +48,13 @@ const deleteMessage = computed(() => {
   return ` ${activeResponse.value.short_code} ? `;
 });
 
-const toggleSort = () => {
-  sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
+const toggleSort = (key) => {
+  if (sortKey.value === key) {
+    sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
+  } else {
+    sortKey.value = key;
+    sortOrder.value = 'asc';
+  }
 };
 
 const fetchCannedResponses = async () => {
@@ -108,13 +117,28 @@ const confirmDeletion = () => {
   deleteCannedResponse(activeResponse.value.id);
 };
 
-const tableHeaders = computed(() => {
-  return [
-    t('CANNED_MGMT.LIST.TABLE_HEADER.SHORT_CODE'),
-    t('CANNED_MGMT.LIST.TABLE_HEADER.CONTENT'),
-    t('CANNED_MGMT.LIST.TABLE_HEADER.ACTIONS'),
-  ];
-});
+const tableHeaders = computed(() => [
+  {
+    label: t('CANNED_MGMT.LIST.TABLE_HEADER.SHORT_CODE'),
+    key: 'short_code',
+    sortable: true,
+  },
+  {
+    label: t('CANNED_MGMT.LIST.TABLE_HEADER.CONTENT'),
+    key: 'content',
+    sortable: true,
+  },
+  {
+    label: t('CANNED_MGMT.LIST.TABLE_HEADER.USAGE_COUNT'),
+    key: 'messages_count',
+    sortable: true,
+  },
+  {
+    label: t('CANNED_MGMT.LIST.TABLE_HEADER.ACTIONS'),
+    key: 'actions',
+    sortable: false,
+  },
+]);
 
 const updateCannedItem = updatedResponse => {
   const index = records.value.findIndex(
@@ -155,26 +179,25 @@ const updateCannedItem = updatedResponse => {
       <table v-else class="min-w-full overflow-x-auto divide-y divide-n-weak">
         <thead>
           <th
-            v-for="thHeader in tableHeaders"
-            :key="thHeader"
+            v-for="header in tableHeaders"
+            :key="header.key"
             class="py-4 ltr:pr-4 rtl:pl-4 text-left font-semibold text-n-slate-11 last:text-right"
           >
-            <span v-if="thHeader !== tableHeaders[0]">
-              {{ thHeader }}
-            </span>
-            <button
-              v-else
-              class="flex items-center p-0 cursor-pointer"
-              @click="toggleSort"
-            >
-              <span class="mb-0">
-                {{ thHeader }}
-              </span>
-              <fluent-icon
-                class="ml-2 size-4"
-                :icon="sortOrder === 'desc' ? 'chevron-up' : 'chevron-down'"
-              />
-            </button>
+            <template v-if="header.sortable">
+              <button
+                class="flex items-center p-0 cursor-pointer"
+                @click="toggleSort(header.key)"
+              >
+                <span class="mb-0">{{ header.label }}</span>
+                <fluent-icon
+                  class="ml-2 size-4"
+                  :icon="sortKey === header.key && sortOrder === 'desc' ? 'chevron-up' : 'chevron-down'"
+                />
+              </button>
+            </template>
+            <template v-else>
+              {{ header.label }}
+            </template>
           </th>
         </thead>
         <tbody class="divide-y divide-n-weak text-n-slate-11">
@@ -190,6 +213,9 @@ const updateCannedItem = updatedResponse => {
             </td>
             <td class="py-4 ltr:pr-4 rtl:pl-4 md:break-all whitespace-normal">
               {{ cannedItem.content }}
+            </td>
+            <td class="py-4 ltr:pr-4 rtl:pl-4 text-center">
+                {{ cannedItem.messages_count }}
             </td>
             <td class="py-4 flex justify-end gap-1">
               <Button

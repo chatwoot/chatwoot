@@ -2,21 +2,21 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
   before_action :fetch_canned_response, only: [:update, :destroy]
 
   def index
-    render json: canned_responses.to_json(methods: :inbox_ids)
+    render json: canned_responses.to_json(methods: [:inbox_ids, :messages_count])
   end
 
   def create
     @canned_response = Current.account.canned_responses.new(canned_response_params)
     @canned_response.inbox_ids = params[:inbox_ids]
     @canned_response.save!
-    render json: @canned_response
+    render json: @canned_response.to_json(methods: [:inbox_ids, :messages_count]), status: :created
   end
 
   def update
     @canned_response.update!(canned_response_params)
     @canned_response.inbox_ids = params[:inbox_ids]
     @canned_response.save!
-    render json: @canned_response
+    render json: @canned_response.to_json(methods: [:inbox_ids, :messages_count])
   end
 
   def destroy

@@ -19,13 +19,20 @@ const getters = {
     return _state.records;
   },
   getSortedCannedResponses(_state) {
-    return sortOrder =>
-      [..._state.records].sort((a, b) => {
-        if (sortOrder === 'asc') {
-          return a.short_code.localeCompare(b.short_code);
+    return ({ sortKey = 'short_code', sortOrder = 'asc' } = {}) => {
+      return [..._state.records].sort((a, b) => {
+        const aVal = a[sortKey] || '';
+        const bVal = b[sortKey] || '';
+
+        if (typeof aVal === 'number') {
+          return sortOrder === 'asc' ? aVal - bVal : bVal - aVal;
+        } else {
+          return sortOrder === 'asc'
+            ? aVal.toString().localeCompare(bVal.toString())
+            : bVal.toString().localeCompare(aVal.toString());
         }
-        return b.short_code.localeCompare(a.short_code);
       });
+    };
   },
   getUIFlags(_state) {
     return _state.uiFlags;

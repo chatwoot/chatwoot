@@ -13,7 +13,8 @@
       "TABLE_HEADER": {
         "SHORT_CODE": "Short code",
         "CONTENT": "Content",
-        "ACTIONS": "Actions"
+        "ACTIONS": "Actions",
+        "USAGE_COUNT": "Times"
       }
     },
     "ADD": {
