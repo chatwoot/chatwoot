@@ -62,6 +62,9 @@ class Api::V1::ProfilesController < Api::BaseController
       :gbits_display_name,
       :avatar,
       :message_signature,
+      :azar_message_signature,
+      :mono_message_signature,
+      :gbits_message_signature,
       :account_id,
       ui_settings: {}
     )

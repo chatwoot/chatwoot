@@ -8,6 +8,9 @@ json.azar_display_name resource.try(:azar_display_name)
 json.mono_display_name resource.try(:mono_display_name)
 json.gbits_display_name resource.try(:gbits_display_name)
 json.message_signature resource.message_signature
+json.azar_message_signature resource.azar_message_signature
+json.mono_message_signature resource.mono_message_signature
+json.gbits_message_signature resource.gbits_message_signature
 json.email resource.email
 json.hmac_identifier resource.hmac_identifier if GlobalConfig.get('CHATWOOT_INBOX_HMAC_KEY')['CHATWOOT_INBOX_HMAC_KEY'].present?
 json.id resource.id

@@ -66,6 +66,9 @@ export default {
       gbitsDisplayName: '',
       email: '',
       messageSignature: '',
+      azarMessageSignature: '',
+      monoMessageSignature: '',
+      gbitsMessageSignature: '',
       hotKeys: [
         {
           key: 'enter',
@@ -121,6 +124,9 @@ export default {
       this.gbitsAvatarUrl = this.currentUser.gbits_avatar_url;
       this.displayName = this.currentUser.display_name;
       this.messageSignature = this.currentUser.message_signature;
+      this.azarMessageSignature = this.currentUser.azar_message_signature;
+      this.monoMessageSignature = this.currentUser.mono_message_signature;
+      this.gbitsMessageSignature = this.currentUser.gbits_message_signature;
     },
     async dispatchUpdate(payload, successMessage, errorMessage) {
       let alertMessage = '';
@@ -138,7 +144,14 @@ export default {
       }
     },
     async updateProfile(userAttributes) {
-      const { name, email, displayName, azarDisplayName, monoDisplayName, gbitsDisplayName } = userAttributes;
+      const {
+        name,
+        email,
+        displayName,
+        azarDisplayName,
+        monoDisplayName,
+        gbitsDisplayName,
+      } = userAttributes;
       const hasEmailChanged = this.currentUser.email !== email;
       this.name = name || this.name;
       this.email = email || this.email;
@@ -170,8 +183,22 @@ export default {
 
       if (hasEmailChanged && success) clearCookiesOnLogout();
     },
-    async updateSignature(signature) {
-      const payload = { message_signature: signature };
+    async updateSignature(
+      signature,
+      azarSignature,
+      monoSignature,
+      gbitsSignature
+    ) {
+      const payload = {
+        displayName: this.displayName,
+        azarDisplayName: this.azarDisplayName,
+        monoDisplayName: this.monoDisplayName,
+        gbitsDisplayName: this.gbitsDisplayName,
+        message_signature: signature,
+        azar_message_signature: azarSignature,
+        mono_message_signature: monoSignature,
+        gbits_message_signature: gbitsSignature,
+      };
       let successMessage = this.$t(
         'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_SUCCESS'
       );
@@ -234,6 +261,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="grid py-16 px-5 font-inter mx-auto gap-16 sm:max-w-screen-md">
     <div class="flex flex-col gap-6">
@@ -317,6 +345,9 @@ export default {
     >
       <MessageSignature
         :message-signature="messageSignature"
+        :azar-message-signature="azarMessageSignature"
+        :mono-message-signature="monoMessageSignature"
+        :gbits-message-signature="gbitsMessageSignature"
         @update-signature="updateSignature"
       />
     </FormSection>

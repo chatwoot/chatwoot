@@ -80,6 +80,24 @@
         "ERROR": "Message Signature cannot be empty",
         "PLACEHOLDER": "Insert your personal message signature here."
       },
+
+      "AZAR_MESSAGE_SIGNATURE": {
+        "LABEL": "AzarOnline Message Signature",
+        "ERROR": "AzarOnline Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal AzarOnline message signature here."
+      },
+
+      "MONO_MESSAGE_SIGNATURE": {
+        "LABEL": "MonoVM Message Signature",
+        "ERROR": "MonoVM Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal MonoVM message signature here."
+      },
+
+      "GBITS_MESSAGE_SIGNATURE": {
+        "LABEL": "1Gbits Message Signature",
+        "ERROR": "1Gbits Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal 1Gbits message signature here."
+      },
       "PASSWORD_SECTION": {
         "TITLE": "Password",
         "NOTE": "Updating your password would reset your logins in multiple devices.",
