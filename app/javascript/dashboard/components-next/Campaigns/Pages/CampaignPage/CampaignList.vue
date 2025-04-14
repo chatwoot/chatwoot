@@ -18,8 +18,14 @@ const getInboxByCampaignId = inboxId =>
   getters['inboxes/getInbox'].value(inboxId);
 
 const handleReport = campaign => emit('report', campaign);
-const handleEdit = campaign => emit('edit', campaign);
-const handleDelete = campaign => emit('delete', campaign);
+const handleEdit = campaign => {
+  console.log("This is the campaign 0", campaign)
+  return emit('edit', campaign);
+};
+const handleDelete = campaign => {
+  console.log("This is the campaign 1", campaign)
+  return emit('delete', campaign);
+};
 </script>
 
 <template>

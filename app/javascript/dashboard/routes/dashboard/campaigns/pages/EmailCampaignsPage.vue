@@ -7,16 +7,20 @@ import { CAMPAIGN_TYPES } from 'shared/constants/campaign.js';
 
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CampaignLayout from 'dashboard/components-next/Campaigns/CampaignLayout.vue';
+
 import CampaignList from 'dashboard/components-next/Campaigns/Pages/CampaignPage/CampaignList.vue';
 import EmailCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/EmailCampaign/EmailCampaignDialog.vue';
 import ConfirmDeleteCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/ConfirmDeleteCampaignDialog.vue';
 import EmailCampaignEmptyState from 'dashboard/components-next/Campaigns/EmptyState/EmailCampaignEmptyState.vue';
+import EditEmailCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/EmailCampaign/EditEmailCampaignDialog.vue';
 
 const { t } = useI18n();
 const getters = useStoreGetters();
 
 const selectedCampaign = ref(null);
 const [showEmailCampaignDialog, toggleEmailCampaignDialog] = useToggle();
+const [showEditEmailCampaignDialog, toggleEditEmailCampaignDialog] =
+  useToggle();
 
 const uiFlags = useMapGetter('campaigns/getUIFlags');
 const isFetchingCampaigns = computed(() => uiFlags.value.isFetching);
@@ -30,6 +34,12 @@ const EmailCampaigns = computed(() =>
 const hasNoEmailCampaigns = computed(
   () => EmailCampaigns.value?.length === 0 && !isFetchingCampaigns.value
 );
+
+const handleEdit = campaign => {
+  console.log("This is the campaign", campaign) 
+  selectedCampaign.value = campaign;
+  toggleEditEmailCampaignDialog(true);
+};
 
 const handleDelete = campaign => {
   selectedCampaign.value = campaign;
@@ -49,6 +59,11 @@ const handleDelete = campaign => {
         v-if="showEmailCampaignDialog"
         @close="toggleEmailCampaignDialog(false)"
       />
+      <EditEmailCampaignDialog
+        v-if="showEditEmailCampaignDialog"
+        :selected-campaign="selectedCampaign"
+        @close="toggleEditEmailCampaignDialog(false)"
+      /> 
     </template>
     <div
       v-if="isFetchingCampaigns"
