@@ -91,6 +91,10 @@ export default {
       // Reset the widget state
       window.$chatwoot.reset();
       
+      // Clear any stored conversation data
+      localStorage.removeItem('cw_conversation');
+      localStorage.removeItem('cw_contact');
+      
       // Redirect to pre-chat form
       this.replaceRoute('prechat-form');
       
@@ -98,7 +102,7 @@ export default {
       IFrameHelper.sendMessage({
         event: 'onEvent',
         eventIdentifier: CHATWOOT_ON_START_CONVERSATION,
-        data: { hasConversation: true },
+        data: { hasConversation: false },
       });
     },
     toggleReplyTo(message) {
