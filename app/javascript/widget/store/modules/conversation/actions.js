@@ -13,7 +13,6 @@ import {
 import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 import { emitter } from 'shared/helpers/mitt';
-import IFrameHelper from 'shared/helpers/IFrameHelper';
 import { CHATWOOT_ON_START_CONVERSATION } from 'widget/constants/widgetBusEvents';
 
 export const actions = {
