@@ -12,8 +12,16 @@ const routes = [...dashboard.routes];
 export const router = createRouter({ history: createWebHistory(), routes });
 export const routesWithPermissions = buildPermissionsFromRouter(routes);
 
-export const validateAuthenticateRoutePermission = (to, next) => {
+export const validateAuthenticateRoutePermission = async (to, next) => {
   const { isLoggedIn, getCurrentUser: user } = store.getters;
+  //const currentAccount = getAccount; // Get the account using the getter with account_id
+  await store.dispatch('accounts/get');
+  const getAccount = store.getters['accounts/getAccount'];
+  let currentAccount = getAccount(user.account_id); // Assuming user has an account_id property
+  if (!currentAccount || Object.keys(currentAccount).length === 0) {
+    await store.dispatch('accounts/get');
+    currentAccount = getAccount(user.account_id);
+  }
 
   if (!isLoggedIn) {
     window.location.assign('/app/login');
@@ -31,7 +39,11 @@ export const validateAuthenticateRoutePermission = (to, next) => {
     return next(frontendURL(`accounts/${user.account_id}/dashboard`));
   }
 
-  const nextRoute = validateLoggedInRoutes(to, store.getters.getCurrentUser);
+  const nextRoute = validateLoggedInRoutes(
+    to,
+    store.getters.getCurrentUser,
+    currentAccount
+  );
   return nextRoute ? next(frontendURL(nextRoute)) : next();
 };
 

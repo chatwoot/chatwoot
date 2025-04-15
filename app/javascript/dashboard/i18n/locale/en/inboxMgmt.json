@@ -98,6 +98,7 @@
           "PLACEHOLDER": "Update the widget color used in widget"
         },
         "SUBMIT_BUTTON": "Create inbox",
+        "SKIP": "Skip",
         "API": {
           "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
         }

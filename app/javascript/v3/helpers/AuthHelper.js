@@ -35,6 +35,8 @@ export const getLoginRedirectURL = ({
     sessionInfo = sessionCookie ? JSON.parse(sessionCookie) : {};
     isNewUser =
       user && user.available_name === user.email && user.display_name === null;
+
+    isNewUser = true;
   } catch (error) {}
   if (accountPath) {
     if (ssoConversationId) {
