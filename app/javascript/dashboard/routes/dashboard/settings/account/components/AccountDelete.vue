@@ -7,6 +7,7 @@ import { useToggle } from '@vueuse/core';
 import { useAlert } from 'dashboard/composables';
 import WootConfirmDeleteModal from 'dashboard/components/widgets/modal/ConfirmDeleteModal.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import SectionLayout from './SectionLayout.vue';
 
 const { t } = useI18n();
 const store = useStore();
@@ -104,46 +105,38 @@ async function clearDeletionMark() {
 </script>
 
 <template>
-  <div
-    class="flex flex-row pt-4 mt-2 border-t border-slate-25 dark:border-slate-800 text-black-900 dark:text-slate-300"
+  <SectionLayout
+    :title="t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.TITLE')"
+    :description="t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.NOTE')"
+    with-border
   >
-    <div class="flex-grow-0 flex-shrink-0 flex-[25%] min-w-0 py-4 pr-6 pl-0">
-      <h4 class="text-lg font-medium text-black-900 dark:text-slate-200">
-        {{ $t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.TITLE') }}
-      </h4>
-      <p>
-        {{ $t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.NOTE') }}
-      </p>
-    </div>
-    <div class="p-4 flex-grow-0 flex-shrink-0 flex-[50%]">
-      <div v-if="isMarkedForDeletion">
-        <div
-          class="p-4 flex-grow-0 flex-shrink-0 flex-[50%] bg-red-50 dark:bg-red-900 rounded"
-        >
-          <p class="mb-4">
-            {{ markedForDeletionMessage }}
-          </p>
-          <NextButton
-            :label="
-              $t(
-                'GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.SCHEDULED_DELETION.CLEAR_BUTTON'
-              )
-            "
-            color="ruby"
-            :is-loading="uiFlags.isUpdating"
-            @click="clearDeletionMark"
-          />
-        </div>
-      </div>
-      <div v-if="!isMarkedForDeletion">
+    <div v-if="isMarkedForDeletion">
+      <div
+        class="p-4 flex-grow-0 flex-shrink-0 flex-[50%] bg-red-50 dark:bg-red-900 rounded"
+      >
+        <p class="mb-4">
+          {{ markedForDeletionMessage }}
+        </p>
         <NextButton
-          :label="$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.BUTTON_TEXT')"
+          :label="
+            $t(
+              'GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.SCHEDULED_DELETION.CLEAR_BUTTON'
+            )
+          "
           color="ruby"
-          @click="toggleDeletePopup(true)"
+          :is-loading="uiFlags.isUpdating"
+          @click="clearDeletionMark"
         />
       </div>
     </div>
-  </div>
+    <div v-if="!isMarkedForDeletion">
+      <NextButton
+        :label="$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.BUTTON_TEXT')"
+        color="ruby"
+        @click="toggleDeletePopup(true)"
+      />
+    </div>
+  </SectionLayout>
   <WootConfirmDeleteModal
     v-if="showDeletePopup"
     v-model:show="showDeletePopup"
