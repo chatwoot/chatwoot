@@ -329,6 +329,7 @@
     "HEADER_KNOW_MORE": "了解更多",
     "COPILOT": {
       "SEND_MESSAGE": "发送消息...",
+      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
       "LOADER": "Captain 正在思考",
       "YOU": "您",
       "USE": "使用此",
