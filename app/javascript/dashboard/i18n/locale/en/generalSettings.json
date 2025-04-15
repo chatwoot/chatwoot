@@ -44,6 +44,10 @@
         "TITLE": "Account ID",
         "NOTE": "This ID is required if you are building an API based integration"
       },
+      "AUTO_RESOLVE": {
+        "TITLE": "Auto Resolve",
+        "NOTE": "Automatically resolve inactive conversations to keep your inbox organized. Choose how long to wait before resolving and customize the message sent to customers."
+      },
       "NAME": {
         "LABEL": "Account name",
         "PLACEHOLDER": "Your account name",

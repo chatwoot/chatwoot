@@ -13,6 +13,7 @@ import V4Button from 'dashboard/components-next/button/Button.vue';
 import AccountInfo from './components/AccountInfo.vue';
 import BuildInfo from './components/BuildInfo.vue';
 import AccountDelete from './components/AccountDelete.vue';
+import AutoResolve from './components/AutoResolve.vue';
 import SectionLayout from './components/SectionLayout.vue';
 
 export default {
@@ -22,6 +23,7 @@ export default {
     AccountInfo,
     BuildInfo,
     AccountDelete,
+    AutoResolve,
     SectionLayout,
   },
   setup() {
@@ -253,7 +255,7 @@ export default {
 
       <woot-loading-state v-if="uiFlags.isFetchingItem" />
     </div>
-
+    <AutoResolve />
     <AccountInfo />
     <div v-if="!uiFlags.isFetchingItem && isOnChatwootCloud">
       <AccountDelete />
