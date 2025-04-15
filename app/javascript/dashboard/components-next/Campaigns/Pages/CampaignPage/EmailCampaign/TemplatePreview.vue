@@ -49,8 +49,8 @@ watch(() => props.modelValue, writeToIframe);
 <style scoped>
 .template-preview-wrapper {
   position: fixed;
-  width: 470px; /* 1080 / 3 */
-  height: 750px; /* 1920 / 3 */
+  width: 441.17px;
+  height: 750px;
   transform: scale(0.88);
   transform-origin: top left;
   background: white;

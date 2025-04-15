@@ -92,8 +92,8 @@ const calculatePreviewPosition = () => {
   if (campaignForm) {
     const rect = campaignForm.getBoundingClientRect();
     formState.previewPosition = {
-      right: window.innerWidth - rect.right - 320,
-      top: rect.top - 70,
+      right: window.innerWidth - rect.right - 470,
+      top: rect.top - 90,
     };
   }
 };
