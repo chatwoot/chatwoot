@@ -34,11 +34,10 @@ module ConversationReplyMailerHelper
         mail.attachments[attachment_name] = raw_data
         @options[:attachments] << { name: attachment_name }
       else
+        # We will link large attachments as links in the email body
         @large_attachments << attachment
       end
     end
-
-    @message.instance_variable_set(:@large_attachments, @large_attachments) if @large_attachments.present?
   end
 
   private
