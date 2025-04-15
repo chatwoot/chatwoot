@@ -20,14 +20,14 @@ export default {
     },
     isFacebookChannelExistsWithSameInstagramId() {
       const instagramId = this.currentInbox.instagram_id;
-      const facebookChannel =
-        this.$store.getters['inboxes/getFacebookChannelWithInstagramId'](
+      const facebookInbox =
+        this.$store.getters['inboxes/getFacebookInboxByInstagramId'](
           instagramId
         );
 
       return (
         this.currentInbox.channel_type === INBOX_TYPES.INSTAGRAM &&
-        facebookChannel.length > 0
+        facebookInbox
       );
     },
 

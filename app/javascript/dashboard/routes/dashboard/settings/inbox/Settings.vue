@@ -213,14 +213,12 @@ export default {
     // Check if a messenger channel that has the same instagram_id
     isFacebookChannelExistsWithSameInstagramId() {
       const instagramId = this.inbox.instagram_id;
-      const facebookChannel =
-        this.$store.getters['inboxes/getFacebookChannelWithInstagramId'](
+      const facebookInbox =
+        this.$store.getters['inboxes/getFacebookInboxByInstagramId'](
           instagramId
         );
 
-      return (
-        this.inbox.channel_type === INBOX_TYPES.FB && facebookChannel.length > 0
-      );
+      return this.inbox.channel_type === INBOX_TYPES.FB && facebookInbox;
     },
     microsoftUnauthorized() {
       return this.isAMicrosoftInbox && this.inbox.reauthorization_required;

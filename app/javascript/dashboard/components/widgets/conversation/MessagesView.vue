@@ -210,20 +210,18 @@ export default {
       return contactLastSeenAt;
     },
 
-    // Check if a messenger channel that has the same instagram_id
-    isFacebookChannelExistsWithSameInstagramId() {
+    // Check there is a facebook inbox with the same instagram_id
+    hasDuplicateInstagramInbox() {
       const instagramId = this.inbox.instagram_id;
-      const facebookChannel =
-        this.$store.getters['inboxes/getFacebookChannelWithInstagramId'](
+      const facebookInbox =
+        this.$store.getters['inboxes/getInstagramInboxByInstagramId'](
           instagramId
         );
 
-      return (
-        this.inbox.channel_type === INBOX_TYPES.FB && facebookChannel.length > 0
-      );
+      return this.inbox.channel_type === INBOX_TYPES.FB && facebookInbox;
     },
 
-    replyBannerMessageForFacebookChannelWithSameInstagramId() {
+    replyBannerMessageForDuplicateInstagramInbox() {
       return this.$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER');
     },
 
@@ -522,10 +520,10 @@ export default {
       :href-link-text="replyWindowLinkText"
     />
     <Banner
-      v-else-if="isFacebookChannelExistsWithSameInstagramId"
+      v-else-if="hasDuplicateInstagramInbox"
       color-scheme="alert"
       class="mx-2 mt-2 overflow-hidden rounded-lg"
-      :banner-message="replyBannerMessageForFacebookChannelWithSameInstagramId"
+      :banner-message="replyBannerMessageForDuplicateInstagramInbox"
     />
     <div class="flex justify-end">
       <NextButton
