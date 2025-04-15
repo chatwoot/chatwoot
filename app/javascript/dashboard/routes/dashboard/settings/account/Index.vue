@@ -7,13 +7,13 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
-import semver from 'semver';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import V4Button from 'dashboard/components-next/button/Button.vue';
 import WootConfirmDeleteModal from 'dashboard/components/widgets/modal/ConfirmDeleteModal.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import AccountInfo from './components/AccountInfo.vue';
+import BuildInfo from './components/BuildInfo.vue';
 
 export default {
   components: {
@@ -22,6 +22,7 @@ export default {
     WootConfirmDeleteModal,
     NextButton,
     AccountInfo,
+    BuildInfo,
   },
   setup() {
     const { updateUISettings } = useUISettings();
@@ -40,7 +41,6 @@ export default {
       supportEmail: '',
       features: {},
       autoResolveDuration: null,
-      latestChatwootVersion: null,
       showDeletePopup: false,
     };
   },
@@ -58,7 +58,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      globalConfig: 'globalConfig/get',
       getAccount: 'accounts/getAccount',
       uiFlags: 'accounts/getUIFlags',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
@@ -68,16 +67,6 @@ export default {
       return this.isFeatureEnabledonAccount(
         this.accountId,
         FEATURE_FLAGS.AUTO_RESOLVE_CONVERSATIONS
-      );
-    },
-    hasAnUpdateAvailable() {
-      if (!semver.valid(this.latestChatwootVersion)) {
-        return false;
-      }
-
-      return semver.lt(
-        this.globalConfig.appVersion,
-        this.latestChatwootVersion
       );
     },
     languagesSortedByCode() {
@@ -148,7 +137,6 @@ export default {
           support_email,
           features,
           auto_resolve_duration,
-          latest_chatwoot_version: latestChatwootVersion,
         } = this.getAccount(this.accountId);
 
         this.$root.$i18n.locale = locale;
@@ -159,7 +147,6 @@ export default {
         this.supportEmail = support_email;
         this.features = features;
         this.autoResolveDuration = auto_resolve_duration;
-        this.latestChatwootVersion = latestChatwootVersion;
       } catch (error) {
         // Ignore error
       }
@@ -416,18 +403,6 @@ export default {
         @on-close="closeDeletePopup"
       />
     </div>
-    <div class="p-4 text-sm text-center">
-      <div>{{ `v${globalConfig.appVersion}` }}</div>
-      <div v-if="hasAnUpdateAvailable && globalConfig.displayManifest">
-        {{
-          $t('GENERAL_SETTINGS.UPDATE_CHATWOOT', {
-            latestChatwootVersion: latestChatwootVersion,
-          })
-        }}
-      </div>
-      <div class="build-id">
-        <div>{{ `Build ${globalConfig.gitSha}` }}</div>
-      </div>
-    </div>
+    <BuildInfo />
   </div>
 </template>
