@@ -210,8 +210,8 @@ export default {
     instagramUnauthorized() {
       return this.isAInstagramChannel && this.inbox.reauthorization_required;
     },
-    // Check if a messenger channel that has the same instagram_id
-    isFacebookChannelExistsWithSameInstagramId() {
+    // Check if a facebook inbox that has the same instagram_id
+    hasDuplicateInstagramInbox() {
       const instagramId = this.inbox.instagram_id;
       const facebookInbox =
         this.$store.getters['inboxes/getFacebookInboxByInstagramId'](
@@ -407,7 +407,7 @@ export default {
       <GoogleReauthorize v-if="googleUnauthorized" :inbox="inbox" />
       <InstagramReauthorize v-if="instagramUnauthorized" :inbox="inbox" />
       <DuplicateInboxBanner
-        v-if="isFacebookChannelExistsWithSameInstagramId"
+        v-if="hasDuplicateInstagramInbox"
         :content="$t('INBOX_MGMT.ADD.INSTAGRAM.DUPLICATE_INBOX_BANNER')"
         class="mx-8 mt-5"
       />

@@ -214,7 +214,7 @@ export default {
     hasDuplicateInstagramInbox() {
       const instagramId = this.inbox.instagram_id;
       const facebookInbox =
-        this.$store.getters['inboxes/getInstagramInboxByInstagramId'](
+        this.$store.getters['inboxes/getFacebookInboxByInstagramId'](
           instagramId
         );
 
