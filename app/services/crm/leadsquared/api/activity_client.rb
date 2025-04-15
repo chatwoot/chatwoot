@@ -20,8 +20,8 @@ class Crm::Leadsquared::Api::ActivityClient < Crm::Leadsquared::Api::BaseClient
     path = 'ProspectActivity.svc/CreateType'
     body = {
       'ActivityEventName' => name,
-      'Score' => score,
-      'Direction' => direction
+      'Score' => score.to_i,
+      'Direction' => direction.to_i
     }
 
     response = post(path, {}, body)
@@ -43,7 +43,7 @@ class Crm::Leadsquared::Api::ActivityClient < Crm::Leadsquared::Api::BaseClient
 
   def handle_activity_type_response(response)
     if valid_activity_type_response?(response)
-      { success: true, activity_id: response[:data]['Message']['ActivityEvent'].to_i }
+      { success: true, activity_id: response[:data]['Message']['Id'].to_i }
     else
       error_message = response[:error] || 'Unknown error creating activity type'
       { success: false, error: error_message }
@@ -59,7 +59,7 @@ class Crm::Leadsquared::Api::ActivityClient < Crm::Leadsquared::Api::BaseClient
     response[:success] &&
       response[:data]['Status'] == 'Success' &&
       response[:data]['Message'] &&
-      response[:data]['Message']['ActivityEvent']
+      response[:data]['Message']['Id']
   end
 
   def valid_response_data?(data)
