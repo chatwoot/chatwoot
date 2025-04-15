@@ -188,6 +188,15 @@ export const actions = {
       // Clear any stored conversation data
       localStorage.removeItem('cw_conversation');
       localStorage.removeItem('cw_contact');
+      
+      // Emit webhook event for chat restart
+      emitter.emit('chatwoot:widget:opened', {
+        event: 'widget:opened',
+        timestamp: new Date().toISOString(),
+        source: 'widget',
+        conversation: null,
+        contact: null
+      });
     } catch (error) {
       // IgnoreError
     }

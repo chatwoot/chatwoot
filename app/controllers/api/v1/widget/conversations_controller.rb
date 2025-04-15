@@ -56,18 +56,14 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   def toggle_status
-    unless conversation.resolved?
-      conversation.status = :resolved
-      # Clear conversation state when ending chat
-      conversation.messages.destroy_all
-      conversation.custom_attributes = {}
-      conversation.save!
-      
-      # Clear any existing cookies
-      cookies.delete(:cw_conversation)
-      cookies.delete(:cw_contact)
+    conversation = @web_widget.inbox.conversations.find_by!(contact_id: @contact.id)
+    if conversation.open?
+      conversation.messages.update_all(status: :resolved)
+      conversation.update!(status: :resolved)
+      render json: { message: 'Conversation has been marked as resolved' }
+    else
+      render json: { message: 'Conversation is already resolved' }
     end
-    head :ok
   end
 
   def set_custom_attributes
