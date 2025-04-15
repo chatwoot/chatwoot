@@ -101,6 +101,7 @@ Rails.application.routes.draw do
                 post :text, to: 'knowledge_source_texts#create'
                 patch :text, to: 'knowledge_source_texts#update'
                 delete :'text/:id', to: 'knowledge_source_texts#destroy'
+                post :file, to: 'knowledge_source_files#create'
               end
             end
           end

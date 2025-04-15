@@ -83,8 +83,9 @@ class Api::V1::Accounts::KnowledgeSourceTextsController < Api::V1::Accounts::Bas
   def create_document_loader(store_id, name, text)
     AiAgents::FlowiseService.add_document_loader(
       store_id: store_id,
+      loader_id: 'plainText',
       name: name,
-      text: text
+      content: text
     )
   rescue StandardError => e
     Rails.logger.error("Failed to add document loader: #{e.message}")
