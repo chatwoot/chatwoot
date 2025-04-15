@@ -21,26 +21,21 @@ module ConversationReplyMailerHelper
 
     if @message.attachments.present?
       @options[:attachments] = []
+      @large_attachments = []
 
       @message.attachments.each do |attachment|
         raw_data = attachment.file.download
         attachment_name = attachment.file.filename.to_s
-        temp_dir = Rails.root.join('tmp/uploads')
-        FileUtils.mkdir_p(temp_dir)
-        temp_file_path = File.join(temp_dir, attachment_name)
-        File.write(temp_file_path, raw_data, mode: 'wb')
-        temp_file_path
-
-        # Get the size of the file before downloading
         file_size = raw_data.bytesize
 
         if file_size < 25.megabytes
-          # Store the temp file path and attachment name
-          @options[:attachments] << { name: attachment_name, path: temp_file_path }
-          mail.attachments[attachment_name] = File.read(temp_file_path)
-
-          Rails.logger.info("Attachment saved to #{temp_file_path}.")
+          # Add attachment directly to mail without saving to temp file
+          mail.attachments[attachment_name] = raw_data
+          @options[:attachments] << { name: attachment_name }
+          Rails.logger.info("Attachment #{attachment_name} (#{file_size} bytes) added to email.")
         else
+          # Track large attachments to be displayed as links
+          @large_attachments << attachment
           Rails.logger.warn("Attachment #{attachment_name} is larger than 25MB and will be sent as a link")
         end
       end
