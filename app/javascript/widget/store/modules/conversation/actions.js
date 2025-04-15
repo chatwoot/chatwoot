@@ -191,13 +191,7 @@ export const actions = {
       window.$chatwoot.reset();
       
       // Emit webhook event for chat restart
-      emitter.emit('chatwoot:widget:opened', {
-        event: 'widget:opened',
-        timestamp: new Date().toISOString(),
-        source: 'widget',
-        conversation: null,
-        contact: null
-      });
+      dispatch('events/create', { name: 'webwidget.triggered' }, { root: true });
     } catch (error) {
       // IgnoreError
     }
