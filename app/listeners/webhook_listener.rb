@@ -12,6 +12,7 @@ class WebhookListener < BaseListener
     inbox = conversation.inbox
     payload = conversation.webhook_data.merge(
       event: __method__.to_s,
+      conversation_id: conversation.id,
       account_id: conversation.account_id
     )
     deliver_webhook_payloads(payload, inbox)
