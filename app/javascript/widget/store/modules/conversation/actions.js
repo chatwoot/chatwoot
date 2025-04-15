@@ -10,10 +10,9 @@ import {
   deleteCustomAttribute,
 } from 'widget/api/conversation';
 
-import { ON_CONVERSATION_CREATED, CHATWOOT_ON_START_CONVERSATION } from 'widget/constants/widgetBusEvents';
+import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 import { emitter } from 'shared/helpers/mitt';
-
 export const actions = {
   createConversation: async ({ commit, dispatch }, params) => {
     commit('setConversationUIFlag', { isCreating: true });
@@ -185,15 +184,23 @@ export const actions = {
       // Reset the widget state
       window.$chatwoot.reset();
       
-      // Emit the webhook event after reset but before clearing state
-      emitter.emit(CHATWOOT_ON_START_CONVERSATION, { hasConversation: false });
+      // Emit webhook event for chat restart
+      emitter.emit('chatwoot:widget:opened', {
+        event: 'widget:opened',
+        timestamp: new Date().toISOString(),
+        source: 'widget',
+        conversation: null,
+        contact: null
+      });
 
-      // Wait a short moment to allow the webhook to be processed
+      // Wait for 1 second to allow n8n to process the webhook
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Finally clear the conversation state and storage
+      // Clear conversation state
       commit('clearConversations');
+      // Clear conversation attributes
       dispatch('conversationAttributes/clearConversationAttributes', {}, { root: true });
+      // Clear any stored conversation data
       localStorage.removeItem('cw_conversation');
       localStorage.removeItem('cw_contact');
     } catch (error) {
