@@ -207,21 +207,27 @@ export default {
                 {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.ERROR') }}
               </span>
             </label>
-            <label v-if="featureInboundEmailEnabled">
-              {{ $t('GENERAL_SETTINGS.FORM.FEATURES.INBOUND_EMAIL_ENABLED') }}
-            </label>
-            <label v-if="featureCustomReplyDomainEnabled">
-              {{
-                $t('GENERAL_SETTINGS.FORM.FEATURES.CUSTOM_EMAIL_DOMAIN_ENABLED')
-              }}
-            </label>
-            <label v-if="featureCustomReplyDomainEnabled">
+            <label v-if="featureCustomReplyDomainEnabled" class="mb-4">
               {{ $t('GENERAL_SETTINGS.FORM.DOMAIN.LABEL') }}
               <input
                 v-model="domain"
                 type="text"
+                class="!mb-1"
                 :placeholder="$t('GENERAL_SETTINGS.FORM.DOMAIN.PLACEHOLDER')"
               />
+              <div class="text-n-slate-10 mr-1 leading-snug">
+                {{
+                  featureInboundEmailEnabled &&
+                  $t('GENERAL_SETTINGS.FORM.FEATURES.INBOUND_EMAIL_ENABLED')
+                }}
+
+                {{
+                  featureCustomReplyDomainEnabled &&
+                  $t(
+                    'GENERAL_SETTINGS.FORM.FEATURES.CUSTOM_EMAIL_DOMAIN_ENABLED'
+                  )
+                }}
+              </div>
             </label>
             <label v-if="featureCustomReplyEmailEnabled">
               {{ $t('GENERAL_SETTINGS.FORM.SUPPORT_EMAIL.LABEL') }}
