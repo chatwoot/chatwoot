@@ -88,9 +88,9 @@ importers:
       '@vueuse/core':
         specifier: ^12.0.0
         version: 12.0.0(typescript@5.6.2)
-      '@wdns/vue-code-block':
-        specifier: ^2.3.5
-        version: 2.3.5(typescript@5.6.2)
+      ace-builds:
+        specifier: ^1.39.1
+        version: 1.39.1
       activestorage:
         specifier: ^5.2.6
         version: 5.2.8
@@ -160,9 +160,6 @@ importers:
       semver:
         specifier: 7.6.3
         version: 7.6.3
-      simple-code-editor:
-        specifier: ^2.0.9
-        version: 2.0.9
       snakecase-keys:
         specifier: ^8.0.1
         version: 8.0.1
@@ -1908,9 +1905,6 @@ packages:
 
   '@vueuse/shared@12.0.0':
     resolution: {integrity: sha512-3i6qtcq2PIio5i/vVYidkkcgvmTjCqrf26u+Fd4LhnbBmIT6FN8y6q/GJERp8lfcB9zVEfjdV0Br0443qZuJpw==}
-
-  '@wdns/vue-code-block@2.3.5':
-    resolution: {integrity: sha512-09TguXcFZEA/9Fyx4c/3Jp4XUK82OKiT1TwH8cBeGg6Nj1E1R16nuABq1yJSvq/GZCxXtOJWw9i3TdxV4MctOw==}
 
   '@xmldom/xmldom@0.7.13':
     resolution: {integrity: sha512-lm2GW5PkosIzccsaZIz7tp8cPADSIlIHWDFTR1N0SzfinhhYgeIQjFMz4rYzanCScr3DqQLeomUDArp6MWKm+g==}
@@ -4125,10 +4119,6 @@ packages:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
-  prismjs@1.30.0:
-    resolution: {integrity: sha512-DEvV2ZF2r2/63V+tK8hQvrR2ZGn10srHbXviTlcv7Kpzw8jWiNTqbVgjO3IY8RxrrOUF8VPMQQFysYYYv0YZxw==}
-    engines: {node: '>=6'}
-
   process@0.11.10:
     resolution: {integrity: sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==}
     engines: {node: '>= 0.6.0'}
@@ -4521,9 +4511,6 @@ packages:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
 
-  simple-code-editor@2.0.9:
-    resolution: {integrity: sha512-bDekCSgcaFn79kiB6N+S07/m9fLLfgHchVsKhMLyKsqZNaRC5GWxn2fpbMZPKmORDyWzUML3hy2mrN3XWyGSfA==}
-
   sirv@2.0.4:
     resolution: {integrity: sha512-94Bdh3cC2PKrbgSOUqTiGPWVZeSiXfKOVZNJniWoqrWrRkB1CJzBU3NEbiTsPcYy1lDsANA/THzS+9WBiy5nfQ==}
     engines: {node: '>= 10'}
@@ -4848,10 +4835,6 @@ packages:
   typescript@5.6.2:
     resolution: {integrity: sha512-NW8ByodCSNCwZeghjN3o+JX5OFH0Ojg6sadjEKY4huZ52TqbJTJnDo5+Tw98lSy63NZvi4n+ez5m2u5d4PkZyw==}
     engines: {node: '>=14.17'}
-    hasBin: true
-
-  ua-parser-js@1.0.40:
-    resolution: {integrity: sha512-z6PJ8Lml+v3ichVojCiB8toQJBuwR42ySM4ezjXIqXK3M0HczmKQ3LF4rhU55PfD99KEEXQG6yb7iOMyvYuHew==}
     hasBin: true
 
   uc.micro@1.0.6:
@@ -7065,15 +7048,6 @@ snapshots:
 
   '@vueuse/shared@12.0.0(typescript@5.6.2)':
     dependencies:
-      vue: 3.5.13(typescript@5.6.2)
-    transitivePeerDependencies:
-      - typescript
-
-  '@wdns/vue-code-block@2.3.5(typescript@5.6.2)':
-    dependencies:
-      highlight.js: 11.10.0
-      prismjs: 1.30.0
-      ua-parser-js: 1.0.40
       vue: 3.5.13(typescript@5.6.2)
     transitivePeerDependencies:
       - typescript
@@ -9587,8 +9561,6 @@ snapshots:
       ansi-styles: 5.2.0
       react-is: 18.3.1
 
-  prismjs@1.30.0: {}
-
   process@0.11.10: {}
 
   prosemirror-commands@1.6.0:
@@ -9997,10 +9969,6 @@ snapshots:
 
   signal-exit@4.1.0: {}
 
-  simple-code-editor@2.0.9:
-    dependencies:
-      highlight.js: 11.10.0
-
   sirv@2.0.4:
     dependencies:
       '@polka/url': 1.0.0-next.28
@@ -10377,8 +10345,6 @@ snapshots:
 
   typescript@5.6.2:
     optional: true
-
-  ua-parser-js@1.0.40: {}
 
   uc.micro@1.0.6: {}
 

@@ -11,6 +11,13 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { VAceEditor } from 'vue3-ace-editor';
+import ace from 'ace-builds';
+
+import modeJsonUrl from 'ace-builds/src-noconflict/mode-html?url';
+ace.config.setModuleUrl('ace/mode/html', modeJsonUrl);
+
+import themeChromeUrl from 'ace-builds/src-noconflict/theme-monokai?url';
+ace.config.setModuleUrl('ace/theme/monokai', themeChromeUrl);
 
 const editorInit = () => {};
 
