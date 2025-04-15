@@ -176,8 +176,21 @@ export const actions = {
     }
   },
 
-  resolveConversation: async () => {
-    await toggleStatus();
+  resolveConversation: async ({ commit, dispatch }) => {
+    try {
+      await toggleStatus();
+      // Clear conversation state
+      commit('clearConversations');
+      // Clear conversation attributes
+      dispatch('conversationAttributes/clearConversationAttributes', {}, { root: true });
+      // Reset the widget state
+      window.$chatwoot.reset();
+      // Clear any stored conversation data
+      localStorage.removeItem('cw_conversation');
+      localStorage.removeItem('cw_contact');
+    } catch (error) {
+      // IgnoreError
+    }
   },
 
   setCustomAttributes: async (_, customAttributes = {}) => {
