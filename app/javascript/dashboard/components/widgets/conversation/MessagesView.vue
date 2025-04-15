@@ -221,10 +221,6 @@ export default {
       return this.inbox.channel_type === INBOX_TYPES.FB && facebookInbox;
     },
 
-    replyBannerMessageForDuplicateInstagramInbox() {
-      return this.$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER');
-    },
-
     replyWindowBannerMessage() {
       if (this.isAWhatsAppChannel) {
         return this.$t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY');
@@ -523,7 +519,7 @@ export default {
       v-else-if="hasDuplicateInstagramInbox"
       color-scheme="alert"
       class="mx-2 mt-2 overflow-hidden rounded-lg"
-      :banner-message="replyBannerMessageForDuplicateInstagramInbox"
+      :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
     />
     <div class="flex justify-end">
       <NextButton
