@@ -8,11 +8,12 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
 
   def initialize(hook)
     super(hook)
-    credentials = @hook.settings
+    @access_key = @hook.settings['access_key']
+    @secret_key = @hook.settings['secret_key']
+    @endpoint_url = @hook.settings['endpoint_url']
 
-    @access_key = credentials['access_key']
-    @secret_key = credentials['secret_key']
-    @endpoint_url = credentials['endpoint_url']
+    @allow_transcript = @hook.settings['enable_transcript_activity']
+    @allow_conversation = @hook.settings['enable_conversation_activity']
 
     # Initialize API clients
     @lead_client = Crm::Leadsquared::Api::LeadClient.new(@access_key, @secret_key, @endpoint_url)
@@ -30,6 +31,8 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
   end
 
   def handle_conversation_created(conversation)
+    return { success: true } unless @allow_conversation
+
     # Create activity for a new conversation
     create_conversation_activity(
       conversation: conversation,
@@ -41,6 +44,9 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
   end
 
   def handle_conversation_updated(conversation)
+    # if transcript is not allowed return
+    return { success: true } unless @allow_transcript
+
     # We'll only sync transcripts for closed conversations
     return { success: true } unless conversation.status == 'resolved'
 
