@@ -1,7 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-
 import Spinner from 'shared/components/Spinner.vue';
 import OnboardingStep from './OnboardingStep.vue';
 import { UISteps, API_ONBOARDING_STEP_ROUTE } from './constants';
@@ -108,11 +107,9 @@ export default {
     <spinner v-if="!showIntroHeader" class="absolute inset-0" />
     <div
       v-else
-      class="relative max-w-[1440px] w-full mx-auto flex gap-16 min-h-[80vh] justify-center"
+      class="relative max-w-[1440px] w-full mx-auto flex gap-16 min-h-[100vh] justify-center"
     >
-      <div
-        class="relative w-5/12 px-16 py-[88px] bg-[url('/assets/images/dashboard/onboarding/light.svg')] dark:bg-[url('/assets/images/dashboard/onboarding/dark.svg')] bg-contain bg-no-repeat bg-[left_calc(-0px)_bottom_calc(-136px)] xl:min-h-[875px] 2xl:min-h-[1205px]"
-      >
+      <div class="relative w-5/12 px-16 py-[68px] 2xl:min-h-[1205px]">
         <div class="mb-10 z-0">
           <img
             :src="globalConfig.logo"
@@ -135,7 +132,8 @@ export default {
           </transition>
         </div>
         <transition name="slide-fade">
-          <div v-if="showIntroHeader" id="steps" class="z-0">
+          <!-- Add onboarding-steps class -->
+          <div v-if="showIntroHeader" id="steps" class="z-0 onboarding-steps">
             <onboarding-step
               v-for="(step, index) in steps"
               :key="step.name"
@@ -147,16 +145,13 @@ export default {
         </transition>
       </div>
       <div
-        class="relative w-7/12 py-[88px] flex justify-center overflow-hidden h-fit"
+        class="relative w-7/12 py-[70px] flex justify-center overflow-hidden h-fit"
       >
-        <div
-          class="absolute inset-0 h-full w-full bg-[#FCFCFD] dark:bg-slate-900 bg-[radial-gradient(var(--w-200)_1px,transparent_1px)] [background-size:16px_16px]"
-        />
         <div
           class="absolute h-full w-full bg-onboarding-gradient dark:bg-onboarding-gradient-dark top-0 left-0 scale-y-110 blur-[3px]"
         />
         <transition name="slide-fade">
-          <router-view />
+          <router-view class="shadow-lg dark:shadow-gray-800" />
         </transition>
       </div>
     </div>
@@ -185,13 +180,31 @@ export default {
   opacity: 0;
 }
 
-.logo-container {
-  margin-left: -3rem;
-}
-
 .logo-image {
   position: relative;
   margin-left: -3rem;
   left: -16px;
+}
+
+.onboarding-steps {
+  position: relative;
+}
+
+.onboarding-steps::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -330px;
+  width: 120%;
+  height: 450px;
+  background: url('/assets/images/dashboard/onboarding/light.svg') no-repeat
+    bottom left;
+  background-size: contain;
+}
+
+/* Dark mode variant */
+body.dark-mode .onboarding-steps::after {
+  background: url('/assets/images/dashboard/onboarding/dark.svg') no-repeat
+    bottom left;
 }
 </style>

@@ -80,7 +80,8 @@
           "PLACEHOLDER": "Please enter an email address of the agent",
           "ERROR": "Please enter a valid work email address."
         },
-        "SUBMIT": "Add Agent"
+        "SUBMIT": "Add Agent",
+        "SKIP": "Skip this step"
       },
       "API": {
         "SUCCESS_MESSAGE": "Agent added successfully",

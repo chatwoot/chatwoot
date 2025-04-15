@@ -115,6 +115,9 @@ export default {
           message_signature: signature.value || '',
         });
 
+        await store.dispatch('accounts/update', {
+          onboarding_step: 'add-agent',
+        });
         router.push({ name: 'onboarding_add_agent' });
       } catch (error) {}
     };
@@ -259,7 +262,7 @@ export default {
           :placeholder="$t('START_ONBOARDING.PROFILE.DISPLAY_NAME.PLACEHOLDER')"
           :error-message="$t('START_ONBOARDING.PROFILE.DISPLAY_NAME.ERROR')"
         />
-        <form-input
+        <!-- <form-input
           v-model="phoneNumber"
           name="phone_number"
           spacing="compact"
@@ -276,7 +279,7 @@ export default {
           :allow-resize="false"
           :label="$t('START_ONBOARDING.PROFILE.SIGNATURE.LABEL')"
           :placeholder="$t('START_ONBOARDING.PROFILE.SIGNATURE.PLACEHOLDER')"
-        />
+        /> -->
       </div>
       <submit-button
         button-class="flex justify-center w-full text-sm text-center"
