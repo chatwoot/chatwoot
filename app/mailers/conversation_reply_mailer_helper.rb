@@ -17,11 +17,23 @@ module ConversationReplyMailerHelper
     google_smtp_settings
     set_delivery_method
 
-    process_attachments if @message.attachments.present?
+    # Email type detection logic:
+    # - email_reply: Sets @message with a single message
+    # - Other actions: Set @messages with a collection of messages
+    #
+    # So this check implicitly determines we're handling an email_reply
+    # and not one of the other email types (summary, transcript, etc.)
+    process_attachments_as_files_for_email_reply if @message&.attachments.present?
     mail(@options)
   end
 
-  def process_attachments
+  def process_attachments_as_files_for_email_reply
+    # Attachment processing for direct email replies (when replying to a single message)
+    #
+    # How attachments are handled:
+    # 1. Small files (<25MB): Added directly to the email as proper attachments
+    # 2. Large files (>25MB): Added to @large_attachments to be displayed as links in the email
+
     @options[:attachments] = []
     @large_attachments = []
 
@@ -31,10 +43,12 @@ module ConversationReplyMailerHelper
       file_size = raw_data.bytesize
 
       if file_size < 25.megabytes
+        # Small files: Include as actual email attachments
         mail.attachments[attachment_name] = raw_data
         @options[:attachments] << { name: attachment_name }
       else
-        # We will link large attachments as links in the email body
+        # Large files: Track for display as links in the email template
+        # These are accessed in the view via the attr_reader in the mailer
         @large_attachments << attachment
       end
     end
