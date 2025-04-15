@@ -13,6 +13,7 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import V4Button from 'dashboard/components-next/button/Button.vue';
 import WootConfirmDeleteModal from 'dashboard/components/widgets/modal/ConfirmDeleteModal.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import AccountInfo from './components/AccountInfo.vue';
 
 export default {
   components: {
@@ -20,6 +21,7 @@ export default {
     V4Button,
     WootConfirmDeleteModal,
     NextButton,
+    AccountInfo,
   },
   setup() {
     const { updateUISettings } = useUISettings();
@@ -102,10 +104,6 @@ export default {
       return (
         this.featureInboundEmailEnabled && !!this.features.custom_reply_email
       );
-    },
-
-    getAccountId() {
-      return this.id.toString();
     },
     confirmPlaceHolderText() {
       return `${this.$t(
@@ -350,19 +348,7 @@ export default {
       <woot-loading-state v-if="uiFlags.isFetchingItem" />
     </div>
 
-    <div class="flex flex-row">
-      <div class="flex-grow-0 flex-shrink-0 flex-[25%] min-w-0 py-4 pr-6 pl-0">
-        <h4 class="text-lg font-medium text-black-900 dark:text-slate-200">
-          {{ $t('GENERAL_SETTINGS.FORM.ACCOUNT_ID.TITLE') }}
-        </h4>
-        <p>
-          {{ $t('GENERAL_SETTINGS.FORM.ACCOUNT_ID.NOTE') }}
-        </p>
-      </div>
-      <div class="p-4 flex-grow-0 flex-shrink-0 flex-[50%]">
-        <woot-code :script="getAccountId" />
-      </div>
-    </div>
+    <AccountInfo />
     <div v-if="!uiFlags.isFetchingItem && isOnChatwootCloud">
       <div
         class="flex flex-row pt-4 mt-2 border-t border-slate-25 dark:border-slate-800 text-black-900 dark:text-slate-300"
