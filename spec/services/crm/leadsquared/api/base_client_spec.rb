@@ -3,7 +3,15 @@ require 'rails_helper'
 RSpec.describe Crm::Leadsquared::Api::BaseClient do
   let(:access_key) { SecureRandom.hex }
   let(:secret_key) { SecureRandom.hex }
-  let(:endpoint_url) { 'https://api.leadsquared.com/' }
+  let(:headers) do
+    {
+      'Content-Type': 'application/json',
+      'x-LSQ-AccessKey': access_key,
+      'x-LSQ-SecretKey': secret_key
+    }
+  end
+
+  let(:endpoint_url) { 'https://api.leadsquared.com/v2' }
   let(:client) { described_class.new(access_key, secret_key, endpoint_url) }
 
   describe '#initialize' do
@@ -15,14 +23,17 @@ RSpec.describe Crm::Leadsquared::Api::BaseClient do
   end
 
   describe '#get' do
-    let(:path) { 'api/v2/LeadManagement.svc/Leads.Get' }
+    let(:path) { 'LeadManagement.svc/Leads.Get' }
     let(:params) { { leadId: '123' } }
     let(:full_url) { URI.join(endpoint_url, path).to_s }
 
     context 'when request is successful' do
       before do
         stub_request(:get, full_url)
-          .with(query: params.merge(accessKey: access_key, secretKey: secret_key))
+          .with(
+            query: params,
+            headers: headers
+          )
           .to_return(
             status: 200,
             body: { Message: 'Success', Status: 'Success' }.to_json,
@@ -40,7 +51,10 @@ RSpec.describe Crm::Leadsquared::Api::BaseClient do
     context 'when request returns error status' do
       before do
         stub_request(:get, full_url)
-          .with(query: params.merge(accessKey: access_key, secretKey: secret_key))
+          .with(
+            query: params,
+            headers: headers
+          )
           .to_return(
             status: 200,
             body: { Status: 'Error', ExceptionMessage: 'Invalid lead ID' }.to_json,
@@ -58,7 +72,10 @@ RSpec.describe Crm::Leadsquared::Api::BaseClient do
     context 'when request fails with non-200 status' do
       before do
         stub_request(:get, full_url)
-          .with(query: params.merge(accessKey: access_key, secretKey: secret_key))
+          .with(
+            query: params,
+            headers: headers
+          )
           .to_return(status: 404, body: 'Not Found')
       end
 
@@ -72,7 +89,7 @@ RSpec.describe Crm::Leadsquared::Api::BaseClient do
   end
 
   describe '#post' do
-    let(:path) { 'api/v2/LeadManagement.svc/Lead.Create' }
+    let(:path) { 'LeadManagement.svc/Lead.Create' }
     let(:params) { {} }
     let(:body) { { FirstName: 'John', LastName: 'Doe' } }
     let(:full_url) { URI.join(endpoint_url, path).to_s }
@@ -81,9 +98,9 @@ RSpec.describe Crm::Leadsquared::Api::BaseClient do
       before do
         stub_request(:post, full_url)
           .with(
-            query: params.merge(accessKey: access_key, secretKey: secret_key),
+            query: params,
             body: body.to_json,
-            headers: { 'Content-Type' => 'application/json' }
+            headers: headers
           )
           .to_return(
             status: 200,
@@ -103,9 +120,9 @@ RSpec.describe Crm::Leadsquared::Api::BaseClient do
       before do
         stub_request(:post, full_url)
           .with(
-            query: params.merge(accessKey: access_key, secretKey: secret_key),
+            query: params,
             body: body.to_json,
-            headers: { 'Content-Type' => 'application/json' }
+            headers: headers
           )
           .to_return(
             status: 200,
@@ -125,9 +142,9 @@ RSpec.describe Crm::Leadsquared::Api::BaseClient do
       before do
         stub_request(:post, full_url)
           .with(
-            query: params.merge(accessKey: access_key, secretKey: secret_key),
+            query: params,
             body: body.to_json,
-            headers: { 'Content-Type' => 'application/json' }
+            headers: headers
           )
           .to_return(
             status: 200,
@@ -147,9 +164,9 @@ RSpec.describe Crm::Leadsquared::Api::BaseClient do
       before do
         stub_request(:post, full_url)
           .with(
-            query: params.merge(accessKey: access_key, secretKey: secret_key),
+            query: params,
             body: body.to_json,
-            headers: { 'Content-Type' => 'application/json' }
+            headers: headers
           )
           .to_return(status: 500, body: 'Internal Server Error')
       end
