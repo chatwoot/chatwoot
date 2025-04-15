@@ -329,6 +329,7 @@
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
       "SEND_MESSAGE": "Отправить сообщение...",
+      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
       "LOADER": "Капитан думает",
       "YOU": "Вы",
       "USE": "Использовать это",
