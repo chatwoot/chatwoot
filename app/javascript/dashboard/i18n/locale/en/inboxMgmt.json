@@ -51,7 +51,9 @@
         "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
         "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
         "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
-        "ERROR_AUTH": "There was an error connecting to Instagram, please try again"
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "It seems there is an existing inbox with the same Instagram account. All new Instagram conversations will go to this newly created inbox only.",
+        "DUPLICATE_INBOX_BANNER": "You already have an inbox connected to this Instagram account. Please use that inbox for all Instagram conversations."
       },
       "TWITTER": {
         "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",

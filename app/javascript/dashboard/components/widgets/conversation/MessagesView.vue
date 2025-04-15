@@ -211,7 +211,7 @@ export default {
     },
 
     // Check if a messenger channel that has the same instagram_id
-    isFacebookChannelWithSameInstagramIdExists() {
+    isFacebookChannelExistsWithSameInstagramId() {
       const instagramId = this.inbox.instagram_id;
       const facebookChannel =
         this.$store.getters['inboxes/getFacebookChannelWithInstagramId'](
@@ -224,9 +224,7 @@ export default {
     },
 
     replyBannerMessageForFacebookChannelWithSameInstagramId() {
-      return this.$t(
-        'It seems you are trying to reply to a message from a Facebook channel with the same Instagram ID. Please reply to the message from the Facebook channel.'
-      );
+      return this.$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER');
     },
 
     replyWindowBannerMessage() {
@@ -515,16 +513,16 @@ export default {
 
 <template>
   <div class="flex flex-col justify-between flex-grow h-full min-w-0 m-0">
-    <!-- <Banner
+    <Banner
       v-if="!currentChat.can_reply"
       color-scheme="alert"
       class="mx-2 mt-2 overflow-hidden rounded-lg"
       :banner-message="replyWindowBannerMessage"
       :href-link="replyWindowLink"
       :href-link-text="replyWindowLinkText"
-    /> -->
+    />
     <Banner
-      v-if="isFacebookChannelWithSameInstagramIdExists"
+      v-else-if="isFacebookChannelExistsWithSameInstagramId"
       color-scheme="alert"
       class="mx-2 mt-2 overflow-hidden rounded-lg"
       :banner-message="replyBannerMessageForFacebookChannelWithSameInstagramId"
