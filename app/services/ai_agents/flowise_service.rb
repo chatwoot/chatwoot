@@ -48,8 +48,8 @@ class AiAgents::FlowiseService
       response.parsed_response
     end
 
-    def add_document_loader(store_id:, loader_id:, name:, content:)
-      body = build_document_store_body(store_id, loader_id, name: name, content: content)
+    def add_document_loader(store_id:, loader_id:, splitter_id:, name:, content:)
+      body = build_document_store_body(store_id, loader_id, splitter_id: splitter_id, name: name, content: content)
 
       save_loader = post(
         '/document-store/loader/save',
@@ -79,10 +79,9 @@ class AiAgents::FlowiseService
 
     private
 
-    def build_document_store_body(store_id, loader_id, name:, content:)
+    def build_document_store_body(store_id, loader_id, splitter_id:, name:, content:)
       specific_loader_config = specific_loader_config(loader_id, content)
-      specific_splitter_id = specific_splitter_id(loader_id)
-      specific_splitter_name = specific_splitter_name(loader_id)
+      specific_splitter_name = specific_splitter_name(splitter_id)
 
       {
         'loaderId' => loader_id,
@@ -93,7 +92,7 @@ class AiAgents::FlowiseService
           'metadata' => {}.to_json,
           'omitMetadataKeys' => ''
         }.merge(specific_loader_config),
-        'splitterId' => specific_splitter_id,
+        'splitterId' => splitter_id,
         'splitterConfig' => {
           'chunkSize' => 1000,
           'chunkOverlap' => 200
@@ -120,24 +119,14 @@ class AiAgents::FlowiseService
       end
     end
 
-    def specific_splitter_id(loader_id)
+    def specific_splitter_name(splitter_id)
       splitter_map = {
-        'plainText' => 'htmlToMarkdownTextSplitter',
-        'pdfFile' => 'recursiveCharacterTextSplitter',
-        'htmlFile' => 'htmlToMarkdownTextSplitter'
+        'htmlToMarkdownTextSplitter' => 'HtmlToMarkdown Text Splitter',
+        'recursiveCharacterTextSplitter' => 'Recursive Character Text Splitter',
+        'markdownTextSplitter' => 'Markdown Text Splitter'
       }
 
-      splitter_map[loader_id] || raise(ArgumentError, "Unknown loader_id: #{loader_id}")
-    end
-
-    def specific_splitter_name(loader_id)
-      splitter_map = {
-        'plainText' => 'HtmlToMarkdown Text Splitter',
-        'pdfFile' => 'Recursive Character Text Splitter',
-        'htmlFile' => 'HtmlToMarkdown Text Splitter'
-      }
-
-      splitter_map[loader_id] || raise(ArgumentError, "Unknown loader_id: #{loader_id}")
+      splitter_map[splitter_id] || raise(ArgumentError, "Unknown splitter_id: #{splitter_id}")
     end
 
     def headers

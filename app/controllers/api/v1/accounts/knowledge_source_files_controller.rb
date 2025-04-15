@@ -56,6 +56,7 @@ class Api::V1::Accounts::KnowledgeSourceFilesController < Api::V1::Accounts::Bas
     AiAgents::FlowiseService.add_document_loader(
       store_id: store_id,
       loader_id: 'pdfFile',
+      splitter_id: 'recursiveCharacterTextSplitter',
       name: file_name,
       content: base64_content
     )
