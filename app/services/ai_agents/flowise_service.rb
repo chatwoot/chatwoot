@@ -48,19 +48,15 @@ class AiAgents::FlowiseService
       response.parsed_response
     end
 
-    def add_document_loader(store_id:, name:, text:)
-      body = build_document_store_body(
-        store_id: store_id,
-        name: name,
-        text: text
-      )
+    def add_document_loader(store_id:, loader_id:, name:, content:)
+      body = build_document_store_body(store_id, loader_id, name: name, content: content)
 
       save_loader = post(
         '/document-store/loader/save',
         body: body,
         headers: headers
       )
-      Rails.logger.info("Save Loader Response: #{save_loader}")
+
       raise "Error adding document loader: #{save_loader.code} #{save_loader.message}" unless save_loader.success?
 
       process_loader = post(
@@ -83,25 +79,65 @@ class AiAgents::FlowiseService
 
     private
 
-    def build_document_store_body(store_id:, name:, text:)
+    def build_document_store_body(store_id, loader_id, name:, content:)
+      specific_loader_config = specific_loader_config(loader_id, content)
+      specific_splitter_id = specific_splitter_id(loader_id)
+      specific_splitter_name = specific_splitter_name(loader_id)
+
       {
-        'loaderId' => 'plainText',
+        'loaderId' => loader_id,
         'storeId' => store_id,
         'loaderName' => name,
         'loaderConfig' => {
-          'text' => text,
           'textSplitter' => '',
           'metadata' => {}.to_json,
           'omitMetadataKeys' => ''
-        },
-        'splitterId' => 'htmlToMarkdownTextSplitter',
+        }.merge(specific_loader_config),
+        'splitterId' => specific_splitter_id,
         'splitterConfig' => {
           'chunkSize' => 1000,
           'chunkOverlap' => 200
           # 'separators' => ''
         },
-        'splitterName' => 'HtmlToMarkdown Text Splitter'
+        'splitterName' => specific_splitter_name
       }.to_json
+    end
+
+    def specific_loader_config(loader_id, content)
+      case loader_id
+      when 'plainText'
+        { 'text' => content }
+      when 'pdfFile'
+        {
+          'pdfFile' => content,
+          'usage' => 'perPage',
+          'legacyBuild' => ''
+        }
+      when 'htmlFile'
+        { 'htmlFile' => content }
+      else
+        raise ArgumentError, "Unknown loader_id: #{loader_id}"
+      end
+    end
+
+    def specific_splitter_id(loader_id)
+      splitter_map = {
+        'plainText' => 'htmlToMarkdownTextSplitter',
+        'pdfFile' => 'recursiveCharacterTextSplitter',
+        'htmlFile' => 'htmlToMarkdownTextSplitter'
+      }
+
+      splitter_map[loader_id] || raise(ArgumentError, "Unknown loader_id: #{loader_id}")
+    end
+
+    def specific_splitter_name(loader_id)
+      splitter_map = {
+        'plainText' => 'HtmlToMarkdown Text Splitter',
+        'pdfFile' => 'Recursive Character Text Splitter',
+        'htmlFile' => 'HtmlToMarkdown Text Splitter'
+      }
+
+      splitter_map[loader_id] || raise(ArgumentError, "Unknown loader_id: #{loader_id}")
     end
 
     def headers

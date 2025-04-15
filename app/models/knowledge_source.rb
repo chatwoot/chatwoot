@@ -20,6 +20,7 @@
 class KnowledgeSource < ApplicationRecord
   belongs_to :ai_agent
   has_many :knowledge_source_texts, dependent: :destroy
+  has_many :knowledge_source_files, dependent: :destroy
 
   validates :name, presence: true
   validates :ai_agent_id, presence: true
@@ -58,6 +59,23 @@ class KnowledgeSource < ApplicationRecord
     }
   rescue StandardError => e
     Rails.logger.error("Failed to update knowledge source text: #{e.record.errors.full_messages.join(', ')}")
+    raise e
+  end
+
+  def add_file!(file:, document_loader:)
+    knowledge_source_files.create!(
+      loader_id: document_loader['docId'],
+      file_name: document_loader.dig('file', 'loaderName'),
+      file_type: file.content_type,
+      file_size: file.size,
+      total_chunks: document_loader.dig('file', 'totalChunks'),
+      total_chars: document_loader.dig('file', 'totalChars')
+    )
+  rescue ActiveRecord::RecordInvalid => e
+    Rails.logger.error("Failed to create knowledge source file: #{e.record.errors.full_messages.join(', ')}")
+    raise e
+  rescue StandardError => e
+    Rails.logger.error("Unexpected error occurred: #{e.message}")
     raise e
   end
 end
