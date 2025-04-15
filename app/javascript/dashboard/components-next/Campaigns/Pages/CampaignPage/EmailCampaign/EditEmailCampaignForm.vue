@@ -405,7 +405,7 @@ onBeforeUnmount(() => {
           variant="primary"
           @click="handleUpdate"
         >
-          {{ t('CAMPAIGN.EMAIL.CREATE.UPDATE_BUTTON_TEXT') }}
+          {{ t('CAMPAIGN.EMAIL.UPDATE_BUTTON_TEXT') }}
         </Button>
         <Button type="button" variant="secondary" @click.stop="goBack">
           {{ t('CAMPAIGN.EMAIL.CREATE.BACK_BUTTON_TEXT') }}

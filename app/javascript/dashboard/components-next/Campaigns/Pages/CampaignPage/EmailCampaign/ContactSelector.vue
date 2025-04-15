@@ -267,7 +267,9 @@ const toggleContact = contact => {
 };
 
 const isSelected = contact => {
-  const res = localSelectedContacts.value.flat().some(c => c.id === contact.id);
+  const res = localSelectedContacts.value
+    .flat()
+    .some(c => c.id === contact.id || c == contact.id);
   return res;
 };
 

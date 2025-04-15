@@ -21,6 +21,7 @@ const selectedCampaign = ref(null);
 const [showWhatsappCampaignDialog, toggleWhatsappCampaignDialog] = useToggle();
 const [showEditWhatsappCampaignDialog, toggleEditWhatsappCampaignDialog] =
   useToggle();
+
 const showReportModal = ref(false); // Control modal visibility
 const selectedReportCampaign = ref(null); // Track selected campaign for report
 

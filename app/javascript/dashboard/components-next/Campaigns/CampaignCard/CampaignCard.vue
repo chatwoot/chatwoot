@@ -142,7 +142,8 @@ const inboxIcon = computed(() => {
       <Button
         v-if="
           campaignType === 'liveChat' ||
-          (campaignType === 'whatsapp' && status !== 'completed')
+          (campaignType === 'whatsapp' && status !== 'completed') ||
+          (campaignType === 'email' && status !== 'completed')
         "
         variant="faded"
         size="sm"

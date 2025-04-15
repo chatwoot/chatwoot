@@ -32,22 +32,56 @@ export const getters = {
 };
 
 export const actions = {
-  get: async function getCampaigns({ commit }) {
+  get: async function getCampaigns({ commit, dispatch, getters, rootGetters }) {
     commit(types.SET_CAMPAIGN_UI_FLAG, { isFetching: true });
     try {
       const response = await CampaignsAPI.get();
-      commit(types.SET_CAMPAIGNS, response.data);
+
+      await Promise.all(
+        response.data.map(campaign =>
+          dispatch('fetchCampaignContacts', campaign.id)
+        )
+      );
+
+      const contactsForCampaigns = response.data.map(campaign => ({
+        ...campaign,
+        contacts: getters.getContactsForCampaign(campaign.id).pending_contacts,
+      }));
+
+      commit(types.SET_CAMPAIGNS, contactsForCampaigns);
     } catch (error) {
       // Ignore error
     } finally {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isFetching: false });
     }
   },
-  create: async function createCampaign({ commit }, campaignObj) {
+  create: async function createCampaign(
+    { commit, dispatch, rootGetters },
+    campaignObj
+  ) {
     commit(types.SET_CAMPAIGN_UI_FLAG, { isCreating: true });
     try {
       const response = await CampaignsAPI.create(campaignObj);
-      commit(types.ADD_CAMPAIGN, response.data);
+
+      const campaign = campaignObj.campaign;
+
+      const result = await Promise.all(
+        campaign.contacts.map(async function (id) {
+          await dispatch('contacts/show', { id }, { root: true });
+          const contact = rootGetters['contacts/getContact'](id);
+          return contact;
+        })
+      );
+
+      console.log('Got contacts');
+      console.log(result);
+
+      const contactsForCampaigns = {
+        ...response.data,
+        contacts: result,
+      };
+
+      commit(types.ADD_CAMPAIGN, contactsForCampaigns);
     } catch (error) {
       throw new Error(error);
     } finally {
@@ -81,6 +115,10 @@ export const actions = {
     commit(types.SET_CAMPAIGN_UI_FLAG, { isFetchingContacts: true });
     try {
       const response = await CampaignsAPI.fetchCampaignContacts(campaignId);
+
+      console.log('Campaign Contacts');
+      console.log(response.data);
+
       commit(types.SET_CAMPAIGN_CONTACTS, {
         campaignId,
         contacts: response.data,

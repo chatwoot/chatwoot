@@ -5,17 +5,7 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
 
   def index
     @campaigns = Current.account.campaigns
-
-    campaigns_and_contacts = @campaigns.map do |campaign|
-      campaign_contacts = campaign.campaign_contacts
-
-      contacts = campaign_contacts.where(campaign_id: campaign.id).map do |cam_con|
-        Current.account.contacts.where(id: cam_con.contact_id)
-      end
-      campaign.attributes.merge(contacts: contacts)
-    end
-
-    render json: campaigns_and_contacts
+    render json: @campaigns
   end
 
   def show
@@ -51,7 +41,7 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
 
         # Reload to ensure we have all associations
         @campaign.reload
-        render json: @campaign.attributes.merge(contacts: contact_objects), status: :created
+        render json: @campaign, status: :created
       else
         render json: {
           error: @campaign.errors.full_messages.join(', '),

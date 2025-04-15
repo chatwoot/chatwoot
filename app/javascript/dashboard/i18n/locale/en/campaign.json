@@ -338,7 +338,8 @@
           },
           "API": {
             "SUCCESS_MESSAGE": "Email campaign created successfully",
-            "ERROR_MESSAGE": "There was an error. Please try again."
+            "ERROR_MESSAGE": "There was an error. Please try again.",
+            "CONTACTS_ERROR": "Please select valid contacts"
           }
         }
       }

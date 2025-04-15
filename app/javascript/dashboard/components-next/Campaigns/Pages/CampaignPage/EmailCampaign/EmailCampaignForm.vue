@@ -133,7 +133,7 @@ const fetchContacts = async (page = 1, search = '') => {
     }
     handleContactsResponse(data);
   } catch (error) {
-    useAlert(t('CAMPAIGN.EMAIL.CREATE.API.CONTACTS_ERROR'));
+    useAlert(t('CAMPAIGN.EMAIL.CREATE.FORM.API.CONTACTS_ERROR'));
     contactState.contactList = [];
   } finally {
     contactState.isLoadingContacts = false;
@@ -252,10 +252,10 @@ const createCampaign = async () => {
       },
     };
     await store.dispatch('campaigns/create', campaignDetails);
-    useAlert(t('CAMPAIGN.EMAIL.CREATE.API.SUCCESS_MESSAGE'));
+    useAlert(t('CAMPAIGN.EMAIL.CREATE.FORM.API.SUCCESS_MESSAGE'));
     emit('cancel');
   } catch (error) {
-    let errorMessage = t('CAMPAIGN.EMAIL.CREATE.API.ERROR_MESSAGE');
+    let errorMessage = t('CAMPAIGN.EMAIL.CREATE.FORM.API.ERROR_MESSAGE');
     if (error.response) {
       errorMessage =
         error.response.data?.error ||
