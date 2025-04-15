@@ -159,6 +159,62 @@ RSpec.describe 'Conversation Messages API', type: :request do
     end
   end
 
+  describe 'POST /api/v1/accounts/{account.id}/conversations/:conversation_id/messages/:id/translate' do
+    let!(:inbox) { create(:inbox, account: account) }
+    let!(:conversation) { create(:conversation, inbox: inbox, account: account) }
+    let!(:message) { create(:message, conversation: conversation, account: account, content: 'Hello') }
+    let(:agent) { create(:user, account: account, role: :agent) }
+    let(:target_language) { 'fr' }
+    let(:processor_service) { instance_double(Integrations::GoogleTranslate::ProcessorService, perform: 'Bonjour!') }
+
+    before do
+      create(:inbox_member, inbox: inbox, user: agent)
+
+      allow(Integrations::GoogleTranslate::ProcessorService).to receive(:new).and_return(processor_service)
+    end
+
+    it 'returns unauthorized for unauthenticated user' do
+      post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}/translate",
+           params: { target_language: target_language }
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'translates the message for authenticated user' do
+      post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}/translate",
+           params: { target_language: target_language },
+           headers: agent.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['content']).to eq('Bonjour!')
+      expect(message.reload.translations).to include('fr' => 'Bonjour!')
+    end
+
+    it 'returns already translated content if present' do
+      message.update!(translations: { 'fr' => 'Déjà traduit!' })
+
+      post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}/translate",
+           params: { target_language: target_language },
+           headers: agent.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to be_blank
+    end
+
+    it 'does not update translations when service returns nil' do
+      allow(processor_service).to receive(:perform).and_return(nil)
+
+      post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}/translate",
+           params: { target_language: target_language },
+           headers: agent.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(message.reload.translations).to be_blank
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/conversations/:id/messages' do
     let(:conversation) { create(:conversation, account: account) }
 
