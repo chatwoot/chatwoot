@@ -178,22 +178,20 @@ export const actions = {
 
   resolveConversation: async ({ commit, dispatch }) => {
     try {
-      // First mark the conversation as resolved
-      await toggleStatus();
+      // First mark the conversation as resolved on the backend
+      await toggleStatus(); // Let's assume this tells the backend the convo is ending
+      // Now, clear the local state and reset the widget
+      commit('clearConversations'); 
+      dispatch('conversationAttributes/clearConversationAttributes', {}, { root: true }); 
+      localStorage.removeItem('cw_conversation'); 
+      localStorage.removeItem('cw_contact');    
       
-      // Clear all state first
-      commit('clearConversations');
-      dispatch('conversationAttributes/clearConversationAttributes', {}, { root: true });
-      localStorage.removeItem('cw_conversation');
-      localStorage.removeItem('cw_contact');
+      // Reset the widget state entirely
+      window.$chatwoot.reset(); 
       
-      // Reset the widget state
-      window.$chatwoot.reset();
-      
-      // Emit webhook event for chat restart
-      dispatch('events/create', { name: 'webwidget.triggered' }, { root: true });
     } catch (error) {
-      // IgnoreError
+      // Consider logging the error here instead of just ignoring
+      console.error("Error in resolveConversation:", error);
     }
   },
 
