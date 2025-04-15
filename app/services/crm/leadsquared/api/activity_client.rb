@@ -4,7 +4,7 @@ class Crm::Leadsquared::Api::ActivityClient < Crm::Leadsquared::Api::BaseClient
     return { success: false, error: 'Prospect ID is required' } if prospect_id.blank?
     return { success: false, error: 'Activity event code is required' } if activity_event.blank?
 
-    path = '/v2/ProspectActivity.svc/Create'
+    path = '/ProspectActivity.svc/Create'
 
     body = {
       'RelatedProspectId' => prospect_id,
@@ -17,7 +17,7 @@ class Crm::Leadsquared::Api::ActivityClient < Crm::Leadsquared::Api::BaseClient
   end
 
   def create_activity_type(name:, score:, direction: 0)
-    path = '/v2/ProspectActivity/Type.Create'
+    path = '/ProspectActivity/Type.Create'
     body = {
       'Name' => name,
       'Score' => score,

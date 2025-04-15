@@ -3,7 +3,7 @@ class Crm::Leadsquared::Api::LeadClient < Crm::Leadsquared::Api::BaseClient
   def search_lead(key)
     return { success: false, error: 'Search key is required' } if key.blank?
 
-    path = '/v2/LeadManagement.svc/Leads.GetByQuickSearch'
+    path = '/LeadManagement.svc/Leads.GetByQuickSearch'
     params = { key: key }
 
     response = get(path, params)
@@ -22,7 +22,7 @@ class Crm::Leadsquared::Api::LeadClient < Crm::Leadsquared::Api::BaseClient
   def create_or_update_lead(lead_data)
     return { success: false, error: 'Lead data is required' } if lead_data.blank?
 
-    path = '/v2/LeadManagement.svc/Lead.CreateOrUpdate'
+    path = '/LeadManagement.svc/Lead.CreateOrUpdate'
 
     # LeadSquared expects an array of attribute objects
     # Each having 'Attribute' and 'Value' keys

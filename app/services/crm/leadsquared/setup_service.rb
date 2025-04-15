@@ -46,7 +46,7 @@ class Crm::Leadsquared::SetupService
   private
 
   def fetch_activity_types
-    path = '/v2/ProspectActivity/Types'
+    path = '/ProspectActivity/Types'
     response = @client.get(path)
 
     if response[:success]

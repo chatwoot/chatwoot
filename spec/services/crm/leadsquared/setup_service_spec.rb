@@ -16,7 +16,7 @@ RSpec.describe Crm::Leadsquared::SetupService do
     context 'when fetching activity types fails' do
       before do
         allow(base_client).to receive(:get)
-          .with('/v2/ProspectActivity/Types')
+          .with('/ProspectActivity/Types')
           .and_return({ success: false, error: 'API Error' })
       end
 
@@ -42,7 +42,7 @@ RSpec.describe Crm::Leadsquared::SetupService do
 
       before do
         allow(base_client).to receive(:get)
-          .with('/v2/ProspectActivity/Types')
+          .with('/ProspectActivity/Types')
           .and_return({ success: true, data: existing_types })
       end
 

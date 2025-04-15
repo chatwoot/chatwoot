@@ -15,7 +15,7 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
   let(:activity_date_time) { '2025-04-11 14:15:00' }
 
   describe '#post_activity' do
-    let(:path) { '/v2/ProspectActivity.svc/Create' }
+    let(:path) { '/ProspectActivity.svc/Create' }
     let(:full_url) { URI.join(credentials[:endpoint_url], path).to_s }
 
     context 'with missing required parameters' do
@@ -106,7 +106,7 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
   end
 
   describe '#create_activity_type' do
-    let(:path) { '/v2/ProspectActivity/Type.Create' }
+    let(:path) { '/ProspectActivity/Type.Create' }
     let(:full_url) { URI.join(credentials[:endpoint_url], path).to_s }
     let(:activity_params) do
       {
