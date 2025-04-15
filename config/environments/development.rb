@@ -66,9 +66,11 @@ Rails.application.configure do
   # customize using the environment variables
   config.log_level = ENV.fetch('LOG_LEVEL', 'debug').to_sym
 
-  # Use a different logger for distributed setups.
-  # require 'syslog/logger'
-  config.logger = ActiveSupport::Logger.new(Rails.root.join('log', "#{Rails.env}.log"), 1, ENV.fetch('LOG_SIZE', '1024').to_i.megabytes)
+  # Configure logger to output to STDOUT
+  config.logger = ActiveSupport::Logger.new(STDOUT)
+  config.logger.formatter = proc do |severity, datetime, progname, msg|
+    "#{datetime.strftime('%Y-%m-%d %H:%M:%S.%L')} #{severity}: #{msg}\n"
+  end
 
   # Bullet configuration to fix the N+1 queries
   config.after_initialize do
