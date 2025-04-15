@@ -35,20 +35,25 @@ class Integrations::GoogleTranslate::ProcessorService
     }
   end
 
+  def html_content_available?
+    email_content[:html].present?
+  end
+
+  def plain_text_content_available?
+    email_content[:content_type]&.include?('text/plain') &&
+      email_content[:text].present?
+  end
+
   def determine_translation_content
     return message.content unless email_channel?
+    return email_content[:html] if html_content_available?
+    return email_content[:text] if plain_text_content_available?
 
-    if email_content[:html].present?
-      email_content[:html]
-    elsif email_content[:content_type]&.include?('text/plain') && email_content[:text].present?
-      email_content[:text]
-    else
-      message.content
-    end
+    message.content
   end
 
   def determine_mime_type
-    if email_channel? && email_content[:html].present?
+    if email_channel? && html_content_available?
       'text/html'
     else
       'text/plain'
