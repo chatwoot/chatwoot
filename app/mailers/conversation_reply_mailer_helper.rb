@@ -17,7 +17,6 @@ module ConversationReplyMailerHelper
     google_smtp_settings
     set_delivery_method
 
-    Rails.logger.info("Email sent from #{email_from} to #{to_emails} with subject #{mail_subject}")
     process_attachments if @message.attachments.present?
     mail(@options)
   end
@@ -27,31 +26,19 @@ module ConversationReplyMailerHelper
     @large_attachments = []
 
     @message.attachments.each do |attachment|
-      process_attachment(attachment)
+      raw_data = attachment.file.download
+      attachment_name = attachment.file.filename.to_s
+      file_size = raw_data.bytesize
+
+      if file_size < 25.megabytes
+        mail.attachments[attachment_name] = raw_data
+        @options[:attachments] << { name: attachment_name }
+      else
+        @large_attachments << attachment
+      end
     end
-  end
 
-  def process_attachment(attachment)
-    raw_data = attachment.file.download
-    attachment_name = attachment.file.filename.to_s
-    file_size = raw_data.bytesize
-
-    if file_size < 25.megabytes
-      add_normal_attachment(attachment_name, raw_data, file_size)
-    else
-      add_large_attachment(attachment, attachment_name)
-    end
-  end
-
-  def add_normal_attachment(attachment_name, raw_data, file_size)
-    mail.attachments[attachment_name] = raw_data
-    @options[:attachments] << { name: attachment_name }
-    Rails.logger.info("Attachment #{attachment_name} (#{file_size} bytes) added to email.")
-  end
-
-  def add_large_attachment(attachment, attachment_name)
-    @large_attachments << attachment
-    Rails.logger.warn("Attachment #{attachment_name} is larger than 25MB and will be sent as a link")
+    @message.instance_variable_set(:@large_attachments, @large_attachments) if @large_attachments.present?
   end
 
   private
