@@ -3,7 +3,7 @@ import { ref, computed, reactive, watch } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
-import { required, helpers } from '@vuelidate/validators';
+import { required, helpers, url } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
@@ -55,9 +55,9 @@ const v$ = useVuelidate(
         () => t('AGENT_BOTS.FORM.ERRORS.URL'),
         required
       ),
-      startsWithHttp: helpers.withMessage(
+      url: helpers.withMessage(
         () => t('AGENT_BOTS.FORM.ERRORS.VALID_URL'),
-        value => !value || value.startsWith('http')
+        url
       ),
     },
   },
@@ -101,9 +101,9 @@ const resetForm = () => {
   v$.value.$reset();
 };
 
-const handleImageUpload = ({ file, url }) => {
+const handleImageUpload = ({ file, url: avatarUrl }) => {
   formState.botAvatar = file;
-  formState.botAvatarUrl = url;
+  formState.botAvatarUrl = avatarUrl;
 };
 
 const handleAvatarDelete = async () => {
