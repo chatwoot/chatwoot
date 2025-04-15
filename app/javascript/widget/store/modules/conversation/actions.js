@@ -13,6 +13,8 @@ import {
 import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 import { emitter } from 'shared/helpers/mitt';
+import IFrameHelper from 'shared/helpers/IFrameHelper';
+
 export const actions = {
   createConversation: async ({ commit, dispatch }, params) => {
     commit('setConversationUIFlag', { isCreating: true });
@@ -178,25 +180,33 @@ export const actions = {
 
   resolveConversation: async ({ commit, dispatch }) => {
     try {
+      // First mark the conversation as resolved
       await toggleStatus();
-      // Clear conversation state
-      commit('clearConversations');
-      // Clear conversation attributes
-      dispatch('conversationAttributes/clearConversationAttributes', {}, { root: true });
+      
       // Reset the widget state
       window.$chatwoot.reset();
-      // Clear any stored conversation data
+      
+      // Emit the webhook event after reset but before clearing state
+      IFrameHelper.sendMessage({
+        event: 'onEvent',
+        eventIdentifier: 'chatwoot:widget:opened',
+        data: {
+          event: 'widget:opened',
+          timestamp: new Date().toISOString(),
+          source: 'widget',
+          conversation: null,
+          contact: null
+        }
+      });
+
+      // Wait a short moment to allow the webhook to be processed
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Finally clear the conversation state and storage
+      commit('clearConversations');
+      dispatch('conversationAttributes/clearConversationAttributes', {}, { root: true });
       localStorage.removeItem('cw_conversation');
       localStorage.removeItem('cw_contact');
-      
-      // Emit webhook event for chat restart
-      emitter.emit('chatwoot:widget:opened', {
-        event: 'widget:opened',
-        timestamp: new Date().toISOString(),
-        source: 'widget',
-        conversation: null,
-        contact: null
-      });
     } catch (error) {
       // IgnoreError
     }
