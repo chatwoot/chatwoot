@@ -10,19 +10,17 @@ import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import V4Button from 'dashboard/components-next/button/Button.vue';
-import WootConfirmDeleteModal from 'dashboard/components/widgets/modal/ConfirmDeleteModal.vue';
-import NextButton from 'dashboard/components-next/button/Button.vue';
 import AccountInfo from './components/AccountInfo.vue';
 import BuildInfo from './components/BuildInfo.vue';
+import AccountDelete from './components/AccountDelete.vue';
 
 export default {
   components: {
     BaseSettingsHeader,
     V4Button,
-    WootConfirmDeleteModal,
-    NextButton,
     AccountInfo,
     BuildInfo,
+    AccountDelete,
   },
   setup() {
     const { updateUISettings } = useUISettings();
@@ -41,7 +39,6 @@ export default {
       supportEmail: '',
       features: {},
       autoResolveDuration: null,
-      showDeletePopup: false,
     };
   },
   validations: {
@@ -93,31 +90,6 @@ export default {
       return (
         this.featureInboundEmailEnabled && !!this.features.custom_reply_email
       );
-    },
-    confirmPlaceHolderText() {
-      return `${this.$t(
-        'GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.PLACE_HOLDER',
-        {
-          accountName: this.name,
-        }
-      )}`;
-    },
-    isMarkedForDeletion() {
-      const { custom_attributes = {} } = this.currentAccount;
-      return !!custom_attributes.marked_for_deletion_at;
-    },
-    markedForDeletionDate() {
-      const { custom_attributes = {} } = this.currentAccount;
-      if (!custom_attributes.marked_for_deletion_at) return null;
-      return new Date(custom_attributes.marked_for_deletion_at);
-    },
-    markedForDeletionReason() {
-      const { custom_attributes = {} } = this.currentAccount;
-      return custom_attributes.marked_for_deletion_reason || 'manual_deletion';
-    },
-    formattedDeletionDate() {
-      if (!this.markedForDeletionDate) return '';
-      return this.markedForDeletionDate.toLocaleString();
     },
     currentAccount() {
       return this.getAccount(this.accountId) || {};
@@ -180,56 +152,6 @@ export default {
       this.updateUISettings({
         rtl_view: isRTLSupported,
       });
-    },
-    // Delete Function
-    openDeletePopup() {
-      this.showDeletePopup = true;
-    },
-    closeDeletePopup() {
-      this.showDeletePopup = false;
-    },
-    async markAccountForDeletion() {
-      this.closeDeletePopup();
-      try {
-        // Use the enterprise API to toggle deletion with delete action
-        await this.$store.dispatch('accounts/toggleDeletion', {
-          action_type: 'delete',
-        });
-        // Refresh account data
-        await this.$store.dispatch('accounts/get');
-        useAlert(this.$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.SUCCESS'));
-      } catch (error) {
-        // Handle error message
-        this.handleDeletionError(error);
-      }
-    },
-    handleDeletionError(error) {
-      const errorKey = error.response?.data?.error_key;
-      if (errorKey) {
-        useAlert(
-          this.$t(`GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.${errorKey}`)
-        );
-        return;
-      }
-      const message = error.response?.data?.message;
-      if (message) {
-        useAlert(message);
-        return;
-      }
-      useAlert(this.$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.FAILURE'));
-    },
-    async clearDeletionMark() {
-      try {
-        // Use the enterprise API to toggle deletion with undelete action
-        await this.$store.dispatch('accounts/toggleDeletion', {
-          action_type: 'undelete',
-        });
-        // Refresh account data
-        await this.$store.dispatch('accounts/get');
-        useAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
-      } catch (error) {
-        useAlert(this.$t('GENERAL_SETTINGS.UPDATE.ERROR'));
-      }
     },
   },
 };
@@ -337,71 +259,7 @@ export default {
 
     <AccountInfo />
     <div v-if="!uiFlags.isFetchingItem && isOnChatwootCloud">
-      <div
-        class="flex flex-row pt-4 mt-2 border-t border-slate-25 dark:border-slate-800 text-black-900 dark:text-slate-300"
-      >
-        <div
-          class="flex-grow-0 flex-shrink-0 flex-[25%] min-w-0 py-4 pr-6 pl-0"
-        >
-          <h4 class="text-lg font-medium text-black-900 dark:text-slate-200">
-            {{ $t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.TITLE') }}
-          </h4>
-          <p>
-            {{ $t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.NOTE') }}
-          </p>
-        </div>
-        <div class="p-4 flex-grow-0 flex-shrink-0 flex-[50%]">
-          <div v-if="isMarkedForDeletion">
-            <div
-              class="p-4 flex-grow-0 flex-shrink-0 flex-[50%] bg-red-50 dark:bg-red-900 rounded"
-            >
-              <p class="mb-4">
-                {{
-                  $t(
-                    `GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.SCHEDULED_DELETION.MESSAGE_${markedForDeletionReason === 'manual_deletion' ? 'MANUAL' : 'INACTIVITY'}`,
-                    {
-                      deletionDate: formattedDeletionDate,
-                    }
-                  )
-                }}
-              </p>
-              <NextButton
-                :label="
-                  $t(
-                    'GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.SCHEDULED_DELETION.CLEAR_BUTTON'
-                  )
-                "
-                color="ruby"
-                :is-loading="uiFlags.isUpdating"
-                @click="clearDeletionMark"
-              />
-            </div>
-          </div>
-          <div v-if="!isMarkedForDeletion">
-            <NextButton
-              :label="$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.BUTTON_TEXT')"
-              color="ruby"
-              @click="openDeletePopup()"
-            />
-          </div>
-        </div>
-      </div>
-      <WootConfirmDeleteModal
-        v-if="showDeletePopup"
-        v-model:show="showDeletePopup"
-        :title="$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.TITLE')"
-        :message="$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.MESSAGE')"
-        :confirm-text="
-          $t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.BUTTON_TEXT')
-        "
-        :reject-text="
-          $t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.DISMISS')
-        "
-        :confirm-value="name"
-        :confirm-place-holder-text="confirmPlaceHolderText"
-        @on-confirm="markAccountForDeletion"
-        @on-close="closeDeletePopup"
-      />
+      <AccountDelete />
     </div>
     <BuildInfo />
   </div>
