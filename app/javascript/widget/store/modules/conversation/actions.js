@@ -181,6 +181,12 @@ export const actions = {
       // First mark the conversation as resolved
       await toggleStatus();
       
+      // Clear all state first
+      commit('clearConversations');
+      dispatch('conversationAttributes/clearConversationAttributes', {}, { root: true });
+      localStorage.removeItem('cw_conversation');
+      localStorage.removeItem('cw_contact');
+      
       // Reset the widget state
       window.$chatwoot.reset();
       
@@ -192,17 +198,6 @@ export const actions = {
         conversation: null,
         contact: null
       });
-
-      // Wait for 1 second to allow n8n to process the webhook
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Clear conversation state
-      commit('clearConversations');
-      // Clear conversation attributes
-      dispatch('conversationAttributes/clearConversationAttributes', {}, { root: true });
-      // Clear any stored conversation data
-      localStorage.removeItem('cw_conversation');
-      localStorage.removeItem('cw_contact');
     } catch (error) {
       // IgnoreError
     }
