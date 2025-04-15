@@ -37,6 +37,30 @@ class AiAgents extends ApiClient {
   updateAgentFollowups(idAgent, data) {
     return axios.patch(`${this.url}/${idAgent}/update_followups`, data);
   }
+
+  getKnowledgeSources(idAgent) {
+    return axios.get(`${this.url}/${idAgent}/knowledge_sources`);
+  }
+  
+  addKnowledgeText(idAgent, data) {
+    return axios.post(`${this.url}/${idAgent}/knowledge_sources/text`, {
+      id: null,
+      text: data.text,
+      tab: data.tab,
+    });
+  }
+  
+  updateKnowledgeText(idAgent, data) {
+    return axios.patch(`${this.url}/${idAgent}/knowledge_sources/text`, {
+      id: data.id,
+      text: data.text,
+      tab: data.tab,
+    });
+  }
+  
+  deleteKnowledgeText(idAgent, textId) {
+    return axios.delete(`${this.url}/${idAgent}/knowledge_sources/text/${textId}`);
+  }
 }
 
 export default new AiAgents();
