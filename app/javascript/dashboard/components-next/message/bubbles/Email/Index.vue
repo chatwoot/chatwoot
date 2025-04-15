@@ -1,6 +1,7 @@
 <script setup>
 import { computed, useTemplateRef, ref, onMounted } from 'vue';
 import { Letter } from 'vue-letter';
+import { useI18n } from 'vue-i18n';
 import { allowedCssProperties } from 'lettersanitizer';
 
 import Icon from 'next/icon/Icon.vue';
@@ -13,41 +14,100 @@ import EmailMeta from './EmailMeta.vue';
 import { useMessageContext } from '../../provider.js';
 import { MESSAGE_TYPES } from 'next/message/constants.js';
 
+const { t } = useI18n();
+
 const { content, contentAttributes, attachments, messageType } =
   useMessageContext();
 
 const isExpandable = ref(false);
 const isExpanded = ref(false);
 const showQuotedMessage = ref(false);
+const renderOriginal = ref(false);
 const contentContainer = useTemplateRef('contentContainer');
 
 onMounted(() => {
   isExpandable.value = contentContainer.value?.scrollHeight > 400;
 });
 
-const isOutgoing = computed(() => {
-  return messageType.value === MESSAGE_TYPES.OUTGOING;
-});
+const isOutgoing = computed(() => messageType.value === MESSAGE_TYPES.OUTGOING);
 const isIncoming = computed(() => !isOutgoing.value);
 
-const textToShow = computed(() => {
+const hasTranslations = computed(() => {
+  if (!contentAttributes.value) return false;
+  const { translations = {} } = contentAttributes.value;
+  return Object.keys(translations || {}).length > 0;
+});
+
+const translationContent = computed(() => {
+  if (!hasTranslations.value) return null;
+  const translations = contentAttributes.value.translations;
+  return translations[Object.keys(translations)[0]];
+});
+
+const originalEmailText = computed(() => {
   const text =
     contentAttributes?.value?.email?.textContent?.full ?? content.value;
   return text?.replace(/\n/g, '<br>');
 });
 
-// Use TextContent as the default to fullHTML
+const originalEmailHtml = computed(
+  () =>
+    contentAttributes?.value?.email?.htmlContent?.full ??
+    originalEmailText.value
+);
+
+const messageContent = computed(() => {
+  // If translations exist and we're showing translations (not original)
+  if (hasTranslations.value && !renderOriginal.value) {
+    return translationContent.value;
+  }
+  // Otherwise show original content
+  return content.value;
+});
+
+const textToShow = computed(() => {
+  // If translations exist and we're showing translations (not original)
+  if (hasTranslations.value && !renderOriginal.value) {
+    return translationContent.value;
+  }
+  // Otherwise show original text
+  return originalEmailText.value;
+});
+
 const fullHTML = computed(() => {
-  return contentAttributes?.value?.email?.htmlContent?.full ?? textToShow.value;
+  // If translations exist and we're showing translations (not original)
+  if (hasTranslations.value && !renderOriginal.value) {
+    return translationContent.value;
+  }
+  // Otherwise show original HTML
+  return originalEmailHtml.value;
 });
 
-const unquotedHTML = computed(() => {
-  return EmailQuoteExtractor.extractQuotes(fullHTML.value);
+const unquotedHTML = computed(() =>
+  EmailQuoteExtractor.extractQuotes(fullHTML.value)
+);
+
+const hasQuotedMessage = computed(() =>
+  EmailQuoteExtractor.hasQuotes(fullHTML.value)
+);
+
+const viewToggleText = computed(() =>
+  renderOriginal.value
+    ? t('CONVERSATION.VIEW_TRANSLATED')
+    : t('CONVERSATION.VIEW_ORIGINAL')
+);
+
+// Ensure unique keys for <Letter> when toggling between original and translated views.
+// This forces Vue to re-render the component and update content correctly.
+const translationKeySuffix = computed(() => {
+  if (renderOriginal.value) return 'original';
+  if (hasTranslations.value) return 'translated';
+  return 'original';
 });
 
-const hasQuotedMessage = computed(() => {
-  return EmailQuoteExtractor.hasQuotes(fullHTML.value);
-});
+const handleSeeOriginal = () => {
+  renderOriginal.value = !renderOriginal.value;
+};
 </script>
 
 <template>
@@ -88,11 +148,12 @@ const hasQuotedMessage = computed(() => {
         <FormattedContent
           v-if="isOutgoing && content"
           class="text-n-slate-12"
-          :content="content"
+          :content="messageContent"
         />
         <template v-else>
           <Letter
             v-if="showQuotedMessage"
+            :key="`letter-quoted-${translationKeySuffix}`"
             class-name="prose prose-bubble !max-w-none letter-render"
             :allowed-css-properties="[
               ...allowedCssProperties,
@@ -104,6 +165,7 @@ const hasQuotedMessage = computed(() => {
           />
           <Letter
             v-else
+            :key="`letter-unquoted-${translationKeySuffix}`"
             class-name="prose prose-bubble !max-w-none letter-render"
             :html="unquotedHTML"
             :allowed-css-properties="[
@@ -135,6 +197,14 @@ const hasQuotedMessage = computed(() => {
         </button>
       </div>
     </section>
+    <span v-if="hasTranslations" class="py-2 px-3">
+      <span
+        class="text-xs text-n-slate-11 cursor-pointer hover:underline"
+        @click="handleSeeOriginal"
+      >
+        {{ viewToggleText }}
+      </span>
+    </span>
     <section
       v-if="Array.isArray(attachments) && attachments.length"
       class="px-4 pb-4 space-y-2"
