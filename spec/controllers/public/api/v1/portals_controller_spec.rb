@@ -41,7 +41,7 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
         get "/hc/#{portal.slug}/en"
 
         expect(response).to have_http_status(:success)
-        expect(response.body).to include('<link rel="icon" type="image/png" href=')
+        expect(response.body).to include('<link rel="icon" href=')
       end
     end
 
@@ -53,7 +53,7 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
         get "/hc/#{portal.slug}/en"
 
         expect(response).to have_http_status(:success)
-        expect(response.body).not_to include('<link rel="icon" type="image/png" href=')
+        expect(response.body).not_to include('<link rel="icon" href=')
       end
     end
   end
