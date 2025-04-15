@@ -32,8 +32,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
     translated_content = Integrations::GoogleTranslate::ProcessorService.new(
       message: message,
-      target_language: permitted_params[:target_language],
-      inbox: Inbox.find(message.inbox_id)
+      target_language: permitted_params[:target_language]
     ).perform
 
     if translated_content.present?

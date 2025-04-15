@@ -1,19 +1,19 @@
 require 'google/cloud/translate/v3'
 
 class Integrations::GoogleTranslate::ProcessorService
-  pattr_initialize [:message!, :target_language!, :inbox]
+  pattr_initialize [:message!, :target_language!]
 
   def perform
     return if hook.blank?
 
-    content = determine_translation_content
+    content = translation_content
     return if content.blank?
 
     response = client.translate_text(
       contents: [content],
       target_language_code: target_language,
       parent: "projects/#{hook.settings['project_id']}",
-      mime_type: determine_mime_type
+      mime_type: mime_type
     )
 
     return if response.translations.first.blank?
@@ -24,7 +24,7 @@ class Integrations::GoogleTranslate::ProcessorService
   private
 
   def email_channel?
-    inbox&.channel_type == 'Channel::Email'
+    message&.inbox&.email?
   end
 
   def email_content
@@ -44,7 +44,7 @@ class Integrations::GoogleTranslate::ProcessorService
       email_content[:text].present?
   end
 
-  def determine_translation_content
+  def translation_content
     return message.content unless email_channel?
     return email_content[:html] if html_content_available?
     return email_content[:text] if plain_text_content_available?
@@ -52,7 +52,7 @@ class Integrations::GoogleTranslate::ProcessorService
     message.content
   end
 
-  def determine_mime_type
+  def mime_type
     if email_channel? && html_content_available?
       'text/html'
     else

@@ -1,7 +1,6 @@
 <script setup>
 import { computed, useTemplateRef, ref, onMounted } from 'vue';
 import { Letter } from 'vue-letter';
-import { useI18n } from 'vue-i18n';
 import { allowedCssProperties } from 'lettersanitizer';
 
 import Icon from 'next/icon/Icon.vue';
@@ -10,11 +9,11 @@ import BaseBubble from 'next/message/bubbles/Base.vue';
 import FormattedContent from 'next/message/bubbles/Text/FormattedContent.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 import EmailMeta from './EmailMeta.vue';
+import TranslationToggle from 'dashboard/components-next/message/TranslationToggle.vue';
 
 import { useMessageContext } from '../../provider.js';
 import { MESSAGE_TYPES } from 'next/message/constants.js';
-
-const { t } = useI18n();
+import { useTranslations } from '@/dashboard/composables/useTranslations';
 
 const { content, contentAttributes, attachments, messageType } =
   useMessageContext();
@@ -32,17 +31,8 @@ onMounted(() => {
 const isOutgoing = computed(() => messageType.value === MESSAGE_TYPES.OUTGOING);
 const isIncoming = computed(() => !isOutgoing.value);
 
-const hasTranslations = computed(() => {
-  if (!contentAttributes.value) return false;
-  const { translations = {} } = contentAttributes.value;
-  return Object.keys(translations || {}).length > 0;
-});
-
-const translationContent = computed(() => {
-  if (!hasTranslations.value) return null;
-  const translations = contentAttributes.value.translations;
-  return translations[Object.keys(translations)[0]];
-});
+const { hasTranslations, translationContent } =
+  useTranslations(contentAttributes);
 
 const originalEmailText = computed(() => {
   const text =
@@ -89,12 +79,6 @@ const unquotedHTML = computed(() =>
 
 const hasQuotedMessage = computed(() =>
   EmailQuoteExtractor.hasQuotes(fullHTML.value)
-);
-
-const viewToggleText = computed(() =>
-  renderOriginal.value
-    ? t('CONVERSATION.VIEW_TRANSLATED')
-    : t('CONVERSATION.VIEW_ORIGINAL')
 );
 
 // Ensure unique keys for <Letter> when toggling between original and translated views.
@@ -197,14 +181,12 @@ const handleSeeOriginal = () => {
         </button>
       </div>
     </section>
-    <span v-if="hasTranslations" class="py-2 px-3">
-      <span
-        class="text-xs text-n-slate-11 cursor-pointer hover:underline"
-        @click="handleSeeOriginal"
-      >
-        {{ viewToggleText }}
-      </span>
-    </span>
+    <TranslationToggle
+      v-if="hasTranslations"
+      class="py-2 px-3"
+      :showing-original="renderOriginal"
+      @toggle="handleSeeOriginal"
+    />
     <section
       v-if="Array.isArray(attachments) && attachments.length"
       class="px-4 pb-4 space-y-2"
