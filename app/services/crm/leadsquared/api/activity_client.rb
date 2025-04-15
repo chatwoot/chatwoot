@@ -31,17 +31,15 @@ class Crm::Leadsquared::Api::ActivityClient < Crm::Leadsquared::Api::BaseClient
   private
 
   def handle_activity_response(response)
-    if valid_activity_response?(response)
+    if response_ok?(response)
       { success: true, activity_id: response[:data]['Message']['Id'] }
-    elsif response[:success]
-      # Response was technically successful but no activity ID returned
-      { success: false, error: 'Activity not created' }
     else
-      response
+      Rails.logger.error("Call to LeadSquared activity API failed with [#{response[:code]}] #{response[:error]}")
+      { success: false, error: 'Activity not created' }
     end
   end
 
-  def valid_activity_response?(response)
+  def response_ok?(response)
     response[:success] &&
       response[:data]['Status'] == 'Success' &&
       response[:data]['Message'] &&
