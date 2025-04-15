@@ -61,6 +61,10 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
     unless conversation.resolved?
       conversation.status = :resolved
       conversation.save!
+      # Clear conversation state when ending chat
+      conversation.messages.destroy_all
+      conversation.custom_attributes = {}
+      conversation.save!
     end
     head :ok
   end

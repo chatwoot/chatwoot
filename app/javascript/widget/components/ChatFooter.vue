@@ -84,9 +84,17 @@ export default {
       this.inReplyTo = null;
     },
     startNewConversation() {
+      // Clear all conversation data
       this.clearConversations();
       this.clearConversationAttributes();
+      
+      // Reset the widget state
+      window.$chatwoot.reset();
+      
+      // Redirect to pre-chat form
       this.replaceRoute('prechat-form');
+      
+      // Notify about new conversation
       IFrameHelper.sendMessage({
         event: 'onEvent',
         eventIdentifier: CHATWOOT_ON_START_CONVERSATION,
