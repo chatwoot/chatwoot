@@ -38,7 +38,7 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
       conversation: conversation,
       activity_type: 'conversation',
       activity_code_key: 'conversation_activity_code',
-      metadata_key: 'activity_id',
+      metadata_key: 'created_activity_id',
       mapper_method: :map_conversation_activity
     )
   end
@@ -100,14 +100,13 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
       Rails.logger.warn "LeadSquared #{activity_type} activity code not found for hook ##{@hook.id}. Setup may not have completed."
       return { success: false, error: 'Activity code not found. Please run setup for this integration.' }
     end
-
     # Post the activity to LeadSquared
     response = @activity_client.post_activity(result[:lead_id], activity_code, activity_note)
 
     # Store activity reference in conversation metadata if successful
     if response[:success]
       metadata = {}
-      metadata[metadata_key] = response[:data].dig('Value', 'Id')
+      metadata[metadata_key] = response[:activity_id]
       store_conversation_metadata(conversation, metadata)
     end
 

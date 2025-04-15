@@ -4,7 +4,7 @@ class Crm::Leadsquared::Api::ActivityClient < Crm::Leadsquared::Api::BaseClient
     return { success: false, error: 'Prospect ID is required' } if prospect_id.blank?
     return { success: false, error: 'Activity event code is required' } if activity_event.blank?
 
-    path = '/ProspectActivity.svc/Create'
+    path = 'ProspectActivity.svc/Create'
 
     body = {
       'RelatedProspectId' => prospect_id,
@@ -25,14 +25,14 @@ class Crm::Leadsquared::Api::ActivityClient < Crm::Leadsquared::Api::BaseClient
     }
 
     response = post(path, {}, body)
-    handle_activity_type_response(response)
+    handle_activity_response(response)
   end
 
   private
 
   def handle_activity_response(response)
     if valid_activity_response?(response)
-      { success: true, data: response[:data]['Value'] }
+      { success: true, activity_id: response[:data]['Message']['Id'] }
     elsif response[:success]
       # Response was technically successful but no activity ID returned
       { success: false, error: 'Activity not created' }
@@ -41,31 +41,10 @@ class Crm::Leadsquared::Api::ActivityClient < Crm::Leadsquared::Api::BaseClient
     end
   end
 
-  def handle_activity_type_response(response)
-    if valid_activity_type_response?(response)
-      { success: true, activity_id: response[:data]['Message']['Id'].to_i }
-    else
-      error_message = response[:error] || 'Unknown error creating activity type'
-      { success: false, error: error_message }
-    end
-  end
-
   def valid_activity_response?(response)
-    response[:success] &&
-      valid_response_data?(response[:data])
-  end
-
-  def valid_activity_type_response?(response)
     response[:success] &&
       response[:data]['Status'] == 'Success' &&
       response[:data]['Message'] &&
       response[:data]['Message']['Id']
-  end
-
-  def valid_response_data?(data)
-    data.is_a?(Hash) &&
-      data['Status'] == 'Success' &&
-      data['Value'].present? &&
-      data['Value']['Id'].present?
   end
 end
