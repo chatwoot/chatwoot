@@ -122,7 +122,7 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
         {
           'Status' => 'Success',
           'Message' => {
-            'ActivityEventId' => activity_event_id
+            'ActivityEvent' => activity_event_id
           }
         }
       end

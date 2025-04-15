@@ -1,19 +1,4 @@
 class Crm::Leadsquared::SetupService
-  REQUIRED_ACTIVITY_TYPES = [
-    {
-      name: 'Chatwoot Conversation Started',
-      score: 10,
-      direction: 0,
-      setting_key: 'conversation_activity_code'
-    },
-    {
-      name: 'Chatwoot Conversation Transcript',
-      score: 5,
-      direction: 0,
-      setting_key: 'transcript_activity_code'
-    }
-  ].freeze
-
   def initialize(hook)
     @hook = hook
     credentials = @hook.settings
@@ -46,7 +31,7 @@ class Crm::Leadsquared::SetupService
   private
 
   def fetch_activity_types
-    path = '/ProspectActivity/Types'
+    path = 'ProspectActivity.svc/ActivityTypes.Get'
     response = @client.get(path)
 
     if response[:success]
@@ -62,7 +47,7 @@ class Crm::Leadsquared::SetupService
     success = true
     errors = []
 
-    REQUIRED_ACTIVITY_TYPES.each do |activity_type|
+    activity_types.each do |activity_type|
       result = find_or_create_activity_type(activity_type, existing_types)
 
       if result[:success]
@@ -82,11 +67,11 @@ class Crm::Leadsquared::SetupService
 
   def find_or_create_activity_type(activity_type, existing_types)
     # Check if activity type already exists
-    existing = existing_types.find { |t| t['Name'] == activity_type[:name] }
+    existing = existing_types.find { |t| t['ActivityEventName'] == activity_type[:name] }
 
     if existing
       # Use existing activity type
-      activity_id = existing['Value'].to_i
+      activity_id = existing['ActivityEvent'].to_i
       Rails.logger.info "Using existing LeadSquared activity type: #{activity_type[:name]} (ID: #{activity_id})"
       { success: true, activity_id: activity_id }
     else
@@ -111,5 +96,26 @@ class Crm::Leadsquared::SetupService
     # Update hook settings with activity type IDs
     @hook.settings = @hook.settings.merge(activity_codes)
     @hook.save!
+  end
+
+  def activity_types
+    [
+      {
+        name: "#{brand_name} Conversation Started",
+        score: @hook.settings['conversation_activity_score'] || 0,
+        direction: 0,
+        setting_key: 'conversation_activity_code'
+      },
+      {
+        name: "#{brand_name} Conversation Transcript",
+        score: @hook.settings['transcript_activity_score'] || 0,
+        direction: 0,
+        setting_key: 'transcript_activity_code'
+      }
+    ].freeze
+  end
+
+  def brand_name
+    ::GlobalConfig.get('BRAND_NAME')['BRAND_NAME'] || 'Chatwoot'
   end
 end

@@ -8,20 +8,23 @@ class Crm::Leadsquared::Api::BaseClient
   end
 
   def get(path, params = {})
-    params = params.merge(auth_params)
-    full_url = URI.join(@base_uri, path).to_s
-
-    response = self.class.get(full_url, query: params)
-    handle_response(response)
-  end
-
-  def post(path, params = {}, body = {})
-    params = params.merge(auth_params)
     full_url = URI.join(@base_uri, path).to_s
 
     options = {
       query: params,
-      headers: { 'Content-Type' => 'application/json' }
+      headers: headers
+    }
+
+    response = self.class.get(full_url, options)
+    handle_response(response)
+  end
+
+  def post(path, params = {}, body = {})
+    full_url = URI.join(@base_uri, path).to_s
+
+    options = {
+      query: params,
+      headers: headers
     }
 
     options[:body] = body.to_json if body.present?
@@ -32,10 +35,11 @@ class Crm::Leadsquared::Api::BaseClient
 
   private
 
-  def auth_params
+  def headers
     {
-      accessKey: @access_key,
-      secretKey: @secret_key
+      'Content-Type': 'application/json',
+      'x-LSQ-AccessKey': @access_key,
+      'x-LSQ-SecretKey': @secret_key
     }
   end
 
