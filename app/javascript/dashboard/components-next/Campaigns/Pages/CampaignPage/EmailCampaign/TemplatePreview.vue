@@ -3,6 +3,13 @@ import { onMounted, ref, watch } from 'vue';
 
 const props = defineProps({
   modelValue: String,
+  previewPosition: {
+    type: Object,
+    default: () => ({
+      right: 90,
+      top: 130,
+    }),
+  },
 });
 
 const emailFrame = ref(null);
@@ -24,7 +31,13 @@ watch(() => props.modelValue, writeToIframe);
 </script>
 
 <template>
-  <div class="template-preview-wrapper">
+  <div
+    class="template-preview-wrapper"
+    :style="{
+      right: `${props.previewPosition.right}px`,
+      top: `${props.previewPosition.top}px`,
+    }"
+  >
     <iframe
       ref="emailFrame"
       class="email-preview"
@@ -36,9 +49,9 @@ watch(() => props.modelValue, writeToIframe);
 <style scoped>
 .template-preview-wrapper {
   position: fixed;
-  width: 360px; /* 1080 / 3 */
-  height: 640px; /* 1920 / 3 */
-  transform: scale(.88);
+  width: 470px; /* 1080 / 3 */
+  height: 750px; /* 1920 / 3 */
+  transform: scale(0.88);
   transform-origin: top left;
   background: white;
   border-radius: 20px;
