@@ -18,7 +18,7 @@ class Crm::Leadsquared::Mappers::ContactMapper
   def base_attributes
     {
       'FirstName' => contact.name.presence,
-      'LastName' => contact.last_name.presence || 'Unknown',
+      'LastName' => contact.last_name.presence,
       'EmailAddress' => contact.email.presence,
       'Mobile' => contact.phone_number.presence
     }.compact
