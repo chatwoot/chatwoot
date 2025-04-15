@@ -59,11 +59,6 @@ const markedForDeletionMessage = computed(() => {
 });
 
 function handleDeletionError(error) {
-  const errorKey = error.response?.data?.error_key;
-  if (errorKey) {
-    useAlert(t(`GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.${errorKey}`));
-    return;
-  }
   const message = error.response?.data?.message;
   if (message) {
     useAlert(message);
