@@ -199,7 +199,7 @@
               <attachment-preview
                 class="[&>.preview-item]:dark:bg-slate-700 flex-row flex-wrap gap-x-3 gap-y-1"
                 :attachments="attachedFiles"
-                :remove-attachment="removeAttachment"
+                @remove-attachment="removeAttachment"
               />
             </div>
           </div>
@@ -460,10 +460,8 @@ export default {
         });
       };
     },
-    removeAttachment(itemIndex) {
-      this.attachedFiles = this.attachedFiles.filter(
-        (item, index) => itemIndex !== index
-      );
+    removeAttachment(attachments) {
+      this.attachedFiles = attachments;
     },
     onCancel() {
       this.$emit('cancel');
