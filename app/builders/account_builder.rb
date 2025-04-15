@@ -32,14 +32,15 @@ class AccountBuilder
   end
 
   def validate_email
-    raise InvalidEmail.new({ domain_blocked: domain_blocked }) if domain_blocked?
-
     address = ValidEmail2::Address.new(@email)
-    if address.valid? && !address.disposable?
-      true
-    else
-      raise InvalidEmail.new({ valid: address.valid?, disposable: address.disposable? })
-    end
+
+    raise InvalidEmail.new({ valid: false, disposable: nil }) unless address.valid?
+
+    raise InvalidEmail.new({ domain_blocked: true }) if domain_blocked?
+
+    raise InvalidEmail.new({ valid: true, disposable: true }) if address.disposable?
+
+    true
   end
 
   def validate_user
@@ -83,13 +84,8 @@ class AccountBuilder
   end
 
   def domain_blocked?
-    domain = @email.split('@').last
-
-    blocked_domains.each do |blocked_domain|
-      return true if domain.match?(blocked_domain)
-    end
-
-    false
+    domain = @email.split('@').last&.downcase
+    blocked_domains.any? { |blocked_domain| domain.match?(blocked_domain.downcase) }
   end
 
   def blocked_domains
