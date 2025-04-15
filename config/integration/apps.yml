@@ -231,7 +231,7 @@ leadsquared:
         'type': 'text',
         'name': 'endpoint_url',
         'validation': 'required',
-        'placeholder': 'e.g. https://api.leadsquared.com',
+        'placeholder': 'e.g. https://api.leadsquared.com/v2',
         'help': 'Your LeadSquared API base URL based on your region',
       },
       {
