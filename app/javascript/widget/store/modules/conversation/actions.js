@@ -14,6 +14,7 @@ import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 import { emitter } from 'shared/helpers/mitt';
 import IFrameHelper from 'shared/helpers/IFrameHelper';
+import { CHATWOOT_ON_START_CONVERSATION } from 'widget/constants/widgetBusEvents';
 
 export const actions = {
   createConversation: async ({ commit, dispatch }, params) => {
@@ -189,14 +190,8 @@ export const actions = {
       // Emit the webhook event after reset but before clearing state
       IFrameHelper.sendMessage({
         event: 'onEvent',
-        eventIdentifier: 'chatwoot:widget:opened',
-        data: {
-          event: 'widget:opened',
-          timestamp: new Date().toISOString(),
-          source: 'widget',
-          conversation: null,
-          contact: null
-        }
+        eventIdentifier: CHATWOOT_ON_START_CONVERSATION,
+        data: { hasConversation: false }
       });
 
       // Wait a short moment to allow the webhook to be processed
