@@ -8,7 +8,7 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
 
     render json: {
       agents: @agents,
-      allowed_custom_message_agents: @agents.where(id: @inbox.allowed_custom_message_user_ids)
+      allowed_custom_message_agents: @agents.where(id: @inbox.allowed_custom_message_user_ids),
     }
   end
 

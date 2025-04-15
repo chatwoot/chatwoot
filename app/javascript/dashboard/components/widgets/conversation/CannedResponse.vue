@@ -208,9 +208,9 @@ export default {
         <div v-for="key in undefinedVariables" :key="key" class="flex flex-col">
           <label
             :for="key"
-            class="mb-1 text-sm font-medium text-slate-700 dark:text-slate-300"
+            class="mb-1 text-sm font-medium text-slate-700 dark:text-slate-300 capitalize"
           >
-            {{ key }}
+            {{ key.replace(/[\_\.]/g, ' ') }}
           </label>
           <input v-model="userDefinedVariables[key]" :id="key" type="text" class="input-variable"
             :placeholder="$t('ONBOARDING.CANNED_RESPONSES.VARIABLE_PLACEHOLDER', { variable: key })"
