@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_15_041353) do
+ActiveRecord::Schema[7.0].define(version: 2025_04_15_111556) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -795,6 +795,19 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_15_041353) do
     t.index ["knowledge_source_id"], name: "index_knowledge_source_texts_on_knowledge_source_id"
   end
 
+  create_table "knowledge_source_websites", force: :cascade do |t|
+    t.bigint "knowledge_source_id", null: false
+    t.string "url", null: false
+    t.string "parent_url", null: false
+    t.integer "total_chars", null: false
+    t.integer "total_chunks", null: false
+    t.string "loader_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "content", default: "", null: false
+    t.index ["knowledge_source_id"], name: "index_knowledge_source_websites_on_knowledge_source_id"
+  end
+
   create_table "knowledge_sources", force: :cascade do |t|
     t.bigint "ai_agent_id", null: false
     t.string "name", null: false
@@ -1255,6 +1268,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_15_041353) do
   add_foreign_key "inboxes", "portals"
   add_foreign_key "knowledge_source_files", "knowledge_sources"
   add_foreign_key "knowledge_source_texts", "knowledge_sources"
+  add_foreign_key "knowledge_source_websites", "knowledge_sources"
   add_foreign_key "knowledge_sources", "ai_agents"
   add_foreign_key "subscription_payments", "subscriptions"
   add_foreign_key "subscription_usage", "subscriptions"

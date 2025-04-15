@@ -21,6 +21,7 @@ class KnowledgeSource < ApplicationRecord
   belongs_to :ai_agent
   has_many :knowledge_source_texts, dependent: :destroy
   has_many :knowledge_source_files, dependent: :destroy
+  has_many :knowledge_source_websites, dependent: :destroy
 
   validates :name, presence: true
   validates :ai_agent_id, presence: true
@@ -73,6 +74,23 @@ class KnowledgeSource < ApplicationRecord
     )
   rescue ActiveRecord::RecordInvalid => e
     Rails.logger.error("Failed to create knowledge source file: #{e.record.errors.full_messages.join(', ')}")
+    raise e
+  rescue StandardError => e
+    Rails.logger.error("Unexpected error occurred: #{e.message}")
+    raise e
+  end
+
+  def add_website!(url:, parent_url:, content:, document_loader:)
+    knowledge_source_websites.create!(
+      url: url,
+      parent_url: parent_url,
+      content: content,
+      loader_id: document_loader['docId'],
+      total_chunks: document_loader.dig('file', 'totalChunks'),
+      total_chars: document_loader.dig('file', 'totalChars')
+    )
+  rescue ActiveRecord::RecordInvalid => e
+    Rails.logger.error("Failed to create knowledge source website: #{e.record.errors.full_messages.join(', ')}")
     raise e
   rescue StandardError => e
     Rails.logger.error("Unexpected error occurred: #{e.message}")

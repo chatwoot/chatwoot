@@ -8,7 +8,8 @@ class Api::V1::Accounts::KnowledgeSourcesController < Api::V1::Accounts::BaseCon
       render json: @knowledge_source.as_json(include:
       [
         :knowledge_source_texts,
-        :knowledge_source_files
+        :knowledge_source_files,
+        :knowledge_source_websites
       ]), status: :ok
     else
       render json: { error: 'Knowledge source not found' }, status: :not_found
