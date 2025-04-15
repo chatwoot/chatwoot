@@ -63,7 +63,7 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
 
     # If we didn't have a lead ID before but created one, store it
     if response[:success] && lead_id.blank?
-      response_lead_id = response[:data].dig('Value', 'ProspectId')
+      response_lead_id = response[:data]['Id']
       store_external_id(contact, response_lead_id) if response_lead_id.present?
     end
 

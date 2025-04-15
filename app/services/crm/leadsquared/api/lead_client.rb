@@ -22,7 +22,7 @@ class Crm::Leadsquared::Api::LeadClient < Crm::Leadsquared::Api::BaseClient
   def create_or_update_lead(lead_data)
     return { success: false, error: 'Lead data is required' } if lead_data.blank?
 
-    path = '/LeadManagement.svc/Lead.CreateOrUpdate'
+    path = 'LeadManagement.svc/Lead.CreateOrUpdate'
 
     # LeadSquared expects an array of attribute objects
     # Each having 'Attribute' and 'Value' keys
@@ -42,7 +42,7 @@ class Crm::Leadsquared::Api::LeadClient < Crm::Leadsquared::Api::BaseClient
 
   def handle_lead_create_or_update_response(response)
     if valid_lead_create_or_update_response?(response)
-      { success: true, data: response[:data]['Value'] }
+      { success: true, data: response[:data]['Message'] }
     elsif response[:success]
       # Response was technically successful but no lead ID returned
       { success: false, error: 'No leads created or updated' }
@@ -59,7 +59,7 @@ class Crm::Leadsquared::Api::LeadClient < Crm::Leadsquared::Api::BaseClient
   def valid_response_data?(data)
     data.is_a?(Hash) &&
       data['Status'] == 'Success' &&
-      data['Value'] &&
-      data['Value']['AffectedRows'].to_i.positive?
+      data['Message'] &&
+      data['Message']['Id'].present?
   end
 end

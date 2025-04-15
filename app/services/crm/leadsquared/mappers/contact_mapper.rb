@@ -37,8 +37,7 @@ class Crm::Leadsquared::Mappers::ContactMapper
 
   def brand_attributes
     {
-      'Source' => brand_name,
-      "mx_#{brand_name_without_spaces}ContactId" => contact.id.to_s
+      'Source' => brand_name
     }
   end
 
