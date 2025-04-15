@@ -13,7 +13,7 @@ import TranslationToggle from 'dashboard/components-next/message/TranslationTogg
 
 import { useMessageContext } from '../../provider.js';
 import { MESSAGE_TYPES } from 'next/message/constants.js';
-import { useTranslations } from '@/dashboard/composables/useTranslations';
+import { useTranslations } from 'dashboard/composables/useTranslations';
 
 const { content, contentAttributes, attachments, messageType } =
   useMessageContext();

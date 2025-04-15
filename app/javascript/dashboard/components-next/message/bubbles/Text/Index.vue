@@ -6,7 +6,7 @@ import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 import TranslationToggle from 'dashboard/components-next/message/TranslationToggle.vue';
 import { MESSAGE_TYPES } from '../../constants';
 import { useMessageContext } from '../../provider.js';
-import { useTranslations } from '@/dashboard/composables/useTranslations';
+import { useTranslations } from 'dashboard/composables/useTranslations';
 
 const { content, attachments, contentAttributes, messageType } =
   useMessageContext();
