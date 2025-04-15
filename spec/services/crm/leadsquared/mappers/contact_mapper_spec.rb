@@ -26,8 +26,7 @@ RSpec.describe Crm::Leadsquared::Mappers::ContactMapper do
           'LastName' => 'Doe',
           'EmailAddress' => 'john@example.com',
           'Mobile' => '+1234567890',
-          'Source' => 'Test Brand',
-          'mx_TestBrandContactId' => contact.id.to_s
+          'Source' => 'Test Brand'
         )
       end
     end
@@ -90,18 +89,6 @@ RSpec.describe Crm::Leadsquared::Mappers::ContactMapper do
           'mx_Company',
           'mx_Address',
           'mx_City'
-        )
-      end
-    end
-
-    context 'when brand name has spaces' do
-      let(:brand_name) { 'My Test Brand Name' }
-
-      it 'removes spaces from brand name in field names' do
-        mapped_data = described_class.map(contact)
-
-        expect(mapped_data).to include(
-          'mx_MyTestBrandNameContactId' => contact.id.to_s
         )
       end
     end
