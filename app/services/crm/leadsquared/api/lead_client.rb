@@ -38,6 +38,29 @@ class Crm::Leadsquared::Api::LeadClient < Crm::Leadsquared::Api::BaseClient
     handle_lead_create_or_update_response(response)
   end
 
+  def update_lead(lead_data, lead_id)
+    return { success: false, error: 'Lead ID is required' } if lead_id.blank?
+
+    path = "LeadManagement.svc/Lead.Update?leadId=#{lead_id}"
+
+    # LeadSquared expects an array of attribute objects
+    # Each having 'Attribute' and 'Value' keys
+    formatted_data = lead_data.map do |key, value|
+      {
+        'Attribute' => key,
+        'Value' => value
+      }
+    end
+
+    response = post(path, {}, formatted_data)
+    if response[:success]
+      response
+    else
+      Rails.logger.error("Lead update failed: #{response}")
+      { success: false, error: 'Lead update failed' }
+    end
+  end
+
   private
 
   def handle_lead_create_or_update_response(response)

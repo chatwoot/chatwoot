@@ -59,7 +59,15 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
   def create_or_update_lead(contact, lead_id)
     lead_data = Crm::Leadsquared::Mappers::ContactMapper.map(contact)
 
-    response = @lead_client.create_or_update_lead(lead_data)
+    response = if lead_id.present?
+                 # Why can't we use create_or_update_lead here?
+                 # In LeadSquared, it's possible that the email field
+                 # may not be marked as unique, same with the phone number field
+                 # So we just use the update API if we already have a lead ID
+                 @lead_client.update_lead(lead_data, lead_id)
+               else
+                 @lead_client.create_or_update_lead(lead_data)
+               end
 
     # If we didn't have a lead ID before but created one, store it
     if response[:success] && lead_id.blank?
