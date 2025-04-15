@@ -141,7 +141,7 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
         )
       end
 
-      render json: @campaign.attributes.merge(contacts: contact_objects)
+      render json: @campaign
     else
       render json: { error: @campaign.errors.full_messages.join(', ') },
              status: :unprocessable_entity

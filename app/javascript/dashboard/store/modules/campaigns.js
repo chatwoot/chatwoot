@@ -67,14 +67,16 @@ export const actions = {
 
       const result = await Promise.all(
         campaign.contacts.map(async function (id) {
-          await dispatch('contacts/show', { id }, { root: true });
-          const contact = rootGetters['contacts/getContact'](id);
+          const getContact = () => rootGetters['contacts/getContact'](id);
+          let contact = getContact();
+          if (Object.keys(contact).length === 0) {
+            await dispatch('contacts/show', { id }, { root: true });
+            contact = getContact();
+          }
+
           return contact;
         })
       );
-
-      console.log('Got contacts');
-      console.log(result);
 
       const contactsForCampaigns = {
         ...response.data,
@@ -88,13 +90,33 @@ export const actions = {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isCreating: false });
     }
   },
-  update: async ({ commit }, { id, ...updateObj }) => {
+  update: async ({ commit, dispatch, rootGetters }, { id, ...updateObj }) => {
     commit(types.SET_CAMPAIGN_UI_FLAG, { isUpdating: true });
     try {
       const response = await CampaignsAPI.update(id, updateObj);
+
+      const campaign = updateObj.campaign;
+
+      const result = await Promise.all(
+        campaign.contacts.map(async function (id) {
+          const getContact = () => rootGetters['contacts/getContact'](id);
+          let contact = getContact();
+          if (Object.keys(contact).length === 0) {
+            await dispatch('contacts/show', { id }, { root: true });
+            contact = getContact();
+          }
+          return contact;
+        })
+      );
+
+      const contactsForCampaigns = {
+        ...response.data,
+        contacts: result,
+      };
+
       AnalyticsHelper.track(CAMPAIGNS_EVENTS.UPDATE_CAMPAIGN);
-      commit(types.EDIT_CAMPAIGN, response.data);
-      return response.data;
+      commit(types.EDIT_CAMPAIGN, contactsForCampaigns);
+      return contactsForCampaigns;
     } finally {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isUpdating: false });
     }
