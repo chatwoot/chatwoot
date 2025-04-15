@@ -8,6 +8,14 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
       endpoint_url: 'https://api.leadsquared.com/'
     }
   end
+
+  let(:headers) do
+    {
+      'Content-Type': 'application/json',
+      'x-LSQ-AccessKey': credentials[:access_key],
+      'x-LSQ-SecretKey': credentials[:secret_key]
+    }
+  end
   let(:client) { described_class.new(credentials[:access_key], credentials[:secret_key], credentials[:endpoint_url]) }
   let(:prospect_id) { SecureRandom.uuid }
   let(:activity_event) { 1001 } # Example activity event code
@@ -37,7 +45,7 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
       let(:success_response) do
         {
           'Status' => 'Success',
-          'Value' => {
+          'Message' => {
             'Id' => activity_id,
             'Message' => 'Activity created successfully'
           }
@@ -47,13 +55,12 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
       before do
         stub_request(:post, full_url)
           .with(
-            query: { accessKey: credentials[:access_key], secretKey: credentials[:secret_key] },
             body: {
               'RelatedProspectId' => prospect_id,
               'ActivityEvent' => activity_event,
               'ActivityNote' => activity_note
             }.to_json,
-            headers: { 'Content-Type' => 'application/json' }
+            headers: headers
           )
           .to_return(
             status: 200,
@@ -65,30 +72,28 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
       it 'returns success response with activity data' do
         response = client.post_activity(prospect_id, activity_event, activity_note)
         expect(response[:success]).to be true
-        expect(response[:data]).to eq(success_response['Value'])
+        expect(response[:activity_id]).to eq(activity_id)
       end
     end
 
     context 'when response indicates failure' do
       let(:error_response) do
         {
-          'Status' => 'Success',
-          'Value' => {
-            'Message' => 'Activity creation failed'
-          }
+          :success => false,
+          :error => '{"Status":"Error","ExceptionType":"NullReferenceException","ExceptionMessage":"There was an error processing the request."}',
+          :code => 500
         }
       end
 
       before do
         stub_request(:post, full_url)
           .with(
-            query: { accessKey: credentials[:access_key], secretKey: credentials[:secret_key] },
             body: {
               'RelatedProspectId' => prospect_id,
               'ActivityEvent' => activity_event,
               'ActivityNote' => activity_note
             }.to_json,
-            headers: { 'Content-Type' => 'application/json' }
+            headers: headers
           )
           .to_return(
             status: 200,
@@ -106,7 +111,7 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
   end
 
   describe '#create_activity_type' do
-    let(:path) { '/ProspectActivity/Type.Create' }
+    let(:path) { 'ProspectActivity.svc/CreateType' }
     let(:full_url) { URI.join(credentials[:endpoint_url], path).to_s }
     let(:activity_params) do
       {
@@ -122,7 +127,7 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
         {
           'Status' => 'Success',
           'Message' => {
-            'ActivityEvent' => activity_event_id
+            'Id' => activity_event_id
           }
         }
       end
@@ -130,14 +135,12 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
       before do
         stub_request(:post, full_url)
           .with(
-            query: { accessKey: credentials[:access_key], secretKey: credentials[:secret_key] },
             body: {
-              'Name' => activity_params[:name],
+              'ActivityEventName' => activity_params[:name],
               'Score' => activity_params[:score],
-              'Direction' => activity_params[:direction],
-              'IsActive' => true
+              'Direction' => activity_params[:direction]
             }.to_json,
-            headers: { 'Content-Type' => 'application/json' }
+            headers: headers
           )
           .to_return(
             status: 200,
@@ -156,22 +159,21 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
     context 'when response indicates failure' do
       let(:error_response) do
         {
-          'Status' => 'Error',
-          'Message' => 'Activity type creation failed'
+          :success => false,
+          :error => '{"Status":"Error","ExceptionType":"MXInvalidInputException","ExceptionMessage":"Invalid Input! Parameter Name: activity"}',
+          :code => 500
         }
       end
 
       before do
         stub_request(:post, full_url)
           .with(
-            query: { accessKey: credentials[:access_key], secretKey: credentials[:secret_key] },
             body: {
-              'Name' => activity_params[:name],
+              'ActivityEventName' => activity_params[:name],
               'Score' => activity_params[:score],
-              'Direction' => activity_params[:direction],
-              'IsActive' => true
+              'Direction' => activity_params[:direction]
             }.to_json,
-            headers: { 'Content-Type' => 'application/json' }
+            headers: headers
           )
           .to_return(
             status: 200,
@@ -183,7 +185,7 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
       it 'returns error response' do
         response = client.create_activity_type(**activity_params)
         expect(response[:success]).to be false
-        expect(response[:error]).to eq('Unknown error creating activity type')
+        expect(response[:error]).to eq('Activity not created')
       end
     end
 
@@ -191,14 +193,12 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
       before do
         stub_request(:post, full_url)
           .with(
-            query: { accessKey: credentials[:access_key], secretKey: credentials[:secret_key] },
             body: {
-              'Name' => activity_params[:name],
+              'ActivityEventName' => activity_params[:name],
               'Score' => activity_params[:score],
-              'Direction' => activity_params[:direction],
-              'IsActive' => true
+              'Direction' => activity_params[:direction]
             }.to_json,
-            headers: { 'Content-Type' => 'application/json' }
+            headers: headers
           )
           .to_return(
             status: 500,
