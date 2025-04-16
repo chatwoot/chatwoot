@@ -26,10 +26,10 @@ class HookListener < BaseListener
     execute_account_hooks(event, conversation.account, conversation: conversation)
   end
 
-  def conversation_updated(event)
+  def conversation_resolved(event)
     conversation = extract_conversation_and_account(event)[0]
-    # Only trigger for status changes to resolved
-    return unless conversation.saved_change_to_status? && conversation.status == 'resolved'
+    # Only trigger for status changes is resolved
+    return unless conversation.status == 'resolved'
 
     execute_account_hooks(event, conversation.account, conversation: conversation)
   end

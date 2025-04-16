@@ -55,8 +55,8 @@ class HookJob < ApplicationJob
       processor.handle_contact_updated(event_data[:contact])
     when 'conversation.created'
       processor.handle_conversation_created(event_data[:conversation])
-    when 'conversation.updated'
-      processor.handle_conversation_updated(event_data[:conversation])
+    when 'conversation.resolved'
+      processor.handle_conversation_resolved(event_data[:conversation])
     end
   end
 end

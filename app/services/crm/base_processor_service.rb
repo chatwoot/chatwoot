@@ -46,8 +46,8 @@ class Crm::BaseProcessorService
     raise NotImplementedError, 'Subclasses must implement #handle_conversation_created'
   end
 
-  def handle_conversation_updated(conversation)
-    raise NotImplementedError, 'Subclasses must implement #handle_conversation_updated'
+  def handle_conversation_resolved(conversation)
+    raise NotImplementedError, 'Subclasses must implement #handle_conversation_resolved'
   end
 
   # Common helper methods for all CRM processors

@@ -43,7 +43,7 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
     )
   end
 
-  def handle_conversation_updated(conversation)
+  def handle_conversation_resolved(conversation)
     # if transcript is not allowed return
     return { success: true } unless @allow_transcript
 

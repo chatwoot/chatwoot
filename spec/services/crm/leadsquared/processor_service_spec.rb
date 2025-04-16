@@ -199,7 +199,7 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
     end
   end
 
-  describe '#handle_conversation_updated' do
+  describe '#handle_conversation_resolved' do
     let(:activity_note) { 'Conversation transcript' }
 
     before do
@@ -223,7 +223,7 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
         end
 
         it 'creates the transcript activity and stores metadata' do
-          result = service.handle_conversation_updated(conversation)
+          result = service.handle_conversation_resolved(conversation)
           expect(result[:success]).to be true
           expect(conversation.reload.additional_attributes['leadsquared']['transcript_activity_id']).to eq('test_activity_id')
         end
@@ -237,7 +237,7 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
         end
 
         it 'returns failure response' do
-          result = service.handle_conversation_updated(conversation)
+          result = service.handle_conversation_resolved(conversation)
           expect(result[:success]).to be false
           expect(result[:error]).to eq('API Error')
         end
@@ -251,7 +251,7 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
       end
 
       it 'returns success without creating activity' do
-        result = service.handle_conversation_updated(conversation)
+        result = service.handle_conversation_resolved(conversation)
         expect(result[:success]).to be true
         expect(activity_client).not_to have_received(:post_activity)
       end
