@@ -1,7 +1,4 @@
 class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
-  # Activity codes should be set via the setup service
-  # We don't want to use defaults as they might be invalid for the specific LeadSquared account
-
   def self.crm_name
     'leadsquared'
   end
