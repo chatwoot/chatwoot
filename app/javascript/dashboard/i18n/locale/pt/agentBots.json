@@ -2,23 +2,13 @@
   "AGENT_BOTS": {
     "HEADER": "Bots",
     "LOADING_EDITOR": "A carregar editor...",
-    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.You can manage your bots from this page or create new ones using the 'Configure new bot' button.",
+    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
     "LEARN_MORE": "Learn about agent bots",
-    "CSML_BOT_EDITOR": {
-      "NAME": {
-        "LABEL": "Nome do bot",
-        "PLACEHOLDER": "Dê um nome ao seu bot.",
-        "ERROR": "O nome do bot é obrigatório."
-      },
-      "DESCRIPTION": {
-        "LABEL": "Descrição do bot",
-        "PLACEHOLDER": "O que faz este bot?"
-      },
-      "BOT_CONFIG": {
-        "ERROR": "Por favor, insira, acima, a sua configuração CSML do bot.",
-        "API_ERROR": "A sua configuração CSML é inválida. Por favor, corrija-a e tente novamente."
-      },
-      "SUBMIT": "Validar e guardar"
+    "GLOBAL_BOT": "System bot",
+    "GLOBAL_BOT_BADGE": "Sistema",
+    "AVATAR": {
+      "SUCCESS_DELETE": "Bot avatar deleted successfully",
+      "ERROR_DELETE": "Error deleting bot avatar, please try again"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "Selecione um agente bot",
@@ -32,7 +22,7 @@
       "SELECT_PLACEHOLDER": "Selecionar bot"
     },
     "ADD": {
-      "TITLE": "Configurar novo bot",
+      "TITLE": "Add Bot",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
         "SUCCESS_MESSAGE": "Bot adicionado com sucesso.",
@@ -40,16 +30,22 @@
       }
     },
     "LIST": {
-      "404": "Nenhum bot encontrado. Pode criar um bot clicando no botão 'Configurar novo bot' ↗️",
+      "404": "No bots found. You can create a bot by clicking the 'Add Bot' button.",
       "LOADING": "A carregar bots...",
-      "TYPE": "Tipo de bot"
+      "TABLE_HEADER": {
+        "DETAILS": "Bot Details",
+        "URL": "URL do Webhook"
+      }
     },
     "DELETE": {
       "BUTTON_TEXT": "Excluir",
       "TITLE": "Apagar bot",
-      "SUBMIT": "Excluir",
-      "CANCEL_BUTTON_TEXT": "Cancelar",
-      "DESCRIPTION": "Tem a certeza que pretende excluir este bot? Esta ação é irreversível.",
+      "CONFIRM": {
+        "TITLE": "Confirmar exclusão",
+        "MESSAGE": "Are you sure you want to delete {name}?",
+        "YES": "Sim, excluir",
+        "NO": "Não, manter"
+      },
       "API": {
         "SUCCESS_MESSAGE": "Bot apagado com sucesso.",
         "ERROR_MESSAGE": "Não foi possível apagar o bot. Por favor, tente novamente."
@@ -57,17 +53,44 @@
     },
     "EDIT": {
       "BUTTON_TEXT": "Editar",
-      "LOADING": "A carregar bots...",
       "TITLE": "Editar bot",
-      "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
         "SUCCESS_MESSAGE": "Bot atualizado com sucesso.",
         "ERROR_MESSAGE": "Não foi possível atualizar o bot. Por favor, tente novamente."
       }
     },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "Bot avatar"
+      },
+      "NAME": {
+        "LABEL": "Nome do bot",
+        "PLACEHOLDER": "Enter bot name",
+        "REQUIRED": "O nome do bot é obrigatório"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descrição",
+        "PLACEHOLDER": "O que faz este bot?"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "URL do Webhook",
+        "PLACEHOLDER": "https://example.com/webhook",
+        "REQUIRED": "Webhook URL is required"
+      },
+      "ERRORS": {
+        "NAME": "O nome do bot é obrigatório",
+        "URL": "Webhook URL is required",
+        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+      },
+      "CANCEL": "Cancelar",
+      "CREATE": "Create Bot",
+      "UPDATE": "Update Bot"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."
+    },
     "TYPES": {
-      "WEBHOOK": "Webhook bot",
-      "CSML": "CSML bot"
+      "WEBHOOK": "Webhook bot"
     }
   }
 }
