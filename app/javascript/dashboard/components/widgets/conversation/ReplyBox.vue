@@ -686,14 +686,12 @@ export default {
           this.isATwilioWhatsAppChannel ||
           this.isAWhatsAppCloudChannel ||
           this.is360DialogWhatsAppChannel;
+        // When users send messages containing both text and attachments on Instagram, Instagram treats them as separate messages.
+        // Although Chatwoot combines these into a single message, Instagram sends separate echo events for each component.
+        // This can create duplicate messages in Chatwoot. To prevent this issue, we'll handle text and attachments as separate messages.
         const isOnInstagram = this.isAInstagramChannel;
-        if (isOnWhatsApp && !this.isPrivate) {
-          this.sendMessageAsMultipleMessages(this.message, 'whatsapp');
-        } else if (isOnInstagram && !this.isPrivate) {
-          // When users send messages containing both text and attachments on Instagram, Instagram treats them as separate messages.
-          // Although Chatwoot combines these into a single message, Instagram sends separate echo events for each component.
-          // This can create duplicate messages in Chatwoot. To prevent this issue, we'll handle text and attachments as separate messages.
-          this.sendMessageAsMultipleMessages(this.message, 'instagram');
+        if ((isOnWhatsApp || isOnInstagram) && !this.isPrivate) {
+          this.sendMessageAsMultipleMessages(this.message);
         } else {
           const messagePayload = this.getMessagePayload(this.message);
           this.sendMessage(messagePayload);
@@ -708,8 +706,8 @@ export default {
         this.$emit('update:popoutReplyBox', false);
       }
     },
-    sendMessageAsMultipleMessages(message, channel = 'whatsapp') {
-      const messages = this.getMultipleMessagesPayload(message, channel);
+    sendMessageAsMultipleMessages(message) {
+      const messages = this.getMultipleMessagesPayload(message);
       messages.forEach(messagePayload => {
         this.sendMessage(messagePayload);
       });
@@ -942,14 +940,13 @@ export default {
 
       return payload;
     },
-    getMultipleMessagesPayload(message, channelType) {
+    getMultipleMessagesPayload(message) {
       const multipleMessagePayload = [];
-      const isInstagram = channelType === 'instagram';
       const hasNoAttachments =
         !this.attachedFiles || !this.attachedFiles.length;
 
       if (this.attachedFiles && this.attachedFiles.length) {
-        let caption = isInstagram ? '' : message;
+        let caption = this.isAInstagramChannel ? '' : message;
         this.attachedFiles.forEach(attachment => {
           const attachedFile = this.globalConfig.directUploadsEnabled
             ? attachment.blobSignedId
@@ -965,12 +962,15 @@ export default {
           attachmentPayload = this.setReplyToInPayload(attachmentPayload);
           multipleMessagePayload.push(attachmentPayload);
           // For WhatsApp, only the first attachment gets a caption
-          if (!isInstagram) caption = '';
+          if (!this.isAInstagramChannel) caption = '';
         });
       }
       // For Instagram, we need a separate text message
       // For WhatsApp, we only need a text message if there are no attachments
-      if ((isInstagram && this.message) || (!isInstagram && hasNoAttachments)) {
+      if (
+        (this.isAInstagramChannel && this.message) ||
+        (!this.isAInstagramChannel && hasNoAttachments)
+      ) {
         let messagePayload = {
           conversationId: this.currentChat.id,
           message,
