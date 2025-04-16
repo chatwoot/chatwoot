@@ -69,8 +69,10 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
       store_external_id(contact, new_lead_id)
     end
   rescue Crm::Leadsquared::Api::BaseClient::ApiError => e
+    ChatwootExceptionTracker.new(e, account: @hook.account).capture_exception
     Rails.logger.error "LeadSquared API error processing contact: #{e.message}"
   rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: @hook.account).capture_exception
     Rails.logger.error "Error processing contact in LeadSquared: #{e.message}"
   end
 
@@ -79,15 +81,10 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
     lead_id = @lead_finder.find_or_create(contact)
     return if lead_id.blank?
 
-    store_external_id(contact, lead_id)
+    store_external_id(contact, lead_id) unless get_external_id(contact)
 
     activity_note = Crm::Leadsquared::Mappers::ConversationMapper.send(mapper_method, conversation)
-    activity_code = @hook.settings[activity_code_key]
-
-    if activity_code.blank?
-      Rails.logger.warn "LeadSquared #{activity_type} activity code not found for hook ##{@hook.id}. Setup may not have completed."
-      return
-    end
+    activity_code = get_activity_code(activity_code_key)
 
     activity_id = @activity_client.post_activity(lead_id, activity_code, activity_note)
     return if activity_id.blank?
@@ -96,8 +93,17 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
     metadata[metadata_key] = activity_id
     store_conversation_metadata(conversation, metadata)
   rescue Crm::Leadsquared::Api::BaseClient::ApiError => e
+    ChatwootExceptionTracker.new(e, account: @hook.account).capture_exception
     Rails.logger.error "LeadSquared API error in #{activity_type} activity: #{e.message}"
   rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: @hook.account).capture_exception
     Rails.logger.error "Error creating #{activity_type} activity in LeadSquared: #{e.message}"
+  end
+
+  def get_activity_code(key)
+    activity_code = @hook.settings[key]
+    raise StandardError, "LeadSquared #{key} activity code not found for hook ##{@hook.id}." if activity_code.blank?
+
+    activity_code
   end
 end
