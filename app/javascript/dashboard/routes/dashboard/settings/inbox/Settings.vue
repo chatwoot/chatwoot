@@ -141,11 +141,7 @@ export default {
       }
 
       if (
-        this.isFeatureEnabledonAccount(
-          this.accountId,
-          FEATURE_FLAGS.AGENT_BOTS
-        ) &&
-        !(this.isAnEmailChannel || this.isATwitterInbox)
+        this.isFeatureEnabledonAccount(this.accountId, FEATURE_FLAGS.AGENT_BOTS)
       ) {
         visibleToAllChannelTabs = [
           ...visibleToAllChannelTabs,
