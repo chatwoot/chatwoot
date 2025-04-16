@@ -29,12 +29,13 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import MarkdownIt from 'markdown-it';
 
 const md = new MarkdownIt({
-  html: false,
+  html: true,
   xhtmlOut: true,
   breaks: true,
   linkify: true,
   typographer: true,
   quotes: '\u201c\u201d\u2018\u2019',
+  typographer: true,
 });
 
 export default {
@@ -87,6 +88,38 @@ export default {
 
 .card-description {
   @apply text-sm text-slate-600 dark:text-slate-300 mb-4;
+
+  p {
+    @apply mb-4 last:mb-0;
+  }
+
+  strong, b {
+    @apply font-bold;
+  }
+
+  em, i {
+    @apply italic;
+  }
+
+  ul, ol {
+    @apply ml-4 mb-4;
+  }
+
+  li {
+    @apply mb-2 last:mb-0;
+  }
+
+  a {
+    @apply text-blue-600 hover:underline;
+  }
+
+  code {
+    @apply bg-slate-100 dark:bg-slate-700 px-1 rounded;
+  }
+
+  pre {
+    @apply bg-slate-100 dark:bg-slate-700 p-3 rounded mb-4;
+  }
 }
 
 .card-description :deep(p) {
