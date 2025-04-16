@@ -153,6 +153,74 @@ RSpec.describe ConversationReplyMailer do
       it 'updates the source_id' do
         expect(mail.message_id).to eq message.source_id
       end
+
+      context 'with email attachments' do
+        it 'includes small attachments as email attachments' do
+          message_with_attachment = create(:message, conversation: conversation, account: account, message_type: 'outgoing',
+                                                     content: 'Message with small attachment')
+          attachment = message_with_attachment.attachments.new(account_id: account.id, file_type: :file)
+          attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+          attachment.save!
+
+          mail = described_class.email_reply(message_with_attachment).deliver_now
+
+          # Should be attached to the email
+          expect(mail.attachments.map(&:filename).map(&:to_s)).to include('avatar.png')
+          # Should not be in large_attachments
+          expect(mail.body.encoded).not_to include('Attachments:')
+        end
+
+        it 'renders large attachments as links in the email body' do
+          message_with_large_attachment = create(:message, conversation: conversation, account: account, message_type: 'outgoing',
+                                                           content: 'Message with large attachment')
+          attachment = message_with_large_attachment.attachments.new(account_id: account.id, file_type: :file)
+          attachment.file.attach(io: Rails.root.join('spec/assets/large_file.pdf').open, filename: 'large_file.pdf', content_type: 'application/pdf')
+          attachment.save!
+
+          mail = described_class.email_reply(message_with_large_attachment).deliver_now
+
+          # Should NOT be attached to the email
+          expect(mail.attachments.map(&:filename).map(&:to_s)).not_to include('large_file.pdf')
+          # Should be rendered as a link in the body
+          expect(mail.body.encoded).to include('Attachments:')
+          expect(mail.body.encoded).to include('large_file.pdf')
+          # Should render a link with large_file.pdf as the link text
+          expect(mail.body.encoded).to match(%r{<a [^>]*>large_file\.pdf</a>})
+          # Small file should not be rendered as a link in the body
+          expect(mail.body.encoded).not_to match(%r{<a [^>]*>avatar\.png</a>})
+        end
+
+        it 'handles both small and large attachments correctly' do
+          message_with_mixed_attachments = create(:message, conversation: conversation, account: account, message_type: 'outgoing',
+                                                            content: 'Message with mixed attachments')
+
+          # Small attachment
+          small_attachment = message_with_mixed_attachments.attachments.new(account_id: account.id, file_type: :file)
+          small_attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+          small_attachment.save!
+
+          # Large attachment
+          large_attachment = message_with_mixed_attachments.attachments.new(account_id: account.id, file_type: :file)
+          large_attachment.file.attach(io: Rails.root.join('spec/assets/large_file.pdf').open, filename: 'large_file.pdf',
+                                       content_type: 'application/pdf')
+          large_attachment.save!
+
+          mail = described_class.email_reply(message_with_mixed_attachments).deliver_now
+
+          # Small file should be attached
+          expect(mail.attachments.map(&:filename).map(&:to_s)).to include('avatar.png')
+          # Large file should NOT be attached
+          expect(mail.attachments.map(&:filename).map(&:to_s)).not_to include('large_file.pdf')
+
+          # Large file should be rendered as a link in the body
+          expect(mail.body.encoded).to include('Attachments:')
+          expect(mail.body.encoded).to include('large_file.pdf')
+          # Should render a link with large_file.pdf as the link text
+          expect(mail.body.encoded).to match(%r{<a [^>]*>large_file\.pdf</a>})
+          # Small file should not be rendered as a link in the body
+          expect(mail.body.encoded).not_to match(%r{<a [^>]*>avatar\.png</a>})
+        end
+      end
     end
 
     context 'when smtp enabled for email channel' do
