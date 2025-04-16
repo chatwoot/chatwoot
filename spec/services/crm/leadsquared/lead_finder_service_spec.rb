@@ -14,7 +14,7 @@ RSpec.describe Crm::Leadsquared::LeadFinderService do
 
       it 'returns the stored lead ID' do
         result = service.find_or_create(contact)
-        expect(result).to eq({ success: true, lead_id: '123' })
+        expect(result).to eq('123')
       end
     end
 
@@ -23,12 +23,12 @@ RSpec.describe Crm::Leadsquared::LeadFinderService do
         before do
           allow(lead_client).to receive(:search_lead)
             .with(contact.email)
-            .and_return({ success: true, data: [{ 'ProspectID' => '456' }] })
+            .and_return([{ 'ProspectID' => '456' }])
         end
 
         it 'returns the found lead ID' do
           result = service.find_or_create(contact)
-          expect(result).to eq({ success: true, lead_id: '456' })
+          expect(result).to eq('456')
         end
       end
 
@@ -36,16 +36,16 @@ RSpec.describe Crm::Leadsquared::LeadFinderService do
         before do
           allow(lead_client).to receive(:search_lead)
             .with(contact.email)
-            .and_return({ success: true, data: [] })
+            .and_return([])
 
           allow(lead_client).to receive(:search_lead)
             .with(contact.phone_number)
-            .and_return({ success: true, data: [{ 'ProspectID' => '789' }] })
+            .and_return([{ 'ProspectID' => '789' }])
         end
 
         it 'returns the found lead ID' do
           result = service.find_or_create(contact)
-          expect(result).to eq({ success: true, lead_id: '789' })
+          expect(result).to eq('789')
         end
       end
 
@@ -53,20 +53,20 @@ RSpec.describe Crm::Leadsquared::LeadFinderService do
         before do
           allow(lead_client).to receive(:search_lead)
             .with(contact.email)
-            .and_return({ success: true, data: [] })
+            .and_return([])
 
           allow(lead_client).to receive(:search_lead)
             .with(contact.phone_number)
-            .and_return({ success: true, data: [] })
+            .and_return([])
 
           allow(lead_client).to receive(:create_or_update_lead)
             .with(Crm::Leadsquared::Mappers::ContactMapper.map(contact))
-            .and_return({ success: true, data: { 'Id' => '999' } })
+            .and_return('999')
         end
 
         it 'creates a new lead and returns its ID' do
           result = service.find_or_create(contact)
-          expect(result).to eq({ success: true, lead_id: '999' })
+          expect(result).to eq('999')
         end
       end
 
@@ -74,11 +74,11 @@ RSpec.describe Crm::Leadsquared::LeadFinderService do
         before do
           allow(lead_client).to receive(:search_lead)
             .with(contact.email)
-            .and_return({ success: true, data: [] })
+            .and_return([])
 
           allow(lead_client).to receive(:search_lead)
             .with(contact.phone_number)
-            .and_return({ success: true, data: [] })
+            .and_return([])
 
           allow(Crm::Leadsquared::Mappers::ContactMapper).to receive(:map)
             .with(contact)
@@ -86,12 +86,11 @@ RSpec.describe Crm::Leadsquared::LeadFinderService do
 
           allow(lead_client).to receive(:create_or_update_lead)
             .with({})
-            .and_return({ success: false })
+            .and_raise(StandardError, 'Failed to create lead')
         end
 
-        it 'returns failure' do
-          result = service.find_or_create(contact)
-          expect(result).to eq({ success: false, error: 'Failed to create lead' })
+        it 'raises an error' do
+          expect { service.find_or_create(contact) }.to raise_error(StandardError, 'Failed to create lead')
         end
       end
     end
