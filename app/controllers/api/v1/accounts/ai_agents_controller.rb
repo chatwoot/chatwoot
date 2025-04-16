@@ -91,15 +91,11 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   def load_chat_flow(template, store_id)
     flow_data = template.template.deep_dup
 
-    document_node = flow_data['nodes'].find { |node| node['data']['name'] == 'documentStore' }
+    document_node(flow_data, store_id)
 
-    unless document_node
-      Rails.logger.error('Failed to load chat flow: documentStore node not found')
-      render json: { error: 'Failed to load chat flow: documentStore node not found' }, status: :bad_gateway
-      return
-    end
-
-    document_node['data']['inputs']['selectedStore'] = store_id
+    database_name = formatted_name
+    vector_store_node(flow_data, database_name)
+    chat_memory_node(flow_data, database_name)
 
     response = AiAgents::FlowiseService.load_chat_flow(
       name: ai_agent_params[:name],
@@ -110,6 +106,49 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
     Rails.logger.error("Failed to load chat flow: #{e.message}")
     render json: { error: "Failed to load chat flow: #{e.message}" }, status: :bad_gateway
     nil
+  end
+
+  def document_node(flow_data, store_id)
+    node = find_node_by_name(flow_data, 'documentStore')
+    return unless node
+
+    node['data']['inputs']['selectedStore'] = store_id
+  end
+
+  def vector_store_node(flow_data, database_name)
+    node = find_node_by_name(flow_data, 'mongoDBAtlas')
+    return unless node
+
+    node['data']['inputs']['databaseName'] = database_name
+    node['data']['inputs']['collectionName'] = 'vectors'
+  end
+
+  def chat_memory_node(flow_data, database_name)
+    node = find_node_by_name(flow_data, 'MongoDBAtlasChatMemory')
+    return unless node
+
+    node['data']['inputs']['databaseName'] = database_name
+    node['data']['inputs']['collectionName'] = 'chat_memories'
+  end
+
+  def find_node_by_name(flow_data, name)
+    node = flow_data['nodes'].find { |n| n['data']['name'] == name }
+    handle_error("Failed to load chat flow: #{name} node not found") unless node
+    node
+  end
+
+  def handle_error(message)
+    Rails.logger.error(message)
+    render json: { error: message }, status: :bad_gateway
+    nil
+  end
+
+  def formatted_name
+    cleaned = ai_agent_params[:name].downcase.gsub(/[^a-z\s]/, '')
+    underscored = cleaned.strip.gsub(/\s+/, '_')
+    today = Time.current.strftime('%Y%m%d%H%M%S')
+
+    "#{underscored}_#{today}"
   end
 
   def add_document_store
