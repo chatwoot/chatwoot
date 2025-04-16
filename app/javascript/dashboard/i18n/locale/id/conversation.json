@@ -37,6 +37,7 @@
     "ASSIGN_TO_ME": "Tugaskan kepada saya",
     "TWILIO_WHATSAPP_CAN_REPLY": "Anda hanya dapat membalas percakapan ini menggunakan pesan template karena",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Pembatasan jendela pesan 24 jam",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
     "REPLYING_TO": "Anda membalas:",
     "REMOVE_SELECTION": "Hapus Pilihan",
     "DOWNLOAD": "Unduh",
