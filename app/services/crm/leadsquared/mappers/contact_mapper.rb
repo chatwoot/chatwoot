@@ -8,7 +8,7 @@ class Crm::Leadsquared::Mappers::ContactMapper
   end
 
   def map
-    base_attributes.merge(additional_attributes).merge(brand_attributes)
+    base_attributes
   end
 
   private
@@ -20,25 +20,9 @@ class Crm::Leadsquared::Mappers::ContactMapper
       'FirstName' => contact.name.presence,
       'LastName' => contact.last_name.presence,
       'EmailAddress' => contact.email.presence,
-      'Mobile' => contact.phone_number.presence
-    }.compact
-  end
-
-  def additional_attributes
-    return {} if contact.additional_attributes.blank?
-
-    {
-      'mx_Company' => contact.additional_attributes['company_name'].presence,
-      'mx_Address' => contact.additional_attributes['address'].presence,
-      'mx_City' => contact.additional_attributes['city'].presence,
-      'mx_Country' => contact.additional_attributes['country'].presence
-    }.compact
-  end
-
-  def brand_attributes
-    {
+      'Mobile' => contact.phone_number.presence,
       'Source' => brand_name
-    }
+    }.compact
   end
 
   def brand_name
