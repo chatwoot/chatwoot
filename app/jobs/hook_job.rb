@@ -49,10 +49,8 @@ class HookJob < ApplicationJob
     processor = Crm::Leadsquared::ProcessorService.new(hook)
 
     case event_name
-    when 'contact.created'
-      processor.handle_contact_created(event_data[:contact])
-    when 'contact.updated'
-      processor.handle_contact_updated(event_data[:contact])
+    when 'contact.created', 'contact.updated'
+      processor.handle_contact(event_data[:contact])
     when 'conversation.created'
       processor.handle_conversation_created(event_data[:conversation])
     when 'conversation.resolved'

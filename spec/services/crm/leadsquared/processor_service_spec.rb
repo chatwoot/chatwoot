@@ -22,11 +22,7 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
   let(:service) { described_class.new(hook) }
   let(:lead_client) { instance_double(Crm::Leadsquared::Api::LeadClient) }
   let(:activity_client) { instance_double(Crm::Leadsquared::Api::ActivityClient) }
-  let(:lead_success_response) do
-    { :success => true, :data => { 'Id' => 'test_lead_id' } }
-  end
-  let(:lead_search_response) { { success: true, data: [{ 'ProspectID' => 'test_lead_id' }] } }
-  let(:activity_success_response) { { success: true, activity_id: 'test_activity_id' } }
+  let(:lead_finder) { instance_double(Crm::Leadsquared::LeadFinderService) }
 
   before do
     allow(Crm::Leadsquared::Api::LeadClient).to receive(:new)
@@ -35,14 +31,9 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
     allow(Crm::Leadsquared::Api::ActivityClient).to receive(:new)
       .with('test_access_key', 'test_secret_key', 'https://api.leadsquared.com/v2')
       .and_return(activity_client)
-
-    # Default stubs for common API calls
-    allow(lead_client).to receive(:search_lead)
-      .with(any_args)
-      .and_return({ success: true, data: [] })
-    allow(lead_client).to receive(:create_or_update_lead)
-      .with(any_args)
-      .and_return(lead_success_response)
+    allow(Crm::Leadsquared::LeadFinderService).to receive(:new)
+      .with(lead_client)
+      .and_return(lead_finder)
   end
 
   describe '.crm_name' do
@@ -51,113 +42,70 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
     end
   end
 
-  describe '#handle_contact_created' do
-    context 'when lead creation succeeds' do
+  describe '#handle_contact' do
+    context 'when contact is valid' do
       before do
-        allow(lead_client).to receive(:create_or_update_lead)
-          .with(any_args)
-          .and_return(lead_success_response)
+        allow(service).to receive(:contact_valid?).and_return(true)
       end
 
-      it 'creates the lead and stores external id' do
-        result = service.handle_contact_created(contact)
-        expect(result[:success]).to be true
-        expect(contact.reload.additional_attributes['external']['leadsquared_id']).to eq('test_lead_id')
-      end
-    end
-
-    context 'when lead creation fails' do
-      before do
-        allow(lead_client).to receive(:create_or_update_lead)
-          .with(any_args)
-          .and_return({ success: false, error: 'API Error' })
-      end
-
-      it 'returns failure response' do
-        result = service.handle_contact_created(contact)
-        expect(result[:success]).to be false
-        expect(result[:error]).to eq('API Error')
-      end
-    end
-
-    context 'with only social profile' do
-      before do
-        allow(lead_client).to receive(:create_or_update_lead)
-          .with(any_args)
-          .and_return(lead_success_response)
-      end
-
-      it 'creates the lead and stores external id' do
-        result = service.handle_contact_created(contact_with_social_profile)
-        expect(result[:success]).to be true
-        expect(contact_with_social_profile.reload.additional_attributes['external']['leadsquared_id']).to eq('test_lead_id')
-      end
-    end
-
-    context 'without sufficient information' do
-      it 'rejects contact creation' do
-        result = service.handle_contact_created(blank_contact)
-        expect(result[:success]).to be false
-        expect(result[:error]).to eq('Invalid contact')
-      end
-    end
-  end
-
-  describe '#handle_contact_updated' do
-    context 'when contact has existing leadsquared_id' do
-      before do
-        contact.additional_attributes = { 'external' => { 'leadsquared_id' => 'test_lead_id' } }
-        contact.save!
-
-        allow(lead_client).to receive(:update_lead)
-          .with(any_args)
-          .and_return(lead_success_response.merge(
-                        data: { 'Status' => 'Success', 'Value' => { 'ProspectId' => 'existing_lead_id', 'AffectedRows' => 1 } }
-                      ))
-      end
-
-      it 'updates the lead using existing id' do
-        result = service.handle_contact_updated(contact)
-        expect(result[:success]).to be true
-        expect(lead_client).to have_received(:update_lead).with(any_args)
-      end
-    end
-
-    context 'when contact has no leadsquared_id' do
-      context 'when lead exists in leadsquared' do
+      context 'when contact has no stored lead ID' do
         before do
           contact.update(additional_attributes: { 'external' => nil })
           contact.reload
 
-          allow(lead_client).to receive(:update_lead)
+          allow(lead_client).to receive(:create_or_update_lead)
             .with(any_args)
-            .and_return(lead_success_response)
+            .and_return('new_lead_id')
         end
 
-        it 'finds and updates the lead' do
-          result = service.handle_contact_updated(contact)
-          expect(result[:success]).to be true
-          expect(contact.reload.additional_attributes['external']['leadsquared_id']).to eq('test_lead_id')
-        end
-      end
-
-      context 'when lead does not exist in leadsquared' do
-        before do
-          contact.update(additional_attributes: { 'external' => nil })
-          contact.reload
-
-          allow(lead_client).to receive(:update_lead)
-            .with(any_args)
-            .and_return(lead_success_response.merge(
-                          data: { 'Status' => 'Success', 'Value' => { 'ProspectId' => 'new_lead_id', 'AffectedRows' => 1 } }
-                        ))
-        end
-
-        it 'creates a new lead' do
-          result = service.handle_contact_updated(contact)
-          expect(result[:success]).to be true
+        it 'creates a new lead and stores the ID' do
+          service.handle_contact(contact)
           expect(lead_client).to have_received(:create_or_update_lead).with(any_args)
+          expect(contact.reload.additional_attributes['external']['leadsquared_id']).to eq('new_lead_id')
         end
+      end
+
+      context 'when contact has existing lead ID' do
+        before do
+          contact.additional_attributes = { 'external' => { 'leadsquared_id' => 'existing_lead_id' } }
+          contact.save!
+
+          allow(lead_client).to receive(:update_lead)
+            .with(any_args)
+            .and_return(nil) # The update method doesn't need to return anything
+        end
+
+        it 'updates the lead using existing ID' do
+          service.handle_contact(contact)
+          expect(lead_client).to have_received(:update_lead).with(any_args)
+        end
+      end
+
+      context 'when API call raises an error' do
+        before do
+          allow(lead_client).to receive(:create_or_update_lead)
+            .with(any_args)
+            .and_raise(Crm::Leadsquared::Api::BaseClient::ApiError.new('API Error'))
+
+          allow(Rails.logger).to receive(:error)
+        end
+
+        it 'catches and logs the error' do
+          service.handle_contact(contact)
+          expect(Rails.logger).to have_received(:error).with(/LeadSquared API error/)
+        end
+      end
+    end
+
+    context 'when contact is invalid' do
+      before do
+        allow(service).to receive(:contact_valid?).and_return(false)
+        allow(lead_client).to receive(:create_or_update_lead)
+      end
+
+      it 'returns without making API calls' do
+        service.handle_contact(blank_contact)
+        expect(lead_client).not_to have_received(:create_or_update_lead)
       end
     end
   end
@@ -171,56 +119,57 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
         .and_return(activity_note)
     end
 
-    context 'when contact has leadsquared_id' do
+    context 'when conversation activities are enabled' do
       before do
-        contact.additional_attributes = { 'external' => { 'leadsquared_id' => 'test_lead_id' } }
-        contact.save!
+        service.instance_variable_set(:@allow_conversation, true)
       end
 
-      context 'when activity creation succeeds' do
+      context 'when lead_id is found' do
         before do
+          allow(lead_finder).to receive(:find_or_create)
+            .with(contact)
+            .and_return('test_lead_id')
+
           allow(activity_client).to receive(:post_activity)
             .with('test_lead_id', 1001, activity_note)
-            .and_return(activity_success_response)
+            .and_return('test_activity_id')
         end
 
         it 'creates the activity and stores metadata' do
-          result = service.handle_conversation_created(conversation)
-          expect(result[:success]).to be true
+          service.handle_conversation_created(conversation)
           expect(conversation.reload.additional_attributes['leadsquared']['created_activity_id']).to eq('test_activity_id')
         end
       end
 
-      context 'when activity creation fails' do
+      context 'when post_activity raises an error' do
         before do
+          allow(lead_finder).to receive(:find_or_create)
+            .with(contact)
+            .and_return('test_lead_id')
+
           allow(activity_client).to receive(:post_activity)
             .with('test_lead_id', 1001, activity_note)
-            .and_return({ success: false, error: 'API Error' })
+            .and_raise(StandardError.new('Activity error'))
+
+          allow(Rails.logger).to receive(:error)
         end
 
-        it 'returns failure response' do
-          result = service.handle_conversation_created(conversation)
-          expect(result[:success]).to be false
-          expect(result[:error]).to eq('API Error')
+        it 'logs the error' do
+          service.handle_conversation_created(conversation)
+          expect(Rails.logger).to have_received(:error).with(/Error creating conversation activity/)
         end
       end
     end
 
-    context 'when contact has no leadsquared_id' do
+    context 'when conversation activities are disabled' do
       before do
-        allow(lead_client).to receive(:search_lead)
-          .with(contact.email)
-          .and_return(lead_search_response)
+        service.instance_variable_set(:@allow_conversation, false)
         allow(activity_client).to receive(:post_activity)
-          .with('test_lead_id', 1001, activity_note)
-          .and_return(activity_success_response)
       end
 
-      it 'finds lead and creates activity' do
-        result = service.handle_conversation_created(conversation)
-        expect(result[:success]).to be true
-        expect(conversation.reload.additional_attributes['leadsquared']['created_activity_id']).to eq('test_activity_id')
-        expect(contact.reload.additional_attributes['external']['leadsquared_id']).to eq('test_lead_id')
+      it 'does not create an activity' do
+        service.handle_conversation_created(conversation)
+        expect(activity_client).not_to have_received(:post_activity)
       end
     end
   end
@@ -234,51 +183,48 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
         .and_return(activity_note)
     end
 
-    context 'when conversation is resolved' do
+    context 'when transcript activities are enabled and conversation is resolved' do
       before do
+        service.instance_variable_set(:@allow_transcript, true)
         conversation.update!(status: 'resolved')
-        contact.additional_attributes = { 'external' => { 'leadsquared_id' => 'test_lead_id' } }
-        contact.save!
+
+        allow(lead_finder).to receive(:find_or_create)
+          .with(contact)
+          .and_return('test_lead_id')
+
+        allow(activity_client).to receive(:post_activity)
+          .with('test_lead_id', 1002, activity_note)
+          .and_return('test_activity_id')
       end
 
-      context 'when activity creation succeeds' do
-        before do
-          allow(activity_client).to receive(:post_activity)
-            .with('test_lead_id', 1002, activity_note)
-            .and_return(activity_success_response)
-        end
-
-        it 'creates the transcript activity and stores metadata' do
-          result = service.handle_conversation_resolved(conversation)
-          expect(result[:success]).to be true
-          expect(conversation.reload.additional_attributes['leadsquared']['transcript_activity_id']).to eq('test_activity_id')
-        end
-      end
-
-      context 'when activity creation fails' do
-        before do
-          allow(activity_client).to receive(:post_activity)
-            .with('test_lead_id', 1002, activity_note)
-            .and_return({ success: false, error: 'API Error' })
-        end
-
-        it 'returns failure response' do
-          result = service.handle_conversation_resolved(conversation)
-          expect(result[:success]).to be false
-          expect(result[:error]).to eq('API Error')
-        end
+      it 'creates the transcript activity and stores metadata' do
+        service.handle_conversation_resolved(conversation)
+        expect(conversation.reload.additional_attributes['leadsquared']['transcript_activity_id']).to eq('test_activity_id')
       end
     end
 
     context 'when conversation is not resolved' do
       before do
+        service.instance_variable_set(:@allow_transcript, true)
         conversation.update!(status: 'open')
         allow(activity_client).to receive(:post_activity)
       end
 
-      it 'returns success without creating activity' do
-        result = service.handle_conversation_resolved(conversation)
-        expect(result[:success]).to be true
+      it 'does not create an activity' do
+        service.handle_conversation_resolved(conversation)
+        expect(activity_client).not_to have_received(:post_activity)
+      end
+    end
+
+    context 'when transcript activities are disabled' do
+      before do
+        service.instance_variable_set(:@allow_transcript, false)
+        conversation.update!(status: 'resolved')
+        allow(activity_client).to receive(:post_activity)
+      end
+
+      it 'does not create an activity' do
+        service.handle_conversation_resolved(conversation)
         expect(activity_client).not_to have_received(:post_activity)
       end
     end

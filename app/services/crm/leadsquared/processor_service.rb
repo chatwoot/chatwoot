@@ -21,21 +21,15 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
     @lead_finder = Crm::Leadsquared::LeadFinderService.new(@lead_client)
   end
 
-  def handle_contact_created(contact)
-    return { success: false, error: 'Invalid contact' } unless contact_valid?(contact)
+  def handle_contact(contact)
+    return unless contact_valid?(contact)
 
-    create_or_update_lead(contact, nil)
-  end
-
-  def handle_contact_updated(contact)
-    return { success: false, error: 'Invalid contact' } unless contact_valid?(contact)
-
-    lead_id = get_external_id(contact)
-    create_or_update_lead(contact, lead_id)
+    stored_lead_id = get_external_id(contact)
+    create_or_update_lead(contact, stored_lead_id)
   end
 
   def handle_conversation_created(conversation)
-    return { success: true } unless @allow_conversation
+    return unless @allow_conversation
 
     # Create activity for a new conversation
     create_conversation_activity(
@@ -49,10 +43,10 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
 
   def handle_conversation_resolved(conversation)
     # if transcript is not allowed return
-    return { success: true } unless @allow_transcript
+    return unless @allow_transcript
 
     # We'll only sync transcripts for closed conversations
-    return { success: true } unless conversation.status == 'resolved'
+    return unless conversation.status == 'resolved'
 
     # Create activity for a conversation transcript
     create_conversation_activity(
@@ -69,51 +63,48 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
   def create_or_update_lead(contact, lead_id)
     lead_data = Crm::Leadsquared::Mappers::ContactMapper.map(contact)
 
-    response = if lead_id.present?
-                 # Why can't we use create_or_update_lead here?
-                 # In LeadSquared, it's possible that the email field
-                 # may not be marked as unique, same with the phone number field
-                 # So we just use the update API if we already have a lead ID
-                 @lead_client.update_lead(lead_data, lead_id)
-               else
-                 @lead_client.create_or_update_lead(lead_data)
-               end
-
-    # If we didn't have a lead ID before but created one, store it
-    if response[:success] && lead_id.blank?
-      response_lead_id = response[:data]['Id']
-      store_external_id(contact, response_lead_id) if response_lead_id.present?
+    # Why can't we use create_or_update_lead here?
+    # In LeadSquared, it's possible that the email field
+    # may not be marked as unique, same with the phone number field
+    # So we just use the update API if we already have a lead ID
+    if lead_id.present?
+      @lead_client.update_lead(lead_data, lead_id)
+    else
+      new_lead_id = @lead_client.create_or_update_lead(lead_data)
+      store_external_id(contact, new_lead_id)
     end
-
-    response
+  rescue Crm::Leadsquared::Api::BaseClient::ApiError => e
+    Rails.logger.error "LeadSquared API error processing contact: #{e.message}"
+  rescue StandardError => e
+    Rails.logger.error "Error processing contact in LeadSquared: #{e.message}"
   end
 
   def create_conversation_activity(conversation:, activity_type:, activity_code_key:, metadata_key:, mapper_method:)
     contact = conversation.contact
-    return { success: false, error: 'Contact not found for conversation' } unless contact
+    lead_id = @lead_finder.find_or_create(contact)
+    return if lead_id.blank?
 
-    result = @lead_finder.find_or_create(contact)
-    return { success: false, error: 'Lead not found in LeadSquared' } unless result[:success]
-
-    store_external_id(contact, result[:lead_id]) if result[:lead_id].present?
+    store_external_id(contact, lead_id)
 
     activity_note = Crm::Leadsquared::Mappers::ConversationMapper.send(mapper_method, conversation)
     activity_code = @hook.settings[activity_code_key]
 
     if activity_code.blank?
       Rails.logger.warn "LeadSquared #{activity_type} activity code not found for hook ##{@hook.id}. Setup may not have completed."
-      return { success: false, error: 'Activity code not found. Please run setup for this integration.' }
+      return
     end
+
     # Post the activity to LeadSquared
-    response = @activity_client.post_activity(result[:lead_id], activity_code, activity_note)
+    activity_id = @activity_client.post_activity(lead_id, activity_code, activity_note)
+    return if activity_id.blank?
 
-    # Store activity reference in conversation metadata if successful
-    if response[:success]
-      metadata = {}
-      metadata[metadata_key] = response[:activity_id]
-      store_conversation_metadata(conversation, metadata)
-    end
-
-    response
+    # Store activity reference in conversation metadata
+    metadata = {}
+    metadata[metadata_key] = activity_id
+    store_conversation_metadata(conversation, metadata)
+  rescue Crm::Leadsquared::Api::BaseClient::ApiError => e
+    Rails.logger.error "LeadSquared API error in #{activity_type} activity: #{e.message}"
+  rescue StandardError => e
+    Rails.logger.error "Error creating #{activity_type} activity in LeadSquared: #{e.message}"
   end
 end
