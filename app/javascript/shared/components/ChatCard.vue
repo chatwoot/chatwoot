@@ -41,8 +41,9 @@ export default {
     <div v-if="items && items.length > 0">
       <div v-for="(item, index) in items" :key="index" class="mb-4">
         <img
+          v-if="item.media_url"
           class="w-full object-contain max-h-[150px] rounded-[5px]"
-          :src="item.mediaUrl"
+          :src="item.media_url"
         />
         <div class="card-body">
           <h4
@@ -74,10 +75,7 @@ export default {
         <p class="!mb-1 text-n-slate-11">
           {{ description }}
         </p>
-        <p v-if="item && item.price" class="!mb-3 font-bold text-xl text-center text-n-slate-12">
-          {{ item.price }}
-        </p>
-        <p v-else-if="price" class="!mb-3 font-bold text-xl text-center text-n-slate-12">
+        <p v-if="price" class="!mb-3 font-bold text-xl text-center text-n-slate-12">
           {{ price }}
         </p>
         <CardButton v-for="action in actions" :key="action.id" :action="action" />
