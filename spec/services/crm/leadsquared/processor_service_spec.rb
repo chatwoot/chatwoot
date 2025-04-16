@@ -6,7 +6,7 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
     create(:integrations_hook, :leadsquared, account: account, settings: {
              'access_key' => 'test_access_key',
              'secret_key' => 'test_secret_key',
-             'endpoint_url' => 'https://api.leadsquared.com',
+             'endpoint_url' => 'https://api.leadsquared.com/v2',
              'conversation_activity_code' => 1001,
              'transcript_activity_code' => 1002
            })
@@ -17,17 +17,17 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
   let(:lead_client) { instance_double(Crm::Leadsquared::Api::LeadClient) }
   let(:activity_client) { instance_double(Crm::Leadsquared::Api::ActivityClient) }
   let(:lead_success_response) do
-    { success: true, data: { 'Status' => 'Success', 'Value' => { 'ProspectId' => 'test_lead_id', 'AffectedRows' => 1 } } }
+    { :success => true, :data => { 'Id' => 'test_lead_id' } }
   end
   let(:lead_search_response) { { success: true, data: [{ 'ProspectID' => 'test_lead_id' }] } }
   let(:activity_success_response) { { success: true, data: { 'Status' => 'Success', 'Value' => { 'Id' => 'test_activity_id' } } } }
 
   before do
     allow(Crm::Leadsquared::Api::LeadClient).to receive(:new)
-      .with('test_access_key', 'test_secret_key', 'https://api.leadsquared.com')
+      .with('test_access_key', 'test_secret_key', 'https://api.leadsquared.com/v2')
       .and_return(lead_client)
     allow(Crm::Leadsquared::Api::ActivityClient).to receive(:new)
-      .with('test_access_key', 'test_secret_key', 'https://api.leadsquared.com')
+      .with('test_access_key', 'test_secret_key', 'https://api.leadsquared.com/v2')
       .and_return(activity_client)
 
     # Default stubs for common API calls
@@ -81,7 +81,7 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
         contact.additional_attributes = { 'external' => { 'leadsquared_id' => 'test_lead_id' } }
         contact.save!
 
-        allow(lead_client).to receive(:create_or_update_lead)
+        allow(lead_client).to receive(:update_lead)
           .with(any_args)
           .and_return(lead_success_response.merge(
                         data: { 'Status' => 'Success', 'Value' => { 'ProspectId' => 'existing_lead_id', 'AffectedRows' => 1 } }
@@ -91,7 +91,7 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
       it 'updates the lead using existing id' do
         result = service.handle_contact_updated(contact)
         expect(result[:success]).to be true
-        expect(lead_client).to have_received(:create_or_update_lead).with(any_args)
+        expect(lead_client).to have_received(:update_lead).with(any_args)
       end
     end
 
@@ -101,7 +101,7 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
           contact.update(additional_attributes: { 'external' => nil })
           contact.reload
 
-          allow(lead_client).to receive(:create_or_update_lead)
+          allow(lead_client).to receive(:update_lead)
             .with(any_args)
             .and_return(lead_success_response)
         end
@@ -115,7 +115,10 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
 
       context 'when lead does not exist in leadsquared' do
         before do
-          allow(lead_client).to receive(:create_or_update_lead)
+          contact.update(additional_attributes: { 'external' => nil })
+          contact.reload
+
+          allow(lead_client).to receive(:update_lead)
             .with(any_args)
             .and_return(lead_success_response.merge(
                           data: { 'Status' => 'Success', 'Value' => { 'ProspectId' => 'new_lead_id', 'AffectedRows' => 1 } }
