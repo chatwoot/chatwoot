@@ -63,4 +63,12 @@ export default [
     channel_type: 'Channel::Sms',
     provider: 'default',
   },
+  {
+    id: 7,
+    channel_id: 7,
+    name: 'Test Instagram 1',
+    channel_type: 'Channel::Instagram',
+    instagram_id: 123456789,
+    provider: 'default',
+  },
 ];
