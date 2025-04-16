@@ -14,6 +14,10 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
            })
   end
   let(:contact) { create(:contact, account: account, email: 'test@example.com', phone_number: '+1234567890') }
+  let(:contact_with_social_profile) do
+    create(:contact, account: account, additional_attributes: { 'social_profiles' => { 'facebook' => 'chatwootapp' } })
+  end
+  let(:blank_contact) { create(:contact, account: account, email: '', phone_number: '') }
   let(:conversation) { create(:conversation, account: account, contact: contact) }
   let(:service) { described_class.new(hook) }
   let(:lead_client) { instance_double(Crm::Leadsquared::Api::LeadClient) }
@@ -73,6 +77,28 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
         result = service.handle_contact_created(contact)
         expect(result[:success]).to be false
         expect(result[:error]).to eq('API Error')
+      end
+    end
+
+    context 'with only social profile' do
+      before do
+        allow(lead_client).to receive(:create_or_update_lead)
+          .with(any_args)
+          .and_return(lead_success_response)
+      end
+
+      it 'creates the lead and stores external id' do
+        result = service.handle_contact_created(contact_with_social_profile)
+        expect(result[:success]).to be true
+        expect(contact_with_social_profile.reload.additional_attributes['external']['leadsquared_id']).to eq('test_lead_id')
+      end
+    end
+
+    context 'without sufficient information' do
+      it 'rejects contact creation' do
+        result = service.handle_contact_created(blank_contact)
+        expect(result[:success]).to be false
+        expect(result[:error]).to eq('Invalid contact')
       end
     end
   end
