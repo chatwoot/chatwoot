@@ -31,24 +31,25 @@ module ConversationReplyMailerHelper
     # Attachment processing for direct email replies (when replying to a single message)
     #
     # How attachments are handled:
-    # 1. Small files (<25MB): Added directly to the email as proper attachments
-    # 2. Large files (>25MB): Added to @large_attachments to be displayed as links in the email
+    # 1. Total file size (<20MB): Added directly to the email as proper attachments
+    # 2. Total file size (>20MB): Added to @large_attachments to be displayed as links in the email
 
     @options[:attachments] = []
     @large_attachments = []
+    current_total_size = 0
 
     @message.attachments.each do |attachment|
       raw_data = attachment.file.download
       attachment_name = attachment.file.filename.to_s
       file_size = raw_data.bytesize
 
-      if file_size < 25.megabytes
-        # Small files: Include as actual email attachments
+      # Attach files directly until we hit 20MB total
+      # After reaching 20MB, send remaining files as links
+      if current_total_size + file_size <= 20.megabytes
         mail.attachments[attachment_name] = raw_data
         @options[:attachments] << { name: attachment_name }
+        current_total_size += file_size
       else
-        # Large files: Track for display as links in the email template
-        # These are accessed in the view via the attr_reader in the mailer
         @large_attachments << attachment
       end
     end
