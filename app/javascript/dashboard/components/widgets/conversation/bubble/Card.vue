@@ -90,35 +90,15 @@ export default {
   @apply text-sm text-slate-600 dark:text-slate-300 mb-4;
 
   p {
-    @apply mb-4 last:mb-0;
+    @apply mb-2 last:mb-0;
   }
 
   strong, b {
     @apply font-bold;
   }
 
-  em, i {
-    @apply italic;
-  }
-
-  ul, ol {
-    @apply ml-4 mb-4;
-  }
-
-  li {
-    @apply mb-2 last:mb-0;
-  }
-
-  a {
-    @apply text-blue-600 hover:underline;
-  }
-
-  code {
-    @apply bg-slate-100 dark:bg-slate-700 px-1 rounded;
-  }
-
-  pre {
-    @apply bg-slate-100 dark:bg-slate-700 p-3 rounded mb-4;
+  pre, code {
+    @apply whitespace-pre-wrap;
   }
 }
 
@@ -165,4 +145,4 @@ export default {
     @apply text-green-700 dark:text-green-200;
   }
 }
-</style> 
+</style>

@@ -70,6 +70,7 @@ class MessageFormatter {
     this.isATweet = isATweet;
     this.linkify = linkify;
     this.md = createMarkdownInstance(linkify);
+    this.markdown = createMarkdownInstance(linkify); // Added markdown instance for card descriptions.
   }
 
   formatMessage() {
