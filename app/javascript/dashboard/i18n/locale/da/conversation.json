@@ -37,6 +37,7 @@
     "ASSIGN_TO_ME": "Tildel til mig",
     "TWILIO_WHATSAPP_CAN_REPLY": "Du kan kun svare på denne samtale ved hjælp af en skabelon besked på grund af",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 timers beskedvindue begrænsning",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
     "REPLYING_TO": "Du svarer til:",
     "REMOVE_SELECTION": "Fjern Markering",
     "DOWNLOAD": "Download",
