@@ -10,11 +10,15 @@
         <div v-show="activeIndex === 0">
             <TextKnowledgeSources :data="data" />
         </div>
+        <div v-show="activeIndex === 2">
+            <FileKnowledgeSources :data="data" />
+        </div>
     </div>
 </template>
 
 <script setup>
 import TextKnowledgeSources from './knowledge-sources/TextKnowledgeSources.vue'
+import FileKnowledgeSources from './knowledge-sources/FileKnowledgeSources.vue'
 
 import { ref } from 'vue';
 

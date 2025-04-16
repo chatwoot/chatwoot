@@ -61,6 +61,14 @@ class AiAgents extends ApiClient {
   deleteKnowledgeText(idAgent, textId) {
     return axios.delete(`${this.url}/${idAgent}/knowledge_sources/text/${textId}`);
   }
+  
+  addKnowledgeFile(idAgent, formData) {
+    return axios.post(`${this.url}/${idAgent}/knowledge_sources/file`, formData);
+  }
+  
+  deleteKnowledgeFile(idAgent, fileId) {
+    return axios.delete(`${this.url}/${idAgent}/knowledge_sources/file/${fileId}`);
+  }
 }
 
 export default new AiAgents();
