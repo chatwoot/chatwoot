@@ -210,7 +210,7 @@ export default {
       return contactLastSeenAt;
     },
 
-    // Check there is a instagram inbox with the same instagram_id
+    // Check there is a instagram inbox exists with the same instagram_id
     hasDuplicateInstagramInbox() {
       const instagramId = this.inbox.instagram_id;
       const instagramInbox =

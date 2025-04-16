@@ -18,7 +18,7 @@ export default {
     isATwilioInbox() {
       return this.currentInbox.channel_type === 'Channel::TwilioSms';
     },
-    // Check if a facebook inbox that has the same instagram_id
+    // Check if a facebook inbox exists with the same instagram_id
     hasDuplicateInstagramInbox() {
       const instagramId = this.currentInbox.instagram_id;
       const facebookInbox =

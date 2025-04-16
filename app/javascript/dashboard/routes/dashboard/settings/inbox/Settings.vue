@@ -210,7 +210,7 @@ export default {
     instagramUnauthorized() {
       return this.isAInstagramChannel && this.inbox.reauthorization_required;
     },
-    // Check if a facebook inbox that has the same instagram_id
+    // Check if a instagram inbox exists with the same instagram_id
     hasDuplicateInstagramInbox() {
       const instagramId = this.inbox.instagram_id;
       const instagramInbox =
