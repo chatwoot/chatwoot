@@ -32,6 +32,20 @@ export default {
             data: { payload: this.action.payload },
           });
         }
+      } else if (this.action.payload) {
+        // Gửi postback payload khi người dùng bấm vào nút
+        this.$store.dispatch('conversation/sendMessageWithData', {
+          content: this.action.text,
+          content_attributes: {
+            payload: this.action.payload,
+            submitted_values: [
+              {
+                title: this.action.text,
+                value: this.action.payload,
+              },
+            ],
+          },
+        });
       }
     },
   },

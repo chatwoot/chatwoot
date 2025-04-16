@@ -13,6 +13,7 @@ class Integrations::Facebook::MessageCreator
       create_agent_message
     else
       create_contact_message
+      mark_as_seen
     end
     # rescue => e
     # ChatwootExceptionTracker.new(e).capture_exception
@@ -39,6 +40,30 @@ class Integrations::Facebook::MessageCreator
     Channel::FacebookPage.where(page_id: response.recipient_id).each do |page|
       mb = Messages::Facebook::MessageBuilder.new(response, page.inbox)
       mb.perform
+    end
+  end
+  
+  def mark_as_seen
+    return if response.sender_id.blank?
+    
+    Channel::FacebookPage.where(page_id: response.recipient_id).each do |page|
+      begin
+        if page.blank? || page.page_access_token.blank?
+          Rails.logger.warn "Cannot mark message as seen: Invalid Facebook page or missing access token for page_id: #{response.recipient_id}"
+          next
+        end
+        
+        typing_service = Facebook::TypingIndicatorService.new(page, response.sender_id)
+        result = typing_service.mark_seen
+        
+        if result
+          Rails.logger.info "Successfully marked message as seen for sender #{response.sender_id} on page #{page.page_id}"
+        else
+          Rails.logger.warn "Failed to mark message as seen for sender #{response.sender_id} on page #{page.page_id}"
+        end
+      rescue => e
+        Rails.logger.error "Error marking message as seen on Facebook: #{e.message}"
+      end
     end
   end
 end

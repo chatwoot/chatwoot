@@ -6,9 +6,12 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   end
 
   def perform_reply
+    # Gửi typing indicator trước khi gửi tin nhắn
+    enable_typing_indicator
+
     if message.content_type == 'input_select'
       send_message_to_facebook(fb_select_message_params)
-    elsif message.content_type == 'cards' 
+    elsif message.content_type == 'cards'
       send_message_to_facebook(fb_card_message_params)
     elsif message.content.present?
       send_message_to_facebook(fb_text_message_params)
@@ -19,6 +22,9 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
         send_message_to_facebook(fb_attachment_message_params(attachment))
       end
     end
+
+    # Tắt typing indicator sau khi gửi tin nhắn
+    disable_typing_indicator
   rescue Facebook::Messenger::FacebookError => e
     handle_facebook_error(e)
     message.update!(status: :failed, external_error: e.message)
@@ -47,6 +53,39 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     message.update!(status: :failed, external_error: 'Request timed out, please try again later')
     Rails.logger.error "Facebook::SendOnFacebookService: Timeout error sending message to Facebook : Page - #{channel.page_id}"
     nil
+  end
+
+  # Sử dụng TypingIndicatorService
+  def typing_service
+    @typing_service ||= Facebook::TypingIndicatorService.new(channel, contact.get_source_id(inbox.id))
+  end
+
+  # Bật typing indicator
+  def enable_typing_indicator
+    return if contact.blank? || contact.get_source_id(inbox.id).blank?
+
+    result = typing_service.enable
+    if result
+      Rails.logger.debug "Successfully enabled typing indicator for recipient #{contact.get_source_id(inbox.id)}"
+    else
+      Rails.logger.warn "Failed to enable typing indicator for recipient #{contact.get_source_id(inbox.id)}"
+    end
+  rescue => e
+    Rails.logger.error "Error enabling typing indicator: #{e.message}"
+  end
+
+  # Tắt typing indicator
+  def disable_typing_indicator
+    return if contact.blank? || contact.get_source_id(inbox.id).blank?
+
+    result = typing_service.disable
+    if result
+      Rails.logger.debug "Successfully disabled typing indicator for recipient #{contact.get_source_id(inbox.id)}"
+    else
+      Rails.logger.warn "Failed to disable typing indicator for recipient #{contact.get_source_id(inbox.id)}"
+    end
+  rescue => e
+    Rails.logger.error "Error disabling typing indicator: #{e.message}"
   end
 
   def fb_text_message_params
@@ -95,8 +134,8 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
 
   def handle_facebook_error(exception)
     error_message = exception.message
-    
-    if error_message.include?('The session has been invalidated') || 
+
+    if error_message.include?('The session has been invalidated') ||
        error_message.include?('Error validating access token') ||
        error_message.include?('Invalid OAuth access token')
       channel.authorization_error!
@@ -105,7 +144,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
 
     # Log lỗi chi tiết
     Rails.logger.error "Facebook::SendOnFacebookService Error: #{error_message}"
-    
+
     # Cập nhật trạng thái message
     message.update!(
       status: :failed,
@@ -169,7 +208,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
                   else
                     {
                       type: 'postback',
-                      title: action['text'], 
+                      title: action['text'],
                       payload: action['payload']
                     }
                   end
