@@ -712,7 +712,6 @@ export default {
         this.sendMessage(messagePayload);
       });
     },
-
     sendMessageAnalyticsData(isPrivate) {
       // Analytics data for message signature is enabled or not in channels
       return isPrivate
@@ -942,8 +941,6 @@ export default {
     },
     getMultipleMessagesPayload(message) {
       const multipleMessagePayload = [];
-      const hasNoAttachments =
-        !this.attachedFiles || !this.attachedFiles.length;
 
       if (this.attachedFiles && this.attachedFiles.length) {
         let caption = this.isAInstagramChannel ? '' : message;
@@ -965,6 +962,9 @@ export default {
           if (!this.isAInstagramChannel) caption = '';
         });
       }
+
+      const hasNoAttachments =
+        !this.attachedFiles || !this.attachedFiles.length;
       // For Instagram, we need a separate text message
       // For WhatsApp, we only need a text message if there are no attachments
       if (
