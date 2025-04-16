@@ -2,23 +2,13 @@
   "AGENT_BOTS": {
     "HEADER": "ربات‌ها",
     "LOADING_EDITOR": "در حال بارگیری ویرایشگر...",
-    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.You can manage your bots from this page or create new ones using the 'Configure new bot' button.",
+    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
     "LEARN_MORE": "Learn about agent bots",
-    "CSML_BOT_EDITOR": {
-      "NAME": {
-        "LABEL": "نام ربات",
-        "PLACEHOLDER": "برای ربات خود نامی انتخاب کنید.",
-        "ERROR": "نام ربات الزامی است."
-      },
-      "DESCRIPTION": {
-        "LABEL": "توضیحات ربات",
-        "PLACEHOLDER": "این ربات چه کاری انجام می‌دهد؟"
-      },
-      "BOT_CONFIG": {
-        "ERROR": "لطفا پیکربندی ربات CSML خود را در بالا وارد کنید.",
-        "API_ERROR": "پیکربندی CSML شما نامعتبر است، لطفا آن را اصلاح کنید و دوباره امتحان کنید."
-      },
-      "SUBMIT": "اعتبارسنجی و ذخیره کنید"
+    "GLOBAL_BOT": "System bot",
+    "GLOBAL_BOT_BADGE": "سیستم",
+    "AVATAR": {
+      "SUCCESS_DELETE": "Bot avatar deleted successfully",
+      "ERROR_DELETE": "Error deleting bot avatar, please try again"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "انتخاب یک ربات عامل",
@@ -32,7 +22,7 @@
       "SELECT_PLACEHOLDER": "انتخاب ربات"
     },
     "ADD": {
-      "TITLE": "پیکربندی ربات جدید",
+      "TITLE": "Add Bot",
       "CANCEL_BUTTON_TEXT": "انصراف",
       "API": {
         "SUCCESS_MESSAGE": "ربات با موفقیت اضافه شد.",
@@ -40,16 +30,22 @@
       }
     },
     "LIST": {
-      "404": "هیچ رباتی یافت نشد، می‌توانید با کلیک کردن روی دکمه «پیکربندی ربات جدید» یک ربات ایجاد کنید ↗",
+      "404": "No bots found. You can create a bot by clicking the 'Add Bot' button.",
       "LOADING": "در حال گرفتن ربات‌ها...",
-      "TYPE": "نوع ربات"
+      "TABLE_HEADER": {
+        "DETAILS": "Bot Details",
+        "URL": "آدرس URL وب هوک"
+      }
     },
     "DELETE": {
       "BUTTON_TEXT": "حذف",
       "TITLE": "حذف ربات",
-      "SUBMIT": "حذف",
-      "CANCEL_BUTTON_TEXT": "انصراف",
-      "DESCRIPTION": "آیا مطمئن هستید که می‌خواهید این ربات را حذف کنید؟ این عمل برگشت‌ناپذیر است.",
+      "CONFIRM": {
+        "TITLE": "تاییدیه حذف",
+        "MESSAGE": "Are you sure you want to delete {name}?",
+        "YES": "بله، حذف شود",
+        "NO": "نه، بماند"
+      },
       "API": {
         "SUCCESS_MESSAGE": "ربات با موفقیت حذف شد.",
         "ERROR_MESSAGE": "ربات حذف نشد، لطفا دوباره امتحان کنید."
@@ -57,17 +53,44 @@
     },
     "EDIT": {
       "BUTTON_TEXT": "ویرایش",
-      "LOADING": "در حال گرفتن ربات‌ها...",
       "TITLE": "ویرایش ربات",
-      "CANCEL_BUTTON_TEXT": "انصراف",
       "API": {
         "SUCCESS_MESSAGE": "ربات با موفقیت به‌روز شد.",
         "ERROR_MESSAGE": "ربات بروز رسانی نشد، لطفا دوباره امتحان کنید."
       }
     },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "Bot avatar"
+      },
+      "NAME": {
+        "LABEL": "نام ربات",
+        "PLACEHOLDER": "Enter bot name",
+        "REQUIRED": "نام ربات الزامی است"
+      },
+      "DESCRIPTION": {
+        "LABEL": "توضیحات",
+        "PLACEHOLDER": "این ربات چه کاری انجام می‌دهد؟"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "آدرس URL وب هوک",
+        "PLACEHOLDER": "https://example.com/webhook",
+        "REQUIRED": "Webhook URL is required"
+      },
+      "ERRORS": {
+        "NAME": "نام ربات الزامی است",
+        "URL": "Webhook URL is required",
+        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+      },
+      "CANCEL": "انصراف",
+      "CREATE": "Create Bot",
+      "UPDATE": "Update Bot"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."
+    },
     "TYPES": {
-      "WEBHOOK": "وب‌هوک ربات",
-      "CSML": "ربات CSML"
+      "WEBHOOK": "وب‌هوک ربات"
     }
   }
 }
