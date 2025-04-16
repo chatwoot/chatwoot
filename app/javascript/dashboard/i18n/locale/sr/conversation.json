@@ -37,6 +37,7 @@
     "ASSIGN_TO_ME": "Dodeli meni",
     "TWILIO_WHATSAPP_CAN_REPLY": "Možete jedino da odgovarate na ovaj razgovor koristeći šablon poruka zbog",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-časovno ograničenje poruka",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
     "REPLYING_TO": "Odgovarate na:",
     "REMOVE_SELECTION": "Ukloni izbor",
     "DOWNLOAD": "Preuzmi",
