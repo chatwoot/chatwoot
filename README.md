@@ -79,6 +79,7 @@ Publish help articles, FAQs, and guides through the built-in Help Center Portal.
 - Use Google Translate to translate messages from your customers in realtime.
 - Create and manage Linear tickets within Chatwoot.
 - External URL Attachments for optimized image sending to social channels like Facebook and Instagram.
+- Enhanced Facebook avatar handling for reliable profile picture display.
 
 #### Reports & Insights
 - Live View of ongoing conversations for real-time monitoring.

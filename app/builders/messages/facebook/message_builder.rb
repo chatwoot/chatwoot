@@ -116,47 +116,65 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
       },
       sender: @outgoing_echo ? nil : @contact_inbox.contact
     }
-    
+
     # Thêm payload vào content_attributes nếu là postback message
     if response.respond_to?(:postback?) && response.postback?
       params[:content_attributes][:postback_payload] = response.postback_payload
     end
-    
+
     params
   end
 
   def process_contact_params_result(result)
+    # Tạo URL avatar trực tiếp từ Facebook Graph API nếu có sender_id
+    avatar_url = if @sender_id.present?
+                  "https://graph.facebook.com/#{@sender_id}/picture?type=large&access_token=#{@inbox.channel.page_access_token}"
+                else
+                  result['profile_pic']
+                end
+
+    Rails.logger.info("Facebook avatar URL for sender #{@sender_id}: #{avatar_url}")
+
     {
       name: "#{result['first_name'] || 'John'} #{result['last_name'] || 'Doe'}",
       account_id: @inbox.account_id,
-      avatar_url: result['profile_pic']
+      avatar_url: avatar_url
     }
   end
 
   # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/MethodLength
   def contact_params
-    begin
-      k = Koala::Facebook::API.new(@inbox.channel.page_access_token) if @inbox.facebook?
-      result = k.get_object(@sender_id) || {}
-    rescue Koala::Facebook::AuthenticationError => e
-      Rails.logger.warn("Facebook authentication error for inbox: #{@inbox.id} with error: #{e.message}")
-      Rails.logger.error e
+    # Sử dụng service mới để lấy thông tin người dùng từ Facebook
+    result = Facebook::FetchProfileService.new(
+      user_id: @sender_id,
+      page_access_token: @inbox.channel.page_access_token
+    ).perform
+
+    # Xử lý lỗi xác thực
+    if result[:error] == 'authentication_error'
+      Rails.logger.warn("Facebook authentication error for inbox: #{@inbox.id} with error: #{result[:message]}")
       @inbox.channel.authorization_error!
-      raise
-    rescue Koala::Facebook::ClientError => e
-      result = {}
-      # OAuthException, code: 100, error_subcode: 2018218, message: (#100) No profile available for this user
-      # We don't need to capture this error as we don't care about contact params in case of echo messages
-      if e.message.include?('2018218')
-        Rails.logger.warn e
-      else
-        ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception unless @outgoing_echo
-      end
-    rescue StandardError => e
-      result = {}
-      ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
+      raise Koala::Facebook::AuthenticationError, result[:message]
     end
+
+    # Ghi log lỗi client nếu có
+    if result[:error] == 'client_error'
+      if result[:message].to_s.include?('2018218')
+        Rails.logger.warn "Facebook client error for sender #{@sender_id}: #{result[:message]}"
+      else
+        Rails.logger.warn "Facebook client error for sender #{@sender_id}: #{result[:message]}"
+        ChatwootExceptionTracker.new(StandardError.new(result[:message]), account: @inbox.account).capture_exception unless @outgoing_echo
+      end
+    end
+
+    # Ghi log lỗi không mong đợi nếu có
+    if result[:error] == 'unexpected_error'
+      Rails.logger.error "Facebook unexpected error for sender #{@sender_id}: #{result[:message]}"
+      ChatwootExceptionTracker.new(StandardError.new(result[:message]), account: @inbox.account).capture_exception
+    end
+
+    # Xử lý kết quả và trả về thông tin liên hệ
     process_contact_params_result(result)
   end
   # rubocop:enable Metrics/AbcSize
