@@ -17,13 +17,14 @@ RSpec.describe Crm::Leadsquared::SetupService do
       before do
         allow(base_client).to receive(:get)
           .with('ProspectActivity.svc/ActivityTypes.Get')
-          .and_return({ success: false, error: 'API Error' })
+          .and_raise(Crm::Leadsquared::Api::BaseClient::ApiError.new('API Error'))
+
+        allow(Rails.logger).to receive(:error)
       end
 
-      it 'returns error response' do
-        result = service.setup
-        expect(result[:success]).to be false
-        expect(result[:error]).to eq('API Error')
+      it 'logs the error and returns nil' do
+        expect(service.setup).to be_nil
+        expect(Rails.logger).to have_received(:error).with(/LeadSquared API error/)
       end
     end
 
@@ -40,15 +41,15 @@ RSpec.describe Crm::Leadsquared::SetupService do
         before do
           allow(base_client).to receive(:get)
             .with('ProspectActivity.svc/ActivityTypes.Get')
-            .and_return({ success: true, data: [started_type, transcript_type] })
+            .and_return([started_type, transcript_type])
         end
 
         it 'uses existing activity types and updates hook settings' do
           original_settings = hook.settings.dup
           result = service.setup
 
-          expect(result[:success]).to be true
-          expect(result[:activity_codes]).to include(
+          # Check that the result has the correct activity codes
+          expect(result).to include(
             'conversation_activity_code' => 1001,
             'transcript_activity_code' => 1002
           )
@@ -64,14 +65,10 @@ RSpec.describe Crm::Leadsquared::SetupService do
       end
 
       context 'when some activity types need to be created' do
-        let(:create_response) do
-          { success: true, activity_id: 1002 }
-        end
-
         before do
           allow(base_client).to receive(:get)
             .with('ProspectActivity.svc/ActivityTypes.Get')
-            .and_return({ success: true, data: [started_type] })
+            .and_return([started_type])
 
           allow(activity_client).to receive(:create_activity_type)
             .with(
@@ -79,15 +76,14 @@ RSpec.describe Crm::Leadsquared::SetupService do
               score: 0,
               direction: 0
             )
-            .and_return(create_response)
+            .and_return(1002)
         end
 
         it 'creates missing types and updates hook settings' do
           original_settings = hook.settings.dup
           result = service.setup
 
-          expect(result[:success]).to be true
-          expect(result[:activity_codes]).to include(
+          expect(result).to include(
             'conversation_activity_code' => 1001,
             'transcript_activity_code' => 1002
           )
@@ -106,17 +102,18 @@ RSpec.describe Crm::Leadsquared::SetupService do
         before do
           allow(base_client).to receive(:get)
             .with('ProspectActivity.svc/ActivityTypes.Get')
-            .and_return({ success: true, data: [started_type] })
+            .and_return([started_type])
 
           allow(activity_client).to receive(:create_activity_type)
             .with(anything)
-            .and_return({ success: false, error: 'Failed to create activity type' })
+            .and_raise(StandardError.new('Failed to create activity type'))
+
+          allow(Rails.logger).to receive(:error)
         end
 
-        it 'returns error response' do
-          result = service.setup
-          expect(result[:success]).to be false
-          expect(result[:errors]).to include(/Failed to create activity type/)
+        it 'logs the error and returns nil' do
+          expect(service.setup).to be_nil
+          expect(Rails.logger).to have_received(:error).with(/Error during LeadSquared setup/)
         end
       end
     end

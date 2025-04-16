@@ -13,56 +13,41 @@ class Crm::Leadsquared::SetupService
   end
 
   def setup
-    # Get existing activity types
     existing_types = fetch_activity_types
-    return { success: false, error: existing_types[:error] } unless existing_types[:success]
+    return if existing_types.blank?
 
-    # Create any missing activity types
-    setup_results = setup_activity_types(existing_types[:data])
-    return setup_results unless setup_results[:success]
+    activity_codes = setup_activity_types(existing_types)
+    return if activity_codes.blank?
 
-    # Update hook settings with activity type IDs
-    update_hook_settings(setup_results[:activity_codes])
+    update_hook_settings(activity_codes)
 
-    # Return success with activity codes
-    { success: true, activity_codes: setup_results[:activity_codes] }
+    activity_codes
+  rescue Crm::Leadsquared::Api::BaseClient::ApiError => e
+    Rails.logger.error "LeadSquared API error in setup: #{e.message}"
+  rescue StandardError => e
+    Rails.logger.error "Error during LeadSquared setup: #{e.message}"
   end
 
   private
 
   def fetch_activity_types
-    path = 'ProspectActivity.svc/ActivityTypes.Get'
-    response = @client.get(path)
-
-    if response[:success]
-      { success: true, data: response[:data] }
-    else
-      Rails.logger.error "Failed to fetch LeadSquared activity types: #{response[:error]}"
-      { success: false, error: response[:error] }
-    end
+    @client.get('ProspectActivity.svc/ActivityTypes.Get')
   end
 
   def setup_activity_types(existing_types)
     activity_codes = {}
-    success = true
-    errors = []
 
     activity_types.each do |activity_type|
-      result = find_or_create_activity_type(activity_type, existing_types)
+      activity_id = find_or_create_activity_type(activity_type, existing_types)
 
-      if result[:success]
-        activity_codes[activity_type[:setting_key]] = result[:activity_id]
+      if activity_id.present?
+        activity_codes[activity_type[:setting_key]] = activity_id
       else
-        success = false
-        errors << result[:error]
+        Rails.logger.error "Failed to find or create activity type: #{activity_type[:name]}"
       end
     end
 
-    if success
-      { success: true, activity_codes: activity_codes }
-    else
-      { success: false, errors: errors }
-    end
+    activity_codes
   end
 
   def find_or_create_activity_type(activity_type, existing_types)
@@ -73,23 +58,18 @@ class Crm::Leadsquared::SetupService
       # Use existing activity type
       activity_id = existing['ActivityEvent'].to_i
       Rails.logger.info "Using existing LeadSquared activity type: #{activity_type[:name]} (ID: #{activity_id})"
-      { success: true, activity_id: activity_id }
     else
       # Create new activity type
-      result = @activity_client.create_activity_type(
+      activity_id = @activity_client.create_activity_type(
         name: activity_type[:name],
         score: activity_type[:score],
         direction: activity_type[:direction]
       )
 
-      if result[:success]
-        Rails.logger.info "Created LeadSquared activity type: #{activity_type[:name]} (ID: #{result[:activity_id]})"
-      else
-        Rails.logger.error "Failed to create LeadSquared activity type: #{activity_type[:name]} - #{result[:error]}"
-      end
-
-      result
+      Rails.logger.info "Created LeadSquared activity type: #{activity_type[:name]} (ID: #{activity_id})" if activity_id.present?
     end
+
+    acitvity_id
   end
 
   def update_hook_settings(activity_codes)
