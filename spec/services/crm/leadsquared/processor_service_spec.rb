@@ -7,6 +7,8 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
              'access_key' => 'test_access_key',
              'secret_key' => 'test_secret_key',
              'endpoint_url' => 'https://api.leadsquared.com/v2',
+             'enable_transcript_activity' => true,
+             'enable_conversation_activity' => true,
              'conversation_activity_code' => 1001,
              'transcript_activity_code' => 1002
            })
@@ -20,7 +22,7 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
     { :success => true, :data => { 'Id' => 'test_lead_id' } }
   end
   let(:lead_search_response) { { success: true, data: [{ 'ProspectID' => 'test_lead_id' }] } }
-  let(:activity_success_response) { { success: true, data: { 'Status' => 'Success', 'Value' => { 'Id' => 'test_activity_id' } } } }
+  let(:activity_success_response) { { success: true, activity_id: 'test_activity_id' } }
 
   before do
     allow(Crm::Leadsquared::Api::LeadClient).to receive(:new)
@@ -159,7 +161,7 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
         it 'creates the activity and stores metadata' do
           result = service.handle_conversation_created(conversation)
           expect(result[:success]).to be true
-          expect(conversation.reload.additional_attributes['leadsquared']['activity_id']).to eq('test_activity_id')
+          expect(conversation.reload.additional_attributes['leadsquared']['created_activity_id']).to eq('test_activity_id')
         end
       end
 
@@ -191,7 +193,7 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
       it 'finds lead and creates activity' do
         result = service.handle_conversation_created(conversation)
         expect(result[:success]).to be true
-        expect(conversation.reload.additional_attributes['leadsquared']['activity_id']).to eq('test_activity_id')
+        expect(conversation.reload.additional_attributes['leadsquared']['created_activity_id']).to eq('test_activity_id')
         expect(contact.reload.additional_attributes['external']['leadsquared_id']).to eq('test_lead_id')
       end
     end
