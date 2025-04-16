@@ -107,9 +107,9 @@ export default {
     <spinner v-if="!showIntroHeader" class="absolute inset-0" />
     <div
       v-else
-      class="relative max-w-[1440px] w-full mx-auto flex gap-16 min-h-[100vh] justify-center"
+      class="relative w-[1440px] flex gap-16 overflow-x-auto"
     >
-      <div class="relative w-5/12 px-16 py-[68px] 2xl:min-h-[1205px]">
+      <div class="relative min-w-[300px] shrink-0 px-16 flex flex-col justify-center">
         <div class="mb-10 z-0">
           <img
             :src="globalConfig.logo"
@@ -145,7 +145,7 @@ export default {
         </transition>
       </div>
       <div
-        class="relative w-7/12 py-[70px] flex justify-center overflow-hidden h-fit"
+        class="relative min-w-[300px] shrink-0 h-screen flex items-center justify-center overflow-hidden"
       >
         <div
           class="absolute h-full w-full bg-onboarding-gradient dark:bg-onboarding-gradient-dark top-0 left-0 scale-y-110 blur-[3px]"
@@ -190,21 +190,7 @@ export default {
   position: relative;
 }
 
-.onboarding-steps::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -330px;
-  width: 120%;
-  height: 450px;
-  background: url('/assets/images/dashboard/onboarding/light.svg') no-repeat
-    bottom left;
-  background-size: contain;
-}
-
-/* Dark mode variant */
-body.dark-mode .onboarding-steps::after {
-  background: url('/assets/images/dashboard/onboarding/dark.svg') no-repeat
-    bottom left;
+* {
+  outline: 1px solid rgba(255, 0, 0, 0.1);
 }
 </style>
