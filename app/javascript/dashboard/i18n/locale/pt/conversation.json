@@ -37,6 +37,7 @@
     "ASSIGN_TO_ME": "Atribuir a mim",
     "TWILIO_WHATSAPP_CAN_REPLY": "Só pode responder utilizando uma mensagem modelo, porque",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Mensagens bloqueadas durante 24 horas",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
     "REPLYING_TO": "Está a responder a:",
     "REMOVE_SELECTION": "Remover seleção",
     "DOWNLOAD": "Descarregar",
