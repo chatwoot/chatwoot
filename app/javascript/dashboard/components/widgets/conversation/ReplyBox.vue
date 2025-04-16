@@ -964,12 +964,10 @@ export default {
 
           attachmentPayload = this.setReplyToInPayload(attachmentPayload);
           multipleMessagePayload.push(attachmentPayload);
-
           // For WhatsApp, only the first attachment gets a caption
           if (!isInstagram) caption = '';
         });
       }
-
       // For Instagram, we need a separate text message
       // For WhatsApp, we only need a text message if there are no attachments
       if ((isInstagram && this.message) || (!isInstagram && hasNoAttachments)) {
@@ -981,6 +979,7 @@ export default {
         };
 
         messagePayload = this.setReplyToInPayload(messagePayload);
+
         multipleMessagePayload.push(messagePayload);
       }
 
