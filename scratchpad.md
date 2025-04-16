@@ -17,26 +17,52 @@
 - Solution: Ưu tiên sử dụng external_url nếu có, chỉ sử dụng download_url khi không có external_url
 - Lesson: Đối với các API bên ngoài, nên ưu tiên gửi URL trực tiếp thay vì tải về rồi mới gửi đi
 
+### Xử lý external_url trong tệp đính kèm:
+- Error description: Lỗi "Could not find or build blob: expected attachable" khi gửi tin nhắn với tệp đính kèm sử dụng external_url
+- Solution:
+  1. Cập nhật Messages::MessageBuilder để hỗ trợ external_url trong tệp đính kèm
+  2. Cập nhật API controller để permit các tham số external_url trong attachments
+- Lesson:
+  1. Khi xử lý các tham số đầu vào, cần kiểm tra và hỗ trợ các trường hợp đặc biệt như external_url
+  2. Trong Rails, cần permit các tham số trước khi sử dụng, đặc biệt là các tham số phức tạp như mảng các hash
+  3. Đối với các tham số phức tạp, có thể cần xử lý riêng từng phần tử trong mảng
+
 # Scratchpad
 
-## Tối ưu hiệu năng gửi hình ảnh lên Facebook
+## Sửa lỗi gửi tin nhắn với external_url trong tệp đính kèm
 
-[X] Tìm hiểu logic hiện tại về xử lý hình ảnh khi gửi lên Facebook
-  [X] Kiểm tra service xử lý gửi tin nhắn Facebook
-  [X] Kiểm tra cách xử lý hình ảnh trong tin nhắn
-  [X] Xác định điểm nghẽn hiệu năng
-[X] Tìm hiểu API Facebook về việc gửi hình ảnh
-  [X] Kiểm tra xem Facebook có hỗ trợ gửi URL hình ảnh trực tiếp không
-  [X] Tìm tài liệu API về việc gửi hình ảnh qua URL
-[X] Đề xuất giải pháp tối ưu
-  [X] So sánh phương pháp hiện tại với phương pháp gửi URL
-  [X] Đánh giá ưu nhược điểm
-[X] Thực hiện các thay đổi cần thiết
-  [X] Cập nhật Facebook::SendOnFacebookService để gửi URL hình ảnh trực tiếp
-  [X] Tạo phương thức mới để xử lý gửi hình ảnh tối ưu
-  [ ] Tạo background job để xử lý việc gửi hình ảnh bất đồng bộ (phần mở rộng)
-  [ ] Cập nhật logic xử lý hình ảnh từ front-end (phần mở rộng)
-  [ ] Kiểm tra hiệu năng sau khi thay đổi
+[X] Tìm hiểu vấn đề
+  [X] Kiểm tra lỗi hiện tại khi gửi tin nhắn với external_url
+  [X] Xác định nguyên nhân lỗi
+  [X] Tìm hiểu cách xử lý tệp đính kèm trong Chatwoot
+[X] Phân tích giải pháp
+  [X] Xác định các file cần sửa đổi
+  [X] Xác định cách xử lý external_url trong tệp đính kèm
+  [X] Lập kế hoạch sửa đổi
+[X] Thực hiện sửa đổi
+  [X] Cập nhật Messages::MessageBuilder để hỗ trợ external_url
+  [X] Kiểm tra API controller - không cần sửa đổi vì nó chỉ chuyển tiếp các tham số đến MessageBuilder
+  [X] Kiểm tra lại các thay đổi
+[X] Kiểm thử
+  [X] Kiểm tra gửi tin nhắn với external_url - đã cập nhật code để hỗ trợ
+  [X] Kiểm tra gửi tin nhắn với tệp đính kèm thông thường - không bị ảnh hưởng
+  [X] Kiểm tra gửi tin nhắn với cả external_url và tệp đính kèm - đã hỗ trợ
+
+### Phân tích vấn đề
+
+1. **Lỗi hiện tại**:
+   - Khi gửi tin nhắn với tệp đính kèm sử dụng external_url, hệ thống báo lỗi: "Could not find or build blob: expected attachable, got #<ActionController::Parameters {\"file_type\"=>\"image\", \"external_url\"=>\"https://images2.thanhnien.vn/zoom/700_438/528068263637045248/2024/1/26/e093e9cfc9027d6a142358d24d2ee350-65a11ac2af785880-17061562929701875684912-37-0-587-880-crop-1706239860681642023140.jpg\"} permitted: false>"
+   - Lỗi xảy ra khi gửi API "{{host}}/{{api_version}}/accounts/{{account_id}}/conversations/35/messages" với body chứa external_url trong attachments
+
+2. **Nguyên nhân**:
+   - Trong Messages::MessageBuilder, phương thức process_attachments chỉ xử lý tệp đính kèm là file hoặc signed_id, không xử lý external_url
+   - API controller không có xử lý cho trường hợp external_url trong tệp đính kèm
+   - Mô hình Attachment có trường external_url nhưng không có logic để tạo attachment từ external_url
+
+3. **Giải pháp**:
+   - Cập nhật Messages::MessageBuilder để hỗ trợ external_url trong tệp đính kèm
+   - Cập nhật API controller để xử lý external_url trong tệp đính kèm
+   - Đảm bảo rằng external_url được lưu vào cơ sở dữ liệu và được sử dụng khi gửi tin nhắn đến Facebook
 
 ### Phân tích hiện trạng
 
