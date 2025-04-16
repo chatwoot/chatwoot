@@ -38,13 +38,22 @@ class Instagram::BaseSendService < Base::SendOnChannelService
   end
 
   def attachment_message_params(attachment)
+    # Ưu tiên sử dụng external_url nếu có, giúp tối ưu hiệu năng vì không cần tải hình ảnh về Chatwoot trước
+    attachment_url = if attachment.external_url.present?
+                      attachment.external_url
+                    else
+                      attachment.download_url
+                    end
+
+    Rails.logger.info "Instagram::BaseSendService: Sending attachment with URL: #{attachment_url}"
+
     params = {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {
         attachment: {
           type: attachment_type(attachment),
           payload: {
-            url: attachment.download_url
+            url: attachment_url
           }
         }
       }

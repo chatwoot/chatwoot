@@ -96,6 +96,25 @@ describe Instagram::SendOnInstagramService do
           expect(response['message_id']).to eq('random_message_id')
         end
 
+        it 'if message with external_url attachment is sent from chatwoot and is outgoing' do
+          message = build(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+          message.attachments.new(
+            account_id: message.account_id,
+            file_type: :image,
+            external_url: 'https://example.com/image.jpg'
+          )
+          message.save!
+
+          # Kiểm tra xem URL được sử dụng có phải là external_url không
+          expect_any_instance_of(described_class).to receive(:send_message) do |_instance, params|
+            expect(params[:message][:attachment][:payload][:url]).to eq('https://example.com/image.jpg')
+            mock_response
+          end
+
+          response = described_class.new(message: message).perform
+          expect(response['message_id']).to eq('random_message_id')
+        end
+
         it 'if message sent from chatwoot is failed' do
           message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
 
