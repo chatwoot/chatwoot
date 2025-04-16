@@ -1,12 +1,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 
 export default {
-  components: {
-    WootMessageEditor,
-  },
   props: {
     buttonLabel: {
       type: String,
@@ -114,12 +110,14 @@ export default {
           :placeholder="item.placeholder"
           :disabled="!!submittedValues.length"
         />
-        <WootMessageEditor
+        <textarea
           v-else-if="item.type === 'text_area'"
           v-model="formValues[item.name]"
+          :required="item.required && 'required'"
+          :title="item.title"
+          :name="item.name"
           :placeholder="item.placeholder"
           :disabled="!!submittedValues.length"
-          class="rich-text-editor"
         />
         <select
           v-else-if="item.type === 'select'"
@@ -184,10 +182,6 @@ export default {
     textarea:invalid + .error-message {
       display: block;
     }
-  }
-
-  .rich-text-editor {
-    @apply min-h-[100px] max-h-[200px] overflow-auto;
   }
 }
 </style>
