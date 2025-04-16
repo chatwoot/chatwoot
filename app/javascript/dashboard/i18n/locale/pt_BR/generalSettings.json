@@ -1,6 +1,6 @@
 {
   "GENERAL_SETTINGS": {
-    "TITLE": "Configurações da conta",
+    "TITLE": "Conta",
     "SUBMIT": "Atualizar configurações",
     "BACK": "Anterior",
     "DISMISS": "Recusar",
@@ -131,10 +131,10 @@
       "GO_TO_INBOX_REPORTS": "Ir para Relatórios da Caixa de Entrada",
       "GO_TO_TEAM_REPORTS": "Ir para Relatórios da Equipe",
       "GO_TO_SETTINGS_AGENTS": "Ir para Configurações de Agente",
-      "GO_TO_SETTINGS_TEAMS": "Ir para as configurações de equipe",
-      "GO_TO_SETTINGS_INBOXES": "Ir para as configurações da Caixa de Entrada",
+      "GO_TO_SETTINGS_TEAMS": "Ir para as Configurações de Equipe",
+      "GO_TO_SETTINGS_INBOXES": "Ir para as Configurações da Caixa de Entrada",
       "GO_TO_SETTINGS_LABELS": "Ir para as Configurações de Etiqueta",
-      "GO_TO_SETTINGS_CANNED_RESPONSES": "Ir para as configurações de respostas prontas",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Ir para as Configurações de Respostas Prontas",
       "GO_TO_SETTINGS_APPLICATIONS": "Vá para Configurações do Aplicativo",
       "GO_TO_SETTINGS_ACCOUNT": "Ir para as Configurações da Conta",
       "GO_TO_SETTINGS_PROFILE": "Ir para as Configurações do Perfil",

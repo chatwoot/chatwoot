@@ -57,6 +57,10 @@ export const ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP =
 // https://developers.line.biz/en/reference/messaging-api/#image-message, https://developers.line.biz/en/reference/messaging-api/#video-message
 export const ALLOWED_FILE_TYPES_FOR_LINE = 'image/png, image/jpeg,video/mp4';
 
+// https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/messaging-api#requirements
+export const ALLOWED_FILE_TYPES_FOR_INSTAGRAM =
+  'image/png, image/jpeg, video/mp4, video/mov, video/webm';
+
 export const CSAT_RATINGS = [
   {
     key: 'disappointed',

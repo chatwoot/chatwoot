@@ -4,9 +4,13 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
 import { FormKit } from '@formkit/vue';
+
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
   components: {
     FormKit,
+    NextButton,
   },
   props: {
     integrationId: {
@@ -139,12 +143,18 @@ export default {
         validation-name="Inbox"
       />
       <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-        <woot-button type="submit" :loading="uiFlags.isCreatingHook">
-          {{ $t('INTEGRATION_APPS.ADD.FORM.SUBMIT') }}
-        </woot-button>
-        <woot-button type="reset" class="button clear" @click.prevent="onClose">
-          {{ $t('INTEGRATION_APPS.ADD.FORM.CANCEL') }}
-        </woot-button>
+        <NextButton
+          faded
+          slate
+          type="reset"
+          :label="$t('INTEGRATION_APPS.ADD.FORM.CANCEL')"
+          @click.prevent="onClose"
+        />
+        <NextButton
+          type="submit"
+          :label="$t('INTEGRATION_APPS.ADD.FORM.SUBMIT')"
+          :is-loading="uiFlags.isCreatingHook"
+        />
       </div>
     </FormKit>
   </div>
@@ -178,11 +188,5 @@ export default {
 
 .formkit-actions {
   @apply hidden;
-}
-
-@media (prefers-color-scheme: dark) {
-  .pre-chat-header-message .link {
-    @apply text-woot-500 underline;
-  }
 }
 </style>

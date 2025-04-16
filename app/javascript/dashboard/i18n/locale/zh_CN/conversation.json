@@ -12,6 +12,8 @@
     "NO_INBOX_2": " 开始吧",
     "NO_INBOX_AGENT": "看起来您还没有分配到收件箱。请联系您的管理员",
     "SEARCH_MESSAGES": "搜索对话中的消息",
+    "VIEW_ORIGINAL": "查看原始内容",
+    "VIEW_TRANSLATED": "查看翻译",
     "EMPTY_STATE": {
       "CMD_BAR": "打开命令菜单",
       "KEYBOARD_SHORTCUTS": "查看键盘快捷键"
@@ -293,7 +295,27 @@
       "CONVERSATION_INFO": "对话信息",
       "CONTACT_ATTRIBUTES": "联系人属性",
       "PREVIOUS_CONVERSATION": "上一次对话",
-      "MACROS": "宏"
+      "MACROS": "宏",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "等待中",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
