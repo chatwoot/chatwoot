@@ -37,11 +37,34 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
   private
 
   def build_contact_inbox
+    # Lấy thông tin liên hệ từ params
+    contact_attributes = contact_params
+
+    # Ghi log thông tin liên hệ để debug
+    Rails.logger.info("Facebook contact attributes for sender #{@sender_id}: #{contact_attributes.inspect}")
+
     @contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: @sender_id,
       inbox: @inbox,
-      contact_attributes: contact_params
+      contact_attributes: contact_attributes
     ).perform
+
+    # Cập nhật avatar sau khi tạo contact
+    update_contact_avatar if @contact_inbox.present? && @contact_inbox.contact.present?
+  end
+
+  # Cập nhật avatar cho contact sau khi đã tạo
+  def update_contact_avatar
+    contact = @contact_inbox.contact
+    return if contact.avatar.attached?
+
+    # Sử dụng URL trực tiếp từ Graph API với các tham số mới nhất
+    cache_buster = Time.now.to_i
+    avatar_url = "https://graph.facebook.com/#{@sender_id}/picture?type=large&width=200&height=200&redirect=false&access_token=#{@inbox.channel.page_access_token}&cb=#{cache_buster}"
+    Rails.logger.info("Scheduling avatar update for contact #{contact.id} with URL: #{avatar_url}")
+
+    # Sử dụng perform_later với delay để tránh blocking và để đảm bảo contact đã được lưu vào database
+    Avatar::AvatarFromUrlJob.set(wait: 2.seconds).perform_later(contact, avatar_url)
   end
 
   def build_message
@@ -128,7 +151,8 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
   def process_contact_params_result(result)
     # Tạo URL avatar trực tiếp từ Facebook Graph API nếu có sender_id
     avatar_url = if @sender_id.present?
-                  "https://graph.facebook.com/#{@sender_id}/picture?type=large&access_token=#{@inbox.channel.page_access_token}"
+                  cache_buster = Time.now.to_i
+                  "https://graph.facebook.com/#{@sender_id}/picture?type=large&width=200&height=200&redirect=false&access_token=#{@inbox.channel.page_access_token}&cb=#{cache_buster}"
                 else
                   result['profile_pic']
                 end
