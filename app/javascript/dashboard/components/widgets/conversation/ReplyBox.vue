@@ -686,8 +686,11 @@ export default {
           this.isATwilioWhatsAppChannel ||
           this.isAWhatsAppCloudChannel ||
           this.is360DialogWhatsAppChannel;
+        const isOnInstagram = this.isAInstagramChannel;
         if (isOnWhatsApp && !this.isPrivate) {
           this.sendMessageAsMultipleMessages(this.message);
+        } else if (isOnInstagram) {
+          this.sendMessageAsSeparateMessages(this.message);
         } else {
           const messagePayload = this.getMessagePayload(this.message);
           this.sendMessage(messagePayload);
@@ -704,6 +707,15 @@ export default {
     },
     sendMessageAsMultipleMessages(message) {
       const messages = this.getMessagePayloadForWhatsapp(message);
+      messages.forEach(messagePayload => {
+        this.sendMessage(messagePayload);
+      });
+    },
+    // When users send messages containing both text and attachments on Instagram, Instagram treats them as separate messages.
+    // Although Chatwoot combines these into a single message, Instagram sends separate echo events for each component.
+    // This can create duplicate events in Chatwoot. To prevent this issue, we'll handle text and attachments as separate messages.
+    sendMessageAsSeparateMessages(message) {
+      const messages = this.getMessagePayloadForInstagram(message);
       messages.forEach(messagePayload => {
         this.sendMessage(messagePayload);
       });
@@ -971,6 +983,41 @@ export default {
 
       return multipleMessagePayload;
     },
+    getMessagePayloadForInstagram(message) {
+      const multipleMessagePayload = [];
+
+      if (this.attachedFiles && this.attachedFiles.length) {
+        this.attachedFiles.forEach(attachment => {
+          const attachedFile = this.globalConfig.directUploadsEnabled
+            ? attachment.blobSignedId
+            : attachment.resource.file;
+          let attachmentPayload = {
+            conversationId: this.currentChat.id,
+            files: [attachedFile],
+            private: false,
+            message: '',
+            sender: this.sender,
+          };
+
+          attachmentPayload = this.setReplyToInPayload(attachmentPayload);
+          multipleMessagePayload.push(attachmentPayload);
+        });
+      }
+      if (this.message) {
+        let messagePayload = {
+          conversationId: this.currentChat.id,
+          message,
+          private: false,
+          sender: this.sender,
+        };
+
+        messagePayload = this.setReplyToInPayload(messagePayload);
+
+        multipleMessagePayload.push(messagePayload);
+      }
+
+      return multipleMessagePayload;
+    },
     getMessagePayload(message) {
       let messagePayload = {
         conversationId: this.currentChat.id,
@@ -1136,7 +1183,7 @@ export default {
         v-else-if="!showRichContentEditor"
         ref="messageInput"
         v-model="message"
-        class="input rounded-none"
+        class="rounded-none input"
         :placeholder="messagePlaceHolder"
         :min-height="4"
         :signature="signatureToApply"
