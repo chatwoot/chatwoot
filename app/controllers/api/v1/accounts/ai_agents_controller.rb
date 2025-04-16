@@ -48,17 +48,20 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
 
   def destroy
     chat_flow_id = @ai_agent.chat_flow_id
+    store_id = @ai_agent.knowledge_source&.store_id
 
     if @ai_agent.destroy
       begin
         AiAgents::FlowiseService.delete_chat_flow(id: chat_flow_id) if chat_flow_id.present?
+        AiAgents::FlowiseService.delete_document_store(store_id: store_id) if store_id.present?
       rescue StandardError => e
         Rails.logger.error("Failed to delete chat flow: #{e.message}")
-        render json: { error: "Failed to delete chat flow: #{e.message}" }, status: :bad_gateway
+        render json: { error: "Failed to delete chat flow: #{e.message}" }, status: :bad_request
+        return
       end
       head :no_content
     else
-      render json: @ai_agent.errors, status: :unprocessable_entity
+      render json: { error: 'Failed to delete AI Agent' }, status: :bad_request
     end
   end
 
