@@ -37,6 +37,7 @@
     "ASSIGN_TO_ME": "Prideliť mne",
     "TWILIO_WHATSAPP_CAN_REPLY": "Na túto konverzáciu môžete odpovedať len pomocou šablóny správy z dôvodu",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-hodinové obmedzenie okna správ",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
     "REPLYING_TO": "Odpovedáte na:",
     "REMOVE_SELECTION": "Odstrániť výber",
     "DOWNLOAD": "Stiahnuť",
