@@ -9,6 +9,12 @@ namespace :data do
       exit
     end
 
+    # Configure logger
+    Rails.logger = ActiveSupport::Logger.new($stdout)
+    Rails.logger.formatter = proc do |severity, datetime, _progname, msg|
+      "#{datetime.strftime('%Y-%m-%d %H:%M:%S.%L')} #{severity}: #{msg}\n"
+    end
+
     begin
       TestData::DatabaseOptimizer.setup
       TestData.generate
