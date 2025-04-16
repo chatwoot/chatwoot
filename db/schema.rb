@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_15_111556) do
+ActiveRecord::Schema[7.0].define(version: 2025_04_16_070218) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -782,6 +782,19 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_15_111556) do
     t.index ["knowledge_source_id"], name: "index_knowledge_source_files_on_knowledge_source_id"
   end
 
+  create_table "knowledge_source_qnas", force: :cascade do |t|
+    t.bigint "knowledge_source_id", null: false
+    t.string "question", null: false
+    t.text "answer", null: false
+    t.jsonb "source_config", default: {}, null: false
+    t.integer "total_chunks", default: 0, null: false
+    t.integer "total_chars", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "loader_id", default: "", null: false
+    t.index ["knowledge_source_id"], name: "index_knowledge_source_qnas_on_knowledge_source_id"
+  end
+
   create_table "knowledge_source_texts", force: :cascade do |t|
     t.bigint "knowledge_source_id", null: false
     t.text "text", null: false
@@ -1267,6 +1280,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_15_111556) do
   add_foreign_key "ai_agent_selected_labels", "labels"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "knowledge_source_files", "knowledge_sources"
+  add_foreign_key "knowledge_source_qnas", "knowledge_sources"
   add_foreign_key "knowledge_source_texts", "knowledge_sources"
   add_foreign_key "knowledge_source_websites", "knowledge_sources"
   add_foreign_key "knowledge_sources", "ai_agents"

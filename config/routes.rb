@@ -105,6 +105,8 @@ Rails.application.routes.draw do
                 post 'website/links', to: 'knowledge_source_websites#collect_link'
                 post 'website', to: 'knowledge_source_websites#create'
                 delete 'website', to: 'knowledge_source_websites#destroy'
+                post 'qna', to: 'knowledge_source_qna#create'
+                delete 'qna/:id', to: 'knowledge_source_qna#destroy'
               end
             end
           end
