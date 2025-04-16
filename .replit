@@ -1,0 +1,8 @@
+modules = ["ruby-3.2", "vue-node-20", "nodejs-20", "web"]
+compile = "make"
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+build = ["sh", "-c", "make"]
