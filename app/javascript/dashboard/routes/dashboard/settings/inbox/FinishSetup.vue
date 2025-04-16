@@ -21,14 +21,14 @@ export default {
     // Check if a facebook inbox that has the same instagram_id
     hasDuplicateInstagramInbox() {
       const instagramId = this.currentInbox.instagram_id;
-      const facebookInbox =
-        this.$store.getters['inboxes/getFacebookInboxByInstagramId'](
+      const instagramInbox =
+        this.$store.getters['inboxes/getInstagramInboxByInstagramId'](
           instagramId
         );
 
       return (
         this.currentInbox.channel_type === INBOX_TYPES.INSTAGRAM &&
-        facebookInbox
+        instagramInbox
       );
     },
 
