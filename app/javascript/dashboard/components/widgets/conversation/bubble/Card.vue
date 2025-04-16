@@ -6,7 +6,7 @@
       </div>
       <div class="card-content">
         <h3 v-if="item.title" class="card-title">{{ item.title }}</h3>
-        <p v-if="item.description" class="card-description">{{ item.description }}</p>
+        <p v-if="item.description" class="card-description" v-html="renderMarkdown(item.description)"></p>
         <div v-if="item.actions && item.actions.length" class="card-actions">
           <button
             v-for="(action, actionIndex) in item.actions"
@@ -26,6 +26,7 @@
 <script>
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { renderMarkdown } from 'shared/helpers/markdown';
 
 export default {
   name: 'BubbleCard',
@@ -42,6 +43,9 @@ export default {
       } else if (action.type === 'postback') {
         emitter.emit(BUS_EVENTS.CARD_ACTION, action.payload);
       }
+    },
+    renderMarkdown(text) {
+      return renderMarkdown(text);
     },
   },
 };
@@ -76,19 +80,43 @@ export default {
   @apply text-sm text-slate-600 dark:text-slate-300 mb-4;
 }
 
+.card-description :deep(p) {
+  @apply mb-2;
+}
+
+.card-description :deep(strong) {
+  @apply font-semibold;
+}
+
+.card-description :deep(em) {
+  @apply italic;
+}
+
+.card-description :deep(ul), .card-description :deep(ol) {
+  @apply pl-4 mb-2;
+}
+
+.card-description :deep(li) {
+  @apply mb-1;
+}
+
 .card-actions {
   @apply flex flex-wrap gap-2;
 }
 
 .card-action-button {
-  @apply px-3 py-1.5 text-sm rounded-md transition-colors;
+  @apply px-3 py-1.5 text-sm rounded-md transition-colors duration-200;
+  @apply bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600;
+  @apply text-slate-700 dark:text-slate-200;
 
   &.is-link {
-    @apply bg-woot-500 text-white hover:bg-woot-600;
+    @apply bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800;
+    @apply text-blue-700 dark:text-blue-200;
   }
 
   &.is-postback {
-    @apply bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-600;
+    @apply bg-green-100 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-800;
+    @apply text-green-700 dark:text-green-200;
   }
 }
 </style> 
