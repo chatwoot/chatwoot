@@ -23,17 +23,31 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
       send_message_to_facebook(fb_text_message_params)
     end
 
-    if message.attachments.present?
-      message.attachments.each do |attachment|
-        send_message_to_facebook(fb_attachment_message_params(attachment))
-      end
-    end
+    # Xử lý gửi hình ảnh tối ưu
+    send_attachments_optimized if message.attachments.present?
 
     # Tắt typing indicator sau khi gửi tin nhắn
     disable_typing_indicator
   rescue Facebook::Messenger::FacebookError => e
     handle_facebook_error(e)
     message.update!(status: :failed, external_error: e.message)
+  end
+
+  # Phương thức mới để xử lý gửi hình ảnh tối ưu
+  def send_attachments_optimized
+    # Đối với các tin nhắn có nhiều hình ảnh, có thể cân nhắc việc xử lý bất đồng bộ ở đây
+    # Hiện tại chúng ta vẫn xử lý tuần tự nhưng đã tối ưu bằng cách ưu tiên sử dụng external_url
+
+    message.attachments.each do |attachment|
+      # Ghi log để theo dõi loại URL được sử dụng
+      if attachment.external_url.present?
+        Rails.logger.info "Facebook::SendOnFacebookService: Using external_url for attachment #{attachment.id}"
+      else
+        Rails.logger.info "Facebook::SendOnFacebookService: Using download_url for attachment #{attachment.id}"
+      end
+
+      send_message_to_facebook(fb_attachment_message_params(attachment))
+    end
   end
 
   def send_message_to_facebook(delivery_params)
@@ -121,13 +135,22 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   end
 
   def fb_attachment_message_params(attachment)
+    # Ưu tiên sử dụng external_url nếu có, giúp tối ưu hiệu năng vì không cần tải hình ảnh về Chatwoot trước
+    attachment_url = if attachment.external_url.present?
+                      attachment.external_url
+                    else
+                      attachment.download_url
+                    end
+
+    Rails.logger.info "Facebook::SendOnFacebookService: Sending attachment with URL: #{attachment_url}"
+
     {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {
         attachment: {
           type: attachment_type(attachment),
           payload: {
-            url: attachment.download_url
+            url: attachment_url
           }
         }
       },
