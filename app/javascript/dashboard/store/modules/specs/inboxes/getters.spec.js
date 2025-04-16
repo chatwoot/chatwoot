@@ -43,6 +43,7 @@ describe('#getters', () => {
       widget_color: null,
       website_token: null,
       enable_auto_assignment: true,
+      instagram_id: 123456789,
     });
   });
 
@@ -62,6 +63,22 @@ describe('#getters', () => {
       isCreating: false,
       isUpdating: false,
       isDeleting: false,
+    });
+  });
+
+  it('getFacebookInboxByInstagramId', () => {
+    const state = { records: inboxList };
+    expect(getters.getFacebookInboxByInstagramId(state)(123456789)).toEqual({
+      id: 1,
+      channel_id: 1,
+      name: 'Test FacebookPage 1',
+      channel_type: 'Channel::FacebookPage',
+      avatar_url: 'random_image.png',
+      page_id: '12345',
+      widget_color: null,
+      website_token: null,
+      enable_auto_assignment: true,
+      instagram_id: 123456789,
     });
   });
 });
