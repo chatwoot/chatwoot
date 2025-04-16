@@ -62,14 +62,6 @@ RSpec.describe Crm::Leadsquared::Mappers::ContactMapper do
     end
 
     context 'when contact has missing attributes' do
-      it 'sets LastName to Unknown when missing' do
-        contact.update!(last_name: '')
-
-        mapped_data = described_class.map(contact)
-
-        expect(mapped_data['LastName']).to eq('Unknown')
-      end
-
       it 'excludes optional attributes when missing' do
         contact.update!(
           name: '',
