@@ -27,18 +27,21 @@ class Facebook::TypingIndicatorService
 
     typing_params = {
       recipient: { id: recipient_id },
-      sender_action: action
+      sender_action: action,
+      messaging_type: 'RESPONSE' # Thêm messaging_type để tuân thủ các yêu cầu mới của Facebook
     }
-    
+
     begin
       result = Facebook::Messenger::Bot.deliver(typing_params, page_id: channel.page_id)
       parsed_result = JSON.parse(result) if result.is_a?(String)
-      
+
       if parsed_result && parsed_result['error'].present?
-        Rails.logger.error "Facebook::TypingIndicatorService: Error sending typing indicator to Facebook: #{parsed_result['error']}"
+        error_code = parsed_result['error']['code'] || 'unknown'
+        error_message = parsed_result['error']['message'] || 'Unknown error'
+        Rails.logger.error "Facebook::TypingIndicatorService: Error sending typing indicator to Facebook: Code #{error_code} - #{error_message}"
         return false
       end
-      
+
       Rails.logger.debug "Facebook::TypingIndicatorService: Successfully sent #{action} to Facebook for recipient #{recipient_id}"
       true
     rescue => e
@@ -46,18 +49,18 @@ class Facebook::TypingIndicatorService
       false
     end
   end
-  
+
   def valid_action?(action)
     return true if %w[typing_on typing_off mark_seen].include?(action)
-    
+
     Rails.logger.error "Facebook::TypingIndicatorService: Invalid action: #{action}"
     false
   end
-  
+
   def valid_channel?
     return true if channel.is_a?(Channel::FacebookPage)
-    
+
     Rails.logger.error "Facebook::TypingIndicatorService: Invalid channel type: #{channel.class}"
     false
   end
-end 
+end

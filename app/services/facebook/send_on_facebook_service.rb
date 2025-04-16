@@ -9,6 +9,10 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     # Gửi typing indicator trước khi gửi tin nhắn
     enable_typing_indicator
 
+    # Đợi một khoảng thời gian ngắn để typing indicator hiển thị trước khi gửi tin nhắn
+    # Điều này giúp người dùng có thể thấy typing indicator trước khi nhận được tin nhắn
+    sleep(1.0) # Đợi 1 giây để typing indicator hiển thị
+
     if message.content_type == 'input_select'
       send_message_to_facebook(fb_select_message_params)
     elsif message.content_type == 'cards'
@@ -64,6 +68,14 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   def enable_typing_indicator
     return if contact.blank? || contact.get_source_id(inbox.id).blank?
 
+    # Đầu tiên đánh dấu tin nhắn đã xem (mark_seen)
+    # Điều này giúp cải thiện trải nghiệm người dùng và tăng khả năng hiển thị typing indicator
+    mark_seen_result = typing_service.mark_seen
+
+    # Đợi một khoảng thời gian ngắn để Facebook xử lý request mark_seen
+    sleep(0.3) if mark_seen_result
+
+    # Bật typing indicator
     result = typing_service.enable
     if result
       Rails.logger.debug "Successfully enabled typing indicator for recipient #{contact.get_source_id(inbox.id)}"
