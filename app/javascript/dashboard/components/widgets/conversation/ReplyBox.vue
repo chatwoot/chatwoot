@@ -709,7 +709,7 @@ export default {
       }
     },
     sendMessageAsMultipleMessages(message, channel = 'whatsapp') {
-      const messages = this.getMessagePayloadForChannel(message, channel);
+      const messages = this.getMultipleMessagesPayload(message, channel);
       messages.forEach(messagePayload => {
         this.sendMessage(messagePayload);
       });
@@ -942,7 +942,7 @@ export default {
 
       return payload;
     },
-    getMessagePayloadForChannel(message, channelType) {
+    getMultipleMessagesPayload(message, channelType) {
       const multipleMessagePayload = [];
       const isInstagram = channelType === 'instagram';
       const hasNoAttachments =
