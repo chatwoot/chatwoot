@@ -22,10 +22,14 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
   end
 
   def handle_contact_created(contact)
+    return unless contact_valid?(contact)
+
     create_or_update_lead(contact, nil)
   end
 
   def handle_contact_updated(contact)
+    return unless contact_valid?(contact)
+
     lead_id = get_external_id(contact)
     create_or_update_lead(contact, lead_id)
   end

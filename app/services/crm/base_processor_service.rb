@@ -54,6 +54,11 @@ class Crm::BaseProcessorService
 
   protected
 
+  def contact_valid?(contact)
+    has_social_profile = contact.additional_attributes['social_profiles'].present?
+    contact.present? && (contact.email.present? || contact.phone_number.present? || has_social_profile)
+  end
+
   def get_external_id(contact)
     return nil if contact.additional_attributes.blank?
     return nil if contact.additional_attributes['external'].blank?
