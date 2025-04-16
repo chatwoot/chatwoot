@@ -788,11 +788,15 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_03_053114) do
     t.text "processed_message_content"
     t.jsonb "sentiment", default: {}
     t.index "((additional_attributes -> 'campaign_id'::text))", name: "index_messages_on_additional_attributes_campaign_id", using: :gin
-    t.index ["account_id", "inbox_id", "created_at"], name: "index_messages_account_inbox_created_at_recent", order: { created_at: :desc }, where: "(created_at >= '2025-01-01 00:00:00'::timestamp without time zone)"
+    t.index ["account_id", "created_at", "message_type"], name: "index_messages_on_account_created_type"
+    t.index ["account_id", "inbox_id", "created_at"], name: "index_messages_account_inbox_created_at", order: { created_at: :desc }
     t.index ["account_id", "inbox_id"], name: "index_messages_on_account_id_and_inbox_id"
-    t.index ["content"], name: "index_messages_content_trigram_recent", opclass: :gin_trgm_ops, where: "(created_at >= '2025-01-01 00:00:00'::timestamp without time zone)", using: :gin
+    t.index ["account_id"], name: "index_messages_on_account_id"
+    t.index ["content"], name: "index_messages_content_trigram", opclass: :gin_trgm_ops, using: :gin
+    t.index ["content"], name: "index_messages_on_content", opclass: :gin_trgm_ops, using: :gin
     t.index ["conversation_id", "account_id", "message_type", "created_at"], name: "index_messages_on_conversation_account_type_created"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+    t.index ["created_at"], name: "index_messages_on_created_at"
     t.index ["inbox_id"], name: "index_messages_on_inbox_id"
     t.index ["sender_type", "sender_id"], name: "index_messages_on_sender_type_and_sender_id"
     t.index ["source_id"], name: "index_messages_on_source_id"
