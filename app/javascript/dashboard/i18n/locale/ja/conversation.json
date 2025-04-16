@@ -37,6 +37,7 @@
     "ASSIGN_TO_ME": "自分に割り当て",
     "TWILIO_WHATSAPP_CAN_REPLY": "この会話にはテンプレートメッセージでしか返信できません。",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24時間以内のメッセージウィンドウの制限",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
     "REPLYING_TO": "以下に返信：",
     "REMOVE_SELECTION": "選択項目を削除",
     "DOWNLOAD": "ダウンロード",
