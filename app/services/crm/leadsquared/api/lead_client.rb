@@ -7,6 +7,7 @@ class Crm::Leadsquared::Api::LeadClient < Crm::Leadsquared::Api::BaseClient
     params = { key: key }
 
     # Empty response: {:success=>true, :data=>[]}
+    # Data response: {:success=>true, :data=>[{"ProspectID"=>"456", ...}]}
     # Error response: {:success=>false, :error=>'Error message', :code=>404}
 
     get(path, params)
