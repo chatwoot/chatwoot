@@ -19,6 +19,7 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
   end
 
   def handle_contact(contact)
+    contact.reload
     return unless contact_valid?(contact)
 
     stored_lead_id = get_external_id(contact)
