@@ -2,23 +2,13 @@
   "AGENT_BOTS": {
     "HEADER": "机器人",
     "LOADING_EDITOR": "正在加载编辑器...",
-    "DESCRIPTION": "客服机器人就像您团队中最出色的成员。它们可以处理琐事，让您专注于重要的事情。试试看吧。您可以在此页面管理您的机器人，或使用“配置新机器人”按钮创建新的机器人。",
+    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
     "LEARN_MORE": "了解客服机器人",
-    "CSML_BOT_EDITOR": {
-      "NAME": {
-        "LABEL": "机器人名称",
-        "PLACEHOLDER": "为您的机器人命名。",
-        "ERROR": "机器人名称是必填的。"
-      },
-      "DESCRIPTION": {
-        "LABEL": "机器人描述",
-        "PLACEHOLDER": "这个机器人的用途是？"
-      },
-      "BOT_CONFIG": {
-        "ERROR": "请在上方输入您的 CSML 机器人配置。",
-        "API_ERROR": "您的 CSML 配置无效。请修复后再试。"
-      },
-      "SUBMIT": "验证并保存"
+    "GLOBAL_BOT": "System bot",
+    "GLOBAL_BOT_BADGE": "系统",
+    "AVATAR": {
+      "SUCCESS_DELETE": "Bot avatar deleted successfully",
+      "ERROR_DELETE": "Error deleting bot avatar, please try again"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "选择一个客服机器人",
@@ -32,7 +22,7 @@
       "SELECT_PLACEHOLDER": "选择机器人"
     },
     "ADD": {
-      "TITLE": "配置新机器人",
+      "TITLE": "Add Bot",
       "CANCEL_BUTTON_TEXT": "取消",
       "API": {
         "SUCCESS_MESSAGE": "机器人添加成功.",
@@ -40,16 +30,22 @@
       }
     },
     "LIST": {
-      "404": "未找到机器人。您可以通过点击“配置新机器人”按钮 ↗ 来创建一个机器人",
+      "404": "No bots found. You can create a bot by clicking the 'Add Bot' button.",
       "LOADING": "正在获取机器人...",
-      "TYPE": "机器人类型"
+      "TABLE_HEADER": {
+        "DETAILS": "Bot Details",
+        "URL": "Webhook 网址"
+      }
     },
     "DELETE": {
       "BUTTON_TEXT": "删除",
       "TITLE": "删除机器人",
-      "SUBMIT": "删除",
-      "CANCEL_BUTTON_TEXT": "取消",
-      "DESCRIPTION": "您确定要删除此机器人吗？此操作不可撤销。",
+      "CONFIRM": {
+        "TITLE": "确认删除",
+        "MESSAGE": "Are you sure you want to delete {name}?",
+        "YES": "是，删除",
+        "NO": "不，保留"
+      },
       "API": {
         "SUCCESS_MESSAGE": "成功删除机器人.",
         "ERROR_MESSAGE": "无法删除机器人。请再试一次。"
@@ -57,17 +53,44 @@
     },
     "EDIT": {
       "BUTTON_TEXT": "编辑",
-      "LOADING": "正在获取机器人...",
       "TITLE": "编辑机器人",
-      "CANCEL_BUTTON_TEXT": "取消",
       "API": {
         "SUCCESS_MESSAGE": "机器人更新成功.",
         "ERROR_MESSAGE": "无法更新机器人。请再试一次。"
       }
     },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "Bot avatar"
+      },
+      "NAME": {
+        "LABEL": "机器人名称",
+        "PLACEHOLDER": "Enter bot name",
+        "REQUIRED": "Bot name is required"
+      },
+      "DESCRIPTION": {
+        "LABEL": "描述信息",
+        "PLACEHOLDER": "这个机器人的用途是？"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "Webhook 网址",
+        "PLACEHOLDER": "https://example.com/webhook",
+        "REQUIRED": "Webhook URL is required"
+      },
+      "ERRORS": {
+        "NAME": "Bot name is required",
+        "URL": "Webhook URL is required",
+        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+      },
+      "CANCEL": "取消",
+      "CREATE": "Create Bot",
+      "UPDATE": "Update Bot"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."
+    },
     "TYPES": {
-      "WEBHOOK": "Webhook 机器人",
-      "CSML": "CSML 机器人"
+      "WEBHOOK": "Webhook 机器人"
     }
   }
 }
