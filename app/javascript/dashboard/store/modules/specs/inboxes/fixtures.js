@@ -9,6 +9,7 @@ export default [
     widget_color: null,
     website_token: null,
     enable_auto_assignment: true,
+    instagram_id: 123456789,
   },
   {
     id: 2,
