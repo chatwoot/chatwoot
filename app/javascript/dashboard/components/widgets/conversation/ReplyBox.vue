@@ -688,9 +688,9 @@ export default {
           this.is360DialogWhatsAppChannel;
         const isOnInstagram = this.isAInstagramChannel;
         if (isOnWhatsApp && !this.isPrivate) {
-          this.sendMessageAsMultipleMessages(this.message);
+          this.sendMessageAsMultipleMessages(this.message, 'whatsapp');
         } else if (isOnInstagram && !this.isPrivate) {
-          this.sendInstagramMessage(this.message);
+          this.sendMessageAsMultipleMessages(this.message, 'instagram');
         } else {
           const messagePayload = this.getMessagePayload(this.message);
           this.sendMessage(messagePayload);
@@ -705,21 +705,16 @@ export default {
         this.$emit('update:popoutReplyBox', false);
       }
     },
-    sendMessageAsMultipleMessages(message) {
-      const messages = this.getMessagePayloadForWhatsapp(message);
-      messages.forEach(messagePayload => {
-        this.sendMessage(messagePayload);
-      });
-    },
     // When users send messages containing both text and attachments on Instagram, Instagram treats them as separate messages.
     // Although Chatwoot combines these into a single message, Instagram sends separate echo events for each component.
     // This can create duplicate messages in Chatwoot. To prevent this issue, we'll handle text and attachments as separate messages.
-    sendInstagramMessage(message) {
-      const messages = this.getMessagePayloadForInstagram(message);
+    sendMessageAsMultipleMessages(message, channel = 'whatsapp') {
+      const messages = this.getMessagePayloadForChannel(message, channel);
       messages.forEach(messagePayload => {
         this.sendMessage(messagePayload);
       });
     },
+
     sendMessageAnalyticsData(isPrivate) {
       // Analytics data for message signature is enabled or not in channels
       return isPrivate
@@ -947,11 +942,14 @@ export default {
 
       return payload;
     },
-    getMessagePayloadForWhatsapp(message) {
+    getMessagePayloadForChannel(message, channelType) {
       const multipleMessagePayload = [];
+      const isInstagram = channelType === 'instagram';
+      const hasNoAttachments =
+        !this.attachedFiles || !this.attachedFiles.length;
 
       if (this.attachedFiles && this.attachedFiles.length) {
-        let caption = message;
+        let caption = isInstagram ? '' : message;
         this.attachedFiles.forEach(attachment => {
           const attachedFile = this.globalConfig.directUploadsEnabled
             ? attachment.blobSignedId
@@ -966,9 +964,15 @@ export default {
 
           attachmentPayload = this.setReplyToInPayload(attachmentPayload);
           multipleMessagePayload.push(attachmentPayload);
-          caption = '';
+
+          // For WhatsApp, only the first attachment gets a caption
+          if (!isInstagram) caption = '';
         });
-      } else {
+      }
+
+      // For Instagram, we need a separate text message
+      // For WhatsApp, we only need a text message if there are no attachments
+      if ((isInstagram && this.message) || (!isInstagram && hasNoAttachments)) {
         let messagePayload = {
           conversationId: this.currentChat.id,
           message,
@@ -977,47 +981,12 @@ export default {
         };
 
         messagePayload = this.setReplyToInPayload(messagePayload);
-
         multipleMessagePayload.push(messagePayload);
       }
 
       return multipleMessagePayload;
     },
-    getMessagePayloadForInstagram(message) {
-      const multipleMessagePayload = [];
 
-      if (this.attachedFiles && this.attachedFiles.length) {
-        this.attachedFiles.forEach(attachment => {
-          const attachedFile = this.globalConfig.directUploadsEnabled
-            ? attachment.blobSignedId
-            : attachment.resource.file;
-          let attachmentPayload = {
-            conversationId: this.currentChat.id,
-            files: [attachedFile],
-            private: false,
-            message: '',
-            sender: this.sender,
-          };
-
-          attachmentPayload = this.setReplyToInPayload(attachmentPayload);
-          multipleMessagePayload.push(attachmentPayload);
-        });
-      }
-      if (this.message) {
-        let messagePayload = {
-          conversationId: this.currentChat.id,
-          message,
-          private: false,
-          sender: this.sender,
-        };
-
-        messagePayload = this.setReplyToInPayload(messagePayload);
-
-        multipleMessagePayload.push(messagePayload);
-      }
-
-      return multipleMessagePayload;
-    },
     getMessagePayload(message) {
       let messagePayload = {
         conversationId: this.currentChat.id,
