@@ -77,6 +77,19 @@ class Attachment < ApplicationRecord
   private
 
   def file_metadata
+    # Nếu có external_url, sử dụng nó thay vì file_url
+    if external_url.present?
+      return {
+        extension: extension || external_url.split('.').last,
+        data_url: external_url,
+        thumb_url: external_url,
+        file_size: nil,
+        width: nil,
+        height: nil
+      }
+    end
+
+    # Xử lý thông thường cho file đính kèm
     metadata = {
       extension: extension,
       data_url: file_url,
@@ -123,6 +136,9 @@ class Attachment < ApplicationRecord
   end
 
   def should_validate_file?
+    # Không cần xác thực nếu sử dụng external_url
+    return false if external_url.present?
+
     return unless file.attached?
     # we are only limiting attachment types in case of website widget
     return unless message.inbox.channel_type == 'Channel::WebWidget'

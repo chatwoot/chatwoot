@@ -425,6 +425,14 @@
     $ref: ./application/conversation/messages/index.yml
   post:
     $ref: ./application/conversation/messages/create.yml
+
+# Messages with External URL Attachment
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages/with_external_url:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/conversation_id'
+  post:
+    $ref: ./application/conversation/messages/create_with_external_url.yml
 /api/v1/accounts/{account_id}/conversations/{conversation_id}/messages/{message_id}:
   parameters:
     - $ref: '#/parameters/account_id'

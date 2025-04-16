@@ -61,19 +61,127 @@ class Messages::MessageBuilder
   def process_attachments
     return if @attachments.blank?
 
-    @attachments.each do |uploaded_attachment|
-      attachment = @message.attachments.build(
-        account_id: @message.account_id,
-        file: uploaded_attachment
-      )
+    Rails.logger.info("Processing attachments in MessageBuilder: #{@attachments.inspect}")
+    Rails.logger.info("Attachments class in MessageBuilder: #{@attachments.class}")
 
-      attachment.file_type = if uploaded_attachment.is_a?(String)
-                               file_type_by_signed_id(
-                                 uploaded_attachment
-                               )
-                             else
-                               file_type(uploaded_attachment&.content_type)
-                             end
+    @attachments.each do |uploaded_attachment|
+      # Kiểm tra các trường hợp khác nhau của uploaded_attachment
+      Rails.logger.info("Processing attachment in MessageBuilder: #{uploaded_attachment.inspect}")
+      Rails.logger.info("Attachment class in MessageBuilder: #{uploaded_attachment.class}")
+
+      if uploaded_attachment.is_a?(Hash)
+        # Xử lý attachment với external_url (hash với key symbol)
+        if uploaded_attachment[:external_url].present?
+          Rails.logger.info("Building attachment with external_url (symbol): #{uploaded_attachment[:external_url]}")
+
+          file_type_value = if uploaded_attachment[:file_type].is_a?(String)
+                             uploaded_attachment[:file_type].to_sym
+                           elsif uploaded_attachment[:file_type].is_a?(Symbol)
+                             uploaded_attachment[:file_type]
+                           else
+                             :image
+                           end
+
+          attachment = @message.attachments.build(
+            account_id: @message.account_id,
+            external_url: uploaded_attachment[:external_url],
+            file_type: file_type_value
+          )
+
+          Rails.logger.info("Built attachment with symbol keys: #{attachment.inspect}")
+        # Xử lý attachment với external_url (hash với key string)
+        elsif uploaded_attachment['external_url'].present?
+          Rails.logger.info("Building attachment with external_url (string): #{uploaded_attachment['external_url']}")
+
+          file_type_value = if uploaded_attachment['file_type'].is_a?(String)
+                             uploaded_attachment['file_type'].to_sym
+                           else
+                             :image
+                           end
+
+          attachment = @message.attachments.build(
+            account_id: @message.account_id,
+            external_url: uploaded_attachment['external_url'],
+            file_type: file_type_value
+          )
+
+          Rails.logger.info("Built attachment with string keys: #{attachment.inspect}")
+        else
+          # Xử lý attachment thông thường (file)
+          Rails.logger.info("Building regular attachment from hash without external_url")
+
+          attachment = @message.attachments.build(
+            account_id: @message.account_id,
+            file: uploaded_attachment
+          )
+
+          attachment.file_type = file_type(uploaded_attachment&.content_type) || :file
+          Rails.logger.info("Built regular attachment from hash: #{attachment.inspect}")
+        end
+      elsif uploaded_attachment.is_a?(ActionController::Parameters)
+        # Xử lý attachment với external_url từ ActionController::Parameters
+        if uploaded_attachment[:external_url].present?
+          Rails.logger.info("Building attachment with external_url from params: #{uploaded_attachment[:external_url]}")
+
+          file_type_value = if uploaded_attachment[:file_type].present?
+                             uploaded_attachment[:file_type].to_s.to_sym
+                           else
+                             :image
+                           end
+
+          attachment = @message.attachments.build(
+            account_id: @message.account_id,
+            external_url: uploaded_attachment[:external_url],
+            file_type: file_type_value
+          )
+
+          Rails.logger.info("Built attachment from params: #{attachment.inspect}")
+        else
+          # Xử lý attachment thông thường (file)
+          Rails.logger.info("Building regular attachment from params without external_url")
+
+          attachment = @message.attachments.build(
+            account_id: @message.account_id,
+            file: uploaded_attachment
+          )
+
+          attachment.file_type = file_type(uploaded_attachment&.content_type) || :file
+          Rails.logger.info("Built regular attachment from params: #{attachment.inspect}")
+        end
+      elsif uploaded_attachment.is_a?(String)
+        # Xử lý attachment thông thường (signed_id)
+        Rails.logger.info("Building regular attachment from string")
+
+        # Kiểm tra xem có phải là URL không
+        if uploaded_attachment.start_with?('http://', 'https://')
+          Rails.logger.info("Detected URL in string: #{uploaded_attachment}")
+          attachment = @message.attachments.build(
+            account_id: @message.account_id,
+            external_url: uploaded_attachment,
+            file_type: :image
+          )
+        else
+          attachment = @message.attachments.build(
+            account_id: @message.account_id,
+            file: uploaded_attachment
+          )
+
+          attachment.file_type = file_type_by_signed_id(uploaded_attachment)
+        end
+
+        Rails.logger.info("Built regular attachment from string: #{attachment.inspect}")
+      else
+        # Xử lý attachment thông thường (file)
+        Rails.logger.info("Building regular attachment from unknown type: #{uploaded_attachment.class}")
+
+        attachment = @message.attachments.build(
+          account_id: @message.account_id,
+          file: uploaded_attachment
+        )
+
+        attachment.file_type = file_type(uploaded_attachment&.content_type) || :file
+        Rails.logger.info("Built regular attachment from unknown type: #{attachment.inspect}")
+      end
     end
   end
 

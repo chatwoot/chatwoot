@@ -98,6 +98,8 @@ contact_update:
 ## conversation
 conversation_message_create:
   $ref: ./request/conversation/create_message.yml
+conversation_message_create_with_external_url:
+  $ref: ./request/conversation/create_message_with_external_url.yml
 
 # Team request Payload
 team_create_update_payload:

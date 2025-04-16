@@ -1,0 +1,57 @@
+type: object
+required:
+  - content
+properties:
+  content:
+    type: string
+    description: The content of the message
+  message_type:
+    type: string
+    enum: ['outgoing', 'incoming']
+  private:
+    type: boolean
+    description: Flag to identify if it is a private note
+  content_type:
+    type: string
+    enum: ['text', 'input_email', 'cards', 'input_select', 'form' , 'article']
+    example: 'text'
+    description: 'if you want to create custom message types'
+  content_attributes:
+    type: object
+    description: attributes based on your content type
+  template_params:
+    type: object
+    description: The template params for the message in case of whatsapp Channel
+    properties:
+      name:
+        type: string
+        description: Name of the template
+        example: 'sample_issue_resolution'
+      category:
+        type: string
+        description: Category of the template
+        example: UTILITY
+      language:
+        type: string
+        description: Language of the template
+        example: en_US
+      processed_params: 
+        type: object
+        description: The processed param values for template variables in template
+        example: 
+          1: "Chatwoot"
+  attachments:
+    type: array
+    description: Array of attachments for the message
+    items:
+      type: object
+      properties:
+        file_type:
+          type: string
+          enum: ['image', 'audio', 'video', 'file']
+          description: The type of the attachment
+          example: 'image'
+        external_url:
+          type: string
+          description: The external URL of the attachment
+          example: 'https://example.com/image.jpg'

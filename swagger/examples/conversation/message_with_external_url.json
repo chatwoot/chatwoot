@@ -1,0 +1,10 @@
+{
+  "content": "Đây là tin nhắn với hình ảnh từ URL bên ngoài",
+  "attachments": [
+    {
+      "file_type": "image",
+      "external_url": "https://images2.thanhnien.vn/zoom/700_438/528068263637045248/2024/1/26/e093e9cfc9027d6a142358d24d2ee350-65a11ac2af785880-17061562929701875684912-37-0-587-880-crop-1706239860681642023140.jpg"
+    }
+  ],
+  "private": false
+}

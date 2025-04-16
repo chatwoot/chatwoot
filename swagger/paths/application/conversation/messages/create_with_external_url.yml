@@ -1,0 +1,25 @@
+tags:
+  - Messages
+operationId: create-a-new-message-with-external-url
+summary: Create New Message with External URL Attachment
+description: Create a new message in the conversation with an attachment using external URL
+security:
+  - userApiKey: []
+  - agentBotApiKey: []
+parameters:
+  - name: data
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/conversation_message_create_with_external_url'
+responses:
+  200:
+    description: Success
+    schema:
+      allOf:
+        - $ref: '#/definitions/generic_id'
+        - $ref: '#/definitions/message'
+  404:
+    description: Conversation not found
+  403:
+    description: Access denied
