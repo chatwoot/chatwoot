@@ -6,11 +6,9 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   end
 
   def perform_reply
-    # Đánh dấu tin nhắn đã xem trước khi gửi tin nhắn
-    # Chỉ khi agent hoặc bot thực sự đang xử lý tin nhắn thì mới đánh dấu đã xem
-    mark_seen
-
     # Gửi typing indicator trước khi gửi tin nhắn
+    # Việc đánh dấu tin nhắn đã xem sẽ được xử lý tự động trong ChannelListener
+    # khi gửi sự kiện typing_on
     enable_typing_indicator
 
     # Đợi một khoảng thời gian ngắn để typing indicator hiển thị trước khi gửi tin nhắn
@@ -102,19 +100,8 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     Rails.logger.error "Error disabling typing indicator: #{e.message}"
   end
 
-  # Đánh dấu tin nhắn đã xem - chỉ được gọi khi agent hoặc bot thực sự đang xử lý tin nhắn
-  def mark_seen
-    return if contact.blank? || contact.get_source_id(inbox.id).blank?
-
-    result = typing_service.mark_seen
-    if result
-      Rails.logger.debug "Successfully marked message as seen for recipient #{contact.get_source_id(inbox.id)}"
-    else
-      Rails.logger.warn "Failed to mark message as seen for recipient #{contact.get_source_id(inbox.id)}"
-    end
-  rescue => e
-    Rails.logger.error "Error marking message as seen: #{e.message}"
-  end
+  # Đánh dấu tin nhắn đã xem được xử lý tự động trong ChannelListener
+  # khi gửi sự kiện typing_on, không cần gọi trực tiếp từ đây
 
   def fb_text_message_params
     {
