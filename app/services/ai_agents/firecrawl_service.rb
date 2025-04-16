@@ -5,7 +5,7 @@ class AiAgents::FirecrawlService
   base_uri 'https://api.firecrawl.dev/v1'
 
   class << self
-    def map(url, limit: 5)
+    def map(url, limit: 30)
       response = post(
         '/map',
         body: { 'url' => url, 'limit' => limit }.to_json,

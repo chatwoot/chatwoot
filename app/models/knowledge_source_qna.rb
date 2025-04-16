@@ -28,30 +28,40 @@ class KnowledgeSourceQna < ApplicationRecord
 
   def self.create_or_update(qna_param:, document_loader:)
     if qna_param[:id].present?
-      knowledge_source_qna = find_by(id: qna_param[:id])
-      raise ActiveRecord::RecordNotFound, 'Knowledge source qna not found' unless knowledge_source_qna
-
-      previous_loader_id = knowledge_source_qna.loader_id
-
-      knowledge_source_qna.update!(
-        question: qna_param[:question],
-        answer: qna_param[:answer],
-        loader_id: document_loader['docId'],
-        total_chars: document_loader.dig('file', 'totalChars'),
-        total_chunks: document_loader.dig('file', 'totalChunks')
-      )
-
-      { qna: knowledge_source_qna, previous_loader_id: previous_loader_id }
+      update_record(qna_param: qna_param, document_loader: document_loader)
     else
-      new_qna = create!(
-        question: qna_param[:question],
-        answer: qna_param[:answer],
-        loader_id: document_loader['docId'],
-        total_chars: document_loader.dig('file', 'totalChars'),
-        total_chunks: document_loader.dig('file', 'totalChunks')
-      )
-
-      { qna: new_qna, previous_loader_id: nil }
+      create_record(qna_param: qna_param, document_loader: document_loader)
     end
+  end
+
+  private
+
+  def create_record(qna_param:, document_loader:)
+    new_qna = create!(
+      question: qna_param[:question],
+      answer: qna_param[:answer],
+      loader_id: document_loader['docId'],
+      total_chars: document_loader.dig('file', 'totalChars'),
+      total_chunks: document_loader.dig('file', 'totalChunks')
+    )
+
+    { qna: new_qna, previous_loader_id: nil }
+  end
+
+  def update_record(qna_param:, document_loader:)
+    knowledge_source_qna = find_by(id: qna_param[:id])
+    raise ActiveRecord::RecordNotFound, 'Knowledge source qna not found' unless knowledge_source_qna
+
+    previous_loader_id = knowledge_source_qna.loader_id
+
+    knowledge_source_qna.update!(
+      question: qna_param[:question],
+      answer: qna_param[:answer],
+      loader_id: document_loader['docId'],
+      total_chars: document_loader.dig('file', 'totalChars'),
+      total_chunks: document_loader.dig('file', 'totalChunks')
+    )
+
+    { qna: knowledge_source_qna, previous_loader_id: previous_loader_id }
   end
 end

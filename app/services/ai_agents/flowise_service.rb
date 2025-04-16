@@ -48,6 +48,13 @@ class AiAgents::FlowiseService
       response.parsed_response
     end
 
+    def delete_document_store(store_id:)
+      response = delete("/document-store/store/#{store_id}", headers: headers)
+      raise "Error deleting document store: #{response.code} #{response.message}" unless response.success?
+
+      response.parsed_response
+    end
+
     def add_document_loader(store_id:, loader_id:, splitter_id:, name:, content:)
       body = build_document_store_body(store_id, loader_id, splitter_id: splitter_id, name: name, content: content)
 
