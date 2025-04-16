@@ -68,6 +68,9 @@ export const validateLoggedInRoutes = (to, user, account) => {
     account.custom_attributes?.onboarding_step !== 'true' &&
     !to.fullPath?.includes('start')
   ) {
+    if (account.custom_attributes?.onboarding_step === 'undefined') {
+      return `accounts/${to.params.accountId}/start/setup-profile`;
+    }
     return `accounts/${to.params.accountId}/start/${account.custom_attributes?.onboarding_step}`;
   }
 
