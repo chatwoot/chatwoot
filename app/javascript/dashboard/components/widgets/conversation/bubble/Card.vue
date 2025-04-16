@@ -7,6 +7,7 @@
       <div class="card-content">
         <h3 v-if="item.title" class="card-title">{{ item.title }}</h3>
         <p v-if="item.description" class="card-description" v-html="renderMarkdown(item.description)"></p>
+        <p v-if="item.price" class="card-price">{{ item.price }}</p>
         <div v-if="item.actions && item.actions.length" class="card-actions">
           <button
             v-for="(action, actionIndex) in item.actions"
@@ -124,6 +125,10 @@ export default {
 
 .card-description :deep(a) {
   @apply text-blue-600 dark:text-blue-400 hover:underline;
+}
+
+.card-price {
+  @apply text-base font-semibold text-slate-900 dark:text-slate-100 text-center mb-3;
 }
 
 .card-actions {
