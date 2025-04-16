@@ -4,26 +4,51 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
   before_action :set_ai_agent
 
   def create
+    created_document_loader_ids = []
     scrapes = AiAgents::FirecrawlService.bulk_scrape(params[:links])
-    scrapes.map! do |scrape|
-      next unless scrape
 
-      knowledge_source = @ai_agent.knowledge_source
-      next unless knowledge_source
+    begin
+      ActiveRecord::Base.transaction do
+        scrapes.map! do |scrape|
+          raise ActiveRecord::Rollback, 'Scrape is nil' if scrape.nil?
 
-      document_loader = create_document_loader(knowledge_source.store_id, scrape[:url], scrape[:markdown])
-      next unless document_loader
+          knowledge_source = @ai_agent.knowledge_source
+          raise ActiveRecord::Rollback, 'Knowledge source not found' if knowledge_source.nil?
 
-      parent_url = get_parent_url(scrape[:url])
+          document_loader = create_document_loader(knowledge_source.store_id, scrape[:url], scrape[:markdown])
+          raise ActiveRecord::Rollback, 'Failed to create document loader' if document_loader.nil?
 
-      begin
-        knowledge_source.add_website!(url: scrape[:url], parent_url: parent_url, content: scrape[:markdown], document_loader: document_loader)
-      rescue StandardError => e
-        delete_document_loader(store_id: knowledge_source.store_id, loader_id: document_loader['docId'])
-        Rails.logger.error("Failed to create knowledge source: #{e.message}")
+          created_document_loader_ids << document_loader['docId']
+
+          parent_url = get_parent_url(scrape[:url])
+          knowledge_source.knowledge_source_websites.create_record!(
+            url: scrape[:url], parent_url: parent_url, content: scrape[:markdown], document_loader: document_loader
+          )
+        end
       end
+
+      render json: scrapes.compact, status: :created
+    rescue StandardError => e
+      created_document_loader_ids.each do |id|
+        delete_document_loader(store_id: knowledge_source.store_id, loader_id: id)
+      end
+      Rails.logger.error("Failed to create knowledge source websites: #{e.message}")
+      render json: { error: e.message }, status: :bad_request
     end
-    render json: scrapes.compact, status: :created
+  end
+
+  def update
+    knowledge_source = @ai_agent.knowledge_source
+    return render json: { error: 'Knowledge source not found' }, status: :not_found if knowledge_source.nil?
+
+    document_loader = create_document_loader(knowledge_source.store_id, scrape[:url], scrape[:markdown])
+    return render json: { error: 'Failed to create document loader' }, status: :bad_request if document_loader.nil?
+
+    begin
+      update_record(knowledge_source, document_loader)
+    rescue StandardError => e
+      handle_update_failure(knowledge_source, document_loader, e)
+    end
   end
 
   def destroy
@@ -39,11 +64,9 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
     end
 
     render json: { message: 'Knowledge source websites deleted successfully' }, status: :ok
-  rescue ActiveRecord::RecordNotFound
-    render json: { error: 'Knowledge source not found' }, status: :not_found
   rescue StandardError => e
     Rails.logger.error("Failed to delete knowledge source websites: #{e.message}")
-    render json: { error: 'Failed to delete knowledge source websites' }, status: :unprocessable_entity
+    render json: { error: 'Failed to delete knowledge source websites' }, status: :bad_request
   end
 
   def collect_link
@@ -64,6 +87,18 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
   rescue StandardError => e
     Rails.logger.error("Failed to add document loader: #{e.message}")
     nil
+  end
+
+  def update_record(knowledge_source, document_loader)
+    result = knowledge_source.knowledge_source_websites.update_record!(params: params, document_loader: document_loader)
+    delete_document_loader(store_id: knowledge_source.store_id, loader_id: result[:previous_loader_id])
+    render json: result[:updated], status: :ok
+  end
+
+  def handle_update_failure(knowledge_source, document_loader, error)
+    delete_document_loader(store_id: knowledge_source.store_id, loader_id: document_loader['docId'])
+    Rails.logger.error("Failed to update knowledge source website: #{error.message}")
+    render json: { error: 'Failed to update knowledge source website' }, status: :bad_request
   end
 
   def delete_document_loader(store_id:, loader_id:)

@@ -102,11 +102,13 @@ Rails.application.routes.draw do
                 patch :text, to: 'knowledge_source_texts#update'
                 delete :'text/:id', to: 'knowledge_source_texts#destroy'
                 post :file, to: 'knowledge_source_files#create'
-                post 'website/links', to: 'knowledge_source_websites#collect_link'
-                post 'website', to: 'knowledge_source_websites#create'
-                delete 'website', to: 'knowledge_source_websites#destroy'
-                post 'qna', to: 'knowledge_source_qna#create'
-                delete 'qna/:id', to: 'knowledge_source_qna#destroy'
+                delete :'file/:id', to: 'knowledge_source_files#destroy'
+                post :'website/links', to: 'knowledge_source_websites#collect_link'
+                post :website, to: 'knowledge_source_websites#create'
+                patch :website, to: 'knowledge_source_websites#update'
+                delete :website, to: 'knowledge_source_websites#destroy'
+                post :qna, to: 'knowledge_source_qna#create'
+                delete :'qna/:id', to: 'knowledge_source_qna#destroy'
               end
             end
           end

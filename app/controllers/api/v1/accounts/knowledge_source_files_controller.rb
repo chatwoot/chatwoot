@@ -19,7 +19,10 @@ class Api::V1::Accounts::KnowledgeSourceFilesController < Api::V1::Accounts::Bas
 
   def destroy
     knowledge_source = @ai_agent.knowledge_source
+    return render json: { error: 'Knowledge source not found' }, status: :not_found if knowledge_source.nil?
+
     knowledge_source_file = knowledge_source.knowledge_source_files.find(params[:id])
+    return render json: { error: 'Knowledge source file not found' }, status: :not_found if knowledge_source.nil?
 
     if knowledge_source_file.destroy
       delete_document_loader(store_id: knowledge_source.store_id, loader_id: knowledge_source_file.loader_id)
