@@ -163,5 +163,5 @@
   enabled: false
 - name: channel_instagram
   display_name: Instagram Channel
-  enabled: false
+  enabled: true
   chatwoot_internal: true

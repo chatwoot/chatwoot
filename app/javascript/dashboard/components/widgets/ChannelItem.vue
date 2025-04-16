@@ -32,10 +32,6 @@ export default {
         return this.enabledFeatures.channel_email;
       }
 
-      if (key === 'instagram') {
-        return this.enabledFeatures.channel_instagram;
-      }
-
       return [
         'website',
         'twilio',
