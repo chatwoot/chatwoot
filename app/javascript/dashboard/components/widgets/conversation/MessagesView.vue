@@ -36,6 +36,7 @@ import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { FEATURE_FLAGS } from '../../../featureFlags';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
@@ -207,6 +208,17 @@ export default {
     getLastSeenAt() {
       const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
       return contactLastSeenAt;
+    },
+
+    // Check there is a facebook inbox with the same instagram_id
+    hasDuplicateInstagramInbox() {
+      const instagramId = this.inbox.instagram_id;
+      const facebookInbox =
+        this.$store.getters['inboxes/getFacebookInboxByInstagramId'](
+          instagramId
+        );
+
+      return this.inbox.channel_type === INBOX_TYPES.FB && facebookInbox;
     },
 
     replyWindowBannerMessage() {
@@ -502,6 +514,12 @@ export default {
       :banner-message="replyWindowBannerMessage"
       :href-link="replyWindowLink"
       :href-link-text="replyWindowLinkText"
+    />
+    <Banner
+      v-else-if="hasDuplicateInstagramInbox"
+      color-scheme="alert"
+      class="mx-2 mt-2 overflow-hidden rounded-lg"
+      :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
     />
     <div class="flex justify-end">
       <NextButton
