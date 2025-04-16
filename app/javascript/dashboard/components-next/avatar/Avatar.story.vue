@@ -5,10 +5,30 @@ import Avatar from './Avatar.vue';
 <template>
   <Story title="Components/Avatar" :layout="{ type: 'grid', width: '400' }">
     <Variant title="Default">
-      <div class="p-4 bg-white dark:bg-slate-900">
+      <div class="flex p-4 space-x-4 bg-white dark:bg-slate-900">
         <Avatar
-          src="https://api.dicebear.com/9.x/avataaars/svg?seed=Amaya"
-          class="bg-ruby-300 dark:bg-ruby-900"
+          name=""
+          src="https://api.dicebear.com/9.x/thumbs/svg?seed=Amaya"
+        />
+        <Avatar name="Amaya" src="" />
+        <Avatar name="" src="" />
+      </div>
+    </Variant>
+
+    <Variant title="Different Shapes">
+      <div class="gap-4 p-4 bg-white dark:bg-slate-900">
+        <Avatar
+          src="https://api.dicebear.com/9.x/thumbs/svg?seed=Amaya"
+          name=""
+          allow-upload
+          rounded-full
+          :size="48"
+        />
+        <Avatar
+          src="https://api.dicebear.com/9.x/thumbs/svg?seed=Amaya"
+          name=""
+          allow-upload
+          :size="48"
         />
       </div>
     </Variant>
@@ -18,18 +38,75 @@ import Avatar from './Avatar.vue';
         <Avatar
           src="https://api.dicebear.com/9.x/avataaars/svg?seed=Felix"
           :size="48"
-          class="bg-green-300 dark:bg-green-900"
+          name=""
+          allow-upload
         />
         <Avatar
           :size="72"
           src="https://api.dicebear.com/9.x/avataaars/svg?seed=Jade"
-          class="bg-indigo-300 dark:bg-indigo-900"
+          name=""
+          allow-upload
         />
         <Avatar
           src="https://api.dicebear.com/9.x/avataaars/svg?seed=Emery"
+          name=""
           :size="96"
-          class="bg-woot-300 dark:bg-woot-900"
+          allow-upload
         />
+      </div>
+    </Variant>
+
+    <Variant title="With Status">
+      <div class="flex flex-wrap gap-4 p-4 bg-white dark:bg-slate-900">
+        <Avatar
+          src="https://api.dicebear.com/9.x/thumbs/svg?seed=Felix"
+          status="online"
+          name="Felix Online"
+        />
+        <Avatar
+          src="https://api.dicebear.com/9.x/thumbs/svg?seed=Jade"
+          status="busy"
+          name="Jade Busy"
+        />
+        <Avatar
+          src="https://api.dicebear.com/9.x/thumbs/svg?seed=Emery"
+          status="offline"
+          name="Emery Offline"
+        />
+      </div>
+    </Variant>
+
+    <Variant title="With Custom Icon">
+      <div class="flex flex-wrap gap-4 p-4 bg-white dark:bg-slate-900">
+        <Avatar name="Custom Icon" icon-name="i-lucide-user" :size="48" />
+        <Avatar
+          name="Custom Industry"
+          icon-name="i-lucide-building-2"
+          :size="48"
+        />
+      </div>
+    </Variant>
+
+    <Variant title="Upload States">
+      <div class="flex flex-wrap gap-4 p-4 bg-white dark:bg-slate-900">
+        <!-- Empty state with upload -->
+        <Avatar name="Upload New" allow-upload :size="48" />
+
+        <!-- With image and upload -->
+        <Avatar
+          src="https://api.dicebear.com/9.x/thumbs/svg?seed=Upload"
+          name="Replace Image"
+          allow-upload
+          :size="48"
+        />
+      </div>
+    </Variant>
+
+    <Variant title="Name Initials">
+      <div class="flex flex-wrap gap-4 p-4 bg-white dark:bg-slate-900">
+        <Avatar name="Catherine" :size="48" />
+        <Avatar name="John Doe" :size="48" />
+        <Avatar name="Rose Doe John" :size="48" />
       </div>
     </Variant>
   </Story>

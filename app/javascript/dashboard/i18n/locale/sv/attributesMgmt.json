@@ -92,7 +92,12 @@
       "CONTACT": "Contact"
     },
     "LIST": {
-      "TABLE_HEADER": ["Namn", "Beskrivning", "Type", "Key"],
+      "TABLE_HEADER": {
+        "NAME": "Namn",
+        "DESCRIPTION": "Beskrivning",
+        "TYPE": "Type",
+        "KEY": "Key"
+      },
       "BUTTONS": {
         "EDIT": "Redigera",
         "DELETE": "Radera"

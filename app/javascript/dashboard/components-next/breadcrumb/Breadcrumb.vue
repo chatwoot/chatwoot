@@ -1,59 +1,47 @@
 <script setup>
 import { defineProps } from 'vue';
 import { useI18n } from 'vue-i18n';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
+
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 defineProps({
   items: {
     type: Array,
     required: true,
-    validator: value => {
-      return value.every(
-        item =>
-          typeof item.label === 'string' &&
-          (item.link === undefined || typeof item.link === 'string') &&
-          (item.count === undefined || typeof item.count === 'number')
-      );
-    },
-  },
-  countLabel: {
-    type: String,
-    default: '',
   },
 });
 
+const emit = defineEmits(['click']);
+
 const { t } = useI18n();
+
+const onClick = event => {
+  emit('click', event);
+};
 </script>
 
 <template>
   <nav :aria-label="t('BREADCRUMB.ARIA_LABEL')" class="flex items-center h-8">
     <ol class="flex items-center mb-0">
-      <li
-        v-for="(item, index) in items"
-        :key="index"
-        class="flex items-center gap-3"
-      >
-        <template v-if="index === items.length - 1">
-          <span class="text-sm text-slate-900 dark:text-slate-50">
-            {{
-              `${item.label}${item.count ? ` (${item.count} ${countLabel})` : ''}`
-            }}
+      <li v-for="(item, index) in items" :key="index" class="flex items-center">
+        <button
+          v-if="index === 0"
+          class="inline-flex items-center justify-center min-w-0 gap-2 p-0 text-sm font-medium transition-all duration-200 ease-in-out border-0 rounded-lg text-n-slate-11 hover:text-n-slate-12 outline-transparent max-w-56"
+          @click="onClick"
+        >
+          <span class="min-w-0 truncate">{{ item.label }}</span>
+        </button>
+        <template v-else>
+          <Icon
+            icon="i-lucide-chevron-right"
+            class="flex-shrink-0 mx-2 size-4 text-n-slate-11 dark:text-n-slate-11"
+          />
+          <span
+            class="text-sm truncate text-slate-900 dark:text-slate-50 max-w-56"
+          >
+            {{ item.emoji ? item.emoji : '' }} {{ item.label }}
           </span>
         </template>
-        <a
-          v-else
-          :href="item.link"
-          class="text-sm transition-colors duration-200 text-slate-300 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-100"
-        >
-          {{ item.label }}
-        </a>
-        <FluentIcon
-          v-if="index < items.length - 1"
-          icon="chevron-lucide-right"
-          size="18"
-          icon-lib="lucide"
-          class="flex-shrink-0 text-slate-300 dark:text-slate-500 ltr:mr-3 rtl:mr-0 rtl:ml-3"
-        />
       </li>
     </ol>
   </nav>

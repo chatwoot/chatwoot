@@ -25,12 +25,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "ชื่อ",
-        "Created by",
-        "Last updated by",
-        "Visibility"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "ชื่อ",
+        "CREATED BY": "Created by",
+        "LAST_UPDATED_BY": "Last updated by",
+        "VISIBILITY": "Visibility"
+      },
       "404": "No macros found"
     },
     "DELETE": {

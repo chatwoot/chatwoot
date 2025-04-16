@@ -1,27 +1,33 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+import { useMapGetter } from 'dashboard/composables/store.js';
+
 import HelpCenterLayout from 'dashboard/components-next/HelpCenter/HelpCenterLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import LocaleList from 'dashboard/components-next/HelpCenter/Pages/LocalePage/LocaleList.vue';
+import AddLocaleDialog from 'dashboard/components-next/HelpCenter/Pages/LocalePage/AddLocaleDialog.vue';
 
 const props = defineProps({
   locales: {
     type: Array,
     required: true,
   },
+  portal: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 
-const localeCount = computed(() => props.locales?.length);
+const addLocaleDialogRef = ref(null);
 
-// TODO: remove comments
-// eslint-disable-next-line no-unused-vars
-const handleTabChange = tab => {
-  // TODO: Implement tab change logic
+const isSwitchingPortal = useMapGetter('portals/isSwitchingPortal');
+
+const openAddLocaleDialog = () => {
+  addLocaleDialogRef.value.dialogRef.open();
 };
-// eslint-disable-next-line no-unused-vars
-const handlePageChange = page => {
-  // TODO: Implement page change logic
-};
+
+const localeCount = computed(() => props.locales?.length);
 </script>
 
 <template>
@@ -35,13 +41,21 @@ const handlePageChange = page => {
         </div>
         <Button
           :label="$t('HELP_CENTER.LOCALES_PAGE.NEW_LOCALE_BUTTON_TEXT')"
-          icon="add"
+          icon="i-lucide-plus"
           size="sm"
+          @click="openAddLocaleDialog"
         />
       </div>
     </template>
     <template #content>
-      <LocaleList :locales="locales" />
+      <div
+        v-if="isSwitchingPortal"
+        class="flex items-center justify-center py-10 text-n-slate-11"
+      >
+        <Spinner />
+      </div>
+      <LocaleList v-else :locales="locales" :portal="portal" />
     </template>
+    <AddLocaleDialog ref="addLocaleDialogRef" :portal="portal" />
   </HelpCenterLayout>
 </template>

@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Ime",
-        "Opis",
-        "Aktivno",
-        "Napravljeno"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Ime",
+        "DESCRIPTION": "Opis",
+        "ACTIVE": "Aktivno",
+        "CREATED_ON": "Napravljeno"
+      },
       "404": "Nisu pronađena pravila automatizacije"
     },
     "DELETE": {
@@ -125,6 +125,7 @@
       "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
-    }
+    },
+    "NONE_OPTION": "Niko"
   }
 }

@@ -1,7 +1,9 @@
+import { FEATURE_FLAGS } from '../../../../featureFlags';
+import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
 import { frontendURL } from '../../../../helper/URLHelper';
 
-const SettingsWrapper = () => import('../SettingsWrapper.vue');
-const AuditLogsHome = () => import('./Index.vue');
+import SettingsWrapper from '../SettingsWrapper.vue';
+import AuditLogsHome from './Index.vue';
 
 export default {
   routes: [
@@ -19,6 +21,11 @@ export default {
           path: 'list',
           name: 'auditlogs_list',
           meta: {
+            featureFlag: FEATURE_FLAGS.AUDIT_LOGS,
+            installationTypes: [
+              INSTALLATION_TYPES.CLOUD,
+              INSTALLATION_TYPES.ENTERPRISE,
+            ],
             permissions: ['administrator'],
           },
           component: AuditLogsHome,

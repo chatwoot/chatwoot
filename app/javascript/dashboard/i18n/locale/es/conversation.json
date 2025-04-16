@@ -12,6 +12,8 @@
     "NO_INBOX_2": " para empezar",
     "NO_INBOX_AGENT": "¡Uh Oh! Parece que no eres parte de ninguna bandeja de entrada. Por favor, contacta con tu administrador",
     "SEARCH_MESSAGES": "Buscar mensajes en conversaciones",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "para abrir el menú de comandos",
       "KEYBOARD_SHORTCUTS": "para ver los atajos del teclado"
@@ -38,15 +40,23 @@
     "REMOVE_SELECTION": "Eliminar selección",
     "DOWNLOAD": "Descargar",
     "UNKNOWN_FILE_TYPE": "Archivo desconocido",
-    "SAVE_CONTACT": "Guardar",
+    "SAVE_CONTACT": "Guardar Contacto",
+    "NO_CONTENT": "No hay contenido que mostrar",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} ha compartido un contacto",
+      "LOCATION": "{sender} ha compartido una ubicación",
+      "FILE": "{sender} ha compartido un archivo",
+      "MEETING": "{sender} ha iniciado una reunión"
+    },
     "UPLOADING_ATTACHMENTS": "Subiendo archivos adjuntos...",
     "REPLIED_TO_STORY": "Respondió a su historia",
-    "UNSUPPORTED_MESSAGE": "Este mensaje no es compatible.",
+    "UNSUPPORTED_MESSAGE": "Este mensaje no es compatible. Puedes ver este mensaje en la aplicación de Facebook/Instagram.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Este mensaje no es compatible. Puedes ver este mensaje en la aplicación de Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Este mensaje no es compatible. Puedes ver este mensaje en la aplicación de Instagram.",
     "SUCCESS_DELETE_MESSAGE": "Mensaje eliminado correctamente",
     "FAIL_DELETE_MESSSAGE": "¡No se pudo eliminar el mensaje! Inténtalo de nuevo",
     "NO_RESPONSE": "No hay respuesta",
+    "RESPONSE": "Respuesta",
     "RATING_TITLE": "Calificación",
     "FEEDBACK_TITLE": "Comentarios",
     "REPLY_MESSAGE_NOT_FOUND": "Mensaje no disponible",
@@ -109,6 +119,7 @@
       "PENDING": "Marcar como pendiente",
       "RESOLVED": "Marcar como resuelto",
       "MARK_AS_UNREAD": "Marcar como no leído",
+      "MARK_AS_READ": "Marcar como leído",
       "REOPEN": "Resolver conversación",
       "SNOOZE": {
         "TITLE": "Posponer",
@@ -126,7 +137,7 @@
           "FAILED": "No se pudo asignar el agente. Por favor, inténtelo de nuevo."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Etiqueta asignada #{labelName} al id de conversación {conversationId}",
+          "SUCCESFUL": "Etiqueta #{labelName} asignada a la conversación con id {conversationId}",
           "FAILED": "No se pudo asignar el agente. Por favor, inténtelo de nuevo."
         },
         "TEAM_ASSIGNMENT": {
@@ -219,6 +230,10 @@
         "DELETE": "Eliminar",
         "CANCEL": "Cancelar"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contacto",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -241,9 +256,9 @@
   "ONBOARDING": {
     "TITLE": "Hola 👋, ¡Bienvenido a {installationName}!",
     "DESCRIPTION": "Gracias por registrarse. Queremos que saque el máximo provecho de {installationName}. Aquí hay algunas cosas que puede hacer en {installationName} para hacer que la experiencia sea agradable.",
-    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
-    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "GREETING_MORNING": "👋 Buenos días, {name}. Bienvenido a  {installationName}.",
+    "GREETING_AFTERNOON": "👋 Buenas tardes, {name}. Bienvenido a  {installationName}.",
+    "GREETING_EVENING": "👋 Buenas noches, {name}. Bienvenido a  {installationName}.",
     "READ_LATEST_UPDATES": "Leer nuestras últimas actualizaciones",
     "ALL_CONVERSATION": {
       "TITLE": "Todas sus conversaciones en un solo lugar",
@@ -261,9 +276,9 @@
       "NEW_LINK": "Haga clic aquí para crear etiquetas"
     },
     "CANNED_RESPONSES": {
-      "TITLE": "Create canned responses",
-      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
-      "NEW_LINK": "Click here to create a canned response"
+      "TITLE": "Crea respuestas predefinidas",
+      "DESCRIPTION": "Las respuestas predefinidas son plantillas preconfiguradas que le ayudan a responder rápidamente a una conversación. Los agentes pueden escribir el carácter '/' seguido por el código corto para insertar una respuesta predefinida durante una conversación.",
+      "NEW_LINK": "Haga clic aquí para crear una respuesta predefinida"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -280,7 +295,27 @@
       "CONVERSATION_INFO": "Información de la conversación",
       "CONTACT_ATTRIBUTES": "Atributos de contacto",
       "PREVIOUS_CONVERSATION": "Conversaciones anteriores",
-      "MACROS": "Macros"
+      "MACROS": "Macros",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Pendientes",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -310,7 +345,8 @@
     "TO": "Para",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Asunto"
+    "SUBJECT": "Asunto",
+    "EXPAND": "Expandir email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participar",
@@ -335,5 +371,16 @@
     "ORIGINAL_CONTENT": "Contenido original",
     "TRANSLATED_CONTENT": "Contenido traducido",
     "NO_TRANSLATIONS_AVAILABLE": "No hay traducciones disponibles para este contenido"
+  },
+  "TYPING": {
+    "ONE": "{user} está escribiendo",
+    "TWO": "{user} y {secondUser}  están escribiendo",
+    "MULTIPLE": "{user} y {count}  otros están escribiendo"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Prueba estas sugerencias"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "No se pudo descargar el archivo adjunto. Por favor, inténtelo de nuevo"
   }
 }

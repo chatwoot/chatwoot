@@ -20,23 +20,18 @@
         "TITLE": "Bæta þjónustufulltrúa við teymið - {teamName}",
         "DESC": "Bættu þjónustufullrtúum við nýstofnað teymið þitt. Þetta gerir þér kleift að vinna sem teymi í samtölum, fá tilkynningu um nýja atburði í sama samtali."
       },
-      "WIZARD": [
-        {
-          "title": "Stofna",
-          "route": "settings_teams_new",
-          "body": "Stofna nýtt teymi af þjónustufulltrúum."
-        },
-        {
-          "title": "Bæta við þjónustufulltrúa",
-          "route": "settings_teams_add_agents",
-          "body": "Add agents to the team."
-        },
-        {
-          "title": "Finish",
-          "route": "settings_teams_finish",
-          "body": "Þú ert tilbúin til að halda áfram!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "Stofna",
+        "BODY": "Stofna nýtt teymi af þjónustufulltrúum."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Bæta við þjónustufulltrúa",
+        "BODY": "Add agents to the team."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Finish",
+        "BODY": "Þú ert tilbúin til að halda áfram!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "Bæta þjónustufulltrúa við teymið - {teamName}",
         "DESC": "Bættu þjónustufulltrúum við nýstofnaða teymið þitt. Allir þjónustufulltrúar sem bætt er við verða látnir vita þegar samtali er úthlutað þessu teymi."
       },
-      "WIZARD": [
-        {
-          "title": "Team details",
-          "route": "settings_teams_edit",
-          "body": "Breyttu nafni, lýsingu og öðrum upplýsingum."
-        },
-        {
-          "title": "Edit Agents",
-          "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
-        },
-        {
-          "title": "Finish",
-          "route": "settings_teams_edit_finish",
-          "body": "Þú ert tilbúin til að halda áfram!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Team details",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "Breyttu nafni, lýsingu og öðrum upplýsingum."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Edit Agents",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "Edit agents in your team."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Finish",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "Þú ert tilbúin til að halda áfram!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "Ekki tókst að vista teymisupplýsingarnar. Reyndu aftur."

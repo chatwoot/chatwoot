@@ -25,12 +25,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Naam",
-        "Aangemaakt door",
-        "Last updated by",
-        "Zichtbaarheid"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Naam",
+        "CREATED BY": "Aangemaakt door",
+        "LAST_UPDATED_BY": "Last updated by",
+        "VISIBILITY": "Zichtbaarheid"
+      },
       "404": "No macros found"
     },
     "DELETE": {

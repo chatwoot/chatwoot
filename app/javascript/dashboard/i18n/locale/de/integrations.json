@@ -1,5 +1,20 @@
 {
   "INTEGRATION_SETTINGS": {
+    "SHOPIFY": {
+      "DELETE": {
+        "TITLE": "Delete Shopify Integration",
+        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+      },
+      "STORE_URL": {
+        "TITLE": "Connect Shopify Store",
+        "LABEL": "Store URL",
+        "PLACEHOLDER": "your-store.myshopify.com",
+        "HELP": "Enter your Shopify store's myshopify.com URL",
+        "CANCEL": "Stornieren",
+        "SUBMIT": "Connect Store"
+      },
+      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+    },
     "HEADER": "Integrationen",
     "DESCRIPTION": "Chatwoot integriert sich mit mehreren Tools und Diensten, um die Effizienz Ihres Teams zu verbessern. Erkunden Sie die folgende Liste, um Ihre Lieblingsapps zu konfigurieren.",
     "LEARN_MORE": "Mehr über Integrationen erfahren",
@@ -12,7 +27,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Abonnierte Events",
-      "LEARN_MORE": "Learn more about webhooks",
+      "LEARN_MORE": "Mehr über Webhooks erfahren",
       "FORM": {
         "CANCEL": "Stornieren",
         "DESC": "Webhook-Ereignisse bieten Ihnen Echtzeitinformationen darüber, was in Ihrem Chatwoot-Konto passiert. Bitte geben Sie eine gültige URL ein, um einen Rückruf zu konfigurieren.",
@@ -31,7 +46,7 @@
         },
         "END_POINT": {
           "LABEL": "Webhook-URL",
-          "PLACEHOLDER": "Beispiel: https://beispiel/api/webhook",
+          "PLACEHOLDER": "Beispiel: {webhookExampleURL}",
           "ERROR": "Bitte geben Sie eine gültige URL ein"
         },
         "EDIT_SUBMIT": "Webhook aktualisieren",
@@ -47,10 +62,10 @@
       "LIST": {
         "404": "Für dieses Konto sind keine Webhooks konfiguriert.",
         "TITLE": "Webhooks verwalten",
-        "TABLE_HEADER": [
-          "Webhook-Endpunkt",
-          "Aktionen"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Webhook-Endpunkt",
+          "ACTIONS": "Aktionen"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "Bearbeiten",
@@ -90,7 +105,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "Slack-Integration verwenden",
-        "BODY": "<br/><p>Chatwoot wird nun alle eingehenden Konversationen in den <b><i>Kundengespräche</i></b> Channel innerhalb Ihres Slack Arbeitsplatzes synchronisieren.</p><p>Wenn Sie in <b><i>Kunden-Konversationen</i></b> antworten, wird der Slack Kanal eine Antwort an den Kunden durch Chat erzeugen.</p><p>Starten Sie die Antworten mit <b><i>Notiz:</i></b> um private Notizen anstatt Antworten zu erstellen.</p><p>Wenn der Replier auf Slack ein Agentenprofil im Chatwoot unter der gleichen E-Mail hat, werden die Antworten entsprechend assoziiert.</p><p>Wenn der Replier kein Agentenprofil hat, werden die Antworten aus dem Bot-Profil getätigt.</p>",
+        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
         "SELECTED": "ausgewählt"
       },
       "SELECT_CHANNEL": {
@@ -183,10 +198,10 @@
       "LIST": {
         "404": "Für dieses Konto sind noch keine Dashboard-Apps konfiguriert",
         "LOADING": "Dashboard-Apps werden abgerufen...",
-        "TABLE_HEADER": [
-          "Name",
-          "Endpunkt"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "Name",
+          "ENDPOINT": "Endpunkt"
+        },
         "EDIT_TOOLTIP": "App bearbeiten",
         "DELETE_TOOLTIP": "Anwendung löschen"
       },
@@ -300,6 +315,259 @@
         "TITLE": "Verknüpfung aufheben",
         "SUCCESS": "Problem erfolgreich getrennt",
         "ERROR": "Beim Aufheben der Verknüpfung des Problems ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
+      },
+      "DELETE": {
+        "TITLE": "Sind Sie sicher, dass Sie die Integration löschen möchten?",
+        "MESSAGE": "Sind Sie sicher, dass Sie die Integration löschen möchten?",
+        "CONFIRM": "Ja, löschen",
+        "CANCEL": "Stornieren"
+      }
+    }
+  },
+  "CAPTAIN": {
+    "NAME": "Kapitän",
+    "HEADER_KNOW_MORE": "Know more",
+    "COPILOT": {
+      "SEND_MESSAGE": "Nachricht senden...",
+      "LOADER": "Captain denkt nach",
+      "YOU": "Sie",
+      "USE": "Verwenden",
+      "RESET": "Zurücksetzen",
+      "SELECT_ASSISTANT": "Assistent auswählen"
+    },
+    "PAYWALL": {
+      "TITLE": "Upgrade auf Captain AI",
+      "AVAILABLE_ON": "Captain is not available on the free plan.",
+      "UPGRADE_PROMPT": "Tarif upgraden, um Zugang zu unseren Assistenten, Copilot und mehr zu erhalten.",
+      "UPGRADE_NOW": "Jetzt upgraden",
+      "CANCEL_ANYTIME": "Sie können Ihr Paket jederzeit ändern oder kündigen"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI Funktion ist nur mit einem kostenpflichtigen Tarif verfügbar.",
+      "UPGRADE_PROMPT": "Tarif upgraden, um Zugang zu unseren Assistenten, Copilot und mehr zu erhalten.",
+      "ASK_ADMIN": "Bitte kontaktieren Sie Ihren Administrator für das Upgrade."
+    },
+    "BANNER": {
+      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
+      "DOCUMENTS": "Dokumentenlimit erreicht. Upgraden um Cpatain AI weiter zu verwenden."
+    },
+    "FORM": {
+      "CANCEL": "Stornieren",
+      "CREATE": "Erstellen",
+      "EDIT": "Aktualisieren"
+    },
+    "ASSISTANTS": {
+      "HEADER": "Assistants",
+      "ADD_NEW": "Create a new assistant",
+      "DELETE": {
+        "TITLE": "Are you sure to delete the assistant?",
+        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+        "CONFIRM": "Ja, löschen",
+        "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
+        "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
+      },
+      "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
+      "CREATE": {
+        "TITLE": "Create an assistant",
+        "SUCCESS_MESSAGE": "The assistant has been successfully created",
+        "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Assistant Name",
+          "PLACEHOLDER": "Enter a name for the assistant",
+          "ERROR": "Please provide a name for the assistant"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Assistant Description",
+          "PLACEHOLDER": "Describe how and where this assistant will be used",
+          "ERROR": "A description is required"
+        },
+        "PRODUCT_NAME": {
+          "LABEL": "Product Name",
+          "PLACEHOLDER": "Enter the name of the product this assistant is designed for",
+          "ERROR": "The product name is required"
+        },
+        "FEATURES": {
+          "TITLE": "Funktionen",
+          "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
+          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions."
+        }
+      },
+      "EDIT": {
+        "TITLE": "Update the assistant",
+        "SUCCESS_MESSAGE": "The assistant has been successfully updated",
+        "ERROR_MESSAGE": "There was an error updating the assistant, please try again."
+      },
+      "OPTIONS": {
+        "EDIT_ASSISTANT": "Edit Assistant",
+        "DELETE_ASSISTANT": "Delete Assistant",
+        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No assistants available",
+        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain Assistant",
+          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+        }
+      }
+    },
+    "DOCUMENTS": {
+      "HEADER": "Documents",
+      "ADD_NEW": "Create a new document",
+      "RELATED_RESPONSES": {
+        "TITLE": "Related FAQs",
+        "DESCRIPTION": "These FAQs are generated directly from the document."
+      },
+      "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
+      "CREATE": {
+        "TITLE": "Add a document",
+        "SUCCESS_MESSAGE": "The document has been successfully created",
+        "ERROR_MESSAGE": "There was an error creating the document, please try again."
+      },
+      "FORM": {
+        "URL": {
+          "LABEL": "URL",
+          "PLACEHOLDER": "Enter the URL of the document",
+          "ERROR": "Please provide a valid URL for the document"
+        },
+        "ASSISTANT": {
+          "LABEL": "Assistant",
+          "PLACEHOLDER": "Select the assistant",
+          "ERROR": "The assistant field is required"
+        }
+      },
+      "DELETE": {
+        "TITLE": "Are you sure to delete the document?",
+        "DESCRIPTION": "This action is permanent. Deleting this document will permanently erase all generated knowledge.",
+        "CONFIRM": "Ja, löschen",
+        "SUCCESS_MESSAGE": "The document has been successfully deleted",
+        "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+      },
+      "OPTIONS": {
+        "VIEW_RELATED_RESPONSES": "View Related Responses",
+        "DELETE_DOCUMENT": "Delete Document"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No documents available",
+        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain Document",
+          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+        }
+      }
+    },
+    "RESPONSES": {
+      "HEADER": "FAQs",
+      "ADD_NEW": "Create new FAQ",
+      "DOCUMENTABLE": {
+        "CONVERSATION": "Conversation #{id}"
+      },
+      "SELECTED": "{count} selected",
+      "BULK_APPROVE_BUTTON": "Approve",
+      "BULK_DELETE_BUTTON": "Löschen",
+      "BULK_APPROVE": {
+        "SUCCESS_MESSAGE": "FAQs approved successfully",
+        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+      },
+      "BULK_DELETE": {
+        "TITLE": "Delete FAQs?",
+        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
+        "CONFIRM": "Yes, delete all",
+        "SUCCESS_MESSAGE": "FAQs deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
+      },
+      "DELETE": {
+        "TITLE": "Are you sure to delete the FAQ?",
+        "DESCRIPTION": "",
+        "CONFIRM": "Ja, löschen",
+        "SUCCESS_MESSAGE": "FAQ deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
+      },
+      "FILTER": {
+        "ASSISTANT": "Assistant: {selected}",
+        "STATUS": "Status: {selected}",
+        "ALL_ASSISTANTS": "Alle"
+      },
+      "STATUS": {
+        "TITLE": "Status",
+        "PENDING": "Ausstehend",
+        "APPROVED": "Approved",
+        "ALL": "Alle"
+      },
+      "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
+      "CREATE": {
+        "TITLE": "Add an FAQ",
+        "SUCCESS_MESSAGE": "The response has been added successfully.",
+        "ERROR_MESSAGE": "An error occurred while adding the response. Please try again."
+      },
+      "FORM": {
+        "QUESTION": {
+          "LABEL": "Question",
+          "PLACEHOLDER": "Enter the question here",
+          "ERROR": "Please provide a valid question."
+        },
+        "ANSWER": {
+          "LABEL": "Answer",
+          "PLACEHOLDER": "Enter the answer here",
+          "ERROR": "Please provide a valid answer."
+        },
+        "ASSISTANT": {
+          "LABEL": "Assistant",
+          "PLACEHOLDER": "Select an assistant",
+          "ERROR": "Please select an assistant."
+        }
+      },
+      "EDIT": {
+        "TITLE": "Update the FAQ",
+        "SUCCESS_MESSAGE": "The FAQ has been successfully updated",
+        "ERROR_MESSAGE": "There was an error updating the FAQ, please try again",
+        "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
+      },
+      "OPTIONS": {
+        "APPROVE": "Mark as approved",
+        "EDIT_RESPONSE": "Edit FAQ",
+        "DELETE_RESPONSE": "Delete FAQ"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No FAQs Found",
+        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain FAQ",
+          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+        }
+      }
+    },
+    "INBOXES": {
+      "HEADER": "Connected Inboxes",
+      "ADD_NEW": "Connect a new inbox",
+      "OPTIONS": {
+        "DISCONNECT": "Verbindung trennen"
+      },
+      "DELETE": {
+        "TITLE": "Are you sure to disconnect the inbox?",
+        "DESCRIPTION": "",
+        "CONFIRM": "Ja, löschen",
+        "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
+        "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
+      },
+      "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
+      "CREATE": {
+        "TITLE": "Connect an Inbox",
+        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
+        "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
+      },
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Posteingang",
+          "PLACEHOLDER": "Choose the inbox to deploy the assistant.",
+          "ERROR": "An inbox selection is required."
+        }
+      },
+      "EMPTY_STATE": {
+        "TITLE": "No Connected Inboxes",
+        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
       }
     }
   }

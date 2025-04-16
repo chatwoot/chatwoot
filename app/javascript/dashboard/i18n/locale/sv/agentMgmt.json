@@ -105,6 +105,9 @@
         "AGENT": "Välj agent",
         "TEAM": "Välj team"
       },
+      "LIST": {
+        "NONE": "Inget"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Inga agenter hittades",

@@ -145,14 +145,13 @@ const table = useVueTable({
 </script>
 
 <template>
-  <div class="csat--table-container">
-    <Table
-      :table="table"
-      class="max-h-[calc(100vh-21.875rem)] border bg-white dark:bg-slate-900 border-slate-50 dark:border-slate-800"
-    />
+  <div
+    class="shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-6 py-5"
+  >
+    <Table :table="table" class="max-h-[calc(100vh-21.875rem)]" />
     <div
       v-show="!tableData.length"
-      class="csat--empty-records text-slate-600 dark:text-slate-200 bg-white dark:bg-slate-900 border border-t-0 border-solid border-slate-75 dark:border-slate-700"
+      class="h-48 flex items-center justify-center text-n-slate-12 text-sm"
     >
       {{ $t('CSAT_REPORTS.NO_RECORDS') }}
     </div>
@@ -161,17 +160,3 @@ const table = useVueTable({
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.csat--empty-records {
-  align-items: center;
-  // border: 1px solid var(--color-border);
-  border-top: 0;
-  display: flex;
-  font-size: var(--font-size-small);
-  height: 12.5rem;
-  justify-content: center;
-  margin-top: -1px;
-  width: 100%;
-}
-</style>

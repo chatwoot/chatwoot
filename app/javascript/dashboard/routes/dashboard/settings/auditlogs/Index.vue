@@ -100,19 +100,17 @@ const tableHeaders = computed(() => {
             <th
               v-for="thHeader in tableHeaders"
               :key="thHeader"
-              class="py-4 pr-4 text-left font-semibold text-slate-700 dark:text-slate-300"
+              class="py-4 ltr:pr-4 rtl:pl-4 text-left font-semibold text-n-slate-11"
             >
               {{ thHeader }}
             </th>
           </thead>
-          <tbody
-            class="divide-y divide-slate-50 dark:divide-slate-800 text-slate-700 dark:text-slate-300"
-          >
+          <tbody class="divide-y divide-n-weak text-n-slate-11">
             <tr v-for="auditLogItem in records" :key="auditLogItem.id">
-              <td class="py-4 pr-4 break-all whitespace-nowrap">
+              <td class="py-4 ltr:pr-4 rtl:pl-4 break-all whitespace-nowrap">
                 {{ generateLogText(auditLogItem) }}
               </td>
-              <td class="py-4 pr-4 break-all whitespace-nowrap">
+              <td class="py-4 ltr:pr-4 rtl:pl-4 break-all whitespace-nowrap">
                 {{
                   messageTimestamp(
                     auditLogItem.created_at,

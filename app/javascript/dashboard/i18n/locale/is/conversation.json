@@ -12,6 +12,8 @@
     "NO_INBOX_2": " til að byrja",
     "NO_INBOX_AGENT": "Uh Ó! Þú virðist ekki vera hluti af neinu innhólfi. Vinsamlegast hafðu samband við kerfisstjóra",
     "SEARCH_MESSAGES": "Leita að skilaboðum í samtölum",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "to open command menu",
       "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
@@ -38,15 +40,23 @@
     "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "Sækja",
     "UNKNOWN_FILE_TYPE": "Óþekkt skrá",
-    "SAVE_CONTACT": "Save",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} has started a meeting"
+    },
     "UPLOADING_ATTACHMENTS": "Hleður upp viðhengi...",
     "REPLIED_TO_STORY": "Replied to your story",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Skilaboðum eytt",
     "FAIL_DELETE_MESSSAGE": "Gat ekki eytt skilaboðum! Reynið aftur",
     "NO_RESPONSE": "Ekkert svar",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Endurgjöf",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
@@ -109,6 +119,7 @@
       "PENDING": "Mark as pending",
       "RESOLVED": "Mark as resolved",
       "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Enduropna samtal",
       "SNOOZE": {
         "TITLE": "Snooze",
@@ -126,7 +137,7 @@
           "FAILED": "Couldn't assign agent. Please try again."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Úthlutaði flokki #{labelName} á samtalsauðkenni {conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Couldn't assign label. Please try again."
         },
         "TEAM_ASSIGNMENT": {
@@ -219,6 +230,10 @@
         "DELETE": "Eyða",
         "CANCEL": "Hætta við"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contact",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -280,7 +295,27 @@
       "CONVERSATION_INFO": "Samtals Upplýsingar",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "Fyrri samtöl",
-      "MACROS": "Macros"
+      "MACROS": "Macros",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Í bið",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -310,7 +345,8 @@
     "TO": "Til",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Subject"
+    "SUBJECT": "Subject",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participating",
@@ -335,5 +371,16 @@
     "ORIGINAL_CONTENT": "Original Content",
     "TRANSLATED_CONTENT": "Translated Content",
     "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

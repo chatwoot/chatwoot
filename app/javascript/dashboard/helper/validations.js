@@ -6,6 +6,24 @@ export const VALUE_MUST_BE_BETWEEN_1_AND_998 =
 export const ACTION_PARAMETERS_REQUIRED = 'ACTION_PARAMETERS_REQUIRED';
 export const ATLEAST_ONE_CONDITION_REQUIRED = 'ATLEAST_ONE_CONDITION_REQUIRED';
 export const ATLEAST_ONE_ACTION_REQUIRED = 'ATLEAST_ONE_ACTION_REQUIRED';
+
+const isEmptyValue = value => {
+  if (!value) {
+    return true;
+  }
+
+  if (Array.isArray(value)) {
+    return !value.length;
+  }
+
+  // We can safely check the type here as both the null value
+  // and the array is ruled out earlier.
+  if (typeof value === 'object') {
+    return !Object.keys(value).length;
+  }
+
+  return false;
+};
 // ------------------------------------------------------------------
 // ------------------------ Filter Validation -----------------------
 // ------------------------------------------------------------------
@@ -20,7 +38,7 @@ export const ATLEAST_ONE_ACTION_REQUIRED = 'ATLEAST_ONE_ACTION_REQUIRED';
  *
  * @returns {string|null} An error message if validation fails, or null if validation passes.
  */
-const validateSingleFilter = filter => {
+export const validateSingleFilter = filter => {
   if (!filter.attribute_key) {
     return ATTRIBUTE_KEY_REQUIRED;
   }
@@ -29,12 +47,11 @@ const validateSingleFilter = filter => {
     return FILTER_OPERATOR_REQUIRED;
   }
 
-  if (
-    filter.filter_operator !== 'is_present' &&
-    filter.filter_operator !== 'is_not_present' &&
-    (!filter.values ||
-      (Array.isArray(filter.values) && filter.values.length === 0))
-  ) {
+  const operatorRequiresValue = !['is_present', 'is_not_present'].includes(
+    filter.filter_operator
+  );
+
+  if (operatorRequiresValue && isEmptyValue(filter.values)) {
     return VALUE_REQUIRED;
   }
 
@@ -46,29 +63,6 @@ const validateSingleFilter = filter => {
   }
 
   return null;
-};
-
-/**
- * Validates filters for conversations or contacts.
- *
- * @param {Array} filters - An array of filter objects to validate.
- * @param {string} filters[].attribute_key - The key of the attribute to filter on.
- * @param {string} filters[].filter_operator - The operator to use for filtering.
- * @param {string|number} [filters[].values] - The value(s) to filter by (required for most operators).
- *
- * @returns {Object} An object containing any validation errors, keyed by filter index.
- */
-export const validateConversationOrContactFilters = filters => {
-  const errors = {};
-
-  filters.forEach((filter, index) => {
-    const error = validateSingleFilter(filter);
-    if (error) {
-      errors[`filter_${index}`] = error;
-    }
-  });
-
-  return errors;
 };
 
 // ------------------------------------------------------------------

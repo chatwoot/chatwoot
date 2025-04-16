@@ -37,6 +37,9 @@ class Campaign < ApplicationRecord
   validate :validate_campaign_inbox
   validate :validate_url
   validate :prevent_completed_campaign_from_update, on: :update
+  validate :sender_must_belong_to_account
+  validate :inbox_must_belong_to_account
+
   belongs_to :account
   belongs_to :inbox
   belongs_to :sender, class_name: 'User', optional: true
@@ -88,6 +91,22 @@ class Campaign < ApplicationRecord
 
     use_http_protocol = trigger_rules['url'].starts_with?('http://') || trigger_rules['url'].starts_with?('https://')
     errors.add(:url, 'invalid') if inbox.inbox_type == 'Website' && !use_http_protocol
+  end
+
+  def inbox_must_belong_to_account
+    return unless inbox
+
+    return if inbox.account_id == account_id
+
+    errors.add(:inbox_id, 'must belong to the same account as the campaign')
+  end
+
+  def sender_must_belong_to_account
+    return unless sender
+
+    return if account.users.exists?(id: sender.id)
+
+    errors.add(:sender_id, 'must belong to the same account as the campaign')
   end
 
   def prevent_completed_campaign_from_update

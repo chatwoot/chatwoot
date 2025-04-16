@@ -2,17 +2,21 @@
 import CategoryCard from './CategoryCard.vue';
 const categories = [
   {
-    id: 'getting-started',
-    title: '🚀 Getting started',
+    id: 1,
+    title: 'Getting started',
     description:
       'Learn how to use Chatwoot effectively and make the most of its features to enhance customer support and engagement.',
-    articlesCount: '5',
+    articlesCount: 5,
+    slug: 'getting-started',
+    icon: '🚀',
   },
   {
-    id: 'marketing',
-    title: '📈 Marketing',
+    id: 2,
+    title: 'Marketing',
     description: '',
-    articlesCount: '4',
+    articlesCount: 4,
+    slug: 'marketing',
+    icon: '📈',
   },
 ];
 </script>
@@ -31,9 +35,12 @@ const categories = [
         class="px-20 py-4 bg-white dark:bg-slate-900"
       >
         <CategoryCard
+          :id="category.id"
+          :slug="category.slug"
           :title="category.title"
           :description="category.description"
           :articles-count="category.articlesCount"
+          :icon="category.icon"
         />
       </div>
     </Variant>

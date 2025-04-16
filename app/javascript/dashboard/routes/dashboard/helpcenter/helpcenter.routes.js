@@ -1,226 +1,104 @@
-import HelpCenterLayout from './components/HelpCenterLayout.vue';
+import { FEATURE_FLAGS } from '../../../featureFlags';
 import { getPortalRoute } from './helpers/routeHelper';
 
-const ListAllPortals = () => import('./pages/portals/ListAllPortals.vue');
-const NewPortal = () => import('./pages/portals/NewPortal.vue');
+import HelpCenterPageRouteView from './pages/HelpCenterPageRouteView.vue';
 
-const EditPortal = () => import('./pages/portals/EditPortal.vue');
-const EditPortalBasic = () => import('./pages/portals/EditPortalBasic.vue');
-const EditPortalCustomization = () =>
-  import('./pages/portals/EditPortalCustomization.vue');
-const EditPortalLocales = () => import('./pages/portals/EditPortalLocales.vue');
-const ShowPortal = () => import('./pages/portals/ShowPortal.vue');
-const PortalDetails = () => import('./pages/portals/PortalDetails.vue');
-const PortalCustomization = () =>
-  import('./pages/portals/PortalCustomization.vue');
-const PortalSettingsFinish = () =>
-  import('./pages/portals/PortalSettingsFinish.vue');
+import PortalsIndex from './pages/PortalsIndexPage.vue';
+import PortalsNew from './pages/PortalsNewPage.vue';
 
-const ListAllCategories = () =>
-  import('./pages/categories/ListAllCategories.vue');
-const NewCategory = () => import('./pages/categories/NewCategory.vue');
-const EditCategory = () => import('./pages/categories/EditCategory.vue');
-const ListCategoryArticles = () =>
-  import('./pages/articles/ListCategoryArticles.vue');
-const ListAllArticles = () => import('./pages/articles/ListAllArticles.vue');
-const DefaultPortalArticles = () =>
-  import('./pages/articles/DefaultPortalArticles.vue');
-const NewArticle = () => import('./pages/articles/NewArticle.vue');
-const EditArticle = () => import('./pages/articles/EditArticle.vue');
+const PortalsArticlesIndexPage = () =>
+  import('./pages/PortalsArticlesIndexPage.vue');
+const PortalsArticlesNewPage = () =>
+  import('./pages/PortalsArticlesNewPage.vue');
+const PortalsArticlesEditPage = () =>
+  import('./pages/PortalsArticlesEditPage.vue');
 
+const PortalsCategoriesIndexPage = () =>
+  import('./pages/PortalsCategoriesIndexPage.vue');
+
+const PortalsLocalesIndexPage = () =>
+  import('./pages/PortalsLocalesIndexPage.vue');
+
+const PortalsSettingsIndexPage = () =>
+  import('./pages/PortalsSettingsIndexPage.vue');
+
+const meta = {
+  featureFlag: FEATURE_FLAGS.HELP_CENTER,
+  permissions: ['administrator', 'agent', 'knowledge_base_manage'],
+};
 const portalRoutes = [
   {
-    path: getPortalRoute(''),
-    name: 'default_portal_articles',
-    meta: {
-      permissions: ['administrator', 'knowledge_base_manage'],
-    },
-    component: DefaultPortalArticles,
+    path: getPortalRoute(':portalSlug/:locale/:categorySlug?/articles/:tab?'),
+    name: 'portals_articles_index',
+    meta,
+    component: PortalsArticlesIndexPage,
   },
   {
-    path: getPortalRoute('all'),
-    name: 'list_all_portals',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
-    component: ListAllPortals,
+    path: getPortalRoute(':portalSlug/:locale/:categorySlug?/articles/new'),
+    name: 'portals_articles_new',
+    meta,
+    component: PortalsArticlesNewPage,
   },
   {
-    path: getPortalRoute('new'),
-    component: NewPortal,
-    children: [
-      {
-        path: '',
-        name: 'new_portal_information',
-        component: PortalDetails,
-        meta: {
-          permissions: ['administrator', 'knowledge_base_manage'],
-        },
-      },
-      {
-        path: ':portalSlug/customization',
-        name: 'portal_customization',
-        component: PortalCustomization,
-        meta: {
-          permissions: ['administrator', 'knowledge_base_manage'],
-        },
-      },
-      {
-        path: ':portalSlug/finish',
-        name: 'portal_finish',
-        component: PortalSettingsFinish,
-        meta: {
-          permissions: ['administrator', 'knowledge_base_manage'],
-        },
-      },
-    ],
-  },
-  {
-    path: getPortalRoute(':portalSlug'),
-    name: 'portalSlug',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
-    component: ShowPortal,
-  },
-  {
-    path: getPortalRoute(':portalSlug/edit'),
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
-    component: EditPortal,
-    children: [
-      {
-        path: '',
-        name: 'edit_portal_information',
-        component: EditPortalBasic,
-        meta: {
-          permissions: ['administrator', 'knowledge_base_manage'],
-        },
-      },
-      {
-        path: 'customizations',
-        name: 'edit_portal_customization',
-        component: EditPortalCustomization,
-        meta: {
-          permissions: ['administrator', 'knowledge_base_manage'],
-        },
-      },
-      {
-        path: 'locales',
-        name: 'edit_portal_locales',
-        component: EditPortalLocales,
-        meta: {
-          permissions: ['administrator', 'knowledge_base_manage'],
-        },
-      },
-      {
-        path: 'categories',
-        name: 'list_all_locale_categories',
-        meta: {
-          permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-        },
-        component: ListAllCategories,
-      },
-    ],
-  },
-];
-
-const articleRoutes = [
-  {
-    path: getPortalRoute(':portalSlug/:locale/articles'),
-    name: 'list_all_locale_articles',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
-    component: ListAllArticles,
-  },
-  {
-    path: getPortalRoute(':portalSlug/:locale/articles/new'),
-    name: 'new_article',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
-    component: NewArticle,
-  },
-  {
-    path: getPortalRoute(':portalSlug/:locale/articles/mine'),
-    name: 'list_mine_articles',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
-    component: ListAllArticles,
-  },
-  {
-    path: getPortalRoute(':portalSlug/:locale/articles/archived'),
-    name: 'list_archived_articles',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
-    component: ListAllArticles,
+    path: getPortalRoute(
+      ':portalSlug/:locale/:categorySlug?/articles/:tab?/edit/:articleSlug'
+    ),
+    name: 'portals_articles_edit',
+    meta,
+    component: PortalsArticlesEditPage,
   },
 
-  {
-    path: getPortalRoute(':portalSlug/:locale/articles/draft'),
-    name: 'list_draft_articles',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
-    component: ListAllArticles,
-  },
-
-  {
-    path: getPortalRoute(':portalSlug/:locale/articles/:articleSlug'),
-    name: 'edit_article',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
-    component: EditArticle,
-  },
-];
-
-const categoryRoutes = [
   {
     path: getPortalRoute(':portalSlug/:locale/categories'),
-    name: 'all_locale_categories',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
-    component: ListAllCategories,
-  },
-  {
-    path: getPortalRoute(':portalSlug/:locale/categories/new'),
-    name: 'new_category_in_locale',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
-    component: NewCategory,
-  },
-  {
-    path: getPortalRoute(':portalSlug/:locale/categories/:categorySlug'),
-    name: 'show_category',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
-    component: ListAllArticles,
+    name: 'portals_categories_index',
+    meta,
+    component: PortalsCategoriesIndexPage,
   },
   {
     path: getPortalRoute(
       ':portalSlug/:locale/categories/:categorySlug/articles'
     ),
-    name: 'show_category_articles',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
-    component: ListCategoryArticles,
+    name: 'portals_categories_articles_index',
+    meta,
+    component: PortalsArticlesIndexPage,
   },
   {
-    path: getPortalRoute(':portalSlug/:locale/categories/:categorySlug'),
-    name: 'edit_category',
+    path: getPortalRoute(
+      ':portalSlug/:locale/categories/:categorySlug/articles/:articleSlug'
+    ),
+    name: 'portals_categories_articles_edit',
+    meta,
+    component: PortalsArticlesEditPage,
+  },
+  {
+    path: getPortalRoute(':portalSlug/locales'),
+    name: 'portals_locales_index',
+    meta,
+    component: PortalsLocalesIndexPage,
+  },
+  {
+    path: getPortalRoute(':portalSlug/settings'),
+    name: 'portals_settings_index',
+    meta,
+    component: PortalsSettingsIndexPage,
+  },
+  {
+    path: getPortalRoute('new'),
+    name: 'portals_new',
     meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
+      featureFlag: FEATURE_FLAGS.HELP_CENTER,
+      permissions: ['administrator', 'knowledge_base_manage'],
     },
-    component: EditCategory,
+    component: PortalsNew,
+  },
+  {
+    path: getPortalRoute(':navigationPath'),
+    name: 'portals_index',
+    meta: {
+      featureFlag: FEATURE_FLAGS.HELP_CENTER,
+      permissions: ['administrator', 'knowledge_base_manage'],
+    },
+    component: PortalsIndex,
   },
 ];
 
@@ -228,8 +106,17 @@ export default {
   routes: [
     {
       path: getPortalRoute(),
-      component: HelpCenterLayout,
-      children: [...portalRoutes, ...articleRoutes, ...categoryRoutes],
+      component: HelpCenterPageRouteView,
+      redirect: to => {
+        return {
+          name: 'portals_index',
+          params: {
+            navigationPath: 'portals_articles_index',
+            ...to.params,
+          },
+        };
+      },
+      children: [...portalRoutes],
     },
   ],
 };

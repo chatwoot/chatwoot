@@ -1,7 +1,6 @@
 <script setup>
-// [VITE] TODO: Test this component across different screen sizes and usages
-import { ref, provide, onMounted, computed } from 'vue';
-import { useEventListener } from '@vueuse/core';
+import { ref, useTemplateRef, provide, computed, watch } from 'vue';
+import { useElementSize } from '@vueuse/core';
 
 const props = defineProps({
   index: {
@@ -12,20 +11,25 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  isCompact: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['change']);
 
-const hasScroll = ref(false);
-// TODO: We may not this internalActiveIndex, we can use activeIndex directly
-// But right I'll keep it and fix it when testing the rest of the codebase
-const internalActiveIndex = ref(props.index);
+const tabsContainer = useTemplateRef('tabsContainer');
+const tabsList = useTemplateRef('tabsList');
 
-// Create a proxy for activeIndex using computed
+const { width: containerWidth } = useElementSize(tabsContainer);
+const { width: listWidth } = useElementSize(tabsList);
+
+const hasScroll = ref(false);
+
 const activeIndex = computed({
-  get: () => internalActiveIndex.value,
+  get: () => props.index,
   set: newValue => {
-    internalActiveIndex.value = newValue;
     emit('change', newValue);
   },
 });
@@ -36,20 +40,16 @@ provide('updateActiveIndex', index => {
 });
 
 const computeScrollWidth = () => {
-  // TODO: use useElementSize from vueuse
-  const tabElement = document.querySelector('.tabs');
-  if (tabElement) {
-    hasScroll.value = tabElement.scrollWidth > tabElement.clientWidth;
+  if (tabsContainer.value && tabsList.value) {
+    hasScroll.value = tabsList.value.scrollWidth > tabsList.value.clientWidth;
   }
 };
 
 const onScrollClick = direction => {
-  // TODO: use useElementSize from vueuse
-  const tabElement = document.querySelector('.tabs');
-  if (tabElement) {
-    let scrollPosition = tabElement.scrollLeft;
+  if (tabsContainer.value && tabsList.value) {
+    let scrollPosition = tabsList.value.scrollLeft;
     scrollPosition += direction === 'left' ? -100 : 100;
-    tabElement.scrollTo({
+    tabsList.value.scrollTo({
       top: 0,
       left: scrollPosition,
       behavior: 'smooth',
@@ -57,15 +57,23 @@ const onScrollClick = direction => {
   }
 };
 
-useEventListener(window, 'resize', computeScrollWidth);
-onMounted(() => {
-  computeScrollWidth();
-});
+// Watch for changes in element sizes with immediate execution
+watch(
+  [containerWidth, listWidth],
+  () => {
+    computeScrollWidth();
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
   <div
-    :class="{ 'tabs--container--with-border': border }"
+    ref="tabsContainer"
+    :class="{
+      'tabs--container--with-border': border,
+      'tabs--container--compact': isCompact,
+    }"
     class="tabs--container"
   >
     <button
@@ -75,7 +83,7 @@ onMounted(() => {
     >
       <fluent-icon icon="chevron-left" :size="16" />
     </button>
-    <ul :class="{ 'tabs--with-scroll': hasScroll }" class="tabs">
+    <ul ref="tabsList" :class="{ 'tabs--with-scroll': hasScroll }" class="tabs">
       <slot />
     </ul>
     <button

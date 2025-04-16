@@ -3,7 +3,7 @@
         "MODAL": {
             "TITLE": "Templat Whatsapp",
             "SUBTITLE": "Pilih templat Whatsapp yang ingin Anda kirim",
-            "TEMPLATE_SELECTED_SUBTITLE": "Proses {templatName}"
+            "TEMPLATE_SELECTED_SUBTITLE": "Process {templateName}"
         },
         "PICKER": {
             "SEARCH_PLACEHOLDER": "Cari Templat",

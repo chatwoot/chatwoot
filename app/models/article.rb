@@ -23,9 +23,13 @@
 #
 # Indexes
 #
+#  index_articles_on_account_id             (account_id)
 #  index_articles_on_associated_article_id  (associated_article_id)
 #  index_articles_on_author_id              (author_id)
+#  index_articles_on_portal_id              (portal_id)
 #  index_articles_on_slug                   (slug) UNIQUE
+#  index_articles_on_status                 (status)
+#  index_articles_on_views                  (views)
 #
 class Article < ApplicationRecord
   include PgSearch::Model
@@ -48,6 +52,7 @@ class Article < ApplicationRecord
 
   before_validation :ensure_account_id
   before_validation :ensure_article_slug
+  before_validation :ensure_locale_in_article
 
   validates :account_id, presence: true
   validates :author_id, presence: true
@@ -56,7 +61,6 @@ class Article < ApplicationRecord
 
   # ensuring that the position is always set correctly
   before_create :add_position_to_article
-  before_create :add_locale_to_article
   after_save :category_id_changed_action, if: :saved_change_to_category_id?
 
   enum status: { draft: 0, published: 1, archived: 2 }
@@ -143,11 +147,11 @@ class Article < ApplicationRecord
     update_article_position_in_category
   end
 
-  def add_locale_to_article
+  def ensure_locale_in_article
     self.locale = if category.present?
                     category.locale
                   else
-                    portal.default_locale
+                    locale.presence || portal.default_locale
                   end
   end
 

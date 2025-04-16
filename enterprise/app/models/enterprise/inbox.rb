@@ -5,20 +5,19 @@ module Enterprise::Inbox
     super - overloaded_agent_ids
   end
 
-  def get_responses(query)
-    embedding = Openai::EmbeddingsService.new.get_embedding(query)
-    responses.active.nearest_neighbors(:embedding, embedding, distance: 'cosine').first(5)
-  end
-
   def active_bot?
-    super || response_bot_enabled?
+    super || captain_active?
   end
 
-  def response_bot_enabled?
-    account.feature_enabled?('response_bot') && response_sources.any?
+  def captain_active?
+    captain_assistant.present? && more_responses?
   end
 
   private
+
+  def more_responses?
+    account.usage_limits[:captain][:responses][:current_available].positive?
+  end
 
   def get_agent_ids_over_assignment_limit(limit)
     conversations.open.select(:assignee_id).group(:assignee_id).having("count(*) >= #{limit.to_i}").filter_map(&:assignee_id)

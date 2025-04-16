@@ -7,6 +7,7 @@
 #  custom_attributes     :jsonb
 #  domain                :string(100)
 #  feature_flags         :bigint           default(0), not null
+#  internal_attributes   :jsonb            not null
 #  limits                :jsonb
 #  locale                :integer          default("en")
 #  name                  :string           not null
@@ -54,6 +55,7 @@ class Account < ApplicationRecord
   has_many :data_imports, dependent: :destroy_async
   has_many :email_channels, dependent: :destroy_async, class_name: '::Channel::Email'
   has_many :facebook_pages, dependent: :destroy_async, class_name: '::Channel::FacebookPage'
+  has_many :instagram_channels, dependent: :destroy_async, class_name: '::Channel::Instagram'
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
   has_many :inboxes, dependent: :destroy_async
   has_many :labels, dependent: :destroy_async
@@ -126,6 +128,14 @@ class Account < ApplicationRecord
     }
   end
 
+  def locale_english_name
+    # the locale can also be something like pt_BR, en_US, fr_FR, etc.
+    # the format is `<locale_code>_<country_code>`
+    # we need to extract the language code from the locale
+    account_locale = locale&.split('_')&.first
+    ISO_639.find(account_locale)&.english_name&.downcase || 'english'
+  end
+
   private
 
   def notify_creation
@@ -151,5 +161,6 @@ class Account < ApplicationRecord
 end
 
 Account.prepend_mod_with('Account')
+Account.prepend_mod_with('Account::PlanUsageAndLimits')
 Account.include_mod_with('Concerns::Account')
 Account.include_mod_with('Audit::Account')

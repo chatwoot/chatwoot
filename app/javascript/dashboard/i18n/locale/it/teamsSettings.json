@@ -20,23 +20,18 @@
         "TITLE": "Aggiungi agenti al team - {teamName}",
         "DESC": "Aggiungi agenti al tuo team appena creato. Questo ti permette di collaborare come team alle conversazioni, ricevere una notifica sui nuovi eventi nella stessa conversazione."
       },
-      "WIZARD": [
-        {
-          "title": "Crea",
-          "route": "settings_teams_new",
-          "body": "Crea un nuovo team di agenti."
-        },
-        {
-          "title": "Aggiungi agenti",
-          "route": "settings_teams_add_agents",
-          "body": "Aggiungi agenti al team."
-        },
-        {
-          "title": "Termina",
-          "route": "settings_teams_finish",
-          "body": "Sei pronto per iniziare!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "Crea",
+        "BODY": "Crea un nuovo team di agenti."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Aggiungi agenti",
+        "BODY": "Aggiungi agenti al team."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Termina",
+        "BODY": "Sei pronto per iniziare!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "Aggiungi agenti al team - {teamName}",
         "DESC": "Aggiungi agenti al tuo team appena creato. Tutti gli agenti aggiunti verranno avvisati quando una conversazione viene assegnata a questo team."
       },
-      "WIZARD": [
-        {
-          "title": "Dettagli del team",
-          "route": "settings_teams_edit",
-          "body": "Cambia nome, descrizione e altri dettagli."
-        },
-        {
-          "title": "Modifica agenti",
-          "route": "settings_teams_edit_members",
-          "body": "Modifica agenti nel tuo team."
-        },
-        {
-          "title": "Termina",
-          "route": "settings_teams_edit_finisch",
-          "body": "Sei pronto per iniziare!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Dettagli del team",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "Cambia nome, descrizione e altri dettagli."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Modifica agenti",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "Modifica agenti nel tuo team."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Termina",
+        "ROUTE": "settings_teams_edit_finisch",
+        "BODY": "Sei pronto per iniziare!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "Impossibile salvare i dettagli del team. Riprova."

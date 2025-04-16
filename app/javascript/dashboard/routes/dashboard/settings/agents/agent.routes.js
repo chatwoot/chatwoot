@@ -1,6 +1,7 @@
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
-const SettingsWrapper = () => import('../SettingsWrapper.vue');
-const AgentHome = () => import('./Index.vue');
+import SettingsWrapper from '../SettingsWrapper.vue';
+import AgentHome from './Index.vue';
 
 export default {
   routes: [
@@ -19,6 +20,7 @@ export default {
           name: 'agent_list',
           component: AgentHome,
           meta: {
+            featureFlag: FEATURE_FLAGS.AGENT_MANAGEMENT,
             permissions: ['administrator'],
           },
         },

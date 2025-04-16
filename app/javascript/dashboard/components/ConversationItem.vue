@@ -13,6 +13,7 @@ export default {
     'updateConversationStatus',
     'toggleContextMenu',
     'markAsUnread',
+    'markAsRead',
     'assignPriority',
     'isConversationSelected',
   ],
@@ -64,6 +65,7 @@ export default {
     @update-conversation-status="updateConversationStatus"
     @context-menu-toggle="toggleContextMenu"
     @mark-as-unread="markAsUnread"
+    @mark-as-read="markAsRead"
     @assign-priority="assignPriority"
   />
 </template>

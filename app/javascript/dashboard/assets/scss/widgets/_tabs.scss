@@ -3,7 +3,15 @@
 }
 
 .tabs--container--with-border {
-  @apply border-b border-slate-50 dark:border-slate-800/50;
+  @apply border-b border-n-weak;
+}
+
+.tabs--container--compact.tab--chat-type {
+  .tabs-title {
+    a {
+      @apply py-2 text-sm;
+    }
+  }
 }
 
 .tabs {
@@ -34,7 +42,7 @@
   @apply flex-shrink-0 my-0 mx-2;
 
   .badge {
-    @apply bg-slate-50 dark:bg-slate-800 rounded-md text-slate-600 dark:text-slate-100 h-5 flex items-center justify-center text-xxs font-semibold my-0 mx-1 px-1 py-0;
+    @apply bg-n-alpha-black2 dark:bg-n-solid-3 rounded-md text-n-slate-11 h-5 flex items-center justify-center text-xxs font-semibold my-0 mx-1 px-1 py-0;
   }
 
   &:first-child {
@@ -48,22 +56,22 @@
   &:hover,
   &:focus {
     a {
-      @apply text-slate-800 dark:text-slate-100;
+      @apply text-n-slate-12;
     }
   }
 
   a {
-    @apply flex items-center flex-row border-b py-2.5 select-none cursor-pointer border-transparent text-slate-500 dark:text-slate-200 text-sm top-[1px] relative;
+    @apply flex items-center flex-row border-b py-2.5 select-none cursor-pointer border-transparent text-n-slate-11 text-sm top-[1px] relative;
     transition: border-color 0.15s $swift-ease-out-function;
   }
 
   &.is-active {
     a {
-      @apply border-b border-woot-500 text-woot-500 dark:text-woot-500;
+      @apply border-b border-n-brand text-n-blue-text;
     }
 
     .badge {
-      @apply bg-woot-50 dark:bg-woot-500 text-woot-500 dark:text-woot-50 dark:bg-opacity-40;
+      @apply bg-n-brand/10 dark:bg-n-brand/20 text-n-blue-text;
     }
   }
 }

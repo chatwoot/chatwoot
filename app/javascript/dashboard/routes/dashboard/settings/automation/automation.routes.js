@@ -1,6 +1,7 @@
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
-const SettingsWrapper = () => import('../SettingsWrapper.vue');
-const Automation = () => import('./Index.vue');
+import SettingsWrapper from '../SettingsWrapper.vue';
+import Automation from './Index.vue';
 
 export default {
   routes: [
@@ -19,6 +20,7 @@ export default {
           name: 'automation_list',
           component: Automation,
           meta: {
+            featureFlag: FEATURE_FLAGS.AUTOMATIONS,
             permissions: ['administrator'],
           },
         },

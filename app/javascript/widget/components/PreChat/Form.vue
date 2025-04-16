@@ -7,7 +7,6 @@ import { isEmptyObject } from 'widget/helpers/utils';
 import { getRegexp } from 'shared/helpers/Validators';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import routerMixin from 'widget/mixins/routerMixin';
-import { useDarkMode } from 'widget/composables/useDarkMode';
 import configMixin from 'widget/mixins/configMixin';
 import { FormKit, createInput } from '@formkit/vue';
 import PhoneInput from 'widget/components/Form/PhoneInput.vue';
@@ -31,9 +30,8 @@ export default {
       props: ['hasErrorInPhoneInput'],
     });
     const { formatMessage } = useMessageFormatter();
-    const { getThemeClass } = useDarkMode();
 
-    return { formatMessage, phoneInput, getThemeClass };
+    return { formatMessage, phoneInput };
   },
   data() {
     return {
@@ -52,9 +50,13 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
       isCreating: 'conversation/getIsCreating',
+      isConversationRouting: 'appConfig/getIsUpdatingRoute',
       activeCampaign: 'campaign/getActiveCampaign',
       currentUser: 'contacts/getCurrentUser',
     }),
+    isCreatingConversation() {
+      return this.isCreating || this.isConversationRouting;
+    },
     textColor() {
       return getContrastingTextColor(this.widgetColor);
     },
@@ -62,7 +64,10 @@ export default {
       return !isEmptyObject(this.activeCampaign);
     },
     shouldShowHeaderMessage() {
-      return this.hasActiveCampaign || this.preChatFormEnabled;
+      return (
+        this.hasActiveCampaign ||
+        (this.preChatFormEnabled && !!this.headerMessage)
+      );
     },
     headerMessage() {
       if (this.preChatFormEnabled) {
@@ -134,35 +139,12 @@ export default {
       });
       return contactAttributes;
     },
-    inputStyles() {
-      return `mt-1 border rounded w-full py-2 px-3 text-slate-700 outline-none`;
-    },
-    isInputDarkOrLightMode() {
-      return `${this.getThemeClass(
-        'bg-white',
-        'dark:bg-slate-600'
-      )} ${this.getThemeClass('text-slate-700', 'dark:text-slate-50')}`;
-    },
-    inputBorderColor() {
-      return `${this.getThemeClass(
-        'border-black-200',
-        'dark:border-black-500'
-      )}`;
-    },
   },
   methods: {
-    labelClass(context) {
-      const { hasErrors } = context;
-      if (!hasErrors) {
-        return `text-xs font-medium ${this.getThemeClass(
-          'text-black-800',
-          'dark:text-slate-50'
-        )}`;
-      }
-      return `text-xs font-medium ${this.getThemeClass(
-        'text-red-400',
-        'dark:text-red-400'
-      )}`;
+    labelClass(input) {
+      const { state } = input.context;
+      const hasErrors = state.invalid;
+      return !hasErrors ? 'text-n-slate-12' : 'text-n-ruby-10';
     },
     inputClass(input) {
       const { state, family: classification, type } = input.context;
@@ -174,9 +156,9 @@ export default {
         this.hasErrorInPhoneInput = hasErrors;
       }
       if (!hasErrors) {
-        return `${this.inputStyles} hover:border-black-300 focus:border-black-300 ${this.isInputDarkOrLightMode} ${this.inputBorderColor}`;
+        return `mt-1 rounded w-full py-2 px-3`;
       }
-      return `${this.inputStyles} border-red-200 hover:border-red-300 focus:border-red-300 ${this.isInputDarkOrLightMode}`;
+      return `mt-1 rounded w-full py-2 px-3 error`;
     },
     isContactFieldRequired(field) {
       return this.preChatFields.find(option => option.name === field).required;
@@ -282,8 +264,7 @@ export default {
     <div
       v-if="shouldShowHeaderMessage"
       v-dompurify-html="formatMessage(headerMessage, false)"
-      class="mb-4 text-sm leading-5 pre-chat-header-message"
-      :class="getThemeClass('text-black-800', 'dark:text-slate-50')"
+      class="mb-4 text-base leading-5 text-n-slate-12 [&>p>.link]:text-n-blue-text [&>p>.link]:hover:underline"
     />
     <!-- Why do the v-bind shenanigan? Because Formkit API is really bad.
     If we just pass the options as is even with null or undefined or false,
@@ -303,7 +284,7 @@ export default {
             }
           : undefined
       "
-      :label-class="context => labelClass(context)"
+      :label-class="context => `text-sm font-medium ${labelClass(context)}`"
       :input-class="context => inputClass(context)"
       :validation-messages="{
         startsWithPlus: $t(
@@ -322,7 +303,7 @@ export default {
       v-if="!hasActiveCampaign"
       name="message"
       type="textarea"
-      :label-class="context => labelClass(context)"
+      :label-class="context => `text-sm font-medium ${labelClass(context)}`"
       :input-class="context => inputClass(context)"
       :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
       :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"
@@ -333,13 +314,13 @@ export default {
     />
 
     <CustomButton
-      class="mt-2 mb-5 font-medium"
+      class="mt-3 mb-5 font-medium flex items-center justify-center gap-2"
       block
       :bg-color="widgetColor"
       :text-color="textColor"
-      :disabled="isCreating"
+      :disabled="isCreatingConversation"
     >
-      <Spinner v-if="isCreating" class="p-0" />
+      <Spinner v-if="isCreatingConversation" class="p-0" />
       {{ $t('START_CONVERSATION') }}
     </CustomButton>
   </FormKit>
@@ -348,10 +329,22 @@ export default {
 <style lang="scss">
 .formkit-outer {
   @apply mt-2;
+
+  .formkit-inner {
+    input.error,
+    textarea.error,
+    select.error {
+      @apply outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 focus:outline-n-ruby-9 dark:focus:outline-n-ruby-9;
+    }
+
+    input[type='checkbox'] {
+      @apply size-4 outline-none;
+    }
+  }
 }
 
 [data-invalid] .formkit-message {
-  @apply text-red-500 block text-xs font-normal mb-1 w-full;
+  @apply text-n-ruby-10 block text-xs font-normal my-0.5 w-full;
 }
 
 .formkit-outer[data-type='checkbox'] .formkit-wrapper {
@@ -360,13 +353,5 @@ export default {
 
 .formkit-messages {
   @apply list-none m-0 p-0;
-}
-
-@media (prefers-color-scheme: dark) {
-  .pre-chat-header-message {
-    .link {
-      @apply text-woot-500 underline;
-    }
-  }
 }
 </style>

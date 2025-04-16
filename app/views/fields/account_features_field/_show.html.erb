@@ -1,14 +1,34 @@
-<div class='feature-container'>
-  <% field.data.each do |key,val| %>
-    <div class='feature-cell'>
-    <% if SuperAdmin::AccountFeaturesHelper.account_premium_features.include? key %>
-    <span class='icon-container'>
-      <svg class="inline" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path d="M480 224l-186.828 7.487L401.688 64l-59.247-32L256 208 169.824 32l-59.496 32 108.5 167.487L32 224v64l185.537-10.066L113.65 448l55.969 32L256 304l86.381 176 55.949-32-103.867-170.066L480 288z" fill="currentColor"/></svg>
-    </span>
-    <% end %>
-    <span><%= key %></span> 
-    <span class='value-container'><%= val.present? ? '✅' : '❌' %> </span>
-    </div>
-  <% end %>
-</div>
+<div class="w-full">
+  <% regular_features, premium_features = SuperAdmin::AccountFeaturesHelper.partition_features(field.data) %>
 
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <% regular_features.each do |key_array, val| %>
+      <% feature_key, display_name = key_array %>
+      <div class="flex items-center justify-between p-3 bg-white rounded-md outline outline-n-container outline-1 shadow-sm">
+        <span class="text-sm text-n-slate-12"><%= display_name %></span>
+        <span class="<%= val.present? ? 'bg-green-400 text-white': 'bg-slate-50 text-slate-800' %> rounded-full p-1 inline-flex right-4 top-5">
+          <svg width="12" height="12"><use xlink:href="#icon-tick-line" /></svg>
+        </span>
+      </div>
+    <% end %>
+  </div>
+
+  <hr class="my-8 border-t border-n-weak">
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <% premium_features.each do |key_array, val| %>
+      <% feature_key, display_name = key_array %>
+      <div class="flex items-center justify-between p-3 bg-white rounded-md outline outline-n-container outline-1 shadow-sm">
+        <div class="flex items-center gap-2">
+          <span class="bg-n-amber-3 text-n-amber-12 rounded-full p-1 inline-flex right-4 top-5">
+            <svg width="12" height="12"><use xlink:href="#icon-lock-line" /></svg>
+          </span>
+          <span class="text-sm text-n-slate-12"><%= display_name %></span>
+        </div>
+        <span class="<%= val.present? ? 'bg-green-400 text-white': 'bg-slate-50 text-slate-800' %> rounded-full p-1 inline-flex right-4 top-5">
+          <svg width="12" height="12"><use xlink:href="#icon-tick-line" /></svg>
+        </span>
+      </div>
+    <% end %>
+  </div>
+</div>

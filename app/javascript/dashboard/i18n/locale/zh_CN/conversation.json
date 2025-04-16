@@ -12,6 +12,8 @@
     "NO_INBOX_2": " 开始吧",
     "NO_INBOX_AGENT": "看起来您还没有分配到收件箱。请联系您的管理员",
     "SEARCH_MESSAGES": "搜索对话中的消息",
+    "VIEW_ORIGINAL": "查看原始内容",
+    "VIEW_TRANSLATED": "查看翻译",
     "EMPTY_STATE": {
       "CMD_BAR": "打开命令菜单",
       "KEYBOARD_SHORTCUTS": "查看键盘快捷键"
@@ -38,15 +40,23 @@
     "REMOVE_SELECTION": "移除选择",
     "DOWNLOAD": "下载",
     "UNKNOWN_FILE_TYPE": "未知文件",
-    "SAVE_CONTACT": "保存",
+    "SAVE_CONTACT": "保存联系人",
+    "NO_CONTENT": "没有要显示的内容",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} 分享了一个联系人",
+      "LOCATION": "{sender} 分享了一个地址",
+      "FILE": "{sender} 分享了一个文件",
+      "MEETING": "{sender} 已开始会议"
+    },
     "UPLOADING_ATTACHMENTS": "正在上传附件...",
     "REPLIED_TO_STORY": "回复您的故事",
-    "UNSUPPORTED_MESSAGE": "不支持此消息。",
+    "UNSUPPORTED_MESSAGE": "不支持此消息。您可以在 Facebook Messenger 应用上查看此消息。",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "不支持此消息。您可以在 Facebook Messenger 应用上查看此消息。",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "不支持此消息。您可以在 Instagram 应用上查看此消息。",
     "SUCCESS_DELETE_MESSAGE": "已成功删除消息",
     "FAIL_DELETE_MESSSAGE": "无法删除消息，请重试！",
     "NO_RESPONSE": "无响应",
+    "RESPONSE": "回复",
     "RATING_TITLE": "评分",
     "FEEDBACK_TITLE": "Feedback",
     "REPLY_MESSAGE_NOT_FOUND": "消息不可用",
@@ -69,8 +79,8 @@
         "FRT": "第一响应时间 {status}",
         "NRT": "净响应时间 {status}",
         "RT": "响应时间 {status}",
-        "MISSED": "missed",
-        "DUE": "due"
+        "MISSED": "遗漏",
+        "DUE": "过期"
       }
     },
     "RESOLVE_DROPDOWN": {
@@ -92,7 +102,7 @@
       "TITLE": "优先级",
       "OPTIONS": {
         "NONE": "啥都没有",
-        "URGENT": "Urgent",
+        "URGENT": "紧急的",
         "HIGH": "高",
         "MEDIUM": "中",
         "LOW": "低"
@@ -101,7 +111,7 @@
         "SELECT_PLACEHOLDER": "啥都没有",
         "INPUT_PLACEHOLDER": "选择优先级",
         "NO_RESULTS": "没有检索到相关信息",
-        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
+        "SUCCESSFUL": "已将对话 Id {conversationId} 的优先级更改为 {priority}",
         "FAILED": "无法更改优先级。请重试。"
       }
     },
@@ -109,6 +119,7 @@
       "PENDING": "标记为待处理",
       "RESOLVED": "标记为已解决",
       "MARK_AS_UNREAD": "标记为未读",
+      "MARK_AS_READ": "标记为已读",
       "REOPEN": "重新打开会话",
       "SNOOZE": {
         "TITLE": "推迟",
@@ -126,7 +137,7 @@
           "FAILED": "无法分配客服，请再试。"
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "将标签 #{labelName} 分配给对话 ID {conversationId}",
+          "SUCCESFUL": "已为对话 Id {conversationId} 分配标签 #{labelName}",
           "FAILED": "无法分配标签。请再试。"
         },
         "TEAM_ASSIGNMENT": {
@@ -143,7 +154,7 @@
       "PRIVATE_MSG_INPUT": "Shift + 输入新行。这只对客服可见",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "未设置消息签名，请在个人资料中进行设置。",
       "CLICK_HERE": "点击此处更新",
-      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
+      "WHATSAPP_TEMPLATES": "Whatsapp 模板列表"
     },
     "REPLYBOX": {
       "REPLY": "回复",
@@ -219,6 +230,10 @@
         "DELETE": "删除",
         "CANCEL": "取消"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "联系人",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -241,9 +256,9 @@
   "ONBOARDING": {
     "TITLE": "您好 👋, 欢迎来到 {installationName}!",
     "DESCRIPTION": "感谢您注册。我们希望您能够充分使用 {installationName}。 这里有几件您可以在 {installationName} 做的事情，让体验变得愉快。",
-    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
-    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "GREETING_MORNING": "👋 早上好，{name}。欢迎来到 {installationName}。",
+    "GREETING_AFTERNOON": "👋 下午好，{name}。欢迎来到 {installationName}。",
+    "GREETING_EVENING": "👋 晚上好，{name}。欢迎来到 {installationName}。",
     "READ_LATEST_UPDATES": "阅读我们的最新升级日志",
     "ALL_CONVERSATION": {
       "TITLE": "您的所有对话都在一个地方",
@@ -261,9 +276,9 @@
       "NEW_LINK": "点击此处创建标签"
     },
     "CANNED_RESPONSES": {
-      "TITLE": "Create canned responses",
-      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
-      "NEW_LINK": "Click here to create a canned response"
+      "TITLE": "创建预设回复",
+      "DESCRIPTION": "预定义的快捷回复模板可以帮助您快速响应对话。客服人员只需输入“/”符号，后跟快捷代码，即可插入回复。",
+      "NEW_LINK": "点击这里创建预设回复"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -280,7 +295,27 @@
       "CONVERSATION_INFO": "对话信息",
       "CONTACT_ATTRIBUTES": "联系人属性",
       "PREVIOUS_CONVERSATION": "上一次对话",
-      "MACROS": "宏"
+      "MACROS": "宏",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "等待中",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -310,7 +345,8 @@
     "TO": "发送至",
     "BCC": "密送",
     "CC": "抄送",
-    "SUBJECT": "主题"
+    "SUBJECT": "主题",
+    "EXPAND": "展开邮箱"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "参与者",
@@ -335,5 +371,16 @@
     "ORIGINAL_CONTENT": "原文内容",
     "TRANSLATED_CONTENT": "译文",
     "NO_TRANSLATIONS_AVAILABLE": "此内容暂无翻译"
+  },
+  "TYPING": {
+    "ONE": "{user} 正在输入",
+    "TWO": "{user} 和 {secondUser} 正在输入",
+    "MULTIPLE": "{user} 等 {count} 人正在输入"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "尝试这些提示信息"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "无法上传附件。请重试"
   }
 }

@@ -4,10 +4,12 @@ import { ref } from 'vue';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useAI } from 'dashboard/composables/useAI';
+import { useMapGetter } from 'dashboard/composables/store';
 
 // components
 import ReplyBox from './ReplyBox.vue';
 import Message from './Message.vue';
+import NextMessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 
@@ -33,13 +35,18 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { FEATURE_FLAGS } from '../../../featureFlags';
+
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     Message,
+    NextMessageList,
     ReplyBox,
     Banner,
     ConversationLabelSuggestion,
+    NextButton,
   },
   mixins: [inboxMixin],
   props: {
@@ -80,6 +87,16 @@ export default {
       fetchLabelSuggestions,
     } = useAI();
 
+    const currentAccountId = useMapGetter('getCurrentAccountId');
+    const isFeatureEnabledonAccount = useMapGetter(
+      'accounts/isFeatureEnabledonAccount'
+    );
+
+    const showNextBubbles = isFeatureEnabledonAccount.value(
+      currentAccountId.value,
+      FEATURE_FLAGS.CHATWOOT_V4
+    );
+
     return {
       isEnterprise,
       isPopOutReplyBox,
@@ -89,6 +106,7 @@ export default {
       isLabelSuggestionFeatureEnabled,
       fetchIntegrationsIfRequired,
       fetchLabelSuggestions,
+      showNextBubbles,
     };
   },
   data() {
@@ -106,6 +124,7 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
+      currentUserId: 'getCurrentUserID',
       listLoadingStatus: 'getAllMessagesLoaded',
       currentAccountId: 'getCurrentAccountId',
     }),
@@ -138,10 +157,9 @@ export default {
     },
     typingUserNames() {
       const userList = this.typingUsersList;
-
       if (this.isAnyoneTyping) {
-        const userListAsName = getTypingUsersText(userList);
-        return userListAsName;
+        const [i18nKey, params] = getTypingUsersText(userList);
+        return this.$t(i18nKey, params);
       }
 
       return '';
@@ -200,16 +218,25 @@ export default {
         if (additionalAttributes) {
           const {
             agent_reply_time_window_message: agentReplyTimeWindowMessage,
+            agent_reply_time_window: agentReplyTimeWindow,
           } = additionalAttributes;
-          return agentReplyTimeWindowMessage;
+          return (
+            agentReplyTimeWindowMessage ||
+            this.$t('CONVERSATION.API_HOURS_WINDOW', {
+              hours: agentReplyTimeWindow,
+            })
+          );
         }
         return '';
       }
       return this.$t('CONVERSATION.CANNOT_REPLY');
     },
     replyWindowLink() {
-      if (this.isAWhatsAppChannel) {
+      if (this.isAFacebookInbox || this.isAInstagramChannel) {
         return REPLY_POLICY.FACEBOOK;
+      }
+      if (this.isAWhatsAppCloudChannel) {
+        return REPLY_POLICY.WHATSAPP_CLOUD;
       }
       if (!this.isAPIInbox) {
         return REPLY_POLICY.TWILIO_WHATSAPP;
@@ -217,7 +244,11 @@ export default {
       return '';
     },
     replyWindowLinkText() {
-      if (this.isAWhatsAppChannel) {
+      if (
+        this.isAWhatsAppChannel ||
+        this.isAFacebookInbox ||
+        this.isAInstagramChannel
+      ) {
         return this.$t('CONVERSATION.24_HOURS_WINDOW');
       }
       if (!this.isAPIInbox) {
@@ -227,6 +258,15 @@ export default {
     },
     unreadMessageCount() {
       return this.currentChat.unread_count || 0;
+    },
+    unreadMessageLabel() {
+      const count =
+        this.unreadMessageCount > 9 ? '9+' : this.unreadMessageCount;
+      const label =
+        this.unreadMessageCount > 1
+          ? 'CONVERSATION.UNREAD_MESSAGES'
+          : 'CONVERSATION.UNREAD_MESSAGE';
+      return `${count} ${this.$t(label)}`;
     },
     isInstagramDM() {
       return this.conversationType === 'instagram_direct_message';
@@ -437,7 +477,6 @@ export default {
     makeMessagesRead() {
       this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
     },
-
     getInReplyToMessage(parentMessage) {
       if (!parentMessage) return {};
       const inReplyToMessageId = parentMessage.content_attributes?.in_reply_to;
@@ -459,24 +498,58 @@ export default {
     <Banner
       v-if="!currentChat.can_reply"
       color-scheme="alert"
+      class="mx-2 mt-2 overflow-hidden rounded-lg"
       :banner-message="replyWindowBannerMessage"
       :href-link="replyWindowLink"
       :href-link-text="replyWindowLinkText"
     />
     <div class="flex justify-end">
-      <woot-button
-        variant="smooth"
-        size="tiny"
-        color-scheme="secondary"
-        class="box-border fixed z-10 bg-white border border-r-0 border-solid rounded-bl-calc rtl:rotate-180 rounded-tl-calc dark:bg-slate-700 border-slate-50 dark:border-slate-600"
-        :class="
-          isInboxView ? 'top-52 md:top-40' : 'top-[9.5rem] md:top-[6.25rem]'
+      <NextButton
+        faded
+        xs
+        slate
+        class="!rounded-r-none rtl:rotate-180 !rounded-2xl !fixed z-10"
+        :icon="
+          isContactPanelOpen ? 'i-ph-caret-right-fill' : 'i-ph-caret-left-fill'
         "
-        :icon="isRightOrLeftIcon"
+        :class="isInboxView ? 'top-52 md:top-40' : 'top-32'"
         @click="onToggleContactPanel"
       />
     </div>
-    <ul class="conversation-panel">
+    <NextMessageList
+      v-if="showNextBubbles"
+      class="conversation-panel"
+      :current-user-id="currentUserId"
+      :first-unread-id="unReadMessages[0]?.id"
+      :is-an-email-channel="isAnEmailChannel"
+      :inbox-supports-reply-to="inboxSupportsReplyTo"
+      :messages="getMessages"
+    >
+      <template #beforeAll>
+        <transition name="slide-up">
+          <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
+          <li class="min-h-[4rem]">
+            <span v-if="shouldShowSpinner" class="spinner message" />
+          </li>
+        </transition>
+      </template>
+      <template #unreadBadge>
+        <li v-show="unreadMessageCount != 0" class="unread--toast">
+          <span>
+            {{ unreadMessageLabel }}
+          </span>
+        </li>
+      </template>
+      <template #after>
+        <ConversationLabelSuggestion
+          v-if="shouldShowLabelSuggestions"
+          :suggested-labels="labelSuggestions"
+          :chat-labels="currentChat.labels"
+          :conversation-id="currentChat.id"
+        />
+      </template>
+    </NextMessageList>
+    <ul v-else class="conversation-panel">
       <transition name="slide-up">
         <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
         <li class="min-h-[4rem]">
@@ -531,14 +604,17 @@ export default {
     </ul>
     <div
       class="conversation-footer"
-      :class="{ 'modal-mask': isPopOutReplyBox }"
+      :class="{
+        'modal-mask': isPopOutReplyBox,
+        'bg-n-background': showNextBubbles && !isPopOutReplyBox,
+      }"
     >
       <div
         v-if="isAnyoneTyping"
         class="absolute flex items-center w-full h-0 -top-7"
       >
         <div
-          class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 text-xs font-semibold my-2.5 mx-auto"
+          class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-slate-700 text-n-slate-11 text-xs font-semibold my-2.5 mx-auto"
         >
           {{ typingUserNames }}
           <img
@@ -550,25 +626,11 @@ export default {
       </div>
       <ReplyBox
         v-model:popout-reply-box="isPopOutReplyBox"
-        :conversation-id="currentChat.id"
         @toggle-popout="showPopOutReplyBox"
       />
     </div>
   </div>
 </template>
-
-<style scoped>
-@tailwind components;
-@layer components {
-  .rounded-bl-calc {
-    border-bottom-left-radius: calc(1.5rem + 1px);
-  }
-
-  .rounded-tl-calc {
-    border-top-left-radius: calc(1.5rem + 1px);
-  }
-}
-</style>
 
 <style scoped lang="scss">
 .modal-mask {
@@ -580,7 +642,11 @@ export default {
     }
 
     .reply-box {
-      @apply border border-solid border-slate-75 dark:border-slate-600 max-w-[75rem] w-[70%];
+      @apply border border-n-weak max-w-[75rem] w-[70%];
+
+      &.is-private {
+        @apply dark:border-n-amber-3/30 border-n-amber-12/5;
+      }
     }
 
     .reply-box .reply-box__top {

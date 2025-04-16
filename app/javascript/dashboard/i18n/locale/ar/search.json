@@ -11,7 +11,10 @@
       "CONVERSATIONS": "المحادثات",
       "MESSAGES": "الرسائل"
     },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
     "SEARCHING_DATA": "جاري البحث",
+    "LOADING_DATA": "جار التحميل",
     "EMPTY_STATE": "لم يتم العثور على {item} للطلب '{query}'",
     "EMPTY_STATE_FULL": "لم يتم العثور على نتائج للطلب '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ للتركيز",
@@ -21,6 +24,7 @@
     "READ_MORE": "اقرأ المزيد",
     "WROTE": "كتب:",
     "FROM": "من",
-    "EMAIL": "البريد الإلكتروني"
+    "EMAIL": "البريد الإلكتروني",
+    "EMAIL_SUBJECT": "الموضوع"
   }
 }

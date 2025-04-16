@@ -3,7 +3,7 @@
     "APPLY_BUTTON": "Aplicar",
     "CLEAR_BUTTON": "Limpar",
     "DATE_RANGE_INPUT": {
-      "START": "Data de inicio",
+      "START": "Data de início",
       "END": "Data final"
     },
     "DATE_RANGE_OPTIONS": {
@@ -13,7 +13,7 @@
       "LAST_3_MONTHS": "Últimos 3 meses",
       "LAST_6_MONTHS": "Últimos 6 meses",
       "LAST_YEAR": "Ano passado",
-      "CUSTOM_RANGE": "Intervalo de datas personalizado"
+      "CUSTOM_RANGE": "Intervalo de tempo personalizado"
     }
   }
 }

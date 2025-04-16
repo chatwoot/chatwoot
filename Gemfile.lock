@@ -22,81 +22,73 @@ GIT
       devise (>= 4.0.0, < 5.0.0)
       railties (>= 5.0.0, < 8.0.0)
 
-GIT
-  remote: https://github.com/chatwoot/html2text_ruby
-  revision: cdbdbbbf898d846d0136d69d688a003c6b26074b
-  branch: chatwoot
-  specs:
-    html2text (0.3.1)
-      nokogiri (>= 1.13.6)
-
 GEM
   remote: https://rubygems.org/
   specs:
-    actioncable (7.0.8.5)
-      actionpack (= 7.0.8.5)
-      activesupport (= 7.0.8.5)
+    actioncable (7.0.8.7)
+      actionpack (= 7.0.8.7)
+      activesupport (= 7.0.8.7)
       nio4r (~> 2.0)
       websocket-driver (>= 0.6.1)
-    actionmailbox (7.0.8.5)
-      actionpack (= 7.0.8.5)
-      activejob (= 7.0.8.5)
-      activerecord (= 7.0.8.5)
-      activestorage (= 7.0.8.5)
-      activesupport (= 7.0.8.5)
+    actionmailbox (7.0.8.7)
+      actionpack (= 7.0.8.7)
+      activejob (= 7.0.8.7)
+      activerecord (= 7.0.8.7)
+      activestorage (= 7.0.8.7)
+      activesupport (= 7.0.8.7)
       mail (>= 2.7.1)
       net-imap
       net-pop
       net-smtp
-    actionmailer (7.0.8.5)
-      actionpack (= 7.0.8.5)
-      actionview (= 7.0.8.5)
-      activejob (= 7.0.8.5)
-      activesupport (= 7.0.8.5)
+    actionmailer (7.0.8.7)
+      actionpack (= 7.0.8.7)
+      actionview (= 7.0.8.7)
+      activejob (= 7.0.8.7)
+      activesupport (= 7.0.8.7)
       mail (~> 2.5, >= 2.5.4)
       net-imap
       net-pop
       net-smtp
       rails-dom-testing (~> 2.0)
-    actionpack (7.0.8.5)
-      actionview (= 7.0.8.5)
-      activesupport (= 7.0.8.5)
+    actionpack (7.0.8.7)
+      actionview (= 7.0.8.7)
+      activesupport (= 7.0.8.7)
       rack (~> 2.0, >= 2.2.4)
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.2.0)
-    actiontext (7.0.8.5)
-      actionpack (= 7.0.8.5)
-      activerecord (= 7.0.8.5)
-      activestorage (= 7.0.8.5)
-      activesupport (= 7.0.8.5)
+    actiontext (7.0.8.7)
+      actionpack (= 7.0.8.7)
+      activerecord (= 7.0.8.7)
+      activestorage (= 7.0.8.7)
+      activesupport (= 7.0.8.7)
       globalid (>= 0.6.0)
       nokogiri (>= 1.8.5)
-    actionview (7.0.8.5)
-      activesupport (= 7.0.8.5)
+    actionview (7.0.8.7)
+      activesupport (= 7.0.8.7)
       builder (~> 3.1)
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
     active_record_query_trace (1.8)
-    activejob (7.0.8.5)
-      activesupport (= 7.0.8.5)
+    activejob (7.0.8.7)
+      activesupport (= 7.0.8.7)
       globalid (>= 0.3.6)
-    activemodel (7.0.8.5)
-      activesupport (= 7.0.8.5)
-    activerecord (7.0.8.5)
-      activemodel (= 7.0.8.5)
-      activesupport (= 7.0.8.5)
+    activemodel (7.0.8.7)
+      activesupport (= 7.0.8.7)
+    activerecord (7.0.8.7)
+      activemodel (= 7.0.8.7)
+      activesupport (= 7.0.8.7)
     activerecord-import (1.4.1)
       activerecord (>= 4.2)
-    activestorage (7.0.8.5)
-      actionpack (= 7.0.8.5)
-      activejob (= 7.0.8.5)
-      activerecord (= 7.0.8.5)
-      activesupport (= 7.0.8.5)
+    activestorage (7.0.8.7)
+      actionpack (= 7.0.8.7)
+      activejob (= 7.0.8.7)
+      activerecord (= 7.0.8.7)
+      activesupport (= 7.0.8.7)
       marcel (~> 1.0)
       mini_mime (>= 1.1.0)
-    activesupport (7.0.8.5)
+    activesupport (7.0.8.7)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
@@ -186,7 +178,7 @@ GEM
     database_cleaner-core (2.0.1)
     datadog-ci (0.8.3)
       msgpack
-    date (3.3.4)
+    date (3.4.1)
     ddtrace (1.23.2)
       datadog-ci (~> 0.8.1)
       debase-ruby_core_source (= 3.3.1)
@@ -209,7 +201,7 @@ GEM
       devise (> 3.5.2, < 5)
       rails (>= 4.2.0, < 7.2)
     diff-lcs (1.5.1)
-    digest-crc (0.6.4)
+    digest-crc (0.6.5)
       rake (>= 12.0.0, < 14.0.0)
     docile (1.4.0)
     domain_name (0.5.20190701)
@@ -231,6 +223,7 @@ GEM
     erubi (1.13.0)
     et-orbi (1.2.11)
       tzinfo
+    event_stream_parser (1.0.0)
     execjs (2.8.1)
     facebook-messenger (2.0.1)
       httparty (~> 0.13, >= 0.13.7)
@@ -279,44 +272,45 @@ GEM
       googleauth (~> 1.0)
       grpc (~> 1.36)
     geocoder (1.8.1)
-    gli (2.21.1)
+    gli (2.22.2)
+      ostruct
     globalid (1.2.1)
       activesupport (>= 6.1)
     gmail_xoauth (0.4.3)
       oauth (>= 0.3.6)
-    google-apis-core (0.11.0)
+    google-apis-core (0.15.1)
       addressable (~> 2.5, >= 2.5.1)
-      googleauth (>= 0.16.2, < 2.a)
-      httpclient (>= 2.8.1, < 3.a)
+      googleauth (~> 1.9)
+      httpclient (>= 2.8.3, < 3.a)
       mini_mime (~> 1.0)
+      mutex_m
       representable (~> 3.0)
       retriable (>= 2.0, < 4.a)
-      rexml
-      webrick
-    google-apis-iamcredentials_v1 (0.17.0)
-      google-apis-core (>= 0.11.0, < 2.a)
-    google-apis-storage_v1 (0.19.0)
-      google-apis-core (>= 0.9.0, < 2.a)
-    google-cloud-core (1.6.0)
-      google-cloud-env (~> 1.0)
+    google-apis-iamcredentials_v1 (0.22.0)
+      google-apis-core (>= 0.15.0, < 2.a)
+    google-apis-storage_v1 (0.47.0)
+      google-apis-core (>= 0.15.0, < 2.a)
+    google-cloud-core (1.7.1)
+      google-cloud-env (>= 1.0, < 3.a)
       google-cloud-errors (~> 1.0)
     google-cloud-dialogflow-v2 (0.31.0)
       gapic-common (>= 0.20.0, < 2.a)
       google-cloud-errors (~> 1.0)
       google-cloud-location (>= 0.4, < 2.a)
-    google-cloud-env (1.6.0)
-      faraday (>= 0.17.3, < 3.0)
+    google-cloud-env (2.2.1)
+      faraday (>= 1.0, < 3.a)
     google-cloud-errors (1.3.1)
     google-cloud-location (0.6.0)
       gapic-common (>= 0.20.0, < 2.a)
       google-cloud-errors (~> 1.0)
-    google-cloud-storage (1.44.0)
+    google-cloud-storage (1.52.0)
       addressable (~> 2.8)
       digest-crc (~> 0.4)
-      google-apis-iamcredentials_v1 (~> 0.1)
-      google-apis-storage_v1 (~> 0.19.0)
+      google-apis-core (~> 0.13)
+      google-apis-iamcredentials_v1 (~> 0.18)
+      google-apis-storage_v1 (~> 0.38)
       google-cloud-core (~> 1.6)
-      googleauth (>= 0.16.2, < 2.a)
+      googleauth (~> 1.9)
       mini_mime (~> 1.0)
     google-cloud-translate-v3 (0.10.0)
       gapic-common (>= 0.20.0, < 2.a)
@@ -331,10 +325,10 @@ GEM
       grpc (~> 1.41)
     googleapis-common-protos-types (1.14.0)
       google-protobuf (~> 3.18)
-    googleauth (1.5.2)
-      faraday (>= 0.17.3, < 3.a)
+    googleauth (1.11.2)
+      faraday (>= 1.0, < 3.a)
+      google-cloud-env (~> 2.1)
       jwt (>= 1.4, < 3.0)
-      memoist (~> 0.16)
       multi_json (~> 1.11)
       os (>= 0.9, < 2.0)
       signet (>= 0.16, < 2.a)
@@ -358,8 +352,11 @@ GEM
       ruby2ruby (~> 2.4)
       ruby_parser (~> 3.10)
     hana (1.3.7)
+    hash_diff (1.1.1)
     hashdiff (1.1.0)
     hashie (5.0.0)
+    html2text (0.4.0)
+      nokogiri (>= 1.0, < 2.0)
     http (5.1.1)
       addressable (~> 2.8)
       http-cookie (~> 1.0)
@@ -381,6 +378,8 @@ GEM
     io-console (0.6.0)
     irb (1.7.2)
       reline (>= 0.3.6)
+    iso-639 (0.3.8)
+      csv
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
@@ -397,6 +396,13 @@ GEM
       hana (~> 1.3)
       regexp_parser (~> 2.0)
       uri_template (~> 0.7)
+    judoscale-rails (1.8.2)
+      judoscale-ruby (= 1.8.2)
+      railties
+    judoscale-ruby (1.8.2)
+    judoscale-sidekiq (1.8.2)
+      judoscale-ruby (= 1.8.2)
+      sidekiq (>= 5.0)
     jwt (2.8.1)
       base64
     kaminari (1.2.2)
@@ -445,7 +451,7 @@ GEM
       activesupport (>= 4)
       railties (>= 4)
       request_store (~> 1.0)
-    loofah (2.22.0)
+    loofah (2.23.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     mail (2.8.1)
@@ -455,7 +461,6 @@ GEM
       net-smtp
     marcel (1.0.4)
     maxminddb (0.1.22)
-    memoist (0.16.2)
     meta_request (0.8.3)
       rack-contrib (>= 1.1, < 3)
       railties (>= 3.0.0, < 8)
@@ -465,21 +470,22 @@ GEM
     mime-types-data (3.2023.0218.1)
     mini_magick (4.12.0)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.7)
-    minitest (5.25.1)
+    mini_portile2 (2.8.8)
+    minitest (5.25.4)
     mock_redis (0.36.0)
       ruby2_keywords
     msgpack (1.7.0)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.3.0)
+    mutex_m (0.3.0)
     neighbor (0.2.3)
       activerecord (>= 5.2)
     net-http (0.4.1)
       uri
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
-    net-imap (0.4.17)
+    net-imap (0.4.19)
       date
       net-protocol
     net-pop (0.1.2)
@@ -495,14 +501,14 @@ GEM
     newrelic_rpm (9.6.0)
       base64
     nio4r (2.7.3)
-    nokogiri (1.16.7)
+    nokogiri (1.18.4)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.16.7-arm64-darwin)
+    nokogiri (1.18.4-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.7-x86_64-darwin)
+    nokogiri (1.18.4-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.7-x86_64-linux)
+    nokogiri (1.18.4-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth (1.1.0)
       oauth-tty (~> 1.0, >= 1.0.1)
@@ -517,6 +523,9 @@ GEM
       rack (>= 1.2, < 4)
       snaky_hash (~> 2.0)
       version_gem (~> 1.1)
+    oj (3.16.10)
+      bigdecimal (>= 3.0)
+      ostruct (>= 0.2)
     omniauth (2.1.2)
       hashie (>= 3.4.6)
       rack (>= 2.2.3)
@@ -535,6 +544,7 @@ GEM
     openssl (3.2.0)
     orm_adapter (0.5.0)
     os (1.1.4)
+    ostruct (0.6.1)
     parallel (1.23.0)
     parser (3.2.2.1)
       ast (~> 2.4.1)
@@ -557,7 +567,7 @@ GEM
       activesupport (>= 3.0.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (2.2.10)
+    rack (2.2.13)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-contrib (2.5.0)
@@ -574,30 +584,30 @@ GEM
     rack-test (2.1.0)
       rack (>= 1.3)
     rack-timeout (0.6.3)
-    rails (7.0.8.5)
-      actioncable (= 7.0.8.5)
-      actionmailbox (= 7.0.8.5)
-      actionmailer (= 7.0.8.5)
-      actionpack (= 7.0.8.5)
-      actiontext (= 7.0.8.5)
-      actionview (= 7.0.8.5)
-      activejob (= 7.0.8.5)
-      activemodel (= 7.0.8.5)
-      activerecord (= 7.0.8.5)
-      activestorage (= 7.0.8.5)
-      activesupport (= 7.0.8.5)
+    rails (7.0.8.7)
+      actioncable (= 7.0.8.7)
+      actionmailbox (= 7.0.8.7)
+      actionmailer (= 7.0.8.7)
+      actionpack (= 7.0.8.7)
+      actiontext (= 7.0.8.7)
+      actionview (= 7.0.8.7)
+      activejob (= 7.0.8.7)
+      activemodel (= 7.0.8.7)
+      activerecord (= 7.0.8.7)
+      activestorage (= 7.0.8.7)
+      activesupport (= 7.0.8.7)
       bundler (>= 1.15.0)
-      railties (= 7.0.8.5)
+      railties (= 7.0.8.7)
     rails-dom-testing (2.2.0)
       activesupport (>= 5.0.0)
       minitest
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.6.0)
+    rails-html-sanitizer (1.6.1)
       loofah (~> 2.21)
-      nokogiri (~> 1.14)
-    railties (7.0.8.5)
-      actionpack (= 7.0.8.5)
-      activesupport (= 7.0.8.5)
+      nokogiri (>= 1.15.7, != 1.16.7, != 1.16.6, != 1.16.5, != 1.16.4, != 1.16.3, != 1.16.2, != 1.16.1, != 1.16.0.rc1, != 1.16.0)
+    railties (7.0.8.7)
+      actionpack (= 7.0.8.7)
+      activesupport (= 7.0.8.7)
       method_source
       rake (>= 12.2)
       thor (~> 1.0)
@@ -633,8 +643,7 @@ GEM
     retriable (3.1.2)
     reverse_markdown (2.1.1)
       nokogiri
-    rexml (3.3.6)
-      strscan
+    rexml (3.3.9)
     rspec-core (3.13.0)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.2)
@@ -678,6 +687,10 @@ GEM
     rubocop-rspec (2.21.0)
       rubocop (~> 1.33)
       rubocop-capybara (~> 2.17)
+    ruby-openai (7.3.1)
+      event_stream_parser (>= 0.3.0, < 2.0.0)
+      faraday (>= 1)
+      faraday-multipart (>= 1)
     ruby-progressbar (1.13.0)
     ruby-vips (2.1.4)
       ffi (~> 1.12)
@@ -704,6 +717,7 @@ GEM
       parser
     scss_lint (0.60.0)
       sass (~> 3.5, >= 3.5.5)
+    securerandom (0.4.1)
     seed_dump (3.3.1)
       activerecord (>= 4)
       activesupport (>= 4)
@@ -718,6 +732,17 @@ GEM
       sentry-ruby (~> 5.19.0)
       sidekiq (>= 3.0)
     sexp_processor (4.17.0)
+    shopify_api (14.8.0)
+      activesupport
+      concurrent-ruby
+      hash_diff
+      httparty
+      jwt
+      oj
+      openssl
+      securerandom
+      sorbet-runtime
+      zeitwerk (~> 2.5)
     shoulda-matchers (5.3.0)
       activesupport (>= 5.2.0)
     sidekiq (7.3.1)
@@ -740,15 +765,17 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    slack-ruby-client (2.2.0)
+    slack-ruby-client (2.5.2)
       faraday (>= 2.0)
       faraday-mashify
       faraday-multipart
       gli
       hashie
+      logger
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
+    sorbet-runtime (0.5.11934)
     spring (4.1.1)
     spring-watcher-listen (2.1.0)
       listen (>= 2.7, < 4.0)
@@ -764,7 +791,6 @@ GEM
     stackprof (0.2.25)
     statsd-ruby (1.5.0)
     stripe (8.5.0)
-    strscan (3.1.0)
     telephone_number (1.4.20)
     test-prof (1.2.1)
     thor (1.3.1)
@@ -772,7 +798,7 @@ GEM
     time_diff (0.3.0)
       activesupport
       i18n
-    timeout (0.4.1)
+    timeout (0.4.3)
     trailblazer-option (0.1.2)
     twilio-ruby (5.77.0)
       faraday (>= 0.9, < 3.0)
@@ -792,7 +818,7 @@ GEM
     unf_ext (0.0.8.2)
     unicode-display_width (2.4.2)
     uniform_notifier (1.16.0)
-    uri (0.13.0)
+    uri (1.0.3)
     uri_template (0.7.0)
     valid_email2 (5.2.6)
       activemodel (>= 3.2)
@@ -819,7 +845,6 @@ GEM
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
-    webrick (1.8.2)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -881,18 +906,21 @@ DEPENDENCIES
   geocoder
   gmail_xoauth
   google-cloud-dialogflow-v2 (>= 0.24.0)
-  google-cloud-storage
+  google-cloud-storage (>= 1.48.0)
   google-cloud-translate-v3 (>= 0.7.0)
   groupdate
   grpc
   haikunator
   hairtrigger
   hashie
-  html2text!
+  html2text
   image_processing
+  iso-639
   jbuilder
   json_refs
   json_schemer
+  judoscale-rails
+  judoscale-sidekiq
   jwt
   kaminari
   koala
@@ -935,17 +963,19 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   rubocop-rspec
+  ruby-openai
   scout_apm
   scss_lint
   seed_dump
   sentry-rails (>= 5.19.0)
   sentry-ruby
   sentry-sidekiq (>= 5.19.0)
+  shopify_api
   shoulda-matchers
   sidekiq (>= 7.3.1)
   sidekiq-cron (>= 1.12.0)
   simplecov (= 0.17.1)
-  slack-ruby-client (~> 2.2.0)
+  slack-ruby-client (~> 2.5.2)
   spring
   spring-watcher-listen
   squasher

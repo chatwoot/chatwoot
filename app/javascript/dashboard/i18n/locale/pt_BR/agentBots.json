@@ -2,20 +2,20 @@
   "AGENT_BOTS": {
     "HEADER": "Robôs",
     "LOADING_EDITOR": "Carregando Editor...",
-    "HEADER_BTN_TXT": "Adicionar configuração do robô",
-    "SIDEBAR_TXT": "<p><b>Bots Agentes</b></p> <p>Bots Agentes são como os melhores membros da sua equipe. Eles podem lidar com coisas pequenas, para que você possa se concentrar no que realmente importa. Experimente-os.</p> <p>Você pode gerenciar seus bots desta página ou criar novos usando o botão 'Adicionar configuração de bot'.</p> <p>Abra o <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"_blank\">Manual do Bot Agente</a> em outra aba para obter ajuda.</p>",
+    "DESCRIPTION": "Robôs agentes são como os membros mais fabulosos da sua equipe. Eles podem lidar com as pequenas coisas, assim você pode focar nas coisas que importam. Dê uma oportunidade a eles. Você pode gerenciar seus robôs a partir desta página ou criar novos usando o botão 'Configurar novo robô'.",
+    "LEARN_MORE": "Aprenda sobre os robôs agentes",
     "CSML_BOT_EDITOR": {
       "NAME": {
         "LABEL": "Nome do Robô",
         "PLACEHOLDER": "Nomeie seu Robô.",
-        "ERROR": "O nome do bot é obrigatório."
+        "ERROR": "O nome do Robô é obrigatório."
       },
       "DESCRIPTION": {
         "LABEL": "Descrição do Robô",
         "PLACEHOLDER": "O que esse robô faz?"
       },
       "BOT_CONFIG": {
-        "ERROR": "Por favor, insira a configuração CSML do bot acima.",
+        "ERROR": "Por favor, insira a configuração CSML do Robô acima.",
         "API_ERROR": "Sua configuração CSML é inválida. Por favor, corrija e tente novamente."
       },
       "SUBMIT": "Validar e salvar"
@@ -58,10 +58,10 @@
     "EDIT": {
       "BUTTON_TEXT": "Alterar",
       "LOADING": "Buscando robôs...",
-      "TITLE": "Editar Robô",
+      "TITLE": "Alterar Robô",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
-        "SUCCESS_MESSAGE": "Bot atualizado com sucesso.",
+        "SUCCESS_MESSAGE": "Robô atualizado com sucesso.",
         "ERROR_MESSAGE": "Não foi possível atualizar o robô. Por favor, tente novamente mais tarde."
       }
     },

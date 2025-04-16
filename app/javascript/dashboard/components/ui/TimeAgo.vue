@@ -110,10 +110,10 @@ export default {
   <div
     v-tooltip.top="{
       content: tooltipText,
-      delay: { show: 1500, hide: 0 },
+      delay: { show: 1000, hide: 0 },
       hideOnClick: true,
     }"
-    class="ml-auto leading-4 text-xxs text-slate-500 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100"
+    class="ml-auto leading-4 text-xxs text-n-slate-10 hover:text-slate-11"
   >
     <span>{{ `${createdAtTime} • ${lastActivityTime}` }}</span>
   </div>

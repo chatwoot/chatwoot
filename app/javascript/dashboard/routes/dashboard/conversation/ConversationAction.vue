@@ -9,12 +9,14 @@ import ConversationLabels from './labels/LabelBox.vue';
 import { CONVERSATION_PRIORITY } from '../../../../shared/constants/messages';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { useTrack } from 'dashboard/composables';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     ContactDetailsItem,
     MultiselectDropdown,
     ConversationLabels,
+    NextButton,
   },
   props: {
     conversationId: {
@@ -212,15 +214,15 @@ export default {
         :title="$t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL')"
       >
         <template #button>
-          <woot-button
+          <NextButton
             v-if="showSelfAssign"
-            icon="arrow-right"
-            variant="link"
-            size="small"
+            link
+            xs
+            icon="i-lucide-arrow-right"
+            class="!gap-1"
+            :label="$t('CONVERSATION_SIDEBAR.SELF_ASSIGN')"
             @click="onSelfAssign"
-          >
-            {{ $t('CONVERSATION_SIDEBAR.SELF_ASSIGN') }}
-          </woot-button>
+          />
         </template>
       </ContactDetailsItem>
       <MultiselectDropdown
@@ -251,7 +253,7 @@ export default {
           $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.TEAM')
         "
         :input-placeholder="
-          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.INPUT')
+          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.TEAM')
         "
         @select="onClickAssignTeam"
       />

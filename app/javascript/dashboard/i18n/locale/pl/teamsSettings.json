@@ -20,23 +20,18 @@
         "TITLE": "Dodaj agentów do zespołu - {teamName}",
         "DESC": "Dodaj agentów do swojego nowo utworzonego zespołu. Dzięki temu możesz współpracować jako zespół w rozmowach oraz otrzymywać powiadomienia o nowych wydarzeniach w tej samej rozmowie."
       },
-      "WIZARD": [
-        {
-          "title": "Utwórz",
-          "route": "settings_teams_new",
-          "body": "Utwórz nowy zespół agentów."
-        },
-        {
-          "title": "Dodaj agentów",
-          "route": "settings_teams_add_agents",
-          "body": "Dodaj agentów do zespołu."
-        },
-        {
-          "title": "Zakończ",
-          "route": "settings_teams_finish",
-          "body": "Wszystko jest gotowe!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "Stwórz",
+        "BODY": "Utwórz nowy zespół agentów."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Dodaj agentów",
+        "BODY": "Dodaj agentów do zespołu."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Zakończ",
+        "BODY": "Wszystko jest gotowe!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "Dodaj agentów do zespołu - {teamName}",
         "DESC": "Dodaj agentów do swojego nowo utworzonego zespołu. Wszyscy dodani agenci zostaną powiadomieni, gdy rozmowa zostanie przypisana do tego zespołu."
       },
-      "WIZARD": [
-        {
-          "title": "Szczegóły zespołu",
-          "route": "settings_teams_edit",
-          "body": "Zmień nazwę, opis i inne dane."
-        },
-        {
-          "title": "Edytuj agentów",
-          "route": "settings_teams_edit_members",
-          "body": "Edytuj agentów w zespole."
-        },
-        {
-          "title": "Zakończ",
-          "route": "settings_teams_edit_finish",
-          "body": "Wszystko jest gotowe!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Szczegóły zespołu",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "Zmień nazwę, opis i inne dane."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Edytuj agentów",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "Edytuj agentów w zespole."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Zakończ",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "Wszystko jest gotowe!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "Nie udało się zapisać szczegółów zespołu. Spróbuj ponownie."

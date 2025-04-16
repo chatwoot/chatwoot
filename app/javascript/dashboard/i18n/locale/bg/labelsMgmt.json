@@ -10,11 +10,11 @@
       "404": "There are no labels available in this account.",
       "TITLE": "Manage labels",
       "DESC": "Labels let you group the conversations together.",
-      "TABLE_HEADER": [
-        "Име",
-        "Description",
-        "Color"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Име",
+        "DESCRIPTION": "Описание",
+        "COLOR": "Color"
+      }
     },
     "FORM": {
       "NAME": {
@@ -25,7 +25,7 @@
         "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
+        "LABEL": "Описание",
         "PLACEHOLDER": "Label Description"
       },
       "COLOR": {

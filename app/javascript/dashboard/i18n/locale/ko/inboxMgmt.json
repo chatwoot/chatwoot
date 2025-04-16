@@ -8,28 +8,24 @@
     "LIST": {
       "404": "이 계정에는 첨부된 받은 메시지함이 없습니다."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "채널 선택",
-        "route": "settings_inbox_new",
-        "body": "Chatwoot와 통합할 공급자를 선택하십시오."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "채널 선택",
+        "BODY": "Chatwoot와 통합할 공급자를 선택하십시오."
       },
-      {
-        "title": "받은 메시지함 만들기",
-        "route": "settings_inboxes_page_channel",
-        "body": "계정을 인증하고 받은 메시지함을 만드십시오."
+      "INBOX": {
+        "TITLE": "받은 메시지함 만들기",
+        "BODY": "계정을 인증하고 받은 메시지함을 만드십시오."
       },
-      {
-        "title": "에이전트 추가",
-        "route": "settings_inboxes_add_agents",
-        "body": "생성된 받은 메시지함에 에이전트를 추가하십시오."
+      "AGENT": {
+        "TITLE": "에이전트 추가",
+        "BODY": "생성된 받은 메시지함에 에이전트를 추가하십시오."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "준비가 완료되었습니다."
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "준비가 완료되었습니다."
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "받은 메시지함 이름",
@@ -421,7 +417,7 @@
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
-          "FROM": "from",
+          "FROM": "에서",
           "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
         },
         "PROFESSIONAL": {
@@ -749,7 +745,7 @@
     },
     "CHANNELS": {
       "MESSENGER": "Messenger",
-      "WEB_WIDGET": "Website",
+      "WEB_WIDGET": "홈페이지",
       "TWITTER_PROFILE": "트위터",
       "TWILIO_SMS": "Twilio SMS",
       "WHATSAPP": "WhatsApp",

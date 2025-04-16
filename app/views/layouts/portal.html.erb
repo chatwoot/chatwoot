@@ -39,6 +39,10 @@ By default, it renders:
     <% else %>
       <title><%= @portal.page_title%></title>
     <% end %>
+    
+    <% if @portal.logo.present? %>
+      <link rel="icon" href="<%= url_for(@portal.logo) %>">
+    <% end %>
 
     <% unless @theme_from_params.blank? %>
     <%# this adds the theme from params, ensuring that there a localstorage value set %>
@@ -64,7 +68,7 @@ By default, it renders:
           <%= render "public/api/v1/portals/header", portal: @portal %>
         <% end %>
         <%= yield %>
-        <% if !@is_plain_layout_enabled %>
+        <% if !(@is_plain_layout_enabled || @portal.account.feature_enabled?('disable_branding')) %>
           <%= render "public/api/v1/portals/footer" %>
         <% end %>
       </main>

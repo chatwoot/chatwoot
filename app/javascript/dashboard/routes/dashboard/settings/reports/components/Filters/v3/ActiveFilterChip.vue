@@ -51,9 +51,9 @@ const closeDropdown = () => emit('closeDropdown');
 
 <template>
   <FilterButton
-    right-icon="chevron-down"
+    trailing-icon
+    icon="i-lucide-chevron-down"
     :button-text="name"
-    class="bg-slate-50 dark:bg-slate-800 hover:bg-slate-75 dark:hover:bg-slate-800"
     @click="toggleDropdown"
   >
     <template v-if="showMenu && activeFilterType === type" #dropdown>

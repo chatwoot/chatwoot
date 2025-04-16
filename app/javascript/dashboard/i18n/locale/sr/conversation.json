@@ -12,6 +12,8 @@
     "NO_INBOX_2": " da bi ste počeli",
     "NO_INBOX_AGENT": "O ne! Izgleda da niste deo nijednog prijemnog sandučeta. Molim vas kontaktirajte vašeg administratora",
     "SEARCH_MESSAGES": "Pretražite poruke u razgovorima",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "to open command menu",
       "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
@@ -38,15 +40,23 @@
     "REMOVE_SELECTION": "Ukloni izbor",
     "DOWNLOAD": "Preuzmi",
     "UNKNOWN_FILE_TYPE": "Nepoznata datoteka",
-    "SAVE_CONTACT": "Save",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} has started a meeting"
+    },
     "UPLOADING_ATTACHMENTS": "Dodavanje priloga...",
     "REPLIED_TO_STORY": "Replied to your story",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Poruka je uspešno obrisana",
     "FAIL_DELETE_MESSSAGE": "Nije bilo moguće obrisati poruku! Pokušajte ponovo",
     "NO_RESPONSE": "Nema odgovora",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Ocena",
     "FEEDBACK_TITLE": "Povratne informacije",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
@@ -109,6 +119,7 @@
       "PENDING": "Označeno na čekanju",
       "RESOLVED": "Označi kao rešeno",
       "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Ponovo otvori razgovor",
       "SNOOZE": {
         "TITLE": "Odloži",
@@ -126,7 +137,7 @@
           "FAILED": "Nije bilo moguće dodeliti agenta. Molim vas pokušajte ponovo."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Dodeljena je oznaka # {labelName} razgovoru sa id {conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Nije bilo moguće dodeliti oznaku. Molim vas pokušajte ponovo."
         },
         "TEAM_ASSIGNMENT": {
@@ -219,6 +230,10 @@
         "DELETE": "Izbriši",
         "CANCEL": "Otkaži"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Kontakt",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -280,7 +295,27 @@
       "CONVERSATION_INFO": "Informacije o razgovoru",
       "CONTACT_ATTRIBUTES": "Atributi kontakta",
       "PREVIOUS_CONVERSATION": "Prethodni razgovor",
-      "MACROS": "Macros"
+      "MACROS": "Macros",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Nerešen",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -310,7 +345,8 @@
     "TO": "Za",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Naslov"
+    "SUBJECT": "Naslov",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participating",
@@ -335,5 +371,16 @@
     "ORIGINAL_CONTENT": "Original Content",
     "TRANSLATED_CONTENT": "Translated Content",
     "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

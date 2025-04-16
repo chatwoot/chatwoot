@@ -12,6 +12,8 @@
     "NO_INBOX_2": " aby rozpocząć",
     "NO_INBOX_AGENT": "Uh Oh! Wygląda na to, że nie jesteś częścią żadnej skrzynki odbiorczej. Skontaktuj się z administratorem",
     "SEARCH_MESSAGES": "Szukaj wiadomości w konwersacjach",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "to open command menu",
       "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
@@ -38,15 +40,23 @@
     "REMOVE_SELECTION": "Usuń zaznaczenie",
     "DOWNLOAD": "Pobierz",
     "UNKNOWN_FILE_TYPE": "Nieznany plik",
-    "SAVE_CONTACT": "Zapisz",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} rozpoczął spotkanie"
+    },
     "UPLOADING_ATTACHMENTS": "Przesyłanie załączników...",
     "REPLIED_TO_STORY": "Odpowiedziałeś na swoją historię",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Wiadomość usunięta pomyślnie",
     "FAIL_DELETE_MESSSAGE": "Nie można usunąć wiadomości! Spróbuj ponownie",
     "NO_RESPONSE": "Brak odpowiedzi",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Ocena",
     "FEEDBACK_TITLE": "Opinia",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
@@ -109,6 +119,7 @@
       "PENDING": "Oznacz jako oczekujące",
       "RESOLVED": "Oznacz jako rozwiązane",
       "MARK_AS_UNREAD": "Oznacz jako nieprzeczytane",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Otwórz ponownie",
       "SNOOZE": {
         "TITLE": "Uśpij",
@@ -126,7 +137,7 @@
           "FAILED": "Nie można przypisać agenta. Spróbuj ponownie."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Przypisano etykietę #{labelName} do konwersacji o identyfikatorze {conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Nie można przypisać etykiety. Spróbuj ponownie."
         },
         "TEAM_ASSIGNMENT": {
@@ -194,7 +205,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Etykieta przypisana pomyślnie",
     "ASSIGN_LABEL_FAILED": "Nie udało się przypisać etykiety",
     "CHANGE_TEAM": "Zmieniono przypisany zespół konwersacji",
-    "FILE_SIZE_LIMIT": "Plik przekracza limit rozmiaru załącznika {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
+    "FILE_SIZE_LIMIT": "Plik przekracza limit rozmiaru załącznika %{MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "Nie można wysłać tej wiadomości, spróbuj ponownie później",
     "SENT_BY": "Wysłane przez:",
     "BOT": "Bot",
@@ -219,6 +230,10 @@
         "DELETE": "Usuń",
         "CANCEL": "Anuluj"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Kontakt",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -280,7 +295,27 @@
       "CONVERSATION_INFO": "Informacje o konwersacji",
       "CONTACT_ATTRIBUTES": "Atrybuty kontaktu",
       "PREVIOUS_CONVERSATION": "Poprzednie konwersacje",
-      "MACROS": "Makra"
+      "MACROS": "Makra",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Oczekujące",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -310,7 +345,8 @@
     "TO": "Do",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Temat"
+    "SUBJECT": "Temat",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Uczestniczący",
@@ -335,5 +371,16 @@
     "ORIGINAL_CONTENT": "Oryginalna treść",
     "TRANSLATED_CONTENT": "Przetłumaczona treść",
     "NO_TRANSLATIONS_AVAILABLE": "Brak dostępnych tłumaczeń dla tej treści"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

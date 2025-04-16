@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Tên",
-        "Mô tả",
-        "Có hiệu lực",
-        "Được tạo trên"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Tên",
+        "DESCRIPTION": "Mô tả",
+        "ACTIVE": "Có hiệu lực",
+        "CREATED_ON": "Được tạo trên"
+      },
       "404": "Không tìm thấy luật tự động hoá"
     },
     "DELETE": {
@@ -125,6 +125,7 @@
       "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
-    }
+    },
+    "NONE_OPTION": "Không có"
   }
 }

@@ -17,26 +17,21 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - {teamName}",
+        "TITLE": "Pridať agentov do tímu - {teamName}",
         "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
       },
-      "WIZARD": [
-        {
-          "title": "Create",
-          "route": "settings_teams_new",
-          "body": "Create a new team of agents."
-        },
-        {
-          "title": "Add Agents",
-          "route": "settings_teams_add_agents",
-          "body": "Pridať agentov do tímu."
-        },
-        {
-          "title": "Hotovo",
-          "route": "settings_teams_finish",
-          "body": "Všetko je pripravené!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "Create",
+        "BODY": "Create a new team of agents."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Add Agents",
+        "BODY": "Pridať agentov do tímu."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Hotovo",
+        "BODY": "Všetko je pripravené!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "Pridať agentov do tímu - {teamName}",
         "DESC": "Pridajte agentov do novovytvoreného tímu. Všetci pridaní agenti budú upozornení, keď sa do tohto tímu priradí konverzácia."
       },
-      "WIZARD": [
-        {
-          "title": "Tímové detaily",
-          "route": "Upraviť tímové detaily",
-          "body": "Zmena názvu, popisu a ďalších údajov."
-        },
-        {
-          "title": "Upraviť agentov",
-          "route": "settings_teams_edit_members",
-          "body": "Upravte agentov vo svojom tíme."
-        },
-        {
-          "title": "Hotovo",
-          "route": "settings_teams_edit_finish",
-          "body": "Všetko je pripravené!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Tímové detaily",
+        "ROUTE": "Upraviť tímové detaily",
+        "BODY": "Zmena názvu, popisu a ďalších údajov."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Upraviť agentov",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "Upravte agentov vo svojom tíme."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Hotovo",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "Všetko je pripravené!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "Nepodarilo sa uložiť údaje o tíme. Skúste to znova."

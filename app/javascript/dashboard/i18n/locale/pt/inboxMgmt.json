@@ -8,28 +8,24 @@
     "LIST": {
       "404": "Não há caixas de entrada anexadas a esta conta."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Escolher canal",
-        "route": "settings_inbox_new",
-        "body": "Escolha o provedor que pretende integrar com o Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Escolher canal",
+        "BODY": "Escolha o provedor que pretende integrar com o Chatwoot."
       },
-      {
-        "title": "Criar caixa de entrada",
-        "route": "settings_inboxes_page_channel",
-        "body": "Autenticar a sua conta e criar uma caixa de entrada."
+      "INBOX": {
+        "TITLE": "Criar caixa de entrada",
+        "BODY": "Autenticar a sua conta e criar uma caixa de entrada."
       },
-      {
-        "title": "Adicionar agentes",
-        "route": "settings_inboxes_add_agents",
-        "body": "Adicionar agentes à caixa de entrada criada."
+      "AGENT": {
+        "TITLE": "Adicionar agentes",
+        "BODY": "Adicionar agentes à caixa de entrada criada."
       },
-      {
-        "title": "Pronto!",
-        "route": "settings_inbox_finish",
-        "body": "Está tudo preparado para começar!"
+      "FINISH": {
+        "TITLE": "Pronto!",
+        "BODY": "Está tudo preparado para começar!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nome da caixa de entrada",

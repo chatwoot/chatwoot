@@ -60,7 +60,7 @@ RSpec.describe Account::ContactsExportJob do
 
     it 'generates CSV file and attach to account' do
       mailer = double
-      allow(AdministratorNotifications::ChannelNotificationsMailer).to receive(:with).with(account: account).and_return(mailer)
+      allow(AdministratorNotifications::AccountNotificationMailer).to receive(:with).with(account: account).and_return(mailer)
       allow(mailer).to receive(:contact_export_complete)
 
       described_class.perform_now(account.id, user.id, [], {})

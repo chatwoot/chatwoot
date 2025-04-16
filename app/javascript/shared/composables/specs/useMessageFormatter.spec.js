@@ -30,6 +30,18 @@ describe('useMessageFormatter', () => {
         '<a href="https://twitter.com/hashtag/hashtag"'
       );
     });
+
+    it('should disable link formatting when linkify is false', () => {
+      const message = 'Check https://example.com and {{user.id}}';
+      const result = messageFormatter.formatMessage(
+        message,
+        false,
+        false,
+        false
+      );
+      expect(result).not.toContain('<a href="https://example.com"');
+      expect(result).toContain('{{user.id}}');
+    });
   });
 
   describe('truncateMessage', () => {

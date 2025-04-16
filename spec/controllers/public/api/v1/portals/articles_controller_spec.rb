@@ -58,6 +58,23 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response_data[1][:views]).to eq(1)
       expect(response_data.last[:id]).to eq(article.id)
     end
+
+    it 'limits results based on per_page parameter' do
+      get "/hc/#{portal.slug}/#{category.locale}/articles.json", params: { per_page: 2 }
+
+      expect(response).to have_http_status(:success)
+      response_data = JSON.parse(response.body, symbolize_names: true)[:payload]
+      expect(response_data.length).to eq(2)
+      expect(JSON.parse(response.body, symbolize_names: true)[:meta][:articles_count]).to eq(5)
+    end
+
+    it 'uses default items per page if per_page is less than 1' do
+      get "/hc/#{portal.slug}/#{category.locale}/articles.json", params: { per_page: 0 }
+
+      expect(response).to have_http_status(:success)
+      response_data = JSON.parse(response.body, symbolize_names: true)[:payload]
+      expect(response_data.length).to eq(3)
+    end
   end
 
   describe 'GET /public/api/v1/portals/:slug/articles/:id' do
@@ -66,6 +83,13 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response).to have_http_status(:success)
       expect(response.body).to include(ChatwootMarkdownRenderer.new(article.content).render_article)
       expect(article.reload.views).to eq 1
+    end
+
+    it 'does not increment the view count if the article is not published' do
+      draft_article = create(:article, category: category, status: :draft, portal: portal, account_id: account.id, author_id: agent.id, views: 0)
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}"
+      expect(response).to have_http_status(:success)
+      expect(draft_article.reload.views).to eq 0
     end
 
     it 'returns the article with the id with a different locale' do

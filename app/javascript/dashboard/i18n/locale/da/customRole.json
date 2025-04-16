@@ -22,12 +22,12 @@
       "404": "There are no custom roles available in this account.",
       "TITLE": "Manage custom roles",
       "DESC": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
-      "TABLE_HEADER": [
-        "Navn",
-        "Beskrivelse",
-        "Permissions",
-        "Handlinger"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Navn",
+        "DESCRIPTION": "Beskrivelse",
+        "PERMISSIONS": "Permissions",
+        "ACTIONS": "Handlinger"
+      }
     },
     "PERMISSIONS": {
       "CONVERSATION_MANAGE": "Manage all conversations",
@@ -54,7 +54,7 @@
       },
       "CANCEL_BUTTON_TEXT": "Annuller",
       "API": {
-        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere."
       }
     },
     "ADD": {
@@ -78,7 +78,7 @@
       "BUTTON_TEXT": "Slet",
       "API": {
         "SUCCESS_MESSAGE": "Custom role deleted successfully.",
-        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+        "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere."
       },
       "CONFIRM": {
         "TITLE": "Bekræft sletning",

@@ -11,7 +11,10 @@
       "CONVERSATIONS": "Percakapan",
       "MESSAGES": "Pesan"
     },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
     "SEARCHING_DATA": "Sedang mencari",
+    "LOADING_DATA": "Loading",
     "EMPTY_STATE": "Tidak ada {item} ditemukan untuk kueri '{query}'",
     "EMPTY_STATE_FULL": "Tidak ada hasil ditemukan untuk kueri '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ untuk fokus",
@@ -21,6 +24,7 @@
     "READ_MORE": "Baca lebih lanjut",
     "WROTE": "menulis:",
     "FROM": "dari",
-    "EMAIL": "email"
+    "EMAIL": "email",
+    "EMAIL_SUBJECT": "masukkan subjek"
   }
 }
