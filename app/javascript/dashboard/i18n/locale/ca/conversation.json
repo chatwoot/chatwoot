@@ -37,6 +37,7 @@
     "ASSIGN_TO_ME": "Assigna'm",
     "TWILIO_WHATSAPP_CAN_REPLY": "Només pots respondre a aquesta conversa mitjançant una plantilla de missatge a causa de",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricció de finestra de missatges de 24 hores",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
     "REPLYING_TO": "Estas responent a:",
     "REMOVE_SELECTION": "Elimina la selecció",
     "DOWNLOAD": "Descarrega",
