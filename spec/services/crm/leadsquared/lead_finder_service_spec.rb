@@ -50,8 +50,6 @@ RSpec.describe Crm::Leadsquared::LeadFinderService do
       end
 
       context 'when lead is not found and needs to be created' do
-        let(:lead_data) { { some: 'data' } }
-
         before do
           allow(lead_client).to receive(:search_lead)
             .with(contact.email)
@@ -61,13 +59,9 @@ RSpec.describe Crm::Leadsquared::LeadFinderService do
             .with(contact.phone_number)
             .and_return({ success: true, data: [] })
 
-          allow(Crm::Leadsquared::Mappers::ContactMapper).to receive(:map)
-            .with(contact)
-            .and_return(lead_data)
-
           allow(lead_client).to receive(:create_or_update_lead)
-            .with(lead_data)
-            .and_return({ success: true, data: { 'Value' => { 'ProspectId' => '999' } } })
+            .with(Crm::Leadsquared::Mappers::ContactMapper.map(contact))
+            .and_return({ success: true, data: { 'Id' => '999' } })
         end
 
         it 'creates a new lead and returns its ID' do

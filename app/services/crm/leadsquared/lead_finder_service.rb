@@ -19,8 +19,15 @@ class Crm::Leadsquared::LeadFinderService
   private
 
   def find_by_contact(contact)
-    return search_by_field(contact.email) if contact.email.present?
-    return search_by_field(contact.phone_number) if contact.phone_number.present?
+    if contact.email.present?
+      result = search_by_field(contact.email)
+      return result if result[:success]
+    end
+
+    if contact.phone_number.present?
+      result = search_by_field(contact.phone_number)
+      return result if result[:success]
+    end
 
     { success: false }
   end
@@ -37,7 +44,7 @@ class Crm::Leadsquared::LeadFinderService
     response = @lead_client.create_or_update_lead(lead_data)
 
     if response[:success]
-      lead_id = response[:data].dig('Value', 'ProspectId')
+      lead_id = response[:data]['Id']
       return { success: true, lead_id: lead_id } if lead_id.present?
     end
 
