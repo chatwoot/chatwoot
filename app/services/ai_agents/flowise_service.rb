@@ -68,6 +68,9 @@ class AiAgents::FlowiseService
       raise "Error adding document loader: #{process_loader.code} #{process_loader.message}" unless process_loader.success?
 
       process_loader.parsed_response
+    rescue StandardError => e
+      Rails.logger.error("Failed to add document loader: #{e.message}")
+      raise
     end
 
     def delete_document_loader(store_id:, loader_id:)
@@ -81,9 +84,8 @@ class AiAgents::FlowiseService
 
     def build_document_store_body(store_id, loader_id, splitter_id:, name:, content:)
       specific_loader_config = specific_loader_config(loader_id, content)
-      specific_splitter_name = specific_splitter_name(splitter_id)
 
-      {
+      body = {
         'loaderId' => loader_id,
         'storeId' => store_id,
         'loaderName' => name,
@@ -91,15 +93,23 @@ class AiAgents::FlowiseService
           'textSplitter' => '',
           'metadata' => {}.to_json,
           'omitMetadataKeys' => ''
-        }.merge(specific_loader_config),
-        'splitterId' => splitter_id,
-        'splitterConfig' => {
-          'chunkSize' => 1000,
-          'chunkOverlap' => 200
-          # 'separators' => ''
-        },
-        'splitterName' => specific_splitter_name
-      }.to_json
+        }.merge(specific_loader_config)
+      }
+
+      if splitter_id.present?
+        specific_splitter_name = specific_splitter_name(splitter_id)
+
+        body.merge!(
+          'splitterId' => splitter_id,
+          'splitterConfig' => {
+            'chunkSize' => 1000,
+            'chunkOverlap' => 200
+          },
+          'splitterName' => specific_splitter_name
+        )
+      end
+
+      body.to_json
     end
 
     def specific_loader_config(loader_id, content)
@@ -138,3 +148,14 @@ class AiAgents::FlowiseService
     end
   end
 end
+{
+  'loaderId': 'plainText',
+  'storeId': 'e0ce4608-3645-4b05-8293-63729b1b4d68',
+  'loaderName': 'Fixing run payroll untuk status karyawan bukan pegawai',
+  'loaderConfig': {
+    'text': 'Fixing run payroll untuk status karyawan bukan pegawai',
+    'textSplitter': '',
+    'metadata': '',
+    'omitMetadataKeys': ''
+  }
+}

@@ -22,6 +22,7 @@ class KnowledgeSource < ApplicationRecord
   has_many :knowledge_source_texts, dependent: :destroy
   has_many :knowledge_source_files, dependent: :destroy
   has_many :knowledge_source_websites, dependent: :destroy
+  has_many :knowledge_source_qnas, dependent: :destroy
 
   validates :name, presence: true
   validates :ai_agent_id, presence: true
@@ -91,6 +92,48 @@ class KnowledgeSource < ApplicationRecord
     )
   rescue ActiveRecord::RecordInvalid => e
     Rails.logger.error("Failed to create knowledge source website: #{e.record.errors.full_messages.join(', ')}")
+    raise e
+  rescue StandardError => e
+    Rails.logger.error("Unexpected error occurred: #{e.message}")
+    raise e
+  end
+
+  def add_qna!(content:, document_loader:)
+    knowledge_source_qnas.create!(
+      question: content[:question],
+      answer: content[:answer],
+      loader_id: document_loader['docId'],
+      total_chunks: document_loader.dig('file', 'totalChunks'),
+      total_chars: document_loader.dig('file', 'totalChars')
+    )
+  rescue ActiveRecord::RecordInvalid => e
+    Rails.logger.error("Failed to create knowledge source qna: #{e.record.errors.full_messages.join(', ')}")
+    raise e
+  rescue StandardError => e
+    Rails.logger.error("Unexpected error occurred: #{e.message}")
+    raise e
+  end
+
+  def update_qna!(content:, document_loader:)
+    knowledge_source_qna = knowledge_source_qnas.find_by(id: content[:id])
+    raise ActiveRecord::RecordNotFound, 'Knowledge source qna not found' if knowledge_source_qna.nil?
+
+    previous_loader_id = knowledge_source_qna.loader_id
+
+    knowledge_source_qna.update!(
+      question: content[:question],
+      answer: content[:answer],
+      loader_id: document_loader['docId'],
+      total_chunks: document_loader.dig('file', 'totalChunks'),
+      total_chars: document_loader.dig('file', 'totalChars')
+    )
+
+    {
+      knowledge_source_qna: knowledge_source_qna,
+      previous_loader_id: previous_loader_id
+    }
+  rescue ActiveRecord::RecordInvalid => e
+    Rails.logger.error("Failed to update knowledge source qna: #{e.record.errors.full_messages.join(', ')}")
     raise e
   rescue StandardError => e
     Rails.logger.error("Unexpected error occurred: #{e.message}")

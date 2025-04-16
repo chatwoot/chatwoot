@@ -9,7 +9,8 @@ class Api::V1::Accounts::KnowledgeSourcesController < Api::V1::Accounts::BaseCon
       [
         :knowledge_source_texts,
         :knowledge_source_files,
-        :knowledge_source_websites
+        :knowledge_source_websites,
+        :knowledge_source_qnas
       ]), status: :ok
     else
       render json: { error: 'Knowledge source not found' }, status: :not_found
