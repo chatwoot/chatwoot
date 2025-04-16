@@ -74,7 +74,10 @@ export default {
         <p class="!mb-1 text-n-slate-11">
           {{ description }}
         </p>
-        <p v-if="price" class="!mb-3 font-bold text-xl text-center text-n-slate-12">
+        <p v-if="item && item.price" class="!mb-3 font-bold text-xl text-center text-n-slate-12">
+          {{ item.price }}
+        </p>
+        <p v-else-if="price" class="!mb-3 font-bold text-xl text-center text-n-slate-12">
           {{ price }}
         </p>
         <CardButton v-for="action in actions" :key="action.id" :action="action" />
