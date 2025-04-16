@@ -7,13 +7,13 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
     created_document_loader_ids = []
     scrapes = AiAgents::FirecrawlService.bulk_scrape(params[:links])
 
+    knowledge_source = @ai_agent.knowledge_source
+    raise ActiveRecord::Rollback, 'Knowledge source not found' if knowledge_source.nil?
+
     begin
       ActiveRecord::Base.transaction do
         scrapes.map! do |scrape|
           raise ActiveRecord::Rollback, 'Scrape is nil' if scrape.nil?
-
-          knowledge_source = @ai_agent.knowledge_source
-          raise ActiveRecord::Rollback, 'Knowledge source not found' if knowledge_source.nil?
 
           document_loader = create_document_loader(knowledge_source.store_id, scrape[:url], scrape[:markdown])
           raise ActiveRecord::Rollback, 'Failed to create document loader' if document_loader.nil?
@@ -21,7 +21,7 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
           created_document_loader_ids << document_loader['docId']
 
           parent_url = get_parent_url(scrape[:url])
-          knowledge_source.knowledge_source_websites.create_record!(
+          knowledge_source.knowledge_source_websites.add_record!(
             url: scrape[:url], parent_url: parent_url, content: scrape[:markdown], document_loader: document_loader
           )
         end
@@ -41,7 +41,7 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
     knowledge_source = @ai_agent.knowledge_source
     return render json: { error: 'Knowledge source not found' }, status: :not_found if knowledge_source.nil?
 
-    document_loader = create_document_loader(knowledge_source.store_id, scrape[:url], scrape[:markdown])
+    document_loader = create_document_loader(knowledge_source.store_id, params[:url], params[:markdown])
     return render json: { error: 'Failed to create document loader' }, status: :bad_request if document_loader.nil?
 
     begin
@@ -90,8 +90,11 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
   end
 
   def update_record(knowledge_source, document_loader)
-    result = knowledge_source.knowledge_source_websites.update_record!(params: params, document_loader: document_loader)
+    result = knowledge_source.knowledge_source_websites.update_record!(
+      params: params, document_loader: document_loader
+    )
     delete_document_loader(store_id: knowledge_source.store_id, loader_id: result[:previous_loader_id])
+
     render json: result[:updated], status: :ok
   end
 

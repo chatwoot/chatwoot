@@ -46,7 +46,7 @@ class KnowledgeSourceWebsite < ApplicationRecord
     previous_loader_id = knowledge_source_website.loader_id
 
     knowledge_source_website.update!(
-      content: params[:content],
+      content: params[:markdown],
       loader_id: document_loader['docId'],
       total_chars: document_loader.dig('file', 'totalChars'),
       total_chunks: document_loader.dig('file', 'totalChunks')
