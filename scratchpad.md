@@ -27,9 +27,30 @@
   2. Trong Rails, cần permit các tham số trước khi sử dụng, đặc biệt là các tham số phức tạp như mảng các hash
   3. Đối với các tham số phức tạp, có thể cần xử lý riêng từng phần tử trong mảng
 
+### Xử lý avatar Facebook:
+- Error description: Không tải được avatar của khách hàng trên kênh Facebook, gặp lỗi ActiveJob::DeserializationError
+- Solution:
+  1. Sử dụng tham số redirect=false để nhận JSON thay vì redirect
+  2. Thêm tham số width và height cụ thể (200x200)
+  3. Thêm cache buster để tránh cache
+  4. Xử lý lỗi deserialization bằng cách thêm discard_on ActiveJob::DeserializationError
+  5. Kiểm tra tồn tại của đối tượng trước khi xử lý
+- Lesson:
+  1. Khi làm việc với API bên ngoài, cần tham khảo tài liệu mới nhất để sử dụng các tham số phù hợp
+  2. Đối với các job xử lý bất đồng bộ, cần xử lý các trường hợp lỗi như deserialization
+  3. Thêm cache buster để tránh cache khi làm việc với các API trả về hình ảnh
+  4. Kiểm tra tồn tại của đối tượng trước khi xử lý để tránh lỗi
+
+### Tối ưu hiệu năng gửi hình ảnh lên Instagram:
+- Error description: Gửi hình ảnh lên Instagram chậm tương tự như Facebook
+- Solution: Áp dụng cùng phương pháp như với Facebook, ưu tiên sử dụng external_url
+- Lesson: Các kênh tương tự nhau (Facebook, Instagram) thường có cùng cách xử lý, có thể áp dụng các giải pháp tương tự
+
 # Scratchpad
 
-## Sửa lỗi gửi tin nhắn với external_url trong tệp đính kèm
+## Các nhiệm vụ đã hoàn thành
+
+### 1. Sửa lỗi gửi tin nhắn với external_url trong tệp đính kèm
 
 [X] Tìm hiểu vấn đề
   [X] Kiểm tra lỗi hiện tại khi gửi tin nhắn với external_url
@@ -48,93 +69,82 @@
   [X] Kiểm tra gửi tin nhắn với tệp đính kèm thông thường - không bị ảnh hưởng
   [X] Kiểm tra gửi tin nhắn với cả external_url và tệp đính kèm - đã hỗ trợ
 
-### Phân tích vấn đề
+### 2. Thêm hỗ trợ external_url cho kênh Instagram
 
-1. **Lỗi hiện tại**:
-   - Khi gửi tin nhắn với tệp đính kèm sử dụng external_url, hệ thống báo lỗi: "Could not find or build blob: expected attachable, got #<ActionController::Parameters {\"file_type\"=>\"image\", \"external_url\"=>\"https://images2.thanhnien.vn/zoom/700_438/528068263637045248/2024/1/26/e093e9cfc9027d6a142358d24d2ee350-65a11ac2af785880-17061562929701875684912-37-0-587-880-crop-1706239860681642023140.jpg\"} permitted: false>"
-   - Lỗi xảy ra khi gửi API "{{host}}/{{api_version}}/accounts/{{account_id}}/conversations/35/messages" với body chứa external_url trong attachments
+[X] Tìm hiểu vấn đề
+  [X] Kiểm tra cách Instagram xử lý hình ảnh
+  [X] Xác định các file cần sửa đổi
+[X] Thực hiện sửa đổi
+  [X] Cập nhật Instagram::BaseSendService để hỗ trợ external_url
+  [X] Thêm unit test cho Instagram::SendOnInstagramService
+  [X] Thêm unit test cho Instagram::Messenger::SendOnInstagramService
+[X] Tạo tài liệu
+  [X] Tạo tài liệu hướng dẫn sử dụng external_url với Instagram
+  [X] Cập nhật README.md
+  [X] Cập nhật CHANGELOG.md
+[X] Commit và push các thay đổi
 
-2. **Nguyên nhân**:
-   - Trong Messages::MessageBuilder, phương thức process_attachments chỉ xử lý tệp đính kèm là file hoặc signed_id, không xử lý external_url
-   - API controller không có xử lý cho trường hợp external_url trong tệp đính kèm
-   - Mô hình Attachment có trường external_url nhưng không có logic để tạo attachment từ external_url
+### 3. Sửa lỗi không tải được avatar của khách hàng trên kênh Facebook
 
-3. **Giải pháp**:
-   - Cập nhật Messages::MessageBuilder để hỗ trợ external_url trong tệp đính kèm
-   - Cập nhật API controller để xử lý external_url trong tệp đính kèm
-   - Đảm bảo rằng external_url được lưu vào cơ sở dữ liệu và được sử dụng khi gửi tin nhắn đến Facebook
+[X] Tìm hiểu vấn đề
+  [X] Kiểm tra log lỗi
+  [X] Phân tích nguyên nhân
+  [X] Tìm hiểu tài liệu mới nhất của Facebook Graph API
+[X] Thực hiện sửa đổi
+  [X] Cập nhật Avatar::AvatarFromUrlJob để xử lý lỗi deserialization
+  [X] Thêm phương thức optimize_facebook_avatar_url
+  [X] Tạo service Facebook::FetchProfileService
+  [X] Cập nhật Messages::Facebook::MessageBuilder
+[X] Kiểm thử
+  [X] Kiểm tra tải avatar từ Facebook
+  [X] Kiểm tra xử lý lỗi
+[X] Commit và push các thay đổi
 
-### Phân tích hiện trạng
+## Ghi chú về các nhiệm vụ tiếp theo
 
-1. **Cách Chatwoot hiện đang gửi hình ảnh lên Facebook**:
-   - Khi gửi tin nhắn có hình ảnh, Chatwoot sử dụng `attachment.download_url` để lấy URL của hình ảnh
-   - URL này được gửi trực tiếp đến Facebook Messenger API trong payload
-   - Facebook sau đó sẽ tải hình ảnh từ URL này và gửi đến người dùng
+### 1. Tối ưu hóa thêm cho Facebook và Instagram
 
-2. **Điểm nghẽn hiệu năng**:
-   - Khi gửi nhiều hình ảnh, mỗi hình ảnh được gửi trong một tin nhắn riêng biệt
-   - Mỗi tin nhắn cần một lần gọi API riêng biệt
-   - Facebook phải tải xuống hình ảnh từ URL của Chatwoot, có thể gây chậm nếu kết nối mạng giữa Facebook và Chatwoot không ổn định
+- Kiểm tra hiệu suất gửi tin nhắn có hình ảnh đến Facebook và Instagram
+- Thêm cơ chế cache để tái sử dụng attachment_id cho các hình ảnh đã được gửi trước đó
+- Tối ưu hóa kích thước hình ảnh trước khi gửi
 
-3. **Các giải pháp có thể**:
-   - Sử dụng Attachment Upload API của Facebook để tải hình ảnh lên trước và nhận attachment_id
-   - Sử dụng cơ chế cache để tái sử dụng attachment_id cho các hình ảnh đã được gửi trước đó
-   - Tối ưu hóa kích thước hình ảnh trước khi gửi
+### 2. Cải thiện xử lý avatar
 
-### Đề xuất giải pháp tối ưu
+- Thêm cơ chế cache avatar để tránh tải lại nhiều lần
+- Thêm hỗ trợ avatar mặc định khi không thể tải được avatar từ Facebook
+- Kiểm tra và cải thiện hiệu suất của Avatar::AvatarFromUrlJob
 
-Sau khi phân tích các tài liệu, mã nguồn và ý kiến của người dùng, tôi đề xuất giải pháp sau để tối ưu hiệu năng gửi hình ảnh lên Facebook:
+### 3. Tổng quan về các tính năng đã hoàn thành
 
-1. **Gửi URL hình ảnh trực tiếp lên Facebook**:
-   - Nếu hình ảnh đã có URL (lưu trữ trên server), gửi URL đó trực tiếp lên Facebook mà không cần tải về Chatwoot trước
-   - Chỉ sau khi gửi thành công lên Facebook, mới lưu thông tin vào Chatwoot
-   - Điều này giúp giảm thời gian xử lý và tối ưu hiệu năng
+1. **Hỗ trợ external_url trong tệp đính kèm**:
+   - Đã cập nhật Messages::MessageBuilder để hỗ trợ external_url
+   - Đã thêm unit test để đảm bảo tính năng hoạt động chính xác
+   - Đã cập nhật tài liệu và CHANGELOG
 
-2. **Phân biệt xử lý dựa trên nguồn hình ảnh**:
-   - Nếu hình ảnh đã có URL: Gửi trực tiếp URL lên Facebook
-   - Nếu hình ảnh được gửi từ front-end (chưa có URL): Sử dụng logic hiện tại (tải hình về rồi gửi lên Facebook)
+2. **Hỗ trợ external_url cho kênh Instagram**:
+   - Đã cập nhật Instagram::BaseSendService để ưu tiên sử dụng external_url
+   - Đã thêm unit test cho cả Instagram::SendOnInstagramService và Instagram::Messenger::SendOnInstagramService
+   - Đã tạo tài liệu hướng dẫn sử dụng external_url với Instagram
 
-3. **Xử lý bất đồng bộ (Asynchronous)**:
-   - Thực hiện việc gửi hình ảnh lên Facebook trong một background job
-   - Điều này giúp giảm thời gian chờ cho người dùng khi gửi tin nhắn có nhiều hình ảnh
+3. **Sửa lỗi avatar Facebook**:
+   - Đã cập nhật Avatar::AvatarFromUrlJob để xử lý lỗi deserialization
+   - Đã tạo service Facebook::FetchProfileService để xử lý việc lấy thông tin người dùng Facebook
+   - Đã cập nhật cách lấy avatar từ Facebook Graph API theo tài liệu mới nhất
+   - Đã thêm các tham số mới như redirect=false, width, height và cache buster
 
-4. **Tối ưu hóa kích thước hình ảnh**:
-   - Nén và tối ưu hóa hình ảnh trước khi gửi lên Facebook (cho trường hợp hình ảnh từ front-end)
-   - Điều này giúp giảm thời gian gửi và tốc độ xử lý
+### 4. Các bài học rút ra
 
-### Ưu và nhược điểm của giải pháp
+1. **Tối ưu hiệu năng**:
+   - Ưu tiên sử dụng URL trực tiếp thay vì tải về rồi mới gửi đi
+   - Sử dụng các tham số phù hợp để tối ưu hiệu năng (width, height, redirect=false)
+   - Thêm cache buster để tránh cache khi cần thiết
 
-**Ưu điểm**:
-- Giảm thời gian gửi tin nhắn có hình ảnh vì không cần tải hình ảnh về Chatwoot trước
-- Giảm tải cho máy chủ Chatwoot vì không cần lưu trữ hình ảnh tạm thời
-- Đơn giản hóa quy trình gửi hình ảnh, giảm độ phức tạp của code
-- Tối ưu hóa hiệu năng mạng vì hình ảnh chỉ cần được tải một lần (từ URL gốc đến Facebook)
+2. **Xử lý lỗi**:
+   - Xử lý các trường hợp lỗi như deserialization, không tìm thấy đối tượng, URL không hợp lệ
+   - Sử dụng retry và fallback để tăng độ tin cậy
+   - Ghi log chi tiết để dễ dàng debug
 
-**Nhược điểm**:
-- Phụ thuộc vào tính khả dụng của URL hình ảnh gốc (nếu URL gốc không khả dụng, Facebook sẽ không thể tải hình ảnh)
-- Cần phân biệt xử lý giữa hình ảnh đã có URL và hình ảnh mới từ front-end
-- Có thể gặp vấn đề với các URL có thời gian sống ngắn (nếu URL hết hạn trước khi Facebook tải hình ảnh)
-
-## Nhiệm vụ trước đây (đã hoàn thành)
-[X] Tạo scratchpad để theo dõi tiến trình
-[X] Kiểm tra thông tin về repository hiện tại
-[X] Kiểm tra remote repositories đã được cấu hình
-[X] Kiểm tra nhánh hiện tại và trạng thái
-[X] Thêm remote repository gốc của Chatwoot (nếu chưa có)
-[X] Pull code mới nhất từ repository gốc
-[X] Xử lý các thay đổi chưa được commit (stash hoặc commit) - Đã stash
-[X] Merge code từ upstream/develop vào nhánh develop hiện tại
-[X] Kiểm tra xung đột (nếu có) - Đã giải quyết xung đột
-[X] Áp dụng lại các thay đổi đã stash - Đã giải quyết xung đột và commit
-[X] Báo cáo kết quả
-
-Các file đã được sửa đổi nhưng chưa commit:
-- app/dispatchers/sync_dispatcher.rb
-- app/javascript/shared/components/CardButton.vue
-- app/services/facebook/send_on_facebook_service.rb
-- build-and-push.sh
-- lib/integrations/facebook/message_creator.rb
-
-Các file chưa được theo dõi:
-- app/listeners/channel_listener.rb
-- app/services/facebook/typing_indicator_service.rb
+3. **Tài liệu hóa**:
+   - Tạo tài liệu hướng dẫn sử dụng các tính năng mới
+   - Cập nhật README.md và CHANGELOG.md
+   - Thêm unit test để đảm bảo tính năng hoạt động chính xác
