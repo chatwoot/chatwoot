@@ -18,7 +18,9 @@
                 </div>
             </div>
         </div>
-        <div id="summernote"></div>
+        <div v-show="selectedDoc">
+            <div id="summernote"></div>
+        </div>
 
         <woot-delete-modal v-if="showDeleteModal" v-model:show="showDeleteModal" class="context-menu--delete-modal"
             :on-close="() => {
