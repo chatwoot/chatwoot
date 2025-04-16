@@ -985,7 +985,6 @@ export default {
 
       return multipleMessagePayload;
     },
-
     getMessagePayload(message) {
       let messagePayload = {
         conversationId: this.currentChat.id,
