@@ -210,15 +210,15 @@ export default {
       return contactLastSeenAt;
     },
 
-    // Check there is a facebook inbox with the same instagram_id
+    // Check there is a instagram inbox exists with the same instagram_id
     hasDuplicateInstagramInbox() {
       const instagramId = this.inbox.instagram_id;
-      const facebookInbox =
-        this.$store.getters['inboxes/getFacebookInboxByInstagramId'](
+      const instagramInbox =
+        this.$store.getters['inboxes/getInstagramInboxByInstagramId'](
           instagramId
         );
 
-      return this.inbox.channel_type === INBOX_TYPES.FB && facebookInbox;
+      return this.inbox.channel_type === INBOX_TYPES.FB && instagramInbox;
     },
 
     replyWindowBannerMessage() {

@@ -26,7 +26,7 @@ describe('#getters', () => {
 
   it('dialogFlowEnabledInboxes', () => {
     const state = { records: inboxList };
-    expect(getters.dialogFlowEnabledInboxes(state).length).toEqual(6);
+    expect(getters.dialogFlowEnabledInboxes(state).length).toEqual(7);
   });
 
   it('getInbox', () => {
@@ -79,6 +79,18 @@ describe('#getters', () => {
       website_token: null,
       enable_auto_assignment: true,
       instagram_id: 123456789,
+    });
+  });
+
+  it('getInstagramInboxByInstagramId', () => {
+    const state = { records: inboxList };
+    expect(getters.getInstagramInboxByInstagramId(state)(123456789)).toEqual({
+      id: 7,
+      channel_id: 7,
+      name: 'Test Instagram 1',
+      channel_type: 'Channel::Instagram',
+      instagram_id: 123456789,
+      provider: 'default',
     });
   });
 });
