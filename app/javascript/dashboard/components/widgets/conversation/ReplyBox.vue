@@ -690,6 +690,9 @@ export default {
         if (isOnWhatsApp && !this.isPrivate) {
           this.sendMessageAsMultipleMessages(this.message, 'whatsapp');
         } else if (isOnInstagram && !this.isPrivate) {
+          // When users send messages containing both text and attachments on Instagram, Instagram treats them as separate messages.
+          // Although Chatwoot combines these into a single message, Instagram sends separate echo events for each component.
+          // This can create duplicate messages in Chatwoot. To prevent this issue, we'll handle text and attachments as separate messages.
           this.sendMessageAsMultipleMessages(this.message, 'instagram');
         } else {
           const messagePayload = this.getMessagePayload(this.message);
@@ -705,9 +708,6 @@ export default {
         this.$emit('update:popoutReplyBox', false);
       }
     },
-    // When users send messages containing both text and attachments on Instagram, Instagram treats them as separate messages.
-    // Although Chatwoot combines these into a single message, Instagram sends separate echo events for each component.
-    // This can create duplicate messages in Chatwoot. To prevent this issue, we'll handle text and attachments as separate messages.
     sendMessageAsMultipleMessages(message, channel = 'whatsapp') {
       const messages = this.getMessagePayloadForChannel(message, channel);
       messages.forEach(messagePayload => {
