@@ -17,6 +17,9 @@ export default {
     hasFbConfigured() {
       return window.chatwootConfig?.fbAppId;
     },
+    hasInstagramConfigured() {
+      return window.chatwootConfig?.instagramAppId;
+    },
     isActive() {
       const { key } = this.channel;
       if (Object.keys(this.enabledFeatures).length === 0) {
@@ -33,7 +36,9 @@ export default {
       }
 
       if (key === 'instagram') {
-        return this.enabledFeatures.channel_instagram;
+        return (
+          this.enabledFeatures.channel_instagram && this.hasInstagramConfigured
+        );
       }
 
       return [
