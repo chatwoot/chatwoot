@@ -26,7 +26,16 @@
 <script>
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { renderMarkdown } from 'shared/helpers/markdown';
+import MarkdownIt from 'markdown-it';
+
+const md = new MarkdownIt({
+  html: false,
+  xhtmlOut: true,
+  breaks: true,
+  linkify: true,
+  typographer: true,
+  quotes: '\u201c\u201d\u2018\u2019',
+});
 
 export default {
   name: 'BubbleCard',
@@ -45,7 +54,7 @@ export default {
       }
     },
     renderMarkdown(text) {
-      return renderMarkdown(text);
+      return md.render(text);
     },
   },
 };
@@ -98,6 +107,10 @@ export default {
 
 .card-description :deep(li) {
   @apply mb-1;
+}
+
+.card-description :deep(a) {
+  @apply text-blue-600 dark:text-blue-400 hover:underline;
 }
 
 .card-actions {
