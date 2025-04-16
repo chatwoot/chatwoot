@@ -7,7 +7,6 @@ class Crm::Leadsquared::SetupService
     @secret_key = credentials['secret_key']
     @endpoint_url = credentials['endpoint_url']
 
-    # Base client for activity type operations
     @client = Crm::Leadsquared::Api::BaseClient.new(@access_key, @secret_key, @endpoint_url)
     @activity_client = Crm::Leadsquared::Api::ActivityClient.new(@access_key, @secret_key, @endpoint_url)
   end
@@ -51,25 +50,17 @@ class Crm::Leadsquared::SetupService
   end
 
   def find_or_create_activity_type(activity_type, existing_types)
-    # Check if activity type already exists
     existing = existing_types.find { |t| t['ActivityEventName'] == activity_type[:name] }
 
     if existing
-      # Use existing activity type
-      activity_id = existing['ActivityEvent'].to_i
-      Rails.logger.info "Using existing LeadSquared activity type: #{activity_type[:name]} (ID: #{activity_id})"
+      existing['ActivityEvent'].to_i
     else
-      # Create new activity type
-      activity_id = @activity_client.create_activity_type(
+      @activity_client.create_activity_type(
         name: activity_type[:name],
         score: activity_type[:score],
         direction: activity_type[:direction]
       )
-
-      Rails.logger.info "Created LeadSquared activity type: #{activity_type[:name]} (ID: #{activity_id})" if activity_id.present?
     end
-
-    acitvity_id
   end
 
   def update_hook_settings(activity_codes)

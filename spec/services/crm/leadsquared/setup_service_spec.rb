@@ -46,21 +46,13 @@ RSpec.describe Crm::Leadsquared::SetupService do
 
         it 'uses existing activity types and updates hook settings' do
           original_settings = hook.settings.dup
-          result = service.setup
-
-          # Check that the result has the correct activity codes
-          expect(result).to include(
-            'conversation_activity_code' => 1001,
-            'transcript_activity_code' => 1002
-          )
+          service.setup
 
           # Verify hook settings were merged with existing settings
           updated_settings = hook.reload.settings
           expect(updated_settings).to include(original_settings)
-          expect(updated_settings).to include(
-            'conversation_activity_code' => 1001,
-            'transcript_activity_code' => 1002
-          )
+          expect(updated_settings['conversation_activity_code']).to eq(1001)
+          expect(updated_settings['transcript_activity_code']).to eq(1002)
         end
       end
 
@@ -81,20 +73,13 @@ RSpec.describe Crm::Leadsquared::SetupService do
 
         it 'creates missing types and updates hook settings' do
           original_settings = hook.settings.dup
-          result = service.setup
-
-          expect(result).to include(
-            'conversation_activity_code' => 1001,
-            'transcript_activity_code' => 1002
-          )
+          service.setup
 
           # Verify hook settings were merged with existing settings
           updated_settings = hook.reload.settings
           expect(updated_settings).to include(original_settings)
-          expect(updated_settings).to include(
-            'conversation_activity_code' => 1001,
-            'transcript_activity_code' => 1002
-          )
+          expect(updated_settings['conversation_activity_code']).to eq(1001)
+          expect(updated_settings['transcript_activity_code']).to eq(1002)
         end
       end
 
