@@ -1,6 +1,17 @@
 class Crm::Leadsquared::Api::BaseClient
   include HTTParty
 
+  # Exception class for LeadSquared API errors
+  class ApiError < StandardError
+    attr_reader :code, :response
+
+    def initialize(message = nil, code = nil, response = nil)
+      @code = code
+      @response = response
+      super(message)
+    end
+  end
+
   def initialize(access_key, secret_key, endpoint_url)
     @access_key = access_key
     @secret_key = secret_key
@@ -46,22 +57,27 @@ class Crm::Leadsquared::Api::BaseClient
   def handle_response(response)
     case response.code
     when 200..299
-      begin
-        body = response.parsed_response
-
-        if body.is_a?(Hash) && body['Status'] == 'Error'
-          Rails.logger.error "LeadSquared API error: #{body['ExceptionMessage']}"
-          { success: false, error: body['ExceptionMessage'], code: response.code }
-        else
-          { success: true, data: body }
-        end
-      rescue StandardError => e
-        Rails.logger.error "Failed to parse LeadSquared API response: #{e.message}"
-        { success: false, error: 'Invalid response', code: response.code }
-      end
+      handle_success(response)
     else
-      Rails.logger.error "LeadSquared API error: #{response.code} - #{response.body}"
-      { success: false, error: response.body, code: response.code }
+      error_message = "LeadSquared API error: #{response.code} - #{response.body}"
+      Rails.logger.error error_message
+      raise ApiError.new(error_message, response.code, response)
     end
+  end
+
+  def handle_success(response)
+    body = response.parsed_response
+
+    if body.is_a?(Hash) && body['Status'] == 'Error'
+      error_message = body['ExceptionMessage'] || 'Unknown API error'
+      Rails.logger.error "LeadSquared API error: #{error_message}"
+      raise ApiError.new(error_message, response.code, response)
+    else
+      body
+    end
+  rescue JSON::ParserError, TypeError => e
+    error_message = "Failed to parse LeadSquared API response: #{e.message}"
+    Rails.logger.error error_message
+    raise ApiError.new(error_message, response.code, response)
   end
 end

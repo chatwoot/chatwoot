@@ -41,10 +41,10 @@ RSpec.describe Crm::Leadsquared::Api::BaseClient do
           )
       end
 
-      it 'returns success response with data' do
+      it 'returns parsed response data directly' do
         response = client.get(path, params)
-        expect(response[:success]).to be true
-        expect(response[:data]).to include('Message' => 'Success')
+        expect(response).to include('Message' => 'Success')
+        expect(response).to include('Status' => 'Success')
       end
     end
 
@@ -62,10 +62,11 @@ RSpec.describe Crm::Leadsquared::Api::BaseClient do
           )
       end
 
-      it 'returns error response' do
-        response = client.get(path, params)
-        expect(response[:success]).to be false
-        expect(response[:error]).to eq('Invalid lead ID')
+      it 'raises ApiError with error message' do
+        expect { client.get(path, params) }.to raise_error(
+          Crm::Leadsquared::Api::BaseClient::ApiError,
+          'Invalid lead ID'
+        )
       end
     end
 
@@ -79,11 +80,12 @@ RSpec.describe Crm::Leadsquared::Api::BaseClient do
           .to_return(status: 404, body: 'Not Found')
       end
 
-      it 'returns error response with status code' do
-        response = client.get(path, params)
-        expect(response[:success]).to be false
-        expect(response[:error]).to eq('Not Found')
-        expect(response[:code]).to eq(404)
+      it 'raises ApiError with status code' do
+        expect { client.get(path, params) }.to raise_error do |error|
+          expect(error).to be_a(Crm::Leadsquared::Api::BaseClient::ApiError)
+          expect(error.message).to include('Not Found')
+          expect(error.code).to eq(404)
+        end
       end
     end
   end
@@ -109,10 +111,10 @@ RSpec.describe Crm::Leadsquared::Api::BaseClient do
           )
       end
 
-      it 'returns success response with data' do
+      it 'returns parsed response data directly' do
         response = client.post(path, params, body)
-        expect(response[:success]).to be true
-        expect(response[:data]).to include('Message' => 'Lead created')
+        expect(response).to include('Message' => 'Lead created')
+        expect(response).to include('Status' => 'Success')
       end
     end
 
@@ -131,10 +133,11 @@ RSpec.describe Crm::Leadsquared::Api::BaseClient do
           )
       end
 
-      it 'returns error response' do
-        response = client.post(path, params, body)
-        expect(response[:success]).to be false
-        expect(response[:error]).to eq('Invalid data')
+      it 'raises ApiError with error message' do
+        expect { client.post(path, params, body) }.to raise_error(
+          Crm::Leadsquared::Api::BaseClient::ApiError,
+          'Invalid data'
+        )
       end
     end
 
@@ -153,10 +156,11 @@ RSpec.describe Crm::Leadsquared::Api::BaseClient do
           )
       end
 
-      it 'returns error response for invalid JSON' do
-        response = client.post(path, params, body)
-        expect(response[:success]).to be false
-        expect(response[:error]).to eq('Invalid response')
+      it 'raises ApiError for invalid JSON' do
+        expect { client.post(path, params, body) }.to raise_error do |error|
+          expect(error).to be_a(Crm::Leadsquared::Api::BaseClient::ApiError)
+          expect(error.message).to include('Failed to parse')
+        end
       end
     end
 
@@ -171,11 +175,12 @@ RSpec.describe Crm::Leadsquared::Api::BaseClient do
           .to_return(status: 500, body: 'Internal Server Error')
       end
 
-      it 'returns error response with status code' do
-        response = client.post(path, params, body)
-        expect(response[:success]).to be false
-        expect(response[:error]).to eq('Internal Server Error')
-        expect(response[:code]).to eq(500)
+      it 'raises ApiError with status code' do
+        expect { client.post(path, params, body) }.to raise_error do |error|
+          expect(error).to be_a(Crm::Leadsquared::Api::BaseClient::ApiError)
+          expect(error.message).to include('Internal Server Error')
+          expect(error.code).to eq(500)
+        end
       end
     end
   end

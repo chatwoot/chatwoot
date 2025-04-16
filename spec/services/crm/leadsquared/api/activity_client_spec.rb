@@ -27,16 +27,14 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
     let(:full_url) { URI.join(credentials[:endpoint_url], path).to_s }
 
     context 'with missing required parameters' do
-      it 'returns error when prospect_id is missing' do
-        response = client.post_activity(nil, activity_event, activity_note)
-        expect(response[:success]).to be false
-        expect(response[:error]).to eq('Prospect ID is required')
+      it 'raises ArgumentError when prospect_id is missing' do
+        expect { client.post_activity(nil, activity_event, activity_note) }
+          .to raise_error(ArgumentError, 'Prospect ID is required')
       end
 
-      it 'returns error when activity_event is missing' do
-        response = client.post_activity(prospect_id, nil, activity_note)
-        expect(response[:success]).to be false
-        expect(response[:error]).to eq('Activity event code is required')
+      it 'raises ArgumentError when activity_event is missing' do
+        expect { client.post_activity(prospect_id, nil, activity_note) }
+          .to raise_error(ArgumentError, 'Activity event code is required')
       end
     end
 
@@ -69,19 +67,18 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
           )
       end
 
-      it 'returns success response with activity data' do
+      it 'returns activity ID directly' do
         response = client.post_activity(prospect_id, activity_event, activity_note)
-        expect(response[:success]).to be true
-        expect(response[:activity_id]).to eq(activity_id)
+        expect(response).to eq(activity_id)
       end
     end
 
     context 'when response indicates failure' do
       let(:error_response) do
         {
-          :success => false,
-          :error => '{"Status":"Error","ExceptionType":"NullReferenceException","ExceptionMessage":"There was an error processing the request."}',
-          :code => 500
+          'Status' => 'Error',
+          'ExceptionType' => 'NullReferenceException',
+          'ExceptionMessage' => 'There was an error processing the request.'
         }
       end
 
@@ -102,10 +99,9 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
           )
       end
 
-      it 'returns error response when activity ID is missing' do
-        response = client.post_activity(prospect_id, activity_event, activity_note)
-        expect(response[:success]).to be false
-        expect(response[:error]).to eq('Activity not created')
+      it 'raises ApiError when activity creation fails' do
+        expect { client.post_activity(prospect_id, activity_event, activity_note) }
+          .to raise_error(Crm::Leadsquared::Api::BaseClient::ApiError)
       end
     end
   end
@@ -119,6 +115,13 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
         score: 10,
         direction: 0
       }
+    end
+
+    context 'with missing required parameters' do
+      it 'raises ArgumentError when name is missing' do
+        expect { client.create_activity_type(name: nil, score: 10) }
+          .to raise_error(ArgumentError, 'Activity name is required')
+      end
     end
 
     context 'when request is successful' do
@@ -149,19 +152,18 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
           )
       end
 
-      it 'returns success response with activity ID' do
+      it 'returns activity ID directly' do
         response = client.create_activity_type(**activity_params)
-        expect(response[:success]).to be true
-        expect(response[:activity_id]).to eq(activity_event_id)
+        expect(response).to eq(activity_event_id)
       end
     end
 
     context 'when response indicates failure' do
       let(:error_response) do
         {
-          :success => false,
-          :error => '{"Status":"Error","ExceptionType":"MXInvalidInputException","ExceptionMessage":"Invalid Input! Parameter Name: activity"}',
-          :code => 500
+          'Status' => 'Error',
+          'ExceptionType' => 'MXInvalidInputException',
+          'ExceptionMessage' => 'Invalid Input! Parameter Name: activity'
         }
       end
 
@@ -182,10 +184,9 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
           )
       end
 
-      it 'returns error response' do
-        response = client.create_activity_type(**activity_params)
-        expect(response[:success]).to be false
-        expect(response[:error]).to eq('Activity not created')
+      it 'raises ApiError when activity type creation fails' do
+        expect { client.create_activity_type(**activity_params) }
+          .to raise_error(Crm::Leadsquared::Api::BaseClient::ApiError)
       end
     end
 
@@ -207,10 +208,9 @@ RSpec.describe Crm::Leadsquared::Api::ActivityClient do
           )
       end
 
-      it 'returns error response' do
-        response = client.create_activity_type(**activity_params)
-        expect(response[:success]).to be false
-        expect(response[:error]).to be_present
+      it 'raises ApiError when the request fails' do
+        expect { client.create_activity_type(**activity_params) }
+          .to raise_error(Crm::Leadsquared::Api::BaseClient::ApiError)
       end
     end
   end

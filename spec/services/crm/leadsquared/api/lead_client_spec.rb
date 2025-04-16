@@ -20,10 +20,9 @@ RSpec.describe Crm::Leadsquared::Api::LeadClient do
     let(:full_url) { URI.join(endpoint_url, path).to_s }
 
     context 'when search key is missing' do
-      it 'returns error' do
-        response = client.search_lead(nil)
-        expect(response[:success]).to be false
-        expect(response[:error]).to eq('Search key is required')
+      it 'raises ArgumentError' do
+        expect { client.search_lead(nil) }
+          .to raise_error(ArgumentError, 'Search key is required')
       end
     end
 
@@ -38,10 +37,9 @@ RSpec.describe Crm::Leadsquared::Api::LeadClient do
           )
       end
 
-      it 'returns success with [] data' do
+      it 'returns empty array directly' do
         response = client.search_lead(search_key)
-        expect(response[:success]).to be true
-        expect(response[:data]).to eq([])
+        expect(response).to eq([])
       end
     end
 
@@ -65,10 +63,9 @@ RSpec.describe Crm::Leadsquared::Api::LeadClient do
           )
       end
 
-      it 'returns success with lead data' do
+      it 'returns lead data array directly' do
         response = client.search_lead(search_key)
-        expect(response[:success]).to be true
-        expect(response[:data]).to eq(lead_data)
+        expect(response).to eq(lead_data)
       end
     end
   end
@@ -93,19 +90,19 @@ RSpec.describe Crm::Leadsquared::Api::LeadClient do
     end
 
     context 'when lead data is missing' do
-      it 'returns error' do
-        response = client.create_or_update_lead(nil)
-        expect(response[:success]).to be false
-        expect(response[:error]).to eq('Lead data is required')
+      it 'raises ArgumentError' do
+        expect { client.create_or_update_lead(nil) }
+          .to raise_error(ArgumentError, 'Lead data is required')
       end
     end
 
     context 'when lead is successfully created' do
+      let(:lead_id) { '8e0f69ae-e2ac-40fc-a0cf-827326181c8a' }
       let(:success_response) do
         {
           'Status' => 'Success',
           'Message' => {
-            'Id' => '8e0f69ae-e2ac-40fc-a0cf-827326181c8a'
+            'Id' => lead_id
           }
         }
       end
@@ -123,16 +120,18 @@ RSpec.describe Crm::Leadsquared::Api::LeadClient do
           )
       end
 
-      it 'returns success with lead data' do
+      it 'returns lead ID directly' do
         response = client.create_or_update_lead(lead_data)
-        expect(response[:success]).to be true
-        expect(response[:data]).to eq(success_response['Message'])
+        expect(response).to eq(lead_id)
       end
     end
 
     context 'when request fails' do
       let(:error_response) do
-        { :success => false, :error => 'Error message', :code => 404 }
+        {
+          'Status' => 'Error',
+          'ExceptionMessage' => 'Error message'
+        }
       end
 
       before do
@@ -148,10 +147,84 @@ RSpec.describe Crm::Leadsquared::Api::LeadClient do
           )
       end
 
-      it 'returns error response' do
-        response = client.create_or_update_lead(lead_data)
-        expect(response[:success]).to be false
-        expect(response[:error]).to eq('No leads created or updated')
+      it 'raises ApiError' do
+        expect { client.create_or_update_lead(lead_data) }
+          .to raise_error(Crm::Leadsquared::Api::BaseClient::ApiError)
+      end
+    end
+
+    # Add test for update_lead method
+    describe '#update_lead' do
+      let(:path) { 'LeadManagement.svc/Lead.Update' }
+      let(:lead_id) { '8e0f69ae-e2ac-40fc-a0cf-827326181c8a' }
+      let(:full_url) { URI.join(endpoint_url, "#{path}?leadId=#{lead_id}").to_s }
+
+      context 'with missing parameters' do
+        it 'raises ArgumentError when lead_id is missing' do
+          expect { client.update_lead(lead_data, nil) }
+            .to raise_error(ArgumentError, 'Lead ID is required')
+        end
+
+        it 'raises ArgumentError when lead_data is missing' do
+          expect { client.update_lead(nil, lead_id) }
+            .to raise_error(ArgumentError, 'Lead data is required')
+        end
+      end
+
+      context 'when update is successful' do
+        let(:success_response) do
+          {
+            'Status' => 'Success',
+            'Message' => {
+              'AffectedRows' => 1
+            }
+          }
+        end
+
+        before do
+          stub_request(:post, full_url)
+            .with(
+              body: formatted_lead_data.to_json,
+              headers: headers
+            )
+            .to_return(
+              status: 200,
+              body: success_response.to_json,
+              headers: { 'Content-Type' => 'application/json' }
+            )
+        end
+
+        it 'returns affected rows directly' do
+          response = client.update_lead(lead_data, lead_id)
+          expect(response).to eq(1)
+        end
+      end
+
+      context 'when update fails' do
+        let(:error_response) do
+          {
+            'Status' => 'Error',
+            'ExceptionMessage' => 'Invalid lead ID'
+          }
+        end
+
+        before do
+          stub_request(:post, full_url)
+            .with(
+              body: formatted_lead_data.to_json,
+              headers: headers
+            )
+            .to_return(
+              status: 200,
+              body: error_response.to_json,
+              headers: { 'Content-Type' => 'application/json' }
+            )
+        end
+
+        it 'raises ApiError' do
+          expect { client.update_lead(lead_data, lead_id) }
+            .to raise_error(Crm::Leadsquared::Api::BaseClient::ApiError)
+        end
       end
     end
   end
