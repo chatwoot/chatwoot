@@ -31,7 +31,6 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
   def handle_conversation_created(conversation)
     return unless @allow_conversation
 
-    # Create activity for a new conversation
     create_conversation_activity(
       conversation: conversation,
       activity_type: 'conversation',
@@ -42,13 +41,9 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
   end
 
   def handle_conversation_resolved(conversation)
-    # if transcript is not allowed return
     return unless @allow_transcript
-
-    # We'll only sync transcripts for closed conversations
     return unless conversation.status == 'resolved'
 
-    # Create activity for a conversation transcript
     create_conversation_activity(
       conversation: conversation,
       activity_type: 'transcript',
@@ -94,11 +89,9 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
       return
     end
 
-    # Post the activity to LeadSquared
     activity_id = @activity_client.post_activity(lead_id, activity_code, activity_note)
     return if activity_id.blank?
 
-    # Store activity reference in conversation metadata
     metadata = {}
     metadata[metadata_key] = activity_id
     store_conversation_metadata(conversation, metadata)

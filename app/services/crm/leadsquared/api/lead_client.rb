@@ -6,7 +6,6 @@ class Crm::Leadsquared::Api::LeadClient < Crm::Leadsquared::Api::BaseClient
     path = 'LeadManagement.svc/Leads.GetByQuickSearch'
     params = { key: key }
 
-    # Direct return of leads array
     get(path, params)
   end
 
@@ -23,7 +22,6 @@ class Crm::Leadsquared::Api::LeadClient < Crm::Leadsquared::Api::BaseClient
     formatted_data = format_lead_data(lead_data)
     response = post(path, {}, formatted_data)
 
-    # Return just the lead ID
     response['Message']['Id']
   end
 
@@ -36,7 +34,6 @@ class Crm::Leadsquared::Api::LeadClient < Crm::Leadsquared::Api::BaseClient
 
     response = post(path, {}, formatted_data)
 
-    # Return affected rows count
     response['Message']['AffectedRows']
   end
 

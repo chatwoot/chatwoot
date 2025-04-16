@@ -13,8 +13,6 @@ class Crm::Leadsquared::Api::ActivityClient < Crm::Leadsquared::Api::BaseClient
     }
 
     response = post(path, {}, body)
-
-    # Return just the activity ID from the response
     response['Message']['Id']
   end
 
@@ -29,8 +27,6 @@ class Crm::Leadsquared::Api::ActivityClient < Crm::Leadsquared::Api::BaseClient
     }
 
     response = post(path, {}, body)
-
-    # Return just the activity ID from the response
     response['Message']['Id']
   end
 end

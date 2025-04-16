@@ -1,7 +1,6 @@
 class Crm::Leadsquared::Api::BaseClient
   include HTTParty
 
-  # Exception class for LeadSquared API errors
   class ApiError < StandardError
     attr_reader :code, :response
 

@@ -4,15 +4,12 @@ class Crm::Leadsquared::LeadFinderService
   end
 
   def find_or_create(contact)
-    # First check if we already have a stored ID
-    lead_id = get_external_id(contact)
+    lead_id = get_stored_id(contact)
     return lead_id if lead_id.present?
 
-    # If not, search for it in LeadSquared
     lead_id = find_by_contact(contact)
     return lead_id if lead_id.present?
 
-    # If still not found, create a new lead
     create_lead(contact)
   end
 
@@ -48,7 +45,7 @@ class Crm::Leadsquared::LeadFinderService
     lead_id
   end
 
-  def get_external_id(contact)
+  def get_stored_id(contact)
     return nil if contact.additional_attributes.blank?
     return nil if contact.additional_attributes['external'].blank?
 
