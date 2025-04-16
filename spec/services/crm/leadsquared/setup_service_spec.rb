@@ -28,42 +28,19 @@ RSpec.describe Crm::Leadsquared::SetupService do
     end
 
     context 'when fetching activity types succeeds' do
-      let(:existing_types) do
-        [
-          {
-            'Name' => 'Chatwoot Conversation Started',
-            'Value' => 1001,
-            'Score' => 10,
-            'Direction' => 0,
-            'IsActive' => true
-          }
-        ]
+      let(:started_type) do
+        { 'ActivityEventName' => 'Chatwoot Conversation Started', 'ActivityEvent' => 1001 }
       end
 
-      before do
-        allow(base_client).to receive(:get)
-          .with('ProspectActivity.svc/ActivityTypes.Get')
-          .and_return({ success: true, data: existing_types })
+      let(:transcript_type) do
+        { 'ActivityEventName' => 'Chatwoot Conversation Transcript', 'ActivityEvent' => 1002 }
       end
 
       context 'when all required types exist' do
-        let(:existing_types) do
-          [
-            {
-              'Name' => 'Chatwoot Conversation Started',
-              'Value' => 1001,
-              'Score' => 10,
-              'Direction' => 0,
-              'IsActive' => true
-            },
-            {
-              'Name' => 'Chatwoot Conversation Transcript',
-              'Value' => 1002,
-              'Score' => 5,
-              'Direction' => 0,
-              'IsActive' => true
-            }
-          ]
+        before do
+          allow(base_client).to receive(:get)
+            .with('ProspectActivity.svc/ActivityTypes.Get')
+            .and_return({ success: true, data: [started_type, transcript_type] })
         end
 
         it 'uses existing activity types and updates hook settings' do
@@ -92,10 +69,14 @@ RSpec.describe Crm::Leadsquared::SetupService do
         end
 
         before do
+          allow(base_client).to receive(:get)
+            .with('ProspectActivity.svc/ActivityTypes.Get')
+            .and_return({ success: true, data: [started_type] })
+
           allow(activity_client).to receive(:create_activity_type)
             .with(
               name: 'Chatwoot Conversation Transcript',
-              score: 5,
+              score: 0,
               direction: 0
             )
             .and_return(create_response)
@@ -123,6 +104,10 @@ RSpec.describe Crm::Leadsquared::SetupService do
 
       context 'when activity type creation fails' do
         before do
+          allow(base_client).to receive(:get)
+            .with('ProspectActivity.svc/ActivityTypes.Get')
+            .and_return({ success: true, data: [started_type] })
+
           allow(activity_client).to receive(:create_activity_type)
             .with(anything)
             .and_return({ success: false, error: 'Failed to create activity type' })
@@ -137,24 +122,26 @@ RSpec.describe Crm::Leadsquared::SetupService do
     end
   end
 
-  describe 'REQUIRED_ACTIVITY_TYPES' do
-    subject(:required_types) { described_class::REQUIRED_ACTIVITY_TYPES }
-
+  describe '#activity_types' do
     it 'defines conversation started activity type' do
+      required_types = service.send(:activity_types)
       conversation_type = required_types.find { |t| t[:setting_key] == 'conversation_activity_code' }
       expect(conversation_type).to include(
         name: 'Chatwoot Conversation Started',
-        score: 10,
-        direction: 0
+        score: 0,
+        direction: 0,
+        setting_key: 'conversation_activity_code'
       )
     end
 
     it 'defines transcript activity type' do
+      required_types = service.send(:activity_types)
       transcript_type = required_types.find { |t| t[:setting_key] == 'transcript_activity_code' }
       expect(transcript_type).to include(
         name: 'Chatwoot Conversation Transcript',
-        score: 5,
-        direction: 0
+        score: 0,
+        direction: 0,
+        setting_key: 'transcript_activity_code'
       )
     end
   end
