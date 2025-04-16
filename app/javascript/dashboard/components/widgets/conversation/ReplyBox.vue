@@ -689,7 +689,7 @@ export default {
         const isOnInstagram = this.isAInstagramChannel;
         if (isOnWhatsApp && !this.isPrivate) {
           this.sendMessageAsMultipleMessages(this.message);
-        } else if (isOnInstagram || !this.isPrivate) {
+        } else if (isOnInstagram && !this.isPrivate) {
           this.sendMessageAsSeparateMessages(this.message);
         } else {
           const messagePayload = this.getMessagePayload(this.message);
