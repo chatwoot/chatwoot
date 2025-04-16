@@ -1136,7 +1136,7 @@ export default {
         v-else-if="!showRichContentEditor"
         ref="messageInput"
         v-model="message"
-        class="input"
+        class="input rounded-none"
         :placeholder="messagePlaceHolder"
         :min-height="4"
         :signature="signatureToApply"
