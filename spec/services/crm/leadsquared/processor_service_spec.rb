@@ -45,7 +45,7 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
   describe '#handle_contact' do
     context 'when contact is valid' do
       before do
-        allow(service).to receive(:contact_valid?).and_return(true)
+        allow(service).to receive(:identifiable_contact?).and_return(true)
       end
 
       context 'when contact has no stored lead ID' do
@@ -99,7 +99,7 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
 
     context 'when contact is invalid' do
       before do
-        allow(service).to receive(:contact_valid?).and_return(false)
+        allow(service).to receive(:identifiable_contact?).and_return(false)
         allow(lead_client).to receive(:create_or_update_lead)
       end
 

@@ -20,7 +20,10 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
 
   def handle_contact(contact)
     contact.reload
-    return unless identifiable_contact?(contact)
+    unless identifiable_contact?(contact)
+      Rails.logger.info("Contact not identifiable. Skipping handle_contact for ##{contact.id}")
+      return
+    end
 
     stored_lead_id = get_external_id(contact)
     create_or_update_lead(contact, stored_lead_id)
@@ -34,7 +37,7 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
       activity_type: 'conversation',
       activity_code_key: 'conversation_activity_code',
       metadata_key: 'created_activity_id',
-      mapper_method: :map_conversation_activity
+      activity_note: Crm::Leadsquared::Mappers::ConversationMapper.map_conversation_activity(conversation)
     )
   end
 
@@ -47,7 +50,7 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
       activity_type: 'transcript',
       activity_code_key: 'transcript_activity_code',
       metadata_key: 'transcript_activity_id',
-      mapper_method: :map_transcript_activity
+      activity_note: Crm::Leadsquared::Mappers::ConversationMapper.map_transcript_activity(conversation)
     )
   end
 
@@ -74,18 +77,11 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
     Rails.logger.error "Error processing contact in LeadSquared: #{e.message}"
   end
 
-  def create_conversation_activity(conversation:, activity_type:, activity_code_key:, metadata_key:, mapper_method:)
-    contact = conversation.contact
-    return unless identifiable_contact?(contact)
-
-    lead_id = @lead_finder.find_or_create(contact)
+  def create_conversation_activity(conversation:, activity_type:, activity_code_key:, metadata_key:, activity_note:)
+    lead_id = get_lead_id(conversation.contact)
     return if lead_id.blank?
 
-    store_external_id(contact, lead_id) unless get_external_id(contact)
-
-    activity_note = Crm::Leadsquared::Mappers::ConversationMapper.send(mapper_method, conversation)
     activity_code = get_activity_code(activity_code_key)
-
     activity_id = @activity_client.post_activity(lead_id, activity_code, activity_note)
     return if activity_id.blank?
 
@@ -105,5 +101,21 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
     raise StandardError, "LeadSquared #{key} activity code not found for hook ##{@hook.id}." if activity_code.blank?
 
     activity_code
+  end
+
+  def get_lead_id(contact)
+    contact.reload # reload to ensure all the attributes are up-to-date
+
+    unless identifiable_contact?(contact)
+      Rails.logger.info("Contact not identifiable. Skipping #{activity_type} activity for ##{contact.id}")
+      nil
+    end
+
+    lead_id = @lead_finder.find_or_create(contact)
+    return nil if lead_id.blank?
+
+    store_external_id(contact, lead_id) unless get_external_id(contact)
+
+    lead_id
   end
 end
