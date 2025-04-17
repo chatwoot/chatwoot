@@ -155,7 +155,7 @@ class Api::V1::SubscriptionsController < Api::BaseController
       product_details: "#{@subscription.plan_name} Subscription (#{@subscription.billing_cycle})",
       customer_name: current_user.name,
       customer_email: current_user.email,
-      return_url: "#{ENV['DUITKU_CALLBACK_URL']}/app/accounts/#{@account.id}/settings/subscriptions",
+      return_url: "#{ENV['FRONTEND_URL']}/app/accounts/#{@account.id}/settings/billing",
       subscription_id: @subscription.id,
       payment_method: params[:payment_method]
     )
