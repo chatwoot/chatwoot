@@ -20,7 +20,7 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
 
   def handle_contact(contact)
     contact.reload
-    return unless contact_valid?(contact)
+    return unless identifiable_contact?(contact)
 
     stored_lead_id = get_external_id(contact)
     create_or_update_lead(contact, stored_lead_id)
@@ -76,6 +76,8 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
 
   def create_conversation_activity(conversation:, activity_type:, activity_code_key:, metadata_key:, mapper_method:)
     contact = conversation.contact
+    return unless identifiable_contact?(contact)
+
     lead_id = @lead_finder.find_or_create(contact)
     return if lead_id.blank?
 

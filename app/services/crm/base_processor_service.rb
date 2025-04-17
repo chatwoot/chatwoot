@@ -54,7 +54,7 @@ class Crm::BaseProcessorService
 
   protected
 
-  def contact_valid?(contact)
+  def identifiable_contact?(contact)
     has_social_profile = contact.additional_attributes['social_profiles'].present?
     contact.present? && (contact.email.present? || contact.phone_number.present? || has_social_profile)
   end
