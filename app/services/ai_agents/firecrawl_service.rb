@@ -26,7 +26,7 @@ class AiAgents::FirecrawlService
 
       parsed = response.parsed_response
 
-      return unless parsed['success'] && parsed['data']
+      raise 'Scrape failed: Invalid response data' unless parsed['success'] && parsed['data']
 
       {
         url: parsed['data']['metadata']['url'],
@@ -36,10 +36,12 @@ class AiAgents::FirecrawlService
 
     def bulk_scrape(links)
       links.map do |link|
-        scrape(link)
+        Rails.logger.info("Start scraping link: #{link}")
+        scrape = scrape(link)
+        Rails.logger.info("Finished scraping link: #{link}")
+        scrape
       rescue StandardError => e
-        Rails.logger.error("Error scraping link #{link}: #{e.message}")
-        nil
+        raise "Failed to scrape link #{link}: #{e.message}"
       end
     end
 
