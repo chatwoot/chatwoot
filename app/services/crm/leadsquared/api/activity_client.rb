@@ -29,4 +29,8 @@ class Crm::Leadsquared::Api::ActivityClient < Crm::Leadsquared::Api::BaseClient
     response = post(path, {}, body)
     response['Message']['Id']
   end
+
+  def fetch_activity_types
+    get('ProspectActivity.svc/ActivityTypes.Get')
+  end
 end
