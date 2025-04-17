@@ -121,7 +121,9 @@
       "AGENTS_LOADING": "Se încarcă agenții...",
       "ASSIGN_TEAM": "Atribuiți echipă",
       "API": {
-        "AGENT_ASSIGNMENT": {
+        "INBOX_AI_AGENTS": "AI Agents",
+"INBOX_AI_AGENTS_SUB_TEXT": "Manage AI agents from this inbox",
+"AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Id conversație {conversationId} atribuit la \"{agentName}\"",
           "FAILED": "Nu s-a putut atribui agentul. Vă rugăm încercați din nou."
         },

@@ -54,7 +54,6 @@ export default {
   mounted() {
     this.setDefaults();
     this.fetchAiAgents()
-    this.fetchSelectedAiAgents()
   },
   methods: {
     setDefaults() {
@@ -62,6 +61,7 @@ export default {
       this.maxAssignmentLimit =
         this.inbox?.auto_assignment_config?.max_assignment_limit || null;
       this.fetchAttachedAgents();
+      this.fetchSelectedAiAgents()
     },
     async fetchAttachedAgents() {
       try {
@@ -79,6 +79,12 @@ export default {
     handleEnableAutoAssignment() {
       this.updateInbox();
     },
+    handleAiAgentSelection() {
+      if (this.selectedAiAgents) {
+        this.enableAutoAssignment = false;
+      }
+    },
+
     async updateAgents() {
       const agentList = this.selectedAgents.map(el => el.id);
       this.isAgentListUpdating = true;
@@ -121,23 +127,41 @@ export default {
       }
     },
     async fetchSelectedAiAgents() {
-      try {
-        await new Promise(r => setTimeout(1000, r))
-        this.selectedAiAgents = []
-      } catch (e) {
-      }
-    },
+
+  try {
+    const response = await this.$store.dispatch('inboxBotMembers/get', {
+      inboxId: this.inbox.id,
+    });
+    const {
+          data: { payload: inboxBotMembers },
+        } = response;
+    this.selectedAiAgents = inboxBotMembers;
+    if (!payload.isEmpty){
+      this.enableAutoAssignment = false
+      this.updateInbox
+    }
+    } catch (e) {
+      useAlert(this.$t('AGENT_MGMT.GET.API.ERROR_MESSAGE'));
+    }
+  }
+  ,
     async updateAiAgents() {
-      const aiAgentListId = this.selectedAiAgents.map(el => el.id);
+      const aiAgentListId = this.selectedAiAgents ? [this.selectedAiAgents.id] : [];
+      
+      console.log('🔥 [UpdateAiAgents] Called',aiAgentListId);
       this.isAiAgentListUpdating = true;
       try {
-        console.log('aiAgentListId', aiAgentListId)
+        await this.$store.dispatch('inboxBotMembers/create', {
+        inboxId: this.inbox.id,
+        agentBotList: aiAgentListId, 
+      });
         useAlert(this.$t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         useAlert(this.$t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE'));
       }
       this.isAiAgentListUpdating = false;
-    },
+    }
+
   },
   validations: {
     selectedAgents: {
@@ -158,21 +182,20 @@ export default {
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AI_AGENTS')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AI_AGENTS_SUB_TEXT')"
     >
-      <multiselect
-        v-model="selectedAiAgents"
-        :options="aiAgentList"
-        track-by="id"
-        label="name"
-        multiple
-        :close-on-select="false"
-        :clear-on-select="false"
-        hide-selected
-        placeholder="Pick some"
-        selected-label
-        :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-        :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
-        @select="v$.selectedAgents.$touch"
-      />
+    <multiselect
+      v-model="selectedAiAgents"
+      :options="aiAgentList"
+      track-by="id"
+      label="name"
+      :close-on-select="true"
+      :clear-on-select="true"
+      placeholder="Pick one"
+      selected-label
+      :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+      :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+      @select="handleAiAgentSelection"
+    />
+
 
       <woot-submit-button
         :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
@@ -215,11 +238,13 @@ export default {
       <label class="w-3/4 settings-item">
         <div class="flex items-center gap-2">
           <input
-            id="enableAutoAssignment"
-            v-model="enableAutoAssignment"
-            type="checkbox"
-            @change="handleEnableAutoAssignment"
-          />
+          id="enableAutoAssignment"
+          v-model="enableAutoAssignment"
+          type="checkbox"
+          :disabled="selectedAiAgents && Object.keys(selectedAiAgents).length > 0"
+          @change="handleEnableAutoAssignment"
+        />
+
           <label for="enableAutoAssignment">
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT') }}
           </label>

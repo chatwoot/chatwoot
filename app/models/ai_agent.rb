@@ -26,9 +26,18 @@ class AiAgent < ApplicationRecord
   has_many :ai_agent_selected_labels, dependent: :destroy
   has_many :labels, through: :ai_agent_selected_labels
   has_many :ai_agent_followups, dependent: :destroy
+  has_many :agent_bot_inboxes, dependent: :nullify
 
   validates :name, :system_prompts, :welcoming_message, presence: true
   validates :timezone, presence: true, inclusion: { in: ActiveSupport::TimeZone.all.map(&:name) }
+
+  def push_event_data(_inbox = nil)
+    {
+      id: id,
+      name: name,
+      type: 'agent_bot'
+    }
+  end
 
   def as_detailed_json
     as_json(json_options).transform_keys { |key| map_key(key) }

@@ -36,18 +36,18 @@ Rails.application.routes.draw do
       # start of subscription scoped api routes
       resources :subscriptions, only: [] do
         collection do
-          get :plans  
+          get :plans
         end
       end
       # end of subscription scoped api routes
       # ----------------------------------
-        
+
       # ----------------------------------
       # start of pricing plan scoped api routes
       post 'duitku/webhook', to: 'duitku#webhook'
       # end of pricing plan scoped api routes
       # ----------------------------------
-      
+
       # ----------------------------------
       # start of pricing plan scoped api routes
       resources :pricing_plans, only: [:index, :show]
@@ -63,7 +63,7 @@ Rails.application.routes.draw do
           # collection do
           #   get :plans
           # end
-          
+
           member do
             put :cancel
           end
@@ -227,6 +227,12 @@ Rails.application.routes.draw do
               patch :update
             end
           end
+          resources :inbox_bot_members, only: [:create, :show], param: :inbox_id do
+            collection do
+              delete :destroy
+              patch :update
+            end
+          end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
 
           resources :notifications, only: [:index, :update, :destroy] do
@@ -353,6 +359,7 @@ Rails.application.routes.draw do
           end
         end
         resources :inbox_members, only: [:index]
+        resources :inbox_bot_members, only: [:index]
         resources :labels, only: [:create, :destroy]
         namespace :integrations do
           resource :dyte, controller: 'dyte', only: [] do

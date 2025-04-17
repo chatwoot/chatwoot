@@ -1,12 +1,12 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Kotak masuk",
-    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
-    "LEARN_MORE": "Learn more about inboxes",
-    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
-    "CLICK_TO_RECONNECT": "Click here to reconnect.",
+    "HEADER": "Platform Terhubung",
+    "DESCRIPTION": "Saluran adalah mode komunikasi yang dipilih pelanggan Anda untuk berinteraksi dengan Anda. Platform Terhubung adalah tempat Anda mengelola interaksi untuk saluran tertentu. Ini dapat mencakup komunikasi dari berbagai sumber seperti email, obrolan langsung, dan media sosial.",
+    "LEARN_MORE": "Pelajari lebih lanjut tentang Platform Terhubung",
+    "RECONNECTION_REQUIRED": "Platform Terhubung Anda terputus. Anda tidak akan menerima pesan baru sampai Anda mengotorisasinya kembali.",
+    "CLICK_TO_RECONNECT": "Klik di sini untuk menyambungkan kembali.",
     "LIST": {
-      "404": "Tidak ada kotak masuk yang dilampirkan ke akun ini."
+      "404": "Tidak ada Platform Terhubung yang dilampirkan ke akun ini."
     },
     "CREATE_FLOW": {
       "CHANNEL": {
@@ -14,8 +14,8 @@
         "BODY": "Pilih penyedia yang ingin Anda integrasikan dengan Chatwoot."
       },
       "INBOX": {
-        "TITLE": "Buat Kotak Masuk",
-        "BODY": "Otentikasi akun Anda dan buat kotak masuk."
+        "TITLE": "Buat Channel",
+        "BODY": "Otentikasi akun Anda dan buat channel."
       },
       "AGENT": {
         "TITLE": "Tambahkan Agen",
@@ -97,7 +97,7 @@
           "LABEL": "Warna Widget",
           "PLACEHOLDER": "Perbarui warna yang digunakan di widget"
         },
-        "SUBMIT_BUTTON": "Buat Kotak Masuk",
+        "SUBMIT_BUTTON": "Buat Channel",
         "API": {
           "ERROR_MESSAGE": "Kami tidak dapat membuat saluran situs web, harap coba lagi"
         }
@@ -380,7 +380,7 @@
       "ERROR_FB_AUTH": "Ada yang tidak beres, Harap refresh halaman...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
-      "CREATING_CHANNEL": "Membuat kotak masuk Anda...",
+      "CREATING_CHANNEL": "Membuat channel Anda...",
       "TITLE": "Konfigurasi Detail Kotak Masuk",
       "DESC": ""
     },
@@ -397,11 +397,16 @@
     },
     "REAUTH": "Otorisasi ulang",
     "VIEW": "Lihat",
-    "EDIT": {
+    "GET": {
       "API": {
-        "SUCCESS_MESSAGE": "Pengaturan kotak masuk berhasil diperbarui",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Penugasan otomatis berhasil diperbarui",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "ERROR_MESSAGE": "Kami tidak dapat mengambil pengaturan kotak masuk. Silakan coba lagi nanti."
+      },
+      "EDIT": {
+        "API": {
+          "SUCCESS_MESSAGE": "Pengaturan kotak masuk berhasil diperbarui",
+          "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Penugasan otomatis berhasil diperbarui",
+          "ERROR_MESSAGE": "Kami tidak dapat memperbarui pengaturan kotak masuk. Silakan coba lagi nanti."
+        }
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Diaktifkan",
@@ -488,7 +493,9 @@
       "INBOX_AGENTS_SUB_TEXT": "Tambahkan atau hapus agen dari kotak masuk ini",
       "INBOX_AI_AGENTS": "Agen AI",
       "INBOX_AI_AGENTS_SUB_TEXT": "Tambahkan atau hapus agen AI dari kotak masuk ini",
-      "AGENT_ASSIGNMENT": "Tugas Percakapan",
+      "INBOX_AI_AGENTS": "AI Agents",
+"INBOX_AI_AGENTS_SUB_TEXT": "Manage AI agents from this inbox",
+"AGENT_ASSIGNMENT": "Tugas Percakapan",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Perbarui setelan tugas percakapan",
       "UPDATE": "Perbarui",
       "ENABLE_EMAIL_COLLECT_BOX": "Aktifkan kotak pengumpulan email",

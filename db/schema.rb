@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_08_071109) do
+ActiveRecord::Schema[7.0].define(version: 2025_04_16_043103) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -102,11 +102,12 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_08_071109) do
 
   create_table "agent_bot_inboxes", force: :cascade do |t|
     t.integer "inbox_id"
-    t.integer "agent_bot_id"
     t.integer "status", default: 0
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.integer "account_id"
+    t.integer "ai_agent_id"
+    t.index ["ai_agent_id"], name: "index_agent_bot_inboxes_on_ai_agent_id"
   end
 
   create_table "agent_bots", force: :cascade do |t|
@@ -148,7 +149,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_08_071109) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
-    t.jsonb "template", default: {}, null: false
+    t.string "template", limit: 8192
   end
 
   create_table "ai_agents", force: :cascade do |t|
@@ -709,6 +710,14 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_08_071109) do
     t.datetime "updated_at", precision: nil, null: false
   end
 
+  create_table "inbox_ai_members", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "inbox_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "ai_id"
+  end
+
   create_table "inbox_members", id: :serial, force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "inbox_id", null: false
@@ -766,6 +775,28 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_08_071109) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.jsonb "settings", default: {}
+  end
+
+  create_table "knowledge_source_texts", force: :cascade do |t|
+    t.bigint "knowledge_source_id", null: false
+    t.text "text", null: false
+    t.string "loader_id", null: false
+    t.integer "tab", null: false
+    t.jsonb "source_config", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "total_chunks", default: 0, null: false
+    t.integer "total_chars", default: 0, null: false
+    t.index ["knowledge_source_id"], name: "index_knowledge_source_texts_on_knowledge_source_id"
+  end
+
+  create_table "knowledge_sources", force: :cascade do |t|
+    t.bigint "ai_agent_id", null: false
+    t.string "name", null: false
+    t.string "store_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ai_agent_id"], name: "index_knowledge_sources_on_ai_agent_id", unique: true
   end
 
   create_table "labels", force: :cascade do |t|
@@ -1217,6 +1248,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_08_071109) do
   add_foreign_key "ai_agent_selected_labels", "ai_agents"
   add_foreign_key "ai_agent_selected_labels", "labels"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "knowledge_source_texts", "knowledge_sources"
+  add_foreign_key "knowledge_sources", "ai_agents"
   add_foreign_key "subscription_payments", "subscriptions"
   add_foreign_key "subscription_usage", "subscriptions"
   add_foreign_key "subscriptions", "accounts"

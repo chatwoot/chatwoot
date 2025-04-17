@@ -121,7 +121,9 @@
       "AGENTS_LOADING": "Chargement des agents...",
       "ASSIGN_TEAM": "Assigner une équipe",
       "API": {
-        "AGENT_ASSIGNMENT": {
+        "INBOX_AI_AGENTS": "AI Agents",
+"INBOX_AI_AGENTS_SUB_TEXT": "Manage AI agents from this inbox",
+"AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversation id {conversationId} assignée à \"{agentName}\"",
           "FAILED": "Impossible d'assigner l'agent. Veuillez réessayer."
         },

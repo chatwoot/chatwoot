@@ -128,7 +128,9 @@
       "AGENTS_LOADING": "エージェントを読み込む...",
       "ASSIGN_TEAM": "チームを割り当てる",
       "API": {
-        "AGENT_ASSIGNMENT": {
+        "INBOX_AI_AGENTS": "AI Agents",
+"INBOX_AI_AGENTS_SUB_TEXT": "Manage AI agents from this inbox",
+"AGENT_ASSIGNMENT": {
           "SUCCESFUL": "会話 ID {conversationId} が \"{agentName}\" に割り当てられました",
           "FAILED": "エージェントを割り当てられませんでした。もう一度お試しください。"
         },
