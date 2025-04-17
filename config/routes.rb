@@ -29,9 +29,7 @@ Rails.application.routes.draw do
     resource :slack_uploads, only: [:show]
   end
 
-  if Rails.env.development?
-    get '/rails/info/routes', to: 'rails/info#routes'
-  end
+  get '/rails/info/routes', to: 'rails/info#routes' if Rails.env.development?
 
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
@@ -254,6 +252,12 @@ Rails.application.routes.draw do
               patch :update
             end
           end
+          resources :inbox_bot_members, only: [:create, :show], param: :inbox_id do
+            collection do
+              delete :destroy
+              patch :update
+            end
+          end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
 
           resources :notifications, only: [:index, :update, :destroy] do
@@ -380,6 +384,7 @@ Rails.application.routes.draw do
           end
         end
         resources :inbox_members, only: [:index]
+        resources :inbox_bot_members, only: [:index]
         resources :labels, only: [:create, :destroy]
         namespace :integrations do
           resource :dyte, controller: 'dyte', only: [] do

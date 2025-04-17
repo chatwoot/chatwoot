@@ -128,7 +128,9 @@
       "AGENTS_LOADING": "Načítání agentů...",
       "ASSIGN_TEAM": "Přiřadit tým",
       "API": {
-        "AGENT_ASSIGNMENT": {
+        "INBOX_AI_AGENTS": "AI Agents",
+"INBOX_AI_AGENTS_SUB_TEXT": "Manage AI agents from this inbox",
+"AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Konverzace id {conversationId} přiřazena \"{agentName}\"",
           "FAILED": "Nelze přiřadit agenta. Zkuste to prosím znovu."
         },

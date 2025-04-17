@@ -121,7 +121,9 @@
       "AGENTS_LOADING": "Đang tải điện thoại viên...",
       "ASSIGN_TEAM": "Gán nhóm",
       "API": {
-        "AGENT_ASSIGNMENT": {
+        "INBOX_AI_AGENTS": "AI Agents",
+"INBOX_AI_AGENTS_SUB_TEXT": "Manage AI agents from this inbox",
+"AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Id hội thoại {conversationId} được gán cho \"{agentName}\"",
           "FAILED": "Không thể gán điện thoại viên. Vui lòng thử lại."
         },

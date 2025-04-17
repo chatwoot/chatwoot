@@ -128,7 +128,9 @@
       "AGENTS_LOADING": "Ügynökök betöltése...",
       "ASSIGN_TEAM": "Csapat hozzárendelése",
       "API": {
-        "AGENT_ASSIGNMENT": {
+        "INBOX_AI_AGENTS": "AI Agents",
+"INBOX_AI_AGENTS_SUB_TEXT": "Manage AI agents from this inbox",
+"AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
           "FAILED": "Nem sikerült hozzárendelni ügynököt. Kérlek, próbáld újra."
         },

@@ -121,7 +121,9 @@
       "AGENTS_LOADING": "Notiek aģentu ielāde...",
       "ASSIGN_TEAM": "Piešķirt komandu",
       "API": {
-        "AGENT_ASSIGNMENT": {
+        "INBOX_AI_AGENTS": "AI Agents",
+"INBOX_AI_AGENTS_SUB_TEXT": "Manage AI agents from this inbox",
+"AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Sarunas ID {conversationId} piešķirts \"{agentName}\"",
           "FAILED": "Nevarēja piešķirt aģentu. Lūdzu, mēģiniet vēlreiz."
         },

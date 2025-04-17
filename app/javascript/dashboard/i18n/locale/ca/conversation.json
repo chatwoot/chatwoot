@@ -128,7 +128,9 @@
       "AGENTS_LOADING": "S'estan carregant els agents...",
       "ASSIGN_TEAM": "Assigna un equip",
       "API": {
-        "AGENT_ASSIGNMENT": {
+        "INBOX_AI_AGENTS": "AI Agents",
+"INBOX_AI_AGENTS_SUB_TEXT": "Manage AI agents from this inbox",
+"AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Id de conversa {conversationId} assignat a \"{agentName}\"",
           "FAILED": "No s'ha pogut assignar l'agent. Torna-ho a provar."
         },
