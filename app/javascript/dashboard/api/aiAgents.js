@@ -37,6 +37,48 @@ class AiAgents extends ApiClient {
   updateAgentFollowups(idAgent, data) {
     return axios.patch(`${this.url}/${idAgent}/update_followups`, data);
   }
+
+  getKnowledgeSources(idAgent) {
+    return axios.get(`${this.url}/${idAgent}/knowledge_sources`);
+  }
+  
+  addKnowledgeText(idAgent, data) {
+    return axios.post(`${this.url}/${idAgent}/knowledge_sources/text`, {
+      id: null,
+      text: data.text,
+      tab: data.tab,
+    });
+  }
+  
+  updateKnowledgeText(idAgent, data) {
+    return axios.patch(`${this.url}/${idAgent}/knowledge_sources/text`, {
+      id: data.id,
+      text: data.text,
+      tab: data.tab,
+    });
+  }
+  
+  deleteKnowledgeText(idAgent, textId) {
+    return axios.delete(`${this.url}/${idAgent}/knowledge_sources/text/${textId}`);
+  }
+  
+  addKnowledgeFile(idAgent, formData) {
+    return axios.post(`${this.url}/${idAgent}/knowledge_sources/file`, formData);
+  }
+  
+  deleteKnowledgeFile(idAgent, fileId) {
+    return axios.delete(`${this.url}/${idAgent}/knowledge_sources/file/${fileId}`);
+  }
+  
+  editKnowledgeWebsite(idAgent, data) {
+    return axios.patch(`${this.url}/${idAgent}/knowledge_sources/website`, data);
+  }
+  
+  deleteKnowledgeWebsite(idAgent, data) {
+    return axios.delete(`${this.url}/${idAgent}/knowledge_sources/website`, {
+      data: data,
+    });
+  }
 }
 
 export default new AiAgents();

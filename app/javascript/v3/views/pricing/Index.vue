@@ -10,16 +10,18 @@
         </div>
         <nav>
           <ul>
-            <li><a href="#">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="#">Fitur</a></li>
-            <li><a href="#">Harga</a></li>
-            <li><a href="#">Enterprise</a></li>
+            <li><a href="/app/pricing">Harga</a></li>
+            <li><a href="#enterprise">Enterprise</a></li>
             <li><a href="#">Dokumentasi</a></li>
           </ul>
         </nav>
         <div class="login-buttons">
           <a href="/app/login" class="login-link">Log In</a>
-          <button class="order-button">Order Sekarang</button>
+          <button class="order-button">
+            <a :href="`/app/auth/signup?slug=pricing`">Daftar Sekarang</a>
+          </button>
         </div>
       </div>
     </header>
@@ -75,7 +77,7 @@
       </section>
 
       <!-- Corporate Section -->
-      <section class="corporate-section">
+      <section class="corporate-section" id="enterprise">
         <div class="corporate-content">
           <h2>Corporate & Government</h2>
           <p>Solusi yang disesuaikan untuk kebutuhan perusahaan spesifik dan mendukung pekerjaan yang ditujukan organisasi besar.</p>
