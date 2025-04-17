@@ -5,12 +5,12 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
 
   def initialize(hook)
     super(hook)
-    @access_key = @hook.settings['access_key']
-    @secret_key = @hook.settings['secret_key']
-    @endpoint_url = @hook.settings['endpoint_url']
+    @access_key = hook.settings['access_key']
+    @secret_key = hook.settings['secret_key']
+    @endpoint_url = hook.settings['endpoint_url']
 
-    @allow_transcript = @hook.settings['enable_transcript_activity']
-    @allow_conversation = @hook.settings['enable_conversation_activity']
+    @allow_transcript = hook.settings['enable_transcript_activity']
+    @allow_conversation = hook.settings['enable_conversation_activity']
 
     # Initialize API clients
     @lead_client = Crm::Leadsquared::Api::LeadClient.new(@access_key, @secret_key, @endpoint_url)
@@ -67,10 +67,10 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
       store_external_id(contact, new_lead_id)
     end
   rescue Crm::Leadsquared::Api::BaseClient::ApiError => e
-    ChatwootExceptionTracker.new(e, account: @hook.account).capture_exception
+    ChatwootExceptionTracker.new(e, account: @account).capture_exception
     Rails.logger.error "LeadSquared API error processing contact: #{e.message}"
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: @hook.account).capture_exception
+    ChatwootExceptionTracker.new(e, account: @account).capture_exception
     Rails.logger.error "Error processing contact in LeadSquared: #{e.message}"
   end
 
@@ -91,10 +91,10 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
     metadata[metadata_key] = activity_id
     store_conversation_metadata(conversation, metadata)
   rescue Crm::Leadsquared::Api::BaseClient::ApiError => e
-    ChatwootExceptionTracker.new(e, account: @hook.account).capture_exception
+    ChatwootExceptionTracker.new(e, account: @account).capture_exception
     Rails.logger.error "LeadSquared API error in #{activity_type} activity: #{e.message}"
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: @hook.account).capture_exception
+    ChatwootExceptionTracker.new(e, account: @account).capture_exception
     Rails.logger.error "Error creating #{activity_type} activity in LeadSquared: #{e.message}"
   end
 
