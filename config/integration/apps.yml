@@ -210,7 +210,7 @@ leadsquared:
           'conversation_activity_code': { 'type': 'integer' },
           'transcript_activity_code': { 'type': 'integer' },
         },
-      'required': ['access_key', 'secret_key', 'endpoint_url'],
+      'required': ['access_key', 'secret_key'],
       'additionalProperties': false,
     }
   settings_form_schema:
