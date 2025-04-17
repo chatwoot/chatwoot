@@ -202,6 +202,7 @@ leadsquared:
           'access_key': { 'type': 'string' },
           'secret_key': { 'type': 'string' },
           'endpoint_url': { 'type': 'string' },
+          'app_url': { 'type': 'string' },
           'enable_conversation_activity': { 'type': 'boolean' },
           'enable_transcript_activity': { 'type': 'boolean' },
           'conversation_activity_score': { 'type': 'string' },
@@ -225,14 +226,6 @@ leadsquared:
         'type': 'text',
         'name': 'secret_key',
         'validation': 'required',
-      },
-      {
-        'label': 'LeadSquared Endpoint URL',
-        'type': 'text',
-        'name': 'endpoint_url',
-        'validation': 'required',
-        'placeholder': 'e.g. https://api.leadsquared.com/v2',
-        'help': 'Your LeadSquared API base URL based on your region',
       },
       {
         'label': 'Push Conversation Activity',
