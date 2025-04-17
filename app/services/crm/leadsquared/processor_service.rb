@@ -107,7 +107,7 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
     contact.reload # reload to ensure all the attributes are up-to-date
 
     unless identifiable_contact?(contact)
-      Rails.logger.info("Contact not identifiable. Skipping #{activity_type} activity for ##{contact.id}")
+      Rails.logger.info("Contact not identifiable. Skipping activity for ##{contact.id}")
       nil
     end
 

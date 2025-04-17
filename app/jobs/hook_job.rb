@@ -1,4 +1,6 @@
-class HookJob < ApplicationJob
+class HookJob < MutexApplicationJob
+  retry_on LockAcquisitionError, wait: 3.seconds, attempts: 3
+
   queue_as :medium
 
   def perform(hook, event_name, event_data = {})
@@ -12,7 +14,7 @@ class HookJob < ApplicationJob
     when 'google_translate'
       google_translate_integration(hook, event_name, event_data)
     when 'leadsquared'
-      process_leadsquared_integration(hook, event_name, event_data)
+      process_leadsquared_integration_with_lock(hook, event_name, event_data)
     end
   rescue StandardError => e
     Rails.logger.error e
@@ -44,12 +46,22 @@ class HookJob < ApplicationJob
     Integrations::GoogleTranslate::DetectLanguageService.new(hook: hook, message: message).perform
   end
 
+  def process_leadsquared_integration_with_lock(hook, event_name, event_data)
+    valid_event_names = ['contact.updated', 'conversation.created', 'conversation.resolved']
+    return unless valid_event_names.include?(event_name)
+
+    key = format(::Redis::Alfred::CRM_PROCESS_MUTEX, hook_id: hook.id)
+    with_lock(key) do
+      process_leadsquared_integration(hook, event_name, event_data)
+    end
+  end
+
   def process_leadsquared_integration(hook, event_name, event_data)
     # Process the event with the processor service
     processor = Crm::Leadsquared::ProcessorService.new(hook)
 
     case event_name
-    when 'contact.created', 'contact.updated'
+    when 'contact.updated'
       processor.handle_contact(event_data[:contact])
     when 'conversation.created'
       processor.handle_conversation_created(event_data[:conversation])
