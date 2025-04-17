@@ -69,6 +69,12 @@ class AiAgents extends ApiClient {
   deleteKnowledgeFile(idAgent, fileId) {
     return axios.delete(`${this.url}/${idAgent}/knowledge_sources/file/${fileId}`);
   }
+  
+  deleteKnowledgeWebsite(idAgent, data) {
+    return axios.delete(`${this.url}/${idAgent}/knowledge_sources/website`, {
+      data: data,
+    });
+  }
 }
 
 export default new AiAgents();
