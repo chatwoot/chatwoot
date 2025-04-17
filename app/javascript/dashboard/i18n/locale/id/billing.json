@@ -1,0 +1,16 @@
+{
+  "BILLING": {
+    "RECENT_TRANSACTIONS": "Transaksi Terbaru",
+    "NO_TRANSACTIONS": "Tidak ada transaksi ditemukan",
+    "PAY": "Bayar",
+    "TABLE": {
+      "HEADER": {
+        "PACKAGE": "PAKET",
+        "DURATION": "DURASI",
+        "STATUS": "STATUS",
+        "TRANSACTION_DATE": "TANGGAL TRANSAKSI",
+        "ACTION": "AKSI"
+      }
+    }
+  }
+}

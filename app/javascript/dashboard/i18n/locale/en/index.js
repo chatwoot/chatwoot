@@ -35,6 +35,7 @@ import signup from './signup.json';
 import sla from './sla.json';
 import teamsSettings from './teamsSettings.json';
 import whatsappTemplates from './whatsappTemplates.json';
+import billing from './billing.json';
 
 export default {
   ...components,
@@ -74,4 +75,5 @@ export default {
   ...general,
   ...datePicker,
   ...customRole,
+  ...billing,
 };

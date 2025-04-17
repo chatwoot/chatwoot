@@ -19,12 +19,82 @@ class Api::V1::DuitkuController < Api::BaseController
     # Log the notification for debugging
     Rails.logger.info("Processing Duitku webhook: #{notification.inspect}")
     
+    parts = merchant_order_id.split('-')
+
+    if parts[1] == 'TUP'
+      update_subscription_topup(notification, result_code, merchant_order_id)
+    else
+      update_subscription_payment(notification, result_code, merchant_order_id)
+    end
+
+    render json: { success: true }
+  end
+
+  private
+
+  def update_subscription_topup(notification, result_code, merchant_order_id)
+    # Koreksi: Perubahan variabel order_id menjadi merchant_order_id
+    topup = SubscriptionTopup.find_by(duitku_order_id: merchant_order_id)
+    
+    if topup.nil?
+      Rails.logger.warn("Topup not found for order ID: #{merchant_order_id}")
+      return
+    end
+
+    subscription = Subscription.find_by(id: topup.subscription_id)
+    
+    if subscription.nil?
+      Rails.logger.warn("Subscription not found for topup ID: #{topup.id}")
+      return
+    end
+    
+    # Koreksi: Perubahan variabel status menjadi result_code
+    ActiveRecord::Base.transaction do
+      begin
+        if result_code == '00' # Sukses
+          topup.update!(
+            status: 'paid',
+            paid_at: Time.current,
+            # Set expiry date untuk topup (menggunakan ends_at dari subscription)
+            expires_at: subscription.ends_at,
+            duitku_transaction_id: notification['reference'],
+            payment_details: notification
+          )
+
+          # Update subscription dengan nilai tambahan
+          if topup.topup_type == 'max_active_users'
+            # Tambahkan field additional_mau ke tabel subscriptions jika belum ada
+            subscription.update!(additional_mau: (subscription.additional_mau || 0) + topup.amount.to_i)
+            Rails.logger.info("Updated subscription #{subscription.id} with additional #{topup.amount} MAU")
+          elsif topup.topup_type == 'ai_responses'
+            # Tambahkan field additional_ai_response ke tabel subscriptions jika belum ada
+            subscription.update!(additional_ai_responses: (subscription.additional_ai_responses || 0) + topup.amount.to_i)
+            Rails.logger.info("Updated subscription #{subscription.id} with additional #{topup.amount} AI responses")
+          end
+
+          # Kirim notifikasi ke pengguna
+          # AccountMailer.topup_successful(topup).deliver_later
+        else
+          topup.update!(
+            status: 'failed',
+            payment_details: notification
+          )
+          Rails.logger.info("Payment failed for topup: #{topup.id}, result code: #{result_code}")
+        end
+      rescue StandardError => e
+        Rails.logger.error("Error processing topup webhook: #{e.message}")
+        Rails.logger.error(e.backtrace.join("\n"))
+        raise ActiveRecord::Rollback
+      end
+    end
+  end
+
+  def update_subscription_payment(notification, result_code, merchant_order_id)
     # Find the subscription payment by duitku_order_id
     subscription_payment = SubscriptionPayment.find_by(duitku_order_id: merchant_order_id)
     
     if subscription_payment.nil?
       Rails.logger.warn("Payment not found for order ID: #{merchant_order_id}")
-      render json: { success: false, message: "Payment not found" }, status: :not_found
       return
     end
     
@@ -33,47 +103,74 @@ class Api::V1::DuitkuController < Api::BaseController
     
     if subscription.nil?
       Rails.logger.warn("Subscription not found for payment ID: #{subscription_payment.id}")
-      render json: { success: false, message: "Subscription not found" }, status: :not_found
       return
     end
     
     Rails.logger.info("Found subscription: #{subscription.id}")
     
-    # Update subscription payment status based on resultCode
-    if result_code == '00' # Success code from Duitku
-      # Update the payment record we already found
-      subscription_payment.update(
-        status: 'paid',
-        paid_at: Time.current,
-        duitku_transaction_id: notification['reference'],
-        payment_details: notification
-      )
-      
-      # Update subscription status
-      subscription.update(
-        status: 'active',
-        payment_status: 'paid'
-      )
+    ActiveRecord::Base.transaction do
+      begin
+        # Update subscription payment status based on resultCode
+        if result_code == '00' # Success code from Duitku
+          # Update the payment record we already found
+          subscription_payment.update!(
+            status: 'paid',
+            paid_at: Time.current,
+            duitku_transaction_id: notification['reference'],
+            payment_details: notification
+          )
+          
+          # Update subscription status
+          subscription.update!(
+            status: 'active',
+            payment_status: 'paid'
+          )
 
-      # End subscription Free Trial
-      subscription_free_trial = Subscription.find_by(account_id: subscription.account_id, plan_name: "Free Trial")
-      if subscription_free_trial.present?
-        if subscription_free_trial.update(status: 'inactive')
-          Rails.logger.info("Deactivated Free Trial subscription")
+          # Update related transaction
+          transaction = Transaction.find_by(transaction_id: merchant_order_id)
+          if transaction.present?
+            transaction.update!(
+              status: 'paid',
+              payment_date: Time.current,
+              expiry_date: subscription.ends_at,
+              metadata: notification
+            )
+          else
+            Rails.logger.warn("Transaction not found for transaction_id: #{merchant_order_id}")
+          end
+
+          # End subscription Free Trial
+          subscription_free_trial = Subscription.find_by(account_id: subscription.account_id, plan_name: "Free Trial")
+          if subscription_free_trial.present?
+            if subscription_free_trial.update(status: 'inactive')
+              Rails.logger.info("Deactivated Free Trial subscription")
+            else
+              Rails.logger.error("Failed to deactivate: #{subscription_free_trial.errors.full_messages}")
+            end
+          end
+          
+          Rails.logger.info("Updated subscription and payment to paid status")
         else
-          Rails.logger.error("Failed to deactivate: #{subscription_free_trial.errors.full_messages}")
+          subscription_payment.update!(
+            status: 'failed',
+            payment_details: notification
+          )
+          
+          transaction = Transaction.find_by(transaction_id: merchant_order_id)
+          transaction&.update!(
+            status: 'failed',
+            metadata: notification
+          )
+          
+          Rails.logger.info("Payment not successful, result code: #{result_code}")
         end
+      rescue StandardError => e
+        Rails.logger.error("Error processing payment webhook: #{e.message}")
+        Rails.logger.error(e.backtrace.join("\n"))
+        raise ActiveRecord::Rollback
       end
-      
-      Rails.logger.info("Updated subscription and payment to paid status")
-    else
-      Rails.logger.info("Payment not successful, result code: #{result_code}")
     end
-
-    render json: { success: true }
   end
-
-  private
 
   def valid_signature?
     # Get the signature from the request parameters instead of headers

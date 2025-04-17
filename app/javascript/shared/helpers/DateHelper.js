@@ -4,6 +4,30 @@ import isToday from 'date-fns/isToday';
 import isYesterday from 'date-fns/isYesterday';
 import { endOfDay, getUnixTime, startOfDay, differenceInDays } from 'date-fns';
 
+/**
+ * Mengubah berbagai format tanggal menjadi UNIX timestamp (dalam detik)
+ * @param {string|Date|number} date - Bisa berupa ISO string, objek Date, atau timestamp milidetik
+ * @returns {number} UNIX timestamp dalam detik
+ */
+export const toUnixTimestamp = (date) => {
+  if (!date) throw new Error('Date is required');
+
+  let parsedDate;
+
+  if (typeof date === 'string' || date instanceof Date) {
+    parsedDate = new Date(date);
+  } else if (typeof date === 'number') {
+    // Jika angka sudah sangat besar, anggap milidetik
+    parsedDate = new Date(date > 9999999999 ? date : date * 1000);
+  } else {
+    throw new Error('Unsupported date format');
+  }
+
+  if (isNaN(parsedDate)) throw new Error('Invalid date');
+
+  return Math.floor(parsedDate.getTime() / 1000); // konversi ke detik
+};
+
 export const formatUnixDate = (date, dateFormat = 'MMM dd, yyyy') => {
   const unixDate = fromUnixTime(date);
   return format(unixDate, dateFormat);

@@ -11,8 +11,8 @@ class BillingAPI extends ApiClient{
     return axios.get(`${this.url}/active`);
   }
 
-  subscriptionHistories() {
-    return axios.get(this.url);
+  transactionHistories() {
+    return axios.get(`${this.url}/histories`);
   }
 
   createSubscription({
@@ -21,7 +21,9 @@ class BillingAPI extends ApiClient{
     status,
     plan_id,
     user_id,
-    payment_method
+    payment_method,
+    billing_cycle,
+    qty
   }) {
     const requestData = {
       id,
@@ -29,10 +31,30 @@ class BillingAPI extends ApiClient{
       status,
       plan_id,
       user_id,
-      payment_method
+      payment_method,
+      billing_cycle,
+      qty
     };
 
     return axios.post(this.url, requestData);
+  }
+
+  createTopup({
+    subscription_id,
+    topup_type,
+    amount,
+    payment_method
+  }) {
+    const requestData = {
+      topup: {
+        topup_type,
+        amount,
+      },
+      subscription_id,
+      payment_method,
+    };
+
+    return axios.post(`${this.url}/${subscription_id}/topup`, requestData);
   }
 };
 
