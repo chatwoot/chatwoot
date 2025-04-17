@@ -12,14 +12,6 @@ export default {
   },
   computed: {
     currentInbox() {
-      this.store.dispatch('accounts/update', {
-        onboarding_step: 'true',
-      });
-      // const account = this.$store.getters['accounts/getAccount'](
-      //   this.$store.getters.getCurrentAccountId
-      // );
-      // account.custom_attributes = { onboarding_complete: 'true' };
-      //console.log('account', JSON.stringify(account, null, 2));
       return this.$store.getters['inboxes/getInbox'](
         this.$route.params.inbox_id
       );
@@ -77,6 +69,12 @@ export default {
 
       return this.$t('INBOX_MGMT.FINISH.MESSAGE');
     },
+  },
+  mounted() {
+    this.store.dispatch('accounts/update', {
+      onboarding_step: 'true',
+    });
+    console.log('Ho gya');
   },
 };
 </script>
