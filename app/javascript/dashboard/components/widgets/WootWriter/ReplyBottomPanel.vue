@@ -258,7 +258,7 @@ export default {
         : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
     },
     enableInsertArticleInReply() {
-      return this.portalSlug;
+      return this.portalSlug && !this.isTemplate;
     },
     isFetchingAppIntegrations() {
       return this.uiFlags.isFetching;
