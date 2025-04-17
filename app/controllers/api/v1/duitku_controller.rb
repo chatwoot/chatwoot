@@ -15,6 +15,7 @@ class Api::V1::DuitkuController < Api::BaseController
     notification = params.permit!.to_h
     result_code = notification['resultCode']
     merchant_order_id = notification['merchantOrderId']
+    email = notification['merchantUserId']
     
     # Log the notification for debugging
     Rails.logger.info("Processing Duitku webhook: #{notification.inspect}")
@@ -139,15 +140,41 @@ class Api::V1::DuitkuController < Api::BaseController
             Rails.logger.warn("Transaction not found for transaction_id: #{merchant_order_id}")
           end
 
-          # End subscription Free Trial
-          subscription_free_trial = Subscription.find_by(account_id: subscription.account_id, plan_name: "Free Trial")
-          if subscription_free_trial.present?
-            if subscription_free_trial.update(status: 'inactive')
-              Rails.logger.info("Deactivated Free Trial subscription")
-            else
-              Rails.logger.error("Failed to deactivate: #{subscription_free_trial.errors.full_messages}")
-            end
+          # # End subscription Free Trial
+          # subscription_free_trial = Subscription.find_by(account_id: subscription.account_id, plan_name: "Free Trial")
+          # if subscription_free_trial.present?
+          #   if subscription_free_trial.update(status: 'inactive')
+          #     Rails.logger.info("Deactivated Free Trial subscription")
+          #   else
+          #     Rails.logger.error("Failed to deactivate: #{subscription_free_trial.errors.full_messages}")
+          #   end
+          # end
+          
+          # Update all active subscriptions for the account except the current one to inactive
+          updated_count = Subscription.where(account_id: subscription.account_id, status: 'active', payment_status: 'paid')
+          .where.not(id: subscription.id)
+          .update_all(status: 'inactive')
+
+          if updated_count > 0
+            Rails.logger.info("Deactivated #{updated_count} previous active subscriptions for account #{subscription.account_id}")
+          else
+            Rails.logger.info("No previous active subscriptions found for account #{subscription.account_id}")
           end
+
+          # Kirim email invoice
+          if transaction.present?
+            user = transaction.user
+  
+            InvoiceMailer.send_invoice(
+              user.email,
+              user.name,
+              transaction.transaction_id,
+              notification['settlementDate'],
+              notification['amount'],
+              notification['productDetail'],
+            ).deliver_later
+          Rails.logger.info("Payment confirmed & invoice sent to #{user.email} (##{transaction.transaction_id})")
+        end
           
           Rails.logger.info("Updated subscription and payment to paid status")
         else

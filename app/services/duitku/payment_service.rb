@@ -21,8 +21,8 @@ class Duitku::PaymentService
         customerVaName: params[:customer_name],
         customerEmail: params[:customer_email],
         customerPhoneNumber: params[:customer_phone],
-        callbackUrl: "#{ENV['CHATWOOT_BASE_URL']}/api/v1/duitku/webhook",
-        returnUrl: params[:return_url],
+        callbackUrl: "#{ENV['DUITKU_CALLBACK_URL']}/api/v1/duitku/webhook",
+        returnUrl: "#{params[:return_url]}",
         signature: generate_signature(params[:amount], params[:order_id]),
         expiryPeriod: 60 # dalam menit
       }
