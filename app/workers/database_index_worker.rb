@@ -34,12 +34,12 @@ class DatabaseIndexWorker
 
   def setup_long_timeout
     # Set a very long statement timeout (24 hours) for this connection only
-    ActiveRecord::Base.connection.execute "SET LOCAL statement_timeout = '86400000';" # 24 hours in milliseconds
+    ActiveRecord::Base.connection.execute "SET statement_timeout = '86400000';" # 24 hours in milliseconds
   end
 
   def reset_timeout
     # Reset statement timeout to default for this connection
-    ActiveRecord::Base.connection.execute "SET LOCAL statement_timeout = '30000';" # 30 seconds
+    ActiveRecord::Base.connection.execute "SET statement_timeout = '30000';" # 30 seconds
   end
 
   def create_composite_index
