@@ -198,7 +198,4 @@ export default {
   position: relative;
 }
 
-* {
-  outline: 1px solid rgba(255, 0, 0, 0.1);
-}
 </style>
