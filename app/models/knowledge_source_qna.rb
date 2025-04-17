@@ -34,9 +34,7 @@ class KnowledgeSourceQna < ApplicationRecord
     end
   end
 
-  private
-
-  def create_record(qna_param:, document_loader:)
+  def self.create_record(qna_param:, document_loader:)
     new_qna = create!(
       question: qna_param[:question],
       answer: qna_param[:answer],
@@ -48,7 +46,7 @@ class KnowledgeSourceQna < ApplicationRecord
     { qna: new_qna, previous_loader_id: nil }
   end
 
-  def update_record(qna_param:, document_loader:)
+  def self.update_record(qna_param:, document_loader:)
     knowledge_source_qna = find_by(id: qna_param[:id])
     raise ActiveRecord::RecordNotFound, 'Knowledge source qna not found' unless knowledge_source_qna
 
