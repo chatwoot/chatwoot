@@ -12,6 +12,7 @@ export function useChannelIcon(inbox) {
     'Channel::TwitterProfile': 'i-ri-twitter-x-fill',
     'Channel::WebWidget': 'i-ri-global-fill',
     'Channel::Whatsapp': 'i-ri-whatsapp-fill',
+    'Channel::Instagram': 'i-ri-instagram-fill',
   };
 
   const providerIconMap = {

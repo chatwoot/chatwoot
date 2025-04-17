@@ -326,6 +326,7 @@
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
       "SEND_MESSAGE": "Send message...",
+      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
       "LOADER": "Captain is thinking",
       "YOU": "You",
       "USE": "Use this",

@@ -4,6 +4,10 @@ import {
   formatCampaigns,
   filterCampaigns,
 } from 'widget/helpers/campaignHelper';
+import { getFromCache, setCache } from 'shared/helpers/cache';
+
+const CACHE_KEY_PREFIX = 'chatwoot_campaigns_';
+
 const state = {
   records: [],
   uiFlags: {
@@ -41,7 +45,26 @@ export const actions = {
     { websiteToken, currentURL, isInBusinessHours }
   ) => {
     try {
+      // Cache for 1 hour
+      const CACHE_EXPIRY = 60 * 60 * 1000;
+      const cachedData = getFromCache(
+        `${CACHE_KEY_PREFIX}${websiteToken}`,
+        CACHE_EXPIRY
+      );
+      if (cachedData) {
+        commit('setCampaigns', cachedData);
+        commit('setError', false);
+        resetCampaignTimers(
+          cachedData,
+          currentURL,
+          websiteToken,
+          isInBusinessHours
+        );
+        return;
+      }
+
       const { data: campaigns } = await getCampaigns(websiteToken);
+      setCache(`${CACHE_KEY_PREFIX}${websiteToken}`, campaigns);
       commit('setCampaigns', campaigns);
       commit('setError', false);
       resetCampaignTimers(

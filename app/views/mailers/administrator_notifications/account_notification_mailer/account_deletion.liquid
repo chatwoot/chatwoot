@@ -1,0 +1,16 @@
+<p>Hello,</p>
+
+<p>Your account <strong>{{ meta.account_name }}</strong> has been marked for deletion. The account will be permanently deleted on <strong>{{ meta.deletion_date }}</strong>.</p>
+
+{% if meta.reason == 'manual_deletion' %}
+<p>This action was requested by one of the administrators of your account.</p>
+{% else %}
+<p>Reason for deletion: {{ meta.reason }}</p>
+{% endif %}
+
+<p>If this was done in error, you can cancel the deletion process by visiting your account settings.</p>
+
+<p><a href="{{ action_url }}">Cancel Account Deletion</a></p>
+
+<p>Thank you,<br>
+Team Chatwoot</p> 
