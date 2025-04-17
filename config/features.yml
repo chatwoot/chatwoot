@@ -166,4 +166,3 @@
 - name: channel_instagram
   display_name: Instagram Channel
   enabled: true
-  chatwoot_internal: true
