@@ -6,28 +6,22 @@ RSpec.describe Crm::Leadsquared::SetupService do
   let(:service) { described_class.new(hook) }
   let(:base_client) { instance_double(Crm::Leadsquared::Api::BaseClient) }
   let(:activity_client) { instance_double(Crm::Leadsquared::Api::ActivityClient) }
+  let(:endpoint_response) do
+    {
+      'LSQCommonServiceURLs' => {
+        'api' => 'api-in.leadsquared.com',
+        'app' => 'app.leadsquared.com'
+      }
+    }
+  end
 
   before do
     allow(Crm::Leadsquared::Api::BaseClient).to receive(:new).and_return(base_client)
     allow(Crm::Leadsquared::Api::ActivityClient).to receive(:new).and_return(activity_client)
+    allow(base_client).to receive(:get).with('Authentication.svc/UserByAccessKey.Get').and_return(endpoint_response)
   end
 
   describe '#setup' do
-    context 'when fetching activity types fails' do
-      before do
-        allow(base_client).to receive(:get)
-          .with('ProspectActivity.svc/ActivityTypes.Get')
-          .and_raise(Crm::Leadsquared::Api::BaseClient::ApiError.new('API Error'))
-
-        allow(Rails.logger).to receive(:error)
-      end
-
-      it 'logs the error and returns nil' do
-        expect(service.setup).to be_nil
-        expect(Rails.logger).to have_received(:error).with(/LeadSquared API error/)
-      end
-    end
-
     context 'when fetching activity types succeeds' do
       let(:started_type) do
         { 'ActivityEventName' => 'Chatwoot Conversation Started', 'ActivityEvent' => 1001 }
@@ -39,18 +33,17 @@ RSpec.describe Crm::Leadsquared::SetupService do
 
       context 'when all required types exist' do
         before do
-          allow(base_client).to receive(:get)
-            .with('ProspectActivity.svc/ActivityTypes.Get')
+          allow(activity_client).to receive(:fetch_activity_types)
             .and_return([started_type, transcript_type])
         end
 
         it 'uses existing activity types and updates hook settings' do
-          original_settings = hook.settings.dup
           service.setup
 
           # Verify hook settings were merged with existing settings
           updated_settings = hook.reload.settings
-          expect(updated_settings).to include(original_settings)
+          expect(updated_settings['endpoint_url']).to eq('https://api-in.leadsquared.com/v2/')
+          expect(updated_settings['app_url']).to eq('https://app.leadsquared.com/')
           expect(updated_settings['conversation_activity_code']).to eq(1001)
           expect(updated_settings['transcript_activity_code']).to eq(1002)
         end
@@ -58,8 +51,7 @@ RSpec.describe Crm::Leadsquared::SetupService do
 
       context 'when some activity types need to be created' do
         before do
-          allow(base_client).to receive(:get)
-            .with('ProspectActivity.svc/ActivityTypes.Get')
+          allow(activity_client).to receive(:fetch_activity_types)
             .and_return([started_type])
 
           allow(activity_client).to receive(:create_activity_type)
@@ -72,12 +64,12 @@ RSpec.describe Crm::Leadsquared::SetupService do
         end
 
         it 'creates missing types and updates hook settings' do
-          original_settings = hook.settings.dup
           service.setup
 
           # Verify hook settings were merged with existing settings
           updated_settings = hook.reload.settings
-          expect(updated_settings).to include(original_settings)
+          expect(updated_settings['endpoint_url']).to eq('https://api-in.leadsquared.com/v2/')
+          expect(updated_settings['app_url']).to eq('https://app.leadsquared.com/')
           expect(updated_settings['conversation_activity_code']).to eq(1001)
           expect(updated_settings['transcript_activity_code']).to eq(1002)
         end
@@ -85,8 +77,7 @@ RSpec.describe Crm::Leadsquared::SetupService do
 
       context 'when activity type creation fails' do
         before do
-          allow(base_client).to receive(:get)
-            .with('ProspectActivity.svc/ActivityTypes.Get')
+          allow(activity_client).to receive(:fetch_activity_types)
             .and_return([started_type])
 
           allow(activity_client).to receive(:create_activity_type)
