@@ -16,6 +16,9 @@
         <div v-show="activeIndex === 2">
             <FileKnowledgeSources :data="data" />
         </div>
+        <div v-show="activeIndex === 3">
+            <QnaKnowledgeSources :data="data" />
+        </div>
     </div>
 </template>
 
@@ -23,6 +26,7 @@
 import TextKnowledgeSources from './knowledge-sources/TextKnowledgeSources.vue'
 import FileKnowledgeSources from './knowledge-sources/FileKnowledgeSources.vue'
 import WebKnowledgeSources from './knowledge-sources/WebKnowledgeSources.vue';
+import QnaKnowledgeSources from './knowledge-sources/QnaKnowledgeSources.vue';
 
 import { ref } from 'vue';
 
@@ -38,6 +42,10 @@ const tabs = [{
     key: '2',
     index: 2,
     name: 'File',
+}, {
+    key: '3',
+    index: 3,
+    name: 'QnA',
 }]
 const activeIndex = ref(0)
 

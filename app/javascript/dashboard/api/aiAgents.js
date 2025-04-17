@@ -87,6 +87,14 @@ class AiAgents extends ApiClient {
       data: data,
     });
   }
+  
+  createOrUpdateKnowledgeQna(idAgent, data) {
+    return axios.post(`${this.url}/${idAgent}/knowledge_sources/qna`, data);
+  }
+  
+  deleteKnowledgeQna(idAgent, qnaId) {
+    return axios.delete(`${this.url}/${idAgent}/knowledge_sources/qna/${qnaId}`);
+  }
 }
 
 export default new AiAgents();

@@ -75,7 +75,7 @@
                 <span>Karakter yg terdeteksi</span>
                 <span class="text-xl font-bold">{{ detectedCharacters }}</span>
             </div>
-            <Button class="w-full mt-2" @click="() => save()" :is-loading="isSaving">
+            <Button class="w-full mt-2" @click="() => save()" :is-loading="isSaving" :disabled="isSaving">
                 Simpan
             </Button>
         </div>
