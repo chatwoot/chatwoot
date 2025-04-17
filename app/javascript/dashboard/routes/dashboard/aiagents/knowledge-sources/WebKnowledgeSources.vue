@@ -9,8 +9,29 @@
                 Tambahkan Link
             </span>
             <div class="py-2">
-
+                <div>
+                    <div>
+                        <div class="flex flex-row gap-2 items-center">
+                            <label>Tambah Link Lain</label>
+                            <woot-tabs :index="activeTabIndex" class="mb-2" @change="(i) => {
+                                activeTabIndex = i
+                            }">
+                                <woot-tabs-item v-for="(item, index) in tabs" :key="item" :index="index" :name="item"
+                                    :show-badge="false" />
+                            </woot-tabs>
+                        </div>
+                        <div class="flex flex-row gap-2 items-center mb-1">
+                            <Input id="linkurl" class="flex-1" placeholder="Tambah Link" v-model="state.url" />
+                            <Button size="sm" @click="() => addUrl()">Tambah</Button>
+                        </div>
+                        <span class="text-sm">
+                            {{ activeTabIndex === 0 ? 'Akan mencari dan mengumpulkan konten dari situs, tanpa mencakup file' : 'Satu tautan untuk langsung menjelajahi isinya' }}
+                        </span>
+                    </div>
+                </div>
             </div>
+            <WebCollectorView :idAgent="props.data?.id" :show="showCollectUrlModal"
+                :existingLinks="collectUrlEditModal" />
         </div>
 
         <div>
@@ -34,14 +55,12 @@
                 <Input class="flex-1" placeholder="Cari links" v-model="searchLink" />
             </div>
             <div class="py-2 flex flex-row gap-4" v-for="(item, index) in groupedLinks" :key="index">
-                <div class="py-4">
-                    <CheckBox :is-checked="isChildrenAllLinksSelected(item[1])"
-                        :value="isChildrenAllLinksSelected(item[1])" @update="(_, value) => {
-                            item[1].forEach(v => {
-                                v.isSelected.value = value
-                            })
-                        }" />
-                </div>
+                <CheckBox class="mt-5" :is-checked="isChildrenAllLinksSelected(item[1])"
+                    :value="isChildrenAllLinksSelected(item[1])" @update="(_, value) => {
+                        item[1].forEach(v => {
+                            v.isSelected.value = value
+                        })
+                    }" />
                 <div class="py-2 flex-1 min-w-0">
                     <div class="flex flex-col gap-2 border border-n-gray-5 rounded-lg">
                         <div class="flex flex-row gap-2 items-center py-2 px-4">
@@ -145,13 +164,16 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import aiAgents from '../../../../api/aiAgents';
 import { useAlert } from 'dashboard/composables';
 import CheckBox from 'v3/components/Form/CheckBox.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
+import WebCollectorView from './WebCollectorView.vue';
+import useVuelidate from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 
 const props = defineProps({
     data: {
@@ -159,6 +181,32 @@ const props = defineProps({
         required: true,
     },
 })
+
+const tabs = ref(['Batch Link', 'Single Link'])
+const activeTabIndex = ref(0)
+const showCollectUrlModal = ref(false)
+const collectUrlEditModal = ref()
+const state = reactive({
+    url: '',
+})
+const rules = {
+    url: { },
+}
+const validate = useVuelidate(rules, state)
+function addUrl() {
+    const stateUrl = state.url.trim()
+    if (!stateUrl) {
+        return
+    }
+    collectUrlEditModal.value = {
+        url: stateUrl,
+        activeTabIndex: activeTabIndex.value,
+    }
+    showCollectUrlModal.value = false
+    nextTick(() => {
+        showCollectUrlModal.value = true
+    })
+}
 
 const searchLink = ref('')
 
