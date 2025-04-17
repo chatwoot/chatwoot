@@ -18,6 +18,7 @@
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  account_id         :integer          not null
+#  chat_flow_id       :string
 #  template_id        :bigint
 #
 class AiAgent < ApplicationRecord
@@ -25,9 +26,14 @@ class AiAgent < ApplicationRecord
   has_many :ai_agent_selected_labels, dependent: :destroy
   has_many :labels, through: :ai_agent_selected_labels
   has_many :ai_agent_followups, dependent: :destroy
+  has_one :knowledge_source, dependent: :destroy
 
   validates :name, :system_prompts, :welcoming_message, presence: true
   validates :timezone, presence: true, inclusion: { in: ActiveSupport::TimeZone.all.map(&:name) }
+
+  def as_detailed_json
+    as_json(json_options).transform_keys { |key| map_key(key) }
+  end
 
   def timezone_object
     ActiveSupport::TimeZone[timezone]
@@ -42,4 +48,45 @@ class AiAgent < ApplicationRecord
   end
 
   delegate :length, to: :welcoming_message, prefix: true
+
+  private
+
+  def json_options
+    {
+      only: base_attributes,
+      include: included_associations
+    }
+  end
+
+  def base_attributes
+    %i[
+      id uid name description system_prompts welcoming_message
+      routing_conditions control_flow_rules model_name
+      history_limit context_limit message_await message_limit
+      timezone created_at updated_at account_id chat_flow_id
+    ]
+  end
+
+  def included_associations
+    {
+      ai_agent_selected_labels: {
+        only: [:id, :label_id, :label_conditions],
+        include: {
+          label: {
+            only: [:id, :name]
+          }
+        }
+      },
+      ai_agent_followups: {
+        only: [:id, :prompts, :delay, :send_as_exact_message, :handoff_to_agent_after_sending]
+      }
+    }
+  end
+
+  def map_key(key)
+    {
+      'ai_agent_selected_labels' => 'selected_labels',
+      'ai_agent_followups' => 'followups'
+    }[key] || key
+  end
 end

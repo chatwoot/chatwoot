@@ -7,46 +7,28 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   def show
-    render json: @ai_agent.as_json(
-      only: [
-        :id, :uid, :name, :description, :system_prompts, :welcoming_message,
-        :routing_conditions, :control_flow_rules, :model_name,
-        :history_limit, :context_limit, :message_await, :message_limit,
-        :timezone, :created_at, :updated_at, :account_id
-      ],
-      include: {
-        ai_agent_selected_labels: {
-          only: [:id, :label_id, :label_conditions],
-          include: {
-            label: {
-              only: [:id, :name]
-            }
-          }
-        }
-      }
-    ).transform_keys { |key| key == 'ai_agent_selected_labels' ? 'selected_labels' : key }
+    render json: @ai_agent.as_detailed_json
   end
 
   def create
-    ai_agent_template = AiAgentTemplate.find(params[:ai_agent][:template_id])
+    ai_agent_template = find_template
 
-    unless ai_agent_template
-      render json: { error: 'AI Agent Template not found' }, status: :not_found
-      return
-    end
+    document_store = add_document_store
+    return unless document_store
 
-    @ai_agent = Current.account.ai_agents.new(
-      ai_agent_params.merge(
-        system_prompts: ai_agent_template.system_prompt,
-        welcoming_message: ai_agent_template.welcoming_message
-      )
-    )
+    chat_flow_id = load_chat_flow(ai_agent_template, document_store['id'])
+    return unless chat_flow_id
 
-    if @ai_agent.save
+    ActiveRecord::Base.transaction do
+      @ai_agent = build_ai_agent(ai_agent_template, chat_flow_id, document_store)
+      @ai_agent.save!
+
       render json: @ai_agent, status: :created
-    else
-      render json: @ai_agent.errors, status: :unprocessable_entity
     end
+  rescue ActiveRecord::RecordInvalid => e
+    render json: { error: e.message }, status: :unprocessable_entity
+  rescue StandardError => e
+    render json: { error: "Failed to create AI Agent: #{e.message}" }, status: :bad_gateway
   end
 
   def update
@@ -65,12 +47,26 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   def destroy
-    @ai_agent.destroy
-    head :no_content
+    chat_flow_id = @ai_agent.chat_flow_id
+    store_id = @ai_agent.knowledge_source&.store_id
+
+    if @ai_agent.destroy
+      begin
+        AiAgents::FlowiseService.delete_chat_flow(id: chat_flow_id) if chat_flow_id.present?
+        AiAgents::FlowiseService.delete_document_store(store_id: store_id) if store_id.present?
+      rescue StandardError => e
+        Rails.logger.error("Failed to delete chat flow: #{e.message}")
+        render json: { error: "Failed to delete chat flow: #{e.message}" }, status: :bad_request
+        return
+      end
+      head :no_content
+    else
+      render json: { error: 'Failed to delete AI Agent' }, status: :bad_request
+    end
   end
 
   def update_followups
-    followup_params = params.require(:_json).map { |f| followup_permitted_params(f) }
+    followup_params = params.fetch(:_json, []).map { |f| followup_permitted_params(f) }
 
     ActiveRecord::Base.transaction do
       remove_deleted_followups(followup_params)
@@ -83,11 +79,110 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   def ai_agent_templates
-    agent_templates = AiAgentTemplate.select(:id, :name)
+    agent_templates = AiAgentTemplate.select(:id, :name, :template)
     render json: agent_templates, status: :ok
   end
 
   private
+
+  def find_template
+    AiAgentTemplate.find_by(id: params[:ai_agent][:template_id]).tap do |template|
+      render json: { error: 'AI Agent Template not found' }, status: :not_found unless template
+    end
+  end
+
+  def load_chat_flow(template, store_id)
+    flow_data = template.template.deep_dup
+
+    document_node(flow_data, store_id)
+
+    database_name = formatted_name
+    vector_store_node(flow_data, database_name)
+    chat_memory_node(flow_data, database_name)
+
+    response = AiAgents::FlowiseService.load_chat_flow(
+      name: ai_agent_params[:name],
+      flow_data: flow_data
+    )
+    response['id']
+  rescue StandardError => e
+    Rails.logger.error("Failed to load chat flow: #{e.message}")
+    render json: { error: "Failed to load chat flow: #{e.message}" }, status: :bad_gateway
+    nil
+  end
+
+  def document_node(flow_data, store_id)
+    node = find_node_by_name(flow_data, 'documentStore')
+    return unless node
+
+    node['data']['inputs']['selectedStore'] = store_id
+  end
+
+  def vector_store_node(flow_data, database_name)
+    node = find_node_by_name(flow_data, 'mongoDBAtlas')
+    return unless node
+
+    node['data']['inputs']['databaseName'] = database_name
+    node['data']['inputs']['collectionName'] = 'vectors'
+  end
+
+  def chat_memory_node(flow_data, database_name)
+    node = find_node_by_name(flow_data, 'MongoDBAtlasChatMemory')
+    return unless node
+
+    node['data']['inputs']['databaseName'] = database_name
+    node['data']['inputs']['collectionName'] = 'chat_memories'
+  end
+
+  def find_node_by_name(flow_data, name)
+    node = flow_data['nodes'].find { |n| n['data']['name'] == name }
+    handle_error("Failed to load chat flow: #{name} node not found") unless node
+    node
+  end
+
+  def handle_error(message)
+    Rails.logger.error(message)
+    render json: { error: message }, status: :bad_gateway
+    nil
+  end
+
+  def formatted_name
+    cleaned = ai_agent_params[:name].downcase.gsub(/[^a-z\s]/, '')
+    underscored = cleaned.strip.gsub(/\s+/, '_')
+    today = Time.current.strftime('%Y%m%d%H%M%S')
+
+    "#{underscored}_#{today}"
+  end
+
+  def add_document_store
+    name_with_datetime = "#{ai_agent_params[:name]} - #{Time.current.strftime('%Y%m%d%H%M%S')}"
+
+    AiAgents::FlowiseService.add_document_store(
+      name: name_with_datetime,
+      description: ai_agent_params[:description]
+    )
+  rescue StandardError => e
+    Rails.logger.error("Failed to add document store: #{e.message}")
+    render json: { error: "Failed to add document store: #{e.message}" }, status: :bad_gateway
+    nil
+  end
+
+  def build_ai_agent(template, chat_flow_id, document_store)
+    agent = Current.account.ai_agents.new(
+      ai_agent_params.merge(
+        system_prompts: template.system_prompt,
+        welcoming_message: template.welcoming_message,
+        chat_flow_id: chat_flow_id
+      )
+    )
+
+    agent.build_knowledge_source(
+      name: document_store['name'],
+      store_id: document_store['id']
+    )
+
+    agent
+  end
 
   def remove_deleted_followups(received_followups)
     received_ids = received_followups.filter_map { |f| f[:id] }.compact

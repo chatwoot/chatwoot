@@ -36,10 +36,6 @@ export default {
     <div
       class="flex px-4 pb-1 justify-between items-center flex-row gap-1 pt-2.5 border-b border-transparent"
     >
-      <woot-sidemenu-icon
-        size="tiny"
-        class="relative top-0 ltr:-ml-1.5 rtl:-mr-1.5 flex-shrink-0 focus:!bg-n-solid-3 dark:!hover:bg-n-solid-2 hover:!bg-n-alpha-2"
-      />
       <router-link
         :to="searchUrl"
         class="inline-flex items-center flex-1 h-6 min-w-0 gap-1 px-2 py-0 text-left rounded-md rtl:mr-2.5 search-link rtl:text-right bg-n-slate-9/10 hover:bg-n-slate-3"
@@ -57,10 +53,6 @@ export default {
           {{ $t('CONVERSATION.SEARCH_MESSAGES') }}
         </p>
       </router-link>
-      <SwitchLayout
-        :is-on-expanded-layout="isOnExpandedLayout"
-        @toggle="$emit('toggleConversationLayout')"
-      />
     </div>
   </div>
 </template>
