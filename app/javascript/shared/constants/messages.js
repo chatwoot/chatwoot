@@ -44,6 +44,7 @@ export const ALLOWED_FILE_TYPES =
   'video/*,' +
   '.3gpp,' +
   'text/csv, text/plain, application/json, application/pdf, text/rtf,' +
+  'application/xml, text/xml,' +
   'application/zip, application/x-7z-compressed application/vnd.rar application/x-tar,' +
   'application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/vnd.oasis.opendocument.text,' +
   'application/vnd.openxmlformats-officedocument.presentationml.presentation, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,' +
