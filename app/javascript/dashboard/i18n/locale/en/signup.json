@@ -49,6 +49,15 @@
     "HAVE_AN_ACCOUNT": "Already have an account?"
   },
   "START_ONBOARDING": {
+    "SETUP_PROFILE": {
+      "TITLE": "Setup Profile"
+    },
+    "ADD_AGENTS": {
+      "TITLE": "Add Agents"
+    },
+    "SETUP_INBOX": {
+      "TITLE": "Setup Inbox"
+    },
     "INBOX_CONFIGURE": {
       "WHATSAPP": {
         "TITLE": "Configure the Whatsapp Inbox",

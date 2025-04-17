@@ -8,7 +8,6 @@ import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import parsePhoneNumber from 'libphonenumber-js';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
-import alertMixin from 'shared/mixins/alertMixin';
 
 import WithLabel from 'v3/components/Form/WithLabel.vue';
 import FormInput from 'v3/components/Form/Input.vue';
@@ -26,7 +25,6 @@ export default {
     FormTextArea,
     OnboardingBaseModal,
   },
-  mixins: [alertMixin],
   setup() {
     const store = useStore();
     const router = useRouter();
