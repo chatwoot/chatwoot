@@ -9,7 +9,7 @@
       "FILTER": "Filtrar por",
       "SORT": "Classificar por",
       "LOCALE": "Localidade",
-      "SETTINGS_BUTTON": "Confirgurações",
+      "SETTINGS_BUTTON": "Configurações",
       "NEW_BUTTON": "Novo artigo",
       "DROPDOWN_OPTIONS": {
         "PUBLISHED": "Publicado",
@@ -121,7 +121,7 @@
             "COUNT_LABEL": "artigos",
             "ADD": "Adicionar localidade",
             "VISIT": "Visitar site",
-            "SETTINGS": "Confirgurações",
+            "SETTINGS": "Configurações",
             "DELETE": "Excluir"
           },
           "PORTAL_CONFIG": {

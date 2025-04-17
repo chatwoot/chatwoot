@@ -37,7 +37,7 @@
   help_url: https://chwt.app/hc/help-center
 - name: agent_bots
   display_name: Agent Bots
-  enabled: false
+  enabled: true
   help_url: https://chwt.app/hc/agent-bots
 - name: macros
   display_name: Macros
@@ -149,7 +149,8 @@
   enabled: false
 - name: report_v4
   display_name: Report V4
-  enabled: false
+  enabled: true
+  deprecated: true
 - name: contact_chatwoot_support_team
   display_name: Contact Chatwoot Support Team
   enabled: true
@@ -161,3 +162,7 @@
 - name: search_with_gin
   display_name: Search messages with GIN
   enabled: false
+  chatwoot_internal: true
+- name: channel_instagram
+  display_name: Instagram Channel
+  enabled: true
