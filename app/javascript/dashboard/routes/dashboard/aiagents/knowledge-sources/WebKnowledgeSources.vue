@@ -92,7 +92,10 @@
                                         </a>
                                     </div>
                                 </div>
-                                <Button variant="ghost" icon="i-lucide-pencil" size="sm">
+                                <Button variant="ghost" icon="i-lucide-pencil" size="sm" @click="() => {
+                                    editContentData = item
+                                    showEditContentModal = true
+                                }">
                                     Ubah
                                 </Button>
                                 <div class="bg-n-gray-4 text-sm px-2 py-1 flex flex-row gap-1 items-center">
@@ -117,6 +120,27 @@
             :message="'Kamu tidak akan mengembalikan data ini'"
             :confirm-text="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.DELETE')"
             :reject-text="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.CANCEL')" />
+
+        <woot-modal :show="showEditContentModal" :on-close="() => {
+            showEditContentModal = false
+        }">
+            <woot-modal-header :header-title="'Ubah Konten Link'" :header-content="editContentData.url" />
+
+            <div class="px-8 py-4">
+                <div>
+                    <TextArea id="system_prompts" custom-text-area-wrapper-class=""
+                        custom-text-area-class="!outline-none" autoHeight v-model="contentLink" />
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-2 px-8 pt-4 pb-8">
+                <Button class="w-full button success expanded nice" @click="() => {
+                    saveContent()
+                }" :is-loading="savingContent" :disabled="savingContent">
+                    Simpan
+                </Button>
+            </div>
+        </woot-modal>
     </div>
 </template>
 
@@ -127,6 +151,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import aiAgents from '../../../../api/aiAgents';
 import { useAlert } from 'dashboard/composables';
 import CheckBox from 'v3/components/Form/CheckBox.vue';
+import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 
 const props = defineProps({
     data: {
@@ -263,6 +288,33 @@ async function save() {
 
 function isChildrenAllLinksSelected(links) {
     return links.every(t => t.isSelected.value ? true : false)
+}
+
+const showEditContentModal = ref(false)
+const editContentData = ref()
+const contentLink = ref('')
+const savingContent = ref(false)
+watch(editContentData, v => {
+    contentLink.value = v?.content || ''
+})
+async function saveContent() {
+    try {
+        savingContent.value = true
+
+        await aiAgents.editKnowledgeWebsite(props.data.id, {
+            id: editContentData.value.id,
+            url: editContentData.value.url,
+            markdown: contentLink.value.trim(),
+        })
+
+        showEditContentModal.value = false
+        fetchKnowledge()
+        useAlert('Berhasil simpan konten')
+    } catch (e) {
+        useAlert('Gagal simpan konten')
+    } finally {
+        savingContent.value = false
+    }
 }
 </script>
 
