@@ -2,26 +2,28 @@
 #
 # Table name: subscriptions
 #
-#  id                   :bigint           not null, primary key
-#  amount_paid          :decimal(10, 2)
-#  available_channels   :text             default([]), is an Array
-#  billing_cycle        :string           default("monthly"), not null
-#  ends_at              :datetime         not null
-#  max_ai_agents        :integer          default(0), not null
-#  max_ai_responses     :integer          default(0), not null
-#  max_human_agents     :integer          default(0), not null
-#  max_mau              :integer          default(0), not null
-#  payment_status       :string           default("pending"), not null
-#  plan_name            :string           not null
-#  price                :decimal(10, 2)   not null
-#  starts_at            :datetime         not null
-#  status               :string           default("pending"), not null
-#  support_level        :string
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#  account_id           :bigint           not null
-#  duitku_order_id      :string
-#  subscription_plan_id :bigint
+#  id                      :bigint           not null, primary key
+#  additional_ai_responses :integer          default(0), not null
+#  additional_mau          :integer          default(0), not null
+#  amount_paid             :decimal(10, 2)
+#  available_channels      :text             default([]), is an Array
+#  billing_cycle           :string           default("monthly"), not null
+#  ends_at                 :datetime         not null
+#  max_ai_agents           :integer          default(0), not null
+#  max_ai_responses        :integer          default(0), not null
+#  max_human_agents        :integer          default(0), not null
+#  max_mau                 :integer          default(0), not null
+#  payment_status          :string           default("pending"), not null
+#  plan_name               :string           not null
+#  price                   :decimal(10, 2)   not null
+#  starts_at               :datetime         not null
+#  status                  :string           default("pending"), not null
+#  support_level           :string
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  account_id              :bigint           not null
+#  duitku_order_id         :string
+#  subscription_plan_id    :bigint
 #
 # Indexes
 #
@@ -33,16 +35,19 @@
 #  fk_rails_...  (account_id => accounts.id)
 #
 class Subscription < ApplicationRecord
+    has_many :transaction_subscription_relations, dependent: :destroy
+    has_many :transactions, through: :transaction_subscription_relations
     belongs_to :account
     belongs_to :subscription_plan, optional: true
     has_many :subscription_payments
     has_one :subscription_usage
+    has_many :subscription_topups
     # has_many :account, foreign_key: 'active_subscription_id'
     
     validates :plan_name, :starts_at, :ends_at, presence: true
     validates :status, inclusion: { in: %w(pending active expired cancelled inactive) }
     validates :payment_status, inclusion: { in: %w(pending paid failed cancelled) }
-    validates :billing_cycle, inclusion: { in: %w(monthly annual) }
+    validates :billing_cycle, inclusion: { in: %w(monthly quarterly halfyear yearly) }
     validates :price, numericality: { greater_than_or_equal_to: 0 }
     
     after_create :create_usage_record

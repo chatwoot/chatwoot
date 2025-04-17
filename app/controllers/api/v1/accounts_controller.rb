@@ -87,7 +87,7 @@ class Api::V1::AccountsController < Api::BaseController
         ends_at: Time.current + free_trial_plan.duration_days.days,
         amount_paid: free_trial_plan.monthly_price,
         price: free_trial_plan.monthly_price,
-        payment_status: "successful"
+        payment_status: "paid"
       )
 
       # Update account.active_subscription_id

@@ -1121,6 +1121,40 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_16_070218) do
     t.text "description"
   end
 
+  create_table "subscription_plans_copy1", id: :bigint, default: -> { "nextval('subscription_plans_id_seq'::regclass)" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "max_mau", default: 0, null: false
+    t.integer "max_ai_agents", default: 0, null: false
+    t.integer "max_ai_responses", default: 0, null: false
+    t.integer "max_human_agents", default: 0, null: false
+    t.text "available_channels", default: [], array: true
+    t.string "support_level"
+    t.integer "duration_days"
+    t.decimal "monthly_price", precision: 16, scale: 2, null: false
+    t.decimal "annual_price", precision: 16, scale: 2, null: false
+    t.boolean "is_active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "subscription_topups", force: :cascade do |t|
+    t.bigint "subscription_id", null: false
+    t.string "topup_type", null: false
+    t.integer "amount", null: false
+    t.decimal "price", precision: 10, scale: 2, null: false
+    t.string "status", null: false
+    t.string "duitku_transaction_id"
+    t.string "duitku_order_id"
+    t.string "payment_method"
+    t.string "payment_url"
+    t.datetime "paid_at", precision: nil
+    t.datetime "expires_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "payment_details"
+    t.index ["subscription_id"], name: "index_subscription_topups_on_subscription_id"
+  end
+
   create_table "subscription_usage", force: :cascade do |t|
     t.bigint "subscription_id", null: false
     t.integer "mau_count", default: 0
@@ -1128,6 +1162,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_16_070218) do
     t.datetime "last_reset_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "additional_mau_count", default: 0, null: false
+    t.integer "additional_ai_response_count", default: 0, null: false
     t.index ["subscription_id"], name: "index_subscription_usage_on_subscription_id"
   end
 
@@ -1151,6 +1187,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_16_070218) do
     t.bigint "subscription_plan_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "additional_mau", default: 0, null: false
+    t.integer "additional_ai_responses", default: 0, null: false
     t.index ["account_id"], name: "index_subscriptions_on_account_id"
     t.index ["subscription_plan_id"], name: "index_subscriptions_on_subscription_plan_id"
   end
@@ -1208,6 +1246,54 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_16_070218) do
     t.integer "account_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+  end
+
+  create_table "transaction_subscription_relations", force: :cascade do |t|
+    t.bigint "transaction_id", null: false
+    t.bigint "subscription_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["subscription_id"], name: "index_transaction_subscription_relations_on_subscription_id"
+    t.index ["transaction_id", "subscription_id"], name: "index_tx_sub_rel", unique: true
+    t.index ["transaction_id"], name: "index_transaction_subscription_relations_on_transaction_id"
+  end
+
+  create_table "transaction_topup_relations", force: :cascade do |t|
+    t.bigint "transaction_id", null: false
+    t.bigint "topup_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["topup_id"], name: "index_transaction_topup_relations_on_topup_id"
+    t.index ["transaction_id", "topup_id"], name: "index_tx_topup_rel", unique: true
+    t.index ["transaction_id"], name: "index_transaction_topup_relations_on_transaction_id"
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.string "transaction_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "account_id", null: false
+    t.string "package_type", null: false
+    t.string "package_name"
+    t.decimal "price", precision: 10, scale: 2, null: false
+    t.integer "duration"
+    t.string "duration_unit"
+    t.string "status", null: false
+    t.string "payment_method"
+    t.string "payment_url"
+    t.datetime "transaction_date", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "payment_date", precision: nil
+    t.datetime "expiry_date", precision: nil
+    t.string "action", default: "pay"
+    t.text "notes"
+    t.jsonb "metadata"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_transactions_on_account_id"
+    t.index ["package_type"], name: "index_transactions_on_package_type"
+    t.index ["status"], name: "index_transactions_on_status"
+    t.index ["transaction_date"], name: "index_transactions_on_transaction_date"
+    t.index ["transaction_id"], name: "index_transactions_on_transaction_id", unique: true
+    t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
@@ -1285,8 +1371,15 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_16_070218) do
   add_foreign_key "knowledge_source_websites", "knowledge_sources"
   add_foreign_key "knowledge_sources", "ai_agents"
   add_foreign_key "subscription_payments", "subscriptions"
+  add_foreign_key "subscription_topups", "subscriptions"
   add_foreign_key "subscription_usage", "subscriptions"
   add_foreign_key "subscriptions", "accounts"
+  add_foreign_key "transaction_subscription_relations", "subscriptions", on_delete: :cascade
+  add_foreign_key "transaction_subscription_relations", "transactions", on_delete: :cascade
+  add_foreign_key "transaction_topup_relations", "subscription_topups", column: "topup_id", on_delete: :cascade
+  add_foreign_key "transaction_topup_relations", "transactions", on_delete: :cascade
+  add_foreign_key "transactions", "accounts"
+  add_foreign_key "transactions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

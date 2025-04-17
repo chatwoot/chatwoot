@@ -27,7 +27,8 @@ class Api::V1::SubscriptionsController < Api::BaseController
   
   def create
     billing_cycle = params[:billing_cycle] || 'monthly'
-    price = billing_cycle == 'annual' ? @subscription_plan.annual_price : @subscription_plan.monthly_price
+    qty = params[:qty] || 1
+    price = @subscription_plan.monthly_price * qty
     
     ActiveRecord::Base.transaction do
       @subscription = @account.subscriptions.new(
@@ -39,7 +40,7 @@ class Api::V1::SubscriptionsController < Api::BaseController
         available_channels: @subscription_plan.available_channels,
         support_level: @subscription_plan.support_level,
         starts_at: Time.now,
-        ends_at: billing_cycle == 'annual' ? Time.now + 365.days : Time.now + 30.days,
+        ends_at: Time.now + qty.month,
         billing_cycle: billing_cycle,
         price: price,
         subscription_plan_id: @subscription_plan.id # Optional reference
@@ -47,10 +48,37 @@ class Api::V1::SubscriptionsController < Api::BaseController
       
       if @subscription.save
         begin
-          payment = create_payment_for_subscription
+          order_id = "RADAI-#{@account.id}-#{@subscription.id}-#{Time.now.to_i}"
+
+          transaction = Transaction.create!(
+            transaction_id: order_id,
+            user_id: current_user.id,
+            account_id: @account.id,
+            package_type: 'subscription',
+            package_name: @subscription.plan_name,
+            price: @subscription.price,
+            duration: qty.to_i,
+            duration_unit: 'month',
+            status: 'pending',
+            payment_method: params[:payment_method],
+            transaction_date: Time.current,
+            action: 'pay'
+          )
+
+          # Hubungkan subscription ke transaction
+          TransactionSubscriptionRelation.create!(
+            transaction_id: transaction.id,
+            subscription_id: @subscription.id
+          )
+
+          payment = create_payment_for_subscription(order_id)
+
+          transaction.update!(payment_url: payment.payment_url)
+
           render json: { 
             subscription: @subscription, 
-            subscription_payment: payment 
+            subscription_payment: payment,
+            transaction: transaction
           }, status: :created
         rescue => e
           Rails.logger.error "Payment creation error: #{e.message}"
@@ -88,6 +116,12 @@ class Api::V1::SubscriptionsController < Api::BaseController
     @subscription_active = @account.subscriptions.includes(:subscription_usage).find_by(status: 'active')
     render json: @subscription_active.as_json(include: :subscription_usage)
   end
+
+  def histories
+    # @transactions = @subscription.transactions.order(created_at: :desc) # Order by transaction date
+    @transactions = @account.transactions.order(created_at: :desc)
+    render json: @transactions
+  end
   
   private
   
@@ -111,8 +145,7 @@ class Api::V1::SubscriptionsController < Api::BaseController
     authorize! :manage_subscription, @account
   end
   
-  def create_payment_for_subscription
-    order_id = "SUB-#{@account.id}-#{@subscription.id}-#{Time.now.to_i}"
+  def create_payment_for_subscription(order_id)
     amount = @subscription.price.to_f.to_i
     
     payment_service = Duitku::PaymentService.new
@@ -122,7 +155,7 @@ class Api::V1::SubscriptionsController < Api::BaseController
       product_details: "#{@subscription.plan_name} Subscription (#{@subscription.billing_cycle})",
       customer_name: current_user.name,
       customer_email: current_user.email,
-      return_url: "#{ENV['CHATWOOT_FRONTEND_URL']}/app/accounts/#{@account.id}/settings/subscriptions",
+      return_url: "#{ENV['DUITKU_CALLBACK_URL']}/app/accounts/#{@account.id}/settings/subscriptions",
       subscription_id: @subscription.id,
       payment_method: params[:payment_method]
     )

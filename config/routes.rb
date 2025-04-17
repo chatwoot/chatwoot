@@ -29,6 +29,10 @@ Rails.application.routes.draw do
     resource :slack_uploads, only: [:show]
   end
 
+  if Rails.env.development?
+    get '/rails/info/routes', to: 'rails/info#routes'
+  end
+
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
@@ -68,12 +72,19 @@ Rails.application.routes.draw do
             put :cancel
           end
 
+          collection do
+            get :histories
+          end
+
           # Subscription payments routes
           resources :subscription_payments, only: [:index, :show, :create] do
             member do
               get :check_status
             end
           end
+
+          # Subscription topups routes
+          resources :subscription_topups, path: 'topup', only: [:index, :create]
         end
         # end of subscription scoped api routes
         # ----------------------------------

@@ -1,12 +1,11 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import WootSubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
-// import Auth from '../../../../api/auth';
 import wootConstants from 'dashboard/constants/globals';
 
 const props = defineProps({
@@ -26,6 +25,18 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  duration: {
+    type: String,
+    required: true,
+  },
+  qty: {
+    type: Number,
+    required: true,
+  },
+  billingCycleTabs: {
+    type: Array,
+    required: true,
+  },
 });
 
 const emit = defineEmits(['close']);
@@ -42,6 +53,38 @@ const selectedPlan = ref(props.plan);
 const plans = ref(props.plans);
 const isSubmitting = ref(false);
 
+// Tambahan untuk custom dropdown
+const isDropdownOpen = ref(false);
+const dropdownRef = ref(null);
+const selectedBillingCycle = ref(props.billingCycleTabs[0]); // Default ke opsi pertama
+
+// Kalkulasi total harga berdasarkan siklus penagihan
+const totalPrice = computed(() => {
+  return selectedBillingCycle.value.qty * selectedPlan.value.monthly_price;
+});
+
+// Fungsi untuk handle klik di luar dropdown
+const handleClickOutside = (event) => {
+  if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
+    isDropdownOpen.value = false;
+  }
+};
+
+// Tambahkan event listener saat komponen di-mount
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+});
+
+// Hapus event listener saat komponen di-unmount
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside);
+});
+
+const selectBillingCycle = (cycle) => {
+  selectedBillingCycle.value = cycle;
+  isDropdownOpen.value = false;
+};
+
 const rules = {
   packageName: { required, minLength: minLength(1) },
 };
@@ -57,63 +100,6 @@ const pageTitle = computed(
 const uiFlags = useMapGetter('agents/getUIFlags');
 const getCustomRoles = useMapGetter('customRole/getCustomRoles');
 
-const roles = computed(() => {
-  const defaultRoles = [
-    {
-      id: 'administrator',
-      name: 'administrator',
-      label: t('AGENT_MGMT.AGENT_TYPES.ADMINISTRATOR'),
-    },
-    {
-      id: 'agent',
-      name: 'agent',
-      label: t('AGENT_MGMT.AGENT_TYPES.AGENT'),
-    },
-  ];
-
-  const customRoles = getCustomRoles.value.map(role => ({
-    id: role.id,
-    name: `custom_${role.id}`,
-    label: role.name,
-  }));
-
-  return [...defaultRoles, ...customRoles];
-});
-
-const selectedRole = computed(() =>
-  roles.value.find(
-    role =>
-      role.id === selectedRoleId.value || role.name === selectedRoleId.value
-  )
-);
-
-const editAgent = async () => {
-  v$.value.$touch();
-  if (v$.value.$invalid) return;
-
-  try {
-    const payload = {
-      id: props.id,
-      name: packageName.value,
-      availability: agentAvailability.value,
-    };
-
-    if (selectedRole.value.name.startsWith('custom_')) {
-      payload.custom_role_id = selectedRole.value.id;
-    } else {
-      payload.role = selectedRole.value.name;
-      payload.custom_role_id = null;
-    }
-
-    await store.dispatch('agents/updatex', payload);
-    useAlert(t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
-    emit('close');
-  } catch (error) {
-    useAlert(t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE'));
-  }
-};
-
-// Fixed submit function based on actual response structure
 const submit = async () => {
   v$.value.$touch();
   if (v$.value.$invalid) return;
@@ -127,23 +113,19 @@ const submit = async () => {
       status: 'active',
       plan_id: selectedPlan.value.id,
       user_id: 11,
-      payment_method: selectedMethod.value || 'M2'
+      payment_method: selectedMethod.value || 'M2',
+      billing_cycle: selectedBillingCycle.value.id,
+      qty: selectedBillingCycle.value.qty
     };
     
     const response = await store.dispatch('createSubscription', payload);
     console.log('Response received:', response);
     
-    // Handle exact response structure we now know
     if (response && response.subscription_payment && response.subscription_payment.payment_url) {
       const paymentUrl = response.subscription_payment.payment_url;
       console.log('Redirecting to:', paymentUrl);
       
-      // Force redirect using direct window.location assignment
       window.location.href = paymentUrl;
-      
-      // If the above doesn't work, try these alternative approaches:
-      // setTimeout(() => { window.location.href = paymentUrl; }, 100);
-      // window.open(paymentUrl, '_self');
     } else {
       console.warn('Payment URL not found in response:', response);
       useAlert('Berhasil membuat langganan, tetapi tidak ada URL pembayaran.');
@@ -162,7 +144,7 @@ const submit = async () => {
   <div class="flex flex-col h-auto overflow-auto">
     <woot-modal-header :header-title="pageTitle" />
     
-    <form class="w-full" @submit.prevent="editAgent">
+    <form class="w-full" @submit.prevent="submit">
       <div class="w-full">
         <!-- Pilihan metode -->
         <div class="flex gap-3">
@@ -185,29 +167,62 @@ const submit = async () => {
         </div>
       </div>
 
-      <!-- Dropdown Paket -->
-      <div class="w-full mt-4">
-        <div class="relative">
-          <select
-            v-model="selectedPlan"
-            class="w-full border rounded p-3"
-          >
-            <option v-for="plan in plans" :key="plan.id" :value="plan">
-              {{ plan.name }}
-            </option>
-          </select>
+      <!-- Custom Dropdown Paket -->
+<div class="w-full mt-4 relative" ref="dropdownRef">
+  <div 
+    class="border rounded p-3 flex justify-between items-center cursor-pointer"
+    @click="isDropdownOpen = !isDropdownOpen"
+  >
+    <div>{{ selectedBillingCycle.name }}</div>
+    <div class="font-medium">{{ totalPrice.toLocaleString() }} IDR</div>
+    
+    <!-- Dropdown arrow -->
+    <div class="absolute top-0 right-0 px-4 py-3">
+      <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        class="h-4 w-4" 
+        fill="none" 
+        viewBox="0 0 24 24" 
+        stroke="currentColor"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
+  </div>
   
-          <div class="absolute top-0 right-0 px-4 py-3 pointer-events-none">
-            {{ selectedPlan.monthly_price }} IDR
-          </div>
-        </div>
+  <!-- Dropdown menu -->
+  <div 
+    v-if="isDropdownOpen" 
+    class="absolute z-50 left-0 right-0 bg-white border rounded mt-1 shadow-lg max-h-60 overflow-auto"
+    style="min-width: 100%;"
+  >
+    <div 
+      v-for="cycle in props.billingCycleTabs" 
+      :key="cycle.id"
+      class="p-3 hover:bg-gray-100 cursor-pointer flex justify-between items-center relative"
+      @click="selectBillingCycle(cycle)"
+    >
+      <div class="flex items-center">
+        {{ cycle.name }}
+        <span 
+          v-if="cycle.badge" 
+          class="ml-2 bg-blue-500 text-white text-xs px-2 py-0.5 rounded-full"
+        >
+          {{ cycle.badge }}
+        </span>
       </div>
+      <div class="font-medium">
+        {{ (cycle.qty * selectedPlan.monthly_price).toLocaleString() }} IDR
+      </div>
+    </div>
+  </div>
+</div>
       
       <!-- Total -->
       <div class="w-full mt-4">
         <div class="text-right font-semibold">
           Total Payment<br />
-          {{ selectedPlan.monthly_price.toLocaleString() }} IDR
+          {{ totalPrice.toLocaleString() }} IDR
         </div>
       </div>
 
@@ -215,8 +230,8 @@ const submit = async () => {
       <div class="w-full mt-4">
         <div class="bg-sky-50 text-sky-700 text-sm p-3 rounded">
           <span class="mr-2">👁️</span>
-          Beli paket pro akan aktif selama bulan, dari hari ini sampai
-          <strong>--</strong>
+          Beli paket pro akan aktif selama {{ selectedBillingCycle.qty }} bulan, dari hari ini sampai
+          <strong>{{ new Date(Date.now() + selectedBillingCycle.qty * 30 * 24 * 60 * 60 * 1000).toLocaleDateString() }}</strong>
         </div>
       </div>
 
