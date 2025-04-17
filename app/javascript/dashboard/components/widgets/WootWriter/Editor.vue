@@ -220,6 +220,7 @@ const plugins = computed(() => {
       trigger: '@',
       showMenu: showUserMentions,
       searchTerm: mentionSearchKey,
+      isAllowed: () => props.isPrivate,
     }),
     createSuggestionPlugin({
       trigger: '/',
