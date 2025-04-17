@@ -873,15 +873,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_03_053114) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "portal_members", force: :cascade do |t|
-    t.bigint "portal_id"
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["portal_id", "user_id"], name: "index_portal_members_on_portal_id_and_user_id", unique: true
-    t.index ["user_id", "portal_id"], name: "index_portal_members_on_user_id_and_portal_id", unique: true
-  end
-
   create_table "portals", force: :cascade do |t|
     t.integer "account_id", null: false
     t.string "name", null: false

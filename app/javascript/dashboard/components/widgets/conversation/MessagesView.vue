@@ -36,6 +36,7 @@ import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { FEATURE_FLAGS } from '../../../featureFlags';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
@@ -209,6 +210,17 @@ export default {
       return contactLastSeenAt;
     },
 
+    // Check there is a instagram inbox exists with the same instagram_id
+    hasDuplicateInstagramInbox() {
+      const instagramId = this.inbox.instagram_id;
+      const instagramInbox =
+        this.$store.getters['inboxes/getInstagramInboxByInstagramId'](
+          instagramId
+        );
+
+      return this.inbox.channel_type === INBOX_TYPES.FB && instagramInbox;
+    },
+
     replyWindowBannerMessage() {
       if (this.isAWhatsAppChannel) {
         return this.$t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY');
@@ -218,16 +230,25 @@ export default {
         if (additionalAttributes) {
           const {
             agent_reply_time_window_message: agentReplyTimeWindowMessage,
+            agent_reply_time_window: agentReplyTimeWindow,
           } = additionalAttributes;
-          return agentReplyTimeWindowMessage;
+          return (
+            agentReplyTimeWindowMessage ||
+            this.$t('CONVERSATION.API_HOURS_WINDOW', {
+              hours: agentReplyTimeWindow,
+            })
+          );
         }
         return '';
       }
       return this.$t('CONVERSATION.CANNOT_REPLY');
     },
     replyWindowLink() {
-      if (this.isAWhatsAppChannel) {
+      if (this.isAFacebookInbox || this.isAInstagramChannel) {
         return REPLY_POLICY.FACEBOOK;
+      }
+      if (this.isAWhatsAppCloudChannel) {
+        return REPLY_POLICY.WHATSAPP_CLOUD;
       }
       if (!this.isAPIInbox) {
         return REPLY_POLICY.TWILIO_WHATSAPP;
@@ -235,7 +256,11 @@ export default {
       return '';
     },
     replyWindowLinkText() {
-      if (this.isAWhatsAppChannel) {
+      if (
+        this.isAWhatsAppChannel ||
+        this.isAFacebookInbox ||
+        this.isAInstagramChannel
+      ) {
         return this.$t('CONVERSATION.24_HOURS_WINDOW');
       }
       if (!this.isAPIInbox) {
@@ -485,10 +510,16 @@ export default {
     <Banner
       v-if="!currentChat.can_reply"
       color-scheme="alert"
-      class="mt-2 mx-2 rounded-lg overflow-hidden"
+      class="mx-2 mt-2 overflow-hidden rounded-lg"
       :banner-message="replyWindowBannerMessage"
       :href-link="replyWindowLink"
       :href-link-text="replyWindowLinkText"
+    />
+    <Banner
+      v-else-if="hasDuplicateInstagramInbox"
+      color-scheme="alert"
+      class="mx-2 mt-2 overflow-hidden rounded-lg"
+      :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
     />
     <div class="flex justify-end">
       <NextButton

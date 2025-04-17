@@ -39,6 +39,10 @@ By default, it renders:
     <% else %>
       <title><%= @portal.page_title%></title>
     <% end %>
+    
+    <% if @portal.logo.present? %>
+      <link rel="icon" href="<%= url_for(@portal.logo) %>">
+    <% end %>
 
     <% unless @theme_from_params.blank? %>
     <%# this adds the theme from params, ensuring that there a localstorage value set %>
