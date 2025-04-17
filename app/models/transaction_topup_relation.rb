@@ -20,6 +20,6 @@
 #  fk_rails_...  (transaction_id => transactions.id) ON DELETE => cascade
 #
 class TransactionTopupRelation < ApplicationRecord
-  belongs_to :transaction
+  belongs_to :transaction_rel, class_name: 'Transaction', foreign_key: 'transaction_id'
   belongs_to :topup, class_name: 'SubscriptionTopup'
 end
