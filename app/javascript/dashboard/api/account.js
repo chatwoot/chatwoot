@@ -6,6 +6,10 @@ class AccountAPI extends ApiClient {
     super('', { accountScoped: true });
   }
 
+  getById(id) {
+    return axios.get(`${this.apiVersion}/accounts/${id}`);
+  }
+
   createAccount(data) {
     return axios.post(`${this.apiVersion}/accounts`, data);
   }
