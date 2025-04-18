@@ -412,7 +412,7 @@ GEM
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
-    json (2.10.1)
+    json (2.10.2)
     json_refs (0.1.9)
       hana
     json_schemer (2.4.0)
