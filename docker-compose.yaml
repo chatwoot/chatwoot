@@ -10,6 +10,7 @@ services:
         EXECJS_RUNTIME: 'Node'
         RAILS_ENV: 'development'
         RAILS_SERVE_STATIC_FILES: 'false'
+      platform: linux/amd64
     tty: true
     stdin_open: true
     image: chatwoot:development
@@ -20,6 +21,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/dockerfiles/rails.Dockerfile
+      platform: linux/amd64
     image: chatwoot-rails:development
     volumes:
       - ./:/app:delegated
@@ -66,6 +68,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/dockerfiles/vite.Dockerfile
+      platform: linux/amd64
     image: chatwoot-vite:development
     volumes:
       - ./:/app:delegated
@@ -84,6 +87,7 @@ services:
 
   postgres:
     image: pgvector/pgvector:pg16
+    platform: linux/amd64
     restart: always
     ports:
       - '5432:5432'
@@ -96,6 +100,7 @@ services:
 
   redis:
     image: redis:alpine
+    platform: linux/amd64
     restart: always
     command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
     env_file: .env

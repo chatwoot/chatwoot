@@ -100,6 +100,7 @@ aws ecr get-login-password --region ${AWS_REGION} --profile ${AWS_PROFILE} | doc
 echo "Building Chatwoot Web image..."
 docker build -t ${WEB_REPO_URL}:${IMAGE_TAG} \
   -f docker/Dockerfile \
+  --platform linux/amd64 \
   --build-arg RAILS_ENV=production \
   --build-arg RAILS_SERVE_STATIC_FILES=true \
   .
@@ -111,6 +112,7 @@ docker push ${WEB_REPO_URL}:${IMAGE_TAG}
 echo "Building Chatwoot Worker image..."
 docker build -t ${WORKER_REPO_URL}:${IMAGE_TAG} \
   -f docker/Dockerfile \
+  --platform linux/amd64 \
   --build-arg RAILS_ENV=production \
   --build-arg RAILS_SERVE_STATIC_FILES=true \
   .
