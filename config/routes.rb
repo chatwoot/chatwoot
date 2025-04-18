@@ -537,9 +537,12 @@ Rails.application.routes.draw do
 
   # ---------------------------------------------------------------------
   # Routes for swagger docs
-  get '/swagger/*path', to: 'swagger#respond'
   get '/swagger', to: 'swagger#respond'
-
+  get '/swagger/*path', to: 'swagger#respond'
+  
+  # Direct access to swagger.json
+  get '/api-docs.json', to: redirect('/swagger/swagger.json')
+  
   # ----------------------------------------------------------------------
   # Routes for testing
   resources :widget_tests, only: [:index] unless Rails.env.production?

@@ -1,6 +1,3 @@
-# Chatwoot Docker Compose configuration for branded instance
-# For production use with custom branding
-
 services:
   base: &base
     image: chatwoot-branded:latest
@@ -19,12 +16,17 @@ services:
     ports:
       - '3000:3000'
     environment:
-      - NODE_ENV=production
-      - RAILS_ENV=production
+      - NODE_ENV=development
+      - RAILS_ENV=development
       - INSTALLATION_ENV=docker
     entrypoint: docker/entrypoints/rails.sh
     command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
     restart: always
+    volumes:
+      - ./storage:/app/storage
+      - ./public/uploads:/app/public/uploads
+      - ./swagger:/app/swagger
+      - ./swagger:/app/public/swagger
 
   sidekiq:
     <<: *base
@@ -34,8 +36,8 @@ services:
       redis:
         condition: service_started
     environment:
-      - NODE_ENV=production
-      - RAILS_ENV=production
+      - NODE_ENV=development
+      - RAILS_ENV=development
       - INSTALLATION_ENV=docker
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
     restart: always

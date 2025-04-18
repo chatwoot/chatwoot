@@ -6,5 +6,8 @@ COPY public/brand-assets/chatscommerce /app/public/brand-assets/chatscommerce/
 # Copy our modified installation_config.yml
 COPY config/installation_config.yml /app/config/installation_config.yml
 
+# Install json_refs gem for Swagger documentation
+RUN bundle add json_refs
+
 # Generate .git_sha file with current commit hash
 RUN echo "chatscommerce-branded" > /app/.git_sha 

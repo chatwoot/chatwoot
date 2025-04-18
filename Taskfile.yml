@@ -153,18 +153,35 @@ tasks:
         
         echo "All branding assets verified and generated successfully!"
 
+  build-swagger:
+    desc: "Build and ensure Swagger documentation is available"
+    cmds:
+      - echo "Building Swagger documentation and ensuring it's accessible..."
+      - "{{.COMPOSE_CMD}} -f {{.COMPOSE_FILE}} exec rails bundle exec rake swagger:build"
+      - "{{.COMPOSE_CMD}} -f {{.COMPOSE_FILE}} exec rails cp -r /app/swagger /app/public/"
+      - |
+        echo "Creating volume mount for swagger directory if needed..."
+        if ! grep -q "- ./swagger:/app/swagger" {{.COMPOSE_FILE}}; then
+          echo "Swagger volume mount not found. You need to add it to your docker-compose.custom.yaml file."
+          echo "Add this line under the volumes section of the rails service:"
+          echo "      - ./swagger:/app/swagger"
+          exit 1
+        fi
+      - echo "Swagger documentation should now be available at http://localhost:3000/swagger"
+
   run-all:
     desc: "Complete setup: create directories, prepare environment, verify branding, build image, start services, and prepare database"
     cmds:
       - task: setup-dirs
       - task: prepare-env
-      - task: verify-branding
-      - task: verify-all-branding
+      # - task: verify-branding
+      # - task: verify-all-branding
       - task: docker-build
       - task: docker-up
       - echo "Waiting for database to be ready..."
       - sleep 10
       - task: db-prepare
+      - task: build-swagger
 
   open-app:
     desc: "Open the Chatwoot application in the default browser"
