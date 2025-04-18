@@ -95,7 +95,7 @@ defineExpose({ dialogRef });
         :placeholder="
           t('HELP_CENTER.LOCALES_PAGE.ADD_LOCALE_DIALOG.COMBOBOX.PLACEHOLDER')
         "
-        class="[&>div>button]:!border-n-slate-5 [&>div>button]:dark:!border-n-slate-5"
+        class="[&>div>button:not(.focused)]:!outline-n-slate-5 [&>div>button:not(.focused)]:dark:!outline-n-slate-5"
       />
     </div>
   </Dialog>

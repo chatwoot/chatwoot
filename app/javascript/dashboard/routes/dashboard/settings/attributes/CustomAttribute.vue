@@ -4,6 +4,8 @@ import EditAttribute from './EditAttribute.vue';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import Button from 'dashboard/components-next/button/Button.vue';
+
 const props = defineProps({
   attributeModel: {
     type: String,
@@ -122,22 +124,20 @@ const tableHeaders = computed(() => {
           </td>
           <td class="py-4 min-w-xs">
             <div class="flex gap-1 justify-end">
-              <woot-button
+              <Button
                 v-tooltip.top="$t('ATTRIBUTES_MGMT.LIST.BUTTONS.EDIT')"
-                variant="smooth"
-                size="tiny"
-                color-scheme="secondary"
-                class-names="grey-btn"
-                icon="edit"
+                icon="i-lucide-pen"
+                slate
+                xs
+                faded
                 @click="openEditPopup(attribute)"
               />
-              <woot-button
+              <Button
                 v-tooltip.top="$t('ATTRIBUTES_MGMT.LIST.BUTTONS.DELETE')"
-                variant="smooth"
-                color-scheme="alert"
-                size="tiny"
-                icon="dismiss-circle"
-                class-names="grey-btn"
+                icon="i-lucide-trash-2"
+                xs
+                ruby
+                faded
                 @click="openDelete(attribute)"
               />
             </div>

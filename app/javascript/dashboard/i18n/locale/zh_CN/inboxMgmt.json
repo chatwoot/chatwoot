@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "开启频道问候功能",
-          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
+          "HELP_TEXT": "当客户开始对话并发送第一条消息时，自动发送问候消息。",
           "ENABLED": "已启用",
           "DISABLED": "已禁用"
         },
@@ -104,7 +104,7 @@
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp 频道",
-        "DESC": "整合Twilio 并开始通过短信或 WhatsApp 支持您的客户。",
+        "DESC": "整合 Twilio 并开始通过短信或 WhatsApp 支持您的客户。",
         "ACCOUNT_SID": {
           "LABEL": "账户 SID",
           "PLACEHOLDER": "请输入您的 Twilio 账户 SID",
@@ -357,7 +357,7 @@
       },
       "EMAIL_PROVIDER": {
         "TITLE": "选择您的电子邮件提供商",
-        "DESCRIPTION": "从下面的列表中选择一个电子邮件提供商。如果您的电子邮件提供商不在列表中，您可以选择其他提供商选项并提供IMAP和SMTP凭据。"
+        "DESCRIPTION": "从下面的列表中选择一个电子邮件提供商。如果您的电子邮件提供商不在列表中，您可以选择其他提供商选项并提供 IMAP 和 SMTP 凭据。"
       },
       "MICROSOFT": {
         "TITLE": "Microsoft Email",
@@ -379,7 +379,7 @@
       "ERROR_FB_LOADING": "加载Facebook SDK时出错。请禁用任何广告拦截器并尝试使用不同的浏览器。",
       "ERROR_FB_AUTH": "出错了，请刷新页面...",
       "ERROR_FB_UNAUTHORIZED": "您无权执行此操作。",
-      "ERROR_FB_UNAUTHORIZED_HELP": "请确保您拥有对Facebook页面的完全控制权。您可以在<a href=\"https://www.facebook.com/help/187316341316631\">这里</a>阅读更多关于Facebook角色的信息。",
+      "ERROR_FB_UNAUTHORIZED_HELP": "请确保您拥有对Facebook页面的完全控制权。您可以在 <a href=\"https://www.facebook.com/help/187316341316631\">这里</a> 阅读更多关于Facebook角色的信息。",
       "CREATING_CHANNEL": "创建您的收件箱...",
       "TITLE": "配置收件箱详情",
       "DESC": ""

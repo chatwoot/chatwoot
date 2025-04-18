@@ -324,7 +324,7 @@
     "SET_AVAILABILITY_TITLE": "Defina como",
     "SET_YOUR_AVAILABILITY": "Disponibilidade",
     "SLA": "SLA",
-    "CUSTOM_ROLES": "Regras Personalizadas",
+    "CUSTOM_ROLES": "Funções Personalizadas",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Visão geral",
     "REAUTHORIZE": "A conexão com a sua caixa de entrada expirou. Por favor, reconecte para continuar recebendo e enviando mensagens",
@@ -333,7 +333,7 @@
       "ARTICLES": "Artigos",
       "CATEGORIES": "Categorias",
       "LOCALES": "Localidades",
-      "SETTINGS": "Confirgurações"
+      "SETTINGS": "Configurações"
     },
     "CHANNELS": "Canais",
     "SET_AUTO_OFFLINE": {
@@ -364,7 +364,7 @@
       "BUTTON_TXT": "Comprar mais créditos",
       "DOCUMENTS": "Documentos",
       "RESPONSES": "Respostas",
-      "UPGRADE": "O capitão não está disponível no plano gratuito, faça o upgrade para ter acesso aos assistentes, co-piloto e muito mais."
+      "UPGRADE": "O Captain não está disponível no plano gratuito, faça o upgrade para ter acesso aos assistentes, copilot e muito mais."
     },
     "CHAT_WITH_US": {
       "TITLE": "Precisa de ajuda?",

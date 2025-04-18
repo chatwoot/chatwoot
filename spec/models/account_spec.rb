@@ -108,4 +108,30 @@ RSpec.describe Account do
       expect(ActiveRecord::Base.connection.execute(query).count).to eq(0)
     end
   end
+
+  describe 'locale' do
+    it 'returns correct language if the value is set' do
+      account = create(:account, locale: 'fr')
+      expect(account.locale).to eq('fr')
+      expect(account.locale_english_name).to eq('french')
+    end
+
+    it 'returns english if the value is not set' do
+      account = create(:account, locale: nil)
+      expect(account.locale).to be_nil
+      expect(account.locale_english_name).to eq('english')
+    end
+
+    it 'returns english if the value is empty string' do
+      account = create(:account, locale: '')
+      expect(account.locale).to be_nil
+      expect(account.locale_english_name).to eq('english')
+    end
+
+    it 'returns correct language if the value has country code' do
+      account = create(:account, locale: 'pt_BR')
+      expect(account.locale).to eq('pt_BR')
+      expect(account.locale_english_name).to eq('portuguese')
+    end
+  end
 end

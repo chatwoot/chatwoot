@@ -125,6 +125,7 @@
       "ACTION_PARAMETERS_REQUIRED": "Se requieren parámetros de acción",
       "ATLEAST_ONE_CONDITION_REQUIRED": "Se requiere al menos una condición",
       "ATLEAST_ONE_ACTION_REQUIRED": "Se requiere al menos una acción"
-    }
+    },
+    "NONE_OPTION": "Ninguna"
   }
 }
