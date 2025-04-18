@@ -6,6 +6,7 @@ PROJECT_NAME="chatscomm"
 ENVIRONMENT=${ENVIRONMENT:-"dev"}
 AWS_REGION=${AWS_REGION:-"us-east-1"}
 IMAGE_TAG=${IMAGE_TAG:-"latest"}
+AWS_PROFILE=${AWS_PROFILE:-"chatscomm"}
 
 # Print usage
 usage() {
@@ -17,6 +18,7 @@ usage() {
   echo "  -t, --tag           Image tag [default: latest]"
   echo "  -m, --migrate       Run database migrations after pushing images"
   echo "  -c, --cluster       ECS cluster name (required for migrations)"
+  echo "  -p, --profile       AWS profile [default: chatscomm]"
   exit 1
 }
 
@@ -54,6 +56,11 @@ while [[ $# -gt 0 ]]; do
       shift
       shift
       ;;
+    -p|--profile)
+      AWS_PROFILE="$2"
+      shift
+      shift
+      ;;
     *)
       echo "Unknown option: $1"
       usage
@@ -71,8 +78,8 @@ fi
 WEB_REPO="${PROJECT_NAME}-chatwoot-web-${ENVIRONMENT}"
 WORKER_REPO="${PROJECT_NAME}-chatwoot-worker-${ENVIRONMENT}"
 
-# Get AWS account ID - using quotes to preserve leading zeros
-AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+# Hardcoded AWS account ID
+AWS_ACCOUNT_ID="008971651719"
 # Force string handling by adding quotes
 WEB_REPO_URL="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${WEB_REPO}"
 WORKER_REPO_URL="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${WORKER_REPO}"
@@ -80,13 +87,14 @@ WORKER_REPO_URL="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${WORKER_
 echo "Building and pushing Chatwoot images to ECR..."
 echo "Environment: ${ENVIRONMENT}"
 echo "AWS Account ID: ${AWS_ACCOUNT_ID}"
+echo "AWS Profile: ${AWS_PROFILE}"
 echo "Web Repository: ${WEB_REPO}"
 echo "Worker Repository: ${WORKER_REPO}"
 echo "Image Tag: ${IMAGE_TAG}"
 
-# Login to ECR
+# Login to ECR - explicitly use the hardcoded account ID
 echo "Logging in to Amazon ECR..."
-aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+aws ecr get-login-password --region ${AWS_REGION} --profile ${AWS_PROFILE} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
 
 # Build and push Web image
 echo "Building Chatwoot Web image..."
@@ -114,15 +122,16 @@ docker push ${WORKER_REPO_URL}:${IMAGE_TAG}
 if [ "$MIGRATE" = true ]; then
   echo "Running database migrations..."
   TASK_DEF="${PROJECT_NAME}-chatwoot-migration-task-${ENVIRONMENT}"
-  SG_ID=$(aws ec2 describe-security-groups --filters "Name=tag:Name,Values=${PROJECT_NAME}-chatwoot-${ENVIRONMENT}-sg" --query "SecurityGroups[0].GroupId" --output text --region ${AWS_REGION})
-  SUBNET_ID=$(aws ec2 describe-subnets --filters "Name=tag:Name,Values=*-private-*" --query "Subnets[0].SubnetId" --output text --region ${AWS_REGION})
+  SG_ID=$(aws ec2 describe-security-groups --filters "Name=tag:Name,Values=${PROJECT_NAME}-chatwoot-${ENVIRONMENT}-sg" --query "SecurityGroups[0].GroupId" --output text --region ${AWS_REGION} --profile ${AWS_PROFILE})
+  SUBNET_ID=$(aws ec2 describe-subnets --filters "Name=tag:Name,Values=*-private-*" --query "Subnets[0].SubnetId" --output text --region ${AWS_REGION} --profile ${AWS_PROFILE})
   
   aws ecs run-task \
     --cluster ${CLUSTER} \
     --task-definition ${TASK_DEF} \
     --launch-type FARGATE \
     --network-configuration "awsvpcConfiguration={subnets=[${SUBNET_ID}],securityGroups=[${SG_ID}],assignPublicIp=DISABLED}" \
-    --region ${AWS_REGION}
+    --region ${AWS_REGION} \
+    --profile ${AWS_PROFILE}
     
   echo "Migration task started. Check AWS console for status."
 fi
