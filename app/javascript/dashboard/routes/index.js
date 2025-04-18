@@ -21,7 +21,8 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
     return '';
   }
 
-  await store.dispatch('accounts/get');
+  await store.dispatch('accounts/getAccountById', user.account_id);
+
   await store.dispatch('setActiveAccount', {
     accountId: user.account_id,
   });
