@@ -160,6 +160,45 @@
 
 # End of Captain Config
 
+# ------- Account Features Default Configuration -------
+- name: ACCOUNT_LEVEL_FEATURE_DEFAULTS
+  display_title: 'Default Features for New Accounts'
+  description: 'Control which features are enabled by default when new accounts are created'
+  value: |-
+    [
+      {"name": "inbound_emails", "enabled": false},
+      {"name": "channel_email", "enabled": false},
+      {"name": "channel_facebook", "enabled": false},
+      {"name": "channel_instagram", "enabled": true},
+      {"name": "ip_lookup", "enabled": false},
+      {"name": "disable_branding", "enabled": false},
+      {"name": "email_continuity_on_api_channel", "enabled": false},
+      {"name": "help_center", "enabled": true},
+      {"name": "agent_bots", "enabled": false},
+      {"name": "macros", "enabled": true},
+      {"name": "agent_management", "enabled": true},
+      {"name": "team_management", "enabled": true},
+      {"name": "inbox_management", "enabled": true},
+      {"name": "labels", "enabled": true},
+      {"name": "custom_attributes", "enabled": true},
+      {"name": "automations", "enabled": false},
+      {"name": "canned_responses", "enabled": true},
+      {"name": "integrations", "enabled": false},
+      {"name": "voice_recorder", "enabled": false},
+      {"name": "channel_website", "enabled": false},
+      {"name": "campaigns", "enabled": false},
+      {"name": "reports", "enabled": true},
+      {"name": "crm", "enabled": true},
+      {"name": "auto_resolve_conversations", "enabled": true},
+      {"name": "custom_reply_email", "enabled": false},
+      {"name": "custom_reply_domain", "enabled": false},
+      {"name": "audit_logs", "enabled": false},
+      {"name": "sla", "enabled": false},
+      {"name": "captain_integration", "enabled": false},
+      {"name": "custom_roles", "enabled": false},
+    ]
+  type: code
+
 # ------- Chatwoot Internal Config for Cloud ----#
 - name: CHATWOOT_INBOX_TOKEN
   value:

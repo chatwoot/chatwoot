@@ -1,10 +1,7 @@
 class SwaggerController < ApplicationController
   def respond
-    if Rails.env.development? || Rails.env.test?
-      render inline: Rails.root.join('swagger', derived_path).read
-    else
-      head :not_found
-    end
+    # Allow Swagger in all environments
+    render inline: Rails.root.join('swagger', derived_path).read
   end
 
   private

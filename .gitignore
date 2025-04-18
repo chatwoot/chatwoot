@@ -6,7 +6,7 @@
 
 # Ignore bundler config.
 /.bundle
-
+/.pnpm-store
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
