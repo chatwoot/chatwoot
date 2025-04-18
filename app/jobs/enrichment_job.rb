@@ -64,7 +64,7 @@ class EnrichmentJob < ApplicationJob
     required_country['name']
   end
 
-  def enrich_from_people_data_labs(email, _name, _company_name) # rubocop:disable Metrics/MethodLength
+  def enrich_from_people_data_labs(email, name, company_name) # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
     response = get_data_from_pdf(email, name, company_name)
     json_body = JSON.parse(response.body)
 
