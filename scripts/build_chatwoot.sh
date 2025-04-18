@@ -19,11 +19,13 @@ usage() {
   echo "  -m, --migrate       Run database migrations after pushing images"
   echo "  -c, --cluster       ECS cluster name (required for migrations)"
   echo "  -p, --profile       AWS profile [default: chatscomm]"
+  echo "  --migrate-only      Run only migrations without building/pushing images"
   exit 1
 }
 
 # Parse arguments
 MIGRATE=false
+MIGRATE_ONLY=false
 CLUSTER=""
 
 while [[ $# -gt 0 ]]; do
@@ -48,6 +50,11 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
     -m|--migrate)
+      MIGRATE=true
+      shift
+      ;;
+    --migrate-only)
+      MIGRATE_ONLY=true
       MIGRATE=true
       shift
       ;;
@@ -84,46 +91,49 @@ AWS_ACCOUNT_ID="008971651719"
 WEB_REPO_URL="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${WEB_REPO}"
 WORKER_REPO_URL="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${WORKER_REPO}"
 
-echo "Building and pushing Chatwoot images to ECR..."
-echo "Environment: ${ENVIRONMENT}"
-echo "AWS Account ID: ${AWS_ACCOUNT_ID}"
-echo "AWS Profile: ${AWS_PROFILE}"
-echo "Web Repository: ${WEB_REPO}"
-echo "Worker Repository: ${WORKER_REPO}"
-echo "Image Tag: ${IMAGE_TAG}"
+# Skip build/push if migrate-only is set
+if [ "$MIGRATE_ONLY" = false ]; then
+  echo "Building and pushing Chatwoot images to ECR..."
+  echo "Environment: ${ENVIRONMENT}"
+  echo "AWS Account ID: ${AWS_ACCOUNT_ID}"
+  echo "AWS Profile: ${AWS_PROFILE}"
+  echo "Web Repository: ${WEB_REPO}"
+  echo "Worker Repository: ${WORKER_REPO}"
+  echo "Image Tag: ${IMAGE_TAG}"
 
-# Login to ECR - explicitly use the hardcoded account ID
-echo "Logging in to Amazon ECR..."
-aws ecr get-login-password --region ${AWS_REGION} --profile ${AWS_PROFILE} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+  # Login to ECR - explicitly use the hardcoded account ID
+  echo "Logging in to Amazon ECR..."
+  aws ecr get-login-password --region ${AWS_REGION} --profile ${AWS_PROFILE} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
 
-# Build and push Web image
-echo "Building Chatwoot Web image..."
-docker build -t ${WEB_REPO_URL}:${IMAGE_TAG} \
-  -f docker/Dockerfile \
-  --platform linux/amd64 \
-  --build-arg RAILS_ENV=production \
-  --build-arg RAILS_SERVE_STATIC_FILES=true \
-  .
+  # Build and push Web image
+  echo "Building Chatwoot Web image..."
+  docker build -t ${WEB_REPO_URL}:${IMAGE_TAG} \
+    -f docker/Dockerfile \
+    --platform linux/amd64 \
+    --build-arg RAILS_ENV=production \
+    --build-arg RAILS_SERVE_STATIC_FILES=true \
+    .
 
-echo "Pushing Chatwoot Web image to ECR..."
-docker push ${WEB_REPO_URL}:${IMAGE_TAG}
+  echo "Pushing Chatwoot Web image to ECR..."
+  docker push ${WEB_REPO_URL}:${IMAGE_TAG}
 
-# Build and push Worker image
-echo "Building Chatwoot Worker image..."
-docker build -t ${WORKER_REPO_URL}:${IMAGE_TAG} \
-  -f docker/Dockerfile \
-  --platform linux/amd64 \
-  --build-arg RAILS_ENV=production \
-  --build-arg RAILS_SERVE_STATIC_FILES=true \
-  .
+  # Build and push Worker image
+  echo "Building Chatwoot Worker image..."
+  docker build -t ${WORKER_REPO_URL}:${IMAGE_TAG} \
+    -f docker/Dockerfile \
+    --platform linux/amd64 \
+    --build-arg RAILS_ENV=production \
+    --build-arg RAILS_SERVE_STATIC_FILES=true \
+    .
 
-echo "Pushing Chatwoot Worker image to ECR..."
-docker push ${WORKER_REPO_URL}:${IMAGE_TAG}
+  echo "Pushing Chatwoot Worker image to ECR..."
+  docker push ${WORKER_REPO_URL}:${IMAGE_TAG}
+fi
 
 # Run migrations if requested
 if [ "$MIGRATE" = true ]; then
   echo "Running database migrations..."
-  TASK_DEF="${PROJECT_NAME}-chatwoot-migration-task-${ENVIRONMENT}"
+  TASK_DEF="${PROJECT_NAME}-chatwoot-${ENVIRONMENT}-web-task"
   SG_ID=$(aws ec2 describe-security-groups --filters "Name=tag:Name,Values=${PROJECT_NAME}-chatwoot-${ENVIRONMENT}-sg" --query "SecurityGroups[0].GroupId" --output text --region ${AWS_REGION} --profile ${AWS_PROFILE})
   SUBNET_ID=$(aws ec2 describe-subnets --filters "Name=tag:Name,Values=*-private-*" --query "Subnets[0].SubnetId" --output text --region ${AWS_REGION} --profile ${AWS_PROFILE})
   
@@ -132,10 +142,15 @@ if [ "$MIGRATE" = true ]; then
     --task-definition ${TASK_DEF} \
     --launch-type FARGATE \
     --network-configuration "awsvpcConfiguration={subnets=[${SUBNET_ID}],securityGroups=[${SG_ID}],assignPublicIp=DISABLED}" \
+    --overrides "{\"containerOverrides\": [{\"name\": \"${PROJECT_NAME}-chatwoot-${ENVIRONMENT}-web-container\", \"command\": [\"bundle\", \"exec\", \"rails\", \"db:migrate\"]}]}" \
     --region ${AWS_REGION} \
     --profile ${AWS_PROFILE}
     
   echo "Migration task started. Check AWS console for status."
 fi
 
-echo "Build and push completed successfully!" 
+if [ "$MIGRATE_ONLY" = false ]; then
+  echo "Build and push completed successfully!"
+else
+  echo "Migration command executed successfully!"
+fi 
