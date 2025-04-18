@@ -91,6 +91,9 @@ export default {
       if (this.isATwilioWhatsAppChannel) {
         return this.$t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO');
       }
+      if (this.isAWhapiChannel) {
+        return this.$t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHAPI');
+      }
       return '';
     },
     tabs() {
@@ -125,11 +128,8 @@ export default {
 
       if (
         this.isATwilioChannel ||
-        this.isALineChannel ||
-        this.isAPIInbox ||
-        (this.isAnEmailChannel && !this.inbox.provider) ||
-        this.isAWhatsAppChannel ||
-        this.isAWebWidgetInbox
+        this.isATwitterInbox ||
+        this.isAFacebookInbox
       ) {
         visibleToAllChannelTabs = [
           ...visibleToAllChannelTabs,

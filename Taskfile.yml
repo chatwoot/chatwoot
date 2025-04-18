@@ -44,11 +44,15 @@ tasks:
         fi
 
   docker-rebuild:
-    desc: "Rebuild and restart all services"
+    desc: "Rebuild and restart all services with local code changes"
     cmds:
       - task: docker-down
-      - task: docker-build
+      - echo "Building image with local code (no cache)..."
+      - docker build --no-cache -t {{.IMAGE_NAME}}:{{.IMAGE_TAG}} -f Dockerfile.custom .
       - task: docker-up
+      - echo "Waiting for services to start..."
+      - sleep 10
+      - echo "Rebuild complete."
 
   setup-dirs:
     desc: "Create necessary directories for data persistence"
@@ -100,12 +104,15 @@ tasks:
   db-prepare:
     desc: "Run database setup and migrations"
     cmds:
-      - "{{.COMPOSE_CMD}} -f {{.COMPOSE_FILE}} exec rails bundle exec rails db:chatwoot_prepare"
-
-  db-seed:
-    desc: "Load seed data into the database"
-    cmds:
+      - "{{.COMPOSE_CMD}} -f {{.COMPOSE_FILE}} exec rails bundle exec rails db:create"
+      - "{{.COMPOSE_CMD}} -f {{.COMPOSE_FILE}} exec rails bundle exec rails db:migrate"
       - "{{.COMPOSE_CMD}} -f {{.COMPOSE_FILE}} exec rails bundle exec rails db:seed"
+
+  db-init:
+    desc: "Initialize database with basic setup"
+    cmds:
+      - task: db-prepare
+      - echo "Database initialized successfully."
 
   generate-icons:
     desc: "Generate all icon variations from logo.png for branding"
@@ -180,8 +187,7 @@ tasks:
       - task: docker-up
       - echo "Waiting for database to be ready..."
       - sleep 10
-      - task: db-prepare
-      - task: build-swagger
+      - task: db-init
 
   open-app:
     desc: "Open the Chatwoot application in the default browser"

@@ -1,54 +1,76 @@
+version: '3'
+
 services:
-  base: &base
+  base:
+    build:
+      context: .
+      dockerfile: Dockerfile.custom
     image: chatwoot-branded:latest
     env_file: .env
-    volumes:
-      - ./storage:/app/storage
-      - ./public/uploads:/app/public/uploads
+    networks:
+      - chatwoot-network
 
   rails:
-    <<: *base
+    image: chatwoot-branded:latest
     depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_started
-    ports:
-      - '3000:3000'
+      - db
+      - redis
+    env_file: .env
     environment:
-      - NODE_ENV=development
-      - RAILS_ENV=development
+      - NODE_ENV=production
+      - RAILS_ENV=production
       - INSTALLATION_ENV=docker
-    entrypoint: docker/entrypoints/rails.sh
-    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
-    restart: always
+      - POSTGRES_HOST=db
+      - REDIS_URL=redis://redis:6379
     volumes:
       - ./storage:/app/storage
       - ./public/uploads:/app/public/uploads
       - ./swagger:/app/swagger
       - ./swagger:/app/public/swagger
+    entrypoint: docker/entrypoints/rails.sh
+    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+    restart: always
+    ports:
+      - '3000:3000'
+    networks:
+      - chatwoot-network
+    deploy:
+      resources:
+        limits:
+          memory: 2g
 
   sidekiq:
-    <<: *base
+    image: chatwoot-branded:latest
     depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_started
+      - db
+      - redis
+    env_file: .env
     environment:
-      - NODE_ENV=development
-      - RAILS_ENV=development
+      - NODE_ENV=production
+      - RAILS_ENV=production
       - INSTALLATION_ENV=docker
+      - POSTGRES_HOST=db
+      - REDIS_URL=redis://redis:6379
+    volumes:
+      - ./storage:/app/storage
+      - ./public/uploads:/app/public/uploads
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
     restart: always
+    networks:
+      - chatwoot-network
+    deploy:
+      resources:
+        limits:
+          memory: 2g
 
-  postgres:
+  db:
     image: pgvector/pgvector:pg16
-    restart: always
+    restart: unless-stopped
+    env_file: .env
     ports:
       - '5432:5432'
     volumes:
-      - ./data/postgres:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
@@ -58,20 +80,45 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - chatwoot-network
+    deploy:
+      resources:
+        limits:
+          memory: 1g
 
   redis:
     image: redis:alpine
-    restart: always
+    restart: unless-stopped
     command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
     env_file: .env
     volumes:
-      - ./data/redis:/data
+      - redis-data:/data
     ports:
       - '6379:6379'
+    networks:
+      - chatwoot-network
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+
+  mailhog:
+    restart: unless-stopped
+    image: mailhog/mailhog
+    ports:
+      - '1025:1025'
+      - '8025:8025'
+    networks:
+      - chatwoot-network
+
+networks:
+  chatwoot-network:
+    driver: bridge
 
 volumes:
-  postgres:
-  redis:
+  postgres-data:
+  redis-data:
   packs:
   node_modules:
   cache:
