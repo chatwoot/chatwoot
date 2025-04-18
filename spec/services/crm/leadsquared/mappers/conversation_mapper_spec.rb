@@ -145,5 +145,59 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
         expect(result).not_to include('Message 2')
       end
     end
+
+    context 'when messages exceed the ACTIVITY_NOTE_MAX_SIZE' do
+      it 'truncates messages to stay within the character limit' do
+        # Create a large number of messages with reasonably sized content
+        long_message_content = 'A' * 200
+        messages = []
+
+        # Create 15 messages (which should exceed the 1800 character limit)
+        15.times do |i|
+          messages << create(:message,
+                             conversation: conversation,
+                             sender: user,
+                             content: "#{long_message_content} #{i}",
+                             message_type: :outgoing,
+                             created_at: Time.zone.parse("2024-01-01 #{10 + i}:00:00"))
+        end
+
+        result = described_class.map_transcript_activity(conversation, messages)
+
+        # Verify first few messages are included
+        expect(result).to include("[2024-01-01 10:00] John Doe: #{long_message_content} 0")
+
+        # Calculate the expected character count of the formatted messages
+        messages.map do |msg|
+          "[#{msg.created_at.strftime('%Y-%m-%d %H:%M')}] John Doe: #{msg.content}"
+        end
+
+        # Verify the result is within the character limit
+        expect(result.length).to be <= described_class::ACTIVITY_NOTE_MAX_SIZE + 500 # Add some buffer for the prefix text
+
+        # Verify that not all messages are included (some were truncated)
+        expect(messages.count).to be > result.scan(/John Doe:/).count
+      end
+
+      it 'respects the ACTIVITY_NOTE_MAX_SIZE constant' do
+        # Create a single message that would exceed the limit by itself
+        giant_content = 'A' * 2000
+        message = create(:message,
+                         conversation: conversation,
+                         sender: user,
+                         content: giant_content,
+                         message_type: :outgoing)
+
+        result = described_class.map_transcript_activity(conversation, [message])
+
+        # Extract just the formatted messages part
+        id = conversation.display_id
+        prefix = "Conversation Transcript from TestBrand\nChannel: Channel (Test Inbox)\nConversation ID: #{id}\nView in TestBrand: "
+        formatted_messages = result.sub(prefix, '').sub(%r{http://.*}, '')
+
+        # Check that it's under the limit (with some tolerance for the message format)
+        expect(formatted_messages.length).to be <= described_class::ACTIVITY_NOTE_MAX_SIZE + 100
+      end
+    end
   end
 end

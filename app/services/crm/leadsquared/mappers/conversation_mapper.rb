@@ -1,6 +1,11 @@
 class Crm::Leadsquared::Mappers::ConversationMapper
   include ::Rails.application.routes.url_helpers
 
+  # https://help.leadsquared.com/what-is-the-maximum-character-length-supported-for-lead-and-activity-fields/
+  # the rest of the body of the note is around 200 chars
+  # so this limits it
+  ACTIVITY_NOTE_MAX_SIZE = 1800
+
   def self.map_conversation_activity(conversation)
     new(conversation).conversation_activity
   end
@@ -51,9 +56,24 @@ class Crm::Leadsquared::Mappers::ConversationMapper
   end
 
   def format_messages
-    transcript_messages.map do |message|
-      format_message(message)
-    end.join("\n\n")
+    result = ''
+    separator = "\n\n"
+    total_length = 0
+
+    transcript_messages.each do |message|
+      formatted_message = format_message(message)
+      message_length = formatted_message.length + (result.empty? ? 0 : separator.length)
+
+      # Check if adding this message would exceed the character limit
+      break if (total_length + message_length) > ACTIVITY_NOTE_MAX_SIZE
+
+      # Add separator if this isn't the first message
+      result += separator unless result.empty?
+      result += formatted_message
+      total_length += message_length
+    end
+
+    result
   end
 
   def format_message(message)
