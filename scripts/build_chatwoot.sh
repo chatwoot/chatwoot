@@ -71,13 +71,15 @@ fi
 WEB_REPO="${PROJECT_NAME}-chatwoot-web-${ENVIRONMENT}"
 WORKER_REPO="${PROJECT_NAME}-chatwoot-worker-${ENVIRONMENT}"
 
-# Get AWS account ID
+# Get AWS account ID - using quotes to preserve leading zeros
 AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+# Force string handling by adding quotes
 WEB_REPO_URL="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${WEB_REPO}"
 WORKER_REPO_URL="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${WORKER_REPO}"
 
 echo "Building and pushing Chatwoot images to ECR..."
 echo "Environment: ${ENVIRONMENT}"
+echo "AWS Account ID: ${AWS_ACCOUNT_ID}"
 echo "Web Repository: ${WEB_REPO}"
 echo "Worker Repository: ${WORKER_REPO}"
 echo "Image Tag: ${IMAGE_TAG}"
