@@ -1,22 +1,22 @@
 # ------- Branding Related Config ------- #
 - name: INSTALLATION_NAME
-  value: 'Chatwoot'
+  value: 'ChatsCommerce'
 - name: LOGO_THUMBNAIL
-  value: '/brand-assets/logo_thumbnail.svg'
+  value: '/brand-assets/logo_thumbnail.png'
 - name: LOGO
-  value: '/brand-assets/logo.svg'
+  value: '/brand-assets/logo.png'
 - name: LOGO_DARK
-  value: '/brand-assets/logo_dark.svg'
+  value: '/brand-assets/logo_dark.png'
 - name: BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://www.chatscommerce.com'
 - name: WIDGET_BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://www.chatscommerce.com'
 - name: BRAND_NAME
-  value: 'Chatwoot'
+  value: 'ChatsCommerce'
 - name: TERMS_URL
-  value: 'https://www.chatwoot.com/terms-of-service'
+  value: 'https://www.chatscommerce.com/terms-of-service'
 - name: PRIVACY_URL
-  value: 'https://www.chatwoot.com/privacy-policy'
+  value: 'https://www.chatscommerce.com/privacy-policy'
 - name: DISPLAY_MANIFEST
-  value: true
+  value: false
 # ------- End of Branding Related Config ------- #

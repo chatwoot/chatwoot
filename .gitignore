@@ -57,6 +57,7 @@ buildreports
 coverage
 
 /storage
+/data
 
 # ignore packages
 node_modules

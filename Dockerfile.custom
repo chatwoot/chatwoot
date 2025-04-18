@@ -1,0 +1,10 @@
+FROM chatwoot/chatwoot:latest
+
+# Copy our custom branding assets
+COPY public/brand-assets/chatscommerce /app/public/brand-assets/chatscommerce/
+
+# Copy our modified installation_config.yml
+COPY config/installation_config.yml /app/config/installation_config.yml
+
+# Generate .git_sha file with current commit hash
+RUN echo "chatscommerce-branded" > /app/.git_sha 
