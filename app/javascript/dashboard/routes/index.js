@@ -23,10 +23,6 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
 
   await store.dispatch('accounts/getAccountById', user.account_id);
 
-  await store.dispatch('setActiveAccount', {
-    accountId: user.account_id,
-  });
-
   const getAccount = store.getters['accounts/getAccount'];
   let currentAccount = getAccount(user.account_id); // Assuming user has an account_id property
 
