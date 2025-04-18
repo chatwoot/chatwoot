@@ -67,13 +67,20 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
         system_message
       end
 
-      it 'generates transcript with messages' do
+      it 'generates transcript with messages in reverse chronological order' do
         result = described_class.map_transcript_activity(conversation)
 
         expect(result).to include('Conversation Transcript from TestBrand')
         expect(result).to include('Channel: Channel (Test Inbox)')
-        expect(result).to include('[2024-01-01 10:00] John Doe: Hello')
-        expect(result).to include('[2024-01-01 10:01] Jane Smith: Hi there')
+
+        # Check that messages appear in reverse order (newest first)
+        message_positions = {
+          '[2024-01-01 10:00] John Doe: Hello' => result.index('[2024-01-01 10:00] John Doe: Hello'),
+          '[2024-01-01 10:01] Jane Smith: Hi there' => result.index('[2024-01-01 10:01] Jane Smith: Hi there')
+        }
+
+        # Latest message (10:01) should come before older message (10:00)
+        expect(message_positions['[2024-01-01 10:01] Jane Smith: Hi there']).to be < message_positions['[2024-01-01 10:00] John Doe: Hello']
       end
 
       context 'when message has attachments' do
@@ -164,8 +171,8 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
 
         result = described_class.map_transcript_activity(conversation, messages)
 
-        # Verify first few messages are included
-        expect(result).to include("[2024-01-01 10:00] John Doe: #{long_message_content} 0")
+        # Verify latest message is included (message 14)
+        expect(result).to include("[2024-01-02 00:00] John Doe: #{long_message_content} 14")
 
         # Calculate the expected character count of the formatted messages
         messages.map do |msg|
@@ -173,7 +180,7 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
         end
 
         # Verify the result is within the character limit
-        expect(result.length).to be <= described_class::ACTIVITY_NOTE_MAX_SIZE + 500 # Add some buffer for the prefix text
+        expect(result.length).to be <= described_class::ACTIVITY_NOTE_MAX_SIZE + 100
 
         # Verify that not all messages are included (some were truncated)
         expect(messages.count).to be > result.scan(/John Doe:/).count

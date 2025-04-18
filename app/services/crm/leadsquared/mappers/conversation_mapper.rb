@@ -60,7 +60,8 @@ class Crm::Leadsquared::Mappers::ConversationMapper
     separator = "\n\n"
     total_length = 0
 
-    transcript_messages.each do |message|
+    # Reverse the messages to have latest on top
+    transcript_messages.reverse_each do |message|
       formatted_message = format_message(message)
       message_length = formatted_message.length + (result.empty? ? 0 : separator.length)
 
