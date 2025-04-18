@@ -111,6 +111,10 @@ jobs:
           tags: |
             ${{ env.ECR_URL_WEB }}:${{ env.VERSION_TAG }}
             ${{ env.ECR_URL_WEB }}:${{ env.LATEST_TAG }}
+          cache-from: |
+            type=registry,ref=${{ env.ECR_URL_WEB }}:cache
+          cache-to: |
+            type=registry,ref=${{ env.ECR_URL_WEB }}:cache,mode=max
             
       - name: build-and-push-worker
         uses: docker/build-push-action@v4
@@ -125,6 +129,10 @@ jobs:
           tags: |
             ${{ env.ECR_URL_WORKER }}:${{ env.VERSION_TAG }}
             ${{ env.ECR_URL_WORKER }}:${{ env.LATEST_TAG }}
+          cache-from: |
+            type=registry,ref=${{ env.ECR_URL_WORKER }}:cache
+          cache-to: |
+            type=registry,ref=${{ env.ECR_URL_WORKER }}:cache,mode=max
       
       - name: image-build-notification
         if: always()
@@ -184,6 +192,10 @@ jobs:
           tags: |
             ${{ env.ECR_URL_WEB }}:${{ env.VERSION_TAG }}
             ${{ env.ECR_URL_WEB }}:${{ env.LATEST_TAG }}
+          cache-from: |
+            type=registry,ref=${{ env.ECR_URL_WEB }}:cache
+          cache-to: |
+            type=registry,ref=${{ env.ECR_URL_WEB }}:cache,mode=max
             
       - name: build-and-push-worker
         uses: docker/build-push-action@v4
@@ -198,6 +210,10 @@ jobs:
           tags: |
             ${{ env.ECR_URL_WORKER }}:${{ env.VERSION_TAG }}
             ${{ env.ECR_URL_WORKER }}:${{ env.LATEST_TAG }}
+          cache-from: |
+            type=registry,ref=${{ env.ECR_URL_WORKER }}:cache
+          cache-to: |
+            type=registry,ref=${{ env.ECR_URL_WORKER }}:cache,mode=max
       
       # - name: image-build-notification
       #   if: always()
