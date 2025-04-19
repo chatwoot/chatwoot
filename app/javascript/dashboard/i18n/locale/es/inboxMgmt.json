@@ -215,7 +215,7 @@
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "Nube de WhatsApp",
           "360_DIALOG": "360 Diálogo",
-          "WHAPI": "Whapi.cloud"
+          "WHAPI": "Whapi"
         },
         "INBOX_NAME": {
           "LABEL": "Nombre de la bandeja de entrada",

@@ -20,7 +20,8 @@ export default {
       inboxName: '',
       phoneNumber: '',
       apiKey: '',
-      webhookSecret: ''
+      webhookSecret: '',
+      channelId: ''
     };
   },
   computed: {
@@ -30,7 +31,8 @@ export default {
     inboxName: { required },
     phoneNumber: { required, isPhoneE164OrEmpty },
     apiKey: { required },
-    webhookSecret: { required }
+    webhookSecret: { required },
+    channelId: { required }
   },
   methods: {
     async createChannel() {
@@ -50,7 +52,8 @@ export default {
               provider: 'whapi',
               provider_config: {
                 api_key: this.apiKey,
-                webhook_secret: this.webhookSecret
+                webhook_secret: this.webhookSecret,
+                channel_id: this.channelId
               },
             },
           }
@@ -139,6 +142,21 @@ export default {
         </label>
         <span v-if="v$.webhookSecret.$error" class="message">
           Webhook secret is required
+        </span>
+      </div>
+
+      <div class="mb-4">
+        <label>
+          Whapi Channel ID
+          <input
+            v-model="channelId"
+            type="text"
+            placeholder="Enter the channel_id from Whapi.cloud (e.g. AQUAMN-8EFCZ)"
+            :class="{ error: v$.channelId.$error }"
+          />
+        </label>
+        <span v-if="v$.channelId.$error" class="message">
+          Whapi Channel ID is required
         </span>
       </div>
 

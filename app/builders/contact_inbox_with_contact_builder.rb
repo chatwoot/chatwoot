@@ -49,7 +49,8 @@ class ContactInboxWithContactBuilder
   end
 
   def create_contact
-    account.contacts.create!(
+    Rails.logger.info("Creating new contact for account: #{account.id}")
+    contact = account.contacts.create!(
       name: contact_attributes[:name] || ::Haikunator.haikunate(1000),
       phone_number: contact_attributes[:phone_number],
       email: contact_attributes[:email],
@@ -57,6 +58,8 @@ class ContactInboxWithContactBuilder
       additional_attributes: contact_attributes[:additional_attributes],
       custom_attributes: contact_attributes[:custom_attributes]
     )
+    Rails.logger.info("Contact created with ID: #{contact.id}, account_id: #{contact.account_id}")
+    contact
   end
 
   def find_contact

@@ -59,11 +59,16 @@ class ContactInboxBuilder
   end
 
   def create_contact_inbox
-    ::ContactInbox.create_with(hmac_verified: hmac_verified || false).find_or_create_by!(
+    Rails.logger.info("[ContactInboxBuilder] Creating contact inbox: contact_id=#{@contact.id}, inbox_id=#{@inbox.id}, source_id=#{@source_id}")
+    
+    ci = ::ContactInbox.create_with(hmac_verified: hmac_verified || false).find_or_create_by!(
       contact_id: @contact.id,
       inbox_id: @inbox.id,
       source_id: @source_id
     )
+    
+    Rails.logger.info("[ContactInboxBuilder] Created/Found contact inbox with ID: #{ci.id}")
+    ci
   rescue ActiveRecord::RecordNotUnique
     Rails.logger.info("[ContactInboxBuilder] RecordNotUnique #{@source_id} #{@contact.id} #{@inbox.id}")
     update_old_contact_inbox
@@ -71,9 +76,9 @@ class ContactInboxBuilder
   end
 
   def update_old_contact_inbox
-    # The race condition occurs when there’s a contact inbox with the
+    # The race condition occurs when there's a contact inbox with the
     # same source ID but linked to a different contact. This can happen
-    # if the agent updates the contact’s email or phone number, or
+    # if the agent updates the contact's email or phone number, or
     # if the contact is merged with another.
     #
     # We update the old contact inbox source_id to a random value to

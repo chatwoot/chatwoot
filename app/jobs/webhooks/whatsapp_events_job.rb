@@ -2,10 +2,18 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
   queue_as :low
 
   def perform(params = {})
+    # First try to find channel from WhatsApp business payload or URL param
     channel = find_channel_from_whatsapp_business_payload(params)
+    
+    # If not found, and we have a WHAPI payload, try to find by WHAPI channel_id
+    if channel.nil? && (params[:channel_id].present? || params.dig(:whapi, :channel_id).present?)
+      Rails.logger.info("Attempting to find WhatsApp channel by WHAPI channel_id")
+      channel = find_channel_by_whapi_id(params)
+    end
 
     if channel_is_inactive?(channel)
-      Rails.logger.warn("Inactive WhatsApp channel: #{channel&.phone_number || "unknown - #{params[:phone_number]}"}")
+      channel_id = params[:channel_id] || params.dig(:whapi, :channel_id)
+      Rails.logger.warn("Inactive WhatsApp channel: #{channel&.phone_number || "unknown - #{params[:phone_number]}"}, WHAPI channel_id: #{channel_id}")
       return
     end
 
@@ -13,6 +21,7 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     when 'whatsapp_cloud'
       Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: channel.inbox, params: params).perform
     when 'whapi'
+      Rails.logger.info("Processing WHAPI webhook for channel: #{channel.id}, inbox: #{channel.inbox.id}")
       Whatsapp::IncomingMessageWhapiService.new(inbox: channel.inbox, params: params).perform
     else
       Whatsapp::IncomingMessageService.new(inbox: channel.inbox, params: params).perform
@@ -33,6 +42,23 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     return unless params[:phone_number]
 
     Channel::Whatsapp.find_by(phone_number: params[:phone_number])
+  end
+  
+  def find_channel_by_whapi_id(params)
+    # Extract channel_id from params
+    channel_id = params[:channel_id] || params.dig(:whapi, :channel_id)
+    return nil if channel_id.blank?
+    
+    # Find WhatsApp channel with matching channel_id in provider_config
+    Channel::Whatsapp.where(provider: 'whapi').each do |channel|
+      if channel.provider_config['channel_id'] == channel_id
+        Rails.logger.info("Found WHAPI channel #{channel.id} with channel_id: #{channel_id}")
+        return channel
+      end
+    end
+    
+    Rails.logger.error("No WHAPI channel found with channel_id: #{channel_id}")
+    nil
   end
 
   def find_channel_from_whatsapp_business_payload(params)
