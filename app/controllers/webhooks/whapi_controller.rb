@@ -20,11 +20,48 @@ class Webhooks::WhapiController < ActionController::API
   private
   
   def process_webhook
+    # Check for specific message types to log more details
+    if voice_message_in_payload?
+      Rails.logger.info("WHAPI Voice message detected in webhook payload")
+      log_voice_message_details
+    end
+    
     # Log the webhook payload for debugging
     Rails.logger.info("WHAPI Webhook Payload: #{permitted_params.to_h}")
     
     # Queue the job to process this webhook
     Webhooks::WhatsappEventsJob.perform_later(permitted_params.to_h.deep_symbolize_keys)
+  end
+  
+  # Detect if there's a voice message in the webhook payload
+  def voice_message_in_payload?
+    message = params.dig(:messages, 0)
+    return false if message.blank?
+    
+    message[:type] == 'voice' || 
+    message.dig(:voice).present? ||
+    (message[:type] == 'audio' && message.dig(:audio, :is_voice) == true)
+  end
+  
+  # Log detailed information about voice messages for debugging
+  def log_voice_message_details
+    message = params.dig(:messages, 0)
+    return if message.blank?
+    
+    voice_data = message[:voice] || message[:audio]
+    
+    Rails.logger.info("WHAPI Voice Message Details:")
+    Rails.logger.info("- Message ID: #{message[:id]}")
+    Rails.logger.info("- Message Type: #{message[:type]}")
+    Rails.logger.info("- Voice Data: #{voice_data.inspect}") if voice_data.present?
+    
+    # Check for expected URL fields
+    url = voice_data[:url] || voice_data[:link] if voice_data.present?
+    Rails.logger.info("- Voice URL: #{url}")
+    
+    # Check for MIME type information
+    mime_type = voice_data[:mime_type] || voice_data[:mimetype] if voice_data.present?
+    Rails.logger.info("- MIME Type: #{mime_type}")
   end
   
   # The signature verification methods are kept but no longer used

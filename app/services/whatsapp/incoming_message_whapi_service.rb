@@ -119,51 +119,43 @@ class Whatsapp::IncomingMessageWhapiService
         end
         
         # Process based on message type
-        case message_type
+        message = case message_type
         when 'text'
-          message = create_text_message(conversation, contact_inbox.contact, message_data, message_id, timestamp)
-          Rails.logger.info("WHAPI created text message: #{message.id if message}")
+          create_text_message(conversation, contact_inbox.contact, message_data, message_id, timestamp)
         when 'image', 'video', 'audio', 'document'
-          message = create_attachment_message(conversation, contact_inbox.contact, message_data, message_type, message_id, timestamp)
-          Rails.logger.info("WHAPI created attachment message: #{message.id if message}")
+          create_attachment_message(conversation, contact_inbox.contact, message_data, message_type, message_id, timestamp)
         when 'location'
-          message = create_location_message(conversation, contact_inbox.contact, message_data, message_id, timestamp)
-          Rails.logger.info("WHAPI created location message: #{message.id if message}")
+          create_location_message(conversation, contact_inbox.contact, message_data, message_id, timestamp)
         when 'contact', 'contact_list'
-          message = create_contact_message(conversation, contact_inbox.contact, message_data, message_id, timestamp)
-          Rails.logger.info("WHAPI created contact message: #{message.id if message}")
+          create_contact_message(conversation, contact_inbox.contact, message_data, message_id, timestamp)
         when 'interactive'
-          message = create_interactive_message(conversation, contact_inbox.contact, message_data, message_id, timestamp)
-          Rails.logger.info("WHAPI created interactive message: #{message.id if message}")
+          create_interactive_message(conversation, contact_inbox.contact, message_data, message_id, timestamp)
         when 'button'
-          message = create_button_message(conversation, contact_inbox.contact, message_data, message_id, timestamp)
-          Rails.logger.info("WHAPI created button message: #{message.id if message}")
+          create_button_message(conversation, contact_inbox.contact, message_data, message_id, timestamp)
         when 'sticker'
-          message = create_sticker_message(conversation, contact_inbox.contact, message_data, message_id, timestamp)
-          Rails.logger.info("WHAPI created sticker message: #{message.id if message}")
+          create_sticker_message(conversation, contact_inbox.contact, message_data, message_id, timestamp)
         when 'voice'
-          message = create_voice_message(conversation, contact_inbox.contact, message_data, message_id, timestamp)
-          Rails.logger.info("WHAPI created voice message: #{message.id if message}")
+          create_voice_message(conversation, contact_inbox.contact, message_data, message_id, timestamp)
         when 'reaction'
-          message = create_reaction_message(conversation, contact_inbox.contact, message_data, message_id, timestamp)
-          Rails.logger.info("WHAPI created reaction message: #{message.id if message}")
+          create_reaction_message(conversation, contact_inbox.contact, message_data, message_id, timestamp)
         when 'poll'
-          message = create_poll_message(conversation, contact_inbox.contact, message_data, message_id, timestamp)
-          Rails.logger.info("WHAPI created poll message: #{message.id if message}")
+          create_poll_message(conversation, contact_inbox.contact, message_data, message_id, timestamp)
         when 'link_preview'
-          message = create_link_preview_message(conversation, contact_inbox.contact, message_data, message_id, timestamp)
-          Rails.logger.info("WHAPI created link preview message: #{message.id if message}")
+          create_link_preview_message(conversation, contact_inbox.contact, message_data, message_id, timestamp)
         else
           # Default handling for unsupported types
-          message = create_text_message(
+          Rails.logger.warn("WHAPI unsupported message type: #{message_type}")
+          create_text_message(
             conversation, 
             contact_inbox.contact, 
             { text: { body: "Unsupported message type: #{message_type}" } }, 
             message_id, 
             timestamp
           )
-          Rails.logger.info("WHAPI created unsupported type message: #{message.id if message}")
         end
+        
+        Rails.logger.info("WHAPI created message of type #{message_type}: #{message&.id if message}")
+        
       rescue => e
         Rails.logger.error("WHAPI message processing error: #{e.message}")
         Rails.logger.error(e.backtrace.join("\n"))
@@ -245,51 +237,96 @@ class Whatsapp::IncomingMessageWhapiService
       media_data = message_data[type.to_sym]
       return if media_data.blank?
       
-      attachment_url = media_data[:url] || media_data[:link]
+      attachment_url = extract_media_url(media_data)
       media_id = media_data[:id]
-      mime_type = media_data[:mime_type]
+      mime_type = determine_mime_type(media_data)
       caption = media_data[:caption] || ''
+      
+      # Get the API headers from the provider service
+      api_headers = inbox.channel.provider_service.api_headers
       
       # Create a file from the URL
       begin
-        attachment_file = Down.download(
+        attachment_file = download_attachment_with_retry(
           attachment_url,
-          headers: inbox.channel.api_headers
+          api_headers
         )
         
-        # Create the message with attachment
-        message = conversation.messages.build(
-          message_type: :incoming,
-          sender: sender,
-          source_id: message_id,
-          created_at: timestamp,
-          content: caption
-        )
-        
-        message.attachments.new(
-          account_id: conversation.account_id,
-          file_type: mime_type,
-          file: {
-            io: attachment_file,
-            filename: media_data[:file_name] || attachment_file.original_filename || "#{type}.#{mime_type.split('/').last}",
-            content_type: mime_type
-          }
-        )
-        
-        message.save!
+        # Use locale for messages
+        I18n.with_locale(conversation.account.locale || 'en') do
+          # Create the message with attachment
+          message = conversation.messages.build(
+            message_type: :incoming,
+            sender: sender,
+            source_id: message_id,
+            created_at: timestamp,
+            account_id: conversation.account_id,
+            inbox_id: conversation.inbox_id,
+            content: caption
+          )
+          
+          filename = media_data[:file_name] || attachment_file.original_filename || "#{type}.#{mime_type.split('/').last}"
+          
+          Rails.logger.info("WHAPI attaching #{type} with file_type: #{mime_type}, filename: #{filename}")
+          
+          message.attachments.new(
+            account_id: conversation.account_id,
+            file_type: mime_type,
+            file: {
+              io: attachment_file,
+              filename: filename,
+              content_type: mime_type
+            }
+          )
+          
+          begin
+            message.save!
+            Rails.logger.info("WHAPI #{type} message saved successfully with ID: #{message.id}")
+            message
+          rescue => e
+            Rails.logger.error("WHAPI failed to save #{type} message: #{e.message}")
+            
+            # Try again with a more generic MIME type if the specific one failed
+            if mime_type.include?('/')
+              fallback_mime_type = mime_type.split('/').first + '/mpeg'
+              Rails.logger.info("WHAPI retrying with more generic MIME type: #{fallback_mime_type}")
+              
+              message.attachments.first.file_type = fallback_mime_type
+              message.attachments.first.file.content_type = fallback_mime_type
+              
+              message.save!
+              Rails.logger.info("WHAPI #{type} message saved successfully with fallback MIME type, ID: #{message.id}")
+              message
+            else
+              # If that still fails, create a text message with the link instead
+              Rails.logger.error("WHAPI could not save attachment, falling back to link")
+              conversation.messages.create!(
+                content: "#{caption}\n\n[#{type.capitalize} attachment](#{attachment_url})",
+                message_type: :incoming,
+                sender: sender,
+                source_id: message_id,
+                created_at: timestamp,
+                account_id: conversation.account_id,
+                inbox_id: conversation.inbox_id
+              )
+            end
+          end
+        end
       rescue => e
         Rails.logger.error "Failed to download WHAPI attachment: #{e.message}"
         
         # Create a text message instead with link to the content
-        conversation.messages.create!(
-          content: "#{caption}\n\n[#{type.capitalize} attachment](#{attachment_url})",
-          message_type: :incoming,
-          sender: sender,
-          source_id: message_id,
-          created_at: timestamp,
-          account_id: conversation.account_id,
-          inbox_id: conversation.inbox_id
-        )
+        I18n.with_locale(conversation.account.locale || 'en') do
+          conversation.messages.create!(
+            content: "#{caption}\n\n[#{type.capitalize} attachment](#{attachment_url})",
+            message_type: :incoming,
+            sender: sender,
+            source_id: message_id,
+            created_at: timestamp,
+            account_id: conversation.account_id,
+            inbox_id: conversation.inbox_id
+          )
+        end
       end
     end
     
@@ -462,64 +499,306 @@ class Whatsapp::IncomingMessageWhapiService
     
     def create_voice_message(conversation, sender, message_data, message_id, timestamp)
       voice_data = message_data[:voice]
+      Rails.logger.info("WHAPI voice message data: #{message_data.inspect}")
+      Rails.logger.info("WHAPI voice data field: #{voice_data.inspect}")
       return if voice_data.blank?
+      
+      # Get the API headers from the provider service
+      api_headers = inbox.channel.provider_service.api_headers
       
       # Similar to audio message but marked as voice
       begin
-        attachment_url = voice_data[:url] || voice_data[:link]
+        # Extract URL from multiple possible locations in the payload
+        attachment_url = extract_media_url(voice_data)
+        Rails.logger.info("WHAPI voice message URL: #{attachment_url}")
         
         if attachment_url.present?
-          attachment_file = Down.download(
-            attachment_url,
-            headers: inbox.channel.api_headers
-          )
+          Rails.logger.info("WHAPI downloading voice message from: #{attachment_url}")
           
-          # Create the message with voice as an attachment
-          message = conversation.messages.build(
-            message_type: :incoming,
-            sender: sender,
-            source_id: message_id,
-            created_at: timestamp,
-            account_id: conversation.account_id,
-            inbox_id: conversation.inbox_id,
-            content: 'Voice message'
-          )
+          attachment_file = nil
+          download_error = nil
           
-          message.attachments.new(
-            account_id: conversation.account_id,
-            file_type: voice_data[:mime_type] || 'audio/ogg',
-            file: {
-              io: attachment_file,
-              filename: 'voice_message.ogg',
-              content_type: voice_data[:mime_type] || 'audio/ogg'
-            }
-          )
+          # First try: Use our retry helper to download the file
+          begin
+            attachment_file = download_attachment_with_retry(attachment_url, api_headers)
+            Rails.logger.info("WHAPI voice message downloaded successfully, size: #{attachment_file.size} bytes")
+          rescue => e
+            download_error = e
+            Rails.logger.error("WHAPI primary download method failed: #{e.message}")
+            
+            # Second try: Use HTTParty as a fallback
+            begin
+              Rails.logger.info("WHAPI trying fallback download method with HTTParty")
+              temp_file = Tempfile.new(['voice_message', '.ogg'])
+              
+              response = HTTParty.get(attachment_url, headers: api_headers)
+              if response.success?
+                temp_file.binmode
+                temp_file.write(response.body)
+                temp_file.rewind
+                
+                attachment_file = temp_file
+                Rails.logger.info("WHAPI fallback download succeeded, size: #{temp_file.size} bytes")
+              else
+                Rails.logger.error("WHAPI fallback download failed with status: #{response.code}")
+                raise "HTTParty download failed with status: #{response.code}"
+              end
+            rescue => e2
+              Rails.logger.error("WHAPI fallback download failed: #{e2.message}")
+              # Re-raise the original error
+              raise download_error
+            end
+          end
           
-          message.save!
+          if attachment_file.present?
+            # Now set the locale for translations
+            I18n.with_locale(conversation.account.locale || 'en') do
+
+              # Create the message with voice as an attachment
+              message = conversation.messages.build(
+                message_type: :incoming,
+                sender: sender,
+                source_id: message_id,
+                created_at: timestamp,
+                account_id: conversation.account_id,
+                inbox_id: conversation.inbox_id,
+                content: I18n.t('whatsapp.voice_message') # Use localized message
+              )
+              
+              # Determine proper MIME type for WhatsApp voice messages
+              # WhatsApp typically uses audio/ogg with opus codec
+              mime_type = determine_mime_type(voice_data, attachment_file)
+              Rails.logger.info("WHAPI voice message mime type: #{mime_type}")
+              
+              # Get filename from payload or generate a reasonable one
+              filename = voice_data[:file_name] || voice_data[:filename] || "voice_message_#{Time.now.to_i}.ogg"
+              
+              # Store the original MIME type for reference
+              attachment_attributes = {
+                account_id: conversation.account_id,
+                file_type: :audio, # Use the enum symbol
+                file: {
+                  io: attachment_file,
+                  filename: filename,
+                  content_type: mime_type # Keep original mime type for file content
+                }
+              }
+
+              message.attachments.new(attachment_attributes)
+              
+              # Log everything before saving for debugging
+              Rails.logger.info("WHAPI attaching voice with file_type: :audio, filename: #{filename}, original_mime_type: #{mime_type}")
+              
+              begin
+                message.save!
+                Rails.logger.info("WHAPI voice message saved successfully with ID: #{message.id}")
+                message
+              rescue => e
+                Rails.logger.error("WHAPI failed to save voice message: #{e.message}")
+                Rails.logger.error(e.backtrace.join("\n"))
+                
+                # Try again with a more generic MIME type if the specific one failed
+                if mime_type.include?('/')
+                  fallback_mime_type = mime_type.split('/').first + '/mpeg'
+                  Rails.logger.info("WHAPI retrying with more generic MIME type: #{fallback_mime_type}")
+                  
+                  message.attachments.first.file_type = fallback_mime_type
+                  message.attachments.first.file.content_type = fallback_mime_type
+                  
+                  message.save!
+                  Rails.logger.info("WHAPI voice message saved successfully with fallback MIME type, ID: #{message.id}")
+                  message
+                else
+                  raise e
+                end
+              end
+            end
+          else
+            raise "Failed to download voice message after multiple attempts"
+          end
         else
-          conversation.messages.create!(
-            content: 'Voice message',
-            message_type: :incoming,
-            sender: sender,
-            source_id: message_id,
-            created_at: timestamp,
-            account_id: conversation.account_id,
-            inbox_id: conversation.inbox_id
-          )
+          Rails.logger.warn("WHAPI voice message URL not found in payload")
+          I18n.with_locale(conversation.account.locale || 'en') do
+            conversation.messages.create!(
+              content: I18n.t('whatsapp.voice_message_url_not_available'),
+              message_type: :incoming,
+              sender: sender,
+              source_id: message_id,
+              created_at: timestamp,
+              account_id: conversation.account_id,
+              inbox_id: conversation.inbox_id
+            )
+          end
         end
       rescue => e
-        Rails.logger.error "Failed to download WHAPI voice message: #{e.message}"
-        
-        conversation.messages.create!(
-          content: 'Voice message',
+        Rails.logger.error "WHAPI Entered rescue block in create_voice_message for message_id: #{message_id}"
+        Rails.logger.error("WHAPI Error details: #{e.message}")
+        create_error_audio_message(conversation, sender, message_id, timestamp, I18n.t('whatsapp.voice_message_download_failed'))
+      end
+    end
+    
+    # Helper method to create an audio attachment message indicating an error
+    def create_error_audio_message(conversation, sender, message_id, timestamp, error_content)
+      # <<< DETAILED LOCALE LOGGING - START >>>
+      account_locale = conversation&.account&.locale || 'account_locale_missing'
+      Rails.logger.info("WHAPI create_error_audio_message: Account locale determined as: #{account_locale}")
+      target_locale = account_locale == 'account_locale_missing' ? 'en' : account_locale
+      Rails.logger.info("WHAPI create_error_audio_message: Target locale for I18n.with_locale: #{target_locale}")
+      # <<< DETAILED LOCALE LOGGING - END >>>
+
+      I18n.with_locale(target_locale) do
+        # <<< DETAILED LOCALE LOGGING - START >>>
+        current_i18n_locale = I18n.locale
+        Rails.logger.info("WHAPI create_error_audio_message: Locale INSIDE I18n.with_locale block: #{current_i18n_locale}")
+        translated_content = I18n.t('whatsapp.voice_message_download_failed')
+        Rails.logger.info("WHAPI create_error_audio_message: Result of I18n.t: '#{translated_content}'")
+        # Ensure we use the potentially translated content, not the passed English one
+        # error_content = translated_content # <-- We actually want the translated one IF locale worked
+        # <<< DETAILED LOCALE LOGGING - END >>>
+
+        message = conversation.messages.build(
           message_type: :incoming,
           sender: sender,
           source_id: message_id,
           created_at: timestamp,
           account_id: conversation.account_id,
-          inbox_id: conversation.inbox_id
+          inbox_id: conversation.inbox_id,
+          content: translated_content # Use the translated content here
         )
+        
+        # <<< DETAILED LOCALE LOGGING - START >>>
+        Rails.logger.info("WHAPI create_error_audio_message: Message object content before save: '#{message.content}'")
+        # <<< DETAILED LOCALE LOGGING - END >>>
+
+        # Create a dummy attachment of type audio
+        # The frontend will use the message content to show the warning
+        message.attachments.new(
+          account_id: conversation.account_id,
+          file_type: :audio 
+        )
+        
+        message.save!
+        Rails.logger.info("WHAPI created error audio message for #{message_id}")
+        message
       end
+    end
+    
+    # Helper method to extract media URL from various possible locations in Whapi payload
+    def extract_media_url(media_data)
+      return nil if media_data.blank?
+      
+      # Try all possible keys where URL might be stored
+      url = media_data[:url] ||
+            media_data[:link] ||
+            media_data[:media_url] ||
+            media_data[:media_link] ||
+            media_data[:file_url] ||
+            media_data[:download_url] ||
+            media_data[:media]
+            
+      Rails.logger.info("WHAPI extracted media URL: #{url}")
+      
+      # Ensure URL is valid
+      begin
+        uri = URI.parse(url) if url.present?
+        return url if uri&.scheme&.in?(%w[http https])
+      rescue URI::InvalidURIError => e
+        Rails.logger.error("WHAPI invalid media URL: #{e.message}")
+      end
+      
+      # If no valid URL found, try to use media_id to get URL from Whapi API
+      if media_data[:id].present?
+        Rails.logger.info("WHAPI no valid URL found, using media ID: #{media_data[:id]}")
+        return get_media_url_from_id(media_data[:id])
+      end
+      
+      nil
+    end
+    
+    # Try to get media URL using Whapi's media endpoint
+    def get_media_url_from_id(media_id)
+      begin
+        api_headers = inbox.channel.provider_service.api_headers
+        api_base_url = inbox.channel.provider_service.api_base_url
+        
+        media_url = "#{api_base_url}/media/#{media_id}"
+        Rails.logger.info("WHAPI constructed media URL: #{media_url}")
+        return media_url
+      rescue => e
+        Rails.logger.error("WHAPI failed to get media URL from ID: #{e.message}")
+        return nil
+      end
+    end
+    
+    # Download attachment with retries
+    def download_attachment_with_retry(url, headers, max_retries = 3)
+      attempts = 0
+      last_error = nil
+      
+      while attempts < max_retries
+        begin
+          # Attempt to download with timeout
+          return Timeout.timeout(20) do
+            Down.download(
+              url, 
+              headers: headers,
+              # The Down gem 5.4.0 doesn't support many options
+              # Keep it minimal
+              max_size: 50 * 1024 * 1024 # 50MB max size for voice messages
+            )
+          end
+        rescue Down::TimeoutError, Timeout::Error => e
+          attempts += 1
+          last_error = e
+          wait_time = 2 ** attempts # Exponential backoff
+          Rails.logger.error("WHAPI download attempt #{attempts} failed with timeout after #{wait_time}s: #{e.message}")
+          sleep(wait_time) if attempts < max_retries
+        rescue Down::ServerError, Down::ConnectionError => e
+          attempts += 1
+          last_error = e
+          wait_time = 2 ** attempts # Exponential backoff
+          Rails.logger.error("WHAPI download attempt #{attempts} failed with server error after #{wait_time}s: #{e.message}")
+          sleep(wait_time) if attempts < max_retries
+        rescue => e
+          # For any other error, retry once then give up
+          attempts += 1
+          last_error = e
+          Rails.logger.error("WHAPI download attempt #{attempts} failed with error: #{e.message}")
+          sleep(2) if attempts < 2
+          break if attempts >= 2
+        end
+      end
+      
+      # If we get here, all retries failed
+      raise last_error || StandardError.new("Download failed after #{max_retries} attempts")
+    end
+    
+    # Helper method to determine the proper MIME type for voice messages
+    def determine_mime_type(media_data, file = nil)
+      # First try to get mime type from the payload
+      mime_type = media_data[:mime_type] || 
+                 media_data[:mimetype] || 
+                 media_data[:content_type]
+                 
+      # If no mime type in payload, try to detect from file if available
+      if mime_type.blank? && file.present?
+        require 'marcel'
+        detected_type = Marcel::MimeType.for(file)
+        mime_type = detected_type if detected_type.present?
+      end
+                 
+      # Default to audio/ogg for WhatsApp voice messages if still blank
+      mime_type = mime_type.presence || 'audio/ogg'
+      
+      # Clean up the mime type - Chatwoot only allows simple MIME types without parameters
+      # So "audio/ogg; codecs=opus" becomes just "audio/ogg"
+      if mime_type.include?(';')
+        base_mime_type = mime_type.split(';').first.strip
+        Rails.logger.info("WHAPI simplified MIME type from #{mime_type} to #{base_mime_type}")
+        return base_mime_type
+      end
+      
+      mime_type
     end
     
     def create_reaction_message(conversation, sender, message_data, message_id, timestamp)

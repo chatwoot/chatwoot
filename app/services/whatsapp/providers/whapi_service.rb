@@ -180,8 +180,16 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
     
     def media_url(media_id)
       # Retrieve media URL from Whapi if needed
-      # This might work differently in Whapi compared to other providers
-      "#{api_base_url}/media/#{media_id}"
+      # First check if media_id is already a URL
+      if media_id.to_s.start_with?('http://', 'https://')
+        Rails.logger.info("WHAPI media_url: ID is already a URL: #{media_id}")
+        return media_id
+      end
+      
+      # If not a direct URL, construct the media URL
+      url = "#{api_base_url}/media/#{media_id}"
+      Rails.logger.info("WHAPI media_url: Constructed URL: #{url}")
+      url
     end
     
     def error_message(response)
@@ -192,7 +200,48 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
       "Whapi Error: #{error_message}"
     end
     
-    private
+    # Handle voice messages specifically
+    def send_voice_message(whatsapp_id, url, filename = nil)
+      Rails.logger.info("WHAPI sending voice message to #{whatsapp_id}, URL: #{url}")
+      
+      response = HTTParty.post(
+        "#{api_base_url}/messages/audio",
+        headers: api_headers,
+        body: {
+          to: whatsapp_id,
+          media: url,
+          mime_type: 'audio/ogg; codecs=opus',
+          is_voice: true, # Indicate this is a voice message, not just audio
+          filename: filename || "voice_message_#{Time.now.to_i}.ogg"
+        }.to_json
+      )
+      
+      Rails.logger.info("WHAPI voice message response: #{response.body}")
+      process_response(response)
+    end
+    
+    def send_audio(whatsapp_id, url, filename = nil)
+      # Determine if this should be sent as voice or regular audio
+      # If filename contains 'voice' or we can determine it's a voice message, use voice-specific method
+      if filename.to_s.downcase.include?('voice') || url.to_s.downcase.include?('voice')
+        Rails.logger.info("WHAPI detected voice message, using voice-specific method")
+        return send_voice_message(whatsapp_id, url, filename)
+      end
+      
+      Rails.logger.info("WHAPI sending audio message to #{whatsapp_id}, URL: #{url}")
+      response = HTTParty.post(
+        "#{api_base_url}/messages/audio",
+        headers: api_headers,
+        body: {
+          to: whatsapp_id,
+          media: url,
+          mime_type: 'audio/mpeg',
+          filename: filename || "audio_#{Time.now.to_i}.mp3"
+        }.to_json
+      )
+      
+      process_response(response)
+    end
     
     def api_key
       whatsapp_channel.provider_config['api_key']
@@ -212,6 +261,8 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
         'Content-Type' => 'application/json'
       }
     end
+    
+    private
     
     def check_health_and_wakeup
       # Check health status and wake up the service if needed
@@ -269,12 +320,25 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
       filename = attachment.file.filename.to_s
       caption = message.content.presence || ''
       
+      Rails.logger.info("WHAPI sending attachment with content_type: #{content_type}, filename: #{filename}")
+      
       if content_type.include?('image')
         send_image(id_formats[:whatsapp_id], attachment_url, caption)
       elsif content_type.include?('video')
         send_video(id_formats[:whatsapp_id], attachment_url, caption, filename)
       elsif content_type.include?('audio')
-        send_audio(id_formats[:whatsapp_id], attachment_url)
+        # Check if this is a voice message
+        is_voice_message = filename.to_s.include?('voice') || 
+                          content_type.include?('ogg') || 
+                          caption.to_s.downcase.include?('voice')
+                          
+        if is_voice_message
+          Rails.logger.info("WHAPI detected voice message, sending as voice")
+          send_voice_message(id_formats[:whatsapp_id], attachment_url, filename)
+        else
+          Rails.logger.info("WHAPI sending as regular audio")
+          send_audio(id_formats[:whatsapp_id], attachment_url, filename)
+        end
       else
         send_document(id_formats[:whatsapp_id], attachment_url, caption, filename)
       end
@@ -304,21 +368,6 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
           media: url,
           caption: caption || '',
           mime_type: 'video/mp4',
-          filename: filename
-        }.to_json
-      )
-      
-      process_response(response)
-    end
-    
-    def send_audio(whatsapp_id, url, filename = nil)
-      response = HTTParty.post(
-        "#{api_base_url}/messages/audio",
-        headers: api_headers,
-        body: {
-          to: whatsapp_id,
-          media: url,
-          mime_type: 'audio/mpeg',
           filename: filename
         }.to_json
       )

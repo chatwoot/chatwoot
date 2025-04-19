@@ -68,30 +68,6 @@ tasks:
       - echo "Restarting Rails development service..."
       - "{{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} restart rails"
       - echo "Rails development service restarted"
-  
-  docker-logs:
-    desc: "Show logs from all services (or specify a service after --)"
-    vars:
-      SERVICE: '{{.CLI_ARGS}}'
-    cmds:
-      - |
-        if [ -n "{{.SERVICE}}" ]; then
-          {{.COMPOSE_CMD}} -f {{.COMPOSE_FILE}} logs -f {{.SERVICE}}
-        else
-          {{.COMPOSE_CMD}} -f {{.COMPOSE_FILE}} logs -f
-        fi
-
-  docker-logs-dev:
-    desc: "Show logs from all development services (or specify a service after --)"
-    vars:
-      SERVICE: '{{.CLI_ARGS}}'
-    cmds:
-      - |
-        if [ -n "{{.SERVICE}}" ]; then
-          {{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} logs -f {{.SERVICE}}
-        else
-          {{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} logs -f
-        fi
         
   docker-rebuild:
     desc: "Rebuild and restart all services with local code changes"
@@ -129,55 +105,11 @@ tasks:
           echo "Created .env file from .env.branded template. Please update with your own values."
         fi
 
-  verify-branding:
-    desc: "Verify that branding assets exist"
-    cmds:
-      - |
-        if [ ! -d public/brand-assets/chatscommerce ]; then
-          mkdir -p public/brand-assets/chatscommerce
-          echo "Created branding directory. Please add your logo files to public/brand-assets/chatscommerce/"
-          echo "Required files: logo.png, logo_dark.png, logo_thumbnail.png"
-          exit 1
-        fi
-      - |
-        if [ ! -f public/brand-assets/chatscommerce/logo.png ] || [ ! -f public/brand-assets/chatscommerce/logo_dark.png ] || [ ! -f public/brand-assets/chatscommerce/logo_thumbnail.png ]; then
-          echo "Missing required logo files in public/brand-assets/chatscommerce/"
-          echo "Required files: logo.png, logo_dark.png, logo_thumbnail.png"
-          exit 1
-        fi
-
   rails-console:
     desc: "Access the Rails console inside the running container"
     cmds:
       - "{{.COMPOSE_CMD}} -f {{.COMPOSE_FILE}} exec rails bundle exec rails console"
 
-  rails-console-dev:
-    desc: "Access the Rails console inside the running development container"
-    cmds:
-      - "{{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} exec rails bundle exec rails console"
-
-  sidekiq-status:
-    desc: "Check Sidekiq status inside the running container"
-    cmds:
-      - "{{.COMPOSE_CMD}} -f {{.COMPOSE_FILE}} exec sidekiq bundle exec sidekiqmon"
-
-  sidekiq-status-dev:
-    desc: "Check Sidekiq status inside the running development container"
-    cmds:
-      - "{{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} exec sidekiq bundle exec sidekiqmon"
-
-  rails-logs:
-    desc: "Show Rails logs"
-    cmds:
-      - task: docker-logs
-        vars: {CLI_ARGS: rails}
-
-  rails-logs-dev:
-    desc: "Show Rails development logs"
-    cmds:
-      - task: docker-logs-dev
-        vars: {CLI_ARGS: rails}
-        
   db-prepare:
     desc: "Run database setup and migrations"
     cmds:
@@ -214,42 +146,6 @@ tasks:
         ./generate_icons.sh
         echo "Icons generated successfully"
         
-  verify-all-branding:
-    desc: "Verify all branding assets are properly set up and generate any missing ones"
-    cmds:
-      - |
-        echo "Checking branding assets..."
-        # Verify the basic requirements first
-        if [ ! -d public/brand-assets/chatscommerce ]; then
-          mkdir -p public/brand-assets/chatscommerce
-          echo "Created branding directory."
-        fi
-        
-        # Check if our primary assets exist
-        if [ ! -f public/brand-assets/chatscommerce/logo.png ]; then
-          echo "ERROR: Missing primary logo.png file in public/brand-assets/chatscommerce/"
-          echo "Please add your logo.png file before continuing."
-          exit 1
-        fi
-        
-        # Create dark logo if missing (could just be a copy of the regular logo)
-        if [ ! -f public/brand-assets/chatscommerce/logo_dark.png ]; then
-          echo "Creating logo_dark.png from logo.png"
-          cp public/brand-assets/chatscommerce/logo.png public/brand-assets/chatscommerce/logo_dark.png
-        fi
-        
-        # Create thumbnail if missing
-        if [ ! -f public/brand-assets/chatscommerce/logo_thumbnail.png ]; then
-          echo "Creating logo_thumbnail.png from logo.png"
-          convert public/brand-assets/chatscommerce/logo.png -resize 512x512 public/brand-assets/chatscommerce/logo_thumbnail.png
-        fi
-        
-        # Generate all icon variations
-        echo "Generating all icon variations..."
-        task generate-icons
-        
-        echo "All branding assets verified and generated successfully!"
-
   build-swagger:
     desc: "Build and ensure Swagger documentation is available"
     cmds:
@@ -271,8 +167,6 @@ tasks:
     cmds:
       - task: setup-dirs
       - task: prepare-env
-      # - task: verify-branding
-      # - task: verify-all-branding
       - task: docker-build
       - task: docker-up
       - echo "Waiting for database to be ready..."

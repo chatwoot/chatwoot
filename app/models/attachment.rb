@@ -77,6 +77,9 @@ class Attachment < ApplicationRecord
   private
 
   def file_metadata
+    # Return empty metadata if file is not attached (e.g., for failed downloads)
+    return { extension: nil, data_url: nil, thumb_url: nil, file_size: 0, width: nil, height: nil } unless file.attached?
+
     metadata = {
       extension: extension,
       data_url: file_url,

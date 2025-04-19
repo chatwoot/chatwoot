@@ -32,10 +32,13 @@
 en:
   hello: 'Hello world'
   messages:
-    reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
-    reset_password_failure: Uh ho! We could not find any user with the specified email.
+    reset_password_success: "Awesome! Request for password reset has been initiated. Please check your mail for instructions."
+    reset_password_failure: "Oh That's bad! We couldn't find any user with that email."
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
-
+  whatsapp:
+    voice_message: 'Voice message'
+    voice_message_download_failed: 'Could not download voice message'
+    voice_message_url_not_available: 'Voice message URL not available'
   errors:
     validations:
       presence: must not be blank
