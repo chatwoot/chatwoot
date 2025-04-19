@@ -118,15 +118,22 @@ function getHeatmapLevelClass(value) {
         </div>
       </div>
       <div />
-      <div
-        class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-slate-800 dark:text-slate-200"
-      >
+      <div>
+        <!-- Hour numbers first -->
         <div
-          v-for="ii in 24"
-          :key="ii"
-          class="flex items-center justify-center"
+          class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-slate-800 dark:text-slate-200"
         >
-          {{ ii - 1 }} – {{ ii }}
+          <div
+            v-for="ii in 24"
+            :key="ii"
+            class="flex items-center justify-center"
+          >
+            {{ ii - 1 }}
+          </div>
+        </div>
+        <!-- Title second -->
+        <div class="text-center text-xs font-semibold text-slate-600 dark:text-slate-400 pt-1">
+          {{ t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.HOUR_OF_DAY') }}
         </div>
       </div>
     </template>
@@ -159,15 +166,22 @@ function getHeatmapLevelClass(value) {
         </div>
       </div>
       <div />
-      <div
-        class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-slate-800 dark:text-slate-200"
-      >
+      <div>
+        <!-- Hour numbers first -->
         <div
-          v-for="ii in 24"
-          :key="ii"
-          class="flex items-center justify-center"
+          class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-slate-800 dark:text-slate-200"
         >
-          {{ ii - 1 }} – {{ ii }}
+          <div
+            v-for="ii in 24"
+            :key="ii"
+            class="flex items-center justify-center"
+          >
+            {{ ii - 1 }}
+          </div>
+        </div>
+        <!-- Title second -->
+        <div class="text-center text-xs font-semibold text-slate-600 dark:text-slate-400 pt-1">
+          {{ t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.HOUR_OF_DAY') }}
         </div>
       </div>
     </template>
