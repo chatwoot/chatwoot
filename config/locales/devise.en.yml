@@ -20,9 +20,9 @@ en:
       confirmation_instructions:
         subject: "Confirmation Instructions"
         greeting: "Hi %{name},"
-        invitation_info: "%<{inviter_name}>, with %<{account_name}>, has invited you to their team in %<{brand_name}>."
-        login_info: "You can login to your %<{brand_name}> account through the link below:"
-        welcome_info: "Welcome to %<{brand_name}>! We have a suite of powerful tools ready for you to explore. Before that we quickly need to verify your email address to know it's really you."
+        invitation_info: "%{inviter_name}, with %{account_name}, has invited you to their team in %{brand_name}."
+        login_info: "You can login to your %{brand_name} account through the link below:"
+        welcome_info: "Welcome to %{brand_name}! We have a suite of powerful tools ready for you to explore. Before that we quickly need to verify your email address to know it's really you."
         activation_request: "Please take a moment and click the link below and activate your account."
         confirm_account: "Confirm my account"
       reset_password_instructions:
