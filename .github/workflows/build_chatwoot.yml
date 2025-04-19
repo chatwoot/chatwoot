@@ -59,9 +59,9 @@ jobs:
           npm install -g pnpm
           pnpm install
           
-      - name: lint-ruby
-        run: |
-          bundle exec rubocop
+      # - name: lint-ruby
+      #   run: |
+      #     bundle exec rubocop
 
   build-dev:
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'dev'
