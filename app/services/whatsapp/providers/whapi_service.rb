@@ -262,6 +262,22 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
       }
     end
     
+    # Format a phone number into the proper WhatsApp ID format
+    # Returns a hash with different formats that can be used in the API
+    def format_whatsapp_id(phone_number)
+      # Remove any non-numeric characters (including + sign)
+      clean_number = phone_number.to_s.gsub(/[^0-9]/, '')
+      
+      # Standard WhatsApp ID format for individual contacts: number@s.whatsapp.net
+      whatsapp_id = "#{clean_number}@s.whatsapp.net"
+      
+      {
+        clean: clean_number,         # Just the number: 50683023625
+        whatsapp_id: whatsapp_id,    # Standard WhatsApp ID: 50683023625@s.whatsapp.net
+        original: phone_number       # Original format provided
+      }
+    end
+    
     private
     
     def check_health_and_wakeup
@@ -524,8 +540,10 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
       if response.success?
         # Different WhatsApp providers have different response formats
         # Extract the message ID from the response
+        # Whapi response nests the ID under {"message": {"id": "..."}}
         if parsed_response.is_a?(Hash)
-          message_id = parsed_response['id'] || 
+          message_id = parsed_response.dig('message', 'id') || # Check nested first
+                      parsed_response['id'] || 
                       parsed_response['message_id'] || 
                       parsed_response['messageId'] || 
                       parsed_response.dig('messages', 0, 'id')
@@ -546,21 +564,5 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
         Rails.logger.error("WHAPI API call failed: #{response.code} - #{parsed_response}")
         nil
       end
-    end
-    
-    # Format a phone number into the proper WhatsApp ID format
-    # Returns a hash with different formats that can be used in the API
-    def format_whatsapp_id(phone_number)
-      # Remove any non-numeric characters (including + sign)
-      clean_number = phone_number.to_s.gsub(/[^0-9]/, '')
-      
-      # Standard WhatsApp ID format for individual contacts: number@s.whatsapp.net
-      whatsapp_id = "#{clean_number}@s.whatsapp.net"
-      
-      {
-        clean: clean_number,         # Just the number: 50683023625
-        whatsapp_id: whatsapp_id,    # Standard WhatsApp ID: 50683023625@s.whatsapp.net
-        original: phone_number       # Original format provided
-      }
     end
   end

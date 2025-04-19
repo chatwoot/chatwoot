@@ -47,11 +47,115 @@ class Whatsapp::IncomingMessageWhapiService
         
         if existing_message.present?
           Rails.logger.info("WHAPI found existing outgoing message #{existing_message.id}, updating status")
-          existing_message.update(source_id: message_id, status: message_data[:status] || 'sent')
-          return
+          # Ensure source_id is updated if it was nil before, and handle status update
+          new_status = message_data[:status]
+          valid_statuses = Message.statuses.keys # Get valid enum keys
+
+          update_attrs = {}
+          update_attrs[:source_id] = message_id if existing_message.source_id != message_id
+          
+          # Only update status if the new status is valid and different from current
+          if new_status.present? && valid_statuses.include?(new_status) && existing_message.status != new_status
+             update_attrs[:status] = new_status
+             Rails.logger.info("WHAPI Updating status to valid value: #{new_status}")
+          elsif new_status.present? && !valid_statuses.include?(new_status)
+            Rails.logger.warn("WHAPI Received invalid status '#{new_status}' for message #{existing_message.id}. Ignoring status update.")
+          end
+
+          existing_message.update(update_attrs) if update_attrs.present?
+          return # Don't process further if it's just an update to an existing message
         else
-          Rails.logger.info("WHAPI skipping processing of outgoing message - not found in our system: #{message_id}")
-          return
+          # Message sent from the business number outside Chatwoot - create it here
+          Rails.logger.info("WHAPI processing outgoing message not found in system: #{message_id}")
+          
+          # Extract recipient info (assuming 'to' field holds the recipient's number for outgoing messages)
+          recipient_phone_number = message_data[:to] || message_data[:chat_id]&.split('@')&.first
+          
+          if recipient_phone_number.blank?
+            Rails.logger.error("WHAPI cannot process outgoing message: recipient phone number not found in payload: #{message_data.inspect}")
+            return
+          end
+          
+          # Ensure phone number has '+' prefix if missing
+          unless recipient_phone_number.start_with?('+')
+            recipient_phone_number = "+#{recipient_phone_number}"
+          end
+          
+          message_type = message_data[:type]
+          timestamp = Time.at(message_data[:timestamp].to_i)
+
+          Rails.logger.info("WHAPI outgoing message details - recipient: #{recipient_phone_number}, msg_id: #{message_id}, type: #{message_type}")
+
+          begin
+            # Get provider service to use helper methods
+            provider_service = inbox.channel.provider_service
+            
+            # Format recipient phone number using the provider service helper
+            id_formats = provider_service.format_whatsapp_id(recipient_phone_number)
+            cleaned_recipient_number = id_formats[:clean]
+            original_recipient_number = id_formats[:original] # Use the original number with + for contact
+
+            Rails.logger.info("WHAPI formatted IDs for outgoing recipient: clean=#{cleaned_recipient_number}, original=#{original_recipient_number}")
+
+            # Find or create contact for the RECIPIENT
+            contact_inbox = ::ContactInboxWithContactBuilder.new(
+              source_id: cleaned_recipient_number, # Use cleaned number for ContactInbox source_id
+              inbox: inbox,
+              contact_attributes: { 
+                name: contact_name(original_recipient_number) || original_recipient_number,
+                phone_number: original_recipient_number # Ensure full number is set on Contact itself
+              }
+            ).perform
+            
+            # Ensure the contact has the correct phone_number (with +)
+            if contact_inbox.contact.phone_number != original_recipient_number
+              contact_inbox.contact.update(phone_number: original_recipient_number)
+              Rails.logger.info("WHAPI ensured contact phone_number for recipient: #{original_recipient_number}")
+            end
+            
+            # Find or create conversation
+            conversation = ::Conversation.create_with(
+              account_id: inbox.account_id,
+              contact_id: contact_inbox.contact_id,
+              status: :open
+            ).find_or_create_by!(
+              inbox_id: inbox.id,
+              contact_inbox_id: contact_inbox.id
+            ) { |conv| Rails.logger.info("WHAPI creating new conversation for outgoing message to contact: #{contact_inbox.contact_id}") }
+
+            Rails.logger.info("WHAPI found/created conversation #{conversation.id} for outgoing message")
+            
+            # Check if this specific outgoing message already exists (e.g., due to retry)
+            if conversation.messages.where(source_id: message_id).exists?
+              Rails.logger.info("WHAPI outgoing message already exists, skipping: #{message_id}")
+              return
+            end
+
+            # Process based on message type, but set message_type to outgoing and sender to nil
+            message = case message_type
+            when 'text'
+              create_text_message(conversation, nil, message_data, message_id, timestamp, :outgoing) # Pass message_type explicitly
+            when 'image', 'video', 'audio', 'document', 'sticker', 'voice'
+              create_attachment_message(conversation, nil, message_data, message_type, message_id, timestamp, :outgoing) # Pass message_type explicitly
+            # Add other types as needed (location, contact, interactive, etc.), ensuring message_type is outgoing
+            else
+              Rails.logger.warn("WHAPI unsupported outgoing message type: #{message_type}")
+              # Create a placeholder or skip
+              nil
+            end
+
+            if message
+              Rails.logger.info("WHAPI created outgoing message ##{message.id} of type #{message_type}")
+            else
+              Rails.logger.warn("WHAPI failed to create outgoing message for type #{message_type}")
+            end
+
+          rescue => e
+            Rails.logger.error("WHAPI outgoing message processing error: #{e.message}")
+            Rails.logger.error(e.backtrace.join("\n"))
+          end
+          
+          return # Finished processing this outgoing message
         end
       end
       
@@ -163,7 +267,7 @@ class Whatsapp::IncomingMessageWhapiService
     end
     
     def process_status_update
-      # Process delivery and read receipts
+      # Process delivery and read receipts from STATUS webhooks
       status_data = params[:status]
       return if status_data.blank?
       
@@ -171,7 +275,7 @@ class Whatsapp::IncomingMessageWhapiService
       status = status_data[:status]
       is_outgoing = status_data[:from_me] == true
       
-      Rails.logger.info("WHAPI processing status update: message_id=#{message_id}, status=#{status}, outgoing=#{is_outgoing}")
+      Rails.logger.info("WHAPI processing STATUS update: message_id=#{message_id}, status=#{status}, outgoing=#{is_outgoing}")
       
       # Find the message in our system
       message = find_message_by_source_id_or_content(message_id, status_data)
@@ -197,34 +301,36 @@ class Whatsapp::IncomingMessageWhapiService
           end
         end
         
-        Rails.logger.info("WHAPI status update: no matching message found for #{message_id}")
+        Rails.logger.info("WHAPI STATUS update: no matching message found for #{message_id}")
         return
       end
       
-      # Update message status
-      Rails.logger.info("WHAPI updating message ##{message.id} status from #{message.status} to #{status}")
-      
-      case status
-      when 'sent', 'delivered'
-        message.update(status: status)
-        Rails.logger.info("WHAPI updated message status to #{status}: #{message.id}")
-      when 'read'
-        message.update(status: 'read')
-        Rails.logger.info("WHAPI updated message status to read: #{message.id}")
-      when 'failed'
-        message.update(status: 'failed', external_error: status_data[:error])
-        Rails.logger.info("WHAPI updated message status to failed: #{message.id}, error: #{status_data[:error]}")
+      # Ensure the status is valid before updating
+      valid_statuses = Message.statuses.keys
+      if status.present? && valid_statuses.include?(status)
+        # Update message status if it's different
+        if message.status != status
+          Rails.logger.info("WHAPI updating message ##{message.id} status from #{message.status} to #{status}")
+          update_params = { status: status }
+          # Add external error if status is failed
+          update_params[:external_error] = status_data[:error] if status == 'failed' && status_data[:error].present?
+          message.update(update_params)
+        else
+           Rails.logger.info("WHAPI message ##{message.id} status already '#{status}'. No update needed.")
+        end
+      elsif status.present?
+        Rails.logger.warn("WHAPI Received invalid status '#{status}' in STATUS update for message #{message.id}. Ignoring.")
       end
     end
     
-    def create_text_message(conversation, sender, message_data, message_id, timestamp)
+    def create_text_message(conversation, sender, message_data, message_id, timestamp, message_type = :incoming)
       # Handle quoted messages if present
       quoted_message_details = extract_quoted_message_details(message_data[:context])
       
       conversation.messages.create!(
         content: message_data[:text][:body],
-        message_type: :incoming,
-        sender: sender,
+        message_type: message_type, # Use passed message_type
+        sender: sender, # Sender will be nil for outgoing messages processed here
         source_id: message_id,
         created_at: timestamp,
         account_id: conversation.account_id,
@@ -233,8 +339,20 @@ class Whatsapp::IncomingMessageWhapiService
       )
     end
     
-    def create_attachment_message(conversation, sender, message_data, type, message_id, timestamp)
-      media_data = message_data[type.to_sym]
+    def create_attachment_message(conversation, sender, message_data, type, message_id, timestamp, message_type = :incoming)
+      # Normalize type for different attachment kinds
+      internal_type = case type
+                      when 'sticker', 'voice' then type # Keep these specific
+                      else type.to_sym # Convert 'image', 'video', etc. to symbols
+                      end
+      
+      media_data = message_data[internal_type]
+      if media_data.blank? && type == 'sticker' # Whapi might use 'sticker' at top level
+        media_data = message_data
+      elsif media_data.blank? && type == 'voice' # Whapi might use 'voice' at top level
+        media_data = message_data
+      end
+      
       return if media_data.blank?
       
       attachment_url = extract_media_url(media_data)
@@ -252,92 +370,49 @@ class Whatsapp::IncomingMessageWhapiService
           api_headers
         )
         
-        # Use locale for messages
-        I18n.with_locale(conversation.account.locale || 'en') do
-          # Create the message with attachment
-          message = conversation.messages.build(
-            message_type: :incoming,
-            sender: sender,
-            source_id: message_id,
-            created_at: timestamp,
-            account_id: conversation.account_id,
-            inbox_id: conversation.inbox_id,
-            content: caption
-          )
-          
-          filename = media_data[:file_name] || attachment_file.original_filename || "#{type}.#{mime_type.split('/').last}"
-          
-          Rails.logger.info("WHAPI attaching #{type} with file_type: #{mime_type}, filename: #{filename}")
-          
-          # Map mime_type to enum value
-          attachment_file_type_enum = case mime_type.split('/').first
-                                      when 'image' then :image
-                                      when 'audio' then :audio
-                                      when 'video' then :video
-                                      else :file
-                                      end
-          Rails.logger.info("WHAPI mapped mime_type '#{mime_type}' to enum :#{attachment_file_type_enum}")
-
-          message.attachments.new(
-            account_id: conversation.account_id,
-            file_type: attachment_file_type_enum, # Use mapped enum value
-            file: {
-              io: attachment_file,
-              filename: filename,
-              content_type: mime_type # Keep original mime type for file content
-            }
-          )
-          
-          begin
-            message.save!
-            Rails.logger.info("WHAPI #{type} message saved successfully with ID: #{message.id}")
-            message
-          rescue => e
-            Rails.logger.error("WHAPI failed to save #{type} message: #{e.message}")
-            Rails.logger.error("WHAPI save error backtrace: #{e.backtrace.join("\n")}")
-            
-            # Try again with a more generic MIME type if the specific one failed
-            if mime_type.include?('/')
-              fallback_mime_type = mime_type.split('/').first + '/mpeg'
-              Rails.logger.info("WHAPI retrying with more generic MIME type: #{fallback_mime_type}")
-              
-              message.attachments.first.file_type = fallback_mime_type
-              message.attachments.first.file.content_type = fallback_mime_type
-              
-              message.save!
-              Rails.logger.info("WHAPI #{type} message saved successfully with fallback MIME type, ID: #{message.id}")
-              message
-            else
-              # If that still fails, create a text message with the link instead
-              Rails.logger.error("WHAPI could not save attachment after MIME retry, falling back to link. Original error: #{e.message}")
-              conversation.messages.create!(
-                content: "#{caption}\n\n[#{type.capitalize} attachment](#{attachment_url})",
-                message_type: :incoming,
-                sender: sender,
-                source_id: message_id,
-                created_at: timestamp,
-                account_id: conversation.account_id,
-                inbox_id: conversation.inbox_id
-              )
-            end
-          end
+        if attachment_file.nil?
+          Rails.logger.error("WHAPI failed to download attachment from #{attachment_url}")
+          # Maybe create a text message indicating failure?
+          return nil
         end
-      rescue => e
-        Rails.logger.error "Failed to download WHAPI attachment or other error in block: #{e.message}"
-        Rails.logger.error("WHAPI download/outer error backtrace: #{e.backtrace.join("\n")}")
         
-        # Create a text message instead with link to the content
-        I18n.with_locale(conversation.account.locale || 'en') do
-          conversation.messages.create!(
-            content: "#{caption}\n\n[#{type.capitalize} attachment](#{attachment_url})",
-            message_type: :incoming,
-            sender: sender,
-            source_id: message_id,
-            created_at: timestamp,
-            account_id: conversation.account_id,
-            inbox_id: conversation.inbox_id
-          )
-        end
+        # Determine Chatwoot attachment type
+        file_type = case type
+                    when 'image', 'sticker' then 'image'
+                    when 'audio', 'voice' then 'audio'
+                    when 'video' then 'video'
+                    else 'file'
+                    end
+
+        message = conversation.messages.create!(
+          content: caption,
+          message_type: message_type, # Use passed message_type
+          sender: sender, # Sender will be nil for outgoing messages processed here
+          source_id: message_id,
+          created_at: timestamp,
+          account_id: conversation.account_id,
+          inbox_id: conversation.inbox_id,
+          attachments_attributes: [
+            {
+              account_id: conversation.account_id,
+              file_type: file_type,
+              file: {
+                io: attachment_file,
+                filename: media_data[:filename] || extract_filename_from_url(attachment_url) || "whatsapp_media",
+                content_type: mime_type
+              }
+            }
+          ]
+        )
+        message
+      rescue StandardError => e
+        Rails.logger.error("WHAPI attachment processing error: #{e.message}")
+        Rails.logger.error(e.backtrace.join("\n"))
+        # Create a text message indicating the error if needed
+        create_error_message_for_attachment(conversation, sender, message_id, timestamp, caption, type, message_type)
+        nil
+      ensure
+        attachment_file&.close
       end
     end
     
@@ -975,9 +1050,25 @@ class Whatsapp::IncomingMessageWhapiService
       )
     end
     
-    def contact_name
-      # Extract contact name from Whapi payload if available
-      params[:contacts]&.first&.dig(:profile, :name)
+    def contact_name(phone_number = nil)
+      # Try payload first
+      name = params[:contacts]&.first&.dig(:profile, :name)
+      return name if name.present?
+
+      # If number provided (for outgoing), try fetching info
+      if phone_number.present?
+        contact_info = inbox.channel.provider_service.fetch_contact_info(phone_number)
+        return contact_info&.dig('profile', 'name') || contact_info&.dig('name')
+      end
+      
+      # Fallback for incoming if not in payload (less common)
+      incoming_phone_number = params[:messages]&.first&.dig(:from)
+      if incoming_phone_number.present?
+        contact_info = inbox.channel.provider_service.fetch_contact_info(incoming_phone_number)
+        return contact_info&.dig('profile', 'name') || contact_info&.dig('name')
+      end
+
+      nil
     end
     
     def update_contact_with_whatsapp_profile(contact)
@@ -1190,12 +1281,13 @@ class Whatsapp::IncomingMessageWhapiService
     
     # Helper to identify messages from our system
     def outgoing_message?(message_data)
+      # Whapi uses 'from_me' to indicate messages sent by the connected number
       return true if message_data[:from_me] == true
-      
-      # Sometimes providers use different flags, check alternative fields too
-      return true if message_data[:direction] == 'outbound'
-      return true if message_data[:type] == 'outbound'
-      
+
+      # Additional check: Sometimes status updates might have 'from_me'
+      # We only care about actual message events here
+      return false if status_event? && params.dig(:status, :from_me) == true
+
       false
     end
     

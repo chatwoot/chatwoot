@@ -200,12 +200,16 @@ const isMyMessage = computed(() => {
  * @returns {import('vue').ComputedRef<'left'|'right'|'center'>} The computed orientation
  */
 const orientation = computed(() => {
-  if (isMyMessage.value) {
+  // Align right if it's the current user's message OR if it's any outgoing/template message
+  if (isMyMessage.value || 
+      props.messageType === MESSAGE_TYPES.OUTGOING || 
+      props.messageType === MESSAGE_TYPES.TEMPLATE) {
     return ORIENTATION.RIGHT;
   }
 
   if (props.messageType === MESSAGE_TYPES.ACTIVITY) return ORIENTATION.CENTER;
 
+  // Otherwise, align left (incoming messages)
   return ORIENTATION.LEFT;
 });
 
