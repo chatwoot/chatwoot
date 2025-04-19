@@ -8,7 +8,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
       id: id,
       inbox_id: inbox_id,
       messages: push_messages,
-      labels: label_list,
+      labels: __getobj__.respond_to?(:label_list) ? label_list : [],
       meta: push_meta,
       status: status,
       custom_attributes: custom_attributes,
