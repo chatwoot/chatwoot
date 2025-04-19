@@ -20,6 +20,21 @@ class Api::V1::ProfilesController < Api::BaseController
     @user.reload
   end
 
+  def azar_avatar
+    @user.azar_avatar.attachment.destroy! if @user.azar_avatar.attached?
+    @user.reload
+  end
+
+  def mono_avatar
+    @user.mono_avatar.attachment.destroy! if @user.mono_avatar.attached?
+    @user.reload
+  end
+
+  def gbits_avatar
+    @user.gbits_avatar.attachment.destroy! if @user.gbits_avatar.attached?
+    @user.reload
+  end
+
   def auto_offline
     @user.account_users.find_by!(account_id: auto_offline_params[:account_id]).update!(auto_offline: auto_offline_params[:auto_offline] || false)
   end
@@ -61,6 +76,9 @@ class Api::V1::ProfilesController < Api::BaseController
       :mono_display_name,
       :gbits_display_name,
       :avatar,
+      :azar_avatar,
+      :mono_avatar,
+      :gbits_avatar,
       :message_signature,
       :azar_message_signature,
       :mono_message_signature,

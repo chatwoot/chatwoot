@@ -91,6 +91,18 @@ export default {
     return axios.delete(endPoints('deleteAvatar').url);
   },
 
+  deleteAzarAvatar() {
+    return axios.delete(endPoints('deleteAzarAvatar').url);
+  },
+
+  deleteMonoAvatar() {
+    return axios.delete(endPoints('deleteMonoAvatar').url);
+  },
+
+  deleteGbitsAvatar() {
+    return axios.delete(endPoints('deleteGbitsAvatar').url);
+  },
+
   resetPassword({ email }) {
     const urlData = endPoints('resetPassword');
     return axios.post(urlData.url, { email });

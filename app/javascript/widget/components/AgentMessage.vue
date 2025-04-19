@@ -102,6 +102,27 @@ export default {
         return displayImage;
       }
 
+      if (window.chatwootWebChannel.websiteName === 'AzarOnline') {
+        return (
+          this.message.sender.azar_avatar_url ||
+          this.message.sender.displayImage
+        );
+      }
+
+      if (window.chatwootWebChannel.websiteName === 'MonoVM') {
+        return (
+          this.message.sender.mono_avatar_url ||
+          this.message.sender.displayImage
+        );
+      }
+
+      if (window.chatwootWebChannel.websiteName === '1Gbits') {
+        return (
+          this.message.sender.gbits_avatar_url ||
+          this.message.sender.displayImage
+        );
+      }
+
       return this.message.sender
         ? this.message.sender.avatar_url
         : displayImage;

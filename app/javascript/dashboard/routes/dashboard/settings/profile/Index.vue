@@ -208,40 +208,57 @@ export default {
 
       await this.dispatchUpdate(payload, successMessage, errorMessage);
     },
-    updateProfilePicture({ file, url, site }) {
-      if (site === 'azar') {
-        this.azarAvatarFile = file;
-        this.azarAvatarUrl = url;
-      } else if (site === 'mono') {
-        this.monoAvatarFile = file;
-        this.monoAvatarUrl = url;
-      } else if (site === 'gbits') {
-        this.gbitsAvatarFile = file;
-        this.gbitsAvatarUrl = url;
-      } else {
-        this.avatarFile = file;
-        this.avatarUrl = url;
+    updateProfilePicture({ file, url }) {
+      this.avatarFile = file;
+      this.avatarUrl = url;
+    },
+    updateAzarProfilePicture({ file, url }) {
+      this.azarAvatarFile = file;
+      this.azarAvatarUrl = url;
+    },
+    updateMonoProfilePicture({ file, url }) {
+      this.monoAvatarFile = file;
+      this.monoAvatarUrl = url;
+    },
+    updateGbitsProfilePicture({ file, url }) {
+      this.gbitsAvatarFile = file;
+      this.gbitsAvatarUrl = url;
+    },
+    async deleteProfilePicture() {
+      try {
+        await this.$store.dispatch('deleteAvatar');
+        this.avatarUrl = '';
+        this.avatarFile = '';
+        useAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_SUCCESS'));
+      } catch (error) {
+        useAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_FAILED'));
       }
     },
-    async deleteProfilePicture(site) {
+    async deleteAzarProfilePicture() {
       try {
-        if (site) {
-          await this.$store.dispatch('deleteAvatar', { site });
-          if (site === 'azar') {
-            this.azarAvatarUrl = '';
-            this.azarAvatarFile = '';
-          } else if (site === 'mono') {
-            this.monoAvatarUrl = '';
-            this.monoAvatarFile = '';
-          } else if (site === 'gbits') {
-            this.gbitsAvatarUrl = '';
-            this.gbitsAvatarFile = '';
-          }
-        } else {
-          await this.$store.dispatch('deleteAvatar');
-          this.avatarUrl = '';
-          this.avatarFile = '';
-        }
+        await this.$store.dispatch('deleteAzarAvatar');
+        this.azarAvatarUrl = '';
+        this.azarAvatarFile = '';
+        useAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_SUCCESS'));
+      } catch (error) {
+        useAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_FAILED'));
+      }
+    },
+    async deleteMonoProfilePicture() {
+      try {
+        await this.$store.dispatch('deleteMonoAvatar');
+        this.monoAvatarUrl = '';
+        this.monoAvatarFile = '';
+        useAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_SUCCESS'));
+      } catch (error) {
+        useAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_FAILED'));
+      }
+    },
+    async deleteGbitsProfilePicture() {
+      try {
+        await this.$store.dispatch('deleteGbitsAvatar');
+        this.gbitsAvatarUrl = '';
+        this.gbitsAvatarFile = '';
         useAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_SUCCESS'));
       } catch (error) {
         useAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_FAILED'));
@@ -286,9 +303,8 @@ export default {
         <UserProfilePicture
           :src="azarAvatarUrl"
           :name="azarDisplayName"
-          site="azar"
-          @change="updateProfilePicture"
-          @delete="deleteProfilePicture"
+          @change="updateAzarProfilePicture"
+          @delete="deleteAzarProfilePicture"
         />
       </div>
       <div class="flex flex-col gap-4">
@@ -298,9 +314,8 @@ export default {
         <UserProfilePicture
           :src="monoAvatarUrl"
           :name="monoDisplayName"
-          site="mono"
-          @change="updateProfilePicture"
-          @delete="deleteProfilePicture"
+          @change="updateMonoProfilePicture"
+          @delete="deleteMonoProfilePicture"
         />
       </div>
       <div class="flex flex-col gap-4">
@@ -310,9 +325,8 @@ export default {
         <UserProfilePicture
           :src="gbitsAvatarUrl"
           :name="gbitsDisplayName"
-          site="gbits"
-          @change="updateProfilePicture"
-          @delete="deleteProfilePicture"
+          @change="updateGbitsProfilePicture"
+          @delete="deleteGbitsProfilePicture"
         />
       </div>
       <UserBasicDetails

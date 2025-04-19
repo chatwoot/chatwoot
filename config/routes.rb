@@ -284,6 +284,10 @@ Rails.application.routes.draw do
 
       resource :profile, only: [:show, :update] do
         delete :avatar, on: :collection
+        delete :azar_avatar, on: :collection
+        delete :mono_avatar, on: :collection
+        delete :gbits_avatar, on: :collection
+
         member do
           post :availability
           post :auto_offline

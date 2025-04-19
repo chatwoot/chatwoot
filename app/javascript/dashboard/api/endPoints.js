@@ -44,6 +44,18 @@ const endPoints = {
     url: '/api/v1/profile/avatar',
   },
 
+  deleteAzarAvatar: {
+    url: '/api/v1/profile/azar_avatar',
+  },
+
+  deleteMonoAvatar: {
+    url: '/api/v1/profile/mono_avatar',
+  },
+
+  deleteGbitsAvatar: {
+    url: '/api/v1/profile/gbits_avatar',
+  },
+
   setActiveAccount: {
     url: '/api/v1/profile/set_active_account',
   },

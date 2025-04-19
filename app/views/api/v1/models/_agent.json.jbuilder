@@ -13,4 +13,7 @@ json.custom_attributes resource.custom_attributes if resource.custom_attributes.
 json.name resource.name
 json.role resource.role
 json.thumbnail resource.avatar_url
+json.azar_avatar resource.azar_avatar_url
+json.mono_avatar resource.mono_avatar_url
+json.gbits_avatar resource.gbits_avatar_url
 json.custom_role_id resource.current_account_user&.custom_role_id if ChatwootApp.enterprise?
