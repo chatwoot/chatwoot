@@ -1,9 +1,9 @@
 {
   "INBOX": {
     "LIST": {
-      "TITLE": "Mi bandeja de entrada",
+      "TITLE": "Bandeja",
       "DISPLAY_DROPDOWN": "Mostrar",
-      "LOADING": "Cargando notificaciones",
+      "LOADING": "Cargando",
       "404": "No hay notificaciones activas en este grupo.",
       "NO_NOTIFICATIONS": "Sin notificaciones",
       "NOTE": "Notificaciones de todas las entradas suscritas",

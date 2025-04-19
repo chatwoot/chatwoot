@@ -4,7 +4,7 @@ import BaseBubble from 'next/message/bubbles/Base.vue';
 import FormattedContent from './FormattedContent.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 import TranslationToggle from 'dashboard/components-next/message/TranslationToggle.vue';
-import { MESSAGE_TYPES } from '../../constants';
+import { MESSAGE_TYPES, ATTACHMENT_TYPES } from '../../constants';
 import { useMessageContext } from '../../provider.js';
 import { useTranslations } from 'dashboard/composables/useTranslations';
 
@@ -28,6 +28,26 @@ const renderContent = computed(() => {
   return content.value;
 });
 
+const imageAttachments = computed(() => {
+  console.log('TextBubble attachments:', attachments.value); // DEBUG
+  const images = attachments.value?.filter(
+    attachment => {
+      console.log('Checking attachment:', attachment.id, 'Type:', attachment.fileType); // DEBUG
+      return attachment.fileType === ATTACHMENT_TYPES.IMAGE;
+    }
+  ) || [];
+  console.log('Filtered image attachments:', images); // DEBUG
+  return images;
+});
+
+const nonImageAttachments = computed(() => {
+  return (
+    attachments.value?.filter(
+      attachment => attachment.fileType !== ATTACHMENT_TYPES.IMAGE
+    ) || []
+  );
+});
+
 const isTemplate = computed(() => {
   return messageType.value === MESSAGE_TYPES.TEMPLATE;
 });
@@ -47,6 +67,19 @@ const handleSeeOriginal = () => {
       <span v-if="isEmpty" class="text-n-slate-11">
         {{ $t('CONVERSATION.NO_CONTENT') }}
       </span>
+      <div v-if="imageAttachments.length" class="flex flex-col gap-2 mt-1">
+        <div
+          v-for="attachment in imageAttachments"
+          :key="attachment.id"
+          class="max-w-xs"
+        >
+          <img
+            :src="attachment.dataUrl"
+            class="rounded-lg object-cover w-full skip-context-menu"
+            alt="Image Attachment"
+          />
+        </div>
+      </div>
       <FormattedContent v-if="renderContent" :content="renderContent" />
       <TranslationToggle
         v-if="hasTranslations"
@@ -54,7 +87,11 @@ const handleSeeOriginal = () => {
         :showing-original="renderOriginal"
         @toggle="handleSeeOriginal"
       />
-      <AttachmentChips :attachments="attachments" class="gap-2" />
+      <AttachmentChips
+        v-if="nonImageAttachments.length"
+        :attachments="nonImageAttachments"
+        class="gap-2"
+      />
       <template v-if="isTemplate">
         <div
           v-if="contentAttributes.submittedEmail"

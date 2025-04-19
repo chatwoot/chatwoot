@@ -269,13 +269,22 @@ class Whatsapp::IncomingMessageWhapiService
           
           Rails.logger.info("WHAPI attaching #{type} with file_type: #{mime_type}, filename: #{filename}")
           
+          # Map mime_type to enum value
+          attachment_file_type_enum = case mime_type.split('/').first
+                                      when 'image' then :image
+                                      when 'audio' then :audio
+                                      when 'video' then :video
+                                      else :file
+                                      end
+          Rails.logger.info("WHAPI mapped mime_type '#{mime_type}' to enum :#{attachment_file_type_enum}")
+
           message.attachments.new(
             account_id: conversation.account_id,
-            file_type: mime_type,
+            file_type: attachment_file_type_enum, # Use mapped enum value
             file: {
               io: attachment_file,
               filename: filename,
-              content_type: mime_type
+              content_type: mime_type # Keep original mime type for file content
             }
           )
           
@@ -285,6 +294,7 @@ class Whatsapp::IncomingMessageWhapiService
             message
           rescue => e
             Rails.logger.error("WHAPI failed to save #{type} message: #{e.message}")
+            Rails.logger.error("WHAPI save error backtrace: #{e.backtrace.join("\n")}")
             
             # Try again with a more generic MIME type if the specific one failed
             if mime_type.include?('/')
@@ -299,7 +309,7 @@ class Whatsapp::IncomingMessageWhapiService
               message
             else
               # If that still fails, create a text message with the link instead
-              Rails.logger.error("WHAPI could not save attachment, falling back to link")
+              Rails.logger.error("WHAPI could not save attachment after MIME retry, falling back to link. Original error: #{e.message}")
               conversation.messages.create!(
                 content: "#{caption}\n\n[#{type.capitalize} attachment](#{attachment_url})",
                 message_type: :incoming,
@@ -313,7 +323,8 @@ class Whatsapp::IncomingMessageWhapiService
           end
         end
       rescue => e
-        Rails.logger.error "Failed to download WHAPI attachment: #{e.message}"
+        Rails.logger.error "Failed to download WHAPI attachment or other error in block: #{e.message}"
+        Rails.logger.error("WHAPI download/outer error backtrace: #{e.backtrace.join("\n")}")
         
         # Create a text message instead with link to the content
         I18n.with_locale(conversation.account.locale || 'en') do

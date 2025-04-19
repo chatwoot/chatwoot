@@ -257,6 +257,21 @@ const shouldShowAvatar = computed(() => {
 });
 
 const componentToRender = computed(() => {
+  // --- DEBUG START ---
+  console.log(
+    `Message.vue (ID: ${props.id}): Evaluating componentToRender.`,
+    {
+      content: props.content,
+      contentType: props.contentType,
+      attachments: props.attachments,
+      messageType: props.messageType,
+      contentAttributes: props.contentAttributes,
+      isEmailInbox: props.isEmailInbox,
+      private: props.private,
+    }
+  );
+  // --- DEBUG END ---
+
   if (props.isEmailInbox && !props.private) {
     const emailInboxTypes = [MESSAGE_TYPES.INCOMING, MESSAGE_TYPES.OUTGOING];
     if (emailInboxTypes.includes(props.messageType)) return EmailBubble;
@@ -290,8 +305,9 @@ const componentToRender = computed(() => {
 
   if (Array.isArray(props.attachments) && props.attachments.length === 1) {
     const fileType = props.attachments[0].fileType;
-
+    console.log(`Message.vue (ID: ${props.id}): Single attachment detected, type: ${fileType}, hasContent: ${!!props.content}`); // DEBUG
     if (!props.content) {
+      console.log(`Message.vue (ID: ${props.id}): No content, choosing specific bubble for ${fileType}`); // DEBUG
       if (fileType === ATTACHMENT_TYPES.IMAGE) return ImageBubble;
       if (fileType === ATTACHMENT_TYPES.FILE) return FileBubble;
       if (fileType === ATTACHMENT_TYPES.AUDIO) return AudioBubble;
@@ -302,7 +318,7 @@ const componentToRender = computed(() => {
     // Attachment content is the name of the contact
     if (fileType === ATTACHMENT_TYPES.CONTACT) return ContactBubble;
   }
-
+  console.log(`Message.vue (ID: ${props.id}): Defaulting to TextBubble`); // DEBUG
   return TextBubble;
 });
 
