@@ -1,0 +1,9 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* Add any custom mailer-specific base styles or components here */
+body {
+  /* Example: Set a default font if needed */
+  /* font-family: sans-serif; */
+} 

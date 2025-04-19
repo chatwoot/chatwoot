@@ -18,12 +18,25 @@ es:
     mailer:
       confirmation_instructions:
         subject: "Instrucciones de confirmación"
+        confirm_account: "Confirmar mi cuenta"
+        login_account: "Iniciar sesión en mi cuenta"
       reset_password_instructions:
         subject: "Instrucciones para restablecer la contraseña"
+        greeting: "¡Hola %{email}!"
+        request_info: "Alguien ha solicitado un enlace para cambiar tu contraseña. Puedes hacerlo a través del siguiente enlace."
+        change_password_link: "Cambiar mi contraseña"
+        ignore_info: "Si no has solicitado esto, por favor ignora este correo electrónico."
+        no_change_info: "Tu contraseña no cambiará hasta que accedas al enlace anterior y crees una nueva."
       unlock_instructions:
         subject: "Instrucciones de desbloqueo"
+        greeting: "¡Hola %{email}!"
+        account_locked_info: "Tu cuenta ha sido bloqueada debido a un número excesivo de intentos fallidos de inicio de sesión."
+        unlock_link_info: "Haz clic en el siguiente enlace para desbloquear tu cuenta:"
+        unlock_account_link: "Desbloquear mi cuenta"
       password_change:
         subject: "Contraseña cambiada"
+        greeting: "¡Hola %{email}!"
+        change_notification: "Nos ponemos en contacto contigo para notificarte que tu contraseña ha sido cambiada."
     omniauth_callbacks:
       failure: "No se pudo autenticar desde %{kind} porque \"%{reason}\"."
       success: "Autenticado correctamente desde la cuenta de %{kind}."

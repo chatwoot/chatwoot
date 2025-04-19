@@ -31,6 +31,8 @@ gem 'haikunator'
 gem 'liquid'
 # Parse Markdown to HTML
 gem 'commonmarker'
+# Inlines CSS for HTML emails
+gem 'premailer-rails'
 # Validate Data against JSON Schema
 gem 'json_schemer'
 # Rack middleware for blocking & throttling abusive requests

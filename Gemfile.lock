@@ -167,6 +167,8 @@ GEM
       bigdecimal
       rexml
     crass (1.0.6)
+    css_parser (1.21.1)
+      addressable
     csv (3.3.0)
     csv-safe (3.3.1)
       csv (~> 3.0)
@@ -357,6 +359,7 @@ GEM
     hashie (5.0.0)
     html2text (0.4.0)
       nokogiri (>= 1.0, < 2.0)
+    htmlentities (4.3.4)
     http (5.1.1)
       addressable (~> 2.8)
       http-cookie (~> 1.0)
@@ -553,6 +556,14 @@ GEM
       activerecord (>= 5.2)
       activesupport (>= 5.2)
     pgvector (0.1.1)
+    premailer (1.27.0)
+      addressable
+      css_parser (>= 1.19.0)
+      htmlentities (>= 4.0.0)
+    premailer-rails (1.12.0)
+      actionmailer (>= 3)
+      net-smtp
+      premailer (~> 1.7, >= 1.7.9)
     procore-sift (1.0.0)
       activerecord (>= 6.1)
     pry (0.14.2)
@@ -943,6 +954,7 @@ DEPENDENCIES
   pg
   pg_search
   pgvector
+  premailer-rails
   procore-sift
   pry-rails
   puma

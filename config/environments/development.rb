@@ -85,4 +85,11 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = false
 
   config.action_mailer.perform_caching = false
+
+  # Add MailHog configuration for development email viewing - COMMENTED OUT TO USE .env SETTINGS
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = {
+  #   address: 'mailhog', # Use the service name from docker-compose.dev.yaml
+  #   port: 1025          # MailHog's SMTP port within the Docker network
+  # }
 end

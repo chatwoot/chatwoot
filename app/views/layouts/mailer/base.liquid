@@ -5,6 +5,100 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title></title>
     <style type="text/css">
+      /* Basic Reset */
+      body, table, td, a {-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;}
+      table, td {mso-table-lspace: 0pt; mso-table-rspace: 0pt;}
+      img {-ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none;}
+      table {border-collapse: collapse !important;}
+      body {height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;}
+
+      /* Base Styles */
+      body {
+        background-color: #F8FAFC; /* Tailwind gray-50 */
+        color: #1F2937; /* Tailwind gray-800 */
+        font-size: 15px;
+        line-height: 1.6;
+      }
+      .body-wrap {
+        background-color: #F8FAFC; /* Tailwind gray-50 */
+        width: 100%;
+      }
+      .container {
+        display: block !important;
+        max-width: 600px !important;
+        margin: 0 auto !important; /* Center the container */
+        clear: both !important;
+      }
+      .content {
+        padding: 20px;
+        margin-top: 20px;
+      }
+      .main {
+        background: #ffffff;
+        border: 1px solid #E5E7EB; /* Tailwind gray-200 */
+        border-radius: 8px;
+        width: 100%;
+      }
+      .content-wrap {
+        padding: 32px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        vertical-align: top;
+      }
+      p {
+        margin-bottom: 16px; /* Tailwind mb-4 */
+        font-weight: normal;
+        font-size: 15px;
+        line-height: 1.6;
+      }
+      a {
+        color: #1D4ED8; /* Tailwind blue-700 */
+        text-decoration: underline;
+      }
+      .footer {
+        padding: 20px;
+        text-align: center;
+        clear: both;
+        color: #6B7280; /* Tailwind gray-500 */
+        font-size: 12px;
+        width: 100%;
+      }
+      .footer a {
+        color: #6B7280; /* Tailwind gray-500 */
+      }
+
+      /* Button Styles */
+      .btn {
+        text-decoration: none;
+        color: #ffffff !important; /* Important to override link color */
+        background-color: #1D4ED8; /* Tailwind blue-700 */
+        border: solid #1D4ED8;
+        border-width: 10px 20px;
+        line-height: 2;
+        font-weight: bold;
+        text-align: center;
+        cursor: pointer;
+        display: inline-block;
+        border-radius: 6px;
+        text-transform: capitalize;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+
+      /* Utilities */
+      .mt-4 { margin-top: 16px !important; }
+      .mb-4 { margin-bottom: 16px !important; }
+
+      /* Media Queries */
+      @media only screen and (max-width: 640px) {
+        h1 {font-size: 22px !important;}
+        h2 {font-size: 18px !important;}
+        h3 {font-size: 16px !important;}
+        .container {width: 100% !important; padding: 0 !important;}
+        .content, .content-wrap {padding: 10px !important;}
+        .btn {display: block !important; width: 100%; padding: 10px 0 !important;}
+      }
+
+      /* Old Styles - Keep or remove as needed */
       img {
         max-width: 100%;
       }
