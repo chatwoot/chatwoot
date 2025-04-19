@@ -76,4 +76,13 @@ Rails.application.configure do
     Bullet.bullet_logger = true
     Bullet.rails_logger = true
   end
+
+  # Set the default URL options for development, using ngrok
+  routes.default_url_options[:host] = 'b82e-186-15-56-64.ngrok-free.app'
+  routes.default_url_options[:protocol] = 'https'
+
+  # Don't care if the mailer can't send.
+  config.action_mailer.raise_delivery_errors = false
+
+  config.action_mailer.perform_caching = false
 end
