@@ -1,4 +1,4 @@
-name: Build Chatwoot Images
+name: Build Chatwoot
 
 on:
   workflow_dispatch:
@@ -98,28 +98,17 @@ jobs:
       - name: setup-docker-build
         uses: docker/setup-buildx-action@v2
         
-      - name: prepare-dockerfile-for-branding
+      - name: Set Cache Tag
+        id: cache_tag
         run: |
-          # Create Dockerfile.custom for the branded version
-          cat > Dockerfile.custom << 'EOF'
-          FROM chatwoot/chatwoot:latest
-
-          # Copy our custom branding assets
-          COPY public/brand-assets/chatscommerce /app/public/brand-assets/chatscommerce/
-
-          # Copy our modified installation_config.yml
-          COPY config/installation_config.yml /app/config/installation_config.yml
-
-          # Generate .git_sha file with current commit hash
-          RUN echo "chatscommerce-branded-${{ env.VERSION_TAG }}" > /app/.git_sha
-          EOF
-          echo "DOCKERFILE=Dockerfile.custom" >> $GITHUB_ENV
+          CACHE_KEY=$(echo "${{ github.ref_name }}" | sed 's/[^a-zA-Z0-9]/-/g')
+          echo "key=cache-${CACHE_KEY}" >> $GITHUB_OUTPUT
           
       - name: build-and-push-web
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ${{ env.DOCKERFILE }}
+          file: ./docker/Dockerfile
           platforms: linux/amd64
           push: true
           provenance: false
@@ -129,15 +118,16 @@ jobs:
             ${{ env.ECR_URL_WEB }}:${{ env.VERSION_TAG }}
             ${{ env.ECR_URL_WEB }}:${{ env.LATEST_TAG }}
           cache-from: |
-            type=registry,ref=${{ env.ECR_URL_WEB }}:cache
+            type=registry,ref=${{ env.ECR_URL_WEB }}:${{ steps.cache_tag.outputs.key }}
+            type=registry,ref=${{ env.ECR_URL_WEB }}:cache-main
           cache-to: |
-            type=registry,ref=${{ env.ECR_URL_WEB }}:cache,mode=max
+            type=registry,ref=${{ env.ECR_URL_WEB }}:${{ steps.cache_tag.outputs.key }},mode=max
             
       - name: build-and-push-worker
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ${{ env.DOCKERFILE }}
+          file: ./docker/Dockerfile
           platforms: linux/amd64
           push: true
           provenance: false
@@ -147,9 +137,10 @@ jobs:
             ${{ env.ECR_URL_WORKER }}:${{ env.VERSION_TAG }}
             ${{ env.ECR_URL_WORKER }}:${{ env.LATEST_TAG }}
           cache-from: |
-            type=registry,ref=${{ env.ECR_URL_WORKER }}:cache
+            type=registry,ref=${{ env.ECR_URL_WORKER }}:${{ steps.cache_tag.outputs.key }}
+            type=registry,ref=${{ env.ECR_URL_WORKER }}:cache-main
           cache-to: |
-            type=registry,ref=${{ env.ECR_URL_WORKER }}:cache,mode=max
+            type=registry,ref=${{ env.ECR_URL_WORKER }}:${{ steps.cache_tag.outputs.key }},mode=max
       
       - name: image-build-notification
         if: always()
@@ -158,7 +149,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: deployments
           SLACK_TITLE: Chatwoot Dev Images ${{ job.status }}
-          SLACK_MESSAGE: 'Images built for dev environment: ${{ env.ECR_URL_WEB }}:${{ env.VERSION_TAG }} (ChatsCommerce Branded)'
+          SLACK_MESSAGE: 'Images built for dev environment: ${{ env.ECR_URL_WEB }}:${{ env.VERSION_TAG }}'
           SLACK_COLOR: ${{ job.status == 'success' && 'good' || 'danger' }}
 
   build-prod:
@@ -196,28 +187,17 @@ jobs:
       - name: setup-docker-build
         uses: docker/setup-buildx-action@v2
         
-      - name: prepare-dockerfile-for-branding
+      - name: Set Cache Tag
+        id: cache_tag
         run: |
-          # Create Dockerfile.custom for the branded version
-          cat > Dockerfile.custom << 'EOF'
-          FROM chatwoot/chatwoot:latest
-
-          # Copy our custom branding assets
-          COPY public/brand-assets/chatscommerce /app/public/brand-assets/chatscommerce/
-
-          # Copy our modified installation_config.yml
-          COPY config/installation_config.yml /app/config/installation_config.yml
-
-          # Generate .git_sha file with current commit hash
-          RUN echo "chatscommerce-branded-${{ env.VERSION_TAG }}" > /app/.git_sha
-          EOF
-          echo "DOCKERFILE=Dockerfile.custom" >> $GITHUB_ENV
-        
+          CACHE_KEY=$(echo "${{ github.ref_name }}" | sed 's/[^a-zA-Z0-9]/-/g')
+          echo "key=cache-${CACHE_KEY}" >> $GITHUB_OUTPUT
+          
       - name: build-and-push-web
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ${{ env.DOCKERFILE }}
+          file: ./docker/Dockerfile
           platforms: linux/amd64
           push: true
           provenance: false
@@ -227,15 +207,16 @@ jobs:
             ${{ env.ECR_URL_WEB }}:${{ env.VERSION_TAG }}
             ${{ env.ECR_URL_WEB }}:${{ env.LATEST_TAG }}
           cache-from: |
-            type=registry,ref=${{ env.ECR_URL_WEB }}:cache
+            type=registry,ref=${{ env.ECR_URL_WEB }}:${{ steps.cache_tag.outputs.key }}
+            type=registry,ref=${{ env.ECR_URL_WEB }}:cache-main
           cache-to: |
-            type=registry,ref=${{ env.ECR_URL_WEB }}:cache,mode=max
+            type=registry,ref=${{ env.ECR_URL_WEB }}:${{ steps.cache_tag.outputs.key }},mode=max
             
       - name: build-and-push-worker
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ${{ env.DOCKERFILE }}
+          file: ./docker/Dockerfile
           platforms: linux/amd64
           push: true
           provenance: false
@@ -245,9 +226,10 @@ jobs:
             ${{ env.ECR_URL_WORKER }}:${{ env.VERSION_TAG }}
             ${{ env.ECR_URL_WORKER }}:${{ env.LATEST_TAG }}
           cache-from: |
-            type=registry,ref=${{ env.ECR_URL_WORKER }}:cache
+            type=registry,ref=${{ env.ECR_URL_WORKER }}:${{ steps.cache_tag.outputs.key }}
+            type=registry,ref=${{ env.ECR_URL_WORKER }}:cache-main
           cache-to: |
-            type=registry,ref=${{ env.ECR_URL_WORKER }}:cache,mode=max
+            type=registry,ref=${{ env.ECR_URL_WORKER }}:${{ steps.cache_tag.outputs.key }},mode=max
       
       # - name: image-build-notification
       #   if: always()
@@ -256,5 +238,5 @@ jobs:
       #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       #     SLACK_CHANNEL: deployments
       #     SLACK_TITLE: Chatwoot Prod Images ${{ job.status }}
-      #     SLACK_MESSAGE: 'Images built for prod environment: ${{ env.ECR_URL_WEB }}:${{ env.VERSION_TAG }} (ChatsCommerce Branded)'
+      #     SLACK_MESSAGE: 'Images built for prod environment: ${{ env.ECR_URL_WEB }}:${{ env.VERSION_TAG }}'
       #     SLACK_COLOR: ${{ job.status == 'success' && 'good' || 'danger' }} 
