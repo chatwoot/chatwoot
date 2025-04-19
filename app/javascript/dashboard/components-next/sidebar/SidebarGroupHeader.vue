@@ -44,8 +44,8 @@ const showBadge = useMapGetter(props.getterKeys.badge);
     </span>
     <span
       v-if="expandable"
-      v-show="isExpanded"
-      class="i-lucide-chevron-up size-3"
+      class="size-3"
+      :class="isExpanded ? 'i-lucide-chevron-down' : 'i-lucide-chevron-right'"
       @click.stop="emit('toggle')"
     />
   </component>

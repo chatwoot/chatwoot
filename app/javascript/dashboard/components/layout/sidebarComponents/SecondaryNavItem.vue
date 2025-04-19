@@ -22,8 +22,12 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    isOpen: {
+      type: Boolean,
+      default: false,
+    },
   },
-  emits: ['addLabel', 'open'],
+  emits: ['addLabel', 'open', 'toggle-section'],
   setup() {
     const { isAdmin } = useAdmin();
     const { isEnterprise } = useConfig();
@@ -191,11 +195,20 @@ export default {
 </script>
 
 <template>
-  <li v-show="isMenuItemVisible" class="mt-1">
-    <div v-if="hasSubMenu" class="flex justify-between">
+  <li v-show="isMenuItemVisible" class="mt-1 cursor-pointer">
+    <div
+      v-if="hasSubMenu"
+      class="flex items-center justify-between hover:bg-slate-25 dark:hover:bg-slate-800 rounded-md"
+      @click="$emit('toggle-section')"
+    >
       <span
-        class="px-2 pt-1 my-2 text-sm font-semibold text-slate-700 dark:text-slate-200"
+        class="flex items-center px-2 pt-1 my-2 text-sm font-semibold text-slate-700 dark:text-slate-200"
       >
+        <fluent-icon
+          :icon="isOpen ? 'chevron-down' : 'chevron-right'"
+          size="16"
+          class="mr-1 rtl:mr-0 rtl:ml-1"
+        />
         {{ $t(`SIDEBAR.${menuItem.label}`) }}
       </span>
       <div v-if="menuItem.showNewButton" class="flex items-center">
@@ -237,7 +250,7 @@ export default {
       </span>
     </router-link>
 
-    <ul v-if="hasSubMenu" class="list-none reset-base">
+    <ul v-if="hasSubMenu && isOpen" class="list-none reset-base">
       <SecondaryChildNavItem
         v-for="child in menuItem.children"
         :key="child.id"

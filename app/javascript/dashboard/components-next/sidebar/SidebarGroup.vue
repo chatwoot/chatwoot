@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, nextTick } from 'vue';
+import { computed, onMounted, nextTick, ref } from 'vue';
 import { useSidebarContext } from './provider';
 import { useRoute, useRouter } from 'vue-router';
 import Policy from 'dashboard/components/policy.vue';
@@ -27,13 +27,15 @@ const {
   isAllowed,
 } = useSidebarContext();
 
+// Local state for expansion
+const localIsExpanded = ref(false);
+
 const navigableChildren = computed(() => {
   return props.children?.flatMap(child => child.children || child) || [];
 });
 
 const route = useRoute();
 const router = useRouter();
-const isExpanded = computed(() => expandedItem.value === props.name);
 const isExpandable = computed(() => props.children);
 const hasChildren = computed(
   () => Array.isArray(props.children) && props.children.length > 0
@@ -108,22 +110,36 @@ const hasActiveChild = computed(() => {
 });
 
 const toggleTrigger = () => {
+  // Toggle local state directly
+  localIsExpanded.value = !localIsExpanded.value;
+
+  // Keep navigation logic if needed, but remove setExpandedItem call
   if (
     hasAccessibleChildren.value &&
-    !isExpanded.value &&
+    !localIsExpanded.value && // Check local state
     !hasActiveChild.value
   ) {
-    // if not already expanded, navigate to the first child
+    // if closing an inactive group, do nothing extra
+  } else if (
+    hasAccessibleChildren.value &&
+    localIsExpanded.value && // Check local state
+    !hasActiveChild.value
+  ) {
+    // if expanding an inactive group, navigate to first child
     const firstItem = accessibleItems.value[0];
     router.push(firstItem.to);
   }
-  setExpandedItem(props.name);
+  // Removed: setExpandedItem(props.name);
 };
 
 onMounted(async () => {
   await nextTick();
   if (hasActiveChild.value) {
-    setExpandedItem(props.name);
+    // Initialize local state if active
+    localIsExpanded.value = true;
+    // Optionally still set the shared context if you want the *initial* load
+    // to potentially scroll/focus the active item, but subsequent clicks won't affect others.
+    // setExpandedItem(props.name);
   }
 });
 </script>
@@ -146,12 +162,12 @@ onMounted(async () => {
       :is-active="isActive"
       :has-active-child="hasActiveChild"
       :expandable="hasChildren"
-      :is-expanded="isExpanded"
+      :is-expanded="localIsExpanded"
       @toggle="toggleTrigger"
     />
     <ul
       v-if="hasChildren"
-      v-show="isExpanded || hasActiveChild"
+      v-show="localIsExpanded"
       class="grid m-0 list-none sidebar-group-children"
     >
       <template v-for="child in children" :key="child.name">
@@ -160,18 +176,18 @@ onMounted(async () => {
           :label="child.label"
           :icon="child.icon"
           :children="child.children"
-          :is-expanded="isExpanded"
+          :is-expanded="localIsExpanded"
           :active-child="activeChild"
         />
         <SidebarGroupLeaf
           v-else-if="isAllowed(child.to)"
-          v-show="isExpanded || activeChild?.name === child.name"
+          v-show="localIsExpanded || activeChild?.name === child.name"
           v-bind="child"
           :active="activeChild?.name === child.name"
         />
       </template>
     </ul>
-    <ul v-else-if="isExpandable && isExpanded">
+    <ul v-else-if="isExpandable && localIsExpanded">
       <SidebarGroupEmptyLeaf />
     </ul>
   </Policy>

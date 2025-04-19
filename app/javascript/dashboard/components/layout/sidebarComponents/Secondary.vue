@@ -9,6 +9,8 @@ import {
   hasPermissions,
 } from '../../../helper/permissionsHelper';
 import { routesWithPermissions } from '../../../routes';
+import Policy from '../../policy.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
@@ -50,6 +52,11 @@ export default {
     },
   },
   emits: ['addLabel', 'toggleAccounts'],
+  data() {
+    return {
+      openSections: {},
+    };
+  },
   computed: {
     ...mapGetters({
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
@@ -235,6 +242,15 @@ export default {
     showNewLink(featureFlag) {
       return this.isFeatureEnabledonAccount(this.accountId, featureFlag);
     },
+    toggleSection(sectionKey) {
+      if (this.openSections[sectionKey] === undefined) {
+        this.openSections[sectionKey] = false;
+      }
+      this.openSections[sectionKey] = !this.openSections[sectionKey];
+    },
+    isSectionOpen(sectionKey) {
+      return !!this.openSections[sectionKey];
+    },
   },
 };
 </script>
@@ -253,11 +269,15 @@ export default {
         v-for="menuItem in accessibleMenuItems"
         :key="menuItem.toState"
         :menu-item="menuItem"
+        :is-open="isSectionOpen(menuItem.key)"
+        @toggle-section="toggleSection(menuItem.key)"
       />
       <SecondaryNavItem
         v-for="menuItem in additionalSecondaryMenuItems[menuConfig.parentNav]"
         :key="menuItem.key"
         :menu-item="menuItem"
+        :is-open="isSectionOpen(menuItem.key)"
+        @toggle-section="toggleSection(menuItem.key)"
         @add-label="showAddLabelPopup"
       />
     </transition-group>
