@@ -344,19 +344,29 @@ class Whatsapp::IncomingMessageWhapiService
     def create_location_message(conversation, sender, message_data, message_id, timestamp)
       location_data = message_data[:location]
       return if location_data.blank?
-      
-      latitude = location_data[:latitude]
-      longitude = location_data[:longitude]
+
+      # Explicitly cast to Float to ensure correct type before serialization
+      latitude = location_data[:latitude]&.to_f
+      longitude = location_data[:longitude]&.to_f
       address = location_data[:address]
       name = location_data[:name]
-      
-      location_text = "Location"
-      location_text += ": #{name}" if name.present?
-      location_text += " (#{address})" if address.present?
-      location_text += "\nhttps://www.google.com/maps/search/?api=1&query=#{latitude},#{longitude}"
-      
-      conversation.messages.create!(
-        content: location_text,
+
+      # Check if coordinates are valid numbers after casting
+      if latitude.nil? || longitude.nil?
+        Rails.logger.error("WHAPI Failed to extract valid latitude/longitude from payload: #{location_data.inspect}")
+        # Fallback to creating a simple text message with the raw data or link
+        fallback_url = location_data[:url] || "https://www.google.com/maps/search/?api=1&query=#{location_data[:latitude]},#{location_data[:longitude]}"
+        create_text_message(conversation, sender, { text: { body: "Location: #{name || 'Shared Location'} - #{fallback_url}" } }, message_id, timestamp)
+        return
+      end
+
+      fallback_title = name.present? ? name : "Shared Location"
+      fallback_title += " (#{address})" if address.present?
+      google_maps_url = "https://www.google.com/maps/search/?api=1&query=#{latitude},#{longitude}"
+      message_content = fallback_title
+
+      message = conversation.messages.build(
+        content: message_content,
         message_type: :incoming,
         sender: sender,
         source_id: message_id,
@@ -364,6 +374,28 @@ class Whatsapp::IncomingMessageWhapiService
         account_id: conversation.account_id,
         inbox_id: conversation.inbox_id
       )
+
+      attachment = message.attachments.new(
+        account_id: conversation.account_id,
+        file_type: :location,
+        external_url: google_maps_url,
+        fallback_title: fallback_title,
+        metadata: {
+          coordinates_lat: latitude,
+          coordinates_long: longitude,
+          address: address,
+          name: name
+        }
+      )
+
+      if message.save
+        Rails.logger.info("WHAPI created location message ##{message.id} with attachment ##{attachment.id} and metadata")
+      else
+        Rails.logger.error("WHAPI Failed to save location message with metadata: #{message.errors.full_messages.join(', ')}")
+        create_text_message(conversation, sender, { text: { body: google_maps_url } }, message_id, timestamp)
+      end
+
+      message
     end
     
     def create_contact_message(conversation, sender, message_data, message_id, timestamp)

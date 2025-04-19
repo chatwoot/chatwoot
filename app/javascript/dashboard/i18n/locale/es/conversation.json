@@ -45,6 +45,7 @@
     "SHARED_ATTACHMENT": {
       "CONTACT": "{sender} ha compartido un contacto",
       "LOCATION": "{sender} ha compartido una ubicación",
+      "LOCATION_MALFORMED": "Ubicación:",
       "FILE": "{sender} ha compartido un archivo",
       "MEETING": "{sender} ha iniciado una reunión"
     },

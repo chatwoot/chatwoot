@@ -5,6 +5,7 @@ import ImageChip from 'next/message/chips/Image.vue';
 import VideoChip from 'next/message/chips/Video.vue';
 import AudioChip from 'next/message/chips/Audio.vue';
 import FileChip from 'next/message/chips/File.vue';
+import LocationChip from 'next/message/chips/Location.vue';
 import { useMessageContext } from '../provider.js';
 
 import { ATTACHMENT_TYPES } from '../constants';
@@ -55,7 +56,6 @@ const mediaAttachments = computed(() => {
   const mediaTypes = allAttachments.value.filter(attachment =>
     allowedTypes.includes(attachment.fileType)
   );
-
   return mediaTypes.sort(
     (a, b) =>
       allowedTypes.indexOf(a.fileType) - allowedTypes.indexOf(b.fileType)
@@ -73,9 +73,30 @@ const files = computed(() => {
     attachment => attachment.fileType === ATTACHMENT_TYPES.FILE
   );
 });
+
+const validLocationAttachments = computed(() => {
+  return allAttachments.value.filter(
+    attachment =>
+      attachment.fileType === ATTACHMENT_TYPES.LOCATION &&
+      attachment.metadata &&
+      attachment.metadata.coordinatesLat !== undefined &&
+      attachment.metadata.coordinatesLong !== undefined
+  );
+});
+
+const invalidLocationAttachments = computed(() => {
+  return allAttachments.value.filter(
+    attachment =>
+      attachment.fileType === ATTACHMENT_TYPES.LOCATION &&
+      (!attachment.metadata ||
+        attachment.metadata.coordinatesLat === undefined ||
+        attachment.metadata.coordinatesLong === undefined)
+  );
+});
 </script>
 
 <template>
+  <!-- Restore separate v-if blocks for each attachment type -->
   <div v-if="mediaAttachments.length" :class="classToApply">
     <template v-for="attachment in mediaAttachments" :key="attachment.id">
       <ImageChip
@@ -102,5 +123,31 @@ const files = computed(() => {
       :key="attachment.id"
       :attachment="attachment"
     />
+  </div>
+  <div v-if="validLocationAttachments.length" :class="classToApply">
+    <LocationChip
+      v-for="attachment in validLocationAttachments"
+      :key="attachment.id"
+      :attachment="attachment"
+    />
+  </div>
+  <div v-if="invalidLocationAttachments.length" :class="classToApply">
+    <div
+      v-for="attachment in invalidLocationAttachments"
+      :key="`invalid-${attachment.id}`"
+      class="gap-1 items-center p-1 pr-2 my-0.5 max-w-full text-xs rounded-lg border border-solid border-slate-25 dark:border-slate-700 bg-slate-25 dark:bg-slate-700 text-slate-700 dark:text-slate-300"
+    >
+      <span>
+        {{ $t('CONVERSATION.SHARED_ATTACHMENT.LOCATION_MALFORMED') }}
+      </span>
+      <a
+        :href="attachment.dataUrl"
+        target="_blank"
+        rel="noopener noreferrer nofollow"
+        class="break-all hover:underline text-woot-500 dark:text-woot-500"
+      >
+        {{ attachment.dataUrl }}
+      </a>
+    </div>
   </div>
 </template>

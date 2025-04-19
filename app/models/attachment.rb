@@ -10,6 +10,7 @@
 #  fallback_title   :string
 #  file_type        :integer          default("image")
 #  meta             :jsonb
+#  metadata         :jsonb
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  account_id       :integer          not null
@@ -23,6 +24,10 @@
 
 class Attachment < ApplicationRecord
   include Rails.application.routes.url_helpers
+
+  # Explicitly declare jsonb attributes for robust serialization
+  attribute :metadata, :jsonb
+  attribute :meta, :jsonb # Assuming meta is also jsonb based on schema info
 
   ACCEPTABLE_FILE_TYPES = %w[
     text/csv text/plain text/rtf
@@ -114,7 +119,8 @@ class Attachment < ApplicationRecord
       id: id,
       message_id: message_id,
       file_type: file_type,
-      account_id: account_id
+      account_id: account_id,
+      metadata: metadata
     }
   end
 
@@ -134,6 +140,9 @@ class Attachment < ApplicationRecord
   end
 
   def acceptable_file
+    # Location attachments don't have an uploaded file, skip validation
+    return if file_type.to_sym == :location
+
     return unless should_validate_file?
 
     validate_file_size(file.byte_size)
