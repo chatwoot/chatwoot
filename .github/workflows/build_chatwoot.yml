@@ -121,7 +121,7 @@ jobs:
             type=registry,ref=${{ env.ECR_URL_WEB }}:${{ steps.cache_tag.outputs.key }}
             type=registry,ref=${{ env.ECR_URL_WEB }}:cache-main
           cache-to: |
-            type=registry,ref=${{ env.ECR_URL_WEB }}:${{ steps.cache_tag.outputs.key }},mode=max
+            type=registry,ref=${{ env.ECR_URL_WEB }}:${{ steps.cache_tag.outputs.key }},mode=min
             
       - name: build-and-push-worker
         uses: docker/build-push-action@v4
@@ -140,7 +140,7 @@ jobs:
             type=registry,ref=${{ env.ECR_URL_WORKER }}:${{ steps.cache_tag.outputs.key }}
             type=registry,ref=${{ env.ECR_URL_WORKER }}:cache-main
           cache-to: |
-            type=registry,ref=${{ env.ECR_URL_WORKER }}:${{ steps.cache_tag.outputs.key }},mode=max
+            type=registry,ref=${{ env.ECR_URL_WORKER }}:${{ steps.cache_tag.outputs.key }},mode=min
       
       - name: image-build-notification
         if: always()
@@ -210,7 +210,7 @@ jobs:
             type=registry,ref=${{ env.ECR_URL_WEB }}:${{ steps.cache_tag.outputs.key }}
             type=registry,ref=${{ env.ECR_URL_WEB }}:cache-main
           cache-to: |
-            type=registry,ref=${{ env.ECR_URL_WEB }}:${{ steps.cache_tag.outputs.key }},mode=max
+            type=registry,ref=${{ env.ECR_URL_WEB }}:${{ steps.cache_tag.outputs.key }},mode=min
             
       - name: build-and-push-worker
         uses: docker/build-push-action@v4
@@ -229,7 +229,7 @@ jobs:
             type=registry,ref=${{ env.ECR_URL_WORKER }}:${{ steps.cache_tag.outputs.key }}
             type=registry,ref=${{ env.ECR_URL_WORKER }}:cache-main
           cache-to: |
-            type=registry,ref=${{ env.ECR_URL_WORKER }}:${{ steps.cache_tag.outputs.key }},mode=max
+            type=registry,ref=${{ env.ECR_URL_WORKER }}:${{ steps.cache_tag.outputs.key }},mode=min
       
       # - name: image-build-notification
       #   if: always()
