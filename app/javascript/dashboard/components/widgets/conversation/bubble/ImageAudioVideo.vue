@@ -97,10 +97,8 @@ export default {
   <div class="message-text__wrap" :class="attachmentTypeClasses">
     <img
       v-if="isImage && !isImageError"
-      class="bg-woot-200 dark:bg-woot-900"
+      class="bg-woot-200 dark:bg-woot-900 inline-media"
       :src="dataUrl"
-      :width="imageWidth"
-      :height="imageHeight"
       @click="onClick"
       @error="onImgError"
     />
@@ -109,6 +107,7 @@ export default {
       :src="dataUrl"
       muted
       playsInline
+      class="inline-media"
       @error="onImgError"
       @click="onClick"
     />
@@ -125,3 +124,21 @@ export default {
     />
   </div>
 </template>
+
+<style lang="scss" scoped>
+.inline-media {
+  max-width: 320px; /* Constrain width */
+  max-height: 320px; /* Constrain height */
+  height: auto;     /* Maintain aspect ratio */
+  width: auto;      /* Maintain aspect ratio */
+  object-fit: cover; /* Cover the area nicely */
+  border-radius: var(--border-radius-medium); /* Match bubble radius */
+  cursor: pointer;
+}
+
+/* Ensure the container doesn't add extra padding that affects size */
+.message-text__wrap.image,
+.message-text__wrap.video {
+  padding: 0;
+}
+</style>

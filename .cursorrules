@@ -1,17 +1,15 @@
 # Chatwoot Docker Development & Troubleshooting Guide
 
+## For development
+- ALWAYS STUDY RELATED CODE FILES DEEPLY BEFORE MAKING ANY CHANGES.
+- ALWAYS MAKE A PLAN BEFORE STARTING TO CODE.
+
 ## Docker Container Management
 
 ### Restart Containers for Code Changes
 ```bash
 # Restart all development containers
 task docker-restart-dev
-
-# Restart only Sidekiq (for background job changes)
-task docker-restart-dev-sidekiq
-
-# Restart only Rails (for web app changes)
-task docker-restart-dev-rails
 ```
 
 **Important:** Sidekiq does NOT auto-reload code changes like Rails does. Always restart Sidekiq after modifying background job code.
@@ -38,9 +36,9 @@ docker compose -f docker-compose.dev.yaml logs -f rails
 # View only Sidekiq logs
 docker compose -f docker-compose.dev.yaml logs -f sidekiq
 
-# View recent logs (last 2 minutes)
-docker logs chatwoot-rails-1 --since 2m
-docker logs chatwoot-sidekiq-1 --since 2m
+# View recent logs (last 5 minutes)
+docker logs chatwoot-rails-1 --since 5m
+docker logs chatwoot-sidekiq-1 --since 5m
 ```
 
 ### Search for Specific Events in Logs
@@ -93,8 +91,17 @@ service.perform
 ## Common Issues & Solutions
 
 1. **Code Changes Not Applied**: 
-   - Restart the appropriate container
-   - Verify file paths match the expected location
+   - Restart the containers
+   - **Clear Asset Caches (if frontend changes aren't showing):**
+     ```bash
+     # Clear Vite cache (for modern JS/Vue)
+     docker compose -f docker-compose.dev.yaml exec rails rm -rf node_modules/.vite
+     # Clear Sprockets cache (for older assets)
+     docker compose -f docker-compose.dev.yaml exec rails bundle exec rails tmp:clear
+     # Then restart Rails
+     task docker-restart-dev
+     ```
+   - Verify file paths match the expected location.
 
 2. **Missing Dependencies**: 
    - Check logs for missing gems/libraries

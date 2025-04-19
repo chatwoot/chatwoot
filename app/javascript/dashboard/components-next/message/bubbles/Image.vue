@@ -20,6 +20,13 @@ const attachment = computed(() => {
   return attachments.value[0];
 });
 
+const isSticker = computed(() => {
+  // Check if it's an image and the URL ends with .webp
+  // Note: This is a heuristic. A more robust check might use fileType if available
+  // or specific content_attributes if stickers are marked differently in the backend.
+  return attachment.value?.fileType === 'image' && attachment.value?.dataUrl?.endsWith('.webp');
+});
+
 const hasError = ref(false);
 const showGallery = ref(false);
 const isDownloading = ref(false);
@@ -56,10 +63,12 @@ const downloadAttachment = async () => {
     </div>
     <div v-else class="relative group rounded-lg overflow-hidden">
       <img
-        class="skip-context-menu"
+        :class="{
+          'skip-context-menu': true,
+          'inline-sticker': isSticker,
+          'inline-media': !isSticker
+        }"
         :src="attachment.dataUrl"
-        :width="attachment.width"
-        :height="attachment.height"
         @click="onClick"
         @error="handleError"
       />
@@ -90,3 +99,25 @@ const downloadAttachment = async () => {
     @close="() => (showGallery = false)"
   />
 </template>
+
+<style lang="scss" scoped>
+.inline-media,
+.inline-sticker {
+  height: auto; /* Maintain aspect ratio */
+  width: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Cover the area nicely */
+  border-radius: var(--border-radius-medium); /* Match bubble radius */
+  cursor: pointer;
+  display: block; /* Ensure block behavior */
+}
+
+.inline-media {
+  max-width: 320px; /* Constraint for regular images */
+  max-height: 320px;
+}
+
+.inline-sticker {
+  max-width: 128px; /* Smaller constraint for stickers */
+  max-height: 128px;
+}
+</style>

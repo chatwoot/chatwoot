@@ -41,12 +41,8 @@ const isReel = computed(() => {
       </div>
       <video
         controls
-        class="rounded-lg skip-context-menu"
+        class="rounded-lg skip-context-menu inline-media"
         :src="attachment.dataUrl"
-        :class="{
-          'max-w-48': isReel,
-          'max-w-full': !isReel,
-        }"
         @error="handleError"
       />
     </div>
@@ -60,3 +56,15 @@ const isReel = computed(() => {
     @close="() => (showGallery = false)"
   />
 </template>
+
+<style lang="scss" scoped>
+.inline-media {
+  max-width: 320px; /* Constrain width */
+  max-height: 320px; /* Constrain height */
+  height: auto;     /* Maintain aspect ratio */
+  width: auto;      /* Maintain aspect ratio */
+  object-fit: cover; /* Cover the area nicely */
+  border-radius: var(--border-radius-medium); /* Match bubble radius */
+  cursor: pointer;
+}
+</style>

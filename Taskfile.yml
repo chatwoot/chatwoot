@@ -36,6 +36,7 @@ tasks:
   docker-up-dev:
     desc: "Start all Chatwoot development services in detached mode"
     cmds:
+      - rm -rf ./app/tmp
       - "{{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} up -d"
 
   docker-down:
@@ -51,23 +52,10 @@ tasks:
   docker-restart-dev:
     desc: "Restart Chatwoot development services to pick up code changes"
     cmds:
+      - rm -rf ./app/tmp
       - echo "Restarting development services..."
       - "{{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} restart"
       - echo "Development services restarted"
-
-  docker-restart-dev-sidekiq:
-    desc: "Restart only the Sidekiq container in development to pick up background job changes"
-    cmds:
-      - echo "Restarting Sidekiq development service..."
-      - "{{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} restart sidekiq"
-      - echo "Sidekiq development service restarted"
-
-  docker-restart-dev-rails:
-    desc: "Restart only the Rails container in development to pick up web app changes"
-    cmds:
-      - echo "Restarting Rails development service..."
-      - "{{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} restart rails"
-      - echo "Rails development service restarted"
         
   docker-rebuild:
     desc: "Rebuild and restart all services with local code changes"
