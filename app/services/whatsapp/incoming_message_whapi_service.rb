@@ -87,6 +87,14 @@ class Whatsapp::IncomingMessageWhapiService
     end
     
     def process_incoming_message(message_data)
+      chat_id = message_data[:chat_id] || message_data['chat_id'] # Handle symbols/strings
+      
+      # Ignore messages from groups for now
+      if chat_id&.ends_with?('@g.us')
+        Rails.logger.info "WHAPI Skipping group message from chat_id: #{chat_id}"
+        return # Stop processing this message
+      end
+
       phone_number = message_data[:from]
       message_id = message_data[:id]
       message_type = message_data[:type]
