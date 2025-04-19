@@ -1,0 +1,35 @@
+FROM ruby:3.3.3-alpine3.19
+
+# Install dependencies required for building gems with native extensions
+RUN apk update && apk add --no-cache \
+  build-base \
+  openssl \
+  tzdata \
+  postgresql-dev \
+  postgresql-client \
+  imagemagick \
+  git \
+  vips \
+  nodejs \
+  npm \
+  xz \
+  curl
+
+# Install Node.js and pnpm
+RUN npm install -g pnpm@10.2.0
+
+# Set environment variables
+ENV BUNDLE_PATH="/gems"
+ENV RAILS_ENV=development
+ENV NODE_ENV=development
+ENV EXECJS_RUNTIME=Node
+ENV BUNDLE_FORCE_RUBY_PLATFORM=1
+
+# Create app directory
+RUN mkdir -p /app
+WORKDIR /app
+
+# Skip bundle install as we'll mount the local gems volume
+
+# Set up entrypoint and command in docker-compose
+CMD ["tail", "-f", "/dev/null"] 
