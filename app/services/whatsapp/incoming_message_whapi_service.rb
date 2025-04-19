@@ -1,6 +1,9 @@
 class Whatsapp::IncomingMessageWhapiService
     pattr_initialize [:inbox!, :params!]
     
+    # How often to re-check for profile updates (e.g., 24 hours)
+    PROFILE_REFETCH_THRESHOLD = 24.hours
+    
     def perform
       Rails.logger.info("WHAPI Service starting to process webhook: #{inbox.id}")
       Rails.logger.info("WHAPI webhook payload: #{params.inspect}")
@@ -858,100 +861,153 @@ class Whatsapp::IncomingMessageWhapiService
       phone_number = contact.phone_number
       return if phone_number.blank? # Need phone number to fetch profile
 
+      # --- Optimization Check --- 
+      last_checked_at_str = contact.additional_attributes['profile_updated_at']
+      last_checked_at = last_checked_at_str ? Time.iso8601(last_checked_at_str) : nil
+      profile_complete = contact.name.present? && !contact.name.starts_with?('+') && contact.avatar.attached?
+      
+      # Skip fetch if profile is complete and checked recently
+      if profile_complete && last_checked_at.present? && last_checked_at > PROFILE_REFETCH_THRESHOLD.ago
+        Rails.logger.info("WHAPI Skipping profile update check for contact #{contact.id}; checked recently at #{last_checked_at}")
+        return
+      elsif profile_complete
+        Rails.logger.info("WHAPI Profile for contact #{contact.id} is complete, but last check was at #{last_checked_at || 'never'}. Re-checking.")
+      else
+        Rails.logger.info("WHAPI Profile for contact #{contact.id} is incomplete (Name: #{contact.name.present?}, Avatar: #{contact.avatar.attached?}). Fetching profile info.")
+      end
+      # --- End Optimization Check ---
+
       Rails.logger.info("WHAPI Attempting to update contact profile for #{contact.id} (#{phone_number})")
 
       begin
         provider_service = inbox.channel.provider_service
         contact_info = nil
+        avatar_url = nil
+        should_fetch_image = true # Default to true unless info endpoint provides URL
 
-        # Fetch contact info using the provider service
+        # Fetch contact info using the provider service (returns a standardized hash)
         if provider_service.respond_to?(:fetch_contact_info)
            contact_info = provider_service.fetch_contact_info(phone_number)
            Rails.logger.info "WHAPI Fetched contact info via API: #{contact_info.inspect}" if contact_info
+           # Check if info endpoint provided a URL
+           if contact_info&.[](:avatar_url).present?
+             avatar_url = contact_info[:avatar_url]
+             should_fetch_image = false # Don't need dedicated image fetch if URL provided here
+             Rails.logger.info("WHAPI Using avatar URL from /info or /chats endpoint: #{avatar_url}")
+           end
         else
            Rails.logger.warn "WHAPI: provider_service does not support fetch_contact_info for profile update"
-           return # Cannot proceed without the method
+           contact_info = {} # Initialize to empty hash
         end
 
-
-        # Check if we got valid info
-        if contact_info.blank? || (contact_info[:name].blank? && contact_info[:pushname].blank? && contact_info[:avatar_url].blank?)
-          Rails.logger.info("WHAPI No new profile information found for #{phone_number}")
-          # Update last checked timestamp?
-          # contact.update(additional_attributes: contact.additional_attributes.merge('profile_last_checked_at' => Time.current.utc.iso8601))
-          return
+        # --- Fetch Avatar URL via /profile if needed ---
+        if should_fetch_image && provider_service.respond_to?(:fetch_profile_image)
+          Rails.logger.info("WHAPI No avatar URL from info endpoints, attempting to fetch via /profile endpoint.")
+          begin
+            fetched_url = provider_service.fetch_profile_image(phone_number) # Returns URL string or nil
+            if fetched_url.present?
+              avatar_url = fetched_url # Update avatar_url if found
+              Rails.logger.info("WHAPI Successfully fetched avatar URL via /profile endpoint: #{avatar_url}")
+            else
+              Rails.logger.info("WHAPI /profile endpoint did not return an avatar URL.")
+            end
+          rescue StandardError => e
+            Rails.logger.error("WHAPI Error calling fetch_profile_image: #{e.message}")
+            # avatar_url remains nil or the value from contact_info
+          end
         end
 
-        # --- Prepare updates ---
+        # --- Prepare Updates ---
         updates = {}
-        new_name = contact_info[:name] || contact_info[:pushname]
+        # Use the name directly from the fetched contact_info hash
+        new_name = contact_info&.[](:name)
 
         # Update name only if it's different and not blank
-        if new_name.present? && contact.name != new_name
+        if new_name.present? && contact.name != new_name && !new_name.start_with?('+') # Avoid setting name back to phone number
           updates[:name] = new_name
           Rails.logger.info("WHAPI Updating contact name to: #{new_name}")
         end
 
-        # --- Handle Avatar ---
-        avatar_url = contact_info[:avatar_url]
+        # --- Download and Attach Avatar if URL exists and is new ---
         current_avatar_url = contact.additional_attributes['avatar_url']
-
+        new_avatar_downloaded = false # Flag to track if we actually downloaded
+        
         if avatar_url.present? && avatar_url != current_avatar_url
-            begin
-              Rails.logger.info("WHAPI Downloading new avatar from URL: #{avatar_url}")
-              # Use download_attachment_with_retry for avatar download
-              avatar_file = download_attachment_with_retry(avatar_url, { 'Authorization' => "Bearer #{inbox.channel.provider_config['api_key']}" }) # Assuming same auth needed
+          Rails.logger.info("WHAPI New avatar URL found, attempting download: #{avatar_url}")
+          avatar_file = nil
+          begin
+            # Use download_attachment_with_retry to download the image from the URL
+            auth_header = { 'Authorization' => "Bearer #{provider_service.api_key}" } 
+            avatar_file = download_attachment_with_retry(avatar_url, auth_header) 
 
-              if avatar_file
-                 contact.avatar.attach(io: avatar_file, filename: "#{contact.id}_avatar.jpg", content_type: Marcel::MimeType.for(avatar_file) || 'image/jpeg')
-                 avatar_file.close
-                 # Store the URL we downloaded from to avoid re-downloading same image
-                 updates[:additional_attributes] = contact.additional_attributes.merge('avatar_url' => avatar_url)
-                 Rails.logger.info("WHAPI Successfully attached new avatar for contact #{contact.id}")
-              end
-            rescue StandardError => e
-              Rails.logger.error("WHAPI Failed to download or attach avatar from #{avatar_url}: #{e.message}")
-              # Don't store the failed URL in additional_attributes
+            if avatar_file
+              filename = "#{contact.id}_avatar.jpg" 
+              content_type = Marcel::MimeType.for(avatar_file) || 'image/jpeg'
+              extension = content_type.split('/').last if content_type.include?('/')
+              filename = "#{contact.id}_avatar.#{extension || 'jpg'}" if extension
+
+              Rails.logger.info("WHAPI Attaching downloaded avatar with filename: #{filename}, content_type: #{content_type}")
+              # Use a block to ensure attachment happens before attribute update
+              contact.avatar.attach(io: avatar_file, filename: filename, content_type: content_type)
+              new_avatar_downloaded = true # Set flag after successful attachment
+              
+              # Store the URL we successfully downloaded from
+              current_attrs = updates[:additional_attributes] || contact.additional_attributes || {}
+              updates[:additional_attributes] = current_attrs.merge('avatar_url' => avatar_url)
+               
+              Rails.logger.info("WHAPI Successfully attached new avatar for contact #{contact.id}")
+            else
+              Rails.logger.warn("WHAPI Download failed for avatar URL: #{avatar_url}")
             end
-        elsif avatar_url.blank? && current_avatar_url.present?
-            # Handle avatar removal if API returns blank URL but we have one stored?
-            # contact.avatar.purge # Optional: remove existing avatar
-            # updates[:additional_attributes] = contact.additional_attributes.except('avatar_url')
-            # Rails.logger.info("WHAPI Removing avatar for contact #{contact.id} as API returned no URL.")
-        end
 
-        # --- Other Attributes ---
-        # Store other potentially useful info like 'is_business', 'is_enterprise'
-        %i[is_business is_enterprise pushname verified_name].each do |key|
-           if contact_info.key?(key)
-              updates[:additional_attributes] = (updates[:additional_attributes] || contact.additional_attributes).merge(key.to_s => contact_info[key])
-           end
-        end
-
-
-        # --- Apply Updates ---
-        # Add profile updated timestamp
-        updates[:additional_attributes] = (updates[:additional_attributes] || contact.additional_attributes).merge('profile_updated_at' => Time.current.utc.iso8601)
-
-
-        if updates.present?
-          # Ensure additional_attributes are merged correctly if only avatar URL changed
-          if updates.key?(:additional_attributes) && !updates.key?(:name)
-             updates[:additional_attributes] = contact.additional_attributes.merge(updates[:additional_attributes])
+          rescue Down::Error => e
+            Rails.logger.error("WHAPI Download failed for avatar from URL #{avatar_url}: #{e.message}")
+          rescue StandardError => e
+            Rails.logger.error("WHAPI Failed to process or attach downloaded avatar from #{avatar_url}: #{e.message}")
+            Rails.logger.error(e.backtrace.join("\n"))
+          ensure
+            avatar_file&.close # Safely close tempfile if it exists
           end
-          contact.update!(updates)
-          Rails.logger.info("WHAPI Contact profile updated successfully for #{contact.id}. Changes: #{updates.keys.join(', ')}")
+        elsif avatar_url.present? # URL is same as current
+          Rails.logger.info("WHAPI Avatar URL matches stored URL, skipping download and attachment.")
+        else # No avatar URL found from any source
+          Rails.logger.info("WHAPI No avatar URL available to download.")
+        end
+
+        # --- Apply Updates --- 
+        # Always update the timestamp if we attempted a fetch (even if nothing changed)
+        current_attrs = updates[:additional_attributes] || contact.additional_attributes || {}
+        updates[:additional_attributes] = current_attrs.merge('profile_updated_at' => Time.current.utc.iso8601)
+
+        # Only save if there are actual changes to name or avatar attributes
+        if updates.key?(:name) || updates.dig(:additional_attributes, 'avatar_url') != current_avatar_url
+          # Ensure additional_attributes are merged correctly if only avatar URL changed
+          if updates.key?(:additional_attributes) && !updates.key?(:name) && new_avatar_downloaded
+             # We only update additional_attributes if the avatar was actually downloaded and attached
+             contact.update!(additional_attributes: updates[:additional_attributes])
+             Rails.logger.info("WHAPI Contact profile updated successfully for #{contact.id}. Changes: additional_attributes (avatar_url)")
+          elsif updates.key?(:name) # If name changed (and maybe avatar too)
+             contact.update!(updates)
+             Rails.logger.info("WHAPI Contact profile updated successfully for #{contact.id}. Changes: #{updates.keys.join(', ')}")
+          else
+            # Only timestamp changed, update separately if needed, or skip DB write if only timestamp updated.
+            # Let's update only the timestamp if no other attributes changed during this fetch cycle.
+            if !new_avatar_downloaded && !updates.key?(:name)
+               contact.update_column(:additional_attributes, updates[:additional_attributes]) # Use update_column to skip callbacks if only timestamp changes
+               Rails.logger.info("WHAPI Updated profile_updated_at timestamp for contact #{contact.id}")
+            end
+          end
         else
-          Rails.logger.info("WHAPI No profile changes detected for contact #{contact.id}")
-          # Still update the timestamp to show we checked
-          contact.update!(additional_attributes: contact.additional_attributes.merge('profile_updated_at' => Time.current.utc.iso8601))
+          Rails.logger.info("WHAPI No profile changes detected during fetch for contact #{contact.id}, updating timestamp only.")
+          # Update timestamp even if no other data changed
+          contact.update_column(:additional_attributes, updates[:additional_attributes]) # Use update_column to skip callbacks
         end
 
       rescue ActiveRecord::RecordInvalid => e
         Rails.logger.error("WHAPI Failed to update contact profile (Validation Error): #{e.message} - #{e.record.errors.full_messages.join(', ')}")
       rescue StandardError => e
         Rails.logger.error("WHAPI Error during contact profile update for #{phone_number}: #{e.message}")
-        Rails.logger.error(e.backtrace.join("\\n"))
+        Rails.logger.error(e.backtrace.join("\n"))
       end
     end
     

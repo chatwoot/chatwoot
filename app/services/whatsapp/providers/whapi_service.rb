@@ -70,101 +70,122 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
         id_formats = format_whatsapp_id(phone_number)
         
         Rails.logger.info "WHAPI attempting to fetch contact info for #{id_formats[:original]}"
-        Rails.logger.info "WHAPI trying formats: clean=#{id_formats[:clean]}, whatsapp_id=#{id_formats[:whatsapp_id]}"
+        Rails.logger.info "WHAPI trying format: whatsapp_id=#{id_formats[:whatsapp_id]}"
         
-        # Try first with WhatsApp ID format
+        # Try first with WhatsApp ID format using /contacts/{id}/info
         response = HTTParty.get(
-          "#{api_base_url}/contacts/#{id_formats[:whatsapp_id]}/info",
+          "#{api_base_url}/contacts/#{id_formats[:clean]}/info", # Use clean number for this specific endpoint
           headers: api_headers,
-          timeout: 5
+          timeout: 5 # Consider increasing timeout slightly if needed
         )
         
-        # If first attempt fails, try with clean number format
-        if !response.success?
-          Rails.logger.info "WHAPI first attempt failed, trying clean number format"
-          response = HTTParty.get(
-            "#{api_base_url}/contacts/#{id_formats[:clean]}/info",
-            headers: api_headers,
-            timeout: 5
-          )
-        end
-        
+        parsed_response = nil
+        source_endpoint = nil
+
         if response.success?
-          Rails.logger.info "Successfully fetched contact info for #{id_formats[:original]}"
-          return response.parsed_response
+          Rails.logger.info "WHAPI Successfully fetched contact info from /contacts endpoint for #{id_formats[:original]}"
+          parsed_response = response.parsed_response
+          source_endpoint = 'contacts'
         else
-          Rails.logger.error "Error fetching contact info for #{id_formats[:original]}: #{response.code} - #{response.body}"
+          Rails.logger.error "WHAPI Error fetching from /contacts endpoint for #{id_formats[:original]}: #{response.code} - #{response.body}"
           
-          # Alternative approach: try to fetch from chat info instead
+          # Alternative approach: try to fetch from chat info endpoint /chats/{id}
+          Rails.logger.info "WHAPI Trying alternative /chats endpoint for #{id_formats[:original]}"
           alt_response = HTTParty.get(
             "#{api_base_url}/chats/#{id_formats[:whatsapp_id]}",
             headers: api_headers,
-            timeout: 5
+            timeout: 5 # Consider increasing timeout slightly if needed
           )
           
           if alt_response.success?
-            Rails.logger.info "Successfully fetched contact info from chat endpoint for #{id_formats[:original]}"
-            return alt_response.parsed_response
+            Rails.logger.info "WHAPI Successfully fetched contact info from /chats endpoint for #{id_formats[:original]}"
+            parsed_response = alt_response.parsed_response
+            # Log the full successful response from /chats endpoint for debugging
+            Rails.logger.info "WHAPI Full /chats response payload for #{id_formats[:original]}: #{parsed_response.inspect}"
+            source_endpoint = 'chats'
+          else
+             Rails.logger.error "WHAPI Error fetching from /chats endpoint for #{id_formats[:original]}: #{alt_response.code} - #{alt_response.body}"
+          end
+        end
+
+        # Process the successful response (if any)
+        if parsed_response && source_endpoint
+          # Extract name: Prioritize contact.name, contact.pushname, contact.verified_name, then chat.name
+          name = nil
+          if source_endpoint == 'contacts'
+            name = parsed_response.dig('contact', 'name').presence || 
+                   parsed_response.dig('contact', 'pushname').presence ||
+                   parsed_response.dig('contact', 'verified_name').presence
+          elsif source_endpoint == 'chats'
+            name = parsed_response.dig('name').presence
           end
           
-          Rails.logger.error "All attempts to fetch contact info failed."
+          # Extract avatar URL: Use contact.profile.picUrl or chat.image
+          avatar_url = nil
+          if source_endpoint == 'contacts'
+            avatar_url = parsed_response.dig('contact', 'profile', 'picUrl').presence
+          elsif source_endpoint == 'chats'
+            avatar_url = parsed_response.dig('image').presence
+          end
+
+          Rails.logger.info "WHAPI Parsed info for #{id_formats[:original]}: Name=#{name || 'N/A'}, AvatarURL=#{avatar_url || 'N/A'}"
+
+          # Return standardized hash
+          return {
+            name: name,
+            avatar_url: avatar_url,
+            # Optionally include other useful fields parsed from the response
+            # e.g., is_business: parsed_response.dig('contact', 'is_business'),
+            #       pushname: parsed_response.dig('contact', 'pushname')
+          }
+        else
+          Rails.logger.error "WHAPI All attempts to fetch contact info failed for #{id_formats[:original]}."
           return nil
         end
       rescue => e
         Rails.logger.error "Exception fetching contact info for #{phone_number}: #{e.message}"
+        Rails.logger.error(e.backtrace.join("\n")) # Log backtrace for better debugging
         return nil
       end
     end
     
     def fetch_profile_image(phone_number)
-      # Fetch profile image from Whapi API
+      # Fetch profile image URL from the /profile endpoint
       begin
         # Get standardized ID formats
         id_formats = format_whatsapp_id(phone_number)
         
-        Rails.logger.info "WHAPI attempting to fetch profile image for #{id_formats[:original]}"
-        Rails.logger.info "WHAPI trying formats: clean=#{id_formats[:clean]}, whatsapp_id=#{id_formats[:whatsapp_id]}"
+        Rails.logger.info "WHAPI attempting to fetch profile image URL from /profile endpoint for #{id_formats[:original]}"
+        # Use the clean number (digits only) for this endpoint
+        contact_id_for_profile = id_formats[:clean] 
+        Rails.logger.info "WHAPI trying ID for /profile endpoint: #{contact_id_for_profile}"
         
-        # Try first with WhatsApp ID format
+        # Use the /contacts/{id}/profile endpoint with the clean number
         response = HTTParty.get(
-          "#{api_base_url}/contacts/#{id_formats[:whatsapp_id]}/image",
-          headers: api_headers,
-          timeout: 5
+          "#{api_base_url}/contacts/#{contact_id_for_profile}/profile",
+          headers: api_headers, # Ensure api_headers includes Authorization
+          timeout: 5 
         )
         
-        # If first attempt fails, try with clean number format
-        if !response.success?
-          Rails.logger.info "WHAPI first attempt failed, trying clean number format"
-          response = HTTParty.get(
-            "#{api_base_url}/contacts/#{id_formats[:clean]}/image",
-            headers: api_headers,
-            timeout: 5
-          )
-        end
-        
         if response.success?
-          Rails.logger.info "Successfully fetched profile image for #{id_formats[:original]}"
-          return response.parsed_response
-        else
-          Rails.logger.error "Error fetching profile image for #{id_formats[:original]}: #{response.code} - #{response.body}"
+          parsed_response = response.parsed_response
+          # Extract URL from icon_full or icon key
+          image_url = parsed_response['icon_full'].presence || parsed_response['icon'].presence
           
-          # Check documentation for alternate endpoints
-          alt_response = HTTParty.get(
-            "#{api_base_url}/chats/#{id_formats[:whatsapp_id]}/image",
-            headers: api_headers,
-            timeout: 5
-          )
-          
-          if alt_response.success?
-            Rails.logger.info "Successfully fetched profile image from alternate endpoint for #{id_formats[:original]}"
-            return alt_response.parsed_response
+          if image_url.present?
+            Rails.logger.info "Successfully fetched profile image URL for #{id_formats[:original]}: #{image_url}"
+            return image_url
+          else
+            Rails.logger.warn "WHAPI /profile endpoint succeeded but response missing 'icon_full' or 'icon' key for #{id_formats[:original]}: #{parsed_response.inspect}"
+            return nil
           end
-          
-          Rails.logger.error "All attempts to fetch profile image failed."
+        else
+          Rails.logger.error "Error fetching profile image from /contacts/.../profile for #{id_formats[:original]}: #{response.code} - #{response.body}"
           return nil
         end
       rescue => e
-        Rails.logger.error "Exception fetching profile image for #{phone_number}: #{e.message}"
+        Rails.logger.error "Exception fetching profile image URL for #{phone_number}: #{e.message}"
+        Rails.logger.error(e.backtrace.join("\n"))
         return nil
       end
     end
