@@ -1,4 +1,4 @@
-name: Build Chatwoot Images
+name: Build Chatwoot
 
 on:
   workflow_dispatch:
@@ -98,6 +98,12 @@ jobs:
       - name: setup-docker-build
         uses: docker/setup-buildx-action@v2
         
+      - name: Set Cache Tag
+        id: cache_tag
+        run: |
+          CACHE_KEY=$(echo "${{ github.ref_name }}" | sed 's/[^a-zA-Z0-9]/-/g')
+          echo "key=cache-${CACHE_KEY}" >> $GITHUB_OUTPUT
+          
       - name: build-and-push-web
         uses: docker/build-push-action@v4
         with:
@@ -112,9 +118,10 @@ jobs:
             ${{ env.ECR_URL_WEB }}:${{ env.VERSION_TAG }}
             ${{ env.ECR_URL_WEB }}:${{ env.LATEST_TAG }}
           cache-from: |
-            type=registry,ref=${{ env.ECR_URL_WEB }}:cache
+            type=registry,ref=${{ env.ECR_URL_WEB }}:${{ steps.cache_tag.outputs.key }}
+            type=registry,ref=${{ env.ECR_URL_WEB }}:cache-main
           cache-to: |
-            type=registry,ref=${{ env.ECR_URL_WEB }}:cache,mode=max
+            type=registry,ref=${{ env.ECR_URL_WEB }}:${{ steps.cache_tag.outputs.key }},mode=max
             
       - name: build-and-push-worker
         uses: docker/build-push-action@v4
@@ -130,9 +137,10 @@ jobs:
             ${{ env.ECR_URL_WORKER }}:${{ env.VERSION_TAG }}
             ${{ env.ECR_URL_WORKER }}:${{ env.LATEST_TAG }}
           cache-from: |
-            type=registry,ref=${{ env.ECR_URL_WORKER }}:cache
+            type=registry,ref=${{ env.ECR_URL_WORKER }}:${{ steps.cache_tag.outputs.key }}
+            type=registry,ref=${{ env.ECR_URL_WORKER }}:cache-main
           cache-to: |
-            type=registry,ref=${{ env.ECR_URL_WORKER }}:cache,mode=max
+            type=registry,ref=${{ env.ECR_URL_WORKER }}:${{ steps.cache_tag.outputs.key }},mode=max
       
       - name: image-build-notification
         if: always()
@@ -179,6 +187,12 @@ jobs:
       - name: setup-docker-build
         uses: docker/setup-buildx-action@v2
         
+      - name: Set Cache Tag
+        id: cache_tag
+        run: |
+          CACHE_KEY=$(echo "${{ github.ref_name }}" | sed 's/[^a-zA-Z0-9]/-/g')
+          echo "key=cache-${CACHE_KEY}" >> $GITHUB_OUTPUT
+          
       - name: build-and-push-web
         uses: docker/build-push-action@v4
         with:
@@ -193,9 +207,10 @@ jobs:
             ${{ env.ECR_URL_WEB }}:${{ env.VERSION_TAG }}
             ${{ env.ECR_URL_WEB }}:${{ env.LATEST_TAG }}
           cache-from: |
-            type=registry,ref=${{ env.ECR_URL_WEB }}:cache
+            type=registry,ref=${{ env.ECR_URL_WEB }}:${{ steps.cache_tag.outputs.key }}
+            type=registry,ref=${{ env.ECR_URL_WEB }}:cache-main
           cache-to: |
-            type=registry,ref=${{ env.ECR_URL_WEB }}:cache,mode=max
+            type=registry,ref=${{ env.ECR_URL_WEB }}:${{ steps.cache_tag.outputs.key }},mode=max
             
       - name: build-and-push-worker
         uses: docker/build-push-action@v4
@@ -211,9 +226,10 @@ jobs:
             ${{ env.ECR_URL_WORKER }}:${{ env.VERSION_TAG }}
             ${{ env.ECR_URL_WORKER }}:${{ env.LATEST_TAG }}
           cache-from: |
-            type=registry,ref=${{ env.ECR_URL_WORKER }}:cache
+            type=registry,ref=${{ env.ECR_URL_WORKER }}:${{ steps.cache_tag.outputs.key }}
+            type=registry,ref=${{ env.ECR_URL_WORKER }}:cache-main
           cache-to: |
-            type=registry,ref=${{ env.ECR_URL_WORKER }}:cache,mode=max
+            type=registry,ref=${{ env.ECR_URL_WORKER }}:${{ steps.cache_tag.outputs.key }},mode=max
       
       # - name: image-build-notification
       #   if: always()
