@@ -103,7 +103,8 @@ class Attachment < ApplicationRecord
       coordinates_lat: coordinates_lat,
       coordinates_long: coordinates_long,
       fallback_title: fallback_title,
-      data_url: external_url
+      data_url: external_url,
+      metadata: metadata || {}
     }
   end
 

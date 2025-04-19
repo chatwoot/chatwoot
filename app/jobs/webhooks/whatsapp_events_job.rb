@@ -2,6 +2,13 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
   queue_as :low
 
   def perform(params = {})
+    params = params.with_indifferent_access
+    whapi_params = params[:whapi] || params # Handle potential nesting differences
+    channel_id = whapi_params[:channel_id]
+
+    # Log the raw payload for debugging
+    Rails.logger.info "WHAPI Raw Payload Received: #{whapi_params.inspect}"
+
     # First try to find channel from WhatsApp business payload or URL param
     channel = find_channel_from_whatsapp_business_payload(params)
     
