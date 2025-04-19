@@ -1,20 +1,20 @@
-<p>Hi <%= @resource.name %>,</p>
+<p><%= t('.greeting', name: @resource.name) %></p>
 
 <% account_user = @resource&.account_users&.first %>
 
 <% if account_user&.inviter.present? && @resource.unconfirmed_email.blank? %>
-  <p><%= account_user.inviter.name %>, with <%= account_user.account.name %>, has invited you to try out <%= global_config['BRAND_NAME'] || 'Chatwoot' %>.</p>
+  <p><%= t('.invitation_info', inviter_name: account_user.inviter.name, account_name: account_user.account.name, brand_name: (global_config['BRAND_NAME'] || 'Chatwoot')) %></p>
 <% end %>
 
 <% if @resource.confirmed? %>
-  <p>You can login to your <%= global_config['BRAND_NAME'] || 'Chatwoot' %> account through the link below:</p>
+  <p><%= t('.login_info', brand_name: (global_config['BRAND_NAME'] || 'Chatwoot')) %></p>
 <% else %>
   <% if account_user&.inviter.blank? %>
   <p>
-    Welcome to <%= global_config['BRAND_NAME'] || 'Chatwoot' %>! We have a suite of powerful tools ready for you to explore. Before that we quickly need to verify your email address to know it's really you.
+    <%= t('.welcome_info', brand_name: (global_config['BRAND_NAME'] || 'Chatwoot')) %>
   </p>
   <% end %>
-  <p>Please take a moment and click the link below and activate your account.</p>
+  <p><%= t('.activation_request') %></p>
 <% end %>
 
 

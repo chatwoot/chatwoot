@@ -75,33 +75,33 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def switch_locale(&)
-    Rails.logger.debug "--- [Mailer Locale Debug] Starting switch_locale ---"
+    Rails.logger.info "--- [Mailer Locale Debug] Starting switch_locale ---"
     # --- Restore original locale detection --- 
     # Try getting locale from Current.account (Chatwoot default)
     locale_from_current = locale_from_account(Current.account)
-    Rails.logger.debug "--- [Mailer Locale Debug] locale_from_account(Current.account): #{locale_from_current.inspect} ---"
+    Rails.logger.info "--- [Mailer Locale Debug] locale_from_account(Current.account): #{locale_from_current.inspect} ---"
     locale ||= locale_from_current
     
     # Try getting locale from @resource (common in Devise mailers)
     locale_from_resource = nil
     if @resource && @resource.respond_to?(:locale)
-      Rails.logger.debug "--- [Mailer Locale Debug] @resource exists and responds to locale. @resource.locale: #{@resource.locale.inspect} ---"
+      Rails.logger.info "--- [Mailer Locale Debug] @resource exists and responds to locale. @resource.locale: #{@resource.locale.inspect} ---"
       if @resource.locale && I18n.available_locales.map(&:to_s).include?(@resource.locale)
         locale_from_resource = @resource.locale
-        Rails.logger.debug "--- [Mailer Locale Debug] Setting locale_from_resource to: #{locale_from_resource.inspect} ---"
+        Rails.logger.info "--- [Mailer Locale Debug] Setting locale_from_resource to: #{locale_from_resource.inspect} ---"
         locale ||= locale_from_resource
       else
-        Rails.logger.debug "--- [Mailer Locale Debug] @resource.locale is nil or not available: #{@resource.locale.inspect} ---"
+        Rails.logger.info "--- [Mailer Locale Debug] @resource.locale is nil or not available: #{@resource.locale.inspect} ---"
       end
     else
-      Rails.logger.debug "--- [Mailer Locale Debug] @resource is nil or does not respond to locale ---"
+      Rails.logger.info "--- [Mailer Locale Debug] @resource is nil or does not respond to locale ---"
     end
     
     # Fallback to default locale
     default_locale = I18n.default_locale
-    Rails.logger.debug "--- [Mailer Locale Debug] I18n.default_locale: #{default_locale.inspect} ---"
+    Rails.logger.info "--- [Mailer Locale Debug] I18n.default_locale: #{default_locale.inspect} ---"
     locale ||= default_locale
-    Rails.logger.debug "--- [Mailer Locale Debug] Final locale chosen: #{locale.inspect} ---"
+    Rails.logger.info "--- [Mailer Locale Debug] Final locale chosen: #{locale.inspect} ---"
     # -----------------------------------------------------
 
     # ensure locale won't bleed into other requests

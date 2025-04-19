@@ -18,8 +18,12 @@ es:
     mailer:
       confirmation_instructions:
         subject: "Instrucciones de confirmación"
+        greeting: "Hola %{name},"
+        invitation_info: "%<{inviter_name}>, de %<{account_name}>, te ha invitado a su equipo en %<{brand_name}>."
+        login_info: "Puedes iniciar sesión en tu cuenta de %<{brand_name}> a través del siguiente enlace:"
+        welcome_info: "¡Bienvenido a %<{brand_name}>! Tenemos un conjunto de potentes herramientas listas para que las explores. Antes de eso, necesitamos verificar rápidamente tu dirección de correo electrónico para saber que realmente eres tú."
+        activation_request: "Por favor, tómate un momento, haz clic en el siguiente enlace y activa tu cuenta."
         confirm_account: "Confirmar mi cuenta"
-        login_account: "Iniciar sesión en mi cuenta"
       reset_password_instructions:
         subject: "Instrucciones para restablecer la contraseña"
         greeting: "¡Hola %{email}!"
