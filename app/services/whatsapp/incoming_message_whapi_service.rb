@@ -3,6 +3,7 @@ class Whatsapp::IncomingMessageWhapiService
     
     def perform
       Rails.logger.info("WHAPI Service starting to process webhook: #{inbox.id}")
+      Rails.logger.info("WHAPI webhook payload: #{params.inspect}")
       
       # Process different types of events from Whapi webhooks
       if message_event?
@@ -42,11 +43,11 @@ class Whatsapp::IncomingMessageWhapiService
         Rails.logger.info("WHAPI received update for outgoing message: #{message_id}")
         
         # Try to find the message in our system by source_id
-        existing_message = Message.find_by(source_id: message_id)
+        existing_message = find_message_by_source_id_or_content(message_id, message_data)
         
         if existing_message.present?
           Rails.logger.info("WHAPI found existing outgoing message #{existing_message.id}, updating status")
-          existing_message.update(status: 'sent')
+          existing_message.update(source_id: message_id, status: message_data[:status] || 'sent')
           return
         else
           Rails.logger.info("WHAPI skipping processing of outgoing message - not found in our system: #{message_id}")
@@ -72,8 +73,17 @@ class Whatsapp::IncomingMessageWhapiService
         
         Rails.logger.info("WHAPI found/created contact_inbox: #{contact_inbox.id} for contact: #{contact_inbox.contact.id}")
         
-        # Update contact with additional WhatsApp Profile information if available
-        update_contact_with_whatsapp_profile(contact_inbox.contact) if params[:contacts].present?
+        # Ensure the contact has a phone_number set
+        if contact_inbox.contact.phone_number.blank? && phone_number.present?
+          formatted_phone = phone_number
+          formatted_phone = "+#{formatted_phone}" unless formatted_phone.start_with?('+')
+          contact_inbox.contact.update(phone_number: formatted_phone)
+          Rails.logger.info("WHAPI updated contact phone_number to: #{formatted_phone}")
+        end
+        
+        # Always update contact with WhatsApp profile information
+        # Even if not in the webhook, we'll fetch it from the API
+        update_contact_with_whatsapp_profile(contact_inbox.contact)
         
         # Find or create conversation with explicit account and contact IDs
         Rails.logger.info("WHAPI looking for conversation with inbox_id: #{inbox.id}, contact_inbox_id: #{contact_inbox.id}")
@@ -172,16 +182,13 @@ class Whatsapp::IncomingMessageWhapiService
       Rails.logger.info("WHAPI processing status update: message_id=#{message_id}, status=#{status}, outgoing=#{is_outgoing}")
       
       # Find the message in our system
-      message = Message.find_by(source_id: message_id)
+      message = find_message_by_source_id_or_content(message_id, status_data)
       
       if message.blank?
-        # Let's check if this might be an outgoing message with a different source_id format
-        Rails.logger.info("WHAPI status update: message not found with source_id: #{message_id}")
-        
         # If this is for an outgoing message, try to find the conversation by phone number
         if is_outgoing && status_data[:to].present?
           Rails.logger.info("WHAPI attempting to find conversation for outgoing message to: #{status_data[:to]}")
-          contact_inbox = inbox.contact_inboxes.find_by(source_id: status_data[:to])
+          contact_inbox = inbox.contact_inboxes.where("source_id LIKE ?", "%#{status_data[:to]}%").first
           
           if contact_inbox.present?
             # Find the most recent outgoing message in this conversation
@@ -198,10 +205,13 @@ class Whatsapp::IncomingMessageWhapiService
           end
         end
         
+        Rails.logger.info("WHAPI status update: no matching message found for #{message_id}")
         return
       end
       
       # Update message status
+      Rails.logger.info("WHAPI updating message ##{message.id} status from #{message.status} to #{status}")
+      
       case status
       when 'sent', 'delivered'
         message.update(status: status)
@@ -608,27 +618,184 @@ class Whatsapp::IncomingMessageWhapiService
     end
     
     def update_contact_with_whatsapp_profile(contact)
+      Rails.logger.info("WHAPI updating contact profile for #{contact.id} (#{contact.name})")
+      
+      # First, check if we have profile data in the webhook
       contact_data = params[:contacts]&.first
-      return if contact_data.blank?
       
-      profile = contact_data[:profile] || {}
-      
-      # Update contact with profile data if available
-      contact_update_params = {}
-      
-      # Name from profile
-      contact_update_params[:name] = profile[:name] if profile[:name].present?
-      
-      # Additional custom attributes from WhatsApp profile
-      additional_attributes = contact.additional_attributes || {}
-      
-      if profile[:about].present?
-        additional_attributes[:about] = profile[:about]
+      # If no contacts field, try to get info from the message
+      if contact_data.blank? && params[:messages].present?
+        message = params[:messages].first
+        if message.present? && message[:from].present?
+          # Create synthetic contact data from message
+          contact_data = {
+            profile: {
+              name: message[:from_name]
+            }
+          }
+          Rails.logger.info "WHAPI: Created synthetic contact data from message for #{message[:from]}"
+        end
       end
       
-      contact_update_params[:additional_attributes] = additional_attributes if additional_attributes.any?
+      if contact_data.present?
+        profile = contact_data[:profile] || {}
+        
+        # Update contact with profile data if available
+        contact_update_params = {}
+        
+        # Name from profile
+        if profile[:name].present?
+          # Parse the full name to set first and last name
+          name_parts = profile[:name].split(' ', 2)
+          first_name = name_parts[0]
+          last_name = name_parts.length > 1 ? name_parts[1] : nil
+          
+          # Store the full name in the name field (this is what displays in the UI)
+          contact_update_params[:name] = profile[:name]
+          
+          # Also store the last name separately in the last_name field
+          contact_update_params[:last_name] = last_name if last_name.present?
+          
+          Rails.logger.info "WHAPI parsing name from webhook: '#{profile[:name]}' → full name='#{profile[:name]}', last='#{last_name}'"
+        end
+        
+        # Additional custom attributes from WhatsApp profile
+        additional_attributes = contact.additional_attributes || {}
+        
+        if profile[:about].present?
+          additional_attributes[:about] = profile[:about]
+        end
+        
+        # Set profile image if available in webhook
+        if profile[:profile_picture_url].present?
+          additional_attributes[:profile_image] = profile[:profile_picture_url]
+          
+          # Schedule a job to download and set the profile image as avatar
+          Rails.logger.info "WHAPI scheduling avatar update from webhook URL: #{profile[:profile_picture_url]}"
+          Avatar::AvatarFromUrlJob.perform_later(contact, profile[:profile_picture_url])
+          Rails.logger.info "WHAPI scheduled avatar update from webhook for contact: #{contact.id}"
+        end
+        
+        # Save webhook data first
+        # Only update additional_attributes if no other fields are being updated
+        # to prevent overwriting previously set name values
+        if contact_update_params.keys.any? { |k| k != :additional_attributes }
+          # We have real contact data to update (like name, last_name)
+          contact_update_params[:additional_attributes] = additional_attributes if additional_attributes.any?
+        elsif additional_attributes.any?
+          # We only have additional attributes, so don't risk overwriting existing contact data
+          contact.update(additional_attributes: additional_attributes)
+          Rails.logger.info "WHAPI updated contact additional attributes only: #{additional_attributes.inspect}"
+          return
+        end
+        
+        if contact_update_params.any?
+          Rails.logger.info "WHAPI contact before webhook update - name: '#{contact.name}', last_name: '#{contact.last_name}'"
+          contact.update(contact_update_params)
+          Rails.logger.info "WHAPI updated contact from webhook data: #{contact_update_params.inspect}"
+          Rails.logger.info "WHAPI contact after webhook update - name: '#{contact.name}', last_name: '#{contact.last_name}'"
+        end
+      end
       
-      contact.update(contact_update_params) if contact_update_params.any?
+      # Now fetch additional contact info and profile image via API
+      # but only if we haven't done so recently (within 24 hours)
+      if contact.additional_attributes['profile_updated_at'].present?
+        last_update = Time.zone.parse(contact.additional_attributes['profile_updated_at']) rescue 30.days.ago
+        if last_update > 24.hours.ago
+          Rails.logger.info "WHAPI skipping API profile update - was updated at #{last_update}"
+          return
+        end
+      end
+      
+      # Get WhatsApp channel's Whapi service
+      whapi_service = inbox.channel.provider_service
+      
+      # Fetch additional contact info
+      phone_number = contact.phone_number.presence || contact.identifier
+      
+      # Skip if no phone number is available
+      unless phone_number.present?
+        Rails.logger.info "WHAPI cannot update profile - no phone number available"
+        return
+      end
+      
+      # Fetch contact info from Whapi API
+      Rails.logger.info "WHAPI fetching profile via API for #{phone_number}"
+      contact_info = whapi_service.fetch_contact_info(phone_number)
+      
+      # Initialize attributes to update
+      contact_update_params = {}
+      additional_attributes = contact.additional_attributes || {}
+      additional_attributes['profile_updated_at'] = Time.zone.now.to_s
+      
+      # Update with info from API response if available
+      if contact_info.present?
+        Rails.logger.info "WHAPI received contact info for #{phone_number}: #{contact_info.inspect}"
+        
+        # Use contact name from API if not already set
+        if contact_info['name'].present? && (contact.name.blank? || contact.name == phone_number)
+          # Parse the full name to set first and last name
+          name_parts = contact_info['name'].split(' ', 2)
+          first_name = name_parts[0]
+          last_name = name_parts.length > 1 ? name_parts[1] : nil
+          
+          # Store the full name in the name field (this is what displays in the UI)
+          contact_update_params[:name] = contact_info['name']
+          
+          # Also store the last name separately in the last_name field
+          contact_update_params[:last_name] = last_name if last_name.present?
+          
+          Rails.logger.info "WHAPI parsing name from API: '#{contact_info['name']}' → full name='#{contact_info['name']}', last='#{last_name}'"
+        end
+        
+        # Save business info if available
+        if contact_info['business_profile'].present?
+          additional_attributes['business_profile'] = contact_info['business_profile']
+        end
+        
+        # Save status/about info if available
+        if contact_info['status'].present?
+          additional_attributes['about'] = contact_info['status']
+        end
+      end
+      
+      # Fetch profile image
+      Rails.logger.info "WHAPI fetching profile image via API for #{phone_number}"
+      profile_image = whapi_service.fetch_profile_image(phone_number)
+      
+      if profile_image.present? && profile_image['url'].present?
+        Rails.logger.info "WHAPI received profile image URL: #{profile_image['url']}"
+        additional_attributes['profile_image'] = profile_image['url']
+        
+        # Schedule a job to download and set the profile image as avatar
+        Rails.logger.info "WHAPI scheduling avatar update from API URL: #{profile_image['url']}"
+        Avatar::AvatarFromUrlJob.perform_later(contact, profile_image['url'])
+        Rails.logger.info "WHAPI scheduled avatar update from API for contact: #{contact.id}"
+      else
+        Rails.logger.info "WHAPI no profile image found via API for #{phone_number}"
+      end
+      
+      # Update the contact with all the new info
+      # Only update additional_attributes if no other fields are being updated
+      # to prevent overwriting previously set name values
+      if contact_update_params.keys.any? { |k| k != :additional_attributes }
+        # We have real contact data to update (like name, last_name)
+        contact_update_params[:additional_attributes] = additional_attributes
+      elsif additional_attributes.any?
+        # We only have additional attributes, so don't risk overwriting existing contact data
+        contact.update(additional_attributes: additional_attributes)
+        Rails.logger.info "WHAPI updated contact additional attributes only: #{additional_attributes.inspect}"
+        return
+      end
+      
+      if contact_update_params.any?
+        Rails.logger.info "WHAPI contact before API update - name: '#{contact.name}', last_name: '#{contact.last_name}'"
+        contact.update(contact_update_params)
+        Rails.logger.info "WHAPI updated contact from API: #{contact_update_params.inspect}"
+        Rails.logger.info "WHAPI contact after API update - name: '#{contact.name}', last_name: '#{contact.last_name}'"
+      end
+      
+      Rails.logger.info "Updated WhatsApp contact profile for #{contact.id}: #{phone_number}"
     end
     
     def extract_quoted_message_details(context)
@@ -667,5 +834,63 @@ class Whatsapp::IncomingMessageWhapiService
       return true if message_data[:type] == 'outbound'
       
       false
+    end
+    
+    # Helper to find a message by source_id or by content if source_id is not available
+    def find_message_by_source_id_or_content(source_id, message_data)
+      # First try to find by source_id
+      message = Message.find_by(source_id: source_id)
+      return message if message.present?
+      
+      # Check for success_timestamp format which is our fallback
+      if source_id.to_s.include?("success_")
+        Rails.logger.info("WHAPI trying to find message with a success_ fallback source_id")
+        messages = Message.where("source_id LIKE ?", "success_%")
+                         .where(message_type: :outgoing)
+                         .order(created_at: :desc)
+                         .limit(5)
+        
+        if messages.present?
+          Rails.logger.info("WHAPI found #{messages.count} potential messages with success_ source_id")
+          return messages.first # As a simple solution, take the most recent one
+        end
+      end
+      
+      # If not found by source_id, try to match by content and recency
+      if message_data[:text] && message_data[:text][:body].present?
+        content = message_data[:text][:body]
+        
+        Rails.logger.info("WHAPI trying to find message with content: #{content}")
+        
+        # Find conversations for the contact phone number
+        chat_id = message_data[:chat_id]
+        phone_number = chat_id.split('@').first
+        
+        contact_inboxes = inbox.contact_inboxes.where("source_id LIKE ?", "%#{phone_number}%")
+        
+        if contact_inboxes.present?
+          # Find all conversations for these contact inboxes, safely
+          conversation_ids = []
+          contact_inboxes.each do |contact_inbox|
+            conversations = Conversation.where(contact_inbox_id: contact_inbox.id)
+            conversation_ids.concat(conversations.pluck(:id)) if conversations.any?
+          end
+          
+          if conversation_ids.any?
+            recent_messages = Message.where(conversation_id: conversation_ids)
+                                    .where(message_type: :outgoing)
+                                    .where(content: content)
+                                    .or(Message.where("content LIKE ?", "%#{content}%")
+                                          .where(conversation_id: conversation_ids))
+                                    .where('created_at > ?', 1.hour.ago)
+                                    .order(created_at: :desc)
+                                    .limit(1)
+            
+            return recent_messages.first if recent_messages.present?
+          end
+        end
+      end
+      
+      nil
     end
   end

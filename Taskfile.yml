@@ -12,6 +12,7 @@ vars:
   IMAGE_NAME: chatwoot-branded
   IMAGE_TAG: latest
   COMPOSE_FILE: docker-compose.custom.yaml
+  DEV_COMPOSE_FILE: docker-compose.dev.yaml
   COMPOSE_CMD: docker compose
 
 tasks:
@@ -21,16 +22,53 @@ tasks:
       - echo "Building the {{.PROJECT_NAME}} branded Chatwoot Docker image..."
       - docker build -t {{.IMAGE_NAME}}:{{.IMAGE_TAG}} -f Dockerfile.custom .
 
+  docker-build-dev:
+    desc: "Build the development Docker image"
+    cmds:
+      - echo "Building the development Docker image..."
+      - docker build -t {{.IMAGE_NAME}}:dev -f Dockerfile.dev .
+
   docker-up: 
     desc: "Start all Chatwoot services in detached mode"
     cmds:
       - "{{.COMPOSE_CMD}} -f {{.COMPOSE_FILE}} up -d"
+
+  docker-up-dev:
+    desc: "Start all Chatwoot development services in detached mode"
+    cmds:
+      - "{{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} up -d"
 
   docker-down:
     desc: "Stop all Chatwoot services"
     cmds:
       - "{{.COMPOSE_CMD}} -f {{.COMPOSE_FILE}} down"
 
+  docker-down-dev:
+    desc: "Stop all Chatwoot development services"
+    cmds:
+      - "{{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} down"
+
+  docker-restart-dev:
+    desc: "Restart Chatwoot development services to pick up code changes"
+    cmds:
+      - echo "Restarting development services..."
+      - "{{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} restart"
+      - echo "Development services restarted"
+
+  docker-restart-dev-sidekiq:
+    desc: "Restart only the Sidekiq container in development to pick up background job changes"
+    cmds:
+      - echo "Restarting Sidekiq development service..."
+      - "{{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} restart sidekiq"
+      - echo "Sidekiq development service restarted"
+
+  docker-restart-dev-rails:
+    desc: "Restart only the Rails container in development to pick up web app changes"
+    cmds:
+      - echo "Restarting Rails development service..."
+      - "{{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} restart rails"
+      - echo "Rails development service restarted"
+  
   docker-logs:
     desc: "Show logs from all services (or specify a service after --)"
     vars:
@@ -43,6 +81,18 @@ tasks:
           {{.COMPOSE_CMD}} -f {{.COMPOSE_FILE}} logs -f
         fi
 
+  docker-logs-dev:
+    desc: "Show logs from all development services (or specify a service after --)"
+    vars:
+      SERVICE: '{{.CLI_ARGS}}'
+    cmds:
+      - |
+        if [ -n "{{.SERVICE}}" ]; then
+          {{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} logs -f {{.SERVICE}}
+        else
+          {{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} logs -f
+        fi
+        
   docker-rebuild:
     desc: "Rebuild and restart all services with local code changes"
     cmds:
@@ -53,6 +103,17 @@ tasks:
       - echo "Waiting for services to start..."
       - sleep 10
       - echo "Rebuild complete."
+      
+  docker-rebuild-dev:
+    desc: "Rebuild and restart all development services with local code changes"
+    cmds:
+      - task: docker-down-dev
+      - echo "Building development image with local code (no cache)..."
+      - docker build --no-cache -t {{.IMAGE_NAME}}:dev -f Dockerfile.dev .
+      - task: docker-up-dev
+      - echo "Waiting for services to start..."
+      - sleep 10
+      - echo "Development rebuild complete."
 
   setup-dirs:
     desc: "Create necessary directories for data persistence"
@@ -90,10 +151,20 @@ tasks:
     cmds:
       - "{{.COMPOSE_CMD}} -f {{.COMPOSE_FILE}} exec rails bundle exec rails console"
 
+  rails-console-dev:
+    desc: "Access the Rails console inside the running development container"
+    cmds:
+      - "{{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} exec rails bundle exec rails console"
+
   sidekiq-status:
     desc: "Check Sidekiq status inside the running container"
     cmds:
       - "{{.COMPOSE_CMD}} -f {{.COMPOSE_FILE}} exec sidekiq bundle exec sidekiqmon"
+
+  sidekiq-status-dev:
+    desc: "Check Sidekiq status inside the running development container"
+    cmds:
+      - "{{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} exec sidekiq bundle exec sidekiqmon"
 
   rails-logs:
     desc: "Show Rails logs"
@@ -101,6 +172,12 @@ tasks:
       - task: docker-logs
         vars: {CLI_ARGS: rails}
 
+  rails-logs-dev:
+    desc: "Show Rails development logs"
+    cmds:
+      - task: docker-logs-dev
+        vars: {CLI_ARGS: rails}
+        
   db-prepare:
     desc: "Run database setup and migrations"
     cmds:
@@ -108,11 +185,24 @@ tasks:
       - "{{.COMPOSE_CMD}} -f {{.COMPOSE_FILE}} exec rails bundle exec rails db:migrate"
       - "{{.COMPOSE_CMD}} -f {{.COMPOSE_FILE}} exec rails bundle exec rails db:seed"
 
+  db-prepare-dev:
+    desc: "Run database setup and migrations in development environment"
+    cmds:
+      - "{{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} exec rails bundle exec rails db:create"
+      - "{{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} exec rails bundle exec rails db:migrate"
+      - "{{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} exec rails bundle exec rails db:seed"
+
   db-init:
     desc: "Initialize database with basic setup"
     cmds:
       - task: db-prepare
       - echo "Database initialized successfully."
+
+  db-init-dev:
+    desc: "Initialize development database with basic setup"
+    cmds:
+      - task: db-prepare-dev
+      - echo "Development database initialized successfully."
 
   generate-icons:
     desc: "Generate all icon variations from logo.png for branding"
@@ -188,6 +278,18 @@ tasks:
       - echo "Waiting for database to be ready..."
       - sleep 10
       - task: db-init
+
+  run-all-dev:
+    desc: "Complete development setup: create directories, prepare environment, build dev image, start dev services, and prepare database"
+    cmds:
+      - task: setup-dirs
+      - task: prepare-env
+      - task: docker-build-dev
+      - task: docker-up-dev
+      - echo "Waiting for database to be ready..."
+      - sleep 10
+      - task: db-init-dev
+      - echo "Development environment is ready!"
 
   open-app:
     desc: "Open the Chatwoot application in the default browser"

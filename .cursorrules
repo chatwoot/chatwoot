@@ -1,0 +1,125 @@
+# Chatwoot Docker Development & Troubleshooting Guide
+
+## Docker Container Management
+
+### Restart Containers for Code Changes
+```bash
+# Restart all development containers
+task docker-restart-dev
+
+# Restart only Sidekiq (for background job changes)
+task docker-restart-dev-sidekiq
+
+# Restart only Rails (for web app changes)
+task docker-restart-dev-rails
+```
+
+**Important:** Sidekiq does NOT auto-reload code changes like Rails does. Always restart Sidekiq after modifying background job code.
+
+### Check Container Status
+```bash
+# List all running containers
+docker compose -f docker-compose.dev.yaml ps
+
+# Start containers if not running
+task docker-up-dev
+```
+
+## Debugging Event Processing
+
+### View Application Logs
+```bash
+# View all logs
+docker compose -f docker-compose.dev.yaml logs -f
+
+# View only Rails logs
+docker compose -f docker-compose.dev.yaml logs -f rails
+
+# View only Sidekiq logs
+docker compose -f docker-compose.dev.yaml logs -f sidekiq
+
+# View recent logs (last 2 minutes)
+docker logs chatwoot-rails-1 --since 2m
+docker logs chatwoot-sidekiq-1 --since 2m
+```
+
+### Search for Specific Events in Logs
+```bash
+# Search for recent events (last 2 minutes)
+docker logs chatwoot-sidekiq-1 --since 2m 2>&1 | grep -i "search_term"
+
+# Search for errors
+docker logs chatwoot-sidekiq-1 --since 5m 2>&1 | grep -i -A 5 -B 2 "error"
+
+# Follow logs in real-time while testing
+docker logs -f chatwoot-sidekiq-1 | grep -i "search_term"
+
+# Check WhatsApp webhook processing
+docker logs chatwoot-sidekiq-1 --since 5m 2>&1 | grep -i "WHAPI"
+```
+
+### Common Error Patterns to Look For
+- Missing method errors (`undefined method for nil:NilClass`)
+- Database connection issues
+- API timeouts with external services
+- Missing webhook data
+
+## Testing Webhook Processing
+
+1. Send test message through channel (WhatsApp, etc.)
+2. Check logs immediately after sending
+3. Add temporary debug statements to trace execution path
+   ```ruby
+   Rails.logger.info "DEBUG: Reached #{__method__} with data: #{variable.inspect}"
+   ```
+4. Restart appropriate service after code changes
+
+## Rails Console Access for Troubleshooting
+
+```bash
+# Access Rails console
+task rails-console-dev
+# Or direct access
+docker compose -f docker-compose.dev.yaml exec rails bundle exec rails console
+
+# Example: Check if contacts have phone numbers
+Contact.last(5).pluck(:id, :phone_number)
+
+# Example: Manually trigger a service
+service = Whatsapp::IncomingMessageWhapiService.new(inbox: Inbox.find(1), params: params_hash)
+service.perform
+```
+
+## Common Issues & Solutions
+
+1. **Code Changes Not Applied**: 
+   - Restart the appropriate container
+   - Verify file paths match the expected location
+
+2. **Missing Dependencies**: 
+   - Check logs for missing gems/libraries
+   - Run bundler inside container: `docker compose -f docker-compose.dev.yaml exec rails bundle install`
+
+3. **API Connection Issues**:
+   - Check network connectivity within Docker
+   - Verify API credentials in environment variables
+   - Look for rate limiting or timeout errors
+
+4. **Data Format Problems**:
+   - Add data inspection logging (`Rails.logger.info params.inspect`)
+   - Verify webhook payload structure matches expected format
+
+## Useful Taskfile Commands
+
+```bash
+# View all available tasks
+task -l
+
+# Create/update database schema
+task db-prepare-dev
+
+# Complete setup from scratch
+task run-all-dev
+```
+
+Remember to keep this guide updated as you discover new troubleshooting techniques! 

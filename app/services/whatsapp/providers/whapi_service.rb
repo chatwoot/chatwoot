@@ -3,16 +3,33 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
       @message = message
       
       # Handle different message types (text, attachments, etc.)
-      return send_text_message(phone_number, message) if message.content.present? && message.attachments.blank?
-      return send_attachment(phone_number, message) if message.attachments.present?
-      return send_interactive_message(phone_number, message) if message.content_type == 'input_select'
+      result = nil
       
-      nil
+      if message.content.present? && message.attachments.blank?
+        result = send_text_message(phone_number, message)
+      elsif message.attachments.present?
+        result = send_attachment(phone_number, message)
+      elsif message.content_type == 'input_select'
+        result = send_interactive_message(phone_number, message)
+      end
+      
+      # If the message was sent successfully and we have a message ID
+      # Store the ID in the message record for later reference
+      if result.present?
+        Rails.logger.info("WHAPI message sent successfully with ID: #{result}")
+      else
+        Rails.logger.error("WHAPI message sending failed: no result ID")
+      end
+      
+      result
     end
     
     def send_template(phone_number, template_info)
       # Implement template sending logic using the Whapi API
       # This would translate Chatwoot template format to Whapi's format
+      
+      # Get standardized ID formats
+      id_formats = format_whatsapp_id(phone_number)
       
       name = template_info[:name]
       parameters = template_info[:parameters]
@@ -22,7 +39,7 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
         "#{api_base_url}/messages/template",
         headers: api_headers,
         body: {
-          receiver: phone_number,
+          receiver: id_formats[:whatsapp_id], # Use WhatsApp ID format for messaging
           template: name,
           params: format_template_params(parameters)
         }.to_json
@@ -43,6 +60,112 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
         whatsapp_channel.mark_message_templates_updated
       else
         Rails.logger.error "Error syncing Whapi templates: #{response.body}"
+      end
+    end
+    
+    def fetch_contact_info(phone_number)
+      # Fetch contact information from Whapi API
+      begin
+        # Get standardized ID formats
+        id_formats = format_whatsapp_id(phone_number)
+        
+        Rails.logger.info "WHAPI attempting to fetch contact info for #{id_formats[:original]}"
+        Rails.logger.info "WHAPI trying formats: clean=#{id_formats[:clean]}, whatsapp_id=#{id_formats[:whatsapp_id]}"
+        
+        # Try first with WhatsApp ID format
+        response = HTTParty.get(
+          "#{api_base_url}/contacts/#{id_formats[:whatsapp_id]}/info",
+          headers: api_headers,
+          timeout: 5
+        )
+        
+        # If first attempt fails, try with clean number format
+        if !response.success?
+          Rails.logger.info "WHAPI first attempt failed, trying clean number format"
+          response = HTTParty.get(
+            "#{api_base_url}/contacts/#{id_formats[:clean]}/info",
+            headers: api_headers,
+            timeout: 5
+          )
+        end
+        
+        if response.success?
+          Rails.logger.info "Successfully fetched contact info for #{id_formats[:original]}"
+          return response.parsed_response
+        else
+          Rails.logger.error "Error fetching contact info for #{id_formats[:original]}: #{response.code} - #{response.body}"
+          
+          # Alternative approach: try to fetch from chat info instead
+          alt_response = HTTParty.get(
+            "#{api_base_url}/chats/#{id_formats[:whatsapp_id]}",
+            headers: api_headers,
+            timeout: 5
+          )
+          
+          if alt_response.success?
+            Rails.logger.info "Successfully fetched contact info from chat endpoint for #{id_formats[:original]}"
+            return alt_response.parsed_response
+          end
+          
+          Rails.logger.error "All attempts to fetch contact info failed."
+          return nil
+        end
+      rescue => e
+        Rails.logger.error "Exception fetching contact info for #{phone_number}: #{e.message}"
+        return nil
+      end
+    end
+    
+    def fetch_profile_image(phone_number)
+      # Fetch profile image from Whapi API
+      begin
+        # Get standardized ID formats
+        id_formats = format_whatsapp_id(phone_number)
+        
+        Rails.logger.info "WHAPI attempting to fetch profile image for #{id_formats[:original]}"
+        Rails.logger.info "WHAPI trying formats: clean=#{id_formats[:clean]}, whatsapp_id=#{id_formats[:whatsapp_id]}"
+        
+        # Try first with WhatsApp ID format
+        response = HTTParty.get(
+          "#{api_base_url}/contacts/#{id_formats[:whatsapp_id]}/image",
+          headers: api_headers,
+          timeout: 5
+        )
+        
+        # If first attempt fails, try with clean number format
+        if !response.success?
+          Rails.logger.info "WHAPI first attempt failed, trying clean number format"
+          response = HTTParty.get(
+            "#{api_base_url}/contacts/#{id_formats[:clean]}/image",
+            headers: api_headers,
+            timeout: 5
+          )
+        end
+        
+        if response.success?
+          Rails.logger.info "Successfully fetched profile image for #{id_formats[:original]}"
+          return response.parsed_response
+        else
+          Rails.logger.error "Error fetching profile image for #{id_formats[:original]}: #{response.code} - #{response.body}"
+          
+          # Check documentation for alternate endpoints
+          alt_response = HTTParty.get(
+            "#{api_base_url}/chats/#{id_formats[:whatsapp_id]}/image",
+            headers: api_headers,
+            timeout: 5
+          )
+          
+          if alt_response.success?
+            Rails.logger.info "Successfully fetched profile image from alternate endpoint for #{id_formats[:original]}"
+            return alt_response.parsed_response
+          end
+          
+          Rails.logger.error "All attempts to fetch profile image failed."
+          return nil
+        end
+      rescue => e
+        Rails.logger.error "Exception fetching profile image for #{phone_number}: #{e.message}"
+        return nil
       end
     end
     
@@ -108,12 +231,15 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
       max_retry_attempts = 2
       retry_delay_seconds = 5
       
+      # Get standardized ID formats
+      id_formats = format_whatsapp_id(phone_number)
+      
       for attempt in 0..max_retry_attempts
         response = HTTParty.post(
           "#{api_base_url}/messages/text",
           headers: api_headers,
           body: {
-            to: phone_number,
+            to: id_formats[:whatsapp_id], # Use WhatsApp ID format for messaging
             body: message.content
           }.to_json
         )
@@ -136,27 +262,30 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
       attachment = message.attachments.first
       attachment_url = attachment.download_url
       
+      # Get standardized ID formats
+      id_formats = format_whatsapp_id(phone_number)
+      
       content_type = attachment.file_type
       filename = attachment.file.filename.to_s
       caption = message.content.presence || ''
       
       if content_type.include?('image')
-        send_image(phone_number, attachment_url, caption)
+        send_image(id_formats[:whatsapp_id], attachment_url, caption)
       elsif content_type.include?('video')
-        send_video(phone_number, attachment_url, caption, filename)
+        send_video(id_formats[:whatsapp_id], attachment_url, caption, filename)
       elsif content_type.include?('audio')
-        send_audio(phone_number, attachment_url)
+        send_audio(id_formats[:whatsapp_id], attachment_url)
       else
-        send_document(phone_number, attachment_url, caption, filename)
+        send_document(id_formats[:whatsapp_id], attachment_url, caption, filename)
       end
     end
     
-    def send_image(phone_number, url, caption = nil)
+    def send_image(whatsapp_id, url, caption = nil)
       response = HTTParty.post(
         "#{api_base_url}/messages/image",
         headers: api_headers,
         body: {
-          to: phone_number,
+          to: whatsapp_id,
           media: url,
           caption: caption || '',
           mime_type: 'image/jpeg'
@@ -166,12 +295,12 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
       process_response(response)
     end
     
-    def send_video(phone_number, url, caption = nil, filename = nil)
+    def send_video(whatsapp_id, url, caption = nil, filename = nil)
       response = HTTParty.post(
         "#{api_base_url}/messages/video",
         headers: api_headers,
         body: {
-          to: phone_number,
+          to: whatsapp_id,
           media: url,
           caption: caption || '',
           mime_type: 'video/mp4',
@@ -182,12 +311,12 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
       process_response(response)
     end
     
-    def send_audio(phone_number, url, filename = nil)
+    def send_audio(whatsapp_id, url, filename = nil)
       response = HTTParty.post(
         "#{api_base_url}/messages/audio",
         headers: api_headers,
         body: {
-          to: phone_number,
+          to: whatsapp_id,
           media: url,
           mime_type: 'audio/mpeg',
           filename: filename
@@ -197,12 +326,12 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
       process_response(response)
     end
     
-    def send_document(phone_number, url, caption = nil, filename = nil)
+    def send_document(whatsapp_id, url, caption = nil, filename = nil)
       response = HTTParty.post(
         "#{api_base_url}/messages/document",
         headers: api_headers,
         body: {
-          to: phone_number,
+          to: whatsapp_id,
           media: url,
           caption: caption || '',
           mime_type: 'application/pdf',
@@ -214,23 +343,26 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
     end
     
     def send_interactive_message(phone_number, message)
+      # Get standardized ID formats
+      id_formats = format_whatsapp_id(phone_number)
+      
       items = message.content_attributes[:items] || []
       
       if items.length <= 3
-        send_button_message(phone_number, message)
+        send_button_message(id_formats[:whatsapp_id], message)
       else
-        send_list_message(phone_number, message)
+        send_list_message(id_formats[:whatsapp_id], message)
       end
     end
     
-    def send_button_message(phone_number, message)
+    def send_button_message(whatsapp_id, message)
       buttons = create_buttons(message.content_attributes[:items])
       
       response = HTTParty.post(
         "#{api_base_url}/messages/interactive",
         headers: api_headers,
         body: {
-          to: phone_number,
+          to: whatsapp_id,
           type: 'button',
           body: {
             text: message.content
@@ -244,14 +376,14 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
       process_response(response)
     end
     
-    def send_list_message(phone_number, message)
+    def send_list_message(whatsapp_id, message)
       rows = create_rows(message.content_attributes[:items])
       
       response = HTTParty.post(
         "#{api_base_url}/messages/interactive",
         headers: api_headers,
         body: {
-          to: phone_number,
+          to: whatsapp_id,
           type: 'list',
           body: {
             text: message.content
@@ -337,17 +469,49 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
     def process_response(response)
       parsed_response = response.parsed_response
       
-      if response.success? && parsed_response['error'].blank?
-        if parsed_response['messages'].present? && parsed_response['messages'].first.present?
-          return parsed_response['messages'].first['id']
+      # Log detailed response for debugging
+      Rails.logger.info("WHAPI API response: #{response.code} - #{parsed_response}")
+      
+      if response.success?
+        # Different WhatsApp providers have different response formats
+        # Extract the message ID from the response
+        if parsed_response.is_a?(Hash)
+          message_id = parsed_response['id'] || 
+                      parsed_response['message_id'] || 
+                      parsed_response['messageId'] || 
+                      parsed_response.dig('messages', 0, 'id')
+          
+          if message_id.present?
+            Rails.logger.info("WHAPI processed message ID from response: #{message_id}")
+            return message_id
+          else
+            Rails.logger.warn("WHAPI could not extract message ID from response: #{parsed_response}")
+            # Return a dummy value as a fallback to prevent nil source_id
+            return "success_#{Time.now.to_i}"
+          end
+        else
+          Rails.logger.warn("WHAPI unexpected response format: #{parsed_response.class}")
+          return "success_#{Time.now.to_i}"
         end
-        
-        # For other successful responses that don't follow the exact format
-        return parsed_response['id'] if parsed_response['id'].present?
-        return 'success'
       else
-        handle_error(response)
+        Rails.logger.error("WHAPI API call failed: #{response.code} - #{parsed_response}")
         nil
       end
+    end
+    
+    # Format a phone number into the proper WhatsApp ID format
+    # Returns a hash with different formats that can be used in the API
+    def format_whatsapp_id(phone_number)
+      # Remove any non-numeric characters (including + sign)
+      clean_number = phone_number.to_s.gsub(/[^0-9]/, '')
+      
+      # Standard WhatsApp ID format for individual contacts: number@s.whatsapp.net
+      whatsapp_id = "#{clean_number}@s.whatsapp.net"
+      
+      {
+        clean: clean_number,         # Just the number: 50683023625
+        whatsapp_id: whatsapp_id,    # Standard WhatsApp ID: 50683023625@s.whatsapp.net
+        original: phone_number       # Original format provided
+      }
     end
   end
