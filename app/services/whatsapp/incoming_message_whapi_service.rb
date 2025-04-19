@@ -452,58 +452,99 @@ class Whatsapp::IncomingMessageWhapiService
     
     def create_sticker_message(conversation, sender, message_data, message_id, timestamp)
       sticker_data = message_data[:sticker]
+      Rails.logger.info("WHAPI sticker message data: #{message_data.inspect}")
+      Rails.logger.info("WHAPI sticker data field: #{sticker_data.inspect}")
       return if sticker_data.blank?
       
+      
+      # Get the API headers from the provider service
+      api_headers = inbox.channel.provider_service.api_headers
+      
       begin
-        # Try to download the sticker as an image
-        attachment_url = sticker_data[:url] || sticker_data[:link]
-        
+        # Extract URL using the helper which handles media IDs
+        attachment_url = extract_media_url(sticker_data)
+        Rails.logger.info("WHAPI sticker URL: #{attachment_url}")
+
         if attachment_url.present?
-          attachment_file = Down.download(
-            attachment_url,
-            headers: inbox.channel.api_headers
-          )
-          
-          # Create the message with sticker as an attachment
-          message = conversation.messages.build(
-            message_type: :incoming,
-            sender: sender,
-            source_id: message_id,
-            created_at: timestamp,
-            account_id: conversation.account_id,
-            inbox_id: conversation.inbox_id,
-            content: 'Sticker'
-          )
-          
-          message.attachments.new(
-            account_id: conversation.account_id,
-            file_type: 'image/webp',
-            file: {
-              io: attachment_file,
-              filename: 'sticker.webp',
-              content_type: 'image/webp'
+          Rails.logger.info("WHAPI downloading sticker from: #{attachment_url}")
+
+          attachment_file = download_attachment_with_retry(attachment_url, api_headers)
+          Rails.logger.info("WHAPI sticker downloaded successfully, size: #{attachment_file.size} bytes")
+
+          # Now set the locale for translations (though not strictly needed for sticker content)
+          I18n.with_locale(conversation.account.locale || 'en') do
+            # Create the message with sticker as an attachment
+            message = conversation.messages.build(
+              message_type: :incoming,
+              sender: sender,
+              source_id: message_id,
+              created_at: timestamp,
+              account_id: conversation.account_id,
+              inbox_id: conversation.inbox_id,
+              content: nil # Sticker messages shouldn't have primary text content
+            )
+
+            # Determine MIME type (should be image/webp for stickers)
+            mime_type = determine_mime_type(sticker_data, attachment_file)
+            Rails.logger.info("WHAPI sticker mime type: #{mime_type}")
+
+            # Get filename or generate one
+            filename = sticker_data[:file_name] || sticker_data[:filename] || "sticker_#{Time.now.to_i}.webp"
+
+            # Store the original MIME type for reference, but use :image for file_type enum
+            attachment_attributes = {
+              account_id: conversation.account_id,
+              file_type: :image, # Stickers are images
+              file: {
+                io: attachment_file,
+                filename: filename,
+                content_type: mime_type # Keep original mime type for file content
+              }
             }
-          )
-          
-          message.save!
+
+            message.attachments.new(attachment_attributes)
+
+            # Log everything before saving for debugging
+            Rails.logger.info("WHAPI attaching sticker with file_type: :image, filename: #{filename}, original_mime_type: #{mime_type}")
+
+            begin
+              message.save!
+              Rails.logger.info("WHAPI sticker message saved successfully with ID: #{message.id}")
+              message
+            rescue => e
+              Rails.logger.error("WHAPI failed to save sticker message: #{e.message}")
+              Rails.logger.error(e.backtrace.join("\n"))
+              # Fallback to text message indicating failure
+              create_error_sticker_message(conversation, sender, message_id, timestamp, I18n.t('whatsapp.sticker_download_failed'))
+            end
+          end
         else
-          conversation.messages.create!(
-            content: 'Sent a sticker',
-            message_type: :incoming,
-            sender: sender,
-            source_id: message_id,
-            created_at: timestamp
-          )
+          Rails.logger.warn("WHAPI sticker URL could not be determined from payload")
+          # Fallback to text message indicating failure
+          create_error_sticker_message(conversation, sender, message_id, timestamp, I18n.t('whatsapp.sticker_url_not_available'))
         end
       rescue => e
-        Rails.logger.error "Failed to download WHAPI sticker: #{e.message}"
-        
+        Rails.logger.error "WHAPI Entered rescue block in create_sticker_message for message_id: #{message_id}"
+        Rails.logger.error("WHAPI Error details: #{e.message}")
+        # Fallback to text message indicating failure
+        create_error_sticker_message(conversation, sender, message_id, timestamp, I18n.t('whatsapp.sticker_download_failed'))
+      end
+    end
+    
+    # Helper method to create a text message indicating a sticker error
+    def create_error_sticker_message(conversation, sender, message_id, timestamp, error_content)
+      target_locale = conversation&.account&.locale || 'en'
+      I18n.with_locale(target_locale) do
+        translated_content = error_content # Use the passed-in, potentially translated content
+        Rails.logger.info("WHAPI Creating sticker error message with content: '#{translated_content}'")
         conversation.messages.create!(
-          content: 'Sent a sticker',
+          content: translated_content,
           message_type: :incoming,
           sender: sender,
           source_id: message_id,
-          created_at: timestamp
+          created_at: timestamp,
+          account_id: conversation.account_id,
+          inbox_id: conversation.inbox_id
         )
       end
     end
