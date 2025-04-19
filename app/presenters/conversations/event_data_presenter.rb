@@ -5,7 +5,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
       can_reply: can_reply?,
       channel: inbox.try(:channel_type),
       contact_inbox: contact_inbox,
-      id: display_id,
+      id: id,
       inbox_id: inbox_id,
       messages: push_messages,
       labels: label_list,

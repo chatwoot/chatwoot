@@ -35,14 +35,8 @@ export const mutations = {
       if (indexInCurrentList < 0) {
         newAllConversations.push(conversation);
       } else if (conversation.id !== _state.selectedChatId) {
-        // If the conversation is already in the list, replace it
-        // Added this to fix the issue of the conversation not being updated
-        // When reconnecting to the websocket. If the selectedChatId is not the same as
-        // the conversation.id in the store, replace the existing conversation with the new one
         newAllConversations[indexInCurrentList] = conversation;
       } else {
-        // If the conversation is already in the list and selectedChatId is the same,
-        // replace all data except the messages array, attachments, dataFetched, allMessagesLoaded
         const existingConversation = newAllConversations[indexInCurrentList];
         newAllConversations[indexInCurrentList] = {
           ...conversation,
@@ -145,7 +139,6 @@ export const mutations = {
   },
 
   [types.ADD_CONVERSATION_ATTACHMENTS](_state, message) {
-    // early return if the message has not been sent, or has no attachments
     if (
       message.status !== MESSAGE_STATUS.SENT ||
       !message.attachments?.length
@@ -157,14 +150,11 @@ export const mutations = {
     const existingAttachments = _state.attachments[id] || [];
 
     const attachmentsToAdd = message.attachments.filter(attachment => {
-      // if the attachment is not already in the store, add it
-      // this is to prevent duplicates
       return !existingAttachments.some(
         existingAttachment => existingAttachment.id === attachment.id
       );
     });
 
-    // replace the attachments in the store
     _state.attachments[id] = [...existingAttachments, ...attachmentsToAdd];
   },
 
@@ -214,13 +204,23 @@ export const mutations = {
     if (index > -1) {
       const selectedConversation = allConversations[index];
 
-      // ignore out of order events
       if (conversation.updated_at < selectedConversation.updated_at) {
         return;
       }
 
-      const { messages, ...updates } = conversation;
-      allConversations[index] = { ...selectedConversation, ...updates };
+      const existingMessages = selectedConversation.messages;
+      const existingAllMessagesLoaded = selectedConversation.allMessagesLoaded;
+      const existingDataFetched = selectedConversation.dataFetched;
+
+      const updatedConversation = {
+        ...conversation,
+        messages: existingMessages,
+        allMessagesLoaded: existingAllMessagesLoaded,
+        dataFetched: existingDataFetched,
+      };
+
+      allConversations[index] = updatedConversation;
+
       if (_state.selectedChatId === conversation.id) {
         emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
         emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
@@ -256,7 +256,6 @@ export const mutations = {
     _state.chatSortFilter = data;
   },
 
-  // Update assignee on action cable message
   [types.UPDATE_ASSIGNEE](_state, payload) {
     const [chat] = _state.allConversations.filter(c => c.id === payload.id);
     chat.meta.assignee = payload.assignee;

@@ -46,20 +46,18 @@ export default {
       return Number(this.$route.params.inboxId);
     },
     notificationId() {
-      return Number(this.$route.params.notification_id);
+      const id = this.$route.params.notification_id;
+      return id ? Number(id) : null;
     },
     activeNotification() {
-      return this.activeNotificationById(this.notificationId);
-    },
-    conversationId() {
-      return this.activeNotification?.primary_actor?.id;
+      return this.notificationId ? this.activeNotificationById(this.notificationId) : null;
     },
     totalNotificationCount() {
       return this.meta.count;
     },
     showEmptyState() {
       return (
-        !this.conversationId ||
+        !this.notificationId ||
         (!this.notifications?.length && this.uiFlags.isFetching)
       );
     },
@@ -72,7 +70,7 @@ export default {
       return sortBy || 'desc';
     },
     isContactPanelOpen() {
-      if (this.currentChat.id) {
+      if (this.currentChat?.id) {
         const { is_contact_sidebar_open: isContactSidebarOpen } =
           this.uiSettings;
         return isContactSidebarOpen;
@@ -81,43 +79,94 @@ export default {
     },
   },
   watch: {
-    conversationId: {
+    notificationId: {
+      handler(newId, oldId) {
+        if (newId !== oldId && oldId !== null) {
+          console.log(`~~~ [InboxView]: notificationId changed from ${oldId} to ${newId}. Clearing state.`);
+          this.$store.dispatch('clearSelectedState');
+        }
+        this.isConversationLoading = !!newId;
+      },
       immediate: true,
-      handler(newVal, oldVal) {
-        if (newVal !== oldVal) {
-          this.fetchConversationById();
+    },
+    activeNotification: {
+      handler(newNotification) {
+        if (newNotification && newNotification.id === this.notificationId) {
+          const conversationId = newNotification.primary_actor?.id;
+          if (conversationId) {
+            if (this.currentChat?.id !== conversationId) {
+               this.fetchConversation(conversationId);
+            } else {
+               this.isConversationLoading = false;
+            }
+          } else {
+            console.warn(`~~~ [InboxView]: activeNotification watcher - Notification ${this.notificationId} found, but missing primary_actor.id.`);
+            this.isConversationLoading = false;
+          }
+        } else if (this.notificationId && !newNotification) {
+           console.log(`~~~ [InboxView]: activeNotification watcher - Waiting for notification ${this.notificationId} to load into store...`);
+           this.isConversationLoading = true;
+        } else {
+           this.isConversationLoading = false;
         }
       },
-    },
+      deep: true,
+      immediate: true,
+    }
   },
   mounted() {
     this.$store.dispatch('agents/get');
   },
   methods: {
-    async fetchConversationById() {
-      if (!this.notificationId || !this.conversationId) return;
-      this.$store.dispatch('clearSelectedState');
-      const existingChat = this.findConversation();
-      if (existingChat) {
-        this.setActiveChat(existingChat);
-        return;
+    async fetchConversation(conversationId) {
+      console.log(
+        `~~ [InboxView]: Fetching conversation ${conversationId} (Notification: ${this.notificationId})`
+      );
+      if (!this.notificationId || !conversationId) {
+         this.isConversationLoading = false;
+         return;
       }
+
+      const existingChat = this.findConversation(conversationId);
+      if (existingChat) {
+         if (this.currentChat?.id !== conversationId) {
+            this.setActiveChat(existingChat);
+         } else {
+         }
+         this.isConversationLoading = false;
+         return;
+      }
+
       this.isConversationLoading = true;
-      await this.$store.dispatch('getConversation', this.conversationId);
-      this.setActiveChat();
-      this.isConversationLoading = false;
+      try {
+        await this.$store.dispatch('getConversation', conversationId);
+        this.$nextTick(() => {
+           const fetchedChat = this.findConversation(conversationId);
+           if (fetchedChat) {
+              this.setActiveChat(fetchedChat);
+           } else {
+              console.error(`~~ [InboxView]: Failed to find conversation ${conversationId} in store after fetch.`);
+           }
+           this.isConversationLoading = false;
+        });
+      } catch (error) {
+         console.error(`~~ [InboxView]: Error fetching conversation ${conversationId}:`, error);
+         this.isConversationLoading = false;
+      }
     },
-    setActiveChat() {
-      const selectedConversation = this.findConversation();
-      if (!selectedConversation) return;
+    setActiveChat(chatToSet) {
+      if (!chatToSet) return;
+      if (this.currentChat?.id === chatToSet.id) {
+         return;
+      }
       this.$store
-        .dispatch('setActiveChat', { data: selectedConversation })
+        .dispatch('setActiveChat', { data: chatToSet })
         .then(() => {
           emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
         });
     },
-    findConversation() {
-      return this.conversationById(this.conversationId);
+    findConversation(conversationId) {
+      return this.conversationById(conversationId);
     },
     navigateToConversation(activeIndex, direction) {
       let updatedIndex;

@@ -70,7 +70,8 @@ class Notification < ApplicationRecord
       meta: meta,
       account_id: account_id
     }
-    payload.merge!(primary_actor_data) if primary_actor.present?
+    actor_data = primary_actor_data if primary_actor.present?
+    payload.merge!(actor_data) if primary_actor.present?
     payload
   end
 

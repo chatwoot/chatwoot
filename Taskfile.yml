@@ -34,9 +34,9 @@ tasks:
       - "{{.COMPOSE_CMD}} -f {{.COMPOSE_FILE}} up -d"
 
   docker-up-dev:
-    desc: "Start all Chatwoot development services in detached mode"
+    desc: "Start all Chatwoot development services in detached mode, clearing caches first"
+    deps: [clear-caches]
     cmds:
-      - rm -rf ./app/tmp
       - "{{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} up -d"
 
   docker-down:
@@ -49,10 +49,20 @@ tasks:
     cmds:
       - "{{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} down"
 
-  docker-restart-dev:
-    desc: "Restart Chatwoot development services to pick up code changes"
+  clear-caches:
+    desc: "Clear Vite and Rails temporary caches inside the rails container"
     cmds:
-      - rm -rf ./app/tmp
+      - echo "Clearing Vite cache..."
+      - "rm -rf node_modules/.vite"
+      - echo "Clearing tmp directory..."
+      - "rm -rf ./app/tmp"
+      - "rm -rf ./tmp"
+      - echo "Caches cleared."
+
+  docker-restart-dev:
+    desc: "Restart Chatwoot development services, clearing caches first"
+    deps: [clear-caches]
+    cmds:
       - echo "Restarting development services..."
       - "{{.COMPOSE_CMD}} -f {{.DEV_COMPOSE_FILE}} restart"
       - echo "Development services restarted"

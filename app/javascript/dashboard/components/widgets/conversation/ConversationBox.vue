@@ -43,6 +43,11 @@ export default {
       currentChat: 'getSelectedChat',
       dashboardApps: 'dashboardApps/getRecords',
     }),
+    debugCurrentChatId() {
+      const id = this.currentChat?.id;
+      console.log(`~~~ DEBUG [ConversationBox]: currentChat.id is now: ${id} ~~~`);
+      return id;
+    },
     dashboardAppTabs() {
       return [
         {
@@ -126,8 +131,10 @@ export default {
       />
     </woot-tabs>
     <div v-show="!activeIndex" class="flex h-full min-h-0 m-0">
+      <span v-if="debugCurrentChatId === undefined" />
       <MessagesView
         v-if="currentChat.id"
+        :key="currentChat.id"
         :inbox-id="inboxId"
         :is-inbox-view="isInboxView"
         :is-contact-panel-open="isContactPanelOpen"
