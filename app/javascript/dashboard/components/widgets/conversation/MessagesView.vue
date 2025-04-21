@@ -213,12 +213,17 @@ export default {
     // Check there is a instagram inbox exists with the same instagram_id
     hasDuplicateInstagramInbox() {
       const instagramId = this.inbox.instagram_id;
+      const { additional_attributes: additionalAttributes = {} } = this.inbox;
       const instagramInbox =
         this.$store.getters['inboxes/getInstagramInboxByInstagramId'](
           instagramId
         );
 
-      return this.inbox.channel_type === INBOX_TYPES.FB && instagramInbox;
+      return (
+        this.inbox.channel_type === INBOX_TYPES.FB &&
+        additionalAttributes.type === 'instagram_direct_message' &&
+        instagramInbox
+      );
     },
 
     replyWindowBannerMessage() {
