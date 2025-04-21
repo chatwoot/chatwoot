@@ -166,3 +166,6 @@
 - name: channel_instagram
   display_name: Instagram Channel
   enabled: true
+- name: github_integration
+  display_name: Github Integration
+  enabled: false

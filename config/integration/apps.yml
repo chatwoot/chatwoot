@@ -186,3 +186,10 @@ shopify:
   i18n_key: shopify
   hook_type: account
   allow_multiple_hooks: false
+github:
+  id: github
+  logo: github.png
+  i18n_key: github
+  action: /github
+  hook_type: account
+  allow_multiple_hooks: false

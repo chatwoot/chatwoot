@@ -9,7 +9,7 @@ import Slack from './Slack.vue';
 import SettingsContent from '../Wrapper.vue';
 import Linear from './Linear.vue';
 import Shopify from './Shopify.vue';
-
+import Github from './Github.vue';
 export default {
   routes: [
     {
@@ -86,6 +86,16 @@ export default {
           name: 'settings_integrations_linear',
           component: Linear,
           meta: {
+            permissions: ['administrator'],
+          },
+          props: route => ({ code: route.query.code }),
+        },
+        {
+          path: 'github',
+          name: 'settings_integrations_github',
+          component: Github,
+          meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
             permissions: ['administrator'],
           },
           props: route => ({ code: route.query.code }),
