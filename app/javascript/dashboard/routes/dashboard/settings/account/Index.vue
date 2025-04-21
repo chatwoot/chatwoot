@@ -1,6 +1,6 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required, minValue, maxValue } from '@vuelidate/validators';
+import { required } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -42,7 +42,6 @@ export default {
       domain: '',
       supportEmail: '',
       features: {},
-      autoResolveDuration: null,
     };
   },
   validations: {
@@ -51,10 +50,6 @@ export default {
     },
     locale: {
       required,
-    },
-    autoResolveDuration: {
-      minValue: minValue(1),
-      maxValue: maxValue(999),
     },
   },
   computed: {
@@ -79,17 +74,14 @@ export default {
     isUpdating() {
       return this.uiFlags.isUpdating;
     },
-
     featureInboundEmailEnabled() {
       return !!this.features?.inbound_emails;
     },
-
     featureCustomReplyDomainEnabled() {
       return (
         this.featureInboundEmailEnabled && !!this.features.custom_reply_domain
       );
     },
-
     featureCustomReplyEmailEnabled() {
       return (
         this.featureInboundEmailEnabled && !!this.features.custom_reply_email
@@ -105,15 +97,8 @@ export default {
   methods: {
     async initializeAccount() {
       try {
-        const {
-          name,
-          locale,
-          id,
-          domain,
-          support_email,
-          features,
-          auto_resolve_duration,
-        } = this.getAccount(this.accountId);
+        const { name, locale, id, domain, support_email, features } =
+          this.getAccount(this.accountId);
 
         this.$root.$i18n.locale = locale;
         this.name = name;
@@ -122,7 +107,6 @@ export default {
         this.domain = domain;
         this.supportEmail = support_email;
         this.features = features;
-        this.autoResolveDuration = auto_resolve_duration;
       } catch (error) {
         // Ignore error
       }
@@ -140,7 +124,6 @@ export default {
           name: this.name,
           domain: this.domain,
           support_email: this.supportEmail,
-          auto_resolve_duration: this.autoResolveDuration,
         });
         this.$root.$i18n.locale = this.locale;
         this.getAccount(this.id).locale = this.locale;
@@ -233,29 +216,12 @@ export default {
               "
             />
           </label>
-          <label
-            v-if="showAutoResolutionConfig"
-            :class="{ error: v$.autoResolveDuration.$error }"
-          >
-            {{ $t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.LABEL') }}
-            <input
-              v-model="autoResolveDuration"
-              type="number"
-              :placeholder="
-                $t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.PLACEHOLDER')
-              "
-              @blur="v$.autoResolveDuration.$touch"
-            />
-            <span v-if="v$.autoResolveDuration.$error" class="message">
-              {{ $t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.ERROR') }}
-            </span>
-          </label>
         </SectionLayout>
       </form>
 
       <woot-loading-state v-if="uiFlags.isFetchingItem" />
     </div>
-    <AutoResolve />
+    <AutoResolve v-if="showAutoResolutionConfig" />
     <AccountInfo />
     <div v-if="!uiFlags.isFetchingItem && isOnChatwootCloud">
       <AccountDelete />
