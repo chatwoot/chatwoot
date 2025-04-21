@@ -29,6 +29,28 @@ export default {
       appConfig: 'appConfig/getAppConfig',
       availableAgents: 'agent/availableAgents',
     }),
+
+    websiteName() {
+      return this.channelConfig.websiteName;
+    },
+
+    processedAgents() {
+      const avatarMap = {
+        AzarOnline: 'azar_avatar_url',
+        MonoVM: 'mono_avatar_url',
+        '1Gbits': 'gbits_avatar_url',
+      };
+      const field = avatarMap[this.websiteName];
+      return this.availableAgents.map(agent => {
+        // choose the agent’s custom property if it exists, otherwise fall back
+        const thumb = (field && agent[field]) || agent.thumbnail || ''; // or a default placeholder URL
+        return {
+          ...agent,
+          thumbnail: thumb,
+        };
+      });
+    },
+
     portal() {
       return window.chatwootWebChannel.portal;
     },
@@ -93,7 +115,6 @@ export default {
         this.requestID = window.requestAnimationFrame(() => {
           this.ticking = false;
         });
-
         this.ticking = true;
       }
     },
@@ -129,7 +150,7 @@ export default {
           :title="channelConfig.websiteName"
           :avatar-url="channelConfig.avatarUrl"
           :show-popout-button="appConfig.showPopoutButton"
-          :available-agents="availableAgents"
+          :available-agents="processedAgents"
           :show-back-button="showBackButton"
         />
       </div>

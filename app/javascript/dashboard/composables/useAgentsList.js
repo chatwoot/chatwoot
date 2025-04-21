@@ -39,22 +39,7 @@ export function useAgentsList(includeNoneAgent = true) {
    * @type {import('vue').ComputedRef<Array>}
    */
   const assignableAgents = computed(() => {
-    if (!inboxId.value) return [];
-
-    const websiteName = window.chatwootWebChannel?.websiteName;
-
-    const avatarMap = {
-      AzarOnline: 'azar_avatar_url',
-      MonoVM: 'mono_avatar_url',
-      '1Gbits': 'gbits_avatar_url',
-    };
-
-    return assignable.value(inboxId.value).map(agent => {
-      return {
-        ...agent,
-        thumbnail: avatarMap[websiteName] || agent.thumbnail, // Fallback to original if not matched
-      };
-    });
+    return inboxId.value ? assignable.value(inboxId.value) : [];
   });
 
   /**
