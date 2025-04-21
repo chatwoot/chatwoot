@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useAlert } from 'dashboard/composables';
@@ -11,27 +11,21 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const { t } = useI18n();
 const duration = ref(0);
-const autoResolveMessage = ref('');
+const message = ref('');
 
 const { currentAccount, updateAccount } = useAccount();
 
-const durationToDisplay = computed({
-  get() {
-    return currentAccount.value?.settings?.auto_resolve_after;
-  },
-  set(value) {
-    duration.value = value;
-  },
-});
+watch(
+  currentAccount,
+  () => {
+    const { auto_resolve_after, auto_resolve_message } =
+      currentAccount.value?.settings || {};
 
-const messageToDisplay = computed({
-  get() {
-    return currentAccount.value?.settings?.auto_resolve_message;
+    duration.value = auto_resolve_after;
+    message.value = auto_resolve_message;
   },
-  set(value) {
-    autoResolveMessage.value = value;
-  },
-});
+  { deep: true, immediate: true }
+);
 
 const updateAccountSettings = async settings => {
   try {
@@ -45,7 +39,7 @@ const updateAccountSettings = async settings => {
 const handleSubmit = async () => {
   return updateAccountSettings({
     auto_resolve_after: duration.value,
-    auto_resolve_message: autoResolveMessage.value,
+    auto_resolve_message: message.value,
   });
 };
 
@@ -54,7 +48,7 @@ const handleDisable = async () => {
 
   return updateAccountSettings({
     auto_resolve_after: null,
-    auto_resolve_message: autoResolveMessage.value,
+    auto_resolve_message: message.value,
   });
 };
 </script>
@@ -73,7 +67,7 @@ const handleDisable = async () => {
         <div class="gap-2 w-full grid grid-cols-[3fr_1fr]">
           <!-- allow 0 to 999 days -->
           <DurationInput
-            v-model="durationToDisplay"
+            v-model="duration"
             min="0"
             max="1439856"
             class="w-full"
@@ -87,7 +81,7 @@ const handleDisable = async () => {
         "
       >
         <TextArea
-          v-model="messageToDisplay"
+          v-model="message"
           class="w-full"
           :placeholder="
             t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.MESSAGE_PLACEHOLDER')
