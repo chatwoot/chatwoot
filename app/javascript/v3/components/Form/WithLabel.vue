@@ -32,15 +32,18 @@ defineProps({
         />
         <slot />
       </div>
-      <span
+      <div
         v-if="errorMessage && hasError"
-        class="text-xs text-n-ruby-9 leading-2"
+        class="text-xs mt-2 ml-px text-n-ruby-9 leading-tight"
       >
         {{ errorMessage }}
-      </span>
-      <span v-else-if="helpMessage" class="text-xs text-n-slate-10 leading-2">
+      </div>
+      <div
+        v-else-if="helpMessage"
+        class="text-xs mt-2 ml-px text-n-slate-10 leading-tight"
+      >
         {{ helpMessage }}
-      </span>
+      </div>
     </div>
   </div>
 </template>
