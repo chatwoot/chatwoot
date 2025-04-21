@@ -72,7 +72,7 @@ module ActivityMessageHandler
     elsif Current.contact.present? && resolved?
       I18n.t('conversations.activity.status.contact_resolved', contact_name: Current.contact.name.capitalize)
     elsif resolved?
-      message_data = auto_resolve_message_key(auto_resolve_after)
+      message_data = auto_resolve_message_key(auto_resolve_after || 0)
       I18n.t("conversations.activity.status.#{message_data[:key]}", count: message_data[:count])
     end
   end
