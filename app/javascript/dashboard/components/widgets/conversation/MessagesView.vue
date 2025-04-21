@@ -244,7 +244,7 @@ export default {
       return this.$t('CONVERSATION.CANNOT_REPLY');
     },
     replyWindowLink() {
-      if (this.isAFacebookInbox || this.isAInstagramChannel) {
+      if (this.isAFacebookInbox || this.isAnInstagramChannel) {
         return REPLY_POLICY.FACEBOOK;
       }
       if (this.isAWhatsAppCloudChannel) {
@@ -259,7 +259,7 @@ export default {
       if (
         this.isAWhatsAppChannel ||
         this.isAFacebookInbox ||
-        this.isAInstagramChannel
+        this.isAnInstagramChannel
       ) {
         return this.$t('CONVERSATION.24_HOURS_WINDOW');
       }

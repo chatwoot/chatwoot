@@ -204,7 +204,7 @@ export default {
       return false;
     },
     instagramUnauthorized() {
-      return this.isAInstagramChannel && this.inbox.reauthorization_required;
+      return this.isAnInstagramChannel && this.inbox.reauthorization_required;
     },
     // Check if a instagram inbox exists with the same instagram_id
     hasDuplicateInstagramInbox() {
