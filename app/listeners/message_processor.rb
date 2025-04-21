@@ -1,12 +1,25 @@
-# message_processor.rb
 module MessageProcessor
   def self.process_contact_message(message)
     conversation = message.conversation
     inbox_id = conversation.inbox_id
     account_id = conversation.account_id
 
-    # 🔼 Increment AI usage or return early if exceeded
-    return if ai_usage_limit_reached?(account_id)
+    usage = subscription_usage_for(account_id)
+    unless usage
+      Rails.logger.warn("⚠️ No subscription or usage found for account #{account_id}")
+      return
+    end
+
+    if usage.exceeded_limits?
+      Rails.logger.warn("🚫 Subscription limits exceeded for account #{account_id}")
+      return
+    end
+
+    conversation_db = Conversation.find_by(status: 0, assignee_id: nil, inbox_id: inbox_id)
+    unless conversation_db
+      Rails.logger.warn("No active convertation bot found for inbox_id: #{inbox_id}")
+      return
+    end
 
     inbox = AgentBotInbox.find_by(status: 1, inbox_id: inbox_id)
     unless inbox
@@ -26,10 +39,10 @@ module MessageProcessor
     end
 
     response = HTTParty.post(
-      "#{ENV.fetch('FLOWISE_URL', nil)}#{agent.chat_flow_id}",
+      "#{ENV.fetch('FLOWISE_URL')}#{agent.chat_flow_id}",
       headers: {
         'Content-Type' => 'application/json',
-        'Authorization' => "Bearer #{ENV.fetch('FLOWISE_TOKEN', nil)}"
+        'Authorization' => "Bearer #{ENV.fetch('FLOWISE_TOKEN')}"
       },
       body: {
         question: message.content,
@@ -40,6 +53,7 @@ module MessageProcessor
     )
 
     if response.success?
+      usage.increment_ai_responses
       Rails.logger.info("🤖 Flowise AI Response: #{response.body}")
       flowise_reply = JSON.parse(response.body)
       send_reply_to_chatwoot(conversation, flowise_reply['text'], agent)
@@ -64,23 +78,26 @@ module MessageProcessor
     Rails.logger.error("❌ Failed to save AI reply to Chatwoot: #{e.message}")
   end
 
-  def increment_usage(conversation)
-    account = Account.find(conversation.account_id)
-    usage = account.subscription&.subscription_usage
-    return unless usage
+  # 🧠 Pulls or creates usage for given account_id
+  def self.subscription_usage_for(account_id)
+    subscription = Subscription.find_by(account_id: account_id)
+    return nil unless subscription
 
-    if usage.subscription.max_ai_responses.zero? || usage.ai_responses_count + ai_response_increment <= usage.subscription.max_ai_responses
-      usage.increment_ai_responses(ai_response_increment)
-    else
-      Rails.logger.warn("AI response limit reached for account #{account.id}")
-    end
-
-    return unless increment_mau
-
-    if usage.subscription.max_mau.zero? || usage.mau_count + 1 <= usage.subscription.max_mau
-      usage.increment_mau
-    else
-      Rails.logger.warn("MAU limit reached for account #{account.id}")
-    end
+    SubscriptionUsage.find_or_create_by(subscription_id: subscription.id)
   end
+
+  # def self.increment_usage(conversation)
+  #   Rails.logger.info("conversation inputt: #{conversation}")
+  #   usage = subscription_usage_for(conversation.account_id)
+  #   unless usage
+  #     Rails.logger.warn("⚠️ No subscription or usage found for account #{account_id}")
+  #     return
+  #   end
+  #   if usage.exceeded_limits?
+  #     Rails.logger.warn("MAU limit reached for subscription #{usage.subscription_id}")
+  #   else
+  #     conversationdb = conversation.find_by(id: conversation.id)
+  #     usage.increment_additional_mau if conversationdb == null
+  #   end
+  # end
 end
