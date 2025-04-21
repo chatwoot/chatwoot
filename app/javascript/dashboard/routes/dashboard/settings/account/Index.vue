@@ -9,7 +9,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
-import V4Button from 'dashboard/components-next/button/Button.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import AccountInfo from './components/AccountInfo.vue';
 import BuildInfo from './components/BuildInfo.vue';
 import AccountDelete from './components/AccountDelete.vue';
@@ -19,7 +19,7 @@ import SectionLayout from './components/SectionLayout.vue';
 export default {
   components: {
     BaseSettingsHeader,
-    V4Button,
+    NextButton,
     AccountInfo,
     BuildInfo,
     AccountDelete,
@@ -146,13 +146,7 @@ export default {
 
 <template>
   <div class="flex flex-col w-full">
-    <BaseSettingsHeader :title="$t('GENERAL_SETTINGS.TITLE')">
-      <template #actions>
-        <V4Button blue :loading="isUpdating" @click="updateAccount">
-          {{ $t('GENERAL_SETTINGS.SUBMIT') }}
-        </V4Button>
-      </template>
-    </BaseSettingsHeader>
+    <BaseSettingsHeader :title="$t('GENERAL_SETTINGS.TITLE')" />
     <div class="flex-grow flex-shrink min-w-0 mt-3 overflow-auto">
       <form v-if="!uiFlags.isFetchingItem" @submit.prevent="updateAccount">
         <SectionLayout
@@ -216,6 +210,9 @@ export default {
               "
             />
           </label>
+          <NextButton blue :loading="isUpdating" @click="updateAccount">
+            {{ $t('GENERAL_SETTINGS.SUBMIT') }}
+          </NextButton>
         </SectionLayout>
       </form>
 

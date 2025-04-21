@@ -77,6 +77,8 @@
           "SUCCESS": "Auto resolve settings updated successfully",
           "ERROR": "Failed to update auto resolve settings"
         },
+        "UPDATE_BUTTON": "Update Auto Resolve",
+        "DISABLE_BUTTON": "Disable Auto Resolve",
         "MESSAGE_LABEL": "Auto Resolve Message",
         "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
         "MESSAGE_HELP": "This message is displayed when a conversation is automatically resolved by the system due to inactivity."

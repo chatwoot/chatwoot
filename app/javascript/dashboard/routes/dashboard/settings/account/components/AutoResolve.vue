@@ -50,6 +50,8 @@ const handleSubmit = async () => {
 };
 
 const handleDisable = async () => {
+  duration.value = null;
+
   return updateAccountSettings({
     auto_resolve_after: null,
     auto_resolve_message: autoResolveMessage.value,
@@ -93,12 +95,20 @@ const handleDisable = async () => {
         />
       </WithLabel>
       <div class="flex gap-2">
-        <NextButton blue type="submit" label="Update Auto Resolve" />
+        <NextButton
+          blue
+          type="submit"
+          :label="
+            t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.UPDATE_BUTTON')
+          "
+        />
         <NextButton
           v-if="durationToDisplay"
           type="button"
           slate
-          label="Disable Auto Resolve"
+          :label="
+            t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.DISABLE_BUTTON')
+          "
           @click.prevent="handleDisable"
         />
       </div>
