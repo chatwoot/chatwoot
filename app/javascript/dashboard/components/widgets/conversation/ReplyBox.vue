@@ -388,9 +388,14 @@ export default {
     },
   },
   watch: {
-    currentChat(conversation) {
+    currentChat(conversation, oldConversation) {
       const { can_reply: canReply } = conversation;
-      this.setCCAndToEmailsFromLastChat();
+      if (oldConversation && oldConversation.id !== conversation.id) {
+        // Only update email fields when switching to a completely different conversation (by ID)
+        // This prevents overwriting user input (e.g., CC/BCC fields) when performing actions
+        // like self-assign or other updates that do not actually change the conversation context
+        this.setCCAndToEmailsFromLastChat();
+      }
 
       if (this.isOnPrivateNote) {
         return;
@@ -406,13 +411,12 @@ export default {
     },
     // When moving from one conversation to another, the store may not have the
     // list of all the messages. A fetch is subsequently made to get the messages.
-    // However, this update does not trigger the `currentChat` watcher.
-    // We can add a deep watcher to it, but then, that would be too broad of a net to cast
-    // And would impact performance too. So we watch the messages directly.
-    // The watcher here is `deep` too, because the messages array is mutated and
-    // not replaced. So, a shallow watcher would not catch the change.
-    'currentChat.messages': {
-      handler() {
+    // This watcher handles two main cases:
+    // 1. When switching conversations and messages are fetched/updated, ensures CC/BCC fields are set from the latest OUTGOING/INCOMING email (not activity/private messages).
+    // 2. Fixes and issue where CC/BCC fields could be reset/lost after assignment/activity actions or message mutations that did not represent a true email context change.
+    lastEmail: {
+      handler(lastEmail) {
+        if (!lastEmail) return;
         this.setCCAndToEmailsFromLastChat();
       },
       deep: true,
