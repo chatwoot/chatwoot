@@ -141,7 +141,7 @@ export default {
       this.updateInbox
     }
     } catch (e) {
-      useAlert(this.$t('AGENT_MGMT.GET.API.ERROR_MESSAGE'));
+      useAlert(this.$t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE'));
     }
   }
   ,

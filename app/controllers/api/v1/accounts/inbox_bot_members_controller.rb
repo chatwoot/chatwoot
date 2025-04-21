@@ -5,12 +5,14 @@ class Api::V1::Accounts::InboxBotMembersController < Api::V1::Accounts::BaseCont
   def show
     authorize @inbox, :show?
 
-    ai_agents = @inbox.agent_bot_inboxes.map do |record|
+    ai_agents = @inbox.agent_bot_inboxes.includes(:ai_agent).map do |record|
+      next unless record.ai_agent
+
       {
-        id: record.ai_agent_id,
-        name: record.ai_agent&.name
+        id: record.ai_agent.id,
+        name: record.ai_agent.name
       }
-    end
+    end.compact
 
     render json: { payload: ai_agents }
   end
