@@ -258,6 +258,11 @@ Rails.application.routes.draw do
                 get :linked_issues
               end
             end
+            resource :github, controller: 'github', only: [] do
+              collection do
+                delete :destroy
+              end
+            end
           end
           resources :working_hours, only: [:update]
 
