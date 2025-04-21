@@ -11,6 +11,7 @@
 #  limits                :jsonb
 #  locale                :integer          default("en")
 #  name                  :string           not null
+#  settings              :jsonb
 #  status                :integer          default("active")
 #  support_email         :string(100)
 #  created_at            :datetime         not null
@@ -28,13 +29,28 @@ class Account < ApplicationRecord
   include Featurable
   include CacheKeys
 
+  SETTINGS_PARAMS_SCHEMA = {
+    'type': 'object',
+    'properties':
+      {
+        'auto_resolve_after': { 'type': 'integer', 'minimum': 15, 'maximum': 1_439_856 },
+        'auto_resolve_message': { 'type': 'string' }
+      },
+    'required': [],
+    'additionalProperties': false
+  }.to_json.freeze
+
   DEFAULT_QUERY_SETTING = {
     flag_query_mode: :bit_operator,
     check_for_column: false
   }.freeze
 
-  validates :auto_resolve_duration, numericality: { greater_than_or_equal_to: 15, less_than_or_equal_to: 1_439_856, allow_nil: true }
   validates :domain, length: { maximum: 100 }
+  validates_with JsonSchemaValidator,
+                 schema: SETTINGS_PARAMS_SCHEMA,
+                 attribute_resolver: ->(record) { record.settings }
+
+  store :settings, accessors: [:auto_resolve_after, :auto_resolve_message], coder: JSON
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
