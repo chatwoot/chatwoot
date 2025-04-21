@@ -190,6 +190,6 @@ github:
   id: github
   logo: github.png
   i18n_key: github
-  action: /github
+  action: https://github.com/login/oauth/authorize
   hook_type: account
   allow_multiple_hooks: false

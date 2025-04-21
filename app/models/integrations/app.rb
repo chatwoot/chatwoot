@@ -1,5 +1,6 @@
 class Integrations::App
   include Linear::IntegrationHelper
+  include Github::IntegrationHelper
   attr_accessor :params
 
   def initialize(params)
@@ -29,7 +30,12 @@ class Integrations::App
   # There is no way to get the account_id from the linear callback
   # so we are using the generate_linear_token method to generate a token and encode it in the state parameter
   def encode_state
-    generate_linear_token(Current.account.id)
+    case params[:id]
+    when 'linear'
+      generate_linear_token(Current.account.id)
+    when 'github'
+      generate_github_token(Current.account.id)
+    end
   end
 
   def action
@@ -38,6 +44,8 @@ class Integrations::App
       "#{params[:action]}&client_id=#{ENV.fetch('SLACK_CLIENT_ID', nil)}&redirect_uri=#{self.class.slack_integration_url}"
     when 'linear'
       build_linear_action
+    when 'github'
+      build_github_action
     else
       params[:action]
     end
@@ -70,6 +78,17 @@ class Integrations::App
     ].join('&')
   end
 
+  def build_github_action
+    app_id = GlobalConfigService.load('GITHUB_CLIENT_ID', nil)
+    [
+      "#{params[:action]}?response_type=code",
+      "client_id=#{app_id}",
+      "redirect_uri=#{self.class.github_integration_url}",
+      "state=#{encode_state}",
+      'scope=repo'
+    ].join('&')
+  end
+
   def enabled?(account)
     case params[:id]
     when 'webhook'
@@ -91,6 +110,10 @@ class Integrations::App
 
   def self.linear_integration_url
     "#{ENV.fetch('FRONTEND_URL', nil)}/linear/callback"
+  end
+
+  def self.github_integration_url
+    "#{ENV.fetch('FRONTEND_URL', nil)}/github/callback"
   end
 
   class << self

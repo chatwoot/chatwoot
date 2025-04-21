@@ -479,6 +479,10 @@ Rails.application.routes.draw do
     resources :delivery_status, only: [:create]
   end
 
+  namespace :github do
+    get :callback, to: 'callbacks#show'
+  end
+
   get 'microsoft/callback', to: 'microsoft/callbacks#show'
   get 'google/callback', to: 'google/callbacks#show'
   get 'instagram/callback', to: 'instagram/callbacks#show'
