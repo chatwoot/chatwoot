@@ -18,9 +18,10 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
     return unless document_store
 
     chat_flow = load_chat_flow(ai_agent_template, document_store['id'])
+    return unless chat_flow
 
     ActiveRecord::Base.transaction do
-      @ai_agent = build_ai_agent(ai_agent_template, chat_flow['id'], document_store)
+      @ai_agent = build_ai_agent(ai_agent_template, chat_flow, document_store)
       @ai_agent.save!
 
       render json: @ai_agent, status: :created
@@ -32,7 +33,9 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   def update
-    if @ai_agent.update(ai_agent_params)
+    chat_flow = update_chat_flow
+
+    if @ai_agent.update(ai_agent_params.merge(flow_data: chat_flow['flow_data']))
       update_selected_labels if params[:ai_agent].key?(:selected_labels)
 
       render json: @ai_agent.as_json(include: :ai_agent_selected_labels)
@@ -73,14 +76,33 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   def load_chat_flow(template, store_id)
-    flow_data = build_chat_flow(template, store_id, ai_agent_params[:name])
+    flow_data = build_chat_flow(template, store_id, ai_agent_params[:name], Current.account.name)
 
-    AiAgents::FlowiseService.load_chat_flow(
+    response = AiAgents::FlowiseService.load_chat_flow(
       name: ai_agent_params[:name],
       flow_data: flow_data
     )
+
+    { 'id' => response['id'], 'flow_data' => flow_data }
   rescue StandardError => e
     handle_error('Failed to load chat flow', status: :bad_gateway, exception: e)
+    nil
+  end
+
+  def update_chat_flow
+    flow_data = save_as_chat_flow(
+      ai_agent_params[:system_prompts], @ai_agent.flow_data
+    )
+
+    AiAgents::FlowiseService.save_as_chat_flow(
+      id: @ai_agent.chat_flow_id,
+      name: ai_agent_params[:name],
+      flow_data: flow_data
+    )
+    { 'id' => @ai_agent.chat_flow_id, 'flow_data' => flow_data }
+  rescue StandardError => e
+    handle_error('Failed to save chat flow', status: :bad_gateway, exception: e)
+    nil
   end
 
   def add_document_store
@@ -94,12 +116,13 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
     handle_error("Failed to add document store: #{e.message}")
   end
 
-  def build_ai_agent(template, chat_flow_id, document_store)
+  def build_ai_agent(template, chat_flow, document_store)
     agent = Current.account.ai_agents.new(
       ai_agent_params.merge(
         system_prompts: template.system_prompt,
         welcoming_message: template.welcoming_message,
-        chat_flow_id: chat_flow_id
+        flow_data: chat_flow['flow_data'],
+        chat_flow_id: chat_flow['id']
       )
     )
 
