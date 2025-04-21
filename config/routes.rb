@@ -98,11 +98,12 @@ Rails.application.routes.draw do
           end
           resource :bulk_actions, only: [:create]
           resources :ai_agents, only: [:index, :create, :show, :update, :destroy] do
-            delete :avatar, on: :member
-            patch :update_followups, on: :member
-
             collection do
               get :ai_agent_templates
+            end
+
+            member do
+              patch :update_followups, to: 'ai_agent_followups#update'
             end
 
             resources :knowledge_sources, only: [:index], controller: 'knowledge_sources' do

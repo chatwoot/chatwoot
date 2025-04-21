@@ -1,5 +1,6 @@
 class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
-  before_action :set_ai_agent, only: %i[show update destroy avatar update_followups]
+  include Api::V1::AiAgentTemplatesHelper
+  before_action :set_ai_agent, only: %i[show update destroy]
 
   def index
     @ai_agents = Current.account.ai_agents.select(:id, :account_id, :name, :description)
@@ -16,19 +17,18 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
     document_store = add_document_store
     return unless document_store
 
-    chat_flow_id = load_chat_flow(ai_agent_template, document_store['id'])
-    return unless chat_flow_id
+    chat_flow = load_chat_flow(ai_agent_template, document_store['id'])
 
     ActiveRecord::Base.transaction do
-      @ai_agent = build_ai_agent(ai_agent_template, chat_flow_id, document_store)
+      @ai_agent = build_ai_agent(ai_agent_template, chat_flow['id'], document_store)
       @ai_agent.save!
 
       render json: @ai_agent, status: :created
     end
   rescue ActiveRecord::RecordInvalid => e
-    render json: { error: e.message }, status: :unprocessable_entity
+    handle_error('Failed to create AI Agent', status: :unprocessable_entity, exception: e)
   rescue StandardError => e
-    render json: { error: "Failed to create AI Agent: #{e.message}" }, status: :bad_gateway
+    handle_error("Failed to create AI Agent: #{e.message}", exception: e)
   end
 
   def update
@@ -37,13 +37,8 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
 
       render json: @ai_agent.as_json(include: :ai_agent_selected_labels)
     else
-      render json: @ai_agent.errors, status: :unprocessable_entity
+      handle_error('Failed to update AI Agent')
     end
-  end
-
-  def avatar
-    @ai_agent.avatar.purge if @ai_agent.avatar.attached?
-    render json: @ai_agent
   end
 
   def destroy
@@ -55,27 +50,13 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
         AiAgents::FlowiseService.delete_chat_flow(id: chat_flow_id) if chat_flow_id.present?
         AiAgents::FlowiseService.delete_document_store(store_id: store_id) if store_id.present?
       rescue StandardError => e
-        Rails.logger.error("Failed to delete chat flow: #{e.message}")
-        render json: { error: "Failed to delete chat flow: #{e.message}" }, status: :bad_request
+        handle_error('Failed to delete chat flow', status: :bad_request, exception: e)
         return
       end
       head :no_content
     else
-      render json: { error: 'Failed to delete AI Agent' }, status: :bad_request
+      handle_error('Failed to delete AI Agent')
     end
-  end
-
-  def update_followups
-    followup_params = params.fetch(:_json, []).map { |f| followup_permitted_params(f) }
-
-    ActiveRecord::Base.transaction do
-      remove_deleted_followups(followup_params)
-      upsert_followups(followup_params)
-    end
-
-    render json: @ai_agent.ai_agent_followups, status: :ok
-  rescue ActiveRecord::RecordInvalid => e
-    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def ai_agent_templates
@@ -87,71 +68,19 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
 
   def find_template
     AiAgentTemplate.find_by(id: params[:ai_agent][:template_id]).tap do |template|
-      render json: { error: 'AI Agent Template not found' }, status: :not_found unless template
+      render_error('AI Agent Template not found', :not_found) unless template
     end
   end
 
   def load_chat_flow(template, store_id)
-    flow_data = template.template.deep_dup
+    flow_data = build_chat_flow(template, store_id, ai_agent_params[:name])
 
-    document_node(flow_data, store_id)
-
-    database_name = formatted_name
-    vector_store_node(flow_data, database_name)
-    chat_memory_node(flow_data, database_name)
-
-    response = AiAgents::FlowiseService.load_chat_flow(
+    AiAgents::FlowiseService.load_chat_flow(
       name: ai_agent_params[:name],
       flow_data: flow_data
     )
-    response['id']
   rescue StandardError => e
-    Rails.logger.error("Failed to load chat flow: #{e.message}")
-    render json: { error: "Failed to load chat flow: #{e.message}" }, status: :bad_gateway
-    nil
-  end
-
-  def document_node(flow_data, store_id)
-    node = find_node_by_name(flow_data, 'documentStore')
-    return unless node
-
-    node['data']['inputs']['selectedStore'] = store_id
-  end
-
-  def vector_store_node(flow_data, database_name)
-    node = find_node_by_name(flow_data, 'mongoDBAtlas')
-    return unless node
-
-    node['data']['inputs']['databaseName'] = database_name
-    node['data']['inputs']['collectionName'] = 'vectors'
-  end
-
-  def chat_memory_node(flow_data, database_name)
-    node = find_node_by_name(flow_data, 'MongoDBAtlasChatMemory')
-    return unless node
-
-    node['data']['inputs']['databaseName'] = database_name
-    node['data']['inputs']['collectionName'] = 'chat_memories'
-  end
-
-  def find_node_by_name(flow_data, name)
-    node = flow_data['nodes'].find { |n| n['data']['name'] == name }
-    handle_error("Failed to load chat flow: #{name} node not found") unless node
-    node
-  end
-
-  def handle_error(message)
-    Rails.logger.error(message)
-    render json: { error: message }, status: :bad_gateway
-    nil
-  end
-
-  def formatted_name
-    cleaned = ai_agent_params[:name].downcase.gsub(/[^a-z\s]/, '')
-    underscored = cleaned.strip.gsub(/\s+/, '_')
-    today = Time.current.strftime('%Y%m%d%H%M%S')
-
-    "#{underscored}_#{today}"
+    handle_error('Failed to load chat flow', status: :bad_gateway, exception: e)
   end
 
   def add_document_store
@@ -162,9 +91,7 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
       description: ai_agent_params[:description]
     )
   rescue StandardError => e
-    Rails.logger.error("Failed to add document store: #{e.message}")
-    render json: { error: "Failed to add document store: #{e.message}" }, status: :bad_gateway
-    nil
+    handle_error("Failed to add document store: #{e.message}")
   end
 
   def build_ai_agent(template, chat_flow_id, document_store)
@@ -184,44 +111,6 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
     agent
   end
 
-  def remove_deleted_followups(received_followups)
-    received_ids = received_followups.filter_map { |f| f[:id] }.compact
-
-    if received_ids.empty?
-      @ai_agent.ai_agent_followups.destroy_all
-    else
-      @ai_agent.ai_agent_followups.where.not(id: received_ids).destroy_all
-    end
-  end
-
-  def upsert_followups(followups)
-    followups.each do |followup_data|
-      if followup_data[:id].nil?
-        @ai_agent.ai_agent_followups.create!(followup_data.except(:id))
-      else
-        existing_followup = @ai_agent.ai_agent_followups.find_by(id: followup_data[:id])
-        raise ActiveRecord::RecordNotFound, "ID #{followup_data[:id]} not found." unless existing_followup
-
-        existing_followup.update!(followup_data.except(:id))
-      end
-    end
-  end
-
-  def update_followup(followup_data)
-    followup = @ai_agent.ai_agent_followups.find(followup_data[:id])
-    followup.update!(followup_data)
-  end
-
-  def create_followup(followup_data)
-    @ai_agent.ai_agent_followups.create!(followup_data)
-  end
-
-  def set_ai_agent
-    @ai_agent = Current.account.ai_agents.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render json: { error: 'AI Agent not found' }, status: :not_found
-  end
-
   def update_selected_labels
     label_data = Array.wrap(params.dig(:ai_agent, :selected_labels))
     return if label_data.blank?
@@ -237,8 +126,19 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
     end
   end
 
-  def followup_permitted_params(followup)
-    followup.permit(:id, :prompts, :delay, :send_as_exact_message, :handoff_to_agent_after_sending)
+  def set_ai_agent
+    @ai_agent = Current.account.ai_agents.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render_error('AI Agent not found', :not_found)
+  end
+
+  def handle_error(message, status: :bad_request, exception: nil)
+    Rails.logger.error("#{message}: #{exception&.message}") # Use safe navigation operator
+    render_error(message, status)
+  end
+
+  def render_error(message, status = :bad_request)
+    render json: { error: message }, status: status
   end
 
   def ai_agent_params

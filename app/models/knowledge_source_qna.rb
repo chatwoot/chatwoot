@@ -26,7 +26,7 @@ class KnowledgeSourceQna < ApplicationRecord
 
   validates :question, :answer, presence: true
 
-  def self.create_or_update(qna_param:, document_loader:)
+  def self.create_or_update(qna_param, document_loader)
     if qna_param[:id].present?
       update_record(qna_param: qna_param, document_loader: document_loader)
     else
