@@ -21,19 +21,20 @@ const unit = ref(UNIT_TYPES.MINUTES);
 const transformedValue = computed({
   get() {
     if (unit.value === UNIT_TYPES.MINUTES) return duration.value;
-    if (unit.value === UNIT_TYPES.HOURS) return duration.value / 60;
-    if (unit.value === UNIT_TYPES.DAYS) return duration.value / 24 / 60;
+    if (unit.value === UNIT_TYPES.HOURS) return Math.floor(duration.value / 60);
+    if (unit.value === UNIT_TYPES.DAYS)
+      return Math.floor(duration.value / 24 / 60);
 
     return 0;
   },
   set(newValue) {
     let minuteValue;
     if (unit.value === UNIT_TYPES.MINUTES) {
-      minuteValue = newValue;
+      minuteValue = Math.floor(newValue);
     } else if (unit.value === UNIT_TYPES.HOURS) {
-      minuteValue = newValue * 60;
+      minuteValue = Math.floor(newValue * 60);
     } else if (unit.value === UNIT_TYPES.DAYS) {
-      minuteValue = newValue * 24 * 60;
+      minuteValue = Math.floor(newValue * 24 * 60);
     }
 
     duration.value = Math.min(Math.max(minuteValue, props.min), props.max);
