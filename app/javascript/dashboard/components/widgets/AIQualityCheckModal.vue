@@ -30,21 +30,60 @@
             $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.TRANSLATION.TRANSLATION_MESSAGE')
           }}
         </p>
-        <div>
+        <div class="p-3 bg-slate-200 dark:bg-slate-700 rounded mb-2">
           <h4 class="text-base mt-1 text-slate-700 dark:text-slate-100">
-            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.TRANSLATION.ORIGINAL_RESPONSE') }}
+            {{
+              $t(
+                "INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.TRANSLATION.ORIGINAL_RESPONSE"
+              )
+            }}
           </h4>
           <p class="text-sm" v-dompurify-html="formatMessage(message, false)" />
+          <div class="flex justify-end">
+            <woot-button
+              v-if="canSendOriginalMessage"
+              @click.prevent="sendOriginalMessage"
+              size="small"
+              color-scheme="primary"
+              icon="send"
+              emoji="✅"
+            >
+            {{ $t("INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.SEND_ORIGINAL") }}
+            </woot-button>
+          </div>
         </div>
-        <div>
+        <div class="p-3 bg-slate-200 dark:bg-slate-700 rounded mb-2">
           <h4 class="text-base mt-1 text-slate-700 dark:text-slate-100">
-            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.TRANSLATION.TRANSLATED_RESPONSE') }}
+            {{
+              $t(
+                "INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.TRANSLATION.TRANSLATED_RESPONSE"
+              )
+            }}
           </h4>
           <div v-if="!translatedMessage">
-            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.TRANSLATION.GENERATING_TRANSLATION') }}
+            {{
+              $t(
+                "INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.TRANSLATION.GENERATING_TRANSLATION"
+              )
+            }}
           </div>
           <div v-else>
-            <p class="text-sm" v-dompurify-html="formatMessage(translatedMessage, false)" />
+            <p
+              class="text-sm"
+              v-dompurify-html="formatMessage(translatedMessage, false)"
+            />
+            <div class="flex justify-end">
+              <woot-button
+                v-if="canSendTranslatedMessage"
+                @click.prevent="sendTranslatedMessage"
+                size="small"
+                color-scheme="primary"
+                icon="send"
+                emoji="✅"
+              >
+              {{ $t("INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.SEND_TRANSLATED") }}
+              </woot-button>
+            </div>
           </div>
         </div>
       </div>
@@ -67,16 +106,6 @@
         <woot-button class="small" v-if="canSendDespiteCheckFailure" @click.prevent="ignoreCheckAndSend">
           {{
             $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.SEND_ANYWAY')
-          }}
-        </woot-button>
-        <woot-button class="small" v-if="canSendOriginalMessage" @click.prevent="sendOriginalMessage">
-          {{
-            $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.SEND_ORIGINAL')
-          }}
-        </woot-button>
-        <woot-button class="small" v-if="canSendTranslatedMessage" @click.prevent="sendTranslatedMessage">
-          {{
-            $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.SEND_TRANSLATED')
           }}
         </woot-button>
       </div>
