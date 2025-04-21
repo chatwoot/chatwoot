@@ -39,10 +39,12 @@ defineProps({
         {{ errorMessage }}
       </div>
       <div
-        v-else-if="helpMessage"
+        v-else-if="helpMessage || $slots.help"
         class="text-xs mt-2 ml-px text-n-slate-10 leading-tight"
       >
-        {{ helpMessage }}
+        <slot name="help">
+          {{ helpMessage }}
+        </slot>
       </div>
     </div>
   </div>
