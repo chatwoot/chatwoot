@@ -225,7 +225,7 @@ export default {
             />
           </WithLabel>
           <div>
-            <NextButton blue :loading="isUpdating" @click="updateAccount">
+            <NextButton blue :is-loading="isUpdating" type="submit">
               {{ $t('GENERAL_SETTINGS.SUBMIT') }}
             </NextButton>
           </div>
