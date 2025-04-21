@@ -44,10 +44,12 @@ const transformedValue = computed({
 <template>
   <Input
     v-model="transformedValue"
+    type="number"
+    autocomplete="off"
     :placeholder="t('DURATION_INPUT.PLACEHOLDER')"
     class="flex-grow w-full"
   />
-  <select v-model="unit" class="mb-0">
+  <select v-model="unit" class="mb-0 text-sm">
     <option :value="UNIT_TYPES.MINUTES">
       {{ t('DURATION_INPUT.MINUTES') }}
     </option>
