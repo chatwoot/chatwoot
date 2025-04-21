@@ -46,7 +46,7 @@ export function useAccount() {
   };
 
   const updateAccount = async data => {
-    return store.dispatch('accounts/update', {
+    await store.dispatch('accounts/update', {
       ...data,
     });
   };
