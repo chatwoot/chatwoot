@@ -50,7 +50,7 @@ class Account < ApplicationRecord
                  schema: SETTINGS_PARAMS_SCHEMA,
                  attribute_resolver: ->(record) { record.settings }
 
-  store :settings, accessors: [:auto_resolve_after, :auto_resolve_message], coder: JSON
+  store_accessor :settings, :auto_resolve_after, :auto_resolve_message
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
@@ -98,6 +98,8 @@ class Account < ApplicationRecord
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
   enum status: { active: 0, suspended: 1 }
+
+  scope :with_auto_resolve, -> { where("(settings ->> 'auto_resolve_after')::int IS NOT NULL") }
 
   before_validation :validate_limit_keys
   after_create_commit :notify_creation
