@@ -45,10 +45,11 @@ const handleSubmit = async () => {
 
 const handleDisable = async () => {
   duration.value = null;
+  message.value = '';
 
   return updateAccountSettings({
     auto_resolve_after: null,
-    auto_resolve_message: message.value,
+    auto_resolve_message: '',
   });
 };
 </script>
@@ -97,7 +98,7 @@ const handleDisable = async () => {
           "
         />
         <NextButton
-          v-if="durationToDisplay"
+          v-if="duration || message"
           type="button"
           slate
           :label="
