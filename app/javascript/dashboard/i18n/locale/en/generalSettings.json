@@ -46,7 +46,7 @@
       },
       "AUTO_RESOLVE": {
         "TITLE": "Auto Resolve",
-        "NOTE": "Automatically resolve inactive conversations to keep your inbox organized. Choose how long to wait before resolving and customize the message sent to customers."
+        "NOTE": "Automatically resolve inactive conversations to keep your inbox organized."
       },
       "NAME": {
         "LABEL": "Account name",
@@ -69,9 +69,13 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "LABEL": "Auto Resolve Duration",
+        "HELP": "Number of days after a ticket should auto resolve if there is no activity",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)",
+        "MESSAGE_LABEL": "Auto Resolve Message",
+        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_HELP": "This message is displayed when a conversation is automatically resolved by the system due to inactivity."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
