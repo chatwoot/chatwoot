@@ -10,7 +10,7 @@ import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
-import AccountInfo from './components/AccountInfo.vue';
+import AccountId from './components/AccountId.vue';
 import BuildInfo from './components/BuildInfo.vue';
 import AccountDelete from './components/AccountDelete.vue';
 import AutoResolve from './components/AutoResolve.vue';
@@ -20,7 +20,7 @@ export default {
   components: {
     BaseSettingsHeader,
     NextButton,
-    AccountInfo,
+    AccountId,
     BuildInfo,
     AccountDelete,
     AutoResolve,
@@ -219,7 +219,7 @@ export default {
       <woot-loading-state v-if="uiFlags.isFetchingItem" />
     </div>
     <AutoResolve v-if="showAutoResolutionConfig" />
-    <AccountInfo />
+    <AccountId />
     <div v-if="!uiFlags.isFetchingItem && isOnChatwootCloud">
       <AccountDelete />
     </div>
