@@ -131,4 +131,86 @@ RSpec.describe Account do
       expect(account.locale_english_name).to eq('portuguese')
     end
   end
+
+  describe 'settings' do
+    let(:account) { create(:account) }
+
+    context 'when auto_resolve_after' do
+      it 'validates minimum value' do
+        account.settings = { auto_resolve_after: 14 }
+        expect(account).to be_invalid
+        expect(account.errors.messages).to eq({ auto_resolve_after: ['must be greater than or equal to 15'] })
+      end
+
+      it 'validates maximum value' do
+        account.settings = { auto_resolve_after: 1_439_857 }
+        expect(account).to be_invalid
+        expect(account.errors.messages).to eq({ auto_resolve_after: ['must be less than or equal to 1439856'] })
+      end
+
+      it 'allows valid values' do
+        account.settings = { auto_resolve_after: 15 }
+        expect(account).to be_valid
+
+        account.settings = { auto_resolve_after: 1_439_856 }
+        expect(account).to be_valid
+      end
+
+      it 'allows null values' do
+        account.settings = { auto_resolve_after: nil }
+        expect(account).to be_valid
+      end
+    end
+
+    context 'when auto_resolve_message' do
+      it 'allows string values' do
+        account.settings = { auto_resolve_message: 'This conversation has been resolved automatically.' }
+        expect(account).to be_valid
+      end
+
+      it 'allows empty string' do
+        account.settings = { auto_resolve_message: '' }
+        expect(account).to be_valid
+      end
+
+      it 'allows nil values' do
+        account.settings = { auto_resolve_message: nil }
+        expect(account).to be_valid
+      end
+    end
+
+    context 'when using store_accessor' do
+      it 'correctly gets and sets auto_resolve_after' do
+        account.auto_resolve_after = 30
+        expect(account.auto_resolve_after).to eq(30)
+        expect(account.settings['auto_resolve_after']).to eq(30)
+      end
+
+      it 'correctly gets and sets auto_resolve_message' do
+        message = 'This conversation was automatically resolved'
+        account.auto_resolve_message = message
+        expect(account.auto_resolve_message).to eq(message)
+        expect(account.settings['auto_resolve_message']).to eq(message)
+      end
+
+      it 'handles nil values correctly' do
+        account.auto_resolve_after = nil
+        account.auto_resolve_message = nil
+        expect(account.auto_resolve_after).to be_nil
+        expect(account.auto_resolve_message).to be_nil
+      end
+    end
+
+    context 'when using with_auto_resolve scope' do
+      it 'finds accounts with auto_resolve_after set' do
+        account.update(auto_resolve_after: 40)
+        expect(described_class.with_auto_resolve).to include(account)
+      end
+
+      it 'does not find accounts without auto_resolve_after' do
+        account.update(auto_resolve_after: nil)
+        expect(described_class.with_auto_resolve).not_to include(account)
+      end
+    end
+  end
 end

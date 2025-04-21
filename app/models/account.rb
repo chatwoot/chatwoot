@@ -34,7 +34,7 @@ class Account < ApplicationRecord
     'properties':
       {
         'auto_resolve_after': { 'type': %w[integer null], 'minimum': 15, 'maximum': 1_439_856 },
-        'auto_resolve_message': { 'type': 'string' }
+        'auto_resolve_message': { 'type': %w[string null] }
       },
     'required': [],
     'additionalProperties': false
