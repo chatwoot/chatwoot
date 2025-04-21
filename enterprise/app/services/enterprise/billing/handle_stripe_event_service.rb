@@ -21,6 +21,8 @@ class Enterprise::Billing::HandleStripeEventService
   BUSINESS_PLAN_FEATURES = %w[sla custom_roles].freeze
 
   # Additional features available only in the Enterprise plan
+  # TODO: `disable_branding` is currently managed manually for some accounts
+  # bring that into this list as well once we finish audit
   ENTERPRISE_PLAN_FEATURES = %w[audit_logs].freeze
 
   def perform(event:)
