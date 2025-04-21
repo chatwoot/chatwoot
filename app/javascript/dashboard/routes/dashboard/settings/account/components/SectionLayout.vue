@@ -28,7 +28,7 @@ defineProps({
         <slot name="description">{{ description }}</slot>
       </p>
     </div>
-    <div class="p-4 flex-grow-0 flex-shrink-0 flex-[50%] text-n-slate-12">
+    <div class="p-4 flex-grow-0 flex-shrink-0 flex-[75%] text-n-slate-12">
       <slot />
     </div>
   </div>
