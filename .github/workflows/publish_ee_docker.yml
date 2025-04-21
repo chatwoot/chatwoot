@@ -7,28 +7,18 @@
 name: Publish Chatwoot EE docker images
 
 on:
-  push:
-    branches:
-      - develop
-      - master
-    tags:
-      - v*
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "Docker image tag"
+        required: true
 
 env:
-  DOCKER_REPO: chatwoot/chatwoot
+  DOCKER_REPO: aitbase/chatwoot
 
 jobs:
   build:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - platform: linux/amd64
-            runner: ubuntu-latest
-          - platform: linux/arm64
-            runner: ubuntu-22.04-arm
-    runs-on: ${{ matrix.runner }}
+    runs-on: self-hosted
     env:
       GIT_REF: ${{ github.head_ref || github.ref_name }}
     steps:
@@ -37,8 +27,7 @@ jobs:
 
       - name: Prepare
         run: |
-          platform=${{ matrix.platform }}
-          echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
+          echo "PLATFORM_PAIR=amd64-arm64" >> $GITHUB_ENV
 
       - name: Set Chatwoot edition
         run: |
@@ -46,12 +35,7 @@ jobs:
 
       - name: Set Docker Tags
         run: |
-          SANITIZED_REF=$(echo "$GIT_REF" | sed 's/\//-/g')
-          if [ "${{ github.ref_name }}" = "master" ]; then
-            echo "DOCKER_TAG=${DOCKER_REPO}:latest" >> $GITHUB_ENV
-          else
-            echo "DOCKER_TAG=${DOCKER_REPO}:${SANITIZED_REF}" >> $GITHUB_ENV
-          fi
+          echo "DOCKER_TAG=${DOCKER_REPO}:${{ inputs.tag }}" >> $GITHUB_ENV
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -70,9 +54,9 @@ jobs:
         id: build
         uses: docker/build-push-action@v6
         with:
+          platforms: linux/amd64,linux/arm64
           context: .
           file: docker/Dockerfile
-          platforms: ${{ matrix.platform }}
           push: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
           outputs: type=image,name=${{ env.DOCKER_REPO }},push-by-digest=true,name-canonical=true,push=true
 
@@ -116,12 +100,7 @@ jobs:
         env:
           GIT_REF: ${{ github.head_ref || github.ref_name }}
         run: |
-          SANITIZED_REF=$(echo "$GIT_REF" | sed 's/\//-/g')
-          if [ "${{ github.ref_name }}" = "master" ]; then
-            TAG="${DOCKER_REPO}:latest"
-          else
-            TAG="${DOCKER_REPO}:${SANITIZED_REF}"
-          fi
+          TAG="${DOCKER_REPO}:${{ inputs.tag }}"
           
           docker buildx imagetools create -t $TAG \
             $(printf '${{ env.DOCKER_REPO }}@sha256:%s ' *)
@@ -130,11 +109,6 @@ jobs:
         env:
           GIT_REF: ${{ github.head_ref || github.ref_name }}
         run: |
-          SANITIZED_REF=$(echo "$GIT_REF" | sed 's/\//-/g')
-          if [ "${{ github.ref_name }}" = "master" ]; then
-            TAG="${DOCKER_REPO}:latest"
-          else
-            TAG="${DOCKER_REPO}:${SANITIZED_REF}"
-          fi
+          TAG="${DOCKER_REPO}:${{ inputs.tag }}"
           
           docker buildx imagetools inspect $TAG
