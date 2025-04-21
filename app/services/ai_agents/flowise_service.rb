@@ -25,6 +25,23 @@ class AiAgents::FlowiseService
       response.parsed_response
     end
 
+    def save_as_chat_flow(id:, name:, flow_data:)
+      raise ArgumentError, 'Template cannot be nil' if flow_data.nil?
+
+      response = put(
+        "/chatflows/#{id}",
+        body: {
+          'name' => name,
+          'flowData' => flow_data.to_json
+        }.to_json,
+        headers: headers
+      )
+
+      raise "Error saving chat flow: #{response.code} #{response.message}" unless response.success?
+
+      response.parsed_response
+    end
+
     def delete_chat_flow(id:)
       response = delete("/chatflows/#{id}", headers: headers)
 

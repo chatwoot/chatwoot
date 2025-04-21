@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_16_070218) do
+ActiveRecord::Schema[7.0].define(version: 2025_04_21_072952) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -170,6 +170,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_16_070218) do
     t.bigint "template_id"
     t.string "description"
     t.string "chat_flow_id"
+    t.jsonb "flow_data", default: {}, null: false
   end
 
   create_table "applied_slas", force: :cascade do |t|
