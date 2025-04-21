@@ -12,7 +12,8 @@ defineProps({
 <template>
   <Banner color="amber">
     <div class="flex items-center gap-2">
-      <div class="flex"><fluent-icon icon="info" size="16" /></div>
+       import Icon from 'dashboard/components-next/icon/Icon.vue';
+       <Icon icon="i-lucide-info" class="size-4" />
       {{ content }}
     </div>
   </Banner>
