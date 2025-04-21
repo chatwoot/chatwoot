@@ -9,7 +9,7 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
-const duration = defineModel('value', { type: Number, default: null });
+const duration = defineModel('modelValue', { type: Number, default: null });
 
 const UNIT_TYPES = {
   MINUTES: 'minutes',
