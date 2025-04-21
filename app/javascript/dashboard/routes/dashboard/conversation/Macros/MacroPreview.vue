@@ -65,7 +65,7 @@ const resolvedMacro = computed(() => {
         class="absolute -left-[0.21875rem] top-[0.2734375rem] w-2 h-2 rounded-full bg-n-solid-1 border-2 border-solid border-n-weak dark:border-slate-600"
       />
       <p class="mb-1 text-xs text-n-slate-11">
-        {{ action.actionName }}
+        {{ $t(`MACROS.ACTIONS.${action.actionName}`) }}
       </p>
       <p class="text-n-slate-12 text-sm">{{ action.actionValue }}</p>
     </div>

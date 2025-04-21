@@ -2,20 +2,19 @@
 #
 # Table name: accounts
 #
-#  id                         :integer          not null, primary key
-#  auto_resolve_duration      :integer
-#  contactable_contacts_count :integer          default(0)
-#  custom_attributes          :jsonb
-#  domain                     :string(100)
-#  feature_flags              :bigint           default(0), not null
-#  internal_attributes        :jsonb            not null
-#  limits                     :jsonb
-#  locale                     :integer          default("en")
-#  name                       :string           not null
-#  status                     :integer          default("active")
-#  support_email              :string(100)
-#  created_at                 :datetime         not null
-#  updated_at                 :datetime         not null
+#  id                    :integer          not null, primary key
+#  auto_resolve_duration :integer
+#  custom_attributes     :jsonb
+#  domain                :string(100)
+#  feature_flags         :bigint           default(0), not null
+#  internal_attributes   :jsonb            not null
+#  limits                :jsonb
+#  locale                :integer          default("en")
+#  name                  :string           not null
+#  status                :integer          default("active")
+#  support_email         :string(100)
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
 #
 # Indexes
 #
@@ -56,6 +55,7 @@ class Account < ApplicationRecord
   has_many :data_imports, dependent: :destroy_async
   has_many :email_channels, dependent: :destroy_async, class_name: '::Channel::Email'
   has_many :facebook_pages, dependent: :destroy_async, class_name: '::Channel::FacebookPage'
+  has_many :instagram_channels, dependent: :destroy_async, class_name: '::Channel::Instagram'
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
   has_many :inboxes, dependent: :destroy_async
   has_many :labels, dependent: :destroy_async
@@ -161,5 +161,6 @@ class Account < ApplicationRecord
 end
 
 Account.prepend_mod_with('Account')
+Account.prepend_mod_with('Account::PlanUsageAndLimits')
 Account.include_mod_with('Concerns::Account')
 Account.include_mod_with('Audit::Account')

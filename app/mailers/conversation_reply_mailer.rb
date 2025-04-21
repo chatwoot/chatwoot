@@ -1,4 +1,8 @@
 class ConversationReplyMailer < ApplicationMailer
+  # We needs to expose large attachments to the view as links
+  # Small attachments are linked as mail attachments directly
+  attr_reader :large_attachments
+
   include ConversationReplyMailerHelper
   default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Julian at Cruise Control <support@getcruisecontrol.com>')
   layout :choose_layout

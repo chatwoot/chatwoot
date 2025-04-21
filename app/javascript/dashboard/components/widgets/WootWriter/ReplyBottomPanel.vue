@@ -10,6 +10,7 @@ import {
   ALLOWED_FILE_TYPES,
   ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
   ALLOWED_FILE_TYPES_FOR_LINE,
+  ALLOWED_FILE_TYPES_FOR_INSTAGRAM,
 } from 'shared/constants/messages';
 import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
@@ -113,6 +114,10 @@ export default {
       type: String,
       required: true,
     },
+    conversationType: {
+      type: String,
+      default: '',
+    },
   },
   emits: [
     'replaceText',
@@ -187,6 +192,9 @@ export default {
     showAudioPlayStopButton() {
       return this.showAudioRecorder && this.isRecordingAudio;
     },
+    isInstagramDM() {
+      return this.conversationType === 'instagram_direct_message';
+    },
     allowedFileTypes() {
       if (this.isATwilioWhatsAppChannel) {
         return ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP;
@@ -194,6 +202,10 @@ export default {
       if (this.isALineChannel) {
         return ALLOWED_FILE_TYPES_FOR_LINE;
       }
+      if (this.isAInstagramChannel || this.isInstagramDM) {
+        return ALLOWED_FILE_TYPES_FOR_INSTAGRAM;
+      }
+
       return ALLOWED_FILE_TYPES;
     },
     enableDragAndDrop() {
