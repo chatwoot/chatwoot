@@ -35,7 +35,7 @@ const messageToDisplay = computed({
 
 const updateAccountSettings = async settings => {
   try {
-    await updateAccount({ settings });
+    await updateAccount(settings);
     useAlert(t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.API.SUCCESS'));
   } catch (error) {
     useAlert(t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.API.ERROR'));
