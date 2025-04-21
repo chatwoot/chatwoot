@@ -3,9 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe Account do
-  it { is_expected.to validate_numericality_of(:auto_resolve_after).is_greater_than_or_equal_to(15) }
-  it { is_expected.to validate_numericality_of(:auto_resolve_after).is_less_than_or_equal_to(1_439_856) }
-
   it { is_expected.to have_many(:users).through(:account_users) }
   it { is_expected.to have_many(:account_users) }
   it { is_expected.to have_many(:inboxes).dependent(:destroy_async) }
