@@ -16,11 +16,11 @@ defineProps({
 </script>
 
 <template>
-  <div
-    class="flex flex-row"
-    :class="{ 'border-t border-n-weak pt-4 mt-2': withBorder }"
+  <section
+    class="grid grid-cols-[1fr_3fr] py-8 gap-10"
+    :class="{ 'border-t border-n-weak': withBorder }"
   >
-    <div class="flex-grow-0 flex-shrink-0 flex-[25%] min-w-0 py-4 pr-6 pl-0">
+    <div>
       <h4 class="text-lg font-medium text-n-slate-12">
         <slot name="title">{{ title }}</slot>
       </h4>
@@ -28,10 +28,8 @@ defineProps({
         <slot name="description">{{ description }}</slot>
       </p>
     </div>
-    <div
-      class="py-4 pl-6 pr-0 flex-grow-0 flex-shrink-0 flex-[75%] text-n-slate-12"
-    >
+    <div class="text-n-slate-12">
       <slot />
     </div>
-  </div>
+  </section>
 </template>
