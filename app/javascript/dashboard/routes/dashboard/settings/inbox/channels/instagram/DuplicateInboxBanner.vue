@@ -13,7 +13,7 @@ defineProps({
 <template>
   <Banner color="amber">
     <div class="flex items-center gap-2">
-      <Icon icon="i-lucide-info" class="size-4" />
+      <Icon icon="i-lucide-info" class="flex-shrink-0 size-4" />
       <span>{{ content }}</span>
     </div>
   </Banner>
