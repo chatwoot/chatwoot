@@ -53,6 +53,8 @@ zh_CN:
       invalid_message_type: '无效的消息类型。不允许操作'
     slack:
       invalid_channel_id: '无效的Slack频道。请重试'
+    channel_service:
+      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: 请检查网络连接，IMAP地址，然后再试一次。
@@ -68,6 +70,8 @@ zh_CN:
       invalid_operator: 无效的操作符。%{attribute_name} 允许的操作符为 [%{allowed_keys}]。
       invalid_query_operator: 查询操作符必须为 "AND" 或 "OR"。
       invalid_value: 无效的值。为 %{attribute_name} 提供的值无效
+    custom_attribute_definition:
+      key_conflict: 提供的键不允许使用，因为它可能与默认属性冲突。
   reports:
     period: 报告周期 %{since} 至 %{until}
     utc_warning: 生成的报表在 UTC 时区
@@ -201,7 +205,7 @@ zh_CN:
       name: 'Slack'
       description: "将 Chatwoot 与 Slack 集成，以保持团队的同步。此集成允许您接收新对话的通知并直接在 Slack 界面中响应它们。"
     webhooks:
-      name: ''
+      name: 'Webhooks'
       description: 'Webhook 事件提供有关 Chatwoot 帐户中活动的实时更新。您可以订阅您喜欢的事件，Chatwoot 将向您发送带有更新的 HTTP 回调。'
     dialogflow:
       name: 'Dialogflow'
@@ -215,6 +219,9 @@ zh_CN:
     linear:
       name: 'Linear'
       description: '直接从对话窗口在 Linear 中创建问题。或者，链接现有的 Linear 问题以简化问题跟踪过程。'
+    shopify:
+      name: 'Shopify'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
   captain:
     copilot_error: '请为该收件箱连接一个助手以使用 Copilot'
     copilot_limit: '您的 Copilot 积分已用完。您可以从计费部分购买更多积分。'

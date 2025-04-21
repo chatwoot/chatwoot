@@ -80,10 +80,12 @@ const maxWidthClass = computed(() => {
 const open = () => {
   dialogRef.value?.showModal();
 };
+
 const close = () => {
   emit('close');
   dialogRef.value?.close();
 };
+
 const confirm = () => {
   emit('confirm');
 };
@@ -104,9 +106,10 @@ defineExpose({ open, close });
       @close="close"
     >
       <OnClickOutside @trigger="close">
-        <div
+        <form
           ref="dialogContentRef"
           class="flex flex-col w-full h-auto gap-6 p-6 overflow-visible text-left align-middle transition-all duration-300 ease-in-out transform bg-n-alpha-3 backdrop-blur-[100px] shadow-xl rounded-xl"
+          @submit.prevent="confirm"
           @click.stop
         >
           <div v-if="title || description" class="flex flex-col gap-2">
@@ -122,13 +125,17 @@ defineExpose({ open, close });
           <slot />
           <!-- Dialog content will be injected here -->
           <slot name="footer">
-            <div class="flex items-center justify-between w-full gap-3">
+            <div
+              v-if="showCancelButton || showConfirmButton"
+              class="flex items-center justify-between w-full gap-3"
+            >
               <Button
                 v-if="showCancelButton"
                 variant="faded"
                 color="slate"
                 :label="cancelButtonLabel || t('DIALOG.BUTTONS.CANCEL')"
                 class="w-full"
+                type="button"
                 @click="close"
               />
               <Button
@@ -138,11 +145,11 @@ defineExpose({ open, close });
                 class="w-full"
                 :is-loading="isLoading"
                 :disabled="disableConfirmButton || isLoading"
-                @click="confirm"
+                type="submit"
               />
             </div>
           </slot>
-        </div>
+        </form>
       </OnClickOutside>
     </dialog>
   </Teleport>

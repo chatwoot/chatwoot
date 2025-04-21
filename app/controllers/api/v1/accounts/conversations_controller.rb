@@ -6,6 +6,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   before_action :conversation, except: [:index, :meta, :search, :create, :filter]
   before_action :inbox, :contact, :contact_inbox, only: [:create]
 
+  ATTACHMENT_RESULTS_PER_PAGE = 100
+
   def index
     result = conversation_finder.perform
     @conversations = result[:conversations]
@@ -24,7 +26,12 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def attachments
+    @attachments_count = @conversation.attachments.count
     @attachments = @conversation.attachments
+                                .includes(:message)
+                                .order(created_at: :desc)
+                                .page(attachment_params[:page])
+                                .per(ATTACHMENT_RESULTS_PER_PAGE)
   end
 
   def show; end
@@ -41,7 +48,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def filter
-    result = ::Conversations::FilterService.new(params.permit!, current_user).perform
+    result = ::Conversations::FilterService.new(params.permit!, current_user, current_account).perform
     @conversations = result[:conversations]
     @conversations_count = result[:count]
   rescue CustomExceptions::CustomFilter::InvalidAttribute,
@@ -122,6 +129,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def permitted_update_params
     # TODO: Move the other conversation attributes to this method and remove specific endpoints for each attribute
     params.permit(:priority)
+  end
+
+  def attachment_params
+    params.permit(:page)
   end
 
   def update_last_seen_on_conversation(last_seen_at, update_assignee)

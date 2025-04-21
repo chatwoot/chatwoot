@@ -8,6 +8,7 @@ import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
 import FilterListDropdown from 'dashboard/components/ui/Dropdown/DropdownList.vue';
 import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
 import { LINEAR_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   conversationId: {
@@ -106,9 +107,10 @@ const linkIssue = async () => {
     :class="shouldShowDropdown ? 'h-[256px]' : 'gap-2'"
   >
     <FilterButton
-      right-icon="chevron-down"
+      trailing-icon
+      icon="i-lucide-chevron-down"
       :button-text="linkIssueTitle"
-      class="justify-between w-full h-[2.5rem] py-1.5 px-3 rounded-xl border border-slate-50 bg-slate-25 dark:border-slate-600 dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-900/50"
+      class="justify-between w-full h-[2.5rem] py-1.5 px-3 rounded-xl bg-n-alpha-black2 outline outline-1 outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6"
       @click="toggleDropdown"
     >
       <template v-if="shouldShowDropdown" #dropdown>
@@ -129,20 +131,20 @@ const linkIssue = async () => {
       </template>
     </FilterButton>
     <div class="flex items-center justify-end w-full gap-2 mt-2">
-      <woot-button
-        class="px-4 rounded-xl button clear outline-woot-200/50 outline"
+      <Button
+        faded
+        slate
+        type="reset"
+        :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CANCEL')"
         @click.prevent="onClose"
-      >
-        {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CANCEL') }}
-      </woot-button>
-      <woot-button
-        :is-disabled="isSubmitDisabled"
-        class="px-4 rounded-xl"
+      />
+      <Button
+        type="submit"
+        :label="$t('INTEGRATION_SETTINGS.LINEAR.LINK.TITLE')"
+        :disabled="isSubmitDisabled"
         :is-loading="isLinking"
         @click.prevent="linkIssue"
-      >
-        {{ $t('INTEGRATION_SETTINGS.LINEAR.LINK.TITLE') }}
-      </woot-button>
+      />
     </div>
   </div>
 </template>

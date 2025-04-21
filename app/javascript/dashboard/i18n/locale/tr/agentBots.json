@@ -2,8 +2,8 @@
   "AGENT_BOTS": {
     "HEADER": "Botlar",
     "LOADING_EDITOR": "Editör Yükleniyor...",
-    "HEADER_BTN_TXT": "Bot yapılandırması ekle",
-    "SIDEBAR_TXT": "<p><b>Temsilci Botları</b></p><p>Temsilci Botları, takımınızın en iyi üyelerine benzerler. Onlar küçük detayları ele alırken, siz önemli konulara odaklanabilirsiniz. Hemen deneyin.</p><p>Bu sayfadan botlarınızı yönetebilir veya 'Bot yapılandırması ekle' düğmesini kullanarak yeni botlar oluşturabilirsiniz.</p><p><a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">Temsilci Botları el kitabını</a> başka bir sekmede açarak yardım alabilirsiniz.</p>",
+    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.You can manage your bots from this page or create new ones using the 'Configure new bot' button.",
+    "LEARN_MORE": "Learn about agent bots",
     "CSML_BOT_EDITOR": {
       "NAME": {
         "LABEL": "Bot Adı",

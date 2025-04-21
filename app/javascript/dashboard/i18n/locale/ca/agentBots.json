@@ -2,8 +2,8 @@
   "AGENT_BOTS": {
     "HEADER": "Bots",
     "LOADING_EDITOR": "S'està carregant l'editor...",
-    "HEADER_BTN_TXT": "Afegir configuració del bot",
-    "SIDEBAR_TXT": "<p><b>Bots d'Agent</b> <p>Bots d'Agent són com els membres més fabulosos del teu equip. Poden gestionar les coses petites, de manera que us podeu centrar en les coses importants. Prova-ls.</p> <p> Pots gestionar els teus bots des d'aquesta pàgina o crear-ne de nous mitjançant el botó \"Afegeix una configuració de bot\".</p> <p> Obre el <a href=\"https:/ /www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">Manual de robots d'agent</a> en una altra pestanya per a un cop de mà.</p>",
+    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.You can manage your bots from this page or create new ones using the 'Configure new bot' button.",
+    "LEARN_MORE": "Learn about agent bots",
     "CSML_BOT_EDITOR": {
       "NAME": {
         "LABEL": "Nom del bot",

@@ -56,7 +56,7 @@ export default {
 </script>
 
 <template>
-  <div class="unread-wrap">
+  <div class="unread-wrap" dir="ltr">
     <div class="close-unread-wrap">
       <button class="button small close-unread-button" @click="closeFullView">
         <span class="flex items-center">
@@ -87,7 +87,7 @@ export default {
         <span
           class="flex items-center"
           :class="{
-            'is-background-light': isBackgroundLighter,
+            '!text-n-slate-12': isBackgroundLighter,
           }"
           :style="{
             color: widgetColor,
@@ -102,8 +102,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@import 'widget/assets/scss/variables';
-
 .unread-wrap {
   width: 100%;
   height: auto;
@@ -116,42 +114,17 @@ export default {
   overflow: hidden;
 
   .unread-messages {
-    padding-bottom: $space-small;
+    @apply pb-2;
   }
 
   .clear-button {
-    background: transparent;
-    color: $color-woot;
-    border: 0;
-    font-weight: $font-weight-bold;
-    font-size: $font-size-medium;
     transition: all 0.3s var(--ease-in-cubic);
-    margin-left: $space-smaller;
-    padding: 0 $space-one 0 0;
-
-    &:hover {
-      transform: translateX($space-smaller);
-      color: $color-primary-dark;
-    }
+    @apply bg-transparent text-n-brand border-none border-0 font-semibold text-base ml-1 py-0 pl-0 pr-2.5 hover:brightness-75 hover:translate-x-1;
   }
 
   .close-unread-button {
-    background: $color-background;
-    color: $color-light-gray;
-    border: 0;
-    font-weight: $font-weight-medium;
-    font-size: $font-size-mini;
     transition: all 0.3s var(--ease-in-cubic);
-    margin-bottom: $space-slab;
-    border-radius: $space-normal;
-
-    &:hover {
-      color: $color-body;
-    }
-  }
-
-  .is-background-light {
-    color: $color-body !important;
+    @apply bg-n-slate-3 dark:bg-n-slate-12 text-n-slate-12 dark:text-n-slate-1 hover:brightness-95 border-none border-0 font-medium text-xxs rounded-2xl mb-3;
   }
 }
 </style>
