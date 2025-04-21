@@ -39,9 +39,9 @@ export default {
       cannedMessages: 'getCannedResponses',
     }),
     currentContact() {
-      return this.$store.getters['contacts/getContact'](
-        this.currentChat.meta.sender.id
-      );
+      const senderId = this.currentChat?.meta?.sender?.id;
+      if (!senderId) return null;
+      return this.$store.getters['contacts/getContact'](senderId);
     },
     items() {
       return this.cannedMessages.map(cannedMessage => ({
@@ -58,13 +58,17 @@ export default {
     },
     livePreviewMessage() {
       if (!this.selectedCannedResponse) return '';
+      let variables = {};
       const rawMessage = this.selectedCannedResponse.description;
-      const systemVariables = getMessageVariables({
-        conversation: this.currentChat,
-        contact: this.currentContact,
-      });
+      const hasContextData = this.currentChat & this.currentContact;
+      if (hasContextData) {
+        variables = getMessageVariables({
+          conversation: this.currentChat,
+          contact: this.currentContact,
+        });
+      }
       const allVariables = {
-        ...systemVariables,
+        ...variables,
         ...this.userDefinedVariables,
       };
       return rawMessage.replace(/{{(.*?)}}/g, (_, varName) => {
@@ -131,10 +135,17 @@ export default {
       });
     },
     handleMentionClick(item = {}) {
-      const variables = getMessageVariables({
-        conversation: this.currentChat,
-        contact: this.currentContact,
-      });
+      let variables = {};
+      const hasContextData = this.currentChat && this.currentContact;
+      console.log('hasContextData', hasContextData);
+      console.log('inboxId', this.inboxId);
+
+      if (hasContextData) {
+        variables = getMessageVariables({
+          conversation: this.currentChat,
+          contact: this.currentContact,
+        });
+      }
       const undefinedVariables = getUndefinedVariablesInMessage({
         message: item.description,
         variables,
@@ -153,12 +164,16 @@ export default {
       this.$emit('cannedSelected', item.id);
     },
     submitVariables() {
-      const systemVariables = getMessageVariables({
-        conversation: this.currentChat,
-        contact: this.currentContact,
-      });
+      let variables = {};
+      const hasContextData = this.currentChat & this.currentContact;
+      if (hasContextData) {
+        variables = getMessageVariables({
+          conversation: this.currentChat,
+          contact: this.currentContact,
+        });
+      }
       const allVariables = {
-        ...systemVariables,
+        ...variables,
         ...this.userDefinedVariables,
       };
       const updatedMessage = replaceVariablesInMessage({
