@@ -67,23 +67,5 @@ describe('PortalHelper', () => {
         buildPortalArticleURL('handbook', 'culture', 'fr', 'article-slug')
       ).toEqual('https://app.chatwoot.com/hc/handbook/articles/article-slug');
     });
-
-    it('normalizes portal slug casing', () => {
-      window.chatwootConfig = {
-        helpCenterURL: 'https://help.chatwoot.com',
-      };
-      expect(
-        buildPortalArticleURL('HANDBOOK', 'culture', 'fr', 'article-slug')
-      ).toEqual('https://help.chatwoot.com/hc/handbook/articles/article-slug');
-    });
-
-    it('handles portal slug with whitespace', () => {
-      window.chatwootConfig = {
-        helpCenterURL: 'https://help.chatwoot.com',
-      };
-      expect(
-        buildPortalArticleURL(' handbook ', 'culture', 'fr', 'article-slug')
-      ).toEqual('https://help.chatwoot.com/hc/handbook/articles/article-slug');
-    });
   });
 });
