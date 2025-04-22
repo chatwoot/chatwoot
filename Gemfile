@@ -176,6 +176,8 @@ gem 'reverse_markdown'
 gem 'iso-639'
 gem 'ruby-openai'
 
+gem 'active_record_query_trace'
+gem 'listen'
 gem 'shopify_api'
 
 ### Gems required only in specific deployment environments ###
@@ -219,7 +221,6 @@ group :test do
 end
 
 group :development, :test do
-  gem 'active_record_query_trace'
   ##--- gems for debugging and error reporting ---##
   # static analysis
   gem 'brakeman'
@@ -228,7 +229,6 @@ group :development, :test do
   gem 'climate_control'
   gem 'debug', '~> 1.8'
   gem 'factory_bot_rails', '>= 6.4.3'
-  gem 'listen'
   gem 'mock_redis'
   gem 'pry-rails'
   gem 'rspec_junit_formatter'
