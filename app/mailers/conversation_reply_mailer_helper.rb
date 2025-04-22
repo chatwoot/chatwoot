@@ -3,6 +3,7 @@ module ConversationReplyMailerHelper
     @options = {
       to: to_emails,
       from: email_from,
+      sender: @channel.smtp_login,
       reply_to: email_reply_to,
       subject: mail_subject,
       message_id: custom_message_id,
@@ -42,22 +43,9 @@ module ConversationReplyMailerHelper
     @options[:delivery_method_options] = smtp_settings
   end
 
-  def base_smtp_settings(domain)
-    {
-      address: domain,
-      port: 587,
-      user_name: @channel.imap_login,
-      password: @channel.provider_config['access_token'],
-      domain: domain,
-      tls: false,
-      enable_starttls_auto: true,
-      openssl_verify_mode: 'none',
-      authentication: 'xoauth2'
-    }
-  end
-
   def set_delivery_method
-    return unless @inbox.inbox_type == 'Email' && @channel.smtp_enabled
+    return unless @inbox.email? && @channel.smtp_enabled
+    return if @channel.imap_enabled && (@inbox.channel.microsoft? || @inbox.channel.google?)
 
     smtp_settings = {
       address: @channel.smtp_address,
@@ -73,6 +61,20 @@ module ConversationReplyMailerHelper
 
     @options[:delivery_method] = :smtp
     @options[:delivery_method_options] = smtp_settings
+  end
+
+  def base_smtp_settings(domain)
+    {
+      address: domain,
+      port: 587,
+      user_name: @channel.imap_login,
+      password: @channel.provider_config['access_token'],
+      domain: domain,
+      tls: false,
+      enable_starttls_auto: true,
+      openssl_verify_mode: 'none',
+      authentication: 'xoauth2'
+    }
   end
 
   def email_smtp_enabled
