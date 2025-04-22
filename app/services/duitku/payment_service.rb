@@ -1,13 +1,17 @@
 class Duitku::PaymentService
     include HTTParty
     
-    def initialize(environment = :production)
+    def initialize(environment = ENV['DUITKU_ENV']&.to_sym || :production)
       @base_url = environment == :production ? 'https://api.duitku.com' : 'https://sandbox.duitku.com'
       @merchant_code = ENV['DUITKU_MERCHANT_CODE']
       @api_key = ENV['DUITKU_API_KEY']
     end
     
     def create_payment(params)
+      Rails.logger.info "PARAMS: #{params}"
+      # Rails.logger.info "SIGNATURE STRING: #{@merchant_code}#{order_id}#{amount}#{@api_key}"
+      # Rails.logger.info "FINAL SIGNATURE: #{generate_signature(amount, order_id)}"
+
       payload = {
         merchantCode: @merchant_code,
         paymentAmount: params[:amount],
@@ -17,14 +21,14 @@ class Duitku::PaymentService
         customerVaName: params[:customer_name],
         customerEmail: params[:customer_email],
         customerPhoneNumber: params[:customer_phone],
-        callbackUrl: "#{ENV['CHATWOOT_BASE_URL']}/api/v1/duitku/webhook",
-        returnUrl: params[:return_url],
+        callbackUrl: "#{ENV['DUITKU_CALLBACK_URL']}/api/v1/duitku/webhook",
+        returnUrl: "#{params[:return_url]}",
         signature: generate_signature(params[:amount], params[:order_id]),
         expiryPeriod: 60 # dalam menit
       }
       
       response = HTTParty.post(
-        "#{@base_url}/v2/createInvoice",
+        "#{@base_url}/webapi/api/merchant/v2/inquiry",
         body: payload.to_json,
         headers: { 'Content-Type' => 'application/json' }
       )
@@ -51,10 +55,15 @@ class Duitku::PaymentService
     
     private
     
+    # def generate_signature(amount, order_id)
+    #   timestamp = Time.now.strftime('%Y%m%d%H%M%S')
+    #   md5_hash = Digest::MD5.hexdigest("#{@merchant_code}#{timestamp}#{@api_key}")
+    #   signature_components = "#{@merchant_code}#{amount}#{order_id}#{timestamp}#{md5_hash}"
+    #   Digest::SHA256.hexdigest(signature_components)
+    # end
+    
     def generate_signature(amount, order_id)
       timestamp = Time.now.strftime('%Y%m%d%H%M%S')
-      md5_hash = Digest::MD5.hexdigest("#{@merchant_code}#{timestamp}#{@api_key}")
-      signature_components = "#{@merchant_code}#{amount}#{order_id}#{timestamp}#{md5_hash}"
-      Digest::SHA256.hexdigest(signature_components)
+      Digest::MD5.hexdigest("#{@merchant_code}#{order_id}#{amount}#{@api_key}")
     end
   end

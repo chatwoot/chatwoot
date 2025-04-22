@@ -1,0 +1,16 @@
+{
+  "BILLING": {
+    "RECENT_TRANSACTIONS": "Recent Transactions",
+    "NO_TRANSACTIONS": "No transactions found",
+    "PAY": "Pay",
+    "TABLE": {
+      "HEADER": {
+        "PACKAGE": "PACKAGE",
+        "DURATION": "DURATION",
+        "STATUS": "STATUS",
+        "TRANSACTION_DATE": "DATE",
+        "ACTION": "ACTION"
+      }
+    }
+  }
+}

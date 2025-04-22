@@ -5,6 +5,7 @@ import { minValue } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import { useConfig } from 'dashboard/composables/useConfig';
 import SettingsSection from '../../../../../components/SettingsSection.vue';
+import aiAgents from '../../../../../../dashboard/api/aiAgents';
 
 export default {
   components: {
@@ -24,7 +25,10 @@ export default {
   data() {
     return {
       selectedAgents: [],
+      aiAgentList: [],
+      selectedAiAgents: [],
       isAgentListUpdating: false,
+      isAiAgentListUpdating: false,
       enableAutoAssignment: false,
       maxAssignmentLimit: null,
     };
@@ -49,6 +53,8 @@ export default {
   },
   mounted() {
     this.setDefaults();
+    this.fetchAiAgents()
+    this.fetchSelectedAiAgents()
   },
   methods: {
     setDefaults() {
@@ -103,6 +109,35 @@ export default {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       }
     },
+    async fetchAiAgents() {
+      try {
+        const items = await aiAgents.getAiAgents()
+        this.aiAgentList = (items?.data || []).map(e => ({
+          id: e.id,
+          name: e.name,
+        }))
+      } catch (e) {
+        useAlert('Gagal mendapatkan data Agen AI')
+      }
+    },
+    async fetchSelectedAiAgents() {
+      try {
+        await new Promise(r => setTimeout(1000, r))
+        this.selectedAiAgents = []
+      } catch (e) {
+      }
+    },
+    async updateAiAgents() {
+      const aiAgentListId = this.selectedAiAgents.map(el => el.id);
+      this.isAiAgentListUpdating = true;
+      try {
+        console.log('aiAgentListId', aiAgentListId)
+        useAlert(this.$t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        useAlert(this.$t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE'));
+      }
+      this.isAiAgentListUpdating = false;
+    },
   },
   validations: {
     selectedAgents: {
@@ -119,6 +154,33 @@ export default {
 
 <template>
   <div>
+    <SettingsSection
+      :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AI_AGENTS')"
+      :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AI_AGENTS_SUB_TEXT')"
+    >
+      <multiselect
+        v-model="selectedAiAgents"
+        :options="aiAgentList"
+        track-by="id"
+        label="name"
+        multiple
+        :close-on-select="false"
+        :clear-on-select="false"
+        hide-selected
+        placeholder="Pick some"
+        selected-label
+        :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+        :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+        @select="v$.selectedAgents.$touch"
+      />
+
+      <woot-submit-button
+        :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+        :loading="isAiAgentListUpdating"
+        @click="updateAiAgents"
+      />
+    </SettingsSection>
+    
     <SettingsSection
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS_SUB_TEXT')"

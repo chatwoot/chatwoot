@@ -29,6 +29,10 @@ Rails.application.routes.draw do
     resource :slack_uploads, only: [:show]
   end
 
+  if Rails.env.development?
+    get '/rails/info/routes', to: 'rails/info#routes'
+  end
+
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
@@ -36,18 +40,18 @@ Rails.application.routes.draw do
       # start of subscription scoped api routes
       resources :subscriptions, only: [] do
         collection do
-          get :plans  
+          get :plans
         end
       end
       # end of subscription scoped api routes
       # ----------------------------------
-        
+
       # ----------------------------------
       # start of pricing plan scoped api routes
       post 'duitku/webhook', to: 'duitku#webhook'
       # end of pricing plan scoped api routes
       # ----------------------------------
-      
+
       # ----------------------------------
       # start of pricing plan scoped api routes
       resources :pricing_plans, only: [:index, :show]
@@ -60,12 +64,16 @@ Rails.application.routes.draw do
         # ----------------------------------
         # start of subscription scoped api routes
         resources :subscriptions, only: [:index, :show, :create, :update] do
-          # collection do
-          #   get :plans
-          # end
-          
+          collection do
+            get :active
+          end
+
           member do
             put :cancel
+          end
+
+          collection do
+            get :histories
           end
 
           # Subscription payments routes
@@ -74,6 +82,9 @@ Rails.application.routes.draw do
               get :check_status
             end
           end
+
+          # Subscription topups routes
+          resources :subscription_topups, path: 'topup', only: [:index, :create]
         end
         # end of subscription scoped api routes
         # ----------------------------------
@@ -94,6 +105,22 @@ Rails.application.routes.draw do
 
             collection do
               get :ai_agent_templates
+            end
+
+            resources :knowledge_sources, only: [:index], controller: 'knowledge_sources' do
+              collection do
+                post :text, to: 'knowledge_source_texts#create'
+                patch :text, to: 'knowledge_source_texts#update'
+                delete :'text/:id', to: 'knowledge_source_texts#destroy'
+                post :file, to: 'knowledge_source_files#create'
+                delete :'file/:id', to: 'knowledge_source_files#destroy'
+                post :'website/links', to: 'knowledge_source_websites#collect_link'
+                post :website, to: 'knowledge_source_websites#create'
+                patch :website, to: 'knowledge_source_websites#update'
+                delete :website, to: 'knowledge_source_websites#destroy'
+                post :qna, to: 'knowledge_source_qna#create'
+                delete :'qna/:id', to: 'knowledge_source_qna#destroy'
+              end
             end
           end
           resources :agents, only: [:index, :create, :update, :destroy] do

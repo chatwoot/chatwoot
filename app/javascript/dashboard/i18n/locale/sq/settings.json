@@ -245,7 +245,7 @@
   "CONFIRM_EMAIL": "Verifying...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "Add Channel"
     }
   },
   "SIDEBAR": {
@@ -254,7 +254,7 @@
     "SWITCH": "Switch",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Conversations",
-    "INBOX": "My Inbox",
+    "INBOX": "Linked Platforms",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
     "PARTICIPATING_CONVERSATIONS": "Participating",
