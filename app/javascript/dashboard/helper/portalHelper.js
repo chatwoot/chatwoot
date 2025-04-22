@@ -1,11 +1,30 @@
+/**
+ * Builds a portal URL using the provided portal slug and optional custom domain
+ * @param {string} portalSlug - The slug identifier for the portal
+ * @param {string} [customDomain] - Optional custom domain for the portal
+ * @returns {string} The complete portal URL
+ * @throws {Error} If portalSlug is not provided or invalid
+ */
 export const buildPortalURL = (portalSlug, customDomain) => {
-  const { hostURL, helpCenterURL } = window.chatwootConfig;
-  const baseURL =
-    (customDomain && `https://${customDomain}`) ||
-    helpCenterURL ||
-    hostURL ||
-    '';
-  return `${baseURL}/hc/${portalSlug}`;
+  if (!portalSlug || typeof portalSlug !== 'string') {
+    throw new Error('Portal slug is required and must be a string');
+  }
+
+  const { hostURL, helpCenterURL } = window.chatwootConfig || {};
+  const normalizedPortalSlug = portalSlug.trim().toLowerCase();
+
+  let baseURL = '';
+  if (customDomain) {
+    baseURL = `https://${customDomain.trim().replace(/^https?:\/\//, '')}`;
+  } else {
+    baseURL = (helpCenterURL || hostURL || '').replace(/\/$/, '');
+  }
+
+  if (!baseURL) {
+    throw new Error('No valid base URL found in configuration');
+  }
+
+  return `${baseURL}/hc/${normalizedPortalSlug}`;
 };
 
 export const buildPortalArticleURL = (
