@@ -98,7 +98,7 @@ const MessageControl = Symbol('MessageControl');
  * @property {import('vue').Ref<Sender|null>} [sender=null] - The sender information
  * @property {import('vue').ComputedRef<MessageOrientation>} orientation - The visual variant of the message
  * @property {import('vue').ComputedRef<MessageVariant>} variant - The visual variant of the message
- * @property {import('vue').ComputedRef<boolean>} isMyMessage - Does the message belong to the current user
+ * @property {import('vue').ComputedRef<boolean>} isBotOrAgentMessage - Does the message belong to the current user
  * @property {import('vue').ComputedRef<boolean>} isPrivate - Proxy computed value for private
  * @property {import('vue').ComputedRef<boolean>} shouldGroupWithNext - Should group with the next message or not, it is differnt from groupWithNext, this has a bypass for a failed message
  */
