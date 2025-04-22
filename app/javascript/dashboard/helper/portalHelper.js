@@ -7,7 +7,6 @@
  */
 export const buildPortalURL = (portalSlug, customDomain) => {
   const { hostURL, helpCenterURL } = window.chatwootConfig || {};
-  const normalizedPortalSlug = portalSlug.trim().toLowerCase();
   let baseURL = '';
 
   if (customDomain) {
@@ -22,7 +21,7 @@ export const buildPortalURL = (portalSlug, customDomain) => {
     throw new Error('No valid base URL found in configuration');
   }
 
-  return `${baseURL}/hc/${normalizedPortalSlug}`;
+  return `${baseURL}/hc/${portalSlug}`;
 };
 
 export const buildPortalArticleURL = (
