@@ -165,3 +165,6 @@
   display_name: Instagram Channel
   enabled: false
   chatwoot_internal: true
+- name: crm_integration
+  display_name: CRM Integration
+  enabled: false

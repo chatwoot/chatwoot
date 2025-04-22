@@ -4,6 +4,7 @@
 # i18n_key: the key under which translations for the integration is placed in en.yml
 # action: if integration requires external redirect url
 # hook_type: ( account / inbox )
+# feature_flag: (string) feature flag to enable/disable the integration
 # allow_multiple_hooks: whether multiple hooks can be created for the integration
 # settings_json_schema: the json schema used to validate the settings hash (https://json-schema.org/)
 # settings_form_schema: the formulate schema used in frontend to render settings form (https://vueformulate.com/)
