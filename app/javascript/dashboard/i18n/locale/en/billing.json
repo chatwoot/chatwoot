@@ -8,7 +8,7 @@
         "PACKAGE": "PACKAGE",
         "DURATION": "DURATION",
         "STATUS": "STATUS",
-        "TRANSACTION_DATE": "TRANSACTION DATE",
+        "TRANSACTION_DATE": "DATE",
         "ACTION": "ACTION"
       }
     }

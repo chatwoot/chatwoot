@@ -8,7 +8,7 @@
         "PACKAGE": "PAKET",
         "DURATION": "DURASI",
         "STATUS": "STATUS",
-        "TRANSACTION_DATE": "TANGGAL TRANSAKSI",
+        "TRANSACTION_DATE": "TANGGAL",
         "ACTION": "AKSI"
       }
     }

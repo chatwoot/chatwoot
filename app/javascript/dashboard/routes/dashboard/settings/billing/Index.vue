@@ -109,7 +109,7 @@ const tableData = computed(() => {
     package: transaction.package_name,
     duration: transaction.duration_unit,
     status: transaction.status,
-    transactionDate: formatUnixDate(toUnixTimestamp("2025-04-16T02:49:39.801Z"), 'd MMMM yyyy'),
+    transactionDate: formatUnixDate(toUnixTimestamp(transaction.transaction_date), 'd MMMM yyyy'),
     paymentUrl: transaction.payment_url,
     id: transaction.id,
   }));
@@ -159,7 +159,7 @@ const columns = [
   }),
   columnHelper.accessor('transactionDate', {
     header: ({ column }) => {
-      return h('span', { class: 'text-xs font-medium' }, t('BILLING.TABLE.HEADER.PACKAGE'));
+      return h('span', { class: 'text-xs font-medium' }, t('BILLING.TABLE.HEADER.TRANSACTION_DATE'));
     },
     width: 150,
     cell: defaultSpanRender,
