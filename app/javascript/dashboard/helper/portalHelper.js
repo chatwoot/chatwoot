@@ -1,4 +1,27 @@
 /**
+ * Gets the base URL from configuration or custom domain
+ * @param {string} [customDomain] - Optional custom domain for the portal
+ * @returns {string} The base URL for the portal
+ * @throws {Error} If no valid base URL is found
+ */
+const getPortalBaseURL = customDomain => {
+  if (customDomain) {
+    return customDomain.startsWith('https')
+      ? customDomain
+      : `https://${customDomain}`;
+  }
+
+  const { hostURL, helpCenterURL } = window.chatwootConfig || {};
+  const baseURL = helpCenterURL || hostURL || '';
+
+  if (!baseURL) {
+    throw new Error('No valid base URL found in configuration');
+  }
+
+  return baseURL;
+};
+
+/**
  * Builds a portal URL using the provided portal slug and optional custom domain
  * @param {string} portalSlug - The slug identifier for the portal
  * @param {string} [customDomain] - Optional custom domain for the portal
@@ -6,21 +29,7 @@
  * @throws {Error} If portalSlug is not provided or invalid
  */
 export const buildPortalURL = (portalSlug, customDomain) => {
-  const { hostURL, helpCenterURL } = window.chatwootConfig || {};
-  let baseURL = '';
-
-  if (customDomain) {
-    baseURL = customDomain.startsWith('https')
-      ? customDomain
-      : `https://${customDomain}`;
-  } else {
-    baseURL = helpCenterURL || hostURL || '';
-  }
-
-  if (!baseURL) {
-    throw new Error('No valid base URL found in configuration');
-  }
-
+  const baseURL = getPortalBaseURL(customDomain);
   return `${baseURL}/hc/${portalSlug}`;
 };
 
