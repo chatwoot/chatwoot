@@ -1269,7 +1269,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
   add_foreign_key "canned_response_inboxes", "canned_responses"
   add_foreign_key "canned_response_inboxes", "inboxes"
   add_foreign_key "inboxes", "portals"
-  add_foreign_key "messages", "canned_responses", on_delete: :nullify
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

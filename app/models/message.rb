@@ -39,10 +39,6 @@
 #  index_messages_on_sender_type_and_sender_id          (sender_type,sender_id)
 #  index_messages_on_source_id                          (source_id)
 #
-# Foreign Keys
-#
-#  fk_rails_...  (canned_response_id => canned_responses.id) ON DELETE => nullify
-#
 
 class Message < ApplicationRecord
   include MessageFilterHelpers
@@ -128,7 +124,7 @@ class Message < ApplicationRecord
 
   belongs_to :account
   belongs_to :inbox
-  belongs_to :template, class_name: 'CannedResponse', foreign_key: 'canned_response_id', optional: true
+  belongs_to :template, class_name: 'CannedResponse', foreign_key: 'canned_response_id', optional: true, inverse_of: :messages
   belongs_to :conversation, touch: true
   belongs_to :sender, polymorphic: true, optional: true
 
