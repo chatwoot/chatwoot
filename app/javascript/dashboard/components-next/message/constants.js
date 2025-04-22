@@ -64,6 +64,7 @@ export const CONTENT_TYPES = {
   INPUT_CSAT: 'input_csat',
   INTEGRATIONS: 'integrations',
   STICKER: 'sticker',
+  SHOPEE_CARD: 'shopee_card',
 };
 
 export const MEDIA_TYPES = [

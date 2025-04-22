@@ -1,4 +1,6 @@
 class Integrations::Shopee::Message < Integrations::Shopee::Base
+  MAX_PAGE_SIZE = 60
+
   def list(conversation_id)
     auth_client.query({
                         conversation_id: conversation_id,

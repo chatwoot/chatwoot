@@ -71,6 +71,8 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def prepare_mentions(content)
     @slack_mention_codes = {}
+    return if content.blank?
+
     mapping = { 'user' => User, 'team' => Team }
 
     content.scan(SLACK_MENTION_REGEX).each do |original, type, id|

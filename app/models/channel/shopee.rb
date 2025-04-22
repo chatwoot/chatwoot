@@ -23,6 +23,10 @@ class Channel::Shopee < ApplicationRecord
   validates :partner_id, presence: true
   validates :shop_id, presence: true, uniqueness: { scope: :account_id }
 
+  def name
+    'Shopee'
+  end
+
   def refresh_access_token!
     response = Integrations::Shopee::Auth.new(shop_id: shop_id).refresh_access_token(refresh_token)
     update!({

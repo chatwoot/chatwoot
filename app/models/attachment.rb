@@ -39,6 +39,7 @@ class Attachment < ApplicationRecord
   has_one_attached :file
   validate :acceptable_file
   validates :external_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
+  after_commit :backup_file_from_url, on: :create
   enum file_type: { :image => 0, :audio => 1, :video => 2, :file => 3, :location => 4, :fallback => 5, :share => 6, :story_mention => 7,
                     :contact => 8, :ig_reel => 9 }
 
@@ -50,7 +51,7 @@ class Attachment < ApplicationRecord
 
   # NOTE: the URl returned does a 301 redirect to the actual file
   def file_url
-    file.attached? ? url_for(file) : ''
+    file.attached? ? url_for(file) : external_url
   end
 
   # NOTE: for External services use this methods since redirect doesn't work effectively in a lot of cases
@@ -69,6 +70,10 @@ class Attachment < ApplicationRecord
 
   def with_attached_file?
     [:image, :audio, :video, :file].include?(file_type.to_sym)
+  end
+
+  def backup_file_from_url
+    Attachments::BackupFileJob.perform_later(id) if external_url.present?
   end
 
   private
@@ -103,8 +108,8 @@ class Attachment < ApplicationRecord
       data_url: file_url,
       thumb_url: thumb_url,
       file_size: file.byte_size,
-      width: file.metadata[:width],
-      height: file.metadata[:height]
+      width: file.metadata.to_h[:width],
+      height: file.metadata.to_h[:height],
     }
 
     metadata[:data_url] = metadata[:thumb_url] = external_url if message.inbox.instagram? && message.incoming?

@@ -74,6 +74,10 @@ export const useInbox = () => {
     return channelType.value === INBOX_TYPES.TELEGRAM;
   });
 
+  const isAShopeeChannel = computed(() => {
+    return channelType.value === INBOX_TYPES.SHOPEE;
+  });
+
   const whatsAppAPIProvider = computed(() => {
     return inbox.value.provider || '';
   });
@@ -136,6 +140,7 @@ export const useInbox = () => {
     isAPIInbox,
     isASmsInbox,
     isATelegramChannel,
+    isAShopeeChannel,
     isATwilioChannel,
     isAWebWidgetInbox,
     isAWhatsAppChannel,

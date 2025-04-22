@@ -1,6 +1,7 @@
 class Integrations::Shopee::Constants
   PRODUCTION_DOMAIN = 'https://partner.shopeemobile.com'.freeze
-  SANDBOX_DOMAIN = 'https://partner.test-stable.shopeemobile.com'.freeze
+  # SANDBOX_DOMAIN = 'https://partner.test-stable.shopeemobile.com'.freeze
+  SANDBOX_DOMAIN = 'https://partner.shopeemobile.com'.freeze
 
   def self.partner_id
     @partner_id ||= ENV.fetch('SHOPEE_PARTNER_ID', nil)

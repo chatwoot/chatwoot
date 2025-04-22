@@ -1,0 +1,88 @@
+<script setup>
+import { currencyFormatter } from './helper/formatter.js';
+</script>
+
+<script>
+export default {
+  name: 'ChatProductInfos',
+  props: {
+    data: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+  data() {
+    return {
+      cardData: this.data,
+      items: this.data.chatProductInfos || [],
+    };
+  },
+  methods: {
+    itemImage(item) {
+      return `https://cf.shopee.vn/file/${item.thumbUrl}_tn`;
+    },
+    currencyFormat(price) {
+      return currencyFormatter(price);
+    },
+  },
+};
+</script>
+
+<template>
+  <ul class="flex flex-col gap-2 list-none shopee-card">
+    <li v-for="(item, index) in items" :key="index">
+      <a
+        :href="`https://shopee.vn/product/${item.shopId}/${item.itemId}`"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center gap-2"
+      >
+        <img class="itemImage" :src="itemImage(item)" />
+        <div class="itemInfo">
+          <p class="itemName">{{ item.name }}</p>
+          <p class="itemPrices">
+            <span class="itemCurrentPrice">
+              {{ currencyFormat(item.price) }}
+            </span>
+            <span class="itemOriginalPrice">
+              {{ currencyFormat(item.priceBeforeDiscount) }}
+            </span>
+          </p>
+        </div>
+      </a>
+    </li>
+  </ul>
+</template>
+
+<style lang="scss">
+ul.shopee-card {
+  li {
+    img.itemImage {
+      @apply w-16 h-16 rounded-lg;
+    }
+
+    .itemInfo {
+      @apply flex flex-col gap-1;
+    }
+
+    p {
+      @apply text-xs;
+
+      &.itemName {
+        @apply text-slate-900 dark:text-slate-900;
+      }
+
+      &.itemPrices {
+        @apply flex items-center gap-1;
+
+        span.itemCurrentPrice {
+          @apply flex-1 text-slate-900 dark:text-slate-900 font-semibold text-end;
+        }
+        span.itemOriginalPrice {
+          @apply text-slate-400 dark:text-slate-400 line-through text-end;
+        }
+      }
+    }
+  }
+}
+</style>

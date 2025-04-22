@@ -23,8 +23,10 @@ import {
 import Avatar from 'next/avatar/Avatar.vue';
 
 import TextBubble from './bubbles/Text/Index.vue';
+import CardBubble from './bubbles/Card.vue';
 import ActivityBubble from './bubbles/Activity.vue';
 import ImageBubble from './bubbles/Image.vue';
+import StickerBubble from './bubbles/Sticker.vue';
 import FileBubble from './bubbles/File.vue';
 import AudioBubble from './bubbles/Audio.vue';
 import VideoBubble from './bubbles/Video.vue';
@@ -265,6 +267,8 @@ const shouldShowAvatar = computed(() => {
 });
 
 const componentToRender = computed(() => {
+  console.log('contentType', props.contentType);
+
   if (props.isEmailInbox && !props.private) {
     const emailInboxTypes = [MESSAGE_TYPES.INCOMING, MESSAGE_TYPES.OUTGOING];
     if (emailInboxTypes.includes(props.messageType)) return EmailBubble;
@@ -272,6 +276,14 @@ const componentToRender = computed(() => {
 
   if (props.contentType === CONTENT_TYPES.INPUT_CSAT) {
     return CSATBubble;
+  }
+
+  if (props.contentType === CONTENT_TYPES.STICKER) {
+    return StickerBubble;
+  }
+
+  if (props.contentType === CONTENT_TYPES.SHOPEE_CARD) {
+    return CardBubble;
   }
 
   if (
@@ -364,6 +376,8 @@ const shouldRenderMessage = computed(() => {
   const hasAttachments = !!(props.attachments && props.attachments.length > 0);
   const isEmailContentType = props.contentType === CONTENT_TYPES.INCOMING_EMAIL;
   const isUnsupported = props.contentAttributes?.isUnsupported;
+  const isShopeeCard = props.contentType === CONTENT_TYPES.SHOPEE_CARD;
+  const isStickerBubble = props.contentType === CONTENT_TYPES.STICKER;
   const isAnIntegrationMessage =
     props.contentType === CONTENT_TYPES.INTEGRATIONS;
 
@@ -372,7 +386,9 @@ const shouldRenderMessage = computed(() => {
     props.content ||
     isEmailContentType ||
     isUnsupported ||
-    isAnIntegrationMessage
+    isAnIntegrationMessage ||
+    isShopeeCard ||
+    isStickerBubble
   );
 });
 
