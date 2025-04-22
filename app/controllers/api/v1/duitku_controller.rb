@@ -173,8 +173,8 @@ class Api::V1::DuitkuController < Api::BaseController
               notification['amount'],
               notification['productDetail'],
             ).deliver_later
-          Rails.logger.info("Payment confirmed & invoice sent to #{user.email} (##{transaction.transaction_id})")
-        end
+            Rails.logger.info("Payment confirmed & invoice sent to #{user.email} (##{transaction.transaction_id})")
+          end
           
           Rails.logger.info("Updated subscription and payment to paid status")
         else
