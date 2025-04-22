@@ -1,5 +1,5 @@
 class HookJob < MutexApplicationJob
-  retry_on LockAcquisitionError, wait: 3.seconds, attempts: 3
+  retry_on LockAcquisitionError, wait: 5.seconds, attempts: 3
 
   queue_as :medium
 
