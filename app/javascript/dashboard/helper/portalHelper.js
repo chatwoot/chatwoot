@@ -1,6 +1,6 @@
-export const buildPortalURL = portalSlug => {
+export const buildPortalURL = (portalSlug, customDomain) => {
   const { hostURL, helpCenterURL } = window.chatwootConfig;
-  const baseURL = helpCenterURL || hostURL || '';
+  const baseURL = customDomain || helpCenterURL || hostURL || '';
   return `${baseURL}/hc/${portalSlug}`;
 };
 
@@ -8,9 +8,10 @@ export const buildPortalArticleURL = (
   portalSlug,
   categorySlug,
   locale,
-  articleSlug
+  articleSlug,
+  customDomain
 ) => {
-  const portalURL = buildPortalURL(portalSlug);
+  const portalURL = buildPortalURL(portalSlug, customDomain);
   return `${portalURL}/articles/${articleSlug}`;
 };
 
