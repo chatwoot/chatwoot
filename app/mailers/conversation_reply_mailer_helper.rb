@@ -15,7 +15,7 @@ module ConversationReplyMailerHelper
     end
     ms_smtp_settings
     google_smtp_settings
-    set_delivery_method
+    set_delivery_method unless @inbox.imap_enabled? && (@channel.microsoft? || @channel.google?)
 
     # Email type detection logic:
     # - email_reply: Sets @message with a single message
@@ -92,7 +92,7 @@ module ConversationReplyMailerHelper
   end
 
   def set_delivery_method
-    return unless @inbox.inbox_type == 'Email' && @channel.smtp_enabled
+    return unless @inbox.email? && @channel.smtp_enabled
 
     smtp_settings = {
       address: @channel.smtp_address,
