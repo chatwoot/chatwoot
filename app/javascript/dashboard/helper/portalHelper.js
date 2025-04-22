@@ -1,16 +1,17 @@
 /**
- * Gets the base URL from configuration or custom domain
- * @param {string} [customDomain] - Optional custom domain for the portal
- * @returns {string} The base URL for the portal
+ * Formats a custom domain with https protocol if needed
+ * @param {string} customDomain - The custom domain to format
+ * @returns {string} Formatted domain with https protocol
+ */
+const formatCustomDomain = customDomain =>
+  customDomain.startsWith('https') ? customDomain : `https://${customDomain}`;
+
+/**
+ * Gets the default base URL from configuration
+ * @returns {string} The default base URL
  * @throws {Error} If no valid base URL is found
  */
-const getPortalBaseURL = customDomain => {
-  if (customDomain) {
-    return customDomain.startsWith('https')
-      ? customDomain
-      : `https://${customDomain}`;
-  }
-
+const getDefaultBaseURL = () => {
   const { hostURL, helpCenterURL } = window.chatwootConfig || {};
   const baseURL = helpCenterURL || hostURL || '';
 
@@ -20,6 +21,14 @@ const getPortalBaseURL = customDomain => {
 
   return baseURL;
 };
+
+/**
+ * Gets the base URL from configuration or custom domain
+ * @param {string} [customDomain] - Optional custom domain for the portal
+ * @returns {string} The base URL for the portal
+ */
+const getPortalBaseURL = customDomain =>
+  customDomain ? formatCustomDomain(customDomain) : getDefaultBaseURL();
 
 /**
  * Builds a portal URL using the provided portal slug and optional custom domain
