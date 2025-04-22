@@ -34,6 +34,11 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     render json: { content: translated_content }
   end
 
+  def fix_formatting
+    Digitaltolk::FormatOutgoingEmailService.new(message).perform
+    head :ok
+  end
+
   private
 
   def message

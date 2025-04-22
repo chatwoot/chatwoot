@@ -280,10 +280,6 @@ export default {
       type: Function,
       default: () => {},
     },
-    channelType: {
-      type: String,
-      default: '',
-    },
   },
   data() {
     return {

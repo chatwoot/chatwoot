@@ -10,16 +10,23 @@ class Digitaltolk::AddMessageService
 
   def perform
     return if @conversation.blank?
+    return if content.blank?
 
-    create_message
+    message = create_message
+    schedule_formatting(message)
+    message
   end
 
   private
 
   def create_message
-    return if content.blank?
-
     Messages::MessageBuilder.new(sender, @conversation, message_params).perform
+  end
+
+  def schedule_formatting(message)
+    return unless message
+
+    Digitaltolk::FormatOutgoingEmailJob.perform_async(message.id)
   end
 
   def message_type

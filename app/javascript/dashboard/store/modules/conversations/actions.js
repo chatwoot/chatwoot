@@ -13,6 +13,7 @@ import {
 } from './helpers/actionHelpers';
 import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
+import fixFormattingActions from './actions/fixFormattingActions';
 import smartActions from './actions/smartActions';
 
 export const hasMessageFailedWithExternalError = pendingMessage => {
@@ -526,6 +527,7 @@ const actions = {
   ...smartActions,
   ...messageReadActions,
   ...messageTranslateActions,
+  ...fixFormattingActions,
 };
 
 export default actions;

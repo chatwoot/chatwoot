@@ -31,6 +31,7 @@
         <woot-button
           class="!w-6 !h-6 text-sm rounded-md hover:bg-slate-50 dark:hover:bg-slate-800 clear secondary"
           icon="dismiss"
+          type="button"
           @click="onRemoveAttachment(index)"
         />
       </div>

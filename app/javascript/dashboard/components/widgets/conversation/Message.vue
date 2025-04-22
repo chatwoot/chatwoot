@@ -302,7 +302,7 @@ export default {
     message() {
       // If the message is an email, emailMessageContent would be present
       // In that case, we would use letter package to render the email
-      if (this.emailMessageContent && this.isIncoming) {
+      if (this.emailMessageContent && (this.isIncoming || this.isOutgoing)) {
         return this.emailMessageContent;
       }
 

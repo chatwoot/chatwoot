@@ -369,7 +369,16 @@ export default {
         this.accountId,
         FEATURE_FLAGS.AI_QUALITY_CHECK
       );
-    }
+    },
+    translationFeatureEnabled(){
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.AI_TRANSLATION
+      );
+    },
+    shouldTranslate() {
+      return this.needsTranslation && this.translationFeatureEnabled;
+    },
   },
   data() {
     return {
@@ -418,7 +427,8 @@ export default {
         this.$refs.replyToMultipleAction.hideAILoader();
       }
 
-      if (this.withResponse && this.checkPassed && !this.needsTranslation) {
+      if (this.withResponse && this.checkPassed && !this.shouldTranslate) {
+        this.showAIAssistanceModal = false;
         this.proceedWithSendingMessage();
       }
     },

@@ -24,7 +24,7 @@
         </h4>
         <p class="text-sm" v-dompurify-html="formatMessage(suggestedContent, false)" />
       </div>
-      <div v-if="canShowTranslation">
+      <div v-if="canTranslateResponse">
         <p>
           {{
             $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.TRANSLATION.TRANSLATION_MESSAGE')
@@ -171,9 +171,12 @@ export default {
         FEATURE_FLAGS.AI_TRANSLATION
       );
     },
+    canTranslateResponse() {
+      return this.canShowTranslation && this.translationFeatureEnabled;
+    }
   },
   mounted() {
-    if (this.canShowTranslation && this.translationFeatureEnabled) {
+    if (this.canTranslateResponse) {
       this.translateMessage()
     }
   },

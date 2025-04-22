@@ -45,6 +45,7 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
+    "SUCCESS_FORMATTED_MESSAGE": "Message formatted successfully",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "No response",
     "RATING_TITLE": "Rating",
@@ -229,6 +230,7 @@
       "COPY_PERMALINK": "Copy link to the message",
       "SMART_ACTIONS": "Smart actions",
       "LINK_COPIED": "Message URL copied to the clipboard",
+      "FIX_FORMATTING": "Fix formatting",
       "DELETE_CONFIRMATION": {
         "TITLE": "Are you sure you want to delete this message?",
         "MESSAGE": "You cannot undo this action",

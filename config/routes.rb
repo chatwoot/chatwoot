@@ -94,6 +94,7 @@ Rails.application.routes.draw do
                 member do
                   post :translate
                   post :retry
+                  post :fix_formatting
                 end
               end
               resources :smart_actions, only: [:index, :create] do

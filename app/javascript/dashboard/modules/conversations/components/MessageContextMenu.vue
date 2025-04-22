@@ -71,6 +71,15 @@
           variant="icon"
           @click="handleTranslate"
         />
+        <menu-item
+          v-if="showFixFormatting"
+          :option="{
+            icon: 'document',
+            label: $t('CONVERSATION.CONTEXT_MENU.FIX_FORMATTING'),
+          }"
+          variant="icon"
+          @click="handleFixFormatting"
+        />
         <hr />
         <menu-item
           :option="{
@@ -123,6 +132,7 @@ import {
   ACCOUNT_EVENTS,
   CONVERSATION_EVENTS,
 } from '../../../helper/AnalyticsHelper/events';
+import { MESSAGE_TYPE } from 'shared/constants/messages';
 import TranslateModal from 'dashboard/components/widgets/conversation/bubble/TranslateModal.vue';
 import MenuItem from '../../../components/widgets/conversation/contextMenu/menuItem.vue';
 
@@ -177,6 +187,15 @@ export default {
     },
     contentAttributes() {
       return this.message.content_attributes;
+    },
+    showFixFormatting() {
+      return this.isOutgoing && !this.hasEmailContent;
+    },
+    hasEmailContent() {
+      return this.message.content_attributes?.email !== null && this.message.content_attributes?.email !== undefined;
+    },
+    isOutgoing() {
+      return this.message.message_type === MESSAGE_TYPE.OUTGOING;
     },
   },
   methods: {
@@ -234,6 +253,14 @@ export default {
       this.$track(CONVERSATION_EVENTS.TRANSLATE_A_MESSAGE);
       this.handleClose();
       this.showTranslateModal = true;
+    },
+    handleFixFormatting() {
+      this.$store.dispatch('fixFormatting', {
+        conversationId: this.conversationId,
+        messageId: this.messageId,
+      });
+      this.handleClose();
+      this.showAlert(this.$t('CONVERSATION.SUCCESS_FORMATTED_MESSAGE'));
     },
     handleReplyTo() {
       this.$emit('replyTo', this.message);

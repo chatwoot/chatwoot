@@ -119,6 +119,12 @@ class MessageApi extends ApiClient {
       }
     );
   }
+
+  fixFormatting(conversationId, messageId) {
+    return axios.post(
+      `${this.url}/${conversationId}/messages/${messageId}/fix_formatting`
+    );
+  }
 }
 
 export default new MessageApi();
