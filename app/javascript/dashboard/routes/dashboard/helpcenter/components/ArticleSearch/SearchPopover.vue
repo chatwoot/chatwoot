@@ -77,7 +77,7 @@ export default {
         '',
         '',
         article.slug,
-        'chatwoot.help'
+        this.portalCustomDomain
       );
     },
     localeName(code) {

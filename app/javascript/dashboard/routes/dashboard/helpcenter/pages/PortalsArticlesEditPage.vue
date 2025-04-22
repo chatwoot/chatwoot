@@ -20,17 +20,23 @@ const articleById = useMapGetter('articles/articleById');
 
 const article = computed(() => articleById.value(articleSlug));
 
+const portalBySlug = useMapGetter('portals/portalBySlug');
+
+const portal = computed(() => portalBySlug.value(portalSlug));
+
 const isUpdating = ref(false);
 const isSaved = ref(false);
 
 const portalLink = computed(() => {
   const { slug: categorySlug, locale: categoryLocale } = article.value.category;
   const { slug: articleSlugValue } = article.value;
+  const portalCustomDomain = portal.value?.custom_domain;
   return buildPortalArticleURL(
     portalSlug,
     categorySlug,
     categoryLocale,
-    articleSlugValue
+    articleSlugValue,
+    portalCustomDomain
   );
 });
 

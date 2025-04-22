@@ -1,6 +1,10 @@
 export const buildPortalURL = (portalSlug, customDomain) => {
   const { hostURL, helpCenterURL } = window.chatwootConfig;
-  const baseURL = customDomain || helpCenterURL || hostURL || '';
+  const baseURL =
+    (customDomain && `https://${customDomain}`) ||
+    helpCenterURL ||
+    hostURL ||
+    '';
   return `${baseURL}/hc/${portalSlug}`;
 };
 
