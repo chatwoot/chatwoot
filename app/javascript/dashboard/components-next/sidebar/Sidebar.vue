@@ -8,7 +8,6 @@ import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useStorage } from '@vueuse/core';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
@@ -36,18 +35,6 @@ const toggleShortcutModalFn = show => {
     emit('closeKeyShortcutModal');
   }
 };
-
-const currentAccountId = useMapGetter('getCurrentAccountId');
-const isFeatureEnabledonAccount = useMapGetter(
-  'accounts/isFeatureEnabledonAccount'
-);
-
-const showV4Routes = computed(() => {
-  return isFeatureEnabledonAccount.value(
-    currentAccountId.value,
-    FEATURE_FLAGS.REPORT_V4
-  );
-});
 
 useSidebarKeyboardShortcuts(toggleShortcutModalFn);
 
@@ -116,32 +103,7 @@ const newReportRoutes = () => [
   },
 ];
 
-const oldReportRoutes = () => [
-  {
-    name: 'Reports Agent',
-    label: t('SIDEBAR.REPORTS_AGENT'),
-    to: accountScopedRoute('agent_reports'),
-  },
-  {
-    name: 'Reports Label',
-    label: t('SIDEBAR.REPORTS_LABEL'),
-    to: accountScopedRoute('label_reports'),
-  },
-  {
-    name: 'Reports Inbox',
-    label: t('SIDEBAR.REPORTS_INBOX'),
-    to: accountScopedRoute('inbox_reports'),
-  },
-  {
-    name: 'Reports Team',
-    label: t('SIDEBAR.REPORTS_TEAM'),
-    to: accountScopedRoute('team_reports'),
-  },
-];
-
-const reportRoutes = computed(() =>
-  showV4Routes.value ? newReportRoutes() : oldReportRoutes()
-);
+const reportRoutes = computed(() => newReportRoutes());
 
 const menuItems = computed(() => {
   return [

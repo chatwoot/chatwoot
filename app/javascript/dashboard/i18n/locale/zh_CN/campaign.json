@@ -41,8 +41,8 @@
           },
           "SENT_BY": {
             "LABEL": "发送者",
-            "PLACEHOLDER": "请选择发送者",
-            "ERROR": "发送者是必填项"
+            "PLACEHOLDER": "请选择发件人",
+            "ERROR": "发件人是必填项"
           },
           "END_POINT": {
             "LABEL": "网址",

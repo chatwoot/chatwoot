@@ -121,6 +121,9 @@ export default {
         this.isATwilioWhatsAppChannel
       );
     },
+    isAnInstagramChannel() {
+      return this.channelType === INBOX_TYPES.INSTAGRAM;
+    },
   },
   methods: {
     inboxHasFeature(feature) {

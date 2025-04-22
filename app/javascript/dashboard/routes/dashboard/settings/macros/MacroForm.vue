@@ -121,7 +121,7 @@ export default {
         @reset-action="resetNode"
       />
     </div>
-    <div class="w-full md:w-1/3">
+    <div class="w-full md:w-1/3 pb-4">
       <MacroProperties
         :macro-name="macro.name"
         :macro-visibility="macro.visibility"

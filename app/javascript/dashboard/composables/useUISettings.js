@@ -8,6 +8,7 @@ export const DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER = Object.freeze([
   { name: 'contact_attributes' },
   { name: 'previous_conversation' },
   { name: 'conversation_participants' },
+  { name: 'shopify_orders' },
 ]);
 
 export const DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER = Object.freeze([
@@ -35,7 +36,7 @@ const useConversationSidebarItemsOrder = uiSettings => {
     const { conversation_sidebar_items_order: itemsOrder } = uiSettings.value;
     // If the sidebar order is not set, use the default order.
     if (!itemsOrder) {
-      return DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER;
+      return [...DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER];
     }
     // Create a copy of itemsOrder to avoid mutating the original store object.
     const itemsOrderCopy = [...itemsOrder];

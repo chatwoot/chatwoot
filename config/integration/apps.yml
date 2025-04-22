@@ -179,3 +179,10 @@ dyte:
       },
     ]
   visible_properties: ['organization_id']
+
+shopify:
+  id: shopify
+  logo: shopify.png
+  i18n_key: shopify
+  hook_type: account
+  allow_multiple_hooks: false

@@ -9,6 +9,7 @@ import validations from './validations';
 import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
 import SearchableDropdown from './SearchableDropdown.vue';
 import { LINEAR_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   conversationId: {
@@ -248,20 +249,20 @@ onMounted(getTeams);
       />
     </div>
     <div class="flex items-center justify-end w-full gap-2 mt-8">
-      <woot-button
-        class="px-4 rounded-xl button clear outline-woot-200/50 outline"
+      <Button
+        faded
+        slate
+        type="reset"
+        :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CANCEL')"
         @click.prevent="onClose"
-      >
-        {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CANCEL') }}
-      </woot-button>
-      <woot-button
-        :is-disabled="isSubmitDisabled"
-        class="px-4 rounded-xl"
+      />
+      <Button
+        type="submit"
+        :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CREATE')"
+        :disabled="isSubmitDisabled"
         :is-loading="isCreating"
         @click.prevent="createIssue"
-      >
-        {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CREATE') }}
-      </woot-button>
+      />
     </div>
   </div>
 </template>

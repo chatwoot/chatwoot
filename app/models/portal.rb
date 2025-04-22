@@ -30,14 +30,6 @@ class Portal < ApplicationRecord
   has_many :categories, dependent: :destroy_async
   has_many :folders,  through: :categories
   has_many :articles, dependent: :destroy_async
-  has_many :portal_members,
-           class_name: :PortalMember,
-           dependent: :destroy_async
-  has_many :members,
-           through: :portal_members,
-           class_name: :User,
-           dependent: :nullify,
-           source: :user
   has_one_attached :logo
   has_many :inboxes, dependent: :nullify
   belongs_to :channel_web_widget, class_name: 'Channel::WebWidget', optional: true
@@ -48,8 +40,6 @@ class Portal < ApplicationRecord
   validates :slug, presence: true, uniqueness: true
   validates :custom_domain, uniqueness: true, allow_nil: true
   validate :config_json_format
-
-  accepts_nested_attributes_for :members
 
   scope :active, -> { where(archived: false) }
 

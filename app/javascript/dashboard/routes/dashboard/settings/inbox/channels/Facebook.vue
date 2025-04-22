@@ -11,6 +11,7 @@ import ChannelApi from '../../../../../api/channels';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import router from '../../../../index';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 import { loadScript } from 'dashboard/helper/DOMHelpers';
 import * as Sentry from '@sentry/vue';
@@ -19,6 +20,7 @@ export default {
   components: {
     LoadingState,
     PageHeader,
+    NextButton,
   },
   mixins: [globalConfigMixin],
   setup() {
@@ -207,7 +209,7 @@ export default {
 
 <template>
   <div
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class="w-full h-full col-span-6 p-6 overflow-auto border border-b-0 rounded-t-lg border-n-weak bg-n-solid-1"
   >
     <div
       v-if="!hasLoginStarted"
@@ -240,7 +242,7 @@ export default {
       <LoadingState v-else-if="showLoader" :message="emptyStateMessage" />
       <form
         v-else
-        class="flex flex-wrap mx-0"
+        class="flex flex-col flex-wrap mx-0"
         @submit.prevent="createChannel()"
       >
         <div class="w-full">
@@ -291,7 +293,7 @@ export default {
             </label>
           </div>
           <div class="w-full text-right">
-            <input type="submit" value="Create Inbox" class="button" />
+            <NextButton :label="$t('INBOX_MGMT.ADD.FB.CREATE_INBOX')" />
           </div>
         </div>
       </form>

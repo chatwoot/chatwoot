@@ -98,12 +98,20 @@ class Inbox < ApplicationRecord
     update_account_cache
   end
 
+  def sms?
+    channel_type == 'Channel::Sms'
+  end
+
   def facebook?
     channel_type == 'Channel::FacebookPage'
   end
 
   def instagram?
-    facebook? && channel.instagram_id.present?
+    (facebook? || instagram_direct?) && channel.instagram_id.present?
+  end
+
+  def instagram_direct?
+    channel_type == 'Channel::Instagram'
   end
 
   def web_widget?
