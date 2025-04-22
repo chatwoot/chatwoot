@@ -55,6 +55,8 @@ class Integrations::App
       GlobalConfigService.load('LINEAR_CLIENT_ID', nil).present?
     when 'shopify'
       account.feature_enabled?('shopify_integration') && GlobalConfigService.load('SHOPIFY_CLIENT_ID', nil).present?
+    when 'leadsquared'
+      account.feature_enabled?('crm_integration')
     else
       true
     end
