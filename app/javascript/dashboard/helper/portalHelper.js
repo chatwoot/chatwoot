@@ -6,10 +6,6 @@
  * @throws {Error} If portalSlug is not provided or invalid
  */
 export const buildPortalURL = (portalSlug, customDomain) => {
-  if (!portalSlug || typeof portalSlug !== 'string') {
-    throw new Error('Portal slug is required and must be a string');
-  }
-
   const { hostURL, helpCenterURL } = window.chatwootConfig || {};
   const normalizedPortalSlug = portalSlug.trim().toLowerCase();
   let baseURL = '';
