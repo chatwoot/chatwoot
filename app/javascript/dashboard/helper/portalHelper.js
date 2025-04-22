@@ -12,12 +12,14 @@ export const buildPortalURL = (portalSlug, customDomain) => {
 
   const { hostURL, helpCenterURL } = window.chatwootConfig || {};
   const normalizedPortalSlug = portalSlug.trim().toLowerCase();
-
   let baseURL = '';
+
   if (customDomain) {
-    baseURL = `https://${customDomain.trim().replace(/^https?:\/\//, '')}`;
+    baseURL = customDomain.startsWith('https')
+      ? customDomain
+      : `https://${customDomain}`;
   } else {
-    baseURL = (helpCenterURL || hostURL || '').replace(/\/$/, '');
+    baseURL = helpCenterURL || hostURL || '';
   }
 
   if (!baseURL) {
