@@ -49,6 +49,7 @@ class HookJob < MutexApplicationJob
   def process_leadsquared_integration_with_lock(hook, event_name, event_data)
     valid_event_names = ['contact.updated', 'conversation.created', 'conversation.resolved']
     return unless valid_event_names.include?(event_name)
+    return unless hook.feature_allowed?
 
     key = format(::Redis::Alfred::CRM_PROCESS_MUTEX, hook_id: hook.id)
     with_lock(key) do
