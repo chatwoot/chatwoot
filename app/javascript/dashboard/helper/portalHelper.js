@@ -19,7 +19,7 @@ const getDefaultBaseURL = () => {
     throw new Error('No valid base URL found in configuration');
   }
 
-  return baseURL;
+  return `${baseURL}/hc`;
 };
 
 /**
@@ -39,7 +39,7 @@ const getPortalBaseURL = customDomain =>
  */
 export const buildPortalURL = (portalSlug, customDomain) => {
   const baseURL = getPortalBaseURL(customDomain);
-  return `${baseURL}/hc/${portalSlug}`;
+  return `${baseURL}/${portalSlug}`;
 };
 
 export const buildPortalArticleURL = (
