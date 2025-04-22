@@ -39,7 +39,7 @@ describe('PortalHelper', () => {
           'article-slug',
           'custom-domain.dev'
         )
-      ).toEqual('https://custom-domain.dev/handbook/articles/article-slug');
+      ).toEqual('https://custom-domain.dev/hc/handbook/articles/article-slug');
     });
 
     it('handles https in custom domain correctly', () => {
@@ -55,7 +55,7 @@ describe('PortalHelper', () => {
           'article-slug',
           'https://custom-domain.dev'
         )
-      ).toEqual('https://custom-domain.dev/handbook/articles/article-slug');
+      ).toEqual('https://custom-domain.dev/hc/handbook/articles/article-slug');
     });
 
     it('uses hostURL when helpCenterURL is not available', () => {
