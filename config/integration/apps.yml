@@ -190,6 +190,7 @@ shopify:
 
 leadsquared:
   id: leadsquared
+  feature_flag: crm_integration
   logo: leadsquared.png
   i18n_key: leadsquared
   action: /leadsquared

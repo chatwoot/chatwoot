@@ -25,6 +25,7 @@ class Integrations::Hook < ApplicationRecord
   validates :app_id, presence: true
   validates :inbox_id, presence: true, if: -> { hook_type == 'inbox' }
   validate :validate_settings_json_schema
+  validate :ensure_feature_enabled
   validates :app_id, uniqueness: { scope: [:account_id], unless: -> { app.present? && app.params[:allow_multiple_hooks].present? } }
 
   # TODO: This seems to be only used for slack at the moment
@@ -66,6 +67,14 @@ class Integrations::Hook < ApplicationRecord
   end
 
   private
+
+  def ensure_feature_enabled
+    flag = app.params[:feature_flag]
+    return unless flag
+
+    feature_enabled = account.feature_enabled?(flag)
+    errors.add(:feature_flag, 'Feature not enabled') unless feature_enabled
+  end
 
   def ensure_hook_type
     self.hook_type = app.params[:hook_type] if app.present?
