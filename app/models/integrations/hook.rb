@@ -66,14 +66,17 @@ class Integrations::Hook < ApplicationRecord
     end
   end
 
+  def feature_allowed?
+    flag = app.params[:feature_flag]
+    return true unless flag
+
+    account.feature_enabled?(flag)
+  end
+
   private
 
   def ensure_feature_enabled
-    flag = app.params[:feature_flag]
-    return unless flag
-
-    feature_enabled = account.feature_enabled?(flag)
-    errors.add(:feature_flag, 'Feature not enabled') unless feature_enabled
+    errors.add(:feature_flag, 'Feature not enabled') unless feature_allowed?
   end
 
   def ensure_hook_type
