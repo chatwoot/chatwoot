@@ -1,6 +1,4 @@
 class AddIndexToMessages < ActiveRecord::Migration[7.0]
-  disable_ddl_transaction!
-
   def up
     # Enqueue the index creation job to be processed by Sidekiq
     DatabaseIndexWorker.perform_async('create')

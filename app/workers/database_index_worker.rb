@@ -1,6 +1,8 @@
 class DatabaseIndexWorker
   include Sidekiq::Worker
-  sidekiq_options queue: :async_database_migration, retry: 3
+  sidekiq_options queue: :async_database_migration,
+                  retry: 3,
+                  timeout: 86_400 # 24 hours – allows long‑running index operations
 
   def perform(action = 'create')
     case action
@@ -39,7 +41,7 @@ class DatabaseIndexWorker
 
   def reset_timeout
     # Reset statement timeout to default for this connection
-    ActiveRecord::Base.connection.execute "SET statement_timeout = '30000';" # 30 seconds
+    ActiveRecord::Base.connection.execute "SET statement_timeout = '#{ENV.fetch('POSTGRES_STATEMENT_TIMEOUT', '14s')}';" # Reset to default
   end
 
   def create_composite_index
