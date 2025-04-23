@@ -14,6 +14,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  allowDelete: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['delete']);
@@ -27,11 +31,9 @@ const handleDelete = () => {
 </script>
 
 <template>
-  <div
-    class="flex flex-col gap-2 py-2 mx-6 border-b border-n-strong group/note"
-  >
-    <div class="flex items-center justify-between">
-      <div class="flex items-center gap-1.5 py-2.5 min-w-0">
+  <div class="flex flex-col gap-2 border-b border-n-strong group/note">
+    <div class="flex items-center justify-between gap-2">
+      <div class="flex items-center gap-1.5 min-w-0">
         <Avatar
           :name="note?.user?.name || 'Bot'"
           :src="note?.user?.thumbnail || '/assets/images/chatwoot_bot.png'"
@@ -47,6 +49,7 @@ const handleDelete = () => {
         </div>
       </div>
       <Button
+        v-if="allowDelete"
         variant="faded"
         color="ruby"
         size="xs"
