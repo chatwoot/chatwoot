@@ -385,7 +385,11 @@
     "FORM": {
       "NAME": {
         "LABEL": "Назва компанії",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "PLACEHOLDER": "Введіть назву вашої компанії"
+      },
+      "DEALERSHIP": {
+        "LABEL": "ID Дилера",
+        "PLACEHOLDER": "Введіть ID дилера"
       },
       "SUBMIT": "Додати"
     }

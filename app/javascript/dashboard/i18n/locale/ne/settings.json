@@ -387,6 +387,10 @@
         "LABEL": "Company Name",
         "PLACEHOLDER": "Wayne Enterprises"
       },
+      "DEALERSHIP": {
+        "LABEL": "Dealership ID",
+        "PLACEHOLDER": "Enter your dealership ID"
+      },
       "SUBMIT": "बुझाउनुहोस्"
     }
   },

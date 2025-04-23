@@ -385,7 +385,11 @@
     "FORM": {
       "NAME": {
         "LABEL": "公司名稱",
-        "PLACEHOLDER": "Wayne 企業"
+        "PLACEHOLDER": "請輸入您的公司名稱"
+      },
+      "DEALERSHIP": {
+        "LABEL": "經銷商編號",
+        "PLACEHOLDER": "請輸入您的經銷商編號"
       },
       "SUBMIT": "送出"
     }

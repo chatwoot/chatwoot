@@ -27,7 +27,12 @@
       "LABEL": "Palavra-passe",
       "PLACEHOLDER": "Palavra-passe",
       "ERROR": "A senha é muito curta",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "IS_INVALID_PASSWORD": "A senha deve conter pelo menos 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial"
+    },
+    "DEALERSHIP": {
+      "LABEL": "ID da concessionária",
+      "PLACEHOLDER": "Digite o ID da sua concessionária",
+      "ERROR": "O ID da concessionária é obrigatório"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirmar senha",

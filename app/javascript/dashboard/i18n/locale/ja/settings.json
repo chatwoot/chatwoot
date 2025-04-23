@@ -384,8 +384,12 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "企業名",
-        "PLACEHOLDER": "例: Wayne Enterprise"
+        "LABEL": "会社名",
+        "PLACEHOLDER": "会社名を入力してください"
+      },
+      "DEALERSHIP": {
+        "LABEL": "ディーラーID",
+        "PLACEHOLDER": "ディーラーIDを入力してください"
       },
       "SUBMIT": "送信"
     }

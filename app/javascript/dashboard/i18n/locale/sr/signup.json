@@ -26,8 +26,13 @@
     "PASSWORD": {
       "LABEL": "Lozinka",
       "PLACEHOLDER": "Lozinka",
-      "ERROR": "Lozinka je prekratka.",
-      "IS_INVALID_PASSWORD": "Lozinka bi trebalo da sadrži najmanje 1 veliko slovo, 1 malo slovo, 1 broj i 1 specijalni karakter."
+      "ERROR": "Lozinka je prekratka",
+      "IS_INVALID_PASSWORD": "Lozinka mora da sadrži najmanje 1 veliko slovo, 1 malo slovo, 1 broj i 1 specijalni karakter"
+    },
+    "DEALERSHIP": {
+      "LABEL": "ID dilera",
+      "PLACEHOLDER": "Unesite svoj ID dilera",
+      "ERROR": "ID dilera je obavezan"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirm password",

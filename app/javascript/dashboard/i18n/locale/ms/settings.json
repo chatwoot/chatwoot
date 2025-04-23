@@ -384,8 +384,12 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Company Name",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "LABEL": "Nama Syarikat",
+        "PLACEHOLDER": "Masukkan nama syarikat anda"
+      },
+      "DEALERSHIP": {
+        "LABEL": "ID Pengedar",
+        "PLACEHOLDER": "Masukkan ID pengedar anda"
       },
       "SUBMIT": "Submit"
     }

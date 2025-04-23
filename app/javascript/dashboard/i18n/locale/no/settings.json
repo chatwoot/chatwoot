@@ -384,8 +384,12 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Firmaets navn",
-        "PLACEHOLDER": "Ola's bedrift"
+        "LABEL": "Selskapsnavn",
+        "PLACEHOLDER": "Skriv inn ditt selskapsnavn"
+      },
+      "DEALERSHIP": {
+        "LABEL": "Forhandler-ID",
+        "PLACEHOLDER": "Skriv inn din forhandler-ID"
       },
       "SUBMIT": "Send"
     }

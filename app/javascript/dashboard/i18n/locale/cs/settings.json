@@ -385,7 +385,11 @@
     "FORM": {
       "NAME": {
         "LABEL": "Název společnosti",
-        "PLACEHOLDER": "Wayne podniky"
+        "PLACEHOLDER": "Zadejte název vaší společnosti"
+      },
+      "DEALERSHIP": {
+        "LABEL": "ID Prodejce",
+        "PLACEHOLDER": "Zadejte ID prodejce"
       },
       "SUBMIT": "Odeslat"
     }

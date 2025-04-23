@@ -384,8 +384,12 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Cégnév",
-        "PLACEHOLDER": "Kovács Kft."
+        "LABEL": "Cég neve",
+        "PLACEHOLDER": "Adja meg a cég nevét"
+      },
+      "DEALERSHIP": {
+        "LABEL": "Márkakereskedés azonosító",
+        "PLACEHOLDER": "Adja meg a márkakereskedés azonosítóját"
       },
       "SUBMIT": "Elküldés"
     }

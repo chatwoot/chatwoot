@@ -385,7 +385,11 @@
     "FORM": {
       "NAME": {
         "LABEL": "Bedrijfsnaam",
-        "PLACEHOLDER": "Wayne Ondernemingen"
+        "PLACEHOLDER": "Voer uw bedrijfsnaam in"
+      },
+      "DEALERSHIP": {
+        "LABEL": "Dealer ID",
+        "PLACEHOLDER": "Voer uw dealer ID in"
       },
       "SUBMIT": "Bevestigen"
     }

@@ -29,6 +29,11 @@
       "ERROR": "La contraseña es demasiado corta",
       "IS_INVALID_PASSWORD": "La contraseña debe contener al menos 1 letra mayúscula, 1 letra minúscula, 1 número y 1 carácter especial"
     },
+    "DEALERSHIP": {
+      "LABEL": "ID de concesionario",
+      "PLACEHOLDER": "Ingrese su ID de concesionario",
+      "ERROR": "El ID de concesionario es obligatorio"
+    },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirmar contraseña",
       "PLACEHOLDER": "Confirmar contraseña",

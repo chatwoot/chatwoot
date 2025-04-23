@@ -385,7 +385,11 @@
     "FORM": {
       "NAME": {
         "LABEL": "Tên công ty",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "PLACEHOLDER": "Nhập tên công ty của bạn"
+      },
+      "DEALERSHIP": {
+        "LABEL": "Mã đại lý",
+        "PLACEHOLDER": "Nhập mã đại lý của bạn"
       },
       "SUBMIT": "Gửi"
     }

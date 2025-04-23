@@ -385,7 +385,11 @@
     "FORM": {
       "NAME": {
         "LABEL": "Įmonės pavadinimas",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "PLACEHOLDER": "Įveskite įmonės pavadinimą"
+      },
+      "DEALERSHIP": {
+        "LABEL": "Atstovo ID",
+        "PLACEHOLDER": "Įveskite savo atstovo ID"
       },
       "SUBMIT": "Pateikti"
     }

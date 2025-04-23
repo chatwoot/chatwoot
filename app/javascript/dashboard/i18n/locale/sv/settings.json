@@ -385,7 +385,11 @@
     "FORM": {
       "NAME": {
         "LABEL": "Företagsnamn",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "PLACEHOLDER": "Ange ditt företagsnamn"
+      },
+      "DEALERSHIP": {
+        "LABEL": "Återförsäljar-ID",
+        "PLACEHOLDER": "Ange ditt återförsäljar-ID"
       },
       "SUBMIT": "Skicka"
     }

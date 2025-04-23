@@ -24,10 +24,15 @@
       "ERROR": "Please enter a valid email address"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password",
-      "ERROR": "Password is too short",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "LABEL": "Kata laluan",
+      "PLACEHOLDER": "Kata laluan",
+      "ERROR": "Kata laluan terlalu pendek",
+      "IS_INVALID_PASSWORD": "Kata laluan mesti mengandungi sekurang-kurangnya 1 huruf besar, 1 huruf kecil, 1 nombor dan 1 aksara khas"
+    },
+    "DEALERSHIP": {
+      "LABEL": "ID Pengedar",
+      "PLACEHOLDER": "Masukkan ID pengedar anda",
+      "ERROR": "ID pengedar diperlukan"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirm Password",

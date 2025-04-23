@@ -27,7 +27,12 @@
       "LABEL": "Parole",
       "PLACEHOLDER": "Parole",
       "ERROR": "Parole ir pārāk īsa",
-      "IS_INVALID_PASSWORD": "Parolei ir jāsatur vismaz 1 lielais burts, 1 mazais burts, 1 cipars un 1 speciālā rakstzīme."
+      "IS_INVALID_PASSWORD": "Parolei jāsatur vismaz 1 lielo burtu, 1 mazo burtu, 1 ciparu un 1 speciālo rakstzīmi"
+    },
+    "DEALERSHIP": {
+      "LABEL": "Dīlera ID",
+      "PLACEHOLDER": "Ievadiet savu dīlera ID",
+      "ERROR": "Dīlera ID ir obligāts"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Apstipriniet paroli",

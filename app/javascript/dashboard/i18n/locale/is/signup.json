@@ -26,8 +26,13 @@
     "PASSWORD": {
       "LABEL": "Lykilorð",
       "PLACEHOLDER": "Lykilorð",
-      "ERROR": "Lykilorið er of stutt",
-      "IS_INVALID_PASSWORD": "Lykilorð ætti að innihalda að minnsta kosti 1 hástaf, 1 lágstaf, 1 tölustaf og 1 tákn"
+      "ERROR": "Lykilorðið er of stutt",
+      "IS_INVALID_PASSWORD": "Lykilorðið þurfa að innihalda að minnsta kosti 1 hástaf, 1 lágstaf, 1 tölu og 1 sérstök tákn"
+    },
+    "DEALERSHIP": {
+      "LABEL": "Söluaðila auðkenni",
+      "PLACEHOLDER": "Sláðu inn söluaðila auðkennið þitt",
+      "ERROR": "Söluaðila auðkenni er nauðsynlegt"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Staðfesta Lykilorð",

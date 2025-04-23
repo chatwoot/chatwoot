@@ -385,7 +385,11 @@
     "FORM": {
       "NAME": {
         "LABEL": "Название компании",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "PLACEHOLDER": "Введите название вашей компании"
+      },
+      "DEALERSHIP": {
+        "LABEL": "ID дилерского центра",
+        "PLACEHOLDER": "Введите ID дилерского центра"
       },
       "SUBMIT": "Отправить"
     }

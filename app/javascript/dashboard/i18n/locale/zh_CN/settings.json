@@ -385,7 +385,11 @@
     "FORM": {
       "NAME": {
         "LABEL": "公司名称",
-        "PLACEHOLDER": "Wayne企业"
+        "PLACEHOLDER": "输入您的公司名称"
+      },
+      "DEALERSHIP": {
+        "LABEL": "经销商 ID",
+        "PLACEHOLDER": "输入您的经销商 ID"
       },
       "SUBMIT": "提交"
     }

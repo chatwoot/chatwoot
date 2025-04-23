@@ -384,8 +384,12 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "회사명",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "LABEL": "회사 이름",
+        "PLACEHOLDER": "회사 이름을 입력해주세요"
+      },
+      "DEALERSHIP": {
+        "LABEL": "딜러사 ID",
+        "PLACEHOLDER": "딜러사 ID를 입력해주세요"
       },
       "SUBMIT": "보내기"
     }

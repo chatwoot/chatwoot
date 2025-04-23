@@ -384,8 +384,12 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "اسم المنشأة",
-        "PLACEHOLDER": "مؤسسة Wayne"
+        "LABEL": "اسم الشركة",
+        "PLACEHOLDER": "أدخل اسم شركتك"
+      },
+      "DEALERSHIP": {
+        "LABEL": "معرف الوكالة",
+        "PLACEHOLDER": "أدخل معرف الوكالة"
       },
       "SUBMIT": "إرسال"
     }

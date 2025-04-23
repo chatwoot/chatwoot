@@ -384,8 +384,12 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Company Name",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "LABEL": "የእርሽ ስም",
+        "PLACEHOLDER": "የእርሽዎን ስም ያስገቡ"
+      },
+      "DEALERSHIP": {
+        "LABEL": "የዲልር መለያ ቁጥር",
+        "PLACEHOLDER": "የዲልር መለያ ቁጥርዎን ያስገቡ"
       },
       "SUBMIT": "Submit"
     }

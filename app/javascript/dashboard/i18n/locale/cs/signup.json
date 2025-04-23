@@ -27,7 +27,12 @@
       "LABEL": "Heslo",
       "PLACEHOLDER": "Heslo",
       "ERROR": "Heslo je příliš krátké",
-      "IS_INVALID_PASSWORD": "Heslo by mělo obsahovat alespoň jedno velké písmeno, jedno malé písmeno, jedno číslo a jeden speciální znak"
+      "IS_INVALID_PASSWORD": "Heslo musí obsahovat alespoň 1 velké písmeno, 1 malé písmeno, 1 číslo a 1 speciální znak"
+    },
+    "DEALERSHIP": {
+      "LABEL": "ID Prodejce",
+      "PLACEHOLDER": "Zadejte ID prodejce",
+      "ERROR": "ID prodejce je povinné"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Potvrzení hesla",

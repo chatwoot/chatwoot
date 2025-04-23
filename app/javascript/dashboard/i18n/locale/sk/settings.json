@@ -385,7 +385,11 @@
     "FORM": {
       "NAME": {
         "LABEL": "Názov spoločnosti",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "PLACEHOLDER": "Zadajte názov vašej spoločnosti"
+      },
+      "DEALERSHIP": {
+        "LABEL": "ID predajcu",
+        "PLACEHOLDER": "Zadajte svoje ID predajcu"
       },
       "SUBMIT": "Odoslať"
     }

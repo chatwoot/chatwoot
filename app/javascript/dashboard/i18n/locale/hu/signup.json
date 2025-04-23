@@ -27,7 +27,12 @@
       "LABEL": "Jelszó",
       "PLACEHOLDER": "Jelszó",
       "ERROR": "A jelszó túl rövid",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "IS_INVALID_PASSWORD": "A jelszónak tartalmaznia kell legalább 1 nagybetűt, 1 kisbetűt, 1 számot és 1 speciális karaktert"
+    },
+    "DEALERSHIP": {
+      "LABEL": "Márkakereskedés azonosító",
+      "PLACEHOLDER": "Adja meg a márkakereskedés azonosítóját",
+      "ERROR": "A márkakereskedés azonosító megadása kötelező"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Jelszó megerősítése",

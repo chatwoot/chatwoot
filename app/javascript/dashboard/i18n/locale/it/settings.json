@@ -385,7 +385,11 @@
     "FORM": {
       "NAME": {
         "LABEL": "Nome azienda",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "PLACEHOLDER": "Inserisci il nome della tua azienda"
+      },
+      "DEALERSHIP": {
+        "LABEL": "ID concessionario",
+        "PLACEHOLDER": "Inserisci il tuo ID concessionario"
       },
       "SUBMIT": "Invia"
     }

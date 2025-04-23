@@ -385,7 +385,11 @@
     "FORM": {
       "NAME": {
         "LABEL": "Nama Perusahaan",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "PLACEHOLDER": "Masukkan nama perusahaan Anda"
+      },
+      "DEALERSHIP": {
+        "LABEL": "ID Dealer",
+        "PLACEHOLDER": "Masukkan ID dealer Anda"
       },
       "SUBMIT": "Kirim"
     }

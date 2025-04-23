@@ -24,10 +24,15 @@
       "ERROR": "Please enter a valid email address"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password",
-      "ERROR": "Password is too short",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "LABEL": "Lozinka",
+      "PLACEHOLDER": "Lozinka",
+      "ERROR": "Lozinka je prekratka",
+      "IS_INVALID_PASSWORD": "Lozinka mora sadržavati najmanje 1 veliko slovo, 1 malo slovo, 1 broj i 1 poseban znak"
+    },
+    "DEALERSHIP": {
+      "LABEL": "ID Zastupništva",
+      "PLACEHOLDER": "Unesite ID zastupništva",
+      "ERROR": "ID zastupništva je obavezan"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirm Password",

@@ -385,7 +385,11 @@
     "FORM": {
       "NAME": {
         "LABEL": "Nome da empresa",
-        "PLACEHOLDER": "Informe o nome da conta"
+        "PLACEHOLDER": "Digite o nome da sua empresa"
+      },
+      "DEALERSHIP": {
+        "LABEL": "ID da Concessionária",
+        "PLACEHOLDER": "Digite o ID da sua concessionária"
       },
       "SUBMIT": "Enviar"
     }

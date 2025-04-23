@@ -27,7 +27,12 @@
       "LABEL": "Adgangskode",
       "PLACEHOLDER": "Adgangskode",
       "ERROR": "Adgangskoden er for kort",
-      "IS_INVALID_PASSWORD": "Adgangskoden skal indeholde mindst 1 stort bogstav, 1 lille bogstav, 1 nummer og 1 specialtegn"
+      "IS_INVALID_PASSWORD": "Adgangskoden skal indeholde mindst 1 stort bogstav, 1 lille bogstav, 1 tal og 1 specialtegn"
+    },
+    "DEALERSHIP": {
+      "LABEL": "Forhandler-ID",
+      "PLACEHOLDER": "Indtast dit forhandler-ID",
+      "ERROR": "Forhandler-ID er påkrævet"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Bekræft Adgangskode",

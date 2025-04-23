@@ -385,7 +385,11 @@
     "FORM": {
       "NAME": {
         "LABEL": "کمپنی کا نام",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "PLACEHOLDER": "Enter your company name"
+      },
+      "DEALERSHIP": {
+        "LABEL": "Dealership ID",
+        "PLACEHOLDER": "Enter your dealership ID"
       },
       "SUBMIT": "جمع کرائیں"
     }

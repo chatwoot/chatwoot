@@ -29,6 +29,11 @@
       "ERROR": "パスワードが短すぎます",
       "IS_INVALID_PASSWORD": "パスワードは少なくとも1つの大文字、1つの小文字、1つの数字、1つの特殊文字を含む必要があります"
     },
+    "DEALERSHIP": {
+      "LABEL": "ディーラーID",
+      "PLACEHOLDER": "ディーラーIDを入力してください",
+      "ERROR": "ディーラーIDは必須です"
+    },
     "CONFIRM_PASSWORD": {
       "LABEL": "パスワードの確認",
       "PLACEHOLDER": "パスワードの確認",

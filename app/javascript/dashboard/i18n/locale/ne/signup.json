@@ -29,6 +29,11 @@
       "ERROR": "Password is too short",
       "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
     },
+    "DEALERSHIP": {
+      "LABEL": "Dealership ID",
+      "PLACEHOLDER": "Enter your dealership ID",
+      "ERROR": "Dealership ID is required."
+    },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirm Password",
       "PLACEHOLDER": "Confirm Password",

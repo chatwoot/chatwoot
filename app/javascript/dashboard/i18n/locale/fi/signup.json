@@ -29,6 +29,11 @@
       "ERROR": "Salasana on liian lyhyt",
       "IS_INVALID_PASSWORD": "Salasanan tulee sisältää vähintään 1 iso kirjain, 1 pieni kirjain, 1 numero ja 1 erikoismerkki."
     },
+    "DEALERSHIP": {
+      "LABEL": "Jälleenmyyjätunnus",
+      "PLACEHOLDER": "Syötä jälleenmyyjätunnuksesi",
+      "ERROR": "Jälleenmyyjätunnus vaaditaan"
+    },
     "CONFIRM_PASSWORD": {
       "LABEL": "Vahvista salasana",
       "PLACEHOLDER": "Vahvista salasana",

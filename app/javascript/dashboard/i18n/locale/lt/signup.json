@@ -26,13 +26,18 @@
     "PASSWORD": {
       "LABEL": "Slaptažodis",
       "PLACEHOLDER": "Slaptažodis",
-      "ERROR": "Password is too short",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "ERROR": "Slaptažodis per trumpas",
+      "IS_INVALID_PASSWORD": "Slaptažodyje turi būti bent 1 didžioji raidė, 1 mažoji raidė, 1 skaičius ir 1 specialus simbolis"
+    },
+    "DEALERSHIP": {
+      "LABEL": "Atstovo ID",
+      "PLACEHOLDER": "Įveskite savo atstovo ID",
+      "ERROR": "Atstovo ID būtinas"
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm Password",
-      "PLACEHOLDER": "Confirm Password",
-      "ERROR": "Password doesnot match"
+      "LABEL": "Patvirtinti slaptažodį",
+      "PLACEHOLDER": "Patvirtinti slaptažodį",
+      "ERROR": "Slaptažodžiai nesutampa"
     },
     "API": {
       "SUCCESS_MESSAGE": "Registracija sėkminga",

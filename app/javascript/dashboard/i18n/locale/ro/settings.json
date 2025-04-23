@@ -384,8 +384,12 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nume companie",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "LABEL": "Numele companiei",
+        "PLACEHOLDER": "Introduceți numele companiei"
+      },
+      "DEALERSHIP": {
+        "LABEL": "ID Dealer",
+        "PLACEHOLDER": "Introduceți ID-ul dealerului"
       },
       "SUBMIT": "Trimite"
     }

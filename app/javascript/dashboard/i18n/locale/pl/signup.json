@@ -26,8 +26,13 @@
     "PASSWORD": {
       "LABEL": "Hasło",
       "PLACEHOLDER": "Hasło",
-      "ERROR": "Hasło jest zbyt krótkie",
+      "ERROR": "Hasło jest za krótkie",
       "IS_INVALID_PASSWORD": "Hasło powinno zawierać co najmniej 1 wielką literę, 1 małą literę, 1 cyfrę i 1 znak specjalny"
+    },
+    "DEALERSHIP": {
+      "LABEL": "ID dealera",
+      "PLACEHOLDER": "Wprowadź ID dealera",
+      "ERROR": "ID dealera jest wymagane"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Potwierdź hasło",

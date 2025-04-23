@@ -384,8 +384,12 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Şirket Adı",
-        "PLACEHOLDER": "Şirketiniz"
+        "LABEL": "Şirket adı",
+        "PLACEHOLDER": "Şirket adınızı girin"
+      },
+      "DEALERSHIP": {
+        "LABEL": "Bayi ID",
+        "PLACEHOLDER": "Bayi ID'nizi girin"
       },
       "SUBMIT": "Gönder"
     }

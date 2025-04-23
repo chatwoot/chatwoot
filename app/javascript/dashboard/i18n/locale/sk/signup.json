@@ -26,8 +26,13 @@
     "PASSWORD": {
       "LABEL": "Heslo",
       "PLACEHOLDER": "Heslo",
-      "ERROR": "Heslo je príliš krátke.",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character."
+      "ERROR": "Heslo je príliš krátke",
+      "IS_INVALID_PASSWORD": "Heslo musí obsahovať aspoň 1 veľké písmeno, 1 malé písmeno, 1 číslo a 1 špeciálny znak"
+    },
+    "DEALERSHIP": {
+      "LABEL": "ID predajcu",
+      "PLACEHOLDER": "Zadajte svoje ID predajcu",
+      "ERROR": "ID predajcu je povinné"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirm password",

@@ -26,8 +26,13 @@
     "PASSWORD": {
       "LABEL": "비밀번호",
       "PLACEHOLDER": "비밀번호",
-      "ERROR": "비밀번호가 너무 짧음",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "ERROR": "비밀번호가 너무 짧습니다",
+      "IS_INVALID_PASSWORD": "비밀번호는 대문자 1개, 소문자 1개, 숫자 1개, 특수문자 1개를 포함해야 합니다"
+    },
+    "DEALERSHIP": {
+      "LABEL": "딜러사 ID",
+      "PLACEHOLDER": "딜러사 ID를 입력해주세요",
+      "ERROR": "딜러사 ID는 필수입니다"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "비밀번호 확인",

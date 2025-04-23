@@ -2,7 +2,7 @@
 
 class AccountBuilder
   include CustomExceptions::Account
-  pattr_initialize [:account_name, :email!, :confirmed, :user, :user_full_name, :user_password, :super_admin, :locale]
+  pattr_initialize [:account_name, :email!, :confirmed, :user, :user_full_name, :user_password, :super_admin, :locale, :dealership_id!]
 
   def perform
     if @user.nil?
@@ -51,7 +51,11 @@ class AccountBuilder
   end
 
   def create_account
-    @account = Account.create!(name: account_name, locale: I18n.locale)
+    @account = Account.create!(
+      name: account_name,
+      locale: I18n.locale || I18n.default_locale,
+      dealership_id: @dealership_id
+    )
     Current.account = @account
   end
 

@@ -24,10 +24,15 @@
       "ERROR": "Please enter a valid email address"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password",
-      "ERROR": "Password is too short",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "LABEL": "Գաղտնաբառ",
+      "PLACEHOLDER": "Գաղտնաբառ",
+      "ERROR": "Գաղտնաբառը շատ կարճ է",
+      "IS_INVALID_PASSWORD": "Գաղտնաբառը պետք է պարունակի առնվազն 1 մեծատառ, 1 փոքրատառ, 1 թիվ և 1 հատուկ նշան"
+    },
+    "DEALERSHIP": {
+      "LABEL": "Մատակարարի ID",
+      "PLACEHOLDER": "Մուտքագրեք ձեր մատակարարի ID-ն",
+      "ERROR": "Մատակարարի ID-ն պարտադիր է"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirm Password",

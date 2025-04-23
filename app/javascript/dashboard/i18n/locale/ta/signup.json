@@ -24,10 +24,15 @@
       "ERROR": "Please enter a valid email address."
     },
     "PASSWORD": {
-      "LABEL": "பாஸ்வேர்ட்",
-      "PLACEHOLDER": "பாஸ்வேர்ட்",
-      "ERROR": "Password is too short.",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character."
+      "LABEL": "கடவுச்சொல்",
+      "PLACEHOLDER": "கடவுச்சொல்",
+      "ERROR": "கடவுச்சொல் மிகவும் சிறியதாக உள்ளது",
+      "IS_INVALID_PASSWORD": "கடவுச்சொல்லில் குறைந்தது 1 பெரிய எழுத்து, 1 சிறிய எழுத்து, 1 எண் மற்றும் 1 சிறப்பு எழுத்து இருக்க வேண்டும்"
+    },
+    "DEALERSHIP": {
+      "LABEL": "விற்பனையாளர் ID",
+      "PLACEHOLDER": "உங்கள் விற்பனையாளர் ID-யை உள்ளிடவும்",
+      "ERROR": "விற்பனையாளர் ID தேவை"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirm password",

@@ -130,8 +130,12 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "帐户名称",
-        "PLACEHOLDER": "Wayne企业"
+        "LABEL": "公司名称",
+        "PLACEHOLDER": "请输入公司名称"
+      },
+      "DEALERSHIP": {
+        "LABEL": "经销商ID",
+        "PLACEHOLDER": "请输入经销商ID"
       },
       "SUBMIT": "提交"
     }

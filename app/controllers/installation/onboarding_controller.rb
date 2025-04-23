@@ -10,6 +10,7 @@ class Installation::OnboardingController < ApplicationController
         user_full_name: onboarding_params.dig(:user, :name),
         email: onboarding_params.dig(:user, :email),
         user_password: params.dig(:user, :password),
+        dealership_id: onboarding_params.dig(:user, :dealership_id),
         super_admin: true,
         confirmed: true
       ).perform
@@ -23,7 +24,7 @@ class Installation::OnboardingController < ApplicationController
   private
 
   def onboarding_params
-    params.permit(:subscribe_to_updates, user: [:name, :company, :email])
+    params.permit(:subscribe_to_updates, user: [:name, :company, :email, :dealership_id])
   end
 
   def finish_onboarding

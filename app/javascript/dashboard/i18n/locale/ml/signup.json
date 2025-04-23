@@ -27,7 +27,12 @@
       "LABEL": "പാസ്‌വേഡ്",
       "PLACEHOLDER": "പാസ്‌വേഡ്",
       "ERROR": "പാസ്‌വേഡ് വളരെ ചെറുതാണ്",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "IS_INVALID_PASSWORD": "പാസ്‌വേഡിൽ കുറഞ്ഞത് 1 വലിയ അക്ഷരം, 1 ചെറിയ അക്ഷരം, 1 സംഖ്യ, 1 പ്രത്യേക പ്രതീകം എന്നിവ ഉണ്ടായിരിക്കണം"
+    },
+    "DEALERSHIP": {
+      "LABEL": "ഡീലർഷിപ്പ് ID",
+      "PLACEHOLDER": "നിങ്ങളുടെ ഡീലർഷിപ്പ് ID നൽകുക",
+      "ERROR": "ഡീലർഷിപ്പ് ID ആവശ്യമാണ്"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "പാസ്‌വേഡ് സ്ഥിരീകരിക്കുക",

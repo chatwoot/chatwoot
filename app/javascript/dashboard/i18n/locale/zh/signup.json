@@ -16,7 +16,13 @@
     "PASSWORD": {
       "LABEL": "密码",
       "PLACEHOLDER": "密码",
-      "ERROR": "密码太短了"
+      "ERROR": "密码太短",
+      "IS_INVALID_PASSWORD": "密码必须包含至少一个大写字母、一个小写字母、一个数字和一个特殊字符"
+    },
+    "DEALERSHIP": {
+      "LABEL": "经销商ID",
+      "PLACEHOLDER": "请输入经销商ID",
+      "ERROR": "经销商ID为必填项"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "请确认密码",

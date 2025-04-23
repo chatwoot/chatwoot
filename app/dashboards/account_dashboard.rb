@@ -20,6 +20,7 @@ class AccountDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::Number.with_options(searchable: true),
     name: Field::String.with_options(searchable: true),
+    dealership_id: Field::String.with_options(searchable: true),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     users: CountField,
@@ -38,6 +39,7 @@ class AccountDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = %i[
     id
     name
+    dealership_id
     locale
     users
     conversations
@@ -50,6 +52,7 @@ class AccountDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = (%i[
     id
     name
+    dealership_id
     created_at
     updated_at
     locale
@@ -64,6 +67,7 @@ class AccountDashboard < Administrate::BaseDashboard
   enterprise_form_attributes = ChatwootApp.enterprise? ? %i[limits all_features] : []
   FORM_ATTRIBUTES = (%i[
     name
+    dealership_id
     locale
     status
   ] + enterprise_form_attributes).freeze

@@ -18,6 +18,7 @@ class Api::V2::AccountsController < Api::BaseController
       email: account_params[:email],
       user_password: account_params[:password],
       locale: account_params[:locale],
+      dealership_id: account_params[:dealership_id],
       user: current_user
     ).perform
 
@@ -36,6 +37,7 @@ class Api::V2::AccountsController < Api::BaseController
 
   def account_attributes
     {
+      dealership_id: account_params[:dealership_id],
       custom_attributes: @account.custom_attributes.merge({ 'onboarding_step' => 'profile_update' })
     }
   end
@@ -54,7 +56,7 @@ class Api::V2::AccountsController < Api::BaseController
   end
 
   def account_params
-    params.permit(:account_name, :email, :name, :password, :locale, :domain, :support_email, :auto_resolve_duration, :user_full_name)
+    params.permit(:account_name, :email, :name, :password, :locale, :domain, :support_email, :auto_resolve_duration, :user_full_name, :dealership_id)
   end
 
   def check_signup_enabled

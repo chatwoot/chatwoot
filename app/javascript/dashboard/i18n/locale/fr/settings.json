@@ -384,8 +384,12 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nom de la société",
-        "PLACEHOLDER": "Entreprises Wayne"
+        "LABEL": "Nom de l'entreprise",
+        "PLACEHOLDER": "Entrez le nom de votre entreprise"
+      },
+      "DEALERSHIP": {
+        "LABEL": "ID de concession",
+        "PLACEHOLDER": "Entrez votre ID de concession"
       },
       "SUBMIT": "Envoyer"
     }

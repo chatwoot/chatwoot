@@ -24,10 +24,15 @@
       "ERROR": "Vă rugăm să introduceți o adresă de e-mail validă."
     },
     "PASSWORD": {
-      "LABEL": "Parola",
-      "PLACEHOLDER": "Parola",
-      "ERROR": "Parola este prea scurta.",
-      "IS_INVALID_PASSWORD": "Parola trebuie să conțină atleast 1 literă mare, 1 literă mică, 1 număr și 1 caracter special."
+      "LABEL": "Parolă",
+      "PLACEHOLDER": "Parolă",
+      "ERROR": "Parola este prea scurtă",
+      "IS_INVALID_PASSWORD": "Parola trebuie să conțină cel puțin 1 literă mare, 1 literă mică, 1 cifră și 1 caracter special"
+    },
+    "DEALERSHIP": {
+      "LABEL": "ID Dealer",
+      "PLACEHOLDER": "Introduceți ID-ul dealerului",
+      "ERROR": "ID-ul dealerului este obligatoriu"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirmă parola",

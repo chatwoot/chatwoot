@@ -385,7 +385,11 @@
     "FORM": {
       "NAME": {
         "LABEL": "Nazwa firmy",
-        "PLACEHOLDER": "Przedsiębiorstwo Wayne"
+        "PLACEHOLDER": "Wprowadź nazwę firmy"
+      },
+      "DEALERSHIP": {
+        "LABEL": "ID dealera",
+        "PLACEHOLDER": "Wprowadź ID dealera"
       },
       "SUBMIT": "Wyślij"
     }

@@ -384,8 +384,12 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Company Name",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "LABEL": "Ընկերության անունը",
+        "PLACEHOLDER": "Մուտքագրեք ձեր ընկերության անունը"
+      },
+      "DEALERSHIP": {
+        "LABEL": "Մատակարարի ID",
+        "PLACEHOLDER": "Մուտքագրեք ձեր մատակարարի ID-ն"
       },
       "SUBMIT": "Submit"
     }

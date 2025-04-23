@@ -25,7 +25,7 @@ class AgentBot < ApplicationRecord
   has_many :inboxes, through: :agent_bot_inboxes
   has_many :messages, as: :sender, dependent: :nullify
   belongs_to :account, optional: true
-  enum bot_type: { webhook: 0 }
+  enum bot_type: { webhook: 0, stark: 1 }
 
   validates :outgoing_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
 

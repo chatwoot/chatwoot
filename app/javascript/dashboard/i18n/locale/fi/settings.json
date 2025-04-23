@@ -385,7 +385,11 @@
     "FORM": {
       "NAME": {
         "LABEL": "Yrityksen nimi",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "PLACEHOLDER": "Syötä yrityksesi nimi"
+      },
+      "DEALERSHIP": {
+        "LABEL": "Jälleenmyyjätunnus",
+        "PLACEHOLDER": "Syötä jälleenmyyjätunnuksesi"
       },
       "SUBMIT": "Lähetä"
     }

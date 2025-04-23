@@ -384,8 +384,12 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Company Name",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "LABEL": "კომპანიის სახელი",
+        "PLACEHOLDER": "შეიყვანეთ თქვენი კომპანიის სახელი"
+      },
+      "DEALERSHIP": {
+        "LABEL": "დილერის ID",
+        "PLACEHOLDER": "შეიყვანეთ თქვენი დილერის ID"
       },
       "SUBMIT": "Submit"
     }

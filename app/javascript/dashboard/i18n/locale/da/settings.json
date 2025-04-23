@@ -384,8 +384,12 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Virksomhedens Navn",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "LABEL": "Virksomhedsnavn",
+        "PLACEHOLDER": "Indtast dit virksomhedsnavn"
+      },
+      "DEALERSHIP": {
+        "LABEL": "Forhandler-ID",
+        "PLACEHOLDER": "Indtast dit forhandler-ID"
       },
       "SUBMIT": "Send"
     }

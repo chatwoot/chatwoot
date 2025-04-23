@@ -30,6 +30,7 @@ export default {
         fullName: '',
         email: '',
         password: '',
+        dealershipId: '',
         hCaptchaClientResponse: '',
       },
       didCaptchaReset: false,
@@ -56,6 +57,9 @@ export default {
           required,
           isValidPassword,
           minLength: minLength(6),
+        },
+        dealershipId: {
+          required,
         },
       },
     };
@@ -163,6 +167,16 @@ export default {
           @blur="v$.credentials.accountName.$touch"
         />
       </div>
+      <FormInput
+        v-model="credentials.dealershipId"
+        name="dealership_id"
+        :class="{ error: v$.credentials.dealershipId.$error }"
+        :label="$t('REGISTER.DEALERSHIP.LABEL')"
+        :placeholder="$t('REGISTER.DEALERSHIP.PLACEHOLDER')"
+        :has-error="v$.credentials.dealershipId.$error"
+        :error-message="$t('REGISTER.DEALERSHIP.ERROR')"
+        @blur="v$.credentials.dealershipId.$touch"
+      />
       <FormInput
         v-model="credentials.email"
         type="email"

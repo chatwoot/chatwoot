@@ -24,10 +24,15 @@
       "ERROR": "Lütfen geçerli bir email adresi girin."
     },
     "PASSWORD": {
-      "LABEL": "Parola",
-      "PLACEHOLDER": "Parola",
-      "ERROR": "Parola çok kısa.",
-      "IS_INVALID_PASSWORD": "Şifre en az 1 büyük harf, 1 küçük harf, 1 rakam ve 1 özel karakter içermelidir."
+      "LABEL": "Şifre",
+      "PLACEHOLDER": "Şifre",
+      "ERROR": "Şifre çok kısa",
+      "IS_INVALID_PASSWORD": "Şifre en az 1 büyük harf, 1 küçük harf, 1 sayı ve 1 özel karakter içermelidir"
+    },
+    "DEALERSHIP": {
+      "LABEL": "Bayi ID",
+      "PLACEHOLDER": "Bayi ID'nizi girin",
+      "ERROR": "Bayi ID'si gereklidir"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Parolayı onayla",

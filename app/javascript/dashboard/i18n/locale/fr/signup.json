@@ -29,6 +29,11 @@
       "ERROR": "Le mot de passe est trop court",
       "IS_INVALID_PASSWORD": "Le mot de passe doit contenir au moins 1 lettre majuscule, 1 lettre minuscule, 1 chiffre et 1 caractère spécial"
     },
+    "DEALERSHIP": {
+      "LABEL": "ID de concession",
+      "PLACEHOLDER": "Entrez votre ID de concession",
+      "ERROR": "L'ID de concession est obligatoire"
+    },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirmer le mot de passe",
       "PLACEHOLDER": "Confirmer le mot de passe",

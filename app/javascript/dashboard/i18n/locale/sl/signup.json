@@ -26,8 +26,13 @@
     "PASSWORD": {
       "LABEL": "Geslo",
       "PLACEHOLDER": "Geslo",
-      "ERROR": "Geslo je prekratko.",
-      "IS_INVALID_PASSWORD": "Geslo mora vsebovati vsaj 1 veliko črko, 1 malo črko, 1 številko in 1 poseben znak."
+      "ERROR": "Geslo je prekratko",
+      "IS_INVALID_PASSWORD": "Geslo mora vsebovati vsaj 1 veliko črko, 1 malo črko, 1 številko in 1 poseben znak"
+    },
+    "DEALERSHIP": {
+      "LABEL": "ID trgovca",
+      "PLACEHOLDER": "Vnesite svoj ID trgovca",
+      "ERROR": "ID trgovca je obvezen"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Potrdite geslo",

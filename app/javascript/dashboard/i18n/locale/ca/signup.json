@@ -27,7 +27,12 @@
       "LABEL": "Contrasenya",
       "PLACEHOLDER": "Contrasenya",
       "ERROR": "La contrasenya és massa curta",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "IS_INVALID_PASSWORD": "La contrasenya ha de contenir almenys 1 majúscula, 1 minúscula, 1 número i 1 caràcter especial"
+    },
+    "DEALERSHIP": {
+      "LABEL": "ID del concessionari",
+      "PLACEHOLDER": "Introdueix el teu ID de concessionari",
+      "ERROR": "L'ID del concessionari és obligatori"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirma la contrasenya",

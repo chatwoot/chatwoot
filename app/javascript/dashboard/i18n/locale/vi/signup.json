@@ -26,8 +26,13 @@
     "PASSWORD": {
       "LABEL": "Mật khẩu",
       "PLACEHOLDER": "Mật khẩu",
-      "ERROR": "Mật khẩu quá ngắn.",
-      "IS_INVALID_PASSWORD": "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt."
+      "ERROR": "Mật khẩu quá ngắn",
+      "IS_INVALID_PASSWORD": "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt"
+    },
+    "DEALERSHIP": {
+      "LABEL": "Mã đại lý",
+      "PLACEHOLDER": "Nhập mã đại lý của bạn",
+      "ERROR": "Mã đại lý là bắt buộc"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirm password",

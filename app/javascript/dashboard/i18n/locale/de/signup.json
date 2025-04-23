@@ -26,8 +26,13 @@
     "PASSWORD": {
       "LABEL": "Passwort",
       "PLACEHOLDER": "Passwort",
-      "ERROR": "Das Passwort ist zu kurz",
-      "IS_INVALID_PASSWORD": "Das Passwort sollte mindestens 1 Großbuchstaben, 1 Kleinbuchstaben, 1 Ziffer und 1 Sonderzeichen enthalten"
+      "ERROR": "Passwort ist zu kurz",
+      "IS_INVALID_PASSWORD": "Das Passwort muss mindestens 1 Großbuchstaben, 1 Kleinbuchstaben, 1 Zahl und 1 Sonderzeichen enthalten"
+    },
+    "DEALERSHIP": {
+      "LABEL": "Händler-ID",
+      "PLACEHOLDER": "Geben Sie Ihre Händler-ID ein",
+      "ERROR": "Händler-ID ist erforderlich"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Bestätige das Passwort",

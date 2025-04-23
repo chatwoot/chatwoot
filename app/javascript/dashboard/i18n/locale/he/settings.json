@@ -385,7 +385,11 @@
     "FORM": {
       "NAME": {
         "LABEL": "שם החברה",
-        "PLACEHOLDER": "וויין אנטרפרייז"
+        "PLACEHOLDER": "הכנס את שם החברה שלך"
+      },
+      "DEALERSHIP": {
+        "LABEL": "מספר סוכנות",
+        "PLACEHOLDER": "הכנס את מספר הסוכנות שלך"
       },
       "SUBMIT": "שלח"
     }

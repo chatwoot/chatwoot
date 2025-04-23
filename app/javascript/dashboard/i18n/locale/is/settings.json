@@ -385,7 +385,11 @@
     "FORM": {
       "NAME": {
         "LABEL": "Nafn fyrirtækis",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "PLACEHOLDER": "Sláðu inn nafn fyrirtækisins þíns"
+      },
+      "DEALERSHIP": {
+        "LABEL": "Söluaðila auðkenni",
+        "PLACEHOLDER": "Sláðu inn söluaðila auðkennið þitt"
       },
       "SUBMIT": "Senda"
     }
