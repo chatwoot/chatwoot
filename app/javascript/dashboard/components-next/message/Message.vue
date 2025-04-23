@@ -152,6 +152,10 @@ const variant = computed(() => {
     }
   }
 
+  if (props.contentType === CONTENT_TYPES.SHOPEE_CARD) {
+    return MESSAGE_VARIANTS.CARD;
+  }
+
   if (props.contentType === CONTENT_TYPES.INCOMING_EMAIL) {
     return MESSAGE_VARIANTS.EMAIL;
   }

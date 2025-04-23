@@ -253,6 +253,11 @@
     "SIDEBAR": {
       "CONTACT": "Contact",
       "COPILOT": "Copilot"
+    },
+    "SHOPEE": {
+      "STOCK": "Stock:",
+      "VOUCHER": "Voucher",
+      "UNSUPPORTED_CARD": "Unsupported message type"
     }
   },
   "EMAIL_TRANSCRIPT": {

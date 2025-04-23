@@ -1,8 +1,15 @@
 <script setup>
 import BaseBubble from 'next/message/bubbles/Base.vue';
 import ChatProductInfos from './Shopee/ChatProductInfos.vue';
+import AddOnDealItemList from './Shopee/AddOnDealItemList.vue';
 import Voucher from './Shopee/Voucher.vue';
+import Activity from './Shopee/Activity.vue';
+import ItemLink from './Shopee/ItemLink.vue';
+import OrderLink from './Shopee/OrderLink.vue';
 import { useMessageContext } from '../provider.js';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 </script>
 
 <script>
@@ -22,6 +29,8 @@ export default {
   },
   computed: {
     cardTitle() {
+      if (this.shopeeData?.name) return this.shopeeData?.name;
+
       const itemLabel = this.shopeeData?.itemLabel;
       if (!itemLabel) return '';
       if (itemLabel === 'custom') return '';
@@ -30,26 +39,38 @@ export default {
     isChatProductInfos() {
       return this.shopeeData?.chatProductInfos?.length > 0;
     },
+    isAddOnDealItemList() {
+      return this.shopeeData?.addOnDealItemList?.length > 0;
+    },
     isVoucher() {
       return this.shopeeData?.voucherCode?.length > 0;
+    },
+    isTextMessage() {
+      return this.shopeeData?.text?.length > 0;
+    },
+    isItemLink() {
+      return this.shopeeData?.itemId && this.shopeeData?.shopId;
+    },
+    isOrderLink() {
+      return this.shopeeData?.orderSn && this.shopeeData?.shopId;
     },
   },
 };
 </script>
 
 <template>
-  <BaseBubble class="px-4 py-3" data-bubble-name="shopee-card">
-    <p v-if="cardTitle" class="font-medium text-center capitalize mb-3">
+  <BaseBubble data-bubble-name="shopee-card">
+    <p v-if="cardTitle" class="font-medium text-center capitalize">
       {{ cardTitle }}
     </p>
-    <template v-if="isChatProductInfos">
-      <ChatProductInfos :data="shopeeData" />
-    </template>
-    <template v-else-if="isVoucher">
-      <Voucher :data="shopeeData" />
-    </template>
+    <ChatProductInfos v-if="isChatProductInfos" :data="shopeeData" />
+    <AddOnDealItemList v-else-if="isAddOnDealItemList" :data="shopeeData" />
+    <Voucher v-else-if="isVoucher" :data="shopeeData" />
+    <Activity v-else-if="isTextMessage" :data="shopeeData" />
+    <ItemLink v-else-if="isItemLink" :data="shopeeData" />
+    <OrderLink v-else-if="isOrderLink" :data="shopeeData" />
     <template v-else>
-      Unsupported card
+      {{ t('CONVERSATION.SHOPEE.UNSUPPORTED_CARD') }}
     </template>
   </BaseBubble>
 </template>

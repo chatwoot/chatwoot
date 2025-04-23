@@ -6,17 +6,11 @@ class Shopee::SetupService
       next if conversation['conversation_id'].blank?
 
       job_attrs = conversation.slice('conversation_id', 'to_id', 'to_name', 'to_avatar')
-      ActiveRecord::Base.transaction do
-        create_conversation(job_attrs)
-        Inboxes::Shopee::CreateConversationJob.perform_later(channel_id, job_attrs)
-      end
+      Inboxes::Shopee::CreateConversationJob.perform_later(channel_id, job_attrs)
     end
   end
 
   private
-
-  def create_conversation(data)
-  end
 
   def inbox
     @inbox ||= channel.inbox || raise('Channel inbox not found')

@@ -24,7 +24,7 @@ export default {
 </script>
 
 <template>
-  <BaseBubble>
+  <BaseBubble class="px-4 py-3" data-bubble-name="sticker">
     <div v-if="stickerUrl" class="flex items-center justify-center">
       <img :src="stickerUrl" class="w-35 h-35 rounded-lg" />
     </div>

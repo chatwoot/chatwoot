@@ -14,6 +14,7 @@ export const MESSAGE_VARIANTS = {
   ERROR: 'error',
   TEMPLATE: 'template',
   EMAIL: 'email',
+  CARD: 'card',
   UNSUPPORTED: 'unsupported',
 };
 

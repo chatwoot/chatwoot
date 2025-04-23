@@ -1121,6 +1121,76 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.index ["user_id"], name: "index_reporting_events_on_user_id"
   end
 
+  create_table "shopee_items", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "code", null: false
+    t.string "sku", null: false
+    t.string "name", null: false
+    t.string "status", null: false
+    t.index ["code"], name: "index_shopee_items_on_code", unique: true
+    t.index ["sku"], name: "index_shopee_items_on_sku", unique: true
+  end
+
+  create_table "shopee_order_items", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "order_id", null: false
+    t.bigint "item_id", null: false
+    t.string "item_name"
+    t.string "item_sku"
+    t.boolean "main_item"
+    t.integer "model_quantity_purchased"
+    t.float "model_original_price"
+    t.float "model_discounted_price"
+    t.text "meta_data"
+    t.index ["order_id"], name: "index_shopee_order_items_on_order_id"
+  end
+
+  create_table "shopee_orders", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "number", null: false
+    t.string "status"
+    t.boolean "cod"
+    t.integer "total_amount"
+    t.string "shipping_carrier"
+    t.string "payment_method"
+    t.integer "estimated_shipping_fee"
+    t.string "message_to_seller"
+    t.datetime "create_time"
+    t.integer "days_to_ship"
+    t.string "note"
+    t.integer "actual_shipping_fee"
+    t.text "recipient_address"
+    t.datetime "pay_time"
+    t.string "cancel_reason"
+    t.string "cancel_by"
+    t.string "buyer_cancel_reason"
+    t.datetime "pickup_done_time"
+    t.string "booking_sn"
+    t.index ["number"], name: "index_shopee_orders_on_number", unique: true
+  end
+
+  create_table "shopee_vouchers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "code", null: false
+    t.string "name", null: false
+    t.integer "usage_quantity"
+    t.integer "current_usage"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.string "voucher_purpose"
+    t.integer "percentage"
+    t.integer "max_price"
+    t.integer "min_basket_price"
+    t.integer "discount_amount"
+    t.string "target_voucher"
+    t.string "usecase"
+    t.index ["code"], name: "index_shopee_vouchers_on_code", unique: true
+  end
+
   create_table "sla_events", force: :cascade do |t|
     t.bigint "applied_sla_id", null: false
     t.bigint "conversation_id", null: false
