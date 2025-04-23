@@ -1,5 +1,5 @@
 class HookJob < MutexApplicationJob
-  retry_on LockAcquisitionError, wait: 5.seconds, attempts: 3
+  retry_on LockAcquisitionError, wait: 3.seconds, attempts: 3
 
   queue_as :medium
 
@@ -47,6 +47,16 @@ class HookJob < MutexApplicationJob
   end
 
   def process_leadsquared_integration_with_lock(hook, event_name, event_data)
+    # Why do we need a mutex here? glad you asked
+    # When a new conversation is created. We get a contact created event, immediately followed by
+    # a contact updated event, and then a conversation created event.
+    # This all happens within milliseconds of each other.
+    # Now each of these subsequent event handlers need to have a leadsquared lead created and the contact to have the ID.
+    # If the lead data is not present, we try to search the API and create a new lead if it doesn't exist.
+    # This gives us a bad race condition that allows the API to create multiple leads for the same contact.
+    #
+    # This would have not been a problem if the email and phone number were unique identifiers for contacts at LeadSquared
+    # But then this is configurable in the LeadSquared settings, and may or may not be unique.
     valid_event_names = ['contact.updated', 'conversation.created', 'conversation.resolved']
     return unless valid_event_names.include?(event_name)
     return unless hook.feature_allowed?
