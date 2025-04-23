@@ -12,6 +12,7 @@ import AgentReportsShow from './AgentReportsShow.vue';
 import InboxReportsShow from './InboxReportsShow.vue';
 import TeamReportsShow from './TeamReportsShow.vue';
 
+import AiAgentReports from './AiAgentReports.vue';
 import AgentReports from './AgentReports.vue';
 import InboxReports from './InboxReports.vue';
 import LabelReports from './LabelReports.vue';
@@ -136,6 +137,14 @@ export default {
             permissions: ['administrator', 'report_manage'],
           },
           component: Index,
+        },
+        {
+          path: 'ai-agent',
+          name: 'ai_agent__reports',
+          meta: {
+            permissions: ['administrator', 'report_manage'],
+          },
+          component: AiAgentReports,
         },
         ...oldReportRoutes,
         ...revisedReportRoutes,
