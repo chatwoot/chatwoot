@@ -41,15 +41,21 @@ const handleDelete = () => {
       <div class="flex items-center gap-1.5 min-w-0">
         <Avatar
           :name="note?.user?.name || 'Bot'"
-          :src="note?.user?.thumbnail || '/assets/images/chatwoot_bot.png'"
+          :src="
+            note?.user?.name
+              ? note?.user?.thumbnail
+              : '/assets/images/chatwoot_bot.png'
+          "
           :size="16"
           rounded-full
         />
         <div class="min-w-0 truncate">
           <span class="inline-flex items-center gap-1 text-sm text-n-slate-11">
-            <span class="font-medium">{{ writtenBy }}</span>
+            <span class="font-medium text-n-slate-12">{{ writtenBy }}</span>
             {{ t('CONTACTS_LAYOUT.SIDEBAR.NOTES.WROTE') }}
-            <span class="font-medium">{{ dynamicTime(note.createdAt) }}</span>
+            <span class="font-medium text-n-slate-12">
+              {{ dynamicTime(note.createdAt) }}
+            </span>
           </span>
         </div>
       </div>
