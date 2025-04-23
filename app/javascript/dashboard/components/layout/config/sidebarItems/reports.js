@@ -8,7 +8,7 @@ const reports = accountId => ({
     'conversation_reports',
     'csat_reports',
     // 'bot_reports',
-    'ai_agent_reports',
+    'ai_agent__reports',
     'agent_reports',
     'label_reports',
     'inbox_reports',
@@ -51,7 +51,7 @@ const reports = accountId => ({
       label: 'REPORTS_AI_AGENT',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/ai-agent`),
-      toStateName: 'ai_agent_reports',
+      toStateName: 'ai_agent__reports',
     },
     {
       icon: 'people',

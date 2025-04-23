@@ -140,7 +140,7 @@ export default {
         },
         {
           path: 'ai-agent',
-          name: 'ai_agent_reports',
+          name: 'ai_agent__reports',
           meta: {
             permissions: ['administrator', 'report_manage'],
           },

@@ -338,7 +338,7 @@ const menuItems = computed(() => {
         {
           name: 'Reports AI Agent',
           label: t('SIDEBAR.REPORTS_AI_AGENT'),
-          to: accountScopedRoute('ai_agent_reports'),
+          to: accountScopedRoute('ai_agent__reports'),
         },
         {
           name: 'Reports CSAT',
