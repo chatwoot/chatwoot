@@ -71,7 +71,7 @@ const handleDelete = () => {
     </div>
     <p
       v-dompurify-html="formatMessage(note.content || '')"
-      class="mb-0 prose-sm prose-p:mb-1 prose-p:mt-0 prose-ul:mb-1 prose-ul:mt-0 text-n-slate-12"
+      class="mb-0 prose-sm prose-p:text-sm prose-p:leading-relaxed prose-p:mb-1 prose-p:mt-0 prose-ul:mb-1 prose-ul:mt-0 text-n-slate-12"
       :class="{
         'line-clamp-4': collapsible && !isExpanded,
       }"
