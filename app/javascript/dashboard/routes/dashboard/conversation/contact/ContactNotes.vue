@@ -41,8 +41,9 @@ onMounted(() => {
   <ContactNoteItem
     v-for="note in notes"
     :key="note.id"
-    class="p-4"
+    class="p-4 last-of-type:border-b-0"
     :note="note"
+    collapsible
     :written-by="getWrittenBy(note)"
   />
 </template>

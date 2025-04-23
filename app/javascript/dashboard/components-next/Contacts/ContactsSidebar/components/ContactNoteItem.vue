@@ -1,6 +1,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useToggle } from '@vueuse/core';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -18,10 +19,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  collapsible: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['delete']);
-
+const [isExpanded, toggleExpanded] = useToggle();
 const { t } = useI18n();
 const { formatMessage } = useMessageFormatter();
 
@@ -61,6 +66,25 @@ const handleDelete = () => {
     <p
       v-dompurify-html="formatMessage(note.content || '')"
       class="mb-0 prose-sm prose-p:mb-1 prose-p:mt-0 prose-ul:mb-1 prose-ul:mt-0 text-n-slate-12"
+      :class="{
+        'line-clamp-4': collapsible && !isExpanded,
+      }"
     />
+    <p v-if="collapsible">
+      <Button
+        variant="faded"
+        color="blue"
+        size="xs"
+        :icon="isExpanded ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
+        @click="() => toggleExpanded()"
+      >
+        <template v-if="isExpanded">
+          {{ t('CONTACTS_LAYOUT.SIDEBAR.NOTES.COLLAPSE') }}
+        </template>
+        <template v-else>
+          {{ t('CONTACTS_LAYOUT.SIDEBAR.NOTES.EXPAND') }}
+        </template>
+      </Button>
+    </p>
   </div>
 </template>
