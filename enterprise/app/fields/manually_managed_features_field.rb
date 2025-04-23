@@ -10,9 +10,6 @@ class ManuallyManagedFeaturesField < Administrate::Field::Base
   end
 
   def all_features
-    # Get all feature names and their display names
-    all_feature_display_names = SuperAdmin::AccountFeaturesHelper.feature_display_names
-
     # Business and Enterprise plan features only
     Enterprise::Billing::HandleStripeEventService::BUSINESS_PLAN_FEATURES +
       Enterprise::Billing::HandleStripeEventService::ENTERPRISE_PLAN_FEATURES
