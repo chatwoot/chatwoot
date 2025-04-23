@@ -23,6 +23,8 @@ gem 'tzinfo-data'
 gem 'valid_email2'
 # compress javascript config.assets.js_compressor
 gem 'uglifier'
+# Email delivery
+gem 'postmark-rails'
 ##-- used for single column multiple binary flags in notification settings/feature flagging --##
 gem 'flag_shih_tzu'
 # Random name generator for user names
