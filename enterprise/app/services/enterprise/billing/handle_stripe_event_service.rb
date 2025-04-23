@@ -21,9 +21,7 @@ class Enterprise::Billing::HandleStripeEventService
   BUSINESS_PLAN_FEATURES = %w[sla custom_roles].freeze
 
   # Additional features available only in the Enterprise plan
-  # TODO: `disable_branding` is currently managed manually for some accounts
-  # bring that into this list as well once we finish audit
-  ENTERPRISE_PLAN_FEATURES = %w[audit_logs].freeze
+  ENTERPRISE_PLAN_FEATURES = %w[audit_logs disable_branding].freeze
 
   def perform(event:)
     @event = event
@@ -79,6 +77,10 @@ class Enterprise::Billing::HandleStripeEventService
     else
       enable_features_for_current_plan
     end
+
+    # Enable any manually managed features configured in internal_attributes
+    enable_account_manually_managed_features
+
     account.save!
   end
 
@@ -139,5 +141,14 @@ class Enterprise::Billing::HandleStripeEventService
     cloud_plans = InstallationConfig.find_by(name: CLOUD_PLANS_CONFIG)&.value || []
     default_plan = cloud_plans.first || {}
     account.custom_attributes['plan_name'] == default_plan['name']
+  end
+
+  def enable_account_manually_managed_features
+    # Get manually managed features from internal attributes using the service
+    service = Internal::Accounts::InternalAttributesService.new(account)
+    features = service.manually_managed_features
+
+    # Enable each feature
+    account.enable_features(*features) if features.present?
   end
 end

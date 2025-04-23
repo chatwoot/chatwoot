@@ -187,8 +187,59 @@ describe Enterprise::Billing::HandleStripeEventService do
     end
   end
 
+  describe 'manually managed features' do
+    let(:service) { stripe_event_service.new }
+    let(:internal_attrs_service) { instance_double(Internal::Accounts::InternalAttributesService) }
+
+    before do
+      # Mock the internal attributes service
+      allow(Internal::Accounts::InternalAttributesService).to receive(:new).with(account).and_return(internal_attrs_service)
+    end
+
+    context 'when downgrading with manually managed features' do
+      it 'preserves manually managed features even when downgrading plans' do
+        # Setup: account has Enterprise plan with manually managed features
+        allow(subscription).to receive(:[]).with('plan')
+                                           .and_return({ 'id' => 'test', 'product' => 'plan_id_enterprise', 'name' => 'Enterprise' })
+
+        # Mock manually managed features
+        allow(internal_attrs_service).to receive(:manually_managed_features).and_return(%w[audit_logs custom_roles])
+
+        # First run to apply enterprise plan
+        service.perform(event: event)
+        account.reload
+
+        # Verify features are enabled
+        expect(account).to be_feature_enabled('audit_logs')
+        expect(account).to be_feature_enabled('custom_roles')
+
+        # Now downgrade to Hacker plan (which normally wouldn't have these features)
+        allow(subscription).to receive(:[]).with('plan')
+                                           .and_return({ 'id' => 'test', 'product' => 'plan_id_hacker', 'name' => 'Hacker' })
+
+        service.perform(event: event)
+        account.reload
+
+        # Manually managed features should still be enabled despite plan downgrade
+        expect(account).to be_feature_enabled('audit_logs')
+        expect(account).to be_feature_enabled('custom_roles')
+
+        # But other premium features should be disabled
+        expect(account).not_to be_feature_enabled('channel_instagram')
+        expect(account).not_to be_feature_enabled('help_center')
+      end
+    end
+  end
+
   describe 'downgrade handling' do
     let(:service) { stripe_event_service.new }
+
+    before do
+      # Setup internal attributes service mock to return no manually managed features
+      internal_attrs_service = instance_double(Internal::Accounts::InternalAttributesService)
+      allow(Internal::Accounts::InternalAttributesService).to receive(:new).with(account).and_return(internal_attrs_service)
+      allow(internal_attrs_service).to receive(:manually_managed_features).and_return([])
+    end
 
     context 'when downgrading from Enterprise to Business plan' do
       before do
