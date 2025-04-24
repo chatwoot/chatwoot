@@ -6,13 +6,6 @@ import microsoftClient from 'dashboard/api/channel/microsoftClient';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 
-const props = defineProps({
-  inbox: {
-    type: Object,
-    default: () => ({}),
-  },
-});
-
 const { t } = useI18n();
 
 const isRequestingAuthorization = ref(false);
@@ -20,9 +13,7 @@ const isRequestingAuthorization = ref(false);
 async function requestAuthorization() {
   try {
     isRequestingAuthorization.value = true;
-    const response = await microsoftClient.generateAuthorization({
-      email: props.inbox.email,
-    });
+    const response = await microsoftClient.generateAuthorization();
 
     const {
       data: { url },
