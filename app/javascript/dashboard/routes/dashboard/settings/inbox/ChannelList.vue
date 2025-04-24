@@ -35,8 +35,7 @@ export default {
         },
         { key: 'telegram', name: 'Telegram' },
         { key: 'line', name: 'Line' },
-        // TODO: Add Instagram to the channel list after the feature is ready to use.
-        // { key: 'instagram', name: 'Instagram' },
+        { key: 'instagram', name: 'Instagram' },
       ];
     },
     ...mapGetters({
