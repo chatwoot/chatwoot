@@ -7,13 +7,32 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
 
   def perform_reply
     # Gửi typing indicator trước khi gửi tin nhắn
-    # Việc đánh dấu tin nhắn đã xem sẽ được xử lý tự động trong ChannelListener
-    # khi gửi sự kiện typing_on
+    # Sử dụng phương thức mới mark_seen_and_typing để đảm bảo typing hoạt động trên di động
     enable_typing_indicator
 
     # Đợi một khoảng thời gian ngắn để typing indicator hiển thị trước khi gửi tin nhắn
     # Điều này giúp người dùng có thể thấy typing indicator trước khi nhận được tin nhắn
-    sleep(1.0) # Đợi 1 giây để typing indicator hiển thị
+    # Giảm thời gian chờ xuống 0.8 giây để tăng hiệu suất nhưng vẫn đảm bảo UX tốt
+    sleep(0.8)
+
+    # Xử lý gửi tin nhắn và tệp đính kèm
+    send_message_content
+    send_attachments_optimized if message.attachments.present?
+
+    # Tắt typing indicator sau khi gửi tin nhắn
+    disable_typing_indicator
+
+    # Cập nhật trạng thái tin nhắn thành công nếu không có lỗi
+    message.update!(status: :delivered) if message.status == 'sent'
+  rescue Facebook::Messenger::FacebookError => e
+    handle_facebook_error(e)
+    message.update!(status: :failed, external_error: e.message)
+  end
+
+  # Tách riêng việc gửi nội dung tin nhắn để code rõ ràng hơn
+  def send_message_content
+    # Đo thời gian gửi tin nhắn để theo dõi hiệu suất
+    start_time = Time.now
 
     if message.content_type == 'input_select'
       send_message_to_facebook(fb_select_message_params)
@@ -23,31 +42,56 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
       send_message_to_facebook(fb_text_message_params)
     end
 
-    # Xử lý gửi hình ảnh tối ưu
-    send_attachments_optimized if message.attachments.present?
-
-    # Tắt typing indicator sau khi gửi tin nhắn
-    disable_typing_indicator
-  rescue Facebook::Messenger::FacebookError => e
-    handle_facebook_error(e)
-    message.update!(status: :failed, external_error: e.message)
+    # Ghi log thời gian gửi tin nhắn
+    Rails.logger.info "Facebook::SendOnFacebookService: Sent message content in #{(Time.now - start_time).round(2)}s"
   end
 
-  # Phương thức mới để xử lý gửi hình ảnh tối ưu
+  # Phương thức tối ưu để xử lý gửi hình ảnh
   def send_attachments_optimized
-    # Đối với các tin nhắn có nhiều hình ảnh, có thể cân nhắc việc xử lý bất đồng bộ ở đây
-    # Hiện tại chúng ta vẫn xử lý tuần tự nhưng đã tối ưu bằng cách ưu tiên sử dụng external_url
+    start_time = Time.now
+    attachment_count = message.attachments.size
 
-    message.attachments.each do |attachment|
-      # Ghi log để theo dõi loại URL được sử dụng
-      if attachment.external_url.present?
-        Rails.logger.info "Facebook::SendOnFacebookService: Using external_url for attachment #{attachment.id}"
-      else
-        Rails.logger.info "Facebook::SendOnFacebookService: Using download_url for attachment #{attachment.id}"
-      end
-
-      send_message_to_facebook(fb_attachment_message_params(attachment))
+    # Nếu chỉ có 1 tệp đính kèm, gửi trực tiếp
+    if attachment_count == 1
+      attachment = message.attachments.first
+      send_single_attachment(attachment)
+      return
     end
+
+    # Nếu có nhiều tệp đính kèm, sử dụng batch processing
+    # Để tránh gửi quá nhiều request liên tiếp đến Facebook API
+    # chúng ta sẽ gửi các tệp đính kèm với một khoảng thời gian ngắn giữa các lần gửi
+
+    message.attachments.each_with_index do |attachment, index|
+      # Gửi tệp đính kèm
+      send_single_attachment(attachment)
+
+      # Đợi một khoảng thời gian ngắn giữa các lần gửi
+      # trừ khi đây là tệp đính kèm cuối cùng
+      sleep(0.3) if index < attachment_count - 1
+    end
+
+    # Ghi log thời gian gửi tất cả các tệp đính kèm
+    Rails.logger.info "Facebook::SendOnFacebookService: Sent #{attachment_count} attachments in #{(Time.now - start_time).round(2)}s"
+  end
+
+  # Gửi một tệp đính kèm duy nhất
+  def send_single_attachment(attachment)
+    # Đo thời gian gửi từng tệp đính kèm
+    start_time = Time.now
+
+    # Ghi log để theo dõi loại URL được sử dụng
+    if attachment.external_url.present?
+      Rails.logger.info "Facebook::SendOnFacebookService: Using external_url for attachment #{attachment.id}"
+    else
+      Rails.logger.info "Facebook::SendOnFacebookService: Using download_url for attachment #{attachment.id}"
+    end
+
+    # Gửi tệp đính kèm đến Facebook
+    send_message_to_facebook(fb_attachment_message_params(attachment))
+
+    # Ghi log thời gian gửi từng tệp đính kèm
+    Rails.logger.info "Facebook::SendOnFacebookService: Sent attachment #{attachment.id} in #{(Time.now - start_time).round(2)}s"
   end
 
   def send_message_to_facebook(delivery_params)
@@ -84,20 +128,25 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   def enable_typing_indicator
     return if contact.blank? || contact.get_source_id(inbox.id).blank?
 
-    # Chỉ gửi typing indicator mà không tự động đánh dấu tin nhắn đã xem
-    # Điều này giúp tránh hiểu nhầm khi bot không hoạt động (ví dụ: hết credit)
-    # mark_seen_result = typing_service.mark_seen
-    # sleep(0.3) if mark_seen_result
+    # Sử dụng phương thức mới mark_seen_and_typing để đảm bảo đánh dấu tin nhắn đã xem trước
+    # và sau đó mới gửi typing indicator, điều này quan trọng để typing hoạt động trên di động
+    result = typing_service.mark_seen_and_typing
 
-    # Bật typing indicator
-    result = typing_service.enable
     if result
-      Rails.logger.debug "Successfully enabled typing indicator for recipient #{contact.get_source_id(inbox.id)}"
+      Rails.logger.debug "Successfully enabled mark_seen and typing indicator for recipient #{contact.get_source_id(inbox.id)}"
     else
-      Rails.logger.warn "Failed to enable typing indicator for recipient #{contact.get_source_id(inbox.id)}"
+      # Nếu không thành công với mark_seen_and_typing, thử lại chỉ với typing_on
+      typing_result = typing_service.enable
+      if typing_result
+        Rails.logger.debug "Successfully enabled typing indicator (without mark_seen) for recipient #{contact.get_source_id(inbox.id)}"
+      else
+        Rails.logger.warn "Failed to enable typing indicator for recipient #{contact.get_source_id(inbox.id)}"
+      end
     end
   rescue => e
     Rails.logger.error "Error enabling typing indicator: #{e.message}"
+    # Ghi log chi tiết hơn để debug
+    Rails.logger.error e.backtrace.join("\n")
   end
 
   # Tắt typing indicator
@@ -112,17 +161,22 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     end
   rescue => e
     Rails.logger.error "Error disabling typing indicator: #{e.message}"
+    # Ghi log chi tiết hơn để debug
+    Rails.logger.error e.backtrace.join("\n")
   end
 
   # Đánh dấu tin nhắn đã xem được xử lý tự động trong ChannelListener
   # khi gửi sự kiện typing_on, không cần gọi trực tiếp từ đây
 
   def fb_text_message_params
+    # Xác định messaging_type và tag phù hợp
+    messaging_params = determine_messaging_params
+
     {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: { text: message.content },
-      messaging_type: 'MESSAGE_TAG',
-      tag: 'ACCOUNT_UPDATE'
+      messaging_type: messaging_params[:messaging_type],
+      tag: messaging_params[:tag]
     }
   end
 
@@ -142,7 +196,14 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
                       attachment.download_url
                     end
 
+    # Thêm cache buster vào URL để tránh cache của Facebook
+    # Điều này đặc biệt quan trọng khi gửi cùng một hình ảnh nhiều lần
+    attachment_url = add_cache_buster(attachment_url)
+
     Rails.logger.info "Facebook::SendOnFacebookService: Sending attachment with URL: #{attachment_url}"
+
+    # Xác định messaging_type và tag phù hợp
+    messaging_params = determine_messaging_params
 
     {
       recipient: { id: contact.get_source_id(inbox.id) },
@@ -150,13 +211,36 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
         attachment: {
           type: attachment_type(attachment),
           payload: {
-            url: attachment_url
+            url: attachment_url,
+            is_reusable: true # Cho phép Facebook cache lại attachment để tái sử dụng
           }
         }
       },
-      messaging_type: 'MESSAGE_TAG',
-      tag: 'ACCOUNT_UPDATE'
+      messaging_type: messaging_params[:messaging_type],
+      tag: messaging_params[:tag]
     }
+  end
+
+  # Thêm cache buster vào URL
+  def add_cache_buster(url)
+    return url if url.blank?
+
+    separator = url.include?('?') ? '&' : '?'
+    "#{url}#{separator}cache_buster=#{Time.now.to_i}"
+  end
+
+  # Xác định messaging_type và tag phù hợp dựa trên thời gian cuối cùng người dùng gửi tin nhắn
+  def determine_messaging_params
+    # Kiểm tra xem cuộc hội thoại có tin nhắn đến trong vòng 24 giờ không
+    last_incoming_message = conversation.messages.incoming.order(created_at: :desc).first
+
+    if last_incoming_message.present? && last_incoming_message.created_at > 24.hours.ago
+      # Trong cửa sổ 24 giờ, sử dụng RESPONSE
+      { messaging_type: 'RESPONSE', tag: nil }
+    else
+      # Ngoài cửa sổ 24 giờ, sử dụng MESSAGE_TAG với tag phù hợp
+      { messaging_type: 'MESSAGE_TAG', tag: 'ACCOUNT_UPDATE' }
+    end
   end
 
   def attachment_type(attachment)

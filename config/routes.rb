@@ -278,6 +278,27 @@ Rails.application.routes.draw do
       # end of account scoped api routes
       # ----------------------------------
 
+      # API endpoints tối ưu cho chatbot
+      namespace :bot do
+        resources :messages, only: [:create] do
+          collection do
+            post :batch_create
+          end
+        end
+        resources :conversations, only: [:show, :update] do
+          member do
+            post :typing_on
+            post :typing_off
+            post :mark_seen
+          end
+        end
+        resources :attachments, only: [:create] do
+          collection do
+            post :external
+          end
+        end
+      end
+
       namespace :integrations do
         resources :webhooks, only: [:create]
       end

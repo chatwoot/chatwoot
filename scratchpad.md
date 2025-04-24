@@ -46,7 +46,45 @@
 - Solution: Áp dụng cùng phương pháp như với Facebook, ưu tiên sử dụng external_url
 - Lesson: Các kênh tương tự nhau (Facebook, Instagram) thường có cùng cách xử lý, có thể áp dụng các giải pháp tương tự
 
+### Tối ưu xử lý tin nhắn trong Chatwoot:
+- Error description: Xử lý tin nhắn chậm, đặc biệt khi có nhiều tin nhắn cùng lúc
+- Solution:
+  1. Sử dụng Redis để cache các thông tin thường xuyên truy cập
+  2. Tối ưu các truy vấn database bằng cách sử dụng eager loading
+  3. Xử lý bất đồng bộ các tác vụ nặng như gửi email, xử lý hình ảnh
+  4. Sử dụng background job để xử lý các tác vụ không cần phản hồi ngay lập tức
+- Lesson:
+  1. Phân tách rõ ràng giữa luồng xử lý chính và các tác vụ phụ
+  2. Sử dụng caching hợp lý để giảm tải cho database
+  3. Tối ưu truy vấn database để tránh N+1 query
+
 # Scratchpad
+
+## Phân tích cấu trúc và tối ưu Chatwoot cho chatbot
+
+### Phân tích cấu trúc hiện tại
+
+[X] Tìm hiểu cấu trúc dự án Chatwoot
+  [X] Xác định các thành phần chính liên quan đến xử lý tin nhắn
+  [X] Tìm hiểu luồng xử lý tin nhắn từ khi nhận đến khi gửi
+  [X] Phân tích các service và worker xử lý tin nhắn
+
+[X] Phân tích hiệu năng hiện tại
+  [X] Xác định các điểm nghẽn trong quá trình xử lý tin nhắn
+  [X] Phân tích cách xử lý hình ảnh và tệp đính kèm
+  [X] Tìm hiểu cơ chế gửi tin nhắn qua các kênh khác nhau
+
+### Đề xuất tối ưu hóa
+
+[ ] Tối ưu xử lý tin nhắn
+  [ ] Cải thiện cơ chế nhận và gửi tin nhắn
+  [ ] Tối ưu xử lý hình ảnh và tệp đính kèm
+  [ ] Cải thiện hiệu năng database và caching
+
+[ ] Tối ưu cho chatbot
+  [ ] Cải thiện API để tích hợp với chatbot
+  [ ] Tối ưu luồng xử lý tin nhắn cho chatbot
+  [ ] Cải thiện cơ chế webhook và callback
 
 ## Các nhiệm vụ đã hoàn thành
 
