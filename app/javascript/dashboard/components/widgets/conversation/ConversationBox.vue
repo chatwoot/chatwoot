@@ -5,9 +5,13 @@ import DashboardAppFrame from '../DashboardApp/Frame.vue';
 import EmptyState from './EmptyState/EmptyState.vue';
 import MessagesView from './MessagesView.vue';
 import ConversationSidebar from './ConversationSidebar.vue';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import CallDialog from 'dashboard/routes/dashboard/conversation/contact/CallDialog.vue';
 
 export default {
   components: {
+    CallDialog,
     ConversationSidebar,
     ConversationHeader,
     DashboardAppFrame,
@@ -36,7 +40,7 @@ export default {
   },
   emits: ['contactPanelToggle'],
   data() {
-    return { activeIndex: 0 };
+    return { activeIndex: 0, showCallModal: false };
   },
   computed: {
     ...mapGetters({
@@ -78,8 +82,23 @@ export default {
   mounted() {
     this.fetchLabels();
     this.$store.dispatch('dashboardApps/get');
+
+    emitter.on(BUS_EVENTS.CALL_MODAL, this.startCall);
   },
+
   methods: {
+    toggleCallModal() {
+      this.showCallModal = !this.showCallModal;
+      console.log('showCallModal', this.showCallModal);
+    },
+    startCall() {
+      this.showCallModal = true;
+      console.log('startCall', this.currentChat.id);
+      this.$store.dispatch('createCall', this.currentChat.id);
+    },
+    endCall() {
+      this.$store.dispatch('endCall', this.currentChat.id);
+    },
     fetchLabels() {
       if (!this.currentChat.id) {
         return;
@@ -142,6 +161,7 @@ export default {
         :current-chat="currentChat"
         @toggle-contact-panel="onToggleContactPanel"
       />
+      <CallDialog v-if="showCallModal" @close="toggleCallModal" />
     </div>
     <DashboardAppFrame
       v-for="(dashboardApp, index) in dashboardApps"

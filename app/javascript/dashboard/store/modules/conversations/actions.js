@@ -36,6 +36,22 @@ const actions = {
     }
   },
 
+  createCall: async ({ commit }, conversationId) => {
+    try {
+      await ConversationApi.createCall(conversationId);
+    } catch (error) {
+      // Handle error
+    }
+  },
+
+  endCall: async ({ commit }, conversationId) => {
+    try {
+      await ConversationApi.endCall(conversationId);
+    } catch (error) {
+      // Handle error
+    }
+  },
+
   fetchAllConversations: async ({ commit, state, dispatch }) => {
     commit(types.SET_LIST_LOADING_STATUS);
     try {

@@ -49,6 +49,7 @@ export default {
     return {
       showEditModal: false,
       showConversationModal: false,
+      showCallModal: false,
       showMergeModal: false,
       showDeleteModal: false,
     };
@@ -102,6 +103,10 @@ export default {
         BUS_EVENTS.NEW_CONVERSATION_MODAL,
         this.showConversationModal
       );
+    },
+    toggleCallModal() {
+      this.showCallModal = !this.showCallModal;
+      emitter.emit(BUS_EVENTS.CALL_MODAL, this.showCallModal);
     },
     toggleDeleteModal() {
       this.showDeleteModal = !this.showDeleteModal;
@@ -245,6 +250,14 @@ export default {
         </div>
       </div>
       <div class="flex items-center w-full mt-0.5 gap-2">
+        <NextButton
+          v-tooltip.top-end="$t('CONTACT_PANEL.NEW_MESSAGE')"
+          icon="i-ph-phone"
+          slate
+          faded
+          sm
+          @click="toggleCallModal"
+        />
         <NextButton
           v-tooltip.top-end="$t('CONTACT_PANEL.NEW_MESSAGE')"
           icon="i-ph-chat-circle-dots"

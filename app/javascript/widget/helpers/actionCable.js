@@ -25,8 +25,18 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.created': this.onConversationCreated,
       'presence.update': this.onPresenceUpdate,
       'contact.merged': this.onContactMerge,
+      'call.created': this.onCallCreated,
+      'call.ended': this.onCallEnded,
     };
   }
+
+  onCallCreated = data => {
+    console.log('onCallCreated', data);
+  };
+
+  onCallEnded = data => {
+    console.log('onCallEnded', data);
+  };
 
   onDisconnected = () => {
     this.setLastMessageId();
