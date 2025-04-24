@@ -14,14 +14,6 @@ const tabs = [{
   key: '1',
   index: 1,
   name: 'Knowledge Sources',
-}, {
-  key: '2',
-  index: 2,
-  name: 'Integrations',
-}, {
-  key: '3',
-  index: 3,
-  name: 'Followups',
 }]
 const activeIndex = ref(0)
 
