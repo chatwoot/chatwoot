@@ -11,6 +11,10 @@ class V2::Reports::Conversations::BaseReportBuilder
     resolutions_count
     bot_resolutions_count
     bot_handoffs_count
+    ai_agent_credit_usage
+    ai_agent_message_send_count
+    ai_agent_handoff_count
+    agent_handoff_count
   ].freeze
 
   def builder_class(metric)
