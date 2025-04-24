@@ -1,25 +1,18 @@
-<svg
-  width="16"
-  height="16"
-  viewBox="0 0 16 16"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <g clip-path="url(#woot-logo-clip-2342424e23u32098)">
-    <path
-      d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16Z"
-      fill="#2781F6"
-    />
-    <path
-      d="M11.4172 11.4172H7.70831C5.66383 11.4172 4 9.75328 4 7.70828C4 5.66394 5.66383 4 7.70835 4C9.75339 4 11.4172 5.66394 11.4172 7.70828V11.4172Z"
-      fill="white"
-      stroke="white"
-      stroke-width="0.1875"
-    />
-  </g>
-  <defs>
-    <clipPath id="woot-logo-clip-2342424e23u32098">
-      <rect width="16" height="16" fill="white" />
-    </clipPath>
-  </defs>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="16px" height="16px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
+<g>
+	<g>
+		<path fill="#7A5F4C" d="M7.895,11.653c3.951-0.083,6.003-2.31,6.97-3.908C14.163,3.832,11.583,0,7.656,0
+			C4.704,0,1.499,2.844,1.011,7.402C1.767,9.077,3.64,11.742,7.895,11.653z"/>
+		<path fill="#5E493B" d="M14.864,7.745c-0.967,1.599-3.019,3.825-6.97,3.908C3.64,11.742,1.767,9.077,1.011,7.402
+			C0.938,8.089,0.925,8.812,0.985,9.571c0.457,5.809,5.17,6.439,7.389,6.439s6.835-2.146,6.674-6.563
+			C15.028,8.886,14.966,8.314,14.864,7.745z"/>
+	</g>
+	<ellipse fill="#493028" cx="6.417" cy="1.577" rx="0.58" ry="0.356"/>
+	<ellipse fill="#493028" cx="9.074" cy="1.577" rx="0.58" ry="0.356"/>
+	<ellipse fill="#493028" cx="7.794" cy="0.75" rx="0.58" ry="0.242"/>
+</g>
 </svg>
