@@ -16,7 +16,7 @@ class Api::V1::Accounts::KnowledgeSourceQnaController < Api::V1::Accounts::BaseC
     knowledge_source_qna = knowledge_source.knowledge_source_qnas.find(params[:id])
 
     if knowledge_source_qna.destroy
-      delete_document_loader(store_id: knowledge_source.store_id, loader_id: knowledge_source_qna.loader_id)
+      delete_document_loaders(knowledge_source.store_id, [knowledge_source_qna.loader_id])
 
       head :no_content
     else
@@ -94,5 +94,11 @@ class Api::V1::Accounts::KnowledgeSourceQnaController < Api::V1::Accounts::BaseC
     @ai_agent = Current.account.ai_agents.find(params[:ai_agent_id])
   rescue ActiveRecord::RecordNotFound
     handle_error('AI Agent not found', :not_found)
+  end
+
+  def qna_params
+    params.require(:_json).map do |qna|
+      qna.permit(:id, :question, :answer)
+    end
   end
 end
