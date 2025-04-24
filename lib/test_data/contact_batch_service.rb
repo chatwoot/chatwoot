@@ -12,9 +12,10 @@ class TestData::ContactBatchService
   def generate!
     Rails.logger.info { "Starting batch generation for account ##{@account.id} with #{@batch_size} contacts" }
 
+    labels = create_labels
     create_contacts
     create_contact_inboxes
-    create_conversations
+    create_conversations_with_labels(labels)
     create_messages
 
     Rails.logger.info { "Completed batch with #{@total_messages} messages for account ##{@account.id}" }
@@ -22,6 +23,11 @@ class TestData::ContactBatchService
   end
 
   private
+
+  def create_labels
+    label_generator = TestData::LabelGenerator.new(@account)
+    label_generator.generate!
+  end
 
   # rubocop:disable Rails/SkipsModelValidations
   def create_contacts
@@ -96,42 +102,14 @@ class TestData::ContactBatchService
   end
   # rubocop:enable Rails/SkipsModelValidations
 
-  # rubocop:disable Rails/SkipsModelValidations
-  def create_conversations
-    Rails.logger.info { "Creating conversations for account ##{@account.id}" }
-    start_time = Time.current
-
-    conversations_data = []
-    @contact_inboxes.each do |ci|
-      num_convos = rand(1..TestData::Constants::MAX_CONVERSATIONS_PER_CONTACT)
-      num_convos.times { conversations_data << build_conversation(ci) }
-    end
-
-    count = conversations_data.size
-    Rails.logger.info { "Preparing to insert #{count} conversations" }
-
-    Conversation.insert_all!(conversations_data) if conversations_data.any?
-    @conversations = Conversation.where(
-      account_id: @account.id,
-      display_id: conversations_data.pluck(:display_id)
-    ).order(:created_at)
-
-    Rails.logger.info { "Created #{count} conversations in #{Time.current - start_time}s" }
-  end
-  # rubocop:enable Rails/SkipsModelValidations
-
-  def build_conversation(contact_inbox)
-    created_at = Faker::Time.between(from: contact_inbox.created_at, to: Time.current)
-    {
-      account_id: @account.id,
-      inbox_id: contact_inbox.inbox_id,
-      contact_id: contact_inbox.contact_id,
-      contact_inbox_id: contact_inbox.id,
-      status: TestData::Constants::STATUSES.sample,
-      created_at: created_at,
-      updated_at: created_at,
-      display_id: @display_id_tracker.next_id
-    }
+  def create_conversations_with_labels(labels)
+    conversation_generator = TestData::ConversationGenerator.new(
+      account: @account,
+      contact_inboxes: @contact_inboxes,
+      labels: labels,
+      display_id_tracker: @display_id_tracker
+    )
+    @conversations = conversation_generator.generate!
   end
 
   # rubocop:disable Rails/SkipsModelValidations
