@@ -30,14 +30,14 @@ class Api::V1::External::ConversationsController < Api::BaseController
 
   def fetch_paginated_messages(conversation)
     conversation.messages
-                .select(:id, :conversation_id, :message_type, :content)
-                .order(sort_params)
+                .select(:conversation_id, :message_type, :content, :created_at)
+                .reorder(sort_params)
                 .page(params[:page])
                 .per(per_page_param)
   end
 
   def sort_params
-    direction = params[:sort_order]&.downcase == 'desc' ? :desc : :asc
+    direction = params[:sort_order].to_s.downcase == 'desc' ? :desc : :asc
     { created_at: direction }
   end
 
@@ -46,7 +46,8 @@ class Api::V1::External::ConversationsController < Api::BaseController
       total_count: @messages.total_count,
       current_page: @messages.current_page,
       per_page: @messages.limit_value,
-      total_pages: @messages.total_pages
+      total_pages: @messages.total_pages,
+      sort_order: params[:sort_order] || 'asc'
     }
   end
 
@@ -77,7 +78,8 @@ class Api::V1::External::ConversationsController < Api::BaseController
     {
       conversation_id: msg.conversation_id,
       message_type: msg.message_type,
-      content: msg.content
+      content: msg.content,
+      created_at: msg.created_at
     }
   end
 end

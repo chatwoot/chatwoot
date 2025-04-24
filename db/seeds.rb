@@ -18,11 +18,13 @@ unless Rails.env.production?
   GlobalConfig.clear_cache
 
   account = Account.create!(
-    name: 'Acme Inc'
+    name: 'Acme Inc',
+    dealership_id: '177b4e57-dacf-46c7-b582-08886aa81fd4'
   )
 
   secondary_account = Account.create!(
-    name: 'Acme Org'
+    name: 'Acme Org',
+    dealership_id: '177b4e57-dacf-46c7-b582-08886aa81fd4'
   )
 
   user = User.new(name: 'John', email: 'john@acme.inc', password: 'Password1!', type: 'SuperAdmin')
