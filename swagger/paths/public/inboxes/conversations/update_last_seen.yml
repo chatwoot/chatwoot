@@ -4,9 +4,17 @@ operationId: update-last-seen
 summary: Update last seen
 description: Updates the last seen time of the contact in a conversation
 responses:
-  200:
+  '200':
     description: Last seen updated successfully
-  401:
+  '401':
     description: Unauthorized
-  404:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
     description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

@@ -6,7 +6,7 @@ properties:
   messages:
     type: array
     items:
-      $ref: '#/definitions/message'
+      $ref: '#/components/schemas/message'
   account_id:
     type: number
     description: Account Id

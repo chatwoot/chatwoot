@@ -11,9 +11,17 @@ post:
       description: ID of the conversation
       required: true
   responses:
-    200:
+    '200':
       description: Success
-    404:
-      description: Contact not found
-    403:
+    '403':
       description: Access denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '404':
+      description: Contact not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

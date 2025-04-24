@@ -13,7 +13,7 @@ properties:
     description: Flag to identify if it is a private note
   content_type:
     type: string
-    enum: ['text', 'input_email', 'cards', 'input_select', 'form' , 'article']
+    enum: ['text', 'input_email', 'cards', 'input_select', 'form', 'article']
     example: 'cards'
     description: 'if you want to create custom message types'
   content_attributes:
@@ -35,8 +35,8 @@ properties:
         type: string
         description: Language of the template
         example: en_US
-      processed_params: 
+      processed_params:
         type: object
         description: The processed param values for template variables in template
-        example: 
-          1: "Chatwoot"
+        example:
+          1: 'Chatwoot'

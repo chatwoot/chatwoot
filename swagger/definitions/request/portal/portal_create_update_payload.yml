@@ -13,8 +13,8 @@ properties:
     example: { allowed_locales: ['en', 'es'], default_locale: 'en' }
   custom_domain:
     type: string
-    description: Custom domain to  display help center.
-    example: https://chatwoot.help/.
+    description: Custom domain to display help center.
+    example: chatwoot.help
   header_text:
     type: string
     description: Help center header

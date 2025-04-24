@@ -3,24 +3,37 @@ tags:
 operationId: contact-add-labels
 summary: Add Labels
 description: Add labels to a contact. Note that this API would overwrite the existing list of labels associated to the conversation.
-parameters:
-  - name: data
-    in: body
-    required: true
-    schema:
-      type: object
-      properties:
-        labels:
-          type: array
-          description: Array of labels (comma-separated strings)
-          items:
-            type: string
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - labels
+        properties:
+          labels:
+            type: array
+            description: Array of labels (comma-separated strings)
+            items:
+              type: string
+            example: ['support', 'billing']
 responses:
-  200:
+  '200':
     description: Success
-    schema:
-      $ref: '#/definitions/contact_labels'
-  404:
-    description: Contact not found
-  401:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/contact_labels'
+  '401':
     description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: Contact not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

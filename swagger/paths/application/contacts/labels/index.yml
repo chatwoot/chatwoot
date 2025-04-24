@@ -4,11 +4,21 @@ operationId: list-all-labels-of-a-contact
 summary: List Labels
 description: Lists all the labels of a contact
 responses:
-  200:
+  '200':
     description: Success
-    schema:
-      $ref: '#/definitions/contact_labels'
-  404:
-    description: Contact not found
-  401:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/contact_labels'
+  '401':
     description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: Contact not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
