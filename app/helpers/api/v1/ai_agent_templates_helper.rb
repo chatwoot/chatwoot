@@ -8,7 +8,9 @@ module Api::V1::AiAgentTemplatesHelper
     document_node(flow_data, store_id)
     system_message(flow_data, template, business_name)
 
-    flow_data
+    store_config = set_store_config(store_id, database_name, template)
+
+    { flow_data: flow_data, store_config: store_config }
   end
 
   def save_as_chat_flow(system_prompt, flow_data)
@@ -59,5 +61,14 @@ module Api::V1::AiAgentTemplatesHelper
     today = Time.current.strftime('%Y%m%d%H%M%S')
 
     "#{underscored}_#{today}"
+  end
+
+  def set_store_config(store_id, database_name, template)
+    store_config = template.store_config.deep_dup
+
+    store_config['storeId'] = store_id
+    store_config['vectorStoreConfig']['databaseName'] = database_name
+
+    store_config
   end
 end

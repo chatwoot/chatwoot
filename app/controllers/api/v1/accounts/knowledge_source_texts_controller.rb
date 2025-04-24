@@ -21,6 +21,7 @@ class Api::V1::Accounts::KnowledgeSourceTextsController < Api::V1::Accounts::Bas
     end
 
     update_source(knowledge_source)
+    upsert_document_store(knowledge_source)
   end
 
   def destroy
@@ -29,6 +30,9 @@ class Api::V1::Accounts::KnowledgeSourceTextsController < Api::V1::Accounts::Bas
 
     if knowledge_source_text.destroy
       delete_document_loader(store_id: knowledge_source.store_id, loader_id: knowledge_source_text.loader_id)
+      upsert_document_store(knowledge_source) if knowledge_source.not_empty?
+      # If the knowledge source is empty, we don't need to upsert the document store
+      # because it will be deleted in the destroy method of the knowledge source.
 
       head :no_content
     else
@@ -100,6 +104,10 @@ class Api::V1::Accounts::KnowledgeSourceTextsController < Api::V1::Accounts::Bas
     )
   rescue StandardError => e
     Rails.logger.error("Failed to delete document loader: #{e.message}")
+  end
+
+  def upsert_document_store(knowledge_source)
+    AiAgents::FlowiseService.upsert_document_store(knowledge_source.store_config)
   end
 
   def set_ai_agent

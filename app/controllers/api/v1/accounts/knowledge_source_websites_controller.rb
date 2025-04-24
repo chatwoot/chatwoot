@@ -16,6 +16,9 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
 
     begin
       processed_scrapes = process_scrapes(find_knowledge_source, scrapes, created_document_loader_ids)
+      upsert_document_store(find_knowledge_source) if find_knowledge_source.not_empty?
+      # If the knowledge source is empty, we don't need to upsert the document store
+      # because it will be deleted in the destroy method of the knowledge source.
       render json: processed_scrapes.compact, status: :created
     rescue StandardError => e
       cleanup_created_loaders(find_knowledge_source.store_id, created_document_loader_ids)
@@ -49,6 +52,8 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
     knowledge_source_websites.each do |knowledge_source_website|
       delete_document_loader(store_id: find_knowledge_source.store_id, loader_id: knowledge_source_website.loader_id)
     end
+
+    upsert_document_store(find_knowledge_source) if find_knowledge_source.not_empty?
 
     render json: { message: 'Knowledge source websites deleted successfully' }, status: :ok
   rescue StandardError => e
@@ -151,6 +156,9 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
       params: params, document_loader: document_loader
     )
     delete_document_loader(store_id: knowledge_source.store_id, loader_id: result[:previous_loader_id])
+    upsert_document_store(knowledge_source) if knowledge_source.not_empty?
+    # If the knowledge source is empty, we don't need to upsert the document store
+    # because it will be deleted in the destroy method of the knowledge source.
 
     render json: result[:updated], status: :ok
   end
@@ -167,6 +175,10 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
     )
   rescue StandardError => e
     Rails.logger.error("Failed to delete document loader: #{e.message}")
+  end
+
+  def upsert_document_store(knowledge_source)
+    AiAgents::FlowiseService.upsert_document_store(knowledge_source.store_config)
   end
 
   def get_parent_url(url)

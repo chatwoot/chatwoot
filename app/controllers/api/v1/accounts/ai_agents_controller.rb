@@ -76,14 +76,16 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   def load_chat_flow(template, store_id)
-    flow_data = build_chat_flow(template, store_id, ai_agent_params[:name], Current.account.name)
+    response = build_chat_flow(template, store_id, ai_agent_params[:name], Current.account.name)
 
+    flow_data = response[:flow_data]
+    store_config = response[:store_config]
     response = AiAgents::FlowiseService.load_chat_flow(
       name: ai_agent_params[:name],
       flow_data: flow_data
     )
 
-    { 'id' => response['id'], 'flow_data' => flow_data }
+    { 'id' => response['id'], 'flow_data' => flow_data, 'store_config' => store_config }
   rescue StandardError => e
     handle_error('Failed to load chat flow', status: :bad_gateway, exception: e)
     nil
@@ -128,7 +130,8 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
 
     agent.build_knowledge_source(
       name: document_store['name'],
-      store_id: document_store['id']
+      store_id: document_store['id'],
+      store_config: chat_flow['store_config']
     )
 
     agent

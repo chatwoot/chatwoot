@@ -4,6 +4,7 @@
 #
 #  id                :bigint           not null, primary key
 #  name              :string
+#  store_config      :jsonb            not null
 #  system_prompt     :text             not null
 #  template          :jsonb            not null
 #  welcoming_message :text             not null

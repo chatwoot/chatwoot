@@ -72,6 +72,14 @@ class AiAgents::FlowiseService
       response.parsed_response
     end
 
+    def upsert_document_store(store_config)
+      response = post('/document-store/vectorstore/insert', body: store_config.to_json, headers: headers)
+
+      raise "Error upsert document store: #{response.code} #{response.message}" unless response.success?
+
+      response.parsed_response
+    end
+
     def add_document_loader(store_id:, loader_id:, splitter_id:, name:, content:)
       body = document_loader_body(store_id, loader_id, splitter_id: splitter_id, name: name, content: content)
 

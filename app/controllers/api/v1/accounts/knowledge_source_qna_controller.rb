@@ -9,6 +9,7 @@ class Api::V1::Accounts::KnowledgeSourceQnaController < Api::V1::Accounts::BaseC
     end
 
     create_source(knowledge_source)
+    upsert_document_store(knowledge_source)
   end
 
   def destroy
@@ -17,6 +18,9 @@ class Api::V1::Accounts::KnowledgeSourceQnaController < Api::V1::Accounts::BaseC
 
     if knowledge_source_qna.destroy
       delete_document_loaders(knowledge_source.store_id, [knowledge_source_qna.loader_id])
+      upsert_document_store(knowledge_source) if knowledge_source.not_empty?
+      # If the knowledge source is empty, we don't need to upsert the document store
+      # because it will be deleted in the destroy method of the knowledge source.
 
       head :no_content
     else
@@ -79,6 +83,10 @@ class Api::V1::Accounts::KnowledgeSourceQnaController < Api::V1::Accounts::BaseC
     return unless failed_deletes.any?
 
     Rails.logger.warn("Some document loaders failed to delete: #{failed_deletes.join(', ')}")
+  end
+
+  def upsert_document_store(knowledge_source)
+    AiAgents::FlowiseService.upsert_document_store(knowledge_source.store_config)
   end
 
   def handle_error(message, status: :bad_request, exception: nil)

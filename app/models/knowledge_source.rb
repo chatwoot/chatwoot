@@ -2,12 +2,13 @@
 #
 # Table name: knowledge_sources
 #
-#  id          :bigint           not null, primary key
-#  name        :string           not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  ai_agent_id :bigint           not null
-#  store_id    :string           not null
+#  id           :bigint           not null, primary key
+#  name         :string           not null
+#  store_config :jsonb            not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  ai_agent_id  :bigint           not null
+#  store_id     :string           not null
 #
 # Indexes
 #
@@ -27,6 +28,13 @@ class KnowledgeSource < ApplicationRecord
   validates :name, presence: true
   validates :ai_agent_id, presence: true
   validates :store_id, presence: true
+
+  def not_empty?
+    knowledge_source_texts.exists? ||
+      knowledge_source_files.exists? ||
+      knowledge_source_websites.exists? ||
+      knowledge_source_qnas.exists?
+  end
 
   def add_text!(content:, document_loader:)
     knowledge_source_texts.create!(
