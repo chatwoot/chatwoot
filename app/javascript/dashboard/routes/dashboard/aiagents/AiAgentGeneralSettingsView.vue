@@ -13,7 +13,7 @@
                 <div>
                     <label for="system_prompts">Perintah AI</label>
                     <TextArea id="system_prompts" custom-text-area-wrapper-class=""
-                        custom-text-area-class="!outline-none" autoHeight v-model="state.system_prompt" />
+                        custom-text-area-class="!outline-none" autoHeight v-model="state.system_prompts" />
                 </div>
                 <div>
                     <label for="welcome_message">Welcome Message</label>
@@ -58,13 +58,13 @@ const chatflowId = ref(props.data?.chat_flow_id)
 const state = reactive({
     name: '',
     description: '',
-    system_prompt: '',
+    system_prompts: '',
     welcoming_message: '',
 })
 const rules = {
     name: { required },
     description: {},
-    system_prompt: { required },
+    system_prompts: { required },
     welcoming_message: {},
 }
 
@@ -75,7 +75,7 @@ watch(() => props.data, v => {
         Object.assign(state, {
             name: v.name,
             description: v.description || '',
-            system_prompt: v.system_prompts || '',
+            system_prompts: v.system_prompts || '',
             welcoming_message: v.welcoming_message || '',
         })
     }
