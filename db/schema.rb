@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_21_072952) do
+ActiveRecord::Schema[7.0].define(version: 2025_04_24_073922) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -150,6 +150,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_21_072952) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.jsonb "template", default: {}, null: false
+    t.jsonb "store_config", default: {}, null: false
   end
 
   create_table "ai_agents", force: :cascade do |t|
@@ -829,6 +830,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_21_072952) do
     t.string "store_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "store_config", default: {}, null: false
     t.index ["ai_agent_id"], name: "index_knowledge_sources_on_ai_agent_id", unique: true
   end
 

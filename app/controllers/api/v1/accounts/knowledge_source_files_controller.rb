@@ -15,17 +15,21 @@ class Api::V1::Accounts::KnowledgeSourceFilesController < Api::V1::Accounts::Bas
     end
 
     create_source(knowledge_source, params[:file])
+    upsert_document_store(knowledge_source)
   end
 
   def destroy
     knowledge_source = @ai_agent.knowledge_source
     return render json: { error: 'Knowledge source not found' }, status: :not_found if knowledge_source.nil?
 
-    knowledge_source_file = knowledge_source.knowledge_source_files.find(params[:id])
+    knowledge_source_file = knowledge_source.knowledge_source_files.find_by(id: params[:id])
     return render json: { error: 'Knowledge source file not found' }, status: :not_found if knowledge_source.nil?
 
     if knowledge_source_file.destroy
       delete_document_loader(store_id: knowledge_source.store_id, loader_id: knowledge_source_file.loader_id)
+      upsert_document_store(knowledge_source) if knowledge_source.not_empty?
+      # If the knowledge source is empty, we don't need to upsert the document store
+      # because it will be deleted in the destroy method of the knowledge source.
 
       head :no_content
     else
@@ -75,6 +79,10 @@ class Api::V1::Accounts::KnowledgeSourceFilesController < Api::V1::Accounts::Bas
     )
   rescue StandardError => e
     Rails.logger.error("Failed to delete document loader: #{e.message}")
+  end
+
+  def upsert_document_store(knowledge_source)
+    AiAgents::FlowiseService.upsert_document_store(knowledge_source.store_config)
   end
 
   def formatted_file_name(file_name)
