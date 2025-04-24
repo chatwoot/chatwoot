@@ -6,7 +6,6 @@ class OauthCallbackController < ApplicationController
     )
 
     handle_response
-    ::Redis::Alfred.delete(cache_key)
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception
     redirect_to '/'
@@ -64,10 +63,6 @@ class OauthCallbackController < ApplicationController
     raise NotImplementedError
   end
 
-  def cache_key
-    "#{provider_name}::#{users_data['email'].downcase}"
-  end
-
   def create_channel_with_inbox
     ActiveRecord::Base.transaction do
       channel_email = Channel::Email.create!(email: users_data['email'], account: account)
@@ -85,12 +80,14 @@ class OauthCallbackController < ApplicationController
     decoded_token[0]
   end
 
-  def account_id
-    ::Redis::Alfred.get(cache_key)
+  def account_from_signed_id
+    raise 'Missing state variable' if params[:state].blank?
+
+    GlobalID::Locator.locate_signed(params[:state])
   end
 
   def account
-    @account ||= Account.find(account_id)
+    @account ||= account_from_signed_id
   end
 
   # Fallback name, for when name field is missing from users_data
