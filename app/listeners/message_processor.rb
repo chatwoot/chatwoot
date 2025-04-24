@@ -15,7 +15,7 @@ module MessageProcessor
       return
     end
 
-    conversation_db = Conversation.find_by(status: 0, assignee_id: nil, inbox_id: inbox_id)
+    conversation_db = Conversation.find_by(assignee_id: nil, inbox_id: inbox_id)
     unless conversation_db
       Rails.logger.warn("No active convertation bot found for inbox_id: #{inbox_id}")
       return
