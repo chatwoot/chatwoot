@@ -3,7 +3,7 @@ const setArrayValues = item => {
 };
 
 const generateValues = item => {
-  if (item.attribute_key === 'content') {
+  if (item.attribute_key === 'content' && item.filter_operator !== 'contains') {
     const values = item.values || '';
     return values.split(',');
   }
