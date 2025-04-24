@@ -41,8 +41,8 @@ RSpec.describe Internal::Accounts::InternalAttributesService do
       expect { service.set('invalid_key', 'value') }.to raise_error(ArgumentError, 'Invalid internal attribute key: invalid_key')
     end
 
-    it 'creates internal_attributes hash if it does not exist' do
-      account.update(internal_attributes: nil)
+    it 'creates internal_attributes hash if it is empty' do
+      account.update(internal_attributes: {})
 
       # Stub the validation to allow our test key
       allow(service).to receive(:validate_key!).and_return(true)
@@ -67,11 +67,19 @@ RSpec.describe Internal::Accounts::InternalAttributesService do
   end
 
   describe '#manually_managed_features=' do
+    # Use a real SLA feature which is in the BUSINESS_PLAN_FEATURES
+    let(:valid_feature) { 'sla' }
+
+    before do
+      # Make sure the feature is allowed through validation
+      allow(service).to receive(:valid_feature_list).and_return([valid_feature, 'custom_roles'])
+    end
+
     it 'saves features as an array' do
-      service.manually_managed_features = 'feature1'
+      service.manually_managed_features = valid_feature
       account.reload
 
-      expect(account.internal_attributes['manually_managed_features']).to eq(['feature1'])
+      expect(account.internal_attributes['manually_managed_features']).to eq([valid_feature])
     end
 
     it 'handles nil input' do
@@ -82,17 +90,13 @@ RSpec.describe Internal::Accounts::InternalAttributesService do
     end
 
     it 'handles array input' do
-      service.manually_managed_features = %w[feature1 feature2]
+      service.manually_managed_features = [valid_feature, 'custom_roles']
       account.reload
 
-      expect(account.internal_attributes['manually_managed_features']).to eq(%w[feature1 feature2])
+      expect(account.internal_attributes['manually_managed_features']).to eq([valid_feature, 'custom_roles'])
     end
 
     it 'filters out invalid features' do
-      # Mock the valid_feature_list to return specific values for testing
-      valid_feature = business_features.first
-      allow(service).to receive(:valid_feature_list).and_return([valid_feature])
-
       service.manually_managed_features = [valid_feature, 'invalid_feature']
       account.reload
 
@@ -100,9 +104,6 @@ RSpec.describe Internal::Accounts::InternalAttributesService do
     end
 
     it 'removes duplicates' do
-      valid_feature = business_features.first
-      allow(service).to receive(:valid_feature_list).and_return([valid_feature])
-
       service.manually_managed_features = [valid_feature, valid_feature]
       account.reload
 
@@ -110,9 +111,6 @@ RSpec.describe Internal::Accounts::InternalAttributesService do
     end
 
     it 'removes empty strings' do
-      valid_feature = business_features.first
-      allow(service).to receive(:valid_feature_list).and_return([valid_feature])
-
       service.manually_managed_features = [valid_feature, '', '  ']
       account.reload
 
@@ -120,9 +118,6 @@ RSpec.describe Internal::Accounts::InternalAttributesService do
     end
 
     it 'trims whitespace' do
-      valid_feature = business_features.first
-      allow(service).to receive(:valid_feature_list).and_return([valid_feature])
-
       service.manually_managed_features = ["  #{valid_feature}  "]
       account.reload
 
