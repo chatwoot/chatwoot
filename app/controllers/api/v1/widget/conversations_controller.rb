@@ -90,4 +90,8 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
                                                                message: [:content, :referer_url, :timestamp, :echo_id],
                                                                custom_attributes: {})
   end
+
+  def end_call
+    Rails.configuration.dispatcher.dispatch(CALL_ENDED, Time.zone.now, conversation: conversation, user: @contact, room_id: params[:room_id])
+  end
 end
