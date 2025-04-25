@@ -54,10 +54,6 @@ class Channel::Whatsapp < ApplicationRecord
     end
   end
 
-  def messaging_window_enabled?
-    provider != 'baileys'
-  end
-
   def mark_message_templates_updated
     # rubocop:disable Rails/SkipsModelValidations
     update_column(:message_templates_last_updated, Time.zone.now)

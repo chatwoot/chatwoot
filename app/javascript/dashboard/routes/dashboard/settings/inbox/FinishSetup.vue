@@ -1,12 +1,15 @@
 <script>
 import EmptyState from '../../../../components/widgets/EmptyState.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import DuplicateInboxBanner from './channels/instagram/DuplicateInboxBanner.vue';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import WhatsappBaileysLinkDeviceModal from './components/WhatsappBaileysLinkDeviceModal.vue';
 
 export default {
   components: {
     EmptyState,
     NextButton,
+    DuplicateInboxBanner,
     WhatsappBaileysLinkDeviceModal,
   },
   data() {
@@ -23,6 +26,20 @@ export default {
     isATwilioInbox() {
       return this.currentInbox.channel_type === 'Channel::TwilioSms';
     },
+    // Check if a facebook inbox exists with the same instagram_id
+    hasDuplicateInstagramInbox() {
+      const instagramId = this.currentInbox.instagram_id;
+      const facebookInbox =
+        this.$store.getters['inboxes/getFacebookInboxByInstagramId'](
+          instagramId
+        );
+
+      return (
+        this.currentInbox.channel_type === INBOX_TYPES.INSTAGRAM &&
+        facebookInbox
+      );
+    },
+
     isAEmailInbox() {
       return this.currentInbox.channel_type === 'Channel::Email';
     },
@@ -99,8 +116,12 @@ export default {
 
 <template>
   <div
-    class="border border-n-weak bg-n-solid-1 rounded-t-lg border-b-0 h-full w-full p-6 col-span-6 overflow-auto"
+    class="w-full h-full col-span-6 p-6 overflow-auto border border-b-0 rounded-t-lg border-n-weak bg-n-solid-1"
   >
+    <DuplicateInboxBanner
+      v-if="hasDuplicateInstagramInbox"
+      :content="$t('INBOX_MGMT.ADD.INSTAGRAM.NEW_INBOX_SUGGESTION')"
+    />
     <EmptyState
       :title="$t('INBOX_MGMT.FINISH.TITLE')"
       :message="message"

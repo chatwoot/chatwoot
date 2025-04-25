@@ -127,7 +127,7 @@ export default {
         this.isATwilioWhatsAppChannel
       );
     },
-    isAInstagramChannel() {
+    isAnInstagramChannel() {
       return this.channelType === INBOX_TYPES.INSTAGRAM;
     },
   },
