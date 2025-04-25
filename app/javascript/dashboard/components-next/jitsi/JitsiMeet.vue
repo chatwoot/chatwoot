@@ -71,77 +71,43 @@ export default {
             'camera',
             'hangup',
             'chat',
-            'customFloatingToggle', // Custom button
           ],
         },
       };
 
       if (this.jwt != '') {
         options.jwt = this.jwt;
-        console.log('jwt', this.jwt);
       }
 
       const domain = 'meet.jit.si';
       this.api = new JitsiMeetExternalAPI(domain, options);
 
-      function toggleFloating() {
-        const jitsiContainer = document.getElementById('jitsi-container');
-        const isFloating = jitsiContainer.classList.toggle('floating');
-
-        if (isFloating) {
-          jitsiContainer.style.position = 'fixed';
-          jitsiContainer.style.bottom = '20px';
-          jitsiContainer.style.right = '20px';
-          jitsiContainer.style.width = '300px';
-          jitsiContainer.style.height = '200px';
-          jitsiContainer.style.zIndex = '9999';
-          jitsiContainer.style.boxShadow = '0 0 10px rgba(0,0,0,0.3)';
-        } else {
-          jitsiContainer.style = '';
-        }
-      }
-
-      // Register custom button
-      this.api.addButton({
-        id: 'customFloatingToggle',
-        title: 'Minimize',
-        icon: 'https://img.icons8.com/ios-glyphs/30/minimize-window.png', // use your icon URL
-        onClick: () => toggleFloating(),
-      });
-
       // Event listeners
       this.api.on('videoConferenceJoined', () => {
-        console.log('videoConferenceJoined event fired');
         this.$emit('joined');
-        this.minimizeButton.style.display = 'flex';
         // Force-set display name (optional extra enforcement)
         this.api.executeCommand('displayName', this.displayName);
       });
 
-      // Add more debug listeners
       this.api.on('videoConferenceLeft', () => {
-        console.log('videoConferenceLeft event fired');
+        // Left event fired
       });
 
       this.api.on('participantLeft', () => {
-        console.log('participantLeft event fired');
+        // Participant left event fired
       });
 
       this.api.on('readyToClose', () => {
-        console.log('readyToClose event fired');
         this.$emit('hangup');
       });
 
       // Add error event listener
       this.api.on('errorOccurred', error => {
-        console.error('Jitsi error: event fired', error);
+        console.error('Jitsi error:', error);
       });
-
-      document
-        .getElementById('minimizeButton')
-        .addEventListener('click', () => {
-          toggleFloating();
-        });
+    },
+    toggleFloating() {
+      this.$emit('toggle-floating');
     },
   },
   watch: {
@@ -159,14 +125,47 @@ export default {
 .jitsi-iframe-container {
   width: 100%;
   height: 100%;
+  position: relative;
+}
+
+.button-container {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 100;
+}
+
+.minimize-button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.4);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.minimize-button:hover {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.minimize-button img {
+  width: 16px;
+  height: 16px;
+  filter: invert(1);
 }
 </style>
 
 <template>
-  <div>
-    <div ref="buttonContainer" class="button-container">
-      <button ref="minimizeButton" class="minimize-button">Minimize</button>
+    <div ref="jitsiContainer" class="jitsi-iframe-container">
+      <div ref="buttonContainer" class="button-container">
+        <button ref="minimizeButton" class="minimize-button" @click="toggleFloating">
+          <img src="https://img.icons8.com/ios-glyphs/30/minimize-window.png" alt="Minimize" />
+        </button>
+      </div>
     </div>
-    <div ref="jitsiContainer" class="jitsi-iframe-container"></div>
-  </div>
 </template>
