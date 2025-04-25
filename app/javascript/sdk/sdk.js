@@ -51,6 +51,7 @@ export const SDK_CSS = `
   user-select: none;
   width: 64px;
   z-index: 2147483000 !important;
+  overflow: hidden;
 }
 
 .woot-widget-bubble.woot-widget-bubble--flat {
