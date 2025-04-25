@@ -46,6 +46,7 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       dashboardApps: 'dashboardApps/getRecords',
+      currentUser: 'getCurrentUser',
     }),
     dashboardAppTabs() {
       return [
@@ -94,7 +95,10 @@ export default {
     startCall() {
       this.showCallModal = true;
       console.log('startCall', this.currentChat.id);
-      this.$store.dispatch('createCall', this.currentChat.id);
+      this.$store.dispatch('createCall', {
+        chat_id: this.currentChat.id,
+        room_id: 'onehash-test-agent',
+      });
     },
     endCall() {
       this.$store.dispatch('endCall', this.currentChat.id);
@@ -161,7 +165,14 @@ export default {
         :current-chat="currentChat"
         @toggle-contact-panel="onToggleContactPanel"
       />
-      <CallDialog v-if="showCallModal" @close="toggleCallModal" />
+      <CallDialog
+        v-if="showCallModal"
+        :agent-id="currentUser.id"
+        :display-name="currentUser.name"
+        :email="currentUser.email"
+        :room-id="'onehash-test-agent'"
+        @close="toggleCallModal"
+      />
     </div>
     <DashboardAppFrame
       v-for="(dashboardApp, index) in dashboardApps"

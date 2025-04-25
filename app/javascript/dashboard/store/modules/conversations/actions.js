@@ -36,9 +36,9 @@ const actions = {
     }
   },
 
-  createCall: async ({ commit }, conversationId) => {
+  createCall: async ({ commit }, body) => {
     try {
-      await ConversationApi.createCall(conversationId);
+      await ConversationApi.createCall(body.chat_id, body);
     } catch (error) {
       // Handle error
     }

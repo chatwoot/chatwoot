@@ -3,10 +3,26 @@ import JitsiMeet from 'dashboard/components-next/jitsi/JitsiMeet.vue';
 import { defineEmits } from 'vue';
 
 const emit = defineEmits(['close']);
-const roomName = 'abcd';
-const displayName = 'abcd';
-const email = 'abcd';
-const jwt = 'abcd';
+
+
+const props = defineProps({
+  agentId: {
+    type: Number,
+    required: true,
+  },
+  roomId: {
+    type: String,
+    required: true,
+  },
+  displayName: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+});   
 
 </script>
 
@@ -14,10 +30,10 @@ const jwt = 'abcd';
   <div v-on-clickaway="() => emit('close')" class="dialog-overlay">
     <div class="dialog-center">
       <JitsiMeet
-        :room-name="roomName"
+        :room-id="roomId"
+        :agent-id="agentId"
         :display-name="displayName"
         :email="email"
-        :jwt="jwt"
         @hangup="emit('close')"
       />
     </div>
