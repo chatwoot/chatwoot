@@ -17,7 +17,7 @@ import {
 } from '../sdk/DOMHelpers';
 import { setCookieWithDomain } from '../sdk/cookieHelpers';
 import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
-
+import { emitter } from '../shared/helpers/mitt';
 const runSDK = ({ baseUrl, websiteToken }) => {
   if (window.$chatwoot) {
     return;
@@ -184,6 +184,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
         darkMode: getDarkMode(darkMode),
       });
     },
+    
 
     reset() {
       if (window.$chatwoot.isOpen) {
@@ -201,6 +202,52 @@ const runSDK = ({ baseUrl, websiteToken }) => {
 
       window.$chatwoot.resetTriggered = true;
     },
+
+    disconnect() {
+      console.log('IFRAME OBJ', IFrameHelper)
+      const iframe = IFrameHelper.getAppFrame();
+      console.log('IFRAME APP FRAME', iframe, iframe?.parentElement)
+      if (iframe) {
+        iframe.remove();
+      }
+      console.log('window', window.$chatwoot)
+      // remove our SDK globals
+      delete window.$chatwoot;
+    },
+    disconnectWebsocket() {
+      const iframe = IFrameHelper.getAppFrame();
+      if (iframe) {
+        // unload the widget, closing its WS
+        iframe.src = 'about:blank';
+        window.$chatwoot.hasLoaded = false;
+      }
+    },
+  
+    /**
+     * Reconnects the widget’s WebSocket by reloading the iframe to the widget URL.
+     */
+    reconnectWebsocket() {
+      const iframe = IFrameHelper.getAppFrame();
+      if (iframe) {
+        // build the exact same URL createFrame would use
+        const cwCookie = Cookies.get('cw_conversation');
+        let url = IFrameHelper.getUrl({
+          baseUrl: window.$chatwoot.baseUrl,
+          websiteToken: window.$chatwoot.websiteToken,
+        });
+        if (cwCookie) {
+          url += `&cw_conversation=${cwCookie}`;
+        }
+        iframe.src = url;
+        window.$chatwoot.hasLoaded = false;
+      }
+    },
+    connect() {
+      IFrameHelper.createFrame({
+        baseUrl,
+        websiteToken,
+      });
+    },
   };
 
   IFrameHelper.createFrame({
@@ -211,4 +258,14 @@ const runSDK = ({ baseUrl, websiteToken }) => {
 
 window.chatwootSDK = {
   run: runSDK,
+  disconnect: () => {
+    if (window.$chatwoot && typeof window.$chatwoot.disconnect === 'function') {
+      window.$chatwoot.disconnect();
+    }
+  },
+  disconnectWebsocket: () => window.$chatwoot?.disconnectWebsocket(),
+  reconnectWebsocket: () => window.$chatwoot?.reconnectWebsocket(),
 };
+
+
+
