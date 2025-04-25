@@ -251,8 +251,8 @@ export default {
       </div>
       <div class="flex items-center w-full mt-0.5 gap-2">
         <NextButton
-          v-tooltip.top-end="$t('CONTACT_PANEL.NEW_MESSAGE')"
-          icon="i-ph-phone"
+          v-tooltip.top-end="$t('CONTACT_PANEL.VIDEO_CALL')"
+          icon="i-ph-video"
           slate
           faded
           sm

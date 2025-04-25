@@ -119,7 +119,7 @@ class ActionCableListener < BaseListener
     account = event.data[:account]
     user = event.data[:user]
     conversation = event.data[:conversation]
-    call = { room_id: event.data[:room_id] }
+    call = event.data[:call]
 
     tokens = call_event_listener_tokens(account, user, conversation)
 
@@ -129,7 +129,7 @@ class ActionCableListener < BaseListener
   def call_ended(event)
     account = event.data[:account]
     user = event.data[:user]
-    call = { room_id: event.data[:room_id] }
+    call = event.data[:call]
     conversation = event.data[:conversation]
     tokens = call_event_listener_tokens(account, user, conversation)
 

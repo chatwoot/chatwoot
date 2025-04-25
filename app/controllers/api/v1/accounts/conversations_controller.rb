@@ -103,7 +103,12 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def create_call
-    params[:room_id] = SecureRandom.uuid
+    params.require(:room_id)
+    params.permit(:room_id, :account_id, :id)
+    params[:domain] = ENV.fetch('JITSI_DOMAIN', nil)
+
+    Rails.logger.info("Creating call for conversation #{@conversation.id} with params: #{params.inspect}")
+
     call_manager = ::Conversations::CallManager.new(Current.account, Current.user, @conversation, params)
     call_manager.create_call
     head :ok
