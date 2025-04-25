@@ -27,7 +27,7 @@
                         <span>- {{ item.file_name }}</span>
                         <span class="font-bold">{{ item.total_chars }} karakter</span>
                         <Button variant="ghost" color="ruby" size="sm" icon="i-lucide-trash"
-                            @click="() => deleteFile(item)" />
+                            :is-loading="deleteLoadingIds[item.id]" @click="() => deleteFile(item)" />
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                 </span>
                 <div class="py-2">
                     <div v-for="(item, index) in newFiles" :key="index" class="flex flex-row gap-2 items-center">
-                        <span>- {{ item.name }} </span>
+                        <span>- {{ item?.name }} </span>
                         <Button variant="ghost" color="ruby" size="sm" icon="i-lucide-trash" @click="() => {
                             newFiles.splice(index, 1)
                         }" />
@@ -133,7 +133,6 @@ async function deleteData() {
         deleteLoadingIds.value[dataId] = true
         await aiAgents.deleteKnowledgeFile(props.data.id, dataId)
         files.value = files.value.filter((v) => v.id !== dataId)
-        selectedDocIndex.value = 0
         fetchKnowledge()
         useAlert('Berhasil hapus data')
     } catch (e) {
@@ -144,12 +143,18 @@ async function deleteData() {
 }
 
 const newFiles = ref([])
+function inputFile() {
+    return document.getElementById('inputfile')
+}
 function openPicker() {
-    const inputFile = document.getElementById('inputfile')
-    inputFile.click()
+    inputFile().click()
 }
 function addFile(files) {
+    if (!files.target.files || !files.target.files.length) {
+        return
+    }
     newFiles.value.push(files.target.files[0])
+    inputFile().value = ''
 }
 
 const isSaving = ref(false)
@@ -161,12 +166,15 @@ async function save() {
     try {
         isSaving.value = true
 
-        const formData = new FormData()
-        for (const element of newFiles.value) {
-            formData.append('file', element)
-        }
-
-        await aiAgents.addKnowledgeFile(props.data.id, formData)
+        const calls = newFiles.value.map(async (v) => {
+            const formData = new FormData()
+            for (const element of newFiles.value) {
+                formData.append('file', element)
+            }
+    
+            await aiAgents.addKnowledgeFile(props.data.id, formData)
+        })
+        await Promise.all(calls)
         newFiles.value = []
         fetchKnowledge()
         useAlert('Berhasil simpan data')
