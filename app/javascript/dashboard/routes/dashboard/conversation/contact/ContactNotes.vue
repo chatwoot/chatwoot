@@ -26,11 +26,11 @@ const notes = useFunctionGetter(
   props.contactId
 );
 
-const getWrittenBy = note => {
-  const isCurrentUser = note?.user?.id === currentUser.value.id;
-  return isCurrentUser
+const getWrittenBy = ({ user } = {}) => {
+  const currentUserId = currentUser.value?.id;
+  return user?.id === currentUserId
     ? t('CONTACTS_LAYOUT.SIDEBAR.NOTES.YOU')
-    : note?.user?.name || 'Bot';
+    : user?.name || 'Bot';
 };
 
 onMounted(() => {
