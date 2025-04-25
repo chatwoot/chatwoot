@@ -1,0 +1,151 @@
+class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseService
+  class MessageContentTypeNotSupported < StandardError; end
+  class MessageNotSentError < StandardError; end
+
+  DEFAULT_CLIENT_NAME = ENV.fetch('BAILEYS_PROVIDER_DEFAULT_CLIENT_NAME', nil)
+  DEFAULT_URL = ENV.fetch('BAILEYS_PROVIDER_DEFAULT_URL', nil)
+  DEFAULT_API_KEY = ENV.fetch('BAILEYS_PROVIDER_DEFAULT_API_KEY', nil)
+
+  def setup_channel_provider
+    response = HTTParty.post(
+      "#{provider_url}/connections/#{whatsapp_channel.phone_number}",
+      headers: api_headers,
+      body: {
+        clientName: DEFAULT_CLIENT_NAME,
+        webhookUrl: whatsapp_channel.inbox.callback_webhook_url,
+        webhookVerifyToken: whatsapp_channel.provider_config['webhook_verify_token']
+      }.to_json
+    )
+
+    process_response(response)
+  end
+
+  def disconnect_channel_provider
+    response = HTTParty.delete(
+      "#{provider_url}/connections/#{whatsapp_channel.phone_number}",
+      headers: api_headers
+    )
+
+    process_response(response)
+  end
+
+  def send_message(phone_number, message)
+    @message = message
+    @phone_number = phone_number
+    if message.attachments.present?
+      send_attachment_message
+    elsif message.content.present?
+      send_text_message
+    else
+      message.update!(content: I18n.t('errors.messages.send.unsupported'), status: 'failed')
+    end
+  end
+
+  def send_template(phone_number, template_info); end
+
+  def sync_templates; end
+
+  def media_url(media_id); end
+
+  def api_headers
+    { 'x-api-key' => api_key, 'Content-Type' => 'application/json' }
+  end
+
+  def validate_provider_config?
+    response = HTTParty.get(
+      "#{provider_url}/status/auth",
+      headers: api_headers
+    )
+
+    process_response(response)
+  end
+
+  private
+
+  def provider_url
+    whatsapp_channel.provider_config['provider_url'].presence || DEFAULT_URL
+  end
+
+  def api_key
+    whatsapp_channel.provider_config['api_key'].presence || DEFAULT_API_KEY
+  end
+
+  def send_attachment_message
+    @attachment = @message.attachments.first
+
+    response = HTTParty.post(
+      "#{provider_url}/connections/#{whatsapp_channel.phone_number}/send-message",
+      headers: api_headers,
+      body: {
+        recipient: @phone_number,
+        messageContent: message_content
+      }.to_json
+    )
+
+    return response.parsed_response.dig('data', 'key', 'id') if process_response(response)
+
+    raise MessageNotSentError
+  end
+
+  def message_content
+    buffer = Base64.strict_encode64(@attachment.file.download)
+
+    content = {
+      fileName: @attachment.file.filename,
+      caption: @message.content
+    }
+    case @attachment.file_type
+    when 'image'
+      content[:image] = buffer
+    when 'audio'
+      content[:audio] = buffer
+    when 'file'
+      content[:document] = buffer
+    when 'sticker'
+      content[:sticker] = buffer
+    when 'video'
+      content[:video] = buffer
+    end
+
+    content
+  end
+
+  def send_text_message
+    response = HTTParty.post(
+      "#{provider_url}/connections/#{whatsapp_channel.phone_number}/send-message",
+      headers: api_headers,
+      body: {
+        recipient: @phone_number,
+        messageContent: { text: @message.content }
+      }.to_json
+    )
+
+    return response.parsed_response.dig('data', 'key', 'id') if process_response(response)
+
+    raise MessageNotSentError
+  end
+
+  def process_response(response)
+    Rails.logger.error response.body unless response.success?
+    response.success?
+  end
+
+  private_class_method def self.with_error_handling(*method_names)
+    method_names.each do |method_name|
+      original_method = instance_method(method_name)
+
+      define_method(method_name) do |*args, &block|
+        original_method.bind_call(self, *args, &block)
+      rescue StandardError => e
+        handle_channel_error
+        raise e
+      end
+    end
+  end
+
+  def handle_channel_error
+    whatsapp_channel.update_provider_connection!(connection: 'close')
+  end
+
+  with_error_handling :setup_channel_provider, :disconnect_channel_provider, :send_message
+end

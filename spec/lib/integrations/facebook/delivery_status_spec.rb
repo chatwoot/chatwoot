@@ -46,7 +46,7 @@ describe Integrations::Facebook::DeliveryStatus do
       end
 
       it 'does not update the message status if the message was created after the watermark' do
-        message1.update(created_at: 1.day.from_now)
+        message1.update!(created_at: 1.day.from_now)
         message_deliveries.delivery['watermark'] = 1.day.ago.to_i
         described_class.new(params: message_deliveries).perform
         expect(message1.reload.status).to eq('sent')
@@ -73,7 +73,7 @@ describe Integrations::Facebook::DeliveryStatus do
       end
 
       it 'does not update the message status if the message was created after the watermark' do
-        message1.update(created_at: 1.day.from_now)
+        message1.update!(created_at: 1.day.from_now)
         message_reads.read['watermark'] = 1.day.ago.to_i
         described_class.new(params: message_reads).perform
         expect(message1.reload.status).to eq('sent')

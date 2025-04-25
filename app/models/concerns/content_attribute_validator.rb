@@ -37,7 +37,7 @@ class ContentAttributeValidator < ActiveModel::Validator
   end
 
   def validate_item_actions!(record)
-    if record.items.select { |item| item[:actions].blank? }.present?
+    if record.items.select { |item| item[:actions].blank? }.present? # rubocop:disable Style/RedundantFilterChain
       record.errors.add(:content_attributes, 'contains items missing actions') && return
     end
 

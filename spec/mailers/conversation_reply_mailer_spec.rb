@@ -71,7 +71,7 @@ RSpec.describe ConversationReplyMailer do
 
       it 'will not send email if conversation is already viewed by contact' do
         create(:message, message_type: 'outgoing', account: account, conversation: conversation)
-        conversation.update(contact_last_seen_at: Time.zone.now)
+        conversation.update!(contact_last_seen_at: Time.zone.now)
         expect(mail).to be_nil
       end
 
@@ -132,7 +132,7 @@ RSpec.describe ConversationReplyMailer do
 
       it 'will not send email if conversation is already viewed by contact' do
         create(:message, message_type: 'outgoing', account: account, conversation: conversation)
-        conversation.update(contact_last_seen_at: Time.zone.now)
+        conversation.update!(contact_last_seen_at: Time.zone.now)
         expect(mail).to be_nil
       end
     end
@@ -244,20 +244,20 @@ RSpec.describe ConversationReplyMailer do
       end
 
       it 'renders sender name even when assignee is not present' do
-        conversation.update(assignee_id: nil)
+        conversation.update!(assignee_id: nil)
         mail = described_class.email_reply(message)
         expect(mail['from'].value).to eq "#{message.sender.available_name} from #{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
       end
 
       it 'renders assignee name in the from address when sender_name not available' do
-        message.update(sender_id: nil)
+        message.update!(sender_id: nil)
         mail = described_class.email_reply(message)
         expect(mail['from'].value).to eq "#{conversation.assignee.available_name} from #{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
       end
 
       it 'renders inbox name as sender and assignee or business_name not present' do
-        message.update(sender_id: nil)
-        conversation.update(assignee_id: nil)
+        message.update!(sender_id: nil)
+        conversation.update!(assignee_id: nil)
 
         mail = described_class.email_reply(message)
         expect(mail['from'].value).to eq "Notifications from #{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
@@ -265,14 +265,14 @@ RSpec.describe ConversationReplyMailer do
 
       context 'when friendly name enabled' do
         before do
-          conversation.inbox.update(sender_name_type: 0)
-          conversation.inbox.update(business_name: 'Business Name')
+          conversation.inbox.update!(sender_name_type: 0)
+          conversation.inbox.update!(business_name: 'Business Name')
         end
 
         it 'renders sender name as sender and assignee and business_name not present' do
-          message.update(sender_id: nil)
-          conversation.update(assignee_id: nil)
-          conversation.inbox.update(business_name: nil)
+          message.update!(sender_id: nil)
+          conversation.update!(assignee_id: nil)
+          conversation.inbox.update!(business_name: nil)
 
           mail = described_class.email_reply(message)
 
@@ -280,8 +280,8 @@ RSpec.describe ConversationReplyMailer do
         end
 
         it 'renders sender name as sender and assignee nil and business_name present' do
-          message.update(sender_id: nil)
-          conversation.update(assignee_id: nil)
+          message.update!(sender_id: nil)
+          conversation.update!(assignee_id: nil)
 
           mail = described_class.email_reply(message)
 
@@ -291,8 +291,8 @@ RSpec.describe ConversationReplyMailer do
         end
 
         it 'renders sender name as sender nil and assignee and business_name present' do
-          message.update(sender_id: nil)
-          conversation.update(assignee_id: agent.id)
+          message.update!(sender_id: nil)
+          conversation.update!(assignee_id: agent.id)
 
           mail = described_class.email_reply(message)
           expect(mail['from'].value).to eq "#{agent.available_name} from #{conversation.inbox.business_name} <#{smtp_email_channel.email}>"
@@ -300,8 +300,8 @@ RSpec.describe ConversationReplyMailer do
 
         it 'renders sender name as sender and assignee and business_name present' do
           agent_2 = create(:user, email: 'agent2@example.com', account: account)
-          message.update(sender_id: agent_2.id)
-          conversation.update(assignee_id: agent.id)
+          message.update!(sender_id: agent_2.id)
+          conversation.update!(assignee_id: agent.id)
 
           mail = described_class.email_reply(message)
           expect(mail['from'].value).to eq "#{agent_2.available_name} from #{conversation.inbox.business_name} <#{smtp_email_channel.email}>"
@@ -310,14 +310,14 @@ RSpec.describe ConversationReplyMailer do
 
       context 'when friendly name disabled' do
         before do
-          conversation.inbox.update(sender_name_type: 1)
-          conversation.inbox.update(business_name: 'Business Name')
+          conversation.inbox.update!(sender_name_type: 1)
+          conversation.inbox.update!(business_name: 'Business Name')
         end
 
         it 'renders sender name as business_name not present' do
-          message.update(sender_id: nil)
-          conversation.update(assignee_id: nil)
-          conversation.inbox.update(business_name: nil)
+          message.update!(sender_id: nil)
+          conversation.update!(assignee_id: nil)
+          conversation.inbox.update!(business_name: nil)
 
           mail = described_class.email_reply(message)
 
@@ -325,8 +325,8 @@ RSpec.describe ConversationReplyMailer do
         end
 
         it 'renders sender name as business_name present' do
-          message.update(sender_id: nil)
-          conversation.update(assignee_id: nil)
+          message.update!(sender_id: nil)
+          conversation.update!(assignee_id: nil)
 
           mail = described_class.email_reply(message)
 

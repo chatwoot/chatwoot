@@ -62,6 +62,28 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     head :ok
   end
 
+  def setup_channel_provider
+    channel = @inbox.channel
+
+    unless channel.respond_to?(:setup_channel_provider)
+      render json: { error: 'Channel does not support setup' }, status: :unprocessable_entity and return
+    end
+
+    channel.setup_channel_provider
+    head :ok
+  end
+
+  def disconnect_channel_provider
+    channel = @inbox.channel
+
+    unless channel.respond_to?(:disconnect_channel_provider)
+      render json: { error: 'Channel does not support disconnect' }, status: :unprocessable_entity and return
+    end
+
+    channel.disconnect_channel_provider
+    head :ok
+  end
+
   def destroy
     ::DeleteObjectJob.perform_later(@inbox, Current.user, request.ip) if @inbox.present?
     render status: :ok, json: { message: I18n.t('messages.inbox_deletetion_response') }

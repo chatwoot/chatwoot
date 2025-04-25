@@ -12,7 +12,7 @@ class ApiController < ApplicationController
 
   def redis_status
     r = Redis.new(Redis::Config.app)
-    return 'ok' if r.ping
+    'ok' if r.ping
   rescue Redis::CannotConnectError
     'failing'
   end

@@ -20,7 +20,7 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
     end
 
     it 'Throws unauthorised error for unknown domain' do
-      portal.update(custom_domain: 'www.something.com')
+      portal.update!(custom_domain: 'www.something.com')
 
       get "/hc/#{portal.slug}/en"
 

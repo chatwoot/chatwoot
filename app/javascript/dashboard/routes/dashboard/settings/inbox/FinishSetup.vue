@@ -3,11 +3,19 @@ import EmptyState from '../../../../components/widgets/EmptyState.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import DuplicateInboxBanner from './channels/instagram/DuplicateInboxBanner.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import WhatsappBaileysLinkDeviceModal from './components/WhatsappBaileysLinkDeviceModal.vue';
+
 export default {
   components: {
     EmptyState,
     NextButton,
     DuplicateInboxBanner,
+    WhatsappBaileysLinkDeviceModal,
+  },
+  data() {
+    return {
+      showBaileysLinkDeviceModal: false,
+    };
   },
   computed: {
     currentInbox() {
@@ -47,6 +55,12 @@ export default {
         this.currentInbox.provider === 'whatsapp_cloud'
       );
     },
+    isWhatsAppBaileysInbox() {
+      return (
+        this.currentInbox.channel_type === 'Channel::Whatsapp' &&
+        this.currentInbox.provider === 'baileys'
+      );
+    },
     message() {
       if (this.isATwilioInbox) {
         return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
@@ -72,6 +86,12 @@ export default {
         )}`;
       }
 
+      if (this.isWhatsAppBaileysInbox) {
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+          'INBOX_MGMT.ADD.WHATSAPP.BAILEYS.SUBTITLE'
+        )}`;
+      }
+
       if (this.isAEmailInbox && !this.currentInbox.provider) {
         return this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE');
       }
@@ -81,6 +101,14 @@ export default {
       }
 
       return this.$t('INBOX_MGMT.FINISH.MESSAGE');
+    },
+  },
+  methods: {
+    onOpenBaileysLinkDeviceModal() {
+      this.showBaileysLinkDeviceModal = true;
+    },
+    onCloseBaileysLinkDeviceModal() {
+      this.showBaileysLinkDeviceModal = false;
     },
   },
 };
@@ -130,6 +158,11 @@ export default {
             :script="currentInbox.provider_config.webhook_verify_token"
           />
         </div>
+        <div v-if="isWhatsAppBaileysInbox" class="w-[50%] max-w-[50%] ml-[25%]">
+          <NextButton @click="onOpenBaileysLinkDeviceModal">
+            {{ $t('INBOX_MGMT.ADD.WHATSAPP.BAILEYS.LINK_BUTTON') }}
+          </NextButton>
+        </div>
         <div class="w-[50%] max-w-[50%] ml-[25%]">
           <woot-code
             v-if="isALineInbox"
@@ -178,5 +211,12 @@ export default {
         </div>
       </div>
     </EmptyState>
+    <WhatsappBaileysLinkDeviceModal
+      v-if="showBaileysLinkDeviceModal"
+      :show="showBaileysLinkDeviceModal"
+      :on-close="onCloseBaileysLinkDeviceModal"
+      :inbox="currentInbox"
+      is-setup
+    />
   </div>
 </template>

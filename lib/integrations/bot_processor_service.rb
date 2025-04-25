@@ -13,9 +13,9 @@ class Integrations::BotProcessorService
   private
 
   def should_run_processor?(message)
-    return if message.private?
-    return unless processable_message?(message)
-    return unless conversation.pending?
+    return false if message.private?
+    return false unless processable_message?(message)
+    return false unless conversation.pending?
 
     true
   end
@@ -42,8 +42,8 @@ class Integrations::BotProcessorService
 
   def processable_message?(message)
     # TODO: change from reportable and create a dedicated method for this?
-    return unless message.reportable?
-    return if message.outgoing? && !processable_outgoing_message?(message)
+    return false unless message.reportable?
+    return false if message.outgoing? && !processable_outgoing_message?(message)
 
     true
   end

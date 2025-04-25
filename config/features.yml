@@ -146,7 +146,7 @@
   premium: true
 - name: chatwoot_v4
   display_name: Chatwoot V4
-  enabled: false
+  enabled: true
 - name: report_v4
   display_name: Report V4
   enabled: true
