@@ -136,12 +136,8 @@ export default {
           data: { payload: inboxBotMembers },
         } = response;
     this.selectedAiAgents = inboxBotMembers;
-    if (!payload.isEmpty){
-      this.enableAutoAssignment = false
-      this.updateInbox
-    }
     } catch (e) {
-      useAlert(this.$t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE'));
+      useAlert(this.$t('AGENT_MGMT.GET.API.ERROR_MESSAGE'));
     }
   }
   ,

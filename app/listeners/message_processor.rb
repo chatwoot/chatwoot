@@ -4,7 +4,12 @@ module MessageProcessor
     inbox_id = conversation.inbox_id
     account_id = conversation.account_id
 
-    usage = subscription_usage_for(account_id)
+    subscription = Subscription.find_by(account_id: account_id)
+    usage = SubscriptionUsage.find_or_create_by(subscription_id: subscription.id)
+    unless usage
+      Rails.logger.warn("⚠️ No subscription or usage found for account #{account_id}")
+      return
+    end
     unless usage
       Rails.logger.warn("⚠️ No subscription or usage found for account #{account_id}")
       return
@@ -78,26 +83,25 @@ module MessageProcessor
     Rails.logger.error("❌ Failed to save AI reply to Chatwoot: #{e.message}")
   end
 
-  # 🧠 Pulls or creates usage for given account_id
-  def self.subscription_usage_for(account_id)
-    subscription = Subscription.find_by(account_id: account_id)
-    return nil unless subscription
-
-    SubscriptionUsage.find_or_create_by(subscription_id: subscription.id)
+  def self.increment_mau_usage(conversation)
+    subscription = Subscription.find_by(account_id: conversation.account_id)
+    usage = SubscriptionUsage.find_or_create_by(subscription_id: subscription.id)
+    unless usage
+      Rails.logger.warn("⚠️ No subscription or usage found for account #{account_id}")
+      return
+    end
+    if usage.exceeded_limits?
+      Rails.logger.warn("MAU limit reached for subscription #{usage.subscription_id}")
+    else
+      usage.increment_mau
+      if subscription.max_mau + subscription.additional_mau - 10 == usage.mau_count
+        accountuser = AccountUser.find_by(account_id: conversation.account_id)
+        user = User.find_by(id: accountuser.user_id)
+        AdministratorNotifications::ChannelNotificationsMailer
+          .notify_mau_limit(user, usage.mau_count, subscription.max_mau)
+          .deliver_later
+        Rails.logger.warn("Sended Notification and Email to account id: #{conversation.account_id}")
+      end
+    end
   end
-
-  # def self.increment_usage(conversation)
-  #   Rails.logger.info("conversation inputt: #{conversation}")
-  #   usage = subscription_usage_for(conversation.account_id)
-  #   unless usage
-  #     Rails.logger.warn("⚠️ No subscription or usage found for account #{account_id}")
-  #     return
-  #   end
-  #   if usage.exceeded_limits?
-  #     Rails.logger.warn("MAU limit reached for subscription #{usage.subscription_id}")
-  #   else
-  #     conversationdb = conversation.find_by(id: conversation.id)
-  #     usage.increment_additional_mau if conversationdb == null
-  #   end
-  # end
 end

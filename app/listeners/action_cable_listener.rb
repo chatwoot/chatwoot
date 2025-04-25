@@ -57,7 +57,7 @@ class ActionCableListener < BaseListener
   def conversation_created(event)
     conversation, account = extract_conversation_and_account(event)
     tokens = user_tokens(account, conversation.inbox.members) + contact_inbox_tokens(conversation.contact_inbox)
-    # MessageProcessor.increment_usage(conversation)
+    MessageProcessor.increment_mau_usage(conversation)
     broadcast(account, tokens, CONVERSATION_CREATED, conversation.push_event_data)
   end
 
