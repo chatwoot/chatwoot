@@ -23,7 +23,7 @@
                     <div class="flex flex-row">
                         <Button variant="ghost" color="ruby" icon="i-lucide-trash"
                             :is-loading="deleteLoadingIds[item.id]" :disabled="deleteLoadingIds[item.id]"
-                            @click="() => deleteQna(item)" />
+                            @click="() => deleteQna(item, index)" />
                     </div>
                 </div>
             </div>
@@ -90,13 +90,17 @@ watch(() => props.data, v => {
 
 const showDeleteModal = ref()
 const deleteModalData = ref()
-function deleteQna(data) {
-    deleteModalData.value = data
+function deleteQna(data, index) {
+    deleteModalData.value = {
+        ...data,
+        itemIndex: index,
+    }
     showDeleteModal.value = true
 }
 const deleteLoadingIds = ref({})
 async function deleteData() {
     const dataId = deleteModalData.value.id
+    const itemIndex = deleteModalData.value.itemIndex
     try {
         showDeleteModal.value = false
         deleteLoadingIds.value[dataId] = true
@@ -105,7 +109,7 @@ async function deleteData() {
             fetchKnowledge()
             useAlert('Berhasil hapus data')
         }
-        qnas.value = qnas.value.filter((v) => v.id !== dataId)
+        qnas.value = qnas.value.filter((v, i) => v.id !== dataId || i != itemIndex)
     } catch (e) {
         useAlert('Gagal hapus data')
     } finally {
