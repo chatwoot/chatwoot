@@ -696,7 +696,8 @@
       "SLUG": {
         "LABEL": "スラッグ",
         "PLACEHOLDER": "user-guide",
-        "ERROR": "スラッグが必須です"
+        "ERROR": "スラッグが必須です",
+        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
       }
     },
     "PORTAL_SETTINGS": {
