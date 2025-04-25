@@ -35,6 +35,7 @@ export default {
         },
         { key: 'telegram', name: 'Telegram' },
         { key: 'line', name: 'Line' },
+        { key: 'instagram', name: 'Instagram' },
       ];
     },
     ...mapGetters({
@@ -62,7 +63,7 @@ export default {
 
 <template>
   <div
-    class="border border-n-weak bg-n-solid-1 rounded-t-lg border-b-0 h-full w-full p-6 col-span-6 overflow-auto"
+    class="w-full h-full col-span-6 p-6 overflow-auto border border-b-0 rounded-t-lg border-n-weak bg-n-solid-1"
   >
     <PageHeader
       class="max-w-4xl"
