@@ -20,6 +20,11 @@
                     <TextArea id="welcome_message" custom-text-area-wrapper-class=""
                         custom-text-area-class="!outline-none" autoHeight v-model="state.welcoming_message" />
                 </div>
+                <div>
+                    <label for="routing_conditions">Routing Conditions</label>
+                    <TextArea id="routing_conditions" custom-text-area-wrapper-class=""
+                        custom-text-area-class="!outline-none" autoHeight v-model="state.routing_conditions" />
+                </div>
                 <button class="button self-start" type="submit" :disabled="loadingSave">
                     <span v-if="loadingSave" class="mt-4 mb-4 spinner" />
                     <span v-else>Simpan</span>
@@ -65,12 +70,14 @@ const state = reactive({
     description: '',
     system_prompts: '',
     welcoming_message: '',
+    routing_condition: '',
 })
 const rules = {
     name: { required },
     description: {},
     system_prompts: { required },
     welcoming_message: {},
+    routing_conditions: {},
 }
 
 const v$ = useVuelidate(rules, state)
@@ -82,6 +89,7 @@ watch(() => props.data, v => {
             description: v.description || '',
             system_prompts: v.system_prompts || '',
             welcoming_message: v.welcoming_message || '',
+            routing_conditions: v.routing_conditions || '',
         })
     }
 }, {
