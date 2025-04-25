@@ -37,6 +37,8 @@ class Channel::Whatsapp < ApplicationRecord
 
   after_create :sync_templates
 
+  before_destroy :disconnect_channel_provider, if: -> { provider == 'baileys' }
+
   def name
     'Whatsapp'
   end

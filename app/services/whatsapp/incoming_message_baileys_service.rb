@@ -1,6 +1,7 @@
 class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseService # rubocop:disable Metrics/ClassLength
   class InvalidWebhookVerifyToken < StandardError; end
   class MessageNotFoundError < StandardError; end
+  class AttachmentNotFoundError < StandardError; end
 
   def perform
     raise InvalidWebhookVerifyToken if processed_params[:webhookVerifyToken] != inbox.channel.provider_config['webhook_verify_token']
@@ -64,12 +65,7 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
   end
 
   def set_contact
-    # NOTE: jid shape is `<user>_<agent>:<device>@<server>`
-    # https://github.com/WhiskeySockets/Baileys/blob/v6.7.16/src/WABinary/jid-utils.ts#L19
-    phone_number_from_jid = @raw_message[:key][:remoteJid].split('@').first.split(':').first.split('_').first
-    # NOTE: We're assuming `pushName` will always be present when `fromMe: false`.
-    # This assumption might be incorrect, so let's keep an eye out for contacts being created with empty name.
-    push_name = @raw_message[:key][:fromMe] ? phone_number_from_jid : @raw_message[:pushName].to_s
+    push_name = contact_name
     contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: phone_number_from_jid,
       inbox: inbox,
@@ -79,14 +75,36 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     @contact_inbox = contact_inbox
     @contact = contact_inbox.contact
 
-    @contact.update!(name: push_name) if @contact.name == phone_number_from_jid && !@raw_message[:key][:fromMe]
+    @contact.update!(name: push_name) if @contact.name == phone_number_from_jid
+  end
+
+  def phone_number_from_jid
+    # NOTE: jid shape is `<user>_<agent>:<device>@<server>`
+    # https://github.com/WhiskeySockets/Baileys/blob/v6.7.16/src/WABinary/jid-utils.ts#L19
+    @phone_number_from_jid ||= @raw_message[:key][:remoteJid].split('@').first.split(':').first.split('_').first
+  end
+
+  def contact_name
+    # NOTE: `verifiedBizName` is only available for business accounts and has a higher priority than `pushName`.
+    name = @raw_message[:verifiedBizName].presence || @raw_message[:pushName]
+    return name if self_message? || incoming?
+
+    phone_number_from_jid
+  end
+
+  def self_message?
+    phone_number_from_jid == inbox.channel.phone_number.delete('+')
   end
 
   def handle_create_message
     case message_type
     when 'text'
-      create_text_message
+      create_message
+    when 'image', 'file', 'video', 'audio', 'sticker'
+      create_message
+      attach_media
     else
+      create_unsupported_message
       Rails.logger.warn "Baileys unsupported message type: #{message_type}"
     end
   end
@@ -126,7 +144,7 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     return 'video_note' if msg.key?(:ptvMessage)
     return 'location' if msg.key?(:locationMessage)
     return 'live_location' if msg.key?(:liveLocationMessage)
-    return 'document' if msg.key?(:documentMessage)
+    return 'file' if msg.key?(:documentMessage)
     return 'poll' if msg.key?(:pollCreationMessageV3)
     return 'event' if msg.key?(:eventMessage)
     return 'sticker' if msg.key?(:stickerMessage)
@@ -134,15 +152,13 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     'unsupported'
   end
 
-  def create_text_message
-    is_outgoing = @raw_message[:key][:fromMe]
-    sender = is_outgoing ? @inbox.account.account_users.first.user : @contact
-    sender_type = is_outgoing ? 'User' : 'Contact'
-    message_type = is_outgoing ? :outgoing : :incoming
-    content = @raw_message.dig(:message, :conversation) || @raw_message.dig(:message, :extendedTextMessage, :text)
+  def create_message
+    sender = incoming? ? @contact : @inbox.account.account_users.first.user
+    sender_type = incoming? ? 'Contact' : 'User'
+    message_type = incoming? ? :incoming : :outgoing
 
     @message = @conversation.messages.create!(
-      content: content,
+      content: message_content,
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       source_id: message_id,
@@ -151,6 +167,71 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
       message_type: message_type,
       in_reply_to_external_id: nil
     )
+  end
+
+  def incoming?
+    !@raw_message[:key][:fromMe]
+  end
+
+  def create_unsupported_message
+    create_message
+    @message.update!(
+      content: I18n.t('errors.messages.unsupported'),
+      message_type: 'template',
+      status: 'failed'
+    )
+  end
+
+  def attach_media
+    media = processed_params.dig(:extra, :media)
+    return if media.blank?
+
+    attachment_payload = media[message_id]
+    if attachment_payload.blank?
+      Rails.logger.error "Attachment not found for message: #{message_id}"
+      raise AttachmentNotFoundError
+    end
+
+    begin
+      decoded_data = Base64.decode64(attachment_payload)
+      io = StringIO.new(decoded_data)
+
+      @message.attachments.new(
+        account_id: @message.account_id,
+        file_type: file_content_type.to_s,
+        file: { io: io, filename: filename }
+      )
+
+      @message.save!
+    rescue StandardError => e
+      Rails.logger.error "Failed to attach media for message #{message_id} (#{e.message}) payload: #{attachment_payload}"
+    end
+  end
+
+  def file_content_type
+    return :image if message_type.in?(%w[image sticker])
+    return :video if message_type.in?(%w[video video_note])
+    return :audio if message_type == 'audio'
+
+    :file
+  end
+
+  def filename
+    filename = @raw_message.dig(:message, :documentMessage, :fileName)
+    return filename if filename.present?
+
+    "#{file_content_type}_#{@message[:id]}_#{Time.current.strftime('%Y%m%d')}"
+  end
+
+  def message_content
+    case message_type
+    when 'text'
+      @raw_message.dig(:message, :conversation) || @raw_message.dig(:message, :extendedTextMessage, :text)
+    when 'image'
+      @raw_message.dig(:message, :imageMessage, :caption)
+    when 'video'
+      @raw_message.dig(:message, :videoMessage, :caption)
+    end
   end
 
   def message_id

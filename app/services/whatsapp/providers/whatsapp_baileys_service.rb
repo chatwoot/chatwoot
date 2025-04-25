@@ -1,5 +1,6 @@
 class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseService
   class MessageContentTypeNotSupported < StandardError; end
+  class MessageNotSentError < StandardError; end
 
   DEFAULT_CLIENT_NAME = ENV.fetch('BAILEYS_PROVIDER_DEFAULT_CLIENT_NAME', nil)
   DEFAULT_URL = ENV.fetch('BAILEYS_PROVIDER_DEFAULT_URL', nil)
@@ -29,21 +30,15 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
   end
 
   def send_message(phone_number, message)
-    raise MessageContentTypeNotSupported unless message.content_type == 'text'
-
-    response = HTTParty.post(
-      "#{provider_url}/connections/#{whatsapp_channel.phone_number}/send-message",
-      headers: api_headers,
-      body: {
-        type: 'text',
-        recipient: phone_number,
-        message: message.content
-      }.to_json
-    )
-
-    return unless process_response(response)
-
-    response.parsed_response.dig('data', 'key', 'id')
+    @message = message
+    @phone_number = phone_number
+    if message.attachments.present?
+      send_attachment_message
+    elsif message.content.present?
+      send_text_message
+    else
+      message.update!(content: I18n.t('errors.messages.send.unsupported'), status: 'failed')
+    end
   end
 
   def send_template(phone_number, template_info); end
@@ -73,6 +68,61 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
 
   def api_key
     whatsapp_channel.provider_config['api_key'].presence || DEFAULT_API_KEY
+  end
+
+  def send_attachment_message
+    @attachment = @message.attachments.first
+
+    response = HTTParty.post(
+      "#{provider_url}/connections/#{whatsapp_channel.phone_number}/send-message",
+      headers: api_headers,
+      body: {
+        recipient: @phone_number,
+        messageContent: message_content
+      }.to_json
+    )
+
+    return response.parsed_response.dig('data', 'key', 'id') if process_response(response)
+
+    raise MessageNotSentError
+  end
+
+  def message_content
+    buffer = Base64.strict_encode64(@attachment.file.download)
+
+    content = {
+      fileName: @attachment.file.filename,
+      caption: @message.content
+    }
+    case @attachment.file_type
+    when 'image'
+      content[:image] = buffer
+    when 'audio'
+      content[:audio] = buffer
+    when 'file'
+      content[:document] = buffer
+    when 'sticker'
+      content[:sticker] = buffer
+    when 'video'
+      content[:video] = buffer
+    end
+
+    content
+  end
+
+  def send_text_message
+    response = HTTParty.post(
+      "#{provider_url}/connections/#{whatsapp_channel.phone_number}/send-message",
+      headers: api_headers,
+      body: {
+        recipient: @phone_number,
+        messageContent: { text: @message.content }
+      }.to_json
+    )
+
+    return response.parsed_response.dig('data', 'key', 'id') if process_response(response)
+
+    raise MessageNotSentError
   end
 
   def process_response(response)
