@@ -53,7 +53,12 @@ const props = defineProps({
     },
 });
 
-const chatflowId = ref(props.data?.chat_flow_id)
+const chatflowId = ref()
+watch(() => props.data, v => {
+    chatflowId.value = v?.chat_flow_id
+}, {
+    immediate: true,
+})
 
 const state = reactive({
     name: '',
