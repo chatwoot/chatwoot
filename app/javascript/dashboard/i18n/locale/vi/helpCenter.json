@@ -696,7 +696,8 @@
       "SLUG": {
         "LABEL": "Slug",
         "PLACEHOLDER": "user-guide",
-        "ERROR": "Phải có Slug"
+        "ERROR": "Phải có Slug",
+        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
       }
     },
     "PORTAL_SETTINGS": {
