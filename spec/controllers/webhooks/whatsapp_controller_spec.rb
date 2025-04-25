@@ -81,12 +81,12 @@ RSpec.describe 'Webhooks::WhatsappController', type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
 
-      it 'returns 400 when MessageNotFoundError is raised' do
+      it 'returns 404 when MessageNotFoundError is raised' do
         allow(Webhooks::WhatsappEventsJob).to receive(:perform_now).and_raise(Whatsapp::IncomingMessageBaileysService::MessageNotFoundError)
 
         post '/webhooks/whatsapp/123221321', params: { content: 'hello', awaitResponse: true }
 
-        expect(response).to have_http_status(:bad_request)
+        expect(response).to have_http_status(:not_found)
       end
     end
   end
