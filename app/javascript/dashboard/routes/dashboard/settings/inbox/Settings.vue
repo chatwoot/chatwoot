@@ -129,7 +129,8 @@ export default {
         this.isAPIInbox ||
         (this.isAnEmailChannel && !this.inbox.provider) ||
         this.isAWhatsAppChannel ||
-        this.isAWebWidgetInbox
+        this.isAWebWidgetInbox ||
+        this.isAFacebookInbox
       ) {
         visibleToAllChannelTabs = [
           ...visibleToAllChannelTabs,
