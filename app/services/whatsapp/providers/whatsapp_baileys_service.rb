@@ -107,7 +107,7 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
       content[:video] = buffer
     end
 
-    content
+    content.compact
   end
 
   def send_text_message

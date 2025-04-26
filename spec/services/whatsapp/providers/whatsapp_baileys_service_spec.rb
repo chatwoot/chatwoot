@@ -126,6 +126,27 @@ describe Whatsapp::Providers::WhatsappBaileysService do
         expect(result).to eq('msg_123')
       end
 
+      it 'omits caption if message content is empty' do
+        message.update!(content: nil)
+        stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/send-message")
+          .with(
+            headers: stub_headers(whatsapp_channel),
+            body: {
+              recipient: test_send_phone_number,
+              messageContent: { fileName: 'image.png', image: base64_image }
+            }.to_json
+          )
+          .to_return(
+            status: 200,
+            headers: { 'Content-Type' => 'application/json' },
+            body: { 'data' => { 'key' => { 'id' => 'msg_123' } } }.to_json
+          )
+
+        result = service.send_message(test_send_phone_number, message)
+
+        expect(result).to eq('msg_123')
+      end
+
       context 'when request is unsuccessful' do
         it 'raises MessageNotSentError' do
           stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/send-message")
