@@ -30,7 +30,7 @@ const getWrittenBy = ({ user } = {}) => {
   const currentUserId = currentUser.value?.id;
   return user?.id === currentUserId
     ? t('CONTACTS_LAYOUT.SIDEBAR.NOTES.YOU')
-    : user?.name || 'Bot';
+    : user?.name || t('CONVERSATION.BOT');
 };
 
 onMounted(() => {
