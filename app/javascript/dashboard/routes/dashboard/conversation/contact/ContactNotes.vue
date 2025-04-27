@@ -1,19 +1,12 @@
 <script setup>
-import { onMounted, computed } from 'vue';
+import { watch, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import {
-  useStore,
-  useMapGetter,
-  useFunctionGetter,
-} from 'dashboard/composables/store';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
 import ContactNoteItem from 'next/Contacts/ContactsSidebar/components/ContactNoteItem.vue';
 import Spinner from 'next/spinner/Spinner.vue';
 
-const props = defineProps({
-  contactId: {
-    type: String,
-    required: true,
-  },
+const { contactId } = defineProps({
+  contactId: { type: String, required: true },
 });
 
 const { t } = useI18n();
@@ -21,10 +14,8 @@ const store = useStore();
 const currentUser = useMapGetter('getCurrentUser');
 const uiFlags = useMapGetter('contactNotes/getUIFlags');
 const isFetchingNotes = computed(() => uiFlags.value.isFetching);
-const notes = useFunctionGetter(
-  'contactNotes/getAllNotesByContactId',
-  props.contactId
-);
+const notGetterFn = useMapGetter('contactNotes/getAllNotesByContactId');
+const notes = computed(() => notGetterFn.value(contactId));
 
 const getWrittenBy = ({ user } = {}) => {
   const currentUserId = currentUser.value?.id;
@@ -33,11 +24,11 @@ const getWrittenBy = ({ user } = {}) => {
     : user?.name || t('CONVERSATION.BOT');
 };
 
-onMounted(() => {
-  store.dispatch('contactNotes/get', {
-    contactId: props.contactId,
-  });
-});
+watch(
+  () => contactId,
+  () => store.dispatch('contactNotes/get', { contactId }),
+  { immediate: true }
+);
 </script>
 
 <template>
