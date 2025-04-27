@@ -1,4 +1,5 @@
 <script setup>
+import { useTemplateRef, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import { useToggle } from '@vueuse/core';
@@ -26,6 +27,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['delete']);
+const noteContentRef = useTemplateRef('noteContentRef');
+const needsCollapse = ref(false);
 const [isExpanded, toggleExpanded] = useToggle();
 const { t } = useI18n();
 const { formatMessage } = useMessageFormatter();
@@ -33,6 +36,15 @@ const { formatMessage } = useMessageFormatter();
 const handleDelete = () => {
   emit('delete', props.note.id);
 };
+
+onMounted(() => {
+  if (props.collapsible) {
+    // Check if content height exceeds approximately 4 lines
+    // Assuming line height is ~1.5 and font size is ~14px
+    const threshold = 14 * 1.5 * 4; // ~84px
+    needsCollapse.value = noteContentRef.value?.clientHeight > threshold;
+  }
+});
 </script>
 
 <template>
@@ -70,13 +82,14 @@ const handleDelete = () => {
       />
     </div>
     <p
+      ref="noteContentRef"
       v-dompurify-html="formatMessage(note.content || '')"
       class="mb-0 prose-sm prose-p:text-sm prose-p:leading-relaxed prose-p:mb-1 prose-p:mt-0 prose-ul:mb-1 prose-ul:mt-0 text-n-slate-12"
       :class="{
-        'line-clamp-4': collapsible && !isExpanded,
+        'line-clamp-4': collapsible && !isExpanded && needsCollapse,
       }"
     />
-    <p v-if="collapsible">
+    <p v-if="collapsible && needsCollapse">
       <Button
         variant="faded"
         color="blue"
