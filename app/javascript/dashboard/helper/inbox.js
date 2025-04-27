@@ -3,6 +3,7 @@ export const INBOX_TYPES = {
   FB: 'Channel::FacebookPage',
   TWITTER: 'Channel::TwitterProfile',
   TWILIO: 'Channel::TwilioSms',
+  VOICE: 'Channel::Voice',
   WHATSAPP: 'Channel::Whatsapp',
   API: 'Channel::Api',
   EMAIL: 'Channel::Email',
@@ -22,6 +23,7 @@ const INBOX_ICON_MAP_FILL = {
   [INBOX_TYPES.TELEGRAM]: 'i-ri-telegram-fill',
   [INBOX_TYPES.LINE]: 'i-ri-line-fill',
   [INBOX_TYPES.INSTAGRAM]: 'i-ri-instagram-fill',
+  [INBOX_TYPES.VOICE]: 'i-ri-phone-fill',
 };
 
 const DEFAULT_ICON_FILL = 'i-ri-chat-1-fill';
@@ -36,6 +38,7 @@ const INBOX_ICON_MAP_LINE = {
   [INBOX_TYPES.TELEGRAM]: 'i-ri-telegram-line',
   [INBOX_TYPES.LINE]: 'i-ri-line-line',
   [INBOX_TYPES.INSTAGRAM]: 'i-ri-instagram-line',
+  [INBOX_TYPES.VOICE]: 'i-ri-phone-line',
 };
 
 const DEFAULT_ICON_LINE = 'i-ri-chat-1-line';
@@ -69,6 +72,9 @@ export const getReadableInboxByType = (type, phoneNumber) => {
 
     case INBOX_TYPES.TWILIO:
       return phoneNumber?.startsWith('whatsapp') ? 'whatsapp' : 'sms';
+      
+    case INBOX_TYPES.VOICE:
+      return 'voice';
 
     case INBOX_TYPES.WHATSAPP:
       return 'whatsapp';
@@ -105,6 +111,9 @@ export const getInboxClassByType = (type, phoneNumber) => {
       return phoneNumber?.startsWith('whatsapp')
         ? 'brand-whatsapp'
         : 'brand-sms';
+        
+    case INBOX_TYPES.VOICE:
+      return 'phone';
 
     case INBOX_TYPES.WHATSAPP:
       return 'brand-whatsapp';

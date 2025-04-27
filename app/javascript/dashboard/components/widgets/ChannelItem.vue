@@ -40,10 +40,10 @@ export default {
           this.enabledFeatures.channel_instagram && this.hasInstagramConfigured
         );
       }
-
       return [
         'website',
         'twilio',
+        'voice',
         'api',
         'whatsapp',
         'sms',

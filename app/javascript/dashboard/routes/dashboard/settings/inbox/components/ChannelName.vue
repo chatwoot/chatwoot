@@ -22,6 +22,7 @@ const i18nMap = {
   'Channel::WebWidget': 'WEB_WIDGET',
   'Channel::TwitterProfile': 'TWITTER_PROFILE',
   'Channel::TwilioSms': 'TWILIO_SMS',
+  'Channel::Voice': 'VOICE',
   'Channel::Whatsapp': 'WHATSAPP',
   'Channel::Sms': 'SMS',
   'Channel::Email': 'EMAIL',

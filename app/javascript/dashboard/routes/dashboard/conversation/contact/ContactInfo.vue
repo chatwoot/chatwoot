@@ -4,6 +4,7 @@ import { useAlert } from 'dashboard/composables';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import ContactInfoRow from './ContactInfoRow.vue';
+import inboxMixin from 'shared/mixins/inboxMixin';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import SocialIcons from './SocialIcons.vue';
 import EditContact from './EditContact.vue';
@@ -11,6 +12,7 @@ import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import VoiceAPI from 'dashboard/api/channels/voice';
 
 import {
   isAConversationRoute,
@@ -29,6 +31,7 @@ export default {
     SocialIcons,
     ContactMergeModal,
   },
+  mixins: [inboxMixin],
   props: {
     contact: {
       type: Object,
@@ -51,6 +54,7 @@ export default {
       showEditModal: false,
       showMergeModal: false,
       showDeleteModal: false,
+      isCallLoading: false,
     };
   },
   computed: {
@@ -136,6 +140,20 @@ export default {
         return `${cityAndCountry} <span class="fi fi-${code} size-3.5"></span>`;
       } catch (error) {
         return '';
+      }
+    },
+    async initiateVoiceCall() {
+      if (!this.contact || !this.contact.id) return;
+      
+      this.isCallLoading = true;
+      try {
+        const response = await VoiceAPI.initiateCall(this.contact.id);
+        useAlert('Call initiated successfully', 'success');
+      } catch (error) {
+        // Error handled with useAlert
+        useAlert('Failed to initiate call. Please try again.', 'error');
+      } finally {
+        this.isCallLoading = false;
       }
     },
     async deleteContact({ id }) {
@@ -276,6 +294,16 @@ export default {
             />
           </template>
         </ComposeConversation>
+        <NextButton
+          v-if="contact.phone_number"
+          v-tooltip.top-end="'Call'"
+          icon="i-ph-phone"
+          slate
+          faded
+          sm
+          :is-loading="isCallLoading"
+          @click.stop.prevent="initiateVoiceCall"
+        />
         <NextButton
           v-tooltip.top-end="$t('EDIT_CONTACT.BUTTON_LABEL')"
           icon="i-ph-pencil-simple"

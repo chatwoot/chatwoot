@@ -379,6 +379,9 @@
     "TWO": "{user} and {secondUser} are typing",
     "MULTIPLE": "{user} and {count} others are typing"
   },
+  "VOICE_CALL": "Call",
+  "CALL_ERROR": "Failed to initiate call. Please try again.",
+  "CALL_INITIATED": "Call initiated successfully.",
   "COPILOT": {
     "TRY_THESE_PROMPTS": "Try these prompts"
   },

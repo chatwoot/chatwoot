@@ -104,6 +104,7 @@ Rails.application.routes.draw do
                   post :retry
                 end
               end
+              post :call, on: :member
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
               resource :participants, only: [:show, :create, :update, :destroy]
@@ -152,6 +153,7 @@ Rails.application.routes.draw do
               resources :contact_inboxes, only: [:create]
               resources :labels, only: [:create, :index]
               resources :notes
+              post :call, to: 'calls#create'
             end
           end
           resources :csat_survey_responses, only: [:index] do
@@ -477,6 +479,10 @@ Rails.application.routes.draw do
   namespace :twilio do
     resources :callback, only: [:create]
     resources :delivery_status, only: [:create]
+    resource :voice, only: [] do
+      get :twiml
+      post :transcription_callback
+    end
   end
 
   get 'microsoft/callback', to: 'microsoft/callbacks#show'

@@ -28,6 +28,7 @@ export default {
         { key: 'whatsapp', name: 'WhatsApp' },
         { key: 'sms', name: 'SMS' },
         { key: 'email', name: 'Email' },
+        { key: 'voice', name: 'Voice' },
         {
           key: 'api',
           name: apiChannelName || 'API',
