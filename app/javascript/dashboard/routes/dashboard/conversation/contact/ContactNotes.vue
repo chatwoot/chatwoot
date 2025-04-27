@@ -44,7 +44,10 @@ onMounted(() => {
   <div v-if="isFetchingNotes" class="p-8 grid place-content-center">
     <Spinner />
   </div>
-  <template v-else>
+  <div v-else-if="!notes.length" class="p-8 grid place-content-center">
+    <p class="text-center">{{ t('CONTACTS_LAYOUT.SIDEBAR.NOTES.NO_NOTES') }}</p>
+  </div>
+  <div v-else class="max-h-[300px] overflow-scroll">
     <ContactNoteItem
       v-for="note in notes"
       :key="note.id"
@@ -53,5 +56,5 @@ onMounted(() => {
       collapsible
       :written-by="getWrittenBy(note)"
     />
-  </template>
+  </div>
 </template>
