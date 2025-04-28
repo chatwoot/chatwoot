@@ -6,7 +6,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
-import AssistantForm from 'dashboard/components-next/captain/pageComponents/assistant/AssistantForm.vue';
+import EditAssistantForm from '../../../../components-next/captain/pageComponents/assistant/EditAssistantForm.vue';
 import AssistantPlayground from 'dashboard/components-next/captain/assistant/AssistantPlayground.vue';
 
 const route = useRoute();
@@ -48,18 +48,19 @@ onMounted(() => {
     :show-pagination-footer="false"
     :is-fetching="isFetching"
     :show-know-more="false"
+    :back-url="{ name: 'captain_assistants_index' }"
   >
     <template #body>
-      <div class="flex gap-8">
-        <div class="flex-1">
-          <AssistantForm
+      <div class="flex gap-4 h-full">
+        <div class="flex-1 overflow-auto pr-4">
+          <EditAssistantForm
             v-if="isAssistantAvailable"
             :assistant="assistant"
             mode="edit"
             @submit="handleSubmit"
           />
         </div>
-        <div class="w-[400px] h-[600px]">
+        <div class="w-[400px] h-full">
           <AssistantPlayground
             v-if="isAssistantAvailable"
             :assistant-id="Number(assistantId)"

@@ -71,7 +71,7 @@ const sendMessage = async () => {
       </p>
     </div>
 
-    <MessageList :messages="messages" />
+    <MessageList :messages="messages" :is-loading="isLoading" />
 
     <div
       class="flex items-center bg-white outline outline-n-container rounded-lg p-3"
