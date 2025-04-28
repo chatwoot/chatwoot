@@ -42,6 +42,14 @@ export const acceptCall = async call => {
   try {
     await store.dispatch('calls/acceptCall', call);
     emitter.emit(EVENTS.CALL_ACCEPTED, call);
+
+    const currentRoute = router.currentRoute.value;
+    if (currentRoute.name === 'incoming-call') {
+      router.push({ name: 'messages' });
+      // await router.back().catch(() => {
+      //   router.push({ name: 'home' });
+      // });
+    }
   } catch (error) {
     console.error('Error accepting call:', error);
   }
@@ -58,12 +66,12 @@ export const rejectCall = async call => {
     await store.dispatch('calls/rejectCall', call);
     emitter.emit(EVENTS.CALL_REJECTED, call);
 
-    // Navigate back to previous route
     const currentRoute = router.currentRoute.value;
     if (currentRoute.name === 'incoming-call') {
-      await router.back().catch(() => {
-        router.push({ name: 'home' });
-      });
+      router.push({ name: 'messages' });
+      // await router.back().catch(() => {
+      //   router.push({ name: 'home' });
+      // });
     }
   } catch (error) {
     console.error('Error rejecting call:', error);

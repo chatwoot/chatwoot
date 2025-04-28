@@ -1,5 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
+import { acceptCall, rejectCall } from '../helpers/callHelper';
 
 export default {
   name: 'IncomingCall',
@@ -17,16 +18,12 @@ export default {
   methods: {
     async handleAcceptCall() {
       if (!this.activeCall) return;
-      await this.$store.dispatch('calls/acceptCall', this.activeCall);
-      console.log('accepting call', this.activeCall);
-    
-      // open new tab with the url of jitsi meet
+      acceptCall(this.activeCall);
       window.open(`https://${this.activeCall.call_data.domain}/${this.activeCall.call_data.room_id}`, '_blank');
     },
     async handleRejectCall() {
       if (!this.activeCall) return;
-      await this.$store.dispatch('calls/rejectCall', this.activeCall);
-      this.$router.push('/messages');
+      rejectCall(this.activeCall);
     },
   },
 };

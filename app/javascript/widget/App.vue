@@ -179,15 +179,16 @@ export default {
       emitter.on(EVENTS.INCOMING_CALL, () => {
         this.replaceRoute('incoming-call').then(() => {
           console.log('Setting call mode 1');
+          this.handleUnseenCallNotificationDot();
         });
       });
 
       emitter.on('call-accepted', () => {
-        this.replaceRoute('messages');
+        this.handleSeenCallNotificationDot();
       });
 
       emitter.on('call-rejected', () => {
-        // No action needed
+        this.handleSeenCallNotificationDot();
       });
 
       emitter.on('call-ended', () => {
@@ -248,6 +249,24 @@ export default {
         IFrameHelper.sendMessage({ event: 'resetUnreadMode' });
         this.setIframeHeight(false);
         this.handleUnreadNotificationDot();
+      }
+    },
+
+    handleSeenCallNotificationDot() {
+      if (this.isIFrame) {
+        IFrameHelper.sendMessage({
+          event: 'handleCallNotificationDot',
+          value: false,
+        });
+      }
+    },
+
+    handleUnseenCallNotificationDot() {
+      if (this.isIFrame) {
+        IFrameHelper.sendMessage({
+          event: 'handleCallNotificationDot',
+          value: true,
+        });
       }
     },
     handleUnreadNotificationDot() {

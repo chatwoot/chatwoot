@@ -250,7 +250,9 @@ export const IFrameHelper = {
     },
 
     resetUnreadMode: () => removeUnreadClass(),
+
     handleNotificationDot: event => {
+      console.log("handleNotificationDot");
       if (window.$chatwoot.hideMessageBubble) {
         return;
       }
@@ -262,6 +264,19 @@ export const IFrameHelper = {
       ) {
         addClasses(bubbleElement, 'unread-notification');
       } else if (event.unreadMessageCount === 0) {
+        removeClasses(bubbleElement, 'unread-notification');
+      }
+    },
+
+    handleCallNotificationDot: event => {
+      if (window.$chatwoot.hideMessageBubble) {
+        return;
+      }
+
+      const bubbleElement = document.querySelector('.woot-widget-bubble');
+      if (event.value && !bubbleElement.classList.contains('unread-notification')) {
+        addClasses(bubbleElement, 'unread-notification');
+      } else if (!event.value) {
         removeClasses(bubbleElement, 'unread-notification');
       }
     },
