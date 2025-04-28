@@ -52,25 +52,22 @@ class Crm::Leadsquared::Mappers::ConversationMapper
   end
 
   def format_messages
-    result = ''
+    selected_messages = []
     separator = "\n\n"
-    total_length = 0
+    current_length = 0
 
     # Reverse the messages to have latest on top
     transcript_messages.reverse_each do |message|
       formatted_message = format_message(message)
-      message_length = formatted_message.length + (result.empty? ? 0 : separator.length)
+      required_length = formatted_message.length + separator.length # the last one does not need to account for separator, but we add it anyway
 
-      # Check if adding this message would exceed the character limit
-      break if (total_length + message_length) > ACTIVITY_NOTE_MAX_SIZE
+      break unless (current_length + required_length) <= ACTIVITY_NOTE_MAX_SIZE
 
-      # Add separator if this isn't the first message
-      result += separator unless result.empty?
-      result += formatted_message
-      total_length += message_length
+      selected_messages << formatted_message
+      current_length += required_length
     end
 
-    result
+    selected_messages.join(separator)
   end
 
   def format_message(message)
