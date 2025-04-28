@@ -81,6 +81,10 @@ RSpec.describe Integrations::Hook do
   describe '#crm_integration?' do
     let(:account) { create(:account) }
 
+    before do
+      account.enable_features('crm_integration')
+    end
+
     it 'returns true for leadsquared integration' do
       hook = create(:integrations_hook,
                     account: account,
@@ -103,6 +107,7 @@ RSpec.describe Integrations::Hook do
     let(:account) { create(:account) }
 
     before do
+      account.enable_features('crm_integration')
       allow(Crm::SetupJob).to receive(:perform_later)
     end
 

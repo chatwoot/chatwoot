@@ -67,6 +67,8 @@ class Integrations::Hook < ApplicationRecord
   end
 
   def feature_allowed?
+    return true unless app.present?
+
     flag = app.params[:feature_flag]
     return true unless flag
 
