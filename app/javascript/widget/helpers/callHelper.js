@@ -46,9 +46,6 @@ export const acceptCall = async call => {
     const currentRoute = router.currentRoute.value;
     if (currentRoute.name === 'incoming-call') {
       router.push({ name: 'messages' });
-      // await router.back().catch(() => {
-      //   router.push({ name: 'home' });
-      // });
     }
   } catch (error) {
     console.error('Error accepting call:', error);
@@ -69,9 +66,6 @@ export const rejectCall = async call => {
     const currentRoute = router.currentRoute.value;
     if (currentRoute.name === 'incoming-call') {
       router.push({ name: 'messages' });
-      // await router.back().catch(() => {
-      //   router.push({ name: 'home' });
-      // });
     }
   } catch (error) {
     console.error('Error rejecting call:', error);
@@ -80,22 +74,22 @@ export const rejectCall = async call => {
 
 // Function to end a call
 export const endCall = async call => {
-  // NOTE: Unused and Incomplete implementation due to Iframe support lack on customer
+    // NOTE: Only used during signaling handling, after signaling it will not be handled due to IFrame not supported on customer
   if (!call) {
     console.error('No call provided to endCall');
     return;
   }
 
   try {
-    await store.dispatch('calls/endCall', call);
-    emitter.emit(EVENTS.CALL_ENDED, call);
+    // NOTE: The state is proper during signaling so this is never needed for now
+    // await store.dispatch('calls/endCall', call);
+    // emitter.emit(EVENTS.CALL_ENDED, call);
 
+    emitter.emit(EVENTS.CALL_ENDED, call);
     // Navigate back to previous route if on call view
     const currentRoute = router.currentRoute.value;
     if (currentRoute.name === 'incoming-call') {
-      await router.back().catch(() => {
-        router.push({ name: 'home' });
-      });
+      router.push({ name: 'messages' });
     }
   } catch (error) {
     console.error('Error ending call:', error);

@@ -88,7 +88,6 @@ export default {
       });
 
       this.api.on('videoConferenceLeft', () => {
-        console.log("Left the conf");
       });
 
       this.api.on('participantLeft', () => {

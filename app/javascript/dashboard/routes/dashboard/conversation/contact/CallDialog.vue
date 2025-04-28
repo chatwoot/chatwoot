@@ -28,6 +28,11 @@ const props = defineProps({
   },
 });   
 
+const handleHangup = () => {
+  console.log("Hanging up")
+  emit('close');
+}
+
 const handleToggleFloating = () => {
   isFloating.value = !isFloating.value;
   // Reset position when toggling back to full screen mode
@@ -122,7 +127,7 @@ onBeforeUnmount(() => {
         :agent-id="agentId"
         :display-name="displayName"
         :email="email"
-        @hangup="emit('close')"
+        @hangup="handleHangup"
         @toggle-floating="handleToggleFloating"
       />
     </div>

@@ -91,21 +91,21 @@ export default {
   methods: {
     closeCall() {
       this.showCallModal = false;
-      this.$store.dispatch('end_call');
+      this.$store.dispatch('endCall', {
+        chat_id: this.currentChat.id,
+        room_id: 'onehash-test-agent',
+      });
       console.log('showCallModal', this.showCallModal);
     },
     startCall() {
       console.log(this.activeCall);
-      if(this.activeCall) return;
+      if (this.activeCall) return;
       this.showCallModal = true;
       console.log('startCall', this.currentChat.id);
       this.$store.dispatch('createCall', {
         chat_id: this.currentChat.id,
         room_id: 'onehash-test-agent',
       });
-    },
-    endCall() {
-      this.$store.dispatch('endCall', this.currentChat.id);
     },
     fetchLabels() {
       if (!this.currentChat.id) {
@@ -175,7 +175,7 @@ export default {
         :display-name="currentUser.name"
         :email="currentUser.email"
         :room-id="'onehash-test-agent'"
-        @close="toggleCallModal"
+        @close="closeCall"
       />
     </div>
     <DashboardAppFrame

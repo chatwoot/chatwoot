@@ -192,7 +192,7 @@ export default {
       });
 
       emitter.on('call-ended', () => {
-        // No action needed
+        this.handleSeenCallNotificationDot();
       });
     },
     setCallView(isInWidget = false) {

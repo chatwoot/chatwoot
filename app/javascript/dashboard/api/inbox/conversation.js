@@ -143,8 +143,8 @@ class ConversationApi extends ApiClient {
     return axios.post(`${this.url}/${conversationId}/create_call`, body);
   }
 
-  endCall(conversationId) {
-    return axios.post(`${this.url}/${conversationId}/end_call`);
+  endCall(conversationId, body) {
+    return axios.post(`${this.url}/${conversationId}/end_call`, body);
   }
 }
 
