@@ -23,13 +23,13 @@ class Crm::Leadsquared::LeadFinderService
   end
 
   def find_by_email(contact)
-    return unless contact.email.present?
+    return if contact.email.blank?
 
     search_by_field(contact.email)
   end
 
   def find_by_phone_number(contact)
-    return unless contact.phone_number.present?
+    return if contact.phone_number.blank?
 
     search_by_field(contact.phone_number)
   end
