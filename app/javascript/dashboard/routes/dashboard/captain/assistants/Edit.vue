@@ -7,6 +7,7 @@ import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import AssistantForm from 'dashboard/components-next/captain/pageComponents/assistant/AssistantForm.vue';
+import AssistantPlayground from 'dashboard/components-next/captain/assistant/AssistantPlayground.vue';
 
 const route = useRoute();
 const store = useStore();
@@ -49,12 +50,22 @@ onMounted(() => {
     :show-know-more="false"
   >
     <template #body>
-      <AssistantForm
-        v-if="isAssistantAvailable"
-        :assistant="assistant"
-        mode="edit"
-        @submit="handleSubmit"
-      />
+      <div class="flex gap-8">
+        <div class="flex-1">
+          <AssistantForm
+            v-if="isAssistantAvailable"
+            :assistant="assistant"
+            mode="edit"
+            @submit="handleSubmit"
+          />
+        </div>
+        <div class="w-[400px] h-[600px]">
+          <AssistantPlayground
+            v-if="isAssistantAvailable"
+            :assistant-id="Number(assistantId)"
+          />
+        </div>
+      </div>
     </template>
   </PageLayout>
 </template>

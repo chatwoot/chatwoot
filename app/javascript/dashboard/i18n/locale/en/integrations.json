@@ -333,6 +333,14 @@
       "RESET": "Reset",
       "SELECT_ASSISTANT": "Select Assistant"
     },
+    "PLAYGROUND": {
+      "USER": "You",
+      "ASSISTANT": "Assistant",
+      "MESSAGE_PLACEHOLDER": "Type your message...",
+      "HEADER": "Test your assistant",
+      "DESCRIPTION": "Send sample messages to your assistant to verify that it understands prompts accurately, provides helpful responses, and handles different types of queries smoothly.",
+      "CREDIT_NOTE": "Messages sent in the playground will count towards your Captain credits."
+    },
     "PAYWALL": {
       "TITLE": "Upgrade to use Captain AI",
       "AVAILABLE_ON": "Captain is not available on the free plan.",
