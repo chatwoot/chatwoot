@@ -16,17 +16,22 @@ class Crm::Leadsquared::LeadFinderService
   private
 
   def find_by_contact(contact)
-    if contact.email.present?
-      lead_id = search_by_field(contact.email)
-      return lead_id if lead_id.present?
-    end
+    lead_id = find_by_email(contact)
+    lead_id = find_by_phone_number(contact) if lead_id.blank?
 
-    if contact.phone_number.present?
-      lead_id = search_by_field(contact.phone_number)
-      return lead_id if lead_id.present?
-    end
+    lead_id
+  end
 
-    nil
+  def find_by_email(contact)
+    return unless contact.email.present?
+
+    search_by_field(contact.email)
+  end
+
+  def find_by_phone_number(contact)
+    return unless contact.phone_number.present?
+
+    search_by_field(contact.phone_number)
   end
 
   def search_by_field(value)
