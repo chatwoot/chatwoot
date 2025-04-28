@@ -188,8 +188,8 @@ class Messages::ForwardedMessageBuilder
     return '' if date_str.blank?
 
     begin
-      parsed_date = DateTime.parse(date_str)
-      parsed_date.strftime('%a, %b %d, %Y at %l:%M %p')
+      parsed_date = DateTime.now # Use current date
+      parsed_date.strftime('%a, %b %-d, %Y at %-l:%M %p')
     rescue StandardError
       date_str
     end
