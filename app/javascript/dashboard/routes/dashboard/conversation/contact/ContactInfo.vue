@@ -56,7 +56,6 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'contacts/getUIFlags',
-      getCurrentUserAvailability: 'getCurrentUserAvailability',
       activeCall: 'getCallState'
     }),
     contactProfileLink() {
@@ -164,6 +163,10 @@ export default {
       this.showMergeModal = true;
     },
   },
+  mounted() {
+    console.log("Call Status: ", this.activeCall)
+    console.log("Contact Status: ", this.contact.availability_status)
+  }
 };
 </script>
 
@@ -258,7 +261,7 @@ export default {
           slate
           faded
           sm
-          :disabled="activeCall"
+          :disabled="(activeCall != null) || (this.contact.availability_status != 'online')"
           @click="startCall"
         />
         <NextButton
