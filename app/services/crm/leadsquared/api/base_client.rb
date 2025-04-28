@@ -65,18 +65,20 @@ class Crm::Leadsquared::Api::BaseClient
   end
 
   def handle_success(response)
+    parse_response(response)
+  rescue JSON::ParserError, TypeError => e
+    error_message = "Failed to parse LeadSquared API response: #{e.message}"
+    raise ApiError.new(error_message, response.code, response)
+  end
+
+  def parse_response(response)
     body = response.parsed_response
 
     if body.is_a?(Hash) && body['Status'] == 'Error'
       error_message = body['ExceptionMessage'] || 'Unknown API error'
-      Rails.logger.error "LeadSquared API error: #{error_message}"
       raise ApiError.new(error_message, response.code, response)
     else
       body
     end
-  rescue JSON::ParserError, TypeError => e
-    error_message = "Failed to parse LeadSquared API response: #{e.message}"
-    Rails.logger.error error_message
-    raise ApiError.new(error_message, response.code, response)
   end
 end
