@@ -52,7 +52,7 @@ onMounted(() => {
   >
     <template #body>
       <div class="flex gap-4 h-full">
-        <div class="flex-1 overflow-auto pr-4">
+        <div class="flex-1 lg:overflow-auto pr-4 h-full md:h-auto">
           <EditAssistantForm
             v-if="isAssistantAvailable"
             :assistant="assistant"
@@ -60,7 +60,7 @@ onMounted(() => {
             @submit="handleSubmit"
           />
         </div>
-        <div class="w-[400px] h-full">
+        <div class="w-[400px] hidden lg:block h-full">
           <AssistantPlayground
             v-if="isAssistantAvailable"
             :assistant-id="Number(assistantId)"

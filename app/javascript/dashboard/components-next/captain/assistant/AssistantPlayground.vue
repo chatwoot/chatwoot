@@ -60,7 +60,7 @@ const sendMessage = async () => {
 
 <template>
   <div
-    class="flex flex-col h-full rounded-lg p-4 outline outline-n-container text-n-slate-11"
+    class="flex flex-col h-full rounded-lg p-4 border border-n-slate-4 text-n-slate-11"
   >
     <div class="mb-4">
       <h3 class="text-lg font-medium mb-1">

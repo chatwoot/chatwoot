@@ -50,10 +50,10 @@ const validationRules = {
   name: { required, minLength: minLength(1) },
   description: { required, minLength: minLength(1) },
   productName: { required, minLength: minLength(1) },
-  welcomeMessage: { required, minLength: minLength(1) },
-  handoffMessage: { required, minLength: minLength(1) },
-  resolutionMessage: { required, minLength: minLength(1) },
-  instructions: { required, minLength: minLength(1) },
+  welcomeMessage: { minLength: minLength(1) },
+  handoffMessage: { minLength: minLength(1) },
+  resolutionMessage: { minLength: minLength(1) },
+  instructions: { minLength: minLength(1) },
 };
 
 const v$ = useVuelidate(validationRules, state);
@@ -75,16 +75,17 @@ const formErrors = computed(() => ({
 }));
 
 const updateStateFromAssistant = assistant => {
+  const { config = {} } = assistant;
   state.name = assistant.name;
   state.description = assistant.description;
-  state.productName = assistant.product_name;
-  state.welcomeMessage = assistant.welcome_message;
-  state.handoffMessage = assistant.handoff_message;
-  state.resolutionMessage = assistant.resolution_message;
-  state.instructions = assistant.instructions;
+  state.productName = config.product_name;
+  state.welcomeMessage = config.welcome_message;
+  state.handoffMessage = config.handoff_message;
+  state.resolutionMessage = config.resolution_message;
+  state.instructions = config.instructions;
   state.features = {
-    conversationFaqs: assistant.features?.conversation_faqs || false,
-    memories: assistant.features?.memories || false,
+    conversationFaqs: config.feature_faq || false,
+    memories: config.feature_memory || false,
   };
 };
 
@@ -114,9 +115,12 @@ const handleGreetingsUpdate = async () => {
   if (!result) return;
 
   const payload = {
-    welcome_message: state.welcomeMessage,
-    handoff_message: state.handoffMessage,
-    resolution_message: state.resolutionMessage,
+    config: {
+      ...props.assistant.config,
+      welcome_message: state.welcomeMessage,
+      handoff_message: state.handoffMessage,
+      resolution_message: state.resolutionMessage,
+    },
   };
 
   emit('submit', payload);
@@ -127,7 +131,10 @@ const handleInstructionsUpdate = async () => {
   if (!result) return;
 
   const payload = {
-    instructions: state.instructions,
+    config: {
+      ...props.assistant.config,
+      instructions: state.instructions,
+    },
   };
 
   emit('submit', payload);
@@ -135,9 +142,10 @@ const handleInstructionsUpdate = async () => {
 
 const handleFeaturesUpdate = () => {
   const payload = {
-    features: {
-      conversation_faqs: state.features.conversationFaqs,
-      memories: state.features.memories,
+    config: {
+      ...props.assistant.config,
+      feature_faq: state.features.conversationFaqs,
+      feature_memory: state.features.memories,
     },
   };
 
@@ -306,12 +314,12 @@ watch(
     </Accordion>
 
     <!-- Tools Section -->
-    <Accordion :title="t('CAPTAIN.ASSISTANTS.FORM.SECTIONS.TOOLS')">
+    <!-- <Accordion :title="t('CAPTAIN.ASSISTANTS.FORM.SECTIONS.TOOLS')">
       <div class="flex flex-col gap-4 pt-4">
         <p class="text-sm text-n-slate-11">
           {{ t('CAPTAIN.ASSISTANTS.FORM.TOOLS.COMING_SOON') }}
         </p>
       </div>
-    </Accordion>
+    </Accordion> -->
   </form>
 </template>
