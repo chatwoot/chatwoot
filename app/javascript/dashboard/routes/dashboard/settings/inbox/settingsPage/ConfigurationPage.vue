@@ -3,6 +3,7 @@ import { useAlert } from 'dashboard/composables';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import SettingsSection from '../../../../../components/SettingsSection.vue';
 import ImapSettings from '../ImapSettings.vue';
+import InputRadioGroup from '../components/InputRadioGroup.vue';
 import SmtpSettings from '../SmtpSettings.vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
@@ -12,6 +13,7 @@ export default {
     SettingsSection,
     ImapSettings,
     SmtpSettings,
+    InputRadioGroup,
   },
   mixins: [inboxMixin],
   props: {
@@ -27,10 +29,31 @@ export default {
     return {
       hmacMandatory: false,
       whatsAppInboxAPIKey: '',
+      widgetBubblePosition: 'right',
     };
   },
   validations: {
     whatsAppInboxAPIKey: { required },
+  },
+  computed: {
+    widgetBubblePositions() {
+      return [
+        {
+          id: 'left',
+          title: this.$t(
+            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_POSITION.LEFT'
+          ),
+          checked: this.widgetBubblePosition === 'left',
+        },
+        {
+          id: 'right',
+          title: this.$t(
+            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_POSITION.RIGHT'
+          ),
+          checked: this.widgetBubblePosition === 'right',
+        },
+      ];
+    },
   },
   watch: {
     inbox() {
@@ -40,9 +63,97 @@ export default {
   mounted() {
     this.setDefaults();
   },
+
   methods: {
     setDefaults() {
       this.hmacMandatory = this.inbox.hmac_mandatory || false;
+      const script = this.inbox.web_widget_script || '';
+      const positionMatch = script.match(/var position = '(\w+)'/);
+      this.widgetBubblePosition = positionMatch ? positionMatch[1] : 'right';
+    },
+    async handleWidgetBubblePositionChange(item) {
+      this.widgetBubblePosition = item.id;
+      try {
+        const formattedPhoneNumber = this.inbox.phone_number.replace(/^\+/, '');
+        const name = this.inbox.name || 'Whatsapp';
+        let payload = '';
+        if (this.widgetBubblePosition === 'left') {
+          payload = {
+            id: this.inbox.id,
+            formData: false,
+            channel: {
+              type: 'whatsapp',
+              web_widget_script: `\u003Cscript>
+  (function(d, t) {
+    var position = '${this.widgetBubblePosition}';
+    var config = {
+      link: "https://wa.me/${formattedPhoneNumber}?text=Hello%20there!",
+      user: {
+        name: "${name}",
+        avatar: "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg",
+        status: ""
+      },
+      text: "Hey There 👋<br><br>We're here to help, so let us know what's up and we'll be happy to find a solution 🤓",
+      button_text: ""
+    };
+    var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+    g.src = "https://cdn.jsdelivr.net/gh/onehashai/onehash-chat@whatsapp-widget/public/whatsapp-widget-left-updated.min.js";
+    g.defer = true;
+    g.async = true;
+    s.parentNode.insertBefore(g, s);
+    g.onload = function() {
+      new WAChatBox(config);
+    };
+  })(document, "script");
+\u003C/script>`,
+            },
+          };
+        } else {
+          payload = {
+            id: this.inbox.id,
+            formData: false,
+            channel: {
+              type: 'whatsapp',
+              web_widget_script: `\u003Cscript>
+  (function(d, t) {
+    var position = '${this.widgetBubblePosition}';
+    var config = {
+      link: "https://wa.me/${formattedPhoneNumber}?text=Hello%20there!",
+      user: {
+        name: "${name}",
+        avatar: "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg",
+        status: ""
+      },
+      text: "Hey There 👋<br><br>We're here to help, so let us know what's up and we'll be happy to find a solution 🤓",
+      button_text: ""
+    };
+    var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+    g.src = "https://cdn.jsdelivr.net/gh/onehashai/onehash-chat@whatsapp-widget/public/whatsapp-widget-right.min.js";
+    g.defer = true;
+    g.async = true;
+    s.parentNode.insertBefore(g, s);
+    g.onload = function() {
+      new WAChatBox(config);
+    };
+  })(document, "script");
+\u003C/script>`,
+            },
+          };
+        }
+        await this.$store.dispatch('inboxes/updateInbox', payload);
+        useAlert(
+          this.$t(
+            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.UPDATE.API.SUCCESS_MESSAGE'
+          )
+        );
+      } catch (error) {
+        useAlert(
+          error.message ||
+            this.$t(
+              'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.UPDATE.API.ERROR_MESSAGE'
+            )
+        );
+      }
     },
     handleHmacFlag() {
       this.updateInbox();
@@ -194,6 +305,27 @@ export default {
   </div>
   <div v-else-if="isAWhatsAppChannel && !isATwilioChannel">
     <div v-if="inbox.provider_config" class="mx-8">
+      <SettingsSection
+        :title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING')"
+        :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_SUB_HEAD')"
+      >
+        <InputRadioGroup
+          name="widget-bubble-position"
+          :label="
+            $t(
+              'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_POSITION_LABEL'
+            )
+          "
+          :items="widgetBubblePositions"
+          :action="handleWidgetBubblePositionChange"
+        />
+        <woot-code
+          :script="inbox.web_widget_script"
+          lang="html"
+          :codepen-title="`${inbox.name} - OneHash Chat Widget Test`"
+          enable-code-pen
+        />
+      </SettingsSection>
       <SettingsSection
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEBHOOK_TITLE')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEBHOOK_SUBHEADER')"
