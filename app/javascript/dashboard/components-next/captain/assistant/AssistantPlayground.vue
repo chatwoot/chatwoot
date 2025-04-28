@@ -24,6 +24,11 @@ const formatMessagesForApi = () => {
   }));
 };
 
+const resetConversation = () => {
+  messages.value = [];
+  newMessage.value = '';
+};
+
 const sendMessage = async () => {
   if (!newMessage.value.trim() || isLoading.value) return;
 
@@ -63,9 +68,17 @@ const sendMessage = async () => {
     class="flex flex-col h-full rounded-lg p-4 border border-n-slate-4 text-n-slate-11"
   >
     <div class="mb-4">
-      <h3 class="text-lg font-medium mb-1">
-        {{ t('CAPTAIN.PLAYGROUND.HEADER') }}
-      </h3>
+      <div class="flex justify-between items-center mb-1">
+        <h3 class="text-lg font-medium">
+          {{ t('CAPTAIN.PLAYGROUND.HEADER') }}
+        </h3>
+        <NextButton
+          ghost
+          size="small"
+          icon="i-lucide-rotate-ccw"
+          @click="resetConversation"
+        />
+      </div>
       <p class="text-sm text-n-slate-11">
         {{ t('CAPTAIN.PLAYGROUND.DESCRIPTION') }}
       </p>

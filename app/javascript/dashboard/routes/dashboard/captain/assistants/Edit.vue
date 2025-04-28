@@ -44,27 +44,26 @@ onMounted(() => {
 
 <template>
   <PageLayout
-    :header-title="assistant?.name || $t('CAPTAIN.ASSISTANTS.EDIT')"
+    :header-title="assistant?.name"
     :show-pagination-footer="false"
     :is-fetching="isFetching"
     :show-know-more="false"
     :back-url="{ name: 'captain_assistants_index' }"
   >
     <template #body>
-      <div class="flex gap-4 h-full">
+      <div v-if="!isAssistantAvailable">
+        {{ t('CAPTAIN.ASSISTANTS.EDIT.NOT_FOUND') }}
+      </div>
+      <div v-else class="flex gap-4 h-full">
         <div class="flex-1 lg:overflow-auto pr-4 h-full md:h-auto">
           <EditAssistantForm
-            v-if="isAssistantAvailable"
             :assistant="assistant"
             mode="edit"
             @submit="handleSubmit"
           />
         </div>
         <div class="w-[400px] hidden lg:block h-full">
-          <AssistantPlayground
-            v-if="isAssistantAvailable"
-            :assistant-id="Number(assistantId)"
-          />
+          <AssistantPlayground :assistant-id="Number(assistantId)" />
         </div>
       </div>
     </template>
