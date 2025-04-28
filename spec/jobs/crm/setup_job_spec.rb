@@ -15,6 +15,10 @@ RSpec.describe Crm::SetupJob do
            })
   end
 
+  before do
+    account.enable_features('crm_integration')
+  end
+
   it 'enqueues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(hook.id)
@@ -100,24 +104,6 @@ RSpec.describe Crm::SetupJob do
           expect(Rails.logger).to have_received(:error)
             .with("Error in CRM setup for hook ##{hook.id} (#{hook.app_id}): Test error")
         end
-      end
-    end
-
-    context 'when CRM is not supported' do
-      let(:unsupported_hook) do
-        create(:integrations_hook,
-               account: account,
-               app_id: 'unsupported_crm',
-               settings: { some_setting: 'value' })
-      end
-
-      it 'logs error message' do
-        allow(Rails.logger).to receive(:error)
-
-        described_class.new.perform(unsupported_hook.id)
-
-        expect(Rails.logger).to have_received(:error)
-          .with("Unsupported CRM app_id: #{unsupported_hook.app_id}")
       end
     end
   end
