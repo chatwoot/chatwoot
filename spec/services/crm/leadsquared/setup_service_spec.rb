@@ -16,6 +16,7 @@ RSpec.describe Crm::Leadsquared::SetupService do
   end
 
   before do
+    account.enable_features('crm_integration')
     allow(Crm::Leadsquared::Api::BaseClient).to receive(:new).and_return(base_client)
     allow(Crm::Leadsquared::Api::ActivityClient).to receive(:new).and_return(activity_client)
     allow(base_client).to receive(:get).with('Authentication.svc/UserByAccessKey.Get').and_return(endpoint_response)

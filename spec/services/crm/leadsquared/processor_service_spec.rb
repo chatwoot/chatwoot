@@ -25,6 +25,7 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
   let(:lead_finder) { instance_double(Crm::Leadsquared::LeadFinderService) }
 
   before do
+    account.enable_features('crm_integration')
     allow(Crm::Leadsquared::Api::LeadClient).to receive(:new)
       .with('test_access_key', 'test_secret_key', 'https://api.leadsquared.com/v2')
       .and_return(lead_client)
