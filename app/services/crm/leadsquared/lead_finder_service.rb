@@ -17,13 +17,13 @@ class Crm::Leadsquared::LeadFinderService
 
   def find_by_contact(contact)
     if contact.email.present?
-      leads = search_by_field(contact.email)
-      return leads.first['ProspectID'] if leads.any?
+      lead_id = search_by_field(contact.email)
+      return lead_id if lead_id.present?
     end
 
     if contact.phone_number.present?
-      leads = search_by_field(contact.phone_number)
-      return leads.first['ProspectID'] if leads.any?
+      lead_id = search_by_field(contact.phone_number)
+      return lead_id if lead_id.present?
     end
 
     nil
@@ -31,9 +31,9 @@ class Crm::Leadsquared::LeadFinderService
 
   def search_by_field(value)
     leads = @lead_client.search_lead(value)
-    return [] unless leads.is_a?(Array)
+    return nil unless leads.is_a?(Array)
 
-    leads
+    leads.first['ProspectID'] if leads.any?
   end
 
   def create_lead(contact)
