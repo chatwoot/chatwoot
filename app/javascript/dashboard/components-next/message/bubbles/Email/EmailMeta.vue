@@ -14,7 +14,8 @@ const fromEmail = computed(() => {
 });
 
 const toEmail = computed(() => {
-  return contentAttributes.value?.email?.to ?? [];
+  const { forwardedMessageId, toEmails, email } = contentAttributes.value;
+  return forwardedMessageId ? (toEmails ?? []) : (email?.to ?? []);
 });
 
 const ccEmail = computed(() => {
@@ -66,10 +67,12 @@ const showMeta = computed(() => {
 <template>
   <section
     v-show="showMeta"
-    class="space-y-1 rtl:pl-9 ltr:pr-9 text-sm break-words"
     :class="hasError ? 'text-n-ruby-11' : 'text-n-slate-11'"
   >
-    <template v-if="showMeta">
+    <div
+      v-if="showMeta"
+      class="space-y-1 rtl:pl-9 w-full ltr:pr-9 text-sm break-words"
+    >
       <div
         v-if="fromEmail[0]"
         :class="hasError ? 'text-n-ruby-11' : 'text-n-slate-12'"
@@ -81,7 +84,7 @@ const showMeta = computed(() => {
           &lt;{{ fromEmail[0] }}&gt;
         </template>
         <template v-else>
-          {{ fromEmail[0] }}
+          {{ $t('EMAIL_HEADER.FROM') }}: {{ fromEmail[0] }}
         </template>
       </div>
       <div v-if="toEmail.length">
@@ -99,6 +102,7 @@ const showMeta = computed(() => {
         {{ $t('EMAIL_HEADER.SUBJECT') }}:
         {{ subject }}
       </div>
-    </template>
+    </div>
+    <slot />
   </section>
 </template>

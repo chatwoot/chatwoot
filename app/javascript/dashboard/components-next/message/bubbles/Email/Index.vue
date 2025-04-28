@@ -4,23 +4,26 @@ import { Letter } from 'vue-letter';
 import { allowedCssProperties } from 'lettersanitizer';
 
 import Icon from 'next/icon/Icon.vue';
+import MessageMenu from 'dashboard/components-next/message/MessageMenu.vue';
 import { EmailQuoteExtractor } from './removeReply.js';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 import FormattedContent from 'next/message/bubbles/Text/FormattedContent.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 import EmailMeta from './EmailMeta.vue';
 import TranslationToggle from 'dashboard/components-next/message/TranslationToggle.vue';
+import ForwardMessageForm from 'dashboard/components-next/message/forwardMessage/ForwardMessage.vue';
 
 import { useMessageContext } from '../../provider.js';
-import { MESSAGE_TYPES } from 'next/message/constants.js';
+import { MESSAGE_TYPES, MESSAGE_STATUS } from 'next/message/constants.js';
 import { useTranslations } from 'dashboard/composables/useTranslations';
 
-const { content, contentAttributes, attachments, messageType } =
+const { id, status, content, contentAttributes, attachments, messageType } =
   useMessageContext();
 
 const isExpandable = ref(false);
 const isExpanded = ref(false);
 const showQuotedMessage = ref(false);
+const showForwardMessageModal = ref(false);
 const renderOriginal = ref(false);
 const contentContainer = useTemplateRef('contentContainer');
 
@@ -30,6 +33,12 @@ onMounted(() => {
 
 const isOutgoing = computed(() => messageType.value === MESSAGE_TYPES.OUTGOING);
 const isIncoming = computed(() => !isOutgoing.value);
+
+const isForwarded = computed(() => contentAttributes.value?.forwardedMessageId);
+
+const showMessageMenu = computed(
+  () => ![MESSAGE_STATUS.FAILED, MESSAGE_STATUS.PROGRESS].includes(status.value)
+);
 
 const { hasTranslations, translationContent } =
   useTranslations(contentAttributes);
@@ -103,13 +112,30 @@ const handleSeeOriginal = () => {
     }"
     data-bubble-name="email"
   >
-    <EmailMeta
-      class="p-3"
+    <div
+      class="flex items-start gap-2 justify-end"
       :class="{
         'border-b border-n-strong': isIncoming,
         'border-b border-n-slate-8/20': isOutgoing,
       }"
-    />
+    >
+      <EmailMeta class="p-3 w-full flex justify-end items-start">
+        <div
+          v-if="showMessageMenu"
+          class="flex gap-2 skip-context-menu flex-shrink-0 items-center relative"
+        >
+          <MessageMenu @open-forward="showForwardMessageModal = true" />
+          <ForwardMessageForm
+            v-if="showForwardMessageModal"
+            :message="contentAttributes?.email"
+            :message-id="id"
+            class="absolute right-3 z-50 skip-context-menu top-10"
+            @close="showForwardMessageModal = false"
+          />
+        </div>
+      </EmailMeta>
+    </div>
+
     <section ref="contentContainer" class="p-3">
       <div
         :class="{
@@ -130,7 +156,7 @@ const handleSeeOriginal = () => {
           </button>
         </div>
         <FormattedContent
-          v-if="isOutgoing && content"
+          v-if="isOutgoing && content && !isForwarded"
           class="text-n-slate-12"
           :content="messageContent"
         />

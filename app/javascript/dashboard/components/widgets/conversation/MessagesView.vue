@@ -12,6 +12,7 @@ import Message from './Message.vue';
 import NextMessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 // stores and apis
 import { mapGetters } from 'vuex';
@@ -44,6 +45,7 @@ export default {
   components: {
     Message,
     NextMessageList,
+    Icon,
     ReplyBox,
     Banner,
     ConversationLabelSuggestion,
@@ -560,6 +562,16 @@ export default {
         <li v-show="unreadMessageCount != 0" class="unread--toast">
           <span>
             {{ unreadMessageLabel }}
+          </span>
+        </li>
+      </template>
+      <template #forwardedMessageAddress="{ address }">
+        <li class="flex items-center gap-1 !mt-4 !mb-2.5 ltr:pl-9 rtl:pr-9 h-5">
+          <Icon icon="i-lucide-forward" class="text-n-amber-10 size-4" />
+          <span class="text-n-amber-10 text-xs font-medium leading-[20px]">
+            {{
+              $t('CONVERSATION.FORWARDED_TO', { address: address?.join(', ') })
+            }}
           </span>
         </li>
       </template>

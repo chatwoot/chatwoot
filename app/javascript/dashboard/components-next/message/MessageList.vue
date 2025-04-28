@@ -95,6 +95,16 @@ const getInReplyToMessage = parentMessage => {
 
   return replyMessage ? useCamelCase(replyMessage) : null;
 };
+
+/**
+ * Gets the address of the forwarded message
+ * @param {Object} message - The message containing the forwarded message reference
+ * @returns {Array|null} - The email addresses of the forwarded message, or null if not forwarded
+ */
+const getForwardedMessageAddress = message => {
+  const { forwardedMessageId, toEmails } = message.contentAttributes || {};
+  return forwardedMessageId ? toEmails : null;
+};
 </script>
 
 <template>
@@ -104,6 +114,11 @@ const getInReplyToMessage = parentMessage => {
       <slot
         v-if="firstUnreadId && message.id === firstUnreadId"
         name="unreadBadge"
+      />
+      <slot
+        v-if="getForwardedMessageAddress(message)"
+        :address="getForwardedMessageAddress(message)"
+        name="forwardedMessageAddress"
       />
       <Message
         v-bind="message"
