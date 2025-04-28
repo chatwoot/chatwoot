@@ -17,7 +17,7 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
         result = described_class.map_conversation_activity(conversation)
 
         expect(result).to include('New conversation started on TestBrand')
-        expect(result).to include('Channel: Channel (Test Inbox)')
+        expect(result).to include('Channel: Test Inbox')
         expect(result).to include('Created: 2024-01-01 10:00:00')
         expect(result).to include("Conversation ID: #{conversation.display_id}")
         expect(result).to include('View in TestBrand: http://')
@@ -71,7 +71,7 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
         result = described_class.map_transcript_activity(conversation)
 
         expect(result).to include('Conversation Transcript from TestBrand')
-        expect(result).to include('Channel: Channel (Test Inbox)')
+        expect(result).to include('Channel: Test Inbox')
 
         # Check that messages appear in reverse order (newest first)
         message_positions = {
@@ -199,7 +199,7 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
 
         # Extract just the formatted messages part
         id = conversation.display_id
-        prefix = "Conversation Transcript from TestBrand\nChannel: Channel (Test Inbox)\nConversation ID: #{id}\nView in TestBrand: "
+        prefix = "Conversation Transcript from TestBrand\nChannel: Test Inbox\nConversation ID: #{id}\nView in TestBrand: "
         formatted_messages = result.sub(prefix, '').sub(%r{http://.*}, '')
 
         # Check that it's under the limit (with some tolerance for the message format)
