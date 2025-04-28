@@ -10,13 +10,7 @@ class Crm::SetupJob < ApplicationJob
       setup_service = create_setup_service(hook)
       return if setup_service.nil?
 
-      result = setup_service.setup
-
-      if result[:success]
-        Rails.logger.info "CRM setup successful for hook ##{hook_id} (#{hook.app_id})"
-      else
-        Rails.logger.error "CRM setup failed for hook ##{hook_id} (#{hook.app_id}): #{result}"
-      end
+      setup_service.setup
     rescue StandardError => e
       ChatwootExceptionTracker.new(e, account: hook.account).capture_exception
       Rails.logger.error "Error in CRM setup for hook ##{hook_id} (#{hook.app_id}): #{e.message}"
