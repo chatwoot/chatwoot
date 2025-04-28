@@ -72,7 +72,7 @@ export const getReadableInboxByType = (type, phoneNumber) => {
 
     case INBOX_TYPES.TWILIO:
       return phoneNumber?.startsWith('whatsapp') ? 'whatsapp' : 'sms';
-      
+
     case INBOX_TYPES.VOICE:
       return 'voice';
 
@@ -111,7 +111,7 @@ export const getInboxClassByType = (type, phoneNumber) => {
       return phoneNumber?.startsWith('whatsapp')
         ? 'brand-whatsapp'
         : 'brand-sms';
-        
+
     case INBOX_TYPES.VOICE:
       return 'phone';
 

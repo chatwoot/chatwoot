@@ -382,6 +382,9 @@
   "VOICE_CALL": "Call",
   "CALL_ERROR": "Failed to initiate call. Please try again.",
   "CALL_INITIATED": "Call initiated successfully.",
+  "END_CALL": "End call",
+  "AUDIO_NOT_SUPPORTED": "Your browser does not support audio playback",
+  "TRANSCRIPTION": "Call transcription",
   "COPILOT": {
     "TRY_THESE_PROMPTS": "Try these prompts"
   },

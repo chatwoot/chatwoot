@@ -1,0 +1,337 @@
+<script>
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
+import { useStore } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+import VoiceAPI from 'dashboard/api/channels/voice';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+import { useAccount } from 'dashboard/composables/useAccount';
+import actionCableService from 'dashboard/helper/actionCable';
+
+export default {
+  name: 'CallManager',
+  components: {
+    NextButton,
+  },
+  props: {
+    conversation: {
+      type: Object,
+      default: null,
+    },
+  },
+  emits: ['callEnded'],
+  setup(props, { emit }) {
+    const store = useStore();
+    const { accountId } = useAccount();
+    const callStatus = ref('');
+    const callSid = ref('');
+    const callDuration = ref(0);
+    const recordingUrl = ref('');
+    const transcription = ref('');
+    const durationTimer = ref(null);
+    const isCallActive = computed(
+      () => callStatus.value && callStatus.value !== 'completed'
+    );
+
+    const callStatusText = computed(() => {
+      switch (callStatus.value) {
+        case 'queued':
+          return 'Call queued';
+        case 'ringing':
+          return 'Phone ringing...';
+        case 'in-progress':
+          return 'Call in progress';
+        case 'completed':
+          return 'Call completed';
+        case 'failed':
+          return 'Call failed';
+        case 'busy':
+          return 'Phone was busy';
+        case 'no-answer':
+          return 'No answer';
+        default:
+          return 'Call initiated';
+      }
+    });
+
+    const formattedCallDuration = computed(() => {
+      const minutes = Math.floor(callDuration.value / 60);
+      const seconds = callDuration.value % 60;
+      return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    });
+
+    const startDurationTimer = () => {
+      if (durationTimer.value) clearInterval(durationTimer.value);
+
+      durationTimer.value = setInterval(() => {
+        callDuration.value += 1;
+      }, 1000);
+    };
+
+    const stopDurationTimer = () => {
+      if (durationTimer.value) {
+        clearInterval(durationTimer.value);
+        durationTimer.value = null;
+      }
+    };
+
+    const updateCallStatus = status => {
+      callStatus.value = status;
+
+      if (status === 'in-progress') {
+        startDurationTimer();
+      } else if (
+        status === 'completed' ||
+        status === 'failed' ||
+        status === 'busy' ||
+        status === 'no-answer'
+      ) {
+        stopDurationTimer();
+        emit('callEnded');
+      }
+    };
+
+    const endCall = async () => {
+      if (!callSid.value) return;
+
+      try {
+        await VoiceAPI.endCall(callSid.value, props.conversation.id);
+        updateCallStatus('completed');
+        useAlert('Call ended', 'success');
+      } catch (error) {
+        useAlert('Failed to end call. Please try again.', 'error');
+      }
+    };
+
+    const setupCall = () => {
+      // If there's an active conversation, check for call details
+      if (props.conversation) {
+        const messages = props.conversation.messages || [];
+
+        // Find the most recent call activity message
+        const callMessage = messages.find(
+          message =>
+            message.message_type === 10 && // activity message
+            message.additional_attributes?.call_sid
+        );
+
+        if (callMessage) {
+          const attrs = callMessage.additional_attributes;
+          callSid.value = attrs.call_sid;
+          updateCallStatus(attrs.status || 'initiated');
+
+          if (attrs.recording_url) {
+            recordingUrl.value = attrs.recording_url;
+          }
+
+          // Find transcription if available
+          const transcriptionMessage = messages.find(
+            message =>
+              message.message_type === 0 && // incoming message
+              message.additional_attributes?.is_transcription
+          );
+
+          if (transcriptionMessage) {
+            transcription.value = transcriptionMessage.content;
+          }
+        }
+      }
+    };
+
+    // Setup WebSocket listener for call status updates
+    const setupWebSocket = () => {
+      if (!props.conversation) return;
+
+      try {
+        // Set up ActionCable to listen for call status changes
+        if (accountId.value && props.conversation?.inbox_id) {
+          const roomName = `${accountId.value}_${props.conversation.inbox_id}`;
+          console.log(
+            `Setting up ActionCable listener for call status in room: ${roomName}`
+          );
+
+          // Setup ActionCable connection and handler for call status events
+          actionCableService.createConsumer();
+          actionCableService.addRoom(roomName);
+
+          const handleCallStatusChanged = ({ event_name, data }) => {
+            // Only handle call_status_changed events
+            if (event_name !== 'call_status_changed') return;
+
+            console.log('Received call status change via ActionCable:', data);
+
+            // Only update if it's for our current call
+            if (data.call_sid === callSid.value) {
+              console.log(
+                `Updating call status from ${callStatus.value} to ${data.status}`
+              );
+              updateCallStatus(data.status);
+
+              // If call is completed, refresh the conversation to get any recordings
+              if (data.status === 'completed' || data.status === 'canceled') {
+                // Notify parent component that call has ended
+                emit('callEnded');
+
+                // Refresh the conversation to get updated messages with recordings
+                if (props.conversation?.id) {
+                  store.dispatch('fetchConversation', {
+                    id: props.conversation.id,
+                  });
+                }
+              }
+            }
+          };
+
+          // Register for events
+          actionCableService.onReceivedMessage = handleCallStatusChanged;
+        }
+
+        // Also set up store watcher as backup method
+        if (
+          store.state.conversations &&
+          store.state.conversations.conversations
+        ) {
+          const unwatch = store.watch(
+            state => {
+              if (!props.conversation || !props.conversation.id) return null;
+              const conversations = state.conversations?.conversations || {};
+              const conv = conversations[props.conversation.id];
+              return conv ? conv.messages : null;
+            },
+            messages => {
+              if (!messages) return;
+
+              try {
+                // Check for call status messages
+                const callMessage = messages.find(
+                  message =>
+                    message.message_type === 10 && // activity message
+                    message.additional_attributes &&
+                    message.additional_attributes.call_sid === callSid.value
+                );
+
+                if (callMessage?.additional_attributes) {
+                  if (callMessage.additional_attributes.call_status) {
+                    updateCallStatus(
+                      callMessage.additional_attributes.call_status
+                    );
+                  }
+
+                  if (callMessage.additional_attributes.recording_url) {
+                    recordingUrl.value =
+                      callMessage.additional_attributes.recording_url;
+                  }
+                }
+
+                // Check for transcription messages
+                const transcriptionMessage = messages.find(
+                  message =>
+                    message.message_type === 0 && // incoming message
+                    message.additional_attributes &&
+                    message.additional_attributes.is_transcription
+                );
+
+                if (transcriptionMessage) {
+                  transcription.value = transcriptionMessage.content;
+                }
+              } catch (err) {
+                console.error('Error processing message updates:', err);
+              }
+            }
+          );
+
+          // Clean up the watcher when component is unmounted
+          onBeforeUnmount(() => {
+            if (unwatch) {
+              unwatch();
+            }
+          });
+        } else {
+          console.warn('Conversations store not found or initialized');
+        }
+      } catch (error) {
+        console.error('Error setting up message watcher:', error);
+      }
+    };
+
+    onMounted(() => {
+      // Wrap in try/catch to prevent Vue errors if there's an issue
+      try {
+        if (props.conversation && props.conversation.id) {
+          // Proceed with setup, using props.conversation.messages or default inside setupCall
+          setupCall();
+          setupWebSocket();
+        }
+      } catch (error) {
+        console.error('Error in CallManager mounted:', error);
+      }
+    });
+
+    onBeforeUnmount(() => {
+      stopDurationTimer();
+
+      // Clean up the ActionCable connection
+      if (accountId.value && props.conversation?.inbox_id) {
+        try {
+          const roomName = `${accountId.value}_${props.conversation.inbox_id}`;
+          actionCableService.removeRoom(roomName);
+        } catch (error) {
+          console.error('Error cleaning up ActionCable:', error);
+        }
+      }
+    });
+
+    return {
+      callStatus,
+      callStatusText,
+      isCallActive,
+      recordingUrl,
+      transcription,
+      callDuration,
+      formattedCallDuration,
+      endCall,
+    };
+  },
+};
+</script>
+
+<template>
+  <div
+    v-show="isCallActive && callStatus"
+    v-if="isCallActive && callStatus"
+    class="relative p-4 mb-4 border border-solid rounded-md bg-n-slate-1 border-n-slate-4 flex flex-col gap-2"
+  >
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="text-red-600 animate-pulse i-ph-phone-call text-xl" />
+        <h3 class="mb-0 text-base font-medium">{{ callStatusText }}</h3>
+      </div>
+      <div class="flex items-center gap-2">
+        <div v-if="callDuration" class="text-sm text-n-slate-9">
+          {{ formattedCallDuration }}
+        </div>
+        <NextButton
+          v-tooltip.top-end="$t('CONVERSATION.END_CALL')"
+          icon="i-ph-phone-x"
+          sm
+          ruby
+          @click.stop.prevent="endCall"
+        />
+      </div>
+    </div>
+    <div v-if="recordingUrl" class="w-full mt-2">
+      <audio controls class="w-full h-10">
+        <source :src="recordingUrl" type="audio/mpeg" />
+        {{ $t('CONVERSATION.AUDIO_NOT_SUPPORTED') }}
+      </audio>
+    </div>
+    <div
+      v-if="transcription"
+      class="mt-2 p-2 border border-solid rounded bg-n-slate-2 border-n-slate-5 text-sm"
+    >
+      <h4 class="mb-1 text-xs font-semibold text-n-slate-10">
+        {{ $t('CONVERSATION.TRANSCRIPTION') }}
+      </h4>
+      <p class="m-0">{{ transcription }}</p>
+    </div>
+  </div>
+</template>

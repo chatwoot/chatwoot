@@ -16,7 +16,9 @@ defineOptions({
 });
 
 const timeStampURL = computed(() => {
-  return timeStampAppendedURL(attachment.dataUrl);
+  // Safely access the URL, providing a fallback if not available
+  const url = attachment?.dataUrl || attachment?.data_url || '';
+  return timeStampAppendedURL(url);
 });
 
 const audioPlayer = useTemplateRef('audioPlayer');
@@ -91,8 +93,17 @@ const changePlaybackSpeed = () => {
 };
 
 const downloadAudio = async () => {
-  const { fileType, dataUrl, extension } = attachment;
-  downloadFile({ url: dataUrl, type: fileType, extension });
+  // Get the URL with fallback options
+  const url = attachment?.dataUrl || attachment?.data_url || '';
+  if (!url) {
+    console.error('No valid URL found for download');
+    return;
+  }
+
+  const fileType = attachment?.fileType || attachment?.file_type || 'file';
+  const extension = attachment?.extension || 'mp3';
+
+  downloadFile({ url, type: fileType, extension });
 };
 </script>
 

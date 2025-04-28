@@ -78,7 +78,7 @@ export default {
           icon="i-lucide-clipboard"
           @click="onCopy"
         />
-        <slot v-if="buttonSlot" name="button"></slot>
+        <slot v-if="buttonSlot" name="button" />
       </div>
     </a>
 

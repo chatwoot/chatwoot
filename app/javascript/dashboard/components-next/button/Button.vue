@@ -60,38 +60,47 @@ const filteredAttrs = computed(() => {
 const computedVariant = computed(() => {
   if (props.variant) return props.variant;
   // The useAttrs method returns attributes values an empty string (not boolean value as in props).
-  if (attrs.solid || attrs.solid === '') return 'solid';
-  if (attrs.outline || attrs.outline === '') return 'outline';
-  if (attrs.faded || attrs.faded === '') return 'faded';
-  if (attrs.link || attrs.link === '') return 'link';
-  if (attrs.ghost || attrs.ghost === '') return 'ghost';
+  // Add defensive checks for undefined attrs
+  const attrObj = attrs || {};
+  if (attrObj.solid || attrObj.solid === '') return 'solid';
+  if (attrObj.outline || attrObj.outline === '') return 'outline';
+  if (attrObj.faded || attrObj.faded === '') return 'faded';
+  if (attrObj.link || attrObj.link === '') return 'link';
+  if (attrObj.ghost || attrObj.ghost === '') return 'ghost';
   return 'solid'; // Default variant
 });
 
 const computedColor = computed(() => {
   if (props.color) return props.color;
-  if (attrs.blue || attrs.blue === '') return 'blue';
-  if (attrs.ruby || attrs.ruby === '') return 'ruby';
-  if (attrs.amber || attrs.amber === '') return 'amber';
-  if (attrs.slate || attrs.slate === '') return 'slate';
-  if (attrs.teal || attrs.teal === '') return 'teal';
+  // Add defensive checks for undefined attrs
+  const attrObj = attrs || {};
+  if (attrObj.blue || attrObj.blue === '') return 'blue';
+  if (attrObj.ruby || attrObj.ruby === '') return 'ruby';
+  if (attrObj.amber || attrObj.amber === '') return 'amber';
+  if (attrObj.slate || attrObj.slate === '') return 'slate';
+  if (attrObj.green || attrObj.green === '') return 'green';
+  if (attrObj.teal || attrObj.teal === '') return 'teal';
   return 'blue'; // Default color
 });
 
 const computedSize = computed(() => {
   if (props.size) return props.size;
-  if (attrs.xs || attrs.xs === '') return 'xs';
-  if (attrs.sm || attrs.sm === '') return 'sm';
-  if (attrs.md || attrs.md === '') return 'md';
-  if (attrs.lg || attrs.lg === '') return 'lg';
+  // Add defensive checks for undefined attrs
+  const attrObj = attrs || {};
+  if (attrObj.xs || attrObj.xs === '') return 'xs';
+  if (attrObj.sm || attrObj.sm === '') return 'sm';
+  if (attrObj.md || attrObj.md === '') return 'md';
+  if (attrObj.lg || attrObj.lg === '') return 'lg';
   return 'md';
 });
 
 const computedJustify = computed(() => {
   if (props.justify) return props.justify;
-  if (attrs.start || attrs.start === '') return 'start';
-  if (attrs.center || attrs.center === '') return 'center';
-  if (attrs.end || attrs.end === '') return 'end';
+  // Add defensive checks for undefined attrs
+  const attrObj = attrs || {};
+  if (attrObj.start || attrObj.start === '') return 'start';
+  if (attrObj.center || attrObj.center === '') return 'center';
+  if (attrObj.end || attrObj.end === '') return 'end';
 
   return 'center';
 });
@@ -140,6 +149,17 @@ const STYLE_CONFIG = {
       link: 'text-n-slate-11 hover:enabled:text-n-slate-12 focus-visible:text-n-slate-12 hover:enabled:underline focus-visible:underline outline-transparent',
       ghost:
         'text-n-slate-12 hover:enabled:bg-n-alpha-2 focus-visible:bg-n-alpha-2 outline-transparent',
+    },
+    green: {
+      solid:
+        'bg-green-600 text-white hover:enabled:bg-green-700 focus-visible:bg-green-700 outline-transparent',
+      faded:
+        'bg-green-600/10 text-green-700 hover:enabled:bg-green-600/20 focus-visible:bg-green-600/20 outline-transparent',
+      outline:
+        'text-green-700 hover:enabled:bg-green-600/10 focus-visible:bg-green-600/10 outline-green-600',
+      ghost:
+        'text-green-700 hover:enabled:bg-n-alpha-2 focus-visible:bg-n-alpha-2 outline-transparent',
+      link: 'text-green-700 hover:enabled:underline focus-visible:underline outline-transparent',
     },
     teal: {
       solid:

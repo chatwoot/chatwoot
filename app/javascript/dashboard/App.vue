@@ -6,6 +6,7 @@ import NetworkNotification from './components/NetworkNotification.vue';
 import UpdateBanner from './components/app/UpdateBanner.vue';
 import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
 import PendingEmailVerificationBanner from './components/app/PendingEmailVerificationBanner.vue';
+import FloatingCallWidget from './components/widgets/FloatingCallWidget.vue';
 import vueActionCable from './helper/actionCable';
 import { useRouter } from 'vue-router';
 import { useStore } from 'dashboard/composables/store';
@@ -14,6 +15,8 @@ import { setColorTheme } from './helper/themeHelper';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useFontSize } from 'dashboard/composables/useFontSize';
+import { useAlert } from 'dashboard/composables';
+import VoiceAPI from 'dashboard/api/channels/voice';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
@@ -25,6 +28,7 @@ export default {
 
   components: {
     AddAccountModal,
+    FloatingCallWidget,
     LoadingState,
     NetworkNotification,
     UpdateBanner,
@@ -51,6 +55,7 @@ export default {
       showAddAccountModal: false,
       latestChatwootVersion: null,
       reconnectService: null,
+      showCallWidget: false, // Set to true for testing, false for production
     };
   },
   computed: {
@@ -60,6 +65,8 @@ export default {
       currentUser: 'getCurrentUser',
       authUIFlags: 'getAuthUIFlags',
       accountUIFlags: 'accounts/getUIFlags',
+      activeCall: 'calls/getActiveCall',
+      hasActiveCall: 'calls/hasActiveCall',
     }),
     hasAccounts() {
       const { accounts = [] } = this.currentUser || {};
@@ -86,6 +93,13 @@ export default {
     },
   },
   mounted() {
+    // Make app instance available globally for debugging and cross-component access
+    window.app = this;
+    
+    // Set up global force end call mechanism
+    window.forceEndCall = () => this.forceEndCall();
+    window.forceEndCallHandlers = [];
+    
     this.initializeColorTheme();
     this.listenToThemeChanges();
     this.setLocale(window.chatwootConfig.selectedLocale);
@@ -105,6 +119,84 @@ export default {
     },
     setLocale(locale) {
       this.$root.$i18n.locale = locale;
+    },
+    handleCallEnded() {
+      console.log('Call ended event received in App.vue');
+      // Update our local state first for immediate UI update
+      this.showCallWidget = false;
+      // Then update the store
+      this.$store.dispatch('calls/clearActiveCall');
+    },
+    
+    // Public method that can be called from anywhere
+    forceEndCall() {
+      console.log('Force end call triggered in App.vue');
+      
+      // 1. Update UI immediately
+      this.showCallWidget = false;
+      
+      // 2. Try to notify any other components
+      if (window.forceEndCallHandlers) {
+        window.forceEndCallHandlers.forEach(handler => {
+          try {
+            handler();
+          } catch (e) {
+            console.error('Error in end call handler:', e);
+          }
+        });
+      }
+      
+      // 3. CRITICAL: Make API call to actually end the call on the server
+      if (this.activeCall && this.activeCall.callSid) {
+        const { callSid, conversationId } = this.activeCall;
+        
+        // Save references before clearing the store
+        const savedCallSid = callSid;
+        const savedConversationId = conversationId;
+        
+        // Now clear the store
+        this.$store.dispatch('calls/clearActiveCall');
+        
+        // Make API call if we have a conversation ID
+        if (savedConversationId) {
+          console.log(
+            'App.vue making API call to end call with SID:', 
+            savedCallSid, 
+            'for conversation:', 
+            savedConversationId
+          );
+          
+          // Make the API call to end the call on the server with both parameters
+          VoiceAPI.endCall(savedCallSid, savedConversationId)
+            .then(response => {
+              console.log('Call ended successfully via API:', response);
+              useAlert({ message: 'Call ended successfully', type: 'success' });
+            })
+            .catch(error => {
+              console.error('Error ending call via API:', error);
+              
+              // If first attempt fails, try one more time with additional logging
+              console.log('Retrying end call with more debugging...');
+              setTimeout(() => {
+                VoiceAPI.endCall(savedCallSid, savedConversationId)
+                  .then(retryResponse => {
+                    console.log('Retry successful:', retryResponse);
+                  })
+                  .catch(retryError => {
+                    console.error('Retry also failed:', retryError);
+                  });
+              }, 1000);
+              
+              useAlert({ message: 'Call UI has been reset', type: 'info' });
+            });
+        } else {
+          console.log('App.vue: Not making API call because conversation ID is missing');
+          useAlert({ message: 'Call ended', type: 'success' });
+        }
+      } else {
+        // No active call data, just clear the store
+        this.$store.dispatch('calls/clearActiveCall');
+      }
     },
     async initializeAccount() {
       await this.$store.dispatch('accounts/get');
@@ -153,6 +245,15 @@ export default {
     <AddAccountModal :show="showAddAccountModal" :has-accounts="hasAccounts" />
     <WootSnackbarBox />
     <NetworkNotification />
+    <!-- Floating call widget that appears during active calls -->
+    <FloatingCallWidget
+      v-if="showCallWidget || (activeCall && activeCall.callSid)"
+      :key="`call-${Date.now()}`"
+      :call-sid="activeCall ? activeCall.callSid : 'test-call'"
+      :inbox-name="activeCall ? (activeCall.inboxName || 'Primary') : 'Primary'"
+      :conversation-id="activeCall ? activeCall.conversationId : null"
+      @call-ended="handleCallEnded"
+    />
   </div>
   <LoadingState v-else />
 </template>

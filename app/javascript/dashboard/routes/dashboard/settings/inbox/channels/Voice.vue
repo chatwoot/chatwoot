@@ -1,94 +1,3 @@
-<template>
-  <div>
-    <PageHeader
-      :header-title="$t('INBOX_MGMT.ADD.VOICE.TITLE')"
-      :header-content="$t('INBOX_MGMT.ADD.VOICE.DESC')"
-    />
-    
-    <form class="flex flex-wrap flex-col gap-4 p-2" @submit.prevent="createChannel">
-      <div class="flex-shrink-0 flex-grow-0">
-        <label>
-          {{ $t('INBOX_MGMT.ADD.VOICE.PROVIDER.LABEL') }}
-          <select
-            v-model="provider"
-            class="p-2 bg-white border border-n-blue-100 rounded"
-            @change="onProviderChange"
-          >
-            <option 
-              v-for="option in providerOptions"
-              :key="option.value"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </option>
-          </select>
-        </label>
-      </div>
-      
-      <!-- Twilio Provider Config -->
-      <div v-if="provider === 'twilio'" class="flex-shrink-0 flex-grow-0">
-        <div class="flex-shrink-0 flex-grow-0">
-          <label :class="{ error: v$.phoneNumber.$error }">
-            {{ $t('INBOX_MGMT.ADD.VOICE.PHONE_NUMBER.LABEL') }}
-            <input
-              v-model.trim="phoneNumber"
-              type="text"
-              :placeholder="$t('INBOX_MGMT.ADD.VOICE.PHONE_NUMBER.PLACEHOLDER')"
-              @blur="v$.phoneNumber.$touch"
-            />
-            <span v-if="v$.phoneNumber.$error" class="message">
-              {{ $t('INBOX_MGMT.ADD.VOICE.PHONE_NUMBER.ERROR') }}
-            </span>
-          </label>
-        </div>
-        
-        <div class="flex-shrink-0 flex-grow-0">
-          <label :class="{ error: v$.accountSid.$error }">
-            {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.ACCOUNT_SID.LABEL') }}
-            <input
-              v-model.trim="accountSid"
-              type="text"
-              :placeholder="$t('INBOX_MGMT.ADD.VOICE.TWILIO.ACCOUNT_SID.PLACEHOLDER')"
-              @blur="v$.accountSid.$touch"
-            />
-            <span v-if="v$.accountSid.$error" class="message">
-              {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.ACCOUNT_SID.REQUIRED') }}
-            </span>
-          </label>
-        </div>
-        
-        <div class="flex-shrink-0 flex-grow-0">
-          <label :class="{ error: v$.authToken.$error }">
-            {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.LABEL') }}
-            <input
-              v-model.trim="authToken"
-              type="text"
-              :placeholder="$t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.PLACEHOLDER')"
-              @blur="v$.authToken.$touch"
-            />
-            <span v-if="v$.authToken.$error" class="message">
-              {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.REQUIRED') }}
-            </span>
-          </label>
-        </div>
-      </div>
-      
-      <!-- Add other provider configs here -->
-      
-      <div class="mt-4">
-        <NextButton
-          :is-loading="uiFlags.isCreating"
-          :is-disabled="v$.$invalid"
-          :label="$t('INBOX_MGMT.ADD.VOICE.SUBMIT_BUTTON')"
-          type="submit"
-          color="blue"
-          @click="createChannel"
-        />
-      </div>
-    </form>
-  </div>
-</template>
-
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
@@ -163,10 +72,10 @@ export default {
       if (this.v$.$invalid) {
         return;
       }
-      
+
       try {
         const providerConfig = this.getProviderConfig();
-        
+
         const channel = await this.$store.dispatch(
           'inboxes/createVoiceChannel',
           {
@@ -178,7 +87,7 @@ export default {
             },
           }
         );
-        
+
         router.replace({
           name: 'settings_inboxes_add_agents',
           params: {
@@ -187,9 +96,110 @@ export default {
           },
         });
       } catch (error) {
-        useAlert(error.response?.data?.message || this.$t('INBOX_MGMT.ADD.VOICE.API.ERROR_MESSAGE'));
+        useAlert(
+          error.response?.data?.message ||
+            this.$t('INBOX_MGMT.ADD.VOICE.API.ERROR_MESSAGE')
+        );
       }
     },
   },
 };
 </script>
+
+<template>
+  <div>
+    <PageHeader
+      :header-title="$t('INBOX_MGMT.ADD.VOICE.TITLE')"
+      :header-content="$t('INBOX_MGMT.ADD.VOICE.DESC')"
+    />
+
+    <form
+      class="flex flex-wrap flex-col gap-4 p-2"
+      @submit.prevent="createChannel"
+    >
+      <div class="flex-shrink-0 flex-grow-0">
+        <label>
+          {{ $t('INBOX_MGMT.ADD.VOICE.PROVIDER.LABEL') }}
+          <select
+            v-model="provider"
+            class="p-2 bg-white border border-n-blue-100 rounded"
+            @change="onProviderChange"
+          >
+            <option
+              v-for="option in providerOptions"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </label>
+      </div>
+
+      <!-- Twilio Provider Config -->
+      <div v-if="provider === 'twilio'" class="flex-shrink-0 flex-grow-0">
+        <div class="flex-shrink-0 flex-grow-0">
+          <label :class="{ error: v$.phoneNumber.$error }">
+            {{ $t('INBOX_MGMT.ADD.VOICE.PHONE_NUMBER.LABEL') }}
+            <input
+              v-model.trim="phoneNumber"
+              type="text"
+              :placeholder="$t('INBOX_MGMT.ADD.VOICE.PHONE_NUMBER.PLACEHOLDER')"
+              @blur="v$.phoneNumber.$touch"
+            />
+            <span v-if="v$.phoneNumber.$error" class="message">
+              {{ $t('INBOX_MGMT.ADD.VOICE.PHONE_NUMBER.ERROR') }}
+            </span>
+          </label>
+        </div>
+
+        <div class="flex-shrink-0 flex-grow-0">
+          <label :class="{ error: v$.accountSid.$error }">
+            {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.ACCOUNT_SID.LABEL') }}
+            <input
+              v-model.trim="accountSid"
+              type="text"
+              :placeholder="
+                $t('INBOX_MGMT.ADD.VOICE.TWILIO.ACCOUNT_SID.PLACEHOLDER')
+              "
+              @blur="v$.accountSid.$touch"
+            />
+            <span v-if="v$.accountSid.$error" class="message">
+              {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.ACCOUNT_SID.REQUIRED') }}
+            </span>
+          </label>
+        </div>
+
+        <div class="flex-shrink-0 flex-grow-0">
+          <label :class="{ error: v$.authToken.$error }">
+            {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.LABEL') }}
+            <input
+              v-model.trim="authToken"
+              type="text"
+              :placeholder="
+                $t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.PLACEHOLDER')
+              "
+              @blur="v$.authToken.$touch"
+            />
+            <span v-if="v$.authToken.$error" class="message">
+              {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.REQUIRED') }}
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Add other provider configs here -->
+
+      <div class="mt-4">
+        <NextButton
+          :is-loading="uiFlags.isCreating"
+          :is-disabled="v$.$invalid"
+          :label="$t('INBOX_MGMT.ADD.VOICE.SUBMIT_BUTTON')"
+          type="submit"
+          color="blue"
+          @click="createChannel"
+        />
+      </div>
+    </form>
+  </div>
+</template>

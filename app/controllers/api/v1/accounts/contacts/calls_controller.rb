@@ -1,4 +1,5 @@
 class Api::V1::Accounts::Contacts::CallsController < Api::V1::Accounts::BaseController
+  require 'securerandom'
   before_action :fetch_contact
 
   def create
@@ -16,11 +17,36 @@ class Api::V1::Accounts::Contacts::CallsController < Api::V1::Accounts::BaseCont
     end
 
     begin
-      # Initiate the call using the channel's implementation
-      voice_inbox.channel.initiate_call(to: @contact.phone_number)
-
-      # Create a new conversation for this call if needed
+      # Create a new conversation for this call
       conversation = find_or_create_conversation(voice_inbox)
+      
+      # Initiate the call using the channel's implementation - this returns the call details
+      call_details = voice_inbox.channel.initiate_call(to: @contact.phone_number)
+      
+      # Create a message for this call with call details
+      params = {
+        content: "Outgoing voice call initiated to #{@contact.phone_number}",
+        message_type: :activity,
+        additional_attributes: call_details,
+        source_id: call_details[:call_sid] # Use call SID as source_id
+      }
+      
+      message = Messages::MessageBuilder.new(Current.user, conversation, params).perform
+      
+      # Make sure the conversation has the latest activity timestamp
+      conversation.update(last_activity_at: Time.current)
+      # Store call SID and status for front-end
+      conversation.update!(additional_attributes: (conversation.additional_attributes || {}).merge(call_details))
+      
+      # Broadcast the conversation and message to the appropriate ActionCable channels
+      ActionCableBroadcastJob.perform_later(
+        conversation.account_id,
+        'conversation.created',
+        conversation.push_event_data.merge(
+          message: message.push_event_data,
+          status: 'open'
+        )
+      )
       
       render json: conversation
     rescue StandardError => e
@@ -40,10 +66,18 @@ class Api::V1::Accounts::Contacts::CallsController < Api::V1::Accounts::BaseCont
 
     if conversation.nil? || !conversation.open?
       # Find or create a contact_inbox for this contact and inbox
-      contact_inbox = ContactInbox.find_or_create_by!(
+      contact_inbox = ContactInbox.find_or_initialize_by(
         contact_id: @contact.id,
         inbox_id: inbox.id
       )
+      
+      # Set the source_id if it's a new record
+      if contact_inbox.new_record?
+        # For voice channels, use the phone number as the source_id
+        contact_inbox.source_id = @contact.phone_number
+      end
+      
+      contact_inbox.save!
       
       conversation = ::Conversation.create!(
         account_id: Current.account.id,
@@ -54,12 +88,13 @@ class Api::V1::Accounts::Contacts::CallsController < Api::V1::Accounts::BaseCont
       )
 
       # Add a note about the call being initiated
-      Messages::MessageBuilder.new(
-        user: Current.user,
-        conversation: conversation,
+      params = {
         message_type: :activity,
-        content: "Voice call initiated to #{@contact.phone_number}"
-      ).perform
+        content: "Voice call initiated to #{@contact.phone_number}",
+        source_id: "voice_call_#{SecureRandom.uuid}" # Generate a unique source_id
+      }
+      
+      Messages::MessageBuilder.new(Current.user, conversation, params).perform
     end
 
     conversation

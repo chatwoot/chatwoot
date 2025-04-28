@@ -55,6 +55,11 @@ en:
     VOICE_CALL: 'Voice Call'
     CALL_ERROR: 'Failed to initiate voice call'
     CALL_INITIATED: 'Voice call initiated successfully'
+    END_CALL: 'End call'
+    CALL_ENDED: 'Call ended successfully'
+    CALL_END_ERROR: 'Failed to end call. Please try again.'
+    AUDIO_NOT_SUPPORTED: 'Your browser does not support audio playback'
+    TRANSCRIPTION: 'Transcription'
   CONTACT_PANEL:
     NEW_MESSAGE: 'New Message'
     MERGE_CONTACT: 'Merge Contact'

@@ -177,6 +177,10 @@ Rails.application.routes.draw do
             post :set_agent_bot, on: :member
             delete :avatar, on: :member
           end
+          
+          # Voice call management
+          post 'voice/end_call', to: 'voice#end_call'
+          get 'voice/call_status', to: 'voice#call_status'
           resources :inbox_members, only: [:create, :show], param: :inbox_id do
             collection do
               delete :destroy
@@ -479,10 +483,16 @@ Rails.application.routes.draw do
   namespace :twilio do
     resources :callback, only: [:create]
     resources :delivery_status, only: [:create]
-    resource :voice, only: [] do
-      get :twiml
-      post :transcription_callback
-    end
+    
+    # Define controller explicitly to avoid the plural/singular confusion
+    get 'voice/twiml', to: 'voice#twiml'
+    post 'voice/twiml', to: 'voice#twiml'
+    get 'voice/simple', to: 'voice#simple_twiml'
+    post 'voice/simple', to: 'voice#simple_twiml'
+    post 'voice/handle_recording', to: 'voice#handle_recording'
+    post 'voice/handle_user_input', to: 'voice#handle_user_input'
+    post 'voice/transcription_callback', to: 'voice#transcription_callback'
+    post 'voice/status_callback', to: 'voice#status_callback'
   end
 
   get 'microsoft/callback', to: 'microsoft/callbacks#show'

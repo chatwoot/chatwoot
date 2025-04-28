@@ -108,7 +108,13 @@ const onCardClick = e => {
             v-tooltip.left="inboxName"
             class="flex items-center justify-center flex-shrink-0 rounded-full bg-n-alpha-2 size-5"
           >
+            <!-- Special handling for voice channel -->
+            <span
+              v-if="inbox.channelType === 'Channel::Voice'"
+              class="i-ph-phone-fill text-n-slate-11 size-3"
+            />
             <Icon
+              v-else
               :icon="inboxIcon"
               class="flex-shrink-0 text-n-slate-11 size-3"
             />
