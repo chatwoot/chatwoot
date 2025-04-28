@@ -25,8 +25,8 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
 
   def playground
     response = Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
-      playground_params[:message_content],
-      playground_params[:message_history] || []
+      params[:message_content],
+      message_history
     )
 
     render json: response
@@ -47,6 +47,10 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def playground_params
-    params.permit(:message_content, message_history: [])
+    params.require(:assistant).permit(:message_content, message_history: [:role, :content])
+  end
+
+  def message_history
+    (playground_params[:message_history] || []).map { |message| { role: message[:role], content: message[:content] } }
   end
 end
