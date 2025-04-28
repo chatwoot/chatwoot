@@ -3,6 +3,7 @@ import { mapGetters, mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
 import addHours from 'date-fns/addHours';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
+import { onBubbleClick } from '../sdk/bubbleHelpers';
 import configMixin from './mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
 import { getLocale } from './helpers/urlParamsHelper';
@@ -178,8 +179,8 @@ export default {
     registerCallEvents() {
       emitter.on(EVENTS.INCOMING_CALL, () => {
         this.replaceRoute('incoming-call').then(() => {
-          console.log('Setting call mode 1');
           this.handleUnseenCallNotificationDot();
+          IFrameHelper.sendMessage({ event: 'openBubble' });
         });
       });
 
