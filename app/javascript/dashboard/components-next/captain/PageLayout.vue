@@ -39,6 +39,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  showKnowMore: {
+    type: Boolean,
+    default: true,
+  },
   isEmpty: {
     type: Boolean,
     default: false,
@@ -78,14 +82,17 @@ const handlePageChange = event => {
                 {{ headerTitle }}
               </span>
             </slot>
-            <div v-if="!isEmpty" class="flex items-center gap-2">
+            <div
+              v-if="!isEmpty && showKnowMore"
+              class="flex items-center gap-2"
+            >
               <div class="w-0.5 h-4 rounded-2xl bg-n-weak" />
               <slot name="knowMore" />
             </div>
           </div>
 
           <div
-            v-if="!showPaywall"
+            v-if="!showPaywall && buttonLabel"
             v-on-clickaway="() => emit('close')"
             class="relative group/campaign-button"
           >
