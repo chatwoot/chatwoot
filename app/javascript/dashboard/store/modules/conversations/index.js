@@ -21,6 +21,7 @@ const state = {
   conversationLastSeen: null,
   syncConversationsMessages: {},
   conversationFilters: {},
+  activeCallRoom: null
 };
 
 // mutations
@@ -226,6 +227,15 @@ export const mutations = {
       _state.allConversations.push(conversation);
     }
   },
+
+  [types.ACTIVE_CALL](_state, call) {
+    _state.activeCallRoom = call.room_id;
+  },
+
+  [types.REMOVE_CALL](_state) {
+    _state.activeCallRoom = null;
+  },
+
 
   [types.SET_LIST_LOADING_STATUS](_state) {
     _state.listLoadingStatus = true;

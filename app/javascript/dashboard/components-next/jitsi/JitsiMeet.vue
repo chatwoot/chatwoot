@@ -82,22 +82,20 @@ export default {
       const domain = 'meet.jit.si';
       this.api = new JitsiMeetExternalAPI(domain, options);
 
-      // Event listeners
       this.api.on('videoConferenceJoined', () => {
         this.$emit('joined');
-        // Force-set display name (optional extra enforcement)
         this.api.executeCommand('displayName', this.displayName);
       });
 
       this.api.on('videoConferenceLeft', () => {
-        // Left event fired
+        console.log("Left the conf");
       });
 
       this.api.on('participantLeft', () => {
-        // Participant left event fired
       });
 
       this.api.on('readyToClose', () => {
+        console.log("Hangup");
         this.$emit('hangup');
       });
 

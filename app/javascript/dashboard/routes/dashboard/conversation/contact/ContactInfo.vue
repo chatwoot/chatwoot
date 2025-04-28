@@ -49,13 +49,16 @@ export default {
     return {
       showEditModal: false,
       showConversationModal: false,
-      showCallModal: false,
       showMergeModal: false,
       showDeleteModal: false,
     };
   },
   computed: {
-    ...mapGetters({ uiFlags: 'contacts/getUIFlags' }),
+    ...mapGetters({
+      uiFlags: 'contacts/getUIFlags',
+      getCurrentUserAvailability: 'getCurrentUserAvailability',
+      activeCall: 'getCallState'
+    }),
     contactProfileLink() {
       return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
     },
@@ -104,9 +107,8 @@ export default {
         this.showConversationModal
       );
     },
-    toggleCallModal() {
-      this.showCallModal = !this.showCallModal;
-      emitter.emit(BUS_EVENTS.CALL_MODAL, this.showCallModal);
+    startCall() {
+      emitter.emit(BUS_EVENTS.START_CALL, true);
     },
     toggleDeleteModal() {
       this.showDeleteModal = !this.showDeleteModal;
@@ -251,12 +253,13 @@ export default {
       </div>
       <div class="flex items-center w-full mt-0.5 gap-2">
         <NextButton
-          v-tooltip.top-end="$t('CONTACT_PANEL.VIDEO_CALL')"
-          icon="i-ph-video"
+          v-tooltip.top-end="$t('CONTACT_PANEL.CALL')"
+          icon="i-ph-phone"
           slate
           faded
           sm
-          @click="toggleCallModal"
+          :disabled="activeCall"
+          @click="startCall"
         />
         <NextButton
           v-tooltip.top-end="$t('CONTACT_PANEL.NEW_MESSAGE')"

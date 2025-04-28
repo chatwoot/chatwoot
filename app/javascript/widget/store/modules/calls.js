@@ -12,9 +12,9 @@ export const getters = {
 export const actions = {
   receiveCall({ commit }, { call_data, caller }) {
     console.log('receiveCall', call_data, caller);
-    commit('SET_ACTIVE_CALL', { 
-      call_data, 
-      caller, 
+    commit('SET_ACTIVE_CALL', {
+      call_data,
+      caller,
       status: 'ringing',
     });
   },
@@ -31,6 +31,7 @@ export const actions = {
     }
   },
   endCall({ commit, state }, call_data) {
+    // NOTE: Unused and Incomplete implementation due to Iframe support lack on customer
     if (state.activeCall && state.activeCall.roomId === call_data.roomId) {
       commit('UPDATE_CALL_STATUS', { call_data, status: 'ended' });
       commit('SET_ACTIVE_CALL', null);
@@ -62,4 +63,4 @@ export default {
   getters,
   actions,
   mutations,
-}; 
+};

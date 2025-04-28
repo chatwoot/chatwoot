@@ -114,12 +114,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     head :ok
   end
 
-  def end_call
-    call_manager = ::Conversations::CallManager.new(Current.account, Current.user, @conversation, params)
-    call_manager.end_call
-    head :ok
-  end
-
   def update_last_seen
     update_last_seen_on_conversation(DateTime.now.utc, assignee?)
   end

@@ -47,6 +47,7 @@ export default {
       currentChat: 'getSelectedChat',
       dashboardApps: 'dashboardApps/getRecords',
       currentUser: 'getCurrentUser',
+      activeCall: 'getCallState',
     }),
     dashboardAppTabs() {
       return [
@@ -84,15 +85,18 @@ export default {
     this.fetchLabels();
     this.$store.dispatch('dashboardApps/get');
 
-    emitter.on(BUS_EVENTS.CALL_MODAL, this.startCall);
+    emitter.on(BUS_EVENTS.START_CALL, this.startCall);
   },
 
   methods: {
-    toggleCallModal() {
-      this.showCallModal = !this.showCallModal;
+    closeCall() {
+      this.showCallModal = false;
+      this.$store.dispatch('end_call');
       console.log('showCallModal', this.showCallModal);
     },
     startCall() {
+      console.log(this.activeCall);
+      if(this.activeCall) return;
       this.showCallModal = true;
       console.log('startCall', this.currentChat.id);
       this.$store.dispatch('createCall', {
