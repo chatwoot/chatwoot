@@ -90,6 +90,10 @@ Rails.application.routes.draw do
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
             resource :twilio_channel, only: [:create]
+            namespace :voice do
+              post 'webhooks/incoming', to: 'webhooks#incoming'
+              post 'webhooks/conference_status', to: 'webhooks#conference_status'
+            end
           end
           resources :conversations, only: [:index, :create, :show, :update] do
             collection do
@@ -177,7 +181,7 @@ Rails.application.routes.draw do
             post :set_agent_bot, on: :member
             delete :avatar, on: :member
           end
-          
+
           # Voice call management
           post 'voice/end_call', to: 'voice#end_call'
           get 'voice/call_status', to: 'voice#call_status'
@@ -483,7 +487,7 @@ Rails.application.routes.draw do
   namespace :twilio do
     resources :callback, only: [:create]
     resources :delivery_status, only: [:create]
-    
+
     # Define controller explicitly to avoid the plural/singular confusion
     get 'voice/twiml', to: 'voice#twiml'
     post 'voice/twiml', to: 'voice#twiml'
