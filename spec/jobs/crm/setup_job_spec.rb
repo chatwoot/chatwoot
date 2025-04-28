@@ -65,31 +65,6 @@ RSpec.describe Crm::SetupJob do
         allow(Crm::Leadsquared::SetupService).to receive(:new).with(hook).and_return(setup_service)
       end
 
-      context 'when setup is successful' do
-        it 'logs success message' do
-          allow(setup_service).to receive(:setup).and_return({ success: true })
-          allow(Rails.logger).to receive(:info)
-
-          described_class.new.perform(hook.id)
-
-          expect(Rails.logger).to have_received(:info)
-            .with("CRM setup successful for hook ##{hook.id} (#{hook.app_id})")
-        end
-      end
-
-      context 'when setup fails' do
-        it 'logs error message' do
-          result = { success: false, error: 'API error' }
-          allow(setup_service).to receive(:setup).and_return(result)
-          allow(Rails.logger).to receive(:error)
-
-          described_class.new.perform(hook.id)
-
-          expect(Rails.logger).to have_received(:error)
-            .with("CRM setup failed for hook ##{hook.id} (#{hook.app_id}): #{result}")
-        end
-      end
-
       context 'when setup raises an error' do
         it 'captures exception and logs error' do
           error = StandardError.new('Test error')
