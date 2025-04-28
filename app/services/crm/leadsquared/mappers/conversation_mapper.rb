@@ -22,7 +22,7 @@ class Crm::Leadsquared::Mappers::ConversationMapper
   def conversation_activity
     I18n.t('crm.created_activity',
            brand_name: brand_name,
-           channel_info: channel_info,
+           channel_info: conversation.inbox.name,
            formatted_creation_time: formatted_creation_time,
            display_id: conversation.display_id,
            url: conversation_url)
@@ -33,7 +33,7 @@ class Crm::Leadsquared::Mappers::ConversationMapper
 
     I18n.t('crm.transcript_activity',
            brand_name: brand_name,
-           channel_info: channel_info,
+           channel_info: conversation.inbox.name,
            display_id: conversation.display_id,
            url: conversation_url,
            format_messages: format_messages)
@@ -42,10 +42,6 @@ class Crm::Leadsquared::Mappers::ConversationMapper
   private
 
   attr_reader :conversation, :messages
-
-  def channel_info
-    "#{conversation.inbox.channel_type} (#{conversation.inbox.name})"
-  end
 
   def formatted_creation_time
     conversation.created_at.strftime('%Y-%m-%d %H:%M:%S')
