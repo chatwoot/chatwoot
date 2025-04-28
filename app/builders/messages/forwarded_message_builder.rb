@@ -148,7 +148,7 @@ class Messages::ForwardedMessageBuilder
   end
 
   def basic_attributes
-    { content_attributes: { forwarded_message_id: @message_id, is_forwarded_message: true } }
+    { content_attributes: { forwarded_message_id: @message_id } }
   end
 
   def formatted_info
