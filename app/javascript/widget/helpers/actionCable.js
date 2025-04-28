@@ -33,9 +33,13 @@ class ActionCableConnector extends BaseActionCableConnector {
   onCallCreated = async data => {
     try {
       const { call_data, account_id, performer } = data;
-      
-      console.log('Call created event received:', { call_data, account_id, performer });
-      
+
+      console.log('Call created event received:', {
+        call_data,
+        account_id,
+        performer,
+      });
+
       if (!call_data) {
         console.error('No call provided in call data');
         return;
@@ -59,7 +63,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   onCallEnded = async data => {
     try {
       const { call } = data;
-      
+
       if (!call) {
         console.error('No call provided in call end data');
         return;
@@ -108,6 +112,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       return;
     }
 
+    console.log('GOT new message: ', data);
     this.app.$store
       .dispatch('conversation/addOrUpdateMessage', data)
       .then(() => emitter.emit(ON_AGENT_MESSAGE_RECEIVED));
