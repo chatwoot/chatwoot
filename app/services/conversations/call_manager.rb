@@ -21,11 +21,12 @@ class Conversations::CallManager
   end
 
   def end_call
-    # NOTE: Unused as IFrame is not supported on customer side
+    # NOTE: Only used during signaling handling, after signaling it will not be handled due to IFrame not supported on customer
     call = {
       room_id: @params[:room_id],
       domain: @params[:domain]
     }
+
     Rails.configuration.dispatcher.dispatch(CALL_ENDED, Time.zone.now, account: @account, user: @user, conversation: @conversation,
                                                                        call: { call_data: call })
   end

@@ -62,23 +62,21 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onCallEnded = async data => {
     try {
-      const { call } = data;
+      const { call_data, account_id, performer } = data;
 
-      if (!call) {
-        console.error('No call provided in call end data');
+      console.log('Call created event received:', {
+        call_data,
+        account_id,
+        performer,
+      });
+
+      if (!call_data) {
+        console.error('No call provided in call data');
         return;
       }
 
       const { endCall } = await import('./callHelper');
-      await endCall(call);
-
-      // Send message to parent if in iframe
-      if (IFrameHelper.isIFrame()) {
-        IFrameHelper.sendMessage({
-          event: 'onCallEnded',
-          data: { call },
-        });
-      }
+      await endCall(call_data);
     } catch (error) {
       console.error('Error handling call end:', error);
     }
