@@ -10,19 +10,15 @@ module MessageProcessor
       Rails.logger.warn("⚠️ No subscription or usage found for account #{account_id}")
       return
     end
-    unless usage
-      Rails.logger.warn("⚠️ No subscription or usage found for account #{account_id}")
-      return
-    end
 
     if usage.exceeded_limits?
       Rails.logger.warn("🚫 Subscription limits exceeded for account #{account_id}")
       return
     end
 
-    conversation_db = Conversation.find_by(assignee_id: nil, inbox_id: inbox_id)
+    conversation_db = Conversation.find_by(assignee_id: nil, inbox_id: inbox_id, id: conversation.id)
     unless conversation_db
-      Rails.logger.warn("No active convertation bot found for inbox_id: #{inbox_id}")
+      Rails.logger.warn("No active conversation bot found for conversation id: #{conversation.id}")
       return
     end
 
@@ -61,7 +57,13 @@ module MessageProcessor
       usage.increment_ai_responses
       Rails.logger.info("🤖 Flowise AI Response: #{response.body}")
       flowise_reply = JSON.parse(response.body)
-      send_reply_to_chatwoot(conversation, flowise_reply['text'], agent)
+
+      if flowise_reply['json'] && flowise_reply['json']['is_handover']
+        Rails.logger.info("🤝 Handover detected for conversation #{conversation.id}")
+        process_handover(conversation, agent, flowise_reply['json'])
+      else
+        send_reply_to_chatwoot(conversation, flowise_reply['text'], agent)
+      end
     else
       Rails.logger.error("❌ Error contacting Flowise: #{response.body}")
     end
@@ -81,6 +83,49 @@ module MessageProcessor
     )
   rescue StandardError => e
     Rails.logger.error("❌ Failed to save AI reply to Chatwoot: #{e.message}")
+  end
+
+  def self.process_handover(conversation, aiagent, json_response)
+    agent ||= find_available_agent(conversation.inbox_id)
+
+    if agent.nil?
+      Rails.logger.error("❌ No available agents for inbox #{conversation.inbox_id}")
+      return
+    end
+
+    conversation.update!(assignee_id: agent.id)
+
+    Message.create!(
+      content: json_response['answer'] || 'Agent will take over the conversation.',
+      account_id: aiagent.account_id,
+      inbox_id: conversation.inbox_id,
+      conversation_id: conversation.id,
+      message_type: 1,
+      content_type: 0,
+      sender_type: 'AiAgent',
+      sender_id: aiagent.id,
+      status: 0
+    )
+
+    Rails.logger.info("🧑‍💼 Handover completed: Conversation #{conversation.id} assigned to Agent #{agent.id}")
+  rescue StandardError => e
+    Rails.logger.error("❌ Failed to process handover: #{e.message}")
+  end
+
+  def self.find_available_agent(inbox_id)
+    member_ids = InboxMember.where(inbox_id: inbox_id).pluck(:user_id)
+    return nil if member_ids.empty?
+
+    # Find agent with the least open conversations
+    agent_id = Conversation.where(assignee_id: member_ids, inbox_id: inbox_id, status: :open)
+                           .group(:assignee_id)
+                           .order(Arel.sql('COUNT(*) ASC'))
+                           .pluck(:assignee_id)
+                           .first
+
+    agent_id ||= member_ids.sample # fallback to random if all agents are free
+
+    User.find_by(id: agent_id)
   end
 
   def self.increment_mau_usage(conversation)
