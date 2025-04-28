@@ -80,6 +80,7 @@ export const rejectCall = async call => {
 
 // Function to end a call
 export const endCall = async call => {
+  // NOTE: Unused and Incomplete implementation due to Iframe support lack on customer
   if (!call) {
     console.error('No call provided to endCall');
     return;

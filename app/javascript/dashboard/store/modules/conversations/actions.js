@@ -39,14 +39,15 @@ const actions = {
   createCall: async ({ commit }, body) => {
     try {
       await ConversationApi.createCall(body.chat_id, body);
+      commit(types.ACTIVE_CALL, body);
     } catch (error) {
       // Handle error
     }
   },
 
-  endCall: async ({ commit }, conversationId) => {
+  endCall: async ({ commit } ) => {
     try {
-      await ConversationApi.endCall(conversationId);
+      commit(types.REMOVE_CALL, null);
     } catch (error) {
       // Handle error
     }

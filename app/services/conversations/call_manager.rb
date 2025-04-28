@@ -21,6 +21,7 @@ class Conversations::CallManager
   end
 
   def end_call
+    # NOTE: Unused as IFrame is not supported on customer side
     call = {
       room_id: @params[:room_id],
       domain: @params[:domain]
