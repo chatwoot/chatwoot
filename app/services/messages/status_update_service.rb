@@ -17,7 +17,10 @@ class Messages::StatusUpdateService
 
   def update_message_status
     # Update status and set external_error only when failed
-    message.update!(status: status, external_error: (status == 'failed' ? external_error : nil))
+    message.update!(
+      status: status,
+      external_error: (status == 'failed' ? external_error : nil)
+    )
   end
 
   def valid_status_transition?

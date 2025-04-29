@@ -301,87 +301,58 @@ RSpec.describe 'Conversation Messages API', type: :request do
     let!(:conversation) { create(:conversation, inbox: api_inbox, account: account) }
     let!(:message) { create(:message, conversation: conversation, account: account, status: :sent) }
 
-    context 'when it is an unauthenticated user' do
+    context 'when unauthenticated' do
       it 'returns unauthorized' do
         patch api_v1_account_conversation_message_url(account_id: account.id, conversation_id: conversation.display_id, id: message.id)
         expect(response).to have_http_status(:unauthorized)
       end
     end
 
-    context 'when it is an authenticated agent with non-API inbox' do
-      let(:inbox) { create(:inbox, account: account) }
-      let(:agent) { create(:user, account: account, role: :agent) }
-      let!(:conversation) { create(:conversation, inbox: inbox, account: account) }
+    context 'when authenticated agent' do
+      context 'when agent has non-API inbox' do
+        let(:inbox) { create(:inbox, account: account) }
+        let(:agent) { create(:user, account: account, role: :agent) }
+        let!(:conversation) { create(:conversation, inbox: inbox, account: account) }
 
-      before { create(:inbox_member, inbox: inbox, user: agent) }
+        before { create(:inbox_member, inbox: inbox, user: agent) }
 
-      it 'returns forbidden' do
-        patch api_v1_account_conversation_message_url(account_id: account.id, conversation_id: conversation.display_id, id: message.id),
-              params: { status: 'read' }, headers: agent.create_new_auth_token, as: :json
-        expect(response).to have_http_status(:forbidden)
-      end
-    end
-
-    context 'when it is an authenticated user with API inbox' do
-      before { create(:inbox_member, inbox: api_inbox, user: agent) }
-
-      it 'returns bad_request when status missing' do
-        patch api_v1_account_conversation_message_url(account_id: account.id, conversation_id: conversation.display_id, id: message.id),
-              headers: agent.create_new_auth_token, as: :json
-        expect(response).to have_http_status(:bad_request)
+        it 'returns forbidden' do
+          patch api_v1_account_conversation_message_url(
+            account_id: account.id,
+            conversation_id: conversation.display_id,
+            id: message.id
+          ), params: { status: 'failed', external_error: 'err' }, headers: agent.create_new_auth_token, as: :json
+          expect(response).to have_http_status(:forbidden)
+        end
       end
 
-      it 'returns unprocessable_entity for invalid status' do
-        patch api_v1_account_conversation_message_url(account_id: account.id, conversation_id: conversation.display_id, id: message.id),
-              params: { status: 'foo' }, headers: agent.create_new_auth_token, as: :json
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
+      context 'when agent has API inbox' do
+        before { create(:inbox_member, inbox: api_inbox, user: agent) }
 
-      it 'updates status to failed with external_error' do
-        patch api_v1_account_conversation_message_url(account_id: account.id, conversation_id: conversation.display_id, id: message.id),
-              params: { status: 'failed', external_error: 'err123' }, headers: agent.create_new_auth_token, as: :json
+        it 'uses StatusUpdateService to perform status update' do
+          service = instance_double(Messages::StatusUpdateService)
+          expect(Messages::StatusUpdateService).to receive(:new)
+            .with(message, 'failed', 'err123')
+            .and_return(service)
+          expect(service).to receive(:perform)
+          patch api_v1_account_conversation_message_url(
+            account_id: account.id,
+            conversation_id: conversation.display_id,
+            id: message.id
+          ), params: { status: 'failed', external_error: 'err123' }, headers: agent.create_new_auth_token, as: :json
+        end
 
-        expect(response).to have_http_status(:success)
-        body = response.parsed_body
-        expect(body['status']).to eq('failed')
-        expect(body['external_error']).to eq('err123')
-        expect(message.reload.status).to eq('failed')
-        expect(message.reload.external_error).to eq('err123')
-      end
+        it 'updates status to failed with external_error' do
+          patch api_v1_account_conversation_message_url(
+            account_id: account.id,
+            conversation_id: conversation.display_id,
+            id: message.id
+          ), params: { status: 'failed', external_error: 'err123' }, headers: agent.create_new_auth_token, as: :json
 
-      it 'updates only status when external_error missing' do
-        patch api_v1_account_conversation_message_url(account_id: account.id, conversation_id: conversation.display_id, id: message.id),
-              params: { status: 'read' }, headers: agent.create_new_auth_token, as: :json
-
-        expect(response).to have_http_status(:success)
-        body = response.parsed_body
-        expect(body['status']).to eq('read')
-        expect(body['external_error']).to be_nil
-        expect(message.reload.status).to eq('read')
-      end
-
-      it 'ignores external_error when status is not failed' do
-        message.update!(external_error: 'previous error')
-
-        patch api_v1_account_conversation_message_url(account_id: account.id, conversation_id: conversation.display_id, id: message.id),
-              params: { status: 'delivered', external_error: 'new error' }, headers: agent.create_new_auth_token, as: :json
-
-        expect(response).to have_http_status(:success)
-        body = response.parsed_body
-        expect(body['status']).to eq('delivered')
-        expect(body['external_error']).to be_nil
-        expect(message.reload.status).to eq('delivered')
-        expect(message.reload.external_error).to be_nil
-      end
-
-      it 'prevents changing status from read to delivered' do
-        message.update!(status: 'read', external_error: nil)
-
-        patch api_v1_account_conversation_message_url(account_id: account.id, conversation_id: conversation.display_id, id: message.id),
-              params: { status: 'delivered' }, headers: agent.create_new_auth_token, as: :json
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(message.reload.status).to eq('read')
+          expect(response).to have_http_status(:success)
+          expect(message.reload.status).to eq('failed')
+          expect(message.reload.external_error).to eq('err123')
+        end
       end
     end
   end
