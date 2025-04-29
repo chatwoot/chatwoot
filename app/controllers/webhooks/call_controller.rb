@@ -226,8 +226,8 @@ class Webhooks::CallController < ActionController::API
     contact = Contact.find_by(account_id: account.id, phone_number: indian_phone_number)
 
     if contact.blank?
-      render json: { error: 'Contact not found' }, status: :bad_request
-      return
+      contact = account.contacts.new(name: params[:From], email: '', phone_number: indian_phone_number)
+      contact.save!
     end
 
     conversation = Conversation.where(
@@ -284,8 +284,8 @@ class Webhooks::CallController < ActionController::API
     contact = Contact.find_by(account_id: account.id, phone_number: indian_phone_number)
 
     if contact.blank?
-      render json: { error: 'Contact not found' }, status: :bad_request
-      return
+      contact = account.contacts.new(name: params[:From], email: '', phone_number: indian_phone_number)
+      contact.save!
     end
 
     conversation = Conversation.where(
