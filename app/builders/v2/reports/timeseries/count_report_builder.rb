@@ -78,7 +78,7 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
 
   def scope_for_agent_handoff_count
     scope.messages
-         .where(sender_type: 'User', sender_id: account.ai_agents.pluck(:id), created_at: range)
+         .where(sender_type: 'User', sender_id: account.agents.pluck(:id), created_at: range)
          .unscope(:order)
   end
 

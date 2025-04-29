@@ -420,7 +420,6 @@ Rails.application.routes.draw do
               get :bot_metrics
               get :credit_usage
               get :ai_agent_metrics
-              get :ai_agent_summary
             end
           end
         end

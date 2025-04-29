@@ -13,17 +13,10 @@ class V2::Reports::AiAgentMetricsBuilder
 
   def metrics
     {
-      conversation_count: bot_conversations.count,
-      message_count: bot_messages.count,
-      resolution_rate: bot_resolution_rate.to_i,
-      handoff_rate: bot_handoff_rate.to_i
-    }
-  end
-
-  def summary
-    {
       ai_agent_credit_usage: ai_agent_credit_usage,
-      ai_agent_message_send_count: ai_message_send_count
+      ai_agent_message_send_count: ai_agent_message_send_count,
+      ai_agent_handoff_count: ai_agent_handoff_count,
+      human_agent_handoff_count: human_agent_handoff_count
     }
   end
 
@@ -33,11 +26,31 @@ class V2::Reports::AiAgentMetricsBuilder
     @ai_agent_ids ||= account.ai_agents.pluck(:id)
   end
 
+  def agent_ids
+    @agent_ids ||= account.agents.pluck(:id)
+  end
+
   def ai_agent_credit_usage
     account.messages.where(sender_type: 'AiAgent', sender_id: ai_agent_ids).where(created_at: range).count
   end
 
-  def ai_message_send_count
+  def ai_agent_message_send_count
     account.messages.where(sender_type: 'AiAgent', sender_id: ai_agent_ids).where(created_at: range).count
+  end
+
+  def ai_agent_handoff_count
+    account.messages
+           .where(sender_type: 'AiAgent', sender_id: ai_agent_ids)
+           .where(created_at: range)
+           .distinct
+           .count(:sender_id)
+  end
+
+  def human_agent_handoff_count
+    account.messages
+           .where(sender_type: 'User', sender_id: agent_ids)
+           .where(created_at: range)
+           .distinct
+           .count(:sender_id)
   end
 end

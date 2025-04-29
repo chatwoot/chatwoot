@@ -62,11 +62,6 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: ai_agent_metrics
   end
 
-  def ai_agent_summary
-    ai_agent_metrics = V2::Reports::AiAgentMetricsBuilder.new(Current.account, params).summary
-    render json: ai_agent_metrics
-  end
-
   def credit_usage
     render json: {
       credit_usage: rand(1..300)
