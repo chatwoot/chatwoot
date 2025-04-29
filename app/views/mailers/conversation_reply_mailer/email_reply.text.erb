@@ -1,0 +1,18 @@
+<% if @message.content_attributes&.dig('forwarded_message_id').present? %>  
+  <% if @message.content_attributes&.dig('email', 'text_content', 'full').present? %>
+    <%= @message.content_attributes&.dig('email', 'text_content', 'full') %>
+  <% elsif @message.content %>
+    <%= @message.content %>
+  <% end %>
+<% else %>
+  <% if @message.content %>
+    <%= @message.content %>
+  <% end %>
+<% end %>
+
+<% if @large_attachments.present? %>
+  Attachments:
+  <% @large_attachments.each do |attachment| %>
+    <%= attachment.file.filename.to_s %>: <%= attachment.file_url %>
+  <% end %>
+<% end %>
