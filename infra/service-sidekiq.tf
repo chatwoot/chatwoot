@@ -17,7 +17,10 @@ module "container-sidekiq" {
     AZURE_APP_ID      = aws_ssm_parameter.azure_id.arn
     AZURE_APP_SECRET  = aws_ssm_parameter.azure_secret.arn
     AZURE_TENANT_ID   = aws_ssm_parameter.azure_tenant_id.arn
-    DT_ADMIN_TOKEN    = aws_ssm_parameter.dt_admin_token.arn
+    DT_CLIENT_ID      = aws_ssm_parameter.dt_client_id.arn
+    DT_CLIENT_SECRET  = aws_ssm_parameter.dt_client_secret.arn
+    DT_ADMIN_PASSWORD = aws_ssm_parameter.dt_admin_password.arn
+    DT_TENANT_UUID    = aws_ssm_parameter.dt_tenant_uuid.arn
   }
 
   environment = local.environment
