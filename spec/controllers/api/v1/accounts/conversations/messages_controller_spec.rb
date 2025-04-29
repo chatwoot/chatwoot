@@ -84,7 +84,6 @@ RSpec.describe 'Conversation Messages API', type: :request do
       context 'when api inbox' do
         let(:api_channel) { create(:channel_api, account: account) }
         let(:api_inbox) { create(:inbox, channel: api_channel, account: account) }
-        let(:inbox_member) { create(:inbox_member, user: agent, inbox: api_inbox) }
         let(:conversation) { create(:conversation, inbox: api_inbox, account: account) }
 
         it 'reopens the conversation with new incoming message' do
@@ -312,8 +311,9 @@ RSpec.describe 'Conversation Messages API', type: :request do
     context 'when it is an authenticated agent with non-API inbox' do
       let(:inbox) { create(:inbox, account: account) }
       let(:agent) { create(:user, account: account, role: :agent) }
-      let!(:inbox_member) { create(:inbox_member, inbox: inbox, user: agent) }
       let!(:conversation) { create(:conversation, inbox: inbox, account: account) }
+
+      before { create(:inbox_member, inbox: inbox, user: agent) }
 
       it 'returns forbidden' do
         patch api_v1_account_conversation_message_url(account_id: account.id, conversation_id: conversation.display_id, id: message.id),
@@ -323,7 +323,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
     end
 
     context 'when it is an authenticated user with API inbox' do
-      let!(:inbox_member) { create(:inbox_member, inbox: api_inbox, user: agent) }
+      before { create(:inbox_member, inbox: api_inbox, user: agent) }
 
       it 'returns bad_request when status missing' do
         patch api_v1_account_conversation_message_url(account_id: account.id, conversation_id: conversation.display_id, id: message.id),
