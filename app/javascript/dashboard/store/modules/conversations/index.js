@@ -233,6 +233,7 @@ export const mutations = {
   },
 
   [types.REMOVE_CALL](_state) {
+    console.log("Call removed")
     _state.activeCallRoom = null;
   },
 

@@ -25,6 +25,7 @@ module Events::Types
   # call events
   CALL_CREATED = 'call.created'
   CALL_ENDED = 'call.ended'
+  CALL_REJECTED = 'call.rejected'
 
   CONVERSATION_STATUS_CHANGED = 'conversation.status_changed'
   CONVERSATION_CONTACT_CHANGED = 'conversation.contact_changed'
