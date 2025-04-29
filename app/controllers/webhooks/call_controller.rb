@@ -222,6 +222,16 @@ class Webhooks::CallController < ActionController::API
       return
     end
 
+    matching_inboxes = Inbox.where(account_id: account.id, channel_type: 'Channel::Api')
+    wa_api_inbox = matching_inboxes.find do |inbox|
+      inbox.channel.additional_attributes['agent_reply_time_window'].present?
+    end
+
+    if wa_api_inbox.blank?
+      render json: { error: 'WA Inbox not found' }, status: :bad_request
+      return
+    end
+
     indian_phone_number = params[:From].gsub(/^0/, '+91')
     contact = Contact.find_by(account_id: account.id, phone_number: indian_phone_number)
 
@@ -230,10 +240,12 @@ class Webhooks::CallController < ActionController::API
       contact.save!
     end
 
-    conversation = Conversation.where(
+    latest_conversation = Conversation.where(
       contact_id: contact.id,
       account_id: account.id
     ).order(created_at: :desc).first
+
+    conversation = handle_conversation_creation(latest_conversation, contact, wa_api_inbox)
 
     mark_conversation_as_inbound_call(conversation)
 
@@ -280,6 +292,16 @@ class Webhooks::CallController < ActionController::API
       return
     end
 
+    matching_inboxes = Inbox.where(account_id: account.id, channel_type: 'Channel::Api')
+    wa_api_inbox = matching_inboxes.find do |inbox|
+      inbox.channel.additional_attributes['agent_reply_time_window'].present?
+    end
+
+    if wa_api_inbox.blank?
+      render json: { error: 'WA Inbox not found' }, status: :bad_request
+      return
+    end
+
     indian_phone_number = params[:From].gsub(/^0/, '+91')
     contact = Contact.find_by(account_id: account.id, phone_number: indian_phone_number)
 
@@ -288,10 +310,12 @@ class Webhooks::CallController < ActionController::API
       contact.save!
     end
 
-    conversation = Conversation.where(
+    latest_conversation = Conversation.where(
       contact_id: contact.id,
       account_id: account.id
     ).order(created_at: :desc).first
+
+    conversation = handle_conversation_creation(latest_conversation, contact, wa_api_inbox)
 
     mark_conversation_as_inbound_call(conversation)
 
