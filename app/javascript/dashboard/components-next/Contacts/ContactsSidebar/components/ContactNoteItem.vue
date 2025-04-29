@@ -40,8 +40,8 @@ const handleDelete = () => {
 onMounted(() => {
   if (props.collapsible) {
     // Check if content height exceeds approximately 4 lines
-    // Assuming line height is ~1.5 and font size is ~14px
-    const threshold = 14 * 1.5 * 4; // ~84px
+    // Assuming line height is ~1.625 and font size is ~14px
+    const threshold = 14 * 1.625 * 4; // ~84px
     needsCollapse.value = noteContentRef.value?.clientHeight > threshold;
   }
 });
