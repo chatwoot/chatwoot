@@ -90,6 +90,12 @@ class ReportsAPI extends ApiClient {
       params: { since: from, until: to },
     });
   }
+  
+  getAiAgentMetrics({ from, to } = {}) {
+    return axios.get(`${this.url}/ai_agent_metrics`, {
+      params: { since: from, until: to },
+    });
+  }
 
   getBotSummary({ from, to, groupBy, businessHours } = {}) {
     return axios.get(`${this.url}/bot_summary`, {
