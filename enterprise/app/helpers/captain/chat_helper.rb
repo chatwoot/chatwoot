@@ -36,6 +36,7 @@ module Captain::ChatHelper
   end
 
   def handle_response(response)
+    Rails.logger.debug { "[CAPTAIN][ChatCompletion] #{response}" }
     message = response.dig('choices', 0, 'message')
     if message['tool_calls']
       process_tool_calls(message['tool_calls'])
@@ -46,20 +47,26 @@ module Captain::ChatHelper
 
   def process_tool_calls(tool_calls)
     append_tool_calls(tool_calls)
-    process_tool_call(tool_calls.first)
-  end
-
-  def process_tool_call(tool_call)
-    return unless tool_call['function']['name'] == 'search_documentation'
-
-    tool_call_id = tool_call['id']
-    query = JSON.parse(tool_call['function']['arguments'])['search_query']
-    sections = fetch_documentation(query)
-    append_tool_response(sections, tool_call_id)
+    tool_calls.each do |tool_call|
+      process_tool_call(tool_call)
+    end
     request_chat_completion
   end
 
+  def process_tool_call(tool_call)
+    tool_call_id = tool_call['id']
+
+    if tool_call['function']['name'] == 'search_documentation'
+      query = JSON.parse(tool_call['function']['arguments'])['search_query']
+      sections = fetch_documentation(query)
+      append_tool_response(sections, tool_call_id)
+    else
+      append_tool_response('', tool_call_id)
+    end
+  end
+
   def fetch_documentation(query)
+    Rails.logger.debug { "[CAPTAIN][DocumentationSearch] #{query}" }
     @assistant
       .responses
       .approved

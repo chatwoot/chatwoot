@@ -22,7 +22,7 @@ class Captain::Llm::AssistantChatService < Llm::BaseOpenAiService
   def system_message
     {
       role: 'system',
-      content: Captain::Llm::SystemPromptsService.assistant_response_generator(@assistant.config['product_name'])
+      content: Captain::Llm::SystemPromptsService.assistant_response_generator(@assistant.config['product_name'], @assistant.config)
     }
   end
 end
