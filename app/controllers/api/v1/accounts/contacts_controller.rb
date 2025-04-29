@@ -163,9 +163,16 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     @contact.custom_attributes
   end
 
+  def contact_additional_attributes
+    return @contact.additional_attributes.merge(permitted_params[:additional_attributes]) if permitted_params[:additional_attributes]
+
+    @contact.additional_attributes
+  end
+
   def contact_update_params
-    # we want the merged custom attributes not the original one
-    permitted_params.except(:custom_attributes, :avatar_url).merge({ custom_attributes: contact_custom_attributes })
+    permitted_params.except(:custom_attributes, :avatar_url)
+                    .merge({ custom_attributes: contact_custom_attributes })
+                    .merge({ additional_attributes: contact_additional_attributes })
   end
 
   def set_include_contact_inboxes
