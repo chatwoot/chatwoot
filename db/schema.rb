@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_26_154656) do
+ActiveRecord::Schema[7.0].define(version: 2025_04_28_105954) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1017,6 +1017,19 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_26_154656) do
     t.datetime "updated_at", precision: nil, null: false
   end
 
+  create_table "user_auths", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "tenant_id", null: false
+    t.text "access_token", null: false
+    t.string "client_id", null: false
+    t.string "client_secret", null: false
+    t.text "refresh_token", null: false
+    t.datetime "expiration_datetime", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_auths_on_user_id"
+  end
+
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -1084,6 +1097,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_26_154656) do
   add_foreign_key "inboxes", "portals"
   add_foreign_key "parquet_reports", "accounts"
   add_foreign_key "parquet_reports", "users"
+  add_foreign_key "user_auths", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

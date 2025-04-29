@@ -1,2 +1,2 @@
-class Digitaltolk::ProcessConversationParquetJob < Digitaltolk::ProcessParquetJob 
+class Digitaltolk::ProcessConversationParquetJob < Digitaltolk::ProcessParquetJob
 end

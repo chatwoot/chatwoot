@@ -3,7 +3,7 @@ require 'openai'
 class Digitaltolk::Openai::Base
   API_BASE_URL = ENV.fetch('DT_LLM_HUB_URL', 'https://api-gateway-stg.digitaltolk.net')
   API_VERSION = ENV.fetch('DT_LLM_HUB_API_VERSION', 'api/v3/llm-hub')
-  DT_ADMIN_TOKEN = ENV.fetch('DT_ADMIN_TOKEN', '')
+  DT_ADMIN_USERNAME = ENV.fetch('DT_ADMIN_USERNAME', nil)
 
   def initialize
     initialize_client
@@ -12,7 +12,7 @@ class Digitaltolk::Openai::Base
   def initialize_client
     @client = OpenAI::Client.new(
       uri_base: API_BASE_URL,
-      access_token: DT_ADMIN_TOKEN,
+      access_token: access_token,
       log_errors: Rails.env.development?,
       api_version: API_VERSION
     )
@@ -25,6 +25,10 @@ class Digitaltolk::Openai::Base
   private
 
   attr_reader :client
+
+  def access_token
+    @access_token ||= UserAuth.token_by_email(DT_ADMIN_USERNAME)
+  end
 
   def system_prompt
     raise NotImplementedError

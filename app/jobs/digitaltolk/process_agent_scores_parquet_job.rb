@@ -1,2 +1,2 @@
-class Digitaltolk::ProcessAgentScoresParquetJob < Digitaltolk::ProcessParquetJob 
+class Digitaltolk::ProcessAgentScoresParquetJob < Digitaltolk::ProcessParquetJob
 end
