@@ -181,4 +181,164 @@ describe Messages::MessageBuilder do
       end
     end
   end
+
+  describe '#perform with forwarded messages' do
+    let(:email_channel) { create(:channel_email, account: account) }
+    let(:email_inbox) { email_channel.inbox }
+    let(:email_conversation) { create(:conversation, inbox: email_inbox, account: account) }
+
+    # Create a message with email data to be forwarded
+    let(:forwarded_message) do
+      create(:message, conversation: email_conversation, account: account,
+                       content_attributes: {
+                         email: {
+                           'from' => ['sender@example.com'],
+                           'to' => ['recipient@example.com'],
+                           'subject' => 'Test Subject',
+                           'date' => '2025-04-29T14:29:07+05:30',
+                           'html_content' => {
+                             'full' => '<div>HTML content</div>',
+                             'quoted' => 'HTML content',
+                             'reply' => 'HTML content'
+                           },
+                           'text_content' => {
+                             'full' => 'Text content',
+                             'quoted' => 'Text content',
+                             'reply' => 'Text content'
+                           }
+                         }
+                       })
+    end
+
+    context 'when forwarding a message from a non-email inbox' do
+      let(:params) do
+        ActionController::Parameters.new({
+                                           content: 'Forwarded message:',
+                                           content_attributes: { forwarded_message_id: forwarded_message.id }
+                                         })
+      end
+
+      it 'includes the forwarded message ID in content_attributes' do
+        message = described_class.new(user, conversation, params).perform
+        expect(message.content_attributes[:forwarded_message_id]).to eq(forwarded_message.id)
+      end
+
+      it 'updates the content with the forwarded message text' do
+        message = described_class.new(user, conversation, params).perform
+        expect(message.content).to include('Forwarded message:')
+        expect(message.content).to include('---------- Forwarded message ---------')
+      end
+    end
+
+    context 'when forwarding a message from an email inbox' do
+      let(:params) do
+        ActionController::Parameters.new({
+                                           content: 'Forwarded message:',
+                                           content_attributes: { forwarded_message_id: forwarded_message.id }
+                                         })
+      end
+
+      let(:email_conversation_target) { create(:conversation, inbox: email_inbox, account: account) }
+
+      it 'includes the forwarded email data in content_attributes' do
+        message = described_class.new(user, email_conversation_target, params).perform
+
+        expect(message.content_attributes[:forwarded_message_id]).to eq(forwarded_message.id)
+        expect(message.content_attributes[:email]).to be_present
+        expect(message.content_attributes[:email]['html_content']).to be_present
+        expect(message.content_attributes[:email]['text_content']).to be_present
+      end
+
+      it 'preserves the HTML content in the forwarded email' do
+        message = described_class.new(user, email_conversation_target, params).perform
+
+        html_content = message.content_attributes[:email]['html_content']['full']
+        expect(html_content).to include('<div>HTML content</div>')
+      end
+
+      it 'preserves the text content in the forwarded email' do
+        message = described_class.new(user, email_conversation_target, params).perform
+
+        text_content = message.content_attributes[:email]['text_content']['full']
+        expect(text_content).to include('Text content')
+      end
+    end
+
+    context 'when forwarding a message with markdown content' do
+      let(:params) do
+        ActionController::Parameters.new({
+                                           content: '**Bold text** and _italic text_',
+                                           content_attributes: { forwarded_message_id: forwarded_message.id }
+                                         })
+      end
+
+      it 'converts markdown to HTML in the HTML content' do
+        message = described_class.new(user, email_conversation, params).perform
+
+        html_content = message.content_attributes[:email]['html_content']['full']
+        expect(html_content).to include('<b>Bold text</b>')
+        expect(html_content).to include('<i>italic text</i>')
+      end
+
+      it 'preserves markdown in the text content' do
+        message = described_class.new(user, email_conversation, params).perform
+
+        text_content = message.content_attributes[:email]['text_content']['full']
+        expect(text_content).to include('**Bold text**')
+        expect(text_content).to include('_italic text_')
+      end
+    end
+
+    context 'when forwarding a message with no email data' do
+      let(:regular_message) { create(:message, conversation: conversation, account: account) }
+
+      let(:params) do
+        ActionController::Parameters.new({
+                                           content: 'Forwarding a regular message:',
+                                           content_attributes: { forwarded_message_id: regular_message.id }
+                                         })
+      end
+
+      it 'includes the forwarded message ID and empty email data' do
+        message = described_class.new(user, email_conversation, params).perform
+
+        expect(message.content_attributes[:forwarded_message_id]).to eq(regular_message.id)
+        expect(message.content_attributes[:email]).to eq({})
+      end
+    end
+
+    context 'with multipart email content' do
+      let(:multipart_message) do
+        create(:message, conversation: email_conversation, account: account,
+                         content_attributes: {
+                           email: {
+                             'from' => ['sender@example.com'],
+                             'to' => ['recipient@example.com'],
+                             'subject' => 'Multipart Test',
+                             'date' => '2025-04-29T14:29:07+05:30',
+                             'html_content' => {
+                               'full' => '<div>HTML <b>formatted</b> content</div>'
+                             },
+                             'text_content' => {
+                               'full' => 'Plain text content'
+                             }
+                           }
+                         })
+      end
+
+      let(:params) do
+        ActionController::Parameters.new({
+                                           content: 'Forwarding multipart email:',
+                                           content_attributes: { forwarded_message_id: multipart_message.id }
+                                         })
+      end
+
+      it 'preserves both HTML and text parts in the forwarded email' do
+        message = described_class.new(user, email_conversation, params).perform
+
+        expect(message.content_attributes[:email]['html_content']['full']).to include('<div>HTML <b>formatted</b> content</div>')
+        expect(message.content_attributes[:email]['text_content']['full']).to include('Plain text content')
+      end
+    end
+  end
 end
