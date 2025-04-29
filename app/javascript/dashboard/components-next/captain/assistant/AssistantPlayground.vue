@@ -87,7 +87,7 @@ const sendMessage = async () => {
     <MessageList :messages="messages" :is-loading="isLoading" />
 
     <div
-      class="flex items-center bg-white outline outline-n-container rounded-lg p-3"
+      class="flex items-center bg-n-solid-1 outline outline-n-container rounded-lg p-3"
     >
       <input
         v-model="newMessage"
