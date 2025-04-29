@@ -382,7 +382,7 @@
         "UPDATE": "Update",
         "SECTIONS": {
           "BASIC_INFO": "Basic Information",
-          "GREETINGS": "Greeting Messages",
+          "SYSTEM_MESSAGES": "System Messages",
           "INSTRUCTIONS": "Instructions",
           "FEATURES": "Features",
           "TOOLS": "Tools "

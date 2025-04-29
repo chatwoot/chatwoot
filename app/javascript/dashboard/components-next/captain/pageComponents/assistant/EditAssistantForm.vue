@@ -106,7 +106,7 @@ const handleBasicInfoUpdate = async () => {
   emit('submit', payload);
 };
 
-const handleGreetingsUpdate = async () => {
+const handleSystemMessagesUpdate = async () => {
   const result = await Promise.all([
     v$.value.welcomeMessage.$validate(),
     v$.value.handoffMessage.$validate(),
@@ -207,19 +207,31 @@ watch(
       </div>
     </Accordion>
 
-    <!-- Greeting Messages Section -->
-    <Accordion :title="t('CAPTAIN.ASSISTANTS.FORM.SECTIONS.GREETINGS')">
+    <!-- Instructions Section -->
+    <Accordion :title="t('CAPTAIN.ASSISTANTS.FORM.SECTIONS.INSTRUCTIONS')">
       <div class="flex flex-col gap-4 pt-4">
         <Editor
-          v-model="state.welcomeMessage"
-          :label="t('CAPTAIN.ASSISTANTS.FORM.WELCOME_MESSAGE.LABEL')"
-          :placeholder="
-            t('CAPTAIN.ASSISTANTS.FORM.WELCOME_MESSAGE.PLACEHOLDER')
-          "
-          :message="formErrors.welcomeMessage"
-          :message-type="formErrors.welcomeMessage ? 'error' : 'info'"
+          v-model="state.instructions"
+          :placeholder="t('CAPTAIN.ASSISTANTS.FORM.INSTRUCTIONS.PLACEHOLDER')"
+          :message="formErrors.instructions"
+          :max-length="2000"
+          :message-type="formErrors.instructions ? 'error' : 'info'"
         />
 
+        <div class="flex justify-end">
+          <Button
+            size="small"
+            :loading="isLoading"
+            :label="t('CAPTAIN.ASSISTANTS.FORM.UPDATE')"
+            @click="handleInstructionsUpdate"
+          />
+        </div>
+      </div>
+    </Accordion>
+
+    <!-- Greeting Messages Section -->
+    <Accordion :title="t('CAPTAIN.ASSISTANTS.FORM.SECTIONS.SYSTEM_MESSAGES')">
+      <div class="flex flex-col gap-4 pt-4">
         <Editor
           v-model="state.handoffMessage"
           :label="t('CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.LABEL')"
@@ -245,29 +257,7 @@ watch(
             size="small"
             :loading="isLoading"
             :label="t('CAPTAIN.ASSISTANTS.FORM.UPDATE')"
-            @click="handleGreetingsUpdate"
-          />
-        </div>
-      </div>
-    </Accordion>
-
-    <!-- Instructions Section -->
-    <Accordion :title="t('CAPTAIN.ASSISTANTS.FORM.SECTIONS.INSTRUCTIONS')">
-      <div class="flex flex-col gap-4 pt-4">
-        <Editor
-          v-model="state.instructions"
-          :label="t('CAPTAIN.ASSISTANTS.FORM.INSTRUCTIONS.LABEL')"
-          :placeholder="t('CAPTAIN.ASSISTANTS.FORM.INSTRUCTIONS.PLACEHOLDER')"
-          :message="formErrors.instructions"
-          :message-type="formErrors.instructions ? 'error' : 'info'"
-        />
-
-        <div class="flex justify-end">
-          <Button
-            size="small"
-            :loading="isLoading"
-            :label="t('CAPTAIN.ASSISTANTS.FORM.UPDATE')"
-            @click="handleInstructionsUpdate"
+            @click="handleSystemMessagesUpdate"
           />
         </div>
       </div>
@@ -312,14 +302,5 @@ watch(
         </div>
       </div>
     </Accordion>
-
-    <!-- Tools Section -->
-    <!-- <Accordion :title="t('CAPTAIN.ASSISTANTS.FORM.SECTIONS.TOOLS')">
-      <div class="flex flex-col gap-4 pt-4">
-        <p class="text-sm text-n-slate-11">
-          {{ t('CAPTAIN.ASSISTANTS.FORM.TOOLS.COMING_SOON') }}
-        </p>
-      </div>
-    </Accordion> -->
   </form>
 </template>
