@@ -9,7 +9,7 @@ class Twilio::SendOnTwilioService < Base::SendOnChannelService
     begin
       twilio_message = channel.send_message(**message_params)
     rescue Twilio::REST::TwilioError, Twilio::REST::RestError => e
-      message.update!(status: :failed, external_error: e.message)
+      Messages::StatusUpdateService.new(message, 'failed', e.message).perform
     end
     message.update!(source_id: twilio_message.sid) if twilio_message
   end
