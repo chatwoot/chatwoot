@@ -63,7 +63,6 @@ export default {
   <label class="input-container">
     <span v-if="label">{{ label }}</span>
     <input
-      class="!mb-0"
       :value="modelValue"
       :type="type"
       :placeholder="placeholder"

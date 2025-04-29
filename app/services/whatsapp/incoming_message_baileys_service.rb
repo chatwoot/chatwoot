@@ -67,6 +67,7 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
   def set_contact
     push_name = contact_name
     contact_inbox = ::ContactInboxWithContactBuilder.new(
+      # FIXME: update the source_id to complete jid in future
       source_id: phone_number_from_jid,
       inbox: inbox,
       contact_attributes: { name: push_name, phone_number: "+#{phone_number_from_jid}" }
@@ -100,6 +101,8 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     case message_type
     when 'text'
       create_message
+    when 'reaction'
+      create_message if message_content.present?
     when 'image', 'file', 'video', 'audio', 'sticker'
       create_message
       attach_media
@@ -148,6 +151,7 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     return 'poll' if msg.key?(:pollCreationMessageV3)
     return 'event' if msg.key?(:eventMessage)
     return 'sticker' if msg.key?(:stickerMessage)
+    return 'reaction' if msg.key?(:reactionMessage)
 
     'unsupported'
   end
@@ -165,8 +169,17 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
       sender: sender,
       sender_type: sender_type,
       message_type: message_type,
-      in_reply_to_external_id: nil
+      content_attributes: message_content_attributes
     )
+  end
+
+  def message_content_attributes
+    return unless message_type == 'reaction'
+
+    {
+      in_reply_to_external_id: @raw_message.dig(:message, :reactionMessage, :key, :id),
+      is_reaction: true
+    }
   end
 
   def incoming?
@@ -231,6 +244,8 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
       @raw_message.dig(:message, :imageMessage, :caption)
     when 'video'
       @raw_message.dig(:message, :videoMessage, :caption)
+    when 'reaction'
+      @raw_message.dig(:message, :reactionMessage, :text)
     end
   end
 
@@ -263,15 +278,10 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
   end
 
   def handle_update
-    raise MessageNotFoundError unless valid_update_message?
+    raise MessageNotFoundError unless find_message_by_source_id(message_id)
 
     update_status if @raw_message.dig(:update, :status).present?
     update_message_content if @raw_message.dig(:update, :message).present?
-  end
-
-  def valid_update_message?
-    @message = find_message_by_source_id(message_id)
-    @message.present?
   end
 
   def update_status

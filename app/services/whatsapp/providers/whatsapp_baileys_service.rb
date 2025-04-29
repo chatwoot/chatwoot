@@ -33,7 +33,9 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
     @message = message
     @phone_number = phone_number
 
-    if message.attachments.present?
+    if message.content_attributes[:is_reaction]
+      @message_content = reaction_message_content
+    elsif message.attachments.present?
       @message_content = attachment_message_content
     elsif message.content.present?
       @message_content = { text: @message.content }
@@ -74,6 +76,15 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
     whatsapp_channel.provider_config['api_key'].presence || DEFAULT_API_KEY
   end
 
+  def reaction_message_content
+    {
+      react: { key: { id: @message.in_reply_to_external_id,
+                      remoteJid: remote_jid,
+                      fromMe: true },
+               text: @message.content }
+    }
+  end
+
   def attachment_message_content
     attachment = @message.attachments.first
     buffer = Base64.strict_encode64(attachment.file.download)
@@ -103,7 +114,7 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
       "#{provider_url}/connections/#{whatsapp_channel.phone_number}/send-message",
       headers: api_headers,
       body: {
-        jid: "#{@phone_number.delete('+')}@s.whatsapp.net",
+        jid: remote_jid,
         messageContent: @message_content
       }.to_json
     )
@@ -116,6 +127,10 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
   def process_response(response)
     Rails.logger.error response.body unless response.success?
     response.success?
+  end
+
+  def remote_jid
+    "#{@phone_number.delete('+')}@s.whatsapp.net"
   end
 
   private_class_method def self.with_error_handling(*method_names)

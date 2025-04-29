@@ -164,7 +164,7 @@ describe Whatsapp::IncomingMessageBaileysService do
           }
         end
 
-        it 'creates an alert of unsupported message' do
+        it 'creates an unsupported message' do
           described_class.new(inbox: inbox, params: params).perform
 
           conversation = inbox.conversations.last
@@ -370,6 +370,51 @@ describe Whatsapp::IncomingMessageBaileysService do
             expect(message.sender).to be_present
             expect(message.sender.name).to eq('John Doe')
           end
+        end
+      end
+
+      context 'when message type is reaction' do
+        let(:phone_number) { '5511912345678' }
+        let(:jid) { "#{phone_number}@s.whatsapp.net" }
+        let(:raw_message) do
+          {
+            key: { id: 'reaction_123', remoteJid: jid, fromMe: false },
+            message: { reactionMessage: { key: { remoteJid: jid, fromMe: true, id: 'msg_123' }, text: '👍' } },
+            pushName: 'John Doe'
+          }
+        end
+        let(:params) do
+          {
+            webhookVerifyToken: webhook_verify_token,
+            event: 'messages.upsert',
+            data: {
+              type: 'notify',
+              messages: [raw_message]
+            }
+          }
+        end
+        let!(:message) do
+          contact = create(:contact, account: inbox.account, name: phone_number)
+          contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: phone_number)
+          conversation = create(:conversation, inbox: inbox, contact_inbox: contact_inbox)
+          create(:message, inbox: inbox, conversation: conversation, source_id: 'msg_123')
+        end
+
+        it 'creates the reaction' do
+          described_class.new(inbox: inbox, params: params).perform
+
+          reaction = message.conversation.messages.last
+          expect(reaction.is_reaction).to be(true)
+          expect(reaction.in_reply_to).to eq(message.id)
+          expect(reaction.in_reply_to_external_id).to eq(message.source_id)
+        end
+
+        it 'does not create the reaction if content is empty' do
+          raw_message[:message][:reactionMessage][:text] = ''
+
+          described_class.new(inbox: inbox, params: params).perform
+
+          expect(message.conversation.messages.count).to eq(1)
         end
       end
 

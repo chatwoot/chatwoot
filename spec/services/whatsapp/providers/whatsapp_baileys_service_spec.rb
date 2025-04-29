@@ -6,8 +6,8 @@ describe Whatsapp::Providers::WhatsappBaileysService do
   let(:whatsapp_channel) { create(:channel_whatsapp, provider: 'baileys', validate_provider_config: false) }
   let(:message) { create(:message) }
 
-  let(:test_send_phone_number) { '+5511987654321' }
-  let(:test_send_jid) { '5511987654321@s.whatsapp.net' }
+  let(:test_send_phone_number) { '551187654321' }
+  let(:test_send_jid) { '551187654321@s.whatsapp.net' }
 
   before do
     stub_const('Whatsapp::Providers::WhatsappBaileysService::DEFAULT_CLIENT_NAME', 'chatwoot-test')
@@ -92,6 +92,39 @@ describe Whatsapp::Providers::WhatsappBaileysService do
   end
 
   describe '#send_message' do
+    context 'when message is a reaction' do
+      let(:inbox) { whatsapp_channel.inbox }
+      let(:contact) { create(:contact, account: inbox.account, name: 'John Doe', phone_number: "+#{test_send_phone_number}") }
+      let(:contact_inbox) { create(:contact_inbox, inbox: inbox, contact: contact, source_id: test_send_phone_number) }
+      let(:conversation) { create(:conversation, inbox: inbox, contact_inbox: contact_inbox) }
+      let!(:message) { create(:message, inbox: inbox, conversation: conversation, sender: contact, source_id: 'msg_123') }
+      let(:reaction) do
+        create(:message, inbox: inbox, conversation: conversation, sender: contact, content: '👍',
+                         content_attributes: { is_reaction: true, in_reply_to: message.id })
+      end
+
+      it 'sends the reaction message' do
+        stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/send-message")
+          .with(
+            headers: stub_headers(whatsapp_channel),
+            body: {
+              jid: test_send_jid,
+              messageContent: { react: { key: { id: message.source_id,
+                                                remoteJid: test_send_jid,
+                                                fromMe: true },
+                                         text: '👍' } }
+            }.to_json
+          )
+          .to_return(
+            status: 200,
+            headers: { 'Content-Type' => 'application/json' },
+            body: { 'data' => { 'key' => { 'id' => 'reaction_123' } } }.to_json
+          )
+
+        result = service.send_message(test_send_phone_number, reaction)
+
+        expect(result).to eq('reaction_123')
+
     context 'when message does not have content nor attachments' do
       it 'updates the message with content attribute is_unsupported' do
         message.update!(content: nil)
