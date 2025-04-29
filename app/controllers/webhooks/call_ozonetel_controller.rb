@@ -3,6 +3,7 @@ require 'httparty'
 
 class Webhooks::CallOzonetelController < ActionController::API
   include CallOzonetelHelper
+  include CommonCallHelper
 
   def handle_call_callback
     parsed_body = parse_request_body
@@ -11,19 +12,20 @@ class Webhooks::CallOzonetelController < ActionController::API
     Rails.logger.info("account #{account.inspect}")
     return render json: { error: 'Account not found' }, status: :not_found if account.blank?
 
-    contact = find_contact(account, parsed_body)
+    is_inbound = parsed_body['Type'] == 'InBound'
+
+    contact = find_contact_or_create_contact(account, parsed_body, is_inbound)
     Rails.logger.info("contact #{contact.inspect}")
-    return render json: { error: 'Contact not found' }, status: :not_found if contact.blank?
-
-    conversation = find_latest_conversation(contact, account)
-    Rails.logger.info("conversation #{conversation.inspect}")
-    return render json: { error: 'Conversation not found' }, status: :not_found if conversation.blank?
-
-    is_inbound = parsed_body['DialStatus'].start_with?('0')
 
     if is_inbound
-      handle_incoming_callback(conversation, parsed_body, account)
+      handle_incoming_call(account, contact, parsed_body)
     else
+      return render json: { error: 'Contact not found' }, status: :not_found if contact.blank?
+
+      conversation = find_latest_conversation(contact, account)
+      Rails.logger.info("conversation #{conversation.inspect}")
+      return render json: { error: 'Conversation not found' }, status: :not_found if conversation.blank?
+
       create_call_log_message(conversation, parsed_body)
       send_call_log_to_bspd(parsed_body, conversation, account)
 
@@ -33,10 +35,33 @@ class Webhooks::CallOzonetelController < ActionController::API
 
   private
 
+  def handle_incoming_call(account, contact, parsed_body)
+    matching_inboxes = Inbox.where(account_id: account.id, channel_type: 'Channel::Api')
+    Rails.logger.info("matching_inboxes Data, #{matching_inboxes.inspect}")
+    wa_api_inbox = matching_inboxes.find do |inbox|
+      inbox.channel.additional_attributes['agent_reply_time_window'].present?
+    end
+
+    if wa_api_inbox.blank?
+      render json: { error: 'WA Inbox not found' }, status: :bad_request
+      return
+    end
+
+    # Find latest conversation for the contact
+    latest_conversation = Conversation.where(
+      contact_id: contact.id,
+      account_id: account.id
+    ).order(created_at: :desc).first
+
+    conversation = handle_conversation_creation(latest_conversation, contact, wa_api_inbox)
+    Rails.logger.info("conversationData, #{conversation.inspect}")
+    handle_incoming_callback(conversation, parsed_body, account)
+  end
+
   def handle_incoming_callback(conversation, parsed_body, account) # rubocop:disable Metrics/AbcSize
     mark_conversation_as_inbound_call(conversation)
 
-    agent_phone = parsed_body['AgentPhoneNumber']
+    agent_phone = parsed_body['AgentPhoneNumber'].split('->').last.strip
 
     if agent_phone.blank?
       render json: { error: 'Agent phone number not found' }, status: :bad_request
@@ -51,7 +76,7 @@ class Webhooks::CallOzonetelController < ActionController::API
 
     start_time = Time.parse(parsed_body['StartTime']).in_time_zone('Asia/Kolkata').utc
 
-    handled_call_duration = convert_duration_to_seconds(parsed_body['HoldDuration'])
+    handled_call_duration = convert_duration_to_seconds(parsed_body['TimeToAnswer'])
 
     add_handling_time_reporting_event(conversation, handled_call_duration, start_time) if handled_call_duration.positive?
 
@@ -68,73 +93,6 @@ class Webhooks::CallOzonetelController < ActionController::API
     head :ok
   end
 
-  def add_waiting_time_reporting_event(conversation, wait_time, start_time)
-    reporting_event = ReportingEvent.new(
-      name: 'conversation_call_waiting_time',
-      value: wait_time,
-      value_in_business_hours: wait_time,
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id || bot_user(conversation.account).id,
-      conversation_id: conversation.id,
-      event_start_time: start_time,
-      event_end_time: conversation.updated_at
-    )
-
-    reporting_event.save!
-  end
-
-  def add_handling_time_reporting_event(conversation, handled_time, start_time)
-    reporting_event = ReportingEvent.new(
-      name: 'conversation_call_handling_time',
-      value: handled_time,
-      value_in_business_hours: handled_time,
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id || bot_user(conversation.account).id,
-      conversation_id: conversation.id,
-      event_start_time: start_time,
-      event_end_time: conversation.updated_at
-    )
-
-    reporting_event.save!
-  end
-
-  def mark_conversation_as_inbound_call(conversation)
-    add_inbound_call_label(conversation)
-
-    add_inbound_reporting_event(conversation)
-  end
-
-  def add_inbound_call_label(conversation)
-    Label.find_or_create_by!(
-      account: conversation.account,
-      title: 'inbound-call'
-    ) do |l|
-      l.description = 'Automatically added to conversations with inbound calls'
-      l.show_on_sidebar = true
-      l.color = '#7C21D7' # Default color
-    end
-
-    conversation.add_labels(['inbound-call'])
-  end
-
-  def add_inbound_reporting_event(conversation)
-    reporting_event = ReportingEvent.new(
-      name: 'conversation_inbound_call',
-      value: 1,
-      value_in_business_hours: 1,
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id || bot_user(conversation.account).id,
-      conversation_id: conversation.id,
-      event_start_time: conversation.updated_at,
-      event_end_time: conversation.updated_at
-    )
-
-    reporting_event.save!
-  end
-
   def parse_request_body
     raw_data = request.request_parameters['data']
     JSON.parse(raw_data)
@@ -149,10 +107,22 @@ class Webhooks::CallOzonetelController < ActionController::API
            .find_by("custom_attributes->'call_config'->'externalProviderConfig'->>'userName' = ?", user_name)
   end
 
-  def find_contact(account, parsed_body)
+  def find_contact_or_create_contact(account, parsed_body, is_inbound)
     client_no = parsed_body['CallerID'].gsub(/^0/, '+91')
     Rails.logger.info("client_no #{client_no}")
-    Contact.find_by(account_id: account.id, phone_number: client_no)
+
+    contact = Contact.find_by(account_id: account.id, phone_number: client_no)
+
+    if is_inbound && contact.blank?
+      contact = account.contacts.create!(
+        name: parsed_body['CallerID'],
+        email: '',
+        phone_number: client_no
+      )
+      contact.save!
+    end
+
+    contact
   end
 
   def find_latest_conversation(contact, account)
@@ -190,30 +160,8 @@ class Webhooks::CallOzonetelController < ActionController::API
     handle_error(e)
   end
 
-  def send_report_to_bspd(call_report)
-    response = HTTParty.post(
-      'https://b3i4zxcefi.execute-api.us-east-1.amazonaws.com/chatwoot/webhook/callReport',
-      body: call_report.to_json,
-      headers: { 'Content-Type' => 'application/json' }
-    )
-    handle_response(response)
-  end
-
-  def handle_response(response)
-    unless response.success?
-      Rails.logger.error "BSPD API returned error: #{response.body}"
-      raise "BSPD API error: #{response.code} - #{response.body}"
-    end
-    Rails.logger.info "Call log sent to BSPD: #{response.body}"
-  end
-
   def handle_error(error)
     Rails.logger.error "Error sending call log to BSPD: #{error.message}"
     raise error
-  end
-
-  def bot_user(account)
-    query = account.users.where('email LIKE ?', 'cx.%@bitespeed.co')
-    query.first
   end
 end

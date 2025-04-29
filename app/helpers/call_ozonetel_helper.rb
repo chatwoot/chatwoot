@@ -1,11 +1,11 @@
 module CallOzonetelHelper # rubocop:disable Metrics/ModuleLength
-  include CallIvrsolutionsHelper
+  include CommonCallHelper
 
   ATTENDED = 'answered'.freeze
   NOT_ATTENDED = 'not_answered'.freeze
 
   def get_call_log_string_ozonetel(parsed_body)
-    agent_attended = parsed_body['AgentStatus']
+    agent_attended = parsed_body['AgentStatus'].split('->').last.strip
     customer_attended = parsed_body['CustomerStatus']
     call_duration = convert_duration_to_seconds(parsed_body['CallDuration'] || 0)
 
@@ -42,70 +42,53 @@ module CallOzonetelHelper # rubocop:disable Metrics/ModuleLength
   end
 
   def determine_sender(parsed_body)
-    is_inbound = parsed_body['DialStatus'].start_with?('0')
+    is_inbound = parsed_body['Type'] == 'InBound'
     if is_inbound
       parsed_body['CallerID']
     else
-      parsed_body['AgentPhoneNumber']
+      parsed_body['AgentPhoneNumber'].split('->').last.strip
     end
   end
 
   def determine_recipient(parsed_body)
-    is_inbound = parsed_body['DialStatus'].start_with?('0')
+    is_inbound = parsed_body['Type'] == 'InBound'
     if is_inbound
-      parsed_body['AgentPhoneNumber']
+      parsed_body['AgentPhoneNumber'].split('->').last.strip
     else
       parsed_body['CallerID']
     end
   end
 
-  def determine_sender_status(parsed_body) # rubocop:disable Metrics/MethodLength
-    is_inbound = parsed_body['DialStatus'].start_with?('0')
-    if is_inbound
-      case parsed_body['CustomerStatus']
-      when 'answered'
-        'completed'
-      when 'not_answered'
-        'no-answer'
-      when 'Busy'
-        'busy'
-      else
-        'failed'
-      end
+  def determine_sender_status(parsed_body)
+    status_key = parsed_body['Type'] == 'InBound' ? 'CustomerStatus' : 'AgentStatus'
+    status_value = parsed_body[status_key]
+    status = status_key == 'AgentStatus' ? status_value.to_s.split('->').last.strip : status_value
+    case status&.downcase
+    when 'answered'
+      'completed'
+    when 'not_answered'
+      'no-answer'
+    when 'busy'
+      'busy'
     else
-      case parsed_body['AgentStatus']
-      when 'answered'
-        'completed'
-      when 'Busy'
-        'busy'
-      else
-        'failed'
-      end
+      'failed'
     end
   end
 
-  def determine_recipient_status(parsed_body) # rubocop:disable Metrics/MethodLength
-    is_inbound = parsed_body['DialStatus'].start_with?('0')
-    if is_inbound
-      case parsed_body['AgentStatus']
-      when 'answered'
-        'completed'
-      when 'not_answered'
-        'no-answer'
-      when 'Busy'
-        'busy'
-      else
-        'failed'
-      end
+  def determine_recipient_status(parsed_body)
+    status_key = parsed_body['Type'] == 'InBound' ? 'AgentStatus' : 'CustomerStatus'
+    status_value = parsed_body[status_key]
+    status = status_key == 'AgentStatus' ? status_value.to_s.split('->').last.strip : status_value
+
+    case status&.downcase
+    when 'answered'
+      'completed'
+    when 'not_answered'
+      'no-answer'
+    when 'busy'
+      'busy'
     else
-      case parsed_body['CustomerStatus']
-      when 'answered'
-        'completed'
-      when 'Busy'
-        'busy'
-      else
-        'failed'
-      end
+      'failed'
     end
   end
 
@@ -118,7 +101,7 @@ module CallOzonetelHelper # rubocop:disable Metrics/ModuleLength
   end
 
   def build_metadata(parsed_body)
-    is_inbound = parsed_body['DialStatus'].start_with?('0')
+    is_inbound = parsed_body['Type'] == 'InBound'
     if is_inbound
       {
         direction: 'inbound',
