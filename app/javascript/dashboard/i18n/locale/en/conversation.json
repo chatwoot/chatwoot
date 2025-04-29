@@ -236,6 +236,20 @@
     "SIDEBAR": {
       "CONTACT": "Contact",
       "COPILOT": "Copilot"
+    },
+    "INCOMING_CALL": "Incoming call",
+    "JOIN_CALL": "Join call",
+    "REJECT_CALL": "Reject call",
+    "END_CALL": "End call",
+    "MINIMIZE_CALL": "Minimize call",
+    "EXPAND_CALL": "Expand call",
+    "CALL_STATUS": {
+      "CONNECTING": "Connecting...",
+      "RINGING": "Ringing...",
+      "CONNECTED": "Connected",
+      "ENDED": "Call ended",
+      "FAILED": "Call failed",
+      "REJECTED": "Call rejected"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -382,7 +396,6 @@
   "VOICE_CALL": "Call",
   "CALL_ERROR": "Failed to initiate call. Please try again.",
   "CALL_INITIATED": "Call initiated successfully.",
-  "END_CALL": "End call",
   "AUDIO_NOT_SUPPORTED": "Your browser does not support audio playback",
   "TRANSCRIPTION": "Call transcription",
   "COPILOT": {

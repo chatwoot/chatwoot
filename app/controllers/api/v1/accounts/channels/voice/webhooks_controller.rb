@@ -61,6 +61,16 @@ class Api::V1::Accounts::Channels::Voice::WebhooksController < Api::V1::Accounts
       }
     ).perform
 
+    # Broadcast incoming call notification on account-level channel
+    broadcast_call_status('incoming_call', {
+                            call_sid: call_sid,
+                            conversation_id: conversation.id,
+                            inbox_id: inbox.id,
+                            inbox_name: inbox.name,
+                            contact_name: contact.name || from_number,
+                            contact_id: contact.id
+                          }, account_id: inbox.account_id)
+
     # Generate minimal TwiML response
     response = Twilio::TwiML::VoiceResponse.new
     response.say(message: 'Thank you for calling. An agent will be with you shortly.')
@@ -144,18 +154,12 @@ class Api::V1::Accounts::Channels::Voice::WebhooksController < Api::V1::Accounts
       }
     ).perform
 
-    # Broadcast minimal update to frontend
-    ActionCable.server.broadcast(
-      "#{conversation.account_id}_#{conversation.inbox_id}",
-      {
-        event_name: 'call_status_changed',
-        data: {
-          call_sid: call_sid,
-          status: conversation.additional_attributes['call_status'] || 'in-progress',
-          conversation_id: conversation.id
-        }
-      }
-    )
+    # Broadcast call status updates on account-level channel
+    broadcast_call_status('call_status_changed', {
+                            call_sid: call_sid,
+                            status: conversation.additional_attributes['call_status'] || 'in-progress',
+                            conversation_id: conversation.id
+                          }, account_id: conversation.account_id)
 
     # Return minimal response
     head :ok
@@ -209,5 +213,18 @@ class Api::V1::Accounts::Channels::Voice::WebhooksController < Api::V1::Accounts
 
   def base_url
     ENV.fetch('FRONTEND_URL', "https://#{request.host_with_port}")
+  end
+
+  def broadcast_call_status(event_name, data, account_id:)
+    # Include account_id in the data to help with validation
+    data_with_account = data.merge(account_id: account_id)
+    
+    ActionCable.server.broadcast(
+      "account_#{account_id}",
+      {
+        event: event_name,
+        data: data_with_account
+      }
+    )
   end
 end

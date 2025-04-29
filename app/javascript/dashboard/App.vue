@@ -55,7 +55,7 @@ export default {
       showAddAccountModal: false,
       latestChatwootVersion: null,
       reconnectService: null,
-      showCallWidget: false, // Set to true for testing, false for production
+      showCallWidget: false, // Will be set to true when calls are active
     };
   },
   computed: {
@@ -67,6 +67,8 @@ export default {
       accountUIFlags: 'accounts/getUIFlags',
       activeCall: 'calls/getActiveCall',
       hasActiveCall: 'calls/hasActiveCall',
+      incomingCall: 'calls/getIncomingCall',
+      hasIncomingCall: 'calls/hasIncomingCall',
     }),
     hasAccounts() {
       const { accounts = [] } = this.currentUser || {};
@@ -91,18 +93,34 @@ export default {
         }
       },
     },
+    hasIncomingCall: {
+      immediate: true,
+      handler(newVal) {
+        console.log('App.vue detected change in hasIncomingCall to', newVal);
+        if (newVal) {
+          console.log('Incoming call data:', this.incomingCall);
+          this.showCallWidget = true;
+        }
+      }
+    },
+    hasActiveCall: {
+      immediate: true,
+      handler(newVal) {
+        console.log('App.vue detected change in hasActiveCall to', newVal);
+        if (newVal) {
+          console.log('Active call data:', this.activeCall);
+          this.showCallWidget = true;
+        }
+      }
+    },
   },
   mounted() {
-    // Make app instance available globally for debugging and cross-component access
-    window.app = this;
-    
-    // Set up global force end call mechanism
-    window.forceEndCall = () => this.forceEndCall();
-    window.forceEndCallHandlers = [];
-    
     this.initializeColorTheme();
     this.listenToThemeChanges();
     this.setLocale(window.chatwootConfig.selectedLocale);
+    
+    // Make app instance available globally for direct call widget updates
+    window.app = this;
   },
   unmounted() {
     if (this.reconnectService) {
@@ -121,80 +139,52 @@ export default {
       this.$root.$i18n.locale = locale;
     },
     handleCallEnded() {
-      console.log('Call ended event received in App.vue');
-      // Update our local state first for immediate UI update
       this.showCallWidget = false;
-      // Then update the store
       this.$store.dispatch('calls/clearActiveCall');
+      this.$store.dispatch('calls/clearIncomingCall');
     },
-    
-    // Public method that can be called from anywhere
-    forceEndCall() {
-      console.log('Force end call triggered in App.vue');
-      
-      // 1. Update UI immediately
+    handleCallJoined() {
+      this.showCallWidget = true;
+    },
+    handleCallRejected() {
       this.showCallWidget = false;
-      
-      // 2. Try to notify any other components
+      this.$store.dispatch('calls/clearIncomingCall');
+    },
+    forceEndCall() {
+      this.showCallWidget = false;
       if (window.forceEndCallHandlers) {
         window.forceEndCallHandlers.forEach(handler => {
           try {
             handler();
           } catch (e) {
-            console.error('Error in end call handler:', e);
+            // Optionally log error in production
           }
         });
       }
-      
-      // 3. CRITICAL: Make API call to actually end the call on the server
       if (this.activeCall && this.activeCall.callSid) {
         const { callSid, conversationId } = this.activeCall;
-        
-        // Save references before clearing the store
         const savedCallSid = callSid;
         const savedConversationId = conversationId;
-        
-        // Now clear the store
         this.$store.dispatch('calls/clearActiveCall');
-        
-        // Make API call if we have a conversation ID
         if (savedConversationId) {
-          console.log(
-            'App.vue making API call to end call with SID:', 
-            savedCallSid, 
-            'for conversation:', 
-            savedConversationId
-          );
-          
-          // Make the API call to end the call on the server with both parameters
           VoiceAPI.endCall(savedCallSid, savedConversationId)
             .then(response => {
-              console.log('Call ended successfully via API:', response);
               useAlert({ message: 'Call ended successfully', type: 'success' });
             })
             .catch(error => {
-              console.error('Error ending call via API:', error);
-              
-              // If first attempt fails, try one more time with additional logging
-              console.log('Retrying end call with more debugging...');
               setTimeout(() => {
                 VoiceAPI.endCall(savedCallSid, savedConversationId)
                   .then(retryResponse => {
-                    console.log('Retry successful:', retryResponse);
                   })
                   .catch(retryError => {
-                    console.error('Retry also failed:', retryError);
                   });
               }, 1000);
-              
               useAlert({ message: 'Call UI has been reset', type: 'info' });
             });
         } else {
-          console.log('App.vue: Not making API call because conversation ID is missing');
           useAlert({ message: 'Call ended', type: 'success' });
         }
       } else {
-        // No active call data, just clear the store
         this.$store.dispatch('calls/clearActiveCall');
       }
     },
@@ -247,12 +237,16 @@ export default {
     <NetworkNotification />
     <!-- Floating call widget that appears during active calls -->
     <FloatingCallWidget
-      v-if="showCallWidget || (activeCall && activeCall.callSid)"
-      :key="`call-${Date.now()}`"
-      :call-sid="activeCall ? activeCall.callSid : 'test-call'"
-      :inbox-name="activeCall ? (activeCall.inboxName || 'Primary') : 'Primary'"
-      :conversation-id="activeCall ? activeCall.conversationId : null"
-      @call-ended="handleCallEnded"
+      v-if="showCallWidget || hasActiveCall || hasIncomingCall"
+      :key="activeCall ? activeCall.callSid : (incomingCall ? incomingCall.callSid : 'no-call')"
+      :call-sid="activeCall ? activeCall.callSid : (incomingCall ? incomingCall.callSid : '')"
+      :inbox-name="activeCall ? (activeCall.inboxName || 'Primary') : (incomingCall ? incomingCall.inboxName : 'Primary')"
+      :conversation-id="activeCall ? activeCall.conversationId : (incomingCall ? incomingCall.conversationId : null)"
+      :contact-name="activeCall ? activeCall.contactName : (incomingCall ? incomingCall.contactName : '')"
+      :contact-id="activeCall ? activeCall.contactId : (incomingCall ? incomingCall.contactId : null)"
+      @callEnded="handleCallEnded"
+      @callJoined="handleCallJoined"
+      @callRejected="handleCallRejected"
     />
   </div>
   <LoadingState v-else />

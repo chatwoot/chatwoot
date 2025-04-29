@@ -30,6 +30,10 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.read': this.onConversationRead,
       'conversation.updated': this.onConversationUpdated,
       'account.cache_invalidated': this.onCacheInvalidate,
+      
+      // Call events
+      'incoming_call': this.onIncomingCall,
+      'call_status_changed': this.onCallStatusChanged
     };
   }
 
@@ -190,6 +194,38 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('labels/revalidate', { newKey: keys.label });
     this.app.$store.dispatch('inboxes/revalidate', { newKey: keys.inbox });
     this.app.$store.dispatch('teams/revalidate', { newKey: keys.team });
+  };
+
+  onIncomingCall = data => {
+    // Normalize snake_case to camelCase for consistency with frontend code
+    const normalizedPayload = {
+      callSid: data.call_sid,
+      conversationId: data.conversation_id,
+      inboxId: data.inbox_id,
+      inboxName: data.inbox_name,
+      contactName: data.contact_name,
+      contactId: data.contact_id,
+    };
+    
+    // Update store
+    this.app.$store.dispatch('calls/setIncomingCall', normalizedPayload);
+    
+    // Also update App.vue showCallWidget directly for immediate UI feedback
+    if (window.app && window.app.$data) {
+      window.app.$data.showCallWidget = true;
+    }
+  };
+
+  onCallStatusChanged = data => {
+    // Normalize snake_case to camelCase for consistency with frontend code
+    const normalizedPayload = {
+      callSid: data.call_sid,
+      status: data.status,
+      conversationId: data.conversation_id,
+    };
+    
+    // Update store
+    this.app.$store.dispatch('calls/setActiveCall', normalizedPayload);
   };
 }
 

@@ -212,6 +212,33 @@ export class DashboardAudioNotificationHelper {
     showBadgeOnFavicon();
     this.playAudioEvery30Seconds();
   };
+  
+  onIncomingCall = () => {
+    // Always play audio alerts for incoming calls, regardless of other settings
+    // This ensures users never miss a call notification
+    
+    // Use a different tone for calls if available, otherwise use regular tone
+    const originalTone = this.audioConfig.tone;
+    try {
+      // Temporarily set a call-specific tone if it exists
+      this.audioConfig.tone = 'call-ring';
+      this.intializeAudio();
+      this.playAudioAlert();
+    } catch (error) {
+      console.error('Error playing call notification:', error);
+      // Fallback to regular tone
+      this.audioConfig.tone = originalTone;
+      this.intializeAudio();
+      this.playAudioAlert();
+    } finally {
+      // Restore original tone for messages
+      this.audioConfig.tone = originalTone;
+      this.intializeAudio();
+    }
+    
+    // Also show badge on favicon
+    showBadgeOnFavicon();
+  };
 }
 
 export default new DashboardAudioNotificationHelper(GlobalStore);

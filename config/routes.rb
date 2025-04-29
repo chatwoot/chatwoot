@@ -184,6 +184,8 @@ Rails.application.routes.draw do
 
           # Voice call management
           post 'voice/end_call', to: 'voice#end_call'
+          post 'voice/join_call', to: 'voice#join_call'
+          post 'voice/reject_call', to: 'voice#reject_call'
           get 'voice/call_status', to: 'voice#call_status'
           resources :inbox_members, only: [:create, :show], param: :inbox_id do
             collection do
