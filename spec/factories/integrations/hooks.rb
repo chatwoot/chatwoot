@@ -37,5 +37,16 @@ FactoryBot.define do
       access_token { SecureRandom.hex }
       reference_id { 'test-store.myshopify.com' }
     end
+
+    trait :leadsquared do
+      app_id { 'leadsquared' }
+      settings do
+        {
+          'access_key' => SecureRandom.hex,
+          'secret_key' => SecureRandom.hex,
+          'endpoint_url' => 'https://api.leadsquared.com/'
+        }
+      end
+    end
   end
 end
