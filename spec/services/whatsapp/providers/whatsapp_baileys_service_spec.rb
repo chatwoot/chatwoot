@@ -7,6 +7,7 @@ describe Whatsapp::Providers::WhatsappBaileysService do
   let(:message) { create(:message) }
 
   let(:test_send_phone_number) { '+5511987654321' }
+  let(:test_send_jid) { '5511987654321@s.whatsapp.net' }
 
   before do
     stub_const('Whatsapp::Providers::WhatsappBaileysService::DEFAULT_CLIENT_NAME', 'chatwoot-test')
@@ -91,6 +92,17 @@ describe Whatsapp::Providers::WhatsappBaileysService do
   end
 
   describe '#send_message' do
+    context 'when message does not have content nor attachments' do
+      it 'updates the message with content attribute is_unsupported' do
+        message.update!(content: nil)
+
+        service.send_message(test_send_phone_number, message)
+
+        expect(message.content).to eq(I18n.t('errors.messages.send.unsupported'))
+        expect(message.status).to eq('failed')
+      end
+    end
+
     context 'when message has attachment' do
       let(:base64_image) { 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=' }
 
@@ -111,7 +123,7 @@ describe Whatsapp::Providers::WhatsappBaileysService do
           .with(
             headers: stub_headers(whatsapp_channel),
             body: {
-              recipient: test_send_phone_number,
+              jid: test_send_jid,
               messageContent: { fileName: 'image.png', caption: message.content, image: base64_image }
             }.to_json
           )
@@ -132,7 +144,7 @@ describe Whatsapp::Providers::WhatsappBaileysService do
           .with(
             headers: stub_headers(whatsapp_channel),
             body: {
-              recipient: test_send_phone_number,
+              jid: test_send_jid,
               messageContent: { fileName: 'image.png', image: base64_image }
             }.to_json
           )
@@ -163,16 +175,6 @@ describe Whatsapp::Providers::WhatsappBaileysService do
       end
     end
 
-    context 'when message does not have content nor attachments' do
-      it 'updates the message status to failed' do
-        message.update!(content: nil)
-
-        service.send_message(test_send_phone_number, message)
-
-        expect(message.status).to eq('failed')
-      end
-    end
-
     context 'when message is a text' do
       it 'sends the message' do
         stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/send-message")
@@ -198,17 +200,6 @@ describe Whatsapp::Providers::WhatsappBaileysService do
         expect do
           service.send_message(test_send_phone_number, message)
         end.to raise_error(Whatsapp::Providers::WhatsappBaileysService::MessageNotSentError)
-      end
-    end
-
-    context "when message doesn't have attachment and content" do
-      it 'does not send the message' do
-        message.update!(content: nil)
-
-        service.send_message(test_send_phone_number, message)
-
-        expect(message.status).to eq('failed')
-        expect(message.content).to eq(I18n.t('errors.messages.send.unsupported'))
       end
     end
   end
@@ -250,7 +241,7 @@ describe Whatsapp::Providers::WhatsappBaileysService do
             "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/send-message",
             headers: stub_headers(whatsapp_channel),
             body: {
-              recipient: test_send_phone_number,
+              jid: test_send_jid,
               messageContent: { text: message.content }
             }.to_json
           ).and_raise(HTTParty::ResponseError.new(OpenStruct.new(status_code: 500)))

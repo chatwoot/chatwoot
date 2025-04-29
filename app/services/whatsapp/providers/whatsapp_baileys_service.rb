@@ -32,13 +32,17 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
   def send_message(phone_number, message)
     @message = message
     @phone_number = phone_number
+
     if message.attachments.present?
-      send_attachment_message
+      @message_content = attachment_message_content
     elsif message.content.present?
-      send_text_message
+      @message_content = { text: @message.content }
     else
       message.update!(content: I18n.t('errors.messages.send.unsupported'), status: 'failed')
+      return
     end
+
+    send_message_request
   end
 
   def send_template(phone_number, template_info); end
@@ -70,31 +74,15 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
     whatsapp_channel.provider_config['api_key'].presence || DEFAULT_API_KEY
   end
 
-  def send_attachment_message
-    @attachment = @message.attachments.first
-
-    response = HTTParty.post(
-      "#{provider_url}/connections/#{whatsapp_channel.phone_number}/send-message",
-      headers: api_headers,
-      body: {
-        recipient: @phone_number,
-        messageContent: message_content
-      }.to_json
-    )
-
-    return response.parsed_response.dig('data', 'key', 'id') if process_response(response)
-
-    raise MessageNotSentError
-  end
-
-  def message_content
-    buffer = Base64.strict_encode64(@attachment.file.download)
+  def attachment_message_content
+    attachment = @message.attachments.first
+    buffer = Base64.strict_encode64(attachment.file.download)
 
     content = {
-      fileName: @attachment.file.filename,
+      fileName: attachment.file.filename,
       caption: @message.content
     }
-    case @attachment.file_type
+    case attachment.file_type
     when 'image'
       content[:image] = buffer
     when 'audio'
@@ -110,13 +98,13 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
     content.compact
   end
 
-  def send_text_message
+  def send_message_request
     response = HTTParty.post(
       "#{provider_url}/connections/#{whatsapp_channel.phone_number}/send-message",
       headers: api_headers,
       body: {
-        recipient: @phone_number,
-        messageContent: { text: @message.content }
+        jid: "#{@phone_number.delete('+')}@s.whatsapp.net",
+        messageContent: @message_content
       }.to_json
     )
 
