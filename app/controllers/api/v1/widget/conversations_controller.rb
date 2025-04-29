@@ -1,6 +1,6 @@
 class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   include Events::Types
-  before_action :render_not_found_if_empty, only: [:toggle_typing, :toggle_status, :set_custom_attributes, :destroy_custom_attributes]
+  before_action :render_not_found_if_empty, only: [:reject_call, :toggle_typing, :toggle_status, :set_custom_attributes, :destroy_custom_attributes]
 
   def index
     @conversation = conversation
@@ -62,6 +62,14 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
       conversation.status = :resolved
       conversation.save!
     end
+    head :ok
+  end
+
+  def reject_call
+    params.require(:room_id)
+    params.permit(:room_id)
+
+    Rails.configuration.dispatcher.dispatch(CALL_REJECTED, Time.zone.now, conversation: conversation, user: @contact, room_id: params[:room_id])
     head :ok
   end
 

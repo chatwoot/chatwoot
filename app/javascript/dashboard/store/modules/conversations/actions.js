@@ -45,9 +45,17 @@ const actions = {
     }
   },
 
-  endCall: async ({ commit }, body ) => {
+  endCall: async ({ commit }, body) => {
     try {
       await ConversationApi.endCall(body.chat_id, body);
+      commit(types.REMOVE_CALL);
+    } catch (error) {
+      // Handle error
+    }
+  },
+
+  closeCall: async ({ commit }) => {
+    try {
       commit(types.REMOVE_CALL);
     } catch (error) {
       // Handle error

@@ -68,6 +68,15 @@ export default {
     },
   },
   watch: {
+    activeCall: {
+      immediate: true,
+      handler(roomId) {
+        console.log('ROOM CHANGED', roomId);
+        if (!roomId) {
+          this.closeCall();
+        }
+      },
+    },
     'currentChat.inbox_id': {
       immediate: true,
       handler(inboxId) {

@@ -1,3 +1,5 @@
+import { rejectCall } from '../../api/conversation';
+
 const state = {
   activeCall: null,
   isCallInProgress: false,
@@ -19,20 +21,22 @@ export const actions = {
     });
   },
   acceptCall({ commit, state }, call_data) {
-    if (state.activeCall && state.activeCall.roomId === call_data.roomId) {
+    if (state.activeCall) {
       commit('UPDATE_CALL_STATUS', { call_data, status: 'accepted' });
       commit('SET_CALL_IN_PROGRESS', true);
     }
   },
-  rejectCall({ commit, state }, call_data) {
-    if (state.activeCall && state.activeCall.roomId === call_data.roomId) {
-      commit('UPDATE_CALL_STATUS', { call_data, status: 'rejected' });
-      commit('SET_ACTIVE_CALL', null);
+  rejectCall({ state, dispatch }, call_data) {
+    console.log('Active call', state.activeCall);
+    console.log('Call data', call_data);
+    if (state.activeCall) {
+      rejectCall({ room_id: call_data.room_id });
+      dispatch('endCall', call_data);
     }
   },
   endCall({ commit, state }, call_data) {
     // NOTE: Unused and Incomplete implementation due to Iframe support lack on customer
-    if (state.activeCall && state.activeCall.roomId === call_data.roomId) {
+    if (state.activeCall) {
       commit('UPDATE_CALL_STATUS', { call_data, status: 'ended' });
       commit('SET_ACTIVE_CALL', null);
       commit('SET_CALL_IN_PROGRESS', false);

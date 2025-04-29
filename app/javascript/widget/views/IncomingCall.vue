@@ -18,12 +18,12 @@ export default {
   methods: {
     async handleAcceptCall() {
       if (!this.activeCall) return;
-      acceptCall(this.activeCall);
+      acceptCall(this.activeCall.call_data);
       window.open(`https://${this.activeCall.call_data.domain}/${this.activeCall.call_data.room_id}`, '_blank');
     },
     async handleRejectCall() {
       if (!this.activeCall) return;
-      rejectCall(this.activeCall);
+      rejectCall(this.activeCall.call_data);
     },
   },
 };
