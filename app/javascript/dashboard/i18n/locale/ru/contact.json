@@ -544,6 +544,9 @@
         "WROTE": "написал",
         "YOU": "Вы",
         "SAVE": "Сохранить заметку",
+        "EXPAND": "Развернуть",
+        "COLLAPSE": "Collapse",
+        "NO_NOTES": "No notes, you can add notes from the contact details page.",
         "EMPTY_STATE": "Нет заметок, связанных с этим контактом. Вы можете добавить заметку в поле выше."
       }
     },
