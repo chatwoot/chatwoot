@@ -11,6 +11,7 @@ import {
 
 import ContactSelector from 'dashboard/components-next/NewConversation/components/ContactSelector.vue';
 import ActionButtons from 'dashboard/components-next/NewConversation/components/ActionButtons.vue';
+import AttachmentPreviews from 'dashboard/components-next/NewConversation/components/AttachmentPreviews.vue';
 import EmailMessageEditor from './EmailMessageEditor.vue';
 
 const props = defineProps({
@@ -77,7 +78,7 @@ const setSelectedContact = async ({ value, action, ...rest }) => {
 
 const clearSelectedContact = () => {
   emit('clearSelectedContact');
-  //   state.attachedFiles = [];
+  state.attachedFiles = [];
 };
 
 const handleDropdownUpdate = (type, value) => {
@@ -164,6 +165,12 @@ const handleSendMessage = async () => {
       :full-html="fullHtml"
       :unquoted-html="unquotedHtml"
       :text-to-show="textToShow"
+    />
+    <AttachmentPreviews
+      v-if="state.attachedFiles.length > 0"
+      :attachments="state.attachedFiles"
+      class="bg-n-alpha-3"
+      @update:attachments="state.attachedFiles = $event"
     />
     <ActionButtons
       class="bg-n-alpha-3 sticky bottom-0 backdrop-blur-[100px]"

@@ -43,6 +43,7 @@ const isSearching = ref(false);
 const messageSignature = useMapGetter('getMessageSignature');
 const currentChat = useMapGetter('getSelectedChat');
 const currentUser = useMapGetter('getCurrentUser');
+const globalConfig = useMapGetter('globalConfig/get');
 
 const fromEmail = computed(() => props.message?.to?.[0]);
 
@@ -102,6 +103,9 @@ const handleForwardMessage = async ({ state }) => {
         name: currentUser.value?.name,
         thumbnail: currentUser.value?.avatar_url,
       },
+      files: globalConfig.value?.directUploadsEnabled
+        ? state.attachedFiles.map(file => file.blobSignedId)
+        : state.attachedFiles.map(file => file.resource.file),
     };
     await store.dispatch('createPendingMessageAndSend', messagePayload);
     emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
