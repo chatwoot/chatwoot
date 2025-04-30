@@ -36,9 +36,21 @@ const actions = {
     }
   },
 
-  createCall: async ({ commit }, body) => {
+  createCall: async ({ commit, dispatch }, body) => {
     try {
-      await ConversationApi.createCall(body.chat_id, body);
+      let messagePayload = {
+        conversationId: body.chat_id,
+        message: "Started a call",
+        private: false,
+        sender: body.sender,
+        content_type: 14,
+        contentAttributes: {
+          call_start_time: (new Date()).toISOString()
+        }
+      };
+
+      const message = await dispatch('createPendingMessageAndSend', messagePayload)
+      await ConversationApi.createCall(body.chat_id, {...body, message_id: message.data.id});
       commit(types.ACTIVE_CALL, body);
     } catch (error) {
       // Handle error
@@ -288,7 +300,9 @@ const actions = {
 
   createPendingMessageAndSend: async ({ dispatch }, data) => {
     const pendingMessage = createPendingMessage(data);
-    dispatch('sendMessageWithData', pendingMessage);
+    const response = await dispatch('sendMessageWithData', pendingMessage);
+    console.log("MEssage send res: ", response)
+    return response;
   },
 
   sendMessageWithData: async ({ commit }, pendingMessage) => {
@@ -309,6 +323,7 @@ const actions = {
         ...response.data,
         status: MESSAGE_STATUS.SENT,
       });
+      return response;
     } catch (error) {
       const errorMessage = error.response
         ? error.response.data.error

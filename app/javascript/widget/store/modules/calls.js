@@ -20,8 +20,12 @@ export const actions = {
       status: 'ringing',
     });
   },
-  acceptCall({ commit, state }, call_data) {
+  acceptCall({ commit, state,dispatch }, call_data) {
     if (state.activeCall) {
+      dispatch('message/updateCallStatus', {
+        callStatus: 'accepted',
+        messageId: call_data.message_id,
+      }, {root: true})
       commit('UPDATE_CALL_STATUS', { call_data, status: 'accepted' });
       commit('SET_CALL_IN_PROGRESS', true);
     }
@@ -30,6 +34,12 @@ export const actions = {
     console.log('Active call', state.activeCall);
     console.log('Call data', call_data);
     if (state.activeCall) {
+
+      dispatch('message/updateCallStatus', {
+        callStatus: 'rejected',
+        messageId: call_data.message_id,
+      }, {root: true})
+
       rejectCall({ room_id: call_data.room_id });
       dispatch('endCall', call_data);
     }

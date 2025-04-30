@@ -42,6 +42,37 @@ export const actions = {
     }
     commit('toggleUpdateStatus', false);
   },
+
+  updateCallStatus: async (
+    { commit, dispatch, getters: { getUIFlags: uiFlags } },
+    { callStatus, messageId }
+  ) => {
+    if (uiFlags.isUpdating) {
+      return;
+    }
+    commit('toggleUpdateStatus', true);
+    try {
+      await MessageAPI.updateContentAttrs({
+        messageId,
+        contentAttrs: {
+          call_status: callStatus,
+        },
+      });
+      commit(
+        'conversation/updateMessage',
+        {
+          id: messageId,
+          content_attributes: {
+            call_status: callStatus,
+          },
+        },
+        { root: true }
+      );
+    } catch (error) {
+      // Ignore error
+    }
+    commit('toggleUpdateStatus', false);
+  },
 };
 
 export const mutations = {

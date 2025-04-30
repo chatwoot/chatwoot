@@ -104,7 +104,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def create_call
     params.require(:room_id)
-    params.permit(:room_id, :account_id, :id)
+    params.require(:message_id)
+    params.permit(:room_id, :account_id, :id, :message_id)
     params[:domain] = ENV.fetch('JITSI_DOMAIN', nil)
 
     Rails.logger.info("Creating call for conversation #{@conversation.id} with params: #{params.inspect}")

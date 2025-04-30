@@ -49,6 +49,12 @@ export default {
       currentUser: 'getCurrentUser',
       activeCall: 'getCallState',
     }),
+    sender() {
+      return {
+        name: this.currentUser.name,
+        thumbnail: this.currentUser.avatar_url,
+      };
+    },
     dashboardAppTabs() {
       return [
         {
@@ -114,6 +120,7 @@ export default {
       this.$store.dispatch('createCall', {
         chat_id: this.currentChat.id,
         room_id: 'onehash-test-agent',
+        sender: this.sender,
       });
     },
     fetchLabels() {
