@@ -63,22 +63,26 @@ class MessageApi extends ApiClient {
     ccEmails = '',
     bccEmails = '',
     toEmails = '',
+    content_type = null,
     templateParams,
   }) {
     return axios({
       method: 'post',
       url: `${this.url}/${conversationId}/messages`,
-      data: buildCreatePayload({
-        message,
-        isPrivate,
-        contentAttributes,
-        echoId,
-        files,
-        ccEmails,
-        bccEmails,
-        toEmails,
-        templateParams,
-      }),
+      data: {
+        ...buildCreatePayload({
+          message,
+          isPrivate,
+          contentAttributes,
+          echoId,
+          files,
+          ccEmails,
+          bccEmails,
+          toEmails,
+          templateParams,
+        }),
+        content_type
+      },
     });
   }
 

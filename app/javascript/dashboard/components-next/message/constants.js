@@ -14,6 +14,7 @@ export const MESSAGE_VARIANTS = {
   ERROR: 'error',
   TEMPLATE: 'template',
   EMAIL: 'email',
+  CALLING: 'calling',
   UNSUPPORTED: 'unsupported',
 };
 
@@ -60,6 +61,7 @@ export const CONTENT_TYPES = {
   FORM: 'form',
   ARTICLE: 'article',
   INCOMING_EMAIL: 'incoming_email',
+  CALLING_EVENT: 'calling_event',
   INPUT_CSAT: 'input_csat',
   INTEGRATIONS: 'integrations',
   STICKER: 'sticker',
