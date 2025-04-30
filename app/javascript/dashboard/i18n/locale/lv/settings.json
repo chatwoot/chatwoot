@@ -387,7 +387,8 @@
         "LABEL": "Uzņēmuma Nosaukums",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Iesniegt"
+      "SUBMIT": "Iesniegt",
+      "CANCEL": "Atcelt"
     }
   },
   "KEYBOARD_SHORTCUTS": {
