@@ -2,7 +2,7 @@ class Messages::MessageBuilder
   include ::FileTypeHelper
   attr_reader :message
 
-  def initialize(user, conversation, params)
+  def initialize(user, conversation, params) # rubocop:disable Metrics/CyclomaticComplexity
     @params = params
     @private = params[:private] || false
     @conversation = conversation
@@ -13,6 +13,7 @@ class Messages::MessageBuilder
     return unless params.instance_of?(ActionController::Parameters)
 
     @in_reply_to = content_attributes&.dig(:in_reply_to)
+    @is_reaction = content_attributes&.dig(:is_reaction)
     @items = content_attributes&.dig(:items)
   end
 
@@ -149,6 +150,7 @@ class Messages::MessageBuilder
       content_type: @params[:content_type],
       items: @items,
       in_reply_to: @in_reply_to,
+      is_reaction: @is_reaction,
       echo_id: @params[:echo_id],
       source_id: @params[:source_id]
     }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params)
