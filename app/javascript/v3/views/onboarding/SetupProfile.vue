@@ -12,7 +12,6 @@ import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 
 import WithLabel from 'v3/components/Form/WithLabel.vue';
 import FormInput from 'v3/components/Form/Input.vue';
-import FormTextArea from 'v3/components/Form/Textarea.vue';
 import OnboardingBaseModal from 'v3/views/onboarding/BaseModal.vue';
 import SubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
 
@@ -23,7 +22,6 @@ export default {
     WithLabel,
     FormInput,
     SubmitButton,
-    FormTextArea,
     OnboardingBaseModal,
   },
   setup() {
@@ -59,7 +57,7 @@ export default {
       phoneNumber,
     });
 
-    const currentUser = computed(() => store.getters['getCurrentUser']);
+    const currentUser = computed(() => store.getters.getCurrentUser);
     const getAccount = computed(() => store.getters['accounts/getAccount']);
     const intelligentData = computed(() => {
       const { clearbit_data: data } = getAccount.value;
@@ -179,14 +177,14 @@ export default {
 </script>
 
 <template>
-  <onboarding-base-modal
+  <OnboardingBaseModal
     :title="$t('START_ONBOARDING.PROFILE.TITLE')"
     :subtitle="$t('START_ONBOARDING.PROFILE.BODY')"
   >
     <form class="space-y-6" @submit="onSubmit">
       <div class="space-y-6">
         <div>
-          <with-label name="user_avatar">
+          <WithLabel name="user_avatar">
             <template #label>
               {{ $t('START_ONBOARDING.PROFILE.AVATAR.LABEL') }}
             </template>
@@ -243,9 +241,9 @@ export default {
                 {{ $t('PROFILE_SETTINGS.DELETE_AVATAR') }}
               </woot-button>
             </div>
-          </with-label>
+          </WithLabel>
         </div>
-        <form-input
+        <FormInput
           v-model="fullName"
           name="full_name"
           spacing="compact"
@@ -254,7 +252,7 @@ export default {
           :placeholder="$t('START_ONBOARDING.PROFILE.FULL_NAME.PLACEHOLDER')"
           :error-message="$t('START_ONBOARDING.PROFILE.FULL_NAME.ERROR')"
         />
-        <form-input
+        <FormInput
           v-model="displayName"
           name="display_name"
           spacing="compact"
@@ -282,10 +280,10 @@ export default {
           :placeholder="$t('START_ONBOARDING.PROFILE.SIGNATURE.PLACEHOLDER')"
         /> -->
       </div>
-      <submit-button
+      <SubmitButton
         button-class="flex justify-center w-full text-sm text-center"
         :button-text="$t('START_ONBOARDING.PROFILE.SUBMIT.BUTTON')"
       />
     </form>
-  </onboarding-base-modal>
+  </OnboardingBaseModal>
 </template>

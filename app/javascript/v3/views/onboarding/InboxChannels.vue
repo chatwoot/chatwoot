@@ -89,7 +89,7 @@ const skipToNextStep = async () => {
       </div>
 
       <button type="button" class="button clear w-39" @click="skipToNextStep">
-        {{ $t('AGENT_MGMT.ADD.FORM.SKIP') }}
+        {{ $t('START_ONBOARDING.INVITE_TEAM.SKIP') }}
       </button>
     </div>
 

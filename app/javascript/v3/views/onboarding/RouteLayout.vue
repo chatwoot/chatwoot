@@ -102,68 +102,66 @@ export default {
 
 <template>
   <section
-  class="relative min-h-screen px-8 dark:text-white bg-[#FCFCFD] dark:bg-slate-900 overflow-auto flex justify-center"
->
-  <spinner v-if="!showIntroHeader" class="absolute inset-0" />
-
-  <div
-    v-else
-    class="relative flex gap-16 w-full max-w-[1440px] overflow-x-auto"
+    class="relative min-h-screen px-8 dark:text-white bg-[#FCFCFD] dark:bg-slate-900 overflow-auto flex justify-center"
   >
-    <!-- Left Column -->
+    <Spinner v-if="!showIntroHeader" class="absolute inset-0" />
+
     <div
-      class="relative min-w-[300px] shrink-0 px-16 flex flex-col justify-center"
+      v-else
+      class="relative flex gap-16 w-full max-w-[1440px] overflow-x-auto"
     >
-      <div class="mb-10 z-0">
-        <img
-          :src="globalConfig.logo"
-          :alt="globalConfig.installationName"
-          class="h-14 w-auto block dark:hidden logo-image"
-        />
-        <img
-          v-if="globalConfig.logoDark"
-          :src="globalConfig.logoDark"
-          :alt="globalConfig.installationName"
-          class="h-14 w-auto hidden dark:block logo-image"
-        />
-        <transition name="fade">
-          <h1
-            v-show="showIntroHeader"
-            class="font-bold dark:text-white text-slate-900 text-[40px] leading-[56px] whitespace-pre-line"
-          >
-            {{ intro }}
-          </h1>
+      <!-- Left Column -->
+      <div
+        class="relative min-w-[300px] shrink-0 px-16 flex flex-col justify-center"
+      >
+        <div class="mb-10 z-0">
+          <img
+            :src="globalConfig.logo"
+            :alt="globalConfig.installationName"
+            class="h-14 w-auto block dark:hidden logo-image"
+          />
+          <img
+            v-if="globalConfig.logoDark"
+            :src="globalConfig.logoDark"
+            :alt="globalConfig.installationName"
+            class="h-14 w-auto hidden dark:block logo-image"
+          />
+          <transition name="fade">
+            <h1
+              v-show="showIntroHeader"
+              class="font-bold dark:text-white text-slate-900 text-[40px] leading-[56px] whitespace-pre-line"
+            >
+              {{ intro }}
+            </h1>
+          </transition>
+        </div>
+
+        <transition name="slide-fade">
+          <div v-if="showIntroHeader" id="steps" class="z-0 onboarding-steps">
+            <OnboardingStep
+              v-for="(step, index) in steps"
+              :key="step.name"
+              v-bind="step"
+              :step-number="index + 1"
+              :icon="step.icon"
+            />
+          </div>
         </transition>
       </div>
 
-      <transition name="slide-fade">
-        <div v-if="showIntroHeader" id="steps" class="z-0 onboarding-steps">
-          <onboarding-step
-            v-for="(step, index) in steps"
-            :key="step.name"
-            v-bind="step"
-            :step-number="index + 1"
-            :icon="step.icon"
-          />
-        </div>
-      </transition>
-    </div>
-
-    <!-- Right Column -->
-    <div
-      class="relative min-w-[300px] shrink-0 flex items-center justify-center overflow-hidden"
-    >
+      <!-- Right Column -->
       <div
-        class="absolute h-full w-full bg-onboarding-gradient dark:bg-onboarding-gradient-dark top-0 left-0 scale-y-110 blur-[3px]"
-      />
-      <transition name="slide-fade">
-        <router-view class="shadow-lg dark:shadow-gray-800" />
-      </transition>
+        class="relative min-w-[300px] shrink-0 flex items-center justify-center overflow-hidden"
+      >
+        <div
+          class="absolute h-full w-full bg-onboarding-gradient dark:bg-onboarding-gradient-dark top-0 left-0 scale-y-110 blur-[3px]"
+        />
+        <transition name="slide-fade">
+          <router-view class="shadow-lg dark:shadow-gray-800" />
+        </transition>
+      </div>
     </div>
-  </div>
-</section>
-
-
+  </section>
 </template>
 
 <style scoped>
@@ -197,5 +195,4 @@ export default {
 .onboarding-steps {
   position: relative;
 }
-
 </style>
