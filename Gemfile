@@ -182,8 +182,8 @@ gem 'reverse_markdown'
 gem 'iso-639'
 gem 'ruby-openai'
 
-gem 'countries'
 gem 'shopify_api'
+gem 'countries'
 
 ### Gems required only in specific deployment environments ###
 ##############################################################
@@ -214,8 +214,6 @@ group :development do
   gem 'stackprof'
   # Should install the associated chrome extension to view query logs
   gem 'meta_request', '>= 0.8.3'
-
-  gem 'tapioca', require: false
 end
 
 group :test do
