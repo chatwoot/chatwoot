@@ -544,6 +544,9 @@
         "WROTE": "rakstīja",
         "YOU": "Jūs",
         "SAVE": "Saglabāt piezīmi",
+        "EXPAND": "Izvērst",
+        "COLLAPSE": "Collapse",
+        "NO_NOTES": "No notes, you can add notes from the contact details page.",
         "EMPTY_STATE": "Ar šo kontaktpersonu nav saistītu piezīmju. Varat pievienot piezīmi, ierakstot iepriekšējā lodziņā."
       }
     },
