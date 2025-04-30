@@ -4,11 +4,11 @@ import { ref, computed, onMounted, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength, helpers } from '@vuelidate/validators';
 import { useStore } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import parsePhoneNumber from 'libphonenumber-js';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
-import alertMixin from 'shared/mixins/alertMixin';
 
 import WithLabel from 'v3/components/Form/WithLabel.vue';
 import FormInput from 'v3/components/Form/Input.vue';
@@ -26,7 +26,6 @@ export default {
     FormTextArea,
     OnboardingBaseModal,
   },
-  mixins: [alertMixin],
   setup() {
     const store = useStore();
     const router = useRouter();
@@ -115,8 +114,13 @@ export default {
           message_signature: signature.value || '',
         });
 
+        await store.dispatch('accounts/update', {
+          onboarding_step: 'add-agent',
+        });
         router.push({ name: 'onboarding_add_agent' });
-      } catch (error) {}
+      } catch (error) {
+        useAlert(error.message);
+      }
     };
 
     const deleteAvatar = event => {
@@ -135,14 +139,14 @@ export default {
         avatarFile.value = file;
         avatarUrl.value = URL.createObjectURL(file);
       } else {
-        showAlert(
-          t(
-            'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.IMAGE_UPLOAD_SIZE_ERROR',
-            {
-              size: MAXIMUM_FILE_UPLOAD_SIZE,
-            }
-          )
-        );
+        // showAlert(
+        //   t(
+        //     'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.IMAGE_UPLOAD_SIZE_ERROR',
+        //     {
+        //       size: MAXIMUM_FILE_UPLOAD_SIZE,
+        //     }
+        //   )
+        // );
       }
       event.target.value = '';
     };
@@ -153,9 +157,9 @@ export default {
       fileInputElement.click();
     };
 
-    const showAlert = message => {
-      store.dispatch('showAlert', message);
-    };
+    // const showAlert = message => {
+    //   store.dispatch('showAlert', message);
+    // };
 
     return {
       avatarUrl,
@@ -259,7 +263,7 @@ export default {
           :placeholder="$t('START_ONBOARDING.PROFILE.DISPLAY_NAME.PLACEHOLDER')"
           :error-message="$t('START_ONBOARDING.PROFILE.DISPLAY_NAME.ERROR')"
         />
-        <form-input
+        <!-- <form-input
           v-model="phoneNumber"
           name="phone_number"
           spacing="compact"
@@ -276,7 +280,7 @@ export default {
           :allow-resize="false"
           :label="$t('START_ONBOARDING.PROFILE.SIGNATURE.LABEL')"
           :placeholder="$t('START_ONBOARDING.PROFILE.SIGNATURE.PLACEHOLDER')"
-        />
+        /> -->
       </div>
       <submit-button
         button-class="flex justify-center w-full text-sm text-center"
