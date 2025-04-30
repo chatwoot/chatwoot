@@ -336,6 +336,14 @@
       "RESET": "Reiniciar",
       "SELECT_ASSISTANT": "Selecione o Assistente"
     },
+    "PLAYGROUND": {
+      "USER": "Você",
+      "ASSISTANT": "Assistente",
+      "MESSAGE_PLACEHOLDER": "Digite sua mensagem...",
+      "HEADER": "Playground",
+      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
+      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+    },
     "PAYWALL": {
       "TITLE": "Atualize para usar o Capitão IA",
       "AVAILABLE_ON": "O Capitão não está disponível no plano gratuito.",
@@ -374,20 +382,41 @@
         "ERROR_MESSAGE": "Ocorreu um erro ao criar o assistente, por favor tente novamente."
       },
       "FORM": {
+        "UPDATE": "Atualizar",
+        "SECTIONS": {
+          "BASIC_INFO": "Basic Information",
+          "SYSTEM_MESSAGES": "System Messages",
+          "INSTRUCTIONS": "Instructions",
+          "FEATURES": "Funcionalidades",
+          "TOOLS": "Tools "
+        },
         "NAME": {
-          "LABEL": "Nome do Assistente",
-          "PLACEHOLDER": "Insira um nome para o assistente",
-          "ERROR": "Por favor, forneça um nome para o assistente"
+          "LABEL": "Nome",
+          "PLACEHOLDER": "Enter assistant name"
         },
         "DESCRIPTION": {
-          "LABEL": "Descrição do Assistente",
-          "PLACEHOLDER": "Descreva como e onde este assistente será usado",
-          "ERROR": "É necessária uma descrição"
+          "LABEL": "Descrição",
+          "PLACEHOLDER": "Enter assistant description"
         },
         "PRODUCT_NAME": {
           "LABEL": "Nome do Produto",
-          "PLACEHOLDER": "Digite o nome do produto para o qual este assistente foi projetado",
-          "ERROR": "O nome do produto é obrigatório"
+          "PLACEHOLDER": "Enter product name"
+        },
+        "WELCOME_MESSAGE": {
+          "LABEL": "Welcome Message",
+          "PLACEHOLDER": "Enter welcome message"
+        },
+        "HANDOFF_MESSAGE": {
+          "LABEL": "Handoff Message",
+          "PLACEHOLDER": "Enter handoff message"
+        },
+        "RESOLUTION_MESSAGE": {
+          "LABEL": "Resolution Message",
+          "PLACEHOLDER": "Enter resolution message"
+        },
+        "INSTRUCTIONS": {
+          "LABEL": "Instructions",
+          "PLACEHOLDER": "Enter instructions for the assistant"
         },
         "FEATURES": {
           "TITLE": "Funcionalidades",
@@ -398,7 +427,8 @@
       "EDIT": {
         "TITLE": "Atualizar o assistente",
         "SUCCESS_MESSAGE": "O assistente foi criado com sucesso",
-        "ERROR_MESSAGE": "Ocorreu um erro ao criar o assistente, por favor tente novamente."
+        "ERROR_MESSAGE": "Ocorreu um erro ao criar o assistente, por favor tente novamente.",
+        "NOT_FOUND": "Could not find the assistant. Please try again."
       },
       "OPTIONS": {
         "EDIT_ASSISTANT": "Editar Assistente",
