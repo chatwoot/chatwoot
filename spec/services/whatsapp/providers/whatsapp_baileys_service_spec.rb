@@ -205,16 +205,17 @@ describe Whatsapp::Providers::WhatsappBaileysService do
 
     context 'when message is a reaction' do
       let(:inbox) { whatsapp_channel.inbox }
+      let(:account_user) { create(:account_user, account: inbox.account) }
       let(:contact) { create(:contact, account: inbox.account, name: 'John Doe', phone_number: "+#{test_send_phone_number}") }
-      let(:contact_inbox) { create(:contact_inbox, inbox: inbox, contact: contact, source_id: test_send_phone_number) }
-      let(:conversation) { create(:conversation, inbox: inbox, contact_inbox: contact_inbox) }
-      let!(:message) { create(:message, inbox: inbox, conversation: conversation, sender: contact, source_id: 'msg_123') }
-      let(:reaction) do
-        create(:message, inbox: inbox, conversation: conversation, sender: contact, content: '👍',
-                         content_attributes: { is_reaction: true, in_reply_to: message.id })
+      let(:conversation) do
+        contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: test_send_phone_number)
+        create(:conversation, inbox: inbox, contact_inbox: contact_inbox)
       end
 
-      it 'sends the reaction message' do
+      it 'sends the reaction message for outgoing message' do
+        message = create(:message, inbox: inbox, conversation: conversation, sender: account_user, message_type: 'outgoing', source_id: 'msg_123')
+        reaction = create(:message, inbox: inbox, conversation: conversation, sender: account_user, content: '👍',
+                                    content_attributes: { is_reaction: true, in_reply_to: message.id })
         stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/send-message")
           .with(
             headers: stub_headers(whatsapp_channel),
@@ -223,6 +224,32 @@ describe Whatsapp::Providers::WhatsappBaileysService do
               messageContent: { react: { key: { id: message.source_id,
                                                 remoteJid: test_send_jid,
                                                 fromMe: true },
+                                         text: '👍' } }
+            }.to_json
+          )
+          .to_return(
+            status: 200,
+            headers: { 'Content-Type' => 'application/json' },
+            body: { 'data' => { 'key' => { 'id' => 'reaction_123' } } }.to_json
+          )
+
+        result = service.send_message(test_send_phone_number, reaction)
+
+        expect(result).to eq('reaction_123')
+      end
+
+      it 'sends the reaction message for incoming message' do
+        message = create(:message, inbox: inbox, conversation: conversation, sender: contact, source_id: 'msg_123')
+        reaction = create(:message, inbox: inbox, conversation: conversation, sender: account_user, content: '👍',
+                                    content_attributes: { is_reaction: true, in_reply_to: message.id })
+        stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/send-message")
+          .with(
+            headers: stub_headers(whatsapp_channel),
+            body: {
+              jid: test_send_jid,
+              messageContent: { react: { key: { id: message.source_id,
+                                                remoteJid: test_send_jid,
+                                                fromMe: false },
                                          text: '👍' } }
             }.to_json
           )
