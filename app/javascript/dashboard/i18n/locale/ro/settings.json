@@ -387,7 +387,8 @@
         "LABEL": "Nume companie",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Trimite"
+      "SUBMIT": "Trimite",
+      "CANCEL": "Renunță"
     }
   },
   "KEYBOARD_SHORTCUTS": {
