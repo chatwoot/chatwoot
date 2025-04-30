@@ -73,7 +73,6 @@ class Article < ApplicationRecord
     against: %i[
       title
       description
-      content
     ],
     using: {
       tsearch: {
@@ -89,7 +88,10 @@ class Article < ApplicationRecord
               .search_by_author(params[:author_id])
               .search_by_status(params[:status])
 
-    records = records.text_search(params[:query]) if params[:query].present?
+    if params[:query].present?
+      records = records.text_search(params[:query]).presence || records.where('articles.content ILIKE ?', "%#{params[:query]}%")
+    end
+
     records
   end
 

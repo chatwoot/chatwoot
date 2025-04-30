@@ -75,7 +75,7 @@ RSpec.describe Article do
 
         params = { query: 'this', locale: 'en', category_slug: 'category_1' }
         records = portal_1.articles.search(params)
-        expect(records.count).to eq(2)
+        expect(records.count).to eq(1)
 
         params = { status: 'published' }
         records = portal_1.articles.search(params)
