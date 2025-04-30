@@ -95,13 +95,8 @@ module MessageProcessor
 
     # conversation.update!(assignee_id: agent.id)
 
-    message_content = if agent
-                        conversation.update!(assignee_id: agent.id)
-                        json_response['answer'] || 'Agent will take over the conversation.'
-                      else
-                        Rails.logger.info("❌ No available agents for inbox #{conversation.inbox_id}")
-                        'No available agents to take over the conversation.'
-                      end
+    conversation.update!(assignee_id: agent.id) if agent
+    message_content = get_message_content(conversation.inbox_id, json_response)
 
     Message.create!(
       content: message_content,
@@ -118,6 +113,17 @@ module MessageProcessor
     Rails.logger.info("🧑‍💼 Handover completed: Conversation #{conversation.id} assigned to Agent #{agent.id}")
   rescue StandardError => e
     Rails.logger.error("❌ Failed to process handover: #{e.message}")
+  end
+
+  def self.get_message_content(inbox_id, json_response)
+    agent ||= find_available_agent(inbox_id)
+
+    if agent
+      json_response['answer'] || 'Agent will take over the conversation.'
+    else
+      Rails.logger.info("❌ No available agents for inbox #{inbox_id}")
+      'No available agents to take over the conversation.'
+    end
   end
 
   def self.find_available_agent(inbox_id)
