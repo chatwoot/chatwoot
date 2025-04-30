@@ -61,7 +61,7 @@ class Instagram::BaseSendService < Base::SendOnChannelService
     else
       external_error = external_error(parsed_response)
       Rails.logger.error("Instagram response: #{external_error} : #{message_content}")
-      message.update!(status: :failed, external_error: external_error)
+      Messages::StatusUpdateService.new(message, 'failed', external_error).perform
       nil
     end
   end
