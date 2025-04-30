@@ -387,7 +387,8 @@
         "LABEL": "Име на фирма",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Изпращане"
+      "SUBMIT": "Изпращане",
+      "CANCEL": "Отмени"
     }
   },
   "KEYBOARD_SHORTCUTS": {

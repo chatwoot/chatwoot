@@ -387,7 +387,8 @@
         "LABEL": "Bedrijfsnaam",
         "PLACEHOLDER": "Wayne Ondernemingen"
       },
-      "SUBMIT": "Bevestigen"
+      "SUBMIT": "Bevestigen",
+      "CANCEL": "Annuleren"
     }
   },
   "KEYBOARD_SHORTCUTS": {

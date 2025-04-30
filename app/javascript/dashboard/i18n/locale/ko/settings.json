@@ -387,7 +387,8 @@
         "LABEL": "회사명",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "보내기"
+      "SUBMIT": "보내기",
+      "CANCEL": "취소"
     }
   },
   "KEYBOARD_SHORTCUTS": {
