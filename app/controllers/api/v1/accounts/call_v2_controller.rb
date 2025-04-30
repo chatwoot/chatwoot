@@ -242,7 +242,7 @@ class Api::V1::Accounts::CallV2Controller < Api::V1::Accounts::BaseController # 
       return
     end
 
-    campaign_name = call_config['externalProviderConfig']['campaignName']
+    campaign_name = call_config['externalProviderConfig']['outboundCampaignName']
 
     phone_name = external_provider_config['agentNoMapping'][payload['from'].gsub(/^\+91/, '')]
 
@@ -261,7 +261,7 @@ class Api::V1::Accounts::CallV2Controller < Api::V1::Accounts::BaseController # 
       userName: external_provider_config['userName'],
       custNumber: payload['to'],
       phoneName: phone_name,
-      did: external_provider_config['did'],
+      did: external_provider_config['outboundDid'],
       campaignName: campaign_name,
       checkStatus: true
     }
