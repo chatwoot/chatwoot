@@ -387,7 +387,8 @@
         "LABEL": "Názov spoločnosti",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Odoslať"
+      "SUBMIT": "Odoslať",
+      "CANCEL": "Zrušiť"
     }
   },
   "KEYBOARD_SHORTCUTS": {

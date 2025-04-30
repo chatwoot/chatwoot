@@ -3,7 +3,7 @@
     "HEADER": "Agentes",
     "HEADER_BTN_TXT": "Adicionar Agente",
     "LOADING": "Buscando lista de agente",
-    "DESCRIPTION": "Um agente é um membro da sua equipe de atendimento ao cliente que pode visualizar e responder às mensagens de usuários. A lista abaixo mostra todos os agentes de sua conta.",
+    "DESCRIPTION": "Um agente é um membro de seu time de atendimento ao cliente que pode visualizar e responder às mensagens de usuários. A lista abaixo mostra todos os agentes de sua conta.",
     "LEARN_MORE": "Saiba mais sobre as funções do usuário",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrador",
@@ -11,7 +11,7 @@
     },
     "LIST": {
       "404": "Não existem agentes associados a esta conta",
-      "TITLE": "Gerenciar agentes da sua equipe",
+      "TITLE": "Gerenciar agentes de seu time",
       "DESC": "Você pode adicionar e/ou remover agentes de um time.",
       "NAME": "Nome",
       "EMAIL": "E-mail",
@@ -22,7 +22,7 @@
       "AVAILABLE_CUSTOM_ROLE": "Permissões de função personalizada disponíveis"
     },
     "ADD": {
-      "TITLE": "Adicionar agente ao seu time",
+      "TITLE": "Adicionar agente a seu time",
       "DESC": "Você pode adicionar pessoas que poderão acompanhar o suporte de suas caixas de entrada.",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
@@ -103,7 +103,7 @@
       "PLACEHOLDER": "Nenhum",
       "TITLE": {
         "AGENT": "Selecionar agente",
-        "TEAM": "Selecionar equipe"
+        "TEAM": "Selecionar time"
       },
       "LIST": {
         "NONE": "Nenhum"
@@ -111,11 +111,11 @@
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Nenhum agente encontrado",
-          "TEAM": "Nenhuma equipe encontrada"
+          "TEAM": "Nenhum time encontrado"
         },
         "PLACEHOLDER": {
           "AGENT": "Pesquisar agentes",
-          "TEAM": "Pesquisar equipes",
+          "TEAM": "Pesquisar times",
           "INPUT": "Pesquisar por agentes"
         }
       }

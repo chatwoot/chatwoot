@@ -387,7 +387,8 @@
         "LABEL": "Cégnév",
         "PLACEHOLDER": "Kovács Kft."
       },
-      "SUBMIT": "Elküldés"
+      "SUBMIT": "Elküldés",
+      "CANCEL": "Mégse"
     }
   },
   "KEYBOARD_SHORTCUTS": {
