@@ -1,21 +1,21 @@
 export const UISteps = [
   {
     name: 'onboarding_setup_profile',
-    title: 'Setup Profile',
+    title: (t) => t('START_ONBOARDING.SETUP_PROFILE.TITLE'),
     icon: 'person',
     isActive: false,
     isComplete: false,
   },
   {
     name: 'onboarding_add_agent',
-    title: 'Add Agent',
+    title: (t) => t('START_ONBOARDING.ADD_AGENTS.TITLE'),
     icon: 'people-team',
     isActive: false,
     isComplete: false,
   },
   {
     name: 'onboarding_setup_inbox',
-    title: 'Setup Inbox',
+    title: (t) => t('START_ONBOARDING.SETUP_INBOX.TITLE'),
     icon: 'toolbox',
     isActive: false,
     isComplete: false,

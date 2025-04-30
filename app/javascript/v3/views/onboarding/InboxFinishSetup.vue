@@ -1,9 +1,14 @@
 <script>
 import OnboardingBaseModal from './BaseModal.vue';
+import { useStore } from 'vuex';
 
 export default {
   components: {
     OnboardingBaseModal,
+  },
+  setup() {
+    const store = useStore();
+    return { store };
   },
   computed: {
     currentInbox() {
@@ -64,6 +69,12 @@ export default {
 
       return this.$t('INBOX_MGMT.FINISH.MESSAGE');
     },
+  },
+  mounted() {
+    this.store.dispatch('accounts/update', {
+      onboarding_step: 'true',
+    });
+    console.log('Ho gya');
   },
 };
 </script>

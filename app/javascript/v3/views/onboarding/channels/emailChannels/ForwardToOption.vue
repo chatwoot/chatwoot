@@ -98,10 +98,13 @@ export default {
             :placeholder="$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.EMAIL.PLACEHOLDER')"
             @blur="v$.email.$touch"
           />
+          <span v-if="v$.email.$error" class="message">
+            {{ $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.EMAIL.ERROR') }}
+          </span>
+          <p class="help-text">
+            {{ $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.EMAIL.SUBTITLE') }}
+          </p>
         </label>
-        <p class="help-text">
-          {{ $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.EMAIL.SUBTITLE') }}
-        </p>
       </div>
 
       <div class="w-full mt-4">
