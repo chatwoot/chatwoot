@@ -394,10 +394,17 @@ function handleReplyTo() {
 }
 
 const avatarInfo = computed(() => {
-  if (!props.sender || props.sender.type === SENDER_TYPES.AGENT_BOT) {
+  if (!props.sender) {
     return {
       name: t('CONVERSATION.BOT'),
       src: '',
+    };
+  }
+
+  if (props.sender.type === SENDER_TYPES.AGENT_BOT) {
+    return {
+      name: props.sender.name,
+      src: props.sender?.avatarUrl,
     };
   }
 
