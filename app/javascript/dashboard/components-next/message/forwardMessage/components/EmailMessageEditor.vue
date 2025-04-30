@@ -6,10 +6,12 @@ import { allowedCssProperties } from 'lettersanitizer';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import EmailMeta from 'dashboard/components-next/message/bubbles/Email/EmailMeta.vue';
 
-// import FormattedContent from 'next/message/bubbles/Text/FormattedContent.vue';
+import FormattedContent from 'next/message/bubbles/Text/FormattedContent.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
 defineProps({
+  content: { type: String, default: '' },
+  isPlainEmail: { type: Boolean, default: false },
   hasQuotedMessage: { type: Boolean, default: false },
   fullHtml: { type: String, default: '' },
   unquotedHtml: { type: String, default: '' },
@@ -50,28 +52,35 @@ const showQuotedMessage = ref(false);
       <EmailMeta />
     </div>
     <div class="px-4 pb-4">
-      <Letter
-        v-if="showQuotedMessage"
-        class-name="prose prose-bubble !max-w-none letter-render"
-        :allowed-css-properties="[
-          ...allowedCssProperties,
-          'transform',
-          'transform-origin',
-        ]"
-        :html="fullHtml"
-        :text="textToShow"
+      <FormattedContent
+        v-if="isPlainEmail"
+        class="text-n-slate-12"
+        :content="content"
       />
-      <Letter
-        v-else
-        class-name="prose prose-bubble !max-w-none letter-render"
-        :html="unquotedHtml"
-        :allowed-css-properties="[
-          ...allowedCssProperties,
-          'transform',
-          'transform-origin',
-        ]"
-        :text="textToShow"
-      />
+      <template v-else>
+        <Letter
+          v-if="showQuotedMessage"
+          class-name="prose prose-bubble !max-w-none letter-render"
+          :allowed-css-properties="[
+            ...allowedCssProperties,
+            'transform',
+            'transform-origin',
+          ]"
+          :html="fullHtml"
+          :text="textToShow"
+        />
+        <Letter
+          v-else
+          class-name="prose prose-bubble !max-w-none letter-render"
+          :html="unquotedHtml"
+          :allowed-css-properties="[
+            ...allowedCssProperties,
+            'transform',
+            'transform-origin',
+          ]"
+          :text="textToShow"
+        />
+      </template>
       <button
         v-if="hasQuotedMessage"
         class="text-n-slate-11 px-1 leading-none text-sm bg-n-alpha-black2 text-center flex items-center gap-1 mt-2"

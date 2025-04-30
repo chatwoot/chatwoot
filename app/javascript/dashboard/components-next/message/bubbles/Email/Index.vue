@@ -14,11 +14,14 @@ import TranslationToggle from 'dashboard/components-next/message/TranslationTogg
 import ForwardMessageForm from 'dashboard/components-next/message/forwardMessage/ForwardMessage.vue';
 
 import { useMessageContext } from '../../provider.js';
+import { useInbox } from 'dashboard/composables/useInbox';
 import { MESSAGE_TYPES, MESSAGE_STATUS } from 'next/message/constants.js';
 import { useTranslations } from 'dashboard/composables/useTranslations';
 
 const { id, status, content, contentAttributes, attachments, messageType } =
   useMessageContext();
+
+const { inbox } = useInbox();
 
 const isExpandable = ref(false);
 const isExpanded = ref(false);
@@ -128,6 +131,8 @@ const handleSeeOriginal = () => {
           <ForwardMessageForm
             v-if="showForwardMessageModal"
             :message="contentAttributes?.email"
+            :content="content"
+            :inbox="inbox"
             :message-id="id"
             class="absolute right-3 z-50 skip-context-menu top-10"
             @close="showForwardMessageModal = false"

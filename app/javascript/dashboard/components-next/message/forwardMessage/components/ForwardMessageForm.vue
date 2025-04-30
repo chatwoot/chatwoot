@@ -22,6 +22,8 @@ const props = defineProps({
   isCreatingContact: { type: Boolean, default: false },
   fromEmail: { type: String, default: null },
   messageSignature: { type: String, default: '' },
+  content: { type: String, default: '' },
+  isPlainEmail: { type: Boolean, default: false },
   fullHtml: { type: String, default: '' },
   unquotedHtml: { type: String, default: '' },
   textToShow: { type: String, default: '' },
@@ -161,6 +163,8 @@ const handleSendMessage = async () => {
     <EmailMessageEditor
       v-model="state.message"
       class="bg-n-alpha-3"
+      :content="content"
+      :is-plain-email="isPlainEmail"
       :has-quoted-message="hasQuotedMessage"
       :full-html="fullHtml"
       :unquoted-html="unquotedHtml"

@@ -24,6 +24,14 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  content: {
+    type: String,
+    default: '',
+  },
+  inbox: {
+    type: Object,
+    default: () => ({}),
+  },
   messageId: {
     type: Number,
     default: null,
@@ -45,7 +53,7 @@ const currentChat = useMapGetter('getSelectedChat');
 const currentUser = useMapGetter('getCurrentUser');
 const globalConfig = useMapGetter('globalConfig/get');
 
-const fromEmail = computed(() => props.message?.to?.[0]);
+const fromEmail = computed(() => props.message?.to?.[0] || props.inbox?.email);
 
 const fullHTML = computed(() => {
   return (
@@ -156,6 +164,8 @@ const handleSelectedContact = async ({ value, action, ...rest }) => {
       :from-email="fromEmail"
       :message="message"
       :message-signature="messageSignature"
+      :content="content"
+      :is-plain-email="!message || !Object.keys(message).length"
       :full-html="fullHTML"
       :unquoted-html="unquotedHTML"
       :text-to-show="textToShow"
