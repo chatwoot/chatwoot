@@ -33,7 +33,7 @@ const state = {
   deploymentEnv,
   createNewAccountFromDashboard,
   directUploadsEnabled: directUploadsEnabled === 'true',
-  disableUserProfileUpdate: disableUserProfileUpdate === 'true',
+  disableUserProfileUpdate: disableUserProfileUpdate === 'false',
   displayManifest,
   gitSha,
   hCaptchaSiteKey,
