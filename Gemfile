@@ -184,6 +184,7 @@ gem 'ruby-openai'
 
 gem 'shopify_api'
 gem 'countries'
+gem 'concurrent-ruby', '1.3.4'
 
 ### Gems required only in specific deployment environments ###
 ##############################################################
