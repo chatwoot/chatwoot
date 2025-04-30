@@ -23,6 +23,10 @@ class Whatsapp::Providers::BaseService
     raise 'Overwrite this method in child class'
   end
 
+  def send_typing_indicator(_phone_number, _message_id)
+    raise 'Overwrite this method in child class'
+  end
+
   def validate_provider_config
     raise 'Overwrite this method in child class'
   end

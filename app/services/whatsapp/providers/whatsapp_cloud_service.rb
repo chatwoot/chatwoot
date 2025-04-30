@@ -157,4 +157,21 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
     process_response(response)
   end
+
+  def send_typing_indicator(_phone_number, message_id)
+    response = HTTParty.post(
+      "#{phone_id_path}/messages",
+      headers: api_headers,
+      body: {
+        messaging_product: 'whatsapp',
+        status: 'read',
+        message_id: message_id,
+        typing_indicator: {
+          type: 'text'
+        }
+      }.to_json
+    )
+
+    process_response(response)
+  end
 end
