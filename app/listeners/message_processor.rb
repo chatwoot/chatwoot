@@ -85,25 +85,33 @@ module MessageProcessor
     Rails.logger.error("❌ Failed to save AI reply to Chatwoot: #{e.message}")
   end
 
-  def self.process_handover(conversation, aiagent, json_response)
+  def self.process_handover(conversation, ai_agent, json_response)
     agent ||= find_available_agent(conversation.inbox_id)
 
-    if agent.nil?
-      Rails.logger.error("❌ No available agents for inbox #{conversation.inbox_id}")
-      return
-    end
+    # if agent.nil?
+    #   Rails.logger.error("❌ No available agents for inbox #{conversation.inbox_id}")
+    #   return
+    # end
 
-    conversation.update!(assignee_id: agent.id)
+    # conversation.update!(assignee_id: agent.id)
+
+    message_content = if agent
+                        conversation.update!(assignee_id: agent.id)
+                        json_response['answer'] || 'Agent will take over the conversation.'
+                      else
+                        Rails.logger.info("❌ No available agents for inbox #{conversation.inbox_id}")
+                        'No available agents to take over the conversation.'
+                      end
 
     Message.create!(
-      content: json_response['answer'] || 'Agent will take over the conversation.',
-      account_id: aiagent.account_id,
+      content: message_content,
+      account_id: ai_agent.account_id,
       inbox_id: conversation.inbox_id,
       conversation_id: conversation.id,
       message_type: 1,
       content_type: 0,
       sender_type: 'AiAgent',
-      sender_id: aiagent.id,
+      sender_id: ai_agent.id,
       status: 0
     )
 
