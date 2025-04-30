@@ -54,6 +54,9 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def validate_business_account?
+    # Only validate for Chatwoot Cloud instances
+    return true unless ChatwootApp.chatwoot_cloud?
+
     # return true if the user is a business account, false if it is a gmail account
     auth_hash['info']['email'].downcase.exclude?('@gmail.com')
   end
