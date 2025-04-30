@@ -387,7 +387,8 @@
         "LABEL": "ชื่อบริษัท",
         "PLACEHOLDER": "ชื่อบริษัท"
       },
-      "SUBMIT": "ส่ง"
+      "SUBMIT": "ส่ง",
+      "CANCEL": "ยกเลิก"
     }
   },
   "KEYBOARD_SHORTCUTS": {
