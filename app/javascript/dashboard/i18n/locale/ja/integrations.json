@@ -329,11 +329,20 @@
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
       "SEND_MESSAGE": "メッセージを送信...",
+      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
       "LOADER": "Captainが考え中",
       "YOU": "あなた",
       "USE": "これを使用",
       "RESET": "リセット",
       "SELECT_ASSISTANT": "Select Assistant"
+    },
+    "PLAYGROUND": {
+      "USER": "あなた",
+      "ASSISTANT": "アシスタント",
+      "MESSAGE_PLACEHOLDER": "Type your message...",
+      "HEADER": "Playground",
+      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
+      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
     },
     "PAYWALL": {
       "TITLE": "アップグレードしてCaptain AIを利用する",
@@ -373,20 +382,41 @@
         "ERROR_MESSAGE": "アシスタントの作成中にエラーが発生しました。もう一度お試しください。"
       },
       "FORM": {
+        "UPDATE": "更新",
+        "SECTIONS": {
+          "BASIC_INFO": "Basic Information",
+          "SYSTEM_MESSAGES": "System Messages",
+          "INSTRUCTIONS": "Instructions",
+          "FEATURES": "機能",
+          "TOOLS": "Tools "
+        },
         "NAME": {
-          "LABEL": "アシスタント名",
-          "PLACEHOLDER": "アシスタントの名前を入力",
-          "ERROR": "アシスタントの名前を入力してください"
+          "LABEL": "名前",
+          "PLACEHOLDER": "Enter assistant name"
         },
         "DESCRIPTION": {
-          "LABEL": "アシスタントの説明",
-          "PLACEHOLDER": "このアシスタントがどのように、どこで使用されるかを説明",
-          "ERROR": "説明が必要です"
+          "LABEL": "説明",
+          "PLACEHOLDER": "Enter assistant description"
         },
         "PRODUCT_NAME": {
           "LABEL": "製品名",
-          "PLACEHOLDER": "このアシスタントが設計された製品の名前を入力",
-          "ERROR": "製品名が必要です"
+          "PLACEHOLDER": "Enter product name"
+        },
+        "WELCOME_MESSAGE": {
+          "LABEL": "Welcome Message",
+          "PLACEHOLDER": "Enter welcome message"
+        },
+        "HANDOFF_MESSAGE": {
+          "LABEL": "Handoff Message",
+          "PLACEHOLDER": "Enter handoff message"
+        },
+        "RESOLUTION_MESSAGE": {
+          "LABEL": "Resolution Message",
+          "PLACEHOLDER": "Enter resolution message"
+        },
+        "INSTRUCTIONS": {
+          "LABEL": "Instructions",
+          "PLACEHOLDER": "Enter instructions for the assistant"
         },
         "FEATURES": {
           "TITLE": "機能",
@@ -397,7 +427,8 @@
       "EDIT": {
         "TITLE": "アシスタントを更新",
         "SUCCESS_MESSAGE": "アシスタントが正常に更新されました",
-        "ERROR_MESSAGE": "アシスタントの更新中にエラーが発生しました。もう一度お試しください。"
+        "ERROR_MESSAGE": "アシスタントの更新中にエラーが発生しました。もう一度お試しください。",
+        "NOT_FOUND": "Could not find the assistant. Please try again."
       },
       "OPTIONS": {
         "EDIT_ASSISTANT": "アシスタントを編集",
