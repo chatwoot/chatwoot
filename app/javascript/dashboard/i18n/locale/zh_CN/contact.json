@@ -544,6 +544,9 @@
         "WROTE": "写道",
         "YOU": "您",
         "SAVE": "保存备注",
+        "EXPAND": "扩展",
+        "COLLAPSE": "Collapse",
+        "NO_NOTES": "No notes, you can add notes from the contact details page.",
         "EMPTY_STATE": "此联系人没有关联的备注。您可以在上方输入框中添加备注。"
       }
     },
