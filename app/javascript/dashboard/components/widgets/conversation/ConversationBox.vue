@@ -104,22 +104,32 @@ export default {
   },
 
   methods: {
+    generateJitsiRoomId(length = 16) {
+      const chars =
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let roomId = '';
+      for (let i = 0; i < length; i++) {
+        roomId += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return roomId;
+    },
     closeCall() {
       this.showCallModal = false;
       this.$store.dispatch('endCall', {
         chat_id: this.currentChat.id,
-        room_id: 'onehash-test-agent',
+        room_id: this.activeCall,
       });
       console.log('showCallModal', this.showCallModal);
     },
     startCall() {
-      console.log(this.activeCall);
       if (this.activeCall) return;
       this.showCallModal = true;
       console.log('startCall', this.currentChat.id);
+      const roomId = this.generateJitsiRoomId();
+
       this.$store.dispatch('createCall', {
         chat_id: this.currentChat.id,
-        room_id: 'onehash-test-agent',
+        room_id: roomId,
         sender: this.sender,
       });
     },
@@ -190,7 +200,7 @@ export default {
         :agent-id="currentUser.id"
         :display-name="currentUser.name"
         :email="currentUser.email"
-        :room-id="'onehash-test-agent'"
+        :room-id="activeCall"
         @close="closeCall"
       />
     </div>
