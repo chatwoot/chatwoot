@@ -387,7 +387,8 @@
         "LABEL": "Company Name",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "बुझाउनुहोस्"
+      "SUBMIT": "बुझाउनुहोस्",
+      "CANCEL": "Cancel"
     }
   },
   "KEYBOARD_SHORTCUTS": {
