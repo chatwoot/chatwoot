@@ -77,10 +77,11 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
   end
 
   def reaction_message_content
+    reply_to = Message.find(@message.in_reply_to)
     {
-      react: { key: { id: @message.in_reply_to_external_id,
+      react: { key: { id: reply_to.source_id,
                       remoteJid: remote_jid,
-                      fromMe: true },
+                      fromMe: reply_to.message_type == 'outgoing' },
                text: @message.content }
     }
   end
