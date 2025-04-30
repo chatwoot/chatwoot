@@ -329,11 +329,20 @@
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
       "SEND_MESSAGE": "Отправить сообщение...",
+      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
       "LOADER": "Капитан думает",
       "YOU": "Вы",
       "USE": "Использовать это",
       "RESET": "Сброс",
       "SELECT_ASSISTANT": "Выбрать ассистента"
+    },
+    "PLAYGROUND": {
+      "USER": "Вы",
+      "ASSISTANT": "Ассистент",
+      "MESSAGE_PLACEHOLDER": "Введите сообщение...",
+      "HEADER": "Playground",
+      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
+      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
     },
     "PAYWALL": {
       "TITLE": "Обновите тарифный план, чтобы использовать Captain AI",
@@ -373,20 +382,41 @@
         "ERROR_MESSAGE": "При создании ассистента произошла ошибка, пожалуйста, попробуйте еще раз."
       },
       "FORM": {
+        "UPDATE": "Обновить",
+        "SECTIONS": {
+          "BASIC_INFO": "Basic Information",
+          "SYSTEM_MESSAGES": "System Messages",
+          "INSTRUCTIONS": "Instructions",
+          "FEATURES": "Возможности",
+          "TOOLS": "Tools "
+        },
         "NAME": {
-          "LABEL": "Имя ассистента",
-          "PLACEHOLDER": "Введите имя ассистента",
-          "ERROR": "Пожалуйста, укажите имя ассистента"
+          "LABEL": "Имя",
+          "PLACEHOLDER": "Enter assistant name"
         },
         "DESCRIPTION": {
-          "LABEL": "Описание ассистента",
-          "PLACEHOLDER": "Опишите, как и где будет использоваться этот ассистент",
-          "ERROR": "Необходимо описание"
+          "LABEL": "Описание",
+          "PLACEHOLDER": "Enter assistant description"
         },
         "PRODUCT_NAME": {
           "LABEL": "Название продукта",
-          "PLACEHOLDER": "Введите название продукта, для которого предназначен этот ассистент",
-          "ERROR": "Требуется название продукта"
+          "PLACEHOLDER": "Enter product name"
+        },
+        "WELCOME_MESSAGE": {
+          "LABEL": "Welcome Message",
+          "PLACEHOLDER": "Enter welcome message"
+        },
+        "HANDOFF_MESSAGE": {
+          "LABEL": "Handoff Message",
+          "PLACEHOLDER": "Enter handoff message"
+        },
+        "RESOLUTION_MESSAGE": {
+          "LABEL": "Resolution Message",
+          "PLACEHOLDER": "Enter resolution message"
+        },
+        "INSTRUCTIONS": {
+          "LABEL": "Instructions",
+          "PLACEHOLDER": "Enter instructions for the assistant"
         },
         "FEATURES": {
           "TITLE": "Возможности",
@@ -397,7 +427,8 @@
       "EDIT": {
         "TITLE": "Обновить ассистента",
         "SUCCESS_MESSAGE": "Ассистент успешно обновлен",
-        "ERROR_MESSAGE": "При обновлении ассистента произошла ошибка, пожалуйста, попробуйте еще раз."
+        "ERROR_MESSAGE": "При обновлении ассистента произошла ошибка, пожалуйста, попробуйте еще раз.",
+        "NOT_FOUND": "Could not find the assistant. Please try again."
       },
       "OPTIONS": {
         "EDIT_ASSISTANT": "Редактировать ассистента",
