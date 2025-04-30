@@ -544,6 +544,9 @@
         "WROTE": "が記入しました",
         "YOU": "あなた",
         "SAVE": "メモを保存",
+        "EXPAND": "拡張",
+        "COLLAPSE": "Collapse",
+        "NO_NOTES": "No notes, you can add notes from the contact details page.",
         "EMPTY_STATE": "この連絡先に関連するメモはありません。上記のボックスに入力してメモを追加できます。"
       }
     },
