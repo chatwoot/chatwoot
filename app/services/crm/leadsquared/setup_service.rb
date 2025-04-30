@@ -57,7 +57,7 @@ class Crm::Leadsquared::SetupService
       activity_id = find_or_create_activity_type(activity_type, existing_types)
 
       if activity_id.present?
-        activity_codes[activity_type[:setting_key]] = activity_id
+        activity_codes[activity_type[:setting_key]] = activity_id.to_i
       else
         Rails.logger.error "Failed to find or create activity type: #{activity_type[:name]}"
       end
