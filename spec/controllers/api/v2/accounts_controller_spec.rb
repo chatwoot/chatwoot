@@ -17,13 +17,13 @@ RSpec.describe 'Accounts API', type: :request do
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
           allow(account_builder).to receive(:perform).and_return([user, account])
 
-          params = { email: email, user: nil, locale: nil, password: 'Password1!' }
+          params = { email: email, user: nil, locale: nil, password: 'Password1!', dealership_id: 1 }
 
           post api_v2_accounts_url,
                params: params,
                as: :json
 
-          expect(AccountBuilder).to have_received(:new).with(params.except(:password).merge(user_password: params[:password]))
+          expect(AccountBuilder).to have_received(:new).with(params.except(:password).merge(user_password: params[:password], dealership_id: 1))
           expect(account_builder).to have_received(:perform)
           expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
           expect(response.body).to include('en')
@@ -34,7 +34,7 @@ RSpec.describe 'Accounts API', type: :request do
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
           allow(account_builder).to receive(:perform).and_return([user, account])
 
-          params = { email: email, user: nil, locale: nil, password: 'Password1!' }
+          params = { email: email, user: nil, locale: nil, password: 'Password1!', dealership_id: 1 }
 
           post api_v2_accounts_url,
                params: params,
@@ -67,13 +67,13 @@ RSpec.describe 'Accounts API', type: :request do
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
           allow(account_builder).to receive(:perform).and_return(nil)
 
-          params = { email: nil, user: nil, locale: nil }
+          params = { email: nil, user: nil, locale: nil, dealership_id: nil }
 
           post api_v2_accounts_url,
                params: params,
                as: :json
 
-          expect(AccountBuilder).to have_received(:new).with(params.merge(user_password: params[:password]))
+          expect(AccountBuilder).to have_received(:new).with(params.merge(user_password: params[:password], dealership_id: nil))
           expect(account_builder).to have_received(:perform)
           expect(response).to have_http_status(:forbidden)
           expect(response.body).to eq({ message: I18n.t('errors.signup.failed') }.to_json)
@@ -83,7 +83,7 @@ RSpec.describe 'Accounts API', type: :request do
 
     context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to false' do
       it 'responds 404 on requests' do
-        params = { email: email }
+        params = { email: email, dealership_id: 1 }
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'false' do
           post api_v2_accounts_url,
                params: params,
@@ -103,13 +103,13 @@ RSpec.describe 'Accounts API', type: :request do
         allow(AccountBuilder).to receive(:new).and_return(account_builder)
         allow(account_builder).to receive(:perform).and_return([user, account])
 
-        params = { email: email, user: nil, password: 'Password1!', locale: nil }
+        params = { email: email, user: nil, password: 'Password1!', locale: nil, dealership_id: 1 }
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'api_only' do
           post api_v2_accounts_url,
                params: params,
                as: :json
 
-          expect(AccountBuilder).to have_received(:new).with(params.except(:password).merge(user_password: params[:password]))
+          expect(AccountBuilder).to have_received(:new).with(params.except(:password).merge(user_password: params[:password], dealership_id: 1))
           expect(response).to have_http_status(:success)
         end
       end

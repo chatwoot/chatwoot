@@ -6,5 +6,6 @@ FactoryBot.define do
     status { 'active' }
     domain { 'test.com' }
     support_email { 'support@test.com' }
+    dealership_id { SecureRandom.uuid }
   end
 end

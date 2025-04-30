@@ -54,7 +54,7 @@ class Linear::CallbacksController < ApplicationController
   end
 
   def account_id
-    return unless params[:state]
+    return nil unless params[:state].present?
 
     verify_linear_token(params[:state])
   end

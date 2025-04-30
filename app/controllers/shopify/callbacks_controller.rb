@@ -19,7 +19,7 @@ class Shopify::CallbacksController < ApplicationController
 
   def verify_account!
     @account_id = verify_shopify_token(params[:state])
-    raise StandardError, 'Invalid state parameter' if account.blank?
+    raise StandardError, 'Invalid state parameter' if @account_id.blank?
   end
 
   def handle_response
