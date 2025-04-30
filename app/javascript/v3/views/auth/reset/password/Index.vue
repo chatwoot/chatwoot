@@ -67,11 +67,29 @@ export default {
 </script>
 
 <template>
-  <div
-    class="flex flex-col justify-center w-full min-h-screen py-12 bg-woot-25 sm:px-6 lg:px-8 dark:bg-slate-900"
+  <main
+    class="flex flex-col md:flex-row *:md:flex-1 w-full min-h-screen bg-woot-25 dark:bg-slate-900"
+  >
+    <div class="py-16 flex" style="background: linear-gradient(180deg, #0F0F0F 0%, #1A7B7D 100%);">
+      <div class="flex flex-row items-center justify-center w-full h-full">
+        <img
+          :src="globalConfig.logo"
+          :alt="globalConfig.installationName"
+          class="block w-auto h-11 mx-auto dark:hidden"
+        />
+        <img
+          v-if="globalConfig.logoDark"
+          :src="globalConfig.logoDark"
+          :alt="globalConfig.installationName"
+          class="hidden w-auto h-11 mx-auto dark:block"
+        />
+      </div>
+    </div>
+    <div
+    class="flex flex-col w-full md:justify-center md:py-12 bg-woot-25 sm:px-6 lg:px-8 dark:bg-slate-900"
   >
     <form
-      class="bg-white shadow sm:mx-auto sm:w-full sm:max-w-lg dark:bg-slate-800 p-11 sm:shadow-lg sm:rounded-lg"
+      class="p-11 sm:shadow-lg sm:rounded-lg"
       @submit.prevent="submit"
     >
       <h1
@@ -112,4 +130,5 @@ export default {
       </p>
     </form>
   </div>
+  </main>
 </template>
