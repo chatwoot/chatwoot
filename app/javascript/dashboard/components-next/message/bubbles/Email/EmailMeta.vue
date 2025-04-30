@@ -69,10 +69,7 @@ const showMeta = computed(() => {
     v-show="showMeta"
     :class="hasError ? 'text-n-ruby-11' : 'text-n-slate-11'"
   >
-    <div
-      v-if="showMeta"
-      class="space-y-1 rtl:pl-9 w-full ltr:pr-9 text-sm break-words"
-    >
+    <div class="space-y-1 rtl:pl-9 w-full ltr:pr-9 text-sm break-words">
       <div
         v-if="fromEmail[0]"
         :class="hasError ? 'text-n-ruby-11' : 'text-n-slate-12'"

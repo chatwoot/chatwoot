@@ -6,27 +6,62 @@ RSpec.describe Messages::ForwardedMessageBuilder do
   let(:conversation) { create(:conversation, inbox: inbox, account: account) }
   let(:user) { create(:user, account: account) }
 
+  let(:base_email_content) do
+    {
+      'from' => ['sender@example.com'],
+      'to' => ['recipient@example.com'],
+      'subject' => 'Test Subject',
+      'date' => '2025-04-29T14:29:07+05:30',
+      'html_content' => {
+        'full' => '<div>HTML content</div>',
+        'quoted' => 'HTML content',
+        'reply' => 'HTML content'
+      },
+      'text_content' => {
+        'full' => 'Text content',
+        'quoted' => 'Text content',
+        'reply' => 'Text content'
+      }
+    }
+  end
+
   # Create a message with email data
   let(:forwarded_message) do
     create(:message, conversation: conversation, account: account,
+                     content_attributes: { email: base_email_content })
+  end
+
+  # Create a message with multipart email data
+  let(:multipart_message) do
+    create(:message, conversation: conversation, account: account,
                      content_attributes: {
-                       email: {
-                         'from' => ['sender@example.com'],
-                         'to' => ['recipient@example.com'],
-                         'subject' => 'Test Subject',
-                         'date' => '2025-04-29T14:29:07+05:30',
-                         'html_content' => {
-                           'full' => '<div>HTML content</div>',
-                           'quoted' => 'HTML content',
-                           'reply' => 'HTML content'
-                         },
-                         'text_content' => {
-                           'full' => 'Text content',
-                           'quoted' => 'Text content',
-                           'reply' => 'Text content'
-                         }
-                       }
+                       email: base_email_content.merge(
+                         'html_content' => { 'full' => '<div>HTML <b>formatted</b> content</div>' },
+                         'text_content' => { 'full' => 'Plain text content' }
+                       )
                      })
+  end
+
+  # Create a message with email data and attachments
+  let(:message_with_attachments) do
+    message = create(:message, conversation: conversation, account: account,
+                               content_attributes: {
+                                 email: base_email_content.merge(
+                                   'html_content' => { 'full' => '<div>Message with attachments</div>' },
+                                   'text_content' => { 'full' => 'Message with attachments' }
+                                 )
+                               })
+
+    # Add attachments to the message
+    attachment1 = message.attachments.new(account_id: account.id, file_type: 'file')
+    attachment1.file.attach(io: StringIO.new('test file content'), filename: 'test.txt', content_type: 'text/plain')
+    attachment1.save!
+
+    attachment2 = message.attachments.new(account_id: account.id, file_type: 'image')
+    attachment2.file.attach(io: StringIO.new('fake image content'), filename: 'test.jpg', content_type: 'image/jpeg')
+    attachment2.save!
+
+    message
   end
 
   # Create a message with no email data
@@ -141,24 +176,6 @@ RSpec.describe Messages::ForwardedMessageBuilder do
     end
 
     context 'when handling multipart emails' do
-      let(:multipart_message) do
-        create(:message, conversation: conversation, account: account,
-                         content_attributes: {
-                           email: {
-                             'from' => ['sender@example.com'],
-                             'to' => ['recipient@example.com'],
-                             'subject' => 'Multipart Test',
-                             'date' => '2025-04-29T14:29:07+05:30',
-                             'html_content' => {
-                               'full' => '<div>HTML <b>formatted</b> content</div>'
-                             },
-                             'text_content' => {
-                               'full' => 'Plain text content'
-                             }
-                           }
-                         })
-      end
-
       it 'preserves both HTML and text parts' do
         builder = described_class.new(multipart_message.id)
         result = builder.forwarded_email_data('New message')
@@ -167,133 +184,155 @@ RSpec.describe Messages::ForwardedMessageBuilder do
         expect(result['text_content']['full']).to include('Plain text content')
       end
     end
+
+    context 'when forwarding a message with attachments' do
+      it 'includes attachments in the forwarded email data' do
+        builder = described_class.new(message_with_attachments.id)
+        result = builder.forwarded_email_data('Original content')
+
+        expect(result['attachments']).to be_present
+        expect(result['attachments'].length).to eq(2)
+        expect(result['attachments'].pluck('file_type')).to include('file', 'image')
+      end
+    end
+
+    context 'when forwarding a message without attachments' do
+      it 'does not include attachments in the forwarded email data' do
+        builder = described_class.new(forwarded_message.id)
+        result = builder.forwarded_email_data('Original content')
+
+        expect(result['attachments']).to be_nil
+      end
+    end
+  end
+
+  describe '#forwarded_attachments' do
+    context 'with attachments' do
+      it 'provides access to the forwarded message attachments' do
+        builder = described_class.new(message_with_attachments.id)
+        attachments = builder.forwarded_attachments
+
+        expect(attachments).to be_present
+        expect(attachments.length).to eq(2)
+        expect(attachments.map(&:file_type)).to include('file', 'image')
+        expect(attachments.first.file).to be_attached
+      end
+    end
+
+    context 'without attachments' do
+      it 'returns nil when getting forwarded attachments' do
+        builder = described_class.new(forwarded_message.id)
+        attachments = builder.forwarded_attachments
+
+        expect(attachments).to be_nil
+      end
+    end
   end
 
   describe '#convert_markdown_to_html' do
+    subject(:builder) { described_class.new(forwarded_message.id) }
+
     it 'converts bold markdown to HTML' do
-      builder = described_class.new(forwarded_message.id)
-      result = builder.send(:convert_markdown_to_html, '**Bold Text**')
-      expect(result).to eq('<b>Bold Text</b>')
+      expect(builder.send(:convert_markdown_to_html, '**Bold Text**')).to eq('<b>Bold Text</b>')
     end
 
     it 'converts italic markdown to HTML' do
-      builder = described_class.new(forwarded_message.id)
-      result = builder.send(:convert_markdown_to_html, '*Italic Text*')
-      expect(result).to eq('<i>Italic Text</i>')
+      expect(builder.send(:convert_markdown_to_html, '*Italic Text*')).to eq('<i>Italic Text</i>')
     end
 
     it 'converts underscore italic markdown to HTML' do
-      builder = described_class.new(forwarded_message.id)
-      result = builder.send(:convert_markdown_to_html, '_Italic Text_')
-      expect(result).to eq('<i>Italic Text</i>')
+      expect(builder.send(:convert_markdown_to_html, '_Italic Text_')).to eq('<i>Italic Text</i>')
+    end
+
+    it 'handles multiple markdown elements' do
+      expect(builder.send(:convert_markdown_to_html, '**Bold** and _italic_')).to eq('<b>Bold</b> and <i>italic</i>')
     end
 
     it 'handles empty text' do
-      builder = described_class.new(forwarded_message.id)
-      result = builder.send(:convert_markdown_to_html, '')
-      expect(result).to eq('')
+      expect(builder.send(:convert_markdown_to_html, '')).to eq('')
     end
 
     it 'handles nil text' do
-      builder = described_class.new(forwarded_message.id)
-      result = builder.send(:convert_markdown_to_html, nil)
-      expect(result).to eq('')
+      expect(builder.send(:convert_markdown_to_html, nil)).to eq('')
     end
   end
 
   describe '#strip_markdown' do
+    subject(:builder) { described_class.new(forwarded_message.id) }
+
     it 'strips bold markdown' do
-      builder = described_class.new(forwarded_message.id)
-      result = builder.send(:strip_markdown, '**Bold Text**')
-      expect(result).to eq('Bold Text')
+      expect(builder.send(:strip_markdown, '**Bold Text**')).to eq('Bold Text')
     end
 
     it 'strips italic markdown' do
-      builder = described_class.new(forwarded_message.id)
-      result = builder.send(:strip_markdown, '*Italic Text*')
-      expect(result).to eq('Italic Text')
+      expect(builder.send(:strip_markdown, '*Italic Text*')).to eq('Italic Text')
     end
 
     it 'strips underscore italic markdown' do
-      builder = described_class.new(forwarded_message.id)
-      result = builder.send(:strip_markdown, '_Italic Text_')
-      expect(result).to eq('Italic Text')
+      expect(builder.send(:strip_markdown, '_Italic Text_')).to eq('Italic Text')
+    end
+
+    it 'handles multiple markdown elements' do
+      expect(builder.send(:strip_markdown, '**Bold** and _italic_')).to eq('Bold and italic')
     end
 
     it 'handles empty text' do
-      builder = described_class.new(forwarded_message.id)
-      result = builder.send(:strip_markdown, '')
-      expect(result).to eq('')
+      expect(builder.send(:strip_markdown, '')).to eq('')
     end
 
     it 'handles nil text' do
-      builder = described_class.new(forwarded_message.id)
-      result = builder.send(:strip_markdown, nil)
-      expect(result).to eq('')
+      expect(builder.send(:strip_markdown, nil)).to eq('')
     end
   end
 
   describe '#extract_email' do
+    subject(:builder) { described_class.new(forwarded_message.id) }
+
     it 'extracts email from format "Name <email@example.com>"' do
-      builder = described_class.new(forwarded_message.id)
-      result = builder.send(:extract_email, 'John Doe <john@example.com>')
-      expect(result).to eq('john@example.com')
+      expect(builder.send(:extract_email, 'John Doe <john@example.com>')).to eq('john@example.com')
     end
 
     it 'returns plain email as-is' do
-      builder = described_class.new(forwarded_message.id)
-      result = builder.send(:extract_email, 'john@example.com')
-      expect(result).to eq('john@example.com')
+      expect(builder.send(:extract_email, 'john@example.com')).to eq('john@example.com')
     end
 
     it 'handles empty string' do
-      builder = described_class.new(forwarded_message.id)
-      result = builder.send(:extract_email, '')
-      expect(result).to eq('')
+      expect(builder.send(:extract_email, '')).to eq('')
     end
 
     it 'handles nil' do
-      builder = described_class.new(forwarded_message.id)
-      result = builder.send(:extract_email, nil)
-      expect(result).to eq('')
+      expect(builder.send(:extract_email, nil)).to eq('')
     end
   end
 
   describe '#parse_from_field' do
+    subject(:builder) { described_class.new(forwarded_message.id) }
+
     it 'formats "Name <email@example.com>" correctly' do
-      builder = described_class.new(forwarded_message.id)
-      result = builder.send(:parse_from_field, 'John Doe <john@example.com>')
-      expect(result).to eq('John Doe <john@example.com>')
+      expect(builder.send(:parse_from_field, 'John Doe <john@example.com>')).to eq('John Doe <john@example.com>')
     end
 
     it 'handles plain email' do
-      builder = described_class.new(forwarded_message.id)
-      result = builder.send(:parse_from_field, 'john@example.com')
-      expect(result).to eq('john@example.com')
+      expect(builder.send(:parse_from_field, 'john@example.com')).to eq('john@example.com')
     end
 
     it 'handles extra spaces' do
-      builder = described_class.new(forwarded_message.id)
-      result = builder.send(:parse_from_field, 'John Doe  <  john@example.com  >')
-      expect(result).to eq('John Doe <john@example.com>')
+      expect(builder.send(:parse_from_field, 'John Doe  <  john@example.com  >')).to eq('John Doe <john@example.com>')
     end
 
     it 'handles empty string' do
-      builder = described_class.new(forwarded_message.id)
-      result = builder.send(:parse_from_field, '')
-      expect(result).to eq('')
+      expect(builder.send(:parse_from_field, '')).to eq('')
     end
 
     it 'handles nil' do
-      builder = described_class.new(forwarded_message.id)
-      result = builder.send(:parse_from_field, nil)
-      expect(result).to eq('')
+      expect(builder.send(:parse_from_field, nil)).to eq('')
     end
   end
 
   describe '#format_date_string' do
+    subject(:builder) { described_class.new(forwarded_message.id) }
+
     it 'formats the date in a readable format' do
-      builder = described_class.new(forwarded_message.id)
       # NOTE: We don't test the exact formatted output since it uses DateTime.now
       # which would be different for each test run
       result = builder.send(:format_date_string, '2025-04-29T14:29:07+05:30')
@@ -302,21 +341,15 @@ RSpec.describe Messages::ForwardedMessageBuilder do
     end
 
     it 'handles empty string' do
-      builder = described_class.new(forwarded_message.id)
-      result = builder.send(:format_date_string, '')
-      expect(result).to eq('')
+      expect(builder.send(:format_date_string, '')).to eq('')
     end
 
     it 'handles nil' do
-      builder = described_class.new(forwarded_message.id)
-      result = builder.send(:format_date_string, nil)
-      expect(result).to eq('')
+      expect(builder.send(:format_date_string, nil)).to eq('')
     end
 
     it 'returns current date formatted regardless of input' do
-      builder = described_class.new(forwarded_message.id)
       result = builder.send(:format_date_string, 'Invalid Date')
-
       expect(result).to match(/\w{3}, \w{3} \d+, \d{4} at \d+:\d+ [AP]M/)
     end
   end

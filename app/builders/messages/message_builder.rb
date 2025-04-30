@@ -16,6 +16,7 @@ class Messages::MessageBuilder
     process_forwarded_message if @forwarded_message_id.present?
     @message = @conversation.messages.build(message_params)
     process_attachments
+    process_forwarded_attachments if @forwarded_message_id.present?
     process_emails
     @message.save!
     @message
@@ -26,6 +27,7 @@ class Messages::MessageBuilder
   def process_forwarded_message
     builder = Messages::ForwardedMessageBuilder.new(@forwarded_message_id)
     @forwarded_attributes = builder.perform
+    @forwarded_message_attachments = builder.forwarded_attachments
 
     # Update content to include forwarded message
     original_content = @params[:content_original] || @params[:content]
@@ -36,6 +38,28 @@ class Messages::MessageBuilder
 
     # Ensure we have valid email data structure to avoid breaking the rendering
     @forwarded_attributes[:content_attributes][:email] = builder.forwarded_email_data(original_content)
+  end
+
+  # Process attachments from the forwarded message
+  def process_forwarded_attachments
+    return if @forwarded_message_attachments.blank?
+
+    @forwarded_message_attachments.each do |source_attachment|
+      # Create a new attachment for the current message
+      attachment = @message.attachments.build(
+        account_id: @message.account_id,
+        file_type: source_attachment.file_type
+      )
+
+      # Attach the file by directly copying it from the source attachment
+      next unless source_attachment.file.attached?
+
+      attachment.file.attach(
+        io: StringIO.new(source_attachment.file.download),
+        filename: source_attachment.file.filename.to_s,
+        content_type: source_attachment.file.content_type
+      )
+    end
   end
 
   # Extracts content attributes from the given params.

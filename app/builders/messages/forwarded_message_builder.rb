@@ -42,7 +42,14 @@ class Messages::ForwardedMessageBuilder
                                   'full' => full_content
                                 })
 
+    # Copy over any attachment data if present
+    data['attachments'] = forwarded_message.attachments.map(&:serializable_hash) if forwarded_message.attachments.present?
+
     data
+  end
+
+  def forwarded_attachments
+    forwarded_message.attachments if forwarded_message&.attachments&.present?
   end
 
   private

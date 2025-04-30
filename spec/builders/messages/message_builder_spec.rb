@@ -183,161 +183,242 @@ describe Messages::MessageBuilder do
   end
 
   describe '#perform with forwarded messages' do
-    let(:email_channel) { create(:channel_email, account: account) }
-    let(:email_inbox) { email_channel.inbox }
-    let(:email_conversation) { create(:conversation, inbox: email_inbox, account: account) }
+    def create_email_channel_with_inbox
+      channel = create(:channel_email, account: account)
+      inbox = channel.inbox
 
-    # Create a message with email data to be forwarded
-    let(:forwarded_message) do
-      create(:message, conversation: email_conversation, account: account,
-                       content_attributes: {
-                         email: {
-                           'from' => ['sender@example.com'],
-                           'to' => ['recipient@example.com'],
-                           'subject' => 'Test Subject',
-                           'date' => '2025-04-29T14:29:07+05:30',
-                           'html_content' => {
-                             'full' => '<div>HTML content</div>',
-                             'quoted' => 'HTML content',
-                             'reply' => 'HTML content'
-                           },
-                           'text_content' => {
-                             'full' => 'Text content',
-                             'quoted' => 'Text content',
-                             'reply' => 'Text content'
-                           }
-                         }
-                       })
+      {
+        channel: channel,
+        inbox: inbox
+      }
     end
 
-    context 'when forwarding a message from a non-email inbox' do
-      let(:params) do
-        ActionController::Parameters.new({
-                                           content: 'Forwarded message:',
-                                           content_attributes: { forwarded_message_id: forwarded_message.id }
-                                         })
-      end
-
-      it 'includes the forwarded message ID in content_attributes' do
-        message = described_class.new(user, conversation, params).perform
-        expect(message.content_attributes[:forwarded_message_id]).to eq(forwarded_message.id)
-      end
-
-      it 'updates the content with the forwarded message text' do
-        message = described_class.new(user, conversation, params).perform
-        expect(message.content).to include('Forwarded message:')
-        expect(message.content).to include('---------- Forwarded message ---------')
-      end
+    def create_email_conversations(inbox)
+      {
+        source: create(:conversation, inbox: inbox, account: account),
+        target: create(:conversation, inbox: inbox, account: account)
+      }
     end
 
-    context 'when forwarding a message from an email inbox' do
-      let(:params) do
-        ActionController::Parameters.new({
-                                           content: 'Forwarded message:',
-                                           content_attributes: { forwarded_message_id: forwarded_message.id }
-                                         })
-      end
+    def standard_email_data
+      {
+        'from' => ['sender@example.com'],
+        'to' => ['recipient@example.com'],
+        'subject' => 'Test Subject',
+        'date' => '2025-04-29T14:29:07+05:30',
+        'html_content' => {
+          'full' => '<div>HTML content</div>',
+          'quoted' => 'HTML content',
+          'reply' => 'HTML content'
+        },
+        'text_content' => {
+          'full' => 'Text content',
+          'quoted' => 'Text content',
+          'reply' => 'Text content'
+        }
+      }
+    end
 
-      let(:email_conversation_target) { create(:conversation, inbox: email_inbox, account: account) }
+    def setup_email_environment
+      channel_data = create_email_channel_with_inbox
+      conversations = create_email_conversations(channel_data[:inbox])
 
-      it 'includes the forwarded email data in content_attributes' do
-        message = described_class.new(user, email_conversation_target, params).perform
+      {
+        email_inbox: channel_data[:inbox],
+        email_conversation: conversations[:source],
+        target_conversation: conversations[:target],
+        standard_email_data: standard_email_data
+      }
+    end
+
+    context 'with different message types' do
+      let(:env) { setup_email_environment }
+
+      it 'preserves email data when forwarding' do
+        # Create the original message to be forwarded
+        forwarded_message = create(:message,
+                                   conversation: env[:email_conversation],
+                                   account: account,
+                                   content_attributes: { email: env[:standard_email_data] })
+
+        # Setup params to forward the message
+        forward_params = ActionController::Parameters.new({
+                                                            content: 'Forwarded message:',
+                                                            content_attributes: { forwarded_message_id: forwarded_message.id }
+                                                          })
+
+        message = described_class.new(user, env[:target_conversation], forward_params).perform
 
         expect(message.content_attributes[:forwarded_message_id]).to eq(forwarded_message.id)
         expect(message.content_attributes[:email]).to be_present
-        expect(message.content_attributes[:email]['html_content']).to be_present
-        expect(message.content_attributes[:email]['text_content']).to be_present
-      end
-
-      it 'preserves the HTML content in the forwarded email' do
-        message = described_class.new(user, email_conversation_target, params).perform
-
+        expect(message.content).to include('Forwarded message:')
+        expect(message.content).to include('---------- Forwarded message ---------')
         html_content = message.content_attributes[:email]['html_content']['full']
-        expect(html_content).to include('<div>HTML content</div>')
-      end
-
-      it 'preserves the text content in the forwarded email' do
-        message = described_class.new(user, email_conversation_target, params).perform
-
         text_content = message.content_attributes[:email]['text_content']['full']
+        expect(html_content).to include('<div>HTML content</div>')
         expect(text_content).to include('Text content')
       end
-    end
 
-    context 'when forwarding a message with markdown content' do
-      let(:params) do
-        ActionController::Parameters.new({
-                                           content: '**Bold text** and _italic text_',
-                                           content_attributes: { forwarded_message_id: forwarded_message.id }
-                                         })
-      end
+      it 'handles markdown content in forwarded messages' do
+        # Create the original message to be forwarded
+        forwarded_message = create(:message,
+                                   conversation: env[:email_conversation],
+                                   account: account,
+                                   content_attributes: { email: env[:standard_email_data] })
 
-      it 'converts markdown to HTML in the HTML content' do
-        message = described_class.new(user, email_conversation, params).perform
+        markdown_content = '**Bold text** and _italic text_'
+        forward_params = ActionController::Parameters.new({
+                                                            content: markdown_content,
+                                                            content_attributes: { forwarded_message_id: forwarded_message.id }
+                                                          })
+
+        message = described_class.new(user, env[:email_conversation], forward_params).perform
 
         html_content = message.content_attributes[:email]['html_content']['full']
+        text_quoted = message.content_attributes[:email]['text_content']['quoted']
+        full_text = message.content_attributes[:email]['text_content']['full']
+
         expect(html_content).to include('<b>Bold text</b>')
         expect(html_content).to include('<i>italic text</i>')
+        expect(text_quoted).to eq(markdown_content)
+        expect(full_text).to include(markdown_content)
+        expect(full_text).to include('---------- Forwarded message ---------')
       end
 
-      it 'preserves markdown in the text content' do
-        message = described_class.new(user, email_conversation, params).perform
+      it 'returns empty email data when forwarding a message with no email data' do
+        regular_message = create(:message, conversation: conversation, account: account)
 
-        text_content = message.content_attributes[:email]['text_content']['full']
-        expect(text_content).to include('**Bold text**')
-        expect(text_content).to include('_italic text_')
-      end
-    end
+        forward_params = ActionController::Parameters.new({
+                                                            content: 'Forwarding a regular message:',
+                                                            content_attributes: { forwarded_message_id: regular_message.id }
+                                                          })
 
-    context 'when forwarding a message with no email data' do
-      let(:regular_message) { create(:message, conversation: conversation, account: account) }
+        # Create the forwarded message
+        message = described_class.new(user, env[:email_conversation], forward_params).perform
 
-      let(:params) do
-        ActionController::Parameters.new({
-                                           content: 'Forwarding a regular message:',
-                                           content_attributes: { forwarded_message_id: regular_message.id }
-                                         })
-      end
-
-      it 'includes the forwarded message ID and empty email data' do
-        message = described_class.new(user, email_conversation, params).perform
-
+        # Verify empty email data
         expect(message.content_attributes[:forwarded_message_id]).to eq(regular_message.id)
         expect(message.content_attributes[:email]).to eq({})
       end
-    end
 
-    context 'with multipart email content' do
-      let(:multipart_message) do
-        create(:message, conversation: email_conversation, account: account,
-                         content_attributes: {
-                           email: {
-                             'from' => ['sender@example.com'],
-                             'to' => ['recipient@example.com'],
-                             'subject' => 'Multipart Test',
-                             'date' => '2025-04-29T14:29:07+05:30',
-                             'html_content' => {
-                               'full' => '<div>HTML <b>formatted</b> content</div>'
-                             },
-                             'text_content' => {
-                               'full' => 'Plain text content'
-                             }
-                           }
-                         })
-      end
+      it 'preserves multipart content in forwarded messages' do
+        # Create a multipart email message
+        multipart_data = env[:standard_email_data].merge(
+          'html_content' => { 'full' => '<div>HTML <b>formatted</b> content</div>' },
+          'text_content' => { 'full' => 'Plain text content' }
+        )
 
-      let(:params) do
-        ActionController::Parameters.new({
-                                           content: 'Forwarding multipart email:',
-                                           content_attributes: { forwarded_message_id: multipart_message.id }
-                                         })
-      end
+        multipart_message = create(:message,
+                                   conversation: env[:email_conversation],
+                                   account: account,
+                                   content_attributes: { email: multipart_data })
 
-      it 'preserves both HTML and text parts in the forwarded email' do
-        message = described_class.new(user, email_conversation, params).perform
+        forward_params = ActionController::Parameters.new({
+                                                            content: 'Forwarding multipart email:',
+                                                            content_attributes: { forwarded_message_id: multipart_message.id }
+                                                          })
 
+        message = described_class.new(user, env[:email_conversation], forward_params).perform
+
+        # Verify multipart content is preserved
         expect(message.content_attributes[:email]['html_content']['full']).to include('<div>HTML <b>formatted</b> content</div>')
         expect(message.content_attributes[:email]['text_content']['full']).to include('Plain text content')
+      end
+    end
+
+    context 'with attachments' do
+      let(:env) { setup_email_environment }
+
+      def create_base_message(conversation)
+        create(:message,
+               conversation: conversation,
+               account: account,
+               content_attributes: {
+                 email: standard_email_data.merge(
+                   'html_content' => { 'full' => '<div>Message with attachments</div>' },
+                   'text_content' => { 'full' => 'Message with attachments' }
+                 )
+               })
+      end
+
+      def add_text_attachment(message)
+        attachment = message.attachments.new(account_id: account.id, file_type: 'file')
+        attachment.file.attach(
+          io: StringIO.new('test file content'),
+          filename: 'test.txt',
+          content_type: 'text/plain'
+        )
+        attachment.save!
+      end
+
+      def add_image_attachment(message)
+        attachment = message.attachments.new(account_id: account.id, file_type: 'image')
+        attachment.file.attach(
+          io: StringIO.new('fake image content'),
+          filename: 'test.jpg',
+          content_type: 'image/jpeg'
+        )
+        attachment.save!
+      end
+
+      def create_message_with_attachments(conversation)
+        message = create_base_message(conversation)
+        add_text_attachment(message)
+        add_image_attachment(message)
+        message
+      end
+
+      it 'copies attachments from the forwarded message' do
+        message_with_attachments = create_message_with_attachments(env[:email_conversation])
+
+        forward_params = ActionController::Parameters.new({
+                                                            content: 'Forwarding message with attachments:',
+                                                            content_attributes: { forwarded_message_id: message_with_attachments.id }
+                                                          })
+
+        message = described_class.new(user, env[:email_conversation], forward_params).perform
+
+        # Verify attachments are copied
+        expect(message.attachments.count).to eq(2)
+        expect(message.attachments.map(&:file_type)).to include('file', 'image')
+        expect(message.attachments.first.file).to be_attached
+
+        # Verify attachment data in content_attributes
+        expect(message.content_attributes[:email]['attachments']).to be_present
+        expect(message.content_attributes[:email]['attachments'].length).to eq(2)
+      end
+    end
+
+    context 'with nested forwarding' do
+      let(:env) { setup_email_environment }
+
+      it 'maintains proper forwarding chain data' do
+        # Create original message
+        parent_message = create(:message,
+                                conversation: env[:email_conversation],
+                                account: account,
+                                content_attributes: { email: env[:standard_email_data] })
+
+        # Create first level forward
+        first_level_params = ActionController::Parameters.new({
+                                                                content: 'First forwarded message:',
+                                                                content_attributes: { forwarded_message_id: parent_message.id }
+                                                              })
+
+        first_forward = described_class.new(user, env[:email_conversation], first_level_params).perform
+
+        # Create second level forward
+        second_level_params = ActionController::Parameters.new({
+                                                                 content: 'Forwarding a forwarded message:',
+                                                                 content_attributes: { forwarded_message_id: first_forward.id }
+                                                               })
+
+        message = described_class.new(user, env[:email_conversation], second_level_params).perform
+
+        expect(message.content_attributes[:forwarded_message_id]).to be_present
+        expect(message.content).to include('Forwarding a forwarded message:')
+        expect(message.content).to include('---------- Forwarded message ---------')
+        expect(message.content).to include('First forwarded message:')
       end
     end
   end

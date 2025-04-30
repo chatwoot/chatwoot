@@ -113,13 +113,13 @@ const handleSeeOriginal = () => {
     data-bubble-name="email"
   >
     <div
-      class="flex items-start gap-2 justify-end"
+      class="p-3"
       :class="{
         'border-b border-n-strong': isIncoming,
         'border-b border-n-slate-8/20': isOutgoing,
       }"
     >
-      <EmailMeta class="p-3 w-full flex justify-end items-start">
+      <EmailMeta class="w-full flex justify-end items-start">
         <div
           v-if="showMessageMenu"
           class="flex gap-2 skip-context-menu flex-shrink-0 items-center relative"
