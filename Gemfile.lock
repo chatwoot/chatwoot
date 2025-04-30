@@ -186,8 +186,6 @@ GEM
     commonmarker (2.3.0-x86_64-linux-musl)
     concurrent-ruby (1.3.4)
     connection_pool (2.5.3)
-    countries (7.1.1)
-      unaccent (~> 0.3)
     crack (1.0.0)
       bigdecimal
       rexml
@@ -933,7 +931,6 @@ GEM
     uber (0.1.0)
     uglifier (4.2.1)
       execjs (>= 0.3.0, < 3)
-    unaccent (0.4.0)
     unicode (0.4.4.5)
     unicode-display_width (3.1.4)
       unicode-emoji (~> 4.0, >= 4.0.4)
@@ -1009,7 +1006,6 @@ DEPENDENCIES
   climate_control
   commonmarker
   concurrent-ruby (= 1.3.4)
-  countries
   csv-safe
   database_cleaner
   ddtrace
