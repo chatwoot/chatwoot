@@ -44,8 +44,6 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
     currentAccount
   );
 
-  console.log('nextRoute');
-  console.log(nextRoute);
   return nextRoute ? next(frontendURL(nextRoute)) : next();
 };
 
