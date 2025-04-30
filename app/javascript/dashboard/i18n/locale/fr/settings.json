@@ -387,7 +387,8 @@
         "LABEL": "Nom de la société",
         "PLACEHOLDER": "Entreprises Wayne"
       },
-      "SUBMIT": "Envoyer"
+      "SUBMIT": "Envoyer",
+      "CANCEL": "Annuler"
     }
   },
   "KEYBOARD_SHORTCUTS": {
