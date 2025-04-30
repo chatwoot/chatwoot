@@ -252,5 +252,3 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
-
-gem 'sorbet', '~> 0.5.11953'
