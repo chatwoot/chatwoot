@@ -1,5 +1,3 @@
-require 'countries'
-
 class EnrichmentJob < ApplicationJob
   queue_as :default
 
