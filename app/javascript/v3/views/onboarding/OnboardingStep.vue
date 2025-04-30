@@ -43,7 +43,7 @@ export default {
       <fluent-icon v-else size="20" :icon="icon" />
     </div>
     <span>
-      {{ title }}
+      {{ title($t) }}
     </span>
   </div>
 </template>

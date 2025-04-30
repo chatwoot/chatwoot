@@ -5,7 +5,7 @@ import { useAlert } from 'dashboard/composables';
 import InboxMembersAPI from '../../../dashboard/api/inboxMembers';
 import router from '../../../dashboard/routes/index';
 
-import OnboardingBaseModal from './BaseModal.vue'; // Assuming this is the correct import path
+import OnboardingBaseModal from './BaseModal.vue';
 import { useVuelidate } from '@vuelidate/core';
 
 export default {
