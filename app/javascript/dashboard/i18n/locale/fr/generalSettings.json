@@ -1,5 +1,26 @@
 {
-  "GENERAL_SETTINGS": {
+    "GENERAL_SETTINGS": {
+      "LIMIT_MESSAGES": {
+        "CONVERSATION": "Vous avez dépassé la limite de conversations. Le plan Hacker permet seulement 500 conversations.",
+        "INBOXES": "Vous avez dépassé la limite de boîtes de réception. Le plan Hacker prend uniquement en charge le chat en direct sur site. Des boîtes comme email, WhatsApp, etc. nécessitent un plan payant.",
+        "AGENTS": "Vous avez dépassé la limite d’agents. Le plan Hacker autorise seulement 2 agents.",
+        "NON_ADMIN": "Veuillez contacter votre administrateur pour mettre à niveau le plan et continuer à utiliser toutes les fonctionnalités."
+      },
+
+      "ACCOUNT_DELETE_SECTION": {
+      "NOTE": "Une fois votre compte supprimé, toutes vos données seront supprimées.",
+      "CONFIRM": {
+        "TITLE": "Supprimer le compte"
+      },
+      "SUCCESS": "Compte marqué pour suppression",
+      "SCHEDULED_DELETION": {
+        "TITLE": "Suppression du compte planifiée",
+        "MESSAGE_MANUAL": "Ce compte est prévu pour suppression le {deletionDate}. Cela a été demandé par un administrateur. Vous pouvez annuler la suppression avant cette date.",
+        "MESSAGE_INACTIVITY": "Ce compte est prévu pour suppression le {deletionDate} en raison de son inactivité. Vous pouvez annuler la suppression avant cette date.",
+        "CLEAR_BUTTON": "Annuler la suppression planifiée"
+      }
+    },
+    
     "TITLE": "Paramètres du compte",
     "SUBMIT": "Mettre à jour les paramètres",
     "BACK": "Précédent",
