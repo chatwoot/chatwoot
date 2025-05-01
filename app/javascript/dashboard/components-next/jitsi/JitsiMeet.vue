@@ -43,7 +43,7 @@ export default {
         }
 
         const script = document.createElement('script');
-        const domain = 'meet.jit.si';
+        const domain = 'localhost:8443';
         script.src = `https://${domain}/external_api.js`;
         script.onload = resolve;
         document.head.appendChild(script);
@@ -79,7 +79,8 @@ export default {
         options.jwt = this.jwt;
       }
 
-      const domain = 'meet.jit.si';
+      // const domain = 'meet.jit.si';
+      const domain = 'localhost:8443';
       this.api = new JitsiMeetExternalAPI(domain, options);
 
       this.api.on('videoConferenceJoined', () => {
@@ -88,6 +89,7 @@ export default {
       });
 
       this.api.on('videoConferenceLeft', () => {
+        this.$emit('left');
       });
 
       this.api.on('participantLeft', () => {

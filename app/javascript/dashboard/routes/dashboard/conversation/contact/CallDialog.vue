@@ -33,6 +33,11 @@ const handleHangup = () => {
   emit('close');
 }
 
+const handleCallLeft = () => {
+  console.log("Call left")
+  emit('left');
+}
+
 const handleToggleFloating = () => {
   isFloating.value = !isFloating.value;
   // Reset position when toggling back to full screen mode
