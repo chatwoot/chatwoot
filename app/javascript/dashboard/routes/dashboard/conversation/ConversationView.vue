@@ -120,6 +120,7 @@ export default {
 
   mounted() {
     this.$store.dispatch('agents/get');
+    this.$store.dispatch('portals/index');
     this.initialize();
     this.$watch('$store.state.route', () => this.initialize());
     this.$watch('chatList.length', () => {

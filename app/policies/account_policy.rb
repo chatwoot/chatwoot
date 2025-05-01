@@ -26,4 +26,8 @@ class AccountPolicy < ApplicationPolicy
   def checkout?
     @account_user.administrator?
   end
+
+  def toggle_deletion?
+    @account_user.administrator?
+  end
 end

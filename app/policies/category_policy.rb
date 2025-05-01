@@ -1,33 +1,27 @@
 class CategoryPolicy < ApplicationPolicy
   def index?
-    @account_user.administrator? || @account.users.include?(@user)
+    @account.users.include?(@user)
   end
 
   def update?
-    @account_user.administrator? || portal_member?
+    @account_user.administrator?
   end
 
   def show?
-    @account_user.administrator? || portal_member?
+    @account_user.administrator?
   end
 
   def edit?
-    @account_user.administrator? || portal_member?
+    @account_user.administrator?
   end
 
   def create?
-    @account_user.administrator? || portal_member?
+    @account_user.administrator?
   end
 
   def destroy?
-    @account_user.administrator? || portal_member?
-  end
-
-  private
-
-  def portal_member?
-    @record.first.portal.members.include?(@user)
+    @account_user.administrator?
   end
 end
 
-CategoryPolicy.prepend_mod_with('Enterprise::CategoryPolicy')
+CategoryPolicy.prepend_mod_with('CategoryPolicy')
