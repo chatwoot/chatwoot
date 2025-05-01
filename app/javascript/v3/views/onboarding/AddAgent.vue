@@ -82,11 +82,6 @@ const addAgent = async () => {
     await store.dispatch('accounts/update', {
       onboarding_step: 'setup-inbox',
     });
-    // const account = store.getters['accounts/getAccount'](
-    //   store.getters.getCurrentAccountId
-    // );
-    // account.custom_attributes = { onboarding_complete: 'setup-inbox' };
-    //console.log('account', JSON.stringify(account, null, 2));
 
     router.push({ name: 'onboarding_setup_inbox' });
   } catch (error) {
@@ -115,17 +110,12 @@ const skipToNextStep = async () => {
   await store.dispatch('accounts/update', {
     onboarding_step: 'setup-inbox',
   });
-  // const account = store.getters['accounts/getAccount'](
-  //   store.getters.getCurrentAccountId
-  // );
-  // account.custom_attributes = { onboarding_complete: 'setup-inbox' };
-  //console.log('account', JSON.stringify(account, null, 2));
   router.push({ name: 'onboarding_setup_inbox' });
 };
 </script>
 
 <template>
-  <onboarding-base-modal
+  <OnboardingBaseModal
     :title="$t('AGENT_MGMT.ADD.TITLE')"
     :subtitle="$t('AGENT_MGMT.ADD.DESC')"
   >
@@ -183,7 +173,7 @@ const skipToNextStep = async () => {
         </button>
       </div>
     </form>
-  </onboarding-base-modal>
+  </OnboardingBaseModal>
 </template>
 
 <style scoped>
