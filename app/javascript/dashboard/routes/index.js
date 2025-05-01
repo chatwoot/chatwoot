@@ -21,10 +21,14 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
     return '';
   }
 
-  await store.dispatch('accounts/getAccountById', user.account_id);
-
   const getAccount = store.getters['accounts/getAccount'];
   let currentAccount = getAccount(user.account_id); // Assuming user has an account_id property
+
+  if (!currentAccount || Object.keys(currentAccount).length === 0) {
+    await store.dispatch('accounts/getAccountById', user.account_id);
+    const getAccount = store.getters['accounts/getAccount'];
+    currentAccount = getAccount(user.account_id); // Assuming user has an account_id property
+  }
 
   if (to.fullPath === '/app?to=cal_integration') {
     return next(
