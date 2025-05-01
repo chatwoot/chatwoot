@@ -70,12 +70,12 @@ module Messages::ForwardedMessageFormatter
       /^\s*>\s+/m,             # Blockquotes
       /`[^`\n]+?`/,            # Inline code
       /^```/m,                 # Code blocks
+      /\[[^\]\n]{0,100}\]\([^)\n]{0,300}\)/, # Links (safe)
       /^\s*[*\-+]\s+/m, # Unordered lists
       /^\s*\d+\.\s+/m,         # Ordered lists
       /^\s*\|.*\|/m,           # Tables
       /~~.*?~~/                # Strikethrough
     ]
-
     markdown_patterns.any? { |pattern| text =~ pattern }
   end
 end
