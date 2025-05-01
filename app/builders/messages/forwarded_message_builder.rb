@@ -70,8 +70,6 @@ module Messages::ForwardedMessageFormatter
       /^\s*>\s+/m,             # Blockquotes
       /`[^`\n]+?`/,            # Inline code
       /^```/m,                 # Code blocks
-      /!\[.*?\]\(.*?\)/,       # Images
-      /\[.*?\]\(.*?\)/,        # Links
       /^\s*[*\-+]\s+/m, # Unordered lists
       /^\s*\d+\.\s+/m,         # Ordered lists
       /^\s*\|.*\|/m,           # Tables
