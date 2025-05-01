@@ -53,7 +53,7 @@ const currentChat = useMapGetter('getSelectedChat');
 const currentUser = useMapGetter('getCurrentUser');
 const globalConfig = useMapGetter('globalConfig/get');
 
-const fromEmail = computed(() => props.message?.to?.[0] || props.inbox?.email);
+const fromEmail = computed(() => props.inbox?.email);
 
 const fullHTML = computed(() => {
   return (

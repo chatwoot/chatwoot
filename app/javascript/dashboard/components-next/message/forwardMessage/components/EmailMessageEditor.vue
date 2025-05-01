@@ -39,15 +39,9 @@ const showQuotedMessage = ref(false);
     />
     <div class="px-4 pb-4 flex flex-col gap-2">
       <div class="flex items-center gap-1.5">
-        <div
-          class="h-px w-20 bg-n-alpha-2 border-t border-dashed border-n-slate-12"
-        />
-        <span class="font-semibold text-sm text-n-slate-12">
+        <span class="text-sm text-n-slate-12">
           {{ t('FORWARD_MESSAGE_FORM.FORWARDED_MESSAGE') }}
         </span>
-        <div
-          class="h-px w-20 bg-n-alpha-2 border-t border-dashed border-n-slate-12"
-        />
       </div>
       <EmailMeta />
     </div>

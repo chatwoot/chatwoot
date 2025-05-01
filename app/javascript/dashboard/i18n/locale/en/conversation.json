@@ -245,7 +245,7 @@
   "FORWARD_MESSAGE_FORM": {
     "FROM": "From :",
     "EMAIL_EDITOR_PLACEHOLDER": "Write your message here...",
-    "FORWARDED_MESSAGE": "Forwarded message",
+    "FORWARDED_MESSAGE": "---------- Forwarded message ----------",
     "SHOW_QUOTED_TEXT": "Show quoted text",
     "HIDE_QUOTED_TEXT": "Hide quoted text",
     "CONTACT_SEARCH": {
