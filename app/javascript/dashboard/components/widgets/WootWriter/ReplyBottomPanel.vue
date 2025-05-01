@@ -155,6 +155,19 @@
           @proceed-with-sending-message="proceedWithSendingMessage"
         />
       </woot-modal>
+
+      <woot-modal
+        :show.sync="showAITranslationModal"
+        :on-close="hideAITranslationModal"
+      >
+        <AITranslationModal
+          :message="message"
+          :translated-message="translatedMessage"
+          @apply-text="replaceText"
+          @close="hideAITranslationModal"
+          @proceed-with-sending-message="proceedWithSendingMessage"
+        />
+      </woot-modal>
     </div>
   </div>
 </template>
@@ -179,10 +192,19 @@ import { mapGetters } from 'vuex';
 import ReplyToMultipleAction from './ReplyToMultipleAction.vue';
 import AIQualityCheckModal from '../AIQualityCheckModal.vue';
 import AIButtonLoader from '../AIButtonLoader.vue';
+import AITranslationModal from '../AITranslationModal.vue';
 
 export default {
   name: 'ReplyBottomPanel',
-  components: { FileUpload, VideoCallButton, AIAssistanceButton, ReplyToMultipleAction, AIQualityCheckModal, AIButtonLoader },
+  components: {
+    FileUpload,
+    VideoCallButton,
+    AIAssistanceButton,
+    ReplyToMultipleAction,
+    AIQualityCheckModal,
+    AIButtonLoader,
+    AITranslationModal,
+  },
   mixins: [keyboardEventListenerMixins, uiSettingsMixin, inboxMixin, aiMessageCheckMixin],
   props: {
     mode: {
@@ -365,7 +387,12 @@ export default {
       return isFeatEnabled && this.portalSlug;
     },
     displayAIAssistanceLoader(){
-      return this.showAiLoader && this.isFeatureEnabledonAccount(
+      return this.showAiLoader && (
+        this.qualityCheckFeatureEnabled || this.translationFeatureEnabled
+      );
+    },
+    qualityCheckFeatureEnabled() {
+      return this.isFeatureEnabledonAccount(
         this.accountId,
         FEATURE_FLAGS.AI_QUALITY_CHECK
       );
@@ -383,8 +410,11 @@ export default {
   data() {
     return {
       showAIAssistanceModal: false,
+      showAITranslationModal: false,
       showAiLoader: false,
       aiCheckResponse: {},
+      translationData: {},
+      translatedMessage: '',
     }
   },
   mounted() {
@@ -432,8 +462,32 @@ export default {
         this.proceedWithSendingMessage();
       }
     },
+    async performResponseTranslation() {
+      const response = await this.$store.dispatch('translateDraftMessage', {
+        conversationId: this.conversationId,
+        message: this.message
+      })
+
+      const responseData = response.data;
+      this.showAiLoader = false;
+
+      try {
+        if (responseData.agent_message_locale === responseData.customer_message_locale) {
+          this.proceedWithSendingMessage();
+        } else {
+          this.translatedMessage = responseData.translated_agent_message;
+          this.showAITranslationModal = true
+        }
+      } catch (error) {
+        console.log(error);
+        this.proceedWithSendingMessage();
+      }
+    },
     hideAIAssistanceModal() {
       this.showAIAssistanceModal = false;
+    },
+    hideAITranslationModal() {
+      this.showAITranslationModal = false;
     },
     onSendReply() {
       if (!this.isOnPrivateNote) {

@@ -115,7 +115,8 @@
         "MAKE_FRIENDLY": "Change message tone to friendly",
         "MAKE_FORMAL": "Use formal tone",
         "SIMPLIFY": "Simplify",
-        "QUALITY_CHECK": "Kvalitetskontroll"
+        "QUALITY_CHECK": "Kvalitetskontroll",
+        "RESPONSE_TRANSLATION": "Svarsöversättning"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Draft content",

@@ -209,7 +209,7 @@ export default {
         conversationId: this.conversationId,
         message: this.message,
       });
-      this.translatedMessage = response?.data?.message?.translated_message || '';
+      this.translatedMessage = response?.data?.translated_agent_message || '';
 
       if (this.translatedMessage === '') {
         const errorMessage = this.$t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.TRANSLATION.TRANSLATION_ERROR');

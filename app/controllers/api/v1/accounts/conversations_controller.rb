@@ -208,7 +208,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def translate_draft
-    render json: { message: Digitaltolk::Openai::Translation.new.perform(params[:draft_message], Current.account.translation_language) }
+    last_incoming_message = @conversation.messages.incoming.last&.content
+    render json: Digitaltolk::Openai::ResponseTranslation.new.perform(params[:draft_message], last_incoming_message, Current.account.translation_language)
   end
 
   private

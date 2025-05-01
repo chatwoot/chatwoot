@@ -306,6 +306,9 @@ export default {
 
       return false;
     },
+    translationAllowedForAgent() {
+      return this.uiSettings?.ai_translation_enabled !== false;
+    },
     assignedAgent: {
       get() {
         return this.currentChat.meta.assignee;
@@ -552,7 +555,13 @@ export default {
         this.accountId,
         FEATURE_FLAGS.AI_QUALITY_CHECK
       );
-    }
+    },
+    translationFeatureEnabled(){
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.AI_TRANSLATION
+      );
+    },
   },
   watch: {
     currentChat(conversation) {
@@ -845,14 +854,21 @@ export default {
       this.assignedAgent = selfAssign;
     },
     decideOnSendReply(){
-      if (this.isPrivate || !this.qualityCheckFeatureEnabled) {
+      if (this.isPrivate) {
         this.confirmOnSendReply();
-      } else {
+      } else if (this.qualityCheckFeatureEnabled) {
         this.performQualityCheck();
+      } else if(this.translationFeatureEnabled && this.translationAllowedForAgent) {
+        this.performResponseTranslation();
+      } else {
+        this.confirmOnSendReply();
       }
     },
     performQualityCheck(){
       this.$refs.replyBottomPanel.performQualityCheck();
+    },
+    performResponseTranslation(){
+      this.$refs.replyBottomPanel.performResponseTranslation();
     },
     confirmOnSendReply() {
       if (this.isReplyButtonDisabled) {
