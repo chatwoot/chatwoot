@@ -387,7 +387,8 @@
         "LABEL": "Yrityksen nimi",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Lähetä"
+      "SUBMIT": "Lähetä",
+      "CANCEL": "Peruuta"
     }
   },
   "KEYBOARD_SHORTCUTS": {
