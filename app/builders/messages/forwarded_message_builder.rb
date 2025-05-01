@@ -85,6 +85,10 @@ module Messages::ForwardedMessageContentBuilder
   def forwarded_header_text
     return '' unless formatted_info.values.any?
 
+    build_header_lines.compact.join("\n")
+  end
+
+  def build_header_lines
     [
       "\n\n---------- Forwarded message ---------",
       ("From: #{formatted_info[:from]}" if formatted_info[:from]),
@@ -92,7 +96,7 @@ module Messages::ForwardedMessageContentBuilder
       ("Subject: #{formatted_info[:subject]}" if formatted_info[:subject]),
       ("To: <#{formatted_info[:to]}>" if formatted_info[:to]),
       "\n"
-    ].compact.join("\n")
+    ]
   end
 
   def forwarded_body_text
