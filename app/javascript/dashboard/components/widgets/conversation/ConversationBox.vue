@@ -121,17 +121,19 @@ export default {
       });
       console.log('showCallModal', this.showCallModal);
     },
-    startCall() {
+    async startCall() {
       if (this.activeCall) return;
-      this.showCallModal = true;
-      console.log('startCall', this.currentChat.id);
+
       const roomId = this.generateJitsiRoomId();
 
-      this.$store.dispatch('createCall', {
+      await this.$store.dispatch('createCall', {
         chat_id: this.currentChat.id,
         room_id: roomId,
         sender: this.sender,
       });
+
+      this.showCallModal = true;
+      console.log('startCall', this.currentChat.id);
     },
     fetchLabels() {
       if (!this.currentChat.id) {
