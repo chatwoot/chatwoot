@@ -50,6 +50,7 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
   def handle_message
     return if jid_type != 'user'
     return if find_message_by_source_id(message_id) || message_under_process?
+    return if message_type == 'protocol'
 
     cache_message_source_id_in_redis
     set_contact
@@ -106,7 +107,7 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     when 'image', 'file', 'video', 'audio', 'sticker'
       create_message
       attach_media
-    else
+    when 'unsupported'
       create_unsupported_message
       Rails.logger.warn "Baileys unsupported message type: #{message_type}"
     end
@@ -140,18 +141,13 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     msg = @raw_message[:message]
 
     return 'text' if msg.key?(:conversation) || msg.dig(:extendedTextMessage, :text).present?
-    return 'contacts' if msg.key?(:contactMessage)
     return 'image' if msg.key?(:imageMessage)
     return 'audio' if msg.key?(:audioMessage)
     return 'video' if msg.key?(:videoMessage)
-    return 'video_note' if msg.key?(:ptvMessage)
-    return 'location' if msg.key?(:locationMessage)
-    return 'live_location' if msg.key?(:liveLocationMessage)
     return 'file' if msg.key?(:documentMessage)
-    return 'poll' if msg.key?(:pollCreationMessageV3)
-    return 'event' if msg.key?(:eventMessage)
     return 'sticker' if msg.key?(:stickerMessage)
     return 'reaction' if msg.key?(:reactionMessage)
+    return 'protocol' if msg.key?(:protocolMessage)
 
     'unsupported'
   end

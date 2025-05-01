@@ -185,6 +185,29 @@ describe Whatsapp::IncomingMessageBaileysService do
         end
       end
 
+      context 'when message is protocol message' do
+        let(:raw_message) do
+          { key: { id: 'msg_123', remoteJid: '5511912345678@s.whatsapp.net', fromMe: false },
+            message: { protocolMessage: { type: 1 } },
+            pushName: 'John Doe' }
+        end
+        let(:params) do
+          { webhookVerifyToken: webhook_verify_token,
+            event: 'messages.upsert',
+            data: {
+              type: 'notify',
+              messages: [raw_message]
+            } }
+        end
+
+        it 'does not create contact inbox nor message' do
+          described_class.new(inbox: inbox, params: params).perform
+
+          expect(inbox.contact_inboxes.count).to be(0)
+          expect(inbox.messages.count).to be(0)
+        end
+      end
+
       context 'when message is not from a user' do
         let(:raw_message) do
           {
