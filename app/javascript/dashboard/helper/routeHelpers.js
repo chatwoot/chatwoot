@@ -77,9 +77,8 @@ export const validateLoggedInRoutes = (to, user, account) => {
   ) {
     if (!account.custom_attributes?.onboarding_step) {
       return `accounts/${to.params.accountId}/start/setup-profile`;
-    } else {
-      return `accounts/${to.params.accountId}/start/${account.custom_attributes?.onboarding_step}`;
     }
+    return `accounts/${to.params.accountId}/start/${account.custom_attributes?.onboarding_step}`;
   }
 
   const isCurrentAccountActive = currentAccount.status === 'active';

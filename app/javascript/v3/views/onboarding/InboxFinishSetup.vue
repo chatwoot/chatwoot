@@ -74,13 +74,12 @@ export default {
     this.store.dispatch('accounts/update', {
       onboarding_step: 'true',
     });
-    console.log('Ho gya');
   },
 };
 </script>
 
 <template>
-  <onboarding-base-modal
+  <OnboardingBaseModal
     :title="$t('INBOX_MGMT.FINISH.TITLE')"
     :message="message"
   >
@@ -157,5 +156,5 @@ export default {
         </router-link>
       </div>
     </div>
-  </onboarding-base-modal>
+  </OnboardingBaseModal>
 </template>
