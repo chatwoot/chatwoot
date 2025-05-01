@@ -18,7 +18,8 @@ RSpec.describe 'Accounts API', type: :request do
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
           allow(account_builder).to receive(:perform).and_return([user, account])
 
-          params = { account_name: 'test', email: email, user: nil, locale: nil, user_full_name: user_full_name, password: 'Password1!', dealership_id: 1 }
+          params = { account_name: 'test', email: email, user: nil, locale: nil, user_full_name: user_full_name, password: 'Password1!',
+                     dealership_id: '123' }
 
           post api_v1_accounts_url,
                params: params,
@@ -38,9 +39,8 @@ RSpec.describe 'Accounts API', type: :request do
           allow(ChatwootCaptcha).to receive(:new).and_return(captcha)
           allow(captcha).to receive(:valid?).and_return(true)
 
-          params = { account_name: 'test', email: email, user: nil, locale: nil, user_full_name: user_full_name, password: 'Password1!', dealership_id: 1,
-                     h_captcha_client_response: '123' }
-
+          params = { account_name: 'test', email: email, user: nil, locale: nil, user_full_name: user_full_name, password: 'Password1!',
+                     h_captcha_client_response: '123', dealership_id: '123' }
           post api_v1_accounts_url,
                params: params,
                as: :json
@@ -83,7 +83,8 @@ RSpec.describe 'Accounts API', type: :request do
 
     context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to api_only' do
       it 'does not respond 404 on requests' do
-        params = { account_name: 'test', email: email, user_full_name: user_full_name, password: 'Password1!', dealership_id: 1 }
+        params = { account_name: 'test', email: email, user_full_name: user_full_name, password: 'Password1!', dealership_id: '123',
+                   h_captcha_client_response: '123' }
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'api_only' do
           post api_v1_accounts_url,
                params: params,

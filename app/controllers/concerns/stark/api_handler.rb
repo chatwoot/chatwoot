@@ -5,15 +5,20 @@ module Stark
     included do
       AUTH_TOKEN = ENV.fetch('STARK_API_KEY', nil)
       include HTTParty
+      include StarkRetryable
     end
 
     def get_stark_response(conversation, content)
       return nil unless valid_dealership_id?(conversation.account&.dealership_id)
 
-      response = make_api_request(conversation, content)
-      return handle_error_response(response) if error_response?(response)
+      with_stark_retry(conversation) do
+        response = make_api_request(conversation, content)
 
-      parse_stark_response(response)
+        return nil if response.nil?
+        return handle_error_response(response) if error_response?(response)
+
+        parse_stark_response(response)
+      end
     rescue JSON::ParserError => e
       Rails.logger.error("Failed to parse Stark response: #{e.message}")
       nil
@@ -27,7 +32,18 @@ module Stark
         body: build_request_payload(conversation, content).to_json,
         headers: build_request_headers
       )
+
+      parse_response_body(response)
+    end
+
+    def parse_response_body(response)
+      return nil unless response&.body
+
       JSON.parse(response.body)
+    rescue JSON::ParserError => e
+      Rails.logger.error("Failed to parse Stark response: #{e.message}")
+      Rails.logger.error("Response body: #{response.body}")
+      raise StandardError, 'Invalid response format from Stark server'
     end
 
     def build_request_payload(conversation, content)
@@ -47,21 +63,34 @@ module Stark
     end
 
     def parse_stark_response(response)
+      data = response['body']['data']
       {
-        'content' => response.dig('body', 'data', 'answer'),
-        'action' => response.dig('body', 'data', 'human_redirect') ? 'handoff' : nil
+        'content' => data['answer'],
+        'action' => data['human_redirect'] ? 'handoff' : nil
       }
     end
 
     def error_response?(response)
-      response['body']&.fetch('status', nil) == 'error'
+      return true unless response.is_a?(Hash)
+      return true unless response['body'].is_a?(Hash)
+
+      response['body']['status'] == 'error' ||
+        (response['metadata'] && response['metadata']['status_code'].to_i >= 400)
     end
 
     def handle_error_response(response)
       error_message = response.dig('body', 'message')
       errors = response.dig('body', 'errors')
-      Rails.logger.error("Stark API Error: #{error_message}, Errors: #{errors}")
-      nil
+      status_code = response.dig('metadata', 'status_code')
+
+      error_details = {
+        message: error_message,
+        errors: errors,
+        status_code: status_code
+      }
+
+      Rails.logger.error("Stark API Error: #{error_details}")
+      raise StandardError, error_message || 'Stark API Error'
     end
   end
 end

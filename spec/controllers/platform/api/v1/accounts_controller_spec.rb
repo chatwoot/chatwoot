@@ -23,7 +23,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
       let(:platform_app) { create(:platform_app) }
 
       it 'creates an account when and its permissible relationship' do
-        post '/platform/api/v1/accounts', params: { name: 'Test Account' },
+        post '/platform/api/v1/accounts', params: { name: 'Test Account', dealership_id: '123' },
                                           headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
@@ -34,7 +34,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
       it 'creates an account with locale' do
         InstallationConfig.where(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').first_or_create!(value: [{ 'name' => 'agent_management',
                                                                                                     'enabled' => true }])
-        post '/platform/api/v1/accounts', params: { name: 'Test Account', locale: 'es' },
+        post '/platform/api/v1/accounts', params: { name: 'Test Account', locale: 'es', dealership_id: '123' },
                                           headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
@@ -53,7 +53,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
                                                                                                   { 'name' => 'help_center',
                                                                                                     'enabled' => false }])
 
-        post '/platform/api/v1/accounts', params: { name: 'Test Account', features: {
+        post '/platform/api/v1/accounts', params: { name: 'Test Account', dealership_id: '123', features: {
           ip_lookup: true,
           help_center: true,
           disable_branding: false
@@ -67,7 +67,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
       end
 
       it 'creates an account with limits settings' do
-        post '/platform/api/v1/accounts', params: { name: 'Test Account', limits: { agents: 5, inboxes: 10 } },
+        post '/platform/api/v1/accounts', params: { name: 'Test Account', dealership_id: '123', limits: { agents: 5, inboxes: 10 } },
                                           headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)

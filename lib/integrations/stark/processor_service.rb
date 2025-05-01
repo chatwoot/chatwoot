@@ -26,19 +26,16 @@ class Integrations::Stark::ProcessorService < Integrations::BotProcessorService
 
   def process_stark_response
     response = get_stark_response(current_conversation, event_data[:message].content)
-    return mark_conversation_open if invalid_response?(response)
+    return if response.nil? # Response is nil if there was an error (already handled by StarkRetryable)
 
     handle_response(response)
   end
 
   def handle_missing_dealership_id
-    return false unless current_conversation.account&.dealership_id.blank?
+    return false if current_conversation.account&.dealership_id.present?
+
     mark_conversation_open
     true
-  end
-
-  def invalid_response?(response)
-    response.blank? || !response_valid?(response)
   end
 
   def current_conversation

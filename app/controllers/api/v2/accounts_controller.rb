@@ -14,38 +14,65 @@ class Api::V2::AccountsController < Api::BaseController
               with: :render_error_response
 
   def create
-    @user, @account = AccountBuilder.new(
-      email: account_params[:email],
-      user_password: account_params[:password],
-      locale: account_params[:locale],
-      dealership_id: account_params[:dealership_id],
-      user: current_user
-    ).perform
-
-    fetch_account_and_user_info
-    update_account_info if @account.present?
-
-    if @user
-      send_auth_headers(@user)
-      render 'api/v1/accounts/create', format: :json, locals: { resource: @user }
-    else
-      render_error_response(CustomExceptions::Account::SignupFailed.new({}))
-    end
+    @user, @account = build_account
+    process_account_info
+    render_response
+  rescue StandardError => e
+    Rails.logger.error("Account creation failed: #{e.message}")
+    render_error_response(CustomExceptions::Account::SignupFailed.new({}))
   end
 
   private
 
+  def build_account
+    AccountBuilder.new(
+      **base_account_params.merge(
+        dealership_id_param
+      )
+    ).perform
+  end
+
+  def base_account_params
+    {
+      email: account_params[:email],
+      user_password: account_params[:password],
+      locale: account_params[:locale],
+      user: current_user
+    }
+  end
+
+  def dealership_id_param
+    account_params[:dealership_id].present? ? { dealership_id: account_params[:dealership_id] } : {}
+  end
+
+  def process_account_info
+    return unless @account
+
+    fetch_account_and_user_info
+    update_account_info
+  rescue StandardError => e
+    Rails.logger.error("Error processing account info: #{e.message}")
+    raise CustomExceptions::Account::UserErrors, e.message
+  end
+
+  def render_response
+    return render_error_response(CustomExceptions::Account::SignupFailed.new({})) unless @user
+
+    send_auth_headers(@user)
+    render 'api/v1/accounts/create', format: :json, locals: { resource: @user }
+  end
+
   def account_attributes
     {
       dealership_id: account_params[:dealership_id],
-      custom_attributes: @account.custom_attributes.merge({ 'onboarding_step' => 'profile_update' })
+      custom_attributes: (@account.custom_attributes || {}).merge('onboarding_step' => 'profile_update')
     }
   end
 
   def update_account_info
-    @account.update!(
-      account_attributes
-    )
+    return if @account.blank?
+
+    @account.update!(account_attributes)
   end
 
   def fetch_account_and_user_info; end
@@ -60,7 +87,8 @@ class Api::V2::AccountsController < Api::BaseController
   end
 
   def check_signup_enabled
-    raise ActionController::RoutingError, 'Not Found' if GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false') == 'false'
+    signup_setting = GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false')
+    raise ActionController::RoutingError, 'Not Found' if signup_setting == 'false'
   end
 
   def validate_captcha
