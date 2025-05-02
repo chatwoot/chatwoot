@@ -3,13 +3,13 @@
     "HEADER": "Acordo de Nível de Serviço",
     "ADD_ACTION": "Adicionar SLA",
     "ADD_ACTION_LONG": "Criar uma nova Política de SLA",
-    "DESCRIPTION": "Acordo de Nível de Serviço (SLAs em inglês) são acordos que definem expectativas claras entre sua equipe e os clientes. Estabelecem normas para tempos de resposta e de resolução, criando um quadro de responsabilização e garantindo uma experiência coerente e de qualidade.",
+    "DESCRIPTION": "Acordo de Nível de Serviço (SLAs em inglês) são acordos que definem expectativas claras entre seu time e os clientes. Estabelecem normas para tempos de resposta e de resolução, criando um quadro de responsabilização e garantindo uma experiência coerente e de qualidade.",
     "LEARN_MORE": "Saiba mais sobre SLA",
     "LOADING": "Buscando SLAs",
     "PAYWALL": {
       "TITLE": "Atualize para criar SLAs",
       "AVAILABLE_ON": "O recurso SLA está disponível apenas nos planos Business e Enterprise.",
-      "UPGRADE_PROMPT": "Atualize seu plano para obter acesso a recursos avançados como gerenciamento de equipe, automações, atributos personalizados e muito mais.",
+      "UPGRADE_PROMPT": "Atualize seu plano para obter acesso a recursos avançados como gerenciamento de time, automações, atributos personalizados e muito mais.",
       "UPGRADE_NOW": "Atualizar agora",
       "CANCEL_ANYTIME": "Você pode alterar ou cancelar seu plano a qualquer momento"
     },
@@ -49,7 +49,7 @@
       },
       "DESCRIPTION": {
         "LABEL": "Descrição",
-        "PLACEHOLDER": ""
+        "PLACEHOLDER": "SLA para clientes premium"
       },
       "FIRST_RESPONSE_TIME": {
         "LABEL": "Tempo de Primeira Resposta",

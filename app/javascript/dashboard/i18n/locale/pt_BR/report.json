@@ -120,7 +120,7 @@
     },
     "PAGINATION": {
       "RESULTS": "Exibindo {start} — {end} de {total} resultados",
-      "PER_PAGE_TEMPLATE": "{size} / página"
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
@@ -327,12 +327,12 @@
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Resumo da Equipe",
-    "DESCRIPTION": "Obtenha um instantâneo do desempenho da sua equipe com métricas essenciais, incluindo conversas, tempos de resposta, tempos de resolução e casos resolvidos. Clique no nome da equipe para mais detalhes.",
+    "HEADER": "Resumo do Time",
+    "DESCRIPTION": "Obtenha um instantâneo do desempenho de seu time com métricas essenciais, incluindo conversas, tempos de resposta, tempos de resolução e casos resolvidos. Clique no nome do time para mais detalhes.",
     "LOADING_CHART": "Carregando dados do gráfico...",
     "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
-    "DOWNLOAD_TEAM_REPORTS": "Baixar relatórios da equipe",
-    "FILTER_DROPDOWN_LABEL": "Selecionar Equipe",
+    "DOWNLOAD_TEAM_REPORTS": "Baixar relatórios de time",
+    "FILTER_DROPDOWN_LABEL": "Selecionar Time",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversas",
@@ -478,12 +478,12 @@
       }
     },
     "TEAM_CONVERSATIONS": {
-      "ALL_TEAMS": "Todas as equipes",
-      "HEADER": "Conversas por equipes",
-      "LOADING_MESSAGE": "Carregando métricas de equipe...",
+      "ALL_TEAMS": "Todos os Times",
+      "HEADER": "Conversas por times",
+      "LOADING_MESSAGE": "Carregando métricas de times...",
       "NO_TEAMS": "Não há dados disponíveis",
       "TABLE_HEADER": {
-        "TEAM": "Equipe",
+        "TEAM": "Time",
         "OPEN": "Abrir",
         "UNATTENDED": "Não atendidas",
         "STATUS": "Situação"
@@ -523,13 +523,13 @@
         "AGENTS": "Nome do Agente",
         "INBOXES": "Nome da Caixa de Entrada",
         "LABELS": "Nome da etiqueta",
-        "TEAMS": "Nome da equipe"
+        "TEAMS": "Nome do Time"
       },
       "SLA": "Política SLA",
       "INBOXES": "Caixa de Entrada",
       "AGENTS": "Agente",
       "LABELS": "Nome do campo",
-      "TEAMS": "Equipe"
+      "TEAMS": "Time"
     },
     "WITH": "com",
     "METRICS": {
@@ -558,7 +558,7 @@
   "SUMMARY_REPORTS": {
     "INBOX": "Caixa de Entrada",
     "AGENT": "Agente",
-    "TEAM": "Equipe",
+    "TEAM": "Time",
     "AVG_RESOLUTION_TIME": "Tempo Médio de Resolução",
     "AVG_FIRST_RESPONSE_TIME": "Tempo Médio de Primeira Resposta",
     "AVG_REPLY_TIME": "Tempo Médio de Rspera do Cliente",
