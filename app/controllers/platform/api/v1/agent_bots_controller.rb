@@ -12,7 +12,7 @@ class Platform::Api::V1::AgentBotsController < PlatformController
     @resource = AgentBot.new(agent_bot_params.except(:avatar_url))
     @resource.save!
     process_avatar_from_url
-    @platform_app.platform_app_permissibles.find_or_create_by(permissible: @resource)
+    @platform_app.platform_app_permissibles.find_or_create_by!(permissible: @resource)
   end
 
   def update

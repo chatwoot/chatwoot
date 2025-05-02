@@ -46,7 +46,7 @@ class ActionService
     return if labels.empty?
 
     labels = @conversation.label_list - labels
-    @conversation.update(label_list: labels)
+    @conversation.update!(label_list: labels)
   end
 
   def assign_team(team_ids = [])

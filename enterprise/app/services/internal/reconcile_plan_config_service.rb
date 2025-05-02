@@ -16,7 +16,7 @@ class Internal::ReconcilePlanConfigService
   end
 
   def premium_config
-    @premium_config ||= YAML.safe_load(File.read("#{config_path}/premium_installation_config.yml")).freeze
+    @premium_config ||= YAML.safe_load_file("#{config_path}/premium_installation_config.yml").freeze
   end
 
   def remove_premium_config_reset_warning
@@ -46,7 +46,7 @@ class Internal::ReconcilePlanConfigService
   end
 
   def premium_features
-    @premium_features ||= YAML.safe_load(File.read("#{config_path}/premium_features.yml")).freeze
+    @premium_features ||= YAML.safe_load_file("#{config_path}/premium_features.yml").freeze
   end
 
   def reconcile_premium_features

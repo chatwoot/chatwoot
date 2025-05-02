@@ -18,7 +18,7 @@ describe OnlineStatusTracker do
     end
 
     it 'returns agents who have auto offline configured false' do
-      user2.account_users.first.update(auto_offline: false)
+      user2.account_users.first.update!(auto_offline: false)
       expect(described_class.get_available_users(account.id).keys).to contain_exactly(user1.id.to_s, user2.id.to_s)
     end
 

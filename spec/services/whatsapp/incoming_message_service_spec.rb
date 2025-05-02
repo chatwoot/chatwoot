@@ -36,10 +36,10 @@ describe Whatsapp::IncomingMessageService do
       end
 
       it 'reopen last conversation if last conversation is resolved and lock to single conversation is enabled' do
-        whatsapp_channel.inbox.update(lock_to_single_conversation: true)
+        whatsapp_channel.inbox.update!(lock_to_single_conversation: true)
         contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
         last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
-        last_conversation.update(status: 'resolved')
+        last_conversation.update!(status: 'resolved')
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         # no new conversation should be created
         expect(whatsapp_channel.inbox.conversations.count).to eq(1)
@@ -49,10 +49,10 @@ describe Whatsapp::IncomingMessageService do
       end
 
       it 'creates a new conversation if last conversation is resolved and lock to single conversation is disabled' do
-        whatsapp_channel.inbox.update(lock_to_single_conversation: false)
+        whatsapp_channel.inbox.update!(lock_to_single_conversation: false)
         contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
         last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
-        last_conversation.update(status: 'resolved')
+        last_conversation.update!(status: 'resolved')
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         # new conversation should be created
         expect(whatsapp_channel.inbox.conversations.count).to eq(2)
@@ -60,10 +60,10 @@ describe Whatsapp::IncomingMessageService do
       end
 
       it 'will not create a new conversation if last conversation is not resolved and lock to single conversation is disabled' do
-        whatsapp_channel.inbox.update(lock_to_single_conversation: false)
+        whatsapp_channel.inbox.update!(lock_to_single_conversation: false)
         contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
         last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
-        last_conversation.update(status: Conversation.statuses.except('resolved').keys.sample)
+        last_conversation.update!(status: Conversation.statuses.except('resolved').keys.sample)
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         # new conversation should be created
         expect(whatsapp_channel.inbox.conversations.count).to eq(1)

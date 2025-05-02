@@ -21,7 +21,7 @@ RSpec.describe InboxMember, type: :model do
 
     context 'when inbox member is destroyed' do
       it 'has associated audit log created' do
-        inbox_member.destroy
+        inbox_member.destroy!
         audit_log = Audited::Audit.find_by(auditable: inbox_member, action: 'destroy')
         expect(audit_log).to be_present
         expect(audit_log.audited_changes['inbox_id']).to eq(inbox.id)

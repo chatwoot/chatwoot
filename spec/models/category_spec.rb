@@ -23,7 +23,7 @@ RSpec.describe Category do
     it 'returns erros when locale is not allowed in the portal' do
       category = create(:category, slug: 'category_1', locale: 'en', portal_id: portal.id)
       expect(category).to be_valid
-      category.update(locale: 'es')
+      expect(category.update(locale: 'es')).to be(false)
       expect(category.errors.full_messages[0]).to eq("Locale es of category is not part of portal's [\"en\"].")
     end
   end

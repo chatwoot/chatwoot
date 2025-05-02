@@ -29,7 +29,7 @@ class Api::V1::ProfilesController < Api::BaseController
   end
 
   def set_active_account
-    @user.account_users.find_by(account_id: profile_params[:account_id]).update(active_at: Time.now.utc)
+    @user.account_users.find_by(account_id: profile_params[:account_id]).update!(active_at: Time.now.utc)
     head :ok
   end
 

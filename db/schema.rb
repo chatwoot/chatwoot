@@ -471,6 +471,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_16_182131) do
     t.datetime "updated_at", null: false
     t.jsonb "message_templates", default: {}
     t.datetime "message_templates_last_updated", precision: nil
+    t.jsonb "provider_connection", default: {}
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
   end
 
@@ -1055,6 +1056,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_16_182131) do
     t.datetime "updated_at", null: false
     t.integer "webhook_type", default: 0
     t.jsonb "subscriptions", default: ["conversation_status_changed", "conversation_updated", "conversation_created", "contact_created", "contact_updated", "message_created", "message_updated", "webwidget_triggered"]
+    t.string "name"
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
   end
 

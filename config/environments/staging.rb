@@ -50,7 +50,8 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "chatwoot_#{Rails.env}"
 
-  Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
+  host = ENV['FRONTEND_URL_EXTERNAL'].presence || ENV['FRONTEND_URL']
+  Rails.application.routes.default_url_options = { host: host }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
