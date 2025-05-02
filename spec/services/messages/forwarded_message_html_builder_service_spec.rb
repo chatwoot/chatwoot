@@ -106,7 +106,7 @@ RSpec.describe Messages::ForwardedMessageHtmlBuilderService do
     it 'falls back to message content when no email data is available' do
       allow(forwarded_message).to receive(:content).and_return('Message content')
 
-      result = empty_builder.forwarded_body_html
+      empty_builder.forwarded_body_html
 
       expect(Messages::ForwardedMessageFormatterService).to receive(:convert_markdown_to_html).with('Message content')
       empty_builder.forwarded_body_html
