@@ -102,6 +102,5 @@ Rails.application.configure do
   # :sendgrid for Sendgrid
   config.action_mailbox.ingress = ENV.fetch('RAILS_INBOUND_EMAIL_SERVICE', 'relay').to_sym
 
-  host = ENV['FRONTEND_URL_EXTERNAL'].presence || ENV['FRONTEND_URL']
-  Rails.application.routes.default_url_options = { host: host }
+  Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
 end
