@@ -86,7 +86,7 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
     }
   end
 
-  def attachment_message_content
+  def attachment_message_content # rubocop:disable Metrics/MethodLength
     attachment = @message.attachments.first
     buffer = Base64.strict_encode64(attachment.file.download)
 
@@ -99,6 +99,7 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
       content[:image] = buffer
     when 'audio'
       content[:audio] = buffer
+      content[:ptt] = attachment.meta['is_recorded_audio']
     when 'file'
       content[:document] = buffer
     when 'sticker'

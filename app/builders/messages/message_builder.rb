@@ -9,6 +9,7 @@ class Messages::MessageBuilder
     @user = user
     @message_type = params[:message_type] || 'outgoing'
     @attachments = params[:attachments]
+    @is_recorded_audio = params[:is_recorded_audio]
     @automation_rule = content_attributes&.dig(:automation_rule_id)
     return unless params.instance_of?(ActionController::Parameters)
 
@@ -67,7 +68,7 @@ class Messages::MessageBuilder
         account_id: @message.account_id,
         file: uploaded_attachment
       )
-
+      attachment.meta = process_metadata(uploaded_attachment)
       attachment.file_type = if uploaded_attachment.is_a?(String)
                                file_type_by_signed_id(
                                  uploaded_attachment
@@ -76,6 +77,10 @@ class Messages::MessageBuilder
                                file_type(uploaded_attachment&.content_type)
                              end
     end
+  end
+
+  def process_metadata(attachment)
+    { is_recorded_audio: true } if @is_recorded_audio && attachment.original_filename.in?(@is_recorded_audio)
   end
 
   def process_emails

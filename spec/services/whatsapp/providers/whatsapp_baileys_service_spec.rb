@@ -92,6 +92,8 @@ describe Whatsapp::Providers::WhatsappBaileysService do
   end
 
   describe '#send_message' do
+    let(:request_path) { "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/send-message" }
+
     context 'when message does not have content nor attachments' do
       it 'updates the message with content attribute is_unsupported' do
         message.update!(content: nil)
@@ -107,7 +109,7 @@ describe Whatsapp::Providers::WhatsappBaileysService do
       let(:base64_image) { 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=' }
 
       before do
-        message.attachments.new(
+        message.attachments.create!(
           account_id: message.account_id,
           file_type: 'image',
           file: {
@@ -115,11 +117,10 @@ describe Whatsapp::Providers::WhatsappBaileysService do
             filename: 'image.png'
           }
         )
-        message.save!
       end
 
       it 'sends the attachment message' do
-        stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/send-message")
+        stub_request(:post, request_path)
           .with(
             headers: stub_headers(whatsapp_channel),
             body: {
@@ -140,7 +141,7 @@ describe Whatsapp::Providers::WhatsappBaileysService do
 
       it 'omits caption if message content is empty' do
         message.update!(content: nil)
-        stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/send-message")
+        stub_request(:post, request_path)
           .with(
             headers: stub_headers(whatsapp_channel),
             body: {
@@ -158,26 +159,31 @@ describe Whatsapp::Providers::WhatsappBaileysService do
 
         expect(result).to eq('msg_123')
       end
-
-      context 'when request is unsuccessful' do
-        it 'raises MessageNotSentError' do
-          stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/send-message")
-            .to_return(
-              status: 400,
-              headers: { 'Content-Type' => 'application/json' },
-              body: { 'data' => { 'key' => { 'id' => 'msg_123' } } }.to_json
-            )
-
-          expect do
-            service.send_message(test_send_phone_number, message)
-          end.to raise_error(Whatsapp::Providers::WhatsappBaileysService::MessageNotSentError)
-        end
-      end
     end
 
-    context 'when message is a text' do
-      it 'sends the message' do
-        stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/send-message")
+    context 'when message is an audio file' do
+      let(:base64_audio) { 'UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=' }
+
+      before do
+        message.attachments.create!(
+          account_id: message.account_id,
+          file_type: 'audio',
+          file: {
+            io: StringIO.new(Base64.decode64(base64_audio)),
+            filename: 'audio.wav'
+          }
+        )
+      end
+
+      it 'sends the audio message' do
+        stub_request(:post, request_path)
+          .with(
+            headers: stub_headers(whatsapp_channel),
+            body: {
+              jid: test_send_jid,
+              messageContent: { fileName: 'audio.wav', caption: message.content, audio: base64_audio }
+            }.to_json
+          )
           .to_return(
             status: 200,
             headers: { 'Content-Type' => 'application/json' },
@@ -189,17 +195,41 @@ describe Whatsapp::Providers::WhatsappBaileysService do
         expect(result).to eq('msg_123')
       end
 
-      it 'raises MessageNotSentError' do
-        stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/send-message")
+      it 'sends message with ptt true if message is recorded audio' do
+        message.attachments.first.update!(meta: { is_recorded_audio: true })
+
+        stub_request(:post, request_path)
+          .with(
+            headers: stub_headers(whatsapp_channel),
+            body: {
+              jid: test_send_jid,
+              messageContent: { fileName: 'audio.wav', caption: message.content, audio: base64_audio, ptt: true }
+            }.to_json
+          )
           .to_return(
-            status: 400,
+            status: 200,
             headers: { 'Content-Type' => 'application/json' },
             body: { 'data' => { 'key' => { 'id' => 'msg_123' } } }.to_json
           )
 
-        expect do
-          service.send_message(test_send_phone_number, message)
-        end.to raise_error(Whatsapp::Providers::WhatsappBaileysService::MessageNotSentError)
+        result = service.send_message(test_send_phone_number, message)
+
+        expect(result).to eq('msg_123')
+      end
+    end
+
+    context 'when message is a text' do
+      it 'sends the message' do
+        stub_request(:post, request_path)
+          .to_return(
+            status: 200,
+            headers: { 'Content-Type' => 'application/json' },
+            body: { 'data' => { 'key' => { 'id' => 'msg_123' } } }.to_json
+          )
+
+        result = service.send_message(test_send_phone_number, message)
+
+        expect(result).to eq('msg_123')
       end
     end
 
@@ -216,7 +246,7 @@ describe Whatsapp::Providers::WhatsappBaileysService do
         message = create(:message, inbox: inbox, conversation: conversation, sender: account_user, message_type: 'outgoing', source_id: 'msg_123')
         reaction = create(:message, inbox: inbox, conversation: conversation, sender: account_user, content: '👍',
                                     content_attributes: { is_reaction: true, in_reply_to: message.id })
-        stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/send-message")
+        stub_request(:post, request_path)
           .with(
             headers: stub_headers(whatsapp_channel),
             body: {
@@ -242,7 +272,7 @@ describe Whatsapp::Providers::WhatsappBaileysService do
         message = create(:message, inbox: inbox, conversation: conversation, sender: contact, source_id: 'msg_123')
         reaction = create(:message, inbox: inbox, conversation: conversation, sender: account_user, content: '👍',
                                     content_attributes: { is_reaction: true, in_reply_to: message.id })
-        stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/send-message")
+        stub_request(:post, request_path)
           .with(
             headers: stub_headers(whatsapp_channel),
             body: {
@@ -262,6 +292,21 @@ describe Whatsapp::Providers::WhatsappBaileysService do
         result = service.send_message(test_send_phone_number, reaction)
 
         expect(result).to eq('reaction_123')
+      end
+    end
+
+    context 'when request is unsuccessful' do
+      it 'raises MessageNotSentError' do
+        stub_request(:post, request_path)
+          .to_return(
+            status: 400,
+            headers: { 'Content-Type' => 'application/json' },
+            body: { 'data' => { 'key' => { 'id' => 'msg_123' } } }.to_json
+          )
+
+        expect do
+          service.send_message(test_send_phone_number, message)
+        end.to raise_error(Whatsapp::Providers::WhatsappBaileysService::MessageNotSentError)
       end
     end
   end

@@ -1012,11 +1012,17 @@ export default {
 
       if (this.attachedFiles && this.attachedFiles.length) {
         messagePayload.files = [];
+        messagePayload.isRecordedAudio = [];
         this.attachedFiles.forEach(attachment => {
           if (this.globalConfig.directUploadsEnabled) {
             messagePayload.files.push(attachment.blobSignedId);
           } else {
             messagePayload.files.push(attachment.resource.file);
+            if (attachment.isRecordedAudio) {
+              messagePayload.isRecordedAudio.push(
+                attachment.resource.file.name
+              );
+            }
           }
         });
       }
