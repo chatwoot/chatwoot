@@ -40,7 +40,7 @@ const menuItems = computed(() => {
           v-for="item in menuItems"
           :key="item.value"
           class="!items-start !gap-1 flex-col cursor-pointer"
-          @click="() => emit('openForward')"
+          @click="event => emit('openForward', event)"
         >
           <template #label>
             <div class="items-start flex gap-1 flex-col">

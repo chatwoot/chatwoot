@@ -1,7 +1,15 @@
 <script setup>
-import { computed, useTemplateRef, ref, onMounted } from 'vue';
+import {
+  computed,
+  useTemplateRef,
+  ref,
+  onMounted,
+  onUnmounted,
+  reactive,
+} from 'vue';
 import { Letter } from 'vue-letter';
 import { allowedCssProperties } from 'lettersanitizer';
+import { useScrollLock } from '@vueuse/core';
 
 import Icon from 'next/icon/Icon.vue';
 import MessageMenu from 'dashboard/components-next/message/MessageMenu.vue';
@@ -26,9 +34,13 @@ const { inbox } = useInbox();
 const isExpandable = ref(false);
 const isExpanded = ref(false);
 const showQuotedMessage = ref(false);
-const showForwardMessageModal = ref(false);
 const renderOriginal = ref(false);
 const contentContainer = useTemplateRef('contentContainer');
+
+// Forward form
+const showForwardMessageModal = ref(false);
+const forwardFormPosition = reactive({ top: 0, right: 0 });
+const conversationPanelScrollLock = ref(null);
 
 onMounted(() => {
   isExpandable.value = contentContainer.value?.scrollHeight > 400;
@@ -104,6 +116,32 @@ const translationKeySuffix = computed(() => {
 const handleSeeOriginal = () => {
   renderOriginal.value = !renderOriginal.value;
 };
+
+const closeForwardModal = () => {
+  showForwardMessageModal.value = false;
+  if (conversationPanelScrollLock.value)
+    conversationPanelScrollLock.value.value = false;
+};
+
+const openForwardModal = event => {
+  // Lock conversation panel scroll
+  // To prevent the conversation from scrolling when the forward form is opened
+  const panel = document.querySelector('.conversation-panel');
+  if (panel) conversationPanelScrollLock.value = useScrollLock(panel, true);
+  // Set position from event
+  if (event?.target) {
+    const buttonRect = event.target.getBoundingClientRect();
+    forwardFormPosition.top = buttonRect.top - 9;
+    forwardFormPosition.right = window.innerWidth - buttonRect.right - 9;
+  }
+
+  showForwardMessageModal.value = true;
+};
+
+onUnmounted(() => {
+  if (conversationPanelScrollLock.value)
+    conversationPanelScrollLock.value.value = false;
+});
 </script>
 
 <template>
@@ -127,17 +165,23 @@ const handleSeeOriginal = () => {
           v-if="showMessageMenu"
           class="flex gap-2 skip-context-menu flex-shrink-0 items-center relative"
         >
-          <MessageMenu @open-forward="showForwardMessageModal = true" />
-          <ForwardMessageForm
-            v-if="showForwardMessageModal"
-            :message="contentAttributes?.email"
-            :content="content"
-            :inbox="inbox"
-            :attachments="attachments"
-            :message-id="id"
-            class="absolute right-3 z-50 skip-context-menu top-10"
-            @close="showForwardMessageModal = false"
-          />
+          <MessageMenu @open-forward="openForwardModal" />
+          <Teleport to="body">
+            <ForwardMessageForm
+              v-if="showForwardMessageModal"
+              :message="contentAttributes?.email"
+              :content="content"
+              :inbox="inbox"
+              :attachments="attachments"
+              :message-id="id"
+              class="fixed z-50 skip-context-menu"
+              :style="{
+                top: `${forwardFormPosition.top}px`,
+                right: `${forwardFormPosition.right}px`,
+              }"
+              @close="closeForwardModal"
+            />
+          </Teleport>
         </div>
       </EmailMeta>
     </div>
