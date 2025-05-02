@@ -485,7 +485,8 @@ provideMessageContext({
       <div
         class="[grid-area:bubble] flex"
         :class="{
-          'ltr:pl-9 rtl:pr-9 justify-end': orientation === ORIENTATION.RIGHT,
+          'ltr:pl-8 rtl:pr-8 justify-end': orientation === ORIENTATION.RIGHT,
+          'ltr:pr-8 rtl:pl-8': orientation === ORIENTATION.LEFT,
           'min-w-0': variant === MESSAGE_VARIANTS.EMAIL,
         }"
         @contextmenu="openContextMenu($event)"
