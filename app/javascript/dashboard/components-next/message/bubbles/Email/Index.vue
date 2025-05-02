@@ -36,6 +36,7 @@ const isExpanded = ref(false);
 const showQuotedMessage = ref(false);
 const renderOriginal = ref(false);
 const contentContainer = useTemplateRef('contentContainer');
+const emailMeta = useTemplateRef('emailMeta');
 
 // Forward form
 const showForwardMessageModal = ref(false);
@@ -54,6 +55,8 @@ const isForwarded = computed(() => contentAttributes.value?.forwardedMessageId);
 const showMessageMenu = computed(
   () => ![MESSAGE_STATUS.FAILED, MESSAGE_STATUS.PROGRESS].includes(status.value)
 );
+
+const showMeta = computed(() => emailMeta.value?.showMeta);
 
 const { hasTranslations, translationContent } =
   useTranslations(contentAttributes);
@@ -154,13 +157,14 @@ onUnmounted(() => {
     data-bubble-name="email"
   >
     <div
+      v-show="showMeta"
       class="p-3"
       :class="{
         'border-b border-n-strong': isIncoming,
         'border-b border-n-slate-8/20': isOutgoing,
       }"
     >
-      <EmailMeta class="w-full flex justify-end items-start">
+      <EmailMeta ref="emailMeta" class="w-full flex justify-end items-start">
         <div
           v-if="showMessageMenu"
           class="flex gap-2 skip-context-menu flex-shrink-0 items-center relative"

@@ -62,6 +62,10 @@ const showMeta = computed(() => {
     subject.value
   );
 });
+
+defineExpose({
+  showMeta,
+});
 </script>
 
 <template>
