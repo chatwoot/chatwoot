@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Internal::DeleteAccountsJob, type: :job do
+RSpec.describe Internal::DeleteAccountsJob do
   subject(:job) { described_class.perform_later }
 
   let!(:account_marked_for_deletion) { create(:account) }
