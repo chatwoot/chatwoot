@@ -387,7 +387,8 @@
         "LABEL": "Назва компанії",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Додати"
+      "SUBMIT": "Додати",
+      "CANCEL": "Скасувати"
     }
   },
   "KEYBOARD_SHORTCUTS": {

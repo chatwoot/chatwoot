@@ -2,7 +2,7 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   before_action :current_account
   before_action -> { check_authorization(Captain::Assistant) }
 
-  before_action :set_assistant, only: [:show, :update, :destroy]
+  before_action :set_assistant, only: [:show, :update, :destroy, :playground]
 
   def index
     @assistants = account_assistants.ordered
@@ -23,6 +23,15 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
     head :no_content
   end
 
+  def playground
+    response = Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
+      params[:message_content],
+      message_history
+    )
+
+    render json: response
+  end
+
   private
 
   def set_assistant
@@ -34,6 +43,19 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def assistant_params
-    params.require(:assistant).permit(:name, :description, config: [:product_name, :feature_faq, :feature_memory])
+    params.require(:assistant).permit(:name, :description,
+                                      config: [
+                                        :product_name, :feature_faq, :feature_memory,
+                                        :welcome_message, :handoff_message, :resolution_message,
+                                        :instructions
+                                      ])
+  end
+
+  def playground_params
+    params.require(:assistant).permit(:message_content, message_history: [:role, :content])
+  end
+
+  def message_history
+    (playground_params[:message_history] || []).map { |message| { role: message[:role], content: message[:content] } }
   end
 end

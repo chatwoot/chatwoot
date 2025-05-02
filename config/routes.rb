@@ -53,6 +53,9 @@ Rails.application.routes.draw do
           end
           namespace :captain do
             resources :assistants do
+              member do
+                post :playground
+              end
               resources :inboxes, only: [:index, :create, :destroy], param: :inbox_id
             end
             resources :documents, only: [:index, :show, :create, :destroy]
@@ -98,7 +101,7 @@ Rails.application.routes.draw do
               post :filter
             end
             scope module: :conversations do
-              resources :messages, only: [:index, :create, :destroy] do
+              resources :messages, only: [:index, :create, :destroy, :update] do
                 member do
                   post :translate
                   post :retry
