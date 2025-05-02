@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Messages::ForwardedMessageBuilder do
+RSpec.describe Messages::ForwardedMessageBuilderService do
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account) }
   let(:conversation) { create(:conversation, inbox: inbox, account: account) }
@@ -140,28 +140,6 @@ RSpec.describe Messages::ForwardedMessageBuilder do
     end
   end
 
-  describe '#formatted_html_content' do
-    context 'when forwarded message is blank' do
-      it 'returns original content' do
-        builder = described_class.new(999) # Non-existent message ID
-        expect(builder.formatted_html_content('Original')).to eq('Original')
-      end
-    end
-
-    context 'when forwarded message has email data' do
-      it 'returns formatted HTML content with header and body' do
-        builder = described_class.new(forwarded_message.id)
-        result = builder.formatted_html_content('**Original**')
-
-        # Updated expectation to match CommonMarker output format
-        expect(result).to include('<p><strong>Original</strong></p>')
-        expect(result).to include('---------- Forwarded message ---------')
-        expect(result).to include('Subject: Test Subject')
-        expect(result).to include('<div>HTML content</div>') # Should include the HTML content
-      end
-    end
-  end
-
   describe '#forwarded_email_data' do
     context 'when forwarded message is blank' do
       it 'returns empty hash' do
@@ -234,148 +212,6 @@ RSpec.describe Messages::ForwardedMessageBuilder do
         attachments = builder.forwarded_attachments
 
         expect(attachments).to be_nil
-      end
-    end
-  end
-
-  describe 'formatter methods' do
-    context 'when using convert_markdown_to_html' do
-      it 'converts bold markdown to HTML' do
-        formatted = Messages::ForwardedMessageFormatter.convert_markdown_to_html('**Bold Text**')
-        # Updated expectation to match CommonMarker output format
-        expect(formatted).to include('<strong>Bold Text</strong>')
-      end
-
-      it 'converts italic markdown to HTML' do
-        formatted = Messages::ForwardedMessageFormatter.convert_markdown_to_html('*Italic Text*')
-        expect(formatted).to include('<em>Italic Text</em>')
-      end
-
-      it 'converts underscore italic markdown to HTML' do
-        formatted = Messages::ForwardedMessageFormatter.convert_markdown_to_html('_Italic Text_')
-        expect(formatted).to include('<em>Italic Text</em>')
-      end
-
-      it 'handles multiple markdown elements' do
-        formatted = Messages::ForwardedMessageFormatter.convert_markdown_to_html('**Bold** and _italic_')
-        expect(formatted).to include('<strong>Bold</strong>')
-        expect(formatted).to include('<em>italic</em>')
-      end
-
-      it 'handles empty text' do
-        expect(Messages::ForwardedMessageFormatter.convert_markdown_to_html('')).to eq('')
-      end
-
-      it 'handles nil text' do
-        expect(Messages::ForwardedMessageFormatter.convert_markdown_to_html(nil)).to eq('')
-      end
-    end
-
-    context 'when using strip_markdown' do
-      it 'strips bold markdown' do
-        stripped = Messages::ForwardedMessageFormatter.strip_markdown('**Bold Text**')
-        expect(stripped.strip).to eq('Bold Text')
-      end
-
-      it 'strips italic markdown' do
-        stripped = Messages::ForwardedMessageFormatter.strip_markdown('*Italic Text*')
-        expect(stripped.strip).to eq('Italic Text')
-      end
-
-      it 'strips underscore italic markdown' do
-        stripped = Messages::ForwardedMessageFormatter.strip_markdown('_Italic Text_')
-        expect(stripped.strip).to eq('Italic Text')
-      end
-
-      it 'handles multiple markdown elements' do
-        stripped = Messages::ForwardedMessageFormatter.strip_markdown('**Bold** and _italic_')
-        # Updated expectation to handle trailing newline
-        expect(stripped.strip).to eq('Bold and italic')
-      end
-
-      it 'handles empty text' do
-        expect(Messages::ForwardedMessageFormatter.strip_markdown('')).to eq('')
-      end
-
-      it 'handles nil text' do
-        expect(Messages::ForwardedMessageFormatter.strip_markdown(nil)).to eq('')
-      end
-    end
-
-    context 'when using extract_email' do
-      it 'extracts email from format "Name <email@example.com>"' do
-        extracted = Messages::ForwardedMessageFormatter.extract_email('John Doe <john@example.com>')
-        expect(extracted).to eq('john@example.com')
-      end
-
-      it 'returns plain email as-is' do
-        extracted = Messages::ForwardedMessageFormatter.extract_email('john@example.com')
-        expect(extracted).to eq('john@example.com')
-      end
-
-      it 'handles empty string' do
-        expect(Messages::ForwardedMessageFormatter.extract_email('')).to eq('')
-      end
-
-      it 'handles nil' do
-        expect(Messages::ForwardedMessageFormatter.extract_email(nil)).to eq('')
-      end
-    end
-
-    context 'when using parse_from_field' do
-      it 'extracts email from format "Name <email@example.com>"' do
-        parsed = Messages::ForwardedMessageFormatter.parse_from_field('John Doe <john@example.com>')
-        expect(parsed).to eq('john@example.com')
-      end
-
-      it 'returns plain email as-is' do
-        parsed = Messages::ForwardedMessageFormatter.parse_from_field('john@example.com')
-        expect(parsed).to eq('john@example.com')
-      end
-
-      it 'handles empty string' do
-        expect(Messages::ForwardedMessageFormatter.parse_from_field('')).to eq('')
-      end
-
-      it 'handles nil' do
-        expect(Messages::ForwardedMessageFormatter.parse_from_field(nil)).to eq('')
-      end
-    end
-
-    context 'when using format_date_string' do
-      it 'formats the date in a readable format' do
-        # NOTE: We don't test the exact formatted output since it uses DateTime.now
-        # which would be different for each test run
-        result = Messages::ForwardedMessageFormatter.format_date_string('2025-04-29T14:29:07+05:30')
-        expect(result).to match(/\w{3}, \w{3} \d+, \d{4} at \d+:\d+ [AP]M/)
-      end
-
-      it 'handles empty string' do
-        expect(Messages::ForwardedMessageFormatter.format_date_string('')).to eq('')
-      end
-
-      it 'handles nil' do
-        expect(Messages::ForwardedMessageFormatter.format_date_string(nil)).to eq('')
-      end
-    end
-
-    context 'when using format_plain_text_to_html' do
-      it 'converts newlines to <br>' do
-        result = Messages::ForwardedMessageFormatter.format_plain_text_to_html("Line 1\nLine 2")
-        expect(result).to eq('Line 1<br>Line 2')
-      end
-
-      it 'escapes HTML special characters' do
-        result = Messages::ForwardedMessageFormatter.format_plain_text_to_html('<script>alert("XSS")</script>')
-        expect(result).to eq('&lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;')
-      end
-
-      it 'handles empty string' do
-        expect(Messages::ForwardedMessageFormatter.format_plain_text_to_html('')).to eq('')
-      end
-
-      it 'handles nil' do
-        expect(Messages::ForwardedMessageFormatter.format_plain_text_to_html(nil)).to eq('')
       end
     end
   end

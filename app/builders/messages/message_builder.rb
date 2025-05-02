@@ -25,7 +25,7 @@ class Messages::MessageBuilder
   private
 
   def process_forwarded_message
-    builder = Messages::ForwardedMessageBuilder.new(@forwarded_message_id, { to_emails: @params[:to_emails] })
+    builder = Messages::ForwardedMessageBuilderService.new(@forwarded_message_id, { to_emails: @params[:to_emails] })
     @forwarded_attributes = builder.perform
     @forwarded_message_attachments = builder.forwarded_attachments
 
