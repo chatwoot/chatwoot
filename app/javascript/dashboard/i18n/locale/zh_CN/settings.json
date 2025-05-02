@@ -387,7 +387,8 @@
         "LABEL": "公司名称",
         "PLACEHOLDER": "Wayne企业"
       },
-      "SUBMIT": "提交"
+      "SUBMIT": "提交",
+      "CANCEL": "取消"
     }
   },
   "KEYBOARD_SHORTCUTS": {

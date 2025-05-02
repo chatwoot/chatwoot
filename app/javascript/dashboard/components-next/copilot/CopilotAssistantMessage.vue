@@ -33,6 +33,8 @@ const insertIntoRichEditor = computed(() => {
   );
 });
 
+const hasEmptyMessageContent = computed(() => !props.message?.content);
+
 const useCopilotResponse = () => {
   if (insertIntoRichEditor.value) {
     emitter.emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, props.message?.content);
@@ -53,9 +55,17 @@ const useCopilotResponse = () => {
     />
     <div class="flex flex-col gap-1 text-n-slate-12">
       <div class="font-medium">{{ $t('CAPTAIN.NAME') }}</div>
-      <div v-dompurify-html="messageContent" class="prose-sm break-words" />
+      <span v-if="hasEmptyMessageContent" class="text-n-ruby-11">
+        {{ $t('CAPTAIN.COPILOT.EMPTY_MESSAGE') }}
+      </span>
+      <div
+        v-else
+        v-dompurify-html="messageContent"
+        class="prose-sm break-words"
+      />
       <div class="flex flex-row mt-1">
         <Button
+          v-if="!hasEmptyMessageContent"
           :label="$t('CAPTAIN.COPILOT.USE')"
           faded
           sm

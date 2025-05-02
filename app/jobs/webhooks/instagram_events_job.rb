@@ -24,6 +24,11 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   private
 
   def process_single_entry(entry)
+    if test_event?(entry)
+      process_test_event(entry)
+      return
+    end
+
     process_messages(entry)
   end
 
@@ -44,6 +49,20 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
 
   def agent_message_via_echo?(messaging)
     messaging[:message].present? && messaging[:message][:is_echo].present?
+  end
+
+  def test_event?(entry)
+    entry[:changes].present?
+  end
+
+  def process_test_event(entry)
+    messaging = extract_messaging_from_test_event(entry)
+
+    Instagram::TestEventService.new(messaging).perform if messaging.present?
+  end
+
+  def extract_messaging_from_test_event(entry)
+    entry[:changes].first&.dig(:value) if entry[:changes].present?
   end
 
   def instagram_id(messaging)
