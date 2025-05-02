@@ -119,7 +119,7 @@
       "DISPLAY_NAME": {
         "LABEL": "Display name",
         "PLACEHOLDER": "Enter the name you want to display your customers",
-        "ERROR": "Add a valid display name or leave it blank"
+        "ERROR": "Add a valid display name"
       },
       "PHONE_NUMBER": {
         "LABEL": "Phone number (Optional)",
