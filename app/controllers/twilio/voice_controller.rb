@@ -263,48 +263,110 @@ class Twilio::VoiceController < ActionController::Base
     from_number = params['From']
     to_number = params['To']
     direction = params['Direction']
-
+    
+    # Check if we have an explicit conference_name parameter - for outbound calls
+    # This is passed directly from the channel for outbound calls
+    conference_name_param = params['conference_name']
+    
     # Determine if outbound call
     is_outbound = direction == 'outbound-api'
 
-    response = Twilio::TwiML::VoiceResponse.new
-
-    # The signup follow-up message
-    response.say(message: 'Hello from Chatwoot. This is a courtesy call to check on your recent signup. We would love to hear any feedback or questions you might have about your experience so far. Please share your thoughts after the beep.')
-    response.pause(length: 1) # give a moment before the beep and recording
-
-    # Record their feedback after a beep, then let handle_recording hang up
-    response.record(
-      action: '/twilio/voice/handle_recording',
-      method: 'POST',
-      maxLength: 3600,
-      timeout: 30,
-      playBeep: true
-    )
-
-    # End the call
-    response.hangup
-
-    # If we have call details, log them for the conversation
+    # If we have call details, log them and create a conference
     if call_sid.present?
       # Find the inbox for this voice call
       inbox_number = is_outbound ? from_number : to_number
       inbox = find_inbox(inbox_number)
 
       if inbox.present?
-        # Create or find conversation
+        # Find or create conversation 
         contact_number = is_outbound ? to_number : from_number
         conversation = find_or_create_conversation(inbox, contact_number, call_sid)
-
+        
         # Add call activity message
         track_call_activity(conversation, 'in-progress', true, is_outbound)
+        
+        # IMPORTANT: Use the provided conference_name if available, otherwise create one
+        account_id = inbox.account_id
+        
+        if conference_name_param.present?
+          # Use the provided conference name
+          conference_name = conference_name_param
+          Rails.logger.info("🚨 USING PROVIDED CONFERENCE NAME: '#{conference_name}'")
+        else
+          # Create a new conference name
+          conference_name = "conf_account_#{account_id}_conv_#{conversation.display_id}"
+          Rails.logger.info("🚨 CREATED NEW CONFERENCE NAME: '#{conference_name}'")
+        end
+        
+        # Store the conference name in the conversation for the agent to join
+        conversation.additional_attributes ||= {}
+        conversation.additional_attributes['conference_sid'] = conference_name
+        conversation.additional_attributes['call_direction'] = 'outbound'
+        conversation.additional_attributes['requires_agent_join'] = true
+        
+        # Log this critical information
+        Rails.logger.info("🚨🚨🚨 OUTBOUND CALL: Setting conference_sid=#{conference_name} and requires_agent_join=true")
+        
+        # Save the conversation
+        conversation.save!
+        
+        # Log the conference creation
+        Rails.logger.info("🎧🎧🎧 OUTBOUND CALL: Created conference: #{conference_name} for account: #{account_id}, conversation: #{conversation.display_id}")
+
+        # Generate TwiML that connects the caller to a conference
+        response = Twilio::TwiML::VoiceResponse.new
+        
+        # Simple greeting
+        response.say(message: 'Please wait while we connect you to an agent')
+        
+        # Connect to conference - CRITICAL: Make parameters match the agent side in voice_controller.rb
+        response.dial do |dial|
+          dial.conference(
+            conference_name,
+            startConferenceOnEnter: false,     # Caller waits for agent
+            endConferenceOnExit: true,         # End when agent leaves
+            beep: false,                       # No beep sounds
+            muted: false,                      # Caller can speak
+            waitUrl: '',                       # No hold music
+            earlyMedia: true,                  # Enable early media for faster connection - ADDED THIS PARAMETER
+            statusCallback: "#{base_url}/api/v1/accounts/#{account_id}/channels/voice/webhooks/conference_status", 
+            statusCallbackMethod: 'POST',
+            statusCallbackEvent: 'start end join leave',
+            participantLabel: "caller-#{call_sid.last(8)}"
+          )
+        end
+        
+        render xml: response.to_s, status: :ok
+        return
       end
     end
 
+    # Fallback to simple TwiML if we couldn't set up a conference
+    response = Twilio::TwiML::VoiceResponse.new
+    response.say(message: 'Hello from Chatwoot. This is a courtesy call to check on your recent signup.')
+    response.pause(length: 1)
+    response.say(message: 'We will connect you with an agent shortly.')
+    response.hangup
+    
     render xml: response.to_s, status: :ok
   end
 
   private
+
+  # Helper method to get base URL with extra resilience
+  def base_url
+    # Use FRONTEND_URL env variable as the most reliable source for outbound calls
+    frontend_url = ENV.fetch('FRONTEND_URL', nil)
+    return frontend_url.chomp('/') if frontend_url.present?
+    
+    # Fallback to request.base_url if available
+    if defined?(request) && request&.respond_to?(:base_url) && request.base_url.present?
+      return request.base_url
+    end
+    
+    # Last resort fallback
+    'http://localhost:3000'
+  end
 
   def find_inbox(phone_number)
     Inbox.joins('INNER JOIN channel_voice ON channel_voice.account_id = inboxes.account_id AND inboxes.channel_id = channel_voice.id')
@@ -317,7 +379,19 @@ class Twilio::VoiceController < ActionController::Base
 
     # Reuse if existing conversation for this call SID
     existing = account.conversations.where("additional_attributes->>'call_sid' = ?", call_sid).first
-    return existing if existing
+    
+    # If we found an existing conversation, check if it has a conference_sid
+    if existing
+      # For outbound calls, we need to ensure it has a conference_sid
+      if existing.additional_attributes['conference_sid'].blank?
+        # Create a conference name in the same format as inbound calls
+        conference_name = "conf_account_#{account.id}_conv_#{existing.display_id}"
+        existing.additional_attributes['conference_sid'] = conference_name
+        existing.save!
+        Rails.logger.info("🎧🎧🎧 ADDED CONFERENCE_SID to existing conversation: #{conference_name}")
+      end
+      return existing
+    end
 
     # Ensure contact and inbox
     contact = account.contacts.find_or_create_by(phone_number: phone_number) do |c|
@@ -329,8 +403,18 @@ class Twilio::VoiceController < ActionController::Base
 
     # Create new conversation for this call
     convo = account.conversations.create!(contact_inbox_id: contact_inbox.id, inbox_id: inbox.id, status: :open)
-    convo.additional_attributes = { 'call_sid' => call_sid, 'call_status' => 'in-progress' }
+    
+    # Create a conference name using the same format for consistency
+    conference_name = "conf_account_#{account.id}_conv_#{convo.display_id}"
+    
+    convo.additional_attributes = { 
+      'call_sid' => call_sid, 
+      'call_status' => 'in-progress',
+      'conference_sid' => conference_name
+    }
     convo.save!
+    
+    Rails.logger.info("🎧🎧🎧 Created new conversation with conference_sid: #{conference_name}")
     convo
   end
 

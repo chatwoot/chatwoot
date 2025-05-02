@@ -91,8 +91,14 @@ Rails.application.routes.draw do
           namespace :channels do
             resource :twilio_channel, only: [:create]
             namespace :voice do
-              post 'webhooks/incoming', to: 'webhooks#incoming'
-              post 'webhooks/conference_status', to: 'webhooks#conference_status'
+              # Voice webhooks using resource scope to avoid plural/singular confusion
+              resource :webhooks, only: [], controller: 'webhooks' do
+                collection do
+                  post :incoming
+                  match :conference_status, via: [:post, :options]  # Allow both POST and OPTIONS
+                  match :incoming, via: [:post, :options]           # Allow both POST and OPTIONS
+                end
+              end
             end
           end
           resources :conversations, only: [:index, :create, :show, :update] do
@@ -182,11 +188,22 @@ Rails.application.routes.draw do
             delete :avatar, on: :member
           end
 
-          # Voice call management
-          post 'voice/end_call', to: 'voice#end_call'
-          post 'voice/join_call', to: 'voice#join_call'
-          post 'voice/reject_call', to: 'voice#reject_call'
-          get 'voice/call_status', to: 'voice#call_status'
+          # Voice call management - using resource to avoid plural/singular confusion
+          resource :voice, only: [], controller: 'voice' do
+            member do
+              post :end_call
+              post :join_call
+              post :reject_call
+              get :call_status
+              # Explicitly set the format for TwiML to ensure proper Content-Type headers
+              match :twiml_for_client, via: [:get, :post, :options], defaults: { format: :xml } # Allow GET, POST, and OPTIONS
+            end
+          end
+          
+          # Voice call client SDK support
+          namespace :voice do
+            resources :tokens, only: [:create]
+          end
           resources :inbox_members, only: [:create, :show], param: :inbox_id do
             collection do
               delete :destroy
@@ -490,15 +507,19 @@ Rails.application.routes.draw do
     resources :callback, only: [:create]
     resources :delivery_status, only: [:create]
 
-    # Define controller explicitly to avoid the plural/singular confusion
-    get 'voice/twiml', to: 'voice#twiml'
-    post 'voice/twiml', to: 'voice#twiml'
-    get 'voice/simple', to: 'voice#simple_twiml'
-    post 'voice/simple', to: 'voice#simple_twiml'
-    post 'voice/handle_recording', to: 'voice#handle_recording'
-    post 'voice/handle_user_input', to: 'voice#handle_user_input'
-    post 'voice/transcription_callback', to: 'voice#transcription_callback'
-    post 'voice/status_callback', to: 'voice#status_callback'
+    # Use resource scope to avoid plural/singular confusion
+    resource :voice, only: [], controller: 'voice' do
+      collection do
+        get :twiml
+        post :twiml
+        get :simple, action: :simple_twiml
+        post :simple, action: :simple_twiml
+        post :handle_recording
+        post :handle_user_input
+        post :transcription_callback
+        post :status_callback
+      end
+    end
   end
 
   get 'microsoft/callback', to: 'microsoft/callbacks#show'

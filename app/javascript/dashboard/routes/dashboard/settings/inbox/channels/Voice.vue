@@ -26,6 +26,9 @@ export default {
       phoneNumber: '',
       accountSid: '',
       authToken: '',
+      apiKeySid: '',
+      apiKeySecret: '',
+      twimlAppSid: '',
       providerOptions: [
         { value: 'twilio', label: 'Twilio' },
         // Add more providers as needed
@@ -50,6 +53,16 @@ export default {
       authToken: {
         required: this.provider === 'twilio',
       },
+      apiKeySid: {
+        required: this.provider === 'twilio',
+      },
+      apiKeySecret: {
+        required: this.provider === 'twilio',
+      },
+      // TwiML App SID is not required, but if provided it must follow Twilio's format
+      twimlAppSid: {
+        // Optional - will not be required
+      },
     };
   },
   methods: {
@@ -59,10 +72,19 @@ export default {
     },
     getProviderConfig() {
       if (this.provider === 'twilio') {
-        return {
+        const config = {
           account_sid: this.accountSid,
           auth_token: this.authToken,
+          api_key_sid: this.apiKeySid,
+          api_key_secret: this.apiKeySecret,
         };
+        
+        // Add the TwiML App SID if provided
+        if (this.twimlAppSid) {
+          config.outgoing_application_sid = this.twimlAppSid;
+        }
+        
+        return config;
       }
       // Add handler for other providers here
       return {};
@@ -183,6 +205,59 @@ export default {
             />
             <span v-if="v$.authToken.$error" class="message">
               {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.REQUIRED') }}
+            </span>
+          </label>
+        </div>
+
+        <div class="flex-shrink-0 flex-grow-0">
+          <label :class="{ error: v$.apiKeySid.$error }">
+            {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.LABEL', 'API Key SID') }}
+            <input
+              v-model.trim="apiKeySid"
+              type="text"
+              :placeholder="
+                $t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.PLACEHOLDER', 'Enter your Twilio API Key SID')
+              "
+              @blur="v$.apiKeySid.$touch"
+            />
+            <span v-if="v$.apiKeySid.$error" class="message">
+              {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.REQUIRED', 'API Key SID is required') }}
+            </span>
+            <span class="help-text">
+              {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.HELP', 'You can create API keys in the Twilio Console') }}
+            </span>
+          </label>
+        </div>
+
+        <div class="flex-shrink-0 flex-grow-0">
+          <label :class="{ error: v$.apiKeySecret.$error }">
+            {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SECRET.LABEL', 'API Key Secret') }}
+            <input
+              v-model.trim="apiKeySecret"
+              type="text"
+              :placeholder="
+                $t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SECRET.PLACEHOLDER', 'Enter your Twilio API Key Secret')
+              "
+              @blur="v$.apiKeySecret.$touch"
+            />
+            <span v-if="v$.apiKeySecret.$error" class="message">
+              {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SECRET.REQUIRED', 'API Key Secret is required') }}
+            </span>
+          </label>
+        </div>
+        
+        <div class="flex-shrink-0 flex-grow-0">
+          <label>
+            {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.TWIML_APP_SID.LABEL', 'TwiML App SID (Recommended)') }}
+            <input
+              v-model.trim="twimlAppSid"
+              type="text"
+              :placeholder="
+                $t('INBOX_MGMT.ADD.VOICE.TWILIO.TWIML_APP_SID.PLACEHOLDER', 'Enter your Twilio TwiML App SID (starts with AP)')
+              "
+            />
+            <span class="help-text">
+              {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.TWIML_APP_SID.HELP', 'Required for browser-based calling. Create a TwiML App in the Twilio Console with Voice URLs pointing to your Chatwoot instance.') }}
             </span>
           </label>
         </div>

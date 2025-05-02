@@ -205,7 +205,14 @@ class ActionCableConnector extends BaseActionCableConnector {
       inboxName: data.inbox_name,
       contactName: data.contact_name,
       contactId: data.contact_id,
+      accountId: data.account_id,
+      isOutbound: data.is_outbound || false, // Check if this is an outbound call requiring agent join
+      conference_sid: data.conference_sid, // Pass the conference_sid directly to the floating widget
+      requiresAgentJoin: data.requires_agent_join || false, // Flag for calls needing immediate agent join
+      callDirection: data.call_direction // Add call direction for additional context
     };
+    
+    // Process outbound calls
     
     // Update store
     this.app.$store.dispatch('calls/setIncomingCall', normalizedPayload);
@@ -214,6 +221,8 @@ class ActionCableConnector extends BaseActionCableConnector {
     if (window.app && window.app.$data) {
       window.app.$data.showCallWidget = true;
     }
+    
+    // For outbound calls, we don't need to play a ringtone as we're initiating the call
   };
 
   onCallStatusChanged = data => {
@@ -222,6 +231,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       callSid: data.call_sid,
       status: data.status,
       conversationId: data.conversation_id,
+      inboxId: data.inbox_id,
     };
     
     // Update store

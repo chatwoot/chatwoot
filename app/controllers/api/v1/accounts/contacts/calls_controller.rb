@@ -20,8 +20,19 @@ class Api::V1::Accounts::Contacts::CallsController < Api::V1::Accounts::BaseCont
       # Create a new conversation for this call
       conversation = find_or_create_conversation(voice_inbox)
       
+      # CRITICAL: Create a conference name FIRST to ensure consistency
+      conference_name = "conf_account_#{Current.account.id}_conv_#{conversation.display_id}"
+      
+      # Create conference for outbound call
+      
       # Initiate the call using the channel's implementation - this returns the call details
-      call_details = voice_inbox.channel.initiate_call(to: @contact.phone_number)
+      call_details = voice_inbox.channel.initiate_call(
+        to: @contact.phone_number, 
+        conference_name: conference_name
+      )
+      
+      # Add the conference name to the call details
+      call_details[:conference_sid] = conference_name
       
       # Create a message for this call with call details
       params = {
@@ -35,8 +46,42 @@ class Api::V1::Accounts::Contacts::CallsController < Api::V1::Accounts::BaseCont
       
       # Make sure the conversation has the latest activity timestamp
       conversation.update(last_activity_at: Time.current)
-      # Store call SID and status for front-end
-      conversation.update!(additional_attributes: (conversation.additional_attributes || {}).merge(call_details))
+      
+      # Add the conference_sid to the conversation's additional_attributes
+      # Ensure we don't lose other attributes that might already be set
+      updated_attributes = (conversation.additional_attributes || {}).merge(call_details)
+      
+      # CRITICAL: Add additional attributes needed for immediate agent join notification
+      updated_attributes[:call_status] = 'in-progress'
+      updated_attributes[:requires_agent_join] = true
+      
+      # Now update the conversation with all the attributes
+      conversation.update!(additional_attributes: updated_attributes)
+      
+      # Conference created successfully
+      
+      # DIRECT AGENT NOTIFICATION: Immediately broadcast to ActionCable that agent needs to join
+      # This bypasses any queueing and directly tells the frontend a call needs agent
+      ActionCable.server.broadcast(
+        "account_#{Current.account.id}",
+        {
+          event: 'incoming_call',
+          data: {
+            call_sid: call_details[:call_sid],
+            conversation_id: conversation.id,
+            inbox_id: voice_inbox.id,
+            inbox_name: voice_inbox.name,
+            contact_name: @contact.name || @contact.phone_number,
+            contact_id: @contact.id,
+            account_id: Current.account.id,
+            is_outbound: true,
+            conference_sid: conference_name,
+            requires_agent_join: true,
+            # Send additional information to help with debugging
+            call_direction: 'outbound'
+          }
+        }
+      )
       
       # Broadcast the conversation and message to the appropriate ActionCable channels
       ActionCableBroadcastJob.perform_later(

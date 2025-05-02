@@ -205,6 +205,7 @@ export default {
           inboxName: inbox?.name || 'Primary',
           conversationId: conversation.id,
           contactId: this.contact.id,
+          inboxId: conversation.inbox_id,
         });
 
         // Set App's showCallWidget to true

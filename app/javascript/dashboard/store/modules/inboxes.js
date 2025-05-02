@@ -215,7 +215,7 @@ export const actions = {
       const inboxParams = {
         name: params.voice.name || `Voice (${params.voice.phone_number})`,
         channel: {
-          type: 'Channel::Voice',
+          type: 'voice',
           phone_number: params.voice.phone_number,
           provider: params.voice.provider,
           provider_config: params.voice.provider_config,

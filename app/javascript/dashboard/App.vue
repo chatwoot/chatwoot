@@ -100,6 +100,8 @@ export default {
         if (newVal) {
           console.log('Incoming call data:', this.incomingCall);
           this.showCallWidget = true;
+        } else {
+          this.showCallWidget = false;
         }
       }
     },
@@ -110,6 +112,8 @@ export default {
         if (newVal) {
           console.log('Active call data:', this.activeCall);
           this.showCallWidget = true;
+        } else {
+          this.showCallWidget = false;
         }
       }
     },
@@ -244,6 +248,8 @@ export default {
       :conversation-id="activeCall ? activeCall.conversationId : (incomingCall ? incomingCall.conversationId : null)"
       :contact-name="activeCall ? activeCall.contactName : (incomingCall ? incomingCall.contactName : '')"
       :contact-id="activeCall ? activeCall.contactId : (incomingCall ? incomingCall.contactId : null)"
+      :inbox-id="activeCall ? activeCall.inboxId : (incomingCall ? incomingCall.inboxId : null)"
+      :use-web-rtc="true"
       @callEnded="handleCallEnded"
       @callJoined="handleCallJoined"
       @callRejected="handleCallRejected"

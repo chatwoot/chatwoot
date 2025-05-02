@@ -16,10 +16,10 @@ class Channel::Voice < ApplicationRecord
     "#{provider.capitalize} Voice"
   end
 
-  def initiate_call(to:)
+  def initiate_call(to:, conference_name: nil)
     case provider
     when 'twilio'
-      initiate_twilio_call(to)
+      initiate_twilio_call(to, conference_name)
     # Add more providers as needed
     # when 'other_provider'
     #   initiate_other_provider_call(to)
@@ -30,14 +30,22 @@ class Channel::Voice < ApplicationRecord
 
   private
 
-  def initiate_twilio_call(to)
+  def initiate_twilio_call(to, conference_name = nil)
     config = provider_config_hash
 
-    # Generate a full URL for Twilio to request TwiML
-    host = ENV.fetch('FRONTEND_URL', 'http://localhost:3000')
+    # Generate a public URL for Twilio to request TwiML (must set FRONTEND_URL)
+    host = ENV.fetch('FRONTEND_URL')
 
     # Use the simplest possible TwiML endpoint
     callback_url = "#{host}/twilio/voice/simple"
+    
+    # Add conference name as a parameter if provided
+    if conference_name.present?
+      callback_url += "?conference_name=#{CGI.escape(conference_name)}"
+      
+      # Log this for debugging
+      Rails.logger.info("🚨 OUTBOUND CALL: Adding conference_name '#{conference_name}' to callback URL: #{callback_url}")
+    end
 
     # Parameters including status callbacks for call progress tracking
     params = {
@@ -52,11 +60,13 @@ class Channel::Voice < ApplicationRecord
     # Create the call
     call = twilio_client(config).calls.create(**params)
 
-    # Return the bare minimum
+    # Return info needed to properly route and track the call
     {
       provider: 'twilio',
       call_sid: call.sid,
-      status: call.status
+      status: call.status,
+      call_direction: 'outbound',  # CRITICAL: Tag as outbound so webhooks know to prompt agent
+      requires_agent_join: true    # Flag that agent should join immediately
     }
   end
 
