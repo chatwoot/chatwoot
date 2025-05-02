@@ -8,10 +8,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "TITLE": "DATUMSSPANNE",
-      "LAST_7_DAYS": "Letzten 7 Tage",
+      "LAST_7_DAYS": "Letzte 7 Tage",
       "LAST_30_DAYS": "Letzte 30 Tage",
-      "LAST_3_MONTHS": "Die letzten 3 Monate",
-      "LAST_6_MONTHS": "Die letzten 6 Monate",
+      "LAST_3_MONTHS": "Letzte 3 Monate",
+      "LAST_6_MONTHS": "Letzte 6 Monate",
       "LAST_YEAR": "Letztes Jahr",
       "CUSTOM_RANGE": "Benutzerdefinierter Zeitraum"
     }

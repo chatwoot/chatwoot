@@ -33,12 +33,10 @@ class IntegrationsAPI extends ApiClient {
     return axios.delete(`${this.baseUrl()}/integrations/hooks/${hookId}`);
   }
 
-  requestCaptain(body) {
-    return axios.post(`${this.baseUrl()}/integrations/captain/proxy`, body);
-  }
-
-  requestCaptainCopilot(body) {
-    return axios.post(`${this.baseUrl()}/integrations/captain/copilot`, body);
+  connectShopify({ shopDomain }) {
+    return axios.post(`${this.baseUrl()}/integrations/shopify/auth`, {
+      shop_domain: shopDomain,
+    });
   }
 }
 

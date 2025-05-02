@@ -3,18 +3,18 @@
     "HEADER": "Категории",
     "HEADER_BTN_TXT": "Добавить категорию",
     "LOADING": "Загрузка категорий",
-    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
-    "LEARN_MORE": "Learn more about labels",
+    "DESCRIPTION": "Категории помогают вам классифицировать и приоритизировать разговоры и лидеров. Вы можете назначить категорию для разговора или контакта с помощью боковой панели.",
+    "LEARN_MORE": "Узнать больше о категориях",
     "SEARCH_404": "Нет категорий, соответствующих запросу",
     "LIST": {
       "404": "У вас нет категорий.",
       "TITLE": "Управлять категориями",
       "DESC": "Категории позволяют вам группировать диалоги.",
-      "TABLE_HEADER": [
-        "Имя",
-        "Описание",
-        "Цвет"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Имя",
+        "DESCRIPTION": "Описание",
+        "COLOR": "Цвет"
+      }
     },
     "FORM": {
       "NAME": {
@@ -51,7 +51,7 @@
       "ADD_SELECTED_LABELS": "Добавить выбранные метки",
       "ADD_SELECTED_LABEL": "Добавить метку",
       "ADD_ALL_LABELS": "Добавить все метки",
-      "SUGGESTED_LABELS": "Suggested labels"
+      "SUGGESTED_LABELS": "Предложенные категории"
     },
     "ADD": {
       "TITLE": "Добавить категорию",

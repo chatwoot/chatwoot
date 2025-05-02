@@ -6,7 +6,6 @@ import ChatOptions from 'shared/components/ChatOptions.vue';
 import ChatArticle from './template/Article.vue';
 import EmailInput from './template/EmailInput.vue';
 import CustomerSatisfaction from 'shared/components/CustomerSatisfaction.vue';
-import { useDarkMode } from 'widget/composables/useDarkMode';
 import IntegrationCard from './template/IntegrationCard.vue';
 
 export default {
@@ -33,13 +32,11 @@ export default {
   setup() {
     const { formatMessage, getPlainText, truncateMessage, highlightContent } =
       useMessageFormatter();
-    const { getThemeClass } = useDarkMode();
     return {
       formatMessage,
       getPlainText,
       truncateMessage,
       highlightContent,
-      getThemeClass,
     };
   },
   computed: {
@@ -98,12 +95,11 @@ export default {
       v-if="
         !isCards && !isOptions && !isForm && !isArticle && !isCards && !isCSAT
       "
-      class="chat-bubble agent"
-      :class="getThemeClass('bg-white', 'dark:bg-slate-700 has-dark-mode')"
+      class="chat-bubble agent bg-n-background dark:bg-n-solid-3 text-n-slate-12"
     >
       <div
         v-dompurify-html="formatMessage(message, false)"
-        class="message-content text-slate-900 dark:text-slate-50"
+        class="message-content text-n-slate-12"
       />
       <EmailInput
         v-if="isTemplateEmail"

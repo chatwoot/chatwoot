@@ -15,6 +15,10 @@ export default {
     Thumbnail,
   },
   props: {
+    currentFilter: {
+      type: Object,
+      default: () => null,
+    },
     filterItemsList: {
       type: Array,
       default: () => [],
@@ -40,7 +44,7 @@ export default {
   ],
   data() {
     return {
-      currentSelectedFilter: null,
+      currentSelectedFilter: this.currentFilter || null,
       currentDateRangeSelection: {
         id: 0,
         name: this.$t('REPORT.DATE_RANGE_OPTIONS.LAST_7_DAYS'),
@@ -113,7 +117,9 @@ export default {
   },
   watch: {
     filterItemsList(val) {
-      this.currentSelectedFilter = val[0];
+      this.currentSelectedFilter = !this.currentFilter
+        ? val[0]
+        : this.currentFilter;
       this.changeFilterSelection();
     },
     groupByFilterItemsList() {
@@ -159,183 +165,176 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col md:flex-row">
-    <div class="flex flex-col items-center w-full md:flex-row">
-      <div
-        v-if="type === 'agent'"
-        class="md:w-[240px] w-full multiselect-wrap--small"
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-y-0.5 gap-x-2">
+    <div v-if="type === 'agent'" class="multiselect-wrap--small">
+      <p class="mb-2 text-xs font-medium">
+        {{ $t('AGENT_REPORTS.FILTER_DROPDOWN_LABEL') }}
+      </p>
+      <multiselect
+        v-model="currentSelectedFilter"
+        :placeholder="multiselectLabel"
+        label="name"
+        track-by="id"
+        :options="filterItemsList"
+        :option-height="24"
+        :show-labels="false"
+        @update:model-value="changeFilterSelection"
       >
-        <p class="mb-2 text-xs font-medium">
-          {{ $t('AGENT_REPORTS.FILTER_DROPDOWN_LABEL') }}
-        </p>
-        <multiselect
-          v-model="currentSelectedFilter"
-          :placeholder="multiselectLabel"
-          label="name"
-          track-by="id"
-          :options="filterItemsList"
-          :option-height="24"
-          :show-labels="false"
-          @update:model-value="changeFilterSelection"
-        >
-          <template #singleLabel="props">
-            <div class="flex items-center gap-2">
-              <Thumbnail
-                :src="props.option.thumbnail"
-                :status="props.option.availability_status"
-                :username="props.option.name"
-                size="22px"
-              />
-              <span class="reports-option__desc">
-                <span class="my-0 text-slate-800 dark:text-slate-75">{{
-                  props.option.name
-                }}</span>
-              </span>
-            </div>
-          </template>
-          <template #options="props">
-            <div class="flex items-center gap-2">
-              <Thumbnail
-                :src="props.option.thumbnail"
-                :status="props.option.availability_status"
-                :username="props.option.name"
-                size="22px"
-              />
-              <p class="my-0 text-slate-800 dark:text-slate-75">
-                {{ props.option.name }}
-              </p>
-            </div>
-          </template>
-        </multiselect>
-      </div>
-      <div
-        v-else-if="type === 'label'"
-        class="md:w-[240px] w-full multiselect-wrap--small"
-      >
-        <p class="mb-2 text-xs font-medium">
-          {{ $t('LABEL_REPORTS.FILTER_DROPDOWN_LABEL') }}
-        </p>
-        <multiselect
-          v-model="currentSelectedFilter"
-          :placeholder="multiselectLabel"
-          label="title"
-          track-by="id"
-          :options="filterItemsList"
-          :option-height="24"
-          :show-labels="false"
-          @update:model-value="changeFilterSelection"
-        >
-          <template #singleLabel="props">
-            <div class="flex items-center gap-2">
-              <div
-                :style="{ backgroundColor: props.option.color }"
-                class="w-5 h-5 rounded-full"
-              />
-              <span class="reports-option__desc">
-                <span class="my-0 text-slate-800 dark:text-slate-75">
-                  {{ props.option.title }}
-                </span>
-              </span>
-            </div>
-          </template>
-          <template #option="props">
-            <div class="flex items-center gap-2">
-              <div
-                :style="{ backgroundColor: props.option.color }"
-                class="flex-shrink-0 w-5 h-5 border border-solid rounded-full border-slate-100 dark:border-slate-800"
-              />
-              <span class="reports-option__desc">
-                <span class="my-0 text-slate-800 dark:text-slate-75">
-                  {{ props.option.title }}
-                </span>
-              </span>
-            </div>
-          </template>
-        </multiselect>
-      </div>
-      <div v-else class="md:w-[240px] w-full multiselect-wrap--small">
-        <p class="mb-2 text-xs font-medium">
-          <template v-if="type === 'inbox'">
-            {{ $t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL') }}
-          </template>
-          <template v-else-if="type === 'team'">
-            {{ $t('TEAM_REPORTS.FILTER_DROPDOWN_LABEL') }}
-          </template>
-          <!-- handle default condition because the prop is not limited to the given 4 values -->
-          <template v-else>
-            {{ $t('FORMS.MULTISELECT.SELECT_ONE') }}
-          </template>
-        </p>
-        <multiselect
-          v-model="currentSelectedFilter"
-          track-by="id"
-          label="name"
-          :placeholder="multiselectLabel"
-          selected-label
-          :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-          deselect-label=""
-          :options="filterItemsList"
-          :searchable="false"
-          :allow-empty="false"
-          @update:model-value="changeFilterSelection"
-        />
-      </div>
-      <div class="mx-1 md:w-[240px] w-full multiselect-wrap--small">
-        <p class="mb-2 text-xs font-medium">
-          {{ $t('REPORT.DURATION_FILTER_LABEL') }}
-        </p>
-        <multiselect
-          v-model="currentDateRangeSelection"
-          track-by="name"
-          label="name"
-          :placeholder="$t('FORMS.MULTISELECT.SELECT_ONE')"
-          selected-label
-          :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-          deselect-label=""
-          :options="dateRange"
-          :searchable="false"
-          :allow-empty="false"
-          @select="changeDateSelection"
-        />
-      </div>
-      <div v-if="isDateRangeSelected" class="">
-        <p class="mb-2 text-xs font-medium">
-          {{ $t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER') }}
-        </p>
-        <WootDateRangePicker
-          show-range
-          :value="customDateRange"
-          :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
-          :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
-          @change="onChange"
-        />
-      </div>
-      <div
-        v-if="notLast7Days"
-        class="mx-1 md:w-[240px] w-full multiselect-wrap--small"
-      >
-        <p class="mb-2 text-xs font-medium">
-          {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
-        </p>
-        <multiselect
-          v-model="currentSelectedGroupByFilter"
-          track-by="id"
-          label="groupBy"
-          :placeholder="$t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL')"
-          :options="groupByFilterItemsList"
-          :allow-empty="false"
-          :show-labels="false"
-          @update:model-value="changeGroupByFilterSelection"
-        />
-      </div>
+        <template #singleLabel="props">
+          <div class="flex min-w-0 items-center gap-2">
+            <Thumbnail
+              :src="props.option.thumbnail"
+              :status="props.option.availability_status"
+              :username="props.option.name"
+              size="22px"
+            />
+            <span class="my-0 text-slate-800 truncate dark:text-slate-75">{{
+              props.option.name
+            }}</span>
+          </div>
+        </template>
+        <template #options="props">
+          <div class="flex items-center gap-2">
+            <Thumbnail
+              :src="props.option.thumbnail"
+              :status="props.option.availability_status"
+              :username="props.option.name"
+              size="22px"
+            />
+            <p class="my-0 text-slate-800 dark:text-slate-75">
+              {{ props.option.name }}
+            </p>
+          </div>
+        </template>
+      </multiselect>
     </div>
-    <div class="flex items-center my-2">
-      <span class="mx-2 text-sm whitespace-nowrap">
+
+    <div v-else-if="type === 'label'" class="multiselect-wrap--small">
+      <p class="mb-2 text-xs font-medium">
+        {{ $t('LABEL_REPORTS.FILTER_DROPDOWN_LABEL') }}
+      </p>
+      <multiselect
+        v-model="currentSelectedFilter"
+        :placeholder="multiselectLabel"
+        label="title"
+        track-by="id"
+        :options="filterItemsList"
+        :option-height="24"
+        :show-labels="false"
+        @update:model-value="changeFilterSelection"
+      >
+        <template #singleLabel="props">
+          <div class="flex items-center min-w-0 gap-2">
+            <div
+              :style="{ backgroundColor: props.option.color }"
+              class="w-5 h-5 rounded-full"
+            />
+
+            <span class="my-0 text-slate-800 truncate dark:text-slate-75">
+              {{ props.option.title }}
+            </span>
+          </div>
+        </template>
+        <template #option="props">
+          <div class="flex items-center min-w-0 gap-2">
+            <div
+              :style="{ backgroundColor: props.option.color }"
+              class="flex-shrink-0 w-5 h-5 border border-solid rounded-full border-slate-100 dark:border-slate-800"
+            />
+
+            <span class="my-0 text-slate-800 truncate dark:text-slate-75">
+              {{ props.option.title }}
+            </span>
+          </div>
+        </template>
+      </multiselect>
+    </div>
+
+    <div v-else class="multiselect-wrap--small">
+      <p class="mb-2 text-xs font-medium">
+        <template v-if="type === 'inbox'">
+          {{ $t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL') }}
+        </template>
+        <template v-else-if="type === 'team'">
+          {{ $t('TEAM_REPORTS.FILTER_DROPDOWN_LABEL') }}
+        </template>
+        <template v-else>
+          {{ $t('FORMS.MULTISELECT.SELECT_ONE') }}
+        </template>
+      </p>
+      <multiselect
+        v-model="currentSelectedFilter"
+        track-by="id"
+        label="name"
+        :placeholder="multiselectLabel"
+        selected-label
+        :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+        deselect-label=""
+        :options="filterItemsList"
+        :searchable="false"
+        :allow-empty="false"
+        @update:model-value="changeFilterSelection"
+      />
+    </div>
+
+    <div class="multiselect-wrap--small">
+      <p class="mb-2 text-xs font-medium">
+        {{ $t('REPORT.DURATION_FILTER_LABEL') }}
+      </p>
+      <multiselect
+        v-model="currentDateRangeSelection"
+        track-by="name"
+        label="name"
+        :placeholder="$t('FORMS.MULTISELECT.SELECT_ONE')"
+        selected-label
+        :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+        deselect-label=""
+        :options="dateRange"
+        :searchable="false"
+        :allow-empty="false"
+        @select="changeDateSelection"
+      />
+    </div>
+
+    <div
+      class="flex items-center h-10 self-center order-5 md:order-2 md:justify-self-end"
+    >
+      <span class="mr-2 text-sm whitespace-nowrap">
         {{ $t('REPORT.BUSINESS_HOURS') }}
       </span>
       <span>
         <woot-switch v-model="businessHoursSelected" />
       </span>
+    </div>
+
+    <div v-if="isDateRangeSelected" class="order-3 md:order-4">
+      <p class="mb-2 text-xs font-medium">
+        {{ $t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER') }}
+      </p>
+      <WootDateRangePicker
+        show-range
+        :value="customDateRange"
+        :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
+        :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
+        class="auto-width"
+        @change="onChange"
+      />
+    </div>
+
+    <div v-if="notLast7Days" class="multiselect-wrap--small order-4 md:order-5">
+      <p class="mb-2 text-xs font-medium">
+        {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
+      </p>
+      <multiselect
+        v-model="currentSelectedGroupByFilter"
+        track-by="id"
+        label="groupBy"
+        :placeholder="$t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL')"
+        :options="groupByFilterItemsList"
+        :allow-empty="false"
+        :show-labels="false"
+        @update:model-value="changeGroupByFilterSelection"
+      />
     </div>
   </div>
 </template>

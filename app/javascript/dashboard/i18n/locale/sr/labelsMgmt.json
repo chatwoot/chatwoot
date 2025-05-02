@@ -10,11 +10,11 @@
       "404": "Ne postoje dostupne oznake u ovom nalogu.",
       "TITLE": "Upravljanje oznakama",
       "DESC": "Oznake vam omogućavaju da grupišete razgovore.",
-      "TABLE_HEADER": [
-        "Ime",
-        "Opis",
-        "Bojan"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Ime",
+        "DESCRIPTION": "Opis",
+        "COLOR": "Bojan"
+      }
     },
     "FORM": {
       "NAME": {

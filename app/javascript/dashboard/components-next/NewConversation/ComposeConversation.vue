@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { vOnClickOutside } from '@vueuse/components';
 import { useAlert } from 'dashboard/composables';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
@@ -12,6 +13,7 @@ import {
   createNewContact,
   fetchContactableInboxes,
   processContactableInboxes,
+  mergeInboxDetails,
 } from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper';
 
 import ComposeNewConversationForm from 'dashboard/components-next/NewConversation/components/ComposeNewConversationForm.vue';
@@ -25,10 +27,18 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  isModal: {
+    type: Boolean,
+    default: false,
+  },
 });
+
+const emit = defineEmits(['close']);
 
 const store = useStore();
 const { t } = useI18n();
+
+const { fetchSignatureFlagFromUISettings } = useUISettings();
 
 const contacts = ref([]);
 const selectedContact = ref(null);
@@ -43,6 +53,12 @@ const contactsUiFlags = useMapGetter('contacts/getUIFlags');
 const currentUser = useMapGetter('getCurrentUser');
 const globalConfig = useMapGetter('globalConfig/get');
 const uiFlags = useMapGetter('contactConversations/getUIFlags');
+const messageSignature = useMapGetter('getMessageSignature');
+const inboxesList = useMapGetter('inboxes/getInboxes');
+
+const sendWithSignature = computed(() =>
+  fetchSignatureFlagFromUISettings(targetInbox.value?.channelType)
+);
 
 const directUploadsEnabled = computed(
   () => globalConfig.value.directUploadsEnabled
@@ -51,6 +67,8 @@ const directUploadsEnabled = computed(
 const activeContact = computed(() => contactById.value(props.contactId));
 
 const composePopoverClass = computed(() => {
+  if (props.isModal) return '';
+
   return props.alignPosition === 'right'
     ? 'absolute ltr:left-0 ltr:right-[unset] rtl:right-0 rtl:left-[unset]'
     : 'absolute rtl:left-0 rtl:right-[unset] ltr:right-0 ltr:left-[unset]';
@@ -96,7 +114,12 @@ const handleSelectedContact = async ({ value, action, ...rest }) => {
     isFetchingInboxes.value = true;
     try {
       const contactableInboxes = await fetchContactableInboxes(contact.id);
-      selectedContact.value.contactInboxes = contactableInboxes;
+      // Merge the processed contactableInboxes with the inboxesList
+      selectedContact.value.contactInboxes = mergeInboxDetails(
+        contactableInboxes,
+        inboxesList.value
+      );
+
       isFetchingInboxes.value = false;
     } catch (error) {
       isFetchingInboxes.value = false;
@@ -116,9 +139,14 @@ const clearSelectedContact = () => {
 
 const closeCompose = () => {
   showComposeNewConversation.value = false;
-  selectedContact.value = null;
+  if (!props.contactId) {
+    // If contactId is passed as prop
+    // Then don't allow to remove the selected contact
+    selectedContact.value = null;
+  }
   targetInbox.value = null;
   resetContacts();
+  emit('close');
 };
 
 const createConversation = async ({ payload, isFromWhatsApp }) => {
@@ -154,14 +182,29 @@ watch(
   () => {
     if (activeContact.value && props.contactId) {
       const contactInboxes = activeContact.value?.contactInboxes || [];
+      // First process the contactable inboxes to get the right structure
+      const processedInboxes = processContactableInboxes(contactInboxes);
+      // Then Merge processedInboxes with the inboxes list
       selectedContact.value = {
         ...activeContact.value,
-        contactInboxes: processContactableInboxes(contactInboxes),
+        contactInboxes: mergeInboxDetails(processedInboxes, inboxesList.value),
       };
     }
   },
   { immediate: true, deep: true }
 );
+
+const handleClickOutside = () => {
+  if (!showComposeNewConversation.value) return;
+
+  showComposeNewConversation.value = false;
+  emit('close');
+};
+
+const onModalBackdropClick = () => {
+  if (!props.isModal) return;
+  handleClickOutside();
+};
 
 onMounted(() => resetContacts());
 
@@ -180,35 +223,53 @@ useKeyboardEvents(keyboardEvents);
 
 <template>
   <div
-    v-on-click-outside="() => (showComposeNewConversation = false)"
-    class="relative z-40"
+    v-on-click-outside="[
+      handleClickOutside,
+      // Fixed and edge case https://github.com/chatwoot/chatwoot/issues/10785
+      // This will prevent closing the compose conversation modal when the editor Create link popup is open
+      { ignore: ['div.ProseMirror-prompt'] },
+    ]"
+    class="relative"
+    :class="{
+      'z-40': showComposeNewConversation,
+    }"
   >
     <slot
       name="trigger"
       :is-open="showComposeNewConversation"
       :toggle="toggle"
     />
-    <ComposeNewConversationForm
+    <div
       v-if="showComposeNewConversation"
-      :contacts="contacts"
-      :contact-id="contactId"
-      :is-loading="isSearching"
-      :current-user="currentUser"
-      :selected-contact="selectedContact"
-      :target-inbox="targetInbox"
-      :is-creating-contact="isCreatingContact"
-      :is-fetching-inboxes="isFetchingInboxes"
-      :is-direct-uploads-enabled="directUploadsEnabled"
-      :contact-conversations-ui-flags="uiFlags"
-      :contacts-ui-flags="contactsUiFlags"
-      :class="composePopoverClass"
-      @search-contacts="onContactSearch"
-      @reset-contact-search="resetContacts"
-      @update-selected-contact="handleSelectedContact"
-      @update-target-inbox="handleTargetInbox"
-      @clear-selected-contact="clearSelectedContact"
-      @create-conversation="createConversation"
-      @discard="closeCompose"
-    />
+      :class="{
+        'fixed z-50 bg-n-alpha-black1 backdrop-blur-[4px] flex items-start pt-[clamp(3rem,15vh,12rem)] justify-center inset-0':
+          isModal,
+      }"
+      @click.self="onModalBackdropClick"
+    >
+      <ComposeNewConversationForm
+        :class="[{ 'mt-2': !isModal }, composePopoverClass]"
+        :contacts="contacts"
+        :contact-id="contactId"
+        :is-loading="isSearching"
+        :current-user="currentUser"
+        :selected-contact="selectedContact"
+        :target-inbox="targetInbox"
+        :is-creating-contact="isCreatingContact"
+        :is-fetching-inboxes="isFetchingInboxes"
+        :is-direct-uploads-enabled="directUploadsEnabled"
+        :contact-conversations-ui-flags="uiFlags"
+        :contacts-ui-flags="contactsUiFlags"
+        :message-signature="messageSignature"
+        :send-with-signature="sendWithSignature"
+        @search-contacts="onContactSearch"
+        @reset-contact-search="resetContacts"
+        @update-selected-contact="handleSelectedContact"
+        @update-target-inbox="handleTargetInbox"
+        @clear-selected-contact="clearSelectedContact"
+        @create-conversation="createConversation"
+        @discard="closeCompose"
+      />
+    </div>
   </div>
 </template>

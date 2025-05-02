@@ -1,35 +1,44 @@
 {
   "FILTER": {
-    "TITLE": "Filter conversations",
-    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
-    "EDIT_CUSTOM_FILTER": "Edit Folder",
-    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
-    "ADD_NEW_FILTER": "Add filter",
-    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
-    "SUBMIT_BUTTON_LABEL": "Apply filters",
-    "UPDATE_BUTTON_LABEL": "Update folder",
-    "CANCEL_BUTTON_LABEL": "Cancel",
-    "CLEAR_BUTTON_LABEL": "Clear filters",
-    "FOLDER_LABEL": "Folder Name",
-    "FOLDER_QUERY_LABEL": "Folder Query",
-    "EMPTY_VALUE_ERROR": "Value is required.",
-    "TOOLTIP_LABEL": "Filter conversations",
+    "TITLE": "Filtriraj pogovore",
+    "SUBTITLE": "Spodaj dodajte svoje filtre in pritisnite »Uporabi filtre«, da presežete nered v klepetu.",
+    "EDIT_CUSTOM_FILTER": "Uredi mapo",
+    "CUSTOM_VIEWS_SUBTITLE": "Dodajte ali odstranite filtre in posodobite svojo mapo.",
+    "ADD_NEW_FILTER": "Dodaj filter",
+    "FILTER_DELETE_ERROR": "Ups, izgleda, da ne moremo shraniti ničesar! Dodajte vsaj en filter, da ga shranite.",
+    "SUBMIT_BUTTON_LABEL": "Uporabi filtre",
+    "UPDATE_BUTTON_LABEL": "Posodobi mapo",
+    "CANCEL_BUTTON_LABEL": "Prekliči",
+    "CLEAR_BUTTON_LABEL": "Odstrani filtre",
+    "FOLDER_LABEL": "Ime mape",
+    "FOLDER_QUERY_LABEL": "Poizvedba mape",
+    "EMPTY_VALUE_ERROR": "Vrednost je obvezna.",
+    "TOOLTIP_LABEL": "Filtriraj pogovore",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "AND",
-      "OR": "OR"
+      "AND": "IN",
+      "OR": "ALI"
     },
-    "INPUT_PLACEHOLDER": "Enter value",
+    "INPUT_PLACEHOLDER": "Vnesite vrednost",
     "OPERATOR_LABELS": {
-      "equal_to": "Equal to",
-      "not_equal_to": "Not equal to",
-      "contains": "Contains",
-      "does_not_contain": "Does not contain",
-      "is_present": "Is present",
-      "is_not_present": "Is not present",
-      "is_greater_than": "Is greater than",
-      "is_less_than": "Is lesser than",
-      "days_before": "Is x days before",
-      "starts_with": "Starts with"
+      "equal_to": "Enako",
+      "not_equal_to": "Ni enako",
+      "does_not_contain": "Ne vsebuje",
+      "is_present": "Je prisoten",
+      "is_not_present": "Ni prisoten",
+      "is_greater_than": "Je večje od",
+      "is_less_than": "Je manjše od",
+      "days_before": "Je x dni prej",
+      "starts_with": "Začne se z",
+      "equalTo": "Enako",
+      "notEqualTo": "Ni enako",
+      "contains": "Vsebuje",
+      "doesNotContain": "Ne vsebuje",
+      "isPresent": "Je prisoten",
+      "isNotPresent": "Ni prisoten",
+      "isGreaterThan": "Je večje od",
+      "isLessThan": "Je manjše od",
+      "daysBefore": "Je x dni prej",
+      "startsWith": "Začne se z"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "True",
@@ -37,69 +46,72 @@
     },
     "ATTRIBUTES": {
       "STATUS": "Status",
-      "ASSIGNEE_NAME": "Assignee name",
-      "INBOX_NAME": "Inbox name",
-      "TEAM_NAME": "Team name",
-      "CONVERSATION_IDENTIFIER": "Conversation identifier",
-      "CAMPAIGN_NAME": "Campaign name",
-      "LABELS": "Labels",
-      "BROWSER_LANGUAGE": "Browser language",
-      "PRIORITY": "Priority",
-      "COUNTRY_NAME": "Country name",
-      "REFERER_LINK": "Referer link",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
-      "CUSTOM_ATTRIBUTE_TEXT": "Text",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+      "ASSIGNEE_NAME": "Ime prejemnika",
+      "INBOX_NAME": "Ime nabiralnika",
+      "TEAM_NAME": "Ime ekipe",
+      "CONVERSATION_IDENTIFIER": "Identifikator pogovora",
+      "CAMPAIGN_NAME": "Ime kampanje",
+      "LABELS": "Označbe",
+      "BROWSER_LANGUAGE": "Jezik brskalnika",
+      "PRIORITY": "Prioriteta",
+      "COUNTRY_NAME": "Ime države",
+      "REFERER_LINK": "Napotitvena povezava",
+      "CUSTOM_ATTRIBUTE_LIST": "Seznam",
+      "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Številka",
       "CUSTOM_ATTRIBUTE_LINK": "Link",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Created at",
-      "LAST_ACTIVITY": "Last activity"
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Potrditveno polje",
+      "CREATED_AT": "Ustvarjeno ob",
+      "LAST_ACTIVITY": "Zadnja aktivnost"
     },
     "ERRORS": {
-      "VALUE_REQUIRED": "Value is required"
+      "VALUE_REQUIRED": "Vrednost je obvezna",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard filters",
-      "ADDITIONAL_FILTERS": "Additional filters",
-      "CUSTOM_ATTRIBUTES": "Custom attributes"
+      "STANDARD_FILTERS": "Standardni filtri",
+      "ADDITIONAL_FILTERS": "Dodatni filtri",
+      "CUSTOM_ATTRIBUTES": "Atributi po meri"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Do you want to save this filter?",
-        "LABEL": "Name this filter",
-        "PLACEHOLDER": "Name your filter to refer it later.",
-        "ERROR_MESSAGE": "Name is required.",
-        "SAVE_BUTTON": "Save filter",
-        "CANCEL_BUTTON": "Cancel",
+        "TITLE": "Ali želite shraniti ta filter?",
+        "LABEL": "Poimenujte ta filter",
+        "PLACEHOLDER": "Poimenujte svoj filter, da ga uporabite pozneje.",
+        "ERROR_MESSAGE": "Ime je obvezno.",
+        "SAVE_BUTTON": "Shrani filter",
+        "CANCEL_BUTTON": "Prekliči",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully.",
-          "ERROR_MESSAGE": "Error while creating folder."
+          "SUCCESS_MESSAGE": "Mapa je bila uspešno ustvarjena.",
+          "ERROR_MESSAGE": "Napaka pri ustvarjanju mape."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully.",
-          "ERROR_MESSAGE": "Error while creating segment."
+          "SUCCESS_MESSAGE": "Segment je bil uspešno ustvarjen.",
+          "ERROR_MESSAGE": "Napaka pri ustvarjanju segmenta."
         }
       },
       "EDIT": {
-        "EDIT_BUTTON": "Edit folder"
+        "EDIT_BUTTON": "Uredi mapo"
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "Izbriši filter",
         "MODAL": {
           "CONFIRM": {
-            "TITLE": "Confirm deletion",
-            "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Yes, delete",
-            "NO": "No, keep it"
+            "TITLE": "Potrdite izbris",
+            "MESSAGE": "Ali ste prepričani, da želite izbrisati filter?",
+            "YES": "Da, izbriši",
+            "NO": "Ne, obdrži"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully.",
-          "ERROR_MESSAGE": "Error while deleting folder."
+          "SUCCESS_MESSAGE": "Mapa je bila uspešno izbrisana.",
+          "ERROR_MESSAGE": "Napaka pri brisanju mape."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully.",
-          "ERROR_MESSAGE": "Error while deleting segment."
+          "SUCCESS_MESSAGE": "Segment uspešno izbrisan.",
+          "ERROR_MESSAGE": "Napaka pri brisanju segmenta."
         }
       }
     }

@@ -1,6 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useAccount } from 'dashboard/composables/useAccount';
 import ChatList from '../../../components/ChatList.vue';
 import ConversationBox from '../../../components/widgets/conversation/ConversationBox.vue';
 import PopOverSearch from './search/PopOverSearch.vue';
@@ -8,6 +9,7 @@ import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import CmdBarConversationSnooze from 'dashboard/routes/dashboard/commands/CmdBarConversationSnooze.vue';
 import { emitter } from 'shared/helpers/mitt';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 export default {
   components: {
@@ -52,10 +54,12 @@ export default {
   },
   setup() {
     const { uiSettings, updateUISettings } = useUISettings();
+    const { accountId } = useAccount();
 
     return {
       uiSettings,
       updateUISettings,
+      accountId,
     };
   },
   data() {
@@ -67,6 +71,7 @@ export default {
     ...mapGetters({
       chatList: 'getAllConversations',
       currentChat: 'getSelectedChat',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     showConversationList() {
       return this.isOnExpandedLayout ? !this.conversationId : true;
@@ -90,6 +95,12 @@ export default {
       }
       return false;
     },
+    showPopOverSearch() {
+      return !this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.CHATWOOT_V4
+      );
+    },
   },
   watch: {
     conversationId() {
@@ -109,6 +120,7 @@ export default {
 
   mounted() {
     this.$store.dispatch('agents/get');
+    this.$store.dispatch('portals/index');
     this.initialize();
     this.$watch('$store.state.route', () => this.initialize());
     this.$watch('chatList.length', () => {
@@ -193,7 +205,7 @@ export default {
 </script>
 
 <template>
-  <section class="bg-white conversation-page dark:bg-slate-900">
+  <section class="flex w-full h-full">
     <ChatList
       :show-conversation-list="showConversationList"
       :conversation-inbox="inboxId"
@@ -205,6 +217,7 @@ export default {
       @conversation-load="onConversationLoad"
     >
       <PopOverSearch
+        v-if="showPopOverSearch"
         :is-on-expanded-layout="isOnExpandedLayout"
         @toggle-conversation-layout="toggleConversationLayout"
       />
@@ -219,11 +232,3 @@ export default {
     <CmdBarConversationSnooze />
   </section>
 </template>
-
-<style lang="scss" scoped>
-.conversation-page {
-  display: flex;
-  width: 100%;
-  height: 100%;
-}
-</style>

@@ -180,9 +180,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import 'widget/assets/scss/variables.scss';
-
 .logo {
-  max-height: $space-larger;
+  max-height: 3rem;
 }
 </style>

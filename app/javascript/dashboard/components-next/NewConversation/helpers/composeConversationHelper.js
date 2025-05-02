@@ -87,6 +87,21 @@ export const processContactableInboxes = inboxes => {
   }));
 };
 
+export const mergeInboxDetails = (inboxesData, inboxesList = []) => {
+  if (!inboxesData || !inboxesData.length) {
+    return [];
+  }
+
+  return inboxesData.map(inboxData => {
+    const matchingInbox =
+      inboxesList.find(inbox => inbox.id === inboxData.id) || {};
+    return {
+      ...camelcaseKeys(matchingInbox, { deep: true }),
+      ...inboxData,
+    };
+  });
+};
+
 export const prepareAttachmentPayload = (
   attachedFiles,
   directUploadsEnabled
@@ -193,10 +208,12 @@ export const searchContacts = async ({ keys, query }) => {
   return filteredPayload || [];
 };
 
-export const createNewContact = async email => {
+export const createNewContact = async input => {
   const payload = {
-    name: getCapitalizedNameFromEmail(email),
-    email,
+    name: input.startsWith('+')
+      ? input.slice(1) // Remove the '+' prefix if it exists
+      : getCapitalizedNameFromEmail(input),
+    ...(input.startsWith('+') ? { phone_number: input } : { email: input }),
   };
 
   const {

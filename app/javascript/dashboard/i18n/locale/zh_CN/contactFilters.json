@@ -1,20 +1,20 @@
 {
   "CONTACTS_FILTER": {
-    "TITLE": "Filter Contacts",
-    "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-    "EDIT_CUSTOM_SEGMENT": "Edit Segment",
-    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your segment.",
+    "TITLE": "过滤联系人",
+    "SUBTITLE": "添加过滤器并点击“提交”以过滤联系人。",
+    "EDIT_CUSTOM_SEGMENT": "编辑分段",
+    "CUSTOM_VIEWS_SUBTITLE": "添加或删除过滤器并更新您的分段。",
     "ADD_NEW_FILTER": "添加过滤器",
-    "CLEAR_ALL_FILTERS": "Clear All Filters",
+    "CLEAR_ALL_FILTERS": "清除所有过滤器",
     "FILTER_DELETE_ERROR": "您至少需要一个过滤器来保存",
     "SUBMIT_BUTTON_LABEL": "提交",
-    "UPDATE_BUTTON_LABEL": "Update Segment",
+    "UPDATE_BUTTON_LABEL": "更新分段",
     "CANCEL_BUTTON_LABEL": "取消",
     "CLEAR_BUTTON_LABEL": "清除过滤器",
     "EMPTY_VALUE_ERROR": "必须填写值",
-    "SEGMENT_LABEL": "Segment Name",
-    "SEGMENT_QUERY_LABEL": "Segment Query",
-    "TOOLTIP_LABEL": "Filter contacts",
+    "SEGMENT_LABEL": "分段名称",
+    "SEGMENT_QUERY_LABEL": "分段查询",
+    "TOOLTIP_LABEL": "过滤联系人",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "和",
       "OR": "或"
@@ -27,7 +27,7 @@
       "is_present": "存在",
       "is_not_present": "不存在",
       "is_greater_than": "大于",
-      "is_lesser_than": "Is lesser than",
+      "is_lesser_than": "小于",
       "days_before": "是 x 天前"
     },
     "ERRORS": {
@@ -35,9 +35,9 @@
     },
     "ATTRIBUTES": {
       "NAME": "姓名：",
-      "EMAIL": "Email",
+      "EMAIL": "电子邮件",
       "PHONE_NUMBER": "电话号码",
-      "IDENTIFIER": "Identifier",
+      "IDENTIFIER": "标识符",
       "CITY": "城市",
       "COUNTRY": "国家",
       "CUSTOM_ATTRIBUTE_LIST": "列表",
@@ -47,8 +47,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "复选框",
       "CREATED_AT": "创建于",
       "LAST_ACTIVITY": "最后一次活动",
-      "REFERER_LINK": "Referrer link",
-      "BLOCKED": "Blocked"
+      "REFERER_LINK": "引用链接",
+      "BLOCKED": "已阻止"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "标准过滤器",

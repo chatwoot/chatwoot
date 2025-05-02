@@ -60,7 +60,7 @@ const togglePortalSwitcher = () => {
 <template>
   <section class="flex flex-col w-full h-full overflow-hidden bg-n-background">
     <header class="sticky top-0 z-10 px-6 pb-3 lg:px-0">
-      <div class="w-full max-w-[960px] mx-auto">
+      <div class="w-full max-w-[60rem] mx-auto lg:px-6">
         <div
           v-if="showHeaderTitle"
           class="flex items-center justify-start h-20 gap-2"
@@ -96,7 +96,7 @@ const togglePortalSwitcher = () => {
       </div>
     </header>
     <main class="flex-1 px-6 overflow-y-auto lg:px-0">
-      <div class="w-full max-w-[960px] mx-auto py-3">
+      <div class="w-full max-w-[60rem] mx-auto py-3 lg:px-6">
         <slot name="content" />
       </div>
     </main>

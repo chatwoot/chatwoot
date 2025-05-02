@@ -11,11 +11,11 @@
       "404": "Nu există jurnale de audit disponibile în acest cont.",
       "TITLE": "Gestionarea jurnalelor de audit",
       "DESC": "Jurnalele de audit sunt piste pentru evenimente și acțiuni într-un sistem Chatwoot.",
-      "TABLE_HEADER": [
-        "Activitate",
-        "Timp",
-        "Adresă IP"
-      ]
+      "TABLE_HEADER": {
+        "ACTIVITY": "Activitate",
+        "TIME": "Timp",
+        "IP_ADDRESS": "Adresă IP"
+      }
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditLogs preluat cu succes",
@@ -23,9 +23,9 @@
     },
     "DEFAULT_USER": "Sistem",
     "AUTOMATION_RULE": {
-      "ADD": "{agentName} a creat o nouă regulă de automatizare (#{id})",
-      "EDIT": "{agentName} a actualizat o regulă de automatizare (#{id})",
-      "DELETE": "{agentName} a șters o regulă de automatizare (#{id})"
+      "ADD": "{agentName} created a new automation rule (#{id})",
+      "EDIT": "{agentName} updated an automation rule (#{id})",
+      "DELETE": "{agentName} deleted an automation rule (#{id})"
     },
     "ACCOUNT_USER": {
       "ADD": "{agentName} invited {invitee} to the account as an {role}",
@@ -36,23 +36,23 @@
       }
     },
     "INBOX": {
-      "ADD": "{agentName} a creat un nou inbox (#{id})",
-      "EDIT": "{agentName} a actualizat un inbox (#{id})",
-      "DELETE": "{agentName} a șters un inbox (#{id})"
+      "ADD": "{agentName} created a new inbox (#{id})",
+      "EDIT": "{agentName} updated an inbox (#{id})",
+      "DELETE": "{agentName} deleted an inbox (#{id})"
     },
     "WEBHOOK": {
-      "ADD": "{agentName} a creat un nou webhook (#{id})",
-      "EDIT": "{agentName} a actualizat un webhook (#{id})",
-      "DELETE": "{agentName} a șters un webhook (#{id})"
+      "ADD": "{agentName} created a new webhook (#{id})",
+      "EDIT": "{agentName} updated a webhook (#{id})",
+      "DELETE": "{agentName} deleted a webhook (#{id})"
     },
     "USER_ACTION": {
       "SIGN_IN": "{agentName} s-a autentificat",
       "SIGN_OUT": "{agentName} s-a deconectat"
     },
     "TEAM": {
-      "ADD": "{agentName} a creat o nouă echipa (#{id})",
-      "EDIT": "{agentName} a actualizat o echipa (#{id})",
-      "DELETE": "{agentName} a șters o echipa (#{id})"
+      "ADD": "{agentName} created a new team (#{id})",
+      "EDIT": "{agentName} updated a team (#{id})",
+      "DELETE": "{agentName} deleted a team (#{id})"
     },
     "MACRO": {
       "ADD": "{agentName} created a new macro (#{id})",

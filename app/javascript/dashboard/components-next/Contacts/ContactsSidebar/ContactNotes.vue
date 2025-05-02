@@ -29,7 +29,7 @@ const getWrittenBy = note => {
   const isCurrentUser = note?.user?.id === currentUser.value.id;
   return isCurrentUser
     ? t('CONTACTS_LAYOUT.SIDEBAR.NOTES.YOU')
-    : note.user.name;
+    : note?.user?.name || 'Bot';
 };
 
 const onAdd = content => {
@@ -87,8 +87,10 @@ useKeyboardEvents(keyboardEvents);
       <ContactNoteItem
         v-for="note in notes"
         :key="note.id"
+        class="mx-6 py-4"
         :note="note"
         :written-by="getWrittenBy(note)"
+        allow-delete
         @delete="onDelete"
       />
     </div>

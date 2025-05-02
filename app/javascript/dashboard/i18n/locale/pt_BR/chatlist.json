@@ -6,6 +6,7 @@
     "LIST": {
       "404": "Não há conversas ativas neste grupo."
     },
+    "FAILED_TO_SEND": "Falha ao enviar",
     "TAB_HEADING": "Conversas",
     "MENTION_HEADING": "Menções",
     "UNATTENDED_HEADING": "Não Atendidas",
@@ -14,8 +15,8 @@
     },
     "FILTER_ALL": "Todos",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Minha",
-      "unassigned": "Não atribuída",
+      "me": "Minhas",
+      "unassigned": "Não atribuídas",
       "all": "Todos"
     },
     "CHAT_STATUS_FILTER_ITEMS": {
@@ -23,20 +24,20 @@
         "TEXT": "Abertas"
       },
       "resolved": {
-        "TEXT": "Resolvida"
+        "TEXT": "Resolvidas"
       },
       "pending": {
-        "TEXT": "Pendente"
+        "TEXT": "Pendentes"
       },
       "snoozed": {
-        "TEXT": "Adiado"
+        "TEXT": "Adiadas"
       },
       "all": {
-        "TEXT": "Todos"
+        "TEXT": "Todas"
       }
     },
     "VIEW_FILTER": "Visualizar",
-    "SORT_TOOLTIP_LABEL": "Classificar conversas",
+    "SORT_TOOLTIP_LABEL": "Ordenar conversas",
     "CHAT_SORT": {
       "STATUS": "Situação",
       "ORDER_BY": "Ordenar por"
@@ -93,12 +94,18 @@
       "location": {
         "CONTENT": "Localização"
       },
+      "ig_reel": {
+        "CONTENT": "Reels do Instagram"
+      },
       "fallback": {
         "CONTENT": "compartilhou uma URL"
+      },
+      "contact": {
+        "CONTENT": "Contato compartilhado"
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Classificar conversas",
+      "TITLE": "Ordenar conversas",
       "DROPDOWN_TITLE": "Ordenar por",
       "ITEMS": {
         "LATEST": {
@@ -126,6 +133,7 @@
     "NO_CONTENT": "Nenhum conteúdo disponível",
     "HIDE_QUOTED_TEXT": "Ocultar Texto Citado",
     "SHOW_QUOTED_TEXT": "Mostrar Texto Citado",
-    "MESSAGE_READ": "Lida"
+    "MESSAGE_READ": "Lida",
+    "SENDING": "Enviando"
   }
 }

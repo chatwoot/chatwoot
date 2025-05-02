@@ -1,126 +1,150 @@
 {
   "CAMPAIGN": {
-    "HEADER": "Campanyes",
-    "SIDEBAR_TXT": "Els missatges proactius permeten al client enviar missatges de sortida als seus contactes que desencadenarien més converses. Feu clic a <b>Afegir una campanya</b> per crear una campanya nova. També pots editar o suprimir una campanya existent fent clic al botó Edita o Suprimir.",
-    "HEADER_BTN_TXT": {
-      "ONE_OFF": "Crea una campanya única",
-      "ONGOING": "Crea una campanya en curs"
-    },
-    "ADD": {
-      "TITLE": "Crea una campanya",
-      "DESC": "Els missatges proactius permeten al client enviar missatges de sortida als seus contactes que desencadenarien més converses.",
-      "CANCEL_BUTTON_TEXT": "Cancel·la",
-      "CREATE_BUTTON_TEXT": "Crear",
-      "FORM": {
-        "TITLE": {
-          "LABEL": "Títol",
-          "PLACEHOLDER": "Introduïu el títol de la campanya",
-          "ERROR": "El títol és necessari"
+    "LIVE_CHAT": {
+      "HEADER_TITLE": "Live chat campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "CARD": {
+        "STATUS": {
+          "ENABLED": "Habilita",
+          "DISABLED": "Inhabilita"
         },
-        "SCHEDULED_AT": {
-          "LABEL": "Hora programada",
-          "PLACEHOLDER": "Selecciona l'hora",
-          "CONFIRM": "Confirma",
-          "ERROR": "Es requereix hora programada"
-        },
-        "AUDIENCE": {
-          "LABEL": "Públic",
-          "PLACEHOLDER": "Selecciona les etiquetes dels clients",
-          "ERROR": "L'audiència és obligatòria"
-        },
-        "INBOX": {
-          "LABEL": "Selecciona Safata d'entrada",
-          "PLACEHOLDER": "Selecciona Safata d'entrada",
-          "ERROR": "Safata d'entrada és necessària"
-        },
-        "MESSAGE": {
-          "LABEL": "Missatge",
-          "PLACEHOLDER": "Introdueix el missatge de la campanya",
-          "ERROR": "El missatge és obligatori"
-        },
-        "SENT_BY": {
-          "LABEL": "Enviat per",
-          "PLACEHOLDER": "Selecciona el contingut de la campanya",
-          "ERROR": "El remitent és obligatori"
-        },
-        "END_POINT": {
-          "LABEL": "URL",
-          "PLACEHOLDER": "Introdueix la URL vàlid",
-          "ERROR": "Introduïu una URL vàlid"
-        },
-        "TIME_ON_PAGE": {
-          "LABEL": "Temps a la pàgina (segons)",
-          "PLACEHOLDER": "Introdueix l'hora",
-          "ERROR": "L'hora a la pàgina és obligatori"
-        },
-        "ENABLED": "Activa la campanya",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "Activa només durant l'horari comercial",
-        "SUBMIT": "Afegeix campanya"
+        "CAMPAIGN_DETAILS": {
+          "SENT_BY": "Enviat per",
+          "BOT": "Bot",
+          "FROM": "des de",
+          "URL": "URL:"
+        }
       },
-      "API": {
-        "SUCCESS_MESSAGE": "La campanya s'ha creat correctament",
-        "ERROR_MESSAGE": "S'ha produït un error. Torna-ho a provar."
+      "EMPTY_STATE": {
+        "TITLE": "No live chat campaigns are available",
+        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+      },
+      "CREATE": {
+        "TITLE": "Create a live chat campaign",
+        "CANCEL_BUTTON_TEXT": "Cancel·la",
+        "CREATE_BUTTON_TEXT": "Crear",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Títol",
+            "PLACEHOLDER": "Introduïu el títol de la campanya",
+            "ERROR": "El títol és necessari"
+          },
+          "MESSAGE": {
+            "LABEL": "Missatge",
+            "PLACEHOLDER": "Introdueix el missatge de la campanya",
+            "ERROR": "El missatge és obligatori"
+          },
+          "INBOX": {
+            "LABEL": "Selecciona Safata d'entrada",
+            "PLACEHOLDER": "Selecciona Safata d'entrada",
+            "ERROR": "Safata d'entrada és necessària"
+          },
+          "SENT_BY": {
+            "LABEL": "Enviat per",
+            "PLACEHOLDER": "Please select sender",
+            "ERROR": "El remitent és obligatori"
+          },
+          "END_POINT": {
+            "LABEL": "URL",
+            "PLACEHOLDER": "Introdueix la URL vàlid",
+            "ERROR": "Introduïu una URL vàlid"
+          },
+          "TIME_ON_PAGE": {
+            "LABEL": "Temps a la pàgina (segons)",
+            "PLACEHOLDER": "Introdueix l'hora",
+            "ERROR": "L'hora a la pàgina és obligatori"
+          },
+          "OTHER_PREFERENCES": {
+            "TITLE": "Other preferences",
+            "ENABLED": "Activa la campanya",
+            "TRIGGER_ONLY_BUSINESS_HOURS": "Activa només durant l'horari comercial"
+          },
+          "BUTTONS": {
+            "CREATE": "Crear",
+            "CANCEL": "Cancel·la"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
+            "ERROR_MESSAGE": "S'ha produït un error. Torna-ho a provar."
+          }
+        }
+      },
+      "EDIT": {
+        "TITLE": "Edit live chat campaign",
+        "FORM": {
+          "API": {
+            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
+            "ERROR_MESSAGE": "S'ha produït un error. Torna-ho a provar."
+          }
+        }
       }
     },
-    "DELETE": {
-      "BUTTON_TEXT": "Esborrar",
-      "CONFIRM": {
-        "TITLE": "Confirma l'esborrat",
-        "MESSAGE": "N'estàs segur?",
-        "YES": "Si, esborra ",
-        "NO": "No, segueix "
+    "SMS": {
+      "HEADER_TITLE": "SMS campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No SMS campaigns are available",
+        "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
       },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Completat",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create SMS campaign",
+        "CANCEL_BUTTON_TEXT": "Cancel·la",
+        "CREATE_BUTTON_TEXT": "Crear",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Títol",
+            "PLACEHOLDER": "Introduïu el títol de la campanya",
+            "ERROR": "El títol és necessari"
+          },
+          "MESSAGE": {
+            "LABEL": "Missatge",
+            "PLACEHOLDER": "Introdueix el missatge de la campanya",
+            "ERROR": "El missatge és obligatori"
+          },
+          "INBOX": {
+            "LABEL": "Selecciona Safata d'entrada",
+            "PLACEHOLDER": "Selecciona Safata d'entrada",
+            "ERROR": "Safata d'entrada és necessària"
+          },
+          "AUDIENCE": {
+            "LABEL": "Públic",
+            "PLACEHOLDER": "Selecciona les etiquetes dels clients",
+            "ERROR": "L'audiència és obligatòria"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Hora programada",
+            "PLACEHOLDER": "Selecciona l'hora",
+            "ERROR": "Es requereix hora programada"
+          },
+          "BUTTONS": {
+            "CREATE": "Crear",
+            "CANCEL": "Cancel·la"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "SMS campaign created successfully",
+            "ERROR_MESSAGE": "S'ha produït un error. Torna-ho a provar."
+          }
+        }
+      }
+    },
+    "CONFIRM_DELETE": {
+      "TITLE": "N'estàs segur?",
+      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "CONFIRM": "Esborrar",
       "API": {
         "SUCCESS_MESSAGE": "La campanya s'ha suprimit correctament",
-        "ERROR_MESSAGE": "No s'ha pogut esborrar la campanya. Torneu-ho a provar."
+        "ERROR_MESSAGE": "S'ha produït un error. Torna-ho a provar."
       }
-    },
-    "EDIT": {
-      "TITLE": "Edita la campanya",
-      "UPDATE_BUTTON_TEXT": "Actualitza",
-      "API": {
-        "SUCCESS_MESSAGE": "La campanya s'ha actualitzat correctament",
-        "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
-      }
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "S'estan carregant les campanyes...",
-      "404": "No hi ha cap campanya creada per a aquesta safata d'entrada.",
-      "TABLE_HEADER": {
-        "TITLE": "Títol",
-        "MESSAGE": "Missatge",
-        "INBOX": "Safata d'entrada",
-        "STATUS": "Estat",
-        "SENDER": "Remitent",
-        "URL": "URL",
-        "SCHEDULED_AT": "Hora programada",
-        "TIME_ON_PAGE": "Temps (segons)",
-        "CREATED_AT": "Creat per"
-      },
-      "BUTTONS": {
-        "ADD": "Afegir",
-        "EDIT": "Edita",
-        "DELETE": "Esborrar"
-      },
-      "STATUS": {
-        "ENABLED": "Habilita",
-        "DISABLED": "Inhabilita",
-        "COMPLETED": "Completat",
-        "ACTIVE": "Actiu"
-      },
-      "SENDER": {
-        "BOT": "Bot"
-      }
-    },
-    "ONE_OFF": {
-      "HEADER": "Campanyes puntuals",
-      "404": "No s'han creat campanyes individuals",
-      "INBOXES_NOT_FOUND": "Crea una safata d'entrada de SMS i comença a afegir campanyes"
-    },
-    "ONGOING": {
-      "HEADER": "Campanyes en curs",
-      "404": "No hi ha campanyes en curs creades",
-      "INBOXES_NOT_FOUND": "Crea una safata d'entrada del lloc web i comença a afegir campanyes"
     }
   }
 }

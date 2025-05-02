@@ -2,24 +2,24 @@
   "AUDIT_LOGS": {
     "HEADER": "Журнал аудита",
     "HEADER_BTN_TXT": "Добавить журнал аудита",
-    "LOADING": "Получение журналов аудита",
-    "DESCRIPTION": "Audit Logs maintain a record of activities in your account, allowing you to track and audit your account, team, or services.",
-    "LEARN_MORE": "Learn more about audit logs",
-    "SEARCH_404": "Нет шаблонных ответов, соответствующих запросу",
-    "SIDEBAR_TXT": "<p><b>Журналы аудита</b> </p><p> Логи аудита являются следами событий и действий в системе Chatwoot. </p>",
+    "LOADING": "Получение журнала аудита",
+    "DESCRIPTION": "Журнал аудита ведет запись действий в вашей учетной записи, позволяя отслеживать и проверять действия учетной записи, команды или сервисов.",
+    "LEARN_MORE": "Узнать больше о журнале аудита",
+    "SEARCH_404": "Нет элементов, соответствующих вашему запросу",
+    "SIDEBAR_TXT": "<p><b>Журнал аудита</b> </p><p>Журнал аудита — это следы событий и действий в системе Chatwoot. </p>",
     "LIST": {
-      "404": "В этой учетной записи нет журналов аудита.",
-      "TITLE": "Управление журналами аудита",
-      "DESC": "Журналы аудита - это следы событий и действий в системе Chatwoot.",
-      "TABLE_HEADER": [
-        "Пользователь",
-        "Действия",
-        "IP адрес"
-      ]
+      "404": "В этой учетной записи нет доступных журналов аудита.",
+      "TITLE": "Управление журналом аудита",
+      "DESC": "Журнал аудита — это следы событий и действий в системе Chatwoot.",
+      "TABLE_HEADER": {
+        "ACTIVITY": "Пользователь",
+        "TIME": "Действия",
+        "IP_ADDRESS": "IP-адрес"
+      }
     },
     "API": {
-      "SUCCESS_MESSAGE": "Журналы успешно загружены",
-      "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
+      "SUCCESS_MESSAGE": "Журнал аудита успешно загружен",
+      "ERROR_MESSAGE": "Не удалось подключиться к серверу Woot. Пожалуйста, попробуйте позже"
     },
     "DEFAULT_USER": "Система",
     "AUTOMATION_RULE": {
@@ -31,14 +31,14 @@
       "ADD": "{agentName} Пригашен {invitee} права аккаунта {role}",
       "EDIT": {
         "SELF": "{agentName} изменить {attributes} на {values}",
-        "OTHER": "{agentName} изменить {attributes} на {values}",
-        "DELETED": "{agentName} changed {attributes} of a deleted user to {values}"
+        "OTHER": "{agentName} изменил {attributes} пользователя {user} на {values}",
+        "DELETED": "{agentName} изменил {attributes} удаленного пользователя на {values}"
       }
     },
     "INBOX": {
       "ADD": "{agentName} создал новый почтовый ящик (#{id})",
       "EDIT": "{agentName} обновил почтовый ящик (#{id})",
-      "DELETE": "{agentName} удалил ящик (#{id})"
+      "DELETE": "{agentName} удалил почтовый ящик (#{id})"
     },
     "WEBHOOK": {
       "ADD": "{agentName} создал новый вебхук (#{id})",
@@ -61,10 +61,10 @@
     },
     "INBOX_MEMBER": {
       "ADD": "{agentName} добавил {user} в почтовый ящик (#{inbox_id})",
-      "REMOVE": "{agentName} удалил {user} из папки входящих(#{inbox_id})"
+      "REMOVE": "{agentName} удалил {user} из почтового ящика (#{inbox_id})"
     },
     "TEAM_MEMBER": {
-      "ADD": "{agentName} добавил {user} в почтовый ящик (#{team_id})",
+      "ADD": "{agentName} добавил {user} в команду (#{team_id})",
       "REMOVE": "{agentName} удалил {user} из команды (#{team_id})"
     },
     "ACCOUNT": {

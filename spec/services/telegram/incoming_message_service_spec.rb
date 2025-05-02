@@ -309,5 +309,22 @@ describe Telegram::IncomingMessageService do
         expect(telegram_channel.inbox.messages.first.content).to eq('Option 1')
       end
     end
+
+    context 'when valid contact message params' do
+      it 'creates appropriate conversations, message and contacts' do
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'message' => {
+            'contact': {
+              'phone_number': '+918660944581'
+            }
+          }.merge(message_params)
+        }.with_indifferent_access
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+        expect(telegram_channel.inbox.conversations.count).not_to eq(0)
+        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('contact')
+      end
+    end
   end
 end

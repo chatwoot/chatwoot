@@ -27,7 +27,6 @@ class ActionCableConnector extends BaseActionCableConnector {
       'notification.created': this.onNotificationCreated,
       'notification.deleted': this.onNotificationDeleted,
       'notification.updated': this.onNotificationUpdated,
-      'first.reply.created': this.onFirstReplyCreated,
       'conversation.read': this.onConversationRead,
       'conversation.updated': this.onConversationUpdated,
       'account.cache_invalidated': this.onCacheInvalidate,
@@ -160,7 +159,6 @@ class ActionCableConnector extends BaseActionCableConnector {
   // eslint-disable-next-line class-methods-use-this
   fetchConversationStats = () => {
     emitter.emit('fetch_conversation_stats');
-    emitter.emit('fetch_overview_reports');
   };
 
   onContactDelete = data => {
@@ -185,11 +183,6 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onNotificationUpdated = data => {
     this.app.$store.dispatch('notifications/updateNotification', data);
-  };
-
-  // eslint-disable-next-line class-methods-use-this
-  onFirstReplyCreated = () => {
-    emitter.emit('fetch_overview_reports');
   };
 
   onCacheInvalidate = data => {

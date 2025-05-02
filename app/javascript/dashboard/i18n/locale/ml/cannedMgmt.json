@@ -10,11 +10,11 @@
       "404": "ഈ അക്കൗണ്ടിൽ ക്യാൻഡ് പ്രതികരണങ്ങളൊന്നും ലഭ്യമല്ല.",
       "TITLE": "ക്യാൻഡ് പ്രതികരണങ്ങൾ നിയന്ത്രിക്കുക",
       "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
-      "TABLE_HEADER": [
-        "Short code",
-        "ഉള്ളടക്കം",
-        "പ്രവർത്തനങ്ങൾ"
-      ]
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Short code",
+        "CONTENT": "ഉള്ളടക്കം",
+        "ACTIONS": "പ്രവർത്തനങ്ങൾ"
+      }
     },
     "ADD": {
       "TITLE": "Add canned response",

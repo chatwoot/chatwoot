@@ -20,23 +20,18 @@
         "TITLE": "הוסף סוכנים לצוות - {teamName}",
         "DESC": "הוסף סוכנים לצוות החדש שלך שנוצר. זה מאפשר לך לשתף פעולה כצוות בשיחות, לקבל התראות על אירועים חדשים באותה שיחה."
       },
-      "WIZARD": [
-        {
-          "title": "צור",
-          "route": "settings_teams_new",
-          "body": "צור צוות חדש של סוכנים."
-        },
-        {
-          "title": "הוסף נציג",
-          "route": "settings_teams_add_agents",
-          "body": "הוסף סוכנים לצוות."
-        },
-        {
-          "title": "סיים",
-          "route": "settings_teams_finish",
-          "body": "אתם מוכנים לצאת לדרך!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "צור",
+        "BODY": "צור צוות חדש של סוכנים."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "הוסף נציג",
+        "BODY": "הוסף סוכנים לצוות."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "סיים",
+        "BODY": "אתם מוכנים לצאת לדרך!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "הוסף סוכנים לצוות - {teamName}",
         "DESC": "הוסף סוכנים לצוות החדש שלך שנוצר. כל הסוכנים שנוספו יקבלו הודעה כאשר שיחה תוקצה לצוות זה."
       },
-      "WIZARD": [
-        {
-          "title": "פרטי צוות",
-          "route": "settings_teams_edit",
-          "body": "שנה שם, תיאור ופרטים נוספים."
-        },
-        {
-          "title": "עריכת סוכנים",
-          "route": "settings_teams_edit_members",
-          "body": "ערוך סוכנים בצוות שלך."
-        },
-        {
-          "title": "סיים",
-          "route": "settings_teams_edit_finish",
-          "body": "אתם מוכנים לצאת לדרך!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "פרטי צוות",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "שנה שם, תיאור ופרטים נוספים."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "עריכת סוכנים",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "ערוך סוכנים בצוות שלך."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "סיים",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "אתם מוכנים לצאת לדרך!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "לא ניתן לשמור את פרטי הצוות. נסה שוב."

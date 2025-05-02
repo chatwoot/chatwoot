@@ -105,6 +105,9 @@
         "AGENT": "Vælg agent",
         "TEAM": "Vælg hold"
       },
+      "LIST": {
+        "NONE": "Ingen"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Ingen agenter fundet",

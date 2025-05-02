@@ -63,7 +63,7 @@ const pageInfo = computed(() => {
 
 <template>
   <div
-    class="flex justify-between h-12 w-full max-w-[957px] outline outline-n-container outline-1 mx-auto bg-n-solid-2 rounded-xl py-2 ltr:pl-4 rtl:pr-4 ltr:pr-3 rtl:pl-3 items-center"
+    class="flex justify-between h-12 w-full max-w-[calc(60rem-3px)] outline outline-n-container outline-1 -outline-offset-1 mx-auto bg-n-solid-2 rounded-xl py-2 ltr:pl-4 rtl:pr-4 ltr:pr-3 rtl:pl-3 items-center before:absolute before:inset-x-0 before:-top-4 before:bg-gradient-to-t before:from-n-background before:from-10% before:dark:from-0% before:to-transparent before:h-4 before:pointer-events-none"
   >
     <div class="flex items-center gap-3">
       <span class="min-w-0 text-sm font-normal line-clamp-1 text-n-slate-11">

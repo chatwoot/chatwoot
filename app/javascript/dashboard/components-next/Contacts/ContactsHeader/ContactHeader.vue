@@ -60,7 +60,7 @@ const emit = defineEmits([
 <template>
   <header class="sticky top-0 z-10">
     <div
-      class="flex items-center justify-between w-full h-20 px-6 gap-2 mx-auto max-w-[960px]"
+      class="flex items-center justify-between w-full h-20 px-6 gap-2 mx-auto max-w-[60rem]"
     >
       <span class="text-xl font-medium truncate text-n-slate-12">
         {{ headerTitle }}

@@ -137,30 +137,22 @@ class ActionCableListener < BaseListener
 
   def contact_created(event)
     contact, account = extract_contact_and_account(event)
-    tokens = user_tokens(account, account.agents)
-
-    broadcast(account, tokens, CONTACT_CREATED, contact.push_event_data)
+    broadcast(account, [account_token(account)], CONTACT_CREATED, contact.push_event_data)
   end
 
   def contact_updated(event)
     contact, account = extract_contact_and_account(event)
-    tokens = user_tokens(account, account.agents)
-
-    broadcast(account, tokens, CONTACT_UPDATED, contact.push_event_data)
+    broadcast(account, [account_token(account)], CONTACT_UPDATED, contact.push_event_data)
   end
 
   def contact_merged(event)
     contact, account = extract_contact_and_account(event)
-    tokens = event.data[:tokens]
-
-    broadcast(account, tokens, CONTACT_MERGED, contact.push_event_data)
+    broadcast(account, [account_token(account)], CONTACT_MERGED, contact.push_event_data)
   end
 
   def contact_deleted(event)
     contact, account = extract_contact_and_account(event)
-    tokens = user_tokens(account, account.agents)
-
-    broadcast(account, tokens, CONTACT_DELETED, contact.push_event_data)
+    broadcast(account, [account_token(account)], CONTACT_DELETED, contact.push_event_data)
   end
 
   def conversation_mentioned(event)
@@ -171,6 +163,10 @@ class ActionCableListener < BaseListener
   end
 
   private
+
+  def account_token(account)
+    "account_#{account.id}"
+  end
 
   def typing_event_listener_tokens(account, conversation, user)
     current_user_token = user.is_a?(Contact) ? conversation.contact_inbox.pubsub_token : user.pubsub_token

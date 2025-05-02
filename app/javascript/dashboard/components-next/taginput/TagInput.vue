@@ -1,16 +1,24 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import { vOnClickOutside } from '@vueuse/components';
-import { email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 
 import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import {
+  MODE,
+  INPUT_TYPES,
+  getValidationRules,
+  checkTagTypeValidity,
+  buildTagMenuItems,
+  canAddTag,
+  findMatchingMenuItem,
+} from './helper/tagInputHelper';
 
 const props = defineProps({
   placeholder: { type: String, default: '' },
   disabled: { type: Boolean, default: false },
-  type: { type: String, default: 'text' },
+  type: { type: String, default: INPUT_TYPES.TEXT },
   isLoading: { type: Boolean, default: false },
   menuItems: {
     type: Array,
@@ -23,8 +31,8 @@ const props = defineProps({
   showDropdown: { type: Boolean, default: false },
   mode: {
     type: String,
-    default: 'multiple',
-    validator: value => ['single', 'multiple'].includes(value),
+    default: MODE.MULTIPLE,
+    validator: value => [MODE.SINGLE, MODE.MULTIPLE].includes(value),
   },
   focusOnMount: { type: Boolean, default: false },
   allowCreate: { type: Boolean, default: false },
@@ -45,22 +53,17 @@ const modelValue = defineModel({
   default: () => [],
 });
 
-const MODE = {
-  SINGLE: 'single',
-  MULTIPLE: 'multiple',
-};
-
 const tagInputRef = ref(null);
 const tags = ref(props.modelValue);
 const newTag = ref('');
 const isFocused = ref(true);
 
-const rules = computed(() => ({
-  newTag: props.type === 'email' ? { email } : {},
-}));
-
+const rules = computed(() => getValidationRules(props.type));
 const v$ = useVuelidate(rules, { newTag });
-const isNewTagInValidType = computed(() => v$.value.$invalid);
+
+const isNewTagInValidType = computed(() =>
+  checkTagTypeValidity(props.type, newTag.value, v$.value)
+);
 
 const showInput = computed(() =>
   props.mode === MODE.SINGLE
@@ -74,68 +77,49 @@ const showDropdownMenu = computed(() =>
     : props.showDropdown
 );
 
-const filteredMenuItems = computed(() => {
-  if (props.mode === MODE.SINGLE && tags.value.length >= 1) return [];
+const filteredMenuItems = computed(() =>
+  buildTagMenuItems({
+    mode: props.mode,
+    tags: tags.value,
+    menuItems: props.menuItems,
+    newTag: newTag.value,
+    isLoading: props.isLoading,
+    type: props.type,
+    isNewTagInValidType: isNewTagInValidType.value,
+  })
+);
 
-  const availableMenuItems = props.menuItems.filter(
-    item => !tags.value.includes(item.label)
-  );
-
-  // Show typed value as suggestion only if:
-  // 1. There's a value being typed
-  // 2. The value isn't already in the tags
-  // 3. Email validation passes (if type is email) and There are no menu items available
-  const trimmedNewTag = newTag.value?.trim();
-  const shouldShowTypedValue =
-    trimmedNewTag &&
-    !tags.value.includes(trimmedNewTag) &&
-    !props.isLoading &&
-    !availableMenuItems.length &&
-    (props.type === 'email' ? !isNewTagInValidType.value : true);
-
-  if (shouldShowTypedValue) {
-    return [
-      {
-        label: trimmedNewTag,
-        value: trimmedNewTag,
-        email: trimmedNewTag,
-        thumbnail: { name: trimmedNewTag, src: '' },
-        action: 'create',
-      },
-    ];
-  }
-
-  return availableMenuItems;
-});
-
-const emitDataOnAdd = emailValue => {
-  const matchingMenuItem = props.menuItems.find(
-    item => item.email === emailValue
-  );
-
+const emitDataOnAdd = value => {
+  const matchingMenuItem = findMatchingMenuItem(props.menuItems, value);
   return matchingMenuItem
-    ? emit('add', { email: emailValue, ...matchingMenuItem })
-    : emit('add', { value: emailValue, action: 'create' });
+    ? emit('add', { value: value, ...matchingMenuItem })
+    : emit('add', { value: value, action: 'create' });
+};
+
+const updateValueAndFocus = value => {
+  tags.value.push(value);
+  newTag.value = '';
+  modelValue.value = tags.value;
+  tagInputRef.value?.focus();
 };
 
 const addTag = async () => {
   const trimmedTag = newTag.value?.trim();
   if (!trimmedTag) return;
 
-  if (props.mode === MODE.SINGLE && tags.value.length >= 1) {
+  if (!canAddTag(props.mode, tags.value.length)) {
     newTag.value = '';
     return;
   }
 
-  if (props.type === 'email' || props.allowCreate) {
+  if (
+    [INPUT_TYPES.EMAIL, INPUT_TYPES.TEL].includes(props.type) ||
+    props.allowCreate
+  ) {
     if (!(await v$.value.$validate())) return;
     emitDataOnAdd(trimmedTag);
   }
-
-  tags.value.push(trimmedTag);
-  newTag.value = '';
-  modelValue.value = tags.value;
-  tagInputRef.value?.focus();
+  updateValueAndFocus(trimmedTag);
 };
 
 const removeTag = index => {
@@ -144,19 +128,25 @@ const removeTag = index => {
   emit('remove');
 };
 
-const handleDropdownAction = async ({ email: emailAddress, ...rest }) => {
+const handleDropdownAction = async ({
+  email: emailAddress,
+  phoneNumber,
+  ...rest
+}) => {
   if (props.mode === MODE.SINGLE && tags.value.length >= 1) return;
+  if (!props.showDropdown) return;
 
-  if (props.type === 'email' && props.showDropdown) {
-    newTag.value = emailAddress;
-    if (!(await v$.value.$validate())) return;
-    emit('add', { email: emailAddress, ...rest });
-  }
+  const isEmail = props.type === 'email';
+  newTag.value = isEmail ? emailAddress : phoneNumber;
 
-  tags.value.push(emailAddress);
-  newTag.value = '';
-  modelValue.value = tags.value;
-  tagInputRef.value?.focus();
+  if (!(await v$.value.$validate())) return;
+
+  const payload = isEmail
+    ? { email: emailAddress, ...rest }
+    : { phoneNumber, ...rest };
+
+  emit('add', payload);
+  updateValueAndFocus(emailAddress);
 };
 
 const handleFocus = () => {
@@ -226,7 +216,6 @@ const handleBlur = e => emit('blur', e);
         ref="tagInputRef"
         v-model="newTag"
         :placeholder="placeholder"
-        :type="type"
         :disabled="disabled"
         class="w-full"
         :focus-on-mount="focusOnMount"

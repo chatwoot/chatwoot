@@ -1,6 +1,10 @@
 <script setup>
 import { computed, watch, onMounted, ref } from 'vue';
-import { useMapGetter, useStore } from 'dashboard/composables/store';
+import {
+  useMapGetter,
+  useFunctionGetter,
+  useStore,
+} from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
@@ -9,10 +13,12 @@ import ConversationAction from './ConversationAction.vue';
 import ConversationParticipant from './ConversationParticipant.vue';
 
 import ContactInfo from './contact/ContactInfo.vue';
+import ContactNotes from './contact/ContactNotes.vue';
 import ConversationInfo from './ConversationInfo.vue';
 import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import Draggable from 'vuedraggable';
 import MacrosList from './Macros/List.vue';
+import ShopifyOrdersList from '../../../components/widgets/conversation/ShopifyOrdersList.vue';
 
 const props = defineProps({
   conversationId: {
@@ -38,6 +44,14 @@ const {
 
 const dragging = ref(false);
 const conversationSidebarItems = ref([]);
+const shopifyIntegration = useFunctionGetter(
+  'integrations/getIntegration',
+  'shopify'
+);
+
+const isShopifyFeatureEnabled = computed(
+  () => shopifyIntegration.value.enabled
+);
 
 const store = useStore();
 const currentChat = useMapGetter('getSelectedChat');
@@ -98,18 +112,19 @@ onMounted(() => {
       :channel-type="channelType"
       @toggle-panel="onPanelToggle"
     />
-    <div class="list-group">
+    <div class="list-group pb-8">
       <Draggable
         :list="conversationSidebarItems"
         animation="200"
         ghost-class="ghost"
         handle=".drag-handle"
         item-key="name"
+        class="flex flex-col gap-3"
         @start="dragging = true"
         @end="onDragEnd"
       >
         <template #item="{ element }">
-          <div :key="element.name" class="bg-white dark:bg-gray-800">
+          <div :key="element.name" class="px-2">
             <div
               v-if="element.name === 'conversation_actions'"
               class="conversation--actions"
@@ -215,6 +230,34 @@ onMounted(() => {
                 <MacrosList :conversation-id="conversationId" />
               </AccordionItem>
             </woot-feature-toggle>
+            <div
+              v-else-if="
+                element.name === 'shopify_orders' && isShopifyFeatureEnabled
+              "
+            >
+              <AccordionItem
+                :title="$t('CONVERSATION_SIDEBAR.ACCORDION.SHOPIFY_ORDERS')"
+                :is-open="isContactSidebarItemOpen('is_shopify_orders_open')"
+                compact
+                @toggle="
+                  value => toggleSidebarUIState('is_shopify_orders_open', value)
+                "
+              >
+                <ShopifyOrdersList :contact-id="contactId" />
+              </AccordionItem>
+            </div>
+            <div v-else-if="element.name === 'contact_notes'">
+              <AccordionItem
+                :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_NOTES')"
+                :is-open="isContactSidebarItemOpen('is_contact_notes_open')"
+                compact
+                @toggle="
+                  value => toggleSidebarUIState('is_contact_notes_open', value)
+                "
+              >
+                <ContactNotes :contact-id="contactId" />
+              </AccordionItem>
+            </div>
           </div>
         </template>
       </Draggable>
@@ -227,10 +270,12 @@ onMounted(() => {
   .contact--profile {
     @apply pb-3 border-b border-solid border-slate-75 dark:border-slate-700;
   }
+
   .conversation--actions .multiselect-wrap--small {
     .multiselect {
       @apply box-border pl-6;
     }
+
     .multiselect__element {
       span {
         @apply w-full;

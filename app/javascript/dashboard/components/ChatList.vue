@@ -61,6 +61,7 @@ import {
   getUserPermissions,
   filterItemsByPermission,
 } from 'dashboard/helper/permissionsHelper.js';
+import { matchesFilters } from '../store/modules/conversations/helpers/filterHelpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
 
@@ -105,7 +106,7 @@ const advancedFilterTypes = ref(
 );
 
 const currentUser = useMapGetter('getCurrentUser');
-const chatLists = useMapGetter('getAllConversations');
+const chatLists = useMapGetter('getFilteredConversations');
 const mineChatsList = useMapGetter('getMineChats');
 const allChatList = useMapGetter('getAllStatusChats');
 const unAssignedChatsList = useMapGetter('getUnAssignedChats');
@@ -324,6 +325,14 @@ const conversationList = computed(() => {
   } else {
     localConversationList = [...chatLists.value];
   }
+
+  if (activeFolder.value) {
+    const { payload } = activeFolder.value.query;
+    localConversationList = localConversationList.filter(conversation => {
+      return matchesFilters(conversation, payload);
+    });
+  }
+
   return localConversationList;
 });
 
@@ -353,10 +362,11 @@ function setFiltersFromUISettings() {
   const { conversations_filter_by: filterBy = {} } = uiSettings.value;
   const { status, order_by: orderBy } = filterBy;
   activeStatus.value = status || wootConstants.STATUS_TYPE.OPEN;
-  activeSortBy.value =
-    Object.keys(wootConstants.SORT_BY_TYPE).find(
-      sortField => sortField === orderBy
-    ) || wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC;
+  activeSortBy.value = Object.values(wootConstants.SORT_BY_TYPE).includes(
+    orderBy
+  )
+    ? orderBy
+    : wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC;
 }
 
 function emitConversationLoaded() {
@@ -459,6 +469,12 @@ function setParamsForEditFolderModal() {
     campaigns: campaigns.value,
     languages: languages,
     countries: countries,
+    priority: [
+      { id: 'low', name: t('CONVERSATION.PRIORITY.OPTIONS.LOW') },
+      { id: 'medium', name: t('CONVERSATION.PRIORITY.OPTIONS.MEDIUM') },
+      { id: 'high', name: t('CONVERSATION.PRIORITY.OPTIONS.HIGH') },
+      { id: 'urgent', name: t('CONVERSATION.PRIORITY.OPTIONS.URGENT') },
+    ],
     filterTypes: advancedFilterTypes.value,
     allCustomAttributes: conversationCustomAttributes.value,
   };
@@ -675,6 +691,15 @@ async function markAsUnread(conversationId) {
     // Ignore error
   }
 }
+async function markAsRead(conversationId) {
+  try {
+    await store.dispatch('markMessagesRead', {
+      id: conversationId,
+    });
+  } catch (error) {
+    // Ignore error
+  }
+}
 async function onAssignTeam(team, conversationId = null) {
   try {
     await store.dispatch('assignTeam', {
@@ -744,6 +769,7 @@ provide('assignLabels', onAssignLabels);
 provide('updateConversationStatus', toggleConversationStatus);
 provide('toggleContextMenu', onContextMenuToggle);
 provide('markAsUnread', markAsUnread);
+provide('markAsRead', markAsRead);
 provide('assignPriority', assignPriority);
 provide('isConversationSelected', isConversationSelected);
 
@@ -782,10 +808,10 @@ watch(conversationFilters, (newVal, oldVal) => {
 
 <template>
   <div
-    class="flex flex-col flex-shrink-0 border-r conversations-list-wrap rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
+    class="flex flex-col flex-shrink-0 bg-n-solid-1 conversations-list-wrap"
     :class="[
       { hidden: !showConversationList },
-      isOnExpandedLayout ? 'basis-full' : 'w-[360px]',
+      isOnExpandedLayout ? 'basis-full' : 'w-[360px] 2xl:w-[420px]',
     ]"
   >
     <slot />
@@ -794,6 +820,7 @@ watch(conversationFilters, (newVal, oldVal) => {
       :has-applied-filters="hasAppliedFilters"
       :has-active-folders="hasActiveFolders"
       :active-status="activeStatus"
+      :is-on-expanded-layout="isOnExpandedLayout"
       @add-folders="onClickOpenAddFoldersModal"
       @delete-folders="onClickOpenDeleteFoldersModal"
       @filters-modal="onToggleAdvanceFiltersModal"
@@ -823,6 +850,7 @@ watch(conversationFilters, (newVal, oldVal) => {
       v-if="!hasAppliedFiltersOrActiveFolders"
       :items="assigneeTabItems"
       :active-tab="activeAssigneeTab"
+      is-compact
       @chat-tab-change="updateAssigneeTab"
     />
 

@@ -11,11 +11,11 @@
       "404": "Šajā kontā nav pieejami Audita Žurnāli.",
       "TITLE": "Pārvaldīt Audita Žurnālus",
       "DESC": "Audita Žurnāli ir notikumu un darbību pēdas Chatwoot sistēmā.",
-      "TABLE_HEADER": [
-        "Lietotājs",
-        "Darbība",
-        "IP adrese"
-      ]
+      "TABLE_HEADER": {
+        "ACTIVITY": "Lietotājs",
+        "TIME": "Darbība",
+        "IP_ADDRESS": "IP adrese"
+      }
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditaŽurnāli ir veiksmīgi iegūti",
@@ -68,7 +68,7 @@
       "REMOVE": "{agentName} noņēma {user} no komandas(#{team_id})"
     },
     "ACCOUNT": {
-      "EDIT": "{agentName} atjaunināja (#{id}) konta konfigurāciju "
+      "EDIT": "{agentName} atjaunināja konta konfigurāciju (#{id})"
     }
   }
 }

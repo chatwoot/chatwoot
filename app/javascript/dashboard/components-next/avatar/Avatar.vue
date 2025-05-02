@@ -174,7 +174,7 @@ watch(
 </script>
 
 <template>
-  <span class="relative inline-flex group/avatar" :style="containerStyles">
+  <span class="relative inline-flex group/avatar z-0" :style="containerStyles">
     <!-- Status Badge -->
     <slot name="badge" :size="size">
       <div

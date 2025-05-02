@@ -1,19 +1,19 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with {inboxName}.",
+    "DESCRIPTION": "お問い合わせありがとうございました。今回の {inboxName} とのやり取りについて、ご意見をお寄せいただけますと幸いです。",
     "RATING": {
-      "LABEL": "Rate your conversation",
-      "SUCCESS_MESSAGE": "Thank you for submitting the rating"
+      "LABEL": "次の5段階からお選びください",
+      "SUCCESS_MESSAGE": "評価のご協力ありがとうございます。"
     },
     "FEEDBACK": {
-      "LABEL": "Do you have any thoughts you'd like to share?",
-      "PLACEHOLDER": "Your feedback (optional)",
-      "BUTTON_TEXT": "Submit feedback"
+      "LABEL": "何かご意見やご感想があればお聞かせください。",
+      "PLACEHOLDER": "フィードバック (オプション)",
+      "BUTTON_TEXT": "記入内容を送信"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Survey updated successfully",
-      "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+      "SUCCESS_MESSAGE": "正常に送信されました",
+      "ERROR_MESSAGE": "サーバーに接続できませんでした。後でもう一度お試しください。"
     }
   },
-  "POWERED_BY": "Powered by Chatwoot"
+  "POWERED_BY": "提供：Chatwoot"
 }

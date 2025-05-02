@@ -92,12 +92,12 @@
       "CONTACT": "איש קשר"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "שם",
-        "תיאור",
-        "סוג",
-        "מפתח"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "שם",
+        "DESCRIPTION": "תיאור",
+        "TYPE": "סוג",
+        "KEY": "מפתח"
+      },
       "BUTTONS": {
         "EDIT": "ערוך",
         "DELETE": "מחק"

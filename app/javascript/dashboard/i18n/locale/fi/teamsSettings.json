@@ -20,23 +20,18 @@
         "TITLE": "Add agents to team - {teamName}",
         "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
       },
-      "WIZARD": [
-        {
-          "title": "Luo",
-          "route": "settings_teams_new",
-          "body": "Create a new team of agents."
-        },
-        {
-          "title": "Lisää edustaja",
-          "route": "settings_teams_add_agents",
-          "body": "Add agents to the team."
-        },
-        {
-          "title": "Finish",
-          "route": "settings_teams_finish",
-          "body": "Kaikki valmiina!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "Luo",
+        "BODY": "Create a new team of agents."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Lisää edustaja",
+        "BODY": "Add agents to the team."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Finish",
+        "BODY": "Kaikki valmiina!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "Add agents to team - {teamName}",
         "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
       },
-      "WIZARD": [
-        {
-          "title": "Team details",
-          "route": "settings_teams_edit",
-          "body": "Change name, description and other details."
-        },
-        {
-          "title": "Edit Agents",
-          "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
-        },
-        {
-          "title": "Finish",
-          "route": "settings_teams_edit_finish",
-          "body": "Kaikki valmiina!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Team details",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "Change name, description and other details."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Edit Agents",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "Edit agents in your team."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Finish",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "Kaikki valmiina!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "Couldn't save the team details. Try again."

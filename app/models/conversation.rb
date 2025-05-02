@@ -115,14 +115,11 @@ class Conversation < ApplicationRecord
   delegate :auto_resolve_duration, to: :account
 
   def can_reply?
-    channel = inbox&.channel
+    Conversations::MessageWindowService.new(self).can_reply?
+  end
 
-    return can_reply_on_instagram? if additional_attributes['type'] == 'instagram_direct_message'
-
-    return true unless channel&.messaging_window_enabled?
-
-    messaging_window = inbox.api? ? channel.additional_attributes['agent_reply_time_window'].to_i : 24
-    last_message_in_messaging_window?(messaging_window)
+  def language
+    additional_attributes&.dig('conversation_language')
   end
 
   def last_activity_at
@@ -131,24 +128,6 @@ class Conversation < ApplicationRecord
 
   def last_incoming_message
     messages&.incoming&.last
-  end
-
-  def last_message_in_messaging_window?(time)
-    return false if last_incoming_message.nil?
-
-    Time.current < last_incoming_message.created_at + time.hours
-  end
-
-  def can_reply_on_instagram?
-    global_config = GlobalConfig.get('ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT')
-
-    return false if last_incoming_message.nil?
-
-    if global_config['ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT']
-      Time.current < last_incoming_message.created_at + 7.days
-    else
-      last_message_in_messaging_window?(24)
-    end
   end
 
   def toggle_status
@@ -255,10 +234,6 @@ class Conversation < ApplicationRecord
       previous_changes.keys.intersect?(list_of_keys) ||
       (previous_changes['additional_attributes'].present? && previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language]))
     )
-  end
-
-  def self_assign?(assignee_id)
-    assignee_id.present? && Current.user&.id == assignee_id
   end
 
   def load_attributes_created_by_db_triggers
