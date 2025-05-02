@@ -32,7 +32,8 @@ class Duitku::DuitkuService
       phoneNumber: @customer_phone,
       callbackUrl: "#{ENV['CHATWOOT_BASE_URL']}/duitku/callback",
       returnUrl: "#{ENV['CHATWOOT_BASE_URL']}/duitku/success",
-      signature: signature
+      signature: signature,
+      expiryPeriod: 60
     }
 
     response = self.class.post(endpoint, body: payload.to_json, headers: headers)
