@@ -222,8 +222,8 @@ pt_BR:
       description: 'Conecte sua loja Shopify para acessar detalhes de pedidos, informações de clientes e dados de produtos diretamente em suas conversas e ajudar sua equipe de suporte a fornecer um atendimento mais rápido e contextual aos seus clientes.'
     leadsquared:
       name: 'LeadSquared'
-      short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
-      description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
+      short_description: 'Sincronize seus contatos e conversas com LeadSquared CRM.'
+      description: 'Sincronize seus contatos e conversas com LeadSquared CRM. Essa integração cria automaticamente leads em LeadSquared quando novos contatos são adicionados, e registra a atividade de conversação para fornecer à sua equipe de vendas um contexto completo.'
   captain:
     copilot_error: 'Conecte com um assistente a esta caixa de entrada para usar Copilot'
     copilot_limit: 'Você está sem créditos de Copilot. Pode comprar mais créditos na seção de faturamento.'
@@ -287,22 +287,22 @@ pt_BR:
   automation:
     system_name: 'Sistema de Automação'
   crm:
-    no_message: 'No messages in conversation'
-    attachment: '[Attachment: %{type}]'
+    no_message: 'Nenhuma mensagem na conversa'
+    attachment: '[Anexo: %{type}]'
     no_content: '[Sem conteúdo]'
     created_activity: |
-      New conversation started on %{brand_name}
+      Nova conversa iniciada em %{brand_name}
 
-      Channel: %{channel_info}
-      Created: %{formatted_creation_time}
-      Conversation ID: %{display_id}
-      View in %{brand_name}: %{url}
+      Canal: %{channel_info}
+      Criada: %{formatted_creation_time}
+      ID de conversa: %{display_id}
+      Veja em %{brand_name}: %{url}
     transcript_activity: |
-      Conversation Transcript from %{brand_name}
+      Transcrição de conversa de %{brand_name}
 
-      Channel: %{channel_info}
-      Conversation ID: %{display_id}
-      View in %{brand_name}: %{url}
+      Canal: %{channel_info}
+      ID da conversa: %{display_id}
+      Veja em %{brand_name}: %{url}
 
-      Transcript:
+      Transcrição:
       %{format_messages}

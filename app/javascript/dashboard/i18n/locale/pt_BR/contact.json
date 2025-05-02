@@ -545,8 +545,8 @@
         "YOU": "Você",
         "SAVE": "Salvar nota",
         "EXPAND": "Expandir",
-        "COLLAPSE": "Collapse",
-        "NO_NOTES": "No notes, you can add notes from the contact details page.",
+        "COLLAPSE": "Recolher",
+        "NO_NOTES": "Sem notas, você pode adicionar notas a partir da página de detalhes do contato.",
         "EMPTY_STATE": "Não existem notas associadas a este contato. Você pode adicionar uma nota digitando na caixa acima."
       }
     },
