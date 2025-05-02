@@ -51,8 +51,10 @@ class EnrichmentJob < ApplicationJob
   end
 
   def country_code_from_country_name(country_str)
-    country = ISO3166::Country.find_country_by_any_name(country_str)
-    country.alpha2
+    file = File.read('./shared/people_data_labs_countries.json')
+    countries_json = JSON.parse(file)
+    c_code = countries_json[country_str]
+    c_code
   end
 
   def display_country_name_from_code(country_code)
