@@ -84,7 +84,7 @@
       }
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Đánh dấu chưa giải quyết",
+      "MARK_PENDING": "Được quản lý bởi Stark",
       "SNOOZE_UNTIL": "Báo lại",
       "SNOOZE": {
         "TITLE": "Tạm dừng đến khi",

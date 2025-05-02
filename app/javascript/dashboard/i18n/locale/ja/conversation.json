@@ -84,7 +84,7 @@
       }
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "保留としてマークする",
+      "MARK_PENDING": "スタークが管理しています",
       "SNOOZE_UNTIL": "スヌーズ",
       "SNOOZE": {
         "TITLE": "までスヌーズする",

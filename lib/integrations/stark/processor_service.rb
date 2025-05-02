@@ -17,7 +17,6 @@ class Integrations::Stark::ProcessorService < Integrations::BotProcessorService
   private
 
   def process_conversation
-    mark_conversation_pending
     return unless should_run_processor?(event_data[:message])
     return if handle_missing_dealership_id
 

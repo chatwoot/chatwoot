@@ -84,7 +84,7 @@
       }
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "علامت گذاری به عنوان در انتظار",
+      "MARK_PENDING": "مدیریت شده توسط استارک",
       "SNOOZE_UNTIL": "به تعویق انداختن",
       "SNOOZE": {
         "TITLE": "به تعویق انداختن تا",

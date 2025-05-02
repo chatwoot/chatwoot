@@ -84,7 +84,7 @@
       }
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Marquer comme en attente",
+      "MARK_PENDING": "Managed by Stark",
       "SNOOZE_UNTIL": "Reporter",
       "SNOOZE": {
         "TITLE": "Reporter jusqu'à",

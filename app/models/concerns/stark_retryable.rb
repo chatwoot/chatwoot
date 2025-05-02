@@ -29,7 +29,7 @@ module StarkRetryable
 
     conversation.open!
     conversation.messages.create!(
-      content: '⚠️ Auto Reply Service Disabled: The auto reply agent has been disabled due to some issues. The conversation is now swicth to human mode and requires your attention. Please contact support if the issue persists or set the conversation back to pending mode to enable auto reply mode.',
+      content: '⚠️ AI reply (Stark) disabled. The AI auto-reply has been temporarily disabled and the conversation has been assigned to a human. Feel free to reply to the user, and once done, please switch the conversation back to pending, so it can be handled by Stark: our AI agent.', # rubocop:disable Layout/LineLength
       message_type: 'outgoing',
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,

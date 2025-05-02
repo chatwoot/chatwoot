@@ -84,7 +84,7 @@
       }
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Označit jako nevyřízené",
+      "MARK_PENDING": "Spravováno Starkem",
       "SNOOZE_UNTIL": "Odložit",
       "SNOOZE": {
         "TITLE": "Odložit do",

@@ -84,7 +84,7 @@
       }
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "标记为待处理",
+      "MARK_PENDING": "由 Stark 管理",
       "SNOOZE_UNTIL": "推迟",
       "SNOOZE": {
         "TITLE": "推迟到",

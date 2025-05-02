@@ -84,7 +84,7 @@
       }
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Σήμανση ως εκκρεμής",
+      "MARK_PENDING": "Διαχειρίζεται από τον Stark",
       "SNOOZE_UNTIL": "Αναβολή",
       "SNOOZE": {
         "TITLE": "Αναβολή έως",

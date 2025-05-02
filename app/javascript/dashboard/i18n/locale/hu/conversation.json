@@ -84,7 +84,7 @@
       }
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Függőben levőként megjelölés",
+      "MARK_PENDING": "Stark által kezelve",
       "SNOOZE_UNTIL": "Halasztás",
       "SNOOZE": {
         "TITLE": "Halasztás eddig",

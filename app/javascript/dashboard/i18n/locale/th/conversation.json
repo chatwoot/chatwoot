@@ -84,7 +84,7 @@
       }
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "ทำเครื่องหมายว่าอยู่ระหว่างดำเนินการ",
+      "MARK_PENDING": "จัดการโดย Stark",
       "SNOOZE_UNTIL": "Snooze",
       "SNOOZE": {
         "TITLE": "พักการสนทนาจนถึง",
