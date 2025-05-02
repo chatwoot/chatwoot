@@ -2,13 +2,13 @@ require 'rails_helper'
 
 RSpec.describe AccountDeletionService do
   let(:account) { create(:account) }
-  let(:mailer) { double(deliver_later: nil) }
+  let(:mailer) { instance_double(ActionMailer::MessageDelivery, deliver_later: nil) }
 
   describe '#perform' do
     before do
       allow(DeleteObjectJob).to receive(:perform_later)
       allow(AdministratorNotifications::AccountComplianceMailer).to receive(:with).and_return(
-        double(account_deleted: mailer)
+        instance_double(AdministratorNotifications::AccountComplianceMailer, account_deleted: mailer)
       )
     end
 

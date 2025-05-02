@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe AdministratorNotifications::AccountComplianceMailer, type: :mailer do
+RSpec.describe AdministratorNotifications::AccountComplianceMailer do
   let(:account) do
     create(:account, custom_attributes: { 'marked_for_deletion_at' => 1.day.ago.iso8601, 'marked_for_deletion_reason' => 'user_requested' })
   end
@@ -18,11 +18,11 @@ RSpec.describe AdministratorNotifications::AccountComplianceMailer, type: :maile
     end
 
     it 'includes soft deleted users in meta when provided' do
-      allow_any_instance_of(described_class).to receive(:params).and_return(
+      mailer_instance = described_class.new
+      allow(mailer_instance).to receive(:params).and_return(
         { soft_deleted_users: soft_deleted_users }
       )
 
-      mailer_instance = described_class.new
       meta = mailer_instance.send(:build_meta, account)
 
       expect(meta['soft_deleted_users']).to eq(soft_deleted_users)

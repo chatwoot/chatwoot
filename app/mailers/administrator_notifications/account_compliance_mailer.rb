@@ -1,6 +1,6 @@
 class AdministratorNotifications::AccountComplianceMailer < AdministratorNotifications::BaseMailer
   def account_deleted(account)
-    return unless instance_admin_email.present?
+    return if instance_admin_email.blank?
 
     subject = subject_for(account)
     meta = build_meta(account)
