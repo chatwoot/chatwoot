@@ -133,6 +133,7 @@ const handleSeeOriginal = () => {
             :message="contentAttributes?.email"
             :content="content"
             :inbox="inbox"
+            :attachments="attachments"
             :message-id="id"
             class="absolute right-3 z-50 skip-context-menu top-10"
             @close="showForwardMessageModal = false"

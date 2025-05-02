@@ -13,6 +13,7 @@ import ContactSelector from 'dashboard/components-next/NewConversation/component
 import ActionButtons from 'dashboard/components-next/NewConversation/components/ActionButtons.vue';
 import AttachmentPreviews from 'dashboard/components-next/NewConversation/components/AttachmentPreviews.vue';
 import EmailMessageEditor from './EmailMessageEditor.vue';
+import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 
 const props = defineProps({
   forwardType: { type: String, default: 'email' }, // eslint-disable-line vue/no-unused-properties
@@ -28,6 +29,7 @@ const props = defineProps({
   unquotedHtml: { type: String, default: '' },
   textToShow: { type: String, default: '' },
   hasQuotedMessage: { type: Boolean, default: false },
+  attachments: { type: Array, default: () => [] },
 });
 
 const emit = defineEmits([
@@ -170,6 +172,15 @@ const handleSendMessage = async () => {
       :unquoted-html="unquotedHtml"
       :text-to-show="textToShow"
     />
+    <section
+      v-if="Array.isArray(attachments) && attachments.length"
+      class="px-4 pb-4 pt-2 !border-t-0 space-y-2 bg-n-alpha-3"
+    >
+      <AttachmentChips
+        :attachments="attachments"
+        class="gap-1 !justify-start"
+      />
+    </section>
     <AttachmentPreviews
       v-if="state.attachedFiles.length > 0"
       :attachments="state.attachedFiles"

@@ -36,6 +36,10 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  attachments: {
+    type: Array,
+    default: () => [],
+  },
 });
 
 const emit = defineEmits(['close']);
@@ -163,6 +167,7 @@ const handleSelectedContact = async ({ value, action, ...rest }) => {
       :is-creating-contact="isCreatingContact"
       :from-email="fromEmail"
       :message="message"
+      :attachments="attachments"
       :message-signature="messageSignature"
       :content="content"
       :is-plain-email="!message || !Object.keys(message).length"
