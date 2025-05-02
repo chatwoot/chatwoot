@@ -139,6 +139,7 @@ Rails.application.routes.draw do
             collection do
               get :active
               get :search
+              get :specific_search
               post :filter
               post :import
               post :export

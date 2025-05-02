@@ -21,6 +21,33 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     @contacts = fetch_contacts(resolved_contacts)
   end
 
+  def specific_search
+    render json: { error: 'Specify search parameter with parameter search_param' }, status: :unprocessable_entity if params[:search_param].blank?
+    render json: { error: 'Specify search value with parameter value' }, status: :unprocessable_entity if params[:value].blank?
+
+    search_param = params[:search_param]
+    value = params[:value]
+
+    if search_param == 'phone_number'
+      # remove spaces from value and add + at the beginning
+      value = value.gsub(/\s+/, '').prepend('+')
+      contacts = resolved_contacts.where(phone_number: value)
+    elsif search_param == 'email'
+      contacts = resolved_contacts.where(email: value)
+    end
+
+    @contacts_count = contacts.count
+    @contacts = fetch_contacts(contacts)
+
+    if @contacts.empty?
+      render json: { message: 'No contacts found', payload: [] }
+    else
+      render json: {
+        payload: @contacts
+      }
+    end
+  end
+
   def search
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
 
