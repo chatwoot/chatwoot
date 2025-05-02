@@ -46,37 +46,12 @@ module Messages::ForwardedMessageFormatter
     CommonMarker.render_html(text, options, extensions)
   end
 
-  # Convert markdown to plain text without HTML intermediary
+  # Convert text to plain text, stripping any markdown formatting
   def self.markdown_to_plain_text(text)
     return '' if text.blank?
 
-    # If it's not markdown, return as is
-    return text unless contains_markdown?(text)
-
-    # Otherwise, strip markdown by first converting to HTML, then sanitizing
+    # Simply strip any markdown by converting to HTML and sanitizing
     strip_markdown(text)
-  end
-
-  # Add a helper method to detect if text contains markdown
-  def self.contains_markdown?(text)
-    return false if text.blank?
-
-    # Check for common markdown patterns
-    markdown_patterns = [
-      /\*\*.*?\*\*/, # Bold
-      /\*[^*\n]+?\*/, # Italic with asterisk
-      /_[^_\n]+?_/, # Italic with underscore
-      /^\s*\#{1,6}\s+/m,       # Headers
-      /^\s*>\s+/m,             # Blockquotes
-      /`[^`\n]+?`/,            # Inline code
-      /^```/m,                 # Code blocks
-      /\[[^\]\n]{0,100}\]\([^)\n]{0,300}\)/, # Links (safe)
-      /^\s*[*\-+]\s+/m, # Unordered lists
-      /^\s*\d+\.\s+/m,         # Ordered lists
-      /^\s*\|.*\|/m,           # Tables
-      /~~.*?~~/                # Strikethrough
-    ]
-    markdown_patterns.any? { |pattern| text =~ pattern }
   end
 end
 
@@ -119,17 +94,12 @@ module Messages::ForwardedMessageContentBuilder
     original_content.to_s + forwarded_header_text + forwarded_body_text
   end
 
-  # Update this method to intelligently decide how to format content
+  # Update this method to always use markdown conversion
   def formatted_html_content(original_content = '')
     return original_content if forwarded_message.blank?
 
-    # Check if content contains markdown and format accordingly
-    converted_content = if Messages::ForwardedMessageFormatter.contains_markdown?(original_content.to_s)
-                          Messages::ForwardedMessageFormatter.convert_markdown_to_html(original_content)
-                        else
-                          Messages::ForwardedMessageFormatter.format_plain_text_to_html(original_content)
-                        end
-
+    # Always use markdown conversion since it handles plain text correctly
+    converted_content = Messages::ForwardedMessageFormatter.convert_markdown_to_html(original_content)
     html_wrapper(converted_content)
   end
 end
@@ -175,7 +145,7 @@ module Messages::ForwardedMessageHtmlBuilder
     "To: &lt;<a href=\"mailto:#{to_email}\">#{to_email}</a>&gt;<br>"
   end
 
-  # Update this method to handle markdown when appropriate
+  # Update this method to always use markdown conversion
   def forwarded_body_html
     # Return HTML content directly if available
     return email_data.dig('html_content', 'full') if email_data&.dig('html_content', 'full').present?
@@ -187,12 +157,8 @@ module Messages::ForwardedMessageHtmlBuilder
                 forwarded_message.content.to_s
               end
 
-    # Check if content contains markdown and format accordingly
-    if Messages::ForwardedMessageFormatter.contains_markdown?(content)
-      Messages::ForwardedMessageFormatter.convert_markdown_to_html(content)
-    else
-      Messages::ForwardedMessageFormatter.format_plain_text_to_html(content)
-    end
+    # Always use markdown conversion since it handles plain text correctly
+    Messages::ForwardedMessageFormatter.convert_markdown_to_html(content)
   end
 end
 
