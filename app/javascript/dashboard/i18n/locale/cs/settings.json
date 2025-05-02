@@ -387,7 +387,8 @@
         "LABEL": "Název společnosti",
         "PLACEHOLDER": "Wayne podniky"
       },
-      "SUBMIT": "Odeslat"
+      "SUBMIT": "Odeslat",
+      "CANCEL": "Zrušit"
     }
   },
   "KEYBOARD_SHORTCUTS": {

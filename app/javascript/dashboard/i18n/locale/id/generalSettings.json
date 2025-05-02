@@ -1,5 +1,11 @@
 {
   "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
+      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
+      "AGENTS": "You have exceeded the agent limit. Hacker plan allows only 2 agents.",
+      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+    },
     "TITLE": "Pengaturan akun",
     "SUBMIT": "Ubah pengaturan",
     "BACK": "Kembali",
@@ -7,6 +13,26 @@
     "UPDATE": {
       "ERROR": "Tidak dapat memperbarui pengaturan, coba lagi!",
       "SUCCESS": "Pengaturan akun berhasil diperbarui"
+    },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "Delete your Account",
+      "NOTE": "Once you delete your account, all your data will be deleted.",
+      "BUTTON_TEXT": "Delete Your Account",
+      "CONFIRM": {
+        "TITLE": "Delete Account",
+        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "BUTTON_TEXT": "Hapus",
+        "DISMISS": "Batalkan",
+        "PLACE_HOLDER": "Silakan ketik %{accountName} untuk konfirmasi"
+      },
+      "SUCCESS": "Account marked for deletion",
+      "FAILURE": "Could not delete account, try again!",
+      "SCHEDULED_DELETION": {
+        "TITLE": "Account Scheduled for Deletion",
+        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
+        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
+        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+      }
     },
     "FORM": {
       "ERROR": "Harap perbaiki kesalahan pada formulir",
@@ -51,6 +77,7 @@
     "UPDATE_CHATWOOT": "Pembaharuan Chatwoot {latestChatwootVersion} telah tersedia. Silahkan lakukan pembaharuan instance Anda.",
     "LEARN_MORE": "Pelajari lebih lanjut",
     "PAYMENT_PENDING": "Pembayaran Anda tertunda. Harap perbarui informasi pembayaran Anda untuk melanjutkan menggunakan Chatwoot",
+    "UPGRADE": "Upgrade to continue using Chatwoot",
     "LIMITS_UPGRADE": "Akun Anda telah melebihi batas penggunaan, harap tingkatkan paket Anda untuk terus menggunakan Chatwoot",
     "OPEN_BILLING": "Buka tagihan"
   },
