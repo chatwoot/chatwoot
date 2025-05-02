@@ -11,6 +11,15 @@
   <strong>Deletion Reason:</strong> {{ meta.deletion_reason }}
 </p>
 
+{% if meta.soft_deleted_users.size > 0 %}
+<p>
+  <strong>Deleted Users:</strong><br>
+  {% for user in meta.soft_deleted_users %}
+    User ID: {{ user.id }}, Email: {{ user.original_email }}{% unless forloop.last %}<br>{% endunless %}
+  {% endfor %}
+</p>
+{% endif %}
+
 <p>This email serves as a record for compliance purposes.</p>
 
 <p>Thank you,<br>
