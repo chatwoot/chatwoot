@@ -7,7 +7,8 @@ class AccountAPI extends ApiClient {
   }
 
   getById(id) {
-    return axios.get(`${this.apiVersion}/accounts/${id}`);
+    let url = `${this.apiVersion}/accounts/${id}`;
+    return axios.get(url);
   }
 
   createAccount(data) {
