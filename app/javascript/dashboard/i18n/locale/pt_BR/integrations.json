@@ -341,8 +341,8 @@
       "ASSISTANT": "Assistente",
       "MESSAGE_PLACEHOLDER": "Digite sua mensagem...",
       "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "DESCRIPTION": "Use este playground para enviar mensagens para seu assistente e verificar se ele responde com precisão, rápido e no tom que você espera.",
+      "CREDIT_NOTE": "As mensagens enviadas aqui usam os créditos do seu Capitão."
     },
     "PAYWALL": {
       "TITLE": "Atualize para usar o Capitão IA",
@@ -384,39 +384,39 @@
       "FORM": {
         "UPDATE": "Atualizar",
         "SECTIONS": {
-          "BASIC_INFO": "Basic Information",
-          "SYSTEM_MESSAGES": "System Messages",
-          "INSTRUCTIONS": "Instructions",
+          "BASIC_INFO": "Informações Básicas",
+          "SYSTEM_MESSAGES": "Mensagens do Sistema",
+          "INSTRUCTIONS": "Instruções",
           "FEATURES": "Funcionalidades",
-          "TOOLS": "Tools "
+          "TOOLS": "Ferramentas "
         },
         "NAME": {
           "LABEL": "Nome",
-          "PLACEHOLDER": "Enter assistant name"
+          "PLACEHOLDER": "Digite o nome do assistente"
         },
         "DESCRIPTION": {
           "LABEL": "Descrição",
-          "PLACEHOLDER": "Enter assistant description"
+          "PLACEHOLDER": "Digite a descrição do assistente"
         },
         "PRODUCT_NAME": {
           "LABEL": "Nome do Produto",
-          "PLACEHOLDER": "Enter product name"
+          "PLACEHOLDER": "Digite o nome do produto"
         },
         "WELCOME_MESSAGE": {
-          "LABEL": "Welcome Message",
-          "PLACEHOLDER": "Enter welcome message"
+          "LABEL": "Mensagem de boas-vindas",
+          "PLACEHOLDER": "Digite a mensagem de boas-vindas"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
-          "PLACEHOLDER": "Enter handoff message"
+          "LABEL": "Mensagem de transferência",
+          "PLACEHOLDER": "Digite a mensagem de transferência"
         },
         "RESOLUTION_MESSAGE": {
-          "LABEL": "Resolution Message",
-          "PLACEHOLDER": "Enter resolution message"
+          "LABEL": "Mensagem de resolução",
+          "PLACEHOLDER": "Digite a mensagem de resolução"
         },
         "INSTRUCTIONS": {
-          "LABEL": "Instructions",
-          "PLACEHOLDER": "Enter instructions for the assistant"
+          "LABEL": "Instruções",
+          "PLACEHOLDER": "Digite as instruções para o assistente"
         },
         "FEATURES": {
           "TITLE": "Funcionalidades",
@@ -428,7 +428,7 @@
         "TITLE": "Atualizar o assistente",
         "SUCCESS_MESSAGE": "O assistente foi criado com sucesso",
         "ERROR_MESSAGE": "Ocorreu um erro ao criar o assistente, por favor tente novamente.",
-        "NOT_FOUND": "Could not find the assistant. Please try again."
+        "NOT_FOUND": "Não foi possível encontrar o assistente. Tente novamente."
       },
       "OPTIONS": {
         "EDIT_ASSISTANT": "Editar Assistente",
