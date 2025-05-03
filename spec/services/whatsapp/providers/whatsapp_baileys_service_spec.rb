@@ -363,6 +363,80 @@ describe Whatsapp::Providers::WhatsappBaileysService do
     end
   end
 
+  describe '#toggle_typing_status' do
+    let(:request_path) { "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/presence" }
+
+    it 'calls presence endpoint for typing on' do
+      request = stub_request(:patch, request_path)
+                .with(
+                  headers: stub_headers(whatsapp_channel),
+                  body: {
+                    toJid: test_send_jid,
+                    type: 'composing'
+                  }.to_json
+                )
+                .to_return(status: 200)
+
+      service.toggle_typing_status(test_send_phone_number, Events::Types::CONVERSATION_TYPING_ON)
+
+      expect(request).to have_been_requested
+    end
+
+    it 'calls presence endpoint for recording' do
+      request = stub_request(:patch, request_path)
+                .with(
+                  headers: stub_headers(whatsapp_channel),
+                  body: {
+                    toJid: test_send_jid,
+                    type: 'recording'
+                  }.to_json
+                )
+                .to_return(status: 200)
+
+      service.toggle_typing_status(test_send_phone_number, Events::Types::CONVERSATION_RECORDING)
+
+      expect(request).to have_been_requested
+    end
+
+    it 'calls presence endpoint for typing off' do
+      request = stub_request(:patch, request_path)
+                .with(
+                  headers: stub_headers(whatsapp_channel),
+                  body: {
+                    toJid: test_send_jid,
+                    type: 'paused'
+                  }.to_json
+                )
+                .to_return(status: 200)
+
+      service.toggle_typing_status(test_send_phone_number, Events::Types::CONVERSATION_TYPING_OFF)
+
+      expect(request).to have_been_requested
+    end
+
+    it 'logs the error and returns false' do
+      stub_request(:patch, request_path)
+        .with(
+          headers: stub_headers(whatsapp_channel),
+          body: {
+            toJid: test_send_jid,
+            type: 'composing'
+          }.to_json
+        )
+        .to_return(
+          status: 400,
+          body: 'error message',
+          headers: {}
+        )
+      allow(Rails.logger).to receive(:error).with('error message')
+
+      response = service.toggle_typing_status(test_send_phone_number, Events::Types::CONVERSATION_TYPING_ON)
+
+      expect(response).to be(false)
+      expect(Rails.logger).to have_received(:error)
+    end
+  end
+
   context 'when environment variable BAILEYS_PROVIDER_DEFAULT_URL is set' do
     it 'uses the base url from the environment variable' do
       stub_const('Whatsapp::Providers::WhatsappBaileysService::DEFAULT_URL', 'http://test.com')

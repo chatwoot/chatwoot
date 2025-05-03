@@ -66,6 +66,26 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
     process_response(response)
   end
 
+  def toggle_typing_status(phone_number, typing_status)
+    @phone_number = phone_number
+    status_map = {
+      Events::Types::CONVERSATION_TYPING_ON => 'composing',
+      Events::Types::CONVERSATION_RECORDING => 'recording',
+      Events::Types::CONVERSATION_TYPING_OFF => 'paused'
+    }
+
+    response = HTTParty.patch(
+      "#{provider_url}/connections/#{whatsapp_channel.phone_number}/presence",
+      headers: api_headers,
+      body: {
+        toJid: remote_jid,
+        type: status_map[typing_status]
+      }.to_json
+    )
+
+    process_response(response)
+  end
+
   private
 
   def provider_url

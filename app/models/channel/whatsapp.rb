@@ -79,6 +79,12 @@ class Channel::Whatsapp < ApplicationRecord
     data
   end
 
+  def toggle_typing_status(typing_status, conversation:)
+    return unless provider_service.respond_to?(:toggle_typing_status)
+
+    provider_service.toggle_typing_status(conversation.contact.phone_number, typing_status)
+  end
+
   delegate :setup_channel_provider, to: :provider_service
   delegate :disconnect_channel_provider, to: :provider_service
   delegate :send_message, to: :provider_service

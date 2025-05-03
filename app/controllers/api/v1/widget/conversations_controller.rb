@@ -48,6 +48,8 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
     case permitted_params[:typing_status]
     when 'on'
       trigger_typing_event(CONVERSATION_TYPING_ON)
+    when 'recording'
+      trigger_typing_event(CONVERSATION_RECORDING)
     when 'off'
       trigger_typing_event(CONVERSATION_TYPING_OFF)
     end

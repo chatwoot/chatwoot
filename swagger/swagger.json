@@ -989,7 +989,12 @@
             "in": "query",
             "required": true,
             "type": "string",
-            "description": "Typing status, either 'on' or 'off'"
+            "enum": [
+              "on",
+              "recording",
+              "off"
+            ],
+            "description": "Typing status."
           }
         ],
         "responses": {
