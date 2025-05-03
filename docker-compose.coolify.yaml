@@ -14,14 +14,19 @@ services:
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
       - FRONTEND_URL=${FRONTEND_URL}
-      - FRONTEND_URL_EXTERNAL=${FRONTEND_URL_EXTERNAL}
+      - INTERNAL_HOST_URL=${INTERNAL_HOST_URL}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USERNAME=${SERVICE_USER_POSTGRES}
+      - POSTGRES_PASSWORD=${SERVICE_PASSWORD_POSTGRES}
+      - POSTGRES_DATABASE=${POSTGRES_DB:-chatwoot_production}
+      - SECRET_KEY_BASE=${SERVICE_PASSWORD_64_SECRETKEYBASE}
       - REDIS_URL=redis://redis:6379
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/chatwoot_production
-      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
-      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_PASSWORD=${SERVICE_PASSWORD_REDIS}
       - BAILEYS_PROVIDER_DEFAULT_CLIENT_NAME=${BAILEYS_PROVIDER_DEFAULT_CLIENT_NAME}
       - BAILEYS_PROVIDER_DEFAULT_URL=${BAILEYS_PROVIDER_DEFAULT_URL}
       - BAILEYS_PROVIDER_DEFAULT_API_KEY=${BAILEYS_PROVIDER_DEFAULT_API_KEY}
+      - BAILEYS_PROVIDER_USE_INTERNAL_HOST_URL=true
       - MAILER_SENDER_EMAIL=${MAILER_SENDER_EMAIL}
       - RESEND_API_KEY=${RESEND_API_KEY}
     entrypoint: docker/entrypoints/rails.sh
@@ -62,14 +67,19 @@ services:
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
       - FRONTEND_URL=${FRONTEND_URL}
-      - FRONTEND_URL_EXTERNAL=${FRONTEND_URL_EXTERNAL}
+      - INTERNAL_HOST_URL=${INTERNAL_HOST_URL}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USERNAME=${SERVICE_USER_POSTGRES}
+      - POSTGRES_PASSWORD=${SERVICE_PASSWORD_POSTGRES}
+      - POSTGRES_DATABASE=${POSTGRES_DB:-chatwoot_production}
+      - SECRET_KEY_BASE=${SERVICE_PASSWORD_64_SECRETKEYBASE}
       - REDIS_URL=redis://redis:6379
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/chatwoot_production
-      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
-      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_PASSWORD=${SERVICE_PASSWORD_REDIS}
       - BAILEYS_PROVIDER_DEFAULT_CLIENT_NAME=${BAILEYS_PROVIDER_DEFAULT_CLIENT_NAME}
       - BAILEYS_PROVIDER_DEFAULT_URL=${BAILEYS_PROVIDER_DEFAULT_URL}
       - BAILEYS_PROVIDER_DEFAULT_API_KEY=${BAILEYS_PROVIDER_DEFAULT_API_KEY}
+      - BAILEYS_PROVIDER_USE_INTERNAL_HOST_URL=true
       - MAILER_SENDER_EMAIL=${MAILER_SENDER_EMAIL}
       - RESEND_API_KEY=${RESEND_API_KEY}
     command:
@@ -93,13 +103,13 @@ services:
     volumes:
       - 'postgres:/var/lib/postgresql/data'
     environment:
-      - POSTGRES_DB=chatwoot_production
-      - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=${POSTGRES_DB:-chatwoot_production}
+      - POSTGRES_USERNAME=${SERVICE_USER_POSTGRES}
+      - POSTGRES_PASSWORD=${SERVICE_PASSWORD_POSTGRES}
     healthcheck:
       test:
         - CMD-SHELL
-        - 'pg_isready -h localhost -p 5432 -U postgres'
+        - 'pg_isready -h localhost -p 5432 -U $${POSTGRES_USERNAME} -d $${POSTGRES_DB}'
       interval: 20s
       timeout: 20s
       retries: 10
@@ -110,15 +120,15 @@ services:
     command:
       - sh
       - '-c'
-      - 'redis-server --requirepass "$REDIS_PASSWORD"'
+      - 'redis-server --requirepass "${SERVICE_PASSWORD_REDIS}"'
     volumes:
       - 'redis:/data'
     environment:
-      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_PASSWORD=${SERVICE_PASSWORD_REDIS}
     healthcheck:
       test:
         - CMD-SHELL
-        - 'redis-cli -h localhost -p 6379 -a $REDIS_PASSWORD ping'
+        - 'redis-cli -h localhost -p 6379 -a $${REDIS_PASSWORD} ping'
       interval: 20s
       timeout: 20s
       retries: 10
